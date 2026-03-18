@@ -377,7 +377,7 @@ const ChatPage = () => {
         const textContent = content.trim() || "Please parse this document and extract all dates, events, deadlines, and action items.";
         const fullText = `${textContent}\n\n---\n\nDocument content (${docFile.name}):\n\n${fileText}`;
         apiMessages = [
-          ...messages.map((m) => ({ role: m.role, content: m.content })),
+          ...messages.map((m) => ({ role: m.role, content: m.content || "(attachment)" })),
           { role: "user", content: fullText },
         ];
       } else {
