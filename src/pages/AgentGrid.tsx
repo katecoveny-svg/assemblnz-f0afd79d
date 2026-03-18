@@ -1,22 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { agents, sectors } from "@/data/agents";
 import AssemblLogo from "@/components/AssemblLogo";
 import RobotIcon from "@/components/RobotIcon";
+import OnboardingQuiz from "@/components/OnboardingQuiz";
+import { X } from "lucide-react";
 
 const AgentGrid = () => {
   const [activeSector, setActiveSector] = useState("All");
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  // Shared brand context from sessionStorage
+  const brandProfile = sessionStorage.getItem("assembl_brand_profile");
+  const brandName = sessionStorage.getItem("assembl_brand_name");
+
+  const clearBrand = () => {
+    sessionStorage.removeItem("assembl_brand_profile");
+    sessionStorage.removeItem("assembl_brand_name");
+    window.dispatchEvent(new Event("storage"));
+    // Force re-render
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem("assembl_onboarded");
+    if (!hasVisited) setShowOnboarding(true);
+  }, []);
+
+  const handleOnboardingComplete = (filter?: string) => {
+    sessionStorage.setItem("assembl_onboarded", "true");
+    setShowOnboarding(false);
+    if (filter) setActiveSector(filter);
+  };
+
+  if (showOnboarding) {
+    return <OnboardingQuiz onComplete={handleOnboardingComplete} />;
+  }
 
   const filtered = activeSector === "All" ? agents : agents.filter(a => a.sector === activeSector);
 
   return (
     <div className="min-h-screen star-field">
+      {/* Shared Brand Banner */}
+      {brandProfile && brandName && (
+        <div className="bg-primary/5 border-b border-primary/10 px-4 py-2 flex items-center justify-center gap-2">
+          <span className="text-xs text-primary">🌐 Brand loaded: <strong>{brandName}</strong> — All agents have your context</span>
+          <button onClick={clearBrand} className="text-primary/60 hover:text-primary transition-colors">
+            <X size={14} />
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <header className="flex items-center gap-3 px-6 py-5 border-b border-border">
         <AssemblLogo size={36} />
-        <div className="flex items-baseline gap-1">
+        <div className="flex-1 flex items-baseline gap-1">
           <span className="text-lg font-bold tracking-[0.2em] text-foreground">ASSEMBL</span>
           <span className="font-mono-jb text-xs text-muted-foreground">.co.nz</span>
+        </div>
+        <div className="flex items-center gap-3 text-xs">
+          <Link to="/embed" className="text-muted-foreground hover:text-foreground transition-colors">Embed</Link>
+          <Link to="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">Dashboard</Link>
         </div>
       </header>
 
@@ -129,6 +173,8 @@ const AgentGrid = () => {
             <ul className="space-y-2 text-xs text-muted-foreground">
               <li><a href="https://assembl.co.nz" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">assembl.co.nz</a></li>
               <li><a href="mailto:hello@assembl.co.nz" className="hover:text-primary transition-colors">hello@assembl.co.nz</a></li>
+              <li><Link to="/embed" className="hover:text-primary transition-colors">Embed Widget</Link></li>
+              <li><Link to="/dashboard" className="hover:text-primary transition-colors">Dashboard</Link></li>
             </ul>
           </div>
 

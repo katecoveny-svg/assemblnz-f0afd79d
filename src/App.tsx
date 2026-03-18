@@ -9,6 +9,8 @@ import ChatPage from "./pages/ChatPage";
 import NotFound from "./pages/NotFound";
 
 const MarinerLanding = lazy(() => import("./pages/MarinerLanding"));
+const EmbedPage = lazy(() => import("./pages/EmbedPage"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 
 const queryClient = new QueryClient();
 
@@ -21,14 +23,9 @@ const App = () => (
         <Routes>
           <Route path="/" element={<AgentGrid />} />
           <Route path="/chat/:agentId" element={<ChatPage />} />
-          <Route
-            path="/mariner"
-            element={
-              <Suspense fallback={null}>
-                <MarinerLanding />
-              </Suspense>
-            }
-          />
+          <Route path="/mariner" element={<Suspense fallback={null}><MarinerLanding /></Suspense>} />
+          <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
+          <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

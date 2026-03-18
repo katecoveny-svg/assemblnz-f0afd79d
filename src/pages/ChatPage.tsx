@@ -13,6 +13,7 @@ import BrandScanModal from "@/components/BrandScanModal";
 import TemplateLibrary from "@/components/TemplateLibrary";
 import StructuredOutputCard, { detectOutputType } from "@/components/StructuredOutputCard";
 import NexusEntryCard from "@/components/nexus/NexusEntryCard";
+import HandoffCard, { detectHandoff } from "@/components/HandoffCard";
 import { agentTemplates } from "@/data/templates";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
@@ -169,8 +170,12 @@ const ChatPage = () => {
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [brandModalOpen, setBrandModalOpen] = useState(false);
-  const [brandProfile, setBrandProfile] = useState<string | null>(null);
-  const [brandName, setBrandName] = useState<string | null>(null);
+  const [brandProfile, setBrandProfile] = useState<string | null>(
+    () => sessionStorage.getItem("assembl_brand_profile")
+  );
+  const [brandName, setBrandName] = useState<string | null>(
+    () => sessionStorage.getItem("assembl_brand_name")
+  );
   const [templateModalOpen, setTemplateModalOpen] = useState(false);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -511,7 +516,7 @@ const ChatPage = () => {
           >
             <Globe size={10} />
             <span className="max-w-[60px] truncate">{brandName}</span>
-            <button onClick={() => { setBrandProfile(null); setBrandName(null); }} className="hover:opacity-70 ml-0.5">
+            <button onClick={() => { setBrandProfile(null); setBrandName(null); sessionStorage.removeItem("assembl_brand_profile"); sessionStorage.removeItem("assembl_brand_name"); }} className="hover:opacity-70 ml-0.5">
               <X size={10} />
             </button>
           </div>
@@ -550,7 +555,12 @@ const ChatPage = () => {
 
       {/* Modals */}
       <BrandScanModal agentName={agent.name} agentColor={agent.color} open={brandModalOpen} onClose={() => setBrandModalOpen(false)}
-        onBrandLoaded={(profile, name) => { setBrandProfile(profile); setBrandName(name); }} />
+        onBrandLoaded={(profile, name) => {
+          setBrandProfile(profile);
+          setBrandName(name);
+          sessionStorage.setItem("assembl_brand_profile", profile);
+          sessionStorage.setItem("assembl_brand_name", name);
+        }} />
       <TemplateLibrary agentId={agent.id} agentName={agent.name} agentColor={agent.color} open={templateModalOpen}
         onClose={() => setTemplateModalOpen(false)} onSelect={(prompt) => sendMessage(prompt)} />
 
@@ -614,6 +624,10 @@ const ChatPage = () => {
                         {renderMessageContent(msg)}
                       </div>
                     </div>
+                    {msg.role === "assistant" && (() => {
+                      const handoffId = detectHandoff(msg.content);
+                      return handoffId ? <div className="ml-8 mt-1"><HandoffCard agentId={handoffId} /></div> : null;
+                    })()}
                     {msg.role === "assistant" &&
                       getGenerationsForIndex(i).map((gen) => (
                         <div key={gen.id} className="mt-2 ml-8">
