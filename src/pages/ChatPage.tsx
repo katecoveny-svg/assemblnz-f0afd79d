@@ -71,13 +71,13 @@ const ChatPage = () => {
 
   const pollStatus = useCallback(
     (genId: string, taskId: string) => {
-      const interval = setInterval(async () => {
-        try {
-          const { data, error } = await supabase.functions.invoke(
-            `generate-3d/status/${taskId}`,
-            { method: "GET" }
-          );
-          if (error) return;
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-3d?taskId=${taskId}`,
+          { headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY } }
+        );
+        const data = await res.json();
           setGenerations((prev) =>
             prev.map((g) =>
               g.id === genId

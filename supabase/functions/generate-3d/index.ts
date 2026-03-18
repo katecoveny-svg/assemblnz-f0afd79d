@@ -89,10 +89,9 @@ Deno.serve(async (req) => {
   }
 
   const url = new URL(req.url);
-  const pathParts = url.pathname.split("/").filter(Boolean);
-  // status polling: /generate-3d/status/<taskId>
-  if (pathParts.length >= 3 && pathParts[1] === "status") {
-    const taskId = pathParts[2];
+  const taskId = url.searchParams.get("taskId");
+  // Status polling mode
+  if (taskId && req.method === "GET") {
     const MESHY_API_KEY = Deno.env.get("MESHY_API_KEY");
     if (!MESHY_API_KEY) {
       return new Response(JSON.stringify({ error: "MESHY_API_KEY not configured" }), {
