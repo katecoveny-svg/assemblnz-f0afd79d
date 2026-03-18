@@ -128,6 +128,8 @@ const ChatPage = () => {
 
   const isArc = agentId === "arc";
   const isHelm = agentId === "operations";
+  const isNexus = agentId === "nexus";
+  const hasFileUpload = isHelm || isNexus;
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
