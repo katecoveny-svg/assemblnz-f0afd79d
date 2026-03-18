@@ -3,12 +3,13 @@ import { useParams, Link } from "react-router-dom";
 import { agents } from "@/data/agents";
 import RobotIcon from "@/components/RobotIcon";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import ModelGenerationCard from "@/components/ModelGenerationCard";
 import HelmQuickActions from "@/components/helm/HelmQuickActions";
 import HelmChecklist from "@/components/helm/HelmChecklist";
 import HelmDashboard from "@/components/helm/HelmDashboard";
+import BrandScanModal from "@/components/BrandScanModal";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 
@@ -61,7 +62,6 @@ function hasChecklist(content: string): boolean {
   return /^[-*]\s*\[([ xX])\]/m.test(content);
 }
 
-/** Resize image to max dimension and return base64 */
 async function imageToBase64(file: File, maxDim = 1024): Promise<{ base64: string; mediaType: string }> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -92,7 +92,6 @@ async function imageToBase64(file: File, maxDim = 1024): Promise<{ base64: strin
   });
 }
 
-/** Read text from a file */
 async function readFileAsText(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -116,6 +115,11 @@ const ChatPage = () => {
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
+  // Brand scan state
+  const [brandModalOpen, setBrandModalOpen] = useState(false);
+  const [brandProfile, setBrandProfile] = useState<string | null>(null);
+  const [brandName, setBrandName] = useState<string | null>(null);
+
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -198,7 +202,7 @@ const ChatPage = () => {
             messageIndex: msgIndex,
             status: "FAILED",
             progress: 0,
-            prompt: "You've reached the generation limit for this session. Try again later.",
+            prompt: "You've reached the generation limit for this session.",
           },
         ]);
         return;
@@ -222,20 +226,13 @@ const ChatPage = () => {
       try {
         const body = isImage ? { imageUrl } : { userPrompt };
         const { data, error } = await supabase.functions.invoke("generate-3d", { body });
-
         if (error) throw error;
 
         const genType = data.type || (isImage ? "image-to-3d" : "text-to-3d");
         setGenerations((prev) =>
           prev.map((g) =>
             g.id === genId
-              ? {
-                  ...g,
-                  status: "PENDING",
-                  prompt: data.prompt,
-                  taskId: data.taskId,
-                  type: genType,
-                }
+              ? { ...g, status: "PENDING", prompt: data.prompt, taskId: data.taskId, type: genType }
               : g
           )
         );
@@ -243,9 +240,7 @@ const ChatPage = () => {
       } catch (err) {
         console.error("3D generation error:", err);
         setGenerations((prev) =>
-          prev.map((g) =>
-            g.id === genId ? { ...g, status: "FAILED", progress: 0 } : g
-          )
+          prev.map((g) => (g.id === genId ? { ...g, status: "FAILED", progress: 0 } : g))
         );
       }
     },
@@ -257,9 +252,7 @@ const ChatPage = () => {
       <div className="min-h-screen flex items-center justify-center text-foreground">
         <div className="text-center">
           <p className="mb-4">Agent not found.</p>
-          <Link to="/" className="text-primary underline">
-            Back to agents
-          </Link>
+          <Link to="/" className="text-primary underline">Back to agents</Link>
         </div>
       </div>
     );
@@ -276,15 +269,12 @@ const ChatPage = () => {
   const handleHelmFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
-    // Size checks
     const isImage = file.type.startsWith("image/");
     const maxSize = isImage ? 5 * 1024 * 1024 : 10 * 1024 * 1024;
     if (file.size > maxSize) {
       alert(`File too large. Maximum ${isImage ? "5MB" : "10MB"} for ${isImage ? "images" : "documents"}.`);
       return;
     }
-
     if (isImage) {
       setPendingImage(file);
       setPendingImagePreview(URL.createObjectURL(file));
@@ -312,7 +302,6 @@ const ChatPage = () => {
     let uploadedImageUrl: string | undefined;
     let apiMessages: any[] = [];
 
-    // For ARC: upload image to storage for 3D generation
     if (imageFile && isArc) {
       setIsUploading(true);
       try {
@@ -343,36 +332,21 @@ const ChatPage = () => {
     const should3D = isArc && (!!uploadedImageUrl || shouldTrigger3D(userMessage.content));
 
     try {
-      // Build API messages
       if (isHelm && imageFile) {
-        // Send image as base64 vision content to Claude
         const { base64, mediaType } = await imageToBase64(imageFile);
         const textContent = content.trim() || "Please parse this document and extract all dates, events, deadlines, and action items.";
-        
-        // Build history as simple text, then add the multimodal last message
         const historyMsgs = messages.map((m) => ({ role: m.role, content: m.content || "(attachment)" }));
         apiMessages = [
           ...historyMsgs,
           {
             role: "user",
             content: [
-              {
-                type: "image",
-                source: {
-                  type: "base64",
-                  media_type: mediaType,
-                  data: base64,
-                },
-              },
-              {
-                type: "text",
-                text: textContent,
-              },
+              { type: "image", source: { type: "base64", media_type: mediaType, data: base64 } },
+              { type: "text", text: textContent },
             ],
           },
         ];
       } else if (isHelm && docFile) {
-        // Read text file content and send as text
         const fileText = await readFileAsText(docFile);
         const textContent = content.trim() || "Please parse this document and extract all dates, events, deadlines, and action items.";
         const fullText = `${textContent}\n\n---\n\nDocument content (${docFile.name}):\n\n${fileText}`;
@@ -388,6 +362,7 @@ const ChatPage = () => {
         body: {
           agentId: agent.id,
           messages: apiMessages,
+          brandContext: brandProfile || undefined,
         },
       });
 
@@ -397,10 +372,7 @@ const ChatPage = () => {
       console.error("Chat error:", err);
       setMessages((prev) => [
         ...prev,
-        {
-          role: "assistant",
-          content: "Sorry, I'm having trouble connecting right now. Please try again.",
-        },
+        { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Please try again." },
       ]);
     } finally {
       setIsLoading(false);
@@ -426,32 +398,19 @@ const ChatPage = () => {
   };
 
   const showWelcome = messages.length === 0;
-  const getGenerationsForIndex = (idx: number) =>
-    generations.filter((g) => g.messageIndex === idx);
+  const getGenerationsForIndex = (idx: number) => generations.filter((g) => g.messageIndex === idx);
 
-  /** Render message content with HELM checklist support */
   const renderMessageContent = (msg: Message) => {
     const content = msg.content;
 
     if (isHelm && hasChecklist(content)) {
-      // Split into checklist and non-checklist parts
       const lines = content.split("\n");
       const parts: { type: "text" | "checklist"; content: string }[] = [];
       let currentText = "";
       let checklistLines: string[] = [];
 
-      const flushText = () => {
-        if (currentText.trim()) {
-          parts.push({ type: "text", content: currentText });
-          currentText = "";
-        }
-      };
-      const flushChecklist = () => {
-        if (checklistLines.length) {
-          parts.push({ type: "checklist", content: checklistLines.join("\n") });
-          checklistLines = [];
-        }
-      };
+      const flushText = () => { if (currentText.trim()) { parts.push({ type: "text", content: currentText }); currentText = ""; } };
+      const flushChecklist = () => { if (checklistLines.length) { parts.push({ type: "checklist", content: checklistLines.join("\n") }); checklistLines = []; } };
 
       for (const line of lines) {
         if (/^[-*]\s*\[([ xX])\]/.test(line.trim())) {
@@ -505,6 +464,33 @@ const ChatPage = () => {
           </p>
         </div>
 
+        {/* Brand badge or add button */}
+        {brandProfile ? (
+          <div
+            className="flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium"
+            style={{ backgroundColor: agent.color + "15", color: agent.color, border: `1px solid ${agent.color}25` }}
+          >
+            <Globe size={10} />
+            <span className="max-w-[80px] truncate">{brandName}</span>
+            <button
+              onClick={() => { setBrandProfile(null); setBrandName(null); }}
+              className="hover:opacity-70 ml-0.5"
+            >
+              <X size={10} />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => setBrandModalOpen(true)}
+            className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium transition-colors hover:opacity-80"
+            style={{ color: agent.color, border: `1px solid ${agent.color}20` }}
+            title="Add your website for tailored advice"
+          >
+            <Globe size={10} />
+            <span className="hidden sm:inline">Add website</span>
+          </button>
+        )}
+
         {/* HELM Dashboard Toggle */}
         {isHelm && (
           <div className="flex rounded-lg overflow-hidden border border-border">
@@ -540,6 +526,18 @@ const ChatPage = () => {
         </div>
       </header>
 
+      {/* Brand Scan Modal */}
+      <BrandScanModal
+        agentName={agent.name}
+        agentColor={agent.color}
+        open={brandModalOpen}
+        onClose={() => setBrandModalOpen(false)}
+        onBrandLoaded={(profile, name) => {
+          setBrandProfile(profile);
+          setBrandName(name);
+        }}
+      />
+
       {/* HELM Dashboard View */}
       {isHelm && helmView === "dashboard" ? (
         <div className="flex-1 overflow-y-auto">
@@ -567,7 +565,6 @@ const ChatPage = () => {
                   <p className="text-xs italic text-muted-foreground">"{agent.tagline}"</p>
                 </div>
 
-                {/* HELM Quick Actions or standard starters */}
                 {isHelm ? (
                   <HelmQuickActions onSelect={(msg) => sendMessage(msg)} />
                 ) : (
@@ -589,9 +586,7 @@ const ChatPage = () => {
                 {messages.map((msg, i) => (
                   <div key={i}>
                     <div
-                      className={`flex gap-2 opacity-0 animate-fade-up ${
-                        msg.role === "user" ? "justify-end" : "justify-start"
-                      }`}
+                      className={`flex gap-2 opacity-0 animate-fade-up ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                       style={{ animationDelay: `${i * 30}ms`, animationFillMode: "forwards" }}
                     >
                       {msg.role === "assistant" && <RobotIcon color={agent.color} size={24} />}
@@ -611,11 +606,7 @@ const ChatPage = () => {
                         }
                       >
                         {msg.imageUrl && (
-                          <img
-                            src={msg.imageUrl}
-                            alt="Uploaded reference"
-                            className="rounded-lg mb-2 max-h-48 w-auto object-cover"
-                          />
+                          <img src={msg.imageUrl} alt="Uploaded reference" className="rounded-lg mb-2 max-h-48 w-auto object-cover" />
                         )}
                         {msg.fileName && (
                           <div className="flex items-center gap-1.5 mb-2 text-xs text-foreground/60">
@@ -626,19 +617,13 @@ const ChatPage = () => {
                         {renderMessageContent(msg)}
                       </div>
                     </div>
-                    {/* 3D generation cards after assistant reply */}
                     {msg.role === "assistant" &&
                       getGenerationsForIndex(i).map((gen) => (
                         <div key={gen.id} className="mt-2 ml-8">
                           {gen.status === "SUCCEEDED" && gen.modelUrls?.glb ? (
                             <Suspense
                               fallback={
-                                <ModelGenerationCard
-                                  status="IN_PROGRESS"
-                                  progress={99}
-                                  prompt={gen.prompt}
-                                  color={agent.color}
-                                />
+                                <ModelGenerationCard status="IN_PROGRESS" progress={99} prompt={gen.prompt} color={agent.color} />
                               }
                             >
                               <CompletedModelCard
@@ -650,12 +635,7 @@ const ChatPage = () => {
                               />
                             </Suspense>
                           ) : (
-                            <ModelGenerationCard
-                              status={gen.status}
-                              progress={gen.progress}
-                              prompt={gen.prompt}
-                              color={agent.color}
-                            />
+                            <ModelGenerationCard status={gen.status} progress={gen.progress} prompt={gen.prompt} color={agent.color} />
                           )}
                         </div>
                       ))}
@@ -669,10 +649,7 @@ const ChatPage = () => {
                         <span
                           key={i}
                           className="w-1.5 h-1.5 rounded-full animate-bounce-dot"
-                          style={{
-                            backgroundColor: agent.color,
-                            animationDelay: `${i * 0.2}s`,
-                          }}
+                          style={{ backgroundColor: agent.color, animationDelay: `${i * 0.2}s` }}
                         />
                       ))}
                     </div>
@@ -683,21 +660,14 @@ const ChatPage = () => {
             )}
           </div>
 
-          {/* Image/File Preview */}
+          {/* File Preview */}
           {(pendingImagePreview || pendingFile) && (isArc || isHelm) && (
             <div className="px-4 pb-1 shrink-0">
               <div className="max-w-2xl mx-auto">
                 {pendingImagePreview && (
                   <div className="relative inline-block">
-                    <img
-                      src={pendingImagePreview}
-                      alt="Upload preview"
-                      className="h-20 rounded-lg border border-border object-cover"
-                    />
-                    <button
-                      onClick={clearPendingImage}
-                      className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center"
-                    >
+                    <img src={pendingImagePreview} alt="Upload preview" className="h-20 rounded-lg border border-border object-cover" />
+                    <button onClick={clearPendingImage} className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center">
                       <X size={12} />
                     </button>
                   </div>
@@ -706,10 +676,7 @@ const ChatPage = () => {
                   <div className="relative inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-card">
                     <FileText size={16} className="text-foreground/60" />
                     <span className="text-xs text-foreground/70">{pendingFile.name}</span>
-                    <button
-                      onClick={clearPendingFile}
-                      className="w-4 h-4 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center ml-1"
-                    >
+                    <button onClick={clearPendingFile} className="w-4 h-4 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center ml-1">
                       <X size={10} />
                     </button>
                   </div>
@@ -721,16 +688,9 @@ const ChatPage = () => {
           {/* Input Bar */}
           <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">
             <div className="max-w-2xl mx-auto flex gap-2 items-center">
-              {/* ARC image upload */}
               {isArc && (
                 <>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    onChange={handleImageSelect}
-                    className="hidden"
-                  />
+                  <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleImageSelect} className="hidden" />
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
@@ -743,7 +703,6 @@ const ChatPage = () => {
                 </>
               )}
 
-              {/* HELM file upload */}
               {isHelm && (
                 <>
                   <input
@@ -758,10 +717,7 @@ const ChatPage = () => {
                     onClick={() => helmFileInputRef.current?.click()}
                     disabled={isLoading || isUploading}
                     className="p-2.5 rounded-lg border transition-colors disabled:opacity-30"
-                    style={{
-                      borderColor: HELM_COLOR + "30",
-                      color: HELM_COLOR,
-                    }}
+                    style={{ borderColor: HELM_COLOR + "30", color: HELM_COLOR }}
                     title="Upload a document, photo, or newsletter"
                   >
                     <Paperclip size={16} />
