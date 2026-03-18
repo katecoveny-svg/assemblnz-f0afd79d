@@ -181,12 +181,10 @@ Deno.serve(async (req) => {
     let pollEndpoint: "text-to-3d" | "image-to-3d";
 
     if (imageUrl) {
-      // Image-to-3D flow
       taskId = await createImageTo3DTask(imageUrl, MESHY_API_KEY);
       optimizedPrompt = "Generated from uploaded image";
       pollEndpoint = "image-to-3d";
     } else {
-      // Text-to-3D flow
       if (!ANTHROPIC_API_KEY) {
         return new Response(
           JSON.stringify({ error: "ANTHROPIC_API_KEY is not configured" }),
@@ -198,36 +196,16 @@ Deno.serve(async (req) => {
       pollEndpoint = "text-to-3d";
     }
 
-    // Poll for completion
-    try {
-      const result = await pollMeshyTask(taskId, MESHY_API_KEY, pollEndpoint);
-      return new Response(
-        JSON.stringify({
-          taskId,
-          status: result.status,
-          modelUrls: result.modelUrls,
-          thumbnailUrl: result.thumbnailUrl,
-          prompt: optimizedPrompt,
-          type: pollEndpoint,
-        }),
-        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    } catch (pollErr) {
-      const msg = String(pollErr);
-      if (msg.includes("TIMEOUT")) {
-        return new Response(
-          JSON.stringify({
-            taskId,
-            status: "IN_PROGRESS",
-            prompt: optimizedPrompt,
-            type: pollEndpoint,
-            message: "Generation is still in progress. Use the status endpoint to check.",
-          }),
-          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
-      }
-      throw pollErr;
-    }
+    // Return immediately with taskId — frontend will poll for status
+    return new Response(
+      JSON.stringify({
+        taskId,
+        status: "PENDING",
+        prompt: optimizedPrompt,
+        type: pollEndpoint,
+      }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
   } catch (error) {
     console.error("generate-3d error:", error);
     const message =
