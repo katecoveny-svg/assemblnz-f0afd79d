@@ -135,8 +135,7 @@ const AgentGrid = () => {
           <div>
             <h4 className="font-semibold text-foreground mb-3">Social</h4>
             <ul className="space-y-2 text-xs text-muted-foreground">
-              <li><a href="https://linkedin.com/company/assembl" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">LinkedIn</a></li>
-              <li><a href="https://x.com/assembl_nz" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">X / Twitter</a></li>
+              <li><a href="https://instagram.com/assemblnz" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Instagram</a></li>
             </ul>
           </div>
         </div>
