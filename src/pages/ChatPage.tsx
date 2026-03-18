@@ -277,9 +277,12 @@ const ChatPage = () => {
       alert(`File too large. Maximum ${isImage ? "5MB" : "10MB"} for ${isImage ? "images" : "documents"}.`);
       return;
     }
-    if (isImage) {
+    if (isImage && (isHelm || isArc)) {
       setPendingImage(file);
       setPendingImagePreview(URL.createObjectURL(file));
+    } else if (isImage && isNexus) {
+      // NEXUS treats images as documents to parse
+      setPendingFile(file);
     } else {
       setPendingFile(file);
     }
