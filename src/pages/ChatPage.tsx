@@ -381,7 +381,7 @@ const ChatPage = () => {
           { role: "user", content: fullText },
         ];
       } else {
-        apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content }));
+        apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content || "(attachment)" }));
       }
 
       const { data, error } = await supabase.functions.invoke("chat", {
