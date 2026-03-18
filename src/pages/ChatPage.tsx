@@ -555,7 +555,12 @@ const ChatPage = () => {
 
       {/* Modals */}
       <BrandScanModal agentName={agent.name} agentColor={agent.color} open={brandModalOpen} onClose={() => setBrandModalOpen(false)}
-        onBrandLoaded={(profile, name) => { setBrandProfile(profile); setBrandName(name); }} />
+        onBrandLoaded={(profile, name) => {
+          setBrandProfile(profile);
+          setBrandName(name);
+          sessionStorage.setItem("assembl_brand_profile", profile);
+          sessionStorage.setItem("assembl_brand_name", name);
+        }} />
       <TemplateLibrary agentId={agent.id} agentName={agent.name} agentColor={agent.color} open={templateModalOpen}
         onClose={() => setTemplateModalOpen(false)} onSelect={(prompt) => sendMessage(prompt)} />
 
