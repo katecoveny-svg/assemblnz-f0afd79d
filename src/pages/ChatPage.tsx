@@ -4,6 +4,7 @@ import { agents } from "@/data/agents";
 import RobotIcon from "@/components/RobotIcon";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Send } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 interface Message {
   role: "user" | "assistant";
