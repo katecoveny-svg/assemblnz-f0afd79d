@@ -516,7 +516,7 @@ const ChatPage = () => {
           >
             <Globe size={10} />
             <span className="max-w-[60px] truncate">{brandName}</span>
-            <button onClick={() => { setBrandProfile(null); setBrandName(null); }} className="hover:opacity-70 ml-0.5">
+            <button onClick={() => { setBrandProfile(null); setBrandName(null); sessionStorage.removeItem("assembl_brand_profile"); sessionStorage.removeItem("assembl_brand_name"); }} className="hover:opacity-70 ml-0.5">
               <X size={10} />
             </button>
           </div>
