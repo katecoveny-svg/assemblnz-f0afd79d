@@ -140,8 +140,8 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Build full system prompt with optional brand context
-    let fullSystemPrompt = systemPrompt;
+    // Build full system prompt with shared behaviours and optional brand context
+    let fullSystemPrompt = systemPrompt + SHARED_BEHAVIOURS;
     if (brandContext) {
       fullSystemPrompt += `\n\n[Brand context for this conversation — use this to tailor your advice to the user's specific business:\n${brandContext}]`;
     }
