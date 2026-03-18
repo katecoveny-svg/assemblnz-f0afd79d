@@ -410,7 +410,7 @@ const ChatPage = () => {
                           }
                         >
                           <CompletedModelCard
-                            glbUrl={gen.modelUrls.glb}
+                            glbUrl={`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/proxy-model?url=${encodeURIComponent(gen.modelUrls.glb)}`}
                             modelUrls={gen.modelUrls}
                             prompt={gen.prompt}
                             color={agent.color}
