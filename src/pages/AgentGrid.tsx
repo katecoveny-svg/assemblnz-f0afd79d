@@ -110,6 +110,40 @@ const AgentGrid = () => {
           ))}
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-border mt-16 py-10 px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 text-sm">
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <AssemblLogo size={24} />
+              <span className="font-bold tracking-[0.2em] text-foreground">ASSEMBL</span>
+            </div>
+            <p className="text-muted-foreground text-xs leading-relaxed">
+              Hyper-specialised AI agents built for New Zealand industries.
+            </p>
+          </div>
+
+          <div>
+            <h4 className="font-semibold text-foreground mb-3">Links</h4>
+            <ul className="space-y-2 text-xs text-muted-foreground">
+              <li><a href="https://assembl.co.nz" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">assembl.co.nz</a></li>
+              <li><a href="mailto:hello@assembl.co.nz" className="hover:text-primary transition-colors">hello@assembl.co.nz</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold text-foreground mb-3">Social</h4>
+            <ul className="space-y-2 text-xs text-muted-foreground">
+              <li><a href="https://linkedin.com/company/assembl" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">LinkedIn</a></li>
+              <li><a href="https://x.com/assembl_nz" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">X / Twitter</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-border text-center text-[11px] text-muted-foreground">
+          © {new Date().getFullYear()} Assembl. All rights reserved.
+        </div>
+      </footer>
     </div>
   );
 };
