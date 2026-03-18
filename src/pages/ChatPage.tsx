@@ -4,6 +4,7 @@ import { agents } from "@/data/agents";
 import RobotIcon from "@/components/RobotIcon";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Send } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 interface Message {
   role: "user" | "assistant";
@@ -143,7 +144,9 @@ const ChatPage = () => {
                       : {}
                   }
                 >
-                  {msg.content}
+                  <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  </div>
                 </div>
               </div>
             ))}
