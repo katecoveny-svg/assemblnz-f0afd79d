@@ -128,6 +128,8 @@ const ChatPage = () => {
 
   const isArc = agentId === "arc";
   const isHelm = agentId === "operations";
+  const isNexus = agentId === "nexus";
+  const hasFileUpload = isHelm || isNexus;
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -275,9 +277,12 @@ const ChatPage = () => {
       alert(`File too large. Maximum ${isImage ? "5MB" : "10MB"} for ${isImage ? "images" : "documents"}.`);
       return;
     }
-    if (isImage) {
+    if (isImage && (isHelm || isArc)) {
       setPendingImage(file);
       setPendingImagePreview(URL.createObjectURL(file));
+    } else if (isImage && isNexus) {
+      // NEXUS treats images as documents to parse
+      setPendingFile(file);
     } else {
       setPendingFile(file);
     }
@@ -346,14 +351,34 @@ const ChatPage = () => {
             ],
           },
         ];
-      } else if (isHelm && docFile) {
-        const fileText = await readFileAsText(docFile);
-        const textContent = content.trim() || "Please parse this document and extract all dates, events, deadlines, and action items.";
-        const fullText = `${textContent}\n\n---\n\nDocument content (${docFile.name}):\n\n${fileText}`;
-        apiMessages = [
-          ...messages.map((m) => ({ role: m.role, content: m.content || "(attachment)" })),
-          { role: "user", content: fullText },
-        ];
+      } else if ((isHelm || isNexus) && docFile) {
+        let fileContent: string;
+        if (docFile.type.startsWith("image/")) {
+          // NEXUS: image uploaded as doc — send as base64
+          const { base64, mediaType } = await imageToBase64(docFile);
+          const textContent = content.trim() || "Please process this document for import entry data extraction.";
+          const historyMsgs = messages.map((m) => ({ role: m.role, content: m.content || "(attachment)" }));
+          apiMessages = [
+            ...historyMsgs,
+            {
+              role: "user",
+              content: [
+                { type: "image", source: { type: "base64", media_type: mediaType, data: base64 } },
+                { type: "text", text: textContent },
+              ],
+            },
+          ];
+        } else {
+          fileContent = await readFileAsText(docFile);
+          const textContent = content.trim() || (isNexus
+            ? "Please process this document for import entry data extraction."
+            : "Please parse this document and extract all dates, events, deadlines, and action items.");
+          const fullText = `${textContent}\n\n---\n\nDocument content (${docFile.name}):\n\n${fileContent}`;
+          apiMessages = [
+            ...messages.map((m) => ({ role: m.role, content: m.content || "(attachment)" })),
+            { role: "user", content: fullText },
+          ];
+        }
       } else {
         apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content || "(attachment)" }));
       }
@@ -661,7 +686,7 @@ const ChatPage = () => {
           </div>
 
           {/* File Preview */}
-          {(pendingImagePreview || pendingFile) && (isArc || isHelm) && (
+          {(pendingImagePreview || pendingFile) && (isArc || hasFileUpload) && (
             <div className="px-4 pb-1 shrink-0">
               <div className="max-w-2xl mx-auto">
                 {pendingImagePreview && (
@@ -703,12 +728,15 @@ const ChatPage = () => {
                 </>
               )}
 
-              {isHelm && (
+              {hasFileUpload && (
                 <>
                   <input
                     ref={helmFileInputRef}
                     type="file"
-                    accept="image/jpeg,image/png,image/webp,.pdf,.txt,.text,.csv,.md"
+                    accept={isNexus
+                      ? "image/jpeg,image/png,image/webp,.pdf,.csv,.xlsx,.xls,.txt,.text"
+                      : "image/jpeg,image/png,image/webp,.pdf,.txt,.text,.csv,.md"
+                    }
                     onChange={handleHelmFileSelect}
                     className="hidden"
                   />
@@ -717,8 +745,8 @@ const ChatPage = () => {
                     onClick={() => helmFileInputRef.current?.click()}
                     disabled={isLoading || isUploading}
                     className="p-2.5 rounded-lg border transition-colors disabled:opacity-30"
-                    style={{ borderColor: HELM_COLOR + "30", color: HELM_COLOR }}
-                    title="Upload a document, photo, or newsletter"
+                    style={{ borderColor: agent.color + "30", color: agent.color }}
+                    title={isNexus ? "Upload invoice, packing list, or trade document" : "Upload a document, photo, or newsletter"}
                   >
                     <Paperclip size={16} />
                   </button>
