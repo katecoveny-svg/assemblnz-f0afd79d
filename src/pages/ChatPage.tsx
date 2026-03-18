@@ -165,39 +165,22 @@ const ChatPage = () => {
 
         if (error) throw error;
 
-        if (data.status === "SUCCEEDED") {
-          setGenerations((prev) =>
-            prev.map((g) =>
-              g.id === genId
-                ? {
-                    ...g,
-                    status: "SUCCEEDED",
-                    progress: 100,
-                    prompt: data.prompt,
-                    taskId: data.taskId,
-                    modelUrls: data.modelUrls,
-                    thumbnailUrl: data.thumbnailUrl,
-                    type: data.type || (isImage ? "image-to-3d" : "text-to-3d"),
-                  }
-                : g
-            )
-          );
-        } else {
-          setGenerations((prev) =>
-            prev.map((g) =>
-              g.id === genId
-                ? {
-                    ...g,
-                    status: "IN_PROGRESS",
-                    prompt: data.prompt,
-                    taskId: data.taskId,
-                    type: data.type || (isImage ? "image-to-3d" : "text-to-3d"),
-                  }
-                : g
-            )
-          );
-          if (data.taskId) pollStatus(genId, data.taskId, data.type || (isImage ? "image-to-3d" : "text-to-3d"));
-        }
+        // Update with prompt and taskId, then start polling immediately
+        const genType = data.type || (isImage ? "image-to-3d" : "text-to-3d");
+        setGenerations((prev) =>
+          prev.map((g) =>
+            g.id === genId
+              ? {
+                  ...g,
+                  status: "PENDING",
+                  prompt: data.prompt,
+                  taskId: data.taskId,
+                  type: genType,
+                }
+              : g
+          )
+        );
+        if (data.taskId) pollStatus(genId, data.taskId, genType);
       } catch (err) {
         console.error("3D generation error:", err);
         setGenerations((prev) =>
