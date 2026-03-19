@@ -35,7 +35,7 @@ const WELLNESS_CATEGORIES = [
   },
   {
     title: "Financial Wellness",
-    emoji: "💰",
+    icon: "coin" as const,
     items: [
       { name: "KiwiSaver Education Resources", desc: "Help staff understand their KiwiSaver options, contribution rates (3%-10%), and employer contributions." },
       { name: "Financial Literacy Workshop Template", desc: "90-minute workshop: budgeting, saving, KiwiSaver, debt management. Partner with Sorted.org.nz." },
