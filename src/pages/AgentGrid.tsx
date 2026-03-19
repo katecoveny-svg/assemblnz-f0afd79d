@@ -59,7 +59,7 @@ const PRICING_PLANS = [
 ];
 
 const HOW_IT_WORKS = [
-  { step: "01", title: "Pick your agent", desc: "Choose from 29 specialists covering NZ industries from hospo to construction.", icon: <Users size={24} /> },
+  { step: "01", title: "Pick your agent", desc: "Choose from 37 specialists covering NZ industries from hospo to government.", icon: <Users size={24} /> },
   { step: "02", title: "Teach your brand", desc: "Scan your website or paste your brand profile. Every agent remembers your context.", icon: <Zap size={24} /> },
   { step: "03", title: "Get NZ advice", desc: "Ask anything. Get answers grounded in NZ legislation, regulations, and best practice.", icon: <BookOpen size={24} /> },
   { step: "04", title: "Run 24/7", desc: "Embed on your site, share with your team, or let customers chat directly.", icon: <Clock size={24} /> },
