@@ -237,13 +237,25 @@ const PricingPage = () => {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  to={plan.href}
-                  className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
-                  style={{ background: "#B388FF", color: "#0A0A14" }}
-                >
-                  {plan.cta}
-                </Link>
+                {plan.external ? (
+                  <a
+                    href={plan.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
+                    style={{ background: "#B388FF", color: "#0A0A14" }}
+                  >
+                    {plan.cta}
+                  </a>
+                ) : (
+                  <Link
+                    to={plan.href}
+                    className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
+                    style={{ background: "#B388FF", color: "#0A0A14" }}
+                  >
+                    {plan.cta}
+                  </Link>
+                )}
               </div>
             ))}
           </div>
