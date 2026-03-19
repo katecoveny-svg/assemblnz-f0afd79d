@@ -258,9 +258,9 @@ const ChatPage = () => {
   const nexusFileInputRef = useRef<HTMLInputElement>(null);
   const pollingRef = useRef<Record<string, number>>({});
 
-  const isArc = agentId === "arc";
+  const isArc = agentId === "architecture";
   const isHelm = agentId === "operations";
-  const isNexus = agentId === "nexus";
+  const isNexus = agentId === "customs";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
