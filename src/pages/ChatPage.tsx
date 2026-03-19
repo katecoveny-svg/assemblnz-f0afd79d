@@ -956,7 +956,23 @@ const ChatPage = () => {
       )}
 
       {/* Tab Views */}
-      {activeTab === "aroha_contracts" && isAroha ? (
+      {activeTab === "aura_setup" && isAura ? (
+        <AuraPropertySetup />
+      ) : activeTab === "aura_reservations" && isAura ? (
+        <AuraReservations />
+      ) : activeTab === "aura_guest" && isAura ? (
+        <AuraGuestExperience />
+      ) : activeTab === "aura_kitchen" && isAura ? (
+        <AuraKitchenFnB />
+      ) : activeTab === "aura_marketing" && isAura ? (
+        <AuraMarketing />
+      ) : activeTab === "aura_events" && isAura ? (
+        <AuraEvents />
+      ) : activeTab === "aura_operations" && isAura ? (
+        <AuraOperations />
+      ) : activeTab === "aura_team" && isAura ? (
+        <AuraTeam />
+      ) : activeTab === "aroha_contracts" && isAroha ? (
         <ArohaContracts />
       ) : activeTab === "aroha_onboarding" && isAroha ? (
         <ArohaOnboarding />
