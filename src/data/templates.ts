@@ -90,7 +90,7 @@ export const agentTemplates: Record<string, Template[]> = {
     { icon: "wrench", emoji: "🚗", title: "Vehicle Admin Tracker", description: "Set up tracking for WoF, rego, RUC, insurance, and service dates for all your vehicles.", timeSaved: "~30 min setup", prompt: "I'll set up vehicle admin tracking. First, how many vehicles do you need to track?" },
   ],
   // Legacy templates for agents without a dedicated tab
-  aura: [
+  hospitality: [
     { icon: "clipboard", title: "Food Control Plan", description: "Generate a food safety programme outline for your business type", timeSaved: "~2 hours", prompt: "I need help creating a Food Control Plan. Let's start — what type of food business do I have?" },
     { icon: "team", title: "Staff Roster Checker", description: "Check your roster against Holidays Act and employment law", timeSaved: "~30 min", prompt: "I'd like you to check my staff roster for compliance. What information do you need from me?" },
     { icon: "checkmark", title: "Event Compliance Checklist", description: "Compliance checklist for hosting an event", timeSaved: "~1 hour", prompt: "Help me create an event compliance checklist. What type of event am I planning?" },
