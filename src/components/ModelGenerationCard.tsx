@@ -1,4 +1,5 @@
 import { Progress } from "@/components/ui/progress";
+import { NeonDiamond, NeonTimer } from "@/components/NeonIcons";
 
 interface ModelGenerationCardProps {
   status: "PENDING" | "IN_PROGRESS" | "SUCCEEDED" | "FAILED";
