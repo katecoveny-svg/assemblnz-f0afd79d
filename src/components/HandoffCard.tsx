@@ -21,7 +21,7 @@ const HandoffCard = ({ agentId }: Props) => {
         background: agent.color + "08",
       }}
     >
-      <RobotIcon color={agent.color} size={28} />
+      <RobotIcon color={agent.color} size={28} agentId={agent.id} />
       <div className="flex-1 text-left min-w-0">
         <span className="text-xs font-bold text-foreground">{agent.name}</span>
         <span className="text-xs ml-1.5" style={{ color: agent.color }}>{agent.role}</span>

@@ -654,7 +654,7 @@ const ChatPage = () => {
         <Link to="/" className="p-1.5 rounded-lg hover:bg-muted transition-colors text-foreground shrink-0">
           <ArrowLeft size={18} />
         </Link>
-        <RobotIcon color={agent.color} size={28} />
+        <RobotIcon color={agent.color} size={28} agentId={agent.id} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="font-bold text-sm text-foreground">{agent.name}</span>
@@ -771,7 +771,7 @@ const ChatPage = () => {
           <div className="flex-1 overflow-y-auto px-4 py-4">
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center h-full text-center gap-4 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
-                <RobotIcon color={agent.color} size={72} />
+                <RobotIcon color={agent.color} size={72} agentId={agent.id} />
                 <div>
                   <h2 className="text-lg font-bold text-foreground">{agent.name}</h2>
                   <div className="flex items-center justify-center gap-1.5 mb-1">
