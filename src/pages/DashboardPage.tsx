@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, MessageSquare, FileText, Upload, Clock } from "lucide-react";
-import AssemblLogo from "@/components/AssemblLogo";
+import { MessageSquare, FileText, Upload, Clock } from "lucide-react";
+import BrandNav from "@/components/BrandNav";
+import BrandFooter from "@/components/BrandFooter";
 
 const SAMPLE_AGENTS = [
   { name: "APEX", color: "#FF6B35", messages: 120 },
@@ -30,22 +31,12 @@ const maxMessages = Math.max(...SAMPLE_AGENTS.map((a) => a.messages));
 
 const DashboardPage = () => {
   return (
-    <div className="min-h-screen star-field">
-      <header className="flex items-center justify-between px-6 py-4 border-b border-border">
-        <div className="flex items-center gap-3">
-          <Link to="/" className="p-1.5 rounded-lg hover:bg-muted transition-colors text-foreground">
-            <ArrowLeft size={18} />
-          </Link>
-          <AssemblLogo size={28} />
-          <span className="font-bold tracking-[0.2em] text-foreground text-sm">Your Assembl Dashboard</span>
-        </div>
-        <div className="flex items-center gap-3 text-xs">
-          <span className="text-muted-foreground">Plan: <span className="text-primary font-semibold">Pro</span></span>
-          <span className="text-muted-foreground">Messages: <span className="text-foreground font-semibold">342</span>/500</span>
-        </div>
-      </header>
+    <div className="min-h-screen star-field flex flex-col">
+      <BrandNav />
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-8 flex-1">
+        <h2 className="text-xl font-extrabold text-foreground tracking-[2.5px] uppercase">Your Dashboard</h2>
+
         {/* Stats Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
@@ -66,7 +57,7 @@ const DashboardPage = () => {
             >
               <stat.icon size={18} style={{ color: stat.color }} className="mb-2" />
               <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-              <p className="text-[11px] text-muted-foreground mt-1">{stat.label}</p>
+              <p className="text-[11px] mt-1" style={{ color: '#ffffff38' }}>{stat.label}</p>
               {stat.label === "Messages this month" && (
                 <div className="flex items-end gap-0.5 mt-3 h-6">
                   {[18, 24, 12, 30, 22, 28, 35, 42, 38, 45, 32, 37].map((v, j) => (
@@ -111,7 +102,7 @@ const DashboardPage = () => {
                   <span className="text-xs text-foreground">{t.type}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-[11px] text-muted-foreground">{t.date}</span>
+                  <span className="text-[11px]" style={{ color: '#ffffff38' }}>{t.date}</span>
                   <button className="text-[11px] text-primary hover:underline">View</button>
                 </div>
               </div>
@@ -122,7 +113,7 @@ const DashboardPage = () => {
         {/* Time Saved Breakdown */}
         <div className="rounded-xl border bg-card p-6" style={{ borderColor: "#FFB80025" }}>
           <h2 className="text-sm font-bold text-foreground mb-1">Time saved breakdown</h2>
-          <p className="text-[11px] text-muted-foreground mb-4">This is the number that justifies your subscription</p>
+          <p className="text-[11px] mb-4" style={{ color: '#ffffff38' }}>This is the number that justifies your subscription</p>
           <div className="space-y-3">
             {TIME_SAVED.map((t) => (
               <div key={t.template} className="flex items-center justify-between">
@@ -137,6 +128,8 @@ const DashboardPage = () => {
           </div>
         </div>
       </main>
+
+      <BrandFooter />
     </div>
   );
 };

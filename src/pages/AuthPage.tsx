@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import AssemblLogo from "@/components/AssemblLogo";
 import { Loader2 } from "lucide-react";
@@ -11,7 +11,7 @@ const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
-  const navigate = useNavigate();
+  const navigate = (await import("react-router-dom")).useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,12 +37,12 @@ const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
         <div className="text-center mb-8 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
           <Link to="/" className="inline-flex items-center gap-2 mb-6">
             <AssemblLogo size={36} />
-            <span className="text-lg font-bold tracking-[0.2em] text-foreground">ASSEMBL</span>
+            <span className="font-extrabold tracking-[2.5px] uppercase text-foreground">ASSEMBL</span>
           </Link>
           <h1 className="text-2xl font-bold text-foreground">
             {mode === "signup" ? "Create your account" : "Welcome back"}
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm mt-1" style={{ color: '#ffffff38' }}>
             {mode === "signup" ? "Get 10 free messages per day" : "Sign in to continue"}
           </p>
         </div>
@@ -105,13 +105,13 @@ const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
           </button>
 
           {mode === "signup" && (
-            <p className="text-[10px] text-center text-muted-foreground">
+            <p className="text-[10px] text-center" style={{ color: '#ffffff22' }}>
               By signing up you agree to our Terms of Service.
             </p>
           )}
         </form>
 
-        <p className="text-center text-xs text-muted-foreground mt-6 opacity-0 animate-fade-up" style={{ animationDelay: "200ms", animationFillMode: "forwards" }}>
+        <p className="text-center text-xs mt-6 opacity-0 animate-fade-up" style={{ animationDelay: "200ms", animationFillMode: "forwards", color: '#ffffff38' }}>
           {mode === "signup" ? (
             <>Already have an account? <Link to="/login" className="text-primary hover:underline">Sign in</Link></>
           ) : (

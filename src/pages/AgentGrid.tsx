@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { agents, sectors } from "@/data/agents";
-import AssemblLogo from "@/components/AssemblLogo";
 import RobotIcon from "@/components/RobotIcon";
 import OnboardingQuiz from "@/components/OnboardingQuiz";
-import AccountDropdown from "@/components/AccountDropdown";
+import BrandNav from "@/components/BrandNav";
+import BrandFooter from "@/components/BrandFooter";
 import { X } from "lucide-react";
 import { NeonWave } from "@/components/NeonIcons";
 
@@ -12,7 +12,6 @@ const AgentGrid = () => {
   const [activeSector, setActiveSector] = useState("All");
   const [showOnboarding, setShowOnboarding] = useState(false);
 
-  // Shared brand context from sessionStorage
   const brandProfile = sessionStorage.getItem("assembl_brand_profile");
   const brandName = sessionStorage.getItem("assembl_brand_name");
 
@@ -41,7 +40,7 @@ const AgentGrid = () => {
   const filtered = activeSector === "All" ? agents : agents.filter(a => a.sector === activeSector);
 
   return (
-    <div className="min-h-screen star-field">
+    <div className="min-h-screen star-field flex flex-col">
       {/* Shared Brand Banner */}
       {brandProfile && brandName && (
         <div className="bg-primary/5 border-b border-primary/10 px-4 py-2 flex items-center justify-center gap-2">
@@ -53,32 +52,20 @@ const AgentGrid = () => {
         </div>
       )}
 
-      {/* Header */}
-      <header className="flex items-center gap-3 px-6 py-5 border-b border-border">
-        <AssemblLogo size={36} />
-        <div className="flex-1 flex items-baseline gap-1">
-          <span className="text-lg font-bold tracking-[0.2em] text-foreground">ASSEMBL</span>
-          <span className="font-mono-jb text-xs text-muted-foreground">.co.nz</span>
-        </div>
-        <div className="flex items-center gap-3 text-xs">
-          <Link to="/embed" className="text-muted-foreground hover:text-foreground transition-colors">Embed</Link>
-          <Link to="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">Dashboard</Link>
-          <AccountDropdown />
-        </div>
-      </header>
+      <BrandNav />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 flex-1">
         {/* Hero */}
         <div className="text-center mb-10 sm:mb-14">
-          <h1 className="text-3xl sm:text-5xl font-bold mb-3 text-foreground">
+          <h1 className="text-3xl sm:text-5xl font-extrabold mb-3 text-foreground">
             Your AI <span className="text-gradient-hero">workforce</span>
           </h1>
-          <p className="text-muted-foreground text-sm sm:text-base max-w-lg mx-auto">
+          <p className="text-sm sm:text-base max-w-lg mx-auto" style={{ color: '#ffffff38' }}>
             Hyper-specialised AI agents for NZ industries. Tap any agent to chat live.
           </p>
         </div>
 
-        {/* Filter Bar */}
+        {/* Filter Bar — active state uses secondary (pink) */}
         <div className="flex flex-wrap gap-2 justify-center mb-10">
           {sectors.map(sector => (
             <button
@@ -86,7 +73,7 @@ const AgentGrid = () => {
               onClick={() => setActiveSector(sector)}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border ${
                 activeSector === sector
-                  ? "bg-primary/10 border-primary/30 text-primary"
+                  ? "border-secondary/25 bg-secondary/5 text-secondary"
                   : "border-border text-muted-foreground hover:border-foreground/10 hover:text-foreground"
               }`}
             >
@@ -116,36 +103,27 @@ const AgentGrid = () => {
                 e.currentTarget.style.boxShadow = "none";
               }}
             >
-              {/* Top glow line */}
               <div
                 className="absolute top-0 left-4 right-4 h-px opacity-40"
                 style={{ background: `linear-gradient(90deg, transparent, ${agent.color}, transparent)` }}
               />
-
               <div className="flex items-start justify-between mb-3">
                 <RobotIcon color={agent.color} size={40} />
                 <span className="font-mono-jb text-[10px] text-muted-foreground">{agent.designation}</span>
               </div>
-
               <h3 className="text-base font-bold text-foreground tracking-wide">{agent.name}</h3>
               <p className="text-xs font-medium mb-1" style={{ color: agent.color }}>{agent.role}</p>
-              <p className="text-xs italic text-muted-foreground mb-3">"{agent.tagline}"</p>
-
-              {/* Traits */}
+              <p className="text-xs italic mb-3" style={{ color: '#ffffff38' }}>"{agent.tagline}"</p>
               <div className="flex flex-wrap gap-1.5 mb-3">
                 {agent.traits.map(t => (
                   <span key={t} className="text-[10px] px-2 py-0.5 rounded-full border border-border text-foreground/60">{t}</span>
                 ))}
               </div>
-
-              {/* Expertise */}
               <div className="flex flex-wrap gap-1 mb-4">
                 {agent.expertise.map(e => (
                   <span key={e} className="font-mono-jb text-[9px] px-1.5 py-0.5 rounded bg-muted text-foreground/50">{e}</span>
                 ))}
               </div>
-
-              {/* Chat CTA */}
               <div className="flex items-center gap-2 text-xs font-medium" style={{ color: agent.color }}>
                 <span
                   className="w-1.5 h-1.5 rounded-full animate-pulse-glow"
@@ -158,41 +136,7 @@ const AgentGrid = () => {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border mt-16 py-10 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 text-sm">
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <AssemblLogo size={24} />
-              <span className="font-bold tracking-[0.2em] text-foreground">ASSEMBL</span>
-            </div>
-            <p className="text-muted-foreground text-xs leading-relaxed">
-              Hyper-specialised AI agents built for New Zealand industries.
-            </p>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-foreground mb-3">Links</h4>
-            <ul className="space-y-2 text-xs text-muted-foreground">
-              <li><a href="https://assembl.co.nz" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">assembl.co.nz</a></li>
-              <li><a href="mailto:hello@assembl.co.nz" className="hover:text-primary transition-colors">hello@assembl.co.nz</a></li>
-              <li><Link to="/embed" className="hover:text-primary transition-colors">Embed Widget</Link></li>
-              <li><Link to="/dashboard" className="hover:text-primary transition-colors">Dashboard</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-foreground mb-3">Social</h4>
-            <ul className="space-y-2 text-xs text-muted-foreground">
-              <li><a href="https://instagram.com/assemblnz" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Instagram</a></li>
-            </ul>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-border text-center text-[11px] text-muted-foreground leading-relaxed">
-          <p>© {new Date().getFullYear()} Assembl. All rights reserved.</p>
-          <p className="mt-1">Agent designs, system prompts, and automation workflows are proprietary trade secrets of Assembl.</p>
-        </div>
-      </footer>
+      <BrandFooter />
     </div>
   );
 };
