@@ -2,14 +2,17 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { agents, sectors } from "@/data/agents";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
+import AgentCard from "@/components/AgentCard";
+import ParticleField from "@/components/ParticleField";
+import AnimatedHero from "@/components/AnimatedHero";
 import OnboardingQuiz from "@/components/OnboardingQuiz";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import { X, ArrowDown, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-react";
+import { X, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-react";
 import { NeonWave, NeonNZFlag } from "@/components/NeonIcons";
-import AssemblLogo from "@/components/AssemblLogo";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 const PRICING_PLANS = [
   {
