@@ -192,7 +192,7 @@ const ApexHSHub = ({ isPaid, userRole }: Props) => {
 
           {/* Toolbox Talks */}
           <div>
-            <h3 className="text-xs font-bold text-foreground mb-2">💬 Toolbox Talk Templates</h3>
+            <h3 className="text-xs font-bold text-foreground mb-2">Toolbox Talk Templates</h3>
             <div className="space-y-2">
               {TOOLBOX_TALKS.map(talk => {
                 const key = `talk_${talk}`;
