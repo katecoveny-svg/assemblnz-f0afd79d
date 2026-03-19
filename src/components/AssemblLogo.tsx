@@ -1,29 +1,24 @@
-const AssemblLogo = ({ size = 32 }: { size?: number }) => {
-  const h = size;
-  const w = size;
-  const cx = w / 2;
-  const top = h * 0.15;
-  const bottom = h * 0.85;
-  const left = w * 0.15;
-  const right = w * 0.85;
-
+const AssemblLogo = ({ size = 36 }: { size?: number }) => {
   return (
-    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} fill="none">
-      {/* Lines */}
-      <line x1={cx} y1={top} x2={left} y2={bottom} stroke="#00FF88" strokeWidth="1.5" strokeOpacity="0.6" />
-      <line x1={cx} y1={top} x2={right} y2={bottom} stroke="#00FF88" strokeWidth="1.5" strokeOpacity="0.6" />
-      <line x1={left} y1={bottom} x2={right} y2={bottom} stroke="#FF2D9B" strokeWidth="1.5" strokeOpacity="0.6" />
-      {/* Dots */}
-      <circle cx={cx} cy={top} r="3" fill="#00FF88">
-        <animate attributeName="opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite" />
-      </circle>
-      <circle cx={left} cy={bottom} r="3" fill="#00FF88">
-        <animate attributeName="opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite" begin="0.5s" />
-      </circle>
-      <circle cx={right} cy={bottom} r="3" fill="#FF2D9B">
-        <animate attributeName="opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite" begin="1s" />
-      </circle>
-    </svg>
+    <div
+      className="inline-flex items-center justify-center shrink-0"
+      style={{
+        width: size + 10,
+        height: size + 10,
+        background: '#111118',
+        border: '1px solid #00FF8828',
+        borderRadius: 9,
+      }}
+    >
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="4" r="2.5" fill="#00FF88" opacity="0.9" />
+        <circle cx="5" cy="18" r="2.5" fill="#00FF88" opacity="0.65" />
+        <circle cx="19" cy="18" r="2.5" fill="#FF2D9B" opacity="0.65" />
+        <line x1="12" y1="6.5" x2="5" y2="15.5" stroke="#00FF88" strokeWidth="1.2" opacity="0.35" />
+        <line x1="12" y1="6.5" x2="19" y2="15.5" stroke="#FF2D9B" strokeWidth="1.2" opacity="0.35" />
+        <line x1="7.5" y1="18" x2="16.5" y2="18" stroke="#00E5FF" strokeWidth="1.2" opacity="0.25" />
+      </svg>
+    </div>
   );
 };
 

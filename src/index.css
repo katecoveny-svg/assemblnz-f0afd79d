@@ -77,7 +77,9 @@
 
   .text-gradient-hero {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(90deg, hsl(var(--neon-green)), hsl(var(--neon-cyan)), hsl(var(--neon-pink)));
+    background-image: linear-gradient(135deg, #00FF88, #00E5FF 50%, #FF2D9B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .glow-green {
