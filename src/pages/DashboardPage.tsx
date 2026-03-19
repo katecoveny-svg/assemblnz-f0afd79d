@@ -1,7 +1,21 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { MessageSquare, FileText, Upload, Clock } from "lucide-react";
+import { MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2 } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import ReactMarkdown from "react-markdown";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+
+interface SavedItem {
+  id: string;
+  agent_id: string;
+  agent_name: string;
+  content: string;
+  preview: string;
+  created_at: string;
+}
 
 const SAMPLE_AGENTS = [
   { name: "APEX", color: "#FF6B35", messages: 120 },
@@ -30,6 +44,28 @@ const TIME_SAVED = [
 const maxMessages = Math.max(...SAMPLE_AGENTS.map((a) => a.messages));
 
 const DashboardPage = () => {
+  const { user } = useAuth();
+  const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
+  const [viewItem, setViewItem] = useState<SavedItem | null>(null);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("saved_items")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        if (data) setSavedItems(data as SavedItem[]);
+      });
+  }, [user]);
+
+  const handleDelete = async (id: string) => {
+    await supabase.from("saved_items").delete().eq("id", id);
+    setSavedItems((prev) => prev.filter((item) => item.id !== id));
+    if (viewItem?.id === id) setViewItem(null);
+  };
+
   return (
     <div className="min-h-screen star-field flex flex-col">
       <BrandNav />
@@ -68,6 +104,57 @@ const DashboardPage = () => {
             </div>
           ))}
         </div>
+
+        {/* Saved Items Library */}
+        {savedItems.length > 0 && (
+          <div className="rounded-xl border border-border bg-card p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Bookmark size={16} className="text-primary" />
+              <h2 className="text-sm font-bold text-foreground">Saved Items</h2>
+              <span className="text-[10px] text-muted-foreground ml-auto">{savedItems.length} items</span>
+            </div>
+            <div className="space-y-2">
+              {savedItems.map((item) => (
+                <div key={item.id} className="flex items-center justify-between py-2 border-b border-border last:border-0">
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <span className="text-xs font-bold px-2 py-0.5 rounded shrink-0" style={{ backgroundColor: "#ffffff08", color: "hsl(var(--foreground))" }}>
+                      {item.agent_name}
+                    </span>
+                    <span className="text-xs text-foreground/60 truncate">{item.preview}</span>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-[10px]" style={{ color: '#ffffff38' }}>
+                      {new Date(item.created_at).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}
+                    </span>
+                    <button onClick={() => setViewItem(item)} className="text-[11px] text-primary hover:underline flex items-center gap-0.5">
+                      View <ChevronRight size={10} />
+                    </button>
+                    <button onClick={() => handleDelete(item.id)} className="text-destructive/50 hover:text-destructive transition-colors" aria-label="Delete saved item">
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* View Saved Item Modal */}
+        <Dialog open={!!viewItem} onOpenChange={(open) => !open && setViewItem(null)}>
+          <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto bg-card border-border">
+            <DialogHeader>
+              <DialogTitle className="text-sm text-foreground">
+                Saved from {viewItem?.agent_name}
+              </DialogTitle>
+              <DialogDescription className="text-[10px] text-muted-foreground">
+                Saved on {viewItem && new Date(viewItem.created_at).toLocaleDateString("en-NZ", { day: "numeric", month: "long", year: "numeric" })}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-headings:text-foreground prose-strong:text-foreground">
+              <ReactMarkdown>{viewItem?.content || ""}</ReactMarkdown>
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {/* Agent Activity */}
         <div className="rounded-xl border border-border bg-card p-6">
