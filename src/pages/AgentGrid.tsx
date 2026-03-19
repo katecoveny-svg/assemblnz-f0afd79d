@@ -329,17 +329,33 @@ const AgentGrid = () => {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  to={plan.href}
-                  className="block text-center text-xs font-bold py-2.5 rounded-lg transition-all"
-                  style={{
-                    background: plan.highlighted ? plan.color : "transparent",
-                    color: plan.highlighted ? "#0A0A14" : plan.color,
-                    border: `1px solid ${plan.color}30`,
-                  }}
-                >
-                  {plan.cta}
-                </Link>
+                {plan.external ? (
+                  <a
+                    href={plan.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-center text-xs font-bold py-2.5 rounded-lg transition-all"
+                    style={{
+                      background: plan.highlighted ? plan.color : "transparent",
+                      color: plan.highlighted ? "#0A0A14" : plan.color,
+                      border: `1px solid ${plan.color}30`,
+                    }}
+                  >
+                    {plan.cta}
+                  </a>
+                ) : (
+                  <Link
+                    to={plan.href}
+                    className="block text-center text-xs font-bold py-2.5 rounded-lg transition-all"
+                    style={{
+                      background: plan.highlighted ? plan.color : "transparent",
+                      color: plan.highlighted ? "#0A0A14" : plan.color,
+                      border: `1px solid ${plan.color}30`,
+                    }}
+                  >
+                    {plan.cta}
+                  </Link>
+                )}
               </div>
             ))}
           </div>

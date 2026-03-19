@@ -55,12 +55,14 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
               <p className="text-sm text-muted-foreground">
                 Upgrade for unlimited access to all agents and premium features.
               </p>
-              <Link
-                to="/dashboard"
+              <a
+                href="https://pay.airwallex.com/sghgspe6mx61"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block w-full py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold text-center hover:shadow-lg hover:shadow-primary/20 transition-all mt-2"
               >
-                See pricing
-              </Link>
+                Upgrade now
+              </a>
             </>
           )}
         </div>
