@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Copy, Download, CheckSquare, BookOpen, GraduationCap } from "lucide-react";
+import { NeonClipboard } from "@/components/NeonIcons";
 
 const AROHA_COLOR = "#FF6F91";
 
