@@ -133,6 +133,18 @@ export const agents: Agent[] = [
     starters: ["Project governance framework setup", "Risk register for a NZ build project", "Government procurement process"],
   },
   {
+    id: "marketing",
+    name: "PRISM",
+    designation: "ASM-011",
+    role: "Marketing, Brand & Comms Strategist",
+    tagline: "Shaping NZ brands with clarity and impact",
+    color: "#E040FB",
+    sector: "Marketing & Comms",
+    traits: ["Creatively sharp", "Strategy-led", "NZ-market native"],
+    expertise: ["Brand strategy", "ASA codes", "Social media", "PR & comms", "Content marketing"],
+    starters: ["Build a brand strategy for a new NZ product", "ASA advertising rules I need to know", "Social media plan for a small NZ business"],
+  },
+  {
     id: "operations",
     name: "HELM",
     designation: "ASM-013",
