@@ -213,8 +213,8 @@ const PricingPage = () => {
                 <h3 className="text-lg font-bold text-foreground">{plan.name}</h3>
                 <p className="text-[11px] text-muted-foreground mt-1 mb-4">{plan.desc}</p>
                 <div className="flex items-baseline gap-0.5 mb-6">
-                  <span className="text-4xl font-extrabold" style={{ color: plan.color }}>{plan.price}</span>
-                  {plan.period && <span className="text-xs text-muted-foreground">{plan.period}</span>}
+                  <span className="text-4xl font-extrabold" style={{ color: plan.color }}>{getPrice(plan)}</span>
+                  {plan.price !== "$0" && <span className="text-xs text-muted-foreground">{annual ? "/mo billed annually" : "/mo"}</span>}
                 </div>
                 <Link
                   to={plan.href}
