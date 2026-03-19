@@ -48,6 +48,8 @@ import ArohaContracts from "@/components/aroha/ArohaContracts";
 import ArohaOnboarding from "@/components/aroha/ArohaOnboarding";
 import ArohaPayroll from "@/components/aroha/ArohaPayroll";
 import ArohaRecruitment from "@/components/aroha/ArohaRecruitment";
+import ArohaPeopleCulture from "@/components/aroha/ArohaPeopleCulture";
+import ArohaCompanySetup from "@/components/aroha/ArohaCompanySetup";
 import InternalComms from "@/components/InternalComms";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
