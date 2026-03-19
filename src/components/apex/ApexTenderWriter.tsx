@@ -8,19 +8,19 @@ import { useAuth } from "@/hooks/useAuth";
 const APEX_COLOR = "#FF6B35";
 
 const TENDER_SECTIONS = [
-  { id: "executive_summary", label: "Executive Summary", emoji: "📋" },
-  { id: "capability_statement", label: "Company Capability Statement", emoji: "🏗️" },
-  { id: "methodology", label: "Methodology & Approach", emoji: "⚙️" },
-  { id: "project_team", label: "Project Team & Key Personnel", emoji: "👷" },
-  { id: "experience", label: "Relevant Experience & Case Studies", emoji: "📂" },
-  { id: "programme", label: "Programme / Timeline", emoji: "📅" },
-  { id: "risk_management", label: "Risk Management Approach", emoji: "⚠️" },
-  { id: "health_safety", label: "Health & Safety Management Plan", emoji: "🦺" },
-  { id: "quality_assurance", label: "Quality Assurance Plan", emoji: "✅" },
-  { id: "sustainability", label: "Sustainability & Environmental Management", emoji: "🌿" },
-  { id: "maori_engagement", label: "Māori Engagement & Social Procurement", emoji: "🤝" },
-  { id: "pricing_schedule", label: "Pricing Schedule Structure", emoji: "💰" },
-  { id: "appendices", label: "Appendices Checklist", emoji: "📎" },
+  { id: "executive_summary", label: "Executive Summary", iconKey: "clipboard" },
+  { id: "capability_statement", label: "Company Capability Statement", iconKey: "building" },
+  { id: "methodology", label: "Methodology & Approach", iconKey: "wrench" },
+  { id: "project_team", label: "Project Team & Key Personnel", iconKey: "team" },
+  { id: "experience", label: "Relevant Experience & Case Studies", iconKey: "document" },
+  { id: "programme", label: "Programme / Timeline", iconKey: "calendar" },
+  { id: "risk_management", label: "Risk Management Approach", iconKey: "warning" },
+  { id: "health_safety", label: "Health & Safety Management Plan", iconKey: "safetyVest" },
+  { id: "quality_assurance", label: "Quality Assurance Plan", iconKey: "checkmark" },
+  { id: "sustainability", label: "Sustainability & Environmental Management", iconKey: "seedling" },
+  { id: "maori_engagement", label: "Māori Engagement & Social Procurement", iconKey: "handshake" },
+  { id: "pricing_schedule", label: "Pricing Schedule Structure", iconKey: "coin" },
+  { id: "appendices", label: "Appendices Checklist", iconKey: "paperclip" },
 ];
 
 const PRIVATE_SECTIONS = [
