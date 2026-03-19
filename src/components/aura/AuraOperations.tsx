@@ -18,7 +18,10 @@ const COMPLIANCE_ITEMS = [
 
 const ROOM_STATUSES = ["Clean", "Occupied", "Departure Clean", "Maintenance"];
 
-const AuraOperations = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraOperations = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"daily" | "housekeeping" | "maintenance" | "compliance" | "financial">("daily");
 
   return (
