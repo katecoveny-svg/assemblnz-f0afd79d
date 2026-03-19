@@ -35,7 +35,10 @@ const REVIEW_TEMPLATES = [
 
 const color = "#E6B422";
 
-const AuraReservations = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraReservations = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [bookings] = useState<Booking[]>(SAMPLE_BOOKINGS);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [activeSection, setActiveSection] = useState<"dashboard" | "comms" | "reviews">("dashboard");
