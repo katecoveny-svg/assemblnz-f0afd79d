@@ -1,5 +1,5 @@
 export const agentCapabilities: Record<string, string[]> = {
-  aura: [
+  hospitality: [
     "Answer Food Act, liquor licensing, and H&S compliance questions",
     "Calculate public holiday pay under the Holidays Act",
     "Generate food safety programme templates",
@@ -7,7 +7,7 @@ export const agentCapabilities: Record<string, string[]> = {
     "Create staff roster compliance checklists",
     "Build event compliance checklists",
   ],
-  nova: [
+  tourism: [
     "Guide you through adventure tourism registration",
     "Explain Qualmark and Tiaki Promise requirements",
     "Help with DOC concession applications",
@@ -15,7 +15,7 @@ export const agentCapabilities: Record<string, string[]> = {
     "Plan for seasonal visitor patterns",
     "Navigate freedom camping regulations",
   ],
-  apex: [
+  construction: [
     "Generate site-specific safety plans with hazard registers",
     "Create Construction Contracts Act payment claims",
     "Produce building consent document checklists",
@@ -23,7 +23,7 @@ export const agentCapabilities: Record<string, string[]> = {
     "Write toolbox talks on any safety topic",
     "Check your project against Building Code requirements",
   ],
-  terra: [
+  agriculture: [
     "Help with freshwater compliance and farm environment plans",
     "Guide you through RSE worker obligations",
     "Advise on Fonterra supply requirements",
@@ -31,7 +31,7 @@ export const agentCapabilities: Record<string, string[]> = {
     "Assist with farm succession planning",
     "Explain ETS obligations for agriculture",
   ],
-  pulse: [
+  retail: [
     "Generate Consumer Guarantees Act compliant returns policies",
     "Check product listings against Fair Trading Act",
     "Create Privacy Act 2020 compliant privacy policies",
@@ -39,7 +39,7 @@ export const agentCapabilities: Record<string, string[]> = {
     "Build sale pricing that meets NZ legal requirements",
     "Advise on e-commerce platforms for the NZ market",
   ],
-  forge: [
+  automotive: [
     "Generate Motor Vehicle Sales Act disclosure statements",
     "Create workshop job cards and WoF prep checklists",
     "Calculate Clean Car Standard fees and rebates",
@@ -47,7 +47,7 @@ export const agentCapabilities: Record<string, string[]> = {
     "Advise on EV servicing setup and requirements",
     "Navigate used import and entry certification rules",
   ],
-  arc: [
+  architecture: [
     "Generate resource consent application outlines",
     "Produce Building Code compliance checklists by clause",
     "Create client briefs and fee proposals (NZIA guidelines)",
@@ -55,7 +55,7 @@ export const agentCapabilities: Record<string, string[]> = {
     "Navigate district plan rules for NZ cities",
     "Advise on Homestar, Green Star, and passive house design",
   ],
-  flux: [
+  sales: [
     "Write structured proposal and tender responses",
     "Generate cold outreach email sequences (NZ compliant)",
     "Build custom sales pipelines with KPIs",
@@ -63,7 +63,7 @@ export const agentCapabilities: Record<string, string[]> = {
     "Prepare meeting briefs with prospect research",
     "Design follow-up sequences for NZ business culture",
   ],
-  nexus: [
+  customs: [
     "Process job sheets and commercial invoices into entry-ready data",
     "Classify goods under the NZ Tariff with suggested HS codes",
     "Calculate duty, GST, and total import charges",
@@ -72,7 +72,7 @@ export const agentCapabilities: Record<string, string[]> = {
     "Generate complete document checklists per shipment",
     "Track shipping containers with live ETA updates",
   ],
-  axis: [
+  pm: [
     "Generate project charters with scope and governance",
     "Build risk registers with mitigation strategies",
     "Create stakeholder analysis maps and engagement plans",
@@ -80,7 +80,7 @@ export const agentCapabilities: Record<string, string[]> = {
     "Produce formatted meeting minutes with actions",
     "Generate weekly status reports with RAG ratings",
   ],
-  prism: [
+  marketing: [
     "Generate 30-day social media content calendars",
     "Check ad copy against ASA Advertising Standards Code",
     "Create brand guidelines documents",
@@ -88,7 +88,7 @@ export const agentCapabilities: Record<string, string[]> = {
     "Build 12-month marketing plans with budget allocation",
     "Draft campaign briefs for designers and agencies",
   ],
-  vitae: [
+  health: [
     "Guide you through health practice setup in NZ",
     "Check Health Information Privacy Code compliance",
     "Help with ACC provider registration",

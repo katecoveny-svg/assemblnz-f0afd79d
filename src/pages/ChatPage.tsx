@@ -561,7 +561,7 @@ const ChatPage = () => {
     const content = msg.content;
 
     if (msg.role === "assistant") {
-      if (agentId === "customs" || agentId === "nexus") {
+      if (agentId === "customs") {
         const entryData = parseNexusEntry(content);
         if (entryData) {
           return <NexusEntryCard data={entryData} color={agent.color} />;
