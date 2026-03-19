@@ -771,22 +771,13 @@ const ChatPage = () => {
           {/* Chat Area */}
           <div className="flex-1 overflow-y-auto px-4 py-4">
             {showWelcome ? (
-              <div className="flex flex-col items-center justify-center h-full text-center gap-4 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
-                <RobotIcon color={agent.color} size={72} agentId={agent.id} />
-                <div>
-                  <h2 className="text-lg font-bold text-foreground">{agent.name}</h2>
-                  <div className="flex items-center justify-center gap-1.5 mb-1">
-                    <span className="w-1.5 h-1.5 rounded-full animate-pulse-glow" style={{ backgroundColor: "#00FF88", boxShadow: "0 0 6px #00FF88" }} />
-                    <span className="text-xs text-foreground/50">online</span>
-                  </div>
-                  <p className="text-xs italic text-muted-foreground">"{agent.tagline}"</p>
-                </div>
+              <div className="flex flex-col items-center justify-center min-h-full text-center gap-4 py-6 opacity-0 animate-fade-up overflow-y-auto" style={{ animationFillMode: "forwards" }}>
+                <AgentWelcome agent={agent} />
 
                 {isHelm ? (
                   <HelmQuickActions onSelect={(msg) => sendMessage(msg)} />
                 ) : isNexus ? (
                   <div className="flex flex-col gap-2 w-full max-w-sm mt-2">
-                    {/* Process Job Sheet CTA */}
                     <button
                       onClick={handleNexusJobSheetUpload}
                       className="flex items-center justify-center gap-2 px-4 py-4 rounded-xl text-sm font-bold transition-all hover:scale-[1.01]"
@@ -820,7 +811,6 @@ const ChatPage = () => {
                   </div>
                 )}
 
-                {/* Free message info */}
                 {!user && (
                   <p className="text-[10px] text-muted-foreground mt-4">
                     Free preview: {3 - parseInt(sessionStorage.getItem("assembl_preview_msgs") || "0", 10)} messages remaining · <Link to="/signup" className="text-primary hover:underline">Sign up for more</Link>
