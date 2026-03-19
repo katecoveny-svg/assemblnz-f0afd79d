@@ -81,7 +81,8 @@ async function pollMeshyTask(
 ): Promise<{ status: string; progress: number; modelUrls: any; thumbnailUrl: string; prompt: string }> {
   const start = Date.now();
   while (Date.now() - start < timeoutMs) {
-    const res = await fetch(`https://api.meshy.ai/openapi/v2/${endpoint}/${taskId}`, {
+    const apiVersion = endpoint === "image-to-3d" ? "v1" : "v2";
+    const res = await fetch(`https://api.meshy.ai/openapi/${apiVersion}/${endpoint}/${taskId}`, {
       headers: { Authorization: `Bearer ${apiKey}` },
     });
     if (!res.ok) {
