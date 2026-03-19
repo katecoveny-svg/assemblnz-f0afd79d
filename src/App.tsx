@@ -16,6 +16,7 @@ const EmbedChatWidget = lazy(() => import("./pages/EmbedChatWidget"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const PricingPage = lazy(() => import("./pages/PricingPage"));
 
 const queryClient = new QueryClient();
 
