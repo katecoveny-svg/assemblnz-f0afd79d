@@ -65,7 +65,7 @@ const AuraMarketing = ({ onGenerate }: Props) => {
               <div key={c.label} className="p-3 rounded-lg border border-border mb-2">
                 <div className="text-xs font-medium text-foreground mb-1">{c.label}</div>
                 <div className="text-[10px] text-muted-foreground">{c.targets}</div>
-                <button className="mt-2 px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate Campaign</button>
+                <button onClick={() => gen(`Generate a complete "${c.label}" PR campaign for a luxury NZ lodge. Target publications: ${c.targets}. Include: press release template, media pitch email, story angles, high-impact imagery suggestions, and timeline. Luxury hospitality tone — understated, world-class.`)} className="mt-2 px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate Campaign</button>
               </div>
             ))}
           </div>
