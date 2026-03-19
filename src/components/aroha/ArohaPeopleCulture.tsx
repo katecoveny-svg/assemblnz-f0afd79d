@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Heart, Gift, Calendar, Shield, Copy, ChevronDown, ChevronUp } from "lucide-react";
+import { NeonHeart, NeonMuscle, NeonBrain, NeonCoin, NeonHandshake } from "@/components/NeonIcons";
 
 const AROHA_COLOR = "#FF6F91";
 
