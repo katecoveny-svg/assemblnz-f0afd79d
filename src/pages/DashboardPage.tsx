@@ -134,8 +134,8 @@ const DashboardPage = () => {
           <div className="rounded-xl border border-border bg-card p-6">
             <div className="flex items-center gap-2 mb-4">
               <Bookmark size={16} className="text-primary" />
-              <h2 className="text-sm font-bold text-foreground">Saved Items</h2>
-              <span className="text-[10px] text-muted-foreground ml-auto">{savedItems.length} items</span>
+              <h2 className="text-sm font-syne font-bold text-foreground">Saved Items</h2>
+              <span className="text-[10px] font-jakarta text-muted-foreground ml-auto">{savedItems.length} items</span>
             </div>
             <div className="space-y-2">
               {savedItems.map((item) => (
