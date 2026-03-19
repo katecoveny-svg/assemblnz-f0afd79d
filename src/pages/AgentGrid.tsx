@@ -17,7 +17,7 @@ const PRICING_PLANS = [
     price: "$0",
     period: "",
     color: "#00FF88",
-    features: ["3 messages per agent", "All 29 agents", "NZ legislation knowledge", "No signup required"],
+    features: ["3 messages per agent", "All 37 agents", "NZ legislation knowledge", "No signup required"],
     cta: "Start free",
     href: "/",
     external: false,
@@ -28,7 +28,7 @@ const PRICING_PLANS = [
     price: "$29",
     period: "/mo",
     color: "#00E5FF",
-    features: ["50 messages/day", "All 29 agents", "Brand scan", "Template library", "Email support"],
+    features: ["50 messages/day", "All 37 agents", "Brand scan", "Template library", "Email support"],
     cta: "Get started",
     href: "https://pay.airwallex.com/sghgspa33ccg",
     external: true,
@@ -39,7 +39,7 @@ const PRICING_PLANS = [
     price: "$79",
     period: "/mo",
     color: "#FF2D9B",
-    features: ["Unlimited messages", "All 29 agents", "HELM & MARINER", "Brand memory", "Priority support", "Embed on your site"],
+    features: ["Unlimited messages", "All 37 agents", "HELM & MARINER", "Brand memory", "Priority support", "Embed on your site"],
     cta: "Go Pro",
     href: "https://pay.airwallex.com/sghgspe6mx61",
     external: true,
@@ -59,7 +59,7 @@ const PRICING_PLANS = [
 ];
 
 const HOW_IT_WORKS = [
-  { step: "01", title: "Pick your agent", desc: "Choose from 29 specialists covering NZ industries from hospo to construction.", icon: <Users size={24} /> },
+  { step: "01", title: "Pick your agent", desc: "Choose from 37 specialists covering NZ industries from hospo to government.", icon: <Users size={24} /> },
   { step: "02", title: "Teach your brand", desc: "Scan your website or paste your brand profile. Every agent remembers your context.", icon: <Zap size={24} /> },
   { step: "03", title: "Get NZ advice", desc: "Ask anything. Get answers grounded in NZ legislation, regulations, and best practice.", icon: <BookOpen size={24} /> },
   { step: "04", title: "Run 24/7", desc: "Embed on your site, share with your team, or let customers chat directly.", icon: <Clock size={24} /> },
@@ -167,7 +167,7 @@ const AgentGrid = () => {
             Your AI <span className="text-gradient-hero">workforce</span>
           </h1>
           <p className="text-base sm:text-lg max-w-2xl mx-auto mb-8 text-muted-foreground">
-            29 expert agents trained on NZ legislation. Try any agent free.
+            37 expert agents trained on NZ legislation. Try any agent free.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-12">
@@ -188,7 +188,7 @@ const AgentGrid = () => {
           {/* Stats bar */}
           <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
             {[
-              { value: "29", label: "Agents" },
+              { value: "37", label: "Agents" },
               { value: "20+", label: "NZ Industries" },
               { value: "50+", label: "Acts Referenced" },
               { value: "24/7", label: "Always On" },
