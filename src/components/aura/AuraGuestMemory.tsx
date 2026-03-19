@@ -27,7 +27,10 @@ const TOUCHPOINTS = [
   { label: "Exclusive Return Rate", desc: "For past guests only — personal, not mass-marketed" },
 ];
 
-const AuraGuestMemory = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraGuestMemory = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"profiles" | "returning" | "ltv" | "touchpoints">("profiles");
   const [selectedGuest, setSelectedGuest] = useState<typeof SAMPLE_GUESTS[0] | null>(null);
 
@@ -79,7 +82,7 @@ const AuraGuestMemory = () => {
                   <div key={f} className="text-[10px] text-foreground/70 p-1.5 rounded border border-border">{f}</div>
                 ))}
               </div>
-              <button className="w-full py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Return Guest Briefing</button>
+              <button onClick={() => gen(`Generate a complete return guest briefing for ${selectedGuest.name}. ${selectedGuest.notes}. Include: 'Welcome back' staff briefing, suggested room, pre-arrival personal touches, surprise opportunities, and new activities since their last visit. Luxury lodge tone.`)} className="w-full py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Return Guest Briefing</button>
             </div>
           )}
         </div>
@@ -94,7 +97,7 @@ const AuraGuestMemory = () => {
               <div key={item} className="p-2.5 rounded-lg border border-border text-foreground/80">{item}</div>
             ))}
           </div>
-          <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Return Guest Briefing</button>
+          <button onClick={() => gen(`Generate a return guest intelligence briefing for all staff. Include: everything the team needs to know about the returning guest, suggested room assignment, pre-arrival personal touches ('We remember you loved the 2019 Pinot — we've set aside a bottle'), surprise opportunities, and new activities since their last visit.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Return Guest Briefing</button>
         </div>
       )}
 
@@ -133,7 +136,7 @@ const AuraGuestMemory = () => {
                   <div className="text-xs font-medium text-foreground">{t.label}</div>
                   <div className="text-[10px] text-muted-foreground">{t.desc}</div>
                 </div>
-                <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+                <button onClick={() => gen(`Generate a personalised "${t.label}" communication for a luxury lodge guest. ${t.desc}. Tone: personal, handwritten feel — never mass-marketed. Warm and understated.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
               </div>
             ))}
           </div>

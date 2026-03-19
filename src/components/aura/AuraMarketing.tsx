@@ -34,7 +34,10 @@ const BRAND_VOICE = {
   avoid: ["Cheap", "Deal", "Bargain", "Basic", "Accommodation", "Facility", "Customer"],
 };
 
-const AuraMarketing = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraMarketing = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"pr" | "content" | "spend" | "voice">("pr");
 
   return (
@@ -62,7 +65,7 @@ const AuraMarketing = () => {
               <div key={c.label} className="p-3 rounded-lg border border-border mb-2">
                 <div className="text-xs font-medium text-foreground mb-1">{c.label}</div>
                 <div className="text-[10px] text-muted-foreground">{c.targets}</div>
-                <button className="mt-2 px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate Campaign</button>
+                <button onClick={() => gen(`Generate a complete "${c.label}" PR campaign for a luxury NZ lodge. Target publications: ${c.targets}. Include: press release template, media pitch email, story angles, high-impact imagery suggestions, and timeline. Luxury hospitality tone — understated, world-class.`)} className="mt-2 px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate Campaign</button>
               </div>
             ))}
           </div>
@@ -72,7 +75,7 @@ const AuraMarketing = () => {
             {["Press Release", "Media Kit Checklist", "Journalist Hosting Programme", "Influencer Collaboration Brief", "Award Entry Writer"].map(t => (
               <div key={t} className="flex items-center justify-between p-2 rounded-lg border border-border mb-1.5">
                 <span className="text-xs text-foreground">{t}</span>
-                <button className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
+                <button onClick={() => gen(`Generate a luxury lodge "${t}" for PR and media purposes. Professional, polished, and aligned with premium hospitality positioning. Include specific examples and placeholders for property details.`)} className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
               </div>
             ))}
           </div>
@@ -86,7 +89,7 @@ const AuraMarketing = () => {
                     <div className="text-xs font-medium text-foreground">{p.category}</div>
                     <div className="text-[10px] text-muted-foreground">{p.examples}</div>
                   </div>
-                  <button className="px-2.5 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Pitch</button>
+                  <button onClick={() => gen(`Generate a partnership pitch document for a luxury NZ lodge targeting: ${p.category}. Examples: ${p.examples}. Include: proposal document, mutual benefit analysis, suggested terms, co-marketing ideas, and draft partnership agreement outline.`)} className="px-2.5 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Pitch</button>
                 </div>
               ))}
             </div>
@@ -104,7 +107,7 @@ const AuraMarketing = () => {
                   <div className="text-xs font-medium text-foreground">{c.platform}</div>
                   <div className="text-[10px] text-muted-foreground">{c.formats}</div>
                 </div>
-                <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+                <button onClick={() => gen(`Generate luxury hospitality content for ${c.platform}. Formats needed: ${c.formats}. The content should reflect premium positioning — understated elegance, sensory language, world-class experiences. Include 5 pieces of content ready to use, with captions and hashtags where appropriate.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
               </div>
             ))}
           </div>
@@ -117,7 +120,7 @@ const AuraMarketing = () => {
           {["Channel Allocation (PR, digital, social, trade shows)", "ROI by Channel — which channels drive bookings?", "Cost per Acquisition by Source", "Seasonal Spend Calendar", "Budget Template by Property"].map(t => (
             <div key={t} className="flex items-center justify-between p-2 rounded-lg border border-border mb-1.5">
               <span className="text-xs text-foreground/80">{t}</span>
-              <button className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
+              <button onClick={() => gen(`Generate a "${t}" template for luxury lodge marketing. Include specific metrics to track, benchmarks for luxury hospitality, and actionable recommendations.`)} className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
             </div>
           ))}
         </div>
@@ -144,7 +147,7 @@ const AuraMarketing = () => {
               </div>
             </div>
           </div>
-          <button className="w-full mt-4 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Brand Voice Guide</button>
+          <button onClick={() => gen(`Generate a comprehensive luxury hospitality brand voice guide. Include: tone guidelines (understated, warm, never boastful, sensory), words to use (${BRAND_VOICE.use.join(", ")}), words to avoid (${BRAND_VOICE.avoid.join(", ")}), photography style guide (natural light, human moments, landscape context), social media guidelines (post frequency, hashtag strategy, engagement approach), and writing examples for different channels.`)} className="w-full mt-4 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Brand Voice Guide</button>
         </div>
       )}
     </div>

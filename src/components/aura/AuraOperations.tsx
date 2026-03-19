@@ -18,7 +18,10 @@ const COMPLIANCE_ITEMS = [
 
 const ROOM_STATUSES = ["Clean", "Occupied", "Departure Clean", "Maintenance"];
 
-const AuraOperations = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraOperations = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"daily" | "housekeeping" | "maintenance" | "compliance" | "financial">("daily");
 
   return (
@@ -47,7 +50,7 @@ const AuraOperations = () => {
             {["Today's Arrivals — names, rooms, ETA, special notes", "Today's Departures — names, rooms, checkout time, transfer details", "In-House Guests — names, rooms, day of stay, dinner notes", "Today's Activities & Experiences Booked", "Dietary Requirements Summary for Kitchen", "Weather Forecast", "Maintenance Issues", "Staff on Duty"].map(item => (
               <div key={item} className="text-[11px] text-foreground/70 p-2 rounded-lg border border-border mb-1.5">{item}</div>
             ))}
-            <button className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Daily Briefing</button>
+            <button onClick={() => gen(`Generate a complete daily morning briefing document for a luxury lodge. Include sections for: today's arrivals (with names, rooms, ETA, special notes), today's departures, in-house guests (day of stay, dinner notes), today's activities booked, dietary requirements summary for kitchen, weather forecast, maintenance issues, and staff on duty. Format as a printable briefing for the morning team huddle.`)} className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Daily Briefing</button>
           </div>
         </div>
       )}
@@ -65,7 +68,7 @@ const AuraOperations = () => {
           {["Turnover Checklist by Room Type", "Deep Clean Schedule", "Amenity Restock Checklist (luxury: toiletries, candles, minibar, flowers)", "Laundry Schedule"].map(t => (
             <div key={t} className="rounded-xl border border-border bg-card p-3 flex items-center justify-between">
               <span className="text-xs text-foreground">{t}</span>
-              <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+              <button onClick={() => gen(`Generate a "${t}" for a luxury lodge housekeeping operation. Include luxury-specific items: branded toiletries, candles, minibar, fresh flowers, premium linens. Practical, detailed, and ready to use.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
             </div>
           ))}
         </div>
@@ -76,7 +79,7 @@ const AuraOperations = () => {
           {["Log Maintenance Issue", "Priority Ranking (urgent / this week / scheduled)", "Seasonal Maintenance Calendar", "Asset Register (equipment, replacement schedule)"].map(t => (
             <div key={t} className="rounded-xl border border-border bg-card p-3 flex items-center justify-between">
               <span className="text-xs text-foreground">{t}</span>
-              <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Open</button>
+              <button onClick={() => gen(`Generate a "${t}" system for a luxury lodge maintenance operation. Include priority ranking, seasonal considerations for NZ climate, and asset tracking. Practical and comprehensive.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Open</button>
             </div>
           ))}
         </div>
@@ -92,7 +95,7 @@ const AuraOperations = () => {
                   <div className="text-xs font-medium text-foreground">{c.area}</div>
                   <div className="text-[10px] text-muted-foreground">{c.ref} — {c.desc}</div>
                 </div>
-                <button className="px-2.5 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Review</button>
+                <button onClick={() => gen(`Generate a compliance review checklist for "${c.area}" in a NZ luxury lodge. Reference: ${c.ref}. Focus on: ${c.desc}. Include current requirements, renewal dates, action items, and responsible person. NZ-specific legislation.`)} className="px-2.5 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Review</button>
               </div>
             ))}
           </div>
@@ -119,7 +122,7 @@ const AuraOperations = () => {
               </div>
             ))}
           </div>
-          <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Financial Report</button>
+          <button onClick={() => gen(`Generate a comprehensive monthly financial report for a luxury lodge. Include: RevPAR analysis, ADR trends, occupancy rate, total revenue MTD, F&B revenue per guest, activity revenue per guest, average length of stay, direct vs OTA booking ratio, cost per occupied room, and comparison to previous month. Include benchmarks for NZ luxury lodges and actionable recommendations.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Financial Report</button>
         </div>
       )}
     </div>

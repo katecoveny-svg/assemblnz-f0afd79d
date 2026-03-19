@@ -28,7 +28,10 @@ const CONCIERGE_TOPICS = [
   { title: "Emergency Info", content: "Nearest medical facilities, emergency contacts, pharmacy locations" },
 ];
 
-const AuraGuestExperience = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraGuestExperience = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"itinerary" | "surprise" | "concierge" | "feedback">("itinerary");
   const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
   const [stayLength, setStayLength] = useState("3");
@@ -74,7 +77,7 @@ const AuraGuestExperience = () => {
                 </div>
               </div>
             </div>
-            <button className="w-full mt-4 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Bespoke Itinerary</button>
+            <button onClick={() => gen(`Generate a bespoke ${stayLength}-night stay itinerary for a luxury lodge guest. Guest interests: ${selectedActivities.length > 0 ? selectedActivities.join(", ") : "general luxury experience"}. Include: day-by-day schedule with morning activities, lunch options (packed or restaurant), afternoon experiences, pre-dinner drinks, multi-course dinner with wine pairings. Add surprise & delight moments, downtime suggestions, and weather-appropriate alternatives. Include signature experiences: Black Diamond dining, heli-hike, horse trekking, fly fishing, stargazing. Format as a beautiful 'Stay Guide'.`)} className="w-full mt-4 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Bespoke Itinerary</button>
           </div>
 
           {/* Lindis Group Signatures */}
@@ -134,7 +137,7 @@ const AuraGuestExperience = () => {
               <div className="p-3 rounded-lg border border-border"><span className="font-medium text-foreground">Improvement Themes:</span> <span className="text-muted-foreground">Action items with priority</span></div>
               <div className="p-3 rounded-lg border border-border"><span className="font-medium text-foreground">Competitive Benchmarking:</span> <span className="text-muted-foreground">Position vs comparable properties</span></div>
             </div>
-            <button className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Analyse Guest Feedback</button>
+            <button onClick={() => gen(`Analyse the following guest feedback and generate a comprehensive report. Include: sentiment analysis (positive/negative/neutral by category — service, dining, rooms, activities, location), common praise themes, common improvement themes, competitive benchmarking suggestions, and a quarterly improvement action plan with priorities. Format as a professional report.`)} className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Analyse Guest Feedback</button>
           </div>
         </div>
       )}

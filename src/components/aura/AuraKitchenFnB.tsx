@@ -26,7 +26,10 @@ const WINE_REGIONS = [
 
 const ALLERGENS = ["Gluten", "Dairy", "Eggs", "Fish", "Shellfish", "Tree Nuts", "Peanuts", "Soy", "Sesame", "Sulphites", "Lupin", "Celery", "Mustard"];
 
-const AuraKitchenFnB = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraKitchenFnB = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"menu" | "operations" | "wine">("menu");
 
   return (
@@ -51,10 +54,10 @@ const AuraKitchenFnB = () => {
             <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonDocument size={16} color={color} /> Menu Design Templates</h3>
             <div className="grid grid-cols-2 gap-2">
               {MENU_TYPES.map(m => (
-                <button key={m} className="text-left p-2.5 rounded-lg border border-border hover:border-foreground/10 transition-all text-[11px] text-foreground/80">{m}</button>
+                <button key={m} onClick={() => gen(`Design a luxury lodge ${m} menu. Use seasonal NZ produce, include wine pairing suggestions for each course, allergen indicators, and elegant descriptions. Format for print.`)} className="text-left p-2.5 rounded-lg border border-border hover:border-foreground/10 transition-all text-[11px] text-foreground/80">{m}</button>
               ))}
             </div>
-            <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Menu Template</button>
+            <button onClick={() => gen(`Generate a complete seasonal menu template for a luxury NZ lodge. Include seasonal NZ produce for the current month, 5-7 course dinner with wine pairings from NZ regions (Central Otago, Marlborough, Hawke's Bay), cost analysis per cover, and allergen matrix. Format elegantly.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Menu Template</button>
           </div>
 
           <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
@@ -77,7 +80,7 @@ const AuraKitchenFnB = () => {
                 <span key={a} className="px-2 py-1 rounded-full text-[10px] border border-border text-foreground/70">{a}</span>
               ))}
             </div>
-            <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Allergen Matrix</button>
+            <button onClick={() => gen(`Generate a comprehensive allergen matrix for a luxury lodge menu. Rows: each dish on a typical 7-course dinner + breakfast + lunch menu. Columns: ${ALLERGENS.join(", ")}. Mandatory under NZ Food Act 2014. Include notes on cross-contamination risks and kitchen protocols.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Allergen Matrix</button>
           </div>
         </div>
       )}
@@ -97,7 +100,7 @@ const AuraKitchenFnB = () => {
                 <div className="text-xs font-medium text-foreground">{t.title}</div>
                 <div className="text-[10px] text-muted-foreground">{t.desc}</div>
               </div>
-              <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+              <button onClick={() => gen(`Generate a "${t.title}" for a luxury lodge kitchen. ${t.desc}. Make it practical, actionable, and NZ-specific. Include Food Act 2014 compliance where relevant.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
             </div>
           ))}
         </div>
@@ -130,7 +133,7 @@ const AuraKitchenFnB = () => {
                 <div className="text-xs font-medium text-foreground">{t.title}</div>
                 <div className="text-[10px] text-muted-foreground">{t.desc}</div>
               </div>
-              <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+              <button onClick={() => gen(`Generate a "${t.title}" for a luxury lodge. ${t.desc}. Focus on NZ wine regions: Central Otago, Marlborough, Hawke's Bay, Wairarapa, Canterbury. Premium quality, world-class standards.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
             </div>
           ))}
         </div>

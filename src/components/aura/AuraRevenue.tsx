@@ -36,7 +36,10 @@ const FORECAST_METRICS = [
   { metric: "Shoulder Season Gaps", value: "— nights" },
 ];
 
-const AuraRevenue = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraRevenue = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"pricing" | "packages" | "forecast" | "channels">("pricing");
 
   return (
@@ -77,7 +80,7 @@ const AuraRevenue = () => {
                 <div key={f} className="p-2 rounded-lg border border-border">{f}</div>
               ))}
             </div>
-            <button className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Seasonal Rate Calendar</button>
+            <button onClick={() => gen(`Generate a seasonal rate calendar for a luxury NZ lodge. Include peak (Dec-Mar), shoulder (Apr-May, Sep-Nov), and low (Jun-Aug) seasons with suggested nightly rates per room type, day-of-week premiums, length-of-stay incentives, and lead-time pricing psychology.`)} className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Seasonal Rate Calendar</button>
           </div>
         </div>
       )}
@@ -95,7 +98,7 @@ const AuraRevenue = () => {
                     <div className="text-[10px] text-muted-foreground">{p.inclusions}</div>
                     <div className="text-[10px] mt-0.5" style={{ color }}>Target margin: {p.margin}</div>
                   </div>
-                  <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Build</button>
+                  <button onClick={() => gen(`Build a "${p.name}" package for a luxury NZ lodge. Inclusions: ${p.inclusions}. Target margin: ${p.margin}. Generate: total price calculation, itemised inclusions, upsell opportunities, and marketing copy for website and travel agents.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Build</button>
                 </div>
               ))}
             </div>
@@ -114,7 +117,7 @@ const AuraRevenue = () => {
               </div>
             ))}
           </div>
-          <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate 90-Day Forecast</button>
+          <button onClick={() => gen(`Generate a 90-day forecasting dashboard report for a luxury NZ lodge. Include: occupancy forecast, revenue forecast, pace comparison vs last year, pick-up rate per week, cancellation rate and impact, and shoulder season gap analysis.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate 90-Day Forecast</button>
         </div>
       )}
 
@@ -136,7 +139,7 @@ const AuraRevenue = () => {
               </div>
             ))}
           </div>
-          <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Channel Analysis Report</button>
+          <button onClick={() => gen(`Generate a channel management analysis report for a luxury NZ lodge. Analyse: direct bookings, travel agents, OTAs, luxury networks, repeat guests, referrals. Include conversion rate, average booking value, commission cost by channel. Goal: increase direct bookings to 70%+. Provide actionable recommendations.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Channel Analysis Report</button>
         </div>
       )}
     </div>

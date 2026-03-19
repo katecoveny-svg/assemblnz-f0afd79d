@@ -35,7 +35,10 @@ const REVIEW_TEMPLATES = [
 
 const color = "#E6B422";
 
-const AuraReservations = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraReservations = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [bookings] = useState<Booking[]>(SAMPLE_BOOKINGS);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [activeSection, setActiveSection] = useState<"dashboard" | "comms" | "reviews">("dashboard");
@@ -121,7 +124,7 @@ const AuraReservations = () => {
                 <div className="p-2 rounded-lg bg-card border border-border"><span className="font-medium">Activity Suggestions:</span> Based on {selectedBooking.arrival} season — stargazing, nature walks, wine tasting</div>
                 {selectedBooking.returning && <div className="p-2 rounded-lg bg-card border border-border"><span className="font-medium">Returning Guest:</span> Recall preferences from previous visit — favourite wines, activities, room temperature</div>}
               </div>
-              <button className="w-full py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Dossier</button>
+              <button onClick={() => gen(`Generate a complete pre-arrival guest dossier for ${selectedBooking.guest}. They are celebrating their ${selectedBooking.occasion.toLowerCase()}. Dietary: ${selectedBooking.dietary}. Room: ${selectedBooking.room}. Arriving ${selectedBooking.arrival} via ${selectedBooking.arrivalMethod}. ${selectedBooking.returning ? "This is a returning guest — recall preferences from previous visits." : "First-time guest."} Special requests: ${selectedBooking.requests}. Include: personalised welcome letter, room preparation notes, activity recommendations for the season, wine pairing suggestions, and weather forecast for their stay. Luxury lodge tone — warm, understated, anticipatory.`)} className="w-full py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Dossier</button>
             </div>
           )}
         </>
@@ -139,7 +142,7 @@ const AuraReservations = () => {
                     <div className="text-xs font-medium text-foreground">{t.label}</div>
                     <div className="text-[10px] text-muted-foreground">{t.desc}</div>
                   </div>
-                  <button className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
+                  <button onClick={() => gen(`Generate a luxury lodge "${t.label}" template. ${t.desc}. The tone must feel handwritten and personal — warm, understated, anticipatory. Think 'We've remembered your favourite Pinot from last year and have a bottle waiting in your suite' not 'Dear Guest, please rate your stay.' Include personalisation placeholders for guest name, dates, room, and occasion.`)} className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
                 </div>
               ))}
             </div>
@@ -158,12 +161,12 @@ const AuraReservations = () => {
                     <div className="text-xs font-medium text-foreground">{t.label}</div>
                     <div className="text-[10px] text-muted-foreground">{t.desc}</div>
                   </div>
-                  <button className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
+                  <button onClick={() => gen(`Generate a luxury lodge "${t.label}" template for review management. ${t.desc}. Tone: personal, genuine, and warm. For negative reviews: empathetic, solution-focused, take the conversation offline. Never defensive or templated-sounding.`)} className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
                 </div>
               ))}
             </div>
           </div>
-          <button className="w-full py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Monthly Review Summary</button>
+          <button onClick={() => gen(`Generate a monthly guest review summary report. Include: aggregate scores across platforms (TripAdvisor, Google, Booking.com), common praise themes, common improvement themes, sentiment analysis breakdown, and a prioritised action plan for next month. Present as a professional report the GM can share with the team.`)} className="w-full py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Monthly Review Summary</button>
         </div>
       )}
     </div>

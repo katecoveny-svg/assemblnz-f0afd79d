@@ -43,7 +43,10 @@ const NZ_BODIES = [
   { org: "Tiaki Promise", role: "Guest communication integration" },
 ];
 
-const AuraTrade = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraTrade = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"partners" | "collateral" | "inbound" | "nzbodies">("partners");
 
   return (

@@ -26,7 +26,10 @@ const SEASONAL_CALENDAR = [
   { season: "Christmas/NYE", events: "Festive programme, exclusive-use packages, special menus" },
 ];
 
-const AuraEvents = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraEvents = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"experiences" | "calendar" | "weddings">("experiences");
 
   return (
@@ -57,7 +60,7 @@ const AuraEvents = () => {
                     <div className="text-xs font-medium text-foreground">{e.name}</div>
                     <div className="text-[10px] text-muted-foreground">{e.pricing} · {e.difficulty}</div>
                   </div>
-                  <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Design</button>
+                  <button onClick={() => gen(`Design the "${e.name}" signature experience for a luxury NZ lodge. Pricing: ${e.pricing}. Fitness level: ${e.difficulty}. Generate: evocative name & description (sensory language), hour-by-hour itinerary, guest requirements (fitness, clothing, equipment), pricing breakdown, staff requirements, supplier/partner needs, safety considerations & waivers, marketing description (for website & travel agents), and photography brief.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Design</button>
                 </div>
               ))}
             </div>
@@ -77,7 +80,7 @@ const AuraEvents = () => {
                 </div>
               ))}
             </div>
-            <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Calendar</button>
+            <button onClick={() => gen(`Generate a complete 12-month event programme for a luxury NZ lodge. Include: Summer (Dec-Feb) — outdoor dining, stargazing, adventure activities, New Year. Autumn (Mar-May) — harvest, wine, photography. Winter (Jun-Aug) — fireside, dark sky, cosy retreats, ski. Spring (Sep-Nov) — lambing, new growth. Plus: Matariki celebration and Christmas/NYE programme. For each event: description, target guests, pricing suggestion, marketing angle, and staffing needs.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Calendar</button>
           </div>
         </div>
       )}
@@ -99,7 +102,7 @@ const AuraEvents = () => {
                   <div className="text-xs font-medium text-foreground">{t.title}</div>
                   <div className="text-[10px] text-muted-foreground">{t.desc}</div>
                 </div>
-                <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+                <button onClick={() => gen(`Generate a luxury lodge "${t.title}" template. ${t.desc}. Include all necessary details, elegant formatting, and placeholders for property-specific information. Luxury tone — refined, personal, and celebratory.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
               </div>
             ))}
           </div>

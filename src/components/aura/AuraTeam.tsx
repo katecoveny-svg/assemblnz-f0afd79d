@@ -50,7 +50,10 @@ const CAREER_PATHS = [
   { from: "Activities Guide", to: "Head Guide → Experiences Manager", support: "First aid, DOC concessions" },
 ];
 
-const AuraTeam = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraTeam = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"roster" | "training" | "luxury" | "onboarding" | "careers" | "recognition">("roster");
 
   return (

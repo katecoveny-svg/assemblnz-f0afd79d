@@ -71,7 +71,10 @@ const TOURISM_2050 = [
   { goal: "Net carbon zero before 2050", aura: "Carbon calculator & reduction planning" },
 ];
 
-const AuraSustainability = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraSustainability = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"tsc" | "carbon" | "regenerative" | "tourism2050">("tsc");
 
   return (
