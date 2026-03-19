@@ -27,7 +27,10 @@ const TOUCHPOINTS = [
   { label: "Exclusive Return Rate", desc: "For past guests only — personal, not mass-marketed" },
 ];
 
-const AuraGuestMemory = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraGuestMemory = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"profiles" | "returning" | "ltv" | "touchpoints">("profiles");
   const [selectedGuest, setSelectedGuest] = useState<typeof SAMPLE_GUESTS[0] | null>(null);
 
