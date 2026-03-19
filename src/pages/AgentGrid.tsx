@@ -39,7 +39,7 @@ const PRICING_PLANS = [
     price: "$79",
     period: "/mo",
     color: "#FF2D9B",
-    features: ["Unlimited messages", "All 29 agents", "HELM & MARINER", "Brand memory", "Priority support", "Embed on your site"],
+    features: ["Unlimited messages", "All 37 agents", "HELM & MARINER", "Brand memory", "Priority support", "Embed on your site"],
     cta: "Go Pro",
     href: "https://pay.airwallex.com/sghgspe6mx61",
     external: true,
