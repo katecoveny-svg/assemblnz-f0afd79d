@@ -96,7 +96,7 @@ export default function ForgeSales() {
     return (
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-foreground">🔄 Trade-In Appraisal</h2>
+          <h2 className="text-lg font-bold text-foreground">Trade-In Appraisal</h2>
           <button onClick={() => setView("pipeline")} className="text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground">← Back</button>
         </div>
         <div className="grid grid-cols-2 gap-3">
