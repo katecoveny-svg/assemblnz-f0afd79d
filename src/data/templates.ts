@@ -107,7 +107,7 @@ export const agentTemplates: Record<string, Template[]> = {
     { icon: "box", title: "Product Listing Checker", description: "Check your product listings for Fair Trading Act compliance", timeSaved: "~30 min", prompt: "I'd like to check my product listings for compliance. Share a product listing and I'll review it." },
     { icon: "mail", title: "Email Compliance Check", description: "Ensure your email marketing is legally compliant", timeSaved: "~20 min", prompt: "Let's check your email marketing compliance. Tell me about your email setup." },
   ],
-  forge: [
+  automotive: [
     { icon: "pen", title: "Vehicle Sale Disclosure", description: "Generate a vehicle sale disclosure form", timeSaved: "~30 min", prompt: "I need a vehicle sale disclosure. Tell me about the vehicle being sold." },
     { icon: "wrench", title: "Workshop Job Card", description: "Create a structured job card for a repair", timeSaved: "~15 min", prompt: "Let's create a workshop job card. What vehicle and what work is being done?" },
     { icon: "checkmark", title: "WoF Prep Checklist", description: "Pre-WoF inspection checklist", timeSaved: "~20 min", prompt: "I need a WoF prep checklist. What type of vehicle?" },
