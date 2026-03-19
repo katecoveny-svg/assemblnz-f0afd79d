@@ -108,11 +108,15 @@ const AccountDropdown = () => {
 
             {/* Language Selector */}
             <button
-              onClick={() => setLanguage(language === "en" ? "mi" : "en")}
+              onClick={() => {
+                const langs: Array<"en" | "mi" | "zh"> = ["en", "mi", "zh"];
+                const idx = langs.indexOf(language as any);
+                setLanguage(langs[(idx + 1) % langs.length]);
+              }}
               className="w-full flex items-center gap-2 px-3 py-2 text-xs text-foreground/70 hover:text-foreground hover:bg-muted transition-colors"
-              aria-label={`Switch to ${language === "en" ? "Te Reo Māori" : "English"}`}
+              aria-label={`Current language: ${language === "en" ? "English" : language === "mi" ? "Te Reo Māori" : "简体中文"}`}
             >
-              <Languages size={12} /> {language === "en" ? "Te Reo Māori" : "English"}
+              <Languages size={12} /> {language === "en" ? "Te Reo Māori" : language === "mi" ? "简体中文" : "English"}
             </button>
 
             <button
