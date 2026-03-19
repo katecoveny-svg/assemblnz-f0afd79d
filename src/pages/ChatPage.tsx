@@ -791,7 +791,7 @@ const ChatPage = () => {
                 backgroundColor: activeTab === "chat" && (!isHelm || helmView === "chat") ? agent.color + "20" : "transparent",
                 color: activeTab === "chat" && (!isHelm || helmView === "chat") ? agent.color : "hsl(var(--muted-foreground))",
               }}
-            >💬 Chat</button>
+            >Chat</button>
             {(hasTemplateTab) && (
               <button
                 onClick={() => { setActiveTab("templates"); if (isHelm) setHelmView("chat"); }}
