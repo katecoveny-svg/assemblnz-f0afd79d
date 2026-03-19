@@ -4,7 +4,9 @@ import { agents, sectors } from "@/data/agents";
 import AssemblLogo from "@/components/AssemblLogo";
 import RobotIcon from "@/components/RobotIcon";
 import OnboardingQuiz from "@/components/OnboardingQuiz";
+import AccountDropdown from "@/components/AccountDropdown";
 import { X } from "lucide-react";
+import { NeonWave } from "@/components/NeonIcons";
 
 const AgentGrid = () => {
   const [activeSector, setActiveSector] = useState("All");
@@ -18,7 +20,6 @@ const AgentGrid = () => {
     sessionStorage.removeItem("assembl_brand_profile");
     sessionStorage.removeItem("assembl_brand_name");
     window.dispatchEvent(new Event("storage"));
-    // Force re-render
     window.location.reload();
   };
 
@@ -44,7 +45,8 @@ const AgentGrid = () => {
       {/* Shared Brand Banner */}
       {brandProfile && brandName && (
         <div className="bg-primary/5 border-b border-primary/10 px-4 py-2 flex items-center justify-center gap-2">
-          <span className="text-xs text-primary">🌐 Brand loaded: <strong>{brandName}</strong> — All agents have your context</span>
+          <NeonWave size={14} />
+          <span className="text-xs text-primary">Brand loaded: <strong>{brandName}</strong> — All agents have your context</span>
           <button onClick={clearBrand} className="text-primary/60 hover:text-primary transition-colors">
             <X size={14} />
           </button>
@@ -61,6 +63,7 @@ const AgentGrid = () => {
         <div className="flex items-center gap-3 text-xs">
           <Link to="/embed" className="text-muted-foreground hover:text-foreground transition-colors">Embed</Link>
           <Link to="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">Dashboard</Link>
+          <AccountDropdown />
         </div>
       </header>
 

@@ -4,8 +4,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { lazy, Suspense } from "react";
+import { AuthProvider } from "@/hooks/useAuth";
 import AgentGrid from "./pages/AgentGrid";
 import ChatPage from "./pages/ChatPage";
+import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
 
 const MarinerLanding = lazy(() => import("./pages/MarinerLanding"));
@@ -20,14 +22,18 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<AgentGrid />} />
-          <Route path="/chat/:agentId" element={<ChatPage />} />
-          <Route path="/mariner" element={<Suspense fallback={null}><MarinerLanding /></Suspense>} />
-          <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
-          <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<AgentGrid />} />
+            <Route path="/chat/:agentId" element={<ChatPage />} />
+            <Route path="/login" element={<AuthPage mode="login" />} />
+            <Route path="/signup" element={<AuthPage mode="signup" />} />
+            <Route path="/mariner" element={<Suspense fallback={null}><MarinerLanding /></Suspense>} />
+            <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
+            <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

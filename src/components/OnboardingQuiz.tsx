@@ -3,6 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { agents } from "@/data/agents";
 import RobotIcon from "@/components/RobotIcon";
 import AssemblLogo from "@/components/AssemblLogo";
+import {
+  NeonBuilding,
+  NeonFamily,
+  NeonHammer,
+  NeonSeedling,
+  NeonClipboard,
+  NeonDocument,
+  NeonMegaphone,
+  NeonTeam,
+  NeonCoin,
+  NeonFactory,
+  NeonWave,
+} from "@/components/NeonIcons";
 
 type Step = "welcome" | "who" | "pain" | "results";
 
@@ -19,6 +32,22 @@ const PAIN_MAP: Record<string, string[]> = {
   tax: ["accounting"],
   industry: [],
 };
+
+const WHO_OPTIONS = [
+  { key: "business", icon: <NeonBuilding size={28} />, label: "I run a business" },
+  { key: "household", icon: <NeonFamily size={28} />, label: "I'm managing a household" },
+  { key: "trade", icon: <NeonHammer size={28} />, label: "I work in a specific trade or industry" },
+  { key: "explore", icon: <NeonSeedling size={28} />, label: "I just want to explore" },
+];
+
+const PAIN_OPTIONS = [
+  { key: "compliance", icon: <NeonClipboard size={24} />, label: "Compliance and regulations" },
+  { key: "paperwork", icon: <NeonDocument size={24} />, label: "Paperwork and data entry" },
+  { key: "marketing", icon: <NeonMegaphone size={24} />, label: "Marketing and sales" },
+  { key: "staff", icon: <NeonTeam size={24} />, label: "Staff and HR" },
+  { key: "tax", icon: <NeonCoin size={24} />, label: "Tax and finances" },
+  { key: "industry", icon: <NeonFactory size={24} />, label: "Industry-specific questions" },
+];
 
 const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void }) => {
   const [step, setStep] = useState<Step>("welcome");
@@ -59,7 +88,9 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
           <div className="text-center space-y-6 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
             <AssemblLogo size={56} />
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">Welcome to Assembl 👋</h1>
+              <h1 className="text-3xl font-bold text-foreground mb-2">
+                Welcome to Assembl <NeonWave size={28} />
+              </h1>
               <p className="text-muted-foreground text-sm">Let's find the right AI agent for you in 30 seconds.</p>
             </div>
             <button
@@ -75,19 +106,14 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
           <div className="space-y-5 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
             <h2 className="text-xl font-bold text-foreground text-center">What best describes you?</h2>
             <div className="grid grid-cols-1 gap-3">
-              {[
-                { key: "business", icon: "🏢", label: "I run a business" },
-                { key: "household", icon: "👨‍👩‍👧", label: "I'm managing a household" },
-                { key: "trade", icon: "🔨", label: "I work in a specific trade or industry" },
-                { key: "explore", icon: "🌱", label: "I just want to explore" },
-              ].map((opt, i) => (
+              {WHO_OPTIONS.map((opt, i) => (
                 <button
                   key={opt.key}
                   onClick={() => handleWho(opt.key)}
                   className="flex items-center gap-4 p-5 rounded-xl border border-border bg-card text-left transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 opacity-0 animate-fade-up"
                   style={{ animationDelay: `${i * 80}ms`, animationFillMode: "forwards" }}
                 >
-                  <span className="text-2xl">{opt.icon}</span>
+                  {opt.icon}
                   <span className="text-sm font-medium text-foreground">{opt.label}</span>
                 </button>
               ))}
@@ -99,21 +125,14 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
           <div className="space-y-5 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
             <h2 className="text-xl font-bold text-foreground text-center">What's your biggest time drain?</h2>
             <div className="grid grid-cols-1 gap-3">
-              {[
-                { key: "compliance", icon: "📋", label: "Compliance and regulations" },
-                { key: "paperwork", icon: "📄", label: "Paperwork and data entry" },
-                { key: "marketing", icon: "📣", label: "Marketing and sales" },
-                { key: "staff", icon: "👥", label: "Staff and HR" },
-                { key: "tax", icon: "💰", label: "Tax and finances" },
-                { key: "industry", icon: "🏗️", label: "Industry-specific questions" },
-              ].map((opt, i) => (
+              {PAIN_OPTIONS.map((opt, i) => (
                 <button
                   key={opt.key}
                   onClick={() => handlePain(opt.key)}
                   className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card text-left transition-all hover:-translate-y-0.5 hover:border-primary/30 opacity-0 animate-fade-up"
                   style={{ animationDelay: `${i * 60}ms`, animationFillMode: "forwards" }}
                 >
-                  <span className="text-xl">{opt.icon}</span>
+                  {opt.icon}
                   <span className="text-sm font-medium text-foreground">{opt.label}</span>
                 </button>
               ))}
