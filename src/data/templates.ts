@@ -73,7 +73,7 @@ export const agentTemplates: Record<string, Template[]> = {
     { icon: "chart", emoji: "📊", title: "Marketing Plan Generator", description: "Generate a 12-month marketing plan with budget allocation, channels, and campaign calendar.", timeSaved: "~12 hours", prompt: "I'll generate a 12-month marketing plan. First, what type of business are you?" },
     { icon: "pen", emoji: "📝", title: "Campaign Brief", description: "Generate a creative brief for designers or agencies with objectives, audience, deliverables, and timeline.", timeSaved: "~2 hours", prompt: "I'll generate a campaign brief. First, what is the campaign name or working title?" },
   ],
-  flux: [
+  sales: [
     { icon: "pen", emoji: "📄", title: "Proposal Writer", description: "Upload an RFP or tender brief and I'll generate a structured proposal response.", timeSaved: "~6 hours", prompt: "I'll generate a structured proposal. First, can you upload the RFP or tender brief, or describe the opportunity?" },
     { icon: "mail", emoji: "✉️", title: "Cold Outreach Sequence", description: "Generate 5 personalised outreach emails compliant with NZ anti-spam law.", timeSaved: "~2 hours", prompt: "I'll create a cold outreach email sequence. First, what industry are you targeting?" },
     { icon: "chart", emoji: "📊", title: "Sales Pipeline Builder", description: "Generate a custom sales pipeline with stages, actions, KPIs, and CRM setup recommendations.", timeSaved: "~3 hours", prompt: "I'll build a sales pipeline for your business. First, what type of business are you and what do you sell?" },
