@@ -919,6 +919,10 @@ const ChatPage = () => {
         <ArohaPayroll />
       ) : activeTab === "aroha_recruitment" && isAroha ? (
         <ArohaRecruitment />
+      ) : activeTab === "aroha_people" && isAroha ? (
+        <ArohaPeopleCulture />
+      ) : activeTab === "aroha_company" && isAroha ? (
+        <ArohaCompanySetup />
       ) : activeTab === "forge_showroom" && isForge ? (
         <ForgeShowroom />
       ) : activeTab === "forge_sales" && isForge ? (
