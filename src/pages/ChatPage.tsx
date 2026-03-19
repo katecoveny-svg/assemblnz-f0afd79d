@@ -982,27 +982,27 @@ const ChatPage = () => {
       {activeTab === "aura_setup" && isAura ? (
         <AuraPropertySetup />
       ) : activeTab === "aura_reservations" && isAura ? (
-        <AuraReservations />
+        <AuraReservations onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_guest" && isAura ? (
-        <AuraGuestExperience />
+        <AuraGuestExperience onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_kitchen" && isAura ? (
-        <AuraKitchenFnB />
+        <AuraKitchenFnB onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_marketing" && isAura ? (
-        <AuraMarketing />
+        <AuraMarketing onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_events" && isAura ? (
-        <AuraEvents />
+        <AuraEvents onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_operations" && isAura ? (
-        <AuraOperations />
+        <AuraOperations onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_team" && isAura ? (
-        <AuraTeam />
+        <AuraTeam onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_revenue" && isAura ? (
-        <AuraRevenue />
+        <AuraRevenue onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_memory" && isAura ? (
-        <AuraGuestMemory />
+        <AuraGuestMemory onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_sustainability" && isAura ? (
-        <AuraSustainability />
+        <AuraSustainability onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_trade" && isAura ? (
-        <AuraTrade />
+        <AuraTrade onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aroha_contracts" && isAroha ? (
         <ArohaContracts />
       ) : activeTab === "aroha_onboarding" && isAroha ? (
