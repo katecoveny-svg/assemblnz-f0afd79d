@@ -876,6 +876,25 @@ const ChatPage = () => {
                 ))}
               </>
             )}
+            {isAura && (
+              <>
+                {([
+                  { id: "aura_reservations" as const, label: "Reservations" },
+                  { id: "aura_guest" as const, label: "Guest Exp" },
+                  { id: "aura_kitchen" as const, label: "Kitchen" },
+                  { id: "aura_marketing" as const, label: "Marketing" },
+                  { id: "aura_events" as const, label: "Events" },
+                  { id: "aura_operations" as const, label: "Operations" },
+                  { id: "aura_team" as const, label: "Team" },
+                  { id: "aura_setup" as const, label: "Setup" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
+            )}
             <button onClick={() => setActiveTab("internal_comms")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
               style={{ backgroundColor: activeTab === "internal_comms" ? agent.color + "20" : "transparent", color: activeTab === "internal_comms" ? agent.color : "hsl(var(--muted-foreground))" }}>
               <MessageSquare size={9} /> Comms
