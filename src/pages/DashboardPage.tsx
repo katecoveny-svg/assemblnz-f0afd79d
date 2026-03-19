@@ -225,7 +225,7 @@ const DashboardPage = () => {
 
         {/* Agent Activity */}
         <div className="rounded-xl border border-border bg-card p-6">
-          <h2 className="text-sm font-bold text-foreground mb-4">Agent activity</h2>
+          <h2 className="text-sm font-syne font-bold text-foreground mb-4">Agent activity</h2>
           <div className="space-y-3">
             {SAMPLE_AGENTS.map((agent) => (
               <div key={agent.name} className="flex items-center gap-3">
