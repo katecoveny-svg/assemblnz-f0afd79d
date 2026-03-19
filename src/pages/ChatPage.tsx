@@ -37,6 +37,13 @@ import ApexTenderWriter from "@/components/apex/ApexTenderWriter";
 import ApexAwardsTracker from "@/components/apex/ApexAwardsTracker";
 import ApexHSHub from "@/components/apex/ApexHSHub";
 import ApexESGDashboard from "@/components/apex/ApexESGDashboard";
+import ForgeShowroom from "@/components/forge/ForgeShowroom";
+import ForgeSales from "@/components/forge/ForgeSales";
+import ForgePartsService from "@/components/forge/ForgePartsService";
+import ForgeMarketing from "@/components/forge/ForgeMarketing";
+import ForgeEvents from "@/components/forge/ForgeEvents";
+import ForgeBrandHub from "@/components/forge/ForgeBrandHub";
+import ForgeTeam from "@/components/forge/ForgeTeam";
 import InternalComms from "@/components/InternalComms";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
@@ -237,7 +244,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team">("chat");
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
@@ -275,6 +282,7 @@ const ChatPage = () => {
   const pollingRef = useRef<Record<string, number>>({});
 
   const isArc = agentId === "architecture" || agentId === "construction";
+  const isForge = agentId === "automotive";
   const isHelm = agentId === "operations";
   const isNexus = agentId === "customs";
   const isMarketing = agentId === "marketing";
@@ -817,6 +825,24 @@ const ChatPage = () => {
                 </button>
               </>
             )}
+            {isForge && (
+              <>
+                {([
+                  { id: "forge_showroom" as const, label: "🚗 Showroom" },
+                  { id: "forge_sales" as const, label: "💰 Sales" },
+                  { id: "forge_parts" as const, label: "🔧 Parts" },
+                  { id: "forge_marketing" as const, label: "📣 Marketing" },
+                  { id: "forge_events" as const, label: "🎉 Events" },
+                  { id: "forge_team" as const, label: "👥 Team" },
+                  { id: "forge_brand" as const, label: "🏷️ Brand Hub" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
+            )}
             <button onClick={() => setActiveTab("internal_comms")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
               style={{ backgroundColor: activeTab === "internal_comms" ? agent.color + "20" : "transparent", color: activeTab === "internal_comms" ? agent.color : "hsl(var(--muted-foreground))" }}>
               <MessageSquare size={9} /> Comms
@@ -878,7 +904,21 @@ const ChatPage = () => {
       )}
 
       {/* Tab Views */}
-      {activeTab === "content_studio" && isMarketing ? (
+      {activeTab === "forge_showroom" && isForge ? (
+        <ForgeShowroom />
+      ) : activeTab === "forge_sales" && isForge ? (
+        <ForgeSales />
+      ) : activeTab === "forge_parts" && isForge ? (
+        <ForgePartsService />
+      ) : activeTab === "forge_marketing" && isForge ? (
+        <ForgeMarketing />
+      ) : activeTab === "forge_events" && isForge ? (
+        <ForgeEvents />
+      ) : activeTab === "forge_brand" && isForge ? (
+        <ForgeBrandHub />
+      ) : activeTab === "forge_team" && isForge ? (
+        <ForgeTeam />
+      ) : activeTab === "content_studio" && isMarketing ? (
         <ContentStudio isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "tender_writer" && isConstruction ? (
         <ApexTenderWriter isPaid={isPaid} userRole={role || undefined} onSendMessage={sendMessage} />
