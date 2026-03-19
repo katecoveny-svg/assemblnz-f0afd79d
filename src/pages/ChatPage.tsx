@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { agents } from "@/data/agents";
 import RobotIcon from "@/components/RobotIcon";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import ModelGenerationCard from "@/components/ModelGenerationCard";
 import HelmQuickActions from "@/components/helm/HelmQuickActions";
@@ -15,6 +15,11 @@ import StructuredOutputCard, { detectOutputType } from "@/components/StructuredO
 import NexusEntryCard from "@/components/nexus/NexusEntryCard";
 import HandoffCard, { detectHandoff } from "@/components/HandoffCard";
 import { agentTemplates } from "@/data/templates";
+import { useAuth } from "@/hooks/useAuth";
+import AccountDropdown from "@/components/AccountDropdown";
+import PaywallModal from "@/components/PaywallModal";
+import { NeonLock } from "@/components/NeonIcons";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 
@@ -61,10 +66,8 @@ function hasChecklist(content: string): boolean {
 
 function parseNexusEntry(content: string) {
   if (!/import entry summary/i.test(content)) return null;
-
   try {
     const lines: any[] = [];
-    // Match numbered line items with HS codes
     const linePattern = /(\d+)\.\s+(.+?)[\n\r]+\s*HS Code:\s*(\S+)(.*?)[\n\r]+\s*Origin:\s*(\S+).*?[\n\r]+\s*Qty:.*?Value:\s*\$?([\d,.]+).*?[\n\r]+\s*Duty:.*?=\s*\$?([\d,.]+).*?[\n\r]+\s*GST:.*?=\s*\$?([\d,.]+)/gim;
     let match;
     while ((match = linePattern.exec(content)) !== null) {
@@ -81,41 +84,32 @@ function parseNexusEntry(content: string) {
         flagReason: flagged ? "Uncertain classification — broker review recommended" : undefined,
       });
     }
-
     if (lines.length === 0) return null;
-
     const getField = (label: string) => {
       const m = content.match(new RegExp(label + ":\\s*(.+)", "i"));
       return m?.[1]?.trim();
     };
-
-    const totalValue = getField("Customs Value") || getField("Total Customs Value");
-    const totalDuty = getField("Total Duty");
-    const totalGST = getField("Total GST");
-    const totalPayable = getField("TOTAL PAYABLE");
-
-    const flaggedItems: string[] = [];
-    const flagSection = content.match(/FLAGGED FOR BROKER REVIEW[:\s]*\n([\s\S]*?)(?:\n\n|$)/i);
-    if (flagSection) {
-      const items = flagSection[1].match(/[•\-*]\s*(.+)/g);
-      items?.forEach((item) => flaggedItems.push(item.replace(/^[•\-*]\s*/, "")));
-    }
-
     return {
       supplier: getField("Supplier"),
       consignee: getField("Consignee"),
       invoice: getField("Invoice"),
       transport: getField("Transport"),
       lines,
-      totalValue,
-      totalDuty,
-      totalGST,
-      totalPayable,
-      flaggedItems: flaggedItems.length > 0 ? flaggedItems : undefined,
+      totalValue: getField("Customs Value") || getField("Total Customs Value"),
+      totalDuty: getField("Total Duty"),
+      totalGST: getField("Total GST"),
+      totalPayable: getField("TOTAL PAYABLE"),
+      flaggedItems: (() => {
+        const flaggedItems: string[] = [];
+        const flagSection = content.match(/FLAGGED FOR BROKER REVIEW[:\s]*\n([\s\S]*?)(?:\n\n|$)/i);
+        if (flagSection) {
+          const items = flagSection[1].match(/[•\-*]\s*(.+)/g);
+          items?.forEach((item) => flaggedItems.push(item.replace(/^[•\-*]\s*/, "")));
+        }
+        return flaggedItems.length > 0 ? flaggedItems : undefined;
+      })(),
     };
-  } catch {
-    return null;
-  }
+  } catch { return null; }
 }
 
 async function imageToBase64(file: File, maxDim = 1024): Promise<{ base64: string; mediaType: string }> {
@@ -177,6 +171,9 @@ const ChatPage = () => {
     () => sessionStorage.getItem("assembl_brand_name")
   );
   const [templateModalOpen, setTemplateModalOpen] = useState(false);
+  const [paywallType, setPaywallType] = useState<"preview" | "daily_limit" | null>(null);
+
+  const { user, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached } = useAuth();
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -265,8 +262,8 @@ const ChatPage = () => {
     );
   }
 
-  // Universal file select handler for ALL agents
   const handleUniversalFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!canUseFeature("upload")) return;
     const file = e.target.files?.[0];
     if (!file) return;
     const isImage = file.type.startsWith("image/");
@@ -284,8 +281,8 @@ const ChatPage = () => {
     }
   };
 
-  // ARC-specific image select (for 3D)
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!canUseFeature("upload")) return;
     const file = e.target.files?.[0];
     if (!file) return;
     if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview);
@@ -309,10 +306,16 @@ const ChatPage = () => {
   const sendMessage = async (content: string, imageFile?: File | null, docFile?: File | null) => {
     if ((!content.trim() && !imageFile && !docFile) || isLoading) return;
 
+    // Check message limits
+    const allowed = await incrementMessageCount();
+    if (!allowed) {
+      setPaywallType(user ? "daily_limit" : "preview");
+      return;
+    }
+
     let uploadedImageUrl: string | undefined;
     let apiMessages: any[] = [];
 
-    // ARC: upload image to storage for 3D generation
     if (imageFile && isArc) {
       setIsUploading(true);
       try { uploadedImageUrl = await uploadImage(imageFile); }
@@ -338,7 +341,6 @@ const ChatPage = () => {
     const should3D = isArc && (!!uploadedImageUrl || shouldTrigger3D(userMessage.content));
 
     try {
-      // Handle image uploads (non-ARC) - send as base64 vision content
       if (imageFile && !isArc) {
         const { base64, mediaType } = await imageToBase64(imageFile);
         const textContent = content.trim() || "Please analyse this image and provide relevant advice.";
@@ -353,9 +355,7 @@ const ChatPage = () => {
             ],
           },
         ];
-      }
-      // Handle document uploads for any agent
-      else if (docFile) {
+      } else if (docFile) {
         if (docFile.type.startsWith("image/")) {
           const { base64, mediaType } = await imageToBase64(docFile);
           const textContent = content.trim() || "Please analyse this document and provide relevant advice.";
@@ -379,9 +379,7 @@ const ChatPage = () => {
             { role: "user", content: fullText },
           ];
         }
-      }
-      // Plain text messages
-      else {
+      } else {
         apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content || "(attachment)" }));
       }
 
@@ -413,11 +411,14 @@ const ChatPage = () => {
   const showWelcome = messages.length === 0;
   const getGenerationsForIndex = (idx: number) => generations.filter((g) => g.messageIndex === idx);
 
+  // Message counter display for free users
+  const showMsgCounter = user && !isPaid;
+  const remaining = dailyLimit - dailyMessageCount;
+
   const renderMessageContent = (msg: Message) => {
     const content = msg.content;
 
     if (msg.role === "assistant") {
-      // Check for NEXUS import entry data first
       if (agentId === "customs" || agentId === "nexus") {
         const entryData = parseNexusEntry(content);
         if (entryData) {
@@ -425,7 +426,6 @@ const ChatPage = () => {
         }
       }
 
-      // Check if this is structured output
       const outputType = detectOutputType(content);
       if (outputType) {
         return (
@@ -440,7 +440,6 @@ const ChatPage = () => {
       }
     }
 
-    // Checklist rendering for any agent
     if (hasChecklist(content)) {
       const lines = content.split("\n");
       const parts: { type: "text" | "checklist"; content: string }[] = [];
@@ -479,6 +478,38 @@ const ChatPage = () => {
     );
   };
 
+  // Locked feature button helper
+  const LockedButton = ({ children, feature, onClick, className, style, title }: {
+    children: React.ReactNode;
+    feature: "upload" | "templates" | "brand_scan" | "pdf_download";
+    onClick: () => void;
+    className?: string;
+    style?: React.CSSProperties;
+    title?: string;
+  }) => {
+    const locked = !canUseFeature(feature);
+    if (locked) {
+      return (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button className={`${className} opacity-50 cursor-not-allowed`} style={style} disabled>
+              <NeonLock size={12} />
+              {children}
+            </button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" className="text-xs">
+            Upgrade to Pro to unlock
+          </TooltipContent>
+        </Tooltip>
+      );
+    }
+    return (
+      <button onClick={onClick} className={className} style={style} title={title}>
+        {children}
+      </button>
+    );
+  };
+
   return (
     <div className="h-screen flex flex-col bg-background">
       {/* Header */}
@@ -497,7 +528,8 @@ const ChatPage = () => {
 
         {/* Templates button */}
         {hasTemplates && (
-          <button
+          <LockedButton
+            feature="templates"
             onClick={() => setTemplateModalOpen(true)}
             className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium transition-colors hover:opacity-80 shrink-0"
             style={{ color: agent.color, border: `1px solid ${agent.color}20` }}
@@ -505,7 +537,7 @@ const ChatPage = () => {
           >
             <LayoutGrid size={10} />
             <span className="hidden sm:inline">Templates</span>
-          </button>
+          </LockedButton>
         )}
 
         {/* Brand badge or add button */}
@@ -521,14 +553,15 @@ const ChatPage = () => {
             </button>
           </div>
         ) : (
-          <button
+          <LockedButton
+            feature="brand_scan"
             onClick={() => setBrandModalOpen(true)}
             className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium transition-colors hover:opacity-80 shrink-0"
             style={{ color: agent.color, border: `1px solid ${agent.color}20` }}
             title="Add your website for tailored advice"
           >
             <Globe size={10} />
-          </button>
+          </LockedButton>
         )}
 
         {/* HELM Dashboard Toggle */}
@@ -547,10 +580,19 @@ const ChatPage = () => {
           </div>
         )}
 
+        {/* Message counter for free users */}
+        {showMsgCounter && (
+          <span className="text-[9px] font-mono-jb px-2 py-1 rounded-full border border-border text-muted-foreground shrink-0">
+            {remaining}/{dailyLimit}
+          </span>
+        )}
+
         <div className="flex items-center gap-1.5 shrink-0">
           <span className="w-2 h-2 rounded-full animate-pulse-glow" style={{ backgroundColor: "#00FF88", boxShadow: "0 0 6px #00FF88" }} />
           <span className="text-[10px] font-mono-jb text-foreground/50">LIVE</span>
         </div>
+
+        <AccountDropdown />
       </header>
 
       {/* Modals */}
@@ -563,6 +605,12 @@ const ChatPage = () => {
         }} />
       <TemplateLibrary agentId={agent.id} agentName={agent.name} agentColor={agent.color} open={templateModalOpen}
         onClose={() => setTemplateModalOpen(false)} onSelect={(prompt) => sendMessage(prompt)} />
+      <PaywallModal
+        type={paywallType || "preview"}
+        agentName={agent.name}
+        open={paywallType !== null}
+        onClose={() => setPaywallType(null)}
+      />
 
       {/* HELM Dashboard View */}
       {isHelm && helmView === "dashboard" ? (
@@ -595,6 +643,13 @@ const ChatPage = () => {
                       </button>
                     ))}
                   </div>
+                )}
+
+                {/* Free message info */}
+                {!user && (
+                  <p className="text-[10px] text-muted-foreground mt-4">
+                    Free preview: {3 - parseInt(sessionStorage.getItem("assembl_preview_msgs") || "0", 10)} messages remaining · <Link to="/signup" className="text-primary hover:underline">Sign up for more</Link>
+                  </p>
                 )}
               </div>
             ) : (
@@ -692,10 +747,21 @@ const ChatPage = () => {
               {isArc && (
                 <>
                   <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleImageSelect} className="hidden" />
-                  <button type="button" onClick={() => fileInputRef.current?.click()} disabled={isLoading || isUploading}
-                    className="p-2.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-foreground/10 transition-colors disabled:opacity-30" title="Upload a photo for 3D generation">
-                    <ImagePlus size={16} />
-                  </button>
+                  {canUseFeature("upload") ? (
+                    <button type="button" onClick={() => fileInputRef.current?.click()} disabled={isLoading || isUploading}
+                      className="p-2.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-foreground/10 transition-colors disabled:opacity-30" title="Upload a photo for 3D generation">
+                      <ImagePlus size={16} />
+                    </button>
+                  ) : (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button type="button" disabled className="p-2.5 rounded-lg border border-border text-muted-foreground opacity-50 cursor-not-allowed">
+                          <Lock size={16} />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="text-xs">Upgrade to Pro</TooltipContent>
+                    </Tooltip>
+                  )}
                 </>
               )}
 
@@ -707,16 +773,27 @@ const ChatPage = () => {
                 onChange={handleUniversalFileSelect}
                 className="hidden"
               />
-              <button
-                type="button"
-                onClick={() => universalFileInputRef.current?.click()}
-                disabled={isLoading || isUploading}
-                className="p-2.5 rounded-lg border transition-colors disabled:opacity-30"
-                style={{ borderColor: agent.color + "30", color: agent.color }}
-                title="Upload a document, image, or file"
-              >
-                <Paperclip size={16} />
-              </button>
+              {canUseFeature("upload") ? (
+                <button
+                  type="button"
+                  onClick={() => universalFileInputRef.current?.click()}
+                  disabled={isLoading || isUploading}
+                  className="p-2.5 rounded-lg border transition-colors disabled:opacity-30"
+                  style={{ borderColor: agent.color + "30", color: agent.color }}
+                  title="Upload a document, image, or file"
+                >
+                  <Paperclip size={16} />
+                </button>
+              ) : (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" disabled className="p-2.5 rounded-lg border border-border text-muted-foreground opacity-50 cursor-not-allowed">
+                      <Lock size={16} />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="text-xs">Upgrade to Pro</TooltipContent>
+                </Tooltip>
+              )}
 
               <input
                 ref={inputRef} type="text" value={input} onChange={(e) => setInput(e.target.value)}
