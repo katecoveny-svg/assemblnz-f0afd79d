@@ -145,10 +145,12 @@ const AgentGrid = () => {
   const filtered = activeSector === "All" ? agents : agents.filter(a => a.sector === activeSector);
 
   return (
-    <div className="min-h-screen star-field flex flex-col">
+    <div className="min-h-screen flex flex-col relative">
+      <ParticleField />
+
       {/* Shared Brand Banner */}
       {brandProfile && brandName && (
-        <div className="bg-primary/5 border-b border-primary/10 px-4 py-2 flex items-center justify-center gap-2">
+        <div className="relative z-10 bg-primary/5 border-b border-primary/10 px-4 py-2 flex items-center justify-center gap-2">
           <NeonWave size={14} />
           <span className="text-xs text-primary">Brand loaded: <strong>{brandName}</strong> — All agents have your context</span>
           <button onClick={clearBrand} className="text-primary/60 hover:text-primary transition-colors">
@@ -157,53 +159,14 @@ const AgentGrid = () => {
         </div>
       )}
 
-      <BrandNav />
+      <div className="relative z-10">
+        <BrandNav />
+      </div>
 
       {/* ═══════════════════════ HERO ═══════════════════════ */}
-      <section className="relative overflow-hidden">
-        {/* Gradient orbs */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl" style={{ background: "hsl(var(--primary))" }} />
-        <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full opacity-10 blur-3xl" style={{ background: "hsl(var(--secondary))" }} />
-
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-20 sm:py-32 text-center relative z-10">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold mb-5 text-foreground leading-tight">
-            Your AI <span className="text-gradient-hero">workforce</span>
-          </h1>
-          <p className="text-base sm:text-lg max-w-2xl mx-auto mb-8 text-muted-foreground">
-            37 expert agents trained on NZ legislation. Try any agent free.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-12">
-            <button
-              onClick={scrollToGrid}
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 transition-all"
-            >
-              Browse agents <ArrowDown size={16} />
-            </button>
-            <Link
-              to="/pricing"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold border border-border text-foreground hover:border-foreground/20 transition-all"
-            >
-              See pricing
-            </Link>
-          </div>
-
-          {/* Stats bar */}
-          <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
-            {[
-              { value: "37", label: "Agents" },
-              { value: "20+", label: "NZ Industries" },
-              { value: "50+", label: "Acts Referenced" },
-              { value: "24/7", label: "Always On" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-xl sm:text-2xl font-extrabold text-primary">{stat.value}</div>
-                <div className="text-[11px] text-muted-foreground mt-0.5">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="relative z-10">
+        <AnimatedHero onScrollToGrid={scrollToGrid} />
+      </div>
 
       {/* ═══════════════════════ AGENT GRID ═══════════════════════ */}
       <main ref={gridRef} className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
