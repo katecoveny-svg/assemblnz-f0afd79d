@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import ParticleField from "@/components/ParticleField";
 import { Anchor, Fish, Ship, CloudSun, Shield, Wrench, Radio, BookOpen, Check, ArrowRight } from "lucide-react";
 
 const NEON = "#26C6DA";
