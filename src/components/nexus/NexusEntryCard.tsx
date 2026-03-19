@@ -169,7 +169,7 @@ const NexusEntryCard = ({ data, color = "#5B8CFF" }: Props) => {
         {/* Header */}
         <div className="px-4 py-3 flex items-center justify-between" style={{ borderBottom: `1px solid ${color}15` }}>
           <h4 className="text-sm font-bold" style={{ color }}>
-            📦 Import Entry Summary
+            <NeonBox size={16} color={color} /> Import Entry Summary
           </h4>
           <div className="flex gap-1.5">
             <button
