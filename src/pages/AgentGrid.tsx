@@ -122,7 +122,7 @@ const AgentGrid = () => {
       if (error) throw error;
 
       // Also send via Formspree for email notification
-      fetch("https://formspree.io/f/xwpkpjpd", {
+      fetch("https://formspree.io/f/xbdzwqpy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: trimmedName, email: trimmedEmail, message: trimmedMessage }),
