@@ -15,6 +15,7 @@ const BrandNav = () => {
       <div className="flex-1" />
       <nav className="flex items-center gap-4 text-xs">
         <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">Agents</Link>
+        <Link to="/pricing" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</Link>
         <Link to="/embed" className="text-muted-foreground hover:text-foreground transition-colors">Embed</Link>
         <Link to="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">Dashboard</Link>
         <AccountDropdown />
