@@ -97,7 +97,7 @@ const AuraGuestMemory = ({ onGenerate }: Props) => {
               <div key={item} className="p-2.5 rounded-lg border border-border text-foreground/80">{item}</div>
             ))}
           </div>
-          <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Return Guest Briefing</button>
+          <button onClick={() => gen(`Generate a return guest intelligence briefing for all staff. Include: everything the team needs to know about the returning guest, suggested room assignment, pre-arrival personal touches ('We remember you loved the 2019 Pinot — we've set aside a bottle'), surprise opportunities, and new activities since their last visit.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Return Guest Briefing</button>
         </div>
       )}
 
