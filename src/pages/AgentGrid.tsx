@@ -215,14 +215,27 @@ const AgentGrid = () => {
       </main>
 
       {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-center text-foreground mb-14">
+          <motion.h2
+            className="text-2xl sm:text-4xl font-extrabold text-center text-foreground mb-14"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
             How it <span className="text-gradient-hero">works</span>
-          </h2>
+          </motion.h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {HOW_IT_WORKS.map((item) => (
-              <div key={item.step} className="relative rounded-xl border border-border bg-card p-6 group">
+            {HOW_IT_WORKS.map((item, i) => (
+              <motion.div
+                key={item.step}
+                className="relative rounded-xl border border-border bg-card p-6 group hover:border-primary/20 transition-colors duration-300"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                whileHover={{ y: -4, boxShadow: "0 0 30px rgba(0,255,136,0.08)" }}
+              >
                 <div className="flex items-center gap-3 mb-4">
                   <span className="font-mono-jb text-[10px] font-bold text-primary">{item.step}</span>
                   <div className="text-primary">{item.icon}</div>
