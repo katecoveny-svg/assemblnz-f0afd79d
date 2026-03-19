@@ -282,6 +282,7 @@ const ChatPage = () => {
   const pollingRef = useRef<Record<string, number>>({});
 
   const isArc = agentId === "architecture" || agentId === "construction";
+  const isForge = agentId === "automotive";
   const isHelm = agentId === "operations";
   const isNexus = agentId === "customs";
   const isMarketing = agentId === "marketing";
