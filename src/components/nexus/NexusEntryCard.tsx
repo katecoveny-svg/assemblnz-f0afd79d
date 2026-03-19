@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Copy, Download, AlertTriangle, Check, FileDown, ShieldAlert } from "lucide-react";
+import { NeonBox } from "@/components/NeonIcons";
 import jsPDF from "jspdf";
 
 interface EntryLine {
