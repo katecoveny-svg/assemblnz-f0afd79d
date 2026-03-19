@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Check, X, Minus, ArrowRight, ChevronDown } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 
 const PLANS = [
