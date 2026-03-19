@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Check, ChevronDown, ArrowRight } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import ParticleField from "@/components/ParticleField";
 import { useState } from "react";
 
 const BUSINESS_PLANS = [
