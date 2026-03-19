@@ -80,7 +80,7 @@ const AuraKitchenFnB = ({ onGenerate }: Props) => {
                 <span key={a} className="px-2 py-1 rounded-full text-[10px] border border-border text-foreground/70">{a}</span>
               ))}
             </div>
-            <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Allergen Matrix</button>
+            <button onClick={() => gen(`Generate a comprehensive allergen matrix for a luxury lodge menu. Rows: each dish on a typical 7-course dinner + breakfast + lunch menu. Columns: ${ALLERGENS.join(", ")}. Mandatory under NZ Food Act 2014. Include notes on cross-contamination risks and kitchen protocols.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Allergen Matrix</button>
           </div>
         </div>
       )}
