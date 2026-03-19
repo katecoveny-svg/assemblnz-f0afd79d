@@ -136,6 +136,9 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           </motion.div>
         </motion.div>
 
+        {/* Agent Showcase Carousel */}
+        <AgentShowcase />
+
         <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
           {[
             { value: "37", label: "Agents" },
