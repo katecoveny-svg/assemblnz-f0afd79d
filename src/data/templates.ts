@@ -65,7 +65,7 @@ export const agentTemplates: Record<string, Template[]> = {
     { icon: "calendar", emoji: "📅", title: "Visa Pathway Timeline", description: "Map out your visa pathway from current status to residence with key dates and milestones.", timeSaved: "~1 hour", prompt: "I'll map out your visa pathway to residence. First, what is your current visa type?" },
     { icon: "document", emoji: "📝", title: "Job Check Preparation", description: "Prepare all the information needed for an AEWV job check application.", timeSaved: "~2 hours", prompt: "I'll help you prepare for a job check application. First, what is the job title?" },
   ],
-  prism: [
+  marketing: [
     { icon: "calendar", emoji: "📅", title: "30-Day Content Calendar", description: "Generate a complete month of social media posts with copy, hashtags, and posting times.", timeSaved: "~6 hours", prompt: "I'll generate a 30-day content calendar. First, what type of business are you?" },
     { icon: "checkmark", emoji: "✅", title: "Ad Compliance Check", description: "Check your ad copy against ASA Advertising Standards Code before publishing.", timeSaved: "~30 min", prompt: "I'll check your ad copy for ASA compliance. Please paste the ad copy you'd like me to review." },
     { icon: "sparkle", emoji: "🎨", title: "Brand Guidelines Outline", description: "Generate a brand guidelines document covering voice, tone, visual rules, and dos/don'ts.", timeSaved: "~8 hours", prompt: "I'll generate brand guidelines. First, what is your business name?" },
