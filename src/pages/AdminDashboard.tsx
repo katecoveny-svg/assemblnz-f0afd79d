@@ -121,6 +121,17 @@ const AdminDashboard = () => {
     setAgentStatuses(prev => prev.map(a => a.agent_id === agentId ? { ...a, is_online: isOnline } : a));
   };
 
+  const handleMarkRead = async (submissionId: string, isRead: boolean) => {
+    await adminCall("mark_submission_read", { submissionId, isRead });
+    setSubmissions(prev => prev.map(s => s.id === submissionId ? { ...s, is_read: isRead } : s));
+  };
+
+  const handleDeleteSubmission = async (submissionId: string) => {
+    if (!confirm("Delete this submission?")) return;
+    await adminCall("delete_submission", { submissionId });
+    setSubmissions(prev => prev.filter(s => s.id !== submissionId));
+  };
+
   if (authLoading || !isAdmin) return null;
 
   const getAgentInfo = (id: string) => agents.find(a => a.id === id);
