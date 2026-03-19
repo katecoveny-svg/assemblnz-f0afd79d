@@ -875,9 +875,19 @@ const ChatPage = () => {
         />
       )}
 
-      {/* Template Tab View */}
+      {/* Tab Views */}
       {activeTab === "content_studio" && isMarketing ? (
         <ContentStudio isPaid={isPaid} userRole={role || undefined} />
+      ) : activeTab === "tender_writer" && isConstruction ? (
+        <ApexTenderWriter isPaid={isPaid} userRole={role || undefined} onSendMessage={sendMessage} />
+      ) : activeTab === "awards" && isConstruction ? (
+        <ApexAwardsTracker isPaid={isPaid} userRole={role || undefined} />
+      ) : activeTab === "hs_hub" && isConstruction ? (
+        <ApexHSHub isPaid={isPaid} userRole={role || undefined} />
+      ) : activeTab === "esg" && isConstruction ? (
+        <ApexESGDashboard isPaid={isPaid} userRole={role || undefined} />
+      ) : activeTab === "internal_comms" ? (
+        <InternalComms agentId={agent.id} agentName={agent.name} agentColor={agent.color} isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "templates" && hasTemplateTab ? (
         <TemplateTab
           agentId={agent.id}
