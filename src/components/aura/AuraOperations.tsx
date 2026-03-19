@@ -79,7 +79,7 @@ const AuraOperations = ({ onGenerate }: Props) => {
           {["Log Maintenance Issue", "Priority Ranking (urgent / this week / scheduled)", "Seasonal Maintenance Calendar", "Asset Register (equipment, replacement schedule)"].map(t => (
             <div key={t} className="rounded-xl border border-border bg-card p-3 flex items-center justify-between">
               <span className="text-xs text-foreground">{t}</span>
-              <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Open</button>
+              <button onClick={() => gen(`Generate a "${t}" system for a luxury lodge maintenance operation. Include priority ranking, seasonal considerations for NZ climate, and asset tracking. Practical and comprehensive.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Open</button>
             </div>
           ))}
         </div>
