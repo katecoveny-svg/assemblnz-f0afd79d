@@ -80,7 +80,7 @@ const AuraRevenue = ({ onGenerate }: Props) => {
                 <div key={f} className="p-2 rounded-lg border border-border">{f}</div>
               ))}
             </div>
-            <button className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Seasonal Rate Calendar</button>
+            <button onClick={() => gen(`Generate a seasonal rate calendar for a luxury NZ lodge. Include peak (Dec-Mar), shoulder (Apr-May, Sep-Nov), and low (Jun-Aug) seasons with suggested nightly rates per room type, day-of-week premiums, length-of-stay incentives, and lead-time pricing psychology.`)} className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Seasonal Rate Calendar</button>
           </div>
         </div>
       )}
