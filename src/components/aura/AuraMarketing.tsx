@@ -75,7 +75,7 @@ const AuraMarketing = ({ onGenerate }: Props) => {
             {["Press Release", "Media Kit Checklist", "Journalist Hosting Programme", "Influencer Collaboration Brief", "Award Entry Writer"].map(t => (
               <div key={t} className="flex items-center justify-between p-2 rounded-lg border border-border mb-1.5">
                 <span className="text-xs text-foreground">{t}</span>
-                <button className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
+                <button onClick={() => gen(`Generate a luxury lodge "${t}" for PR and media purposes. Professional, polished, and aligned with premium hospitality positioning. Include specific examples and placeholders for property details.`)} className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
               </div>
             ))}
           </div>
