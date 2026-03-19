@@ -52,7 +52,7 @@ const CompletedModelCard = ({
           className="px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:opacity-80"
           style={{ border: `1px solid ${color}`, color }}
         >
-          🔄 Refine
+          <NeonRefresh size={14} color={color} /> Refine
         </button>
         <Tooltip>
           <TooltipTrigger asChild>
