@@ -24,11 +24,11 @@ const TENDER_SECTIONS = [
 ];
 
 const PRIVATE_SECTIONS = [
-  { id: "value_proposition", label: "Value Proposition", emoji: "💎" },
-  { id: "competitive_diff", label: "Competitive Differentiators", emoji: "🏆" },
-  { id: "client_testimonials", label: "Client Testimonials", emoji: "⭐" },
-  { id: "warranty_defects", label: "Warranty & Defects Period", emoji: "🔧" },
-  { id: "insurance_bonding", label: "Insurance & Bonding Details", emoji: "🛡️" },
+  { id: "value_proposition", label: "Value Proposition", iconKey: "sparkle" },
+  { id: "competitive_diff", label: "Competitive Differentiators", iconKey: "trophy" },
+  { id: "client_testimonials", label: "Client Testimonials", iconKey: "star" },
+  { id: "warranty_defects", label: "Warranty & Defects Period", iconKey: "wrench" },
+  { id: "insurance_bonding", label: "Insurance & Bonding Details", iconKey: "shield" },
   ...TENDER_SECTIONS.slice(0, 10),
 ];
 
