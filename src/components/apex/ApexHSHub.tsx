@@ -179,7 +179,7 @@ const ApexHSHub = ({ isPaid, userRole }: Props) => {
 
           {/* Resources */}
           <div className="rounded-xl p-4" style={{ background: "#FF000008", border: "1px solid #FF000020" }}>
-            <h3 className="text-xs font-bold text-foreground mb-2">🆘 NZ Support Resources</h3>
+            <h3 className="text-xs font-bold text-foreground mb-2 flex items-center gap-1"><NeonSiren size={14} color="#FF0000" /> NZ Support Resources</h3>
             <div className="space-y-2">
               {WELLBEING_RESOURCES.map(r => (
                 <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between px-3 py-2 rounded-lg bg-card hover:bg-muted transition-colors">
