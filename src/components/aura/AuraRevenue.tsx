@@ -117,7 +117,7 @@ const AuraRevenue = ({ onGenerate }: Props) => {
               </div>
             ))}
           </div>
-          <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate 90-Day Forecast</button>
+          <button onClick={() => gen(`Generate a 90-day forecasting dashboard report for a luxury NZ lodge. Include: occupancy forecast, revenue forecast, pace comparison vs last year, pick-up rate per week, cancellation rate and impact, and shoulder season gap analysis.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate 90-Day Forecast</button>
         </div>
       )}
 
