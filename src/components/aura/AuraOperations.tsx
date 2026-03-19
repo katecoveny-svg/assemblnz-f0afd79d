@@ -95,7 +95,7 @@ const AuraOperations = ({ onGenerate }: Props) => {
                   <div className="text-xs font-medium text-foreground">{c.area}</div>
                   <div className="text-[10px] text-muted-foreground">{c.ref} — {c.desc}</div>
                 </div>
-                <button className="px-2.5 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Review</button>
+                <button onClick={() => gen(`Generate a compliance review checklist for "${c.area}" in a NZ luxury lodge. Reference: ${c.ref}. Focus on: ${c.desc}. Include current requirements, renewal dates, action items, and responsible person. NZ-specific legislation.`)} className="px-2.5 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Review</button>
               </div>
             ))}
           </div>
