@@ -224,7 +224,7 @@ const PricingPage = () => {
       {/* Hero */}
       <section className="py-20 sm:py-28">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-foreground mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-syne font-extrabold text-foreground mb-4 leading-tight">
             Simple, honest <span className="text-gradient-hero">pricing</span>
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-4">
