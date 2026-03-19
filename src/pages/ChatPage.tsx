@@ -231,8 +231,8 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio">("chat");
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
-  const [activeTab, setActiveTab] = useState<"chat" | "templates">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [brandModalOpen, setBrandModalOpen] = useState(false);
