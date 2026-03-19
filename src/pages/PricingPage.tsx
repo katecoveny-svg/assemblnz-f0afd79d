@@ -7,82 +7,130 @@ import { useState } from "react";
 
 const BUSINESS_PLANS = [
   {
-    name: "STARTER",
+    name: "Starter",
     price: "$49",
+    suffix: "/mo NZD",
     desc: "For sole traders and micro businesses",
-    features: ["1 AI agent", "100 messages/month", "NZ legislation references", "Email support"],
+    features: [
+      "1 AI agent",
+      "100 messages per month",
+      "NZ legislation references",
+      "Email support",
+    ],
     cta: "Get started",
     href: "https://pay.airwallex.com/sghgspa33ccg",
     external: true,
     highlighted: false,
-    borderColor: "#ffffff10",
-    btnStyle: "outlined" as const,
   },
   {
-    name: "PRO",
+    name: "Pro",
     price: "$149",
-    desc: "For growing NZ businesses that need expert backup",
-    features: ["3 AI agents", "500 messages/month", "Website brand scan", "File upload and parsing", "Priority support"],
+    suffix: "/mo NZD",
+    desc: "For growing NZ businesses",
+    features: [
+      "3 AI agents",
+      "500 messages per month",
+      "Website brand scan",
+      "File upload and parsing",
+      "Template library access",
+      "Internal comms tools",
+      "Priority support",
+    ],
     cta: "Start Pro",
     href: "https://pay.airwallex.com/sghgspe6mx61",
     external: true,
     highlighted: true,
-    borderColor: "#00FF8830",
-    btnStyle: "green" as const,
   },
   {
-    name: "BUSINESS",
+    name: "Business",
     price: "$349",
-    desc: "All agents, unlimited access, built for teams",
-    features: ["All 22 industry agents", "Unlimited messages", "Brand scan + file upload", "Team access (5 seats)", "Usage analytics", "Priority support"],
+    suffix: "/mo NZD",
+    desc: "All agents, unlimited, built for teams",
+    features: [
+      "All 37 AI agents",
+      "Unlimited messages",
+      "Brand scan + file upload",
+      "Template library access",
+      "Internal comms tools",
+      "Content generator (PRISM)",
+      "Team access (5 seats)",
+      "Usage analytics",
+      "Priority support",
+    ],
     cta: "Start Business",
     href: "https://pay.airwallex.com/sghgspfps04o",
     external: true,
     highlighted: false,
-    borderColor: "#ffffff10",
-    btnStyle: "outlined" as const,
   },
   {
-    name: "ENTERPRISE",
+    name: "Enterprise",
     price: "Custom",
+    suffix: "",
     desc: "White-label, custom agents, your brand",
-    features: ["Your logo and branding", "Custom system prompts", "API access", "Unlimited users", "Your own domain", "Dedicated support"],
+    features: [
+      "Your logo and branding",
+      "Custom system prompts",
+      "API access",
+      "Unlimited users",
+      "Your own domain",
+      "Dedicated support",
+    ],
     cta: "Contact us",
     href: "#contact",
     external: false,
     highlighted: false,
-    borderColor: "#ffffff10",
-    btnStyle: "outlined" as const,
   },
 ];
 
 const HELM_PLANS = [
   {
-    name: "FREE",
+    name: "Free",
     price: "$0",
+    suffix: "",
     desc: "Try HELM with basic features",
-    features: ["10 messages/day", "Basic chat", "Meal plan suggestions"],
+    features: [
+      "10 messages per day",
+      "Basic chat",
+      "Meal plan suggestions",
+    ],
     cta: "Try free",
     href: "/chat/helm",
     external: false,
+    solid: false,
   },
   {
-    name: "PERSONAL",
+    name: "Personal",
     price: "$12",
+    suffix: "/mo NZD",
     desc: "Full life admin for one person",
-    features: ["Unlimited HELM chat", "File upload", "Meal plans and budgets", "2 lifestyle agents"],
+    features: [
+      "Unlimited HELM chat",
+      "File upload (school newsletters)",
+      "Meal plans and budgets",
+      "Vehicle and subscription tracking",
+      "2 lifestyle agents included",
+    ],
     cta: "Start Personal",
     href: "https://pay.airwallex.com/sghgsph924ew",
     external: true,
+    solid: true,
   },
   {
-    name: "FAMILY",
+    name: "Family",
     price: "$19",
+    suffix: "/mo NZD",
     desc: "For busy NZ families",
-    features: ["Everything in Personal", "Multi-child profiles", "Sunday briefing", "All lifestyle agents", "Partner access"],
+    features: [
+      "Everything in Personal",
+      "Multi-child profiles",
+      "Sunday week-ahead briefing",
+      "All 7 lifestyle agents",
+      "Partner access (2 seats)",
+    ],
     cta: "Start Family",
     href: "https://pay.airwallex.com/sghgspijg05v",
     external: true,
+    solid: false,
   },
 ];
 
@@ -121,6 +169,50 @@ const FAQS = [
   },
 ];
 
+/* Shared button renderer */
+const PlanButton = ({
+  href,
+  external,
+  label,
+  solid,
+  color,
+}: {
+  href: string;
+  external: boolean;
+  label: string;
+  solid: boolean;
+  color: string;
+}) => {
+  const solidStyle: React.CSSProperties = { background: color, color: "#0A0A14" };
+  const outlinedStyle: React.CSSProperties = {
+    background: "transparent",
+    color: color === "#00FF88" ? "#fff" : color,
+    border: `1px solid ${color}40`,
+  };
+  const style = solid ? solidStyle : outlinedStyle;
+  const className = "block w-full text-center text-[13px] font-bold py-3 rounded-[10px] transition-all hover:opacity-90";
+
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className} style={style}>
+        {label}
+      </a>
+    );
+  }
+  if (href.startsWith("#")) {
+    return (
+      <a href={href} className={className} style={style}>
+        {label}
+      </a>
+    );
+  }
+  return (
+    <Link to={href} className={className} style={style}>
+      {label}
+    </Link>
+  );
+};
+
 const PricingPage = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -138,72 +230,64 @@ const PricingPage = () => {
           <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-4">
             Start free. Upgrade when you're ready. No lock-in contracts.
           </p>
-          <p className="text-xs text-muted-foreground/50">All prices in NZD. GST inclusive.</p>
+          <p className="text-xs" style={{ color: "#ffffff50" }}>All prices in NZD. GST inclusive.</p>
         </div>
       </section>
 
       {/* Business Plans */}
-      <section className="pb-20">
+      <section className="pb-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-center text-foreground mb-10">
-            Plans for every <span className="text-gradient-hero">NZ business</span>
+          <h2 className="text-xl sm:text-2xl font-extrabold text-center text-foreground mb-12">
+            Plans for <span className="text-gradient-hero">NZ Businesses</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {BUSINESS_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative rounded-xl p-6 flex flex-col glass-card ${plan.highlighted ? "animated-border" : ""}`}
+                className="relative flex flex-col"
                 style={{
-                  border: plan.highlighted ? undefined : `1px solid ${plan.borderColor}`,
-                  boxShadow: plan.highlighted ? "0 0 40px hsl(var(--primary) / 0.08)" : "none",
+                  background: "#0E0E1A",
+                  border: plan.highlighted ? "1px solid #00FF8830" : "1px solid #ffffff08",
+                  borderRadius: 16,
+                  padding: 32,
+                  boxShadow: plan.highlighted ? "0 0 48px #00FF8810" : "none",
                 }}
               >
                 {plan.highlighted && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold px-3 py-1 rounded-full" style={{ background: "#00FF88", color: "#0A0A14" }}>
+                  <span
+                    className="absolute -top-3.5 left-1/2 -translate-x-1/2 text-[10px] font-bold px-4 py-1 rounded-full"
+                    style={{ background: "#00FF88", color: "#0A0A14" }}
+                  >
                     MOST POPULAR
                   </span>
                 )}
-                <h3 className="text-xs font-bold tracking-widest text-muted-foreground mb-2">{plan.name}</h3>
-                <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-4xl font-extrabold" style={{ color: "#FF2D9B" }}>{plan.price}</span>
-                  {plan.price !== "Custom" && <span className="text-xs text-muted-foreground">/mo NZD</span>}
+                <h3 className="text-[11px] font-bold tracking-[2px] uppercase mb-3" style={{ color: "#ffffff60" }}>
+                  {plan.name}
+                </h3>
+                <div className="flex items-baseline gap-1.5 mb-1">
+                  <span style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 900, lineHeight: 1 }}>
+                    {plan.price}
+                  </span>
+                  {plan.suffix && (
+                    <span style={{ color: "#ffffff40", fontSize: 16 }}>{plan.suffix}</span>
+                  )}
                 </div>
-                <p className="text-[11px] text-muted-foreground mb-5">{plan.desc}</p>
-                <ul className="space-y-2 mb-6 flex-1">
+                <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>{plan.desc}</p>
+                <ul className="space-y-2.5 mb-8 flex-1">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs text-foreground/80">
-                      <Check size={13} className="shrink-0 mt-0.5" style={{ color: "#00FF88" }} />
+                    <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
+                      <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#00FF88" }} />
                       {f}
                     </li>
                   ))}
                 </ul>
-                {plan.external ? (
-                  <a
-                    href={plan.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
-                    style={
-                      plan.btnStyle === "green"
-                        ? { background: "#00FF88", color: "#0A0A14" }
-                        : { background: "transparent", color: "#fff", border: "1px solid #ffffff20" }
-                    }
-                  >
-                    {plan.cta}
-                  </a>
-                ) : (
-                  <Link
-                    to={plan.href}
-                    className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
-                    style={
-                      plan.btnStyle === "green"
-                        ? { background: "#00FF88", color: "#0A0A14" }
-                        : { background: "transparent", color: "#fff", border: "1px solid #ffffff20" }
-                    }
-                  >
-                    {plan.cta}
-                  </Link>
-                )}
+                <PlanButton
+                  href={plan.href}
+                  external={plan.external}
+                  label={plan.cta}
+                  solid={plan.highlighted}
+                  color="#00FF88"
+                />
               </div>
             ))}
           </div>
@@ -211,51 +295,53 @@ const PricingPage = () => {
       </section>
 
       {/* HELM Family Plans */}
-      <section className="py-20 border-t border-border">
+      <section className="py-24 border-t border-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-center text-foreground mb-3">
-            HELM — For <span style={{ color: "#B388FF" }}>Families</span>
+          <h2 className="text-xl sm:text-2xl font-extrabold text-center text-foreground mb-2">
+            HELM — For <span style={{ color: "#B388FF" }}>NZ Families</span>
           </h2>
-          <p className="text-xs text-center text-muted-foreground mb-10">Life admin, sorted. Built for Kiwi households.</p>
+          <p className="text-[13px] text-center mb-12" style={{ color: "#ffffff50" }}>
+            AI life admin built for Kiwi households
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {HELM_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="rounded-xl p-6 flex flex-col glass-card border border-border hover:border-[hsl(var(--neon-pink)_/_0.15)] transition-colors duration-300"
+                className="flex flex-col"
+                style={{
+                  background: "#0E0E1A",
+                  border: "1px solid #ffffff08",
+                  borderRadius: 16,
+                  padding: 32,
+                }}
               >
-                <h3 className="text-xs font-bold tracking-widest mb-2" style={{ color: "#B388FF" }}>{plan.name}</h3>
-                <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-4xl font-extrabold" style={{ color: "#FF2D9B" }}>{plan.price}</span>
-                  {plan.price !== "$0" && <span className="text-xs text-muted-foreground">/mo NZD</span>}
+                <h3 className="text-[11px] font-bold tracking-[2px] uppercase mb-3" style={{ color: "#B388FF" }}>
+                  {plan.name}
+                </h3>
+                <div className="flex items-baseline gap-1.5 mb-1">
+                  <span style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 900, lineHeight: 1 }}>
+                    {plan.price}
+                  </span>
+                  {plan.suffix && (
+                    <span style={{ color: "#ffffff40", fontSize: 16 }}>{plan.suffix}</span>
+                  )}
                 </div>
-                <p className="text-[11px] text-muted-foreground mb-5">{plan.desc}</p>
-                <ul className="space-y-2 mb-6 flex-1">
+                <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>{plan.desc}</p>
+                <ul className="space-y-2.5 mb-8 flex-1">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs text-foreground/80">
-                      <Check size={13} className="shrink-0 mt-0.5" style={{ color: "#B388FF" }} />
+                    <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
+                      <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#B388FF" }} />
                       {f}
                     </li>
                   ))}
                 </ul>
-                {plan.external ? (
-                  <a
-                    href={plan.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
-                    style={{ background: "#B388FF", color: "#0A0A14" }}
-                  >
-                    {plan.cta}
-                  </a>
-                ) : (
-                  <Link
-                    to={plan.href}
-                    className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
-                    style={{ background: "#B388FF", color: "#0A0A14" }}
-                  >
-                    {plan.cta}
-                  </Link>
-                )}
+                <PlanButton
+                  href={plan.href}
+                  external={plan.external}
+                  label={plan.cta}
+                  solid={plan.solid}
+                  color="#B388FF"
+                />
               </div>
             ))}
           </div>
@@ -276,7 +362,10 @@ const PricingPage = () => {
                   className="w-full flex items-center justify-between px-5 py-4 text-left"
                 >
                   <span className="text-sm font-medium text-foreground pr-4">{faq.q}</span>
-                  <ChevronDown size={16} className={`text-muted-foreground shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`} />
+                  <ChevronDown
+                    size={16}
+                    className={`text-muted-foreground shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}
+                  />
                 </button>
                 {openFaq === i && (
                   <div className="px-5 pb-4">
@@ -295,10 +384,16 @@ const PricingPage = () => {
           <h2 className="text-xl sm:text-2xl font-extrabold text-foreground mb-3">Ready to get started?</h2>
           <p className="text-sm text-muted-foreground mb-6">Try any agent free — no signup required.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link to="/" className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 transition-all">
+            <Link
+              to="/"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 transition-all"
+            >
               Browse agents <ArrowRight size={16} />
             </Link>
-            <a href="mailto:hello@assembl.co.nz?subject=Enterprise Inquiry" className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold border border-border text-foreground hover:border-foreground/20 transition-all">
+            <a
+              href="mailto:hello@assembl.co.nz?subject=Enterprise Inquiry"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold border border-border text-foreground hover:border-foreground/20 transition-all"
+            >
               Talk to us about Enterprise
             </a>
           </div>
