@@ -38,8 +38,11 @@ const TemplateTab = ({ agentId, agentName, agentColor, onGenerate }: Props) => {
                 (e.currentTarget as HTMLElement).style.boxShadow = "none";
               }}
             >
-              {/* Emoji */}
-              <span className="text-xl mb-2">{t.emoji || "📄"}</span>
+              {/* Icon */}
+              <span className="mb-2">{(() => {
+                const IconComp = t.icon ? ICON_MAP[t.icon] : null;
+                return IconComp ? <IconComp size={22} color={agentColor} /> : <NeonDocument size={22} color={agentColor} />;
+              })()}</span>
 
               {/* Title */}
               <p className="text-[13px] font-bold text-foreground leading-tight mb-1">{t.title}</p>

@@ -853,12 +853,12 @@ const ChatPage = () => {
             {isAroha && (
               <>
                 {([
-                  { id: "aroha_contracts" as const, label: "📋 Contracts" },
-                  { id: "aroha_onboarding" as const, label: "🎓 Onboarding" },
-                  { id: "aroha_payroll" as const, label: "💰 Payroll" },
-                  { id: "aroha_recruitment" as const, label: "🎯 Recruitment" },
-                  { id: "aroha_people" as const, label: "❤️ People" },
-                  { id: "aroha_company" as const, label: "🏢 Setup" },
+                  { id: "aroha_contracts" as const, label: "Contracts" },
+                  { id: "aroha_onboarding" as const, label: "Onboarding" },
+                  { id: "aroha_payroll" as const, label: "Payroll" },
+                  { id: "aroha_recruitment" as const, label: "Recruitment" },
+                  { id: "aroha_people" as const, label: "People" },
+                  { id: "aroha_company" as const, label: "Setup" },
                 ]).map(t => (
                   <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
                     style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
