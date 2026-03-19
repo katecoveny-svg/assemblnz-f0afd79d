@@ -1,17 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { User, ChevronDown, LogOut, CreditCard, Settings } from "lucide-react";
+import { User, ChevronDown, LogOut, CreditCard, Settings, Shield } from "lucide-react";
 
 const roleBadge: Record<string, { label: string; color: string }> = {
   free: { label: "Free", color: "hsl(var(--muted-foreground))" },
   starter: { label: "Starter", color: "hsl(43,100%,50%)" },
   pro: { label: "Pro", color: "hsl(153,100%,50%)" },
   business: { label: "Business", color: "hsl(189,100%,50%)" },
+  admin: { label: "ADMIN", color: "hsl(0,84%,60%)" },
 };
 
 const AccountDropdown = () => {
-  const { user, profile, role, signOut, dailyMessageCount, isPaid, dailyLimit } = useAuth();
+  const { user, profile, role, isAdmin, signOut, dailyMessageCount, isPaid, dailyLimit } = useAuth();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const AccountDropdown = () => {
         className="flex items-center gap-2 text-xs px-2 py-1.5 rounded-lg border border-border hover:border-foreground/10 transition-colors"
       >
         <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: badge.color + "20" }}>
-          <User size={10} style={{ color: badge.color }} />
+          {isAdmin ? <Shield size={10} style={{ color: badge.color }} /> : <User size={10} style={{ color: badge.color }} />}
         </div>
         <span className="text-foreground/80 max-w-[80px] truncate hidden sm:inline">{displayName}</span>
         <span
@@ -60,14 +61,25 @@ const AccountDropdown = () => {
           <div className="px-3 py-3 border-b border-border">
             <p className="text-xs font-semibold text-foreground truncate">{displayName}</p>
             <p className="text-[10px] text-muted-foreground truncate">{user.email}</p>
-            {!isPaid && (
+            {!isPaid && !isAdmin && (
               <p className="text-[10px] mt-1.5" style={{ color: dailyMessageCount >= 8 ? "hsl(var(--destructive))" : "hsl(var(--muted-foreground))" }}>
                 {dailyLimit - dailyMessageCount} of {dailyLimit} free messages remaining today
               </p>
             )}
+            {isAdmin && (
+              <p className="text-[10px] mt-1.5 text-destructive font-medium">∞ Unlimited access</p>
+            )}
           </div>
 
           <div className="py-1">
+            {isAdmin && (
+              <button
+                onClick={() => { setOpen(false); navigate("/admin/dashboard"); }}
+                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-destructive/80 hover:text-destructive hover:bg-destructive/5 transition-colors"
+              >
+                <Shield size={12} /> Admin Dashboard
+              </button>
+            )}
             <button
               onClick={() => { setOpen(false); navigate("/dashboard"); }}
               className="w-full flex items-center gap-2 px-3 py-2 text-xs text-foreground/70 hover:text-foreground hover:bg-muted transition-colors"
