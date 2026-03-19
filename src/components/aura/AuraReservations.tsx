@@ -72,6 +72,31 @@ const AuraReservations = ({ onGenerate }: Props) => {
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<Omit<Booking, 'id'>>(emptyBooking);
 
+  // Filter state
+  const [searchName, setSearchName] = useState("");
+  const [filterRoom, setFilterRoom] = useState<string>("all");
+  const [filterVip, setFilterVip] = useState<string>("all");
+  const [filterDateFrom, setFilterDateFrom] = useState("");
+  const [filterDateTo, setFilterDateTo] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+
+  const hasActiveFilters = searchName || filterRoom !== "all" || filterVip !== "all" || filterDateFrom || filterDateTo;
+
+  const filteredBookings = bookings.filter(b => {
+    if (searchName && !b.guest_name.toLowerCase().includes(searchName.toLowerCase())) return false;
+    if (filterRoom !== "all" && b.room !== filterRoom) return false;
+    if (filterVip === "vip" && !b.vip) return false;
+    if (filterVip === "returning" && !b.returning_guest) return false;
+    if (filterVip === "standard" && (b.vip || b.returning_guest)) return false;
+    if (filterDateFrom && b.arrival < filterDateFrom) return false;
+    if (filterDateTo && b.departure > filterDateTo) return false;
+    return true;
+  });
+
+  const clearFilters = () => {
+    setSearchName(""); setFilterRoom("all"); setFilterVip("all"); setFilterDateFrom(""); setFilterDateTo("");
+  };
+
   // Fetch bookings
   useEffect(() => {
     if (!user) {
