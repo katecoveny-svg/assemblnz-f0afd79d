@@ -351,7 +351,7 @@ const PricingPage = () => {
       {/* FAQ */}
       <section className="py-20 sm:py-28 border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-center text-foreground mb-14">
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-center text-foreground mb-14">
             Frequently asked <span className="text-gradient-hero">questions</span>
           </h2>
           <div className="space-y-2">
