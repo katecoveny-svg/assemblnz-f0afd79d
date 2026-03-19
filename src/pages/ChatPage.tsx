@@ -13,6 +13,7 @@ import BrandScanModal from "@/components/BrandScanModal";
 import TemplateLibrary from "@/components/TemplateLibrary";
 import StructuredOutputCard, { detectOutputType } from "@/components/StructuredOutputCard";
 import NexusEntryCard from "@/components/nexus/NexusEntryCard";
+import NexusJobSheet, { type JobSheetData, type DocumentStatus } from "@/components/nexus/NexusJobSheet";
 import HandoffCard, { detectHandoff } from "@/components/HandoffCard";
 import { agentTemplates } from "@/data/templates";
 import { useAuth } from "@/hooks/useAuth";
@@ -68,7 +69,7 @@ function parseNexusEntry(content: string) {
   if (!/import entry summary/i.test(content)) return null;
   try {
     const lines: any[] = [];
-    const linePattern = /(\d+)\.\s+(.+?)[\n\r]+\s*HS Code:\s*(\S+)(.*?)[\n\r]+\s*Origin:\s*(\S+).*?[\n\r]+\s*Qty:.*?Value:\s*\$?([\d,.]+).*?[\n\r]+\s*Duty:.*?=\s*\$?([\d,.]+).*?[\n\r]+\s*GST:.*?=\s*\$?([\d,.]+)/gim;
+    const linePattern = /(\d+)\.\s+(.+?)[\n\r]+\s*HS Code:\s*(\S+)(.*?)[\n\r]+\s*Origin:\s*(\S+).*?(?:FTA:\s*([^\n|]+))?.*?[\n\r]+\s*Qty:.*?(?:(\d[\d,]*\s*\w*))?.*?Value:\s*\$?([\d,.]+).*?[\n\r]+\s*Duty:.*?=\s*\$?([\d,.]+).*?[\n\r]+\s*GST:.*?=\s*\$?([\d,.]+)/gim;
     let match;
     while ((match = linePattern.exec(content)) !== null) {
       const flagged = match[4]?.includes("⚠️") || match[4]?.includes("uncertain");
@@ -77,9 +78,11 @@ function parseNexusEntry(content: string) {
         description: match[2].trim(),
         hsCode: match[3].trim(),
         origin: match[5].trim(),
-        valueNZD: "$" + match[6].trim(),
-        duty: "$" + match[7].trim(),
-        gst: "$" + match[8].trim(),
+        fta: match[6]?.trim() || undefined,
+        qty: match[7]?.trim() || undefined,
+        valueNZD: "$" + match[8].trim(),
+        duty: "$" + match[9].trim(),
+        gst: "$" + match[10].trim(),
         flagged,
         flagReason: flagged ? "Uncertain classification — broker review recommended" : undefined,
       });
@@ -110,6 +113,63 @@ function parseNexusEntry(content: string) {
       })(),
     };
   } catch { return null; }
+}
+
+// Parse job sheet data from NEXUS response
+function parseJobSheetData(content: string): JobSheetData | null {
+  if (!/job sheet|freight|shipping details|consignee|bill of lading/i.test(content)) return null;
+  const getField = (label: string) => {
+    const m = content.match(new RegExp(label + "[:\\s]+([^\\n]+)", "i"));
+    return m?.[1]?.trim();
+  };
+  const containerMatches = content.match(/[A-Z]{4}\d{7}/g);
+  const data: JobSheetData = {
+    consignee: getField("Consignee") || getField("Importer"),
+    supplier: getField("Supplier") || getField("Shipper") || getField("Exporter"),
+    vessel: getField("Vessel") || getField("Ship"),
+    billOfLading: getField("B/L") || getField("Bill of Lading") || getField("BL Number"),
+    containerNumbers: containerMatches ? [...new Set(containerMatches)] : [],
+    origin: getField("Origin") || getField("Country of Origin"),
+    weights: getField("Weight") || getField("Gross Weight"),
+    packages: getField("Package") || getField("Packages"),
+  };
+  if (!data.consignee && !data.supplier && !data.billOfLading) return null;
+  return data;
+}
+
+// Parse MPI alerts from NEXUS response
+function parseMPIAlerts(content: string): { item: string; reason: string; requirement: string }[] {
+  const alerts: { item: string; reason: string; requirement: string }[] = [];
+  const mpiSection = content.match(/(?:MPI|biosecurity|quarantine)[^]*?(?=\n\n|\n#+|$)/i);
+  if (!mpiSection) return alerts;
+  const items = mpiSection[0].match(/[•\-*]\s*\*?\*?(.+?)(?:\*?\*?)\s*[-–:]\s*(.+)/g);
+  if (items) {
+    items.forEach((item) => {
+      const parts = item.replace(/^[•\-*]\s*\*?\*?/, "").split(/[-–:]\s*/);
+      if (parts.length >= 2) {
+        alerts.push({
+          item: parts[0].replace(/\*+/g, "").trim(),
+          reason: parts[1]?.trim() || "May require MPI clearance",
+          requirement: parts[2]?.trim() || "Submit to MPI for assessment prior to goods release",
+        });
+      }
+    });
+  }
+  return alerts;
+}
+
+// Detect document types from content
+function detectDocumentType(content: string): Partial<DocumentStatus> {
+  const lower = content.toLowerCase();
+  const detected: Partial<DocumentStatus> = {};
+  if (/job sheet|freight instruction|shipping instruction/i.test(lower)) detected.jobSheet = true;
+  if (/commercial invoice|invoice no|invoice number|inv[\s-]*\d/i.test(lower)) detected.commercialInvoice = true;
+  if (/packing list|pack list|carton list/i.test(lower)) detected.packingList = true;
+  if (/bill of lading|b\/l|bl number|ocean bill|airway bill|awb/i.test(lower)) detected.billOfLading = true;
+  if (/certificate of origin|origin cert|form [a-e]|preferential/i.test(lower)) detected.certificateOfOrigin = true;
+  if (/phytosanitary|plant health/i.test(lower)) detected.phytosanitaryCert = true;
+  if (/fumigation|methyl bromide|ispm\s*15/i.test(lower)) detected.fumigationCert = true;
+  return detected;
 }
 
 async function imageToBase64(file: File, maxDim = 1024): Promise<{ base64: string; mediaType: string }> {
@@ -173,16 +233,30 @@ const ChatPage = () => {
   const [templateModalOpen, setTemplateModalOpen] = useState(false);
   const [paywallType, setPaywallType] = useState<"preview" | "daily_limit" | null>(null);
 
+  // NEXUS Job Sheet workflow state
+  const [nexusWorkflowActive, setNexusWorkflowActive] = useState(false);
+  const [nexusWorkflowStep, setNexusWorkflowStep] = useState(0);
+  const [nexusJobSheetData, setNexusJobSheetData] = useState<JobSheetData | null>(null);
+  const [nexusDocStatus, setNexusDocStatus] = useState<DocumentStatus>({
+    jobSheet: false, commercialInvoice: false, packingList: false,
+    billOfLading: false, certificateOfOrigin: false, phytosanitaryCert: false,
+    fumigationCert: false, other: false,
+  });
+  const [nexusMPIAlerts, setNexusMPIAlerts] = useState<{ item: string; reason: string; requirement: string }[]>([]);
+  const [nexusContainerNumbers, setNexusContainerNumbers] = useState<string[]>([]);
+
   const { user, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached } = useAuth();
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const universalFileInputRef = useRef<HTMLInputElement>(null);
+  const nexusFileInputRef = useRef<HTMLInputElement>(null);
   const pollingRef = useRef<Record<string, number>>({});
 
   const isArc = agentId === "arc";
   const isHelm = agentId === "operations";
+  const isNexus = agentId === "nexus";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
 
   useEffect(() => {
@@ -191,6 +265,40 @@ const ChatPage = () => {
 
   useEffect(() => { return () => { Object.values(pollingRef.current).forEach(clearInterval); }; }, []);
   useEffect(() => { return () => { if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview); }; }, [pendingImagePreview]);
+
+  // Process NEXUS assistant responses for workflow data
+  const processNexusResponse = useCallback((content: string) => {
+    // Extract job sheet data
+    const jsData = parseJobSheetData(content);
+    if (jsData) {
+      setNexusJobSheetData((prev) => ({ ...prev, ...jsData }));
+      if (jsData.containerNumbers?.length) {
+        setNexusContainerNumbers((prev) => [...new Set([...prev, ...(jsData.containerNumbers || [])])]);
+      }
+    }
+
+    // Detect document types mentioned
+    const docTypes = detectDocumentType(content);
+    setNexusDocStatus((prev) => ({ ...prev, ...docTypes }));
+
+    // Parse MPI alerts
+    const alerts = parseMPIAlerts(content);
+    if (alerts.length > 0) {
+      setNexusMPIAlerts((prev) => {
+        const existing = new Set(prev.map((a) => a.item));
+        return [...prev, ...alerts.filter((a) => !existing.has(a.item))];
+      });
+    }
+
+    // Advance workflow step based on content
+    if (/import entry summary/i.test(content)) {
+      setNexusWorkflowStep(3); // Review entry
+    } else if (docTypes.commercialInvoice || docTypes.packingList || docTypes.billOfLading) {
+      setNexusWorkflowStep((s) => Math.max(s, 2));
+    } else if (jsData) {
+      setNexusWorkflowStep((s) => Math.max(s, 1));
+    }
+  }, []);
 
   const pollStatus = useCallback(
     (genId: string, taskId: string, type: "text-to-3d" | "image-to-3d" = "text-to-3d") => {
@@ -266,13 +374,13 @@ const ChatPage = () => {
     if (!canUseFeature("upload")) return;
     const file = e.target.files?.[0];
     if (!file) return;
-    const isImage = file.type.startsWith("image/");
-    const maxSize = isImage ? 5 * 1024 * 1024 : 10 * 1024 * 1024;
+    const isImageFile = file.type.startsWith("image/");
+    const maxSize = isImageFile ? 5 * 1024 * 1024 : 10 * 1024 * 1024;
     if (file.size > maxSize) {
-      alert(`File too large. Maximum ${isImage ? "5MB" : "10MB"} for ${isImage ? "images" : "documents"}.`);
+      alert(`File too large. Maximum ${isImageFile ? "5MB" : "10MB"} for ${isImageFile ? "images" : "documents"}.`);
       return;
     }
-    if (isImage) {
+    if (isImageFile) {
       if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview);
       setPendingImage(file);
       setPendingImagePreview(URL.createObjectURL(file));
@@ -288,6 +396,29 @@ const ChatPage = () => {
     if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview);
     setPendingImage(file);
     setPendingImagePreview(URL.createObjectURL(file));
+  };
+
+  const handleNexusJobSheetUpload = () => {
+    nexusFileInputRef.current?.click();
+  };
+
+  const handleNexusFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    // Activate workflow
+    setNexusWorkflowActive(true);
+    // Treat as a document upload with a job sheet processing instruction
+    const isImageFile = file.type.startsWith("image/");
+    if (isImageFile) {
+      if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview);
+      setPendingImage(file);
+      setPendingImagePreview(URL.createObjectURL(file));
+    } else {
+      setPendingFile(file);
+    }
+    const docType = nexusWorkflowStep === 0 ? "job sheet" : "supporting document";
+    sendMessage(`Process this ${docType} and extract all shipping, freight, and goods details. Flag any MPI/biosecurity requirements.`, isImageFile ? file : null, !isImageFile ? file : null);
+    if (nexusFileInputRef.current) nexusFileInputRef.current.value = "";
   };
 
   const clearPendingImage = () => {
@@ -388,7 +519,13 @@ const ChatPage = () => {
       });
 
       if (error) throw error;
-      setMessages((prev) => [...prev, { role: "assistant", content: data.content }]);
+      const assistantContent = data.content;
+      setMessages((prev) => [...prev, { role: "assistant", content: assistantContent }]);
+
+      // Process NEXUS workflow data from response
+      if (isNexus && nexusWorkflowActive) {
+        processNexusResponse(assistantContent);
+      }
     } catch (err) {
       console.error("Chat error:", err);
       setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Please try again." }]);
@@ -612,6 +749,17 @@ const ChatPage = () => {
         onClose={() => setPaywallType(null)}
       />
 
+      {/* Hidden NEXUS file input */}
+      {isNexus && (
+        <input
+          ref={nexusFileInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,.pdf,.csv,.xlsx,.xls,.txt,.text,.md,.doc,.docx"
+          onChange={handleNexusFileSelect}
+          className="hidden"
+        />
+      )}
+
       {/* HELM Dashboard View */}
       {isHelm && helmView === "dashboard" ? (
         <div className="flex-1 overflow-y-auto">
@@ -635,6 +783,32 @@ const ChatPage = () => {
 
                 {isHelm ? (
                   <HelmQuickActions onSelect={(msg) => sendMessage(msg)} />
+                ) : isNexus ? (
+                  <div className="flex flex-col gap-2 w-full max-w-sm mt-2">
+                    {/* Process Job Sheet CTA */}
+                    <button
+                      onClick={handleNexusJobSheetUpload}
+                      className="flex items-center justify-center gap-2 px-4 py-4 rounded-xl text-sm font-bold transition-all hover:scale-[1.01]"
+                      style={{
+                        background: `linear-gradient(135deg, ${agent.color}25, ${agent.color}10)`,
+                        border: `2px solid ${agent.color}50`,
+                        color: agent.color,
+                        boxShadow: `0 0 20px ${agent.color}15`,
+                      }}
+                    >
+                      <FileText size={18} />
+                      Process Job Sheet
+                    </button>
+                    <p className="text-[10px] text-muted-foreground">
+                      Upload a job sheet, freight instructions, or commercial invoice to start processing
+                    </p>
+                    <div className="border-t border-border my-1" />
+                    {agent.starters.map((q) => (
+                      <button key={q} onClick={() => sendMessage(q)} className="text-left text-xs px-4 py-3 rounded-lg border border-border bg-card hover:border-foreground/10 transition-colors text-foreground/70">
+                        {q}
+                      </button>
+                    ))}
+                  </div>
                 ) : (
                   <div className="flex flex-col gap-2 w-full max-w-sm mt-2">
                     {agent.starters.map((q) => (
@@ -653,64 +827,99 @@ const ChatPage = () => {
                 )}
               </div>
             ) : (
-              <div className="max-w-2xl mx-auto space-y-3">
-                {messages.map((msg, i) => (
-                  <div key={i}>
-                    <div
-                      className={`flex gap-2 opacity-0 animate-fade-up ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                      style={{ animationDelay: `${i * 30}ms`, animationFillMode: "forwards" }}
-                    >
-                      {msg.role === "assistant" && <RobotIcon color={agent.color} size={24} />}
-                      <div
-                        className={`max-w-[85%] px-3.5 py-2.5 rounded-xl text-sm leading-relaxed ${
-                          msg.role === "user" ? "text-foreground rounded-br-sm" : "bg-card text-foreground/90 rounded-bl-sm"
-                        }`}
-                        style={msg.role === "user" ? { background: `linear-gradient(135deg, ${agent.color}18, ${agent.color}08)`, border: `1px solid ${agent.color}15` } : {}}
-                      >
-                        {msg.imageUrl && (
-                          <img src={msg.imageUrl} alt="Uploaded" className="rounded-lg mb-2 max-h-48 w-auto object-cover" />
-                        )}
-                        {msg.fileName && (
-                          <div className="flex items-center gap-1.5 mb-2 text-xs text-foreground/60">
-                            <FileText size={14} />
-                            <span>{msg.fileName}</span>
-                          </div>
-                        )}
-                        {renderMessageContent(msg)}
-                      </div>
-                    </div>
-                    {msg.role === "assistant" && (() => {
-                      const handoffId = detectHandoff(msg.content);
-                      return handoffId ? <div className="ml-8 mt-1"><HandoffCard agentId={handoffId} /></div> : null;
-                    })()}
-                    {msg.role === "assistant" &&
-                      getGenerationsForIndex(i).map((gen) => (
-                        <div key={gen.id} className="mt-2 ml-8">
-                          {gen.status === "SUCCEEDED" && gen.modelUrls?.glb ? (
-                            <Suspense fallback={<ModelGenerationCard status="IN_PROGRESS" progress={99} prompt={gen.prompt} color={agent.color} />}>
-                              <CompletedModelCard
-                                glbUrl={`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/proxy-model?url=${encodeURIComponent(gen.modelUrls.glb)}`}
-                                modelUrls={gen.modelUrls} prompt={gen.prompt} color={agent.color} onRefine={handleRefine}
-                              />
-                            </Suspense>
-                          ) : (
-                            <ModelGenerationCard status={gen.status} progress={gen.progress} prompt={gen.prompt} color={agent.color} />
-                          )}
-                        </div>
-                      ))}
-                  </div>
-                ))}
-                {isLoading && (
-                  <div className="flex gap-2 items-center">
-                    <RobotIcon color={agent.color} size={24} />
-                    <div className="flex gap-1 px-3 py-2">
-                      {[0, 1, 2].map((i) => (
-                        <span key={i} className="w-1.5 h-1.5 rounded-full animate-bounce-dot" style={{ backgroundColor: agent.color, animationDelay: `${i * 0.2}s` }} />
-                      ))}
-                    </div>
+              <div className="max-w-2xl mx-auto flex gap-4">
+                {/* NEXUS Sidebar — workflow cards */}
+                {isNexus && nexusWorkflowActive && (
+                  <div className="hidden md:block w-72 shrink-0 space-y-3">
+                    <NexusJobSheet
+                      color={agent.color}
+                      onUploadJobSheet={handleNexusJobSheetUpload}
+                      workflowStep={nexusWorkflowStep}
+                      jobSheetData={nexusJobSheetData}
+                      documentStatus={nexusDocStatus}
+                      mpiAlerts={nexusMPIAlerts}
+                      containerNumbers={nexusContainerNumbers}
+                      isProcessing={isLoading}
+                    />
                   </div>
                 )}
-                <div ref={chatEndRef} />
+
+                {/* Messages */}
+                <div className="flex-1 space-y-3">
+                  {/* Mobile: inline NEXUS workflow cards */}
+                  {isNexus && nexusWorkflowActive && (
+                    <div className="md:hidden">
+                      <NexusJobSheet
+                        color={agent.color}
+                        onUploadJobSheet={handleNexusJobSheetUpload}
+                        workflowStep={nexusWorkflowStep}
+                        jobSheetData={nexusJobSheetData}
+                        documentStatus={nexusDocStatus}
+                        mpiAlerts={nexusMPIAlerts}
+                        containerNumbers={nexusContainerNumbers}
+                        isProcessing={isLoading}
+                      />
+                    </div>
+                  )}
+
+                  {messages.map((msg, i) => (
+                    <div key={i}>
+                      <div
+                        className={`flex gap-2 opacity-0 animate-fade-up ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                        style={{ animationDelay: `${i * 30}ms`, animationFillMode: "forwards" }}
+                      >
+                        {msg.role === "assistant" && <RobotIcon color={agent.color} size={24} />}
+                        <div
+                          className={`max-w-[85%] px-3.5 py-2.5 rounded-xl text-sm leading-relaxed ${
+                            msg.role === "user" ? "text-foreground rounded-br-sm" : "bg-card text-foreground/90 rounded-bl-sm"
+                          }`}
+                          style={msg.role === "user" ? { background: `linear-gradient(135deg, ${agent.color}18, ${agent.color}08)`, border: `1px solid ${agent.color}15` } : {}}
+                        >
+                          {msg.imageUrl && (
+                            <img src={msg.imageUrl} alt="Uploaded" className="rounded-lg mb-2 max-h-48 w-auto object-cover" />
+                          )}
+                          {msg.fileName && (
+                            <div className="flex items-center gap-1.5 mb-2 text-xs text-foreground/60">
+                              <FileText size={14} />
+                              <span>{msg.fileName}</span>
+                            </div>
+                          )}
+                          {renderMessageContent(msg)}
+                        </div>
+                      </div>
+                      {msg.role === "assistant" && (() => {
+                        const handoffId = detectHandoff(msg.content);
+                        return handoffId ? <div className="ml-8 mt-1"><HandoffCard agentId={handoffId} /></div> : null;
+                      })()}
+                      {msg.role === "assistant" &&
+                        getGenerationsForIndex(i).map((gen) => (
+                          <div key={gen.id} className="mt-2 ml-8">
+                            {gen.status === "SUCCEEDED" && gen.modelUrls?.glb ? (
+                              <Suspense fallback={<ModelGenerationCard status="IN_PROGRESS" progress={99} prompt={gen.prompt} color={agent.color} />}>
+                                <CompletedModelCard
+                                  glbUrl={`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/proxy-model?url=${encodeURIComponent(gen.modelUrls.glb)}`}
+                                  modelUrls={gen.modelUrls} prompt={gen.prompt} color={agent.color} onRefine={handleRefine}
+                                />
+                              </Suspense>
+                            ) : (
+                              <ModelGenerationCard status={gen.status} progress={gen.progress} prompt={gen.prompt} color={agent.color} />
+                            )}
+                          </div>
+                        ))}
+                    </div>
+                  ))}
+                  {isLoading && (
+                    <div className="flex gap-2 items-center">
+                      <RobotIcon color={agent.color} size={24} />
+                      <div className="flex gap-1 px-3 py-2">
+                        {[0, 1, 2].map((i) => (
+                          <span key={i} className="w-1.5 h-1.5 rounded-full animate-bounce-dot" style={{ backgroundColor: agent.color, animationDelay: `${i * 0.2}s` }} />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  <div ref={chatEndRef} />
+                </div>
               </div>
             )}
           </div>
@@ -797,7 +1006,7 @@ const ChatPage = () => {
 
               <input
                 ref={inputRef} type="text" value={input} onChange={(e) => setInput(e.target.value)}
-                placeholder={isArc && pendingImage ? "Describe the building, or send to generate from image..." : isHelm ? "Ask HELM anything — meals, budgets, schedules, life admin..." : `Ask ${agent.name} anything...`}
+                placeholder={isArc && pendingImage ? "Describe the building, or send to generate from image..." : isHelm ? "Ask HELM anything — meals, budgets, schedules, life admin..." : isNexus ? "Ask NEXUS or upload a document..." : `Ask ${agent.name} anything...`}
                 className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground/10 transition-colors"
               />
               <button type="submit" disabled={(!input.trim() && !pendingImage && !pendingFile) || isLoading || isUploading}
