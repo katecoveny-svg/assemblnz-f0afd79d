@@ -46,13 +46,13 @@ const StatCounter = ({ value, label, delay }: { value: string; label: string; de
     transition={{ duration: 0.6, delay }}
   >
     <motion.div
-      className="text-xl sm:text-2xl font-extrabold text-primary"
+      className="text-xl sm:text-2xl font-syne font-extrabold text-primary"
       animate={{ textShadow: ["0 0 10px rgba(0,255,136,0.3)", "0 0 20px rgba(0,255,136,0.5)", "0 0 10px rgba(0,255,136,0.3)"] }}
       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
     >
       {value}
     </motion.div>
-    <div className="text-[11px] text-muted-foreground mt-0.5">{label}</div>
+    <div className="text-[11px] font-jakarta text-muted-foreground mt-0.5">{label}</div>
   </motion.div>
 );
 
@@ -63,7 +63,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
       <FloatingOrb color="hsl(153 100% 50% / 0.15)" size={500} x="10%" y="-10%" delay={0} />
       <FloatingOrb color="hsl(326 100% 59% / 0.12)" size={400} x="60%" y="20%" delay={2} />
       <FloatingOrb color="hsl(189 100% 50% / 0.1)" size={350} x="30%" y="50%" delay={4} />
-      <FloatingOrb color="hsl(43 100% 50% / 0.08)" size={300} x="80%" y="-20%" delay={1} />
+      <FloatingOrb color="hsl(270 100% 77% / 0.08)" size={300} x="80%" y="-20%" delay={1} />
 
       {/* Animated grid lines */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -89,7 +89,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <motion.h1
-            className="text-4xl sm:text-6xl lg:text-7xl font-extrabold mb-5 text-foreground leading-tight"
+            className="text-4xl sm:text-6xl lg:text-7xl font-syne font-extrabold mb-5 text-foreground leading-tight"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -99,7 +99,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
         </motion.div>
 
         <motion.p
-          className="text-base sm:text-lg max-w-2xl mx-auto mb-8 text-muted-foreground"
+          className="text-base sm:text-lg max-w-2xl mx-auto mb-8 font-jakarta text-muted-foreground"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
@@ -115,7 +115,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
         >
           <motion.button
             onClick={onScrollToGrid}
-            className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-primary text-primary-foreground overflow-hidden"
+            className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl text-sm font-syne font-bold bg-primary text-primary-foreground overflow-hidden"
             whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(0,255,136,0.4)" }}
             whileTap={{ scale: 0.98 }}
           >
@@ -129,7 +129,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
             <Link
               to="/pricing"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold border border-border text-foreground hover:border-primary/30 transition-all"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl text-sm font-syne font-bold border border-white/[0.06] text-foreground hover:border-primary/30 hover:shadow-[0_0_20px_hsl(var(--primary)/0.1)] transition-all duration-300"
             >
               See pricing
             </Link>
