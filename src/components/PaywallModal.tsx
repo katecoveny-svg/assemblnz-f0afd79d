@@ -37,14 +37,12 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
                 >
                   Create free account
                 </Link>
-                <a
-                  href="https://pay.airwallex.com/sghgspe6mx61"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/pricing"
                   className="w-full py-2.5 rounded-lg border border-border text-sm font-medium text-foreground/70 text-center hover:text-foreground hover:border-foreground/10 transition-colors"
                 >
                   See pricing
-                </a>
+                </Link>
               </div>
             </>
           ) : (
@@ -55,14 +53,25 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
               <p className="text-sm text-muted-foreground">
                 Upgrade for unlimited access to all agents and premium features.
               </p>
-              <a
-                href="https://pay.airwallex.com/sghgspe6mx61"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold text-center hover:shadow-lg hover:shadow-primary/20 transition-all mt-2"
-              >
-                Upgrade now
-              </a>
+              <div className="flex flex-col gap-2 pt-2">
+                <a
+                  href="https://pay.airwallex.com/sghgspe6mx61"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full py-2.5 rounded-lg text-sm font-semibold text-center transition-all"
+                  style={{ background: "#00FF88", color: "#0A0A14" }}
+                >
+                  Upgrade to Pro — $149/mo
+                </a>
+                <a
+                  href="https://pay.airwallex.com/sghgspa33ccg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full py-2.5 rounded-lg border border-border text-sm font-medium text-foreground/70 text-center hover:text-foreground hover:border-foreground/10 transition-colors"
+                >
+                  Starter — $49/mo
+                </a>
+              </div>
             </>
           )}
         </div>
