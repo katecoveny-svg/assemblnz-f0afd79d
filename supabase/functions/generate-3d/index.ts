@@ -52,7 +52,7 @@ async function createTextTo3DTask(prompt: string, apiKey: string): Promise<strin
 }
 
 async function createImageTo3DTask(imageUrl: string, apiKey: string): Promise<string> {
-  const res = await fetch("https://api.meshy.ai/openapi/v2/image-to-3d", {
+  const res = await fetch("https://api.meshy.ai/openapi/v1/image-to-3d", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -81,7 +81,8 @@ async function pollMeshyTask(
 ): Promise<{ status: string; progress: number; modelUrls: any; thumbnailUrl: string; prompt: string }> {
   const start = Date.now();
   while (Date.now() - start < timeoutMs) {
-    const res = await fetch(`https://api.meshy.ai/openapi/v2/${endpoint}/${taskId}`, {
+    const apiVersion = endpoint === "image-to-3d" ? "v1" : "v2";
+    const res = await fetch(`https://api.meshy.ai/openapi/${apiVersion}/${endpoint}/${taskId}`, {
       headers: { Authorization: `Bearer ${apiKey}` },
     });
     if (!res.ok) {
@@ -126,7 +127,8 @@ Deno.serve(async (req) => {
     }
     try {
       const pollEndpoint = endpointType === "image-to-3d" ? "image-to-3d" : "text-to-3d";
-      const res = await fetch(`https://api.meshy.ai/openapi/v2/${pollEndpoint}/${taskIdParam}`, {
+      const apiVersion = pollEndpoint === "image-to-3d" ? "v1" : "v2";
+      const res = await fetch(`https://api.meshy.ai/openapi/${apiVersion}/${pollEndpoint}/${taskIdParam}`, {
         headers: { Authorization: `Bearer ${MESHY_API_KEY}` },
       });
       if (!res.ok) {
