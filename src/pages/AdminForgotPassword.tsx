@@ -33,7 +33,7 @@ const AdminForgotPassword = () => {
         <div className="text-center mb-8 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
           <div className="inline-flex items-center gap-2 mb-6">
             <AssemblLogo size={36} />
-            <span className="font-extrabold tracking-[2.5px] uppercase text-foreground">ASSEMBL</span>
+            <span className="font-syne font-extrabold tracking-[3px] uppercase text-foreground">ASSEMBL</span>
           </div>
           <div className="flex items-center justify-center gap-2 mb-2">
             <Shield size={20} className="text-destructive" />

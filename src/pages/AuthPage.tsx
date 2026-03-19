@@ -39,7 +39,7 @@ const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
         <div className="text-center mb-8 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
           <Link to="/" className="inline-flex items-center gap-2 mb-6">
             <AssemblLogo size={36} />
-            <span className="font-extrabold tracking-[2.5px] uppercase text-foreground">ASSEMBL</span>
+            <span className="font-syne font-extrabold tracking-[3px] uppercase text-foreground">ASSEMBL</span>
           </Link>
           <h1 className="text-2xl font-bold text-foreground">
             {mode === "signup" ? "Create your account" : "Welcome back"}

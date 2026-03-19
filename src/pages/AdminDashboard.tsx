@@ -143,7 +143,7 @@ const AdminDashboard = () => {
       <header className="flex items-center gap-3 px-6 py-4 border-b border-border">
         <Link to="/" className="flex items-center gap-3">
           <AssemblLogo size={28} />
-          <span className="font-extrabold tracking-[2.5px] uppercase text-foreground text-sm">ASSEMBL</span>
+          <span className="font-syne font-extrabold tracking-[3px] uppercase text-foreground text-sm">ASSEMBL</span>
         </Link>
         <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: 'hsl(0 84% 60% / 0.15)', color: 'hsl(0 84% 60%)' }}>
           <Shield size={10} /> ADMIN
