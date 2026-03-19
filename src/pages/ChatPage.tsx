@@ -24,6 +24,11 @@ import AgentWelcome from "@/components/AgentWelcome";
 import TemplateTab from "@/components/TemplateTab";
 import { TEMPLATE_TAB_AGENTS } from "@/data/templates";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import AITransparencyBadge from "@/components/chat/AITransparencyBadge";
+import ConversationExport from "@/components/chat/ConversationExport";
+import ResponseSources from "@/components/chat/ResponseSources";
+import SaveToLibrary from "@/components/chat/SaveToLibrary";
+import { useLanguage } from "@/components/chat/TeReoProvider";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 
