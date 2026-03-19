@@ -288,6 +288,81 @@ const AuraReservations = ({ onGenerate }: Props) => {
             </DialogContent>
           </Dialog>
 
+          {/* Search & Filter Bar */}
+          <div className="space-y-2">
+            <div className="flex gap-2 items-center">
+              <div className="relative flex-1">
+                <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  placeholder="Search guest name..."
+                  value={searchName}
+                  onChange={e => setSearchName(e.target.value)}
+                  className="pl-8 h-9 text-xs"
+                />
+              </div>
+              <Button
+                variant={showFilters ? "secondary" : "outline"}
+                size="sm"
+                className="gap-1.5 text-xs h-9"
+                onClick={() => setShowFilters(!showFilters)}
+              >
+                <Filter size={13} />
+                Filters
+                {hasActiveFilters && (
+                  <span className="ml-1 w-4 h-4 rounded-full text-[10px] flex items-center justify-center" style={{ background: color, color: "#0A0A14" }}>
+                    !
+                  </span>
+                )}
+              </Button>
+              {hasActiveFilters && (
+                <Button variant="ghost" size="sm" className="gap-1 text-xs h-9 text-muted-foreground" onClick={clearFilters}>
+                  <X size={13} /> Clear
+                </Button>
+              )}
+            </div>
+
+            {showFilters && (
+              <div className="grid grid-cols-2 gap-2 p-3 rounded-lg border border-border bg-card">
+                <div>
+                  <Label className="text-[11px] text-muted-foreground mb-1 block">Room</Label>
+                  <Select value={filterRoom} onValueChange={setFilterRoom}>
+                    <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Rooms</SelectItem>
+                      {ROOMS.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label className="text-[11px] text-muted-foreground mb-1 block">Guest Type</Label>
+                  <Select value={filterVip} onValueChange={setFilterVip}>
+                    <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Guests</SelectItem>
+                      <SelectItem value="vip">VIP Only</SelectItem>
+                      <SelectItem value="returning">Returning Only</SelectItem>
+                      <SelectItem value="standard">Standard Only</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label className="text-[11px] text-muted-foreground mb-1 block">From Date</Label>
+                  <Input type="date" value={filterDateFrom} onChange={e => setFilterDateFrom(e.target.value)} className="h-8 text-xs" />
+                </div>
+                <div>
+                  <Label className="text-[11px] text-muted-foreground mb-1 block">To Date</Label>
+                  <Input type="date" value={filterDateTo} onChange={e => setFilterDateTo(e.target.value)} className="h-8 text-xs" />
+                </div>
+              </div>
+            )}
+
+            {hasActiveFilters && (
+              <p className="text-[11px] text-muted-foreground">
+                Showing {filteredBookings.length} of {bookings.length} booking{bookings.length !== 1 ? "s" : ""}
+              </p>
+            )}
+          </div>
+
           {/* Room Status */}
           <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
             <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonCalendar size={16} color={color} /> Room Occupancy</h3>
@@ -322,13 +397,13 @@ const AuraReservations = ({ onGenerate }: Props) => {
           </div>
 
           {/* Booking Cards */}
-          {!loading && bookings.length === 0 && (
+          {!loading && filteredBookings.length === 0 && (
             <div className="text-center py-8 text-muted-foreground text-sm">
-              {user ? "No bookings yet. Click 'Add Booking' to create one." : "Sign in to manage bookings."}
+              {!user ? "Sign in to manage bookings." : hasActiveFilters ? "No bookings match your filters." : "No bookings yet. Click 'Add Booking' to create one."}
             </div>
           )}
           <div className="space-y-3">
-            {bookings.map(b => (
+            {filteredBookings.map(b => (
               <div key={b.id} className="rounded-xl border border-border bg-card p-4 cursor-pointer hover:border-foreground/10 transition-all" onClick={() => setSelectedBooking(b)}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
