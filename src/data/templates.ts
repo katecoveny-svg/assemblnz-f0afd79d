@@ -119,7 +119,7 @@ export const agentTemplates: Record<string, Template[]> = {
     { icon: "clipboard", title: "Client Brief", description: "Structure a comprehensive client brief", timeSaved: "~1 hour", prompt: "I need to create a client brief for an architecture project. What are the key requirements?" },
     { icon: "coin", title: "Fee Proposal", description: "Draft an architecture fee proposal", timeSaved: "~2 hours", prompt: "I need to prepare a fee proposal. Tell me about the project scope." },
   ],
-  axis: [
+  pm: [
     { icon: "document", title: "Project Charter", description: "Create a project charter document", timeSaved: "~2 hours", prompt: "I need a project charter. What is the project about?" },
     { icon: "warning", title: "Risk Register", description: "Build a comprehensive risk register", timeSaved: "~3 hours", prompt: "I need to create a risk register. What type of project?" },
     { icon: "team", title: "Stakeholder Analysis", description: "Map and analyse project stakeholders", timeSaved: "~1 hour", prompt: "Let's do a stakeholder analysis. Tell me about your project and key people involved." },
