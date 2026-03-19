@@ -8,7 +8,7 @@ import RobotIcon from "@/components/RobotIcon";
 import BrandFooter from "@/components/BrandFooter";
 import {
   Users, MessageSquare, DollarSign, TrendingUp, Shield,
-  Trash2, RefreshCw, ChevronDown, ExternalLink,
+  Trash2, RefreshCw, ChevronDown, ExternalLink, Mail, Eye, EyeOff,
 } from "lucide-react";
 
 interface Metrics {
