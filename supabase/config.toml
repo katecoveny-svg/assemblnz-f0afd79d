@@ -5,3 +5,12 @@ verify_jwt = false
 
 [functions.generate-3d]
 verify_jwt = false
+
+[functions.admin-api]
+verify_jwt = false
+
+[functions.scan-website]
+verify_jwt = false
+
+[functions.proxy-model]
+verify_jwt = false

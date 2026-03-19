@@ -2,7 +2,7 @@ import { useState, useEffect, createContext, useContext, ReactNode } from "react
 import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
 
-type AppRole = "free" | "starter" | "pro" | "business";
+type AppRole = "free" | "starter" | "pro" | "business" | "admin";
 
 interface AuthState {
   user: User | null;
@@ -14,8 +14,9 @@ interface AuthState {
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: string | null }>;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
-  incrementMessageCount: () => Promise<boolean>; // returns false if limit reached
+  incrementMessageCount: () => Promise<boolean>;
   isPaid: boolean;
+  isAdmin: boolean;
   canUseFeature: (feature: "upload" | "templates" | "brand_scan" | "pdf_download") => boolean;
   messageLimitReached: boolean;
   dailyLimit: number;
@@ -41,7 +42,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [dailyMessageCount, setDailyMessageCount] = useState(0);
 
-  const isPaid = role === "starter" || role === "pro" || role === "business";
+  const isAdmin = role === "admin";
+  const isPaid = isAdmin || role === "starter" || role === "pro" || role === "business";
   const dailyLimit = isPaid ? Infinity : FREE_DAILY_LIMIT;
   const messageLimitReached = !isPaid && user !== null && dailyMessageCount >= FREE_DAILY_LIMIT;
 
@@ -82,6 +84,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const fetchRole = async (uid: string) => {
+    // Check for admin role first (user can have multiple roles)
+    const { data: adminCheck } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", uid)
+      .eq("role", "admin" as any)
+      .single();
+    
+    if (adminCheck) {
+      setRole("admin");
+      return;
+    }
+
     const { data } = await supabase.rpc("get_user_role", { _user_id: uid });
     if (data) setRole(data as AppRole);
     else setRole("free");
@@ -117,7 +132,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const incrementMessageCount = async (): Promise<boolean> => {
-    // Not logged in — use sessionStorage preview counter
     if (!user) {
       const count = parseInt(sessionStorage.getItem(PREVIEW_MSG_KEY) || "0", 10);
       if (count >= PREVIEW_LIMIT) return false;
@@ -125,10 +139,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return true;
     }
 
-    // Paid users — unlimited
+    // Admin and paid users — unlimited
     if (isPaid) return true;
 
-    // Free account — check daily limit
     if (dailyMessageCount >= FREE_DAILY_LIMIT) return false;
 
     const today = new Date().toISOString().split("T")[0];
@@ -155,8 +168,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const canUseFeature = (feature: "upload" | "templates" | "brand_scan" | "pdf_download") => {
+    if (isAdmin) return true;
     if (isPaid) return true;
-    // Free and unauthenticated users can't use premium features
     return false;
   };
 
@@ -164,7 +177,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider value={{
       user, session, profile, role, loading,
       dailyMessageCount, signUp, signIn, signOut,
-      incrementMessageCount, isPaid, canUseFeature,
+      incrementMessageCount, isPaid, isAdmin, canUseFeature,
       messageLimitReached, dailyLimit,
     }}>
       {children}
