@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { NeonDiamond, NeonRefresh, NeonFilm } from "@/components/NeonIcons";
 
 const ThreeDViewer = lazy(() => import("@/components/ThreeDViewer"));
 
