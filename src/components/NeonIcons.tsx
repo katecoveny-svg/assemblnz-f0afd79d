@@ -713,5 +713,17 @@ export const ICON_MAP: Record<string, React.FC<P>> = {
   diamond: NeonDiamond,
   paperclip: NeonPaperclip,
   camera: NeonCamera,
-  flag: NeonNZFlag
+  flag: NeonNZFlag,
+  target: NeonTarget,
+  brain: NeonBrain,
+  muscle: NeonMuscle,
+  star: NeonStar,
+  fire: NeonFire,
+  tag: NeonTag,
+  chat: NeonChat,
+  trophy: NeonTrophy,
+  shield: NeonShield,
+  factory: NeonFactory,
+  family: NeonFamily,
+  hammer: NeonHammer,
 };
