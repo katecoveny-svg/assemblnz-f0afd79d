@@ -166,7 +166,7 @@ const AuraReservations = ({ onGenerate }: Props) => {
               ))}
             </div>
           </div>
-          <button className="w-full py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Monthly Review Summary</button>
+          <button onClick={() => gen(`Generate a monthly guest review summary report. Include: aggregate scores across platforms (TripAdvisor, Google, Booking.com), common praise themes, common improvement themes, sentiment analysis breakdown, and a prioritised action plan for next month. Present as a professional report the GM can share with the team.`)} className="w-full py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Monthly Review Summary</button>
         </div>
       )}
     </div>
