@@ -122,7 +122,7 @@ const AuraOperations = ({ onGenerate }: Props) => {
               </div>
             ))}
           </div>
-          <button className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Financial Report</button>
+          <button onClick={() => gen(`Generate a comprehensive monthly financial report for a luxury lodge. Include: RevPAR analysis, ADR trends, occupancy rate, total revenue MTD, F&B revenue per guest, activity revenue per guest, average length of stay, direct vs OTA booking ratio, cost per occupied room, and comparison to previous month. Include benchmarks for NZ luxury lodges and actionable recommendations.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Financial Report</button>
         </div>
       )}
     </div>
