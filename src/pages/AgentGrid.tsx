@@ -251,37 +251,42 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ PRICING ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-foreground mb-3">
+            <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
               Simple, honest <span className="text-gradient-hero">pricing</span>
             </h2>
-            <p className="text-sm text-muted-foreground">Start free. Upgrade when you're ready.</p>
+            <p className="text-sm font-jakarta text-muted-foreground">Start free. Upgrade when you're ready.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {PRICING_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="relative rounded-xl border bg-card p-6 flex flex-col"
+                className="relative rounded-2xl p-6 flex flex-col overflow-hidden border"
                 style={{
-                  borderColor: plan.highlighted ? plan.color + "40" : "hsl(0 0% 100% / 0.03)",
-                  boxShadow: plan.highlighted ? `0 0 30px ${plan.color}10` : "none",
+                  background: 'rgba(14, 14, 26, 0.7)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  borderColor: plan.highlighted ? plan.color + "40" : "rgba(255, 255, 255, 0.06)",
+                  boxShadow: plan.highlighted ? `0 0 30px ${plan.color}15` : "none",
                 }}
               >
+                {/* Top edge glow */}
+                <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} />
                 {plan.highlighted && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold px-3 py-1 rounded-full" style={{ background: plan.color, color: "#0A0A14" }}>
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-syne font-bold px-3 py-1 rounded-full" style={{ background: plan.color, color: "#0A0A14" }}>
                     MOST POPULAR
                   </span>
                 )}
-                <h3 className="text-lg font-bold text-foreground">{plan.name}</h3>
+                <h3 className="text-lg font-syne font-bold text-foreground">{plan.name}</h3>
                 <div className="flex items-baseline gap-0.5 my-3">
-                  <span className="text-3xl font-extrabold" style={{ color: plan.color }}>{plan.price}</span>
-                  {plan.period && <span className="text-xs text-muted-foreground">{plan.period}</span>}
+                  <span className="text-3xl font-syne font-extrabold" style={{ color: plan.color }}>{plan.price}</span>
+                  {plan.period && <span className="text-xs font-jakarta text-muted-foreground">{plan.period}</span>}
                 </div>
                 <ul className="flex-1 space-y-2 mb-6">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs text-foreground/70">
+                    <li key={f} className="flex items-start gap-2 text-xs font-jakarta text-foreground/70">
                       <Check size={12} className="mt-0.5 shrink-0" style={{ color: plan.color }} />
                       {f}
                     </li>
@@ -292,11 +297,12 @@ const AgentGrid = () => {
                     href={plan.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block text-center text-xs font-bold py-2.5 rounded-lg transition-all"
+                    className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300 hover:shadow-lg"
                     style={{
                       background: plan.highlighted ? plan.color : "transparent",
                       color: plan.highlighted ? "#0A0A14" : plan.color,
                       border: `1px solid ${plan.color}30`,
+                      boxShadow: plan.highlighted ? `0 0 20px ${plan.color}20` : 'none',
                     }}
                   >
                     {plan.cta}
@@ -304,7 +310,7 @@ const AgentGrid = () => {
                 ) : (
                   <Link
                     to={plan.href}
-                    className="block text-center text-xs font-bold py-2.5 rounded-lg transition-all"
+                    className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300"
                     style={{
                       background: plan.highlighted ? plan.color : "transparent",
                       color: plan.highlighted ? "#0A0A14" : plan.color,
