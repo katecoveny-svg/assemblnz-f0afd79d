@@ -571,7 +571,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    const { agentId, messages, brandContext, teReoPrompt } = await req.json();
+    const { agentId, messages, brandContext, teReoPrompt, propertyMode } = await req.json();
 
     const systemPrompt = agentPrompts[agentId];
     if (!systemPrompt) {
@@ -583,6 +583,23 @@ Deno.serve(async (req) => {
 
     // Build full system prompt with shared behaviours, optional brand context, and language preference
     let fullSystemPrompt = systemPrompt + SHARED_BEHAVIOURS;
+
+    // AURA Property Mode context
+    if (agentId === "hospitality" && propertyMode) {
+      const modeDescriptions: Record<string, string> = {
+        luxury_lodge: "LUXURY LODGE MODE: You are operating in premium luxury hospitality mode. Language should be elevated, understated, and world-class. All suggestions should reflect ultra-premium positioning. Use words like 'curated', 'bespoke', 'intimate', 'crafted', 'immersive', 'sanctuary'. Avoid 'cheap', 'deal', 'bargain', 'basic', 'accommodation' — use 'residence', 'lodge', 'retreat' instead. Think Two Michelin Key standards, Relais & Châteaux, Virtuoso. Every touchpoint should feel handwritten and personal.",
+        boutique_hotel: "BOUTIQUE HOTEL MODE: You are advising a boutique hotel — smaller, design-led, personality-driven. Focus on unique character, curated experiences, and personalised service that differentiates from chain hotels. Tone: stylish, warm, distinctive.",
+        restaurant_bar: "RESTAURANT / BAR MODE: You are advising a restaurant or bar operation. Focus on F&B excellence, menu engineering, service standards, liquor licensing, and creating memorable dining experiences. Less focus on accommodation, more on covers, cuisine, and atmosphere.",
+        cafe: "CAFÉ MODE: You are advising a café operation. Focus on quick service, coffee culture, cabinet food, brunch menus, community atmosphere, and efficient operations. Tone: friendly, approachable, community-focused.",
+        accommodation: "ACCOMMODATION PROVIDER MODE: You are advising a B&B, holiday home, or small accommodation provider. Focus on practical hosting, guest communication, booking management, and compliance. Tone: warm, practical, helpful.",
+        catering_events: "CATERING & EVENTS MODE: You are advising a catering or events business. Focus on event planning, menu design for large groups, logistics, dietary management at scale, and client proposals. Tone: organised, professional, creative.",
+      };
+      const modeContext = modeDescriptions[propertyMode];
+      if (modeContext) {
+        fullSystemPrompt += `\n\n[PROPERTY MODE: ${modeContext}]`;
+      }
+    }
+
     if (brandContext) {
       fullSystemPrompt += `\n\n[Brand context for this conversation — use this to tailor your advice to the user's specific business:\n${brandContext}]`;
     }
