@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { agents } from "@/data/agents";
 import { supabase } from "@/integrations/supabase/client";
-import { Copy, Check, Sparkles, Lock } from "lucide-react";
+import { Copy, Check, Sparkles, Lock, ImageIcon, Download, Loader2 } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
 import { NeonCamera, NeonDocument, NeonMail, NeonFilm, NeonTarget, NeonBulb, NeonSeedling, NeonSparkle, NeonStar } from "@/components/NeonIcons";
@@ -38,6 +38,9 @@ const ContentStudio = ({ isPaid, userRole }: ContentStudioProps) => {
   const [result, setResult] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [imagePrompt, setImagePrompt] = useState("");
 
   const isPro = userRole === "pro" || userRole === "business" || userRole === "admin";
   const agent = agents.find((a) => a.id === selectedAgent) || agents.find((a) => a.id === "marketing")!;
@@ -47,6 +50,7 @@ const ContentStudio = ({ isPaid, userRole }: ContentStudioProps) => {
     if (!selectedPlatform || !selectedContentType || !isPro) return;
     setIsGenerating(true);
     setResult(null);
+    setGeneratedImage(null);
 
     const platformLabel = PLATFORMS.find((p) => p.id === selectedPlatform)?.label || selectedPlatform;
     const contentTypeLabel = CONTENT_TYPES.find((c) => c.id === selectedContentType)?.label || selectedContentType;
@@ -74,6 +78,9 @@ Generate the following in a structured format:
 ## 💡 Posting Tip
 [One actionable tip for maximising engagement on ${platformLabel} for this content type]
 
+## 🎨 Image Direction
+[Describe the ideal visual for this post — colours, composition, text overlay suggestions, mood. Be specific enough that an AI image generator could create it.]
+
 Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
 
     try {
@@ -82,6 +89,12 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
       });
       if (error) throw error;
       setResult(data.content);
+
+      // Extract the image direction for pre-filling
+      const imageMatch = data.content?.match(/## 🎨 Image Direction\n([\s\S]*?)(?=\n## |$)/);
+      if (imageMatch?.[1]) {
+        setImagePrompt(imageMatch[1].trim());
+      }
     } catch (err) {
       console.error("Content generation error:", err);
       setResult("Sorry, something went wrong generating your content. Please try again.");
@@ -90,9 +103,54 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
     }
   };
 
+  const handleGenerateImage = async () => {
+    if (!imagePrompt.trim()) return;
+    setIsGeneratingImage(true);
+    setGeneratedImage(null);
+
+    const platformLabel = PLATFORMS.find((p) => p.id === selectedPlatform)?.label || selectedPlatform;
+    const contentTypeLabel = CONTENT_TYPES.find((c) => c.id === selectedContentType)?.label || selectedContentType;
+    const selectedAgentData = agents.find((a) => a.id === selectedAgent);
+    const agentContext = selectedAgentData
+      ? `For a ${selectedAgentData.sector} sector business.`
+      : "";
+
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-image", {
+        body: {
+          prompt: imagePrompt,
+          platform: selectedPlatform,
+          contentType: selectedContentType,
+          topic,
+          agentContext,
+        },
+      });
+      if (error) throw error;
+      if (data?.imageUrl) {
+        setGeneratedImage(data.imageUrl);
+      } else {
+        throw new Error("No image generated");
+      }
+    } catch (err) {
+      console.error("Image generation error:", err);
+      alert("Image generation failed. Please try again.");
+    } finally {
+      setIsGeneratingImage(false);
+    }
+  };
+
+  const handleDownloadImage = () => {
+    if (!generatedImage) return;
+    const link = document.createElement("a");
+    link.href = generatedImage;
+    link.download = `assembl-prism-${selectedPlatform || "social"}-${Date.now()}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleCopy = () => {
     if (!result) return;
-    // Extract just the caption section for clipboard
     const captionMatch = result.match(/## 📝 Full Caption\n([\s\S]*?)(?=\n## |$)/);
     const hashtagMatch = result.match(/## # Hashtags\n([\s\S]*?)(?=\n## |$)/);
     const textToCopy = [
@@ -113,13 +171,13 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
           <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: `${prismColor}15`, border: `1px solid ${prismColor}30` }}>
             <Lock size={28} style={{ color: prismColor }} />
           </div>
-          <h3 className="text-lg font-bold text-foreground mb-2">Content Studio</h3>
-          <p className="text-sm text-muted-foreground mb-4">
+          <h3 className="text-lg font-syne font-bold text-foreground mb-2">Content Studio</h3>
+          <p className="text-sm font-jakarta text-muted-foreground mb-4">
             Generate platform-ready social content with AI. Available on Pro and Business plans.
           </p>
           <a
             href="/pricing"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-syne font-bold transition-all"
             style={{ background: prismColor, color: "#0A0A14" }}
           >
             Upgrade to Pro
@@ -136,18 +194,18 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-1">
             <Sparkles size={18} style={{ color: prismColor }} />
-            <h2 className="text-lg font-bold text-foreground">Content Studio</h2>
+            <h2 className="text-lg font-syne font-bold text-foreground">Content Studio</h2>
           </div>
-          <p className="text-xs text-muted-foreground">Generate platform-ready social content powered by PRISM</p>
+          <p className="text-xs font-jakarta text-muted-foreground">Generate platform-ready social content & images powered by PRISM</p>
         </div>
 
         {/* Agent Selector */}
         <div>
-          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">Agent / Industry Context</label>
+          <label className="text-[11px] font-jakarta font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">Agent / Industry Context</label>
           <select
             value={selectedAgent}
             onChange={(e) => setSelectedAgent(e.target.value)}
-            className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm font-jakarta text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           >
             {agents.map((a) => (
               <option key={a.id} value={a.id}>
@@ -159,13 +217,13 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
 
         {/* Platform Selector */}
         <div>
-          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">Platform</label>
+          <label className="text-[11px] font-jakarta font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">Platform</label>
           <div className="flex flex-wrap gap-2">
             {PLATFORMS.map((p) => (
               <button
                 key={p.id}
                 onClick={() => setSelectedPlatform(p.id)}
-                className="px-3 py-2 rounded-lg text-xs font-medium transition-all border"
+                className="px-3 py-2 rounded-lg text-xs font-jakarta font-medium transition-all border"
                 style={{
                   backgroundColor: selectedPlatform === p.id ? `${prismColor}20` : "transparent",
                   borderColor: selectedPlatform === p.id ? `${prismColor}50` : "hsl(var(--border))",
@@ -180,13 +238,13 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
 
         {/* Content Type */}
         <div>
-          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">Content Type</label>
+          <label className="text-[11px] font-jakarta font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">Content Type</label>
           <div className="flex flex-wrap gap-2">
             {CONTENT_TYPES.map((c) => (
               <button
                 key={c.id}
                 onClick={() => setSelectedContentType(c.id)}
-                className="px-3 py-2 rounded-lg text-xs font-medium transition-all border"
+                className="px-3 py-2 rounded-lg text-xs font-jakarta font-medium transition-all border"
                 style={{
                   backgroundColor: selectedContentType === c.id ? `${prismColor}20` : "transparent",
                   borderColor: selectedContentType === c.id ? `${prismColor}50` : "hsl(var(--border))",
@@ -201,13 +259,13 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
 
         {/* Topic */}
         <div>
-          <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">Topic (optional)</label>
+          <label className="text-[11px] font-jakarta font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">Topic (optional)</label>
           <input
             type="text"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             placeholder="e.g. Summer sale, new team member, product feature..."
-            className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm font-jakarta text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           />
         </div>
 
@@ -215,7 +273,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
         <button
           onClick={handleGenerate}
           disabled={!selectedPlatform || !selectedContentType || isGenerating}
-          className="w-full py-3 rounded-xl text-sm font-bold transition-all disabled:opacity-40"
+          className="w-full py-3 rounded-xl text-sm font-syne font-bold transition-all disabled:opacity-40"
           style={{
             background: `linear-gradient(135deg, ${prismColor}, ${prismColor}CC)`,
             color: "#0A0A14",
@@ -230,7 +288,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
           ) : (
             <span className="flex items-center justify-center gap-2">
               <Sparkles size={16} />
-              Generate with PRISM
+              Generate Content & Image Direction
             </span>
           )}
         </button>
@@ -238,7 +296,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
         {/* Results */}
         {result && (
           <div
-            className="rounded-xl p-5 space-y-3"
+            className="rounded-xl p-5 space-y-4"
             style={{
               background: `linear-gradient(135deg, ${prismColor}08, ${prismColor}04)`,
               border: `1px solid ${prismColor}25`,
@@ -247,11 +305,11 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <AgentAvatar agentId="marketing" color={prismColor} size={20} showGlow={false} />
-                <span className="text-xs font-bold" style={{ color: prismColor }}>PRISM Content Studio</span>
+                <span className="text-xs font-syne font-bold" style={{ color: prismColor }}>PRISM Content Studio</span>
               </div>
               <button
                 onClick={handleCopy}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-all"
                 style={{
                   background: copied ? "#00FF8820" : `${prismColor}15`,
                   color: copied ? "#00FF88" : prismColor,
@@ -263,8 +321,75 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
               </button>
             </div>
 
-            <div className="prose prose-invert prose-sm max-w-none prose-headings:text-foreground prose-headings:text-sm prose-headings:font-bold prose-p:my-1.5 prose-ul:my-1 prose-li:my-0.5 prose-strong:text-foreground">
+            <div className="prose prose-invert prose-sm max-w-none prose-headings:text-foreground prose-headings:text-sm prose-headings:font-bold prose-p:my-1.5 prose-ul:my-1 prose-li:my-0.5 prose-strong:text-foreground font-jakarta">
               <ReactMarkdown>{result}</ReactMarkdown>
+            </div>
+
+            {/* Image Generation Section */}
+            <div
+              className="rounded-xl p-4 space-y-3"
+              style={{ background: `${prismColor}08`, border: `1px solid ${prismColor}15` }}
+            >
+              <div className="flex items-center gap-2">
+                <ImageIcon size={14} style={{ color: prismColor }} />
+                <span className="text-xs font-syne font-bold" style={{ color: prismColor }}>Generate Social Image</span>
+              </div>
+
+              <textarea
+                value={imagePrompt}
+                onChange={(e) => setImagePrompt(e.target.value)}
+                placeholder="Describe the image you want to create..."
+                rows={3}
+                className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm font-jakarta text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+              />
+
+              <button
+                onClick={handleGenerateImage}
+                disabled={!imagePrompt.trim() || isGeneratingImage}
+                className="w-full py-2.5 rounded-lg text-sm font-syne font-bold transition-all disabled:opacity-40"
+                style={{
+                  background: `linear-gradient(135deg, ${prismColor}90, ${prismColor}60)`,
+                  color: "#fff",
+                  boxShadow: imagePrompt.trim() ? `0 0 16px ${prismColor}20` : "none",
+                }}
+              >
+                {isGeneratingImage ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <Loader2 size={14} className="animate-spin" />
+                    Generating image...
+                  </span>
+                ) : (
+                  <span className="flex items-center justify-center gap-2">
+                    <ImageIcon size={14} />
+                    Generate Image
+                  </span>
+                )}
+              </button>
+
+              {/* Generated Image */}
+              {generatedImage && (
+                <div className="space-y-3">
+                  <div className="rounded-lg overflow-hidden border" style={{ borderColor: `${prismColor}25` }}>
+                    <img
+                      src={generatedImage}
+                      alt="Generated social media image"
+                      className="w-full h-auto"
+                    />
+                  </div>
+                  <button
+                    onClick={handleDownloadImage}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-syne font-bold transition-all"
+                    style={{
+                      background: "#00FF8820",
+                      color: "#00FF88",
+                      border: "1px solid #00FF8840",
+                    }}
+                  >
+                    <Download size={14} />
+                    Download Image
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}
