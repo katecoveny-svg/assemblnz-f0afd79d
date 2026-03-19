@@ -36,7 +36,10 @@ const FORECAST_METRICS = [
   { metric: "Shoulder Season Gaps", value: "— nights" },
 ];
 
-const AuraRevenue = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraRevenue = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"pricing" | "packages" | "forecast" | "channels">("pricing");
 
   return (
