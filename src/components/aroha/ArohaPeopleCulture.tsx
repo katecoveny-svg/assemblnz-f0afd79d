@@ -9,7 +9,7 @@ type SubTab = "wellness" | "retention" | "social" | "conflict";
 const WELLNESS_CATEGORIES = [
   {
     title: "Physical Wellness",
-    emoji: "💪",
+    icon: "muscle" as const,
     items: [
       { name: "Workplace Ergonomic Assessment Checklist", desc: "Comprehensive desk/workstation assessment covering monitor height, chair setup, keyboard position, lighting." },
       { name: "Standing Desk Policy", desc: "Policy for providing sit-stand desks. Includes request process, usage guidelines, and DSE assessment." },
