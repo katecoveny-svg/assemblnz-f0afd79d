@@ -77,7 +77,7 @@ const AuraGuestExperience = ({ onGenerate }: Props) => {
                 </div>
               </div>
             </div>
-            <button className="w-full mt-4 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Bespoke Itinerary</button>
+            <button onClick={() => gen(`Generate a bespoke ${stayLength}-night stay itinerary for a luxury lodge guest. Guest interests: ${selectedActivities.length > 0 ? selectedActivities.join(", ") : "general luxury experience"}. Include: day-by-day schedule with morning activities, lunch options (packed or restaurant), afternoon experiences, pre-dinner drinks, multi-course dinner with wine pairings. Add surprise & delight moments, downtime suggestions, and weather-appropriate alternatives. Include signature experiences: Black Diamond dining, heli-hike, horse trekking, fly fishing, stargazing. Format as a beautiful 'Stay Guide'.`)} className="w-full mt-4 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Bespoke Itinerary</button>
           </div>
 
           {/* Lindis Group Signatures */}
