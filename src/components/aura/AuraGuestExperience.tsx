@@ -137,7 +137,7 @@ const AuraGuestExperience = ({ onGenerate }: Props) => {
               <div className="p-3 rounded-lg border border-border"><span className="font-medium text-foreground">Improvement Themes:</span> <span className="text-muted-foreground">Action items with priority</span></div>
               <div className="p-3 rounded-lg border border-border"><span className="font-medium text-foreground">Competitive Benchmarking:</span> <span className="text-muted-foreground">Position vs comparable properties</span></div>
             </div>
-            <button className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Analyse Guest Feedback</button>
+            <button onClick={() => gen(`Analyse the following guest feedback and generate a comprehensive report. Include: sentiment analysis (positive/negative/neutral by category — service, dining, rooms, activities, location), common praise themes, common improvement themes, competitive benchmarking suggestions, and a quarterly improvement action plan with priorities. Format as a professional report.`)} className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Analyse Guest Feedback</button>
           </div>
         </div>
       )}
