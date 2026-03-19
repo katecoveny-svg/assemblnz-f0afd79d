@@ -136,7 +136,7 @@ const AuraGuestMemory = ({ onGenerate }: Props) => {
                   <div className="text-xs font-medium text-foreground">{t.label}</div>
                   <div className="text-[10px] text-muted-foreground">{t.desc}</div>
                 </div>
-                <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+                <button onClick={() => gen(`Generate a personalised "${t.label}" communication for a luxury lodge guest. ${t.desc}. Tone: personal, handwritten feel — never mass-marketed. Warm and understated.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
               </div>
             ))}
           </div>
