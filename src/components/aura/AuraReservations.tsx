@@ -142,7 +142,7 @@ const AuraReservations = ({ onGenerate }: Props) => {
                     <div className="text-xs font-medium text-foreground">{t.label}</div>
                     <div className="text-[10px] text-muted-foreground">{t.desc}</div>
                   </div>
-                  <button className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
+                  <button onClick={() => gen(`Generate a luxury lodge "${t.label}" template. ${t.desc}. The tone must feel handwritten and personal — warm, understated, anticipatory. Think 'We've remembered your favourite Pinot from last year and have a bottle waiting in your suite' not 'Dear Guest, please rate your stay.' Include personalisation placeholders for guest name, dates, room, and occasion.`)} className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
                 </div>
               ))}
             </div>
