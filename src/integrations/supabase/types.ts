@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      agent_status: {
+        Row: {
+          agent_id: string
+          is_online: boolean
+          maintenance_message: string | null
+          updated_at: string
+        }
+        Insert: {
+          agent_id: string
+          is_online?: boolean
+          maintenance_message?: string | null
+          updated_at?: string
+        }
+        Update: {
+          agent_id?: string
+          is_online?: boolean
+          maintenance_message?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       daily_messages: {
         Row: {
           id: string
@@ -32,6 +53,33 @@ export type Database = {
           message_count?: number
           message_date?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      message_log: {
+        Row: {
+          agent_id: string
+          created_at: string
+          id: string
+          message_preview: string
+          user_id: string | null
+          user_name: string | null
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          id?: string
+          message_preview: string
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          id?: string
+          message_preview?: string
+          user_id?: string | null
+          user_name?: string | null
         }
         Relationships: []
       }
