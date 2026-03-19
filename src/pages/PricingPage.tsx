@@ -176,17 +176,33 @@ const PricingPage = () => {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  to={plan.href}
-                  className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
-                  style={
-                    plan.btnStyle === "green"
-                      ? { background: "#00FF88", color: "#0A0A14" }
-                      : { background: "transparent", color: "#fff", border: "1px solid #ffffff20" }
-                  }
-                >
-                  {plan.cta}
-                </Link>
+                {plan.external ? (
+                  <a
+                    href={plan.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
+                    style={
+                      plan.btnStyle === "green"
+                        ? { background: "#00FF88", color: "#0A0A14" }
+                        : { background: "transparent", color: "#fff", border: "1px solid #ffffff20" }
+                    }
+                  >
+                    {plan.cta}
+                  </a>
+                ) : (
+                  <Link
+                    to={plan.href}
+                    className="block text-center text-xs font-bold py-3 rounded-lg transition-all"
+                    style={
+                      plan.btnStyle === "green"
+                        ? { background: "#00FF88", color: "#0A0A14" }
+                        : { background: "transparent", color: "#fff", border: "1px solid #ffffff20" }
+                    }
+                  >
+                    {plan.cta}
+                  </Link>
+                )}
               </div>
             ))}
           </div>
