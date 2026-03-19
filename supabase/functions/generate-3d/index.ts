@@ -52,7 +52,7 @@ async function createTextTo3DTask(prompt: string, apiKey: string): Promise<strin
 }
 
 async function createImageTo3DTask(imageUrl: string, apiKey: string): Promise<string> {
-  const res = await fetch("https://api.meshy.ai/openapi/v2/image-to-3d", {
+  const res = await fetch("https://api.meshy.ai/openapi/v1/image-to-3d", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
