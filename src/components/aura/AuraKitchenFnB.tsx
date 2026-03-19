@@ -100,7 +100,7 @@ const AuraKitchenFnB = ({ onGenerate }: Props) => {
                 <div className="text-xs font-medium text-foreground">{t.title}</div>
                 <div className="text-[10px] text-muted-foreground">{t.desc}</div>
               </div>
-              <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+              <button onClick={() => gen(`Generate a "${t.title}" for a luxury lodge kitchen. ${t.desc}. Make it practical, actionable, and NZ-specific. Include Food Act 2014 compliance where relevant.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
             </div>
           ))}
         </div>
