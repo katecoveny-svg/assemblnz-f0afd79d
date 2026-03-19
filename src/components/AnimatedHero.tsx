@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
+import AgentShowcase from "@/components/AgentShowcase";
 import { Link } from "react-router-dom";
 
 interface AnimatedHeroProps {
