@@ -456,6 +456,18 @@ export const agents: Agent[] = [
     expertise: ["NEMA", "Earthquake prep", "Tsunami zones", "Emergency kits", "Civil defence"],
     starters: ["Earthquake preparedness checklist for my family", "Am I in a tsunami evacuation zone?", "What should be in my emergency kit?"],
   },
+  {
+    id: "hr",
+    name: "AROHA",
+    designation: "ASM-038",
+    role: "HR & Employment Law Specialist",
+    tagline: "People-first HR for every NZ workplace",
+    color: "#FF6F91",
+    sector: "HR & Employment",
+    traits: ["Employment law expert", "People-focused", "NZ-compliant"],
+    expertise: ["Employment law", "HR management", "Payroll", "Recruitment", "Compliance"],
+    starters: ["Generate an employment agreement", "What are my obligations under the Holidays Act?", "Create an onboarding plan for a new hire"],
+  },
 ];
 
 export const sectors = [
