@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { agents } from "@/data/agents";
 import RobotIcon from "@/components/RobotIcon";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import ModelGenerationCard from "@/components/ModelGenerationCard";
 import HelmQuickActions from "@/components/helm/HelmQuickActions";
@@ -31,6 +31,7 @@ import SaveToLibrary from "@/components/chat/SaveToLibrary";
 import LegislationCard from "@/components/chat/LegislationCard";
 import LanguageSelector from "@/components/chat/LanguageSelector";
 import { useLanguage } from "@/components/chat/TeReoProvider";
+import ContentStudio from "@/components/ContentStudio";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 
@@ -230,8 +231,8 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio">("chat");
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
-  const [activeTab, setActiveTab] = useState<"chat" | "templates">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [brandModalOpen, setBrandModalOpen] = useState(false);
@@ -256,7 +257,7 @@ const ChatPage = () => {
   const [nexusMPIAlerts, setNexusMPIAlerts] = useState<{ item: string; reason: string; requirement: string }[]>([]);
   const [nexusContainerNumbers, setNexusContainerNumbers] = useState<string[]>([]);
 
-  const { user, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached } = useAuth();
+  const { user, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached, role } = useAuth();
   const { teReoPrompt } = useLanguage();
   const [conversationId, setConversationId] = useState<string | null>(null);
 
@@ -270,6 +271,7 @@ const ChatPage = () => {
   const isArc = agentId === "architecture" || agentId === "construction";
   const isHelm = agentId === "operations";
   const isNexus = agentId === "customs";
+  const isMarketing = agentId === "marketing";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
@@ -757,7 +759,7 @@ const ChatPage = () => {
         )}
 
         {/* Tab Toggle: Chat / Templates (for template-tab agents) + Dashboard (for HELM) */}
-        {(hasTemplateTab || isHelm) && (
+        {(hasTemplateTab || isHelm || isMarketing) && (
           <div className="flex rounded-lg overflow-hidden border border-border shrink-0">
             <button
               onClick={() => { setActiveTab("chat"); if (isHelm) setHelmView("chat"); }}
@@ -767,14 +769,26 @@ const ChatPage = () => {
                 color: activeTab === "chat" && (!isHelm || helmView === "chat") ? agent.color : "hsl(var(--muted-foreground))",
               }}
             >💬 Chat</button>
-            <button
-              onClick={() => { setActiveTab("templates"); if (isHelm) setHelmView("chat"); }}
-              className="px-2.5 py-1 text-[10px] font-medium transition-colors"
-              style={{
-                backgroundColor: activeTab === "templates" ? agent.color + "20" : "transparent",
-                color: activeTab === "templates" ? agent.color : "hsl(var(--muted-foreground))",
-              }}
-            >📋 Templates</button>
+            {(hasTemplateTab) && (
+              <button
+                onClick={() => { setActiveTab("templates"); if (isHelm) setHelmView("chat"); }}
+                className="px-2.5 py-1 text-[10px] font-medium transition-colors"
+                style={{
+                  backgroundColor: activeTab === "templates" ? agent.color + "20" : "transparent",
+                  color: activeTab === "templates" ? agent.color : "hsl(var(--muted-foreground))",
+                }}
+              >📋 Templates</button>
+            )}
+            {isMarketing && (
+              <button
+                onClick={() => setActiveTab("content_studio")}
+                className="px-2.5 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
+                style={{
+                  backgroundColor: activeTab === "content_studio" ? agent.color + "20" : "transparent",
+                  color: activeTab === "content_studio" ? agent.color : "hsl(var(--muted-foreground))",
+                }}
+              ><Sparkles size={10} /> Content Studio</button>
+            )}
             {isHelm && (
               <button
                 onClick={() => { setActiveTab("chat"); setHelmView("dashboard"); }}
@@ -832,7 +846,9 @@ const ChatPage = () => {
       )}
 
       {/* Template Tab View */}
-      {activeTab === "templates" && hasTemplateTab ? (
+      {activeTab === "content_studio" && isMarketing ? (
+        <ContentStudio isPaid={isPaid} userRole={role || undefined} />
+      ) : activeTab === "templates" && hasTemplateTab ? (
         <TemplateTab
           agentId={agent.id}
           agentName={agent.name}
