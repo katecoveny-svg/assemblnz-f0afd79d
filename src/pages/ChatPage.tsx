@@ -21,6 +21,8 @@ import AccountDropdown from "@/components/AccountDropdown";
 import PaywallModal from "@/components/PaywallModal";
 import { NeonLock } from "@/components/NeonIcons";
 import AgentWelcome from "@/components/AgentWelcome";
+import TemplateTab from "@/components/TemplateTab";
+import { TEMPLATE_TAB_AGENTS } from "@/data/templates";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
@@ -222,6 +224,7 @@ const ChatPage = () => {
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [brandModalOpen, setBrandModalOpen] = useState(false);
@@ -259,6 +262,7 @@ const ChatPage = () => {
   const isHelm = agentId === "operations";
   const isNexus = agentId === "nexus";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
+  const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -664,8 +668,8 @@ const ChatPage = () => {
           <p className="text-[11px] truncate" style={{ color: agent.color }}>{agent.role}</p>
         </div>
 
-        {/* Templates button */}
-        {hasTemplates && (
+        {/* Templates button (legacy modal for non-tab agents) */}
+        {hasTemplates && !hasTemplateTab && (
           <LockedButton
             feature="templates"
             onClick={() => setTemplateModalOpen(true)}
@@ -702,19 +706,35 @@ const ChatPage = () => {
           </LockedButton>
         )}
 
-        {/* HELM Dashboard Toggle */}
-        {isHelm && (
+        {/* Tab Toggle: Chat / Templates (for template-tab agents) + Dashboard (for HELM) */}
+        {(hasTemplateTab || isHelm) && (
           <div className="flex rounded-lg overflow-hidden border border-border shrink-0">
             <button
-              onClick={() => setHelmView("chat")}
+              onClick={() => { setActiveTab("chat"); if (isHelm) setHelmView("chat"); }}
               className="px-2.5 py-1 text-[10px] font-medium transition-colors"
-              style={{ backgroundColor: helmView === "chat" ? HELM_COLOR + "20" : "transparent", color: helmView === "chat" ? HELM_COLOR : "hsl(var(--muted-foreground))" }}
-            >Chat</button>
+              style={{
+                backgroundColor: activeTab === "chat" && (!isHelm || helmView === "chat") ? agent.color + "20" : "transparent",
+                color: activeTab === "chat" && (!isHelm || helmView === "chat") ? agent.color : "hsl(var(--muted-foreground))",
+              }}
+            >💬 Chat</button>
             <button
-              onClick={() => setHelmView("dashboard")}
+              onClick={() => { setActiveTab("templates"); if (isHelm) setHelmView("chat"); }}
               className="px-2.5 py-1 text-[10px] font-medium transition-colors"
-              style={{ backgroundColor: helmView === "dashboard" ? HELM_COLOR + "20" : "transparent", color: helmView === "dashboard" ? HELM_COLOR : "hsl(var(--muted-foreground))" }}
-            >Dashboard</button>
+              style={{
+                backgroundColor: activeTab === "templates" ? agent.color + "20" : "transparent",
+                color: activeTab === "templates" ? agent.color : "hsl(var(--muted-foreground))",
+              }}
+            >📋 Templates</button>
+            {isHelm && (
+              <button
+                onClick={() => { setActiveTab("chat"); setHelmView("dashboard"); }}
+                className="px-2.5 py-1 text-[10px] font-medium transition-colors"
+                style={{
+                  backgroundColor: helmView === "dashboard" && activeTab === "chat" ? HELM_COLOR + "20" : "transparent",
+                  color: helmView === "dashboard" && activeTab === "chat" ? HELM_COLOR : "hsl(var(--muted-foreground))",
+                }}
+              >Dashboard</button>
+            )}
           </div>
         )}
 
@@ -761,8 +781,19 @@ const ChatPage = () => {
         />
       )}
 
-      {/* HELM Dashboard View */}
-      {isHelm && helmView === "dashboard" ? (
+      {/* Template Tab View */}
+      {activeTab === "templates" && hasTemplateTab ? (
+        <TemplateTab
+          agentId={agent.id}
+          agentName={agent.name}
+          agentColor={agent.color}
+          onGenerate={(prompt) => {
+            setActiveTab("chat");
+            if (isHelm) setHelmView("chat");
+            sendMessage(prompt);
+          }}
+        />
+      ) : isHelm && helmView === "dashboard" ? (
         <div className="flex-1 overflow-y-auto">
           <HelmDashboard items={dashboardItems} onAddReminder={handleAddReminder} />
         </div>
