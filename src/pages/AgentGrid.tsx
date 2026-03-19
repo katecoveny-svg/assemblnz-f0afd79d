@@ -169,29 +169,43 @@ const AgentGrid = () => {
       </div>
 
       {/* ═══════════════════════ AGENT GRID ═══════════════════════ */}
-      <main ref={gridRef} className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
+      <main ref={gridRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
         {/* Section header */}
-        <div className="text-center mb-10">
+        <motion.div
+          className="text-center mb-10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-2">Meet the team</h2>
           <p className="text-sm text-muted-foreground">Tap any agent to chat live — no signup needed.</p>
-        </div>
+        </motion.div>
 
         {/* Filter Bar */}
-        <div className="flex flex-wrap gap-2 justify-center mb-10">
+        <motion.div
+          className="flex flex-wrap gap-2 justify-center mb-10"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
           {sectors.map(sector => (
-            <button
+            <motion.button
               key={sector}
               onClick={() => setActiveSector(sector)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border ${
                 activeSector === sector
-                  ? "border-secondary/25 bg-secondary/5 text-secondary"
+                  ? "border-secondary/25 bg-secondary/5 text-secondary shadow-[0_0_12px_rgba(255,45,155,0.15)]"
                   : "border-border text-muted-foreground hover:border-foreground/10 hover:text-foreground"
               }`}
             >
               {sector}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
           {filtered.map((agent, i) => (
