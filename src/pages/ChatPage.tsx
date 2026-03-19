@@ -1050,7 +1050,7 @@ const ChatPage = () => {
                   ))}
                   {isLoading && (
                     <div className="flex gap-2 items-center">
-                      <RobotIcon color={agent.color} size={24} />
+                      <AgentAvatar agentId={agent.id} color={agent.color} size={24} showGlow={false} />
                       <div className="flex gap-1 px-3 py-2">
                         {[0, 1, 2].map((i) => (
                           <span key={i} className="w-1.5 h-1.5 rounded-full animate-bounce-dot" style={{ backgroundColor: agent.color, animationDelay: `${i * 0.2}s` }} />
