@@ -800,7 +800,7 @@ const ChatPage = () => {
                   backgroundColor: activeTab === "templates" ? agent.color + "20" : "transparent",
                   color: activeTab === "templates" ? agent.color : "hsl(var(--muted-foreground))",
                 }}
-              >📋 Templates</button>
+              >Templates</button>
             )}
             {isMarketing && (
               <button
