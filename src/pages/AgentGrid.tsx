@@ -423,7 +423,7 @@ const AgentGrid = () => {
       </section>
 
       {/* ═══════════════════════ CONTACT ═══════════════════════ */}
-      <section id="contact" className="py-20 sm:py-28 border-t border-border">
+      <section id="contact" className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-lg mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-3">Get in touch</h2>

@@ -165,6 +165,18 @@
   40% { transform: translateY(-6px); }
 }
 
+@keyframes border-rotate {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
 /* High Contrast Mode — WCAG 2.1 AA */
 .high-contrast {
   --foreground: 0 0% 100%;
