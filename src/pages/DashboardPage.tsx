@@ -96,7 +96,7 @@ const DashboardPage = () => {
       <BrandNav />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-8 flex-1">
-        <h2 className="text-xl font-extrabold text-foreground tracking-[2.5px] uppercase">Your Dashboard</h2>
+        <h2 className="text-xl font-syne font-extrabold text-foreground tracking-[2.5px] uppercase">Your Dashboard</h2>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

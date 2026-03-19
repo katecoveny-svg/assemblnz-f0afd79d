@@ -381,7 +381,7 @@ const PricingPage = () => {
       {/* Bottom CTA */}
       <section id="contact" className="py-16 border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-foreground mb-3">Ready to get started?</h2>
+          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-foreground mb-3">Ready to get started?</h2>
           <p className="text-sm text-muted-foreground mb-6">Try any agent free — no signup required.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
