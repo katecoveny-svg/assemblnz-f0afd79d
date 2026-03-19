@@ -37,12 +37,14 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
                 >
                   Create free account
                 </Link>
-                <Link
-                  to="/dashboard"
+                <a
+                  href="https://pay.airwallex.com/sghgspe6mx61"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full py-2.5 rounded-lg border border-border text-sm font-medium text-foreground/70 text-center hover:text-foreground hover:border-foreground/10 transition-colors"
                 >
                   See pricing
-                </Link>
+                </a>
               </div>
             </>
           ) : (
