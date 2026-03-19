@@ -102,7 +102,7 @@ const AuraEvents = ({ onGenerate }: Props) => {
                   <div className="text-xs font-medium text-foreground">{t.title}</div>
                   <div className="text-[10px] text-muted-foreground">{t.desc}</div>
                 </div>
-                <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+                <button onClick={() => gen(`Generate a luxury lodge "${t.title}" template. ${t.desc}. Include all necessary details, elegant formatting, and placeholders for property-specific information. Luxury tone — refined, personal, and celebratory.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
               </div>
             ))}
           </div>
