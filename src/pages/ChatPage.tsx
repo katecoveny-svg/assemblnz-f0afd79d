@@ -275,6 +275,7 @@ const ChatPage = () => {
   );
   const [templateModalOpen, setTemplateModalOpen] = useState(false);
   const [paywallType, setPaywallType] = useState<"preview" | "daily_limit" | null>(null);
+  const [auraPropertyMode, setAuraPropertyMode] = useState<string>(() => sessionStorage.getItem("aura_property_mode") || "luxury_lodge");
 
   // NEXUS Job Sheet workflow state
   const [nexusWorkflowActive, setNexusWorkflowActive] = useState(false);
@@ -601,7 +602,7 @@ const ChatPage = () => {
       }
 
       const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, teReoPrompt: teReoPrompt || undefined },
+        body: { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, teReoPrompt: teReoPrompt || undefined, propertyMode: isAura ? auraPropertyMode : undefined },
       });
 
       if (error) throw error;
@@ -882,6 +883,20 @@ const ChatPage = () => {
             )}
             {isAura && (
               <>
+                <select
+                  value={auraPropertyMode}
+                  onChange={(e) => { setAuraPropertyMode(e.target.value); sessionStorage.setItem("aura_property_mode", e.target.value); }}
+                  className="px-2 py-1 rounded-md text-[10px] font-medium bg-transparent border shrink-0 cursor-pointer focus:outline-none"
+                  style={{ borderColor: agent.color + "40", color: agent.color }}
+                >
+                  <option value="luxury_lodge" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Luxury Lodge</option>
+                  <option value="boutique_hotel" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Boutique Hotel</option>
+                  <option value="restaurant_bar" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Restaurant / Bar</option>
+                  <option value="cafe" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Café</option>
+                  <option value="accommodation" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Accommodation (B&B)</option>
+                  <option value="catering_events" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Catering & Events</option>
+                </select>
+                <div className="w-px h-4 bg-border shrink-0" />
                 {([
                   { id: "aura_reservations" as const, label: "Reservations" },
                   { id: "aura_guest" as const, label: "Guest Exp" },
