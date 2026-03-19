@@ -47,12 +47,27 @@ function LoadingCube() {
 
 function DownloadButton({ url, label, color }: { url: string; label: string; color: string }) {
   if (!url) return null;
+  const proxyUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/proxy-model?url=${encodeURIComponent(url)}`;
+  const handleDownload = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(proxyUrl);
+      const blob = await response.blob();
+      const ext = label.split(" ").pop()?.toLowerCase() || "glb";
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `model.${ext}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+    } catch (err) {
+      console.error("Download failed:", err);
+    }
+  };
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      download
+    <button
+      onClick={handleDownload}
       className="px-3 py-1.5 rounded-full text-xs font-medium transition-all hover:opacity-80"
       style={{
         border: `1px solid ${color}`,
@@ -60,7 +75,7 @@ function DownloadButton({ url, label, color }: { url: string; label: string; col
       }}
     >
       {label}
-    </a>
+    </button>
   );
 }
 
