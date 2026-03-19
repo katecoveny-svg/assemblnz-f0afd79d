@@ -85,16 +85,16 @@ export default function ArohaCompanySetup() {
 
   const generatePriorities = () => {
     const priorities: string[] = [];
-    if (!hasAgreements) priorities.push("🚨 URGENT: You need employment agreements for all staff. This is a legal requirement. Use AROHA's Contracts tab to generate them now.");
-    if (!hasHandbook) priorities.push("📋 Priority 1: Generate an employee handbook. This is your single source of truth for policies and expectations.");
-    if (empTypes.includes("Casual")) priorities.push("⚠️ Review casual agreements — the Employment Leave Bill 2026 proposes 12.5% compensation for casuals (currently 8%).");
-    if (!hasHR) priorities.push("💡 You don't have a dedicated HR person — AROHA is your HR team. Start with contracts and compliance.");
-    if (painPoints.includes("Compliance")) priorities.push("✅ Run through the compliance checklist below and address any gaps.");
-    if (painPoints.includes("Recruitment")) priorities.push("🎯 Use AROHA's Recruitment tab to generate compliant job ads and track your pipeline.");
-    if (painPoints.includes("Retention")) priorities.push("❤️ Check the People & Culture tab for retention strategies and employee incentives.");
-    if (employees === "20-49" || employees === "50-99" || employees === "100+") priorities.push("📝 With 20+ employees, trial periods are NOT available. Ensure you use probation periods instead.");
-    if (painPoints.includes("Leave management")) priorities.push("📅 Use the Payroll tab's leave calculator to track entitlements accurately.");
-    if (priorities.length < 5) priorities.push("🌟 Set up regular engagement surveys using the People & Culture tab to keep your finger on the pulse.");
+    if (!hasAgreements) priorities.push("URGENT: You need employment agreements for all staff. This is a legal requirement. Use AROHA's Contracts tab to generate them now.");
+    if (!hasHandbook) priorities.push("Priority 1: Generate an employee handbook. This is your single source of truth for policies and expectations.");
+    if (empTypes.includes("Casual")) priorities.push("Review casual agreements — the Employment Leave Bill 2026 proposes 12.5% compensation for casuals (currently 8%).");
+    if (!hasHR) priorities.push("You don't have a dedicated HR person — AROHA is your HR team. Start with contracts and compliance.");
+    if (painPoints.includes("Compliance")) priorities.push("Run through the compliance checklist below and address any gaps.");
+    if (painPoints.includes("Recruitment")) priorities.push("Use AROHA's Recruitment tab to generate compliant job ads and track your pipeline.");
+    if (painPoints.includes("Retention")) priorities.push("Check the People & Culture tab for retention strategies and employee incentives.");
+    if (employees === "20-49" || employees === "50-99" || employees === "100+") priorities.push("With 20+ employees, trial periods are NOT available. Ensure you use probation periods instead.");
+    if (painPoints.includes("Leave management")) priorities.push("Use the Payroll tab's leave calculator to track entitlements accurately.");
+    if (priorities.length < 5) priorities.push("Set up regular engagement surveys using the People & Culture tab to keep your finger on the pulse.");
     return priorities.slice(0, 5);
   };
 
