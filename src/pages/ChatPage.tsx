@@ -904,7 +904,21 @@ const ChatPage = () => {
       )}
 
       {/* Tab Views */}
-      {activeTab === "content_studio" && isMarketing ? (
+      {activeTab === "forge_showroom" && isForge ? (
+        <ForgeShowroom />
+      ) : activeTab === "forge_sales" && isForge ? (
+        <ForgeSales />
+      ) : activeTab === "forge_parts" && isForge ? (
+        <ForgePartsService />
+      ) : activeTab === "forge_marketing" && isForge ? (
+        <ForgeMarketing />
+      ) : activeTab === "forge_events" && isForge ? (
+        <ForgeEvents />
+      ) : activeTab === "forge_brand" && isForge ? (
+        <ForgeBrandHub />
+      ) : activeTab === "forge_team" && isForge ? (
+        <ForgeTeam />
+      ) : activeTab === "content_studio" && isMarketing ? (
         <ContentStudio isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "tender_writer" && isConstruction ? (
         <ApexTenderWriter isPaid={isPaid} userRole={role || undefined} onSendMessage={sendMessage} />
