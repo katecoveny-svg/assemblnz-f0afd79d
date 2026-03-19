@@ -68,7 +68,7 @@ const AuraOperations = ({ onGenerate }: Props) => {
           {["Turnover Checklist by Room Type", "Deep Clean Schedule", "Amenity Restock Checklist (luxury: toiletries, candles, minibar, flowers)", "Laundry Schedule"].map(t => (
             <div key={t} className="rounded-xl border border-border bg-card p-3 flex items-center justify-between">
               <span className="text-xs text-foreground">{t}</span>
-              <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+              <button onClick={() => gen(`Generate a "${t}" for a luxury lodge housekeeping operation. Include luxury-specific items: branded toiletries, candles, minibar, fresh flowers, premium linens. Practical, detailed, and ready to use.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
             </div>
           ))}
         </div>
