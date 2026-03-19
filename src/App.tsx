@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 
 const MarinerLanding = lazy(() => import("./pages/MarinerLanding"));
 const EmbedPage = lazy(() => import("./pages/EmbedPage"));
+const EmbedChatWidget = lazy(() => import("./pages/EmbedChatWidget"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
