@@ -1,4 +1,4 @@
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import type { Agent } from "@/data/agents";
 
