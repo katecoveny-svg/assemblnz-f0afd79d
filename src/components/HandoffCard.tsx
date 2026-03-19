@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { agents } from "@/data/agents";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
 
 interface Props {
   agentId: string;
