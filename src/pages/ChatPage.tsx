@@ -835,13 +835,13 @@ const ChatPage = () => {
             {isForge && (
               <>
                 {([
-                  { id: "forge_showroom" as const, label: "🚗 Showroom" },
-                  { id: "forge_sales" as const, label: "💰 Sales" },
-                  { id: "forge_parts" as const, label: "🔧 Parts" },
-                  { id: "forge_marketing" as const, label: "📣 Marketing" },
-                  { id: "forge_events" as const, label: "🎉 Events" },
-                  { id: "forge_team" as const, label: "👥 Team" },
-                  { id: "forge_brand" as const, label: "🏷️ Brand Hub" },
+                  { id: "forge_showroom" as const, label: "Showroom" },
+                  { id: "forge_sales" as const, label: "Sales" },
+                  { id: "forge_parts" as const, label: "Parts" },
+                  { id: "forge_marketing" as const, label: "Marketing" },
+                  { id: "forge_events" as const, label: "Events" },
+                  { id: "forge_team" as const, label: "Team" },
+                  { id: "forge_brand" as const, label: "Brand Hub" },
                 ]).map(t => (
                   <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
                     style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
