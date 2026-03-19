@@ -111,6 +111,37 @@
       radial-gradient(1.5px 1.5px at 25% 35%, hsl(0 0% 100% / 0.08), transparent),
       radial-gradient(1.5px 1.5px at 65% 70%, hsl(0 0% 100% / 0.1), transparent);
   }
+
+  /* Animated gradient border utility */
+  .animated-border {
+    position: relative;
+  }
+
+  .animated-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      var(--border-angle, 0deg),
+      transparent 40%,
+      hsl(var(--primary) / 0.4),
+      hsl(var(--accent) / 0.4),
+      transparent 60%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: border-rotate 4s linear infinite;
+  }
+
+  .glass-card {
+    background: hsl(var(--card) / 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
 }
 
 @keyframes pulse-glow {
