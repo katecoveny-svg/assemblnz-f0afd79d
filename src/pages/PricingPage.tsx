@@ -63,6 +63,7 @@ const HELM_PLANS = [
     features: ["10 messages/day", "Basic chat", "Meal plan suggestions"],
     cta: "Try free",
     href: "/chat/helm",
+    external: false,
   },
   {
     name: "PERSONAL",
@@ -70,7 +71,8 @@ const HELM_PLANS = [
     desc: "Full life admin for one person",
     features: ["Unlimited HELM chat", "File upload", "Meal plans and budgets", "2 lifestyle agents"],
     cta: "Start Personal",
-    href: "#contact",
+    href: "https://pay.airwallex.com/sghgsph924ew",
+    external: true,
   },
   {
     name: "FAMILY",
@@ -78,7 +80,8 @@ const HELM_PLANS = [
     desc: "For busy NZ families",
     features: ["Everything in Personal", "Multi-child profiles", "Sunday briefing", "All lifestyle agents", "Partner access"],
     cta: "Start Family",
-    href: "#contact",
+    href: "https://pay.airwallex.com/sghgspijg05v",
+    external: true,
   },
 ];
 
