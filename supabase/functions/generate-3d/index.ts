@@ -127,7 +127,8 @@ Deno.serve(async (req) => {
     }
     try {
       const pollEndpoint = endpointType === "image-to-3d" ? "image-to-3d" : "text-to-3d";
-      const res = await fetch(`https://api.meshy.ai/openapi/v2/${pollEndpoint}/${taskIdParam}`, {
+      const apiVersion = pollEndpoint === "image-to-3d" ? "v1" : "v2";
+      const res = await fetch(`https://api.meshy.ai/openapi/${apiVersion}/${pollEndpoint}/${taskIdParam}`, {
         headers: { Authorization: `Bearer ${MESHY_API_KEY}` },
       });
       if (!res.ok) {
