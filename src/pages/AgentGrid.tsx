@@ -178,8 +178,8 @@ const AgentGrid = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-2">Meet the team</h2>
-          <p className="text-sm text-muted-foreground">Tap any agent to chat live — no signup needed.</p>
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-2">Meet the team</h2>
+          <p className="text-sm font-jakarta text-muted-foreground">Tap any agent to chat live — no signup needed.</p>
         </motion.div>
 
         {/* Filter Bar */}
@@ -196,10 +196,10 @@ const AgentGrid = () => {
               onClick={() => setActiveSector(sector)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border ${
+              className={`px-3 py-1.5 rounded-full text-xs font-jakarta font-medium transition-all duration-200 border ${
                 activeSector === sector
                   ? "border-secondary/25 bg-secondary/5 text-secondary shadow-[0_0_12px_rgba(255,45,155,0.15)]"
-                  : "border-border text-muted-foreground hover:border-foreground/10 hover:text-foreground"
+                  : "border-white/[0.06] text-muted-foreground hover:border-foreground/10 hover:text-foreground"
               }`}
             >
               {sector}
