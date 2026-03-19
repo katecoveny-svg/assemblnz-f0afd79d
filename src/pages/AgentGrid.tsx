@@ -237,7 +237,7 @@ const AgentGrid = () => {
                 style={{ background: `linear-gradient(90deg, transparent, ${agent.color}, transparent)` }}
               />
               <div className="flex items-start justify-between mb-3">
-                <RobotIcon color={agent.color} size={40} />
+                <RobotIcon color={agent.color} size={40} agentId={agent.id} />
                 <span className="font-mono-jb text-[10px] text-muted-foreground">{agent.designation}</span>
               </div>
               <h3 className="text-base font-bold text-foreground tracking-wide">{agent.name}</h3>
