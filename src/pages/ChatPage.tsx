@@ -255,6 +255,7 @@ const ChatPage = () => {
   const [nexusContainerNumbers, setNexusContainerNumbers] = useState<string[]>([]);
 
   const { user, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached } = useAuth();
+  const { teReoPrompt } = useLanguage();
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
