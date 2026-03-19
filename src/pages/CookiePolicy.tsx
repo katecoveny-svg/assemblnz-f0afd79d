@@ -1,5 +1,6 @@
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import ParticleField from "@/components/ParticleField";
 
 const CookiePolicy = () => (
   <div className="min-h-screen star-field flex flex-col">
