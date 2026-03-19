@@ -215,10 +215,10 @@ const AgentGrid = () => {
       </main>
 
       {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <motion.h2
-            className="text-2xl sm:text-4xl font-extrabold text-center text-foreground mb-14"
+            className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-foreground mb-14"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -229,19 +229,21 @@ const AgentGrid = () => {
             {HOW_IT_WORKS.map((item, i) => (
               <motion.div
                 key={item.step}
-                className="relative rounded-xl border border-border bg-card p-6 group hover:border-primary/20 transition-colors duration-300"
+                className="relative rounded-2xl p-6 group transition-colors duration-300 overflow-hidden border border-white/[0.06]"
+                style={{ background: 'rgba(14, 14, 26, 0.7)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -4, boxShadow: "0 0 30px rgba(0,255,136,0.08)" }}
+                whileHover={{ y: -4, boxShadow: "0 0 30px rgba(0,255,136,0.1)" }}
               >
+                <div className="absolute top-0 left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-20 group-hover:opacity-50 transition-opacity" />
                 <div className="flex items-center gap-3 mb-4">
                   <span className="font-mono-jb text-[10px] font-bold text-primary">{item.step}</span>
-                  <div className="text-primary">{item.icon}</div>
+                  <div className="text-primary animate-neon-pulse">{item.icon}</div>
                 </div>
-                <h3 className="text-sm font-bold text-foreground mb-2">{item.title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                <h3 className="text-sm font-syne font-bold text-foreground mb-2">{item.title}</h3>
+                <p className="text-xs font-jakarta text-muted-foreground leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </div>
