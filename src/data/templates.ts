@@ -13,7 +13,7 @@ export const TEMPLATE_TAB_AGENTS = [
 ];
 
 export const agentTemplates: Record<string, Template[]> = {
-  nexus: [
+  customs: [
     { icon: "box", emoji: "📦", title: "Import Entry Processor", description: "Upload a commercial invoice and I'll extract all line items into lodgement-ready data with tariff codes, duty, and GST calculations.", timeSaved: "~45 min per entry", prompt: "I need to process an import entry. Upload the commercial invoice or provide the details and I'll extract all line items into lodgement-ready data with tariff codes, duty, and GST calculations." },
     { icon: "upload", emoji: "📤", title: "Export Entry Processor", description: "Upload export documents and I'll prepare structured export entry data for TSW lodgement.", timeSaved: "~30 min per entry", prompt: "I need to prepare an export entry. Upload your export documents and I'll prepare structured export entry data for TSW lodgement." },
     { icon: "search", emoji: "🔍", title: "Tariff Classifier", description: "Describe your product and I'll suggest the correct NZ Tariff classification with duty rates.", timeSaved: "~20 min per item", prompt: "I need to classify a product under the NZ Tariff. Let me ask you some questions to determine the correct classification. First, can you describe the product in detail?" },
