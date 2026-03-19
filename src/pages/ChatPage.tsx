@@ -44,6 +44,10 @@ import ForgeMarketing from "@/components/forge/ForgeMarketing";
 import ForgeEvents from "@/components/forge/ForgeEvents";
 import ForgeBrandHub from "@/components/forge/ForgeBrandHub";
 import ForgeTeam from "@/components/forge/ForgeTeam";
+import ArohaContracts from "@/components/aroha/ArohaContracts";
+import ArohaOnboarding from "@/components/aroha/ArohaOnboarding";
+import ArohaPayroll from "@/components/aroha/ArohaPayroll";
+import ArohaRecruitment from "@/components/aroha/ArohaRecruitment";
 import InternalComms from "@/components/InternalComms";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
