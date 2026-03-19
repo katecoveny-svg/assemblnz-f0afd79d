@@ -107,7 +107,7 @@ const AuraMarketing = ({ onGenerate }: Props) => {
                   <div className="text-xs font-medium text-foreground">{c.platform}</div>
                   <div className="text-[10px] text-muted-foreground">{c.formats}</div>
                 </div>
-                <button className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+                <button onClick={() => gen(`Generate luxury hospitality content for ${c.platform}. Formats needed: ${c.formats}. The content should reflect premium positioning — understated elegance, sensory language, world-class experiences. Include 5 pieces of content ready to use, with captions and hashtags where appropriate.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
               </div>
             ))}
           </div>
