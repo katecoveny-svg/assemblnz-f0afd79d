@@ -1,18 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NeonCalendar, NeonMail, NeonStar, NeonDocument, NeonCheckmark } from "@/components/NeonIcons";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
+import { Trash2, Edit2, Plus, Loader2 } from "lucide-react";
 
 const ROOMS = ["Lodge Suite 1", "Lodge Suite 2", "Valley View 1", "Valley View 2", "Premium Suite"];
 const STATUS_COLORS: Record<string, string> = { booked: "#E6B422", available: "#00FF88", maintenance: "#FF4444" };
 
 interface Booking {
-  id: string; guest: string; nationality: string; room: string; arrival: string; departure: string;
-  rate: string; dietary: string; occasion: string; arrivalMethod: string; requests: string; vip: boolean; returning: boolean;
+  id: string;
+  guest_name: string;
+  nationality: string;
+  room: string;
+  arrival: string;
+  departure: string;
+  rate: string;
+  dietary: string;
+  occasion: string;
+  arrival_method: string;
+  requests: string;
+  vip: boolean;
+  returning_guest: boolean;
+  status: string;
+  notes: string;
 }
-
-const SAMPLE_BOOKINGS: Booking[] = [
-  { id: "1", guest: "Mr & Mrs Chen", nationality: "Singapore", room: "Premium Suite", arrival: "2026-03-25", departure: "2026-03-28", rate: "$2,800", dietary: "Pescatarian, no shellfish", occasion: "Anniversary", arrivalMethod: "Helicopter", requests: "Preferred Pinot Noir in suite", vip: true, returning: true },
-  { id: "2", guest: "James & Sarah Mitchell", nationality: "Australia", room: "Lodge Suite 1", arrival: "2026-03-26", departure: "2026-03-30", rate: "$1,800", dietary: "Gluten-free", occasion: "Honeymoon", arrivalMethod: "Car transfer", requests: "Late checkout if possible", vip: false, returning: false },
-];
 
 const COMMS_TEMPLATES = [
   { label: "Booking Confirmation", desc: "Warm, personal confirmation — never transactional" },
@@ -37,16 +54,124 @@ const color = "#E6B422";
 
 interface Props { onGenerate?: (prompt: string) => void; }
 
+const emptyBooking: Omit<Booking, 'id'> = {
+  guest_name: "", nationality: "", room: ROOMS[0], arrival: "", departure: "",
+  rate: "", dietary: "", occasion: "", arrival_method: "", requests: "",
+  vip: false, returning_guest: false, status: "confirmed", notes: ""
+};
+
 const AuraReservations = ({ onGenerate }: Props) => {
   const gen = (prompt: string) => onGenerate?.(prompt);
-  const [bookings] = useState<Booking[]>(SAMPLE_BOOKINGS);
+  const { user } = useAuth();
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [activeSection, setActiveSection] = useState<"dashboard" | "comms" | "reviews">("dashboard");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState<Omit<Booking, 'id'>>(emptyBooking);
+
+  // Fetch bookings
+  useEffect(() => {
+    if (!user) {
+      setBookings([]);
+      setLoading(false);
+      return;
+    }
+    const fetchBookings = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("bookings")
+        .select("*")
+        .order("arrival", { ascending: true });
+      if (error) {
+        toast({ title: "Error loading bookings", description: error.message, variant: "destructive" });
+      } else {
+        setBookings(data || []);
+      }
+      setLoading(false);
+    };
+    fetchBookings();
+  }, [user]);
+
+  const openCreateDialog = () => {
+    setFormData(emptyBooking);
+    setEditMode(false);
+    setDialogOpen(true);
+  };
+
+  const openEditDialog = (booking: Booking) => {
+    setFormData({
+      guest_name: booking.guest_name, nationality: booking.nationality, room: booking.room,
+      arrival: booking.arrival, departure: booking.departure, rate: booking.rate,
+      dietary: booking.dietary, occasion: booking.occasion, arrival_method: booking.arrival_method,
+      requests: booking.requests, vip: booking.vip, returning_guest: booking.returning_guest,
+      status: booking.status, notes: booking.notes
+    });
+    setSelectedBooking(booking);
+    setEditMode(true);
+    setDialogOpen(true);
+  };
+
+  const handleSave = async () => {
+    if (!user) {
+      toast({ title: "Please sign in", description: "You must be signed in to manage bookings", variant: "destructive" });
+      return;
+    }
+    if (!formData.guest_name || !formData.arrival || !formData.departure) {
+      toast({ title: "Missing fields", description: "Guest name, arrival and departure dates are required", variant: "destructive" });
+      return;
+    }
+    setSaving(true);
+    if (editMode && selectedBooking) {
+      const { error } = await supabase
+        .from("bookings")
+        .update(formData)
+        .eq("id", selectedBooking.id);
+      if (error) {
+        toast({ title: "Error updating booking", description: error.message, variant: "destructive" });
+      } else {
+        setBookings(prev => prev.map(b => b.id === selectedBooking.id ? { ...b, ...formData } : b));
+        toast({ title: "Booking updated" });
+        setDialogOpen(false);
+      }
+    } else {
+      const { data, error } = await supabase
+        .from("bookings")
+        .insert({ ...formData, user_id: user.id })
+        .select()
+        .single();
+      if (error) {
+        toast({ title: "Error creating booking", description: error.message, variant: "destructive" });
+      } else {
+        setBookings(prev => [...prev, data]);
+        toast({ title: "Booking created" });
+        setDialogOpen(false);
+      }
+    }
+    setSaving(false);
+  };
+
+  const handleDelete = async (id: string) => {
+    const { error } = await supabase.from("bookings").delete().eq("id", id);
+    if (error) {
+      toast({ title: "Error deleting booking", description: error.message, variant: "destructive" });
+    } else {
+      setBookings(prev => prev.filter(b => b.id !== id));
+      setSelectedBooking(null);
+      toast({ title: "Booking deleted" });
+    }
+  };
+
+  const updateField = (field: keyof Omit<Booking, 'id'>, value: string | boolean) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
       {/* Section tabs */}
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         {(["dashboard", "comms", "reviews"] as const).map(s => (
           <button key={s} onClick={() => setActiveSection(s)}
             className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
@@ -58,28 +183,112 @@ const AuraReservations = ({ onGenerate }: Props) => {
 
       {activeSection === "dashboard" && (
         <>
+          {/* Add Booking Button */}
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button onClick={openCreateDialog} className="gap-2" style={{ background: color, color: "#0A0A14" }}>
+                <Plus size={16} /> Add Booking
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>{editMode ? "Edit Booking" : "New Booking"}</DialogTitle>
+              </DialogHeader>
+              <div className="grid gap-3 py-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label htmlFor="guest_name">Guest Name *</Label>
+                    <Input id="guest_name" value={formData.guest_name} onChange={e => updateField("guest_name", e.target.value)} placeholder="Mr & Mrs Chen" />
+                  </div>
+                  <div>
+                    <Label htmlFor="nationality">Nationality</Label>
+                    <Input id="nationality" value={formData.nationality} onChange={e => updateField("nationality", e.target.value)} placeholder="Singapore" />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="room">Room *</Label>
+                  <Select value={formData.room} onValueChange={v => updateField("room", v)}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {ROOMS.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label htmlFor="arrival">Arrival Date *</Label>
+                    <Input id="arrival" type="date" value={formData.arrival} onChange={e => updateField("arrival", e.target.value)} />
+                  </div>
+                  <div>
+                    <Label htmlFor="departure">Departure Date *</Label>
+                    <Input id="departure" type="date" value={formData.departure} onChange={e => updateField("departure", e.target.value)} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label htmlFor="rate">Rate/Night</Label>
+                    <Input id="rate" value={formData.rate} onChange={e => updateField("rate", e.target.value)} placeholder="$2,800" />
+                  </div>
+                  <div>
+                    <Label htmlFor="occasion">Occasion</Label>
+                    <Input id="occasion" value={formData.occasion} onChange={e => updateField("occasion", e.target.value)} placeholder="Anniversary" />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="dietary">Dietary Requirements</Label>
+                  <Input id="dietary" value={formData.dietary} onChange={e => updateField("dietary", e.target.value)} placeholder="Pescatarian, no shellfish" />
+                </div>
+                <div>
+                  <Label htmlFor="arrival_method">Arrival Method</Label>
+                  <Input id="arrival_method" value={formData.arrival_method} onChange={e => updateField("arrival_method", e.target.value)} placeholder="Helicopter" />
+                </div>
+                <div>
+                  <Label htmlFor="requests">Special Requests</Label>
+                  <Input id="requests" value={formData.requests} onChange={e => updateField("requests", e.target.value)} placeholder="Preferred Pinot Noir in suite" />
+                </div>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2 text-sm">
+                    <input type="checkbox" checked={formData.vip} onChange={e => updateField("vip", e.target.checked)} className="rounded" />
+                    VIP Guest
+                  </label>
+                  <label className="flex items-center gap-2 text-sm">
+                    <input type="checkbox" checked={formData.returning_guest} onChange={e => updateField("returning_guest", e.target.checked)} className="rounded" />
+                    Returning Guest
+                  </label>
+                </div>
+                <Button onClick={handleSave} disabled={saving} style={{ background: color, color: "#0A0A14" }}>
+                  {saving ? <Loader2 className="animate-spin" size={16} /> : editMode ? "Update Booking" : "Create Booking"}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
           {/* Room Status */}
           <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
             <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonCalendar size={16} color={color} /> Room Occupancy</h3>
-            <div className="space-y-2">
-              {ROOMS.map(room => {
-                const booking = bookings.find(b => b.room === room);
-                const status = booking ? "booked" : "available";
-                return (
-                  <div key={room} className="flex items-center gap-2 text-xs p-2 rounded-lg border border-border">
-                    <span className="w-2 h-2 rounded-full" style={{ background: STATUS_COLORS[status] }} />
-                    <span className="font-medium text-foreground flex-1">{room}</span>
-                    {booking ? (
-                      <button onClick={() => setSelectedBooking(booking)} className="flex items-center gap-1 hover:underline" style={{ color }}>
-                        {booking.guest} {booking.vip && <NeonStar size={12} />}
-                      </button>
-                    ) : (
-                      <span className="text-muted-foreground">Available</span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+            {loading ? (
+              <div className="flex items-center justify-center py-8"><Loader2 className="animate-spin" size={24} style={{ color }} /></div>
+            ) : (
+              <div className="space-y-2">
+                {ROOMS.map(room => {
+                  const booking = bookings.find(b => b.room === room && b.status !== "cancelled" && b.status !== "checked_out");
+                  const status = booking ? "booked" : "available";
+                  return (
+                    <div key={room} className="flex items-center gap-2 text-xs p-2 rounded-lg border border-border">
+                      <span className="w-2 h-2 rounded-full" style={{ background: STATUS_COLORS[status] }} />
+                      <span className="font-medium text-foreground flex-1">{room}</span>
+                      {booking ? (
+                        <button onClick={() => setSelectedBooking(booking)} className="flex items-center gap-1 hover:underline" style={{ color }}>
+                          {booking.guest_name} {booking.vip && <NeonStar size={12} />}
+                        </button>
+                      ) : (
+                        <span className="text-muted-foreground">Available</span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
             <div className="flex gap-4 mt-3 text-[10px] text-muted-foreground">
               {Object.entries(STATUS_COLORS).map(([k, v]) => (
                 <span key={k} className="flex items-center gap-1"><span className="w-2 h-2 rounded-full" style={{ background: v }} />{k}</span>
@@ -88,26 +297,35 @@ const AuraReservations = ({ onGenerate }: Props) => {
           </div>
 
           {/* Booking Cards */}
+          {!loading && bookings.length === 0 && (
+            <div className="text-center py-8 text-muted-foreground text-sm">
+              {user ? "No bookings yet. Click 'Add Booking' to create one." : "Sign in to manage bookings."}
+            </div>
+          )}
           <div className="space-y-3">
             {bookings.map(b => (
               <div key={b.id} className="rounded-xl border border-border bg-card p-4 cursor-pointer hover:border-foreground/10 transition-all" onClick={() => setSelectedBooking(b)}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm text-foreground">{b.guest}</span>
+                    <span className="font-semibold text-sm text-foreground">{b.guest_name}</span>
                     {b.vip && <span className="px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: color + "20", color }}>VIP</span>}
-                    {b.returning && <span className="px-1.5 py-0.5 rounded text-[9px] bg-muted text-muted-foreground">Returning</span>}
+                    {b.returning_guest && <span className="px-1.5 py-0.5 rounded text-[9px] bg-muted text-muted-foreground">Returning</span>}
                   </div>
-                  <span className="text-[11px] text-muted-foreground">{b.nationality}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] text-muted-foreground">{b.nationality}</span>
+                    <button onClick={(e) => { e.stopPropagation(); openEditDialog(b); }} className="p-1 hover:bg-muted rounded"><Edit2 size={14} /></button>
+                    <button onClick={(e) => { e.stopPropagation(); handleDelete(b.id); }} className="p-1 hover:bg-destructive/10 rounded text-destructive"><Trash2 size={14} /></button>
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-1.5 text-[11px] text-foreground/70">
                   <div><span className="text-muted-foreground">Room:</span> {b.room}</div>
                   <div><span className="text-muted-foreground">Rate:</span> {b.rate}/night</div>
                   <div><span className="text-muted-foreground">Arrival:</span> {b.arrival}</div>
                   <div><span className="text-muted-foreground">Departure:</span> {b.departure}</div>
-                  <div><span className="text-muted-foreground">Dietary:</span> {b.dietary}</div>
-                  <div><span className="text-muted-foreground">Occasion:</span> {b.occasion}</div>
-                  <div><span className="text-muted-foreground">Arrival:</span> {b.arrivalMethod}</div>
-                  <div><span className="text-muted-foreground">Requests:</span> {b.requests}</div>
+                  <div><span className="text-muted-foreground">Dietary:</span> {b.dietary || "None"}</div>
+                  <div><span className="text-muted-foreground">Occasion:</span> {b.occasion || "None"}</div>
+                  <div><span className="text-muted-foreground">Arrival:</span> {b.arrival_method || "TBD"}</div>
+                  <div><span className="text-muted-foreground">Requests:</span> {b.requests || "None"}</div>
                 </div>
               </div>
             ))}
@@ -116,15 +334,15 @@ const AuraReservations = ({ onGenerate }: Props) => {
           {/* Pre-Arrival Dossier */}
           {selectedBooking && (
             <div className="rounded-xl border p-4 space-y-3" style={{ borderColor: color + "40", background: color + "08" }}>
-              <h3 className="font-semibold text-sm flex items-center gap-2" style={{ color }}><NeonDocument size={16} color={color} /> Pre-Arrival Dossier — {selectedBooking.guest}</h3>
+              <h3 className="font-semibold text-sm flex items-center gap-2" style={{ color }}><NeonDocument size={16} color={color} /> Pre-Arrival Dossier — {selectedBooking.guest_name}</h3>
               <div className="space-y-2 text-xs text-foreground/80">
-                <div className="p-2 rounded-lg bg-card border border-border"><span className="font-medium">Welcome Letter:</span> Personalised to {selectedBooking.occasion.toLowerCase()} celebration. Mention previous stay preferences if returning.</div>
+                <div className="p-2 rounded-lg bg-card border border-border"><span className="font-medium">Welcome Letter:</span> Personalised to {selectedBooking.occasion ? selectedBooking.occasion.toLowerCase() : "their visit"} celebration. Mention previous stay preferences if returning.</div>
                 <div className="p-2 rounded-lg bg-card border border-border"><span className="font-medium">Room Prep:</span> {selectedBooking.occasion === "Honeymoon" ? "Rose petals, champagne on ice, congratulations card" : selectedBooking.occasion === "Anniversary" ? "Handwritten card from GM, commemorative photo frame, preferred wine" : "Fresh flowers, welcome amenities"}</div>
-                <div className="p-2 rounded-lg bg-card border border-border"><span className="font-medium">Dietary Brief:</span> {selectedBooking.dietary} — kitchen team notified for all meals</div>
+                <div className="p-2 rounded-lg bg-card border border-border"><span className="font-medium">Dietary Brief:</span> {selectedBooking.dietary || "No dietary requirements noted"} — kitchen team notified for all meals</div>
                 <div className="p-2 rounded-lg bg-card border border-border"><span className="font-medium">Activity Suggestions:</span> Based on {selectedBooking.arrival} season — stargazing, nature walks, wine tasting</div>
-                {selectedBooking.returning && <div className="p-2 rounded-lg bg-card border border-border"><span className="font-medium">Returning Guest:</span> Recall preferences from previous visit — favourite wines, activities, room temperature</div>}
+                {selectedBooking.returning_guest && <div className="p-2 rounded-lg bg-card border border-border"><span className="font-medium">Returning Guest:</span> Recall preferences from previous visit — favourite wines, activities, room temperature</div>}
               </div>
-              <button onClick={() => gen(`Generate a complete pre-arrival guest dossier for ${selectedBooking.guest}. They are celebrating their ${selectedBooking.occasion.toLowerCase()}. Dietary: ${selectedBooking.dietary}. Room: ${selectedBooking.room}. Arriving ${selectedBooking.arrival} via ${selectedBooking.arrivalMethod}. ${selectedBooking.returning ? "This is a returning guest — recall preferences from previous visits." : "First-time guest."} Special requests: ${selectedBooking.requests}. Include: personalised welcome letter, room preparation notes, activity recommendations for the season, wine pairing suggestions, and weather forecast for their stay. Luxury lodge tone — warm, understated, anticipatory.`)} className="w-full py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Dossier</button>
+              <button onClick={() => gen(`Generate a complete pre-arrival guest dossier for ${selectedBooking.guest_name}. They are celebrating their ${selectedBooking.occasion ? selectedBooking.occasion.toLowerCase() : "stay"}. Dietary: ${selectedBooking.dietary || "None specified"}. Room: ${selectedBooking.room}. Arriving ${selectedBooking.arrival} via ${selectedBooking.arrival_method || "TBD"}. ${selectedBooking.returning_guest ? "This is a returning guest — recall preferences from previous visits." : "First-time guest."} Special requests: ${selectedBooking.requests || "None"}. Include: personalised welcome letter, room preparation notes, activity recommendations for the season, wine pairing suggestions, and weather forecast for their stay. Luxury lodge tone — warm, understated, anticipatory.`)} className="w-full py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Full Dossier</button>
             </div>
           )}
         </>

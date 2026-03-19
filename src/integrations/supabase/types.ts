@@ -35,6 +35,69 @@ export type Database = {
         }
         Relationships: []
       }
+      bookings: {
+        Row: {
+          arrival: string
+          arrival_method: string | null
+          created_at: string
+          departure: string
+          dietary: string | null
+          guest_name: string
+          id: string
+          nationality: string | null
+          notes: string | null
+          occasion: string | null
+          rate: string | null
+          requests: string | null
+          returning_guest: boolean | null
+          room: string
+          status: string
+          updated_at: string
+          user_id: string
+          vip: boolean | null
+        }
+        Insert: {
+          arrival: string
+          arrival_method?: string | null
+          created_at?: string
+          departure: string
+          dietary?: string | null
+          guest_name: string
+          id?: string
+          nationality?: string | null
+          notes?: string | null
+          occasion?: string | null
+          rate?: string | null
+          requests?: string | null
+          returning_guest?: boolean | null
+          room: string
+          status?: string
+          updated_at?: string
+          user_id: string
+          vip?: boolean | null
+        }
+        Update: {
+          arrival?: string
+          arrival_method?: string | null
+          created_at?: string
+          departure?: string
+          dietary?: string | null
+          guest_name?: string
+          id?: string
+          nationality?: string | null
+          notes?: string | null
+          occasion?: string | null
+          rate?: string | null
+          requests?: string | null
+          returning_guest?: boolean | null
+          room?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          vip?: boolean | null
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           created_at: string
