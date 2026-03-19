@@ -113,7 +113,7 @@ export const agentTemplates: Record<string, Template[]> = {
     { icon: "checkmark", title: "WoF Prep Checklist", description: "Pre-WoF inspection checklist", timeSaved: "~20 min", prompt: "I need a WoF prep checklist. What type of vehicle?" },
     { icon: "safetyVest", title: "Workshop H&S Audit", description: "Health and safety audit for your workshop", timeSaved: "~2 hours", prompt: "Let's do a workshop health and safety audit. Tell me about your workshop setup." },
   ],
-  arc: [
+  architecture: [
     { icon: "document", title: "Resource Consent Outline", description: "Outline a resource consent application", timeSaved: "~3 hours", prompt: "I need help with a resource consent outline. What are you planning to build?" },
     { icon: "checkmark", title: "Building Code Checklist", description: "Building Code compliance checklist for your project", timeSaved: "~2 hours", prompt: "Let's create a Building Code checklist. What type of project?" },
     { icon: "clipboard", title: "Client Brief", description: "Structure a comprehensive client brief", timeSaved: "~1 hour", prompt: "I need to create a client brief for an architecture project. What are the key requirements?" },
