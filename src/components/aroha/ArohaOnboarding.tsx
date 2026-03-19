@@ -75,7 +75,7 @@ export default function ArohaOnboarding() {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-3">
-      <h2 className="text-lg font-bold text-foreground">📋 Onboarding & Training</h2>
+      <h2 className="text-lg font-bold text-foreground flex items-center gap-2"><NeonClipboard size={20} color="#FF6F91" /> Onboarding & Training</h2>
       <div className="flex gap-1 flex-wrap">
         {tabs.map(t => (
           <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-medium"

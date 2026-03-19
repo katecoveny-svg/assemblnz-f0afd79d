@@ -148,7 +148,7 @@ export default function ArohaPeopleCulture() {
             <div key={cat.title} className="rounded-xl border border-border bg-card overflow-hidden">
               <button onClick={() => setExpandedCat(expandedCat === cat.title ? null : cat.title)}
                 className="w-full flex items-center justify-between p-3">
-                <span className="text-xs font-bold text-foreground">{cat.emoji} {cat.title}</span>
+                <span className="text-xs font-bold text-foreground flex items-center gap-1.5">{(() => { const icons: Record<string, React.ReactNode> = { muscle: <NeonMuscle size={14} color="#FF6F91" />, brain: <NeonBrain size={14} color="#FF6F91" />, coin: <NeonCoin size={14} color="#FF6F91" />, handshake: <NeonHandshake size={14} color="#FF6F91" /> }; return icons[cat.icon]; })()} {cat.title}</span>
                 {expandedCat === cat.title ? <ChevronUp size={12} className="text-muted-foreground" /> : <ChevronDown size={12} className="text-muted-foreground" />}
               </button>
               {expandedCat === cat.title && (

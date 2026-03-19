@@ -162,7 +162,7 @@ export default function ArohaCompanySetup() {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
-      <h2 className="text-lg font-bold text-foreground">🏢 Company Setup</h2>
+      <h2 className="text-lg font-bold text-foreground flex items-center gap-2"><NeonBuilding2 size={20} color="#FF6F91" /> Company Setup</h2>
       <p className="text-[10px] text-muted-foreground">Set up your company profile so AROHA can tailor advice, auto-populate documents, and track your compliance.</p>
 
       {/* Step indicator */}

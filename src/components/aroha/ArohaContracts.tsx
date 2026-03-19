@@ -77,7 +77,7 @@ export default function ArohaContracts() {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-3">
-      <h2 className="text-lg font-bold text-foreground">📋 Contracts & Documents</h2>
+      <h2 className="text-lg font-bold text-foreground flex items-center gap-2"><NeonClipboard size={20} color="#FF6F91" /> Contracts & Documents</h2>
 
       <div>
         <label className="text-[10px] text-muted-foreground">Company Name (appears in documents)</label>

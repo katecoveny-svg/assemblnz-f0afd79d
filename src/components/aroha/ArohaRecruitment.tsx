@@ -60,7 +60,7 @@ export default function ArohaRecruitment() {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-3">
-      <h2 className="text-lg font-bold text-foreground">🎯 Recruitment</h2>
+      <h2 className="text-lg font-bold text-foreground flex items-center gap-2"><NeonTarget size={20} color="#FF6F91" /> Recruitment</h2>
       <div className="flex gap-2">
         <button onClick={() => setTab("ads")} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-medium"
           style={{ backgroundColor: tab === "ads" ? AROHA_COLOR + "20" : "transparent", color: tab === "ads" ? AROHA_COLOR : "hsl(var(--muted-foreground))", border: `1px solid ${tab === "ads" ? AROHA_COLOR + "40" : "hsl(var(--border))"}` }}>
