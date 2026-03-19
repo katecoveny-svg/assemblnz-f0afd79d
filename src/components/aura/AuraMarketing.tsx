@@ -89,7 +89,7 @@ const AuraMarketing = ({ onGenerate }: Props) => {
                     <div className="text-xs font-medium text-foreground">{p.category}</div>
                     <div className="text-[10px] text-muted-foreground">{p.examples}</div>
                   </div>
-                  <button className="px-2.5 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Pitch</button>
+                  <button onClick={() => gen(`Generate a partnership pitch document for a luxury NZ lodge targeting: ${p.category}. Examples: ${p.examples}. Include: proposal document, mutual benefit analysis, suggested terms, co-marketing ideas, and draft partnership agreement outline.`)} className="px-2.5 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Pitch</button>
                 </div>
               ))}
             </div>
