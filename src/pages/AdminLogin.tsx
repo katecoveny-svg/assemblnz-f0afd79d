@@ -107,9 +107,14 @@ const AdminLogin = () => {
           </button>
         </form>
 
-        <p className="text-center text-xs mt-6" style={{ color: '#ffffff22' }}>
-          <Link to="/" className="hover:text-foreground transition-colors">← Back to Assembl</Link>
-        </p>
+        <div className="flex items-center justify-between mt-6 px-1">
+          <Link to="/admin/forgot-password" className="text-xs hover:text-foreground transition-colors" style={{ color: '#ffffff38' }}>
+            Forgot password?
+          </Link>
+          <Link to="/" className="text-xs hover:text-foreground transition-colors" style={{ color: '#ffffff22' }}>
+            ← Back to Assembl
+          </Link>
+        </div>
       </div>
     </div>
   );
