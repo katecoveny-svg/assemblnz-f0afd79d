@@ -2,7 +2,7 @@ import { useState } from "react";
 import { agents } from "@/data/agents";
 import { supabase } from "@/integrations/supabase/client";
 import { Copy, Check, Sparkles, Lock } from "lucide-react";
-import RobotIcon from "@/components/RobotIcon";
+import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
 
 const PLATFORMS = [
