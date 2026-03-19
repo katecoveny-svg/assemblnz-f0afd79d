@@ -58,6 +58,10 @@ import AuraMarketing from "@/components/aura/AuraMarketing";
 import AuraEvents from "@/components/aura/AuraEvents";
 import AuraOperations from "@/components/aura/AuraOperations";
 import AuraTeam from "@/components/aura/AuraTeam";
+import AuraRevenue from "@/components/aura/AuraRevenue";
+import AuraGuestMemory from "@/components/aura/AuraGuestMemory";
+import AuraSustainability from "@/components/aura/AuraSustainability";
+import AuraTrade from "@/components/aura/AuraTrade";
 import InternalComms from "@/components/InternalComms";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
@@ -258,7 +262,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade">("chat");
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
@@ -881,11 +885,15 @@ const ChatPage = () => {
                 {([
                   { id: "aura_reservations" as const, label: "Reservations" },
                   { id: "aura_guest" as const, label: "Guest Exp" },
+                  { id: "aura_memory" as const, label: "Guest CRM" },
                   { id: "aura_kitchen" as const, label: "Kitchen" },
                   { id: "aura_marketing" as const, label: "Marketing" },
                   { id: "aura_events" as const, label: "Events" },
                   { id: "aura_operations" as const, label: "Operations" },
+                  { id: "aura_revenue" as const, label: "Revenue" },
                   { id: "aura_team" as const, label: "Team" },
+                  { id: "aura_sustainability" as const, label: "Sustain" },
+                  { id: "aura_trade" as const, label: "Trade" },
                   { id: "aura_setup" as const, label: "Setup" },
                 ]).map(t => (
                   <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
@@ -972,6 +980,14 @@ const ChatPage = () => {
         <AuraOperations />
       ) : activeTab === "aura_team" && isAura ? (
         <AuraTeam />
+      ) : activeTab === "aura_revenue" && isAura ? (
+        <AuraRevenue />
+      ) : activeTab === "aura_memory" && isAura ? (
+        <AuraGuestMemory />
+      ) : activeTab === "aura_sustainability" && isAura ? (
+        <AuraSustainability />
+      ) : activeTab === "aura_trade" && isAura ? (
+        <AuraTrade />
       ) : activeTab === "aroha_contracts" && isAroha ? (
         <ArohaContracts />
       ) : activeTab === "aroha_onboarding" && isAroha ? (
