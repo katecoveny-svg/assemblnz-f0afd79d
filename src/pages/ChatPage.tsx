@@ -21,6 +21,8 @@ import AccountDropdown from "@/components/AccountDropdown";
 import PaywallModal from "@/components/PaywallModal";
 import { NeonLock } from "@/components/NeonIcons";
 import AgentWelcome from "@/components/AgentWelcome";
+import TemplateTab from "@/components/TemplateTab";
+import { TEMPLATE_TAB_AGENTS } from "@/data/templates";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
