@@ -26,7 +26,10 @@ const WINE_REGIONS = [
 
 const ALLERGENS = ["Gluten", "Dairy", "Eggs", "Fish", "Shellfish", "Tree Nuts", "Peanuts", "Soy", "Sesame", "Sulphites", "Lupin", "Celery", "Mustard"];
 
-const AuraKitchenFnB = () => {
+interface Props { onGenerate?: (prompt: string) => void; }
+
+const AuraKitchenFnB = ({ onGenerate }: Props) => {
+  const gen = (prompt: string) => onGenerate?.(prompt);
   const [section, setSection] = useState<"menu" | "operations" | "wine">("menu");
 
   return (
