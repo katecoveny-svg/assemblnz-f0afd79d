@@ -13,7 +13,7 @@ export interface Agent {
 
 export const agents: Agent[] = [
   {
-    id: "aura",
+    id: "hospitality",
     name: "AURA",
     designation: "ASM-001",
     role: "Hospitality Specialist",
@@ -25,7 +25,7 @@ export const agents: Agent[] = [
     starters: ["What food safety programme do I need for a small cafe?", "Public holiday pay rules for hospo staff", "Qualmark licence process"],
   },
   {
-    id: "nova",
+    id: "tourism",
     name: "NOVA",
     designation: "ASM-002",
     role: "Tourism & Travel Strategist",
@@ -37,7 +37,7 @@ export const agents: Agent[] = [
     starters: ["How do I register as an adventure tourism operator?", "Marketing to Australian visitors", "DOC concession application process"],
   },
   {
-    id: "apex",
+    id: "construction",
     name: "APEX",
     designation: "ASM-003",
     role: "Construction & Trades Advisor",
@@ -49,7 +49,7 @@ export const agents: Agent[] = [
     starters: ["LBP obligations for my trade", "Site safety plan for a new build", "How do retentions work under the CCA?"],
   },
   {
-    id: "terra",
+    id: "agriculture",
     name: "TERRA",
     designation: "ASM-004",
     role: "Agriculture & Farming Consultant",
@@ -61,7 +61,7 @@ export const agents: Agent[] = [
     starters: ["Freshwater compliance for my dairy farm", "RSE seasonal worker scheme explained", "Farm succession planning basics"],
   },
   {
-    id: "pulse",
+    id: "retail",
     name: "PULSE",
     designation: "ASM-005",
     role: "Retail & E-commerce Strategist",
@@ -73,7 +73,7 @@ export const agents: Agent[] = [
     starters: ["Consumer Guarantees Act — what must I offer?", "Best e-commerce setup for NZ", "Handling returns and refunds legally"],
   },
   {
-    id: "forge",
+    id: "automotive",
     name: "FORGE",
     designation: "ASM-006",
     role: "Automotive Industry Expert",
@@ -85,7 +85,7 @@ export const agents: Agent[] = [
     starters: ["WoF inspection requirements update", "Clean Car Standard impact on dealers", "Setting up an EV servicing bay"],
   },
   {
-    id: "arc",
+    id: "architecture",
     name: "ARC",
     designation: "ASM-007",
     role: "Architecture & Design Advisor",
@@ -97,7 +97,7 @@ export const agents: Agent[] = [
     starters: ["Generate a 3D model of a contemporary NZ home", "Resource consent process for a new build", "Passive house design in NZ conditions", "NZRAB registration requirements"],
   },
   {
-    id: "flux",
+    id: "sales",
     name: "FLUX",
     designation: "ASM-008",
     role: "Sales & Growth Strategist",
@@ -109,7 +109,7 @@ export const agents: Agent[] = [
     starters: ["Build a B2B sales process for NZ", "CRM setup for a small Kiwi team", "NZGP procurement rules explained"],
   },
   {
-    id: "nexus",
+    id: "customs",
     name: "NEXUS",
     designation: "ASM-009",
     role: "Customs Brokerage & Entry Automation Agent",
@@ -121,7 +121,7 @@ export const agents: Agent[] = [
     starters: ["Process this commercial invoice for import entry", "Classify this product under the NZ Tariff", "Calculate duty and GST for this shipment"],
   },
   {
-    id: "axis",
+    id: "pm",
     name: "AXIS",
     designation: "ASM-010",
     role: "Project Management Expert",
@@ -145,13 +145,25 @@ export const agents: Agent[] = [
     starters: ["Build a brand strategy for a new NZ product", "ASA advertising rules I need to know", "Social media plan for a small NZ business"],
   },
   {
+    id: "health",
+    name: "VITAE",
+    designation: "ASM-012",
+    role: "Health & Wellbeing Sector Advisor",
+    tagline: "Supporting NZ's health practitioners and providers",
+    color: "#00E676",
+    sector: "Health & Wellbeing",
+    traits: ["Evidence-based", "Compliance-sharp", "Patient-focused"],
+    expertise: ["Health Practitioners Competence Assurance Act", "ACC provider setup", "Medsafe", "HIPC", "Telehealth"],
+    starters: ["How do I set up a health practice in NZ?", "ACC provider registration process", "Telehealth compliance in NZ"],
+  },
+  {
     id: "operations",
     name: "HELM",
     designation: "ASM-013",
     role: "Life Admin & Household Ops Manager",
     tagline: "Your entire life, organised and on autopilot",
     color: "#B388FF",
-    sector: "Life Admin",
+    sector: "Ops & Admin",
     traits: ["Hyper-organised", "Proactive", "Never forgets"],
     expertise: ["School & family admin", "Meal planning & budgets", "Schedules & reminders", "Home & pet care", "Life logistics"],
     starters: ["Upload a school newsletter and I'll extract the key dates", "Create a weekly meal plan for my family", "Help me set up a household budget"],
@@ -362,7 +374,9 @@ export const sectors = [
   "Sales",
   "Customs Brokerage",
   "Project Management",
-  "Life Admin",
+  "Marketing & Comms",
+  "Health & Wellbeing",
+  "Ops & Admin",
   "Accounting & Tax",
   "Legal & Compliance",
   "IT & Cyber",
@@ -371,7 +385,6 @@ export const sectors = [
   "Immigration",
   "Nonprofit & Community",
   "Maritime & Fishing",
-  "Marketing & Comms",
   "Energy & Sustainability",
   "Life & Personal",
 ];

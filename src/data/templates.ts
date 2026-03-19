@@ -9,11 +9,11 @@ export interface Template {
 
 // Agents with a dedicated Templates tab
 export const TEMPLATE_TAB_AGENTS = [
-  "nexus", "apex", "accounting", "legal", "property", "immigration", "prism", "flux", "operations",
+  "customs", "construction", "accounting", "legal", "property", "immigration", "marketing", "sales", "operations",
 ];
 
 export const agentTemplates: Record<string, Template[]> = {
-  nexus: [
+  customs: [
     { icon: "box", emoji: "📦", title: "Import Entry Processor", description: "Upload a commercial invoice and I'll extract all line items into lodgement-ready data with tariff codes, duty, and GST calculations.", timeSaved: "~45 min per entry", prompt: "I need to process an import entry. Upload the commercial invoice or provide the details and I'll extract all line items into lodgement-ready data with tariff codes, duty, and GST calculations." },
     { icon: "upload", emoji: "📤", title: "Export Entry Processor", description: "Upload export documents and I'll prepare structured export entry data for TSW lodgement.", timeSaved: "~30 min per entry", prompt: "I need to prepare an export entry. Upload your export documents and I'll prepare structured export entry data for TSW lodgement." },
     { icon: "search", emoji: "🔍", title: "Tariff Classifier", description: "Describe your product and I'll suggest the correct NZ Tariff classification with duty rates.", timeSaved: "~20 min per item", prompt: "I need to classify a product under the NZ Tariff. Let me ask you some questions to determine the correct classification. First, can you describe the product in detail?" },
@@ -21,7 +21,7 @@ export const agentTemplates: Record<string, Template[]> = {
     { icon: "coin", emoji: "💰", title: "Duty & GST Calculator", description: "Calculate total import charges: customs duty, GST, and fees for your shipment.", timeSaved: "~15 min per calculation", prompt: "I'll calculate the total import charges for your shipment. First, what is the tariff/HS code for your goods? If you're unsure, describe the product and I'll help classify it." },
     { icon: "clipboard", emoji: "📋", title: "Import Compliance Checklist", description: "Get a complete compliance checklist for your specific import — permits, biosecurity, labelling, and more.", timeSaved: "~1 hour", prompt: "I'll generate a complete import compliance checklist for your shipment. First, what type of product are you importing?" },
   ],
-  apex: [
+  construction: [
     { icon: "safetyVest", emoji: "🦺", title: "Site Safety Plan", description: "Generate a site-specific safety plan with hazard register, emergency procedures, and sign-off sheets.", timeSaved: "~6 hours", prompt: "I'll generate a site-specific safety plan for your project. Let me collect some details — first, what type of construction project is this (e.g. residential new build, commercial fitout, civil works)?" },
     { icon: "coin", emoji: "📝", title: "Payment Claim (CCA)", description: "Generate a Construction Contracts Act compliant payment claim ready to serve.", timeSaved: "~2 hours", prompt: "I'll generate a CCA-compliant payment claim. Let me ask you some questions. First, what is the contract reference or project name?" },
     { icon: "megaphone", emoji: "🔨", title: "Toolbox Talk", description: "Generate a 5-minute toolbox talk on any construction safety topic with sign-off sheet.", timeSaved: "~30 min", prompt: "I'll generate a toolbox talk for your site. What safety topic would you like to cover (e.g. working at heights, excavation, manual handling)?" },
@@ -65,7 +65,7 @@ export const agentTemplates: Record<string, Template[]> = {
     { icon: "calendar", emoji: "📅", title: "Visa Pathway Timeline", description: "Map out your visa pathway from current status to residence with key dates and milestones.", timeSaved: "~1 hour", prompt: "I'll map out your visa pathway to residence. First, what is your current visa type?" },
     { icon: "document", emoji: "📝", title: "Job Check Preparation", description: "Prepare all the information needed for an AEWV job check application.", timeSaved: "~2 hours", prompt: "I'll help you prepare for a job check application. First, what is the job title?" },
   ],
-  prism: [
+  marketing: [
     { icon: "calendar", emoji: "📅", title: "30-Day Content Calendar", description: "Generate a complete month of social media posts with copy, hashtags, and posting times.", timeSaved: "~6 hours", prompt: "I'll generate a 30-day content calendar. First, what type of business are you?" },
     { icon: "checkmark", emoji: "✅", title: "Ad Compliance Check", description: "Check your ad copy against ASA Advertising Standards Code before publishing.", timeSaved: "~30 min", prompt: "I'll check your ad copy for ASA compliance. Please paste the ad copy you'd like me to review." },
     { icon: "sparkle", emoji: "🎨", title: "Brand Guidelines Outline", description: "Generate a brand guidelines document covering voice, tone, visual rules, and dos/don'ts.", timeSaved: "~8 hours", prompt: "I'll generate brand guidelines. First, what is your business name?" },
@@ -73,7 +73,7 @@ export const agentTemplates: Record<string, Template[]> = {
     { icon: "chart", emoji: "📊", title: "Marketing Plan Generator", description: "Generate a 12-month marketing plan with budget allocation, channels, and campaign calendar.", timeSaved: "~12 hours", prompt: "I'll generate a 12-month marketing plan. First, what type of business are you?" },
     { icon: "pen", emoji: "📝", title: "Campaign Brief", description: "Generate a creative brief for designers or agencies with objectives, audience, deliverables, and timeline.", timeSaved: "~2 hours", prompt: "I'll generate a campaign brief. First, what is the campaign name or working title?" },
   ],
-  flux: [
+  sales: [
     { icon: "pen", emoji: "📄", title: "Proposal Writer", description: "Upload an RFP or tender brief and I'll generate a structured proposal response.", timeSaved: "~6 hours", prompt: "I'll generate a structured proposal. First, can you upload the RFP or tender brief, or describe the opportunity?" },
     { icon: "mail", emoji: "✉️", title: "Cold Outreach Sequence", description: "Generate 5 personalised outreach emails compliant with NZ anti-spam law.", timeSaved: "~2 hours", prompt: "I'll create a cold outreach email sequence. First, what industry are you targeting?" },
     { icon: "chart", emoji: "📊", title: "Sales Pipeline Builder", description: "Generate a custom sales pipeline with stages, actions, KPIs, and CRM setup recommendations.", timeSaved: "~3 hours", prompt: "I'll build a sales pipeline for your business. First, what type of business are you and what do you sell?" },
@@ -90,36 +90,36 @@ export const agentTemplates: Record<string, Template[]> = {
     { icon: "wrench", emoji: "🚗", title: "Vehicle Admin Tracker", description: "Set up tracking for WoF, rego, RUC, insurance, and service dates for all your vehicles.", timeSaved: "~30 min setup", prompt: "I'll set up vehicle admin tracking. First, how many vehicles do you need to track?" },
   ],
   // Legacy templates for agents without a dedicated tab
-  aura: [
+  hospitality: [
     { icon: "clipboard", title: "Food Control Plan", description: "Generate a food safety programme outline for your business type", timeSaved: "~2 hours", prompt: "I need help creating a Food Control Plan. Let's start — what type of food business do I have?" },
     { icon: "team", title: "Staff Roster Checker", description: "Check your roster against Holidays Act and employment law", timeSaved: "~30 min", prompt: "I'd like you to check my staff roster for compliance. What information do you need from me?" },
     { icon: "checkmark", title: "Event Compliance Checklist", description: "Compliance checklist for hosting an event", timeSaved: "~1 hour", prompt: "Help me create an event compliance checklist. What type of event am I planning?" },
     { icon: "coin", title: "Public Holiday Pay Calculator", description: "Calculate correct public holiday pay rates", timeSaved: "~20 min", prompt: "I need to calculate public holiday pay. Let me tell you about the staff member and the day worked." },
   ],
-  terra: [
+  agriculture: [
     { icon: "seedling", title: "Farm Environment Plan", description: "Outline a farm environment plan for freshwater compliance", timeSaved: "~4 hours", prompt: "I need a farm environment plan outline. What type of farming operation do you have?" },
     { icon: "wave", title: "Freshwater Compliance Audit", description: "Audit your farm against freshwater regulations", timeSaved: "~2 hours", prompt: "Let's do a freshwater compliance audit. What region is your farm in?" },
     { icon: "team", title: "RSE Checklist", description: "Checklist for RSE seasonal worker scheme compliance", timeSaved: "~1 hour", prompt: "I need an RSE scheme checklist. Are you currently an accredited employer?" },
   ],
-  pulse: [
+  retail: [
     { icon: "return", title: "Returns Policy", description: "Generate a returns policy compliant with NZ consumer law", timeSaved: "~1 hour", prompt: "I need a returns policy for my business. What type of products do you sell?" },
     { icon: "lock", title: "Privacy Policy", description: "Create a Privacy Act 2020 compliant privacy policy", timeSaved: "~2 hours", prompt: "Let's create a privacy policy. What type of business are you and what data do you collect?" },
     { icon: "box", title: "Product Listing Checker", description: "Check your product listings for Fair Trading Act compliance", timeSaved: "~30 min", prompt: "I'd like to check my product listings for compliance. Share a product listing and I'll review it." },
     { icon: "mail", title: "Email Compliance Check", description: "Ensure your email marketing is legally compliant", timeSaved: "~20 min", prompt: "Let's check your email marketing compliance. Tell me about your email setup." },
   ],
-  forge: [
+  automotive: [
     { icon: "pen", title: "Vehicle Sale Disclosure", description: "Generate a vehicle sale disclosure form", timeSaved: "~30 min", prompt: "I need a vehicle sale disclosure. Tell me about the vehicle being sold." },
     { icon: "wrench", title: "Workshop Job Card", description: "Create a structured job card for a repair", timeSaved: "~15 min", prompt: "Let's create a workshop job card. What vehicle and what work is being done?" },
     { icon: "checkmark", title: "WoF Prep Checklist", description: "Pre-WoF inspection checklist", timeSaved: "~20 min", prompt: "I need a WoF prep checklist. What type of vehicle?" },
     { icon: "safetyVest", title: "Workshop H&S Audit", description: "Health and safety audit for your workshop", timeSaved: "~2 hours", prompt: "Let's do a workshop health and safety audit. Tell me about your workshop setup." },
   ],
-  arc: [
+  architecture: [
     { icon: "document", title: "Resource Consent Outline", description: "Outline a resource consent application", timeSaved: "~3 hours", prompt: "I need help with a resource consent outline. What are you planning to build?" },
     { icon: "checkmark", title: "Building Code Checklist", description: "Building Code compliance checklist for your project", timeSaved: "~2 hours", prompt: "Let's create a Building Code checklist. What type of project?" },
     { icon: "clipboard", title: "Client Brief", description: "Structure a comprehensive client brief", timeSaved: "~1 hour", prompt: "I need to create a client brief for an architecture project. What are the key requirements?" },
     { icon: "coin", title: "Fee Proposal", description: "Draft an architecture fee proposal", timeSaved: "~2 hours", prompt: "I need to prepare a fee proposal. Tell me about the project scope." },
   ],
-  axis: [
+  pm: [
     { icon: "document", title: "Project Charter", description: "Create a project charter document", timeSaved: "~2 hours", prompt: "I need a project charter. What is the project about?" },
     { icon: "warning", title: "Risk Register", description: "Build a comprehensive risk register", timeSaved: "~3 hours", prompt: "I need to create a risk register. What type of project?" },
     { icon: "team", title: "Stakeholder Analysis", description: "Map and analyse project stakeholders", timeSaved: "~1 hour", prompt: "Let's do a stakeholder analysis. Tell me about your project and key people involved." },

@@ -258,9 +258,9 @@ const ChatPage = () => {
   const nexusFileInputRef = useRef<HTMLInputElement>(null);
   const pollingRef = useRef<Record<string, number>>({});
 
-  const isArc = agentId === "arc";
+  const isArc = agentId === "architecture";
   const isHelm = agentId === "operations";
-  const isNexus = agentId === "nexus";
+  const isNexus = agentId === "customs";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
@@ -561,7 +561,7 @@ const ChatPage = () => {
     const content = msg.content;
 
     if (msg.role === "assistant") {
-      if (agentId === "customs" || agentId === "nexus") {
+      if (agentId === "customs") {
         const entryData = parseNexusEntry(content);
         if (entryData) {
           return <NexusEntryCard data={entryData} color={agent.color} />;

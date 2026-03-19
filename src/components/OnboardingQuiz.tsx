@@ -26,9 +26,9 @@ interface QuizResult {
 
 const PAIN_MAP: Record<string, string[]> = {
   compliance: ["legal", "accounting", "property"],
-  paperwork: ["nexus", "accounting", "axis"],
-  marketing: ["marketing", "flux"],
-  staff: ["legal", "aura"],
+  paperwork: ["customs", "accounting", "pm"],
+  marketing: ["marketing", "sales"],
+  staff: ["legal", "hospitality"],
   tax: ["accounting"],
   industry: [],
 };
