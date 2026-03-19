@@ -266,8 +266,8 @@ const DashboardPage = () => {
 
         {/* Time Saved Breakdown */}
         <div className="rounded-xl border bg-card p-6" style={{ borderColor: "#FFB80025" }}>
-          <h2 className="text-sm font-bold text-foreground mb-1">Time saved breakdown</h2>
-          <p className="text-[11px] mb-4" style={{ color: '#ffffff38' }}>This is the number that justifies your subscription</p>
+          <h2 className="text-sm font-syne font-bold text-foreground mb-1">Time saved breakdown</h2>
+          <p className="text-[11px] font-jakarta mb-4" style={{ color: '#ffffff38' }}>This is the number that justifies your subscription</p>
           <div className="space-y-3">
             {TIME_SAVED.map((t) => (
               <div key={t.template} className="flex items-center justify-between">
