@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { FileText, Globe, ClipboardList, Building2, ChevronRight, Copy, Check, Sparkles, Upload, Edit3, Download, Lock, ArrowLeft } from "lucide-react";
+import { ICON_MAP, NeonClipboard, NeonDocument, NeonWarning, NeonSafetyVest, NeonCheckmark, NeonSeedling, NeonHandshake, NeonCoin, NeonPaperclip, NeonTrophy, NeonStar, NeonWrench, NeonShield, NeonCalendar } from "@/components/NeonIcons";
 import ReactMarkdown from "react-markdown";
 import { useAuth } from "@/hooks/useAuth";
 
