@@ -105,7 +105,7 @@ const EmbedChatWidget = () => {
       <div className="flex-1 overflow-y-auto px-4 py-4">
         {messages.length === 0 && !limitReached && (
           <div className="flex flex-col items-center justify-center h-full text-center gap-3">
-            <RobotIcon color={agent.color} size={56} />
+            <AgentAvatar agentId={agent.id} color={agent.color} size={56} />
             <div>
               <h2 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>{agent.name}</h2>
               <p className="text-[11px] italic" style={{ color: "#ffffff38" }}>"{agent.tagline}"</p>
