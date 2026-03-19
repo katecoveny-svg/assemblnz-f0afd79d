@@ -179,6 +179,49 @@ const DashboardPage = () => {
           </DialogContent>
         </Dialog>
 
+        {/* Conversation History */}
+        {conversations.length > 0 && (
+          <div className="rounded-xl border border-border bg-card p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <History size={16} className="text-primary" />
+              <h2 className="text-sm font-bold text-foreground">Conversation History</h2>
+              <span className="text-[10px] text-muted-foreground ml-auto">Last 30 days</span>
+            </div>
+            <div className="space-y-2">
+              {conversations.map((conv) => {
+                const agentData = agents.find((a) => a.id === conv.agent_id);
+                const lastMsg = Array.isArray(conv.messages) ? conv.messages[conv.messages.length - 1] : null;
+                const preview = lastMsg?.content?.substring(0, 80) || "No messages";
+                const msgCount = Array.isArray(conv.messages) ? conv.messages.length : 0;
+                return (
+                  <Link
+                    key={conv.id}
+                    to={`/chat/${conv.agent_id}`}
+                    className="flex items-center justify-between py-2.5 px-2 -mx-2 rounded-lg border-b border-border last:border-0 hover:bg-muted/50 transition-colors"
+                  >
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <span
+                        className="text-xs font-bold px-2 py-0.5 rounded shrink-0"
+                        style={{ backgroundColor: (agentData?.color || "#888") + "15", color: agentData?.color || "#888" }}
+                      >
+                        {agentData?.name || conv.agent_id}
+                      </span>
+                      <span className="text-xs text-foreground/50 truncate">{preview}</span>
+                    </div>
+                    <div className="flex items-center gap-3 shrink-0">
+                      <span className="text-[10px] text-muted-foreground">{msgCount} msgs</span>
+                      <span className="text-[10px]" style={{ color: '#ffffff38' }}>
+                        {new Date(conv.updated_at).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}
+                      </span>
+                      <ChevronRight size={12} className="text-muted-foreground" />
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Agent Activity */}
         <div className="rounded-xl border border-border bg-card p-6">
           <h2 className="text-sm font-bold text-foreground mb-4">Agent activity</h2>
