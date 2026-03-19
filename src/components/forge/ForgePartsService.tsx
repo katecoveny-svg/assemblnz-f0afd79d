@@ -13,7 +13,7 @@ const SERVICE_MENU = [
     { name: "Transmission Service", desc: "Fluid drain, filter, and refill", price: "$289" },
   ]},
   { category: "Seasonal Packages", items: [
-    { name: "Winter Check", desc: "Battery test, wipers, lights, tyres, demister, coolant", price: "$79" },
+    { name: "Winter Check", desc: "Battery test, wipers, lights, tyres, demister, coolant", price: "$149" },
     { name: "Summer Road Trip Prep", desc: "Coolant, AC, tyres, brakes, belts, emergency kit check", price: "$129" },
     { name: "Towing Prep Service", desc: "Tow ball check, lights, brakes, transmission, cooling", price: "$159" },
   ]},

@@ -84,7 +84,7 @@ const BUSINESS_PLANS = [
 
 const HELM_PLANS = [
   {
-    name: "Free",
+    name: "HELM Free",
     price: "$0",
     suffix: "",
     desc: "Try HELM with basic features",
@@ -99,7 +99,7 @@ const HELM_PLANS = [
     solid: false,
   },
   {
-    name: "Personal",
+    name: "HELM Personal",
     price: "$12",
     suffix: "/mo NZD",
     desc: "Full life admin for one person",
@@ -116,7 +116,7 @@ const HELM_PLANS = [
     solid: true,
   },
   {
-    name: "Family",
+    name: "HELM Family",
     price: "$19",
     suffix: "/mo NZD",
     desc: "For busy NZ families",
