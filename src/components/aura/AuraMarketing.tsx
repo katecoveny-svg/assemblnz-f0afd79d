@@ -120,7 +120,7 @@ const AuraMarketing = ({ onGenerate }: Props) => {
           {["Channel Allocation (PR, digital, social, trade shows)", "ROI by Channel — which channels drive bookings?", "Cost per Acquisition by Source", "Seasonal Spend Calendar", "Budget Template by Property"].map(t => (
             <div key={t} className="flex items-center justify-between p-2 rounded-lg border border-border mb-1.5">
               <span className="text-xs text-foreground/80">{t}</span>
-              <button className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
+              <button onClick={() => gen(`Generate a "${t}" template for luxury lodge marketing. Include specific metrics to track, benchmarks for luxury hospitality, and actionable recommendations.`)} className="px-3 py-1 rounded-full text-[10px] font-medium" style={{ background: color + "20", color }}>Generate</button>
             </div>
           ))}
         </div>
