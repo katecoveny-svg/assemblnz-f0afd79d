@@ -108,12 +108,11 @@ const DashboardPage = () => {
           ].map((stat, i) => (
             <div
               key={stat.label}
-              className="rounded-xl border bg-card p-5 opacity-0 animate-fade-up"
+              className={`rounded-xl p-5 opacity-0 animate-fade-up glass-card border ${stat.highlight ? "animated-border" : "border-border"}`}
               style={{
                 animationDelay: `${i * 80}ms`,
                 animationFillMode: "forwards",
-                borderColor: stat.highlight ? "#FFB80040" : "hsl(var(--border))",
-                boxShadow: stat.highlight ? "0 0 20px #FFB80015" : undefined,
+                boxShadow: stat.highlight ? `0 0 24px ${stat.color}15` : undefined,
               }}
             >
               <stat.icon size={18} style={{ color: stat.color }} className="mb-2" />

@@ -221,8 +221,7 @@ const PricingPage = () => {
             {HELM_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="rounded-xl p-6 flex flex-col"
-                style={{ background: "#0E0E1A", border: "1px solid #ffffff08" }}
+                className="rounded-xl p-6 flex flex-col glass-card border border-border hover:border-[hsl(var(--neon-pink)_/_0.15)] transition-colors duration-300"
               >
                 <h3 className="text-xs font-bold tracking-widest mb-2" style={{ color: "#B388FF" }}>{plan.name}</h3>
                 <div className="flex items-baseline gap-1 mb-1">
