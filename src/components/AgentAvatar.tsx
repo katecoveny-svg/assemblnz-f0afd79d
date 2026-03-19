@@ -38,6 +38,7 @@ import moeImg from "@/assets/agents/moe.png";
 import publichealthImg from "@/assets/agents/publichealth.png";
 import housingImg from "@/assets/agents/housing.png";
 import emergencyImg from "@/assets/agents/emergency.png";
+import hrImg from "@/assets/agents/hr.png";
 
 const AVATAR_MAP: Record<string, string> = {
   hospitality: auraImg,
