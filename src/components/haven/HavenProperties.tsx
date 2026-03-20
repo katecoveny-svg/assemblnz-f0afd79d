@@ -100,8 +100,7 @@ const HavenProperties = ({ onSendToChat }: { onSendToChat: (msg: string) => void
       <div className="relative">
         <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by address, suburb, or tenant…"
-          className="w-full pl-9 pr-3 py-2 rounded-lg text-xs font-jakarta bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1"
-          style={{ focusRingColor: HAVEN_PINK }} />
+          className="w-full pl-9 pr-3 py-2 rounded-lg text-xs font-jakarta bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-pink-400/30" />
       </div>
 
       {/* Add/Edit Form Modal */}
