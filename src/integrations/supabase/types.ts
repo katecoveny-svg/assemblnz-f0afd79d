@@ -98,6 +98,59 @@ export type Database = {
         }
         Relationships: []
       }
+      compliance_items: {
+        Row: {
+          category: string
+          created_at: string
+          due_date: string | null
+          id: string
+          last_completed: string | null
+          notes: string | null
+          property_id: string
+          reminder_enabled: boolean | null
+          status: Database["public"]["Enums"]["compliance_status"] | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          last_completed?: string | null
+          notes?: string | null
+          property_id: string
+          reminder_enabled?: boolean | null
+          status?: Database["public"]["Enums"]["compliance_status"] | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          last_completed?: string | null
+          notes?: string | null
+          property_id?: string
+          reminder_enabled?: boolean | null
+          status?: Database["public"]["Enums"]["compliance_status"] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compliance_items_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_submissions: {
         Row: {
           created_at: string
@@ -173,6 +226,206 @@ export type Database = {
         }
         Relationships: []
       }
+      haven_notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean | null
+          message: string
+          related_id: string | null
+          related_type: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          message: string
+          related_id?: string | null
+          related_type?: string | null
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          related_id?: string | null
+          related_type?: string | null
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      inspection_notes: {
+        Row: {
+          created_at: string
+          id: string
+          note: string
+          property_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note: string
+          property_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string
+          property_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inspection_notes_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      job_offers: {
+        Row: {
+          id: string
+          job_id: string
+          responded_at: string | null
+          sent_at: string | null
+          status: string | null
+          token: string | null
+          tradie_id: string
+        }
+        Insert: {
+          id?: string
+          job_id: string
+          responded_at?: string | null
+          sent_at?: string | null
+          status?: string | null
+          token?: string | null
+          tradie_id: string
+        }
+        Update: {
+          id?: string
+          job_id?: string
+          responded_at?: string | null
+          sent_at?: string | null
+          status?: string | null
+          token?: string | null
+          tradie_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_offers_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "maintenance_jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_offers_tradie_id_fkey"
+            columns: ["tradie_id"]
+            isOneToOne: false
+            referencedRelation: "tradies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maintenance_jobs: {
+        Row: {
+          access_instructions: string | null
+          budget_max: number | null
+          budget_min: number | null
+          category: string | null
+          completed_date: string | null
+          created_at: string
+          description: string | null
+          id: string
+          invoice_amount: number | null
+          job_size: string | null
+          notes: string | null
+          property_id: string
+          reported_date: string | null
+          requires_quote: boolean | null
+          scheduled_date: string | null
+          status: Database["public"]["Enums"]["job_status"] | null
+          title: string
+          tradie_id: string | null
+          updated_at: string
+          urgency: Database["public"]["Enums"]["urgency_level"] | null
+          user_id: string
+        }
+        Insert: {
+          access_instructions?: string | null
+          budget_max?: number | null
+          budget_min?: number | null
+          category?: string | null
+          completed_date?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          invoice_amount?: number | null
+          job_size?: string | null
+          notes?: string | null
+          property_id: string
+          reported_date?: string | null
+          requires_quote?: boolean | null
+          scheduled_date?: string | null
+          status?: Database["public"]["Enums"]["job_status"] | null
+          title: string
+          tradie_id?: string | null
+          updated_at?: string
+          urgency?: Database["public"]["Enums"]["urgency_level"] | null
+          user_id: string
+        }
+        Update: {
+          access_instructions?: string | null
+          budget_max?: number | null
+          budget_min?: number | null
+          category?: string | null
+          completed_date?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          invoice_amount?: number | null
+          job_size?: string | null
+          notes?: string | null
+          property_id?: string
+          reported_date?: string | null
+          requires_quote?: boolean | null
+          scheduled_date?: string | null
+          status?: Database["public"]["Enums"]["job_status"] | null
+          title?: string
+          tradie_id?: string | null
+          updated_at?: string
+          urgency?: Database["public"]["Enums"]["urgency_level"] | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_jobs_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_jobs_tradie_id_fkey"
+            columns: ["tradie_id"]
+            isOneToOne: false
+            referencedRelation: "tradies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       message_log: {
         Row: {
           agent_id: string
@@ -221,6 +474,57 @@ export type Database = {
         }
         Relationships: []
       }
+      properties: {
+        Row: {
+          address: string
+          created_at: string
+          id: string
+          image_url: string | null
+          inspection_notes: string | null
+          next_inspection_date: string | null
+          notes: string | null
+          region: string
+          suburb: string
+          tenant_email: string | null
+          tenant_name: string | null
+          tenant_phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          inspection_notes?: string | null
+          next_inspection_date?: string | null
+          notes?: string | null
+          region?: string
+          suburb: string
+          tenant_email?: string | null
+          tenant_name?: string | null
+          tenant_phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          inspection_notes?: string | null
+          next_inspection_date?: string | null
+          notes?: string | null
+          region?: string
+          suburb?: string
+          tenant_email?: string | null
+          tenant_name?: string | null
+          tenant_phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       saved_items: {
         Row: {
           agent_id: string
@@ -248,6 +552,145 @@ export type Database = {
           id?: string
           preview?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      tenant_requests: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          photos: string[] | null
+          property_id: string
+          status: string | null
+          tenant_name: string | null
+          urgency: Database["public"]["Enums"]["urgency_level"] | null
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          photos?: string[] | null
+          property_id: string
+          status?: string | null
+          tenant_name?: string | null
+          urgency?: Database["public"]["Enums"]["urgency_level"] | null
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          photos?: string[] | null
+          property_id?: string
+          status?: string | null
+          tenant_name?: string | null
+          urgency?: Database["public"]["Enums"]["urgency_level"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_requests_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tradie_availability: {
+        Row: {
+          available_date: string
+          id: string
+          is_available: boolean | null
+          notes: string | null
+          tradie_id: string
+        }
+        Insert: {
+          available_date: string
+          id?: string
+          is_available?: boolean | null
+          notes?: string | null
+          tradie_id: string
+        }
+        Update: {
+          available_date?: string
+          id?: string
+          is_available?: boolean | null
+          notes?: string | null
+          tradie_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tradie_availability_tradie_id_fkey"
+            columns: ["tradie_id"]
+            isOneToOne: false
+            referencedRelation: "tradies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tradies: {
+        Row: {
+          availability_token: string | null
+          bio: string | null
+          certifications: string[] | null
+          created_at: string
+          email: string | null
+          id: string
+          insurance_provider: string | null
+          jobs_completed: number | null
+          licence_number: string | null
+          name: string
+          phone: string | null
+          rating: number | null
+          service_area: string | null
+          specialties: string[] | null
+          tagline: string | null
+          trade: string
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          availability_token?: string | null
+          bio?: string | null
+          certifications?: string[] | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          insurance_provider?: string | null
+          jobs_completed?: number | null
+          licence_number?: string | null
+          name: string
+          phone?: string | null
+          rating?: number | null
+          service_area?: string | null
+          specialties?: string[] | null
+          tagline?: string | null
+          trade: string
+          updated_at?: string
+          user_id: string
+          website?: string | null
+        }
+        Update: {
+          availability_token?: string | null
+          bio?: string | null
+          certifications?: string[] | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          insurance_provider?: string | null
+          jobs_completed?: number | null
+          licence_number?: string | null
+          name?: string
+          phone?: string | null
+          rating?: number | null
+          service_area?: string | null
+          specialties?: string[] | null
+          tagline?: string | null
+          trade?: string
+          updated_at?: string
+          user_id?: string
+          website?: string | null
         }
         Relationships: []
       }
@@ -288,6 +731,15 @@ export type Database = {
     }
     Enums: {
       app_role: "free" | "starter" | "pro" | "business" | "admin"
+      compliance_status: "compliant" | "due_soon" | "overdue" | "not_checked"
+      job_status:
+        | "reported"
+        | "contacted"
+        | "scheduled"
+        | "in_progress"
+        | "completed"
+        | "invoice_uploaded"
+      urgency_level: "low" | "medium" | "high" | "emergency"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -416,6 +868,16 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["free", "starter", "pro", "business", "admin"],
+      compliance_status: ["compliant", "due_soon", "overdue", "not_checked"],
+      job_status: [
+        "reported",
+        "contacted",
+        "scheduled",
+        "in_progress",
+        "completed",
+        "invoice_uploaded",
+      ],
+      urgency_level: ["low", "medium", "high", "emergency"],
     },
   },
 } as const
