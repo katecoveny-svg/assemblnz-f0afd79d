@@ -691,6 +691,58 @@ Deno.serve(async (req) => {
       fullSystemPrompt += teReoPrompt;
     }
 
+    // For Mariner: auto-fetch live weather if the user asks about weather, conditions, or trip planning
+    if (agentId === "maritime") {
+      const lastMsg = messages[messages.length - 1];
+      const lastText = typeof lastMsg?.content === "string" ? lastMsg.content : "";
+      const weatherKeywords = /weather|forecast|wind|swell|wave|conditions|sea state|marine forecast|trip plan|go out|safe to|should i go|bar crossing|tide|storm|gale|heading out|boating today|fishing today|what's it like|whats it like/i;
+      
+      if (weatherKeywords.test(lastText)) {
+        // Detect region from message
+        const regionMap: Record<string, string> = {
+          auckland: "auckland", hauraki: "auckland", gulf: "auckland", waitemata: "auckland",
+          northland: "northland", "bay of islands": "northland", whangarei: "northland", tutukaka: "northland",
+          coromandel: "coromandel", whitianga: "coromandel", tairua: "coromandel",
+          "bay of plenty": "bay_of_plenty", tauranga: "bay_of_plenty", whakatane: "bay_of_plenty", "mount maunganui": "bay_of_plenty",
+          waikato: "waikato", raglan: "waikato",
+          taranaki: "taranaki", "new plymouth": "taranaki",
+          wellington: "wellington", "cook strait": "wellington", kapiti: "wellington",
+          marlborough: "marlborough", "queen charlotte": "marlborough", picton: "marlborough",
+          canterbury: "canterbury", christchurch: "canterbury", akaroa: "canterbury", lyttelton: "canterbury",
+          otago: "otago", dunedin: "otago",
+          southland: "southland", fiordland: "southland", "milford sound": "southland", bluff: "southland",
+          "east cape": "east_cape", gisborne: "east_cape",
+          "hawkes bay": "hawkes_bay", napier: "hawkes_bay",
+          "west coast": "west_coast", greymouth: "west_coast", hokitika: "west_coast",
+        };
+        
+        let detectedRegion = "auckland";
+        const lowerText = lastText.toLowerCase();
+        for (const [keyword, region] of Object.entries(regionMap)) {
+          if (lowerText.includes(keyword)) {
+            detectedRegion = region;
+            break;
+          }
+        }
+        
+        try {
+          const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+          const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+          const weatherResp = await fetch(`${supabaseUrl}/functions/v1/marine-weather`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${anonKey}` },
+            body: JSON.stringify({ region: detectedRegion }),
+          });
+          if (weatherResp.ok) {
+            const weatherData = await weatherResp.json();
+            fullSystemPrompt += `\n\n[LIVE MARINE WEATHER DATA — fetched just now. Present this data naturally in your response, interpret it for the user, and give a clear go/no-go recommendation based on the conditions:\n${weatherData.forecast}]`;
+          }
+        } catch (weatherErr) {
+          console.error("Weather fetch error (non-critical):", weatherErr);
+        }
+      }
+    }
+
     const formattedMessages = messages.map((msg: any) => {
       if (Array.isArray(msg.content)) {
         return { role: msg.role, content: msg.content };
