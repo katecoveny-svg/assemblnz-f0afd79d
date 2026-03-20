@@ -60,7 +60,7 @@ const AdminResetPassword = () => {
       <div className="min-h-screen star-field flex items-center justify-center px-4">
         <div className="w-full max-w-sm text-center">
           <div className="inline-flex items-center gap-2 mb-6">
-            <AssemblLogo size={36} />
+            <img src={nexusLogo} alt="Assembl" className="w-9 h-9 object-contain drop-shadow-[0_0_12px_rgba(0,229,255,0.25)]" />
             <span className="font-syne font-extrabold tracking-[3px] uppercase text-foreground">ASSEMBL</span>
           </div>
           <p className="text-sm text-muted-foreground mb-4">
