@@ -68,7 +68,7 @@ function RobotBody() {
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(t * 0.3) * 0.3;
+      groupRef.current.rotation.y = t * 0.15 + Math.sin(t * 0.3) * 0.3;
     }
     if (headRef.current) {
       headRef.current.rotation.z = Math.sin(t * 0.5) * 0.05;
