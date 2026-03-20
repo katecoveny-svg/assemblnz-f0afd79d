@@ -2,6 +2,9 @@ import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import AgentShowcase from "@/components/AgentShowcase";
 import { Link } from "react-router-dom";
+import { lazy, Suspense } from "react";
+
+const NexusHero3D = lazy(() => import("@/components/NexusHero3D"));
 
 interface AnimatedHeroProps {
   onScrollToGrid: () => void;
