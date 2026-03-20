@@ -274,18 +274,17 @@ const PricingPage = () => {
       </section>
 
       {/* ═══ Business Plans ═══ */}
-      <section className="pb-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center mb-12" style={{ color: '#E4E4EC' }}>
+      <section className="pb-16 sm:pb-24">
+        <div className="max-w-6xl mx-auto px-5 sm:px-6">
+          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-8 sm:mb-12" style={{ color: '#E4E4EC' }}>
             Plans for NZ Businesses
           </h2>
 
-          {/* Standard 3-col */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-8">
             {STANDARD_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:border-white/[0.1]"
+                className="relative flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
                 style={{
                   background: 'rgba(255,255,255,0.02)',
                   backdropFilter: 'blur(12px)',
@@ -306,21 +305,21 @@ const PricingPage = () => {
                     Most Popular
                   </span>
                 )}
-                <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-3" style={{ color: 'rgba(255,255,255,0.3)' }}>
                   {plan.name}
                 </p>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
+                  <span className="font-syne text-3xl sm:text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
                     {plan.price}
                   </span>
                   {plan.suffix && (
                     <span className="text-sm" style={{ color: 'rgba(255,255,255,0.25)' }}>{plan.suffix}</span>
                   )}
                 </div>
-                <p className="text-[12px] font-jakarta mb-6" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                <p className="text-[12px] font-jakarta mb-5 sm:mb-6" style={{ color: 'rgba(255,255,255,0.3)' }}>
                   {plan.desc}
                 </p>
-                <ul className="space-y-2.5 mb-8 flex-1">
+                <ul className="space-y-2 sm:space-y-2.5 mb-6 sm:mb-8 flex-1">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5 text-[13px] font-jakarta" style={{ color: 'rgba(255,255,255,0.5)' }}>
                       <FeatureDot />
