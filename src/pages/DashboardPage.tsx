@@ -104,7 +104,7 @@ const DashboardPage = () => {
             { icon: MessageSquare, label: "Messages this month", value: "342", color: "hsl(var(--primary))" },
             { icon: FileText, label: "Templates generated", value: "14", color: "hsl(var(--secondary))" },
             { icon: Upload, label: "Documents processed", value: "8", color: "hsl(var(--accent))" },
-            { icon: Clock, label: "Estimated time saved", value: "23.5 hrs", color: "#FFB800", highlight: true },
+            { icon: Clock, label: "Estimated time saved", value: "23.5 hrs", color: "hsl(157, 100%, 55%)", highlight: true },
           ].map((stat, i) => (
             <div
               key={stat.label}
