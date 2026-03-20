@@ -5,13 +5,24 @@ import BrandFooter from "@/components/BrandFooter";
 import ParticleField from "@/components/ParticleField";
 import { useState } from "react";
 
+/* ─── Stripe Links ─── */
+const STRIPE = {
+  starter: "https://buy.stripe.com/dRm3cx2za1BSctvdx4",
+  pro: "https://buy.stripe.com/bJebJ3gq0dkA6570Ki",
+  business: "https://buy.stripe.com/7sYdRb5Lm6Wc3WZ0Ki",
+  industry: "https://buy.stripe.com/8x24gB2zaeoE513akS",
+  luxury: "https://buy.stripe.com/4gM4gB5Lm5S88df9gO",
+  helmPersonal: "https://buy.stripe.com/14AaEZ0r2a8o1OR3Wu",
+  helmFamily: "https://buy.stripe.com/8x27sN2za5S8dxzdx4",
+};
+
 /* ─── Standard Business Plans (3-col row) ─── */
 const STANDARD_PLANS = [
   {
     name: "Starter",
-    price: "$49",
+    price: "$79",
     suffix: "/mo NZD",
-    desc: "For sole traders and micro businesses",
+    desc: "For sole traders and small businesses",
     features: [
       "1 AI agent",
       "100 messages per month",
@@ -19,13 +30,13 @@ const STANDARD_PLANS = [
       "Email support",
     ],
     cta: "Get started",
-    href: "https://pay.airwallex.com/sghgspa33ccg",
+    href: STRIPE.starter,
     external: true,
     highlighted: false,
   },
   {
     name: "Pro",
-    price: "$149",
+    price: "$249",
     suffix: "/mo NZD",
     desc: "For growing NZ businesses",
     features: [
@@ -38,17 +49,17 @@ const STANDARD_PLANS = [
       "Priority support",
     ],
     cta: "Start Pro",
-    href: "https://pay.airwallex.com/sghgspe6mx61",
+    href: STRIPE.pro,
     external: true,
     highlighted: true,
   },
   {
     name: "Business",
-    price: "$349",
+    price: "$499",
     suffix: "/mo NZD",
     desc: "All agents, unlimited, built for teams",
     features: [
-      "All 37 AI agents",
+      "All 38 AI agents",
       "Unlimited messages",
       "Brand scan + file upload",
       "Template library access",
@@ -59,7 +70,7 @@ const STANDARD_PLANS = [
       "Priority support",
     ],
     cta: "Start Business",
-    href: "https://pay.airwallex.com/sghgspfps04o",
+    href: STRIPE.business,
     external: true,
     highlighted: false,
   },
@@ -67,13 +78,13 @@ const STANDARD_PLANS = [
 
 /* ─── Premium Plans (2-col row) ─── */
 const INDUSTRY_SUITES = [
-  { label: "Construction Suite", agents: "APEX + AROHA + LEDGER + PRISM + SIGNAL" },
-  { label: "Hospitality Suite", agents: "AURA + AROHA + LEDGER + PRISM" },
-  { label: "Property Suite", agents: "HAVEN + ANCHOR + LEDGER + AROHA" },
-  { label: "Legal Suite", agents: "ANCHOR + AROHA + COMPASS + LEDGER" },
-  { label: "Trade & Customs Suite", agents: "NEXUS + FLUX + LEDGER + COMPASS" },
-  { label: "Health Suite", agents: "VITAE + ORA + AROHA + LEDGER" },
-  { label: "Government Suite", agents: "PŪNAHA + TIKA + AWA + KURA + ORA + MANAAKI + WHARE + HAUMARU" },
+  { label: "Construction", agents: "APEX + AROHA + LEDGER + PRISM + SIGNAL" },
+  { label: "Hospitality", agents: "AURA + AROHA + LEDGER + PRISM" },
+  { label: "Property", agents: "HAVEN + ANCHOR + LEDGER + AROHA" },
+  { label: "Legal", agents: "ANCHOR + AROHA + COMPASS + LEDGER" },
+  { label: "Trade & Customs", agents: "NEXUS + FLUX + LEDGER + COMPASS" },
+  { label: "Health", agents: "VITAE + ORA + AROHA + LEDGER" },
+  { label: "Government", agents: "PŪNAHA + TIKA + AWA + KURA + ORA + MANAAKI + WHARE + HAUMARU" },
 ];
 
 const INDUSTRY_FEATURES = [
@@ -110,12 +121,12 @@ const ENTERPRISE = {
   suffix: "",
   desc: "White-label, custom agents, your brand",
   features: [
-    "Your logo and branding",
+    "White-label branding",
     "Custom system prompts",
     "API access",
     "Unlimited users",
     "Your own domain",
-    "Dedicated support",
+    "Dedicated account manager",
   ],
   cta: "Contact us",
   href: "#contact",
@@ -140,7 +151,7 @@ const HELM_PLANS = [
   },
   {
     name: "HELM Personal",
-    price: "$12",
+    price: "$14",
     suffix: "/mo NZD",
     desc: "Full life admin for one person",
     features: [
@@ -148,27 +159,29 @@ const HELM_PLANS = [
       "File upload (school newsletters)",
       "Meal plans and budgets",
       "Vehicle and subscription tracking",
+      "Voice input",
       "2 lifestyle agents included",
     ],
     cta: "Start Personal",
-    href: "https://pay.airwallex.com/sghgsph924ew",
+    href: STRIPE.helmPersonal,
     external: true,
     solid: true,
   },
   {
     name: "HELM Family",
-    price: "$19",
+    price: "$24",
     suffix: "/mo NZD",
     desc: "For busy NZ families",
     features: [
       "Everything in Personal",
       "Multi-child profiles",
+      "Kids voice mode",
       "Sunday week-ahead briefing",
       "All 7 lifestyle agents",
       "Partner access (2 seats)",
     ],
     cta: "Start Family",
-    href: "https://pay.airwallex.com/sghgspijg05v",
+    href: STRIPE.helmFamily,
     external: true,
     solid: false,
   },
@@ -296,10 +309,11 @@ const PricingPage = () => {
                 key={plan.name}
                 className="relative flex flex-col"
                 style={{
-                  background: "#0E0E1A",
+                  background: "rgba(14,14,26,0.7)",
+                  backdropFilter: "blur(12px)",
                   border: plan.highlighted
-                    ? "1px solid #00FF8830"
-                    : "1px solid #ffffff08",
+                    ? "1px solid rgba(0,255,136,0.15)"
+                    : "1px solid rgba(255,255,255,0.06)",
                   borderRadius: 16,
                   padding: 32,
                   boxShadow: plan.highlighted ? "0 0 48px #00FF8810" : "none",
@@ -320,11 +334,11 @@ const PricingPage = () => {
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline gap-1.5 mb-1">
-                  <span style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 900, lineHeight: 1 }}>
+                  <span className="font-syne" style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 800, lineHeight: 1 }}>
                     {plan.price}
                   </span>
                   {plan.suffix && (
-                    <span style={{ color: "#ffffff40", fontSize: 16 }}>{plan.suffix}</span>
+                    <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 16 }}>{plan.suffix}</span>
                   )}
                 </div>
                 <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>
@@ -355,7 +369,8 @@ const PricingPage = () => {
             <div
               className="relative flex flex-col"
               style={{
-                background: "#0E0E1A",
+                background: "rgba(14,14,26,0.7)",
+                backdropFilter: "blur(12px)",
                 border: "1px solid rgba(0,229,255,0.15)",
                 borderRadius: 20,
                 padding: "40px 36px 36px",
@@ -387,10 +402,10 @@ const PricingPage = () => {
                 Industry Suite
               </h3>
               <div className="flex items-baseline gap-1.5 mb-1">
-                <span style={{ color: "#FF2D9B", fontSize: 52, fontWeight: 900, lineHeight: 1 }}>
+                <span className="font-syne" style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 800, lineHeight: 1 }}>
                   $799
                 </span>
-                <span style={{ color: "#ffffff40", fontSize: 16 }}>/mo NZD</span>
+                <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 16 }}>/mo NZD</span>
               </div>
               <p className="text-[13px] font-medium mb-1" style={{ color: "#ffffffc0" }}>
                 Deep expertise for your entire industry
@@ -432,8 +447,8 @@ const PricingPage = () => {
               </div>
 
               <PlanButton
-                href="#contact"
-                external={false}
+                href={STRIPE.industry}
+                external={true}
                 label="Start Industry Suite"
                 solid={true}
                 color="#00E5FF"
@@ -445,7 +460,8 @@ const PricingPage = () => {
             <div
               className="relative flex flex-col"
               style={{
-                background: "#0E0E1A",
+                background: "rgba(14,14,26,0.7)",
+                backdropFilter: "blur(12px)",
                 border: "1px solid rgba(255,184,0,0.12)",
                 borderRadius: 20,
                 padding: "40px 36px 36px",
@@ -477,13 +493,13 @@ const PricingPage = () => {
                 Luxury Hospitality
               </h3>
               <div className="flex items-baseline gap-1.5 mb-1">
-                <span style={{ color: "#FF2D9B", fontSize: 52, fontWeight: 900, lineHeight: 1 }}>
+                <span className="font-syne" style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 800, lineHeight: 1 }}>
                   $799
                 </span>
-                <span style={{ color: "#ffffff40", fontSize: 16 }}>/mo NZD per property</span>
+                <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 16 }}>/mo NZD per property</span>
               </div>
               <p className="text-[13px] font-medium mb-6" style={{ color: "#ffffffc0" }}>
-                The AI operations platform for luxury lodges and premium hotels
+                AI operations for luxury lodges and premium hotels
               </p>
 
               <ul className="space-y-2.5 mb-6 flex-1">
@@ -501,13 +517,20 @@ const PricingPage = () => {
               </p>
 
               <PlanButton
-                href="#contact"
-                external={false}
+                href={STRIPE.luxury}
+                external={true}
                 label="Book a Demo"
                 solid={true}
                 color="#FFB800"
                 gradient="linear-gradient(135deg, #FFB800, #FF2D9B)"
               />
+              <a
+                href="#contact"
+                className="block text-center text-[12px] mt-3 transition-colors hover:text-foreground"
+                style={{ color: "#ffffff50" }}
+              >
+                Or speak to us first →
+              </a>
             </div>
           </div>
 
@@ -516,8 +539,9 @@ const PricingPage = () => {
             <div
               className="relative flex flex-col"
               style={{
-                background: "#0E0E1A",
-                border: "1px solid #ffffff08",
+                background: "rgba(14,14,26,0.7)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(255,255,255,0.06)",
                 borderRadius: 16,
                 padding: 32,
               }}
@@ -529,7 +553,7 @@ const PricingPage = () => {
                 {ENTERPRISE.name}
               </h3>
               <div className="flex items-baseline gap-1.5 mb-1">
-                <span style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 900, lineHeight: 1 }}>
+                <span className="font-syne" style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 800, lineHeight: 1 }}>
                   {ENTERPRISE.price}
                 </span>
               </div>
@@ -571,8 +595,9 @@ const PricingPage = () => {
                 key={plan.name}
                 className="flex flex-col"
                 style={{
-                  background: "#0E0E1A",
-                  border: "1px solid #ffffff08",
+                  background: "rgba(14,14,26,0.7)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid rgba(255,255,255,0.06)",
                   borderRadius: 16,
                   padding: 32,
                 }}
@@ -584,11 +609,11 @@ const PricingPage = () => {
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline gap-1.5 mb-1">
-                  <span style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 900, lineHeight: 1 }}>
+                  <span className="font-syne" style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 800, lineHeight: 1 }}>
                     {plan.price}
                   </span>
                   {plan.suffix && (
-                    <span style={{ color: "#ffffff40", fontSize: 16 }}>{plan.suffix}</span>
+                    <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 16 }}>{plan.suffix}</span>
                   )}
                 </div>
                 <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>
@@ -612,6 +637,15 @@ const PricingPage = () => {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Trust signals */}
+      <section className="pb-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <p className="text-[11px] tracking-wide" style={{ color: "#ffffff30" }}>
+            Payments secured by Stripe · Monthly billing · Cancel anytime · No lock-in · Prices NZD incl GST · Visa, Mastercard, Amex
+          </p>
         </div>
       </section>
 

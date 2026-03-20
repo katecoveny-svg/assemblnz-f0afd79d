@@ -55,22 +55,28 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
               </p>
               <div className="flex flex-col gap-2 pt-2">
                 <a
-                  href="https://pay.airwallex.com/sghgspe6mx61"
+                  href="https://buy.stripe.com/bJebJ3gq0dkA6570Ki"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full py-2.5 rounded-lg text-sm font-semibold text-center transition-all"
                   style={{ background: "#00FF88", color: "#0A0A14" }}
                 >
-                  Upgrade to Pro — $149/mo
+                  Pro — $249/mo (recommended)
                 </a>
                 <a
-                  href="https://pay.airwallex.com/sghgspa33ccg"
+                  href="https://buy.stripe.com/dRm3cx2za1BSctvdx4"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full py-2.5 rounded-lg border border-border text-sm font-medium text-foreground/70 text-center hover:text-foreground hover:border-foreground/10 transition-colors"
                 >
-                  Starter — $49/mo
+                  Starter — $79/mo
                 </a>
+                <Link
+                  to="/pricing"
+                  className="block w-full py-2 text-xs text-muted-foreground text-center hover:text-foreground transition-colors"
+                >
+                  See all plans →
+                </Link>
               </div>
             </>
           )}
