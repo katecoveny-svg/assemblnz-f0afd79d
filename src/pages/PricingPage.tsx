@@ -664,28 +664,42 @@ const PricingPage = () => {
         </div>
       </section>
 
+      {/* FAQ gradient divider */}
+      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <div className="h-px rounded-full opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, #00E5FF, #FF2D9B, transparent)" }} />
+      </div>
+
       {/* FAQ */}
-      <section className="py-20 sm:py-28 border-t border-border">
+      <section className="py-20 sm:py-28">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-center text-foreground mb-14">
             Frequently asked <span className="text-gradient-hero">questions</span>
           </h2>
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
-              <div key={i} className="rounded-xl border border-border bg-card overflow-hidden">
+              <div
+                key={i}
+                className="rounded-2xl overflow-hidden transition-all"
+                style={{
+                  background: "rgba(14,14,26,0.7)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}
+              >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between px-5 py-4 text-left"
                 >
-                  <span className="text-sm font-medium text-foreground pr-4">{faq.q}</span>
+                  <span className="text-sm font-medium font-jakarta text-foreground pr-4">{faq.q}</span>
                   <ChevronDown
                     size={16}
-                    className={`text-muted-foreground shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}
+                    className={`shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}
+                    style={{ color: "#ffffff50" }}
                   />
                 </button>
                 {openFaq === i && (
                   <div className="px-5 pb-4">
-                    <p className="text-xs text-muted-foreground leading-relaxed">{faq.a}</p>
+                    <p className="text-xs font-jakarta leading-relaxed" style={{ color: "#ffffffa0" }}>{faq.a}</p>
                   </div>
                 )}
               </div>
