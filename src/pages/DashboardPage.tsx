@@ -104,7 +104,7 @@ const DashboardPage = () => {
             { icon: MessageSquare, label: "Messages this month", value: "342", color: "hsl(var(--primary))" },
             { icon: FileText, label: "Templates generated", value: "14", color: "hsl(var(--secondary))" },
             { icon: Upload, label: "Documents processed", value: "8", color: "hsl(var(--accent))" },
-            { icon: Clock, label: "Estimated time saved", value: "23.5 hrs", color: "#FFB800", highlight: true },
+            { icon: Clock, label: "Estimated time saved", value: "23.5 hrs", color: "hsl(157, 100%, 55%)", highlight: true },
           ].map((stat, i) => (
             <div
               key={stat.label}
@@ -265,19 +265,19 @@ const DashboardPage = () => {
         </div>
 
         {/* Time Saved Breakdown */}
-        <div className="rounded-xl border bg-card p-6" style={{ borderColor: "#FFB80025" }}>
+        <div className="rounded-xl border bg-card p-6" style={{ borderColor: "hsla(157, 100%, 55%, 0.15)" }}>
           <h2 className="text-sm font-syne font-bold text-foreground mb-1">Time saved breakdown</h2>
           <p className="text-[11px] font-jakarta mb-4" style={{ color: '#ffffff38' }}>This is the number that justifies your subscription</p>
           <div className="space-y-3">
             {TIME_SAVED.map((t) => (
               <div key={t.template} className="flex items-center justify-between">
                 <span className="text-xs text-foreground/70">{t.count} × {t.template}</span>
-                <span className="text-xs font-bold" style={{ color: "#FFB800" }}>{t.total} hours saved</span>
+                <span className="text-xs font-bold" style={{ color: "hsl(157, 100%, 55%)" }}>{t.total} hours saved</span>
               </div>
             ))}
             <div className="flex items-center justify-between pt-3 border-t border-border">
               <span className="text-xs font-bold text-foreground">Total estimated time saved</span>
-              <span className="text-sm font-bold" style={{ color: "#FFB800" }}>23.5 hours</span>
+              <span className="text-sm font-bold" style={{ color: "hsl(157, 100%, 55%)" }}>23.5 hours</span>
             </div>
           </div>
         </div>
