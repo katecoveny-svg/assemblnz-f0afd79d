@@ -228,6 +228,7 @@ const PlanButton = ({
   solid,
   color,
   gradient,
+  priceId,
 }: {
   href: string;
   external: boolean;
@@ -235,7 +236,12 @@ const PlanButton = ({
   solid: boolean;
   color: string;
   gradient?: string;
+  priceId?: string;
 }) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const solidStyle: React.CSSProperties = {
     background: gradient || color,
     color: "#0A0A14",
@@ -248,6 +254,37 @@ const PlanButton = ({
   const style = solid ? solidStyle : outlinedStyle;
   const className =
     "block w-full text-center text-[13px] font-bold py-3 rounded-[10px] transition-all hover:opacity-90";
+
+  const handleCheckout = async () => {
+    if (!priceId) return;
+    if (!user) {
+      navigate("/login?redirect=/pricing");
+      return;
+    }
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { priceId },
+      });
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, "_blank");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to create checkout session");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // If has a priceId, use integrated checkout
+  if (priceId) {
+    return (
+      <button onClick={handleCheckout} disabled={loading} className={className} style={style}>
+        {loading ? <Loader2 size={16} className="inline animate-spin" /> : label}
+      </button>
+    );
+  }
 
   if (external) {
     return (
