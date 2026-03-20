@@ -417,7 +417,7 @@ const AgentGrid = () => {
           <motion.img
             src="/img/kate-neon.png"
             alt="Kate, Founder of Assembl"
-            className="w-32 h-32 rounded-full mx-auto mb-6 object-cover border-2 border-primary/30"
+            className="w-32 h-32 rounded-full mx-auto mb-6 object-contain border-2 border-primary/30"
             loading="lazy"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
