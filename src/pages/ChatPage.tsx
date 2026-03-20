@@ -1078,7 +1078,25 @@ const ChatPage = () => {
       )}
 
       {/* Tab Views */}
-      {activeTab === "aura_setup" && isAura ? (
+      {activeTab === "haven_dashboard" && isHaven ? (
+        <HavenDashboard />
+      ) : activeTab === "haven_properties" && isHaven ? (
+        <HavenProperties onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "haven_jobs" && isHaven ? (
+        <HavenJobs onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "haven_tradies" && isHaven ? (
+        <HavenTradies onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "haven_command" && isHaven ? (
+        <HavenCommandCentre />
+      ) : activeTab === "haven_compliance" && isHaven ? (
+        <HavenCompliance />
+      ) : activeTab === "haven_costs" && isHaven ? (
+        <HavenCostIntelligence />
+      ) : activeTab === "haven_documents" && isHaven ? (
+        <HavenDocuments onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "haven_notifications" && isHaven ? (
+        <HavenNotifications />
+      ) : activeTab === "aura_setup" && isAura ? (
         <AuraPropertySetup />
       ) : activeTab === "aura_reservations" && isAura ? (
         <AuraReservations onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
