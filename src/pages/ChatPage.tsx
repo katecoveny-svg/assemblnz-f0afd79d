@@ -1083,7 +1083,7 @@ const ChatPage = () => {
               style={{ backgroundColor: activeTab === "agent_training" ? agent.color + "20" : "transparent", color: activeTab === "agent_training" ? agent.color : "hsl(var(--muted-foreground))" }}>
               Train
             </button>
-            {!isHelm && (
+            {!isHelm && agentId !== "maritime" && (
               <button onClick={() => setActiveTab("internal_comms")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
                 style={{ backgroundColor: activeTab === "internal_comms" ? agent.color + "20" : "transparent", color: activeTab === "internal_comms" ? agent.color : "hsl(var(--muted-foreground))" }}>
                 <MessageSquare size={9} /> Comms
