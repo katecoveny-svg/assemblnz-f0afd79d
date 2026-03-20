@@ -346,7 +346,7 @@ const PricingPage = () => {
                 </p>
                 <ul className="space-y-2.5 mb-8 flex-1">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
+                    <li key={f} className="flex items-start gap-2.5 text-[13px] font-jakarta" style={{ color: "#ffffffa0" }}>
                       <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#00FF88" }} />
                       {f}
                     </li>
