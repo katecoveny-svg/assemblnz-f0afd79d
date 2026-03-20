@@ -1,5 +1,6 @@
-import { useState, useEffect, createContext, useContext, ReactNode } from "react";
+import { useState, useEffect, useCallback, createContext, useContext, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { roleFromProductId } from "@/data/stripeTiers";
 import type { User, Session } from "@supabase/supabase-js";
 
 type AppRole = "free" | "starter" | "pro" | "business" | "admin";
@@ -20,6 +21,8 @@ interface AuthState {
   canUseFeature: (feature: "upload" | "templates" | "brand_scan" | "pdf_download") => boolean;
   messageLimitReached: boolean;
   dailyLimit: number;
+  checkSubscription: () => Promise<void>;
+  subscriptionEnd: string | null;
 }
 
 const AuthContext = createContext<AuthState | null>(null);
@@ -41,11 +44,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [role, setRole] = useState<AppRole | null>(null);
   const [loading, setLoading] = useState(true);
   const [dailyMessageCount, setDailyMessageCount] = useState(0);
+  const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
 
   const isAdmin = role === "admin";
   const isPaid = isAdmin || role === "starter" || role === "pro" || role === "business";
   const dailyLimit = isPaid ? Infinity : FREE_DAILY_LIMIT;
   const messageLimitReached = !isPaid && user !== null && dailyMessageCount >= FREE_DAILY_LIMIT;
+
+  const checkSubscription = useCallback(async () => {
+    if (!session?.access_token) return;
+    try {
+      const { data, error } = await supabase.functions.invoke("check-subscription", {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+      if (error || !data) return;
+      if (data.subscribed && data.product_id) {
+        const stripeRole = roleFromProductId(data.product_id);
+        if (stripeRole) {
+          setRole((prev) => (prev === "admin" ? "admin" : stripeRole));
+        }
+        setSubscriptionEnd(data.subscription_end || null);
+      }
+    } catch {
+      // Silently fail — DB role is the fallback
+    }
+  }, [session?.access_token]);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -61,6 +84,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setProfile(null);
         setRole(null);
         setDailyMessageCount(0);
+        setSubscriptionEnd(null);
       }
     });
 
@@ -78,13 +102,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Check Stripe subscription after session is set
+  useEffect(() => {
+    if (session?.access_token && user) {
+      checkSubscription();
+    }
+  }, [session?.access_token, user, checkSubscription]);
+
+  // Periodic refresh every 60s
+  useEffect(() => {
+    if (!session?.access_token || !user) return;
+    const interval = setInterval(checkSubscription, 60_000);
+    return () => clearInterval(interval);
+  }, [session?.access_token, user, checkSubscription]);
+
   const fetchProfile = async (uid: string) => {
     const { data } = await supabase.from("profiles").select("full_name").eq("id", uid).single();
     if (data) setProfile({ full_name: data.full_name || "" });
   };
 
   const fetchRole = async (uid: string) => {
-    // Check for admin role first (user can have multiple roles)
     const { data: adminCheck } = await supabase
       .from("user_roles")
       .select("role")
@@ -139,7 +176,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return true;
     }
 
-    // Admin and paid users — unlimited
     if (isPaid) return true;
 
     if (dailyMessageCount >= FREE_DAILY_LIMIT) return false;
@@ -178,7 +214,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       user, session, profile, role, loading,
       dailyMessageCount, signUp, signIn, signOut,
       incrementMessageCount, isPaid, isAdmin, canUseFeature,
-      messageLimitReached, dailyLimit,
+      messageLimitReached, dailyLimit, checkSubscription, subscriptionEnd,
     }}>
       {children}
     </AuthContext.Provider>

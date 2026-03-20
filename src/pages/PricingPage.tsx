@@ -1,20 +1,13 @@
-import { Link } from "react-router-dom";
-import { Check, ChevronDown, ArrowRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Check, ChevronDown, ArrowRight, Loader2 } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import ParticleField from "@/components/ParticleField";
 import { useState } from "react";
-
-/* ─── Stripe Links ─── */
-const STRIPE = {
-  starter: "https://buy.stripe.com/dRm3cx2za1BSctvdx4",
-  pro: "https://buy.stripe.com/bJebJ3gq0dkA6570Ki",
-  business: "https://buy.stripe.com/7sYdRb5Lm6Wc3WZ0Ki",
-  industry: "https://buy.stripe.com/8x24gB2zaeoE513akS",
-  luxury: "https://buy.stripe.com/4gM4gB5Lm5S88df9gO",
-  helmPersonal: "https://buy.stripe.com/14AaEZ0r2a8o1OR3Wu",
-  helmFamily: "https://buy.stripe.com/8x27sN2za5S8dxzdx4",
-};
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { STRIPE_TIERS } from "@/data/stripeTiers";
+import { toast } from "sonner";
 
 /* ─── Standard Business Plans (3-col row) ─── */
 const STANDARD_PLANS = [
@@ -30,8 +23,9 @@ const STANDARD_PLANS = [
       "Email support",
     ],
     cta: "Get started",
-    href: STRIPE.starter,
-    external: true,
+    priceId: STRIPE_TIERS.starter.price_id,
+    href: "/chat/helm",
+    external: false,
     highlighted: false,
   },
   {
@@ -49,8 +43,9 @@ const STANDARD_PLANS = [
       "Priority support",
     ],
     cta: "Start Pro",
-    href: STRIPE.pro,
-    external: true,
+    priceId: STRIPE_TIERS.pro.price_id,
+    href: "/chat/helm",
+    external: false,
     highlighted: true,
   },
   {
@@ -70,8 +65,9 @@ const STANDARD_PLANS = [
       "Priority support",
     ],
     cta: "Start Business",
-    href: STRIPE.business,
-    external: true,
+    priceId: STRIPE_TIERS.business.price_id,
+    href: "/chat/helm",
+    external: false,
     highlighted: false,
   },
 ];
@@ -163,8 +159,9 @@ const HELM_PLANS = [
       "2 lifestyle agents included",
     ],
     cta: "Start Personal",
-    href: STRIPE.helmPersonal,
-    external: true,
+    priceId: STRIPE_TIERS.helmPersonal.price_id,
+    href: "/chat/helm",
+    external: false,
     solid: true,
   },
   {
@@ -181,8 +178,9 @@ const HELM_PLANS = [
       "Partner access (2 seats)",
     ],
     cta: "Start Family",
-    href: STRIPE.helmFamily,
-    external: true,
+    priceId: STRIPE_TIERS.helmFamily.price_id,
+    href: "/chat/helm",
+    external: false,
     solid: false,
   },
 ];
@@ -230,6 +228,7 @@ const PlanButton = ({
   solid,
   color,
   gradient,
+  priceId,
 }: {
   href: string;
   external: boolean;
@@ -237,7 +236,12 @@ const PlanButton = ({
   solid: boolean;
   color: string;
   gradient?: string;
+  priceId?: string;
 }) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const solidStyle: React.CSSProperties = {
     background: gradient || color,
     color: "#0A0A14",
@@ -250,6 +254,37 @@ const PlanButton = ({
   const style = solid ? solidStyle : outlinedStyle;
   const className =
     "block w-full text-center text-[13px] font-bold py-3 rounded-[10px] transition-all hover:opacity-90";
+
+  const handleCheckout = async () => {
+    if (!priceId) return;
+    if (!user) {
+      navigate("/login?redirect=/pricing");
+      return;
+    }
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { priceId },
+      });
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, "_blank");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to create checkout session");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // If has a priceId, use integrated checkout
+  if (priceId) {
+    return (
+      <button onClick={handleCheckout} disabled={loading} className={className} style={style}>
+        {loading ? <Loader2 size={16} className="inline animate-spin" /> : label}
+      </button>
+    );
+  }
 
   if (external) {
     return (
@@ -358,6 +393,7 @@ const PricingPage = () => {
                   label={plan.cta}
                   solid={plan.highlighted}
                   color="#00FF88"
+                  priceId={plan.priceId}
                 />
               </div>
             ))}
@@ -447,8 +483,9 @@ const PricingPage = () => {
               </div>
 
               <PlanButton
-                href={STRIPE.industry}
-                external={true}
+                priceId={STRIPE_TIERS.industry.price_id}
+                href="#"
+                external={false}
                 label="Start Industry Suite"
                 solid={true}
                 color="#00E5FF"
@@ -517,8 +554,9 @@ const PricingPage = () => {
               </p>
 
               <PlanButton
-                href={STRIPE.luxury}
-                external={true}
+                priceId={STRIPE_TIERS.luxury.price_id}
+                href="#"
+                external={false}
                 label="Book a Demo"
                 solid={true}
                 color="#FFB800"
@@ -639,6 +677,7 @@ const PricingPage = () => {
                   label={plan.cta}
                   solid={plan.solid}
                   color="#B388FF"
+                  priceId={(plan as any).priceId}
                 />
               </div>
             ))}
