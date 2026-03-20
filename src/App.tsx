@@ -27,6 +27,8 @@ const TermsOfUse = lazy(() => import("./pages/TermsOfUse"));
 const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
 const Disclaimer = lazy(() => import("./pages/Disclaimer"));
 const SecurityPage = lazy(() => import("./pages/SecurityPage"));
+const TradiePortal = lazy(() => import("./pages/TradiePortal"));
+const LandlordPortal = lazy(() => import("./pages/LandlordPortal"));
 
 const queryClient = new QueryClient();
 
