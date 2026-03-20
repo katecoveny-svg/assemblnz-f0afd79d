@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { Link } from "react-router-dom";
-import AssemblLogo from "@/components/AssemblLogo";
+import nexusLogo from "@/assets/nexus-logo.png";
 
 interface Props {
   type: "preview" | "daily_limit";

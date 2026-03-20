@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import AssemblLogo from "@/components/AssemblLogo";
+import nexusLogo from "@/assets/nexus-logo.png";
 import { Loader2, Shield } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
