@@ -995,6 +995,26 @@ const ChatPage = () => {
                 ))}
               </>
             )}
+            {isHaven && (
+              <>
+                {([
+                  { id: "haven_dashboard" as const, label: "Dashboard" },
+                  { id: "haven_properties" as const, label: "Properties" },
+                  { id: "haven_jobs" as const, label: "Jobs" },
+                  { id: "haven_tradies" as const, label: "Tradies" },
+                  { id: "haven_command" as const, label: "Command" },
+                  { id: "haven_compliance" as const, label: "Compliance" },
+                  { id: "haven_costs" as const, label: "Costs" },
+                  { id: "haven_documents" as const, label: "Docs" },
+                  { id: "haven_notifications" as const, label: "Alerts" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
+            
             {!isHelm && (
               <button onClick={() => setActiveTab("internal_comms")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
                 style={{ backgroundColor: activeTab === "internal_comms" ? agent.color + "20" : "transparent", color: activeTab === "internal_comms" ? agent.color : "hsl(var(--muted-foreground))" }}>
