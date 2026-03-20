@@ -1,24 +1,39 @@
 import { useNavigate } from "react-router-dom";
 import ParticleField from "@/components/ParticleField";
-import { Anchor, Fish, Ship, CloudSun, Shield, Wrench, Radio, BookOpen, Check, ArrowRight } from "lucide-react";
+import { Anchor, Fish, Ship, CloudSun, Shield, Wrench, Radio, BookOpen, Check, ArrowRight, MapPin, Navigation, AlertTriangle } from "lucide-react";
 
 const NEON = "#26C6DA";
 
 const capabilities = [
   {
+    icon: <CloudSun size={28} style={{ color: NEON }} />,
+    title: "Live Marine Weather",
+    desc: "Real-time MetService forecast interpretation. Know if it's safe to go out — wind, swell, tides, and bar conditions explained in plain English.",
+  },
+  {
+    icon: <Navigation size={28} style={{ color: NEON }} />,
+    title: "Trip Planning with GPS",
+    desc: "Plan boating trips with GPS coordinates for every waypoint, anchorage, and fishing spot. Tidal timing, fuel estimates, and return planning.",
+  },
+  {
+    icon: <AlertTriangle size={28} style={{ color: NEON }} />,
+    title: "Rocks & Hazard Warnings",
+    desc: "Know every reef, rock, and danger zone in NZ waters. Bar crossing warnings, chart references, and safe passage guidance.",
+  },
+  {
+    icon: <MapPin size={28} style={{ color: NEON }} />,
+    title: "GPS Coordinates & Maps",
+    desc: "Get exact GPS coordinates for boat ramps, marinas, anchorages, and fishing spots with Google Maps links.",
+  },
+  {
     icon: <Fish size={28} style={{ color: NEON }} />,
-    title: "Recreational Fishing Rules",
-    desc: "Bag limits, size limits, closed seasons by region. Shellfish gathering rules and biotoxin alerts.",
+    title: "Fishing Rules by Region",
+    desc: "Bag limits, size limits, closed seasons, shellfish biotoxin alerts, and marine reserves — specific to your region.",
   },
   {
     icon: <Ship size={28} style={{ color: NEON }} />,
     title: "Commercial Maritime",
     desc: "QMS quotas, MOSS compliance, seafood export, vessel registration, and seafarer certification.",
-  },
-  {
-    icon: <CloudSun size={28} style={{ color: NEON }} />,
-    title: "Marine Weather",
-    desc: "MetService forecast interpretation in plain English. Know when to go and when to stay on shore.",
   },
   {
     icon: <BookOpen size={28} style={{ color: NEON }} />,
