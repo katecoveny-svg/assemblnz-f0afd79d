@@ -77,7 +77,7 @@ const PrivacyPolicy = () => (
             <li>Request deletion of your account and associated data</li>
             <li>Withdraw consent for optional data processing</li>
           </ul>
-          <p className="mt-2">To exercise these rights, email <a href="mailto:assembl@assembly.co.nz" className="text-primary hover:underline">assembl@assembly.co.nz</a>.</p>
+          <p className="mt-2">To exercise these rights, email <a href="mailto:assembl@assembl.co.nz" className="text-primary hover:underline">assembl@assembl.co.nz</a>.</p>
         </section>
 
         <section>
