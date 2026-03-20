@@ -191,7 +191,7 @@ const EmbedPage = () => {
                 </div>
 
                 {/* Live iframe embed */}
-                <div className="absolute bottom-3 right-3" style={{ width: 320, height: 440 }}>
+                <div className="absolute bottom-3 right-3 w-[85%] sm:w-[320px] h-[380px] sm:h-[440px]">
                   <iframe
                     key={selectedAgentId}
                     src={`/embed/${selectedAgentId}`}

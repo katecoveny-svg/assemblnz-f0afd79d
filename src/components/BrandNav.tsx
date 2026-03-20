@@ -1,11 +1,22 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 import nexusLogo from "@/assets/nexus-logo.png";
 import AccountDropdown from "@/components/AccountDropdown";
 
+const NAV_LINKS = [
+  { to: "/", label: "Agents" },
+  { to: "/pricing", label: "Pricing" },
+  { to: "/embed", label: "Embed" },
+  { to: "/dashboard", label: "Dashboard" },
+];
+
 const BrandNav = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <header
-      className="flex items-center gap-3 px-6 py-3 border-b"
+      className="relative z-50 flex items-center gap-3 px-4 sm:px-6 py-3 border-b"
       style={{
         borderColor: 'rgba(255,255,255,0.05)',
         background: 'rgba(9, 9, 15, 0.85)',
@@ -17,17 +28,65 @@ const BrandNav = () => {
         <img src={nexusLogo} alt="Assembl" className="w-10 h-10 object-contain" />
         <div className="flex items-baseline gap-1">
           <span className="font-syne font-extrabold tracking-[3px] uppercase text-sm" style={{ color: '#E4E4EC' }}>ASSEMBL</span>
-          <span className="font-mono-jb text-[11px]" style={{ color: 'rgba(255,255,255,0.1)' }}>.co.nz</span>
+          <span className="font-mono-jb text-[11px] hidden sm:inline" style={{ color: 'rgba(255,255,255,0.1)' }}>.co.nz</span>
         </div>
       </Link>
       <div className="flex-1" />
-      <nav className="flex items-center gap-4 text-xs font-jakarta">
-        <Link to="/" className="transition-colors duration-300" style={{ color: 'rgba(255,255,255,0.5)' }} onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}>Agents</Link>
-        <Link to="/pricing" className="transition-colors duration-300" style={{ color: 'rgba(255,255,255,0.5)' }} onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}>Pricing</Link>
-        <Link to="/embed" className="transition-colors duration-300" style={{ color: 'rgba(255,255,255,0.5)' }} onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}>Embed</Link>
-        <Link to="/dashboard" className="transition-colors duration-300" style={{ color: 'rgba(255,255,255,0.5)' }} onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}>Dashboard</Link>
+
+      {/* Desktop nav */}
+      <nav className="hidden sm:flex items-center gap-4 text-xs font-jakarta">
+        {NAV_LINKS.map((link) => (
+          <Link
+            key={link.to}
+            to={link.to}
+            className="transition-colors duration-300"
+            style={{ color: 'rgba(255,255,255,0.5)' }}
+            onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}
+          >
+            {link.label}
+          </Link>
+        ))}
         <AccountDropdown />
       </nav>
+
+      {/* Mobile hamburger */}
+      <div className="flex sm:hidden items-center gap-2">
+        <AccountDropdown />
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="p-1.5 rounded-lg transition-colors"
+          style={{ color: 'rgba(255,255,255,0.5)' }}
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+
+      {/* Mobile dropdown */}
+      {mobileOpen && (
+        <div
+          className="absolute top-full left-0 right-0 z-50 border-b py-3 px-4 flex flex-col gap-3 sm:hidden"
+          style={{
+            borderColor: 'rgba(255,255,255,0.05)',
+            background: 'rgba(9, 9, 15, 0.95)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+          }}
+        >
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              onClick={() => setMobileOpen(false)}
+              className="text-sm font-jakarta py-1.5 transition-colors"
+              style={{ color: 'rgba(255,255,255,0.6)' }}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      )}
     </header>
   );
 };
