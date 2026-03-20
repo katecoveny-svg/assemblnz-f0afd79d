@@ -205,6 +205,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const canUseFeature = (feature: "upload" | "templates" | "brand_scan" | "pdf_download") => {
     if (isAdmin) return true;
+    if (feature === "brand_scan") return true; // Website scanning is free for all users
     if (isPaid) return true;
     return false;
   };
