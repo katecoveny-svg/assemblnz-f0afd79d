@@ -45,7 +45,7 @@ function GlowOrb({ position, color, size = 0.3, speed = 1 }: { position: [number
 function RobotBody() {
   const groupRef = useRef<THREE.Group>(null!);
   const headRef = useRef<THREE.Mesh>(null);
-  const antennaRef = useRef<THREE.Mesh>(null);
+  const antennaRef = useRef<THREE.Group>(null!);
 
   const bodyMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: "#1a1a2e",
