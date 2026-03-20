@@ -63,6 +63,15 @@ import AuraGuestMemory from "@/components/aura/AuraGuestMemory";
 import AuraSustainability from "@/components/aura/AuraSustainability";
 import AuraTrade from "@/components/aura/AuraTrade";
 import InternalComms from "@/components/InternalComms";
+import HavenDashboard from "@/components/haven/HavenDashboard";
+import HavenProperties from "@/components/haven/HavenProperties";
+import HavenJobs from "@/components/haven/HavenJobs";
+import HavenTradies from "@/components/haven/HavenTradies";
+import HavenCommandCentre from "@/components/haven/HavenCommandCentre";
+import HavenCompliance from "@/components/haven/HavenCompliance";
+import HavenCostIntelligence from "@/components/haven/HavenCostIntelligence";
+import HavenDocuments from "@/components/haven/HavenDocuments";
+import HavenNotifications from "@/components/haven/HavenNotifications";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 
@@ -262,7 +271,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications">("chat");
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
@@ -313,6 +322,7 @@ const ChatPage = () => {
   const isNexus = agentId === "customs";
   const isMarketing = agentId === "marketing";
   const isConstruction = agentId === "construction";
+  const isHaven = agentId === "property";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
@@ -985,6 +995,26 @@ const ChatPage = () => {
                 ))}
               </>
             )}
+            {isHaven && (
+              <>
+                {([
+                  { id: "haven_dashboard" as const, label: "Dashboard" },
+                  { id: "haven_properties" as const, label: "Properties" },
+                  { id: "haven_jobs" as const, label: "Jobs" },
+                  { id: "haven_tradies" as const, label: "Tradies" },
+                  { id: "haven_command" as const, label: "Command" },
+                  { id: "haven_compliance" as const, label: "Compliance" },
+                  { id: "haven_costs" as const, label: "Costs" },
+                  { id: "haven_documents" as const, label: "Docs" },
+                  { id: "haven_notifications" as const, label: "Alerts" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
+            )}
             {!isHelm && (
               <button onClick={() => setActiveTab("internal_comms")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
                 style={{ backgroundColor: activeTab === "internal_comms" ? agent.color + "20" : "transparent", color: activeTab === "internal_comms" ? agent.color : "hsl(var(--muted-foreground))" }}>
@@ -1048,7 +1078,25 @@ const ChatPage = () => {
       )}
 
       {/* Tab Views */}
-      {activeTab === "aura_setup" && isAura ? (
+      {activeTab === "haven_dashboard" && isHaven ? (
+        <HavenDashboard />
+      ) : activeTab === "haven_properties" && isHaven ? (
+        <HavenProperties onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "haven_jobs" && isHaven ? (
+        <HavenJobs onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "haven_tradies" && isHaven ? (
+        <HavenTradies onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "haven_command" && isHaven ? (
+        <HavenCommandCentre />
+      ) : activeTab === "haven_compliance" && isHaven ? (
+        <HavenCompliance />
+      ) : activeTab === "haven_costs" && isHaven ? (
+        <HavenCostIntelligence />
+      ) : activeTab === "haven_documents" && isHaven ? (
+        <HavenDocuments onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "haven_notifications" && isHaven ? (
+        <HavenNotifications />
+      ) : activeTab === "aura_setup" && isAura ? (
         <AuraPropertySetup />
       ) : activeTab === "aura_reservations" && isAura ? (
         <AuraReservations onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
