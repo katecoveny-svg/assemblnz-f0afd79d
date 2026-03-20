@@ -1,6 +1,10 @@
-import { X } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import nexusLogo from "@/assets/nexus-logo.png";
+import { supabase } from "@/integrations/supabase/client";
+import { STRIPE_TIERS } from "@/data/stripeTiers";
+import { toast } from "sonner";
 
 interface Props {
   type: "preview" | "daily_limit";
@@ -10,7 +14,24 @@ interface Props {
 }
 
 const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
+  const [loading, setLoading] = useState<string | null>(null);
+
   if (!open) return null;
+
+  const handleCheckout = async (priceId: string, label: string) => {
+    setLoading(label);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { priceId },
+      });
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to start checkout");
+    } finally {
+      setLoading(null);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
@@ -54,23 +75,21 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
                 Upgrade for unlimited access to all agents and premium features.
               </p>
               <div className="flex flex-col gap-2 pt-2">
-                <a
-                  href="https://buy.stripe.com/bJebJ3gq0dkA6570Ki"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => handleCheckout(STRIPE_TIERS.pro.price_id, "pro")}
+                  disabled={loading === "pro"}
                   className="block w-full py-2.5 rounded-lg text-sm font-semibold text-center transition-all"
                   style={{ background: "#00FF88", color: "#0A0A14" }}
                 >
-                  Pro — $249/mo (recommended)
-                </a>
-                <a
-                  href="https://buy.stripe.com/dRm3cx2za1BSctvdx4"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  {loading === "pro" ? <Loader2 size={16} className="inline animate-spin" /> : "Pro — $249/mo (recommended)"}
+                </button>
+                <button
+                  onClick={() => handleCheckout(STRIPE_TIERS.starter.price_id, "starter")}
+                  disabled={loading === "starter"}
                   className="block w-full py-2.5 rounded-lg border border-border text-sm font-medium text-foreground/70 text-center hover:text-foreground hover:border-foreground/10 transition-colors"
                 >
-                  Starter — $79/mo
-                </a>
+                  {loading === "starter" ? <Loader2 size={16} className="inline animate-spin" /> : "Starter — $79/mo"}
+                </button>
                 <Link
                   to="/pricing"
                   className="block w-full py-2 text-xs text-muted-foreground text-center hover:text-foreground transition-colors"
