@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { agents } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
-import AssemblHeroAgent from "@/components/AssemblHeroAgent";
+import nexusLogo from "@/assets/nexus-logo.png";
 import ParticleField from "@/components/ParticleField";
 import {
   NeonBuilding,
@@ -111,7 +111,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
         {step === "welcome" && (
           <div className="text-center space-y-6 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
             <div className="flex justify-center">
-              <AssemblHeroAgent size={180} />
+              <img src={nexusLogo} alt="Assembl" className="w-40 h-40 object-contain drop-shadow-[0_0_30px_rgba(0,229,255,0.3)]" />
             </div>
             <div>
               <h1 className="text-3xl font-syne font-extrabold text-foreground mb-2">
