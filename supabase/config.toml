@@ -14,3 +14,12 @@ verify_jwt = false
 
 [functions.proxy-model]
 verify_jwt = false
+
+[functions.create-checkout]
+verify_jwt = false
+
+[functions.check-subscription]
+verify_jwt = false
+
+[functions.customer-portal]
+verify_jwt = false
