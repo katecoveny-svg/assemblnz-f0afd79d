@@ -1377,9 +1377,28 @@ const ChatPage = () => {
                 </Tooltip>
               )}
 
+              {/* HELM: Voice mic button */}
+              {isHelm && (
+                <button
+                  type="button"
+                  onClick={toggleListening}
+                  className="p-2.5 rounded-lg border transition-all duration-200"
+                  style={{
+                    borderColor: isListening ? "#B388FF" : "hsl(var(--border))",
+                    color: isListening ? "#B388FF" : "hsl(var(--muted-foreground))",
+                    background: isListening ? "rgba(179,136,255,0.15)" : "transparent",
+                    boxShadow: isListening ? "0 0 16px rgba(179,136,255,0.3)" : "none",
+                    animation: isListening ? "pulse 1.5s infinite" : "none",
+                  }}
+                  title={isListening ? "Stop listening" : "Voice input"}
+                >
+                  {isListening ? <MicOff size={16} /> : <Mic size={16} />}
+                </button>
+              )}
+
               <input
                 ref={inputRef} type="text" value={input} onChange={(e) => setInput(e.target.value)}
-                placeholder={isArc && pendingImage ? "Describe the building, or send to generate from image..." : isHelm ? "Ask HELM anything — meals, budgets, schedules, life admin..." : isNexus ? "Ask NEXUS or upload a document..." : `Ask ${agent.name} anything...`}
+                placeholder={isArc && pendingImage ? "Describe the building, or send to generate from image..." : isHelm ? (isListening ? "Listening..." : "Ask HELM anything — meals, budgets, schedules, life admin...") : isNexus ? "Ask NEXUS or upload a document..." : `Ask ${agent.name} anything...`}
                 className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 focus:ring-offset-background focus:border-foreground/10 transition-colors"
                 aria-label={`Message ${agent.name}`}
                 onKeyDown={(e) => { if (e.key === "Escape") inputRef.current?.blur(); }}
