@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { Link } from "react-router-dom";
-import AssemblLogo from "@/components/AssemblLogo";
+import nexusLogo from "@/assets/nexus-logo.png";
 
 interface Props {
   type: "preview" | "daily_limit";
@@ -20,7 +20,7 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
         </button>
 
         <div className="text-center space-y-4">
-          <AssemblLogo size={40} />
+          <img src={nexusLogo} alt="Assembl" className="w-10 h-10 object-contain drop-shadow-[0_0_12px_rgba(0,229,255,0.25)] mx-auto" />
 
           {type === "preview" ? (
             <>

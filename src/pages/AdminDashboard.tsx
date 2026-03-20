@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { agents } from "@/data/agents";
-import AssemblLogo from "@/components/AssemblLogo";
+import nexusLogo from "@/assets/nexus-logo.png";
 import AgentAvatar from "@/components/AgentAvatar";
 import BrandFooter from "@/components/BrandFooter";
 import {
@@ -142,7 +142,7 @@ const AdminDashboard = () => {
       {/* Admin Header */}
       <header className="flex items-center gap-3 px-6 py-4 border-b border-border">
         <Link to="/" className="flex items-center gap-3">
-          <AssemblLogo size={28} />
+          <img src={nexusLogo} alt="Assembl" className="w-7 h-7 object-contain drop-shadow-[0_0_12px_rgba(0,229,255,0.25)]" />
           <span className="font-syne font-extrabold tracking-[3px] uppercase text-foreground text-sm">ASSEMBL</span>
         </Link>
         <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: 'hsl(0 84% 60% / 0.15)', color: 'hsl(0 84% 60%)' }}>
