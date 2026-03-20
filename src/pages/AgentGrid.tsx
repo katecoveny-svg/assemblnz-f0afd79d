@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { agents, sectors } from "@/data/agents";
@@ -6,7 +6,6 @@ import AgentAvatar from "@/components/AgentAvatar";
 import AgentCard from "@/components/AgentCard";
 import ParticleField from "@/components/ParticleField";
 import AnimatedHero from "@/components/AnimatedHero";
-import OnboardingQuiz from "@/components/OnboardingQuiz";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { X, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-react";
@@ -76,7 +75,6 @@ const ALSO_BY_ASSEMBL = [
 
 const AgentGrid = () => {
   const [activeSector, setActiveSector] = useState("All");
-  const [showOnboarding, setShowOnboarding] = useState(false);
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactMessage, setContactMessage] = useState("");
@@ -92,17 +90,6 @@ const AgentGrid = () => {
     window.location.reload();
   };
 
-  useEffect(() => {
-    const hasVisited = sessionStorage.getItem("assembl_onboarded");
-    if (!hasVisited) setShowOnboarding(true);
-  }, []);
-
-  const handleOnboardingComplete = (filter?: string) => {
-    sessionStorage.setItem("assembl_onboarded", "true");
-    setShowOnboarding(false);
-    if (filter) setActiveSector(filter);
-  };
-
   const scrollToGrid = () => {
     gridRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -113,7 +100,6 @@ const AgentGrid = () => {
     const trimmedEmail = contactEmail.trim();
     const trimmedMessage = contactMessage.trim();
     try {
-      // Save to database
       const { error } = await supabase.from("contact_submissions").insert({
         name: trimmedName,
         email: trimmedEmail,
@@ -121,12 +107,11 @@ const AgentGrid = () => {
       });
       if (error) throw error;
 
-      // Also send via Formspree for email notification
       fetch("https://formspree.io/f/xbdzwqpy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: trimmedName, email: trimmedEmail, message: trimmedMessage }),
-      }).catch(() => {}); // fire-and-forget, DB is source of truth
+      }).catch(() => {});
 
       toast.success("Message sent! We'll be in touch soon.");
       setContactName("");
@@ -137,10 +122,6 @@ const AgentGrid = () => {
       console.error("Contact form error:", err);
     }
   };
-
-  if (showOnboarding) {
-    return <OnboardingQuiz onComplete={handleOnboardingComplete} />;
-  }
 
   const filtered = activeSector === "All" ? agents : agents.filter(a => a.sector === activeSector);
 
