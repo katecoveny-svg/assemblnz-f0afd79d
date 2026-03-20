@@ -708,28 +708,44 @@ const PricingPage = () => {
         </div>
       </section>
 
+      {/* Bottom CTA gradient divider */}
+      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <div className="h-px rounded-full opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, #00E5FF, #FF2D9B, transparent)" }} />
+      </div>
+
       {/* Bottom CTA */}
-      <section id="contact" className="py-16 border-t border-border">
+      <section id="contact" className="py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-foreground mb-3">
-            Ready to get started?
-          </h2>
-          <p className="text-sm text-muted-foreground mb-6">
-            Try any agent free — no signup required.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              to="/"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 transition-all"
-            >
-              Browse agents <ArrowRight size={16} />
-            </Link>
-            <a
-              href="mailto:hello@assembl.co.nz?subject=Enterprise Inquiry"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold border border-border text-foreground hover:border-foreground/20 transition-all"
-            >
-              Talk to us about Enterprise
-            </a>
+          <div
+            className="rounded-2xl p-10"
+            style={{
+              background: "rgba(14,14,26,0.7)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.06)",
+            }}
+          >
+            <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-foreground mb-3">
+              Ready to get started?
+            </h2>
+            <p className="text-sm font-jakarta mb-6" style={{ color: "#ffffffa0" }}>
+              Try any agent free — no signup required.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                to="/"
+                className="relative overflow-hidden inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold font-jakarta bg-primary text-primary-foreground transition-all hover:shadow-[0_0_20px_rgba(0,255,136,0.15),0_0_60px_rgba(0,255,136,0.08)]"
+              >
+                <span className="relative z-10 flex items-center gap-2">Browse agents <ArrowRight size={16} /></span>
+                <span className="absolute inset-0 animate-shimmer-sweep" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)" }} />
+              </Link>
+              <a
+                href="mailto:hello@assembl.co.nz?subject=Enterprise Inquiry"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold font-jakarta text-foreground transition-all"
+                style={{ border: "1px solid rgba(255,255,255,0.1)" }}
+              >
+                Talk to us about Enterprise
+              </a>
+            </div>
           </div>
         </div>
       </section>
