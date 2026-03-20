@@ -1036,6 +1036,53 @@ const ChatPage = () => {
                 ))}
               </>
             )}
+            {isFlux && (
+              <>
+                {([
+                  { id: "flux_pipeline" as const, label: "Pipeline" },
+                  { id: "flux_followups" as const, label: "Follow-Ups" },
+                  { id: "flux_clients" as const, label: "Clients" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
+            )}
+            {isPrism && (
+              <>
+                {([
+                  { id: "prism_campaigns" as const, label: "Campaigns" },
+                  { id: "prism_social" as const, label: "Social" },
+                  { id: "prism_brand" as const, label: "Brand Voice" },
+                  { id: "prism_creative" as const, label: "Creative" },
+                  { id: "prism_video" as const, label: "Video" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
+            )}
+            {isAxis && (
+              <>
+                {([
+                  { id: "axis_automations" as const, label: "Automations" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
+            )}
+            {/* Agent Training tab for all agents */}
+            <button onClick={() => setActiveTab("agent_training")} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+              style={{ backgroundColor: activeTab === "agent_training" ? agent.color + "20" : "transparent", color: activeTab === "agent_training" ? agent.color : "hsl(var(--muted-foreground))" }}>
+              Train
+            </button>
             {!isHelm && (
               <button onClick={() => setActiveTab("internal_comms")} className="px-2 py-1 text-[10px] font-medium transition-colors flex items-center gap-1"
                 style={{ backgroundColor: activeTab === "internal_comms" ? agent.color + "20" : "transparent", color: activeTab === "internal_comms" ? agent.color : "hsl(var(--muted-foreground))" }}>
