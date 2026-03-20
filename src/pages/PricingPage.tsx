@@ -705,7 +705,9 @@ const PricingPage = () => {
         </div>
       </section>
 
-      <BrandFooter />
+      <div className="relative z-10 mt-auto">
+        <BrandFooter />
+      </div>
     </div>
   );
 };

@@ -124,7 +124,9 @@ const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
           </p>
         </div>
       </div>
-      <BrandFooter />
+      <div className="relative z-10 mt-auto">
+        <BrandFooter />
+      </div>
     </div>
   );
 };
