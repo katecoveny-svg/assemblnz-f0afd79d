@@ -63,6 +63,15 @@ import AuraGuestMemory from "@/components/aura/AuraGuestMemory";
 import AuraSustainability from "@/components/aura/AuraSustainability";
 import AuraTrade from "@/components/aura/AuraTrade";
 import InternalComms from "@/components/InternalComms";
+import HavenDashboard from "@/components/haven/HavenDashboard";
+import HavenProperties from "@/components/haven/HavenProperties";
+import HavenJobs from "@/components/haven/HavenJobs";
+import HavenTradies from "@/components/haven/HavenTradies";
+import HavenCommandCentre from "@/components/haven/HavenCommandCentre";
+import HavenCompliance from "@/components/haven/HavenCompliance";
+import HavenCostIntelligence from "@/components/haven/HavenCostIntelligence";
+import HavenDocuments from "@/components/haven/HavenDocuments";
+import HavenNotifications from "@/components/haven/HavenNotifications";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 
