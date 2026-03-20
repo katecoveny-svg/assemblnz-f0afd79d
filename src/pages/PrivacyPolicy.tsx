@@ -14,7 +14,7 @@ const PrivacyPolicy = () => (
         <section>
           <h2 className="text-lg font-bold text-foreground mb-2">1. Who we are</h2>
           <p>Assembl ("we", "us", "our") is a New Zealand-based business operating from Auckland. We provide AI-powered business advisory agents through assembl.co.nz.</p>
-          <p>Contact: <a href="mailto:assembl@assembly.co.nz" className="text-primary hover:underline">assembl@assembly.co.nz</a></p>
+          <p>Contact: <a href="mailto:assembl@assembl.co.nz" className="text-primary hover:underline">assembl@assembl.co.nz</a></p>
         </section>
 
         <section>
