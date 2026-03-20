@@ -538,7 +538,7 @@ const PricingPage = () => {
                   {plan.name}
                 </p>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
+                  <span className="font-syne text-3xl sm:text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>
                     {plan.price}
                   </span>
                   {plan.suffix && (
