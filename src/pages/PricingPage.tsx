@@ -425,7 +425,7 @@ const PricingPage = () => {
                 Luxury Hospitality
               </p>
               <div className="flex items-baseline gap-1 mb-1">
-                <span className="font-syne text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>$799</span>
+                <span className="font-syne text-3xl sm:text-5xl font-extrabold" style={{ color: '#E4E4EC' }}>$799</span>
                 <span className="text-sm" style={{ color: 'rgba(255,255,255,0.25)' }}>/mo per property</span>
               </div>
               <p className="text-[13px] font-medium mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
