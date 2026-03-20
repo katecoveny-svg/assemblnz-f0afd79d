@@ -805,7 +805,7 @@ const ChatPage = () => {
     <div className="h-screen flex flex-col bg-background relative">
       <ParticleField />
       {/* Header */}
-      <header className="flex items-center gap-2 px-3 py-2.5 border-b border-border shrink-0 overflow-x-auto">
+      <header className="flex items-center gap-2 px-2 sm:px-3 py-2 sm:py-2.5 border-b border-border shrink-0 overflow-x-auto scrollbar-hide">
         <Link to="/" className="p-1.5 rounded-lg hover:bg-muted transition-colors text-foreground shrink-0">
           <ArrowLeft size={18} />
         </Link>
