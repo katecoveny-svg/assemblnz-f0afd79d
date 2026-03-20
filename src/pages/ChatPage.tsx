@@ -316,6 +316,68 @@ const ChatPage = () => {
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
+  // Voice input (Speech-to-Text) for HELM
+  const toggleListening = useCallback(() => {
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+      return;
+    }
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported in this browser.");
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-NZ";
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.onresult = (event: any) => {
+      const transcript = Array.from(event.results)
+        .map((r: any) => r[0].transcript)
+        .join("");
+      setInput(transcript);
+    };
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = () => setIsListening(false);
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsListening(true);
+  }, [isListening]);
+
+  // Voice output (Text-to-Speech) for HELM
+  const speakText = useCallback((text: string, messageIndex: number) => {
+    if (isSpeaking === messageIndex) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(null);
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const cleanText = text
+      .replace(/#{1,6}\s/g, "")
+      .replace(/\*\*(.*?)\*\*/g, "$1")
+      .replace(/\*(.*?)\*/g, "$1")
+      .replace(/`(.*?)`/g, "$1")
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/[-•·]\s/g, "")
+      .replace(/\n{2,}/g, ". ");
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = "en-NZ";
+    utterance.rate = 0.95;
+    utterance.pitch = 1;
+    utterance.onend = () => setIsSpeaking(null);
+    utterance.onerror = () => setIsSpeaking(null);
+    setIsSpeaking(messageIndex);
+    window.speechSynthesis.speak(utterance);
+  }, [isSpeaking]);
+
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis?.cancel();
+      recognitionRef.current?.stop();
+    };
+  }, []);
+
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading, generations]);
