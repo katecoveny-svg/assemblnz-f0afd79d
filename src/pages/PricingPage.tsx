@@ -579,15 +579,15 @@ const PricingPage = () => {
 
       {/* Trust signals */}
       <section className="pb-8">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <div className="max-w-4xl mx-auto px-5 sm:px-6 text-center">
           <div
-            className="inline-block px-8 py-3 rounded-2xl font-jakarta"
+            className="inline-block px-5 sm:px-8 py-3 rounded-2xl font-jakarta"
             style={{
               background: 'rgba(255,255,255,0.02)',
               border: '1px solid rgba(255,255,255,0.05)',
             }}
           >
-            <p className="text-[11px] tracking-wide" style={{ color: 'rgba(255,255,255,0.25)' }}>
+            <p className="text-[10px] sm:text-[11px] tracking-wide" style={{ color: 'rgba(255,255,255,0.25)' }}>
               Payments secured by Stripe · Monthly billing · Cancel anytime · No lock-in · Prices NZD incl GST
             </p>
           </div>
