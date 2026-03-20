@@ -516,8 +516,9 @@ const PricingPage = () => {
               </p>
 
               <PlanButton
-                href={STRIPE.luxury}
-                external={true}
+                priceId={STRIPE_TIERS.luxury.price_id}
+                href="#"
+                external={false}
                 label="Book a Demo"
                 solid={true}
                 color="#FFB800"
