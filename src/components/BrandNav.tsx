@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
 import nexusLogo from "@/assets/nexus-logo.png";
 import AccountDropdown from "@/components/AccountDropdown";
 
@@ -12,8 +10,6 @@ const NAV_LINKS = [
 ];
 
 const BrandNav = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
   return (
     <header
       className="relative z-50 flex items-center gap-3 px-4 sm:px-6 py-3 border-b"
@@ -50,43 +46,10 @@ const BrandNav = () => {
         <AccountDropdown />
       </nav>
 
-      {/* Mobile hamburger */}
-      <div className="flex sm:hidden items-center gap-2">
+      {/* Mobile: just account dropdown, nav is in bottom tab bar */}
+      <div className="flex sm:hidden items-center">
         <AccountDropdown />
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="p-1.5 rounded-lg transition-colors"
-          style={{ color: 'rgba(255,255,255,0.5)' }}
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
       </div>
-
-      {/* Mobile dropdown */}
-      {mobileOpen && (
-        <div
-          className="absolute top-full left-0 right-0 z-50 border-b py-3 px-4 flex flex-col gap-3 sm:hidden"
-          style={{
-            borderColor: 'rgba(255,255,255,0.05)',
-            background: 'rgba(9, 9, 15, 0.95)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-          }}
-        >
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              onClick={() => setMobileOpen(false)}
-              className="text-sm font-jakarta py-1.5 transition-colors"
-              style={{ color: 'rgba(255,255,255,0.6)' }}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      )}
     </header>
   );
 };
