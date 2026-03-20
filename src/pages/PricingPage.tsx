@@ -527,7 +527,7 @@ const PricingPage = () => {
             {HELM_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="flex flex-col rounded-2xl p-8 transition-all duration-300 hover:border-white/[0.1]"
+                className="flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
                 style={{
                   background: 'rgba(255,255,255,0.02)',
                   backdropFilter: 'blur(12px)',
