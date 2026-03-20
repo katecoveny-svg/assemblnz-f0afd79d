@@ -5,7 +5,8 @@ import BrandFooter from "@/components/BrandFooter";
 import ParticleField from "@/components/ParticleField";
 import { useState } from "react";
 
-const BUSINESS_PLANS = [
+/* ─── Standard Business Plans (3-col row) ─── */
+const STANDARD_PLANS = [
   {
     name: "Starter",
     price: "$49",
@@ -62,26 +63,65 @@ const BUSINESS_PLANS = [
     external: true,
     highlighted: false,
   },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    suffix: "",
-    desc: "White-label, custom agents, your brand",
-    features: [
-      "Your logo and branding",
-      "Custom system prompts",
-      "API access",
-      "Unlimited users",
-      "Your own domain",
-      "Dedicated support",
-    ],
-    cta: "Contact us",
-    href: "#contact",
-    external: false,
-    highlighted: false,
-  },
 ];
 
+/* ─── Premium Plans (2-col row) ─── */
+const INDUSTRY_SUITES = [
+  { label: "Construction Suite", agents: "APEX + AROHA + LEDGER + PRISM + SIGNAL" },
+  { label: "Hospitality Suite", agents: "AURA + AROHA + LEDGER + PRISM" },
+  { label: "Property Suite", agents: "HAVEN + ANCHOR + LEDGER + AROHA" },
+  { label: "Legal Suite", agents: "ANCHOR + AROHA + COMPASS + LEDGER" },
+  { label: "Trade & Customs Suite", agents: "NEXUS + FLUX + LEDGER + COMPASS" },
+  { label: "Health Suite", agents: "VITAE + ORA + AROHA + LEDGER" },
+  { label: "Government Suite", agents: "PŪNAHA + TIKA + AWA + KURA + ORA + MANAAKI + WHARE + HAUMARU" },
+];
+
+const INDUSTRY_FEATURES = [
+  "4-6 specialist agents bundled for your sector",
+  "All templates, document generators, and calculators",
+  "Internal comms tools for your whole team",
+  "ESG dashboard and reporting",
+  "Awards tracker with nomination generator",
+  "Tender and proposal writing engine",
+  "Unlimited messages",
+  "Team access (10 seats)",
+  "Priority support with onboarding call",
+];
+
+const LUXURY_FEATURES = [
+  "Full AURA lodge management platform",
+  "Guest intelligence and pre-arrival dossiers",
+  "Bespoke itinerary builder",
+  "Revenue and yield management",
+  "Kitchen and F&B operations",
+  "PR campaign generator (Condé Nast, Virtuoso, Robb Report targeting)",
+  "Trade partner management",
+  "Sustainability reporting (TIA Tourism 2050 aligned)",
+  "Staff training modules for luxury service",
+  "Guest CRM with lifetime value tracking",
+  "Unlimited team access",
+  "Dedicated onboarding and support",
+];
+
+/* ─── Enterprise ─── */
+const ENTERPRISE = {
+  name: "Enterprise",
+  price: "Custom",
+  suffix: "",
+  desc: "White-label, custom agents, your brand",
+  features: [
+    "Your logo and branding",
+    "Custom system prompts",
+    "API access",
+    "Unlimited users",
+    "Your own domain",
+    "Dedicated support",
+  ],
+  cta: "Contact us",
+  href: "#contact",
+};
+
+/* ─── HELM Plans ─── */
 const HELM_PLANS = [
   {
     name: "HELM Free",
@@ -169,28 +209,34 @@ const FAQS = [
   },
 ];
 
-/* Shared button renderer */
+/* ─── Shared button renderer ─── */
 const PlanButton = ({
   href,
   external,
   label,
   solid,
   color,
+  gradient,
 }: {
   href: string;
   external: boolean;
   label: string;
   solid: boolean;
   color: string;
+  gradient?: string;
 }) => {
-  const solidStyle: React.CSSProperties = { background: color, color: "#0A0A14" };
+  const solidStyle: React.CSSProperties = {
+    background: gradient || color,
+    color: "#0A0A14",
+  };
   const outlinedStyle: React.CSSProperties = {
     background: "transparent",
     color: color === "#00FF88" ? "#fff" : color,
     border: `1px solid ${color}40`,
   };
   const style = solid ? solidStyle : outlinedStyle;
-  const className = "block w-full text-center text-[13px] font-bold py-3 rounded-[10px] transition-all hover:opacity-90";
+  const className =
+    "block w-full text-center text-[13px] font-bold py-3 rounded-[10px] transition-all hover:opacity-90";
 
   if (external) {
     return (
@@ -225,29 +271,35 @@ const PricingPage = () => {
       <section className="py-20 sm:py-28">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-syne font-extrabold text-foreground mb-4 leading-tight">
-            Simple, honest <span className="text-gradient-hero">pricing</span>
+            Plans that scale <span className="text-gradient-hero">with you</span>
           </h1>
           <p className="text-sm sm:text-base font-jakarta text-muted-foreground max-w-xl mx-auto mb-4">
-            Start free. Upgrade when you're ready. No lock-in contracts.
+            From solo operators to luxury lodges. No lock-in. Cancel anytime.
           </p>
-          <p className="text-xs" style={{ color: "#ffffff50" }}>All prices in NZD. GST inclusive.</p>
+          <p className="text-xs" style={{ color: "#ffffff50" }}>
+            All prices in NZD. GST inclusive.
+          </p>
         </div>
       </section>
 
-      {/* Business Plans */}
+      {/* ═══ Business Plans Section ═══ */}
       <section className="pb-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center text-foreground mb-12">
             Plans for <span className="text-gradient-hero">NZ Businesses</span>
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {BUSINESS_PLANS.map((plan) => (
+
+          {/* Row 1: Starter / Pro / Business (3-col) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+            {STANDARD_PLANS.map((plan) => (
               <div
                 key={plan.name}
                 className="relative flex flex-col"
                 style={{
                   background: "#0E0E1A",
-                  border: plan.highlighted ? "1px solid #00FF8830" : "1px solid #ffffff08",
+                  border: plan.highlighted
+                    ? "1px solid #00FF8830"
+                    : "1px solid #ffffff08",
                   borderRadius: 16,
                   padding: 32,
                   boxShadow: plan.highlighted ? "0 0 48px #00FF8810" : "none",
@@ -261,7 +313,10 @@ const PricingPage = () => {
                     MOST POPULAR
                   </span>
                 )}
-                <h3 className="text-[11px] font-bold tracking-[2px] uppercase mb-3" style={{ color: "#ffffff60" }}>
+                <h3
+                  className="text-[11px] font-bold tracking-[2px] uppercase mb-3"
+                  style={{ color: "#ffffff60" }}
+                >
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline gap-1.5 mb-1">
@@ -272,7 +327,9 @@ const PricingPage = () => {
                     <span style={{ color: "#ffffff40", fontSize: 16 }}>{plan.suffix}</span>
                   )}
                 </div>
-                <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>{plan.desc}</p>
+                <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>
+                  {plan.desc}
+                </p>
                 <ul className="space-y-2.5 mb-8 flex-1">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
@@ -291,10 +348,215 @@ const PricingPage = () => {
               </div>
             ))}
           </div>
+
+          {/* Row 2: Industry Suite / Luxury Hospitality (2-col, premium) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            {/* ── Industry Suite ── */}
+            <div
+              className="relative flex flex-col"
+              style={{
+                background: "#0E0E1A",
+                border: "1px solid rgba(0,229,255,0.15)",
+                borderRadius: 20,
+                padding: "40px 36px 36px",
+                boxShadow: "0 0 60px rgba(0,229,255,0.06)",
+              }}
+            >
+              {/* Top glow edge */}
+              <div
+                className="absolute top-0 left-4 right-4 h-[2px] rounded-full"
+                style={{
+                  background: "linear-gradient(90deg, #00FF88, #00E5FF, #FF2D9B)",
+                }}
+              />
+              {/* Badge */}
+              <span
+                className="absolute -top-3.5 left-1/2 -translate-x-1/2 text-[10px] font-bold px-5 py-1 rounded-full"
+                style={{
+                  background: "linear-gradient(135deg, #00FF88, #00E5FF)",
+                  color: "#0A0A14",
+                }}
+              >
+                PREMIUM
+              </span>
+
+              <h3
+                className="text-[11px] font-bold tracking-[2px] uppercase mb-3"
+                style={{ color: "#00E5FF" }}
+              >
+                Industry Suite
+              </h3>
+              <div className="flex items-baseline gap-1.5 mb-1">
+                <span style={{ color: "#FF2D9B", fontSize: 52, fontWeight: 900, lineHeight: 1 }}>
+                  $799
+                </span>
+                <span style={{ color: "#ffffff40", fontSize: 16 }}>/mo NZD</span>
+              </div>
+              <p className="text-[13px] font-medium mb-1" style={{ color: "#ffffffc0" }}>
+                Deep expertise for your entire industry
+              </p>
+              <p className="text-[11px] mb-6" style={{ color: "#ffffff40" }}>
+                Choose your industry. Get every agent relevant to it, fully loaded.
+              </p>
+
+              <ul className="space-y-2.5 mb-6 flex-1">
+                {INDUSTRY_FEATURES.map((f) => (
+                  <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
+                    <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#00E5FF" }} />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+
+              {/* Suite tags */}
+              <div className="mb-6">
+                <p className="text-[10px] font-bold uppercase tracking-[1.5px] mb-3" style={{ color: "#ffffff40" }}>
+                  Available suites
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {INDUSTRY_SUITES.map((s) => (
+                    <span
+                      key={s.label}
+                      className="text-[10px] px-3 py-1.5 rounded-full"
+                      style={{
+                        background: "rgba(0,229,255,0.08)",
+                        border: "1px solid rgba(0,229,255,0.15)",
+                        color: "#00E5FF",
+                      }}
+                      title={s.agents}
+                    >
+                      {s.label}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <PlanButton
+                href="#contact"
+                external={false}
+                label="Start Industry Suite"
+                solid={true}
+                color="#00E5FF"
+                gradient="linear-gradient(135deg, #00FF88, #00E5FF)"
+              />
+            </div>
+
+            {/* ── Luxury Hospitality ── */}
+            <div
+              className="relative flex flex-col"
+              style={{
+                background: "#0E0E1A",
+                border: "1px solid rgba(255,184,0,0.12)",
+                borderRadius: 20,
+                padding: "40px 36px 36px",
+                boxShadow: "0 0 60px rgba(255,184,0,0.06)",
+              }}
+            >
+              {/* Top glow edge */}
+              <div
+                className="absolute top-0 left-4 right-4 h-[2px] rounded-full"
+                style={{
+                  background: "linear-gradient(90deg, #FFB800, #FF2D9B)",
+                }}
+              />
+              {/* Badge */}
+              <span
+                className="absolute -top-3.5 left-1/2 -translate-x-1/2 text-[10px] font-bold px-5 py-1 rounded-full"
+                style={{
+                  background: "linear-gradient(135deg, #FFB800, #FF2D9B)",
+                  color: "#0A0A14",
+                }}
+              >
+                LUXURY
+              </span>
+
+              <h3
+                className="text-[11px] font-bold tracking-[2px] uppercase mb-3"
+                style={{ color: "#FFB800" }}
+              >
+                Luxury Hospitality
+              </h3>
+              <div className="flex items-baseline gap-1.5 mb-1">
+                <span style={{ color: "#FF2D9B", fontSize: 52, fontWeight: 900, lineHeight: 1 }}>
+                  $799
+                </span>
+                <span style={{ color: "#ffffff40", fontSize: 16 }}>/mo NZD per property</span>
+              </div>
+              <p className="text-[13px] font-medium mb-6" style={{ color: "#ffffffc0" }}>
+                The AI operations platform for luxury lodges and premium hotels
+              </p>
+
+              <ul className="space-y-2.5 mb-6 flex-1">
+                {LUXURY_FEATURES.map((f) => (
+                  <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
+                    <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#FFB800" }} />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+
+              {/* Multi-property note */}
+              <p className="text-[11px] mb-6" style={{ color: "#ffffff40" }}>
+                Multi-property groups: $1,499/mo for up to 3 properties
+              </p>
+
+              <PlanButton
+                href="#contact"
+                external={false}
+                label="Book a Demo"
+                solid={true}
+                color="#FFB800"
+                gradient="linear-gradient(135deg, #FFB800, #FF2D9B)"
+              />
+            </div>
+          </div>
+
+          {/* Row 3: Enterprise (single card, outlined) */}
+          <div className="max-w-md mx-auto">
+            <div
+              className="relative flex flex-col"
+              style={{
+                background: "#0E0E1A",
+                border: "1px solid #ffffff08",
+                borderRadius: 16,
+                padding: 32,
+              }}
+            >
+              <h3
+                className="text-[11px] font-bold tracking-[2px] uppercase mb-3"
+                style={{ color: "#ffffff60" }}
+              >
+                {ENTERPRISE.name}
+              </h3>
+              <div className="flex items-baseline gap-1.5 mb-1">
+                <span style={{ color: "#FF2D9B", fontSize: 48, fontWeight: 900, lineHeight: 1 }}>
+                  {ENTERPRISE.price}
+                </span>
+              </div>
+              <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>
+                {ENTERPRISE.desc}
+              </p>
+              <ul className="space-y-2.5 mb-8 flex-1">
+                {ENTERPRISE.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
+                    <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#00FF88" }} />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <PlanButton
+                href={ENTERPRISE.href}
+                external={false}
+                label={ENTERPRISE.cta}
+                solid={false}
+                color="#00FF88"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* HELM Family Plans */}
+      {/* ═══ HELM Family Plans ═══ */}
       <section className="py-24 border-t border-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-center text-foreground mb-2">
@@ -315,7 +577,10 @@ const PricingPage = () => {
                   padding: 32,
                 }}
               >
-                <h3 className="text-[11px] font-bold tracking-[2px] uppercase mb-3" style={{ color: "#B388FF" }}>
+                <h3
+                  className="text-[11px] font-bold tracking-[2px] uppercase mb-3"
+                  style={{ color: "#B388FF" }}
+                >
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline gap-1.5 mb-1">
@@ -326,7 +591,9 @@ const PricingPage = () => {
                     <span style={{ color: "#ffffff40", fontSize: 16 }}>{plan.suffix}</span>
                   )}
                 </div>
-                <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>{plan.desc}</p>
+                <p className="text-[12px] mb-6" style={{ color: "#ffffff50" }}>
+                  {plan.desc}
+                </p>
                 <ul className="space-y-2.5 mb-8 flex-1">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: "#ffffffa0" }}>
@@ -381,8 +648,12 @@ const PricingPage = () => {
       {/* Bottom CTA */}
       <section id="contact" className="py-16 border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-foreground mb-3">Ready to get started?</h2>
-          <p className="text-sm text-muted-foreground mb-6">Try any agent free — no signup required.</p>
+          <h2 className="text-xl sm:text-2xl font-syne font-extrabold text-foreground mb-3">
+            Ready to get started?
+          </h2>
+          <p className="text-sm text-muted-foreground mb-6">
+            Try any agent free — no signup required.
+          </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               to="/"
