@@ -1240,8 +1240,23 @@ const ChatPage = () => {
                                 <ResponseSources content={msg.content} />
                                 <AITransparencyBadge />
                               </div>
-                              <SaveToLibrary content={msg.content} agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
-                            </div>
+                              <div className="flex items-center gap-1">
+                                {isHelm && (
+                                  <button
+                                    type="button"
+                                    onClick={() => speakText(msg.content, i)}
+                                    className="p-1 rounded-md transition-colors"
+                                    style={{
+                                      color: isSpeaking === i ? "#B388FF" : "hsl(var(--muted-foreground))",
+                                      background: isSpeaking === i ? "rgba(179,136,255,0.15)" : "transparent",
+                                    }}
+                                    title={isSpeaking === i ? "Stop speaking" : "Read aloud"}
+                                  >
+                                    <Volume2 size={14} />
+                                  </button>
+                                )}
+                                <SaveToLibrary content={msg.content} agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
+                              </div>
                           )}
                         </div>
                       </div>
