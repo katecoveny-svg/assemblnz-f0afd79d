@@ -678,9 +678,17 @@ const ChatPage = () => {
         apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content || "(attachment)" }));
       }
 
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, teReoPrompt: teReoPrompt || undefined, propertyMode: isAura ? auraPropertyMode : undefined },
-      });
+      const functionName = isHaven ? "haven-ai" : "chat";
+      const body = isHaven
+        ? { messages: apiMessages }
+        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, teReoPrompt: teReoPrompt || undefined, propertyMode: isAura ? auraPropertyMode : undefined };
+
+      const invokeOptions: any = { body };
+      if (isHaven && session?.access_token) {
+        invokeOptions.headers = { Authorization: `Bearer ${session.access_token}` };
+      }
+
+      const { data, error } = await supabase.functions.invoke(functionName, invokeOptions);
 
       if (error) throw error;
       const assistantContent = data.content;
