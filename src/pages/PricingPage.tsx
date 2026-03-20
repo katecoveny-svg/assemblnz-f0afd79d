@@ -286,10 +286,10 @@ const PricingPage = () => {
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-syne font-extrabold text-foreground mb-4 leading-tight">
             Plans that scale <span className="text-gradient-hero">with you</span>
           </h1>
-          <p className="text-sm sm:text-base font-jakarta text-muted-foreground max-w-xl mx-auto mb-4">
+          <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-4" style={{ color: "#ffffffa0" }}>
             From solo operators to luxury lodges. No lock-in. Cancel anytime.
           </p>
-          <p className="text-xs" style={{ color: "#ffffff50" }}>
+          <p className="text-xs font-jakarta" style={{ color: "#ffffff50" }}>
             All prices in NZD. GST inclusive.
           </p>
         </div>
