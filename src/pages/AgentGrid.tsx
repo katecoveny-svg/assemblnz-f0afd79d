@@ -19,7 +19,7 @@ const PRICING_PLANS = [
     price: "$0",
     period: "",
     color: "#00FF88",
-    features: ["3 messages per agent", "All 38 agents", "NZ legislation knowledge", "No signup required"],
+    features: ["3 messages per agent", "All 41 agents", "NZ legislation knowledge", "No signup required"],
     cta: "Start free",
     href: "/",
     external: false,
