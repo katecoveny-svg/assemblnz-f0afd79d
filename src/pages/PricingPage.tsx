@@ -50,7 +50,7 @@ const STANDARD_PLANS = [
     suffix: "/mo",
     desc: "All agents, unlimited, built for teams",
     features: [
-      "All 38 AI agents",
+      "All 41 AI agents",
       "Unlimited messages",
       "Brand scan + file upload",
       "Template library access",
