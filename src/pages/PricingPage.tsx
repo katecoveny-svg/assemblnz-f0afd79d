@@ -609,9 +609,15 @@ const PricingPage = () => {
             <p className="text-[10px] font-semibold tracking-[3px] uppercase mb-3" style={{ color: 'rgba(255,255,255,0.25)' }}>
               Included in every plan
             </p>
-            <h2 className="text-xl sm:text-3xl font-syne font-extrabold mb-3" style={{ color: '#E4E4EC' }}>
-              Enterprise-grade AI capabilities
-            </h2>
+            <div className="inline-block relative mb-3 p-[2px] rounded-xl" style={{
+              background: 'linear-gradient(90deg, #00FF88, #00E5FF, #E040FB, #FF6B35, #00FF88)',
+              backgroundSize: '300% 100%',
+              animation: 'enterprise-gradient-sweep 4s linear infinite',
+            }}>
+              <h2 className="text-xl sm:text-3xl font-syne font-extrabold px-6 py-2 rounded-[10px]" style={{ color: '#E4E4EC', background: 'hsl(240, 20%, 4%)' }}>
+                Enterprise-grade AI capabilities
+              </h2>
+            </div>
             <p className="text-sm font-jakarta max-w-lg mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>
               Every Assembl agent ships with capabilities modelled on HubSpot Breeze, Salesforce Agentforce, and Zendesk AI — built for NZ businesses.
             </p>
