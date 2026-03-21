@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
 serve(async (req) => {
@@ -18,8 +18,19 @@ serve(async (req) => {
       });
     }
 
+    // Support both GET query params and POST body
+    let routeIds: string | null = null;
     const url = new URL(req.url);
-    const routeIds = url.searchParams.get('route_ids');
+    routeIds = url.searchParams.get('route_ids');
+    
+    if (!routeIds && req.method === 'POST') {
+      try {
+        const body = await req.json();
+        if (body.route_ids) {
+          routeIds = Array.isArray(body.route_ids) ? body.route_ids.join(',') : body.route_ids;
+        }
+      } catch (_) {}
+    }
 
     // Call Auckland Transport GTFS-realtime vehicle positions
     const atUrl = 'https://api.at.govt.nz/realtime/legacy/vehiclelocations';
