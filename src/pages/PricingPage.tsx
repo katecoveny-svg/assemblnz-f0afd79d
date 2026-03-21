@@ -17,7 +17,7 @@ const STANDARD_PLANS = [
     suffix: "/mo",
     desc: "For sole traders and small businesses",
     features: [
-      "1 AI agent",
+      "1 AI agent from 41 specialists",
       "100 messages per month",
       "NZ legislation references",
       "Email support",
