@@ -265,8 +265,11 @@ const PricingPage = () => {
           <h1 className="text-2xl sm:text-5xl lg:text-6xl font-syne font-extrabold mb-3 leading-tight" style={{ color: '#E4E4EC' }}>
             Simple, honest pricing
           </h1>
-          <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
             From solo operators to luxury lodges. No lock-in. Cancel anytime.
+          </p>
+          <p className="text-xs sm:text-sm font-jakarta font-medium mb-3" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            Enterprise-grade AI capabilities — at a fraction of the cost.
           </p>
           <p className="text-xs font-jakarta" style={{ color: 'rgba(255,255,255,0.2)' }}>
             All prices in NZD. GST inclusive.
