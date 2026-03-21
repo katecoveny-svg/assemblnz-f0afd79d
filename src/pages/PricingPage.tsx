@@ -75,6 +75,7 @@ const INDUSTRY_SUITES = [
   { label: "Trade & Customs" },
   { label: "Health" },
   { label: "Government" },
+  { label: "Finance" },
 ];
 
 const INDUSTRY_FEATURES = [
