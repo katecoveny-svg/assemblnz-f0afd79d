@@ -56,15 +56,15 @@ function RobotBody() {
   }), []);
 
   const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: "#0d4040",
-    metalness: 0.2,
+    color: "#8844cc",
+    metalness: 0.3,
     roughness: 0.05,
-    transmission: 0.5,
+    transmission: 0.3,
     thickness: 0.5,
-    emissive: "#00E5FF",
-    emissiveIntensity: 0.1,
+    emissive: "#E040FB",
+    emissiveIntensity: 0.4,
     transparent: true,
-    opacity: 0.85,
+    opacity: 0.9,
   }), []);
 
   useFrame((state) => {
