@@ -79,11 +79,22 @@
     @apply bg-background text-foreground font-inter;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.06), 0 0 20px rgba(255, 255, 255, 0.03);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.05);
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.12), 0 0 30px rgba(0, 229, 255, 0.08), 0 0 60px rgba(0, 255, 136, 0.04);
+  h1, h2, h3 {
+    text-shadow:
+      0 0 10px rgba(255, 255, 255, 0.25),
+      0 0 30px rgba(0, 229, 255, 0.2),
+      0 0 60px rgba(179, 136, 255, 0.12),
+      0 0 100px rgba(224, 64, 251, 0.06);
+  }
+
+  h4, h5, h6 {
+    text-shadow:
+      0 0 8px rgba(255, 255, 255, 0.18),
+      0 0 24px rgba(0, 229, 255, 0.12),
+      0 0 50px rgba(179, 136, 255, 0.06);
   }
 }
 
