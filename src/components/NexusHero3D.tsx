@@ -211,17 +211,17 @@ function ParticleRing() {
 const NexusHero3D = () => {
   return (
     <div className="w-full h-[340px] sm:h-[420px] lg:h-[480px] relative">
-      {/* Layered radial glows behind */}
+      {/* Layered radial glows — much brighter */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse at center, rgba(0,229,255,0.12) 0%, rgba(0,255,136,0.06) 30%, transparent 65%)",
+          background: "radial-gradient(ellipse at center, rgba(179,136,255,0.2) 0%, rgba(224,64,251,0.1) 25%, rgba(0,229,255,0.08) 45%, transparent 70%)",
         }}
       />
       <div
         className="absolute inset-0 pointer-events-none animate-pulse-glow"
         style={{
-          background: "radial-gradient(ellipse at center, rgba(179,136,255,0.08) 0%, transparent 50%)",
+          background: "radial-gradient(ellipse at center, rgba(255,45,155,0.12) 0%, rgba(179,136,255,0.06) 40%, transparent 60%)",
         }}
       />
       <Canvas
@@ -229,24 +229,26 @@ const NexusHero3D = () => {
         style={{ background: "transparent" }}
         gl={{ alpha: true, antialias: true }}
       >
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} intensity={0.8} color="#ffffff" />
-        <directionalLight position={[-3, 3, -3]} intensity={0.5} color="#00E5FF" />
-        <pointLight position={[0, 2, 3]} intensity={1.2} color="#00FF88" distance={10} />
-        <pointLight position={[-2, -1, 2]} intensity={0.6} color="#FF2D9B" distance={8} />
-        <pointLight position={[2, 0, 2]} intensity={0.6} color="#B388FF" distance={8} />
-        <pointLight position={[0, 0, 4]} intensity={0.5} color="#00E5FF" distance={6} />
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[5, 5, 5]} intensity={1.2} color="#ffffff" />
+        <directionalLight position={[-3, 3, -3]} intensity={0.8} color="#B388FF" />
+        <pointLight position={[0, 2, 3]} intensity={2} color="#E040FB" distance={12} />
+        <pointLight position={[-2, -1, 2]} intensity={1} color="#FF2D9B" distance={10} />
+        <pointLight position={[2, 0, 2]} intensity={1} color="#B388FF" distance={10} />
+        <pointLight position={[0, 0, 4]} intensity={0.8} color="#00E5FF" distance={8} />
+        <pointLight position={[0, -1, 3]} intensity={0.6} color="#E040FB" distance={8} />
 
         <Suspense fallback={null}>
           <RobotBody />
           <ParticleRing />
         </Suspense>
 
-        {/* Background orbs */}
-        <GlowOrb position={[-2.5, 1.5, -1]} color="#00E5FF" size={0.18} speed={0.7} />
-        <GlowOrb position={[2.8, -0.5, -2]} color="#FF2D9B" size={0.15} speed={0.5} />
-        <GlowOrb position={[1.5, 2, -1.5]} color="#B388FF" size={0.13} speed={0.8} />
-        <GlowOrb position={[-1.8, -1.2, -1]} color="#00FF88" size={0.16} speed={0.6} />
+        {/* Background orbs — bigger, brighter */}
+        <GlowOrb position={[-2.5, 1.5, -1]} color="#E040FB" size={0.22} speed={0.7} />
+        <GlowOrb position={[2.8, -0.5, -2]} color="#FF2D9B" size={0.2} speed={0.5} />
+        <GlowOrb position={[1.5, 2, -1.5]} color="#B388FF" size={0.18} speed={0.8} />
+        <GlowOrb position={[-1.8, -1.2, -1]} color="#00FF88" size={0.2} speed={0.6} />
+        <GlowOrb position={[0, -2, -1.5]} color="#00E5FF" size={0.16} speed={0.9} />
       </Canvas>
     </div>
   );
