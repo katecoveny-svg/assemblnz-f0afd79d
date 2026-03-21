@@ -46,11 +46,13 @@ function RobotBody() {
   const antennaRef = useRef<THREE.Group>(null!);
 
   const bodyMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: "#1a1a2e",
-    metalness: 0.9,
+    color: "#0a3d3d",
+    metalness: 0.85,
     roughness: 0.15,
+    emissive: "#00FF88",
+    emissiveIntensity: 0.15,
     transparent: true,
-    opacity: 0.75,
+    opacity: 0.85,
   }), []);
 
   const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
