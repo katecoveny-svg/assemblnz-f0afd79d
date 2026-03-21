@@ -275,6 +275,47 @@ export type Database = {
         }
         Relationships: []
       }
+      children: {
+        Row: {
+          avatar_color: string | null
+          bus_route_id: string | null
+          created_at: string
+          family_id: string
+          id: string
+          name: string
+          school: string | null
+          year_level: string | null
+        }
+        Insert: {
+          avatar_color?: string | null
+          bus_route_id?: string | null
+          created_at?: string
+          family_id: string
+          id?: string
+          name: string
+          school?: string | null
+          year_level?: string | null
+        }
+        Update: {
+          avatar_color?: string | null
+          bus_route_id?: string | null
+          created_at?: string
+          family_id?: string
+          id?: string
+          name?: string
+          school?: string | null
+          year_level?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "children_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clients: {
         Row: {
           business_name: string | null
@@ -436,6 +477,226 @@ export type Database = {
         }
         Relationships: []
       }
+      delivery_requests: {
+        Row: {
+          child_id: string | null
+          created_at: string
+          currency: string | null
+          delivery_provider_id: string | null
+          dropoff_address: string
+          estimated_arrival: string | null
+          family_id: string
+          fee_cents: number | null
+          id: string
+          item_description: string
+          pickup_address: string
+          status: string
+          tracking_url: string | null
+        }
+        Insert: {
+          child_id?: string | null
+          created_at?: string
+          currency?: string | null
+          delivery_provider_id?: string | null
+          dropoff_address: string
+          estimated_arrival?: string | null
+          family_id: string
+          fee_cents?: number | null
+          id?: string
+          item_description: string
+          pickup_address: string
+          status?: string
+          tracking_url?: string | null
+        }
+        Update: {
+          child_id?: string | null
+          created_at?: string
+          currency?: string | null
+          delivery_provider_id?: string | null
+          dropoff_address?: string
+          estimated_arrival?: string | null
+          family_id?: string
+          fee_cents?: number | null
+          id?: string
+          item_description?: string
+          pickup_address?: string
+          status?: string
+          tracking_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_requests_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_requests_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          child_id: string | null
+          created_at: string
+          description: string | null
+          end_at: string | null
+          family_id: string
+          id: string
+          location: string | null
+          notes: string | null
+          source: string | null
+          source_message_id: string | null
+          start_at: string
+          title: string
+        }
+        Insert: {
+          child_id?: string | null
+          created_at?: string
+          description?: string | null
+          end_at?: string | null
+          family_id: string
+          id?: string
+          location?: string | null
+          notes?: string | null
+          source?: string | null
+          source_message_id?: string | null
+          start_at: string
+          title: string
+        }
+        Update: {
+          child_id?: string | null
+          created_at?: string
+          description?: string | null
+          end_at?: string | null
+          family_id?: string
+          id?: string
+          location?: string | null
+          notes?: string | null
+          source?: string | null
+          source_message_id?: string | null
+          start_at?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "events_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      families: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          nz_region: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          nz_region?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          nz_region?: string | null
+        }
+        Relationships: []
+      }
+      family_invites: {
+        Row: {
+          code: string | null
+          created_at: string
+          created_by: string | null
+          family_id: string
+          id: string
+          role: string
+          used_at: string | null
+          used_by: string | null
+        }
+        Insert: {
+          code?: string | null
+          created_at?: string
+          created_by?: string | null
+          family_id: string
+          id?: string
+          role?: string
+          used_at?: string | null
+          used_by?: string | null
+        }
+        Update: {
+          code?: string | null
+          created_at?: string
+          created_by?: string | null
+          family_id?: string
+          id?: string
+          role?: string
+          used_at?: string | null
+          used_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "family_invites_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      family_members: {
+        Row: {
+          created_at: string
+          family_id: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          family_id: string
+          id?: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          family_id?: string
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "family_members_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       follow_ups: {
         Row: {
           agent_name: string
@@ -486,6 +747,38 @@ export type Database = {
           },
         ]
       }
+      gear_rules: {
+        Row: {
+          created_at: string
+          family_id: string
+          id: string
+          items: string[]
+          subject: string
+        }
+        Insert: {
+          created_at?: string
+          family_id: string
+          id?: string
+          items: string[]
+          subject: string
+        }
+        Update: {
+          created_at?: string
+          family_id?: string
+          id?: string
+          items?: string[]
+          subject?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gear_rules_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       haven_notifications: {
         Row: {
           created_at: string
@@ -521,6 +814,85 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      helm_integrations: {
+        Row: {
+          created_at: string
+          family_id: string
+          id: string
+          provider: string
+          scopes: string[] | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          family_id: string
+          id?: string
+          provider: string
+          scopes?: string[] | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          family_id?: string
+          id?: string
+          provider?: string
+          scopes?: string[] | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "helm_integrations_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inbox_messages: {
+        Row: {
+          family_id: string
+          id: string
+          provider: string | null
+          raw_text: string | null
+          received_at: string
+          sender: string | null
+          status: string
+          subject: string | null
+        }
+        Insert: {
+          family_id: string
+          id?: string
+          provider?: string | null
+          raw_text?: string | null
+          received_at?: string
+          sender?: string | null
+          status?: string
+          subject?: string | null
+        }
+        Update: {
+          family_id?: string
+          id?: string
+          provider?: string | null
+          raw_text?: string | null
+          received_at?: string
+          sender?: string | null
+          status?: string
+          subject?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inbox_messages_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       inspection_notes: {
         Row: {
@@ -764,6 +1136,122 @@ export type Database = {
         }
         Relationships: []
       }
+      packing_items: {
+        Row: {
+          child_id: string | null
+          created_at: string
+          event_id: string | null
+          family_id: string
+          id: string
+          item_name: string
+          packed: boolean
+        }
+        Insert: {
+          child_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          family_id: string
+          id?: string
+          item_name: string
+          packed?: boolean
+        }
+        Update: {
+          child_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          family_id?: string
+          id?: string
+          item_name?: string
+          packed?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "packing_items_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "packing_items_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "packing_items_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      parsed_items: {
+        Row: {
+          child_id: string | null
+          confidence: number | null
+          created_at: string
+          family_id: string
+          id: string
+          item_type: string
+          message_id: string | null
+          parsed_data: Json
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+        }
+        Insert: {
+          child_id?: string | null
+          confidence?: number | null
+          created_at?: string
+          family_id: string
+          id?: string
+          item_type: string
+          message_id?: string | null
+          parsed_data: Json
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+        }
+        Update: {
+          child_id?: string | null
+          confidence?: number | null
+          created_at?: string
+          family_id?: string
+          id?: string
+          item_type?: string
+          message_id?: string | null
+          parsed_data?: Json
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "parsed_items_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "parsed_items_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "parsed_items_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "inbox_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -905,6 +1393,57 @@ export type Database = {
         }
         Relationships: []
       }
+      tasks: {
+        Row: {
+          child_id: string | null
+          completed: boolean
+          created_at: string
+          due_at: string | null
+          family_id: string
+          id: string
+          source: string | null
+          source_message_id: string | null
+          title: string
+        }
+        Insert: {
+          child_id?: string | null
+          completed?: boolean
+          created_at?: string
+          due_at?: string | null
+          family_id: string
+          id?: string
+          source?: string | null
+          source_message_id?: string | null
+          title: string
+        }
+        Update: {
+          child_id?: string | null
+          completed?: boolean
+          created_at?: string
+          due_at?: string | null
+          family_id?: string
+          id?: string
+          source?: string | null
+          source_message_id?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenant_requests: {
         Row: {
           created_at: string
@@ -942,6 +1481,51 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      timetables: {
+        Row: {
+          child_id: string
+          created_at: string
+          day_of_week: number
+          family_id: string
+          id: string
+          period: number
+          subject: string
+        }
+        Insert: {
+          child_id: string
+          created_at?: string
+          day_of_week: number
+          family_id: string
+          id?: string
+          period: number
+          subject: string
+        }
+        Update: {
+          child_id?: string
+          created_at?: string
+          day_of_week?: number
+          family_id?: string
+          id?: string
+          period?: number
+          subject?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "timetables_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "timetables_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
             referencedColumns: ["id"]
           },
         ]
@@ -1112,6 +1696,10 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      is_family_member: {
+        Args: { _family_id: string; _user_id: string }
         Returns: boolean
       }
     }
