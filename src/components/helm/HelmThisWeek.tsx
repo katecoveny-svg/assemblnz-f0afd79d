@@ -66,16 +66,20 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
       if (fm) {
         setFamilyId(fm.family_id);
         const weekEnd = addDays(weekStart, 7);
-        const [evts, tsks, kids, packing] = await Promise.all([
+        const [evts, tsks, kids, packing, rules, tt] = await Promise.all([
           supabase.from("events").select("*").eq("family_id", fm.family_id).gte("start_at", weekStart.toISOString()).lt("start_at", weekEnd.toISOString()).order("start_at"),
           supabase.from("tasks").select("*").eq("family_id", fm.family_id).eq("completed", false).order("due_at"),
           supabase.from("children").select("*").eq("family_id", fm.family_id),
           supabase.from("packing_items").select("*").eq("family_id", fm.family_id).eq("packed", false),
+          supabase.from("gear_rules").select("*").eq("family_id", fm.family_id),
+          supabase.from("timetables").select("*").eq("family_id", fm.family_id),
         ]);
         setEvents(evts.data || []);
         setTasks(tsks.data || []);
         setChildren(kids.data || []);
         setPackingItems(packing.data || []);
+        setGearRules(rules.data || []);
+        setTimetableEntries(tt.data || []);
       }
     })();
   }, [user, weekStart]);
