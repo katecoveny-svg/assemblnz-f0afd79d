@@ -1161,7 +1161,22 @@ const ChatPage = () => {
       )}
 
       {/* Tab Views */}
-      {activeTab === "haven_dashboard" && isHaven ? (
+      {/* HELM Tab Views */}
+      {activeTab === "helm_week" && isHelm ? (
+        <HelmThisWeek onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "helm_bus" && isHelm ? (
+        <HelmBusTracker />
+      ) : activeTab === "helm_timetable" && isHelm ? (
+        <HelmTimetable onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "helm_inbox" && isHelm ? (
+        <HelmInbox onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "helm_review" && isHelm ? (
+        <HelmReview />
+      ) : activeTab === "helm_rescue" && isHelm ? (
+        <HelmRescue />
+      ) : activeTab === "helm_settings" && isHelm ? (
+        <HelmSettings />
+      ) : activeTab === "haven_dashboard" && isHaven ? (
         <HavenDashboard />
       ) : activeTab === "haven_properties" && isHaven ? (
         <HavenProperties onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
