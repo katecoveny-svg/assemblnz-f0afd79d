@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { ChevronDown, ArrowRight, Loader2, Zap, Brain, FileSearch, Calendar, Users, BarChart3, Palette, Shield, ClipboardCheck, Calculator, Heart, HardHat } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
