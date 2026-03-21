@@ -40,10 +40,12 @@ function getCurrentTerm(date: Date) {
   return NZ_TERMS_2026.find(t => date >= t.start && date <= t.end);
 }
 
-interface Event { id: string; title: string; start_at: string; location?: string; child_id?: string; }
+interface Event { id: string; title: string; start_at: string; location?: string; child_id?: string; notes?: string; }
 interface Task { id: string; title: string; due_at?: string; completed: boolean; child_id?: string; }
 interface Child { id: string; name: string; avatar_color: string; }
 interface PackingItem { id: string; item_name: string; packed: boolean; event_id?: string; child_id?: string; }
+interface GearRule { id: string; subject: string; items: string[]; }
+interface TimetableEntry { id: string; child_id: string; day_of_week: number; period: number; subject: string; }
 
 export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: string) => void }) {
   const { user } = useAuth();
