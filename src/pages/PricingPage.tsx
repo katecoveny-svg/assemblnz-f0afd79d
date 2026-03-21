@@ -32,7 +32,7 @@ const STANDARD_PLANS = [
     suffix: "/mo",
     desc: "For growing NZ businesses",
     features: [
-      "3 AI agents",
+      "3 AI agents from 41 specialists",
       "500 messages per month",
       "Website brand scan",
       "File upload and parsing",
