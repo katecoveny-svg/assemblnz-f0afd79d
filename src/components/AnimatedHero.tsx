@@ -84,7 +84,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          38 expert agents trained on NZ legislation. Try any agent free.
+          41 expert agents trained on NZ legislation. Try any agent free.
         </motion.p>
 
         {/* 3D Nexus Robot */}
@@ -150,7 +150,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
 
         <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
           {[
-            { value: "38", label: "Agents" },
+            { value: "41", label: "Agents" },
             { value: "20+", label: "NZ Industries" },
             { value: "50+", label: "Acts Referenced" },
             { value: "24/7", label: "Always On" },

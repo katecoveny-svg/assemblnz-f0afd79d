@@ -17,7 +17,7 @@ const STANDARD_PLANS = [
     suffix: "/mo",
     desc: "For sole traders and small businesses",
     features: [
-      "1 AI agent",
+      "1 AI agent from 41 specialists",
       "100 messages per month",
       "NZ legislation references",
       "Email support",
@@ -32,7 +32,7 @@ const STANDARD_PLANS = [
     suffix: "/mo",
     desc: "For growing NZ businesses",
     features: [
-      "3 AI agents",
+      "3 AI agents from 41 specialists",
       "500 messages per month",
       "Website brand scan",
       "File upload and parsing",
@@ -50,7 +50,7 @@ const STANDARD_PLANS = [
     suffix: "/mo",
     desc: "All agents, unlimited, built for teams",
     features: [
-      "All 38 AI agents",
+      "All 41 AI agents",
       "Unlimited messages",
       "Brand scan + file upload",
       "Template library access",
@@ -75,10 +75,11 @@ const INDUSTRY_SUITES = [
   { label: "Trade & Customs" },
   { label: "Health" },
   { label: "Government" },
+  { label: "Finance" },
 ];
 
 const INDUSTRY_FEATURES = [
-  "4-6 specialist agents bundled for your sector",
+  "4-6 specialist agents from 41 bundled for your sector",
   "All templates, document generators, and calculators",
   "Internal comms tools for your whole team",
   "ESG dashboard and reporting",
