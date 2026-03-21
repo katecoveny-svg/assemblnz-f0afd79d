@@ -81,6 +81,13 @@ import PrismBrandVoice from "@/components/prism/PrismBrandVoice";
 import PrismCreativeStudio from "@/components/prism/PrismCreativeStudio";
 import PrismVideoStudio from "@/components/prism/PrismVideoStudio";
 import AxisAutomations from "@/components/axis/AxisAutomations";
+import HelmThisWeek from "@/components/helm/HelmThisWeek";
+import HelmBusTracker from "@/components/helm/HelmBusTracker";
+import HelmTimetable from "@/components/helm/HelmTimetable";
+import HelmInbox from "@/components/helm/HelmInbox";
+import HelmReview from "@/components/helm/HelmReview";
+import HelmRescue from "@/components/helm/HelmRescue";
+import HelmSettings from "@/components/helm/HelmSettings";
 import AgentTraining from "@/components/shared/AgentTraining";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
@@ -281,7 +288,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "axis_automations" | "agent_training">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "axis_automations" | "agent_training" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings">("chat");
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
@@ -1090,14 +1097,22 @@ const ChatPage = () => {
               </button>
             )}
             {isHelm && (
-              <button
-                onClick={() => { setActiveTab("chat"); setHelmView("dashboard"); }}
-                className="px-2.5 py-1 text-[10px] font-medium transition-colors"
-                style={{
-                  backgroundColor: helmView === "dashboard" && activeTab === "chat" ? HELM_COLOR + "20" : "transparent",
-                  color: helmView === "dashboard" && activeTab === "chat" ? HELM_COLOR : "hsl(var(--muted-foreground))",
-                }}
-              >Dashboard</button>
+              <>
+                {([
+                  { id: "helm_week" as const, label: "This Week" },
+                  { id: "helm_bus" as const, label: "Bus" },
+                  { id: "helm_timetable" as const, label: "Timetable" },
+                  { id: "helm_inbox" as const, label: "Inbox" },
+                  { id: "helm_review" as const, label: "Review" },
+                  { id: "helm_rescue" as const, label: "Rescue" },
+                  { id: "helm_settings" as const, label: "Settings" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? HELM_COLOR + "20" : "transparent", color: activeTab === t.id ? HELM_COLOR : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
             )}
           </div>
         )}
@@ -1146,7 +1161,22 @@ const ChatPage = () => {
       )}
 
       {/* Tab Views */}
-      {activeTab === "haven_dashboard" && isHaven ? (
+      {/* HELM Tab Views */}
+      {activeTab === "helm_week" && isHelm ? (
+        <HelmThisWeek onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "helm_bus" && isHelm ? (
+        <HelmBusTracker />
+      ) : activeTab === "helm_timetable" && isHelm ? (
+        <HelmTimetable onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "helm_inbox" && isHelm ? (
+        <HelmInbox onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "helm_review" && isHelm ? (
+        <HelmReview />
+      ) : activeTab === "helm_rescue" && isHelm ? (
+        <HelmRescue />
+      ) : activeTab === "helm_settings" && isHelm ? (
+        <HelmSettings />
+      ) : activeTab === "haven_dashboard" && isHaven ? (
         <HavenDashboard />
       ) : activeTab === "haven_properties" && isHaven ? (
         <HavenProperties onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />

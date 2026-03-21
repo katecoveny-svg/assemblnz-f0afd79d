@@ -23,3 +23,6 @@ verify_jwt = false
 
 [functions.customer-portal]
 verify_jwt = false
+
+[functions.bus-positions]
+verify_jwt = false

@@ -40,10 +40,12 @@ function getCurrentTerm(date: Date) {
   return NZ_TERMS_2026.find(t => date >= t.start && date <= t.end);
 }
 
-interface Event { id: string; title: string; start_at: string; location?: string; child_id?: string; }
+interface Event { id: string; title: string; start_at: string; location?: string; child_id?: string; notes?: string; }
 interface Task { id: string; title: string; due_at?: string; completed: boolean; child_id?: string; }
 interface Child { id: string; name: string; avatar_color: string; }
 interface PackingItem { id: string; item_name: string; packed: boolean; event_id?: string; child_id?: string; }
+interface GearRule { id: string; subject: string; items: string[]; }
+interface TimetableEntry { id: string; child_id: string; day_of_week: number; period: number; subject: string; }
 
 export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: string) => void }) {
   const { user } = useAuth();
@@ -52,6 +54,8 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
   const [tasks, setTasks] = useState<Task[]>([]);
   const [children, setChildren] = useState<Child[]>([]);
   const [packingItems, setPackingItems] = useState<PackingItem[]>([]);
+  const [gearRules, setGearRules] = useState<GearRule[]>([]);
+  const [timetableEntries, setTimetableEntries] = useState<TimetableEntry[]>([]);
   const [familyId, setFamilyId] = useState<string | null>(null);
   const [selectedDay, setSelectedDay] = useState(new Date());
 
@@ -62,16 +66,20 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
       if (fm) {
         setFamilyId(fm.family_id);
         const weekEnd = addDays(weekStart, 7);
-        const [evts, tsks, kids, packing] = await Promise.all([
+        const [evts, tsks, kids, packing, rules, tt] = await Promise.all([
           supabase.from("events").select("*").eq("family_id", fm.family_id).gte("start_at", weekStart.toISOString()).lt("start_at", weekEnd.toISOString()).order("start_at"),
           supabase.from("tasks").select("*").eq("family_id", fm.family_id).eq("completed", false).order("due_at"),
           supabase.from("children").select("*").eq("family_id", fm.family_id),
           supabase.from("packing_items").select("*").eq("family_id", fm.family_id).eq("packed", false),
+          supabase.from("gear_rules").select("*").eq("family_id", fm.family_id),
+          supabase.from("timetables").select("*").eq("family_id", fm.family_id),
         ]);
         setEvents(evts.data || []);
         setTasks(tsks.data || []);
         setChildren(kids.data || []);
         setPackingItems(packing.data || []);
+        setGearRules(rules.data || []);
+        setTimetableEntries(tt.data || []);
       }
     })();
   }, [user, weekStart]);
@@ -177,10 +185,47 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
         )}
       </div>
 
-      {/* Packing List */}
+      {/* Auto Gear List from Timetable */}
+      {gearRules.length > 0 && isSchoolDay(selectedDay) && (
+        <div>
+          <h3 className="text-xs font-semibold text-white/60 mb-2">🎒 Gear Needed — {format(selectedDay, "EEEE")}</h3>
+          {(() => {
+            const dayOfWeek = selectedDay.getDay() === 0 ? 7 : selectedDay.getDay(); // 1=Mon
+            const daySubjects = timetableEntries
+              .filter(t => t.day_of_week === dayOfWeek)
+              .map(t => t.subject);
+            const gearItems = new Map<string, string[]>();
+            daySubjects.forEach(subject => {
+              const rule = gearRules.find(r => r.subject.toLowerCase() === subject.toLowerCase());
+              if (rule) {
+                rule.items.forEach(item => {
+                  if (!gearItems.has(item)) gearItems.set(item, []);
+                  if (!gearItems.get(item)!.includes(subject)) gearItems.get(item)!.push(subject);
+                });
+              }
+            });
+            const items = Array.from(gearItems.entries());
+            return items.length > 0 ? (
+              <div className="space-y-1">
+                {items.map(([item, subjects]) => (
+                  <div key={item} className="flex items-center gap-2 rounded-lg px-3 py-2" style={{ background: "rgba(255,255,255,0.02)" }}>
+                    <div className="w-1.5 h-1.5 rounded-full" style={{ background: HELM_COLOR }} />
+                    <span className="text-xs text-white/70 flex-1">{item}</span>
+                    <span className="text-[9px] text-white/25">{subjects.join(", ")}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-white/30 px-3 py-2">No special gear needed from timetable</p>
+            );
+          })()}
+        </div>
+      )}
+
+      {/* Manual Packing List */}
       {packingItems.length > 0 && (
         <div>
-          <h3 className="text-xs font-semibold text-white/60 mb-2">🎒 Packing List</h3>
+          <h3 className="text-xs font-semibold text-white/60 mb-2">📦 Packing List</h3>
           <div className="space-y-1">
             {packingItems.slice(0, 10).map(item => (
               <button key={item.id} onClick={() => togglePacking(item.id)} className="flex items-center gap-2 w-full rounded-lg px-3 py-2 text-left transition hover:bg-white/5" style={{ background: "rgba(255,255,255,0.02)" }}>

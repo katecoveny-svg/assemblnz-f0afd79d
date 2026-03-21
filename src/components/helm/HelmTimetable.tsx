@@ -31,6 +31,9 @@ export default function HelmTimetable({ onSendToChat }: { onSendToChat?: (msg: s
   const [editingCell, setEditingCell] = useState<{ day: number; period: number } | null>(null);
   const [editValue, setEditValue] = useState("");
   const [showGearRules, setShowGearRules] = useState(false);
+  const [showAddGear, setShowAddGear] = useState(false);
+  const [newGearSubject, setNewGearSubject] = useState("");
+  const [newGearItems, setNewGearItems] = useState("");
 
   useEffect(() => {
     if (!user) return;
@@ -94,6 +97,21 @@ export default function HelmTimetable({ onSendToChat }: { onSendToChat?: (msg: s
     if (data) setGearRules([...gearRules, ...data]);
   };
 
+  const addGearRule = async () => {
+    if (!familyId || !newGearSubject.trim() || !newGearItems.trim()) return;
+    const items = newGearItems.split(",").map(s => s.trim()).filter(Boolean);
+    const { data } = await supabase.from("gear_rules").insert({
+      family_id: familyId, subject: newGearSubject.trim(), items,
+    }).select().single();
+    if (data) setGearRules([...gearRules, data]);
+    setNewGearSubject(""); setNewGearItems(""); setShowAddGear(false);
+  };
+
+  const deleteGearRule = async (id: string) => {
+    await supabase.from("gear_rules").delete().eq("id", id);
+    setGearRules(gearRules.filter(r => r.id !== id));
+  };
+
   const child = children.find(c => c.id === selectedChild);
 
   return (
@@ -127,21 +145,46 @@ export default function HelmTimetable({ onSendToChat }: { onSendToChat?: (msg: s
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-xs font-semibold text-white/60">Subject → Gear Mapping</h3>
-            {gearRules.length === 0 && (
-              <button onClick={loadDefaults} className="text-[10px] px-2 py-1 rounded-lg hover:bg-white/5" style={{ color: HELM_COLOR }}>Load NZ Defaults</button>
-            )}
+            <div className="flex gap-2">
+              {gearRules.length === 0 && (
+                <button onClick={loadDefaults} className="text-[10px] px-2 py-1 rounded-lg hover:bg-white/5" style={{ color: HELM_COLOR }}>Load NZ Defaults</button>
+              )}
+              <button onClick={() => setShowAddGear(true)} className="text-[10px] px-2 py-1 rounded-lg hover:bg-white/5" style={{ color: HELM_COLOR }}>+ Add Rule</button>
+            </div>
           </div>
+
+          {showAddGear && (
+            <div className="rounded-lg p-3 space-y-2" style={{ background: HELM_COLOR + "08", border: `1px solid ${HELM_COLOR}15` }}>
+              <input value={newGearSubject} onChange={e => setNewGearSubject(e.target.value)} placeholder="Subject or activity name"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none" />
+              <input value={newGearItems} onChange={e => setNewGearItems(e.target.value)} placeholder="Items (comma-separated, e.g. Togs, Towel, Goggles)"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none" />
+              <div className="flex gap-2">
+                <button onClick={addGearRule} disabled={!newGearSubject.trim() || !newGearItems.trim()}
+                  className="flex-1 py-1.5 rounded-lg text-xs font-medium disabled:opacity-30"
+                  style={{ background: HELM_COLOR + "20", color: HELM_COLOR }}>Save Rule</button>
+                <button onClick={() => { setShowAddGear(false); setNewGearSubject(""); setNewGearItems(""); }}
+                  className="px-3 py-1.5 rounded-lg text-xs text-white/40 hover:bg-white/5">Cancel</button>
+              </div>
+            </div>
+          )}
+
           {gearRules.length === 0 ? (
-            <p className="text-xs text-white/30 text-center py-6">No gear rules set. Load defaults to get started.</p>
+            <p className="text-xs text-white/30 text-center py-6">No gear rules set. Load defaults or add custom rules.</p>
           ) : (
             gearRules.map(rule => (
-              <div key={rule.id} className="rounded-lg p-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
-                <p className="text-xs font-medium text-white/80 mb-1">{rule.subject}</p>
-                <div className="flex flex-wrap gap-1">
-                  {rule.items.map((item, i) => (
-                    <span key={i} className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: HELM_COLOR + "15", color: HELM_COLOR }}>{item}</span>
-                  ))}
+              <div key={rule.id} className="rounded-lg p-3 flex items-start gap-2" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                <div className="flex-1">
+                  <p className="text-xs font-medium text-white/80 mb-1">{rule.subject}</p>
+                  <div className="flex flex-wrap gap-1">
+                    {rule.items.map((item, i) => (
+                      <span key={i} className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: HELM_COLOR + "15", color: HELM_COLOR }}>{item}</span>
+                    ))}
+                  </div>
                 </div>
+                <button onClick={() => deleteGearRule(rule.id)} className="p-1 rounded hover:bg-red-500/20 transition shrink-0">
+                  <X size={10} className="text-red-400/50" />
+                </button>
               </div>
             ))
           )}
