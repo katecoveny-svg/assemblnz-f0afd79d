@@ -58,7 +58,7 @@ const EchoChatWidget = () => {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center transition-transform hover:scale-110 group"
+          className="fixed bottom-6 left-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center transition-transform hover:scale-110 group"
           style={{
             background: "#E4A0FF",
             boxShadow: "0 4px 20px rgba(228,160,255,0.4), 0 0 40px rgba(228,160,255,0.15)",
