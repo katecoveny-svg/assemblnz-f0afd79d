@@ -27,18 +27,18 @@ interface SavedItem {
 }
 
 const SAMPLE_AGENTS = [
-  { name: "APEX", color: "#FF6B35", messages: 120 },
+  { name: "APEX", color: "#00FF88", messages: 120 },
   { name: "LEDGER", color: "#4FC3F7", messages: 89 },
-  { name: "ANCHOR", color: "#FF7043", messages: 45 },
+  { name: "ANCHOR", color: "#00E5FF", messages: 45 },
   { name: "HELM", color: "#B388FF", messages: 38 },
   { name: "NEXUS", color: "#5B8CFF", messages: 28 },
   { name: "PRISM", color: "#E040FB", messages: 22 },
 ];
 
 const SAMPLE_TEMPLATES = [
-  { agent: "APEX", agentColor: "#FF6B35", type: "Site Safety Plan", date: "15 Mar 2026" },
+  { agent: "APEX", agentColor: "#00FF88", type: "Site Safety Plan", date: "15 Mar 2026" },
   { agent: "LEDGER", agentColor: "#4FC3F7", type: "GST Calculator", date: "14 Mar 2026" },
-  { agent: "ANCHOR", agentColor: "#FF7043", type: "Employment Agreement", date: "13 Mar 2026" },
+  { agent: "ANCHOR", agentColor: "#00E5FF", type: "Employment Agreement", date: "13 Mar 2026" },
   { agent: "HELM", agentColor: "#B388FF", type: "Meal Plan", date: "12 Mar 2026" },
   { agent: "NEXUS", agentColor: "#5B8CFF", type: "Import Entry Processor", date: "11 Mar 2026" },
 ];
@@ -103,7 +103,7 @@ const DashboardPage = () => {
       <BrandNav />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-6 flex-1">
-        <h2 className="text-xl font-display font-extrabold text-foreground tracking-[2.5px] uppercase">Your Dashboard</h2>
+        <h2 className="text-xl font-display font-extrabold tracking-[2.5px] uppercase text-glow-cyan">Your Dashboard</h2>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -115,7 +115,7 @@ const DashboardPage = () => {
           ].map((stat, i) => (
             <div
               key={stat.label}
-              className="rounded-xl p-5 opacity-0 animate-fade-up relative overflow-hidden"
+              className="rounded-xl p-5 opacity-0 animate-fade-up relative overflow-hidden glow-card-hover"
               style={{
                 ...glassCard,
                 animationDelay: `${i * 80}ms`,
@@ -141,11 +141,11 @@ const DashboardPage = () => {
 
         {/* Saved Items Library */}
         {savedItems.length > 0 && (
-          <div className="rounded-xl p-6 relative overflow-hidden" style={glassCard}>
+          <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={glassCard}>
             <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #B388FF, transparent)" }} />
             <div className="flex items-center gap-2 mb-4">
               <Bookmark size={16} style={{ color: "#B388FF", filter: "drop-shadow(0 0 6px #B388FF)" }} />
-              <h2 className="text-sm font-display font-bold text-foreground">Saved Items</h2>
+              <h2 className="text-sm font-display font-bold text-glow-purple">Saved Items</h2>
               <span className="text-[10px] text-muted-foreground ml-auto">{savedItems.length} items</span>
             </div>
             <div className="space-y-2">
@@ -193,11 +193,11 @@ const DashboardPage = () => {
 
         {/* Conversation History */}
         {conversations.length > 0 && (
-          <div className="rounded-xl p-6 relative overflow-hidden" style={glassCard}>
+          <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={glassCard}>
             <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00E5FF, transparent)" }} />
             <div className="flex items-center gap-2 mb-4">
               <History size={16} style={{ color: "#00E5FF", filter: "drop-shadow(0 0 6px #00E5FF)" }} />
-              <h2 className="text-sm font-display font-bold text-foreground">Conversation History</h2>
+              <h2 className="text-sm font-display font-bold text-glow-cyan">Conversation History</h2>
               <span className="text-[10px] text-muted-foreground ml-auto">Last 30 days</span>
             </div>
             <div className="space-y-2">
@@ -236,9 +236,9 @@ const DashboardPage = () => {
         )}
 
         {/* Agent Activity */}
-        <div className="rounded-xl p-6 relative overflow-hidden" style={glassCard}>
+        <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={glassCard}>
           <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #E040FB, transparent)" }} />
-          <h2 className="text-sm font-display font-bold text-foreground mb-4">Agent activity</h2>
+          <h2 className="text-sm font-display font-bold text-glow-pink mb-4">Agent activity</h2>
           <div className="space-y-3">
             {SAMPLE_AGENTS.map((agent) => (
               <div key={agent.name} className="flex items-center gap-3">
@@ -260,9 +260,9 @@ const DashboardPage = () => {
         </div>
 
         {/* Recent Templates */}
-        <div className="rounded-xl p-6 relative overflow-hidden" style={glassCard}>
+        <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={glassCard}>
           <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
-          <h2 className="text-sm font-display font-bold text-foreground mb-4">Recent templates</h2>
+          <h2 className="text-sm font-display font-bold text-glow-green mb-4">Recent templates</h2>
           <div className="space-y-2">
             {SAMPLE_TEMPLATES.map((t, i) => (
               <div key={i} className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0">
@@ -280,9 +280,9 @@ const DashboardPage = () => {
         </div>
 
         {/* Time Saved Breakdown */}
-        <div className="rounded-xl p-6 relative overflow-hidden" style={{ ...glassCard, boxShadow: "0 0 30px rgba(0,255,136,0.06)" }}>
+        <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={{ ...glassCard, boxShadow: "0 0 30px rgba(0,255,136,0.06)" }}>
           <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-40" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
-          <h2 className="text-sm font-display font-bold text-foreground mb-1">Time saved breakdown</h2>
+          <h2 className="text-sm font-display font-bold text-glow-green mb-1">Time saved breakdown</h2>
           <p className="text-[11px] text-muted-foreground mb-4">This is the number that justifies your subscription</p>
           <div className="space-y-3">
             {TIME_SAVED.map((t) => (

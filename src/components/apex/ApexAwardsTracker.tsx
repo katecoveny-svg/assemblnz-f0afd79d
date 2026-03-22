@@ -4,7 +4,7 @@ import { Trophy, Bell, BellOff, ChevronRight, Copy, Check, ArrowLeft, Plus, Imag
 import { NeonTrophy } from "@/components/NeonIcons";
 import ReactMarkdown from "react-markdown";
 
-const APEX_COLOR = "#FF6B35";
+const APEX_COLOR = "#00FF88";
 
 const AWARDS = [
   { name: "House of the Year", org: "Registered Master Builders", entry: "Jan–Feb", event: "Nov", url: "houseoftheyear.co.nz", criteria: "craftsmanship, design innovation, build quality" },

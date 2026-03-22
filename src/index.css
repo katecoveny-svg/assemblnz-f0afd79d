@@ -113,6 +113,27 @@
     -webkit-text-fill-color: transparent;
   }
 
+  /* ─── Branded glow text ─── */
+  .text-glow-cyan {
+    color: #00E5FF;
+    text-shadow: 0 0 8px rgba(0,229,255,0.5), 0 0 20px rgba(0,229,255,0.2);
+  }
+
+  .text-glow-purple {
+    color: #B388FF;
+    text-shadow: 0 0 8px rgba(179,136,255,0.5), 0 0 20px rgba(179,136,255,0.2);
+  }
+
+  .text-glow-pink {
+    color: #E040FB;
+    text-shadow: 0 0 8px rgba(224,64,251,0.5), 0 0 20px rgba(224,64,251,0.2);
+  }
+
+  .text-glow-green {
+    color: #00FF88;
+    text-shadow: 0 0 8px rgba(0,255,136,0.5), 0 0 20px rgba(0,255,136,0.2);
+  }
+
   .glow-green {
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   }
@@ -167,6 +188,19 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  /* ─── Glow hover border for cards ─── */
+  .glow-card-hover {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .glow-card-hover:hover {
+    border-color: rgba(0, 229, 255, 0.15) !important;
+    box-shadow:
+      0 0 15px rgba(0, 229, 255, 0.06),
+      0 0 30px rgba(179, 136, 255, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 }
 

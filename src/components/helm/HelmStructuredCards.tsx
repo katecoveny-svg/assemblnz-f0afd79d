@@ -71,7 +71,7 @@ export const BudgetCard = ({
 }) => {
   const total = rows.reduce((s, r) => s + r.amount, 0);
   const pct = income > 0 ? (total / income) * 100 : 0;
-  const barColor = pct > 100 ? "#FF4D6A" : pct > 85 ? "#FFB800" : "#00FF88";
+  const barColor = pct > 100 ? "#FF4D6A" : pct > 85 ? "#00E5FF" : "#00FF88";
 
   return (
     <div style={CARD_STYLE} className="p-4 space-y-2">

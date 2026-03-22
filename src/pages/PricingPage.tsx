@@ -289,7 +289,7 @@ const PricingPage = () => {
             {STANDARD_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="relative flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
+                className="relative flex flex-col rounded-2xl p-5 sm:p-8 glow-card-hover"
                 style={{
                   background: 'rgba(255,255,255,0.02)',
                   backdropFilter: 'blur(12px)',
@@ -341,7 +341,7 @@ const PricingPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
             {/* Industry Suite */}
             <div
-              className="relative flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
+              className="relative flex flex-col rounded-2xl p-5 sm:p-8 glow-card-hover"
               style={{
                 background: 'rgba(255,255,255,0.02)',
                 backdropFilter: 'blur(12px)',
@@ -408,7 +408,7 @@ const PricingPage = () => {
 
             {/* Luxury Hospitality */}
             <div
-              className="relative flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
+              className="relative flex flex-col rounded-2xl p-5 sm:p-8 glow-card-hover"
               style={{
                 background: 'rgba(255,255,255,0.02)',
                 backdropFilter: 'blur(12px)',
@@ -466,7 +466,7 @@ const PricingPage = () => {
           {/* Enterprise */}
           <div className="max-w-md mx-auto">
             <div
-              className="relative flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
+              className="relative flex flex-col rounded-2xl p-5 sm:p-8 glow-card-hover"
               style={{
                 background: 'rgba(255,255,255,0.02)',
                 backdropFilter: 'blur(12px)',
@@ -532,7 +532,7 @@ const PricingPage = () => {
             {HELM_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="flex flex-col rounded-2xl p-5 sm:p-8 transition-all duration-300 hover:border-white/[0.1]"
+                className="flex flex-col rounded-2xl p-5 sm:p-8 glow-card-hover"
                 style={{
                   background: 'rgba(255,255,255,0.02)',
                   backdropFilter: 'blur(12px)',
@@ -610,7 +610,7 @@ const PricingPage = () => {
               Included in every plan
             </p>
             <div className="inline-block relative mb-3 p-[2px] rounded-xl" style={{
-              background: 'linear-gradient(90deg, #00FF88, #00E5FF, #E040FB, #FF6B35, #00FF88)',
+              background: 'linear-gradient(90deg, #00FF88, #00E5FF, #E040FB, #B388FF, #00FF88)',
               backgroundSize: '300% 100%',
               animation: 'enterprise-gradient-sweep 4s linear infinite',
             }}>
@@ -693,7 +693,7 @@ const PricingPage = () => {
                   { label: "Runway", value: "8 months", status: "green" },
                 ]
               },
-              { agent: "APEX", color: "#FF6B35", icon: HardHat, feature: "Tender Auto-Structurer", desc: "Upload an RFP → get a response template matching evaluation criteria with pre-filled H&S content.",
+              { agent: "APEX", color: "#00FF88", icon: HardHat, feature: "Tender Auto-Structurer", desc: "Upload an RFP → get a response template matching evaluation criteria with pre-filled H&S content.",
                 demoSections: ["1. Company Capability", "2. Methodology", "3. H&S Approach", "4. Programme"]
               },
               { agent: "AURA", color: "#00FF88", icon: Users, feature: "Guest Lifecycle Engine", desc: "9-step automated guest communication — from booking confirmation to 6-month follow-up.",
@@ -744,7 +744,7 @@ const PricingPage = () => {
                         <div key={lead.label}>
                           <div className="flex justify-between items-center mb-0.5">
                             <span className="text-[10px] font-jakarta" style={{ color: '#E4E4EC' }}>{lead.label}</span>
-                            <span className="text-[9px] font-mono-jb font-semibold" style={{ color: lead.tier === 'Hot' ? '#00FF94' : lead.tier === 'Warm' ? '#FFB800' : 'rgba(255,255,255,0.3)' }}>
+                            <span className="text-[9px] font-mono-jb font-semibold" style={{ color: lead.tier === 'Hot' ? '#00FF94' : lead.tier === 'Warm' ? '#00E5FF' : 'rgba(255,255,255,0.3)' }}>
                               {lead.score} {lead.tier}
                             </span>
                           </div>
@@ -754,7 +754,7 @@ const PricingPage = () => {
                               initial={{ width: 0 }}
                               whileInView={{ width: lead.bar }}
                               transition={{ duration: 0.8, delay: 0.2 }}
-                              style={{ background: lead.tier === 'Hot' ? '#00FF94' : lead.tier === 'Warm' ? '#FFB800' : 'rgba(255,255,255,0.2)' }}
+                              style={{ background: lead.tier === 'Hot' ? '#00FF94' : lead.tier === 'Warm' ? '#00E5FF' : 'rgba(255,255,255,0.2)' }}
                             />
                           </div>
                         </div>
@@ -822,7 +822,7 @@ const PricingPage = () => {
                       {(item.demoMetrics as Array<{label: string; value: string; status: string}>).map((m) => (
                         <div key={m.label} className="flex items-center justify-between">
                           <span className="text-[10px] font-jakarta" style={{ color: 'rgba(255,255,255,0.5)' }}>{m.label}</span>
-                          <span className="text-[10px] font-mono-jb font-semibold" style={{ color: m.status === 'green' ? '#00FF88' : m.status === 'amber' ? '#FFB800' : '#FF4D6A' }}>{m.value}</span>
+                          <span className="text-[10px] font-mono-jb font-semibold" style={{ color: m.status === 'green' ? '#00FF88' : m.status === 'amber' ? '#00E5FF' : '#FF4D6A' }}>{m.value}</span>
                         </div>
                       ))}
                     </div>

@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Leaf, BarChart3, FileText, Building2, ChevronRight, ArrowLeft, Copy, Check, Lock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
-const APEX_COLOR = "#FF6B35";
+const APEX_COLOR = "#00FF88";
 
 const ESG_QUESTIONS = {
   environmental: [
@@ -75,7 +75,7 @@ const ApexESGDashboard = ({ isPaid, userRole }: Props) => {
     setScore({ total, env, social, gov });
   };
 
-  const getColor = (val: number) => val >= 75 ? "#00FF88" : val >= 50 ? "#FFB800" : "#FF4D6A";
+  const getColor = (val: number) => val >= 75 ? "#00FF88" : val >= 50 ? "#00E5FF" : "#FF4D6A";
 
   const generate = async (key: string, prompt: string) => {
     setGenerating(key);

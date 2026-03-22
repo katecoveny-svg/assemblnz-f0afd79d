@@ -59,7 +59,7 @@ const DEMO_JOBS: Record<string, { type: string; time: string; vehicle: string }[
   ],
 };
 
-const TYPE_COLORS: Record<string, string> = { Service: "#00FF88", WoF: "#00E5FF", Repair: "#FFB800", Warranty: "#B388FF" };
+const TYPE_COLORS: Record<string, string> = { Service: "#00FF88", WoF: "#00E5FF", Repair: "#B388FF", Warranty: "#E040FB" };
 
 export default function ForgePartsService() {
   const [tab, setTab] = useState<"menu" | "parts" | "reminders" | "comms" | "workshop">("menu");

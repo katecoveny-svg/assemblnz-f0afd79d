@@ -182,7 +182,7 @@ const AdminDashboard = () => {
                 { label: "Messages Today", value: metrics.messagesToday, icon: MessageSquare, color: "hsl(var(--accent))" },
                 { label: "Messages This Month", value: metrics.messagesMonth, icon: MessageSquare, color: "hsl(var(--primary))" },
                 { label: "Paid Subscribers", value: metrics.paidSubscribers, icon: TrendingUp, color: "hsl(var(--secondary))" },
-                { label: "MRR", value: `$${metrics.mrr}`, icon: DollarSign, color: "#FFB800" },
+                { label: "MRR", value: `$${metrics.mrr}`, icon: DollarSign, color: "#00FF88" },
               ].map((m, i) => (
                 <div key={m.label} className="rounded-xl border border-border bg-card p-5">
                   <m.icon size={16} style={{ color: m.color }} className="mb-2" />

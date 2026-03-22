@@ -51,7 +51,7 @@ const PRICING_PLANS = [
     name: "Business",
     price: "$499",
     period: "/mo",
-    color: "#FFB800",
+    color: "#B388FF",
     features: ["All 41 AI agents", "Unlimited messages", "Team access (5 seats)", "Usage analytics", "Dedicated support"],
     cta: "Start Business",
     href: "https://buy.stripe.com/7sYdRb5Lm6Wc3WZ0Ki",
