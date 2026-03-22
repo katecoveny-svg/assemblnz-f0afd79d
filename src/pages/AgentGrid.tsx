@@ -159,7 +159,7 @@ const AgentGrid = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-2">Meet the team</h2>
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-cyan mb-2">Meet the team</h2>
           <p className="text-sm font-jakarta text-muted-foreground">Tap any agent to chat live — no signup needed.</p>
         </motion.div>
 
