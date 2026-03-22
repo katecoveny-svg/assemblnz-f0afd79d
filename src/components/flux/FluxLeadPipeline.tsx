@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { AgentFunnelChart, AgentPieChart } from "@/components/shared/AgentCharts";
 import { useAuth } from "@/hooks/useAuth";
 import { Plus, Search, TrendingUp, Phone, Mail, Building2, X, GripVertical } from "lucide-react";
 
