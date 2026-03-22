@@ -1372,6 +1372,8 @@ const ChatPage = () => {
         <PrismVideoStudio />
       ) : activeTab === "prism_brandlab" && isPrism ? (
         <PrismBrandLab onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_publisher" && isPrism ? (
+        <PrismSocialPublisher onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "axis_automations" && isAxis ? (
         <AxisAutomations />
       ) : activeTab === "agent_training" ? (
