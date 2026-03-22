@@ -12,6 +12,7 @@ import { X, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-
 import { NeonWave } from "@/components/NeonIcons";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import EchoSection from "@/components/EchoSection";
 
 const PRICING_PLANS = [
   {

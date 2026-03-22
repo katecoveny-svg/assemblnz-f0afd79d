@@ -11,6 +11,19 @@ export interface Agent {
   starters: string[];
 }
 
+export const echoAgent: Agent = {
+  id: "echo",
+  name: "ECHO",
+  designation: "ASM-000",
+  role: "Founder AI Clone",
+  tagline: "The founder that never sleeps",
+  color: "#E4A0FF",
+  sector: "Founder",
+  traits: ["Direct & warm", "Action-oriented", "Kiwi understated"],
+  expertise: ["Daily content creation", "Client communications", "DM conversion sequences", "Social media management", "Business strategy", "Analytics & reporting"],
+  starters: ["Generate tomorrow's content for Instagram and LinkedIn", "Draft a DM to a potential client", "Create this week's full content calendar"],
+};
+
 export const agents: Agent[] = [
   {
     id: "hospitality",
