@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2, History, Code2 } from "lucide-react";
+import {
+  MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2, History, Code2,
+  TrendingUp, TrendingDown, DollarSign, Target, ShieldCheck, Megaphone, ListChecks,
+  Zap, Calendar, ArrowRight, Plug, Settings
+} from "lucide-react";
 import ParticleField from "@/components/ParticleField";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -10,49 +14,12 @@ import ReactMarkdown from "react-markdown";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { agents } from "@/data/agents";
 
-interface ConversationItem {
-  id: string;
-  agent_id: string;
-  messages: any[];
-  updated_at: string;
-}
+interface ConversationItem { id: string; agent_id: string; messages: any[]; updated_at: string; }
+interface SavedItem { id: string; agent_id: string; agent_name: string; content: string; preview: string; created_at: string; }
+interface ActionItem { id: string; agent_id: string; description: string; priority: string; due_date: string | null; status: string; }
+interface SummaryItem { id: string; agent_id: string; summary: string; created_at: string; }
+interface WorkflowExecution { id: string; status: string; current_step: number; steps_log: any[]; started_at: string; workflow_id: string; }
 
-interface SavedItem {
-  id: string;
-  agent_id: string;
-  agent_name: string;
-  content: string;
-  preview: string;
-  created_at: string;
-}
-
-const SAMPLE_AGENTS = [
-  { name: "APEX", color: "#00FF88", messages: 120 },
-  { name: "LEDGER", color: "#4FC3F7", messages: 89 },
-  { name: "ANCHOR", color: "#00E5FF", messages: 45 },
-  { name: "HELM", color: "#B388FF", messages: 38 },
-  { name: "NEXUS", color: "#5B8CFF", messages: 28 },
-  { name: "PRISM", color: "#E040FB", messages: 22 },
-];
-
-const SAMPLE_TEMPLATES = [
-  { agent: "APEX", agentColor: "#00FF88", type: "Site Safety Plan", date: "15 Mar 2026" },
-  { agent: "LEDGER", agentColor: "#4FC3F7", type: "GST Calculator", date: "14 Mar 2026" },
-  { agent: "ANCHOR", agentColor: "#00E5FF", type: "Employment Agreement", date: "13 Mar 2026" },
-  { agent: "HELM", agentColor: "#B388FF", type: "Meal Plan", date: "12 Mar 2026" },
-  { agent: "NEXUS", agentColor: "#5B8CFF", type: "Import Entry Processor", date: "11 Mar 2026" },
-];
-
-const TIME_SAVED = [
-  { template: "Site Safety Plan", count: 7, hoursEach: 3, total: 21 },
-  { template: "Employment Agreement", count: 4, hoursEach: 2, total: 8 },
-  { template: "GST Calculator", count: 12, hoursEach: 0.33, total: 4 },
-  { template: "Meal Plan", count: 8, hoursEach: 0.5, total: 4 },
-];
-
-const maxMessages = Math.max(...SAMPLE_AGENTS.map((a) => a.messages));
-
-/* Glassmorphism card style used across the dashboard */
 const glassCard: React.CSSProperties = {
   background: "rgba(14,14,26,0.7)",
   backdropFilter: "blur(16px)",
@@ -60,35 +27,41 @@ const glassCard: React.CSSProperties = {
   border: "1px solid rgba(255,255,255,0.06)",
 };
 
+const PRIORITY_COLORS: Record<string, string> = { urgent: "#FF2D9B", high: "#FF6B00", medium: "#FFB800", low: "#00FF88" };
+
+const timeAgo = (d: string) => {
+  const diff = Date.now() - new Date(d).getTime();
+  const m = Math.floor(diff / 60000);
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  return `${Math.floor(h / 24)}d ago`;
+};
+
 const DashboardPage = () => {
   const { user } = useAuth();
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [viewItem, setViewItem] = useState<SavedItem | null>(null);
   const [conversations, setConversations] = useState<ConversationItem[]>([]);
+  const [actions, setActions] = useState<ActionItem[]>([]);
+  const [summaries, setSummaries] = useState<SummaryItem[]>([]);
+  const [executions, setExecutions] = useState<WorkflowExecution[]>([]);
 
   useEffect(() => {
     if (!user) return;
-    supabase
-      .from("saved_items")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .then(({ data }) => {
-        if (data) setSavedItems(data as SavedItem[]);
-      });
+    const uid = user.id;
+
+    supabase.from("saved_items").select("*").eq("user_id", uid).order("created_at", { ascending: false }).then(({ data }) => { if (data) setSavedItems(data as any); });
 
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    supabase
-      .from("conversations")
-      .select("id, agent_id, messages, updated_at")
-      .eq("user_id", user.id)
-      .gte("updated_at", thirtyDaysAgo.toISOString())
-      .order("updated_at", { ascending: false })
-      .limit(20)
-      .then(({ data }) => {
-        if (data) setConversations(data as ConversationItem[]);
-      });
+    supabase.from("conversations").select("id, agent_id, messages, updated_at").eq("user_id", uid).gte("updated_at", thirtyDaysAgo.toISOString()).order("updated_at", { ascending: false }).limit(20).then(({ data }) => { if (data) setConversations(data as any); });
+
+    supabase.from("action_queue").select("*").eq("user_id", uid).eq("status", "pending").order("created_at", { ascending: false }).limit(10).then(({ data }) => { if (data) setActions(data as any); });
+
+    supabase.from("conversation_summaries").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(10).then(({ data }) => { if (data) setSummaries(data as any); });
+
+    supabase.from("workflow_executions").select("*").eq("user_id", uid).order("started_at", { ascending: false }).limit(5).then(({ data }) => { if (data) setExecutions(data as any); });
   }, [user]);
 
   const handleDelete = async (id: string) => {
@@ -97,76 +70,190 @@ const DashboardPage = () => {
     if (viewItem?.id === id) setViewItem(null);
   };
 
+  const completeAction = async (id: string) => {
+    await supabase.from("action_queue").update({ status: "completed" }).eq("id", id);
+    setActions((prev) => prev.filter((a) => a.id !== id));
+  };
+
+  // KPI data
+  const kpis = [
+    { label: "Revenue", value: "$—", trend: null, icon: DollarSign, color: "#4FC3F7", agent: "LEDGER" },
+    { label: "Pipeline", value: "$—", trend: null, icon: Target, color: "#FF6B00", agent: "FLUX" },
+    { label: "Compliance Score", value: "—%", trend: null, icon: ShieldCheck, color: "#00FF88", agent: "Multi" },
+    { label: "Content Published", value: String(savedItems.length), trend: null, icon: Megaphone, color: "#E040FB", agent: "PRISM" },
+  ];
+
   return (
     <div className="min-h-screen star-field flex flex-col relative">
       <ParticleField />
       <BrandNav />
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-6 flex-1">
-        <h2 className="text-xl font-display font-extrabold tracking-[2.5px] uppercase text-glow-cyan">Your Dashboard</h2>
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6 flex-1">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="font-syne font-extrabold text-xl sm:text-2xl text-foreground">Command Centre</h1>
+            <p className="text-xs text-muted-foreground mt-0.5">Your business, powered by 42 agents</p>
+          </div>
+          <div className="flex gap-2">
+            <Link to="/settings/integrations" className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-[10px] font-medium border border-border text-muted-foreground hover:text-foreground transition-colors">
+              <Plug size={12} /> Integrations
+            </Link>
+            <Link to="/settings/workflows" className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-[10px] font-medium border border-border text-muted-foreground hover:text-foreground transition-colors">
+              <Zap size={12} /> Workflows
+            </Link>
+          </div>
+        </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {[
-            { icon: MessageSquare, label: "Messages this month", value: "342", color: "#00E5FF" },
-            { icon: FileText, label: "Templates generated", value: "14", color: "#B388FF" },
-            { icon: Upload, label: "Documents processed", value: "8", color: "#E040FB" },
-            { icon: Clock, label: "Estimated time saved", value: "23.5 hrs", color: "#00FF88", highlight: true },
-          ].map((stat, i) => (
-            <div
-              key={stat.label}
-              className="rounded-xl p-5 opacity-0 animate-fade-up relative overflow-hidden glow-card-hover"
-              style={{
-                ...glassCard,
-                animationDelay: `${i * 80}ms`,
-                animationFillMode: "forwards",
-                boxShadow: `0 0 30px ${stat.color}15, inset 0 1px 0 rgba(255,255,255,0.06)`,
-              }}
-            >
-              {/* Top edge glow */}
-              <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-40" style={{ background: `linear-gradient(90deg, transparent, ${stat.color}, transparent)` }} />
-              <stat.icon size={18} style={{ color: stat.color, filter: `drop-shadow(0 0 6px ${stat.color})` }} className="mb-2" />
-              <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-              <p className="text-[11px] mt-1 text-muted-foreground">{stat.label}</p>
-              {stat.label === "Messages this month" && (
-                <div className="flex items-end gap-0.5 mt-3 h-6">
-                  {[18, 24, 12, 30, 22, 28, 35, 42, 38, 45, 32, 37].map((v, j) => (
-                    <div key={j} className="flex-1 rounded-sm" style={{ height: `${(v / 45) * 100}%`, background: `linear-gradient(to top, ${stat.color}30, ${stat.color}80)` }} />
-                  ))}
-                </div>
-              )}
+        {/* KPI Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          {kpis.map((kpi, i) => (
+            <div key={kpi.label} className="rounded-xl p-4 relative overflow-hidden" style={{ ...glassCard, boxShadow: `0 0 20px ${kpi.color}10` }}>
+              <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${kpi.color}, transparent)` }} />
+              <div className="flex items-center justify-between mb-2">
+                <kpi.icon size={14} style={{ color: kpi.color }} />
+                <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-white/[0.04] text-muted-foreground">{kpi.agent}</span>
+              </div>
+              <p className="text-lg font-bold text-foreground">{kpi.value}</p>
+              <p className="text-[10px] text-muted-foreground mt-0.5">{kpi.label}</p>
+              <div className="flex items-end gap-0.5 mt-2 h-5">
+                {[18, 24, 12, 30, 22, 28, 35, 42, 38, 45, 32, 37].map((v, j) => (
+                  <div key={j} className="flex-1 rounded-sm" style={{ height: `${(v / 45) * 100}%`, background: `linear-gradient(to top, ${kpi.color}20, ${kpi.color}60)` }} />
+                ))}
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Saved Items Library */}
+        {/* Action Queue */}
+        <div className="rounded-xl p-5 relative overflow-hidden" style={glassCard}>
+          <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #FFB800, transparent)" }} />
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <ListChecks size={16} className="text-[#FFB800]" />
+              <h2 className="font-syne font-bold text-sm text-foreground">Pending Actions</h2>
+              {actions.length > 0 && <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#FFB80015] text-[#FFB800] font-bold">{actions.length}</span>}
+            </div>
+          </div>
+          {actions.length === 0 ? (
+            <p className="text-xs text-muted-foreground text-center py-4">No pending actions. As you use agents, tasks will appear here.</p>
+          ) : (
+            <div className="space-y-2">
+              {actions.map((action) => {
+                const agent = agents.find((a) => a.id === action.agent_id || a.name.toLowerCase() === action.agent_id.toLowerCase());
+                const color = agent?.color || "#888";
+                return (
+                  <div key={action.id} className="flex items-center gap-3 p-2.5 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
+                    <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: PRIORITY_COLORS[action.priority] || "#FFB800" }} />
+                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded shrink-0" style={{ backgroundColor: color + "15", color }}>{action.agent_id}</span>
+                    <span className="text-xs text-foreground flex-1 truncate">{action.description}</span>
+                    {action.due_date && <span className="text-[9px] text-muted-foreground shrink-0">{new Date(action.due_date).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}</span>}
+                    <Link to={`/chat/${action.agent_id.toLowerCase()}`} className="text-[9px] font-medium px-2 py-1 rounded-md shrink-0 hover:opacity-80" style={{ color, border: `1px solid ${color}30` }}>
+                      Do it <ArrowRight size={8} className="inline" />
+                    </Link>
+                    <button onClick={() => completeAction(action.id)} className="text-muted-foreground/40 hover:text-green-400 shrink-0">✓</button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Two columns: Activity Feed + Workflow Status */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+          {/* Activity Feed */}
+          <div className="lg:col-span-3 rounded-xl p-5 relative overflow-hidden" style={glassCard}>
+            <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00E5FF, transparent)" }} />
+            <div className="flex items-center gap-2 mb-3">
+              <History size={16} className="text-[#00E5FF]" />
+              <h2 className="font-syne font-bold text-sm text-foreground">Agent Activity</h2>
+            </div>
+            {summaries.length === 0 ? (
+              <p className="text-xs text-muted-foreground text-center py-6">Activity will appear here as you use agents.</p>
+            ) : (
+              <div className="space-y-3">
+                {summaries.map((s) => {
+                  const agent = agents.find((a) => a.name.toUpperCase() === s.agent_id.toUpperCase() || a.id === s.agent_id);
+                  const color = agent?.color || "#888";
+                  return (
+                    <div key={s.id} className="flex items-start gap-3 py-2 border-b border-white/[0.04] last:border-0">
+                      <div className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ backgroundColor: color }} />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="text-xs font-bold" style={{ color }}>{s.agent_id}</span>
+                          <span className="text-[9px] text-muted-foreground/50">{timeAgo(s.created_at)}</span>
+                        </div>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">{s.summary}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Workflow Status */}
+          <div className="lg:col-span-2 rounded-xl p-5 relative overflow-hidden" style={glassCard}>
+            <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Zap size={16} className="text-[#00FF88]" />
+                <h2 className="font-syne font-bold text-sm text-foreground">Symbiotic Workflows</h2>
+              </div>
+              <Link to="/settings/workflows" className="text-[9px] text-[#00FF88] hover:underline">View all</Link>
+            </div>
+            {executions.length === 0 ? (
+              <p className="text-xs text-muted-foreground text-center py-6">No recent workflows. Agent chains will show here when triggered.</p>
+            ) : (
+              <div className="space-y-3">
+                {executions.map((exec) => {
+                  const steps = Array.isArray(exec.steps_log) ? exec.steps_log : [];
+                  const completed = steps.filter((s: any) => s.status === "completed").length;
+                  return (
+                    <div key={exec.id} className="p-3 rounded-lg" style={{ background: "rgba(0,255,136,0.04)", border: "1px solid rgba(0,255,136,0.1)" }}>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-bold text-foreground">Workflow</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium" style={{
+                          background: exec.status === "completed" ? "#00FF8815" : "#FFB80015",
+                          color: exec.status === "completed" ? "#00FF88" : "#FFB800",
+                        }}>
+                          {exec.status === "completed" ? "COMPLETE" : "IN PROGRESS"}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1 mb-1">
+                        {steps.map((_: any, i: number) => (
+                          <div key={i} className="flex-1 h-1 rounded-full" style={{ background: i < completed ? "#00FF88" : "rgba(255,255,255,0.06)" }} />
+                        ))}
+                      </div>
+                      <span className="text-[9px] text-muted-foreground">{completed}/{steps.length} steps • {timeAgo(exec.started_at)}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Saved Items */}
         {savedItems.length > 0 && (
-          <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={glassCard}>
+          <div className="rounded-xl p-5 relative overflow-hidden" style={glassCard}>
             <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #B388FF, transparent)" }} />
-            <div className="flex items-center gap-2 mb-4">
-              <Bookmark size={16} style={{ color: "#B388FF", filter: "drop-shadow(0 0 6px #B388FF)" }} />
-              <h2 className="text-sm font-display font-bold text-glow-purple">Saved Items</h2>
+            <div className="flex items-center gap-2 mb-3">
+              <Bookmark size={16} className="text-[#B388FF]" />
+              <h2 className="font-syne font-bold text-sm text-foreground">Saved Items</h2>
               <span className="text-[10px] text-muted-foreground ml-auto">{savedItems.length} items</span>
             </div>
             <div className="space-y-2">
-              {savedItems.map((item) => (
+              {savedItems.slice(0, 5).map((item) => (
                 <div key={item.id} className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0">
                   <div className="flex items-center gap-3 flex-1 min-w-0">
-                    <span className="text-xs font-bold px-2 py-0.5 rounded shrink-0" style={{ backgroundColor: "rgba(255,255,255,0.05)", color: "hsl(var(--foreground))" }}>
-                      {item.agent_name}
-                    </span>
+                    <span className="text-xs font-bold px-2 py-0.5 rounded shrink-0" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>{item.agent_name}</span>
                     <span className="text-xs text-foreground/60 truncate">{item.preview}</span>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-[10px] text-muted-foreground">
-                      {new Date(item.created_at).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}
-                    </span>
-                    <button onClick={() => setViewItem(item)} className="text-[11px] hover:underline flex items-center gap-0.5" style={{ color: "#00E5FF" }}>
-                      View <ChevronRight size={10} />
-                    </button>
-                    <button onClick={() => handleDelete(item.id)} className="text-destructive/50 hover:text-destructive transition-colors" aria-label="Delete saved item">
-                      <Trash2 size={12} />
-                    </button>
+                    <span className="text-[10px] text-muted-foreground">{new Date(item.created_at).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}</span>
+                    <button onClick={() => setViewItem(item)} className="text-[11px] hover:underline text-[#00E5FF]">View</button>
+                    <button onClick={() => handleDelete(item.id)} className="text-destructive/50 hover:text-destructive"><Trash2 size={12} /></button>
                   </div>
                 </div>
               ))}
@@ -174,60 +261,38 @@ const DashboardPage = () => {
           </div>
         )}
 
-        {/* View Saved Item Modal */}
         <Dialog open={!!viewItem} onOpenChange={(open) => !open && setViewItem(null)}>
           <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto" style={glassCard}>
             <DialogHeader>
-              <DialogTitle className="text-sm text-foreground">
-                Saved from {viewItem?.agent_name}
-              </DialogTitle>
+              <DialogTitle className="text-sm text-foreground">Saved from {viewItem?.agent_name}</DialogTitle>
               <DialogDescription className="text-[10px] text-muted-foreground">
-                Saved on {viewItem && new Date(viewItem.created_at).toLocaleDateString("en-NZ", { day: "numeric", month: "long", year: "numeric" })}
+                {viewItem && new Date(viewItem.created_at).toLocaleDateString("en-NZ", { day: "numeric", month: "long", year: "numeric" })}
               </DialogDescription>
             </DialogHeader>
-            <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-headings:text-foreground prose-strong:text-foreground">
-              <ReactMarkdown>{viewItem?.content || ""}</ReactMarkdown>
-            </div>
+            <div className="prose prose-invert prose-sm max-w-none"><ReactMarkdown>{viewItem?.content || ""}</ReactMarkdown></div>
           </DialogContent>
         </Dialog>
 
         {/* Conversation History */}
         {conversations.length > 0 && (
-          <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={glassCard}>
+          <div className="rounded-xl p-5 relative overflow-hidden" style={glassCard}>
             <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00E5FF, transparent)" }} />
-            <div className="flex items-center gap-2 mb-4">
-              <History size={16} style={{ color: "#00E5FF", filter: "drop-shadow(0 0 6px #00E5FF)" }} />
-              <h2 className="text-sm font-display font-bold text-glow-cyan">Conversation History</h2>
-              <span className="text-[10px] text-muted-foreground ml-auto">Last 30 days</span>
+            <div className="flex items-center gap-2 mb-3">
+              <History size={16} className="text-[#00E5FF]" />
+              <h2 className="font-syne font-bold text-sm text-foreground">Conversation History</h2>
             </div>
             <div className="space-y-2">
-              {conversations.map((conv) => {
+              {conversations.slice(0, 8).map((conv) => {
                 const agentData = agents.find((a) => a.id === conv.agent_id);
                 const lastMsg = Array.isArray(conv.messages) ? conv.messages[conv.messages.length - 1] : null;
                 const preview = lastMsg?.content?.substring(0, 80) || "No messages";
-                const msgCount = Array.isArray(conv.messages) ? conv.messages.length : 0;
                 return (
-                  <Link
-                    key={conv.id}
-                    to={`/chat/${conv.agent_id}`}
-                    className="flex items-center justify-between py-2.5 px-2 -mx-2 rounded-lg border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02] transition-colors"
-                  >
+                  <Link key={conv.id} to={`/chat/${conv.agent_id}`} className="flex items-center justify-between py-2 px-2 -mx-2 rounded-lg hover:bg-white/[0.02] transition-colors">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <span
-                        className="text-xs font-bold px-2 py-0.5 rounded shrink-0"
-                        style={{ backgroundColor: (agentData?.color || "#888") + "15", color: agentData?.color || "#888" }}
-                      >
-                        {agentData?.name || conv.agent_id}
-                      </span>
+                      <span className="text-xs font-bold px-2 py-0.5 rounded shrink-0" style={{ backgroundColor: (agentData?.color || "#888") + "15", color: agentData?.color || "#888" }}>{agentData?.name || conv.agent_id}</span>
                       <span className="text-xs text-foreground/50 truncate">{preview}</span>
                     </div>
-                    <div className="flex items-center gap-3 shrink-0">
-                      <span className="text-[10px] text-muted-foreground">{msgCount} msgs</span>
-                      <span className="text-[10px] text-muted-foreground">
-                        {new Date(conv.updated_at).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}
-                      </span>
-                      <ChevronRight size={12} className="text-muted-foreground" />
-                    </div>
+                    <span className="text-[10px] text-muted-foreground shrink-0">{timeAgo(conv.updated_at)}</span>
                   </Link>
                 );
               })}
@@ -235,83 +300,33 @@ const DashboardPage = () => {
           </div>
         )}
 
-        {/* Agent Activity */}
-        <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={glassCard}>
-          <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #E040FB, transparent)" }} />
-          <h2 className="text-sm font-display font-bold text-glow-pink mb-4">Agent activity</h2>
-          <div className="space-y-3">
-            {SAMPLE_AGENTS.map((agent) => (
-              <div key={agent.name} className="flex items-center gap-3">
-                <span className="text-xs font-mono-jb w-16 text-foreground/60 shrink-0">{agent.name}</span>
-                <div className="flex-1 h-5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.04)" }}>
-                  <div
-                    className="h-full rounded-full transition-all duration-700"
-                    style={{
-                      width: `${(agent.messages / maxMessages) * 100}%`,
-                      background: `linear-gradient(90deg, ${agent.color}40, ${agent.color})`,
-                      boxShadow: `0 0 12px ${agent.color}60`,
-                    }}
-                  />
-                </div>
-                <span className="text-xs font-mono-jb text-foreground/50 w-8 text-right">{agent.messages}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Recent Templates */}
-        <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={glassCard}>
-          <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
-          <h2 className="text-sm font-display font-bold text-glow-green mb-4">Recent templates</h2>
-          <div className="space-y-2">
-            {SAMPLE_TEMPLATES.map((t, i) => (
-              <div key={i} className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0">
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold px-2 py-0.5 rounded" style={{ backgroundColor: t.agentColor + "15", color: t.agentColor }}>{t.agent}</span>
-                  <span className="text-xs text-foreground">{t.type}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-[11px] text-muted-foreground">{t.date}</span>
-                  <button className="text-[11px] hover:underline" style={{ color: "#00E5FF" }}>View</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Time Saved Breakdown */}
-        <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={{ ...glassCard, boxShadow: "0 0 30px rgba(0,255,136,0.06)" }}>
-          <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-40" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
-          <h2 className="text-sm font-display font-bold text-glow-green mb-1">Time saved breakdown</h2>
-          <p className="text-[11px] text-muted-foreground mb-4">This is the number that justifies your subscription</p>
-          <div className="space-y-3">
-            {TIME_SAVED.map((t) => (
-              <div key={t.template} className="flex items-center justify-between">
-                <span className="text-xs text-foreground/70">{t.count} × {t.template}</span>
-                <span className="text-xs font-bold" style={{ color: "#00FF88", textShadow: "0 0 8px rgba(0,255,136,0.4)" }}>{t.total} hours saved</span>
-              </div>
-            ))}
-            <div className="flex items-center justify-between pt-3 border-t border-white/[0.06]">
-              <span className="text-xs font-bold text-foreground">Total estimated time saved</span>
-              <span className="text-sm font-bold" style={{ color: "#00FF88", textShadow: "0 0 12px rgba(0,255,136,0.5)" }}>23.5 hours</span>
+        {/* Quick Links */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <Link to="/embed" className="rounded-xl p-4 flex items-center gap-3 group hover:bg-white/[0.02] transition-colors" style={glassCard}>
+            <Code2 size={16} className="text-[#5B8CFF]" />
+            <div>
+              <p className="text-xs font-bold text-foreground">Embed Agents</p>
+              <p className="text-[10px] text-muted-foreground">Add AI chat to your website</p>
             </div>
-          </div>
-        </div>
-
-        {/* Embed Your Agents */}
-        <Link to="/embed" className="block rounded-xl p-6 relative overflow-hidden glow-card-hover group" style={glassCard}>
-          <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #5B8CFF, transparent)" }} />
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Code2 size={18} style={{ color: "#5B8CFF", filter: "drop-shadow(0 0 6px #5B8CFF)" }} />
-              <div>
-                <h2 className="text-sm font-display font-bold" style={{ color: "#5B8CFF", textShadow: "0 0 8px rgba(91,140,255,0.5)" }}>Embed agents on your website</h2>
-                <p className="text-[11px] text-muted-foreground mt-0.5">Add AI chat to your site with one line of code</p>
-              </div>
+            <ChevronRight size={14} className="text-muted-foreground ml-auto group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <Link to="/my-apps" className="rounded-xl p-4 flex items-center gap-3 group hover:bg-white/[0.02] transition-colors" style={glassCard}>
+            <Zap size={16} className="text-[#FF6B00]" />
+            <div>
+              <p className="text-xs font-bold text-foreground">My SPARK Apps</p>
+              <p className="text-[10px] text-muted-foreground">Manage deployed apps</p>
             </div>
-            <ChevronRight size={16} className="text-muted-foreground group-hover:translate-x-1 transition-transform" />
-          </div>
-        </Link>
+            <ChevronRight size={14} className="text-muted-foreground ml-auto group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <Link to="/settings/integrations" className="rounded-xl p-4 flex items-center gap-3 group hover:bg-white/[0.02] transition-colors" style={glassCard}>
+            <Plug size={16} className="text-[#00E5FF]" />
+            <div>
+              <p className="text-xs font-bold text-foreground">Integrations</p>
+              <p className="text-[10px] text-muted-foreground">Connect your tools</p>
+            </div>
+            <ChevronRight size={14} className="text-muted-foreground ml-auto group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
       </main>
 
       <BrandFooter />

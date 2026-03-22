@@ -1871,6 +1871,39 @@ export type Database = {
         }
         Relationships: []
       }
+      user_integrations: {
+        Row: {
+          config: Json | null
+          created_at: string | null
+          id: string
+          integration_name: string
+          integration_type: string
+          last_synced_at: string | null
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          config?: Json | null
+          created_at?: string | null
+          id?: string
+          integration_name: string
+          integration_type: string
+          last_synced_at?: string | null
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          config?: Json | null
+          created_at?: string | null
+          id?: string
+          integration_name?: string
+          integration_type?: string
+          last_synced_at?: string | null
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
@@ -1922,6 +1955,86 @@ export type Database = {
           storyboard?: Json | null
           topic?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      workflow_executions: {
+        Row: {
+          completed_at: string | null
+          current_step: number | null
+          id: string
+          started_at: string | null
+          status: string | null
+          steps_log: Json | null
+          user_id: string
+          workflow_id: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          current_step?: number | null
+          id?: string
+          started_at?: string | null
+          status?: string | null
+          steps_log?: Json | null
+          user_id: string
+          workflow_id?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          current_step?: number | null
+          id?: string
+          started_at?: string | null
+          status?: string | null
+          steps_log?: Json | null
+          user_id?: string
+          workflow_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_executions_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_templates: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          is_system: boolean | null
+          name: string
+          steps: Json
+          trigger_agent: string
+          trigger_event: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_system?: boolean | null
+          name: string
+          steps?: Json
+          trigger_agent: string
+          trigger_event: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_system?: boolean | null
+          name?: string
+          steps?: Json
+          trigger_agent?: string
+          trigger_event?: string
+          user_id?: string | null
         }
         Relationships: []
       }
