@@ -221,7 +221,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
   // SHIELD
   {
     id: "shield-insurance",
-    agentId: "shield",
+    agentId: "insurance",
     agentName: "SHIELD",
     agentCode: "ASM-040",
     agentColor: "#7E57C2",
@@ -232,7 +232,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
   },
   {
     id: "shield-hazard",
-    agentId: "shield",
+    agentId: "insurance",
     agentName: "SHIELD",
     agentCode: "ASM-040",
     agentColor: "#7E57C2",
