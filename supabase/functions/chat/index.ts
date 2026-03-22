@@ -1242,7 +1242,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    const { agentId, messages, brandContext, teReoPrompt, propertyMode } = await req.json();
+    const { agentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode } = await req.json();
 
     const systemPrompt = agentPrompts[agentId];
     if (!systemPrompt) {

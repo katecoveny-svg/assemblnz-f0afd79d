@@ -1262,6 +1262,15 @@ const ChatPage = () => {
         <AccountDropdown />
       </header>
 
+      {/* Hidden logo file input */}
+      <input
+        ref={logoInputRef}
+        type="file"
+        accept="image/png,image/jpeg,image/svg+xml,image/webp"
+        onChange={handleLogoUpload}
+        className="hidden"
+      />
+
       {/* Modals */}
       <BrandScanModal agentName={agent.name} agentColor={agent.color} open={brandModalOpen} onClose={() => setBrandModalOpen(false)}
         onBrandLoaded={(profile, name) => {
