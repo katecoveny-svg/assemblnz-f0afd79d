@@ -64,6 +64,8 @@ const DashboardPage = () => {
     supabase.from("conversation_summaries").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(10).then(({ data }) => { if (data) setSummaries(data as any); });
 
     supabase.from("workflow_executions").select("*").eq("user_id", uid).order("started_at", { ascending: false }).limit(5).then(({ data }) => { if (data) setExecutions(data as any); });
+
+    supabase.from("exported_outputs").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(20).then(({ data }) => { if (data) setExports(data as any); });
   }, [user]);
 
   const handleDelete = async (id: string) => {
