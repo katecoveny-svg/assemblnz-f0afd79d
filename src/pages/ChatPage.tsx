@@ -563,8 +563,8 @@ const ChatPage = () => {
     for (let i = messages.length - 1; i >= 0; i--) {
       if (messages[i].role === "assistant") {
         const content = messages[i].content;
-        // Try fenced code block first
-        const fenced = content.match(/```(?:html|HTML)?\s*\n([\s\S]*?)```/);
+        // Try fenced code block (html, jsx, react, tsx, or untagged)
+        const fenced = content.match(/```(?:html|HTML|jsx|tsx|react)?\s*\n([\s\S]*?)```/);
         if (fenced) return fenced[1];
         // Try raw HTML (<!DOCTYPE or <html)
         const raw = content.match(/(<!DOCTYPE[\s\S]*<\/html>)/i);
@@ -573,6 +573,8 @@ const ChatPage = () => {
     }
     return null;
   }, [messages, isSpark]);
+
+  const [sparkMobileView, setSparkMobileView] = useState<"chat" | "preview">("chat");
 
   if (!agent) {
     return (
