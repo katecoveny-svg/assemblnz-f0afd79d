@@ -187,8 +187,8 @@ const AgentGrid = () => {
               whileTap={{ scale: 0.95 }}
               className={`px-3 py-1.5 rounded-full text-xs font-jakarta font-medium transition-all duration-200 border ${
                 activeSector === sector
-                  ? "border-secondary/25 bg-secondary/5 text-secondary shadow-[0_0_12px_rgba(255,45,155,0.15)]"
-                  : "border-white/[0.06] text-muted-foreground hover:border-foreground/10 hover:text-foreground"
+                  ? "border-foreground/20 bg-foreground/5 text-foreground"
+                  : "border-border text-muted-foreground hover:border-foreground/10 hover:text-foreground"
               }`}
             >
               {sector}
