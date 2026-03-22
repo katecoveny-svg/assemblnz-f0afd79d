@@ -743,17 +743,7 @@ const ChatPage = () => {
   const showWelcome = messages.length === 0;
   const getGenerationsForIndex = (idx: number) => generations.filter((g) => g.messageIndex === idx);
 
-  // Extract latest code from SPARK responses for live preview
-  const sparkCode = useMemo(() => {
-    if (!isSpark) return null;
-    for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].role === "assistant") {
-        const match = messages[i].content.match(/```html\n([\s\S]*?)```/);
-        if (match) return match[1];
-      }
-    }
-    return null;
-  }, [messages, isSpark]);
+
 
   // Message counter display for free users
   const showMsgCounter = user && !isPaid;
