@@ -63,6 +63,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
     a.download = `${title.toLowerCase().replace(/\s+/g, "-")}.csv`;
     a.click();
     URL.revokeObjectURL(url);
+    logExport("csv");
   };
 
   const logExport = async (format: string) => {
