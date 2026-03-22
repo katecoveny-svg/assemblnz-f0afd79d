@@ -130,7 +130,7 @@ const EchoChatWidget = () => {
               <div className="flex gap-2 items-center">
                 <img src={echoImg} alt="" className="w-5 h-5 rounded-full object-cover" />
                 <div className="flex gap-1 px-3 py-2 text-[11px] font-jakarta text-foreground/40">
-                  <span>Kate is thinking</span>
+                  <span>ECHO is thinking</span>
                   <span className="flex gap-0.5">
                     {[0, 1, 2].map((i) => (
                       <span key={i} className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: "#E4A0FF", animation: "bounce-dot 1.4s ease-in-out infinite", animationDelay: `${i * 0.2}s` }} />
