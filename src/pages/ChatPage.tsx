@@ -1608,7 +1608,23 @@ const ChatPage = () => {
               </button>
             </div>
           </form>
-          </div>
+          {/* Build with SPARK cross-agent CTA */}
+          {!isSpark && (
+            <div className="px-4 pb-2 flex justify-end">
+              <Link
+                to={`/chat/spark`}
+                className="flex items-center gap-1.5 text-[11px] font-mono-jb px-3 py-1.5 rounded-lg transition-all duration-200 hover:scale-105"
+                style={{
+                  color: "#FF6B00",
+                  background: "rgba(255,107,0,0.08)",
+                  border: "1px solid rgba(255,107,0,0.15)",
+                }}
+              >
+                <Sparkles size={12} />
+                Build with SPARK →
+              </Link>
+            </div>
+          )}
           {/* SPARK Live Preview Panel */}
           {isSpark && sparkCode && (
             <div className="hidden md:flex w-[60%] flex-col min-h-0 p-2">
