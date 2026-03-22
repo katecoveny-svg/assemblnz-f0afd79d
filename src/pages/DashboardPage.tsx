@@ -19,6 +19,7 @@ interface SavedItem { id: string; agent_id: string; agent_name: string; content:
 interface ActionItem { id: string; agent_id: string; description: string; priority: string; due_date: string | null; status: string; }
 interface SummaryItem { id: string; agent_id: string; summary: string; created_at: string; }
 interface WorkflowExecution { id: string; status: string; current_step: number; steps_log: any[]; started_at: string; workflow_id: string; }
+interface ExportedOutput { id: string; agent_id: string; agent_name: string; output_type: string; title: string; content_preview: string | null; format: string; created_at: string; }
 
 const glassCard: React.CSSProperties = {
   background: "rgba(14,14,26,0.7)",
