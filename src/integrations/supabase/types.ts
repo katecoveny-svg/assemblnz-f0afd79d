@@ -143,6 +143,42 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_triggers: {
+        Row: {
+          created_at: string
+          id: string
+          payload: Json
+          status: string
+          target_action: string
+          target_agent: string
+          trigger_agent: string
+          trigger_event: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          payload?: Json
+          status?: string
+          target_action: string
+          target_agent: string
+          trigger_agent: string
+          trigger_event: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          payload?: Json
+          status?: string
+          target_action?: string
+          target_agent?: string
+          trigger_agent?: string
+          trigger_event?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       automations: {
         Row: {
           agent_id: string | null
@@ -495,6 +531,33 @@ export type Database = {
           is_read?: boolean
           message?: string
           name?: string
+        }
+        Relationships: []
+      }
+      conversation_summaries: {
+        Row: {
+          agent_id: string
+          created_at: string
+          id: string
+          key_facts_extracted: Json
+          summary: string
+          user_id: string
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          id?: string
+          key_facts_extracted?: Json
+          summary: string
+          user_id: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          id?: string
+          key_facts_extracted?: Json
+          summary?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -1452,6 +1515,39 @@ export type Database = {
           created_at?: string
           id?: string
           preview?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      shared_context: {
+        Row: {
+          confidence: number
+          context_key: string
+          context_value: Json
+          created_at: string
+          id: string
+          source_agent: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          confidence?: number
+          context_key: string
+          context_value?: Json
+          created_at?: string
+          id?: string
+          source_agent: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          confidence?: number
+          context_key?: string
+          context_value?: Json
+          created_at?: string
+          id?: string
+          source_agent?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
