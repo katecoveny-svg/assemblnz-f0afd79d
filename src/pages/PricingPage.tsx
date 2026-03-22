@@ -284,7 +284,6 @@ const PricingPage = () => {
           <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-8 sm:mb-12">
             <span className="gradient-border-tag text-glow-purple">Plans for NZ Businesses</span>
           </h2>
-          </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-8">
             {STANDARD_PLANS.map((plan) => (
