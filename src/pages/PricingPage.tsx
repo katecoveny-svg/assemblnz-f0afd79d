@@ -744,7 +744,7 @@ const PricingPage = () => {
                         <div key={lead.label}>
                           <div className="flex justify-between items-center mb-0.5">
                             <span className="text-[10px] font-jakarta" style={{ color: '#E4E4EC' }}>{lead.label}</span>
-                            <span className="text-[9px] font-mono-jb font-semibold" style={{ color: lead.tier === 'Hot' ? '#00FF94' : lead.tier === 'Warm' ? '#FFB800' : 'rgba(255,255,255,0.3)' }}>
+                            <span className="text-[9px] font-mono-jb font-semibold" style={{ color: lead.tier === 'Hot' ? '#00FF94' : lead.tier === 'Warm' ? '#00E5FF' : 'rgba(255,255,255,0.3)' }}>
                               {lead.score} {lead.tier}
                             </span>
                           </div>
