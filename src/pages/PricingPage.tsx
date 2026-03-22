@@ -525,7 +525,6 @@ const PricingPage = () => {
           <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-2">
             <span className="gradient-border-tag text-glow-purple">HELM — For NZ Families</span>
           </h2>
-          </h2>
           <p className="text-[13px] font-jakarta text-center mb-8 sm:mb-12" style={{ color: 'rgba(255,255,255,0.3)' }}>
             AI life admin built for Kiwi households
           </p>
