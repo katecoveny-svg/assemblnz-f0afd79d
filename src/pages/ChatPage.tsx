@@ -571,11 +571,24 @@ const ChatPage = () => {
 
     setInlineImages((prev) => ({ ...prev, [msgIndex]: { status: "loading", urls: [] } }));
 
+    // PRISM gets pro-quality image generation
+    const isPrismAgent = agentId === "marketing";
+    const quality = isPrismAgent ? "pro" : "flash_pro";
+
     const urls: string[] = [];
     for (const prompt of prompts) {
       try {
         const { data, error } = await supabase.functions.invoke("generate-image", {
-          body: { prompt, platform: "instagram", contentType: "social_post", agentContext: "For Assembl brand marketing." },
+          body: {
+            prompt,
+            platform: isPrismAgent ? "brand_marketing" : "instagram",
+            contentType: isPrismAgent ? "brand_asset" : "social_post",
+            agentContext: isPrismAgent
+              ? "Professional brand marketing asset. Create agency-quality visuals with premium aesthetics, sophisticated composition, and commercial-grade polish."
+              : "For Assembl brand marketing.",
+            quality,
+            brandContext: brandProfile ? { business_name: brandName || "Assembl", tone: "professional", industry: "technology" } : undefined,
+          },
         });
         if (error) throw error;
         if (data?.imageUrl) urls.push(data.imageUrl);
@@ -588,7 +601,7 @@ const ChatPage = () => {
       ...prev,
       [msgIndex]: { status: urls.length > 0 ? "done" : "error", urls },
     }));
-  }, []);
+  }, [agentId, brandProfile, brandName]);
 
   const trigger3DGeneration = useCallback(
     async (userPrompt: string, msgIndex: number, imageUrl?: string) => {
