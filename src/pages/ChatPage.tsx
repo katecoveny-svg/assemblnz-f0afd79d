@@ -1507,7 +1507,7 @@ const ChatPage = () => {
                               <span>{msg.fileName}</span>
                             </div>
                           )}
-                          {renderMessageContent(msg)}
+                          {renderMessageContent(msg, i)}
                           {msg.role === "assistant" && (
                             <div className="flex items-start justify-between gap-2">
                               <div className="flex-1">
