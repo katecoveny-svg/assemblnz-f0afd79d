@@ -208,10 +208,77 @@ function ParticleRing() {
 }
 
 /* ─── Main Scene ─── */
+/* ─── Pulsing Glow Ring ─── */
+function GlowRing() {
+  const ringRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state) => {
+    if (ringRef.current) {
+      const t = state.clock.elapsedTime;
+      ringRef.current.rotation.x = Math.PI / 2;
+      ringRef.current.rotation.z = t * 0.3;
+      const pulse = 0.6 + Math.sin(t * 1.5) * 0.4;
+      (ringRef.current.material as THREE.MeshStandardMaterial).emissiveIntensity = 2 + pulse * 3;
+      (ringRef.current.material as THREE.MeshStandardMaterial).opacity = 0.3 + pulse * 0.4;
+      ringRef.current.scale.setScalar(1 + Math.sin(t * 0.8) * 0.05);
+    }
+  });
+
+  return (
+    <group>
+      {/* Inner ring */}
+      <mesh ref={ringRef} position={[0, 0.3, 0]}>
+        <torusGeometry args={[2.8, 0.03, 16, 100]} />
+        <meshStandardMaterial
+          color="#E040FB"
+          emissive="#E040FB"
+          emissiveIntensity={4}
+          toneMapped={false}
+          transparent
+          opacity={0.6}
+        />
+      </mesh>
+      {/* Outer ring */}
+      <PulseRingLayer radius={3.2} color="#B388FF" speed={1.2} phase={0} />
+      <PulseRingLayer radius={3.6} color="#00E5FF" speed={0.9} phase={1.5} />
+    </group>
+  );
+}
+
+function PulseRingLayer({ radius, color, speed, phase }: { radius: number; color: string; speed: number; phase: number }) {
+  const ref = useRef<THREE.Mesh>(null);
+
+  useFrame((state) => {
+    if (ref.current) {
+      const t = state.clock.elapsedTime * speed + phase;
+      ref.current.rotation.x = Math.PI / 2;
+      ref.current.rotation.z = -t * 0.2;
+      const pulse = 0.5 + Math.sin(t) * 0.5;
+      (ref.current.material as THREE.MeshStandardMaterial).opacity = 0.15 + pulse * 0.25;
+      (ref.current.material as THREE.MeshStandardMaterial).emissiveIntensity = 1.5 + pulse * 2.5;
+    }
+  });
+
+  return (
+    <mesh ref={ref} position={[0, 0.3, 0]}>
+      <torusGeometry args={[radius, 0.015, 16, 100]} />
+      <meshStandardMaterial
+        color={color}
+        emissive={color}
+        emissiveIntensity={3}
+        toneMapped={false}
+        transparent
+        opacity={0.3}
+      />
+    </mesh>
+  );
+}
+
+/* ─── Main Scene ─── */
 const NexusHero3D = () => {
   return (
     <div className="w-full h-[340px] sm:h-[420px] lg:h-[480px] relative">
-      {/* Layered radial glows — much brighter */}
+      {/* Layered radial glows */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -241,9 +308,10 @@ const NexusHero3D = () => {
         <Suspense fallback={null}>
           <RobotBody />
           <ParticleRing />
+          <GlowRing />
         </Suspense>
 
-        {/* Background orbs — bigger, brighter */}
+        {/* Background orbs */}
         <GlowOrb position={[-2.5, 1.5, -1]} color="#E040FB" size={0.22} speed={0.7} />
         <GlowOrb position={[2.8, -0.5, -2]} color="#FF2D9B" size={0.2} speed={0.5} />
         <GlowOrb position={[1.5, 2, -1.5]} color="#B388FF" size={0.18} speed={0.8} />
