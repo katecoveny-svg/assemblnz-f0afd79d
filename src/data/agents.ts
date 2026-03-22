@@ -441,7 +441,7 @@ export const agents: Agent[] = [
     color: "#F06292",
     sector: "Government & Public Sector",
     traits: ["Compassionate", "Non-judgmental", "Whānau-centred"],
-    expertise: ["MSD benefits", "Housing support", "Disability services", "Emergency assistance", "Community funding"],
+    expertise: ["Benefits eligibility checker", "Housing application guide", "Disability services navigator", "Emergency assistance AI", "Community funding finder"],
     starters: ["What benefits am I entitled to?", "Emergency housing — how do I apply?", "Disability support services in NZ"],
   },
   {
