@@ -732,6 +732,42 @@ export type Database = {
           },
         ]
       }
+      exported_outputs: {
+        Row: {
+          agent_id: string
+          agent_name: string
+          content_preview: string | null
+          created_at: string
+          format: string | null
+          id: string
+          output_type: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          agent_id: string
+          agent_name: string
+          content_preview?: string | null
+          created_at?: string
+          format?: string | null
+          id?: string
+          output_type?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          agent_id?: string
+          agent_name?: string
+          content_preview?: string | null
+          created_at?: string
+          format?: string | null
+          id?: string
+          output_type?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       families: {
         Row: {
           created_at: string
