@@ -613,6 +613,8 @@ const ChatPage = () => {
     return null;
   }, [messages, isSpark, isPrism]);
 
+  const hasLivePreview = (isSpark || isPrism) && !!sparkCode;
+  const previewAccentColor = isSpark ? "#FF6B00" : "#E040FB";
   const [sparkMobileView, setSparkMobileView] = useState<"chat" | "preview">("chat");
 
   if (!agent) {
