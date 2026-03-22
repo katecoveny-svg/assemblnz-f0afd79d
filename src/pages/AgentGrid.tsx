@@ -9,7 +9,7 @@ import AnimatedHero from "@/components/AnimatedHero";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { X, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-react";
-import { NeonWave, NeonNZFlag } from "@/components/NeonIcons";
+import { NeonWave } from "@/components/NeonIcons";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 
@@ -405,7 +405,7 @@ const AgentGrid = () => {
             viewport={{ once: true }}
             whileHover={{ boxShadow: "0 0 30px rgba(0,255,136,0.3)" }}
           />
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-green mb-3 flex items-center justify-center gap-2">Built in Aotearoa <NeonNZFlag size={28} /></h2>
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-green mb-3 flex items-center justify-center gap-2">Built in Aotearoa</h2>
           <p className="text-sm font-jakarta text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
             "I built Assembl because NZ businesses deserve AI tools that understand our laws, our culture, and the way we work.
             Every agent is trained on real NZ legislation — not generic overseas advice."

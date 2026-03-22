@@ -26,7 +26,7 @@ const generateBio = (m: TeamMember, format: "website" | "email" | "social" | "tr
   switch (format) {
     case "website": return `Born and raised in Aotearoa, ${m.name} brings ${m.years} years of automotive expertise to the team. Specialising in ${m.specialties.join(", ")}, ${m.name.split(" ")[0]} is passionate about finding the perfect vehicle for every customer. ${m.certifications.length > 0 ? `Certified in ${m.certifications.join(" and ")}.` : ""} Whether you're buying your first car or upgrading the family fleet, ${m.name.split(" ")[0]}'s knowledge and genuine approach make the process easy and enjoyable.`;
     case "email": return `${m.name} | ${m.role} | ${m.specialties[0]} Specialist\n${m.phone} | ${m.email}`;
-    case "social": return `${m.name.split(" ")[0]} — ${m.role} 🚗 ${m.years} years in automotive. ${m.specialties[0]} specialist. Making car buying easy for Kiwi families. 🇳🇿`;
+    case "social": return `${m.name.split(" ")[0]} — ${m.role} 🚗 ${m.years} years in automotive. ${m.specialties[0]} specialist. Making car buying easy for Kiwi families.`;
     case "trademe": return `${m.name} — ${m.role} with ${m.years} years experience. ${m.certifications.join(", ")}. Specialising in ${m.specialties.join(", ")}. Contact: ${m.phone}`;
     default: return "";
   }

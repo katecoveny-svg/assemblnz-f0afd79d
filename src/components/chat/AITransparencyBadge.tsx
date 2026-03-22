@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { NeonBrain, NeonShield, NeonGlobe, NeonCheckmark, NeonClipboard, NeonSiren, NeonNZFlag } from "@/components/NeonIcons";
+import { NeonBrain, NeonShield, NeonGlobe, NeonCheckmark, NeonClipboard, NeonSiren } from "@/components/NeonIcons";
 
 const AITransparencyBadge = () => {
   const [open, setOpen] = useState(false);
@@ -103,7 +103,7 @@ const AITransparencyBadge = () => {
 
             <div className="pt-3" style={{ borderTop: "1px solid hsl(0 0% 100% / 0.06)" }}>
               <p className="text-[10px] flex items-center gap-1" style={{ color: "#ffffff15" }}>
-                © 2026 Assembl. All rights reserved. Agent designs, system prompts, and automation workflows are proprietary trade secrets of Assembl. · Auckland, New Zealand · Built in Aotearoa <NeonNZFlag size={10} />
+                © 2026 Assembl. All rights reserved. Agent designs, system prompts, and automation workflows are proprietary trade secrets of Assembl. · Auckland, New Zealand · Built in Aotearoa
               </p>
               <div className="flex gap-3 mt-2">
                 <a href="/privacy" className="text-[10px] text-primary/60 hover:text-primary underline">Privacy Policy</a>

@@ -40,7 +40,7 @@ const BrandFooter = () => {
         </div>
 
         <p className="text-[11px] text-center font-jakarta" style={{ color: 'rgba(255,255,255,0.2)' }}>
-          © 2026 Assembl. All rights reserved. · Auckland, New Zealand · Built in Aotearoa 🇳🇿
+          © 2026 Assembl. All rights reserved. · Auckland, New Zealand · Built in Aotearoa
         </p>
         <p className="text-[10px] mt-1.5 text-center font-jakarta" style={{ color: 'rgba(255,255,255,0.12)' }}>
           Agent designs, system prompts, and automation workflows are proprietary trade secrets of Assembl.

@@ -8,9 +8,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const LANGUAGES = [
-  { code: "en" as const, label: "English", flag: "🇳🇿" },
-  { code: "mi" as const, label: "Te Reo Māori", flag: "🇳🇿" },
-  { code: "zh" as const, label: "简体中文", flag: "🇨🇳" },
+  { code: "en" as const, label: "English", flag: "" },
+  { code: "mi" as const, label: "Te Reo Māori", flag: "" },
+  { code: "zh" as const, label: "简体中文", flag: "" },
 ];
 
 interface Props {

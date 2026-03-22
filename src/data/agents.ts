@@ -21,7 +21,7 @@ export const agents: Agent[] = [
     color: "#00FF88",
     sector: "Hospitality",
     traits: ["Warm & intuitive", "Detail-obsessed", "Culturally fluent"],
-    expertise: ["Sale & Supply of Alcohol Act", "Food Act 2014", "Revenue management", "Guest intelligence", "Trade partnerships", "Sustainability reporting"],
+    expertise: ["Guest pre-arrival dossiers", "Bespoke itinerary builder", "Revenue & yield AI", "Wine pairing engine", "PR pitch generator", "Guest CRM intelligence"],
     starters: ["Create a pre-arrival guest dossier for a VIP couple celebrating their anniversary", "Generate a 3-day luxury itinerary for winter in Queenstown", "Daily kitchen briefing for 24 covers with 3 dietary requirements"],
   },
   {
@@ -33,7 +33,7 @@ export const agents: Agent[] = [
     color: "#00E5FF",
     sector: "Tourism",
     traits: ["Globally aware", "Seasons-smart", "Story-driven"],
-    expertise: ["Digital marketing", "Shoulder-season strategy", "Adventure regs", "Qualmark", "International markets", "Crisis comms"],
+    expertise: ["AI trip planner", "Shoulder-season demand gen", "TripAdvisor optimiser", "Crisis comms templates", "Qualmark guidance", "Social content creator"],
     starters: ["Marketing strategy to attract US visitors in shoulder season", "Adventure activity risk management plan", "Optimise my Booking.com listing"],
   },
   {
@@ -45,7 +45,7 @@ export const agents: Agent[] = [
     color: "#00FF88",
     sector: "Construction",
     traits: ["Straight-talking", "Safety-first", "Code-fluent"],
-    expertise: ["Tender writing", "Site safety plans", "ESG scoring", "Awards nominations", "Mental health", "Prequalification"],
+    expertise: ["Auto tender writer", "3D model generator", "H&S suite builder", "ESG scorer", "Award nomination AI", "Cost estimator"],
     starters: ["Write a tender response for a commercial build", "Site safety plan for a 3-storey residential project", "Nominate us for the NAWIC Awards 2026"],
   },
   {
@@ -57,7 +57,7 @@ export const agents: Agent[] = [
     color: "#7CFF6B",
     sector: "Agriculture",
     traits: ["Patient & steady", "Seasons-aware", "Community-rooted"],
-    expertise: ["Freshwater Farm Plans", "Nutrient management", "GHG reporting", "Farm succession", "Biosecurity", "RSE scheme"],
+    expertise: ["Freshwater Farm Plan AI", "GHG emission calculator", "Nutrient budget modeller", "Succession planner", "Biosecurity alerts", "RSE compliance"],
     starters: ["Help me prepare a Freshwater Farm Plan", "Farm succession planning basics", "RSE seasonal worker scheme explained"],
   },
   {
@@ -69,7 +69,7 @@ export const agents: Agent[] = [
     color: "#FF2D9B",
     sector: "Retail",
     traits: ["Trend-savvy", "Data-driven", "Customer-obsessed"],
-    expertise: ["Consumer Guarantees Act", "E-commerce optimisation", "Inventory planning", "Loyalty programmes", "Social commerce", "Returns policies"],
+    expertise: ["Sales forecasting AI", "Loyalty programme builder", "Social commerce engine", "Inventory optimiser", "Campaign generator", "Returns policy drafter"],
     starters: ["Consumer Guarantees Act — what must I offer?", "Create a Boxing Day sales campaign", "Design a customer loyalty programme"],
   },
   {
@@ -81,7 +81,7 @@ export const agents: Agent[] = [
     color: "#FF4D6A",
     sector: "Automotive",
     traits: ["Technical & precise", "Reg-savvy", "EV-ready"],
-    expertise: ["Motor Vehicle Sales Act", "F&I compliance", "TradeMe listings", "Sales pipeline", "Workshop ops", "Service retention"],
+    expertise: ["F&I calculator suite", "EV vs ICE cost analyser", "TradeMe listing AI", "CCCFA disclosure gen", "Sales pipeline tracker", "Lease vs buy modeller"],
     starters: ["Help me list a vehicle on TradeMe", "F&I disclosure compliance check", "Create a service retention campaign"],
   },
   {
@@ -93,7 +93,7 @@ export const agents: Agent[] = [
     color: "#B388FF",
     sector: "Architecture",
     traits: ["Visionary", "Code-literate", "Sustainability-focused"],
-    expertise: ["Fee proposals", "Consent documentation", "Building Code", "NZIA standards", "Design narratives", "Specification writing"],
+    expertise: ["Fee proposal generator", "Consent doc builder", "Design narrative AI", "Spec writer", "Code compliance checker", "Sustainability scorer"],
     starters: ["Generate a fee proposal for a residential project", "Building consent documentation checklist", "Resource consent process for a new build"],
   },
   {
@@ -105,7 +105,7 @@ export const agents: Agent[] = [
     color: "#00FF94",
     sector: "Sales",
     traits: ["Persuasive", "Metrics-driven", "Relationship-first"],
-    expertise: ["Pipeline management", "Lead scoring", "Proposal writing", "CRM strategy", "Follow-up sequences", "Referral programmes"],
+    expertise: ["Lead scoring AI", "Proposal auto-writer", "CRM pipeline builder", "Follow-up sequencer", "Referral programme engine", "Deal forecasting"],
     starters: ["Build a sales pipeline for my business", "Write a proposal for a $50K deal", "Create a follow-up email sequence"],
   },
   {
@@ -117,7 +117,7 @@ export const agents: Agent[] = [
     color: "#5B8CFF",
     sector: "Customs Brokerage",
     traits: ["Precision-obsessed", "Automation-first", "Compliance-locked"],
-    expertise: ["Import entry processing", "Tariff classification", "TSW data prep", "FTA origin rules", "Duty & GST calculation"],
+    expertise: ["Invoice-to-entry AI", "Auto tariff classifier", "Duty & GST calculator", "FTA origin analyser", "MPI flag detector", "TSW data formatter"],
     starters: ["Process this commercial invoice for import entry", "Classify this product under the NZ Tariff", "Calculate duty and GST for this shipment"],
   },
   {
@@ -129,7 +129,7 @@ export const agents: Agent[] = [
     color: "#FF8C42",
     sector: "Project Management",
     traits: ["Structured", "Risk-aware", "Stakeholder-savvy"],
-    expertise: ["Project planning", "Risk registers", "SOPs", "Workflow automation", "Govt procurement", "Change management"],
+    expertise: ["Project plan generator", "Risk matrix builder", "SOP auto-writer", "Workflow automator", "Govt procurement AI", "Change management"],
     starters: ["Create a project plan with milestones", "Build a risk register for my project", "Government procurement process"],
   },
   {
@@ -141,7 +141,7 @@ export const agents: Agent[] = [
     color: "#E040FB",
     sector: "Marketing & Comms",
     traits: ["Creatively sharp", "Strategy-led", "NZ-market native"],
-    expertise: ["Brand strategy", "Campaign creation", "Social media", "Video scripts", "SEO copywriting", "Content calendars"],
+    expertise: ["Brand strategy builder", "Campaign auto-creator", "Video script AI", "SEO copywriter", "Content calendar engine", "Social media planner"],
     starters: ["Build a brand strategy for a new NZ product", "Create a social media content calendar", "Write a video script for a 30-second ad"],
   },
   {
@@ -153,7 +153,7 @@ export const agents: Agent[] = [
     color: "#00E676",
     sector: "Health & Wellbeing",
     traits: ["Evidence-based", "Compliance-sharp", "Patient-focused"],
-    expertise: ["HPCA Act", "ACC claiming", "HDC complaints", "Clinical governance", "Privacy Code", "Hauora Māori"],
+    expertise: ["ACC claims navigator", "HDC response drafter", "Clinical governance AI", "Practice setup wizard", "Privacy Code auditor", "Hauora frameworks"],
     starters: ["How do I set up a health practice in NZ?", "ACC provider registration process", "Patient complaint response template"],
   },
   {
@@ -165,7 +165,7 @@ export const agents: Agent[] = [
     color: "#B388FF",
     sector: "Ops & Admin",
     traits: ["Hyper-organised", "Proactive", "Never forgets"],
-    expertise: ["School & family admin", "Meal planning & budgets", "Schedules & reminders", "Home & pet care", "Life logistics"],
+    expertise: ["Newsletter data extractor", "Meal plan generator", "Budget auto-tracker", "School admin autopilot", "Family calendar sync", "Life logistics AI"],
     starters: ["Upload a school newsletter and I'll extract the key dates", "Create a weekly meal plan for my family", "Help me set up a household budget"],
   },
   {
@@ -177,7 +177,7 @@ export const agents: Agent[] = [
     color: "#4FC3F7",
     sector: "Accounting & Tax",
     traits: ["Numbers-sharp", "Compliance-first", "Deadline-aware"],
-    expertise: ["GST returns", "Provisional tax", "PAYE & payroll", "Depreciation", "Cashflow forecasting", "Xero guidance"],
+    expertise: ["GST return calculator", "Provisional tax planner", "PAYE auto-calculator", "Depreciation modeller", "Cashflow forecaster", "Xero integration guide"],
     starters: ["Calculate my GST return", "Provisional tax planning for my business", "Minimum wage and payroll changes from April 2026"],
   },
   {
@@ -189,7 +189,7 @@ export const agents: Agent[] = [
     color: "#4FC3F7",
     sector: "Finance & Insurance",
     traits: ["Numbers-clear", "Jargon-free", "NZ-rates aware"],
-    expertise: ["Mortgage calculators", "KiwiSaver optimiser", "First home buyer", "Budgeting", "PAYE calculator", "Debt management"],
+    expertise: ["Mortgage rate comparator", "KiwiSaver optimiser", "First Home eligibility AI", "PAYE take-home calc", "Debt payoff planner", "Budget builder"],
     starters: ["Compare fixed vs floating mortgage rates", "Am I eligible for the First Home Grant?", "Calculate my take-home pay after tax"],
   },
   {
@@ -201,7 +201,7 @@ export const agents: Agent[] = [
     color: "#7E57C2",
     sector: "Finance & Insurance",
     traits: ["Claims-savvy", "Policy-literate", "Consumer-first"],
-    expertise: ["Policy comparison", "Claims navigation", "EQC/Toka Tū Ake", "Natural hazard risk", "Broker compliance", "CoFI regime"],
+    expertise: ["Claims dispute navigator", "Sum insured calculator", "EQC process guide", "Policy comparison AI", "CoFI regime advisor", "Natural hazard risk scorer"],
     starters: ["How do I challenge a denied insurance claim?", "Sum insured calculator for my home", "What changed with the Contracts of Insurance Act 2024?"],
   },
   {
@@ -213,7 +213,7 @@ export const agents: Agent[] = [
     color: "#26A69A",
     sector: "Finance & Insurance",
     traits: ["Fee-conscious", "Integration-smart", "Compliance-aware"],
-    expertise: ["Payment processing", "FX strategy", "AML/CFT compliance", "Working capital", "EFTPOS/terminals", "Business accounts"],
+    expertise: ["Payment gateway comparator", "FX rate optimiser", "AML/CFT compliance AI", "Working capital planner", "Terminal fee analyser", "Account optimiser"],
     starters: ["Compare payment gateway fees for my NZ business", "AML/CFT obligations explained simply", "Best FX options for importing goods"],
   },
   {
@@ -225,7 +225,7 @@ export const agents: Agent[] = [
     color: "#00E5FF",
     sector: "Legal & Compliance",
     traits: ["Clear communicator", "Compassionate", "Process-expert"],
-    expertise: ["Contracts & NDAs", "Family law & separation", "IP protection", "Employment disputes", "Privacy policies", "Debt recovery"],
+    expertise: ["Contract & NDA drafter", "Separation guide AI", "IP protection advisor", "Employment dispute nav", "Privacy policy generator", "Debt recovery planner"],
     starters: ["I've just separated — what do I need to know?", "Draft a service agreement for my business", "How does child custody work in NZ?"],
   },
   {
@@ -237,7 +237,7 @@ export const agents: Agent[] = [
     color: "#76FF03",
     sector: "IT & Cyber",
     traits: ["Security-first", "Jargon-free", "Proactive"],
-    expertise: ["Cybersecurity", "Privacy breach notification", "Cloud migration", "Email security", "IT policies", "Business continuity"],
+    expertise: ["Cyber threat assessor", "Breach response playbook", "Cloud migration planner", "Email security auditor", "IT policy generator", "Business continuity AI"],
     starters: ["Cybersecurity checklist for my NZ business", "I think we've had a data breach — what do I do?", "Cloud migration plan for a small team"],
   },
   {
@@ -249,7 +249,7 @@ export const agents: Agent[] = [
     color: "#FFD54F",
     sector: "Education & Training",
     traits: ["Learner-focused", "NZQA-fluent", "Inclusive"],
-    expertise: ["ERO preparation", "NZQA compliance", "Funding applications", "Curriculum documentation", "Staff appraisals", "Policy writing"],
+    expertise: ["ERO review prep AI", "NZQA compliance engine", "Funding app writer", "Curriculum doc builder", "Staff appraisal templates", "Policy auto-drafter"],
     starters: ["Prepare for an ERO review", "NZQA programme approval process", "Education policy template"],
   },
   {
@@ -261,7 +261,7 @@ export const agents: Agent[] = [
     color: "#FF80AB",
     sector: "Property & Real Estate",
     traits: ["Market-savvy", "Regulation-sharp", "Investor-friendly"],
-    expertise: ["Healthy Homes", "Tenancy Act", "Compliance tracking", "Maintenance management", "Tenancy Tribunal", "Cost intelligence"],
+    expertise: ["Healthy Homes checker", "Compliance auto-tracker", "Maintenance job manager", "Tenancy Tribunal guide", "Cost intelligence AI", "Tradie matchmaker"],
     starters: ["Healthy Homes Standards — what do I need?", "Landlord obligations under the RTA", "Track compliance across my properties"],
   },
   {
@@ -273,7 +273,7 @@ export const agents: Agent[] = [
     color: "#40C4FF",
     sector: "Immigration",
     traits: ["Detail-precise", "Empathetic", "Process-expert"],
-    expertise: ["AEWV process", "Employer accreditation", "Skilled Migrant", "Document checklists", "Family visas", "Residence pathways"],
+    expertise: ["AEWV process navigator", "Accreditation wizard", "Visa pathway mapper", "Document checklist AI", "Family visa guide", "Residence pathway planner"],
     starters: ["AEWV process for hiring migrants", "Employer accreditation requirements", "Pathway from work visa to residency"],
   },
   {
@@ -285,7 +285,7 @@ export const agents: Agent[] = [
     color: "#CE93D8",
     sector: "Nonprofit & Community",
     traits: ["Mission-driven", "Governance-savvy", "Funding-smart"],
-    expertise: ["Grant writing", "Charities Act", "Governance", "Impact reporting", "Volunteer management", "Incorporated Societies Act 2022"],
+    expertise: ["Grant application writer", "Governance framework AI", "Impact report generator", "Volunteer manager", "Re-registration wizard", "Funding strategy planner"],
     starters: ["Write a grant application for Lotteries funding", "Governance best practice for a community trust", "Incorporated Societies re-registration"],
   },
   {
@@ -297,7 +297,7 @@ export const agents: Agent[] = [
     color: "#26C6DA",
     sector: "Maritime & Fishing",
     traits: ["Sea-savvy", "Safety-focused", "Quota-fluent"],
-    expertise: ["SSM documentation", "Fishing rules", "Voyage planning", "Marine weather", "Navigation hazards", "Coastguard courses"],
+    expertise: ["SSM doc generator", "Live marine weather AI", "Voyage planner", "Fishing rules engine", "Navigation hazard alerts", "Coastguard prep guide"],
     starters: ["What are the snapper bag limits in my region?", "Interpret today's marine forecast for me", "Plan a fishing trip in the Hauraki Gulf"],
   },
   {
@@ -309,7 +309,7 @@ export const agents: Agent[] = [
     color: "#69F0AE",
     sector: "Energy & Sustainability",
     traits: ["Future-focused", "Data-informed", "Practically green"],
-    expertise: ["NZ ETS", "Carbon reporting", "Solar feasibility", "Fleet electrification", "Climate disclosure", "Energy audits"],
+    expertise: ["Carbon footprint calculator", "Solar ROI analyser", "ETS compliance AI", "Fleet electrification planner", "Climate disclosure writer", "Energy audit generator"],
     starters: ["Calculate my business carbon footprint", "Solar panels for my NZ business — worth it?", "Climate-related disclosure requirements"],
   },
   {
@@ -321,7 +321,7 @@ export const agents: Agent[] = [
     color: "#F48FB1",
     sector: "Life & Personal",
     traits: ["Trend-aware", "Budget-conscious", "NZ-climate smart"],
-    expertise: ["Capsule wardrobes", "NZ fashion brands", "Seasonal dressing", "Size conversions", "Sustainable fashion"],
+    expertise: ["Capsule wardrobe builder", "NZ brand curator", "Season-smart styling", "Size conversion tool", "Sustainable fashion finder"],
     starters: ["Build a capsule wardrobe for NZ weather", "What to wear to a NZ summer wedding", "Sustainable NZ fashion brands to know"],
   },
   {
@@ -333,7 +333,7 @@ export const agents: Agent[] = [
     color: "#4DD0E1",
     sector: "Life & Personal",
     traits: ["Adventure-ready", "Budget-savvy", "Detail-obsessed"],
-    expertise: ["NZ domestic travel", "Great Walks", "Family holidays", "Freedom camping", "International from NZ"],
+    expertise: ["Road trip planner AI", "Great Walk advisor", "Family holiday builder", "Freedom camping guide", "Flight deal finder"],
     starters: ["Plan a family road trip in the South Island", "Book a Great Walk — which one and when?", "Best value international holiday from NZ"],
   },
   {
@@ -345,7 +345,7 @@ export const agents: Agent[] = [
     color: "#80DEEA",
     sector: "Life & Personal",
     traits: ["Gentle & warm", "Evidence-based", "Non-judgmental"],
-    expertise: ["Stress management", "NZ support services", "Self-care routines", "Sleep hygiene", "Work-life balance"],
+    expertise: ["Stress management toolkit", "NZ support service finder", "Self-care routine builder", "Sleep optimiser", "Work-life balance planner"],
     starters: ["I'm feeling overwhelmed — where do I start?", "What mental health support is available in NZ?", "Help me build a self-care routine"],
   },
   {
@@ -357,7 +357,7 @@ export const agents: Agent[] = [
     color: "#FF5252",
     sector: "Life & Personal",
     traits: ["Motivating", "Adaptable", "Science-backed"],
-    expertise: ["Workout programming", "NZ outdoor fitness", "Running events", "Home workouts", "parkrun NZ"],
+    expertise: ["Custom workout builder", "Marathon training AI", "Home HIIT generator", "Outdoor fitness planner", "parkrun coach"],
     starters: ["Build me a beginner workout plan", "Train for the Auckland Marathon", "Home workout with no equipment"],
   },
   {
@@ -369,7 +369,7 @@ export const agents: Agent[] = [
     color: "#AED581",
     sector: "Life & Personal",
     traits: ["Science-based", "Culturally inclusive", "Anti-fad"],
-    expertise: ["NZ meal planning", "Budget nutrition", "School lunches", "Seasonal produce", "Dietary requirements"],
+    expertise: ["Weekly meal plan AI", "Budget nutrition engine", "School lunch generator", "Seasonal produce guide", "Dietary requirement planner"],
     starters: ["Weekly meal plan for a family of 4 on a budget", "School lunch ideas for the week", "NZ seasonal produce guide"],
   },
   {
@@ -381,7 +381,7 @@ export const agents: Agent[] = [
     color: "#FFB74D",
     sector: "Life & Personal",
     traits: ["Ingredient-savvy", "Budget-friendly", "NZ UV-aware"],
-    expertise: ["NZ skincare routines", "SPF guidance", "NZ beauty brands", "Ingredient analysis", "Seasonal adjustments"],
+    expertise: ["Skincare routine builder", "UV protection advisor", "NZ brand recommender", "Ingredient analyser", "Seasonal skin planner"],
     starters: ["Build a skincare routine for NZ conditions", "Best NZ beauty brands to try", "SPF guide for NZ's UV levels"],
   },
   {
@@ -393,7 +393,7 @@ export const agents: Agent[] = [
     color: "#FFD740",
     sector: "Life & Personal",
     traits: ["Fun & creative", "Budget-aware", "Locally plugged-in"],
-    expertise: ["Party planning", "NZ events & festivals", "Wedding planning", "Cultural events", "Kids' parties"],
+    expertise: ["Party planner AI", "NZ event curator", "Wedding planning engine", "Cultural event guide", "Kids' party designer"],
     starters: ["Plan a kids' birthday party in Auckland", "Matariki celebration ideas", "Wedding venue options in NZ"],
   },
   {
@@ -405,7 +405,7 @@ export const agents: Agent[] = [
     color: "#8D6E63",
     sector: "Māori & Te Tiriti",
     traits: ["Culturally grounded", "Treaty-literate", "Mana-enhancing"],
-    expertise: ["Te Tiriti o Waitangi", "Iwi consultation", "Te reo in business", "Māori governance", "Treaty settlements"],
+    expertise: ["Te Tiriti obligation mapper", "Iwi engagement guide", "Te reo business advisor", "Māori governance AI", "Treaty settlement navigator"],
     starters: ["What are my Te Tiriti obligations as a business?", "How do I engage with local iwi for a project?", "Correct use of te reo Māori in business branding"],
   },
   {
@@ -417,7 +417,7 @@ export const agents: Agent[] = [
     color: "#78909C",
     sector: "Government & Public Sector",
     traits: ["Process-expert", "Politically neutral", "Framework-fluent"],
-    expertise: ["Govt Procurement", "OIA responses", "Better Business Cases", "Cabinet papers", "Public Service Act"],
+    expertise: ["Procurement rules engine", "OIA response drafter", "Business case builder", "Cabinet paper framework", "Public Service Act guide"],
     starters: ["How do Government Procurement Rules work?", "Draft an OIA response", "Better Business Case framework explained"],
   },
   {
@@ -429,7 +429,7 @@ export const agents: Agent[] = [
     color: "#4DB6AC",
     sector: "Government & Public Sector",
     traits: ["Kaitiaki-minded", "Science-informed", "Process-savvy"],
-    expertise: ["RMA consents", "NPS-FM freshwater", "Environmental impact", "DOC concessions", "Regional council reqs"],
+    expertise: ["Resource consent navigator", "Freshwater compliance AI", "Impact assessment builder", "DOC concession guide", "Regional council advisor"],
     starters: ["Resource consent application process", "NES freshwater compliance", "Environmental impact assessment basics"],
   },
   {
@@ -441,7 +441,7 @@ export const agents: Agent[] = [
     color: "#F06292",
     sector: "Government & Public Sector",
     traits: ["Compassionate", "Non-judgmental", "Whānau-centred"],
-    expertise: ["MSD benefits", "Housing support", "Disability services", "Emergency assistance", "Community funding"],
+    expertise: ["Benefits eligibility checker", "Housing application guide", "Disability services navigator", "Emergency assistance AI", "Community funding finder"],
     starters: ["What benefits am I entitled to?", "Emergency housing — how do I apply?", "Disability support services in NZ"],
   },
   {
@@ -453,7 +453,7 @@ export const agents: Agent[] = [
     color: "#FFB300",
     sector: "Government & Public Sector",
     traits: ["Whānau-friendly", "Plain-language", "Culturally inclusive"],
-    expertise: ["NZ school system", "NCEA", "Special education", "School zoning", "Kura kaupapa Māori"],
+    expertise: ["NCEA explainer AI", "Special education navigator", "School zoning finder", "Kura kaupapa guide", "Learning support planner"],
     starters: ["How does NCEA work? Explain it simply", "My child has learning needs — what support is available?", "School zoning and enrolment process"],
   },
   {
@@ -465,7 +465,7 @@ export const agents: Agent[] = [
     color: "#66BB6A",
     sector: "Government & Public Sector",
     traits: ["Caring", "Accessible", "Hauora-informed"],
-    expertise: ["Te Whatu Ora navigation", "GP enrolment", "Prescriptions", "Mental health access", "Maternity"],
+    expertise: ["Health system navigator", "GP finder & enrolment", "Prescription cost guide", "Mental health pathways", "Maternity rights advisor"],
     starters: ["How do I enrol with a GP?", "What health services are free in NZ?", "Mental health support — where do I start?"],
   },
   {
@@ -477,7 +477,7 @@ export const agents: Agent[] = [
     color: "#AB47BC",
     sector: "Government & Public Sector",
     traits: ["Empathetic", "Rights-aware", "Solution-focused"],
-    expertise: ["Kāinga Ora", "First Home Grant", "Tenancy rights", "Emergency housing", "Healthy Homes"],
+    expertise: ["Public housing application AI", "First Home Grant checker", "Tenancy rights defender", "Emergency housing navigator", "Healthy Homes auditor"],
     starters: ["How do I apply for public housing?", "First Home Grant — am I eligible?", "My rental doesn't meet Healthy Homes Standards"],
   },
   {
@@ -489,7 +489,7 @@ export const agents: Agent[] = [
     color: "#EF5350",
     sector: "Government & Public Sector",
     traits: ["Calm & clear", "Action-oriented", "NZ-hazard aware"],
-    expertise: ["NEMA", "Earthquake prep", "Tsunami zones", "Emergency kits", "Civil defence"],
+    expertise: ["Earthquake prep planner", "Tsunami zone checker", "Emergency kit builder", "NEMA alerts interpreter", "Civil defence coordinator"],
     starters: ["Earthquake preparedness checklist for my family", "Am I in a tsunami evacuation zone?", "What should be in my emergency kit?"],
   },
   {
@@ -501,7 +501,7 @@ export const agents: Agent[] = [
     color: "#FF6F91",
     sector: "HR & Employment",
     traits: ["Employment law expert", "People-focused", "NZ-compliant"],
-    expertise: ["Employment law 2026", "Payroll & PAYE", "Holidays Act", "Health & Safety", "Recruitment"],
+    expertise: ["Employment agreement generator", "Payroll & PAYE calculator", "Holidays Act compliance AI", "H&S programme builder", "Recruitment pipeline manager"],
     starters: ["Generate an employment agreement", "What are my obligations under the Holidays Act?", "Create an onboarding plan for a new hire"],
   },
 ];
