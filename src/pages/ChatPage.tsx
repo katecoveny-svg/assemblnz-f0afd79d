@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, lazy, Suspense } from "react";
+import { useState, useRef, useEffect, useCallback, lazy, Suspense, useMemo } from "react";
 import ParticleField from "@/components/ParticleField";
 import { useParams, Link } from "react-router-dom";
 import { agents } from "@/data/agents";
@@ -92,6 +92,7 @@ import HelmSettings from "@/components/helm/HelmSettings";
 import AgentTraining from "@/components/shared/AgentTraining";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
+import SparkPreview from "@/components/spark/SparkPreview";
 
 interface Message {
   role: "user" | "assistant";
@@ -344,6 +345,7 @@ const ChatPage = () => {
   const isFlux = agentId === "sales";
   const isPrism = agentId === "marketing";
   const isAxis = agentId === "pm";
+  const isSpark = agentId === "spark";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
@@ -544,6 +546,18 @@ const ChatPage = () => {
     }, [genCount, pollStatus]
   );
 
+  // Extract latest code from SPARK responses for live preview
+  const sparkCode = useMemo(() => {
+    if (!isSpark) return null;
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].role === "assistant") {
+        const match = messages[i].content.match(/```html\n([\s\S]*?)```/);
+        if (match) return match[1];
+      }
+    }
+    return null;
+  }, [messages, isSpark]);
+
   if (!agent) {
     return (
       <div className="min-h-screen flex items-center justify-center text-foreground">
@@ -740,6 +754,8 @@ const ChatPage = () => {
 
   const showWelcome = messages.length === 0;
   const getGenerationsForIndex = (idx: number) => generations.filter((g) => g.messageIndex === idx);
+
+
 
   // Message counter display for free users
   const showMsgCounter = user && !isPaid;
@@ -1293,8 +1309,9 @@ const ChatPage = () => {
           <HelmDashboard items={dashboardItems} onAddReminder={handleAddReminder} />
         </div>
       ) : (
-        <>
+        <div className={isSpark && sparkCode ? "flex flex-1 min-h-0" : "flex flex-col flex-1 min-h-0"}>
           {/* Chat Area */}
+          <div className={`${isSpark && sparkCode ? "w-[40%] border-r border-border" : ""} flex flex-col flex-1 min-h-0`}>
           <div className="flex-1 overflow-y-auto px-4 py-4">
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center min-h-full text-center gap-4 py-6 opacity-0 animate-fade-up overflow-y-auto" style={{ animationFillMode: "forwards" }}>
@@ -1586,7 +1603,14 @@ const ChatPage = () => {
               </button>
             </div>
           </form>
-        </>
+          </div>
+          {/* SPARK Live Preview Panel */}
+          {isSpark && sparkCode && (
+            <div className="hidden md:flex w-[60%] flex-col min-h-0 p-2">
+              <SparkPreview code={sparkCode} onIterate={() => setInput("Make these changes: ")} />
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

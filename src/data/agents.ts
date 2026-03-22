@@ -517,6 +517,18 @@ export const agents: Agent[] = [
     expertise: ["Employment agreement generator", "Payroll & PAYE calculator", "Holidays Act compliance AI", "H&S programme builder", "Recruitment pipeline manager"],
     starters: ["Generate an employment agreement", "What are my obligations under the Holidays Act?", "Create an onboarding plan for a new hire"],
   },
+  {
+    id: "spark",
+    name: "SPARK",
+    designation: "ASM-042",
+    role: "AI App Builder",
+    tagline: "Describe it. Build it. Ship it. No code required.",
+    color: "#FF6B00",
+    sector: "Business Tools",
+    traits: ["Code-fluent", "Design-aware", "Instant output"],
+    expertise: ["Web app generator", "Dashboard builder", "Calculator creator", "Form builder", "Landing page designer", "Invoice generator"],
+    starters: ["Build me a quote calculator for my painting business", "Create a client intake form for my law firm", "Build a rental property dashboard"],
+  },
 ];
 
 export const sectors = [
@@ -548,4 +560,5 @@ export const sectors = [
   "Māori & Te Tiriti",
   "Life & Personal",
   "HR & Employment",
+  "Business Tools",
 ];

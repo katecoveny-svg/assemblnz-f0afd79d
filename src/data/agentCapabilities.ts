@@ -302,4 +302,12 @@ export const agentCapabilities: Record<string, string[]> = {
     "Explain NEMA civil defence guidance",
     "Guide business continuity planning for NZ hazards",
   ],
+  spark: [
+    "Generate working web apps from plain language descriptions",
+    "Build interactive calculators, dashboards, and forms",
+    "Create landing pages and marketing pages instantly",
+    "Generate invoice and receipt templates with PDF export",
+    "Build booking widgets with calendar date pickers",
+    "Create data display tables with sorting and filtering",
+  ],
 };

@@ -13,6 +13,7 @@ import { NeonWave } from "@/components/NeonIcons";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import EchoSection from "@/components/EchoSection";
+import SparkSection from "@/components/SparkSection";
 
 const PRICING_PLANS = [
   {
@@ -152,6 +153,9 @@ const AgentGrid = () => {
 
       {/* ═══════════════════════ ECHO ═══════════════════════ */}
       <EchoSection />
+
+      {/* ═══════════════════════ SPARK ═══════════════════════ */}
+      <SparkSection />
 
       {/* ═══════════════════════ AGENT GRID ═══════════════════════ */}
       <main ref={gridRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
