@@ -942,7 +942,6 @@ const PricingPage = () => {
             <h2 className="text-xl sm:text-2xl font-syne font-extrabold mb-3">
               <span className="gradient-border-tag text-glow-pink">Ready to get started?</span>
             </h2>
-            </h2>
             <p className="text-sm font-jakarta mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Try any agent free — no signup required.
             </p>
