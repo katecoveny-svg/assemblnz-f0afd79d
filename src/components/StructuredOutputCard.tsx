@@ -4,6 +4,7 @@ import jsPDF from "jspdf";
 import ReactMarkdown from "react-markdown";
 import HelmChecklist from "@/components/helm/HelmChecklist";
 import { drawAssemblPDFHeader, drawAssemblPDFFooter } from "@/lib/pdfBranding";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Props {
   title: string;
