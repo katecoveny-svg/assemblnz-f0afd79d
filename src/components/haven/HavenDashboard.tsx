@@ -76,6 +76,35 @@ const HavenDashboard = () => {
         ))}
       </div>
 
+      {/* Job Status Workflow */}
+      <AgentWorkflow
+        title="Job Pipeline"
+        color={HAVEN_PINK}
+        activeIndex={-1}
+        steps={[
+          { label: "Reported", count: recentJobs.filter(j => j.status === "reported").length },
+          { label: "Contacted", count: recentJobs.filter(j => j.status === "contacted").length },
+          { label: "Scheduled", count: recentJobs.filter(j => j.status === "scheduled").length },
+          { label: "In Progress", count: recentJobs.filter(j => j.status === "in_progress").length },
+          { label: "Completed", count: recentJobs.filter(j => j.status === "completed").length },
+        ]}
+      />
+
+      {/* Urgency breakdown pie chart */}
+      {recentJobs.length > 0 && (
+        <AgentPieChart
+          title="Jobs by Urgency"
+          data={[
+            { name: "Low", value: recentJobs.filter(j => j.urgency === "low").length || 0 },
+            { name: "Medium", value: recentJobs.filter(j => j.urgency === "medium").length || 0 },
+            { name: "High", value: recentJobs.filter(j => j.urgency === "high").length || 0 },
+            { name: "Emergency", value: recentJobs.filter(j => j.urgency === "emergency").length || 0 },
+          ].filter(d => d.value > 0)}
+          colors={["#66BB6A", "#FFB300", "#FF6D00", "#EF5350"]}
+          height={180}
+        />
+      )}
+
       {/* Recent Jobs */}
       <div>
         <h3 className="font-syne font-bold text-sm text-foreground mb-2">Recent Jobs</h3>

@@ -142,24 +142,31 @@ const AuraRevenue = ({ onGenerate }: Props) => {
       )}
 
       {section === "channels" && (
-        <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
-          <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonDocument size={16} color={color} /> Channel Management</h3>
-          <p className="text-[10px] text-muted-foreground mb-3">Goal: increase direct bookings to 70%+</p>
-          <div className="space-y-2">
-            {CHANNELS.map(c => (
-              <div key={c.name} className="p-2.5 rounded-lg border border-border">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-foreground">{c.name}</span>
-                  <span className="text-xs font-bold" style={{ color }}>{c.share}</span>
+        <div className="space-y-4">
+          <AgentPieChart
+            title="Booking Channel Mix"
+            data={CHANNELS.map(c => ({ name: c.name.split("(")[0].trim(), value: parseInt(c.share) }))}
+            height={200}
+          />
+          <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
+            <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonDocument size={16} color={color} /> Channel Management</h3>
+            <p className="text-[10px] text-muted-foreground mb-3">Goal: increase direct bookings to 70%+</p>
+            <div className="space-y-2">
+              {CHANNELS.map(c => (
+                <div key={c.name} className="p-2.5 rounded-lg border border-border">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-foreground">{c.name}</span>
+                    <span className="text-xs font-bold" style={{ color }}>{c.share}</span>
+                  </div>
+                  <div className="flex items-center justify-between mt-0.5 text-[10px] text-muted-foreground">
+                    <span>Margin: {c.margin}</span>
+                    <span>Target: {c.target}</span>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between mt-0.5 text-[10px] text-muted-foreground">
-                  <span>Margin: {c.margin}</span>
-                  <span>Target: {c.target}</span>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <button onClick={() => gen(`Generate a channel management analysis report for a luxury NZ lodge. Analyse: direct bookings, travel agents, OTAs, luxury networks, repeat guests, referrals. Include conversion rate, average booking value, commission cost by channel. Goal: increase direct bookings to 70%+. Provide actionable recommendations.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Channel Analysis Report</button>
           </div>
-          <button onClick={() => gen(`Generate a channel management analysis report for a luxury NZ lodge. Analyse: direct bookings, travel agents, OTAs, luxury networks, repeat guests, referrals. Include conversion rate, average booking value, commission cost by channel. Goal: increase direct bookings to 70%+. Provide actionable recommendations.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Channel Analysis Report</button>
         </div>
       )}
     </div>

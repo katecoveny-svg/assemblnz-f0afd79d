@@ -75,6 +75,28 @@ export default function PrismCampaigns({ onSendToChat }: { onSendToChat?: (msg: 
         ))}
       </div>
 
+      {/* Campaign Performance Charts */}
+      {campaigns.filter(c => c.status === "sent").length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <AgentBarChart
+            title="Campaign Opens vs Clicks"
+            data={campaigns.filter(c => c.status === "sent").slice(0, 6).map(c => ({ name: c.name.length > 12 ? c.name.slice(0, 12) + "…" : c.name, opens: c.open_count, clicks: c.click_count }))}
+            dataKey="opens"
+            color={ACCENT}
+            height={180}
+          />
+          <AgentFunnelChart
+            title="Engagement Funnel"
+            color={ACCENT}
+            stages={[
+              { name: "Recipients", value: campaigns.reduce((s, c) => s + c.recipient_count, 0) },
+              { name: "Opened", value: campaigns.reduce((s, c) => s + c.open_count, 0) },
+              { name: "Clicked", value: campaigns.reduce((s, c) => s + c.click_count, 0) },
+            ]}
+          />
+        </div>
+      )}
+
       <div className="space-y-2">
         {campaigns.map(c => {
           const st = STATUSES[c.status] || STATUSES.draft;

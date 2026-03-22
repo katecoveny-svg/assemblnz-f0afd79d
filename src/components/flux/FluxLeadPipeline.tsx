@@ -86,6 +86,22 @@ export default function FluxLeadPipeline({ onSendToChat }: { onSendToChat?: (msg
         })}
       </div>
 
+      {/* Sales Funnel & Source Breakdown */}
+      {leads.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <AgentFunnelChart
+            title="Sales Funnel"
+            color={ACCENT}
+            stages={STAGES.map(s => ({ name: STAGE_LABELS[s], value: leads.filter(l => l.stage === s).length }))}
+          />
+          <AgentPieChart
+            title="Leads by Source"
+            data={Object.entries(leads.reduce<Record<string, number>>((acc, l) => { const src = l.source || "Unknown"; acc[src] = (acc[src] || 0) + 1; return acc; }, {})).map(([name, value]) => ({ name, value }))}
+            height={180}
+          />
+        </div>
+      )}
+
       {/* Controls */}
       <div className="flex items-center gap-2">
         <div className="flex-1 relative">
