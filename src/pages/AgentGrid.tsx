@@ -348,8 +348,8 @@ const AgentGrid = () => {
             </div>
             <div className="order-1 lg:order-2">
               <span className="font-mono-jb text-[10px] text-muted-foreground">ASM-028</span>
-              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mt-1 mb-4">
-                Meet <span style={{ color: "#26C6DA" }}>MARINER</span>
+              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-glow-cyan mt-1 mb-4">
+                Meet <span className="text-glow-cyan">MARINER</span>
               </h2>
               <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-6">
                 NZ's maritime AI expert. Fishing regulations, boat maintenance, weather interpretation, commercial maritime compliance — MARINER knows the waters of Aotearoa inside out.
