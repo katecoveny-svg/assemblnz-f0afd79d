@@ -158,6 +158,7 @@ export default function ArohaRecruitment() {
             })}
           </div>
         </div>
+        </>
       )}
     </div>
   );
