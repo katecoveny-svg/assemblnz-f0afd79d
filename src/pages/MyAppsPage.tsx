@@ -3,6 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Rocket, ExternalLink, Pause, Play, Trash2, Copy, Eye, CheckCircle2 } from "lucide-react";
+import sparkImg from "@/assets/agents/spark.png";
 
 const ACCENT = "#FF6B00";
 
