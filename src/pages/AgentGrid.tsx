@@ -250,65 +250,66 @@ const AgentGrid = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {PRICING_PLANS.map((plan) => (
-              <div
-                key={plan.name}
-                className="relative rounded-2xl p-6 flex flex-col overflow-hidden border"
-                style={{
-                  background: 'rgba(14, 14, 26, 0.7)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  borderColor: plan.highlighted ? plan.color + "40" : "rgba(255, 255, 255, 0.06)",
-                  boxShadow: plan.highlighted ? `0 0 30px ${plan.color}15` : "none",
-                }}
-              >
-                {/* Top edge glow */}
-                <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} />
+              <div key={plan.name} className="relative pt-4">
                 {plan.highlighted && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-syne font-bold px-3 py-1 rounded-full" style={{ background: plan.color, color: "#0A0A14" }}>
+                  <span className="absolute top-0 left-1/2 -translate-x-1/2 z-10 text-[10px] font-syne font-bold px-3 py-1 rounded-full" style={{ background: plan.color, color: "#0A0A14" }}>
                     MOST POPULAR
                   </span>
                 )}
-                <h3 className="text-lg font-syne font-bold text-foreground">{plan.name}</h3>
-                <div className="flex items-baseline gap-0.5 my-3">
-                  <span className="text-3xl font-syne font-extrabold" style={{ color: plan.color }}>{plan.price}</span>
-                  {plan.period && <span className="text-xs font-jakarta text-muted-foreground">{plan.period}</span>}
+                <div
+                  className="relative rounded-2xl p-6 flex flex-col h-full border"
+                  style={{
+                    background: 'rgba(14, 14, 26, 0.7)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    borderColor: plan.highlighted ? plan.color + "40" : "rgba(255, 255, 255, 0.06)",
+                    boxShadow: plan.highlighted ? `0 0 30px ${plan.color}15` : "none",
+                  }}
+                >
+                  {/* Top edge glow */}
+                  <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} />
+                  <h3 className="text-lg font-syne font-bold text-foreground">{plan.name}</h3>
+                  <div className="flex items-baseline gap-0.5 my-3">
+                    <span className="text-3xl font-syne font-extrabold" style={{ color: plan.color }}>{plan.price}</span>
+                    {plan.period && <span className="text-xs font-jakarta text-muted-foreground">{plan.period}</span>}
+                  </div>
+                  <ul className="flex-1 space-y-2 mb-6">
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-xs font-jakarta text-foreground/70">
+                        <Check size={12} className="mt-0.5 shrink-0" style={{ color: plan.color }} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  {plan.external ? (
+                    <a
+                      href={plan.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300 hover:shadow-lg"
+                      style={{
+                        background: plan.highlighted ? plan.color : "transparent",
+                        color: plan.highlighted ? "#0A0A14" : plan.color,
+                        border: `1px solid ${plan.color}30`,
+                        boxShadow: plan.highlighted ? `0 0 20px ${plan.color}20` : 'none',
+                      }}
+                    >
+                      {plan.cta}
+                    </a>
+                  ) : (
+                    <Link
+                      to={plan.href}
+                      className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300"
+                      style={{
+                        background: plan.highlighted ? plan.color : "transparent",
+                        color: plan.highlighted ? "#0A0A14" : plan.color,
+                        border: `1px solid ${plan.color}30`,
+                      }}
+                    >
+                      {plan.cta}
+                    </Link>
+                  )}
                 </div>
-                <ul className="flex-1 space-y-2 mb-6">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs font-jakarta text-foreground/70">
-                      <Check size={12} className="mt-0.5 shrink-0" style={{ color: plan.color }} />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                {plan.external ? (
-                  <a
-                    href={plan.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300 hover:shadow-lg"
-                    style={{
-                      background: plan.highlighted ? plan.color : "transparent",
-                      color: plan.highlighted ? "#0A0A14" : plan.color,
-                      border: `1px solid ${plan.color}30`,
-                      boxShadow: plan.highlighted ? `0 0 20px ${plan.color}20` : 'none',
-                    }}
-                  >
-                    {plan.cta}
-                  </a>
-                ) : (
-                  <Link
-                    to={plan.href}
-                    className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300"
-                    style={{
-                      background: plan.highlighted ? plan.color : "transparent",
-                      color: plan.highlighted ? "#0A0A14" : plan.color,
-                      border: `1px solid ${plan.color}30`,
-                    }}
-                  >
-                    {plan.cta}
-                  </Link>
-                )}
               </div>
             ))}
           </div>
