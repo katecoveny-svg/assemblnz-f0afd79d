@@ -1393,6 +1393,51 @@ export type Database = {
         }
         Relationships: []
       }
+      spark_apps: {
+        Row: {
+          created_at: string
+          display_name: string
+          html_content: string
+          id: string
+          meta_description: string | null
+          name: string
+          password_hash: string | null
+          show_branding: boolean
+          status: string
+          updated_at: string
+          user_id: string
+          view_count: number
+        }
+        Insert: {
+          created_at?: string
+          display_name: string
+          html_content: string
+          id?: string
+          meta_description?: string | null
+          name: string
+          password_hash?: string | null
+          show_branding?: boolean
+          status?: string
+          updated_at?: string
+          user_id: string
+          view_count?: number
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          html_content?: string
+          id?: string
+          meta_description?: string | null
+          name?: string
+          password_hash?: string | null
+          show_branding?: boolean
+          status?: string
+          updated_at?: string
+          user_id?: string
+          view_count?: number
+        }
+        Relationships: []
+      }
       tasks: {
         Row: {
           child_id: string | null
