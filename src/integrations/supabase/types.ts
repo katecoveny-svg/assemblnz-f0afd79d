@@ -14,6 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      action_queue: {
+        Row: {
+          agent_id: string
+          created_at: string
+          description: string
+          due_date: string | null
+          id: string
+          priority: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          description: string
+          due_date?: string | null
+          id?: string
+          priority?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          description?: string
+          due_date?: string | null
+          id?: string
+          priority?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      agent_memory: {
+        Row: {
+          agent_id: string
+          created_at: string
+          id: string
+          memory_key: string
+          memory_value: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          id?: string
+          memory_key: string
+          memory_value?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          id?: string
+          memory_key?: string
+          memory_value?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       agent_status: {
         Row: {
           agent_id: string
@@ -1136,6 +1202,39 @@ export type Database = {
           message_preview?: string
           user_id?: string | null
           user_name?: string | null
+        }
+        Relationships: []
+      }
+      output_versions: {
+        Row: {
+          agent_id: string
+          content: string
+          created_at: string
+          id: string
+          output_type: string
+          title: string
+          user_id: string
+          version: string
+        }
+        Insert: {
+          agent_id: string
+          content: string
+          created_at?: string
+          id?: string
+          output_type?: string
+          title: string
+          user_id: string
+          version?: string
+        }
+        Update: {
+          agent_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          output_type?: string
+          title?: string
+          user_id?: string
+          version?: string
         }
         Relationships: []
       }

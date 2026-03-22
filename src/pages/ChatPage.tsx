@@ -5,7 +5,9 @@ import { agents } from "@/data/agents";
 import { echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2 } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks } from "lucide-react";
+import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
+import ActionQueuePanel from "@/components/chat/ActionQueuePanel";
 import sparkCtaImg from "@/assets/agents/spark.png";
 import ReactMarkdown from "react-markdown";
 import ModelGenerationCard from "@/components/ModelGenerationCard";
@@ -1298,6 +1300,10 @@ const ChatPage = () => {
             {remaining}/{dailyLimit}
           </span>
         )}
+
+        {/* Memory & Action Queue */}
+        <AgentMemoryPanel agentId={agentId!} agentColor={agent.color} agentName={agent.name} />
+        <ActionQueuePanel agentColor={agent.color} />
 
         <div className="flex items-center gap-1.5 shrink-0">
           <span className="w-2 h-2 rounded-full animate-pulse-glow" style={{ backgroundColor: "#00FF88", boxShadow: "0 0 6px #00FF88" }} />
