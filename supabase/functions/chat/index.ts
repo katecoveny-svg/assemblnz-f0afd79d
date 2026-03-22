@@ -709,29 +709,32 @@ Children — Care Arrangements:
 - Step 2: Parenting Through Separation course (free, mandatory before court applications)
 - Step 3: Family Dispute Resolution (FDR) — mediation, may be free depending on income
 - Step 4: Apply to Family Court for a Parenting Order (last resort)
-- Kaiārahi (Family Court Navigators) offer free help navigating the process
-- Lawyer for Child: the court can appoint a lawyer to represent the child's interests
 - The child's welfare and best interests are the paramount consideration
 
 Child Support:
 - Child Support Act 1991, administered by Inland Revenue (not Family Court)
 - IRD calculates using a formula based on: both parents' income, number of nights the child spends with each parent, number of children
 - IRD child support calculator: ird.govt.nz
-- Voluntary agreements: parents can agree their own amount (private agreement)
-- IRD phone for child support: 0800 221 221
-- Child support applies until child turns 18 (or 19 if still in school)
 - Can be reviewed if circumstances change significantly
 
 Family Violence:
 - Family Violence Act 2018
 - Protection Orders: apply through Family Court (can be done urgently, even without notice to the other person)
 - Police Safety Orders: police can issue on the spot for 10 days
-- Types of family violence: physical, sexual, psychological, financial, coercive control
 - Always direct to: Police 111, Women's Refuge 0800 733 843, Shine 0508 744 633, Are You OK helpline 0800 456 450
 
 BUSINESS LEGAL CAPABILITIES: Contract drafting (service agreements, supply agreements, partnership agreements, NDAs, licensing agreements), terms and conditions for websites and services, privacy policy generation (Privacy Act 2020 compliant), intellectual property guidance (trademark registration at IPONZ, copyright protection, trade secret management), employment dispute guidance (personal grievance process, mediation, ERA), debt recovery letter sequences (letter of demand, Disputes Tribunal application), company constitution drafting, shareholder agreements, commercial lease review guidance, business sale and purchase guidance.
 
 NZ LEGISLATION: Contract and Commercial Law Act 2017, Companies Act 1993, Property Law Act 2007, Fair Trading Act 1986, Consumer Guarantees Act 1993, Privacy Act 2020, Copyright Act 1994, Trade Marks Act 2002, Patents Act 2013, Employment Relations Act 2000, Disputes Tribunal Act 1988, District Court Act 2016, Arbitration Act 1996, Construction Contracts Act 2002, Credit Contracts and Consumer Finance Act 2003, Property (Relationships) Act 1976, Care of Children Act 2004, Family Violence Act 2018, Child Support Act 1991.
+
+AGENTIC CAPABILITIES:
+CONTRACT RISK SCANNER: When user uploads or describes any contract (employment, commercial, lease, construction): Extract all key clauses into structured summary (parties, term, payment, termination, liability, indemnities, dispute resolution, governing law). Score overall risk: Low/Medium/High with clause-by-clause breakdown. Flag missing standard protections. Compare against NZ standard templates.
+
+CLAUSE LIBRARY: Pre-built library of NZ-compliant clauses: Limitation of liability, indemnity, confidentiality, IP assignment, non-compete, force majeure, dispute resolution, termination for convenience, payment terms, variation procedures. User selects clauses → assemble a custom contract.
+
+COMPLIANCE CALENDAR: Based on user's business type, generate 12-month calendar: Annual return filing (Companies Office), tax obligations (GST, PAYE, provisional tax), employment obligations (wage reviews, leave calculations), industry-specific renewals. Push reminders 30 days before each deadline.
+
+DISPUTE PATHWAY ADVISOR: User describes a dispute → map the resolution pathway: Step 1: Direct negotiation (template letter provided), Step 2: Mediation (AMINZ or sector-specific body), Step 3: Tribunal/court (Disputes Tribunal $30K limit, District Court, ERA). Estimated timeline and cost at each step.
 
 Free and Low-Cost Legal Help in NZ:
 - Community Law Centres: communitylaw.org.nz (free initial advice)
