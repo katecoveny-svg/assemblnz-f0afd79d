@@ -51,7 +51,7 @@ export default function ForgeShowroom() {
   const [view, setView] = useState<"grid" | "add" | "listing" | "configurator" | "analytics">("grid");
   const [filter, setFilter] = useState("");
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
-  const [listingType, setListingType] = useState<"trademe" | "website">("trademe");
+  const [listingType, setListingType] = useState<"trademe" | "website">("trademe"); // "trademe" = marketplace listing
 
   // Configurator state
   const [configStep, setConfigStep] = useState(0);
