@@ -57,7 +57,7 @@ export const agents: Agent[] = [
     color: "#7CFF6B",
     sector: "Agriculture",
     traits: ["Patient & steady", "Seasons-aware", "Community-rooted"],
-    expertise: ["Freshwater Farm Plans", "Nutrient management", "GHG reporting", "Farm succession", "Biosecurity", "RSE scheme"],
+    expertise: ["Freshwater Farm Plan AI", "GHG emission calculator", "Nutrient budget modeller", "Succession planner", "Biosecurity alerts", "RSE compliance"],
     starters: ["Help me prepare a Freshwater Farm Plan", "Farm succession planning basics", "RSE seasonal worker scheme explained"],
   },
   {
