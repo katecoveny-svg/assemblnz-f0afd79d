@@ -57,13 +57,19 @@ export default function HelmSettings() {
 
   const createFamily = async () => {
     if (!user || !familyName.trim()) return;
-    const { data: fam } = await supabase.from("families").insert({ name: familyName, nz_region: region, created_by: user.id }).select().single();
-    if (fam) {
-      await supabase.from("family_members").insert({ family_id: fam.id, user_id: user.id, role: "admin" });
-      // Create invite code
-      await supabase.from("family_invites").insert({ family_id: fam.id, created_by: user.id });
-      setShowSetup(false);
-      loadData();
+    try {
+      const { data: fam, error: famError } = await supabase.from("families").insert({ name: familyName, nz_region: region, created_by: user.id }).select().single();
+      if (famError) { toast.error("Failed to create family: " + famError.message); return; }
+      if (fam) {
+        const { error: memError } = await supabase.from("family_members").insert({ family_id: fam.id, user_id: user.id, role: "admin" });
+        if (memError) { toast.error("Failed to add you as family member: " + memError.message); return; }
+        await supabase.from("family_invites").insert({ family_id: fam.id, created_by: user.id });
+        toast.success("Family created successfully!");
+        setShowSetup(false);
+        loadData();
+      }
+    } catch (e: any) {
+      toast.error("Error: " + e.message);
     }
   };
 
