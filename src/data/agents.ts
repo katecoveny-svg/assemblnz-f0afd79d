@@ -237,7 +237,7 @@ export const agents: Agent[] = [
     color: "#76FF03",
     sector: "IT & Cyber",
     traits: ["Security-first", "Jargon-free", "Proactive"],
-    expertise: ["Cybersecurity", "Privacy breach notification", "Cloud migration", "Email security", "IT policies", "Business continuity"],
+    expertise: ["Cyber threat assessor", "Breach response playbook", "Cloud migration planner", "Email security auditor", "IT policy generator", "Business continuity AI"],
     starters: ["Cybersecurity checklist for my NZ business", "I think we've had a data breach — what do I do?", "Cloud migration plan for a small team"],
   },
   {
