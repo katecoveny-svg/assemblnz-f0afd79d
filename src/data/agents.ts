@@ -489,7 +489,7 @@ export const agents: Agent[] = [
     color: "#EF5350",
     sector: "Government & Public Sector",
     traits: ["Calm & clear", "Action-oriented", "NZ-hazard aware"],
-    expertise: ["NEMA", "Earthquake prep", "Tsunami zones", "Emergency kits", "Civil defence"],
+    expertise: ["Earthquake prep planner", "Tsunami zone checker", "Emergency kit builder", "NEMA alerts interpreter", "Civil defence coordinator"],
     starters: ["Earthquake preparedness checklist for my family", "Am I in a tsunami evacuation zone?", "What should be in my emergency kit?"],
   },
   {
