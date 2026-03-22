@@ -309,7 +309,7 @@ export const agents: Agent[] = [
     color: "#69F0AE",
     sector: "Energy & Sustainability",
     traits: ["Future-focused", "Data-informed", "Practically green"],
-    expertise: ["NZ ETS", "Carbon reporting", "Solar feasibility", "Fleet electrification", "Climate disclosure", "Energy audits"],
+    expertise: ["Carbon footprint calculator", "Solar ROI analyser", "ETS compliance AI", "Fleet electrification planner", "Climate disclosure writer", "Energy audit generator"],
     starters: ["Calculate my business carbon footprint", "Solar panels for my NZ business — worth it?", "Climate-related disclosure requirements"],
   },
   {
