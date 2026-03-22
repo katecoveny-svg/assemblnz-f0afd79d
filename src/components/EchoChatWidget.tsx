@@ -58,7 +58,7 @@ const EchoChatWidget = () => {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center transition-transform hover:scale-110 group"
+          className="fixed bottom-6 left-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center transition-transform hover:scale-110 group"
           style={{
             background: "#E4A0FF",
             boxShadow: "0 4px 20px rgba(228,160,255,0.4), 0 0 40px rgba(228,160,255,0.15)",
@@ -74,7 +74,7 @@ const EchoChatWidget = () => {
       {/* Chat window */}
       {open && (
         <div
-          className="fixed bottom-6 right-6 z-[9999] w-[380px] max-w-[calc(100vw-48px)] rounded-2xl overflow-hidden flex flex-col border border-[#E4A0FF]/15"
+          className="fixed bottom-6 left-6 z-[9999] w-[380px] max-w-[calc(100vw-48px)] rounded-2xl overflow-hidden flex flex-col border border-[#E4A0FF]/15"
           style={{
             height: "600px",
             maxHeight: "calc(100vh - 100px)",
