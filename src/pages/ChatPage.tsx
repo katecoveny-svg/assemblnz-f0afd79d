@@ -824,9 +824,9 @@ const ChatPage = () => {
   const showMsgCounter = user && !isPaid;
   const remaining = dailyLimit - dailyMessageCount;
 
-  const renderMessageContent = (msg: Message) => {
-    const content = msg.content;
-
+  const renderMessageContent = (msg: Message, msgIndex?: number) => {
+    // Strip [GENERATE_IMAGE: ...] tags from displayed content
+    const content = msg.content.replace(/\[GENERATE_IMAGE:\s*.*?\]/g, "").trim();
     if (msg.role === "assistant") {
       if (agentId === "customs") {
         const entryData = parseNexusEntry(content);
