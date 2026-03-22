@@ -37,7 +37,7 @@ const EchoPage = () => (
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-            <p className="font-mono-jb text-[10px] mb-2" style={{ color: "rgba(228,160,255,0.3)" }}>ASM-000 · Founder AI Clone</p>
+            <p className="font-mono-jb text-[10px] mb-2" style={{ color: "rgba(228,160,255,0.3)" }}>ASM-000 · Assembl Hero Agent</p>
             <h1 className="font-syne font-extrabold text-4xl sm:text-5xl mb-4" style={{ color: "#E4A0FF", textShadow: "0 0 30px rgba(228,160,255,0.35), 0 0 80px rgba(228,160,255,0.1)" }}>
               ECHO
             </h1>
