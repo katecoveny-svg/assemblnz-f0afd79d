@@ -1373,7 +1373,7 @@ const ChatPage = () => {
           <HelmDashboard items={dashboardItems} onAddReminder={handleAddReminder} />
         </div>
       ) : (
-        <div className={isSpark && sparkCode ? "flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden" : "flex flex-col flex-1 min-h-0"}>
+        <div className={hasLivePreview ? "flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden" : "flex flex-col flex-1 min-h-0"}>
           {/* Mobile SPARK toggle */}
           {isSpark && sparkCode && (
             <div className="flex md:hidden border-b border-border shrink-0">
