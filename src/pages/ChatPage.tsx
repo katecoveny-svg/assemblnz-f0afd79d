@@ -1211,6 +1211,7 @@ const ChatPage = () => {
                   { id: "prism_brand" as const, label: "Brand Voice" },
                   { id: "prism_creative" as const, label: "Creative" },
                   { id: "prism_video" as const, label: "Video" },
+                  { id: "prism_brandlab" as const, label: "Brand Lab" },
                 ]).map(t => (
                   <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
                     style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
