@@ -9,7 +9,7 @@ import AnimatedHero from "@/components/AnimatedHero";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { X, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-react";
-import { NeonWave, NeonNZFlag } from "@/components/NeonIcons";
+import { NeonWave } from "@/components/NeonIcons";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 
