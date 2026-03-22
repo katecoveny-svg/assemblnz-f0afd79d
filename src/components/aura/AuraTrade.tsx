@@ -6,7 +6,7 @@ const color = "#E6B422";
 const TRADE_EVENTS = [
   { event: "TRENZ", desc: "NZ's premier tourism trade event", timing: "May annually" },
   { event: "Luxury Travel Fair", desc: "International luxury travel showcase", timing: "Various" },
-  { event: "Virtuoso Travel Week", desc: "Luxury travel advisor conference", timing: "August" },
+  { event: "Luxury Advisor Summit", desc: "Luxury travel advisor conference", timing: "August" },
   { event: "ITB Berlin", desc: "World's largest tourism trade fair", timing: "March" },
   { event: "WTM London", desc: "World Travel Market", timing: "November" },
   { event: "ATM Dubai", desc: "Arabian Travel Market", timing: "May" },

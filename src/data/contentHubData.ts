@@ -29,8 +29,8 @@ export interface OutputCard {
 }
 
 export const COMPARISONS: ComparisonItem[] = [
-  { agent: "FLUX", agentColor: "#00E5FF", replaces: "HubSpot Sales Hub", theirCost: "$450–800/mo", assemblCost: "$249/mo" },
-  { agent: "PRISM", agentColor: "#E040FB", replaces: "Jasper AI + Buffer + Agency", theirCost: "$3,000–8,000/mo", assemblCost: "$249/mo" },
+  { agent: "FLUX", agentColor: "#00E5FF", replaces: "CRM Sales Platform", theirCost: "$450–800/mo", assemblCost: "$249/mo" },
+  { agent: "PRISM", agentColor: "#E040FB", replaces: "AI Writer + Scheduler + Agency", theirCost: "$3,000–8,000/mo", assemblCost: "$249/mo" },
   { agent: "AROHA", agentColor: "#FF6F91", replaces: "HR Consultant", theirCost: "$150–250/hr", assemblCost: "$249/mo" },
   { agent: "HAVEN", agentColor: "#FF80AB", replaces: "Property Manager", theirCost: "7–10% of rent", assemblCost: "$249/mo" },
   { agent: "FORGE", agentColor: "#FF4D6A", replaces: "F&I Software + Compliance", theirCost: "$500–2,000/mo", assemblCost: "$249/mo" },
@@ -88,7 +88,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
     outputType: "Guest Pre-Arrival Dossier",
     formatBadge: "Document",
     preview: `**GUEST INTELLIGENCE BRIEF**\n\nGuest: Mr & Mrs James Whitfield\nProperty: The Lindis Lodge, Canterbury\nArrival: 15 April 2026 | 3 nights | 25th anniversary`,
-    fullContent: `**GUEST INTELLIGENCE BRIEF**\n\nGuest: Mr & Mrs James Whitfield\nProperty: The Lindis Lodge, Canterbury\nArrival: 15 April 2026 | 3 nights | Celebrating 25th wedding anniversary\nSource: Virtuoso booking via Travel Associates Sydney\n\n**Dietary & Preferences:**\n• Mrs Whitfield: Pescatarian, no shellfish\n• Mr Whitfield: No restrictions. Enjoys Central Otago Pinot Noir\n• Anniversary dinner: Request window table with mountain view\n• Previous NZ visit: 2019, stayed Huka Lodge — rated it 9/10\n\n**Pre-Arrival Actions:**\n☐ Anniversary card signed by GM in suite on arrival\n☐ Bottle of Felton Road Block 5 Pinot Noir 2022 chilled in room\n☐ Kitchen briefed: pescatarian menu cards for all 3 nights\n☐ Day 2: Helicopter to Aoraki/Mt Cook for glacier landing\n☐ Day 3: Private guided walk to Lake Ōhau Wetlands\n☐ Stargazing session booked for clearest evening\n☐ Transfer: Arranged from Queenstown Airport, 2.5hr drive\n\n**Estimated Guest Lifetime Value:** $18,500`,
+    fullContent: `**GUEST INTELLIGENCE BRIEF**\n\nGuest: Mr & Mrs James Whitfield\nProperty: The Lindis Lodge, Canterbury\nArrival: 15 April 2026 | 3 nights | Celebrating 25th wedding anniversary\nSource: Luxury travel network booking via Travel Associates Sydney\n\n**Dietary & Preferences:**\n• Mrs Whitfield: Pescatarian, no shellfish\n• Mr Whitfield: No restrictions. Enjoys Central Otago Pinot Noir\n• Anniversary dinner: Request window table with mountain view\n• Previous NZ visit: 2019, stayed luxury lodge — rated it 9/10\n\n**Pre-Arrival Actions:**\n☐ Anniversary card signed by GM in suite on arrival\n☐ Bottle of Central Otago Pinot Noir 2022 chilled in room\n☐ Kitchen briefed: pescatarian menu cards for all 3 nights\n☐ Day 2: Helicopter to Aoraki/Mt Cook for glacier landing\n☐ Day 3: Private guided walk to Lake Ōhau Wetlands\n☐ Stargazing session booked for clearest evening\n☐ Transfer: Arranged from Queenstown Airport, 2.5hr drive\n\n**Estimated Guest Lifetime Value:** $18,500`,
   },
   {
     id: "aura-itinerary",
@@ -134,7 +134,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
     outputType: "Healthy Homes Compliance Check",
     formatBadge: "Report",
     preview: `**PROPERTY:** 14 Rata Street, Mt Eden, Auckland\n\n| Standard | Status |\n|---|---|\n| Heating | ✅ PASS |\n| Ceiling Insulation | ✅ PASS |`,
-    fullContent: `**PROPERTY:** 14 Rata Street, Mt Eden, Auckland\n**LANDLORD:** K. Peterson | **TENANT:** J. & M. Sharma\n\n| Standard | Requirement | Status | Action |\n|---|---|---|---|\n| Heating | Fixed heater, min 1.5kW | ✅ PASS | Daikin heat pump (3.5kW) |\n| Ceiling Insulation | R 2.9 minimum | ✅ PASS | R3.2 installed 2022 |\n| Underfloor Insulation | R 1.3 minimum | ❌ FAIL | No insulation. Requires retrofit |\n| Ventilation | Extractor fans | ⚠️ PARTIAL | Bathroom fan not functioning |\n| Moisture & Drainage | No leaks | ✅ PASS | Guttering clear |\n| Draught Stopping | All windows seal | ⚠️ PARTIAL | 2 bedroom windows have gaps |\n\n**Compliance Score: 4/6 — Action Required**\n\n**Priority Remediation:**\n1. ⚡ URGENT: Underfloor insulation — Est. $2,500-$4,000\n2. 🔧 HIGH: Bathroom extractor fan — Est. $150-$350\n3. 🔧 MEDIUM: Window draught strips — Est. $30-$80\n\n*Failure to meet Healthy Homes Standards may result in penalties up to $7,200.*`,
+    fullContent: `**PROPERTY:** 14 Rata Street, Mt Eden, Auckland\n**LANDLORD:** K. Peterson | **TENANT:** J. & M. Sharma\n\n| Standard | Requirement | Status | Action |\n|---|---|---|---|\n| Heating | Fixed heater, min 1.5kW | ✅ PASS | Heat pump (3.5kW) |\n| Ceiling Insulation | R 2.9 minimum | ✅ PASS | R3.2 installed 2022 |\n| Underfloor Insulation | R 1.3 minimum | ❌ FAIL | No insulation. Requires retrofit |\n| Ventilation | Extractor fans | ⚠️ PARTIAL | Bathroom fan not functioning |\n| Moisture & Drainage | No leaks | ✅ PASS | Guttering clear |\n| Draught Stopping | All windows seal | ⚠️ PARTIAL | 2 bedroom windows have gaps |\n\n**Compliance Score: 4/6 — Action Required**\n\n**Priority Remediation:**\n1. ⚡ URGENT: Underfloor insulation — Est. $2,500-$4,000\n2. 🔧 HIGH: Bathroom extractor fan — Est. $150-$350\n3. 🔧 MEDIUM: Window draught strips — Est. $30-$80\n\n*Failure to meet Healthy Homes Standards may result in penalties up to $7,200.*`,
   },
   // AROHA
   {
@@ -157,8 +157,8 @@ export const OUTPUT_CARDS: OutputCard[] = [
     agentColor: "#FF4D6A",
     outputType: "Finance Payment Comparison",
     formatBadge: "Calculator",
-    preview: `**VEHICLE:** 2024 Tesla Model 3 RWD | $52,990\n**Deposit:** $10,000 | **Financed:** $42,990\n\n| | Dealer | Bank | MARAC |`,
-    fullContent: `**VEHICLE:** 2024 Tesla Model 3 RWD | **Price:** $52,990\n**Deposit:** $10,000 | **Amount financed:** $42,990\n\n| | Dealer Finance | Bank Loan | MARAC Motor |\n|---|---|---|---|\n| Interest rate | 9.95% p.a. | 8.49% p.a. | 11.95% p.a. |\n| Monthly repayment | $912.34 | $880.45 | $955.18 |\n| Total interest | $11,750.40 | $9,837.00 | $14,320.80 |\n| **TOTAL YOU PAY** | **$65,115.40** | **$63,027.00** | **$67,710.80** |\n\n**Savings choosing Bank Loan vs Dealer: $2,088.40**\n\n*Finance calculations indicative only. Total cost of credit per CCCFA 2003.*`,
+    preview: `**VEHICLE:** 2024 Mid-Size EV Sedan | $52,990\n**Deposit:** $10,000 | **Financed:** $42,990\n\n| | Dealer | Bank | Finance Co. |`,
+    fullContent: `**VEHICLE:** 2024 Mid-Size EV Sedan | **Price:** $52,990\n**Deposit:** $10,000 | **Amount financed:** $42,990\n\n| | Dealer Finance | Bank Loan | Finance Company |\n|---|---|---|---|\n| Interest rate | 9.95% p.a. | 8.49% p.a. | 11.95% p.a. |\n| Monthly repayment | $912.34 | $880.45 | $955.18 |\n| Total interest | $11,750.40 | $9,837.00 | $14,320.80 |\n| **TOTAL YOU PAY** | **$65,115.40** | **$63,027.00** | **$67,710.80** |\n\n**Savings choosing Bank Loan vs Dealer: $2,088.40**\n\n*Finance calculations indicative only. Total cost of credit per CCCFA 2003.*`,
   },
   // LEDGER
   {
@@ -205,7 +205,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
     outputType: "Mortgage Comparison Report",
     formatBadge: "Calculator",
     preview: `**SCENARIO:** First home buyer, Auckland\nPurchase: $875,000 | Deposit: $175,000 (20%)\n\n| Bank | Rate | Monthly |`,
-    fullContent: `**SCENARIO:** First home buyer, Auckland. Purchase $875,000. Deposit $175,000 (20%). Loan $700,000. 30 years.\n\n| Bank | Fixed Rate (2yr) | Monthly | Total Interest | Total Cost |\n|---|---|---|---|---|\n| ANZ | 5.29% | $3,877 | $695,720 | $1,395,720 |\n| ASB | 5.19% | $3,833 | $679,880 | $1,379,880 |\n| Westpac | 5.39% | $3,922 | $711,920 | $1,411,920 |\n| BNZ | 5.25% | $3,859 | $689,240 | $1,389,240 |\n\n**Best option: ASB at 5.19% saves $32,040 vs Westpac**\n\n**Split loan strategy:**\n$400,000 fixed 2yr at 5.19% + $300,000 floating at 6.89%\nMonthly: $2,190 + $1,975 = $4,165\nBenefit: Extra payments on floating without break fees`,
+    fullContent: `**SCENARIO:** First home buyer, Auckland. Purchase $875,000. Deposit $175,000 (20%). Loan $700,000. 30 years.\n\n| Bank | Fixed Rate (2yr) | Monthly | Total Interest | Total Cost |\n|---|---|---|---|---|\n| Bank A | 5.29% | $3,877 | $695,720 | $1,395,720 |\n| Bank B | 5.19% | $3,833 | $679,880 | $1,379,880 |\n| Bank C | 5.39% | $3,922 | $711,920 | $1,411,920 |\n| Bank D | 5.25% | $3,859 | $689,240 | $1,389,240 |\n\n**Best option: Bank B at 5.19% saves $32,040 vs Bank C**\n\n**Split loan strategy:**\n$400,000 fixed 2yr at 5.19% + $300,000 floating at 6.89%\nMonthly: $2,190 + $1,975 = $4,165\nBenefit: Extra payments on floating without break fees`,
   },
   {
     id: "vault-kiwisaver",

@@ -14,7 +14,7 @@ const AWARDS = [
   { name: "NZ Architecture Awards", org: "NZIA", entry: "Varies", event: "Varies", url: "nzia.co.nz", criteria: "architectural excellence, innovation" },
   { name: "Safeguard NZ Workplace H&S Awards", org: "Safeguard", entry: "Mid year", event: "Oct", url: "safeguard.co.nz", criteria: "workplace health and safety excellence" },
   { name: "NZ Green Building Awards", org: "NZGBC", entry: "Varies", event: "Varies", url: "nzgbc.org.nz", criteria: "sustainability, green building innovation" },
-  { name: "Westpac Business Awards", org: "Various chambers", entry: "Varies", event: "Varies", url: "Various", criteria: "business excellence, innovation, community contribution" },
+  { name: "Regional Business Awards", org: "Various chambers", entry: "Varies", event: "Varies", url: "Various", criteria: "business excellence, innovation, community contribution" },
   { name: "Sustainable Business Awards", org: "SBN", entry: "Varies", event: "Varies", url: "sustainable.org.nz", criteria: "sustainability leadership" },
   { name: "Site Safe Awards", org: "Site Safe", entry: "Varies", event: "Varies", url: "sitesafe.org.nz", criteria: "health and safety excellence in construction" },
   { name: "CCNZ Hirepool Awards", org: "Civil Contractors NZ", entry: "Varies", event: "Aug", url: "civilcontractors.co.nz", criteria: "civil construction excellence" },

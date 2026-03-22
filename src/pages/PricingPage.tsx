@@ -621,7 +621,7 @@ const PricingPage = () => {
               </h2>
             </div>
             <p className="text-sm font-jakarta max-w-lg mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Every Assembl agent ships with capabilities modelled on HubSpot Breeze, Salesforce Agentforce, and Zendesk AI — built for NZ businesses.
+              Every Assembl agent ships with enterprise-grade AI capabilities — built for NZ businesses.
             </p>
           </div>
 

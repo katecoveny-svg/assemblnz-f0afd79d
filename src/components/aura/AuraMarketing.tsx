@@ -4,18 +4,18 @@ import { NeonMegaphone, NeonDocument, NeonChart, NeonStar, NeonPen } from "@/com
 const color = "#E6B422";
 
 const PR_CAMPAIGNS = [
-  { label: "International Media Campaign", targets: "Condé Nast Traveler, Travel + Leisure, Robb Report, Wallpaper*, Monocle, Financial Times HTSI, Virtuoso Life" },
-  { label: "NZ/Australia Media", targets: "Vogue Living, Gourmet Traveller, NZ Herald Travel, Noted, Cuisine, Metro, Kia Ora (Air NZ)" },
-  { label: "Awards & Accolades Strategy", targets: "Condé Nast Readers' Choice, TripAdvisor Travelers' Choice, Virtuoso Best of Best, MICHELIN Guide, World's 50 Best Hotels" },
+  { label: "International Media Campaign", targets: "Leading travel publications, luxury lifestyle magazines, global hotel industry press" },
+  { label: "NZ/Australia Media", targets: "Regional lifestyle and travel publications, national newspapers, in-flight magazines" },
+  { label: "Awards & Accolades Strategy", targets: "International hospitality awards, readers' choice programmes, global hotel rankings" },
 ];
 
 const PARTNERSHIPS = [
-  { category: "Airlines", examples: "Air New Zealand Business Premier, Airpoints partnerships, in-flight magazine" },
-  { category: "Luxury Networks", examples: "Virtuoso, Relais & Châteaux, Small Luxury Hotels, Andrew Harper" },
-  { category: "Automotive", examples: "Mercedes, BMW, Range Rover — NZ distributors for guest transfers" },
+  { category: "Airlines", examples: "National carrier business class, loyalty partnerships, in-flight magazine" },
+  { category: "Luxury Networks", examples: "Leading luxury travel consortia and curated hotel collections" },
+  { category: "Automotive", examples: "Premium automotive brands — NZ distributors for guest transfers" },
   { category: "Helicopter", examples: "Signature experiences, scenic flights, remote access" },
   { category: "Wine", examples: "Exclusive cellar label with NZ vineyards" },
-  { category: "Fashion/Lifestyle", examples: "Icebreaker Merino, Karen Walker, Maggie Marilyn" },
+  { category: "Fashion/Lifestyle", examples: "NZ designer brands and lifestyle partners" },
   { category: "Sustainability", examples: "DOC, conservation organisations, carbon offset programmes" },
   { category: "Tour Operators", examples: "International luxury NZ itinerary inclusion" },
 ];

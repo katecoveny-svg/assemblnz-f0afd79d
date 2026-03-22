@@ -21,8 +21,8 @@ const PACKAGES = [
 const CHANNELS = [
   { name: "Direct (website, phone, email)", share: "45%", margin: "Highest", target: "70%+" },
   { name: "Travel Agent / Trade Partner", share: "25%", margin: "Medium (10-15% comm.)", target: "Maintain" },
-  { name: "OTA (Booking.com, Expedia)", share: "15%", margin: "Lowest (15-25% comm.)", target: "Reduce" },
-  { name: "Luxury Network (Virtuoso, R&C)", share: "10%", margin: "Medium (10% comm.)", target: "Grow" },
+  { name: "OTA (Online Travel Agencies)", share: "15%", margin: "Lowest (15-25% comm.)", target: "Reduce" },
+  { name: "Luxury Travel Network", share: "10%", margin: "Medium (10% comm.)", target: "Grow" },
   { name: "Repeat Guests", share: "3%", margin: "Highest", target: "Grow" },
   { name: "Referrals", share: "2%", margin: "Highest", target: "Grow" },
 ];

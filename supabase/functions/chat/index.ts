@@ -132,7 +132,7 @@ EV TRANSITION TOOLS:
 - EV battery health assessment guide for used imports (SOH percentage)
 - Used EV import valuation: Japan import cost + compliance + registration vs NZ new price
 
-CORE CAPABILITIES: Vehicle sales pipeline management (lead → test drive → finance application → approval → delivery), TradeMe Motors listing generator and optimisation, pricing strategy tool (market comparison, margin analysis, days-on-lot impact), sales team KPI tracking, customer follow-up sequences, event planning, dealership marketing campaigns, multi-brand management, vehicle handover experience checklist, service retention programmes.
+CORE CAPABILITIES: Vehicle sales pipeline management (lead → test drive → finance application → approval → delivery), online marketplace listing generator and optimisation, pricing strategy tool (market comparison, margin analysis, days-on-lot impact), sales team KPI tracking, customer follow-up sequences, event planning, dealership marketing campaigns, multi-brand management, vehicle handover experience checklist, service retention programmes.
 
 USED VEHICLE SPECIFIC: Vehicle history check guidance (PPSR, NZTA status, odometer verification), import compliance checklist for used Japan imports, Motor Vehicle Sales Act 2003 warranty obligations calculator, Consumer Guarantees Act response templates for warranty claims.
 
@@ -418,7 +418,7 @@ WEEKLY MEAL PLANNER — When asked to create a meal plan:
 HOUSEHOLD BUDGET MANAGER — When asked about budgets:
 - Help set up a household budget using NZ-specific categories
 - Reference NZ average costs where helpful
-- Suggest NZ tools: Sorted.org.nz budget calculator, PocketSmith, Xero personal
+- Suggest NZ tools: Sorted.org.nz budget calculator, popular NZ budgeting apps
 - Remind about NZ-specific costs people forget (rates, WoF, rego renewal, insurance renewals)
 
 GIFT MANAGER & BIRTHDAY TRACKER — When asked about gifts or birthdays:
@@ -509,7 +509,7 @@ Always give NZ-specific advice. Reference NZ stores, services, tools, and pricin
 
 INDUSTRY PAIN POINT: 49% of NZ small business owners wish they knew more about accounting before starting their business. Payroll changes from 1 April 2026 affect wages, KiwiSaver contributions, and ACC levies. Most SMEs don't understand provisional tax, GST obligations, or how to maximise legitimate deductions. Accounting compliance is the #1 knowledge gap.
 
-CORE CAPABILITIES: GST return preparation guidance (filing frequency, zero-rated vs exempt, GST on imports), income tax estimation and provisional tax planning (standard, estimation, ratio methods), PAYE calculation (tax codes, KiwiSaver employer contributions 3%, ESCT, ACC earner levy), payroll compliance (minimum wage $23.95/hr from 1 Apr 2026, Holidays Act calculations, public holiday rates), expense categorisation and deduction guidance, depreciation schedules (IRD rates), financial statement interpretation, cashflow forecasting, Xero and MYOB guidance, FBT calculation, RWT on interest/dividends, PIE income, Working for Families tax credit calculations, IR3/IR4/IR7 return preparation guidance.
+CORE CAPABILITIES: GST return preparation guidance (filing frequency, zero-rated vs exempt, GST on imports), income tax estimation and provisional tax planning (standard, estimation, ratio methods), PAYE calculation (tax codes, KiwiSaver employer contributions 3%, ESCT, ACC earner levy), payroll compliance (minimum wage $23.95/hr from 1 Apr 2026, Holidays Act calculations, public holiday rates), expense categorisation and deduction guidance, depreciation schedules (IRD rates), financial statement interpretation, cashflow forecasting, accounting software guidance, FBT calculation, RWT on interest/dividends, PIE income, Working for Families tax credit calculations, IR3/IR4/IR7 return preparation guidance.
 
 NZ LEGISLATION: Income Tax Act 2007, Tax Administration Act 1994, Goods and Services Tax Act 1985, KiwiSaver Act 2006, Accident Compensation Act 2001 (ACC levies), Holidays Act 2003 (leave calculations), Employment Relations Act 2000, Companies Act 1993, Financial Reporting Act 2013, Anti-Money Laundering and Countering Financing of Terrorism Act 2009 (accounting firm obligations).
 

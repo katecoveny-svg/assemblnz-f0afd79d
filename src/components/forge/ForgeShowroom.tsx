@@ -51,7 +51,7 @@ export default function ForgeShowroom() {
   const [view, setView] = useState<"grid" | "add" | "listing" | "configurator" | "analytics">("grid");
   const [filter, setFilter] = useState("");
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
-  const [listingType, setListingType] = useState<"trademe" | "website">("trademe");
+  const [listingType, setListingType] = useState<"trademe" | "website">("trademe"); // "trademe" = marketplace listing
 
   // Configurator state
   const [configStep, setConfigStep] = useState(0);
@@ -103,10 +103,10 @@ ${v.conditionNotes ? `Condition: ${v.conditionNotes}` : ""}
 
 📸 Recommended Photo Order: Hero 3/4 front shot → Front straight → Rear 3/4 → Side profile → Interior dashboard → Front seats → Rear seats → Boot → Engine bay → Wheels/tyres → Any special features → Odometer
 
-✅ Compliant with TradeMe Motors listing policy — no overlays, genuine photos, NZD pricing incl. GST.
+✅ Compliant with NZ motor marketplace listing policy — no overlays, genuine photos, NZD pricing incl. GST.
 
 ---
-For direct API integration with TradeMe DealerBase, contact motorsapi@trademe.co.nz to set up your API access.`;
+For direct API integration with your marketplace, contact your platform provider to set up API access.`;
   };
 
   const generateWebsiteListing = (v: Vehicle) => {
@@ -374,7 +374,7 @@ ${v.conditionNotes}. ${v.serviceHistory}.
         <div className="flex gap-2">
           {(["trademe", "website"] as const).map(t => (
             <button key={t} onClick={() => setListingType(t)} className="px-3 py-1.5 rounded-lg text-xs font-medium" style={{ backgroundColor: listingType === t ? FORGE_COLOR + "20" : "transparent", color: listingType === t ? FORGE_COLOR : "hsl(var(--muted-foreground))", border: `1px solid ${listingType === t ? FORGE_COLOR + "40" : "hsl(var(--border))"}` }}>
-              {t === "trademe" ? "TradeMe Motors" : "Website Listing"}
+              {t === "trademe" ? "Marketplace Listing" : "Website Listing"}
             </button>
           ))}
         </div>
@@ -468,7 +468,7 @@ ${v.conditionNotes}. ${v.serviceHistory}.
             </div>
             <div className="flex gap-1.5 flex-wrap">
               <button className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] border border-border text-muted-foreground hover:text-foreground"><Edit size={9} /> Edit</button>
-              <button onClick={() => { setSelectedVehicle(v); setView("listing"); setListingType("trademe"); }} className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] border border-border text-muted-foreground hover:text-foreground"><ExternalLink size={9} /> TradeMe</button>
+              <button onClick={() => { setSelectedVehicle(v); setView("listing"); setListingType("trademe"); }} className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] border border-border text-muted-foreground hover:text-foreground"><ExternalLink size={9} /> Marketplace</button>
               <button onClick={() => { setSelectedVehicle(v); setView("listing"); setListingType("website"); }} className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] border border-border text-muted-foreground hover:text-foreground"><Copy size={9} /> Ad</button>
               <button className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] border border-border text-muted-foreground hover:text-foreground"><Share2 size={9} /> Share</button>
             </div>

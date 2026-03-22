@@ -9,7 +9,7 @@ import { useState } from "react";
 /* ── HAVEN: Compliance Dashboard ── */
 export const HavenCompliancePreview = () => {
   const items = [
-    { standard: "Heating", status: "pass", detail: "Daikin 3.5kW" },
+    { standard: "Heating", status: "pass", detail: "Heat pump 3.5kW" },
     { standard: "Ceiling Insulation", status: "pass", detail: "R3.2" },
     { standard: "Underfloor", status: "fail", detail: "Not installed" },
     { standard: "Ventilation", status: "partial", detail: "Bathroom fan broken" },
@@ -149,7 +149,7 @@ export const ForgeComparisonPreview = () => {
   const lenders = [
     { name: "Dealer", rate: "9.95%", monthly: "$912", total: "$65,115", best: false },
     { name: "Bank", rate: "8.49%", monthly: "$880", total: "$63,027", best: true },
-    { name: "MARAC", rate: "11.95%", monthly: "$955", total: "$67,711", best: false },
+    { name: "Finance Co.", rate: "11.95%", monthly: "$955", total: "$67,711", best: false },
   ];
   return (
     <div>
@@ -330,10 +330,10 @@ export const LedgerPayePreview = () => {
 /* ── VAULT: Mortgage Comparison ── */
 export const VaultMortgagePreview = () => {
   const banks = [
-    { name: "ANZ", rate: "5.29%", monthly: "$3,877", best: false },
-    { name: "ASB", rate: "5.19%", monthly: "$3,833", best: true },
-    { name: "Westpac", rate: "5.39%", monthly: "$3,922", best: false },
-    { name: "BNZ", rate: "5.25%", monthly: "$3,859", best: false },
+    { name: "Bank A", rate: "5.29%", monthly: "$3,877", best: false },
+    { name: "Bank B", rate: "5.19%", monthly: "$3,833", best: true },
+    { name: "Bank C", rate: "5.39%", monthly: "$3,922", best: false },
+    { name: "Bank D", rate: "5.25%", monthly: "$3,859", best: false },
   ];
   return (
     <div className="space-y-1">
@@ -358,7 +358,7 @@ export const VaultMortgagePreview = () => {
         </div>
       ))}
       <p className="text-center font-mono-jb text-[8px] pt-1" style={{ color: "#00FF88" }}>
-        ASB saves $32,040 over loan life
+        Bank B saves $32,040 over loan life
       </p>
     </div>
   );
@@ -525,7 +525,7 @@ export const AuraGuestPreview = () => (
     </div>
     {[
       "☐ Anniversary card in suite",
-      "☐ Felton Road Pinot chilled",
+      "☐ Central Otago Pinot chilled",
       "☐ Pescatarian menu cards",
       "☐ Helicopter to Aoraki/Mt Cook",
       "☐ Stargazing session",

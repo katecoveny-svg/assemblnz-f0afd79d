@@ -165,7 +165,7 @@ const AuraPropertySetup = () => {
     // Step 4: Awards & Web
     <div key={4} className="space-y-3">
       <h3 className="font-semibold text-sm text-foreground flex items-center gap-2"><NeonGlobe size={16} /> Awards & Online Presence</h3>
-      <textarea className={inputCls + " min-h-[60px]"} placeholder="Awards and accolades (e.g. MICHELIN Two Keys, Condé Nast Readers' Choice)" value={profile.awards} onChange={e => set("awards", e.target.value)} />
+      <textarea className={inputCls + " min-h-[60px]"} placeholder="Awards and accolades (e.g. hospitality awards, readers' choice, industry rankings)" value={profile.awards} onChange={e => set("awards", e.target.value)} />
       <input className={inputCls} placeholder="Website URL (AURA extracts brand info)" value={profile.website} onChange={e => set("website", e.target.value)} />
     </div>,
   ];

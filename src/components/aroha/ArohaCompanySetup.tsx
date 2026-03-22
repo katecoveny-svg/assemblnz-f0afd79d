@@ -16,7 +16,7 @@ interface CompanyProfile {
 const INDUSTRIES = ["Construction", "Retail", "Hospitality", "Technology", "Healthcare", "Education", "Agriculture", "Manufacturing", "Professional Services", "Government", "Non-Profit", "Other"];
 const EMPLOYEE_SIZES = ["1-5", "6-19", "20-49", "50-99", "100+"];
 const EMP_TYPES = ["Permanent Full-Time", "Permanent Part-Time", "Fixed-Term", "Casual", "Contractors"];
-const HR_SOFTWARE = ["Employment Hero", "MyHR", "PayHero", "BambooHR", "Xero Payroll", "MYOB", "Other", "None"];
+const HR_SOFTWARE = ["Cloud HR Platform", "NZ HR Software", "Payroll Provider", "International HR Suite", "Cloud Payroll", "Accounting Software", "Other", "None"];
 const PAIN_POINTS = ["Recruitment", "Retention", "Compliance", "Payroll", "Leave management", "Performance management", "Conflict", "Culture", "Training"];
 
 const COMPLIANCE_ITEMS = [

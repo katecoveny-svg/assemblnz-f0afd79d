@@ -26,7 +26,7 @@ const REMINDERS = [
   { type: "WoF Expiry", channel: "SMS", template: `Hi [Name], your WoF expires [Date]. Book at [link] or call [Phone]. [Dealership]` },
   { type: "Recall Notice", channel: "Email", template: `Important: Safety Recall — [Year] [Make] [Model]\n\nDear [Customer Name],\n\n[Manufacturer] has issued a safety recall affecting your vehicle (VIN: [VIN]).\n\nRecall: [Description]\n\nThis work is completed at no cost to you. Please contact us to book: [Phone].\n\nRegards,\n[Dealership Name]` },
   { type: "Service Follow-up", channel: "Email", template: `Hi [Customer Name],\n\nThanks for bringing your [Make] [Model] in for service yesterday. We hope everything's running smoothly!\n\nIf you have any questions about the work completed, don't hesitate to reach out.\n\nWe'd love your feedback — leave us a Google review: [Link]\n\nCheers,\n[Dealership Name]` },
-  { type: "Review Request", channel: "Email", template: `Hi [Customer Name],\n\nWe hope you're enjoying your [Year] [Make] [Model]!\n\nYour feedback helps other Kiwi buyers make confident decisions. Would you mind leaving us a quick review?\n\n⭐ Google: [Link]\n⭐ TradeMe: [Link]\n⭐ Facebook: [Link]\n\nThanks for choosing [Dealership Name]!` },
+  { type: "Review Request", channel: "Email", template: `Hi [Customer Name],\n\nWe hope you're enjoying your [Year] [Make] [Model]!\n\nYour feedback helps other Kiwi buyers make confident decisions. Would you mind leaving us a quick review?\n\n⭐ Google: [Link]\n⭐ Marketplace: [Link]\n⭐ Facebook: [Link]\n\nThanks for choosing [Dealership Name]!` },
 ];
 
 const WORKSHOP_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
@@ -43,7 +43,7 @@ const DEMO_JOBS: Record<string, { type: string; time: string; vehicle: string }[
     { type: "Service", time: "1:30pm", vehicle: "2021 Mitsubishi Outlander" },
   ],
   Wednesday: [
-    { type: "Service", time: "8:30am", vehicle: "2022 Tesla Model 3" },
+    { type: "Service", time: "8:30am", vehicle: "2022 EV Sedan" },
     { type: "Repair", time: "10:00am", vehicle: "2017 Ford Ranger" },
   ],
   Thursday: [
