@@ -1518,7 +1518,7 @@ const ChatPage = () => {
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center min-h-full text-center gap-4 py-6 opacity-0 animate-fade-up overflow-y-auto" style={{ animationFillMode: "forwards" }}>
                 <AgentWelcome agent={agent} />
-                {isPrism && <div className="w-full max-w-sm mt-2"><PrismBrandDNA onRescan={() => setShowBrandScan(true)} /></div>}
+                {isPrism && <div className="w-full max-w-sm mt-2"><PrismBrandDNA onRescan={() => setBrandModalOpen(true)} /></div>}
 
                 {isHelm ? (
                   <HelmQuickActions onSelect={(msg) => sendMessage(msg)} />
