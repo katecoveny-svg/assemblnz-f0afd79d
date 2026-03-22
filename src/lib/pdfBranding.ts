@@ -13,9 +13,11 @@ export function drawAssemblPDFHeader(
     agentDesignation?: string;
     subtitle?: string;
     margin?: number;
+    customLogoUrl?: string;
+    customBusinessName?: string;
   } = {}
 ): number {
-  const { agentName, agentDesignation, subtitle, margin = 20 } = options;
+  const { agentName, agentDesignation, subtitle, margin = 20, customLogoUrl, customBusinessName } = options;
   const pageWidth = doc.internal.pageSize.getWidth();
   let y = 18;
 
