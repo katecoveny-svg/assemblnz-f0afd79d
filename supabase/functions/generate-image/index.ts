@@ -5,7 +5,13 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-async function attemptImageGeneration(apiKey: string, imagePrompt: string): Promise<string | null> {
+const MODELS = {
+  fast: "google/gemini-2.5-flash-image",
+  pro: "google/gemini-3-pro-image-preview",
+  flash_pro: "google/gemini-3.1-flash-image-preview",
+};
+
+async function attemptImageGeneration(apiKey: string, imagePrompt: string, model: string): Promise<string | null> {
   const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -13,7 +19,7 @@ async function attemptImageGeneration(apiKey: string, imagePrompt: string): Prom
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "google/gemini-2.5-flash-image",
+      model,
       messages: [
         {
           role: "user",
@@ -37,13 +43,7 @@ async function attemptImageGeneration(apiKey: string, imagePrompt: string): Prom
   }
 
   const data = await response.json();
-  console.log("API response keys:", JSON.stringify(Object.keys(data)));
-  console.log("Choices count:", data.choices?.length);
-  if (data.choices?.[0]?.message) {
-    const msg = data.choices[0].message;
-    console.log("Message keys:", JSON.stringify(Object.keys(msg)));
-    console.log("Has images:", !!msg.images, "Images count:", msg.images?.length);
-  }
+  console.log("Model used:", model, "| Choices:", data.choices?.length);
 
   return data.choices?.[0]?.message?.images?.[0]?.image_url?.url || null;
 }
@@ -59,7 +59,7 @@ Deno.serve(async (req) => {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
-    const { prompt, platform, contentType, topic, agentContext } = await req.json();
+    const { prompt, platform, contentType, topic, agentContext, quality, brandContext } = await req.json();
 
     if (!prompt) {
       return new Response(JSON.stringify({ error: "Prompt is required" }), {
@@ -68,25 +68,46 @@ Deno.serve(async (req) => {
       });
     }
 
-    const imagePrompt = `Generate an image. Create a professional, eye-catching social media graphic for ${platform?.replace(/_/g, " ") || "social media"}. 
-Content type: ${contentType?.replace(/_/g, " ") || "general"}.
-${topic ? `Topic: ${topic}.` : ""}
-${agentContext || ""}
-Style: Modern, clean, professional with bold typography. Use vibrant colours on a dark or branded background. 
-The image should be scroll-stopping and suitable for a NZ business audience.
-Specific visual direction: ${prompt}
-IMPORTANT: Generate an actual image, not text. Make text in the image legible and prominent.`;
+    // Select model based on quality tier
+    const selectedModel = quality === "pro" ? MODELS.pro
+      : quality === "flash_pro" ? MODELS.flash_pro
+      : MODELS.fast;
 
-    // Try up to 2 times
+    // Build brand section
+    const brandSection = brandContext
+      ? `Brand guidelines: Business "${brandContext.business_name || ""}". Tone: ${brandContext.tone || "professional"}. Industry: ${brandContext.industry || "technology"}. Audience: ${brandContext.audience || "business professionals"}. Use brand-consistent colours and styling.`
+      : "";
+
+    const imagePrompt = `Generate a high-quality, professional image.
+Platform: ${platform?.replace(/_/g, " ") || "marketing material"}.
+Content type: ${contentType?.replace(/_/g, " ") || "visual asset"}.
+${topic ? `Topic: ${topic}.` : ""}
+${brandSection}
+${agentContext || ""}
+Style: Premium, polished, commercial-grade. Use sophisticated colour palettes, clean composition, and professional typography where needed. The image should look like it was created by a professional design agency.
+Visual direction: ${prompt}
+IMPORTANT: Generate an actual high-resolution image, not text. Any text in the image must be crisp and legible.`;
+
+    // Try up to 3 times, falling back to flash_pro then fast
     let imageUrl: string | null = null;
-    for (let attempt = 0; attempt < 2; attempt++) {
-      console.log(`Image generation attempt ${attempt + 1}`);
-      imageUrl = await attemptImageGeneration(LOVABLE_API_KEY, imagePrompt);
-      if (imageUrl) break;
-      if (attempt === 0) {
-        console.log("No image in response, retrying...");
-        await new Promise(r => setTimeout(r, 1000));
+    const fallbackModels = [selectedModel];
+    if (selectedModel === MODELS.pro) fallbackModels.push(MODELS.flash_pro, MODELS.fast);
+    else if (selectedModel === MODELS.flash_pro) fallbackModels.push(MODELS.fast);
+
+    for (const model of fallbackModels) {
+      for (let attempt = 0; attempt < 2; attempt++) {
+        console.log(`Image generation: model=${model}, attempt=${attempt + 1}`);
+        try {
+          imageUrl = await attemptImageGeneration(LOVABLE_API_KEY, imagePrompt, model);
+          if (imageUrl) break;
+        } catch (e) {
+          console.error(`Attempt failed:`, e);
+          if ((e as Error).message.includes("Rate limited") || (e as Error).message.includes("credits exhausted")) throw e;
+        }
+        if (attempt === 0) await new Promise(r => setTimeout(r, 1000));
       }
+      if (imageUrl) break;
+      console.log(`Falling back from ${model}...`);
     }
 
     if (!imageUrl) {
@@ -97,7 +118,7 @@ IMPORTANT: Generate an actual image, not text. Make text in the image legible an
     }
 
     return new Response(
-      JSON.stringify({ imageUrl }),
+      JSON.stringify({ imageUrl, model: selectedModel }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error: unknown) {
