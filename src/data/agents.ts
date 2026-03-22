@@ -81,7 +81,7 @@ export const agents: Agent[] = [
     color: "#FF4D6A",
     sector: "Automotive",
     traits: ["Technical & precise", "Reg-savvy", "EV-ready"],
-    expertise: ["Motor Vehicle Sales Act", "F&I compliance", "TradeMe listings", "Sales pipeline", "Workshop ops", "Service retention"],
+    expertise: ["F&I calculator suite", "EV vs ICE cost analyser", "TradeMe listing AI", "CCCFA disclosure gen", "Sales pipeline tracker", "Lease vs buy modeller"],
     starters: ["Help me list a vehicle on TradeMe", "F&I disclosure compliance check", "Create a service retention campaign"],
   },
   {
