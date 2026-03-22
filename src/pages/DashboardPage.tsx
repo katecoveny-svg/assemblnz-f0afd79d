@@ -280,9 +280,9 @@ const DashboardPage = () => {
         </div>
 
         {/* Time Saved Breakdown */}
-        <div className="rounded-xl p-6 relative overflow-hidden" style={{ ...glassCard, boxShadow: "0 0 30px rgba(0,255,136,0.06)" }}>
+        <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={{ ...glassCard, boxShadow: "0 0 30px rgba(0,255,136,0.06)" }}>
           <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-40" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
-          <h2 className="text-sm font-display font-bold text-foreground mb-1">Time saved breakdown</h2>
+          <h2 className="text-sm font-display font-bold text-glow-green mb-1">Time saved breakdown</h2>
           <p className="text-[11px] text-muted-foreground mb-4">This is the number that justifies your subscription</p>
           <div className="space-y-3">
             {TIME_SAVED.map((t) => (
