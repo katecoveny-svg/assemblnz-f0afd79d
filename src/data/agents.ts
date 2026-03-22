@@ -285,7 +285,7 @@ export const agents: Agent[] = [
     color: "#CE93D8",
     sector: "Nonprofit & Community",
     traits: ["Mission-driven", "Governance-savvy", "Funding-smart"],
-    expertise: ["Grant writing", "Charities Act", "Governance", "Impact reporting", "Volunteer management", "Incorporated Societies Act 2022"],
+    expertise: ["Grant application writer", "Governance framework AI", "Impact report generator", "Volunteer manager", "Re-registration wizard", "Funding strategy planner"],
     starters: ["Write a grant application for Lotteries funding", "Governance best practice for a community trust", "Incorporated Societies re-registration"],
   },
   {
