@@ -193,11 +193,11 @@ const DashboardPage = () => {
 
         {/* Conversation History */}
         {conversations.length > 0 && (
-          <div className="rounded-xl p-6 relative overflow-hidden" style={glassCard}>
+          <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={glassCard}>
             <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00E5FF, transparent)" }} />
             <div className="flex items-center gap-2 mb-4">
               <History size={16} style={{ color: "#00E5FF", filter: "drop-shadow(0 0 6px #00E5FF)" }} />
-              <h2 className="text-sm font-display font-bold text-foreground">Conversation History</h2>
+              <h2 className="text-sm font-display font-bold text-glow-cyan">Conversation History</h2>
               <span className="text-[10px] text-muted-foreground ml-auto">Last 30 days</span>
             </div>
             <div className="space-y-2">
