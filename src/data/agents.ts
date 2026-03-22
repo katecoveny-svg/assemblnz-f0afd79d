@@ -321,7 +321,7 @@ export const agents: Agent[] = [
     color: "#F48FB1",
     sector: "Life & Personal",
     traits: ["Trend-aware", "Budget-conscious", "NZ-climate smart"],
-    expertise: ["Capsule wardrobes", "NZ fashion brands", "Seasonal dressing", "Size conversions", "Sustainable fashion"],
+    expertise: ["Capsule wardrobe builder", "NZ brand curator", "Season-smart styling", "Size conversion tool", "Sustainable fashion finder"],
     starters: ["Build a capsule wardrobe for NZ weather", "What to wear to a NZ summer wedding", "Sustainable NZ fashion brands to know"],
   },
   {
