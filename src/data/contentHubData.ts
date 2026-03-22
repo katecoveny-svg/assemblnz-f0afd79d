@@ -39,14 +39,14 @@ export const COMPARISONS: ComparisonItem[] = [
 
 export const FILTER_AGENTS = [
   { name: "All", color: "#ffffff" },
-  { name: "HELM", color: "#00E5FF" },
+  { name: "HELM", color: "#B388FF" },
   { name: "AROHA", color: "#FF6F91" },
   { name: "LEDGER", color: "#4FC3F7" },
   { name: "HAVEN", color: "#FF80AB" },
   { name: "APEX", color: "#FF6B35" },
   { name: "PRISM", color: "#E040FB" },
   { name: "FORGE", color: "#FF4D6A" },
-  { name: "ANCHOR", color: "#7E57C2" },
+  { name: "ANCHOR", color: "#00E5FF" },
   { name: "FLUX", color: "#00E5FF" },
   { name: "AURA", color: "#00FF88" },
   { name: "VAULT", color: "#4FC3F7" },
@@ -198,7 +198,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
   // VAULT
   {
     id: "vault-mortgage",
-    agentId: "vault",
+    agentId: "finance",
     agentName: "VAULT",
     agentCode: "ASM-039",
     agentColor: "#4FC3F7",
@@ -209,7 +209,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
   },
   {
     id: "vault-kiwisaver",
-    agentId: "vault",
+    agentId: "finance",
     agentName: "VAULT",
     agentCode: "ASM-039",
     agentColor: "#4FC3F7",
@@ -221,7 +221,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
   // SHIELD
   {
     id: "shield-insurance",
-    agentId: "shield",
+    agentId: "insurance",
     agentName: "SHIELD",
     agentCode: "ASM-040",
     agentColor: "#7E57C2",
@@ -232,7 +232,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
   },
   {
     id: "shield-hazard",
-    agentId: "shield",
+    agentId: "insurance",
     agentName: "SHIELD",
     agentCode: "ASM-040",
     agentColor: "#7E57C2",
@@ -246,8 +246,8 @@ export const OUTPUT_CARDS: OutputCard[] = [
     id: "anchor-agreement",
     agentId: "legal",
     agentName: "ANCHOR",
-    agentCode: "ASM-016",
-    agentColor: "#7E57C2",
+    agentCode: "ASM-015",
+    agentColor: "#00E5FF",
     outputType: "Employment Agreement",
     formatBadge: "Legal Doc",
     preview: `**INDIVIDUAL EMPLOYMENT AGREEMENT**\n\nParties: [Employer] and [Employee]\nPosition: Marketing Coordinator\nTrial Period: 90 days (per s 67A ERA 2000)`,
@@ -257,8 +257,8 @@ export const OUTPUT_CARDS: OutputCard[] = [
     id: "anchor-privacy",
     agentId: "legal",
     agentName: "ANCHOR",
-    agentCode: "ASM-016",
-    agentColor: "#7E57C2",
+    agentCode: "ASM-015",
+    agentColor: "#00E5FF",
     outputType: "Privacy Policy Generator",
     formatBadge: "Legal Doc",
     preview: `**PRIVACY POLICY**\n\n[Business Name] is committed to protecting your privacy in accordance with the Privacy Act 2020 (NZ).`,
@@ -267,10 +267,10 @@ export const OUTPUT_CARDS: OutputCard[] = [
   // HELM
   {
     id: "helm-dashboard",
-    agentId: "education",
+    agentId: "operations",
     agentName: "HELM",
-    agentCode: "ASM-017",
-    agentColor: "#00E5FF",
+    agentCode: "ASM-013",
+    agentColor: "#B388FF",
     outputType: "Weekly Family Dashboard",
     formatBadge: "Dashboard",
     preview: `**WEEK OF 14 APRIL 2026 — The Hudson Family**\n\n| Day | Mia (Year 4) | Jack (Year 7) |\n|---|---|---|\n| Mon | Swimming gear | Science project due |`,
@@ -278,10 +278,10 @@ export const OUTPUT_CARDS: OutputCard[] = [
   },
   {
     id: "helm-newsletter",
-    agentId: "education",
+    agentId: "operations",
     agentName: "HELM",
-    agentCode: "ASM-017",
-    agentColor: "#00E5FF",
+    agentCode: "ASM-013",
+    agentColor: "#B388FF",
     outputType: "Newsletter AI Parse",
     formatBadge: "Report",
     preview: `**PARSED FROM:** Ponsonby Primary Newsletter #12\n**Confidence:** 94%\n\n**Events Extracted:**\n✓ School Photos — Thu 17 April (high confidence)`,
