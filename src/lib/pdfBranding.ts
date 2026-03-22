@@ -23,13 +23,24 @@ export function drawAssemblPDFHeader(
   doc.setFillColor(30, 30, 42);
   doc.rect(0, 0, pageWidth, 3, "F");
 
-  // Logo mark — triangle icon (muted grey-blue)
+  // Nexus logo mark — three connected orbs (cyan, purple, pink)
   const lx = margin;
-  const ly = y + 2;
-  doc.setFillColor(80, 80, 100);
-  doc.triangle(lx, ly + 8, lx + 4, ly, lx + 8, ly + 8, "F");
-  doc.setFillColor(120, 120, 140);
-  doc.circle(lx + 4, ly - 1, 1.2, "F");
+  const ly = y + 4;
+  // Triangle frame
+  doc.setDrawColor(80, 80, 110);
+  doc.setLineWidth(0.6);
+  doc.line(lx + 4, ly - 3, lx, ly + 5, "S");
+  doc.line(lx + 4, ly - 3, lx + 8, ly + 5, "S");
+  doc.line(lx, ly + 5, lx + 8, ly + 5, "S");
+  // Cyan orb (top)
+  doc.setFillColor(0, 229, 255);
+  doc.circle(lx + 4, ly - 3, 1.4, "F");
+  // Purple orb (bottom-left)
+  doc.setFillColor(179, 136, 255);
+  doc.circle(lx, ly + 5, 1.4, "F");
+  // Pink orb (bottom-right)
+  doc.setFillColor(255, 45, 155);
+  doc.circle(lx + 8, ly + 5, 1.4, "F");
 
   // Brand name
   doc.setFontSize(18);
