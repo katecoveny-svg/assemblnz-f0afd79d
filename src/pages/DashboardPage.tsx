@@ -115,7 +115,7 @@ const DashboardPage = () => {
           ].map((stat, i) => (
             <div
               key={stat.label}
-              className="rounded-xl p-5 opacity-0 animate-fade-up relative overflow-hidden"
+              className="rounded-xl p-5 opacity-0 animate-fade-up relative overflow-hidden glow-card-hover"
               style={{
                 ...glassCard,
                 animationDelay: `${i * 80}ms`,
