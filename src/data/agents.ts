@@ -249,7 +249,7 @@ export const agents: Agent[] = [
     color: "#FFD54F",
     sector: "Education & Training",
     traits: ["Learner-focused", "NZQA-fluent", "Inclusive"],
-    expertise: ["ERO preparation", "NZQA compliance", "Funding applications", "Curriculum documentation", "Staff appraisals", "Policy writing"],
+    expertise: ["ERO review prep AI", "NZQA compliance engine", "Funding app writer", "Curriculum doc builder", "Staff appraisal templates", "Policy auto-drafter"],
     starters: ["Prepare for an ERO review", "NZQA programme approval process", "Education policy template"],
   },
   {
