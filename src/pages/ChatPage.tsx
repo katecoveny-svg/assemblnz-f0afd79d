@@ -328,6 +328,8 @@ const ChatPage = () => {
   const [nexusMPIAlerts, setNexusMPIAlerts] = useState<{ item: string; reason: string; requirement: string }[]>([]);
   const [nexusContainerNumbers, setNexusContainerNumbers] = useState<string[]>([]);
 
+  // Inline image generation state (ECHO visual outputs)
+  const [inlineImages, setInlineImages] = useState<Record<number, { status: "loading" | "done" | "error"; urls: string[] }>>({});
   const { user, session, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached, role } = useAuth();
   const { teReoPrompt } = useLanguage();
   const [conversationId, setConversationId] = useState<string | null>(null);
@@ -531,6 +533,37 @@ const ChatPage = () => {
     if (error) throw error;
     const { data } = supabase.storage.from("chat-images").getPublicUrl(filePath);
     return data.publicUrl;
+  }, []);
+
+  // Inline image generation from [GENERATE_IMAGE: ...] tags
+  const triggerInlineImages = useCallback(async (content: string, msgIndex: number) => {
+    const imageTagRegex = /\[GENERATE_IMAGE:\s*(.*?)\]/g;
+    const prompts: string[] = [];
+    let match;
+    while ((match = imageTagRegex.exec(content)) !== null) {
+      prompts.push(match[1].trim());
+    }
+    if (prompts.length === 0) return;
+
+    setInlineImages((prev) => ({ ...prev, [msgIndex]: { status: "loading", urls: [] } }));
+
+    const urls: string[] = [];
+    for (const prompt of prompts) {
+      try {
+        const { data, error } = await supabase.functions.invoke("generate-image", {
+          body: { prompt, platform: "instagram", contentType: "social_post", agentContext: "For Assembl brand marketing." },
+        });
+        if (error) throw error;
+        if (data?.imageUrl) urls.push(data.imageUrl);
+      } catch (err) {
+        console.error("Inline image generation error:", err);
+      }
+    }
+
+    setInlineImages((prev) => ({
+      ...prev,
+      [msgIndex]: { status: urls.length > 0 ? "done" : "error", urls },
+    }));
   }, []);
 
   const trigger3DGeneration = useCallback(
@@ -757,6 +790,12 @@ const ChatPage = () => {
       if (isNexus && nexusWorkflowActive) {
         processNexusResponse(assistantContent);
       }
+
+      // Trigger inline image generation for ECHO and other agents
+      if (/\[GENERATE_IMAGE:/i.test(assistantContent)) {
+        const currentMsgIndex = newMessages.length; // index of the assistant message just added
+        triggerInlineImages(assistantContent, currentMsgIndex);
+      }
     } catch (err) {
       console.error("Chat error:", err);
       setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Please try again." }]);
@@ -785,9 +824,9 @@ const ChatPage = () => {
   const showMsgCounter = user && !isPaid;
   const remaining = dailyLimit - dailyMessageCount;
 
-  const renderMessageContent = (msg: Message) => {
-    const content = msg.content;
-
+  const renderMessageContent = (msg: Message, msgIndex?: number) => {
+    // Strip [GENERATE_IMAGE: ...] tags from displayed content
+    const content = msg.content.replace(/\[GENERATE_IMAGE:\s*.*?\]/g, "").trim();
     if (msg.role === "assistant") {
       if (agentId === "customs") {
         const entryData = parseNexusEntry(content);
@@ -1468,7 +1507,7 @@ const ChatPage = () => {
                               <span>{msg.fileName}</span>
                             </div>
                           )}
-                          {renderMessageContent(msg)}
+                          {renderMessageContent(msg, i)}
                           {msg.role === "assistant" && (
                             <div className="flex items-start justify-between gap-2">
                               <div className="flex-1">
@@ -1501,6 +1540,34 @@ const ChatPage = () => {
                         const handoffId = detectHandoff(msg.content);
                         return handoffId ? <div className="ml-8 mt-1"><HandoffCard agentId={handoffId} /></div> : null;
                       })()}
+                      {/* Inline generated images */}
+                      {msg.role === "assistant" && inlineImages[i] && (
+                        <div className="ml-8 mt-2">
+                          {inlineImages[i].status === "loading" && (
+                            <div className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs" style={{ background: "rgba(228,160,255,0.08)", border: "1px solid rgba(228,160,255,0.15)", color: "#E4A0FF" }}>
+                              <ImagePlus size={14} className="animate-pulse" />
+                              <span>Generating visual{inlineImages[i].urls.length > 0 ? `s (${inlineImages[i].urls.length} ready)` : "s"}...</span>
+                            </div>
+                          )}
+                          {inlineImages[i].urls.length > 0 && (
+                            <div className="grid gap-2" style={{ gridTemplateColumns: inlineImages[i].urls.length > 1 ? "1fr 1fr" : "1fr" }}>
+                              {inlineImages[i].urls.map((url, imgIdx) => (
+                                <div key={imgIdx} className="relative group rounded-xl overflow-hidden border border-border">
+                                  <img src={url} alt={`Generated visual ${imgIdx + 1}`} className="w-full h-auto rounded-xl" />
+                                  <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <a href={url} download={`assembl-echo-${Date.now()}-${imgIdx}.png`} className="p-1.5 rounded-md bg-black/60 hover:bg-black/80 text-white transition-colors" title="Download">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    </a>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          {inlineImages[i].status === "error" && inlineImages[i].urls.length === 0 && (
+                            <div className="text-xs text-muted-foreground px-3 py-2">Image generation failed — try asking again or use PRISM's Content Studio for more options.</div>
+                          )}
+                        </div>
+                      )}
                       {msg.role === "assistant" &&
                         getGenerationsForIndex(i).map((gen) => (
                           <div key={gen.id} className="mt-2 ml-8">
