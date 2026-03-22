@@ -120,8 +120,9 @@ export default function HelmSettings() {
           <input value={familyName} onChange={e => setFamilyName(e.target.value)} placeholder="Family name (e.g. The Smiths)"
             className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white/80 placeholder:text-white/25 focus:outline-none focus:border-white/20" />
           <select value={region} onChange={e => setRegion(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white/80">
-            {NZ_REGIONS.map(r => <option key={r} value={r}>{r}</option>)}
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white/80"
+            style={{ colorScheme: "dark" }}>
+            {NZ_REGIONS.map(r => <option key={r} value={r} style={{ background: "#09090F" }}>{r}</option>)}
           </select>
           <button onClick={createFamily} disabled={!familyName.trim()}
             className="w-full py-2.5 rounded-lg text-sm font-medium transition disabled:opacity-30"
