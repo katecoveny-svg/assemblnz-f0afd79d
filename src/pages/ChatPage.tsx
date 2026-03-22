@@ -566,9 +566,15 @@ const ChatPage = () => {
         // Try fenced code block (html, jsx, react, tsx, or untagged)
         const fenced = content.match(/```(?:html|HTML|jsx|tsx|react)?\s*\n([\s\S]*?)```/);
         if (fenced) return fenced[1];
-        // Try raw HTML (<!DOCTYPE or <html)
+        // Try raw HTML with closing tag
         const raw = content.match(/(<!DOCTYPE[\s\S]*<\/html>)/i);
         if (raw) return raw[1];
+        // Try raw HTML without closing tag (truncated responses)
+        const rawOpen = content.match(/(<!DOCTYPE[\s\S]{200,})/i);
+        if (rawOpen) return rawOpen[1];
+        // Try <html> tag
+        const htmlTag = content.match(/(<html[\s\S]{200,})/i);
+        if (htmlTag) return htmlTag[1];
       }
     }
     return null;
