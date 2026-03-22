@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Copy, Briefcase, Users, AlertTriangle } from "lucide-react";
 import { NeonTarget } from "@/components/NeonIcons";
+import { AgentFunnelChart, AgentPieChart } from "@/components/shared/AgentCharts";
 
 const AROHA_COLOR = "#FF6F91";
 const PLATFORMS = ["SEEK NZ", "TradeMe Jobs", "LinkedIn", "Company Website", "Internal Posting"];
