@@ -83,7 +83,7 @@ const EchoChatWidget = () => {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-syne font-bold text-sm" style={{ color: "#E4A0FF" }}>ECHO</span>
-                <span className="text-[10px] font-jakarta text-foreground/40">· Kate's AI Clone</span>
+                <span className="text-[10px] font-jakarta text-foreground/40">· Assembl Hero Agent</span>
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#00FF88", boxShadow: "0 0 6px #00FF88" }} />
               </div>
             </div>
