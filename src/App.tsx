@@ -65,6 +65,7 @@ const App = () => (
                   <Route path="/security" element={<Suspense fallback={null}><SecurityPage /></Suspense>} />
                   <Route path="/tradie-portal" element={<Suspense fallback={null}><TradiePortal /></Suspense>} />
                   <Route path="/landlord" element={<Suspense fallback={null}><LandlordPortal /></Suspense>} />
+                  <Route path="/agents/echo" element={<Suspense fallback={null}><EchoPage /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
