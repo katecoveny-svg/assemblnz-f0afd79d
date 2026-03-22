@@ -69,7 +69,7 @@ const AgentDetailPage = () => {
         {/* Agent header */}
         <div className="flex items-start gap-5 mb-8">
           <div className="w-16 h-16 shrink-0">
-            <AgentAvatar agentId={agent.id} size={64} />
+            <AgentAvatar agentId={agent.id} color={agent.color} size={64} />
           </div>
           <div className="space-y-1">
             <h1 className="font-syne font-extrabold text-2xl sm:text-3xl halo-heading" style={{ color: "hsl(var(--foreground))" }}>
