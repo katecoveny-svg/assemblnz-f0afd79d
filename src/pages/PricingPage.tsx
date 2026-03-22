@@ -822,7 +822,7 @@ const PricingPage = () => {
                       {(item.demoMetrics as Array<{label: string; value: string; status: string}>).map((m) => (
                         <div key={m.label} className="flex items-center justify-between">
                           <span className="text-[10px] font-jakarta" style={{ color: 'rgba(255,255,255,0.5)' }}>{m.label}</span>
-                          <span className="text-[10px] font-mono-jb font-semibold" style={{ color: m.status === 'green' ? '#00FF88' : m.status === 'amber' ? '#FFB800' : '#FF4D6A' }}>{m.value}</span>
+                          <span className="text-[10px] font-mono-jb font-semibold" style={{ color: m.status === 'green' ? '#00FF88' : m.status === 'amber' ? '#00E5FF' : '#FF4D6A' }}>{m.value}</span>
                         </div>
                       ))}
                     </div>
