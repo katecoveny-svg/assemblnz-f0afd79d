@@ -176,7 +176,7 @@ const EmbedChatWidget = () => {
           <div className="text-center py-6 px-4">
             <p className="text-sm font-medium mb-2" style={{ color: "#E4E4EC" }}>Free preview limit reached</p>
             <p className="text-[11px] mb-4" style={{ color: "#ffffff38" }}>
-              Sign up for unlimited access to {agent.name} and all 29 Assembl agents.
+              Sign up for unlimited access to {agent.name} and all 41 Assembl agents.
             </p>
             <a
               href="https://assembl.co.nz"
