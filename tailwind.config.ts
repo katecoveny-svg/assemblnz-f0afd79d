@@ -68,6 +68,11 @@ export default {
           blue: "#5B8CFF",
           amber: "#FF8C42",
         },
+        premium: {
+          warm: "hsl(var(--premium-warm))",
+          gold: "hsl(var(--premium-gold))",
+          ivory: "hsl(var(--premium-ivory))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
