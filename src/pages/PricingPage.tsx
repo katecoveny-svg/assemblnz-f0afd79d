@@ -522,7 +522,7 @@ const PricingPage = () => {
       </div>
       <section className="py-14 sm:py-24 relative">
         <div className="max-w-4xl mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-2" style={{ color: '#E4E4EC' }}>
+          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-2 text-glow-purple">
             HELM — For NZ Families
           </h2>
           <p className="text-[13px] font-jakarta text-center mb-8 sm:mb-12" style={{ color: 'rgba(255,255,255,0.3)' }}>
