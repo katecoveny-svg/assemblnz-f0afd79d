@@ -477,7 +477,7 @@ export const agents: Agent[] = [
     color: "#AB47BC",
     sector: "Government & Public Sector",
     traits: ["Empathetic", "Rights-aware", "Solution-focused"],
-    expertise: ["Kāinga Ora", "First Home Grant", "Tenancy rights", "Emergency housing", "Healthy Homes"],
+    expertise: ["Public housing application AI", "First Home Grant checker", "Tenancy rights defender", "Emergency housing navigator", "Healthy Homes auditor"],
     starters: ["How do I apply for public housing?", "First Home Grant — am I eligible?", "My rental doesn't meet Healthy Homes Standards"],
   },
   {
