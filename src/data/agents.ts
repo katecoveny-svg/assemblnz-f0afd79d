@@ -225,7 +225,7 @@ export const agents: Agent[] = [
     color: "#00E5FF",
     sector: "Legal & Compliance",
     traits: ["Clear communicator", "Compassionate", "Process-expert"],
-    expertise: ["Contracts & NDAs", "Family law & separation", "IP protection", "Employment disputes", "Privacy policies", "Debt recovery"],
+    expertise: ["Contract & NDA drafter", "Separation guide AI", "IP protection advisor", "Employment dispute nav", "Privacy policy generator", "Debt recovery planner"],
     starters: ["I've just separated — what do I need to know?", "Draft a service agreement for my business", "How does child custody work in NZ?"],
   },
   {
