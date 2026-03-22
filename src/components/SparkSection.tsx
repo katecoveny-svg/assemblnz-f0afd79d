@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Code2, Sparkles } from "lucide-react";
+import sparkImg from "@/assets/agents/spark.png";
 
 const SparkSection = () => (
   <section className="relative z-10 py-16 sm:py-24">
