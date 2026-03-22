@@ -4,6 +4,7 @@ import AccountDropdown from "@/components/AccountDropdown";
 
 const NAV_LINKS = [
   { to: "/", label: "Agents" },
+  { to: "/content-hub", label: "Content Hub" },
   { to: "/pricing", label: "Pricing" },
   { to: "/embed", label: "Embed" },
   { to: "/dashboard", label: "Dashboard" },
