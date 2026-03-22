@@ -23,7 +23,6 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Require authentication
     const authHeader = req.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -36,8 +35,8 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_ANON_KEY")!,
       { global: { headers: { Authorization: authHeader } } }
     );
-    const { data: claimsData, error: claimsErr } = await supabase.auth.getClaims(authHeader.replace("Bearer ", ""));
-    if (claimsErr || !claimsData?.claims) {
+    const { data: { user }, error: userErr } = await supabase.auth.getUser();
+    if (userErr || !user) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -51,7 +50,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    const { url } = await req.json();
+    const { url, instagram, linkedin } = await req.json();
     if (!url || typeof url !== "string") {
       return new Response(
         JSON.stringify({ error: "URL is required" }),
@@ -69,7 +68,6 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Block internal/private network URLs
     const blockedPatterns = /^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|127\.|0\.|169\.254\.|localhost|metadata\.google|169\.254\.169\.254)/i;
     if (blockedPatterns.test(parsedUrl.hostname)) {
       return new Response(
@@ -102,6 +100,45 @@ Deno.serve(async (req) => {
     const text = stripHtml(html);
     const words = text.split(/\s+/).slice(0, 3000).join(" ");
 
+    let extraContext = "";
+    if (instagram) extraContext += `\nThe business Instagram handle is: ${instagram}. Consider this for social media tone analysis.`;
+    if (linkedin) extraContext += `\nThe business LinkedIn page is: ${linkedin}. Consider this for professional positioning.`;
+
+    const systemPrompt = `You are a brand analyst. Analyse the provided website text and extract a comprehensive Brand DNA profile. Return ONLY a valid JSON object (no markdown, no code blocks) with this exact structure:
+{
+  "business_name": "string",
+  "industry": "string",
+  "target_audience": "string",
+  "key_products": ["top 5 products/services"],
+  "usps": ["3 unique selling points"],
+  "visual_identity": {
+    "primary_color": "#hex",
+    "secondary_color": "#hex",
+    "accent_color": "#hex",
+    "background_preference": "light|dark|mixed",
+    "photography_style": "professional|casual|lifestyle|product|editorial|none",
+    "visual_aesthetic": "minimalist|bold|elegant|playful|corporate|creative"
+  },
+  "typography": {
+    "heading_style": "serif|sans-serif|display",
+    "heading_font": "closest Google Font match",
+    "body_style": "serif|sans-serif",
+    "body_font": "closest Google Font match",
+    "text_density": "sparse|moderate|dense"
+  },
+  "voice_tone": {
+    "formality": 6,
+    "personality_traits": ["5 adjectives"],
+    "sentence_style": "short and punchy|balanced|long and detailed",
+    "emoji_usage": "never|rarely|sometimes|frequently",
+    "jargon_level": "none|light|moderate|heavy",
+    "cta_style": "soft|direct|urgent"
+  },
+  "brand_summary": "One paragraph brand positioning summary",
+  "brand_score": 85
+}
+Be factual and specific. Infer colours from the website aesthetic if not explicitly visible. The brand_score is your confidence in the analysis (0-100).`;
+
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -111,12 +148,12 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
-        max_tokens: 500,
-        system: "You are a brand analyst. Analyse the provided website text and extract a concise brand profile. Include: business name, industry, target audience, brand tone/voice, key products or services, location, and any other relevant business context. Return a concise brand profile in under 300 words. Be factual and specific.",
+        max_tokens: 1500,
+        system: systemPrompt,
         messages: [
           {
             role: "user",
-            content: `Analyse this website content and create a brand profile:\n\n${words}`,
+            content: `Analyse this website content and create a Brand DNA profile:\n\n${words}${extraContext}`,
           },
         ],
       }),
@@ -131,10 +168,48 @@ Deno.serve(async (req) => {
     }
 
     const data = await response.json();
-    const brandProfile = data.content?.[0]?.text || "Could not generate brand profile.";
+    const rawText = data.content?.[0]?.text || "";
+
+    // Try to parse as JSON, fall back to text profile
+    let brandDna = null;
+    let brandProfile = rawText;
+    try {
+      // Strip markdown code blocks if present
+      const cleaned = rawText.replace(/```json\s*/gi, "").replace(/```\s*/gi, "").trim();
+      brandDna = JSON.parse(cleaned);
+      brandProfile = brandDna.brand_summary || rawText;
+    } catch {
+      // If JSON parsing fails, keep as text
+    }
+
+    // Store Brand DNA in user's brand_profiles
+    if (brandDna) {
+      const businessName = brandDna.business_name || parsedUrl.hostname;
+      const { data: existing } = await supabase.from("brand_profiles").select("id").eq("user_id", user.id).maybeSingle();
+      if (existing) {
+        await supabase.from("brand_profiles").update({
+          brand_dna: brandDna,
+          business_name: businessName,
+          industry: brandDna.industry || null,
+          tone: brandDna.voice_tone?.personality_traits?.join(", ") || null,
+          audience: brandDna.target_audience || null,
+          key_message: brandDna.usps?.join(". ") || null,
+        }).eq("id", existing.id);
+      } else {
+        await supabase.from("brand_profiles").insert({
+          user_id: user.id,
+          brand_dna: brandDna,
+          business_name: businessName,
+          industry: brandDna.industry || null,
+          tone: brandDna.voice_tone?.personality_traits?.join(", ") || null,
+          audience: brandDna.target_audience || null,
+          key_message: brandDna.usps?.join(". ") || null,
+        });
+      }
+    }
 
     return new Response(
-      JSON.stringify({ brandProfile }),
+      JSON.stringify({ brandProfile, brandDna }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
