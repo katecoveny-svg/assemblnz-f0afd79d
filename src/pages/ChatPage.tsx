@@ -1603,7 +1603,14 @@ const ChatPage = () => {
               </button>
             </div>
           </form>
-        </>
+          </div>
+          {/* SPARK Live Preview Panel */}
+          {isSpark && sparkCode && (
+            <div className="hidden md:flex w-[60%] flex-col min-h-0 p-2">
+              <SparkPreview code={sparkCode} onIterate={() => setInput("Make these changes: ")} />
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
