@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Users, TrendingUp, DollarSign, Car, Calculator, FileText, ClipboardList, ArrowRight } from "lucide-react";
+import { AgentFunnelChart, AgentPieChart, AgentKPIRow } from "@/components/shared/AgentCharts";
 
 const FORGE_COLOR = "#FF4D6A";
 
