@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { Plus, X, Users, Baby, Share2, Settings2 } from "lucide-react";
+import { Plus, X, Users, Baby, Share2, Settings2, AlertCircle } from "lucide-react";
+import { toast } from "sonner";
 
 const HELM_COLOR = "#B388FF";
 
@@ -39,7 +40,12 @@ export default function HelmSettings() {
 
   const loadData = async () => {
     if (!user) return;
-    const { data: fm } = await supabase.from("family_members").select("family_id").eq("user_id", user.id).limit(1).single();
+    const { data: fm, error: fmError } = await supabase.from("family_members").select("family_id").eq("user_id", user.id).limit(1).single();
+    if (fmError && fmError.code !== "PGRST116") {
+      toast.error("Error loading family data: " + fmError.message);
+      setShowSetup(true);
+      return;
+    }
     if (fm) {
       const [fam, kids, inv] = await Promise.all([
         supabase.from("families").select("*").eq("id", fm.family_id).single(),
@@ -56,13 +62,19 @@ export default function HelmSettings() {
 
   const createFamily = async () => {
     if (!user || !familyName.trim()) return;
-    const { data: fam } = await supabase.from("families").insert({ name: familyName, nz_region: region, created_by: user.id }).select().single();
-    if (fam) {
-      await supabase.from("family_members").insert({ family_id: fam.id, user_id: user.id, role: "admin" });
-      // Create invite code
-      await supabase.from("family_invites").insert({ family_id: fam.id, created_by: user.id });
-      setShowSetup(false);
-      loadData();
+    try {
+      const { data: fam, error: famError } = await supabase.from("families").insert({ name: familyName, nz_region: region, created_by: user.id }).select().single();
+      if (famError) { toast.error("Failed to create family: " + famError.message); return; }
+      if (fam) {
+        const { error: memError } = await supabase.from("family_members").insert({ family_id: fam.id, user_id: user.id, role: "admin" });
+        if (memError) { toast.error("Failed to add you as family member: " + memError.message); return; }
+        await supabase.from("family_invites").insert({ family_id: fam.id, created_by: user.id });
+        toast.success("Family created successfully!");
+        setShowSetup(false);
+        loadData();
+      }
+    } catch (e: any) {
+      toast.error("Error: " + e.message);
     }
   };
 
@@ -70,17 +82,20 @@ export default function HelmSettings() {
     if (!family || !childName.trim()) return;
     const colors = ["#B388FF", "#FF80AB", "#80D8FF", "#A5D6A7", "#FFD54F", "#FF8A65"];
     const color = colors[children.length % colors.length];
-    await supabase.from("children").insert({
+    const { error } = await supabase.from("children").insert({
       family_id: family.id, name: childName, year_level: yearLevel || null,
       school: school || null, bus_route_id: busRoute || null, avatar_color: color,
     });
+    if (error) { toast.error("Failed to add child: " + error.message); return; }
+    toast.success(`${childName} added!`);
     setChildName(""); setYearLevel(""); setSchool(""); setBusRoute("");
     setShowAddChild(false);
     loadData();
   };
 
   const removeChild = async (id: string) => {
-    await supabase.from("children").delete().eq("id", id);
+    const { error } = await supabase.from("children").delete().eq("id", id);
+    if (error) { toast.error("Failed to remove child: " + error.message); return; }
     setChildren(children.filter(c => c.id !== id));
   };
 
@@ -110,8 +125,9 @@ export default function HelmSettings() {
           <input value={familyName} onChange={e => setFamilyName(e.target.value)} placeholder="Family name (e.g. The Smiths)"
             className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white/80 placeholder:text-white/25 focus:outline-none focus:border-white/20" />
           <select value={region} onChange={e => setRegion(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white/80">
-            {NZ_REGIONS.map(r => <option key={r} value={r}>{r}</option>)}
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white/80"
+            style={{ colorScheme: "dark" }}>
+            {NZ_REGIONS.map(r => <option key={r} value={r} style={{ background: "#09090F" }}>{r}</option>)}
           </select>
           <button onClick={createFamily} disabled={!familyName.trim()}
             className="w-full py-2.5 rounded-lg text-sm font-medium transition disabled:opacity-30"
