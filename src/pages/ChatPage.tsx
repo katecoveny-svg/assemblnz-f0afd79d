@@ -560,7 +560,7 @@ const ChatPage = () => {
   }, [uploadImage]);
 
   // Inline image generation from [GENERATE_IMAGE: ...] tags
-  const triggerInlineImages = useCallback(async (content: string, msgIndex: number) => {
+  const triggerInlineImages = useCallback(async (content: string, msgIndex: number, userQuality?: string) => {
     const imageTagRegex = /\[GENERATE_IMAGE:\s*(.*?)\]/g;
     const prompts: string[] = [];
     let match;
@@ -571,9 +571,9 @@ const ChatPage = () => {
 
     setInlineImages((prev) => ({ ...prev, [msgIndex]: { status: "loading", urls: [] } }));
 
-    // PRISM gets pro-quality image generation
+    // PRISM gets pro-quality by default; user can override via [QUALITY:...] tag
     const isPrismAgent = agentId === "marketing";
-    const quality = isPrismAgent ? "pro" : "flash_pro";
+    const quality = userQuality || (isPrismAgent ? "pro" : "flash_pro");
 
     const urls: string[] = [];
     for (const prompt of prompts) {
