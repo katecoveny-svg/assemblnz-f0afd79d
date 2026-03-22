@@ -5,9 +5,10 @@ import { toast } from "sonner";
 interface SparkPreviewProps {
   code: string;
   onIterate?: () => void;
+  onDeploy?: () => void;
 }
 
-const SparkPreview = ({ code, onIterate }: SparkPreviewProps) => {
+const SparkPreview = ({ code, onIterate, onDeploy }: SparkPreviewProps) => {
   const [copied, setCopied] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
