@@ -1,0 +1,1 @@
+REVOKE SELECT (password_hash) ON public.spark_apps FROM anon;
