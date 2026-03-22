@@ -417,7 +417,7 @@ export const agents: Agent[] = [
     color: "#78909C",
     sector: "Government & Public Sector",
     traits: ["Process-expert", "Politically neutral", "Framework-fluent"],
-    expertise: ["Govt Procurement", "OIA responses", "Better Business Cases", "Cabinet papers", "Public Service Act"],
+    expertise: ["Procurement rules engine", "OIA response drafter", "Business case builder", "Cabinet paper framework", "Public Service Act guide"],
     starters: ["How do Government Procurement Rules work?", "Draft an OIA response", "Better Business Case framework explained"],
   },
   {
