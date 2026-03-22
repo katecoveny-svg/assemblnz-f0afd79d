@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Copy, Briefcase, Users, AlertTriangle } from "lucide-react";
 import { NeonTarget } from "@/components/NeonIcons";
+import { AgentFunnelChart, AgentPieChart } from "@/components/shared/AgentCharts";
 
 const AROHA_COLOR = "#FF6F91";
 const PLATFORMS = ["SEEK NZ", "TradeMe Jobs", "LinkedIn", "Company Website", "Internal Posting"];
@@ -111,6 +112,21 @@ export default function ArohaRecruitment() {
       )}
 
       {tab === "pipeline" && (
+        <>
+          {/* Recruitment Funnel & Source Charts */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <AgentFunnelChart
+              title="Recruitment Funnel"
+              color={AROHA_COLOR}
+              stages={STAGES.map(s => ({ name: s, value: candidates.filter(c => c.stage === s).length }))}
+            />
+            <AgentPieChart
+              title="Candidates by Source"
+              data={Object.entries(candidates.reduce<Record<string, number>>((acc, c) => { acc[c.source] = (acc[c.source] || 0) + 1; return acc; }, {})).map(([name, value]) => ({ name, value }))}
+              height={180}
+              colors={["#FF6F91", "#E040FB", "#00FF88", "#00E5FF", "#FFB300"]}
+            />
+          </div>
         <div className="flex-1 overflow-x-auto">
           <div className="flex gap-2 min-w-max">
             {STAGES.map(stage => {
@@ -142,6 +158,7 @@ export default function ArohaRecruitment() {
             })}
           </div>
         </div>
+        </>
       )}
     </div>
   );

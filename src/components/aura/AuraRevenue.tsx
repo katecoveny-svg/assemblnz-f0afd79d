@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NeonChart, NeonCalendar, NeonStar, NeonDocument } from "@/components/NeonIcons";
+import { AgentBarChart, AgentPieChart, AgentAreaChart } from "@/components/shared/AgentCharts";
 
 const color = "#E6B422";
 
@@ -107,39 +108,65 @@ const AuraRevenue = ({ onGenerate }: Props) => {
       )}
 
       {section === "forecast" && (
-        <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
-          <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonCalendar size={16} color={color} /> Forecasting Dashboard</h3>
-          <div className="grid grid-cols-2 gap-2">
-            {FORECAST_METRICS.map(m => (
-              <div key={m.metric} className="p-3 rounded-lg border border-border text-center">
-                <div className="text-[10px] text-muted-foreground">{m.metric}</div>
-                <div className="text-sm font-bold mt-0.5" style={{ color }}>{m.value}</div>
-              </div>
-            ))}
+        <div className="space-y-4">
+          <AgentAreaChart
+            title="Occupancy Forecast (sample)"
+            nameKey="month"
+            data={[
+              { month: "Jan", thisYear: 92, lastYear: 85 },
+              { month: "Feb", thisYear: 88, lastYear: 82 },
+              { month: "Mar", thisYear: 78, lastYear: 75 },
+              { month: "Apr", thisYear: 62, lastYear: 58 },
+              { month: "May", thisYear: 45, lastYear: 42 },
+              { month: "Jun", thisYear: 38, lastYear: 35 },
+            ]}
+            areas={[
+              { key: "thisYear", color: color, name: "This Year %" },
+              { key: "lastYear", color: "#FF6B6B", name: "Last Year %" },
+            ]}
+            height={180}
+          />
+          <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
+            <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonCalendar size={16} color={color} /> Forecasting Dashboard</h3>
+            <div className="grid grid-cols-2 gap-2">
+              {FORECAST_METRICS.map(m => (
+                <div key={m.metric} className="p-3 rounded-lg border border-border text-center">
+                  <div className="text-[10px] text-muted-foreground">{m.metric}</div>
+                  <div className="text-sm font-bold mt-0.5" style={{ color }}>{m.value}</div>
+                </div>
+              ))}
+            </div>
+            <button onClick={() => gen(`Generate a 90-day forecasting dashboard report for a luxury NZ lodge. Include: occupancy forecast, revenue forecast, pace comparison vs last year, pick-up rate per week, cancellation rate and impact, and shoulder season gap analysis.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate 90-Day Forecast</button>
           </div>
-          <button onClick={() => gen(`Generate a 90-day forecasting dashboard report for a luxury NZ lodge. Include: occupancy forecast, revenue forecast, pace comparison vs last year, pick-up rate per week, cancellation rate and impact, and shoulder season gap analysis.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate 90-Day Forecast</button>
         </div>
       )}
 
       {section === "channels" && (
-        <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
-          <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonDocument size={16} color={color} /> Channel Management</h3>
-          <p className="text-[10px] text-muted-foreground mb-3">Goal: increase direct bookings to 70%+</p>
-          <div className="space-y-2">
-            {CHANNELS.map(c => (
-              <div key={c.name} className="p-2.5 rounded-lg border border-border">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-foreground">{c.name}</span>
-                  <span className="text-xs font-bold" style={{ color }}>{c.share}</span>
+        <div className="space-y-4">
+          <AgentPieChart
+            title="Booking Channel Mix"
+            data={CHANNELS.map(c => ({ name: c.name.split("(")[0].trim(), value: parseInt(c.share) }))}
+            height={200}
+          />
+          <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
+            <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonDocument size={16} color={color} /> Channel Management</h3>
+            <p className="text-[10px] text-muted-foreground mb-3">Goal: increase direct bookings to 70%+</p>
+            <div className="space-y-2">
+              {CHANNELS.map(c => (
+                <div key={c.name} className="p-2.5 rounded-lg border border-border">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-foreground">{c.name}</span>
+                    <span className="text-xs font-bold" style={{ color }}>{c.share}</span>
+                  </div>
+                  <div className="flex items-center justify-between mt-0.5 text-[10px] text-muted-foreground">
+                    <span>Margin: {c.margin}</span>
+                    <span>Target: {c.target}</span>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between mt-0.5 text-[10px] text-muted-foreground">
-                  <span>Margin: {c.margin}</span>
-                  <span>Target: {c.target}</span>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <button onClick={() => gen(`Generate a channel management analysis report for a luxury NZ lodge. Analyse: direct bookings, travel agents, OTAs, luxury networks, repeat guests, referrals. Include conversion rate, average booking value, commission cost by channel. Goal: increase direct bookings to 70%+. Provide actionable recommendations.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Channel Analysis Report</button>
           </div>
-          <button onClick={() => gen(`Generate a channel management analysis report for a luxury NZ lodge. Analyse: direct bookings, travel agents, OTAs, luxury networks, repeat guests, referrals. Include conversion rate, average booking value, commission cost by channel. Goal: increase direct bookings to 70%+. Provide actionable recommendations.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Channel Analysis Report</button>
         </div>
       )}
     </div>

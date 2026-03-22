@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { DollarSign, TrendingUp, Calculator } from "lucide-react";
+import { AgentBarChart, AgentPieChart } from "@/components/shared/AgentCharts";
 
 const HAVEN_PINK = "#FF80AB";
 
@@ -89,25 +90,40 @@ const HavenCostIntelligence = () => {
         {quoteResult && <p className="text-[11px] font-jakarta text-foreground">{quoteResult}</p>}
       </div>
 
-      {/* Category Breakdown */}
+      {/* Category Breakdown with Charts */}
       {categories.length === 0 ? (
         <p className="text-xs text-muted-foreground text-center py-8">No completed jobs with invoices yet. Complete jobs to build cost data.</p>
       ) : (
-        <div className="space-y-2">
-          {categories.map(c => (
-            <div key={c.category} className="rounded-xl p-3 border" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
-              <div className="flex items-center justify-between mb-1">
-                <span className="font-syne font-bold text-xs text-foreground">{c.category}</span>
-                <span className="text-xs font-mono-jb" style={{ color: "#66BB6A" }}>${c.total.toLocaleString("en-NZ", { minimumFractionDigits: 0 })}</span>
+        <>
+          <AgentBarChart
+            title="Spend by Category"
+            data={categories.slice(0, 8).map(c => ({ name: c.category.length > 10 ? c.category.slice(0, 10) + "…" : c.category, total: Math.round(c.total) }))}
+            dataKey="total"
+            color={HAVEN_PINK}
+            prefix="$"
+            height={180}
+          />
+          <AgentPieChart
+            title="Spend Distribution"
+            data={categories.map(c => ({ name: c.category, value: Math.round(c.total) }))}
+            height={180}
+          />
+          <div className="space-y-2">
+            {categories.map(c => (
+              <div key={c.category} className="rounded-xl p-3 border" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="font-syne font-bold text-xs text-foreground">{c.category}</span>
+                  <span className="text-xs font-mono-jb" style={{ color: "#66BB6A" }}>${c.total.toLocaleString("en-NZ", { minimumFractionDigits: 0 })}</span>
+                </div>
+                <div className="flex items-center gap-4 text-[10px] text-muted-foreground font-jakarta">
+                  <span>{c.count} {c.count === 1 ? "job" : "jobs"}</span>
+                  <span>Avg: ${c.avg.toFixed(0)}</span>
+                  <span>Range: ${c.min.toFixed(0)} – ${c.max.toFixed(0)}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-4 text-[10px] text-muted-foreground font-jakarta">
-                <span>{c.count} {c.count === 1 ? "job" : "jobs"}</span>
-                <span>Avg: ${c.avg.toFixed(0)}</span>
-                <span>Range: ${c.min.toFixed(0)} – ${c.max.toFixed(0)}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

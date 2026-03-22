@@ -2,6 +2,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Leaf, BarChart3, FileText, Building2, ChevronRight, ArrowLeft, Copy, Check, Lock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { AgentBarChart, AgentPieChart } from "@/components/shared/AgentCharts";
 
 const APEX_COLOR = "#00FF88";
 
@@ -159,6 +160,17 @@ const ApexESGDashboard = ({ isPaid, userRole }: Props) => {
                 <div className="text-4xl font-black" style={{ color: getColor(score.total) }}>{score.total}<span className="text-lg text-muted-foreground">/100</span></div>
                 <p className="text-xs text-muted-foreground mt-1">{score.total >= 75 ? "Strong performer" : score.total >= 50 ? "Good foundation — room to improve" : "Early stage — significant opportunity"}</p>
               </div>
+              <AgentBarChart
+                title="ESG Score Breakdown"
+                data={[
+                  { name: "Environmental", score: score.env },
+                  { name: "Social", score: score.social },
+                  { name: "Governance", score: score.gov },
+                ]}
+                dataKey="score"
+                color={APEX_COLOR}
+                height={160}
+              />
               <div className="grid grid-cols-3 gap-3">
                 {[{ label: "Environmental", val: score.env }, { label: "Social", val: score.social }, { label: "Governance", val: score.gov }].map(s => (
                   <div key={s.label} className="text-center p-3 rounded-lg bg-card">
