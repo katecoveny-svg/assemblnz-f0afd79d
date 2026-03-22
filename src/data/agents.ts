@@ -297,7 +297,7 @@ export const agents: Agent[] = [
     color: "#26C6DA",
     sector: "Maritime & Fishing",
     traits: ["Sea-savvy", "Safety-focused", "Quota-fluent"],
-    expertise: ["SSM documentation", "Fishing rules", "Voyage planning", "Marine weather", "Navigation hazards", "Coastguard courses"],
+    expertise: ["SSM doc generator", "Live marine weather AI", "Voyage planner", "Fishing rules engine", "Navigation hazard alerts", "Coastguard prep guide"],
     starters: ["What are the snapper bag limits in my region?", "Interpret today's marine forecast for me", "Plan a fishing trip in the Hauraki Gulf"],
   },
   {
