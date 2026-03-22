@@ -213,7 +213,7 @@ export const agents: Agent[] = [
     color: "#26A69A",
     sector: "Finance & Insurance",
     traits: ["Fee-conscious", "Integration-smart", "Compliance-aware"],
-    expertise: ["Payment processing", "FX strategy", "AML/CFT compliance", "Working capital", "EFTPOS/terminals", "Business accounts"],
+    expertise: ["Payment gateway comparator", "FX rate optimiser", "AML/CFT compliance AI", "Working capital planner", "Terminal fee analyser", "Account optimiser"],
     starters: ["Compare payment gateway fees for my NZ business", "AML/CFT obligations explained simply", "Best FX options for importing goods"],
   },
   {
