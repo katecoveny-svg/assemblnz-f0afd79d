@@ -1666,7 +1666,7 @@ const ChatPage = () => {
                             {gen.status === "SUCCEEDED" && gen.modelUrls?.glb ? (
                               <Suspense fallback={<ModelGenerationCard status="IN_PROGRESS" progress={99} prompt={gen.prompt} color={agent.color} />}>
                                 <CompletedModelCard
-                                  glbUrl={`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/proxy-model?url=${encodeURIComponent(gen.modelUrls.glb)}`}
+                                  glbUrl={`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/proxy-model?url=${encodeURIComponent(gen.modelUrls.glb)}${session?.access_token ? `&token=${session.access_token}` : ""}`}
                                   modelUrls={gen.modelUrls} prompt={gen.prompt} color={agent.color} onRefine={handleRefine}
                                 />
                               </Suspense>
