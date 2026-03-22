@@ -370,7 +370,7 @@ const AgentGrid = () => {
       {/* ═══════════════════════ ALSO BY ASSEMBL ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-white/[0.04]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-foreground mb-14">
+          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-glow-pink mb-14">
             Also by <span className="text-gradient-hero">Assembl</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
