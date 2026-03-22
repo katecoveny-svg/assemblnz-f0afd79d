@@ -198,7 +198,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
   // VAULT
   {
     id: "vault-mortgage",
-    agentId: "vault",
+    agentId: "finance",
     agentName: "VAULT",
     agentCode: "ASM-039",
     agentColor: "#4FC3F7",
@@ -209,7 +209,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
   },
   {
     id: "vault-kiwisaver",
-    agentId: "vault",
+    agentId: "finance",
     agentName: "VAULT",
     agentCode: "ASM-039",
     agentColor: "#4FC3F7",
