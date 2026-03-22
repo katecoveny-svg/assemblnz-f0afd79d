@@ -889,7 +889,7 @@ const PricingPage = () => {
       {/* FAQ */}
       <section className="py-14 sm:py-28">
         <div className="max-w-3xl mx-auto px-5 sm:px-6">
-          <h2 className="text-xl sm:text-3xl font-syne font-extrabold text-center mb-8 sm:mb-14" style={{ color: '#E4E4EC' }}>
+          <h2 className="text-xl sm:text-3xl font-syne font-extrabold text-center mb-8 sm:mb-14 text-glow-cyan">
             Frequently asked questions
           </h2>
           <div className="space-y-2">
