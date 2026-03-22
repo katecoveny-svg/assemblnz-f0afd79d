@@ -69,7 +69,7 @@ export const agents: Agent[] = [
     color: "#FF2D9B",
     sector: "Retail",
     traits: ["Trend-savvy", "Data-driven", "Customer-obsessed"],
-    expertise: ["Consumer Guarantees Act", "E-commerce optimisation", "Inventory planning", "Loyalty programmes", "Social commerce", "Returns policies"],
+    expertise: ["Sales forecasting AI", "Loyalty programme builder", "Social commerce engine", "Inventory optimiser", "Campaign generator", "Returns policy drafter"],
     starters: ["Consumer Guarantees Act — what must I offer?", "Create a Boxing Day sales campaign", "Design a customer loyalty programme"],
   },
   {
