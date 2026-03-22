@@ -1215,6 +1215,7 @@ const ChatPage = () => {
                   { id: "prism_creative" as const, label: "Creative" },
                   { id: "prism_video" as const, label: "Video" },
                   { id: "prism_brandlab" as const, label: "Brand Lab" },
+                  { id: "prism_publisher" as const, label: "Publisher" },
                 ]).map(t => (
                   <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
                     style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
@@ -1371,6 +1372,8 @@ const ChatPage = () => {
         <PrismVideoStudio />
       ) : activeTab === "prism_brandlab" && isPrism ? (
         <PrismBrandLab onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_publisher" && isPrism ? (
+        <PrismSocialPublisher onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "axis_automations" && isAxis ? (
         <AxisAutomations />
       ) : activeTab === "agent_training" ? (
@@ -1826,7 +1829,10 @@ const ChatPage = () => {
           {/* Live Preview Panel (SPARK + PRISM) */}
           {hasLivePreview && (
             <div className={`${sparkMobileView === "preview" ? "flex" : "hidden"} md:flex md:w-[60%] flex-col flex-1 min-h-0 p-2`}>
-              <SparkPreview code={sparkCode} onIterate={() => setInput(isSpark ? "Make these changes: " : "Update the creative: ")} />
+              <SparkPreview code={sparkCode} onIterate={() => setInput(isSpark ? "Make these changes: " : "Update the creative: ")} onDeploy={isSpark ? () => setShowDeployModal(true) : undefined} />
+              {isSpark && showDeployModal && (
+                <SparkDeployModal htmlContent={sparkCode} onClose={() => setShowDeployModal(false)} />
+              )}
             </div>
           )}
         </div>

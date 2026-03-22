@@ -5,9 +5,10 @@ import { toast } from "sonner";
 interface SparkPreviewProps {
   code: string;
   onIterate?: () => void;
+  onDeploy?: () => void;
 }
 
-const SparkPreview = ({ code, onIterate }: SparkPreviewProps) => {
+const SparkPreview = ({ code, onIterate, onDeploy }: SparkPreviewProps) => {
   const [copied, setCopied] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -57,6 +58,12 @@ const SparkPreview = ({ code, onIterate }: SparkPreviewProps) => {
         {onIterate && (
           <button onClick={onIterate} className="p-1.5 rounded hover:bg-white/5 transition-colors" title="Iterate">
             <RefreshCw size={13} style={{ color: "#FF6B00" }} />
+          </button>
+        )}
+        {onDeploy && (
+          <button onClick={onDeploy} className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all hover:scale-[0.97]"
+            style={{ background: "#FF6B00", color: "#fff" }} title="Deploy Live">
+            🚀 Deploy
           </button>
         )}
       </div>
