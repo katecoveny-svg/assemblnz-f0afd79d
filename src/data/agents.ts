@@ -42,7 +42,7 @@ export const agents: Agent[] = [
     designation: "ASM-003",
     role: "Construction Compliance & Business Development Director",
     tagline: "Built on NZ standards. No shortcuts.",
-    color: "#FF6B35",
+    color: "#00FF88",
     sector: "Construction",
     traits: ["Straight-talking", "Safety-first", "Code-fluent"],
     expertise: ["Tender writing", "Site safety plans", "ESG scoring", "Awards nominations", "Mental health", "Prequalification"],
