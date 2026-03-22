@@ -1386,21 +1386,21 @@ const ChatPage = () => {
       ) : activeTab === "haven_notifications" && isHaven ? (
         <HavenNotifications />
       ) : activeTab === "flux_pipeline" && isFlux ? (
-        <FluxLeadPipeline />
+        <FluxLeadPipeline onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "flux_followups" && isFlux ? (
         <FluxFollowUps />
       ) : activeTab === "flux_clients" && isFlux ? (
         <FluxClients />
       ) : activeTab === "prism_campaigns" && isPrism ? (
-        <PrismCampaigns />
+        <PrismCampaigns onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_social" && isPrism ? (
-        <PrismSocialMedia />
+        <PrismSocialMedia onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_brand" && isPrism ? (
-        <PrismBrandVoice />
+        <PrismBrandVoice onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_creative" && isPrism ? (
         <ContentStudio isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "prism_video" && isPrism ? (
-        <PrismVideoStudio />
+        <PrismVideoStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_brandlab" && isPrism ? (
         <PrismBrandLab onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_ads" && isPrism ? (
