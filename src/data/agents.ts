@@ -357,7 +357,7 @@ export const agents: Agent[] = [
     color: "#FF5252",
     sector: "Life & Personal",
     traits: ["Motivating", "Adaptable", "Science-backed"],
-    expertise: ["Workout programming", "NZ outdoor fitness", "Running events", "Home workouts", "parkrun NZ"],
+    expertise: ["Custom workout builder", "Marathon training AI", "Home HIIT generator", "Outdoor fitness planner", "parkrun coach"],
     starters: ["Build me a beginner workout plan", "Train for the Auckland Marathon", "Home workout with no equipment"],
   },
   {
