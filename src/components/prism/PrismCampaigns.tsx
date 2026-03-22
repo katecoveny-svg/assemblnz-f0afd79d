@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Plus, Send, FileEdit, Eye, BarChart3, X, Sparkles } from "lucide-react";
+import { AgentBarChart, AgentFunnelChart } from "@/components/shared/AgentCharts";
 
 interface Campaign {
   id: string;
