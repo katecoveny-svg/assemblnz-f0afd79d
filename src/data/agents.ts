@@ -560,4 +560,5 @@ export const sectors = [
   "Māori & Te Tiriti",
   "Life & Personal",
   "HR & Employment",
+  "Business Tools",
 ];

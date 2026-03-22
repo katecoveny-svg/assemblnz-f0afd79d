@@ -154,6 +154,9 @@ const AgentGrid = () => {
       {/* ═══════════════════════ ECHO ═══════════════════════ */}
       <EchoSection />
 
+      {/* ═══════════════════════ SPARK ═══════════════════════ */}
+      <SparkSection />
+
       {/* ═══════════════════════ AGENT GRID ═══════════════════════ */}
       <main ref={gridRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
         {/* Section header */}
