@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +13,12 @@ import AgentGrid from "./pages/AgentGrid";
 import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
+
+// Wrapper to force full remount when agentId changes (prevents removeChild crash)
+const ChatPageKeyed = () => {
+  const { agentId } = useParams();
+  return <ChatPage key={agentId} />;
+};
 
 const MarinerLanding = lazy(() => import("./pages/MarinerLanding"));
 const EmbedPage = lazy(() => import("./pages/EmbedPage"));
