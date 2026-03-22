@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { Plus, X, Users, Baby, Share2, Settings2 } from "lucide-react";
+import { Plus, X, Users, Baby, Share2, Settings2, AlertCircle } from "lucide-react";
+import { toast } from "sonner";
 
 const HELM_COLOR = "#B388FF";
 
