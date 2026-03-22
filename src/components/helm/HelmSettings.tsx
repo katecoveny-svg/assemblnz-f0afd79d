@@ -40,7 +40,12 @@ export default function HelmSettings() {
 
   const loadData = async () => {
     if (!user) return;
-    const { data: fm } = await supabase.from("family_members").select("family_id").eq("user_id", user.id).limit(1).single();
+    const { data: fm, error: fmError } = await supabase.from("family_members").select("family_id").eq("user_id", user.id).limit(1).single();
+    if (fmError && fmError.code !== "PGRST116") {
+      toast.error("Error loading family data: " + fmError.message);
+      setShowSetup(true);
+      return;
+    }
     if (fm) {
       const [fam, kids, inv] = await Promise.all([
         supabase.from("families").select("*").eq("id", fm.family_id).single(),
