@@ -6,9 +6,11 @@ import BrandFooter from "@/components/BrandFooter";
 import AgentAvatar from "@/components/AgentAvatar";
 import { agents, echoAgent } from "@/data/agents";
 import { OUTPUT_CARDS, type OutputCard } from "@/data/contentHubData";
+import { PREVIEW_MAP } from "@/components/contenthub/MiniPreviews";
 
 const OutputCardComponent = ({ card }: { card: OutputCard }) => {
   const [expanded, setExpanded] = useState(false);
+  const PreviewComponent = PREVIEW_MAP[card.id];
 
   return (
     <div
@@ -25,18 +27,29 @@ const OutputCardComponent = ({ card }: { card: OutputCard }) => {
             {card.outputType}
           </span>
         </div>
-        <div
-          className="font-jakarta text-xs leading-relaxed whitespace-pre-line"
-          style={{ color: "rgba(255,255,255,0.5)" }}
-        >
-          {expanded ? card.fullContent : card.preview}
-        </div>
+
+        {PreviewComponent && !expanded ? (
+          <div
+            className="rounded-lg p-3"
+            style={{ background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.04)" }}
+          >
+            <PreviewComponent />
+          </div>
+        ) : (
+          <div
+            className="font-jakarta text-xs leading-relaxed whitespace-pre-line"
+            style={{ color: "rgba(255,255,255,0.5)" }}
+          >
+            {expanded ? card.fullContent : card.preview}
+          </div>
+        )}
+
         <button
           onClick={() => setExpanded(!expanded)}
           className="flex items-center gap-1 text-xs font-jakarta transition-colors"
           style={{ color: card.agentColor }}
         >
-          {expanded ? <>Collapse <ChevronUp size={12} /></> : <>See full output <ChevronDown size={12} /></>}
+          {expanded ? <>Collapse <ChevronUp size={12} /></> : <>{PreviewComponent ? "See raw output" : "See full output"} <ChevronDown size={12} /></>}
         </button>
       </div>
     </div>
