@@ -33,7 +33,21 @@ export default function SparkDeployModal({ htmlContent, onClose, onDeployed }: S
   };
 
   const deploy = async () => {
-    if (!user || !appName.trim() || !htmlContent) return;
+    if (!user) {
+      setError("Please sign in to deploy apps.");
+      return;
+    }
+
+    if (!appName.trim()) {
+      setError("Please add an app name before deploying.");
+      return;
+    }
+
+    if (!htmlContent) {
+      setError("There is no app preview to deploy yet.");
+      return;
+    }
+
     setDeploying(true);
     setError("");
 
@@ -94,6 +108,21 @@ export default function SparkDeployModal({ htmlContent, onClose, onDeployed }: S
 
         {!deployed ? (
           <>
+            {!user && (
+              <div className="rounded-xl p-3 space-y-2" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                <p className="text-[11px] font-jakarta" style={{ color: "rgba(255,255,255,0.72)" }}>
+                  Sign in first to publish and manage SPARK apps.
+                </p>
+                <a
+                  href="/login"
+                  className="inline-flex items-center justify-center rounded-lg px-3 py-2 text-[11px] font-semibold"
+                  style={{ background: `${ACCENT}20`, color: ACCENT, border: `1px solid ${ACCENT}30` }}
+                >
+                  Sign In
+                </a>
+              </div>
+            )}
+
             <div>
               <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>App Name *</label>
               <input value={displayName} onChange={e => handleNameChange(e.target.value)} placeholder="e.g. Paint Quote Calculator"
@@ -145,10 +174,10 @@ export default function SparkDeployModal({ htmlContent, onClose, onDeployed }: S
 
             {error && <p className="text-[11px] text-red-400">{error}</p>}
 
-            <button onClick={deploy} disabled={!appName.trim() || deploying}
+            <button onClick={deploy} disabled={!user || !appName.trim() || deploying}
               className="w-full py-3 rounded-xl text-xs font-semibold transition-all hover:scale-[0.98] disabled:opacity-30 flex items-center justify-center gap-2"
               style={{ background: `${ACCENT}25`, color: ACCENT, border: `1px solid ${ACCENT}40` }}>
-              {deploying ? "Deploying..." : "🚀 Deploy Live"}
+              {deploying ? "Deploying..." : user ? "🚀 Deploy Live" : "Sign in to deploy"}
             </button>
           </>
         ) : (
