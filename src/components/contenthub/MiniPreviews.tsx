@@ -9,7 +9,7 @@ import { useState } from "react";
 /* ── HAVEN: Compliance Dashboard ── */
 export const HavenCompliancePreview = () => {
   const items = [
-    { standard: "Heating", status: "pass", detail: "Daikin 3.5kW" },
+    { standard: "Heating", status: "pass", detail: "Heat pump 3.5kW" },
     { standard: "Ceiling Insulation", status: "pass", detail: "R3.2" },
     { standard: "Underfloor", status: "fail", detail: "Not installed" },
     { standard: "Ventilation", status: "partial", detail: "Bathroom fan broken" },
