@@ -5,7 +5,7 @@ import { agents } from "@/data/agents";
 import { echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2 } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import ModelGenerationCard from "@/components/ModelGenerationCard";
 import HelmQuickActions from "@/components/helm/HelmQuickActions";
@@ -312,6 +312,11 @@ const ChatPage = () => {
   const [brandName, setBrandName] = useState<string | null>(
     () => sessionStorage.getItem("assembl_brand_name")
   );
+  const [brandLogoUrl, setBrandLogoUrl] = useState<string | null>(
+    () => sessionStorage.getItem("assembl_brand_logo")
+  );
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
+  const logoInputRef = useRef<HTMLInputElement>(null);
   const [templateModalOpen, setTemplateModalOpen] = useState(false);
   const [paywallType, setPaywallType] = useState<"preview" | "daily_limit" | null>(null);
   const [auraPropertyMode, setAuraPropertyMode] = useState<string>(() => sessionStorage.getItem("aura_property_mode") || "luxury_lodge");
@@ -534,6 +539,25 @@ const ChatPage = () => {
     const { data } = supabase.storage.from("chat-images").getPublicUrl(filePath);
     return data.publicUrl;
   }, []);
+
+  // Logo upload handler
+  const handleLogoUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) return;
+    if (file.size > 5 * 1024 * 1024) return; // 5MB limit
+    setIsUploadingLogo(true);
+    try {
+      const url = await uploadImage(file);
+      setBrandLogoUrl(url);
+      sessionStorage.setItem("assembl_brand_logo", url);
+    } catch (err) {
+      console.error("Logo upload error:", err);
+    } finally {
+      setIsUploadingLogo(false);
+      if (e.target) e.target.value = "";
+    }
+  }, [uploadImage]);
 
   // Inline image generation from [GENERATE_IMAGE: ...] tags
   const triggerInlineImages = useCallback(async (content: string, msgIndex: number) => {
@@ -775,7 +799,7 @@ const ChatPage = () => {
       const functionName = isHaven ? "haven-ai" : "chat";
       const body = isHaven
         ? { messages: apiMessages }
-        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, teReoPrompt: teReoPrompt || undefined, propertyMode: isAura ? auraPropertyMode : undefined };
+        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, propertyMode: isAura ? auraPropertyMode : undefined };
 
       const invokeOptions: any = { body };
       if (isHaven && session?.access_token) {
@@ -978,6 +1002,31 @@ const ChatPage = () => {
             title="Add your website for tailored advice"
           >
             <Globe size={10} />
+          </LockedButton>
+        )}
+
+        {/* Logo upload badge or add button */}
+        {brandLogoUrl ? (
+          <div
+            className="flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium shrink-0"
+            style={{ backgroundColor: agent.color + "15", color: agent.color, border: `1px solid ${agent.color}25` }}
+          >
+            <img src={brandLogoUrl} alt="Logo" className="w-3.5 h-3.5 rounded-sm object-contain" />
+            <span>Logo</span>
+            <button onClick={() => { setBrandLogoUrl(null); sessionStorage.removeItem("assembl_brand_logo"); }} className="hover:opacity-70 ml-0.5">
+              <X size={10} />
+            </button>
+          </div>
+        ) : (
+          <LockedButton
+            feature="brand_scan"
+            onClick={() => logoInputRef.current?.click()}
+            className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium transition-colors hover:opacity-80 shrink-0"
+            style={{ color: agent.color, border: `1px solid ${agent.color}20` }}
+            title="Upload your logo for branded documents"
+          >
+            {isUploadingLogo ? <Loader2 size={10} className="animate-spin" /> : <Upload size={10} />}
+            <span className="hidden sm:inline">Logo</span>
           </LockedButton>
         )}
 
@@ -1212,6 +1261,15 @@ const ChatPage = () => {
 
         <AccountDropdown />
       </header>
+
+      {/* Hidden logo file input */}
+      <input
+        ref={logoInputRef}
+        type="file"
+        accept="image/png,image/jpeg,image/svg+xml,image/webp"
+        onChange={handleLogoUpload}
+        className="hidden"
+      />
 
       {/* Modals */}
       <BrandScanModal agentName={agent.name} agentColor={agent.color} open={brandModalOpen} onClose={() => setBrandModalOpen(false)}
