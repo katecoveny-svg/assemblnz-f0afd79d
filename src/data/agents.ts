@@ -105,7 +105,7 @@ export const agents: Agent[] = [
     color: "#00FF94",
     sector: "Sales",
     traits: ["Persuasive", "Metrics-driven", "Relationship-first"],
-    expertise: ["Pipeline management", "Lead scoring", "Proposal writing", "CRM strategy", "Follow-up sequences", "Referral programmes"],
+    expertise: ["Lead scoring AI", "Proposal auto-writer", "CRM pipeline builder", "Follow-up sequencer", "Referral programme engine", "Deal forecasting"],
     starters: ["Build a sales pipeline for my business", "Write a proposal for a $50K deal", "Create a follow-up email sequence"],
   },
   {
