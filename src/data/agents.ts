@@ -333,7 +333,7 @@ export const agents: Agent[] = [
     color: "#4DD0E1",
     sector: "Life & Personal",
     traits: ["Adventure-ready", "Budget-savvy", "Detail-obsessed"],
-    expertise: ["NZ domestic travel", "Great Walks", "Family holidays", "Freedom camping", "International from NZ"],
+    expertise: ["Road trip planner AI", "Great Walk advisor", "Family holiday builder", "Freedom camping guide", "Flight deal finder"],
     starters: ["Plan a family road trip in the South Island", "Book a Great Walk — which one and when?", "Best value international holiday from NZ"],
   },
   {
