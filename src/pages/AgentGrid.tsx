@@ -226,10 +226,10 @@ const AgentGrid = () => {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ y: -4 }}
               >
-                <div className="absolute top-0 left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-20 group-hover:opacity-50 transition-opacity" />
+                <div className="absolute top-0 left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-foreground/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="font-mono-jb text-[10px] font-bold text-primary">{item.step}</span>
-                  <div className="text-primary animate-neon-pulse">{item.icon}</div>
+                  <span className="font-mono-jb text-[10px] font-bold text-muted-foreground">{item.step}</span>
+                  <div className="text-foreground">{item.icon}</div>
                 </div>
                 <h3 className="text-sm font-syne font-bold text-foreground mb-2">{item.title}</h3>
                 <p className="text-xs font-jakarta text-muted-foreground leading-relaxed">{item.desc}</p>
