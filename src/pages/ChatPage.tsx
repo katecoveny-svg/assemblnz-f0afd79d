@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, lazy, Suspense } from "react";
+import { useState, useRef, useEffect, useCallback, lazy, Suspense, useMemo } from "react";
 import ParticleField from "@/components/ParticleField";
 import { useParams, Link } from "react-router-dom";
 import { agents } from "@/data/agents";
