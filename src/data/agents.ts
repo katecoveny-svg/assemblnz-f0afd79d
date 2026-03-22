@@ -129,7 +129,7 @@ export const agents: Agent[] = [
     color: "#FF8C42",
     sector: "Project Management",
     traits: ["Structured", "Risk-aware", "Stakeholder-savvy"],
-    expertise: ["Project planning", "Risk registers", "SOPs", "Workflow automation", "Govt procurement", "Change management"],
+    expertise: ["Project plan generator", "Risk matrix builder", "SOP auto-writer", "Workflow automator", "Govt procurement AI", "Change management"],
     starters: ["Create a project plan with milestones", "Build a risk register for my project", "Government procurement process"],
   },
   {
