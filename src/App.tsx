@@ -41,6 +41,8 @@ const ContentHub = lazy(() => import("./pages/ContentHub"));
 const AgentDetailPage = lazy(() => import("./pages/AgentDetailPage"));
 const MyAppsPage = lazy(() => import("./pages/MyAppsPage"));
 const SparkAppViewer = lazy(() => import("./pages/SparkAppViewer"));
+const WorkflowSettings = lazy(() => import("./pages/WorkflowSettings"));
+const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
 
 const queryClient = new QueryClient();
 
