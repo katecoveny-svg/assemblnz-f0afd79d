@@ -1625,6 +1625,7 @@ const ChatPage = () => {
               </Link>
             </div>
           )}
+          </div>
           {/* SPARK Live Preview Panel */}
           {isSpark && sparkCode && (
             <div className="hidden md:flex w-[60%] flex-col min-h-0 p-2">
