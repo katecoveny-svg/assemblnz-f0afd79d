@@ -98,7 +98,7 @@ const EchoChatWidget = () => {
               <div className="flex flex-col items-center justify-center h-full text-center gap-3">
                 <img src={echoImg} alt="ECHO" className="w-14 h-14 rounded-xl object-cover" style={{ filter: "drop-shadow(0 0 10px rgba(228,160,255,0.4))" }} />
                 <p className="text-sm font-jakarta text-foreground/70 max-w-[280px] leading-relaxed">
-                  Hey — I'm ECHO, Kate's AI twin. Ask me anything about Assembl, pricing, or how our agents can help your business.
+                  Hey — I'm ECHO, Assembl's hero agent. Ask me anything about our platform, pricing, or how our 41 agents can help your business.
                 </p>
                 <div className="flex flex-col gap-1.5 w-full max-w-xs mt-2">
                   {["What does Assembl do?", "Which agent is right for my business?", "Tell me about pricing"].map((q) => (
