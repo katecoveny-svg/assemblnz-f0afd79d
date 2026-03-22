@@ -832,8 +832,10 @@ const ChatPage = () => {
 
       // Trigger inline image generation for ECHO and other agents
       if (/\[GENERATE_IMAGE:/i.test(assistantContent)) {
-        const currentMsgIndex = newMessages.length; // index of the assistant message just added
-        triggerInlineImages(assistantContent, currentMsgIndex);
+        const currentMsgIndex = newMessages.length;
+        const qualityMatch = input.match(/\[QUALITY:(fast|pro)\]/i);
+        const userQuality = qualityMatch ? qualityMatch[1].toLowerCase() : undefined;
+        triggerInlineImages(assistantContent, currentMsgIndex, userQuality);
       }
     } catch (err) {
       console.error("Chat error:", err);
