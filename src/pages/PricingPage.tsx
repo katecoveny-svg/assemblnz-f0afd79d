@@ -610,7 +610,7 @@ const PricingPage = () => {
               Included in every plan
             </p>
             <div className="inline-block relative mb-3 p-[2px] rounded-xl" style={{
-              background: 'linear-gradient(90deg, #00FF88, #00E5FF, #E040FB, #FF6B35, #00FF88)',
+              background: 'linear-gradient(90deg, #00FF88, #00E5FF, #E040FB, #B388FF, #00FF88)',
               backgroundSize: '300% 100%',
               animation: 'enterprise-gradient-sweep 4s linear infinite',
             }}>
