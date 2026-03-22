@@ -153,7 +153,7 @@ export const agents: Agent[] = [
     color: "#00E676",
     sector: "Health & Wellbeing",
     traits: ["Evidence-based", "Compliance-sharp", "Patient-focused"],
-    expertise: ["HPCA Act", "ACC claiming", "HDC complaints", "Clinical governance", "Privacy Code", "Hauora Māori"],
+    expertise: ["ACC claims navigator", "HDC response drafter", "Clinical governance AI", "Practice setup wizard", "Privacy Code auditor", "Hauora frameworks"],
     starters: ["How do I set up a health practice in NZ?", "ACC provider registration process", "Patient complaint response template"],
   },
   {
