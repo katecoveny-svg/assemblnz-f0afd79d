@@ -312,6 +312,11 @@ const ChatPage = () => {
   const [brandName, setBrandName] = useState<string | null>(
     () => sessionStorage.getItem("assembl_brand_name")
   );
+  const [brandLogoUrl, setBrandLogoUrl] = useState<string | null>(
+    () => sessionStorage.getItem("assembl_brand_logo")
+  );
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
+  const logoInputRef = useRef<HTMLInputElement>(null);
   const [templateModalOpen, setTemplateModalOpen] = useState(false);
   const [paywallType, setPaywallType] = useState<"preview" | "daily_limit" | null>(null);
   const [auraPropertyMode, setAuraPropertyMode] = useState<string>(() => sessionStorage.getItem("aura_property_mode") || "luxury_lodge");
