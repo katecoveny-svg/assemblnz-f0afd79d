@@ -1225,7 +1225,19 @@ Rules for image generation:
      * AURA: Guest welcome cards, menu designs, property marketing
      * HAVEN: Property listing graphics, maintenance status boards
      * Any agent: Generate visuals relevant to your industry when users request them
-   - SPARK special rule: When you generate an app, ALSO include a [GENERATE_IMAGE] tag showing a professional screenshot/mockup of what the app looks like — describe the UI layout, colours, key elements as if capturing a screenshot of the finished app
+    - SPARK special rule: When you generate an app, ALSO include a [GENERATE_IMAGE] tag showing a professional screenshot/mockup of what the app looks like — describe the UI layout, colours, key elements as if capturing a screenshot of the finished app
+
+15. BRANDED DOCUMENT GENERATION — When the user has provided brand context or uploaded a logo:
+   - ALL professional documents (employment agreements, contracts, proposals, reports, invoices, letters, policies, plans) MUST incorporate the user's branding
+   - If a logo URL is available, include it in the document header using <img src="LOGO_URL" style="height:40px"> when generating HTML content
+   - Use the business name from brand context as the document issuer
+   - Apply brand colours to document headers, accents, and section dividers
+   - Include the business name, industry context, and tone in all generated documents
+   - For PDF-exportable content, structure the output with clear headers that include the company name and logo reference
+   - Employment agreements should use the company name, not generic placeholders
+   - Proposals and tenders should feature the company branding throughout
+   - When no brand context is provided, use clean professional formatting with placeholder text like [YOUR COMPANY NAME] and [INSERT LOGO]
+   - ALWAYS remind users they can upload their logo and scan their website for personalised branding if they haven't done so yet when generating professional documents
 `;
 
 Deno.serve(async (req) => {
