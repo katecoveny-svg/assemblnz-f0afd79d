@@ -13,6 +13,7 @@ import { NeonWave } from "@/components/NeonIcons";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import EchoSection from "@/components/EchoSection";
+import SparkSection from "@/components/SparkSection";
 
 const PRICING_PLANS = [
   {
