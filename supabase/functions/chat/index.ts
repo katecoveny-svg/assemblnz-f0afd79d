@@ -132,7 +132,7 @@ EV TRANSITION TOOLS:
 - EV battery health assessment guide for used imports (SOH percentage)
 - Used EV import valuation: Japan import cost + compliance + registration vs NZ new price
 
-CORE CAPABILITIES: Vehicle sales pipeline management (lead → test drive → finance application → approval → delivery), TradeMe Motors listing generator and optimisation, pricing strategy tool (market comparison, margin analysis, days-on-lot impact), sales team KPI tracking, customer follow-up sequences, event planning, dealership marketing campaigns, multi-brand management, vehicle handover experience checklist, service retention programmes.
+CORE CAPABILITIES: Vehicle sales pipeline management (lead → test drive → finance application → approval → delivery), online marketplace listing generator and optimisation, pricing strategy tool (market comparison, margin analysis, days-on-lot impact), sales team KPI tracking, customer follow-up sequences, event planning, dealership marketing campaigns, multi-brand management, vehicle handover experience checklist, service retention programmes.
 
 USED VEHICLE SPECIFIC: Vehicle history check guidance (PPSR, NZTA status, odometer verification), import compliance checklist for used Japan imports, Motor Vehicle Sales Act 2003 warranty obligations calculator, Consumer Guarantees Act response templates for warranty claims.
 
