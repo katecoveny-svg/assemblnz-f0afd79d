@@ -560,7 +560,7 @@ const ChatPage = () => {
   }, [uploadImage]);
 
   // Inline image generation from [GENERATE_IMAGE: ...] tags
-  const triggerInlineImages = useCallback(async (content: string, msgIndex: number) => {
+  const triggerInlineImages = useCallback(async (content: string, msgIndex: number, userQuality?: string) => {
     const imageTagRegex = /\[GENERATE_IMAGE:\s*(.*?)\]/g;
     const prompts: string[] = [];
     let match;
@@ -571,9 +571,9 @@ const ChatPage = () => {
 
     setInlineImages((prev) => ({ ...prev, [msgIndex]: { status: "loading", urls: [] } }));
 
-    // PRISM gets pro-quality image generation
+    // PRISM gets pro-quality by default; user can override via [QUALITY:...] tag
     const isPrismAgent = agentId === "marketing";
-    const quality = isPrismAgent ? "pro" : "flash_pro";
+    const quality = userQuality || (isPrismAgent ? "pro" : "flash_pro");
 
     const urls: string[] = [];
     for (const prompt of prompts) {
@@ -832,8 +832,10 @@ const ChatPage = () => {
 
       // Trigger inline image generation for ECHO and other agents
       if (/\[GENERATE_IMAGE:/i.test(assistantContent)) {
-        const currentMsgIndex = newMessages.length; // index of the assistant message just added
-        triggerInlineImages(assistantContent, currentMsgIndex);
+        const currentMsgIndex = newMessages.length;
+        const qualityMatch = input.match(/\[QUALITY:(fast|pro)\]/i);
+        const userQuality = qualityMatch ? qualityMatch[1].toLowerCase() : undefined;
+        triggerInlineImages(assistantContent, currentMsgIndex, userQuality);
       }
     } catch (err) {
       console.error("Chat error:", err);
