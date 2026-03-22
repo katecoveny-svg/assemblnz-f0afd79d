@@ -1667,7 +1667,7 @@ const ChatPage = () => {
           </div>
           {/* SPARK Live Preview Panel */}
           {isSpark && sparkCode && (
-            <div className="hidden md:flex w-[60%] flex-col min-h-0 p-2">
+            <div className={`${sparkMobileView === "preview" ? "flex" : "hidden"} md:flex md:w-[60%] flex-col flex-1 min-h-0 p-2`}>
               <SparkPreview code={sparkCode} onIterate={() => setInput("Make these changes: ")} />
             </div>
           )}
