@@ -6,8 +6,7 @@ import { lazy, Suspense } from "react";
 
 const NexusHero3D = lazy(() =>
   import("@/components/NexusHero3D").catch(() => {
-    window.location.reload();
-    return import("@/components/NexusHero3D");
+    return { default: () => null };
   })
 );
 
