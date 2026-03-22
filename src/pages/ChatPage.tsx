@@ -580,9 +580,25 @@ const ChatPage = () => {
 
     setInlineImages((prev) => ({ ...prev, [msgIndex]: { status: "loading", urls: [] } }));
 
-    // PRISM gets pro-quality by default; user can override via [QUALITY:...] tag
-    const isPrismAgent = agentId === "marketing";
-    const quality = userQuality || (isPrismAgent ? "pro" : "flash_pro");
+    // Design-related agents get higher quality by default
+    const DESIGN_AGENTS: Record<string, { quality: string; platform: string; contentType: string; context: string }> = {
+      marketing: { quality: "pro", platform: "brand_marketing", contentType: "brand_asset", context: "Professional brand marketing asset. Create agency-quality visuals with premium aesthetics, sophisticated composition, and commercial-grade polish." },
+      hospitality: { quality: "flash_pro", platform: "hospitality_marketing", contentType: "guest_experience", context: "Luxury hospitality visual — elegant, premium, aspirational. Think 5-star lodge marketing material." },
+      tourism: { quality: "flash_pro", platform: "tourism_marketing", contentType: "destination_visual", context: "NZ tourism marketing asset — breathtaking landscapes, adventure, cultural depth. Aspirational travel imagery." },
+      automotive: { quality: "flash_pro", platform: "automotive_marketing", contentType: "vehicle_showcase", context: "Automotive dealership marketing — sleek vehicle imagery, showroom aesthetic, professional dealership branding." },
+      retail: { quality: "flash_pro", platform: "retail_marketing", contentType: "product_visual", context: "Retail marketing visual — eye-catching product displays, promotional graphics, seasonal campaign imagery." },
+      style: { quality: "flash_pro", platform: "fashion_lifestyle", contentType: "style_visual", context: "Fashion and style visual — curated wardrobe imagery, style guides, seasonal lookbooks." },
+      construction: { quality: "flash_pro", platform: "construction_marketing", contentType: "project_showcase", context: "Construction industry visual — project showcases, safety signage, tender cover pages, professional documentation graphics." },
+      architecture: { quality: "flash_pro", platform: "architecture_portfolio", contentType: "design_visual", context: "Architectural design visual — building renders, concept presentations, portfolio-quality project imagery." },
+      sales: { quality: "flash_pro", platform: "sales_materials", contentType: "proposal_graphic", context: "Professional sales visual — pipeline graphics, proposal covers, client-facing presentation materials." },
+      property: { quality: "flash_pro", platform: "property_marketing", contentType: "listing_visual", context: "Property marketing visual — listing graphics, maintenance dashboards, portfolio overviews." },
+      spark: { quality: "flash_pro", platform: "app_preview", contentType: "app_mockup", context: "App UI mockup — professional screenshot of a web application with clean modern design." },
+      energy: { quality: "flash_pro", platform: "sustainability", contentType: "report_visual", context: "Energy and sustainability visual — carbon reports, solar ROI graphics, environmental dashboards." },
+      nonprofit: { quality: "flash_pro", platform: "nonprofit_comms", contentType: "impact_visual", context: "Nonprofit impact visual — community engagement imagery, grant application graphics, impact report visuals." },
+    };
+
+    const agentConfig = agentId ? DESIGN_AGENTS[agentId] : undefined;
+    const quality = userQuality || agentConfig?.quality || "flash_pro";
 
     const urls: string[] = [];
     for (const prompt of prompts) {
@@ -590,11 +606,9 @@ const ChatPage = () => {
         const { data, error } = await supabase.functions.invoke("generate-image", {
           body: {
             prompt,
-            platform: isPrismAgent ? "brand_marketing" : "instagram",
-            contentType: isPrismAgent ? "brand_asset" : "social_post",
-            agentContext: isPrismAgent
-              ? "Professional brand marketing asset. Create agency-quality visuals with premium aesthetics, sophisticated composition, and commercial-grade polish."
-              : "For Assembl brand marketing.",
+            platform: agentConfig?.platform || "marketing_material",
+            contentType: agentConfig?.contentType || "visual_asset",
+            agentContext: agentConfig?.context || "Professional visual asset for Assembl brand marketing.",
             quality,
             brandContext: brandProfile ? { business_name: brandName || "Assembl", tone: "professional", industry: "technology" } : undefined,
           },
