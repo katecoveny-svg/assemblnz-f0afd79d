@@ -260,9 +260,9 @@ const DashboardPage = () => {
         </div>
 
         {/* Recent Templates */}
-        <div className="rounded-xl p-6 relative overflow-hidden" style={glassCard}>
+        <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={glassCard}>
           <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
-          <h2 className="text-sm font-display font-bold text-foreground mb-4">Recent templates</h2>
+          <h2 className="text-sm font-display font-bold text-glow-green mb-4">Recent templates</h2>
           <div className="space-y-2">
             {SAMPLE_TEMPLATES.map((t, i) => (
               <div key={i} className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0">
