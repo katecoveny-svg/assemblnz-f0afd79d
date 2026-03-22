@@ -358,7 +358,7 @@ export const VaultMortgagePreview = () => {
         </div>
       ))}
       <p className="text-center font-mono-jb text-[8px] pt-1" style={{ color: "#00FF88" }}>
-        ASB saves $32,040 over loan life
+        Bank B saves $32,040 over loan life
       </p>
     </div>
   );
