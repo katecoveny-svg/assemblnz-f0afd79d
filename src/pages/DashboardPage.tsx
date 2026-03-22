@@ -27,18 +27,18 @@ interface SavedItem {
 }
 
 const SAMPLE_AGENTS = [
-  { name: "APEX", color: "#FF6B35", messages: 120 },
+  { name: "APEX", color: "#00FF88", messages: 120 },
   { name: "LEDGER", color: "#4FC3F7", messages: 89 },
-  { name: "ANCHOR", color: "#FF7043", messages: 45 },
+  { name: "ANCHOR", color: "#00E5FF", messages: 45 },
   { name: "HELM", color: "#B388FF", messages: 38 },
   { name: "NEXUS", color: "#5B8CFF", messages: 28 },
   { name: "PRISM", color: "#E040FB", messages: 22 },
 ];
 
 const SAMPLE_TEMPLATES = [
-  { agent: "APEX", agentColor: "#FF6B35", type: "Site Safety Plan", date: "15 Mar 2026" },
+  { agent: "APEX", agentColor: "#00FF88", type: "Site Safety Plan", date: "15 Mar 2026" },
   { agent: "LEDGER", agentColor: "#4FC3F7", type: "GST Calculator", date: "14 Mar 2026" },
-  { agent: "ANCHOR", agentColor: "#FF7043", type: "Employment Agreement", date: "13 Mar 2026" },
+  { agent: "ANCHOR", agentColor: "#00E5FF", type: "Employment Agreement", date: "13 Mar 2026" },
   { agent: "HELM", agentColor: "#B388FF", type: "Meal Plan", date: "12 Mar 2026" },
   { agent: "NEXUS", agentColor: "#5B8CFF", type: "Import Entry Processor", date: "11 Mar 2026" },
 ];
