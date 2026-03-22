@@ -20,8 +20,8 @@ const PRICING_PLANS = [
     name: "Free",
     price: "$0",
     period: "",
-    color: "#00FF88",
-    features: ["3 messages per agent", "All 41 agents", "NZ legislation knowledge", "No signup required"],
+    color: "hsl(38, 65%, 58%)",
+    features: ["3 messages per agent", "All 42 agents", "NZ legislation knowledge", "No signup required"],
     cta: "Start free",
     href: "/",
     external: false,
@@ -31,7 +31,7 @@ const PRICING_PLANS = [
     name: "Starter",
     price: "$79",
     period: "/mo",
-    color: "#00E5FF",
+    color: "hsl(200, 70%, 65%)",
     features: ["1 AI agent", "100 messages/month", "NZ legislation references", "Email support"],
     cta: "Get started",
     href: "https://buy.stripe.com/dRm3cx2za1BSctvdx4",
@@ -42,7 +42,7 @@ const PRICING_PLANS = [
     name: "Pro",
     price: "$249",
     period: "/mo",
-    color: "#FF2D9B",
+    color: "hsl(280, 50%, 72%)",
     features: ["3 AI agents", "500 messages/month", "Brand scan", "Template library", "Priority support"],
     cta: "Start Pro",
     href: "https://buy.stripe.com/bJebJ3gq0dkA6570Ki",
@@ -53,8 +53,8 @@ const PRICING_PLANS = [
     name: "Business",
     price: "$499",
     period: "/mo",
-    color: "#B388FF",
-    features: ["All 41 AI agents", "Unlimited messages", "Team access (5 seats)", "Usage analytics", "Dedicated support"],
+    color: "hsl(220, 60%, 75%)",
+    features: ["All 42 AI agents", "Unlimited messages", "Team access (5 seats)", "Usage analytics", "Dedicated support"],
     cta: "Start Business",
     href: "https://buy.stripe.com/7sYdRb5Lm6Wc3WZ0Ki",
     external: true,
@@ -331,7 +331,7 @@ const AgentGrid = () => {
                   <span key={t} className="text-[10px] font-jakarta px-2.5 py-1 rounded-full border border-border text-muted-foreground">{t}</span>
                 ))}
               </div>
-              <Link to="/chat/helm" className="inline-flex items-center gap-2 text-sm font-syne font-bold text-foreground hover:text-gradient-hero transition-all duration-300">
+              <Link to="/chat/operations" className="inline-flex items-center gap-2 text-sm font-syne font-bold text-foreground hover:text-gradient-hero transition-all duration-300">
                 Try HELM <ArrowRight size={14} />
               </Link>
             </div>
