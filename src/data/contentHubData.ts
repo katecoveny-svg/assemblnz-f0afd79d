@@ -267,10 +267,10 @@ export const OUTPUT_CARDS: OutputCard[] = [
   // HELM
   {
     id: "helm-dashboard",
-    agentId: "education",
+    agentId: "operations",
     agentName: "HELM",
-    agentCode: "ASM-017",
-    agentColor: "#00E5FF",
+    agentCode: "ASM-013",
+    agentColor: "#B388FF",
     outputType: "Weekly Family Dashboard",
     formatBadge: "Dashboard",
     preview: `**WEEK OF 14 APRIL 2026 — The Hudson Family**\n\n| Day | Mia (Year 4) | Jack (Year 7) |\n|---|---|---|\n| Mon | Swimming gear | Science project due |`,
@@ -278,10 +278,10 @@ export const OUTPUT_CARDS: OutputCard[] = [
   },
   {
     id: "helm-newsletter",
-    agentId: "education",
+    agentId: "operations",
     agentName: "HELM",
-    agentCode: "ASM-017",
-    agentColor: "#00E5FF",
+    agentCode: "ASM-013",
+    agentColor: "#B388FF",
     outputType: "Newsletter AI Parse",
     formatBadge: "Report",
     preview: `**PARSED FROM:** Ponsonby Primary Newsletter #12\n**Confidence:** 94%\n\n**Events Extracted:**\n✓ School Photos — Thu 17 April (high confidence)`,
