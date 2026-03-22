@@ -281,8 +281,8 @@ const PricingPage = () => {
       {/* ═══ Business Plans ═══ */}
       <section className="pb-16 sm:pb-24">
         <div className="max-w-6xl mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-8 sm:mb-12 text-glow-purple">
-            Plans for NZ Businesses
+          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-8 sm:mb-12">
+            <span className="gradient-border-tag text-glow-purple">Plans for NZ Businesses</span>
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-8">
@@ -522,8 +522,8 @@ const PricingPage = () => {
       </div>
       <section className="py-14 sm:py-24 relative">
         <div className="max-w-4xl mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-2 text-glow-purple">
-            HELM — For NZ Families
+          <h2 className="text-lg sm:text-2xl font-syne font-extrabold text-center mb-2">
+            <span className="gradient-border-tag text-glow-purple">HELM — For NZ Families</span>
           </h2>
           <p className="text-[13px] font-jakarta text-center mb-8 sm:mb-12" style={{ color: 'rgba(255,255,255,0.3)' }}>
             AI life admin built for Kiwi households
@@ -655,8 +655,8 @@ const PricingPage = () => {
 
           {/* Agent-specific highlights */}
           <div className="text-center mb-6 sm:mb-8">
-            <p className="text-[10px] font-semibold tracking-[3px] uppercase mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>
-              Agent-specific superpowers
+            <p className="text-[10px] font-semibold tracking-[3px] uppercase mb-2">
+              <span className="gradient-border-tag" style={{ color: 'rgba(255,255,255,0.4)' }}>Agent-specific superpowers</span>
             </p>
             <p className="text-xs font-jakarta" style={{ color: 'rgba(255,255,255,0.35)' }}>
               Key agents have deep, specialist capabilities built in.
@@ -889,8 +889,8 @@ const PricingPage = () => {
       {/* FAQ */}
       <section className="py-14 sm:py-28">
         <div className="max-w-3xl mx-auto px-5 sm:px-6">
-          <h2 className="text-xl sm:text-3xl font-syne font-extrabold text-center mb-8 sm:mb-14 text-glow-cyan">
-            Frequently asked questions
+          <h2 className="text-xl sm:text-3xl font-syne font-extrabold text-center mb-8 sm:mb-14">
+            <span className="gradient-border-tag text-glow-cyan">Frequently asked questions</span>
           </h2>
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
@@ -939,8 +939,8 @@ const PricingPage = () => {
               border: '1px solid rgba(255,255,255,0.05)',
             }}
           >
-            <h2 className="text-xl sm:text-2xl font-syne font-extrabold mb-3 text-glow-pink">
-              Ready to get started?
+            <h2 className="text-xl sm:text-2xl font-syne font-extrabold mb-3">
+              <span className="gradient-border-tag text-glow-pink">Ready to get started?</span>
             </h2>
             <p className="text-sm font-jakarta mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Try any agent free — no signup required.
