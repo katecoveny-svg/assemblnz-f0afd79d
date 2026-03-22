@@ -236,9 +236,9 @@ const DashboardPage = () => {
         )}
 
         {/* Agent Activity */}
-        <div className="rounded-xl p-6 relative overflow-hidden" style={glassCard}>
+        <div className="rounded-xl p-6 relative overflow-hidden glow-card-hover" style={glassCard}>
           <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #E040FB, transparent)" }} />
-          <h2 className="text-sm font-display font-bold text-foreground mb-4">Agent activity</h2>
+          <h2 className="text-sm font-display font-bold text-glow-pink mb-4">Agent activity</h2>
           <div className="space-y-3">
             {SAMPLE_AGENTS.map((agent) => (
               <div key={agent.name} className="flex items-center gap-3">
