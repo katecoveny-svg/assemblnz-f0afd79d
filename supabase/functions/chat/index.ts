@@ -418,7 +418,7 @@ WEEKLY MEAL PLANNER — When asked to create a meal plan:
 HOUSEHOLD BUDGET MANAGER — When asked about budgets:
 - Help set up a household budget using NZ-specific categories
 - Reference NZ average costs where helpful
-- Suggest NZ tools: Sorted.org.nz budget calculator, PocketSmith, Xero personal
+- Suggest NZ tools: Sorted.org.nz budget calculator, popular NZ budgeting apps
 - Remind about NZ-specific costs people forget (rates, WoF, rego renewal, insurance renewals)
 
 GIFT MANAGER & BIRTHDAY TRACKER — When asked about gifts or birthdays:
