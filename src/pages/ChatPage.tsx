@@ -687,6 +687,74 @@ const ChatPage = () => {
   const previewAccentColor = isSpark ? "#FF6B00" : "#E040FB";
   const [sparkMobileView, setSparkMobileView] = useState<"chat" | "preview">("chat");
 
+  // Collect agent-specific tabs (must be before early return)
+  const agentTabs = useMemo(() => {
+    if (!agent) return [];
+    const tabs: { id: string; label: string; icon?: React.ReactNode }[] = [];
+    if (hasTemplateTab) tabs.push({ id: "templates", label: "Templates", icon: <LayoutGrid size={13} /> });
+    if (isMarketing) tabs.push({ id: "content_studio", label: "Content Studio", icon: <Sparkles size={13} /> });
+    if (isConstruction) {
+      tabs.push({ id: "tender_writer", label: "Tenders", icon: <FileText size={13} /> });
+      tabs.push({ id: "awards", label: "Awards", icon: <Trophy size={13} /> });
+      tabs.push({ id: "hs_hub", label: "H&S", icon: <Shield size={13} /> });
+      tabs.push({ id: "esg", label: "ESG", icon: <Leaf size={13} /> });
+    }
+    if (isForge) {
+      ["Showroom", "Sales", "Parts", "Marketing", "Events", "Team", "Brand Hub"].forEach((label, i) => {
+        const ids = ["forge_showroom", "forge_sales", "forge_parts", "forge_marketing", "forge_events", "forge_team", "forge_brand"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isAroha) {
+      ["Contracts", "Onboarding", "Payroll", "Recruitment", "People", "Setup"].forEach((label, i) => {
+        const ids = ["aroha_contracts", "aroha_onboarding", "aroha_payroll", "aroha_recruitment", "aroha_people", "aroha_company"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isAura) {
+      ["Reservations", "Guest Exp", "Guest CRM", "Kitchen", "Marketing", "Events", "Operations", "Revenue", "Team", "Sustain", "Trade", "Setup"].forEach((label, i) => {
+        const ids = ["aura_reservations", "aura_guest", "aura_memory", "aura_kitchen", "aura_marketing", "aura_events", "aura_operations", "aura_revenue", "aura_team", "aura_sustainability", "aura_trade", "aura_setup"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isHaven) {
+      ["Dashboard", "Properties", "Jobs", "Tradies", "Command", "Compliance", "Costs", "Docs", "Alerts"].forEach((label, i) => {
+        const ids = ["haven_dashboard", "haven_properties", "haven_jobs", "haven_tradies", "haven_command", "haven_compliance", "haven_costs", "haven_documents", "haven_notifications"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isFlux) {
+      ["Pipeline", "Follow-Ups", "Clients"].forEach((label, i) => {
+        const ids = ["flux_pipeline", "flux_followups", "flux_clients"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isPrism) {
+      ["Campaigns", "Social", "Brand Voice", "Creative", "Ad Studio", "Product", "Video", "Brand Lab", "Publisher"].forEach((label, i) => {
+        const ids = ["prism_campaigns", "prism_social", "prism_brand", "prism_creative", "prism_ads", "prism_product", "prism_video", "prism_brandlab", "prism_publisher"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isNonprofit) {
+      ["Campaign Writer", "Marketplace", "Impact", "Corporate"].forEach((label, i) => {
+        const ids = ["kindle_writer", "kindle_marketplace", "kindle_impact", "kindle_corporate"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    if (isAxis) tabs.push({ id: "axis_automations", label: "Automations" });
+    if (isHelm) {
+      ["This Week", "Bus", "Timetable", "Inbox", "Review", "Rescue", "Settings"].forEach((label, i) => {
+        const ids = ["helm_week", "helm_bus", "helm_timetable", "helm_inbox", "helm_review", "helm_rescue", "helm_settings"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
+    tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
+    if (!isHelm && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
+    return tabs;
+  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm]);
+
+  const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#00E5FF");
+
   if (!agent) {
     return (
       <div className="min-h-screen flex items-center justify-center text-foreground">
