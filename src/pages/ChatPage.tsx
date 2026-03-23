@@ -99,6 +99,10 @@ import HelmReview from "@/components/helm/HelmReview";
 import HelmRescue from "@/components/helm/HelmRescue";
 import HelmSettings from "@/components/helm/HelmSettings";
 import AgentTraining from "@/components/shared/AgentTraining";
+import KindleCampaignWriter from "@/components/kindle/KindleCampaignWriter";
+import KindleMarketplace from "@/components/kindle/KindleMarketplace";
+import KindleImpactDashboard from "@/components/kindle/KindleImpactDashboard";
+import KindleCorporateDashboard from "@/components/kindle/KindleCorporateDashboard";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 import SparkPreview from "@/components/spark/SparkPreview";
@@ -310,7 +314,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "axis_automations" | "agent_training" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "axis_automations" | "agent_training" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate">("chat");
   const [showDeployModal, setShowDeployModal] = useState(false);
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
@@ -373,6 +377,7 @@ const ChatPage = () => {
   const isFlux = agentId === "sales";
   const isPrism = agentId === "marketing";
   const isAxis = agentId === "pm";
+  const isNonprofit = agentId === "nonprofit";
   const isSpark = agentId === "spark";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
@@ -1249,6 +1254,21 @@ const ChatPage = () => {
                   { id: "prism_video" as const, label: "Video" },
                   { id: "prism_brandlab" as const, label: "Brand Lab" },
                   { id: "prism_publisher" as const, label: "Publisher" },
+                ]).map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
+                    style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
+                    {t.label}
+                  </button>
+                ))}
+              </>
+            )}
+            {isNonprofit && (
+              <>
+                {([
+                  { id: "kindle_writer" as const, label: "Campaign Writer" },
+                  { id: "kindle_marketplace" as const, label: "Marketplace" },
+                  { id: "kindle_impact" as const, label: "Impact" },
+                  { id: "kindle_corporate" as const, label: "Corporate" },
                 ]).map(t => (
                   <button key={t.id} onClick={() => setActiveTab(t.id)} className="px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap"
                     style={{ backgroundColor: activeTab === t.id ? agent.color + "20" : "transparent", color: activeTab === t.id ? agent.color : "hsl(var(--muted-foreground))" }}>
