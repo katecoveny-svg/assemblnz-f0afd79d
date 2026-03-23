@@ -359,6 +359,7 @@ const ChatPage = () => {
   const { user, session, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached, role } = useAuth();
   const { teReoPrompt } = useLanguage();
   const [conversationId, setConversationId] = useState<string | null>(null);
+  const [auraModeKey, setAuraModeKey] = useState(0);
 
   // Voice input/output state (HELM)
   const [isListening, setIsListening] = useState(false);
@@ -389,7 +390,14 @@ const ChatPage = () => {
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
-  // Voice input (Speech-to-Text) for HELM
+  // Listen for AURA mode changes to refresh tabs
+  useEffect(() => {
+    const handler = () => setAuraModeKey(k => k + 1);
+    window.addEventListener("aura-mode-changed", handler);
+    return () => window.removeEventListener("aura-mode-changed", handler);
+  }, []);
+
+
   const toggleListening = useCallback(() => {
     if (isListening) {
       recognitionRef.current?.stop();
@@ -719,10 +727,31 @@ const ChatPage = () => {
       });
     }
     if (isAura) {
-      ["Reservations", "Guest Exp", "Guest CRM", "Kitchen", "Marketing", "Events", "Operations", "Revenue", "Team", "Sustain", "Trade", "Setup"].forEach((label, i) => {
-        const ids = ["aura_reservations", "aura_guest", "aura_memory", "aura_kitchen", "aura_marketing", "aura_events", "aura_operations", "aura_revenue", "aura_team", "aura_sustainability", "aura_trade", "aura_setup"];
-        tabs.push({ id: ids[i], label });
-      });
+      const auraMode = (() => {
+        try {
+          const saved = sessionStorage.getItem("aura_property_profile");
+          return saved ? JSON.parse(saved).mode : "luxury_lodge";
+        } catch { return "luxury_lodge"; }
+      })();
+
+      const allAuraTabs: { id: string; label: string; modes: string[] }[] = [
+        { id: "aura_reservations", label: "Reservations", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
+        { id: "aura_guest", label: "Guest Exp", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar"] },
+        { id: "aura_memory", label: "Guest CRM", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
+        { id: "aura_kitchen", label: "Kitchen", modes: ["luxury_lodge", "boutique_hotel", "restaurant_bar", "cafe", "catering_events"] },
+        { id: "aura_marketing", label: "Marketing", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
+        { id: "aura_events", label: "Events", modes: ["luxury_lodge", "boutique_hotel", "restaurant_bar", "catering_events"] },
+        { id: "aura_operations", label: "Operations", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
+        { id: "aura_revenue", label: "Revenue", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar"] },
+        { id: "aura_team", label: "Team", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
+        { id: "aura_sustainability", label: "Sustain", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
+        { id: "aura_trade", label: "Trade", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
+        { id: "aura_setup", label: "Setup", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
+      ];
+
+      allAuraTabs
+        .filter(t => t.modes.includes(auraMode))
+        .forEach(t => tabs.push({ id: t.id, label: t.label }));
     }
     if (isHaven) {
       ["Dashboard", "Properties", "Jobs", "Tradies", "Command", "Compliance", "Costs", "Docs", "Alerts"].forEach((label, i) => {
@@ -762,7 +791,7 @@ const ChatPage = () => {
     tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
     if (!isHelm && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
     return tabs;
-  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm]);
+  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, auraModeKey]);
 
   const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#00E5FF");
 

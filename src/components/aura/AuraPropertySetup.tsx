@@ -63,6 +63,8 @@ const AuraPropertySetup = () => {
     sessionStorage.setItem("aura_compliance", JSON.stringify(compliance));
     sessionStorage.setItem("aura_property_profile_done", "1");
     setCompleted(true);
+    // Notify parent to refresh tabs based on new mode
+    window.dispatchEvent(new CustomEvent("aura-mode-changed", { detail: profile.mode }));
   };
 
   const inputCls = "w-full bg-card border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring";
