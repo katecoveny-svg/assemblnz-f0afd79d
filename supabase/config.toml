@@ -29,3 +29,6 @@ verify_jwt = false
 
 [functions.generate-image]
 verify_jwt = false
+
+[functions.compliance-alerts]
+verify_jwt = false

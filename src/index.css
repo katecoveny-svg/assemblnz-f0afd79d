@@ -332,3 +332,14 @@
 .high-contrast .border-border {
   border-color: hsl(0 0% 100% / 0.2) !important;
 }
+
+@keyframes scan-line {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(100px); opacity: 0; }
+}
+
+.animate-scan-line {
+  animation: scan-line 2s ease-in-out infinite;
+}

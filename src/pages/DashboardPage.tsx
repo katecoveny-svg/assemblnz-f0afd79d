@@ -14,6 +14,8 @@ import ReactMarkdown from "react-markdown";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { agents } from "@/data/agents";
 import { getGreetingText, MILESTONES } from "@/engine/personality";
+import { useMilestones } from "@/hooks/useMilestones";
+import WorkflowVisualiser from "@/components/WorkflowVisualiser";
 
 interface ConversationItem { id: string; agent_id: string; messages: any[]; updated_at: string; }
 interface SavedItem { id: string; agent_id: string; agent_name: string; content: string; preview: string; created_at: string; }
@@ -102,11 +104,29 @@ const DashboardPage = () => {
     setActions((prev) => prev.filter((a) => a.id !== id));
   };
 
+  // Milestone celebration toasts
+  useMilestones({
+    documents: exports.length,
+    workflows: executions.filter(e => e.status === "completed").length,
+    apps: 0, // TODO: pull from spark_apps count
+    streak: 0, // TODO: calculate from daily_messages
+  });
+
   // Compliance score calculation
   const completedTasks = userComplianceTasks.filter(t => t.status === "completed").length;
   const totalTasks = userComplianceTasks.length || complianceDeadlines.length;
   const complianceScore = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
   const scoreColor = complianceScore >= 70 ? "#00FF88" : complianceScore >= 40 ? "#FFB800" : "#FF4D6A";
+
+  // Parse workflow steps for visualiser
+  const latestWorkflow = executions.find(e => e.status === "running") || executions[0];
+  const workflowSteps = latestWorkflow && Array.isArray(latestWorkflow.steps_log)
+    ? latestWorkflow.steps_log.map((s: any) => ({
+        agentId: s.agent || s.agentId || "echo",
+        action: s.action || s.description || "Processing",
+        status: s.status === "completed" ? "success" : s.status || "pending",
+      }))
+    : [];
 
   // Upcoming deadlines (next 30 days)
   const upcomingDeadlines = complianceDeadlines.filter(d => {
@@ -302,7 +322,7 @@ const DashboardPage = () => {
             )}
           </div>
 
-          {/* Workflow Status */}
+          {/* Workflow Status with Visualiser */}
           <div className="lg:col-span-2 rounded-xl p-5 relative overflow-hidden" style={glassCard}>
             <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
             <div className="flex items-center justify-between mb-3">
@@ -312,6 +332,15 @@ const DashboardPage = () => {
               </div>
               <Link to="/settings/workflows" className="text-[9px] text-[#00FF88] hover:underline">View all</Link>
             </div>
+
+            {/* Workflow Visualiser for latest workflow */}
+            {workflowSteps.length > 0 && (
+              <div className="mb-4 p-3 rounded-lg" style={{ background: "rgba(0,255,136,0.03)", border: "1px solid rgba(0,255,136,0.08)" }}>
+                <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-2 block">Latest Chain</span>
+                <WorkflowVisualiser steps={workflowSteps} compact />
+              </div>
+            )}
+
             {executions.length === 0 ? (
               <p className="text-xs text-muted-foreground text-center py-6">No recent workflows. Agent chains will show here when triggered.</p>
             ) : (
