@@ -205,7 +205,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const canUseFeature = (feature: "upload" | "templates" | "brand_scan" | "pdf_download") => {
     if (isAdmin) return true;
-    if (feature === "brand_scan") return isPaid;
+    // Brand scan is available to all logged-in users — it drives onboarding
+    if (feature === "brand_scan") return !!user;
     if (isPaid) return true;
     return false;
   };
