@@ -1,4 +1,5 @@
 import { useParams, Link, Navigate } from "react-router-dom";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Zap, ArrowLeft, Sparkles } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
@@ -10,13 +11,57 @@ import { agentCapabilities } from "@/data/agentCapabilities";
 
 const AgentDetailPage = () => {
   const { agentId } = useParams<{ agentId: string }>();
+  const agent = agents.find((a) => a.id === agentId);
+  const capabilities = agentCapabilities[agent?.id || ""] || [];
+
+  // JSON-LD structured data for SEO rich snippets
+  useEffect(() => {
+    if (!agent) return;
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": `${agent.name} – Assembl AI Agent`,
+      "description": `${agent.tagline}. ${agent.role} powered by Assembl's AI platform for New Zealand businesses.`,
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "url": `https://assembl.co.nz/agents/${agent.id}`,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "NZD",
+        "description": "Free trial available"
+      },
+      "provider": {
+        "@type": "Organization",
+        "name": "Assembl",
+        "url": "https://assembl.co.nz",
+        "logo": "https://assembl.co.nz/placeholder.svg"
+      },
+      "featureList": agent.expertise,
+      "keywords": [agent.sector, "AI agent", "New Zealand", "business automation", ...agent.traits],
+    };
+
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "agent-jsonld";
+    script.textContent = JSON.stringify(jsonLd);
+    document.getElementById("agent-jsonld")?.remove();
+    document.head.appendChild(script);
+
+    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.content = `${agent.name}: ${agent.tagline}. ${agent.role} – AI-powered automation for NZ ${agent.sector} businesses.`;
+    document.title = `${agent.name} – ${agent.sector} AI Agent | Assembl`;
+
+    return () => { document.getElementById("agent-jsonld")?.remove(); };
+  }, [agent]);
 
   if (agentId === "echo") return <Navigate to="/agents/echo" replace />;
-
-  const agent = agents.find((a) => a.id === agentId);
   if (!agent) return <Navigate to="/" replace />;
-
-  const capabilities = agentCapabilities[agent.id] || [];
 
   return (
     <div className="min-h-screen flex flex-col relative" style={{ background: "hsl(var(--background))" }}>
