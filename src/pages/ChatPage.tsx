@@ -1856,6 +1856,7 @@ const ChatPage = () => {
         agentId={agent.id}
         agentName={agent.name}
         agentColor={accentColor}
+        elevenLabsAgentId={getElevenLabsAgentId(agent.id)}
       />
     </div>
   );

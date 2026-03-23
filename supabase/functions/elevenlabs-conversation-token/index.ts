@@ -3,7 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
 Deno.serve(async (req) => {
@@ -51,18 +51,34 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Try to get a signed URL for the conversational AI agent
-    const response = await fetch(
-      `https://api.elevenlabs.io/v1/convai/conversation/get-signed-url?agent_id=${agentId}`,
+    // Try WebRTC token endpoint first (recommended, lower latency)
+    const tokenResponse = await fetch(
+      `https://api.elevenlabs.io/v1/convai/conversation/token?agent_id=${agentId}`,
       {
-        headers: {
-          "xi-api-key": ELEVENLABS_API_KEY,
-        },
+        headers: { "xi-api-key": ELEVENLABS_API_KEY },
       }
     );
 
-    if (!response.ok) {
-      const errText = await response.text();
+    if (tokenResponse.ok) {
+      const tokenData = await tokenResponse.json();
+      console.log("[elevenlabs-token] Got WebRTC token for agent:", agentId);
+      return new Response(
+        JSON.stringify({ token: tokenData.token }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Fallback to signed URL (WebSocket)
+    console.log("[elevenlabs-token] WebRTC token failed, trying signed URL...");
+    const signedUrlResponse = await fetch(
+      `https://api.elevenlabs.io/v1/convai/conversation/get-signed-url?agent_id=${agentId}`,
+      {
+        headers: { "xi-api-key": ELEVENLABS_API_KEY },
+      }
+    );
+
+    if (!signedUrlResponse.ok) {
+      const errText = await signedUrlResponse.text();
       console.error("ElevenLabs signed URL error:", errText);
       return new Response(
         JSON.stringify({ error: "Failed to get conversation token" }),
@@ -70,10 +86,11 @@ Deno.serve(async (req) => {
       );
     }
 
-    const data = await response.json();
+    const signedData = await signedUrlResponse.json();
+    console.log("[elevenlabs-token] Got signed URL for agent:", agentId);
 
     return new Response(
-      JSON.stringify({ signedUrl: data.signed_url }),
+      JSON.stringify({ signedUrl: signedData.signed_url }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
