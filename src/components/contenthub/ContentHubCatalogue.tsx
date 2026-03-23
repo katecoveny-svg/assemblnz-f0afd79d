@@ -1,120 +1,42 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { FILTER_AGENTS, OUTPUT_CARDS, type OutputCard } from "@/data/contentHubData";
-import { PREVIEW_MAP } from "./MiniPreviews";
+import AgentAvatar from "@/components/AgentAvatar";
+import { agents } from "@/data/agents";
 
-const FORMAT_COLORS: Record<string, string> = {
-  Calculator: "#00FF88",
-  Report: "#00E5FF",
-  Document: "#B388FF",
-  Template: "#FFB800",
-  "Social Post": "#E040FB",
-  Dashboard: "#00E5FF",
-  Email: "#4FC3F7",
-  "Legal Doc": "#7E57C2",
-};
-
-const OutputCardComponent = ({ card }: { card: OutputCard }) => {
-  const [expanded, setExpanded] = useState(false);
-  const PreviewComponent = PREVIEW_MAP[card.id];
-
-  return (
-    <div
-      className="rounded-xl overflow-hidden break-inside-avoid mb-4"
-      style={{
-        background: "rgba(255,255,255,0.02)",
-        border: "1px solid rgba(255,255,255,0.06)",
-      }}
-    >
-      <div className="h-1" style={{ background: `${card.agentColor}30` }} />
-      <div className="p-5 space-y-3">
-        {/* Agent badge */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ background: card.agentColor }} />
-          <span className="font-mono-jb text-[10px] tracking-wide" style={{ color: `${card.agentColor}80` }}>
-            {card.agentName} · {card.agentCode}
-          </span>
-          <span
-            className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
-            style={{
-              background: `${FORMAT_COLORS[card.formatBadge] || "#ffffff"}15`,
-              color: FORMAT_COLORS[card.formatBadge] || "#ffffff",
-              border: `1px solid ${FORMAT_COLORS[card.formatBadge] || "#ffffff"}25`,
-            }}
-          >
-            {card.formatBadge}
-          </span>
-        </div>
-
-        {/* Output type */}
-        <h3 className="font-syne font-bold text-sm" style={{ color: "hsl(var(--foreground))" }}>
-          {card.outputType}
-        </h3>
-
-        {/* Live preview OR text fallback */}
-        {PreviewComponent && !expanded ? (
-          <div
-            className="rounded-lg p-3"
-            style={{ background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.04)" }}
-          >
-            <PreviewComponent />
-          </div>
-        ) : (
-          <div
-            className="font-jakarta text-xs leading-relaxed whitespace-pre-line"
-            style={{ color: "rgba(255,255,255,0.5)" }}
-          >
-            {expanded ? card.fullContent : card.preview}
-          </div>
-        )}
-
-        <div className="flex items-center gap-3 flex-wrap">
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="flex items-center gap-1 text-xs font-jakarta transition-colors"
-            style={{ color: card.agentColor }}
-          >
-            {expanded ? (
-              <>Collapse <ChevronUp size={12} /></>
-            ) : (
-              <>{PreviewComponent ? "See raw output" : "See full output"} <ChevronDown size={12} /></>
-            )}
-          </button>
-          <Link
-            to={`/chat/${card.agentId}`}
-            className="inline-flex items-center gap-1.5 text-xs font-jakarta font-semibold px-3 py-1.5 rounded-md transition-all"
-            style={{
-              background: `${card.agentColor}15`,
-              color: card.agentColor,
-              border: `1px solid ${card.agentColor}30`,
-            }}
-          >
-            Try {card.agentName} →
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-};
+const INDUSTRY_GROUPS = [
+  { label: "All", ids: [] },
+  { label: "Business", ids: ["sales", "marketing", "accounting", "hr", "pm", "legal", "it"] },
+  { label: "Property", ids: ["property", "construction", "architecture", "housing", "energy"] },
+  { label: "Hospitality", ids: ["hospitality", "tourism", "travel"] },
+  { label: "Finance", ids: ["finance", "insurance", "banking"] },
+  { label: "Public", ids: ["govtsector", "education", "moe", "publichealth", "welfare", "emergency", "environment"] },
+  { label: "Lifestyle", ids: ["health", "wellbeing", "fitness", "nutrition", "beauty", "style", "social"] },
+  { label: "Specialist", ids: ["maritime", "agriculture", "retail", "automotive", "customs", "immigration", "nonprofit", "tiriti"] },
+];
 
 const ContentHubCatalogue = () => {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeGroup, setActiveGroup] = useState("All");
 
-  const filtered = activeFilter === "All"
-    ? OUTPUT_CARDS
-    : OUTPUT_CARDS.filter((c) => c.agentName === activeFilter);
+  const filtered = activeGroup === "All"
+    ? agents
+    : agents.filter((a) => {
+        const group = INDUSTRY_GROUPS.find((g) => g.label === activeGroup);
+        return group?.ids.includes(a.id);
+      });
 
   return (
     <section className="px-4 sm:px-8 py-12 max-w-6xl mx-auto">
       <h2
-        className="font-syne font-extrabold text-2xl sm:text-3xl text-center mb-8 halo-heading"
+        className="font-syne font-extrabold text-xl sm:text-2xl text-center mb-2 halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
-        Full output catalogue
+        Meet your AI workforce
       </h2>
+      <p className="text-center font-jakarta text-sm mb-8" style={{ color: "rgba(255,255,255,0.35)" }}>
+        42 specialist agents — tap any to start a conversation
+      </p>
 
-      {/* Sticky filter bar */}
+      {/* Filter tabs */}
       <div
         className="sticky top-0 z-40 py-3 -mx-4 px-4 sm:-mx-8 sm:px-8 border-b mb-8"
         style={{
@@ -124,33 +46,56 @@ const ContentHubCatalogue = () => {
         }}
       >
         <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-          {FILTER_AGENTS.map((agent) => {
-            const active = activeFilter === agent.name;
+          {INDUSTRY_GROUPS.map((group) => {
+            const active = activeGroup === group.label;
             return (
               <button
-                key={agent.name}
-                onClick={() => setActiveFilter(agent.name)}
-                className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-jakarta font-medium transition-all"
+                key={group.label}
+                onClick={() => setActiveGroup(group.label)}
+                className="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-jakarta font-medium transition-all"
                 style={{
-                  background: active ? `${agent.color}15` : "transparent",
-                  color: active ? agent.color : "rgba(255,255,255,0.4)",
-                  border: active ? `1px solid ${agent.color}30` : "1px solid rgba(255,255,255,0.06)",
+                  background: active ? "rgba(0,255,136,0.1)" : "transparent",
+                  color: active ? "#00FF88" : "rgba(255,255,255,0.4)",
+                  border: active ? "1px solid rgba(0,255,136,0.2)" : "1px solid rgba(255,255,255,0.06)",
                 }}
               >
-                {agent.name !== "All" && (
-                  <span className="w-2 h-2 rounded-full" style={{ background: agent.color }} />
-                )}
-                {agent.name}
+                {group.label}
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Masonry grid */}
-      <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
-        {filtered.map((card) => (
-          <OutputCardComponent key={card.id} card={card} />
+      {/* Agent grid with avatars */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        {filtered.map((agent) => (
+          <Link
+            key={agent.id}
+            to={`/chat/${agent.id}`}
+            className="group rounded-xl p-4 text-center transition-all duration-300 hover:scale-[1.03]"
+            style={{
+              background: "rgba(255,255,255,0.02)",
+              border: `1px solid rgba(255,255,255,0.06)`,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = `${agent.color}30`;
+              e.currentTarget.style.boxShadow = `0 0 30px -10px ${agent.color}20`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+              e.currentTarget.style.boxShadow = "none";
+            }}
+          >
+            <div className="flex justify-center mb-3">
+              <AgentAvatar agentId={agent.id} color={agent.color} size={64} showGlow />
+            </div>
+            <p className="font-syne font-bold text-sm mb-0.5" style={{ color: agent.color }}>
+              {agent.name}
+            </p>
+            <p className="font-jakarta text-[10px] leading-snug" style={{ color: "rgba(255,255,255,0.4)" }}>
+              {agent.sector}
+            </p>
+          </Link>
         ))}
       </div>
     </section>

@@ -23,31 +23,25 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const authHeader = req.headers.get("Authorization");
-    if (!authHeader?.startsWith("Bearer ")) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_ANON_KEY")!,
-      { global: { headers: { Authorization: authHeader } } }
-    );
-    const { data: { user }, error: userErr } = await supabase.auth.getUser();
-    if (userErr || !user) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY");
-    if (!ANTHROPIC_API_KEY) {
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    if (!LOVABLE_API_KEY) {
       return new Response(
-        JSON.stringify({ error: "API key not configured" }),
+        JSON.stringify({ error: "AI gateway not configured" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
+    }
+
+    // Auth is optional — brand scan works for onboarding too
+    let user = null;
+    const authHeader = req.headers.get("Authorization");
+    if (authHeader?.startsWith("Bearer ")) {
+      const supabase = createClient(
+        Deno.env.get("SUPABASE_URL")!,
+        Deno.env.get("SUPABASE_ANON_KEY")!,
+        { global: { headers: { Authorization: authHeader } } }
+      );
+      const { data: { user: u } } = await supabase.auth.getUser();
+      user = u;
     }
 
     const { url, instagram, linkedin } = await req.json();
@@ -139,28 +133,30 @@ Deno.serve(async (req) => {
 }
 Be factual and specific. Infer colours from the website aesthetic if not explicitly visible. The brand_score is your confidence in the analysis (0-100).`;
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    // Use Lovable AI Gateway instead of Anthropic
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1500,
-        system: systemPrompt,
+        model: "google/gemini-2.5-flash",
         messages: [
-          {
-            role: "user",
-            content: `Analyse this website content and create a Brand DNA profile:\n\n${words}${extraContext}`,
-          },
+          { role: "system", content: systemPrompt },
+          { role: "user", content: `Analyse this website content and create a Brand DNA profile:\n\n${words}${extraContext}` },
         ],
       }),
     });
 
     if (!response.ok) {
-      console.error("Claude API error:", await response.text());
+      const errText = await response.text();
+      console.error("AI gateway error:", response.status, errText);
+      if (response.status === 429) {
+        return new Response(JSON.stringify({ error: "Rate limit exceeded, please try again shortly." }), {
+          status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
       return new Response(
         JSON.stringify({ error: "Failed to analyse website" }),
         { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -168,13 +164,11 @@ Be factual and specific. Infer colours from the website aesthetic if not explici
     }
 
     const data = await response.json();
-    const rawText = data.content?.[0]?.text || "";
+    const rawText = data.choices?.[0]?.message?.content || "";
 
-    // Try to parse as JSON, fall back to text profile
     let brandDna = null;
     let brandProfile = rawText;
     try {
-      // Strip markdown code blocks if present
       const cleaned = rawText.replace(/```json\s*/gi, "").replace(/```\s*/gi, "").trim();
       brandDna = JSON.parse(cleaned);
       brandProfile = brandDna.brand_summary || rawText;
@@ -182,8 +176,13 @@ Be factual and specific. Infer colours from the website aesthetic if not explici
       // If JSON parsing fails, keep as text
     }
 
-    // Store Brand DNA in user's brand_profiles
-    if (brandDna) {
+    // Store Brand DNA if user is authenticated
+    if (brandDna && user) {
+      const supabase = createClient(
+        Deno.env.get("SUPABASE_URL")!,
+        Deno.env.get("SUPABASE_ANON_KEY")!,
+        { global: { headers: { Authorization: authHeader! } } }
+      );
       const businessName = brandDna.business_name || parsedUrl.hostname;
       const { data: existing } = await supabase.from("brand_profiles").select("id").eq("user_id", user.id).maybeSingle();
       if (existing) {

@@ -1,5 +1,6 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import AgentAvatar from "@/components/AgentAvatar";
 import {
   EchoContentPreview,
   FluxPipelinePreview,
@@ -16,40 +17,23 @@ import {
 } from "./MiniPreviews";
 
 const FEATURED = [
-  { name: "ECHO", color: "#E4A0FF", id: "echo", title: "Content Command Centre", desc: "Daily content queue, DM drafts, and performance analytics — all running on autopilot", Preview: EchoContentPreview },
-  { name: "FLUX", color: "#00E5FF", id: "sales", title: "Sales Pipeline Dashboard", desc: "AI-scored leads, deal health alerts, and revenue forecasting for NZ businesses", Preview: FluxPipelinePreview },
-  { name: "HAVEN", color: "#4FC3F7", id: "property", title: "Healthy Homes Compliance", desc: "Instant property compliance check with pass/fail scoring and tradie assignment", Preview: HavenCompliancePreview },
-  { name: "FORGE", color: "#00E5FF", id: "automotive", title: "F&I Payment Comparison", desc: "3-lender comparison with CCCFA-compliant disclosure generated in seconds", Preview: ForgeComparisonPreview },
-  { name: "AROHA", color: "#B388FF", id: "hr", title: "Employment Cost Calculator", desc: "True employer cost breakdown showing the 19.6% gap most employers don't know about", Preview: ArohaCalculatorPreview },
-  { name: "PRISM", color: "#E040FB", id: "marketing", title: "Campaign Generator", desc: "One brief generates email, LinkedIn, Instagram, Reel script, and ad copy", Preview: PrismCampaignPreview },
-  { name: "LEDGER", color: "#4FC3F7", id: "accounting", title: "PAYE Calculator", desc: "Instant NZ PAYE breakdown with KiwiSaver, ACC, and net take-home pay", Preview: LedgerPayePreview },
-  { name: "VAULT", color: "#7E57C2", id: "finance", title: "Mortgage Comparison", desc: "Compare 4 banks side-by-side and find the cheapest option over loan life", Preview: VaultMortgagePreview },
-  { name: "SHIELD", color: "#7E57C2", id: "insurance", title: "Risk Assessment", desc: "Natural hazard profile and recommended sum insured for any NZ address", Preview: ShieldRiskPreview },
-  { name: "APEX", color: "#00FF88", id: "construction", title: "Safety Hazard Matrix", desc: "HSWA-compliant hazard register with risk scores and controls", Preview: ApexHazardPreview },
-  { name: "ANCHOR", color: "#00E5FF", id: "legal", title: "Employment Agreement", desc: "ERA 2000-compliant employment agreement generated in seconds", Preview: AnchorContractPreview },
-  { name: "HELM", color: "#00E5FF", id: "operations", title: "Family Weekly Planner", desc: "School timetable, bus routes, packing lists, and events — one dashboard", Preview: HelmWeeklyPreview },
+  { name: "ECHO", color: "#E4A0FF", id: "echo", title: "Content Command Centre", desc: "Daily content queue, DM drafts, and performance analytics", Preview: EchoContentPreview },
+  { name: "FLUX", color: "#00E5FF", id: "sales", title: "Sales Pipeline Dashboard", desc: "AI-scored leads, deal health alerts, and revenue forecasting", Preview: FluxPipelinePreview },
+  { name: "HAVEN", color: "#4FC3F7", id: "property", title: "Healthy Homes Compliance", desc: "Instant property compliance check with tradie assignment", Preview: HavenCompliancePreview },
+  { name: "FORGE", color: "#00E5FF", id: "automotive", title: "F&I Payment Comparison", desc: "3-lender comparison with CCCFA-compliant disclosure", Preview: ForgeComparisonPreview },
+  { name: "AROHA", color: "#B388FF", id: "hr", title: "Employment Cost Calculator", desc: "True employer cost breakdown with KiwiSaver & ACC", Preview: ArohaCalculatorPreview },
+  { name: "PRISM", color: "#E040FB", id: "marketing", title: "Campaign Generator", desc: "One brief generates email, social, and ad copy", Preview: PrismCampaignPreview },
+  { name: "LEDGER", color: "#4FC3F7", id: "accounting", title: "PAYE Calculator", desc: "Instant NZ PAYE breakdown with net take-home pay", Preview: LedgerPayePreview },
+  { name: "VAULT", color: "#7E57C2", id: "finance", title: "Mortgage Comparison", desc: "Compare banks and find the cheapest option", Preview: VaultMortgagePreview },
+  { name: "SHIELD", color: "#7E57C2", id: "insurance", title: "Risk Assessment", desc: "Natural hazard profile and recommended sum insured", Preview: ShieldRiskPreview },
+  { name: "APEX", color: "#00FF88", id: "construction", title: "Safety Hazard Matrix", desc: "HSWA-compliant hazard register with risk scores", Preview: ApexHazardPreview },
+  { name: "ANCHOR", color: "#00E5FF", id: "legal", title: "Employment Agreement", desc: "ERA 2000-compliant agreement generated in seconds", Preview: AnchorContractPreview },
+  { name: "HELM", color: "#B388FF", id: "operations", title: "Family Weekly Planner", desc: "School timetable, bus routes, and events dashboard", Preview: HelmWeeklyPreview },
 ];
 
 const ContentHubShowcase = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIdx, setActiveIdx] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(() => {
-      setActiveIdx((prev) => {
-        const next = (prev + 1) % FEATURED.length;
-        scrollRef.current?.children[next]?.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-          inline: "center",
-        });
-        return next;
-      });
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isPaused]);
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
@@ -70,17 +54,22 @@ const ContentHubShowcase = () => {
 
   return (
     <section className="pb-16">
+      <h2
+        className="font-syne font-extrabold text-xl sm:text-2xl text-center mb-8 px-4 halo-heading"
+        style={{ color: "hsl(var(--foreground))" }}
+      >
+        Live agent outputs
+      </h2>
+
       <div
         ref={scrollRef}
         className="flex gap-6 overflow-x-auto px-4 sm:px-8 snap-x snap-mandatory scrollbar-hide"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
         onScroll={handleScroll}
       >
         {FEATURED.map((item, i) => (
           <div
             key={i}
-            className="snap-center shrink-0 w-[85vw] sm:w-[440px] lg:w-[480px] rounded-2xl overflow-hidden group transition-all duration-500 flex flex-col"
+            className="snap-center shrink-0 w-[85vw] sm:w-[420px] lg:w-[460px] rounded-2xl overflow-hidden group transition-all duration-500 flex flex-col"
             style={{
               background: "rgba(15,15,18,0.8)",
               border: `1px solid ${item.color}15`,
@@ -89,25 +78,20 @@ const ContentHubShowcase = () => {
                 : `0 10px 40px -20px rgba(0,0,0,0.4)`,
             }}
           >
-            {/* Agent badge header */}
-            <div className="flex items-center gap-2 px-5 pt-4 pb-2">
-              <span
-                className="w-2.5 h-2.5 rounded-full"
-                style={{ background: item.color, boxShadow: `0 0 8px ${item.color}60` }}
-              />
-              <span
-                className="font-mono-jb text-[10px] tracking-wider px-2.5 py-1 rounded-md"
-                style={{
-                  background: `${item.color}10`,
-                  color: item.color,
-                  border: `1px solid ${item.color}30`,
-                }}
-              >
-                {item.name}
-              </span>
-              <span className="font-syne font-bold text-sm text-foreground ml-1">
-                {item.title}
-              </span>
+            {/* Agent header with avatar */}
+            <div className="flex items-center gap-3 px-5 pt-5 pb-3">
+              <AgentAvatar agentId={item.id} color={item.color} size={44} showGlow />
+              <div>
+                <span
+                  className="font-mono-jb text-[10px] tracking-wider block"
+                  style={{ color: item.color }}
+                >
+                  {item.name}
+                </span>
+                <span className="font-syne font-bold text-sm text-foreground">
+                  {item.title}
+                </span>
+              </div>
             </div>
 
             {/* Interactive mini-dashboard */}
@@ -122,15 +106,15 @@ const ContentHubShowcase = () => {
             </div>
 
             {/* Card footer */}
-            <div className="px-5 pb-5 pt-3 space-y-3">
-              <p className="font-jakarta text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
+            <div className="px-5 pb-5 pt-3 flex items-center justify-between gap-3">
+              <p className="font-jakarta text-xs leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.4)" }}>
                 {item.desc}
               </p>
               <Link
                 to={`/chat/${item.id}`}
-                className="cta-glass-green inline-flex items-center gap-2 text-xs font-jakarta font-semibold px-5 py-2.5 rounded-lg"
+                className="cta-glass-green shrink-0 inline-flex items-center gap-2 text-xs font-jakarta font-semibold px-4 py-2.5 rounded-lg"
               >
-                Try {item.name} →
+                Try it →
               </Link>
             </div>
           </div>
