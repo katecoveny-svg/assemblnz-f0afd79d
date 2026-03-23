@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { agents } from "@/data/agents";
 import { supabase } from "@/integrations/supabase/client";
-import { Copy, Check, Sparkles, Lock, ImageIcon, Download, Loader2 } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { Copy, Check, Sparkles, ImageIcon, Download, Loader2, Save, CheckCircle2 } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
 import { NeonCamera, NeonDocument, NeonMail, NeonFilm, NeonTarget, NeonBulb, NeonSeedling, NeonSparkle, NeonStar } from "@/components/NeonIcons";
@@ -26,11 +27,11 @@ const CONTENT_TYPES = [
 ];
 
 interface ContentStudioProps {
-  isPaid: boolean;
-  userRole?: string;
+  onSendToChat?: (msg: string) => void;
 }
 
-const ContentStudio = ({ isPaid, userRole }: ContentStudioProps) => {
+const ContentStudio = ({ onSendToChat }: ContentStudioProps) => {
+  const { user } = useAuth();
   const [selectedAgent, setSelectedAgent] = useState("marketing");
   const [selectedPlatform, setSelectedPlatform] = useState("");
   const [selectedContentType, setSelectedContentType] = useState("");
@@ -38,19 +39,19 @@ const ContentStudio = ({ isPaid, userRole }: ContentStudioProps) => {
   const [result, setResult] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [imagePrompt, setImagePrompt] = useState("");
 
-  const isPro = userRole === "pro" || userRole === "business" || userRole === "admin";
   const agent = agents.find((a) => a.id === selectedAgent) || agents.find((a) => a.id === "marketing")!;
-  const prismColor = "#E040FB";
 
   const handleGenerate = async () => {
-    if (!selectedPlatform || !selectedContentType || !isPro) return;
+    if (!selectedPlatform || !selectedContentType) return;
     setIsGenerating(true);
     setResult(null);
     setGeneratedImage(null);
+    setSaved(false);
 
     const platformLabel = PLATFORMS.find((p) => p.id === selectedPlatform)?.label || selectedPlatform;
     const contentTypeLabel = CONTENT_TYPES.find((c) => c.id === selectedContentType)?.label || selectedContentType;
@@ -95,6 +96,20 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
       if (imageMatch?.[1]) {
         setImagePrompt(imageMatch[1].trim());
       }
+
+      // Auto-save to exported_outputs
+      if (user && data.content) {
+        const title = `${platformLabel} — ${contentTypeLabel}${topic ? `: ${topic}` : ""}`;
+        await supabase.from("exported_outputs").insert({
+          user_id: user.id,
+          agent_id: "marketing",
+          agent_name: "PRISM",
+          title,
+          output_type: "social_content",
+          format: "markdown",
+          content_preview: data.content.substring(0, 300),
+        });
+      }
     } catch (err) {
       console.error("Content generation error:", err);
       setResult("Sorry, something went wrong generating your content. Please try again.");
@@ -108,8 +123,6 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
     setIsGeneratingImage(true);
     setGeneratedImage(null);
 
-    const platformLabel = PLATFORMS.find((p) => p.id === selectedPlatform)?.label || selectedPlatform;
-    const contentTypeLabel = CONTENT_TYPES.find((c) => c.id === selectedContentType)?.label || selectedContentType;
     const selectedAgentData = agents.find((a) => a.id === selectedAgent);
     const agentContext = selectedAgentData
       ? `For a ${selectedAgentData.sector} sector business.`
@@ -164,28 +177,24 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (!isPro) {
-    return (
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="text-center max-w-sm">
-          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: `${prismColor}15`, border: `1px solid ${prismColor}30` }}>
-            <Lock size={28} style={{ color: prismColor }} />
-          </div>
-          <h3 className="text-lg font-syne font-bold text-foreground mb-2">Content Studio</h3>
-          <p className="text-sm font-jakarta text-muted-foreground mb-4">
-            Generate platform-ready social content with AI. Available on Pro and Business plans.
-          </p>
-          <a
-            href="/pricing"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-syne font-bold transition-all"
-            style={{ background: prismColor, color: "#0A0A14" }}
-          >
-            Upgrade to Pro
-          </a>
-        </div>
-      </div>
-    );
-  }
+  const handleSaveToLibrary = async () => {
+    if (!result || !user) return;
+    const platformLabel = PLATFORMS.find((p) => p.id === selectedPlatform)?.label || selectedPlatform;
+    await supabase.from("saved_items").insert({
+      user_id: user.id,
+      agent_id: "marketing",
+      agent_name: "PRISM",
+      content: result,
+      preview: `${platformLabel} content: ${topic || selectedContentType}`,
+    });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
+  const handleSendToChat = () => {
+    if (!result || !onSendToChat) return;
+    onSendToChat(`Here's the content I generated in Content Studio. Please refine it:\n\n${result}`);
+  };
 
   return (
     <div className="flex-1 overflow-y-auto p-4">
@@ -193,19 +202,20 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-1">
-            <Sparkles size={18} style={{ color: prismColor }} />
-            <h2 className="text-lg font-syne font-bold text-foreground">Content Studio</h2>
+            <Sparkles size={18} style={{ color: PRISM_COLOR }} />
+            <h2 className="text-lg font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>Content Studio</h2>
           </div>
-          <p className="text-xs font-jakarta text-muted-foreground">Generate platform-ready social content & images powered by PRISM</p>
+          <p className="text-xs font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>Generate platform-ready social content & images powered by PRISM</p>
         </div>
 
         {/* Agent Selector */}
         <div>
-          <label className="text-[11px] font-jakarta font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">Agent / Industry Context</label>
+          <label className="text-[11px] font-jakarta font-semibold uppercase tracking-wide mb-1.5 block" style={{ color: "hsl(var(--muted-foreground))" }}>Agent / Industry Context</label>
           <select
             value={selectedAgent}
             onChange={(e) => setSelectedAgent(e.target.value)}
-            className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm font-jakarta text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full rounded-lg px-3 py-2.5 text-sm font-jakarta focus:outline-none focus:ring-2"
+            style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", color: "hsl(var(--foreground))" }}
           >
             {agents.map((a) => (
               <option key={a.id} value={a.id}>
@@ -217,7 +227,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
 
         {/* Platform Selector */}
         <div>
-          <label className="text-[11px] font-jakarta font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">Platform</label>
+          <label className="text-[11px] font-jakarta font-semibold uppercase tracking-wide mb-1.5 block" style={{ color: "hsl(var(--muted-foreground))" }}>Platform</label>
           <div className="flex flex-wrap gap-2">
             {PLATFORMS.map((p) => (
               <button
@@ -225,9 +235,9 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                 onClick={() => setSelectedPlatform(p.id)}
                 className="px-3 py-2 rounded-lg text-xs font-jakarta font-medium transition-all border"
                 style={{
-                  backgroundColor: selectedPlatform === p.id ? `${prismColor}20` : "transparent",
-                  borderColor: selectedPlatform === p.id ? `${prismColor}50` : "hsl(var(--border))",
-                  color: selectedPlatform === p.id ? prismColor : "hsl(var(--foreground) / 0.7)",
+                  backgroundColor: selectedPlatform === p.id ? `${PRISM_COLOR}20` : "transparent",
+                  borderColor: selectedPlatform === p.id ? `${PRISM_COLOR}50` : "hsl(var(--border))",
+                  color: selectedPlatform === p.id ? PRISM_COLOR : "hsl(var(--foreground) / 0.7)",
                 }}
               >
                 <span className="inline-flex align-middle mr-1">{p.icon}</span> {p.label}
@@ -238,7 +248,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
 
         {/* Content Type */}
         <div>
-          <label className="text-[11px] font-jakarta font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">Content Type</label>
+          <label className="text-[11px] font-jakarta font-semibold uppercase tracking-wide mb-1.5 block" style={{ color: "hsl(var(--muted-foreground))" }}>Content Type</label>
           <div className="flex flex-wrap gap-2">
             {CONTENT_TYPES.map((c) => (
               <button
@@ -246,9 +256,9 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                 onClick={() => setSelectedContentType(c.id)}
                 className="px-3 py-2 rounded-lg text-xs font-jakarta font-medium transition-all border"
                 style={{
-                  backgroundColor: selectedContentType === c.id ? `${prismColor}20` : "transparent",
-                  borderColor: selectedContentType === c.id ? `${prismColor}50` : "hsl(var(--border))",
-                  color: selectedContentType === c.id ? prismColor : "hsl(var(--foreground) / 0.7)",
+                  backgroundColor: selectedContentType === c.id ? `${PRISM_COLOR}20` : "transparent",
+                  borderColor: selectedContentType === c.id ? `${PRISM_COLOR}50` : "hsl(var(--border))",
+                  color: selectedContentType === c.id ? PRISM_COLOR : "hsl(var(--foreground) / 0.7)",
                 }}
               >
                 <span className="inline-flex align-middle mr-1">{c.icon}</span> {c.label}
@@ -259,13 +269,14 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
 
         {/* Topic */}
         <div>
-          <label className="text-[11px] font-jakarta font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">Topic (optional)</label>
+          <label className="text-[11px] font-jakarta font-semibold uppercase tracking-wide mb-1.5 block" style={{ color: "hsl(var(--muted-foreground))" }}>Topic (optional)</label>
           <input
             type="text"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             placeholder="e.g. Summer sale, new team member, product feature..."
-            className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm font-jakarta text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full rounded-lg px-3 py-2.5 text-sm font-jakarta focus:outline-none focus:ring-2"
+            style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", color: "hsl(var(--foreground))" }}
           />
         </div>
 
@@ -275,9 +286,9 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
           disabled={!selectedPlatform || !selectedContentType || isGenerating}
           className="w-full py-3 rounded-xl text-sm font-syne font-bold transition-all disabled:opacity-40"
           style={{
-            background: `linear-gradient(135deg, ${prismColor}, ${prismColor}CC)`,
+            background: `linear-gradient(135deg, ${PRISM_COLOR}, ${PRISM_COLOR}CC)`,
             color: "#0A0A14",
-            boxShadow: selectedPlatform && selectedContentType ? `0 0 24px ${prismColor}30` : "none",
+            boxShadow: selectedPlatform && selectedContentType ? `0 0 24px ${PRISM_COLOR}30` : "none",
           }}
         >
           {isGenerating ? (
@@ -298,41 +309,68 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
           <div
             className="rounded-xl p-5 space-y-4"
             style={{
-              background: `linear-gradient(135deg, ${prismColor}08, ${prismColor}04)`,
-              border: `1px solid ${prismColor}25`,
+              background: `linear-gradient(135deg, ${PRISM_COLOR}08, ${PRISM_COLOR}04)`,
+              border: `1px solid ${PRISM_COLOR}25`,
             }}
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2">
-                <AgentAvatar agentId="marketing" color={prismColor} size={20} showGlow={false} />
-                <span className="text-xs font-syne font-bold" style={{ color: prismColor }}>PRISM Content Studio</span>
+                <AgentAvatar agentId="marketing" color={PRISM_COLOR} size={20} showGlow={false} />
+                <span className="text-xs font-syne font-bold" style={{ color: PRISM_COLOR }}>PRISM Content Studio</span>
               </div>
-              <button
-                onClick={handleCopy}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-all"
-                style={{
-                  background: copied ? "#00FF8820" : `${prismColor}15`,
-                  color: copied ? "#00FF88" : prismColor,
-                  border: `1px solid ${copied ? "#00FF8840" : prismColor + "30"}`,
-                }}
-              >
-                {copied ? <Check size={12} /> : <Copy size={12} />}
-                {copied ? "Copied!" : "Copy caption"}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleSaveToLibrary}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-all"
+                  style={{
+                    background: saved ? "#00FF8820" : `${PRISM_COLOR}15`,
+                    color: saved ? "#00FF88" : PRISM_COLOR,
+                    border: `1px solid ${saved ? "#00FF8840" : PRISM_COLOR + "30"}`,
+                  }}
+                >
+                  {saved ? <CheckCircle2 size={12} /> : <Save size={12} />}
+                  {saved ? "Saved!" : "Save"}
+                </button>
+                <button
+                  onClick={handleCopy}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-all"
+                  style={{
+                    background: copied ? "#00FF8820" : `${PRISM_COLOR}15`,
+                    color: copied ? "#00FF88" : PRISM_COLOR,
+                    border: `1px solid ${copied ? "#00FF8840" : PRISM_COLOR + "30"}`,
+                  }}
+                >
+                  {copied ? <Check size={12} /> : <Copy size={12} />}
+                  {copied ? "Copied!" : "Copy"}
+                </button>
+                {onSendToChat && (
+                  <button
+                    onClick={handleSendToChat}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-all"
+                    style={{
+                      background: `${PRISM_COLOR}15`,
+                      color: PRISM_COLOR,
+                      border: `1px solid ${PRISM_COLOR}30`,
+                    }}
+                  >
+                    Refine in Chat →
+                  </button>
+                )}
+              </div>
             </div>
 
-            <div className="prose prose-invert prose-sm max-w-none prose-headings:text-foreground prose-headings:text-sm prose-headings:font-bold prose-p:my-1.5 prose-ul:my-1 prose-li:my-0.5 prose-strong:text-foreground font-jakarta">
+            <div className="prose prose-invert prose-sm max-w-none prose-headings:text-sm prose-headings:font-bold prose-p:my-1.5 prose-ul:my-1 prose-li:my-0.5 font-jakarta" style={{ color: "hsl(var(--foreground))" }}>
               <ReactMarkdown>{result}</ReactMarkdown>
             </div>
 
             {/* Image Generation Section */}
             <div
               className="rounded-xl p-4 space-y-3"
-              style={{ background: `${prismColor}08`, border: `1px solid ${prismColor}15` }}
+              style={{ background: `${PRISM_COLOR}08`, border: `1px solid ${PRISM_COLOR}15` }}
             >
               <div className="flex items-center gap-2">
-                <ImageIcon size={14} style={{ color: prismColor }} />
-                <span className="text-xs font-syne font-bold" style={{ color: prismColor }}>Generate Social Image</span>
+                <ImageIcon size={14} style={{ color: PRISM_COLOR }} />
+                <span className="text-xs font-syne font-bold" style={{ color: PRISM_COLOR }}>Generate Social Image</span>
               </div>
 
               <textarea
@@ -340,7 +378,8 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                 onChange={(e) => setImagePrompt(e.target.value)}
                 placeholder="Describe the image you want to create..."
                 rows={3}
-                className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-sm font-jakarta text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+                className="w-full rounded-lg px-3 py-2.5 text-sm font-jakarta resize-none focus:outline-none focus:ring-2"
+                style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", color: "hsl(var(--foreground))" }}
               />
 
               <button
@@ -348,9 +387,9 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                 disabled={!imagePrompt.trim() || isGeneratingImage}
                 className="w-full py-2.5 rounded-lg text-sm font-syne font-bold transition-all disabled:opacity-40"
                 style={{
-                  background: `linear-gradient(135deg, ${prismColor}90, ${prismColor}60)`,
+                  background: `linear-gradient(135deg, ${PRISM_COLOR}90, ${PRISM_COLOR}60)`,
                   color: "#fff",
-                  boxShadow: imagePrompt.trim() ? `0 0 16px ${prismColor}20` : "none",
+                  boxShadow: imagePrompt.trim() ? `0 0 16px ${PRISM_COLOR}20` : "none",
                 }}
               >
                 {isGeneratingImage ? (
@@ -369,7 +408,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
               {/* Generated Image */}
               {generatedImage && (
                 <div className="space-y-3">
-                  <div className="rounded-lg overflow-hidden border" style={{ borderColor: `${prismColor}25` }}>
+                  <div className="rounded-lg overflow-hidden border" style={{ borderColor: `${PRISM_COLOR}25` }}>
                     <img
                       src={generatedImage}
                       alt="Generated social media image"
