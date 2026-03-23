@@ -40,28 +40,28 @@ All changes are CSS/className updates within the existing PricingPage component,
 - ✅ `src/engine/personality.ts` — UserContext, time greetings, seasonal context, mood detection, milestones
 - ✅ Agent loading messages (per-agent personality strings)
 - ✅ Time-aware greetings in chat header (Mōrena, Good afternoon, etc.)
-- ⬜ Smart empty states (contextual first-visit suggestions per agent)
-- ⬜ Milestone tracking & celebration toasts (confetti in agent colour)
-- ⬜ Anniversary acknowledgment system
+- ✅ Smart empty states (contextual first-visit suggestions per agent)
+- ✅ Milestone tracking & celebration toasts (useMilestones hook)
+- ✅ Anniversary acknowledgment system (getAnniversaryMessage)
 
 ## SECTION 2: Document Intelligence — PRIORITY 2
-- ⬜ Upload interface (paperclip/camera icon next to chat input)
-- ⬜ Agent-specific document extraction prompts (LEDGER receipts, ANCHOR contracts, HAVEN property docs, etc.)
+- ✅ Upload interface (paperclip icon next to chat input — already existed)
+- ✅ DocumentIntelligenceCard component (scan-line animation, structured extraction results)
+- ⬜ Agent-specific document extraction prompts in edge function
 - ⬜ Multi-page PDF handling (up to 20 pages)
-- ⬜ Document Intelligence UI card (structured extraction results)
-- ⬜ Scan-line animation during processing
 
 ## SECTION 3: Compliance Autopilot — PRIORITY 3
-- ⬜ Database tables: compliance_deadlines, user_compliance_tasks, legislation_changes
-- ⬜ Seed NZ compliance deadlines (tax, employment, property, building, environmental)
-- ⬜ Seed recent legislation changes
-- ⬜ Proactive alert edge function (daily 6am NZST via pg_cron)
-- ⬜ Agent-specific proactive prompts (LEDGER, AROHA, HAVEN)
-- ⬜ Legislation change notification system
+- ✅ Database tables: compliance_deadlines, user_compliance_tasks, legislation_changes
+- ✅ Seed NZ compliance deadlines
+- ✅ Seed recent legislation changes
+- ✅ Proactive alert edge function (compliance-alerts)
+- ⬜ Schedule via pg_cron (daily 6am NZST)
+- ⬜ Agent-specific proactive prompts in chat system prompt
 
 ## SECTION 4: Self-Healing & Workflow Visualiser
-- ⬜ `src/engine/self-healing.ts` — retry/healing logic
-- ⬜ `src/components/WorkflowVisualiser.tsx` — animated node graph
+- ✅ `src/engine/self-healing.ts` — retry/healing logic, chain executor
+- ✅ `src/components/WorkflowVisualiser.tsx` — animated node graph with framer-motion
+- ✅ WorkflowVisualiser integrated into Command Centre dashboard
 - ⬜ Inline workflow visualiser in chat when symbiotic chain triggers
 - ⬜ Full-page workflow view at /workflows
 
@@ -83,9 +83,10 @@ All changes are CSS/className updates within the existing PricingPage component,
 - ⬜ Template grid UI in SPARK
 
 ## SECTION 8: Command Centre Upgrade — PRIORITY 4
-- ⬜ Compliance score ring (green/amber/red)
-- ⬜ "Needs Your Attention" section with severity borders
-- ⬜ Milestones display
-- ⬜ 90-day compliance calendar (horizontal scrollable)
+- ✅ Compliance score ring (green/amber/red)
+- ✅ "Needs Your Attention" section with severity borders
+- ✅ Milestones display with celebration toasts
+- ✅ 90-day compliance calendar (horizontal scrollable)
+- ✅ Workflow Visualiser in dashboard
 - ⬜ Real-time refresh via Supabase subscription
 - ⬜ Mobile responsive polish (2×2 KPI grid, swipeable calendar)
