@@ -1772,24 +1772,37 @@ Deno.serve(async (req) => {
       return { role: msg.role, content: msg.content };
     });
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
+        "Authorization": `Bearer ${LOVABLE_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
+        model: "google/gemini-2.5-flash",
+        messages: [
+          { role: "system", content: fullSystemPrompt },
+          ...formattedMessages,
+        ],
         max_tokens: 4096,
-        system: fullSystemPrompt,
-        messages: formattedMessages,
       }),
     });
 
     if (!response.ok) {
       const errorBody = await response.text();
-      console.error(`Anthropic API error [${response.status}]: ${errorBody}`);
+      console.error(`AI Gateway error [${response.status}]: ${errorBody}`);
+      if (response.status === 429) {
+        return new Response(
+          JSON.stringify({ error: "Rate limited — please try again in a moment." }),
+          { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+      if (response.status === 402) {
+        return new Response(
+          JSON.stringify({ error: "AI credits exhausted — please top up in workspace settings." }),
+          { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
       return new Response(
         JSON.stringify({ error: "Failed to get response from AI" }),
         { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -1797,7 +1810,7 @@ Deno.serve(async (req) => {
     }
 
     const data = await response.json();
-    const content = data.content?.[0]?.text || "I couldn't generate a response.";
+    const content = data.choices?.[0]?.message?.content || "I couldn't generate a response.";
 
     // Log message for activity feed (best effort, don't block response)
     try {
