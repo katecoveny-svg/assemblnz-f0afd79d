@@ -7,6 +7,7 @@ export const ELEVENLABS_AGENT_IDS: Record<string, string> = {
   sales: "agent_9901kmedvk7wfmyrkk1wr3ddqmts", // FLUX
   automotive: "agent_9801kmedekfdfq29kcz3hgzk3ewx", // FORGE
   marketing: "agent_3401kmefawt3fex8qdtgq19jg2wg", // PRISM
+  family: "agent_4301kmegw0b3fy49dt2cpf0qx6tw", // HELM
 };
 
 export function getElevenLabsAgentId(agentId: string): string | undefined {
