@@ -102,6 +102,7 @@ import HelmSettings from "@/components/helm/HelmSettings";
 import AgentTraining from "@/components/shared/AgentTraining";
 import VoiceAgentLive from "@/components/VoiceAgentLive";
 import VoiceAgentModal from "@/components/VoiceAgentModal";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 import SparkTemplateGrid from "@/components/spark/SparkTemplateGrid";
 import KindleCampaignWriter from "@/components/kindle/KindleCampaignWriter";
 import KindleMarketplace from "@/components/kindle/KindleMarketplace";
@@ -1855,6 +1856,7 @@ const ChatPage = () => {
         agentId={agent.id}
         agentName={agent.name}
         agentColor={accentColor}
+        elevenLabsAgentId={getElevenLabsAgentId(agent.id)}
       />
     </div>
   );
