@@ -390,7 +390,14 @@ const ChatPage = () => {
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
-  // Voice input (Speech-to-Text) for HELM
+  // Listen for AURA mode changes to refresh tabs
+  useEffect(() => {
+    const handler = () => setAuraModeKey(k => k + 1);
+    window.addEventListener("aura-mode-changed", handler);
+    return () => window.removeEventListener("aura-mode-changed", handler);
+  }, []);
+
+
   const toggleListening = useCallback(() => {
     if (isListening) {
       recognitionRef.current?.stop();
