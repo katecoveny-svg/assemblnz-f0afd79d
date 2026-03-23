@@ -2,6 +2,9 @@
  * Live mini-dashboard preview components for the Content Hub.
  * Each renders a compact, interactive visual that demonstrates
  * what the agent actually produces — with real sample data.
+ *
+ * Brand palette: #00FF88 (emerald), #00E5FF (cyan), #B388FF (violet),
+ *                #E040FB (magenta), #4FC3F7 (sky), #7E57C2 (deep purple)
  */
 
 import { useState } from "react";
@@ -20,8 +23,8 @@ export const HavenCompliancePreview = () => {
     s === "pass"
       ? { bg: "rgba(0,255,136,0.15)", color: "#00FF88", label: "PASS" }
       : s === "fail"
-      ? { bg: "rgba(255,60,60,0.15)", color: "#FF3C3C", label: "FAIL" }
-      : { bg: "rgba(255,184,0,0.15)", color: "#FFB800", label: "PARTIAL" };
+      ? { bg: "rgba(179,136,255,0.15)", color: "#B388FF", label: "FAIL" }
+      : { bg: "rgba(0,229,255,0.15)", color: "#00E5FF", label: "PARTIAL" };
 
   return (
     <div className="space-y-1.5">
@@ -29,7 +32,7 @@ export const HavenCompliancePreview = () => {
         <span className="font-mono-jb text-[9px]" style={{ color: "rgba(255,255,255,0.3)" }}>
           14 Rata St, Mt Eden
         </span>
-        <span className="font-syne font-bold text-[11px]" style={{ color: "#FF80AB" }}>
+        <span className="font-syne font-bold text-[11px]" style={{ color: "#00E5FF" }}>
           4/6
         </span>
       </div>
@@ -61,8 +64,8 @@ export const HavenCompliancePreview = () => {
 export const FluxPipelinePreview = () => {
   const stages = [
     { name: "New", count: 23, value: "$184K", color: "#00E5FF" },
-    { name: "Qualified", count: 15, value: "$267K", color: "#00FF88" },
-    { name: "Proposal", count: 8, value: "$412K", color: "#FFB800" },
+    { name: "Qualified", count: 15, value: "$267K", color: "#4FC3F7" },
+    { name: "Proposal", count: 8, value: "$412K", color: "#B388FF" },
     { name: "Won", count: 6, value: "$287K", color: "#00FF88" },
   ];
   return (
@@ -117,26 +120,26 @@ export const ArohaCalculatorPreview = () => {
           key={r.label}
           className="flex justify-between py-1 px-2 rounded"
           style={{
-            background: r.highlight ? "rgba(255,111,145,0.1)" : "rgba(255,255,255,0.02)",
+            background: r.highlight ? "rgba(0,229,255,0.08)" : "rgba(255,255,255,0.02)",
             borderBottom: r.highlight ? "none" : "1px solid rgba(255,255,255,0.03)",
           }}
         >
           <span
             className="font-jakarta text-[10px]"
-            style={{ color: r.highlight ? "#FF6F91" : "rgba(255,255,255,0.5)", fontWeight: r.highlight ? 700 : 400 }}
+            style={{ color: r.highlight ? "#00E5FF" : "rgba(255,255,255,0.5)", fontWeight: r.highlight ? 700 : 400 }}
           >
             {r.label}
           </span>
           <span
             className="font-mono-jb text-[10px]"
-            style={{ color: r.highlight ? "#FF6F91" : "rgba(255,255,255,0.7)", fontWeight: r.highlight ? 700 : 400 }}
+            style={{ color: r.highlight ? "#00E5FF" : "rgba(255,255,255,0.7)", fontWeight: r.highlight ? 700 : 400 }}
           >
             {r.value}
           </span>
         </div>
       ))}
       <div className="text-center pt-1">
-        <span className="font-mono-jb text-[9px]" style={{ color: "#FF6F91" }}>
+        <span className="font-mono-jb text-[9px]" style={{ color: "#00E5FF" }}>
           +19.6% above base
         </span>
       </div>
@@ -225,7 +228,7 @@ export const EchoContentPreview = () => {
             </span>
             <span
               className="w-1.5 h-1.5 rounded-full"
-              style={{ background: p.status === "ready" ? "#00FF88" : "#FFB800" }}
+              style={{ background: p.status === "ready" ? "#00FF88" : "#B388FF" }}
             />
           </div>
         </div>
@@ -240,7 +243,7 @@ export const PrismCampaignPreview = () => {
     { name: "Email", items: 3, color: "#4FC3F7" },
     { name: "LinkedIn", items: 2, color: "#0A66C2" },
     { name: "Instagram", items: 4, color: "#E040FB" },
-    { name: "Reel", items: 1, color: "#FF4D6A" },
+    { name: "Reel", items: 1, color: "#B388FF" },
   ];
   return (
     <div className="space-y-2">
@@ -367,10 +370,10 @@ export const VaultMortgagePreview = () => {
 /* ── SHIELD: Risk Assessment ── */
 export const ShieldRiskPreview = () => {
   const risks = [
-    { hazard: "Earthquake", level: "High", color: "#FF3C3C" },
+    { hazard: "Earthquake", level: "High", color: "#B388FF" },
     { hazard: "Flood", level: "Low", color: "#00FF88" },
     { hazard: "Tsunami", level: "N/A", color: "rgba(255,255,255,0.2)" },
-    { hazard: "Volcanic", level: "Mod", color: "#FFB800" },
+    { hazard: "Volcanic", level: "Mod", color: "#00E5FF" },
   ];
   return (
     <div className="space-y-1.5">
@@ -407,11 +410,11 @@ export const ShieldRiskPreview = () => {
 /* ── APEX: Hazard Matrix ── */
 export const ApexHazardPreview = () => {
   const hazards = [
-    { name: "Heights", risk: 12, level: "High", color: "#FF3C3C" },
-    { name: "Electrical", risk: 15, level: "High", color: "#FF3C3C" },
-    { name: "Dust", risk: 9, level: "Med", color: "#FFB800" },
-    { name: "Manual", risk: 6, level: "Med", color: "#FFB800" },
-    { name: "Noise", risk: 6, level: "Med", color: "#FFB800" },
+    { name: "Heights", risk: 12, level: "High", color: "#B388FF" },
+    { name: "Electrical", risk: 15, level: "High", color: "#B388FF" },
+    { name: "Dust", risk: 9, level: "Med", color: "#00E5FF" },
+    { name: "Manual", risk: 6, level: "Med", color: "#00E5FF" },
+    { name: "Noise", risk: 6, level: "Med", color: "#4FC3F7" },
   ];
   return (
     <div className="space-y-1">
@@ -474,9 +477,9 @@ export const HelmWeeklyPreview = () => {
   const days = [
     { day: "Mon", items: ["Swimming gear", "Library book"], color: "#00E5FF" },
     { day: "Tue", items: ["Mufti day $2", "Cricket 3:30"], color: "#00FF88" },
-    { day: "Wed", items: ["Lunch order", "ICAS Maths"], color: "#FFB800" },
+    { day: "Wed", items: ["Lunch order", "ICAS Maths"], color: "#4FC3F7" },
     { day: "Thu", items: ["School photos", "USB for Tech"], color: "#E040FB" },
-    { day: "Fri", items: ["Assembly 2pm", "Early finish"], color: "#FF4D6A" },
+    { day: "Fri", items: ["Assembly 2pm", "Early finish"], color: "#B388FF" },
   ];
   return (
     <div className="flex gap-1">
