@@ -147,8 +147,15 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
     setTranscript(prev => [...prev, { role: "user", text }]);
     setFallbackProcessing(true);
     try {
+      // Build messages array matching the chat function's expected format
+      const historyMessages = transcript.slice(-6).map(r => ({
+        role: r.role === "user" ? "user" : "assistant",
+        content: r.text,
+      }));
+      const messages = [...historyMessages, { role: "user", content: text }];
+
       const { data, error } = await supabase.functions.invoke("chat", {
-        body: { message: text, agentId, history: transcript.slice(-6).map(r => ({ role: r.role === "user" ? "user" : "assistant", content: r.text })) },
+        body: { messages, agentId },
       });
       if (error) throw error;
       const reply = data?.reply || data?.message || "I didn't catch that.";
