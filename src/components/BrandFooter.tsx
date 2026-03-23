@@ -3,7 +3,7 @@ import nexusLogo from "@/assets/nexus-logo.png";
 
 const BrandFooter = () => {
   return (
-    <footer className="py-10 px-6 border-t border-border" style={{ background: 'hsl(var(--background))' }}>
+    <footer className="py-10 pb-24 sm:pb-10 px-6 border-t border-border" style={{ background: 'hsl(var(--background))' }}>
       <div className="max-w-5xl mx-auto">
         <div className="flex flex-col items-center mb-6">
           <Link to="/" className="flex items-center gap-3 group mb-2">
