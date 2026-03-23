@@ -7,29 +7,33 @@ const AnimatedAssemblLogo = ({ size = 64 }: { size?: number }) => {
       className="relative inline-flex items-center justify-center"
       style={{ width: size * 1.6, height: size }}
     >
-      {/* Ambient glow behind logo */}
+      {/* Ambient glow — cyan/purple/blue */}
       <motion.div
         className="absolute rounded-full"
         style={{
           width: size * 1.2,
           height: size * 1.2,
-          background: `radial-gradient(circle, hsla(160,84%,50%,0.12) 20%, hsla(189,100%,50%,0.06) 50%, transparent 75%)`,
-          filter: "blur(20px)",
+          background: `radial-gradient(circle, hsla(189,100%,50%,0.14) 15%, hsla(271,60%,72%,0.08) 45%, hsla(234,85%,66%,0.05) 70%, transparent 85%)`,
+          filter: "blur(18px)",
         }}
         animate={{
-          scale: [1, 1.15, 1],
-          opacity: [0.5, 0.9, 0.5],
+          scale: [1, 1.18, 1],
+          opacity: [0.5, 0.95, 0.5],
         }}
         transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Orbiting particles */}
-      {[0, 180].map((deg, i) => (
+      {/* Orbiting particles — cyan, purple, blue */}
+      {[
+        { deg: 0, color: "hsl(189,100%,50%)", shadow: "hsla(189,100%,50%,0.8)" },
+        { deg: 120, color: "hsl(271,60%,72%)", shadow: "hsla(271,60%,72%,0.8)" },
+        { deg: 240, color: "hsl(234,85%,66%)", shadow: "hsla(234,85%,66%,0.8)" },
+      ].map((p, i) => (
         <motion.div
           key={i}
           className="absolute"
           style={{ width: size, height: size }}
-          animate={{ rotate: [deg, deg + 360] }}
+          animate={{ rotate: [p.deg, p.deg + 360] }}
           transition={{ duration: 10 + i * 3, repeat: Infinity, ease: "linear" }}
         >
           <div
@@ -37,8 +41,8 @@ const AnimatedAssemblLogo = ({ size = 64 }: { size?: number }) => {
             style={{
               width: 3,
               height: 3,
-              background: i === 0 ? "hsl(160,84%,50%)" : "hsl(189,100%,50%)",
-              boxShadow: `0 0 8px ${i === 0 ? "hsla(160,84%,50%,0.8)" : "hsla(189,100%,50%,0.8)"}`,
+              background: p.color,
+              boxShadow: `0 0 8px ${p.shadow}`,
               top: 0,
               left: "50%",
               transform: "translateX(-50%)",
@@ -55,14 +59,14 @@ const AnimatedAssemblLogo = ({ size = 64 }: { size?: number }) => {
         style={{
           width: size * 0.65,
           height: size * 0.65,
-          filter: `drop-shadow(0 0 12px hsla(160,84%,50%,0.3)) drop-shadow(0 0 30px hsla(189,100%,50%,0.12))`,
+          filter: `drop-shadow(0 0 10px hsla(189,100%,50%,0.35)) drop-shadow(0 0 25px hsla(271,60%,72%,0.15))`,
         }}
         animate={{
           scale: [1, 1.06, 1],
           filter: [
-            "drop-shadow(0 0 12px hsla(160,84%,50%,0.3)) drop-shadow(0 0 30px hsla(189,100%,50%,0.12))",
-            "drop-shadow(0 0 20px hsla(160,84%,50%,0.5)) drop-shadow(0 0 50px hsla(189,100%,50%,0.25))",
-            "drop-shadow(0 0 12px hsla(160,84%,50%,0.3)) drop-shadow(0 0 30px hsla(189,100%,50%,0.12))",
+            "drop-shadow(0 0 10px hsla(189,100%,50%,0.35)) drop-shadow(0 0 25px hsla(271,60%,72%,0.15))",
+            "drop-shadow(0 0 18px hsla(189,100%,50%,0.55)) drop-shadow(0 0 40px hsla(271,60%,72%,0.3))",
+            "drop-shadow(0 0 10px hsla(189,100%,50%,0.35)) drop-shadow(0 0 25px hsla(271,60%,72%,0.15))",
           ],
         }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -71,16 +75,16 @@ const AnimatedAssemblLogo = ({ size = 64 }: { size?: number }) => {
 
       {/* ASSEMBL text */}
       <motion.span
-        className="relative z-10 font-syne font-extrabold tracking-[4px] uppercase ml-1"
+        className="relative z-10 font-syne font-bold tracking-[4px] uppercase ml-1"
         style={{
           fontSize: size * 0.28,
           color: "hsl(var(--foreground))",
         }}
         animate={{
           textShadow: [
-            "0 0 8px hsla(160,84%,50%,0.0)",
-            "0 0 16px hsla(160,84%,50%,0.2), 0 0 32px hsla(189,100%,50%,0.08)",
-            "0 0 8px hsla(160,84%,50%,0.0)",
+            "0 0 6px hsla(189,100%,50%,0.0)",
+            "0 0 14px hsla(189,100%,50%,0.2), 0 0 28px hsla(271,60%,72%,0.1)",
+            "0 0 6px hsla(189,100%,50%,0.0)",
           ],
         }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
