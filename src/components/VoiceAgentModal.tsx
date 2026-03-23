@@ -158,7 +158,7 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
         body: { messages, agentId },
       });
       if (error) throw error;
-      const reply = data?.reply || data?.message || "I didn't catch that.";
+      const reply = data?.content || data?.reply || data?.message || "I didn't catch that.";
       setTranscript(prev => [...prev, { role: "agent", text: reply }]);
       setFallbackProcessing(false);
       await speakFallback(reply);
