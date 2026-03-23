@@ -285,26 +285,3 @@ export function getSeasonalAgentHint(agentId: string): string | null {
 
   return hints[agentId]?.[season] || null;
 }
-  const season = getSeasonalContext();
-  const month = new Date().getMonth();
-
-  const hints: Record<string, Record<string, string>> = {
-    terra: {
-      spring: 'Calving season coming up — have you reviewed your animal welfare plan?',
-      summer: 'Dry conditions expected — irrigation planning is key right now.',
-    },
-    aura: {
-      summer: 'Summer peak approaching — staffing sorted for the holidays?',
-      winter: 'Quieter season — perfect time to refresh your guest experience strategy.',
-    },
-    ledger: {
-      autumn: month === 2 ? 'End of financial year in 4 weeks. Good time to review your position.' : '',
-    },
-    haven: {
-      winter: 'Heating compliance matters more in winter — tenants notice.',
-      autumn: 'Pre-winter maintenance checks are due. Gutters, heating, insulation.',
-    },
-  };
-
-  return hints[agentId]?.[season] || null;
-}
