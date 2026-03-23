@@ -65,7 +65,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
         >
           <p
             className="text-sm sm:text-base font-jakarta leading-relaxed"
-            style={{ color: '#71717A' }}
+            style={{ color: 'hsl(var(--muted-foreground))' }}
           >
             Replace six platforms with one intelligence layer. Your agents calculate PAYE, generate tenders, monitor compliance, build apps, and orchestrate marketing — all trained on NZ law, all sharing one brain.
           </p>
