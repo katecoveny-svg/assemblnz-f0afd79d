@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import AgentAvatar from "@/components/AgentAvatar";
+import AgentDashboard from "@/components/agent-dashboards/AgentDashboard";
 import { agents, echoAgent } from "@/data/agents";
 import { OUTPUT_CARDS, type OutputCard } from "@/data/contentHubData";
 import { PREVIEW_MAP } from "@/components/contenthub/MiniPreviews";
