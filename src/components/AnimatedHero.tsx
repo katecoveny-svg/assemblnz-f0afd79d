@@ -51,7 +51,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           <h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-syne font-bold mb-2 leading-tight text-foreground" style={{ letterSpacing: '-0.025em' }}>
             The operating system for NZ business.
           </h1>
-          <p className="text-2xl sm:text-4xl lg:text-[3rem] font-syne font-bold leading-tight text-gradient-hero">
+          <p className="text-2xl sm:text-4xl lg:text-[3rem] font-syne font-bold leading-normal text-gradient-hero pb-2">
             42 AI agents. Infinite leverage.
           </p>
         </motion.div>
