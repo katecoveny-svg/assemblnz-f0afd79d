@@ -70,27 +70,45 @@ const DashboardPage = () => {
   useEffect(() => {
     if (!user) return;
     const uid = user.id;
+    const loadData = () => {
+      supabase.from("saved_items").select("*").eq("user_id", uid).order("created_at", { ascending: false }).then(({ data }) => { if (data) setSavedItems(data as any); });
 
-    supabase.from("saved_items").select("*").eq("user_id", uid).order("created_at", { ascending: false }).then(({ data }) => { if (data) setSavedItems(data as any); });
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      supabase.from("conversations").select("id, agent_id, messages, updated_at").eq("user_id", uid).gte("updated_at", thirtyDaysAgo.toISOString()).order("updated_at", { ascending: false }).limit(20).then(({ data }) => { if (data) setConversations(data as any); });
 
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    supabase.from("conversations").select("id, agent_id, messages, updated_at").eq("user_id", uid).gte("updated_at", thirtyDaysAgo.toISOString()).order("updated_at", { ascending: false }).limit(20).then(({ data }) => { if (data) setConversations(data as any); });
+      supabase.from("action_queue").select("*").eq("user_id", uid).eq("status", "pending").order("created_at", { ascending: false }).limit(10).then(({ data }) => { if (data) setActions(data as any); });
 
-    supabase.from("action_queue").select("*").eq("user_id", uid).eq("status", "pending").order("created_at", { ascending: false }).limit(10).then(({ data }) => { if (data) setActions(data as any); });
+      supabase.from("conversation_summaries").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(10).then(({ data }) => { if (data) setSummaries(data as any); });
 
-    supabase.from("conversation_summaries").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(10).then(({ data }) => { if (data) setSummaries(data as any); });
+      supabase.from("workflow_executions").select("*").eq("user_id", uid).order("started_at", { ascending: false }).limit(5).then(({ data }) => { if (data) setExecutions(data as any); });
 
-    supabase.from("workflow_executions").select("*").eq("user_id", uid).order("started_at", { ascending: false }).limit(5).then(({ data }) => { if (data) setExecutions(data as any); });
+      supabase.from("exported_outputs").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(20).then(({ data }) => { if (data) setExports(data as any); });
 
-    supabase.from("exported_outputs").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(20).then(({ data }) => { if (data) setExports(data as any); });
+      supabase.from("compliance_deadlines").select("*").order("due_date", { ascending: true }).then(({ data }) => { if (data) setComplianceDeadlines(data as any); });
 
-    // Compliance data
-    supabase.from("compliance_deadlines").select("*").order("due_date", { ascending: true }).then(({ data }) => { if (data) setComplianceDeadlines(data as any); });
+      supabase.from("user_compliance_tasks").select("*").eq("user_id", uid).then(({ data }) => { if (data) setUserComplianceTasks(data as any); });
 
-    supabase.from("user_compliance_tasks").select("*").eq("user_id", uid).then(({ data }) => { if (data) setUserComplianceTasks(data as any); });
+      supabase.from("legislation_changes").select("*").order("effective_date", { ascending: false }).limit(5).then(({ data }) => { if (data) setLegislationChanges(data as any); });
+    };
 
-    supabase.from("legislation_changes").select("*").order("effective_date", { ascending: false }).limit(5).then(({ data }) => { if (data) setLegislationChanges(data as any); });
+    loadData();
+
+    // Realtime subscription for live updates
+    const channel = supabase
+      .channel("dashboard-realtime")
+      .on("postgres_changes", { event: "*", schema: "public", table: "action_queue", filter: `user_id=eq.${uid}` }, () => {
+        supabase.from("action_queue").select("*").eq("user_id", uid).eq("status", "pending").order("created_at", { ascending: false }).limit(10).then(({ data }) => { if (data) setActions(data as any); });
+      })
+      .on("postgres_changes", { event: "*", schema: "public", table: "exported_outputs", filter: `user_id=eq.${uid}` }, () => {
+        supabase.from("exported_outputs").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(20).then(({ data }) => { if (data) setExports(data as any); });
+      })
+      .on("postgres_changes", { event: "*", schema: "public", table: "workflow_executions", filter: `user_id=eq.${uid}` }, () => {
+        supabase.from("workflow_executions").select("*").eq("user_id", uid).order("started_at", { ascending: false }).limit(5).then(({ data }) => { if (data) setExecutions(data as any); });
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
   }, [user]);
 
   const handleDelete = async (id: string) => {

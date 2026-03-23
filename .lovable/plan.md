@@ -66,21 +66,21 @@ All changes are CSS/className updates within the existing PricingPage component,
 - ⬜ Full-page workflow view at /workflows
 
 ## SECTION 5: Voice Agents (Future-ready)
-- ⬜ voice_agent_config table
-- ⬜ voice_call_log table
-- ⬜ Voice settings UI (waitlist mode)
-- ⬜ Coming Soon badge
+- ✅ VoiceAgentWaitlist component with config preview + waitlist signup
+- ✅ Voice tab added to AURA, HAVEN, FORGE, FLUX agents
+- ⬜ voice_agent_config / voice_call_log tables (deferred until ElevenLabs integration)
+- ⬜ Full voice functionality (ElevenLabs + Twilio)
 
 ## SECTION 6: Financial Forecasting
-- ⬜ LEDGER forecasting prompt additions
+- ✅ CashFlowTimeline component for visual forecasting display
+- ⬜ LEDGER forecasting prompt additions (edge function)
 - ⬜ Expense anomaly detection prompts
-- ⬜ Cash flow timeline component
 - ⬜ Scenario modelling UI
 
 ## SECTION 7: Advanced SPARK
+- ✅ SparkTemplateGrid with 10 pre-built NZ business templates
+- ✅ Template grid integrated into SPARK welcome screen
 - ⬜ Inline app generation (HTML widgets in chat)
-- ⬜ SPARK template library with pre-built templates
-- ⬜ Template grid UI in SPARK
 
 ## SECTION 8: Command Centre Upgrade — PRIORITY 4
 - ✅ Compliance score ring (green/amber/red)
@@ -88,5 +88,6 @@ All changes are CSS/className updates within the existing PricingPage component,
 - ✅ Milestones display with celebration toasts
 - ✅ 90-day compliance calendar (horizontal scrollable)
 - ✅ Workflow Visualiser in dashboard
-- ⬜ Real-time refresh via Supabase subscription
-- ⬜ Mobile responsive polish (2×2 KPI grid, swipeable calendar)
+- ✅ Real-time refresh via Supabase realtime subscription
+- ✅ Mobile responsive (2×2 KPI grid already implemented)
+- ⬜ Swipeable calendar on mobile
