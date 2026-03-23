@@ -34,9 +34,9 @@ const ContentHubHero = () => {
         className="mt-6 font-mono-jb text-xs sm:text-sm tracking-widest"
         style={{ color: "rgba(255,255,255,0.25)" }}
       >
-        <span style={{ color: "#00FF88" }}>{agentCount}</span> agents ·{" "}
-        <span style={{ color: "#00E5FF" }}>200+</span> document types ·{" "}
-        <span style={{ color: "#B388FF" }}>Every NZ industry</span>
+        <span className="text-emerald-glow">{agentCount}</span> agents ·{" "}
+        <span className="text-glow-cyan">200+</span> document types ·{" "}
+        <span className="text-glow-purple">Every NZ industry</span>
       </div>
     </section>
   );
