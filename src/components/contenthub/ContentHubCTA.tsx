@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
 const PLANS = [
-  { name: "Starter", price: "$79", period: "/mo" },
-  { name: "Pro", price: "$249", period: "/mo" },
-  { name: "Business", price: "$499", period: "/mo" },
+  { name: "Starter", price: "$89", period: "/mo" },
+  { name: "Pro", price: "$299", period: "/mo" },
+  { name: "Business", price: "$599", period: "/mo" },
 ];
 
 const ContentHubCTA = () => (

@@ -88,7 +88,7 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
                   disabled={loading === "starter"}
                   className="block w-full py-2.5 rounded-lg border border-border text-sm font-medium text-foreground/70 text-center hover:text-foreground hover:border-foreground/10 transition-colors"
                 >
-                  {loading === "starter" ? <Loader2 size={16} className="inline animate-spin" /> : "Starter — $79/mo"}
+                  {loading === "starter" ? <Loader2 size={16} className="inline animate-spin" /> : "Starter — $89/mo"}
                 </button>
                 <Link
                   to="/pricing"

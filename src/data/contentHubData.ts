@@ -29,12 +29,12 @@ export interface OutputCard {
 }
 
 export const COMPARISONS: ComparisonItem[] = [
-  { agent: "FLUX", agentColor: "#00E5FF", replaces: "CRM Sales Platform", theirCost: "$450–800/mo", assemblCost: "$249/mo" },
-  { agent: "PRISM", agentColor: "#E040FB", replaces: "AI Writer + Scheduler + Agency", theirCost: "$3,000–8,000/mo", assemblCost: "$249/mo" },
-  { agent: "AROHA", agentColor: "#FF6F91", replaces: "HR Consultant", theirCost: "$150–250/hr", assemblCost: "$249/mo" },
-  { agent: "HAVEN", agentColor: "#FF80AB", replaces: "Property Manager", theirCost: "7–10% of rent", assemblCost: "$249/mo" },
-  { agent: "FORGE", agentColor: "#FF4D6A", replaces: "F&I Software + Compliance", theirCost: "$500–2,000/mo", assemblCost: "$249/mo" },
-  { agent: "ECHO", agentColor: "#E4A0FF", replaces: "Social Media Manager", theirCost: "$3,000–6,000/mo", assemblCost: "$79/mo" },
+  { agent: "FLUX", agentColor: "#00E5FF", replaces: "CRM Sales Platform", theirCost: "$450–800/mo", assemblCost: "$299/mo" },
+  { agent: "PRISM", agentColor: "#E040FB", replaces: "AI Writer + Scheduler + Agency", theirCost: "$3,000–8,000/mo", assemblCost: "$299/mo" },
+  { agent: "AROHA", agentColor: "#FF6F91", replaces: "HR Consultant", theirCost: "$150–250/hr", assemblCost: "$299/mo" },
+  { agent: "HAVEN", agentColor: "#FF80AB", replaces: "Property Manager", theirCost: "7–10% of rent", assemblCost: "$299/mo" },
+  { agent: "FORGE", agentColor: "#FF4D6A", replaces: "F&I Software + Compliance", theirCost: "$500–2,000/mo", assemblCost: "$299/mo" },
+  { agent: "ECHO", agentColor: "#E4A0FF", replaces: "Social Media Manager", theirCost: "$3,000–6,000/mo", assemblCost: "$89/mo" },
 ];
 
 export const FILTER_AGENTS = [
