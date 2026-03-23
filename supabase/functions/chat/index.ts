@@ -1636,7 +1636,17 @@ Deno.serve(async (req) => {
       );
     }
 
-    const { agentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode } = await req.json();
+    const { agentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel } = await req.json();
+
+    // Allowed models whitelist
+    const ALLOWED_MODELS: Record<string, string> = {
+      "gemini-flash": "google/gemini-3-flash-preview",
+      "gemini-pro": "google/gemini-2.5-pro",
+      "gemini-flash-lite": "google/gemini-2.5-flash-lite",
+      "gpt-5-mini": "openai/gpt-5-mini",
+      "gpt-5": "openai/gpt-5",
+    };
+    const selectedModel = (requestedModel && ALLOWED_MODELS[requestedModel]) || "google/gemini-3-flash-preview";
 
     const systemPrompt = agentPrompts[agentId];
     if (!systemPrompt) {
@@ -1779,7 +1789,7 @@ Deno.serve(async (req) => {
         "Authorization": `Bearer ${LOVABLE_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: selectedModel,
         messages: [
           { role: "system", content: fullSystemPrompt },
           ...formattedMessages,

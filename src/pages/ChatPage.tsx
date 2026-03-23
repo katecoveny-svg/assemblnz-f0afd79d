@@ -334,6 +334,7 @@ const ChatPage = () => {
   const [templateModalOpen, setTemplateModalOpen] = useState(false);
   const [paywallType, setPaywallType] = useState<"preview" | "daily_limit" | null>(null);
   const [auraPropertyMode, setAuraPropertyMode] = useState<string>(() => sessionStorage.getItem("aura_property_mode") || "luxury_lodge");
+  const [selectedModel, setSelectedModel] = useState<string>(() => sessionStorage.getItem("assembl_ai_model") || "gemini-flash");
 
   // NEXUS Job Sheet workflow state
   const [nexusWorkflowActive, setNexusWorkflowActive] = useState(false);
@@ -920,7 +921,7 @@ const ChatPage = () => {
 
       const body = isHaven
         ? { messages: apiMessages }
-        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, propertyMode: isAura ? auraPropertyMode : undefined };
+        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, propertyMode: isAura ? auraPropertyMode : undefined, model: selectedModel };
 
       const invokeOptions: any = { body };
       if (isHaven && session?.access_token) {
@@ -1726,7 +1727,28 @@ const ChatPage = () => {
                 </Tooltip>
               )}
 
-              {/* HELM: Voice mic button */}
+              {/* Model selector for PRISM */}
+              {isPrism && (
+                <div className="relative">
+                  <select
+                    value={selectedModel}
+                    onChange={(e) => { setSelectedModel(e.target.value); sessionStorage.setItem("assembl_ai_model", e.target.value); }}
+                    className="appearance-none bg-card border border-border rounded-lg px-2 py-2.5 text-[10px] font-mono text-muted-foreground hover:text-foreground focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer pr-5 transition-colors"
+                    style={{ borderColor: agent.color + "30" }}
+                    title="Select AI model"
+                  >
+                    <option value="gemini-flash">⚡ Gemini Flash</option>
+                    <option value="gemini-pro">🧠 Gemini Pro</option>
+                    <option value="gemini-flash-lite">💨 Gemini Lite</option>
+                    <option value="gpt-5-mini">🤖 GPT-5 Mini</option>
+                    <option value="gpt-5">🏆 GPT-5</option>
+                  </select>
+                  <div className="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M2 3.5L5 7L8 3.5H2Z"/></svg>
+                  </div>
+                </div>
+              )}
+
               {isHelm && (
                 <button
                   type="button"
