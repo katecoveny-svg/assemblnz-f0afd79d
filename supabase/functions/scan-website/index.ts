@@ -258,7 +258,11 @@ Be factual and specific. Infer colours from the website aesthetic if not explici
     }
 
     return new Response(
-      JSON.stringify({ brandProfile, brandDna }),
+      JSON.stringify({
+        brandProfile,
+        brandDna,
+        scanWarning: usedFallback ? "Used the currently open page because the requested website could not be reached yet." : null,
+      }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {

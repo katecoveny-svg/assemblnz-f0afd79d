@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FunctionsHttpError } from "@supabase/supabase-js";
 import { X, Globe, Loader2, Instagram, Linkedin, Upload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -59,11 +60,16 @@ const BrandScanModal = ({ agentName, agentColor, open, onClose, onBrandLoaded }:
     setError("");
 
     try {
+      const fallbackContent = typeof document !== "undefined"
+        ? document.body?.innerText?.slice(0, 30000) || ""
+        : "";
+
       const { data, error: fnError } = await supabase.functions.invoke("scan-website", {
         body: {
           url: url.trim(),
           instagram: instagram.trim() || undefined,
           linkedin: linkedin.trim() || undefined,
+          fallbackContent,
         },
       });
 
@@ -77,6 +83,17 @@ const BrandScanModal = ({ agentName, agentColor, open, onClose, onBrandLoaded }:
       onBrandLoaded(profile, businessName, brandDna);
       onClose();
     } catch (err) {
+      if (err instanceof FunctionsHttpError) {
+        try {
+          const errorBody = await err.context.json();
+          setError(errorBody?.error || "Failed to scan website");
+          return;
+        } catch {
+          setError("Failed to scan website");
+          return;
+        }
+      }
+
       setError(err instanceof Error ? err.message : "Failed to scan website");
     } finally {
       setLoading(false);
