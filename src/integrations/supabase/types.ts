@@ -2134,6 +2134,114 @@ export type Database = {
         }
         Relationships: []
       }
+      voice_agent_config: {
+        Row: {
+          after_hours_behaviour: string | null
+          agent_id: string
+          business_hours: Json | null
+          calendar_integration: string | null
+          created_at: string | null
+          enabled: boolean | null
+          greeting: string | null
+          id: string
+          knowledge_base: string | null
+          language: string | null
+          phone_number: string | null
+          qualification_questions: Json | null
+          updated_at: string | null
+          user_id: string
+          voice_id: string | null
+          voice_style: string | null
+        }
+        Insert: {
+          after_hours_behaviour?: string | null
+          agent_id: string
+          business_hours?: Json | null
+          calendar_integration?: string | null
+          created_at?: string | null
+          enabled?: boolean | null
+          greeting?: string | null
+          id?: string
+          knowledge_base?: string | null
+          language?: string | null
+          phone_number?: string | null
+          qualification_questions?: Json | null
+          updated_at?: string | null
+          user_id: string
+          voice_id?: string | null
+          voice_style?: string | null
+        }
+        Update: {
+          after_hours_behaviour?: string | null
+          agent_id?: string
+          business_hours?: Json | null
+          calendar_integration?: string | null
+          created_at?: string | null
+          enabled?: boolean | null
+          greeting?: string | null
+          id?: string
+          knowledge_base?: string | null
+          language?: string | null
+          phone_number?: string | null
+          qualification_questions?: Json | null
+          updated_at?: string | null
+          user_id?: string
+          voice_id?: string | null
+          voice_style?: string | null
+        }
+        Relationships: []
+      }
+      voice_call_log: {
+        Row: {
+          agent_id: string
+          appointment_booked: boolean | null
+          appointment_datetime: string | null
+          caller_name: string | null
+          caller_phone: string | null
+          created_at: string | null
+          duration_seconds: number | null
+          follow_up_required: boolean | null
+          id: string
+          outcome: string | null
+          sentiment: string | null
+          summary: string | null
+          transcript: string | null
+          user_id: string
+        }
+        Insert: {
+          agent_id: string
+          appointment_booked?: boolean | null
+          appointment_datetime?: string | null
+          caller_name?: string | null
+          caller_phone?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          follow_up_required?: boolean | null
+          id?: string
+          outcome?: string | null
+          sentiment?: string | null
+          summary?: string | null
+          transcript?: string | null
+          user_id: string
+        }
+        Update: {
+          agent_id?: string
+          appointment_booked?: boolean | null
+          appointment_datetime?: string | null
+          caller_name?: string | null
+          caller_phone?: string | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          follow_up_required?: boolean | null
+          id?: string
+          outcome?: string | null
+          sentiment?: string | null
+          summary?: string | null
+          transcript?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       workflow_executions: {
         Row: {
           completed_at: string | null
