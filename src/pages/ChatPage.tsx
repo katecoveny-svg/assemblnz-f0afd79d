@@ -1854,7 +1854,7 @@ const ChatPage = () => {
         onClose={() => setVoiceModalOpen(false)}
         agentId={agent.id}
         agentName={agent.name}
-        agentColor={agentColor}
+        agentColor={accentColor}
       />
     </div>
   );
