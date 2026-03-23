@@ -48,7 +48,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-syne font-bold mb-2 leading-tight" style={{ color: '#FAFAFA', letterSpacing: '-0.025em' }}>
+          <h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-syne font-bold mb-2 leading-tight text-foreground" style={{ letterSpacing: '-0.025em' }}>
             The operating system for NZ business.
           </h1>
           <p className="text-2xl sm:text-4xl lg:text-[3rem] font-syne font-bold leading-tight text-gradient-hero">
