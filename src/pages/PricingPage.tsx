@@ -120,21 +120,12 @@ const PricingPage = () => {
                   href={plan.link}
                   target={plan.link.startsWith('#') ? undefined : '_blank'}
                   rel="noopener noreferrer"
-                  className="block w-full text-center text-sm font-semibold py-2.5 rounded-lg transition-colors duration-200"
-                  style={plan.popular
-                    ? { background: '#10B981', color: '#09090B' }
-                    : { background: 'transparent', color: '#FAFAFA', border: '1px solid rgba(255,255,255,0.15)' }
+                  className={plan.popular
+                    ? "cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
+                    : "cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
                   }
-                  onMouseEnter={e => {
-                    if (plan.popular) e.currentTarget.style.background = '#059669';
-                    else e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
-                  }}
-                  onMouseLeave={e => {
-                    if (plan.popular) e.currentTarget.style.background = '#10B981';
-                    else e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
-                  }}
                 >
-                  {plan.cta}
+                  <span>{plan.cta}</span>
                 </a>
               </div>
             ))}
