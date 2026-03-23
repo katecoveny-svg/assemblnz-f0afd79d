@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import AgentShowcase from "@/components/AgentShowcase";
 import AssemblHeroAgent from "@/components/AssemblHeroAgent";
+import AnimatedAssemblLogo from "@/components/AnimatedAssemblLogo";
 import { Link } from "react-router-dom";
 
 interface AnimatedHeroProps {
