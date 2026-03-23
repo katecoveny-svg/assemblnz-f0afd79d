@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import AgentShowcase from "@/components/AgentShowcase";
 import AssemblHeroAgent from "@/components/AssemblHeroAgent";
+import AnimatedAssemblLogo from "@/components/AnimatedAssemblLogo";
 import { Link } from "react-router-dom";
 
 interface AnimatedHeroProps {
@@ -20,12 +21,22 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
   return (
     <section className="relative overflow-hidden min-h-[70vh] flex items-center">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-20 sm:py-32 text-center relative z-10">
+        {/* Animated Assembl Logo */}
+        <motion.div
+          className="flex justify-center mb-4"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <AnimatedAssemblLogo size={56} />
+        </motion.div>
+
         {/* 3D Robot Hero */}
         <motion.div
           className="flex justify-center mb-8"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         >
           <AssemblHeroAgent size={220} />
         </motion.div>

@@ -1649,6 +1649,45 @@ Deno.serve(async (req) => {
     // Build full system prompt with shared behaviours, optional brand context, and language preference
     let fullSystemPrompt = systemPrompt + SHARED_BEHAVIOURS;
 
+    // ─── SHARED BRAIN: Inject cross-agent context ───
+    try {
+      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+      const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
+        global: { headers: { Authorization: authHeader } },
+      });
+      const { data: { user: brainUser } } = await userClient.auth.getUser();
+      if (brainUser) {
+        // Fetch shared context facts
+        const { data: ctxRows } = await userClient
+          .from("shared_context")
+          .select("context_key, context_value, source_agent, confidence")
+          .eq("user_id", brainUser.id)
+          .order("confidence", { ascending: false })
+          .limit(30);
+
+        // Fetch recent conversation summaries from OTHER agents
+        const { data: summaries } = await userClient
+          .from("conversation_summaries")
+          .select("agent_id, summary, key_facts_extracted, created_at")
+          .eq("user_id", brainUser.id)
+          .neq("agent_id", agentId)
+          .order("created_at", { ascending: false })
+          .limit(5);
+
+        if (ctxRows && ctxRows.length > 0) {
+          const facts = ctxRows.map(r => `• ${r.context_key}: ${JSON.stringify(r.context_value)} (source: ${r.source_agent}, confidence: ${r.confidence})`).join("\n");
+          fullSystemPrompt += `\n\n[SHARED BRAIN — Business facts collected by all agents for this user. Use these to personalise responses and avoid asking for information already known:\n${facts}]`;
+        }
+
+        if (summaries && summaries.length > 0) {
+          const sumText = summaries.map(s => `• ${s.agent_id} (${new Date(s.created_at).toLocaleDateString()}): ${s.summary}`).join("\n");
+          fullSystemPrompt += `\n\n[RECENT AGENT ACTIVITY — Summaries from other agents' recent conversations with this user:\n${sumText}]`;
+        }
+      }
+    } catch (brainErr) {
+      console.error("Shared brain fetch error (non-critical):", brainErr);
+    }
+
     // AURA Property Mode context
     if (agentId === "hospitality" && propertyMode) {
       const modeDescriptions: Record<string, string> = {
