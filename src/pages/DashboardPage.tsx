@@ -104,11 +104,29 @@ const DashboardPage = () => {
     setActions((prev) => prev.filter((a) => a.id !== id));
   };
 
+  // Milestone celebration toasts
+  useMilestones({
+    documents: exports.length,
+    workflows: executions.filter(e => e.status === "completed").length,
+    apps: 0, // TODO: pull from spark_apps count
+    streak: 0, // TODO: calculate from daily_messages
+  });
+
   // Compliance score calculation
   const completedTasks = userComplianceTasks.filter(t => t.status === "completed").length;
   const totalTasks = userComplianceTasks.length || complianceDeadlines.length;
   const complianceScore = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
   const scoreColor = complianceScore >= 70 ? "#00FF88" : complianceScore >= 40 ? "#FFB800" : "#FF4D6A";
+
+  // Parse workflow steps for visualiser
+  const latestWorkflow = executions.find(e => e.status === "running") || executions[0];
+  const workflowSteps = latestWorkflow && Array.isArray(latestWorkflow.steps_log)
+    ? latestWorkflow.steps_log.map((s: any) => ({
+        agentId: s.agent || s.agentId || "echo",
+        action: s.action || s.description || "Processing",
+        status: s.status === "completed" ? "success" : s.status || "pending",
+      }))
+    : [];
 
   // Upcoming deadlines (next 30 days)
   const upcomingDeadlines = complianceDeadlines.filter(d => {
