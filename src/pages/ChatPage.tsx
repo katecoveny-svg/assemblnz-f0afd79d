@@ -359,6 +359,7 @@ const ChatPage = () => {
   const { user, session, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached, role } = useAuth();
   const { teReoPrompt } = useLanguage();
   const [conversationId, setConversationId] = useState<string | null>(null);
+  const [auraModeKey, setAuraModeKey] = useState(0);
 
   // Voice input/output state (HELM)
   const [isListening, setIsListening] = useState(false);
