@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import AgentShowcase from "@/components/AgentShowcase";
+import AssemblHeroAgent from "@/components/AssemblHeroAgent";
 import { Link } from "react-router-dom";
 
 interface AnimatedHeroProps {
@@ -19,15 +20,25 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
   return (
     <section className="relative overflow-hidden min-h-[70vh] flex items-center">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-20 sm:py-32 text-center relative z-10">
+        {/* 3D Robot Hero */}
+        <motion.div
+          className="flex justify-center mb-8"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <AssemblHeroAgent size={220} />
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
         >
           <h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-syne font-bold mb-2 leading-tight" style={{ color: '#FAFAFA', letterSpacing: '-0.025em' }}>
             The operating system for NZ business.
           </h1>
-          <p className="text-2xl sm:text-4xl lg:text-[3rem] font-syne font-bold leading-tight" style={{ color: '#10B981', letterSpacing: '-0.025em' }}>
+          <p className="text-2xl sm:text-4xl lg:text-[3rem] font-syne font-bold leading-tight text-gradient-hero">
             42 AI agents. Infinite leverage.
           </p>
         </motion.div>
@@ -37,7 +48,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           style={{ color: '#71717A' }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
         >
           Replace six platforms with one intelligence layer. Your agents calculate PAYE, generate tenders, monitor compliance, build apps, and orchestrate marketing — all trained on NZ law, all sharing one brain.
         </motion.p>
@@ -47,7 +58,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           className="flex flex-wrap justify-center gap-2 mb-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
         >
           {STAT_PILLS.map((pill) => (
             <span
@@ -69,7 +80,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           className="flex flex-col sm:flex-row gap-3 justify-center mb-14"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
         >
           <Link
             to="/content-hub"
