@@ -285,6 +285,13 @@
   100% { background-position: 300% 50%; }
 }
 
+@keyframes orb-drift {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(15%) translateY(-10%); }
+  50% { transform: translateX(30%) translateY(5%); }
+  75% { transform: translateX(10%) translateY(-5%); }
+}
+
 @keyframes pulse-glow {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
