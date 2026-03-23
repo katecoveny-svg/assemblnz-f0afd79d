@@ -1,6 +1,7 @@
+import { useState, useEffect } from "react";
 import AgentAvatar from "@/components/AgentAvatar";
 import { agentCapabilities } from "@/data/agentCapabilities";
-import { getGreetingText, getSeasonalAgentHint, AGENT_LOADING_MESSAGES } from "@/engine/personality";
+import { getGreetingText, getSeasonalAgentHint, getAnniversaryMessage, AGENT_LOADING_MESSAGES, SMART_EMPTY_STATES } from "@/engine/personality";
 import { useAuth } from "@/hooks/useAuth";
 import type { Agent } from "@/data/agents";
 
@@ -10,10 +11,17 @@ interface AgentWelcomeProps {
 
 const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
   const capabilities = agentCapabilities[agent.id] || [];
-  const { profile } = useAuth();
+  const { profile, user } = useAuth();
   const firstName = profile?.full_name?.split(" ")[0] || "";
   const greeting = getGreetingText(firstName);
   const seasonalHint = getSeasonalAgentHint(agent.id);
+  const smartStates = SMART_EMPTY_STATES[agent.id] || [];
+  const [randomSuggestion] = useState(() =>
+    smartStates.length > 0 ? smartStates[Math.floor(Math.random() * smartStates.length)] : null
+  );
+
+  // Anniversary message
+  const anniversaryMsg = user?.created_at ? getAnniversaryMessage(user.created_at, firstName) : null;
 
   return (
     <div className="flex flex-col items-center text-center gap-3">
@@ -22,6 +30,20 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
 
       {/* Time-aware greeting */}
       <p className="text-sm font-jakarta text-foreground/70">{greeting}</p>
+
+      {/* Anniversary message */}
+      {anniversaryMsg && (
+        <div
+          className="w-full max-w-sm text-center text-xs font-jakarta px-3 py-2.5 rounded-lg"
+          style={{
+            background: "rgba(0,255,136,0.06)",
+            border: "1px solid rgba(0,255,136,0.15)",
+            color: "#00FF88",
+          }}
+        >
+          🎂 {anniversaryMsg}
+        </div>
+      )}
 
       {/* Name + online status */}
       <div>
@@ -35,6 +57,20 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
         </div>
         <p className="text-xs italic text-muted-foreground">"{agent.tagline}"</p>
       </div>
+
+      {/* Smart empty state suggestion */}
+      {randomSuggestion && (
+        <div
+          className="w-full max-w-sm text-left text-xs font-jakarta px-3 py-2.5 rounded-lg"
+          style={{
+            background: `${agent.color}06`,
+            border: `1px solid ${agent.color}15`,
+            color: `${agent.color}CC`,
+          }}
+        >
+          💬 {randomSuggestion}
+        </div>
+      )}
 
       {/* Seasonal hint */}
       {seasonalHint && (
