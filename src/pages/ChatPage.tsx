@@ -5,7 +5,7 @@ import { agents } from "@/data/agents";
 import { echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone } from "lucide-react";
 import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
 import ActionQueuePanel from "@/components/chat/ActionQueuePanel";
@@ -101,6 +101,7 @@ import HelmRescue from "@/components/helm/HelmRescue";
 import HelmSettings from "@/components/helm/HelmSettings";
 import AgentTraining from "@/components/shared/AgentTraining";
 import VoiceAgentLive from "@/components/VoiceAgentLive";
+import VoiceAgentModal from "@/components/VoiceAgentModal";
 import SparkTemplateGrid from "@/components/spark/SparkTemplateGrid";
 import KindleCampaignWriter from "@/components/kindle/KindleCampaignWriter";
 import KindleMarketplace from "@/components/kindle/KindleMarketplace";
@@ -338,6 +339,7 @@ const ChatPage = () => {
   const [paywallType, setPaywallType] = useState<"preview" | "daily_limit" | null>(null);
   const [auraPropertyMode, setAuraPropertyMode] = useState<string>(() => sessionStorage.getItem("aura_property_mode") || "luxury_lodge");
   const [selectedModel, setSelectedModel] = useState<string>(() => sessionStorage.getItem("assembl_ai_model") || "gemini-flash");
+  const [voiceModalOpen, setVoiceModalOpen] = useState(false);
 
   // NEXUS Job Sheet workflow state
   const [nexusWorkflowActive, setNexusWorkflowActive] = useState(false);
@@ -1800,6 +1802,20 @@ const ChatPage = () => {
               >
                 <Send size={16} />
               </button>
+              {/* Voice Agent button */}
+              <button
+                type="button"
+                onClick={() => setVoiceModalOpen(true)}
+                className="p-2.5 rounded-lg border transition-all duration-200 hover:scale-105"
+                style={{
+                  borderColor: accentColor + "30",
+                  color: accentColor,
+                  background: "transparent",
+                }}
+                title={`Voice chat with ${agent.name}`}
+              >
+                <Phone size={16} />
+              </button>
             </div>
           </form>
           {/* Build with SPARK cross-agent CTA */}
@@ -1831,6 +1847,15 @@ const ChatPage = () => {
           )}
         </div>
       )}
+
+      {/* Voice Agent Modal */}
+      <VoiceAgentModal
+        open={voiceModalOpen}
+        onClose={() => setVoiceModalOpen(false)}
+        agentId={agent.id}
+        agentName={agent.name}
+        agentColor={accentColor}
+      />
     </div>
   );
 };

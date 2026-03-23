@@ -12,7 +12,6 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Authenticate user
     const authHeader = req.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -27,26 +26,15 @@ Deno.serve(async (req) => {
       { global: { headers: { Authorization: authHeader } } }
     );
 
-    const token = authHeader.replace("Bearer ", "");
-    const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims) {
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const userId = claimsData.claims.sub;
-
     const { agentId } = await req.json();
-
-    // Get voice config for this agent
-    const { data: voiceConfig } = await supabase
-      .from("voice_agent_config")
-      .select("*")
-      .eq("user_id", userId)
-      .eq("agent_id", agentId)
-      .maybeSingle();
 
     const ELEVENLABS_API_KEY = Deno.env.get("ELEVENLABS_API_KEY");
     if (!ELEVENLABS_API_KEY) {
@@ -56,48 +44,38 @@ Deno.serve(async (req) => {
       );
     }
 
-    // For now, we use a generic agent approach with TTS
-    // When ElevenLabs Conversational AI agent is configured, use conversation token
-    // For MVP: return config so client can use useConversation with overrides
+    if (!agentId) {
+      return new Response(
+        JSON.stringify({ error: "agentId is required" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Try to get a signed URL for the conversational AI agent
     const response = await fetch(
-      "https://api.elevenlabs.io/v1/text-to-speech/" +
-        (voiceConfig?.voice_id || "JBFqnCBsd6RMkjVDRZzb") +
-        "?output_format=mp3_44100_128",
+      `https://api.elevenlabs.io/v1/convai/conversation/get-signed-url?agent_id=${agentId}`,
       {
-        method: "POST",
         headers: {
           "xi-api-key": ELEVENLABS_API_KEY,
-          "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          text: voiceConfig?.greeting || "Kia ora, how can I help you today?",
-          model_id: "eleven_turbo_v2_5",
-          voice_settings: {
-            stability: voiceConfig?.voice_style === "professional" ? 0.7 : 0.4,
-            similarity_boost: 0.75,
-            style: voiceConfig?.voice_style === "mate" ? 0.6 : 0.3,
-          },
-        }),
       }
     );
 
     if (!response.ok) {
       const errText = await response.text();
-      console.error("ElevenLabs error:", errText);
+      console.error("ElevenLabs signed URL error:", errText);
       return new Response(
-        JSON.stringify({ error: "Voice synthesis failed" }),
+        JSON.stringify({ error: "Failed to get conversation token" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    const audioBuffer = await response.arrayBuffer();
-    
-    return new Response(audioBuffer, {
-      headers: {
-        ...corsHeaders,
-        "Content-Type": "audio/mpeg",
-      },
-    });
+    const data = await response.json();
+
+    return new Response(
+      JSON.stringify({ signedUrl: data.signed_url }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
   } catch (error) {
     console.error("Error:", error);
     return new Response(
