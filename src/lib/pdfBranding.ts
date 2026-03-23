@@ -27,20 +27,36 @@ export function drawAssemblPDFHeader(
   doc.setFillColor(30, 30, 42);
   doc.rect(0, 0, pageWidth, 3, "F");
 
-  // Nexus logo mark — three connected orbs (cyan, purple, pink)
+  // Nexus logo mark — connected-lines 'A' with cyan, purple, blue orbs
   const lx = margin;
   const ly = y + 4;
-  doc.setDrawColor(80, 80, 110);
-  doc.setLineWidth(0.6);
-  doc.line(lx + 4, ly - 3, lx, ly + 5, "S");
-  doc.line(lx + 4, ly - 3, lx + 8, ly + 5, "S");
-  doc.line(lx, ly + 5, lx + 8, ly + 5, "S");
-  doc.setFillColor(0, 229, 255);
-  doc.circle(lx + 4, ly - 3, 1.4, "F");
-  doc.setFillColor(179, 136, 255);
-  doc.circle(lx, ly + 5, 1.4, "F");
-  doc.setFillColor(99, 102, 241);
-  doc.circle(lx + 8, ly + 5, 1.4, "F");
+  const topX = lx + 5;
+  const topY = ly - 4;
+  const blX = lx;
+  const blY = ly + 6;
+  const brX = lx + 10;
+  const brY = ly + 6;
+
+  // Connecting lines (gradient-like effect with layered strokes)
+  doc.setLineWidth(0.8);
+  // Line: top → bottom-left
+  doc.setDrawColor(0, 200, 230);
+  doc.line(topX, topY, blX, blY);
+  // Line: top → bottom-right
+  doc.setDrawColor(140, 100, 220);
+  doc.line(topX, topY, brX, brY);
+  // Line: bottom-left → bottom-right
+  doc.setDrawColor(80, 90, 220);
+  doc.line(blX, blY, brX, brY);
+
+  // Orbs at each vertex
+  const orbR = 1.8;
+  doc.setFillColor(0, 229, 255);   // Cyan — top
+  doc.circle(topX, topY, orbR, "F");
+  doc.setFillColor(179, 136, 255); // Purple — bottom-left
+  doc.circle(blX, blY, orbR, "F");
+  doc.setFillColor(99, 102, 241);  // Blue — bottom-right
+  doc.circle(brX, brY, orbR, "F");
 
   // Brand name
   doc.setFontSize(18);
