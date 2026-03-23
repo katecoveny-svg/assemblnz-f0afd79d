@@ -28,7 +28,7 @@ const glassCard: React.CSSProperties = {
   border: "1px solid rgba(255,255,255,0.06)",
 };
 
-const PRIORITY_COLORS: Record<string, string> = { urgent: "#FF2D9B", high: "#FF6B00", medium: "#FFB800", low: "#00FF88" };
+const PRIORITY_COLORS: Record<string, string> = { urgent: "#B388FF", high: "#6366F1", medium: "#00E5FF", low: "#00FF88" };
 
 const timeAgo = (d: string) => {
   const diff = Date.now() - new Date(d).getTime();

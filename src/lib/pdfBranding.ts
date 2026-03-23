@@ -39,7 +39,7 @@ export function drawAssemblPDFHeader(
   doc.circle(lx + 4, ly - 3, 1.4, "F");
   doc.setFillColor(179, 136, 255);
   doc.circle(lx, ly + 5, 1.4, "F");
-  doc.setFillColor(255, 45, 155);
+  doc.setFillColor(99, 102, 241);
   doc.circle(lx + 8, ly + 5, 1.4, "F");
 
   // Brand name

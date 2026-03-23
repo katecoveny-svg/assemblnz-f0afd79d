@@ -72,7 +72,7 @@ const HOW_IT_WORKS = [
 const ALSO_BY_ASSEMBL = [
   { title: "Custom AI Builds", desc: "Bespoke AI agents trained on your internal data, SOPs, and brand voice.", color: "#00FF88" },
   { title: "Website Chatbots", desc: "Drop-in chat widgets for your website — trained, branded, and always on.", color: "#00E5FF" },
-  { title: "AssemblFund", desc: "Our initiative to bring AI tools to Kiwi startups and community organisations.", color: "#FF2D9B" },
+  { title: "AssemblFund", desc: "Our initiative to bring AI tools to Kiwi startups and community organisations.", color: "#B388FF" },
 ];
 
 const AgentGrid = () => {

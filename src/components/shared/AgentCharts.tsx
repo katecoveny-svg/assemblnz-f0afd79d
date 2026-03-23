@@ -94,7 +94,7 @@ export function AgentAreaChart({ data, areas, nameKey = "name", title, height = 
 export function AgentPieChart({ data, dataKey = "value", nameKey = "name", title, donut = true, height = 200, colors }: {
   data: any[]; dataKey?: string; nameKey?: string; title?: string; donut?: boolean; height?: number; colors?: string[];
 }) {
-  const COLORS = colors || ["#00FF88", "#00E5FF", "#FF2D9B", "#E6B422", "#FF6B00", "#8B5CF6", "#EF5350", "#42A5F5"];
+  const COLORS = colors || ["#00FF88", "#00E5FF", "#B388FF", "#6366F1", "#7E57C2", "#8B5CF6", "#00BFA5", "#42A5F5"];
   return (
     <div className="rounded-xl p-4 border" style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
       {title && <h4 className="font-syne font-bold text-xs text-foreground mb-3">{title}</h4>}

@@ -59,7 +59,7 @@ const TermsOfUse = () => (
         <section>
           <h2 className="text-lg font-bold text-foreground mb-2">7. Payments and subscriptions</h2>
           <ul className="list-disc pl-5 space-y-1">
-            <li>Paid plans are billed monthly in NZD (GST inclusive) via Airwallex</li>
+            <li>Paid plans are billed monthly in NZD (GST inclusive) via Stripe</li>
             <li>You can cancel at any time — no lock-in contracts</li>
             <li>Refunds are at our discretion, in accordance with the Consumer Guarantees Act 1993</li>
             <li>We reserve the right to change pricing with 30 days' notice</li>

@@ -14,9 +14,9 @@ interface ActionItem {
 }
 
 const PRIORITY_COLORS: Record<string, string> = {
-  urgent: "#FF2D9B",
-  high: "#FF6B00",
-  medium: "#FFB800",
+  urgent: "#B388FF",
+  high: "#6366F1",
+  medium: "#00E5FF",
   low: "#00FF88",
 };
 

@@ -356,9 +356,9 @@ const EmbedPage = () => {
           <h2 className="text-base font-syne font-extrabold text-foreground text-glow-cyan text-center mb-6">Embed access by plan</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
             {[
-              { plan: "Starter", agents: "1 agent", price: "$49/mo", color: "#00FF88", current: role === "starter" },
-              { plan: "Pro", agents: "3 agents", price: "$99/mo", color: "#E040FB", current: role === "pro" },
-              { plan: "Business", agents: "All 41 agents", price: "$199/mo", color: "#00E5FF", current: role === "business" },
+              { plan: "Starter", agents: "1 agent", price: "$89/mo", color: "#00FF88", current: role === "starter" },
+              { plan: "Pro", agents: "3 agents", price: "$299/mo", color: "#B388FF", current: role === "pro" },
+              { plan: "Business", agents: "All 42 agents", price: "$599/mo", color: "#00E5FF", current: role === "business" },
             ].map((t) => (
               <div
                 key={t.plan}
