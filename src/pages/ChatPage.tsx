@@ -1296,7 +1296,7 @@ const ChatPage = () => {
       ) : activeTab === "prism_brand" && isPrism ? (
         <PrismBrandVoice onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_creative" && isPrism ? (
-        <ContentStudio isPaid={isPaid} userRole={role || undefined} />
+        <ContentStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_video" && isPrism ? (
         <PrismVideoStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_brandlab" && isPrism ? (
