@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { RefreshCw, Bus, AlertTriangle } from "lucide-react";
 
 const HELM_COLOR = "#B388FF";
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 const REFRESH_INTERVAL = 15000;
 
 interface VehiclePosition {
@@ -33,6 +32,8 @@ export default function HelmBusTracker() {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapboxToken, setMapboxToken] = useState<string | null>(import.meta.env.VITE_MAPBOX_TOKEN || null);
+  const [mapInitialized, setMapInitialized] = useState(false);
 
   // Load children with bus routes
   useEffect(() => {
@@ -49,9 +50,10 @@ export default function HelmBusTracker() {
     })();
   }, [user]);
 
-  // Initialize map
+  // Initialize map when token is available
   useEffect(() => {
-    if (!mapRef.current || !MAPBOX_TOKEN || mapInstanceRef.current) return;
+    if (!mapRef.current || !mapboxToken || mapInitialized) return;
+    setMapInitialized(true);
     
     const script = document.createElement("script");
     script.src = "https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js";
@@ -62,7 +64,7 @@ export default function HelmBusTracker() {
       document.head.appendChild(link);
       
       const mapboxgl = (window as any).mapboxgl;
-      mapboxgl.accessToken = MAPBOX_TOKEN;
+      mapboxgl.accessToken = mapboxToken;
       
       const map = new mapboxgl.Map({
         container: mapRef.current!,
@@ -82,10 +84,10 @@ export default function HelmBusTracker() {
       mapInstanceRef.current?.remove();
       mapInstanceRef.current = null;
     };
-  }, []);
+  }, [mapboxToken, mapInitialized]);
 
   // Fetch bus positions
-  const fetchPositions = async () => {
+  const fetchPositions = useCallback(async () => {
     const child = children.find(c => c.id === selectedChild);
     if (!child?.bus_route_id) return;
     
@@ -100,12 +102,35 @@ export default function HelmBusTracker() {
         setVehicles(data.vehicles);
         setLastUpdated(new Date());
       }
+      // Get mapbox token from edge function response if not already set
+      if (data?.mapbox_token && !mapboxToken) {
+        setMapboxToken(data.mapbox_token);
+      }
     } catch (err: any) {
+      console.error("Bus positions fetch error:", err);
       setError(err.message || "Failed to fetch bus positions");
     } finally {
       setLoading(false);
     }
-  };
+  }, [children, selectedChild, mapboxToken]);
+
+  // Fetch token on mount if not available
+  useEffect(() => {
+    if (!mapboxToken) {
+      (async () => {
+        try {
+          const { data } = await supabase.functions.invoke("bus-positions", {
+            body: { route_ids: [] }
+          });
+          if (data?.mapbox_token) {
+            setMapboxToken(data.mapbox_token);
+          }
+        } catch (e) {
+          console.error("Failed to fetch mapbox token:", e);
+        }
+      })();
+    }
+  }, [mapboxToken]);
 
   // Auto-refresh
   useEffect(() => {
@@ -113,14 +138,13 @@ export default function HelmBusTracker() {
     fetchPositions();
     const interval = setInterval(fetchPositions, REFRESH_INTERVAL);
     return () => clearInterval(interval);
-  }, [selectedChild, children]);
+  }, [selectedChild, children, fetchPositions]);
 
   // Update map markers
   useEffect(() => {
     if (!mapInstanceRef.current || !mapLoaded) return;
     const mapboxgl = (window as any).mapboxgl;
     
-    // Clear existing markers
     markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
     
@@ -145,7 +169,6 @@ export default function HelmBusTracker() {
       markersRef.current.push(marker);
     });
     
-    // Fit bounds if vehicles present
     if (vehicles.length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
       vehicles.forEach(v => bounds.extend([v.longitude, v.latitude]));
@@ -154,18 +177,6 @@ export default function HelmBusTracker() {
   }, [vehicles, mapLoaded]);
 
   const child = children.find(c => c.id === selectedChild);
-
-  if (!MAPBOX_TOKEN) {
-    return (
-      <div className="flex-1 flex items-center justify-center p-8" style={{ background: "#09090F" }}>
-        <div className="text-center space-y-3">
-          <Bus size={32} style={{ color: HELM_COLOR }} className="mx-auto opacity-50" />
-          <p className="text-sm text-white/50">Map token not configured</p>
-          <p className="text-xs text-white/30">Bus tracking requires a Mapbox token</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex-1 flex flex-col" style={{ background: "#09090F" }}>
@@ -201,12 +212,16 @@ export default function HelmBusTracker() {
             <p className="text-xs text-white/30">Add a bus route ID to a child's profile in Settings</p>
           </div>
         </div>
+      ) : !mapboxToken ? (
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center space-y-3">
+            <Bus size={32} style={{ color: HELM_COLOR }} className="mx-auto opacity-50" />
+            <p className="text-sm text-white/50">Loading map...</p>
+          </div>
+        </div>
       ) : (
         <>
-          {/* Map */}
           <div ref={mapRef} className="flex-1 min-h-[300px]" />
-          
-          {/* Vehicle List */}
           {vehicles.length > 0 && (
             <div className="p-3 border-t border-white/5 space-y-2">
               <h3 className="text-[10px] font-semibold text-white/40 uppercase tracking-wider">{vehicles.length} bus{vehicles.length > 1 ? "es" : ""} tracked</h3>

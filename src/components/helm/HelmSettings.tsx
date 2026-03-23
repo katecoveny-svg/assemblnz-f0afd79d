@@ -63,17 +63,22 @@ export default function HelmSettings() {
   const createFamily = async () => {
     if (!user || !familyName.trim()) return;
     try {
+      console.log("[HELM] Creating family:", familyName, region);
       const { data: fam, error: famError } = await supabase.from("families").insert({ name: familyName, nz_region: region, created_by: user.id }).select().single();
-      if (famError) { toast.error("Failed to create family: " + famError.message); return; }
+      if (famError) { console.error("[HELM] Family insert error:", famError); toast.error("Failed to create family: " + famError.message); return; }
       if (fam) {
+        console.log("[HELM] Family created, adding member:", fam.id);
         const { error: memError } = await supabase.from("family_members").insert({ family_id: fam.id, user_id: user.id, role: "admin" });
-        if (memError) { toast.error("Failed to add you as family member: " + memError.message); return; }
-        await supabase.from("family_invites").insert({ family_id: fam.id, created_by: user.id });
+        if (memError) { console.error("[HELM] Member insert error:", memError); toast.error("Failed to add you as family member: " + memError.message); return; }
+        // Invite is optional, don't block on failure
+        const { error: invErr } = await supabase.from("family_invites").insert({ family_id: fam.id, created_by: user.id });
+        if (invErr) console.warn("[HELM] Invite creation failed (non-blocking):", invErr);
         toast.success("Family created successfully!");
         setShowSetup(false);
-        loadData();
+        await loadData();
       }
     } catch (e: any) {
+      console.error("[HELM] createFamily error:", e);
       toast.error("Error: " + e.message);
     }
   };
