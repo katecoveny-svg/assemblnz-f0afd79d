@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import AgentAvatar from "@/components/AgentAvatar";
+import AgentDashboard from "@/components/agent-dashboards/AgentDashboard";
 import { agents, echoAgent } from "@/data/agents";
 import { OUTPUT_CARDS, type OutputCard } from "@/data/contentHubData";
 import { PREVIEW_MAP } from "@/components/contenthub/MiniPreviews";
@@ -120,6 +121,14 @@ const AgentDetailPage = () => {
               </span>
             ))}
           </div>
+        </div>
+
+        {/* Live Dashboard */}
+        <div className="mb-10">
+          <h2 className="font-syne font-extrabold text-xl halo-heading mb-4" style={{ color: "hsl(var(--foreground))" }}>
+            Live Dashboard
+          </h2>
+          <AgentDashboard agentId={agent.id} agentName={agent.name} agentColor={agent.color} expertise={agent.expertise} />
         </div>
 
         {/* Sample Outputs */}
