@@ -3,23 +3,18 @@ import nexusLogo from "@/assets/nexus-logo.png";
 
 const BrandFooter = () => {
   return (
-    <footer
-      className="py-10 px-6 border-t border-border"
-      style={{
-        background: 'hsl(225 25% 4% / 0.8)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-      }}
-    >
+    <footer className="py-10 px-6 border-t border-border" style={{ background: 'hsl(var(--background))' }}>
       <div className="max-w-5xl mx-auto">
         <div className="flex flex-col items-center mb-6">
           <Link to="/" className="flex items-center gap-3 group mb-2">
             <img src={nexusLogo} alt="Assembl" className="w-8 h-8 object-contain" />
-            <span className="font-syne font-extrabold tracking-[3px] uppercase text-sm text-foreground">
+            <span className="font-syne font-bold tracking-[3px] uppercase text-sm text-foreground">
               ASSEMBL
             </span>
           </Link>
-          <p className="text-[11px] font-jakarta text-muted-foreground">Built for NZ Business</p>
+          <p className="text-xs font-jakarta text-muted-foreground">
+            42 agents. One brain. Built in Aotearoa.
+          </p>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mb-4">
@@ -39,10 +34,10 @@ const BrandFooter = () => {
         </div>
 
         <p className="text-[11px] text-center font-jakarta text-muted-foreground">
-          © 2026 Assembl. All rights reserved. · Auckland, New Zealand · Built in Aotearoa
+          © 2026 Assembl. All rights reserved. · Auckland, New Zealand · Built in Aotearoa 🇳🇿
         </p>
         <p className="text-[10px] mt-1.5 text-center font-jakarta" style={{ color: 'hsl(var(--muted-foreground) / 0.5)' }}>
-          Agent designs, system prompts, and automation workflows are proprietary trade secrets of Assembl.
+          Enterprise-grade AI operations modelled on HubSpot, Salesforce, and Zendesk — at a fraction of the cost.
         </p>
       </div>
     </footer>

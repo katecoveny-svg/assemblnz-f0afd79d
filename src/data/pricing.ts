@@ -1,0 +1,145 @@
+/** Single source of truth for all pricing across the site */
+export const PRICING = {
+  starter: {
+    name: 'Starter',
+    price: 89,
+    period: '/mo',
+    currency: 'NZD',
+    agents: '1 agent',
+    messages: '100 messages/mo',
+    features: [
+      '1 AI agent of your choice',
+      '100 messages per month',
+      'NZ legislation built in',
+      'Document templates',
+      'Proactive deadline alerts',
+      'Email support',
+    ],
+    cta: 'Start with Starter',
+    link: 'https://buy.stripe.com/fZuaEZa1CdkA6573Wu3oA0b',
+    popular: false,
+  },
+  pro: {
+    name: 'Pro',
+    price: 299,
+    period: '/mo',
+    currency: 'NZD',
+    agents: '3 agents + SPARK',
+    messages: '500 messages/mo',
+    features: [
+      '3 AI agents of your choice',
+      'SPARK no-code app builder (5 deploys)',
+      '500 messages per month',
+      'Brand DNA scanner',
+      'Symbiotic workflows (3 active)',
+      'Cross-agent context sharing',
+      'Priority email support',
+    ],
+    cta: 'Start with Pro',
+    link: 'https://buy.stripe.com/14A00l4Hi4O43WZ50y3oA0a',
+    popular: true,
+  },
+  business: {
+    name: 'Business',
+    price: 599,
+    period: '/mo',
+    currency: 'NZD',
+    agents: 'All 42 agents',
+    messages: '2,000 messages/mo',
+    features: [
+      'All 42 AI agents',
+      'SPARK app builder (25 deploys + custom domains)',
+      '2,000 messages per month',
+      'Command Centre dashboard',
+      'All symbiotic workflows + custom',
+      'MCP API (100 calls/day)',
+      'Integration Hub (Xero, Stripe, Zapier)',
+      'Phone support',
+    ],
+    cta: 'Start with Business',
+    link: 'https://buy.stripe.com/6oU9AVa1C6Wcbpr2Sq3oA09',
+    popular: false,
+  },
+  suite: {
+    name: 'Industry Suite',
+    price: 1499,
+    period: '/mo',
+    currency: 'NZD',
+    agents: 'All agents + custom',
+    messages: '5,000 messages/mo',
+    features: [
+      'Everything in Business',
+      '1-2 custom agents built for your business',
+      '5,000 messages per month',
+      'White-label option (remove Assembl branding)',
+      'Custom workflow builder',
+      'Dedicated onboarding session',
+      'Zoom support',
+    ],
+    cta: 'Get Industry Suite',
+    link: 'https://buy.stripe.com/8x28wR6PqdkAaln9gO3oA08',
+    popular: false,
+  },
+  enterprise: {
+    name: 'Enterprise',
+    price: null as number | null,
+    priceLabel: 'Custom',
+    period: '',
+    agents: 'Unlimited',
+    messages: 'Unlimited',
+    features: [
+      'Everything in Industry Suite',
+      'Unlimited custom agents',
+      'Full white-label with custom domain',
+      'Unlimited MCP API',
+      'Team management & roles',
+      'SLA guarantee',
+      'Dedicated account manager',
+      'Audit trail & compliance',
+    ],
+    cta: 'Contact Us',
+    link: '#contact',
+    popular: false,
+  },
+  helm_personal: {
+    name: 'HELM Personal',
+    price: 14,
+    period: '/mo',
+    currency: 'NZD',
+    features: ['HELM family agent', '50 messages/mo', 'Bus tracking', 'Newsletter AI', 'Packing lists'],
+    link: 'https://buy.stripe.com/28E8wRa1C2FW3WZ9gO3oA07',
+  },
+  helm_family: {
+    name: 'HELM Family',
+    price: 29,
+    period: '/mo',
+    currency: 'NZD',
+    features: ['HELM + all lifestyle agents', '200 messages/mo', 'Multi-child support', 'Rescue delivery'],
+    link: 'https://buy.stripe.com/28E8wRa1C2FW3WZ9gO3oA07',
+  },
+} as const;
+
+/** Calculate annual price (15% discount = 2 months free) */
+export function annualPrice(monthlyPrice: number): number {
+  return Math.round(monthlyPrice * 10.2);
+}
+
+export function annualMonthly(monthlyPrice: number): number {
+  return Math.round((monthlyPrice * 10.2) / 12);
+}
+
+/** Feature comparison table data */
+export const COMPARISON_FEATURES = [
+  { feature: 'AI Agents', starter: '1', pro: '3', business: 'All 42', suite: 'All 42 + custom', enterprise: 'Unlimited' },
+  { feature: 'Messages/month', starter: '100', pro: '500', business: '2,000', suite: '5,000', enterprise: 'Unlimited' },
+  { feature: 'SPARK App Builder', starter: false, pro: '5 deploys', business: '25 deploys', suite: 'Unlimited', enterprise: true },
+  { feature: 'Brand DNA Scanner', starter: false, pro: true, business: true, suite: true, enterprise: true },
+  { feature: 'Symbiotic Workflows', starter: false, pro: '3 workflows', business: 'All 7 + custom', suite: 'Unlimited + builder', enterprise: 'Unlimited' },
+  { feature: 'Command Centre', starter: false, pro: false, business: true, suite: true, enterprise: true },
+  { feature: 'MCP API', starter: false, pro: false, business: '100 calls/day', suite: '500 calls/day', enterprise: 'Unlimited' },
+  { feature: 'Integration Hub', starter: false, pro: false, business: true, suite: true, enterprise: true },
+  { feature: 'Custom Agents', starter: false, pro: false, business: false, suite: '1-2 included', enterprise: 'Unlimited' },
+  { feature: 'White-Label', starter: false, pro: false, business: false, suite: 'Optional', enterprise: 'Full' },
+  { feature: 'Custom Domain', starter: false, pro: false, business: false, suite: false, enterprise: true },
+  { feature: 'Support', starter: 'Email', pro: 'Priority email', business: 'Phone', suite: 'Zoom', enterprise: 'Dedicated manager' },
+] as const;
