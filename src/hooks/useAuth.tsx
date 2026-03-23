@@ -33,6 +33,9 @@ export const useAuth = () => {
   return ctx;
 };
 
+/** Safe version that returns null instead of throwing when outside AuthProvider */
+export const useAuthSafe = () => useContext(AuthContext);
+
 const PREVIEW_MSG_KEY = "assembl_preview_msgs";
 const PREVIEW_LIMIT = 3;
 const FREE_DAILY_LIMIT = 10;
