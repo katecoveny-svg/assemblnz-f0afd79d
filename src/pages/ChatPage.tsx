@@ -99,6 +99,10 @@ import HelmReview from "@/components/helm/HelmReview";
 import HelmRescue from "@/components/helm/HelmRescue";
 import HelmSettings from "@/components/helm/HelmSettings";
 import AgentTraining from "@/components/shared/AgentTraining";
+import KindleCampaignWriter from "@/components/kindle/KindleCampaignWriter";
+import KindleMarketplace from "@/components/kindle/KindleMarketplace";
+import KindleImpactDashboard from "@/components/kindle/KindleImpactDashboard";
+import KindleCorporateDashboard from "@/components/kindle/KindleCorporateDashboard";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 import SparkPreview from "@/components/spark/SparkPreview";
