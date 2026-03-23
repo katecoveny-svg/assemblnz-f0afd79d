@@ -13,10 +13,7 @@ const MAIN_PLANS = [
   PRICING.suite,
 ];
 
-const HELM_PLANS = [
-  { ...PRICING.helm_personal, desc: "Full life admin for one person" },
-  { ...PRICING.helm_family, desc: "For busy NZ families" },
-];
+const HELM_PLAN = { ...PRICING.helm, desc: "AI life admin for Kiwi families" };
 
 const FAQS = [
   { q: "Can I try Assembl for free?", a: "Every agent is available for free — no signup required. You get 3 messages per agent to explore. If you like what you see, sign up for a plan to unlock more." },

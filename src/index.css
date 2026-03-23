@@ -173,27 +173,60 @@
     border-color: rgba(255, 255, 255, 0.1) !important;
   }
 
-  /* Glass effect green CTA buttons */
+  /* Neon orb glow CTA buttons */
   .cta-glass-green {
-    background: linear-gradient(135deg, hsla(160, 84%, 39%, 0.9), hsla(160, 84%, 45%, 0.85));
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, hsla(160, 84%, 39%, 0.9), hsla(189, 100%, 45%, 0.85));
     color: hsl(240 10% 3.9%);
     border: 1px solid hsla(160, 84%, 50%, 0.3);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     box-shadow: 
-      0 0 20px hsla(160, 84%, 50%, 0.15),
-      inset 0 1px 0 hsla(0, 0%, 100%, 0.15),
-      inset 0 -1px 0 hsla(160, 84%, 30%, 0.2);
+      0 0 20px hsla(160, 84%, 50%, 0.2),
+      0 0 40px hsla(189, 100%, 50%, 0.1),
+      inset 0 1px 0 hsla(0, 0%, 100%, 0.15);
     transition: all 0.3s ease;
   }
 
+  .cta-glass-green::before {
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 200%;
+    top: -50%;
+    left: -20%;
+    background: radial-gradient(ellipse, hsla(153, 100%, 60%, 0.4) 0%, hsla(189, 100%, 50%, 0.2) 40%, transparent 70%);
+    animation: orb-drift 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cta-glass-green::after {
+    content: '';
+    position: absolute;
+    width: 40%;
+    height: 200%;
+    top: -50%;
+    right: -10%;
+    background: radial-gradient(ellipse, hsla(270, 80%, 70%, 0.25) 0%, hsla(189, 100%, 50%, 0.15) 40%, transparent 70%);
+    animation: orb-drift 4s ease-in-out infinite reverse;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cta-glass-green > * {
+    position: relative;
+    z-index: 1;
+  }
+
   .cta-glass-green:hover {
-    background: linear-gradient(135deg, hsla(160, 84%, 45%, 0.95), hsla(160, 84%, 50%, 0.9));
+    background: linear-gradient(135deg, hsla(160, 84%, 45%, 0.95), hsla(189, 100%, 50%, 0.9));
     box-shadow: 
-      0 0 30px hsla(160, 84%, 50%, 0.25),
-      0 0 60px hsla(160, 84%, 50%, 0.1),
-      inset 0 1px 0 hsla(0, 0%, 100%, 0.2),
-      inset 0 -1px 0 hsla(160, 84%, 30%, 0.2);
+      0 0 30px hsla(160, 84%, 50%, 0.3),
+      0 0 60px hsla(189, 100%, 50%, 0.15),
+      0 0 80px hsla(270, 80%, 60%, 0.08),
+      inset 0 1px 0 hsla(0, 0%, 100%, 0.2);
     transform: translateY(-1px);
   }
 

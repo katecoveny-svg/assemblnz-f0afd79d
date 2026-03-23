@@ -101,20 +101,21 @@ export const PRICING = {
     link: '#contact',
     popular: false,
   },
-  helm_personal: {
-    name: 'HELM Personal',
-    price: 14,
-    period: '/mo',
-    currency: 'NZD',
-    features: ['HELM family agent', '50 messages/mo', 'Bus tracking', 'Newsletter AI', 'Packing lists'],
-    link: 'https://buy.stripe.com/28E8wRa1C2FW3WZ9gO3oA07',
-  },
-  helm_family: {
-    name: 'HELM Family',
+  helm: {
+    name: 'HELM',
     price: 29,
     period: '/mo',
     currency: 'NZD',
-    features: ['HELM + all lifestyle agents', '200 messages/mo', 'Multi-child support', 'Rescue delivery'],
+    features: [
+      'HELM family AI agent',
+      '200 messages/mo',
+      'Bus tracking',
+      'Newsletter AI parser',
+      'Multi-child support',
+      'Packing lists & meal plans',
+      'Rescue delivery',
+    ],
+    cta: 'Get HELM',
     link: 'https://buy.stripe.com/28E8wRa1C2FW3WZ9gO3oA07',
   },
 } as const;
