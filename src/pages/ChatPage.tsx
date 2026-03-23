@@ -1847,6 +1847,15 @@ const ChatPage = () => {
           )}
         </div>
       )}
+
+      {/* Voice Agent Modal */}
+      <VoiceAgentModal
+        open={voiceModalOpen}
+        onClose={() => setVoiceModalOpen(false)}
+        agentId={agent.id}
+        agentName={agent.name}
+        agentColor={agentColor}
+      />
     </div>
   );
 };
