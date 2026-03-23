@@ -123,6 +123,14 @@ const AgentDetailPage = () => {
           </div>
         </div>
 
+        {/* Live Dashboard */}
+        <div className="mb-10">
+          <h2 className="font-syne font-extrabold text-xl halo-heading mb-4" style={{ color: "hsl(var(--foreground))" }}>
+            Live Dashboard
+          </h2>
+          <AgentDashboard agentId={agent.id} agentName={agent.name} agentColor={agent.color} expertise={agent.expertise} />
+        </div>
+
         {/* Sample Outputs */}
         {sampleOutputs.length > 0 && (
           <div className="space-y-4 mb-10">
