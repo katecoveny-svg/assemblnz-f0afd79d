@@ -73,7 +73,8 @@ serve(async (req) => {
       vehicles = vehicles.filter((v: any) => ids.includes(v.route_id));
     }
 
-    return new Response(JSON.stringify({ vehicles, count: vehicles.length, timestamp: Date.now() }), {
+    const MAPBOX_TOKEN = Deno.env.get('VITE_MAPBOX_TOKEN') || '';
+    return new Response(JSON.stringify({ vehicles, count: vehicles.length, timestamp: Date.now(), mapbox_token: MAPBOX_TOKEN }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
