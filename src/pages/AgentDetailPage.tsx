@@ -48,14 +48,39 @@ const AgentDetailPage = () => {
     document.getElementById("agent-jsonld")?.remove();
     document.head.appendChild(script);
 
-    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement;
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.name = "description";
-      document.head.appendChild(meta);
-    }
-    meta.content = `${agent.name}: ${agent.tagline}. ${agent.role} – AI-powered automation for NZ ${agent.sector} businesses.`;
-    document.title = `${agent.name} – ${agent.sector} AI Agent | Assembl`;
+    const pageTitle = `${agent.name} – ${agent.sector} AI Agent | Assembl`;
+    const pageDesc = `${agent.name}: ${agent.tagline}. ${agent.role} – AI-powered automation for NZ ${agent.sector} businesses.`;
+    const pageUrl = `https://assembl.co.nz/agents/${agent.id}`;
+    const pageImage = "https://assembl.co.nz/placeholder.svg";
+
+    document.title = pageTitle;
+
+    const setMeta = (attr: string, key: string, content: string) => {
+      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement;
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.content = content;
+    };
+
+    // Standard meta
+    setMeta("name", "description", pageDesc);
+
+    // Open Graph
+    setMeta("property", "og:title", pageTitle);
+    setMeta("property", "og:description", pageDesc);
+    setMeta("property", "og:url", pageUrl);
+    setMeta("property", "og:image", pageImage);
+    setMeta("property", "og:type", "website");
+    setMeta("property", "og:site_name", "Assembl");
+
+    // Twitter Card
+    setMeta("name", "twitter:card", "summary_large_image");
+    setMeta("name", "twitter:title", pageTitle);
+    setMeta("name", "twitter:description", pageDesc);
+    setMeta("name", "twitter:image", pageImage);
 
     return () => { document.getElementById("agent-jsonld")?.remove(); };
   }, [agent]);
