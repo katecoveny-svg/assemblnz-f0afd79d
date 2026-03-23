@@ -27,3 +27,65 @@ The pricing page is mostly well-structured but has several elements that don't m
 
 All changes are CSS/className updates within the existing PricingPage component, using the same glassmorphism patterns already established in the plan cards above.
 
+---
+
+# Assembl Soul Architecture — Implementation Plan
+
+## Status Key
+- ⬜ Not started | 🔨 In progress | ✅ Done
+
+---
+
+## SECTION 1: Humanist Engine — PRIORITY 1
+- ✅ `src/engine/personality.ts` — UserContext, time greetings, seasonal context, mood detection, milestones
+- ✅ Agent loading messages (per-agent personality strings)
+- ✅ Time-aware greetings in chat header (Mōrena, Good afternoon, etc.)
+- ⬜ Smart empty states (contextual first-visit suggestions per agent)
+- ⬜ Milestone tracking & celebration toasts (confetti in agent colour)
+- ⬜ Anniversary acknowledgment system
+
+## SECTION 2: Document Intelligence — PRIORITY 2
+- ⬜ Upload interface (paperclip/camera icon next to chat input)
+- ⬜ Agent-specific document extraction prompts (LEDGER receipts, ANCHOR contracts, HAVEN property docs, etc.)
+- ⬜ Multi-page PDF handling (up to 20 pages)
+- ⬜ Document Intelligence UI card (structured extraction results)
+- ⬜ Scan-line animation during processing
+
+## SECTION 3: Compliance Autopilot — PRIORITY 3
+- ⬜ Database tables: compliance_deadlines, user_compliance_tasks, legislation_changes
+- ⬜ Seed NZ compliance deadlines (tax, employment, property, building, environmental)
+- ⬜ Seed recent legislation changes
+- ⬜ Proactive alert edge function (daily 6am NZST via pg_cron)
+- ⬜ Agent-specific proactive prompts (LEDGER, AROHA, HAVEN)
+- ⬜ Legislation change notification system
+
+## SECTION 4: Self-Healing & Workflow Visualiser
+- ⬜ `src/engine/self-healing.ts` — retry/healing logic
+- ⬜ `src/components/WorkflowVisualiser.tsx` — animated node graph
+- ⬜ Inline workflow visualiser in chat when symbiotic chain triggers
+- ⬜ Full-page workflow view at /workflows
+
+## SECTION 5: Voice Agents (Future-ready)
+- ⬜ voice_agent_config table
+- ⬜ voice_call_log table
+- ⬜ Voice settings UI (waitlist mode)
+- ⬜ Coming Soon badge
+
+## SECTION 6: Financial Forecasting
+- ⬜ LEDGER forecasting prompt additions
+- ⬜ Expense anomaly detection prompts
+- ⬜ Cash flow timeline component
+- ⬜ Scenario modelling UI
+
+## SECTION 7: Advanced SPARK
+- ⬜ Inline app generation (HTML widgets in chat)
+- ⬜ SPARK template library with pre-built templates
+- ⬜ Template grid UI in SPARK
+
+## SECTION 8: Command Centre Upgrade — PRIORITY 4
+- ⬜ Compliance score ring (green/amber/red)
+- ⬜ "Needs Your Attention" section with severity borders
+- ⬜ Milestones display
+- ⬜ 90-day compliance calendar (horizontal scrollable)
+- ⬜ Real-time refresh via Supabase subscription
+- ⬜ Mobile responsive polish (2×2 KPI grid, swipeable calendar)

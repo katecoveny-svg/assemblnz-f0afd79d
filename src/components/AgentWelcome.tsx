@@ -1,5 +1,7 @@
 import AgentAvatar from "@/components/AgentAvatar";
 import { agentCapabilities } from "@/data/agentCapabilities";
+import { getGreetingText, getSeasonalAgentHint, AGENT_LOADING_MESSAGES } from "@/engine/personality";
+import { useAuth } from "@/hooks/useAuth";
 import type { Agent } from "@/data/agents";
 
 interface AgentWelcomeProps {
@@ -8,11 +10,18 @@ interface AgentWelcomeProps {
 
 const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
   const capabilities = agentCapabilities[agent.id] || [];
+  const { profile } = useAuth();
+  const firstName = profile?.full_name?.split(" ")[0] || "";
+  const greeting = getGreetingText(firstName);
+  const seasonalHint = getSeasonalAgentHint(agent.id);
 
   return (
     <div className="flex flex-col items-center text-center gap-3">
       {/* Robot icon */}
       <AgentAvatar agentId={agent.id} color={agent.color} size={64} />
+
+      {/* Time-aware greeting */}
+      <p className="text-sm font-jakarta text-foreground/70">{greeting}</p>
 
       {/* Name + online status */}
       <div>
@@ -26,6 +35,20 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
         </div>
         <p className="text-xs italic text-muted-foreground">"{agent.tagline}"</p>
       </div>
+
+      {/* Seasonal hint */}
+      {seasonalHint && (
+        <div
+          className="w-full max-w-sm text-left text-xs font-jakarta px-3 py-2.5 rounded-lg"
+          style={{
+            background: `${agent.color}08`,
+            border: `1px solid ${agent.color}20`,
+            color: agent.color,
+          }}
+        >
+          💡 {seasonalHint}
+        </div>
+      )}
 
       {/* What I can do card */}
       {capabilities.length > 0 && (

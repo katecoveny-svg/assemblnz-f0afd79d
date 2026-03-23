@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import {
   MessageSquare, FileText, Upload, Clock, Bookmark, ChevronRight, Trash2, History, Code2,
   TrendingUp, TrendingDown, DollarSign, Target, ShieldCheck, Megaphone, ListChecks,
-  Zap, Calendar, ArrowRight, Plug, Settings
+  Zap, Calendar, ArrowRight, Plug, Settings, AlertTriangle, CheckCircle2, Trophy
 } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
 import BrandNav from "@/components/BrandNav";
@@ -13,6 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { agents } from "@/data/agents";
+import { getGreetingText, MILESTONES } from "@/engine/personality";
 
 interface ConversationItem { id: string; agent_id: string; messages: any[]; updated_at: string; }
 interface SavedItem { id: string; agent_id: string; agent_name: string; content: string; preview: string; created_at: string; }
@@ -20,6 +21,9 @@ interface ActionItem { id: string; agent_id: string; description: string; priori
 interface SummaryItem { id: string; agent_id: string; summary: string; created_at: string; }
 interface WorkflowExecution { id: string; status: string; current_step: number; steps_log: any[]; started_at: string; workflow_id: string; }
 interface ExportedOutput { id: string; agent_id: string; agent_name: string; output_type: string; title: string; content_preview: string | null; format: string; created_at: string; }
+interface ComplianceDeadline { id: string; title: string; description: string; due_date: string; severity: string; agents: string[]; category: string; }
+interface UserComplianceTask { id: string; deadline_id: string; status: string; due_date: string; completed_date: string | null; }
+interface LegislationChange { id: string; title: string; act_name: string; effective_date: string; summary: string; impact: string; affected_agents: string[]; severity: string; action_required: string; }
 
 const glassCard: React.CSSProperties = {
   background: "rgba(14,14,26,0.7)",
@@ -29,6 +33,7 @@ const glassCard: React.CSSProperties = {
 };
 
 const PRIORITY_COLORS: Record<string, string> = { urgent: "#B388FF", high: "#6366F1", medium: "#00E5FF", low: "#00FF88" };
+const SEVERITY_COLORS: Record<string, string> = { critical: "#FF4D6A", high: "#FFB800", standard: "#00FF88", informational: "#00E5FF" };
 
 const timeAgo = (d: string) => {
   const diff = Date.now() - new Date(d).getTime();
@@ -39,8 +44,13 @@ const timeAgo = (d: string) => {
   return `${Math.floor(h / 24)}d ago`;
 };
 
+const daysUntil = (d: string) => {
+  const diff = new Date(d).getTime() - Date.now();
+  return Math.ceil(diff / (1000 * 60 * 60 * 24));
+};
+
 const DashboardPage = () => {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
   const [viewItem, setViewItem] = useState<SavedItem | null>(null);
   const [conversations, setConversations] = useState<ConversationItem[]>([]);
@@ -48,6 +58,12 @@ const DashboardPage = () => {
   const [summaries, setSummaries] = useState<SummaryItem[]>([]);
   const [executions, setExecutions] = useState<WorkflowExecution[]>([]);
   const [exports, setExports] = useState<ExportedOutput[]>([]);
+  const [complianceDeadlines, setComplianceDeadlines] = useState<ComplianceDeadline[]>([]);
+  const [userComplianceTasks, setUserComplianceTasks] = useState<UserComplianceTask[]>([]);
+  const [legislationChanges, setLegislationChanges] = useState<LegislationChange[]>([]);
+
+  const firstName = profile?.full_name?.split(" ")[0] || "";
+  const greeting = getGreetingText(firstName);
 
   useEffect(() => {
     if (!user) return;
@@ -66,6 +82,13 @@ const DashboardPage = () => {
     supabase.from("workflow_executions").select("*").eq("user_id", uid).order("started_at", { ascending: false }).limit(5).then(({ data }) => { if (data) setExecutions(data as any); });
 
     supabase.from("exported_outputs").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(20).then(({ data }) => { if (data) setExports(data as any); });
+
+    // Compliance data
+    supabase.from("compliance_deadlines").select("*").order("due_date", { ascending: true }).then(({ data }) => { if (data) setComplianceDeadlines(data as any); });
+
+    supabase.from("user_compliance_tasks").select("*").eq("user_id", uid).then(({ data }) => { if (data) setUserComplianceTasks(data as any); });
+
+    supabase.from("legislation_changes").select("*").order("effective_date", { ascending: false }).limit(5).then(({ data }) => { if (data) setLegislationChanges(data as any); });
   }, [user]);
 
   const handleDelete = async (id: string) => {
@@ -79,13 +102,56 @@ const DashboardPage = () => {
     setActions((prev) => prev.filter((a) => a.id !== id));
   };
 
+  // Compliance score calculation
+  const completedTasks = userComplianceTasks.filter(t => t.status === "completed").length;
+  const totalTasks = userComplianceTasks.length || complianceDeadlines.length;
+  const complianceScore = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  const scoreColor = complianceScore >= 70 ? "#00FF88" : complianceScore >= 40 ? "#FFB800" : "#FF4D6A";
+
+  // Upcoming deadlines (next 30 days)
+  const upcomingDeadlines = complianceDeadlines.filter(d => {
+    const days = daysUntil(d.due_date);
+    return days >= 0 && days <= 30;
+  }).slice(0, 5);
+
+  // 90-day calendar dots
+  const calendarDots = complianceDeadlines.filter(d => {
+    const days = daysUntil(d.due_date);
+    return days >= -7 && days <= 90;
+  });
+
   // KPI data
   const kpis = [
-    { label: "Revenue", value: "$—", trend: null, icon: DollarSign, color: "#4FC3F7", agent: "LEDGER" },
-    { label: "Pipeline", value: "$—", trend: null, icon: Target, color: "#FF6B00", agent: "FLUX" },
-    { label: "Compliance Score", value: "—%", trend: null, icon: ShieldCheck, color: "#00FF88", agent: "Multi" },
-    { label: "Content Published", value: String(savedItems.length), trend: null, icon: Megaphone, color: "#E040FB", agent: "PRISM" },
+    { label: "Messages", value: String(conversations.length), trend: null, icon: MessageSquare, color: "#B388FF", agent: "ALL" },
+    { label: "Documents", value: String(exports.length), trend: null, icon: FileText, color: "#4FC3F7", agent: "LEDGER" },
+    { label: "Compliance", value: `${complianceScore}%`, trend: null, icon: ShieldCheck, color: scoreColor, agent: "Multi" },
+    { label: "Agents Active", value: String(new Set(summaries.map(s => s.agent_id)).size), trend: null, icon: Zap, color: "#00FF88", agent: "ALL" },
   ];
+
+  // Needs attention items (combine upcoming deadlines + legislation changes + pending actions)
+  const attentionItems = [
+    ...upcomingDeadlines.map(d => ({
+      id: d.id,
+      title: d.title,
+      subtitle: `${daysUntil(d.due_date)} days`,
+      severity: d.severity,
+      agent: d.agents[0] || "ledger",
+      description: d.description,
+      action: "Prepare",
+    })),
+    ...legislationChanges.filter(l => {
+      const days = daysUntil(l.effective_date);
+      return days >= -30 && days <= 60;
+    }).map(l => ({
+      id: l.id,
+      title: l.title,
+      subtitle: daysUntil(l.effective_date) > 0 ? `Effective in ${daysUntil(l.effective_date)} days` : "Now in effect",
+      severity: l.severity,
+      agent: l.affected_agents[0] || "echo",
+      description: l.impact,
+      action: "Review",
+    })),
+  ].slice(0, 6);
 
   return (
     <div className="min-h-screen star-field flex flex-col relative">
@@ -93,11 +159,11 @@ const DashboardPage = () => {
       <BrandNav />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6 flex-1">
-        {/* Header */}
+        {/* Header with greeting */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="font-syne font-extrabold text-xl sm:text-2xl text-foreground">Command Centre</h1>
-            <p className="text-xs text-muted-foreground mt-0.5">Your business, powered by 42 agents</p>
+            <h1 className="font-syne font-extrabold text-xl sm:text-2xl text-foreground">{greeting}</h1>
+            <p className="text-xs text-muted-foreground mt-0.5">Command Centre · Your business, powered by 42 agents</p>
           </div>
           <div className="flex gap-2">
             <Link to="/settings/integrations" className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-[10px] font-medium border border-border text-muted-foreground hover:text-foreground transition-colors">
@@ -111,7 +177,7 @@ const DashboardPage = () => {
 
         {/* KPI Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          {kpis.map((kpi, i) => (
+          {kpis.map((kpi) => (
             <div key={kpi.label} className="rounded-xl p-4 relative overflow-hidden" style={{ ...glassCard, boxShadow: `0 0 20px ${kpi.color}10` }}>
               <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${kpi.color}, transparent)` }} />
               <div className="flex items-center justify-between mb-2">
@@ -120,14 +186,54 @@ const DashboardPage = () => {
               </div>
               <p className="text-lg font-bold text-foreground">{kpi.value}</p>
               <p className="text-[10px] text-muted-foreground mt-0.5">{kpi.label}</p>
-              <div className="flex items-end gap-0.5 mt-2 h-5">
-                {[18, 24, 12, 30, 22, 28, 35, 42, 38, 45, 32, 37].map((v, j) => (
-                  <div key={j} className="flex-1 rounded-sm" style={{ height: `${(v / 45) * 100}%`, background: `linear-gradient(to top, ${kpi.color}20, ${kpi.color}60)` }} />
-                ))}
-              </div>
+              {kpi.label === "Compliance" && (
+                <div className="mt-2 h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+                  <div className="h-full rounded-full transition-all duration-1000" style={{ width: `${complianceScore}%`, background: scoreColor }} />
+                </div>
+              )}
+              {kpi.label !== "Compliance" && (
+                <div className="flex items-end gap-0.5 mt-2 h-5">
+                  {[18, 24, 12, 30, 22, 28, 35, 42, 38, 45, 32, 37].map((v, j) => (
+                    <div key={j} className="flex-1 rounded-sm" style={{ height: `${(v / 45) * 100}%`, background: `linear-gradient(to top, ${kpi.color}20, ${kpi.color}60)` }} />
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
+
+        {/* Needs Your Attention */}
+        {attentionItems.length > 0 && (
+          <div className="rounded-xl p-5 relative overflow-hidden" style={glassCard}>
+            <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #FF4D6A, transparent)" }} />
+            <div className="flex items-center gap-2 mb-3">
+              <AlertTriangle size={16} className="text-[#FFB800]" />
+              <h2 className="font-syne font-bold text-sm text-foreground">Needs Your Attention</h2>
+              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#FFB80015] text-[#FFB800] font-bold">{attentionItems.length}</span>
+            </div>
+            <div className="space-y-2">
+              {attentionItems.map((item) => {
+                const sevColor = SEVERITY_COLORS[item.severity] || "#FFB800";
+                const agent = agents.find(a => a.id === item.agent || a.name.toLowerCase() === item.agent.toLowerCase());
+                const agentColor = agent?.color || sevColor;
+                return (
+                  <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", borderLeft: `3px solid ${sevColor}` }}>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-xs font-bold text-foreground">{item.title}</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium" style={{ backgroundColor: sevColor + "15", color: sevColor }}>{item.subtitle}</span>
+                      </div>
+                      <p className="text-[10px] text-muted-foreground truncate">{item.description}</p>
+                    </div>
+                    <Link to={`/chat/${item.agent}`} className="text-[10px] font-medium px-3 py-1.5 rounded-lg shrink-0 hover:opacity-80 transition-opacity" style={{ color: agentColor, border: `1px solid ${agentColor}30`, background: `${agentColor}08` }}>
+                      {item.action} →
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Action Queue */}
         <div className="rounded-xl p-5 relative overflow-hidden" style={glassCard}>
@@ -237,6 +343,87 @@ const DashboardPage = () => {
             )}
           </div>
         </div>
+
+        {/* 90-Day Compliance Calendar */}
+        {calendarDots.length > 0 && (
+          <div className="rounded-xl p-5 relative overflow-hidden" style={glassCard}>
+            <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
+            <div className="flex items-center gap-2 mb-3">
+              <Calendar size={16} className="text-[#00FF88]" />
+              <h2 className="font-syne font-bold text-sm text-foreground">Compliance Calendar</h2>
+              <span className="text-[10px] text-muted-foreground ml-auto">Next 90 days</span>
+            </div>
+            <div className="overflow-x-auto scrollbar-hide">
+              <div className="flex gap-1.5 min-w-max pb-2">
+                {Array.from({ length: 90 }, (_, i) => {
+                  const date = new Date();
+                  date.setDate(date.getDate() + i);
+                  const dateStr = date.toISOString().split("T")[0];
+                  const deadlinesOnDay = calendarDots.filter(d => d.due_date === dateStr);
+                  const isToday = i === 0;
+                  const hasDeadline = deadlinesOnDay.length > 0;
+                  const maxSeverity = hasDeadline ? (deadlinesOnDay.some(d => d.severity === "critical") ? "critical" : deadlinesOnDay.some(d => d.severity === "high") ? "high" : "standard") : "standard";
+                  const dotColor = hasDeadline ? SEVERITY_COLORS[maxSeverity] : "transparent";
+
+                  return (
+                    <div key={i} className="flex flex-col items-center gap-1 group relative" title={hasDeadline ? deadlinesOnDay.map(d => d.title).join(", ") : dateStr}>
+                      <div className="text-[7px] text-muted-foreground/50">{date.toLocaleDateString("en-NZ", { day: "numeric" })}</div>
+                      <div
+                        className="w-3 h-3 rounded-full transition-all"
+                        style={{
+                          backgroundColor: hasDeadline ? dotColor : isToday ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.04)",
+                          boxShadow: hasDeadline ? `0 0 8px ${dotColor}50` : "none",
+                          border: isToday ? "1px solid rgba(255,255,255,0.3)" : "none",
+                        }}
+                      />
+                      {i % 7 === 0 && <div className="text-[6px] text-muted-foreground/30">{date.toLocaleDateString("en-NZ", { month: "short" })}</div>}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Milestones */}
+        {(exports.length > 0 || executions.length > 0 || savedItems.length > 0) && (
+          <div className="rounded-xl p-5 relative overflow-hidden" style={glassCard}>
+            <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
+            <div className="flex items-center gap-2 mb-3">
+              <Trophy size={16} className="text-[#00FF88]" />
+              <h2 className="font-syne font-bold text-sm text-foreground">Milestones</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {exports.length > 0 && (
+                <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: "rgba(0,255,136,0.04)" }}>
+                  <CheckCircle2 size={14} className="text-[#00FF88] shrink-0" />
+                  <div>
+                    <p className="text-xs font-bold text-foreground">{exports.length} documents generated</p>
+                    <p className="text-[9px] text-muted-foreground">{MILESTONES.find(m => m.metric === "documents" && exports.length >= m.threshold)?.message || "Keep going!"}</p>
+                  </div>
+                </div>
+              )}
+              {executions.length > 0 && (
+                <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: "rgba(0,255,136,0.04)" }}>
+                  <CheckCircle2 size={14} className="text-[#00FF88] shrink-0" />
+                  <div>
+                    <p className="text-xs font-bold text-foreground">{executions.filter(e => e.status === "completed").length} workflows completed</p>
+                    <p className="text-[9px] text-muted-foreground">Agents working together for you</p>
+                  </div>
+                </div>
+              )}
+              {savedItems.length > 0 && (
+                <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: "rgba(0,255,136,0.04)" }}>
+                  <CheckCircle2 size={14} className="text-[#00FF88] shrink-0" />
+                  <div>
+                    <p className="text-xs font-bold text-foreground">{savedItems.length} items saved</p>
+                    <p className="text-[9px] text-muted-foreground">Your library is growing</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Export History */}
         {exports.length > 0 && (

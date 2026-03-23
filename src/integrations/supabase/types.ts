@@ -454,6 +454,57 @@ export type Database = {
         }
         Relationships: []
       }
+      compliance_deadlines: {
+        Row: {
+          agents: string[] | null
+          auto_generate_document: boolean | null
+          category: string
+          created_at: string | null
+          description: string | null
+          document_template: string | null
+          due_date: string
+          id: string
+          industries: string[] | null
+          legislation_ref: string | null
+          recurrence_rule: string | null
+          recurring: string | null
+          severity: string | null
+          title: string
+        }
+        Insert: {
+          agents?: string[] | null
+          auto_generate_document?: boolean | null
+          category: string
+          created_at?: string | null
+          description?: string | null
+          document_template?: string | null
+          due_date: string
+          id?: string
+          industries?: string[] | null
+          legislation_ref?: string | null
+          recurrence_rule?: string | null
+          recurring?: string | null
+          severity?: string | null
+          title: string
+        }
+        Update: {
+          agents?: string[] | null
+          auto_generate_document?: boolean | null
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          document_template?: string | null
+          due_date?: string
+          id?: string
+          industries?: string[] | null
+          legislation_ref?: string | null
+          recurrence_rule?: string | null
+          recurring?: string | null
+          severity?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       compliance_items: {
         Row: {
           category: string
@@ -1190,6 +1241,51 @@ export type Database = {
         }
         Relationships: []
       }
+      legislation_changes: {
+        Row: {
+          act_name: string
+          action_required: string | null
+          affected_agents: string[] | null
+          affected_industries: string[] | null
+          created_at: string | null
+          effective_date: string | null
+          id: string
+          impact: string
+          severity: string | null
+          source_url: string | null
+          summary: string
+          title: string
+        }
+        Insert: {
+          act_name: string
+          action_required?: string | null
+          affected_agents?: string[] | null
+          affected_industries?: string[] | null
+          created_at?: string | null
+          effective_date?: string | null
+          id?: string
+          impact: string
+          severity?: string | null
+          source_url?: string | null
+          summary: string
+          title: string
+        }
+        Update: {
+          act_name?: string
+          action_required?: string | null
+          affected_agents?: string[] | null
+          affected_industries?: string[] | null
+          created_at?: string | null
+          effective_date?: string | null
+          id?: string
+          impact?: string
+          severity?: string | null
+          source_url?: string | null
+          summary?: string
+          title?: string
+        }
+        Relationships: []
+      }
       maintenance_jobs: {
         Row: {
           access_instructions: string | null
@@ -1906,6 +2002,50 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      user_compliance_tasks: {
+        Row: {
+          completed_date: string | null
+          created_at: string | null
+          deadline_id: string | null
+          due_date: string
+          generated_document_id: string | null
+          id: string
+          notes: string | null
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          completed_date?: string | null
+          created_at?: string | null
+          deadline_id?: string | null
+          due_date: string
+          generated_document_id?: string | null
+          id?: string
+          notes?: string | null
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          completed_date?: string | null
+          created_at?: string | null
+          deadline_id?: string | null
+          due_date?: string
+          generated_document_id?: string | null
+          id?: string
+          notes?: string | null
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_compliance_tasks_deadline_id_fkey"
+            columns: ["deadline_id"]
+            isOneToOne: false
+            referencedRelation: "compliance_deadlines"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_integrations: {
         Row: {
