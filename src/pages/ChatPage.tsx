@@ -1808,8 +1808,8 @@ const ChatPage = () => {
                 onClick={() => setVoiceModalOpen(true)}
                 className="p-2.5 rounded-lg border transition-all duration-200 hover:scale-105"
                 style={{
-                  borderColor: agentColor + "30",
-                  color: agentColor,
+                  borderColor: accentColor + "30",
+                  color: accentColor,
                   background: "transparent",
                 }}
                 title={`Voice chat with ${agent.name}`}
