@@ -11,16 +11,12 @@ import { agentCapabilities } from "@/data/agentCapabilities";
 
 const AgentDetailPage = () => {
   const { agentId } = useParams<{ agentId: string }>();
-
-  if (agentId === "echo") return <Navigate to="/agents/echo" replace />;
-
   const agent = agents.find((a) => a.id === agentId);
-  if (!agent) return <Navigate to="/" replace />;
-
-  const capabilities = agentCapabilities[agent.id] || [];
+  const capabilities = agentCapabilities[agent?.id || ""] || [];
 
   // JSON-LD structured data for SEO rich snippets
   useEffect(() => {
+    if (!agent) return;
     const jsonLd = {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
@@ -49,12 +45,9 @@ const AgentDetailPage = () => {
     script.type = "application/ld+json";
     script.id = "agent-jsonld";
     script.textContent = JSON.stringify(jsonLd);
-
-    // Remove any existing one first
     document.getElementById("agent-jsonld")?.remove();
     document.head.appendChild(script);
 
-    // Update meta description
     let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement;
     if (!meta) {
       meta = document.createElement("meta");
@@ -62,14 +55,13 @@ const AgentDetailPage = () => {
       document.head.appendChild(meta);
     }
     meta.content = `${agent.name}: ${agent.tagline}. ${agent.role} – AI-powered automation for NZ ${agent.sector} businesses.`;
-
-    // Update title
     document.title = `${agent.name} – ${agent.sector} AI Agent | Assembl`;
 
-    return () => {
-      document.getElementById("agent-jsonld")?.remove();
-    };
+    return () => { document.getElementById("agent-jsonld")?.remove(); };
   }, [agent]);
+
+  if (agentId === "echo") return <Navigate to="/agents/echo" replace />;
+  if (!agent) return <Navigate to="/" replace />;
 
   return (
     <div className="min-h-screen flex flex-col relative" style={{ background: "hsl(var(--background))" }}>
