@@ -1341,7 +1341,7 @@ const ChatPage = () => {
       ) : activeTab === "kindle_corporate" && isNonprofit ? (
         <KindleCorporateDashboard onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "voice_waitlist" ? (
-        <VoiceAgentWaitlist agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
+        <VoiceAgentLive agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "agent_training" ? (
         <AgentTraining agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "aura_setup" && isAura ? (
