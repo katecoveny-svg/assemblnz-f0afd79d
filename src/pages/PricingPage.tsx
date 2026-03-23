@@ -156,10 +156,9 @@ const PricingPage = () => {
               </ul>
               <a
                 href="#contact"
-                className="block w-full text-center text-sm font-semibold py-2.5 rounded-lg transition-colors duration-200"
-                style={{ background: 'transparent', color: '#FAFAFA', border: '1px solid rgba(255,255,255,0.15)' }}
+                className="cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
               >
-                Contact Us
+                <span>Contact Us</span>
               </a>
             </div>
           </div>
