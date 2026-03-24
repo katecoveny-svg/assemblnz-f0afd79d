@@ -17,6 +17,8 @@ import EchoSection from "@/components/EchoSection";
 import SparkSection from "@/components/SparkSection";
 import HelmSection from "@/components/HelmSection";
 import FAQSection from "@/components/FAQSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import CompetitorComparison from "@/components/CompetitorComparison";
 
 const PRICING_PLANS = [
   {
