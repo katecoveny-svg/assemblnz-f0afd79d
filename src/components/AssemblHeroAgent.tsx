@@ -225,12 +225,18 @@ const AssemblHeroAgent = ({ size = 420 }: { size?: number }) => {
         </motion.div>
       ))}
 
-      {/* Robot with gentle bob */}
+      {/* Robot with bob + tilt + rotation animations */}
       <motion.div
         className="relative z-10 flex items-center justify-center"
         style={{ width: size, height: size }}
-        animate={{ y: [0, -16, 0] }}
-        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+        animate={{
+          y: [0, -18, 0],
+          rotate: [0, 1.5, 0, -1.5, 0],
+        }}
+        transition={{
+          y: { duration: 4.5, repeat: Infinity, ease: "easeInOut" },
+          rotate: { duration: 8, repeat: Infinity, ease: "easeInOut" },
+        }}
       >
         {/* Blue glow behind robot */}
         <motion.div
@@ -244,7 +250,7 @@ const AssemblHeroAgent = ({ size = 420 }: { size?: number }) => {
           transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        {/* Robot image — close-up headshot fills the orb */}
+        {/* Robot image with head-tilt, scale breathing, and glow pulse */}
         <motion.img
           src={heroImg}
           alt="Assembl AI Hero Agent"
@@ -254,31 +260,51 @@ const AssemblHeroAgent = ({ size = 420 }: { size?: number }) => {
           style={{
             width: size * 0.88,
             height: size * 0.88,
-            filter: `drop-shadow(0 0 50px hsla(189,100%,50%,0.45)) drop-shadow(0 0 100px hsla(224,100%,68%,0.3)) drop-shadow(0 0 150px hsla(210,100%,60%,0.15))`,
           }}
           animate={{
-            scale: [1, 1.03, 1],
+            scale: [1, 1.04, 1, 1.02, 1],
+            rotate: [0, -2, 0, 2, 0],
             filter: [
-              `drop-shadow(0 0 50px hsla(189,100%,50%,0.45)) drop-shadow(0 0 100px hsla(224,100%,68%,0.3)) drop-shadow(0 0 150px hsla(210,100%,60%,0.15))`,
-              `drop-shadow(0 0 70px hsla(189,100%,50%,0.6)) drop-shadow(0 0 130px hsla(224,100%,68%,0.4)) drop-shadow(0 0 200px hsla(210,100%,60%,0.2))`,
-              `drop-shadow(0 0 50px hsla(189,100%,50%,0.45)) drop-shadow(0 0 100px hsla(224,100%,68%,0.3)) drop-shadow(0 0 150px hsla(210,100%,60%,0.15))`,
+              `drop-shadow(0 0 50px hsla(189,100%,50%,0.45)) drop-shadow(0 0 100px hsla(224,100%,68%,0.3))`,
+              `drop-shadow(0 0 80px hsla(189,100%,50%,0.7)) drop-shadow(0 0 140px hsla(224,100%,68%,0.5))`,
+              `drop-shadow(0 0 50px hsla(189,100%,50%,0.45)) drop-shadow(0 0 100px hsla(224,100%,68%,0.3))`,
+              `drop-shadow(0 0 65px hsla(189,100%,50%,0.55)) drop-shadow(0 0 120px hsla(224,100%,68%,0.4))`,
+              `drop-shadow(0 0 50px hsla(189,100%,50%,0.45)) drop-shadow(0 0 100px hsla(224,100%,68%,0.3))`,
             ],
           }}
-          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+          transition={{
+            scale: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+            rotate: { duration: 7, repeat: Infinity, ease: "easeInOut" },
+            filter: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+          }}
           draggable={false}
         />
 
-        {/* Subtle chest logo glow — matches the baked-in nexus mark */}
+        {/* Chest nexus glow — larger to match bigger logo */}
         <motion.div
           className="absolute z-[15] rounded-full"
           style={{
-            width: size * 0.06, height: size * 0.06,
-            top: "62%", left: "50%",
+            width: size * 0.15, height: size * 0.15,
+            top: "60%", left: "50%",
             transform: "translate(-50%, -50%)",
-            background: `radial-gradient(circle, hsla(189,100%,50%,0.25), transparent 70%)`,
-            filter: "blur(8px)",
+            background: `radial-gradient(circle, hsla(189,100%,50%,0.3), hsla(263,100%,76%,0.15), transparent 70%)`,
+            filter: "blur(10px)",
           }}
-          animate={{ opacity: [0.2, 0.5, 0.2] }}
+          animate={{ opacity: [0.2, 0.6, 0.2], scale: [1, 1.3, 1] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        {/* Eye glow pulse overlay */}
+        <motion.div
+          className="absolute z-[15] rounded-full"
+          style={{
+            width: size * 0.35, height: size * 0.12,
+            top: "34%", left: "50%",
+            transform: "translate(-50%, -50%)",
+            background: `radial-gradient(ellipse, hsla(189,100%,50%,0.15), transparent 70%)`,
+            filter: "blur(12px)",
+          }}
+          animate={{ opacity: [0.1, 0.4, 0.1] }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.div>
