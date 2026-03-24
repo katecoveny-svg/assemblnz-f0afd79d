@@ -164,6 +164,7 @@ const HelmSection = () => {
           agentName="HELM"
           agentId="operations"
           agentColor={HELM_COLOR}
+          elevenLabsAgentId={getElevenLabsAgentId("operations")}
           onClose={() => setShowVoice(false)}
         />
       )}
