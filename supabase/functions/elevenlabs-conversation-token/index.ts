@@ -52,6 +52,7 @@ Deno.serve(async (req) => {
     }
 
     // Try WebRTC token endpoint first (recommended, lower latency)
+    console.log("[elevenlabs-token] Requesting token for agent:", agentId);
     const tokenResponse = await fetch(
       `https://api.elevenlabs.io/v1/convai/conversation/token?agent_id=${agentId}`,
       {
@@ -67,6 +68,9 @@ Deno.serve(async (req) => {
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    const webrtcErr = await tokenResponse.text();
+    console.error("[elevenlabs-token] WebRTC token failed:", tokenResponse.status, webrtcErr);
 
     // Fallback to signed URL (WebSocket)
     console.log("[elevenlabs-token] WebRTC token failed, trying signed URL...");
