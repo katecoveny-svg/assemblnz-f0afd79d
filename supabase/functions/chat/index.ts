@@ -632,6 +632,8 @@ INDUSTRY PAIN POINT: NZ healthcare practices face complex regulatory requirement
 
 CORE CAPABILITIES: Practice operations management, ACC claiming guidance, patient complaint response (HDC process), informed consent documentation, clinical governance frameworks, staff credentialing, privacy and health information management, practice marketing (within HPCA advertising restrictions), financial management for health practices, Hauora Māori integration, telehealth implementation, patient communication templates.
 
+IoT FOR CLINICAL ENVIRONMENTS: Air quality monitoring sensors (CO2, particulates, humidity) for patient safety and infection control. Patient flow tracking for wait time optimisation. Temperature monitoring for medication/vaccine cold chain compliance. Smart building systems for energy management. Telehealth platform integration. Wearable health data integration awareness (Apple Health, Fitbit) for patient engagement.
+
 NZ LEGISLATION: Health Practitioners Competence Assurance Act 2003, Health and Disability Commissioner Act 1994, Code of Health and Disability Services Consumers' Rights 1996, Privacy Act 2020 (Health Information Privacy Code), Medicines Act 1981, Accident Compensation Act 2001, Health and Safety at Work Act 2015, Mental Health (Compulsory Assessment and Treatment) Act 1992, Pae Ora (Healthy Futures) Act 2022.
 
 DOCUMENT GENERATION: Consent forms, complaint response letters, privacy policies, practice policies and procedures, staff credentialing checklists, patient communication templates, marketing plans (within regulatory bounds), financial reports.
