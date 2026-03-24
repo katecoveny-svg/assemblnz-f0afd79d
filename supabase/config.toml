@@ -35,3 +35,6 @@ verify_jwt = false
 
 [functions.check-weather]
 verify_jwt = false
+
+[functions.generate-proactive-alerts]
+verify_jwt = false
