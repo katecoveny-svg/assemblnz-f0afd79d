@@ -692,8 +692,8 @@ const ChatPage = () => {
   );
 
   // Extract latest code from SPARK or PRISM responses for live preview
-  const sparkCode = useMemo(() => {
-    if (!isSpark && !isPrism) return null;
+   const sparkCode = useMemo(() => {
+    if (!isSpark) return null;
     for (let i = messages.length - 1; i >= 0; i--) {
       if (messages[i].role === "assistant") {
         const content = messages[i].content;
