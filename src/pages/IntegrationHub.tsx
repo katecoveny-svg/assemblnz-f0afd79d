@@ -1,61 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Plug, Check, Bell, Sparkles, CreditCard, Mail, Workflow, Settings2, Globe, Cloud, Calendar, FileText, Sun, MessageSquare, Camera, Cpu, Tractor, Palette, Mic, Building, Radio, Shield } from "lucide-react";
+import { ArrowLeft, Plug, Check, Bell, Sparkles, Settings2 } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-
-interface Integration {
-  name: string;
-  description: string;
-  agents: string[];
-  tier: "connected" | "available" | "coming_soon";
-  icon: any;
-  color: string;
-  connected?: boolean;
-  configKey?: string;
-  connectLabel?: string;
-}
-
-const INTEGRATIONS: Integration[] = [
-  // TIER 1 — Connected / Available now
-  { name: "Google Calendar", description: "Sync events with HELM, AXIS, AURA, FLUX. Agents can read and create calendar events.", agents: ["HELM", "AXIS", "AURA", "FLUX"], tier: "available", icon: Calendar, color: "hsl(217 89% 55%)", configKey: "google_calendar", connectLabel: "Connect with Google" },
-  { name: "Gmail", description: "Send emails directly from ECHO and FLUX. Draft → approve → sent.", agents: ["ECHO", "FLUX"], tier: "available", icon: Mail, color: "hsl(4 90% 58%)", configKey: "gmail", connectLabel: "Connect with Google" },
-  { name: "PDF Export", description: "Download any agent output as a branded PDF.", agents: ["All Agents"], tier: "connected", icon: FileText, color: "hsl(var(--primary))", connected: true },
-  { name: "Weather (Open-Meteo)", description: "Real-time NZ weather alerts for APEX (site safety), TERRA (farming), TURF (match day), HAVEN (property).", agents: ["APEX", "TERRA", "TURF", "HAVEN"], tier: "connected", icon: Sun, color: "hsl(45 100% 55%)", connected: true },
-  { name: "Claude API", description: "Powers all 44 agents via the Lovable AI Gateway.", agents: ["All Agents"], tier: "connected", icon: Sparkles, color: "hsl(var(--primary))", connected: true },
-  { name: "Image Generation", description: "AI image generation for PRISM creative studio and ECHO content.", agents: ["PRISM", "ECHO"], tier: "connected", icon: Camera, color: "hsl(300 80% 60%)", connected: true },
-
-  // TIER 2 — Month 2-3
-  { name: "Xero", description: "Connect LEDGER to your real accounting data. Import transactions, generate GST returns, sync expenses.", agents: ["LEDGER", "AROHA"], tier: "available", icon: CreditCard, color: "hsl(195 85% 50%)", configKey: "xero_key", connectLabel: "Connect with Xero" },
-  { name: "Stripe", description: "Revenue tracking and subscription analytics for LEDGER and FLUX.", agents: ["FLUX", "LEDGER"], tier: "available", icon: CreditCard, color: "hsl(244 75% 60%)", configKey: "stripe_connect", connectLabel: "Connect with Stripe" },
-  { name: "WhatsApp Business", description: "Send WhatsApp messages from HELM (family reminders), AURA (guest messaging), HAVEN (tenant notices).", agents: ["HELM", "AURA", "HAVEN"], tier: "available", icon: MessageSquare, color: "hsl(142 70% 45%)", configKey: "whatsapp_key", connectLabel: "Connect WhatsApp" },
-  { name: "Zapier", description: "Connect Assembl to 5,000+ apps via webhooks. When FLUX qualifies a lead → add to HubSpot → send Slack notification.", agents: ["All Agents"], tier: "available", icon: Workflow, color: "hsl(15 100% 50%)", configKey: "zapier_webhook", connectLabel: "Connect Zapier" },
-  { name: "Make.com", description: "Visual workflow automation from agent outputs.", agents: ["All Agents"], tier: "available", icon: Workflow, color: "hsl(270 100% 40%)", configKey: "make_webhook", connectLabel: "Connect Make" },
-  { name: "Buffer / Later", description: "ECHO publishes content directly to your social media queue.", agents: ["ECHO", "PRISM"], tier: "available", icon: Globe, color: "hsl(195 100% 43%)", configKey: "buffer_key", connectLabel: "Connect Buffer" },
-
-  // TIER 3 — Month 4-6
-  { name: "Trimble Connect", description: "Import BIM project data into APEX and ARC. Access models, equipment data, estimates.", agents: ["APEX", "ARC"], tier: "coming_soon", icon: Building, color: "hsl(210 60% 50%)" },
-  { name: "DroneDeploy", description: "Aerial survey data feeds into APEX — progress photos, volume calculations, site monitoring.", agents: ["APEX"], tier: "coming_soon", icon: Cloud, color: "hsl(200 80% 50%)" },
-  { name: "Procore", description: "Safety observations, inspections, and incident data from Procore into APEX for trend analysis.", agents: ["APEX"], tier: "coming_soon", icon: Shield, color: "hsl(220 70% 50%)" },
-  { name: "Canva", description: "PRISM designs directly in Canva for final polish and publishing.", agents: ["PRISM"], tier: "coming_soon", icon: Palette, color: "hsl(280 80% 60%)" },
-  { name: "ElevenLabs Voice", description: "Native voice integration — shared brain across chat and voice.", agents: ["ECHO", "AURA", "PRISM"], tier: "coming_soon", icon: Mic, color: "hsl(20 100% 50%)" },
-
-  // TIER 4 — Month 6+
-  { name: "Xero Payroll", description: "AROHA generates payroll data that syncs to Xero Payroll.", agents: ["AROHA"], tier: "coming_soon", icon: CreditCard, color: "hsl(195 85% 50%)" },
-  { name: "IRD Gateway", description: "LEDGER files GST returns and PAYE directly to IRD.", agents: ["LEDGER"], tier: "coming_soon", icon: Globe, color: "hsl(213 80% 35%)" },
-  { name: "Companies Office API", description: "FLUX pulls competitor data instantly for market intelligence.", agents: ["FLUX", "ANCHOR"], tier: "coming_soon", icon: Globe, color: "hsl(130 50% 33%)" },
-  { name: "IoT Sensors", description: "Connect building sensors for real-time monitoring across HAVEN, APEX, AURA.", agents: ["HAVEN", "APEX", "AURA"], tier: "coming_soon", icon: Radio, color: "hsl(160 70% 45%)" },
-  { name: "Halter (NZ)", description: "GPS cattle tracking data into TERRA for stock management.", agents: ["TERRA"], tier: "coming_soon", icon: Tractor, color: "hsl(100 60% 40%)" },
-];
+import { INTEGRATIONS, type Integration } from "@/data/integrations";
 
 const SECTIONS = [
-  { key: "connected" as const, title: "Connected", subtitle: "Live integrations", icon: Check, glow: "hsl(var(--primary))" },
-  { key: "available" as const, title: "Available", subtitle: "Ready to connect", icon: Plug, glow: "hsl(var(--accent-foreground))" },
-  { key: "coming_soon" as const, title: "Coming Soon", subtitle: "Future integrations", icon: Bell, glow: "hsl(var(--muted-foreground))" },
+  { key: "connected" as const, title: "Connected", subtitle: "Live integrations powering your agents", icon: Check, glow: "hsl(var(--primary))" },
+  { key: "available" as const, title: "Available", subtitle: "Ready to connect — unlock agent superpowers", icon: Plug, glow: "hsl(var(--accent-foreground))" },
+  { key: "coming_soon" as const, title: "Coming Soon", subtitle: "On the roadmap", icon: Bell, glow: "hsl(var(--muted-foreground))" },
 ];
 
 const IntegrationHub = () => {
@@ -64,6 +21,7 @@ const IntegrationHub = () => {
   const [connectingName, setConnectingName] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState("");
   const [notified, setNotified] = useState<Set<string>>(new Set());
+  const [filter, setFilter] = useState<string>("all");
 
   useEffect(() => {
     if (!user) return;
@@ -102,16 +60,23 @@ const IntegrationHub = () => {
     toast({ title: "You'll be notified", description: `We'll let you know when ${name} is available.` });
   };
 
+  // Collect unique agent tags for filter
+  const allAgents = Array.from(new Set(INTEGRATIONS.flatMap(i => i.agents))).filter(a => a !== "All Agents").sort();
+
+  const filteredIntegrations = filter === "all"
+    ? INTEGRATIONS
+    : INTEGRATIONS.filter(i => i.agents.includes(filter) || i.agents.includes("All Agents"));
+
   return (
     <div className="min-h-screen bg-background text-foreground relative">
       <ParticleField />
       <BrandNav />
-      <div className="relative z-10 max-w-5xl mx-auto px-4 pt-24 pb-20">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 pt-24 pb-20">
         <Link to="/dashboard" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors mb-8">
           <ArrowLeft size={14} /> Back to Dashboard
         </Link>
 
-        <div className="mb-10">
+        <div className="mb-8">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
               <Plug size={18} className="text-primary" />
@@ -120,13 +85,32 @@ const IntegrationHub = () => {
               Integration Hub
             </h1>
           </div>
-          <p className="text-sm text-muted-foreground max-w-md">
+          <p className="text-sm text-muted-foreground max-w-md mb-4">
             Connect your tools. Your agents get superpowers.
           </p>
+
+          {/* Agent filter */}
+          <div className="flex flex-wrap gap-1.5">
+            <button
+              onClick={() => setFilter("all")}
+              className={`text-[10px] px-2.5 py-1 rounded-full font-medium border transition-all ${filter === "all" ? "bg-primary/15 text-primary border-primary/30" : "bg-muted/30 text-muted-foreground border-border hover:border-primary/20"}`}
+            >
+              All
+            </button>
+            {allAgents.map(a => (
+              <button
+                key={a}
+                onClick={() => setFilter(a)}
+                className={`text-[10px] px-2.5 py-1 rounded-full font-medium border transition-all ${filter === a ? "bg-primary/15 text-primary border-primary/30" : "bg-muted/30 text-muted-foreground border-border hover:border-primary/20"}`}
+              >
+                {a}
+              </button>
+            ))}
+          </div>
         </div>
 
         {SECTIONS.map((section) => {
-          const items = INTEGRATIONS.filter((i) => i.tier === section.key);
+          const items = filteredIntegrations.filter((i) => i.tier === section.key);
           if (items.length === 0) return null;
           return (
             <div key={section.key} className="mb-12">
@@ -136,6 +120,7 @@ const IntegrationHub = () => {
                 <h2 className="font-syne font-bold text-sm tracking-wide uppercase text-foreground">
                   {section.title}
                 </h2>
+                <span className="text-[10px] text-muted-foreground ml-1">({items.length})</span>
               </div>
               <p className="text-xs text-muted-foreground mb-4 ml-7">{section.subtitle}</p>
 
@@ -207,7 +192,7 @@ const IntegrationHub = () => {
                           <input
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
-                            placeholder={integration.name.includes("Zapier") || integration.name.includes("Make") ? "Paste webhook URL" : "Paste API key"}
+                            placeholder={integration.name.includes("Zapier") || integration.name.includes("Make") || integration.name.includes("n8n") ? "Paste webhook URL" : "Paste API key"}
                             className="w-full px-3 py-2 rounded-xl bg-background border border-border text-xs focus:border-primary focus:ring-1 focus:ring-primary/30 outline-none transition-all"
                             autoFocus
                           />
