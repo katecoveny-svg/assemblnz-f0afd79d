@@ -322,6 +322,7 @@ const ChatPage = () => {
   const { agentId } = useParams<{ agentId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const agent = agentId === "echo" ? echoAgent : agents.find((a) => a.id === agentId);
+  const safeAgentName = agent?.name ?? "Assistant";
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState(() => {
     const from = searchParams.get("from");
@@ -491,6 +492,8 @@ const ChatPage = () => {
 
   // Load conversation history on mount
   useEffect(() => {
+    let isActive = true;
+
     if (!agentId) {
       setHistoryReady(true);
       return;
@@ -502,23 +505,36 @@ const ChatPage = () => {
     }
 
     setHistoryReady(false);
-    supabase
-      .from("conversations")
-      .select("id, messages")
-      .eq("user_id", user.id)
-      .eq("agent_id", agentId)
-      .order("updated_at", { ascending: false })
-      .limit(1)
-      .then(({ data }) => {
-        if (data && data.length > 0) {
-          const conv = data[0] as any;
-          setConversationId(conv.id);
-          if (Array.isArray(conv.messages) && conv.messages.length > 0) {
-            setMessages(conv.messages as Message[]);
-          }
+    const loadConversation = async () => {
+      const { data } = await supabase
+        .from("conversations")
+        .select("id, messages")
+        .eq("user_id", user.id)
+        .eq("agent_id", agentId)
+        .order("updated_at", { ascending: false })
+        .limit(1);
+
+      if (!isActive) return;
+
+      if (data && data.length > 0) {
+        const conv = data[0] as any;
+        setConversationId(conv.id);
+        if (Array.isArray(conv.messages) && conv.messages.length > 0) {
+          setMessages(conv.messages as Message[]);
         }
-      })
-      .finally(() => setHistoryReady(true));
+      }
+
+      setHistoryReady(true);
+    };
+
+    void loadConversation();
+
+    return () => {
+      isActive = false;
+      if (isActive) {
+        setHistoryReady(true);
+      }
+    };
   }, [user, agentId]);
 
   // Save conversation when messages change
@@ -903,7 +919,7 @@ const ChatPage = () => {
   const buildVoiceHandoffPrompt = useCallback((voiceTranscript: VoiceTranscriptTurn[]) => {
     const condensedTranscript = voiceTranscript
       .slice(-12)
-      .map((entry) => `${entry.role === "user" ? "User" : agent.name}: ${entry.text}`)
+      .map((entry) => `${entry.role === "user" ? "User" : safeAgentName}: ${entry.text}`)
       .join("\n");
 
     return [
@@ -913,7 +929,7 @@ const ChatPage = () => {
       "Voice transcript:",
       condensedTranscript,
     ].join("\n");
-  }, [agent.name]);
+  }, [safeAgentName]);
 
   const sendMessage = async (content: string, imageFile?: File | null, docFile?: File | null) => {
     if ((!content.trim() && !imageFile && !docFile) || isLoading) return;
@@ -1106,6 +1122,17 @@ const ChatPage = () => {
       console.error("Failed to restore voice handoff:", error);
     }
   }, [agentId, buildVoiceHandoffPrompt, historyReady, searchParams, sendMessage, setSearchParams]);
+
+  if (!agent) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-foreground">
+        <div className="text-center">
+          <p className="mb-4">Agent not found.</p>
+          <Link to="/" className="text-primary underline">Back to agents</Link>
+        </div>
+      </div>
+    );
+  }
 
   const showWelcome = messages.length === 0;
   const getGenerationsForIndex = (idx: number) => generations.filter((g) => g.messageIndex === idx);
