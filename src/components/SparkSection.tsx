@@ -138,6 +138,7 @@ const SparkSection = () => {
           agentName="SPARK"
           agentId="spark"
           agentColor={SPARK_COLOR}
+          elevenLabsAgentId={getElevenLabsAgentId("spark")}
           onClose={() => setShowVoice(false)}
         />
       )}

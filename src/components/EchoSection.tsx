@@ -123,6 +123,7 @@ const EchoSection = () => {
           agentName="ECHO"
           agentId="echo"
           agentColor={ECHO_COLOR}
+          elevenLabsAgentId={getElevenLabsAgentId("echo")}
           onClose={() => setShowVoice(false)}
         />
       )}
