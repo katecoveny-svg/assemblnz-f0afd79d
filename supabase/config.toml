@@ -32,3 +32,6 @@ verify_jwt = false
 
 [functions.compliance-alerts]
 verify_jwt = false
+
+[functions.check-weather]
+verify_jwt = false

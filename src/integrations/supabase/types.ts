@@ -1651,6 +1651,81 @@ export type Database = {
         }
         Relationships: []
       }
+      sensor_readings: {
+        Row: {
+          alert_triggered: boolean | null
+          alert_type: string | null
+          created_at: string | null
+          id: string
+          location_label: string | null
+          sensor_id: string
+          sensor_type: string
+          unit: string
+          user_id: string
+          value: number
+        }
+        Insert: {
+          alert_triggered?: boolean | null
+          alert_type?: string | null
+          created_at?: string | null
+          id?: string
+          location_label?: string | null
+          sensor_id: string
+          sensor_type: string
+          unit: string
+          user_id: string
+          value: number
+        }
+        Update: {
+          alert_triggered?: boolean | null
+          alert_type?: string | null
+          created_at?: string | null
+          id?: string
+          location_label?: string | null
+          sensor_id?: string
+          sensor_type?: string
+          unit?: string
+          user_id?: string
+          value?: number
+        }
+        Relationships: []
+      }
+      sensor_thresholds: {
+        Row: {
+          alert_agent: string | null
+          alert_message_template: string | null
+          created_at: string | null
+          id: string
+          location_label: string | null
+          max_value: number | null
+          min_value: number | null
+          sensor_type: string
+          user_id: string
+        }
+        Insert: {
+          alert_agent?: string | null
+          alert_message_template?: string | null
+          created_at?: string | null
+          id?: string
+          location_label?: string | null
+          max_value?: number | null
+          min_value?: number | null
+          sensor_type: string
+          user_id: string
+        }
+        Update: {
+          alert_agent?: string | null
+          alert_message_template?: string | null
+          created_at?: string | null
+          id?: string
+          location_label?: string | null
+          max_value?: number | null
+          min_value?: number | null
+          sensor_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       shared_context: {
         Row: {
           confidence: number
