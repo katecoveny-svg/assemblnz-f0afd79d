@@ -743,12 +743,7 @@ const ChatPage = () => {
       });
     }
     if (isAura) {
-      const auraMode = (() => {
-        try {
-          const saved = sessionStorage.getItem("aura_property_profile");
-          return saved ? JSON.parse(saved).mode : "luxury_lodge";
-        } catch { return "luxury_lodge"; }
-      })();
+      const auraMode = auraPropertyMode || "luxury_lodge";
 
       const allAuraTabs: { id: string; label: string; modes: string[] }[] = [
         { id: "aura_reservations", label: "Reservations", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
