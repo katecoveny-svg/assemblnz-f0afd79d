@@ -113,9 +113,11 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
     }
   }, [conversation.status]);
 
-  // ── Handoff to text chat ──
+  // ── Handoff to text chat (explicit button click) ──
+  const handoffDoneRef = useRef(false);
   const handleHandoffToChat = useCallback(() => {
-    if (onHandoffToChat && transcript.length > 0) {
+    if (onHandoffToChat && transcript.length > 0 && !handoffDoneRef.current) {
+      handoffDoneRef.current = true;
       onHandoffToChat(transcript);
     }
     // End voice session
