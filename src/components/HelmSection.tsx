@@ -4,6 +4,7 @@ import { ArrowRight, Calendar, Brain, Mic } from "lucide-react";
 import { useState } from "react";
 import helmImg from "@/assets/agents/helm-3d-avatar.png";
 import VoiceAgentModal from "./VoiceAgentModal";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 const HELM_COLOR = "#B388FF";
 
@@ -163,6 +164,7 @@ const HelmSection = () => {
           agentName="HELM"
           agentId="operations"
           agentColor={HELM_COLOR}
+          elevenLabsAgentId={getElevenLabsAgentId("operations")}
           onClose={() => setShowVoice(false)}
         />
       )}

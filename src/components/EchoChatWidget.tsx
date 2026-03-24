@@ -2,13 +2,17 @@ import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
-import { Send, X } from "lucide-react";
+import { Send, X, Mic } from "lucide-react";
 import echoImg from "@/assets/agents/echo.png";
+import VoiceAgentModal from "./VoiceAgentModal";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
+
+const ECHO_COLOR = "#E4A0FF";
 
 const EchoChatWidget = () => {
   const location = useLocation();
@@ -17,6 +21,7 @@ const EchoChatWidget = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showVoice, setShowVoice] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -60,14 +65,13 @@ const EchoChatWidget = () => {
           onClick={() => setOpen(true)}
           className="fixed bottom-6 left-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center transition-transform hover:scale-110 group"
           style={{
-            background: "#E4A0FF",
-            boxShadow: "0 4px 20px rgba(228,160,255,0.4), 0 0 40px rgba(228,160,255,0.15)",
+            background: ECHO_COLOR,
+            boxShadow: `0 4px 20px rgba(228,160,255,0.4), 0 0 40px rgba(228,160,255,0.15)`,
           }}
           title="Chat with ECHO — Assembl's Hero Agent"
         >
           <img src={echoImg} alt="ECHO" className="w-9 h-9 rounded-full object-cover" />
-          {/* Pulse ring */}
-          <span className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ background: "#E4A0FF" }} />
+          <span className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ background: ECHO_COLOR }} />
         </button>
       )}
 
@@ -79,7 +83,7 @@ const EchoChatWidget = () => {
             height: "600px",
             maxHeight: "calc(100vh - 100px)",
             background: "#09090F",
-            boxShadow: "0 8px 40px rgba(228,160,255,0.2), 0 0 60px rgba(228,160,255,0.06)",
+            boxShadow: `0 8px 40px rgba(228,160,255,0.2), 0 0 60px rgba(228,160,255,0.06)`,
           }}
         >
           {/* Header */}
@@ -87,11 +91,18 @@ const EchoChatWidget = () => {
             <img src={echoImg} alt="ECHO" className="w-7 h-7 rounded-full object-cover" style={{ filter: "drop-shadow(0 0 6px rgba(228,160,255,0.5))" }} />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <span className="font-syne font-bold text-sm" style={{ color: "#E4A0FF" }}>ECHO</span>
+                <span className="font-syne font-bold text-sm" style={{ color: ECHO_COLOR }}>ECHO</span>
                 <span className="text-[10px] font-jakarta text-foreground/40">· Assembl Hero Agent</span>
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#00FF88", boxShadow: "0 0 6px #00FF88" }} />
               </div>
             </div>
+            <button
+              onClick={() => setShowVoice(true)}
+              className="p-1.5 rounded-lg transition-colors hover:bg-[#E4A0FF]/10"
+              title="Talk to ECHO"
+            >
+              <Mic size={14} style={{ color: ECHO_COLOR }} />
+            </button>
             <button onClick={() => setOpen(false)} className="text-foreground/30 hover:text-foreground/60 transition-colors">
               <X size={16} />
             </button>
@@ -105,6 +116,17 @@ const EchoChatWidget = () => {
                 <p className="text-sm font-jakarta text-foreground/70 max-w-[280px] leading-relaxed">
                   Hey — I'm ECHO, Assembl's hero agent. Ask me anything about our platform, pricing, or how our 41 agents can help your business.
                 </p>
+                <button
+                  onClick={() => setShowVoice(true)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-syne font-bold transition-all hover:shadow-lg mb-2"
+                  style={{
+                    background: "transparent",
+                    color: ECHO_COLOR,
+                    border: `1px solid ${ECHO_COLOR}40`,
+                  }}
+                >
+                  <Mic size={12} /> Talk to ECHO
+                </button>
                 <div className="flex flex-col gap-1.5 w-full max-w-xs mt-2">
                   {["What does Assembl do?", "Which agent is right for my business?", "Tell me about pricing"].map((q) => (
                     <button key={q} onClick={() => sendMessage(q)} className="text-left text-[11px] px-3 py-2.5 rounded-lg transition-colors border border-[#E4A0FF]/10 hover:border-[#E4A0FF]/25" style={{ background: "#0E0E1A", color: "#E4E4EC" }}>
@@ -138,7 +160,7 @@ const EchoChatWidget = () => {
                   <span>ECHO is thinking</span>
                   <span className="flex gap-0.5">
                     {[0, 1, 2].map((i) => (
-                      <span key={i} className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: "#E4A0FF", animation: "bounce-dot 1.4s ease-in-out infinite", animationDelay: `${i * 0.2}s` }} />
+                      <span key={i} className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: ECHO_COLOR, animation: "bounce-dot 1.4s ease-in-out infinite", animationDelay: `${i * 0.2}s` }} />
                     ))}
                   </span>
                 </div>
@@ -161,13 +183,22 @@ const EchoChatWidget = () => {
                 disabled={isLoading}
               />
               <button
+                type="button"
+                onClick={() => setShowVoice(true)}
+                className="px-2.5 py-2.5 rounded-lg transition-all hover:bg-[#E4A0FF]/10"
+                style={{ border: `1px solid rgba(228,160,255,0.15)` }}
+                title="Voice mode"
+              >
+                <Mic size={14} style={{ color: ECHO_COLOR }} />
+              </button>
+              <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
                 className="px-3 py-2.5 rounded-lg transition-all disabled:opacity-30"
                 style={{
-                  background: input.trim() ? "#E4A0FF" : "transparent",
-                  color: input.trim() ? "#0A0A14" : "#E4A0FF",
-                  border: `1px solid ${input.trim() ? "#E4A0FF" : "rgba(228,160,255,0.2)"}`,
+                  background: input.trim() ? ECHO_COLOR : "transparent",
+                  color: input.trim() ? "#0A0A14" : ECHO_COLOR,
+                  border: `1px solid ${input.trim() ? ECHO_COLOR : "rgba(228,160,255,0.2)"}`,
                 }}
               >
                 <Send size={14} />
@@ -175,6 +206,18 @@ const EchoChatWidget = () => {
             </div>
           </form>
         </div>
+      )}
+
+      {/* Voice Modal */}
+      {showVoice && (
+        <VoiceAgentModal
+          open={showVoice}
+          agentName="ECHO"
+          agentId="echo"
+          agentColor={ECHO_COLOR}
+          elevenLabsAgentId={getElevenLabsAgentId("echo")}
+          onClose={() => setShowVoice(false)}
+        />
       )}
     </>
   );
