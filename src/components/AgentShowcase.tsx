@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import { Mic } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 import { agents } from "@/data/agents";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 const FEATURED_IDS = [
-  "hospitality", "construction", "marketing", "operations", "maritime",
-  "legal", "it", "customs", "architecture", "health",
+  "hospitality", "sales", "automotive", "marketing", "operations",
+  "echo", "customs", "construction", "maritime", "property",
 ];
 
 const featured = agents.filter((a) => FEATURED_IDS.includes(a.id));
@@ -75,6 +77,14 @@ const AgentShowcase = () => {
                     {agent.name}
                   </span>
                   <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: agent.color, opacity: 0.5 }} />
+                  {getElevenLabsAgentId(agent.id) && (
+                    <span
+                      className="flex items-center gap-0.5 text-[9px] font-mono px-1.5 py-0.5 rounded-full"
+                      style={{ background: `${agent.color}15`, color: agent.color, border: `1px solid ${agent.color}25` }}
+                    >
+                      <Mic size={8} /> VOICE
+                    </span>
+                  )}
                   <span className="text-[10px] font-mono opacity-60" style={{ color: 'rgba(255,255,255,0.2)' }}>
                     {agent.designation}
                   </span>

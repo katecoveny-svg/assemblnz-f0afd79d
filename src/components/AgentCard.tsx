@@ -1,7 +1,9 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { Mic } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 import type { Agent } from "@/data/agents";
 
 interface AgentCardProps {
@@ -58,7 +60,17 @@ const AgentCard = ({ agent, index }: AgentCardProps) => {
         <div className="relative z-10">
           <div className="flex items-start justify-between mb-3">
             <AgentAvatar agentId={agent.id} color={agent.color} size={40} />
-            <span className="font-mono-jb text-[10px] text-muted-foreground">{agent.designation}</span>
+            <div className="flex items-center gap-1.5">
+              {getElevenLabsAgentId(agent.id) && (
+                <span
+                  className="flex items-center gap-1 text-[9px] font-mono-jb px-1.5 py-0.5 rounded-full"
+                  style={{ background: `${agent.color}15`, color: agent.color, border: `1px solid ${agent.color}25` }}
+                >
+                  <Mic size={8} /> VOICE
+                </span>
+              )}
+              <span className="font-mono-jb text-[10px] text-muted-foreground">{agent.designation}</span>
+            </div>
           </div>
           <div className="flex items-center gap-2 mb-0.5">
             <h3 className="text-base font-syne font-bold tracking-wide text-foreground">{agent.name}</h3>

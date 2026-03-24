@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Mic } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 import { agents } from "@/data/agents";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 const INDUSTRY_GROUPS = [
   { label: "All", ids: [] },
@@ -89,9 +91,14 @@ const ContentHubCatalogue = () => {
             <div className="flex justify-center mb-3">
               <AgentAvatar agentId={agent.id} color={agent.color} size={64} showGlow />
             </div>
-            <p className="font-syne font-bold text-sm mb-0.5" style={{ color: agent.color }}>
-              {agent.name}
-            </p>
+            <div className="flex items-center justify-center gap-1.5 mb-0.5">
+              <p className="font-syne font-bold text-sm" style={{ color: agent.color }}>
+                {agent.name}
+              </p>
+              {getElevenLabsAgentId(agent.id) && (
+                <Mic size={10} style={{ color: agent.color, opacity: 0.7 }} />
+              )}
+            </div>
             <p className="font-jakarta text-[10px] leading-snug" style={{ color: "rgba(255,255,255,0.4)" }}>
               {agent.sector}
             </p>
