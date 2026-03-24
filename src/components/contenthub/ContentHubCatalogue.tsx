@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Mic } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 import { agents } from "@/data/agents";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 const INDUSTRY_GROUPS = [
   { label: "All", ids: [] },
