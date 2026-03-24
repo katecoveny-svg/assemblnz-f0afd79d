@@ -108,7 +108,14 @@ const DashboardPage = () => {
       })
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    // Refresh dashboard data periodically for tables not in realtime
+    const refreshInterval = setInterval(() => {
+      supabase.from("conversations").select("id, agent_id, messages, updated_at").eq("user_id", uid).gte("updated_at", new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()).order("updated_at", { ascending: false }).limit(20).then(({ data }) => { if (data) setConversations(data as any); });
+      supabase.from("conversation_summaries").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(10).then(({ data }) => { if (data) setSummaries(data as any); });
+      supabase.from("saved_items").select("*").eq("user_id", uid).order("created_at", { ascending: false }).then(({ data }) => { if (data) setSavedItems(data as any); });
+    }, 15000);
+
+    return () => { supabase.removeChannel(channel); clearInterval(refreshInterval); };
   }, [user]);
 
   const handleDelete = async (id: string) => {
