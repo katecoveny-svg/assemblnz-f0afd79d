@@ -38,7 +38,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         >
-          <AssemblHeroAgent size={220} />
+          <AssemblHeroAgent size={380} />
         </motion.div>
 
         {/* Main heading with hover glow region */}

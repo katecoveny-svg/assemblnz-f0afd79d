@@ -20,7 +20,7 @@ const ContentHubHero = () => {
   return (
     <section className="relative px-4 sm:px-8 pt-20 pb-8 text-center">
       <div className="flex justify-center mb-6">
-        <AssemblHeroAgent size={140} />
+        <AssemblHeroAgent size={260} />
       </div>
       <h1
         className="font-syne font-extrabold text-2xl sm:text-4xl lg:text-5xl tracking-tight halo-heading"
