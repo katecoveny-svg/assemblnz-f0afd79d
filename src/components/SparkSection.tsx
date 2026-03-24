@@ -40,14 +40,23 @@ const SparkSection = () => (
             </div>
 
             <h2
-              className="font-syne font-extrabold text-3xl sm:text-4xl mb-2"
-              style={{ color: "hsl(var(--foreground))" }}
+              className="font-syne font-extrabold text-3xl sm:text-4xl mb-1"
+              style={{
+                color: "#FF6B00",
+                textShadow: "0 0 20px rgba(255,107,0,0.4), 0 0 60px rgba(255,107,0,0.15)",
+              }}
             >
-              Build apps with words
+              Meet SPARK
             </h2>
             <p className="font-mono-jb text-[10px] mb-4" style={{ color: "rgba(255,107,0,0.3)" }}>
               ASM-042 · AI App Builder
             </p>
+            <h3
+              className="font-syne font-bold text-base sm:text-lg mb-4"
+              style={{ color: "#FF6B00", textShadow: "0 0 12px rgba(255,107,0,0.25)" }}
+            >
+              Build apps with words.
+            </h3>
             <p className="text-sm font-jakarta leading-relaxed mb-6 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
               Describe what you need. SPARK generates a working app — forms, dashboards, calculators,
               landing pages — in seconds. No code. No designers. No developers.

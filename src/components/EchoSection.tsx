@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import echoImg from "@/assets/agents/echo.png";
+import echoImg from "@/assets/agents/echo-fullbody.png";
 
 const EchoSection = () => (
   <section className="relative z-10 py-16 sm:py-24">

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import heroImg from "@/assets/agents/hero-3d-robot.png";
+import heroImg from "@/assets/agents/hero-orb-robot.png";
 
 const NexusLogo = ({ size }: { size: number }) => {
   const s = size * 0.18;
