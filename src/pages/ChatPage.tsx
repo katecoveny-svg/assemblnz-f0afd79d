@@ -692,8 +692,8 @@ const ChatPage = () => {
   );
 
   // Extract latest code from SPARK or PRISM responses for live preview
-  const sparkCode = useMemo(() => {
-    if (!isSpark && !isPrism) return null;
+   const sparkCode = useMemo(() => {
+    if (!isSpark) return null;
     for (let i = messages.length - 1; i >= 0; i--) {
       if (messages[i].role === "assistant") {
         const content = messages[i].content;
@@ -712,9 +712,9 @@ const ChatPage = () => {
       }
     }
     return null;
-  }, [messages, isSpark, isPrism]);
+  }, [messages, isSpark]);
 
-  const hasLivePreview = (isSpark || isPrism) && !!sparkCode;
+  const hasLivePreview = isSpark && !!sparkCode;
   const previewAccentColor = isSpark ? "#FF6B00" : "#E040FB";
   const [sparkMobileView, setSparkMobileView] = useState<"chat" | "preview">("chat");
 
@@ -743,12 +743,7 @@ const ChatPage = () => {
       });
     }
     if (isAura) {
-      const auraMode = (() => {
-        try {
-          const saved = sessionStorage.getItem("aura_property_profile");
-          return saved ? JSON.parse(saved).mode : "luxury_lodge";
-        } catch { return "luxury_lodge"; }
-      })();
+      const auraMode = auraPropertyMode || "luxury_lodge";
 
       const allAuraTabs: { id: string; label: string; modes: string[] }[] = [
         { id: "aura_reservations", label: "Reservations", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
@@ -808,7 +803,7 @@ const ChatPage = () => {
     tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
     if (!isHelm && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
     return tabs;
-  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, auraModeKey]);
+  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, auraModeKey, auraPropertyMode]);
 
   const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#00E5FF");
 
