@@ -1,15 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Code2, Sparkles, Mic } from "lucide-react";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import sparkImg from "@/assets/agents/spark.png";
 import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 const SPARK_COLOR = "#FF6B00";
 
+type VoiceTranscriptTurn = {
+  role: "user" | "agent";
+  text: string;
+};
+
 const SparkSection = () => {
   const [showVoice, setShowVoice] = useState(false);
+  const navigate = useNavigate();
+
+  const handleVoiceHandoff = useCallback((voiceTranscript: VoiceTranscriptTurn[]) => {
+    if (voiceTranscript.length === 0) return;
+    const handoffKey = `voice-handoff-${Date.now()}`;
+    sessionStorage.setItem(handoffKey, JSON.stringify({ agentId: "spark", transcript: voiceTranscript }));
+    setShowVoice(false);
+    navigate(`/chat/spark?voiceHandoff=${encodeURIComponent(handoffKey)}`);
+  }, [navigate]);
 
   return (
     <section className="relative z-10 py-16 sm:py-24">
@@ -132,16 +146,15 @@ const SparkSection = () => {
         </motion.div>
       </div>
 
-      {showVoice && (
-        <VoiceAgentModal
-          open={showVoice}
-          agentName="SPARK"
-          agentId="spark"
-          agentColor={SPARK_COLOR}
-          elevenLabsAgentId={getElevenLabsAgentId("spark")}
-          onClose={() => setShowVoice(false)}
-        />
-      )}
+      <VoiceAgentModal
+        open={showVoice}
+        agentName="SPARK"
+        agentId="spark"
+        agentColor={SPARK_COLOR}
+        elevenLabsAgentId={getElevenLabsAgentId("spark")}
+        onHandoffToChat={handleVoiceHandoff}
+        onClose={() => setShowVoice(false)}
+      />
     </section>
   );
 };

@@ -1,15 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Mic } from "lucide-react";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import echoImg from "@/assets/agents/echo-fullbody.png";
 import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 const ECHO_COLOR = "#E4A0FF";
 
+type VoiceTranscriptTurn = {
+  role: "user" | "agent";
+  text: string;
+};
+
 const EchoSection = () => {
   const [showVoice, setShowVoice] = useState(false);
+  const navigate = useNavigate();
+
+  const handleVoiceHandoff = useCallback((voiceTranscript: VoiceTranscriptTurn[]) => {
+    if (voiceTranscript.length === 0) return;
+    const handoffKey = `voice-handoff-${Date.now()}`;
+    sessionStorage.setItem(handoffKey, JSON.stringify({ agentId: "echo", transcript: voiceTranscript }));
+    setShowVoice(false);
+    navigate(`/chat/echo?voiceHandoff=${encodeURIComponent(handoffKey)}`);
+  }, [navigate]);
 
   return (
     <section className="relative z-10 py-16 sm:py-24">
@@ -117,16 +131,15 @@ const EchoSection = () => {
         </motion.div>
       </div>
 
-      {showVoice && (
-        <VoiceAgentModal
-          open={showVoice}
-          agentName="ECHO"
-          agentId="echo"
-          agentColor={ECHO_COLOR}
-          elevenLabsAgentId={getElevenLabsAgentId("echo")}
-          onClose={() => setShowVoice(false)}
-        />
-      )}
+      <VoiceAgentModal
+        open={showVoice}
+        agentName="ECHO"
+        agentId="echo"
+        agentColor={ECHO_COLOR}
+        elevenLabsAgentId={getElevenLabsAgentId("echo")}
+        onHandoffToChat={handleVoiceHandoff}
+        onClose={() => setShowVoice(false)}
+      />
     </section>
   );
 };

@@ -911,8 +911,8 @@ const ChatPage = () => {
       .join("\n");
 
     return [
-      "Continue from this voice conversation and save all concrete family details the user shared.",
-      "If the user listed schedules, pickups, drop-offs, reminders, school items, or recurring plans, treat them as instructions to capture and confirm back clearly.",
+      "Continue from this voice conversation. Save all concrete details the user shared.",
+      "Treat any instructions, requests, or information they provided as actionable items to capture and confirm back clearly.",
       "",
       "Voice transcript:",
       condensedTranscript,
