@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Plug, Check, Bell, Sparkles, CreditCard, Mail, Workflow, Settings2, Globe } from "lucide-react";
+import { ArrowLeft, Plug, Check, Bell, Sparkles, CreditCard, Mail, Workflow, Settings2, Globe, Cloud, Calendar, FileText, Sun, MessageSquare, Camera, Cpu, Tractor, Palette, Mic, Building, Radio, Shield } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -12,36 +12,50 @@ interface Integration {
   name: string;
   description: string;
   agents: string[];
-  type: "ai" | "business" | "automation" | "coming_soon";
+  tier: "connected" | "available" | "coming_soon";
   icon: any;
   color: string;
   connected?: boolean;
   configKey?: string;
+  connectLabel?: string;
 }
 
 const INTEGRATIONS: Integration[] = [
-  { name: "Claude API", description: "Powers all 42 agents. Active and connected.", agents: ["All Agents"], type: "ai", icon: Sparkles, color: "hsl(var(--primary))", connected: true },
-  { name: "Image Generation", description: "OpenAI DALL-E 3, Stability AI, or Replicate for photographic images in PRISM.", agents: ["PRISM", "ECHO"], type: "ai", icon: Sparkles, color: "hsl(300 80% 60%)", configKey: "image_api_key" },
-  { name: "ElevenLabs Voice", description: "Generate voice content: podcast intros, Reel voice-overs, phone greetings.", agents: ["ECHO", "AURA", "PRISM"], type: "ai", icon: Sparkles, color: "hsl(20 100% 50%)", configKey: "elevenlabs_key" },
-  { name: "Xero", description: "Sync transactions, invoices, and contacts. Auto-categorise bank feeds.", agents: ["LEDGER", "AROHA"], type: "business", icon: CreditCard, color: "hsl(195 85% 50%)", configKey: "xero_key" },
-  { name: "Stripe", description: "Track payments, subscriptions, and revenue automatically.", agents: ["FLUX", "LEDGER"], type: "business", icon: CreditCard, color: "hsl(244 75% 60%)", configKey: "stripe_connect" },
-  { name: "Google Workspace", description: "Sync calendar, read emails, access Drive docs.", agents: ["AXIS", "ECHO", "All"], type: "business", icon: Globe, color: "hsl(217 89% 55%)", configKey: "google_workspace" },
-  { name: "Mailchimp / Brevo", description: "Send email campaigns directly from PRISM.", agents: ["PRISM", "ECHO"], type: "business", icon: Mail, color: "hsl(50 100% 55%)", configKey: "email_provider" },
-  { name: "Zapier", description: "Connect agents to 8,500+ apps. Trigger real-world actions.", agents: ["All Agents"], type: "automation", icon: Workflow, color: "hsl(15 100% 50%)", configKey: "zapier_webhook" },
-  { name: "Make.com", description: "Visual workflow automation from agent outputs.", agents: ["All Agents"], type: "automation", icon: Workflow, color: "hsl(270 100% 40%)", configKey: "make_webhook" },
-  { name: "n8n (Self-hosted)", description: "Self-host your automation server for full control.", agents: ["All Agents"], type: "automation", icon: Settings2, color: "hsl(345 80% 55%)", configKey: "n8n_url" },
-  { name: "TradeMe API", description: "Auto-list vehicles and properties on TradeMe.", agents: ["FORGE", "HAVEN"], type: "coming_soon", icon: Globe, color: "hsl(45 100% 55%)" },
-  { name: "Xero Payroll", description: "Direct payroll integration with AROHA.", agents: ["AROHA"], type: "coming_soon", icon: CreditCard, color: "hsl(195 85% 50%)" },
-  { name: "Auckland Transport GTFS", description: "Live bus tracking for HELM.", agents: ["HELM"], type: "coming_soon", icon: Globe, color: "hsl(195 100% 43%)" },
-  { name: "Companies Office NZ", description: "Verify company details, directors, annual returns.", agents: ["ANCHOR", "LEDGER"], type: "coming_soon", icon: Globe, color: "hsl(130 50% 33%)" },
-  { name: "IRD Gateway", description: "Tax filing assistance with LEDGER.", agents: ["LEDGER"], type: "coming_soon", icon: Globe, color: "hsl(213 80% 35%)" },
+  // TIER 1 — Connected / Available now
+  { name: "Google Calendar", description: "Sync events with HELM, AXIS, AURA, FLUX. Agents can read and create calendar events.", agents: ["HELM", "AXIS", "AURA", "FLUX"], tier: "available", icon: Calendar, color: "hsl(217 89% 55%)", configKey: "google_calendar", connectLabel: "Connect with Google" },
+  { name: "Gmail", description: "Send emails directly from ECHO and FLUX. Draft → approve → sent.", agents: ["ECHO", "FLUX"], tier: "available", icon: Mail, color: "hsl(4 90% 58%)", configKey: "gmail", connectLabel: "Connect with Google" },
+  { name: "PDF Export", description: "Download any agent output as a branded PDF.", agents: ["All Agents"], tier: "connected", icon: FileText, color: "hsl(var(--primary))", connected: true },
+  { name: "Weather (Open-Meteo)", description: "Real-time NZ weather alerts for APEX (site safety), TERRA (farming), TURF (match day), HAVEN (property).", agents: ["APEX", "TERRA", "TURF", "HAVEN"], tier: "connected", icon: Sun, color: "hsl(45 100% 55%)", connected: true },
+  { name: "Claude API", description: "Powers all 44 agents via the Lovable AI Gateway.", agents: ["All Agents"], tier: "connected", icon: Sparkles, color: "hsl(var(--primary))", connected: true },
+  { name: "Image Generation", description: "AI image generation for PRISM creative studio and ECHO content.", agents: ["PRISM", "ECHO"], tier: "connected", icon: Camera, color: "hsl(300 80% 60%)", connected: true },
+
+  // TIER 2 — Month 2-3
+  { name: "Xero", description: "Connect LEDGER to your real accounting data. Import transactions, generate GST returns, sync expenses.", agents: ["LEDGER", "AROHA"], tier: "available", icon: CreditCard, color: "hsl(195 85% 50%)", configKey: "xero_key", connectLabel: "Connect with Xero" },
+  { name: "Stripe", description: "Revenue tracking and subscription analytics for LEDGER and FLUX.", agents: ["FLUX", "LEDGER"], tier: "available", icon: CreditCard, color: "hsl(244 75% 60%)", configKey: "stripe_connect", connectLabel: "Connect with Stripe" },
+  { name: "WhatsApp Business", description: "Send WhatsApp messages from HELM (family reminders), AURA (guest messaging), HAVEN (tenant notices).", agents: ["HELM", "AURA", "HAVEN"], tier: "available", icon: MessageSquare, color: "hsl(142 70% 45%)", configKey: "whatsapp_key", connectLabel: "Connect WhatsApp" },
+  { name: "Zapier", description: "Connect Assembl to 5,000+ apps via webhooks. When FLUX qualifies a lead → add to HubSpot → send Slack notification.", agents: ["All Agents"], tier: "available", icon: Workflow, color: "hsl(15 100% 50%)", configKey: "zapier_webhook", connectLabel: "Connect Zapier" },
+  { name: "Make.com", description: "Visual workflow automation from agent outputs.", agents: ["All Agents"], tier: "available", icon: Workflow, color: "hsl(270 100% 40%)", configKey: "make_webhook", connectLabel: "Connect Make" },
+  { name: "Buffer / Later", description: "ECHO publishes content directly to your social media queue.", agents: ["ECHO", "PRISM"], tier: "available", icon: Globe, color: "hsl(195 100% 43%)", configKey: "buffer_key", connectLabel: "Connect Buffer" },
+
+  // TIER 3 — Month 4-6
+  { name: "Trimble Connect", description: "Import BIM project data into APEX and ARC. Access models, equipment data, estimates.", agents: ["APEX", "ARC"], tier: "coming_soon", icon: Building, color: "hsl(210 60% 50%)" },
+  { name: "DroneDeploy", description: "Aerial survey data feeds into APEX — progress photos, volume calculations, site monitoring.", agents: ["APEX"], tier: "coming_soon", icon: Cloud, color: "hsl(200 80% 50%)" },
+  { name: "Procore", description: "Safety observations, inspections, and incident data from Procore into APEX for trend analysis.", agents: ["APEX"], tier: "coming_soon", icon: Shield, color: "hsl(220 70% 50%)" },
+  { name: "Canva", description: "PRISM designs directly in Canva for final polish and publishing.", agents: ["PRISM"], tier: "coming_soon", icon: Palette, color: "hsl(280 80% 60%)" },
+  { name: "ElevenLabs Voice", description: "Native voice integration — shared brain across chat and voice.", agents: ["ECHO", "AURA", "PRISM"], tier: "coming_soon", icon: Mic, color: "hsl(20 100% 50%)" },
+
+  // TIER 4 — Month 6+
+  { name: "Xero Payroll", description: "AROHA generates payroll data that syncs to Xero Payroll.", agents: ["AROHA"], tier: "coming_soon", icon: CreditCard, color: "hsl(195 85% 50%)" },
+  { name: "IRD Gateway", description: "LEDGER files GST returns and PAYE directly to IRD.", agents: ["LEDGER"], tier: "coming_soon", icon: Globe, color: "hsl(213 80% 35%)" },
+  { name: "Companies Office API", description: "FLUX pulls competitor data instantly for market intelligence.", agents: ["FLUX", "ANCHOR"], tier: "coming_soon", icon: Globe, color: "hsl(130 50% 33%)" },
+  { name: "IoT Sensors", description: "Connect building sensors for real-time monitoring across HAVEN, APEX, AURA.", agents: ["HAVEN", "APEX", "AURA"], tier: "coming_soon", icon: Radio, color: "hsl(160 70% 45%)" },
+  { name: "Halter (NZ)", description: "GPS cattle tracking data into TERRA for stock management.", agents: ["TERRA"], tier: "coming_soon", icon: Tractor, color: "hsl(100 60% 40%)" },
 ];
 
 const SECTIONS = [
-  { key: "ai", title: "AI & Content", icon: Sparkles, glow: "hsl(var(--primary))" },
-  { key: "business", title: "Business Tools", icon: CreditCard, glow: "hsl(var(--accent-foreground))" },
-  { key: "automation", title: "Automation Platforms", icon: Workflow, glow: "hsl(270 100% 60%)" },
-  { key: "coming_soon", title: "Coming Soon", icon: Globe, glow: "hsl(var(--muted-foreground))" },
+  { key: "connected" as const, title: "Connected", subtitle: "Live integrations", icon: Check, glow: "hsl(var(--primary))" },
+  { key: "available" as const, title: "Available", subtitle: "Ready to connect", icon: Plug, glow: "hsl(var(--accent-foreground))" },
+  { key: "coming_soon" as const, title: "Coming Soon", subtitle: "Future integrations", icon: Bell, glow: "hsl(var(--muted-foreground))" },
 ];
 
 const IntegrationHub = () => {
@@ -49,6 +63,7 @@ const IntegrationHub = () => {
   const [connectedKeys, setConnectedKeys] = useState<Set<string>>(new Set());
   const [connectingName, setConnectingName] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState("");
+  const [notified, setNotified] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (!user) return;
@@ -62,7 +77,7 @@ const IntegrationHub = () => {
       });
   }, [user]);
 
-  const handleConnect = async (integration: Integration) => {
+  const handleConnect = (integration: Integration) => {
     if (!user || !integration.configKey) return;
     setConnectingName(integration.name);
     setInputValue("");
@@ -73,13 +88,18 @@ const IntegrationHub = () => {
     await supabase.from("user_integrations").upsert({
       user_id: user.id,
       integration_name: integration.name,
-      integration_type: integration.type,
+      integration_type: integration.tier,
       config: { key: inputValue.trim() },
       status: "active",
     }, { onConflict: "user_id,integration_name" });
     setConnectedKeys((prev) => new Set([...prev, integration.name]));
     setConnectingName(null);
     toast({ title: `${integration.name} connected`, description: `${integration.agents.join(", ")} can now use this integration.` });
+  };
+
+  const handleNotify = (name: string) => {
+    setNotified((prev) => new Set([...prev, name]));
+    toast({ title: "You'll be notified", description: `We'll let you know when ${name} is available.` });
   };
 
   return (
@@ -91,14 +111,13 @@ const IntegrationHub = () => {
           <ArrowLeft size={14} /> Back to Dashboard
         </Link>
 
-        {/* Hero header */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
               <Plug size={18} className="text-primary" />
             </div>
             <h1 className="font-syne font-extrabold text-2xl md:text-3xl bg-gradient-to-r from-primary via-accent-foreground to-primary bg-clip-text text-transparent">
-              Integrations
+              Integration Hub
             </h1>
           </div>
           <p className="text-sm text-muted-foreground max-w-md">
@@ -107,25 +126,25 @@ const IntegrationHub = () => {
         </div>
 
         {SECTIONS.map((section) => {
-          const items = INTEGRATIONS.filter((i) => i.type === section.key);
+          const items = INTEGRATIONS.filter((i) => i.tier === section.key);
           if (items.length === 0) return null;
           return (
-            <div key={section.key} className="mb-10">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div
-                  className="w-1 h-5 rounded-full"
-                  style={{ background: section.glow }}
-                />
+            <div key={section.key} className="mb-12">
+              <div className="flex items-center gap-2.5 mb-1.5">
+                <div className="w-1 h-5 rounded-full" style={{ background: section.glow }} />
                 <section.icon size={14} className="text-muted-foreground" />
                 <h2 className="font-syne font-bold text-sm tracking-wide uppercase text-foreground">
                   {section.title}
                 </h2>
               </div>
+              <p className="text-xs text-muted-foreground mb-4 ml-7">{section.subtitle}</p>
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {items.map((integration) => {
                   const isConnected = integration.connected || connectedKeys.has(integration.name);
-                  const isComingSoon = integration.type === "coming_soon";
+                  const isComingSoon = integration.tier === "coming_soon";
                   const isConnecting = connectingName === integration.name;
+                  const isNotified = notified.has(integration.name);
 
                   return (
                     <div
@@ -136,13 +155,12 @@ const IntegrationHub = () => {
                         border: isConnected
                           ? "1px solid hsl(var(--primary) / 0.3)"
                           : "1px solid hsl(var(--border))",
-                        opacity: isComingSoon ? 0.5 : 1,
+                        opacity: isComingSoon ? 0.55 : 1,
                         boxShadow: isConnected
                           ? "0 0 20px hsl(var(--primary) / 0.08)"
                           : "none",
                       }}
                     >
-                      {/* Top glow line */}
                       {isConnected && (
                         <div
                           className="absolute top-0 left-4 right-4 h-[2px] rounded-full"
@@ -189,7 +207,7 @@ const IntegrationHub = () => {
                           <input
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
-                            placeholder={integration.name === "Zapier" || integration.name === "Make.com" ? "Paste webhook URL" : "Paste API key"}
+                            placeholder={integration.name.includes("Zapier") || integration.name.includes("Make") ? "Paste webhook URL" : "Paste API key"}
                             className="w-full px-3 py-2 rounded-xl bg-background border border-border text-xs focus:border-primary focus:ring-1 focus:ring-primary/30 outline-none transition-all"
                             autoFocus
                           />
@@ -210,8 +228,12 @@ const IntegrationHub = () => {
                           </div>
                         </div>
                       ) : isComingSoon ? (
-                        <button className="w-full text-xs font-medium py-2.5 rounded-xl border border-border text-muted-foreground hover:text-foreground hover:border-primary/30 transition-all flex items-center justify-center gap-1.5">
-                          <Bell size={12} /> Notify me
+                        <button
+                          onClick={() => handleNotify(integration.name)}
+                          disabled={isNotified}
+                          className="w-full text-xs font-medium py-2.5 rounded-xl border border-border text-muted-foreground hover:text-foreground hover:border-primary/30 transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                        >
+                          {isNotified ? <><Check size={12} /> Notified</> : <><Bell size={12} /> Notify me</>}
                         </button>
                       ) : isConnected ? (
                         <div className="flex items-center gap-1.5 text-xs text-primary font-medium">
@@ -226,7 +248,7 @@ const IntegrationHub = () => {
                             boxShadow: `0 4px 14px ${integration.color.replace(")", " / 0.25)").replace("hsl", "hsl")}`,
                           }}
                         >
-                          Connect
+                          {integration.connectLabel || "Connect"}
                         </button>
                       )}
                     </div>
