@@ -159,6 +159,7 @@ const HelmSection = () => {
 
       {showVoice && (
         <VoiceAgentModal
+          open={showVoice}
           agentName="HELM"
           agentId="operations"
           agentColor={HELM_COLOR}
