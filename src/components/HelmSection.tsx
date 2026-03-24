@@ -1,15 +1,30 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Brain, Mic } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import helmImg from "@/assets/agents/helm-3d-avatar.png";
 import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 const HELM_COLOR = "#B388FF";
 
+type VoiceTranscriptTurn = {
+  role: "user" | "agent";
+  text: string;
+};
+
 const HelmSection = () => {
   const [showVoice, setShowVoice] = useState(false);
+  const navigate = useNavigate();
+
+  const handleVoiceHandoff = useCallback((voiceTranscript: VoiceTranscriptTurn[]) => {
+    if (voiceTranscript.length === 0) return;
+
+    const handoffKey = `voice-handoff-${Date.now()}`;
+    sessionStorage.setItem(handoffKey, JSON.stringify({ agentId: "operations", transcript: voiceTranscript }));
+    setShowVoice(false);
+    navigate(`/chat/operations?voiceHandoff=${encodeURIComponent(handoffKey)}`);
+  }, [navigate]);
 
   return (
     <section className="relative z-10 py-16 sm:py-24">
@@ -158,16 +173,15 @@ const HelmSection = () => {
         </motion.div>
       </div>
 
-      {showVoice && (
-        <VoiceAgentModal
-          open={showVoice}
-          agentName="HELM"
-          agentId="operations"
-          agentColor={HELM_COLOR}
-          elevenLabsAgentId={getElevenLabsAgentId("operations")}
-          onClose={() => setShowVoice(false)}
-        />
-      )}
+      <VoiceAgentModal
+        open={showVoice}
+        agentName="HELM"
+        agentId="operations"
+        agentColor={HELM_COLOR}
+        elevenLabsAgentId={getElevenLabsAgentId("operations")}
+        onHandoffToChat={handleVoiceHandoff}
+        onClose={() => setShowVoice(false)}
+      />
     </section>
   );
 };
