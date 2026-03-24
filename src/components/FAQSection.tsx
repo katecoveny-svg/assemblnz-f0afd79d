@@ -1,0 +1,86 @@
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+
+const FAQS = [
+  { q: "What is Assembl?", a: "Assembl is an AI operations platform with 42 specialist agents trained on New Zealand legislation and industry best practice. It replaces multiple SaaS tools with one intelligence layer." },
+  { q: "Do I need technical skills to use it?", a: "Not at all. Every agent works through natural conversation — just type or speak. No code, no setup, no training required." },
+  { q: "Is my data safe?", a: "Yes. All data is encrypted in transit and at rest. We follow NZISM guidelines and are SOC 2 ready. Your business data is never used to train models." },
+  { q: "What NZ legislation do agents know?", a: "Agents are trained on 50+ NZ Acts including the Employment Relations Act 2000, Building Act 2004, Health and Safety at Work Act 2015, Privacy Act 2020, Consumer Guarantees Act 1993, and many more." },
+  { q: "Can I try before I buy?", a: "Absolutely. Every agent offers 3 free messages with no signup required. You can explore all 42 agents before choosing a plan." },
+  { q: "How does the annual discount work?", a: "Annual billing saves you 15% compared to monthly. You're billed once per year at the discounted rate, and can cancel anytime." },
+  { q: "Can I embed agents on my website?", a: "Yes. Pro and above plans include an embeddable chat widget. Just copy the code snippet and paste it into your site — your agent goes live instantly." },
+  { q: "What industries do you cover?", a: "Construction, hospitality, property management, automotive, HR, finance, maritime, agriculture, nonprofit, government, health, education, and many more — 42 agents across every major NZ industry." },
+];
+
+const FAQSection = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
+            Frequently asked <span className="text-gradient-hero">questions</span>
+          </h2>
+          <p className="text-sm font-jakarta text-muted-foreground">Everything you need to know about Assembl.</p>
+        </motion.div>
+
+        <div className="space-y-3">
+          {FAQS.map((faq, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="rounded-xl border border-border overflow-hidden"
+                style={{
+                  background: "hsl(var(--card))",
+                  backdropFilter: "blur(16px)",
+                  WebkitBackdropFilter: "blur(16px)",
+                }}
+              >
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                  className="w-full flex items-center justify-between px-5 py-4 text-left"
+                >
+                  <span className="text-sm font-syne font-bold text-foreground pr-4">{faq.q}</span>
+                  <ChevronDown
+                    size={16}
+                    className="shrink-0 text-muted-foreground transition-transform duration-300"
+                    style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0)" }}
+                  />
+                </button>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-5 pb-4 text-xs font-jakarta text-muted-foreground leading-relaxed">
+                        {faq.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default FAQSection;

@@ -17,6 +17,7 @@
   <url><loc>https://assembl.co.nz/cookies</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
   <url><loc>https://assembl.co.nz/disclaimer</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
   <url><loc>https://assembl.co.nz/security</loc><priority>0.4</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://assembl.co.nz/about</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <!-- Agent Landing Pages -->
   <url><loc>https://assembl.co.nz/agents/echo</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://assembl.co.nz/agents/sales</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
