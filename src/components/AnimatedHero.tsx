@@ -46,7 +46,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.15 }}
         >
-          <AssemblHeroAgent size={420} />
+          <AssemblHeroAgent size={typeof window !== 'undefined' && window.innerWidth < 640 ? 260 : 420} />
         </motion.div>
 
         {/* Main heading */}
