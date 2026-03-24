@@ -2002,6 +2002,35 @@ Deno.serve(async (req) => {
     const trimmedMessages = messages.length > 12 ? messages.slice(-12) : messages;
     
     const formattedMessages = trimmedMessages.map((msg: any) => {
+      // Preserve multimodal content (base64 images, documents)
+      if (Array.isArray(msg.content)) {
+        const parts: any[] = [];
+        for (const part of msg.content) {
+          if (part.type === "text") {
+            parts.push({ type: "text", text: part.text });
+          } else if (part.type === "image" && part.source?.type === "base64") {
+            parts.push({
+              type: "image_url",
+              image_url: { url: `data:${part.source.media_type};base64,${part.source.data}` },
+            });
+          } else if (part.type === "document" && part.source?.type === "base64") {
+            // For PDFs/docs, convert to inline data URL for models that support it
+            // Fall back to describing the document if the model doesn't support document type
+            if (part.source.media_type === "application/pdf") {
+              parts.push({
+                type: "image_url",
+                image_url: { url: `data:${part.source.media_type};base64,${part.source.data}` },
+              });
+            } else {
+              // For DOCX/XLSX, we can't send as image — add a note
+              parts.push({ type: "text", text: `[Uploaded document: ${part.source.media_type} — binary file content provided but cannot be directly read. Please ask the user to copy-paste the text content or upload as PDF/image.]` });
+            }
+          } else if (part.type === "image_url") {
+            parts.push(part);
+          }
+        }
+        return { role: msg.role, content: parts };
+      }
       return { role: msg.role, content: msg.content };
     });
 
