@@ -12,6 +12,7 @@ import { X, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-
 import { NeonWave } from "@/components/NeonIcons";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import LiveDemoSection from "@/components/LiveDemoSection";
 import EchoSection from "@/components/EchoSection";
 import SparkSection from "@/components/SparkSection";
 import HelmSection from "@/components/HelmSection";
