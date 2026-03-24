@@ -830,7 +830,8 @@ const ChatPage = () => {
       });
     }
     // Voice Agent waitlist tab for eligible agents
-    if (["hospitality", "property", "automotive", "sales", "aura", "haven", "forge", "flux"].includes(agentId || "")) {
+    // Voice Agent tab for all agents
+    {
       tabs.push({ id: "voice_waitlist", label: "Voice", icon: <Mic size={13} /> });
     }
     tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
