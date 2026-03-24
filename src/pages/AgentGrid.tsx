@@ -258,74 +258,112 @@ const AgentGrid = () => {
       {/* ═══════════════════════ PRICING ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-14">
+          <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
               Simple, honest <span className="text-gradient-hero">pricing</span>
             </h2>
-            <p className="text-sm font-jakarta text-muted-foreground">Start free. Upgrade when you're ready.</p>
+            <p className="text-sm font-jakarta text-muted-foreground mb-6">Start free. Upgrade when you're ready.</p>
+
+            {/* Annual/Monthly toggle */}
+            <div className="inline-flex items-center gap-3 rounded-full border border-border bg-card px-1.5 py-1.5">
+              <button
+                onClick={() => setIsAnnual(false)}
+                className="px-4 py-1.5 rounded-full text-xs font-syne font-bold transition-all"
+                style={{
+                  background: !isAnnual ? "hsl(var(--primary))" : "transparent",
+                  color: !isAnnual ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))",
+                }}
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => setIsAnnual(true)}
+                className="px-4 py-1.5 rounded-full text-xs font-syne font-bold transition-all"
+                style={{
+                  background: isAnnual ? "hsl(var(--primary))" : "transparent",
+                  color: isAnnual ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))",
+                }}
+              >
+                Annual
+                <span className="ml-1.5 text-[9px] font-mono-jb opacity-80">-15%</span>
+              </button>
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {PRICING_PLANS.map((plan) => (
-              <div key={plan.name} className="relative pt-4">
-                {plan.highlighted && (
-                  <span className="absolute top-0 left-1/2 -translate-x-1/2 z-10 text-[10px] font-syne font-bold px-3 py-1 rounded-full" style={{ background: plan.color, color: "hsl(var(--background))" }}>
-                    MOST POPULAR
-                  </span>
-                )}
-                <div
-                  className="relative rounded-2xl p-6 flex flex-col h-full border border-border bg-card"
-                  style={{
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
-                    borderColor: plan.highlighted ? plan.color + "30" : undefined,
-                  }}
-                >
-                  {/* Top edge glow */}
-                  <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} />
-                  <h3 className="text-lg font-syne font-bold text-foreground">{plan.name}</h3>
-                  <div className="flex items-baseline gap-0.5 my-3">
-                    <span className="text-3xl font-syne font-extrabold" style={{ color: plan.color }}>{plan.price}</span>
-                    {plan.period && <span className="text-xs font-jakarta text-muted-foreground">{plan.period}</span>}
-                  </div>
-                  <ul className="flex-1 space-y-2 mb-6">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-xs font-jakarta text-foreground/70">
-                        <Check size={12} className="mt-0.5 shrink-0" style={{ color: plan.color }} />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  {plan.external ? (
-                    <a
-                      href={plan.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300 hover:shadow-lg"
-                      style={{
-                        background: plan.highlighted ? plan.color : "transparent",
-                        color: plan.highlighted ? "#0A0A14" : plan.color,
-                        border: `1px solid ${plan.color}30`,
-                        boxShadow: plan.highlighted ? `0 0 20px ${plan.color}20` : 'none',
-                      }}
-                    >
-                      {plan.cta}
-                    </a>
-                  ) : (
-                    <Link
-                      to={plan.href}
-                      className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300"
-                      style={{
-                        background: plan.highlighted ? plan.color : "transparent",
-                        color: plan.highlighted ? "#0A0A14" : plan.color,
-                        border: `1px solid ${plan.color}30`,
-                      }}
-                    >
-                      {plan.cta}
-                    </Link>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {PRICING_PLANS.map((plan) => {
+              const price = plan.monthlyPrice === 0
+                ? "$0"
+                : isAnnual
+                  ? `$${Math.round(plan.monthlyPrice * 0.85)}`
+                  : `$${plan.monthlyPrice}`;
+              const period = plan.monthlyPrice === 0 ? "" : "/mo";
+
+              return (
+                <div key={plan.name} className="relative pt-4">
+                  {plan.highlighted && (
+                    <span className="absolute top-0 left-1/2 -translate-x-1/2 z-10 text-[10px] font-syne font-bold px-3 py-1 rounded-full" style={{ background: plan.color, color: "hsl(var(--background))" }}>
+                      MOST POPULAR
+                    </span>
                   )}
+                  <div
+                    className="relative rounded-2xl p-5 flex flex-col h-full border border-border bg-card"
+                    style={{
+                      backdropFilter: 'blur(12px)',
+                      WebkitBackdropFilter: 'blur(12px)',
+                      borderColor: plan.highlighted ? plan.color + "30" : undefined,
+                    }}
+                  >
+                    <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} />
+                    <h3 className="text-base font-syne font-bold text-foreground">{plan.name}</h3>
+                    <div className="flex items-baseline gap-0.5 my-3">
+                      <span className="text-2xl font-syne font-extrabold" style={{ color: plan.color }}>{price}</span>
+                      {period && <span className="text-[10px] font-jakarta text-muted-foreground">{period}</span>}
+                    </div>
+                    {isAnnual && plan.monthlyPrice > 0 && (
+                      <p className="text-[9px] font-jakarta text-muted-foreground -mt-2 mb-2">
+                        Billed ${Math.round(plan.monthlyPrice * 0.85 * 12)}/year
+                      </p>
+                    )}
+                    <ul className="flex-1 space-y-1.5 mb-5">
+                      {plan.features.map((f) => (
+                        <li key={f} className="flex items-start gap-2 text-[11px] font-jakarta text-foreground/70">
+                          <Check size={11} className="mt-0.5 shrink-0" style={{ color: plan.color }} />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    {plan.external ? (
+                      <a
+                        href={plan.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300 hover:shadow-lg"
+                        style={{
+                          background: plan.highlighted ? plan.color : "transparent",
+                          color: plan.highlighted ? "#0A0A14" : plan.color,
+                          border: `1px solid ${plan.color}30`,
+                          boxShadow: plan.highlighted ? `0 0 20px ${plan.color}20` : 'none',
+                        }}
+                      >
+                        {plan.cta}
+                      </a>
+                    ) : (
+                      <Link
+                        to={plan.href}
+                        className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300"
+                        style={{
+                          background: plan.highlighted ? plan.color : "transparent",
+                          color: plan.highlighted ? "#0A0A14" : plan.color,
+                          border: `1px solid ${plan.color}30`,
+                        }}
+                      >
+                        {plan.cta}
+                      </Link>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
