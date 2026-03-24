@@ -1617,6 +1617,7 @@ const ChatPage = () => {
                                     <Volume2 size={14} />
                                   </button>
                                 )}
+                                <MessagePDFButton content={msg.content} agentId={agent.id} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
                                 <SaveToLibrary content={msg.content} agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
                               </div>
                             </div>
