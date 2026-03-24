@@ -86,6 +86,7 @@ const ALSO_BY_ASSEMBL = [
 
 const AgentGrid = () => {
   const [activeSector, setActiveSector] = useState("All");
+  const [isAnnual, setIsAnnual] = useState(false);
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactMessage, setContactMessage] = useState("");
