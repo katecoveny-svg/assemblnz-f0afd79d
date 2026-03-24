@@ -803,7 +803,7 @@ const ChatPage = () => {
     tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
     if (!isHelm && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
     return tabs;
-  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, auraModeKey]);
+  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, auraModeKey, auraPropertyMode]);
 
   const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#00E5FF");
 
