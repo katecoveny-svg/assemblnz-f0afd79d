@@ -925,7 +925,7 @@ const ChatPage = () => {
     const should3D = (isArc || isPrism) && (!!uploadedImageUrl || shouldTrigger3D(userMessage.content));
 
     try {
-      if (imageFile && !isArc) {
+      if (imageFile && !isArc && !isPrism) {
         const { base64, mediaType } = await imageToBase64(imageFile);
         const textContent = content.trim() || "Please analyse this image and provide relevant advice.";
         const historyMsgs = messages.map((m) => ({ role: m.role, content: m.content || "(attachment)" }));
