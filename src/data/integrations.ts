@@ -52,6 +52,7 @@ export const INTEGRATIONS: Integration[] = [
   { name: "Buffer / Later", description: "ECHO publishes content directly to your social media queue.", agents: ["ECHO", "PRISM"], tier: "available", icon: Megaphone, color: "hsl(195 100% 43%)", configKey: "buffer_key", connectLabel: "Connect Buffer" },
 
   // ─── AVAILABLE — Automation ───
+  { name: "Trello", description: "Create boards, lists, and cards from agent outputs. AXIS manages projects, APEX tracks site tasks, AROHA handles onboarding workflows.", agents: ["AXIS", "APEX", "AROHA", "FLUX"], tier: "available", icon: Trello, color: "hsl(210 80% 55%)", configKey: "trello_key", connectLabel: "Connect Trello" },
   { name: "Zapier", description: "Connect Assembl to 5,000+ apps via webhooks. When FLUX qualifies a lead → add to HubSpot → send Slack notification.", agents: ["All Agents"], tier: "available", icon: Workflow, color: "hsl(15 100% 50%)", configKey: "zapier_webhook", connectLabel: "Connect Zapier" },
   { name: "Make.com", description: "Visual workflow automation from agent outputs.", agents: ["All Agents"], tier: "available", icon: Workflow, color: "hsl(270 100% 40%)", configKey: "make_webhook", connectLabel: "Connect Make" },
   { name: "n8n", description: "Self-hosted workflow automation. Connect agent triggers to custom pipelines.", agents: ["All Agents"], tier: "available", icon: Layers, color: "hsl(340 80% 55%)", configKey: "n8n_webhook", connectLabel: "Connect n8n" },
