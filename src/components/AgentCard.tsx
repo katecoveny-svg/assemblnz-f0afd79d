@@ -1,7 +1,9 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { Mic } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 import type { Agent } from "@/data/agents";
 
 interface AgentCardProps {
