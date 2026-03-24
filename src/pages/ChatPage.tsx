@@ -1404,6 +1404,8 @@ const ChatPage = () => {
         <AuraSustainability onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_trade" && isAura ? (
         <AuraTrade onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
+      ) : activeTab === "aura_pos" && isAura ? (
+        <AuraPOS onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aroha_contracts" && isAroha ? (
         <ArohaContracts />
       ) : activeTab === "aroha_onboarding" && isAroha ? (
