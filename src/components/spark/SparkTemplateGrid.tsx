@@ -1,4 +1,4 @@
-import { Clock, Wrench, Calculator, Home, Car, CreditCard, CalendarDays, Users, BarChart3, UtensilsCrossed } from "lucide-react";
+import { Clock, Wrench, Calculator, Home, Car, CreditCard, CalendarDays, Users, BarChart3, UtensilsCrossed, Trophy, Target } from "lucide-react";
 
 interface SparkTemplate {
   id: string;
@@ -19,6 +19,8 @@ const SPARK_TEMPLATES: SparkTemplate[] = [
   { id: "project_timeline", name: "Project Timeline", industry: "construction", description: "Visual Gantt-style project tracker", icon: BarChart3 },
   { id: "menu_display", name: "Digital Menu", industry: "hospitality", description: "Restaurant menu with allergen info", icon: UtensilsCrossed },
   { id: "mortgage_comparison", name: "Mortgage Comparison", industry: "finance", description: "Compare rates across NZ banks", icon: CreditCard },
+  { id: "sports_registration", name: "Sports Registration", industry: "sports", description: "Club membership and player registration form", icon: Trophy },
+  { id: "sponsorship_calculator", name: "Sponsorship Calculator", industry: "sports", description: "ROI calculator for potential sponsors", icon: Target },
 ];
 
 interface Props {
