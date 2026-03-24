@@ -712,7 +712,7 @@ const ChatPage = () => {
       }
     }
     return null;
-  }, [messages, isSpark, isPrism]);
+  }, [messages, isSpark]);
 
   const hasLivePreview = isSpark && !!sparkCode;
   const previewAccentColor = isSpark ? "#FF6B00" : "#E040FB";
