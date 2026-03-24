@@ -748,6 +748,7 @@ const ChatPage = () => {
         { id: "aura_team", label: "Team", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
         { id: "aura_sustainability", label: "Sustain", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
         { id: "aura_trade", label: "Trade", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
+        { id: "aura_pos", label: "POS", modes: ["restaurant_bar", "cafe", "luxury_lodge", "boutique_hotel", "catering_events"] },
         { id: "aura_setup", label: "Setup", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
       ];
 
