@@ -42,7 +42,9 @@ Deno.serve(async (req) => {
 
     // Allow ensure_admin_role to bypass admin check (bootstrap flow)
     if (action === "ensure_admin_role") {
-      if (user.email !== adminEmail) {
+      console.log("ensure_admin_role: user email =", user.email, "admin email =", adminEmail, "match =", user.email === adminEmail);
+      if (user.email?.toLowerCase().trim() !== adminEmail?.toLowerCase().trim()) {
+        console.log("Admin email mismatch - rejecting");
         return new Response(JSON.stringify({ error: "Not admin email" }), {
           status: 403,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
