@@ -69,12 +69,14 @@ const ROLES = ["free", "starter", "pro", "business", "admin"];
 const AdminDashboard = () => {
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "inbox" | "test">("overview");
+  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "inbox" | "documents" | "test">("overview");
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [users, setUsers] = useState<UserRow[]>([]);
   const [agentStatuses, setAgentStatuses] = useState<AgentStatus[]>([]);
   const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [submissions, setSubmissions] = useState<ContactSubmission[]>([]);
+  const [documents, setDocuments] = useState<DocumentItem[]>([]);
+  const [docAgentFilter, setDocAgentFilter] = useState<string>("all");
   const [loadingData, setLoadingData] = useState(true);
   const [testAgent, setTestAgent] = useState<string | null>(null);
 
