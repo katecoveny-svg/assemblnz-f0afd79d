@@ -472,39 +472,56 @@ const DashboardPage = () => {
           </div>
         )}
 
-        {/* Export History */}
+        {/* Export History — grouped by agent */}
         {exports.length > 0 && (
           <div className="rounded-xl p-5 relative overflow-hidden" style={glassCard}>
             <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #4FC3F7, transparent)" }} />
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-4">
               <FileText size={16} className="text-[#4FC3F7]" />
-              <h2 className="font-syne font-bold text-sm text-foreground">Export History</h2>
-              <span className="text-[10px] text-muted-foreground ml-auto">{exports.length} exports</span>
+              <h2 className="font-syne font-bold text-sm text-foreground">Agent Outputs</h2>
+              <span className="text-[10px] text-muted-foreground ml-auto">{exports.length} total</span>
             </div>
-            <div className="space-y-1.5">
-              {exports.slice(0, 10).map((exp) => {
-                const agent = agents.find((a) => a.name.toUpperCase() === exp.agent_name.toUpperCase() || a.id === exp.agent_id);
-                const color = agent?.color || "#4FC3F7";
-                return (
-                  <div key={exp.id} className="flex items-center justify-between py-2 px-2 rounded-lg hover:bg-white/[0.02] transition-colors">
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: color + "15" }}>
-                        <FileText size={12} style={{ color }} />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-xs font-medium text-foreground truncate">{exp.title}</p>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: color + "15", color }}>{exp.agent_name}</span>
-                          <span className="text-[9px] text-muted-foreground uppercase">{exp.format}</span>
-                          <span className="text-[9px] text-muted-foreground">{exp.output_type}</span>
+            {(() => {
+              const grouped = exports.reduce<Record<string, ExportedOutput[]>>((acc, exp) => {
+                const key = exp.agent_name || exp.agent_id;
+                if (!acc[key]) acc[key] = [];
+                acc[key].push(exp);
+                return acc;
+              }, {});
+              return (
+                <div className="space-y-4">
+                  {Object.entries(grouped).map(([agentName, agentExports]) => {
+                    const agent = agents.find((a) => a.name.toUpperCase() === agentName.toUpperCase() || a.id === agentExports[0]?.agent_id);
+                    const color = agent?.color || "#4FC3F7";
+                    return (
+                      <div key={agentName}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
+                          <span className="text-xs font-bold" style={{ color }}>{agentName}</span>
+                          <span className="text-[9px] text-muted-foreground">({agentExports.length})</span>
+                          <Link to={`/chat/${agent?.id || agentExports[0]?.agent_id}`} className="ml-auto text-[9px] hover:underline" style={{ color }}>Open →</Link>
+                        </div>
+                        <div className="space-y-1">
+                          {agentExports.slice(0, 3).map((exp) => (
+                            <div key={exp.id} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-white/[0.02] transition-colors">
+                              <div className="flex items-center gap-2 flex-1 min-w-0">
+                                <FileText size={10} style={{ color }} className="shrink-0" />
+                                <span className="text-[11px] text-foreground truncate">{exp.title}</span>
+                                <span className="text-[8px] text-muted-foreground uppercase shrink-0">{exp.output_type}</span>
+                              </div>
+                              <span className="text-[9px] text-muted-foreground shrink-0 ml-2">{timeAgo(exp.created_at)}</span>
+                            </div>
+                          ))}
+                          {agentExports.length > 3 && (
+                            <p className="text-[9px] text-muted-foreground pl-4">+{agentExports.length - 3} more</p>
+                          )}
                         </div>
                       </div>
-                    </div>
-                    <span className="text-[10px] text-muted-foreground shrink-0 ml-3">{timeAgo(exp.created_at)}</span>
-                  </div>
-                );
-              })}
-            </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
           </div>
         )}
 

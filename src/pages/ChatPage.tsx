@@ -973,16 +973,17 @@ const ChatPage = () => {
       const assistantContent = data.content;
       setMessages((prev) => [...prev, { role: "assistant", content: assistantContent }]);
 
-      // Auto-save PRISM outputs to exported_outputs
-      if (isPrism && user && assistantContent && assistantContent.length > 100) {
-        const titleMatch = content.match(/^(?:Create|Write|Generate|Design)\s+(?:a\s+)?(.{10,60})/i);
-        const autoTitle = titleMatch?.[1]?.trim() || `PRISM output — ${new Date().toLocaleDateString("en-NZ")}`;
+      // Auto-save ALL agent outputs to exported_outputs for dashboard
+      if (user && assistantContent && assistantContent.length > 100) {
+        const titleMatch = content.match(/^(?:Create|Write|Generate|Design|Build|Draft|Prepare|Analyse|Review)\s+(?:a\s+)?(.{10,60})/i);
+        const autoTitle = titleMatch?.[1]?.trim() || `${agent.name} output — ${new Date().toLocaleDateString("en-NZ")}`;
+        const outputType = detectOutputType(assistantContent) || "chat_output";
         supabase.from("exported_outputs").insert({
           user_id: user.id,
-          agent_id: "marketing",
-          agent_name: "PRISM",
+          agent_id: agent.id,
+          agent_name: agent.name,
           title: autoTitle,
-          output_type: "chat_output",
+          output_type: outputType,
           format: "markdown",
           content_preview: assistantContent.substring(0, 300),
         }).then(() => {});
