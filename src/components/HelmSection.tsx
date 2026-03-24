@@ -173,17 +173,15 @@ const HelmSection = () => {
         </motion.div>
       </div>
 
-      {showVoice && (
-        <VoiceAgentModal
-          open={showVoice}
-          agentName="HELM"
-          agentId="operations"
-          agentColor={HELM_COLOR}
-          elevenLabsAgentId={getElevenLabsAgentId("operations")}
-          onHandoffToChat={handleVoiceHandoff}
-          onClose={() => setShowVoice(false)}
-        />
-      )}
+      <VoiceAgentModal
+        open={showVoice}
+        agentName="HELM"
+        agentId="operations"
+        agentColor={HELM_COLOR}
+        elevenLabsAgentId={getElevenLabsAgentId("operations")}
+        onHandoffToChat={handleVoiceHandoff}
+        onClose={() => setShowVoice(false)}
+      />
     </section>
   );
 };

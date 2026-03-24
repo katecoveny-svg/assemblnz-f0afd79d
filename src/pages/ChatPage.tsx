@@ -506,34 +506,33 @@ const ChatPage = () => {
 
     setHistoryReady(false);
     const loadConversation = async () => {
-      const { data } = await supabase
-        .from("conversations")
-        .select("id, messages")
-        .eq("user_id", user.id)
-        .eq("agent_id", agentId)
-        .order("updated_at", { ascending: false })
-        .limit(1);
+      try {
+        const { data } = await supabase
+          .from("conversations")
+          .select("id, messages")
+          .eq("user_id", user.id)
+          .eq("agent_id", agentId)
+          .order("updated_at", { ascending: false })
+          .limit(1);
 
-      if (!isActive) return;
+        if (!isActive) return;
 
-      if (data && data.length > 0) {
-        const conv = data[0] as any;
-        setConversationId(conv.id);
-        if (Array.isArray(conv.messages) && conv.messages.length > 0) {
-          setMessages(conv.messages as Message[]);
+        if (data && data.length > 0) {
+          const conv = data[0] as any;
+          setConversationId(conv.id);
+          if (Array.isArray(conv.messages) && conv.messages.length > 0) {
+            setMessages(conv.messages as Message[]);
+          }
         }
+      } finally {
+        if (isActive) setHistoryReady(true);
       }
-
-      setHistoryReady(true);
     };
 
     void loadConversation();
 
     return () => {
       isActive = false;
-      if (isActive) {
-        setHistoryReady(true);
-      }
     };
   }, [user, agentId]);
 
@@ -840,17 +839,6 @@ const ChatPage = () => {
   }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, auraModeKey, auraPropertyMode]);
 
   const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#00E5FF");
-
-  if (!agent) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-foreground">
-        <div className="text-center">
-          <p className="mb-4">Agent not found.</p>
-          <Link to="/" className="text-primary underline">Back to agents</Link>
-        </div>
-      </div>
-    );
-  }
 
   const handleUniversalFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!canUseFeature("upload")) return;
