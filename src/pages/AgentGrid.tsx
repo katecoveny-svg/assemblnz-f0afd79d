@@ -20,6 +20,7 @@ import FAQSection from "@/components/FAQSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import CompetitorComparison from "@/components/CompetitorComparison";
 import TrustSection from "@/components/landing/TrustSection";
+import IndustrySolutions from "@/components/landing/IndustrySolutions";
 
 const PRICING_PLANS = [
   {
@@ -263,6 +264,9 @@ const AgentGrid = () => {
 
       {/* ═══════════════════════ COMPETITOR COMPARISON ═══════════════════════ */}
       <CompetitorComparison />
+
+      {/* ═══════════════════════ INDUSTRY SOLUTIONS ═══════════════════════ */}
+      <IndustrySolutions />
 
       {/* ═══════════════════════ PRICING ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">
