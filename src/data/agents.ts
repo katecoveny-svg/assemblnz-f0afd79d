@@ -529,6 +529,18 @@ export const agents: Agent[] = [
     expertise: ["Web app generator", "Dashboard builder", "Calculator creator", "Form builder", "Landing page designer", "Invoice generator"],
     starters: ["Build me a quote calculator for my painting business", "Create a client intake form for my law firm", "Build a rental property dashboard"],
   },
+  {
+    id: "sports",
+    name: "TURF",
+    designation: "ASM-043",
+    role: "Sports Operations AI",
+    tagline: "Every level of NZ sport, powered by AI",
+    color: "#00E676",
+    sector: "Sports & Recreation",
+    traits: ["Community-driven", "Compliance-sharp", "Energetic"],
+    expertise: ["Season setup wizard", "Gaming trust grant writer", "Coaching session planner", "Club constitution generator", "Sponsorship proposal builder", "Volunteer coordinator"],
+    starters: ["Has my club re-registered under the Incorporated Societies Act?", "Generate a season setup package for our rugby club", "Write a gaming trust grant application", "Create a sponsorship proposal for our club", "Coaching session plan for U12 rugby"],
+  },
 ];
 
 export const sectors = [
