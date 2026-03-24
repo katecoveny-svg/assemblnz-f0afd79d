@@ -900,7 +900,7 @@ const ChatPage = () => {
     let uploadedImageUrl: string | undefined;
     let apiMessages: any[] = [];
 
-    if (imageFile && isArc) {
+    if (imageFile && (isArc || isPrism)) {
       setIsUploading(true);
       try { uploadedImageUrl = await uploadImage(imageFile); }
       catch (err) { console.error("Image upload error:", err); setIsUploading(false); return; }
@@ -911,7 +911,7 @@ const ChatPage = () => {
     const userMessage: Message = {
       role: "user",
       content: displayContent,
-      imageUrl: uploadedImageUrl || (imageFile && !isArc ? URL.createObjectURL(imageFile) : undefined),
+      imageUrl: uploadedImageUrl || (imageFile && !isArc && !isPrism ? URL.createObjectURL(imageFile) : undefined),
       fileName: docFile?.name,
     };
     const newMessages = [...messages, userMessage];
@@ -925,7 +925,7 @@ const ChatPage = () => {
     const should3D = (isArc || isPrism) && (!!uploadedImageUrl || shouldTrigger3D(userMessage.content));
 
     try {
-      if (imageFile && !isArc) {
+      if (imageFile && !isArc && !isPrism) {
         const { base64, mediaType } = await imageToBase64(imageFile);
         const textContent = content.trim() || "Please analyse this image and provide relevant advice.";
         const historyMsgs = messages.map((m) => ({ role: m.role, content: m.content || "(attachment)" }));
@@ -1758,8 +1758,8 @@ const ChatPage = () => {
           {/* Input Bar */}
           <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">
             <div className="max-w-2xl mx-auto flex gap-2 items-center">
-              {/* ARC: dedicated image upload for 3D */}
-              {isArc && (
+              {/* ARC / PRISM: dedicated image upload for 3D */}
+              {(isArc || isPrism) && (
                 <>
                   <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleImageSelect} className="hidden" />
                   {canUseFeature("upload") ? (
