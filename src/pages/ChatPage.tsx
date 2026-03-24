@@ -34,6 +34,7 @@ import AITransparencyBadge from "@/components/chat/AITransparencyBadge";
 import ConversationExport from "@/components/chat/ConversationExport";
 import ResponseSources from "@/components/chat/ResponseSources";
 import SaveToLibrary from "@/components/chat/SaveToLibrary";
+import MessagePDFButton from "@/components/chat/MessagePDFButton";
 import LegislationCard from "@/components/chat/LegislationCard";
 import LanguageSelector from "@/components/chat/LanguageSelector";
 import { useLanguage } from "@/components/chat/TeReoProvider";
