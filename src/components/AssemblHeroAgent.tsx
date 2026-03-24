@@ -1,26 +1,21 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import heroImg from "@/assets/agents/hero-orb-robot.png";
 
-/* ─── Cosmic Star Field ─── */
-interface Star {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  opacity: number;
-  duration: number;
-  delay: number;
-  color: string;
-}
-
+/* ─── Brand Colours ─── */
 const BRAND_COLORS = [
   "hsla(189, 100%, 50%, 0.9)",   // Cyan
-  "hsla(263, 100%, 76%, 0.9)",   // Purple
   "hsla(224, 100%, 68%, 0.9)",   // Deep Blue
-  "hsla(160, 84%, 50%, 0.8)",    // Emerald
-  "hsla(200, 100%, 80%, 0.7)",   // Light cyan
+  "hsla(263, 100%, 76%, 0.8)",   // Purple
+  "hsla(200, 100%, 80%, 0.7)",   // Light Cyan
+  "hsla(210, 100%, 60%, 0.8)",   // Blue
 ];
+
+/* ─── Stars ─── */
+interface Star {
+  id: number; x: number; y: number; size: number;
+  opacity: number; duration: number; delay: number; color: string;
+}
 
 const generateStars = (count: number): Star[] =>
   Array.from({ length: count }, (_, i) => ({
@@ -28,307 +23,248 @@ const generateStars = (count: number): Star[] =>
     x: Math.random() * 100,
     y: Math.random() * 100,
     size: Math.random() * 3 + 1,
-    opacity: Math.random() * 0.7 + 0.3,
+    opacity: Math.random() * 0.8 + 0.2,
     duration: Math.random() * 3 + 2,
-    delay: Math.random() * 4,
+    delay: Math.random() * 5,
     color: BRAND_COLORS[Math.floor(Math.random() * BRAND_COLORS.length)],
   }));
 
-const CosmicStarField = ({ size }: { size: number }) => {
-  const [stars] = useState(() => generateStars(60));
-
+const CosmicStarField = () => {
+  const [stars] = useState(() => generateStars(80));
   return (
     <div className="absolute inset-0 overflow-hidden rounded-full">
-      {stars.map((star) => (
+      {stars.map((s) => (
         <motion.div
-          key={star.id}
+          key={s.id}
           className="absolute rounded-full"
           style={{
-            left: `${star.x}%`,
-            top: `${star.y}%`,
-            width: star.size,
-            height: star.size,
-            background: star.color,
-            boxShadow: `0 0 ${star.size * 3}px ${star.color}`,
+            left: `${s.x}%`, top: `${s.y}%`,
+            width: s.size, height: s.size,
+            background: s.color,
+            boxShadow: `0 0 ${s.size * 4}px ${s.color}`,
           }}
           animate={{
-            opacity: [star.opacity * 0.3, star.opacity, star.opacity * 0.3],
-            scale: [0.8, 1.4, 0.8],
+            opacity: [s.opacity * 0.2, s.opacity, s.opacity * 0.2],
+            scale: [0.6, 1.6, 0.6],
           }}
-          transition={{
-            duration: star.duration,
-            repeat: Infinity,
-            delay: star.delay,
-            ease: "easeInOut",
-          }}
+          transition={{ duration: s.duration, repeat: Infinity, delay: s.delay, ease: "easeInOut" }}
         />
       ))}
     </div>
   );
 };
 
-/* ─── Floating Orbs ─── */
-const FloatingOrb = ({
-  color,
-  size,
-  orbitRadius,
-  duration,
-  delay,
-  glow,
-}: {
-  color: string;
-  size: number;
-  orbitRadius: number;
-  duration: number;
-  delay: number;
-  glow: string;
+/* ─── Floating Orb ─── */
+const FloatingOrb = ({ color, size, orbitRadius, duration, delay, glow }: {
+  color: string; size: number; orbitRadius: number; duration: number; delay: number; glow: string;
+}) => {
+  const steps = 5;
+  const xs = Array.from({ length: steps + 1 }, (_, i) => Math.cos((i / steps) * Math.PI * 2) * orbitRadius);
+  const ys = Array.from({ length: steps + 1 }, (_, i) => Math.sin((i / steps) * Math.PI * 2) * orbitRadius);
+
+  return (
+    <motion.div
+      className="absolute rounded-full"
+      style={{
+        width: size, height: size,
+        background: `radial-gradient(circle, ${color}, transparent 70%)`,
+        boxShadow: `0 0 ${size * 2}px ${glow}, 0 0 ${size * 4}px ${glow}`,
+        top: "50%", left: "50%",
+      }}
+      animate={{ x: xs, y: ys, scale: [1, 1.4, 1, 0.7, 1, 1], opacity: [0.5, 1, 0.6, 1, 0.5, 0.5] }}
+      transition={{ duration, repeat: Infinity, delay, ease: "linear" }}
+    />
+  );
+};
+
+/* ─── Cosmic Ring ─── */
+const CosmicRing = ({ radius, color, duration, opacity, thickness = 1.5 }: {
+  radius: number; color: string; duration: number; opacity: number; thickness?: number;
 }) => (
   <motion.div
     className="absolute rounded-full"
     style={{
-      width: size,
-      height: size,
-      background: `radial-gradient(circle, ${color}, transparent 70%)`,
-      boxShadow: `0 0 ${size * 2}px ${glow}, 0 0 ${size * 4}px ${glow}`,
-      top: "50%",
-      left: "50%",
+      width: radius * 2, height: radius * 2,
+      border: `${thickness}px solid ${color}`,
+      top: "50%", left: "50%", transform: "translate(-50%, -50%)",
     }}
     animate={{
-      x: [
-        Math.cos(0) * orbitRadius,
-        Math.cos(Math.PI * 0.5) * orbitRadius,
-        Math.cos(Math.PI) * orbitRadius,
-        Math.cos(Math.PI * 1.5) * orbitRadius,
-        Math.cos(Math.PI * 2) * orbitRadius,
-      ],
-      y: [
-        Math.sin(0) * orbitRadius,
-        Math.sin(Math.PI * 0.5) * orbitRadius,
-        Math.sin(Math.PI) * orbitRadius,
-        Math.sin(Math.PI * 1.5) * orbitRadius,
-        Math.sin(Math.PI * 2) * orbitRadius,
-      ],
-      scale: [1, 1.3, 1, 0.8, 1],
-      opacity: [0.6, 1, 0.7, 1, 0.6],
+      opacity: [opacity * 0.3, opacity, opacity * 0.3],
+      scale: [0.97, 1.03, 0.97],
+      rotate: [0, 360],
     }}
     transition={{
-      duration,
-      repeat: Infinity,
-      delay,
-      ease: "linear",
+      opacity: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+      scale: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+      rotate: { duration, repeat: Infinity, ease: "linear" },
     }}
   />
 );
 
 /* ─── Nexus Logo ─── */
 const NexusLogo = ({ size }: { size: number }) => {
-  const s = size * 0.14;
+  const s = size * 0.12;
   const cx = s / 2;
   const r = s * 0.38;
-  const orbR = s * 0.09;
+  const orbR = s * 0.1;
 
-  const topX = cx;
-  const topY = cx - r;
-  const blX = cx - r * Math.cos(Math.PI / 6);
-  const blY = cx + r * Math.sin(Math.PI / 6);
-  const brX = cx + r * Math.cos(Math.PI / 6);
-  const brY = cx + r * Math.sin(Math.PI / 6);
+  const topX = cx; const topY = cx - r;
+  const blX = cx - r * Math.cos(Math.PI / 6); const blY = cx + r * Math.sin(Math.PI / 6);
+  const brX = cx + r * Math.cos(Math.PI / 6); const brY = cx + r * Math.sin(Math.PI / 6);
 
   return (
-    <svg
-      width={s}
-      height={s}
-      viewBox={`0 0 ${s} ${s}`}
-      className="absolute z-20"
-      style={{ top: "54%", left: "50%", transform: "translate(-50%, -50%)" }}
-    >
-      <motion.line x1={topX} y1={topY} x2={blX} y2={blY} stroke="hsla(189,100%,50%,0.6)" strokeWidth={1.5}
-        animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 2, repeat: Infinity }} />
-      <motion.line x1={topX} y1={topY} x2={brX} y2={brY} stroke="hsla(263,100%,76%,0.6)" strokeWidth={1.5}
-        animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 2, repeat: Infinity, delay: 0.3 }} />
-      <motion.line x1={blX} y1={blY} x2={brX} y2={brY} stroke="hsla(224,100%,68%,0.6)" strokeWidth={1.5}
-        animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 2, repeat: Infinity, delay: 0.6 }} />
-      <motion.circle cx={topX} cy={topY} r={orbR} fill="hsl(189,100%,50%)"
-        animate={{ r: [orbR, orbR * 1.4, orbR], opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        style={{ filter: "drop-shadow(0 0 6px hsla(189,100%,50%,0.9))" }} />
-      <motion.circle cx={blX} cy={blY} r={orbR} fill="hsl(263,100%,76%)"
-        animate={{ r: [orbR, orbR * 1.4, orbR], opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
-        style={{ filter: "drop-shadow(0 0 6px hsla(263,100%,76%,0.9))" }} />
-      <motion.circle cx={brX} cy={brY} r={orbR} fill="hsl(224,100%,68%)"
-        animate={{ r: [orbR, orbR * 1.4, orbR], opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 2, repeat: Infinity, delay: 0.6 }}
-        style={{ filter: "drop-shadow(0 0 6px hsla(224,100%,68%,0.9))" }} />
+    <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} className="absolute z-20"
+      style={{ top: "58%", left: "50%", transform: "translate(-50%, -50%)" }}>
+      <motion.line x1={topX} y1={topY} x2={blX} y2={blY} stroke="hsla(189,100%,50%,0.7)" strokeWidth={1.5}
+        animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 2, repeat: Infinity }} />
+      <motion.line x1={topX} y1={topY} x2={brX} y2={brY} stroke="hsla(263,100%,76%,0.7)" strokeWidth={1.5}
+        animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 2, repeat: Infinity, delay: 0.3 }} />
+      <motion.line x1={blX} y1={blY} x2={brX} y2={brY} stroke="hsla(224,100%,68%,0.7)" strokeWidth={1.5}
+        animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 2, repeat: Infinity, delay: 0.6 }} />
+      {[[topX, topY, "hsl(189,100%,50%)", "hsla(189,100%,50%,0.9)", 0],
+        [blX, blY, "hsl(263,100%,76%)", "hsla(263,100%,76%,0.9)", 0.3],
+        [brX, brY, "hsl(224,100%,68%)", "hsla(224,100%,68%,0.9)", 0.6],
+      ].map(([x, y, fill, glow, d], i) => (
+        <motion.circle key={i} cx={x as number} cy={y as number} r={orbR} fill={fill as string}
+          animate={{ r: [orbR, orbR * 1.5, orbR], opacity: [0.6, 1, 0.6] }}
+          transition={{ duration: 2, repeat: Infinity, delay: d as number }}
+          style={{ filter: `drop-shadow(0 0 6px ${glow})` }} />
+      ))}
     </svg>
   );
 };
 
-/* ─── Cosmic Ring ─── */
-const CosmicRing = ({
-  radius,
-  color,
-  duration,
-  opacity,
-  thickness = 1.5,
-}: {
-  radius: number;
-  color: string;
-  duration: number;
-  opacity: number;
-  thickness?: number;
-}) => (
-  <motion.div
-    className="absolute rounded-full"
-    style={{
-      width: radius * 2,
-      height: radius * 2,
-      border: `${thickness}px solid ${color}`,
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-    }}
-    animate={{
-      opacity: [opacity * 0.4, opacity, opacity * 0.4],
-      scale: [0.98, 1.02, 0.98],
-      rotate: [0, 360],
-    }}
-    transition={{
-      opacity: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-      scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-      rotate: { duration, repeat: Infinity, ease: "linear" },
-    }}
-  />
-);
-
-/* ─── Main Hero Agent ─── */
+/* ─── Main Component ─── */
 const AssemblHeroAgent = ({ size = 420 }: { size?: number }) => {
-  const orbContainerSize = size * 1.5;
+  const orbSize = size * 1.45;
 
   return (
     <motion.div
       className="relative inline-flex items-center justify-center"
-      style={{ width: orbContainerSize, height: orbContainerSize }}
-      initial={{ opacity: 0, scale: 0.7 }}
+      style={{ width: orbSize, height: orbSize }}
+      initial={{ opacity: 0, scale: 0.6 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1.2, ease: "easeOut" }}
     >
-      {/* Deep cosmic background orb */}
+      {/* Deep cosmic orb background */}
       <motion.div
         className="absolute rounded-full"
         style={{
-          width: orbContainerSize,
-          height: orbContainerSize,
-          background: `radial-gradient(circle at 40% 40%, 
-            hsla(263, 100%, 76%, 0.15) 0%, 
-            hsla(224, 100%, 68%, 0.12) 20%, 
-            hsla(189, 100%, 50%, 0.08) 40%, 
-            hsla(160, 84%, 50%, 0.04) 60%, 
+          width: orbSize,
+          height: orbSize,
+          background: `radial-gradient(circle at 45% 40%, 
+            hsla(189, 100%, 50%, 0.14) 0%, 
+            hsla(224, 100%, 68%, 0.1) 20%, 
+            hsla(210, 100%, 60%, 0.07) 40%, 
+            hsla(263, 100%, 76%, 0.04) 60%, 
             transparent 80%)`,
-          border: "1px solid hsla(189, 100%, 50%, 0.08)",
+          border: "1px solid hsla(189, 100%, 50%, 0.06)",
         }}
         animate={{
           boxShadow: [
-            `0 0 60px hsla(189,100%,50%,0.08), 0 0 120px hsla(263,100%,76%,0.06), 0 0 200px hsla(224,100%,68%,0.04)`,
-            `0 0 100px hsla(189,100%,50%,0.15), 0 0 200px hsla(263,100%,76%,0.12), 0 0 300px hsla(224,100%,68%,0.08), 0 0 400px hsla(160,84%,50%,0.04)`,
-            `0 0 60px hsla(189,100%,50%,0.08), 0 0 120px hsla(263,100%,76%,0.06), 0 0 200px hsla(224,100%,68%,0.04)`,
+            `0 0 80px hsla(189,100%,50%,0.1), 0 0 160px hsla(224,100%,68%,0.06), 0 0 240px hsla(210,100%,60%,0.03)`,
+            `0 0 120px hsla(189,100%,50%,0.18), 0 0 240px hsla(224,100%,68%,0.12), 0 0 360px hsla(210,100%,60%,0.06), 0 0 500px hsla(263,100%,76%,0.03)`,
+            `0 0 80px hsla(189,100%,50%,0.1), 0 0 160px hsla(224,100%,68%,0.06), 0 0 240px hsla(210,100%,60%,0.03)`,
           ],
         }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* Star field */}
-      <CosmicStarField size={orbContainerSize} />
+      <CosmicStarField />
 
       {/* Cosmic rings */}
-      <CosmicRing radius={orbContainerSize * 0.48} color="hsla(189, 100%, 50%, 0.15)" duration={30} opacity={0.5} />
-      <CosmicRing radius={orbContainerSize * 0.42} color="hsla(263, 100%, 76%, 0.12)" duration={25} opacity={0.4} thickness={1} />
-      <CosmicRing radius={orbContainerSize * 0.35} color="hsla(224, 100%, 68%, 0.1)" duration={20} opacity={0.3} thickness={1} />
+      <CosmicRing radius={orbSize * 0.48} color="hsla(189, 100%, 50%, 0.12)" duration={35} opacity={0.5} />
+      <CosmicRing radius={orbSize * 0.42} color="hsla(224, 100%, 68%, 0.1)" duration={28} opacity={0.4} thickness={1} />
+      <CosmicRing radius={orbSize * 0.36} color="hsla(210, 100%, 60%, 0.08)" duration={22} opacity={0.3} thickness={1} />
 
-      {/* Inner ambient glow */}
+      {/* Inner blue glow */}
       <motion.div
         className="absolute rounded-full"
         style={{
-          width: size * 0.9,
-          height: size * 0.9,
-          background: `radial-gradient(circle, hsla(160,84%,50%,0.2), hsla(189,100%,50%,0.12), transparent 70%)`,
+          width: size * 0.85,
+          height: size * 0.85,
+          background: `radial-gradient(circle, hsla(189,100%,50%,0.2), hsla(224,100%,68%,0.12), transparent 70%)`,
           filter: "blur(40px)",
         }}
-        animate={{ scale: [1, 1.25, 1], opacity: [0.4, 0.8, 0.4] }}
+        animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.7, 0.3] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Floating orbs in orbit */}
-      <FloatingOrb color="hsla(189,100%,50%,0.5)" size={14} orbitRadius={orbContainerSize * 0.4} duration={12} delay={0} glow="hsla(189,100%,50%,0.4)" />
-      <FloatingOrb color="hsla(263,100%,76%,0.5)" size={10} orbitRadius={orbContainerSize * 0.36} duration={15} delay={2} glow="hsla(263,100%,76%,0.4)" />
-      <FloatingOrb color="hsla(224,100%,68%,0.5)" size={12} orbitRadius={orbContainerSize * 0.44} duration={18} delay={4} glow="hsla(224,100%,68%,0.4)" />
-      <FloatingOrb color="hsla(160,84%,50%,0.4)" size={8} orbitRadius={orbContainerSize * 0.32} duration={10} delay={1} glow="hsla(160,84%,50%,0.3)" />
-      <FloatingOrb color="hsla(189,100%,70%,0.4)" size={6} orbitRadius={orbContainerSize * 0.46} duration={22} delay={3} glow="hsla(189,100%,70%,0.3)" />
-      <FloatingOrb color="hsla(263,100%,86%,0.3)" size={9} orbitRadius={orbContainerSize * 0.28} duration={14} delay={5} glow="hsla(263,100%,86%,0.3)" />
+      {/* Floating orbs */}
+      <FloatingOrb color="hsla(189,100%,50%,0.5)" size={16} orbitRadius={orbSize * 0.4} duration={14} delay={0} glow="hsla(189,100%,50%,0.5)" />
+      <FloatingOrb color="hsla(224,100%,68%,0.5)" size={12} orbitRadius={orbSize * 0.36} duration={18} delay={2} glow="hsla(224,100%,68%,0.4)" />
+      <FloatingOrb color="hsla(263,100%,76%,0.4)" size={10} orbitRadius={orbSize * 0.44} duration={20} delay={4} glow="hsla(263,100%,76%,0.3)" />
+      <FloatingOrb color="hsla(200,100%,70%,0.4)" size={8} orbitRadius={orbSize * 0.32} duration={11} delay={1} glow="hsla(200,100%,70%,0.3)" />
+      <FloatingOrb color="hsla(189,100%,60%,0.3)" size={7} orbitRadius={orbSize * 0.46} duration={24} delay={3} glow="hsla(189,100%,60%,0.3)" />
+      <FloatingOrb color="hsla(210,100%,65%,0.4)" size={11} orbitRadius={orbSize * 0.28} duration={16} delay={5} glow="hsla(210,100%,65%,0.3)" />
 
       {/* Orbiting particle trails */}
-      {[0, 72, 144, 216, 288].map((deg, i) => (
+      {[0, 60, 120, 180, 240, 300].map((deg, i) => (
         <motion.div
           key={i}
           className="absolute"
-          style={{ width: orbContainerSize * 0.85, height: orbContainerSize * 0.85, top: "50%", left: "50%", marginTop: -orbContainerSize * 0.425, marginLeft: -orbContainerSize * 0.425 }}
+          style={{
+            width: orbSize * 0.88, height: orbSize * 0.88,
+            top: "50%", left: "50%",
+            marginTop: -orbSize * 0.44, marginLeft: -orbSize * 0.44,
+          }}
           animate={{ rotate: [deg, deg + 360] }}
-          transition={{ duration: 10 + i * 3, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 12 + i * 2.5, repeat: Infinity, ease: "linear" }}
         >
           <div
             className="absolute rounded-full"
             style={{
-              width: 4 + i,
-              height: 4 + i,
+              width: 3 + (i % 3),
+              height: 3 + (i % 3),
               background: BRAND_COLORS[i % BRAND_COLORS.length],
-              boxShadow: `0 0 ${10 + i * 4}px ${BRAND_COLORS[i % BRAND_COLORS.length]}`,
-              top: 0,
-              left: "50%",
-              transform: "translateX(-50%)",
+              boxShadow: `0 0 ${8 + i * 3}px ${BRAND_COLORS[i % BRAND_COLORS.length]}`,
+              top: 0, left: "50%", transform: "translateX(-50%)",
             }}
           />
         </motion.div>
       ))}
 
-      {/* Robot container with gentle bob */}
+      {/* Robot with gentle bob */}
       <motion.div
         className="relative z-10 flex items-center justify-center"
         style={{ width: size, height: size }}
-        animate={{ y: [0, -14, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ y: [0, -16, 0] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
       >
-        {/* Robot glow backdrop */}
+        {/* Blue glow behind robot */}
         <motion.div
           className="absolute rounded-full"
           style={{
-            width: size * 0.75,
-            height: size * 0.75,
-            background: `radial-gradient(circle, hsla(189,100%,50%,0.25), hsla(263,100%,76%,0.15), transparent 70%)`,
-            filter: "blur(25px)",
+            width: size * 0.8, height: size * 0.8,
+            background: `radial-gradient(circle, hsla(189,100%,50%,0.3), hsla(224,100%,68%,0.18), transparent 70%)`,
+            filter: "blur(30px)",
           }}
-          animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.9, 0.5] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        {/* Robot image */}
+        {/* Robot image — close-up headshot fills the orb */}
         <motion.img
           src={heroImg}
           alt="Assembl AI Hero Agent"
           className="relative z-10 object-contain"
+          width={1024}
+          height={1024}
           style={{
-            width: size * 0.8,
-            height: size * 0.8,
-            filter: `drop-shadow(0 0 40px hsla(189,100%,50%,0.4)) drop-shadow(0 0 80px hsla(263,100%,76%,0.25)) drop-shadow(0 0 120px hsla(224,100%,68%,0.15))`,
+            width: size * 0.88,
+            height: size * 0.88,
+            filter: `drop-shadow(0 0 50px hsla(189,100%,50%,0.45)) drop-shadow(0 0 100px hsla(224,100%,68%,0.3)) drop-shadow(0 0 150px hsla(210,100%,60%,0.15))`,
           }}
           animate={{
-            scale: [1, 1.04, 1],
+            scale: [1, 1.03, 1],
             filter: [
-              `drop-shadow(0 0 40px hsla(189,100%,50%,0.4)) drop-shadow(0 0 80px hsla(263,100%,76%,0.25)) drop-shadow(0 0 120px hsla(224,100%,68%,0.15))`,
-              `drop-shadow(0 0 60px hsla(189,100%,50%,0.6)) drop-shadow(0 0 100px hsla(263,100%,76%,0.35)) drop-shadow(0 0 160px hsla(224,100%,68%,0.2))`,
-              `drop-shadow(0 0 40px hsla(189,100%,50%,0.4)) drop-shadow(0 0 80px hsla(263,100%,76%,0.25)) drop-shadow(0 0 120px hsla(224,100%,68%,0.15))`,
+              `drop-shadow(0 0 50px hsla(189,100%,50%,0.45)) drop-shadow(0 0 100px hsla(224,100%,68%,0.3)) drop-shadow(0 0 150px hsla(210,100%,60%,0.15))`,
+              `drop-shadow(0 0 70px hsla(189,100%,50%,0.6)) drop-shadow(0 0 130px hsla(224,100%,68%,0.4)) drop-shadow(0 0 200px hsla(210,100%,60%,0.2))`,
+              `drop-shadow(0 0 50px hsla(189,100%,50%,0.45)) drop-shadow(0 0 100px hsla(224,100%,68%,0.3)) drop-shadow(0 0 150px hsla(210,100%,60%,0.15))`,
             ],
           }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
           draggable={false}
         />
 
@@ -339,35 +275,31 @@ const AssemblHeroAgent = ({ size = 420 }: { size?: number }) => {
         <motion.div
           className="absolute z-[15] rounded-full"
           style={{
-            width: size * 0.1,
-            height: size * 0.1,
-            top: "54%",
-            left: "50%",
+            width: size * 0.09, height: size * 0.09,
+            top: "58%", left: "50%",
             transform: "translate(-50%, -50%)",
-            background: `radial-gradient(circle, hsla(189,100%,50%,0.4), hsla(263,100%,76%,0.2), transparent 70%)`,
-            filter: "blur(8px)",
+            background: `radial-gradient(circle, hsla(189,100%,50%,0.5), hsla(224,100%,68%,0.3), transparent 70%)`,
+            filter: "blur(6px)",
           }}
-          animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.5, 1] }}
+          animate={{ opacity: [0.3, 1, 0.3], scale: [1, 1.6, 1] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.div>
 
-      {/* Outer pulse ring */}
+      {/* Outer breathing pulse */}
       <motion.div
         className="absolute rounded-full"
         style={{
-          width: orbContainerSize * 0.95,
-          height: orbContainerSize * 0.95,
-          border: "1px solid hsla(189, 100%, 50%, 0.1)",
+          width: orbSize * 0.96, height: orbSize * 0.96,
+          border: "1px solid hsla(189, 100%, 50%, 0.08)",
         }}
         animate={{
-          scale: [1, 1.08, 1],
-          opacity: [0.3, 0.6, 0.3],
+          scale: [1, 1.06, 1],
+          opacity: [0.2, 0.5, 0.2],
           borderColor: [
-            "hsla(189, 100%, 50%, 0.1)",
-            "hsla(263, 100%, 76%, 0.15)",
-            "hsla(224, 100%, 68%, 0.1)",
-            "hsla(189, 100%, 50%, 0.1)",
+            "hsla(189, 100%, 50%, 0.08)",
+            "hsla(224, 100%, 68%, 0.12)",
+            "hsla(189, 100%, 50%, 0.08)",
           ],
         }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}

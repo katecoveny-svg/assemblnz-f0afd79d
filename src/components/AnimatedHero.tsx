@@ -19,31 +19,39 @@ const STAT_PILLS = [
 
 const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
   return (
-    <section className="relative overflow-hidden min-h-[70vh] flex items-center">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-20 sm:py-32 text-center relative z-10">
-        {/* Animated Assembl Logo */}
-        <motion.div
-          className="flex justify-center mb-4"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <AnimatedAssemblLogo size={56} />
-        </motion.div>
+    <section className="relative overflow-hidden min-h-[85vh] flex flex-col items-center">
+      {/* Cosmic background glow — positioned high */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse at center, hsla(189,100%,50%,0.08) 0%, hsla(224,100%,68%,0.06) 25%, hsla(263,100%,76%,0.04) 40%, transparent 65%)",
+        }}
+      />
 
-        {/* 3D Robot Hero */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 text-center relative z-10 flex flex-col items-center">
+        {/* Animated Assembl Logo — larger, at top */}
         <motion.div
-          className="flex justify-center mb-8"
+          className="flex justify-center mb-2"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <AssemblHeroAgent size={380} />
+          <AnimatedAssemblLogo size={80} />
         </motion.div>
 
-        {/* Main heading with hover glow region */}
+        {/* Robot Hero — large, close-up headshot in cosmic orb */}
         <motion.div
-          className="hero-text-block rounded-2xl px-6 py-8 mx-auto max-w-3xl"
+          className="flex justify-center -mb-4"
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 0.15 }}
+        >
+          <AssemblHeroAgent size={420} />
+        </motion.div>
+
+        {/* Main heading */}
+        <motion.div
+          className="hero-text-block rounded-2xl px-6 py-6 mx-auto max-w-3xl"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
@@ -56,9 +64,9 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           </p>
         </motion.div>
 
-        {/* Subheading with hover glow */}
+        {/* Subheading */}
         <motion.div
-          className="hero-text-block rounded-xl px-4 py-4 mx-auto max-w-[640px] mt-2"
+          className="hero-text-block rounded-xl px-4 py-3 mx-auto max-w-[640px] mt-1"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
@@ -73,7 +81,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
 
         {/* Stat pills */}
         <motion.div
-          className="flex flex-wrap justify-center gap-2 mb-10 mt-8"
+          className="flex flex-wrap justify-center gap-2 mb-10 mt-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.7 }}
@@ -93,7 +101,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           ))}
         </motion.div>
 
-        {/* CTAs with glass effect */}
+        {/* CTAs */}
         <motion.div
           className="flex flex-col sm:flex-row gap-3 justify-center mb-14"
           initial={{ opacity: 0, y: 20 }}
