@@ -161,7 +161,7 @@ const HelmSection = () => {
         <VoiceAgentModal
           agentName="HELM"
           agentId="operations"
-          accentColor={HELM_COLOR}
+          agentColor={HELM_COLOR}
           onClose={() => setShowVoice(false)}
         />
       )}
