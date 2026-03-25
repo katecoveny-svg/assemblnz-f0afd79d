@@ -6,7 +6,7 @@ const color = "#00E5A0";
 
 const SEASONS = [
   { name: "Peak (Dec-Mar)", multiplier: "1.0x — full rate", color: "#00FF88" },
-  { name: "Shoulder (Apr-May, Sep-Nov)", multiplier: "0.85x — 15% below peak", color: "#E6B422" },
+  { name: "Shoulder (Apr-May, Sep-Nov)", multiplier: "0.85x — 15% below peak", color: "#00E5A0" },
   { name: "Low (Jun-Aug)", multiplier: "0.70x — 30% below peak", color: "#FF6B6B" },
 ];
 

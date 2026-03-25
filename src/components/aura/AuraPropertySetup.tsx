@@ -90,7 +90,7 @@ const AuraPropertySetup = () => {
   const set = (k: keyof PropertyProfile, v: any) => setProfile(p => ({ ...p, [k]: v }));
   const complianceItems = COMPLIANCE_BY_MODE[profile.mode] || COMPLIANCE_BY_MODE.luxury_lodge;
   const score = compliance.filter(Boolean).length;
-  const color = "#E6B422";
+  const color = "#00E5A0";
   const isAccom = ACCOMMODATION_MODES.includes(profile.mode);
   const isDining = DINING_MODES.includes(profile.mode);
   const pureRestaurant = ["restaurant_bar", "cafe", "catering_events"].includes(profile.mode);

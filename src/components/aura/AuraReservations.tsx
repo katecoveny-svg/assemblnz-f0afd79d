@@ -50,7 +50,7 @@ const REVIEW_TEMPLATES = [
   { label: "Negative Review Response", desc: "Empathetic, solution-focused, offline resolution" },
 ];
 
-const color = "#E6B422";
+const color = "#00E5A0";
 
 interface Props { onGenerate?: (prompt: string) => void; }
 
