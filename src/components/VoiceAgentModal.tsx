@@ -229,7 +229,7 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-tts`, {
         method: "POST",
         headers: { "Content-Type": "application/json", apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY, Authorization: `Bearer ${tkn}` },
-        body: JSON.stringify({ text, voiceId: "JBFqnCBsd6RMkjVDRZzb", voiceStyle: "professional" }),
+        body: JSON.stringify({ text, voiceId: "JBFqnCBsd6RMkjVDRZzb", voiceStyle: getVoiceSettingsLabel(getVoiceStyleForAgent(agentId)) }),
       });
       if (!res.ok) throw new Error("TTS failed");
       const blob = await res.blob();
