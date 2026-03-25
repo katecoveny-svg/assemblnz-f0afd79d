@@ -84,7 +84,7 @@ const AuraSection = () => {
                 Meet AURA
               </h2>
               <p className="font-mono-jb text-[10px] mb-4" style={{ color: `${AURA_COLOR}30` }}>
-                ASM-001 · Hospitality Operations Director
+                ASM-001 · Hospitality Operations Director — Cafés · Restaurants · Hotels · Bars · Lodges
               </p>
               <h3
                 className="font-syne font-bold text-base sm:text-lg mb-4"
