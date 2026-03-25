@@ -7,7 +7,7 @@ import AgentAvatar from "@/components/AgentAvatar";
 
 const ROADMAP = [
   { quarter: "Q1 2026", title: "Platform Launch", desc: "42 agents live with NZ legislation training, voice interface, and SPARK app builder.", done: true },
-  { quarter: "Q2 2026", title: "MCP API & Integrations", desc: "Xero, MYOB, Tradify, and Google Workspace integrations. Public API for enterprise.", done: false },
+  { quarter: "Q2 2026", title: "MCP API & Integrations", desc: "Accounting, job management, and Google Workspace integrations. Public API for enterprise.", done: false },
   { quarter: "Q3 2026", title: "Industry Suites", desc: "Dedicated multi-agent workflows for construction, hospitality, and property management.", done: false },
   { quarter: "Q4 2026", title: "Enterprise & Government", desc: "SOC 2 certification, on-premise deployment options, and government procurement compliance.", done: false },
 ];
