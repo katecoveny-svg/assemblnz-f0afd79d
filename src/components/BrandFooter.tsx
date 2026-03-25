@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Send } from "lucide-react";
 import nexusLogo from "@/assets/nexus-logo.png";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const FOOTER_LINKS = {
   Product: [
@@ -46,11 +47,26 @@ const BADGES = ["NZ Privacy Act 2020", "NZISM Aligned", "SOC 2 Ready", "GDPR Awa
 const BrandFooter = () => {
   const [email, setEmail] = useState("");
 
-  const handleNewsletter = (e: React.FormEvent) => {
+  const handleNewsletter = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    toast.success("Subscribed! Welcome to the Assembl whānau.");
-    setEmail("");
+    try {
+      const { error } = await supabase.from("contact_submissions").insert({
+        name: "Newsletter Subscriber",
+        email: email.trim(),
+        message: "Newsletter signup from footer",
+      });
+      if (error) {
+        console.error("Newsletter error:", error);
+        toast.error(`Subscription failed: ${error.message}`);
+        return;
+      }
+      toast.success("Subscribed! Welcome to the Assembl whānau.");
+      setEmail("");
+    } catch (err: any) {
+      console.error("Newsletter error:", err);
+      toast.error(`Subscription failed: ${err?.message || "Unknown error"}`);
+    }
   };
 
   return (

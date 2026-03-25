@@ -154,12 +154,12 @@ const PricingPage = () => {
                   </li>
                 ))}
               </ul>
-              <a
-                href="#contact"
+              <button
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                 className="cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
               >
                 <span>Contact Us</span>
-              </a>
+              </button>
             </div>
           </div>
         </div>
