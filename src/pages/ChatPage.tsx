@@ -782,22 +782,13 @@ const ChatPage = () => {
       });
     }
     if (isAura) {
-      // All AURA tabs shown — AURA is a general NZ hospitality agent, not tied to a specific property type
-      const allAuraTabs = [
-        { id: "aura_reservations", label: "Reservations" },
-        { id: "aura_guest", label: "Guest Exp" },
-        { id: "aura_memory", label: "Guest CRM" },
-        { id: "aura_kitchen", label: "Kitchen" },
-        { id: "aura_marketing", label: "Marketing" },
-        { id: "aura_events", label: "Events" },
-        { id: "aura_operations", label: "Operations" },
-        { id: "aura_revenue", label: "Revenue" },
-        { id: "aura_team", label: "Team" },
-        { id: "aura_sustainability", label: "Sustain" },
-        { id: "aura_trade", label: "Trade" },
-        { id: "aura_pos", label: "POS" },
+      const auraTabs = [
+        { id: "aura_kitchen", label: "Menu Builder" },
+        { id: "aura_team", label: "Staff Rostering" },
+        { id: "aura_guest", label: "Guest Experience" },
+        { id: "aura_operations", label: "Compliance" },
       ];
-      allAuraTabs.forEach(t => tabs.push(t));
+      auraTabs.forEach(t => tabs.push(t));
     }
     if (isHaven) {
       ["Dashboard", "Properties", "Jobs", "Tradies", "Command", "Compliance", "Costs", "Docs", "Alerts"].forEach((label, i) => {

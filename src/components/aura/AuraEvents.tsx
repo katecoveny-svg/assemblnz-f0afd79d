@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonStar, NeonCalendar, NeonHeart } from "@/components/NeonIcons";
 
-const color = "#E6B422";
+const color = "#00E5A0";
 
 const SIGNATURE_EXPERIENCES = [
   { name: "Private Helicopter + Alpine Picnic", pricing: "From $4,500 per couple", difficulty: "Moderate fitness" },

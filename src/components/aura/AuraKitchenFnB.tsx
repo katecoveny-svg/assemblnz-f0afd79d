@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonDocument, NeonCheckmark, NeonChart, NeonStar } from "@/components/NeonIcons";
 
-const color = "#E6B422";
+const color = "#00E5A0";
 
 const MENU_TYPES = [
   "Multi-course dinner (5-7 courses)", "Tasting menu with wine pairings", "Breakfast", "Lunch", "Dietary-specific (vegetarian)", "Dietary-specific (vegan)", "Dietary-specific (gluten-free)", "Dietary-specific (halal)",

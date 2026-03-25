@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonShield, NeonChart, NeonGlobe, NeonStar } from "@/components/NeonIcons";
 
-const color = "#E6B422";
+const color = "#00E5A0";
 
 const TSC_CATEGORIES = [
   {

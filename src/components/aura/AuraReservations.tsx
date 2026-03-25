@@ -11,7 +11,7 @@ import { toast } from "@/components/ui/use-toast";
 import { Trash2, Edit2, Plus, Loader2, Search, Filter, X } from "lucide-react";
 
 const ROOMS = ["Lodge Suite 1", "Lodge Suite 2", "Valley View 1", "Valley View 2", "Premium Suite"];
-const STATUS_COLORS: Record<string, string> = { booked: "#E6B422", available: "#00FF88", maintenance: "#FF4444" };
+const STATUS_COLORS: Record<string, string> = { booked: "#00E5A0", available: "#00FF88", maintenance: "#FF4444" };
 
 interface Booking {
   id: string;
@@ -50,7 +50,7 @@ const REVIEW_TEMPLATES = [
   { label: "Negative Review Response", desc: "Empathetic, solution-focused, offline resolution" },
 ];
 
-const color = "#E6B422";
+const color = "#00E5A0";
 
 interface Props { onGenerate?: (prompt: string) => void; }
 
