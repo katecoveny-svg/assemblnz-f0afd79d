@@ -5,7 +5,7 @@ import { agents } from "@/data/agents";
 import { echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone, Radio } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone, Radio, Camera } from "lucide-react";
 import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
 import ActionQueuePanel from "@/components/chat/ActionQueuePanel";
@@ -342,7 +342,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "axis_automations" | "agent_training" | "voice_waitlist" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "axis_automations" | "agent_training" | "voice_waitlist" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance">("chat");
   const [showDeployModal, setShowDeployModal] = useState(false);
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
@@ -364,6 +364,12 @@ const ChatPage = () => {
   const [selectedModel, setSelectedModel] = useState<string>(() => sessionStorage.getItem("assembl_ai_model") || "gemini-flash");
   const [voiceModalOpen, setVoiceModalOpen] = useState(false);
   const [historyReady, setHistoryReady] = useState(false);
+
+  // PRISM quick image generation modal
+  const [prismImageModalOpen, setPrismImageModalOpen] = useState(false);
+  const [prismImagePrompt, setPrismImagePrompt] = useState("");
+  const [prismImageAspect, setPrismImageAspect] = useState<"1:1" | "16:9" | "9:16" | "4:3">("1:1");
+  const [prismImageGenerating, setPrismImageGenerating] = useState(false);
 
   // NEXUS Job Sheet workflow state
   const [nexusWorkflowActive, setNexusWorkflowActive] = useState(false);
@@ -411,6 +417,7 @@ const ChatPage = () => {
   const isAxis = agentId === "pm";
   const isNonprofit = agentId === "nonprofit";
   const isSpark = agentId === "spark";
+  const isSports = agentId === "sports";
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
@@ -705,6 +712,49 @@ const ChatPage = () => {
     }));
   }, [agentId, brandProfile, brandName]);
 
+  // PRISM direct image generation via camera button
+  const handlePrismDirectImageGen = useCallback(async () => {
+    if (!prismImagePrompt.trim()) return;
+    setPrismImageGenerating(true);
+    const aspectDims: Record<string, { w: number; h: number }> = {
+      "1:1": { w: 1080, h: 1080 },
+      "16:9": { w: 1920, h: 1080 },
+      "9:16": { w: 1080, h: 1920 },
+      "4:3": { w: 1200, h: 900 },
+    };
+    const dims = aspectDims[prismImageAspect];
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-image", {
+        body: {
+          prompt: prismImagePrompt,
+          platform: "brand_marketing",
+          contentType: "brand_asset",
+          agentContext: "Professional brand marketing asset. Create agency-quality visuals with premium aesthetics.",
+          quality: "pro",
+          brandContext: brandProfile ? { business_name: brandName || "Assembl", tone: "professional", industry: "technology" } : undefined,
+        },
+      });
+      if (error) throw error;
+      if (data?.imageUrl) {
+        const msgIndex = messages.length;
+        setMessages((prev) => [...prev,
+          { role: "user", content: `Generate image: ${prismImagePrompt} (${prismImageAspect})` },
+          { role: "assistant", content: "Here's your generated image:" },
+        ]);
+        setInlineImages((prev) => ({ ...prev, [msgIndex + 1]: { status: "done", urls: [data.imageUrl] } }));
+      } else {
+        setMessages((prev) => [...prev, { role: "assistant", content: "Image generation didn't return a result. Try a simpler prompt." }]);
+      }
+    } catch (err: any) {
+      console.error("Prism image gen error:", err);
+      setMessages((prev) => [...prev, { role: "assistant", content: `Image generation failed: ${err.message || "Unknown error"}` }]);
+    } finally {
+      setPrismImageGenerating(false);
+      setPrismImageModalOpen(false);
+      setPrismImagePrompt("");
+    }
+  }, [prismImagePrompt, prismImageAspect, brandProfile, brandName, messages]);
+
   const trigger3DGeneration = useCallback(
     async (userPrompt: string, msgIndex: number, imageUrl?: string) => {
       if (genCount >= MAX_GENERATIONS_PER_SESSION) {
@@ -821,15 +871,20 @@ const ChatPage = () => {
         tabs.push({ id: ids[i], label });
       });
     }
-    // Voice Agent waitlist tab for eligible agents
+    if (isSports) {
+      ["Event Manager", "Membership", "Facilities", "Sponsorship", "Performance", "Compliance"].forEach((label, i) => {
+        const ids = ["turf_events", "turf_membership", "turf_facilities", "turf_sponsorship", "turf_performance", "turf_compliance"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
     // Voice Agent tab for all agents
     {
       tabs.push({ id: "voice_waitlist", label: "Voice", icon: <Mic size={13} /> });
     }
     tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
-    if (!isHelm && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
+    if (!isHelm && !isSports && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
     return tabs;
-  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, auraModeKey]);
+  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, isSports, auraModeKey]);
 
   const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#00E5FF");
 
@@ -1537,6 +1592,20 @@ const ChatPage = () => {
         <ApexESGDashboard isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "iot_field" && isConstruction ? (
         <ApexIoTFieldTech />
+      ) : activeTab.startsWith("turf_") && isSports ? (
+        <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          <h2 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>
+            {activeTab === "turf_events" ? "Event Manager" : activeTab === "turf_membership" ? "Membership" : activeTab === "turf_facilities" ? "Facilities" : activeTab === "turf_sponsorship" ? "Sponsorship" : activeTab === "turf_performance" ? "Performance" : "Compliance"}
+          </h2>
+          <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
+            Use TURF chat to manage {activeTab.replace("turf_", "")} — ask anything about your club's {activeTab.replace("turf_", "")} needs.
+          </p>
+          <button onClick={() => { setActiveTab("chat"); setInput(`Help me with ${activeTab.replace("turf_", "")} management for my sports club. `); inputRef.current?.focus(); }}
+            className="px-4 py-2.5 rounded-lg text-xs font-semibold transition-all hover:scale-[0.98] flex items-center gap-2"
+            style={{ background: `${agent.color}20`, color: agent.color, border: `1px solid ${agent.color}30` }}>
+            <Sparkles size={14} /> Open in Chat
+          </button>
+        </div>
       ) : activeTab === "internal_comms" ? (
         <InternalComms agentId={agent.id} agentName={agent.name} agentColor={agent.color} isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "templates" && hasTemplateTab ? (
@@ -1898,6 +1967,20 @@ const ChatPage = () => {
                 </div>
               )}
 
+              {/* PRISM: Direct image generation camera button */}
+              {isPrism && (
+                <button
+                  type="button"
+                  onClick={() => setPrismImageModalOpen(true)}
+                  disabled={isLoading || prismImageGenerating}
+                  className="p-2.5 rounded-lg border transition-all duration-200 hover:scale-105 disabled:opacity-30"
+                  style={{ borderColor: agent.color + "30", color: agent.color }}
+                  title="Generate image directly"
+                >
+                  <Camera size={16} />
+                </button>
+              )}
+
               {isHelm && (
                 <button
                   type="button"
@@ -1977,6 +2060,44 @@ const ChatPage = () => {
               )}
             </div>
           )}
+        </div>
+      )}
+
+      {/* PRISM Image Generation Modal */}
+      {prismImageModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={() => setPrismImageModalOpen(false)}>
+          <div className="w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#0D0D14", border: "1px solid rgba(255,255,255,0.06)" }} onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>Generate Image</h3>
+              <button onClick={() => setPrismImageModalOpen(false)}><X size={16} style={{ color: "rgba(255,255,255,0.4)" }} /></button>
+            </div>
+            <div>
+              <label className="text-[10px] uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>Prompt *</label>
+              <textarea value={prismImagePrompt} onChange={e => setPrismImagePrompt(e.target.value)} rows={3}
+                className="w-full px-3 py-2 rounded-lg text-xs bg-transparent border outline-none resize-none"
+                style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} placeholder="Describe the image you want to create..." />
+            </div>
+            <div>
+              <label className="text-[10px] uppercase tracking-wider mb-1.5 block" style={{ color: "rgba(255,255,255,0.4)" }}>Aspect Ratio</label>
+              <div className="flex gap-2">
+                {(["1:1", "16:9", "9:16", "4:3"] as const).map(ar => (
+                  <button key={ar} onClick={() => setPrismImageAspect(ar)} className="px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all"
+                    style={{
+                      background: prismImageAspect === ar ? `${agent.color}15` : "rgba(255,255,255,0.03)",
+                      color: prismImageAspect === ar ? agent.color : "rgba(255,255,255,0.4)",
+                      border: `1px solid ${prismImageAspect === ar ? agent.color + "30" : "rgba(255,255,255,0.05)"}`,
+                    }}>
+                    {ar}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <button onClick={handlePrismDirectImageGen} disabled={!prismImagePrompt.trim() || prismImageGenerating}
+              className="w-full py-2.5 rounded-lg text-xs font-semibold transition-all hover:scale-[0.98] disabled:opacity-30 flex items-center justify-center gap-2"
+              style={{ background: `${agent.color}20`, color: agent.color, border: `1px solid ${agent.color}30` }}>
+              {prismImageGenerating ? <><Loader2 size={14} className="animate-spin" /> Generating...</> : <><Camera size={14} /> Generate Image</>}
+            </button>
+          </div>
         </div>
       )}
 
