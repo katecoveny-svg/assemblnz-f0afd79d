@@ -101,6 +101,8 @@ const IndustrySolutions = () => {
                 </div>
               </div>
 
+              <p className="text-xs font-jakarta text-muted-foreground mb-3 leading-relaxed">{ind.description}</p>
+
               <ul className="space-y-1.5 mb-4">
                 {ind.capabilities.map((cap) => (
                   <li key={cap} className="flex items-start gap-2 text-xs font-jakarta text-muted-foreground">
