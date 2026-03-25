@@ -2633,9 +2633,9 @@ INDUSTRY-SPECIFIC TEMPLATES:
 OUTPUT FORMAT:
 First, a brief description (2-3 sentences) of what you built and how to use it.
 Then the complete code wrapped in a code block:
-```html
+\`\`\`html
 [complete self-contained code here]
-```
+\`\`\`
 Then a "Want to customise?" section listing 3-4 suggested iterations.
 
 ITERATION:
