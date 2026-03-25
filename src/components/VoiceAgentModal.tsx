@@ -207,44 +207,71 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
     toast.success("Conversation transferred to text chat");
   }, [transcript, onHandoffToChat, isConversationalMode, conversation, onClose]);
 
-  // ── Start Conversational AI session ──
+  // ── Start Conversational AI session with retry logic ──
+  const retryCountRef = useRef(0);
+  const MAX_RETRIES = 3;
+  const [voiceUnavailable, setVoiceUnavailable] = useState(false);
+
   const startConversational = useCallback(async () => {
+    if (voiceUnavailable) return;
     setIsConnecting(true);
-    try {
-      await navigator.mediaDevices.getUserMedia({ audio: true });
+    retryCountRef.current = 0;
 
-      const session = await supabase.auth.getSession();
-      const token = session.data.session?.access_token;
+    const attemptConnection = async (): Promise<void> => {
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
 
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-conversation-token`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ agentId: elevenLabsAgentId }),
+        const session = await supabase.auth.getSession();
+        const token = session.data.session?.access_token;
+
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15000);
+
+        const res = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-conversation-token`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ agentId: elevenLabsAgentId }),
+            signal: controller.signal,
+          }
+        );
+        clearTimeout(timeout);
+
+        if (!res.ok) throw new Error(`Token request failed (${res.status})`);
+        const data = await res.json();
+
+        if (data.signedUrl) {
+          await conversation.startSession({ signedUrl: data.signedUrl });
+        } else if (data.token) {
+          await conversation.startSession({ conversationToken: data.token, connectionType: "webrtc" as const });
+        } else {
+          throw new Error("No token received");
         }
-      );
+      } catch (err: any) {
+        retryCountRef.current += 1;
+        console.error(`Voice connection attempt ${retryCountRef.current}/${MAX_RETRIES} failed:`, err);
 
-      if (!res.ok) throw new Error("Failed to get conversation token");
-      const data = await res.json();
+        if (retryCountRef.current < MAX_RETRIES) {
+          // Wait before retrying (exponential backoff)
+          await new Promise(r => setTimeout(r, 1000 * retryCountRef.current));
+          return attemptConnection();
+        }
 
-      if (data.signedUrl) {
-        await conversation.startSession({ signedUrl: data.signedUrl });
-      } else if (data.token) {
-        await conversation.startSession({ conversationToken: data.token, connectionType: "webrtc" as const });
-      } else {
-        throw new Error("No token received");
+        // Max retries reached — show friendly message and stop
+        setVoiceUnavailable(true);
+        setIsConnecting(false);
+        toast.error("Voice is temporarily unavailable — please use chat", { duration: 6000 });
+        return;
       }
-    } catch (err: any) {
-      console.error("Start error:", err);
-      toast.error("Could not start voice session");
-      setIsConnecting(false);
-    }
-  }, [conversation, elevenLabsAgentId]);
+    };
+
+    await attemptConnection();
+  }, [conversation, elevenLabsAgentId, voiceUnavailable]);
 
   const stopConversational = useCallback(async () => {
     await conversation.endSession();
