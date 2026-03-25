@@ -4913,24 +4913,36 @@ Deno.serve(async (req) => {
  );
  }
 
- const { agentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel } = await req.json();
+ const body = await req.json();
+ const { agentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt } = body;
+
+ // Return system prompt for voice agent sync (no AI call needed)
+ if (getSystemPrompt && agentId) {
+  const prompt = agentPrompts[agentId];
+  if (!prompt) {
+   return new Response(JSON.stringify({ error: "Unknown agent" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+  }
+  return new Response(
+   JSON.stringify({ systemPrompt: prompt + SHARED_BEHAVIOURS }),
+   { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+  );
+ }
 
  // Allowed models whitelist
- const ALLOWED_MODELS: Record<string, string> = {
- "gemini-flash": "google/gemini-3-flash-preview",
- "gemini-pro": "google/gemini-2.5-pro",
- "gemini-flash-lite": "google/gemini-2.5-flash-lite",
- "gpt-5-mini": "openai/gpt-5-mini",
- "gpt-5": "openai/gpt-5",
+ const ALLOWED_MODELS_MAP: Record<string, string> = {
+  "gemini-flash": "google/gemini-3-flash-preview",
+  "gemini-pro": "google/gemini-2.5-pro",
+  "gemini-flash-lite": "google/gemini-2.5-flash-lite",
+  "gpt-5-mini": "openai/gpt-5-mini",
+  "gpt-5": "openai/gpt-5",
  };
- const selectedModel = (requestedModel && ALLOWED_MODELS[requestedModel]) || "google/gemini-3-flash-preview";
 
  const systemPrompt = agentPrompts[agentId];
  if (!systemPrompt) {
- return new Response(
- JSON.stringify({ error: "Unknown agent" }),
- { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
- );
+  return new Response(
+   JSON.stringify({ error: "Unknown agent" }),
+   { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+  );
  }
 
  // Build full system prompt with shared behaviours, optional brand context, and language preference
