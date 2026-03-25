@@ -70,11 +70,9 @@ const DashboardPage = () => {
   const firstName = profile?.full_name?.split(" ")[0] || "";
   const greeting = getGreetingText(firstName);
 
-  // Post-checkout success: show welcome toast & redirect to onboarding
   useEffect(() => {
     const checkoutStatus = searchParams.get("checkout");
     if (checkoutStatus === "success") {
-      const { toast } = await import("sonner");
       toast.success("Welcome to Assembl! 🎉", {
         description: "Your subscription is active. Redirecting to onboarding...",
         duration: 3000,
