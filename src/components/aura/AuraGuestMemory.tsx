@@ -23,7 +23,7 @@ const TOUCHPOINTS = [
   { label: "Birthday Email", desc: "Personalised, sent on their birthday" },
   { label: "Stay Anniversary", desc: "1 year later — 'It's been a year since your escape'" },
   { label: "Seasonal Invitation", desc: "'Winter in the South Island is magical — here's why'" },
-  { label: "New Experience Launch", desc: "'We've launched The Black Diamond — you'd love it'" },
+  { label: "New Experience Launch", desc: "'We've launched a new experience — you'd love it'" },
   { label: "Exclusive Return Rate", desc: "For past guests only — personal, not mass-marketed" },
 ];
 

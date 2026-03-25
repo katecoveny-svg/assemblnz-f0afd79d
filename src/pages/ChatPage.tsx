@@ -1461,8 +1461,6 @@ const ChatPage = () => {
         <VoiceAgentLive agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "agent_training" ? (
         <AgentTraining agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
-      ) : activeTab === "aura_setup" && isAura ? (
-        <AuraPropertySetup />
       ) : activeTab === "aura_reservations" && isAura ? (
         <AuraReservations onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_guest" && isAura ? (
