@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Send } from "lucide-react";
 import nexusLogo from "@/assets/nexus-logo.png";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const FOOTER_LINKS = {
   Product: [
