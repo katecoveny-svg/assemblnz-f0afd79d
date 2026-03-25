@@ -712,6 +712,49 @@ const ChatPage = () => {
     }));
   }, [agentId, brandProfile, brandName]);
 
+  // PRISM direct image generation via camera button
+  const handlePrismDirectImageGen = useCallback(async () => {
+    if (!prismImagePrompt.trim()) return;
+    setPrismImageGenerating(true);
+    const aspectDims: Record<string, { w: number; h: number }> = {
+      "1:1": { w: 1080, h: 1080 },
+      "16:9": { w: 1920, h: 1080 },
+      "9:16": { w: 1080, h: 1920 },
+      "4:3": { w: 1200, h: 900 },
+    };
+    const dims = aspectDims[prismImageAspect];
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-image", {
+        body: {
+          prompt: prismImagePrompt,
+          platform: "brand_marketing",
+          contentType: "brand_asset",
+          agentContext: "Professional brand marketing asset. Create agency-quality visuals with premium aesthetics.",
+          quality: "pro",
+          brandContext: brandProfile ? { business_name: brandName || "Assembl", tone: "professional", industry: "technology" } : undefined,
+        },
+      });
+      if (error) throw error;
+      if (data?.imageUrl) {
+        const msgIndex = messages.length;
+        setMessages((prev) => [...prev,
+          { role: "user", content: `Generate image: ${prismImagePrompt} (${prismImageAspect})` },
+          { role: "assistant", content: "Here's your generated image:" },
+        ]);
+        setInlineImages((prev) => ({ ...prev, [msgIndex + 1]: { status: "done", urls: [data.imageUrl] } }));
+      } else {
+        setMessages((prev) => [...prev, { role: "assistant", content: "Image generation didn't return a result. Try a simpler prompt." }]);
+      }
+    } catch (err: any) {
+      console.error("Prism image gen error:", err);
+      setMessages((prev) => [...prev, { role: "assistant", content: `Image generation failed: ${err.message || "Unknown error"}` }]);
+    } finally {
+      setPrismImageGenerating(false);
+      setPrismImageModalOpen(false);
+      setPrismImagePrompt("");
+    }
+  }, [prismImagePrompt, prismImageAspect, brandProfile, brandName, messages]);
+
   const trigger3DGeneration = useCallback(
     async (userPrompt: string, msgIndex: number, imageUrl?: string) => {
       if (genCount >= MAX_GENERATIONS_PER_SESSION) {
