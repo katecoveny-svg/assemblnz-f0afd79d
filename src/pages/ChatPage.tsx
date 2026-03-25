@@ -828,15 +828,20 @@ const ChatPage = () => {
         tabs.push({ id: ids[i], label });
       });
     }
-    // Voice Agent waitlist tab for eligible agents
+    if (isSports) {
+      ["Event Manager", "Membership", "Facilities", "Sponsorship", "Performance", "Compliance"].forEach((label, i) => {
+        const ids = ["turf_events", "turf_membership", "turf_facilities", "turf_sponsorship", "turf_performance", "turf_compliance"];
+        tabs.push({ id: ids[i], label });
+      });
+    }
     // Voice Agent tab for all agents
     {
       tabs.push({ id: "voice_waitlist", label: "Voice", icon: <Mic size={13} /> });
     }
     tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
-    if (!isHelm && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
+    if (!isHelm && !isSports && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
     return tabs;
-  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, auraModeKey]);
+  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, isSports, auraModeKey]);
 
   const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#00E5FF");
 
