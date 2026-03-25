@@ -1125,16 +1125,30 @@ const ChatPage = () => {
       console.error("Chat error:", err);
       // Surface specific error messages from edge function
       let errorMsg = "Sorry, I'm having trouble connecting right now. Please try again.";
-      if (err?.message?.includes("Rate limit") || err?.message?.includes("429")) {
-        errorMsg = "I'm receiving too many requests right now. Please wait a moment and try again.";
-      } else if (err?.message?.includes("402") || err?.message?.includes("credits")) {
-        errorMsg = "AI credits have been exhausted. Please contact your administrator.";
-      } else if (err?.context?.body) {
+      
+      // Try to extract error from various error shapes
+      const errMsg = err?.message || "";
+      const errStatus = err?.status || err?.code;
+      
+      // Check context body first (supabase SDK wraps edge function responses)
+      if (err?.context?.body) {
         try {
           const body = typeof err.context.body === "string" ? JSON.parse(err.context.body) : err.context.body;
           if (body?.error) errorMsg = body.error;
         } catch {}
       }
+      
+      // Override with specific known errors
+      if (errMsg.includes("Rate limit") || errMsg.includes("429") || errStatus === 429) {
+        errorMsg = "I'm receiving too many requests right now. Please wait a moment and try again.";
+      } else if (errMsg.includes("402") || errMsg.includes("credits") || errStatus === 402) {
+        errorMsg = "AI credits have been exhausted. Please contact your administrator.";
+      } else if (errMsg.includes("Unknown agent") || errMsg.includes("400")) {
+        errorMsg = `Agent "${agent?.name || agentId}" is not available right now. Please try another agent.`;
+      } else if (errMsg.includes("Failed to send") || errMsg.includes("NetworkError") || errMsg.includes("fetch")) {
+        errorMsg = "Network error — please check your connection and try again.";
+      }
+      
       setMessages((prev) => [...prev, { role: "assistant", content: errorMsg }]);
     } finally {
       setIsLoading(false);

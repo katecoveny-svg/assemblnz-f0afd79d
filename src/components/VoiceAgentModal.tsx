@@ -207,44 +207,71 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
     toast.success("Conversation transferred to text chat");
   }, [transcript, onHandoffToChat, isConversationalMode, conversation, onClose]);
 
-  // ── Start Conversational AI session ──
+  // ── Start Conversational AI session with retry logic ──
+  const retryCountRef = useRef(0);
+  const MAX_RETRIES = 3;
+  const [voiceUnavailable, setVoiceUnavailable] = useState(false);
+
   const startConversational = useCallback(async () => {
+    if (voiceUnavailable) return;
     setIsConnecting(true);
-    try {
-      await navigator.mediaDevices.getUserMedia({ audio: true });
+    retryCountRef.current = 0;
 
-      const session = await supabase.auth.getSession();
-      const token = session.data.session?.access_token;
+    const attemptConnection = async (): Promise<void> => {
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
 
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-conversation-token`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ agentId: elevenLabsAgentId }),
+        const session = await supabase.auth.getSession();
+        const token = session.data.session?.access_token;
+
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15000);
+
+        const res = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-conversation-token`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ agentId: elevenLabsAgentId }),
+            signal: controller.signal,
+          }
+        );
+        clearTimeout(timeout);
+
+        if (!res.ok) throw new Error(`Token request failed (${res.status})`);
+        const data = await res.json();
+
+        if (data.signedUrl) {
+          await conversation.startSession({ signedUrl: data.signedUrl });
+        } else if (data.token) {
+          await conversation.startSession({ conversationToken: data.token, connectionType: "webrtc" as const });
+        } else {
+          throw new Error("No token received");
         }
-      );
+      } catch (err: any) {
+        retryCountRef.current += 1;
+        console.error(`Voice connection attempt ${retryCountRef.current}/${MAX_RETRIES} failed:`, err);
 
-      if (!res.ok) throw new Error("Failed to get conversation token");
-      const data = await res.json();
+        if (retryCountRef.current < MAX_RETRIES) {
+          // Wait before retrying (exponential backoff)
+          await new Promise(r => setTimeout(r, 1000 * retryCountRef.current));
+          return attemptConnection();
+        }
 
-      if (data.signedUrl) {
-        await conversation.startSession({ signedUrl: data.signedUrl });
-      } else if (data.token) {
-        await conversation.startSession({ conversationToken: data.token, connectionType: "webrtc" as const });
-      } else {
-        throw new Error("No token received");
+        // Max retries reached — show friendly message and stop
+        setVoiceUnavailable(true);
+        setIsConnecting(false);
+        toast.error("Voice is temporarily unavailable — please use chat", { duration: 6000 });
+        return;
       }
-    } catch (err: any) {
-      console.error("Start error:", err);
-      toast.error("Could not start voice session");
-      setIsConnecting(false);
-    }
-  }, [conversation, elevenLabsAgentId]);
+    };
+
+    await attemptConnection();
+  }, [conversation, elevenLabsAgentId, voiceUnavailable]);
 
   const stopConversational = useCallback(async () => {
     await conversation.endSession();
@@ -365,7 +392,7 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
             <div>
               <p className="text-sm font-semibold text-foreground">{agentName} Voice</p>
               <p className="text-[10px] text-muted-foreground">
-                {isConnected ? "Connected" : isConnecting ? "Connecting…" : "Ready"}
+                {voiceUnavailable ? "Unavailable" : isConnected ? "Connected" : isConnecting ? "Connecting…" : "Ready"}
               </p>
             </div>
           </div>
@@ -399,7 +426,7 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
             )}
             <button
               onClick={isActive ? handleStop : handleStart}
-              disabled={showProcessing}
+              disabled={showProcessing || voiceUnavailable}
               className="relative z-10 w-20 h-20 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95"
               style={{
                 background: isActive ? `linear-gradient(135deg, ${agentColor}, ${agentColor}CC)` : "rgba(255,255,255,0.05)",
@@ -418,7 +445,8 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
           </div>
 
           <p className="mt-4 text-xs text-muted-foreground">
-            {isConnecting ? "Connecting…"
+            {voiceUnavailable ? "Voice is temporarily unavailable — please use chat"
+              : isConnecting ? `Connecting… (attempt ${retryCountRef.current + 1}/${MAX_RETRIES})`
               : showProcessing ? `${agentName} is thinking…`
               : isSpeaking ? `${agentName} is speaking`
               : showListening ? "Listening…"
