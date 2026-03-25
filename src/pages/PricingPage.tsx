@@ -4,7 +4,7 @@ import { ChevronDown, Check } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { useState } from "react";
-import { PRICING, COMPARISON_FEATURES, annualMonthly } from "@/data/pricing";
+import { PRICING, COMPARISON_FEATURES } from "@/data/pricing";
 
 const MAIN_PLANS = [
   PRICING.starter,
@@ -26,12 +26,10 @@ const FAQS = [
 
 const PricingPage = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [annual, setAnnual] = useState(false);
 
   const formatPrice = (price: number | null, label?: string) => {
     if (price === null) return label || 'Custom';
-    const p = annual ? annualMonthly(price) : price;
-    return `$${p}`;
+    return `$${price}`;
   };
 
   return (
@@ -48,25 +46,8 @@ const PricingPage = () => {
             Every plan includes NZ legislation, document templates, and proactive compliance alerts.
           </p>
 
-          {/* Annual toggle */}
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <span className="text-xs font-jakarta" style={{ color: annual ? '#71717A' : '#FAFAFA' }}>Monthly</span>
-            <button
-              onClick={() => setAnnual(!annual)}
-              className="relative w-11 h-6 rounded-full transition-colors"
-              style={{ background: annual ? '#10B981' : 'rgba(255,255,255,0.1)' }}
-            >
-              <span
-                className="absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform"
-                style={{ left: annual ? '22px' : '2px' }}
-              />
-            </button>
-            <span className="text-xs font-jakarta" style={{ color: annual ? '#FAFAFA' : '#71717A' }}>
-              Annual <span style={{ color: '#10B981' }}>(save 15%)</span>
-            </span>
-          </div>
           <p className="text-xs font-jakarta" style={{ color: '#71717A' }}>
-            All prices in NZD. GST inclusive.
+            All prices in NZD. GST inclusive. Billed monthly.
           </p>
         </div>
       </section>
@@ -187,7 +168,7 @@ const PricingPage = () => {
             </p>
             <div className="flex items-baseline gap-1 mb-1">
               <span className="font-syne text-3xl font-bold" style={{ color: '#FAFAFA' }}>
-                ${annual ? annualMonthly(HELM_PLAN.price) : HELM_PLAN.price}
+                ${HELM_PLAN.price}
               </span>
               <span className="text-sm" style={{ color: '#71717A' }}>/mo</span>
             </div>

@@ -51,16 +51,20 @@ const BrandFooter = () => {
     e.preventDefault();
     if (!email.trim()) return;
     try {
-      const { error } = await supabase.from("contact_submissions").insert({
+      // Save to database
+      const { error: dbError } = await supabase.from("contact_submissions").insert({
         name: "Newsletter Subscriber",
         email: email.trim(),
         message: "Newsletter signup from footer",
       });
-      if (error) {
-        console.error("Newsletter error:", error);
-        toast.error(`Subscription failed: ${error.message}`);
-        return;
-      }
+      if (dbError) console.error("DB save error:", dbError);
+
+      // Send to Brevo via edge function
+      const { error: fnError } = await supabase.functions.invoke("newsletter-signup", {
+        body: { email: email.trim() },
+      });
+      if (fnError) console.error("Newsletter function error:", fnError);
+
       toast.success("Subscribed! Welcome to the Assembl whānau.");
       setEmail("");
     } catch (err: any) {

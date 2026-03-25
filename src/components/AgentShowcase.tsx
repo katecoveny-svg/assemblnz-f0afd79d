@@ -9,6 +9,7 @@ import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 const FEATURED_IDS = [
   "hospitality", "sales", "automotive", "marketing", "operations",
   "echo", "customs", "construction", "maritime", "property",
+  "sports", "hr",
 ];
 
 const featured = agents.filter((a) => FEATURED_IDS.includes(a.id));

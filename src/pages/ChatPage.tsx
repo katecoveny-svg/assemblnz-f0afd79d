@@ -5,7 +5,7 @@ import { agents } from "@/data/agents";
 import { echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone, Radio } from "lucide-react";
 import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
 import ActionQueuePanel from "@/components/chat/ActionQueuePanel";
@@ -43,6 +43,7 @@ import ApexTenderWriter from "@/components/apex/ApexTenderWriter";
 import ApexAwardsTracker from "@/components/apex/ApexAwardsTracker";
 import ApexHSHub from "@/components/apex/ApexHSHub";
 import ApexESGDashboard from "@/components/apex/ApexESGDashboard";
+import ApexIoTFieldTech from "@/components/apex/ApexIoTFieldTech";
 import ForgeShowroom from "@/components/forge/ForgeShowroom";
 import ForgeSales from "@/components/forge/ForgeSales";
 import ForgePartsService from "@/components/forge/ForgePartsService";
@@ -341,7 +342,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "axis_automations" | "agent_training" | "voice_waitlist" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "axis_automations" | "agent_training" | "voice_waitlist" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate">("chat");
   const [showDeployModal, setShowDeployModal] = useState(false);
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
@@ -762,6 +763,7 @@ const ChatPage = () => {
       tabs.push({ id: "awards", label: "Awards", icon: <Trophy size={13} /> });
       tabs.push({ id: "hs_hub", label: "H&S", icon: <Shield size={13} /> });
       tabs.push({ id: "esg", label: "ESG", icon: <Leaf size={13} /> });
+      tabs.push({ id: "iot_field", label: "IoT & Field", icon: <Radio size={13} /> });
     }
     if (isForge) {
       ["Showroom", "Sales", "Parts", "Marketing", "Events", "Team", "Brand Hub"].forEach((label, i) => {
@@ -1542,6 +1544,8 @@ const ChatPage = () => {
         <ApexHSHub isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "esg" && isConstruction ? (
         <ApexESGDashboard isPaid={isPaid} userRole={role || undefined} />
+      ) : activeTab === "iot_field" && isConstruction ? (
+        <ApexIoTFieldTech />
       ) : activeTab === "internal_comms" ? (
         <InternalComms agentId={agent.id} agentName={agent.name} agentColor={agent.color} isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "templates" && hasTemplateTab ? (
