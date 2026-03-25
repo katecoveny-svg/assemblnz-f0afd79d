@@ -762,6 +762,7 @@ const ChatPage = () => {
       tabs.push({ id: "awards", label: "Awards", icon: <Trophy size={13} /> });
       tabs.push({ id: "hs_hub", label: "H&S", icon: <Shield size={13} /> });
       tabs.push({ id: "esg", label: "ESG", icon: <Leaf size={13} /> });
+      tabs.push({ id: "iot_field", label: "IoT & Field", icon: <Radio size={13} /> });
     }
     if (isForge) {
       ["Showroom", "Sales", "Parts", "Marketing", "Events", "Team", "Brand Hub"].forEach((label, i) => {
