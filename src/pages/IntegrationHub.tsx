@@ -122,7 +122,7 @@ const IntegrationHub = () => {
             Connect your tools. Your agents get superpowers.
           </p>
           <p className="text-[10px] font-jakarta text-muted-foreground/60 mb-4 max-w-lg">
-            Integration connections are saved to your account. Full API connectivity for Xero, Slack, and other platforms is rolling out in Q2 2026.
+            Integration connections are saved to your account. Full API connectivity for accounting, communication, and other platforms is rolling out in Q2 2026.
           </p>
 
           {/* Agent filter */}
