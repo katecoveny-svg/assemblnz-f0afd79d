@@ -123,11 +123,9 @@ const AgentGrid = () => {
       });
       if (error) throw error;
 
-      fetch("https://formspree.io/f/xbdzwqpy", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: trimmedName, email: trimmedEmail, message: trimmedMessage }),
-      }).catch(() => {});
+      supabase.functions.invoke("send-contact-email", {
+        body: { name: trimmedName, email: trimmedEmail, message: trimmedMessage },
+      }).catch((err) => console.error("Contact email error:", err));
 
       toast.success("Message sent! We'll be in touch soon.");
       setContactName("");
