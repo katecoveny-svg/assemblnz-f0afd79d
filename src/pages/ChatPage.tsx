@@ -1544,6 +1544,8 @@ const ChatPage = () => {
         <ApexHSHub isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "esg" && isConstruction ? (
         <ApexESGDashboard isPaid={isPaid} userRole={role || undefined} />
+      ) : activeTab === "iot_field" && isConstruction ? (
+        <ApexIoTFieldTech />
       ) : activeTab === "internal_comms" ? (
         <InternalComms agentId={agent.id} agentName={agent.name} agentColor={agent.color} isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "templates" && hasTemplateTab ? (
