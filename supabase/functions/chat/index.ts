@@ -4935,9 +4935,10 @@ Deno.serve(async (req) => {
   "gemini-flash-lite": "google/gemini-2.5-flash-lite",
   "gpt-5-mini": "openai/gpt-5-mini",
   "gpt-5": "openai/gpt-5",
- };
+  };
+  const selectedModel = (requestedModel && ALLOWED_MODELS_MAP[requestedModel]) || "google/gemini-3-flash-preview";
 
- const systemPrompt = agentPrompts[agentId];
+  const systemPrompt = agentPrompts[agentId];
  if (!systemPrompt) {
   return new Response(
    JSON.stringify({ error: "Unknown agent" }),
