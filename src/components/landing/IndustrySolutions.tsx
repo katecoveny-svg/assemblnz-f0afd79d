@@ -81,10 +81,18 @@ const IndustrySolutions = () => {
           {HERO_INDUSTRIES.map((ind, i) => (
             <motion.div
               key={ind.agent}
-              className="rounded-2xl border border-border bg-card p-5 group hover:border-primary/30 transition-colors"
-              style={{ backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}
+              className="rounded-2xl border border-border bg-card p-5 group transition-all duration-300 cursor-pointer"
+              style={{
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
+              }}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{
+                borderColor: ind.color,
+                boxShadow: `0 0 20px ${ind.color}25, 0 0 40px ${ind.color}10, inset 0 0 20px ${ind.color}05`,
+                y: -4,
+              }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.06 }}
             >
