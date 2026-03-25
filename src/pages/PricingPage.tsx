@@ -4,7 +4,7 @@ import { ChevronDown, Check } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { useState } from "react";
-import { PRICING, COMPARISON_FEATURES, annualMonthly } from "@/data/pricing";
+import { PRICING, COMPARISON_FEATURES } from "@/data/pricing";
 
 const MAIN_PLANS = [
   PRICING.starter,
