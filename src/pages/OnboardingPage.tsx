@@ -131,9 +131,25 @@ function generateWelcomePDF(planKey: string) {
 
 const OnboardingPage = () => {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const planKey = searchParams.get("plan") || "pro";
   const plan = PLAN_DETAILS[planKey] || PLAN_DETAILS.pro;
   const [downloaded, setDownloaded] = useState(false);
+  const [autoDownloading, setAutoDownloading] = useState(false);
+
+  // Auto-download PDF when arriving from checkout redirect
+  useEffect(() => {
+    const fromCheckout = document.referrer.includes("/dashboard") || location.state?.fromCheckout;
+    if (!downloaded && !autoDownloading && fromCheckout) {
+      setAutoDownloading(true);
+      const timer = setTimeout(() => {
+        generateWelcomePDF(planKey);
+        setDownloaded(true);
+        setAutoDownloading(false);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [planKey, downloaded, autoDownloading, location.state]);
 
   const handleDownload = () => {
     generateWelcomePDF(planKey);
