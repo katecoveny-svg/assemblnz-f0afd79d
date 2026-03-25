@@ -35,7 +35,7 @@ function generateWelcomePDF(planKey: string) {
   doc.setFont("helvetica", "normal");
   doc.setTextColor(60);
   const welcomeText =
-    "Thank you for choosing Assembl. I'm Kate Harland, founder — and I built this platform because NZ businesses deserve AI that actually understands our legislation, our industries, and our way of doing things.\n\n" +
+    "Thank you for choosing Assembl. I'm Kate Hudson, founder — and I built this platform because NZ businesses deserve AI that actually understands our legislation, our industries, and our way of doing things.\n\n" +
     "This guide will get you up and running in under 10 minutes. Your agents are already trained on NZ law, industry best practices, and compliance requirements. They're ready to work — you just need to point them in the right direction.\n\n" +
     "If you ever need help, email me directly at kate@assembl.co.nz. I read every message.";
   const lines = doc.splitTextToSize(welcomeText, maxW);
@@ -117,7 +117,7 @@ function generateWelcomePDF(planKey: string) {
     "Billing: Manage your subscription at assembl.co.nz/pricing",
     "",
     "Ngā mihi nui,",
-    "Kate Harland — Founder, Assembl",
+    "Kate Hudson — Founder, Assembl",
     "Auckland, Aotearoa New Zealand 🇳🇿",
   ];
   supportLines.forEach((l) => {

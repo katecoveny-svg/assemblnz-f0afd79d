@@ -5,7 +5,7 @@ const TRUST_CARDS = [
   { Icon: Scale, color: "#00FF88", title: "Trained on NZ Legislation", sub: "50+ Acts embedded" },
   { Icon: Shield, color: "#00E5FF", title: "Privacy Act 2020 Compliant", sub: "AU/NZ data region" },
   { Icon: Lock, color: "#B388FF", title: "Enterprise Security", sub: "Encrypted at rest" },
-  { Icon: MapPin, color: "#FF2D9B", title: "Built in Auckland", sub: "Founded by Kate Harland" },
+  { Icon: MapPin, color: "#FF2D9B", title: "Built in Auckland", sub: "Founded by Kate Hudson" },
   { Icon: Globe, color: "#00E5FF", title: "GDPR Ready", sub: "International standards" },
   { Icon: FileCheck, color: "#00FF88", title: "150+ Compliance Dates", sub: "Auto-tracked for you" },
 ];
