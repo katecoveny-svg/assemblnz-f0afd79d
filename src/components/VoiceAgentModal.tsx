@@ -17,6 +17,29 @@ interface Props {
 
 const PLATFORM_CONTEXT = `You are part of the Assembl platform. If the user needs to upload documents, scan invoices, share images, or perform any file-based task, let them know they can switch to the text chat where document upload and scanning is available. Say something like "I can help you with that — for document uploads, tap the 'Continue in Chat' button below and I'll pick up right where we left off." You can also suggest handoffs to other specialist agents on the platform when relevant.`;
 
+// Fetch the full system prompt from the chat function for voice prompt parity
+async function fetchAgentSystemPrompt(agentId: string, accessToken: string | undefined): Promise<string | null> {
+  try {
+    const res = await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ agentId, getSystemPrompt: true }),
+      }
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.systemPrompt || null;
+  } catch {
+    return null;
+  }
+}
+
 // Note: For true NZ accent voices, create custom voices in ElevenLabs Voice Lab using NZ English samples
 // Voice style mapping for agent personas
 type VoiceStyle = "professional-nz" | "warm-kiwi" | "casual-kiwi";
@@ -108,17 +131,25 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [transcript]);
 
-  // Send platform context after connection established
+  // Send full system prompt + platform context after connection established
   useEffect(() => {
     if (isConversationalMode && conversation.status === "connected" && !contextSentRef.current) {
-      try {
-        conversation.sendContextualUpdate(PLATFORM_CONTEXT);
-        contextSentRef.current = true;
-      } catch (e) {
-        console.warn("Could not send contextual update:", e);
-      }
+      contextSentRef.current = true;
+      (async () => {
+        try {
+          const session = await supabase.auth.getSession();
+          const token = session.data.session?.access_token;
+          const fullPrompt = await fetchAgentSystemPrompt(agentId, token);
+          if (fullPrompt) {
+            conversation.sendContextualUpdate(fullPrompt);
+          }
+          conversation.sendContextualUpdate(PLATFORM_CONTEXT);
+        } catch (e) {
+          console.warn("Could not send contextual update:", e);
+        }
+      })();
     }
-  }, [conversation.status, isConversationalMode]);
+  }, [conversation.status, isConversationalMode, agentId]);
 
   // Auto-save transcript on disconnect so voice data is never lost
   const handoffDoneRef = useRef(false);
