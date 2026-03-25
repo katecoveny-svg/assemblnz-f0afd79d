@@ -494,6 +494,10 @@ const ChatPage = () => {
   useEffect(() => {
     let isActive = true;
 
+    // Reset state when agent changes to prevent cross-contamination
+    setMessages([]);
+    setConversationId(null);
+
     if (!agentId) {
       setHistoryReady(true);
       return;
@@ -689,8 +693,9 @@ const ChatPage = () => {
         });
         if (error) throw error;
         if (data?.imageUrl) urls.push(data.imageUrl);
-      } catch (err) {
+      } catch (err: any) {
         console.error("Inline image generation error:", err);
+        // Continue to next prompt — don't block on individual failures
       }
     }
 
@@ -1031,7 +1036,13 @@ const ChatPage = () => {
       const { data, error } = await supabase.functions.invoke(functionName, invokeOptions);
 
       if (error) throw error;
+      if (!data || data.error) {
+        throw new Error(data?.error || "No response from AI agent");
+      }
       const assistantContent = data.content;
+      if (!assistantContent) {
+        throw new Error("Empty response from AI agent — please try again");
+      }
       setMessages((prev) => [...prev, { role: "assistant", content: assistantContent }]);
 
       // Auto-save ALL agent outputs to exported_outputs for dashboard
@@ -1062,9 +1073,21 @@ const ChatPage = () => {
         const userQuality = qualityMatch ? qualityMatch[1].toLowerCase() : undefined;
         triggerInlineImages(assistantContent, currentMsgIndex, userQuality);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Chat error:", err);
-      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Please try again." }]);
+      // Surface specific error messages from edge function
+      let errorMsg = "Sorry, I'm having trouble connecting right now. Please try again.";
+      if (err?.message?.includes("Rate limit") || err?.message?.includes("429")) {
+        errorMsg = "I'm receiving too many requests right now. Please wait a moment and try again.";
+      } else if (err?.message?.includes("402") || err?.message?.includes("credits")) {
+        errorMsg = "AI credits have been exhausted. Please contact your administrator.";
+      } else if (err?.context?.body) {
+        try {
+          const body = typeof err.context.body === "string" ? JSON.parse(err.context.body) : err.context.body;
+          if (body?.error) errorMsg = body.error;
+        } catch {}
+      }
+      setMessages((prev) => [...prev, { role: "assistant", content: errorMsg }]);
     } finally {
       setIsLoading(false);
       inputRef.current?.focus();
