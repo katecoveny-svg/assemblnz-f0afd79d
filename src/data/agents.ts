@@ -143,7 +143,7 @@ export const agents: Agent[] = [
     sector: "Project Management",
     traits: ["Structured", "Risk-aware", "Stakeholder-savvy"],
     expertise: ["Project plan generator", "Risk matrix builder", "SOP auto-writer", "Workflow automator", "Govt procurement AI", "Change management"],
-    starters: ["Track a shipment", "Get freight ETA", "Create a project plan with milestones", "Build a risk register for my project", "Government procurement process"],
+    starters: ["Track my freight vessel", "Ships arriving at Auckland port today", "ETA for container ship to Tauranga", "Create a project plan with milestones", "Build a risk register for my project", "Government procurement process"],
   },
   {
     id: "marketing",

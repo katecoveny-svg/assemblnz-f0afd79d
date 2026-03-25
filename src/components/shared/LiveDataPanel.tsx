@@ -25,6 +25,8 @@ const AGENT_IOT_MAP: Record<string, { fn: string; defaultBody: any; label: strin
     { fn: "iot-weather", defaultBody: { city: "Queenstown", mode: "both" }, label: "Guest Activity Weather" },
   ],
   pm: [
+    { fn: "iot-ais-tracking", defaultBody: { action: "vessels_near_port", port: "auckland" }, label: "Ships Near Auckland" },
+    { fn: "iot-ais-tracking", defaultBody: { action: "vessels_near_port", port: "tauranga" }, label: "Ships Near Tauranga" },
     { fn: "iot-freight-tracking", defaultBody: { action: "track", tracking_code: "DEMO" }, label: "Freight Tracker" },
   ],
   automotive: [
