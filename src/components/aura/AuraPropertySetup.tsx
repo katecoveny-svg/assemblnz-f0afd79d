@@ -2,12 +2,12 @@ import { useState } from "react";
 import { NeonBuilding, NeonCheckmark, NeonDocument, NeonStar, NeonGlobe } from "@/components/NeonIcons";
 
 const PROPERTY_MODES = [
-  { id: "luxury_lodge", label: "Luxury Lodge", desc: "Premium, bespoke, high-touch", icon: "🏔️" },
-  { id: "boutique_hotel", label: "Boutique Hotel", desc: "Distinctive, curated, intimate", icon: "🏨" },
-  { id: "restaurant_bar", label: "Restaurant / Bar", desc: "Dining-focused operations", icon: "🍽️" },
-  { id: "cafe", label: "Café", desc: "Casual dining & hospitality", icon: "☕" },
-  { id: "accommodation", label: "Accommodation Provider", desc: "B&B, holiday home, farmstay", icon: "🏡" },
-  { id: "catering_events", label: "Catering & Events", desc: "Event-focused hospitality", icon: "🎪" },
+  { id: "luxury_lodge", label: "Luxury Lodge", desc: "Premium, bespoke, high-touch", icon: "" },
+  { id: "boutique_hotel", label: "Boutique Hotel", desc: "Distinctive, curated, intimate", icon: "" },
+  { id: "restaurant_bar", label: "Restaurant / Bar", desc: "Dining-focused operations", icon: "" },
+  { id: "cafe", label: "Café", desc: "Casual dining & hospitality", icon: "" },
+  { id: "accommodation", label: "Accommodation Provider", desc: "B&B, holiday home, farmstay", icon: "" },
+  { id: "catering_events", label: "Catering & Events", desc: "Event-focused hospitality", icon: "" },
 ];
 
 const ACCOMMODATION_MODES = ["luxury_lodge", "boutique_hotel", "accommodation"];
@@ -145,7 +145,7 @@ const AuraPropertySetup = () => {
                   sessionStorage.setItem("aura_compliance", JSON.stringify(c));
                 }} className="rounded" />
                 <span className={compliance[i] ? "text-foreground" : "text-muted-foreground"}>{item}</span>
-                <span className="ml-auto">{compliance[i] ? "✅" : "❌"}</span>
+                <span className="ml-auto">{compliance[i] ? "" : ""}</span>
               </label>
             ))}
           </div>

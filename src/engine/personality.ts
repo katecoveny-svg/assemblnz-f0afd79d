@@ -95,7 +95,7 @@ export function detectMood(
   const positiveIndicators = [
     /thanks|great|awesome|perfect|love|brilliant|amazing|sorted|cheers/i.test(message),
     /!/.test(message) && !/help|urgent|wrong/i.test(message),
-    /😊|🎉|👍|💪|🙌/.test(message),
+    /||||/.test(message),
   ];
 
   const stressScore = stressIndicators.filter(Boolean).length;

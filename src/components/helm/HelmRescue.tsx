@@ -97,7 +97,7 @@ export default function HelmRescue() {
         <button onClick={submit} disabled={submitting || !item.trim() || !pickup.trim()}
           className="w-full py-2 rounded-lg text-xs font-medium transition disabled:opacity-30"
           style={{ background: HELM_COLOR + "20", color: HELM_COLOR, border: `1px solid ${HELM_COLOR}30` }}>
-          {submitting ? "Requesting..." : "🚀 Request Rescue Delivery"}
+          {submitting ? "Requesting..." : " Request Rescue Delivery"}
         </button>
       </div>
 

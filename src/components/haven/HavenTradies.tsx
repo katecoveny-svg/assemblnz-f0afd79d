@@ -100,7 +100,7 @@ const HavenTradies = ({ onSendToChat }: { onSendToChat: (msg: string) => void })
 
       {/* Uber-style Matcher */}
       <div className="rounded-xl p-3 border space-y-2" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: HAVEN_PINK + "20" }}>
-        <h3 className="font-syne font-bold text-xs" style={{ color: HAVEN_PINK }}>🔍 Tradie Matcher</h3>
+        <h3 className="font-syne font-bold text-xs" style={{ color: HAVEN_PINK }}> Tradie Matcher</h3>
         <p className="text-[10px] text-muted-foreground font-jakarta">Describe the issue and we'll find the right tradie</p>
         <div className="flex gap-2">
           <input value={matchQuery} onChange={e => setMatchQuery(e.target.value)} placeholder="e.g. Leaking hot water cylinder in bathroom"
@@ -177,7 +177,7 @@ const HavenTradies = ({ onSendToChat }: { onSendToChat: (msg: string) => void })
                     <div className="flex items-center gap-3 mt-0.5">
                       {t.phone && <span className="flex items-center gap-1 text-[10px] text-muted-foreground"><Phone size={9} />{t.phone}</span>}
                       {t.email && <span className="flex items-center gap-1 text-[10px] text-muted-foreground"><Mail size={9} />{t.email}</span>}
-                      {t.service_area && <span className="text-[10px] text-muted-foreground">📍 {t.service_area}</span>}
+                      {t.service_area && <span className="text-[10px] text-muted-foreground"> {t.service_area}</span>}
                     </div>
                   </div>
                   <div className="text-right">

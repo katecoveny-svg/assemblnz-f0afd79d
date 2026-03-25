@@ -284,7 +284,7 @@ const OnboardingPage = () => {
           transition={{ delay: 0.8 }}
         >
           <p className="text-xs" style={{ color: "#A1A1AA" }}>
-            📬 We've sent a welcome email to your inbox with your login details, this guide as a PDF attachment,
+             We've sent a welcome email to your inbox with your login details, this guide as a PDF attachment,
             and links to get started. Check your spam folder if you don't see it within 5 minutes.
           </p>
         </motion.div>

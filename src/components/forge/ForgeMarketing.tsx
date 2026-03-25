@@ -11,21 +11,21 @@ const CAMPAIGN_TYPES = [
 ];
 
 const CALENDAR_POSTS = [
-  { day: 1, type: "New Stock", text: "🚗 Just arrived: 2023 Toyota RAV4 Hybrid. Low km, one owner." },
-  { day: 3, type: "Customer Delivery", text: "🎉 Congratulations to the [Name] family on their new [Model]! #HappyCustomers" },
-  { day: 5, type: "Behind the Scenes", text: "🔧 Our workshop team prepping another immaculate vehicle. Every car gets the full treatment." },
-  { day: 7, type: "Staff Spotlight", text: "👋 Meet [Name], our [Role]. [Fun fact]. Come say hi this weekend!" },
-  { day: 9, type: "Car Care Tip", text: "💡 Tip: Check your tyre pressure monthly. Under-inflated tyres cost you fuel and wear faster." },
-  { day: 11, type: "New Stock", text: "🔥 Fresh stock alert: 2022 Mazda CX-5 Limited in Soul Red Crystal. Won't last!" },
-  { day: 13, type: "Promotion", text: "🏷️ FREE WoF check with every service booked this month. T&Cs apply." },
-  { day: 15, type: "Community", text: "🏉 Proud sponsors of [Local Team]. Good luck this weekend!" },
-  { day: 17, type: "Testimonial", text: "⭐ '[Dealership] made buying our first car so easy!' – [Customer Name]" },
-  { day: 19, type: "EV Content", text: "⚡ Thinking electric? Here's what real NZ EV owners say about running costs..." },
-  { day: 21, type: "New Stock", text: "🚙 2021 Ford Ranger Wildtrak — the ultimate Kiwi workhorse. Ready for anything." },
-  { day: 23, type: "Car Care Tip", text: "🌧️ Rainy season tip: Check your wipers and lights. Stay safe on NZ roads." },
-  { day: 25, type: "Customer Delivery", text: "Another happy customer! [Name] driving away in their dream [Model]. 🎊" },
-  { day: 27, type: "Behind the Scenes", text: "📸 Photo day! Fresh stock getting their close-ups for our website and TradeMe." },
-  { day: 29, type: "Weekend Sale", text: "🔥 Weekend sale starts Friday! Trade-in bonuses on selected models. Don't miss out." },
+  { day: 1, type: "New Stock", text: " Just arrived: 2023 Toyota RAV4 Hybrid. Low km, one owner." },
+  { day: 3, type: "Customer Delivery", text: " Congratulations to the [Name] family on their new [Model]! #HappyCustomers" },
+  { day: 5, type: "Behind the Scenes", text: " Our workshop team prepping another immaculate vehicle. Every car gets the full treatment." },
+  { day: 7, type: "Staff Spotlight", text: " Meet [Name], our [Role]. [Fun fact]. Come say hi this weekend!" },
+  { day: 9, type: "Car Care Tip", text: " Tip: Check your tyre pressure monthly. Under-inflated tyres cost you fuel and wear faster." },
+  { day: 11, type: "New Stock", text: " Fresh stock alert: 2022 Mazda CX-5 Limited in Soul Red Crystal. Won't last!" },
+  { day: 13, type: "Promotion", text: " FREE WoF check with every service booked this month. T&Cs apply." },
+  { day: 15, type: "Community", text: " Proud sponsors of [Local Team]. Good luck this weekend!" },
+  { day: 17, type: "Testimonial", text: " '[Dealership] made buying our first car so easy!' – [Customer Name]" },
+  { day: 19, type: "EV Content", text: " Thinking electric? Here's what real NZ EV owners say about running costs..." },
+  { day: 21, type: "New Stock", text: " 2021 Ford Ranger Wildtrak — the ultimate Kiwi workhorse. Ready for anything." },
+  { day: 23, type: "Car Care Tip", text: " Rainy season tip: Check your wipers and lights. Stay safe on NZ roads." },
+  { day: 25, type: "Customer Delivery", text: "Another happy customer! [Name] driving away in their dream [Model]. " },
+  { day: 27, type: "Behind the Scenes", text: " Photo day! Fresh stock getting their close-ups for our website and TradeMe." },
+  { day: 29, type: "Weekend Sale", text: " Weekend sale starts Friday! Trade-in bonuses on selected models. Don't miss out." },
 ];
 
 const PHOTO_GUIDE = [
@@ -58,12 +58,12 @@ export default function ForgeMarketing() {
   const getAdCopy = (platform: string) => {
     const vehicle = "2022 Toyota RAV4 GXL Hybrid AWD";
     switch (platform) {
-      case "TradeMe": return `${vehicle} — 28,400 KMs, One Owner\n\nOutstanding fuel efficiency meets legendary Toyota reliability. This immaculate one-owner RAV4 Hybrid comes with full dealer service history, Safety Sense 2.5, adaptive cruise, leather seats, and panoramic sunroof.\n\nAWD grip for NZ conditions. Hybrid economy for your wallet.\n\n$46,490 Drive Away (incl. GST)\n\n📸 Photo order: Hero 3/4 → Front → Rear 3/4 → Side → Dashboard → Seats → Boot → Engine → Wheels → Features → Odo`;
-      case "Facebook/Instagram": return `🔥 JUST LISTED\n\n2022 Toyota RAV4 GXL Hybrid AWD\n✅ 28,400km · One owner · Full history\n✅ Leather · Sunroof · Safety Sense\n⛽ Hybrid economy = $$$ saved\n\n$46,490 drive away\n\n📱 DM us or call [phone]\n🔗 Link in bio\n\n#Toyota #RAV4 #Hybrid #NZCars #SUV #CarDealer #NZ`;
+      case "TradeMe": return `${vehicle} — 28,400 KMs, One Owner\n\nOutstanding fuel efficiency meets legendary Toyota reliability. This immaculate one-owner RAV4 Hybrid comes with full dealer service history, Safety Sense 2.5, adaptive cruise, leather seats, and panoramic sunroof.\n\nAWD grip for NZ conditions. Hybrid economy for your wallet.\n\n$46,490 Drive Away (incl. GST)\n\n Photo order: Hero 3/4 → Front → Rear 3/4 → Side → Dashboard → Seats → Boot → Engine → Wheels → Features → Odo`;
+      case "Facebook/Instagram": return ` JUST LISTED\n\n2022 Toyota RAV4 GXL Hybrid AWD\n 28,400km · One owner · Full history\n Leather · Sunroof · Safety Sense\n Hybrid economy = $$$ saved\n\n$46,490 drive away\n\n DM us or call [phone]\n Link in bio\n\n#Toyota #RAV4 #Hybrid #NZCars #SUV #CarDealer #NZ`;
       case "Website": return `# 2022 Toyota RAV4 GXL 2.5L Hybrid AWD\n\n## $46,490 Drive Away\n\nThis immaculate one-owner Toyota RAV4 GXL Hybrid represents the perfect blend of efficiency, capability, and Toyota's legendary reliability...\n\n### Key Features\n- Safety Sense 2.5 suite\n- Adaptive cruise control\n- Leather-appointed seats\n- Panoramic sunroof\n- All-wheel drive\n\n[Book Test Drive] [Finance Calculator] [Trade-In Quote]`;
       case "Email Newsletter": return `Subject: New In — 2022 Toyota RAV4 GXL Hybrid AWD\n\nHi [Name],\n\nWe've just taken delivery of an exceptional 2022 RAV4 Hybrid — one owner, 28,400km, full Toyota dealer history.\n\nWith hybrid economy averaging under 5L/100km and AWD grip for NZ conditions, this is the smart SUV choice.\n\n$46,490 drive away.\n\n[View Details] [Book Test Drive]\n\nCheers,\n[Dealership]`;
       case "Google Ads": return `Headline 1: 2022 Toyota RAV4 Hybrid AWD | $46,490\nHeadline 2: One Owner, Full History | Drive Away Price\nHeadline 3: Save on Fuel, Not on Features\n\nDescription 1: 2022 RAV4 GXL Hybrid AWD. 28,400km, leather, sunroof, Safety Sense. $46,490 drive away incl. GST. Book a test drive today.\n\nDescription 2: Fuel-efficient hybrid SUV with AWD. One careful owner, full Toyota service history. Finance available. Visit us in [Location].`;
-      case "Video Script": return `🎬 WALK-AROUND VIDEO SCRIPT\n\n[Start at front 3/4 angle]\n"Here we have a stunning 2022 Toyota RAV4 GXL Hybrid AWD in Crystal Pearl."\n\n[Walk to front]\n"Just 28,400 kilometers, one careful owner, and full Toyota dealer service history."\n\n[Open driver's door]\n"Inside you've got leather seats, panoramic sunroof, and Toyota's latest Safety Sense 2.5 suite."\n\n[Show infotainment]\n"The touchscreen gives you Apple CarPlay, Android Auto, and satellite navigation."\n\n[Walk to rear]\n"Generous boot space — perfect for the family, the dog, and all the weekend gear."\n\n[Back to front]\n"Being a hybrid, you're looking at under 5 litres per hundred k's. That's real savings at the pump. And it's AWD — ready for whatever NZ roads throw at it."\n\n"$46,490 drive away. Come see it in person — I reckon it won't last long."`;
+      case "Video Script": return ` WALK-AROUND VIDEO SCRIPT\n\n[Start at front 3/4 angle]\n"Here we have a stunning 2022 Toyota RAV4 GXL Hybrid AWD in Crystal Pearl."\n\n[Walk to front]\n"Just 28,400 kilometers, one careful owner, and full Toyota dealer service history."\n\n[Open driver's door]\n"Inside you've got leather seats, panoramic sunroof, and Toyota's latest Safety Sense 2.5 suite."\n\n[Show infotainment]\n"The touchscreen gives you Apple CarPlay, Android Auto, and satellite navigation."\n\n[Walk to rear]\n"Generous boot space — perfect for the family, the dog, and all the weekend gear."\n\n[Back to front]\n"Being a hybrid, you're looking at under 5 litres per hundred k's. That's real savings at the pump. And it's AWD — ready for whatever NZ roads throw at it."\n\n"$46,490 drive away. Come see it in person — I reckon it won't last long."`;
       default: return "";
     }
   };
@@ -124,7 +124,7 @@ export default function ForgeMarketing() {
                 <p className="text-[10px] text-foreground/80 mt-1">{post.text}</p>
               </div>
               <button onClick={() => copy(post.text, i + 10)} className="text-[9px] shrink-0" style={{ color: FORGE_COLOR }}>
-                {copiedIdx === i + 10 ? "✓" : <Copy size={10} />}
+                {copiedIdx === i + 10 ? "" : <Copy size={10} />}
               </button>
             </div>
           ))}

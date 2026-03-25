@@ -623,7 +623,7 @@ export const NeonNZFlag = ({ size = 24 }: P) =>
   </svg>;
 
 
-// ── Paperclip icon (replaces 📎) ──
+// ── Paperclip icon (replaces ) ──
 
 export const NeonPaperclip = ({ size = 24, color = C.cyan }: P) =>
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
@@ -631,7 +631,7 @@ export const NeonPaperclip = ({ size = 24, color = C.cyan }: P) =>
   </svg>;
 
 
-// ── Camera icon (replaces 📷) ──
+// ── Camera icon (replaces ) ──
 
 export const NeonCamera = ({ size = 24, color = C.cyan }: P) =>
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
@@ -641,7 +641,7 @@ export const NeonCamera = ({ size = 24, color = C.cyan }: P) =>
   </svg>;
 
 
-// ── Diamond icon (replaces ◇) ──
+// ── Diamond icon (replaces ) ──
 
 export const NeonDiamond = ({ size = 14, color = C.gold }: P) =>
 <svg width={size} height={size} viewBox="0 0 14 14" fill="none">

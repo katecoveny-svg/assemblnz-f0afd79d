@@ -100,7 +100,7 @@ export default function SparkAppViewer() {
         <a href="/chat/spark" target="_blank" rel="noopener noreferrer"
           className="fixed bottom-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-medium backdrop-blur-sm z-50"
           style={{ background: "rgba(255,107,0,0.15)", color: "#FF6B00", border: "1px solid rgba(255,107,0,0.25)" }}>
-          ⚡ Built with SPARK by Assembl
+           Built with SPARK by Assembl
         </a>
       )}
     </div>

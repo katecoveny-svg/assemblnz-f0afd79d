@@ -184,7 +184,7 @@ Generate comprehensive, detailed content for this section. Include specific fram
           {[
             { id: "gets" as SubView, icon: Building2, title: "GETS Government Tender", desc: "Structured response for government RFPs via GETS portal", badge: "NZS 3910" },
             { id: "private" as SubView, icon: FileText, title: "Private Sector Proposal", desc: "Premium proposals for private clients — outcomes-focused", badge: "Premium" },
-            { id: "scraper" as SubView, icon: Globe, title: "Website Scraper — Company Profile", desc: "Extract your company data to auto-populate all documents", badge: companyProfile ? "✅ Profile saved" : "Setup" },
+            { id: "scraper" as SubView, icon: Globe, title: "Website Scraper — Company Profile", desc: "Extract your company data to auto-populate all documents", badge: companyProfile ? " Profile saved" : "Setup" },
             { id: "pqq" as SubView, icon: ClipboardList, title: "Prequalification Questionnaire", desc: "Generate PQQ responses — fill once, reuse everywhere", badge: "PQQ" },
           ].map((item) => (
             <button

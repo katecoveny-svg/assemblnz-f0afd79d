@@ -123,7 +123,7 @@ const BrandFooter = () => {
               key={badge}
               className="text-[9px] font-mono-jb px-2.5 py-1 rounded-full border border-border text-muted-foreground bg-card"
             >
-              ✓ {badge}
+               {badge}
             </span>
           ))}
         </div>

@@ -187,7 +187,7 @@ export default function ArohaPayroll() {
             </div>
           </div>
           <div className="p-3 rounded-lg bg-muted text-[9px] text-muted-foreground">
-            ⚠️ The Employment Leave Bill 2026 proposes accrual from day 1. Until enacted, the Holidays Act 2003 applies.
+             The Employment Leave Bill 2026 proposes accrual from day 1. Until enacted, the Holidays Act 2003 applies.
           </div>
         </div>
       )}

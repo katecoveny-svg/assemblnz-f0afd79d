@@ -89,7 +89,7 @@ const NexusJobSheet = ({
                       color: done ? "#0A0A14" : active ? color : color + "40",
                     }}
                   >
-                    {done ? "✓" : i + 1}
+                    {done ? "" : i + 1}
                   </div>
                   <span
                     className="text-[8px] mt-1 text-center leading-tight"

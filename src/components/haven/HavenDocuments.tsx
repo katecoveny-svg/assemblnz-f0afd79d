@@ -21,7 +21,7 @@ const HavenDocuments = ({ onSendToChat }: { onSendToChat: (msg: string) => void 
 
       {/* AI Parser */}
       <div className="rounded-xl p-3 border space-y-2" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: HAVEN_PINK + "20" }}>
-        <h3 className="font-syne font-bold text-xs" style={{ color: HAVEN_PINK }}>📄 AI Document Parser</h3>
+        <h3 className="font-syne font-bold text-xs" style={{ color: HAVEN_PINK }}> AI Document Parser</h3>
         <p className="text-[10px] text-muted-foreground font-jakarta">Upload a tenancy agreement or inspection report and HAVEN will extract key details.</p>
         <button onClick={() => onSendToChat("Parse my uploaded document and extract the key details")}
           className="px-3 py-1.5 rounded-lg text-xs font-medium" style={{ backgroundColor: HAVEN_PINK + "20", color: HAVEN_PINK }}>

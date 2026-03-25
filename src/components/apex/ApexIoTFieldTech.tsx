@@ -106,9 +106,9 @@ const ApexIoTFieldTech = () => {
             <h3 className="font-syne font-bold text-sm text-foreground mb-3">Trimble Connect — BIM Coordination</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
               {[
-                { label: "BIM Import", desc: "Import IFC/RVT models from Trimble Connect projects", icon: "📦" },
-                { label: "Model Viewer", desc: "3D model viewing with clash detection and annotations", icon: "🔍" },
-                { label: "Equipment Tracking", desc: "Track machine hours, utilisation, and maintenance schedules", icon: "🚜" },
+                { label: "BIM Import", desc: "Import IFC/RVT models from Trimble Connect projects", icon: "" },
+                { label: "Model Viewer", desc: "3D model viewing with clash detection and annotations", icon: "" },
+                { label: "Equipment Tracking", desc: "Track machine hours, utilisation, and maintenance schedules", icon: "" },
               ].map((item) => (
                 <div
                   key={item.label}
@@ -135,9 +135,9 @@ const ApexIoTFieldTech = () => {
             <h3 className="font-syne font-bold text-sm text-foreground mb-3">DroneDeploy — Aerial Intelligence</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
               {[
-                { label: "Aerial Surveys", desc: "Orthomosaic maps and 3D site reconstructions from drone flights", icon: "🛸" },
-                { label: "Progress Photos", desc: "Automated site progress tracking with timestamped comparisons", icon: "📸" },
-                { label: "Volume Calc", desc: "Cut & fill volume calculations from elevation data", icon: "📐" },
+                { label: "Aerial Surveys", desc: "Orthomosaic maps and 3D site reconstructions from drone flights", icon: "" },
+                { label: "Progress Photos", desc: "Automated site progress tracking with timestamped comparisons", icon: "" },
+                { label: "Volume Calc", desc: "Cut & fill volume calculations from elevation data", icon: "" },
               ].map((item) => (
                 <div
                   key={item.label}
@@ -186,7 +186,7 @@ const ApexIoTFieldTech = () => {
                     </span>
                     <span className="text-[10px] text-muted-foreground block mt-0.5">{eq.lastPing}</span>
                     {eq.fuel !== null && (
-                      <span className="text-[10px] text-muted-foreground">⛽ {eq.fuel}%</span>
+                      <span className="text-[10px] text-muted-foreground"> {eq.fuel}%</span>
                     )}
                   </div>
                 </div>

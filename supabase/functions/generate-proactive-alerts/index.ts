@@ -60,7 +60,7 @@ Deno.serve(async (req) => {
             type: "compliance_deadline",
             title: deadline.title,
             message: daysUntil === 0 
-              ? `⚠️ ${deadline.title} is due TODAY!` 
+              ? ` ${deadline.title} is due TODAY!` 
               : `${deadline.title} is due in ${daysUntil} day${daysUntil === 1 ? "" : "s"}. ${deadline.description || ""}`,
             relevant_agent: deadline.agents?.[0] || "ledger",
             action_text: "Prepare now",

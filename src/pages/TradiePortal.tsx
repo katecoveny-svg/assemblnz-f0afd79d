@@ -298,7 +298,7 @@ const TradiePortal = () => {
                     <div className="text-xs font-medium capitalize" style={{
                       color: offer.status === "accepted" ? "#66BB6A" : "#EF5350",
                     }}>
-                      {offer.status === "accepted" ? "✓ Accepted" : "✗ Declined"}
+                      {offer.status === "accepted" ? " Accepted" : " Declined"}
                     </div>
                   )}
                 </div>

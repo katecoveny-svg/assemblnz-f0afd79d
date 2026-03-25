@@ -62,7 +62,7 @@ const SparkPreview = ({ code, onIterate, onDeploy }: SparkPreviewProps) => {
         {onDeploy && (
           <button onClick={onDeploy} className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all hover:scale-[0.97]"
             style={{ background: "#FF6B00", color: "#fff" }} title="Deploy Live">
-            🚀 Deploy
+             Deploy
           </button>
         )}
       </div>

@@ -52,9 +52,9 @@ const HavenCostIntelligence = () => {
     const cat = categories.find(c => c.category.toLowerCase() === quoteCategory.toLowerCase());
     if (!cat) { setQuoteResult("No data for this category yet. Add more completed jobs to build your cost intelligence."); return; }
     const diff = ((amount - cat.avg) / cat.avg) * 100;
-    if (diff > 20) setQuoteResult(`⚠️ This quote is ${diff.toFixed(0)}% above your portfolio average of $${cat.avg.toFixed(0)} for ${cat.category}.`);
-    else if (diff < -10) setQuoteResult(`✅ Great deal — ${Math.abs(diff).toFixed(0)}% below your portfolio average of $${cat.avg.toFixed(0)}.`);
-    else setQuoteResult(`✓ Fair price — within range of your portfolio average of $${cat.avg.toFixed(0)}.`);
+    if (diff > 20) setQuoteResult(` This quote is ${diff.toFixed(0)}% above your portfolio average of $${cat.avg.toFixed(0)} for ${cat.category}.`);
+    else if (diff < -10) setQuoteResult(` Great deal — ${Math.abs(diff).toFixed(0)}% below your portfolio average of $${cat.avg.toFixed(0)}.`);
+    else setQuoteResult(` Fair price — within range of your portfolio average of $${cat.avg.toFixed(0)}.`);
   };
 
   if (loading) return (

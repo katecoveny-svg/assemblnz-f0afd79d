@@ -39,7 +39,7 @@ Hi [Name],
 
 We'd love you to join us for an exclusive ${eventName.toLowerCase()} at [Dealership]. An evening of [experience description], with refreshments and a first look at our latest models.
 
-📅 [Date] | 🕕 [Time] | 📍 [Venue]
+ [Date] |  [Time] |  [Venue]
 
 RSVP by [Date]: [Link] or call [Phone]
 

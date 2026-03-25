@@ -64,22 +64,22 @@ const ContentStudio = ({ onSendToChat }: ContentStudioProps) => {
 
 Generate the following in a structured format:
 
-## 🔥 Scroll-Stopping Hook
+##  Scroll-Stopping Hook
 [Write a compelling opening line that stops the scroll]
 
-## 📝 Full Caption
+##  Full Caption
 [Write the complete caption with appropriate emojis. Make it engaging, on-brand, and platform-optimised for ${platformLabel}. Include line breaks for readability.]
 
-## 💬 Call to Action
+##  Call to Action
 [Write a strong, specific CTA]
 
 ## # Hashtags
 [Provide 8-12 relevant hashtags, mix of broad and niche NZ-specific tags]
 
-## 💡 Posting Tip
+##  Posting Tip
 [One actionable tip for maximising engagement on ${platformLabel} for this content type]
 
-## 🎨 Image Direction
+##  Image Direction
 [Describe the ideal visual for this post — colours, composition, text overlay suggestions, mood. Be specific enough that an AI image generator could create it.]
 
 Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
@@ -92,7 +92,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
       setResult(data.content);
 
       // Extract the image direction for pre-filling
-      const imageMatch = data.content?.match(/## 🎨 Image Direction\n([\s\S]*?)(?=\n## |$)/);
+      const imageMatch = data.content?.match(/##  Image Direction\n([\s\S]*?)(?=\n## |$)/);
       if (imageMatch?.[1]) {
         setImagePrompt(imageMatch[1].trim());
       }
@@ -164,7 +164,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
 
   const handleCopy = () => {
     if (!result) return;
-    const captionMatch = result.match(/## 📝 Full Caption\n([\s\S]*?)(?=\n## |$)/);
+    const captionMatch = result.match(/##  Full Caption\n([\s\S]*?)(?=\n## |$)/);
     const hashtagMatch = result.match(/## # Hashtags\n([\s\S]*?)(?=\n## |$)/);
     const textToCopy = [
       captionMatch?.[1]?.trim() || "",

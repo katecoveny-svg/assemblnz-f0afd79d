@@ -128,7 +128,7 @@ const VoiceAgentWaitlist = ({ agentId, agentName, agentColor }: Props) => {
         {/* CTA */}
         {joined ? (
           <div className="text-center py-4 rounded-xl" style={{ ...glassCard, borderColor: agentColor + "30" }}>
-            <p className="text-xs font-bold" style={{ color: agentColor }}>✓ You're on the waitlist!</p>
+            <p className="text-xs font-bold" style={{ color: agentColor }}> You're on the waitlist!</p>
             <p className="text-[10px] text-muted-foreground mt-1">We'll notify you when Voice Agents launch.</p>
           </div>
         ) : (

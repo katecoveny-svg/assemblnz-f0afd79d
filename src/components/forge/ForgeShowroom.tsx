@@ -77,7 +77,7 @@ export default function ForgeShowroom() {
   const generateTradeMeListing = (v: Vehicle) => {
     return `**${v.year} ${v.make} ${v.model} ${v.variant} — ${v.kms} KMs${v.numberOfOwners === "1" ? ", One Owner" : ""}**
 
-🔑 Key Highlights:
+ Key Highlights:
 • ${v.fuelType === "Hybrid" || v.fuelType === "Electric" ? "Outstanding fuel efficiency — save at the pump with NZ petrol prices" : `${v.engineSize} ${v.fuelType} engine`}
 • ${v.transmission} transmission
 • ${v.kms} kilometres
@@ -85,7 +85,7 @@ ${v.features.split(",").map(f => `• ${f.trim()}`).join("\n")}
 ${v.numberOfOwners === "1" ? "• One careful owner" : ""}
 ${v.serviceHistory ? `• ${v.serviceHistory}` : ""}
 
-📋 Vehicle Details:
+ Vehicle Details:
 • Year: ${v.year}
 • Make: ${v.make}
 • Model: ${v.model} ${v.variant}
@@ -97,13 +97,13 @@ ${v.serviceHistory ? `• ${v.serviceHistory}` : ""}
 • WoF: Valid until ${v.wofExpiry}
 • Rego: Valid until ${v.regoExpiry}
 
-💰 Price: $${Number(v.driveAwayPrice).toLocaleString()} Drive Away (incl. GST)
+ Price: $${Number(v.driveAwayPrice).toLocaleString()} Drive Away (incl. GST)
 
 ${v.conditionNotes ? `Condition: ${v.conditionNotes}` : ""}
 
-📸 Recommended Photo Order: Hero 3/4 front shot → Front straight → Rear 3/4 → Side profile → Interior dashboard → Front seats → Rear seats → Boot → Engine bay → Wheels/tyres → Any special features → Odometer
+ Recommended Photo Order: Hero 3/4 front shot → Front straight → Rear 3/4 → Side profile → Interior dashboard → Front seats → Rear seats → Boot → Engine bay → Wheels/tyres → Any special features → Odometer
 
-✅ Compliant with NZ motor marketplace listing policy — no overlays, genuine photos, NZD pricing incl. GST.
+ Compliant with NZ motor marketplace listing policy — no overlays, genuine photos, NZD pricing incl. GST.
 
 ---
 For direct API integration with your marketplace, contact your platform provider to set up API access.`;

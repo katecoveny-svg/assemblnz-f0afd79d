@@ -77,7 +77,7 @@ const ConversationExport = ({ messages, agentName, agentDesignation, agentColor 
             .replace(/^#+\s*/g, "")
             .replace(/\*\*(.*?)\*\*/g, "$1")
             .replace(/\*(.*?)\*/g, "$1")
-            .replace(/^[-*]\s*\[([ xX])\]\s*/g, (_, c) => (c.trim() ? "☑ " : "☐ "))
+            .replace(/^[-*]\s*\[([ xX])\]\s*/g, (_, c) => (c.trim() ? " " : " "))
             .replace(/^[-*]\s+/g, "• ");
 
           doc.setFontSize(9); doc.setFont("helvetica", "normal"); doc.setTextColor(40);
