@@ -726,14 +726,11 @@ const ChatPage = () => {
     };
     const dims = aspectDims[prismImageAspect];
     try {
-      const { data, error } = await supabase.functions.invoke("generate-image", {
+      const { data, error } = await supabase.functions.invoke("stitch-generate", {
         body: {
           prompt: prismImagePrompt,
-          platform: "brand_marketing",
-          contentType: "brand_asset",
-          agentContext: "Professional brand marketing asset. Create agency-quality visuals with premium aesthetics.",
-          quality: "pro",
-          brandContext: brandProfile ? { business_name: brandName || "Assembl", tone: "professional", industry: "technology" } : undefined,
+          style: "premium marketing visual, agency-quality, commercial-grade design",
+          aspectRatio: prismImageAspect,
         },
       });
       if (error) throw error;
