@@ -44,7 +44,7 @@ const NexusEntryCard = ({ data, color = "#5B8CFF" }: Props) => {
     const rows = data.lines
       .map(
         (l) =>
-          `${l.line},"${l.description}",${l.hsCode},${l.origin},${l.fta || "N/A"},${l.qty || ""},${l.valueNZD},${l.duty},${l.gst},${l.flagged ? "⚠️ " + (l.flagReason || "Review") : ""}`
+          `${l.line},"${l.description}",${l.hsCode},${l.origin},${l.fta || "N/A"},${l.qty || ""},${l.valueNZD},${l.duty},${l.gst},${l.flagged ? " " + (l.flagReason || "Review") : ""}`
       )
       .join("\n");
     const totals = `\nTOTALS,,,,,,,${data.totalDuty || ""},${data.totalGST || ""},\nTOTAL PAYABLE:,,,,,,,${data.totalPayable || ""},,`;
@@ -129,7 +129,7 @@ const NexusEntryCard = ({ data, color = "#5B8CFF" }: Props) => {
     // Broker sign-off
     doc.setFontSize(9);
     doc.setTextColor(180, 0, 0);
-    doc.text("⚠ BROKER SIGN-OFF REQUIRED — This entry must be reviewed by a Licensed Customs Broker before lodgement.", m, y, { maxWidth: mw });
+    doc.text(" BROKER SIGN-OFF REQUIRED — This entry must be reviewed by a Licensed Customs Broker before lodgement.", m, y, { maxWidth: mw });
     y += 8;
 
     // Footer
@@ -242,7 +242,7 @@ const NexusEntryCard = ({ data, color = "#5B8CFF" }: Props) => {
                   </td>
                   <td className="px-3 py-1.5 font-mono text-foreground/70">
                     {l.hsCode}
-                    {l.flagged && <span className="text-yellow-400 ml-1">⚠️</span>}
+                    {l.flagged && <span className="text-yellow-400 ml-1"></span>}
                   </td>
                   <td className="px-3 py-1.5 text-foreground/60">{l.origin}</td>
                   <td className="px-3 py-1.5 text-foreground/60">{l.fta || "—"}</td>

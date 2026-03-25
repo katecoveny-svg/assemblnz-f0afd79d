@@ -152,7 +152,7 @@ export default function HelmBusTracker() {
       const el = document.createElement("div");
       el.className = "bus-marker";
       el.style.cssText = `width:32px;height:32px;background:${HELM_COLOR};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:#000;font-weight:bold;box-shadow:0 0 12px ${HELM_COLOR}60;`;
-      el.innerHTML = "🚌";
+      el.innerHTML = "";
       if (v.bearing) el.style.transform = `rotate(${v.bearing}deg)`;
       
       const marker = new mapboxgl.Marker(el)
@@ -227,7 +227,7 @@ export default function HelmBusTracker() {
               <h3 className="text-[10px] font-semibold text-white/40 uppercase tracking-wider">{vehicles.length} bus{vehicles.length > 1 ? "es" : ""} tracked</h3>
               {vehicles.map(v => (
                 <div key={v.vehicle_id} className="rounded-lg px-3 py-2 flex items-center gap-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
-                  <span className="text-sm">🚌</span>
+                  <span className="text-sm"></span>
                   <div className="flex-1">
                     <span className="text-xs text-white/70 font-medium">Route {v.route_id}</span>
                     {v.speed != null && <span className="text-[10px] text-white/30 ml-2">{Math.round(v.speed)} km/h</span>}

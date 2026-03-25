@@ -177,7 +177,7 @@ export default function SparkDeployModal({ htmlContent, onClose, onDeployed }: S
             <button onClick={deploy} disabled={!user || !appName.trim() || deploying}
               className="w-full py-3 rounded-xl text-xs font-semibold transition-all hover:scale-[0.98] disabled:opacity-30 flex items-center justify-center gap-2"
               style={{ background: `${ACCENT}25`, color: ACCENT, border: `1px solid ${ACCENT}40` }}>
-              {deploying ? "Deploying..." : user ? "🚀 Deploy Live" : "Sign in to deploy"}
+              {deploying ? "Deploying..." : user ? " Deploy Live" : "Sign in to deploy"}
             </button>
           </>
         ) : (

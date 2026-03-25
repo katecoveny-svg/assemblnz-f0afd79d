@@ -64,7 +64,7 @@ Deno.serve(async (req) => {
         if (daysUntilDue <= 7 && daysUntilDue >= 0 && deadline.severity === "critical") {
           await createAlert(supabase, userId, {
             type: "compliance_urgent",
-            title: `⚠️ ${deadline.title} — ${daysUntilDue} days`,
+            title: ` ${deadline.title} — ${daysUntilDue} days`,
             message: deadline.description || "Urgent compliance deadline approaching",
             agent: deadline.agents?.[0] || "ledger",
             action: deadline.auto_generate_document
@@ -104,7 +104,7 @@ Deno.serve(async (req) => {
       for (const law of newLaws || []) {
         await createAlert(supabase, userId, {
           type: "legislation_change",
-          title: `📋 ${law.title}`,
+          title: ` ${law.title}`,
           message: law.summary,
           agent: law.affected_agents?.[0] || "anchor",
           action: law.action_required || "Review the changes",

@@ -90,6 +90,7 @@ const AVATAR_MAP: Record<string, string> = {
   banking: mintImg,
   echo: echoImg,
   spark: sparkImg,
+  sports: sportsImg,
 };
 
 interface AgentAvatarProps {

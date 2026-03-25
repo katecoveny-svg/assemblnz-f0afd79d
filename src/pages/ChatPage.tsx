@@ -168,7 +168,7 @@ function parseNexusEntry(content: string) {
     const linePattern = /(\d+)\.\s+(.+?)[\n\r]+\s*HS Code:\s*(\S+)(.*?)[\n\r]+\s*Origin:\s*(\S+).*?(?:FTA:\s*([^\n|]+))?.*?[\n\r]+\s*Qty:.*?(?:(\d[\d,]*\s*\w*))?.*?Value:\s*\$?([\d,.]+).*?[\n\r]+\s*Duty:.*?=\s*\$?([\d,.]+).*?[\n\r]+\s*GST:.*?=\s*\$?([\d,.]+)/gim;
     let match;
     while ((match = linePattern.exec(content)) !== null) {
-      const flagged = match[4]?.includes("⚠️") || match[4]?.includes("uncertain");
+      const flagged = match[4]?.includes("") || match[4]?.includes("uncertain");
       lines.push({
         line: parseInt(match[1]),
         description: match[2].trim(),
@@ -1019,7 +1019,7 @@ const ChatPage = () => {
       const functionName = isHaven ? "haven-ai" : "chat";
 
       if (isHaven && !session?.access_token) {
-        setMessages((prev) => [...prev, { role: "assistant", content: "🔒 Please sign in to use HAVEN's property management features. Your data is securely linked to your account." }]);
+        setMessages((prev) => [...prev, { role: "assistant", content: " Please sign in to use HAVEN's property management features. Your data is securely linked to your account." }]);
         setIsLoading(false);
         return;
       }
@@ -1588,7 +1588,7 @@ const ChatPage = () => {
                   borderBottom: sparkMobileView === "preview" ? `2px solid ${previewAccentColor}` : "2px solid transparent",
                 }}
               >
-                {isSpark ? "⚡ Live Preview" : "🎨 Creative Preview"}
+                {isSpark ? " Live Preview" : " Creative Preview"}
               </button>
             </div>
           )}
@@ -1895,11 +1895,11 @@ const ChatPage = () => {
                     style={{ borderColor: agent.color + "30" }}
                     title="Select AI model"
                   >
-                    <option value="gemini-flash">⚡ Gemini Flash</option>
-                    <option value="gemini-pro">🧠 Gemini Pro</option>
-                    <option value="gemini-flash-lite">💨 Gemini Lite</option>
-                    <option value="gpt-5-mini">🤖 GPT-5 Mini</option>
-                    <option value="gpt-5">🏆 GPT-5</option>
+                    <option value="gemini-flash"> Gemini Flash</option>
+                    <option value="gemini-pro"> Gemini Pro</option>
+                    <option value="gemini-flash-lite"> Gemini Lite</option>
+                    <option value="gpt-5-mini"> GPT-5 Mini</option>
+                    <option value="gpt-5"> GPT-5</option>
                   </select>
                   <div className="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M2 3.5L5 7L8 3.5H2Z"/></svg>

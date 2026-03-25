@@ -527,11 +527,11 @@ export const AuraGuestPreview = () => (
       </span>
     </div>
     {[
-      "☐ Anniversary card in suite",
-      "☐ Central Otago Pinot chilled",
-      "☐ Pescatarian menu cards",
-      "☐ Helicopter to Aoraki/Mt Cook",
-      "☐ Stargazing session",
+      " Anniversary card in suite",
+      " Central Otago Pinot chilled",
+      " Pescatarian menu cards",
+      " Helicopter to Aoraki/Mt Cook",
+      " Stargazing session",
     ].map((item) => (
       <p key={item} className="font-jakarta text-[9px]" style={{ color: "rgba(255,255,255,0.45)" }}>
         {item}

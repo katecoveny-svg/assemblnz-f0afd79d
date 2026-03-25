@@ -123,7 +123,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
         let text = trimmed
           .replace(/\*\*(.*?)\*\*/g, "$1")
           .replace(/\*(.*?)\*/g, "$1")
-          .replace(/^[-*]\s*\[([ xX])\]\s*/g, (_, c) => (c.trim() ? "☑ " : "☐ "))
+          .replace(/^[-*]\s*\[([ xX])\]\s*/g, (_, c) => (c.trim() ? " " : " "))
           .replace(/^[-*]\s+/g, "• ")
           .replace(/^\d+\.\s+/g, (m) => m);
 

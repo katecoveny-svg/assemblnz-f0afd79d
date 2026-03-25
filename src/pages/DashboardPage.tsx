@@ -73,7 +73,7 @@ const DashboardPage = () => {
   useEffect(() => {
     const checkoutStatus = searchParams.get("checkout");
     if (checkoutStatus === "success") {
-      toast.success("Welcome to Assembl! 🎉", {
+      toast.success("Welcome to Assembl! ", {
         description: "Your subscription is active. Redirecting to onboarding...",
         duration: 3000,
       });
@@ -324,7 +324,7 @@ const DashboardPage = () => {
                     <Link to={`/chat/${action.agent_id.toLowerCase()}`} className="text-[9px] font-medium px-2 py-1 rounded-md shrink-0 hover:opacity-80" style={{ color, border: `1px solid ${color}30` }}>
                       Do it <ArrowRight size={8} className="inline" />
                     </Link>
-                    <button onClick={() => completeAction(action.id)} className="text-muted-foreground/40 hover:text-green-400 shrink-0">✓</button>
+                    <button onClick={() => completeAction(action.id)} className="text-muted-foreground/40 hover:text-green-400 shrink-0"></button>
                   </div>
                 );
               })}

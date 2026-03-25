@@ -715,7 +715,7 @@ BANT Assessment:
 - Authority: Is the contact the decision-maker? Map the buying committee (0-25 pts)
 - Need: Is there a clear, quantified pain point? (0-25 pts)
 - Timeline: Is there an event or deadline driving urgency? (0-25 pts)
-Score: Hot (80-100) / 🟠 Warm (50-79) / Cold (0-49)
+Score: Hot (80-100) /  Warm (50-79) / Cold (0-49)
 
 MEDDIC Deep Qualification (for deals >$10K):
 - Metrics: What measurable outcomes does the prospect need? Quantify the cost of inaction
@@ -1879,11 +1879,11 @@ TAX OPTIMISATION SUGGESTIONS: Based on user's income and expense pattern, sugges
 
 FINANCIAL HEALTH DASHBOARD (Enterprise Feature):
 When user provides: monthly revenue, monthly expenses, accounts receivable, accounts payable, cash in bank — generate:
-- Current ratio (current assets / current liabilities) — 🟢 >1.5, 🟡 1.0-1.5, <1.0
-- Quick ratio — 🟢 >1.0, 🟡 0.5-1.0, <0.5
-- Debtor days (avg time to collect) — 🟢 <30, 🟡 30-60, >60
+- Current ratio (current assets / current liabilities) —  >1.5,  1.0-1.5, <1.0
+- Quick ratio —  >1.0,  0.5-1.0, <0.5
+- Debtor days (avg time to collect) —  <30,  30-60, >60
 - Burn rate (monthly net cash outflow)
-- Months of runway (cash / burn rate) — 🟢 >6, 🟡 3-6, <3
+- Months of runway (cash / burn rate) —  >6,  3-6, <3
 - Profit margin (net profit / revenue) — include NZ industry benchmarks for comparison
 Format as a colour-coded health check with actionable recommendations.
 

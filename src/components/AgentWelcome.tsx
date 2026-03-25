@@ -41,7 +41,7 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
             color: "#00FF88",
           }}
         >
-          🎂 {anniversaryMsg}
+           {anniversaryMsg}
         </div>
       )}
 
@@ -68,7 +68,7 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
             color: `${agent.color}CC`,
           }}
         >
-          💬 {randomSuggestion}
+           {randomSuggestion}
         </div>
       )}
 
@@ -82,7 +82,7 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
             color: agent.color,
           }}
         >
-          💡 {seasonalHint}
+           {seasonalHint}
         </div>
       )}
 

@@ -134,7 +134,7 @@ async function executeTool(
         notes: args.notes,
       }).select("id, address, suburb").single();
       if (error) return `Error creating property: ${error.message}`;
-      return `✅ Property created: ${data.address}, ${data.suburb} (ID: ${data.id}). I'd recommend setting up Healthy Homes compliance items for this property.`;
+      return ` Property created: ${data.address}, ${data.suburb} (ID: ${data.id}). I'd recommend setting up Healthy Homes compliance items for this property.`;
     }
 
     case "log_maintenance_job": {
@@ -161,7 +161,7 @@ async function executeTool(
         status: "reported",
       }).select("id, title").single();
       if (error) return `Error logging job: ${error.message}`;
-      return `✅ Job logged: "${data.title}" (${args.urgency || "medium"} urgency). ${args.category ? `Category: ${args.category}. I can search for matching ${args.category} tradies if you'd like.` : ""}`;
+      return ` Job logged: "${data.title}" (${args.urgency || "medium"} urgency). ${args.category ? `Category: ${args.category}. I can search for matching ${args.category} tradies if you'd like.` : ""}`;
     }
 
     case "schedule_inspection": {
@@ -173,7 +173,7 @@ async function executeTool(
         next_inspection_date: args.date,
         inspection_notes: args.notes || null,
       }).eq("id", props[0].id);
-      return `✅ Inspection scheduled for ${props[0].address} on ${args.date}.${args.notes ? ` Notes: ${args.notes}` : ""}`;
+      return ` Inspection scheduled for ${props[0].address} on ${args.date}.${args.notes ? ` Notes: ${args.notes}` : ""}`;
     }
 
     case "add_compliance_item": {
@@ -190,7 +190,7 @@ async function executeTool(
         status: "not_checked",
       });
       if (error) return `Error: ${error.message}`;
-      return `✅ Compliance item added: "${args.title}" (${args.category}) for ${props[0].address}.`;
+      return ` Compliance item added: "${args.title}" (${args.category}) for ${props[0].address}.`;
     }
 
     case "find_tradie": {
@@ -202,7 +202,7 @@ async function executeTool(
         .limit(5);
       if (!tradies?.length) return `No ${args.trade} tradies found in your directory. You can add tradies in the Tradies tab.`;
       const list = tradies.map((t: any, i: number) =>
-        `${i + 1}. **${t.name}** — ${t.trade} | ⭐ ${Number(t.rating || 0).toFixed(1)} | ${t.jobs_completed || 0} jobs | ${t.service_area || "N/A"} | ${t.phone || t.email || "No contact"}`
+        `${i + 1}. **${t.name}** — ${t.trade} |  ${Number(t.rating || 0).toFixed(1)} | ${t.jobs_completed || 0} jobs | ${t.service_area || "N/A"} | ${t.phone || t.email || "No contact"}`
       ).join("\n");
       return `Found ${tradies.length} ${args.trade} tradies:\n\n${list}\n\nYou can assign one from the Jobs tab.`;
     }
@@ -221,21 +221,21 @@ async function executeTool(
         .gte("next_inspection_date", today)
         .order("next_inspection_date").limit(5);
 
-      let briefing = "## 📋 Today's Briefing\n\n";
+      let briefing = "##  Today's Briefing\n\n";
       if (urgentJobs?.length) {
-        briefing += `### 🚨 Urgent Jobs (${urgentJobs.length})\n`;
+        briefing += `###  Urgent Jobs (${urgentJobs.length})\n`;
         urgentJobs.forEach((j: any) => { briefing += `- **${j.title}** — ${j.urgency} / ${j.status}\n`; });
         briefing += "\n";
       } else {
-        briefing += "### ✅ No urgent jobs\n\n";
+        briefing += "###  No urgent jobs\n\n";
       }
       if (overdueComp?.length) {
-        briefing += `### ⚠️ Overdue Compliance (${overdueComp.length})\n`;
+        briefing += `###  Overdue Compliance (${overdueComp.length})\n`;
         overdueComp.forEach((c: any) => { briefing += `- ${c.title}\n`; });
         briefing += "\n";
       }
       if (inspections?.length) {
-        briefing += "### 🔍 Upcoming Inspections\n";
+        briefing += "###  Upcoming Inspections\n";
         inspections.forEach((p: any) => { briefing += `- ${p.address} — ${p.next_inspection_date}\n`; });
       }
       return briefing;
@@ -253,7 +253,7 @@ async function executeTool(
       const { data: invoiced } = await supabase.from("maintenance_jobs").select("invoice_amount").eq("user_id", userId).not("invoice_amount", "is", null);
       const totalSpend = (invoiced || []).reduce((s: number, j: any) => s + Number(j.invoice_amount), 0);
 
-      return `## 📊 Portfolio Summary\n\n- **Properties:** ${propCount || 0}\n- **Open Jobs:** ${openJobCount || 0}\n- **Compliance Score:** ${score}% (${compliant}/${total} items compliant)\n- **Total Spend:** $${totalSpend.toLocaleString()} NZD`;
+      return `##  Portfolio Summary\n\n- **Properties:** ${propCount || 0}\n- **Open Jobs:** ${openJobCount || 0}\n- **Compliance Score:** ${score}% (${compliant}/${total} items compliant)\n- **Total Spend:** $${totalSpend.toLocaleString()} NZD`;
     }
 
     default:

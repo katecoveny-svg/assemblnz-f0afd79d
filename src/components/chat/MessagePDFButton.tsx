@@ -56,7 +56,7 @@ const MessagePDFButton = ({ content, agentId, agentName, agentDesignation, agent
         let text = trimmed
           .replace(/\*\*(.*?)\*\*/g, "$1")
           .replace(/\*(.*?)\*/g, "$1")
-          .replace(/^[-*]\s*\[([ xX])\]\s*/g, (_, c) => (c.trim() ? "☑ " : "☐ "))
+          .replace(/^[-*]\s*\[([ xX])\]\s*/g, (_, c) => (c.trim() ? " " : " "))
           .replace(/^[-*]\s+/g, "• ")
           .replace(/^\d+\.\s+/g, (m) => m);
 
