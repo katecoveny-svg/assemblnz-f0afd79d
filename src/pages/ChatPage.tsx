@@ -1592,6 +1592,20 @@ const ChatPage = () => {
         <ApexESGDashboard isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "iot_field" && isConstruction ? (
         <ApexIoTFieldTech />
+      ) : activeTab.startsWith("turf_") && isSports ? (
+        <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          <h2 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>
+            {activeTab === "turf_events" ? "Event Manager" : activeTab === "turf_membership" ? "Membership" : activeTab === "turf_facilities" ? "Facilities" : activeTab === "turf_sponsorship" ? "Sponsorship" : activeTab === "turf_performance" ? "Performance" : "Compliance"}
+          </h2>
+          <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
+            Use TURF chat to manage {activeTab.replace("turf_", "")} — ask anything about your club's {activeTab.replace("turf_", "")} needs.
+          </p>
+          <button onClick={() => { setActiveTab("chat"); setInput(`Help me with ${activeTab.replace("turf_", "")} management for my sports club. `); inputRef.current?.focus(); }}
+            className="px-4 py-2.5 rounded-lg text-xs font-semibold transition-all hover:scale-[0.98] flex items-center gap-2"
+            style={{ background: `${agent.color}20`, color: agent.color, border: `1px solid ${agent.color}30` }}>
+            <Sparkles size={14} /> Open in Chat
+          </button>
+        </div>
       ) : activeTab === "internal_comms" ? (
         <InternalComms agentId={agent.id} agentName={agent.name} agentColor={agent.color} isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "templates" && hasTemplateTab ? (
