@@ -75,7 +75,7 @@ function generateWelcomePDF(planKey: string) {
     { title: "2. Scan Your Brand DNA", body: "Go to any agent's chat and ask it to scan your website. It will extract your brand colours, tone of voice, target audience, and key messages. Every output from that point will be on-brand — social posts, documents, proposals, everything." },
     { title: "3. Train Your Agent", body: "Use the 'Train' tab to add your business context, FAQs, and specific rules. The more context you give, the better your agent performs. Think of it like briefing a new employee on their first day." },
     { title: "4. Embed the Chat Widget", body: "Want AI on your website? Copy the embed code from the Embed page (assembl.co.nz/embed) and paste it into your site. Your customers can chat with your branded AI assistant 24/7." },
-    { title: "5. Explore Integrations", body: "Connect Google Calendar, Xero, Trello, Slack, and more from Settings → Integrations. Your agents become more powerful with every connection." },
+    { title: "5. Explore Integrations", body: "Connect your calendar, accounting, project management, messaging, and more from Settings → Integrations. Your agents become more powerful with every connection." },
   ];
 
   doc.setFontSize(9);

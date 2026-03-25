@@ -53,7 +53,7 @@ export const PRICING = {
       'Command Centre dashboard',
       'All symbiotic workflows + custom',
       'MCP API (100 calls/day)',
-      'Integration Hub (Xero, Stripe, Zapier)',
+      'Integration Hub (accounting, payments, automation)',
       'Phone support',
     ],
     cta: 'Start with Business',
