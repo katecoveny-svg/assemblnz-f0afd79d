@@ -12,6 +12,8 @@ const NAV_LINKS = [
 ];
 
 const BrandNav = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   return (
     <header
       className="relative z-50 flex items-center gap-3 px-4 sm:px-6 py-3 border-b border-border"
