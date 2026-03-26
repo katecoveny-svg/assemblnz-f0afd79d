@@ -339,6 +339,10 @@ const DashboardPage = () => {
         {/* Morning Briefing */}
         <MorningBriefing />
 
+        {/* Business Score */}
+        <BusinessScore />
+
+
         {/* Pending Actions — always visible */}
         <div className={glassCard + " p-5"} style={glassCardStyle}>
           <TopGlow color="#FFB800" />
