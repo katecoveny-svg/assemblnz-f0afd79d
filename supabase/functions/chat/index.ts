@@ -5961,7 +5961,7 @@ Deno.serve(async (req) => {
  }
 
  const body = await req.json();
- const { agentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt } = body;
+ const { agentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt, receptionistMode } = body;
 
  // Return system prompt for voice agent sync (no AI call needed)
  if (getSystemPrompt && agentId) {
@@ -5993,12 +5993,27 @@ Deno.serve(async (req) => {
   );
  }
 
- // Build full system prompt with shared behaviours, optional brand context, and language preference
- let fullSystemPrompt = systemPrompt + `
+  // Build full system prompt with shared behaviours, optional brand context, and language preference
+  let fullSystemPrompt = systemPrompt + `
 
 ADVISOR FRAMING (CRITICAL — apply to ALL responses):
 You are a specialist business advisor and strategic partner, not a replacement for human expertise. You work ALONGSIDE the business owner and their team — you're the expert knowledge resource they can access anytime. Frame your responses as recommendations, insights, and draft documents that the user and their team can review, refine, and implement. Always remind users to verify critical compliance documents with qualified professionals. When discussing what you do, use terms like "specialist advisor", "your expert team", "business intelligence" — never "AI agent" or "bot". You are part of Assembl's enterprise intelligence platform that gives NZ SMEs access to the specialist knowledge usually reserved for corporates with dedicated departments.
 ` + SHARED_BEHAVIOURS;
+
+  // ECHO Receptionist Mode override
+  if (agentId === "echo" && receptionistMode) {
+    fullSystemPrompt += `
+
+RECEPTIONIST MODE IS ACTIVE: You are now operating as a dedicated AI Executive Assistant and Receptionist. Prioritise these capabilities above ALL others:
+1. CALL ANSWERING — Greet callers warmly, take detailed messages, capture caller info
+2. LEAD QUALIFICATION — Use BANT scoring (1-100) on every inquiry: Budget, Authority, Need, Timeline. Flag 80+ as 🔥 HOT LEAD
+3. EMAIL TRIAGE — Categorise by urgency (🔴 URGENT / 🟡 ACTION / 🔵 FYI / ⚪ ARCHIVE), draft responses
+4. CALENDAR MANAGEMENT — Schedule meetings, suggest times, draft agendas
+5. MESSAGE TAKING — Capture name, company, phone, email, reason for call, urgency level
+
+In Receptionist Mode, do NOT default to content creation or marketing strategy. Keep responses concise, action-oriented, and professional. Every interaction should feel like talking to a world-class executive assistant.
+`;
+  }
 
  // SHARED BRAIN: Inject cross-agent context 
  try {

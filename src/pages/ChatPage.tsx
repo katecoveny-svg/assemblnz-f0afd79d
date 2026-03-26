@@ -461,6 +461,8 @@ const ChatPage = () => {
     return () => window.removeEventListener("aura-mode-changed", handler);
   }, []);
 
+  // ECHO Receptionist Mode
+  const [receptionistMode, setReceptionistMode] = useState(() => sessionStorage.getItem("assembl_receptionist_mode") === "true");
 
   const toggleListening = useCallback(() => {
     if (isListening) {
@@ -1106,7 +1108,7 @@ const ChatPage = () => {
 
       const body = isHaven
         ? { messages: apiMessages }
-        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, model: selectedModel, mentionedAgents: mentionedAgents.length > 0 ? mentionedAgents : undefined };
+        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, model: selectedModel, mentionedAgents: mentionedAgents.length > 0 ? mentionedAgents : undefined, receptionistMode: agentId === "echo" && receptionistMode ? true : undefined };
 
       const invokeOptions: any = { body };
       if (isHaven && session?.access_token) {
@@ -2127,25 +2129,42 @@ const ChatPage = () => {
             </div>
           )}
 
-          {/* Quick Actions Bar */}
-          {messages.length > 0 && (() => {
-            const quickActions = (agentCapabilities[agentId || ""] || []).slice(0, 3);
-            if (quickActions.length === 0) return null;
-            return (
-              <div className="px-4 py-1.5 shrink-0">
-                <div className="max-w-2xl mx-auto flex gap-1.5 overflow-x-auto scrollbar-hide">
-                  {quickActions.map((qa) => (
+          {/* ECHO Receptionist Mode Toggle + Quick Actions Bar */}
+          {messages.length > 0 && (
+            <div className="px-4 py-1.5 shrink-0">
+              <div className="max-w-2xl mx-auto flex gap-1.5 items-center overflow-x-auto scrollbar-hide">
+                {agentId === "echo" && (
+                  <button
+                    onClick={() => {
+                      const next = !receptionistMode;
+                      setReceptionistMode(next);
+                      sessionStorage.setItem("assembl_receptionist_mode", String(next));
+                    }}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-semibold whitespace-nowrap shrink-0 transition-all ${
+                      receptionistMode
+                        ? "bg-[#E4A0FF] text-black shadow-[0_0_12px_rgba(228,160,255,0.4)]"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                    style={!receptionistMode ? { background: `${agent.color}10`, border: `1px solid ${agent.color}20` } : undefined}
+                  >
+                    <Phone size={11} />
+                    Receptionist Mode
+                  </button>
+                )}
+                {(() => {
+                  const quickActions = (agentCapabilities[agentId || ""] || []).slice(0, 3);
+                  return quickActions.map((qa) => (
                     <button key={qa.title} onClick={() => sendMessage(qa.prompt)}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-medium whitespace-nowrap shrink-0 transition-all hover:scale-[1.02]"
                       style={{ background: `${agent.color}10`, color: agent.color, border: `1px solid ${agent.color}20` }}>
                       <qa.icon size={11} />
                       {qa.title}
                     </button>
-                  ))}
-                </div>
+                  ));
+                })()}
               </div>
-            );
-          })()}
+            </div>
+          )}
 
           {/* Input Bar */}
           <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">

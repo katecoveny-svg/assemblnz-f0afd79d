@@ -1,5 +1,5 @@
 // Agent-specific capability bullets for cards + quick actions + starter cards
-import { FileText, DollarSign, Calendar, Shield, Utensils, Wine, Users, Building, HardHat, CreditCard, Car, Palette, BarChart3, Globe, Anchor, Ship, Heart, Brain, Scale, Laptop, GraduationCap, Home, MapPin, Leaf, Zap, Shirt, Plane, Dumbbell, Apple, Sparkles, PartyPopper, BookOpen, Building2, TreePine, HandHeart, School, Stethoscope, House, AlertTriangle, Briefcase, Code, Trophy, Megaphone, type LucideIcon } from "lucide-react";
+import { FileText, DollarSign, Calendar, Shield, Utensils, Wine, Users, Building, HardHat, CreditCard, Car, Palette, BarChart3, Globe, Anchor, Ship, Heart, Brain, Scale, Laptop, GraduationCap, Home, MapPin, Leaf, Zap, Shirt, Plane, Dumbbell, Apple, Sparkles, PartyPopper, BookOpen, Building2, TreePine, HandHeart, School, Stethoscope, House, AlertTriangle, Briefcase, Code, Trophy, Megaphone, Phone, type LucideIcon } from "lucide-react";
 
 export interface AgentCapability {
   bullet: string;
@@ -128,6 +128,12 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "GHG emission calculations", icon: BarChart3, title: "Emissions Report", description: "Calculate your farm's greenhouse gas emissions", prompt: "Calculate my farm's greenhouse gas emissions for my dairy farm." },
     { bullet: "Biosecurity management", icon: Shield, title: "Biosecurity Plan", description: "Build a biosecurity response plan", prompt: "Create a biosecurity management plan for my farm." },
     { bullet: "Satellite crop monitoring", icon: Globe, title: "Crop Monitor", description: "Check crop health via satellite imagery", prompt: "Help me monitor my crop health using satellite data." },
+  ],
+  echo: [
+    { bullet: "Answer business calls warmly", icon: Phone, title: "Answer Calls", description: "Professional call answering with lead qualification", prompt: "Answer my business calls — set up call answering with warm greetings and BANT lead qualification for my business." },
+    { bullet: "Qualify leads from inbox", icon: Briefcase, title: "Qualify Leads", description: "Score and triage inbound leads using BANT", prompt: "Qualify leads from my inbox — score each inquiry 1-100 using BANT criteria and flag hot leads for immediate follow-up." },
+    { bullet: "Draft email responses", icon: FileText, title: "Draft Responses", description: "Triage and draft professional email replies", prompt: "Draft responses to my emails — triage my inbox by urgency and generate professional replies for each message." },
+    { bullet: "Schedule meetings", icon: Calendar, title: "Schedule Meeting", description: "Coordinate calendars and book meetings", prompt: "Schedule a meeting with a prospect — suggest time options, draft the agenda, and prepare a calendar invite." },
   ],
 };
 

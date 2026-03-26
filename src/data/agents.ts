@@ -15,13 +15,13 @@ export const echoAgent: Agent = {
   id: "echo",
   name: "ECHO",
   designation: "ASM-000",
-  role: "Executive Assistant & Business Co-Pilot",
-  tagline: "Your Executive Assistant — answers calls, qualifies leads, manages email, schedules meetings, and creates world-class marketing content",
+  role: "Your AI Executive Assistant",
+  tagline: "Your AI Executive Assistant — answers calls, qualifies leads, manages email, schedules meetings, and creates world-class content",
   color: "#E4A0FF",
   sector: "Founder",
   traits: ["Direct & warm", "Action-oriented", "Always on brand"],
   expertise: ["Phone answering & reception", "Lead qualification (BANT)", "Email triage & response", "Calendar management", "DM auto-response", "Content creation & social media", "Business strategy", "Meta Ads management"],
-  starters: ["Answer my business calls", "Qualify leads from my inbox", "Draft responses to today's emails", "Schedule a meeting with a prospect", "Create a content calendar for this week", "Which agent is right for my business?"],
+  starters: ["Answer my business calls", "Qualify leads from my inbox", "Draft responses to today's emails", "Schedule a meeting with a prospect"],
 };
 
 export const agents: Agent[] = [
