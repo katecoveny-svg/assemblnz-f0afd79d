@@ -80,15 +80,15 @@ const PRICING_PLANS = [
 
 const HOW_IT_WORKS = [
   { step: "01", title: "Tell us about your business", desc: "Share your industry, team size, and goals. Your expert team adapts to you.", icon: <Users size={24} /> },
-  { step: "02", title: "Access your expert team", desc: "42 specialist advisors covering every NZ industry, all trained on NZ legislation.", icon: <Zap size={24} /> },
+  { step: "02", title: "Access your specialist tools", desc: "42 specialist tools covering every NZ industry, all trained on NZ legislation.", icon: <Zap size={24} /> },
   { step: "03", title: "Get specialist guidance", desc: "Ask anything. Get recommendations grounded in NZ legislation, regulations, and best practice.", icon: <BookOpen size={24} /> },
   { step: "04", title: "Run 24/7", desc: "Embed on your site, share with your team, or let customers chat directly.", icon: <Clock size={24} /> },
 ];
 
 const ALSO_BY_ASSEMBL = [
-  { title: "Custom Intelligence Builds", desc: "Bespoke specialist advisors trained on your internal data, SOPs, and brand voice.", color: "#00FF88" },
+  { title: "Custom Intelligence Builds", desc: "Bespoke specialist tools trained on your internal data, SOPs, and brand voice.", color: "#00FF88" },
   { title: "Website Chatbots", desc: "Drop-in chat widgets for your website — trained, branded, and always on.", color: "#00E5FF" },
-  { title: "AssemblFund", desc: "Our initiative to bring enterprise tools to Kiwi startups and community organisations.", color: "#B388FF" },
+  { title: "AssemblFund", desc: "Our initiative to bring enterprise-grade tools to Kiwi startups and community organisations.", color: "#B388FF" },
 ];
 
 const AgentGrid = () => {
