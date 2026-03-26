@@ -69,7 +69,7 @@ const AgentShowcase = () => {
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 className="shrink-0"
               >
-                <AgentAvatar agentId={agent.id} color={agent.color} size={72} showGlow />
+                <AgentAvatar agentId={agent.id} color={agent.color} size={72} showGlow eager />
               </motion.div>
 
               <div className="min-w-0 flex-1">

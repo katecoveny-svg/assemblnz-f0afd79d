@@ -104,9 +104,10 @@ interface AgentAvatarProps {
   color: string;
   size?: number;
   showGlow?: boolean;
+  eager?: boolean;
 }
 
-const AgentAvatar = ({ agentId, color, size = 40, showGlow = true }: AgentAvatarProps) => {
+const AgentAvatar = ({ agentId, color, size = 40, showGlow = true, eager = false }: AgentAvatarProps) => {
   const avatarSrc = AVATAR_MAP[agentId];
 
   if (avatarSrc) {
@@ -135,7 +136,9 @@ const AgentAvatar = ({ agentId, color, size = 40, showGlow = true }: AgentAvatar
             style={{
               filter: `drop-shadow(0 0 8px ${color}80) brightness(1.1) contrast(1.05)`,
             }}
-            loading="lazy"
+            loading={eager ? "eager" : "lazy"}
+            decoding={eager ? "sync" : "async"}
+            fetchPriority={eager ? "high" : undefined}
           />
         </div>
       </div>

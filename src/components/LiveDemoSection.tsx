@@ -77,7 +77,7 @@ const LiveDemoSection = () => {
             >
               <div className="flex items-start gap-3">
                 <div className="shrink-0">
-                  <AgentAvatar agentId={agent.id} color={agent.color} size={40} showGlow={false} />
+                  <AgentAvatar agentId={agent.id} color={agent.color} size={40} showGlow={false} eager />
                 </div>
 
                 <div className="min-w-0 flex-1">
