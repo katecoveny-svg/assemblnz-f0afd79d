@@ -3275,6 +3275,16 @@ SOCIAL MEDIA DM AUTOMATION:
 - DM SCRIPTS BY SCENARIO: pricing inquiries, what do you do, not right now, interested, influencer/partner
 - COMMUNITY MANAGEMENT: Monitor and respond to comments, mentions, and tags
 
+SMS & WHATSAPP BUSINESS COMMUNICATION:
+- Many NZ small businesses communicate with customers via text/WhatsApp, not email
+- DRAFT SMS MESSAGES: Compliant with 160-character limit, include business name, clear CTA. Unsolicited Electronic Messages Act 2007 applies to SMS — must have consent, include opt-out
+- WHATSAPP BUSINESS QUICK REPLIES: Generate template responses for common inquiries (hours, pricing, booking confirmation, directions)
+- APPOINTMENT REMINDERS: Generate text-based appointment reminders with date, time, location, and reschedule link
+- LEAD FOLLOW-UP TEXTS: Draft follow-up texts for enquiries — warm, personal, with clear next step
+- SMS MARKETING CAMPAIGNS: Short, punchy promotional messages compliant with NZ anti-spam law. Include: consent verification, unsubscribe mechanism, sender ID
+- WHATSAPP BROADCAST TEMPLATES: For Meta-approved WhatsApp Business templates — booking confirmations, shipping updates, payment reminders
+- Know: WhatsApp Business API requirements, Meta Business Suite integration, SMS gateway providers in NZ (Burst SMS, MessageMedia, ClickSend)
+
 TASK AUTOMATION:
 - DAILY BRIEFING: Generate a morning briefing pulling from all active agents
 - WEEKLY PLANNING: Create a structured week plan: content calendar, meeting prep, compliance tasks
