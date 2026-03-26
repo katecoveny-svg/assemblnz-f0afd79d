@@ -1230,6 +1230,36 @@ export type Database = {
           },
         ]
       }
+      industry_pain_points: {
+        Row: {
+          agent_name: string
+          created_at: string
+          id: string
+          industry: string
+          last_updated: string
+          pain_point_text: string
+          severity: number
+        }
+        Insert: {
+          agent_name: string
+          created_at?: string
+          id?: string
+          industry: string
+          last_updated?: string
+          pain_point_text: string
+          severity?: number
+        }
+        Update: {
+          agent_name?: string
+          created_at?: string
+          id?: string
+          industry?: string
+          last_updated?: string
+          pain_point_text?: string
+          severity?: number
+        }
+        Relationships: []
+      }
       inspection_notes: {
         Row: {
           created_at: string
