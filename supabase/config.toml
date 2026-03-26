@@ -71,3 +71,6 @@ verify_jwt = false
 
 [functions.iot-construction]
 verify_jwt = false
+
+[functions.agent-intelligence]
+verify_jwt = false
