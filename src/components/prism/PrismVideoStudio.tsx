@@ -385,6 +385,48 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
                   {s.narration}
                 </p>
               )}
+
+              {/* Generated Frames */}
+              {generatingFrames === s.id && (
+                <div className="mt-3 flex items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-jakarta"
+                  style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}15`, color: ACCENT }}>
+                  <Loader2 size={12} className="animate-spin" />
+                  <span>Generating scene visuals with AI...</span>
+                </div>
+              )}
+
+              {generatedFrames[s.id] && generatedFrames[s.id].urls.length > 0 && (
+                <div className="mt-3 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-syne font-bold uppercase tracking-wider" style={{ color: ACCENT }}>
+                      AI Scene Frames
+                    </span>
+                    <span className="text-[9px] font-mono" style={{ color: "hsl(var(--muted-foreground))" }}>
+                      {generatedFrames[s.id].urls.length} frames
+                    </span>
+                  </div>
+                  <div className="grid gap-2" style={{ gridTemplateColumns: generatedFrames[s.id].urls.length > 2 ? "1fr 1fr" : "1fr" }}>
+                    {generatedFrames[s.id].urls.map((url, fi) => (
+                      <div key={fi} className="relative group rounded-lg overflow-hidden" style={{ border: `1px solid ${ACCENT}20` }}>
+                        <img src={url} alt={`Scene ${fi + 1}`} className="w-full h-auto rounded-lg" />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                          <button
+                            onClick={() => downloadFrame(url, fi)}
+                            className="p-2 rounded-lg transition-colors"
+                            style={{ background: "rgba(0,0,0,0.6)", color: "#fff" }}
+                          >
+                            <Download size={14} />
+                          </button>
+                        </div>
+                        <div className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded text-[8px] font-mono"
+                          style={{ background: "rgba(0,0,0,0.7)", color: ACCENT }}>
+                          Scene {fi + 1}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Edit Panel */}
