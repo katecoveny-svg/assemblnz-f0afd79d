@@ -5848,12 +5848,31 @@ Deno.serve(async (req) => {
  if (ctxRows && ctxRows.length > 0) {
  const facts = ctxRows.map(r => `• ${r.context_key}: ${JSON.stringify(r.context_value)} (source: ${r.source_agent}, confidence: ${r.confidence})`).join("\n");
  fullSystemPrompt += `\n\n[SHARED BRAIN — Business facts collected by all agents for this user. Use these to personalise responses and avoid asking for information already known:\n${facts}]`;
- }
+  }
 
- if (summaries && summaries.length > 0) {
- const sumText = summaries.map(s => `• ${s.agent_id} (${new Date(s.created_at).toLocaleDateString()}): ${s.summary}`).join("\n");
- fullSystemPrompt += `\n\n[RECENT AGENT ACTIVITY — Summaries from other agents' recent conversations with this user:\n${sumText}]`;
- }
+  // AUTO-FETCH BRAND PROFILE from DB for all agents (brand-aware content generation)
+  const { data: brandRow } = await userClient
+    .from("brand_profiles")
+    .select("brand_dna, business_name, industry, tone, audience, key_message")
+    .eq("user_id", brainUser.id)
+    .maybeSingle();
+
+  if (brandRow?.brand_dna) {
+    const bd = brandRow.brand_dna as any;
+    const brandBlock = [
+      `[USER BRAND PROFILE — Use this to personalise ALL content, documents, and responses:`,
+      `Business: ${brandRow.business_name || bd.business_name || "Unknown"}`,
+      `Industry: ${brandRow.industry || bd.industry || "General"}`,
+      bd.visual_identity ? `Colours: Primary ${bd.visual_identity.primary_color}, Secondary ${bd.visual_identity.secondary_color}, Accent ${bd.visual_identity.accent_color}` : null,
+      bd.typography ? `Fonts: Headings "${bd.typography.heading_font}", Body "${bd.typography.body_font}"` : null,
+      bd.voice_tone?.personality_traits ? `Tone: ${bd.voice_tone.personality_traits.join(", ")} (formality ${bd.voice_tone.formality}/10)` : (brandRow.tone ? `Tone: ${brandRow.tone}` : null),
+      bd.tagline ? `Tagline: "${bd.tagline}"` : (brandRow.key_message ? `Key message: "${brandRow.key_message}"` : null),
+      brandRow.audience ? `Audience: ${brandRow.audience}` : null,
+      bd.logo_url ? `Logo: ${bd.logo_url}` : null,
+      `RULES: Use brand colours in any visual/HTML output. Write in the brand's tone. Reference the business name correctly. Include tagline where appropriate. Match formality level.]`,
+    ].filter(Boolean).join("\n");
+    fullSystemPrompt += `\n\n${brandBlock}`;
+  }
  }
  } catch (brainErr) {
  console.error("Shared brain fetch error (non-critical):", brainErr);
