@@ -375,6 +375,8 @@ const ChatPage = () => {
   const [selectedModel, setSelectedModel] = useState<string>(() => sessionStorage.getItem("assembl_ai_model") || "gemini-flash");
   const [voiceModalOpen, setVoiceModalOpen] = useState(false);
   const [historyReady, setHistoryReady] = useState(false);
+  const [showOnboardingTooltip, setShowOnboardingTooltip] = useState(false);
+  const [onboardingStep, setOnboardingStep] = useState(0);
 
   // PRISM quick image generation modal
   const [prismImageModalOpen, setPrismImageModalOpen] = useState(false);
