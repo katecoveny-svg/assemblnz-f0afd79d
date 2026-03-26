@@ -514,8 +514,8 @@ export const agents: Agent[] = [
     color: "#FF6F91",
     sector: "HR & Employment",
     traits: ["Employment law expert", "People-focused", "NZ-compliant"],
-    expertise: ["Employment agreement generator", "Payroll & PAYE calculator", "Holidays Act compliance AI", "H&S programme builder", "Recruitment pipeline manager"],
-    starters: ["Generate an employment agreement", "What are my obligations under the Holidays Act?", "Create an onboarding plan for a new hire"],
+    expertise: ["Employment agreement generator", "Payroll & PAYE calculator", "Holidays Act compliance AI", "H&S programme builder", "Recruitment pipeline manager", "Gateway test advisor", "Privacy IPP 3A compliance"],
+    starters: ["Draft an employment agreement", "Calculate holiday pay", "Create a disciplinary process plan"],
   },
   {
     id: "spark",
