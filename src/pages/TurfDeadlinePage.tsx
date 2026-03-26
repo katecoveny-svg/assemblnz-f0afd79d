@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, AlertTriangle, CheckCircle2, Clock, Users, Ban, Shield, FileText, Share2 } from "lucide-react";
+import { ArrowRight, AlertTriangle, CheckCircle2, Clock, Users, Ban, Shield, FileText, Share2, Send, Bot, Loader2 } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import { supabase } from "@/integrations/supabase/client";
 
 const TURF_COLOR = "#00E676";
 const DEADLINE = new Date("2026-04-05T00:00:00+12:00");
@@ -31,6 +32,13 @@ const CONSEQUENCES = [
   { icon: Shield, text: "Bank accounts frozen" },
   { icon: FileText, text: "Insurance voided" },
   { icon: AlertTriangle, text: "Facility leases cancelled" },
+];
+
+const STARTER_PROMPTS = [
+  "Generate a constitution for my rugby club",
+  "What does the Incorporated Societies Act 2022 require?",
+  "Help me re-register my netball club",
+  "Draft a gaming trust grant application",
 ];
 
 const useCountdown = () => {
@@ -61,18 +69,213 @@ const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
   </div>
 );
 
+interface ChatMsg {
+  role: "user" | "assistant";
+  content: string;
+}
+
+const TurfMiniChat = () => {
+  const [messages, setMessages] = useState<ChatMsg[]>([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages]);
+
+  const sendMessage = async (text: string) => {
+    if (!text.trim() || loading) return;
+    const userMsg: ChatMsg = { role: "user", content: text.trim() };
+    const newMessages = [...messages, userMsg];
+    setMessages(newMessages);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content }));
+      const { data, error } = await supabase.functions.invoke("chat", {
+        body: { agentId: "sports-recreation", messages: apiMessages },
+      });
+      if (error) throw error;
+      const reply = data?.reply || data?.message || "I'm here to help with your club's re-registration. Try asking about constitution generation.";
+      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+    } catch {
+      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I couldn't connect right now. Try the full chat at /chat/sports-recreation." }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <section className="py-16 border-t border-border">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-6"
+        >
+          <h2 className="font-syne font-bold text-2xl sm:text-3xl text-foreground mb-2">
+            Try TURF now
+          </h2>
+          <p className="text-sm text-muted-foreground font-jakarta">
+            Ask TURF anything about your club's re-registration. No signup required.
+          </p>
+        </motion.div>
+
+        <motion.div
+          className="rounded-2xl border overflow-hidden"
+          style={{ borderColor: `${TURF_COLOR}20`, background: "hsl(var(--card))" }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+        >
+          {/* Chat header */}
+          <div
+            className="flex items-center gap-3 px-4 py-3 border-b border-border"
+            style={{ background: `${TURF_COLOR}08` }}
+          >
+            <AgentAvatar agentId="sports" color={TURF_COLOR} size={32} />
+            <div>
+              <p className="text-sm font-syne font-bold text-foreground">TURF</p>
+              <p className="text-[10px] text-muted-foreground font-mono">Sports Operations AI · Online</p>
+            </div>
+            <div className="ml-auto w-2 h-2 rounded-full animate-pulse" style={{ background: TURF_COLOR }} />
+          </div>
+
+          {/* Messages */}
+          <div ref={scrollRef} className="h-[340px] overflow-y-auto p-4 space-y-3">
+            {messages.length === 0 && (
+              <div className="space-y-3">
+                <div className="flex gap-3">
+                  <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center" style={{ background: `${TURF_COLOR}15` }}>
+                    <Bot size={14} style={{ color: TURF_COLOR }} />
+                  </div>
+                  <div className="rounded-xl rounded-tl-sm px-4 py-3 text-sm font-jakarta text-foreground bg-muted/50 max-w-[85%]">
+                    Kia ora! I'm TURF, your sports club AI. The Incorporated Societies Act 2022 deadline is fast approaching — <strong>5 April 2026</strong>. I can generate a fully compliant constitution for your club in minutes. What sport does your club play?
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2 ml-10">
+                  {STARTER_PROMPTS.map((p) => (
+                    <button
+                      key={p}
+                      onClick={() => sendMessage(p)}
+                      className="text-xs font-jakarta px-3 py-1.5 rounded-full border transition-all hover:scale-105"
+                      style={{ borderColor: `${TURF_COLOR}30`, color: TURF_COLOR, background: `${TURF_COLOR}08` }}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {messages.map((m, i) => (
+              <div key={i} className={`flex gap-3 ${m.role === "user" ? "justify-end" : ""}`}>
+                {m.role === "assistant" && (
+                  <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center" style={{ background: `${TURF_COLOR}15` }}>
+                    <Bot size={14} style={{ color: TURF_COLOR }} />
+                  </div>
+                )}
+                <div
+                  className={`rounded-xl px-4 py-3 text-sm font-jakarta max-w-[85%] whitespace-pre-wrap ${
+                    m.role === "user"
+                      ? "rounded-tr-sm text-primary-foreground"
+                      : "rounded-tl-sm text-foreground bg-muted/50"
+                  }`}
+                  style={m.role === "user" ? { background: TURF_COLOR, color: "#0A0A14" } : undefined}
+                >
+                  {m.content}
+                </div>
+              </div>
+            ))}
+
+            {loading && (
+              <div className="flex gap-3">
+                <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center" style={{ background: `${TURF_COLOR}15` }}>
+                  <Bot size={14} style={{ color: TURF_COLOR }} />
+                </div>
+                <div className="rounded-xl rounded-tl-sm px-4 py-3 bg-muted/50">
+                  <Loader2 size={16} className="animate-spin" style={{ color: TURF_COLOR }} />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Input */}
+          <form
+            onSubmit={(e) => { e.preventDefault(); sendMessage(input); }}
+            className="flex items-center gap-2 p-3 border-t border-border"
+          >
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask about your club's re-registration..."
+              className="flex-1 bg-transparent text-sm font-jakarta text-foreground placeholder:text-muted-foreground outline-none px-3 py-2 rounded-lg border border-border focus:border-[--turf]"
+              style={{ "--turf": TURF_COLOR } as React.CSSProperties}
+              disabled={loading}
+            />
+            <button
+              type="submit"
+              disabled={loading || !input.trim()}
+              className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-all disabled:opacity-30"
+              style={{ background: TURF_COLOR, color: "#0A0A14" }}
+            >
+              <Send size={16} />
+            </button>
+          </form>
+
+          {/* Full experience link */}
+          <div className="px-4 py-2 border-t border-border text-center">
+            <Link
+              to="/chat/sports-recreation"
+              className="text-xs font-jakarta hover:underline"
+              style={{ color: TURF_COLOR }}
+            >
+              Open full TURF experience →
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 const TurfDeadlinePage = () => {
   const countdown = useCountdown();
 
-  const shareText = `🚨 5 April 2026: Thousands of NZ sports clubs will be automatically dissolved under the Incorporated Societies Act 2022.\n\nTURF generates a fully compliant constitution in minutes — free.\n\nTry it: assembl.co.nz/chat/sports-recreation\n\n#IncorporatedSocietiesAct #NZSport #SaveOurClubs`;
+  const shareText = `🚨 5 April 2026: Thousands of NZ sports clubs will be automatically dissolved under the Incorporated Societies Act 2022.\n\nTURF generates a fully compliant constitution in minutes — free.\n\nTry it: assembl.co.nz/turf-5-april-2026\n\n#IncorporatedSocietiesAct #NZSport #SaveOurClubs`;
 
   const handleShare = async () => {
     if (navigator.share) {
-      await navigator.share({ title: "TURF — Save Your Club", text: shareText, url: "https://assembl.co.nz/chat/sports-recreation" });
+      await navigator.share({ title: "TURF — Save Your Club Before 5 April 2026", text: shareText, url: "https://assembl.co.nz/turf-5-april-2026" });
     } else {
       await navigator.clipboard.writeText(shareText);
     }
   };
+
+  // Set page-specific meta tags
+  useEffect(() => {
+    document.title = "5 April 2026 — Your Club Will Be Dissolved | TURF by Assembl";
+    const setMeta = (prop: string, content: string, attr = "property") => {
+      let el = document.querySelector(`meta[${attr}="${prop}"]`);
+      if (!el) { el = document.createElement("meta"); el.setAttribute(attr, prop); document.head.appendChild(el); }
+      el.setAttribute("content", content);
+    };
+    setMeta("og:title", "5 April 2026 — Your NZ Sports Club Will Be Dissolved");
+    setMeta("og:description", "The Incorporated Societies Act 2022 requires every club to re-register. TURF generates a compliant constitution in minutes — free.");
+    setMeta("og:url", "https://assembl.co.nz/turf-5-april-2026");
+    setMeta("og:type", "website");
+    setMeta("twitter:title", "5 April 2026 — Your NZ Sports Club Will Be Dissolved", "name");
+    setMeta("twitter:description", "TURF generates a fully compliant constitution for your club in minutes. Free. No signup required.", "name");
+    setMeta("description", "Thousands of NZ sports clubs face dissolution on 5 April 2026. TURF generates a compliant constitution in minutes — free.", "name");
+
+    return () => {
+      document.title = "Assembl — 42 AI Agents That Operate Your NZ Business";
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -161,13 +364,13 @@ const TurfDeadlinePage = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            <Link
-              to="/chat/sports-recreation"
+            <a
+              href="#try-turf"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-base font-syne font-bold transition-all duration-300 hover:scale-105"
               style={{ background: TURF_COLOR, color: "#0A0A14", boxShadow: `0 0 30px ${TURF_COLOR}30` }}
             >
               Generate Your Constitution Free <ArrowRight size={18} />
-            </Link>
+            </a>
             <button
               onClick={handleShare}
               className="inline-flex items-center gap-2 px-6 py-4 rounded-xl text-base font-syne font-bold border transition-all duration-300 hover:scale-105"
@@ -266,6 +469,11 @@ const TurfDeadlinePage = () => {
           </p>
         </div>
       </section>
+
+      {/* TRY TURF - EMBEDDED CHAT */}
+      <div id="try-turf">
+        <TurfMiniChat />
+      </div>
 
       {/* CTA */}
       <section className="py-20 border-t border-border">
