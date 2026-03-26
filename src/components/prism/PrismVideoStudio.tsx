@@ -5,8 +5,9 @@ import {
   Sparkles, Video, Clock, Users, Copy, CheckCircle2, X, Film,
   Scissors, Wand2, Type, Music, Palette, Layers, Play, Download,
   RefreshCw, ChevronDown, ChevronUp, Clapperboard, Mic, ImageIcon,
-  LayoutGrid, FileText, Loader2, Save, BookmarkCheck
+  LayoutGrid, FileText, Loader2, Save, BookmarkCheck, Zap
 } from "lucide-react";
+import { toast } from "sonner";
 
 const ACCENT = "#E040FB";
 
@@ -71,6 +72,9 @@ export default function PrismVideoStudio({ onSendToChat }: { onSendToChat?: (msg
   const [copied, setCopied] = useState<string | null>(null);
   const [saved, setSaved] = useState<string | null>(null);
   const [expandedScene, setExpandedScene] = useState<number | null>(null);
+  const [generatingFrames, setGeneratingFrames] = useState<string | null>(null);
+  const [frameProgress, setFrameProgress] = useState<{ current: number; total: number }>({ current: 0, total: 0 });
+  const [generatedFrames, setGeneratedFrames] = useState<Record<string, { urls: string[]; prompts: string[] }>>({});
 
   const [form, setForm] = useState({
     topic: "",
@@ -194,7 +198,59 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const selectedEditor = scripts.find(s => s.id === showEditor);
+  const generateVideoFrames = async (script: VideoScript) => {
+    if (!user || !script.scenes?.length) return;
+    setGeneratingFrames(script.id);
+    setFrameProgress({ current: 0, total: script.scenes.length });
+
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-video", {
+        body: {
+          scenes: script.scenes.map(s => ({ visual: s.visual, description: s.voiceover })),
+          aspectRatio: script.aspect_ratio || "16:9",
+          title: script.title,
+          videoType: script.video_type,
+        },
+      });
+
+      if (error) throw error;
+      if (data?.error) {
+        if (data.error.includes("credits")) {
+          toast.error("AI credits exhausted. Please add funds to continue.");
+        } else {
+          toast.error(data.error);
+        }
+        return;
+      }
+
+      const urls = (data.frames || []).filter((f: any) => f.imageUrl).map((f: any) => f.imageUrl);
+      const prompts = (data.frames || []).map((f: any) => f.prompt);
+
+      setGeneratedFrames(prev => ({ ...prev, [script.id]: { urls, prompts } }));
+      toast.success(`${urls.length} scene frames generated!`);
+    } catch (e: any) {
+      console.error("Video frame generation error:", e);
+      toast.error("Failed to generate video frames. Try again.");
+    } finally {
+      setGeneratingFrames(null);
+    }
+  };
+
+  const downloadFrame = async (url: string, index: number) => {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const pngBlob = new Blob([blob], { type: "image/png" });
+      const blobUrl = URL.createObjectURL(pngBlob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = `prism-scene-${index + 1}-${Date.now()}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
+    } catch { window.open(url, "_blank"); }
+  };
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -263,6 +319,17 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
                     style={{ background: showEditor === s.id ? `${ACCENT}25` : `${ACCENT}10`, color: ACCENT }}>
                     <Scissors size={13} />
                   </button>
+                  {s.scenes && s.scenes.length > 0 && (
+                    <button
+                      onClick={() => generateVideoFrames(s)}
+                      disabled={generatingFrames === s.id}
+                      className="p-1.5 rounded-lg transition-all hover:scale-105 disabled:opacity-50"
+                      style={{ background: `linear-gradient(135deg, ${ACCENT}20, ${ACCENT}10)`, color: ACCENT, border: `1px solid ${ACCENT}30` }}
+                      title="Generate AI scene visuals"
+                    >
+                      {generatingFrames === s.id ? <Loader2 size={13} className="animate-spin" /> : <Zap size={13} />}
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -317,6 +384,48 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
                 <p className="text-[10px] font-jakarta line-clamp-2 mt-2" style={{ color: "hsl(var(--muted-foreground))" }}>
                   {s.narration}
                 </p>
+              )}
+
+              {/* Generated Frames */}
+              {generatingFrames === s.id && (
+                <div className="mt-3 flex items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-jakarta"
+                  style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}15`, color: ACCENT }}>
+                  <Loader2 size={12} className="animate-spin" />
+                  <span>Generating scene visuals with AI...</span>
+                </div>
+              )}
+
+              {generatedFrames[s.id] && generatedFrames[s.id].urls.length > 0 && (
+                <div className="mt-3 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-syne font-bold uppercase tracking-wider" style={{ color: ACCENT }}>
+                      AI Scene Frames
+                    </span>
+                    <span className="text-[9px] font-mono" style={{ color: "hsl(var(--muted-foreground))" }}>
+                      {generatedFrames[s.id].urls.length} frames
+                    </span>
+                  </div>
+                  <div className="grid gap-2" style={{ gridTemplateColumns: generatedFrames[s.id].urls.length > 2 ? "1fr 1fr" : "1fr" }}>
+                    {generatedFrames[s.id].urls.map((url, fi) => (
+                      <div key={fi} className="relative group rounded-lg overflow-hidden" style={{ border: `1px solid ${ACCENT}20` }}>
+                        <img src={url} alt={`Scene ${fi + 1}`} className="w-full h-auto rounded-lg" />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                          <button
+                            onClick={() => downloadFrame(url, fi)}
+                            className="p-2 rounded-lg transition-colors"
+                            style={{ background: "rgba(0,0,0,0.6)", color: "#fff" }}
+                          >
+                            <Download size={14} />
+                          </button>
+                        </div>
+                        <div className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded text-[8px] font-mono"
+                          style={{ background: "rgba(0,0,0,0.7)", color: ACCENT }}>
+                          Scene {fi + 1}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
 
