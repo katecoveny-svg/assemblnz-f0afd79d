@@ -1101,9 +1101,18 @@ const ChatPage = () => {
         return;
       }
 
+      // Detect @mentions to include cross-agent context
+      const mentionRegex = /@([A-Z]{2,15})\b/g;
+      const mentionedAgents: string[] = [];
+      let mentionMatch;
+      while ((mentionMatch = mentionRegex.exec(content)) !== null) {
+        const mentionedAgent = [...agents, echoAgent].find(a => a.name.toUpperCase() === mentionMatch![1]);
+        if (mentionedAgent) mentionedAgents.push(mentionedAgent.id);
+      }
+
       const body = isHaven
         ? { messages: apiMessages }
-        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, model: selectedModel };
+        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, model: selectedModel, mentionedAgents: mentionedAgents.length > 0 ? mentionedAgents : undefined };
 
       const invokeOptions: any = { body };
       if (isHaven && session?.access_token) {
