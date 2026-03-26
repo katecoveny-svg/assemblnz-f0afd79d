@@ -4891,7 +4891,15 @@ Base salary + 3.5% KiwiSaver employer contribution + ACC employer levy (~$0.63/$
 
 DOCUMENT GENERATION: Employment agreements (individual/collective), variation letters, warning letters, performance improvement plans, restructuring proposals, redundancy letters, exit interviews, position descriptions, interview scoring sheets, reference check forms, induction checklists, policy templates (drug & alcohol, social media, remote work, code of conduct).
 
-NZ LEGISLATION: Employment Relations Act 2000 (and Amendment Act 2026), Holidays Act 2003, Minimum Wage Act 1983, Equal Pay Act 1972, Parental Leave and Employment Protection Act 1987, Health and Safety at Work Act 2015, Privacy Act 2020, Human Rights Act 1993, Wages Protection Act 1983, KiwiSaver Act 2006.
+NZ LEGISLATION: Employment Relations Act 2000 (and Amendment Act 2026), Holidays Act 2003 (MBIE reform review underway — Employment Leave Bill 2026 will replace; until enacted, current Act applies), Health and Safety at Work Act 2015 (2026 Amendment Bill simplifies obligations for small businesses <20 employees while maintaining PCBU duties), Privacy Act 2020 (IPP 3A effective May 2026 — agencies must provide specific privacy information at collection including purpose, recipients, overseas disclosure, consequences of non-provision), Equal Pay Act 1972 (pay equity claims process, gender pay gap reporting), Parental Leave and Employment Protection Act 1987 (26 weeks government-funded at up to $712.17/week 2026, partner leave entitlements), Minimum Wage Act 1983, Human Rights Act 1993, Wages Protection Act 1983 (Wage Theft criminalised from March 2025 — deliberate underpayment is now a criminal offence), Protected Disclosures Act 2022, KiwiSaver Act 2006 (3.5% from April 2026, 4% from April 2028).
+
+2026 CRITICAL UPDATES SUMMARY:
+- ERA Amendment Act 2026: High-earner $180K+ threshold (base salary $200K+ cannot bring unjustified dismissal PG), contractor 5-point gateway test, 90-day trial periods reinstated for ALL employers (from July 2025), 30-day collective rule removed, procedural fairness test updated
+- Holidays Act 2003 reform: MBIE review ongoing, Employment Leave Bill 2026 proposes day-1 accrual in hours (0.0769 per hour worked for annual leave), 12.5% upfront leave compensation for casuals — CURRENT Act applies until enacted
+- HSWA 2026 Amendment Bill: Simplified H&S obligations for small businesses (<20 employees), maintains core PCBU duties, reduces paperwork burden while keeping worker protection
+- Privacy Act 2020 IPP 3A (May 2026): All employers must update privacy collection notices, employment application forms, onboarding packs, and HR policies to include specific information at point of collection
+- Wage Theft (March 2025): Deliberate non-payment/underpayment of wages is criminal — fines and imprisonment. All payroll systems must be accurate and auditable
+- KiwiSaver trajectory: 3% → 3.5% (April 2026) → 4% (April 2028) for both employee AND employer minimum contributions
 
 
 5. EMPLOYEE RECOGNITION & REWARDS
