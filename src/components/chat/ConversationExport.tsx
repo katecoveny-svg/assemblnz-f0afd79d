@@ -1,6 +1,6 @@
 import { Download } from "lucide-react";
 import jsPDF from "jspdf";
-import { drawAssemblPDFHeader, drawAssemblPDFFooter } from "@/lib/pdfBranding";
+import { drawAssemblPDFHeader, drawAssemblPDFFooter, renderMarkdownToPDF } from "@/lib/pdfBranding";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
@@ -18,9 +18,7 @@ interface Props {
 const ConversationExport = ({ messages, agentName, agentDesignation, agentColor }: Props) => {
   const handleExport = async () => {
     const doc = new jsPDF({ unit: "mm", format: "a4" });
-    const pageWidth = doc.internal.pageSize.getWidth();
     const margin = 20;
-    const maxWidth = pageWidth - margin * 2;
 
     let y = drawAssemblPDFHeader(doc, {
       agentName,
@@ -30,66 +28,19 @@ const ConversationExport = ({ messages, agentName, agentDesignation, agentColor 
       margin,
     });
 
-    const addPage = () => { doc.addPage(); y = 20; };
-    const checkPage = (needed: number) => { if (y + needed > 255) addPage(); };
-
-    // Messages
+    // Render each message using the shared markdown renderer
     for (const msg of messages) {
-      checkPage(15);
       const sender = msg.role === "user" ? "You" : agentName;
+      const cleanContent = msg.content.replace(/\[GENERATE_IMAGE:\s*.*?\]/g, "").trim();
 
-      // Sender label with coloured underline
-      doc.setFontSize(9);
-      doc.setFont("helvetica", "bold");
-      doc.setTextColor(msg.role === "user" ? 80 : 20);
-      doc.text(sender, margin, y);
+      y = renderMarkdownToPDF(doc, cleanContent, {
+        startY: y,
+        margin,
+        senderLabel: sender,
+        senderColor: msg.role === "user" ? [100, 100, 120] : [20, 20, 35],
+      });
 
-      // Subtle underline
-      const senderWidth = doc.getTextWidth(sender);
-      doc.setDrawColor(msg.role === "user" ? 180 : 100);
-      doc.setLineWidth(0.2);
-      doc.line(margin, y + 1, margin + senderWidth, y + 1);
-      y += 6;
-
-      doc.setFontSize(9);
-      doc.setFont("helvetica", "normal");
-      doc.setTextColor(40);
-
-      // Process content line by line for better formatting
-      const contentLines = msg.content.split("\n");
-      for (const rawLine of contentLines) {
-        const trimmed = rawLine.trim();
-        if (!trimmed) { y += 2; continue; }
-
-        const h2 = trimmed.match(/^##\s+(.*)/);
-        const h3 = trimmed.match(/^###\s+(.*)/);
-
-        if (h2) {
-          checkPage(8);
-          doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.setTextColor(30);
-          doc.text(h2[1], margin, y); y += 6;
-        } else if (h3) {
-          checkPage(7);
-          doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.setTextColor(45);
-          doc.text(h3[1], margin, y); y += 5.5;
-        } else {
-          let text = trimmed
-            .replace(/^#+\s*/g, "")
-            .replace(/\*\*(.*?)\*\*/g, "$1")
-            .replace(/\*(.*?)\*/g, "$1")
-            .replace(/^[-*]\s*\[([ xX])\]\s*/g, (_, c) => (c.trim() ? " " : " "))
-            .replace(/^[-*]\s+/g, "• ");
-
-          doc.setFontSize(9); doc.setFont("helvetica", "normal"); doc.setTextColor(40);
-          const lines = doc.splitTextToSize(text, maxWidth);
-          for (const line of lines) {
-            checkPage(5);
-            doc.text(line, margin, y);
-            y += 4.5;
-          }
-        }
-      }
-      y += 5;
+      y += 4;
     }
 
     // Footer on all pages

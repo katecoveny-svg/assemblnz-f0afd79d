@@ -4,7 +4,7 @@ import jsPDF from "jspdf";
  * Draws the Assembl logo and header branding on a jsPDF document.
  * Returns the Y position after the header.
  *
- * Premium dark-tech aesthetic: muted, confident, no neon.
+ * Clean, professional aesthetic with clear hierarchy.
  */
 export function drawAssemblPDFHeader(
   doc: jsPDF,
@@ -21,15 +21,15 @@ export function drawAssemblPDFHeader(
 ): number {
   const { agentName, agentDesignation, subtitle, margin = 20, customBusinessName, documentTitle, documentVersion } = options;
   const pageWidth = doc.internal.pageSize.getWidth();
-  let y = 18;
+  let y = 14;
 
-  // Subtle dark accent bar at top
+  // Top accent bar — charcoal
   doc.setFillColor(30, 30, 42);
   doc.rect(0, 0, pageWidth, 3, "F");
 
-  // Nexus logo mark — connected-lines 'A' with cyan, purple, blue orbs
+  // Nexus logo mark — triangular arrangement
   const lx = margin;
-  const ly = y + 4;
+  const ly = y + 5;
   const topX = lx + 5;
   const topY = ly - 4;
   const blX = lx;
@@ -37,45 +37,42 @@ export function drawAssemblPDFHeader(
   const brX = lx + 10;
   const brY = ly + 6;
 
-  // Connecting lines (gradient-like effect with layered strokes)
-  doc.setLineWidth(0.8);
-  // Line: top → bottom-left
+  // Connecting lines
+  doc.setLineWidth(0.7);
   doc.setDrawColor(0, 200, 230);
   doc.line(topX, topY, blX, blY);
-  // Line: top → bottom-right
   doc.setDrawColor(140, 100, 220);
   doc.line(topX, topY, brX, brY);
-  // Line: bottom-left → bottom-right
   doc.setDrawColor(80, 90, 220);
   doc.line(blX, blY, brX, brY);
 
   // Orbs at each vertex
   const orbR = 1.8;
-  doc.setFillColor(0, 229, 255);   // Cyan — top
+  doc.setFillColor(0, 229, 255);
   doc.circle(topX, topY, orbR, "F");
-  doc.setFillColor(179, 136, 255); // Purple — bottom-left
+  doc.setFillColor(179, 136, 255);
   doc.circle(blX, blY, orbR, "F");
-  doc.setFillColor(99, 102, 241);  // Blue — bottom-right
+  doc.setFillColor(99, 102, 241);
   doc.circle(brX, brY, orbR, "F");
 
   // Brand name
-  doc.setFontSize(18);
+  doc.setFontSize(16);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(20, 20, 35);
   const displayName = customBusinessName || "ASSEMBL";
-  doc.text(displayName, margin + 12, y + 7);
+  doc.text(displayName, margin + 14, y + 7);
 
-  // URL
+  // Tagline
   doc.setFontSize(7);
   doc.setFont("helvetica", "normal");
-  doc.setTextColor(150);
+  doc.setTextColor(130);
   if (!customBusinessName) {
-    doc.text("assembl.co.nz", margin + 12, y + 11);
+    doc.text("assembl.co.nz  |  AI-Powered Business Intelligence", margin + 14, y + 11);
   }
 
-  // Right-aligned document metadata
+  // Right-aligned metadata
   doc.setFontSize(7);
-  doc.setTextColor(120);
+  doc.setTextColor(110);
   const now = new Date();
   const dateStr = now.toLocaleDateString("en-NZ", { day: "numeric", month: "long", year: "numeric" });
   const timeStr = now.toLocaleTimeString("en-NZ", { hour: "2-digit", minute: "2-digit" });
@@ -83,52 +80,55 @@ export function drawAssemblPDFHeader(
   if (documentVersion) {
     doc.text(`Version: ${documentVersion}`, pageWidth - margin, y + 7, { align: "right" });
   }
+  doc.setFontSize(6.5);
+  doc.setTextColor(160);
   doc.text("CONFIDENTIAL", pageWidth - margin, y + (documentVersion ? 11 : 7), { align: "right" });
 
-  y += 16;
+  y += 18;
 
-  // Document title (if separate from agent info)
+  // Document title
   if (documentTitle) {
-    doc.setFontSize(13);
+    doc.setFontSize(14);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(20, 20, 35);
-    doc.text(documentTitle, margin, y);
-    y += 6;
+    const titleLines = doc.splitTextToSize(documentTitle, pageWidth - margin * 2);
+    for (const line of titleLines) {
+      doc.text(line, margin, y);
+      y += 6;
+    }
+    y += 1;
   }
 
-  // Agent info line
+  // Agent info
   if (agentName) {
     doc.setFontSize(9);
     doc.setFont("helvetica", "bold");
-    doc.setTextColor(60);
-    const agentLine = agentDesignation
-      ? `${agentName} (${agentDesignation})`
-      : agentName;
+    doc.setTextColor(80, 80, 120);
+    const agentLine = agentDesignation ? `${agentName}  ·  ${agentDesignation}` : agentName;
     doc.text(agentLine, margin, y);
     y += 5;
   }
 
-  // Subtitle / date
+  // Subtitle
   if (subtitle) {
     doc.setFontSize(8);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(130);
     doc.text(subtitle, margin, y);
-    y += 4;
+    y += 5;
   }
 
-  // Divider — subtle grey
-  doc.setDrawColor(210);
+  // Divider
+  doc.setDrawColor(200);
   doc.setLineWidth(0.3);
   doc.line(margin, y, pageWidth - margin, y);
-  y += 6;
+  y += 8;
 
   return y;
 }
 
 /**
- * Draws the standard Assembl footer with full legal disclaimers on a jsPDF document.
- * Includes copyright, IP notice, professional disclaimer, and NZ-specific compliance text.
+ * Draws professional footer with legal disclaimers on all pages.
  */
 export function drawAssemblPDFFooter(
   doc: jsPDF,
@@ -145,12 +145,11 @@ export function drawAssemblPDFFooter(
   const maxWidth = pageWidth - margin * 2;
   const totalPages = doc.getNumberOfPages();
 
-  // Apply footer to every page
   for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
     doc.setPage(pageNum);
-    let y = customY ?? pageHeight - 32;
+    let y = customY ?? pageHeight - 30;
 
-    // Subtle grey divider line
+    // Divider
     doc.setDrawColor(200);
     doc.setLineWidth(0.3);
     doc.line(margin, y, pageWidth - margin, y);
@@ -158,36 +157,28 @@ export function drawAssemblPDFFooter(
 
     // AI disclaimer
     doc.setFontSize(6.5);
-    doc.setTextColor(130);
+    doc.setTextColor(120);
     doc.text(
-      `Generated by ${agentName} via Assembl — This is AI-generated content and should be reviewed by a qualified professional before use or reliance. ` +
-      `Assembl does not provide legal, financial, tax, medical, or construction advice. Always consult a licensed professional for your specific situation.`,
+      `Generated by ${agentName} via Assembl — AI-generated content. Review by a qualified professional before use or reliance. ` +
+      `Assembl does not provide legal, financial, tax, medical, or construction advice. Consult a licensed professional for your situation.`,
       margin, y, { maxWidth }
     );
     y += 7;
 
-    // Copyright & IP
+    // Copyright
     doc.setFontSize(6);
-    doc.setTextColor(150);
+    doc.setTextColor(145);
     doc.text(
-      `© ${new Date().getFullYear()} Assembl. All rights reserved. Agent designs, system prompts, and automation workflows are proprietary trade secrets of Assembl. ` +
-      `Unauthorised reproduction, distribution, or reverse engineering is strictly prohibited.`,
-      margin, y, { maxWidth }
-    );
-    y += 5;
-
-    // NZ compliance
-    doc.text(
-      `Assembl is a product of Assembl Ltd, Auckland, New Zealand. Built in Aotearoa 🇳🇿. ` +
-      `All NZ legislation references are current as at the date of generation and should be verified against legislation.govt.nz for the latest amendments.`,
+      `© ${new Date().getFullYear()} Assembl Ltd, Auckland, New Zealand. All rights reserved. Built in Aotearoa. ` +
+      `NZ legislation references are current as at date of generation — verify at legislation.govt.nz.`,
       margin, y, { maxWidth }
     );
 
     // Page numbers
     if (includePageNumbers && totalPages > 1) {
       doc.setFontSize(7);
-      doc.setTextColor(170);
-      doc.text(`Page ${pageNum} of ${totalPages}`, pageWidth - margin, pageHeight - 10, { align: "right" });
+      doc.setTextColor(160);
+      doc.text(`Page ${pageNum} of ${totalPages}`, pageWidth - margin, pageHeight - 8, { align: "right" });
     }
 
     // Bottom accent bar
@@ -197,7 +188,202 @@ export function drawAssemblPDFFooter(
 }
 
 /**
- * Adds page numbers to all pages of the document (standalone, e.g. for multi-page docs without footer call)
+ * Renders markdown content to PDF with proper formatting.
+ * Handles headings, bold, bullets, numbered lists, checkboxes, and tables.
+ */
+export function renderMarkdownToPDF(
+  doc: jsPDF,
+  content: string,
+  options: {
+    startY: number;
+    margin?: number;
+    maxWidth?: number;
+    senderLabel?: string;
+    senderColor?: [number, number, number];
+  }
+): number {
+  const margin = options.margin ?? 20;
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const maxWidth = options.maxWidth ?? pageWidth - margin * 2;
+  let y = options.startY;
+
+  const checkPage = (needed: number) => {
+    if (y + needed > 260) {
+      doc.addPage();
+      y = 20;
+    }
+  };
+
+  // Sender label
+  if (options.senderLabel) {
+    checkPage(10);
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "bold");
+    const [r, g, b] = options.senderColor || [20, 20, 35];
+    doc.setTextColor(r, g, b);
+    doc.text(options.senderLabel, margin, y);
+    // Underline
+    const w = doc.getTextWidth(options.senderLabel);
+    doc.setDrawColor(r, g, b);
+    doc.setLineWidth(0.3);
+    doc.line(margin, y + 1, margin + w, y + 1);
+    y += 7;
+  }
+
+  const lines = content.split("\n");
+  let inTable = false;
+  let tableRows: string[][] = [];
+
+  const flushTable = () => {
+    if (tableRows.length === 0) return;
+    const cols = tableRows[0].length;
+    const colWidth = maxWidth / cols;
+    
+    // Header row
+    checkPage(8);
+    doc.setFillColor(240, 240, 245);
+    doc.rect(margin, y - 3, maxWidth, 7, "F");
+    doc.setFontSize(8);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(40, 40, 60);
+    for (let c = 0; c < cols; c++) {
+      const text = (tableRows[0][c] || "").trim();
+      doc.text(text, margin + c * colWidth + 2, y + 1, { maxWidth: colWidth - 4 });
+    }
+    y += 6;
+    doc.setDrawColor(200);
+    doc.setLineWidth(0.3);
+    doc.line(margin, y - 1, margin + maxWidth, y - 1);
+
+    // Data rows
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(50);
+    for (let r = 1; r < tableRows.length; r++) {
+      checkPage(6);
+      for (let c = 0; c < cols; c++) {
+        const text = (tableRows[r][c] || "").trim();
+        doc.text(text, margin + c * colWidth + 2, y + 1, { maxWidth: colWidth - 4 });
+      }
+      y += 5;
+      if (r < tableRows.length - 1) {
+        doc.setDrawColor(230);
+        doc.setLineWidth(0.15);
+        doc.line(margin, y - 1.5, margin + maxWidth, y - 1.5);
+      }
+    }
+    y += 3;
+    tableRows = [];
+    inTable = false;
+  };
+
+  for (const rawLine of lines) {
+    const trimmed = rawLine.trim();
+
+    // Table detection
+    if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
+      // Skip separator rows
+      if (/^\|[\s\-:]+\|/.test(trimmed) && trimmed.replace(/[\s|:\-]/g, "") === "") {
+        inTable = true;
+        continue;
+      }
+      const cells = trimmed.split("|").filter((_, i, a) => i > 0 && i < a.length - 1);
+      tableRows.push(cells);
+      inTable = true;
+      continue;
+    }
+
+    if (inTable) flushTable();
+
+    if (!trimmed) { y += 3; continue; }
+
+    const h1 = trimmed.match(/^#\s+(.*)/);
+    const h2 = trimmed.match(/^##\s+(.*)/);
+    const h3 = trimmed.match(/^###\s+(.*)/);
+    const h4 = trimmed.match(/^####\s+(.*)/);
+
+    if (h1) {
+      checkPage(12);
+      y += 3;
+      doc.setFontSize(14);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(20, 20, 35);
+      const wrapped = doc.splitTextToSize(h1[1].replace(/\*+/g, ""), maxWidth);
+      for (const wl of wrapped) { doc.text(wl, margin, y); y += 6.5; }
+      // Underline for h1
+      doc.setDrawColor(200);
+      doc.setLineWidth(0.2);
+      doc.line(margin, y - 2, margin + 50, y - 2);
+      y += 2;
+    } else if (h2) {
+      checkPage(10);
+      y += 2;
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(35, 35, 55);
+      const wrapped = doc.splitTextToSize(h2[1].replace(/\*+/g, ""), maxWidth);
+      for (const wl of wrapped) { doc.text(wl, margin, y); y += 6; }
+      y += 1;
+    } else if (h3) {
+      checkPage(8);
+      y += 1;
+      doc.setFontSize(10.5);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(50, 50, 70);
+      const wrapped = doc.splitTextToSize(h3[1].replace(/\*+/g, ""), maxWidth);
+      for (const wl of wrapped) { doc.text(wl, margin, y); y += 5.5; }
+      y += 1;
+    } else if (h4) {
+      checkPage(7);
+      doc.setFontSize(9.5);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(60, 60, 80);
+      doc.text(h4[1].replace(/\*+/g, ""), margin, y);
+      y += 5;
+    } else {
+      // Regular text, bullets, numbered lists, checkboxes
+      let text = trimmed
+        .replace(/^#+\s*/g, "")
+        .replace(/\*\*(.*?)\*\*/g, "$1")
+        .replace(/\*(.*?)\*/g, "$1")
+        .replace(/`(.*?)`/g, "$1");
+
+      // Checkbox
+      const checkbox = text.match(/^[-*]\s*\[([ xX])\]\s*(.*)/);
+      if (checkbox) {
+        const checked = checkbox[1].trim() !== "";
+        text = `${checked ? "☑" : "☐"}  ${checkbox[2]}`;
+      } else {
+        // Bullet
+        text = text.replace(/^[-*]\s+/g, "•  ");
+      }
+
+      const isBullet = text.startsWith("•") || text.startsWith("☑") || text.startsWith("☐");
+      const isNumbered = /^\d+[\.\)]\s/.test(text);
+      const indent = (isBullet || isNumbered) ? margin + 4 : margin;
+      const textMaxWidth = (isBullet || isNumbered) ? maxWidth - 4 : maxWidth;
+
+      const hasBold = /\*\*/.test(rawLine);
+      doc.setFontSize(9.5);
+      doc.setFont("helvetica", hasBold ? "bold" : "normal");
+      doc.setTextColor(40, 40, 50);
+
+      const wrapped = doc.splitTextToSize(text, textMaxWidth);
+      for (const wLine of wrapped) {
+        checkPage(5);
+        doc.text(wLine, indent, y);
+        y += 4.5;
+      }
+      y += 1;
+    }
+  }
+
+  if (inTable) flushTable();
+
+  return y;
+}
+
+/**
+ * Adds page numbers to all pages
  */
 export function addPageNumbers(doc: jsPDF, margin = 20): void {
   const pageWidth = doc.internal.pageSize.getWidth();
@@ -207,6 +393,6 @@ export function addPageNumbers(doc: jsPDF, margin = 20): void {
     doc.setPage(i);
     doc.setFontSize(7);
     doc.setTextColor(170);
-    doc.text(`Page ${i} of ${totalPages}`, pageWidth - margin, pageHeight - 10, { align: "right" });
+    doc.text(`Page ${i} of ${totalPages}`, pageWidth - margin, pageHeight - 8, { align: "right" });
   }
 }
