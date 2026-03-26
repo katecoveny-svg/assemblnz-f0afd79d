@@ -77,7 +77,7 @@ const EchoChatWidget = () => {
       {/* Floating bubble */}
       {!open && (
         <button
-          onClick={() => setOpen(true)}
+          onClick={() => { setOpen(true); setMinimized(false); }}
           className="fixed bottom-6 left-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center transition-transform hover:scale-110 group"
           style={{
             background: ECHO_COLOR,
@@ -90,8 +90,31 @@ const EchoChatWidget = () => {
         </button>
       )}
 
+      {/* Minimized bar */}
+      {open && minimized && (
+        <div
+          className="fixed bottom-6 left-6 z-[9999] flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer border border-[#E4A0FF]/15"
+          style={{ background: "#09090F", boxShadow: `0 4px 20px rgba(228,160,255,0.15)` }}
+          onClick={() => setMinimized(false)}
+        >
+          <img src={echoImg} alt="ECHO" className="w-6 h-6 rounded-full object-cover" />
+          <span className="text-xs font-syne font-bold" style={{ color: ECHO_COLOR }}>ECHO</span>
+          {messages.length > 0 && (
+            <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: `${ECHO_COLOR}20`, color: ECHO_COLOR }}>
+              {messages.length} msgs
+            </span>
+          )}
+          <button
+            onClick={(e) => { e.stopPropagation(); saveAndClearChat(); setOpen(false); }}
+            className="text-foreground/30 hover:text-foreground/60 transition-colors ml-1"
+          >
+            <X size={14} />
+          </button>
+        </div>
+      )}
+
       {/* Chat window */}
-      {open && (
+      {open && !minimized && (
         <div
           className="fixed bottom-6 left-6 z-[9999] w-[380px] max-w-[calc(100vw-48px)] rounded-2xl overflow-hidden flex flex-col border border-[#E4A0FF]/15"
           style={{
@@ -111,14 +134,23 @@ const EchoChatWidget = () => {
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#00FF88", boxShadow: "0 0 6px #00FF88" }} />
               </div>
             </div>
+            {messages.length > 0 && (
+              <button
+                onClick={saveAndClearChat}
+                className="p-1.5 rounded-lg transition-colors hover:bg-[#E4A0FF]/10"
+                title="New chat (saves current)"
+              >
+                <RotateCcw size={14} style={{ color: ECHO_COLOR }} />
+              </button>
+            )}
             <button
-              onClick={() => setShowVoice(true)}
+              onClick={() => setMinimized(true)}
               className="p-1.5 rounded-lg transition-colors hover:bg-[#E4A0FF]/10"
-              title="Talk to ECHO"
+              title="Minimize"
             >
-              <Mic size={14} style={{ color: ECHO_COLOR }} />
+              <Minimize2 size={14} style={{ color: ECHO_COLOR }} />
             </button>
-            <button onClick={() => setOpen(false)} className="text-foreground/30 hover:text-foreground/60 transition-colors">
+            <button onClick={() => { saveAndClearChat(); setOpen(false); }} className="text-foreground/30 hover:text-foreground/60 transition-colors">
               <X size={16} />
             </button>
           </header>
@@ -131,17 +163,6 @@ const EchoChatWidget = () => {
                 <p className="text-sm font-jakarta text-foreground/70 max-w-[280px] leading-relaxed">
                   Hey — I'm ECHO, Assembl's hero agent. Ask me anything about our platform, pricing, or how our 41 agents can help your business.
                 </p>
-                <button
-                  onClick={() => setShowVoice(true)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-syne font-bold transition-all hover:shadow-lg mb-2"
-                  style={{
-                    background: "transparent",
-                    color: ECHO_COLOR,
-                    border: `1px solid ${ECHO_COLOR}40`,
-                  }}
-                >
-                  <Mic size={12} /> Talk to ECHO
-                </button>
                 <div className="flex flex-col gap-1.5 w-full max-w-xs mt-2">
                   {["What does Assembl do?", "Which agent is right for my business?", "Tell me about pricing"].map((q) => (
                     <button key={q} onClick={() => sendMessage(q)} className="text-left text-[11px] px-3 py-2.5 rounded-lg transition-colors border border-[#E4A0FF]/10 hover:border-[#E4A0FF]/25" style={{ background: "#0E0E1A", color: "#E4E4EC" }}>
@@ -198,15 +219,6 @@ const EchoChatWidget = () => {
                 disabled={isLoading}
               />
               <button
-                type="button"
-                onClick={() => setShowVoice(true)}
-                className="px-2.5 py-2.5 rounded-lg transition-all hover:bg-[#E4A0FF]/10"
-                style={{ border: `1px solid rgba(228,160,255,0.15)` }}
-                title="Voice mode"
-              >
-                <Mic size={14} style={{ color: ECHO_COLOR }} />
-              </button>
-              <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
                 className="px-3 py-2.5 rounded-lg transition-all disabled:opacity-30"
@@ -221,18 +233,6 @@ const EchoChatWidget = () => {
             </div>
           </form>
         </div>
-      )}
-
-      {/* Voice Modal */}
-      {showVoice && (
-        <VoiceAgentModal
-          open={showVoice}
-          agentName="ECHO"
-          agentId="echo"
-          agentColor={ECHO_COLOR}
-          elevenLabsAgentId={getElevenLabsAgentId("echo")}
-          onClose={() => setShowVoice(false)}
-        />
       )}
     </>
   );
