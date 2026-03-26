@@ -76,12 +76,12 @@ const ApexSection = () => {
                 className="font-syne font-bold text-base sm:text-lg mb-4"
                 style={{ color: APEX_COLOR, textShadow: `0 0 12px ${APEX_COLOR}25` }}
               >
-                Built on NZ standards. No shortcuts.
+                Your Site-Specific Safety Plan in 5 minutes instead of 5 hours.
               </h3>
               <p className="text-sm font-jakarta leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
-                APEX writes tenders, generates H&S plans, tracks site compliance, estimates costs,
+                Compliant with the Health and Safety at Work Act 2015. APEX writes tenders, generates H&S plans, tracks site compliance, estimates costs,
                 monitors ESG scores, and handles Building Act and WorkSafe requirements — your
-                AI construction director for every NZ build.
+                construction compliance director for every NZ build.
               </p>
 
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start mb-6">

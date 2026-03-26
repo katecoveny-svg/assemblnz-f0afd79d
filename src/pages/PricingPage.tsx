@@ -14,12 +14,12 @@ const MAIN_PLANS = [
   PRICING.suite,
 ];
 
-const HELM_PLAN = { ...PRICING.helm, desc: "AI life admin for Kiwi families" };
+const HELM_PLAN = { ...PRICING.helm, desc: "Life admin for Kiwi families" };
 
 const FAQS = [
   { q: "Can I try Assembl for free?", a: "Every specialist tool is available for free — no signup required. You get 3 messages per advisor to explore. If you like what you see, sign up for a plan to unlock more." },
   { q: "How do message limits work?", a: "Starter gives you 100 messages per month. Pro provides 500 per month. Business gives you 2,000 and Suite provides 5,000. Enterprise is unlimited." },
-  { q: "What NZ legislation is built in?", a: "Our tools are trained on 50+ NZ Acts and regulations including the Employment Relations Act, Health & Safety at Work Act, Building Code, Food Act, Privacy Act, and many more." },
+  { q: "What NZ legislation is built in?", a: "Our tools are trained on 50+ NZ Acts and regulations including the Employment Relations Act 2000, Health and Safety at Work Act 2015, Building Act 2004, Food Act 2014, Privacy Act 2020, and many more." },
   { q: "Can I cancel anytime?", a: "Yes. All plans are month-to-month with no lock-in contracts. Cancel anytime from your dashboard." },
   { q: "What is HELM?", a: "HELM is our family life admin advisor designed for NZ families. It helps with meal planning, budgeting, school admin, and more — all with Kiwi context built in." },
   { q: "Do you offer discounts for nonprofits or startups?", a: "Yes! Through our AssemblFund initiative, we offer subsidised access for Kiwi startups and community organisations. Contact us at assembl@assembl.co.nz." },
@@ -36,8 +36,8 @@ const PricingPage = () => {
   return (
     <div className="min-h-screen flex flex-col relative" style={{ background: '#09090B' }}>
       <SEO
-        title="Assembl Pricing — From $89/mo | AI Agents for NZ Business"
-        description="Starter $89/mo (1 agent). Pro $299/mo (3 agents + SPARK). Business $599/mo (all 42 agents). Industry Suite $1,499/mo (custom agents + white-label). HELM Family from $14/mo."
+        title="Assembl Pricing — Enterprise-Grade Business Intelligence | SME-Friendly Pricing"
+        description="Starter $89/mo (1 tool). Pro $299/mo (3 tools + SPARK). Business $599/mo (all 42 tools). Industry Suite $1,499/mo (custom tools + white-label). HELM Family from $14/mo."
         path="/pricing"
       />
       <BrandNav />
@@ -46,10 +46,10 @@ const PricingPage = () => {
       <section className="pt-20 pb-10 sm:py-28">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
           <h1 className="text-2xl sm:text-5xl font-syne font-bold mb-3 leading-tight" style={{ color: '#FAFAFA', letterSpacing: '-0.025em' }}>
-            Access enterprise tools. SME pricing.
+            Enterprise-grade business intelligence. SME-friendly pricing.
           </h1>
           <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-6" style={{ color: '#A1A1AA' }}>
-            Every plan includes NZ legislation, document templates, and proactive compliance alerts.
+            From $14/month. No lock-in. Cancel anytime. Every plan includes NZ legislation, document templates, and proactive compliance alerts.
           </p>
 
           <p className="text-xs font-jakarta" style={{ color: '#71717A' }}>
@@ -160,7 +160,7 @@ const PricingPage = () => {
             HELM — Life Admin for Families
           </h2>
           <p className="text-xs font-jakarta text-center mb-8" style={{ color: '#71717A' }}>
-            AI life admin built for Kiwi households
+            Life admin built for Kiwi households
           </p>
           <div
             className="flex flex-col rounded-xl p-6"

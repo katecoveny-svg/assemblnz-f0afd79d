@@ -96,7 +96,7 @@ const EchoSection = () => {
                   textShadow: "0 0 12px rgba(228,160,255,0.25)",
                 }}
               >
-                The agent that never sleeps.
+                Your front desk that never sleeps.
               </h3>
               <p className="text-sm font-jakarta text-foreground/70 leading-relaxed mb-6 max-w-lg">
                 ECHO is the voice of Assembl — trained on 13 years of NZ brand strategy. It handles client enquiries, creates daily content, writes DMs that convert, and manages social media around the clock. Always on. Always on brand.

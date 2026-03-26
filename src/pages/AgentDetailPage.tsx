@@ -23,8 +23,8 @@ const AgentDetailPage = () => {
     const jsonLd = {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": `${agent.name} – Assembl Business Advisor`,
-      "description": `${agent.tagline}. ${agent.role} — specialist business intelligence for New Zealand ${agent.sector} businesses.`,
+      "name": `${agent.name} – Assembl Specialist Tool`,
+      "description": `${agent.tagline}. ${agent.role} — specialist tool for New Zealand ${agent.sector} businesses. Part of Assembl — business intelligence for NZ.`,
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
       "url": `https://assembl.co.nz/agents/${agent.id}`,
@@ -41,7 +41,7 @@ const AgentDetailPage = () => {
         "logo": "https://assembl.co.nz/placeholder.svg"
       },
       "featureList": agent.expertise,
-      "keywords": [agent.sector, "business advisor", "New Zealand", "enterprise intelligence", ...agent.traits],
+      "keywords": [agent.sector, "specialist tool", "New Zealand", "business intelligence", ...agent.traits],
     };
 
     const script = document.createElement("script");
@@ -51,8 +51,8 @@ const AgentDetailPage = () => {
     document.getElementById("agent-jsonld")?.remove();
     document.head.appendChild(script);
 
-    const pageTitle = `${agent.name} – Your ${agent.sector} Advisor | Assembl`;
-    const pageDesc = `${agent.name}: ${agent.tagline}. ${agent.role} — specialist business intelligence for NZ ${agent.sector} businesses.`;
+    const pageTitle = `${agent.name} – ${agent.sector} Specialist Tool | Assembl`;
+    const pageDesc = `${agent.name}: ${agent.tagline}. ${agent.role} — specialist tool for NZ ${agent.sector} businesses. Part of Assembl — business intelligence for NZ.`;
     const pageUrl = `https://assembl.co.nz/agents/${agent.id}`;
     const pageImage = "https://assembl.co.nz/placeholder.svg";
 
@@ -400,7 +400,7 @@ const AgentDetailPage = () => {
               Ready to put {agent.name} to work?
             </h2>
             <p className="font-jakarta text-base mb-8 max-w-md mx-auto" style={{ color: "hsl(var(--muted-foreground))" }}>
-              No credit card required. Start chatting with your AI {agent.sector.toLowerCase()} specialist in seconds.
+              No credit card required. Start chatting with your {agent.sector.toLowerCase()} specialist in seconds.
             </p>
             <Link
               to={`/chat/${agent.id}`}

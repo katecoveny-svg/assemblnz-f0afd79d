@@ -11,7 +11,7 @@ const HERO_INDUSTRIES = [
     agent: "TURF",
     color: "#00E676",
     Icon: Trophy,
-    description: "The complete AI club manager — season calendars, grant applications, coaching plans, and compliance for every NZ sports club.",
+    description: "Your club's re-registration under the Incorporated Societies Act 2022. The deadline is 5 April 2026. Fewer than half of NZ's clubs have done it.",
     capabilities: ["Season calendar builder", "Gaming trust grant writer", "Coaching session planner", "Incorporated Societies compliance"],
     agentId: "sports",
   },
@@ -20,7 +20,7 @@ const HERO_INDUSTRIES = [
     agent: "AURA",
     color: "#00FF88",
     Icon: UtensilsCrossed,
-    description: "Luxury-grade operations intelligence — from guest experience to kitchen compliance, revenue management to staff rostering.",
+    description: "Your 18-page Food Control Plan diary replaced with a 90-second voice check. Verifier visits stop being stressful.",
     capabilities: ["Guest intelligence & CRM", "Menu engineering & F&B", "Revenue optimisation", "Compliance autopilot"],
     agentId: "hospitality",
   },
@@ -29,7 +29,7 @@ const HERO_INDUSTRIES = [
     agent: "PRISM",
     color: "#E040FB",
     Icon: Palette,
-    description: "Your entire marketing department in one AI — brand strategy, campaign creation, AI image generation, and social deployment.",
+    description: "Brand strategy, campaign creation, image generation, and social deployment — your entire marketing department in one place.",
     capabilities: ["Brand strategy builder", "AI image generation", "Social media deployment", "Campaign auto-creator"],
     agentId: "marketing",
   },
@@ -38,7 +38,7 @@ const HERO_INDUSTRIES = [
     agent: "HELM",
     color: "#B388FF",
     Icon: Compass,
-    description: "Life and business on autopilot — schedules, meal plans, budgets, school admin, and family logistics handled instantly.",
+    description: "Schedules, meal plans, budgets, school admin, and family logistics handled instantly — purpose-built for NZ families.",
     capabilities: ["Newsletter data extractor", "Meal plan generator", "Budget auto-tracker", "Family calendar sync"],
     agentId: "operations",
   },
@@ -72,7 +72,7 @@ const IndustrySolutions = () => {
             Industry <span className="text-gradient-hero">solutions</span>
           </h2>
           <p className="text-sm font-jakarta text-muted-foreground">
-            Specialist business advisors for every sector — trained on the legislation that matters to you.
+            Specialist tools for every sector — trained on the legislation that matters to you.
           </p>
         </motion.div>
 

@@ -99,7 +99,7 @@ const BrandFooter = () => {
           {/* Newsletter */}
           <div className="col-span-2 sm:col-span-4 lg:col-span-1">
             <h4 className="font-syne font-bold text-xs text-foreground mb-3 uppercase tracking-wider">Stay Updated</h4>
-            <p className="text-[10px] font-jakarta text-muted-foreground mb-3">NZ AI insights, product updates, and agent tips.</p>
+            <p className="text-[10px] font-jakarta text-muted-foreground mb-3">NZ business insights, product updates, and specialist tips.</p>
             <form onSubmit={handleNewsletter} className="flex gap-2">
               <input
                 type="email"
@@ -160,7 +160,7 @@ const BrandFooter = () => {
         </div>
 
         <p className="text-[9px] mt-3 text-center font-jakarta" style={{ color: "hsl(var(--muted-foreground) / 0.4)" }}>
-          Assembl — Enterprise intelligence for NZ business. Content is guidance, not professional advice. Always consult qualified professionals. assembl@assembl.co.nz
+          Business intelligence platform for NZ. Built in Aotearoa. Content is guidance, not professional advice. Always consult qualified professionals. assembl@assembl.co.nz · www.assembl.co.nz · From $89/mo
         </p>
       </div>
     </footer>

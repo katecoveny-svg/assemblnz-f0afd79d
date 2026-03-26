@@ -76,7 +76,7 @@ const ArohaSection = () => {
                 className="font-syne font-bold text-base sm:text-lg mb-4"
                 style={{ color: AROHA_COLOR, textShadow: `0 0 12px ${AROHA_COLOR}25` }}
               >
-                People-first HR for every NZ workplace.
+                The employment questions you'd normally pay a lawyer $350/hour to ask.
               </h3>
               <p className="text-sm font-jakarta leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
                 AROHA generates employment agreements, calculates Holidays Act entitlements, builds

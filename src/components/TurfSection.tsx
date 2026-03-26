@@ -79,18 +79,16 @@ const TurfSection = () => {
                 Meet TURF
               </h2>
               <p className="font-mono-jb text-[10px] mb-4" style={{ color: `${TURF_COLOR}30` }}>
-                ASM-043 · Sports Operations AI
+                ASM-043 · Sports Operations
               </p>
               <h3
                 className="font-syne font-bold text-base sm:text-lg mb-4"
                 style={{ color: TURF_COLOR, textShadow: `0 0 12px ${TURF_COLOR}25` }}
               >
-                Run your sports club like a pro.
+                Your club's re-registration deadline is 5 April 2026. Fewer than half have done it.
               </h3>
               <p className="text-sm font-jakarta leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
-                TURF manages season calendars, writes sponsorship proposals, builds tournament draws,
-                tracks memberships, and handles Sport NZ compliance — built for every NZ rugby, netball,
-                football, cricket, and hockey club.
+                TURF handles your club's re-registration under the Incorporated Societies Act 2022, manages season calendars, writes sponsorship proposals, builds tournament draws, and tracks memberships — built for every NZ rugby, netball, football, cricket, and hockey club.
               </p>
 
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start mb-6">

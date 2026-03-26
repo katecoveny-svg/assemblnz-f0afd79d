@@ -90,7 +90,7 @@ const AuraSection = () => {
                 className="font-syne font-bold text-base sm:text-lg mb-4"
                 style={{ color: AURA_COLOR, textShadow: `0 0 12px ${AURA_COLOR}25` }}
               >
-                The AI that runs your venue.
+                Your 18-page Food Control Plan diary, replaced with a 90-second voice check.
               </h3>
               <p className="text-sm font-jakarta leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
                 AURA handles menu costing, staff rostering, guest experience management,

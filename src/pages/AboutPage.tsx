@@ -15,7 +15,7 @@ const ROADMAP = [
 const MARKET_STATS = [
   { value: "$4.2B", label: "NZ SaaS Market by 2027" },
   { value: "620K", label: "NZ SMEs" },
-  { value: "73%", label: "Want AI but lack resources" },
+  { value: "73%", label: "Want specialist tools but lack resources" },
   { value: "6+", label: "Avg. platforms per business" },
 ];
 
@@ -31,7 +31,7 @@ const AboutPage = () => {
             The operating system for <span className="text-gradient-hero">NZ business</span>
           </h1>
           <p className="text-sm sm:text-base font-jakarta text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Assembl replaces six platforms with one AI intelligence layer. 42 specialist agents trained on New Zealand legislation, regulations, and industry best practice — purpose-built in Auckland for Kiwi businesses.
+            Most businesses know they need to comply with NZ law. They just don't have time to read it all. Assembl has — 50+ Acts, from the Holidays Act to the Health and Safety at Work Act. Our 42 specialist tools turn that legislation into plain-English guidance, instant document generation, and compliance checks that take seconds instead of hours.
           </p>
         </motion.div>
       </section>
@@ -43,13 +43,13 @@ const AboutPage = () => {
             <div>
               <span className="text-[10px] font-mono-jb text-muted-foreground uppercase tracking-widest">Our Vision</span>
               <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mt-2 mb-4">
-                AI that understands <span className="text-gradient-hero">Aotearoa</span>
+                Built for <span className="text-gradient-hero">Aotearoa</span>
               </h2>
               <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-4">
-                Most AI tools are trained on US data, US laws, and US business practices. They don't know what PAYE is. They've never heard of the Building Act. They can't calculate KiwiSaver contributions.
+                Most business tools are trained on US data, US laws, and US business practices. They don't know what PAYE is. They've never heard of the Building Act. They can't calculate KiwiSaver contributions.
               </p>
               <p className="text-sm font-jakarta text-muted-foreground leading-relaxed">
-                Assembl changes that. Every agent is grounded in 50+ New Zealand Acts and trained on the specific regulations, standards, and cultural context that NZ businesses operate within.
+                Assembl changes that. Every tool is grounded in 50+ New Zealand Acts and trained on the specific regulations, standards, and cultural context that NZ businesses operate within. Powered by AI trained on NZ legislation.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -57,7 +57,7 @@ const AboutPage = () => {
                 { icon: <Target size={20} />, title: "Purpose-built", desc: "Not adapted — built from the ground up for NZ" },
                 { icon: <Shield size={20} />, title: "Legislation-first", desc: "50+ NZ Acts embedded in every response" },
                 { icon: <Users size={20} />, title: "SME-focused", desc: "Priced for the 620K businesses that need it most" },
-                { icon: <Globe size={20} />, title: "Always on", desc: "24/7 AI workforce that never takes leave" },
+                { icon: <Globe size={20} />, title: "Always on", desc: "24/7 specialist tools that never take leave" },
               ].map((item) => (
                 <div key={item.title} className="rounded-xl p-4 border border-border bg-card" style={{ backdropFilter: "blur(12px)" }}>
                   <div className="text-primary mb-2">{item.icon}</div>
@@ -135,7 +135,7 @@ const AboutPage = () => {
             Built by <span className="text-gradient-hero">Kate</span>
           </h2>
           <p className="text-sm font-jakarta text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
-            "I built Assembl because NZ businesses deserve AI tools that understand our laws, our culture, and the way we work. Every agent is trained on real NZ legislation — not generic overseas advice. My goal is to give every Kiwi business access to enterprise-grade AI at a price they can afford."
+            "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work. Every tool is trained on real NZ legislation — not generic overseas advice. My goal is to give every Kiwi business access to enterprise-grade business intelligence at a price they can afford."
           </p>
           <p className="text-xs font-syne font-bold text-foreground">Kate</p>
           <p className="text-[11px] font-jakarta text-muted-foreground">Founder & CEO · Auckland, New Zealand</p>

@@ -53,10 +53,10 @@ const LiveDemoSection = () => {
           transition={{ duration: 0.6, delay: 0.1 }}
         >
           <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-2">
-            Your expert <span className="text-gradient-hero">team</span>
+            Your specialist <span className="text-gradient-hero">tools</span>
           </h2>
           <p className="text-sm font-jakarta text-muted-foreground">
-            Every advisor is online and ready — tap to start a conversation
+            Every tool is online and ready — tap to start a conversation
           </p>
         </motion.div>
 
@@ -129,7 +129,7 @@ const LiveDemoSection = () => {
             to="/content-hub"
             className="inline-flex items-center gap-2 text-sm font-syne font-bold text-muted-foreground hover:text-foreground transition-colors"
           >
-            See the full team <ArrowRight size={14} />
+            See all 42 tools <ArrowRight size={14} />
           </Link>
         </div>
       </div>

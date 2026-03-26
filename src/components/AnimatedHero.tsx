@@ -61,10 +61,10 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <h1 className="text-2xl sm:text-5xl lg:text-[3.5rem] font-syne font-bold mb-2 leading-tight text-foreground" style={{ letterSpacing: '-0.025em' }}>
-            Enterprise intelligence. SME pricing.
+            42 specialist tools that know NZ law
           </h1>
           <p className="text-xl sm:text-4xl lg:text-[3rem] font-syne font-bold leading-normal text-gradient-hero pb-2">
-            Built for New Zealand.
+            better than most businesses do.
           </p>
         </motion.div>
 
@@ -79,7 +79,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             className="text-xs sm:text-base font-jakarta leading-relaxed"
             style={{ color: 'hsl(var(--muted-foreground))' }}
           >
-            Enterprise-grade intelligence for every NZ business — strategy, compliance, operations, and growth tools that work alongside your team. All trained on NZ law, all sharing one brain.
+            Business intelligence trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, education, agriculture, maritime, automotive, customs, and more. Enterprise-grade intelligence at SME pricing.
           </p>
         </motion.div>
 
@@ -116,7 +116,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             to="/content-hub"
             className="cta-glass-green inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm font-semibold font-jakarta"
           >
-            See what they build <ArrowRight size={16} />
+            Explore the platform <ArrowRight size={16} />
           </Link>
           <button
             onClick={onScrollToGrid}
@@ -125,7 +125,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)')}
             onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)')}
           >
-            Meet your expert team →
+            See the tools →
           </button>
         </motion.div>
 

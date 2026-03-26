@@ -4,7 +4,7 @@ import nexusLogo from "@/assets/nexus-logo.png";
 import AccountDropdown from "@/components/AccountDropdown";
 
 const NAV_LINKS = [
-  { to: "/#expert-team", label: "Expert Team" },
+  { to: "/#expert-team", label: "Specialist Tools" },
   { to: "/content-hub", label: "Strategy Hub" },
   { to: "/pricing", label: "Pricing" },
   { to: "/embed", label: "Embed" },
