@@ -12,7 +12,8 @@ import { agentCapabilities } from "@/data/agentCapabilities";
 const AgentDetailPage = () => {
   const { agentId } = useParams<{ agentId: string }>();
   const agent = agents.find((a) => a.id === agentId);
-  const capabilities = agentCapabilities[agent?.id || ""] || [];
+  const rawCaps = agentCapabilities[agent?.id || ""] || [];
+  const capabilities = rawCaps.map(c => typeof c === 'string' ? c : c.bullet);
 
   // JSON-LD structured data for SEO rich snippets
   useEffect(() => {
