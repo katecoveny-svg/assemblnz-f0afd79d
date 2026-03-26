@@ -975,6 +975,84 @@ export type Database = {
           },
         ]
       }
+      food_safety_checklists: {
+        Row: {
+          checklist_date: string
+          completed_at: string | null
+          completed_by: string
+          created_at: string | null
+          id: string
+          items: Json
+          shift: string | null
+          user_id: string
+        }
+        Insert: {
+          checklist_date: string
+          completed_at?: string | null
+          completed_by: string
+          created_at?: string | null
+          id?: string
+          items: Json
+          shift?: string | null
+          user_id: string
+        }
+        Update: {
+          checklist_date?: string
+          completed_at?: string | null
+          completed_by?: string
+          created_at?: string | null
+          id?: string
+          items?: Json
+          shift?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      food_safety_records: {
+        Row: {
+          checked_by: string
+          corrective_action: string | null
+          created_at: string | null
+          id: string
+          is_compliant: boolean | null
+          item_name: string | null
+          notes: string | null
+          record_date: string
+          record_type: string
+          shift: string | null
+          temperature: number | null
+          user_id: string
+        }
+        Insert: {
+          checked_by: string
+          corrective_action?: string | null
+          created_at?: string | null
+          id?: string
+          is_compliant?: boolean | null
+          item_name?: string | null
+          notes?: string | null
+          record_date: string
+          record_type: string
+          shift?: string | null
+          temperature?: number | null
+          user_id: string
+        }
+        Update: {
+          checked_by?: string
+          corrective_action?: string | null
+          created_at?: string | null
+          id?: string
+          is_compliant?: boolean | null
+          item_name?: string | null
+          notes?: string | null
+          record_date?: string
+          record_type?: string
+          shift?: string | null
+          temperature?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       gear_rules: {
         Row: {
           created_at: string
