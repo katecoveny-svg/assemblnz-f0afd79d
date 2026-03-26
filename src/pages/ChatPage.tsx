@@ -435,6 +435,25 @@ const ChatPage = () => {
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
+  // First-time onboarding tooltip
+  useEffect(() => {
+    if (!agentId) return;
+    const key = `assembl_onboarded_${agentId}`;
+    if (!localStorage.getItem(key)) {
+      const timer = setTimeout(() => setShowOnboardingTooltip(true), 800);
+      return () => clearTimeout(timer);
+    }
+  }, [agentId]);
+
+  const dismissOnboarding = () => {
+    if (onboardingStep < 2) {
+      setOnboardingStep(s => s + 1);
+    } else {
+      setShowOnboardingTooltip(false);
+      if (agentId) localStorage.setItem(`assembl_onboarded_${agentId}`, "1");
+    }
+  };
+
   // Listen for AURA mode changes to refresh tabs
   useEffect(() => {
     const handler = () => setAuraModeKey(k => k + 1);
