@@ -45,6 +45,9 @@ import mintImg from "@/assets/agents/mint.png";
 import echoImg from "@/assets/agents/echo.png";
 import sparkImg from "@/assets/agents/spark.png";
 import sportsImg from "@/assets/agents/sports.png";
+import clinicImg from "@/assets/agents/clinic.png";
+import pristineImg from "@/assets/agents/pristine.png";
+import networkImg from "@/assets/agents/network.png";
 
 const AVATAR_MAP: Record<string, string> = {
   hospitality: auraImg,
@@ -91,6 +94,9 @@ const AVATAR_MAP: Record<string, string> = {
   echo: echoImg,
   spark: sparkImg,
   sports: sportsImg,
+  clinic: clinicImg,
+  pristine: pristineImg,
+  network: networkImg,
 };
 
 interface AgentAvatarProps {

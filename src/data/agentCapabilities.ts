@@ -135,6 +135,24 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "Draft email responses", icon: FileText, title: "Draft Responses", description: "Triage and draft professional email replies", prompt: "Draft responses to my emails — triage my inbox by urgency and generate professional replies for each message." },
     { bullet: "Schedule meetings", icon: Calendar, title: "Schedule Meeting", description: "Coordinate calendars and book meetings", prompt: "Schedule a meeting with a prospect — suggest time options, draft the agenda, and prepare a calendar invite." },
   ],
+  clinic: [
+    { bullet: "APC renewal tracking", icon: Stethoscope, title: "APC Tracker", description: "Track practising certificate renewal dates", prompt: "When is my Annual Practising Certificate due for renewal? Help me track all my registration deadlines." },
+    { bullet: "Patient recall system", icon: Calendar, title: "Patient Recall", description: "Generate recall messages for overdue patients", prompt: "Draft a patient recall message for patients overdue for their 6-month check-up." },
+    { bullet: "ACC dental claims", icon: FileText, title: "ACC Claim", description: "Draft ACC treatment injury documentation", prompt: "Help me with an ACC dental claim — walk me through the treatment injury claim process and help draft the documentation." },
+    { bullet: "Practice audit checklist", icon: Shield, title: "Practice Audit", description: "Generate a comprehensive practice audit checklist", prompt: "Generate a practice audit checklist covering infection control, radiation safety, and clinical records compliance." },
+  ],
+  pristine: [
+    { bullet: "Cleaning quote calculator", icon: DollarSign, title: "Quote Calculator", description: "Generate accurate commercial cleaning quotes", prompt: "Quote a 500m² office clean, 3x per week — include labour, consumables, and travel." },
+    { bullet: "Multi-site roster", icon: Calendar, title: "Staff Roster", description: "Generate rosters across multiple cleaning sites", prompt: "Generate a cleaning roster for 4 sites with travel time between locations." },
+    { bullet: "Chemical safety records", icon: Shield, title: "Chemical Safety", description: "SDS register and chemical compliance tracking", prompt: "What chemical safety records do I need to keep under HSNO Act? Help me set up an SDS register." },
+    { bullet: "Cleaning contract drafting", icon: FileText, title: "Draft Contract", description: "Generate a commercial cleaning contract", prompt: "Draft a commercial cleaning contract with scope of work, schedule, pricing, and termination clauses." },
+  ],
+  network: [
+    { bullet: "Franchise feasibility", icon: BarChart3, title: "Feasibility Check", description: "Assess if your business model is franchisable", prompt: "Is my business franchisable? Assess systemisability, teachability, profitability, and scalability." },
+    { bullet: "Franchise agreement drafting", icon: FileText, title: "Draft Agreement", description: "Generate a complete franchise agreement", prompt: "Draft a franchise agreement including territory, fees, operations manual compliance, and termination provisions." },
+    { bullet: "Franchisee recruitment", icon: Users, title: "Recruitment Pack", description: "Create a franchisee information pack", prompt: "Create a franchisee recruitment pack with investment details, support structure, and application process." },
+    { bullet: "Network benchmarking", icon: BarChart3, title: "Benchmark", description: "Compare franchisee performance across network", prompt: "Benchmark my franchisee performance — compare revenue, cost ratios, and profitability across locations." },
+  ],
 };
 
 // Quick action labels (3-4 per agent, shown below chat input)
