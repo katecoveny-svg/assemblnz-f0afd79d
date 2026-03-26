@@ -2,10 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
-import { Send, X, Mic } from "lucide-react";
+import { Send, X, Minimize2, RotateCcw } from "lucide-react";
 import echoImg from "@/assets/agents/echo.png";
-import VoiceAgentModal from "./VoiceAgentModal";
-import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 interface Message {
   role: "user" | "assistant";
@@ -18,12 +16,29 @@ const EchoChatWidget = () => {
   const location = useLocation();
   const isChatPage = location.pathname.startsWith("/chat/");
   const [open, setOpen] = useState(false);
+  const [minimized, setMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [showVoice, setShowVoice] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const saveAndClearChat = async () => {
+    if (messages.length === 0) return;
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await supabase.from("conversations").insert({
+          user_id: user.id,
+          agent_id: "echo",
+          messages: messages.map(m => ({ role: m.role, content: m.content })),
+        });
+      }
+    } catch (e) {
+      console.error("Failed to save conversation:", e);
+    }
+    setMessages([]);
+  };
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
