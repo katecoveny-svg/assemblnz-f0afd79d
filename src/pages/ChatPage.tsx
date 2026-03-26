@@ -838,84 +838,55 @@ const ChatPage = () => {
   const [sparkMobileView, setSparkMobileView] = useState<"chat" | "preview">("chat");
 
   // Collect agent-specific tabs (must be before early return)
-  const agentTabs = useMemo(() => {
+   const agentTabs = useMemo(() => {
     if (!agent) return [];
     const tabs: { id: string; label: string; icon?: React.ReactNode }[] = [];
-    if (hasTemplateTab) tabs.push({ id: "templates", label: "Templates", icon: <LayoutGrid size={13} /> });
-    if (isMarketing) tabs.push({ id: "content_studio", label: "Content Studio", icon: <Sparkles size={13} /> });
+
+    // Consolidate all agent-specific tool tabs under a "Tools" mega-tab
+    const toolTabs: { id: string; label: string }[] = [];
+    if (hasTemplateTab) toolTabs.push({ id: "templates", label: "Templates" });
+    if (isMarketing) toolTabs.push({ id: "content_studio", label: "Content Studio" });
     if (isConstruction) {
-      tabs.push({ id: "tender_writer", label: "Tenders", icon: <FileText size={13} /> });
-      tabs.push({ id: "awards", label: "Awards", icon: <Trophy size={13} /> });
-      tabs.push({ id: "hs_hub", label: "H&S", icon: <Shield size={13} /> });
-      tabs.push({ id: "esg", label: "ESG", icon: <Leaf size={13} /> });
-      tabs.push({ id: "iot_field", label: "IoT & Field", icon: <Radio size={13} /> });
+      ["tender_writer:Tenders", "awards:Awards", "hs_hub:H&S", "esg:ESG", "iot_field:IoT"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isForge) {
-      ["Showroom", "Sales", "Parts", "Marketing", "Events", "Team", "Brand Hub", "Audit"].forEach((label, i) => {
-        const ids = ["forge_showroom", "forge_sales", "forge_parts", "forge_marketing", "forge_events", "forge_team", "forge_brand", "forge_audit"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["forge_showroom:Showroom", "forge_sales:Sales", "forge_parts:Parts", "forge_marketing:Marketing", "forge_events:Events", "forge_team:Team", "forge_brand:Brand Hub", "forge_audit:Audit"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isAroha) {
-      ["Contracts", "Onboarding", "Payroll", "Recruitment", "Retention", "People", "Setup"].forEach((label, i) => {
-        const ids = ["aroha_contracts", "aroha_onboarding", "aroha_payroll", "aroha_recruitment", "aroha_retention", "aroha_people", "aroha_company"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["aroha_contracts:Contracts", "aroha_onboarding:Onboarding", "aroha_payroll:Payroll", "aroha_recruitment:Recruitment", "aroha_retention:Retention", "aroha_people:People", "aroha_company:Setup"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isAura) {
-      const auraTabs = [
-        { id: "aura_food_safety", label: "☑ Food Safety" },
-        { id: "aura_kitchen", label: "Menu Builder" },
-        { id: "aura_team", label: "Staff Rostering" },
-        { id: "aura_guest", label: "Guest Experience" },
-        { id: "aura_operations", label: "Compliance" },
-      ];
-      auraTabs.forEach(t => tabs.push(t));
+      ["aura_food_safety:Food Safety", "aura_kitchen:Menu Builder", "aura_team:Staff Rostering", "aura_guest:Guest Experience", "aura_operations:Compliance"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isHaven) {
-      ["Dashboard", "Properties", "Jobs", "Tradies", "Command", "Compliance", "Costs", "Docs", "Alerts"].forEach((label, i) => {
-        const ids = ["haven_dashboard", "haven_properties", "haven_jobs", "haven_tradies", "haven_command", "haven_compliance", "haven_costs", "haven_documents", "haven_notifications"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["haven_dashboard:Dashboard", "haven_properties:Properties", "haven_jobs:Jobs", "haven_tradies:Tradies", "haven_command:Command", "haven_compliance:Compliance", "haven_costs:Costs", "haven_documents:Docs", "haven_notifications:Alerts"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isFlux) {
-      ["Pipeline", "Follow-Ups", "Clients"].forEach((label, i) => {
-        const ids = ["flux_pipeline", "flux_followups", "flux_clients"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["flux_pipeline:Pipeline", "flux_followups:Follow-Ups", "flux_clients:Clients"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isPrism) {
-      ["Campaigns", "Social", "Brand Voice", "Creative", "Ad Studio", "Product", "Video", "Brand Lab", "Publisher"].forEach((label, i) => {
-        const ids = ["prism_campaigns", "prism_social", "prism_brand", "prism_creative", "prism_ads", "prism_product", "prism_video", "prism_brandlab", "prism_publisher"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["prism_campaigns:Campaigns", "prism_social:Social", "prism_brand:Brand Voice", "prism_creative:Creative", "prism_ads:Ad Studio", "prism_product:Product", "prism_video:Video", "prism_brandlab:Brand Lab", "prism_publisher:Publisher"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isNonprofit) {
-      ["Campaign Writer", "Marketplace", "Impact", "Corporate"].forEach((label, i) => {
-        const ids = ["kindle_writer", "kindle_marketplace", "kindle_impact", "kindle_corporate"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["kindle_writer:Campaign Writer", "kindle_marketplace:Marketplace", "kindle_impact:Impact", "kindle_corporate:Corporate"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
-    if (isAxis) tabs.push({ id: "axis_automations", label: "Automations" });
+    if (isAxis) toolTabs.push({ id: "axis_automations", label: "Automations" });
     if (isHelm) {
-      ["This Week", "Bus", "Timetable", "Inbox", "Review", "Rescue", "Settings"].forEach((label, i) => {
-        const ids = ["helm_week", "helm_bus", "helm_timetable", "helm_inbox", "helm_review", "helm_rescue", "helm_settings"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["helm_week:This Week", "helm_bus:Bus", "helm_timetable:Timetable", "helm_inbox:Inbox", "helm_review:Review", "helm_rescue:Rescue", "helm_settings:Settings"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isSports) {
-      ["Event Manager", "Membership", "Facilities", "Sponsorship", "Performance", "Compliance"].forEach((label, i) => {
-        const ids = ["turf_events", "turf_membership", "turf_facilities", "turf_sponsorship", "turf_performance", "turf_compliance"];
-        tabs.push({ id: ids[i], label });
-      });
+      ["turf_events:Events", "turf_membership:Membership", "turf_facilities:Facilities", "turf_sponsorship:Sponsorship", "turf_performance:Performance", "turf_compliance:Compliance"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
-    // Voice Agent tab for all agents
-    {
-      tabs.push({ id: "voice_waitlist", label: "Voice", icon: <Mic size={13} /> });
-    }
-    if (hasLiveDataTab) tabs.push({ id: "live_data", label: "Live Data", icon: <Radio size={13} /> });
-    tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
-    if (!isHelm && !isSports && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
+    if (hasLiveDataTab) toolTabs.push({ id: "live_data", label: "Live Data" });
+    if (!isHelm && !isSports && agentId !== "maritime") toolTabs.push({ id: "internal_comms", label: "Comms" });
+
+    // Top-level tabs: Chat is always shown separately; these are the other 4
+    if (toolTabs.length > 0) tabs.push(...toolTabs.map(t => ({ id: t.id, label: t.label })));
+
+    // Voice tab
+    tabs.push({ id: "voice_waitlist", label: "Voice", icon: <Mic size={13} /> });
+    // Settings/Train tab
+    tabs.push({ id: "agent_training", label: "Settings", icon: <Brain size={13} /> });
     return tabs;
   }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, isSports, hasLiveDataTab, auraModeKey]);
 
