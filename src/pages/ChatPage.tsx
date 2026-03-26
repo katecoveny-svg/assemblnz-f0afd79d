@@ -5,7 +5,7 @@ import { agents } from "@/data/agents";
 import { echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone, Radio, Camera, RotateCcw } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone, Radio, Camera, RotateCcw, Target } from "lucide-react";
 import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
@@ -99,6 +99,7 @@ import PrismProductStudio from "@/components/prism/PrismProductStudio";
 import PrismBrandDNA from "@/components/prism/PrismBrandDNA";
 import PrismSocialPublisher from "@/components/prism/PrismSocialPublisher";
 import PrismAdEngine from "@/components/prism/PrismAdEngine";
+import AdEngineModal from "@/components/prism/AdEngineModal";
 import SparkDeployModal from "@/components/spark/SparkDeployModal";
 import AxisAutomations from "@/components/axis/AxisAutomations";
 import HelmThisWeek from "@/components/helm/HelmThisWeek";
@@ -384,6 +385,7 @@ const ChatPage = () => {
   const [prismImagePrompt, setPrismImagePrompt] = useState("");
   const [prismImageAspect, setPrismImageAspect] = useState<"1:1" | "16:9" | "9:16" | "4:3">("1:1");
   const [prismImageGenerating, setPrismImageGenerating] = useState(false);
+  const [adEngineOpen, setAdEngineOpen] = useState(false);
 
   // NEXUS Job Sheet workflow state
   const [nexusWorkflowActive, setNexusWorkflowActive] = useState(false);
@@ -2258,6 +2260,19 @@ const ChatPage = () => {
                 >
                   <Camera size={16} />
                 </button>
+               )}
+
+              {/* PRISM: Ad Engine button */}
+              {isPrism && (
+                <button
+                  type="button"
+                  onClick={() => setAdEngineOpen(true)}
+                  className="p-2.5 rounded-lg border transition-all duration-200 hover:scale-105"
+                  style={{ borderColor: agent.color + "30", color: agent.color }}
+                  title="Ad Engine — Generate ad campaigns"
+                >
+                  <Target size={16} />
+                </button>
               )}
 
               {isHelm && (
@@ -2393,6 +2408,7 @@ const ChatPage = () => {
           void sendMessage(buildVoiceHandoffPrompt(voiceTranscript));
         }}
       />
+      {isPrism && <AdEngineModal open={adEngineOpen} onOpenChange={setAdEngineOpen} />}
     </div>
   );
 };

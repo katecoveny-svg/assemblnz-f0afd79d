@@ -50,6 +50,110 @@ export type Database = {
         }
         Relationships: []
       }
+      ad_campaigns: {
+        Row: {
+          created_at: string | null
+          id: string
+          industries: string[]
+          name: string
+          platforms: string[]
+          status: string | null
+          total_ads: number | null
+          user_id: string
+          visual_style: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          industries: string[]
+          name: string
+          platforms: string[]
+          status?: string | null
+          total_ads?: number | null
+          user_id: string
+          visual_style?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          industries?: string[]
+          name?: string
+          platforms?: string[]
+          status?: string | null
+          total_ads?: number | null
+          user_id?: string
+          visual_style?: string | null
+        }
+        Relationships: []
+      }
+      ad_creatives: {
+        Row: {
+          ad_structure: string
+          agent_name: string
+          campaign_id: string | null
+          created_at: string | null
+          cta: string
+          description: string | null
+          format: string
+          hashtags: string[] | null
+          headline: string
+          id: string
+          image_url: string | null
+          industry: string
+          pain_point: string
+          platform: string
+          primary_text: string
+          target_audience: string | null
+          user_id: string
+        }
+        Insert: {
+          ad_structure: string
+          agent_name: string
+          campaign_id?: string | null
+          created_at?: string | null
+          cta: string
+          description?: string | null
+          format?: string
+          hashtags?: string[] | null
+          headline: string
+          id?: string
+          image_url?: string | null
+          industry: string
+          pain_point: string
+          platform: string
+          primary_text: string
+          target_audience?: string | null
+          user_id: string
+        }
+        Update: {
+          ad_structure?: string
+          agent_name?: string
+          campaign_id?: string | null
+          created_at?: string | null
+          cta?: string
+          description?: string | null
+          format?: string
+          hashtags?: string[] | null
+          headline?: string
+          id?: string
+          image_url?: string | null
+          industry?: string
+          pain_point?: string
+          platform?: string
+          primary_text?: string
+          target_audience?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ad_creatives_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "ad_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       agent_memory: {
         Row: {
           agent_id: string
@@ -1234,29 +1338,35 @@ export type Database = {
         Row: {
           agent_name: string
           created_at: string
+          hook: string | null
           id: string
           industry: string
           last_updated: string
           pain_point_text: string
           severity: number
+          stat: string | null
         }
         Insert: {
           agent_name: string
           created_at?: string
+          hook?: string | null
           id?: string
           industry: string
           last_updated?: string
           pain_point_text: string
           severity?: number
+          stat?: string | null
         }
         Update: {
           agent_name?: string
           created_at?: string
+          hook?: string | null
           id?: string
           industry?: string
           last_updated?: string
           pain_point_text?: string
           severity?: number
+          stat?: string | null
         }
         Relationships: []
       }
