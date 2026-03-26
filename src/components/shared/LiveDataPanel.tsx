@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Radio, RefreshCw, Loader2, AlertTriangle } from "lucide-react";
+import AISLiveTracker from "./AISLiveTracker";
 
 interface Props {
   agentId: string;
@@ -9,9 +10,11 @@ interface Props {
   onSendToChat?: (msg: string) => void;
 }
 
+// Agents that get the AIS WebSocket tracker
+const AIS_AGENTS = ["maritime", "pm"];
+
 const AGENT_IOT_MAP: Record<string, { fn: string; defaultBody: any; label: string }[]> = {
   maritime: [
-    { fn: "iot-ais-tracking", defaultBody: { action: "vessels_near_port", port: "auckland" }, label: "Ships Near Auckland" },
     { fn: "iot-weather", defaultBody: { city: "Auckland", mode: "current" }, label: "Marine Weather" },
   ],
   agriculture: [
@@ -25,8 +28,6 @@ const AGENT_IOT_MAP: Record<string, { fn: string; defaultBody: any; label: strin
     { fn: "iot-weather", defaultBody: { city: "Queenstown", mode: "both" }, label: "Guest Activity Weather" },
   ],
   pm: [
-    { fn: "iot-ais-tracking", defaultBody: { action: "vessels_near_port", port: "auckland" }, label: "Ships Near Auckland" },
-    { fn: "iot-ais-tracking", defaultBody: { action: "vessels_near_port", port: "tauranga" }, label: "Ships Near Tauranga" },
     { fn: "iot-freight-tracking", defaultBody: { action: "track", tracking_code: "DEMO" }, label: "Freight Tracker" },
   ],
   automotive: [
@@ -45,6 +46,7 @@ export default function LiveDataPanel({ agentId, agentName, agentColor, onSendTo
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const sources = AGENT_IOT_MAP[agentId] || [];
+  const showAIS = AIS_AGENTS.includes(agentId);
 
   const fetchFeed = async (idx: number) => {
     const src = sources[idx];
@@ -66,7 +68,7 @@ export default function LiveDataPanel({ agentId, agentName, agentColor, onSendTo
     sources.forEach((_, i) => fetchFeed(i));
   }, [agentId]);
 
-  if (sources.length === 0) {
+  if (sources.length === 0 && !showAIS) {
     return (
       <div className="flex-1 flex items-center justify-center p-8">
         <p className="text-sm text-muted-foreground">No live data feeds configured for {agentName}.</p>
@@ -80,9 +82,14 @@ export default function LiveDataPanel({ agentId, agentName, agentColor, onSendTo
         <Radio size={16} style={{ color: agentColor }} />
         <h2 className="text-sm font-bold text-foreground">Live Data Feeds</h2>
         <span className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: `${agentColor}20`, color: agentColor }}>
-          {sources.length} source{sources.length > 1 ? "s" : ""}
+          {sources.length + (showAIS ? 1 : 0)} source{(sources.length + (showAIS ? 1 : 0)) > 1 ? "s" : ""}
         </span>
       </div>
+
+      {/* AIS Live Tracker for maritime/pm agents */}
+      {showAIS && (
+        <AISLiveTracker agentColor={agentColor} onSendToChat={onSendToChat} />
+      )}
 
       {sources.map((src, idx) => (
         <div key={idx} className="rounded-xl border border-border bg-card p-4" style={{ borderColor: `${agentColor}15` }}>
