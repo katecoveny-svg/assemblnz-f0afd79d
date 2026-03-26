@@ -14,10 +14,11 @@ const TurfSection = () => {
   const elevenLabsAgentId = getElevenLabsAgentId("sports");
 
   const handleVoiceHandoff = useCallback((transcript: { role: "user" | "agent"; text: string }[]) => {
-    if (transcript.length > 0) {
-      sessionStorage.setItem("voiceTranscript", JSON.stringify(transcript));
-      navigate("/chat/sports?voiceHandoff=true");
-    }
+    if (transcript.length === 0) return;
+    const handoffKey = `voice-handoff-${Date.now()}`;
+    sessionStorage.setItem(handoffKey, JSON.stringify({ agentId: "sports", transcript }));
+    setShowVoice(false);
+    navigate(`/chat/sports?voiceHandoff=${encodeURIComponent(handoffKey)}`);
   }, [navigate]);
 
   return (
