@@ -198,7 +198,59 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const selectedEditor = scripts.find(s => s.id === showEditor);
+  const generateVideoFrames = async (script: VideoScript) => {
+    if (!user || !script.scenes?.length) return;
+    setGeneratingFrames(script.id);
+    setFrameProgress({ current: 0, total: script.scenes.length });
+
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-video", {
+        body: {
+          scenes: script.scenes.map(s => ({ visual: s.visual, description: s.voiceover })),
+          aspectRatio: script.aspect_ratio || "16:9",
+          title: script.title,
+          videoType: script.video_type,
+        },
+      });
+
+      if (error) throw error;
+      if (data?.error) {
+        if (data.error.includes("credits")) {
+          toast.error("AI credits exhausted. Please add funds to continue.");
+        } else {
+          toast.error(data.error);
+        }
+        return;
+      }
+
+      const urls = (data.frames || []).filter((f: any) => f.imageUrl).map((f: any) => f.imageUrl);
+      const prompts = (data.frames || []).map((f: any) => f.prompt);
+
+      setGeneratedFrames(prev => ({ ...prev, [script.id]: { urls, prompts } }));
+      toast.success(`${urls.length} scene frames generated!`);
+    } catch (e: any) {
+      console.error("Video frame generation error:", e);
+      toast.error("Failed to generate video frames. Try again.");
+    } finally {
+      setGeneratingFrames(null);
+    }
+  };
+
+  const downloadFrame = async (url: string, index: number) => {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const pngBlob = new Blob([blob], { type: "image/png" });
+      const blobUrl = URL.createObjectURL(pngBlob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = `prism-scene-${index + 1}-${Date.now()}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
+    } catch { window.open(url, "_blank"); }
+  };
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
