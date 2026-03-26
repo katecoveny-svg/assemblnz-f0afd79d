@@ -59,6 +59,7 @@ import ArohaPayroll from "@/components/aroha/ArohaPayroll";
 import ArohaRecruitment from "@/components/aroha/ArohaRecruitment";
 import ArohaPeopleCulture from "@/components/aroha/ArohaPeopleCulture";
 import ArohaCompanySetup from "@/components/aroha/ArohaCompanySetup";
+import ArohaRetention from "@/components/aroha/ArohaRetention";
 import AuraPropertySetup from "@/components/aura/AuraPropertySetup";
 import AuraReservations from "@/components/aura/AuraReservations";
 import AuraGuestExperience from "@/components/aura/AuraGuestExperience";
@@ -351,7 +352,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "forge_audit" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "aura_food_safety" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "axis_automations" | "agent_training" | "voice_waitlist" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance" | "live_data">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "forge_audit" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aroha_retention" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "aura_food_safety" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "axis_automations" | "agent_training" | "voice_waitlist" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance" | "live_data">("chat");
   const [showDeployModal, setShowDeployModal] = useState(false);
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
@@ -855,8 +856,8 @@ const ChatPage = () => {
       });
     }
     if (isAroha) {
-      ["Contracts", "Onboarding", "Payroll", "Recruitment", "People", "Setup"].forEach((label, i) => {
-        const ids = ["aroha_contracts", "aroha_onboarding", "aroha_payroll", "aroha_recruitment", "aroha_people", "aroha_company"];
+      ["Contracts", "Onboarding", "Payroll", "Recruitment", "Retention", "People", "Setup"].forEach((label, i) => {
+        const ids = ["aroha_contracts", "aroha_onboarding", "aroha_payroll", "aroha_recruitment", "aroha_retention", "aroha_people", "aroha_company"];
         tabs.push({ id: ids[i], label });
       });
     }
@@ -1705,6 +1706,8 @@ const ChatPage = () => {
         <ArohaPeopleCulture />
       ) : activeTab === "aroha_company" && isAroha ? (
         <ArohaCompanySetup />
+      ) : activeTab === "aroha_retention" && isAroha ? (
+        <ArohaRetention />
       ) : activeTab === "forge_showroom" && isForge ? (
         <ForgeShowroom />
       ) : activeTab === "forge_sales" && isForge ? (

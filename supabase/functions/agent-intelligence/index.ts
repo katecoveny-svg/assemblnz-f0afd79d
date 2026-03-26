@@ -46,41 +46,36 @@ const TRIGGER_RULES: {
     ],
   },
   {
-    contextKey: /deal_closed|deal_won/i,
+    contextKey: /deal_closed|deal_won|new_client/i,
     sourceAgent: "sales",
     alerts: [
       { targetAgent: "finance", alertType: "invoice_needed", titleTemplate: "Prepare invoice for closed deal", messageTemplate: "FLUX closed a deal. LEDGER should prepare the initial invoice.", severity: "high" },
       { targetAgent: "echo", alertType: "announcement", titleTemplate: "Draft deal announcement", messageTemplate: "A deal was closed. ECHO should draft internal and external announcements.", severity: "standard" },
+      { targetAgent: "hr", alertType: "hiring_check", titleTemplate: "New client may require additional staff", messageTemplate: "FLUX closed a new client. AROHA should check if you need to hire to service this account.", severity: "standard" },
     ],
   },
   {
-    contextKey: /cashflow_low|cash_reserves_low/i,
+    contextKey: /new_project|project_started/i,
+    sourceAgent: "construction",
+    alerts: [
+      { targetAgent: "hr", alertType: "staffing_check", titleTemplate: "May need additional staff", messageTemplate: "APEX started a new project. AROHA should check if additional hires or contractors are needed.", severity: "standard" },
+      { targetAgent: "hr", alertType: "site_induction", titleTemplate: "Generate site induction plan", messageTemplate: "A new construction project started. AROHA should generate a site-specific induction plan for new workers.", severity: "high" },
+      { targetAgent: "finance", alertType: "cost_codes", titleTemplate: "Set up project cost codes", messageTemplate: "A new project was started. LEDGER should set up project-specific cost tracking.", severity: "standard" },
+      { targetAgent: "it", alertType: "project_infra", titleTemplate: "Set up project tech infrastructure", messageTemplate: "New project initiated. SIGNAL should provision project communication and document sharing.", severity: "standard" },
+    ],
+  },
+  {
+    contextKey: /revenue_growth|revenue_up|profit_up/i,
     sourceAgent: "finance",
     alerts: [
-      { targetAgent: "sales", alertType: "pipeline_attention", titleTemplate: "Pipeline needs attention — cash reserves low", messageTemplate: "LEDGER detected declining cashflow. FLUX should focus on closing pipeline deals.", severity: "high" },
+      { targetAgent: "hr", alertType: "bonus_consideration", titleTemplate: "Consider performance bonuses", messageTemplate: "LEDGER detected revenue growth. AROHA suggests considering performance bonuses to retain your team during this growth period.", severity: "standard" },
     ],
   },
   {
-    contextKey: /gst_overdue|tax_overdue|compliance_overdue/i,
-    sourceAgent: "finance",
+    contextKey: /new_technology|system_deployed|software_rollout/i,
+    sourceAgent: "it",
     alerts: [
-      { targetAgent: "legal", alertType: "compliance_risk", titleTemplate: "Compliance risk flagged", messageTemplate: "LEDGER flagged an overdue filing. ANCHOR should assess compliance risk.", severity: "critical" },
-    ],
-  },
-  {
-    contextKey: /food_safety_audit|audit_date/i,
-    sourceAgent: "hospitality",
-    alerts: [
-      { targetAgent: "echo", alertType: "audit_prep", titleTemplate: "Food safety audit approaching", messageTemplate: "AURA recorded an upcoming food safety audit. All agents can reference this date.", severity: "high" },
-    ],
-  },
-  {
-    contextKey: /employee_onboarded|new_hire/i,
-    sourceAgent: "hr",
-    alerts: [
-      { targetAgent: "finance", alertType: "payroll_setup", titleTemplate: "Set up payroll for new hire", messageTemplate: "AROHA onboarded a new employee. LEDGER should set up payroll.", severity: "high" },
-      { targetAgent: "it", alertType: "it_setup", titleTemplate: "Set up IT access for new hire", messageTemplate: "A new employee was onboarded. SIGNAL should create accounts and grant access.", severity: "high" },
-      { targetAgent: "marketing", alertType: "team_announcement", titleTemplate: "New team member announcement", messageTemplate: "A new employee joined. PRISM should prepare a welcome announcement.", severity: "standard" },
+      { targetAgent: "hr", alertType: "training_plan", titleTemplate: "Staff training needed for new technology", messageTemplate: "SIGNAL deployed new technology. AROHA should generate a training plan for staff adoption.", severity: "standard" },
     ],
   },
 ];
