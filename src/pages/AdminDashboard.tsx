@@ -306,7 +306,85 @@ const AdminDashboard = () => {
                   </div>
                 </div>
 
-                {/* Agent Activity Feed */}
+                {/* Revenue Breakdown + Content Calendar */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  {/* Revenue Breakdown */}
+                  <div className={glassCard + " p-5"} style={glassStyle}>
+                    <TopGlow color="#00FF88" />
+                    <div className="flex items-center gap-2 mb-4">
+                      <DollarSign size={14} style={{ color: "#00FF88" }} />
+                      <span className="text-sm font-bold text-foreground">Revenue Breakdown</span>
+                    </div>
+                    <div className="space-y-3">
+                      {[
+                        { tier: "Starter", users: Math.round(metrics.paidSubscribers * 0.5) || 0, price: 29, color: "#4FC3F7" },
+                        { tier: "Pro", users: Math.round(metrics.paidSubscribers * 0.35) || 0, price: 79, color: "#B388FF" },
+                        { tier: "Business", users: Math.round(metrics.paidSubscribers * 0.15) || 0, price: 199, color: "#FFB800" },
+                      ].map(t => {
+                        const rev = t.users * t.price;
+                        const maxRev = Math.max(metrics.mrr, 1);
+                        return (
+                          <div key={t.tier} className="space-y-1">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[11px] font-medium text-foreground">{t.tier}</span>
+                              <div className="flex items-center gap-3">
+                                <span className="text-[10px] text-muted-foreground">{t.users} users</span>
+                                <span className="text-[11px] font-bold tabular-nums" style={{ color: t.color }}>${rev}/mo</span>
+                              </div>
+                            </div>
+                            <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
+                              <div className="h-full rounded-full transition-all duration-700" style={{ width: `${(rev / maxRev) * 100}%`, background: t.color }} />
+                            </div>
+                          </div>
+                        );
+                      })}
+                      <div className="pt-2 border-t border-border flex items-center justify-between">
+                        <span className="text-[11px] font-bold text-foreground">Total MRR</span>
+                        <span className="text-sm font-bold" style={{ color: "#00FF88" }}>${metrics.mrr}/mo</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-muted-foreground">ARR (projected)</span>
+                        <span className="text-[11px] font-bold text-foreground">${(metrics.mrr * 12).toLocaleString()}/yr</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Content Calendar */}
+                  <div className={glassCard + " p-5"} style={glassStyle}>
+                    <TopGlow color="#E040FB" />
+                    <div className="flex items-center gap-2 mb-4">
+                      <Clock size={14} style={{ color: "#E040FB" }} />
+                      <span className="text-sm font-bold text-foreground">Content Calendar</span>
+                      <span className="text-[9px] px-1.5 py-0.5 rounded-full font-bold" style={{ background: "rgba(224,64,251,0.1)", color: "#E040FB" }}>PRISM</span>
+                    </div>
+                    <div className="space-y-2">
+                      {[
+                        { day: "Today", posts: [{ platform: "LinkedIn", title: "NZ Compliance Update", time: "9:00 AM", status: "published", color: "#0A66C2" }] },
+                        { day: "Tomorrow", posts: [{ platform: "Instagram", title: "Agent Spotlight — LEDGER", time: "12:00 PM", status: "scheduled", color: "#E1306C" }, { platform: "Facebook", title: "Customer Success Story", time: "3:00 PM", status: "scheduled", color: "#1877F2" }] },
+                        { day: "Thu", posts: [{ platform: "TikTok", title: "60s Explainer — Business Score", time: "10:00 AM", status: "draft", color: "#000000" }] },
+                        { day: "Fri", posts: [{ platform: "LinkedIn", title: "Weekly Industry Roundup", time: "8:30 AM", status: "draft", color: "#0A66C2" }] },
+                      ].map(d => (
+                        <div key={d.day}>
+                          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1">{d.day}</p>
+                          {d.posts.map((p, i) => (
+                            <div key={i} className="flex items-center gap-2 py-1.5 px-2 rounded-lg hover:bg-white/[0.02]">
+                              <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: p.color }} />
+                              <span className="text-[10px] text-muted-foreground w-14 shrink-0">{p.platform}</span>
+                              <span className="text-[11px] text-foreground flex-1 truncate">{p.title}</span>
+                              <span className="text-[9px] text-muted-foreground shrink-0">{p.time}</span>
+                              <span className={`text-[8px] font-bold uppercase px-1.5 py-0.5 rounded-full shrink-0`}
+                                style={{
+                                  background: p.status === "published" ? "rgba(0,255,136,0.1)" : p.status === "scheduled" ? "rgba(0,229,255,0.1)" : "rgba(255,184,0,0.1)",
+                                  color: p.status === "published" ? "#00FF88" : p.status === "scheduled" ? "#00E5FF" : "#FFB800",
+                                }}>{p.status}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
                 <div className={glassCard + " p-5"} style={glassStyle}>
                   <TopGlow color="#00E5FF" />
                   <div className="flex items-center gap-2 mb-3">
