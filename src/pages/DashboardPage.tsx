@@ -528,15 +528,18 @@ const DashboardPage = () => {
                         </div>
                         <div className="space-y-1">
                           {agentExports.slice(0, 3).map((exp) => (
-                            <div key={exp.id} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-white/[0.02] transition-colors">
-                              <div className="flex items-center gap-2 flex-1 min-w-0">
-                                <FileText size={10} style={{ color }} className="shrink-0" />
-                                <span className="text-[11px] text-foreground truncate">{exp.title}</span>
-                                <span className="text-[8px] text-muted-foreground uppercase shrink-0">{exp.output_type}</span>
-                              </div>
-                              <span className="text-[9px] text-muted-foreground shrink-0 ml-2">{timeAgo(exp.created_at)}</span>
-                            </div>
-                          ))}
+                             <Link key={exp.id} to={`/chat/${agent?.id || exp.agent_id}`} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-white/[0.04] transition-colors cursor-pointer">
+                               <div className="flex items-center gap-2 flex-1 min-w-0">
+                                 <FileText size={10} style={{ color }} className="shrink-0" />
+                                 <span className="text-[11px] text-foreground truncate">{exp.title}</span>
+                                 <span className="text-[8px] px-1.5 py-0.5 rounded-full uppercase shrink-0" style={{ background: `${color}15`, color }}>{exp.format || exp.output_type}</span>
+                               </div>
+                               <div className="flex items-center gap-2 shrink-0 ml-2">
+                                 <span className="text-[9px] text-muted-foreground">{timeAgo(exp.created_at)}</span>
+                                 <ChevronRight size={10} style={{ color }} />
+                               </div>
+                             </Link>
+                           ))}
                           {agentExports.length > 3 && (
                             <p className="text-[9px] text-muted-foreground pl-4">+{agentExports.length - 3} more</p>
                           )}

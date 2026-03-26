@@ -718,7 +718,22 @@ const ChatPage = () => {
       ...prev,
       [msgIndex]: { status: urls.length > 0 ? "done" : "error", urls },
     }));
-  }, [agentId, brandProfile, brandName]);
+
+    // Log generated images to exported_outputs
+    if (urls.length > 0 && user) {
+      try {
+        await supabase.from("exported_outputs").insert(urls.map((_, idx) => ({
+          user_id: user.id,
+          agent_id: agentId || "echo",
+          agent_name: agent?.name || "ECHO",
+          output_type: "generated_image",
+          title: `Generated Image ${idx + 1}`,
+          content_preview: prompts[idx]?.substring(0, 300) || "AI-generated visual",
+          format: "png",
+        })));
+      } catch { /* silent */ }
+    }
+  }, [agentId, agent, brandProfile, brandName, user]);
 
   // PRISM direct image generation via camera button
   const handlePrismDirectImageGen = useCallback(async () => {
@@ -1858,11 +1873,25 @@ const ChatPage = () => {
                               {inlineImages[i].urls.map((url, imgIdx) => (
                                 <div key={imgIdx} className="relative group rounded-xl overflow-hidden border border-border">
                                   <img src={url} alt={`Generated visual ${imgIdx + 1}`} className="w-full h-auto rounded-xl" />
-                                  <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <a href={url} download={`assembl-echo-${Date.now()}-${imgIdx}.png`} className="p-1.5 rounded-md bg-black/60 hover:bg-black/80 text-white transition-colors" title="Download">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                                    </a>
-                                  </div>
+                                   <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                     <button onClick={async () => {
+                                       try {
+                                         const res = await fetch(url);
+                                         const blob = await res.blob();
+                                         const pngBlob = new Blob([blob], { type: "image/png" });
+                                         const blobUrl = URL.createObjectURL(pngBlob);
+                                         const a = document.createElement("a");
+                                         a.href = blobUrl;
+                                         a.download = `assembl-${agent?.name?.toLowerCase() || "image"}-${Date.now()}-${imgIdx}.png`;
+                                         document.body.appendChild(a);
+                                         a.click();
+                                         document.body.removeChild(a);
+                                         URL.revokeObjectURL(blobUrl);
+                                       } catch { /* fallback */ window.open(url, "_blank"); }
+                                     }} className="p-1.5 rounded-md bg-black/60 hover:bg-black/80 text-white transition-colors" title="Download PNG">
+                                       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                     </button>
+                                   </div>
                                 </div>
                               ))}
                             </div>
