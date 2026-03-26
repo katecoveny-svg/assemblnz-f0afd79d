@@ -1701,6 +1701,54 @@ export type Database = {
           },
         ]
       }
+      proactive_alerts: {
+        Row: {
+          alert_type: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_dismissed: boolean
+          is_read: boolean
+          message: string
+          metadata: Json | null
+          severity: string
+          source_agent: string
+          target_agent: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          alert_type: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_dismissed?: boolean
+          is_read?: boolean
+          message: string
+          metadata?: Json | null
+          severity?: string
+          source_agent: string
+          target_agent: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          alert_type?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_dismissed?: boolean
+          is_read?: boolean
+          message?: string
+          metadata?: Json | null
+          severity?: string
+          source_agent?: string
+          target_agent?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -1884,6 +1932,7 @@ export type Database = {
           context_key: string
           context_value: Json
           created_at: string
+          expires_at: string | null
           id: string
           source_agent: string
           updated_at: string
@@ -1894,6 +1943,7 @@ export type Database = {
           context_key: string
           context_value?: Json
           created_at?: string
+          expires_at?: string | null
           id?: string
           source_agent: string
           updated_at?: string
@@ -1904,6 +1954,7 @@ export type Database = {
           context_key?: string
           context_value?: Json
           created_at?: string
+          expires_at?: string | null
           id?: string
           source_agent?: string
           updated_at?: string
