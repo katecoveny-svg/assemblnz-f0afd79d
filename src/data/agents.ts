@@ -59,7 +59,7 @@ export const agents: Agent[] = [
     sector: "Construction",
     traits: ["Straight-talking", "Safety-first", "Code-fluent"],
     expertise: ["Auto tender writer", "3D model generator", "H&S suite builder", "ESG scorer", "Award nomination AI", "Cost estimator"],
-    starters: ["Check site conditions", "Current material prices", "Write a tender response for a commercial build", "Site safety plan for a 3-storey residential project", "Nominate us for the NAWIC Awards 2026"],
+    starters: ["Generate a building consent application", "Create a site safety plan", "Draft a variation notice under NZS 3910", "What are the 2026 building regulation changes?", "Pre-qualify a subcontractor"],
   },
   {
     id: "agriculture",
