@@ -37,7 +37,7 @@ function generateWelcomePDF(planKey: string) {
   const welcomeText =
     "Thank you for choosing Assembl. I'm Kate Hudson, founder — and I built this platform because NZ businesses deserve AI that actually understands our legislation, our industries, and our way of doing things.\n\n" +
     "This guide will get you up and running in under 10 minutes. Your agents are already trained on NZ law, industry best practices, and compliance requirements. They're ready to work — you just need to point them in the right direction.\n\n" +
-    "If you ever need help, email me directly at kate@assembl.co.nz. I read every message.";
+    "If you ever need help, email me directly at assembl@assembl.co.nz. I read every message.";
   const lines = doc.splitTextToSize(welcomeText, maxW);
   doc.text(lines, margin, y);
   y += lines.length * 4.2 + 6;
@@ -111,7 +111,7 @@ function generateWelcomePDF(planKey: string) {
   doc.setFont("helvetica", "normal");
   doc.setTextColor(60);
   const supportLines = [
-    "Email: kate@assembl.co.nz",
+    "Email: assembl@assembl.co.nz",
     "Website: assembl.co.nz",
     "Help: Just ask any agent — they can guide you through features",
     "Billing: Manage your subscription at assembl.co.nz/pricing",
@@ -160,7 +160,7 @@ const OnboardingPage = () => {
     { icon: Sparkles, label: "Choose your first agent", href: "/", desc: "Browse all 43 specialist agents" },
     { icon: Scan, label: "Scan your Brand DNA", href: "/chat/marketing", desc: "Let PRISM analyse your website" },
     { icon: Code, label: "Embed the chat widget", href: "/embed", desc: "Add AI to your website in 30 seconds" },
-    { icon: Mail, label: "Contact support", href: "mailto:kate@assembl.co.nz", desc: "kate@assembl.co.nz" },
+    { icon: Mail, label: "Contact support", href: "mailto:assembl@assembl.co.nz", desc: "assembl@assembl.co.nz" },
   ];
 
   return (

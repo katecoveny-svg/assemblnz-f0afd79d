@@ -21,7 +21,7 @@ const FAQS = [
   { q: "What NZ legislation do the agents know?", a: "Our agents are trained on 50+ NZ Acts and regulations including the Employment Relations Act, Health & Safety at Work Act, Building Code, Food Act, Privacy Act, and many more." },
   { q: "Can I cancel anytime?", a: "Yes. All plans are month-to-month with no lock-in contracts. Cancel anytime from your dashboard." },
   { q: "What is HELM?", a: "HELM is our life admin AI agent designed for NZ families. It helps with meal planning, budgeting, school admin, and more — all with Kiwi context built in." },
-  { q: "Do you offer discounts for nonprofits or startups?", a: "Yes! Through our AssemblFund initiative, we offer subsidised access for Kiwi startups and community organisations. Contact us at kate@assembl.co.nz." },
+  { q: "Do you offer discounts for nonprofits or startups?", a: "Yes! Through our AssemblFund initiative, we offer subsidised access for Kiwi startups and community organisations. Contact us at assembl@assembl.co.nz." },
 ];
 
 const PricingPage = () => {
@@ -305,8 +305,8 @@ const PricingPage = () => {
         <div className="max-w-lg mx-auto px-5 sm:px-6 text-center">
           <p className="text-sm font-jakarta" style={{ color: '#71717A' }}>
             Enterprise inquiries:{' '}
-            <a href="mailto:kate@assembl.co.nz" className="underline" style={{ color: '#A1A1AA' }}>
-              kate@assembl.co.nz
+            <a href="mailto:assembl@assembl.co.nz" className="underline" style={{ color: '#A1A1AA' }}>
+              assembl@assembl.co.nz
             </a>
           </p>
         </div>
