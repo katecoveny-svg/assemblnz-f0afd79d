@@ -15,6 +15,7 @@ import {
 
 interface Metrics {
   totalUsers: number;
+  activeSessions: number;
   messagesToday: number;
   messagesWeek: number;
   messagesMonth: number;
