@@ -1,117 +1,140 @@
 import React from "react";
-import { useCurrentFrame, useVideoConfig, interpolate, spring, AbsoluteFill, Sequence } from "remotion";
+import { useCurrentFrame, useVideoConfig, interpolate, spring, AbsoluteFill, Sequence, Img, staticFile } from "remotion";
 import { loadFont } from "@remotion/google-fonts/Inter";
 import { BRAND, TURF_ACCENT, cosmicGradient, glassCardStyle } from "../shared/styles";
+import { IconConstitution, IconFacility, IconGrant, IconMembership, IconAGM, IconCompliance } from "../shared/BrandIcons";
 
 const { fontFamily } = loadFont("normal", { weights: ["400", "700", "900"], subsets: ["latin"] });
 
-const CAPABILITIES = [
-  "Constitution Generator", "Facility Bookings", "Grant Applications",
-  "AGM Documents", "Membership Management", "Compliance Tracking",
+const CAPS = [
+  { Icon: IconConstitution, label: "Constitution" },
+  { Icon: IconFacility, label: "Facilities" },
+  { Icon: IconGrant, label: "Grants" },
+  { Icon: IconMembership, label: "Members" },
+  { Icon: IconAGM, label: "AGM Docs" },
+  { Icon: IconCompliance, label: "Compliance" },
 ];
 
 export const TurfGrid: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const heroScale = spring({ frame, fps, config: { damping: 14, stiffness: 100 } });
-  const ringRotation = frame * 0.4;
+  const heroScale = spring({ frame, fps, config: { damping: 12, stiffness: 80 } });
+  const avatarFloat = Math.sin(frame * 0.03) * 5;
+  const avatarGlow = interpolate(Math.sin(frame * 0.04), [-1, 1], [15, 35]);
+  const ringRot = frame * 0.35;
 
   return (
     <AbsoluteFill style={{ background: cosmicGradient, fontFamily, overflow: "hidden" }}>
-      {/* Rotating ring */}
+      {/* Rotating constellation ring */}
       <div style={{
         position: "absolute", top: 540, left: 540,
-        width: 600, height: 600,
-        transform: `translate(-50%, -50%) rotate(${ringRotation}deg)`,
+        width: 700, height: 700,
+        transform: `translate(-50%, -50%) rotate(${ringRot}deg)`,
       }}>
         {[0, 60, 120, 180, 240, 300].map((deg, i) => {
           const rad = (deg * Math.PI) / 180;
-          const ox = Math.cos(rad) * 260;
-          const oy = Math.sin(rad) * 260;
-          const dotPulse = interpolate(Math.sin(frame * 0.05 + i), [-1, 1], [6, 12]);
+          const r = 310;
+          const dotPulse = interpolate(Math.sin(frame * 0.05 + i), [-1, 1], [5, 10]);
           return (
             <div key={i} style={{
-              position: "absolute", left: 300 + ox - dotPulse / 2, top: 300 + oy - dotPulse / 2,
+              position: "absolute",
+              left: 350 + Math.cos(rad) * r - dotPulse / 2,
+              top: 350 + Math.sin(rad) * r - dotPulse / 2,
               width: dotPulse, height: dotPulse, borderRadius: "50%",
-              background: i % 2 === 0 ? BRAND.cyan : BRAND.purple,
-              boxShadow: `0 0 ${dotPulse * 2}px ${i % 2 === 0 ? BRAND.cyan : BRAND.purple}80`,
+              background: i % 3 === 0 ? BRAND.cyan : i % 3 === 1 ? BRAND.purple : TURF_ACCENT,
+              boxShadow: `0 0 ${dotPulse * 2}px ${i % 3 === 0 ? BRAND.cyan : i % 3 === 1 ? BRAND.purple : TURF_ACCENT}70`,
             }} />
           );
         })}
-        {/* Connecting lines */}
-        <svg width={600} height={600} style={{ position: "absolute", top: 0, left: 0 }}>
+        <svg width={700} height={700} style={{ position: "absolute", top: 0, left: 0 }}>
           {[0, 60, 120, 180, 240, 300].map((deg, i) => {
             const nextDeg = (deg + 60) % 360;
-            const r = 260;
-            const x1 = 300 + Math.cos((deg * Math.PI) / 180) * r;
-            const y1 = 300 + Math.sin((deg * Math.PI) / 180) * r;
-            const x2 = 300 + Math.cos((nextDeg * Math.PI) / 180) * r;
-            const y2 = 300 + Math.sin((nextDeg * Math.PI) / 180) * r;
-            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={`${BRAND.cyan}30`} strokeWidth={1} />;
+            const r = 310;
+            return <line key={i}
+              x1={350 + Math.cos((deg * Math.PI) / 180) * r}
+              y1={350 + Math.sin((deg * Math.PI) / 180) * r}
+              x2={350 + Math.cos((nextDeg * Math.PI) / 180) * r}
+              y2={350 + Math.sin((nextDeg * Math.PI) / 180) * r}
+              stroke={`${BRAND.cyan}20`} strokeWidth={1} />;
           })}
         </svg>
       </div>
 
-      {/* Star particles */}
-      {Array.from({ length: 30 }).map((_, i) => {
+      {/* Stars */}
+      {Array.from({ length: 35 }).map((_, i) => {
         const sx = (i * 137.5) % 1080;
         const sy = (i * 251.3) % 1080;
-        const twinkle = interpolate(Math.sin(frame * 0.06 + i), [-1, 1], [0.15, 0.7]);
+        const twinkle = interpolate(Math.sin(frame * 0.06 + i), [-1, 1], [0.1, 0.6]);
         return <div key={i} style={{ position: "absolute", left: sx, top: sy, width: 2, height: 2, borderRadius: "50%", background: "white", opacity: twinkle }} />;
       })}
 
-      {/* Centre hero */}
+      {/* Centre: Avatar + Title */}
       <Sequence from={0}>
-        <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
+          display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+        }}>
+          {/* Glass-framed avatar */}
           <div style={{
-            fontSize: 120, fontWeight: 900, letterSpacing: -3,
+            width: 160, height: 160, borderRadius: 36, overflow: "hidden",
+            background: `linear-gradient(135deg, ${TURF_ACCENT}12, ${BRAND.cyan}08)`,
+            border: `2px solid ${TURF_ACCENT}35`,
+            boxShadow: `0 0 ${avatarGlow}px ${TURF_ACCENT}40, 0 16px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12)`,
+            transform: `scale(${heroScale}) translateY(${avatarFloat}px)`,
+            marginBottom: 20,
+          }}>
+            <Img src={staticFile("images/turf-avatar.png")} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          </div>
+
+          <div style={{
+            fontSize: 80, fontWeight: 900, letterSpacing: -3,
             background: `linear-gradient(135deg, ${TURF_ACCENT}, ${BRAND.cyan}, ${BRAND.purple})`,
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            transform: `scale(${heroScale})`,
+            transform: `scale(${heroScale})`, lineHeight: 1,
           }}>TURF</div>
           <div style={{
-            fontSize: 24, fontWeight: 400, color: "rgba(255,255,255,0.5)",
-            letterSpacing: 8, marginTop: 4,
+            fontSize: 18, fontWeight: 400, color: "rgba(255,255,255,0.45)",
+            letterSpacing: 6, marginTop: 6,
             opacity: interpolate(heroScale, [0.5, 1], [0, 1], { extrapolateLeft: "clamp" }),
           }}>SPORTS OPERATIONS AI</div>
         </div>
       </Sequence>
 
-      {/* Capability pills orbiting */}
+      {/* Orbiting capability icons */}
       <Sequence from={40}>
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}>
-          {CAPABILITIES.map((cap, i) => {
-            const capIn = spring({ frame: frame - 40 - i * 10, fps, config: { damping: 18, stiffness: 160 } });
-            const angle = (i / CAPABILITIES.length) * 360 + frame * 0.3;
+          {CAPS.map((cap, i) => {
+            const capIn = spring({ frame: frame - 40 - i * 8, fps, config: { damping: 18, stiffness: 160 } });
+            const angle = (i / CAPS.length) * 360 + frame * 0.3;
             const rad = (angle * Math.PI) / 180;
-            const rx = 380, ry = 380;
-            const cx = 540 + Math.cos(rad) * rx;
-            const cy = 540 + Math.sin(rad) * ry;
+            const cx = 540 + Math.cos(rad) * 370;
+            const cy = 540 + Math.sin(rad) * 370;
+            const iconGlow = interpolate(Math.sin(frame * 0.04 + i * 1.5), [-1, 1], [0, 8]);
             return (
               <div key={i} style={{
                 position: "absolute", left: cx, top: cy,
                 transform: `translate(-50%, -50%) scale(${capIn})`,
                 opacity: capIn,
                 ...glassCardStyle,
-                padding: "14px 24px",
-                borderRadius: 40,
-                whiteSpace: "nowrap",
+                padding: "12px 18px", borderRadius: 20,
+                display: "flex", alignItems: "center", gap: 10, whiteSpace: "nowrap",
               }}>
-                <span style={{ fontSize: 16, fontWeight: 700, color: BRAND.white }}>{cap}</span>
+                <cap.Icon size={28} color={TURF_ACCENT} glow={iconGlow} />
+                <span style={{ fontSize: 14, fontWeight: 700, color: BRAND.white }}>{cap.label}</span>
               </div>
             );
           })}
         </div>
       </Sequence>
 
-      {/* Bottom bar */}
+      {/* Bottom */}
       <div style={{
-        position: "absolute", bottom: 40, left: 40, right: 40,
+        position: "absolute", bottom: 36, left: 36, right: 36,
         display: "flex", justifyContent: "space-between", alignItems: "center",
       }}>
-        <span style={{ fontSize: 14, fontWeight: 700, letterSpacing: 4, color: "rgba(255,255,255,0.25)" }}>ASSEMBL</span>
-        <span style={{ fontSize: 13, color: "rgba(255,255,255,0.3)" }}>assembl.co.nz</span>
+        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, color: "rgba(255,255,255,0.2)" }}>ASSEMBL</span>
+        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.25)" }}>assembl.co.nz</span>
       </div>
     </AbsoluteFill>
   );
