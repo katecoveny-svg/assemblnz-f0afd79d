@@ -4,11 +4,11 @@ import nexusLogo from "@/assets/nexus-logo.png";
 import AccountDropdown from "@/components/AccountDropdown";
 
 const NAV_LINKS = [
-  { to: "/", label: "Agents" },
-  { to: "/content-hub", label: "Content Hub" },
+  { to: "/", label: "Expert Team" },
+  { to: "/content-hub", label: "Strategy Hub" },
   { to: "/pricing", label: "Pricing" },
   { to: "/embed", label: "Embed" },
-  { to: "/dashboard", label: "Dashboard" },
+  { to: "/dashboard", label: "Business Intelligence" },
 ];
 
 const BrandNav = () => {

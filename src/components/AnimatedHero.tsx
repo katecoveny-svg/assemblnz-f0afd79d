@@ -11,9 +11,9 @@ interface AnimatedHeroProps {
 }
 
 const STAT_PILLS = [
-  { label: "42 agents" },
+  { label: "42 specialist tools" },
   { label: "50+ NZ Acts" },
-  { label: "7 symbiotic workflows" },
+  { label: "16 industries" },
   { label: "From $89/mo NZD" },
   { label: "Built in Aotearoa" },
 ];
@@ -61,10 +61,10 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <h1 className="text-2xl sm:text-5xl lg:text-[3.5rem] font-syne font-bold mb-2 leading-tight text-foreground" style={{ letterSpacing: '-0.025em' }}>
-            The operating system for NZ business.
+            Enterprise intelligence. SME pricing.
           </h1>
           <p className="text-xl sm:text-4xl lg:text-[3rem] font-syne font-bold leading-normal text-gradient-hero pb-2">
-            42 AI agents. Infinite leverage.
+            Built for New Zealand.
           </p>
         </motion.div>
 
@@ -79,7 +79,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             className="text-xs sm:text-base font-jakarta leading-relaxed"
             style={{ color: 'hsl(var(--muted-foreground))' }}
           >
-            Replace six platforms with one intelligence layer. Your agents calculate PAYE, generate tenders, monitor compliance, build apps, and orchestrate marketing — all trained on NZ law, all sharing one brain.
+            Enterprise-grade intelligence for every NZ business — strategy, compliance, operations, and growth tools that work alongside your team. All trained on NZ law, all sharing one brain.
           </p>
         </motion.div>
 
@@ -125,7 +125,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)')}
             onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)')}
           >
-            Explore all 42 agents →
+            Meet your expert team →
           </button>
         </motion.div>
 

@@ -2,10 +2,10 @@ import { Link, useLocation } from "react-router-dom";
 import { Bot, CreditCard, Code2, LayoutDashboard, FileText } from "lucide-react";
 
 const TABS = [
-  { to: "/", label: "Agents", icon: Bot },
-  { to: "/content-hub", label: "Hub", icon: FileText },
+  { to: "/", label: "Team", icon: Bot },
+  { to: "/content-hub", label: "Strategy", icon: FileText },
   { to: "/pricing", label: "Pricing", icon: CreditCard },
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/dashboard", label: "Intelligence", icon: LayoutDashboard },
 ];
 
 const MobileTabBar = () => {

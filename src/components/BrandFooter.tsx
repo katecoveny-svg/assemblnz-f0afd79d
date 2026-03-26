@@ -7,10 +7,10 @@ import { supabase } from "@/integrations/supabase/client";
 
 const FOOTER_LINKS = {
   Product: [
-    { to: "/content-hub", label: "Content Hub" },
+    { to: "/content-hub", label: "Strategy Hub" },
     { to: "/pricing", label: "Pricing" },
     { to: "/my-apps", label: "My Apps" },
-    { to: "/dashboard", label: "Dashboard" },
+    { to: "/dashboard", label: "Business Intelligence" },
     { to: "/embed", label: "Embed Widget" },
   ],
   Industries: [
@@ -160,7 +160,7 @@ const BrandFooter = () => {
         </div>
 
         <p className="text-[9px] mt-3 text-center font-jakarta" style={{ color: "hsl(var(--muted-foreground) / 0.4)" }}>
-          AI-generated content is not professional advice. Always consult qualified NZ professionals. assembl@assembl.co.nz
+          Assembl — Enterprise intelligence for NZ business. Content is guidance, not professional advice. Always consult qualified professionals. assembl@assembl.co.nz
         </p>
       </div>
     </footer>
