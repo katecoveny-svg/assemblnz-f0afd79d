@@ -1356,6 +1356,11 @@ const ChatPage = () => {
       );
     }
 
+    // Check for @mentions in user messages — render as pills
+    if (msg.role === "user" && /@[A-Z]{2,15}\b/.test(content)) {
+      return <div className="text-sm leading-relaxed">{renderWithMentions(content)}</div>;
+    }
+
     return (
       <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
         <ReactMarkdown>{content}</ReactMarkdown>
