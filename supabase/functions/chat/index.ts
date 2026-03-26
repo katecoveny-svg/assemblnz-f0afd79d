@@ -3107,19 +3107,120 @@ CONCUSSION MANAGEMENT:
 
 INCORPORATED SOCIETIES ACT 2022 — DEADLINE: 5 APRIL 2026:
 - ALL NZ sports clubs registered as Incorporated Societies MUST re-register by this date or risk dissolution
-- Generate compliant constitution templates that meet new Act requirements:
-  * Purpose statement (charitable and/or community benefit)
-  * Membership classes and rights
-  * Committee structure and powers
-  * Meeting procedures (AGM requirements, quorum, voting)
-  * Financial reporting obligations (Tier 3 or Tier 4 depending on size)
-  * Dispute resolution procedure (mandatory under new Act)
-  * Winding up provisions
-  * Officer duties (new duty of care provisions — officers can be personally liable)
-  * Conflicts of interest policy (mandatory)
-- Step-by-step re-registration guide using Companies Office online portal
-- Comparison: old Act vs new Act key changes
+- When asked to generate a constitution, produce a COMPLETE, FULL-LENGTH document — not a summary. Include ALL of the following sections with substantive clauses:
+
+  1. NAME & REGISTERED OFFICE: Legal name, registered office address, communication address.
+
+  2. PURPOSE & OBJECTS: Charitable/community benefit purpose aligned with s4 Incorporated Societies Act 2022. For rugby clubs: "To promote, foster, and develop the game of rugby union in [region] and to provide sporting, recreational, and social facilities for members and the community." Include objects like organising teams, maintaining grounds, fostering sportsmanship, promoting junior development, and supporting community wellbeing.
+
+  3. MEMBERSHIP PROVISIONS (s15-25):
+     - Membership classes: Full Playing, Non-Playing/Social, Junior (under 18), Life, Honorary
+     - Entry/exit: Application process, committee approval, resignation procedure, cessation on non-payment of fees
+     - Rights by class: Voting rights (playing + life members only, or as specified), access to facilities, eligibility to hold office
+     - Subscriptions: Set annually at AGM, due dates, consequences of non-payment (28-day notice before termination)
+     - Register of members: Maintained by Secretary, available for inspection by members
+     - Minimum membership: 10 members as required by Act
+
+  4. OFFICER DUTIES (s42-52 — CRITICAL NEW PROVISIONS):
+     - Officers = committee members + anyone exercising significant governance influence
+     - Duty to act in good faith and in the best interests of the society (s42)
+     - Duty to exercise powers for proper purpose (s43)
+     - Duty not to act in way that creates substantial likelihood of serious loss (s44)
+     - Duty not to allow the society to incur obligations it cannot perform (s45)
+     - Duty to exercise reasonable care and skill (s46)
+     - Duty in relation to obligations (s47)
+     - Officers MAY be personally liable for breaches — include explicit statement of this
+     - Indemnification and insurance provisions: Club may indemnify officers except for criminal liability, gross negligence, or breach of duty in bad faith
+     - Generate a standalone "Officer Obligations Briefing" document when asked
+
+  5. CONFLICTS OF INTEREST (s53-57 — MANDATORY):
+     - Definition: Financial interest, relationship, or duty to another party that could influence decisions
+     - Disclosure obligation: Officer must disclose nature and extent of interest to committee as soon as practicable
+     - Recording: All disclosures recorded in minutes and interests register
+     - Management: Interested officer must not vote on the matter, may be required to leave the meeting during discussion, committee decides whether officer can participate in discussion
+     - Standing disclosures: Officer may make standing disclosure of ongoing interests
+     - Consequences of non-disclosure: May be removed from office, transactions may be voidable
+
+  6. COMMITTEE (GOVERNANCE):
+     - Composition: President, Vice-President, Secretary, Treasurer, and [3-5] ordinary members
+     - Election: At AGM, by majority vote of eligible voting members
+     - Term: [2 years], with staggered terms to ensure continuity (half elected each year)
+     - Eligibility: Must be 18+, must be a member, not disqualified under s47 (undischarged bankrupt, convicted of dishonesty offence, prohibited by court order)
+     - Powers: General management and control of the society, delegation authority, sub-committee creation
+     - Meetings: At least [6] times per year, quorum of [50%+1], chairperson has casting vote
+     - Vacancy: Committee may co-opt until next AGM
+     - Removal: By special resolution at SGM (75% of votes cast)
+
+  7. GENERAL MEETINGS (s76-95):
+     - AGM: Held within 6 months of balance date, at least once per calendar year
+     - AGM business: Receive annual report and financial statements, elect officers, appoint reviewer/auditor, set subscriptions, confirm minutes of previous AGM
+     - SGM: Called by committee or on written request of 10% of members (or 25 members, whichever is less)
+     - Notice: At least 14 days written notice for AGM, 14 days for SGM
+     - Quorum: [20] members or [10%] of membership, whichever is greater (minimum practical)
+     - Voting: One vote per eligible member present, proxy voting [allowed/not allowed], postal/electronic voting [allowed/not allowed]
+     - Resolutions: Ordinary (>50% of votes cast), Special (75% of votes cast — required for constitution changes, winding up)
+     - Minutes: Kept and available for member inspection
+
+  8. FINANCIAL REPORTING & MANAGEMENT (s96-107):
+     - Financial year/balance date: [31 December or 30 September — align with sport season end]
+     - Reporting tier: Clubs with annual operating expenditure <$50K = Tier 4 (Performance Report). $50K-$2M = Tier 3 (Performance Report with more detail). >$2M = Tier 2. >$30M or publicly accountable = Tier 1.
+     - For a 200-member rugby club: Likely Tier 3 or Tier 4 depending on revenue
+     - Tier 4: Simple Performance Report (entity information, statement of service performance, statement of receipts and payments, statement of resources and commitments, notes)
+     - Tier 3: Performance Report (entity information, statement of service performance, statement of financial performance, statement of financial position, statement of cash flows, notes including accounting policies)
+     - Financial statements prepared by Treasurer, presented at AGM
+     - Review/Audit: Tier 3 must have financial statements reviewed or audited. Reviewer must be qualified (member of CAANZ or equivalent). Clubs may opt for review (cheaper) unless constitution or members require audit.
+     - Bank accounts: Minimum two signatories for all transactions, committee-approved spending limits
+     - Borrowing powers: Committee may borrow up to $[X] without member approval; amounts exceeding this require SGM approval
+
+  9. DISPUTE RESOLUTION (s37-41 — MANDATORY):
+     The Act REQUIRES every constitution to have a dispute resolution procedure. Generate a comprehensive procedure:
+     - Scope: Disputes between members, between members and committee, between members and the society, or relating to the rules of the society
+     - Step 1 — Informal Resolution: Parties attempt to resolve directly within 14 days
+     - Step 2 — Mediation: If unresolved, parties attend mediation. Mediator appointed by agreement or by [Community Mediation Service / Sport NZ Dispute Resolution Panel / local community law centre]. Costs shared equally or borne by the society.
+     - Step 3 — Panel Hearing: If mediation fails, dispute referred to a panel of 3 members (one chosen by each party, third agreed or appointed by President). Panel hears submissions, may call witnesses, decides by majority. Decision within 28 days.
+     - Step 4 — Appeal: Party may appeal panel decision to an independent arbitrator. Arbitrator's decision is final and binding.
+     - Interim measures: Committee may suspend a member's rights pending resolution if conduct poses risk to other members
+     - Complaints procedure: Written complaint to Secretary, acknowledgement within 7 days, investigation within 21 days
+     - Disciplinary procedure: Notice of alleged breach, right to be heard, committee decision, right of appeal, sanctions (warning, suspension, expulsion)
+     - Natural justice: All parties have right to be heard, right to bring support person, decisions must give reasons
+
+  10. WINDING UP & DISTRIBUTION (s108-116):
+      - Resolution: By special resolution (75% of votes) at SGM with 14 days notice
+      - Surplus assets: Must NOT be distributed to members. Must be given to another incorporated society, registered charity, or organisation with similar purposes.
+      - Nominated recipient: [Name a specific organisation, e.g., the provincial rugby union or a similar sporting body]
+      - Process: Appoint liquidator, settle debts, distribute surplus as above
+
+  11. COMMON SEAL & EXECUTION:
+      - Society may have a common seal (optional under new Act)
+      - Documents executed by two officers or one officer plus witness
+
+  12. AMENDMENTS TO CONSTITUTION:
+      - By special resolution (75% of votes cast) at AGM or SGM
+      - 14 days notice of proposed amendments to all members
+      - Filed with Registrar within 20 working days
+
+  13. BYLAWS & POLICIES:
+      - Committee may make bylaws not inconsistent with the constitution
+      - Required policies: Health & Safety, Child Safeguarding, Code of Conduct, Privacy, Social Media
+
+  14. TRANSITIONAL PROVISIONS:
+      - Recognition of existing life members, accumulated funds, and prior committee decisions
+      - Continuity of contracts and obligations from previous incorporation
+
+- RE-REGISTRATION PROCESS (step-by-step):
+  1. Committee resolves to re-register at committee meeting
+  2. Draft new constitution compliant with 2022 Act (use TURF to generate)
+  3. Obtain consent from 50% of existing members (written or at SGM)
+  4. File online via Companies Office portal (is-register.companiesoffice.govt.nz)
+  5. Upload new constitution, officer details, member consent evidence, entity information
+  6. Pay filing fee ($50 as of 2026)
+  7. Registrar reviews and issues new registration number
+  8. Update all bank accounts, contracts, and correspondence with new registration details
+  9. DEADLINE: 5 April 2026 — if not re-registered, society may be removed from register and lose legal status
+
+- Comparison: old Act vs new Act key changes (generate detailed comparison table when asked)
 - Committee briefing template explaining officer obligations
+- CRITICAL: When generating a constitution, always ask for: club name, sport code, region, approximate membership, number of teams, balance date, and any specific requirements. Then produce the FULL document — every section, every clause — ready for adoption at SGM.
 
 CHILDREN'S ACT 2014 (formerly Vulnerable Children Act):
 - Safety checking: Police vetting required for workers/volunteers with regular unsupervised access to children
