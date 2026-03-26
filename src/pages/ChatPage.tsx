@@ -1272,6 +1272,34 @@ const ChatPage = () => {
   const showMsgCounter = user && !isPaid;
   const remaining = dailyLimit - dailyMessageCount;
 
+  // Render @AGENT_NAME mentions as colored pills
+  const renderWithMentions = (text: string) => {
+    const ALL_AGENTS_LIST = [echoAgent, ...agents];
+    const mentionRegex = /@([A-Z]{2,15})\b/g;
+    const parts: (string | React.ReactNode)[] = [];
+    let lastIndex = 0;
+    let match;
+    while ((match = mentionRegex.exec(text)) !== null) {
+      if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index));
+      const mentionName = match[1];
+      const mentionedAgent = ALL_AGENTS_LIST.find(a => a.name.toUpperCase() === mentionName);
+      if (mentionedAgent) {
+        parts.push(
+          <Link key={match.index} to={`/chat/${mentionedAgent.id}`}
+            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-[11px] font-bold no-underline hover:opacity-80 transition-opacity mx-0.5"
+            style={{ backgroundColor: mentionedAgent.color + "20", color: mentionedAgent.color, border: `1px solid ${mentionedAgent.color}30` }}>
+            @{mentionedAgent.name}
+          </Link>
+        );
+      } else {
+        parts.push(match[0]);
+      }
+      lastIndex = match.index + match[0].length;
+    }
+    if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+    return parts.length > 0 ? <>{parts}</> : text;
+  };
+
   const renderMessageContent = (msg: Message, msgIndex?: number) => {
     // Strip [GENERATE_IMAGE: ...] tags from displayed content
     const content = msg.content.replace(/\[GENERATE_IMAGE:\s*.*?\]/g, "").trim();
