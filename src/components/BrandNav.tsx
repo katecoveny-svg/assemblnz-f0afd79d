@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import nexusLogo from "@/assets/nexus-logo.png";
 import AccountDropdown from "@/components/AccountDropdown";
 
 const NAV_LINKS = [
-  { to: "/", label: "Expert Team" },
+  { to: "/#expert-team", label: "Expert Team" },
   { to: "/content-hub", label: "Strategy Hub" },
   { to: "/pricing", label: "Pricing" },
   { to: "/embed", label: "Embed" },
