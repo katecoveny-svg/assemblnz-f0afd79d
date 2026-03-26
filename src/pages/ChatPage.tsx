@@ -1838,12 +1838,49 @@ const ChatPage = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-2 w-full max-w-sm mt-2">
-                    {agent.starters.map((q) => (
-                      <button key={q} onClick={() => sendMessage(q)} className="text-left text-xs px-4 py-3 rounded-lg border border-border bg-card hover:border-foreground/10 transition-colors text-foreground/70">
-                        {q}
-                      </button>
-                    ))}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-lg mt-2">
+                    {(() => {
+                      const caps = (agentCapabilities[agentId || ""] || []).slice(0, 4);
+                      if (caps.length > 0) {
+                        return caps.map((cap) => (
+                          <button key={cap.prompt} onClick={() => sendMessage(cap.prompt)}
+                            className="text-left rounded-xl p-3.5 transition-all duration-200 hover:scale-[1.01] group relative overflow-hidden"
+                            style={{
+                              background: "rgba(14,14,26,0.7)",
+                              backdropFilter: "blur(16px)",
+                              WebkitBackdropFilter: "blur(16px)",
+                              border: `1px solid ${agent.color}15`,
+                              boxShadow: `0 0 0 0 ${agent.color}00`,
+                            }}
+                            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = agent.color + "40"; (e.currentTarget as HTMLElement).style.boxShadow = `0 0 20px ${agent.color}10`; }}
+                            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = agent.color + "15"; (e.currentTarget as HTMLElement).style.boxShadow = `0 0 0 0 ${agent.color}00`; }}
+                          >
+                            <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-20 transition-opacity" style={{ background: `linear-gradient(90deg, transparent, ${agent.color}, transparent)` }} />
+                            <div className="flex items-start gap-2.5">
+                              <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${agent.color}12`, border: `1px solid ${agent.color}20` }}>
+                                <cap.icon size={14} style={{ color: agent.color }} />
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-xs font-bold text-foreground mb-0.5">{cap.title}</p>
+                                <p className="text-[10px] text-muted-foreground leading-relaxed">{cap.description}</p>
+                              </div>
+                            </div>
+                          </button>
+                        ));
+                      }
+                      return agent.starters.map((q) => (
+                        <button key={q} onClick={() => sendMessage(q)}
+                          className="text-left rounded-xl p-3.5 transition-all duration-200 hover:scale-[1.01]"
+                          style={{
+                            background: "rgba(14,14,26,0.7)",
+                            backdropFilter: "blur(16px)",
+                            border: `1px solid ${agent.color}15`,
+                          }}
+                        >
+                          <p className="text-xs text-foreground/70">{q}</p>
+                        </button>
+                      ));
+                    })()}
                   </div>
                 )}
 
