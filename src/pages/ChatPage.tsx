@@ -5,7 +5,7 @@ import { agents } from "@/data/agents";
 import { echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone, Radio, Camera } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone, Radio, Camera, RotateCcw } from "lucide-react";
 import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
 import ActionQueuePanel from "@/components/chat/ActionQueuePanel";
@@ -1349,6 +1349,26 @@ const ChatPage = () => {
             )}
 
             <LanguageSelector agentColor={agent.color} />
+
+            {/* New Chat button */}
+            {messages.length > 0 && (
+              <button
+                onClick={() => {
+                  setMessages([]);
+                  setConversationId(null);
+                  setGenerations([]);
+                  setGenCount(0);
+                  setInput("");
+                }}
+                className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-jakarta font-medium transition-colors hover:opacity-80 shrink-0"
+                style={{ color: accentColor, border: `1px solid ${accentColor}20` }}
+                title="Start new conversation (current is auto-saved)"
+              >
+                <RotateCcw size={10} />
+                <span className="hidden sm:inline">New</span>
+              </button>
+            )}
+
             <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
 
             {/* Brand badge */}
