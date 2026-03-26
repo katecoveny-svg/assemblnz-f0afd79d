@@ -17,6 +17,7 @@ import { agents } from "@/data/agents";
 import { getGreetingText, MILESTONES } from "@/engine/personality";
 import { useMilestones } from "@/hooks/useMilestones";
 import WorkflowVisualiser from "@/components/WorkflowVisualiser";
+import MorningBriefing from "@/components/MorningBriefing";
 
 interface ConversationItem { id: string; agent_id: string; messages: any[]; updated_at: string; }
 interface SavedItem { id: string; agent_id: string; agent_name: string; content: string; preview: string; created_at: string; }

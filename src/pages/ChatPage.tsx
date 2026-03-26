@@ -21,6 +21,7 @@ import StructuredOutputCard, { detectOutputType } from "@/components/StructuredO
 import NexusEntryCard from "@/components/nexus/NexusEntryCard";
 import NexusJobSheet, { type JobSheetData, type DocumentStatus } from "@/components/nexus/NexusJobSheet";
 import HandoffCard, { detectHandoff } from "@/components/HandoffCard";
+import ProactiveAlertCards from "@/components/chat/ProactiveAlertCards";
 import { agentTemplates } from "@/data/templates";
 import { useAuth } from "@/hooks/useAuth";
 import AccountDropdown from "@/components/AccountDropdown";
