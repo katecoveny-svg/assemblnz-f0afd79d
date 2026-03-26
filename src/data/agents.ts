@@ -238,8 +238,8 @@ export const agents: Agent[] = [
     color: "#00E5FF",
     sector: "Legal & Compliance",
     traits: ["Clear communicator", "Compassionate", "Process-expert"],
-    expertise: ["Contract & NDA drafter", "Separation guide AI", "IP protection advisor", "Employment dispute nav", "Privacy policy generator", "Debt recovery planner"],
-    starters: ["I've just separated — what do I need to know?", "Draft a service agreement for my business", "How does child custody work in NZ?"],
+    expertise: ["Contract & NDA drafter", "Separation guide AI", "IP protection advisor", "Employment dispute nav", "Privacy policy generator", "Debt recovery planner", "AML/CFT compliance", "2026 legislation tracker"],
+    starters: ["Draft a commercial contract", "Review privacy compliance", "What are the 2026 legal changes I need to know?"],
   },
   {
     id: "it",
