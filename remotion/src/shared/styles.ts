@@ -10,6 +10,9 @@ export const BRAND = {
 
 export const TURF_ACCENT = "#00FF88";
 export const AURA_ACCENT = "#00E5A0";
+export const PRISM_ACCENT = "#E040FB";
+export const HAVEN_ACCENT = "#FF80AB";
+export const HELM_ACCENT = "#B388FF";
 
 export const cosmicGradient = `radial-gradient(ellipse at 30% 20%, ${BRAND.deepBlue}40 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, ${BRAND.purple}30 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, ${BRAND.cyan}15 0%, transparent 70%), linear-gradient(180deg, #050510 0%, #0a0a1a 50%, #050510 100%)`;
 
