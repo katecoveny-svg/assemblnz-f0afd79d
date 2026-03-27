@@ -53,9 +53,33 @@ interface Props {
 
 /* ── Brand Card (visual result) ── */
 const BrandCard = ({ dna, onClose }: { dna: BrandDna; onClose: () => void }) => {
-  const vi = dna.visual_identity;
-  const colours = [vi.primary_color, vi.secondary_color, vi.accent_color, vi.background_color, vi.text_color].filter(Boolean);
-  const tone = dna.voice_tone;
+  const [editDna, setEditDna] = useState<BrandDna>(dna);
+  const [saving, setSaving] = useState(false);
+  const vi = editDna.visual_identity;
+  const colourKeys = [
+    { key: "primary_color" as const, label: "Primary" },
+    { key: "secondary_color" as const, label: "Secondary" },
+    { key: "accent_color" as const, label: "Accent" },
+  ];
+  const tone = editDna.voice_tone;
+
+  const updateColour = (key: keyof typeof vi, value: string) => {
+    setEditDna(prev => ({
+      ...prev,
+      visual_identity: { ...prev.visual_identity, [key]: value },
+    }));
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      await supabase.from("brand_profiles").update({ brand_dna: editDna as any }).eq("user_id", user.id);
+    } catch { /* silent */ }
+    setSaving(false);
+    onClose();
+  };
 
   return (
     <div className="space-y-4 animate-in fade-in-0 slide-in-from-bottom-3">
@@ -66,24 +90,33 @@ const BrandCard = ({ dna, onClose }: { dna: BrandDna; onClose: () => void }) => 
       <div className="rounded-xl border border-border/30 bg-card/50 p-4 space-y-4">
         {/* Name + Industry */}
         <div className="flex items-start gap-3">
-          {dna.logo_url && (
-            <img src={dna.logo_url} alt="Logo" className="w-10 h-10 rounded-lg object-contain bg-white/10" />
+          {editDna.logo_url && (
+            <img src={editDna.logo_url} alt="Logo" className="w-10 h-10 rounded-lg object-contain bg-white/10" />
           )}
           <div>
-            <h4 className="font-syne font-bold text-sm text-foreground">{dna.business_name}</h4>
-            <p className="text-[10px] text-muted-foreground">{dna.industry} · Score: {dna.brand_score}/100</p>
+            <h4 className="font-syne font-bold text-sm text-foreground">{editDna.business_name}</h4>
+            <p className="text-[10px] text-muted-foreground">{editDna.industry} · Score: {editDna.brand_score}/100</p>
           </div>
         </div>
 
-        {/* Colour swatches */}
+        {/* Editable colour swatches */}
         <div>
-          <p className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground mb-1.5 flex items-center gap-1"><Palette size={10} /> Colours</p>
-          <div className="flex gap-1.5">
-            {colours.map((c, i) => (
-              <div key={i} className="flex flex-col items-center gap-0.5">
-                <div className="w-8 h-8 rounded-lg border border-white/10" style={{ background: c }} />
-                <span className="text-[8px] font-mono text-muted-foreground">{c}</span>
-              </div>
+          <p className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground mb-1.5 flex items-center gap-1"><Palette size={10} /> Colours <span className="text-[8px] opacity-50">(tap to edit)</span></p>
+          <div className="flex gap-2">
+            {colourKeys.map(({ key, label }) => (
+              <label key={key} className="flex flex-col items-center gap-0.5 cursor-pointer group">
+                <div className="relative w-8 h-8 rounded-lg border border-white/10 overflow-hidden group-hover:ring-1 group-hover:ring-white/20 transition-all">
+                  <div className="absolute inset-0" style={{ background: vi[key] }} />
+                  <input
+                    type="color"
+                    value={vi[key] || "#000000"}
+                    onChange={e => updateColour(key, e.target.value)}
+                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                  />
+                </div>
+                <span className="text-[8px] font-mono text-muted-foreground">{vi[key]}</span>
+                <span className="text-[7px] text-muted-foreground/50">{label}</span>
+              </label>
             ))}
           </div>
         </div>
@@ -93,11 +126,11 @@ const BrandCard = ({ dna, onClose }: { dna: BrandDna; onClose: () => void }) => 
           <p className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-1"><Type size={10} /> Typography</p>
           <div className="flex gap-4">
             <div>
-              <p className="text-xs font-bold text-foreground" style={{ fontFamily: dna.typography.heading_font }}>{dna.typography.heading_font}</p>
+              <p className="text-xs font-bold text-foreground" style={{ fontFamily: editDna.typography.heading_font }}>{editDna.typography.heading_font}</p>
               <p className="text-[9px] text-muted-foreground">Headings</p>
             </div>
             <div>
-              <p className="text-xs text-foreground" style={{ fontFamily: dna.typography.body_font }}>{dna.typography.body_font}</p>
+              <p className="text-xs text-foreground" style={{ fontFamily: editDna.typography.body_font }}>{editDna.typography.body_font}</p>
               <p className="text-[9px] text-muted-foreground">Body</p>
             </div>
           </div>
@@ -117,24 +150,25 @@ const BrandCard = ({ dna, onClose }: { dna: BrandDna; onClose: () => void }) => 
         </div>
 
         {/* Tagline */}
-        {dna.tagline && (
+        {editDna.tagline && (
           <div>
             <p className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground mb-0.5">Tagline</p>
-            <p className="text-xs text-foreground/80 italic">"{dna.tagline}"</p>
+            <p className="text-xs text-foreground/80 italic">"{editDna.tagline}"</p>
           </div>
         )}
       </div>
 
       <p className="text-[10px] text-muted-foreground text-center">
-        All agents will now use your brand profile. Update anytime in Settings.
+        All advisors will now use your brand profile. Update anytime in Settings.
       </p>
 
       <button
-        onClick={onClose}
-        className="w-full px-4 py-2.5 rounded-lg text-sm font-syne font-bold transition-all"
+        onClick={handleSave}
+        disabled={saving}
+        className="w-full px-4 py-2.5 rounded-lg text-sm font-syne font-bold transition-all disabled:opacity-60"
         style={{ background: "#00E5FF", color: "#0A0A14" }}
       >
-        Continue with Brand DNA →
+        {saving ? "Saving..." : "Continue with Brand DNA →"}
       </button>
     </div>
   );
