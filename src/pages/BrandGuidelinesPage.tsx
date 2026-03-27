@@ -197,6 +197,96 @@ export default function BrandGuidelinesPage() {
           </div>
         </Section>
 
+        {/* Text Effects & Gradients */}
+        <Section title="Text Effects & Gradients">
+          <p className="text-sm text-foreground/70 mb-8 max-w-3xl">
+            Assembl uses signature text gradients and glow effects to create visual hierarchy and cinematic impact. These are applied to hero headlines, section accents, and CTA elements.
+          </p>
+
+          {/* Hero Gradient */}
+          <div className="space-y-8">
+            <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03]">
+              <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 uppercase tracking-wider">Hero Gradient — Primary headline effect</h4>
+              <p className="text-4xl sm:text-5xl font-display font-bold text-gradient-hero mb-4">
+                better than most businesses do.
+              </p>
+              <div className="mt-4 p-4 rounded-lg bg-black/40 border border-white/5">
+                <p className="text-[11px] font-mono-jb text-muted-foreground leading-relaxed whitespace-pre-wrap">{`.text-gradient-hero {
+  background-image: linear-gradient(
+    135deg,
+    hsl(160 84% 50%),      /* Emerald */
+    hsl(189 100% 55%) 35%, /* Cyan */
+    hsl(263 80% 72%) 65%,  /* Purple */
+    hsl(224 100% 68%) 100% /* Deep Blue */
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 30px hsla(170,100%,50%,0.2))
+          drop-shadow(0 0 60px hsla(263,80%,60%,0.1));
+}`}</p>
+              </div>
+            </div>
+
+            {/* Glow Text Effects */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03]">
+                <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 uppercase tracking-wider">Emerald Glow</h4>
+                <p className="text-3xl font-display font-bold text-glow-green mb-3">Success state</p>
+                <div className="p-3 rounded-lg bg-black/40 border border-white/5">
+                  <p className="text-[10px] font-mono-jb text-muted-foreground whitespace-pre-wrap">{`color: hsl(160 84% 50%);
+text-shadow:
+  0 0 10px hsla(160,84%,50%,0.4),
+  0 0 30px hsla(160,84%,50%,0.15),
+  0 0 60px hsla(170,100%,50%,0.08);`}</p>
+                </div>
+              </div>
+              <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03]">
+                <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 uppercase tracking-wider">Cyan Glow</h4>
+                <p className="text-3xl font-display font-bold text-glow-cyan mb-3">Primary accent</p>
+                <div className="p-3 rounded-lg bg-black/40 border border-white/5">
+                  <p className="text-[10px] font-mono-jb text-muted-foreground whitespace-pre-wrap">{`color: hsl(189 100% 55%);
+text-shadow:
+  0 0 10px hsla(189,100%,50%,0.35),
+  0 0 30px hsla(189,100%,50%,0.12);`}</p>
+                </div>
+              </div>
+              <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03]">
+                <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 uppercase tracking-wider">Purple Glow</h4>
+                <p className="text-3xl font-display font-bold text-glow-purple mb-3">Secondary accent</p>
+                <div className="p-3 rounded-lg bg-black/40 border border-white/5">
+                  <p className="text-[10px] font-mono-jb text-muted-foreground whitespace-pre-wrap">{`color: hsl(270 80% 70%);
+text-shadow:
+  0 0 10px hsla(270,80%,60%,0.35),
+  0 0 30px hsla(270,80%,60%,0.12);`}</p>
+                </div>
+              </div>
+              <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03]">
+                <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 uppercase tracking-wider">Pink Glow</h4>
+                <p className="text-3xl font-display font-bold text-glow-pink mb-3">Alert / feature</p>
+                <div className="p-3 rounded-lg bg-black/40 border border-white/5">
+                  <p className="text-[10px] font-mono-jb text-muted-foreground whitespace-pre-wrap">{`color: hsl(326 100% 59%);
+text-shadow:
+  0 0 10px hsla(326,100%,59%,0.35),
+  0 0 30px hsla(326,100%,59%,0.12);`}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Usage Guidelines */}
+            <div className="p-5 rounded-xl border border-white/10 bg-white/[0.03]">
+              <h4 className="text-sm font-bold text-[#B388FF] mb-3">Gradient & Glow Usage Rules</h4>
+              <ul className="space-y-1.5 text-sm text-foreground/70">
+                <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Hero gradient: Use only on primary headlines (H1) — never on body text</li>
+                <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Glow effects: Use on section headings, stats, and emphasis text only</li>
+                <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Maximum one gradient text element per viewport — avoid competing focal points</li>
+                <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Always pair gradient/glow text with plain white or muted body copy for contrast</li>
+                <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> The 135° angle is canonical — do not alter the gradient direction</li>
+              </ul>
+            </div>
+          </div>
+        </Section>
+
         {/* Visual Identity */}
         <Section title="Visual Identity">
           <div className="grid md:grid-cols-2 gap-6 mb-8">
