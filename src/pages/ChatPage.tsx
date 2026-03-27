@@ -776,19 +776,15 @@ const ChatPage = () => {
   const handlePrismDirectImageGen = useCallback(async () => {
     if (!prismImagePrompt.trim()) return;
     setPrismImageGenerating(true);
-    const aspectDims: Record<string, { w: number; h: number }> = {
-      "1:1": { w: 1080, h: 1080 },
-      "16:9": { w: 1920, h: 1080 },
-      "9:16": { w: 1080, h: 1920 },
-      "4:3": { w: 1200, h: 900 },
-    };
-    const dims = aspectDims[prismImageAspect];
     try {
-      const { data, error } = await supabase.functions.invoke("stitch-generate", {
+      const { data, error } = await supabase.functions.invoke("generate-image", {
         body: {
           prompt: prismImagePrompt,
-          style: "premium marketing visual, agency-quality, commercial-grade design",
-          aspectRatio: prismImageAspect,
+          platform: "brand_marketing",
+          contentType: "brand_asset",
+          agentContext: "Professional brand marketing asset. Create agency-quality visuals with premium aesthetics, sophisticated composition, and commercial-grade polish.",
+          quality: "pro",
+          brandContext: brandProfile ? { business_name: brandName || "Assembl", tone: "professional", industry: "technology" } : undefined,
         },
       });
       if (error) throw error;
@@ -799,18 +795,30 @@ const ChatPage = () => {
           { role: "assistant", content: "Here's your generated image:" },
         ]);
         setInlineImages((prev) => ({ ...prev, [msgIndex + 1]: { status: "done", urls: [data.imageUrl] } }));
+        // Log to exports for dashboard
+        if (user) {
+          supabase.from("exported_outputs").insert({
+            user_id: user.id,
+            agent_id: "marketing",
+            agent_name: "PRISM",
+            output_type: "generated_image",
+            title: prismImagePrompt.substring(0, 100),
+            content_preview: prismImagePrompt,
+            format: "png",
+          }).then(() => {});
+        }
       } else {
         setMessages((prev) => [...prev, { role: "assistant", content: "Image generation didn't return a result. Try a simpler prompt." }]);
       }
     } catch (err: any) {
       console.error("Prism image gen error:", err);
-      setMessages((prev) => [...prev, { role: "assistant", content: `Image generation failed: ${err.message || "Unknown error"}` }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: `Image generation failed: ${err.message || "Unknown error"}. Try again or use a different prompt.` }]);
     } finally {
       setPrismImageGenerating(false);
       setPrismImageModalOpen(false);
       setPrismImagePrompt("");
     }
-  }, [prismImagePrompt, prismImageAspect, brandProfile, brandName, messages]);
+  }, [prismImagePrompt, prismImageAspect, brandProfile, brandName, messages, user]);
 
   const trigger3DGeneration = useCallback(
     async (userPrompt: string, msgIndex: number, imageUrl?: string) => {
@@ -891,7 +899,7 @@ const ChatPage = () => {
       ["flux_pipeline:Pipeline", "flux_followups:Follow-Ups", "flux_clients:Clients"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isPrism) {
-      ["prism_campaigns:Campaigns", "prism_brand:Brand Voice", "prism_creative:Creative", "prism_ads:Ad Studio", "prism_adengine:Ad Engine", "prism_product:Product", "prism_video:Video", "prism_brandlab:Brand Lab", "prism_publisher:Publisher"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      ["prism_creative:Studio", "prism_brand:Brand", "prism_adengine:Ad Engine"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isNonprofit) {
       ["kindle_writer:Campaign Writer", "kindle_marketplace:Marketplace", "kindle_impact:Impact", "kindle_corporate:Corporate"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
