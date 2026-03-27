@@ -397,13 +397,13 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
             </div>
           </div>
           <div className="flex items-center gap-1">
-            {/* Handoff to chat button */}
-            {transcript.length > 0 && (
+            {/* Handoff to chat button — always visible when voice is active */}
+            {isConnected && (
               <button
                 onClick={handleHandoffToChat}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all hover:scale-105"
-                style={{ background: `${agentColor}15`, border: `1px solid ${agentColor}30`, color: agentColor }}
-                title="Continue this conversation in text chat with document upload"
+                style={{ background: `${agentColor}20`, border: `1px solid ${agentColor}40`, color: agentColor }}
+                title="Switch to text chat — upload documents, images, and files"
               >
                 <MessageSquare size={12} /> Continue in Chat
               </button>
@@ -486,12 +486,17 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
           </div>
         )}
 
-        {/* Handoff hint */}
-        {isConnected && transcript.length >= 2 && (
-          <div className="mx-4 mb-3 px-3 py-2 rounded-lg text-center" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
-            <p className="text-[9px] text-muted-foreground">
-              Need to upload documents or images? <button onClick={handleHandoffToChat} className="font-medium underline" style={{ color: agentColor }}>Continue in text chat →</button>
-            </p>
+        {/* Handoff CTA — always visible when connected */}
+        {isConnected && (
+          <div className="mx-4 mb-3">
+            <button
+              onClick={handleHandoffToChat}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-all hover:scale-[0.98]"
+              style={{ background: `${agentColor}12`, border: `1px solid ${agentColor}25`, color: agentColor }}
+            >
+              <MessageSquare size={14} />
+              Switch to Text Chat — upload documents, images & files
+            </button>
           </div>
         )}
 
