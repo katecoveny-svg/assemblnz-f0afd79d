@@ -1289,7 +1289,7 @@ const ChatPage = () => {
 
   // Render @AGENT_NAME mentions as colored pills
   const renderWithMentions = (text: string) => {
-    const ALL_AGENTS_LIST = [echoAgent, ...agents];
+    const ALL_AGENTS_LIST = [echoAgent, pilotAgent, ...agents];
     const mentionRegex = /@([A-Z]{2,15})\b/g;
     const parts: (string | React.ReactNode)[] = [];
     let lastIndex = 0;
