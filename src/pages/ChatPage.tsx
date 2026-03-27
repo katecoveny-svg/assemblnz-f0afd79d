@@ -2270,9 +2270,9 @@ const ChatPage = () => {
                 </Tooltip>
               )}
 
-              {/* Model selector for PRISM */}
+              {/* Model selector for PRISM — hidden on mobile */}
               {isPrism && (
-                <div className="relative">
+                <div className="relative hidden sm:block">
                   <select
                     value={selectedModel}
                     onChange={(e) => { setSelectedModel(e.target.value); sessionStorage.setItem("assembl_ai_model", e.target.value); }}
@@ -2292,13 +2292,13 @@ const ChatPage = () => {
                 </div>
               )}
 
-              {/* PRISM: Direct image generation camera button */}
+              {/* PRISM: Direct image generation camera button — hidden on mobile */}
               {isPrism && (
                 <button
                   type="button"
                   onClick={() => setPrismImageModalOpen(true)}
                   disabled={isLoading || prismImageGenerating}
-                  className="p-2.5 rounded-lg border transition-all duration-200 hover:scale-105 disabled:opacity-30"
+                  className="hidden sm:flex p-2.5 rounded-lg border transition-all duration-200 hover:scale-105 disabled:opacity-30"
                   style={{ borderColor: agent.color + "30", color: agent.color }}
                   title="Generate image directly"
                 >
@@ -2306,12 +2306,12 @@ const ChatPage = () => {
                 </button>
                )}
 
-              {/* PRISM: Ad Engine button */}
+              {/* PRISM: Ad Engine button — hidden on mobile */}
               {isPrism && (
                 <button
                   type="button"
                   onClick={() => setAdEngineOpen(true)}
-                  className="p-2.5 rounded-lg border transition-all duration-200 hover:scale-105"
+                  className="hidden sm:flex p-2.5 rounded-lg border transition-all duration-200 hover:scale-105"
                   style={{ borderColor: agent.color + "30", color: agent.color }}
                   title="Ad Engine — Generate ad campaigns"
                 >
