@@ -539,7 +539,7 @@ export const agents: Agent[] = [
     sector: "Sports & Recreation",
     traits: ["Community-driven", "Compliance-sharp", "Energetic"],
     expertise: ["Season setup wizard", "Gaming trust grant writer", "Coaching session planner", "Club constitution generator", "Sponsorship proposal builder", "Volunteer coordinator"],
-    starters: ["Plan my club's entire season calendar", "Generate a sponsorship proposal for our rugby club", "Create a membership drive campaign", "Build a tournament draw for 16 teams", "Draft a facilities maintenance schedule", "Analyse our club's financial health"],
+    starters: ["Help me find grants for my club", "Draft a gaming trust grant application", "Should my club register as a charity?", "Plan my club's entire season calendar", "Generate a sponsorship proposal for our rugby club", "Build a tournament draw for 16 teams"],
   },
   {
     id: "clinic",
