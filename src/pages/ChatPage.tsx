@@ -1521,9 +1521,9 @@ const ChatPage = () => {
 
             <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
 
-            {/* Brand badge */}
+            {/* Brand badge — hidden on mobile */}
             {brandProfile ? (
-              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
+              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
                 style={{ backgroundColor: accentColor + "12", color: accentColor, border: `1px solid ${accentColor}20` }}>
                 <Globe size={11} />
                 <span className="max-w-[60px] truncate">{brandName}</span>
@@ -1531,22 +1531,22 @@ const ChatPage = () => {
               </div>
             ) : (
               <LockedButton feature="brand_scan" onClick={() => setBrandModalOpen(true)}
-                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
+                className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
                 style={{ color: accentColor, border: `1px solid ${accentColor}25` }}>
                 <Globe size={12} />
               </LockedButton>
             )}
 
-            {/* Logo badge */}
+            {/* Logo badge — hidden on mobile */}
             {brandLogoUrl ? (
-              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
+              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
                 style={{ backgroundColor: accentColor + "12", color: accentColor, border: `1px solid ${accentColor}20` }}>
                 <img src={brandLogoUrl} alt="Logo" className="w-4 h-4 rounded-sm object-contain" />
                 <button onClick={() => { setBrandLogoUrl(null); sessionStorage.removeItem("assembl_brand_logo"); }} className="hover:opacity-70"><X size={10} /></button>
               </div>
             ) : (
               <LockedButton feature="brand_scan" onClick={() => logoInputRef.current?.click()}
-                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
+                className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
                 style={{ color: accentColor, border: `1px solid ${accentColor}25` }}>
                 {isUploadingLogo ? <Loader2 size={12} className="animate-spin" /> : <Upload size={12} />}
               </LockedButton>
@@ -1556,8 +1556,8 @@ const ChatPage = () => {
               <span className="text-[10px] font-mono px-2 py-1 rounded-full border border-border text-muted-foreground">{remaining}/{dailyLimit}</span>
             )}
 
-            <AgentMemoryPanel agentId={agentId!} agentColor={agent.color} agentName={agent.name} />
-            <ActionQueuePanel agentColor={agent.color} />
+            <span className="hidden sm:block"><AgentMemoryPanel agentId={agentId!} agentColor={agent.color} agentName={agent.name} /></span>
+            <span className="hidden sm:block"><ActionQueuePanel agentColor={agent.color} /></span>
             <AccountDropdown />
           </div>
         </div>
@@ -2270,9 +2270,9 @@ const ChatPage = () => {
                 </Tooltip>
               )}
 
-              {/* Model selector for PRISM */}
+              {/* Model selector for PRISM — hidden on mobile */}
               {isPrism && (
-                <div className="relative">
+                <div className="relative hidden sm:block">
                   <select
                     value={selectedModel}
                     onChange={(e) => { setSelectedModel(e.target.value); sessionStorage.setItem("assembl_ai_model", e.target.value); }}
@@ -2292,13 +2292,13 @@ const ChatPage = () => {
                 </div>
               )}
 
-              {/* PRISM: Direct image generation camera button */}
+              {/* PRISM: Direct image generation camera button — hidden on mobile */}
               {isPrism && (
                 <button
                   type="button"
                   onClick={() => setPrismImageModalOpen(true)}
                   disabled={isLoading || prismImageGenerating}
-                  className="p-2.5 rounded-lg border transition-all duration-200 hover:scale-105 disabled:opacity-30"
+                  className="hidden sm:flex p-2.5 rounded-lg border transition-all duration-200 hover:scale-105 disabled:opacity-30"
                   style={{ borderColor: agent.color + "30", color: agent.color }}
                   title="Generate image directly"
                 >
@@ -2306,12 +2306,12 @@ const ChatPage = () => {
                 </button>
                )}
 
-              {/* PRISM: Ad Engine button */}
+              {/* PRISM: Ad Engine button — hidden on mobile */}
               {isPrism && (
                 <button
                   type="button"
                   onClick={() => setAdEngineOpen(true)}
-                  className="p-2.5 rounded-lg border transition-all duration-200 hover:scale-105"
+                  className="hidden sm:flex p-2.5 rounded-lg border transition-all duration-200 hover:scale-105"
                   style={{ borderColor: agent.color + "30", color: agent.color }}
                   title="Ad Engine — Generate ad campaigns"
                 >
@@ -2323,7 +2323,7 @@ const ChatPage = () => {
                 <button
                   type="button"
                   onClick={toggleListening}
-                  className="p-2.5 rounded-lg border transition-all duration-200"
+                  className="hidden sm:flex p-2.5 rounded-lg border transition-all duration-200"
                   style={{
                     borderColor: isListening ? "#B388FF" : "hsl(var(--border))",
                     color: isListening ? "#B388FF" : "hsl(var(--muted-foreground))",
