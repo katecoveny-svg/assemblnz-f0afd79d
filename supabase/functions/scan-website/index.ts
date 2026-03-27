@@ -88,7 +88,25 @@ function extractMetaFromHtml(html: string, baseUrl: string): Record<string, unkn
     colourSet.add(`#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`);
   }
   // filter out super common ones
-  const boringColours = new Set(["#000000", "#ffffff", "#000", "#fff", "#333333", "#666666", "#999999", "#cccccc", "#f5f5f5", "#e5e5e5"]);
+  // Filter out common framework/UI grays and near-black/white colours
+  const boringColours = new Set([
+    "#000000", "#ffffff", "#000", "#fff",
+    "#111111", "#1a1a1a", "#222222", "#333333", "#444444", "#555555",
+    "#666666", "#777777", "#888888", "#999999", "#aaaaaa", "#bbbbbb",
+    "#cccccc", "#dddddd", "#eeeeee", "#f5f5f5", "#e5e5e5", "#f0f0f0",
+    // Tailwind grays / zinc / slate / neutral defaults
+    "#09090b", "#0a0a0b", "#0a0a14", "#09090f",
+    "#18181b", "#1c1917", "#1e1b4b", "#1e293b",
+    "#27272a", "#292524", "#334155",
+    "#3f3f46", "#44403c", "#475569",
+    "#52525b", "#57534e", "#64748b",
+    "#71717a", "#78716c",
+    "#a1a1aa", "#a8a29e",
+    "#d4d4d8", "#d6d3d1", "#e2e8f0",
+    "#e4e4e7", "#e4e4ec", "#e7e5e4", "#e5e7eb",
+    "#f4f4f5", "#f5f5f4", "#f8fafc", "#fafaf9", "#fafafa",
+    "#f9fafb", "#f1f5f9",
+  ]);
   meta.extractedColours = [...colourSet].filter(c => !boringColours.has(c)).slice(0, 20);
 
   // extract font-family declarations
@@ -147,7 +165,18 @@ async function fetchLinkedStylesheetData(html: string, baseUrl: string): Promise
     }
   }
 
-  const boring = new Set(["#000000", "#ffffff", "#000", "#fff", "#333333", "#666666", "#999999", "#cccccc", "#f5f5f5", "#e5e5e5"]);
+  const boring = new Set([
+    "#000000", "#ffffff", "#000", "#fff",
+    "#111111", "#1a1a1a", "#222222", "#333333", "#444444", "#555555",
+    "#666666", "#777777", "#888888", "#999999", "#aaaaaa", "#bbbbbb",
+    "#cccccc", "#dddddd", "#eeeeee", "#f5f5f5", "#e5e5e5", "#f0f0f0",
+    "#09090b", "#0a0a0b", "#0a0a14", "#09090f",
+    "#18181b", "#1c1917", "#27272a", "#292524",
+    "#3f3f46", "#44403c", "#52525b", "#57534e",
+    "#71717a", "#78716c", "#a1a1aa", "#a8a29e",
+    "#d4d4d8", "#d6d3d1", "#e2e8f0", "#e4e4e7", "#e4e4ec",
+    "#e7e5e4", "#e5e7eb", "#f4f4f5", "#f5f5f4", "#fafafa",
+  ]);
   return {
     colours: [...colours].filter(c => !boring.has(c)).slice(0, 30),
     fonts: [...fonts].slice(0, 15),
@@ -368,7 +397,12 @@ Return ONLY valid JSON (no markdown, no code blocks) with this structure:
   "brand_summary": "One paragraph brand positioning summary",
   "brand_score": 85
 }
-Be factual. Prioritise ACTUAL extracted colours and fonts over guesses. brand_score = confidence 0-100.`;
+IMPORTANT COLOUR RULES:
+- IGNORE common CSS framework colours (Tailwind grays, resets, skeleton colours like #09090f, #e5e7eb, #e4e4ec, #f5f5f5, etc.)
+- Focus on DISTINCTIVE brand colours — vibrant, saturated, or unique hues that represent the brand identity
+- If you only see gray/neutral extracted colours, infer brand colours from logos, images, or brand context instead
+- The primary_color should be the most prominent BRAND colour, not a background or text gray
+Be factual. Prioritise ACTUAL distinctive brand colours and fonts over guesses. brand_score = confidence 0-100.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
