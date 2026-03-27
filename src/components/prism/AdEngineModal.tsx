@@ -167,27 +167,37 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
       setCurrentStep(2);
       setProgress(80);
 
-      // Generate images for first few creatives using Lovable AI
+      // Generate images for first few creatives using Lovable AI (with timeout)
       setCurrentStep(3);
-      const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+      const imageCount = Math.min(allCreatives.length, 6);
       
-      for (let i = 0; i < Math.min(allCreatives.length, 6); i++) {
+      for (let i = 0; i < imageCount; i++) {
         const c = allCreatives[i];
         try {
           const imagePrompt = `Professional marketing ad visual for ${c.industry} industry. Dark background #09090F, glassmorphism effects, cinematic lighting, premium tech aesthetic. Show: ${c.pain_point.slice(0, 100)}. Style: ${visualStyle === "3d_glass" ? "3D glass elements floating" : visualStyle === "neon_tech" ? "neon glow effects" : "dark minimal clean"}. No text.`;
           
+          console.log(`[AdEngine] Generating image ${i + 1}/${imageCount} for ${c.industry}...`);
+          
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 30000);
+          
           const res = await supabase.functions.invoke("generate-image", {
-            body: { prompt: imagePrompt, size: c.platform === "instagram" ? "1024x1024" : "1792x1024" },
+            body: { prompt: imagePrompt, quality: "fast" },
           });
+          
+          clearTimeout(timeout);
           
           const generatedUrl = res.data?.imageUrl || res.data?.image_url;
           if (generatedUrl) {
             allCreatives[i].image_url = generatedUrl;
+            console.log(`[AdEngine] Image ${i + 1} generated successfully`);
+          } else {
+            console.warn(`[AdEngine] Image ${i + 1} returned no URL:`, res.data, res.error);
           }
-        } catch {
-          // Image generation is optional
+        } catch (imgErr) {
+          console.warn(`[AdEngine] Image ${i + 1} failed (skipping):`, imgErr);
         }
-        setProgress(80 + ((i + 1) / Math.min(allCreatives.length, 6)) * 15);
+        setProgress(80 + ((i + 1) / imageCount) * 15);
       }
 
       // Save creatives to database
