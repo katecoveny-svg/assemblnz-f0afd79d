@@ -69,16 +69,18 @@ const ContentHub = () => {
   const [typeFilter, setTypeFilter] = useState("all");
   const [view, setView] = useState<"grid" | "list">("grid");
 
+  const [brandProfile, setBrandProfile] = useState<any>(null);
+  const [activeSection, setActiveSection] = useState<"content" | "brand">("content");
+
   const loadContent = useCallback(async () => {
     if (!user) return;
     setLoading(true);
-    const { data } = await supabase
-      .from("exported_outputs")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .limit(200);
-    if (data) setItems(data as ContentItem[]);
+    const [contentRes, brandRes] = await Promise.allSettled([
+      supabase.from("exported_outputs").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(200),
+      supabase.from("brand_profiles").select("*").eq("user_id", user.id).limit(1).maybeSingle(),
+    ]);
+    if (contentRes.status === "fulfilled" && contentRes.value.data) setItems(contentRes.value.data as ContentItem[]);
+    if (brandRes.status === "fulfilled" && brandRes.value.data) setBrandProfile(brandRes.value.data);
     setLoading(false);
   }, [user]);
 
