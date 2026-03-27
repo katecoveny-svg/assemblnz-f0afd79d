@@ -178,14 +178,16 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
           
           console.log(`[AdEngine] Generating image ${i + 1}/${imageCount} for ${c.industry}...`);
           
-          const controller = new AbortController();
-          const timeout = setTimeout(() => controller.abort(), 30000);
+          const timeoutPromise = new Promise<{ data: null; error: Error }>((resolve) =>
+            setTimeout(() => resolve({ data: null, error: new Error("Timeout") }), 30000)
+          );
           
-          const res = await supabase.functions.invoke("generate-image", {
-            body: { prompt: imagePrompt, quality: "fast" },
-          });
-          
-          clearTimeout(timeout);
+          const res = await Promise.race([
+            supabase.functions.invoke("generate-image", {
+              body: { prompt: imagePrompt, quality: "fast" },
+            }),
+            timeoutPromise,
+          ]);
           
           const generatedUrl = res.data?.imageUrl || res.data?.image_url;
           if (generatedUrl) {
