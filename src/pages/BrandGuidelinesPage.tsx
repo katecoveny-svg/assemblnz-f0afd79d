@@ -43,18 +43,16 @@ const AGENT_COLORS = [
 ];
 
 const FONTS = [
-  { name: "Syne", role: "Logo & Wordmark", weights: "400, 500, 600, 700, 800", usage: "ASSEMBL wordmark only", url: "fonts.google.com/specimen/Syne" },
-  { name: "Space Grotesk", role: "Display & Headlines", weights: "400, 500, 600, 700", usage: "Page titles, hero text, navigation, agent names", url: "fonts.google.com/specimen/Space+Grotesk" },
-  { name: "Lora", role: "Body & UI", weights: "400–700 + Italic", usage: "Body copy, buttons, labels, form inputs. Fallback: Georgia", url: "fonts.google.com/specimen/Lora" },
-  { name: "JetBrains Mono", role: "Code & Data", weights: "400, 500", usage: "Code blocks, data displays, API docs", url: "fonts.google.com/specimen/JetBrains+Mono" },
+  { name: "JetBrains Mono", role: "Display, Headlines & Logo", weights: "400, 500, 600, 700, 800", usage: "ASSEMBL wordmark, page titles, hero text, navigation, agent names, code blocks", url: "fonts.google.com/specimen/JetBrains+Mono" },
+  { name: "Lato", role: "Body & UI", weights: "300, 400, 700, 900", usage: "Body copy, buttons, labels, form inputs, descriptions", url: "fonts.google.com/specimen/Lato" },
 ];
 
 const TYPE_SCALE = [
-  { level: "H1 — Hero", spec: "48–64px / Space Grotesk Bold" },
-  { level: "H2 — Section", spec: "32–40px / Space Grotesk Semibold" },
-  { level: "H3 — Card Title", spec: "20–24px / Space Grotesk Medium" },
-  { level: "Body", spec: "14–16px / Lora Regular" },
-  { level: "Small / Label", spec: "10–12px / Lora Medium" },
+  { level: "H1 — Hero", spec: "48–64px / JetBrains Mono Bold" },
+  { level: "H2 — Section", spec: "32–40px / JetBrains Mono Semibold" },
+  { level: "H3 — Card Title", spec: "20–24px / JetBrains Mono Medium" },
+  { level: "Body", spec: "14–16px / Lato Regular" },
+  { level: "Small / Label", spec: "10–12px / Lato Bold" },
   { level: "Code", spec: "13px / JetBrains Mono Regular" },
 ];
 
@@ -181,7 +179,7 @@ export default function BrandGuidelinesPage() {
           <div className="space-y-8 mb-10">
             {FONTS.map((f) => (
               <div key={f.name} className="p-5 rounded-xl border border-white/10 bg-white/[0.03]">
-                <h3 className={`text-2xl font-bold mb-1 ${f.name === "JetBrains Mono" ? "font-mono-jb" : f.name === "Space Grotesk" ? "font-display" : f.name === "Syne" ? "font-syne" : "font-body"}`} style={{ color: f.name === "Syne" ? "#00E5FF" : f.name === "Space Grotesk" ? "#00E5FF" : f.name === "Lora" ? "#B388FF" : "#00E5A0" }}>
+                <h3 className={`text-2xl font-bold mb-1 ${f.name === "JetBrains Mono" ? "font-mono-jb" : "font-body"}`} style={{ color: f.name === "JetBrains Mono" ? "#00E5FF" : "#B388FF" }}>
                   {f.name}
                 </h3>
                 <p className="text-sm text-foreground/80 mb-1">{f.role} — Weights: {f.weights}</p>
