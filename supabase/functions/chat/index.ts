@@ -6766,41 +6766,55 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
 `;
   }
 
- // SHARED BRAIN: Inject cross-agent context 
+ // SHARED BRAIN: Inject cross-agent context + agent memory
  try {
- const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
- const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
- global: { headers: { Authorization: authHeader } },
- });
- const { data: { user: brainUser } } = await userClient.auth.getUser();
- if (brainUser) {
- // Fetch shared context facts
- const { data: ctxRows } = await userClient
- .from("shared_context")
- .select("context_key, context_value, source_agent, confidence")
- .eq("user_id", brainUser.id)
- .order("confidence", { ascending: false })
- .limit(30);
+ if (userId) {
+  // Fetch shared context facts
+  const { data: ctxRows } = await userClient
+  .from("shared_context")
+  .select("context_key, context_value, source_agent, confidence")
+  .eq("user_id", userId)
+  .order("confidence", { ascending: false })
+  .limit(30);
 
- // Fetch recent conversation summaries from OTHER agents
- const { data: summaries } = await userClient
- .from("conversation_summaries")
- .select("agent_id, summary, key_facts_extracted, created_at")
- .eq("user_id", brainUser.id)
- .neq("agent_id", agentId)
- .order("created_at", { ascending: false })
- .limit(5);
+  // Fetch agent-specific memories
+  const { data: memories } = await sb
+  .from("agent_memory")
+  .select("memory_key, memory_value")
+  .eq("user_id", userId)
+  .eq("agent_id", agentId)
+  .order("updated_at", { ascending: false })
+  .limit(10);
 
- if (ctxRows && ctxRows.length > 0) {
- const facts = ctxRows.map(r => `• ${r.context_key}: ${JSON.stringify(r.context_value)} (source: ${r.source_agent}, confidence: ${r.confidence})`).join("\n");
- fullSystemPrompt += `\n\n[SHARED BRAIN — Business facts collected by all agents for this user. Use these to personalise responses and avoid asking for information already known:\n${facts}]`;
+  // Fetch recent conversation summaries from OTHER agents
+  const { data: summaries } = await userClient
+  .from("conversation_summaries")
+  .select("agent_id, summary, key_facts_extracted, created_at")
+  .eq("user_id", userId)
+  .neq("agent_id", agentId)
+  .order("created_at", { ascending: false })
+  .limit(5);
+
+  if (ctxRows && ctxRows.length > 0) {
+  const facts = ctxRows.map(r => `• ${r.context_key}: ${JSON.stringify(r.context_value)} (source: ${r.source_agent}, confidence: ${r.confidence})`).join("\n");
+  fullSystemPrompt += `\n\n[SHARED BRAIN — Business facts collected by all agents for this user. Use these to personalise responses and avoid asking for information already known:\n${facts}]`;
+  }
+
+  if (memories && memories.length > 0) {
+  const memFacts = memories.map(m => `• ${m.memory_key}: ${JSON.stringify(m.memory_value)}`).join("\n");
+  fullSystemPrompt += `\n\n[YOUR MEMORY — Things you specifically remember about this user:\n${memFacts}]`;
+  }
+
+  if (summaries && summaries.length > 0) {
+  const sumText = summaries.map(s => `• ${s.agent_id}: ${s.summary}`).join("\n");
+  fullSystemPrompt += `\n\n[RECENT ACTIVITY FROM OTHER AGENTS:\n${sumText}]`;
   }
 
   // AUTO-FETCH BRAND PROFILE from DB for all agents (brand-aware content generation)
   const { data: brandRow } = await userClient
     .from("brand_profiles")
     .select("brand_dna, business_name, industry, tone, audience, key_message")
-    .eq("user_id", brainUser.id)
+    .eq("user_id", userId)
     .maybeSingle();
 
   if (brandRow?.brand_dna) {
