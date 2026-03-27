@@ -129,8 +129,9 @@ export default function BrandGuidelinesPage() {
               { src: logoIcon, label: "App Icon" },
             ].map((l) => (
               <div key={l.label} className="p-6 rounded-xl border border-white/10 bg-white/[0.03] flex flex-col items-center">
-                <img src={l.src} alt={l.label} className="h-16 object-contain mb-4" />
-                <span className="text-xs text-muted-foreground">{l.label}</span>
+                <img src={l.src} alt={l.label} className="h-20 w-20 object-contain mb-4" />
+                <span className="text-xs text-muted-foreground mb-2">{l.label}</span>
+                <a href={l.src} download className="text-[10px] px-3 py-1 rounded-full border border-white/10 text-muted-foreground hover:text-foreground hover:border-white/30 transition-colors">↓ Download</a>
               </div>
             ))}
           </div>
