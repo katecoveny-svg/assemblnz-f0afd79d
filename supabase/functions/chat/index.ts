@@ -7164,75 +7164,94 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
 
  if (!content) content = "I couldn't generate a response.";
 
- // Log message for activity feed (best effort, don't block response)
+ // ===== ANALYTICS, CACHING, USAGE TRACKING (best effort) =====
+ const responseTime = Date.now() - startTime;
+ const usage = data?.usage || {};
+ const costNzd = calculateCost(actualModelUsed, usage);
+
  try {
- const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
- const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
- const sb = createClient(supabaseUrl, serviceKey);
- 
- const authHeader = req.headers.get("Authorization");
- let userId: string | null = null;
- let userName = "Anonymous";
- if (authHeader) {
- const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
- global: { headers: { Authorization: authHeader } },
- });
- const { data: { user } } = await userClient.auth.getUser();
- if (user) {
- userId = user.id;
- userName = user.user_metadata?.full_name || user.email?.split("@")[0] || "User";
- }
- }
- 
- const lastUserMsg = messages[messages.length - 1];
- const preview = typeof lastUserMsg?.content === "string"
- ? lastUserMsg.content.substring(0, 50)
- : "(attachment)";
- 
+  const userName = authUser?.user_metadata?.full_name || authUser?.email?.split("@")[0] || "User";
+  const preview = typeof lastMsgText === "string" ? lastMsgText.substring(0, 50) : "(attachment)";
+
+  // Message log
   await sb.from("message_log").insert({
-  user_id: userId,
-  agent_id: agentId,
-  message_preview: preview,
-  user_name: userName,
+   user_id: userId, agent_id: agentId, message_preview: preview, user_name: userName,
   });
 
-  // SERVER-SIDE CONTEXT EXTRACTION: Auto-detect business facts from AI response and save to shared_context
+  // Agent analytics
+  if (userId) {
+   await sb.from("agent_analytics").insert({
+    user_id: userId, agent_name: agentId, model_used: actualModelUsed, complexity,
+    input_tokens: usage?.prompt_tokens || 0, output_tokens: usage?.completion_tokens || 0,
+    estimated_cost_nzd: costNzd, response_time_ms: responseTime, from_cache: false, error: false,
+   });
+
+   // Usage tracking — upsert increment
+   const period = new Date().toISOString().slice(0, 7);
+   const { data: existingUsage } = await sb.from("usage_tracking")
+    .select("messages_used, tokens_used, cost_nzd")
+    .eq("user_id", userId).eq("period", period).maybeSingle();
+
+   if (existingUsage) {
+    await sb.from("usage_tracking").update({
+     messages_used: (existingUsage.messages_used || 0) + 1,
+     tokens_used: (existingUsage.tokens_used || 0) + (usage?.total_tokens || 0),
+     cost_nzd: (existingUsage.cost_nzd || 0) + costNzd,
+     updated_at: new Date().toISOString(),
+    }).eq("user_id", userId).eq("period", period);
+   } else {
+    await sb.from("usage_tracking").insert({
+     user_id: userId, period,
+     messages_used: 1, tokens_used: usage?.total_tokens || 0, cost_nzd: costNzd,
+    });
+   }
+  }
+
+  // Cache response if cacheable
+  if (cacheKey && content) {
+   const ttl = getCacheTTL(lastMsgText);
+   if (ttl > 0) {
+    await sb.from("response_cache").upsert({
+     cache_key: cacheKey, response_text: content, model_used: actualModelUsed,
+     tokens_saved: usage?.total_tokens || 0,
+     expires_at: new Date(Date.now() + ttl * 60000).toISOString(),
+    }, { onConflict: "cache_key" });
+   }
+  }
+
+  // Context extraction
   if (userId && content) {
-  try {
-  const contextPatterns: { key: string; regex: RegExp }[] = [
+   const contextPatterns: { key: string; regex: RegExp }[] = [
     { key: "business_name", regex: /(?:your (?:business|company|organisation)[, ]+)([A-Z][A-Za-z0-9 &'.-]{2,40})/i },
     { key: "industry", regex: /(?:you(?:'re| are) in the |your industry[: ]+)([A-Za-z &/-]{3,40})/i },
     { key: "team_size", regex: /(?:you have |team of |staff of )(\d{1,5})\s*(?:staff|people|employees|team members)/i },
     { key: "location", regex: /(?:based in|located in|operating (?:in|from))\s+([A-Z][A-Za-z, ]{2,50})/i },
     { key: "gst_number", regex: /GST\s*(?:number|#|:)\s*(\d{2,3}-?\d{3}-?\d{3})/i },
     { key: "nzbn", regex: /NZBN[: ]\s*(\d{13})/i },
-  ];
-  for (const { key, regex } of contextPatterns) {
+   ];
+   for (const { key, regex } of contextPatterns) {
     const m = content.match(regex);
     if (m?.[1]) {
-      await sb.from("shared_context").upsert(
-        { user_id: userId, context_key: key, context_value: m[1].trim(), source_agent: agentId, confidence: 0.7 },
-        { onConflict: "user_id,context_key" }
-      );
+     await sb.from("shared_context").upsert(
+      { user_id: userId, context_key: key, context_value: m[1].trim(), source_agent: agentId, confidence: 0.7 },
+      { onConflict: "user_id,context_key" }
+     );
     }
+   }
   }
-  } catch (ctxErr) {
-    console.error("Context extraction error (non-critical):", ctxErr);
-  }
-  }
-  } catch (logErr) {
-  console.error("Message log error (non-critical):", logErr);
-  }
+ } catch (logErr) {
+  console.error("Post-response logging error (non-critical):", logErr);
+ }
 
  return new Response(
- JSON.stringify({ content }),
- { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+  JSON.stringify({ content, model: actualModelUsed, complexity, responseTime, fromCache: false }),
+  { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
  );
  } catch (error) {
  console.error("Chat function error:", error);
  return new Response(
- JSON.stringify({ error: "Internal server error" }),
- { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+  JSON.stringify({ content: "I'm having a moment — could you try that again? If it keeps happening, try rephrasing your question." }),
+  { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
  );
  }
 });
