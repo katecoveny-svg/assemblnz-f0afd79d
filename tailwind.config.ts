@@ -14,12 +14,13 @@ export default {
     },
     extend: {
       fontFamily: {
-        inter: ['Inter', 'sans-serif'],
-        display: ['"Space Grotesk"', 'Inter', 'sans-serif'],
+        inter: ['Lora', 'Georgia', 'serif'],
+        display: ['"Space Grotesk"', 'Lora', 'sans-serif'],
+        body: ['Lora', 'Georgia', 'serif'],
         // Legacy aliases
-        outfit: ['Inter', 'sans-serif'],
+        outfit: ['Lora', 'Georgia', 'serif'],
         syne: ['Syne', '"Space Grotesk"', 'sans-serif'],
-        jakarta: ['Inter', 'sans-serif'],
+        jakarta: ['Lora', 'Georgia', 'serif'],
         'mono-jb': ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
