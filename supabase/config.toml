@@ -86,3 +86,6 @@ verify_jwt = false
 
 [functions.weekly-score-email]
 verify_jwt = false
+
+[functions.assembl-mcp]
+verify_jwt = false
