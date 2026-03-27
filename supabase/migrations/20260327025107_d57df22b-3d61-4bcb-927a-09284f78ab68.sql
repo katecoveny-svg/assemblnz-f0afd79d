@@ -1,0 +1,1 @@
+CREATE POLICY "Creator can view own family" ON public.families FOR SELECT TO authenticated USING (created_by = auth.uid());

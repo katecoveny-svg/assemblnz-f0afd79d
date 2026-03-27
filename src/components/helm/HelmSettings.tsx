@@ -63,8 +63,14 @@ export default function HelmSettings() {
   const createFamily = async () => {
     if (!user || !familyName.trim()) return;
     try {
-      console.log("[HELM] Creating family:", familyName, region);
-      const { data: fam, error: famError } = await supabase.from("families").insert({ name: familyName, nz_region: region, created_by: user.id }).select().single();
+      // Verify active session before insert
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData?.session) {
+        toast.error("Your session has expired. Please sign in again.");
+        return;
+      }
+      console.log("[HELM] Creating family:", familyName, region, "uid:", sessionData.session.user.id);
+      const { data: fam, error: famError } = await supabase.from("families").insert({ name: familyName, nz_region: region, created_by: sessionData.session.user.id }).select().single();
       if (famError) { console.error("[HELM] Family insert error:", famError); toast.error("Failed to create family: " + famError.message); return; }
       if (fam) {
         console.log("[HELM] Family created, adding member:", fam.id);
