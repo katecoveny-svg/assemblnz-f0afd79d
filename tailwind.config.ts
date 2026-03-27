@@ -14,13 +14,13 @@ export default {
     },
     extend: {
       fontFamily: {
-        inter: ['Lora', 'Georgia', 'serif'],
-        display: ['"Space Grotesk"', 'Lora', 'sans-serif'],
-        body: ['Lora', 'Georgia', 'serif'],
+        inter: ['Lato', 'sans-serif'],
+        display: ['"JetBrains Mono"', 'monospace'],
+        body: ['Lato', 'sans-serif'],
         // Legacy aliases
-        outfit: ['Lora', 'Georgia', 'serif'],
-        syne: ['Syne', '"Space Grotesk"', 'sans-serif'],
-        jakarta: ['Lora', 'Georgia', 'serif'],
+        outfit: ['Lato', 'sans-serif'],
+        syne: ['"JetBrains Mono"', 'monospace'],
+        jakarta: ['Lato', 'sans-serif'],
         'mono-jb': ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
