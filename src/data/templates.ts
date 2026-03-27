@@ -25,6 +25,14 @@ export const agentTemplates: Record<string, Template[]> = {
   immigration: [
   ],
   marketing: [
+    { icon: "📱", title: "Social Media Strategy", description: "Build a 30-day social media content plan with post types, hooks, and scheduling", timeSaved: "~3 hours", prompt: "I need a 30-day social media strategy. Let's start — what industry are you in and which platforms do you use?" },
+    { icon: "✍️", title: "Brand Voice Guide", description: "Define your brand's tone, personality, and messaging pillars", timeSaved: "~2 hours", prompt: "Let's build your brand voice guide. First, describe your business and who your ideal customer is." },
+    { icon: "📧", title: "Email Campaign Sequence", description: "Create a nurture email sequence with subject lines and body copy", timeSaved: "~2 hours", prompt: "I'll help you create an email campaign sequence. What's the goal — lead nurture, onboarding, or re-engagement?" },
+    { icon: "🎯", title: "Ad Copy Generator", description: "Generate LinkedIn and Instagram ad copy with hooks, CTAs, and targeting", timeSaved: "~1 hour", prompt: "Let's create some ad copy. What product or service are you promoting, and who's your target audience?" },
+    { icon: "📊", title: "Content Calendar", description: "Plan a month of content across blog, social, email, and video", timeSaved: "~4 hours", prompt: "I'll build your content calendar. What channels do you publish on, and what are your key topics?" },
+    { icon: "🔍", title: "SEO Content Brief", description: "Generate an SEO-optimised content brief with keywords and structure", timeSaved: "~1 hour", prompt: "Let's create an SEO content brief. What topic or keyword do you want to rank for?" },
+    { icon: "📰", title: "Press Release Draft", description: "Write a media-ready press release for your announcement", timeSaved: "~1.5 hours", prompt: "I'll draft a press release. What's the news or announcement you want to share?" },
+    { icon: "🎨", title: "Campaign Brief", description: "Create a creative brief for your next marketing campaign", timeSaved: "~2 hours", prompt: "Let's build a campaign brief. What's the campaign objective and who are you targeting?" },
   ],
   sales: [
   ],
