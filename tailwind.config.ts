@@ -18,7 +18,7 @@ export default {
         display: ['"Space Grotesk"', 'Inter', 'sans-serif'],
         // Legacy aliases
         outfit: ['Inter', 'sans-serif'],
-        syne: ['"Space Grotesk"', 'Inter', 'sans-serif'],
+        syne: ['Syne', '"Space Grotesk"', 'sans-serif'],
         jakarta: ['Inter', 'sans-serif'],
         'mono-jb': ['"JetBrains Mono"', 'monospace'],
       },
