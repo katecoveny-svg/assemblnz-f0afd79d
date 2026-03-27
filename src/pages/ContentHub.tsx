@@ -9,7 +9,8 @@ import AgentAvatar from "@/components/AgentAvatar";
 import {
   FileText, Image, BarChart3, Calendar, Grid3X3, List,
   Download, Copy, Search, Filter, RefreshCw, Sparkles,
-  MessageSquare, Palette, ChevronRight, Clock, Eye,
+  MessageSquare, Palette, ChevronRight, Clock, Eye, Brush,
+  Share2, Tag,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -68,16 +69,18 @@ const ContentHub = () => {
   const [typeFilter, setTypeFilter] = useState("all");
   const [view, setView] = useState<"grid" | "list">("grid");
 
+  const [brandProfile, setBrandProfile] = useState<any>(null);
+  const [activeSection, setActiveSection] = useState<"content" | "brand">("content");
+
   const loadContent = useCallback(async () => {
     if (!user) return;
     setLoading(true);
-    const { data } = await supabase
-      .from("exported_outputs")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .limit(200);
-    if (data) setItems(data as ContentItem[]);
+    const [contentRes, brandRes] = await Promise.allSettled([
+      supabase.from("exported_outputs").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(200),
+      supabase.from("brand_profiles").select("*").eq("user_id", user.id).limit(1).maybeSingle(),
+    ]);
+    if (contentRes.status === "fulfilled" && contentRes.value.data) setItems(contentRes.value.data as ContentItem[]);
+    if (brandRes.status === "fulfilled" && brandRes.value.data) setBrandProfile(brandRes.value.data);
     setLoading(false);
   }, [user]);
 
@@ -139,6 +142,87 @@ const ContentHub = () => {
             <RefreshCw size={11} className={loading ? "animate-spin" : ""} /> Refresh
           </button>
         </div>
+
+        {/* Section Tabs */}
+        <div className="flex gap-2">
+          {[
+            { key: "content" as const, label: "Generated Content", icon: Grid3X3 },
+            { key: "brand" as const, label: "Brand Assets", icon: Brush },
+          ].map(tab => (
+            <button key={tab.key} onClick={() => setActiveSection(tab.key)}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-medium transition-colors"
+              style={{
+                background: activeSection === tab.key ? "rgba(0,229,255,0.1)" : "rgba(255,255,255,0.03)",
+                border: activeSection === tab.key ? "1px solid rgba(0,229,255,0.2)" : "1px solid rgba(255,255,255,0.04)",
+                color: activeSection === tab.key ? "#00E5FF" : "rgba(255,255,255,0.5)",
+              }}>
+              <tab.icon size={12} />{tab.label}
+            </button>
+          ))}
+        </div>
+
+        {activeSection === "brand" ? (
+          /* Brand Asset Library */
+          <div className="space-y-6">
+            {brandProfile ? (
+              <>
+                {/* Brand Colors */}
+                <div className={glassCard + " p-6"} style={glassStyle}>
+                  <h3 className="text-sm font-syne font-bold text-foreground mb-4 flex items-center gap-2">
+                    <Palette size={14} style={{ color: "#B388FF" }} /> Brand Colours
+                  </h3>
+                  <div className="flex flex-wrap gap-3">
+                    {(brandProfile.brand_dna as any)?.colors?.map((color: string, i: number) => (
+                      <button key={i} onClick={() => { navigator.clipboard.writeText(color); toast.success(`Copied ${color}`); }}
+                        className="group flex flex-col items-center gap-2">
+                        <div className="w-16 h-16 rounded-xl border border-white/10 transition-transform group-hover:scale-110"
+                          style={{ background: color, boxShadow: `0 4px 20px ${color}40` }} />
+                        <span className="text-[9px] text-muted-foreground font-mono">{color}</span>
+                      </button>
+                    )) || <p className="text-xs text-muted-foreground">No colours extracted yet. Run a Brand Scan in PRISM.</p>}
+                  </div>
+                </div>
+
+                {/* Brand Info */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {[
+                    { label: "Business Name", value: brandProfile.business_name || "Not set", icon: Tag, color: "#00E5FF" },
+                    { label: "Industry", value: brandProfile.industry || "Not set", icon: BarChart3, color: "#B388FF" },
+                    { label: "Brand Tone", value: brandProfile.tone || "Not set", icon: Share2, color: "#00FF88" },
+                  ].map(info => (
+                    <div key={info.label} className={glassCard + " p-4"} style={glassStyle}>
+                      <info.icon size={14} style={{ color: info.color }} className="mb-2" />
+                      <p className="text-[10px] text-muted-foreground mb-1">{info.label}</p>
+                      <p className="text-sm font-bold text-foreground">{info.value}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Key Message & Audience */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className={glassCard + " p-5"} style={glassStyle}>
+                    <p className="text-[10px] text-muted-foreground mb-2 uppercase tracking-wider">Key Message</p>
+                    <p className="text-xs text-foreground leading-relaxed">{brandProfile.key_message || "Not defined yet — ask PRISM to help craft your key message."}</p>
+                  </div>
+                  <div className={glassCard + " p-5"} style={glassStyle}>
+                    <p className="text-[10px] text-muted-foreground mb-2 uppercase tracking-wider">Target Audience</p>
+                    <p className="text-xs text-foreground leading-relaxed">{brandProfile.audience || "Not defined yet — ask PRISM to define your target audience."}</p>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-16">
+                <Brush size={32} className="mx-auto text-muted-foreground/20 mb-3" />
+                <p className="text-sm text-muted-foreground mb-2">No brand profile found</p>
+                <p className="text-xs text-muted-foreground/60 mb-4">Run a Brand Scan in PRISM to extract your colours, tone, and visual identity.</p>
+                <Link to="/chat/marketing" className="inline-block px-6 py-2.5 rounded-lg text-sm font-semibold" style={{ background: "#B388FF", color: "#09090B" }}>
+                  Open PRISM →
+                </Link>
+              </div>
+            )}
+          </div>
+        ) : (
+        <>
 
         {/* Stats Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -285,6 +369,8 @@ const ContentHub = () => {
               })}
             </div>
           </div>
+        )}
+        </>
         )}
       </main>
       <BrandFooter />
