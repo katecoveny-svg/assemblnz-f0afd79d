@@ -1556,8 +1556,8 @@ const ChatPage = () => {
               <span className="text-[10px] font-mono px-2 py-1 rounded-full border border-border text-muted-foreground">{remaining}/{dailyLimit}</span>
             )}
 
-            <AgentMemoryPanel agentId={agentId!} agentColor={agent.color} agentName={agent.name} />
-            <ActionQueuePanel agentColor={agent.color} />
+            <span className="hidden sm:block"><AgentMemoryPanel agentId={agentId!} agentColor={agent.color} agentName={agent.name} /></span>
+            <span className="hidden sm:block"><ActionQueuePanel agentColor={agent.color} /></span>
             <AccountDropdown />
           </div>
         </div>
