@@ -7015,15 +7015,40 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  ? lastUserMsg.content.substring(0, 50)
  : "(attachment)";
  
- await sb.from("message_log").insert({
- user_id: userId,
- agent_id: agentId,
- message_preview: preview,
- user_name: userName,
- });
- } catch (logErr) {
- console.error("Message log error (non-critical):", logErr);
- }
+  await sb.from("message_log").insert({
+  user_id: userId,
+  agent_id: agentId,
+  message_preview: preview,
+  user_name: userName,
+  });
+
+  // SERVER-SIDE CONTEXT EXTRACTION: Auto-detect business facts from AI response and save to shared_context
+  if (userId && content) {
+  try {
+  const contextPatterns: { key: string; regex: RegExp }[] = [
+    { key: "business_name", regex: /(?:your (?:business|company|organisation)[, ]+)([A-Z][A-Za-z0-9 &'.-]{2,40})/i },
+    { key: "industry", regex: /(?:you(?:'re| are) in the |your industry[: ]+)([A-Za-z &/-]{3,40})/i },
+    { key: "team_size", regex: /(?:you have |team of |staff of )(\d{1,5})\s*(?:staff|people|employees|team members)/i },
+    { key: "location", regex: /(?:based in|located in|operating (?:in|from))\s+([A-Z][A-Za-z, ]{2,50})/i },
+    { key: "gst_number", regex: /GST\s*(?:number|#|:)\s*(\d{2,3}-?\d{3}-?\d{3})/i },
+    { key: "nzbn", regex: /NZBN[: ]\s*(\d{13})/i },
+  ];
+  for (const { key, regex } of contextPatterns) {
+    const m = content.match(regex);
+    if (m?.[1]) {
+      await sb.from("shared_context").upsert(
+        { user_id: userId, context_key: key, context_value: m[1].trim(), source_agent: agentId, confidence: 0.7 },
+        { onConflict: "user_id,context_key" }
+      );
+    }
+  }
+  } catch (ctxErr) {
+    console.error("Context extraction error (non-critical):", ctxErr);
+  }
+  }
+  } catch (logErr) {
+  console.error("Message log error (non-critical):", logErr);
+  }
 
  return new Response(
  JSON.stringify({ content }),
