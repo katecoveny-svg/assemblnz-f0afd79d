@@ -5,8 +5,12 @@ import nexusLogo from "@/assets/nexus-logo-hires.png";
 import logoWordmark from "@/assets/assembl-logo-wordmark.png";
 import logoFull from "@/assets/brand/assembl-logo-full.png";
 import logoIcon from "@/assets/brand/assembl-icon.png";
-import heroRobot from "@/assets/agents/assembl-hero.png";
-import hero3d from "@/assets/agents/hero-3d-robot.png";
+import heroRobot from "@/assets/agents/hero-orb-robot.png";
+import auraBot from "@/assets/agents/aura.png";
+import helmBot from "@/assets/agents/helm.png";
+import prismBot from "@/assets/agents/prism.png";
+import echoBot from "@/assets/agents/echo-fullbody.png";
+import sparkBot from "@/assets/agents/spark.png";
 import linkedinBanner from "@/assets/brand/social-linkedin-banner.png";
 import ogImage from "@/assets/brand/social-launch-og.png";
 
@@ -311,15 +315,22 @@ text-shadow:
           <p className="text-sm text-foreground/70 mb-6 max-w-3xl">
             Agent avatars feature friendly Pixar-style 3D robot mascots — smooth dome heads, gunmetal metallic finishes, cosmic starfield reflections. Each robot has the Assembl Nexus triangle on its chest.
           </p>
-          <div className="flex gap-8">
-            <div className="text-center">
-              <img src={hero3d} alt="Hero 3D Robot" className="w-32 h-32 object-contain" />
-              <span className="text-xs text-muted-foreground">Hero 3D Robot</span>
-            </div>
-            <div className="text-center">
-              <img src={heroRobot} alt="Agent Showcase" className="w-32 h-32 object-contain" />
-              <span className="text-xs text-muted-foreground">Agent Showcase</span>
-            </div>
+          <div className="flex flex-wrap gap-6">
+            {[
+              { src: heroRobot, label: "Hero Robot (Homepage)" },
+              { src: auraBot, label: "AURA" },
+              { src: helmBot, label: "HELM" },
+              { src: prismBot, label: "PRISM" },
+              { src: echoBot, label: "ECHO" },
+              { src: sparkBot, label: "SPARK" },
+            ].map((bot) => (
+              <div key={bot.label} className="text-center">
+                <div className="w-28 h-28 rounded-xl border border-white/10 bg-white/[0.03] flex items-center justify-center p-2">
+                  <img src={bot.src} alt={bot.label} className="w-full h-full object-contain" />
+                </div>
+                <span className="text-xs text-muted-foreground mt-2 block">{bot.label}</span>
+              </div>
+            ))}
           </div>
         </Section>
 
