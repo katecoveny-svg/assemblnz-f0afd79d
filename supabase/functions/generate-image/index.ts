@@ -88,6 +88,7 @@ ${brandSection}
 ${agentContext || ""}
 Style: Premium, polished, commercial-grade. Use sophisticated colour palettes, clean composition, and professional typography where needed. The image should look like it was created by a professional design agency.
 Visual direction: ${prompt}
+BRANDING: Include a small, subtle "assembl" watermark text in the bottom-right corner of the image. Use a clean, modern sans-serif font. The watermark should be semi-transparent (about 30% opacity) and tasteful — not distracting. Use white text if the background is dark, or dark text if the background is light.
 IMPORTANT: Generate an actual high-resolution image, not text. Any text in the image must be crisp and legible.`;
 
     let imageUrl: string | null = null;
