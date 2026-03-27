@@ -103,7 +103,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
             <div key={s.key} className="flex items-center gap-1">
               {editing ? (
                 <label className="cursor-pointer relative">
-                  <div className="w-4 h-4 rounded-full border border-white/20 ring-1 ring-offset-1 ring-offset-transparent" style={{ backgroundColor: s.color, ringColor: ACCENT }} />
+                  <div className="w-4 h-4 rounded-full border border-white/20 ring-1 ring-offset-1 ring-offset-transparent" style={{ backgroundColor: s.color }} />
                   <input
                     type="color"
                     value={s.color || "#000000"}
