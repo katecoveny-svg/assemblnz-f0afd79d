@@ -60,73 +60,89 @@ const IndustrySolutions = () => {
   const filtered = activeSector === "All" ? agents : agents.filter((a) => a.sector === activeSector);
 
   return (
-    <section className="relative z-10 py-20 sm:py-28 border-t border-border">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section className="relative z-10 py-24 sm:py-32 aurora-glow">
+      <div className="section-divider" />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32">
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
+          <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Purpose-built for NZ</p>
+          <h2
+            className="text-2xl sm:text-[2.75rem] font-syne font-bold text-foreground mb-4"
+            style={{ letterSpacing: '-0.02em', lineHeight: '1.15' }}
+          >
             Industry <span className="text-gradient-hero">solutions</span>
           </h2>
-          <p className="text-sm font-jakarta text-muted-foreground">
+          <p className="text-sm sm:text-[15px] font-inter text-muted-foreground max-w-md mx-auto">
             Specialist tools for every sector — trained on the legislation that matters to you.
           </p>
         </motion.div>
 
         {/* Hero industry cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-12">
           {HERO_INDUSTRIES.map((ind, i) => (
             <motion.div
               key={ind.agent}
-              className="rounded-2xl border border-border bg-card p-5 group transition-all duration-300 cursor-pointer"
+              className="relative rounded-2xl p-6 group cursor-pointer overflow-hidden"
               style={{
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
+                background: 'hsl(var(--surface-1) / 0.6)',
+                backdropFilter: 'blur(20px) saturate(1.3)',
+                WebkitBackdropFilter: 'blur(20px) saturate(1.3)',
+                border: '1px solid hsl(var(--border) / 0.5)',
+                boxShadow: '0 1px 3px hsl(228 14% 4% / 0.3)',
               }}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{
-                borderColor: ind.color,
-                boxShadow: `0 0 20px ${ind.color}25, 0 0 40px ${ind.color}10, inset 0 0 20px ${ind.color}05`,
-                y: -4,
-              }}
+              whileHover={{ y: -4 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.06 }}
+              transition={{ delay: i * 0.06, duration: 0.5 }}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ backgroundColor: `${ind.color}15` }}
+              {/* Hover glow */}
+              <span
+                className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-50 transition-opacity duration-700"
+                style={{ background: `linear-gradient(90deg, transparent, ${ind.color}80, transparent)` }}
+              />
+              <span
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                style={{ background: `radial-gradient(ellipse at 50% 0%, ${ind.color}06 0%, transparent 60%)` }}
+              />
+
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-4">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center"
+                    style={{ backgroundColor: `${ind.color}10`, border: `1px solid ${ind.color}15` }}
+                  >
+                    <ind.Icon size={20} style={{ color: ind.color }} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-syne font-bold text-foreground">{ind.industry}</p>
+                    <p className="text-[10px] font-mono-jb text-muted-foreground/50 uppercase tracking-[2px]">{ind.agent}</p>
+                  </div>
+                </div>
+
+                <p className="text-xs font-inter text-muted-foreground mb-4 leading-relaxed">{ind.description}</p>
+
+                <ul className="space-y-2 mb-5">
+                  {ind.capabilities.map((cap) => (
+                    <li key={cap} className="flex items-start gap-2 text-[11px] font-inter text-foreground/60">
+                      <span className="mt-1.5 w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: ind.color, opacity: 0.7 }} />
+                      {cap}
+                    </li>
+                  ))}
+                </ul>
+
+                <Link
+                  to={`/chat/${ind.agentId}`}
+                  className="inline-flex items-center gap-1.5 text-xs font-syne font-bold transition-all duration-300 group-hover:gap-2.5"
+                  style={{ color: ind.color }}
                 >
-                  <ind.Icon size={20} style={{ color: ind.color }} />
-                </div>
-                <div>
-                  <p className="text-sm font-syne font-bold text-foreground">{ind.industry}</p>
-                  <p className="text-[10px] font-mono-jb text-muted-foreground uppercase tracking-wider">{ind.agent}</p>
-                </div>
+                  Try {ind.agent} <ArrowRight size={12} />
+                </Link>
               </div>
-
-              <p className="text-xs font-jakarta text-muted-foreground mb-3 leading-relaxed">{ind.description}</p>
-
-              <ul className="space-y-1.5 mb-4">
-                {ind.capabilities.map((cap) => (
-                  <li key={cap} className="flex items-start gap-2 text-xs font-jakarta text-muted-foreground">
-                    <span className="mt-1 w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: ind.color }} />
-                    {cap}
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                to={`/chat/${ind.agentId}`}
-                className="inline-flex items-center gap-1.5 text-xs font-syne font-bold transition-colors"
-                style={{ color: ind.color }}
-              >
-                Try {ind.agent} <ArrowRight size={12} />
-              </Link>
             </motion.div>
           ))}
         </div>
@@ -135,8 +151,13 @@ const IndustrySolutions = () => {
         <motion.div className="text-center" layout>
           <button
             onClick={() => setExpanded(!expanded)}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-border bg-card text-sm font-syne font-bold text-foreground hover:border-primary/30 transition-colors"
-            style={{ backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}
+            className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full text-sm font-syne font-bold text-foreground transition-all duration-300 hover:scale-[1.02]"
+            style={{
+              background: 'hsl(var(--surface-2) / 0.5)',
+              border: '1px solid hsl(var(--border))',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+            }}
           >
             {expanded ? "Collapse" : "See all 42 specialist tools"}
             <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.3 }}>
@@ -155,24 +176,27 @@ const IndustrySolutions = () => {
               transition={{ duration: 0.4, ease: "easeInOut" }}
               className="overflow-hidden"
             >
-              {/* Sector filter bar */}
-              <div className="flex flex-wrap justify-center gap-2 mt-8 mb-6">
+              <div className="flex flex-wrap justify-center gap-2 mt-10 mb-8">
                 {sectors.map((s) => (
                   <button
                     key={s}
                     onClick={() => setActiveSector(s)}
-                    className={`px-3 py-1.5 rounded-full text-[10px] font-mono-jb uppercase tracking-wider border transition-colors ${
+                    className={`px-3.5 py-1.5 rounded-full text-[10px] font-mono-jb uppercase tracking-wider transition-all duration-300 ${
                       activeSector === s
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-border bg-card text-muted-foreground hover:border-primary/30"
+                        ? "border-primary/50 bg-primary/10 text-primary"
+                        : "text-muted-foreground/60 hover:text-muted-foreground"
                     }`}
+                    style={{
+                      border: `1px solid ${activeSector === s ? '' : 'hsl(var(--border) / 0.4)'}`,
+                      background: activeSector === s ? '' : 'hsl(var(--surface-1) / 0.4)',
+                    }}
                   >
                     {s}
                   </button>
                 ))}
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {filtered.map((agent, i) => (
                   <AgentCard key={agent.id} agent={agent} index={i} />
                 ))}

@@ -24,13 +24,30 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
 
   return (
     <section className="relative overflow-hidden min-h-[70vh] sm:min-h-[85vh] flex flex-col items-center">
-      {/* Cosmic background glow — positioned high */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] sm:w-[900px] h-[500px] sm:h-[900px] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at center, hsla(189,100%,50%,0.08) 0%, hsla(224,100%,68%,0.06) 25%, hsla(263,100%,76%,0.04) 40%, transparent 65%)",
-        }}
-      />
+      {/* Multi-layer ambient aurora */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] sm:w-[1400px] h-[600px] sm:h-[1000px]"
+          style={{
+            background: `
+              radial-gradient(ellipse 60% 50% at 35% 30%, hsla(263, 80%, 55%, 0.08) 0%, transparent 60%),
+              radial-gradient(ellipse 50% 40% at 65% 40%, hsla(189, 100%, 50%, 0.07) 0%, transparent 55%),
+              radial-gradient(ellipse 70% 50% at 50% 50%, hsla(160, 84%, 50%, 0.05) 0%, transparent 65%)
+            `,
+          }}
+        />
+        {/* Subtle grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `
+              linear-gradient(hsl(0 0% 100% / 0.08) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(0 0% 100% / 0.08) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px',
+          }}
+        />
+      </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6 sm:pt-16 text-center relative z-10 flex flex-col items-center">
         {/* Animated Assembl Logo */}
@@ -53,17 +70,23 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           <AssemblHeroAgent size={heroSize} />
         </motion.div>
 
-        {/* Main heading */}
+        {/* Main heading — refined typography */}
         <motion.div
           className="hero-text-block rounded-2xl px-4 sm:px-6 py-4 sm:py-6 mx-auto max-w-3xl"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <h1 className="text-2xl sm:text-5xl lg:text-[3.5rem] font-syne font-bold mb-2 leading-tight text-foreground" style={{ letterSpacing: '-0.025em' }}>
+          <h1
+            className="text-[1.65rem] sm:text-5xl lg:text-[3.5rem] font-syne font-bold mb-2 leading-[1.1] text-foreground"
+            style={{ letterSpacing: '-0.03em' }}
+          >
             42 specialist tools that know NZ law
           </h1>
-          <p className="text-xl sm:text-4xl lg:text-[3rem] font-syne font-bold leading-normal text-gradient-hero pb-2">
+          <p
+            className="text-xl sm:text-4xl lg:text-[3rem] font-syne font-bold leading-[1.15] text-gradient-hero pb-2"
+            style={{ letterSpacing: '-0.02em' }}
+          >
             better than most businesses do.
           </p>
         </motion.div>
@@ -75,17 +98,14 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <p
-            className="text-xs sm:text-base font-jakarta leading-relaxed"
-            style={{ color: 'hsl(var(--muted-foreground))' }}
-          >
-            Business intelligence trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, education, agriculture, maritime, automotive, customs, and more. Enterprise-grade intelligence at SME pricing.
+          <p className="text-xs sm:text-[15px] font-inter font-light leading-relaxed text-muted-foreground">
+            Business intelligence trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, education, agriculture, maritime, automotive, customs, and more.
           </p>
         </motion.div>
 
-        {/* Stat pills */}
+        {/* Stat pills — premium chip style */}
         <motion.div
-          className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-6 sm:mb-10 mt-4 sm:mt-6"
+          className="flex flex-wrap justify-center gap-2 sm:gap-2.5 mb-6 sm:mb-10 mt-5 sm:mt-7"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.7 }}
@@ -93,11 +113,11 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           {STAT_PILLS.map((pill) => (
             <span
               key={pill.label}
-              className="font-mono-jb text-[10px] sm:text-xs px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-md"
+              className="font-mono-jb text-[10px] sm:text-[11px] px-3 sm:px-4 py-1.5 rounded-full text-muted-foreground"
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.06)',
-                color: '#A1A1AA',
+                background: 'hsl(var(--surface-2) / 0.6)',
+                border: '1px solid hsl(var(--border) / 0.5)',
+                backdropFilter: 'blur(12px)',
               }}
             >
               {pill.label}
@@ -105,7 +125,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           ))}
         </motion.div>
 
-        {/* CTAs */}
+        {/* CTAs — refined */}
         <motion.div
           className="flex flex-col sm:flex-row gap-3 justify-center mb-10 sm:mb-14"
           initial={{ opacity: 0, y: 20 }}
@@ -114,16 +134,26 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
         >
           <Link
             to="/content-hub"
-            className="cta-glass-green inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm font-semibold font-jakarta"
+            className="cta-glass-green inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl text-sm font-semibold font-inter"
           >
             Explore the platform <ArrowRight size={16} />
           </Link>
           <button
             onClick={onScrollToGrid}
-            className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm font-semibold font-jakarta transition-all duration-200"
-            style={{ background: 'transparent', color: '#FAFAFA', border: '1px solid rgba(255,255,255,0.15)' }}
-            onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)')}
-            onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)')}
+            className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl text-sm font-medium font-inter transition-all duration-300 text-foreground"
+            style={{
+              background: 'hsl(var(--surface-2) / 0.4)',
+              border: '1px solid hsl(var(--border))',
+              backdropFilter: 'blur(12px)',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = 'hsl(0 0% 100% / 0.15)';
+              e.currentTarget.style.background = 'hsl(var(--surface-2) / 0.6)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.borderColor = 'hsl(var(--border))';
+              e.currentTarget.style.background = 'hsl(var(--surface-2) / 0.4)';
+            }}
           >
             See the tools →
           </button>

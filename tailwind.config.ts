@@ -15,10 +15,10 @@ export default {
     extend: {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
-        display: ['"General Sans"', 'Inter', 'sans-serif'],
-        // Legacy aliases — all map to the new stack
+        display: ['"Space Grotesk"', 'Inter', 'sans-serif'],
+        // Legacy aliases
         outfit: ['Inter', 'sans-serif'],
-        syne: ['"General Sans"', 'Inter', 'sans-serif'],
+        syne: ['"Space Grotesk"', 'Inter', 'sans-serif'],
         jakarta: ['Inter', 'sans-serif'],
         'mono-jb': ['"JetBrains Mono"', 'monospace'],
       },

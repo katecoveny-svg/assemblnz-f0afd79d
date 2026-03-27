@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Bot, CreditCard, Code2, LayoutDashboard, FileText } from "lucide-react";
+import { Bot, CreditCard, LayoutDashboard, FileText } from "lucide-react";
 
 const TABS = [
   { to: "/", label: "Team", icon: Bot },
@@ -13,12 +13,12 @@ const MobileTabBar = () => {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 sm:hidden border-t"
+      className="fixed bottom-0 left-0 right-0 z-50 sm:hidden"
       style={{
-        borderColor: 'rgba(255,255,255,0.06)',
-        background: 'rgba(9, 9, 15, 0.92)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
+        borderTop: '1px solid hsl(228 10% 13% / 0.5)',
+        background: 'hsl(228 14% 4% / 0.85)',
+        backdropFilter: 'blur(24px) saturate(1.5)',
+        WebkitBackdropFilter: 'blur(24px) saturate(1.5)',
       }}
     >
       <div className="flex items-stretch justify-around h-14">
@@ -28,17 +28,22 @@ const MobileTabBar = () => {
             <Link
               key={to}
               to={to}
-              className="flex flex-col items-center justify-center gap-0.5 flex-1 transition-colors"
-              style={{ color: active ? '#E4E4EC' : 'rgba(255,255,255,0.3)' }}
+              className="flex flex-col items-center justify-center gap-0.5 flex-1 transition-colors duration-300"
+              style={{ color: active ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground) / 0.4)' }}
             >
               <Icon size={18} strokeWidth={active ? 2 : 1.5} />
-              <span className="text-[10px] font-jakarta font-medium">{label}</span>
+              <span className="text-[10px] font-inter font-medium">{label}</span>
+              {active && (
+                <span
+                  className="absolute top-0 w-8 h-px"
+                  style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--primary) / 0.5), transparent)' }}
+                />
+              )}
             </Link>
           );
         })}
       </div>
-      {/* Safe area for phones with home indicator */}
-      <div className="h-[env(safe-area-inset-bottom)]" style={{ background: 'rgba(9, 9, 15, 0.92)' }} />
+      <div className="h-[env(safe-area-inset-bottom)]" style={{ background: 'hsl(228 14% 4% / 0.85)' }} />
     </nav>
   );
 };

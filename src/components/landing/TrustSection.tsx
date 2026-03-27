@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Scale, Shield, Lock, MapPin, Globe, FileCheck, Quote } from "lucide-react";
+import { Scale, Shield, Lock, MapPin, Globe, FileCheck } from "lucide-react";
 
 const TRUST_CARDS = [
   { Icon: Scale, color: "#00FF88", title: "Trained on NZ Legislation", sub: "50+ Acts embedded" },
@@ -35,67 +35,100 @@ const TESTIMONIALS = [
 ];
 
 const TrustSection = () => (
-  <section className="relative z-10 py-20 sm:py-28 border-t border-border">
-    <div className="max-w-5xl mx-auto px-4 sm:px-6">
-      <motion.h2
-        className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground text-center mb-12"
+  <section className="relative z-10 py-24 sm:py-32">
+    <div className="section-divider" />
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32">
+      <motion.div
+        className="text-center mb-14"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        Built for <span className="text-gradient-hero">Aotearoa</span>
-      </motion.h2>
+        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Trusted platform</p>
+        <h2
+          className="text-2xl sm:text-[2.75rem] font-syne font-bold text-foreground"
+          style={{ letterSpacing: '-0.02em', lineHeight: '1.15' }}
+        >
+          Built for <span className="text-gradient-hero">Aotearoa</span>
+        </h2>
+      </motion.div>
 
       {/* Trust cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-16">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-20">
         {TRUST_CARDS.map((card, i) => (
           <motion.div
             key={card.title}
-            className="rounded-2xl border border-border bg-card p-5 text-center"
-            style={{ backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}
+            className="relative rounded-2xl p-5 sm:p-6 text-center group overflow-hidden"
+            style={{
+              background: 'hsl(var(--surface-1) / 0.5)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid hsl(var(--border) / 0.4)',
+            }}
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.06 }}
           >
+            <span
+              className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-40 transition-opacity duration-700"
+              style={{ background: `linear-gradient(90deg, transparent, ${card.color}70, transparent)` }}
+            />
             <div
-              className="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center"
-              style={{ backgroundColor: `${card.color}15` }}
+              className="w-11 h-11 rounded-xl mx-auto mb-3 flex items-center justify-center"
+              style={{ backgroundColor: `${card.color}10`, border: `1px solid ${card.color}15` }}
             >
               <card.Icon size={20} style={{ color: card.color }} />
             </div>
             <p className="text-xs sm:text-sm font-syne font-bold text-foreground mb-1">{card.title}</p>
-            <p className="text-[10px] sm:text-xs font-jakarta text-muted-foreground">{card.sub}</p>
+            <p className="text-[10px] sm:text-xs font-inter text-muted-foreground">{card.sub}</p>
           </motion.div>
         ))}
       </div>
 
       {/* Testimonials */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
         {TESTIMONIALS.map((t, i) => (
           <motion.div
             key={t.name}
-            className="rounded-2xl border border-border bg-card p-6 relative"
-            style={{ backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}
+            className="relative rounded-2xl p-6 sm:p-7 overflow-hidden group"
+            style={{
+              background: 'hsl(var(--surface-1) / 0.5)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid hsl(var(--border) / 0.4)',
+            }}
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 + i * 0.08 }}
           >
-            <Quote size={16} className="text-muted-foreground/30 mb-3" />
-            <p className="text-xs sm:text-sm font-jakarta text-foreground/80 mb-4 leading-relaxed">
+            <span
+              className="absolute top-0 left-[15%] right-[15%] h-px opacity-30"
+              style={{ background: `linear-gradient(90deg, transparent, ${t.color}60, transparent)` }}
+            />
+
+            {/* Large quote mark */}
+            <span
+              className="absolute top-4 right-5 text-[3rem] font-serif leading-none pointer-events-none"
+              style={{ color: `${t.color}12` }}
+            >
+              "
+            </span>
+
+            <p className="text-xs sm:text-[13px] font-inter text-foreground/75 leading-relaxed mb-6 relative z-10">
               "{t.quote}"
             </p>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3 relative z-10">
               <div
-                className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-syne font-bold"
-                style={{ backgroundColor: `${t.color}20`, color: t.color }}
+                className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-syne font-bold"
+                style={{ backgroundColor: `${t.color}15`, color: t.color, border: `1px solid ${t.color}20` }}
               >
                 {t.name.charAt(0)}
               </div>
               <div>
                 <p className="text-xs font-syne font-bold text-foreground">{t.name}</p>
-                <p className="text-[10px] font-jakarta text-muted-foreground">
+                <p className="text-[10px] font-inter text-muted-foreground/60">
                   {t.role} · {t.location}
                 </p>
               </div>

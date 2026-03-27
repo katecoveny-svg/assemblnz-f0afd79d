@@ -17,21 +17,26 @@ const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="relative z-10 py-20 sm:py-28 border-t border-border">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+    <section className="relative z-10 py-24 sm:py-32">
+      <div className="section-divider" />
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32">
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
+          <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Support</p>
+          <h2
+            className="text-2xl sm:text-[2.75rem] font-syne font-bold text-foreground mb-4"
+            style={{ letterSpacing: '-0.02em', lineHeight: '1.15' }}
+          >
             Frequently asked <span className="text-gradient-hero">questions</span>
           </h2>
-          <p className="text-sm font-jakarta text-muted-foreground">Everything you need to know about Assembl.</p>
+          <p className="text-sm font-inter text-muted-foreground">Everything you need to know about Assembl.</p>
         </motion.div>
 
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {FAQS.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
@@ -40,22 +45,24 @@ const FAQSection = () => {
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="rounded-xl border border-border overflow-hidden"
+                transition={{ delay: i * 0.04 }}
+                className="rounded-xl overflow-hidden group"
                 style={{
-                  background: "hsl(var(--card))",
-                  backdropFilter: "blur(16px)",
-                  WebkitBackdropFilter: "blur(16px)",
+                  background: isOpen ? 'hsl(var(--surface-2) / 0.5)' : 'hsl(var(--surface-1) / 0.4)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: `1px solid ${isOpen ? 'hsl(var(--border))' : 'hsl(var(--border) / 0.4)'}`,
+                  transition: 'all 0.3s ease',
                 }}
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="w-full flex items-center justify-between px-5 py-4 text-left"
+                  className="w-full flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5 text-left"
                 >
-                  <span className="text-sm font-syne font-bold text-foreground pr-4">{faq.q}</span>
+                  <span className="text-[13px] sm:text-sm font-syne font-bold text-foreground pr-4">{faq.q}</span>
                   <ChevronDown
                     size={16}
-                    className="shrink-0 text-muted-foreground transition-transform duration-300"
+                    className="shrink-0 text-muted-foreground/50 transition-transform duration-300"
                     style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0)" }}
                   />
                 </button>
@@ -68,7 +75,7 @@ const FAQSection = () => {
                       transition={{ duration: 0.25 }}
                       className="overflow-hidden"
                     >
-                      <p className="px-5 pb-4 text-xs font-jakarta text-muted-foreground leading-relaxed">
+                      <p className="px-5 sm:px-6 pb-5 text-xs sm:text-[13px] font-inter text-muted-foreground leading-relaxed">
                         {faq.a}
                       </p>
                     </motion.div>
