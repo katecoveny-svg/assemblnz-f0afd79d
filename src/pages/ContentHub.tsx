@@ -370,6 +370,8 @@ const ContentHub = () => {
             </div>
           </div>
         )}
+        </>
+        )}
       </main>
       <BrandFooter />
     </div>
