@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import heroImg from "@/assets/agents/hero-orb-robot.png";
-
-/* ─── Brand Colours ─── */
+import assembLogo from "@/assets/assembl-logo-mark.png";
 const BRAND_COLORS = [
   "hsla(189, 100%, 50%, 0.9)",   // Cyan
   "hsla(224, 100%, 68%, 0.9)",   // Deep Blue
