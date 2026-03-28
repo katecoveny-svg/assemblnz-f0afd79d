@@ -1,6 +1,4 @@
 import mascotBase from "@/assets/agents/assembl-mascot-base.png";
-import echoImg from "@/assets/agents/echo-fullbody.png";
-import chestLogo from "@/assets/assembl-logo-mark.png";
 
 interface AgentAvatarProps {
   agentId: string;
@@ -20,36 +18,20 @@ const hexToRgba = (hex: string, alpha: number) => {
 };
 
 const AgentAvatar = ({ agentId, color, size = 40, showGlow = true, eager = false }: AgentAvatarProps) => {
-  const isEcho = agentId === "echo";
-  const imageSrc = isEcho ? echoImg : mascotBase;
-  const glowColor = isEcho ? "hsla(189, 100%, 50%, 0.75)" : hexToRgba(color, 0.8);
-  const secondaryGlowColor = isEcho ? "hsla(224, 100%, 68%, 0.55)" : hexToRgba(color, 0.45);
-  const borderColor = isEcho ? "hsla(189, 100%, 50%, 0.32)" : hexToRgba(color, 0.28);
-  const logoSize = Math.round(size * 0.38);
+  const glowColor = hexToRgba(color, 0.8);
+  const secondaryGlowColor = hexToRgba(color, 0.45);
+  const borderColor = hexToRgba(color, 0.28);
 
   return (
     <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
       {showGlow && (
-        <>
-          <div
-            className="absolute inset-[-7px] rounded-full blur-xl"
-            style={{
-              background: isEcho
-                ? "radial-gradient(circle, hsla(189, 100%, 50%, 0.4), hsla(224, 100%, 68%, 0.2), transparent 72%)"
-                : `radial-gradient(circle, ${hexToRgba(color, 0.4)}, transparent 72%)`,
-              opacity: 0.5,
-            }}
-          />
-          {isEcho && (
-            <div
-              className="absolute inset-[-10px] rounded-full blur-2xl"
-              style={{
-                background: "radial-gradient(circle, hsla(224, 100%, 68%, 0.24), transparent 70%)",
-                opacity: 0.65,
-              }}
-            />
-          )}
-        </>
+        <div
+          className="absolute inset-[-7px] rounded-full blur-xl"
+          style={{
+            background: `radial-gradient(circle, ${hexToRgba(color, 0.4)}, transparent 72%)`,
+            opacity: 0.5,
+          }}
+        />
       )}
 
       <div
@@ -62,15 +44,13 @@ const AgentAvatar = ({ agentId, color, size = 40, showGlow = true, eager = false
           boxShadow: `0 0 14px ${glowColor}, 0 0 28px ${secondaryGlowColor}`,
         }}
       >
-        {/* Base mascot image */}
+        {/* Base mascot image — same robot for every agent */}
         <img
-          src={imageSrc}
+          src={mascotBase}
           alt={`${agentId} agent avatar`}
           className="relative z-10 w-full h-full object-contain"
           style={{
-            filter: isEcho
-              ? "drop-shadow(0 0 10px hsla(189, 100%, 50%, 0.85)) drop-shadow(0 0 18px hsla(224, 100%, 68%, 0.55))"
-              : `drop-shadow(0 0 8px ${glowColor}) drop-shadow(0 0 16px ${secondaryGlowColor})`,
+            filter: `drop-shadow(0 0 8px ${glowColor}) drop-shadow(0 0 16px ${secondaryGlowColor})`,
           }}
           loading={eager ? "eager" : "lazy"}
           decoding={eager ? "sync" : "async"}
@@ -78,31 +58,21 @@ const AgentAvatar = ({ agentId, color, size = 40, showGlow = true, eager = false
           draggable={false}
         />
 
+        {/* Brand colour hue-shift on eyes (top 45% of avatar) */}
+        <div
+          className="absolute inset-0 z-20 pointer-events-none mix-blend-hue"
+          style={{
+            background: `linear-gradient(to bottom, ${hexToRgba(color, 0.85)} 0%, ${hexToRgba(color, 0.4)} 45%, transparent 55%)`,
+          }}
+        />
 
-        {/* Brand colour overlay — tints the white eyes/sparkles to the agent's brand colour */}
-        {!isEcho && (
-          <div
-            className="absolute inset-0 z-30 pointer-events-none mix-blend-color"
-            style={{
-              background: `radial-gradient(circle at 50% 25%, ${hexToRgba(color, 0.55)}, transparent 55%)`,
-            }}
-          />
-        )}
-
-        {isEcho && (
-          <div
-            className="absolute z-[11] pointer-events-none"
-            style={{
-              width: size * 0.34,
-              height: size * 0.1,
-              left: "50%",
-              top: "34%",
-              transform: "translate(-50%, -50%)",
-              background: "radial-gradient(ellipse, hsla(189, 100%, 50%, 0.2), transparent 72%)",
-              filter: "blur(5px)",
-            }}
-          />
-        )}
+        {/* Reinforce saturation so the hue shift pops */}
+        <div
+          className="absolute inset-0 z-20 pointer-events-none mix-blend-saturation"
+          style={{
+            background: `linear-gradient(to bottom, ${hexToRgba(color, 0.3)} 0%, transparent 50%)`,
+          }}
+        />
       </div>
     </div>
   );
