@@ -27,7 +27,7 @@ interface SavedItem { id: string; agent_id: string; agent_name: string; content:
 interface ActionItem { id: string; agent_id: string; description: string; priority: string; due_date: string | null; status: string; }
 interface SummaryItem { id: string; agent_id: string; summary: string; created_at: string; }
 interface WorkflowExecution { id: string; status: string; current_step: number; steps_log: any[]; started_at: string; workflow_id: string; }
-interface ExportedOutput { id: string; agent_id: string; agent_name: string; output_type: string; title: string; content_preview: string | null; format: string; created_at: string; }
+interface ExportedOutput { id: string; agent_id: string; agent_name: string; output_type: string; title: string; content_preview: string | null; format: string; created_at: string; image_url?: string | null; }
 interface ComplianceDeadline { id: string; title: string; description: string; due_date: string; severity: string; agents: string[]; category: string; }
 interface LegislationChange { id: string; title: string; act_name: string; effective_date: string; summary: string; impact: string; affected_agents: string[]; severity: string; action_required: string; }
 type HealthStatus = "ok" | "degraded" | "down";
@@ -855,7 +855,11 @@ const DashboardPage = () => {
                           {agentExports.slice(0, 3).map((exp) => (
                             <Link key={exp.id} to={`/chat/${agent?.id || exp.agent_id}`} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-white/[0.04] transition-colors cursor-pointer">
                               <div className="flex items-center gap-2 flex-1 min-w-0">
-                                <FileText size={10} style={{ color }} className="shrink-0" />
+                                {exp.output_type === "generated_image" && exp.image_url ? (
+                                  <img src={exp.image_url} alt={exp.title} className="w-8 h-8 rounded object-cover shrink-0 border border-white/10" />
+                                ) : (
+                                  <FileText size={10} style={{ color }} className="shrink-0" />
+                                )}
                                 <span className="text-[11px] text-foreground truncate">{exp.title}</span>
                                 <span className="text-[8px] px-1.5 py-0.5 rounded-full uppercase shrink-0" style={{ background: `${color}15`, color }}>{exp.format || exp.output_type}</span>
                               </div>
