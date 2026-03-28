@@ -29,7 +29,26 @@ interface WorkflowExecution { id: string; status: string; current_step: number; 
 interface ExportedOutput { id: string; agent_id: string; agent_name: string; output_type: string; title: string; content_preview: string | null; format: string; created_at: string; }
 interface ComplianceDeadline { id: string; title: string; description: string; due_date: string; severity: string; agents: string[]; category: string; }
 interface LegislationChange { id: string; title: string; act_name: string; effective_date: string; summary: string; impact: string; affected_agents: string[]; severity: string; action_required: string; }
-interface HealthService { name: string; status: "ok" | "degraded" | "down"; icon: any; lastChecked: string; }
+type HealthStatus = "ok" | "degraded" | "down";
+interface HealthService {
+  key: string;
+  name: string;
+  status: HealthStatus;
+  icon: any;
+  lastChecked: string;
+  to: string;
+  actionLabel: string;
+  errorMessage: string | null;
+}
+interface HealthFault {
+  id: string;
+  label: string;
+  status: HealthStatus;
+  checkedAt: string;
+  errorMessage: string | null;
+  to: string;
+  actionLabel: string;
+}
 interface LeadItem { id: string; name: string; email: string; lead_status: string | null; lead_score: number | null; created_at: string; }
 
 const glassCard = "rounded-xl relative overflow-hidden";
@@ -40,8 +59,93 @@ const glassCardStyle: React.CSSProperties = {
   border: "1px solid rgba(255,255,255,0.06)",
 };
 
-const PRIORITY_COLORS: Record<string, string> = { urgent: "#B388FF", high: "#6366F1", medium: "#00E5FF", low: "#00FF88" };
-const SEVERITY_COLORS: Record<string, string> = { critical: "#FF4D6A", high: "#FFB800", standard: "#00FF88", informational: "#00E5FF" };
+const PRIORITY_COLORS: Record<string, string> = { urgent: "#FF2D9B", high: "#00E5FF", medium: "#00E5FF", low: "#00FF88" };
+const SEVERITY_COLORS: Record<string, string> = { critical: "#FF2D9B", high: "#00E5FF", standard: "#00FF88", informational: "#00E5FF" };
+const HEALTH_STATUS_COLORS: Record<HealthStatus, string> = { ok: "#00FF88", degraded: "#00E5FF", down: "#FF2D9B" };
+const HEALTH_SERVICE_META: Record<string, { key: string; label: string; icon: any; to: string; actionLabel: string }> = {
+  website: { key: "website", label: "Website", icon: Globe, to: "/", actionLabel: "Open site" },
+  assembl_website: { key: "website", label: "Website", icon: Globe, to: "/", actionLabel: "Open site" },
+  chat_api: { key: "chat_api", label: "Chat Engine", icon: MessageSquare, to: "/chat/echo", actionLabel: "Test chat" },
+  chat_function: { key: "chat_api", label: "Chat Engine", icon: MessageSquare, to: "/chat/echo", actionLabel: "Test chat" },
+  voice: { key: "voice", label: "Voice", icon: Mic, to: "/chat/echo", actionLabel: "Test voice" },
+  elevenlabs_api: { key: "voice", label: "Voice", icon: Mic, to: "/chat/echo", actionLabel: "Test voice" },
+  supabase: { key: "supabase", label: "Database", icon: Server, to: "/dashboard", actionLabel: "Refresh dashboard" },
+  supabase_api: { key: "supabase", label: "Database", icon: Server, to: "/dashboard", actionLabel: "Refresh dashboard" },
+  stripe: { key: "stripe", label: "Billing", icon: CreditCard, to: "/pricing", actionLabel: "Open billing" },
+};
+const DEFAULT_HEALTH_SERVICE_KEYS = ["website", "chat_api", "voice", "supabase", "stripe"];
+
+const getHealthMeta = (serviceName: string) => (
+  HEALTH_SERVICE_META[serviceName] || {
+    key: serviceName,
+    label: serviceName.replace(/_/g, " "),
+    icon: Activity,
+    to: "/dashboard",
+    actionLabel: "Open area",
+  }
+);
+
+const normalizeHealthStatus = (status: string): HealthStatus => {
+  if (status === "ok") return "ok";
+  if (status === "degraded") return "degraded";
+  return "down";
+};
+
+const buildHealthState = (rows: any[]): { services: HealthService[]; faults: HealthFault[] } => {
+  const latestByKey = new Map<string, any>();
+
+  for (const row of rows) {
+    const meta = getHealthMeta(row.service_name);
+    if (!latestByKey.has(meta.key)) {
+      latestByKey.set(meta.key, { ...row, meta, normalizedStatus: normalizeHealthStatus(row.status) });
+    }
+  }
+
+  const services = DEFAULT_HEALTH_SERVICE_KEYS.map((key) => {
+    const meta = getHealthMeta(key);
+    const latest = latestByKey.get(key);
+
+    return {
+      key: meta.key,
+      name: meta.label,
+      status: latest?.normalizedStatus || "ok",
+      icon: meta.icon,
+      lastChecked: latest?.checked_at || new Date().toISOString(),
+      to: meta.to,
+      actionLabel: meta.actionLabel,
+      errorMessage: latest?.error_message || null,
+    } as HealthService;
+  });
+
+  latestByKey.forEach((latest, key) => {
+    if (!services.some((service) => service.key === key)) {
+      services.push({
+        key,
+        name: latest.meta.label,
+        status: latest.normalizedStatus,
+        icon: latest.meta.icon,
+        lastChecked: latest.checked_at,
+        to: latest.meta.to,
+        actionLabel: latest.meta.actionLabel,
+        errorMessage: latest.error_message || null,
+      });
+    }
+  });
+
+  const faults = services
+    .filter((service) => service.status !== "ok")
+    .map((service) => ({
+      id: `${service.key}-${service.lastChecked}`,
+      label: service.name,
+      status: service.status,
+      checkedAt: service.lastChecked,
+      errorMessage: service.errorMessage,
+      to: service.to,
+      actionLabel: service.actionLabel,
+    }));
+
+  return { faults, services };
+};
 
 const timeAgo = (d: string) => {
   const diff = Date.now() - new Date(d).getTime();
