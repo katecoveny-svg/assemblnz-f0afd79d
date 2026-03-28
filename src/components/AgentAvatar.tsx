@@ -1,5 +1,6 @@
 import mascotBase from "@/assets/agents/assembl-mascot-base.png";
 import echoImg from "@/assets/agents/echo-fullbody.png";
+import chestLogo from "@/assets/assembl-logo-mark.png";
 
 interface AgentAvatarProps {
   agentId: string;
@@ -24,6 +25,7 @@ const AgentAvatar = ({ agentId, color, size = 40, showGlow = true, eager = false
   const glowColor = isEcho ? "hsla(189, 100%, 50%, 0.75)" : hexToRgba(color, 0.8);
   const secondaryGlowColor = isEcho ? "hsla(224, 100%, 68%, 0.55)" : hexToRgba(color, 0.45);
   const borderColor = isEcho ? "hsla(189, 100%, 50%, 0.32)" : hexToRgba(color, 0.28);
+  const logoSize = Math.round(size * 0.38);
 
   return (
     <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
@@ -76,12 +78,29 @@ const AgentAvatar = ({ agentId, color, size = 40, showGlow = true, eager = false
           draggable={false}
         />
 
+        {/* Assembl tri-colour logo on chest */}
+        <img
+          src={chestLogo}
+          alt=""
+          className="absolute z-20 pointer-events-none"
+          style={{
+            width: logoSize,
+            height: logoSize,
+            left: "50%",
+            top: "54%",
+            transform: "translate(-50%, -50%)",
+            opacity: 0.92,
+            filter: `drop-shadow(0 0 4px ${hexToRgba(color, 0.5)})`,
+          }}
+          draggable={false}
+        />
+
         {/* Brand colour overlay — tints the white eyes/sparkles to the agent's brand colour */}
         {!isEcho && (
           <div
-            className="absolute inset-0 z-20 pointer-events-none mix-blend-color"
+            className="absolute inset-0 z-30 pointer-events-none mix-blend-color"
             style={{
-              background: `radial-gradient(circle at 50% 30%, ${hexToRgba(color, 0.55)}, transparent 60%)`,
+              background: `radial-gradient(circle at 50% 25%, ${hexToRgba(color, 0.55)}, transparent 55%)`,
             }}
           />
         )}
