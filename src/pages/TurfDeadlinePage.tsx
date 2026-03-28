@@ -95,13 +95,13 @@ const TurfMiniChat = () => {
     try {
       const apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content }));
       const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "sports-recreation", messages: apiMessages },
+        body: { agentId: "sports", messages: apiMessages },
       });
       if (error) throw error;
       const reply = data?.reply || data?.message || "I'm here to help with your club's re-registration. Try asking about constitution generation.";
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
     } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I couldn't connect right now. Try the full chat at /chat/sports-recreation." }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I couldn't connect right now. Try the full chat at /chat/sports." }]);
     } finally {
       setLoading(false);
     }
