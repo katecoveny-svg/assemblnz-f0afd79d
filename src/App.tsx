@@ -54,6 +54,7 @@ const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
 const BrandGuidelinesPage = lazy(() => import("./pages/BrandGuidelinesPage"));
 const AuraLandingPage = lazy(() => import("./pages/AuraLandingPage"));
 const NexusLandingPage = lazy(() => import("./pages/NexusLandingPage"));
+const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
 
 const queryClient = new QueryClient();
 
@@ -107,6 +108,7 @@ const App = () => (
                   <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
+                  <Route path="/data-privacy" element={<Suspense fallback={null}><DataPrivacyLegal /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>

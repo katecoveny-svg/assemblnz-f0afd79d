@@ -28,6 +28,7 @@ const FOOTER_LINKS = {
     { to: "/mariner", label: "Mariner" },
   ],
   Legal: [
+    { to: "/data-privacy", label: "Data Privacy & AI" },
     { to: "/privacy", label: "Privacy Policy" },
     { to: "/terms", label: "Terms of Use" },
     { to: "/cookies", label: "Cookie Policy" },
