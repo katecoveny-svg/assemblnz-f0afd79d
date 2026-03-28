@@ -227,6 +227,7 @@ const DashboardPage = () => {
   const [complianceDeadlines, setComplianceDeadlines] = useState<ComplianceDeadline[]>([]);
   const [legislationChanges, setLegislationChanges] = useState<LegislationChange[]>([]);
   const [healthServices, setHealthServices] = useState<HealthService[]>([]);
+  const [healthFaults, setHealthFaults] = useState<HealthFault[]>([]);
   const [leads, setLeads] = useState<LeadItem[]>([]);
   const [isConnected, setIsConnected] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
