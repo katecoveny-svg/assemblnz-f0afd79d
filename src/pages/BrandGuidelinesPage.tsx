@@ -151,13 +151,13 @@ export default function BrandGuidelinesPage() {
             ))}
           </div>
 
-          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Agent Colours</h3>
-          <div className="flex flex-wrap gap-4">
-            {AGENT_COLORS.map((c) => (
-              <div key={c.name} className="flex flex-col items-center">
-                <div className="w-12 h-12 rounded-lg border border-white/10" style={{ backgroundColor: c.hex }} />
-                <span className="text-[10px] font-bold text-foreground mt-1">{c.name}</span>
-                <span className="text-[9px] font-mono text-muted-foreground">{c.hex}</span>
+          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Agent Colours — All {FULL_AGENT_LIST.length} Agents</h3>
+          <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 gap-3">
+            {FULL_AGENT_LIST.map((a) => (
+              <div key={a.id} className="flex flex-col items-center p-2 rounded-lg border border-white/5 bg-white/[0.02]">
+                <AgentAvatar agentId={a.id} color={a.color} size={36} showGlow={false} />
+                <span className="text-[10px] font-bold text-foreground mt-1.5">{a.name}</span>
+                <span className="text-[8px] font-mono text-muted-foreground">{a.color}</span>
               </div>
             ))}
           </div>
@@ -300,23 +300,27 @@ text-shadow:
           </div>
 
           <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Mascot System</h3>
-          <p className="text-sm text-foreground/70 mb-6 max-w-3xl">
-            Agent avatars feature friendly Pixar-style 3D robot mascots — smooth dome heads, gunmetal metallic finishes, cosmic starfield reflections. Each robot has the Assembl Nexus triangle on its chest.
+          <p className="text-sm text-foreground/70 mb-4 max-w-3xl">
+            All {FULL_AGENT_LIST.length} agent avatars use the identical Hero Robot base — a Pixar-style 3D mascot with a dark visor face and glowing Nexus triangle on its chest. Each agent is differentiated only by its brand colour glow applied via CSS tint and drop-shadow.
           </p>
-          <div className="flex flex-wrap gap-6">
-            {[
-              { src: heroRobot, label: "Hero Robot (Homepage)" },
-              { src: auraBot, label: "AURA" },
-              { src: helmBot, label: "HELM" },
-              { src: prismBot, label: "PRISM" },
-              { src: echoBot, label: "ECHO" },
-              { src: sparkBot, label: "SPARK" },
-            ].map((bot) => (
-              <div key={bot.label} className="text-center">
-                <div className="w-28 h-28 rounded-xl border border-white/10 bg-white/[0.03] flex items-center justify-center p-2">
-                  <img src={bot.src} alt={bot.label} className="w-full h-full object-contain" />
-                </div>
-                <span className="text-xs text-muted-foreground mt-2 block">{bot.label}</span>
+
+          {/* Hero base */}
+          <div className="mb-8 p-6 rounded-xl border border-white/10 bg-white/[0.03] inline-flex flex-col items-center">
+            <div className="w-32 h-32 flex items-center justify-center">
+              <img src={heroRobot} alt="Hero Robot base" className="w-full h-full object-contain" />
+            </div>
+            <span className="text-xs text-muted-foreground mt-3">Hero Robot — Base for all agents</span>
+          </div>
+
+          {/* Full agent grid */}
+          <h4 className="text-sm font-bold text-foreground/60 mb-4 uppercase tracking-wider">All Agents — Colour-Coded Avatars</h4>
+          <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 gap-4">
+            {FULL_AGENT_LIST.map((a) => (
+              <div key={a.id} className="flex flex-col items-center p-3 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+                <AgentAvatar agentId={a.id} color={a.color} size={48} showGlow />
+                <span className="text-[10px] font-bold text-foreground mt-2">{a.name}</span>
+                <span className="text-[8px] font-mono text-muted-foreground">{a.designation}</span>
+                <span className="text-[8px] font-mono mt-0.5" style={{ color: a.color }}>{a.color}</span>
               </div>
             ))}
           </div>
