@@ -231,6 +231,13 @@ const AssemblHeroAgent = ({ size = 420 }: { size?: number }) => {
       <FloatingOrb color="hsla(189,100%,60%,0.3)" size={7} orbitRadius={orbSize * 0.46} duration={24} delay={3} glow="hsla(189,100%,60%,0.3)" />
       <FloatingOrb color="hsla(210,100%,65%,0.4)" size={11} orbitRadius={orbSize * 0.28} duration={16} delay={5} glow="hsla(210,100%,65%,0.3)" />
 
+      {/* Floating Assembl tri-colour logos */}
+      <FloatingAssemblLogo orbitRadius={orbSize * 0.38} duration={16} delay={0} logoSize={size * 0.09} startAngle={0} />
+      <FloatingAssemblLogo orbitRadius={orbSize * 0.42} duration={22} delay={3} logoSize={size * 0.07} startAngle={Math.PI * 0.66} />
+      <FloatingAssemblLogo orbitRadius={orbSize * 0.34} duration={19} delay={1.5} logoSize={size * 0.08} startAngle={Math.PI * 1.33} />
+      <FloatingAssemblLogo orbitRadius={orbSize * 0.46} duration={25} delay={5} logoSize={size * 0.06} startAngle={Math.PI * 0.5} />
+      <FloatingAssemblLogo orbitRadius={orbSize * 0.3} duration={14} delay={2} logoSize={size * 0.065} startAngle={Math.PI * 1.1} />
+
       {/* Orbiting particle trails */}
       {[0, 60, 120, 180, 240, 300].map((deg, i) => (
         <motion.div
