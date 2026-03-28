@@ -98,8 +98,13 @@ const TurfMiniChat = () => {
         body: { agentId: "sports", messages: apiMessages },
       });
       if (error) throw error;
-      const reply = data?.content || data?.reply || data?.message || "I'm here to help with your club's re-registration. Try asking about constitution generation.";
-      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+      if (data?.error) {
+        const isAuth = typeof data.error === "string" && data.error.toLowerCase().includes("unauthorized");
+        setMessages((prev) => [...prev, { role: "assistant", content: isAuth ? "You'll need to sign in to chat with me. Create a free account at /signup and then come back — or jump straight into the full experience at /chat/sports!" : data.error }]);
+      } else {
+        const reply = data?.content || "Sorry, I didn't get a response. Try the full chat at /chat/sports for the best experience.";
+        setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+      }
     } catch {
       setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I couldn't connect right now. Try the full chat at /chat/sports." }]);
     } finally {
