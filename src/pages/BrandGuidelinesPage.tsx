@@ -64,8 +64,8 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
     transition={{ duration: 0.5 }}
     className="mb-16"
   >
-    <h2 className="text-3xl font-display font-bold text-[#00E5FF] mb-2">{title}</h2>
-    <div className="h-px w-40 bg-[#00E5FF]/40 mb-8" />
+    <h2 className="text-3xl font-display font-extrabold text-assembl-green mb-2">{title}</h2>
+    <div className="h-px w-40 bg-assembl-green/40 mb-8" />
     {children}
   </motion.section>
 );
@@ -90,10 +90,10 @@ export default function BrandGuidelinesPage() {
         {/* Header */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mb-20">
           <img src={nexusLogo} alt="Assembl Nexus Logo" className="w-20 h-20 mx-auto mb-6" />
-          <h1 className="text-5xl md:text-6xl font-display font-bold bg-gradient-to-r from-[#00E5FF] via-[#B388FF] to-[#6366F1] bg-clip-text text-transparent mb-4">
+           <h1 className="text-5xl md:text-6xl font-display font-extrabold text-gradient-hero mb-4">
             Brand Guidelines
           </h1>
-          <p className="text-muted-foreground text-lg">Assembl Visual Identity System — 2026</p>
+          <p className="text-white/65 text-lg font-body">Assembl Visual Identity System — 2026</p>
         </motion.div>
 
         {/* Brand Overview */}
