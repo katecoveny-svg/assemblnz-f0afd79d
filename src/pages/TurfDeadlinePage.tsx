@@ -98,7 +98,7 @@ const TurfMiniChat = () => {
         body: { agentId: "sports", messages: apiMessages },
       });
       if (error) throw error;
-      const reply = data?.reply || data?.message || "I'm here to help with your club's re-registration. Try asking about constitution generation.";
+      const reply = data?.content || data?.reply || data?.message || "I'm here to help with your club's re-registration. Try asking about constitution generation.";
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
     } catch {
       setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I couldn't connect right now. Try the full chat at /chat/sports." }]);
