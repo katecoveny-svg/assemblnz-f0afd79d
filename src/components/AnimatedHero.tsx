@@ -132,18 +132,18 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <Link
-            to="/content-hub"
-            className="cta-glass-green inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm"
-          >
-            Explore the platform <ArrowRight size={16} />
-          </Link>
           <button
             onClick={onScrollToGrid}
+            className="cta-glass-green inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm"
+          >
+            Browse All Agents <ArrowRight size={16} />
+          </button>
+          <Link
+            to="/content-hub"
             className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm"
           >
-            See the tools →
-          </button>
+            Explore the platform →
+          </Link>
         </motion.div>
 
         {/* Agent Showcase Carousel */}
