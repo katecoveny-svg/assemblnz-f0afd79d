@@ -14,13 +14,14 @@ export default {
     },
     extend: {
       fontFamily: {
-        inter: ['Lato', 'sans-serif'],
-        display: ['"JetBrains Mono"', 'monospace'],
-        body: ['Lato', 'sans-serif'],
-        // Legacy aliases
-        outfit: ['Lato', 'sans-serif'],
-        syne: ['"JetBrains Mono"', 'monospace'],
-        jakarta: ['Lato', 'sans-serif'],
+        display: ['Syne', 'sans-serif'],
+        body: ['"Plus Jakarta Sans"', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+        // Legacy aliases — map to new brand fonts
+        inter: ['"Plus Jakarta Sans"', 'sans-serif'],
+        outfit: ['"Plus Jakarta Sans"', 'sans-serif'],
+        syne: ['Syne', 'sans-serif'],
+        jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
         'mono-jb': ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
@@ -57,6 +58,15 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Assembl brand colors
+        assembl: {
+          bg: '#09090F',
+          surface: '#0F0F1A',
+          'surface-2': '#16162A',
+          green: '#00FF88',
+          pink: '#FF2D9B',
+          cyan: '#00E5FF',
+        },
         neon: {
           green: "#00FF88",
           pink: "#FF2D9B",
@@ -68,11 +78,6 @@ export default {
           teal: "#00FF94",
           blue: "#5B8CFF",
           amber: "#FF8C42",
-        },
-        premium: {
-          warm: "hsl(var(--premium-warm))",
-          gold: "hsl(var(--premium-gold))",
-          ivory: "hsl(var(--premium-ivory))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

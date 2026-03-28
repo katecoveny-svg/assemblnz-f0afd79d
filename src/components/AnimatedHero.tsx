@@ -78,13 +78,13 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <h1
-            className="text-[1.65rem] sm:text-5xl lg:text-[3.5rem] font-syne font-bold mb-2 leading-[1.1] text-foreground"
+            className="text-[1.65rem] sm:text-5xl lg:text-[3.5rem] font-display font-extrabold mb-2 leading-[1.1] text-foreground"
             style={{ letterSpacing: '-0.03em' }}
           >
             42 specialist tools that know NZ law
           </h1>
           <p
-            className="text-xl sm:text-4xl lg:text-[3rem] font-syne font-bold leading-[1.15] text-gradient-hero pb-2"
+            className="text-xl sm:text-4xl lg:text-[3rem] font-display font-extrabold leading-[1.15] text-gradient-hero pb-2"
             style={{ letterSpacing: '-0.02em' }}
           >
             better than most businesses do.
@@ -98,7 +98,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <p className="text-xs sm:text-[15px] font-inter font-light leading-relaxed text-muted-foreground">
+          <p className="text-xs sm:text-[15px] font-body font-normal leading-relaxed text-white/65">
             Business intelligence trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, education, agriculture, maritime, automotive, customs, and more.
           </p>
         </motion.div>
@@ -113,7 +113,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           {STAT_PILLS.map((pill) => (
             <span
               key={pill.label}
-              className="font-mono-jb text-[10px] sm:text-[11px] px-3 sm:px-4 py-1.5 rounded-full text-muted-foreground"
+              className="font-mono text-[10px] sm:text-[11px] px-3 sm:px-4 py-1.5 rounded-full text-white/35"
               style={{
                 background: 'hsl(var(--surface-2) / 0.6)',
                 border: '1px solid hsl(var(--border) / 0.5)',
@@ -134,26 +134,13 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
         >
           <Link
             to="/content-hub"
-            className="cta-glass-green inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl text-sm font-semibold font-inter"
+            className="cta-glass-green inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm"
           >
             Explore the platform <ArrowRight size={16} />
           </Link>
           <button
             onClick={onScrollToGrid}
-            className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl text-sm font-medium font-inter transition-all duration-300 text-foreground"
-            style={{
-              background: 'hsl(var(--surface-2) / 0.4)',
-              border: '1px solid hsl(var(--border))',
-              backdropFilter: 'blur(12px)',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.borderColor = 'hsl(0 0% 100% / 0.15)';
-              e.currentTarget.style.background = 'hsl(var(--surface-2) / 0.6)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.borderColor = 'hsl(var(--border))';
-              e.currentTarget.style.background = 'hsl(var(--surface-2) / 0.4)';
-            }}
+            className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm"
           >
             See the tools →
           </button>

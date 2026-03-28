@@ -15,20 +15,19 @@ import linkedinBanner from "@/assets/brand/social-linkedin-banner.png";
 import ogImage from "@/assets/brand/social-launch-og.png";
 
 const CORE_COLORS = [
-  { name: "Obsidian Black", hex: "#09090B", hsl: "228 14% 4%", role: "Background" },
-  { name: "Nexus Cyan", hex: "#00E5FF", hsl: "189 100% 50%", role: "Primary accent" },
-  { name: "Nexus Purple", hex: "#B388FF", hsl: "271 100% 77%", role: "Secondary accent" },
-  { name: "Deep Blue", hex: "#6366F1", hsl: "239 84% 67%", role: "Tertiary accent" },
-  { name: "Emerald", hex: "#00E5A0", hsl: "160 100% 45%", role: "Success / CTA" },
-  { name: "Ice White", hex: "#F2F4F8", hsl: "220 30% 96%", role: "Text" },
+  { name: "Page Background", hex: "#09090F", hsl: "234 29% 5%", role: "--color-bg" },
+  { name: "Green", hex: "#00FF88", hsl: "153 100% 50%", role: "Primary CTA / Success" },
+  { name: "Pink", hex: "#FF2D9B", hsl: "326 100% 59%", role: "Alerts / Highlights" },
+  { name: "Cyan", hex: "#00E5FF", hsl: "189 100% 50%", role: "Data / Links" },
+  { name: "Primary Text", hex: "#FFFFFF", hsl: "0 0% 100%", role: "Headings & body" },
 ];
 
 const SURFACE_COLORS = [
-  { name: "Surface 0", hex: "#09090B", role: "Base background" },
-  { name: "Surface 1", hex: "#111318", role: "Card background" },
-  { name: "Surface 2", hex: "#181A20", role: "Elevated" },
-  { name: "Surface 3", hex: "#1F222A", role: "Hover state" },
-  { name: "Muted", hex: "#6B7280", role: "Secondary text" },
+  { name: "Background", hex: "#09090F", role: "--color-bg" },
+  { name: "Surface", hex: "#0F0F1A", role: "Cards & panels" },
+  { name: "Surface 2", hex: "#16162A", role: "Nested / hover" },
+  { name: "Border", hex: "rgba(255,255,255,0.08)", role: "Default borders" },
+  { name: "Border Strong", hex: "rgba(255,255,255,0.15)", role: "Active borders" },
 ];
 
 const AGENT_COLORS = [
@@ -43,17 +42,18 @@ const AGENT_COLORS = [
 ];
 
 const FONTS = [
-  { name: "JetBrains Mono", role: "Display, Headlines & Logo", weights: "400, 500, 600, 700, 800", usage: "ASSEMBL wordmark, page titles, hero text, navigation, agent names, code blocks", url: "fonts.google.com/specimen/JetBrains+Mono" },
-  { name: "Lato", role: "Body & UI", weights: "300, 400, 700, 900", usage: "Body copy, buttons, labels, form inputs, descriptions", url: "fonts.google.com/specimen/Lato" },
+  { name: "Syne", role: "Display & Headlines", weights: "800 (ExtraBold)", usage: "ASSEMBL wordmark, page titles, hero text, section headings", url: "fonts.google.com/specimen/Syne" },
+  { name: "Plus Jakarta Sans", role: "Body & UI", weights: "400, 500, 600", usage: "Body copy, buttons, labels, form inputs, descriptions, navigation", url: "fonts.google.com/specimen/Plus+Jakarta+Sans" },
+  { name: "JetBrains Mono", role: "Code & Data", weights: "400, 500", usage: "Code blocks, data labels, stat pills, technical values", url: "fonts.google.com/specimen/JetBrains+Mono" },
 ];
 
 const TYPE_SCALE = [
-  { level: "H1 — Hero", spec: "48–64px / JetBrains Mono Bold" },
-  { level: "H2 — Section", spec: "32–40px / JetBrains Mono Semibold" },
-  { level: "H3 — Card Title", spec: "20–24px / JetBrains Mono Medium" },
-  { level: "Body", spec: "14–16px / Lato Regular" },
-  { level: "Small / Label", spec: "10–12px / Lato Bold" },
-  { level: "Code", spec: "13px / JetBrains Mono Regular" },
+  { level: "H1 — Hero", spec: "48–64px / Syne ExtraBold 800" },
+  { level: "H2 — Section", spec: "32–40px / Syne ExtraBold 800" },
+  { level: "H3 — Card Title", spec: "20–24px / Syne ExtraBold 800" },
+  { level: "Body", spec: "14–16px / Plus Jakarta Sans Regular 400" },
+  { level: "Small / Label", spec: "10–12px / Plus Jakarta Sans Semibold 600" },
+  { level: "Code / Data", spec: "13px / JetBrains Mono Regular 400" },
 ];
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
@@ -64,8 +64,8 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
     transition={{ duration: 0.5 }}
     className="mb-16"
   >
-    <h2 className="text-3xl font-display font-bold text-[#00E5FF] mb-2">{title}</h2>
-    <div className="h-px w-40 bg-[#00E5FF]/40 mb-8" />
+    <h2 className="text-3xl font-display font-extrabold text-assembl-green mb-2">{title}</h2>
+    <div className="h-px w-40 bg-assembl-green/40 mb-8" />
     {children}
   </motion.section>
 );
@@ -90,10 +90,10 @@ export default function BrandGuidelinesPage() {
         {/* Header */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mb-20">
           <img src={nexusLogo} alt="Assembl Nexus Logo" className="w-20 h-20 mx-auto mb-6" />
-          <h1 className="text-5xl md:text-6xl font-display font-bold bg-gradient-to-r from-[#00E5FF] via-[#B388FF] to-[#6366F1] bg-clip-text text-transparent mb-4">
+           <h1 className="text-5xl md:text-6xl font-display font-extrabold text-gradient-hero mb-4">
             Brand Guidelines
           </h1>
-          <p className="text-muted-foreground text-lg">Assembl Visual Identity System — 2026</p>
+          <p className="text-white/65 text-lg font-body">Assembl Visual Identity System — 2026</p>
         </motion.div>
 
         {/* Brand Overview */}

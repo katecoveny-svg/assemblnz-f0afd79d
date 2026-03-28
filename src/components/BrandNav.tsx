@@ -19,10 +19,10 @@ const BrandNav = () => {
     <header
       className="sticky top-0 z-50 flex items-center gap-3 px-5 sm:px-8 py-3.5"
       style={{
-        background: 'hsl(228 14% 4% / 0.7)',
-        backdropFilter: 'blur(24px) saturate(1.5)',
-        WebkitBackdropFilter: 'blur(24px) saturate(1.5)',
-        borderBottom: '1px solid hsl(228 10% 13% / 0.5)',
+        background: 'rgba(9,9,15,0.85)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
       }}
     >
       <Link to="/" className="flex items-center gap-3 group">
@@ -40,8 +40,8 @@ const BrandNav = () => {
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         />
         <div className="flex items-baseline gap-1.5">
-          <span className="font-syne font-bold tracking-[4px] uppercase text-[13px] text-foreground">ASSEMBL</span>
-          <span className="font-mono-jb text-[10px] hidden sm:inline text-muted-foreground/60">.co.nz</span>
+          <span className="font-display font-extrabold tracking-[4px] uppercase text-[13px] text-foreground">ASSEMBL</span>
+          <span className="font-mono text-[10px] hidden sm:inline text-white/35">.co.nz</span>
         </div>
       </Link>
       <div className="flex-1" />
@@ -68,7 +68,7 @@ const BrandNav = () => {
               key={link.to}
               to={isHash ? "#" : link.to}
               onClick={handleClick}
-              className="font-inter font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 relative group"
+              className="font-body font-medium text-white/65 hover:text-foreground transition-colors duration-250 relative group"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary/50 group-hover:w-full transition-all duration-300" />
