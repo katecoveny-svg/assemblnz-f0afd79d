@@ -143,9 +143,14 @@ const EmbedChatWidget = () => {
               }
             >
               {msg.role === "assistant" ? (
-                <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-headings:text-sm">
-                  <ReactMarkdown>{msg.content}</ReactMarkdown>
-                </div>
+                <>
+                  <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-headings:text-sm">
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  </div>
+                  <p className="text-[9px] mt-2 leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.35)" }}>
+                    AI-generated guidance — not a substitute for professional advice. Verify before acting.
+                  </p>
+                </>
               ) : (
                 msg.content
               )}

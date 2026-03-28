@@ -2076,6 +2076,9 @@ const ChatPage = () => {
                                 <LegislationCard content={msg.content} agentColor={agent.color} />
                                 <ResponseSources content={msg.content} />
                                 <AITransparencyBadge />
+                                <p className="text-[10px] mt-2 leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.35)" }}>
+                                  AI-generated guidance — not a substitute for professional advice. Verify before acting.
+                                </p>
                               </div>
                               <div className="flex items-center gap-1">
                                 <button
