@@ -226,7 +226,7 @@ const TurfMiniChat = () => {
 
           <div className="px-4 py-2 border-t border-border text-center">
             <Link
-              to="/chat/sports-recreation"
+              to="/chat/sports"
               className="text-xs font-jakarta hover:underline"
               style={{ color: TURF_COLOR }}
             >
@@ -516,7 +516,7 @@ const TurfDeadlinePage = () => {
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link
-              to="/chat/sports-recreation"
+              to="/chat/sports"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-base font-syne font-bold transition-all duration-300 hover:scale-105"
               style={{ background: TURF_COLOR, color: "#0A0A14", boxShadow: `0 0 30px ${TURF_COLOR}30` }}
             >
