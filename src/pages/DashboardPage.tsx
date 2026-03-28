@@ -579,8 +579,43 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        {/* Business Score */}
-        <BusinessScore />
+          <div className={glassCard + " p-5"} style={glassCardStyle}>
+            <TopGlow color="#FF2D9B" />
+            <SectionHeader icon={AlertTriangle} title="Active Faults" color="#FF2D9B" count={healthFaults.length} />
+            {healthFaults.length === 0 ? (
+              <EmptyState message="No active system faults detected right now." />
+            ) : (
+              <div className="space-y-2">
+                {healthFaults.map((fault) => {
+                  const faultColor = HEALTH_STATUS_COLORS[fault.status];
+                  return (
+                    <Link
+                      key={fault.id}
+                      to={fault.to}
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/[0.03] transition-colors"
+                      style={{ background: "rgba(255,255,255,0.02)", borderLeft: `3px solid ${faultColor}` }}
+                    >
+                      <div className="w-2 h-2 rounded-full shrink-0" style={{ background: faultColor }} />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="text-xs font-bold text-foreground">{fault.label}</span>
+                          <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium uppercase" style={{ background: `${faultColor}15`, color: faultColor }}>{fault.status}</span>
+                        </div>
+                        <p className="text-[10px] text-muted-foreground truncate">{fault.errorMessage || "Service issue detected"}</p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-[9px] font-medium" style={{ color: faultColor }}>{fault.actionLabel} →</p>
+                        <p className="text-[8px] text-muted-foreground/50">{timeAgo(fault.checkedAt)}</p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Business Score */}
+          <BusinessScore />
 
         {/* Pending Actions — always visible */}
         <div className={glassCard + " p-5"} style={glassCardStyle}>
