@@ -78,7 +78,38 @@ const FloatingOrb = ({ color, size, orbitRadius, duration, delay, glow }: {
   );
 };
 
-/* ─── Cosmic Ring ─── */
+/* ─── Floating Assembl Logo ─── */
+const FloatingAssemblLogo = ({ orbitRadius, duration, delay, logoSize, startAngle = 0 }: {
+  orbitRadius: number; duration: number; delay: number; logoSize: number; startAngle?: number;
+}) => {
+  const steps = 8;
+  const xs = Array.from({ length: steps + 1 }, (_, i) => Math.cos((i / steps) * Math.PI * 2 + startAngle) * orbitRadius);
+  const ys = Array.from({ length: steps + 1 }, (_, i) => Math.sin((i / steps) * Math.PI * 2 + startAngle) * orbitRadius);
+
+  return (
+    <motion.img
+      src={assembLogo}
+      alt=""
+      className="absolute z-[5] pointer-events-none"
+      style={{
+        width: logoSize, height: logoSize,
+        top: "50%", left: "50%",
+        marginTop: -logoSize / 2, marginLeft: -logoSize / 2,
+        filter: "drop-shadow(0 0 8px hsla(189,100%,50%,0.6)) drop-shadow(0 0 16px hsla(263,100%,76%,0.3))",
+      }}
+      animate={{
+        x: xs, y: ys,
+        opacity: [0.4, 0.85, 0.5, 0.9, 0.4, 0.7, 0.4, 0.85, 0.4],
+        scale: [0.8, 1.1, 0.9, 1.15, 0.85, 1.05, 0.8, 1.1, 0.8],
+        rotate: [0, 15, -10, 20, -5, 10, -15, 5, 0],
+      }}
+      transition={{ duration, repeat: Infinity, delay, ease: "linear" }}
+      draggable={false}
+    />
+  );
+};
+
+
 const CosmicRing = ({ radius, color, duration, opacity, thickness = 1.5 }: {
   radius: number; color: string; duration: number; opacity: number; thickness?: number;
 }) => (
