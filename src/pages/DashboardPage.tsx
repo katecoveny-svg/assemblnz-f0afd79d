@@ -20,6 +20,7 @@ import { useMilestones } from "@/hooks/useMilestones";
 import WorkflowVisualiser from "@/components/WorkflowVisualiser";
 import MorningBriefing from "@/components/MorningBriefing";
 import BusinessScore from "@/components/BusinessScore";
+import PilotDashboardCard from "@/components/PilotDashboardCard";
 
 interface ConversationItem { id: string; agent_id: string; messages: any[]; updated_at: string; }
 interface SavedItem { id: string; agent_id: string; agent_name: string; content: string; preview: string; created_at: string; }
@@ -214,7 +215,7 @@ const LivePulse = ({ lastUpdated, isConnected }: { lastUpdated: Date | null; isC
 );
 
 const DashboardPage = () => {
-  const { user, profile } = useAuth();
+  const { user, profile, isAdmin } = useAuth();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
@@ -481,6 +482,9 @@ const DashboardPage = () => {
 
         {/* Morning Briefing */}
         <MorningBriefing />
+
+        {/* PILOT EA Card — Admin Only */}
+        {isAdmin && <PilotDashboardCard />}
 
         {/* Health Monitor + Lead Pipeline Row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
