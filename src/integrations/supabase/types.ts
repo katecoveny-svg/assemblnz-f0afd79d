@@ -238,6 +238,75 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_sms_config: {
+        Row: {
+          agent_id: string
+          created_at: string
+          enabled: boolean
+          greeting: string
+          id: string
+          twilio_phone_number: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          enabled?: boolean
+          greeting?: string
+          id?: string
+          twilio_phone_number?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          enabled?: boolean
+          greeting?: string
+          id?: string
+          twilio_phone_number?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      agent_sms_messages: {
+        Row: {
+          agent_id: string
+          body: string
+          created_at: string
+          direction: string
+          id: string
+          phone_number: string
+          status: string
+          twilio_sid: string | null
+          user_id: string
+        }
+        Insert: {
+          agent_id: string
+          body: string
+          created_at?: string
+          direction?: string
+          id?: string
+          phone_number: string
+          status?: string
+          twilio_sid?: string | null
+          user_id: string
+        }
+        Update: {
+          agent_id?: string
+          body?: string
+          created_at?: string
+          direction?: string
+          id?: string
+          phone_number?: string
+          status?: string
+          twilio_sid?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       agent_status: {
         Row: {
           agent_id: string
@@ -1343,6 +1412,88 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "helm_integrations_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      helm_sms_config: {
+        Row: {
+          briefing_time: string
+          created_at: string
+          enabled: boolean
+          family_id: string
+          id: string
+          morning_briefing: boolean
+          reminder_notifications: boolean
+          twilio_phone_number: string | null
+          updated_at: string
+        }
+        Insert: {
+          briefing_time?: string
+          created_at?: string
+          enabled?: boolean
+          family_id: string
+          id?: string
+          morning_briefing?: boolean
+          reminder_notifications?: boolean
+          twilio_phone_number?: string | null
+          updated_at?: string
+        }
+        Update: {
+          briefing_time?: string
+          created_at?: string
+          enabled?: boolean
+          family_id?: string
+          id?: string
+          morning_briefing?: boolean
+          reminder_notifications?: boolean
+          twilio_phone_number?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "helm_sms_config_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: true
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      helm_sms_conversations: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          family_id: string
+          id: string
+          opted_in: boolean
+          phone_number: string
+          verified: boolean
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          family_id: string
+          id?: string
+          opted_in?: boolean
+          phone_number: string
+          verified?: boolean
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          family_id?: string
+          id?: string
+          opted_in?: boolean
+          phone_number?: string
+          verified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "helm_sms_conversations_family_id_fkey"
             columns: ["family_id"]
             isOneToOne: false
             referencedRelation: "families"
@@ -2704,198 +2855,6 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
-      }
-      agent_sms_config: {
-        Row: {
-          agent_id: string
-          created_at: string | null
-          enabled: boolean | null
-          greeting: string | null
-          id: string
-          twilio_phone_number: string | null
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          agent_id: string
-          created_at?: string | null
-          enabled?: boolean | null
-          greeting?: string | null
-          id?: string
-          twilio_phone_number?: string | null
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          agent_id?: string
-          created_at?: string | null
-          enabled?: boolean | null
-          greeting?: string | null
-          id?: string
-          twilio_phone_number?: string | null
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: []
-      }
-      agent_sms_messages: {
-        Row: {
-          agent_id: string
-          body: string
-          created_at: string | null
-          direction: string
-          id: string
-          phone_number: string
-          status: string | null
-          twilio_sid: string | null
-          user_id: string
-        }
-        Insert: {
-          agent_id: string
-          body: string
-          created_at?: string | null
-          direction: string
-          id?: string
-          phone_number: string
-          status?: string | null
-          twilio_sid?: string | null
-          user_id: string
-        }
-        Update: {
-          agent_id?: string
-          body?: string
-          created_at?: string | null
-          direction?: string
-          id?: string
-          phone_number?: string
-          status?: string | null
-          twilio_sid?: string | null
-          user_id?: string
-        }
-        Relationships: []
-      }
-      helm_sms_config: {
-        Row: {
-          briefing_time: string | null
-          created_at: string | null
-          enabled: boolean | null
-          family_id: string | null
-          id: string
-          morning_briefing: boolean | null
-          reminder_notifications: boolean | null
-          twilio_phone_number: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          briefing_time?: string | null
-          created_at?: string | null
-          enabled?: boolean | null
-          family_id?: string | null
-          id?: string
-          morning_briefing?: boolean | null
-          reminder_notifications?: boolean | null
-          twilio_phone_number?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          briefing_time?: string | null
-          created_at?: string | null
-          enabled?: boolean | null
-          family_id?: string | null
-          id?: string
-          morning_briefing?: boolean | null
-          reminder_notifications?: boolean | null
-          twilio_phone_number?: string | null
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "helm_sms_config_family_id_fkey"
-            columns: ["family_id"]
-            isOneToOne: true
-            referencedRelation: "families"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      helm_sms_conversations: {
-        Row: {
-          created_at: string | null
-          display_name: string | null
-          family_id: string | null
-          id: string
-          opted_in: boolean | null
-          phone_number: string
-          updated_at: string | null
-          verified: boolean | null
-        }
-        Insert: {
-          created_at?: string | null
-          display_name?: string | null
-          family_id?: string | null
-          id?: string
-          opted_in?: boolean | null
-          phone_number: string
-          updated_at?: string | null
-          verified?: boolean | null
-        }
-        Update: {
-          created_at?: string | null
-          display_name?: string | null
-          family_id?: string | null
-          id?: string
-          opted_in?: boolean | null
-          phone_number?: string
-          updated_at?: string | null
-          verified?: boolean | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "helm_sms_conversations_family_id_fkey"
-            columns: ["family_id"]
-            isOneToOne: false
-            referencedRelation: "families"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      helm_sms_messages: {
-        Row: {
-          body: string
-          conversation_id: string | null
-          created_at: string | null
-          direction: string
-          id: string
-          status: string | null
-          twilio_sid: string | null
-        }
-        Insert: {
-          body: string
-          conversation_id?: string | null
-          created_at?: string | null
-          direction: string
-          id?: string
-          status?: string | null
-          twilio_sid?: string | null
-        }
-        Update: {
-          body?: string
-          conversation_id?: string | null
-          created_at?: string | null
-          direction?: string
-          id?: string
-          status?: string | null
-          twilio_sid?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "helm_sms_messages_conversation_id_fkey"
-            columns: ["conversation_id"]
-            isOneToOne: false
-            referencedRelation: "helm_sms_conversations"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       voice_agent_config: {
         Row: {
