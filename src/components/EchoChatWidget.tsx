@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
 import { Send, X, Minimize2, RotateCcw } from "lucide-react";
-import echoImg from "@/assets/agents/echo.png";
+import echoImg from "@/assets/agents/assembl-mascot-base.png";
 
 interface Message {
   role: "user" | "assistant";
