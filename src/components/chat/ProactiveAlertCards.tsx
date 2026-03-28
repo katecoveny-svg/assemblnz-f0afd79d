@@ -54,7 +54,7 @@ const ProactiveAlertCards = ({ currentAgentId, accentColor }: Props) => {
         .select("*")
         .eq("user_id", user.id)
         .eq("is_dismissed", false)
-        .or(`target_agent.eq.${currentAgentId},source_agent.eq.${currentAgentId}`)
+        .eq("target_agent", currentAgentId)
         .order("created_at", { ascending: false })
         .limit(5);
 

@@ -405,9 +405,13 @@ const DashboardPage = () => {
     { label: "Agents Active", value: String(activeAgents.size), icon: Zap, color: "#00FF88", sparkline: Array(12).fill(0).map(() => Math.max(0, activeAgents.size + Math.floor(Math.random() * 2 - 1))) },
   ];
 
-  // Attention items
+  // Attention items — filter stale health faults (>1h old) and deduplicate
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+  const recentFaults = healthFaults.filter(f => f.checkedAt >= oneHourAgo);
+
+  const deadlineIds = new Set<string>();
   const attentionItems = [
-    ...healthFaults.slice(0, 3).map(fault => ({
+    ...recentFaults.slice(0, 3).map(fault => ({
       id: fault.id,
       title: `${fault.label} issue`,
       subtitle: timeAgo(fault.checkedAt),
@@ -417,11 +421,15 @@ const DashboardPage = () => {
       action: fault.actionLabel,
       to: fault.to,
     })),
-    ...upcomingDeadlines.slice(0, 4).map(d => ({
+    ...upcomingDeadlines.filter(d => {
+      if (deadlineIds.has(d.id)) return false;
+      deadlineIds.add(d.id);
+      return daysUntil(d.due_date) <= 30; // Only show deadlines within 30 days
+    }).slice(0, 4).map(d => ({
       id: d.id, title: d.title, subtitle: `${daysUntil(d.due_date)} days`, severity: d.severity,
-      agent: d.agents?.[0] || "ledger", description: d.description, action: "Prepare", to: `/chat/${(d.agents?.[0] || "ledger").toLowerCase()}`,
+      agent: d.agents?.[0] || "accounting", description: d.description, action: "Prepare", to: `/chat/${(d.agents?.[0] || "accounting").toLowerCase()}`,
     })),
-    ...legislationChanges.filter(l => { const d = daysUntil(l.effective_date); return d >= -30 && d <= 60; }).slice(0, 2).map(l => ({
+    ...legislationChanges.filter(l => { const d = daysUntil(l.effective_date); return d >= -7 && d <= 30; }).slice(0, 2).map(l => ({
       id: l.id, title: l.title,
       subtitle: daysUntil(l.effective_date) > 0 ? `Effective in ${daysUntil(l.effective_date)}d` : "Now in effect",
       severity: l.severity, agent: l.affected_agents?.[0] || "echo", description: l.impact, action: "Review", to: `/chat/${(l.affected_agents?.[0] || "echo").toLowerCase()}`,
