@@ -18,6 +18,7 @@ import HelmSettings from "@/components/helm/HelmSettings";
 import HelmDashboard from "@/components/helm/HelmDashboard";
 import HelmQuickActions from "@/components/helm/HelmQuickActions";
 import helmImg from "@/assets/agents/helm-3d-avatar.png";
+import { setDynamicManifest } from "@/utils/pwaManifest";
 
 const HELM_COLOR = "#B388FF";
 
@@ -55,6 +56,9 @@ export default function HelmApp() {
   const [dashboardItems] = useState<DashboardItem[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Set dynamic PWA manifest for HELM
+  useEffect(() => setDynamicManifest("operations"), []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

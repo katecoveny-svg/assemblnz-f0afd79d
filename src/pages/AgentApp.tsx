@@ -11,6 +11,7 @@ import { agents } from "@/data/agents";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentSmsPanel from "@/components/shared/AgentSmsPanel";
 import AgentTraining from "@/components/shared/AgentTraining";
+import { setDynamicManifest } from "@/utils/pwaManifest";
 
 interface Message {
   role: "user" | "assistant";
@@ -39,6 +40,11 @@ export default function AgentApp() {
   const agent = useMemo(() => agents.find(a => a.id === agentId), [agentId]);
   const capabilities = useMemo(() => agentCapabilities[agentId || ""] || [], [agentId]);
   const color = agent?.color || "#00E5FF";
+
+  // Set dynamic PWA manifest for this agent
+  useEffect(() => {
+    if (agentId) return setDynamicManifest(agentId);
+  }, [agentId]);
 
   // Load avatar
   useEffect(() => {
