@@ -1435,7 +1435,7 @@ const ChatPage = () => {
               <HelmChecklist key={i} content={p.content} />
             ) : (
               <div key={i} className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
-                <ReactMarkdown>{p.content}</ReactMarkdown>
+                <ReactMarkdown components={mdComponents}>{p.content}</ReactMarkdown>
               </div>
             )
           )}
@@ -1450,7 +1450,7 @@ const ChatPage = () => {
 
     return (
       <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
-        <ReactMarkdown>{content}</ReactMarkdown>
+        <ReactMarkdown components={mdComponents}>{content}</ReactMarkdown>
       </div>
     );
   };
