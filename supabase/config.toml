@@ -1,97 +1,69 @@
 project_id = "ssaxxdkxzrvkdjsanhei"
 
-[functions.chat]
-verify_jwt = false
-
-[functions.generate-3d]
-verify_jwt = false
-
-[functions.admin-api]
-verify_jwt = false
-
-[functions.scan-website]
-verify_jwt = false
-
-[functions.proxy-model]
-verify_jwt = false
-
-[functions.create-checkout]
-verify_jwt = false
-
-[functions.check-subscription]
-verify_jwt = false
-
-[functions.customer-portal]
-verify_jwt = false
-
-[functions.bus-positions]
-verify_jwt = false
-
-[functions.generate-image]
-verify_jwt = false
-
-[functions.compliance-alerts]
-verify_jwt = false
-
-[functions.check-weather]
-verify_jwt = false
-
-[functions.generate-proactive-alerts]
-verify_jwt = false
-
-[functions.google-calendar]
-verify_jwt = false
-
-[functions.canva-api]
-verify_jwt = false
-
-[functions.integration-proxy]
-verify_jwt = false
-
-[functions.health-check]
-verify_jwt = false
-
-[functions.qualify-lead]
-verify_jwt = false
-
-[functions.iot-weather]
-verify_jwt = false
-
-[functions.iot-ais-tracking]
-verify_jwt = false
-
-[functions.iot-freight-tracking]
-verify_jwt = false
-
-[functions.iot-vehicle-tracking]
-verify_jwt = false
-
-[functions.iot-agri-satellite]
-verify_jwt = false
-
-[functions.iot-construction]
-verify_jwt = false
-
-[functions.agent-intelligence]
-verify_jwt = false
-
-[functions.plan-to-3d]
-verify_jwt = false
-
-[functions.stitch-generate]
-verify_jwt = false
-
-[functions.twilio-webhook]
-verify_jwt = false
-
-[functions.weekly-score-email]
-verify_jwt = false
-
-[functions.agent-sms]
-verify_jwt = false
-
-[functions.assembl-mcp]
-verify_jwt = false
-
-[functions.process-email-queue]
-verify_jwt = true
+[functions]
+  [functions.admin-api]
+    verify_jwt = false
+  [functions.agent-intelligence]
+    verify_jwt = false
+  [functions.agent-sms]
+    verify_jwt = false
+  [functions.assembl-mcp]
+    verify_jwt = false
+  [functions.auth-email-hook]
+    verify_jwt = false
+  [functions.bus-positions]
+    verify_jwt = false
+  [functions.canva-api]
+    verify_jwt = false
+  [functions.chat]
+    verify_jwt = false
+  [functions.check-subscription]
+    verify_jwt = false
+  [functions.check-weather]
+    verify_jwt = false
+  [functions.compliance-alerts]
+    verify_jwt = false
+  [functions.create-checkout]
+    verify_jwt = false
+  [functions.customer-portal]
+    verify_jwt = false
+  [functions.generate-3d]
+    verify_jwt = false
+  [functions.generate-image]
+    verify_jwt = false
+  [functions.generate-proactive-alerts]
+    verify_jwt = false
+  [functions.google-calendar]
+    verify_jwt = false
+  [functions.health-check]
+    verify_jwt = false
+  [functions.integration-proxy]
+    verify_jwt = false
+  [functions.iot-agri-satellite]
+    verify_jwt = false
+  [functions.iot-ais-tracking]
+    verify_jwt = false
+  [functions.iot-construction]
+    verify_jwt = false
+  [functions.iot-freight-tracking]
+    verify_jwt = false
+  [functions.iot-vehicle-tracking]
+    verify_jwt = false
+  [functions.iot-weather]
+    verify_jwt = false
+  [functions.plan-to-3d]
+    verify_jwt = false
+  [functions.process-email-queue]
+    verify_jwt = true
+  [functions.proxy-model]
+    verify_jwt = false
+  [functions.qualify-lead]
+    verify_jwt = false
+  [functions.scan-website]
+    verify_jwt = false
+  [functions.stitch-generate]
+    verify_jwt = false
+  [functions.twilio-webhook]
+    verify_jwt = false
+  [functions.weekly-score-email]
+    verify_jwt = false
