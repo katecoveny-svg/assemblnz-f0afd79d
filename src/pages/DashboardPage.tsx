@@ -235,6 +235,29 @@ const DashboardPage = () => {
       .on("postgres_changes", { event: "*", schema: "public", table: "saved_items", filter: `user_id=eq.${uid}` }, () => {
         supabase.from("saved_items").select("*").eq("user_id", uid).order("created_at", { ascending: false }).then(({ data }) => { if (data) { setSavedItems(data as any); setLastUpdated(new Date()); } });
       })
+      .on("postgres_changes", { event: "*", schema: "public", table: "health_checks" }, () => {
+        supabase.from("health_checks").select("*").order("checked_at", { ascending: false }).limit(20).then(({ data }) => {
+          if (data) {
+            const checks = data as any[];
+            const serviceMap = new Map<string, any>();
+            for (const check of checks) {
+              if (!serviceMap.has(check.service_name)) serviceMap.set(check.service_name, check);
+            }
+            const SERVICE_ICONS_RT: Record<string, any> = { website: Globe, chat_api: MessageSquare, voice: Mic, supabase: Server, stripe: CreditCard };
+            const services: HealthService[] = [...serviceMap.entries()].map(([name, check]) => ({
+              name, status: check.status as "ok" | "degraded" | "down",
+              icon: SERVICE_ICONS_RT[name] || Activity,
+              lastChecked: check.checked_at,
+            }));
+            const coreServices = ["website", "chat_api", "voice", "supabase", "stripe"];
+            for (const s of coreServices) {
+              if (!serviceMap.has(s)) services.push({ name: s, status: "ok", icon: SERVICE_ICONS_RT[s] || Activity, lastChecked: new Date().toISOString() });
+            }
+            setHealthServices(services);
+            setLastUpdated(new Date());
+          }
+        });
+      })
       .subscribe((status) => {
         setIsConnected(status === "SUBSCRIBED");
       });
