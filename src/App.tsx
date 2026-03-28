@@ -55,6 +55,7 @@ const BrandGuidelinesPage = lazy(() => import("./pages/BrandGuidelinesPage"));
 const AuraLandingPage = lazy(() => import("./pages/AuraLandingPage"));
 const NexusLandingPage = lazy(() => import("./pages/NexusLandingPage"));
 const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
+const InvestPage = lazy(() => import("./pages/InvestPage"));
 
 const queryClient = new QueryClient();
 
@@ -109,6 +110,7 @@ const App = () => (
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
                   <Route path="/data-privacy" element={<Suspense fallback={null}><DataPrivacyLegal /></Suspense>} />
+                  <Route path="/invest" element={<Suspense fallback={null}><InvestPage /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>

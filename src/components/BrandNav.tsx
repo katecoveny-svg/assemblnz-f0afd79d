@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { to: "/pricing", label: "Pricing" },
   { to: "/embed", label: "Embed" },
   { to: "/dashboard", label: "Intelligence" },
+  { to: "/invest", label: "Invest" },
 ];
 
 const BrandNav = () => {
