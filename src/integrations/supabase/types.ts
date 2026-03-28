@@ -958,6 +958,7 @@ export type Database = {
           created_at: string
           format: string | null
           id: string
+          image_url: string | null
           output_type: string
           title: string
           user_id: string
@@ -969,6 +970,7 @@ export type Database = {
           created_at?: string
           format?: string | null
           id?: string
+          image_url?: string | null
           output_type?: string
           title: string
           user_id: string
@@ -980,6 +982,7 @@ export type Database = {
           created_at?: string
           format?: string | null
           id?: string
+          image_url?: string | null
           output_type?: string
           title?: string
           user_id?: string

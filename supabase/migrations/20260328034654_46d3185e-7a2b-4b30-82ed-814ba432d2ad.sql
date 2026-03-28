@@ -1,0 +1,1 @@
+ALTER TABLE public.exported_outputs ADD COLUMN IF NOT EXISTS image_url text;

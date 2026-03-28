@@ -708,9 +708,14 @@ const AdminDashboard = () => {
                       const agentInfo = getAgentInfo(doc.agent_id);
                       return (
                         <div key={doc.id} className="grid grid-cols-[1fr_120px_100px_80px_140px] gap-2 px-5 py-3 items-center hover:bg-white/[0.02] transition-colors">
-                          <div className="min-w-0">
-                            <p className="text-xs font-medium text-foreground truncate">{doc.title}</p>
-                            {doc.content_preview && <p className="text-[10px] text-muted-foreground truncate mt-0.5">{doc.content_preview.substring(0, 80)}…</p>}
+                          <div className="min-w-0 flex items-center gap-2">
+                            {(doc as any).image_url && (doc as any).output_type === "generated_image" ? (
+                              <img src={(doc as any).image_url} alt={doc.title} className="w-10 h-10 rounded object-cover shrink-0 border border-white/10" />
+                            ) : null}
+                            <div className="min-w-0">
+                              <p className="text-xs font-medium text-foreground truncate">{doc.title}</p>
+                              {doc.content_preview && <p className="text-[10px] text-muted-foreground truncate mt-0.5">{doc.content_preview.substring(0, 80)}…</p>}
+                            </div>
                           </div>
                           <div className="flex items-center gap-1.5">
                             <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: agentInfo?.color || "#888" }} />

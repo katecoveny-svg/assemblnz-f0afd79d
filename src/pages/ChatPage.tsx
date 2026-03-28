@@ -34,6 +34,7 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip
 import AITransparencyBadge from "@/components/chat/AITransparencyBadge";
 import ConversationExport from "@/components/chat/ConversationExport";
 import ResponseSources from "@/components/chat/ResponseSources";
+import { uploadGeneratedImage } from "@/lib/uploadGeneratedImage";
 import SaveToLibrary from "@/components/chat/SaveToLibrary";
 import MessagePDFButton from "@/components/chat/MessagePDFButton";
 import LegislationCard from "@/components/chat/LegislationCard";
@@ -798,18 +799,22 @@ const ChatPage = () => {
       [msgIndex]: { status: urls.length > 0 ? "done" : "error", urls },
     }));
 
-    // Log generated images to exported_outputs
+    // Upload images to permanent storage and log to exported_outputs
     if (urls.length > 0 && user) {
       try {
-        await supabase.from("exported_outputs").insert(urls.map((_, idx) => ({
-          user_id: user.id,
-          agent_id: agentId || "echo",
-          agent_name: agent?.name || "ECHO",
-          output_type: "generated_image",
-          title: `Generated Image ${idx + 1}`,
-          content_preview: successfulImages[idx]?.prompt?.substring(0, 300) || "AI-generated visual",
-          format: "png",
-        })));
+        for (let idx = 0; idx < urls.length; idx++) {
+          const permanentUrl = await uploadGeneratedImage(urls[idx], user.id, agentId || "echo");
+          await supabase.from("exported_outputs").insert({
+            user_id: user.id,
+            agent_id: agentId || "echo",
+            agent_name: agent?.name || "ECHO",
+            output_type: "generated_image",
+            title: successfulImages[idx]?.prompt?.substring(0, 100) || `Generated Image ${idx + 1}`,
+            content_preview: successfulImages[idx]?.prompt?.substring(0, 300) || "AI-generated visual",
+            format: "png",
+            image_url: permanentUrl,
+          });
+        }
       } catch { /* silent */ }
     }
   }, [agentId, agent, brandProfile, brandName, user]);
@@ -837,17 +842,20 @@ const ChatPage = () => {
           { role: "assistant", content: "Here's your generated image:" },
         ]);
         setInlineImages((prev) => ({ ...prev, [msgIndex + 1]: { status: "done", urls: [data.imageUrl] } }));
-        // Log to exports for dashboard
+        // Upload to permanent storage and log to exports
         if (user) {
-          supabase.from("exported_outputs").insert({
-            user_id: user.id,
-            agent_id: "marketing",
-            agent_name: "PRISM",
-            output_type: "generated_image",
-            title: prismImagePrompt.substring(0, 100),
-            content_preview: prismImagePrompt,
-            format: "png",
-          }).then(() => {});
+          uploadGeneratedImage(data.imageUrl, user.id, "marketing").then((permanentUrl) => {
+            supabase.from("exported_outputs").insert({
+              user_id: user.id,
+              agent_id: "marketing",
+              agent_name: "PRISM",
+              output_type: "generated_image",
+              title: prismImagePrompt.substring(0, 100),
+              content_preview: prismImagePrompt,
+              format: "png",
+              image_url: permanentUrl,
+            }).then(() => {});
+          });
         }
       } else {
         setMessages((prev) => [...prev, { role: "assistant", content: "Image generation didn't return a result. Try a simpler prompt." }]);
