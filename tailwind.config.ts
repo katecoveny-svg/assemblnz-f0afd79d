@@ -14,13 +14,13 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Syne', 'sans-serif'],
+        display: ['Lato', 'sans-serif'],
         body: ['"Plus Jakarta Sans"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
-        // Legacy aliases — map to new brand fonts
+        // Legacy aliases
         inter: ['"Plus Jakarta Sans"', 'sans-serif'],
         outfit: ['"Plus Jakarta Sans"', 'sans-serif'],
-        syne: ['Syne', 'sans-serif'],
+        syne: ['Lato', 'sans-serif'],
         jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
         'mono-jb': ['"JetBrains Mono"', 'monospace'],
       },
