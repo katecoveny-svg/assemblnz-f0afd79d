@@ -510,16 +510,9 @@ const DashboardPage = () => {
             />
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {healthServices.map((svc) => {
-                const statusColor = svc.status === "ok" ? "#00FF88" : svc.status === "degraded" ? "#FFB800" : "#FF4D6A";
+                const statusColor = HEALTH_STATUS_COLORS[svc.status] || "#00FF88";
                 const SvcIcon = svc.icon;
-                const SERVICE_LINKS: Record<string, string> = {
-                  website: "/",
-                  chat_api: "/chat/echo",
-                  voice: "/chat/echo",
-                  supabase: "/dashboard",
-                  stripe: "/pricing",
-                };
-                const linkTo = SERVICE_LINKS[svc.name] || "/dashboard";
+                const linkTo = svc.to || "/dashboard";
                 return (
                   <Link
                     key={svc.name}
@@ -533,7 +526,7 @@ const DashboardPage = () => {
                     </span>
                     <SvcIcon size={12} style={{ color: statusColor }} className="shrink-0" />
                     <div className="min-w-0 flex-1">
-                      <p className="text-[10px] font-bold text-foreground capitalize">{svc.name.replace(/_/g, " ")}</p>
+                      <p className="text-[10px] font-bold text-foreground">{svc.name}</p>
                       <p className="text-[8px] text-muted-foreground/50 uppercase">{svc.status}</p>
                     </div>
                     {svc.status !== "ok" && (
@@ -725,8 +718,8 @@ const DashboardPage = () => {
 
         {/* Needs Your Attention */}
         <div className={glassCard + " p-5"} style={glassCardStyle}>
-          <TopGlow color="#FF4D6A" />
-          <SectionHeader icon={AlertTriangle} title="Needs Your Attention" color="#FFB800" count={attentionItems.length} />
+          <TopGlow color="#FF2D9B" />
+          <SectionHeader icon={AlertTriangle} title="Needs Your Attention" color="#FF2D9B" count={attentionItems.length} />
           {attentionItems.length === 0 ? (
             <EmptyState message="No urgent items right now. Compliance deadlines and legislation changes will surface here when they're approaching." />
           ) : (
