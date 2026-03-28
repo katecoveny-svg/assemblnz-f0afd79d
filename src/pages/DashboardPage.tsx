@@ -404,23 +404,62 @@ const DashboardPage = () => {
           {/* Health Monitor */}
           <div className={glassCard + " p-5"} style={glassCardStyle}>
             <TopGlow color="#00FF88" />
-            <SectionHeader icon={Activity} title="System Health" color="#00FF88" />
+            <SectionHeader icon={Activity} title="System Health" color="#00FF88"
+              trailing={
+                <button
+                  onClick={async () => {
+                    toast.info("Running health checks...");
+                    try {
+                      const { error } = await supabase.functions.invoke("health-check");
+                      if (error) throw error;
+                      await loadAllData();
+                      toast.success("Health checks completed");
+                    } catch {
+                      toast.error("Health check failed — try again shortly");
+                    }
+                  }}
+                  className="flex items-center gap-1 text-[9px] px-2 py-1 rounded-md font-medium transition-colors"
+                  style={{ color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)", background: "rgba(0,255,136,0.05)" }}
+                >
+                  <RefreshCw size={9} /> Run Check
+                </button>
+              }
+            />
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {healthServices.map((svc) => {
                 const statusColor = svc.status === "ok" ? "#00FF88" : svc.status === "degraded" ? "#FFB800" : "#FF4D6A";
                 const SvcIcon = svc.icon;
+                const SERVICE_LINKS: Record<string, string> = {
+                  website: "/",
+                  chat_api: "/chat/echo",
+                  voice: "/chat/echo",
+                  supabase: "/dashboard",
+                  stripe: "/pricing",
+                };
+                const linkTo = SERVICE_LINKS[svc.name] || "/dashboard";
                 return (
-                  <div key={svc.name} className="flex items-center gap-3 p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", border: `1px solid ${statusColor}15` }}>
+                  <Link
+                    key={svc.name}
+                    to={linkTo}
+                    className="flex items-center gap-3 p-3 rounded-lg transition-all hover:scale-[1.02] group"
+                    style={{ background: "rgba(255,255,255,0.02)", border: `1px solid ${statusColor}15` }}
+                  >
                     <span className="relative flex h-2.5 w-2.5 shrink-0">
                       {svc.status === "ok" && <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-40" style={{ background: statusColor }} />}
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5" style={{ background: statusColor }} />
                     </span>
                     <SvcIcon size={12} style={{ color: statusColor }} className="shrink-0" />
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p className="text-[10px] font-bold text-foreground capitalize">{svc.name.replace(/_/g, " ")}</p>
                       <p className="text-[8px] text-muted-foreground/50 uppercase">{svc.status}</p>
                     </div>
-                  </div>
+                    {svc.status !== "ok" && (
+                      <span className="text-[8px] px-1.5 py-0.5 rounded-full font-bold shrink-0 group-hover:opacity-100 opacity-70 transition-opacity" style={{ background: `${statusColor}20`, color: statusColor }}>
+                        View →
+                      </span>
+                    )}
+                    <span className="text-[7px] text-muted-foreground/30 shrink-0">{timeAgo(svc.lastChecked)}</span>
+                  </Link>
                 );
               })}
             </div>
@@ -439,7 +478,7 @@ const DashboardPage = () => {
                   const LEAD_COLORS: Record<string, string> = { new: "#00E5FF", contacted: "#B388FF", qualified: "#FFB800", converted: "#00FF88" };
                   const lColor = LEAD_COLORS[status] || "#888";
                   return (
-                    <div key={lead.id} className="flex items-center gap-3 p-2.5 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
+                    <Link key={lead.id} to="/chat/sales" className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors" style={{ background: "rgba(255,255,255,0.02)" }}>
                       <div className="w-2 h-2 rounded-full shrink-0" style={{ background: lColor }} />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-medium text-foreground truncate">{lead.name}</p>
@@ -449,7 +488,7 @@ const DashboardPage = () => {
                       {lead.lead_score !== null && (
                         <span className="text-[9px] font-bold tabular-nums" style={{ color: lead.lead_score >= 70 ? "#00FF88" : lead.lead_score >= 40 ? "#FFB800" : "#888" }}>{lead.lead_score}</span>
                       )}
-                    </div>
+                    </Link>
                   );
                 })}
               </div>
