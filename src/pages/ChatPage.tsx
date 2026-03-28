@@ -1366,6 +1366,27 @@ const ChatPage = () => {
     return parts.length > 0 ? <>{parts}</> : text;
   };
 
+  const mdComponents = useMemo(() => ({
+    a: ({ href, children, ...props }: any) => {
+      if (href && href.startsWith("/")) {
+        return (
+          <Link
+            to={href}
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold no-underline transition-all duration-200 hover:scale-105"
+            style={{
+              background: `${agent.color}20`,
+              color: agent.color,
+              border: `1px solid ${agent.color}30`,
+            }}
+          >
+            {children} →
+          </Link>
+        );
+      }
+      return <a href={href} target="_blank" rel="noopener noreferrer" {...props}>{children}</a>;
+    },
+  }), [agent.color]);
+
   const renderMessageContent = (msg: Message, msgIndex?: number) => {
     // Strip [GENERATE_IMAGE: ...] tags from displayed content
     const content = msg.content.replace(/\[GENERATE_IMAGE:\s*.*?\]/g, "").trim();
