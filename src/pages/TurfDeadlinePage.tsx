@@ -98,42 +98,101 @@ const TurfMiniChat = () => {
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [wizardStep, setWizardStep] = useState(0);
+  const [clubDetails, setClubDetails] = useState<ClubDetails>({
+    clubName: "", sport: "", region: "", memberCount: "", committeSize: "", hasCharity: "", clubPurpose: "",
+  });
+  const [wizardComplete, setWizardComplete] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
-  }, [messages]);
+  }, [messages, wizardStep]);
 
-  const sendMessage = async (text: string) => {
-    if (!text.trim() || loading) return;
-    const userMsg: ChatMsg = { role: "user", content: text.trim() };
-    const newMessages = [...messages, userMsg];
-    setMessages(newMessages);
-    setInput("");
+  const sendToTurf = async (prompt: string, history: ChatMsg[]) => {
     setLoading(true);
-
     try {
-      const apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content }));
+      const apiMessages = [...history, { role: "user" as const, content: prompt }].map((m) => ({ role: m.role, content: m.content }));
       const { data, error } = await supabase.functions.invoke("chat", {
         body: { agentId: "sports", messages: apiMessages },
       });
       if (error) throw error;
       if (data?.error) {
         const isAuth = typeof data.error === "string" && data.error.toLowerCase().includes("unauthorized");
-        setMessages((prev) => [...prev, { role: "assistant", content: isAuth ? "You'll need to sign in to chat with me. Create a free account at /signup and then come back — or jump straight into the full experience at /chat/sports!" : data.error }]);
-      } else {
-        const reply = data?.content || "Sorry, I didn't get a response. Try the full chat at /chat/sports for the best experience.";
-        setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+        return isAuth ? "You'll need to sign in to generate your constitution. Create a free account and head to /chat/sports!" : data.error;
       }
+      return data?.content || "Sorry, I didn't get a response. Try the full chat at /chat/sports.";
     } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I couldn't connect right now. Try the full chat at /chat/sports." }]);
+      return "Sorry, I couldn't connect right now. Try the full chat at /chat/sports.";
     } finally {
       setLoading(false);
     }
   };
 
+  const handleWizardAnswer = async (answer: string) => {
+    if (!answer.trim() || loading) return;
+    const step = WIZARD_STEPS[wizardStep];
+    const updated = { ...clubDetails, [step.key]: answer.trim() };
+    setClubDetails(updated);
+    setInput("");
+
+    // Add user answer as a message
+    const userMsg: ChatMsg = { role: "user", content: answer.trim() };
+    setMessages((prev) => [...prev, userMsg]);
+
+    if (wizardStep < WIZARD_STEPS.length - 1) {
+      // Move to next step — show next question
+      const nextStep = wizardStep + 1;
+      setWizardStep(nextStep);
+      setTimeout(() => {
+        setMessages((prev) => [...prev, { role: "assistant", content: `✅ Got it. ${WIZARD_STEPS[nextStep].question}` }]);
+      }, 300);
+    } else {
+      // All details collected — generate constitution
+      setWizardComplete(true);
+      setMessages((prev) => [...prev, { role: "assistant", content: "✅ Perfect — I have everything I need. Generating your compliant constitution now..." }]);
+
+      const prompt = `Generate a fully compliant constitution under the Incorporated Societies Act 2022 for the following club:
+
+- Club Name: ${updated.clubName}
+- Sport/Activity: ${updated.sport}
+- Region: ${updated.region}
+- Approximate Members: ${updated.memberCount}
+- Committee/Board Size: ${updated.committeSize}
+- Charity Status: ${updated.hasCharity}
+- Club Purpose: ${updated.clubPurpose}
+
+Please include all mandatory sections: purpose and objects, officer duties, conflict of interest policy, dispute resolution procedure, financial reporting, membership provisions, meeting procedures, winding up provisions, committee composition and election, powers of the society, application of funds, common seal provisions, alteration of rules, and record keeping requirements. Make it specific to ${updated.sport} in the ${updated.region} region of New Zealand.`;
+
+      const allMsgs = [...messages, userMsg];
+      const reply = await sendToTurf(prompt, allMsgs);
+      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+    }
+  };
+
+  const handleFreeChat = async (text: string) => {
+    if (!text.trim() || loading) return;
+    const userMsg: ChatMsg = { role: "user", content: text.trim() };
+    const newMessages = [...messages, userMsg];
+    setMessages(newMessages);
+    setInput("");
+    const reply = await sendToTurf(text.trim(), messages);
+    setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (wizardComplete) {
+      handleFreeChat(input);
+    } else {
+      handleWizardAnswer(input);
+    }
+  };
+
+  const currentStep = wizardStep < WIZARD_STEPS.length ? WIZARD_STEPS[wizardStep] : null;
+
   return (
-    <section className="py-16 border-t border-border">
+    <section id="try-turf" className="py-16 border-t border-border">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -142,12 +201,28 @@ const TurfMiniChat = () => {
           className="text-center mb-6"
         >
           <h2 className="font-syne font-bold text-2xl sm:text-3xl text-foreground mb-2">
-            Try TURF now
+            Generate Your Constitution
           </h2>
           <p className="text-sm text-muted-foreground font-jakarta">
-            Ask TURF anything about your club's re-registration. No signup required.
+            Answer {WIZARD_STEPS.length} quick questions and TURF will generate a fully compliant constitution for your club.
           </p>
         </motion.div>
+
+        {/* Progress bar */}
+        {!wizardComplete && (
+          <div className="max-w-md mx-auto mb-4">
+            <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground mb-1">
+              <span>Step {Math.min(wizardStep + 1, WIZARD_STEPS.length)} of {WIZARD_STEPS.length}</span>
+              <span>{Math.round(((wizardStep) / WIZARD_STEPS.length) * 100)}% complete</span>
+            </div>
+            <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-500"
+                style={{ width: `${(wizardStep / WIZARD_STEPS.length) * 100}%`, background: TURF_COLOR }}
+              />
+            </div>
+          </div>
+        )}
 
         <motion.div
           className="rounded-2xl border overflow-hidden"
@@ -164,12 +239,13 @@ const TurfMiniChat = () => {
             <AgentAvatar agentId="sports" color={TURF_COLOR} size={32} />
             <div>
               <p className="text-sm font-syne font-bold text-foreground">TURF</p>
-              <p className="text-[10px] text-muted-foreground font-mono">Sports Operations AI · Online</p>
+              <p className="text-[10px] text-muted-foreground font-mono">Constitution Generator · Online</p>
             </div>
             <div className="ml-auto w-2 h-2 rounded-full animate-pulse" style={{ background: TURF_COLOR }} />
           </div>
 
-          <div ref={scrollRef} className="h-[340px] overflow-y-auto p-4 space-y-3">
+          <div ref={scrollRef} className="h-[400px] overflow-y-auto p-4 space-y-3">
+            {/* Initial welcome */}
             {messages.length === 0 && (
               <div className="space-y-3">
                 <div className="flex gap-3">
@@ -177,18 +253,21 @@ const TurfMiniChat = () => {
                     <Bot size={14} style={{ color: TURF_COLOR }} />
                   </div>
                   <div className="rounded-xl rounded-tl-sm px-4 py-3 text-sm font-jakarta text-foreground bg-muted/50 max-w-[85%]">
-                    Kia ora! I'm TURF, your sports club AI. The Incorporated Societies Act 2022 re-registration window closes <strong>5 April 2026</strong>. I can generate a fully compliant constitution for your club in minutes. What sport does your club play?
+                    Kia ora! 👋 Let's get your club's constitution sorted before <strong>5 April 2026</strong>. I'll ask you {WIZARD_STEPS.length} quick questions, then generate a fully compliant document.
+                    <br /><br />
+                    <strong>{WIZARD_STEPS[0].question}</strong>
                   </div>
                 </div>
+                {/* Quick-start buttons for common sports */}
                 <div className="flex flex-wrap gap-2 ml-10">
-                  {STARTER_PROMPTS.map((p) => (
+                  {["Rugby Club", "Netball Club", "Cricket Club", "Football Club"].map((name) => (
                     <button
-                      key={p}
-                      onClick={() => sendMessage(p)}
+                      key={name}
+                      onClick={() => handleWizardAnswer(`My ${name}`)}
                       className="text-xs font-jakarta px-3 py-1.5 rounded-full border transition-all hover:scale-105"
                       style={{ borderColor: `${TURF_COLOR}30`, color: TURF_COLOR, background: `${TURF_COLOR}08` }}
                     >
-                      {p}
+                      My {name}
                     </button>
                   ))}
                 </div>
@@ -228,13 +307,13 @@ const TurfMiniChat = () => {
           </div>
 
           <form
-            onSubmit={(e) => { e.preventDefault(); sendMessage(input); }}
+            onSubmit={handleSubmit}
             className="flex items-center gap-2 p-3 border-t border-border"
           >
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about your club's re-registration..."
+              placeholder={currentStep && !wizardComplete ? currentStep.placeholder : "Ask a follow-up question..."}
               className="flex-1 bg-transparent text-sm font-jakarta text-foreground placeholder:text-muted-foreground outline-none px-3 py-2 rounded-lg border border-border focus:border-[--turf]"
               style={{ "--turf": TURF_COLOR } as React.CSSProperties}
               disabled={loading}
