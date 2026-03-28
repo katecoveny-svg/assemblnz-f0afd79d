@@ -41,6 +41,26 @@ const STARTER_PROMPTS = [
   "Draft a gaming trust grant application",
 ];
 
+interface ClubDetails {
+  clubName: string;
+  sport: string;
+  region: string;
+  memberCount: string;
+  committeSize: string;
+  hasCharity: string;
+  clubPurpose: string;
+}
+
+const WIZARD_STEPS = [
+  { key: "clubName" as const, label: "Club name", placeholder: "e.g. Tauranga Rugby Club", question: "What is your club's full legal name?" },
+  { key: "sport" as const, label: "Sport / activity", placeholder: "e.g. Rugby, Netball, Cricket", question: "What sport or activity does your club operate?" },
+  { key: "region" as const, label: "Region", placeholder: "e.g. Bay of Plenty, Auckland", question: "What region is your club based in?" },
+  { key: "memberCount" as const, label: "Approx. members", placeholder: "e.g. 120", question: "Approximately how many members does your club have?" },
+  { key: "committeSize" as const, label: "Committee size", placeholder: "e.g. 7", question: "How many committee/board members does your club have (or plan to have)?" },
+  { key: "hasCharity" as const, label: "Charity status", placeholder: "Yes or No", question: "Is your club registered as a charity (or planning to be)?" },
+  { key: "clubPurpose" as const, label: "Club purpose", placeholder: "e.g. Promote rugby in our community", question: "In one sentence, what is your club's main purpose?" },
+];
+
 const useCountdown = () => {
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
