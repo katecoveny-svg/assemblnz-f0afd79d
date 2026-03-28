@@ -52,8 +52,8 @@ interface ClubDetails {
 }
 
 const WIZARD_STEPS = [
-  { key: "clubName" as const, label: "Club name", placeholder: "e.g. Tauranga Rugby Club", question: "What is your club's full legal name?" },
   { key: "sport" as const, label: "Sport / activity", placeholder: "e.g. Rugby, Netball, Cricket", question: "What sport or activity does your club operate?" },
+  { key: "clubName" as const, label: "Club name", placeholder: "e.g. Tauranga Rugby Club", question: "What is your club's full legal name?" },
   { key: "region" as const, label: "Region", placeholder: "e.g. Bay of Plenty, Auckland", question: "What region is your club based in?" },
   { key: "memberCount" as const, label: "Approx. members", placeholder: "e.g. 120", question: "Approximately how many members does your club have?" },
   { key: "committeSize" as const, label: "Committee size", placeholder: "e.g. 7", question: "How many committee/board members does your club have (or plan to have)?" },
