@@ -326,30 +326,79 @@ text-shadow:
           </div>
         </Section>
 
-        {/* Social Assets */}
-        <Section title="Social Media Assets">
-          <div className="space-y-6">
-            <div>
-              <h4 className="text-sm text-muted-foreground mb-2">LinkedIn Banner</h4>
-              <img src={linkedinBanner} alt="LinkedIn Banner" className="w-full rounded-xl border border-white/10" />
-            </div>
-            <div>
-              <h4 className="text-sm text-muted-foreground mb-2">OG / Share Image</h4>
-              <img src={ogImage} alt="OG Image" className="w-full rounded-xl border border-white/10" />
-            </div>
-          </div>
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-5 gap-3">
+        {/* Downloadable Asset Library */}
+        <Section title="Asset Library">
+          <p className="text-sm text-foreground/70 mb-8 max-w-3xl">
+            Download high-resolution logos, agent mascots, LinkedIn banners, and social media assets. Right-click or tap the download button to save.
+          </p>
+
+          {/* Logos */}
+          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Logos</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
             {[
-              { ch: "LinkedIn", handle: "company/assembl-nz" },
-              { ch: "Instagram", handle: "@assembl.nz" },
-              { ch: "X", handle: "@AssemblNZ" },
-              { ch: "Website", handle: "assembl.co.nz" },
-              { ch: "Email", handle: "assembl@assembl.co.nz" },
+              { src: nexusLogo, label: "Nexus Logo Mark" },
+              { src: logoWordmark, label: "Logo + Wordmark" },
+              { src: logoFull, label: "Full Logo" },
+              { src: logoIcon, label: "App Icon" },
+            ].map((l) => (
+              <div key={l.label} className="p-5 rounded-xl border border-white/10 bg-white/[0.03] flex flex-col items-center">
+                <img src={l.src} alt={l.label} className="h-16 w-16 object-contain mb-3" />
+                <span className="text-[10px] text-muted-foreground mb-2">{l.label}</span>
+                <a href={l.src} download className="text-[10px] px-3 py-1.5 rounded-full border border-white/10 text-muted-foreground hover:text-foreground hover:border-white/30 transition-colors">↓ Download PNG</a>
+              </div>
+            ))}
+          </div>
+
+          {/* Agent Robots */}
+          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Agent Mascots</h3>
+          <p className="text-xs text-foreground/50 mb-4">All {FULL_AGENT_LIST.length} branded agent robots — click to download.</p>
+          <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 gap-3 mb-10">
+            {FULL_AGENT_LIST.map((a) => (
+              <div key={a.id + "-dl"} className="flex flex-col items-center p-3 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+                <AgentAvatar agentId={a.id} color={a.color} size={44} showGlow />
+                <span className="text-[9px] font-bold text-foreground mt-1.5">{a.name}</span>
+                <span className="text-[8px] font-mono mt-0.5" style={{ color: a.color }}>{a.color}</span>
+              </div>
+            ))}
+          </div>
+          <div className="mb-10 p-4 rounded-xl border border-white/10 bg-white/[0.03] inline-flex flex-col items-center">
+            <img src={heroRobot} alt="Hero Robot base render" className="w-28 h-28 object-contain mb-2" />
+            <span className="text-[10px] text-muted-foreground mb-2">Hero Robot — Full-res base</span>
+            <a href={heroRobot} download="assembl-hero-robot.png" className="text-[10px] px-3 py-1.5 rounded-full border border-white/10 text-muted-foreground hover:text-foreground hover:border-white/30 transition-colors">↓ Download PNG</a>
+          </div>
+
+          {/* LinkedIn / Social Banners */}
+          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Social Media Banners</h3>
+          <div className="space-y-6 mb-10">
+            {[
+              { src: linkedinBanner, label: "LinkedIn Banner (1584×396)", filename: "assembl-linkedin-banner.png" },
+              { src: ogImage, label: "OG / Share Image (1200×630)", filename: "assembl-og-image.png" },
+            ].map((b) => (
+              <div key={b.label}>
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-sm text-muted-foreground">{b.label}</h4>
+                  <a href={b.src} download={b.filename} className="text-[10px] px-3 py-1.5 rounded-full border border-white/10 text-muted-foreground hover:text-foreground hover:border-white/30 transition-colors">↓ Download</a>
+                </div>
+                <img src={b.src} alt={b.label} className="w-full rounded-xl border border-white/10" />
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* Social Channels */}
+        <Section title="Social Media Channels">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            {[
+              { ch: "LinkedIn", handle: "company/assemblnz", href: "https://linkedin.com/company/assemblnz" },
+              { ch: "Instagram", handle: "@assemblnz", href: "https://instagram.com/assemblnz" },
+              { ch: "X", handle: "@AssemblNZ", href: "https://x.com/AssemblNZ" },
+              { ch: "Facebook", handle: "assemblnz", href: "https://facebook.com/assemblnz" },
+              { ch: "Email", handle: "assembl@assembl.co.nz", href: "mailto:assembl@assembl.co.nz" },
             ].map((s) => (
-              <div key={s.ch} className="p-3 rounded-lg border border-white/10 bg-white/[0.03]">
+              <a key={s.ch} href={s.href} target="_blank" rel="noopener noreferrer" className="p-3 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] transition-colors block">
                 <span className="text-xs font-bold text-[#00E5FF]">{s.ch}</span>
                 <p className="text-[10px] text-muted-foreground mt-0.5">{s.handle}</p>
-              </div>
+              </a>
             ))}
           </div>
         </Section>
