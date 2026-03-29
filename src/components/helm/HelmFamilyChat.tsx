@@ -46,7 +46,7 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
         .eq("family_id", familyId)
         .order("created_at", { ascending: true })
         .limit(100);
-      setMessages((data || []) as ChatMessage[]);
+      setMessages((data || []) as unknown as ChatMessage[]);
       setLoading(false);
     };
     load();

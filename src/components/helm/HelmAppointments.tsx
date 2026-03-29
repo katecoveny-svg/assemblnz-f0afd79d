@@ -52,7 +52,7 @@ export default function HelmAppointments({ familyId }: { familyId: string | null
         .neq("status", "cancelled")
         .order("start_time")
         .limit(50);
-      setAppointments((data || []) as Appointment[]);
+      setAppointments((data || []) as unknown as Appointment[]);
     };
     load();
 

@@ -46,7 +46,7 @@ export default function HelmTasks({ familyId }: { familyId: string | null }) {
         .select("*")
         .eq("family_id", familyId)
         .order("created_at", { ascending: false });
-      setTasks((data || []) as Task[]);
+      setTasks((data || []) as unknown as Task[]);
     };
     load();
 

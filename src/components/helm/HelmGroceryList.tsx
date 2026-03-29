@@ -103,7 +103,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
         .eq("family_id", familyId)
         .eq("status", "active")
         .order("created_at", { ascending: false });
-      const fetched = (data || []) as GroceryList[];
+      const fetched = (data || []) as unknown as GroceryList[];
       setLists(fetched);
       if (fetched.length > 0 && !activeListId) setActiveListId(fetched[0].id);
       setLoading(false);
@@ -120,7 +120,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
         .select("*")
         .eq("list_id", activeListId)
         .order("sort_order");
-      setItems((data || []) as GroceryItem[]);
+      setItems((data || []) as unknown as GroceryItem[]);
     };
     load();
 
@@ -141,7 +141,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
       .select()
       .single();
     if (data) {
-      const list = data as GroceryList;
+      const list = data as unknown as GroceryList;
       setLists(prev => [list, ...prev]);
       setActiveListId(list.id);
     }
