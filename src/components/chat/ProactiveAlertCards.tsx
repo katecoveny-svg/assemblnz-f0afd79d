@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { agents, echoAgent, pilotAgent } from "@/data/agents";
+import { agents, echoAgent } from "@/data/agents";
 import { AlertTriangle, ArrowRight, X, Zap } from "lucide-react";
 
-const ALL_AGENTS = [echoAgent, pilotAgent, ...agents];
+const ALL_AGENTS = [echoAgent, ...agents];
 const agentMap = new Map(ALL_AGENTS.map(a => [a.id, a]));
 
 // Map agent slugs used in alerts to actual agent IDs
