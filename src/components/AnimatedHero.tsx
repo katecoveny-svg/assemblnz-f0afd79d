@@ -11,7 +11,7 @@ interface AnimatedHeroProps {
 }
 
 const STAT_PILLS = [
-  { label: "42 specialist tools" },
+  { label: "46 specialist tools" },
   { label: "50+ NZ Acts" },
   { label: "16 industries" },
   { label: "From $89/mo NZD" },
@@ -81,13 +81,13 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             className="text-[1.65rem] sm:text-5xl lg:text-[3.5rem] font-display font-extrabold mb-2 leading-[1.1] text-foreground"
             style={{ letterSpacing: '-0.03em' }}
           >
-            42 specialist tools that know NZ law
+            Your business runs on NZ law.
           </h1>
           <p
             className="text-xl sm:text-4xl lg:text-[3rem] font-display font-extrabold leading-[1.15] text-gradient-hero pb-2"
             style={{ letterSpacing: '-0.02em' }}
           >
-            better than most businesses do.
+            Your tools should too.
           </p>
         </motion.div>
 
@@ -99,7 +99,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           transition={{ duration: 0.6, delay: 0.5 }}
         >
           <p className="text-xs sm:text-[15px] font-body font-normal leading-relaxed text-white/65">
-            Business intelligence trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, education, agriculture, maritime, automotive, customs, and more.
+            46 specialist tools trained on New Zealand legislation, built with tikanga Māori at the core, covering every industry from tourism and hospitality, construction to maritime. The compliance, operations, and strategy platform Aotearoa's been missing.
           </p>
         </motion.div>
 
