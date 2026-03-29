@@ -38,7 +38,7 @@ const FOOTER_LINKS = {
 
 const SOCIAL_LINKS = [
   { label: "LinkedIn", href: "https://linkedin.com/company/assemblnz", icon: "in" },
-  { label: "Instagram", href: "https://instagram.com/assemblnz", icon: "ig" },
+  { label: "Instagram", href: "https://www.instagram.com/assemblnz", icon: "ig" },
   { label: "X", href: "https://x.com/AssemblNZ", icon: "x" },
   { label: "Facebook", href: "https://facebook.com/assemblnz", icon: "fb" },
 ];
