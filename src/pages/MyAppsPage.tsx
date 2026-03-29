@@ -87,7 +87,7 @@ export default function MyAppsPage() {
                   <span className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
                     style={{ background: app.status === "live" ? "rgba(102,187,106,0.1)" : "rgba(255,255,255,0.05)",
                       color: app.status === "live" ? "rgba(102,187,106,0.9)" : "rgba(255,255,255,0.3)" }}>
-                    {app.status === "live" ? " Live" : " Paused"}
+                    {app.status === "live" ? "● Live" : "● Paused"}
                   </span>
                 </div>
 

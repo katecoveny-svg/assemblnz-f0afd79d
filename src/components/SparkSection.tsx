@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Code2, Sparkles, Mic } from "lucide-react";
 import { useState, useCallback } from "react";
-import AgentAvatar from "./AgentAvatar";
+import sparkImg from "@/assets/agents/spark.png";
 import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
@@ -133,7 +133,13 @@ const SparkSection = () => {
                   className="absolute inset-0 rounded-full blur-2xl opacity-30"
                   style={{ background: SPARK_COLOR }}
                 />
-                <AgentAvatar agentId="spark" color={SPARK_COLOR} size={180} />
+                <img
+                  src={sparkImg}
+                  alt="SPARK AI App Builder"
+                  className="relative w-32 h-32 lg:w-56 lg:h-56 object-contain"
+                  style={{ filter: "drop-shadow(0 0 20px rgba(255,107,0,0.4))" }}
+                  loading="lazy"
+                />
               </motion.div>
             </div>
           </div>

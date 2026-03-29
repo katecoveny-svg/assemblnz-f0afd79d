@@ -96,8 +96,8 @@ const WelcomePage = () => (
       {/* Support */}
       <p className="text-center text-sm font-jakarta" style={{ color: '#71717A' }}>
         Questions? Email{' '}
-        <a href="mailto:assembl@assembl.co.nz" className="underline" style={{ color: '#A1A1AA' }}>
-          assembl@assembl.co.nz
+        <a href="mailto:kate@assembl.co.nz" className="underline" style={{ color: '#A1A1AA' }}>
+          kate@assembl.co.nz
         </a>
       </p>
 

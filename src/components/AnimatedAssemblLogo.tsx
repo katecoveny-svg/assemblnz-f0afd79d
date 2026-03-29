@@ -75,7 +75,7 @@ const AnimatedAssemblLogo = ({ size = 64 }: { size?: number }) => {
 
       {/* ASSEMBL text */}
       <motion.span
-        className="relative z-10 font-display font-extrabold tracking-[4px] uppercase ml-1"
+        className="relative z-10 font-syne font-bold tracking-[4px] uppercase ml-1"
         style={{
           fontSize: size * 0.28,
           color: "hsl(var(--foreground))",

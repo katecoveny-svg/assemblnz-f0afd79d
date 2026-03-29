@@ -2,10 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Mic } from "lucide-react";
 import { useState, useCallback } from "react";
-import AgentAvatar from "./AgentAvatar";
+import echoImg from "@/assets/agents/echo-fullbody.png";
 import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
-
 
 const ECHO_COLOR = "#E4A0FF";
 
@@ -48,9 +47,19 @@ const EchoSection = () => {
             {/* Avatar */}
             <div className="flex justify-center lg:justify-start">
               <div
-                className="relative w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center"
+                className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border border-[#E4A0FF]/10"
+                style={{
+                  background: "rgba(228,160,255,0.04)",
+                  boxShadow: "0 0 40px rgba(228,160,255,0.1)",
+                }}
               >
-                <AgentAvatar agentId="echo" color={ECHO_COLOR} size={180} />
+                <img
+                  src={echoImg}
+                  alt="ECHO — Founder AI Clone"
+                  className="w-full h-full object-contain"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 rounded-2xl animate-pulse" style={{ boxShadow: "inset 0 0 30px rgba(228,160,255,0.08)" }} />
               </div>
             </div>
 
@@ -87,7 +96,7 @@ const EchoSection = () => {
                   textShadow: "0 0 12px rgba(228,160,255,0.25)",
                 }}
               >
-                Your front desk that never sleeps.
+                The agent that never sleeps.
               </h3>
               <p className="text-sm font-jakarta text-foreground/70 leading-relaxed mb-6 max-w-lg">
                 ECHO is the voice of Assembl — trained on 13 years of NZ brand strategy. It handles client enquiries, creates daily content, writes DMs that convert, and manages social media around the clock. Always on. Always on brand.

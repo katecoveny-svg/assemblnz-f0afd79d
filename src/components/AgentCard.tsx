@@ -1,10 +1,9 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { Mic, ChevronRight } from "lucide-react";
+import { Mic } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
-import { agentCapabilities } from "@/data/agentCapabilities";
 import type { Agent } from "@/data/agents";
 
 interface AgentCardProps {
@@ -17,8 +16,8 @@ const AgentCard = ({ agent, index }: AgentCardProps) => {
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
 
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [4, -4]), { stiffness: 250, damping: 25 });
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-4, 4]), { stiffness: 250, damping: 25 });
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [3, -3]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-3, 3]), { stiffness: 300, damping: 30 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!cardRef.current) return;
@@ -31,9 +30,6 @@ const AgentCard = ({ agent, index }: AgentCardProps) => {
     mouseX.set(0.5);
     mouseY.set(0.5);
   };
-
-  const caps = agentCapabilities[agent.id];
-  const bullets = caps ? caps.slice(0, 3).map(c => c.bullet) : agent.expertise.slice(0, 3);
 
   return (
     <motion.div
@@ -48,63 +44,55 @@ const AgentCard = ({ agent, index }: AgentCardProps) => {
     >
       <Link
         to={`/chat/${agent.id}`}
-        className="group relative block rounded-2xl p-5 transition-all duration-500 overflow-hidden"
+        className="group relative block rounded-2xl p-5 transition-all duration-300 overflow-hidden border border-border hover:border-foreground/10"
         style={{
-          background: 'hsl(var(--surface-1) / 0.7)',
-          backdropFilter: 'blur(20px) saturate(1.3)',
-          WebkitBackdropFilter: 'blur(20px) saturate(1.3)',
-          border: '1px solid hsl(var(--border) / 0.5)',
-          boxShadow: '0 1px 3px hsl(228 14% 4% / 0.3), 0 4px 16px hsl(228 14% 4% / 0.2)',
+          background: 'hsl(225 20% 7% / 0.8)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
         }}
       >
         {/* Premium top edge glow on hover */}
         <span
-          className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-50 transition-opacity duration-700"
-          style={{ background: `linear-gradient(90deg, transparent, ${agent.color}80, transparent)` }}
-        />
-        {/* Bottom ambient glow on hover */}
-        <span
-          className="absolute bottom-0 left-[20%] right-[20%] h-24 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-          style={{
-            background: `radial-gradient(ellipse at bottom, ${agent.color}08 0%, transparent 70%)`,
-          }}
+          className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-40 transition-opacity duration-500"
+          style={{ background: `linear-gradient(90deg, transparent, ${agent.color}60, transparent)` }}
         />
 
         <div className="relative z-10">
-          <div className="flex items-start justify-between mb-3.5">
+          <div className="flex items-start justify-between mb-3">
             <AgentAvatar agentId={agent.id} color={agent.color} size={40} />
             <div className="flex items-center gap-1.5">
               {getElevenLabsAgentId(agent.id) && (
                 <span
-                  className="flex items-center gap-1 text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
-                  style={{ background: `${agent.color}12`, color: agent.color, border: `1px solid ${agent.color}20` }}
+                  className="flex items-center gap-1 text-[9px] font-mono-jb px-1.5 py-0.5 rounded-full"
+                  style={{ background: `${agent.color}15`, color: agent.color, border: `1px solid ${agent.color}25` }}
                 >
                   <Mic size={8} /> VOICE
                 </span>
               )}
-              <span className="font-mono-jb text-[10px] text-muted-foreground/60">{agent.designation}</span>
+              <span className="font-mono-jb text-[10px] text-muted-foreground">{agent.designation}</span>
             </div>
           </div>
-          <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-[15px] font-syne font-bold tracking-wide text-foreground">{agent.name}</h3>
-            <span className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse-glow" style={{ backgroundColor: agent.color, opacity: 0.6 }} />
+          <div className="flex items-center gap-2 mb-0.5">
+            <h3 className="text-base font-syne font-bold tracking-wide text-foreground">{agent.name}</h3>
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: agent.color, opacity: 0.5 }} />
           </div>
-          <p className="text-xs font-inter text-muted-foreground mb-3">{agent.role}</p>
-
-          {/* Capability bullets */}
-          <ul className="space-y-1.5 mb-4">
-            {bullets.map((b) => (
-              <li key={b} className="flex items-start gap-2 text-[11px] font-inter text-foreground/65">
-                <ChevronRight size={10} className="mt-[3px] shrink-0 opacity-70" style={{ color: agent.color }} />
-                {b}
-              </li>
+          <p className="text-xs font-jakarta font-medium mb-1 text-muted-foreground">{agent.role}</p>
+          <p className="text-xs font-jakarta italic mb-3" style={{ color: 'hsl(var(--muted-foreground) / 0.6)' }}>"{agent.tagline}"</p>
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {agent.traits.map(t => (
+              <span key={t} className="text-[10px] font-jakarta px-2 py-0.5 rounded-full border border-border text-muted-foreground">
+                {t}
+              </span>
             ))}
-          </ul>
-
-          <div className="flex items-center gap-2 text-xs font-inter font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
+          </div>
+          <div className="flex flex-wrap gap-1 mb-4">
+            {agent.expertise.map(e => (
+              <span key={e} className="font-mono-jb text-[9px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">{e}</span>
+            ))}
+          </div>
+          <div className="flex items-center gap-2 text-xs font-jakarta font-medium text-muted-foreground group-hover:text-foreground transition-colors">
             <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: agent.color, opacity: 0.5 }} />
-            Chat now
-            <span className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
+            Chat now →
           </div>
         </div>
       </Link>

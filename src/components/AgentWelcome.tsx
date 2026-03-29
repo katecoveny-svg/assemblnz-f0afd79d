@@ -10,8 +10,7 @@ interface AgentWelcomeProps {
 }
 
 const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
-  const rawCaps = agentCapabilities[agent.id] || [];
-  const capabilities = rawCaps.map(c => typeof c === 'string' ? c : c.bullet);
+  const capabilities = agentCapabilities[agent.id] || [];
   const { profile, user } = useAuth();
   const firstName = profile?.full_name?.split(" ")[0] || "";
   const greeting = getGreetingText(firstName);
@@ -42,7 +41,7 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
             color: "#00FF88",
           }}
         >
-           {anniversaryMsg}
+          🎂 {anniversaryMsg}
         </div>
       )}
 
@@ -69,7 +68,7 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
             color: `${agent.color}CC`,
           }}
         >
-           {randomSuggestion}
+          💬 {randomSuggestion}
         </div>
       )}
 
@@ -83,7 +82,7 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
             color: agent.color,
           }}
         >
-           {seasonalHint}
+          💡 {seasonalHint}
         </div>
       )}
 

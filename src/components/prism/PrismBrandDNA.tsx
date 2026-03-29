@@ -42,7 +42,6 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
   const { user } = useAuth();
   const [dna, setDna] = useState<BrandDna | null>(null);
   const [expanded, setExpanded] = useState(false);
-  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -52,24 +51,11 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
       });
   }, [user]);
 
-  const updateColour = async (key: string, value: string) => {
-    if (!dna || !user) return;
-    const updated = { ...dna, visual_identity: { ...dna.visual_identity, [key]: value } };
-    setDna(updated);
-    await supabase.from("brand_profiles").update({ brand_dna: updated as any }).eq("user_id", user.id);
-  };
-
   if (!dna) return null;
 
   const vi = dna.visual_identity;
   const vt = dna.voice_tone;
   const ty = dna.typography;
-
-  const colourSwatches = [
-    { key: "primary_color", color: vi?.primary_color, label: "Primary" },
-    { key: "secondary_color", color: vi?.secondary_color, label: "Secondary" },
-    { key: "accent_color", color: vi?.accent_color, label: "Accent" },
-  ].filter(s => s.color);
 
   return (
     <div className="rounded-xl p-4 space-y-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
@@ -86,34 +72,23 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
               <Shield size={8} className="inline mr-0.5" /> Score: {dna.brand_score}%
             </span>
           )}
-          <button onClick={() => setEditing(!editing)} className="p-1 rounded hover:bg-white/5" title="Edit colours">
-            <Edit3 size={10} style={{ color: editing ? ACCENT : "rgba(255,255,255,0.4)" }} />
-          </button>
           <button onClick={() => setExpanded(!expanded)} className="p-1 rounded hover:bg-white/5">
             {expanded ? <ChevronUp size={12} style={{ color: "rgba(255,255,255,0.4)" }} /> : <ChevronDown size={12} style={{ color: "rgba(255,255,255,0.4)" }} />}
           </button>
         </div>
       </div>
 
-      {/* Colour swatches - editable */}
+      {/* Colour swatches */}
       {vi && (
         <div className="flex items-center gap-2">
           <Palette size={10} style={{ color: "rgba(255,255,255,0.3)" }} />
-          {colourSwatches.map(s => (
-            <div key={s.key} className="flex items-center gap-1">
-              {editing ? (
-                <label className="cursor-pointer relative">
-                  <div className="w-4 h-4 rounded-full border border-white/20 ring-1 ring-offset-1 ring-offset-transparent" style={{ backgroundColor: s.color }} />
-                  <input
-                    type="color"
-                    value={s.color || "#000000"}
-                    onChange={e => updateColour(s.key, e.target.value)}
-                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                  />
-                </label>
-              ) : (
-                <div className="w-4 h-4 rounded-full border border-white/10" style={{ backgroundColor: s.color }} />
-              )}
+          {[
+            { color: vi.primary_color, label: "Primary" },
+            { color: vi.secondary_color, label: "Secondary" },
+            { color: vi.accent_color, label: "Accent" },
+          ].filter(s => s.color).map(s => (
+            <div key={s.label} className="flex items-center gap-1">
+              <div className="w-4 h-4 rounded-full border border-white/10" style={{ backgroundColor: s.color }} />
               <span className="text-[9px] font-mono-jb" style={{ color: "rgba(255,255,255,0.4)" }}>{s.color}</span>
             </div>
           ))}

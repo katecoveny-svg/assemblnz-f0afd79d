@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import heroImg from "@/assets/agents/hero-orb-robot.png";
-import assembLogo from "@/assets/assembl-logo-mark.png";
 
 /* ─── Brand Colours ─── */
 const BRAND_COLORS = [
@@ -78,38 +77,7 @@ const FloatingOrb = ({ color, size, orbitRadius, duration, delay, glow }: {
   );
 };
 
-/* ─── Floating Assembl Logo ─── */
-const FloatingAssemblLogo = ({ orbitRadius, duration, delay, logoSize, startAngle = 0 }: {
-  orbitRadius: number; duration: number; delay: number; logoSize: number; startAngle?: number;
-}) => {
-  const steps = 8;
-  const xs = Array.from({ length: steps + 1 }, (_, i) => Math.cos((i / steps) * Math.PI * 2 + startAngle) * orbitRadius);
-  const ys = Array.from({ length: steps + 1 }, (_, i) => Math.sin((i / steps) * Math.PI * 2 + startAngle) * orbitRadius);
-
-  return (
-    <motion.img
-      src={assembLogo}
-      alt=""
-      className="absolute z-[5] pointer-events-none"
-      style={{
-        width: logoSize, height: logoSize,
-        top: "50%", left: "50%",
-        marginTop: -logoSize / 2, marginLeft: -logoSize / 2,
-        filter: "drop-shadow(0 0 8px hsla(189,100%,50%,0.6)) drop-shadow(0 0 16px hsla(263,100%,76%,0.3))",
-      }}
-      animate={{
-        x: xs, y: ys,
-        opacity: [0.4, 0.85, 0.5, 0.9, 0.4, 0.7, 0.4, 0.85, 0.4],
-        scale: [0.8, 1.1, 0.9, 1.15, 0.85, 1.05, 0.8, 1.1, 0.8],
-        rotate: [0, 15, -10, 20, -5, 10, -15, 5, 0],
-      }}
-      transition={{ duration, repeat: Infinity, delay, ease: "linear" }}
-      draggable={false}
-    />
-  );
-};
-
-
+/* ─── Cosmic Ring ─── */
 const CosmicRing = ({ radius, color, duration, opacity, thickness = 1.5 }: {
   radius: number; color: string; duration: number; opacity: number; thickness?: number;
 }) => (
@@ -230,13 +198,6 @@ const AssemblHeroAgent = ({ size = 420 }: { size?: number }) => {
       <FloatingOrb color="hsla(200,100%,70%,0.4)" size={8} orbitRadius={orbSize * 0.32} duration={11} delay={1} glow="hsla(200,100%,70%,0.3)" />
       <FloatingOrb color="hsla(189,100%,60%,0.3)" size={7} orbitRadius={orbSize * 0.46} duration={24} delay={3} glow="hsla(189,100%,60%,0.3)" />
       <FloatingOrb color="hsla(210,100%,65%,0.4)" size={11} orbitRadius={orbSize * 0.28} duration={16} delay={5} glow="hsla(210,100%,65%,0.3)" />
-
-      {/* Floating Assembl tri-colour logos */}
-      <FloatingAssemblLogo orbitRadius={orbSize * 0.38} duration={16} delay={0} logoSize={size * 0.09} startAngle={0} />
-      <FloatingAssemblLogo orbitRadius={orbSize * 0.42} duration={22} delay={3} logoSize={size * 0.07} startAngle={Math.PI * 0.66} />
-      <FloatingAssemblLogo orbitRadius={orbSize * 0.34} duration={19} delay={1.5} logoSize={size * 0.08} startAngle={Math.PI * 1.33} />
-      <FloatingAssemblLogo orbitRadius={orbSize * 0.46} duration={25} delay={5} logoSize={size * 0.06} startAngle={Math.PI * 0.5} />
-      <FloatingAssemblLogo orbitRadius={orbSize * 0.3} duration={14} delay={2} logoSize={size * 0.065} startAngle={Math.PI * 1.1} />
 
       {/* Orbiting particle trails */}
       {[0, 60, 120, 180, 240, 300].map((deg, i) => (

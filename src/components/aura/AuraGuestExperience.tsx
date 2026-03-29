@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonStar, NeonHeart, NeonGlobe, NeonChart } from "@/components/NeonIcons";
 
-const color = "#00E5A0";
+const color = "#E6B422";
 
 const ITINERARY_ACTIVITIES = [
   "Hiking", "Horse trekking", "Helicopter excursions", "Fly fishing", "Stargazing",

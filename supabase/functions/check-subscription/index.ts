@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -31,28 +31,26 @@ serve(async (req) => {
 
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      logStep("No authorization header, returning unsubscribed");
-      return new Response(JSON.stringify({ subscribed: false }), {
+      return new Response(JSON.stringify({ error: "No authorization header" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
+        status: 401,
       });
     }
 
     const token = authHeader.replace("Bearer ", "");
     const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
     if (userError) {
-      logStep("Auth failed (likely expired token), returning unsubscribed", { message: userError.message });
-      return new Response(JSON.stringify({ subscribed: false }), {
+      logStep("Auth failed (likely expired token), returning 401", { message: userError.message });
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
+        status: 401,
       });
     }
     const user = userData.user;
     if (!user?.email) {
-      logStep("No user email, returning unsubscribed");
-      return new Response(JSON.stringify({ subscribed: false }), {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
+        status: 401,
       });
     }
     logStep("User authenticated", { userId: user.id, email: user.email });

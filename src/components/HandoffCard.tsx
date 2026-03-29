@@ -1,8 +1,8 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { agents, echoAgent, pilotAgent } from "@/data/agents";
+import { agents, echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 
-const ALL_AGENTS = [echoAgent, pilotAgent, ...agents];
+const ALL_AGENTS = [echoAgent, ...agents];
 
 // Build a lookup map: uppercase agent name → agent id
 const NAME_TO_ID: Record<string, string> = {};

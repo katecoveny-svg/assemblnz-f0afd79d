@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, useParams, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -45,20 +45,6 @@ const WorkflowSettings = lazy(() => import("./pages/WorkflowSettings"));
 const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
 const WelcomePage = lazy(() => import("./pages/WelcomePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
-const OnboardingPage = lazy(() => import("./pages/OnboardingPage"));
-const AdminHealthDashboard = lazy(() => import("./pages/AdminHealthDashboard"));
-const AdminLeadsDashboard = lazy(() => import("./pages/AdminLeadsDashboard"));
-const TurfDeadlinePage = lazy(() => import("./pages/TurfDeadlinePage"));
-const AdminAnalyticsDashboard = lazy(() => import("./pages/AdminAnalyticsDashboard"));
-const AdminMessagesPage = lazy(() => import("./pages/AdminMessagesPage"));
-const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
-const BrandGuidelinesPage = lazy(() => import("./pages/BrandGuidelinesPage"));
-const AuraLandingPage = lazy(() => import("./pages/AuraLandingPage"));
-const NexusLandingPage = lazy(() => import("./pages/NexusLandingPage"));
-const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
-const InvestPage = lazy(() => import("./pages/InvestPage"));
-const HelmApp = lazy(() => import("./pages/HelmApp"));
-const AgentApp = lazy(() => import("./pages/AgentApp"));
 
 const queryClient = new QueryClient();
 
@@ -86,8 +72,6 @@ const App = () => (
                   <Route path="/admin/forgot-password" element={<Suspense fallback={null}><AdminForgotPassword /></Suspense>} />
                   <Route path="/admin/reset-password" element={<Suspense fallback={null}><AdminResetPassword /></Suspense>} />
                   <Route path="/admin/dashboard" element={<Suspense fallback={null}><AdminDashboard /></Suspense>} />
-                  <Route path="/admin/health" element={<Suspense fallback={null}><AdminHealthDashboard /></Suspense>} />
-                  <Route path="/admin/leads" element={<Suspense fallback={null}><AdminLeadsDashboard /></Suspense>} />
                   <Route path="/privacy" element={<Suspense fallback={null}><PrivacyPolicy /></Suspense>} />
                   <Route path="/terms" element={<Suspense fallback={null}><TermsOfUse /></Suspense>} />
                   <Route path="/cookies" element={<Suspense fallback={null}><CookiePolicy /></Suspense>} />
@@ -104,19 +88,6 @@ const App = () => (
                   <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
                   <Route path="/welcome" element={<Suspense fallback={null}><WelcomePage /></Suspense>} />
                   <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
-                  <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
-                  <Route path="/turf-5-april-2026" element={<Suspense fallback={null}><TurfDeadlinePage /></Suspense>} />
-                  <Route path="/turf" element={<Navigate to="/turf-5-april-2026" replace />} />
-                  <Route path="/aura" element={<Suspense fallback={null}><AuraLandingPage /></Suspense>} />
-                  <Route path="/nexus" element={<Suspense fallback={null}><NexusLandingPage /></Suspense>} />
-                  <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
-                  <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />
-                  <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
-                  <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
-                  <Route path="/data-privacy" element={<Suspense fallback={null}><DataPrivacyLegal /></Suspense>} />
-                  <Route path="/invest" element={<Suspense fallback={null}><InvestPage /></Suspense>} />
-                  <Route path="/helm" element={<Suspense fallback={null}><HelmApp /></Suspense>} />
-                  <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>

@@ -102,8 +102,8 @@ export default function ForgeBrandHub() {
               </div>
               <p className="text-[10px] text-foreground/70">{b.guidelines}</p>
               <div className="mt-2 flex gap-2">
-                <button className="text-[9px] px-2 py-1 rounded border border-border text-muted-foreground"> Upload PDF</button>
-                <button className="text-[9px] px-2 py-1 rounded border border-border text-muted-foreground"> Edit Rules</button>
+                <button className="text-[9px] px-2 py-1 rounded border border-border text-muted-foreground">📄 Upload PDF</button>
+                <button className="text-[9px] px-2 py-1 rounded border border-border text-muted-foreground">✏️ Edit Rules</button>
               </div>
             </div>
           ))}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonDocument, NeonCheckmark, NeonChart, NeonStar } from "@/components/NeonIcons";
 
-const color = "#00E5A0";
+const color = "#E6B422";
 
 const MENU_TYPES = [
   "Multi-course dinner (5-7 courses)", "Tasting menu with wine pairings", "Breakfast", "Lunch", "Dietary-specific (vegetarian)", "Dietary-specific (vegan)", "Dietary-specific (gluten-free)", "Dietary-specific (halal)",
@@ -54,10 +54,10 @@ const AuraKitchenFnB = ({ onGenerate }: Props) => {
             <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonDocument size={16} color={color} /> Menu Design Templates</h3>
             <div className="grid grid-cols-2 gap-2">
               {MENU_TYPES.map(m => (
-                <button key={m} onClick={() => gen(`Design a hospitality ${m} menu. Use seasonal NZ produce, include wine pairing suggestions for each course, allergen indicators, and elegant descriptions. Format for print.`)} className="text-left p-2.5 rounded-lg border border-border hover:border-foreground/10 transition-all text-[11px] text-foreground/80">{m}</button>
+                <button key={m} onClick={() => gen(`Design a luxury lodge ${m} menu. Use seasonal NZ produce, include wine pairing suggestions for each course, allergen indicators, and elegant descriptions. Format for print.`)} className="text-left p-2.5 rounded-lg border border-border hover:border-foreground/10 transition-all text-[11px] text-foreground/80">{m}</button>
               ))}
             </div>
-            <button onClick={() => gen(`Generate a complete seasonal menu template for a NZ hospitality venue. Include seasonal NZ produce for the current month, 5-7 course dinner with wine pairings from NZ regions (Central Otago, Marlborough, Hawke's Bay), cost analysis per cover, and allergen matrix. Format elegantly.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Menu Template</button>
+            <button onClick={() => gen(`Generate a complete seasonal menu template for a luxury NZ lodge. Include seasonal NZ produce for the current month, 5-7 course dinner with wine pairings from NZ regions (Central Otago, Marlborough, Hawke's Bay), cost analysis per cover, and allergen matrix. Format elegantly.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Menu Template</button>
           </div>
 
           <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
@@ -80,7 +80,7 @@ const AuraKitchenFnB = ({ onGenerate }: Props) => {
                 <span key={a} className="px-2 py-1 rounded-full text-[10px] border border-border text-foreground/70">{a}</span>
               ))}
             </div>
-            <button onClick={() => gen(`Generate a comprehensive allergen matrix for a hospitality menu. Rows: each dish on a typical 7-course dinner + breakfast + lunch menu. Columns: ${ALLERGENS.join(", ")}. Mandatory under NZ Food Act 2014. Include notes on cross-contamination risks and kitchen protocols.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Allergen Matrix</button>
+            <button onClick={() => gen(`Generate a comprehensive allergen matrix for a luxury lodge menu. Rows: each dish on a typical 7-course dinner + breakfast + lunch menu. Columns: ${ALLERGENS.join(", ")}. Mandatory under NZ Food Act 2014. Include notes on cross-contamination risks and kitchen protocols.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Allergen Matrix</button>
           </div>
         </div>
       )}
@@ -100,7 +100,7 @@ const AuraKitchenFnB = ({ onGenerate }: Props) => {
                 <div className="text-xs font-medium text-foreground">{t.title}</div>
                 <div className="text-[10px] text-muted-foreground">{t.desc}</div>
               </div>
-              <button onClick={() => gen(`Generate a "${t.title}" for a hospitality kitchen. ${t.desc}. Make it practical, actionable, and NZ-specific. Include Food Act 2014 compliance where relevant.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+              <button onClick={() => gen(`Generate a "${t.title}" for a luxury lodge kitchen. ${t.desc}. Make it practical, actionable, and NZ-specific. Include Food Act 2014 compliance where relevant.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
             </div>
           ))}
         </div>
@@ -133,7 +133,7 @@ const AuraKitchenFnB = ({ onGenerate }: Props) => {
                 <div className="text-xs font-medium text-foreground">{t.title}</div>
                 <div className="text-[10px] text-muted-foreground">{t.desc}</div>
               </div>
-              <button onClick={() => gen(`Generate a "${t.title}" for a hospitality. ${t.desc}. Focus on NZ wine regions: Central Otago, Marlborough, Hawke's Bay, Wairarapa, Canterbury. Premium quality, world-class standards.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+              <button onClick={() => gen(`Generate a "${t.title}" for a luxury lodge. ${t.desc}. Focus on NZ wine regions: Central Otago, Marlborough, Hawke's Bay, Wairarapa, Canterbury. Premium quality, world-class standards.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
             </div>
           ))}
         </div>

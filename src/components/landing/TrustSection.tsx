@@ -1,143 +1,153 @@
 import { motion } from "framer-motion";
-import { Scale, Shield, Lock, MapPin, Globe, FileCheck } from "lucide-react";
+import { Shield, Scale, Globe, Lock, MapPin, FileCheck } from "lucide-react";
 
-const TRUST_CARDS = [
-  { Icon: Scale, color: "#00FF88", title: "Trained on NZ Legislation", sub: "50+ Acts embedded" },
-  { Icon: Shield, color: "#00E5FF", title: "Privacy Act 2020 Compliant", sub: "AU/NZ data region" },
-  { Icon: Lock, color: "#B388FF", title: "Enterprise Security", sub: "Encrypted at rest" },
-  { Icon: MapPin, color: "#FF2D9B", title: "Built in Auckland", sub: "Founded by Kate Hudson" },
-  { Icon: Globe, color: "#00E5FF", title: "GDPR Ready", sub: "International standards" },
-  { Icon: FileCheck, color: "#00FF88", title: "150+ Compliance Dates", sub: "Auto-tracked for you" },
+const TRUST_SIGNALS = [
+  {
+    icon: Scale,
+    title: "Trained on NZ Legislation",
+    description: "50+ Acts of Parliament embedded into every agent's knowledge base",
+    color: "#00FF88",
+  },
+  {
+    icon: Shield,
+    title: "Privacy Act 2020 Compliant",
+    description: "Your data never leaves the AU/NZ Supabase region",
+    color: "#00E5FF",
+  },
+  {
+    icon: Lock,
+    title: "Enterprise Security",
+    description: "Row-level security, encrypted at rest, SOC 2 aligned practices",
+    color: "#B388FF",
+  },
+  {
+    icon: MapPin,
+    title: "Built in Auckland",
+    description: "Founded and operated in Aotearoa by Kate Harland",
+    color: "#FF2D9B",
+  },
+  {
+    icon: Globe,
+    title: "GDPR Ready",
+    description: "International privacy standards for global-facing NZ businesses",
+    color: "#00E5FF",
+  },
+  {
+    icon: FileCheck,
+    title: "150+ Compliance Dates",
+    description: "Automated tracking of NZ tax, employment, and industry deadlines",
+    color: "#00FF88",
+  },
 ];
 
 const TESTIMONIALS = [
   {
-    quote: "Assembl replaced three separate tools for us. The compliance tracking alone has saved us from two potential fines this year.",
-    name: "James T.",
-    role: "Construction Co Owner",
+    quote: "Assembl replaced three tools for us. APEX writes our tenders, LEDGER handles tax prep, and HAVEN tracks our property compliance.",
+    name: "Construction Company Owner",
     location: "Auckland",
-    color: "#00FF88",
   },
   {
-    quote: "Having NZ legislation built right into the AI means I'm not second-guessing every answer. It actually understands our tax system.",
-    name: "Sarah M.",
-    role: "Small Business Accountant",
+    quote: "The NZ legislation grounding is what sets this apart. I trust the advice because it actually references the right Acts.",
+    name: "Small Business Accountant",
     location: "Wellington",
-    color: "#00E5FF",
   },
   {
-    quote: "From guest comms to kitchen compliance — Aura handles it all. Our team went from overwhelmed to organised in a week.",
-    name: "Liam R.",
-    role: "Boutique Hotel Manager",
+    quote: "AURA has transformed how we prepare for VIP guests. The pre-arrival dossiers alone are worth the subscription.",
+    name: "Boutique Hotel Manager",
     location: "Queenstown",
-    color: "#B388FF",
   },
 ];
 
-const TrustSection = () => (
-  <section className="relative z-10 py-24 sm:py-32">
-    <div className="section-divider" />
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32">
-      <motion.div
-        className="text-center mb-14"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-      >
-        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Trusted platform</p>
-        <h2
-          className="text-2xl sm:text-[2.75rem] font-syne font-bold text-foreground"
-          style={{ letterSpacing: '-0.02em', lineHeight: '1.15' }}
+const TrustSection = () => {
+  return (
+    <section className="relative z-10 py-20 sm:py-28">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <motion.div
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
         >
-          Built for <span className="text-gradient-hero">Aotearoa</span>
-        </h2>
-      </motion.div>
+          <span className="text-[10px] font-mono-jb uppercase tracking-widest text-muted-foreground/60 mb-3 block">
+            Trust & Compliance
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
+            Built for <span className="text-gradient-hero">Aotearoa</span>
+          </h2>
+          <p className="text-sm font-jakarta text-muted-foreground max-w-lg mx-auto">
+            Not another overseas AI tool with generic advice. Every agent understands NZ law, NZ culture, and the way Kiwi businesses work.
+          </p>
+        </motion.div>
 
-      {/* Trust cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-20">
-        {TRUST_CARDS.map((card, i) => (
-          <motion.div
-            key={card.title}
-            className="relative rounded-2xl p-5 sm:p-6 text-center group overflow-hidden"
-            style={{
-              background: 'hsl(var(--surface-1) / 0.5)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid hsl(var(--border) / 0.4)',
-            }}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.06 }}
-          >
-            <span
-              className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-40 transition-opacity duration-700"
-              style={{ background: `linear-gradient(90deg, transparent, ${card.color}70, transparent)` }}
-            />
-            <div
-              className="w-11 h-11 rounded-xl mx-auto mb-3 flex items-center justify-center"
-              style={{ backgroundColor: `${card.color}10`, border: `1px solid ${card.color}15` }}
+        {/* Trust signals grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-16">
+          {TRUST_SIGNALS.map((signal, i) => (
+            <motion.div
+              key={signal.title}
+              className="group relative rounded-2xl p-5 overflow-hidden border transition-all duration-300 hover:-translate-y-1"
+              style={{
+                background: "rgba(14,14,26,0.5)",
+                backdropFilter: "blur(12px)",
+                borderColor: "rgba(255,255,255,0.06)",
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
             >
-              <card.Icon size={20} style={{ color: card.color }} />
-            </div>
-            <p className="text-xs sm:text-sm font-syne font-bold text-foreground mb-1">{card.title}</p>
-            <p className="text-[10px] sm:text-xs font-inter text-muted-foreground">{card.sub}</p>
-          </motion.div>
-        ))}
-      </div>
+              <span
+                className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-30 transition-opacity"
+                style={{ background: `linear-gradient(90deg, transparent, ${signal.color}, transparent)` }}
+              />
+              <signal.icon size={20} className="mb-3" style={{ color: signal.color }} />
+              <h3 className="text-xs sm:text-sm font-syne font-bold text-foreground mb-1">{signal.title}</h3>
+              <p className="text-[10px] sm:text-[11px] font-jakarta text-muted-foreground leading-relaxed">{signal.description}</p>
+            </motion.div>
+          ))}
+        </div>
 
-      {/* Testimonials */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
-        {TESTIMONIALS.map((t, i) => (
-          <motion.div
-            key={t.name}
-            className="relative rounded-2xl p-6 sm:p-7 overflow-hidden group"
-            style={{
-              background: 'hsl(var(--surface-1) / 0.5)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid hsl(var(--border) / 0.4)',
-            }}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 + i * 0.08 }}
-          >
-            <span
-              className="absolute top-0 left-[15%] right-[15%] h-px opacity-30"
-              style={{ background: `linear-gradient(90deg, transparent, ${t.color}60, transparent)` }}
-            />
+        {/* Testimonials */}
+        <motion.div
+          className="text-center mb-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-lg sm:text-2xl font-syne font-extrabold text-foreground">
+            What NZ businesses are saying
+          </h3>
+        </motion.div>
 
-            {/* Large quote mark */}
-            <span
-              className="absolute top-4 right-5 text-[3rem] font-serif leading-none pointer-events-none"
-              style={{ color: `${t.color}12` }}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {TESTIMONIALS.map((testimonial, i) => (
+            <motion.div
+              key={i}
+              className="rounded-2xl p-6 border"
+              style={{
+                background: "rgba(14,14,26,0.5)",
+                backdropFilter: "blur(12px)",
+                borderColor: "rgba(255,255,255,0.06)",
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
             >
-              "
-            </span>
-
-            <p className="text-xs sm:text-[13px] font-inter text-foreground/75 leading-relaxed mb-6 relative z-10">
-              "{t.quote}"
-            </p>
-            <div className="flex items-center gap-3 relative z-10">
-              <div
-                className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-syne font-bold"
-                style={{ backgroundColor: `${t.color}15`, color: t.color, border: `1px solid ${t.color}20` }}
-              >
-                {t.name.charAt(0)}
-              </div>
+              <p className="text-xs sm:text-sm font-jakarta text-foreground/80 leading-relaxed mb-4 italic">
+                "{testimonial.quote}"
+              </p>
               <div>
-                <p className="text-xs font-syne font-bold text-foreground">{t.name}</p>
-                <p className="text-[10px] font-inter text-muted-foreground/60">
-                  {t.role} · {t.location}
-                </p>
+                <p className="text-xs font-syne font-bold text-foreground">{testimonial.name}</p>
+                <p className="text-[10px] font-jakarta text-muted-foreground">{testimonial.location}</p>
               </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default TrustSection;

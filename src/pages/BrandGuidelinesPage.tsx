@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import AgentAvatar from "@/components/AgentAvatar";
-import { agents as allAgents, echoAgent, pilotAgent } from "@/data/agents";
+import { agents as allAgents, echoAgent } from "@/data/agents";
 import nexusLogo from "@/assets/nexus-logo-hires.png";
 import logoWordmark from "@/assets/assembl-logo-wordmark.png";
 import logoFull from "@/assets/brand/assembl-logo-full.png";
@@ -11,7 +11,7 @@ import heroRobot from "@/assets/agents/hero-orb-robot.png";
 import linkedinBanner from "@/assets/brand/social-linkedin-banner.png";
 import ogImage from "@/assets/brand/social-launch-og.png";
 
-const FULL_AGENT_LIST = [echoAgent, pilotAgent, ...allAgents];
+const FULL_AGENT_LIST = [echoAgent, ...allAgents];
 
 const CORE_COLORS = [
   { name: "Page Background", hex: "#09090F", hsl: "234 29% 5%", role: "--color-bg" },

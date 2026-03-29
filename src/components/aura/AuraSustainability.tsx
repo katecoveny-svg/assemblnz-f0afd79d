@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonShield, NeonChart, NeonGlobe, NeonStar } from "@/components/NeonIcons";
 
-const color = "#00E5A0";
+const color = "#E6B422";
 
 const TSC_CATEGORIES = [
   {
@@ -45,11 +45,11 @@ const TSC_CATEGORIES = [
 ];
 
 const CARBON_SOURCES = [
-  { source: "Energy Use", desc: "Electricity, gas, diesel for generators", icon: "" },
-  { source: "Guest Transport", desc: "Transfers, helicopter, vehicles", icon: "" },
-  { source: "Food Miles", desc: "Where ingredients come from", icon: "" },
-  { source: "Waste Emissions", desc: "Landfill methane contribution", icon: "" },
-  { source: "Staff Commuting", desc: "Daily travel to property", icon: "" },
+  { source: "Energy Use", desc: "Electricity, gas, diesel for generators", icon: "⚡" },
+  { source: "Guest Transport", desc: "Transfers, helicopter, vehicles", icon: "🚁" },
+  { source: "Food Miles", desc: "Where ingredients come from", icon: "🥩" },
+  { source: "Waste Emissions", desc: "Landfill methane contribution", icon: "♻️" },
+  { source: "Staff Commuting", desc: "Daily travel to property", icon: "🚗" },
 ];
 
 const REGENERATIVE_ACTIONS = [

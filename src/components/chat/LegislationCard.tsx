@@ -106,7 +106,7 @@ const LegislationCard = ({ content, agentColor }: Props) => {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
               <span className="text-[11px] font-semibold text-foreground/90 truncate">
-                 {ref.actName}
+                📜 {ref.actName}
                 {ref.section && (
                   <span style={{ color: agentColor }} className="ml-1 font-bold">
                     {ref.section}

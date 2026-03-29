@@ -154,11 +154,10 @@ export default function AgentApp() {
               <div className="px-4 mt-4 space-y-2">
                 <p className="text-[9px] font-semibold uppercase tracking-widest text-white/20 px-1">Quick Actions</p>
                 {capabilities.slice(0, 4).map((cap, i) => (
-                  <button key={i} onClick={() => { setActiveTab("chat"); sendMessage(cap.prompt); setSidebarOpen(false); }}
+                  <button key={i} onClick={() => { setActiveTab("chat"); sendMessage(cap); setSidebarOpen(false); }}
                     className="w-full text-left rounded-lg px-3 py-2 transition hover:bg-white/5"
                     style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
-                    <p className="text-[10px] font-medium text-white/60">{cap.title}</p>
-                    <p className="text-[8px] text-white/25 mt-0.5">{cap.description}</p>
+                    <p className="text-[10px] font-medium text-white/60">{cap}</p>
                   </button>
                 ))}
               </div>
@@ -223,17 +222,14 @@ export default function AgentApp() {
                     {/* Capabilities */}
                     {capabilities.length > 0 && (
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full max-w-lg mt-4">
-                        {capabilities.slice(0, 4).map((cap, i) => {
-                          const Icon = cap.icon;
-                          return (
-                            <button key={i} onClick={() => sendMessage(cap.prompt)}
+                        {capabilities.slice(0, 4).map((cap, i) => (
+                            <button key={i} onClick={() => sendMessage(cap)}
                               className="text-center px-3 py-3 rounded-xl transition-all hover:border-opacity-40"
                               style={{ background: color + "06", border: `1px solid ${color}10` }}>
-                              <Icon size={18} style={{ color }} className="mx-auto mb-1.5" />
-                              <p className="text-[10px] font-medium text-white/60">{cap.title}</p>
+                              <Sparkles size={18} style={{ color }} className="mx-auto mb-1.5" />
+                              <p className="text-[10px] font-medium text-white/60">{cap}</p>
                             </button>
-                          );
-                        })}
+                          ))}
                       </div>
                     )}
                   </div>

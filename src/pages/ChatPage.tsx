@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect, useCallback, lazy, Suspense, useMemo } from "react";
-import nexusLogo from "@/assets/nexus-logo.png";
-import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom";
-import { agents, echoAgent, pilotAgent } from "@/data/agents";
+
+import { useParams, Link, useSearchParams } from "react-router-dom";
+import { agents } from "@/data/agents";
+import { echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone, Radio, Camera, RotateCcw, Target } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Brain, ListChecks, Phone } from "lucide-react";
 import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
-import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
 import ActionQueuePanel from "@/components/chat/ActionQueuePanel";
 import sparkCtaImg from "@/assets/agents/spark.png";
@@ -21,7 +21,6 @@ import StructuredOutputCard, { detectOutputType } from "@/components/StructuredO
 import NexusEntryCard from "@/components/nexus/NexusEntryCard";
 import NexusJobSheet, { type JobSheetData, type DocumentStatus } from "@/components/nexus/NexusJobSheet";
 import HandoffCard, { detectHandoff } from "@/components/HandoffCard";
-import ProactiveAlertCards from "@/components/chat/ProactiveAlertCards";
 import { agentTemplates } from "@/data/templates";
 import { useAuth } from "@/hooks/useAuth";
 import AccountDropdown from "@/components/AccountDropdown";
@@ -34,7 +33,6 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip
 import AITransparencyBadge from "@/components/chat/AITransparencyBadge";
 import ConversationExport from "@/components/chat/ConversationExport";
 import ResponseSources from "@/components/chat/ResponseSources";
-import { uploadGeneratedImage } from "@/lib/uploadGeneratedImage";
 import SaveToLibrary from "@/components/chat/SaveToLibrary";
 import MessagePDFButton from "@/components/chat/MessagePDFButton";
 import LegislationCard from "@/components/chat/LegislationCard";
@@ -45,7 +43,6 @@ import ApexTenderWriter from "@/components/apex/ApexTenderWriter";
 import ApexAwardsTracker from "@/components/apex/ApexAwardsTracker";
 import ApexHSHub from "@/components/apex/ApexHSHub";
 import ApexESGDashboard from "@/components/apex/ApexESGDashboard";
-import ApexIoTFieldTech from "@/components/apex/ApexIoTFieldTech";
 import ForgeShowroom from "@/components/forge/ForgeShowroom";
 import ForgeSales from "@/components/forge/ForgeSales";
 import ForgePartsService from "@/components/forge/ForgePartsService";
@@ -53,14 +50,12 @@ import ForgeMarketing from "@/components/forge/ForgeMarketing";
 import ForgeEvents from "@/components/forge/ForgeEvents";
 import ForgeBrandHub from "@/components/forge/ForgeBrandHub";
 import ForgeTeam from "@/components/forge/ForgeTeam";
-import ForgeAudit from "@/components/forge/ForgeAudit";
 import ArohaContracts from "@/components/aroha/ArohaContracts";
 import ArohaOnboarding from "@/components/aroha/ArohaOnboarding";
 import ArohaPayroll from "@/components/aroha/ArohaPayroll";
 import ArohaRecruitment from "@/components/aroha/ArohaRecruitment";
 import ArohaPeopleCulture from "@/components/aroha/ArohaPeopleCulture";
 import ArohaCompanySetup from "@/components/aroha/ArohaCompanySetup";
-import ArohaRetention from "@/components/aroha/ArohaRetention";
 import AuraPropertySetup from "@/components/aura/AuraPropertySetup";
 import AuraReservations from "@/components/aura/AuraReservations";
 import AuraGuestExperience from "@/components/aura/AuraGuestExperience";
@@ -74,7 +69,6 @@ import AuraGuestMemory from "@/components/aura/AuraGuestMemory";
 import AuraSustainability from "@/components/aura/AuraSustainability";
 import AuraTrade from "@/components/aura/AuraTrade";
 import AuraPOS from "@/components/aura/AuraPOS";
-import AuraFoodSafety from "@/components/aura/AuraFoodSafety";
 import InternalComms from "@/components/InternalComms";
 import HavenDashboard from "@/components/haven/HavenDashboard";
 import HavenProperties from "@/components/haven/HavenProperties";
@@ -98,8 +92,6 @@ import PrismAdStudio from "@/components/prism/PrismAdStudio";
 import PrismProductStudio from "@/components/prism/PrismProductStudio";
 import PrismBrandDNA from "@/components/prism/PrismBrandDNA";
 import PrismSocialPublisher from "@/components/prism/PrismSocialPublisher";
-import PrismAdEngine from "@/components/prism/PrismAdEngine";
-import AdEngineModal from "@/components/prism/AdEngineModal";
 import SparkDeployModal from "@/components/spark/SparkDeployModal";
 import AxisAutomations from "@/components/axis/AxisAutomations";
 import HelmThisWeek from "@/components/helm/HelmThisWeek";
@@ -110,8 +102,6 @@ import HelmReview from "@/components/helm/HelmReview";
 import HelmRescue from "@/components/helm/HelmRescue";
 import HelmSettings from "@/components/helm/HelmSettings";
 import AgentTraining from "@/components/shared/AgentTraining";
-import AgentSmsPanel from "@/components/shared/AgentSmsPanel";
-import LiveDataPanel from "@/components/shared/LiveDataPanel";
 import VoiceAgentLive from "@/components/VoiceAgentLive";
 import VoiceAgentModal from "@/components/VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
@@ -177,7 +167,7 @@ function parseNexusEntry(content: string) {
     const linePattern = /(\d+)\.\s+(.+?)[\n\r]+\s*HS Code:\s*(\S+)(.*?)[\n\r]+\s*Origin:\s*(\S+).*?(?:FTA:\s*([^\n|]+))?.*?[\n\r]+\s*Qty:.*?(?:(\d[\d,]*\s*\w*))?.*?Value:\s*\$?([\d,.]+).*?[\n\r]+\s*Duty:.*?=\s*\$?([\d,.]+).*?[\n\r]+\s*GST:.*?=\s*\$?([\d,.]+)/gim;
     let match;
     while ((match = linePattern.exec(content)) !== null) {
-      const flagged = match[4]?.includes("") || match[4]?.includes("uncertain");
+      const flagged = match[4]?.includes("⚠️") || match[4]?.includes("uncertain");
       lines.push({
         line: parseInt(match[1]),
         description: match[2].trim(),
@@ -328,15 +318,10 @@ async function fileToBase64(file: File): Promise<string> {
 
 const BINARY_FILE_TYPES = ["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"];
 
-const SLUG_TO_ID: Record<string, string> = {
-  "sports-recreation": "sports",
-};
-
 const ChatPage = () => {
-  const { agentId: rawAgentId } = useParams<{ agentId: string }>();
+  const { agentId } = useParams<{ agentId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
-  const agentId = rawAgentId ? (SLUG_TO_ID[rawAgentId] ?? rawAgentId) : rawAgentId;
-  const agent = agentId === "echo" ? echoAgent : agentId === "pilot" ? pilotAgent : agents.find((a) => a.id === agentId);
+  const agent = agentId === "echo" ? echoAgent : agents.find((a) => a.id === agentId);
   const safeAgentName = agent?.name ?? "Assistant";
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState(() => {
@@ -356,7 +341,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "forge_audit" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aroha_retention" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "aura_food_safety" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "prism_adengine" | "axis_automations" | "agent_training" | "voice_waitlist" | "agent_sms" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance" | "live_data">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "axis_automations" | "agent_training" | "voice_waitlist" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate">("chat");
   const [showDeployModal, setShowDeployModal] = useState(false);
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
@@ -375,18 +360,10 @@ const ChatPage = () => {
   const logoInputRef = useRef<HTMLInputElement>(null);
   const [templateModalOpen, setTemplateModalOpen] = useState(false);
   const [paywallType, setPaywallType] = useState<"preview" | "daily_limit" | null>(null);
+  const [auraPropertyMode, setAuraPropertyMode] = useState<string>(() => sessionStorage.getItem("aura_property_mode") || "luxury_lodge");
   const [selectedModel, setSelectedModel] = useState<string>(() => sessionStorage.getItem("assembl_ai_model") || "gemini-flash");
   const [voiceModalOpen, setVoiceModalOpen] = useState(false);
   const [historyReady, setHistoryReady] = useState(false);
-  const [showOnboardingTooltip, setShowOnboardingTooltip] = useState(false);
-  const [onboardingStep, setOnboardingStep] = useState(0);
-
-  // PRISM quick image generation modal
-  const [prismImageModalOpen, setPrismImageModalOpen] = useState(false);
-  const [prismImagePrompt, setPrismImagePrompt] = useState("");
-  const [prismImageAspect, setPrismImageAspect] = useState<"1:1" | "16:9" | "9:16" | "4:3">("1:1");
-  const [prismImageGenerating, setPrismImageGenerating] = useState(false);
-  const [adEngineOpen, setAdEngineOpen] = useState(false);
 
   // NEXUS Job Sheet workflow state
   const [nexusWorkflowActive, setNexusWorkflowActive] = useState(false);
@@ -434,29 +411,8 @@ const ChatPage = () => {
   const isAxis = agentId === "pm";
   const isNonprofit = agentId === "nonprofit";
   const isSpark = agentId === "spark";
-  const isSports = agentId === "sports";
-  const hasLiveDataTab = ["maritime", "agriculture", "sports", "hospitality", "pm", "automotive", "construction"].includes(agentId || "");
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
-
-  // First-time onboarding tooltip
-  useEffect(() => {
-    if (!agentId) return;
-    const key = `assembl_onboarded_${agentId}`;
-    if (!localStorage.getItem(key)) {
-      const timer = setTimeout(() => setShowOnboardingTooltip(true), 800);
-      return () => clearTimeout(timer);
-    }
-  }, [agentId]);
-
-  const dismissOnboarding = () => {
-    if (onboardingStep < 2) {
-      setOnboardingStep(s => s + 1);
-    } else {
-      setShowOnboardingTooltip(false);
-      if (agentId) localStorage.setItem(`assembl_onboarded_${agentId}`, "1");
-    }
-  };
 
   // Listen for AURA mode changes to refresh tabs
   useEffect(() => {
@@ -465,8 +421,6 @@ const ChatPage = () => {
     return () => window.removeEventListener("aura-mode-changed", handler);
   }, []);
 
-  // ECHO Receptionist Mode
-  const [receptionistMode, setReceptionistMode] = useState(() => sessionStorage.getItem("assembl_receptionist_mode") === "true");
 
   const toggleListening = useCallback(() => {
     if (isListening) {
@@ -496,19 +450,14 @@ const ChatPage = () => {
     setIsListening(true);
   }, [isListening]);
 
-  // Voice output (Text-to-Speech) via ElevenLabs for all agents
-  const activeAudioRef = useRef<HTMLAudioElement | null>(null);
-  const speakText = useCallback(async (text: string, messageIndex: number) => {
+  // Voice output (Text-to-Speech) for HELM
+  const speakText = useCallback((text: string, messageIndex: number) => {
     if (isSpeaking === messageIndex) {
-      activeAudioRef.current?.pause();
-      activeAudioRef.current = null;
+      window.speechSynthesis.cancel();
       setIsSpeaking(null);
       return;
     }
-    // Stop any currently playing audio
-    activeAudioRef.current?.pause();
-    activeAudioRef.current = null;
-
+    window.speechSynthesis.cancel();
     const cleanText = text
       .replace(/#{1,6}\s/g, "")
       .replace(/\*\*(.*?)\*\*/g, "$1")
@@ -516,58 +465,20 @@ const ChatPage = () => {
       .replace(/`(.*?)`/g, "$1")
       .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
       .replace(/[-•·]\s/g, "")
-      .replace(/\n{2,}/g, ". ")
-      .slice(0, 4000); // ElevenLabs limit
-
+      .replace(/\n{2,}/g, ". ");
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = "en-NZ";
+    utterance.rate = 0.95;
+    utterance.pitch = 1;
+    utterance.onend = () => setIsSpeaking(null);
+    utterance.onerror = () => setIsSpeaking(null);
     setIsSpeaking(messageIndex);
-
-    try {
-      const session = await supabase.auth.getSession();
-      const tkn = session.data.session?.access_token;
-
-      // Determine voice style based on agent
-      const AGENT_VOICE_STYLES: Record<string, string> = {
-        hospitality: "warm", operations: "mate", sales: "mate",
-        marketing: "warm", hr: "warm", echo: "mate", customs: "professional",
-        automotive: "professional", construction: "professional", sports: "mate",
-      };
-      const voiceStyle = AGENT_VOICE_STYLES[agentId || ""] || "professional";
-
-      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-tts`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-          Authorization: `Bearer ${tkn}`,
-        },
-        body: JSON.stringify({ text: cleanText, voiceId: "JBFqnCBsd6RMkjVDRZzb", voiceStyle }),
-      });
-
-      if (!res.ok) throw new Error("TTS failed");
-
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      activeAudioRef.current = audio;
-      audio.onended = () => { setIsSpeaking(null); activeAudioRef.current = null; URL.revokeObjectURL(url); };
-      audio.onerror = () => { setIsSpeaking(null); activeAudioRef.current = null; };
-      await audio.play();
-    } catch {
-      // Fallback to browser TTS if ElevenLabs fails
-      const utterance = new SpeechSynthesisUtterance(cleanText);
-      utterance.lang = "en-NZ";
-      utterance.rate = 0.95;
-      utterance.onend = () => setIsSpeaking(null);
-      utterance.onerror = () => setIsSpeaking(null);
-      window.speechSynthesis.speak(utterance);
-    }
-  }, [isSpeaking, agentId]);
+    window.speechSynthesis.speak(utterance);
+  }, [isSpeaking]);
 
   useEffect(() => {
     return () => {
       window.speechSynthesis?.cancel();
-      activeAudioRef.current?.pause();
-      activeAudioRef.current = null;
       recognitionRef.current?.stop();
     };
   }, []);
@@ -582,10 +493,6 @@ const ChatPage = () => {
   // Load conversation history on mount
   useEffect(() => {
     let isActive = true;
-
-    // Reset state when agent changes to prevent cross-contamination
-    setMessages([]);
-    setConversationId(null);
 
     if (!agentId) {
       setHistoryReady(true);
@@ -767,8 +674,9 @@ const ChatPage = () => {
     const agentConfig = agentId ? DESIGN_AGENTS[agentId] : undefined;
     const quality = userQuality || agentConfig?.quality || "flash_pro";
 
-    const imageResults = await Promise.allSettled(
-      prompts.map(async (prompt) => {
+    const urls: string[] = [];
+    for (const prompt of prompts) {
+      try {
         const { data, error } = await supabase.functions.invoke("generate-image", {
           body: {
             prompt,
@@ -779,97 +687,18 @@ const ChatPage = () => {
             brandContext: brandProfile ? { business_name: brandName || "Assembl", tone: "professional", industry: "technology" } : undefined,
           },
         });
-
         if (error) throw error;
-        if (!data?.imageUrl) throw new Error("No image returned");
-
-        return { prompt, url: data.imageUrl };
-      })
-    );
-
-    const successfulImages = imageResults.flatMap((result) => {
-      if (result.status === "fulfilled") return [result.value];
-      console.error("Inline image generation error:", result.reason);
-      return [];
-    });
-
-    const urls = successfulImages.map((item) => item.url);
+        if (data?.imageUrl) urls.push(data.imageUrl);
+      } catch (err) {
+        console.error("Inline image generation error:", err);
+      }
+    }
 
     setInlineImages((prev) => ({
       ...prev,
       [msgIndex]: { status: urls.length > 0 ? "done" : "error", urls },
     }));
-
-    // Upload images to permanent storage and log to exported_outputs
-    if (urls.length > 0 && user) {
-      try {
-        for (let idx = 0; idx < urls.length; idx++) {
-          const permanentUrl = await uploadGeneratedImage(urls[idx], user.id, agentId || "echo");
-          await supabase.from("exported_outputs").insert({
-            user_id: user.id,
-            agent_id: agentId || "echo",
-            agent_name: agent?.name || "ECHO",
-            output_type: "generated_image",
-            title: successfulImages[idx]?.prompt?.substring(0, 100) || `Generated Image ${idx + 1}`,
-            content_preview: successfulImages[idx]?.prompt?.substring(0, 300) || "AI-generated visual",
-            format: "png",
-            image_url: permanentUrl,
-          });
-        }
-      } catch { /* silent */ }
-    }
-  }, [agentId, agent, brandProfile, brandName, user]);
-
-  // PRISM direct image generation via camera button
-  const handlePrismDirectImageGen = useCallback(async () => {
-    if (!prismImagePrompt.trim()) return;
-    setPrismImageGenerating(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("generate-image", {
-        body: {
-          prompt: prismImagePrompt,
-          platform: "brand_marketing",
-          contentType: "brand_asset",
-          agentContext: "Professional brand marketing asset. Create agency-quality visuals with premium aesthetics, sophisticated composition, and commercial-grade polish.",
-          quality: "pro",
-          brandContext: brandProfile ? { business_name: brandName || "Assembl", tone: "professional", industry: "technology" } : undefined,
-        },
-      });
-      if (error) throw error;
-      if (data?.imageUrl) {
-        const msgIndex = messages.length;
-        setMessages((prev) => [...prev,
-          { role: "user", content: `Generate image: ${prismImagePrompt} (${prismImageAspect})` },
-          { role: "assistant", content: "Here's your generated image:" },
-        ]);
-        setInlineImages((prev) => ({ ...prev, [msgIndex + 1]: { status: "done", urls: [data.imageUrl] } }));
-        // Upload to permanent storage and log to exports
-        if (user) {
-          uploadGeneratedImage(data.imageUrl, user.id, "marketing").then((permanentUrl) => {
-            supabase.from("exported_outputs").insert({
-              user_id: user.id,
-              agent_id: "marketing",
-              agent_name: "PRISM",
-              output_type: "generated_image",
-              title: prismImagePrompt.substring(0, 100),
-              content_preview: prismImagePrompt,
-              format: "png",
-              image_url: permanentUrl,
-            }).then(() => {});
-          });
-        }
-      } else {
-        setMessages((prev) => [...prev, { role: "assistant", content: "Image generation didn't return a result. Try a simpler prompt." }]);
-      }
-    } catch (err: any) {
-      console.error("Prism image gen error:", err);
-      setMessages((prev) => [...prev, { role: "assistant", content: `Image generation failed: ${err.message || "Unknown error"}. Try again or use a different prompt.` }]);
-    } finally {
-      setPrismImageGenerating(false);
-      setPrismImageModalOpen(false);
-      setPrismImagePrompt("");
-    }
-  }, [prismImagePrompt, prismImageAspect, brandProfile, brandName, messages, user]);
+  }, [agentId, brandProfile, brandName]);
 
   const trigger3DGeneration = useCallback(
     async (userPrompt: string, msgIndex: number, imageUrl?: string) => {
@@ -923,59 +752,89 @@ const ChatPage = () => {
   const [sparkMobileView, setSparkMobileView] = useState<"chat" | "preview">("chat");
 
   // Collect agent-specific tabs (must be before early return)
-   const agentTabs = useMemo(() => {
+  const agentTabs = useMemo(() => {
     if (!agent) return [];
     const tabs: { id: string; label: string; icon?: React.ReactNode }[] = [];
-
-    // Consolidate all agent-specific tool tabs under a "Tools" mega-tab
-    const toolTabs: { id: string; label: string }[] = [];
-    if (hasTemplateTab) toolTabs.push({ id: "templates", label: "Templates" });
-    if (isMarketing) toolTabs.push({ id: "content_studio", label: "Content Studio" });
+    if (hasTemplateTab) tabs.push({ id: "templates", label: "Templates", icon: <LayoutGrid size={13} /> });
+    if (isMarketing) tabs.push({ id: "content_studio", label: "Content Studio", icon: <Sparkles size={13} /> });
     if (isConstruction) {
-      ["tender_writer:Tenders", "awards:Awards", "hs_hub:H&S", "esg:ESG", "iot_field:IoT"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      tabs.push({ id: "tender_writer", label: "Tenders", icon: <FileText size={13} /> });
+      tabs.push({ id: "awards", label: "Awards", icon: <Trophy size={13} /> });
+      tabs.push({ id: "hs_hub", label: "H&S", icon: <Shield size={13} /> });
+      tabs.push({ id: "esg", label: "ESG", icon: <Leaf size={13} /> });
     }
     if (isForge) {
-      ["forge_showroom:Showroom", "forge_sales:Sales", "forge_parts:Parts", "forge_marketing:Marketing", "forge_events:Events", "forge_team:Team", "forge_brand:Brand Hub", "forge_audit:Audit"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      ["Showroom", "Sales", "Parts", "Marketing", "Events", "Team", "Brand Hub"].forEach((label, i) => {
+        const ids = ["forge_showroom", "forge_sales", "forge_parts", "forge_marketing", "forge_events", "forge_team", "forge_brand"];
+        tabs.push({ id: ids[i], label });
+      });
     }
     if (isAroha) {
-      ["aroha_contracts:Contracts", "aroha_onboarding:Onboarding", "aroha_payroll:Payroll", "aroha_recruitment:Recruitment", "aroha_retention:Retention", "aroha_people:People", "aroha_company:Setup"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      ["Contracts", "Onboarding", "Payroll", "Recruitment", "People", "Setup"].forEach((label, i) => {
+        const ids = ["aroha_contracts", "aroha_onboarding", "aroha_payroll", "aroha_recruitment", "aroha_people", "aroha_company"];
+        tabs.push({ id: ids[i], label });
+      });
     }
     if (isAura) {
-      ["aura_food_safety:Food Safety", "aura_kitchen:Menu Builder", "aura_team:Staff Rostering", "aura_guest:Guest Experience", "aura_operations:Compliance"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      const auraMode = auraPropertyMode || "luxury_lodge";
+
+      const allAuraTabs: { id: string; label: string; modes: string[] }[] = [
+        { id: "aura_reservations", label: "Reservations", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
+        { id: "aura_guest", label: "Guest Exp", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar"] },
+        { id: "aura_memory", label: "Guest CRM", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
+        { id: "aura_kitchen", label: "Kitchen", modes: ["luxury_lodge", "boutique_hotel", "restaurant_bar", "cafe", "catering_events"] },
+        { id: "aura_marketing", label: "Marketing", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
+        { id: "aura_events", label: "Events", modes: ["luxury_lodge", "boutique_hotel", "restaurant_bar", "catering_events"] },
+        { id: "aura_operations", label: "Operations", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
+        { id: "aura_revenue", label: "Revenue", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar"] },
+        { id: "aura_team", label: "Team", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
+        { id: "aura_sustainability", label: "Sustain", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
+        { id: "aura_trade", label: "Trade", modes: ["luxury_lodge", "boutique_hotel", "accommodation"] },
+        { id: "aura_pos", label: "POS", modes: ["restaurant_bar", "cafe", "luxury_lodge", "boutique_hotel", "catering_events"] },
+        { id: "aura_setup", label: "Setup", modes: ["luxury_lodge", "boutique_hotel", "accommodation", "restaurant_bar", "cafe", "catering_events"] },
+      ];
+
+      allAuraTabs
+        .filter(t => t.modes.includes(auraMode))
+        .forEach(t => tabs.push({ id: t.id, label: t.label }));
     }
     if (isHaven) {
-      ["haven_dashboard:Dashboard", "haven_properties:Properties", "haven_jobs:Jobs", "haven_tradies:Tradies", "haven_command:Command", "haven_compliance:Compliance", "haven_costs:Costs", "haven_documents:Docs", "haven_notifications:Alerts"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      ["Dashboard", "Properties", "Jobs", "Tradies", "Command", "Compliance", "Costs", "Docs", "Alerts"].forEach((label, i) => {
+        const ids = ["haven_dashboard", "haven_properties", "haven_jobs", "haven_tradies", "haven_command", "haven_compliance", "haven_costs", "haven_documents", "haven_notifications"];
+        tabs.push({ id: ids[i], label });
+      });
     }
     if (isFlux) {
-      ["flux_pipeline:Pipeline", "flux_followups:Follow-Ups", "flux_clients:Clients"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      ["Pipeline", "Follow-Ups", "Clients"].forEach((label, i) => {
+        const ids = ["flux_pipeline", "flux_followups", "flux_clients"];
+        tabs.push({ id: ids[i], label });
+      });
     }
     if (isPrism) {
-      ["prism_creative:Studio", "prism_brand:Brand", "prism_adengine:Ad Engine"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      ["Campaigns", "Social", "Brand Voice", "Creative", "Ad Studio", "Product", "Video", "Brand Lab", "Publisher"].forEach((label, i) => {
+        const ids = ["prism_campaigns", "prism_social", "prism_brand", "prism_creative", "prism_ads", "prism_product", "prism_video", "prism_brandlab", "prism_publisher"];
+        tabs.push({ id: ids[i], label });
+      });
     }
     if (isNonprofit) {
-      ["kindle_writer:Campaign Writer", "kindle_marketplace:Marketplace", "kindle_impact:Impact", "kindle_corporate:Corporate"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      ["Campaign Writer", "Marketplace", "Impact", "Corporate"].forEach((label, i) => {
+        const ids = ["kindle_writer", "kindle_marketplace", "kindle_impact", "kindle_corporate"];
+        tabs.push({ id: ids[i], label });
+      });
     }
-    if (isAxis) toolTabs.push({ id: "axis_automations", label: "Automations" });
+    if (isAxis) tabs.push({ id: "axis_automations", label: "Automations" });
     if (isHelm) {
-      ["helm_week:This Week", "helm_bus:Bus", "helm_timetable:Timetable", "helm_inbox:Inbox", "helm_review:Review", "helm_rescue:Rescue", "helm_settings:Settings"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      ["This Week", "Bus", "Timetable", "Inbox", "Review", "Rescue", "Settings"].forEach((label, i) => {
+        const ids = ["helm_week", "helm_bus", "helm_timetable", "helm_inbox", "helm_review", "helm_rescue", "helm_settings"];
+        tabs.push({ id: ids[i], label });
+      });
     }
-    if (isSports) {
-      ["turf_events:Events", "turf_membership:Membership", "turf_facilities:Facilities", "turf_sponsorship:Sponsorship", "turf_performance:Performance", "turf_compliance:Compliance"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
-    }
-    if (hasLiveDataTab) toolTabs.push({ id: "live_data", label: "Live Data" });
-    if (!isHelm && !isSports && agentId !== "maritime") toolTabs.push({ id: "internal_comms", label: "Comms" });
-
-    // Top-level tabs: Chat is always shown separately; these are the other 4
-    if (toolTabs.length > 0) tabs.push(...toolTabs.map(t => ({ id: t.id, label: t.label })));
-
-    // Voice tab
+    // Voice tab available for ALL agents — uses ElevenLabs Conversational AI where available, fallback TTS for others
     tabs.push({ id: "voice_waitlist", label: "Voice", icon: <Mic size={13} /> });
-    // SMS tab
-    tabs.push({ id: "agent_sms", label: "SMS", icon: <MessageSquare size={13} /> });
-    // Settings/Train tab
-    tabs.push({ id: "agent_training", label: "Settings", icon: <Brain size={13} /> });
+    tabs.push({ id: "agent_training", label: "Train", icon: <Brain size={13} /> });
+    if (!isHelm && agentId !== "maritime") tabs.push({ id: "internal_comms", label: "Comms", icon: <MessageSquare size={13} /> });
     return tabs;
-  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, isSports, hasLiveDataTab, auraModeKey]);
+  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, auraModeKey, auraPropertyMode]);
 
   const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#00E5FF");
 
@@ -1156,23 +1015,14 @@ const ChatPage = () => {
       const functionName = isHaven ? "haven-ai" : "chat";
 
       if (isHaven && !session?.access_token) {
-        setMessages((prev) => [...prev, { role: "assistant", content: " Please sign in to use HAVEN's property management features. Your data is securely linked to your account." }]);
+        setMessages((prev) => [...prev, { role: "assistant", content: "🔒 Please sign in to use HAVEN's property management features. Your data is securely linked to your account." }]);
         setIsLoading(false);
         return;
       }
 
-      // Detect @mentions to include cross-agent context
-      const mentionRegex = /@([A-Z]{2,15})\b/g;
-      const mentionedAgents: string[] = [];
-      let mentionMatch;
-      while ((mentionMatch = mentionRegex.exec(content)) !== null) {
-        const mentionedAgent = [...agents, echoAgent, pilotAgent].find(a => a.name.toUpperCase() === mentionMatch![1]);
-        if (mentionedAgent) mentionedAgents.push(mentionedAgent.id);
-      }
-
       const body = isHaven
         ? { messages: apiMessages }
-        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, model: selectedModel, mentionedAgents: mentionedAgents.length > 0 ? mentionedAgents : undefined, receptionistMode: agentId === "echo" && receptionistMode ? true : undefined };
+        : { agentId: agent.id, messages: apiMessages, brandContext: brandProfile || undefined, brandLogoUrl: brandLogoUrl || undefined, teReoPrompt: teReoPrompt || undefined, propertyMode: isAura ? auraPropertyMode : undefined, model: selectedModel };
 
       const invokeOptions: any = { body };
       if (isHaven && session?.access_token) {
@@ -1182,13 +1032,7 @@ const ChatPage = () => {
       const { data, error } = await supabase.functions.invoke(functionName, invokeOptions);
 
       if (error) throw error;
-      if (!data || data.error) {
-        throw new Error(data?.error || "No response from AI agent");
-      }
       const assistantContent = data.content;
-      if (!assistantContent) {
-        throw new Error("Empty response from AI agent — please try again");
-      }
       setMessages((prev) => [...prev, { role: "assistant", content: assistantContent }]);
 
       // Auto-save ALL agent outputs to exported_outputs for dashboard
@@ -1207,36 +1051,6 @@ const ChatPage = () => {
         }).then(() => {});
       }
 
-      // Write business context to shared_context when key facts detected
-      if (user && assistantContent) {
-        const userText = content.toLowerCase();
-        const contextWrites: { key: string; value: any }[] = [];
-        
-        // Detect business identity facts from user messages
-        const bizNameMatch = content.match(/(?:my (?:business|company|shop|store|firm|practice) (?:is|called|named))\s+["']?([^"'\n,.]+)/i);
-        if (bizNameMatch) contextWrites.push({ key: "business_name", value: bizNameMatch[1].trim() });
-        
-        const industryMatch = content.match(/(?:we're|we are|i'm|i am|we run|i run)\s+(?:a|an|in)\s+(construction|hospitality|retail|automotive|legal|property|sports|agriculture|tourism|tech|marketing|nonprofit|logistics|finance|healthcare|education)\b/i);
-        if (industryMatch) contextWrites.push({ key: "industry", value: industryMatch[1].toLowerCase() });
-        
-        const teamMatch = content.match(/(\d+)\s+(?:staff|employees|people|team members)/i);
-        if (teamMatch) contextWrites.push({ key: "team_size", value: parseInt(teamMatch[1]) });
-        
-        const locationMatch = content.match(/(?:based in|located in|we're in|from)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/);
-        if (locationMatch) contextWrites.push({ key: "location", value: locationMatch[1] });
-
-        // Write detected facts to shared_context
-        for (const ctx of contextWrites) {
-          supabase.from("shared_context").upsert({
-            user_id: user.id,
-            context_key: ctx.key,
-            context_value: ctx.value,
-            source_agent: agentId || "echo",
-            confidence: 0.8,
-          }, { onConflict: "user_id,context_key" }).then(() => {});
-        }
-      }
-
       // Process NEXUS workflow data from response
       if (isNexus && nexusWorkflowActive) {
         processNexusResponse(assistantContent);
@@ -1249,35 +1063,9 @@ const ChatPage = () => {
         const userQuality = qualityMatch ? qualityMatch[1].toLowerCase() : undefined;
         triggerInlineImages(assistantContent, currentMsgIndex, userQuality);
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Chat error:", err);
-      // Surface specific error messages from edge function
-      let errorMsg = "Sorry, I'm having trouble connecting right now. Please try again.";
-      
-      // Try to extract error from various error shapes
-      const errMsg = err?.message || "";
-      const errStatus = err?.status || err?.code;
-      
-      // Check context body first (supabase SDK wraps edge function responses)
-      if (err?.context?.body) {
-        try {
-          const body = typeof err.context.body === "string" ? JSON.parse(err.context.body) : err.context.body;
-          if (body?.error) errorMsg = body.error;
-        } catch {}
-      }
-      
-      // Override with specific known errors
-      if (errMsg.includes("Rate limit") || errMsg.includes("429") || errStatus === 429) {
-        errorMsg = "I'm receiving too many requests right now. Please wait a moment and try again.";
-      } else if (errMsg.includes("402") || errMsg.includes("credits") || errStatus === 402) {
-        errorMsg = "AI credits have been exhausted. Please contact your administrator.";
-      } else if (errMsg.includes("Unknown agent") || errMsg.includes("400")) {
-        errorMsg = `Agent "${agent?.name || agentId}" is not available right now. Please try another agent.`;
-      } else if (errMsg.includes("Failed to send") || errMsg.includes("NetworkError") || errMsg.includes("fetch")) {
-        errorMsg = "Network error — please check your connection and try again.";
-      }
-      
-      setMessages((prev) => [...prev, { role: "assistant", content: errorMsg }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Please try again." }]);
     } finally {
       setIsLoading(false);
       inputRef.current?.focus();
@@ -1341,55 +1129,6 @@ const ChatPage = () => {
   const showMsgCounter = user && !isPaid;
   const remaining = dailyLimit - dailyMessageCount;
 
-  // Render @AGENT_NAME mentions as colored pills
-  const renderWithMentions = (text: string) => {
-    const ALL_AGENTS_LIST = [echoAgent, pilotAgent, ...agents];
-    const mentionRegex = /@([A-Z]{2,15})\b/g;
-    const parts: (string | React.ReactNode)[] = [];
-    let lastIndex = 0;
-    let match;
-    while ((match = mentionRegex.exec(text)) !== null) {
-      if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index));
-      const mentionName = match[1];
-      const mentionedAgent = ALL_AGENTS_LIST.find(a => a.name.toUpperCase() === mentionName);
-      if (mentionedAgent) {
-        parts.push(
-          <Link key={match.index} to={`/chat/${mentionedAgent.id}`}
-            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-[11px] font-bold no-underline hover:opacity-80 transition-opacity mx-0.5"
-            style={{ backgroundColor: mentionedAgent.color + "20", color: mentionedAgent.color, border: `1px solid ${mentionedAgent.color}30` }}>
-            @{mentionedAgent.name}
-          </Link>
-        );
-      } else {
-        parts.push(match[0]);
-      }
-      lastIndex = match.index + match[0].length;
-    }
-    if (lastIndex < text.length) parts.push(text.slice(lastIndex));
-    return parts.length > 0 ? <>{parts}</> : text;
-  };
-
-  const mdComponents = useMemo(() => ({
-    a: ({ href, children, ...props }: any) => {
-      if (href && href.startsWith("/")) {
-        return (
-          <Link
-            to={href}
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold no-underline transition-all duration-200 hover:scale-105"
-            style={{
-              background: `${agent.color}20`,
-              color: agent.color,
-              border: `1px solid ${agent.color}30`,
-            }}
-          >
-            {children} →
-          </Link>
-        );
-      }
-      return <a href={href} target="_blank" rel="noopener noreferrer" {...props}>{children}</a>;
-    },
-  }), [agent.color]);
-
   const renderMessageContent = (msg: Message, msgIndex?: number) => {
     // Strip [GENERATE_IMAGE: ...] tags from displayed content
     const content = msg.content.replace(/\[GENERATE_IMAGE:\s*.*?\]/g, "").trim();
@@ -1438,7 +1177,7 @@ const ChatPage = () => {
               <HelmChecklist key={i} content={p.content} />
             ) : (
               <div key={i} className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
-                <ReactMarkdown components={mdComponents}>{p.content}</ReactMarkdown>
+                <ReactMarkdown>{p.content}</ReactMarkdown>
               </div>
             )
           )}
@@ -1446,14 +1185,9 @@ const ChatPage = () => {
       );
     }
 
-    // Check for @mentions in user messages — render as pills
-    if (msg.role === "user" && /@[A-Z]{2,15}\b/.test(content)) {
-      return <div className="text-sm leading-relaxed">{renderWithMentions(content)}</div>;
-    }
-
     return (
       <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
-        <ReactMarkdown components={mdComponents}>{content}</ReactMarkdown>
+        <ReactMarkdown>{content}</ReactMarkdown>
       </div>
     );
   };
@@ -1500,11 +1234,9 @@ const ChatPage = () => {
         <div className="absolute top-0 inset-x-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent 0%, ${accentColor}40 50%, transparent 100%)` }} />
 
         <div className="flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3">
-          <Link to="/" className="flex items-center gap-2 shrink-0 group">
-            <img src={nexusLogo} alt="Assembl" className="w-7 h-7 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-            <span className="font-syne font-bold tracking-[3px] uppercase text-[11px] text-foreground/70 group-hover:text-foreground transition-colors hidden sm:inline">ASSEMBL</span>
+          <Link to="/" className="p-1.5 rounded-lg hover:bg-muted transition-colors text-foreground shrink-0">
+            <ArrowLeft size={18} />
           </Link>
-          <div className="w-px h-5 bg-border/30 hidden sm:block" />
 
           {/* Agent identity */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -1533,31 +1265,11 @@ const ChatPage = () => {
             )}
 
             <LanguageSelector agentColor={agent.color} />
-
-            {/* New Chat button */}
-            {messages.length > 0 && (
-              <button
-                onClick={() => {
-                  setMessages([]);
-                  setConversationId(null);
-                  setGenerations([]);
-                  setGenCount(0);
-                  setInput("");
-                }}
-                className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-jakarta font-medium transition-colors hover:opacity-80 shrink-0"
-                style={{ color: accentColor, border: `1px solid ${accentColor}20` }}
-                title="Start new conversation (current is auto-saved)"
-              >
-                <RotateCcw size={10} />
-                <span className="hidden sm:inline">New</span>
-              </button>
-            )}
-
             <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
 
-            {/* Brand badge — hidden on mobile */}
+            {/* Brand badge */}
             {brandProfile ? (
-              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
+              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
                 style={{ backgroundColor: accentColor + "12", color: accentColor, border: `1px solid ${accentColor}20` }}>
                 <Globe size={11} />
                 <span className="max-w-[60px] truncate">{brandName}</span>
@@ -1565,22 +1277,22 @@ const ChatPage = () => {
               </div>
             ) : (
               <LockedButton feature="brand_scan" onClick={() => setBrandModalOpen(true)}
-                className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
                 style={{ color: accentColor, border: `1px solid ${accentColor}25` }}>
                 <Globe size={12} />
               </LockedButton>
             )}
 
-            {/* Logo badge — hidden on mobile */}
+            {/* Logo badge */}
             {brandLogoUrl ? (
-              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
+              <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
                 style={{ backgroundColor: accentColor + "12", color: accentColor, border: `1px solid ${accentColor}20` }}>
                 <img src={brandLogoUrl} alt="Logo" className="w-4 h-4 rounded-sm object-contain" />
                 <button onClick={() => { setBrandLogoUrl(null); sessionStorage.removeItem("assembl_brand_logo"); }} className="hover:opacity-70"><X size={10} /></button>
               </div>
             ) : (
               <LockedButton feature="brand_scan" onClick={() => logoInputRef.current?.click()}
-                className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80"
                 style={{ color: accentColor, border: `1px solid ${accentColor}25` }}>
                 {isUploadingLogo ? <Loader2 size={12} className="animate-spin" /> : <Upload size={12} />}
               </LockedButton>
@@ -1590,8 +1302,8 @@ const ChatPage = () => {
               <span className="text-[10px] font-mono px-2 py-1 rounded-full border border-border text-muted-foreground">{remaining}/{dailyLimit}</span>
             )}
 
-            <span className="hidden sm:block"><AgentMemoryPanel agentId={agentId!} agentColor={agent.color} agentName={agent.name} /></span>
-            <span className="hidden sm:block"><ActionQueuePanel agentColor={agent.color} /></span>
+            <AgentMemoryPanel agentId={agentId!} agentColor={agent.color} agentName={agent.name} />
+            <ActionQueuePanel agentColor={agent.color} />
             <AccountDropdown />
           </div>
         </div>
@@ -1614,7 +1326,22 @@ const ChatPage = () => {
               Chat
             </button>
 
-            {/* Aura property mode selector removed — AURA is a general NZ hospitality agent */}
+            {/* Aura property mode selector */}
+            {isAura && (
+              <select
+                value={auraPropertyMode}
+                onChange={(e) => { setAuraPropertyMode(e.target.value); sessionStorage.setItem("aura_property_mode", e.target.value); }}
+                className="px-3 py-2 rounded-xl text-xs font-medium bg-muted/30 border cursor-pointer focus:outline-none shrink-0"
+                style={{ borderColor: accentColor + "30", color: accentColor }}
+              >
+                <option value="luxury_lodge" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Luxury Lodge</option>
+                <option value="boutique_hotel" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Boutique Hotel</option>
+                <option value="restaurant_bar" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Restaurant / Bar</option>
+                <option value="cafe" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Café</option>
+                <option value="accommodation" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Accommodation (B&B)</option>
+                <option value="catering_events" style={{ background: "hsl(var(--card))", color: "hsl(var(--foreground))" }}>Catering & Events</option>
+              </select>
+            )}
 
             {/* Agent-specific tabs */}
             {agentTabs.map(t => (
@@ -1639,50 +1366,6 @@ const ChatPage = () => {
         {/* Bottom border glow */}
         <div className="h-[1px]" style={{ background: `linear-gradient(90deg, transparent 0%, ${accentColor}20 30%, ${accentColor}20 70%, transparent 100%)` }} />
       </header>
-
-      {/* First-time onboarding tooltip */}
-      {showOnboardingTooltip && agent && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={dismissOnboarding}>
-          <div className="w-full max-w-sm rounded-2xl p-5 space-y-4 animate-scale-in" style={{ background: "#0D0D14", border: `1px solid ${accentColor}30`, boxShadow: `0 0 40px ${accentColor}15` }} onClick={e => e.stopPropagation()}>
-            <div className="flex items-center gap-2">
-              {[0,1,2].map(i => (
-                <div key={i} className="h-1 flex-1 rounded-full transition-all" style={{ background: i <= onboardingStep ? accentColor : "rgba(255,255,255,0.06)" }} />
-              ))}
-            </div>
-            {onboardingStep === 0 && (
-              <div className="text-center space-y-2">
-                <AgentAvatar agentId={agent.id} color={agent.color} size={48} />
-                <h3 className="text-sm font-bold text-foreground">Welcome to {agent.name}</h3>
-                <p className="text-xs text-muted-foreground">{agent.tagline}</p>
-              </div>
-            )}
-            {onboardingStep === 1 && (
-              <div className="space-y-2">
-                <h3 className="text-sm font-bold text-foreground text-center">What I can do for you</h3>
-                <div className="space-y-1.5">
-                  {(agentCapabilities[agentId || ""] || []).slice(0, 3).map((cap) => (
-                    <div key={cap.title} className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: `${accentColor}08` }}>
-                      <cap.icon size={13} style={{ color: accentColor }} />
-                      <span className="text-[11px] text-foreground/80">{cap.title}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            {onboardingStep === 2 && (
-              <div className="space-y-2 text-center">
-                <h3 className="text-sm font-bold text-foreground">Try asking me...</h3>
-                <p className="text-xs text-muted-foreground italic px-4">"{agent.starters[0]}"</p>
-              </div>
-            )}
-            <button onClick={dismissOnboarding}
-              className="w-full py-2 rounded-lg text-xs font-semibold transition-all"
-              style={{ background: `${accentColor}15`, color: accentColor, border: `1px solid ${accentColor}25` }}>
-              {onboardingStep < 2 ? "Next" : "Get Started"}
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Hidden logo file input */}
       <input
@@ -1762,12 +1445,24 @@ const ChatPage = () => {
         <FluxFollowUps />
       ) : activeTab === "flux_clients" && isFlux ? (
         <FluxClients />
-      ) : activeTab === "prism_creative" && isPrism ? (
-        <ContentStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_campaigns" && isPrism ? (
+        <PrismCampaigns onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_social" && isPrism ? (
+        <PrismSocialMedia onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_brand" && isPrism ? (
         <PrismBrandVoice onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
-      ) : activeTab === "prism_adengine" && isPrism ? (
-        <PrismAdEngine onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_creative" && isPrism ? (
+        <ContentStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_video" && isPrism ? (
+        <PrismVideoStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_brandlab" && isPrism ? (
+        <PrismBrandLab onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_ads" && isPrism ? (
+        <PrismAdStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_product" && isPrism ? (
+        <PrismProductStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_publisher" && isPrism ? (
+        <PrismSocialPublisher onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "axis_automations" && isAxis ? (
         <AxisAutomations />
       ) : activeTab === "kindle_writer" && isNonprofit ? (
@@ -1778,18 +1473,16 @@ const ChatPage = () => {
         <KindleImpactDashboard />
       ) : activeTab === "kindle_corporate" && isNonprofit ? (
         <KindleCorporateDashboard onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
-      ) : activeTab === "agent_sms" ? (
-        <AgentSmsPanel agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "voice_waitlist" ? (
         <VoiceAgentLive agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "agent_training" ? (
         <AgentTraining agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
+      ) : activeTab === "aura_setup" && isAura ? (
+        <AuraPropertySetup />
       ) : activeTab === "aura_reservations" && isAura ? (
         <AuraReservations onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_guest" && isAura ? (
         <AuraGuestExperience onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
-      ) : activeTab === "aura_food_safety" && isAura ? (
-        <AuraFoodSafety onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_kitchen" && isAura ? (
         <AuraKitchenFnB onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_marketing" && isAura ? (
@@ -1822,8 +1515,6 @@ const ChatPage = () => {
         <ArohaPeopleCulture />
       ) : activeTab === "aroha_company" && isAroha ? (
         <ArohaCompanySetup />
-      ) : activeTab === "aroha_retention" && isAroha ? (
-        <ArohaRetention />
       ) : activeTab === "forge_showroom" && isForge ? (
         <ForgeShowroom />
       ) : activeTab === "forge_sales" && isForge ? (
@@ -1838,8 +1529,6 @@ const ChatPage = () => {
         <ForgeBrandHub />
       ) : activeTab === "forge_team" && isForge ? (
         <ForgeTeam />
-      ) : activeTab === "forge_audit" && isForge ? (
-        <ForgeAudit />
       ) : activeTab === "content_studio" && isMarketing ? (
         <ContentStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "tender_writer" && isConstruction ? (
@@ -1850,24 +1539,6 @@ const ChatPage = () => {
         <ApexHSHub isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "esg" && isConstruction ? (
         <ApexESGDashboard isPaid={isPaid} userRole={role || undefined} />
-      ) : activeTab === "iot_field" && isConstruction ? (
-        <ApexIoTFieldTech />
-      ) : activeTab.startsWith("turf_") && isSports ? (
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
-          <h2 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>
-            {activeTab === "turf_events" ? "Event Manager" : activeTab === "turf_membership" ? "Membership" : activeTab === "turf_facilities" ? "Facilities" : activeTab === "turf_sponsorship" ? "Sponsorship" : activeTab === "turf_performance" ? "Performance" : "Compliance"}
-          </h2>
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
-            Use TURF chat to manage {activeTab.replace("turf_", "")} — ask anything about your club's {activeTab.replace("turf_", "")} needs.
-          </p>
-          <button onClick={() => { setActiveTab("chat"); setInput(`Help me with ${activeTab.replace("turf_", "")} management for my sports club. `); inputRef.current?.focus(); }}
-            className="px-4 py-2.5 rounded-lg text-xs font-semibold transition-all hover:scale-[0.98] flex items-center gap-2"
-            style={{ background: `${agent.color}20`, color: agent.color, border: `1px solid ${agent.color}30` }}>
-            <Sparkles size={14} /> Open in Chat
-          </button>
-        </div>
-      ) : activeTab === "live_data" && hasLiveDataTab ? (
-        <LiveDataPanel agentId={agent.id} agentName={agent.name} agentColor={accentColor} onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "internal_comms" ? (
         <InternalComms agentId={agent.id} agentName={agent.name} agentColor={agent.color} isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "templates" && hasTemplateTab ? (
@@ -1910,30 +1581,17 @@ const ChatPage = () => {
                   borderBottom: sparkMobileView === "preview" ? `2px solid ${previewAccentColor}` : "2px solid transparent",
                 }}
               >
-                {isSpark ? " Live Preview" : " Creative Preview"}
+                {isSpark ? "⚡ Live Preview" : "🎨 Creative Preview"}
               </button>
             </div>
           )}
           {/* Chat Area */}
           <div className={`${hasLivePreview ? "md:w-[40%] md:min-w-0 md:border-r md:border-border" : ""} ${hasLivePreview && sparkMobileView === "preview" ? "hidden md:flex" : "flex"} flex-col flex-1 min-h-0`}>
           <div className="flex-1 overflow-y-auto px-4 py-4">
-            {/* Proactive cross-agent alerts */}
-            {agentId && <ProactiveAlertCards currentAgentId={agentId} accentColor={accentColor} />}
-
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center min-h-full text-center gap-4 py-6 opacity-0 animate-fade-up overflow-y-auto" style={{ animationFillMode: "forwards" }}>
                 <AgentWelcome agent={agent} />
-                {isPrism && (
-                  <div className="w-full max-w-sm mt-2 space-y-3">
-                    {brandLogoUrl && (
-                      <div className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl" style={{ background: `${agent.color}08`, border: `1px solid ${agent.color}15` }}>
-                        <img src={brandLogoUrl} alt="Your brand logo" className="w-8 h-8 rounded-lg object-contain" />
-                        <span className="text-xs text-muted-foreground">Brand logo active</span>
-                      </div>
-                    )}
-                    <PrismBrandDNA onRescan={() => setBrandModalOpen(true)} />
-                  </div>
-                )}
+                {isPrism && <div className="w-full max-w-sm mt-2"><PrismBrandDNA onRescan={() => setBrandModalOpen(true)} /></div>}
                 {isSpark && <div className="w-full max-w-md mt-2"><SparkTemplateGrid agentColor={agent.color} onSelectTemplate={(prompt) => sendMessage(prompt)} /></div>}
 
                 {isHelm ? (
@@ -1964,49 +1622,12 @@ const ChatPage = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-lg mt-2">
-                    {(() => {
-                      const caps = (agentCapabilities[agentId || ""] || []).slice(0, 4);
-                      if (caps.length > 0) {
-                        return caps.map((cap) => (
-                          <button key={cap.prompt} onClick={() => sendMessage(cap.prompt)}
-                            className="text-left rounded-xl p-3.5 transition-all duration-200 hover:scale-[1.01] group relative overflow-hidden"
-                            style={{
-                              background: "rgba(14,14,26,0.7)",
-                              backdropFilter: "blur(16px)",
-                              WebkitBackdropFilter: "blur(16px)",
-                              border: `1px solid ${agent.color}15`,
-                              boxShadow: `0 0 0 0 ${agent.color}00`,
-                            }}
-                            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = agent.color + "40"; (e.currentTarget as HTMLElement).style.boxShadow = `0 0 20px ${agent.color}10`; }}
-                            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = agent.color + "15"; (e.currentTarget as HTMLElement).style.boxShadow = `0 0 0 0 ${agent.color}00`; }}
-                          >
-                            <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-20 transition-opacity" style={{ background: `linear-gradient(90deg, transparent, ${agent.color}, transparent)` }} />
-                            <div className="flex items-start gap-2.5">
-                              <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${agent.color}12`, border: `1px solid ${agent.color}20` }}>
-                                <cap.icon size={14} style={{ color: agent.color }} />
-                              </div>
-                              <div className="min-w-0">
-                                <p className="text-xs font-bold text-foreground mb-0.5">{cap.title}</p>
-                                <p className="text-[10px] text-muted-foreground leading-relaxed">{cap.description}</p>
-                              </div>
-                            </div>
-                          </button>
-                        ));
-                      }
-                      return agent.starters.map((q) => (
-                        <button key={q} onClick={() => sendMessage(q)}
-                          className="text-left rounded-xl p-3.5 transition-all duration-200 hover:scale-[1.01]"
-                          style={{
-                            background: "rgba(14,14,26,0.7)",
-                            backdropFilter: "blur(16px)",
-                            border: `1px solid ${agent.color}15`,
-                          }}
-                        >
-                          <p className="text-xs text-foreground/70">{q}</p>
-                        </button>
-                      ));
-                    })()}
+                  <div className="flex flex-col gap-2 w-full max-w-sm mt-2">
+                    {agent.starters.map((q) => (
+                      <button key={q} onClick={() => sendMessage(q)} className="text-left text-xs px-4 py-3 rounded-lg border border-border bg-card hover:border-foreground/10 transition-colors text-foreground/70">
+                        {q}
+                      </button>
+                    ))}
                   </div>
                 )}
 
@@ -2081,23 +1702,22 @@ const ChatPage = () => {
                                 <LegislationCard content={msg.content} agentColor={agent.color} />
                                 <ResponseSources content={msg.content} />
                                 <AITransparencyBadge />
-                                <p className="text-[10px] mt-2 leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.35)" }}>
-                                  AI-generated guidance — not a substitute for professional advice. Verify before acting.
-                                </p>
                               </div>
                               <div className="flex items-center gap-1">
-                                <button
+                                {isHelm && (
+                                  <button
                                     type="button"
                                     onClick={() => speakText(msg.content, i)}
                                     className="p-1 rounded-md transition-colors"
                                     style={{
-                                      color: isSpeaking === i ? agent.color : "hsl(var(--muted-foreground))",
-                                      background: isSpeaking === i ? `${agent.color}15` : "transparent",
+                                      color: isSpeaking === i ? "#B388FF" : "hsl(var(--muted-foreground))",
+                                      background: isSpeaking === i ? "rgba(179,136,255,0.15)" : "transparent",
                                     }}
                                     title={isSpeaking === i ? "Stop speaking" : "Read aloud"}
                                   >
                                     <Volume2 size={14} />
                                   </button>
+                                )}
                                 <MessagePDFButton content={msg.content} agentId={agent.id} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
                                 <SaveToLibrary content={msg.content} agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
                               </div>
@@ -2126,25 +1746,11 @@ const ChatPage = () => {
                               {inlineImages[i].urls.map((url, imgIdx) => (
                                 <div key={imgIdx} className="relative group rounded-xl overflow-hidden border border-border">
                                   <img src={url} alt={`Generated visual ${imgIdx + 1}`} className="w-full h-auto rounded-xl" />
-                                   <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                     <button onClick={async () => {
-                                       try {
-                                         const res = await fetch(url);
-                                         const blob = await res.blob();
-                                         const pngBlob = new Blob([blob], { type: "image/png" });
-                                         const blobUrl = URL.createObjectURL(pngBlob);
-                                         const a = document.createElement("a");
-                                         a.href = blobUrl;
-                                         a.download = `assembl-${agent?.name?.toLowerCase() || "image"}-${Date.now()}-${imgIdx}.png`;
-                                         document.body.appendChild(a);
-                                         a.click();
-                                         document.body.removeChild(a);
-                                         URL.revokeObjectURL(blobUrl);
-                                       } catch { /* fallback */ window.open(url, "_blank"); }
-                                     }} className="p-1.5 rounded-md bg-black/60 hover:bg-black/80 text-white transition-colors" title="Download PNG">
-                                       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                                     </button>
-                                   </div>
+                                  <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <a href={url} download={`assembl-echo-${Date.now()}-${imgIdx}.png`} className="p-1.5 rounded-md bg-black/60 hover:bg-black/80 text-white transition-colors" title="Download">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    </a>
+                                  </div>
                                 </div>
                               ))}
                             </div>
@@ -2217,43 +1823,6 @@ const ChatPage = () => {
             </div>
           )}
 
-          {/* ECHO Receptionist Mode Toggle + Quick Actions Bar */}
-          {messages.length > 0 && (
-            <div className="px-4 py-1.5 shrink-0">
-              <div className="max-w-2xl mx-auto flex gap-1.5 items-center overflow-x-auto scrollbar-hide">
-                {agentId === "echo" && (
-                  <button
-                    onClick={() => {
-                      const next = !receptionistMode;
-                      setReceptionistMode(next);
-                      sessionStorage.setItem("assembl_receptionist_mode", String(next));
-                    }}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-semibold whitespace-nowrap shrink-0 transition-all ${
-                      receptionistMode
-                        ? "bg-[#E4A0FF] text-black shadow-[0_0_12px_rgba(228,160,255,0.4)]"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                    style={!receptionistMode ? { background: `${agent.color}10`, border: `1px solid ${agent.color}20` } : undefined}
-                  >
-                    <Phone size={11} />
-                    Receptionist Mode
-                  </button>
-                )}
-                {(() => {
-                  const quickActions = (agentCapabilities[agentId || ""] || []).slice(0, 3);
-                  return quickActions.map((qa) => (
-                    <button key={qa.title} onClick={() => sendMessage(qa.prompt)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-medium whitespace-nowrap shrink-0 transition-all hover:scale-[1.02]"
-                      style={{ background: `${agent.color}10`, color: agent.color, border: `1px solid ${agent.color}20` }}>
-                      <qa.icon size={11} />
-                      {qa.title}
-                    </button>
-                  ));
-                })()}
-              </div>
-            </div>
-          )}
-
           {/* Input Bar */}
           <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">
             <div className="max-w-2xl mx-auto flex gap-2 items-center">
@@ -2309,9 +1878,9 @@ const ChatPage = () => {
                 </Tooltip>
               )}
 
-              {/* Model selector for PRISM — hidden on mobile */}
+              {/* Model selector for PRISM */}
               {isPrism && (
-                <div className="relative hidden sm:block">
+                <div className="relative">
                   <select
                     value={selectedModel}
                     onChange={(e) => { setSelectedModel(e.target.value); sessionStorage.setItem("assembl_ai_model", e.target.value); }}
@@ -2319,11 +1888,11 @@ const ChatPage = () => {
                     style={{ borderColor: agent.color + "30" }}
                     title="Select AI model"
                   >
-                    <option value="gemini-flash"> Gemini Flash</option>
-                    <option value="gemini-pro"> Gemini Pro</option>
-                    <option value="gemini-flash-lite"> Gemini Lite</option>
-                    <option value="gpt-5-mini"> GPT-5 Mini</option>
-                    <option value="gpt-5"> GPT-5</option>
+                    <option value="gemini-flash">⚡ Gemini Flash</option>
+                    <option value="gemini-pro">🧠 Gemini Pro</option>
+                    <option value="gemini-flash-lite">💨 Gemini Lite</option>
+                    <option value="gpt-5-mini">🤖 GPT-5 Mini</option>
+                    <option value="gpt-5">🏆 GPT-5</option>
                   </select>
                   <div className="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M2 3.5L5 7L8 3.5H2Z"/></svg>
@@ -2331,38 +1900,11 @@ const ChatPage = () => {
                 </div>
               )}
 
-              {/* PRISM: Direct image generation camera button — hidden on mobile */}
-              {isPrism && (
-                <button
-                  type="button"
-                  onClick={() => setPrismImageModalOpen(true)}
-                  disabled={isLoading || prismImageGenerating}
-                  className="hidden sm:flex p-2.5 rounded-lg border transition-all duration-200 hover:scale-105 disabled:opacity-30"
-                  style={{ borderColor: agent.color + "30", color: agent.color }}
-                  title="Generate image directly"
-                >
-                  <Camera size={16} />
-                </button>
-               )}
-
-              {/* PRISM: Ad Engine button — hidden on mobile */}
-              {isPrism && (
-                <button
-                  type="button"
-                  onClick={() => setAdEngineOpen(true)}
-                  className="hidden sm:flex p-2.5 rounded-lg border transition-all duration-200 hover:scale-105"
-                  style={{ borderColor: agent.color + "30", color: agent.color }}
-                  title="Ad Engine — Generate ad campaigns"
-                >
-                  <Target size={16} />
-                </button>
-              )}
-
               {isHelm && (
                 <button
                   type="button"
                   onClick={toggleListening}
-                  className="hidden sm:flex p-2.5 rounded-lg border transition-all duration-200"
+                  className="p-2.5 rounded-lg border transition-all duration-200"
                   style={{
                     borderColor: isListening ? "#B388FF" : "hsl(var(--border))",
                     color: isListening ? "#B388FF" : "hsl(var(--muted-foreground))",
@@ -2440,44 +1982,6 @@ const ChatPage = () => {
         </div>
       )}
 
-      {/* PRISM Image Generation Modal */}
-      {prismImageModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={() => setPrismImageModalOpen(false)}>
-          <div className="w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#0D0D14", border: "1px solid rgba(255,255,255,0.06)" }} onClick={e => e.stopPropagation()}>
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>Generate Image</h3>
-              <button onClick={() => setPrismImageModalOpen(false)}><X size={16} style={{ color: "rgba(255,255,255,0.4)" }} /></button>
-            </div>
-            <div>
-              <label className="text-[10px] uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>Prompt *</label>
-              <textarea value={prismImagePrompt} onChange={e => setPrismImagePrompt(e.target.value)} rows={3}
-                className="w-full px-3 py-2 rounded-lg text-xs bg-transparent border outline-none resize-none"
-                style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} placeholder="Describe the image you want to create..." />
-            </div>
-            <div>
-              <label className="text-[10px] uppercase tracking-wider mb-1.5 block" style={{ color: "rgba(255,255,255,0.4)" }}>Aspect Ratio</label>
-              <div className="flex gap-2">
-                {(["1:1", "16:9", "9:16", "4:3"] as const).map(ar => (
-                  <button key={ar} onClick={() => setPrismImageAspect(ar)} className="px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all"
-                    style={{
-                      background: prismImageAspect === ar ? `${agent.color}15` : "rgba(255,255,255,0.03)",
-                      color: prismImageAspect === ar ? agent.color : "rgba(255,255,255,0.4)",
-                      border: `1px solid ${prismImageAspect === ar ? agent.color + "30" : "rgba(255,255,255,0.05)"}`,
-                    }}>
-                    {ar}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <button onClick={handlePrismDirectImageGen} disabled={!prismImagePrompt.trim() || prismImageGenerating}
-              className="w-full py-2.5 rounded-lg text-xs font-semibold transition-all hover:scale-[0.98] disabled:opacity-30 flex items-center justify-center gap-2"
-              style={{ background: `${agent.color}20`, color: agent.color, border: `1px solid ${agent.color}30` }}>
-              {prismImageGenerating ? <><Loader2 size={14} className="animate-spin" /> Generating...</> : <><Camera size={14} /> Generate Image</>}
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Voice Agent Modal */}
       <VoiceAgentModal
         open={voiceModalOpen}
@@ -2488,15 +1992,9 @@ const ChatPage = () => {
         elevenLabsAgentId={getElevenLabsAgentId(agent.id)}
         onHandoffToChat={(voiceTranscript) => {
           if (voiceTranscript.length === 0) return;
-          const voiceMessages: Message[] = voiceTranscript.map(t => ({
-            role: t.role === "user" ? "user" as const : "assistant" as const,
-            content: t.text,
-          }));
-          setMessages(prev => [...prev, ...voiceMessages]);
-          void sendMessage("I've just switched from voice chat. Please continue our conversation here — I may need to upload files or images.");
+          void sendMessage(buildVoiceHandoffPrompt(voiceTranscript));
         }}
       />
-      {isPrism && <AdEngineModal open={adEngineOpen} onOpenChange={setAdEngineOpen} />}
     </div>
   );
 };

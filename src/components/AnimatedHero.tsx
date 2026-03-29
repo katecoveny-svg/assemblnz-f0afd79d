@@ -1,7 +1,6 @@
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import AgentShowcase from "@/components/AgentShowcase";
-import AssemblHeroAgent from "@/components/AssemblHeroAgent";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Play } from "lucide-react";
 import AnimatedAssemblLogo from "@/components/AnimatedAssemblLogo";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -10,144 +9,253 @@ interface AnimatedHeroProps {
   onScrollToGrid: () => void;
 }
 
-const STAT_PILLS = [
-  { label: "42 specialist tools" },
-  { label: "50+ NZ Acts" },
-  { label: "16 industries" },
-  { label: "From $89/mo NZD" },
-  { label: "Built in Aotearoa" },
+const FLAGSHIP_AGENTS = [
+  { name: "APEX", role: "Construction Compliance", color: "#00FF88", id: "construction" },
+  { name: "AURA", role: "Luxury Hospitality", color: "#00FF88", id: "hospitality" },
+  { name: "HAVEN", role: "Property Management", color: "#B388FF", id: "property" },
+  { name: "LEDGER", role: "Accounting & Tax", color: "#00E5FF", id: "accounting" },
+  { name: "ANCHOR", role: "Legal Advisory", color: "#00E5FF", id: "legal" },
+];
+
+const ANIMATED_STATS = [
+  { value: "42", label: "AI Agents" },
+  { value: "16", label: "Industries" },
+  { value: "50+", label: "NZ Acts" },
+  { value: "24/7", label: "Always On" },
 ];
 
 const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
   const isMobile = useIsMobile();
-  const heroSize = isMobile ? 240 : 420;
+  const [activeAgent, setActiveAgent] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveAgent((prev) => (prev + 1) % FLAGSHIP_AGENTS.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const agent = FLAGSHIP_AGENTS[activeAgent];
 
   return (
-    <section className="relative overflow-hidden min-h-[70vh] sm:min-h-[85vh] flex flex-col items-center">
-      {/* Multi-layer ambient aurora */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+    <section className="relative overflow-hidden min-h-[90vh] sm:min-h-screen flex flex-col items-center justify-center">
+      {/* Multi-layered cosmic background */}
+      <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] sm:w-[1400px] h-[600px] sm:h-[1000px]"
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] sm:w-[1200px] h-[600px] sm:h-[1200px]"
           style={{
-            background: `
-              radial-gradient(ellipse 60% 50% at 35% 30%, hsla(263, 80%, 55%, 0.08) 0%, transparent 60%),
-              radial-gradient(ellipse 50% 40% at 65% 40%, hsla(189, 100%, 50%, 0.07) 0%, transparent 55%),
-              radial-gradient(ellipse 70% 50% at 50% 50%, hsla(160, 84%, 50%, 0.05) 0%, transparent 65%)
-            `,
+            background: "radial-gradient(ellipse at center, hsla(160,84%,39%,0.06) 0%, hsla(189,100%,50%,0.04) 20%, hsla(263,100%,76%,0.03) 40%, transparent 60%)",
           }}
         />
-        {/* Subtle grid pattern */}
         <div
-          className="absolute inset-0 opacity-[0.02]"
+          className="absolute bottom-0 left-0 w-[400px] h-[400px]"
           style={{
-            backgroundImage: `
-              linear-gradient(hsl(0 0% 100% / 0.08) 1px, transparent 1px),
-              linear-gradient(90deg, hsl(0 0% 100% / 0.08) 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px',
+            background: "radial-gradient(circle, hsla(160,84%,39%,0.04) 0%, transparent 70%)",
+          }}
+        />
+        <div
+          className="absolute top-1/3 right-0 w-[300px] h-[300px]"
+          style={{
+            background: "radial-gradient(circle, hsla(263,100%,76%,0.04) 0%, transparent 70%)",
           }}
         />
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6 sm:pt-16 text-center relative z-10 flex flex-col items-center">
-        {/* Animated Assembl Logo */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10 flex flex-col items-center">
+        {/* Logo */}
         <motion.div
-          className="flex justify-center mb-1 sm:mb-2"
+          className="flex justify-center mb-4 sm:mb-6"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <AnimatedAssemblLogo size={isMobile ? 52 : 80} />
+          <AnimatedAssemblLogo size={isMobile ? 48 : 72} />
         </motion.div>
 
-        {/* Robot Hero */}
-        <motion.div
-          className="flex justify-center -mb-2 sm:-mb-4"
-          initial={{ opacity: 0, scale: 0.7 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.15 }}
-        >
-          <AssemblHeroAgent size={heroSize} />
-        </motion.div>
-
-        {/* Main heading — refined typography */}
-        <motion.div
-          className="hero-text-block rounded-2xl px-4 sm:px-6 py-4 sm:py-6 mx-auto max-w-3xl"
+        {/* Main heading */}
+        <motion.h1
+          className="text-3xl sm:text-6xl lg:text-7xl font-syne font-bold mb-4 leading-[1.1] text-foreground"
+          style={{ letterSpacing: "-0.03em" }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h1
-            className="text-[1.65rem] sm:text-5xl lg:text-[3.5rem] font-display font-extrabold mb-2 leading-[1.1] text-foreground"
-            style={{ letterSpacing: '-0.03em' }}
-          >
-            42 specialist tools that know NZ law
-          </h1>
-          <p
-            className="text-xl sm:text-4xl lg:text-[3rem] font-display font-extrabold leading-[1.15] text-gradient-hero pb-2"
-            style={{ letterSpacing: '-0.02em' }}
-          >
-            better than most businesses do.
-          </p>
-        </motion.div>
+          The operating system
+          <br />
+          <span className="text-gradient-hero">for NZ business.</span>
+        </motion.h1>
 
         {/* Subheading */}
+        <motion.p
+          className="text-sm sm:text-lg font-jakarta text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          42 AI agents trained on NZ legislation. Replace six platforms with one intelligence layer.
+          PAYE, tenders, compliance, marketing — all sharing one brain.
+        </motion.p>
+
+        {/* Animated stat counters */}
         <motion.div
-          className="hero-text-block rounded-xl px-4 py-2 sm:py-3 mx-auto max-w-[640px] mt-1"
+          className="grid grid-cols-4 gap-3 sm:gap-8 mb-8 sm:mb-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <p className="text-xs sm:text-[15px] font-body font-normal leading-relaxed text-white/65">
-            Business intelligence trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, education, agriculture, maritime, automotive, customs, and more.
-          </p>
-        </motion.div>
-
-        {/* Stat pills — premium chip style */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-2 sm:gap-2.5 mb-6 sm:mb-10 mt-5 sm:mt-7"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-        >
-          {STAT_PILLS.map((pill) => (
-            <span
-              key={pill.label}
-              className="font-mono text-[10px] sm:text-[11px] px-3 sm:px-4 py-1.5 rounded-full text-white/35"
-              style={{
-                background: 'hsl(var(--surface-2) / 0.6)',
-                border: '1px solid hsl(var(--border) / 0.5)',
-                backdropFilter: 'blur(12px)',
-              }}
-            >
-              {pill.label}
-            </span>
+          {ANIMATED_STATS.map((stat) => (
+            <div key={stat.label} className="text-center">
+              <div
+                className="text-2xl sm:text-4xl font-syne font-extrabold text-gradient-hero"
+              >
+                {stat.value}
+              </div>
+              <div className="text-[10px] sm:text-xs font-jakarta text-muted-foreground mt-1">
+                {stat.label}
+              </div>
+            </div>
           ))}
         </motion.div>
 
-        {/* CTAs — refined */}
+        {/* CTAs */}
         <motion.div
-          className="flex flex-col sm:flex-row gap-3 justify-center mb-10 sm:mb-14"
+          className="flex flex-col sm:flex-row gap-3 justify-center mb-8 sm:mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
         >
+          <Link
+            to="/signup"
+            className="cta-glass-green inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl text-sm sm:text-base font-semibold font-jakarta"
+          >
+            Start free <ArrowRight size={16} />
+          </Link>
           <button
             onClick={onScrollToGrid}
-            className="cta-glass-green inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm"
+            className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl text-sm sm:text-base font-semibold font-jakarta transition-all duration-300"
+            style={{
+              background: "rgba(255,255,255,0.03)",
+              color: "#FAFAFA",
+              border: "1px solid rgba(255,255,255,0.1)",
+              backdropFilter: "blur(8px)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
+              e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+              e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+            }}
           >
-            Browse All Agents <ArrowRight size={16} />
+            <Play size={14} /> See all 42 agents
           </button>
-          <Link
-            to="/content-hub"
-            className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm"
-          >
-            Explore the platform →
-          </Link>
         </motion.div>
 
-        {/* Agent Showcase Carousel */}
-        <AgentShowcase />
+        {/* Rotating agent showcase */}
+        <motion.div
+          className="relative w-full max-w-xl mx-auto"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+        >
+          <div
+            className="rounded-2xl p-4 sm:p-6 border"
+            style={{
+              background: "rgba(14,14,26,0.6)",
+              backdropFilter: "blur(16px)",
+              borderColor: agent.color + "20",
+              boxShadow: `0 0 60px ${agent.color}08`,
+              transition: "border-color 0.5s, box-shadow 0.5s",
+            }}
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div className="flex gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+              </div>
+              <span className="text-[10px] font-mono-jb text-muted-foreground">assembl.nz/chat</span>
+            </div>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeAgent}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
+                className="flex items-center gap-4"
+              >
+                <div
+                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center shrink-0"
+                  style={{
+                    background: `${agent.color}15`,
+                    border: `1px solid ${agent.color}30`,
+                  }}
+                >
+                  <span className="text-lg sm:text-xl font-syne font-bold" style={{ color: agent.color }}>
+                    {agent.name.charAt(0)}
+                  </span>
+                </div>
+                <div className="text-left">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm sm:text-base font-syne font-bold text-foreground">{agent.name}</span>
+                    <span
+                      className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
+                      style={{ background: `${agent.color}15`, color: agent.color }}
+                    >
+                      ACTIVE
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm font-jakarta text-muted-foreground">{agent.role}</p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Agent carousel dots */}
+            <div className="flex justify-center gap-1.5 mt-4">
+              {FLAGSHIP_AGENTS.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveAgent(i)}
+                  className="w-1.5 h-1.5 rounded-full transition-all duration-300"
+                  style={{
+                    background: i === activeAgent ? FLAGSHIP_AGENTS[i].color : "rgba(255,255,255,0.15)",
+                    width: i === activeAgent ? "16px" : "6px",
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Social proof bar */}
+        <motion.div
+          className="mt-8 sm:mt-12 flex flex-wrap items-center justify-center gap-4 sm:gap-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1 }}
+        >
+          <span className="text-[10px] sm:text-xs font-jakarta text-muted-foreground/60">
+            FIRST AI OPERATING SYSTEM BUILT FOR NZ
+          </span>
+          <div className="hidden sm:flex items-center gap-6">
+            {["NZ Legislation", "Privacy Act 2020", "Built in Auckland"].map((badge) => (
+              <span
+                key={badge}
+                className="text-[10px] font-mono-jb px-3 py-1 rounded-full"
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  color: "#71717A",
+                }}
+              >
+                {badge}
+              </span>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

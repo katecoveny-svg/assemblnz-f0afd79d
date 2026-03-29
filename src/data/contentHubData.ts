@@ -29,12 +29,12 @@ export interface OutputCard {
 }
 
 export const COMPARISONS: ComparisonItem[] = [
-  { agent: "FLUX", agentColor: "#00E5FF", replaces: "CRM & Sales Platform", theirCost: "$450-800/mo", assemblCost: "$299/mo" },
-  { agent: "PRISM", agentColor: "#E040FB", replaces: "AI Writer + Scheduler + Agency", theirCost: "$3,000-8,000/mo", assemblCost: "$299/mo" },
-  { agent: "AROHA", agentColor: "#FF6F91", replaces: "HR Consultant", theirCost: "$150-250/hr", assemblCost: "$299/mo" },
-  { agent: "HAVEN", agentColor: "#FF80AB", replaces: "Property Manager", theirCost: "7-10% of rent", assemblCost: "$299/mo" },
-  { agent: "FORGE", agentColor: "#FF4D6A", replaces: "F&I Software + Compliance", theirCost: "$500-2,000/mo", assemblCost: "$299/mo" },
-  { agent: "ECHO", agentColor: "#E4A0FF", replaces: "Social Media Manager", theirCost: "$3,000-6,000/mo", assemblCost: "$89/mo" },
+  { agent: "FLUX", agentColor: "#00E5FF", replaces: "CRM Sales Platform", theirCost: "$450–800/mo", assemblCost: "$299/mo" },
+  { agent: "PRISM", agentColor: "#E040FB", replaces: "AI Writer + Scheduler + Agency", theirCost: "$3,000–8,000/mo", assemblCost: "$299/mo" },
+  { agent: "AROHA", agentColor: "#FF6F91", replaces: "HR Consultant", theirCost: "$150–250/hr", assemblCost: "$299/mo" },
+  { agent: "HAVEN", agentColor: "#FF80AB", replaces: "Property Manager", theirCost: "7–10% of rent", assemblCost: "$299/mo" },
+  { agent: "FORGE", agentColor: "#FF4D6A", replaces: "F&I Software + Compliance", theirCost: "$500–2,000/mo", assemblCost: "$299/mo" },
+  { agent: "ECHO", agentColor: "#E4A0FF", replaces: "Social Media Manager", theirCost: "$3,000–6,000/mo", assemblCost: "$89/mo" },
 ];
 
 export const FILTER_AGENTS = [
@@ -88,7 +88,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
     outputType: "Guest Pre-Arrival Dossier",
     formatBadge: "Document",
     preview: `**GUEST INTELLIGENCE BRIEF**\n\nGuest: Mr & Mrs James Whitfield\nProperty: The Lindis Lodge, Canterbury\nArrival: 15 April 2026 | 3 nights | 25th anniversary`,
-    fullContent: `**GUEST INTELLIGENCE BRIEF**\n\nGuest: Mr & Mrs James Whitfield\nProperty: The Lindis Lodge, Canterbury\nArrival: 15 April 2026 | 3 nights | Celebrating 25th wedding anniversary\nSource: Luxury travel network booking via Travel Associates Sydney\n\n**Dietary & Preferences:**\n• Mrs Whitfield: Pescatarian, no shellfish\n• Mr Whitfield: No restrictions. Enjoys Central Otago Pinot Noir\n• Anniversary dinner: Request window table with mountain view\n• Previous NZ visit: 2019, stayed luxury lodge — rated it 9/10\n\n**Pre-Arrival Actions:**\n Anniversary card signed by GM in suite on arrival\n Bottle of Central Otago Pinot Noir 2022 chilled in room\n Kitchen briefed: pescatarian menu cards for all 3 nights\n Day 2: Helicopter to Aoraki/Mt Cook for glacier landing\n Day 3: Private guided walk to Lake Ōhau Wetlands\n Stargazing session booked for clearest evening\n Transfer: Arranged from Queenstown Airport, 2.5hr drive\n\n**Estimated Guest Lifetime Value:** $18,500`,
+    fullContent: `**GUEST INTELLIGENCE BRIEF**\n\nGuest: Mr & Mrs James Whitfield\nProperty: The Lindis Lodge, Canterbury\nArrival: 15 April 2026 | 3 nights | Celebrating 25th wedding anniversary\nSource: Luxury travel network booking via Travel Associates Sydney\n\n**Dietary & Preferences:**\n• Mrs Whitfield: Pescatarian, no shellfish\n• Mr Whitfield: No restrictions. Enjoys Central Otago Pinot Noir\n• Anniversary dinner: Request window table with mountain view\n• Previous NZ visit: 2019, stayed luxury lodge — rated it 9/10\n\n**Pre-Arrival Actions:**\n☐ Anniversary card signed by GM in suite on arrival\n☐ Bottle of Central Otago Pinot Noir 2022 chilled in room\n☐ Kitchen briefed: pescatarian menu cards for all 3 nights\n☐ Day 2: Helicopter to Aoraki/Mt Cook for glacier landing\n☐ Day 3: Private guided walk to Lake Ōhau Wetlands\n☐ Stargazing session booked for clearest evening\n☐ Transfer: Arranged from Queenstown Airport, 2.5hr drive\n\n**Estimated Guest Lifetime Value:** $18,500`,
   },
   {
     id: "aura-itinerary",
@@ -122,7 +122,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
     outputType: "Tender Response Structure",
     formatBadge: "Document",
     preview: `**RFP:** Auckland Council — Stormwater Infrastructure Upgrade\n**Evaluation Criteria Extracted:**\n1. Relevant Experience (30%) → Section 3\n2. Methodology (25%) → Section 4`,
-    fullContent: `**RFP:** Auckland Council — Stormwater Infrastructure Upgrade\n**Deadline:** 28 April 2026 | **Value:** $2.4M estimated\n\n**Evaluation Criteria Extracted → Response Sections:**\n1. Relevant Experience (30%) → Section 3: Portfolio of 5 comparable projects\n2. Methodology (25%) → Section 4: Staged approach with risk mitigation\n3. Key Personnel (20%) → Section 5: CVs with specific project references\n4. Health & Safety (15%) → Section 6: Site-specific safety plan\n5. Price (10%) → Section 7: Detailed schedule of quantities\n\n**Auto-Generated Sections:**\n Executive Summary (max 2 pages)\n Company Profile with relevant certifications\n Methodology with Gantt chart\n H&S plan referencing HSWA 2015\n Environmental management plan\n References from 3 similar projects`,
+    fullContent: `**RFP:** Auckland Council — Stormwater Infrastructure Upgrade\n**Deadline:** 28 April 2026 | **Value:** $2.4M estimated\n\n**Evaluation Criteria Extracted → Response Sections:**\n1. Relevant Experience (30%) → Section 3: Portfolio of 5 comparable projects\n2. Methodology (25%) → Section 4: Staged approach with risk mitigation\n3. Key Personnel (20%) → Section 5: CVs with specific project references\n4. Health & Safety (15%) → Section 6: Site-specific safety plan\n5. Price (10%) → Section 7: Detailed schedule of quantities\n\n**Auto-Generated Sections:**\n☐ Executive Summary (max 2 pages)\n☐ Company Profile with relevant certifications\n☐ Methodology with Gantt chart\n☐ H&S plan referencing HSWA 2015\n☐ Environmental management plan\n☐ References from 3 similar projects`,
   },
   // HAVEN
   {
@@ -133,8 +133,8 @@ export const OUTPUT_CARDS: OutputCard[] = [
     agentColor: "#FF80AB",
     outputType: "Healthy Homes Compliance Check",
     formatBadge: "Report",
-    preview: `**PROPERTY:** 14 Rata Street, Mt Eden, Auckland\n\n| Standard | Status |\n|---|---|\n| Heating |  PASS |\n| Ceiling Insulation |  PASS |`,
-    fullContent: `**PROPERTY:** 14 Rata Street, Mt Eden, Auckland\n**LANDLORD:** K. Peterson | **TENANT:** J. & M. Sharma\n\n| Standard | Requirement | Status | Action |\n|---|---|---|---|\n| Heating | Fixed heater, min 1.5kW |  PASS | Heat pump (3.5kW) |\n| Ceiling Insulation | R 2.9 minimum |  PASS | R3.2 installed 2022 |\n| Underfloor Insulation | R 1.3 minimum |  FAIL | No insulation. Requires retrofit |\n| Ventilation | Extractor fans |  PARTIAL | Bathroom fan not functioning |\n| Moisture & Drainage | No leaks |  PASS | Guttering clear |\n| Draught Stopping | All windows seal |  PARTIAL | 2 bedroom windows have gaps |\n\n**Compliance Score: 4/6 — Action Required**\n\n**Priority Remediation:**\n1.  URGENT: Underfloor insulation — Est. $2,500-$4,000\n2.  HIGH: Bathroom extractor fan — Est. $150-$350\n3.  MEDIUM: Window draught strips — Est. $30-$80\n\n*Failure to meet Healthy Homes Standards may result in penalties up to $7,200.*`,
+    preview: `**PROPERTY:** 14 Rata Street, Mt Eden, Auckland\n\n| Standard | Status |\n|---|---|\n| Heating | ✅ PASS |\n| Ceiling Insulation | ✅ PASS |`,
+    fullContent: `**PROPERTY:** 14 Rata Street, Mt Eden, Auckland\n**LANDLORD:** K. Peterson | **TENANT:** J. & M. Sharma\n\n| Standard | Requirement | Status | Action |\n|---|---|---|---|\n| Heating | Fixed heater, min 1.5kW | ✅ PASS | Heat pump (3.5kW) |\n| Ceiling Insulation | R 2.9 minimum | ✅ PASS | R3.2 installed 2022 |\n| Underfloor Insulation | R 1.3 minimum | ❌ FAIL | No insulation. Requires retrofit |\n| Ventilation | Extractor fans | ⚠️ PARTIAL | Bathroom fan not functioning |\n| Moisture & Drainage | No leaks | ✅ PASS | Guttering clear |\n| Draught Stopping | All windows seal | ⚠️ PARTIAL | 2 bedroom windows have gaps |\n\n**Compliance Score: 4/6 — Action Required**\n\n**Priority Remediation:**\n1. ⚡ URGENT: Underfloor insulation — Est. $2,500-$4,000\n2. 🔧 HIGH: Bathroom extractor fan — Est. $150-$350\n3. 🔧 MEDIUM: Window draught strips — Est. $30-$80\n\n*Failure to meet Healthy Homes Standards may result in penalties up to $7,200.*`,
   },
   // AROHA
   {
@@ -274,7 +274,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
     outputType: "Weekly Family Dashboard",
     formatBadge: "Dashboard",
     preview: `**WEEK OF 14 APRIL 2026 — The Hudson Family**\n\n| Day | Mia (Year 4) | Jack (Year 7) |\n|---|---|---|\n| Mon | Swimming gear | Science project due |`,
-    fullContent: `**WEEK OF 14 APRIL 2026 — The Hudson Family**\n\n| Day | Mia (Year 4) | Jack (Year 7) | Parent Actions |\n|---|---|---|---|\n| Mon | Swimming gear, library book | Science project due | Pack swimsuit, sign permission slip |\n| Tue | Mufti day ($2) | Cricket practice 3:30pm | Cash for Mia, cricket gear for Jack |\n| Wed | — | ICAS Maths test | Lunch order day (both) |\n| Thu | School photos (full uniform) | Tech class — bring USB | Iron uniforms tonight |\n| Fri | Assembly 2pm (parents welcome) | Early finish 12:30pm | Arrange pickup for Jack |\n\n**Packing Checklist — Monday:**\n Mia: Swimsuit, goggles, towel, library book\n Jack: Science project poster, glue stick\n\n**Upcoming:**\n• 21 Apr: School holidays begin\n• 22 Apr: Holiday programme registration closes`,
+    fullContent: `**WEEK OF 14 APRIL 2026 — The Hudson Family**\n\n| Day | Mia (Year 4) | Jack (Year 7) | Parent Actions |\n|---|---|---|---|\n| Mon | Swimming gear, library book | Science project due | Pack swimsuit, sign permission slip |\n| Tue | Mufti day ($2) | Cricket practice 3:30pm | Cash for Mia, cricket gear for Jack |\n| Wed | — | ICAS Maths test | Lunch order day (both) |\n| Thu | School photos (full uniform) | Tech class — bring USB | Iron uniforms tonight |\n| Fri | Assembly 2pm (parents welcome) | Early finish 12:30pm | Arrange pickup for Jack |\n\n**Packing Checklist — Monday:**\n☐ Mia: Swimsuit, goggles, towel, library book\n☐ Jack: Science project poster, glue stick\n\n**Upcoming:**\n• 21 Apr: School holidays begin\n• 22 Apr: Holiday programme registration closes`,
   },
   {
     id: "helm-newsletter",
@@ -284,8 +284,8 @@ export const OUTPUT_CARDS: OutputCard[] = [
     agentColor: "#B388FF",
     outputType: "Newsletter AI Parse",
     formatBadge: "Report",
-    preview: `**PARSED FROM:** Ponsonby Primary Newsletter #12\n**Confidence:** 94%\n\n**Events Extracted:**\n School Photos — Thu 17 April (high confidence)`,
-    fullContent: `**PARSED FROM:** Ponsonby Primary Newsletter #12\n**Date:** 11 April 2026 | **Confidence:** 94%\n\n**Events Extracted:**\n School Photos — Thu 17 April (high confidence)\n Assembly — Fri 18 April 2pm (high confidence)\n ICAS Maths — Wed 16 April (high confidence)\n School Holidays — Start 21 April (high confidence)\n Holiday Programme — Registration "closing soon" (date unclear)\n\n**Action Items:**\n Permission slip required — Swimming (Mon)\n Cash required — Mufti day $2 (Tue)\n Uniform required — Full uniform for photos (Thu)\n\n**Added to calendar:** 4 events\n**Needs review:** 1 item (holiday programme date)`,
+    preview: `**PARSED FROM:** Ponsonby Primary Newsletter #12\n**Confidence:** 94%\n\n**Events Extracted:**\n✓ School Photos — Thu 17 April (high confidence)`,
+    fullContent: `**PARSED FROM:** Ponsonby Primary Newsletter #12\n**Date:** 11 April 2026 | **Confidence:** 94%\n\n**Events Extracted:**\n✓ School Photos — Thu 17 April (high confidence)\n✓ Assembly — Fri 18 April 2pm (high confidence)\n✓ ICAS Maths — Wed 16 April (high confidence)\n✓ School Holidays — Start 21 April (high confidence)\n⚠️ Holiday Programme — Registration "closing soon" (date unclear)\n\n**Action Items:**\n✓ Permission slip required — Swimming (Mon)\n✓ Cash required — Mufti day $2 (Tue)\n✓ Uniform required — Full uniform for photos (Thu)\n\n**Added to calendar:** 4 events\n**Needs review:** 1 item (holiday programme date)`,
   },
   // FLUX
   {
@@ -297,6 +297,6 @@ export const OUTPUT_CARDS: OutputCard[] = [
     outputType: "Lead Pipeline Dashboard",
     formatBadge: "Dashboard",
     preview: `**PIPELINE SUMMARY — March 2026**\n\n| Stage | Leads | Value |\n|---|---|---|\n| New | 23 | $184,000 |`,
-    fullContent: `**PIPELINE SUMMARY — March 2026**\n\n| Stage | Leads | Value | Avg Days |\n|---|---|---|---|\n| New | 23 | $184,000 | 0 |\n| Qualified | 15 | $267,000 | 4.2 |\n| Proposal | 8 | $412,000 | 11.5 |\n| Negotiation | 4 | $318,000 | 18.3 |\n| Won | 6 | $287,000 | 22.1 |\n| Lost | 3 | $89,000 | 15.7 |\n\n**AI Lead Scores (Top 5):**\n1. TechCorp NZ — 94/100 — Ready to close\n2. BuildRight Ltd — 87/100 — Send proposal today\n3. Fresh & Co — 82/100 — Follow up on pricing\n4. Kiwi Motors — 76/100 — Needs demo\n5. Coastal Hospitality — 71/100 — Early stage\n\n**This month:** 6 won ($287K) vs target ($250K) \n**Conversion rate:** 26% (industry avg: 21%)`,
+    fullContent: `**PIPELINE SUMMARY — March 2026**\n\n| Stage | Leads | Value | Avg Days |\n|---|---|---|---|\n| New | 23 | $184,000 | 0 |\n| Qualified | 15 | $267,000 | 4.2 |\n| Proposal | 8 | $412,000 | 11.5 |\n| Negotiation | 4 | $318,000 | 18.3 |\n| Won | 6 | $287,000 | 22.1 |\n| Lost | 3 | $89,000 | 15.7 |\n\n**AI Lead Scores (Top 5):**\n1. TechCorp NZ — 94/100 — Ready to close\n2. BuildRight Ltd — 87/100 — Send proposal today\n3. Fresh & Co — 82/100 — Follow up on pricing\n4. Kiwi Motors — 76/100 — Needs demo\n5. Coastal Hospitality — 71/100 — Early stage\n\n**This month:** 6 won ($287K) vs target ($250K) ✅\n**Conversion rate:** 26% (industry avg: 21%)`,
   },
 ];

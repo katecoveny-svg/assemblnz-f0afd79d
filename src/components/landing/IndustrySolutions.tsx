@@ -1,205 +1,204 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, HardHat, UtensilsCrossed, Home, Scale, Calculator, Tractor, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Trophy, UtensilsCrossed, Palette, Compass, Scale, ChevronDown, ArrowRight } from "lucide-react";
 import AgentCard from "@/components/AgentCard";
 import { agents, sectors } from "@/data/agents";
 
 const HERO_INDUSTRIES = [
   {
-    industry: "Sports & Recreation",
-    agent: "TURF",
-    color: "#00E676",
-    Icon: Trophy,
-    description: "Your club's re-registration under the Incorporated Societies Act 2022. The deadline is 5 April 2026. Fewer than half of NZ's clubs have done it.",
-    capabilities: ["Season calendar builder", "Gaming trust grant writer", "Coaching session planner", "Incorporated Societies compliance"],
-    agentId: "sports",
-  },
-  {
-    industry: "Hospitality",
-    agent: "AURA",
+    icon: HardHat,
+    title: "Construction",
+    agent: "APEX",
+    agentId: "construction",
     color: "#00FF88",
-    Icon: UtensilsCrossed,
-    description: "Your 18-page Food Control Plan diary replaced with a 90-second voice check. Verifier visits stop being stressful.",
-    capabilities: ["Guest intelligence & CRM", "Menu engineering & F&B", "Revenue optimisation", "Compliance autopilot"],
+    capabilities: ["Auto tender writer with NZ standards", "Site-specific safety plans (SSSP)", "3D model generation from briefs"],
+  },
+  {
+    icon: UtensilsCrossed,
+    title: "Hospitality",
+    agent: "AURA",
     agentId: "hospitality",
+    color: "#00FF88",
+    capabilities: ["VIP guest pre-arrival dossiers", "Revenue & yield optimisation", "Kitchen briefings & dietary management"],
   },
   {
-    industry: "Marketing & Creative",
-    agent: "PRISM",
-    color: "#E040FB",
-    Icon: Palette,
-    description: "Brand strategy, campaign creation, image generation, and social deployment — your entire marketing department in one place.",
-    capabilities: ["Brand strategy builder", "AI image generation", "Social media deployment", "Campaign auto-creator"],
-    agentId: "marketing",
-  },
-  {
-    industry: "Operations & Admin",
-    agent: "HELM",
+    icon: Home,
+    title: "Property",
+    agent: "HAVEN",
+    agentId: "property",
     color: "#B388FF",
-    Icon: Compass,
-    description: "Schedules, meal plans, budgets, school admin, and family logistics handled instantly — purpose-built for NZ families.",
-    capabilities: ["Newsletter data extractor", "Meal plan generator", "Budget auto-tracker", "Family calendar sync"],
-    agentId: "operations",
+    capabilities: ["Portfolio compliance tracking", "Maintenance job management", "Tenancy Act 2020 guidance"],
   },
   {
-    industry: "Legal & Compliance",
+    icon: Scale,
+    title: "Legal",
     agent: "ANCHOR",
-    color: "#00E5FF",
-    Icon: Scale,
-    description: "NZ law in plain English — contracts, employment disputes, privacy policies, and separation guidance with compassion.",
-    capabilities: ["Contract & NDA drafter", "Employment dispute nav", "Privacy policy generator", "Separation guide AI"],
     agentId: "legal",
+    color: "#00E5FF",
+    capabilities: ["Contract drafting & review", "Employment law guidance", "Business structure advice"],
+  },
+  {
+    icon: Calculator,
+    title: "Accounting",
+    agent: "LEDGER",
+    agentId: "accounting",
+    color: "#00E5FF",
+    capabilities: ["PAYE & GST calculations", "Tax planning & compliance", "Cash flow forecasting"],
+  },
+  {
+    icon: Tractor,
+    title: "Agriculture",
+    agent: "TERRA",
+    agentId: "agriculture",
+    color: "#7CFF6B",
+    capabilities: ["Freshwater Farm Plan AI", "GHG emission calculator", "Biosecurity alert monitoring"],
   },
 ];
 
 const IndustrySolutions = () => {
-  const [expanded, setExpanded] = useState(false);
+  const [showAllAgents, setShowAllAgents] = useState(false);
   const [activeSector, setActiveSector] = useState("All");
 
-  const filtered = activeSector === "All" ? agents : agents.filter((a) => a.sector === activeSector);
+  const filtered = activeSector === "All" ? agents : agents.filter(a => a.sector === activeSector);
 
   return (
-    <section className="relative z-10 py-24 sm:py-32 aurora-glow">
-      <div className="section-divider" />
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32">
+    <section className="relative z-10 py-20 sm:py-28">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        {/* Header */}
         <motion.div
           className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
         >
-          <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Purpose-built for NZ</p>
-          <h2
-            className="text-2xl sm:text-[2.75rem] font-syne font-bold text-foreground mb-4"
-            style={{ letterSpacing: '-0.02em', lineHeight: '1.15' }}
-          >
-            Industry <span className="text-gradient-hero">solutions</span>
+          <span className="text-[10px] font-mono-jb uppercase tracking-widest text-muted-foreground/60 mb-3 block">
+            16 Industries
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
+            An agent for <span className="text-gradient-hero">every industry</span>
           </h2>
-          <p className="text-sm sm:text-[15px] font-inter text-muted-foreground max-w-md mx-auto">
-            Specialist tools for every sector — trained on the legislation that matters to you.
+          <p className="text-sm font-jakarta text-muted-foreground max-w-lg mx-auto">
+            Each agent is a deep specialist — not a generic chatbot. Trained on NZ legislation specific to your sector.
           </p>
         </motion.div>
 
         {/* Hero industry cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-12">
-          {HERO_INDUSTRIES.map((ind, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+          {HERO_INDUSTRIES.map((industry, i) => (
             <motion.div
-              key={ind.agent}
-              className="relative rounded-2xl p-6 group cursor-pointer overflow-hidden"
+              key={industry.title}
+              className="group relative rounded-2xl p-6 overflow-hidden border transition-all duration-300 hover:-translate-y-1"
               style={{
-                background: 'hsl(var(--surface-1) / 0.6)',
-                backdropFilter: 'blur(20px) saturate(1.3)',
-                WebkitBackdropFilter: 'blur(20px) saturate(1.3)',
-                border: '1px solid hsl(var(--border) / 0.5)',
-                boxShadow: '0 1px 3px hsl(228 14% 4% / 0.3)',
+                background: "rgba(14,14,26,0.5)",
+                backdropFilter: "blur(12px)",
+                borderColor: "rgba(255,255,255,0.06)",
               }}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -4 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.06, duration: 0.5 }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
+              whileHover={{
+                borderColor: industry.color + "25",
+                boxShadow: `0 0 40px ${industry.color}06`,
+              }}
             >
-              {/* Hover glow */}
+              {/* Top glow */}
               <span
-                className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-50 transition-opacity duration-700"
-                style={{ background: `linear-gradient(90deg, transparent, ${ind.color}80, transparent)` }}
-              />
-              <span
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                style={{ background: `radial-gradient(ellipse at 50% 0%, ${ind.color}06 0%, transparent 60%)` }}
+                className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-40 transition-opacity"
+                style={{ background: `linear-gradient(90deg, transparent, ${industry.color}, transparent)` }}
               />
 
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-4">
-                  <div
-                    className="w-11 h-11 rounded-xl flex items-center justify-center"
-                    style={{ backgroundColor: `${ind.color}10`, border: `1px solid ${ind.color}15` }}
-                  >
-                    <ind.Icon size={20} style={{ color: ind.color }} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-syne font-bold text-foreground">{ind.industry}</p>
-                    <p className="text-[10px] font-mono-jb text-muted-foreground/50 uppercase tracking-[2px]">{ind.agent}</p>
-                  </div>
-                </div>
-
-                <p className="text-xs font-inter text-muted-foreground mb-4 leading-relaxed">{ind.description}</p>
-
-                <ul className="space-y-2 mb-5">
-                  {ind.capabilities.map((cap) => (
-                    <li key={cap} className="flex items-start gap-2 text-[11px] font-inter text-foreground/60">
-                      <span className="mt-1.5 w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: ind.color, opacity: 0.7 }} />
-                      {cap}
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  to={`/chat/${ind.agentId}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-syne font-bold transition-all duration-300 group-hover:gap-2.5"
-                  style={{ color: ind.color }}
+              <div className="flex items-center gap-3 mb-4">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center"
+                  style={{ background: `${industry.color}10`, border: `1px solid ${industry.color}20` }}
                 >
-                  Try {ind.agent} <ArrowRight size={12} />
-                </Link>
+                  <industry.icon size={20} style={{ color: industry.color }} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-syne font-bold text-foreground">{industry.title}</h3>
+                  <span className="text-[10px] font-mono-jb" style={{ color: industry.color }}>
+                    {industry.agent}
+                  </span>
+                </div>
               </div>
+
+              <ul className="space-y-2 mb-5">
+                {industry.capabilities.map((cap) => (
+                  <li key={cap} className="flex items-start gap-2 text-[11px] font-jakarta text-foreground/70">
+                    <span className="mt-1 w-1 h-1 rounded-full shrink-0" style={{ background: industry.color }} />
+                    {cap}
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                to={`/chat/${industry.agentId}`}
+                className="inline-flex items-center gap-1.5 text-xs font-syne font-bold transition-all duration-300 group-hover:gap-2.5"
+                style={{ color: industry.color }}
+              >
+                Try {industry.agent} <ArrowRight size={12} />
+              </Link>
             </motion.div>
           ))}
         </div>
 
-        {/* Expand button */}
-        <motion.div className="text-center" layout>
+        {/* See all agents toggle */}
+        <div className="text-center">
           <button
-            onClick={() => setExpanded(!expanded)}
-            className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full text-sm font-syne font-bold text-foreground transition-all duration-300 hover:scale-[1.02]"
+            onClick={() => setShowAllAgents(!showAllAgents)}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300"
             style={{
-              background: 'hsl(var(--surface-2) / 0.5)',
-              border: '1px solid hsl(var(--border))',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              color: "#FAFAFA",
             }}
           >
-            {expanded ? "Collapse" : "See all 42 specialist tools"}
-            <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.3 }}>
+            {showAllAgents ? "Hide agents" : "See all 42 agents"}
+            <motion.span
+              animate={{ rotate: showAllAgents ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
               <ChevronDown size={16} />
             </motion.span>
           </button>
-        </motion.div>
+        </div>
 
-        {/* Full agent grid */}
+        {/* Expandable full agent grid */}
         <AnimatePresence>
-          {expanded && (
+          {showAllAgents && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
+              transition={{ duration: 0.5 }}
               className="overflow-hidden"
             >
-              <div className="flex flex-wrap justify-center gap-2 mt-10 mb-8">
-                {sectors.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => setActiveSector(s)}
-                    className={`px-3.5 py-1.5 rounded-full text-[10px] font-mono-jb uppercase tracking-wider transition-all duration-300 ${
-                      activeSector === s
-                        ? "border-primary/50 bg-primary/10 text-primary"
-                        : "text-muted-foreground/60 hover:text-muted-foreground"
-                    }`}
-                    style={{
-                      border: `1px solid ${activeSector === s ? '' : 'hsl(var(--border) / 0.4)'}`,
-                      background: activeSector === s ? '' : 'hsl(var(--surface-1) / 0.4)',
-                    }}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
+              <div className="pt-10">
+                {/* Filter bar */}
+                <div className="flex flex-wrap gap-2 justify-center mb-8">
+                  {sectors.map(sector => (
+                    <button
+                      key={sector}
+                      onClick={() => setActiveSector(sector)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-jakarta font-medium transition-all duration-200 border ${
+                        activeSector === sector
+                          ? "border-foreground/20 bg-foreground/5 text-foreground"
+                          : "border-border text-muted-foreground hover:border-foreground/10 hover:text-foreground"
+                      }`}
+                    >
+                      {sector}
+                    </button>
+                  ))}
+                </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-                {filtered.map((agent, i) => (
-                  <AgentCard key={agent.id} agent={agent} index={i} />
-                ))}
+                <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
+                  {filtered.map((agent, i) => (
+                    <AgentCard key={agent.id} agent={agent} index={i} />
+                  ))}
+                </div>
               </div>
             </motion.div>
           )}

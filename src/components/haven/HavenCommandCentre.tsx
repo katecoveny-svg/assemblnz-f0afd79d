@@ -66,7 +66,7 @@ const HavenCommandCentre = () => {
           <AlertTriangle size={12} /> Emergency & High Priority ({emergencyJobs.length})
         </h3>
         {emergencyJobs.length === 0 ? (
-          <p className="text-[10px] text-muted-foreground font-jakarta pl-1">No urgent jobs — all clear </p>
+          <p className="text-[10px] text-muted-foreground font-jakarta pl-1">No urgent jobs — all clear ✓</p>
         ) : (
           <div className="space-y-1.5">
             {emergencyJobs.map(j => (
@@ -79,7 +79,7 @@ const HavenCommandCentre = () => {
                     <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium" style={{ backgroundColor: j.urgency === "emergency" ? "#EF535015" : "#FF6D0015", color: j.urgency === "emergency" ? "#EF5350" : "#FF6D00" }}>{j.urgency}</span>
                   </div>
                   <p className="text-[10px] text-muted-foreground mt-0.5 pl-3.5">{properties[j.property_id]?.address || "Unknown property"}</p>
-                  {j.access_instructions && <p className="text-[10px] pl-3.5 mt-0.5" style={{ color: "#FFB300" }}> {j.access_instructions}</p>}
+                  {j.access_instructions && <p className="text-[10px] pl-3.5 mt-0.5" style={{ color: "#FFB300" }}>🔑 {j.access_instructions}</p>}
                 </div>
                 <div className="relative">
                   <select value={j.status} onChange={e => updateStatus(j.id, e.target.value)}
@@ -100,7 +100,7 @@ const HavenCommandCentre = () => {
           <Wrench size={12} /> Needs Tradie ({unassignedJobs.length})
         </h3>
         {unassignedJobs.length === 0 ? (
-          <p className="text-[10px] text-muted-foreground font-jakarta pl-1">All jobs assigned </p>
+          <p className="text-[10px] text-muted-foreground font-jakarta pl-1">All jobs assigned ✓</p>
         ) : (
           <div className="space-y-1.5">
             {unassignedJobs.slice(0, 5).map(j => (
@@ -122,7 +122,7 @@ const HavenCommandCentre = () => {
           <Shield size={12} /> Overdue Compliance ({overdueCompliance.length})
         </h3>
         {overdueCompliance.length === 0 ? (
-          <p className="text-[10px] text-muted-foreground font-jakarta pl-1">All compliance items up to date </p>
+          <p className="text-[10px] text-muted-foreground font-jakarta pl-1">All compliance items up to date ✓</p>
         ) : (
           <div className="space-y-1.5">
             {overdueCompliance.map(c => (

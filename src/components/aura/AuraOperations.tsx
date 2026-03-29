@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonClipboard, NeonCheckmark, NeonShield, NeonChart, NeonCalendar } from "@/components/NeonIcons";
 
-const color = "#00E5A0";
+const color = "#E6B422";
 
 const COMPLIANCE_ITEMS = [
   { area: "Food Safety", ref: "Food Act 2014", desc: "Food control plan status" },
@@ -50,7 +50,7 @@ const AuraOperations = ({ onGenerate }: Props) => {
             {["Today's Arrivals — names, rooms, ETA, special notes", "Today's Departures — names, rooms, checkout time, transfer details", "In-House Guests — names, rooms, day of stay, dinner notes", "Today's Activities & Experiences Booked", "Dietary Requirements Summary for Kitchen", "Weather Forecast", "Maintenance Issues", "Staff on Duty"].map(item => (
               <div key={item} className="text-[11px] text-foreground/70 p-2 rounded-lg border border-border mb-1.5">{item}</div>
             ))}
-            <button onClick={() => gen(`Generate a complete daily morning briefing document for a hospitality venue. Include sections for: today's bookings/reservations, departures/checkouts, dietary requirements summary for kitchen, weather forecast, maintenance issues, and staff on duty. Format as a printable briefing for the morning team huddle. Adapt to the venue type (café, restaurant, hotel, lodge).`)} className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Daily Briefing</button>
+            <button onClick={() => gen(`Generate a complete daily morning briefing document for a luxury lodge. Include sections for: today's arrivals (with names, rooms, ETA, special notes), today's departures, in-house guests (day of stay, dinner notes), today's activities booked, dietary requirements summary for kitchen, weather forecast, maintenance issues, and staff on duty. Format as a printable briefing for the morning team huddle.`)} className="w-full mt-3 py-2.5 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Daily Briefing</button>
           </div>
         </div>
       )}
@@ -65,10 +65,10 @@ const AuraOperations = ({ onGenerate }: Props) => {
               ))}
             </div>
           </div>
-          {["Turnover Checklist", "Deep Clean Schedule", "Amenity / Restock Checklist", "Laundry Schedule"].map(t => (
+          {["Turnover Checklist by Room Type", "Deep Clean Schedule", "Amenity Restock Checklist (luxury: toiletries, candles, minibar, flowers)", "Laundry Schedule"].map(t => (
             <div key={t} className="rounded-xl border border-border bg-card p-3 flex items-center justify-between">
               <span className="text-xs text-foreground">{t}</span>
-              <button onClick={() => gen(`Generate a "${t}" for a NZ hospitality venue. Make it practical, detailed, and ready to use. Adapt to the venue type — café, restaurant, hotel, or lodge.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+              <button onClick={() => gen(`Generate a "${t}" for a luxury lodge housekeeping operation. Include luxury-specific items: branded toiletries, candles, minibar, fresh flowers, premium linens. Practical, detailed, and ready to use.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
             </div>
           ))}
         </div>
@@ -79,7 +79,7 @@ const AuraOperations = ({ onGenerate }: Props) => {
           {["Log Maintenance Issue", "Priority Ranking (urgent / this week / scheduled)", "Seasonal Maintenance Calendar", "Asset Register (equipment, replacement schedule)"].map(t => (
             <div key={t} className="rounded-xl border border-border bg-card p-3 flex items-center justify-between">
               <span className="text-xs text-foreground">{t}</span>
-              <button onClick={() => gen(`Generate a "${t}" system for a NZ hospitality venue maintenance operation. Include priority ranking, seasonal considerations for NZ climate, and asset tracking. Practical and comprehensive.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Open</button>
+              <button onClick={() => gen(`Generate a "${t}" system for a luxury lodge maintenance operation. Include priority ranking, seasonal considerations for NZ climate, and asset tracking. Practical and comprehensive.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Open</button>
             </div>
           ))}
         </div>
@@ -95,7 +95,7 @@ const AuraOperations = ({ onGenerate }: Props) => {
                   <div className="text-xs font-medium text-foreground">{c.area}</div>
                   <div className="text-[10px] text-muted-foreground">{c.ref} — {c.desc}</div>
                 </div>
-                <button onClick={() => gen(`Generate a compliance review checklist for "${c.area}" in a NZ hospitality venue. Reference: ${c.ref}. Focus on: ${c.desc}. Include current requirements, renewal dates, action items, and responsible person. NZ-specific legislation.`)} className="px-2.5 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Review</button>
+                <button onClick={() => gen(`Generate a compliance review checklist for "${c.area}" in a NZ luxury lodge. Reference: ${c.ref}. Focus on: ${c.desc}. Include current requirements, renewal dates, action items, and responsible person. NZ-specific legislation.`)} className="px-2.5 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Review</button>
               </div>
             ))}
           </div>
@@ -122,7 +122,7 @@ const AuraOperations = ({ onGenerate }: Props) => {
               </div>
             ))}
           </div>
-          <button onClick={() => gen(`Generate a comprehensive monthly financial report for a NZ hospitality venue. Include revenue analysis, covers/occupancy, average spend per head, food cost %, labour cost %, key metrics, and comparison to previous month. Include NZ hospitality benchmarks and actionable recommendations. Adapt to venue type.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Financial Report</button>
+          <button onClick={() => gen(`Generate a comprehensive monthly financial report for a luxury lodge. Include: RevPAR analysis, ADR trends, occupancy rate, total revenue MTD, F&B revenue per guest, activity revenue per guest, average length of stay, direct vs OTA booking ratio, cost per occupied room, and comparison to previous month. Include benchmarks for NZ luxury lodges and actionable recommendations.`)} className="w-full mt-3 py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Financial Report</button>
         </div>
       )}
     </div>

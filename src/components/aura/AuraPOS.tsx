@@ -2,16 +2,16 @@ import { useState } from "react";
 import { NeonChart, NeonDocument, NeonStar, NeonGlobe } from "@/components/NeonIcons";
 import { AgentBarChart, AgentPieChart } from "@/components/shared/AgentCharts";
 
-const color = "#00E5A0";
+const color = "#E6B422";
 
 const POS_SYSTEMS = [
-  { name: "Lightspeed", desc: "Full restaurant POS with table management, menu engineering & analytics", logo: "" },
-  { name: "Square", desc: "Simple, flexible POS for cafés & small restaurants. Free tier available", logo: "" },
+  { name: "Lightspeed", desc: "Full restaurant POS with table management, menu engineering & analytics", logo: "⚡" },
+  { name: "Square", desc: "Simple, flexible POS for cafés & small restaurants. Free tier available", logo: "◼" },
   { name: "Kounta (Lightspeed K)", desc: "NZ-built hospitality POS. Popular with NZ cafés & restaurants", logo: "🇳🇿" },
-  { name: "Vend (Lightspeed X)", desc: "NZ-origin retail POS, great for gift shops & cellar doors", logo: "" },
-  { name: "Clover", desc: "All-in-one POS hardware & software for quick-service hospitality", logo: "" },
-  { name: "Toast", desc: "Purpose-built restaurant POS with online ordering & kitchen display", logo: "" },
-  { name: "Custom / Other", desc: "Connect any POS via API or CSV import", logo: "" },
+  { name: "Vend (Lightspeed X)", desc: "NZ-origin retail POS, great for gift shops & cellar doors", logo: "🏪" },
+  { name: "Clover", desc: "All-in-one POS hardware & software for quick-service hospitality", logo: "🍀" },
+  { name: "Toast", desc: "Purpose-built restaurant POS with online ordering & kitchen display", logo: "🍞" },
+  { name: "Custom / Other", desc: "Connect any POS via API or CSV import", logo: "🔌" },
 ];
 
 const LIVE_METRICS = [
@@ -116,7 +116,7 @@ const AuraPOS = ({ onGenerate }: Props) => {
                     <div className="text-xs font-medium text-foreground">{pos.name}</div>
                     <div className="text-[10px] text-muted-foreground">{pos.desc}</div>
                   </div>
-                  {selectedPOS === pos.name && <span className="text-xs" style={{ color }}></span>}
+                  {selectedPOS === pos.name && <span className="text-xs" style={{ color }}>✓</span>}
                 </button>
               ))}
             </div>
@@ -175,10 +175,10 @@ const AuraPOS = ({ onGenerate }: Props) => {
             <p className="text-[10px] text-muted-foreground mb-3">AI-powered menu engineering: identify stars, plowhorses, puzzles & dogs. Optimise pricing and placement.</p>
             <div className="grid grid-cols-2 gap-2 mb-3">
               {[
-                { label: "Stars ", desc: "High profit, high sales", bg: "#00FF8820" },
-                { label: "Plowhorses ", desc: "Low profit, high sales", bg: "#FFB80020" },
-                { label: "Puzzles ", desc: "High profit, low sales", bg: "#4FC3F720" },
-                { label: "Dogs ", desc: "Low profit, low sales", bg: "#FF6B6B20" },
+                { label: "Stars ⭐", desc: "High profit, high sales", bg: "#00FF8820" },
+                { label: "Plowhorses 🐎", desc: "Low profit, high sales", bg: "#FFB80020" },
+                { label: "Puzzles 🧩", desc: "High profit, low sales", bg: "#4FC3F720" },
+                { label: "Dogs 🐕", desc: "Low profit, low sales", bg: "#FF6B6B20" },
               ].map(q => (
                 <div key={q.label} className="p-2.5 rounded-lg border border-border text-center" style={{ background: q.bg }}>
                   <div className="text-xs font-medium text-foreground">{q.label}</div>
@@ -200,7 +200,7 @@ const AuraPOS = ({ onGenerate }: Props) => {
                 { label: "Waste Reduction Plan", prompt: "Generate a food waste reduction plan for a NZ hospitality venue. Include: waste audit template, prep par levels, cross-utilisation matrix, staff training checklist, and estimated savings. Reference NZ sustainability goals." },
               ].map(item => (
                 <button key={item.label} onClick={() => gen(item.prompt)}
-                  className="w-full text-left p-3 rounded-lg border border-border hover:border-[#00E5A040] transition-all">
+                  className="w-full text-left p-3 rounded-lg border border-border hover:border-[#E6B42240] transition-all">
                   <div className="text-xs font-medium text-foreground">{item.label}</div>
                 </button>
               ))}

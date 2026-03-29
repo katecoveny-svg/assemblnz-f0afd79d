@@ -36,7 +36,7 @@ export function useMilestones(counters: { documents: number; workflows: number; 
           toast.success(ms.label, {
             description: ms.message,
             duration: 6000,
-            icon: "",
+            icon: "🎉",
           });
         }, newlyAchieved.indexOf(ms.id) * 2500);
       }

@@ -212,8 +212,8 @@ export default function ArohaCompanySetup() {
             <input type="checkbox" checked={collective} onChange={e => setCollective(e.target.checked)} style={{ accentColor: AROHA_COLOR }} />
             <span className="text-[10px] text-foreground">We have a collective agreement</span>
           </label>
-          {trialEligible && <p className="text-[9px] p-2 rounded-lg" style={{ backgroundColor: "#22C55E15", color: "#22C55E" }}> With fewer than 20 employees, you're eligible for 90-day trial periods.</p>}
-          {!trialEligible && employees && <p className="text-[9px] p-2 rounded-lg" style={{ backgroundColor: "#F59E0B15", color: "#F59E0B" }}> With 20+ employees, trial periods are NOT available. Use probation periods instead.</p>}
+          {trialEligible && <p className="text-[9px] p-2 rounded-lg" style={{ backgroundColor: "#22C55E15", color: "#22C55E" }}>✅ With fewer than 20 employees, you're eligible for 90-day trial periods.</p>}
+          {!trialEligible && employees && <p className="text-[9px] p-2 rounded-lg" style={{ backgroundColor: "#F59E0B15", color: "#F59E0B" }}>⚠️ With 20+ employees, trial periods are NOT available. Use probation periods instead.</p>}
           <div className="flex gap-2">
             <button onClick={() => setStep(1)} className="px-4 py-2 rounded-lg text-xs font-medium border border-border text-foreground">← Back</button>
             <button onClick={() => setStep(3)} className="px-4 py-2 rounded-lg text-xs font-bold" style={{ backgroundColor: AROHA_COLOR, color: "#0A0A14" }}>Next →</button>
@@ -275,7 +275,7 @@ export default function ArohaCompanySetup() {
             <p className="text-[9px] text-muted-foreground mt-1">Types: {empTypes.join(", ") || "None selected"}</p>
             <p className="text-[9px] text-muted-foreground">HR: {hasHR ? "Yes" : "No"} · Software: {hrSoftware} · Handbook: {hasHandbook ? "Yes" : "No"} · Agreements: {hasAgreements ? "Yes" : "No"}</p>
             <p className="text-[9px] text-muted-foreground">Pain points: {painPoints.join(", ") || "None"}</p>
-            {trialEligible ? <p className="text-[9px] mt-1" style={{ color: "#22C55E" }}> Trial period eligible</p> : <p className="text-[9px] mt-1" style={{ color: "#F59E0B" }}> Probation only (20+ staff)</p>}
+            {trialEligible ? <p className="text-[9px] mt-1" style={{ color: "#22C55E" }}>✅ Trial period eligible</p> : <p className="text-[9px] mt-1" style={{ color: "#F59E0B" }}>⚠️ Probation only (20+ staff)</p>}
           </div>
           <div className="flex gap-2">
             <button onClick={() => setStep(4)} className="px-4 py-2 rounded-lg text-xs font-medium border border-border text-foreground">← Back</button>

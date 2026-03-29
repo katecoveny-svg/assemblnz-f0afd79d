@@ -42,7 +42,7 @@ const LanguageSelector = ({ agentColor }: Props) => {
           >
             <span>{lang.flag}</span>
             <span>{lang.label}</span>
-            {language === lang.code && <span className="ml-auto text-primary"></span>}
+            {language === lang.code && <span className="ml-auto text-primary">✓</span>}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

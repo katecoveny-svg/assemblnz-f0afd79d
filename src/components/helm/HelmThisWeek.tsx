@@ -188,7 +188,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
       {/* Auto Gear List from Timetable */}
       {gearRules.length > 0 && isSchoolDay(selectedDay) && (
         <div>
-          <h3 className="text-xs font-semibold text-white/60 mb-2"> Gear Needed — {format(selectedDay, "EEEE")}</h3>
+          <h3 className="text-xs font-semibold text-white/60 mb-2">🎒 Gear Needed — {format(selectedDay, "EEEE")}</h3>
           {(() => {
             const dayOfWeek = selectedDay.getDay() === 0 ? 7 : selectedDay.getDay(); // 1=Mon
             const daySubjects = timetableEntries
@@ -225,7 +225,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
       {/* Manual Packing List */}
       {packingItems.length > 0 && (
         <div>
-          <h3 className="text-xs font-semibold text-white/60 mb-2"> Packing List</h3>
+          <h3 className="text-xs font-semibold text-white/60 mb-2">📦 Packing List</h3>
           <div className="space-y-1">
             {packingItems.slice(0, 10).map(item => (
               <button key={item.id} onClick={() => togglePacking(item.id)} className="flex items-center gap-2 w-full rounded-lg px-3 py-2 text-left transition hover:bg-white/5" style={{ background: "rgba(255,255,255,0.02)" }}>
@@ -241,7 +241,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
 
       {/* Tasks */}
       <div>
-        <h3 className="text-xs font-semibold text-white/60 mb-2"> Tasks This Week</h3>
+        <h3 className="text-xs font-semibold text-white/60 mb-2">📋 Tasks This Week</h3>
         <div className="space-y-1">
           {displayTasks.map(task => (
             <button key={task.id} onClick={() => !showDemo && toggleTask(task.id)} className="flex items-center gap-2 w-full rounded-lg px-3 py-2 text-left transition hover:bg-white/5" style={{ background: "rgba(255,255,255,0.02)" }}>
@@ -251,7 +251,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
               <span className="text-xs text-white/70">{task.title}</span>
             </button>
           ))}
-          {displayTasks.length === 0 && <p className="text-xs text-white/30 px-3 py-2">No tasks this week </p>}
+          {displayTasks.length === 0 && <p className="text-xs text-white/30 px-3 py-2">No tasks this week 🎉</p>}
         </div>
       </div>
     </div>

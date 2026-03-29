@@ -1,6 +1,4 @@
 import { useParams, Link, Navigate } from "react-router-dom";
-import SEO from "@/components/SEO";
-import { agentSEO } from "@/data/agentSEO";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Zap, ArrowLeft, Sparkles } from "lucide-react";
@@ -14,8 +12,7 @@ import { agentCapabilities } from "@/data/agentCapabilities";
 const AgentDetailPage = () => {
   const { agentId } = useParams<{ agentId: string }>();
   const agent = agents.find((a) => a.id === agentId);
-  const rawCaps = agentCapabilities[agent?.id || ""] || [];
-  const capabilities = rawCaps.map(c => typeof c === 'string' ? c : c.bullet);
+  const capabilities = agentCapabilities[agent?.id || ""] || [];
 
   // JSON-LD structured data for SEO rich snippets
   useEffect(() => {
@@ -23,8 +20,8 @@ const AgentDetailPage = () => {
     const jsonLd = {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": `${agent.name} – Assembl Specialist Tool`,
-      "description": `${agent.tagline}. ${agent.role} — specialist tool for New Zealand ${agent.sector} businesses. Part of Assembl — business intelligence for NZ.`,
+      "name": `${agent.name} – Assembl AI Agent`,
+      "description": `${agent.tagline}. ${agent.role} powered by Assembl's AI platform for New Zealand businesses.`,
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
       "url": `https://assembl.co.nz/agents/${agent.id}`,
@@ -41,7 +38,7 @@ const AgentDetailPage = () => {
         "logo": "https://assembl.co.nz/placeholder.svg"
       },
       "featureList": agent.expertise,
-      "keywords": [agent.sector, "specialist tool", "New Zealand", "business intelligence", ...agent.traits],
+      "keywords": [agent.sector, "AI agent", "New Zealand", "business automation", ...agent.traits],
     };
 
     const script = document.createElement("script");
@@ -51,8 +48,8 @@ const AgentDetailPage = () => {
     document.getElementById("agent-jsonld")?.remove();
     document.head.appendChild(script);
 
-    const pageTitle = `${agent.name} – ${agent.sector} Specialist Tool | Assembl`;
-    const pageDesc = `${agent.name}: ${agent.tagline}. ${agent.role} — specialist tool for NZ ${agent.sector} businesses. Part of Assembl — business intelligence for NZ.`;
+    const pageTitle = `${agent.name} – ${agent.sector} AI Agent | Assembl`;
+    const pageDesc = `${agent.name}: ${agent.tagline}. ${agent.role} – AI-powered automation for NZ ${agent.sector} businesses.`;
     const pageUrl = `https://assembl.co.nz/agents/${agent.id}`;
     const pageImage = "https://assembl.co.nz/placeholder.svg";
 
@@ -91,11 +88,8 @@ const AgentDetailPage = () => {
   if (agentId === "echo") return <Navigate to="/agents/echo" replace />;
   if (!agent) return <Navigate to="/" replace />;
 
-  const seo = agentSEO[agentId || ""];
-
   return (
     <div className="min-h-screen flex flex-col relative" style={{ background: "hsl(var(--background))" }}>
-      {seo && <SEO title={seo.title} description={seo.description} path={`/agents/${agentId}`} />}
       <ParticleField />
       <div className="relative z-10">
         <BrandNav />
@@ -400,7 +394,7 @@ const AgentDetailPage = () => {
               Ready to put {agent.name} to work?
             </h2>
             <p className="font-jakarta text-base mb-8 max-w-md mx-auto" style={{ color: "hsl(var(--muted-foreground))" }}>
-              No credit card required. Start chatting with your {agent.sector.toLowerCase()} specialist in seconds.
+              No credit card required. Start chatting with your AI {agent.sector.toLowerCase()} specialist in seconds.
             </p>
             <Link
               to={`/chat/${agent.id}`}

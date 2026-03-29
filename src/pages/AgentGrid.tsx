@@ -1,36 +1,34 @@
 import { useState, useRef } from "react";
-import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { agents, sectors } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
-import AgentCard from "@/components/AgentCard";
 import ParticleField from "@/components/ParticleField";
 import AnimatedHero from "@/components/AnimatedHero";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import { X, Zap, Users, BookOpen, Clock, Send, ArrowRight, Check } from "lucide-react";
+import { X, Send, ArrowRight, Check, ChevronDown } from "lucide-react";
 import { NeonWave } from "@/components/NeonIcons";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
-import LiveDemoSection from "@/components/LiveDemoSection";
+import { motion, AnimatePresence } from "framer-motion";
 import EchoSection from "@/components/EchoSection";
-import TurfSection from "@/components/TurfSection";
-import AuraSection from "@/components/AuraSection";
-import ApexSection from "@/components/ApexSection";
-import ArohaSection from "@/components/ArohaSection";
-import FAQSection from "@/components/FAQSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import CompetitorComparison from "@/components/CompetitorComparison";
-import TrustSection from "@/components/landing/TrustSection";
-import IndustrySolutions from "@/components/landing/IndustrySolutions";
+import SparkSection from "@/components/SparkSection";
+import HelmSection from "@/components/HelmSection";
 
-const PRICING_PLANS = [
+// New landing sections
+import AIStackShowcase from "@/components/landing/AIStackShowcase";
+import IndustrySolutions from "@/components/landing/IndustrySolutions";
+import LiveDemoSection from "@/components/landing/LiveDemoSection";
+import TrustSection from "@/components/landing/TrustSection";
+import ComparisonTable from "@/components/landing/ComparisonTable";
+
+const PRICING_PLANS_MONTHLY = [
   {
     name: "Free",
-    monthlyPrice: 0,
+    price: "$0",
+    annual: "$0",
+    period: "",
     color: "#A1A1AA",
-    features: ["3 messages per advisor", "All 42 specialist tools", "NZ legislation knowledge", "No signup required"],
+    features: ["3 messages per agent", "All 42 agents", "NZ legislation knowledge", "No signup required"],
     cta: "Start free",
     href: "/",
     external: false,
@@ -38,9 +36,11 @@ const PRICING_PLANS = [
   },
   {
     name: "Starter",
-    monthlyPrice: 89,
+    price: "$89",
+    annual: "$69",
+    period: "/mo",
     color: "#10B981",
-    features: ["1 specialist advisor", "100 messages/month", "NZ legislation references", "Email support"],
+    features: ["1 AI agent", "100 messages/month", "NZ legislation references", "Email support"],
     cta: "Get started",
     href: "https://buy.stripe.com/fZuaEZa1CdkA6573Wu3oA0b",
     external: true,
@@ -48,9 +48,11 @@ const PRICING_PLANS = [
   },
   {
     name: "Pro",
-    monthlyPrice: 299,
+    price: "$299",
+    annual: "$239",
+    period: "/mo",
     color: "#10B981",
-    features: ["3 specialist advisors + SPARK", "500 messages/month", "Brand DNA scanner", "Cross-tool workflows", "Priority support"],
+    features: ["3 AI agents + SPARK", "500 messages/month", "Brand DNA scanner", "Symbiotic workflows", "Priority support"],
     cta: "Start Pro",
     href: "https://buy.stripe.com/14A00l4Hi4O43WZ50y3oA0a",
     external: true,
@@ -58,9 +60,11 @@ const PRICING_PLANS = [
   },
   {
     name: "Business",
-    monthlyPrice: 599,
+    price: "$599",
+    annual: "$479",
+    period: "/mo",
     color: "#10B981",
-    features: ["All 42 specialist tools", "2,000 messages/month", "Command Centre", "MCP API", "Phone support"],
+    features: ["All 42 AI agents", "2,000 messages/month", "Command Centre", "MCP API", "Phone support"],
     cta: "Start Business",
     href: "https://buy.stripe.com/6oU9AVa1C6Wcbpr2Sq3oA09",
     external: true,
@@ -68,35 +72,54 @@ const PRICING_PLANS = [
   },
   {
     name: "Enterprise",
-    monthlyPrice: 1499,
+    price: "Custom",
+    annual: "Custom",
+    period: "",
     color: "#B388FF",
-    features: ["Unlimited tools & messages", "Dedicated account manager", "Custom integrations", "SLA guarantee", "On-premise option", "SOC 2 compliant"],
-    cta: "Contact sales",
-    href: "/#contact",
+    features: ["Unlimited agents", "Unlimited messages", "Custom AI training", "Dedicated account manager", "SLA guarantee", "API access"],
+    cta: "Contact us",
+    href: "#contact",
     external: false,
     highlighted: false,
   },
 ];
 
 const HOW_IT_WORKS = [
-  { step: "01", title: "Tell us about your business", desc: "Share your industry, team size, and goals. Your expert team adapts to you.", icon: <Users size={24} /> },
-  { step: "02", title: "Access your specialist tools", desc: "42 specialist tools covering every NZ industry, all trained on NZ legislation.", icon: <Zap size={24} /> },
-  { step: "03", title: "Get specialist guidance", desc: "Ask anything. Get recommendations grounded in NZ legislation, regulations, and best practice.", icon: <BookOpen size={24} /> },
-  { step: "04", title: "Run 24/7", desc: "Embed on your site, share with your team, or let customers chat directly.", icon: <Clock size={24} /> },
+  { step: "01", title: "Pick your agent", desc: "Choose from 42 specialists covering NZ industries from hospo to government.", icon: "🎯" },
+  { step: "02", title: "Teach your brand", desc: "Scan your website or paste your brand profile. Every agent remembers your context.", icon: "🧠" },
+  { step: "03", title: "Get NZ advice", desc: "Ask anything. Get answers grounded in NZ legislation, regulations, and best practice.", icon: "📋" },
+  { step: "04", title: "Run 24/7", desc: "Embed on your site, share with your team, or let customers chat directly.", icon: "⚡" },
 ];
 
-const ALSO_BY_ASSEMBL = [
-  { title: "Custom Intelligence Builds", desc: "Bespoke specialist tools trained on your internal data, SOPs, and brand voice.", color: "#00FF88" },
-  { title: "Website Chatbots", desc: "Drop-in chat widgets for your website — trained, branded, and always on.", color: "#00E5FF" },
-  { title: "AssemblFund", desc: "Our initiative to bring enterprise-grade tools to Kiwi startups and community organisations.", color: "#B388FF" },
+const FAQ_ITEMS = [
+  {
+    q: "How is Assembl different from ChatGPT?",
+    a: "Every Assembl agent is trained on NZ-specific legislation, regulations, and business practices. ChatGPT gives generic global advice — Assembl gives you answers grounded in the Health and Safety at Work Act, the Residential Tenancies Act, IRD requirements, and 50+ more NZ Acts.",
+  },
+  {
+    q: "Can I try before I pay?",
+    a: "Yes — every agent offers 3 free messages with no signup required. Test APEX on a construction question, ask LEDGER about GST, or try ANCHOR for legal advice. No credit card needed.",
+  },
+  {
+    q: "Is my data safe?",
+    a: "Absolutely. Your data is encrypted at rest, hosted in the AU/NZ Supabase region, and never shared with third parties. We're Privacy Act 2020 compliant and GDPR-ready.",
+  },
+  {
+    q: "Can I embed an agent on my website?",
+    a: "Yes — all paid plans include an embeddable chat widget. Drop a single script tag into your site and your customers can chat with your branded AI agent 24/7.",
+  },
+  {
+    q: "What industries do you cover?",
+    a: "42 agents across 16+ industries including construction, hospitality, property, legal, accounting, agriculture, maritime, retail, automotive, HR, IT, education, and more. Each agent is a deep specialist in their field.",
+  },
 ];
 
 const AgentGrid = () => {
-  const [activeSector, setActiveSector] = useState("All");
-  const [isAnnual, setIsAnnual] = useState(false);
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactMessage, setContactMessage] = useState("");
+  const [isAnnual, setIsAnnual] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
   const brandProfile = sessionStorage.getItem("assembl_brand_profile");
@@ -119,23 +142,18 @@ const AgentGrid = () => {
     const trimmedEmail = contactEmail.trim();
     const trimmedMessage = contactMessage.trim();
     try {
-      const { data: inserted, error } = await supabase.from("contact_submissions").insert({
+      const { error } = await supabase.from("contact_submissions").insert({
         name: trimmedName,
         email: trimmedEmail,
         message: trimmedMessage,
-      }).select("id").single();
+      });
       if (error) throw error;
 
-      supabase.functions.invoke("send-contact-email", {
-        body: { name: trimmedName, email: trimmedEmail, message: trimmedMessage },
-      }).catch((err) => console.error("Contact email error:", err));
-
-      // Auto-qualify the lead with AI scoring
-      if (inserted?.id) {
-        supabase.functions.invoke("qualify-lead", {
-          body: { submissionId: inserted.id },
-        }).catch((err) => console.error("Lead qualification error:", err));
-      }
+      fetch("https://formspree.io/f/xbdzwqpy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: trimmedName, email: trimmedEmail, message: trimmedMessage }),
+      }).catch(() => {});
 
       toast.success("Message sent! We'll be in touch soon.");
       setContactName("");
@@ -147,18 +165,11 @@ const AgentGrid = () => {
     }
   };
 
-  const filtered = activeSector === "All" ? agents : agents.filter(a => a.sector === activeSector);
-
   return (
     <div className="min-h-screen flex flex-col relative">
-      <SEO
-        title="Assembl | Business Intelligence Platform for NZ | 42 Specialist Tools"
-        description="42 specialist tools trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, and more. Enterprise-grade business intelligence at SME pricing. From $14/mo. Built in Aotearoa."
-        path="/"
-      />
       <ParticleField />
 
-      {/* Shared Brand Banner */}
+      {/* Brand Banner */}
       {brandProfile && brandName && (
         <div className="relative z-10 bg-primary/5 border-b border-primary/10 px-4 py-2 flex items-center justify-center gap-2">
           <NeonWave size={14} />
@@ -173,69 +184,36 @@ const AgentGrid = () => {
         <BrandNav />
       </div>
 
-      {/* ═══════════════════════ HERO ═══════════════════════ */}
+      {/* ═══════════ HERO ═══════════ */}
       <div className="relative z-10">
         <AnimatedHero onScrollToGrid={scrollToGrid} />
       </div>
 
-      {/* ═══════════════════════ AGENT GRID — Moved up for discoverability ═══════════════════════ */}
-      <main id="expert-team" ref={gridRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 w-full">
-        {/* Section header */}
-        <motion.div
-          className="text-center mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-glow-cyan mb-2">Your specialist tools</h2>
-          <p className="text-sm font-jakarta text-muted-foreground">Tap any tool to chat live — no signup needed.</p>
-        </motion.div>
+      {/* ═══════════ AI STACK ═══════════ */}
+      <AIStackShowcase />
 
-        {/* Filter Bar */}
-        <motion.div
-          className="flex flex-wrap gap-2 justify-center mb-10"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-        >
-          {sectors.map(sector => (
-            <motion.button
-              key={sector}
-              onClick={() => setActiveSector(sector)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-3 py-1.5 rounded-full text-xs font-jakarta font-medium transition-all duration-200 border ${
-                activeSector === sector
-                  ? "border-foreground/20 bg-foreground/5 text-foreground"
-                  : "border-border text-muted-foreground hover:border-foreground/10 hover:text-foreground"
-              }`}
-            >
-              {sector}
-            </motion.button>
-          ))}
-        </motion.div>
-
-        <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
-          {filtered.map((agent, i) => (
-            <AgentCard key={agent.id} agent={agent} index={i} />
-          ))}
-        </div>
-      </main>
-
-      {/* ═══════════════════════ LIVE DEMO / STATS ═══════════════════════ */}
+      {/* ═══════════ LIVE DEMO ═══════════ */}
       <LiveDemoSection />
 
-      {/* ═══════════════════════ FEATURED AGENTS ═══════════════════════ */}
-      <TurfSection />
-      <AuraSection />
-      <ApexSection />
-      <ArohaSection />
+      {/* ═══════════ ECHO ═══════════ */}
       <EchoSection />
 
-      {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      {/* ═══════════ SPARK ═══════════ */}
+      <SparkSection />
+
+      {/* ═══════════ HELM ═══════════ */}
+      <HelmSection />
+
+      {/* ═══════════ INDUSTRY SOLUTIONS ═══════════ */}
+      <div ref={gridRef}>
+        <IndustrySolutions />
+      </div>
+
+      {/* ═══════════ COMPARISON TABLE ═══════════ */}
+      <ComparisonTable />
+
+      {/* ═══════════ HOW IT WORKS ═══════════ */}
+      <section className="relative z-10 py-20 sm:py-28 border-t" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <motion.h2
             className="text-2xl sm:text-4xl font-syne font-extrabold text-center mb-14 text-foreground"
@@ -249,8 +227,12 @@ const AgentGrid = () => {
             {HOW_IT_WORKS.map((item, i) => (
               <motion.div
                 key={item.step}
-                className="relative rounded-2xl p-6 group transition-colors duration-300 overflow-hidden border border-border bg-card"
-                style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+                className="relative rounded-2xl p-6 group transition-colors duration-300 overflow-hidden border"
+                style={{
+                  background: "rgba(14,14,26,0.5)",
+                  backdropFilter: "blur(12px)",
+                  borderColor: "rgba(255,255,255,0.06)",
+                }}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -260,7 +242,7 @@ const AgentGrid = () => {
                 <div className="absolute top-0 left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-foreground/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="flex items-center gap-3 mb-4">
                   <span className="font-mono-jb text-[10px] font-bold text-muted-foreground">{item.step}</span>
-                  <div className="text-foreground">{item.icon}</div>
+                  <span className="text-lg">{item.icon}</span>
                 </div>
                 <h3 className="text-sm font-syne font-bold text-foreground mb-2">{item.title}</h3>
                 <p className="text-xs font-jakarta text-muted-foreground leading-relaxed">{item.desc}</p>
@@ -270,164 +252,177 @@ const AgentGrid = () => {
         </div>
       </section>
 
-      {/* ═══════════════════════ TRUST & TESTIMONIALS ═══════════════════════ */}
+      {/* ═══════════ TRUST SECTION ═══════════ */}
       <TrustSection />
 
-      {/* ═══════════════════════ COMPETITOR COMPARISON ═══════════════════════ */}
-      <CompetitorComparison />
-
-      {/* ═══════════════════════ INDUSTRY SOLUTIONS ═══════════════════════ */}
-      <IndustrySolutions />
-
-      {/* ═══════════════════════ PRICING ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      {/* ═══════════ PRICING ═══════════ */}
+      <section className="relative z-10 py-20 sm:py-28 border-t" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-8">
+          <div className="text-center mb-10">
+            <span className="text-[10px] font-mono-jb uppercase tracking-widest text-muted-foreground/60 mb-3 block">
+              Pricing
+            </span>
             <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
-              Enterprise-grade business intelligence. <span className="text-gradient-hero">SME-friendly pricing.</span>
+              Simple, honest <span className="text-gradient-hero">pricing</span>
             </h2>
-            <p className="text-sm font-jakarta text-muted-foreground mb-6">From $14/month. No lock-in. Cancel anytime.</p>
+            <p className="text-sm font-jakarta text-muted-foreground mb-6">Start free. Upgrade when you're ready.</p>
 
-            {/* Annual/Monthly toggle */}
-            <div className="inline-flex items-center gap-3 rounded-full border border-border bg-card px-1.5 py-1.5">
+            {/* Annual toggle */}
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <span className={`text-xs font-jakarta ${!isAnnual ? "text-foreground" : "text-muted-foreground"}`}>Monthly</span>
               <button
-                onClick={() => setIsAnnual(false)}
-                className="px-4 py-1.5 rounded-full text-xs font-syne font-bold transition-all"
+                onClick={() => setIsAnnual(!isAnnual)}
+                className="relative w-12 h-6 rounded-full transition-all duration-300"
                 style={{
-                  background: !isAnnual ? "hsl(var(--primary))" : "transparent",
-                  color: !isAnnual ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))",
+                  background: isAnnual ? "rgba(16,185,129,0.3)" : "rgba(255,255,255,0.1)",
+                  border: `1px solid ${isAnnual ? "rgba(16,185,129,0.4)" : "rgba(255,255,255,0.1)"}`,
                 }}
               >
-                Monthly
+                <motion.div
+                  className="absolute top-0.5 w-5 h-5 rounded-full bg-foreground"
+                  animate={{ left: isAnnual ? "calc(100% - 22px)" : "2px" }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
               </button>
-              <button
-                onClick={() => setIsAnnual(true)}
-                className="px-4 py-1.5 rounded-full text-xs font-syne font-bold transition-all"
-                style={{
-                  background: isAnnual ? "hsl(var(--primary))" : "transparent",
-                  color: isAnnual ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))",
-                }}
-              >
+              <span className={`text-xs font-jakarta ${isAnnual ? "text-foreground" : "text-muted-foreground"}`}>
                 Annual
-                <span className="ml-1.5 text-[9px] font-mono-jb opacity-80">-15%</span>
-              </button>
+                <span className="ml-1 text-[10px] font-mono-jb px-1.5 py-0.5 rounded-full" style={{ background: "rgba(16,185,129,0.15)", color: "#10B981" }}>
+                  Save 20%
+                </span>
+              </span>
             </div>
           </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {PRICING_PLANS.map((plan) => {
-              const price = plan.monthlyPrice === 0
-                ? "$0"
-                : isAnnual
-                  ? `$${Math.round(plan.monthlyPrice * 0.85)}`
-                  : `$${plan.monthlyPrice}`;
-              const period = plan.monthlyPrice === 0 ? "" : "/mo";
-
-              return (
-                <div key={plan.name} className="relative pt-4">
-                  {plan.highlighted && (
-                    <span className="absolute top-0 left-1/2 -translate-x-1/2 z-10 text-[10px] font-syne font-bold px-3 py-1 rounded-full" style={{ background: plan.color, color: "hsl(var(--background))" }}>
-                      MOST POPULAR
-                    </span>
-                  )}
-                  <div
-                    className="relative rounded-2xl p-5 flex flex-col h-full border border-border bg-card"
-                    style={{
-                      backdropFilter: 'blur(12px)',
-                      WebkitBackdropFilter: 'blur(12px)',
-                      borderColor: plan.highlighted ? plan.color + "30" : undefined,
-                    }}
+            {PRICING_PLANS_MONTHLY.map((plan) => (
+              <div key={plan.name} className="relative pt-4">
+                {plan.highlighted && (
+                  <span
+                    className="absolute top-0 left-1/2 -translate-x-1/2 z-10 text-[10px] font-syne font-bold px-3 py-1 rounded-full"
+                    style={{ background: plan.color, color: "hsl(var(--background))" }}
                   >
-                    <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} />
-                    <h3 className="text-base font-syne font-bold text-foreground">{plan.name}</h3>
-                    <div className="flex items-baseline gap-0.5 my-3">
-                      <span className="text-2xl font-syne font-extrabold" style={{ color: plan.color }}>{price}</span>
-                      {period && <span className="text-[10px] font-jakarta text-muted-foreground">{period}</span>}
-                    </div>
-                    {isAnnual && plan.monthlyPrice > 0 && (
-                      <p className="text-[9px] font-jakarta text-muted-foreground -mt-2 mb-2">
-                        Billed ${Math.round(plan.monthlyPrice * 0.85 * 12)}/year
-                      </p>
-                    )}
-                    <ul className="flex-1 space-y-1.5 mb-5">
-                      {plan.features.map((f) => (
-                        <li key={f} className="flex items-start gap-2 text-[11px] font-jakarta text-foreground/70">
-                          <Check size={11} className="mt-0.5 shrink-0" style={{ color: plan.color }} />
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                    {plan.external ? (
-                      <a
-                        href={plan.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300 hover:shadow-lg"
-                        style={{
-                          background: plan.highlighted ? plan.color : "transparent",
-                          color: plan.highlighted ? "#0A0A14" : plan.color,
-                          border: `1px solid ${plan.color}30`,
-                          boxShadow: plan.highlighted ? `0 0 20px ${plan.color}20` : 'none',
-                        }}
-                      >
-                        {plan.cta}
-                      </a>
-                    ) : (
-                      <Link
-                        to={plan.href}
-                        className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300"
-                        style={{
-                          background: plan.highlighted ? plan.color : "transparent",
-                          color: plan.highlighted ? "#0A0A14" : plan.color,
-                          border: `1px solid ${plan.color}30`,
-                        }}
-                      >
-                        {plan.cta}
-                      </Link>
-                    )}
+                    MOST POPULAR
+                  </span>
+                )}
+                <div
+                  className="relative rounded-2xl p-5 flex flex-col h-full border"
+                  style={{
+                    background: "rgba(14,14,26,0.6)",
+                    backdropFilter: "blur(12px)",
+                    borderColor: plan.highlighted ? plan.color + "30" : "rgba(255,255,255,0.06)",
+                    boxShadow: plan.highlighted ? `0 0 40px ${plan.color}08` : "none",
+                  }}
+                >
+                  <span
+                    className="absolute top-0 left-[15%] right-[15%] h-px opacity-30"
+                    style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }}
+                  />
+                  <h3 className="text-base font-syne font-bold text-foreground">{plan.name}</h3>
+                  <div className="flex items-baseline gap-0.5 my-3">
+                    <span className="text-2xl font-syne font-extrabold" style={{ color: plan.color }}>
+                      {isAnnual ? plan.annual : plan.price}
+                    </span>
+                    {plan.period && <span className="text-xs font-jakarta text-muted-foreground">{plan.period}</span>}
                   </div>
+                  <ul className="flex-1 space-y-2 mb-5">
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-[11px] font-jakarta text-foreground/70">
+                        <Check size={11} className="mt-0.5 shrink-0" style={{ color: plan.color }} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  {plan.external ? (
+                    <a
+                      href={plan.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300 hover:shadow-lg"
+                      style={{
+                        background: plan.highlighted ? plan.color : "transparent",
+                        color: plan.highlighted ? "#0A0A14" : plan.color,
+                        border: `1px solid ${plan.color}30`,
+                        boxShadow: plan.highlighted ? `0 0 20px ${plan.color}20` : "none",
+                      }}
+                    >
+                      {plan.cta}
+                    </a>
+                  ) : (
+                    <a
+                      href={plan.href}
+                      className="block text-center text-xs font-syne font-bold py-2.5 rounded-xl transition-all duration-300"
+                      style={{
+                        background: "transparent",
+                        color: plan.color,
+                        border: `1px solid ${plan.color}30`,
+                      }}
+                    >
+                      {plan.cta}
+                    </a>
+                  )}
                 </div>
-              );
-            })}
+              </div>
+            ))}
+          </div>
+
+          {/* FAQ */}
+          <div className="max-w-2xl mx-auto mt-16">
+            <h3 className="text-lg sm:text-xl font-syne font-extrabold text-center text-foreground mb-8">
+              Frequently asked questions
+            </h3>
+            <div className="space-y-3">
+              {FAQ_ITEMS.map((faq, i) => (
+                <div
+                  key={i}
+                  className="rounded-xl overflow-hidden border"
+                  style={{
+                    background: "rgba(14,14,26,0.5)",
+                    backdropFilter: "blur(12px)",
+                    borderColor: openFaq === i ? "rgba(0,255,136,0.15)" : "rgba(255,255,255,0.06)",
+                  }}
+                >
+                  <button
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    className="w-full flex items-center justify-between px-5 py-4 text-left"
+                  >
+                    <span className="text-xs sm:text-sm font-syne font-bold text-foreground">{faq.q}</span>
+                    <motion.span
+                      animate={{ rotate: openFaq === i ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ChevronDown size={16} className="text-muted-foreground shrink-0 ml-2" />
+                    </motion.span>
+                  </button>
+                  <AnimatePresence>
+                    {openFaq === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <div className="px-5 pb-4">
+                          <p className="text-xs font-jakarta text-muted-foreground leading-relaxed">{faq.a}</p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════ HELM SPOTLIGHT ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div>
-              <span className="font-mono-jb text-[10px] text-muted-foreground">ASM-013</span>
-              <h2 className="text-2xl sm:text-4xl font-syne font-extrabold mt-1 mb-4 text-foreground">
-                Meet <span className="text-gradient-hero">HELM</span>
-              </h2>
-              <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-6">
-                Your personal Life Admin & Household Manager. Upload receipts, plan meals, track budgets, and tame the chaos of daily life — purpose-built for New Zealand families.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {["Meal planning", "Budget tracking", "Document parsing", "School admin", "Life checklists"].map((t) => (
-                  <span key={t} className="text-[10px] font-jakarta px-2.5 py-1 rounded-full border border-border text-muted-foreground">{t}</span>
-                ))}
-              </div>
-              <Link to="/chat/operations" className="inline-flex items-center gap-2 text-sm font-syne font-bold text-foreground hover:text-gradient-hero transition-all duration-300">
-                Try HELM <ArrowRight size={14} />
-              </Link>
-            </div>
-            <div className="flex justify-center">
-              <div className="w-64 h-64 rounded-2xl border border-border flex items-center justify-center overflow-hidden bg-card">
-                <AgentAvatar agentId="operations" color="#B388FF" size={160} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════ MARINER SPOTLIGHT ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      {/* ═══════════ MARINER SPOTLIGHT ═══════════ */}
+      <section className="relative z-10 py-20 sm:py-28 border-t" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="flex justify-center order-2 lg:order-1">
-              <div className="w-64 h-64 rounded-2xl border border-border flex items-center justify-center overflow-hidden bg-card">
+              <div
+                className="w-64 h-64 rounded-2xl border flex items-center justify-center overflow-hidden"
+                style={{ background: "rgba(14,14,26,0.5)", borderColor: "rgba(255,255,255,0.06)" }}
+              >
                 <AgentAvatar agentId="maritime" color="#26C6DA" size={160} />
               </div>
             </div>
@@ -437,11 +432,18 @@ const AgentGrid = () => {
                 Meet <span className="text-gradient-hero">MARINER</span>
               </h2>
               <p className="text-sm font-jakarta text-muted-foreground leading-relaxed mb-6">
-                Maritime NZ rules, crew safety obligations, and vessel compliance — translated from legislation into plain English. MARINER knows the waters of Aotearoa inside out.
+                NZ's maritime AI expert. Fishing regulations, boat maintenance, weather interpretation,
+                commercial maritime compliance — MARINER knows the waters of Aotearoa inside out.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {["Fishing regs", "Boat maintenance", "Marine weather", "Maritime compliance", "Coastguard courses"].map((t) => (
-                  <span key={t} className="text-[10px] font-jakarta px-2.5 py-1 rounded-full border border-border text-muted-foreground">{t}</span>
+                  <span
+                    key={t}
+                    className="text-[10px] font-jakarta px-2.5 py-1 rounded-full border text-muted-foreground"
+                    style={{ borderColor: "rgba(255,255,255,0.06)" }}
+                  >
+                    {t}
+                  </span>
                 ))}
               </div>
               <Link to="/mariner" className="inline-flex items-center gap-2 text-sm font-syne font-bold text-foreground hover:text-gradient-hero transition-all duration-300">
@@ -452,58 +454,31 @@ const AgentGrid = () => {
         </div>
       </section>
 
-      {/* ═══════════════════════ ALSO BY ASSEMBL ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-center text-foreground mb-14">
-            Also by <span className="text-gradient-hero">Assembl</span>
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {ALSO_BY_ASSEMBL.map((item) => (
-              <div
-                key={item.title}
-                className="relative rounded-2xl p-6 overflow-hidden border border-border bg-card group transition-all duration-300 hover:-translate-y-1"
-                style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
-              >
-                <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-40 transition-opacity" style={{ background: `linear-gradient(90deg, transparent, ${item.color}80, transparent)` }} />
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-4 bg-muted">
-                  <Zap size={16} style={{ color: item.color }} />
-                </div>
-                <h3 className="text-sm font-syne font-bold text-foreground mb-2">{item.title}</h3>
-                <p className="text-xs font-jakarta text-muted-foreground leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════ FAQ ═══════════════════════ */}
-      <FAQSection />
-
-      {/* ═══════════════════════ FOUNDER ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
+      {/* ═══════════ FOUNDER ═══════════ */}
+      <section className="relative z-10 py-20 sm:py-28 border-t" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <motion.img
             src="/img/kate-neon.png"
             alt="Kate, Founder of Assembl"
-            className="w-32 h-32 rounded-full mx-auto mb-6 object-contain border-2 border-border"
+            className="w-32 h-32 rounded-full mx-auto mb-6 object-contain border-2"
+            style={{ borderColor: "rgba(0,255,136,0.2)" }}
             loading="lazy"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           />
-           <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-3 flex items-center justify-center gap-2">Built in Aotearoa</h2>
+          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-3">Built in Aotearoa</h2>
           <p className="text-sm font-jakarta text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
-            "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work.
-            Every tool is trained on real NZ legislation — not generic overseas advice."
+            I built Assembl because NZ businesses deserve AI tools that understand our laws, our culture, and the way we work.
+            Every agent is trained on real NZ legislation — not generic overseas advice.
           </p>
-          <p className="text-xs font-syne font-bold text-foreground">Kate</p>
-          <p className="text-[11px] font-jakarta text-muted-foreground">Founder, Assembl · Auckland</p>
+          <p className="text-xs font-syne font-bold text-foreground">Kate Harland</p>
+          <p className="text-[11px] font-jakarta text-muted-foreground">Founder, Assembl · Auckland, New Zealand</p>
         </div>
       </section>
 
-      {/* ═══════════════════════ CONTACT ═══════════════════════ */}
-      <section id="contact" className="relative z-10 py-20 sm:py-28 border-t border-border">
+      {/* ═══════════ CONTACT ═══════════ */}
+      <section id="contact" className="relative z-10 py-20 sm:py-28 border-t" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
         <div className="max-w-lg mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-3">Get in touch</h2>
@@ -511,8 +486,12 @@ const AgentGrid = () => {
           </div>
           <form
             onSubmit={handleContactSubmit}
-            className="space-y-4 rounded-2xl p-6 border border-border bg-card"
-            style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+            className="space-y-4 rounded-2xl p-6 border"
+            style={{
+              background: "rgba(14,14,26,0.6)",
+              backdropFilter: "blur(12px)",
+              borderColor: "rgba(255,255,255,0.06)",
+            }}
           >
             <div>
               <label className="block text-xs font-jakarta font-medium text-foreground/70 mb-1.5">Name</label>
@@ -521,7 +500,8 @@ const AgentGrid = () => {
                 value={contactName}
                 onChange={(e) => setContactName(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-xl text-sm border border-border bg-muted text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+                className="w-full px-4 py-2.5 rounded-xl text-sm border bg-muted text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+                style={{ borderColor: "rgba(255,255,255,0.06)" }}
                 placeholder="Your name"
               />
             </div>
@@ -532,7 +512,8 @@ const AgentGrid = () => {
                 value={contactEmail}
                 onChange={(e) => setContactEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 rounded-xl text-sm border border-border bg-muted text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+                className="w-full px-4 py-2.5 rounded-xl text-sm border bg-muted text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+                style={{ borderColor: "rgba(255,255,255,0.06)" }}
                 placeholder="your@email.co.nz"
               />
             </div>
@@ -543,7 +524,8 @@ const AgentGrid = () => {
                 onChange={(e) => setContactMessage(e.target.value)}
                 required
                 rows={4}
-                className="w-full px-4 py-2.5 rounded-xl text-sm border border-border bg-muted text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-ring resize-none transition-all"
+                className="w-full px-4 py-2.5 rounded-xl text-sm border bg-muted text-foreground font-jakarta focus:outline-none focus:ring-2 focus:ring-ring resize-none transition-all"
+                style={{ borderColor: "rgba(255,255,255,0.06)" }}
                 placeholder="Tell us what you need..."
               />
             </div>

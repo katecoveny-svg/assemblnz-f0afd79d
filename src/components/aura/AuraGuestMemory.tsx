@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonStar, NeonHeart, NeonChart, NeonMail } from "@/components/NeonIcons";
 
-const color = "#00E5A0";
+const color = "#E6B422";
 
 const SAMPLE_GUESTS = [
   { name: "Mr & Mrs Chen", nationality: "Singapore", stays: 3, ltv: "$28,400", lastVisit: "Mar 2026", vip: true, notes: "Loves Central Otago Pinot Noir, prefers Valley View suite, wife pescatarian no shellfish, anniversary every March" },
@@ -22,8 +22,8 @@ const PROFILE_FIELDS = [
 const TOUCHPOINTS = [
   { label: "Birthday Email", desc: "Personalised, sent on their birthday" },
   { label: "Stay Anniversary", desc: "1 year later — 'It's been a year since your escape'" },
-  { label: "Seasonal Invitation", desc: "'Winter in the South Island is magical — here's why'" },
-  { label: "New Experience Launch", desc: "'We've launched a new experience — you'd love it'" },
+  { label: "Seasonal Invitation", desc: "'Winter at The Lindis is magical — here's why'" },
+  { label: "New Experience Launch", desc: "'We've launched The Black Diamond — you'd love it'" },
   { label: "Exclusive Return Rate", desc: "For past guests only — personal, not mass-marketed" },
 ];
 
@@ -82,7 +82,7 @@ const AuraGuestMemory = ({ onGenerate }: Props) => {
                   <div key={f} className="text-[10px] text-foreground/70 p-1.5 rounded border border-border">{f}</div>
                 ))}
               </div>
-              <button onClick={() => gen(`Generate a complete return guest briefing for ${selectedGuest.name}. ${selectedGuest.notes}. Include: 'Welcome back' staff briefing, suggested room, pre-arrival personal touches, surprise opportunities, and new activities since their last visit. Hospitality tone.`)} className="w-full py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Return Guest Briefing</button>
+              <button onClick={() => gen(`Generate a complete return guest briefing for ${selectedGuest.name}. ${selectedGuest.notes}. Include: 'Welcome back' staff briefing, suggested room, pre-arrival personal touches, surprise opportunities, and new activities since their last visit. Luxury lodge tone.`)} className="w-full py-2 rounded-lg text-xs font-medium" style={{ background: color, color: "#0A0A14" }}>Generate Return Guest Briefing</button>
             </div>
           )}
         </div>
@@ -136,7 +136,7 @@ const AuraGuestMemory = ({ onGenerate }: Props) => {
                   <div className="text-xs font-medium text-foreground">{t.label}</div>
                   <div className="text-[10px] text-muted-foreground">{t.desc}</div>
                 </div>
-                <button onClick={() => gen(`Generate a personalised "${t.label}" communication for a hospitality guest. ${t.desc}. Tone: personal, handwritten feel — never mass-marketed. Warm and understated.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
+                <button onClick={() => gen(`Generate a personalised "${t.label}" communication for a luxury lodge guest. ${t.desc}. Tone: personal, handwritten feel — never mass-marketed. Warm and understated.`)} className="px-3 py-1 rounded-full text-[10px] font-medium shrink-0" style={{ background: color + "20", color }}>Generate</button>
               </div>
             ))}
           </div>

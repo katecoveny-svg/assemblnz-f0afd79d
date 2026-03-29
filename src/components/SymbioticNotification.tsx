@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { X, ExternalLink, Zap, Check, Loader2, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { agents, echoAgent, pilotAgent } from "@/data/agents";
+import { agents, echoAgent } from "@/data/agents";
 
-const ALL_AGENTS = [echoAgent, pilotAgent, ...agents];
+const ALL_AGENTS = [echoAgent, ...agents];
 const agentColorMap: Record<string, string> = {};
 ALL_AGENTS.forEach((a) => { agentColorMap[a.name.toUpperCase()] = a.color; });
 

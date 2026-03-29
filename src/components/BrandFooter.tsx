@@ -1,34 +1,33 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Send } from "lucide-react";
-import nexusLogo from "@/assets/nexus-logo.png";
-import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import nexusLogo from "@/assets/nexus-logo.png";
+import { ArrowRight, Shield, Lock, FileCheck } from "lucide-react";
 
 const FOOTER_LINKS = {
   Product: [
-    { to: "/content-hub", label: "Strategy Hub" },
     { to: "/pricing", label: "Pricing" },
-    { to: "/my-apps", label: "My Apps" },
-    { to: "/dashboard", label: "Intelligence" },
+    { to: "/#agents", label: "All 42 Agents" },
+    { to: "/content-hub", label: "Content Hub" },
     { to: "/embed", label: "Embed Widget" },
+    { to: "/about", label: "Business Plan" },
   ],
   Industries: [
-    { to: "/agents/hospitality", label: "Hospitality" },
-    { to: "/agents/construction", label: "Construction" },
-    { to: "/agents/property", label: "Property" },
-    { to: "/agents/automotive", label: "Automotive" },
-    { to: "/agents/finance", label: "Finance" },
-    { to: "/agents/maritime", label: "Maritime" },
+    { to: "/chat/construction", label: "Construction" },
+    { to: "/chat/hospitality", label: "Hospitality" },
+    { to: "/chat/property", label: "Property" },
+    { to: "/chat/accounting", label: "Accounting" },
+    { to: "/chat/legal", label: "Legal" },
+    { to: "/mariner", label: "Maritime" },
   ],
   Company: [
-    { to: "/about", label: "About" },
+    { to: "/about", label: "About Assembl" },
     { to: "/#contact", label: "Contact" },
     { to: "/security", label: "Security" },
-    { to: "/mariner", label: "Mariner" },
+    { to: "/content-hub", label: "Resources" },
   ],
   Legal: [
-    { to: "/data-privacy", label: "Data Privacy & AI" },
     { to: "/privacy", label: "Privacy Policy" },
     { to: "/terms", label: "Terms of Use" },
     { to: "/cookies", label: "Cookie Policy" },
@@ -36,64 +35,97 @@ const FOOTER_LINKS = {
   ],
 };
 
-const SOCIAL_LINKS = [
-  { label: "LinkedIn", href: "https://linkedin.com/company/assemblnz", icon: "in" },
-  { label: "Instagram", href: "https://www.instagram.com/assemblnz", icon: "ig" },
-  { label: "X", href: "https://x.com/AssemblNZ", icon: "x" },
-  { label: "Facebook", href: "https://facebook.com/assemblnz", icon: "fb" },
+const COMPLIANCE_BADGES = [
+  { icon: Shield, label: "Privacy Act 2020" },
+  { icon: Lock, label: "Encrypted at Rest" },
+  { icon: FileCheck, label: "GDPR Ready" },
 ];
-
-const BADGES = ["NZ Privacy Act 2020", "NZISM Aligned", "SOC 2 Ready", "GDPR Aware"];
 
 const BrandFooter = () => {
   const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const handleNewsletter = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
+    setSubmitting(true);
     try {
-      const { error: dbError } = await supabase.from("contact_submissions").insert({
-        name: "Newsletter Subscriber",
+      const { error } = await supabase.from("contact_submissions").insert({
+        name: "Newsletter signup",
         email: email.trim(),
-        message: "Newsletter signup from footer",
+        message: "Newsletter subscription",
       });
-      if (dbError) console.error("DB save error:", dbError);
-
-      const { error: fnError } = await supabase.functions.invoke("newsletter-signup", {
-        body: { email: email.trim() },
-      });
-      if (fnError) console.error("Newsletter function error:", fnError);
-
-      toast.success("Subscribed! Welcome to the Assembl whānau.");
+      if (error) throw error;
+      toast.success("Subscribed! Welcome to Assembl.");
       setEmail("");
-    } catch (err: any) {
-      console.error("Newsletter error:", err);
-      toast.error(`Subscription failed: ${err?.message || "Unknown error"}`);
+    } catch {
+      toast.error("Something went wrong. Try again.");
     }
+    setSubmitting(false);
   };
 
   return (
-    <footer className="relative py-20 pb-32 sm:pb-20 px-6">
-      {/* Aurora top glow */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), hsl(var(--indigo) / 0.2), transparent)' }}
-      />
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-32 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at top, hsl(var(--primary) / 0.04), transparent 70%)' }}
-      />
+    <footer
+      className="py-14 pb-24 sm:pb-14 px-6 border-t"
+      style={{
+        background: "hsl(var(--background))",
+        borderColor: "rgba(255,255,255,0.06)",
+      }}
+    >
+      <div className="max-w-6xl mx-auto">
+        {/* Top section: Logo + Newsletter */}
+        <div className="flex flex-col sm:flex-row items-start justify-between gap-8 mb-12">
+          <div>
+            <Link to="/" className="flex items-center gap-3 group mb-3">
+              <img src={nexusLogo} alt="Assembl" className="w-8 h-8 object-contain" />
+              <span className="font-syne font-bold tracking-[3px] uppercase text-sm text-foreground">
+                ASSEMBL
+              </span>
+            </Link>
+            <p className="text-xs font-jakarta text-muted-foreground max-w-xs leading-relaxed">
+              The first AI operating system built for New Zealand business.
+              42 agents trained on NZ legislation.
+            </p>
+          </div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
-        {/* Top: 4-column links + newsletter */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-8 mb-14">
+          {/* Newsletter signup */}
+          <div className="w-full sm:w-auto">
+            <p className="text-xs font-syne font-bold text-foreground mb-2">Stay in the loop</p>
+            <form onSubmit={handleNewsletter} className="flex gap-2">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.co.nz"
+                required
+                className="px-4 py-2 rounded-lg text-xs font-jakarta border bg-muted text-foreground focus:outline-none focus:ring-2 focus:ring-ring w-48 sm:w-56"
+                style={{ borderColor: "rgba(255,255,255,0.06)" }}
+              />
+              <button
+                type="submit"
+                disabled={submitting}
+                className="px-4 py-2 rounded-lg text-xs font-syne font-bold bg-primary text-primary-foreground hover:shadow-[0_0_20px_hsl(var(--primary)/0.2)] transition-all disabled:opacity-50"
+              >
+                <ArrowRight size={14} />
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* Link columns */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-12">
           {Object.entries(FOOTER_LINKS).map(([category, links]) => (
             <div key={category}>
-              <h4 className="font-syne font-bold text-[11px] text-foreground/80 mb-4 uppercase tracking-[2px]">{category}</h4>
-              <ul className="space-y-2.5">
+              <h3 className="text-[10px] font-mono-jb text-muted-foreground/60 uppercase tracking-wider mb-3">
+                {category}
+              </h3>
+              <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.to}>
-                    <Link to={link.to} className="text-[12px] font-inter text-muted-foreground hover:text-foreground transition-colors duration-300">
+                    <Link
+                      to={link.to}
+                      className="text-xs font-jakarta text-muted-foreground hover:text-foreground transition-colors duration-200"
+                    >
                       {link.label}
                     </Link>
                   </li>
@@ -101,91 +133,58 @@ const BrandFooter = () => {
               </ul>
             </div>
           ))}
-
-          {/* Newsletter */}
-          <div className="col-span-2 sm:col-span-4 lg:col-span-1">
-            <h4 className="font-syne font-bold text-[11px] text-foreground/80 mb-4 uppercase tracking-[2px]">Stay Updated</h4>
-            <p className="text-[11px] font-inter text-muted-foreground mb-3 leading-relaxed">NZ business insights, product updates, and specialist tips.</p>
-            <form onSubmit={handleNewsletter} className="flex gap-2">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.co.nz"
-                className="flex-1 px-3.5 py-2.5 rounded-xl text-xs font-inter text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
-                style={{
-                  background: 'hsl(var(--surface-2) / 0.5)',
-                  border: '1px solid hsl(var(--border) / 0.5)',
-                }}
-                required
-              />
-              <button
-                type="submit"
-                className="px-3.5 py-2.5 rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition-all duration-300"
-              >
-                <Send size={12} />
-              </button>
-            </form>
-          </div>
         </div>
 
         {/* Compliance badges */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-10">
-          {BADGES.map((badge) => (
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+          {COMPLIANCE_BADGES.map((badge) => (
             <span
-              key={badge}
-              className="text-[9px] font-mono-jb px-3 py-1.5 rounded-full text-muted-foreground/70"
+              key={badge.label}
+              className="flex items-center gap-1.5 text-[10px] font-mono-jb px-3 py-1.5 rounded-full"
               style={{
-                background: 'hsl(var(--surface-1) / 0.5)',
-                border: '1px solid hsl(var(--border) / 0.4)',
+                background: "rgba(255,255,255,0.02)",
+                border: "1px solid rgba(255,255,255,0.05)",
+                color: "#71717A",
               }}
             >
-              {badge}
+              <badge.icon size={10} />
+              {badge.label}
             </span>
           ))}
         </div>
 
         {/* Divider */}
-        <div className="h-px mb-10" style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--border)), transparent)' }} />
+        <div
+          className="h-px mb-6"
+          style={{
+            background: "linear-gradient(90deg, transparent, rgba(0,255,136,0.15), rgba(0,229,255,0.15), transparent)",
+          }}
+        />
 
-        {/* Bottom */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <img src={nexusLogo} alt="Assembl" className="w-7 h-7 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-            <span className="font-syne font-bold tracking-[3px] uppercase text-xs text-foreground/80">ASSEMBL</span>
-          </Link>
-
-          {/* Social links */}
-          <div className="flex items-center gap-2.5">
-            {SOCIAL_LINKS.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-mono-jb font-bold text-muted-foreground/60 hover:text-foreground transition-all duration-300"
-                style={{
-                  background: 'hsl(var(--surface-2) / 0.4)',
-                  border: '1px solid hsl(var(--border) / 0.4)',
-                }}
-                title={s.label}
-              >
-                {s.icon}
-              </a>
-            ))}
-          </div>
-
-          <p className="text-[10px] font-inter text-muted-foreground/60 text-center sm:text-right">
-            © 2026 Assembl. All rights reserved. Auckland, New Zealand.
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-[11px] font-jakarta text-muted-foreground">
+            © 2026 Assembl. All rights reserved. Proudly built in Auckland, New Zealand.
           </p>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://www.linkedin.com/company/assemblnz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] font-jakarta text-muted-foreground hover:text-foreground transition-colors"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://x.com/AssemblNZ"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] font-jakarta text-muted-foreground hover:text-foreground transition-colors"
+            >
+              X / Twitter
+            </a>
+          </div>
         </div>
-
-        <p className="text-[9px] mt-4 text-center font-inter text-muted-foreground/30 leading-relaxed">
-          Business intelligence platform for NZ. Built in Aotearoa. Content is guidance, not professional advice. Always consult qualified professionals. assembl@assembl.co.nz · www.assembl.co.nz · From $89/mo
-        </p>
-        <p className="text-[9px] mt-2 text-center font-inter text-muted-foreground/30 leading-relaxed">
-          Assembl uses AI to provide business guidance. Our AI agents follow the MBIE Responsible AI Guidance for Businesses. AI outputs should be verified by qualified professionals before reliance.
-        </p>
       </div>
     </footer>
   );

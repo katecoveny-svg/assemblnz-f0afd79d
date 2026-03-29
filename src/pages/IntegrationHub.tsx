@@ -78,9 +78,9 @@ const IntegrationHub = () => {
     if (!user || !inputValue.trim()) return;
     await supabase.from("user_integrations").upsert({
       user_id: user.id,
-      integration_name: integration.name,
+      integration_name: integration.name === "Canva" ? "canva" : integration.name,
       integration_type: integration.tier,
-      config: { key: inputValue.trim() },
+      config: integration.name === "Canva" ? { api_key: inputValue.trim() } : { key: inputValue.trim() },
       status: "active",
     }, { onConflict: "user_id,integration_name" });
     setConnectedKeys((prev) => new Set([...prev, integration.name]));
@@ -118,11 +118,8 @@ const IntegrationHub = () => {
               Integration Hub
             </h1>
           </div>
-          <p className="text-sm text-muted-foreground max-w-md mb-2">
+          <p className="text-sm text-muted-foreground max-w-md mb-4">
             Connect your tools. Your agents get superpowers.
-          </p>
-          <p className="text-[10px] font-jakarta text-muted-foreground/60 mb-4 max-w-lg">
-            Integration connections are saved to your account. Full API connectivity for accounting, communication, and other platforms is rolling out in Q2 2026.
           </p>
 
           {/* Agent filter */}

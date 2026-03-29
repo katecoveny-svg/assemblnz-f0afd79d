@@ -159,12 +159,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       password,
       options: { data: { full_name: fullName } },
     });
-    if (!error) {
-      // Fire welcome email asynchronously — don't block signup
-      supabase.functions.invoke("send-welcome-email", {
-        body: { record: { email, full_name: fullName } },
-      }).catch((err) => console.error("Welcome email error:", err));
-    }
     return { error: error?.message ?? null };
   };
 

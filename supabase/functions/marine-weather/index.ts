@@ -145,7 +145,7 @@ function weatherCodeDesc(code: number): string {
 
 function formatMarineWeather(data: any, regionName: string): string {
   const lines: string[] = [];
-  lines.push(`##  Live Marine Weather — ${regionName}`);
+  lines.push(`## 🌊 Live Marine Weather — ${regionName}`);
   lines.push(`*Updated: ${new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland" })}*\n`);
 
   if (data.weather?.current) {
@@ -164,13 +164,13 @@ function formatMarineWeather(data: any, regionName: string): string {
     lines.push(`- **Wind (knots):** ${windKnots} kts (gusts ${gustKnots} kts)`);
     
     if (gustKnots > 33) {
-      lines.push(`\n **GALE WARNING CONDITIONS** — Wind gusts exceeding 33 knots. NOT recommended for small craft.`);
+      lines.push(`\n⚠️ **GALE WARNING CONDITIONS** — Wind gusts exceeding 33 knots. NOT recommended for small craft.`);
     } else if (gustKnots > 25) {
-      lines.push(`\n **STRONG WIND ADVISORY** — Gusts over 25 knots. Small craft should exercise extreme caution.`);
+      lines.push(`\n⚠️ **STRONG WIND ADVISORY** — Gusts over 25 knots. Small craft should exercise extreme caution.`);
     } else if (windKnots > 15) {
-      lines.push(`\n **Moderate winds** — Suitable for experienced boaters. Keep an eye on conditions.`);
+      lines.push(`\n⚡ **Moderate winds** — Suitable for experienced boaters. Keep an eye on conditions.`);
     } else {
-      lines.push(`\n **Light winds** — Good conditions for boating.`);
+      lines.push(`\n✅ **Light winds** — Good conditions for boating.`);
     }
   }
 
@@ -188,13 +188,13 @@ function formatMarineWeather(data: any, regionName: string): string {
     // Sea state assessment
     const waveH = m.wave_height ?? 0;
     if (waveH > 3) {
-      lines.push(`\n **ROUGH SEAS** — Waves over 3m. Stay ashore unless in a large, seaworthy vessel.`);
+      lines.push(`\n⚠️ **ROUGH SEAS** — Waves over 3m. Stay ashore unless in a large, seaworthy vessel.`);
     } else if (waveH > 2) {
-      lines.push(`\n **Moderate seas** — Waves 2-3m. Experienced boaters only.`);
+      lines.push(`\n⚡ **Moderate seas** — Waves 2-3m. Experienced boaters only.`);
     } else if (waveH > 1) {
-      lines.push(`\n **Slight seas** — Waves 1-2m. Generally suitable for recreational boating.`);
+      lines.push(`\n✅ **Slight seas** — Waves 1-2m. Generally suitable for recreational boating.`);
     } else {
-      lines.push(`\n **Calm seas** — Waves under 1m. Great conditions for boating.`);
+      lines.push(`\n✅ **Calm seas** — Waves under 1m. Great conditions for boating.`);
     }
   }
 

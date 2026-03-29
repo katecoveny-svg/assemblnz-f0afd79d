@@ -26,7 +26,7 @@ const generateBio = (m: TeamMember, format: "website" | "email" | "social" | "tr
   switch (format) {
     case "website": return `Born and raised in Aotearoa, ${m.name} brings ${m.years} years of automotive expertise to the team. Specialising in ${m.specialties.join(", ")}, ${m.name.split(" ")[0]} is passionate about finding the perfect vehicle for every customer. ${m.certifications.length > 0 ? `Certified in ${m.certifications.join(" and ")}.` : ""} Whether you're buying your first car or upgrading the family fleet, ${m.name.split(" ")[0]}'s knowledge and genuine approach make the process easy and enjoyable.`;
     case "email": return `${m.name} | ${m.role} | ${m.specialties[0]} Specialist\n${m.phone} | ${m.email}`;
-    case "social": return `${m.name.split(" ")[0]} — ${m.role}  ${m.years} years in automotive. ${m.specialties[0]} specialist. Making car buying easy for Kiwi families.`;
+    case "social": return `${m.name.split(" ")[0]} — ${m.role} 🚗 ${m.years} years in automotive. ${m.specialties[0]} specialist. Making car buying easy for Kiwi families.`;
     case "trademe": return `${m.name} — ${m.role} with ${m.years} years experience. ${m.certifications.join(", ")}. Specialising in ${m.specialties.join(", ")}. Contact: ${m.phone}`;
     default: return "";
   }
@@ -140,10 +140,10 @@ export default function ForgeTeam() {
       {tab === "comms" && (
         <div className="space-y-3">
           {[
-            { title: " Morning Huddle (5 min)", content: "Yesterday's wins:\n• [List sales/deliveries]\n\nToday's focus:\n• [Priority callbacks]\n• [Arriving stock]\n• [Scheduled test drives]\n\nStock alerts:\n• [Ageing units to push]\n• [Incoming units]\n\nCustomer callbacks:\n• [Name — vehicle — action required]" },
-            { title: " Weekly Sales Meeting", content: "1. Stock review — current vs target\n2. Pipeline walkthrough per salesperson\n3. Performance: units, GP, test drives, conversion\n4. Upcoming deliveries\n5. Marketing update\n6. Training focus this week\n7. Action items" },
-            { title: " Monthly Business Review", content: "1. Financial performance (units, gross, net)\n2. Stock analysis (age, mix, turn rate)\n3. People (performance, training, recognition)\n4. Customer satisfaction scores\n5. Marketing ROI\n6. Competitor activity\n7. Next month focus" },
-            { title: " Staff Recognition", content: " Congratulations to [Name]!\n\n[Name] has been recognised for [achievement].\n\n[Details of what they did and why it matters]\n\nThank you for going above and beyond.\n\n— The [Dealership] Team" },
+            { title: "🌅 Morning Huddle (5 min)", content: "Yesterday's wins:\n• [List sales/deliveries]\n\nToday's focus:\n• [Priority callbacks]\n• [Arriving stock]\n• [Scheduled test drives]\n\nStock alerts:\n• [Ageing units to push]\n• [Incoming units]\n\nCustomer callbacks:\n• [Name — vehicle — action required]" },
+            { title: "📋 Weekly Sales Meeting", content: "1. Stock review — current vs target\n2. Pipeline walkthrough per salesperson\n3. Performance: units, GP, test drives, conversion\n4. Upcoming deliveries\n5. Marketing update\n6. Training focus this week\n7. Action items" },
+            { title: "📊 Monthly Business Review", content: "1. Financial performance (units, gross, net)\n2. Stock analysis (age, mix, turn rate)\n3. People (performance, training, recognition)\n4. Customer satisfaction scores\n5. Marketing ROI\n6. Competitor activity\n7. Next month focus" },
+            { title: "🏆 Staff Recognition", content: "🎉 Congratulations to [Name]!\n\n[Name] has been recognised for [achievement].\n\n[Details of what they did and why it matters]\n\nThank you for going above and beyond.\n\n— The [Dealership] Team" },
           ].map((t, i) => (
             <div key={i} className="p-3 rounded-xl border border-border bg-card">
               <h4 className="text-xs font-bold text-foreground mb-2">{t.title}</h4>
