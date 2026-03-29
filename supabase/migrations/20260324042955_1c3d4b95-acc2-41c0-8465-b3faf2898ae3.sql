@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX IF NOT EXISTS user_integrations_user_name_unique ON public.user_integrations (user_id, integration_name);

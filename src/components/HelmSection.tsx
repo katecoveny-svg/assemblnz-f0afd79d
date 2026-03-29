@@ -1,0 +1,189 @@
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ArrowRight, Calendar, Brain, Mic } from "lucide-react";
+import { useCallback, useState } from "react";
+import helmImg from "@/assets/agents/helm-3d-avatar.png";
+import VoiceAgentModal from "./VoiceAgentModal";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
+
+const HELM_COLOR = "#B388FF";
+
+type VoiceTranscriptTurn = {
+  role: "user" | "agent";
+  text: string;
+};
+
+const HelmSection = () => {
+  const [showVoice, setShowVoice] = useState(false);
+  const navigate = useNavigate();
+
+  const handleVoiceHandoff = useCallback((voiceTranscript: VoiceTranscriptTurn[]) => {
+    if (voiceTranscript.length === 0) return;
+
+    const handoffKey = `voice-handoff-${Date.now()}`;
+    sessionStorage.setItem(handoffKey, JSON.stringify({ agentId: "operations", transcript: voiceTranscript }));
+    setShowVoice(false);
+    navigate(`/chat/operations?voiceHandoff=${encodeURIComponent(handoffKey)}`);
+  }, [navigate]);
+
+  return (
+    <section className="relative z-10 py-16 sm:py-24">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <motion.div
+          className="relative rounded-2xl overflow-hidden"
+          style={{
+            background: "rgba(14, 14, 26, 0.75)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            border: `1px solid ${HELM_COLOR}15`,
+            boxShadow: `0 0 60px ${HELM_COLOR}06, inset 0 1px 0 ${HELM_COLOR}08`,
+          }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          <span
+            className="absolute top-0 left-[10%] right-[10%] h-px"
+            style={{ background: `linear-gradient(90deg, transparent, ${HELM_COLOR}40, transparent)` }}
+          />
+
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 p-6 sm:p-10 items-center">
+            {/* Content */}
+            <div className="text-center lg:text-left">
+              <div className="flex items-center gap-2 justify-center lg:justify-start mb-3">
+                <Calendar size={18} style={{ color: HELM_COLOR }} />
+                <Brain size={14} style={{ color: HELM_COLOR }} />
+                <span
+                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
+                  style={{
+                    background: `${HELM_COLOR}15`,
+                    color: HELM_COLOR,
+                    border: `1px solid ${HELM_COLOR}30`,
+                  }}
+                >
+                  FAMILY AI
+                </span>
+                <span
+                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full flex items-center gap-1"
+                  style={{
+                    background: `${HELM_COLOR}20`,
+                    color: HELM_COLOR,
+                    border: `1px solid ${HELM_COLOR}40`,
+                  }}
+                >
+                  <Mic size={8} /> VOICE
+                </span>
+              </div>
+
+              <h2
+                className="font-syne font-extrabold text-3xl sm:text-4xl mb-1"
+                style={{
+                  color: HELM_COLOR,
+                  textShadow: `0 0 20px ${HELM_COLOR}40, 0 0 60px ${HELM_COLOR}15`,
+                }}
+              >
+                Meet HELM
+              </h2>
+              <p className="font-mono-jb text-[10px] mb-4" style={{ color: `${HELM_COLOR}30` }}>
+                ASM-013 · Family Command Centre
+              </p>
+              <h3
+                className="font-syne font-bold text-base sm:text-lg mb-4"
+                style={{ color: HELM_COLOR, textShadow: `0 0 12px ${HELM_COLOR}25` }}
+              >
+                Your family&apos;s second brain.
+              </h3>
+              <p className="text-sm font-jakarta leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
+                HELM reads school notices, builds weekly schedules, tracks live bus positions,
+                and manages meal plans — all powered by AI that understands NZ school life.
+                One parent said it saved them 4 hours a week.
+              </p>
+
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start mb-6">
+                {["School Notice Parser", "Live Bus Tracker", "Meal Planner", "Timetables"].map((f) => (
+                  <span
+                    key={f}
+                    className="text-[10px] font-jakarta px-2.5 py-1 rounded-full"
+                    style={{ background: `${HELM_COLOR}10`, color: `${HELM_COLOR}90`, border: `1px solid ${HELM_COLOR}20` }}
+                  >
+                    {f}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                <Link
+                  to="/chat/operations"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  style={{
+                    background: HELM_COLOR,
+                    color: "#0A0A14",
+                    boxShadow: `0 0 20px ${HELM_COLOR}20`,
+                  }}
+                >
+                  Try HELM <ArrowRight size={14} />
+                </Link>
+                <button
+                  onClick={() => setShowVoice(true)}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  style={{
+                    background: "transparent",
+                    color: HELM_COLOR,
+                    border: `1px solid ${HELM_COLOR}40`,
+                    boxShadow: `0 0 20px ${HELM_COLOR}10`,
+                  }}
+                >
+                  <Mic size={14} /> Talk to HELM
+                </button>
+              </div>
+            </div>
+
+            {/* 3D Avatar */}
+            <div className="flex items-center justify-center">
+              <motion.div
+                className="relative"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: 0.3 }}
+              >
+                <motion.div
+                  className="absolute inset-0 rounded-full blur-2xl"
+                  style={{ background: HELM_COLOR }}
+                  animate={{ opacity: [0.15, 0.25, 0.15], scale: [1, 1.1, 1] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.img
+                  src={helmImg}
+                  alt="HELM Family AI Assistant"
+                  className="relative w-40 h-40 lg:w-56 lg:h-56 object-contain"
+                  style={{
+                    filter: `brightness(1.1) contrast(1.05) drop-shadow(0 0 20px ${HELM_COLOR}40) drop-shadow(0 0 50px ${HELM_COLOR}20)`,
+                  }}
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+                  loading="lazy"
+                  width={1024}
+                  height={1024}
+                />
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      <VoiceAgentModal
+        open={showVoice}
+        agentName="HELM"
+        agentId="operations"
+        agentColor={HELM_COLOR}
+        elevenLabsAgentId={getElevenLabsAgentId("operations")}
+        onHandoffToChat={handleVoiceHandoff}
+        onClose={() => setShowVoice(false)}
+      />
+    </section>
+  );
+};
+
+export default HelmSection;

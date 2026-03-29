@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Te Kāhui Reo — Agent Avatars</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0A0A14; font-family: 'Inter', sans-serif; color: #F5F0E8; padding: 40px; }
+  h1 { font-size: 32px; font-weight: 900; text-align: center; margin-bottom: 8px;
+    background: linear-gradient(135deg, #D4A843, #3A7D6E);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .subtitle { text-align: center; color: rgba(245,240,232,0.5); margin-bottom: 48px; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; }
+  .agent-avatar { text-align: center; }
+  .avatar-container {
+    width: 200px; height: 200px; margin: 0 auto 16px;
+    position: relative;
+  }
+  .agent-name { font-size: 18px; font-weight: 800; letter-spacing: 2px; margin-bottom: 4px; }
+  .agent-role { font-size: 11px; color: rgba(245,240,232,0.4); letter-spacing: 0.5px; }
+  .agent-code { font-size: 10px; color: rgba(245,240,232,0.25); margin-top: 4px; }
+</style>
+</head>
+<body>
+  <h1>TE KĀHUI REO</h1>
+  <p class="subtitle">Agent Avatars — 3D Spheres with Tāniko Mountain Motifs</p>
+
+  <div class="grid">
+
+    <!-- KAIAKO -->
+    <div class="agent-avatar">
+      <div class="avatar-container">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <defs>
+            <radialGradient id="s1" cx="38%" cy="32%" r="55%">
+              <stop offset="0%" stop-color="#F0D078"/>
+              <stop offset="50%" stop-color="#D4A843"/>
+              <stop offset="85%" stop-color="#8B6914"/>
+              <stop offset="100%" stop-color="#5A4410"/>
+            </radialGradient>
+            <radialGradient id="h1" cx="35%" cy="28%" r="22%">
+              <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="white" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow1"><feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#D4A843" flood-opacity="0.4"/></filter>
+          </defs>
+          <!-- Main sphere -->
+          <circle cx="100" cy="100" r="80" fill="url(#s1)" filter="url(#glow1)"/>
+          <circle cx="100" cy="100" r="80" fill="url(#h1)"/>
+          <!-- Tāniko mountain band across equator -->
+          <path d="M28,105 L40,85 L52,105 L58,95 L70,105 L76,90 L88,105 L94,85 L106,105 L112,90 L124,105 L130,85 L142,105 L148,95 L160,105 L172,90"
+            fill="none" stroke="rgba(90,55,10,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Koru at centre -->
+          <path d="M100,95 C100,88 107,85 107,92 C107,97 103,100 100,95" fill="none" stroke="rgba(245,240,232,0.5)" stroke-width="2" stroke-linecap="round"/>
+          <!-- Rim light -->
+          <ellipse cx="100" cy="100" rx="80" ry="80" fill="none" stroke="rgba(245,240,232,0.08)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="agent-name" style="color:#D4A843">KAIAKO</div>
+      <div class="agent-role">Te Reo Education & Learning</div>
+      <div class="agent-code">ASM-044</div>
+    </div>
+
+    <!-- WHAKAMĀORI -->
+    <div class="agent-avatar">
+      <div class="avatar-container">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <defs>
+            <radialGradient id="s2" cx="38%" cy="32%" r="55%">
+              <stop offset="0%" stop-color="#6ABFB0"/>
+              <stop offset="50%" stop-color="#3A7D6E"/>
+              <stop offset="85%" stop-color="#1E5045"/>
+              <stop offset="100%" stop-color="#0F3028"/>
+            </radialGradient>
+            <radialGradient id="h2" cx="35%" cy="28%" r="22%">
+              <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="white" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow2"><feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#3A7D6E" flood-opacity="0.4"/></filter>
+          </defs>
+          <circle cx="100" cy="100" r="80" fill="url(#s2)" filter="url(#glow2)"/>
+          <circle cx="100" cy="100" r="80" fill="url(#h2)"/>
+          <!-- Tāniko band -->
+          <path d="M28,105 L40,85 L52,105 L58,95 L70,105 L76,90 L88,105 L94,85 L106,105 L112,90 L124,105 L130,85 L142,105 L148,95 L160,105 L172,90"
+            fill="none" stroke="rgba(15,48,40,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Double koru (translation = bridging) -->
+          <path d="M90,95 C90,88 97,85 97,92 C97,97 93,100 90,95" fill="none" stroke="rgba(245,240,232,0.5)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M110,95 C110,88 103,85 103,92 C103,97 107,100 110,95" fill="none" stroke="rgba(245,240,232,0.5)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="agent-name" style="color:#3A7D6E">WHAKAMĀORI</div>
+      <div class="agent-role">Translation & Language</div>
+      <div class="agent-code">ASM-045</div>
+    </div>
+
+    <!-- TURE -->
+    <div class="agent-avatar">
+      <div class="avatar-container">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <defs>
+            <radialGradient id="s3" cx="38%" cy="32%" r="55%">
+              <stop offset="0%" stop-color="#D45050"/>
+              <stop offset="50%" stop-color="#A52A2A"/>
+              <stop offset="85%" stop-color="#6B1A1A"/>
+              <stop offset="100%" stop-color="#401010"/>
+            </radialGradient>
+            <radialGradient id="h3" cx="35%" cy="28%" r="22%">
+              <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="white" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow3"><feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#A52A2A" flood-opacity="0.4"/></filter>
+          </defs>
+          <circle cx="100" cy="100" r="80" fill="url(#s3)" filter="url(#glow3)"/>
+          <circle cx="100" cy="100" r="80" fill="url(#h3)"/>
+          <path d="M28,105 L40,85 L52,105 L58,95 L70,105 L76,90 L88,105 L94,85 L106,105 L112,90 L124,105 L130,85 L142,105 L148,95 L160,105 L172,90"
+            fill="none" stroke="rgba(64,16,16,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Mere (weapon of authority/law) silhouette -->
+          <path d="M95,82 L95,110 M90,82 L100,78 L100,82 L90,82" fill="none" stroke="rgba(245,240,232,0.45)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="agent-name" style="color:#A52A2A">TURE</div>
+      <div class="agent-role">Legal Rights & Treaty</div>
+      <div class="agent-code">ASM-046</div>
+    </div>
+
+    <!-- KAWANATANGA -->
+    <div class="agent-avatar">
+      <div class="avatar-container">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <defs>
+            <radialGradient id="s4" cx="38%" cy="32%" r="55%">
+              <stop offset="0%" stop-color="#3A6A9C"/>
+              <stop offset="50%" stop-color="#1A3A5C"/>
+              <stop offset="85%" stop-color="#0F2440"/>
+              <stop offset="100%" stop-color="#081828"/>
+            </radialGradient>
+            <radialGradient id="h4" cx="35%" cy="28%" r="22%">
+              <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="white" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow4"><feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#1A3A5C" flood-opacity="0.4"/></filter>
+          </defs>
+          <circle cx="100" cy="100" r="80" fill="url(#s4)" filter="url(#glow4)"/>
+          <circle cx="100" cy="100" r="80" fill="url(#h4)"/>
+          <path d="M28,105 L40,85 L52,105 L58,95 L70,105 L76,90 L88,105 L94,85 L106,105 L112,90 L124,105 L130,85 L142,105 L148,95 L160,105 L172,90"
+            fill="none" stroke="rgba(8,24,40,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Bridge symbol (Crown-iwi) -->
+          <path d="M80,100 C80,86 100,82 100,82 C100,82 120,86 120,100" fill="none" stroke="rgba(245,240,232,0.45)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="90" y1="100" x2="90" y2="92" stroke="rgba(245,240,232,0.3)" stroke-width="1.5"/>
+          <line x1="100" y1="100" x2="100" y2="88" stroke="rgba(245,240,232,0.3)" stroke-width="1.5"/>
+          <line x1="110" y1="100" x2="110" y2="92" stroke="rgba(245,240,232,0.3)" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="agent-name" style="color:#6B9FD4">KAWANATANGA</div>
+      <div class="agent-role">Government Policy & Māori Affairs</div>
+      <div class="agent-code">ASM-047</div>
+    </div>
+
+    <!-- MĀTAURANGA -->
+    <div class="agent-avatar">
+      <div class="avatar-container">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <defs>
+            <radialGradient id="s5" cx="38%" cy="32%" r="55%">
+              <stop offset="0%" stop-color="#C49B28"/>
+              <stop offset="50%" stop-color="#8B6914"/>
+              <stop offset="85%" stop-color="#5A440E"/>
+              <stop offset="100%" stop-color="#3A2D09"/>
+            </radialGradient>
+            <radialGradient id="h5" cx="35%" cy="28%" r="22%">
+              <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="white" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow5"><feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#8B6914" flood-opacity="0.4"/></filter>
+          </defs>
+          <circle cx="100" cy="100" r="80" fill="url(#s5)" filter="url(#glow5)"/>
+          <circle cx="100" cy="100" r="80" fill="url(#h5)"/>
+          <path d="M28,105 L40,85 L52,105 L58,95 L70,105 L76,90 L88,105 L94,85 L106,105 L112,90 L124,105 L130,85 L142,105 L148,95 L160,105 L172,90"
+            fill="none" stroke="rgba(58,45,9,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Triple koru (knowledge branching) -->
+          <path d="M100,98 C100,90 108,87 108,95 C108,100 104,103 100,98" fill="none" stroke="rgba(245,240,232,0.5)" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M92,96 C88,90 90,84 96,86" fill="none" stroke="rgba(245,240,232,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M108,96 C112,90 110,84 104,86" fill="none" stroke="rgba(245,240,232,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="agent-name" style="color:#C49B28">MĀTAURANGA</div>
+      <div class="agent-role">Cultural Knowledge Guardian</div>
+      <div class="agent-code">ASM-048</div>
+    </div>
+
+    <!-- ŌHANGA -->
+    <div class="agent-avatar">
+      <div class="avatar-container">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <defs>
+            <radialGradient id="s6" cx="38%" cy="32%" r="55%">
+              <stop offset="0%" stop-color="#F0D078"/>
+              <stop offset="50%" stop-color="#D4A843"/>
+              <stop offset="85%" stop-color="#8B6914"/>
+              <stop offset="100%" stop-color="#5A4410"/>
+            </radialGradient>
+            <radialGradient id="h6" cx="35%" cy="28%" r="22%">
+              <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="white" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow6"><feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#D4A843" flood-opacity="0.4"/></filter>
+          </defs>
+          <circle cx="100" cy="100" r="80" fill="url(#s6)" filter="url(#glow6)"/>
+          <circle cx="100" cy="100" r="80" fill="url(#h6)"/>
+          <path d="M28,105 L40,85 L52,105 L58,95 L70,105 L76,90 L88,105 L94,85 L106,105 L112,90 L124,105 L130,85 L142,105 L148,95 L160,105 L172,90"
+            fill="none" stroke="rgba(90,55,10,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Upward growth arrows (economic growth) -->
+          <path d="M90,108 L90,88 L85,93" fill="none" stroke="rgba(245,240,232,0.45)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M100,108 L100,84 L95,89" fill="none" stroke="rgba(245,240,232,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M110,108 L110,90 L105,95" fill="none" stroke="rgba(245,240,232,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="agent-name" style="color:#D4A843">ŌHANGA</div>
+      <div class="agent-role">Economic Development</div>
+      <div class="agent-code">ASM-049</div>
+    </div>
+
+    <!-- HAPORI -->
+    <div class="agent-avatar">
+      <div class="avatar-container">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <defs>
+            <radialGradient id="s7" cx="38%" cy="32%" r="55%">
+              <stop offset="0%" stop-color="#6ABFB0"/>
+              <stop offset="50%" stop-color="#3A7D6E"/>
+              <stop offset="85%" stop-color="#1E5045"/>
+              <stop offset="100%" stop-color="#0F3028"/>
+            </radialGradient>
+            <radialGradient id="h7" cx="35%" cy="28%" r="22%">
+              <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="white" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow7"><feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#3A7D6E" flood-opacity="0.4"/></filter>
+          </defs>
+          <circle cx="100" cy="100" r="80" fill="url(#s7)" filter="url(#glow7)"/>
+          <circle cx="100" cy="100" r="80" fill="url(#h7)"/>
+          <path d="M28,105 L40,85 L52,105 L58,95 L70,105 L76,90 L88,105 L94,85 L106,105 L112,90 L124,105 L130,85 L142,105 L148,95 L160,105 L172,90"
+            fill="none" stroke="rgba(15,48,40,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Three connected people (community) -->
+          <circle cx="85" cy="90" r="5" fill="none" stroke="rgba(245,240,232,0.45)" stroke-width="1.8"/>
+          <circle cx="100" cy="85" r="5" fill="none" stroke="rgba(245,240,232,0.5)" stroke-width="1.8"/>
+          <circle cx="115" cy="90" r="5" fill="none" stroke="rgba(245,240,232,0.45)" stroke-width="1.8"/>
+          <path d="M85,95 L85,105 M100,90 L100,105 M115,95 L115,105" stroke="rgba(245,240,232,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M85,100 L115,100" stroke="rgba(245,240,232,0.25)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="agent-name" style="color:#3A7D6E">HAPORI</div>
+      <div class="agent-role">Iwi & Community Engagement</div>
+      <div class="agent-code">ASM-050</div>
+    </div>
+
+    <!-- MATIHIKO -->
+    <div class="agent-avatar">
+      <div class="avatar-container">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <defs>
+            <radialGradient id="s8" cx="38%" cy="32%" r="55%">
+              <stop offset="0%" stop-color="#3A6A9C"/>
+              <stop offset="50%" stop-color="#1A3A5C"/>
+              <stop offset="85%" stop-color="#0F2440"/>
+              <stop offset="100%" stop-color="#081828"/>
+            </radialGradient>
+            <radialGradient id="h8" cx="35%" cy="28%" r="22%">
+              <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="white" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow8"><feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#1A3A5C" flood-opacity="0.4"/></filter>
+          </defs>
+          <circle cx="100" cy="100" r="80" fill="url(#s8)" filter="url(#glow8)"/>
+          <circle cx="100" cy="100" r="80" fill="url(#h8)"/>
+          <path d="M28,105 L40,85 L52,105 L58,95 L70,105 L76,90 L88,105 L94,85 L106,105 L112,90 L124,105 L130,85 L142,105 L148,95 L160,105 L172,90"
+            fill="none" stroke="rgba(8,24,40,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Data/shield symbol -->
+          <path d="M100,82 L115,90 L115,102 L100,112 L85,102 L85,90 Z" fill="none" stroke="rgba(245,240,232,0.45)" stroke-width="2" stroke-linejoin="round"/>
+          <!-- Lock/key inside -->
+          <circle cx="100" cy="94" r="4" fill="none" stroke="rgba(245,240,232,0.4)" stroke-width="1.5"/>
+          <line x1="100" y1="98" x2="100" y2="105" stroke="rgba(245,240,232,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="agent-name" style="color:#6B9FD4">MATIHIKO</div>
+      <div class="agent-role">Digital & Data Sovereignty</div>
+      <div class="agent-code">ASM-051</div>
+    </div>
+
+  </div>
+</body>
+</html>
