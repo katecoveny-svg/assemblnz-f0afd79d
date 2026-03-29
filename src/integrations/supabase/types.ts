@@ -241,6 +241,7 @@ export type Database = {
       agent_sms_config: {
         Row: {
           agent_id: string
+          channel: string
           created_at: string
           enabled: boolean
           greeting: string
@@ -251,6 +252,7 @@ export type Database = {
         }
         Insert: {
           agent_id: string
+          channel?: string
           created_at?: string
           enabled?: boolean
           greeting?: string
@@ -261,6 +263,7 @@ export type Database = {
         }
         Update: {
           agent_id?: string
+          channel?: string
           created_at?: string
           enabled?: boolean
           greeting?: string
@@ -275,35 +278,56 @@ export type Database = {
         Row: {
           agent_id: string
           body: string
+          channel: string
           created_at: string
           direction: string
           id: string
+          image_description: string | null
+          media_caption: string | null
+          media_type: string | null
+          media_url: string | null
           phone_number: string
           status: string
           twilio_sid: string | null
           user_id: string
+          whatsapp_message_id: string | null
+          whatsapp_status: string | null
         }
         Insert: {
           agent_id: string
           body: string
+          channel?: string
           created_at?: string
           direction?: string
           id?: string
+          image_description?: string | null
+          media_caption?: string | null
+          media_type?: string | null
+          media_url?: string | null
           phone_number: string
           status?: string
           twilio_sid?: string | null
           user_id: string
+          whatsapp_message_id?: string | null
+          whatsapp_status?: string | null
         }
         Update: {
           agent_id?: string
           body?: string
+          channel?: string
           created_at?: string
           direction?: string
           id?: string
+          image_description?: string | null
+          media_caption?: string | null
+          media_type?: string | null
+          media_url?: string | null
           phone_number?: string
           status?: string
           twilio_sid?: string | null
           user_id?: string
+          whatsapp_message_id?: string | null
+          whatsapp_status?: string | null
         }
         Relationships: []
       }
@@ -3072,6 +3096,54 @@ export type Database = {
           summary?: string | null
           transcript?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      whatsapp_templates: {
+        Row: {
+          admin_only: boolean
+          approval_notes: string | null
+          body_text: string
+          category: string
+          created_at: string
+          footer_text: string | null
+          id: string
+          language_code: string
+          status: string
+          template_name: string
+          updated_at: string
+          variables: Json | null
+          whatsapp_template_id: string | null
+        }
+        Insert: {
+          admin_only?: boolean
+          approval_notes?: string | null
+          body_text: string
+          category?: string
+          created_at?: string
+          footer_text?: string | null
+          id?: string
+          language_code?: string
+          status?: string
+          template_name: string
+          updated_at?: string
+          variables?: Json | null
+          whatsapp_template_id?: string | null
+        }
+        Update: {
+          admin_only?: boolean
+          approval_notes?: string | null
+          body_text?: string
+          category?: string
+          created_at?: string
+          footer_text?: string | null
+          id?: string
+          language_code?: string
+          status?: string
+          template_name?: string
+          updated_at?: string
+          variables?: Json | null
+          whatsapp_template_id?: string | null
         }
         Relationships: []
       }
