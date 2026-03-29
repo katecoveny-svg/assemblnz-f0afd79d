@@ -22,7 +22,7 @@ import HelmGroceryList from "@/components/helm/HelmGroceryList";
 import HelmAppointments from "@/components/helm/HelmAppointments";
 import HelmFamilyChat from "@/components/helm/HelmFamilyChat";
 import HelmTasks from "@/components/helm/HelmTasks";
-import helmImg from "@/assets/agents/helm-3d-avatar.png";
+import AgentAvatar from "@/components/AgentAvatar";
 import { setDynamicManifest } from "@/utils/pwaManifest";
 
 const HELM_COLOR = "#B388FF";
@@ -138,14 +138,7 @@ export default function HelmApp() {
         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-white/5 transition lg:hidden">
           <Menu size={18} className="text-white/60" />
         </button>
-        <motion.img
-          src={helmImg}
-          alt="HELM"
-          className="w-8 h-8 object-contain"
-          style={{ filter: `drop-shadow(0 0 8px ${HELM_COLOR}40)` }}
-          animate={{ y: [0, -2, 0] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        />
+        <AgentAvatar agentId="operations" color={HELM_COLOR} size={32} showGlow={false} eager />
         <div className="flex-1 min-w-0">
           <h1 className="text-sm font-bold font-syne" style={{ color: HELM_COLOR }}>HELM</h1>
           <p className="text-[9px] text-white/30 font-mono">Your family's second brain</p>
@@ -244,14 +237,9 @@ export default function HelmApp() {
               <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
                 {messages.length === 0 && (
                   <div className="flex flex-col items-center justify-center py-12">
-                    <motion.img
-                      src={helmImg}
-                      alt="HELM"
-                      className="w-20 h-20 object-contain mb-4"
-                      style={{ filter: `drop-shadow(0 0 16px ${HELM_COLOR}30)` }}
-                      animate={{ y: [0, -6, 0] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                    />
+                     <div className="mb-4">
+                       <AgentAvatar agentId="operations" color={HELM_COLOR} size={80} />
+                     </div>
                     <h2 className="text-lg font-syne font-bold mb-1" style={{ color: HELM_COLOR }}>Kia ora!</h2>
                     <p className="text-xs text-white/40 text-center max-w-sm mb-6">
                       I'm HELM, your family's second brain. I can help with school admin, meal plans, budgets, and more.
@@ -263,8 +251,8 @@ export default function HelmApp() {
                 {messages.map((msg, i) => (
                   <div key={i} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : ""}`}>
                     {msg.role === "assistant" && (
-                      <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center" style={{ background: HELM_COLOR + "20" }}>
-                        <img src={helmImg} alt="" className="w-5 h-5 object-contain" />
+                      <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center">
+                        <AgentAvatar agentId="operations" color={HELM_COLOR} size={28} showGlow={false} />
                       </div>
                     )}
                     <div
@@ -287,8 +275,8 @@ export default function HelmApp() {
 
                 {loading && (
                   <div className="flex gap-3">
-                    <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center" style={{ background: HELM_COLOR + "20" }}>
-                      <img src={helmImg} alt="" className="w-5 h-5 object-contain" />
+                    <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center">
+                      <AgentAvatar agentId="operations" color={HELM_COLOR} size={28} showGlow={false} />
                     </div>
                     <div className="rounded-2xl px-4 py-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
                       <div className="flex gap-1.5">
