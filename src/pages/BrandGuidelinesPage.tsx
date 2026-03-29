@@ -11,7 +11,7 @@ import heroRobot from "@/assets/agents/hero-orb-robot.png";
 import linkedinBanner from "@/assets/brand/social-linkedin-banner.png";
 import ogImage from "@/assets/brand/social-launch-og.png";
 
-const FULL_AGENT_LIST = [echoAgent, pilotAgent, ...allAgents];
+const FULL_AGENT_LIST = [echoAgent, ...allAgents];
 
 const CORE_COLORS = [
   { name: "Page Background", hex: "#09090F", hsl: "234 29% 5%", role: "--color-bg" },
