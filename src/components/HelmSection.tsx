@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Brain, Mic } from "lucide-react";
 import { useCallback, useState } from "react";
-import helmImg from "@/assets/agents/helm-3d-avatar.png";
+import AgentAvatar from "./AgentAvatar";
 import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 

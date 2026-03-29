@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Code2, Sparkles, Mic } from "lucide-react";
 import { useState, useCallback } from "react";
-import sparkImg from "@/assets/agents/spark.png";
+import AgentAvatar from "./AgentAvatar";
 import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 

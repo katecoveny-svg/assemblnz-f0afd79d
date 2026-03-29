@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import ParticleField from "@/components/ParticleField";
-import echoImg from "@/assets/agents/echo.png";
+import AgentAvatar from "@/components/AgentAvatar";
 
 const FEATURES = [
   { icon: <Calendar size={24} />, color: "#00FF88", title: "Content Creation", desc: "Daily Instagram carousels, LinkedIn posts, Reel scripts, and Story sequences — all in Kate's voice following the 40/20/20/20 content rule." },
