@@ -6,6 +6,7 @@ import AgentAvatar from "./AgentAvatar";
 import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
+
 const ECHO_COLOR = "#E4A0FF";
 
 type VoiceTranscriptTurn = {
