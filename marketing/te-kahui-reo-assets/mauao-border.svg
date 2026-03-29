@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 60" width="800" height="60">
+  <!-- Mauao twin-peak tāniko border pattern — inspired by Kate's whānau document -->
+  <defs>
+    <linearGradient id="border-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D4A843"/>
+      <stop offset="50%" stop-color="#3A7D6E"/>
+      <stop offset="100%" stop-color="#1A3A5C"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Base line -->
+  <line x1="0" y1="35" x2="800" y2="35" stroke="url(#border-grad)" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Repeating mountain pattern -->
+  <!-- Group 1 -->
+  <polygon points="60,35 72,12 84,35" fill="#D4A843"/>
+  <polygon points="84,35 96,12 108,35" fill="#D4A843"/>
+  <polygon points="52,35 60,18 68,35" fill="none" stroke="#D4A843" stroke-width="1.5"/>
+
+  <!-- Valley -->
+  <polyline points="108,35 120,45 132,35" fill="none" stroke="url(#border-grad)" stroke-width="1.5"/>
+
+  <!-- Group 2 -->
+  <polygon points="160,35 172,12 184,35" fill="none" stroke="#3A7D6E" stroke-width="1.5"/>
+  <polygon points="184,35 196,12 208,35" fill="#3A7D6E"/>
+  <polygon points="208,35 220,18 232,35" fill="none" stroke="#3A7D6E" stroke-width="1.5"/>
+
+  <!-- Valley -->
+  <polyline points="232,35 244,45 256,35" fill="none" stroke="url(#border-grad)" stroke-width="1.5"/>
+
+  <!-- Group 3 -->
+  <polygon points="280,35 292,12 304,35" fill="#1A3A5C"/>
+  <polygon points="304,35 316,12 328,35" fill="none" stroke="#1A3A5C" stroke-width="1.5"/>
+  <polygon points="328,35 340,18 352,35" fill="#1A3A5C"/>
+
+  <!-- Valley -->
+  <polyline points="352,35 364,45 376,35" fill="none" stroke="url(#border-grad)" stroke-width="1.5"/>
+
+  <!-- Group 4 -->
+  <polygon points="400,35 412,12 424,35" fill="none" stroke="#D4A843" stroke-width="1.5"/>
+  <polygon points="424,35 436,12 448,35" fill="#D4A843"/>
+
+  <!-- Valley -->
+  <polyline points="448,35 460,45 472,35" fill="none" stroke="url(#border-grad)" stroke-width="1.5"/>
+
+  <!-- Group 5 -->
+  <polygon points="496,35 508,12 520,35" fill="#3A7D6E"/>
+  <polygon points="520,35 532,12 544,35" fill="#3A7D6E"/>
+  <polygon points="544,35 556,18 568,35" fill="none" stroke="#3A7D6E" stroke-width="1.5"/>
+
+  <!-- Valley -->
+  <polyline points="568,35 580,45 592,35" fill="none" stroke="url(#border-grad)" stroke-width="1.5"/>
+
+  <!-- Group 6 -->
+  <polygon points="616,35 628,12 640,35" fill="none" stroke="#1A3A5C" stroke-width="1.5"/>
+  <polygon points="640,35 652,12 664,35" fill="#1A3A5C"/>
+  <polygon points="664,35 676,18 688,35" fill="none" stroke="#1A3A5C" stroke-width="1.5"/>
+
+  <!-- Group 7 -->
+  <polygon points="720,35 732,12 744,35" fill="#D4A843"/>
+  <polygon points="744,35 756,12 768,35" fill="none" stroke="#D4A843" stroke-width="1.5"/>
+</svg>

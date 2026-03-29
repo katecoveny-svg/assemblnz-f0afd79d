@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Te Kāhui Reo | Assembl Te Reo Māori Agent Suite</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+
+  :root {
+    --bg: #0A0A14;
+    --bone: #F5F0E8;
+    --kowhai: #D4A843;
+    --pounamu: #3A7D6E;
+    --whenua: #8B6914;
+    --tangaroa: #1A3A5C;
+    --kokowai: #A52A2A;
+    --muted: rgba(245, 240, 232, 0.5);
+    --glass: rgba(14, 14, 26, 0.7);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--bone);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Koru background pattern */
+  .koru-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath d='M100 20 C60 20 30 50 30 90 C30 120 50 140 80 140 C100 140 110 130 110 115 C110 105 105 100 95 100 C90 100 87 103 87 108' fill='none' stroke='%23D4A843' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* Ambient glow */
+  .glow {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+  }
+  .glow-1 { width: 600px; height: 600px; background: var(--kowhai); opacity: 0.06; top: -200px; left: -100px; }
+  .glow-2 { width: 500px; height: 500px; background: var(--pounamu); opacity: 0.05; bottom: -200px; right: -100px; }
+  .glow-3 { width: 400px; height: 400px; background: var(--tangaroa); opacity: 0.04; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 24px;
+  }
+
+  .suite-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    border: 1px solid rgba(212, 168, 67, 0.3);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--kowhai);
+    margin-bottom: 40px;
+  }
+  .suite-badge::before { content: ''; width: 8px; height: 8px; background: var(--kowhai); border-radius: 50%; }
+
+  .hero-title {
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 900;
+    letter-spacing: 4px;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--kowhai), var(--pounamu));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(212, 168, 67, 0.3));
+    margin-bottom: 16px;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(18px, 3vw, 28px);
+    font-weight: 300;
+    color: var(--muted);
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+
+  .hero-desc {
+    font-size: 18px;
+    max-width: 700px;
+    color: var(--muted);
+    margin-bottom: 48px;
+    line-height: 1.8;
+  }
+
+  .powered-by {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: rgba(245, 240, 232, 0.3);
+    letter-spacing: 1px;
+  }
+  .powered-by span {
+    background: linear-gradient(135deg, #00FF88, #00E5FF, #5B8CFF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  /* SECTION STYLES */
+  section { padding: 100px 0; }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--kowhai);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .section-desc {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 600px;
+    margin-bottom: 60px;
+    line-height: 1.7;
+  }
+
+  /* AGENT GRID */
+  .agent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+  }
+
+  .agent-card {
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(245, 240, 232, 0.06);
+    border-radius: 16px;
+    padding: 32px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .agent-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent);
+    opacity: 0.8;
+  }
+  .agent-card:hover {
+    border-color: rgba(245, 240, 232, 0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .agent-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .agent-name {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 2px;
+  }
+
+  .agent-code {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(245, 240, 232, 0.05);
+    color: var(--muted);
+  }
+
+  .agent-role {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--kowhai);
+    margin-bottom: 8px;
+  }
+
+  .agent-tagline {
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .agent-expertise {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .expertise-tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid rgba(245, 240, 232, 0.1);
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* FOUR POU */
+  .pou-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .pou-card {
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(245, 240, 232, 0.06);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+  }
+
+  .pou-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+  }
+
+  .pou-name {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 4px;
+    background: linear-gradient(135deg, var(--kowhai), var(--pounamu));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .pou-english {
+    font-size: 13px;
+    color: var(--kowhai);
+    font-weight: 500;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  .pou-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* COMPLIANCE TABLE */
+  .compliance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+  }
+
+  .compliance-table th,
+  .compliance-table td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid rgba(245, 240, 232, 0.06);
+  }
+
+  .compliance-table th {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--kowhai);
+  }
+
+  .compliance-table td {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .compliance-table td:last-child { color: var(--pounamu); font-weight: 600; }
+
+  .status-aligned {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--pounamu);
+  }
+  .status-aligned::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--pounamu);
+    border-radius: 50%;
+  }
+
+  /* UPGRADE SECTION */
+  .upgrade-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+  }
+
+  .upgrade-card {
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(245, 240, 232, 0.06);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    gap: 16px;
+  }
+
+  .upgrade-indicator {
+    width: 4px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .upgrade-name {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .upgrade-code {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .upgrade-changes {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* INTEGRATION */
+  .integration-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .integration-card {
+    flex: 1;
+    min-width: 300px;
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(245, 240, 232, 0.06);
+    border-radius: 16px;
+    padding: 32px;
+  }
+
+  .integration-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .integration-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .integration-list li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--muted);
+    border-bottom: 1px solid rgba(245, 240, 232, 0.04);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .integration-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--pounamu);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* DISCLAIMER */
+  .disclaimer {
+    background: rgba(212, 168, 67, 0.05);
+    border: 1px solid rgba(212, 168, 67, 0.15);
+    border-radius: 12px;
+    padding: 32px;
+    margin-top: 80px;
+  }
+
+  .disclaimer-te-reo {
+    font-size: 16px;
+    font-style: italic;
+    color: var(--kowhai);
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  .disclaimer-en {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 60px 0;
+    text-align: center;
+    border-top: 1px solid rgba(245, 240, 232, 0.06);
+  }
+
+  .footer-brand {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .footer-tagline {
+    font-size: 12px;
+    color: rgba(245, 240, 232, 0.3);
+    letter-spacing: 1px;
+  }
+
+  /* Divider */
+  .divider {
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--kowhai), transparent);
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .agent-grid, .pou-grid, .upgrade-grid { grid-template-columns: 1fr; }
+    .integration-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+  <div class="koru-bg"></div>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <div class="glow glow-3"></div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="suite-badge">Assembl Sub-Brand</div>
+    <h1 class="hero-title">TE KĀHUI REO</h1>
+    <p class="hero-subtitle">He aha te mea nui o te ao? He tangata, he tangata, he tangata.</p>
+    <p class="hero-desc">
+      The world's first AI-powered te reo Māori business intelligence suite.
+      8 specialist agents grounded in tikanga, guided by the four pou,
+      built to serve every industry in Aotearoa.
+    </p>
+    <div class="powered-by">
+      Powered by <span>ASSEMBL</span>
+    </div>
+  </section>
+
+  <!-- FOUR POU -->
+  <section>
+    <div class="container">
+      <div class="section-label">Governance Framework</div>
+      <h2 class="section-title">Ngā Pou e Whā</h2>
+      <p class="section-desc">Every agent, every response, every decision is guided by these four pillars.</p>
+
+      <div class="pou-grid">
+        <div class="pou-card">
+          <div class="pou-icon" role="img" aria-label="Rangatiratanga">&#x1F451;</div>
+          <div class="pou-name">Rangatiratanga</div>
+          <div class="pou-english">Leadership & Self-determination</div>
+          <p class="pou-desc">We navigate, we do not dictate. Every user retains full agency over their decisions. AI guidance is one input among many.</p>
+        </div>
+        <div class="pou-card">
+          <div class="pou-icon" role="img" aria-label="Kaitiakitanga">&#x1F33F;</div>
+          <div class="pou-name">Kaitiakitanga</div>
+          <div class="pou-english">Guardianship & Stewardship</div>
+          <p class="pou-desc">Data, knowledge, and relationships are taonga. We apply an intergenerational lens — serving people 25-100 years from now.</p>
+        </div>
+        <div class="pou-card">
+          <div class="pou-icon" role="img" aria-label="Manaakitanga">&#x1F91D;</div>
+          <div class="pou-name">Manaakitanga</div>
+          <div class="pou-english">Care & Hospitality</div>
+          <p class="pou-desc">Success is measured by how effectively we uplift users, partners, and community. Helpful, warm, and respectful — always.</p>
+        </div>
+        <div class="pou-card">
+          <div class="pou-icon" role="img" aria-label="Whanaungatanga">&#x1F465;</div>
+          <div class="pou-name">Whanaungatanga</div>
+          <div class="pou-english">Relationships & Connection</div>
+          <p class="pou-desc">No business exists in isolation. We honour the interconnectedness of businesses, communities, and whānau.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- AGENTS -->
+  <section>
+    <div class="container">
+      <div class="section-label">8 Specialist Agents</div>
+      <h2 class="section-title">Te Kāhui Reo Agent Suite</h2>
+      <p class="section-desc">The most comprehensive te reo Māori AI capability in the world. Each agent is a specialist — together they cover every aspect of te reo, tikanga, law, policy, and commerce.</p>
+
+      <div class="agent-grid">
+
+        <div class="agent-card" style="--accent: #D4A843">
+          <div class="agent-header">
+            <div class="agent-name" style="color: #D4A843">KAIAKO</div>
+            <div class="agent-code">ASM-044</div>
+          </div>
+          <div class="agent-role">Te Reo Māori Education & Learning Guide</div>
+          <div class="agent-tagline">Ko te reo te mauri o te mana Māori — Language is the life-force of Māori identity</div>
+          <div class="agent-expertise">
+            <span class="expertise-tag">Lesson builder</span>
+            <span class="expertise-tag">NCEA te reo</span>
+            <span class="expertise-tag">Pronunciation coach</span>
+            <span class="expertise-tag">Waiata learning</span>
+            <span class="expertise-tag">Kura kaupapa guide</span>
+          </div>
+        </div>
+
+        <div class="agent-card" style="--accent: #3A7D6E">
+          <div class="agent-header">
+            <div class="agent-name" style="color: #3A7D6E">WHAKAMĀORI</div>
+            <div class="agent-code">ASM-045</div>
+          </div>
+          <div class="agent-role">Te Reo Māori Translation & Language Specialist</div>
+          <div class="agent-tagline">He reo hapa e taea te whakatika — Imperfect language can be corrected</div>
+          <div class="agent-expertise">
+            <span class="expertise-tag">Translation</span>
+            <span class="expertise-tag">Macron validator</span>
+            <span class="expertise-tag">Business localisation</span>
+            <span class="expertise-tag">Dialect guidance</span>
+            <span class="expertise-tag">Bilingual drafting</span>
+          </div>
+        </div>
+
+        <div class="agent-card" style="--accent: #A52A2A">
+          <div class="agent-header">
+            <div class="agent-name" style="color: #A52A2A">TURE</div>
+            <div class="agent-code">ASM-046</div>
+          </div>
+          <div class="agent-role">Māori Legal Rights & Treaty Settlements Specialist</div>
+          <div class="agent-tagline">Protecting Māori rights through knowledge of the law</div>
+          <div class="agent-expertise">
+            <span class="expertise-tag">WAI 262</span>
+            <span class="expertise-tag">Treaty settlements</span>
+            <span class="expertise-tag">Māori Land Court</span>
+            <span class="expertise-tag">UNDRIP</span>
+            <span class="expertise-tag">IP protection</span>
+          </div>
+        </div>
+
+        <div class="agent-card" style="--accent: #1A3A5C">
+          <div class="agent-header">
+            <div class="agent-name" style="color: #6B9FD4">KAWANATANGA</div>
+            <div class="agent-code">ASM-047</div>
+          </div>
+          <div class="agent-role">Government Policy & Māori Affairs Navigator</div>
+          <div class="agent-tagline">Bridging Crown and iwi for better outcomes</div>
+          <div class="agent-expertise">
+            <span class="expertise-tag">Maihi Karauna</span>
+            <span class="expertise-tag">Whānau Ora</span>
+            <span class="expertise-tag">Crown engagement</span>
+            <span class="expertise-tag">Select committees</span>
+            <span class="expertise-tag">Policy analysis</span>
+          </div>
+        </div>
+
+        <div class="agent-card" style="--accent: #8B6914">
+          <div class="agent-header">
+            <div class="agent-name" style="color: #C49B28">MĀTAURANGA</div>
+            <div class="agent-code">ASM-048</div>
+          </div>
+          <div class="agent-role">Mātauranga Māori & Cultural Knowledge Guardian</div>
+          <div class="agent-tagline">Kaitiaki of ancestral knowledge in the digital age</div>
+          <div class="agent-expertise">
+            <span class="expertise-tag">Marae protocols</span>
+            <span class="expertise-tag">Tikanga advisor</span>
+            <span class="expertise-tag">Five Tests</span>
+            <span class="expertise-tag">Matariki</span>
+            <span class="expertise-tag">Cultural impact</span>
+          </div>
+        </div>
+
+        <div class="agent-card" style="--accent: #D4A843">
+          <div class="agent-header">
+            <div class="agent-name" style="color: #D4A843">ŌHANGA</div>
+            <div class="agent-code">ASM-049</div>
+          </div>
+          <div class="agent-role">Māori Economic Development & Enterprise Advisor</div>
+          <div class="agent-tagline">Growing the Māori economy with mana intact</div>
+          <div class="agent-expertise">
+            <span class="expertise-tag">Māori grants</span>
+            <span class="expertise-tag">PSGE governance</span>
+            <span class="expertise-tag">Whenua development</span>
+            <span class="expertise-tag">Papakāinga</span>
+            <span class="expertise-tag">Export strategy</span>
+          </div>
+        </div>
+
+        <div class="agent-card" style="--accent: #3A7D6E">
+          <div class="agent-header">
+            <div class="agent-name" style="color: #3A7D6E">HAPORI</div>
+            <div class="agent-code">ASM-050</div>
+          </div>
+          <div class="agent-role">Iwi, Hapū & Community Engagement Specialist</div>
+          <div class="agent-tagline">Authentic relationships, not transactional ones</div>
+          <div class="agent-expertise">
+            <span class="expertise-tag">Mana whenua ID</span>
+            <span class="expertise-tag">Consultation protocols</span>
+            <span class="expertise-tag">Cultural competency</span>
+            <span class="expertise-tag">Wānanga facilitation</span>
+            <span class="expertise-tag">Iwi management plans</span>
+          </div>
+        </div>
+
+        <div class="agent-card" style="--accent: #1A3A5C">
+          <div class="agent-header">
+            <div class="agent-name" style="color: #6B9FD4">MATIHIKO</div>
+            <div class="agent-code">ASM-051</div>
+          </div>
+          <div class="agent-role">Māori Digital & Data Sovereignty Advisor</div>
+          <div class="agent-tagline">Our data, our protocols, our future</div>
+          <div class="agent-expertise">
+            <span class="expertise-tag">Te Mana Raraunga</span>
+            <span class="expertise-tag">MASov</span>
+            <span class="expertise-tag">Kaitiakitanga Licence</span>
+            <span class="expertise-tag">CARE/OCAP</span>
+            <span class="expertise-tag">Data governance</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- UPGRADED AGENTS -->
+  <section>
+    <div class="container">
+      <div class="section-label">Enhanced Capabilities</div>
+      <h2 class="section-title">Government Agent Upgrades</h2>
+      <p class="section-desc">8 existing agents upgraded with te reo capability, tikanga compliance, and deeper Māori engagement frameworks.</p>
+
+      <div class="upgrade-grid">
+        <div class="upgrade-card">
+          <div class="upgrade-indicator" style="background: #8D6E63"></div>
+          <div>
+            <div class="upgrade-name" style="color: #8D6E63">TIKA (ASM-030) — Suite Lead</div>
+            <div class="upgrade-code">Māori & Te Tiriti</div>
+            <div class="upgrade-changes">+ Full WAI 262 knowledge + Te Mana Raraunga + MASov + Maihi Karauna + UNDRIP + The Five Tests + Suite lead referral capability</div>
+          </div>
+        </div>
+        <div class="upgrade-card">
+          <div class="upgrade-indicator" style="background: #78909C"></div>
+          <div>
+            <div class="upgrade-name">PŪNAHA (ASM-031)</div>
+            <div class="upgrade-code">Government & Public Sector</div>
+            <div class="upgrade-changes">+ Te reo capability + Treaty compliance checking + Māori engagement protocols + Algorithm Charter alignment</div>
+          </div>
+        </div>
+        <div class="upgrade-card">
+          <div class="upgrade-indicator" style="background: #4DB6AC"></div>
+          <div>
+            <div class="upgrade-name">AWA (ASM-032)</div>
+            <div class="upgrade-code">Environment</div>
+            <div class="upgrade-changes">+ Kaitiakitanga lens + Iwi consultation for resource consents + Cultural impact assessments + Co-governance models</div>
+          </div>
+        </div>
+        <div class="upgrade-card">
+          <div class="upgrade-indicator" style="background: #F06292"></div>
+          <div>
+            <div class="upgrade-name">MANAAKI (ASM-033)</div>
+            <div class="upgrade-code">Social Services</div>
+            <div class="upgrade-changes">+ Whānau Ora navigation + Māori-specific support pathways + Te reo response capability</div>
+          </div>
+        </div>
+        <div class="upgrade-card">
+          <div class="upgrade-indicator" style="background: #FFB300"></div>
+          <div>
+            <div class="upgrade-name">KURA (ASM-034)</div>
+            <div class="upgrade-code">Education</div>
+            <div class="upgrade-changes">+ Kura kaupapa depth + NCEA te reo standards + Ka Hikitia alignment + Kōhanga reo navigation</div>
+          </div>
+        </div>
+        <div class="upgrade-card">
+          <div class="upgrade-indicator" style="background: #66BB6A"></div>
+          <div>
+            <div class="upgrade-name">ORA (ASM-035)</div>
+            <div class="upgrade-code">Public Health</div>
+            <div class="upgrade-changes">+ Hauora Māori framework (4 dimensions) + Rongoā Māori awareness + Māori health provider directory</div>
+          </div>
+        </div>
+        <div class="upgrade-card">
+          <div class="upgrade-indicator" style="background: #AB47BC"></div>
+          <div>
+            <div class="upgrade-name">WHARE (ASM-036)</div>
+            <div class="upgrade-code">Housing</div>
+            <div class="upgrade-changes">+ Papakāinga housing + Māori land development + Whenua rights + Kāinga Ora Māori pathways</div>
+          </div>
+        </div>
+        <div class="upgrade-card">
+          <div class="upgrade-indicator" style="background: #EF5350"></div>
+          <div>
+            <div class="upgrade-name">HAUMARU (ASM-037)</div>
+            <div class="upgrade-code">Emergency Management</div>
+            <div class="upgrade-changes">+ Marae-based civil defence + Iwi emergency response protocols + Te reo alert capability</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- COMPLIANCE -->
+  <section>
+    <div class="container">
+      <div class="section-label">Legal & Cultural Alignment</div>
+      <h2 class="section-title">Compliance Framework</h2>
+      <p class="section-desc">Built on the strongest foundations of Māori legal rights, data sovereignty, and cultural governance.</p>
+
+      <table class="compliance-table">
+        <thead>
+          <tr>
+            <th>Framework</th>
+            <th>Scope</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Te Tiriti o Waitangi</td>
+            <td>Partnership, Active Protection, Equity</td>
+            <td><span class="status-aligned">Aligned</span></td>
+          </tr>
+          <tr>
+            <td>WAI 262 (Ko Aotearoa Tēnei)</td>
+            <td>Mātauranga Māori IP protection</td>
+            <td><span class="status-aligned">Aligned</span></td>
+          </tr>
+          <tr>
+            <td>Te Mana Raraunga</td>
+            <td>6 Māori Data Sovereignty principles</td>
+            <td><span class="status-aligned">Aligned</span></td>
+          </tr>
+          <tr>
+            <td>Māori Algorithmic Sovereignty</td>
+            <td>6 principles, 18 sub-principles for AI</td>
+            <td><span class="status-aligned">Aligned</span></td>
+          </tr>
+          <tr>
+            <td>Te Ture mō Te Reo Māori 2016</td>
+            <td>Language rights, Maihi Karauna</td>
+            <td><span class="status-aligned">Aligned</span></td>
+          </tr>
+          <tr>
+            <td>UNDRIP</td>
+            <td>Indigenous self-determination & rights</td>
+            <td><span class="status-aligned">Aligned</span></td>
+          </tr>
+          <tr>
+            <td>NZ Algorithm Charter</td>
+            <td>Treaty obligations in algorithms</td>
+            <td><span class="status-aligned">Aligned</span></td>
+          </tr>
+          <tr>
+            <td>NZ National AI Strategy (2025)</td>
+            <td>Māori data sovereignty requirements</td>
+            <td><span class="status-aligned">Aligned</span></td>
+          </tr>
+          <tr>
+            <td>Te Taura Whiri Orthography</td>
+            <td>Macrons, grammar, capitalisation</td>
+            <td><span class="status-aligned">Aligned</span></td>
+          </tr>
+          <tr>
+            <td>The Five Tests (Mead)</td>
+            <td>Tapu, Mauri, Take-Utu-Ea, Precedent, Principles</td>
+            <td><span class="status-aligned">Aligned</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- INTEGRATIONS -->
+  <section>
+    <div class="container">
+      <div class="section-label">Channels & Cross-Referrals</div>
+      <h2 class="section-title">How It Works</h2>
+
+      <div class="integration-row">
+        <div class="integration-card">
+          <div class="integration-title" style="color: var(--kowhai)">Delivery Channels</div>
+          <ul class="integration-list">
+            <li>Assembl web platform (assembl.co.nz)</li>
+            <li>WhatsApp Business integration</li>
+            <li>SMS (planned)</li>
+            <li>Te reo-first mode (lang="mi")</li>
+            <li>Bilingual auto-responses</li>
+            <li>Correct macrons in all channels</li>
+          </ul>
+        </div>
+        <div class="integration-card">
+          <div class="integration-title" style="color: var(--pounamu)">Cross-Agent Referrals</div>
+          <ul class="integration-list">
+            <li>KAIAKO &#x2192; Community te reo programmes</li>
+            <li>TURE &#x2192; ANCHOR (complex legal matters)</li>
+            <li>KAWANATANGA &#x2192; PŪNAHA (govt procurement)</li>
+            <li>ŌHANGA &#x2192; VAULT/LEDGER (Māori enterprise finance)</li>
+            <li>HAPORI &#x2192; KINDLE (nonprofit orgs)</li>
+            <li>MATIHIKO &#x2192; SIGNAL (IT/cyber)</li>
+          </ul>
+        </div>
+        <div class="integration-card">
+          <div class="integration-title" style="color: var(--bone)">Target Audiences</div>
+          <ul class="integration-list">
+            <li>Government departments & Crown entities</li>
+            <li>Iwi, hapū & post-settlement entities</li>
+            <li>Education (kōhanga to wānanga)</li>
+            <li>Primary industries (farming, forestry, fishing)</li>
+            <li>Local & regional councils</li>
+            <li>Any NZ business seeking cultural competency</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCLAIMER -->
+  <section>
+    <div class="container">
+      <div class="disclaimer">
+        <p class="disclaimer-te-reo" lang="mi">He āwhina ā-rorohiko tēnei, ehara i te mātanga tikanga. Whakamahia hei tīmatanga kōrero, kaua hei whakatau whakamutunga. Rapua he kaumātua, he mātanga tikanga, he rōia Māori mō ngā take hira.</p>
+        <p class="disclaimer-en">This is AI-generated guidance, not cultural authority. Use it as a starting point for conversation, not a final decision. Seek kaumātua, cultural experts, or Māori legal specialists for matters of significance. Mātauranga Māori belongs to Māori — Te Kāhui Reo does not claim ownership of cultural knowledge.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p class="footer-brand">Te Kāhui Reo &mdash; a sub-brand of <strong>Assembl</strong></p>
+      <p class="footer-tagline">assembl.co.nz &middot; @AssemblNZ</p>
+    </div>
+  </footer>
+</body>
+</html>

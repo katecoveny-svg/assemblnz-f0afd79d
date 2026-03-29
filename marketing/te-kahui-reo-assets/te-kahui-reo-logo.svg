@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- 3D sphere gradients in Te Kāhui Reo colours -->
+    <radialGradient id="kowhai-sphere" cx="40%" cy="35%" r="50%">
+      <stop offset="0%" stop-color="#F0D078"/>
+      <stop offset="40%" stop-color="#D4A843"/>
+      <stop offset="80%" stop-color="#9E7A2A"/>
+      <stop offset="100%" stop-color="#6B5118"/>
+    </radialGradient>
+    <radialGradient id="pounamu-sphere" cx="40%" cy="35%" r="50%">
+      <stop offset="0%" stop-color="#5AADA0"/>
+      <stop offset="40%" stop-color="#3A7D6E"/>
+      <stop offset="80%" stop-color="#245C50"/>
+      <stop offset="100%" stop-color="#153D35"/>
+    </radialGradient>
+    <radialGradient id="tangaroa-sphere" cx="40%" cy="35%" r="50%">
+      <stop offset="0%" stop-color="#3A6A9C"/>
+      <stop offset="40%" stop-color="#1A3A5C"/>
+      <stop offset="80%" stop-color="#0F2440"/>
+      <stop offset="100%" stop-color="#081828"/>
+    </radialGradient>
+    <!-- Specular highlights -->
+    <radialGradient id="highlight" cx="35%" cy="30%" r="25%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Shadow -->
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <!-- Connector line gradient -->
+    <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="#3A7D6E" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#1A3A5C" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Connector lines (molecule bonds) -->
+  <line x1="200" y1="120" x2="130" y2="250" stroke="url(#line-grad)" stroke-width="3" opacity="0.6"/>
+  <line x1="200" y1="120" x2="270" y2="250" stroke="url(#line-grad)" stroke-width="3" opacity="0.6"/>
+  <line x1="130" y1="250" x2="270" y2="250" stroke="url(#line-grad)" stroke-width="3" opacity="0.6"/>
+
+  <!-- Kōwhai Gold sphere (top) -->
+  <g filter="url(#shadow)">
+    <circle cx="200" cy="120" r="58" fill="url(#kowhai-sphere)"/>
+    <circle cx="200" cy="120" r="58" fill="url(#highlight)"/>
+  </g>
+
+  <!-- Pounamu Green sphere (bottom-left) -->
+  <g filter="url(#shadow)">
+    <circle cx="130" cy="250" r="58" fill="url(#pounamu-sphere)"/>
+    <circle cx="130" cy="250" r="58" fill="url(#highlight)"/>
+  </g>
+
+  <!-- Tāngaroa Blue sphere (bottom-right) -->
+  <g filter="url(#shadow)">
+    <circle cx="270" cy="250" r="58" fill="url(#tangaroa-sphere)"/>
+    <circle cx="270" cy="250" r="58" fill="url(#highlight)"/>
+  </g>
+
+  <!-- Small node dots at connection points -->
+  <circle cx="165" cy="185" r="4" fill="#D4A843" opacity="0.5"/>
+  <circle cx="235" cy="185" r="4" fill="#3A7D6E" opacity="0.5"/>
+  <circle cx="200" cy="250" r="4" fill="#1A3A5C" opacity="0.5"/>
+</svg>
