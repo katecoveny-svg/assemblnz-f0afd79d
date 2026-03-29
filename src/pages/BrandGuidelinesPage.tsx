@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import AgentAvatar from "@/components/AgentAvatar";
-import { agents as allAgents, echoAgent, pilotAgent } from "@/data/agents";
+import { agents as allAgents, echoAgent } from "@/data/agents";
 import nexusLogo from "@/assets/nexus-logo-hires.png";
 import logoWordmark from "@/assets/assembl-logo-wordmark.png";
 import logoFull from "@/assets/brand/assembl-logo-full.png";

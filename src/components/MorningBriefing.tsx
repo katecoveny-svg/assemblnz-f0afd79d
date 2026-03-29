@@ -2,11 +2,11 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { agents, echoAgent, pilotAgent } from "@/data/agents";
+import { agents, echoAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { Sun, Moon, CloudSun, Zap, ChevronRight, RefreshCw } from "lucide-react";
 
-const ALL_AGENTS = [echoAgent, pilotAgent, ...agents];
+const ALL_AGENTS = [echoAgent, ...agents];
 
 interface BriefingInsight {
   agentId: string;
