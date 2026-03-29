@@ -50,6 +50,7 @@ const AdminHealthDashboard = lazy(() => import("./pages/AdminHealthDashboard"));
 const AdminLeadsDashboard = lazy(() => import("./pages/AdminLeadsDashboard"));
 const TurfDeadlinePage = lazy(() => import("./pages/TurfDeadlinePage"));
 const AdminAnalyticsDashboard = lazy(() => import("./pages/AdminAnalyticsDashboard"));
+const AdminMessagesPage = lazy(() => import("./pages/AdminMessagesPage"));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
 const BrandGuidelinesPage = lazy(() => import("./pages/BrandGuidelinesPage"));
 const AuraLandingPage = lazy(() => import("./pages/AuraLandingPage"));
@@ -109,6 +110,7 @@ const App = () => (
                   <Route path="/aura" element={<Suspense fallback={null}><AuraLandingPage /></Suspense>} />
                   <Route path="/nexus" element={<Suspense fallback={null}><NexusLandingPage /></Suspense>} />
                   <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
+                  <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
                   <Route path="/data-privacy" element={<Suspense fallback={null}><DataPrivacyLegal /></Suspense>} />

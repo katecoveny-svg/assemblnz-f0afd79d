@@ -67,3 +67,7 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.weekly-score-email]
     verify_jwt = false
+  [functions.whatsapp-webhook]
+    verify_jwt = false
+  [functions.send-whatsapp]
+    verify_jwt = false
