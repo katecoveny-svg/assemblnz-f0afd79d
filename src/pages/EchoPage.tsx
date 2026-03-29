@@ -37,10 +37,7 @@ const EchoPage = () => (
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-10 items-center">
           <motion.div className="flex justify-center" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }}>
-            <div className="relative w-56 h-56 sm:w-64 sm:h-64 rounded-2xl overflow-hidden border border-[#E4A0FF]/15" style={{ background: "rgba(228,160,255,0.04)", boxShadow: "0 0 50px rgba(228,160,255,0.12)" }}>
-              <img src={echoImg} alt="ECHO" className="w-full h-full object-contain" />
-              <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: "inset 0 0 40px rgba(228,160,255,0.06)" }} />
-            </div>
+            <AgentAvatar agentId="echo" color="#E4A0FF" size={200} eager />
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
             <p className="font-mono-jb text-[10px] mb-2" style={{ color: "rgba(228,160,255,0.3)" }}>ASM-000 · Assembl Hero Agent</p>

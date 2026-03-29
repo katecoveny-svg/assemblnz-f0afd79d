@@ -154,19 +154,12 @@ const HelmSection = () => {
                   animate={{ opacity: [0.15, 0.25, 0.15], scale: [1, 1.1, 1] }}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 />
-                <motion.img
-                  src={helmImg}
-                  alt="HELM Family AI Assistant"
-                  className="relative w-40 h-40 lg:w-56 lg:h-56 object-contain"
-                  style={{
-                    filter: `brightness(1.1) contrast(1.05) drop-shadow(0 0 20px ${HELM_COLOR}40) drop-shadow(0 0 50px ${HELM_COLOR}20)`,
-                  }}
+                <motion.div
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-                  loading="lazy"
-                  width={1024}
-                  height={1024}
-                />
+                >
+                  <AgentAvatar agentId="operations" color={HELM_COLOR} size={180} />
+                </motion.div>
               </motion.div>
             </div>
           </div>

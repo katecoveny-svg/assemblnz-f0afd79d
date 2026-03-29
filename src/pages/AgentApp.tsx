@@ -11,18 +11,13 @@ import { agents } from "@/data/agents";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentSmsPanel from "@/components/shared/AgentSmsPanel";
 import AgentTraining from "@/components/shared/AgentTraining";
+import AgentAvatar from "@/components/AgentAvatar";
 import { setDynamicManifest } from "@/utils/pwaManifest";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
-
-// Map agent IDs to their avatar images (lazy loaded)
-// Add entries here as avatar PNGs are created for each agent
-const agentAvatars: Record<string, () => Promise<{ default: string }>> = {
-  operations: () => import("@/assets/agents/helm-3d-avatar.png"),
-};
 
 type Tab = "chat" | "sms" | "settings";
 

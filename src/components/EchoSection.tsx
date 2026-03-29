@@ -47,19 +47,9 @@ const EchoSection = () => {
             {/* Avatar */}
             <div className="flex justify-center lg:justify-start">
               <div
-                className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border border-[#E4A0FF]/10"
-                style={{
-                  background: "rgba(228,160,255,0.04)",
-                  boxShadow: "0 0 40px rgba(228,160,255,0.1)",
-                }}
+                className="relative w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center"
               >
-                <img
-                  src={echoImg}
-                  alt="ECHO — Founder AI Clone"
-                  className="w-full h-full object-contain"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 rounded-2xl animate-pulse" style={{ boxShadow: "inset 0 0 30px rgba(228,160,255,0.08)" }} />
+                <AgentAvatar agentId="echo" color={ECHO_COLOR} size={180} />
               </div>
             </div>
 

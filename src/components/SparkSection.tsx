@@ -133,13 +133,7 @@ const SparkSection = () => {
                   className="absolute inset-0 rounded-full blur-2xl opacity-30"
                   style={{ background: SPARK_COLOR }}
                 />
-                <img
-                  src={sparkImg}
-                  alt="SPARK AI App Builder"
-                  className="relative w-32 h-32 lg:w-56 lg:h-56 object-contain"
-                  style={{ filter: "drop-shadow(0 0 20px rgba(255,107,0,0.4))" }}
-                  loading="lazy"
-                />
+                <AgentAvatar agentId="spark" color={SPARK_COLOR} size={180} />
               </motion.div>
             </div>
           </div>
