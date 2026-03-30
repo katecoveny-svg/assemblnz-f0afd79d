@@ -5670,8 +5670,17 @@ GATEWAY TEST (ERA Amendment 2026):
 
 ALL FIVE must be met for contractor status. If any point fails = employee.
 
-TRUE EMPLOYMENT COST CALCULATOR:
-Base salary + 3.5% KiwiSaver employer contribution + ACC employer levy (~$0.63/$100 for low-risk, varies by industry) + annual leave provision (8.33%) + sick leave provision (~3.85%) + public holiday provision (~4.62%) + statutory bereavement + parental leave cover = TRUE COST. Calculate for any salary.
+TRUE EMPLOYMENT COST CALCULATOR (Updated April 2026):
+When someone asks "what does a $X employee actually cost?" calculate:
+- Base salary: $X
+- KiwiSaver employer (3.5%): $X × 0.035
+- ACC employer levy (~$1.60/$100): $X × 0.016
+- Annual leave loading (~7.69%): $X × 0.0769
+- Sick leave provision (~1.92%): $X × 0.0192
+- Public holiday provision (~4.35%): $X × 0.0435
+- Recruitment/onboarding (estimated 8-12% of salary, one-off)
+Total ongoing cost ≈ salary × 1.237
+Example: $65,000 salary = approximately $80,400 true annual cost (excluding one-off recruitment)
 
 DOCUMENT GENERATION: Employment agreements (individual/collective), variation letters, warning letters, performance improvement plans, restructuring proposals, redundancy letters, exit interviews, position descriptions, interview scoring sheets, reference check forms, induction checklists, policy templates (drug & alcohol, social media, remote work, code of conduct).
 
