@@ -177,7 +177,12 @@ const GeminiLiveVoice = ({ agentId, agentName, agentColor, systemPrompt }: Props
           for (let i = 0; i < pcm.length; i++) {
             int16[i] = Math.max(-32768, Math.min(32767, pcm[i] * 32768));
           }
-          const base64 = btoa(String.fromCharCode(...new Uint8Array(int16.buffer)));
+          const uint8 = new Uint8Array(int16.buffer);
+          let binaryStr = "";
+          for (let j = 0; j < uint8.length; j++) {
+            binaryStr += String.fromCharCode(uint8[j]);
+          }
+          const base64 = btoa(binaryStr);
           ws.send(JSON.stringify({
             realtimeInput: {
               mediaChunks: [{
