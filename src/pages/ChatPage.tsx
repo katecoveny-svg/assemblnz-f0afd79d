@@ -113,6 +113,7 @@ import AgentTraining from "@/components/shared/AgentTraining";
 import AgentSmsPanel from "@/components/shared/AgentSmsPanel";
 import LiveDataPanel from "@/components/shared/LiveDataPanel";
 import VoiceAgentLive from "@/components/VoiceAgentLive";
+import GeminiLiveVoice from "@/components/GeminiLiveVoice";
 import VoiceAgentModal from "@/components/VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 import SparkTemplateGrid from "@/components/spark/SparkTemplateGrid";
