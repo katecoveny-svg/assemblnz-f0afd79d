@@ -5684,15 +5684,49 @@ Example: $65,000 salary = approximately $80,400 true annual cost (excluding one-
 
 DOCUMENT GENERATION: Employment agreements (individual/collective), variation letters, warning letters, performance improvement plans, restructuring proposals, redundancy letters, exit interviews, position descriptions, interview scoring sheets, reference check forms, induction checklists, policy templates (drug & alcohol, social media, remote work, code of conduct).
 
-NZ LEGISLATION: Employment Relations Act 2000 (and Amendment Act 2026), Holidays Act 2003 (MBIE reform review underway — Employment Leave Bill 2026 will replace; until enacted, current Act applies), Health and Safety at Work Act 2015 (2026 Amendment Bill simplifies obligations for small businesses <20 employees while maintaining PCBU duties), Privacy Act 2020 (IPP 3A effective May 2026 — agencies must provide specific privacy information at collection including purpose, recipients, overseas disclosure, consequences of non-provision), Equal Pay Act 1972 (pay equity claims process, gender pay gap reporting), Parental Leave and Employment Protection Act 1987 (26 weeks government-funded at up to $712.17/week 2026, partner leave entitlements), Minimum Wage Act 1983, Human Rights Act 1993, Wages Protection Act 1983 (Wage Theft criminalised from March 2025 — deliberate underpayment is now a criminal offence), Protected Disclosures Act 2022, KiwiSaver Act 2006 (3.5% from April 2026, 4% from April 2028).
+CURRENT NZ RATES (From 1 April 2026):
+- Minimum wage: $23.95/hr (was $23.50)
+- Starting-out/training wage: $19.16/hr (was $18.80)
+- KiwiSaver employer minimum: 3.5% (was 3%) — NOW INCLUDES employees aged 16-17
+- Minimum annual salary (40hrs): $49,816 (was $48,880)
+- GST: 15%
+- Company tax: 28%, Trust tax: 39%
+- Individual tax: $0-14K (10.5%), $14,001-48K (17.5%), $48,001-70K (30%), $70,001-180K (33%), $180,001+ (39%)
+- ACC earner levy: $1.60 per $100
 
-2026 CRITICAL UPDATES SUMMARY:
-- ERA Amendment Act 2026: High-earner $180K+ threshold (base salary $200K+ cannot bring unjustified dismissal PG), contractor 5-point gateway test, 90-day trial periods reinstated for ALL employers (from July 2025), 30-day collective rule removed, procedural fairness test updated
-- Holidays Act 2003 reform: MBIE review ongoing, Employment Leave Bill 2026 proposes day-1 accrual in hours (0.0769 per hour worked for annual leave), 12.5% upfront leave compensation for casuals — CURRENT Act applies until enacted
-- HSWA 2026 Amendment Bill: Simplified H&S obligations for small businesses (<20 employees), maintains core PCBU duties, reduces paperwork burden while keeping worker protection
-- Privacy Act 2020 IPP 3A (May 2026): All employers must update privacy collection notices, employment application forms, onboarding packs, and HR policies to include specific information at point of collection
-- Wage Theft (March 2025): Deliberate non-payment/underpayment of wages is criminal — fines and imprisonment. All payroll systems must be accurate and auditable
-- KiwiSaver trajectory: 3% → 3.5% (April 2026) → 4% (April 2028) for both employee AND employer minimum contributions
+KIWISAVER CHANGES (1 April 2026):
+- Employer minimum contribution rises from 3% to 3.5%
+- All employees aged 16-17 are now eligible for KiwiSaver (previously 18+)
+- Employee contribution rates: 3%, 4%, 6%, 8%, or 10% of gross pay
+- ESCT (Employer Superannuation Contribution Tax) rates for 2026:
+  - $0-16,800: 10.5%
+  - $16,801-57,600: 17.5%
+  - $57,601-84,000: 30%
+  - $84,001-216,000: 33%
+  - $216,001+: 39%
+- Employers must auto-enrol new employees within first pay period
+- Opt-out window: employee can opt out between 2-8 weeks after starting (but employer contribution stops immediately on opt-out)
+
+EMPLOYMENT RELATIONS AMENDMENT ACT 2026 (in force 19 February 2026):
+- 90-day trial periods: Now only valid for employers with FEWER THAN 20 employees
+- Employers with 20+ employees must use probationary periods instead
+- Trial period requirements remain strict: must be in writing, in the individual employment agreement, BEFORE the employee starts work, and the employee must have received independent legal advice opportunity
+- Fair Pay Agreements: [Check latest status as legislation has been subject to change]
+
+PRIVACY ACT 2020 — EMPLOYMENT CONTEXT:
+- IPP 3A (effective 1 May 2026): When collecting employee information from references, background checks, or third parties — you must take reasonable steps to notify the employee that you collected their information, from whom, and for what purpose
+- Employee records: Must be stored securely, employee has right to access their personnel file
+- Health information: Extra protections — can only collect with informed consent, keep separate from general personnel file
+- Post-employment: Retain records for minimum 6 years for IRD/ERA purposes, then securely destroy
+
+HOLIDAYS ACT 2003 — KEY CALCULATIONS:
+- Ordinary Weekly Pay (OWP): gross earnings (last 4 weeks) ÷ 4
+- Average Daily Pay (ADP): gross earnings (last 52 weeks) ÷ days worked
+- Public holiday pay: If worked = time and a half PLUS an alternative day off. If the day falls on an otherwise working day and not worked = relevant daily pay.
+- Annual leave: 8% of gross earnings OR 4 weeks at OWP — whichever is greater
+- BAPS (Before and After Public Holiday): Check the employee's work pattern in the 4 weeks before and 4 weeks after the public holiday to determine if it was an "otherwise working day"
+
+NZ LEGISLATION: Employment Relations Act 2000 (and Amendment Act 2026), Holidays Act 2003 (Employment Leave Bill 2026 will replace; until enacted, current Act applies), Health and Safety at Work Act 2015, Privacy Act 2020 (IPP 3A effective May 2026), Equal Pay Act 1972, Parental Leave and Employment Protection Act 1987, Minimum Wage Act 1983, Human Rights Act 1993, Wages Protection Act 1983 (Wage Theft criminalised from March 2025), Protected Disclosures Act 2022, KiwiSaver Act 2006 (3.5% from April 2026)
 
 
 5. EMPLOYEE RECOGNITION & REWARDS
