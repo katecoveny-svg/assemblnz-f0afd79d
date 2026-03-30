@@ -10,7 +10,7 @@ interface Message {
   content: string;
 }
 
-const ECHO_COLOR = "#E4A0FF";
+const ECHO_COLOR = "#D4A843";
 
 const EchoChatWidget = () => {
   const location = useLocation();
@@ -80,21 +80,48 @@ const EchoChatWidget = () => {
           onClick={() => { setOpen(true); setMinimized(false); }}
           className="fixed bottom-6 left-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center transition-transform hover:scale-110 group"
           style={{
-            background: ECHO_COLOR,
-            boxShadow: `0 4px 20px rgba(228,160,255,0.4), 0 0 40px rgba(228,160,255,0.15)`,
+            background: "radial-gradient(circle at 40% 35%, rgba(212,168,67,0.22), rgba(58,125,110,0.1) 60%, transparent)",
+            border: "1px solid rgba(212,168,67,0.35)",
+            boxShadow: `0 0 18px rgba(212,168,67,0.55), 0 0 40px rgba(212,168,67,0.2), 0 4px 16px rgba(0,0,0,0.5)`,
           }}
           title="Chat with ECHO — Assembl's Hero Agent"
         >
-          <img src={echoImg} alt="ECHO" className="w-9 h-9 rounded-full object-cover" />
-          <span className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ background: ECHO_COLOR }} />
+          {/* Constellation mark */}
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none" style={{ filter: "drop-shadow(0 0 6px rgba(212,168,67,0.9))" }}>
+            <defs>
+              <radialGradient id="wg-g" cx="40%" cy="35%" r="50%">
+                <stop offset="0%" stopColor="#F0D078"/><stop offset="50%" stopColor="#D4A843"/><stop offset="100%" stopColor="#8B6020"/>
+              </radialGradient>
+              <radialGradient id="wg-p" cx="40%" cy="35%" r="50%">
+                <stop offset="0%" stopColor="#7ACFC2"/><stop offset="50%" stopColor="#3A7D6E"/><stop offset="100%" stopColor="#1E5044"/>
+              </radialGradient>
+              <radialGradient id="wg-pl" cx="40%" cy="35%" r="50%">
+                <stop offset="0%" stopColor="#5AADA0"/><stop offset="50%" stopColor="#2E6B5E"/><stop offset="100%" stopColor="#153D35"/>
+              </radialGradient>
+              <radialGradient id="wg-hi" cx="35%" cy="30%" r="28%">
+                <stop offset="0%" stopColor="white" stopOpacity="0.65"/><stop offset="100%" stopColor="white" stopOpacity="0"/>
+              </radialGradient>
+              <linearGradient id="wg-l" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#D4A843" stopOpacity="0.65"/><stop offset="100%" stopColor="#3A7D6E" stopOpacity="0.6"/>
+              </linearGradient>
+            </defs>
+            <line x1="18" y1="8" x2="8" y2="26" stroke="url(#wg-l)" strokeWidth="1.2"/>
+            <line x1="18" y1="8" x2="28" y2="26" stroke="url(#wg-l)" strokeWidth="1.2"/>
+            <line x1="8" y1="26" x2="28" y2="26" stroke="url(#wg-l)" strokeWidth="1.2"/>
+            <circle cx="18" cy="8" r="4.5" fill="url(#wg-g)"/><circle cx="18" cy="8" r="4.5" fill="url(#wg-hi)"/>
+            <circle cx="8" cy="26" r="4.5" fill="url(#wg-p)"/><circle cx="8" cy="26" r="4.5" fill="url(#wg-hi)"/>
+            <circle cx="28" cy="26" r="4.5" fill="url(#wg-pl)"/><circle cx="28" cy="26" r="4.5" fill="url(#wg-hi)"/>
+          </svg>
+          {/* Pulse ring */}
+          <span className="absolute inset-0 rounded-full animate-ping opacity-15" style={{ border: "1px solid rgba(212,168,67,0.6)" }} />
         </button>
       )}
 
       {/* Minimized bar */}
       {open && minimized && (
         <div
-          className="fixed bottom-6 left-6 z-[9999] flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer border border-[#E4A0FF]/15"
-          style={{ background: "#09090F", boxShadow: `0 4px 20px rgba(228,160,255,0.15)` }}
+          className="fixed bottom-6 left-6 z-[9999] flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer border border-[#D4A843]/15"
+          style={{ background: "#09090F", boxShadow: `0 4px 20px rgba(212,168,67,0.15)` }}
           onClick={() => setMinimized(false)}
         >
           <img src={echoImg} alt="ECHO" className="w-6 h-6 rounded-full object-cover" />

@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Assembl × Te Kāhui Reo — Unified Brand System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Syne:wght@400;700;800&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Assembl */
+  --bg:    #09090F;
+  --surf:  #0F0F1A;
+  --surf2: #16162A;
+  --green: #00FF88;
+  --pink:  #FF2D9B;
+  --cyan:  #00E5FF;
+  --white: #FFFFFF;
+  /* Te Kāhui Reo */
+  --kowhai:   #D4A843;
+  --kowhai-l: #F0D078;
+  --pounamu:  #3A7D6E;
+  --pounamu-l:#5AADA0;
+  --tangaroa: #1A3A5C;
+  --tangaroa-l:#3A6A9C;
+}
+
+html, body { background: var(--bg); color: #fff; font-family: 'Lato', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+/* ── PAGE LAYOUT ── */
+.page { max-width: 1440px; margin: 0 auto; padding: 64px 40px 120px; }
+
+/* ── PAGE HEADER ── */
+.page-header { text-align: center; margin-bottom: 80px; }
+.page-eyebrow { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: rgba(212,168,67,0.65); margin-bottom: 16px; }
+.page-title { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 42px; letter-spacing: 4px; text-transform: uppercase;
+  background: linear-gradient(90deg, #fff 0%, #fff 45%, #D4A843 72%, #3A7D6E 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 24px rgba(212,168,67,.35)) drop-shadow(0 0 48px rgba(58,125,110,.2));
+  margin-bottom: 10px;
+}
+.page-subtitle { font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.3); letter-spacing: 2px; margin-bottom: 24px; }
+.page-concept {
+  display: inline-block; font-size: 12px; font-weight: 300; color: rgba(212,168,67,0.7);
+  border: 1px solid rgba(212,168,67,0.2); padding: 8px 20px; letter-spacing: 1px;
+  background: rgba(212,168,67,0.04);
+}
+.page-concept strong { color: var(--kowhai); font-weight: 400; }
+
+/* ── SECTION HEADERS ── */
+.sec { margin: 72px 0 24px; }
+.sec-line { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
+.sec-line .bar { flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+.sec-num { font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.2); font-weight: 300; }
+.sec-title { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.3); font-weight: 300; white-space: nowrap; }
+.sec-desc { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.22); letter-spacing: 0.5px; padding-left: 2px; margin-top: 4px; }
+
+/* ── GRIDS ── */
+.g1 { display: grid; grid-template-columns: 1fr; gap: 3px; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px; }
+.g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 3px; }
+.g5 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 3px; }
+
+/* ── CARD BASE ── */
+.card {
+  position: relative; overflow: hidden;
+  background: #0A0A13; min-height: 160px;
+  display: flex; align-items: center; justify-content: center;
+}
+.card.tall    { min-height: 240px; }
+.card.hero    { min-height: 340px; }
+.card.xl      { min-height: 460px; }
+.card.sq      { aspect-ratio: 1/1; min-height: unset; }
+.card.light   { background: #F0F0F8; }
+.card.white   { background: #FFFFFF; }
+.card.tkr-bg  { background: #0C0E14; }
+.card.mauao-bg { background: #080C10; }
+
+/* canvas starfield */
+canvas.sf { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+
+/* nebula orbs */
+.orb { position: absolute; border-radius: 50%; filter: blur(60px); z-index: 2; pointer-events: none; animation: orb-drift var(--d,14s) ease-in-out infinite var(--del,0s); }
+@keyframes orb-drift {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(var(--tx,20px),var(--ty,-15px)) scale(1.08); }
+  66% { transform: translate(var(--tx2,-10px),var(--ty2,10px)) scale(0.93); }
+}
+
+/* card inner */
+.ci { position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; padding: 40px; width: 100%; height: 100%; }
+.ci.left  { justify-content: flex-start; }
+.ci.col   { flex-direction: column; }
+.ci.col.left { align-items: flex-start; }
+
+/* card labels */
+.lbl { position: absolute; bottom: 14px; right: 18px; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,.2); z-index: 20; }
+.lbl.dk { color: rgba(0,0,0,.2); }
+.tag { position: absolute; top: 14px; left: 18px; font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,.18); z-index: 20; }
+
+/* ── ORBIT RINGS ── */
+.orbit-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ring {
+  position: absolute; border-radius: 50%; border-style: solid;
+  animation: ring-spin var(--spd,10s) linear infinite var(--dir,normal);
+}
+@keyframes ring-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* ── WORDMARKS ── */
+.wm { font-family: 'Lato', sans-serif; text-transform: uppercase; }
+
+/* PRIMARY — signature gradient: white → white → kōwhai gold → pounamu */
+.wm-grad {
+  font-family: 'Lato', sans-serif; text-transform: uppercase;
+  background: linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 48%, #D4A843 72%, #3A7D6E 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 18px rgba(212,168,67,.55)) drop-shadow(0 0 48px rgba(58,125,110,.25));
+  animation: wm-glow 4s ease-in-out infinite;
+}
+@keyframes wm-glow {
+  0%,100% { filter: drop-shadow(0 0 16px rgba(212,168,67,.65)) drop-shadow(0 0 48px rgba(212,168,67,.3)) drop-shadow(0 0 80px rgba(212,168,67,.12)); }
+  50%      { filter: drop-shadow(0 0 32px rgba(255,220,80,1)) drop-shadow(0 0 80px rgba(212,168,67,.7)) drop-shadow(0 0 140px rgba(212,168,67,.35)) drop-shadow(0 0 10px rgba(255,255,255,.6)); }
+}
+
+.wm-xl   { font-weight: 700; font-size: 36px; letter-spacing: 14px; }
+.wm-hero { font-weight: 700; font-size: 22px; letter-spacing: 10px; }
+.wm-md   { font-weight: 700; font-size: 14px; letter-spacing: 6px; }
+.wm-sm   { font-weight: 400; font-size: 11px; letter-spacing: 4px; }
+
+/* TLD */
+.tld { font-family: 'Lato', sans-serif; font-weight: 300; letter-spacing: 2px; color: rgba(255,255,255,.28); }
+
+/* Tagline */
+.tag-line { font-family: 'Lato', sans-serif; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; color: rgba(58,125,110,.65); }
+
+/* ── TE KĀHUI REO WORDMARK ── */
+.wm-tkr {
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 14px;
+  letter-spacing: 5px; text-transform: uppercase;
+  background: linear-gradient(90deg, var(--kowhai-l) 0%, var(--kowhai) 40%, var(--pounamu-l) 75%, var(--pounamu) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 12px rgba(212,168,67,.5)) drop-shadow(0 0 32px rgba(58,125,110,.25));
+  animation: tkr-glow 5s ease-in-out infinite;
+}
+.wm-tkr-xl {
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 28px; letter-spacing: 8px; text-transform: uppercase;
+  background: linear-gradient(90deg, var(--kowhai-l) 0%, var(--kowhai) 40%, var(--pounamu-l) 72%, var(--pounamu) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 14px rgba(212,168,67,.55)) drop-shadow(0 0 40px rgba(58,125,110,.28));
+  animation: tkr-glow 5s ease-in-out infinite;
+}
+@keyframes tkr-glow {
+  0%,100% { filter: drop-shadow(0 0 12px rgba(212,168,67,.45)) drop-shadow(0 0 30px rgba(58,125,110,.22)); }
+  50%      { filter: drop-shadow(0 0 22px rgba(212,168,67,.75)) drop-shadow(0 0 60px rgba(58,125,110,.4)) drop-shadow(0 0 6px rgba(240,208,120,.4)); }
+}
+
+/* ── MARK GLOWS ── */
+/* ── ASSEMBL: intense solar glow — gold burns bright ── */
+.mg-c { filter: drop-shadow(0 0 12px rgba(212,168,67,1)) drop-shadow(0 0 36px rgba(212,168,67,.7)) drop-shadow(0 0 72px rgba(212,168,67,.35)) drop-shadow(0 0 120px rgba(240,208,120,.15)); animation: mg-ca 3s ease-in-out infinite; }
+.mg-g { filter: drop-shadow(0 0 10px rgba(212,168,67,.9)) drop-shadow(0 0 30px rgba(58,125,110,.6)); animation: mg-ga 3s ease-in-out infinite; }
+
+/* ── TE KĀHUI REO: natural register — gold / teal / navy (softer, grounded) ── */
+.mg-k  { filter: drop-shadow(0 0 8px rgba(212,168,67,.80)) drop-shadow(0 0 28px rgba(212,168,67,.30)); animation: mg-ka  5s ease-in-out infinite; }
+.mg-pou{ filter: drop-shadow(0 0 8px rgba(58,125,110,.80)) drop-shadow(0 0 28px rgba(58,125,110,.32)); animation: mg-pou-a 5s ease-in-out infinite; }
+.mg-tan{ filter: drop-shadow(0 0 8px rgba(58,106,156,.75)) drop-shadow(0 0 28px rgba(26,58,92,.35));   animation: mg-tan-a 5s ease-in-out infinite; }
+.mg-w  { filter: drop-shadow(0 0 6px rgba(255,255,255,.7)) drop-shadow(0 0 20px rgba(255,255,255,.3)); animation: mg-wa  5s ease-in-out infinite; }
+
+@keyframes mg-ca    { 0%,100%{filter:drop-shadow(0 0 10px rgba(212,168,67,.9)) drop-shadow(0 0 30px rgba(212,168,67,.55)) drop-shadow(0 0 60px rgba(212,168,67,.2));}  50%{filter:drop-shadow(0 0 22px rgba(255,220,80,1)) drop-shadow(0 0 60px rgba(212,168,67,.85)) drop-shadow(0 0 120px rgba(212,168,67,.45)) drop-shadow(0 0 180px rgba(240,208,120,.2));} }
+@keyframes mg-ga    { 0%,100%{filter:drop-shadow(0 0 8px rgba(58,125,110,.8)) drop-shadow(0 0 24px rgba(58,125,110,.32));}  50%{filter:drop-shadow(0 0 16px rgba(90,173,160,1)) drop-shadow(0 0 54px rgba(58,125,110,.6));} }
+@keyframes mg-ka    { 0%,100%{filter:drop-shadow(0 0 8px rgba(212,168,67,.75)) drop-shadow(0 0 24px rgba(212,168,67,.28));} 50%{filter:drop-shadow(0 0 16px rgba(212,168,67,1)) drop-shadow(0 0 50px rgba(212,168,67,.55)) drop-shadow(0 0 80px rgba(58,125,110,.2));} }
+@keyframes mg-pou-a { 0%,100%{filter:drop-shadow(0 0 8px rgba(58,125,110,.75)) drop-shadow(0 0 24px rgba(58,125,110,.28));} 50%{filter:drop-shadow(0 0 16px rgba(90,173,160,1)) drop-shadow(0 0 48px rgba(58,125,110,.55)) drop-shadow(0 0 80px rgba(58,125,110,.2));} }
+@keyframes mg-tan-a { 0%,100%{filter:drop-shadow(0 0 7px rgba(58,106,156,.7)) drop-shadow(0 0 22px rgba(26,58,92,.3));}   50%{filter:drop-shadow(0 0 14px rgba(90,140,190,1)) drop-shadow(0 0 44px rgba(58,106,156,.5)) drop-shadow(0 0 72px rgba(26,58,92,.2));} }
+@keyframes mg-wa    { 0%,100%{filter:drop-shadow(0 0 6px rgba(255,255,255,.6)) drop-shadow(0 0 18px rgba(255,255,255,.25));} 50%{filter:drop-shadow(0 0 12px rgba(255,255,255,.95)) drop-shadow(0 0 36px rgba(255,255,255,.5));} }
+
+/* ── MAUAO BORDER ── */
+.mauao-border {
+  width: 100%; overflow: hidden; display: flex; align-items: center;
+  opacity: 0.55;
+}
+.mauao-border svg { width: 100%; height: auto; }
+.mauao-sep { padding: 16px 0; background: transparent; position: relative; z-index: 10; }
+
+/* ── POUNAMU DIVIDER ── */
+.pou-divider {
+  height: 2px; width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212,168,67,.4), rgba(58,125,110,.4), rgba(26,58,92,.4), transparent);
+  margin: 0;
+}
+
+/* ── COLOUR CHIPS ── */
+.chip { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; }
+.chip-row { display: flex; gap: 10px; align-items: center; }
+.chip-name { font-size: 10px; font-weight: 300; letter-spacing: 1px; color: rgba(255,255,255,.35); }
+
+/* ── FAVICON CELL ── */
+.fav-cell { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 28px 16px; }
+.fav-sz { font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,.2); text-transform: uppercase; }
+
+/* ── POU CARD INNER ── */
+.pou-card-inner { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 36px 24px; }
+
+/* ── TE MARAMA & TOROA ANIMATIONS ── */
+@keyframes marama-pulse {
+  0%,100% { opacity: 0.7; transform: translate(-50%,-50%) scale(1); }
+  50%      { opacity: 1;   transform: translate(-50%,-50%) scale(1.12); }
+}
+@keyframes toroa-soar {
+  0%,100% { opacity: 0.18; transform: translateX(-50%) translateY(0px); }
+  30%     { opacity: 0.28; transform: translateX(-48%) translateY(-6px); }
+  65%     { opacity: 0.14; transform: translateX(-52%) translateY(4px); }
+}
+@keyframes pou-marama {
+  0%,100% { opacity: 0.5; transform: translate(-50%,-60%) scale(1); }
+  50%     { opacity: 0.75; transform: translate(-50%,-60%) scale(1.08); }
+}
+@keyframes pou-toroa {
+  0%,100% { opacity: 0.12; transform: translateX(-50%) translateY(0px); }
+  50%     { opacity: 0.2;  transform: translateX(-50%) translateY(-4px); }
+}
+.pou-te-reo { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; }
+.pou-meaning { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; font-weight: 300; color: rgba(255,255,255,.3); letter-spacing: 0.5px; text-align: center; }
+
+/* ── CO-BRAND DIVIDER ── */
+.times { font-family: 'Lato', sans-serif; font-weight: 100; font-size: 24px; color: rgba(255,255,255,.15); flex-shrink: 0; padding: 0 16px; }
+
+/* ── SHIMMER ── */
+.wm-shimmer {
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 6px; text-transform: uppercase;
+  background: linear-gradient(90deg, rgba(255,255,255,.4) 0%, rgba(255,255,255,.9) 38%, rgba(212,168,67,1) 50%, rgba(255,255,255,.9) 62%, rgba(255,255,255,.4) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: shimmer 5s ease-in-out infinite;
+}
+@keyframes shimmer { 0%{background-position:200% center;} 100%{background-position:-200% center;} }
+
+/* ── MONO ── */
+.wm-mono-dark { font-family:'Lato',sans-serif; font-weight:300; font-size:14px; letter-spacing:6px; text-transform:uppercase; color:#0A0A14; }
+.mark-mono-dark { filter: brightness(0); }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ══════════════════════════════════════════
+     PAGE HEADER
+══════════════════════════════════════════ -->
+<div class="page-header">
+  <p class="page-eyebrow">Assembl Design System — v3 Unified</p>
+  <h1 class="page-title">MĀRAMA BRAND SYSTEM</h1>
+  <p class="page-subtitle">Assembl × Te Kāhui Reo — Constellation · Whakapapa · Intelligence</p>
+  <div class="page-concept">
+    Both marks share the same <strong>three-point constellation structure</strong> —
+    three spheres of light connected in a triangle, mirroring the stars above Mauao.
+    Mārama: moon · clarity · to understand.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     01 — THE SHARED CONSTELLATION MARK
+══════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-line"><div class="bar"></div><span class="sec-num">01</span><span class="sec-title">The Shared Constellation Mark</span><div class="bar"></div></div>
+  <p class="sec-desc">One form, two identities — both marks emerge from the same triangular constellation of three glowing spheres.</p>
+</div>
+
+<div class="g3">
+
+  <!-- Assembl Nexus mark -->
+  <div class="card tall" id="c01a">
+    <canvas class="sf" id="s01a"></canvas>
+    <div class="orb" style="width:200px;height:200px;top:-10%;left:10%;background:radial-gradient(circle,rgba(212,168,67,.1),transparent);--d:12s;"></div>
+    <div class="ci col" style="gap:20px;">
+      <div class="orbit-wrap">
+        <div class="ring" style="width:88px;height:88px;border:1px solid rgba(212,168,67,.35);--spd:10s;"></div>
+        <div class="ring" style="width:74px;height:74px;border:1px solid rgba(58,125,110,.22);--spd:15s;--dir:reverse;"></div>
+        <svg class="mg-c" width="60" height="60" viewBox="0 0 36 36" fill="none">
+          <defs>
+            <radialGradient id="a01-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="50%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+            <radialGradient id="a01-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#7ACFC2"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+            <radialGradient id="a01-pl" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="50%" stop-color="#2E6B5E"/><stop offset="100%" stop-color="#153D35"/></radialGradient>
+            <radialGradient id="a01-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".6"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+            <linearGradient id="a01-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".6"/><stop offset="100%" stop-color="#3A7D6E" stop-opacity=".55"/></linearGradient>
+          </defs>
+          <line x1="18" y1="8" x2="8" y2="26" stroke="url(#a01-l)" stroke-width="1.2"/>
+          <line x1="18" y1="8" x2="28" y2="26" stroke="url(#a01-l)" stroke-width="1.2"/>
+          <line x1="8" y1="26" x2="28" y2="26" stroke="url(#a01-l)" stroke-width="1.2"/>
+          <circle cx="18" cy="8" r="4.5" fill="url(#a01-g)"/><circle cx="18" cy="8" r="4.5" fill="url(#a01-hi)"/>
+          <circle cx="8" cy="26" r="4.5" fill="url(#a01-p)"/><circle cx="8" cy="26" r="4.5" fill="url(#a01-hi)"/>
+          <circle cx="28" cy="26" r="4.5" fill="url(#a01-pl)"/><circle cx="28" cy="26" r="4.5" fill="url(#a01-hi)"/>
+        </svg>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:9px;letter-spacing:3px;color:rgba(212,168,67,.55);text-transform:uppercase;margin-bottom:4px;">Assembl Nexus</div>
+        <div style="font-size:10px;font-weight:300;color:rgba(255,255,255,.25);">Gold · Pounamu · Pounamu</div>
+      </div>
+    </div>
+    <div class="lbl">Assembl Mark</div>
+  </div>
+
+  <!-- THE CONNECTION (centre) -->
+  <div class="card tall" style="background:#060610;">
+    <div class="ci col" style="gap:16px;text-align:center;padding:32px;">
+      <!-- Constellation diagram -->
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+        <defs>
+          <radialGradient id="cd-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="60%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+          <radialGradient id="cd-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#7ACFC2"/><stop offset="60%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+          <radialGradient id="cd-pl" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="60%" stop-color="#2E6B5E"/><stop offset="100%" stop-color="#153D35"/></radialGradient>
+          <radialGradient id="cd-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".65"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+          <linearGradient id="cd-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".4"/><stop offset="100%" stop-color="#3A7D6E" stop-opacity=".4"/></linearGradient>
+        </defs>
+        <!-- Constellation lines -->
+        <line x1="60" y1="20" x2="28" y2="88" stroke="url(#cd-l)" stroke-width=".9"/>
+        <line x1="60" y1="20" x2="92" y2="88" stroke="url(#cd-l)" stroke-width=".9"/>
+        <line x1="28" y1="88" x2="92" y2="88" stroke="url(#cd-l)" stroke-width=".9"/>
+        <!-- Spheres -->
+        <circle cx="60" cy="20" r="7" fill="url(#cd-g)"/><circle cx="60" cy="20" r="7" fill="url(#cd-hi)"/>
+        <circle cx="28" cy="88" r="7" fill="url(#cd-p)"/><circle cx="28" cy="88" r="7" fill="url(#cd-hi)"/>
+        <circle cx="92" cy="88" r="7" fill="url(#cd-pl)"/><circle cx="92" cy="88" r="7" fill="url(#cd-hi)"/>
+        <!-- BG stars -->
+        <circle cx="20" cy="30" r="1" fill="white" opacity=".25"/>
+        <circle cx="100" cy="20" r="1.2" fill="white" opacity=".2"/>
+        <circle cx="10" cy="70" r="0.8" fill="white" opacity=".3"/>
+        <circle cx="110" cy="50" r="0.8" fill="white" opacity=".2"/>
+        <circle cx="55" cy="60" r="0.5" fill="white" opacity=".15"/>
+        <circle cx="80" cy="45" r="0.6" fill="white" opacity=".18"/>
+      </svg>
+      <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.2);">Shared Structure</div>
+      <div style="font-size:11px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.7;max-width:160px;">
+        Three points of light. One constellation. Two identities unified.
+      </div>
+      <div style="font-size:9px;letter-spacing:2px;color:rgba(212,168,67,.4);font-style:italic;">He whetū, he ara, he marama</div>
+    </div>
+  </div>
+
+  <!-- Te Kāhui Reo mark -->
+  <div class="card tall tkr-bg" id="c01b">
+    <canvas class="sf" id="s01b"></canvas>
+    <div class="orb" style="width:200px;height:200px;top:-10%;right:10%;background:radial-gradient(circle,rgba(212,168,67,.08),transparent);--d:14s;"></div>
+    <div class="ci col" style="gap:20px;">
+      <div class="orbit-wrap">
+        <div class="ring" style="width:88px;height:88px;border:1px solid rgba(212,168,67,.1);--spd:12s;"></div>
+        <svg class="mg-k" width="64" height="64" viewBox="0 0 400 400" fill="none">
+          <defs>
+            <radialGradient id="ks1" cx="40%" cy="35%" r="50%">
+              <stop offset="0%" stop-color="#F0D078"/><stop offset="40%" stop-color="#D4A843"/>
+              <stop offset="80%" stop-color="#9E7A2A"/><stop offset="100%" stop-color="#6B5118"/>
+            </radialGradient>
+            <radialGradient id="ks2" cx="40%" cy="35%" r="50%">
+              <stop offset="0%" stop-color="#5AADA0"/><stop offset="40%" stop-color="#3A7D6E"/>
+              <stop offset="80%" stop-color="#245C50"/><stop offset="100%" stop-color="#153D35"/>
+            </radialGradient>
+            <radialGradient id="ks3" cx="40%" cy="35%" r="50%">
+              <stop offset="0%" stop-color="#3A6A9C"/><stop offset="40%" stop-color="#1A3A5C"/>
+              <stop offset="80%" stop-color="#0F2440"/><stop offset="100%" stop-color="#081828"/>
+            </radialGradient>
+            <radialGradient id="khi" cx="35%" cy="30%" r="25%">
+              <stop offset="0%" stop-color="white" stop-opacity="0.7"/><stop offset="100%" stop-color="white" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="klg" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#D4A843" stop-opacity="0.5"/><stop offset="50%" stop-color="#3A7D6E" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#1A3A5C" stop-opacity="0.5"/>
+            </linearGradient>
+          </defs>
+          <line x1="200" y1="120" x2="130" y2="250" stroke="url(#klg)" stroke-width="3" opacity=".7"/>
+          <line x1="200" y1="120" x2="270" y2="250" stroke="url(#klg)" stroke-width="3" opacity=".7"/>
+          <line x1="130" y1="250" x2="270" y2="250" stroke="url(#klg)" stroke-width="3" opacity=".7"/>
+          <circle cx="200" cy="120" r="58" fill="url(#ks1)"/>
+          <circle cx="200" cy="120" r="58" fill="url(#khi)"/>
+          <circle cx="130" cy="250" r="58" fill="url(#ks2)"/>
+          <circle cx="130" cy="250" r="58" fill="url(#khi)"/>
+          <circle cx="270" cy="250" r="58" fill="url(#ks3)"/>
+          <circle cx="270" cy="250" r="58" fill="url(#khi)"/>
+        </svg>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:9px;letter-spacing:3px;color:rgba(212,168,67,.6);text-transform:uppercase;margin-bottom:4px;">Te Kāhui Reo</div>
+        <div style="font-size:10px;font-weight:300;color:rgba(255,255,255,.25);">Kōwhai · Pounamu · Tāngaroa</div>
+      </div>
+    </div>
+    <div class="lbl">Te Kāhui Reo Mark</div>
+  </div>
+
+</div>
+
+<!-- Mauao divider -->
+<div class="mauao-sep" style="margin:3px 0;">
+  <div class="pou-divider"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     02 — ASSEMBL PRIMARY LOCKUPS
+══════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-line"><div class="bar"></div><span class="sec-num">02</span><span class="sec-title">Assembl Primary Lockups</span><div class="bar"></div></div>
+  <p class="sec-desc">Signature white → Kōwhai Gold → Pounamu gradient wordmark across all primary lockups.</p>
+</div>
+
+<!-- Hero horizontal lockup -->
+<div class="g1" style="margin-bottom:3px;">
+  <div class="card hero" id="c02h">
+    <canvas class="sf" id="s02h"></canvas>
+    <div class="orb" style="width:500px;height:350px;top:0;left:-5%;background:radial-gradient(circle,rgba(212,168,67,.07),transparent);--d:16s;"></div>
+    <div class="orb" style="width:400px;height:300px;bottom:0;right:5%;background:radial-gradient(circle,rgba(58,125,110,.05),transparent);--d:20s;--del:-8s;"></div>
+    <!-- Assembl mountain — gold/pounamu two-tone, mirrors TKR Mauao -->
+    <svg style="position:absolute;bottom:0;left:0;width:100%;height:42%;z-index:3;pointer-events:none;" viewBox="0 0 1200 220" preserveAspectRatio="none" fill="none">
+      <defs>
+        <linearGradient id="a02-mf" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0D1015" stop-opacity="0.88"/>
+          <stop offset="100%" stop-color="#09090F" stop-opacity="1"/>
+        </linearGradient>
+        <linearGradient id="a02-rim" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#D4A843" stop-opacity="0"/>
+          <stop offset="30%" stop-color="#FFD860" stop-opacity="0.85"/>
+          <stop offset="50%" stop-color="#D4A843" stop-opacity="1"/>
+          <stop offset="70%" stop-color="#3A7D6E" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#3A7D6E" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="a02-glow">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <path d="M0,220 Q150,200 300,175 Q450,145 550,115 Q620,90 650,75 Q680,90 750,115 Q850,145 1000,175 Q1100,195 1200,210 L1200,220 Z" fill="url(#a02-mf)"/>
+      <!-- Wide soft glow above ridge -->
+      <path d="M0,220 Q150,200 300,175 Q450,145 550,115 Q620,90 650,75 Q680,90 750,115 Q850,145 1000,175 Q1100,195 1200,210" fill="none" stroke="url(#a02-rim)" stroke-width="28" opacity="0.25"/>
+      <!-- Mid glow -->
+      <path d="M0,220 Q150,200 300,175 Q450,145 550,115 Q620,90 650,75 Q680,90 750,115 Q850,145 1000,175 Q1100,195 1200,210" fill="none" stroke="url(#a02-rim)" stroke-width="10" opacity="0.55"/>
+      <!-- Sharp bright rim -->
+      <path d="M0,220 Q150,200 300,175 Q450,145 550,115 Q620,90 650,75 Q680,90 750,115 Q850,145 1000,175 Q1100,195 1200,210" fill="none" stroke="url(#a02-rim)" stroke-width="2.5" opacity="0.95"/>
+      <!-- Peak corona — brightest point at summit -->
+      <circle cx="650" cy="75" r="18" fill="#D4A843" opacity="0.18"/>
+      <circle cx="650" cy="75" r="8" fill="#FFD860" opacity="0.35"/>
+      <circle cx="650" cy="75" r="3" fill="white" opacity="0.5"/>
+      <!-- Tāniko border — gold/pounamu two-tone -->
+      <g opacity="0.22" fill="#D4A843">
+        <polygon points="80,210 88,198 96,210"/><polygon points="160,210 168,198 176,210"/>
+        <polygon points="240,210 248,198 256,210"/><polygon points="320,210 328,198 336,210"/>
+      </g>
+      <g opacity="0.18" fill="#3A7D6E">
+        <polygon points="500,212 508,200 516,212"/><polygon points="580,212 588,200 596,212"/>
+        <polygon points="660,212 668,200 676,212"/><polygon points="740,212 748,200 756,212"/>
+        <polygon points="840,212 848,200 856,212"/><polygon points="920,212 928,200 936,212"/>
+        <polygon points="1000,212 1008,200 1016,212"/><polygon points="1080,212 1088,200 1096,212"/>
+      </g>
+    </svg>
+    <div class="ci left" style="padding-left:72px;gap:22px;">
+      <div class="orbit-wrap">
+        <div class="ring" style="width:86px;height:86px;border:1px solid rgba(212,168,67,.38);--spd:10s;"></div>
+        <div class="ring" style="width:72px;height:72px;border:1px solid rgba(58,125,110,.22);--spd:15s;--dir:reverse;"></div>
+        <svg class="mg-c" width="58" height="58" viewBox="0 0 36 36" fill="none">
+          <defs>
+            <radialGradient id="a02h-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="50%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+            <radialGradient id="a02h-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#7ACFC2"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+            <radialGradient id="a02h-pl" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="50%" stop-color="#2E6B5E"/><stop offset="100%" stop-color="#153D35"/></radialGradient>
+            <radialGradient id="a02h-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".6"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+            <linearGradient id="a02h-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".6"/><stop offset="100%" stop-color="#3A7D6E" stop-opacity=".55"/></linearGradient>
+          </defs>
+          <line x1="18" y1="8" x2="8" y2="26" stroke="url(#a02h-l)" stroke-width="1.2"/>
+          <line x1="18" y1="8" x2="28" y2="26" stroke="url(#a02h-l)" stroke-width="1.2"/>
+          <line x1="8" y1="26" x2="28" y2="26" stroke="url(#a02h-l)" stroke-width="1.2"/>
+          <circle cx="18" cy="8" r="4.5" fill="url(#a02h-g)"/><circle cx="18" cy="8" r="4.5" fill="url(#a02h-hi)"/>
+          <circle cx="8" cy="26" r="4.5" fill="url(#a02h-p)"/><circle cx="8" cy="26" r="4.5" fill="url(#a02h-hi)"/>
+          <circle cx="28" cy="26" r="4.5" fill="url(#a02h-pl)"/><circle cx="28" cy="26" r="4.5" fill="url(#a02h-hi)"/>
+        </svg>
+      </div>
+      <div>
+        <div style="display:flex;align-items:baseline;gap:8px;">
+          <span class="wm wm-grad wm-xl">ASSEMBL</span>
+          <span class="tld" style="font-size:13px;padding-bottom:6px;">.co.nz</span>
+        </div>
+        <div class="tag-line" style="font-size:9px;margin-top:8px;">Business Intelligence · New Zealand</div>
+      </div>
+    </div>
+    <div class="lbl">Primary · Horizontal · Dark</div>
+    <div class="tag">Mārama Direction</div>
+  </div>
+</div>
+
+<!-- Horizontal variants -->
+<div class="g3" style="margin-bottom:3px;">
+
+  <!-- Standard horizontal -->
+  <div class="card" id="c02a">
+    <canvas class="sf" id="s02a"></canvas>
+    <div class="ci" style="gap:14px;">
+      <svg class="mg-c" width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <defs>
+          <radialGradient id="a02a-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="50%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+          <radialGradient id="a02a-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#7ACFC2"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+          <radialGradient id="a02a-pl" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="50%" stop-color="#2E6B5E"/><stop offset="100%" stop-color="#153D35"/></radialGradient>
+          <radialGradient id="a02a-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".6"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+          <linearGradient id="a02a-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".6"/><stop offset="100%" stop-color="#3A7D6E" stop-opacity=".55"/></linearGradient>
+        </defs>
+        <line x1="18" y1="8" x2="8" y2="26" stroke="url(#a02a-l)" stroke-width="1.2"/><line x1="18" y1="8" x2="28" y2="26" stroke="url(#a02a-l)" stroke-width="1.2"/><line x1="8" y1="26" x2="28" y2="26" stroke="url(#a02a-l)" stroke-width="1.2"/>
+        <circle cx="18" cy="8" r="4.5" fill="url(#a02a-g)"/><circle cx="18" cy="8" r="4.5" fill="url(#a02a-hi)"/>
+        <circle cx="8" cy="26" r="4.5" fill="url(#a02a-p)"/><circle cx="8" cy="26" r="4.5" fill="url(#a02a-hi)"/>
+        <circle cx="28" cy="26" r="4.5" fill="url(#a02a-pl)"/><circle cx="28" cy="26" r="4.5" fill="url(#a02a-hi)"/>
+      </svg>
+      <div style="display:flex;align-items:baseline;gap:5px;">
+        <span class="wm wm-grad wm-md">ASSEMBL</span>
+        <span class="tld" style="font-size:10px;">.co.nz</span>
+      </div>
+    </div>
+    <div class="lbl">Standard · Horizontal</div>
+  </div>
+
+  <!-- Vertical lockup -->
+  <div class="card" id="c02b">
+    <canvas class="sf" id="s02b"></canvas>
+    <div class="orb" style="width:160px;height:160px;top:0;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(212,168,67,.09),transparent);--d:11s;"></div>
+    <div class="ci col" style="gap:14px;">
+      <div class="orbit-wrap">
+        <div class="ring" style="width:68px;height:68px;border:1px solid rgba(212,168,67,.13);--spd:10s;"></div>
+        <svg class="mg-c" width="48" height="48" viewBox="0 0 36 36" fill="none">
+          <defs>
+            <radialGradient id="a02b-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="50%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+            <radialGradient id="a02b-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#7ACFC2"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+            <radialGradient id="a02b-pl" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="50%" stop-color="#2E6B5E"/><stop offset="100%" stop-color="#153D35"/></radialGradient>
+            <radialGradient id="a02b-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".6"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+            <linearGradient id="a02b-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".6"/><stop offset="100%" stop-color="#3A7D6E" stop-opacity=".55"/></linearGradient>
+          </defs>
+          <line x1="18" y1="8" x2="8" y2="26" stroke="url(#a02b-l)" stroke-width="1.2"/><line x1="18" y1="8" x2="28" y2="26" stroke="url(#a02b-l)" stroke-width="1.2"/><line x1="8" y1="26" x2="28" y2="26" stroke="url(#a02b-l)" stroke-width="1.2"/>
+          <circle cx="18" cy="8" r="4.5" fill="url(#a02b-g)"/><circle cx="18" cy="8" r="4.5" fill="url(#a02b-hi)"/>
+          <circle cx="8" cy="26" r="4.5" fill="url(#a02b-p)"/><circle cx="8" cy="26" r="4.5" fill="url(#a02b-hi)"/>
+          <circle cx="28" cy="26" r="4.5" fill="url(#a02b-pl)"/><circle cx="28" cy="26" r="4.5" fill="url(#a02b-hi)"/>
+        </svg>
+      </div>
+      <div style="text-align:center;">
+        <div class="wm wm-grad wm-md" style="font-size:15px;letter-spacing:7px;">ASSEMBL</div>
+        <div class="tag-line" style="font-size:8px;margin-top:5px;">Business Intelligence · NZ</div>
+      </div>
+    </div>
+    <div class="lbl">Vertical · With Tagline</div>
+  </div>
+
+  <!-- Shimmer variant -->
+  <div class="card" id="c02c">
+    <canvas class="sf" id="s02c"></canvas>
+    <div class="ci" style="gap:14px;">
+      <svg class="mg-c" width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <defs>
+          <radialGradient id="a02c-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="50%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+          <radialGradient id="a02c-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#7ACFC2"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+          <radialGradient id="a02c-pl" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="50%" stop-color="#2E6B5E"/><stop offset="100%" stop-color="#153D35"/></radialGradient>
+          <radialGradient id="a02c-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".6"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+          <linearGradient id="a02c-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".6"/><stop offset="100%" stop-color="#3A7D6E" stop-opacity=".55"/></linearGradient>
+        </defs>
+        <line x1="18" y1="8" x2="8" y2="26" stroke="url(#a02c-l)" stroke-width="1.2"/><line x1="18" y1="8" x2="28" y2="26" stroke="url(#a02c-l)" stroke-width="1.2"/><line x1="8" y1="26" x2="28" y2="26" stroke="url(#a02c-l)" stroke-width="1.2"/>
+        <circle cx="18" cy="8" r="4.5" fill="url(#a02c-g)"/><circle cx="18" cy="8" r="4.5" fill="url(#a02c-hi)"/>
+        <circle cx="8" cy="26" r="4.5" fill="url(#a02c-p)"/><circle cx="8" cy="26" r="4.5" fill="url(#a02c-hi)"/>
+        <circle cx="28" cy="26" r="4.5" fill="url(#a02c-pl)"/><circle cx="28" cy="26" r="4.5" fill="url(#a02c-hi)"/>
+      </svg>
+      <span class="wm-shimmer">ASSEMBL</span>
+    </div>
+    <div class="lbl">Shimmer Sweep</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     03 — TE KĀHUI REO LOCKUPS
+══════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-line"><div class="bar"></div><span class="sec-num">03</span><span class="sec-title">Te Kāhui Reo Lockups</span><div class="bar"></div></div>
+  <p class="sec-desc">Kōwhai gold → pounamu teal gradient wordmark. The three-sphere mark on the Mārama starfield.</p>
+</div>
+
+<!-- TKR Hero -->
+<div class="g1" style="margin-bottom:3px;">
+  <div class="card hero tkr-bg" id="c03h" style="min-height:400px;">
+    <canvas class="sf" id="s03h"></canvas>
+
+    <!-- Te marama — moon glow emanating from Te Pō (the dark) into Te Ao Mārama -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,67,.06) 0%,rgba(58,125,110,.04) 45%,transparent 70%);filter:blur(30px);z-index:2;animation:marama-pulse 8s ease-in-out infinite;pointer-events:none;"></div>
+
+    <!-- Mauao silhouette — rises from the bottom of every TKR composition -->
+    <svg style="position:absolute;bottom:0;left:0;width:100%;height:45%;z-index:3;pointer-events:none;" viewBox="0 0 1200 220" preserveAspectRatio="none" fill="none">
+      <defs>
+        <linearGradient id="mauao-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0D1520" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#080C10" stop-opacity="1"/>
+        </linearGradient>
+        <linearGradient id="mauao-rim" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#D4A843" stop-opacity="0"/>
+          <stop offset="30%" stop-color="#D4A843" stop-opacity="0.55"/>
+          <stop offset="60%" stop-color="#3A7D6E" stop-opacity="0.42"/>
+          <stop offset="100%" stop-color="#1A3A5C" stop-opacity="0"/>
+        </linearGradient>
+        <!-- Te Awanui harbour shimmer -->
+        <linearGradient id="harbour-shim" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#D4A843" stop-opacity="0"/>
+          <stop offset="50%" stop-color="#D4A843" stop-opacity="0.12"/>
+          <stop offset="100%" stop-color="#D4A843" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <!-- Mauao dome silhouette — the rounded volcanic peak -->
+      <path d="M0,220 Q150,200 300,175 Q450,145 550,115 Q620,90 650,75 Q680,90 750,115 Q850,145 1000,175 Q1100,195 1200,210 L1200,220 Z" fill="url(#mauao-fill)"/>
+      <!-- Rim light — te hinatore along the ridge (bright) -->
+      <path d="M0,220 Q150,200 300,175 Q450,145 550,115 Q620,90 650,75 Q680,90 750,115 Q850,145 1000,175 Q1100,195 1200,210" fill="none" stroke="url(#mauao-rim)" stroke-width="2.5"/>
+      <!-- Glow emanation above ridge -->
+      <path d="M0,220 Q150,200 300,175 Q450,145 550,115 Q620,90 650,75 Q680,90 750,115 Q850,145 1000,175 Q1100,195 1200,210" fill="none" stroke="url(#mauao-rim)" stroke-width="12" opacity="0.18" filter="blur(4px)"/>
+      <!-- Te Awanui harbour line -->
+      <line x1="0" y1="190" x2="1200" y2="190" stroke="url(#harbour-shim)" stroke-width="1"/>
+      <!-- Te hinatore — moonlight phosphorescence on the water -->
+      <circle cx="280" cy="193" r="2" fill="#D4A843" opacity="0.08"/>
+      <circle cx="520" cy="191" r="1.5" fill="#D4A843" opacity="0.06"/>
+      <circle cx="780" cy="193" r="2" fill="#3A7D6E" opacity="0.07"/>
+      <circle cx="950" cy="191" r="1.5" fill="#D4A843" opacity="0.05"/>
+      <!-- Tāniko pattern at base — Mauao border motif -->
+      <g opacity="0.18" fill="#D4A843">
+        <polygon points="80,210 88,198 96,210"/><polygon points="160,210 168,198 176,210"/><polygon points="240,210 248,198 256,210"/>
+        <polygon points="320,210 328,198 336,210"/><polygon points="400,210 408,198 416,210"/>
+      </g>
+      <g opacity="0.14" fill="#3A7D6E">
+        <polygon points="500,212 508,200 516,212"/><polygon points="580,212 588,200 596,212"/>
+        <polygon points="660,212 668,200 676,212"/><polygon points="740,212 748,200 756,212"/>
+      </g>
+      <g opacity="0.12" fill="#1A3A5C">
+        <polygon points="840,212 848,200 856,212"/><polygon points="920,212 928,200 936,212"/>
+        <polygon points="1000,212 1008,200 1016,212"/><polygon points="1080,212 1088,200 1096,212"/>
+      </g>
+    </svg>
+
+    <!-- Toroa — albatross soaring above, namesake of Toroa captain of Mātaatua -->
+    <svg style="position:absolute;top:18%;left:50%;transform:translateX(-50%);width:340px;z-index:4;pointer-events:none;opacity:0.18;animation:toroa-soar 12s ease-in-out infinite;" viewBox="0 0 240 40" fill="none">
+      <!-- Wingspan — cross-shaped silhouette, 3.7m spread -->
+      <path d="M30,20 C50,14 80,10 108,8 C116,7 120,7 120,7 C120,7 124,7 132,8 C160,10 190,14 210,20" fill="none" stroke="#D4A843" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Body -->
+      <ellipse cx="120" cy="10" rx="6" ry="3" fill="#D4A843" opacity="0.6"/>
+      <!-- Roimata Toroa — wing-tip tears -->
+      <line x1="30" y1="20" x2="28" y2="28" stroke="#D4A843" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+      <line x1="210" y1="20" x2="212" y2="28" stroke="#D4A843" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+    </svg>
+
+    <div class="orb" style="width:450px;height:320px;top:0;left:0;background:radial-gradient(circle,rgba(212,168,67,.07),transparent);--d:15s;z-index:2;"></div>
+    <div class="orb" style="width:350px;height:250px;bottom:0;right:0;background:radial-gradient(circle,rgba(58,125,110,.06),transparent);--d:19s;--del:-7s;z-index:2;"></div>
+    <div class="ci left" style="padding-left:72px;gap:24px;">
+      <div class="orbit-wrap">
+        <div class="ring" style="width:84px;height:84px;border:1px solid rgba(212,168,67,.12);--spd:12s;"></div>
+        <div class="ring" style="width:70px;height:70px;border:1px solid rgba(58,125,110,.09);--spd:18s;--dir:reverse;"></div>
+        <svg class="mg-k" width="58" height="58" viewBox="0 0 400 400" fill="none">
+          <defs>
+            <radialGradient id="tkh-s1" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="40%" stop-color="#D4A843"/><stop offset="80%" stop-color="#9E7A2A"/><stop offset="100%" stop-color="#6B5118"/></radialGradient>
+            <radialGradient id="tkh-s2" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="40%" stop-color="#3A7D6E"/><stop offset="80%" stop-color="#245C50"/><stop offset="100%" stop-color="#153D35"/></radialGradient>
+            <radialGradient id="tkh-s3" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#3A6A9C"/><stop offset="40%" stop-color="#1A3A5C"/><stop offset="80%" stop-color="#0F2440"/><stop offset="100%" stop-color="#081828"/></radialGradient>
+            <radialGradient id="tkh-hi" cx="35%" cy="30%" r="25%"><stop offset="0%" stop-color="white" stop-opacity="0.7"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+            <linearGradient id="tkh-lg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity="0.5"/><stop offset="50%" stop-color="#3A7D6E" stop-opacity="0.5"/><stop offset="100%" stop-color="#1A3A5C" stop-opacity="0.5"/></linearGradient>
+          </defs>
+          <line x1="200" y1="120" x2="130" y2="250" stroke="url(#tkh-lg)" stroke-width="3" opacity=".7"/>
+          <line x1="200" y1="120" x2="270" y2="250" stroke="url(#tkh-lg)" stroke-width="3" opacity=".7"/>
+          <line x1="130" y1="250" x2="270" y2="250" stroke="url(#tkh-lg)" stroke-width="3" opacity=".7"/>
+          <circle cx="200" cy="120" r="58" fill="url(#tkh-s1)"/><circle cx="200" cy="120" r="58" fill="url(#tkh-hi)"/>
+          <circle cx="130" cy="250" r="58" fill="url(#tkh-s2)"/><circle cx="130" cy="250" r="58" fill="url(#tkh-hi)"/>
+          <circle cx="270" cy="250" r="58" fill="url(#tkh-s3)"/><circle cx="270" cy="250" r="58" fill="url(#tkh-hi)"/>
+        </svg>
+      </div>
+      <div>
+        <div class="wm-tkr-xl" style="margin-bottom:6px;">TE KĀHUI REO</div>
+        <div style="font-family:'Lato',sans-serif;font-weight:300;font-size:10px;letter-spacing:4px;color:rgba(212,168,67,.4);text-transform:uppercase;">Ngā Pou o Mauao</div>
+      </div>
+    </div>
+    <div class="lbl" style="color:rgba(212,168,67,.3);">Primary · Horizontal · Dark</div>
+    <div class="tag" style="color:rgba(212,168,67,.3);">Te Kāhui Reo</div>
+  </div>
+</div>
+
+<!-- TKR variants -->
+<div class="g3" style="margin-bottom:3px;">
+
+  <!-- Standard horizontal -->
+  <div class="card tkr-bg" id="c03a">
+    <canvas class="sf" id="s03a"></canvas>
+    <div class="ci" style="gap:14px;">
+      <svg class="mg-k" width="36" height="36" viewBox="0 0 400 400" fill="none">
+        <defs>
+          <radialGradient id="tka-s1" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="100%" stop-color="#9E7A2A"/></radialGradient>
+          <radialGradient id="tka-s2" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="100%" stop-color="#245C50"/></radialGradient>
+          <radialGradient id="tka-s3" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#3A6A9C"/><stop offset="100%" stop-color="#0F2440"/></radialGradient>
+          <radialGradient id="tka-hi" cx="35%" cy="30%" r="25%"><stop offset="0%" stop-color="white" stop-opacity=".7"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+          <linearGradient id="tka-lg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".5"/><stop offset="50%" stop-color="#3A7D6E" stop-opacity=".5"/><stop offset="100%" stop-color="#1A3A5C" stop-opacity=".5"/></linearGradient>
+        </defs>
+        <line x1="200" y1="120" x2="130" y2="250" stroke="url(#tka-lg)" stroke-width="3" opacity=".7"/>
+        <line x1="200" y1="120" x2="270" y2="250" stroke="url(#tka-lg)" stroke-width="3" opacity=".7"/>
+        <line x1="130" y1="250" x2="270" y2="250" stroke="url(#tka-lg)" stroke-width="3" opacity=".7"/>
+        <circle cx="200" cy="120" r="58" fill="url(#tka-s1)"/><circle cx="200" cy="120" r="58" fill="url(#tka-hi)"/>
+        <circle cx="130" cy="250" r="58" fill="url(#tka-s2)"/><circle cx="130" cy="250" r="58" fill="url(#tka-hi)"/>
+        <circle cx="270" cy="250" r="58" fill="url(#tka-s3)"/><circle cx="270" cy="250" r="58" fill="url(#tka-hi)"/>
+      </svg>
+      <span class="wm-tkr">TE KĀHUI REO</span>
+    </div>
+    <div class="lbl" style="color:rgba(212,168,67,.25);">Standard · Horizontal</div>
+  </div>
+
+  <!-- TKR Vertical -->
+  <div class="card tkr-bg" id="c03b">
+    <canvas class="sf" id="s03b"></canvas>
+    <div class="orb" style="width:150px;height:150px;top:0;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(212,168,67,.08),transparent);--d:11s;"></div>
+    <div class="ci col" style="gap:14px;">
+      <svg class="mg-k" width="52" height="52" viewBox="0 0 400 400" fill="none">
+        <defs>
+          <radialGradient id="tkv-s1" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="100%" stop-color="#9E7A2A"/></radialGradient>
+          <radialGradient id="tkv-s2" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="100%" stop-color="#245C50"/></radialGradient>
+          <radialGradient id="tkv-s3" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#3A6A9C"/><stop offset="100%" stop-color="#0F2440"/></radialGradient>
+          <radialGradient id="tkv-hi" cx="35%" cy="30%" r="25%"><stop offset="0%" stop-color="white" stop-opacity=".7"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+          <linearGradient id="tkv-lg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".5"/><stop offset="50%" stop-color="#3A7D6E" stop-opacity=".5"/><stop offset="100%" stop-color="#1A3A5C" stop-opacity=".5"/></linearGradient>
+        </defs>
+        <line x1="200" y1="120" x2="130" y2="250" stroke="url(#tkv-lg)" stroke-width="3" opacity=".7"/>
+        <line x1="200" y1="120" x2="270" y2="250" stroke="url(#tkv-lg)" stroke-width="3" opacity=".7"/>
+        <line x1="130" y1="250" x2="270" y2="250" stroke="url(#tkv-lg)" stroke-width="3" opacity=".7"/>
+        <circle cx="200" cy="120" r="58" fill="url(#tkv-s1)"/><circle cx="200" cy="120" r="58" fill="url(#tkv-hi)"/>
+        <circle cx="130" cy="250" r="58" fill="url(#tkv-s2)"/><circle cx="130" cy="250" r="58" fill="url(#tkv-hi)"/>
+        <circle cx="270" cy="250" r="58" fill="url(#tkv-s3)"/><circle cx="270" cy="250" r="58" fill="url(#tkv-hi)"/>
+      </svg>
+      <div style="text-align:center;">
+        <div class="wm-tkr" style="font-size:12px;letter-spacing:3px;">TE KĀHUI REO</div>
+        <div style="font-family:'Lato',sans-serif;font-size:8px;font-weight:300;letter-spacing:3px;color:rgba(212,168,67,.35);margin-top:4px;text-transform:uppercase;">Ngā Pou o Mauao</div>
+      </div>
+    </div>
+    <div class="lbl" style="color:rgba(212,168,67,.25);">Vertical · With Tagline</div>
+  </div>
+
+  <!-- TKR Mono white -->
+  <div class="card tkr-bg" id="c03c">
+    <canvas class="sf" id="s03c"></canvas>
+    <div class="ci" style="gap:14px;">
+      <svg class="mg-w" width="36" height="36" viewBox="0 0 400 400" fill="none">
+        <line x1="200" y1="120" x2="130" y2="250" stroke="rgba(255,255,255,.4)" stroke-width="3" opacity=".6"/>
+        <line x1="200" y1="120" x2="270" y2="250" stroke="rgba(255,255,255,.4)" stroke-width="3" opacity=".6"/>
+        <line x1="130" y1="250" x2="270" y2="250" stroke="rgba(255,255,255,.35)" stroke-width="3" opacity=".6"/>
+        <circle cx="200" cy="120" r="58" fill="rgba(255,255,255,.9)"/>
+        <circle cx="130" cy="250" r="58" fill="rgba(255,255,255,.75)"/>
+        <circle cx="270" cy="250" r="58" fill="rgba(255,255,255,.6)"/>
+      </svg>
+      <span class="wm md" style="font-family:'Lato',sans-serif;font-weight:300;font-size:14px;letter-spacing:5px;text-transform:uppercase;filter:drop-shadow(0 0 6px rgba(255,255,255,.5)) drop-shadow(0 0 18px rgba(255,255,255,.2));animation:mg-wa 5s ease-in-out infinite;">TE KĀHUI REO</span>
+    </div>
+    <div class="lbl" style="color:rgba(255,255,255,.18);">Mono White</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     04 — THE FOUR POU — GOVERNANCE PILLARS
+══════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-line"><div class="bar"></div><span class="sec-num">04</span><span class="sec-title">Ngā Pou Whā — The Four Pillars</span><div class="bar"></div></div>
+  <p class="sec-desc">Rangatiratanga · Kaitiakitanga · Manaakitanga · Whanaungatanga — the governance framework behind every Assembl output.</p>
+</div>
+
+<div class="g4" style="margin-bottom:3px;">
+
+  <!-- Rangatiratanga -->
+  <div class="card tall" id="c04a">
+    <canvas class="sf" id="s04a"></canvas>
+    <!-- Te marama glow -->
+    <div style="position:absolute;top:35%;left:50%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,67,.12),transparent);filter:blur(28px);z-index:2;animation:pou-marama 7s ease-in-out infinite;pointer-events:none;transform:translate(-50%,-60%);"></div>
+    <!-- Toroa -->
+    <svg style="position:absolute;top:12%;left:50%;transform:translateX(-50%);width:110px;z-index:4;pointer-events:none;animation:pou-toroa 10s ease-in-out infinite;" viewBox="0 0 240 40" fill="none">
+      <path d="M30,20 C60,12 95,8 115,7 C120,6.5 125,7 145,8 C175,10 205,14 210,20" fill="none" stroke="#D4A843" stroke-width="2" stroke-linecap="round"/>
+      <ellipse cx="120" cy="9" rx="5" ry="2.5" fill="#D4A843" opacity="0.5"/>
+    </svg>
+    <!-- Mauao silhouette -->
+    <svg style="position:absolute;bottom:0;left:0;width:100%;z-index:3;pointer-events:none;" viewBox="0 0 300 70" preserveAspectRatio="none" fill="none">
+      <path d="M0,70 Q75,55 120,38 Q150,26 150,20 Q150,26 180,38 Q225,55 300,70 Z" fill="#0A0C12" opacity="0.85"/>
+      <path d="M0,70 Q75,55 120,38 Q150,26 150,20 Q150,26 180,38 Q225,55 300,70" fill="none" stroke="#D4A843" stroke-width="2" opacity="0.5"/>
+      <line x1="0" y1="58" x2="300" y2="58" stroke="#D4A843" stroke-width="0.8" opacity="0.18"/>
+    </svg>
+    <div class="pou-card-inner" style="z-index:10;position:relative;">
+      <svg class="mg-k" width="64" height="64" viewBox="0 0 80 80" fill="none">
+        <defs><linearGradient id="rg1" x1="0%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stop-color="#9E7A2A"/><stop offset="100%" stop-color="#D4A843"/></linearGradient></defs>
+        <polygon points="40,12 8,62 72,62" fill="url(#rg1)"/>
+        <line x1="40" y1="8" x2="40" y2="2" stroke="#D4A843" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+        <line x1="28" y1="12" x2="22" y2="6" stroke="#D4A843" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+        <line x1="52" y1="12" x2="58" y2="6" stroke="#D4A843" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+        <line x1="4" y1="62" x2="76" y2="62" stroke="#D4A843" stroke-width="2" opacity=".4"/>
+        <path d="M40,38 C40,32 46,30 46,36 C46,40 42,42 40,38" fill="none" stroke="#F5F0E8" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <div class="pou-te-reo" style="color:var(--kowhai);">RANGATIRATANGA</div>
+      <div class="pou-meaning">Leadership · Sovereignty<br/>Standing tall like Mauao</div>
+    </div>
+    <div class="lbl" style="color:rgba(212,168,67,.25);">Pou 1</div>
+  </div>
+
+  <!-- Kaitiakitanga -->
+  <div class="card tall" id="c04b">
+    <canvas class="sf" id="s04b"></canvas>
+    <div style="position:absolute;top:35%;left:50%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(58,125,110,.13),transparent);filter:blur(28px);z-index:2;animation:pou-marama 9s ease-in-out infinite;pointer-events:none;transform:translate(-50%,-60%);"></div>
+    <svg style="position:absolute;top:12%;left:50%;transform:translateX(-50%);width:110px;z-index:4;pointer-events:none;animation:pou-toroa 13s ease-in-out infinite;" viewBox="0 0 240 40" fill="none">
+      <path d="M30,20 C60,12 95,8 115,7 C120,6.5 125,7 145,8 C175,10 205,14 210,20" fill="none" stroke="#3A7D6E" stroke-width="2" stroke-linecap="round"/>
+      <ellipse cx="120" cy="9" rx="5" ry="2.5" fill="#5AADA0" opacity="0.5"/>
+    </svg>
+    <svg style="position:absolute;bottom:0;left:0;width:100%;z-index:3;pointer-events:none;" viewBox="0 0 300 70" preserveAspectRatio="none" fill="none">
+      <path d="M0,70 Q75,55 120,38 Q150,26 150,20 Q150,26 180,38 Q225,55 300,70 Z" fill="#080E0C" opacity="0.85"/>
+      <path d="M0,70 Q75,55 120,38 Q150,26 150,20 Q150,26 180,38 Q225,55 300,70" fill="none" stroke="#3A7D6E" stroke-width="2" opacity="0.52"/>
+      <line x1="0" y1="58" x2="300" y2="58" stroke="#3A7D6E" stroke-width="0.8" opacity="0.18"/>
+    </svg>
+    <div class="pou-card-inner" style="z-index:10;position:relative;">
+      <svg class="mg-pou" width="64" height="64" viewBox="0 0 80 80" fill="none">
+        <defs><linearGradient id="kg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="100%" stop-color="#3A7D6E"/></linearGradient></defs>
+        <path d="M40,68 C40,68 40,50 40,42 C40,30 32,22 24,22 C16,22 12,30 12,38 C12,48 20,54 28,54 C34,54 38,50 38,44 C38,40 36,37 32,37 C29,37 27,39 27,42" fill="none" stroke="url(#kg1)" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M44,68 C44,68 44,54 48,48 C52,42 58,40 62,44 C66,48 64,54 58,56 C54,57 52,55 52,52" fill="none" stroke="url(#kg1)" stroke-width="2.5" stroke-linecap="round" opacity=".6"/>
+        <circle cx="40" cy="72" r="2.5" fill="#3A7D6E" opacity=".5"/>
+      </svg>
+      <div class="pou-te-reo" style="color:var(--pounamu-l);">KAITIAKITANGA</div>
+      <div class="pou-meaning">Guardianship · Growth<br/>The unfurling koru</div>
+    </div>
+    <div class="lbl" style="color:rgba(58,125,110,.25);">Pou 2</div>
+  </div>
+
+  <!-- Manaakitanga -->
+  <div class="card tall" id="c04c">
+    <canvas class="sf" id="s04c"></canvas>
+    <div style="position:absolute;top:35%;left:50%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,67,.11),transparent);filter:blur(28px);z-index:2;animation:pou-marama 11s ease-in-out infinite;pointer-events:none;transform:translate(-50%,-60%);"></div>
+    <svg style="position:absolute;top:12%;left:50%;transform:translateX(-50%);width:110px;z-index:4;pointer-events:none;animation:pou-toroa 11s ease-in-out infinite 2s;" viewBox="0 0 240 40" fill="none">
+      <path d="M30,20 C60,12 95,8 115,7 C120,6.5 125,7 145,8 C175,10 205,14 210,20" fill="none" stroke="#D4A843" stroke-width="2" stroke-linecap="round"/>
+      <ellipse cx="120" cy="9" rx="5" ry="2.5" fill="#D4A843" opacity="0.5"/>
+    </svg>
+    <svg style="position:absolute;bottom:0;left:0;width:100%;z-index:3;pointer-events:none;" viewBox="0 0 300 70" preserveAspectRatio="none" fill="none">
+      <path d="M0,70 Q75,55 120,38 Q150,26 150,20 Q150,26 180,38 Q225,55 300,70 Z" fill="#0C0D0A" opacity="0.85"/>
+      <path d="M0,70 Q75,55 120,38 Q150,26 150,20 Q150,26 180,38 Q225,55 300,70" fill="none" stroke="#D4A843" stroke-width="0.8" opacity="0.18"/>
+      <line x1="0" y1="58" x2="300" y2="58" stroke="#D4A843" stroke-width="0.6" opacity="0.08"/>
+    </svg>
+    <div class="pou-card-inner" style="z-index:10;position:relative;">
+      <svg class="mg-k" width="64" height="64" viewBox="0 0 80 80" fill="none">
+        <defs><linearGradient id="mn1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#D4A843"/><stop offset="100%" stop-color="#3A7D6E"/></linearGradient></defs>
+        <path d="M12,50 C12,50 16,40 22,36 C28,32 32,34 34,38 C36,42 36,48 36,48" fill="none" stroke="url(#mn1)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M68,50 C68,50 64,40 58,36 C52,32 48,34 46,38 C44,42 44,48 44,48" fill="none" stroke="url(#mn1)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M12,50 C12,60 28,68 40,68 C52,68 68,60 68,50" fill="none" stroke="url(#mn1)" stroke-width="2" stroke-linecap="round" opacity=".4"/>
+        <circle cx="40" cy="24" r="6" fill="none" stroke="#D4A843" stroke-width="2.5"/>
+        <line x1="40" y1="30" x2="40" y2="42" stroke="#D4A843" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+        <circle cx="32" cy="18" r="1.5" fill="#D4A843" opacity=".4"/>
+        <circle cx="48" cy="18" r="1.5" fill="#3A7D6E" opacity=".4"/>
+        <circle cx="40" cy="14" r="1.5" fill="#D4A843" opacity=".3"/>
+      </svg>
+      <div class="pou-te-reo" style="color:var(--kowhai);">MANAAKITANGA</div>
+      <div class="pou-meaning">Hospitality · Care<br/>Uplifting others</div>
+    </div>
+    <div class="lbl" style="color:rgba(212,168,67,.25);">Pou 3</div>
+  </div>
+
+  <!-- Whanaungatanga -->
+  <div class="card tall" id="c04d">
+    <canvas class="sf" id="s04d"></canvas>
+    <div style="position:absolute;top:35%;left:50%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(58,106,156,.13),transparent);filter:blur(28px);z-index:2;animation:pou-marama 13s ease-in-out infinite;pointer-events:none;transform:translate(-50%,-60%);"></div>
+    <svg style="position:absolute;top:12%;left:50%;transform:translateX(-50%);width:110px;z-index:4;pointer-events:none;animation:pou-toroa 15s ease-in-out infinite 1s;" viewBox="0 0 240 40" fill="none">
+      <path d="M30,20 C60,12 95,8 115,7 C120,6.5 125,7 145,8 C175,10 205,14 210,20" fill="none" stroke="#3A6A9C" stroke-width="2" stroke-linecap="round"/>
+      <ellipse cx="120" cy="9" rx="5" ry="2.5" fill="#3A6A9C" opacity="0.5"/>
+    </svg>
+    <svg style="position:absolute;bottom:0;left:0;width:100%;z-index:3;pointer-events:none;" viewBox="0 0 300 70" preserveAspectRatio="none" fill="none">
+      <path d="M0,70 Q75,55 120,38 Q150,26 150,20 Q150,26 180,38 Q225,55 300,70 Z" fill="#080C14" opacity="0.85"/>
+      <path d="M0,70 Q75,55 120,38 Q150,26 150,20 Q150,26 180,38 Q225,55 300,70" fill="none" stroke="#3A6A9C" stroke-width="2" opacity="0.48"/>
+      <line x1="0" y1="58" x2="300" y2="58" stroke="#3A6A9C" stroke-width="0.8" opacity="0.18"/>
+    </svg>
+    <div class="pou-card-inner" style="z-index:10;position:relative;">
+      <svg class="mg-tan" width="64" height="64" viewBox="0 0 80 80" fill="none">
+        <defs>
+          <linearGradient id="wn1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843"/><stop offset="100%" stop-color="#3A7D6E"/></linearGradient>
+          <linearGradient id="wn2" x1="100%" y1="0%" x2="0%" y2="0%"><stop offset="0%" stop-color="#1A3A5C"/><stop offset="100%" stop-color="#3A7D6E"/></linearGradient>
+        </defs>
+        <path d="M20,56 C20,56 20,40 20,34 C20,24 26,18 34,18 C40,18 42,22 42,28 C42,32 40,34 36,34 C33,34 32,32 32,30" fill="none" stroke="url(#wn1)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M60,56 C60,56 60,40 60,34 C60,24 54,18 46,18 C40,18 38,22 38,28 C38,32 40,34 44,34 C47,34 48,32 48,30" fill="none" stroke="url(#wn2)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M20,56 C20,64 30,70 40,70 C50,70 60,64 60,56" fill="none" stroke="#3A7D6E" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+        <circle cx="40" cy="28" r="3" fill="#3A7D6E" opacity=".6"/>
+        <circle cx="20" cy="56" r="2.5" fill="#D4A843" opacity=".5"/>
+        <circle cx="60" cy="56" r="2.5" fill="#1A3A5C" opacity=".5"/>
+        <circle cx="40" cy="70" r="2.5" fill="#3A7D6E" opacity=".5"/>
+      </svg>
+      <div class="pou-te-reo" style="color:var(--tangaroa-l);">WHANAUNGATANGA</div>
+      <div class="pou-meaning">Relationships · Connection<br/>The bonds of whakapapa</div>
+    </div>
+    <div class="lbl" style="color:rgba(58,106,156,.25);">Pou 4</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     05 — MAUAO BORDER TREATMENTS
+══════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-line"><div class="bar"></div><span class="sec-num">05</span><span class="sec-title">Mauao Border — Section Divider</span><div class="bar"></div></div>
+  <p class="sec-desc">The Mauao tāniko border as a structural brand element — page headers, section breaks, document footers.</p>
+</div>
+
+<!-- Full width border on dark -->
+<div class="card" style="min-height:100px;" id="c05a">
+  <canvas class="sf" id="s05a"></canvas>
+  <div class="ci col" style="gap:0;padding:20px 0;z-index:10;">
+    <svg viewBox="0 0 800 60" width="100%" style="opacity:.65;" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="mb-g1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1A3A5C"/></linearGradient></defs>
+      <line x1="0" y1="35" x2="800" y2="35" stroke="url(#mb-g1)" stroke-width="1.5" opacity=".6"/>
+      <polygon points="60,35 72,12 84,35" fill="#D4A843"/><polygon points="84,35 96,12 108,35" fill="#D4A843"/><polygon points="52,35 60,18 68,35" fill="none" stroke="#D4A843" stroke-width="1.5"/>
+      <polyline points="108,35 120,45 132,35" fill="none" stroke="url(#mb-g1)" stroke-width="1.5"/>
+      <polygon points="160,35 172,12 184,35" fill="none" stroke="#3A7D6E" stroke-width="1.5"/><polygon points="184,35 196,12 208,35" fill="#3A7D6E"/><polygon points="208,35 220,18 232,35" fill="none" stroke="#3A7D6E" stroke-width="1.5"/>
+      <polyline points="232,35 244,45 256,35" fill="none" stroke="url(#mb-g1)" stroke-width="1.5"/>
+      <polygon points="280,35 292,12 304,35" fill="#1A3A5C"/><polygon points="304,35 316,12 328,35" fill="none" stroke="#1A3A5C" stroke-width="1.5"/><polygon points="328,35 340,18 352,35" fill="#1A3A5C"/>
+      <polyline points="352,35 364,45 376,35" fill="none" stroke="url(#mb-g1)" stroke-width="1.5"/>
+      <polygon points="400,35 412,12 424,35" fill="none" stroke="#D4A843" stroke-width="1.5"/><polygon points="424,35 436,12 448,35" fill="#D4A843"/>
+      <polyline points="448,35 460,45 472,35" fill="none" stroke="url(#mb-g1)" stroke-width="1.5"/>
+      <polygon points="496,35 508,12 520,35" fill="#3A7D6E"/><polygon points="520,35 532,12 544,35" fill="#3A7D6E"/><polygon points="544,35 556,18 568,35" fill="none" stroke="#3A7D6E" stroke-width="1.5"/>
+      <polyline points="568,35 580,45 592,35" fill="none" stroke="url(#mb-g1)" stroke-width="1.5"/>
+      <polygon points="616,35 628,12 640,35" fill="none" stroke="#1A3A5C" stroke-width="1.5"/><polygon points="640,35 652,12 664,35" fill="#1A3A5C"/><polygon points="664,35 676,18 688,35" fill="none" stroke="#1A3A5C" stroke-width="1.5"/>
+      <polygon points="720,35 732,12 744,35" fill="#D4A843"/><polygon points="744,35 756,12 768,35" fill="none" stroke="#D4A843" stroke-width="1.5"/>
+    </svg>
+  </div>
+  <div class="lbl">Mauao Border · Dark</div>
+</div>
+
+<div style="height:3px;"></div>
+
+<!-- Border with assembl wordmark -->
+<div class="card tall" id="c05b">
+  <canvas class="sf" id="s05b"></canvas>
+  <div class="orb" style="width:300px;height:200px;top:20%;left:20%;background:radial-gradient(circle,rgba(212,168,67,.06),transparent);--d:14s;"></div>
+  <div class="ci col" style="gap:28px;z-index:10;">
+    <!-- Header content -->
+    <div style="display:flex;align-items:center;gap:16px;">
+      <svg class="mg-c" width="32" height="32" viewBox="0 0 36 36" fill="none">
+        <defs>
+          <radialGradient id="a05b-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="50%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+          <radialGradient id="a05b-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#7ACFC2"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+          <radialGradient id="a05b-pl" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="50%" stop-color="#2E6B5E"/><stop offset="100%" stop-color="#153D35"/></radialGradient>
+          <radialGradient id="a05b-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".6"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+          <linearGradient id="a05b-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".6"/><stop offset="100%" stop-color="#3A7D6E" stop-opacity=".55"/></linearGradient>
+        </defs>
+        <line x1="18" y1="8" x2="8" y2="26" stroke="url(#a05b-l)" stroke-width="1.2"/><line x1="18" y1="8" x2="28" y2="26" stroke="url(#a05b-l)" stroke-width="1.2"/><line x1="8" y1="26" x2="28" y2="26" stroke="url(#a05b-l)" stroke-width="1.2"/>
+        <circle cx="18" cy="8" r="4.5" fill="url(#a05b-g)"/><circle cx="18" cy="8" r="4.5" fill="url(#a05b-hi)"/>
+        <circle cx="8" cy="26" r="4.5" fill="url(#a05b-p)"/><circle cx="8" cy="26" r="4.5" fill="url(#a05b-hi)"/>
+        <circle cx="28" cy="26" r="4.5" fill="url(#a05b-pl)"/><circle cx="28" cy="26" r="4.5" fill="url(#a05b-hi)"/>
+      </svg>
+      <span class="wm wm-grad wm-md">ASSEMBL</span>
+      <span style="flex:1;"></span>
+      <svg class="mg-k" width="28" height="28" viewBox="0 0 400 400" fill="none" style="opacity:.7;">
+        <defs>
+          <radialGradient id="mb-s1" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="100%" stop-color="#9E7A2A"/></radialGradient>
+          <radialGradient id="mb-s2" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="100%" stop-color="#245C50"/></radialGradient>
+          <radialGradient id="mb-s3" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#3A6A9C"/><stop offset="100%" stop-color="#0F2440"/></radialGradient>
+          <radialGradient id="mb-hi" cx="35%" cy="30%" r="25%"><stop offset="0%" stop-color="white" stop-opacity=".7"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+          <linearGradient id="mb-lg2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".5"/><stop offset="50%" stop-color="#3A7D6E" stop-opacity=".5"/><stop offset="100%" stop-color="#1A3A5C" stop-opacity=".5"/></linearGradient>
+        </defs>
+        <line x1="200" y1="120" x2="130" y2="250" stroke="url(#mb-lg2)" stroke-width="3" opacity=".7"/>
+        <line x1="200" y1="120" x2="270" y2="250" stroke="url(#mb-lg2)" stroke-width="3" opacity=".7"/>
+        <line x1="130" y1="250" x2="270" y2="250" stroke="url(#mb-lg2)" stroke-width="3" opacity=".7"/>
+        <circle cx="200" cy="120" r="58" fill="url(#mb-s1)"/><circle cx="200" cy="120" r="58" fill="url(#mb-hi)"/>
+        <circle cx="130" cy="250" r="58" fill="url(#mb-s2)"/><circle cx="130" cy="250" r="58" fill="url(#mb-hi)"/>
+        <circle cx="270" cy="250" r="58" fill="url(#mb-s3)"/><circle cx="270" cy="250" r="58" fill="url(#mb-hi)"/>
+      </svg>
+      <span class="wm-tkr" style="font-size:11px;letter-spacing:3px;">TE KĀHUI REO</span>
+    </div>
+    <!-- Mauao border -->
+    <svg viewBox="0 0 800 60" width="100%" style="opacity:.45;" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="mb-g2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1A3A5C"/></linearGradient></defs>
+      <line x1="0" y1="35" x2="800" y2="35" stroke="url(#mb-g2)" stroke-width="1.5" opacity=".6"/>
+      <polygon points="60,35 72,12 84,35" fill="#D4A843"/><polygon points="84,35 96,12 108,35" fill="#D4A843"/>
+      <polyline points="108,35 120,45 132,35" fill="none" stroke="url(#mb-g2)" stroke-width="1.5"/>
+      <polygon points="184,35 196,12 208,35" fill="#3A7D6E"/><polygon points="208,35 220,18 232,35" fill="none" stroke="#3A7D6E" stroke-width="1.5"/>
+      <polyline points="232,35 244,45 256,35" fill="none" stroke="url(#mb-g2)" stroke-width="1.5"/>
+      <polygon points="280,35 292,12 304,35" fill="#1A3A5C"/><polygon points="328,35 340,18 352,35" fill="#1A3A5C"/>
+      <polyline points="352,35 364,45 376,35" fill="none" stroke="url(#mb-g2)" stroke-width="1.5"/>
+      <polygon points="424,35 436,12 448,35" fill="#D4A843"/>
+      <polyline points="448,35 460,45 472,35" fill="none" stroke="url(#mb-g2)" stroke-width="1.5"/>
+      <polygon points="496,35 508,12 520,35" fill="#3A7D6E"/><polygon points="520,35 532,12 544,35" fill="#3A7D6E"/>
+      <polyline points="568,35 580,45 592,35" fill="none" stroke="url(#mb-g2)" stroke-width="1.5"/>
+      <polygon points="640,35 652,12 664,35" fill="#1A3A5C"/>
+      <polygon points="720,35 732,12 744,35" fill="#D4A843"/>
+    </svg>
+  </div>
+  <div class="lbl">Co-Brand Header With Border</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     06 — CO-BRANDED LOCKUP
+══════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-line"><div class="bar"></div><span class="sec-num">06</span><span class="sec-title">Co-Branded Lockup</span><div class="bar"></div></div>
+  <p class="sec-desc">Assembl + Te Kāhui Reo joint usage — for Māori business contexts, Te Tiriti-compliant outputs, and tikanga governance.</p>
+</div>
+
+<div class="g2" style="margin-bottom:3px;">
+
+  <!-- Full co-brand horizontal -->
+  <div class="card hero" id="c06a">
+    <canvas class="sf" id="s06a"></canvas>
+    <div class="orb" style="width:350px;height:250px;top:0;left:0;background:radial-gradient(circle,rgba(212,168,67,.06),transparent);--d:14s;"></div>
+    <div class="orb" style="width:280px;height:200px;bottom:0;right:0;background:radial-gradient(circle,rgba(58,125,110,.06),transparent);--d:17s;--del:-6s;"></div>
+    <div class="ci col" style="gap:20px;z-index:10;">
+      <div style="display:flex;align-items:center;gap:20px;">
+        <!-- Assembl -->
+        <div style="display:flex;align-items:center;gap:12px;">
+          <svg class="mg-c" width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <defs>
+              <radialGradient id="a06a-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="50%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+              <radialGradient id="a06a-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#7ACFC2"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+              <radialGradient id="a06a-pl" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="50%" stop-color="#2E6B5E"/><stop offset="100%" stop-color="#153D35"/></radialGradient>
+              <radialGradient id="a06a-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".6"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+              <linearGradient id="a06a-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".6"/><stop offset="100%" stop-color="#3A7D6E" stop-opacity=".55"/></linearGradient>
+            </defs>
+            <line x1="18" y1="8" x2="8" y2="26" stroke="url(#a06a-l)" stroke-width="1.2"/><line x1="18" y1="8" x2="28" y2="26" stroke="url(#a06a-l)" stroke-width="1.2"/><line x1="8" y1="26" x2="28" y2="26" stroke="url(#a06a-l)" stroke-width="1.2"/>
+            <circle cx="18" cy="8" r="4.5" fill="url(#a06a-g)"/><circle cx="18" cy="8" r="4.5" fill="url(#a06a-hi)"/>
+            <circle cx="8" cy="26" r="4.5" fill="url(#a06a-p)"/><circle cx="8" cy="26" r="4.5" fill="url(#a06a-hi)"/>
+            <circle cx="28" cy="26" r="4.5" fill="url(#a06a-pl)"/><circle cx="28" cy="26" r="4.5" fill="url(#a06a-hi)"/>
+          </svg>
+          <span class="wm wm-grad" style="font-family:'Lato',sans-serif;font-weight:700;font-size:14px;letter-spacing:6px;text-transform:uppercase;">ASSEMBL</span>
+        </div>
+        <!-- Divider -->
+        <div style="height:32px;width:1px;background:rgba(255,255,255,.12);"></div>
+        <!-- TKR -->
+        <div style="display:flex;align-items:center;gap:12px;">
+          <svg class="mg-k" width="32" height="32" viewBox="0 0 400 400" fill="none">
+            <defs>
+              <radialGradient id="cb-s1" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="100%" stop-color="#9E7A2A"/></radialGradient>
+              <radialGradient id="cb-s2" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="100%" stop-color="#245C50"/></radialGradient>
+              <radialGradient id="cb-s3" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#3A6A9C"/><stop offset="100%" stop-color="#0F2440"/></radialGradient>
+              <radialGradient id="cb-hi" cx="35%" cy="30%" r="25%"><stop offset="0%" stop-color="white" stop-opacity=".7"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+              <linearGradient id="cb-lg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".5"/><stop offset="50%" stop-color="#3A7D6E" stop-opacity=".5"/><stop offset="100%" stop-color="#1A3A5C" stop-opacity=".5"/></linearGradient>
+            </defs>
+            <line x1="200" y1="120" x2="130" y2="250" stroke="url(#cb-lg)" stroke-width="3" opacity=".7"/>
+            <line x1="200" y1="120" x2="270" y2="250" stroke="url(#cb-lg)" stroke-width="3" opacity=".7"/>
+            <line x1="130" y1="250" x2="270" y2="250" stroke="url(#cb-lg)" stroke-width="3" opacity=".7"/>
+            <circle cx="200" cy="120" r="58" fill="url(#cb-s1)"/><circle cx="200" cy="120" r="58" fill="url(#cb-hi)"/>
+            <circle cx="130" cy="250" r="58" fill="url(#cb-s2)"/><circle cx="130" cy="250" r="58" fill="url(#cb-hi)"/>
+            <circle cx="270" cy="250" r="58" fill="url(#cb-s3)"/><circle cx="270" cy="250" r="58" fill="url(#cb-hi)"/>
+          </svg>
+          <span class="wm-tkr" style="font-size:11px;letter-spacing:3px;">TE KĀHUI REO</span>
+        </div>
+      </div>
+      <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.2);">Business Intelligence · Tikanga Māori Governance</div>
+    </div>
+    <div class="lbl">Co-Brand · Horizontal</div>
+  </div>
+
+  <!-- Powered by Assembl -->
+  <div class="card hero tkr-bg" id="c06b">
+    <canvas class="sf" id="s06b"></canvas>
+    <div class="orb" style="width:280px;height:220px;top:10%;left:20%;background:radial-gradient(circle,rgba(212,168,67,.07),transparent);--d:13s;"></div>
+    <div class="ci col" style="gap:24px;z-index:10;">
+      <!-- TKR primary -->
+      <div style="display:flex;align-items:center;gap:14px;">
+        <svg class="mg-k" width="44" height="44" viewBox="0 0 400 400" fill="none">
+          <defs>
+            <radialGradient id="pb-s1" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="100%" stop-color="#9E7A2A"/></radialGradient>
+            <radialGradient id="pb-s2" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="100%" stop-color="#245C50"/></radialGradient>
+            <radialGradient id="pb-s3" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#3A6A9C"/><stop offset="100%" stop-color="#0F2440"/></radialGradient>
+            <radialGradient id="pb-hi" cx="35%" cy="30%" r="25%"><stop offset="0%" stop-color="white" stop-opacity=".7"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+            <linearGradient id="pb-lg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".5"/><stop offset="50%" stop-color="#3A7D6E" stop-opacity=".5"/><stop offset="100%" stop-color="#1A3A5C" stop-opacity=".5"/></linearGradient>
+          </defs>
+          <line x1="200" y1="120" x2="130" y2="250" stroke="url(#pb-lg)" stroke-width="3" opacity=".7"/>
+          <line x1="200" y1="120" x2="270" y2="250" stroke="url(#pb-lg)" stroke-width="3" opacity=".7"/>
+          <line x1="130" y1="250" x2="270" y2="250" stroke="url(#pb-lg)" stroke-width="3" opacity=".7"/>
+          <circle cx="200" cy="120" r="58" fill="url(#pb-s1)"/><circle cx="200" cy="120" r="58" fill="url(#pb-hi)"/>
+          <circle cx="130" cy="250" r="58" fill="url(#pb-s2)"/><circle cx="130" cy="250" r="58" fill="url(#pb-hi)"/>
+          <circle cx="270" cy="250" r="58" fill="url(#pb-s3)"/><circle cx="270" cy="250" r="58" fill="url(#pb-hi)"/>
+        </svg>
+        <div class="wm-tkr" style="font-size:18px;letter-spacing:5px;">TE KĀHUI REO</div>
+      </div>
+      <!-- Powered by -->
+      <div style="display:flex;align-items:center;gap:8px;opacity:.5;">
+        <div style="height:1px;width:40px;background:rgba(255,255,255,.2);"></div>
+        <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);">Powered by</span>
+        <svg class="mg-c" width="18" height="18" viewBox="0 0 36 36" fill="none">
+          <defs>
+            <radialGradient id="a06b-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="50%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+            <radialGradient id="a06b-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#7ACFC2"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+            <radialGradient id="a06b-pl" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="50%" stop-color="#2E6B5E"/><stop offset="100%" stop-color="#153D35"/></radialGradient>
+            <radialGradient id="a06b-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".55"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+            <linearGradient id="a06b-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".6"/><stop offset="100%" stop-color="#3A7D6E" stop-opacity=".55"/></linearGradient>
+          </defs>
+          <line x1="18" y1="8" x2="8" y2="26" stroke="url(#a06b-l)" stroke-width="1.2"/><line x1="18" y1="8" x2="28" y2="26" stroke="url(#a06b-l)" stroke-width="1.2"/><line x1="8" y1="26" x2="28" y2="26" stroke="url(#a06b-l)" stroke-width="1.2"/>
+          <circle cx="18" cy="8" r="4.5" fill="url(#a06b-g)"/><circle cx="18" cy="8" r="4.5" fill="url(#a06b-hi)"/>
+          <circle cx="8" cy="26" r="4.5" fill="url(#a06b-p)"/><circle cx="8" cy="26" r="4.5" fill="url(#a06b-hi)"/>
+          <circle cx="28" cy="26" r="4.5" fill="url(#a06b-pl)"/><circle cx="28" cy="26" r="4.5" fill="url(#a06b-hi)"/>
+        </svg>
+        <span class="wm wm-grad" style="font-family:'Lato',sans-serif;font-weight:700;font-size:11px;letter-spacing:3px;text-transform:uppercase;">ASSEMBL</span>
+        <div style="height:1px;width:40px;background:rgba(255,255,255,.2);"></div>
+      </div>
+    </div>
+    <div class="lbl" style="color:rgba(212,168,67,.25);">Powered By Assembl</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     07 — COLOUR SYSTEM
+══════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-line"><div class="bar"></div><span class="sec-num">07</span><span class="sec-title">Unified Colour System</span><div class="bar"></div></div>
+  <p class="sec-desc">Both brands unified in the natural palette — Kōwhai Gold, Pounamu Teal, Tāngaroa Navy. No neon. One system.</p>
+</div>
+
+<div class="g2" style="margin-bottom:3px;">
+
+  <!-- Assembl palette -->
+  <div class="card" style="min-height:180px;" id="c07a">
+    <canvas class="sf" id="s07a"></canvas>
+    <div class="ci col" style="gap:18px;align-items:flex-start;padding:36px;z-index:10;">
+      <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(212,168,67,.55);margin-bottom:4px;">Assembl · Natural Register</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="chip" style="background:#D4A843;box-shadow:0 0 14px rgba(212,168,67,.5);"></div>
+          <span style="font-size:9px;color:rgba(255,255,255,.3);">Kōwhai</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="chip" style="background:#F0D078;box-shadow:0 0 10px rgba(240,208,120,.3);"></div>
+          <span style="font-size:9px;color:rgba(255,255,255,.3);">Kōwhai L</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="chip" style="background:#3A7D6E;box-shadow:0 0 14px rgba(58,125,110,.45);"></div>
+          <span style="font-size:9px;color:rgba(255,255,255,.3);">Pounamu</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="chip" style="background:#5AADA0;box-shadow:0 0 10px rgba(90,173,160,.3);"></div>
+          <span style="font-size:9px;color:rgba(255,255,255,.3);">Pounamu L</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="chip" style="background:#09090F;border:1px solid rgba(255,255,255,.15);"></div>
+          <span style="font-size:9px;color:rgba(255,255,255,.3);">#09090F</span>
+        </div>
+      </div>
+    </div>
+    <div class="lbl">Assembl Palette</div>
+  </div>
+
+  <!-- TKR palette -->
+  <div class="card tkr-bg" style="min-height:180px;">
+    <div class="ci col" style="gap:18px;align-items:flex-start;padding:36px;z-index:10;">
+      <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(212,168,67,.55);margin-bottom:4px;">Te Kāhui Reo · Natural Register</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="chip" style="background:#D4A843;box-shadow:0 0 14px rgba(212,168,67,.45);"></div>
+          <span style="font-size:9px;color:rgba(255,255,255,.3);">Kōwhai</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="chip" style="background:#F0D078;box-shadow:0 0 10px rgba(240,208,120,.3);"></div>
+          <span style="font-size:9px;color:rgba(255,255,255,.3);">Kōwhai L</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="chip" style="background:#3A7D6E;box-shadow:0 0 14px rgba(58,125,110,.4);"></div>
+          <span style="font-size:9px;color:rgba(255,255,255,.3);">Pounamu</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="chip" style="background:#5AADA0;box-shadow:0 0 10px rgba(90,173,160,.3);"></div>
+          <span style="font-size:9px;color:rgba(255,255,255,.3);">Pounamu L</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="chip" style="background:#1A3A5C;box-shadow:0 0 14px rgba(26,58,92,.5);"></div>
+          <span style="font-size:9px;color:rgba(255,255,255,.3);">Tāngaroa</span>
+        </div>
+      </div>
+    </div>
+    <div class="lbl" style="color:rgba(212,168,67,.25);">Te Kāhui Reo Palette</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     08 — MONOCHROME & LIGHT-ON-DARK
+══════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-line"><div class="bar"></div><span class="sec-num">08</span><span class="sec-title">Monochrome Variants</span><div class="bar"></div></div>
+</div>
+
+<div class="g3" style="margin-bottom:3px;">
+
+  <!-- Assembl white mono -->
+  <div class="card" id="c08a">
+    <canvas class="sf" id="s08a"></canvas>
+    <div class="ci" style="gap:14px;z-index:10;">
+      <svg class="mg-w" width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="8" r="4.5" fill="white"/><circle cx="8" cy="26" r="4.5" fill="rgba(255,255,255,.85)"/><circle cx="28" cy="26" r="4.5" fill="rgba(255,255,255,.7)"/>
+        <line x1="18" y1="8" x2="8" y2="26" stroke="rgba(255,255,255,.5)" stroke-width="1"/><line x1="18" y1="8" x2="28" y2="26" stroke="rgba(255,255,255,.45)" stroke-width="1"/><line x1="8" y1="26" x2="28" y2="26" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+      </svg>
+      <span style="font-family:'Lato',sans-serif;font-weight:300;font-size:14px;letter-spacing:6px;text-transform:uppercase;filter:drop-shadow(0 0 6px rgba(255,255,255,.55)) drop-shadow(0 0 18px rgba(255,255,255,.22));animation:mg-wa 5s ease-in-out infinite;">ASSEMBL</span>
+    </div>
+    <div class="lbl">Mono White · Assembl</div>
+  </div>
+
+  <!-- TKR white mono -->
+  <div class="card tkr-bg" id="c08b">
+    <canvas class="sf" id="s08b"></canvas>
+    <div class="ci" style="gap:14px;z-index:10;">
+      <svg class="mg-w" width="36" height="36" viewBox="0 0 400 400" fill="none">
+        <line x1="200" y1="120" x2="130" y2="250" stroke="rgba(255,255,255,.45)" stroke-width="3" opacity=".6"/>
+        <line x1="200" y1="120" x2="270" y2="250" stroke="rgba(255,255,255,.4)" stroke-width="3" opacity=".6"/>
+        <line x1="130" y1="250" x2="270" y2="250" stroke="rgba(255,255,255,.35)" stroke-width="3" opacity=".6"/>
+        <circle cx="200" cy="120" r="58" fill="white" opacity=".9"/>
+        <circle cx="130" cy="250" r="58" fill="white" opacity=".75"/>
+        <circle cx="270" cy="250" r="58" fill="white" opacity=".6"/>
+      </svg>
+      <span style="font-family:'Lato',sans-serif;font-weight:300;font-size:12px;letter-spacing:4px;text-transform:uppercase;filter:drop-shadow(0 0 6px rgba(255,255,255,.55)) drop-shadow(0 0 18px rgba(255,255,255,.22));animation:mg-wa 5s ease-in-out infinite;">TE KĀHUI REO</span>
+    </div>
+    <div class="lbl" style="color:rgba(255,255,255,.18);">Mono White · TKR</div>
+  </div>
+
+  <!-- Dark on light -->
+  <div class="card white" style="min-height:160px;">
+    <div class="ci" style="gap:14px;z-index:10;background:white;">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="filter:drop-shadow(0 0 3px rgba(0,0,0,.15));">
+        <circle cx="18" cy="8" r="4.5" fill="#0A0A14"/><circle cx="8" cy="26" r="4.5" fill="rgba(10,10,20,.7)"/><circle cx="28" cy="26" r="4.5" fill="rgba(10,10,20,.5)"/>
+        <line x1="18" y1="8" x2="8" y2="26" stroke="rgba(10,10,20,.35)" stroke-width="1"/><line x1="18" y1="8" x2="28" y2="26" stroke="rgba(10,10,20,.3)" stroke-width="1"/><line x1="8" y1="26" x2="28" y2="26" stroke="rgba(10,10,20,.25)" stroke-width="1"/>
+      </svg>
+      <span class="wm-mono-dark">ASSEMBL</span>
+    </div>
+    <div class="lbl dk">Mono Dark · Light BG</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     09 — FAVICON & APP ICON SYSTEM
+══════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-line"><div class="bar"></div><span class="sec-num">09</span><span class="sec-title">Favicon & App Icon System</span><div class="bar"></div></div>
+  <p class="sec-desc">Shared constellation mark in circular badge — Māori tāniko ring frame. Assembl: gold/pounamu two-tone. Te Kāhui Reo: three-sphere gold/pounamu/tāngaroa.</p>
+</div>
+
+<div class="g4" style="margin-bottom:3px;">
+
+  <!-- Assembl favicon — 192px -->
+  <div class="card sq" id="c09a" style="min-height:220px;">
+    <canvas class="sf" id="s09a"></canvas>
+    <div class="orb" style="width:180px;height:180px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(212,168,67,.12),transparent);--d:10s;z-index:2;"></div>
+    <div class="ci col" style="gap:16px;z-index:10;">
+      <div class="fav-cell">
+        <!-- 192px Assembl icon -->
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <defs>
+            <radialGradient id="f1-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="50%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+            <radialGradient id="f1-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#7ACFC2"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+            <radialGradient id="f1-pl" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="50%" stop-color="#2E6B5E"/><stop offset="100%" stop-color="#153D35"/></radialGradient>
+            <radialGradient id="f1-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".65"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+            <radialGradient id="f1-bg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#14141F"/><stop offset="100%" stop-color="#09090F"/></radialGradient>
+            <linearGradient id="f1-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".6"/><stop offset="100%" stop-color="#3A7D6E" stop-opacity=".55"/></linearGradient>
+          </defs>
+          <!-- Badge circle -->
+          <circle cx="48" cy="48" r="46" fill="url(#f1-bg)"/>
+          <!-- Tāniko ring — alternating gold/pounamu triangles -->
+          <g opacity="0.55">
+            <polygon points="48,4 52,10 44,10" fill="#D4A843"/>
+            <polygon points="58,5 62,11 54,11" fill="#3A7D6E"/>
+            <polygon points="68,9 71,16 65,16" fill="#D4A843"/>
+            <polygon points="76,16 78,23 72,23" fill="#3A7D6E"/>
+            <polygon points="82,25 83,32 77,32" fill="#D4A843"/>
+            <polygon points="85,35 85,42 79,40" fill="#3A7D6E"/>
+            <polygon points="85,53 84,60 78,57" fill="#D4A843"/>
+            <polygon points="82,63 80,70 74,67" fill="#3A7D6E"/>
+            <polygon points="76,72 72,78 67,74" fill="#D4A843"/>
+            <polygon points="68,79 63,84 59,79" fill="#3A7D6E"/>
+            <polygon points="58,84 52,87 50,82" fill="#D4A843"/>
+            <polygon points="46,86 40,87 40,82" fill="#3A7D6E"/>
+            <polygon points="35,83 30,80 33,75" fill="#D4A843"/>
+            <polygon points="26,77 22,72 26,68" fill="#3A7D6E"/>
+            <polygon points="19,68 16,62 21,59" fill="#D4A843"/>
+            <polygon points="14,58 13,51 18,50" fill="#3A7D6E"/>
+            <polygon points="13,43 14,36 19,38" fill="#D4A843"/>
+            <polygon points="16,33 19,26 24,29" fill="#3A7D6E"/>
+            <polygon points="22,23 27,17 31,22" fill="#D4A843"/>
+            <polygon points="31,15 37,10 40,16" fill="#3A7D6E"/>
+          </g>
+          <!-- Outer ring stroke -->
+          <circle cx="48" cy="48" r="43" fill="none" stroke="url(#f1-l)" stroke-width="1" opacity="0.4"/>
+          <!-- Constellation mark -->
+          <line x1="48" y1="26" x2="30" y2="58" stroke="url(#f1-l)" stroke-width="1.8"/>
+          <line x1="48" y1="26" x2="66" y2="58" stroke="url(#f1-l)" stroke-width="1.8"/>
+          <line x1="30" y1="58" x2="66" y2="58" stroke="url(#f1-l)" stroke-width="1.8"/>
+          <circle cx="48" cy="26" r="8" fill="url(#f1-g)"/><circle cx="48" cy="26" r="8" fill="url(#f1-hi)"/>
+          <circle cx="30" cy="58" r="8" fill="url(#f1-p)"/><circle cx="30" cy="58" r="8" fill="url(#f1-hi)"/>
+          <circle cx="66" cy="58" r="8" fill="url(#f1-pl)"/><circle cx="66" cy="58" r="8" fill="url(#f1-hi)"/>
+        </svg>
+        <div class="fav-sz">Assembl · 192px</div>
+      </div>
+    </div>
+    <div class="lbl">App Icon · Assembl</div>
+  </div>
+
+  <!-- TKR favicon — 192px -->
+  <div class="card sq tkr-bg" id="c09b" style="min-height:220px;">
+    <canvas class="sf" id="s09b"></canvas>
+    <div class="orb" style="width:180px;height:180px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(212,168,67,.1),transparent);--d:12s;z-index:2;"></div>
+    <div class="ci col" style="gap:16px;z-index:10;">
+      <div class="fav-cell">
+        <!-- 192px TKR icon -->
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <defs>
+            <radialGradient id="f2-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="50%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+            <radialGradient id="f2-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+            <radialGradient id="f2-t" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#3A6A9C"/><stop offset="50%" stop-color="#1A3A5C"/><stop offset="100%" stop-color="#0A1E34"/></radialGradient>
+            <radialGradient id="f2-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".65"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+            <radialGradient id="f2-bg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#121820"/><stop offset="100%" stop-color="#080C10"/></radialGradient>
+            <linearGradient id="f2-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".55"/><stop offset="50%" stop-color="#3A7D6E" stop-opacity=".5"/><stop offset="100%" stop-color="#1A3A5C" stop-opacity=".5"/></linearGradient>
+          </defs>
+          <!-- Badge circle -->
+          <circle cx="48" cy="48" r="46" fill="url(#f2-bg)"/>
+          <!-- Tāniko ring — three-colour gold/pounamu/tāngaroa -->
+          <g opacity="0.55">
+            <polygon points="48,4 52,10 44,10" fill="#D4A843"/>
+            <polygon points="58,5 62,11 54,11" fill="#3A7D6E"/>
+            <polygon points="68,9 71,16 65,16" fill="#1A3A5C"/>
+            <polygon points="76,16 78,23 72,23" fill="#D4A843"/>
+            <polygon points="82,25 83,32 77,32" fill="#3A7D6E"/>
+            <polygon points="85,35 85,42 79,40" fill="#1A3A5C"/>
+            <polygon points="85,53 84,60 78,57" fill="#D4A843"/>
+            <polygon points="82,63 80,70 74,67" fill="#3A7D6E"/>
+            <polygon points="76,72 72,78 67,74" fill="#1A3A5C"/>
+            <polygon points="68,79 63,84 59,79" fill="#D4A843"/>
+            <polygon points="58,84 52,87 50,82" fill="#3A7D6E"/>
+            <polygon points="46,86 40,87 40,82" fill="#1A3A5C"/>
+            <polygon points="35,83 30,80 33,75" fill="#D4A843"/>
+            <polygon points="26,77 22,72 26,68" fill="#3A7D6E"/>
+            <polygon points="19,68 16,62 21,59" fill="#1A3A5C"/>
+            <polygon points="14,58 13,51 18,50" fill="#D4A843"/>
+            <polygon points="13,43 14,36 19,38" fill="#3A7D6E"/>
+            <polygon points="16,33 19,26 24,29" fill="#1A3A5C"/>
+            <polygon points="22,23 27,17 31,22" fill="#D4A843"/>
+            <polygon points="31,15 37,10 40,16" fill="#3A7D6E"/>
+          </g>
+          <!-- Outer ring stroke -->
+          <circle cx="48" cy="48" r="43" fill="none" stroke="url(#f2-l)" stroke-width="1" opacity="0.4"/>
+          <!-- Constellation mark — three distinct colours -->
+          <line x1="48" y1="26" x2="30" y2="58" stroke="url(#f2-l)" stroke-width="1.8"/>
+          <line x1="48" y1="26" x2="66" y2="58" stroke="url(#f2-l)" stroke-width="1.8"/>
+          <line x1="30" y1="58" x2="66" y2="58" stroke="url(#f2-l)" stroke-width="1.8"/>
+          <circle cx="48" cy="26" r="8" fill="url(#f2-g)"/><circle cx="48" cy="26" r="8" fill="url(#f2-hi)"/>
+          <circle cx="30" cy="58" r="8" fill="url(#f2-p)"/><circle cx="30" cy="58" r="8" fill="url(#f2-hi)"/>
+          <circle cx="66" cy="58" r="8" fill="url(#f2-t)"/><circle cx="66" cy="58" r="8" fill="url(#f2-hi)"/>
+        </svg>
+        <div class="fav-sz">Te Kāhui Reo · 192px</div>
+      </div>
+    </div>
+    <div class="lbl" style="color:rgba(212,168,67,.3);">App Icon · TKR</div>
+  </div>
+
+  <!-- Small sizes — Assembl 32/16 -->
+  <div class="card" id="c09c">
+    <canvas class="sf" id="s09c"></canvas>
+    <div class="ci col" style="gap:20px;z-index:10;">
+      <!-- 64px -->
+      <div class="fav-cell">
+        <svg width="64" height="64" viewBox="0 0 96 96">
+          <defs>
+            <radialGradient id="f3-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="50%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+            <radialGradient id="f3-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#7ACFC2"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+            <radialGradient id="f3-pl" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="50%" stop-color="#2E6B5E"/><stop offset="100%" stop-color="#153D35"/></radialGradient>
+            <radialGradient id="f3-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".6"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+            <radialGradient id="f3-bg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#14141F"/><stop offset="100%" stop-color="#09090F"/></radialGradient>
+            <linearGradient id="f3-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".6"/><stop offset="100%" stop-color="#3A7D6E" stop-opacity=".55"/></linearGradient>
+          </defs>
+          <circle cx="48" cy="48" r="46" fill="url(#f3-bg)"/>
+          <circle cx="48" cy="48" r="43" fill="none" stroke="url(#f3-l)" stroke-width="2" opacity="0.5"/>
+          <line x1="48" y1="26" x2="30" y2="58" stroke="url(#f3-l)" stroke-width="2"/><line x1="48" y1="26" x2="66" y2="58" stroke="url(#f3-l)" stroke-width="2"/><line x1="30" y1="58" x2="66" y2="58" stroke="url(#f3-l)" stroke-width="2"/>
+          <circle cx="48" cy="26" r="9" fill="url(#f3-g)"/><circle cx="48" cy="26" r="9" fill="url(#f3-hi)"/>
+          <circle cx="30" cy="58" r="9" fill="url(#f3-p)"/><circle cx="30" cy="58" r="9" fill="url(#f3-hi)"/>
+          <circle cx="66" cy="58" r="9" fill="url(#f3-pl)"/><circle cx="66" cy="58" r="9" fill="url(#f3-hi)"/>
+        </svg>
+        <div class="fav-sz">Assembl · 64px</div>
+      </div>
+      <!-- 32px -->
+      <div class="fav-cell">
+        <svg width="32" height="32" viewBox="0 0 96 96">
+          <use href="#f3-bg"/><circle cx="48" cy="48" r="46" fill="#14141F"/>
+          <circle cx="48" cy="48" r="43" fill="none" stroke="#D4A843" stroke-width="3" opacity="0.4"/>
+          <line x1="48" y1="28" x2="30" y2="58" stroke="#D4A843" stroke-width="2.5" opacity=".55"/><line x1="48" y1="28" x2="66" y2="58" stroke="#D4A843" stroke-width="2.5" opacity=".55"/><line x1="30" y1="58" x2="66" y2="58" stroke="#3A7D6E" stroke-width="2.5" opacity=".55"/>
+          <circle cx="48" cy="28" r="10" fill="#D4A843"/>
+          <circle cx="30" cy="58" r="10" fill="#3A7D6E"/>
+          <circle cx="66" cy="58" r="10" fill="#5AADA0"/>
+        </svg>
+        <div class="fav-sz">Assembl · 32px</div>
+      </div>
+    </div>
+    <div class="lbl">Small Sizes · Assembl</div>
+  </div>
+
+  <!-- Small sizes — TKR 32/16 -->
+  <div class="card tkr-bg" id="c09d">
+    <canvas class="sf" id="s09d"></canvas>
+    <div class="ci col" style="gap:20px;z-index:10;">
+      <!-- 64px -->
+      <div class="fav-cell">
+        <svg width="64" height="64" viewBox="0 0 96 96">
+          <defs>
+            <radialGradient id="f4-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#F0D078"/><stop offset="50%" stop-color="#D4A843"/><stop offset="100%" stop-color="#8B6020"/></radialGradient>
+            <radialGradient id="f4-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#5AADA0"/><stop offset="50%" stop-color="#3A7D6E"/><stop offset="100%" stop-color="#1E5044"/></radialGradient>
+            <radialGradient id="f4-t" cx="40%" cy="35%" r="50%"><stop offset="0%" stop-color="#3A6A9C"/><stop offset="50%" stop-color="#1A3A5C"/><stop offset="100%" stop-color="#0A1E34"/></radialGradient>
+            <radialGradient id="f4-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stop-color="white" stop-opacity=".6"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+            <linearGradient id="f4-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4A843" stop-opacity=".55"/><stop offset="100%" stop-color="#1A3A5C" stop-opacity=".5"/></linearGradient>
+          </defs>
+          <circle cx="48" cy="48" r="46" fill="#0C0E14"/>
+          <circle cx="48" cy="48" r="43" fill="none" stroke="url(#f4-l)" stroke-width="2" opacity="0.5"/>
+          <line x1="48" y1="26" x2="30" y2="58" stroke="url(#f4-l)" stroke-width="2"/><line x1="48" y1="26" x2="66" y2="58" stroke="url(#f4-l)" stroke-width="2"/><line x1="30" y1="58" x2="66" y2="58" stroke="url(#f4-l)" stroke-width="2"/>
+          <circle cx="48" cy="26" r="9" fill="url(#f4-g)"/><circle cx="48" cy="26" r="9" fill="url(#f4-hi)"/>
+          <circle cx="30" cy="58" r="9" fill="url(#f4-p)"/><circle cx="30" cy="58" r="9" fill="url(#f4-hi)"/>
+          <circle cx="66" cy="58" r="9" fill="url(#f4-t)"/><circle cx="66" cy="58" r="9" fill="url(#f4-hi)"/>
+        </svg>
+        <div class="fav-sz" style="color:rgba(212,168,67,.35);">TKR · 64px</div>
+      </div>
+      <!-- 32px -->
+      <div class="fav-cell">
+        <svg width="32" height="32" viewBox="0 0 96 96">
+          <circle cx="48" cy="48" r="46" fill="#0C0E14"/>
+          <circle cx="48" cy="48" r="43" fill="none" stroke="#D4A843" stroke-width="3" opacity="0.4"/>
+          <line x1="48" y1="28" x2="30" y2="58" stroke="#D4A843" stroke-width="2.5" opacity=".5"/><line x1="48" y1="28" x2="66" y2="58" stroke="#3A7D6E" stroke-width="2.5" opacity=".5"/><line x1="30" y1="58" x2="66" y2="58" stroke="#1A3A5C" stroke-width="2.5" opacity=".5"/>
+          <circle cx="48" cy="28" r="10" fill="#D4A843"/>
+          <circle cx="30" cy="58" r="10" fill="#3A7D6E"/>
+          <circle cx="66" cy="58" r="10" fill="#1A3A5C"/>
+        </svg>
+        <div class="fav-sz" style="color:rgba(212,168,67,.35);">TKR · 32px</div>
+      </div>
+    </div>
+    <div class="lbl" style="color:rgba(212,168,67,.3);">Small Sizes · TKR</div>
+  </div>
+
+</div>
+
+</div><!-- /page -->
+
+<!-- ══════════════════════════════════════════
+     STARFIELD ENGINE
+══════════════════════════════════════════ -->
+<script>
+function starfield(id, opts = {}) {
+  const cv = document.getElementById(id);
+  if (!cv) return;
+  const cx = cv.getContext('2d');
+  const N  = opts.stars || 220;
+  const NL = opts.nodes || 10;
+  let W, H, stars, lines, t = 0;
+
+  const r  = (a,b) => a + Math.random() * (b - a);
+  // Night sky — white stars only. Colour lives in icons and wordmarks, not the sky.
+  const SC = () => ['255,255,255','230,235,245','240,238,255','220,230,255'][Math.floor(Math.random()*4)];
+  const NC = () => '255,255,255';
+  const LC = () => '255,255,255';
+
+  function init() {
+    const bg = Array.from({length:N}, () => ({
+      x:r(0,W), y:r(0,H), rad:r(0.2,1.4), op:r(0.1,.85), spd:r(.4,3), ph:r(0,Math.PI*2), col:SC(), nd:false
+    }));
+    const nd = Array.from({length:NL}, () => ({
+      x:r(W*.04,W*.96), y:r(H*.06,H*.94), rad:r(1.4,2.8), op:r(.5,1), spd:r(.8,2), ph:r(0,Math.PI*2), col:NC(), nd:true
+    }));
+    lines = [];
+    const mx = Math.min(W,H)*.46;
+    for (let i=0;i<nd.length;i++) for (let j=i+1;j<nd.length;j++) {
+      const dx=nd[i].x-nd[j].x, dy=nd[i].y-nd[j].y;
+      if (Math.sqrt(dx*dx+dy*dy)<mx) lines.push({f:nd[i],t:nd[j],op:r(.06,.2),col:LC()});
+    }
+    stars = [...bg, ...nd];
+  }
+
+  function resize() {
+    const rc = cv.parentElement.getBoundingClientRect();
+    W = cv.width  = rc.width  || 400;
+    H = cv.height = rc.height || 200;
+    init();
+  }
+
+  function draw() {
+    cx.clearRect(0,0,W,H);
+    t += .016;
+    for (const l of lines) {
+      const a = l.op * (.55 + .45*Math.sin(t*.35+l.f.ph));
+      cx.beginPath(); cx.moveTo(l.f.x,l.f.y); cx.lineTo(l.t.x,l.t.y);
+      cx.strokeStyle=`rgba(${l.col},${a})`; cx.lineWidth=.55; cx.stroke();
+    }
+    for (const s of stars) {
+      const bk = (Math.sin(t*s.spd+s.ph)+1)/2;
+      const a  = .12 + bk*s.op*.88;
+      if (s.rad>1.2) {
+        const g = cx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.rad*6);
+        g.addColorStop(0,`rgba(${s.col},${a*.42})`); g.addColorStop(1,`rgba(${s.col},0)`);
+        cx.beginPath(); cx.arc(s.x,s.y,s.rad*6,0,Math.PI*2); cx.fillStyle=g; cx.fill();
+      }
+      cx.beginPath(); cx.arc(s.x,s.y,s.rad*(.65+bk*.55),0,Math.PI*2);
+      cx.fillStyle=`rgba(${s.col},${a})`; cx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize(); draw();
+}
+
+// Boot all starfields
+const SF = [
+  ['s01a', {stars:220,nodes:9}],
+  ['s01b', {stars:220,nodes:9,tkr:true}],
+  ['s02h', {stars:600,nodes:22}],
+  ['s02a', {stars:200,nodes:8}],
+  ['s02b', {stars:200,nodes:8}],
+  ['s02c', {stars:200,nodes:8}],
+  ['s03h', {stars:600,nodes:22,tkr:true}],
+  ['s03a', {stars:200,nodes:8,tkr:true}],
+  ['s03b', {stars:200,nodes:8,tkr:true}],
+  ['s03c', {stars:200,nodes:8,tkr:true}],
+  ['s04a', {stars:180,nodes:7,tkr:true}],
+  ['s04b', {stars:180,nodes:7,tkr:true}],
+  ['s04c', {stars:180,nodes:7,tkr:true}],
+  ['s04d', {stars:180,nodes:7,tkr:true}],
+  ['s05a', {stars:280,nodes:12,tkr:true}],
+  ['s05b', {stars:380,nodes:16}],
+  ['s06a', {stars:400,nodes:16}],
+  ['s06b', {stars:400,nodes:16,tkr:true}],
+  ['s07a', {stars:180,nodes:7}],
+  ['s08a', {stars:180,nodes:7}],
+  ['s08b', {stars:180,nodes:7,tkr:true}],
+  ['s09a', {stars:240,nodes:10}],
+  ['s09b', {stars:240,nodes:10,tkr:true}],
+  ['s09c', {stars:180,nodes:7}],
+  ['s09d', {stars:180,nodes:7,tkr:true}],
+];
+
+for (const [id, opts] of SF) starfield(id, opts);
+</script>
+
+</body>
+</html>

@@ -34,14 +34,14 @@ const ParticleCanvas = () => {
     const W = () => window.innerWidth;
     const H = () => window.innerHeight;
 
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 120; i++) {
       particles.push({
         x: Math.random() * W(),
         y: Math.random() * H(),
-        vx: (Math.random() - 0.5) * 0.15,
-        vy: (Math.random() - 0.5) * 0.15,
-        size: Math.random() * 1 + 0.3,
-        alpha: Math.random() * 0.15 + 0.03,
+        vx: (Math.random() - 0.5) * 0.08,
+        vy: (Math.random() - 0.5) * 0.08,
+        size: Math.random() * 1.2 + 0.2,
+        alpha: Math.random() * 0.55 + 0.15,
         pulse: Math.random() * Math.PI * 2,
       });
     }
@@ -83,7 +83,7 @@ const ParticleCanvas = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.4 }}
+      style={{ opacity: 1 }}
     />
   );
 };

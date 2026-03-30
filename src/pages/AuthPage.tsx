@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import nexusLogo from "@/assets/nexus-logo.png";
 import { Loader2 } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
 import BrandFooter from "@/components/BrandFooter";
@@ -40,10 +39,24 @@ const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
         <div className="w-full max-w-sm">
           <div className="text-center mb-8 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
             <Link to="/" className="inline-flex items-center gap-3 mb-6">
-              <img src={nexusLogo} alt="Assembl" className="w-10 h-10 object-contain drop-shadow-[0_0_12px_rgba(0,229,255,0.25)]" />
-              <span className="font-syne font-extrabold tracking-[3px] uppercase text-sm text-foreground">ASSEMBL</span>
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style={{ filter: "drop-shadow(0 0 6px rgba(212,168,67,0.8)) drop-shadow(0 0 18px rgba(212,168,67,0.4))" }}>
+                <defs>
+                  <radialGradient id="auth-g" cx="40%" cy="35%" r="50%"><stop offset="0%" stopColor="#F0D078"/><stop offset="50%" stopColor="#D4A843"/><stop offset="100%" stopColor="#8B6020"/></radialGradient>
+                  <radialGradient id="auth-p" cx="40%" cy="35%" r="50%"><stop offset="0%" stopColor="#7ACFC2"/><stop offset="50%" stopColor="#3A7D6E"/><stop offset="100%" stopColor="#1E5044"/></radialGradient>
+                  <radialGradient id="auth-pl" cx="40%" cy="35%" r="50%"><stop offset="0%" stopColor="#5AADA0"/><stop offset="50%" stopColor="#2E6B5E"/><stop offset="100%" stopColor="#153D35"/></radialGradient>
+                  <radialGradient id="auth-hi" cx="35%" cy="30%" r="28%"><stop offset="0%" stopColor="white" stopOpacity="0.7"/><stop offset="100%" stopColor="white" stopOpacity="0"/></radialGradient>
+                  <linearGradient id="auth-l" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#D4A843" stopOpacity="0.7"/><stop offset="100%" stopColor="#3A7D6E" stopOpacity="0.65"/></linearGradient>
+                </defs>
+                <line x1="18" y1="8" x2="8" y2="26" stroke="url(#auth-l)" strokeWidth="1.3"/>
+                <line x1="18" y1="8" x2="28" y2="26" stroke="url(#auth-l)" strokeWidth="1.3"/>
+                <line x1="8" y1="26" x2="28" y2="26" stroke="url(#auth-l)" strokeWidth="1.3"/>
+                <circle cx="18" cy="8" r="4.8" fill="url(#auth-g)"/><circle cx="18" cy="8" r="4.8" fill="url(#auth-hi)"/>
+                <circle cx="8" cy="26" r="4.8" fill="url(#auth-p)"/><circle cx="8" cy="26" r="4.8" fill="url(#auth-hi)"/>
+                <circle cx="28" cy="26" r="4.8" fill="url(#auth-pl)"/><circle cx="28" cy="26" r="4.8" fill="url(#auth-hi)"/>
+              </svg>
+              <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", fontSize: "13px", background: "linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 48%, #D4A843 72%, #3A7D6E 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>ASSEMBL</span>
             </Link>
-            <h1 className="text-2xl font-bold text-foreground">
+            <h1 className="text-2xl font-bold text-foreground" style={{ textShadow: "0 0 24px rgba(212,168,67,0.5), 0 0 48px rgba(212,168,67,0.2)" }}>
               {mode === "signup" ? "Create your account" : "Welcome back"}
             </h1>
             <p className="text-sm mt-1 text-muted-foreground">

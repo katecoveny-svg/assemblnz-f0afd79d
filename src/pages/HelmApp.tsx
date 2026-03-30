@@ -26,7 +26,7 @@ import AgentAvatar from "@/components/AgentAvatar";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
 import { setDynamicManifest } from "@/utils/pwaManifest";
 
-const HELM_COLOR = "#B388FF";
+const HELM_COLOR = "#3A7D6E";
 
 type Tab = "chat" | "groceries" | "appointments" | "family_chat" | "tasks" | "week" | "bus" | "timetable" | "inbox" | "review" | "rescue" | "settings";
 

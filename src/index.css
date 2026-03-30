@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Syne:wght@400;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -25,7 +25,7 @@
     --popover: 240 18% 8%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 153 100% 50%;
+    --primary: 42 63% 55%;
     --primary-foreground: 230 20% 4%;
 
     --secondary: 240 18% 8%;
@@ -118,18 +118,18 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* Hero gradient text — brand green/cyan sweep */
+  /* Hero gradient text — natural Māori palette */
   .text-gradient-hero {
     background-image: linear-gradient(
-      135deg, 
-      #00FF88 0%,
-      #00E5FF 50%,
-      #FF2D9B 100%
+      135deg,
+      #D4A843 0%,
+      #3A7D6E 60%,
+      #1A3A5C 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 30px rgba(0,255,136,0.15));
+    filter: drop-shadow(0 0 24px rgba(212,168,67,0.2));
   }
 
   /* Glass glow for green text */
@@ -205,38 +205,49 @@
     transform: translateY(-1px);
   }
 
-  /* ── Neon orb CTA ── */
+  /* ── Primary CTA — gold glow ── */
   .cta-glass-green {
     position: relative;
     overflow: hidden;
-    background: #00FF88;
+    background: linear-gradient(135deg, #F0D078 0%, #D4A843 60%, #B8902E 100%);
     color: #09090F;
     border: none;
     border-radius: 9999px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 600;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    box-shadow: 0 0 20px rgba(212,168,67,0.45), 0 0 60px rgba(212,168,67,0.2), 0 4px 16px rgba(0,0,0,0.4);
+    animation: cta-pulse 3s ease-in-out infinite;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes cta-pulse {
+    0%,100% { box-shadow: 0 0 20px rgba(212,168,67,0.45), 0 0 60px rgba(212,168,67,0.2), 0 4px 16px rgba(0,0,0,0.4); }
+    50%      { box-shadow: 0 0 32px rgba(255,220,80,0.8), 0 0 90px rgba(212,168,67,0.4), 0 4px 16px rgba(0,0,0,0.4); }
   }
 
   .cta-glass-green:hover {
-    box-shadow: 0 0 30px rgba(0,255,136,0.4);
-    transform: translateY(-1px);
+    box-shadow: 0 0 40px rgba(255,220,80,0.9), 0 0 100px rgba(212,168,67,0.5);
+    transform: translateY(-2px) scale(1.02);
   }
 
-  /* Ghost button */
+  /* Ghost button — pounamu glow */
   .btn-ghost {
     background: transparent;
-    color: white;
-    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(58,125,110,0.4);
     border-radius: 9999px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 500;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    box-shadow: 0 0 16px rgba(58,125,110,0.15), inset 0 0 20px rgba(58,125,110,0.04);
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .btn-ghost:hover {
-    border-color: rgba(255,255,255,0.35);
-    background: rgba(255,255,255,0.04);
+    border-color: rgba(58,125,110,0.75);
+    color: white;
+    box-shadow: 0 0 28px rgba(58,125,110,0.4), inset 0 0 24px rgba(58,125,110,0.08);
+    transform: translateY(-1px);
   }
 
   /* ── Hero text block ── */
