@@ -1782,7 +1782,38 @@ const ChatPage = () => {
       ) : activeTab === "agent_sms" ? (
         <AgentSmsPanel agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "voice_waitlist" ? (
-        <VoiceAgentLive agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Voice provider toggle */}
+          <div className="flex items-center justify-center gap-2 px-4 pt-3 pb-1">
+            <button
+              onClick={() => setVoiceProvider("elevenlabs")}
+              className="px-3 py-1 rounded-full text-[10px] font-medium transition-all"
+              style={{
+                background: voiceProvider === "elevenlabs" ? agent.color + "20" : "rgba(255,255,255,0.03)",
+                border: `1px solid ${voiceProvider === "elevenlabs" ? agent.color + "40" : "rgba(255,255,255,0.06)"}`,
+                color: voiceProvider === "elevenlabs" ? agent.color : "rgba(255,255,255,0.5)",
+              }}
+            >
+              ElevenLabs TTS
+            </button>
+            <button
+              onClick={() => setVoiceProvider("gemini")}
+              className="px-3 py-1 rounded-full text-[10px] font-medium transition-all"
+              style={{
+                background: voiceProvider === "gemini" ? agent.color + "20" : "rgba(255,255,255,0.03)",
+                border: `1px solid ${voiceProvider === "gemini" ? agent.color + "40" : "rgba(255,255,255,0.06)"}`,
+                color: voiceProvider === "gemini" ? agent.color : "rgba(255,255,255,0.5)",
+              }}
+            >
+              ⚡ Gemini Live
+            </button>
+          </div>
+          {voiceProvider === "gemini" ? (
+            <GeminiLiveVoice agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
+          ) : (
+            <VoiceAgentLive agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
+          )}
+        </div>
       ) : activeTab === "agent_training" ? (
         <AgentTraining agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
       ) : activeTab === "aura_reservations" && isAura ? (
