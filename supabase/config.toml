@@ -71,3 +71,5 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.send-whatsapp]
     verify_jwt = false
+  [functions.gemini-live-token]
+    verify_jwt = false
