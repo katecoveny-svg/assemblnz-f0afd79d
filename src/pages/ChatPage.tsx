@@ -378,6 +378,7 @@ const ChatPage = () => {
   const [paywallType, setPaywallType] = useState<"preview" | "daily_limit" | null>(null);
   const [selectedModel, setSelectedModel] = useState<string>(() => sessionStorage.getItem("assembl_ai_model") || "gemini-flash");
   const [voiceModalOpen, setVoiceModalOpen] = useState(false);
+  const [voiceProvider, setVoiceProvider] = useState<"elevenlabs" | "gemini">("elevenlabs");
   const [historyReady, setHistoryReady] = useState(false);
   const [showOnboardingTooltip, setShowOnboardingTooltip] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState(0);
