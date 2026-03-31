@@ -19,13 +19,13 @@ const FOOTER_LINKS = {
     { to: "/agents/property", label: "Property" },
     { to: "/agents/automotive", label: "Automotive" },
     { to: "/agents/finance", label: "Finance" },
-    { to: "/agents/maritime", label: "Maritime" },
   ],
   Company: [
     { to: "/about", label: "About" },
     { to: "/#contact", label: "Contact" },
     { to: "/security", label: "Security" },
-    { to: "/mariner", label: "Mariner" },
+    { to: "/brand-guidelines", label: "Brand" },
+    { to: "/developers", label: "Developers" },
   ],
   Legal: [
     { to: "/data-privacy", label: "Data Privacy & AI" },
@@ -77,11 +77,11 @@ const BrandFooter = () => {
       {/* Aurora top glow */}
       <div
         className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), hsl(var(--indigo) / 0.2), transparent)' }}
+        style={{ background: "linear-gradient(90deg, transparent, rgba(212,168,67,0.4), rgba(58,125,110,0.3), transparent)" }}
       />
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-32 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at top, hsl(var(--primary) / 0.04), transparent 70%)' }}
+        style={{ background: "radial-gradient(ellipse at top, rgba(212,168,67,0.06), transparent 70%)" }}
       />
 
       <div className="max-w-6xl mx-auto relative z-10">
@@ -112,16 +112,39 @@ const BrandFooter = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.co.nz"
-                className="flex-1 px-3.5 py-2.5 rounded-xl text-xs font-body text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+                className="flex-1 px-3.5 py-2.5 rounded-xl text-xs font-body text-foreground placeholder:text-muted-foreground/50 focus:outline-none transition-all duration-300"
                 style={{
-                  background: 'hsl(var(--surface-2) / 0.5)',
-                  border: '1px solid hsl(var(--border) / 0.5)',
+                  background: "rgba(15,15,26,0.8)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  boxShadow: "inset 0 1px 3px rgba(0,0,0,0.3)",
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(212,168,67,0.3)";
+                  e.currentTarget.style.boxShadow = "inset 0 1px 3px rgba(0,0,0,0.3), 0 0 15px rgba(212,168,67,0.08)";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                  e.currentTarget.style.boxShadow = "inset 0 1px 3px rgba(0,0,0,0.3)";
                 }}
                 required
               />
               <button
                 type="submit"
-                className="px-3.5 py-2.5 rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition-all duration-300"
+                className="px-3.5 py-2.5 rounded-xl transition-all duration-300"
+                style={{
+                  background: "linear-gradient(135deg, rgba(212,168,67,0.2), rgba(58,125,110,0.2))",
+                  border: "1px solid rgba(212,168,67,0.3)",
+                  color: "#D4A843",
+                  boxShadow: "0 0 15px rgba(212,168,67,0.1)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 25px rgba(212,168,67,0.2)";
+                  e.currentTarget.style.borderColor = "rgba(212,168,67,0.5)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 15px rgba(212,168,67,0.1)";
+                  e.currentTarget.style.borderColor = "rgba(212,168,67,0.3)";
+                }}
               >
                 <Send size={12} />
               </button>
@@ -134,10 +157,18 @@ const BrandFooter = () => {
           {BADGES.map((badge) => (
             <span
               key={badge}
-              className="text-[9px] font-mono-jb px-3 py-1.5 rounded-full text-muted-foreground/70"
+              className="text-[9px] font-mono-jb px-3 py-1.5 rounded-full text-muted-foreground/70 transition-all duration-300 hover:text-foreground/80"
               style={{
-                background: 'hsl(var(--surface-1) / 0.5)',
-                border: '1px solid hsl(var(--border) / 0.4)',
+                background: "rgba(15,15,26,0.6)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "rgba(212,168,67,0.25)";
+                e.currentTarget.style.boxShadow = "0 0 12px rgba(212,168,67,0.08)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                e.currentTarget.style.boxShadow = "none";
               }}
             >
               {badge}
@@ -146,7 +177,7 @@ const BrandFooter = () => {
         </div>
 
         {/* Divider */}
-        <div className="h-px mb-10" style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--border)), transparent)' }} />
+        <div className="h-px mb-10" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)" }} />
 
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
@@ -165,8 +196,16 @@ const BrandFooter = () => {
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-mono-jb font-bold text-muted-foreground/60 hover:text-foreground transition-all duration-300"
                 style={{
-                  background: 'hsl(var(--surface-2) / 0.4)',
-                  border: '1px solid hsl(var(--border) / 0.4)',
+                  background: "rgba(15,15,26,0.6)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(212,168,67,0.3)";
+                  e.currentTarget.style.boxShadow = "0 0 15px rgba(212,168,67,0.1)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                  e.currentTarget.style.boxShadow = "none";
                 }}
                 title={s.label}
               >
