@@ -24,9 +24,17 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
       {/* Background */}
       <div className="absolute inset-0 z-0" style={{ background: "#09090F" }} />
 
+      {/* Subtle radial nebula orb behind headline area */}
+      <div
+        className="absolute inset-0 z-[1] pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse 60% 40% at 50% 55%, rgba(212,168,67,0.05) 0%, transparent 70%)",
+        }}
+      />
+
       {/* Video animation — top portion */}
       <motion.div
-        className="relative z-[1] w-full flex items-center justify-center overflow-hidden"
+        className="relative z-[2] w-full flex items-center justify-center overflow-hidden"
         style={{ height: isMobile ? "45vh" : "50vh" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -78,7 +86,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontWeight: 400,
-            fontSize: "18px",
+            fontSize: isMobile ? "16px" : "18px",
             lineHeight: 1.6,
             color: "rgba(255,255,255,0.65)",
             maxWidth: "600px",
@@ -88,7 +96,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          44 specialist tools trained on New Zealand legislation, built with tikanga Māori at the core.
+          Every compliance question you've ever googled at 11pm — answered by specialists trained on 50+ NZ Acts. From $89/mo.
         </motion.p>
 
         {/* Stat pills */}

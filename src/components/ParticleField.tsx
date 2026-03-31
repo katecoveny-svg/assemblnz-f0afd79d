@@ -35,7 +35,7 @@ const ParticleCanvas = () => {
     const H = () => window.innerHeight;
 
     // Fewer, larger, glowier particles
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 40; i++) {
       const isLarge = Math.random() < 0.15;
       particles.push({
         x: Math.random() * W(),

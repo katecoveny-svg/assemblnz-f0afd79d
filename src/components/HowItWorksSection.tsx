@@ -15,7 +15,7 @@ const STEPS = [
   {
     icon: ShieldCheck,
     title: "Get guidance grounded in NZ law",
-    desc: "Ask anything. Every answer references real NZ legislation — not generic overseas advice repackaged for our market.",
+    desc: "Ask anything. Every answer cites the specific NZ Act that applies — not American advice with a New Zealand sticker on it.",
   },
   {
     icon: Globe,
@@ -26,14 +26,14 @@ const STEPS = [
 
 const HowItWorksSection = () => {
   return (
-    <section className="relative z-10 py-16 sm:py-24 overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+    <section className="relative z-10 pt-[100px] pb-[100px] overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
         <motion.div
           className="text-center mb-14"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           <p
             className="uppercase mb-3"
@@ -45,7 +45,7 @@ const HowItWorksSection = () => {
               color: "#D4A843",
             }}
           >
-            Getting started
+            How it works
           </p>
           <h2
             style={{
@@ -86,7 +86,6 @@ const HowItWorksSection = () => {
                   e.currentTarget.style.boxShadow = "none";
                 }}
               >
-                {/* Step number */}
                 <span
                   className="absolute -top-3 -left-1 pointer-events-none select-none"
                   style={{

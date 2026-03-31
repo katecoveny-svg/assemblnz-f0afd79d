@@ -10,7 +10,7 @@ const PACK_AGENTS = [
     packColor: "#D4A843",
     agentId: "hospitality",
     name: "AURA",
-    subtitle: "Accommodation & Hospitality Orchestrator",
+    subtitle: "Food safety plans, alcohol licences, and rostering — sorted in minutes",
   },
   {
     pack: "Hanga",
@@ -18,7 +18,7 @@ const PACK_AGENTS = [
     packColor: "#3A7D6E",
     agentId: "construction",
     name: "APEX",
-    subtitle: "Construction Compliance Expert",
+    subtitle: "Building consents, H&S plans, and CCA payment claims — done right",
   },
   {
     pack: "Auaha",
@@ -26,7 +26,7 @@ const PACK_AGENTS = [
     packColor: "#5AADA0",
     agentId: "marketing",
     name: "PRISM",
-    subtitle: "Marketing & Creative Strategist",
+    subtitle: "Brand strategy, social campaigns, and AI image generation on tap",
   },
   {
     pack: "Pakihi",
@@ -34,7 +34,7 @@ const PACK_AGENTS = [
     packColor: "#F0D078",
     agentId: "accounting",
     name: "LEDGER",
-    subtitle: "Financial Intelligence Advisor",
+    subtitle: "GST returns, PAYE compliance, and provisional tax — without the accountant bill",
   },
   {
     pack: "Hangarau",
@@ -42,19 +42,19 @@ const PACK_AGENTS = [
     packColor: "#3A6A9C",
     agentId: "software",
     name: "SPARK",
-    subtitle: "No-Code App Builder",
+    subtitle: "Turn a text description into a working web app. No code needed.",
   },
 ];
 
 const SpecialistTeamGrid = () => (
-  <section className="relative z-10 py-16 sm:py-24" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+  <section className="relative z-10 pt-[80px] pb-[80px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
     <div className="max-w-5xl mx-auto px-4 sm:px-6">
       <motion.div
         className="text-center mb-12"
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <p
           className="uppercase mb-3"
@@ -91,10 +91,10 @@ const SpecialistTeamGrid = () => (
               border: "1px solid rgba(255,255,255,0.08)",
               transition: "all 300ms cubic-bezier(0.16, 1, 0.3, 1)",
             }}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.08 }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
               e.currentTarget.style.boxShadow = `0 12px 48px rgba(212,168,67,0.1)`;

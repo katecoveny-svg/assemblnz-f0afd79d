@@ -174,7 +174,7 @@ const AgentGrid = () => {
       <EmbedDemoSection />
 
       {/* ═══════ PRICING ═══════ */}
-      <section className="relative z-10 py-16 sm:py-24" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+      <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-8">
             <h2
@@ -186,7 +186,7 @@ const AgentGrid = () => {
                 color: "#FFFFFF",
               }}
             >
-              Enterprise-grade intelligence. <span style={{ color: "#D4A843" }}>SME-friendly pricing.</span>
+              Straight pricing. No surprises. <span style={{ color: "#D4A843" }}>Cancel anytime.</span>
             </h2>
             <p
               className="mb-6"
@@ -382,7 +382,7 @@ const AgentGrid = () => {
       <FAQSection />
 
       {/* ═══════ FOUNDER ═══════ */}
-      <section className="relative z-10 py-16 sm:py-24" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+      <section className="relative z-10 pt-[80px] pb-[80px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <motion.div
             className="w-32 h-32 rounded-full mx-auto mb-6 relative overflow-hidden"
@@ -423,16 +423,15 @@ const AgentGrid = () => {
               lineHeight: 1.7,
             }}
           >
-            "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work.
-            Every tool is trained on real NZ legislation — not generic overseas advice."
+            "I kept watching NZ businesses pay for tools built in San Francisco that couldn't tell you the difference between the Holidays Act and the Fair Work Act. So I built 44 that could."
           </p>
-          <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "14px", color: "#FFFFFF" }}>Kate</p>
+          <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "14px", color: "#FFFFFF" }}>Kate Hudson</p>
           <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.35)" }}>Founder, Assembl · Auckland</p>
         </div>
       </section>
 
       {/* ═══════ CONTACT ═══════ */}
-      <section id="contact" className="relative z-10 py-16 sm:py-24" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+      <section id="contact" className="relative z-10 pt-[80px] pb-[80px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-lg mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <h2
@@ -508,10 +507,10 @@ const AgentGrid = () => {
               style={{
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 400,
-                background: "linear-gradient(135deg, rgba(212,168,67,0.2), rgba(58,125,110,0.2))",
-                border: "1px solid rgba(212,168,67,0.3)",
-                color: "#D4A843",
-                boxShadow: "0 0 20px rgba(212,168,67,0.1)",
+                background: "#D4A843",
+                border: "1px solid #D4A843",
+                color: "#09090F",
+                boxShadow: "0 0 20px rgba(212,168,67,0.2)",
               }}
               onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 0 35px rgba(212,168,67,0.2)"; e.currentTarget.style.borderColor = "rgba(212,168,67,0.5)"; }}
               onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 0 20px rgba(212,168,67,0.1)"; e.currentTarget.style.borderColor = "rgba(212,168,67,0.3)"; }}

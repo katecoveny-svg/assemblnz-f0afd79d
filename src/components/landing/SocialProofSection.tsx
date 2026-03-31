@@ -6,24 +6,24 @@ const TESTIMONIALS = [
     attribution: "Cafe owner, Tāmaki Makaurau",
   },
   {
-    quote: "We used APEX for our building consent application. Cut our prep time from 3 days to 4 hours.",
-    attribution: "Project manager, Christchurch",
+    quote: "APEX turned our building consent application from a 3-day headache into a 4-hour job. The council approved it first time.",
+    attribution: "Project manager, Ōtautahi",
   },
   {
-    quote: "AROHA calculated our actual Holidays Act obligations in minutes. Our previous payroll advisor got it wrong for two years.",
-    attribution: "HR manager, Wellington",
+    quote: "Our payroll advisor got our Holidays Act calculations wrong for two years. AROHA caught it in minutes. We owed staff $14,000.",
+    attribution: "HR manager, Te Whanganui-a-Tara",
   },
 ];
 
 const SocialProofSection = () => (
-  <section className="relative z-10 py-16 sm:py-24" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+  <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
     <div className="max-w-5xl mx-auto px-4 sm:px-6">
       <motion.div
         className="text-center mb-12"
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <p
           className="uppercase mb-3"
@@ -45,7 +45,7 @@ const SocialProofSection = () => (
             color: "#FFFFFF",
           }}
         >
-          Built for operators who take their work seriously
+          What NZ businesses are saying
         </h2>
       </motion.div>
 
@@ -60,7 +60,7 @@ const SocialProofSection = () => (
               border: "1px solid rgba(255,255,255,0.08)",
               transition: "all 300ms cubic-bezier(0.16, 1, 0.3, 1)",
             }}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.1 }}
@@ -78,10 +78,10 @@ const SocialProofSection = () => (
               className="absolute top-4 left-5 pointer-events-none select-none"
               style={{
                 fontFamily: "Georgia, serif",
-                fontSize: "4rem",
+                fontSize: "48px",
                 lineHeight: 1,
                 color: "#D4A843",
-                opacity: 0.3,
+                opacity: 0.4,
               }}
             >
               "
@@ -103,7 +103,7 @@ const SocialProofSection = () => (
               style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                 fontWeight: 400,
-                fontSize: "13px",
+                fontSize: "14px",
                 color: "rgba(255,255,255,0.35)",
                 fontStyle: "italic",
               }}

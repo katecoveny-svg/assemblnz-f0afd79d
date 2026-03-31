@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Bot, User } from "lucide-react";
 
 const EmbedDemoSection = () => (
-  <section className="relative z-10 py-16 sm:py-24" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+  <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
     <div className="max-w-3xl mx-auto px-4 sm:px-6">
       <motion.div
         className="text-center mb-10"
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <p
           className="uppercase mb-3"
@@ -33,7 +33,7 @@ const EmbedDemoSection = () => (
             marginBottom: "0.75rem",
           }}
         >
-          See what 44 specialist tools feels like
+          Try it. Right now. No signup.
         </h2>
         <p
           style={{
@@ -43,7 +43,7 @@ const EmbedDemoSection = () => (
             color: "rgba(255,255,255,0.65)",
           }}
         >
-          Ask AURA a hospitality compliance question. No signup needed.
+          Ask AURA a real compliance question. See how 50+ NZ Acts turn into a straight answer.
         </p>
       </motion.div>
 
@@ -55,7 +55,7 @@ const EmbedDemoSection = () => (
           backdropFilter: "blur(10px)",
           border: "1px solid rgba(255,255,255,0.08)",
         }}
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.1 }}
@@ -103,7 +103,7 @@ const EmbedDemoSection = () => (
                 border: "1px solid rgba(212,168,67,0.15)",
               }}
             >
-              <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "#FFFFFF" }}>
+              <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "#FFFFFF" }}>
                 Do I need a food control plan for my cafe?
               </p>
             </div>
@@ -130,7 +130,7 @@ const EmbedDemoSection = () => (
                 border: "1px solid rgba(255,255,255,0.06)",
               }}
             >
-              <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.85)", lineHeight: 1.6 }}>
+              <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "rgba(255,255,255,0.85)", lineHeight: 1.6 }}>
                 Yes — under the <span style={{ color: "#D4A843" }}>Food Act 2014</span>, all food businesses in NZ must operate under either a Food Control Plan (FCP) or a National Programme. A cafe that prepares and serves food on-site would typically require a <span style={{ color: "#D4A843" }}>template Food Control Plan</span>, registered with your local council...
               </p>
               <p
@@ -147,7 +147,7 @@ const EmbedDemoSection = () => (
           </div>
         </div>
 
-        {/* CTA */}
+        {/* CTA — Kowhai Gold solid */}
         <div className="px-5 pb-5">
           <Link
             to="/chat/hospitality"
@@ -155,15 +155,16 @@ const EmbedDemoSection = () => (
             style={{
               fontFamily: "'Lato', sans-serif",
               fontWeight: 400,
-              background: "linear-gradient(135deg, rgba(212,168,67,0.15), rgba(58,125,110,0.1))",
-              border: "1px solid rgba(212,168,67,0.3)",
-              color: "#D4A843",
+              background: "#D4A843",
+              color: "#09090F",
+              border: "1px solid #D4A843",
+              boxShadow: "0 0 20px rgba(212,168,67,0.2)",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = "0 0 25px rgba(212,168,67,0.15)";
+              e.currentTarget.style.boxShadow = "0 0 35px rgba(212,168,67,0.3)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = "none";
+              e.currentTarget.style.boxShadow = "0 0 20px rgba(212,168,67,0.2)";
             }}
           >
             Try it live <ArrowRight size={14} />
