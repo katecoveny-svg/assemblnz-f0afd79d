@@ -158,6 +158,9 @@ const AgentGrid = () => {
         <PipelineSection />
       </div>
 
+      {/* ═══════ NGĀ POU E WHĀ — Governance Model ═══════ */}
+      <FourPouSection />
+
       {/* ═══════ TE KĀHUI REO ═══════ */}
       <div id="te-kahui-reo">
         <TeKahuiReoSection />

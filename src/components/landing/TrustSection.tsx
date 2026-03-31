@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import { Scale, Shield, Lock, MapPin, Globe, FileCheck } from "lucide-react";
 
 const TRUST_CARDS = [
-  { Icon: Scale, color: "#5AADA0", title: "Trained on NZ Legislation", sub: "50+ Acts embedded" },
-  { Icon: Shield, color: "#3A6A9C", title: "Privacy Act 2020 Compliant", sub: "AU/NZ data region" },
-  { Icon: Lock, color: "#3A6A9C", title: "Enterprise Security", sub: "Encrypted at rest" },
+  { Icon: Scale, color: "#5AADA0", title: "Trained on NZ Legislation", sub: "50+ Acts · 13 IPPs embedded" },
+  { Icon: Shield, color: "#3A6A9C", title: "Te Tiriti Aligned", sub: "Articles 2 & 3 honoured" },
+  { Icon: Lock, color: "#3A6A9C", title: "Māori Data Sovereignty", sub: "Te Mana Raraunga principles" },
   { Icon: MapPin, color: "#C85A54", title: "Built in Auckland", sub: "Founded by Kate Hudson" },
-  { Icon: Globe, color: "#3A6A9C", title: "GDPR Ready", sub: "International standards" },
-  { Icon: FileCheck, color: "#5AADA0", title: "150+ Compliance Dates", sub: "Auto-tracked for you" },
+  { Icon: Globe, color: "#3A6A9C", title: "Cultural Impact Assessments", sub: "Built into Hanga pack" },
+  { Icon: FileCheck, color: "#5AADA0", title: "Bilingual at Every Level", sub: "Dashboard · agents · support" },
 ];
 
 const TESTIMONIALS = [
