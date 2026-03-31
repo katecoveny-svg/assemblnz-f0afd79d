@@ -1,177 +1,114 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
-import MaungaStarCluster from "@/components/MaungaStarCluster";
+import ConstellationHero from "@/components/ConstellationHero";
 
 interface AnimatedHeroProps {
   onScrollToGrid: () => void;
 }
 
-const STAT_PILLS = [
-  { label: "44 specialist tools" },
-  { label: "50+ NZ Acts" },
-  { label: "16 industries" },
-  { label: "From $89/mo NZD" },
-  { label: "Built in Aotearoa" },
-];
-
 const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
   const isMobile = useIsMobile();
 
   return (
-    <section className="relative overflow-hidden" style={{ minHeight: isMobile ? "100vh" : "92vh" }}>
+    <section className="relative overflow-hidden min-h-screen flex flex-col">
+      {/* ── Full-bleed starfield background ── */}
+      <ConstellationHero fullBleed />
 
-      {/* ── Maunga + Star Cluster — background centrepiece ── */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 1 }}>
-        <MaungaStarCluster size={isMobile ? 500 : 800} showMaunga />
-      </div>
+      {/* Radial glow — kōwhai/pounamu centre wash */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 50% 55%, hsla(var(--kowhai), 0.06) 0%, transparent 70%), " +
+            "radial-gradient(ellipse 50% 40% at 50% 60%, hsla(var(--pounamu), 0.05) 0%, transparent 60%)",
+        }}
+      />
 
-      {/* ── Hero content — centred ── */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6" style={{ minHeight: isMobile ? "100vh" : "92vh", paddingBottom: "80px" }}>
+      {/* ── Content layer ── */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 sm:px-8 pb-24">
 
-        {/* ASSEMBL wordmark — big, glowing, unmissable */}
+        {/* Constellation mark */}
         <motion.div
-          className="flex flex-col items-center mb-10 sm:mb-14"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          className="mb-8"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          {/* Small constellation mark */}
-          <motion.svg
-            width={isMobile ? 36 : 48}
-            height={isMobile ? 36 : 48}
-            viewBox="0 0 36 36"
-            fill="none"
-            className="mb-5"
-            initial={{ opacity: 0, scale: 0.6 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            <defs>
-              <radialGradient id="hg" cx="40%" cy="35%" r="50%"><stop offset="0%" stopColor="#fff"/><stop offset="100%" stopColor="#ccc"/></radialGradient>
-            </defs>
-            <line x1="18" y1="8" x2="8" y2="26" stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
-            <line x1="18" y1="8" x2="28" y2="26" stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
-            <line x1="8" y1="26" x2="28" y2="26" stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
-            <circle cx="18" cy="8" r="3" fill="url(#hg)" opacity="0.9" />
-            <circle cx="8" cy="26" r="3" fill="url(#hg)" opacity="0.7" />
-            <circle cx="28" cy="26" r="3" fill="url(#hg)" opacity="0.7" />
-          </motion.svg>
-
-          {/* ASSEMBL wordmark */}
-          <motion.h2
-            style={{
-              fontFamily: "'Lato', sans-serif",
-              fontWeight: 300,
-              fontSize: isMobile ? "2rem" : "3.5rem",
-              letterSpacing: isMobile ? "0.4em" : "0.55em",
-              textTransform: "uppercase" as const,
-              color: "#FFFFFF",
-              lineHeight: 1,
-            }}
-            animate={{
-              textShadow: [
-                "0 0 20px rgba(255,255,255,0.5), 0 0 60px rgba(255,255,255,0.2), 0 0 120px rgba(255,255,255,0.08)",
-                "0 0 40px rgba(255,255,255,0.8), 0 0 100px rgba(255,255,255,0.35), 0 0 180px rgba(255,255,255,0.12)",
-                "0 0 20px rgba(255,255,255,0.5), 0 0 60px rgba(255,255,255,0.2), 0 0 120px rgba(255,255,255,0.08)",
-              ],
-            }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          >
-            Assembl
-          </motion.h2>
-
-          {/* Tagline */}
-          <motion.p
-            style={{
-              fontFamily: "'Lato', sans-serif",
-              fontWeight: 300,
-              fontSize: "10px",
-              letterSpacing: "4px",
-              textTransform: "uppercase",
-              color: "rgba(255,255,255,0.4)",
-              marginTop: "12px",
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            Business Intelligence · Aotearoa
-          </motion.p>
+          <ConstellationHero size={isMobile ? 140 : 200} />
         </motion.div>
 
-        {/* ── Main heading ── */}
-        <motion.div
-          className="max-w-3xl mx-auto mb-5"
-          initial={{ opacity: 0, y: 25 }}
+        {/* Eyebrow */}
+        <motion.p
+          className="font-display uppercase tracking-[0.35em] text-[10px] sm:text-[11px] text-muted-foreground mb-6"
+          style={{ fontWeight: 300 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          Business intelligence · Aotearoa
+        </motion.p>
+
+        {/* ASSEMBL wordmark */}
+        <motion.h2
+          className="font-display uppercase text-foreground mb-8"
+          style={{
+            fontWeight: 300,
+            fontSize: isMobile ? "2.2rem" : "4rem",
+            letterSpacing: isMobile ? "0.35em" : "0.5em",
+            lineHeight: 1,
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          Assembl
+        </motion.h2>
+
+        {/* Main headline */}
+        <motion.h1
+          className="font-display max-w-2xl mx-auto mb-5"
+          style={{
+            fontWeight: 300,
+            fontSize: isMobile ? "1.5rem" : "2.5rem",
+            lineHeight: 1.2,
+            letterSpacing: "-0.02em",
+            color: "hsl(var(--foreground))",
+          }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4 }}
         >
-          <h1
-            className="text-[1.65rem] sm:text-[2.8rem] lg:text-[3.2rem] font-display leading-[1.12] mb-3"
-            style={{ fontWeight: 700, color: "#FFFFFF", letterSpacing: "-0.02em" }}
-          >
-            Your business runs on NZ law.{" "}
-            <br className="hidden sm:block" />
-            <span
-              style={{
-                background: "linear-gradient(135deg, #FFFFFF 0%, #D4A843 50%, #3A7D6E 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Your tools should too.
-            </span>
-          </h1>
-        </motion.div>
+          Your business runs on NZ law.{" "}
+          <br className="hidden sm:block" />
+          <span className="bg-gradient-to-r from-primary via-primary to-pounamu bg-clip-text text-transparent">
+            Your tools should too.
+          </span>
+        </motion.h1>
 
         {/* Sub copy */}
         <motion.p
-          className="text-sm sm:text-[15px] font-body leading-relaxed max-w-[560px] mx-auto mb-7"
-          style={{ color: "rgba(255,255,255,0.5)" }}
+          className="font-body text-sm sm:text-[15px] leading-relaxed max-w-lg mx-auto text-muted-foreground mb-10"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          44 specialist tools trained on New Zealand legislation, built with tikanga Māori at the core. The compliance, operations, and strategy platform Aotearoa's been missing.
+          44 specialist tools trained on New Zealand legislation, built with
+          tikanga Māori at the core.
         </motion.p>
 
-        {/* Divider */}
+        {/* Stat line */}
         <motion.div
-          className="w-full max-w-[200px] mx-auto mb-7"
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)" }}
-        />
-
-        {/* Stat pills */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-2 sm:gap-2.5 mb-9"
+          className="flex flex-wrap justify-center gap-x-6 gap-y-2 font-mono text-[10px] sm:text-xs tracking-widest text-muted-foreground mb-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
         >
-          {STAT_PILLS.map((pill) => (
-            <span
-              key={pill.label}
-              className="stat-pill cursor-default"
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                color: "rgba(255,255,255,0.4)",
-                letterSpacing: "0.05em",
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "10px",
-                padding: "6px 14px",
-                borderRadius: "9999px",
-              }}
-            >
-              {pill.label}
-            </span>
-          ))}
+          <span><span className="text-primary">44</span> tools</span>
+          <span><span className="text-pounamu-light">50+</span> NZ Acts</span>
+          <span><span className="text-primary">16</span> industries</span>
+          <span>From <span className="text-primary">$89</span>/mo NZD</span>
         </motion.div>
 
         {/* CTAs */}
@@ -179,17 +116,38 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           className="flex flex-col sm:flex-row gap-3 justify-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <button onClick={onScrollToGrid} className="cta-glass-green inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm">
+          <button
+            onClick={onScrollToGrid}
+            className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full"
+          >
             Browse all tools <ArrowRight size={16} />
           </button>
-          <Link to="/content-hub" className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm">
+          <Link
+            to="/content-hub"
+            className="btn-ghost inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full"
+          >
             Explore the platform →
           </Link>
         </motion.div>
-
       </div>
+
+      {/* Scroll indicator */}
+      <motion.button
+        onClick={onScrollToGrid}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-muted-foreground hover:text-foreground transition-colors"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+      >
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown size={24} />
+        </motion.div>
+      </motion.button>
     </section>
   );
 };
