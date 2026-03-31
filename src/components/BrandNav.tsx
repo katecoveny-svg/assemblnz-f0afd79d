@@ -6,10 +6,11 @@ import AccountDropdown from "@/components/AccountDropdown";
 import NotificationBell from "@/components/NotificationBell";
 import { assemblMark } from "@/assets/brand";
 
+interface NavChild { label: string; to: string; desc: string; badge?: "LIVE" | "ADMIN" }
 interface NavItem {
   label: string;
   to?: string;
-  children?: { label: string; to: string; desc: string }[];
+  children?: NavChild[];
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -27,11 +28,12 @@ const NAV_ITEMS: NavItem[] = [
   {
     label: "Industry Packs",
     children: [
-      { label: "Manaaki — Hospitality", to: "/content-hub#manaaki", desc: "Food safety, liquor, guest comms" },
-      { label: "Hanga — Construction", to: "/hanga", desc: "Consents, safety, BIM, quality" },
-      { label: "Auaha — Creative", to: "/content-hub#auaha", desc: "Brand, social, imagery, campaigns" },
-      { label: "Pakihi — Business", to: "/content-hub#pakihi", desc: "Payroll, employment, GST, insurance" },
-      { label: "Hangarau — Technology", to: "/content-hub#hangarau", desc: "Cyber, apps, APIs, monitoring" },
+      { label: "Pakihi — Business", to: "/packs/pakihi", desc: "HR, payroll, finance, operations", badge: "LIVE" },
+      { label: "Hanga — Construction", to: "/packs/hanga", desc: "Safety, BIM, consenting, quality", badge: "LIVE" },
+      { label: "Manaaki — Hospitality", to: "/packs/manaaki", desc: "Food safety, licensing, guest comms", badge: "LIVE" },
+      { label: "Tōroa — Family Navigator", to: "/packs/toroa", desc: "Whānau services, wellbeing, care", badge: "LIVE" },
+      { label: "Auaha — Creative", to: "/packs/auaha", desc: "Brand, social, imagery, campaigns", badge: "ADMIN" },
+      { label: "Hangarau — Technology", to: "/packs/hangarau", desc: "Cyber, apps, APIs, monitoring", badge: "ADMIN" },
     ],
   },
   { label: "Te Kāhui Reo", to: "/#te-kahui-reo" },
@@ -130,17 +132,31 @@ const BrandNav = () => {
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.15 }}
                   >
-                    {item.children.map((child) => (
-                      <button
-                        key={child.label}
-                        onClick={() => handleNavClick(child.to)}
-                        className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors block"
-                        style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}
-                      >
-                        <p className="text-xs font-medium" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>{child.label}</p>
-                        <p className="text-[10px] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{child.desc}</p>
-                      </button>
-                    ))}
+                    {item.children.map((child, ci) => {
+                      const isLast = item.children && ci === item.children.length - 1;
+                      const hasDivider = item.label === "Industry Packs" && ci === 3; // after Tōroa
+                      return (
+                        <div key={child.label}>
+                          {hasDivider && <div className="h-px mx-3" style={{ background: "rgba(255,255,255,0.08)" }} />}
+                          <button
+                            onClick={() => handleNavClick(child.to)}
+                            className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors block"
+                            style={{ borderBottom: isLast ? "none" : "1px solid rgba(255,255,255,0.04)" }}
+                          >
+                            <div className="flex items-center gap-2">
+                              <p className="text-xs font-medium" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>{child.label}</p>
+                              {child.badge === "LIVE" && (
+                                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase" style={{ background: "#3A7D6E", color: "#FFFFFF", letterSpacing: "0.06em" }}>LIVE</span>
+                              )}
+                              {child.badge === "ADMIN" && (
+                                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase" style={{ background: "#D4A843", color: "#09090F", letterSpacing: "0.06em" }}>ADMIN</span>
+                              )}
+                            </div>
+                            <p className="text-[10px] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{child.desc}</p>
+                          </button>
+                        </div>
+                      );
+                    })}
                   </motion.div>
                 )}
               </AnimatePresence>

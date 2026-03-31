@@ -72,6 +72,8 @@ const RawaDashboard = lazy(() => import("./components/hanga/RawaDashboard"));
 const WhakaaeDashboard = lazy(() => import("./components/hanga/WhakaaeDashboard"));
 const PaiDashboard = lazy(() => import("./components/hanga/PaiDashboard"));
 const KanohiDashboard = lazy(() => import("./components/hanga/KanohiDashboard"));
+const PackLandingPage = lazy(() => import("./pages/PackLandingPage"));
+const AdminPacksPage = lazy(() => import("./pages/AdminPacksPage"));
 
 const queryClient = new QueryClient();
 
@@ -125,6 +127,8 @@ const App = () => (
                   <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
                   <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />
                   <Route path="/admin/sms" element={<Suspense fallback={null}><AdminSmsPage /></Suspense>} />
+                  <Route path="/admin/packs" element={<Suspense fallback={null}><AdminPacksPage /></Suspense>} />
+                  <Route path="/packs/:packSlug" element={<Suspense fallback={null}><PackLandingPage /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
                   <Route path="/logo-stack" element={<Suspense fallback={null}><LogoStackPage /></Suspense>} />

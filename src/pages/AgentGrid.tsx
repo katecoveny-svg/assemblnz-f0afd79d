@@ -18,6 +18,7 @@ import SocialProofSection from "@/components/landing/SocialProofSection";
 import TeKahuiReoSection from "@/components/landing/TeKahuiReoSection";
 import EmbedDemoSection from "@/components/landing/EmbedDemoSection";
 import FourPouSection from "@/components/landing/FourPouSection";
+import LivePacksHero from "@/components/landing/LivePacksHero";
 
 const PRICING_PLANS = [
   {
@@ -153,6 +154,9 @@ const AgentGrid = () => {
       <div className="relative z-10">
         <AnimatedHero onScrollToGrid={scrollToGrid} />
       </div>
+
+      {/* ═══════ FOUR LIVE PACKS ═══════ */}
+      <LivePacksHero />
 
       {/* ═══════ PLATFORM CORE — The Pipeline ═══════ */}
       <div id="pipeline">
