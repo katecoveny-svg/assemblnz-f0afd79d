@@ -45,6 +45,12 @@ const AITransparencyBadge = () => {
                 <li>• No conversation data is shared with third parties</li>
                 <li>• Message metadata (timestamps, agent used) is stored for usage analytics</li>
               </ul>
+
+            {/* IPP 3A Indirect Collection */}
+            <div className="mt-3 p-2.5 rounded-lg border" style={{ borderColor: "hsl(42 63% 55% / 0.2)", background: "hsl(42 63% 55% / 0.05)" }}>
+              <h5 className="font-semibold text-foreground text-[11px] mb-1">IPP 3A — Indirect Collection (Privacy Act 2020)</h5>
+              <p className="text-foreground/50 text-[10px] leading-relaxed">Effective 1 May 2026, when our specialist advisors use information originally provided to a different advisor (e.g. business details shared with AROHA used by LEDGER for payroll), or retrieved from public registries (Companies Office, NZBN), you will be notified of the source, purpose, and your rights to access, correct, or delete that information. You can opt out of cross-advisor data sharing at any time via your settings or by contacting <a href="mailto:kate@assembl.co.nz" className="text-primary underline">kate@assembl.co.nz</a>.</p>
+            </div>
             </div>
 
             {/* Data Sovereignty */}
