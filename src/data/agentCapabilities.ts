@@ -298,12 +298,6 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "Emergency kit building", icon: Shield, title: "Emergency Kit", description: "Build a complete emergency survival kit", prompt: "What should be in my emergency kit? Build a complete list for a family of 4 for 7 days." },
     { bullet: "Civil defence planning", icon: FileText, title: "Emergency Plan", description: "Create a household emergency plan", prompt: "Create a household emergency plan — meeting points, communication plan, essential documents, and evacuation routes." },
   ],
-  hr: [
-    { bullet: "Employment agreement generation", icon: FileText, title: "Employment Agreement", description: "Generate a NZ-compliant employment agreement", prompt: "Draft an individual employment agreement for a permanent full-time role. Include all mandatory ERA s65 clauses, trial period options (Feb 2026 rules), and KiwiSaver 3.5%." },
-    { bullet: "True employment cost calculator", icon: DollarSign, title: "True Cost Calculator", description: "Calculate the real cost of hiring an employee", prompt: "Calculate the true employment cost for a $75,000 salary including KiwiSaver 3.5%, ACC levy, leave loading, and all on-costs." },
-    { bullet: "Compliance gap scan", icon: Shield, title: "HR Compliance Scan", description: "Audit your HR setup against NZ employment law", prompt: "Run a compliance gap scan on my HR setup. Check employment agreements, Privacy Act 2020 (IPP 3A), Holidays Act, KiwiSaver April 2026 changes, and H&S compliance." },
-    { bullet: "Personal grievance workflow", icon: Scale, title: "Personal Grievance", description: "Navigate the personal grievance process step by step", prompt: "An employee has raised a personal grievance for unjustified dismissal. Walk me through the process, 90-day timeline, and mediation preparation." },
-  ],
 };
 
 // Quick action labels (3-4 per agent, shown below chat input)
