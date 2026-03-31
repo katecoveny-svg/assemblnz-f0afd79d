@@ -24,7 +24,7 @@ export const HavenCompliancePreview = () => {
       ? { bg: "rgba(0,255,136,0.15)", color: "#5AADA0", label: "PASS" }
       : s === "fail"
       ? { bg: "rgba(179,136,255,0.15)", color: "#3A6A9C", label: "FAIL" }
-      : { bg: "rgba(0,229,255,0.15)", color: "#3A6A9C", label: "PARTIAL" };
+      : { bg: "rgba(212,168,67,0.15)", color: "#3A6A9C", label: "PARTIAL" };
 
   return (
     <div className="space-y-1.5">
@@ -120,7 +120,7 @@ export const ArohaCalculatorPreview = () => {
           key={r.label}
           className="flex justify-between py-1 px-2 rounded"
           style={{
-            background: r.highlight ? "rgba(0,229,255,0.08)" : "rgba(255,255,255,0.02)",
+            background: r.highlight ? "rgba(212,168,67,0.08)" : "rgba(255,255,255,0.02)",
             borderBottom: r.highlight ? "none" : "1px solid rgba(255,255,255,0.03)",
           }}
         >

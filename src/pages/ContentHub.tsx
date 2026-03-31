@@ -152,8 +152,8 @@ const ContentHub = () => {
             <button key={tab.key} onClick={() => setActiveSection(tab.key)}
               className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-medium transition-colors"
               style={{
-                background: activeSection === tab.key ? "rgba(0,229,255,0.1)" : "rgba(255,255,255,0.03)",
-                border: activeSection === tab.key ? "1px solid rgba(0,229,255,0.2)" : "1px solid rgba(255,255,255,0.04)",
+                background: activeSection === tab.key ? "rgba(212,168,67,0.1)" : "rgba(255,255,255,0.03)",
+                border: activeSection === tab.key ? "1px solid rgba(212,168,67,0.2)" : "1px solid rgba(255,255,255,0.04)",
                 color: activeSection === tab.key ? "#3A6A9C" : "rgba(255,255,255,0.5)",
               }}>
               <tab.icon size={12} />{tab.label}
@@ -244,7 +244,7 @@ const ContentHub = () => {
         <div className="flex flex-wrap gap-2">
           <button onClick={() => setAgentFilter("all")}
             className={`px-3 py-1.5 rounded-lg text-[11px] font-medium transition-colors ${agentFilter === "all" ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
-            style={{ background: agentFilter === "all" ? "rgba(0,229,255,0.1)" : "rgba(255,255,255,0.03)", border: agentFilter === "all" ? "1px solid rgba(0,229,255,0.2)" : "1px solid rgba(255,255,255,0.04)" }}>
+            style={{ background: agentFilter === "all" ? "rgba(212,168,67,0.1)" : "rgba(255,255,255,0.03)", border: agentFilter === "all" ? "1px solid rgba(212,168,67,0.2)" : "1px solid rgba(255,255,255,0.04)" }}>
             All Agents
           </button>
           {Object.entries(agentCounts).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([agentId, count]) => {

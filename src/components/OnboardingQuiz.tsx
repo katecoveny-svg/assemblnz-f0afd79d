@@ -2,7 +2,7 @@ import { useState, lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import { agents } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
-import { assemblMark as nexusLogo } from "@/assets/brand";
+import { assemblMark } from "@/assets/brand";
 import ParticleField from "@/components/ParticleField";
 
 const NexusHero3D = lazy(() => import("@/components/NexusHero3D"));
@@ -115,7 +115,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
             {/* 3D Robot */}
             <Suspense fallback={
               <div className="w-full h-[280px] sm:h-[340px] flex items-center justify-center">
-                <img src={nexusLogo} alt="Assembl" className="w-32 h-32 object-contain drop-shadow-[0_0_30px_rgba(0,229,255,0.3)]" />
+                <img src={assemblMark} alt="Assembl" className="w-32 h-32 object-contain drop-shadow-[0_0_30px_rgba(212,168,67,0.3)]" />
               </div>
             }>
               <NexusHero3D />

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback, lazy, Suspense, useMemo } from "react";
-import { assemblMark as nexusLogo } from "@/assets/brand";
+import { assemblMark } from "@/assets/brand";
 import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom";
 import { agents, echoAgent, pilotAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
@@ -1575,7 +1575,7 @@ const ChatPage = () => {
 
         <div className="flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3">
           <Link to="/" className="flex items-center gap-2 shrink-0 group">
-            <img src={nexusLogo} alt="Assembl" className="w-7 h-7 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+            <img src={assemblMark} alt="Assembl" className="w-7 h-7 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
             <span className="font-display font-bold tracking-[3px] uppercase text-[11px] text-foreground/70 group-hover:text-foreground transition-colors hidden sm:inline">ASSEMBL</span>
           </Link>
           <div className="w-px h-5 bg-border/30 hidden sm:block" />

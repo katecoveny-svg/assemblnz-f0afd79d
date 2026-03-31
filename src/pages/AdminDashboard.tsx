@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { agents } from "@/data/agents";
-import { assemblMark as nexusLogo } from "@/assets/brand";
+import { assemblMark } from "@/assets/brand";
 import AgentAvatar from "@/components/AgentAvatar";
 import BrandFooter from "@/components/BrandFooter";
 import {
@@ -186,7 +186,7 @@ const AdminDashboard = () => {
       {/* Header */}
       <header className="flex items-center gap-3 px-6 py-4 border-b border-border">
         <Link to="/" className="flex items-center gap-3">
-          <img src={nexusLogo} alt="Assembl" className="w-7 h-7 object-contain drop-shadow-[0_0_12px_rgba(0,229,255,0.25)]" />
+          <img src={assemblMark} alt="Assembl" className="w-7 h-7 object-contain drop-shadow-[0_0_12px_rgba(212,168,67,0.25)]" />
           <span className="font-display font-light tracking-[3px] uppercase text-foreground text-sm">ASSEMBL</span>
         </Link>
         <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: 'hsl(0 84% 60% / 0.15)', color: 'hsl(0 84% 60%)' }}>
@@ -374,7 +374,7 @@ const AdminDashboard = () => {
                               <span className="text-[9px] text-muted-foreground shrink-0">{p.time}</span>
                               <span className={`text-[8px] font-bold uppercase px-1.5 py-0.5 rounded-full shrink-0`}
                                 style={{
-                                  background: p.status === "published" ? "rgba(0,255,136,0.1)" : p.status === "scheduled" ? "rgba(0,229,255,0.1)" : "rgba(255,184,0,0.1)",
+                                  background: p.status === "published" ? "rgba(0,255,136,0.1)" : p.status === "scheduled" ? "rgba(212,168,67,0.1)" : "rgba(255,184,0,0.1)",
                                   color: p.status === "published" ? "#5AADA0" : p.status === "scheduled" ? "#3A6A9C" : "#FFB800",
                                 }}>{p.status}</span>
                             </div>
@@ -588,7 +588,7 @@ const AdminDashboard = () => {
                 <h2 className="text-sm font-bold text-foreground">
                   Lead Pipeline ({submissions.length})
                   {submissions.filter(s => !s.is_read).length > 0 && (
-                    <span className="ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-bold" style={{ background: "rgba(0,229,255,0.1)", color: "#3A6A9C" }}>
+                    <span className="ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-bold" style={{ background: "rgba(212,168,67,0.1)", color: "#3A6A9C" }}>
                       {submissions.filter(s => !s.is_read).length} new
                     </span>
                   )}
@@ -621,7 +621,7 @@ const AdminDashboard = () => {
                               {status}
                             </span>
                             {!sub.is_read && (
-                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(0,229,255,0.1)", color: "#3A6A9C" }}>NEW</span>
+                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(212,168,67,0.1)", color: "#3A6A9C" }}>NEW</span>
                             )}
                           </div>
                           <div className="flex items-center gap-2">
@@ -682,7 +682,7 @@ const AdminDashboard = () => {
                   return (
                     <button key={name} onClick={() => setDocAgentFilter(docAgentFilter === name ? "all" : name)}
                       className={`flex items-center gap-2 p-3 rounded-xl border transition-colors ${docAgentFilter === name ? "border-primary" : "border-border hover:border-foreground/10"}`}
-                      style={{ background: docAgentFilter === name ? "rgba(0,229,255,0.05)" : "rgba(14,14,26,0.5)" }}>
+                      style={{ background: docAgentFilter === name ? "rgba(212,168,67,0.05)" : "rgba(14,14,26,0.5)" }}>
                       <AgentAvatar agentId={agentId} color={agentInfo?.color || "#888"} size={24} showGlow={false} />
                       <div className="text-left min-w-0">
                         <p className="text-[11px] font-bold text-foreground truncate">{name}</p>

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import { assemblMark as nexusLogo } from "@/assets/brand";
+import { assemblMark } from "@/assets/brand";
 import {
   MessageSquare, Send, Phone, Check, CheckCheck, AlertCircle,
   Image as ImageIcon, FileText, ArrowLeft, Search, Filter,
@@ -191,7 +191,7 @@ export default function AdminMessagesPage() {
         <button onClick={() => navigate("/admin/dashboard")} className="p-2 hover:bg-accent/10 rounded-lg">
           <ArrowLeft className="w-5 h-5" />
         </button>
-        <img src={nexusLogo} alt="Assembl" className="h-7" />
+        <img src={assemblMark} alt="Assembl" className="h-7" />
         <h1 className="text-lg font-bold flex-1">Messages</h1>
         <Badge variant="outline" className="text-xs">
           {conversations.length} conversations

@@ -187,7 +187,7 @@ const EmptyState = ({ message, cta, to }: { message: string; cta?: string; to?: 
     </div>
     <p className="text-xs text-muted-foreground text-center max-w-[200px]">{message}</p>
     {cta && to && (
-      <Link to={to} className="text-[10px] font-medium px-4 py-1.5 rounded-lg transition-colors" style={{ background: "rgba(0,229,255,0.08)", color: "#3A6A9C", border: "1px solid rgba(0,229,255,0.15)" }}>
+      <Link to={to} className="text-[10px] font-medium px-4 py-1.5 rounded-lg transition-colors" style={{ background: "rgba(212,168,67,0.08)", color: "#3A6A9C", border: "1px solid rgba(212,168,67,0.15)" }}>
         {cta} →
       </Link>
     )}

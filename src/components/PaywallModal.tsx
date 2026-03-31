@@ -1,7 +1,7 @@
 import { X, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { assemblMark as nexusLogo } from "@/assets/brand";
+import { assemblMark } from "@/assets/brand";
 import { supabase } from "@/integrations/supabase/client";
 import { STRIPE_TIERS } from "@/data/stripeTiers";
 import { toast } from "sonner";
@@ -41,7 +41,7 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
         </button>
 
         <div className="text-center space-y-4">
-          <img src={nexusLogo} alt="Assembl" className="w-10 h-10 object-contain drop-shadow-[0_0_12px_rgba(0,229,255,0.25)] mx-auto" />
+          <img src={assemblMark} alt="Assembl" className="w-10 h-10 object-contain drop-shadow-[0_0_12px_rgba(212,168,67,0.25)] mx-auto" />
 
           {type === "preview" ? (
             <>
