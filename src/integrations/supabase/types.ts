@@ -154,6 +154,41 @@ export type Database = {
           },
         ]
       }
+      agent_access: {
+        Row: {
+          agent_code: string
+          created_at: string | null
+          id: string
+          is_enabled: boolean | null
+          pack_id: string
+          tenant_id: string
+        }
+        Insert: {
+          agent_code: string
+          created_at?: string | null
+          id?: string
+          is_enabled?: boolean | null
+          pack_id: string
+          tenant_id: string
+        }
+        Update: {
+          agent_code?: string
+          created_at?: string | null
+          id?: string
+          is_enabled?: boolean | null
+          pack_id?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_access_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       agent_analytics: {
         Row: {
           agent_name: string
@@ -430,6 +465,89 @@ export type Database = {
         }
         Relationships: []
       }
+      audit_log: {
+        Row: {
+          agent_code: string
+          agent_name: string
+          compliance_passed: boolean | null
+          cost_nzd: number | null
+          created_at: string | null
+          data_classification: string | null
+          duration_ms: number | null
+          error_message: string | null
+          id: string
+          input_tokens: number | null
+          model_used: string
+          output_tokens: number | null
+          pack_id: string | null
+          pii_detected: boolean | null
+          pii_masked: boolean | null
+          policies_checked: string[] | null
+          request_id: string | null
+          request_summary: string | null
+          response_summary: string | null
+          tenant_id: string | null
+          total_tokens: number | null
+          user_id: string
+        }
+        Insert: {
+          agent_code: string
+          agent_name: string
+          compliance_passed?: boolean | null
+          cost_nzd?: number | null
+          created_at?: string | null
+          data_classification?: string | null
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          input_tokens?: number | null
+          model_used: string
+          output_tokens?: number | null
+          pack_id?: string | null
+          pii_detected?: boolean | null
+          pii_masked?: boolean | null
+          policies_checked?: string[] | null
+          request_id?: string | null
+          request_summary?: string | null
+          response_summary?: string | null
+          tenant_id?: string | null
+          total_tokens?: number | null
+          user_id: string
+        }
+        Update: {
+          agent_code?: string
+          agent_name?: string
+          compliance_passed?: boolean | null
+          cost_nzd?: number | null
+          created_at?: string | null
+          data_classification?: string | null
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          input_tokens?: number | null
+          model_used?: string
+          output_tokens?: number | null
+          pack_id?: string | null
+          pii_detected?: boolean | null
+          pii_masked?: boolean | null
+          policies_checked?: string[] | null
+          request_id?: string | null
+          request_summary?: string | null
+          response_summary?: string | null
+          tenant_id?: string | null
+          total_tokens?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_log_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       automations: {
         Row: {
           agent_id: string | null
@@ -576,6 +694,62 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      business_memory: {
+        Row: {
+          category: string
+          content: string
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          is_archived: boolean | null
+          metadata: Json | null
+          relevance_score: number | null
+          tags: string[] | null
+          tenant_id: string | null
+          ttl_days: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          content: string
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          is_archived?: boolean | null
+          metadata?: Json | null
+          relevance_score?: number | null
+          tags?: string[] | null
+          tenant_id?: string | null
+          ttl_days?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          category?: string
+          content?: string
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          is_archived?: boolean | null
+          metadata?: Json | null
+          relevance_score?: number | null
+          tags?: string[] | null
+          tenant_id?: string | null
+          ttl_days?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_memory_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       campaigns: {
         Row: {
@@ -1262,6 +1436,41 @@ export type Database = {
             columns: ["family_id"]
             isOneToOne: false
             referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feature_flags: {
+        Row: {
+          created_at: string | null
+          feature_name: string
+          id: string
+          is_enabled: boolean | null
+          metadata: Json | null
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          feature_name: string
+          id?: string
+          is_enabled?: boolean | null
+          metadata?: Json | null
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string | null
+          feature_name?: string
+          id?: string
+          is_enabled?: boolean | null
+          metadata?: Json | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feature_flags_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
         ]
@@ -2610,6 +2819,38 @@ export type Database = {
           },
         ]
       }
+      tenant_members: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: string
+          tenant_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role?: string
+          tenant_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: string
+          tenant_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_members_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenant_requests: {
         Row: {
           created_at: string
@@ -2650,6 +2891,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      tenants: {
+        Row: {
+          billing_email: string | null
+          created_at: string | null
+          credit_nzd: number | null
+          id: string
+          is_active: boolean | null
+          metadata: Json | null
+          name: string
+          plan: string
+          updated_at: string | null
+        }
+        Insert: {
+          billing_email?: string | null
+          created_at?: string | null
+          credit_nzd?: number | null
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          name: string
+          plan?: string
+          updated_at?: string | null
+        }
+        Update: {
+          billing_email?: string | null
+          created_at?: string | null
+          credit_nzd?: number | null
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          name?: string
+          plan?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       timetables: {
         Row: {
