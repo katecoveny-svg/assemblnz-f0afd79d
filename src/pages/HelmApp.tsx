@@ -26,7 +26,7 @@ import AgentAvatar from "@/components/AgentAvatar";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
 import { setDynamicManifest } from "@/utils/pwaManifest";
 
-const HELM_COLOR = "#3A7D6E";
+const TOROA_COLOR = "#3A7D6E";
 
 type Tab = "chat" | "groceries" | "appointments" | "family_chat" | "tasks" | "week" | "bus" | "timetable" | "inbox" | "review" | "rescue" | "settings";
 
@@ -56,7 +56,7 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "settings", label: "Settings", icon: <Settings2 size={16} /> },
 ];
 
-export default function HelmApp() {
+export default function ToroaApp() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>("chat");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -69,7 +69,7 @@ export default function HelmApp() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Set dynamic PWA manifest for HELM
+  // Set dynamic PWA manifest for TŌROA
   useEffect(() => setDynamicManifest("operations"), []);
 
   // Load family
@@ -113,7 +113,7 @@ export default function HelmApp() {
       const content = resp.data?.content || "Sorry, I couldn't process that. Please try again.";
       setMessages([...newMessages, { role: "assistant", content }]);
     } catch (err: any) {
-      console.error("HELM chat error:", err);
+      console.error("TŌROA chat error:", err);
       setMessages([...newMessages, { role: "assistant", content: "Something went wrong. Please try again." }]);
     } finally {
       setLoading(false);
@@ -134,26 +134,26 @@ export default function HelmApp() {
 
   return (
     <div className="h-screen flex flex-col" style={{ background: "#09090F", color: "white" }}>
-      <PWAInstallBanner agentName="HELM" agentColor={HELM_COLOR} />
+      <PWAInstallBanner agentName="TŌROA" agentColor={TOROA_COLOR} />
       {/* Top Bar */}
       <header className="flex items-center gap-3 px-4 py-3 border-b border-white/5 shrink-0">
         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-white/5 transition lg:hidden">
           <Menu size={18} className="text-white/60" />
         </button>
-        <AgentAvatar agentId="operations" color={HELM_COLOR} size={32} showGlow={false} eager />
+        <AgentAvatar agentId="operations" color={TOROA_COLOR} size={32} showGlow={false} eager />
         <div className="flex-1 min-w-0">
-          <h1 className="text-sm font-bold font-display" style={{ color: HELM_COLOR }}>HELM</h1>
+          <h1 className="text-sm font-bold font-display" style={{ color: TOROA_COLOR }}>TŌROA</h1>
           <p className="text-[9px] text-white/30 font-mono">Your family's second brain</p>
         </div>
         {user ? (
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold" style={{ background: HELM_COLOR + "30", color: HELM_COLOR }}>
+            <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold" style={{ background: TOROA_COLOR + "30", color: TOROA_COLOR }}>
               {(user.email?.[0] || "U").toUpperCase()}
             </div>
           </div>
         ) : (
           <Link to="/login" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition"
-            style={{ background: HELM_COLOR + "20", color: HELM_COLOR, border: `1px solid ${HELM_COLOR}30` }}>
+            style={{ background: TOROA_COLOR + "20", color: TOROA_COLOR, border: `1px solid ${TOROA_COLOR}30` }}>
             <LogIn size={12} /> Sign in
           </Link>
         )}
@@ -187,9 +187,9 @@ export default function HelmApp() {
                     onClick={() => { setActiveTab(tab.id); setSidebarOpen(false); }}
                     className="flex items-center gap-2.5 px-5 py-2.5 text-left transition-all w-full"
                     style={{
-                      background: activeTab === tab.id ? HELM_COLOR + "12" : "transparent",
-                      color: activeTab === tab.id ? HELM_COLOR : "rgba(255,255,255,0.5)",
-                      borderRight: activeTab === tab.id ? `2px solid ${HELM_COLOR}` : "2px solid transparent",
+                      background: activeTab === tab.id ? TOROA_COLOR + "12" : "transparent",
+                      color: activeTab === tab.id ? TOROA_COLOR : "rgba(255,255,255,0.5)",
+                      borderRight: activeTab === tab.id ? `2px solid ${TOROA_COLOR}` : "2px solid transparent",
                     }}
                   >
                     {tab.icon}
@@ -203,7 +203,7 @@ export default function HelmApp() {
                     <p className="text-[9px] text-white/30 uppercase tracking-wide mb-1">Status</p>
                     <div className="flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                      <span className="text-[10px] text-white/50">HELM Online</span>
+                      <span className="text-[10px] text-white/50">TŌROA Online</span>
                     </div>
                   </div>
                   <Link to="/" className="flex items-center gap-1.5 text-[10px] text-white/25 hover:text-white/40 transition px-1">
@@ -222,7 +222,7 @@ export default function HelmApp() {
             {TABS.slice(0, 5).map(tab => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
                 className="flex items-center gap-1.5 px-3 py-2.5 text-[10px] font-medium whitespace-nowrap transition shrink-0"
-                style={{ color: activeTab === tab.id ? HELM_COLOR : "rgba(255,255,255,0.4)", borderBottom: activeTab === tab.id ? `2px solid ${HELM_COLOR}` : "2px solid transparent" }}>
+                style={{ color: activeTab === tab.id ? TOROA_COLOR : "rgba(255,255,255,0.4)", borderBottom: activeTab === tab.id ? `2px solid ${TOROA_COLOR}` : "2px solid transparent" }}>
                 {tab.icon} {tab.label}
               </button>
             ))}
@@ -240,11 +240,11 @@ export default function HelmApp() {
                 {messages.length === 0 && (
                   <div className="flex flex-col items-center justify-center py-12">
                      <div className="mb-4">
-                       <AgentAvatar agentId="operations" color={HELM_COLOR} size={80} />
+                       <AgentAvatar agentId="operations" color={TOROA_COLOR} size={80} />
                      </div>
-                    <h2 className="text-lg font-display font-bold mb-1" style={{ color: HELM_COLOR }}>Kia ora!</h2>
+                    <h2 className="text-lg font-display font-bold mb-1" style={{ color: TOROA_COLOR }}>Kia ora!</h2>
                     <p className="text-xs text-white/40 text-center max-w-sm mb-6">
-                      I'm HELM, your family's second brain. I can help with school admin, meal plans, budgets, and more.
+                      I'm TŌROA, your family's second brain. I can help with school admin, meal plans, budgets, and more.
                     </p>
                     <HelmQuickActions onSelect={switchToChat} />
                   </div>
@@ -254,15 +254,15 @@ export default function HelmApp() {
                   <div key={i} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : ""}`}>
                     {msg.role === "assistant" && (
                       <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center">
-                        <AgentAvatar agentId="operations" color={HELM_COLOR} size={28} showGlow={false} />
+                        <AgentAvatar agentId="operations" color={TOROA_COLOR} size={28} showGlow={false} />
                       </div>
                     )}
                     <div
                       className="rounded-2xl px-4 py-2.5 max-w-[85%] text-sm leading-relaxed whitespace-pre-wrap"
                       style={{
-                        background: msg.role === "user" ? HELM_COLOR + "20" : "rgba(255,255,255,0.04)",
+                        background: msg.role === "user" ? TOROA_COLOR + "20" : "rgba(255,255,255,0.04)",
                         color: msg.role === "user" ? "white" : "rgba(255,255,255,0.8)",
-                        border: `1px solid ${msg.role === "user" ? HELM_COLOR + "30" : "rgba(255,255,255,0.06)"}`,
+                        border: `1px solid ${msg.role === "user" ? TOROA_COLOR + "30" : "rgba(255,255,255,0.06)"}`,
                       }}
                     >
                       {msg.content}
@@ -278,15 +278,15 @@ export default function HelmApp() {
                 {loading && (
                   <div className="flex gap-3">
                     <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center">
-                      <AgentAvatar agentId="operations" color={HELM_COLOR} size={28} showGlow={false} />
+                      <AgentAvatar agentId="operations" color={TOROA_COLOR} size={28} showGlow={false} />
                     </div>
                     <div className="rounded-2xl px-4 py-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
                       <div className="flex gap-1.5">
-                        <motion.div className="w-2 h-2 rounded-full" style={{ background: HELM_COLOR }}
+                        <motion.div className="w-2 h-2 rounded-full" style={{ background: TOROA_COLOR }}
                           animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1.2, repeat: Infinity, delay: 0 }} />
-                        <motion.div className="w-2 h-2 rounded-full" style={{ background: HELM_COLOR }}
+                        <motion.div className="w-2 h-2 rounded-full" style={{ background: TOROA_COLOR }}
                           animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1.2, repeat: Infinity, delay: 0.2 }} />
-                        <motion.div className="w-2 h-2 rounded-full" style={{ background: HELM_COLOR }}
+                        <motion.div className="w-2 h-2 rounded-full" style={{ background: TOROA_COLOR }}
                           animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1.2, repeat: Infinity, delay: 0.4 }} />
                       </div>
                     </div>
@@ -304,7 +304,7 @@ export default function HelmApp() {
                     value={input}
                     onChange={e => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Ask HELM anything..."
+                    placeholder="Ask TŌROA anything..."
                     rows={1}
                     className="flex-1 bg-transparent text-sm text-white/90 placeholder:text-white/25 resize-none focus:outline-none py-1"
                     style={{ maxHeight: "120px" }}
@@ -313,13 +313,13 @@ export default function HelmApp() {
                     onClick={() => sendMessage(input)}
                     disabled={!input.trim() || loading}
                     className="p-2 rounded-xl transition disabled:opacity-30"
-                    style={{ background: HELM_COLOR + "30", color: HELM_COLOR }}
+                    style={{ background: TOROA_COLOR + "30", color: TOROA_COLOR }}
                   >
                     <Send size={16} />
                   </button>
                 </div>
                 <p className="text-[9px] text-white/15 text-center mt-2">
-                  HELM by Assembl — AI-powered family admin for NZ
+                  TŌROA by Assembl — AI-powered family admin for NZ
                 </p>
               </div>
             </div>

@@ -39,7 +39,7 @@ export const COMPARISONS: ComparisonItem[] = [
 
 export const FILTER_AGENTS = [
   { name: "All", color: "#ffffff" },
-  { name: "HELM", color: "#3A6A9C" },
+  { name: "TŌROA", color: "#3A6A9C" },
   { name: "AROHA", color: "#FF6F91" },
   { name: "LEDGER", color: "#4FC3F7" },
   { name: "HAVEN", color: "#FF80AB" },
@@ -264,11 +264,11 @@ export const OUTPUT_CARDS: OutputCard[] = [
     preview: `**PRIVACY POLICY**\n\n[Business Name] is committed to protecting your privacy in accordance with the Privacy Act 2020 (NZ).`,
     fullContent: `**PRIVACY POLICY**\n\n[Business Name] is committed to protecting your privacy in accordance with the Privacy Act 2020 (NZ).\n\n**1. Information We Collect**\nWe collect personal information including name, email, phone number, and payment details when you use our services.\n\n**2. How We Use Your Information**\n• To provide and improve our services\n• To communicate with you about your account\n• To comply with legal obligations\n\n**3. Information Sharing**\nWe do not sell your personal information. We may share with:\n• Service providers who assist our operations\n• Legal authorities when required by law\n\n**4. Your Rights (Privacy Act 2020)**\n• Right to access your personal information\n• Right to request correction of inaccurate information\n• Right to request deletion\n\n**5. Data Security**\nWe implement industry-standard security measures including encryption, access controls, and regular security audits.\n\n**6. Contact**\nPrivacy Officer: [Name], [Email]\n\n*Compliant with NZ Privacy Act 2020 and Information Privacy Principles 1-13.*`,
   },
-  // HELM
+  // TŌROA
   {
     id: "helm-dashboard",
     agentId: "operations",
-    agentName: "HELM",
+    agentName: "TŌROA",
     agentCode: "ASM-013",
     agentColor: "#3A6A9C",
     outputType: "Weekly Family Dashboard",
@@ -279,7 +279,7 @@ export const OUTPUT_CARDS: OutputCard[] = [
   {
     id: "helm-newsletter",
     agentId: "operations",
-    agentName: "HELM",
+    agentName: "TŌROA",
     agentCode: "ASM-013",
     agentColor: "#3A6A9C",
     outputType: "Newsletter AI Parse",

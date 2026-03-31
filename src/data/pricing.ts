@@ -102,12 +102,12 @@ export const PRICING = {
     popular: false,
   },
   helm: {
-    name: 'HELM',
+    name: 'TŌROA',
     price: 29,
     period: '/mo',
     currency: 'NZD',
     features: [
-      'HELM family advisor',
+      'TŌROA family advisor',
       '200 messages/mo',
       'Bus tracking',
       'Newsletter AI parser',
@@ -115,7 +115,7 @@ export const PRICING = {
       'Packing lists & meal plans',
       'Rescue delivery',
     ],
-    cta: 'Get HELM',
+    cta: 'Get TŌROA',
     link: 'https://buy.stripe.com/28E8wRa1C2FW3WZ9gO3oA07',
   },
 } as const;

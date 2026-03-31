@@ -14,7 +14,7 @@ interface ManifestData {
 
 /**
  * Generate a PWA manifest for a specific agent.
- * Called from AgentApp/HelmApp to dynamically set <link rel="manifest">.
+ * Called from AgentApp/ToroaApp to dynamically set <link rel="manifest">.
  */
 export function getAgentManifest(agentId: string): ManifestData {
   const agent = agents.find((a) => a.id === agentId);
@@ -27,7 +27,7 @@ export function getAgentManifest(agentId: string): ManifestData {
     name,
     short_name: shortName,
     description: `${shortName} — ${role}. Powered by Assembl, NZ's business intelligence platform.`,
-    start_url: agentId === "operations" ? "/helm" : `/app/${agentId}`,
+    start_url: agentId === "operations" ? "/toroa" : `/app/${agentId}`,
     display: "standalone",
     background_color: "#09090F",
     theme_color: color,

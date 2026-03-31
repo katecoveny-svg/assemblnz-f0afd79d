@@ -162,7 +162,7 @@ const TRIGGER_PATTERNS = [
 ];
 
 const MAX_GENERATIONS_PER_SESSION = 5;
-const HELM_COLOR = "#3A6A9C";
+const TOROA_COLOR = "#3A6A9C";
 
 function shouldTrigger3D(text: string): boolean {
   return TRIGGER_PATTERNS.some((p) => p.test(text));
@@ -360,7 +360,7 @@ const ChatPage = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "bim_analyze" | "bim_clash" | "bim_schedule" | "bim_3d" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "forge_audit" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aroha_retention" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "aura_food_safety" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "prism_adengine" | "axis_automations" | "agent_training" | "voice_waitlist" | "agent_sms" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance" | "live_data">("chat");
   const [showDeployModal, setShowDeployModal] = useState(false);
-  const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
+  const [toroaView, setToroaView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [brandModalOpen, setBrandModalOpen] = useState(false);
@@ -410,7 +410,7 @@ const ChatPage = () => {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [auraModeKey, setAuraModeKey] = useState(0);
 
-  // Voice input/output state (HELM)
+  // Voice input/output state (TŌROA)
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState<number | null>(null);
   const recognitionRef = useRef<any>(null);
@@ -427,7 +427,7 @@ const ChatPage = () => {
   const isForge = agentId === "automotive";
   const isAroha = agentId === "hr";
   const isAura = agentId === "hospitality";
-  const isHelm = agentId === "operations";
+  const isToroa = agentId === "operations";
   const isNexus = agentId === "customs";
   const isMarketing = agentId === "marketing";
   const isConstruction = agentId === "construction";
@@ -963,14 +963,14 @@ const ChatPage = () => {
       ["kindle_writer:Campaign Writer", "kindle_marketplace:Marketplace", "kindle_impact:Impact", "kindle_corporate:Corporate"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isAxis) toolTabs.push({ id: "axis_automations", label: "Automations" });
-    if (isHelm) {
+    if (isToroa) {
       ["helm_week:This Week", "helm_bus:Bus", "helm_timetable:Timetable", "helm_inbox:Inbox", "helm_review:Review", "helm_rescue:Rescue", "helm_settings:Settings"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isSports) {
       ["turf_events:Events", "turf_membership:Membership", "turf_facilities:Facilities", "turf_sponsorship:Sponsorship", "turf_performance:Performance", "turf_compliance:Compliance"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (hasLiveDataTab) toolTabs.push({ id: "live_data", label: "Live Data" });
-    if (!isHelm && !isSports && agentId !== "maritime") toolTabs.push({ id: "internal_comms", label: "Comms" });
+    if (!isToroa && !isSports && agentId !== "maritime") toolTabs.push({ id: "internal_comms", label: "Comms" });
 
     // Top-level tabs: Chat is always shown separately; these are the other 4
     if (toolTabs.length > 0) tabs.push(...toolTabs.map(t => ({ id: t.id, label: t.label })));
@@ -982,9 +982,9 @@ const ChatPage = () => {
     // Settings/Train tab
     tabs.push({ id: "agent_training", label: "Settings", icon: <Brain size={13} /> });
     return tabs;
-  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isHanga, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, isSports, hasLiveDataTab, auraModeKey]);
+  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isHanga, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isToroa, isSports, hasLiveDataTab, auraModeKey]);
 
-  const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#3A6A9C");
+  const accentColor = isToroa ? TOROA_COLOR : (agent?.color || "#3A6A9C");
 
   const handleUniversalFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!canUseFeature("upload")) return;
@@ -1608,13 +1608,13 @@ const ChatPage = () => {
           <div className="flex items-center gap-1.5">
             {/* Chat tab (always first) */}
             <button
-              onClick={() => { setActiveTab("chat"); if (isHelm) setHelmView("chat"); }}
+              onClick={() => { setActiveTab("chat"); if (isToroa) setToroaView("chat"); }}
               className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0"
               style={{
-                backgroundColor: activeTab === "chat" && (!isHelm || helmView === "chat") ? accentColor + "20" : "hsl(var(--muted) / 0.3)",
-                color: activeTab === "chat" && (!isHelm || helmView === "chat") ? accentColor : "hsl(var(--muted-foreground))",
-                border: activeTab === "chat" && (!isHelm || helmView === "chat") ? `1px solid ${accentColor}35` : "1px solid transparent",
-                boxShadow: activeTab === "chat" && (!isHelm || helmView === "chat") ? `0 0 12px ${accentColor}15` : "none",
+                backgroundColor: activeTab === "chat" && (!isToroa || toroaView === "chat") ? accentColor + "20" : "hsl(var(--muted) / 0.3)",
+                color: activeTab === "chat" && (!isToroa || toroaView === "chat") ? accentColor : "hsl(var(--muted-foreground))",
+                border: activeTab === "chat" && (!isToroa || toroaView === "chat") ? `1px solid ${accentColor}35` : "1px solid transparent",
+                boxShadow: activeTab === "chat" && (!isToroa || toroaView === "chat") ? `0 0 12px ${accentColor}15` : "none",
               }}
             >
               <MessageSquare size={14} />
@@ -1730,20 +1730,20 @@ const ChatPage = () => {
       )}
 
       {/* Tab Views */}
-      {/* HELM Tab Views */}
-      {activeTab === "helm_week" && isHelm ? (
+      {/* TŌROA Tab Views */}
+      {activeTab === "helm_week" && isToroa ? (
         <HelmThisWeek onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
-      ) : activeTab === "helm_bus" && isHelm ? (
+      ) : activeTab === "helm_bus" && isToroa ? (
         <HelmBusTracker />
-      ) : activeTab === "helm_timetable" && isHelm ? (
+      ) : activeTab === "helm_timetable" && isToroa ? (
         <HelmTimetable onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
-      ) : activeTab === "helm_inbox" && isHelm ? (
+      ) : activeTab === "helm_inbox" && isToroa ? (
         <HelmInbox onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
-      ) : activeTab === "helm_review" && isHelm ? (
+      ) : activeTab === "helm_review" && isToroa ? (
         <HelmReview />
-      ) : activeTab === "helm_rescue" && isHelm ? (
+      ) : activeTab === "helm_rescue" && isToroa ? (
         <HelmRescue />
-      ) : activeTab === "helm_settings" && isHelm ? (
+      ) : activeTab === "helm_settings" && isToroa ? (
         <HelmSettings />
       ) : activeTab === "haven_dashboard" && isHaven ? (
         <HavenDashboard />
@@ -1923,11 +1923,11 @@ const ChatPage = () => {
           agentColor={agent.color}
           onGenerate={(prompt) => {
             setActiveTab("chat");
-            if (isHelm) setHelmView("chat");
+            if (isToroa) setToroaView("chat");
             sendMessage(prompt);
           }}
         />
-      ) : isHelm && helmView === "dashboard" ? (
+      ) : isToroa && toroaView === "dashboard" ? (
         <div className="flex-1 overflow-y-auto">
           <HelmDashboard items={dashboardItems} onAddReminder={handleAddReminder} />
         </div>
@@ -1982,7 +1982,7 @@ const ChatPage = () => {
                 )}
                 {isSpark && <div className="w-full max-w-md mt-2"><SparkTemplateGrid agentColor={agent.color} onSelectTemplate={(prompt) => sendMessage(prompt)} /></div>}
 
-                {isHelm ? (
+                {isToroa ? (
                   <HelmQuickActions onSelect={(msg) => sendMessage(msg)} />
                 ) : isNexus ? (
                   <div className="flex flex-col gap-2 w-full max-w-sm mt-2">
@@ -2404,7 +2404,7 @@ const ChatPage = () => {
                 </button>
               )}
 
-              {isHelm && (
+              {isToroa && (
                 <button
                   type="button"
                   onClick={toggleListening}
@@ -2424,7 +2424,7 @@ const ChatPage = () => {
 
               <input
                 ref={inputRef} type="text" value={input} onChange={(e) => setInput(e.target.value)}
-                placeholder={isArc && pendingImage ? "Describe the building, or send to generate from image..." : isHelm ? (isListening ? "Listening..." : "Ask HELM anything — meals, budgets, schedules, life admin...") : isNexus ? "Ask NEXUS or upload a document..." : `Ask ${agent.name} anything...`}
+                placeholder={isArc && pendingImage ? "Describe the building, or send to generate from image..." : isToroa ? (isListening ? "Listening..." : "Ask TŌROA anything — meals, budgets, schedules, life admin...") : isNexus ? "Ask NEXUS or upload a document..." : `Ask ${agent.name} anything...`}
                 className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 focus:ring-offset-background focus:border-foreground/10 transition-colors"
                 aria-label={`Message ${agent.name}`}
                 onKeyDown={(e) => { if (e.key === "Escape") inputRef.current?.blur(); }}

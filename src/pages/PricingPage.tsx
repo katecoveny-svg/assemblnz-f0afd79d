@@ -14,14 +14,14 @@ const MAIN_PLANS = [
   PRICING.suite,
 ];
 
-const HELM_PLAN = { ...PRICING.helm, desc: "Life admin for Kiwi families" };
+const TOROA_PLAN = { ...PRICING.helm, desc: "Life admin for Kiwi families" };
 
 const FAQS = [
   { q: "Can I try Assembl for free?", a: "Every specialist tool is available for free — no signup required. You get 3 messages per advisor to explore. If you like what you see, sign up for a plan to unlock more." },
   { q: "How do message limits work?", a: "Starter gives you 100 messages per month. Pro provides 500 per month. Business gives you 2,000 and Suite provides 5,000. Enterprise is unlimited." },
   { q: "What NZ legislation is built in?", a: "Our tools are trained on 50+ NZ Acts and regulations including the Employment Relations Act 2000, Health and Safety at Work Act 2015, Building Act 2004, Food Act 2014, Privacy Act 2020, and many more." },
   { q: "Can I cancel anytime?", a: "Yes. All plans are month-to-month with no lock-in contracts. Cancel anytime from your dashboard." },
-  { q: "What is HELM?", a: "HELM is our family life admin advisor designed for NZ families. It helps with meal planning, budgeting, school admin, and more — all with Kiwi context built in." },
+  { q: "What is TŌROA?", a: "TŌROA is our family life admin advisor designed for NZ families. It helps with meal planning, budgeting, school admin, and more — all with Kiwi context built in." },
   { q: "Do you offer discounts for nonprofits or startups?", a: "Yes! Through our AssemblFund initiative, we offer subsidised access for Kiwi startups and community organisations. Contact us at assembl@assembl.co.nz." },
 ];
 
@@ -37,7 +37,7 @@ const PricingPage = () => {
     <div className="min-h-screen flex flex-col relative" style={{ background: '#09090B' }}>
       <SEO
         title="Assembl Pricing — Enterprise-Grade Business Intelligence | SME-Friendly Pricing"
-        description="Starter $89/mo (1 tool). Pro $299/mo (3 tools + SPARK). Business $599/mo (all 44 tools). Industry Suite $1,499/mo (custom tools + white-label). HELM Family from $14/mo."
+        description="Starter $89/mo (1 tool). Pro $299/mo (3 tools + SPARK). Business $599/mo (all 44 tools). Industry Suite $1,499/mo (custom tools + white-label). TŌROA Family from $14/mo."
         path="/pricing"
       />
       <BrandNav />
@@ -152,12 +152,12 @@ const PricingPage = () => {
         </div>
       </section>
 
-      {/* HELM */}
+      {/* TŌROA */}
       <div className="max-w-6xl mx-auto px-5 sm:px-6"><div className="h-px" style={{ background: 'rgba(255,255,255,0.06)' }} /></div>
       <section className="py-14">
         <div className="max-w-md mx-auto px-5 sm:px-6">
           <h2 className="text-lg sm:text-2xl font-display font-bold text-center mb-2" style={{ color: '#FAFAFA' }}>
-            HELM — Life Admin for Families
+            TŌROA — Life Admin for Families
           </h2>
           <p className="text-xs font-body text-center mb-8" style={{ color: '#71717A' }}>
             Life admin built for Kiwi households
@@ -170,18 +170,18 @@ const PricingPage = () => {
             }}
           >
             <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-3" style={{ color: '#3A6A9C' }}>
-              {HELM_PLAN.name}
+              {TOROA_PLAN.name}
             </p>
             <div className="flex items-baseline gap-1 mb-1">
               <span className="font-display text-3xl font-bold" style={{ color: '#FAFAFA' }}>
-                ${HELM_PLAN.price}
+                ${TOROA_PLAN.price}
               </span>
               <span className="text-sm" style={{ color: '#71717A' }}>/mo</span>
             </div>
-            <p className="text-xs font-body mb-4" style={{ color: '#71717A' }}>{HELM_PLAN.desc}</p>
+            <p className="text-xs font-body mb-4" style={{ color: '#71717A' }}>{TOROA_PLAN.desc}</p>
             <div className="h-px mb-4" style={{ background: 'rgba(255,255,255,0.06)' }} />
             <ul className="space-y-2 mb-6 flex-1">
-              {HELM_PLAN.features.map((f) => (
+              {TOROA_PLAN.features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-xs font-body" style={{ color: '#A1A1AA' }}>
                   <Check size={14} className="mt-0.5 shrink-0" style={{ color: '#3A6A9C' }} />
                   {f}
@@ -189,12 +189,12 @@ const PricingPage = () => {
               ))}
             </ul>
             <a
-              href={HELM_PLAN.link}
+              href={TOROA_PLAN.link}
               target="_blank"
               rel="noopener noreferrer"
               className="cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
             >
-              <span>Get HELM — $29/mo</span>
+              <span>Get TŌROA — $29/mo</span>
             </a>
           </div>
         </div>

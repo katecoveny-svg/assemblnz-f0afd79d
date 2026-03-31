@@ -7,7 +7,7 @@ const CARD_STYLE: React.CSSProperties = {
   boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
 };
 
-const HELM = "#3A6A9C";
+const TŌROA = "#3A6A9C";
 
 /* ─── Meal Plan Card ─── */
 interface MealDay {
@@ -24,13 +24,13 @@ export const MealPlanCard = ({
   onGenerateList: () => void;
 }) => (
   <div style={CARD_STYLE} className="p-4 space-y-3">
-    <h4 className="text-sm font-bold flex items-center gap-1.5" style={{ color: HELM }}>
+    <h4 className="text-sm font-bold flex items-center gap-1.5" style={{ color: TŌROA }}>
       <NeonFork size={16} /> Weekly Meal Plan
     </h4>
     {days.map((d) => (
       <div key={d.day} className="border-b border-[#3A6A9C10] pb-2 last:border-0">
         <div className="flex justify-between items-center">
-          <span className="text-xs font-semibold" style={{ color: HELM }}>
+          <span className="text-xs font-semibold" style={{ color: TŌROA }}>
             {d.day}
           </span>
           {d.cost && <span className="text-[10px] text-foreground/40">{d.cost}</span>}
@@ -47,7 +47,7 @@ export const MealPlanCard = ({
       className="w-full text-xs font-medium py-2 rounded-lg transition-colors"
       style={{
         background: "#3A6A9C15",
-        color: HELM,
+        color: TŌROA,
         border: "1px solid #3A6A9C25",
       }}
     >
@@ -75,8 +75,8 @@ export const BudgetCard = ({
 
   return (
     <div style={CARD_STYLE} className="p-4 space-y-2">
-      <h4 className="text-sm font-bold flex items-center gap-1.5" style={{ color: HELM }}>
-        <NeonCoin size={16} color={HELM} /> Household Budget
+      <h4 className="text-sm font-bold flex items-center gap-1.5" style={{ color: TŌROA }}>
+        <NeonCoin size={16} color={TŌROA} /> Household Budget
       </h4>
       {rows.map((r) => (
         <div key={r.category} className="flex justify-between text-xs">
@@ -120,13 +120,13 @@ interface ScheduleDay {
 
 export const ScheduleCard = ({ days }: { days: ScheduleDay[] }) => (
   <div style={CARD_STYLE} className="p-4 overflow-x-auto">
-    <h4 className="text-sm font-bold mb-3 flex items-center gap-1.5" style={{ color: HELM }}>
+    <h4 className="text-sm font-bold mb-3 flex items-center gap-1.5" style={{ color: TŌROA }}>
       <NeonCalendar size={16} /> Weekly Schedule
     </h4>
     <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${Math.min(days.length, 7)}, minmax(100px, 1fr))` }}>
       {days.map((d) => (
         <div key={d.day}>
-          <p className="text-[10px] font-bold text-center mb-1.5" style={{ color: HELM }}>
+          <p className="text-[10px] font-bold text-center mb-1.5" style={{ color: TŌROA }}>
             {d.day}
           </p>
           <div className="space-y-1">
@@ -135,8 +135,8 @@ export const ScheduleCard = ({ days }: { days: ScheduleDay[] }) => (
                 key={i}
                 className="rounded-md px-1.5 py-1 text-[9px]"
                 style={{
-                  backgroundColor: (b.color || HELM) + "18",
-                  borderLeft: `2px solid ${b.color || HELM}`,
+                  backgroundColor: (b.color || TŌROA) + "18",
+                  borderLeft: `2px solid ${b.color || TŌROA}`,
                 }}
               >
                 <span className="font-semibold text-foreground/60">{b.time}</span>

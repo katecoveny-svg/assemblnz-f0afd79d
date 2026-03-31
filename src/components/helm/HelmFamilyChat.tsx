@@ -81,10 +81,10 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
 
     setInput("");
 
-    // If the message looks like a HELM command, also send to HELM for processing
+    // If the message looks like a TŌROA command, also send to TŌROA for processing
     const lc = input.trim().toLowerCase();
     if (lc.startsWith("helm ") || lc.startsWith("@helm") || lc.includes("add to groceries") || lc.includes("book ") || lc.includes("remind ")) {
-      // Send to HELM agent via chat function
+      // Send to TŌROA agent via chat function
       try {
         await supabase.functions.invoke("chat", {
           body: {
@@ -94,7 +94,7 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
           },
         });
       } catch (_) {
-        // Non-blocking — HELM response will come through the chat channel
+        // Non-blocking — TŌROA response will come through the chat channel
       }
     }
   }, [input, familyId, user, familyMembers]);
@@ -142,7 +142,7 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
             <Bot className="w-8 h-8 text-purple-400/40 mx-auto mb-3" />
             <p className="text-sm text-white/30">Start your family chat</p>
             <p className="text-xs text-white/20 mt-1">Messages here are shared with all family members</p>
-            <p className="text-xs text-purple-400/40 mt-2">Tip: Tag @HELM to get assistant help</p>
+            <p className="text-xs text-purple-400/40 mt-2">Tip: Tag @TŌROA to get assistant help</p>
           </div>
         )}
 
@@ -197,7 +197,7 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
-            placeholder="Message your family... (tag @HELM for help)"
+            placeholder="Message your family... (tag @TŌROA for help)"
             className="flex-1 text-sm px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
           />
           <button

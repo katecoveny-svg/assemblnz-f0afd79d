@@ -6,12 +6,12 @@ interface QuickAction {
   subtitle: string;
 }
 
-const HELM = "#3A6A9C";
+const TŌROA = "#3A6A9C";
 
 const actions: QuickAction[] = [
-  { icon: <NeonClipboard size={22} color={HELM} />, title: "Parse a notice", subtitle: "Upload a school newsletter or notice" },
+  { icon: <NeonClipboard size={22} color={TŌROA} />, title: "Parse a notice", subtitle: "Upload a school newsletter or notice" },
   { icon: <NeonFork size={22} />, title: "Meal plan", subtitle: "Create a weekly meal plan" },
-  { icon: <NeonCoin size={22} color={HELM} />, title: "Budget", subtitle: "Set up a household budget" },
+  { icon: <NeonCoin size={22} color={TŌROA} />, title: "Budget", subtitle: "Set up a household budget" },
   { icon: <NeonGift size={22} />, title: "Gifts & birthdays", subtitle: "Track birthdays and gift ideas" },
   { icon: <NeonShirt size={22} />, title: "Laundry schedule", subtitle: "Organise household laundry" },
   { icon: <NeonPaw size={22} />, title: "Pet care", subtitle: "Manage pet schedules and vet visits" },

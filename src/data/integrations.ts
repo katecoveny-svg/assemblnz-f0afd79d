@@ -27,7 +27,7 @@ export const INTEGRATIONS: Integration[] = [
   { name: "Image Generation", description: "AI image generation for PRISM creative studio and ECHO content.", agents: ["PRISM", "ECHO"], tier: "connected", icon: Camera, color: "hsl(300 80% 60%)", connected: true },
 
   // ─── AVAILABLE — Google Workspace ───
-  { name: "Google Calendar", description: "Sync events with HELM, AXIS, AURA, FLUX. Agents can read and create calendar events.", agents: ["HELM", "AXIS", "AURA", "FLUX"], tier: "available", icon: Calendar, color: "hsl(217 89% 55%)", configKey: "google_calendar", connectLabel: "Connect with Google" },
+  { name: "Google Calendar", description: "Sync events with TŌROA, AXIS, AURA, FLUX. Agents can read and create calendar events.", agents: ["TŌROA", "AXIS", "AURA", "FLUX"], tier: "available", icon: Calendar, color: "hsl(217 89% 55%)", configKey: "google_calendar", connectLabel: "Connect with Google" },
   { name: "Gmail", description: "Send emails directly from ECHO and FLUX. Draft → approve → sent.", agents: ["ECHO", "FLUX"], tier: "available", icon: Mail, color: "hsl(4 90% 58%)", configKey: "gmail", connectLabel: "Connect with Google" },
   { name: "Google Drive", description: "Store and retrieve documents from Drive. Agents can save outputs and read shared files.", agents: ["All Agents"], tier: "available", icon: HardDrive, color: "hsl(145 65% 45%)", configKey: "google_drive", connectLabel: "Connect with Google" },
   { name: "Google Sheets", description: "Read and write spreadsheet data. LEDGER syncs financials, AROHA manages rosters, FLUX tracks pipeline.", agents: ["LEDGER", "AROHA", "FLUX", "AXIS"], tier: "available", icon: FileSpreadsheet, color: "hsl(145 65% 45%)", configKey: "google_sheets", connectLabel: "Connect with Google" },
@@ -35,7 +35,7 @@ export const INTEGRATIONS: Integration[] = [
   // ─── AVAILABLE — Communication ───
   { name: "Slack", description: "Push agent alerts, summaries and approvals to Slack channels. Get notified when agents complete tasks.", agents: ["All Agents"], tier: "available", icon: MessageCircle, color: "hsl(330 70% 55%)", configKey: "slack_key", connectLabel: "Connect Slack" },
   { name: "Microsoft Teams", description: "Agent notifications and task approvals via Teams channels. Works with AXIS, AROHA, ECHO.", agents: ["AXIS", "AROHA", "ECHO", "SIGNAL"], tier: "available", icon: Users, color: "hsl(230 80% 55%)", configKey: "teams_webhook", connectLabel: "Connect Teams" },
-  { name: "WhatsApp Business", description: "Send WhatsApp messages from HELM (family reminders), AURA (guest messaging), HAVEN (tenant notices).", agents: ["HELM", "AURA", "HAVEN"], tier: "available", icon: MessageSquare, color: "hsl(142 70% 45%)", configKey: "whatsapp_key", connectLabel: "Connect WhatsApp" },
+  { name: "WhatsApp Business", description: "Send WhatsApp messages from TŌROA (family reminders), AURA (guest messaging), HAVEN (tenant notices).", agents: ["TŌROA", "AURA", "HAVEN"], tier: "available", icon: MessageSquare, color: "hsl(142 70% 45%)", configKey: "whatsapp_key", connectLabel: "Connect WhatsApp" },
 
   // ─── AVAILABLE — Business Tools ───
   { name: "Accounting Software", description: "Connect LEDGER to your accounting data. Import transactions, generate GST returns, sync expenses.", agents: ["LEDGER", "AROHA"], tier: "available", icon: CreditCard, color: "hsl(195 85% 50%)", configKey: "accounting_key", connectLabel: "Connect Accounting" },
@@ -67,7 +67,7 @@ export const INTEGRATIONS: Integration[] = [
   { name: "Companies Office API", description: "FLUX pulls competitor data instantly for market intelligence.", agents: ["FLUX", "ANCHOR"], tier: "coming_soon", icon: BriefcaseBusiness, color: "hsl(130 50% 33%)" },
   { name: "IoT Sensors", description: "Connect building sensors for real-time monitoring across HAVEN, APEX, AURA.", agents: ["HAVEN", "APEX", "AURA"], tier: "available", icon: Radio, color: "hsl(160 70% 45%)", configKey: "iot_key", connectLabel: "Connect Sensors" },
   { name: "Halter (NZ)", description: "GPS cattle tracking data into TERRA for stock management.", agents: ["TERRA"], tier: "coming_soon", icon: Tractor, color: "hsl(100 60% 40%)" },
-  { name: "Uber Direct", description: "Logistics and delivery tracking for HELM and FORGE.", agents: ["HELM", "FORGE"], tier: "coming_soon", icon: Truck, color: "hsl(0 0% 20%)" },
+  { name: "Uber Direct", description: "Logistics and delivery tracking for TŌROA and FORGE.", agents: ["TŌROA", "FORGE"], tier: "coming_soon", icon: Truck, color: "hsl(0 0% 20%)" },
   { name: "SendGrid", description: "Transactional email delivery for agent notifications and campaign sends.", agents: ["ECHO", "FLUX", "KINDLE"], tier: "coming_soon", icon: Send, color: "hsl(210 90% 55%)" },
   { name: "Airtable", description: "Flexible database sync for custom agent workflows and reporting.", agents: ["All Agents"], tier: "coming_soon", icon: Database, color: "hsl(200 80% 50%)" },
 ];

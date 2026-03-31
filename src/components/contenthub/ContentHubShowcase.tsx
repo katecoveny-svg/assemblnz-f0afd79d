@@ -28,7 +28,7 @@ const FEATURED = [
   { name: "SHIELD", color: "#7E57C2", id: "insurance", title: "Risk Assessment", desc: "Natural hazard profile and recommended sum insured", Preview: ShieldRiskPreview },
   { name: "APEX", color: "#5AADA0", id: "construction", title: "Safety Hazard Matrix", desc: "HSWA-compliant hazard register with risk scores", Preview: ApexHazardPreview },
   { name: "ANCHOR", color: "#3A6A9C", id: "legal", title: "Employment Agreement", desc: "ERA 2000-compliant agreement generated in seconds", Preview: AnchorContractPreview },
-  { name: "HELM", color: "#3A6A9C", id: "operations", title: "Family Weekly Planner", desc: "School timetable, bus routes, and events dashboard", Preview: HelmWeeklyPreview },
+  { name: "TŌROA", color: "#3A6A9C", id: "operations", title: "Family Weekly Planner", desc: "School timetable, bus routes, and events dashboard", Preview: HelmWeeklyPreview },
 ];
 
 const ContentHubShowcase = () => {

@@ -311,7 +311,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
       {/* Grouped items */}
       {grouped.length === 0 && !loading && lists.length > 0 && (
         <div className="text-center py-8">
-          <p className="text-sm text-white/30">List is empty. Add items above, or text HELM:</p>
+          <p className="text-sm text-white/30">List is empty. Add items above, or text TŌROA:</p>
           <p className="text-xs text-purple-400/60 mt-1 font-mono">"Add milk, bread, eggs to groceries"</p>
         </div>
       )}

@@ -53,7 +53,7 @@ export default function HelmSmsSettings({ familyId }: Props) {
       setConfig(configRes.data as SmsConfig | null);
       setConversations((convosRes.data || []) as SmsConversation[]);
     } catch (e) {
-      console.error("[HELM SMS] Load error:", e);
+      console.error("[TŌROA SMS] Load error:", e);
     }
     setLoading(false);
   };
@@ -156,7 +156,7 @@ export default function HelmSmsSettings({ familyId }: Props) {
         >
           <MessageSquare size={24} style={{ color: HELM_COLOR }} className="mx-auto" />
           <div>
-            <p className="text-sm text-white/80 font-medium">Text HELM from your phone</p>
+            <p className="text-sm text-white/80 font-medium">Text TŌROA from your phone</p>
             <p className="text-[10px] text-white/40 mt-1">
               Get morning briefings, set reminders, ask about dinner — all via text message. Just like texting a
               super-organised friend.
@@ -345,7 +345,7 @@ export default function HelmSmsSettings({ familyId }: Props) {
               ))}
               {conversations.length === 0 && (
                 <p className="text-xs text-white/25 py-3 text-center">
-                  No phone numbers added yet. Add family members' numbers to let them text HELM.
+                  No phone numbers added yet. Add family members' numbers to let them text TŌROA.
                 </p>
               )}
             </div>
@@ -359,8 +359,8 @@ export default function HelmSmsSettings({ familyId }: Props) {
             <p className="text-[10px] text-white/50 font-semibold uppercase tracking-wide mb-2">How it works</p>
             <div className="space-y-1.5 text-[10px] text-white/35">
               <p>1. Add your family's phone numbers above</p>
-              <p>2. Family members text the HELM number</p>
-              <p>3. HELM responds like a super-organised family assistant</p>
+              <p>2. Family members text the TŌROA number</p>
+              <p>3. TŌROA responds like a super-organised family assistant</p>
               <p>4. Try: "What's for dinner?" or "Remind me to pack lunches at 7am"</p>
             </div>
             <div className="mt-3 p-2 rounded bg-white/3">

@@ -7,8 +7,8 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-// HELM system prompt (condensed for SMS — concise, text-friendly responses)
-const HELM_SMS_PROMPT = `You are HELM, a family life admin assistant for NZ families, communicating via text message (SMS).
+// TŌROA system prompt (condensed for SMS — concise, text-friendly responses)
+const TOROA_SMS_PROMPT = `You are TŌROA, a family life admin assistant for NZ families, communicating via text message (SMS).
 
 RULES FOR SMS:
 - Keep responses UNDER 300 characters when possible (SMS-friendly)
@@ -21,7 +21,7 @@ RULES FOR SMS:
 - For meal plans, give today's meals only unless asked for the week
 - For reminders, confirm with the specific date/time
 - For school dates, give the next upcoming one
-- Sign off naturally (no "HELM" signature needed)
+- Sign off naturally (no "TŌROA" signature needed)
 
 CAPABILITIES:
 - Family schedule and calendar queries
@@ -94,7 +94,7 @@ Deno.serve(async (req) => {
         .eq("phone_number", fromNumber);
 
       return new Response(
-        `<?xml version="1.0" encoding="UTF-8"?><Response><Message>You've been unsubscribed from HELM. Text START to re-subscribe anytime.</Message></Response>`,
+        `<?xml version="1.0" encoding="UTF-8"?><Response><Message>You've been unsubscribed from TŌROA. Text START to re-subscribe anytime.</Message></Response>`,
         { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
       );
     }
@@ -106,7 +106,7 @@ Deno.serve(async (req) => {
         .eq("phone_number", fromNumber);
 
       return new Response(
-        `<?xml version="1.0" encoding="UTF-8"?><Response><Message>Welcome back to HELM! Your family assistant is ready. Text anything to get started.</Message></Response>`,
+        `<?xml version="1.0" encoding="UTF-8"?><Response><Message>Welcome back to TŌROA! Your family assistant is ready. Text anything to get started.</Message></Response>`,
         { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
       );
     }
@@ -187,7 +187,7 @@ Deno.serve(async (req) => {
             .eq("id", invite.family_id)
             .single();
 
-          const replyText = `Connected to ${family?.name || "your family"}! I'm HELM, your family assistant. Try:\n\n"What's for dinner?"\n"Remind me to pack lunches at 7am"\n"When does Term 2 start?"`;
+          const replyText = `Connected to ${family?.name || "your family"}! I'm TŌROA, your family assistant. Try:\n\n"What's for dinner?"\n"Remind me to pack lunches at 7am"\n"When does Term 2 start?"`;
 
           await sb.from("helm_sms_messages").insert({
             conversation_id: convo.id,
@@ -204,7 +204,7 @@ Deno.serve(async (req) => {
       }
 
       const setupReply =
-        "Kia ora! I'm HELM, your family assistant. To get started, text me your family invite code from the HELM dashboard at assembl.co.nz. Or ask your family admin to add your number in Settings.";
+        "Kia ora! I'm TŌROA, your family assistant. To get started, text me your family invite code from the TŌROA dashboard at assembl.co.nz. Or ask your family admin to add your number in Settings.";
 
       await sb.from("helm_sms_messages").insert({
         conversation_id: convo.id,
@@ -252,13 +252,13 @@ Deno.serve(async (req) => {
     }
 
     const fullPrompt =
-      HELM_SMS_PROMPT +
+      TOROA_SMS_PROMPT +
       (familyContext ? `\n\nFAMILY CONTEXT:${familyContext}` : "") +
       `\n\nCurrent date/time: ${new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland" })}`;
 
     // === Call AI ===
     if (!LOVABLE_API_KEY) {
-      const fallback = "HELM is temporarily unavailable. Please try again shortly.";
+      const fallback = "TŌROA is temporarily unavailable. Please try again shortly.";
       return new Response(
         `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(fallback)}</Message></Response>`,
         { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
@@ -298,7 +298,7 @@ Deno.serve(async (req) => {
         }
       }
     } catch (aiErr) {
-      console.error("HELM SMS AI error:", aiErr);
+      console.error("TŌROA SMS AI error:", aiErr);
     }
 
     // === Process action blocks from AI reply ===
@@ -342,7 +342,7 @@ Deno.serve(async (req) => {
             // Post to family chat
             await sb.from("helm_family_chat").insert({
               family_id: familyIdForAction,
-              sender_name: "HELM",
+              sender_name: "TŌROA",
               content: `Added to groceries: ${(actionData.items as string[]).join(", ")}`,
               msg_type: "grocery_update",
               metadata: { list_id: activeList.id, items: actionData.items },
@@ -369,7 +369,7 @@ Deno.serve(async (req) => {
           // Post to family chat
           await sb.from("helm_family_chat").insert({
             family_id: familyIdForAction,
-            sender_name: "HELM",
+            sender_name: "TŌROA",
             content: `Appointment booked: ${actionData.title} on ${dateStr} at ${timeStr}${actionData.for ? ` for ${actionData.for}` : ""}`,
             msg_type: "appointment_update",
             metadata: actionData,
@@ -388,7 +388,7 @@ Deno.serve(async (req) => {
 
           await sb.from("helm_family_chat").insert({
             family_id: familyIdForAction,
-            sender_name: "HELM",
+            sender_name: "TŌROA",
             content: `New task: ${actionData.title}${actionData.assigned_to ? ` (assigned to ${actionData.assigned_to})` : ""}`,
             msg_type: "system",
           });
@@ -420,7 +420,7 @@ Deno.serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
     );
   } catch (error) {
-    console.error("HELM SMS webhook error:", error);
+    console.error("TŌROA SMS webhook error:", error);
     return new Response(
       `<?xml version="1.0" encoding="UTF-8"?><Response><Message>Something went wrong. Please try again.</Message></Response>`,
       { headers: { ...corsHeaders, "Content-Type": "text/xml" } }

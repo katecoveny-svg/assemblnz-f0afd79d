@@ -70,22 +70,22 @@ export default function HelmSettings() {
         toast.error("Your session has expired. Please sign in again.");
         return;
       }
-      console.log("[HELM] Creating family:", familyName, region, "uid:", sessionData.session.user.id);
+      console.log("[TŌROA] Creating family:", familyName, region, "uid:", sessionData.session.user.id);
       const { data: fam, error: famError } = await supabase.from("families").insert({ name: familyName, nz_region: region, created_by: sessionData.session.user.id }).select().single();
-      if (famError) { console.error("[HELM] Family insert error:", famError); toast.error("Failed to create family: " + famError.message); return; }
+      if (famError) { console.error("[TŌROA] Family insert error:", famError); toast.error("Failed to create family: " + famError.message); return; }
       if (fam) {
-        console.log("[HELM] Family created, adding member:", fam.id);
+        console.log("[TŌROA] Family created, adding member:", fam.id);
         const { error: memError } = await supabase.from("family_members").insert({ family_id: fam.id, user_id: user.id, role: "admin" });
-        if (memError) { console.error("[HELM] Member insert error:", memError); toast.error("Failed to add you as family member: " + memError.message); return; }
+        if (memError) { console.error("[TŌROA] Member insert error:", memError); toast.error("Failed to add you as family member: " + memError.message); return; }
         // Invite is optional, don't block on failure
         const { error: invErr } = await supabase.from("family_invites").insert({ family_id: fam.id, created_by: user.id });
-        if (invErr) console.warn("[HELM] Invite creation failed (non-blocking):", invErr);
+        if (invErr) console.warn("[TŌROA] Invite creation failed (non-blocking):", invErr);
         toast.success("Family created successfully!");
         setShowSetup(false);
         await loadData();
       }
     } catch (e: any) {
-      console.error("[HELM] createFamily error:", e);
+      console.error("[TŌROA] createFamily error:", e);
       toast.error("Error: " + e.message);
     }
   };
@@ -132,7 +132,7 @@ export default function HelmSettings() {
           <div className="text-center mb-6">
             <Users size={32} style={{ color: HELM_COLOR }} className="mx-auto mb-3" />
             <h2 className="text-lg font-semibold text-white/90">Set Up Your Family</h2>
-            <p className="text-xs text-white/40 mt-1">HELM needs to know about your family to help manage your schedule</p>
+            <p className="text-xs text-white/40 mt-1">TŌROA needs to know about your family to help manage your schedule</p>
           </div>
           <input value={familyName} onChange={e => setFamilyName(e.target.value)} placeholder="Family name (e.g. The Smiths)"
             className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white/80 placeholder:text-white/25 focus:outline-none focus:border-white/20" />

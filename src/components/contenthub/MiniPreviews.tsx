@@ -472,7 +472,7 @@ export const AnchorContractPreview = () => (
   </div>
 );
 
-/* ── HELM: Weekly Dashboard ── */
+/* ── TŌROA: Weekly Dashboard ── */
 export const HelmWeeklyPreview = () => {
   const days = [
     { day: "Mon", items: ["Swimming gear", "Library book"], color: "#3A6A9C" },

@@ -57,7 +57,7 @@ const AGENT_VOICE_DEFAULTS: Record<string, VoiceStyle> = {
   construction: "professional-nz", // APEX — technical authority
   automotive: "professional-nz",   // FORGE — technical authority
   customs: "professional-nz",      // NEXUS/SIGNAL — authority
-  operations: "casual-kiwi",       // HELM — friendly approachable
+  operations: "casual-kiwi",       // TŌROA — friendly approachable
   echo: "casual-kiwi",            // ECHO — friendly approachable
   accounting: "professional-nz",   // LEDGER — trust/authority
   property: "professional-nz",     // HAVEN — trust/authority

@@ -6,7 +6,7 @@ import AgentAvatar from "./AgentAvatar";
 import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
-const HELM_COLOR = "#3A6A9C";
+const TOROA_COLOR = "#3A6A9C";
 
 type VoiceTranscriptTurn = {
   role: "user" | "agent";
@@ -35,8 +35,8 @@ const HelmSection = () => {
             background: "rgba(14, 14, 26, 0.75)",
             backdropFilter: "blur(16px)",
             WebkitBackdropFilter: "blur(16px)",
-            border: `1px solid ${HELM_COLOR}15`,
-            boxShadow: `0 0 60px ${HELM_COLOR}06, inset 0 1px 0 ${HELM_COLOR}08`,
+            border: `1px solid ${TOROA_COLOR}15`,
+            boxShadow: `0 0 60px ${TOROA_COLOR}06, inset 0 1px 0 ${TOROA_COLOR}08`,
           }}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -45,21 +45,21 @@ const HelmSection = () => {
         >
           <span
             className="absolute top-0 left-[10%] right-[10%] h-px"
-            style={{ background: `linear-gradient(90deg, transparent, ${HELM_COLOR}40, transparent)` }}
+            style={{ background: `linear-gradient(90deg, transparent, ${TOROA_COLOR}40, transparent)` }}
           />
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 p-6 sm:p-10 items-center">
             {/* Content */}
             <div className="text-center lg:text-left">
               <div className="flex items-center gap-2 justify-center lg:justify-start mb-3">
-                <Calendar size={18} style={{ color: HELM_COLOR }} />
-                <Brain size={14} style={{ color: HELM_COLOR }} />
+                <Calendar size={18} style={{ color: TOROA_COLOR }} />
+                <Brain size={14} style={{ color: TOROA_COLOR }} />
                 <span
                   className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
                   style={{
-                    background: `${HELM_COLOR}15`,
-                    color: HELM_COLOR,
-                    border: `1px solid ${HELM_COLOR}30`,
+                    background: `${TOROA_COLOR}15`,
+                    color: TOROA_COLOR,
+                    border: `1px solid ${TOROA_COLOR}30`,
                   }}
                 >
                   FAMILY AI
@@ -67,9 +67,9 @@ const HelmSection = () => {
                 <span
                   className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full flex items-center gap-1"
                   style={{
-                    background: `${HELM_COLOR}20`,
-                    color: HELM_COLOR,
-                    border: `1px solid ${HELM_COLOR}40`,
+                    background: `${TOROA_COLOR}20`,
+                    color: TOROA_COLOR,
+                    border: `1px solid ${TOROA_COLOR}40`,
                   }}
                 >
                   <Mic size={8} /> VOICE
@@ -79,23 +79,23 @@ const HelmSection = () => {
               <h2
                 className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
                 style={{
-                  color: HELM_COLOR,
-                  textShadow: `0 0 20px ${HELM_COLOR}40, 0 0 60px ${HELM_COLOR}15`,
+                  color: TOROA_COLOR,
+                  textShadow: `0 0 20px ${TOROA_COLOR}40, 0 0 60px ${TOROA_COLOR}15`,
                 }}
               >
-                Meet HELM
+                Meet TŌROA
               </h2>
-              <p className="font-mono-jb text-[10px] mb-4" style={{ color: `${HELM_COLOR}30` }}>
+              <p className="font-mono-jb text-[10px] mb-4" style={{ color: `${TOROA_COLOR}30` }}>
                 ASM-013 · Family Command Centre
               </p>
               <h3
                 className="font-display font-bold text-base sm:text-lg mb-4"
-                style={{ color: HELM_COLOR, textShadow: `0 0 12px ${HELM_COLOR}25` }}
+                style={{ color: TOROA_COLOR, textShadow: `0 0 12px ${TOROA_COLOR}25` }}
               >
                 Your family&apos;s second brain.
               </h3>
               <p className="text-sm font-body leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
-                HELM reads school notices, builds weekly schedules, tracks live bus positions,
+                TŌROA reads school notices, builds weekly schedules, tracks live bus positions,
                 and manages meal plans — all powered by AI that understands NZ school life.
                 One parent said it saved them 4 hours a week.
               </p>
@@ -105,7 +105,7 @@ const HelmSection = () => {
                   <span
                     key={f}
                     className="text-[10px] font-body px-2.5 py-1 rounded-full"
-                    style={{ background: `${HELM_COLOR}10`, color: `${HELM_COLOR}90`, border: `1px solid ${HELM_COLOR}20` }}
+                    style={{ background: `${TOROA_COLOR}10`, color: `${TOROA_COLOR}90`, border: `1px solid ${TOROA_COLOR}20` }}
                   >
                     {f}
                   </span>
@@ -117,24 +117,24 @@ const HelmSection = () => {
                   to="/chat/operations"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{
-                    background: HELM_COLOR,
+                    background: TOROA_COLOR,
                     color: "#0A0A14",
-                    boxShadow: `0 0 20px ${HELM_COLOR}20`,
+                    boxShadow: `0 0 20px ${TOROA_COLOR}20`,
                   }}
                 >
-                  Try HELM <ArrowRight size={14} />
+                  Try TŌROA <ArrowRight size={14} />
                 </Link>
                 <button
                   onClick={() => setShowVoice(true)}
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{
                     background: "transparent",
-                    color: HELM_COLOR,
-                    border: `1px solid ${HELM_COLOR}40`,
-                    boxShadow: `0 0 20px ${HELM_COLOR}10`,
+                    color: TOROA_COLOR,
+                    border: `1px solid ${TOROA_COLOR}40`,
+                    boxShadow: `0 0 20px ${TOROA_COLOR}10`,
                   }}
                 >
-                  <Mic size={14} /> Talk to HELM
+                  <Mic size={14} /> Talk to TŌROA
                 </button>
               </div>
             </div>
@@ -150,7 +150,7 @@ const HelmSection = () => {
               >
                 <motion.div
                   className="absolute inset-0 rounded-full blur-2xl"
-                  style={{ background: HELM_COLOR }}
+                  style={{ background: TOROA_COLOR }}
                   animate={{ opacity: [0.15, 0.25, 0.15], scale: [1, 1.1, 1] }}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 />
@@ -158,7 +158,7 @@ const HelmSection = () => {
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <AgentAvatar agentId="operations" color={HELM_COLOR} size={180} />
+                  <AgentAvatar agentId="operations" color={TOROA_COLOR} size={180} />
                 </motion.div>
               </motion.div>
             </div>
@@ -168,9 +168,9 @@ const HelmSection = () => {
 
       <VoiceAgentModal
         open={showVoice}
-        agentName="HELM"
+        agentName="TŌROA"
         agentId="operations"
-        agentColor={HELM_COLOR}
+        agentColor={TOROA_COLOR}
         elevenLabsAgentId={getElevenLabsAgentId("operations")}
         onHandoffToChat={handleVoiceHandoff}
         onClose={() => setShowVoice(false)}
