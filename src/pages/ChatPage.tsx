@@ -122,6 +122,7 @@ import KindleCampaignWriter from "@/components/kindle/KindleCampaignWriter";
 import KindleMarketplace from "@/components/kindle/KindleMarketplace";
 import KindleImpactDashboard from "@/components/kindle/KindleImpactDashboard";
 import KindleCorporateDashboard from "@/components/kindle/KindleCorporateDashboard";
+import TeReoVideoLearner from "@/components/chat/TeReoVideoLearner";
 
 const CompletedModelCard = lazy(() => import("@/components/CompletedModelCard"));
 import SparkPreview from "@/components/spark/SparkPreview";
