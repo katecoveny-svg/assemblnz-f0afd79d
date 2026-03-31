@@ -153,6 +153,16 @@ const AgentGrid = () => {
         <AnimatedHero onScrollToGrid={scrollToGrid} />
       </div>
 
+      {/* ═══════ PLATFORM CORE — The Pipeline ═══════ */}
+      <div id="pipeline">
+        <PipelineSection />
+      </div>
+
+      {/* ═══════ TE KĀHUI REO ═══════ */}
+      <div id="te-kahui-reo">
+        <TeKahuiReoSection />
+      </div>
+
       {/* ═══════ SPECIALIST TEAM (one per pack) ═══════ */}
       <div ref={gridRef}>
         <SpecialistTeamGrid />
@@ -161,17 +171,11 @@ const AgentGrid = () => {
       {/* ═══════ INDUSTRY PACKS (expandable) ═══════ */}
       <PackGrid />
 
-      {/* ═══════ HOW IT WORKS ═══════ */}
-      <HowItWorksSection />
+      {/* ═══════ EMBED DEMO ═══════ */}
+      <EmbedDemoSection />
 
       {/* ═══════ SOCIAL PROOF ═══════ */}
       <SocialProofSection />
-
-      {/* ═══════ TE KĀHUI REO ═══════ */}
-      <TeKahuiReoSection />
-
-      {/* ═══════ EMBED DEMO ═══════ */}
-      <EmbedDemoSection />
 
       {/* ═══════ PRICING ═══════ */}
       <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
