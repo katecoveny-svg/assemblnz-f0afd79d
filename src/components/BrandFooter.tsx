@@ -231,7 +231,7 @@ const BrandFooter = () => {
         </div>
 
         <p className="text-[9px] mt-4 text-center font-body text-muted-foreground/30 leading-relaxed">
-          Business intelligence platform for NZ. Built in Aotearoa. Content is guidance, not professional advice. Always consult qualified professionals. assembl@assembl.co.nz · www.assembl.co.nz · From $89/mo
+          Business intelligence for NZ, built in Aotearoa. Our tools provide guidance — always check with a qualified professional before making big decisions. assembl@assembl.co.nz · www.assembl.co.nz · From $89/mo
         </p>
         <p className="text-[9px] mt-2 text-center font-body text-muted-foreground/30 leading-relaxed">
           Assembl uses AI to provide business guidance. Our AI agents follow the MBIE Responsible AI Guidance for Businesses. AI outputs should be verified by qualified professionals before reliance.
