@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonStar, NeonHeart, NeonChart, NeonMail } from "@/components/NeonIcons";
 
-const color = "#00E5A0";
+const color = "#5AADA0";
 
 const SAMPLE_GUESTS = [
   { name: "Mr & Mrs Chen", nationality: "Singapore", stays: 3, ltv: "$28,400", lastVisit: "Mar 2026", vip: true, notes: "Loves Central Otago Pinot Noir, prefers Valley View suite, wife pescatarian no shellfish, anniversary every March" },

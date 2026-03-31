@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonTeam, NeonCheckmark, NeonStar, NeonDocument } from "@/components/NeonIcons";
 
-const color = "#00E5A0";
+const color = "#5AADA0";
 
 const TRAINING_MODULES = [
   { title: "Food Act 2014 Compliance", category: "Kitchen", priority: "Required" },

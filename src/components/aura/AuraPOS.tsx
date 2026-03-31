@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NeonChart, NeonDocument, NeonStar, NeonGlobe } from "@/components/NeonIcons";
 import { AgentBarChart, AgentPieChart } from "@/components/shared/AgentCharts";
 
-const color = "#00E5A0";
+const color = "#5AADA0";
 
 const POS_SYSTEMS = [
   { name: "Lightspeed", desc: "Full restaurant POS with table management, menu engineering & analytics", logo: "" },
@@ -200,7 +200,7 @@ const AuraPOS = ({ onGenerate }: Props) => {
                 { label: "Waste Reduction Plan", prompt: "Generate a food waste reduction plan for a NZ hospitality venue. Include: waste audit template, prep par levels, cross-utilisation matrix, staff training checklist, and estimated savings. Reference NZ sustainability goals." },
               ].map(item => (
                 <button key={item.label} onClick={() => gen(item.prompt)}
-                  className="w-full text-left p-3 rounded-lg border border-border hover:border-[#00E5A040] transition-all">
+                  className="w-full text-left p-3 rounded-lg border border-border hover:border-[#5AADA040] transition-all">
                   <div className="text-xs font-medium text-foreground">{item.label}</div>
                 </button>
               ))}

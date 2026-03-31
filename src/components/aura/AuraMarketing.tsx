@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonMegaphone, NeonDocument, NeonChart, NeonStar, NeonPen } from "@/components/NeonIcons";
 
-const color = "#00E5A0";
+const color = "#5AADA0";
 
 const PR_CAMPAIGNS = [
   { label: "Media Campaign", targets: "Travel publications, lifestyle magazines, hospitality industry press" },

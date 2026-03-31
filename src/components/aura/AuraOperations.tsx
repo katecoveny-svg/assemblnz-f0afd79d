@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonClipboard, NeonCheckmark, NeonShield, NeonChart, NeonCalendar } from "@/components/NeonIcons";
 
-const color = "#00E5A0";
+const color = "#5AADA0";
 
 const COMPLIANCE_ITEMS = [
   { area: "Food Safety", ref: "Food Act 2014", desc: "Food control plan status" },

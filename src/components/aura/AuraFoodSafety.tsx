@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CheckCircle2, Circle, AlertTriangle, Clock, Thermometer, Droplets, Bug, Utensils } from "lucide-react";
 
-const color = "#00E5A0";
+const color = "#5AADA0";
 
 interface CheckItem {
   id: string;

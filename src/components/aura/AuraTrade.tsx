@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NeonDocument, NeonGlobe, NeonCalendar, NeonStar } from "@/components/NeonIcons";
 
-const color = "#00E5A0";
+const color = "#5AADA0";
 
 const TRADE_EVENTS = [
   { event: "TRENZ", desc: "NZ's premier tourism trade event", timing: "May annually" },
