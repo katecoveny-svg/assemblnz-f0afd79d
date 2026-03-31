@@ -100,6 +100,7 @@ import PrismProductStudio from "@/components/prism/PrismProductStudio";
 import PrismBrandDNA from "@/components/prism/PrismBrandDNA";
 import PrismSocialPublisher from "@/components/prism/PrismSocialPublisher";
 import PrismAdEngine from "@/components/prism/PrismAdEngine";
+import PrismPodcastStudio from "@/components/prism/PrismPodcastStudio";
 import AdEngineModal from "@/components/prism/AdEngineModal";
 import SparkDeployModal from "@/components/spark/SparkDeployModal";
 import AxisAutomations from "@/components/axis/AxisAutomations";
