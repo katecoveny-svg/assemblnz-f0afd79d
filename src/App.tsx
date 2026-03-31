@@ -66,6 +66,7 @@ const ToroaInstallPage = lazy(() => import("./pages/ToroaInstallPage"));
 const AgentApp = lazy(() => import("./pages/AgentApp"));
 const AdminSmsPage = lazy(() => import("./pages/AdminSmsPage"));
 const CareDashboard = lazy(() => import("./pages/CareDashboard"));
+const AtaBimDashboard = lazy(() => import("./components/hanga/AtaBimDashboard"));
 
 const queryClient = new QueryClient();
 
@@ -132,6 +133,7 @@ const App = () => (
                   <Route path="/helm" element={<Navigate to="/toroa" replace />} />
                   <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
                   <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
+                  <Route path="/hanga/ata" element={<Suspense fallback={null}><AtaBimDashboard /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
