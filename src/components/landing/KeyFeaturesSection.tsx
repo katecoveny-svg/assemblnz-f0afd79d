@@ -65,7 +65,7 @@ const KeyFeaturesSection = () => (
         viewport={{ once: true }}
       >
         <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase">Capabilities</span>
-        <h2 className="text-2xl sm:text-4xl font-heading font-light uppercase tracking-wider text-foreground mt-2 mb-3">
+        <h2 className="text-2xl sm:text-4xl font-display font-light tracking-wide text-foreground mt-2 mb-3">
           Built for <span className="text-primary">compliance</span>
         </h2>
         <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
@@ -97,7 +97,7 @@ const KeyFeaturesSection = () => (
               <feat.icon size={16} style={{ color: feat.color }} />
             </div>
 
-            <h3 className="text-sm font-heading font-light uppercase tracking-wider text-foreground mb-1.5">
+            <h3 className="text-sm font-display font-light tracking-wide text-foreground mb-1.5">
               {feat.title}
             </h3>
             <p className="text-xs font-body text-muted-foreground leading-relaxed">
