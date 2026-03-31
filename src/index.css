@@ -369,6 +369,68 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+
+  /* ── Section heading glow on hover ── */
+  .heading-glow {
+    transition: text-shadow 0.4s ease, filter 0.4s ease;
+  }
+  .heading-glow:hover {
+    text-shadow: 0 0 20px rgba(212,168,67,0.35), 0 0 60px rgba(212,168,67,0.15), 0 0 120px rgba(212,168,67,0.06);
+  }
+
+  /* ── Interactive card with glow border ── */
+  .card-glow-hover {
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+  }
+  .card-glow-hover:hover {
+    transform: translateY(-3px);
+    border-color: rgba(212,168,67,0.25) !important;
+    box-shadow: 
+      0 0 30px rgba(212,168,67,0.1),
+      0 0 60px rgba(212,168,67,0.04),
+      0 12px 40px rgba(0,0,0,0.3);
+  }
+
+  /* ── Stat pill glow ── */
+  .stat-pill {
+    transition: all 0.3s ease;
+  }
+  .stat-pill:hover {
+    border-color: rgba(212,168,67,0.3) !important;
+    box-shadow: 0 0 20px rgba(212,168,67,0.12);
+    color: rgba(255,255,255,0.65) !important;
+  }
+
+  /* ── Section header with animated underline ── */
+  .section-heading {
+    position: relative;
+    display: inline-block;
+  }
+  .section-heading::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,168,67,0.3), rgba(58,125,110,0.2), transparent);
+    transform: scaleX(0);
+    transition: transform 0.5s ease;
+  }
+  .section-heading:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* ── Matariki ambient overlay ── */
+  @keyframes matariki-drift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(2%, -1%) rotate(1deg); }
+    66% { transform: translate(-1%, 1%) rotate(-0.5deg); }
+  }
+  .matariki-ambient {
+    animation: matariki-drift 30s ease-in-out infinite;
+  }
 }
 
 @keyframes enterprise-gradient-sweep {
