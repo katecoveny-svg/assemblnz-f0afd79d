@@ -105,9 +105,9 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
       <ParticleField />
 
       {/* Floating ambient orbs */}
-      <FloatingOrb color="#00FF88" size={300} top="-10%" left="-5%" delay="0s" />
-      <FloatingOrb color="#FF2D9B" size={250} top="60%" left="75%" delay="4s" />
-      <FloatingOrb color="#00E5FF" size={200} top="30%" left="50%" delay="8s" />
+      <FloatingOrb color="#5AADA0" size={300} top="-10%" left="-5%" delay="0s" />
+      <FloatingOrb color="#C85A54" size={250} top="60%" left="75%" delay="4s" />
+      <FloatingOrb color="#3A6A9C" size={200} top="30%" left="50%" delay="8s" />
 
       <div className="w-full max-w-lg relative z-10">
         {step === "welcome" && (

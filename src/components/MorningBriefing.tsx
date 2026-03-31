@@ -105,7 +105,7 @@ const MorningBriefing = () => {
         const criticalAlerts = alerts.filter((a: any) => a.severity === "critical" || a.severity === "high");
         if (criticalAlerts.length > 0) {
           briefingInsights.push({
-            agentId: "system", agentName: "ASSEMBL", color: "#00FF88",
+            agentId: "system", agentName: "ASSEMBL", color: "#5AADA0",
             insights: [`${criticalAlerts.length} priority alert${criticalAlerts.length !== 1 ? "s" : ""} need attention.`],
           });
         }
@@ -140,13 +140,13 @@ const MorningBriefing = () => {
 
   return (
     <div className="rounded-xl relative overflow-hidden p-5" style={{ ...glassCardStyle, boxShadow: "0 0 30px rgba(0,255,136,0.05)" }}>
-      <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
+      <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #5AADA0, transparent)" }} />
 
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <TimeIcon size={16} className="text-[#00FF88]" />
+          <TimeIcon size={16} className="text-[#5AADA0]" />
           <h2 className="font-display font-bold text-sm text-foreground">{getGreeting()}</h2>
-          <Zap size={12} className="text-[#00FF88]" />
+          <Zap size={12} className="text-[#5AADA0]" />
         </div>
         <div className="flex items-center gap-2">
           {lastGenerated && (
@@ -162,7 +162,7 @@ const MorningBriefing = () => {
 
       {loading && insights.length === 0 ? (
         <div className="flex items-center justify-center py-6">
-          <RefreshCw size={16} className="animate-spin text-[#00FF88]/50" />
+          <RefreshCw size={16} className="animate-spin text-[#5AADA0]/50" />
           <span className="text-xs text-muted-foreground ml-2">Compiling briefing...</span>
         </div>
       ) : (

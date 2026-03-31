@@ -35,10 +35,10 @@ const TYPE_ICONS: Record<string, any> = {
 };
 const TYPE_COLORS: Record<string, string> = {
   document: "#4FC3F7",
-  image: "#B388FF",
-  social_post: "#00FF88",
+  image: "#3A6A9C",
+  social_post: "#5AADA0",
   analysis: "#FFB800",
-  report: "#6366F1",
+  report: "#1A3A5C",
   creative: "#FF6B9D",
 };
 
@@ -120,7 +120,7 @@ const ContentHub = () => {
         <div className="text-center space-y-4">
           <Sparkles size={32} className="mx-auto text-muted-foreground/30" />
           <p className="text-sm text-muted-foreground">Sign in to access your Content Hub</p>
-          <Link to="/auth" className="inline-block px-6 py-2.5 rounded-lg text-sm font-semibold" style={{ background: "#00FF88", color: "#09090B" }}>Sign In</Link>
+          <Link to="/auth" className="inline-block px-6 py-2.5 rounded-lg text-sm font-semibold" style={{ background: "#5AADA0", color: "#09090B" }}>Sign In</Link>
         </div>
       </div>
       <BrandFooter />
@@ -154,7 +154,7 @@ const ContentHub = () => {
               style={{
                 background: activeSection === tab.key ? "rgba(0,229,255,0.1)" : "rgba(255,255,255,0.03)",
                 border: activeSection === tab.key ? "1px solid rgba(0,229,255,0.2)" : "1px solid rgba(255,255,255,0.04)",
-                color: activeSection === tab.key ? "#00E5FF" : "rgba(255,255,255,0.5)",
+                color: activeSection === tab.key ? "#3A6A9C" : "rgba(255,255,255,0.5)",
               }}>
               <tab.icon size={12} />{tab.label}
             </button>
@@ -169,7 +169,7 @@ const ContentHub = () => {
                 {/* Brand Colors */}
                 <div className={glassCard + " p-6"} style={glassStyle}>
                   <h3 className="text-sm font-syne font-bold text-foreground mb-4 flex items-center gap-2">
-                    <Palette size={14} style={{ color: "#B388FF" }} /> Brand Colours
+                    <Palette size={14} style={{ color: "#3A6A9C" }} /> Brand Colours
                   </h3>
                   <div className="flex flex-wrap gap-3">
                     {(brandProfile.brand_dna as any)?.colors?.map((color: string, i: number) => (
@@ -186,9 +186,9 @@ const ContentHub = () => {
                 {/* Brand Info */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {[
-                    { label: "Business Name", value: brandProfile.business_name || "Not set", icon: Tag, color: "#00E5FF" },
-                    { label: "Industry", value: brandProfile.industry || "Not set", icon: BarChart3, color: "#B388FF" },
-                    { label: "Brand Tone", value: brandProfile.tone || "Not set", icon: Share2, color: "#00FF88" },
+                    { label: "Business Name", value: brandProfile.business_name || "Not set", icon: Tag, color: "#3A6A9C" },
+                    { label: "Industry", value: brandProfile.industry || "Not set", icon: BarChart3, color: "#3A6A9C" },
+                    { label: "Brand Tone", value: brandProfile.tone || "Not set", icon: Share2, color: "#5AADA0" },
                   ].map(info => (
                     <div key={info.label} className={glassCard + " p-4"} style={glassStyle}>
                       <info.icon size={14} style={{ color: info.color }} className="mb-2" />
@@ -215,7 +215,7 @@ const ContentHub = () => {
                 <Brush size={32} className="mx-auto text-muted-foreground/20 mb-3" />
                 <p className="text-sm text-muted-foreground mb-2">No brand profile found</p>
                 <p className="text-xs text-muted-foreground/60 mb-4">Run a Brand Scan in PRISM to extract your colours, tone, and visual identity.</p>
-                <Link to="/chat/marketing" className="inline-block px-6 py-2.5 rounded-lg text-sm font-semibold" style={{ background: "#B388FF", color: "#09090B" }}>
+                <Link to="/chat/marketing" className="inline-block px-6 py-2.5 rounded-lg text-sm font-semibold" style={{ background: "#3A6A9C", color: "#09090B" }}>
                   Open PRISM →
                 </Link>
               </div>
@@ -227,10 +227,10 @@ const ContentHub = () => {
         {/* Stats Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { label: "Total Assets", value: items.length, color: "#00E5FF", icon: Grid3X3 },
+            { label: "Total Assets", value: items.length, color: "#3A6A9C", icon: Grid3X3 },
             { label: "Documents", value: typeCounts["document"] || 0, color: "#4FC3F7", icon: FileText },
-            { label: "Social Posts", value: typeCounts["social_post"] || 0, color: "#00FF88", icon: MessageSquare },
-            { label: "This Week", value: items.filter(i => Date.now() - new Date(i.created_at).getTime() < 7 * 86400000).length, color: "#B388FF", icon: Clock },
+            { label: "Social Posts", value: typeCounts["social_post"] || 0, color: "#5AADA0", icon: MessageSquare },
+            { label: "This Week", value: items.filter(i => Date.now() - new Date(i.created_at).getTime() < 7 * 86400000).length, color: "#3A6A9C", icon: Clock },
           ].map(s => (
             <div key={s.label} className={glassCard + " p-4"} style={{ ...glassStyle, boxShadow: `0 0 15px ${s.color}06` }}>
               <s.icon size={14} style={{ color: s.color }} className="mb-2" />
@@ -296,7 +296,7 @@ const ContentHub = () => {
             <Sparkles size={32} className="mx-auto text-muted-foreground/20 mb-3" />
             <p className="text-sm text-muted-foreground mb-2">No content found</p>
             <p className="text-xs text-muted-foreground/60 mb-4">Start chatting with agents to generate content that appears here automatically.</p>
-            <Link to="/agents" className="inline-block px-6 py-2.5 rounded-lg text-sm font-semibold" style={{ background: "#00FF88", color: "#09090B" }}>
+            <Link to="/agents" className="inline-block px-6 py-2.5 rounded-lg text-sm font-semibold" style={{ background: "#5AADA0", color: "#09090B" }}>
               Browse Agents →
             </Link>
           </div>

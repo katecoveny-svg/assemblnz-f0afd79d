@@ -41,7 +41,7 @@ const ContentHubComparison = () => (
                 <span className="font-syne font-bold text-xs" style={{ color: c.agentColor }}>
                   {c.agent}
                 </span>
-                <span className="font-jakarta text-sm font-bold" style={{ color: "#00FF88" }}>
+                <span className="font-jakarta text-sm font-bold" style={{ color: "#5AADA0" }}>
                   Included from {c.assemblCost}
                 </span>
               </div>

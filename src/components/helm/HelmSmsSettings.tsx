@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { MessageSquare, Phone, Plus, X, Clock, Bell, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 
-const HELM_COLOR = "#B388FF";
+const HELM_COLOR = "#3A6A9C";
 
 interface SmsConfig {
   id: string;

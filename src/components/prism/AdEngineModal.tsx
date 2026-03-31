@@ -4,7 +4,7 @@ import { Target, Rocket, Check, Copy, Download, Eye, X, ChevronDown } from "luci
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 
-const ACCENT = "#00FF88";
+const ACCENT = "#5AADA0";
 
 const INDUSTRIES = [
   { id: "construction", label: "Construction", agent: "APEX" },

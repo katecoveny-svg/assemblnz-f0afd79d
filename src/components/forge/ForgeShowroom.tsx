@@ -23,7 +23,7 @@ const DEMO_VEHICLES: Vehicle[] = [
   { id: "4", year: "2019", make: "Ford", model: "Ranger", variant: "Wildtrak 2.0L Bi-Turbo", colour: "Shadow Black", bodyType: "Ute", fuelType: "Diesel", transmission: "Automatic", engineSize: "2.0L", kms: "87,500", regoExpiry: "2025-06-01", wofExpiry: "2025-06-01", vin: "MNAUMFF50K0000001", stockNumber: "F004", purchasePrice: "32000", retailPrice: "39990", driveAwayPrice: "41490", features: "Sports Bar, Tub Liner, Tow Pack 3500kg, Sat Nav", conditionNotes: "Good - typical work vehicle wear", numberOfOwners: "2", serviceHistory: "Partial dealer, partial independent", status: "Sold", addedDate: "2024-12-05" },
 ];
 
-const STATUS_COLORS: Record<string, string> = { Available: "#00FF88", Sold: "#FF4D6A", "On Hold": "#B388FF", "In Transit": "#00E5FF" };
+const STATUS_COLORS: Record<string, string> = { Available: "#5AADA0", Sold: "#FF4D6A", "On Hold": "#3A6A9C", "In Transit": "#3A6A9C" };
 
 const daysInStock = (dateStr: string) => Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
 
@@ -229,7 +229,7 @@ ${v.conditionNotes}. ${v.serviceHistory}.
         )}
         <div className="p-3 rounded-xl border border-border bg-card">
           <h3 className="text-xs font-bold text-foreground mb-1">Potential Gross Profit</h3>
-          <p className="text-2xl font-bold" style={{ color: "#00FF88" }}>${(totalRetail - totalPurchase).toLocaleString()}</p>
+          <p className="text-2xl font-bold" style={{ color: "#5AADA0" }}>${(totalRetail - totalPurchase).toLocaleString()}</p>
           <p className="text-[10px] text-muted-foreground">Based on current asking prices vs purchase prices</p>
         </div>
       </div>

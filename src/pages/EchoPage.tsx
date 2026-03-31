@@ -8,11 +8,11 @@ import ParticleField from "@/components/ParticleField";
 import AgentAvatar from "@/components/AgentAvatar";
 
 const FEATURES = [
-  { icon: <Calendar size={24} />, color: "#00FF88", title: "Content Creation", desc: "Daily Instagram carousels, LinkedIn posts, Reel scripts, and Story sequences — all in Kate's voice following the 40/20/20/20 content rule." },
-  { icon: <MessageCircle size={24} />, color: "#00E5FF", title: "Client Comms", desc: "Warm, personal client responses and follow-up sequences that feel like Kate wrote them. Direct, no fluff, always moving things forward." },
-  { icon: <Share2 size={24} />, color: "#B388FF", title: "Social Media", desc: "Full weekly content calendars with posting times, hashtags, A/B tests, and engagement strategies for Instagram and LinkedIn." },
+  { icon: <Calendar size={24} />, color: "#5AADA0", title: "Content Creation", desc: "Daily Instagram carousels, LinkedIn posts, Reel scripts, and Story sequences — all in Kate's voice following the 40/20/20/20 content rule." },
+  { icon: <MessageCircle size={24} />, color: "#3A6A9C", title: "Client Comms", desc: "Warm, personal client responses and follow-up sequences that feel like Kate wrote them. Direct, no fluff, always moving things forward." },
+  { icon: <Share2 size={24} />, color: "#3A6A9C", title: "Social Media", desc: "Full weekly content calendars with posting times, hashtags, A/B tests, and engagement strategies for Instagram and LinkedIn." },
   { icon: <Brain size={24} />, color: "#E4A0FF", title: "Business Strategy", desc: "Strategic decisions filtered through Kate's values — quality over speed, NZ-first, fairness. Options ranked by alignment score with pros/cons." },
-  { icon: <MessageSquare size={24} />, color: "#B388FF", title: "DM Conversion", desc: "Opening DMs to prospects, objection handling, and follow-up sequences. Every message feels personal, never templated." },
+  { icon: <MessageSquare size={24} />, color: "#3A6A9C", title: "DM Conversion", desc: "Opening DMs to prospects, objection handling, and follow-up sequences. Every message feels personal, never templated." },
   { icon: <BarChart3 size={24} />, color: "#FFB800", title: "Analytics", desc: "Weekly social media reports — reach, engagement, top posts, follower growth. Data-driven adjustments for the next week." },
 ];
 

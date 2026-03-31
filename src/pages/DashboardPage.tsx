@@ -60,9 +60,9 @@ const glassCardStyle: React.CSSProperties = {
   border: "1px solid rgba(255,255,255,0.06)",
 };
 
-const PRIORITY_COLORS: Record<string, string> = { urgent: "#FF2D9B", high: "#00E5FF", medium: "#00E5FF", low: "#00FF88" };
-const SEVERITY_COLORS: Record<string, string> = { critical: "#FF2D9B", high: "#00E5FF", standard: "#00FF88", informational: "#00E5FF" };
-const HEALTH_STATUS_COLORS: Record<HealthStatus, string> = { ok: "#00FF88", degraded: "#00E5FF", down: "#FF2D9B" };
+const PRIORITY_COLORS: Record<string, string> = { urgent: "#C85A54", high: "#3A6A9C", medium: "#3A6A9C", low: "#5AADA0" };
+const SEVERITY_COLORS: Record<string, string> = { critical: "#C85A54", high: "#3A6A9C", standard: "#5AADA0", informational: "#3A6A9C" };
+const HEALTH_STATUS_COLORS: Record<HealthStatus, string> = { ok: "#5AADA0", degraded: "#3A6A9C", down: "#C85A54" };
 const HEALTH_SERVICE_META: Record<string, { key: string; label: string; icon: any; to: string; actionLabel: string }> = {
   website: { key: "website", label: "Website", icon: Globe, to: "/", actionLabel: "Open site" },
   assembl_website: { key: "website", label: "Website", icon: Globe, to: "/", actionLabel: "Open site" },
@@ -187,7 +187,7 @@ const EmptyState = ({ message, cta, to }: { message: string; cta?: string; to?: 
     </div>
     <p className="text-xs text-muted-foreground text-center max-w-[200px]">{message}</p>
     {cta && to && (
-      <Link to={to} className="text-[10px] font-medium px-4 py-1.5 rounded-lg transition-colors" style={{ background: "rgba(0,229,255,0.08)", color: "#00E5FF", border: "1px solid rgba(0,229,255,0.15)" }}>
+      <Link to={to} className="text-[10px] font-medium px-4 py-1.5 rounded-lg transition-colors" style={{ background: "rgba(0,229,255,0.08)", color: "#3A6A9C", border: "1px solid rgba(0,229,255,0.15)" }}>
         {cta} →
       </Link>
     )}
@@ -365,7 +365,7 @@ const DashboardPage = () => {
 
   // Compliance
   const complianceScore = complianceDeadlines.length > 0 ? Math.min(100, Math.round((exports.length / Math.max(1, complianceDeadlines.length)) * 100)) : 0;
-  const scoreColor = complianceScore >= 70 ? "#00FF88" : complianceScore >= 40 ? "#FFB800" : "#FF4D6A";
+  const scoreColor = complianceScore >= 70 ? "#5AADA0" : complianceScore >= 40 ? "#FFB800" : "#FF4D6A";
 
   const latestWorkflow = executions.find(e => e.status === "running") || executions[0];
   const workflowSteps = latestWorkflow && Array.isArray(latestWorkflow.steps_log)
@@ -399,10 +399,10 @@ const DashboardPage = () => {
   const activeAgents = new Set([...summaries.map(s => s.agent_id), ...exports.map(e => e.agent_id), ...conversations.map(c => c.agent_id)]);
 
   const kpis = [
-    { label: "Conversations", value: String(conversations.length), icon: MessageSquare, color: "#B388FF", sparkline: convSparkline },
+    { label: "Conversations", value: String(conversations.length), icon: MessageSquare, color: "#3A6A9C", sparkline: convSparkline },
     { label: "Documents", value: String(exports.length), icon: FileText, color: "#4FC3F7", sparkline: exportSparkline },
     { label: "Compliance", value: `${complianceScore}%`, icon: ShieldCheck, color: scoreColor, isCompliance: true },
-    { label: "Agents Active", value: String(activeAgents.size), icon: Zap, color: "#00FF88", sparkline: Array(12).fill(0).map(() => Math.max(0, activeAgents.size + Math.floor(Math.random() * 2 - 1))) },
+    { label: "Agents Active", value: String(activeAgents.size), icon: Zap, color: "#5AADA0", sparkline: Array(12).fill(0).map(() => Math.max(0, activeAgents.size + Math.floor(Math.random() * 2 - 1))) },
   ];
 
   // Attention items — filter stale health faults (>1h old) and deduplicate
@@ -498,8 +498,8 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Health Monitor */}
           <div className={glassCard + " p-5"} style={glassCardStyle}>
-            <TopGlow color="#00FF88" />
-            <SectionHeader icon={Activity} title="System Health" color="#00FF88"
+            <TopGlow color="#5AADA0" />
+            <SectionHeader icon={Activity} title="System Health" color="#5AADA0"
               trailing={
                 <button
                   onClick={async () => {
@@ -514,7 +514,7 @@ const DashboardPage = () => {
                     }
                   }}
                   className="flex items-center gap-1 text-[9px] px-2 py-1 rounded-md font-medium transition-colors"
-                  style={{ color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)", background: "rgba(0,255,136,0.05)" }}
+                  style={{ color: "#5AADA0", border: "1px solid rgba(0,255,136,0.2)", background: "rgba(0,255,136,0.05)" }}
                 >
                   <RefreshCw size={9} /> Run Check
                 </button>
@@ -522,7 +522,7 @@ const DashboardPage = () => {
             />
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {healthServices.map((svc) => {
-                const statusColor = HEALTH_STATUS_COLORS[svc.status] || "#00FF88";
+                const statusColor = HEALTH_STATUS_COLORS[svc.status] || "#5AADA0";
                 const SvcIcon = svc.icon;
                 const linkTo = svc.to || "/dashboard";
                 return (
@@ -555,15 +555,15 @@ const DashboardPage = () => {
 
           {/* Lead Pipeline */}
           <div className={glassCard + " p-5"} style={glassCardStyle}>
-            <TopGlow color="#00E5FF" />
-            <SectionHeader icon={Users} title="Lead Pipeline" color="#00E5FF" count={leads.length} />
+            <TopGlow color="#3A6A9C" />
+            <SectionHeader icon={Users} title="Lead Pipeline" color="#3A6A9C" count={leads.length} />
             {leads.length === 0 ? (
               <EmptyState message="Contact form submissions and leads will appear here as they come in." />
             ) : (
               <div className="space-y-2 max-h-[220px] overflow-y-auto scrollbar-hide">
                 {leads.map((lead) => {
                   const status = lead.lead_status || "new";
-                  const LEAD_COLORS: Record<string, string> = { new: "#00E5FF", contacted: "#B388FF", qualified: "#FFB800", converted: "#00FF88" };
+                  const LEAD_COLORS: Record<string, string> = { new: "#3A6A9C", contacted: "#3A6A9C", qualified: "#FFB800", converted: "#5AADA0" };
                   const lColor = LEAD_COLORS[status] || "#888";
                   return (
                     <Link key={lead.id} to="/chat/sales" className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors" style={{ background: "rgba(255,255,255,0.02)" }}>
@@ -574,7 +574,7 @@ const DashboardPage = () => {
                       </div>
                       <span className="text-[8px] px-2 py-0.5 rounded-full font-bold uppercase shrink-0" style={{ background: `${lColor}15`, color: lColor }}>{status}</span>
                       {lead.lead_score !== null && (
-                        <span className="text-[9px] font-bold tabular-nums" style={{ color: lead.lead_score >= 70 ? "#00FF88" : lead.lead_score >= 40 ? "#FFB800" : "#888" }}>{lead.lead_score}</span>
+                        <span className="text-[9px] font-bold tabular-nums" style={{ color: lead.lead_score >= 70 ? "#5AADA0" : lead.lead_score >= 40 ? "#FFB800" : "#888" }}>{lead.lead_score}</span>
                       )}
                     </Link>
                   );
@@ -585,8 +585,8 @@ const DashboardPage = () => {
         </div>
 
           <div className={glassCard + " p-5"} style={glassCardStyle}>
-            <TopGlow color="#FF2D9B" />
-            <SectionHeader icon={AlertTriangle} title="Active Faults" color="#FF2D9B" count={healthFaults.length} />
+            <TopGlow color="#C85A54" />
+            <SectionHeader icon={AlertTriangle} title="Active Faults" color="#C85A54" count={healthFaults.length} />
             {healthFaults.length === 0 ? (
               <EmptyState message="No active system faults detected right now." />
             ) : (
@@ -656,8 +656,8 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
           {/* Activity Feed */}
           <div className={"lg:col-span-3 " + glassCard + " p-5"} style={glassCardStyle}>
-            <TopGlow color="#00E5FF" />
-            <SectionHeader icon={History} title="Agent Activity" color="#00E5FF" count={summaries.length} />
+            <TopGlow color="#3A6A9C" />
+            <SectionHeader icon={History} title="Agent Activity" color="#3A6A9C" count={summaries.length} />
             {summaries.length === 0 ? (
               <EmptyState message="Your agent activity timeline will build up as you chat with agents. Every conversation gets summarised here." cta="Talk to ECHO" to="/chat/echo" />
             ) : (
@@ -685,9 +685,9 @@ const DashboardPage = () => {
 
           {/* Workflow Status */}
           <div className={"lg:col-span-2 " + glassCard + " p-5"} style={glassCardStyle}>
-            <TopGlow color="#00FF88" />
-            <SectionHeader icon={Zap} title="Symbiotic Workflows" color="#00FF88"
-              trailing={<Link to="/settings/workflows" className="text-[9px] text-[#00FF88] hover:underline">View all</Link>} />
+            <TopGlow color="#5AADA0" />
+            <SectionHeader icon={Zap} title="Symbiotic Workflows" color="#5AADA0"
+              trailing={<Link to="/settings/workflows" className="text-[9px] text-[#5AADA0] hover:underline">View all</Link>} />
 
             {workflowSteps.length > 0 && (
               <div className="mb-4 p-3 rounded-lg" style={{ background: "rgba(0,255,136,0.03)", border: "1px solid rgba(0,255,136,0.08)" }}>
@@ -708,15 +708,15 @@ const DashboardPage = () => {
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-bold text-foreground">Workflow</span>
                         <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium" style={{
-                          background: exec.status === "completed" ? "#00FF8815" : "#FFB80015",
-                          color: exec.status === "completed" ? "#00FF88" : "#FFB800",
+                          background: exec.status === "completed" ? "#5AADA015" : "#FFB80015",
+                          color: exec.status === "completed" ? "#5AADA0" : "#FFB800",
                         }}>
                           {exec.status === "completed" ? "COMPLETE" : exec.status === "running" ? "RUNNING" : "PENDING"}
                         </span>
                       </div>
                       <div className="flex items-center gap-1 mb-1">
                         {steps.map((_: any, i: number) => (
-                          <div key={i} className="flex-1 h-1 rounded-full transition-all duration-500" style={{ background: i < completed ? "#00FF88" : "rgba(255,255,255,0.06)" }} />
+                          <div key={i} className="flex-1 h-1 rounded-full transition-all duration-500" style={{ background: i < completed ? "#5AADA0" : "rgba(255,255,255,0.06)" }} />
                         ))}
                       </div>
                       <span className="text-[9px] text-muted-foreground">{completed}/{steps.length} steps · {timeAgo(exec.started_at)}</span>
@@ -730,14 +730,14 @@ const DashboardPage = () => {
 
         {/* Needs Your Attention */}
         <div className={glassCard + " p-5"} style={glassCardStyle}>
-          <TopGlow color="#FF2D9B" />
-          <SectionHeader icon={AlertTriangle} title="Needs Your Attention" color="#FF2D9B" count={attentionItems.length} />
+          <TopGlow color="#C85A54" />
+          <SectionHeader icon={AlertTriangle} title="Needs Your Attention" color="#C85A54" count={attentionItems.length} />
           {attentionItems.length === 0 ? (
             <EmptyState message="No urgent items right now. Compliance deadlines and legislation changes will surface here when they're approaching." />
           ) : (
             <div className="space-y-2">
               {attentionItems.map((item) => {
-                const sevColor = SEVERITY_COLORS[item.severity] || "#00E5FF";
+                const sevColor = SEVERITY_COLORS[item.severity] || "#3A6A9C";
                 const agent = agents.find(a => a.id === item.agent || a.name.toLowerCase() === item.agent.toLowerCase());
                 const agentColor = agent?.color || sevColor;
                 return (
@@ -761,8 +761,8 @@ const DashboardPage = () => {
 
         {/* Compliance Calendar — always visible */}
         <div className={glassCard + " p-5"} style={glassCardStyle}>
-          <TopGlow color="#00FF88" />
-          <SectionHeader icon={Calendar} title="Compliance Calendar" color="#00FF88"
+          <TopGlow color="#5AADA0" />
+          <SectionHeader icon={Calendar} title="Compliance Calendar" color="#5AADA0"
             trailing={<span className="text-[10px] text-muted-foreground">Next 90 days</span>} />
           <div className="overflow-x-auto scrollbar-hide">
             <div className="flex gap-1.5 min-w-max pb-2">
@@ -797,25 +797,25 @@ const DashboardPage = () => {
 
         {/* Milestones — always visible */}
         <div className={glassCard + " p-5"} style={glassCardStyle}>
-          <TopGlow color="#00FF88" />
-          <SectionHeader icon={Trophy} title="Milestones" color="#00FF88" />
+          <TopGlow color="#5AADA0" />
+          <SectionHeader icon={Trophy} title="Milestones" color="#5AADA0" />
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: exports.length > 0 ? "rgba(0,255,136,0.04)" : "rgba(255,255,255,0.02)" }}>
-              <CheckCircle2 size={14} className={exports.length > 0 ? "text-[#00FF88] shrink-0" : "text-muted-foreground/20 shrink-0"} />
+              <CheckCircle2 size={14} className={exports.length > 0 ? "text-[#5AADA0] shrink-0" : "text-muted-foreground/20 shrink-0"} />
               <div>
                 <p className="text-xs font-bold text-foreground">{exports.length} documents</p>
                 <p className="text-[9px] text-muted-foreground">{exports.length > 0 ? (MILESTONES.find(m => m.metric === "documents" && exports.length >= m.threshold)?.message || "Keep generating!") : "Generate your first document"}</p>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: executions.length > 0 ? "rgba(0,255,136,0.04)" : "rgba(255,255,255,0.02)" }}>
-              <CheckCircle2 size={14} className={executions.length > 0 ? "text-[#00FF88] shrink-0" : "text-muted-foreground/20 shrink-0"} />
+              <CheckCircle2 size={14} className={executions.length > 0 ? "text-[#5AADA0] shrink-0" : "text-muted-foreground/20 shrink-0"} />
               <div>
                 <p className="text-xs font-bold text-foreground">{executions.filter(e => e.status === "completed").length} workflows</p>
                 <p className="text-[9px] text-muted-foreground">{executions.length > 0 ? "Agents collaborating" : "Trigger your first workflow"}</p>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: savedItems.length > 0 ? "rgba(0,255,136,0.04)" : "rgba(255,255,255,0.02)" }}>
-              <CheckCircle2 size={14} className={savedItems.length > 0 ? "text-[#00FF88] shrink-0" : "text-muted-foreground/20 shrink-0"} />
+              <CheckCircle2 size={14} className={savedItems.length > 0 ? "text-[#5AADA0] shrink-0" : "text-muted-foreground/20 shrink-0"} />
               <div>
                 <p className="text-xs font-bold text-foreground">{savedItems.length} saved</p>
                 <p className="text-[9px] text-muted-foreground">{savedItems.length > 0 ? "Your library is growing" : "Save items from chat"}</p>
@@ -882,8 +882,8 @@ const DashboardPage = () => {
 
         {/* Saved Items — always visible */}
         <div className={glassCard + " p-5"} style={glassCardStyle}>
-          <TopGlow color="#B388FF" />
-          <SectionHeader icon={Bookmark} title="Saved Items" color="#B388FF" count={savedItems.length} />
+          <TopGlow color="#3A6A9C" />
+          <SectionHeader icon={Bookmark} title="Saved Items" color="#3A6A9C" count={savedItems.length} />
           {savedItems.length === 0 ? (
             <EmptyState message="Bookmark important responses from any agent. Use the save button in chat to build your library." cta="Open chat" to="/chat/echo" />
           ) : (
@@ -896,7 +896,7 @@ const DashboardPage = () => {
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <span className="text-[10px] text-muted-foreground">{new Date(item.created_at).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}</span>
-                    <button onClick={() => setViewItem(item)} className="text-[11px] hover:underline text-[#00E5FF]">View</button>
+                    <button onClick={() => setViewItem(item)} className="text-[11px] hover:underline text-[#3A6A9C]">View</button>
                     <button onClick={() => handleDelete(item.id)} className="text-destructive/50 hover:text-destructive"><Trash2 size={12} /></button>
                   </div>
                 </div>
@@ -919,8 +919,8 @@ const DashboardPage = () => {
 
         {/* Conversation History — always visible */}
         <div className={glassCard + " p-5"} style={glassCardStyle}>
-          <TopGlow color="#00E5FF" />
-          <SectionHeader icon={History} title="Conversation History" color="#00E5FF" count={conversations.length} />
+          <TopGlow color="#3A6A9C" />
+          <SectionHeader icon={History} title="Conversation History" color="#3A6A9C" count={conversations.length} />
           {conversations.length === 0 ? (
             <EmptyState message="Your recent conversations across all agents are tracked here. Start chatting to build your history." cta="Meet the agents" to="/agents" />
           ) : (
@@ -948,7 +948,7 @@ const DashboardPage = () => {
           {[
             { to: "/embed", icon: Code2, color: "#5B8CFF", title: "Embed Agents", desc: "Add AI chat to your website" },
             { to: "/my-apps", icon: Zap, color: "#FF6B00", title: "My SPARK Apps", desc: "Manage deployed apps" },
-            { to: "/settings/integrations", icon: Plug, color: "#00E5FF", title: "Integrations", desc: "Connect your tools" },
+            { to: "/settings/integrations", icon: Plug, color: "#3A6A9C", title: "Integrations", desc: "Connect your tools" },
           ].map(link => (
             <Link key={link.to} to={link.to} className={glassCard + " p-4 flex items-center gap-3 group hover:bg-white/[0.02] transition-colors"} style={glassCardStyle}>
               <link.icon size={16} style={{ color: link.color }} />

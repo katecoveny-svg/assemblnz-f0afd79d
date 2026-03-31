@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import ThreeDViewer from "./ThreeDViewer";
 import WalkthroughViewer from "./WalkthroughViewer";
 
-const ACCENT = "#00FF88";
+const ACCENT = "#5AADA0";
 
 type ViewMode = "orbit" | "walkthrough";
 type PipelineStage = "idle" | "uploading" | "analyzing" | "generating" | "polling" | "complete" | "error";

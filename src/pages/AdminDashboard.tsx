@@ -44,7 +44,7 @@ const TopGlow = ({ color }: { color: string }) => (
   <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${color}, transparent)` }} />
 );
 const StatusDot = ({ status }: { status: string }) => {
-  const c = status === "ok" ? "#00FF88" : status === "degraded" ? "#FFB800" : "#FF4D6A";
+  const c = status === "ok" ? "#5AADA0" : status === "degraded" ? "#FFB800" : "#FF4D6A";
   return (
     <span className="relative flex h-2.5 w-2.5">
       {status === "ok" && <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-40" style={{ background: c }} />}
@@ -52,7 +52,7 @@ const StatusDot = ({ status }: { status: string }) => {
     </span>
   );
 };
-const LEAD_COLORS: Record<string, string> = { new: "#00E5FF", contacted: "#B388FF", qualified: "#FFB800", converted: "#00FF88" };
+const LEAD_COLORS: Record<string, string> = { new: "#3A6A9C", contacted: "#3A6A9C", qualified: "#FFB800", converted: "#5AADA0" };
 
 const AdminDashboard = () => {
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
@@ -222,14 +222,14 @@ const AdminDashboard = () => {
                 {/* KPI Cards */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-3">
                   {[
-                    { label: "Total Users", value: metrics.totalUsers, icon: Users, color: "#B388FF" },
+                    { label: "Total Users", value: metrics.totalUsers, icon: Users, color: "#3A6A9C" },
                     { label: "Active Sessions", value: metrics.activeSessions, icon: Globe, color: "#E040FB" },
-                    { label: "Messages 24h", value: metrics.messagesToday, icon: MessageSquare, color: "#00E5FF" },
+                    { label: "Messages 24h", value: metrics.messagesToday, icon: MessageSquare, color: "#3A6A9C" },
                     { label: "Messages 7d", value: metrics.messagesWeek, icon: MessageSquare, color: "#4FC3F7" },
-                    { label: "Messages 30d", value: metrics.messagesMonth, icon: MessageSquare, color: "#6366F1" },
+                    { label: "Messages 30d", value: metrics.messagesMonth, icon: MessageSquare, color: "#1A3A5C" },
                     { label: "Paid Subscribers", value: metrics.paidSubscribers, icon: TrendingUp, color: "#FFB800" },
                     { label: "Conversion", value: `${metrics.conversionRate}%`, icon: BarChart3, color: "#FF6B6B" },
-                    { label: "MRR", value: `$${metrics.mrr}`, icon: DollarSign, color: "#00FF88" },
+                    { label: "MRR", value: `$${metrics.mrr}`, icon: DollarSign, color: "#5AADA0" },
                   ].map(m => (
                     <div key={m.label} className={glassCard + " p-4"} style={{ ...glassStyle, boxShadow: `0 0 20px ${m.color}08` }}>
                       <TopGlow color={m.color} />
@@ -252,15 +252,15 @@ const AdminDashboard = () => {
                     <p className="text-3xl font-bold text-foreground mb-2">{metrics.conversionRate}%</p>
                     <p className="text-[10px] text-muted-foreground">Free → Paid</p>
                     <div className="mt-3 h-2 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
-                      <div className="h-full rounded-full transition-all duration-1000" style={{ width: `${metrics.conversionRate}%`, background: "linear-gradient(90deg, #FFB800, #00FF88)" }} />
+                      <div className="h-full rounded-full transition-all duration-1000" style={{ width: `${metrics.conversionRate}%`, background: "linear-gradient(90deg, #FFB800, #5AADA0)" }} />
                     </div>
                   </div>
 
                   {/* Popular Agents */}
                   <div className={glassCard + " p-5"} style={glassStyle}>
-                    <TopGlow color="#B388FF" />
+                    <TopGlow color="#3A6A9C" />
                     <div className="flex items-center gap-2 mb-3">
-                      <Star size={14} style={{ color: "#B388FF" }} />
+                      <Star size={14} style={{ color: "#3A6A9C" }} />
                       <span className="text-sm font-bold text-foreground">Popular Agents</span>
                     </div>
                     <div className="space-y-2">
@@ -285,9 +285,9 @@ const AdminDashboard = () => {
 
                   {/* Health Monitor */}
                   <div className={glassCard + " p-5"} style={glassStyle}>
-                    <TopGlow color="#00FF88" />
+                    <TopGlow color="#5AADA0" />
                     <div className="flex items-center gap-2 mb-3">
-                      <Heart size={14} style={{ color: "#00FF88" }} />
+                      <Heart size={14} style={{ color: "#5AADA0" }} />
                       <span className="text-sm font-bold text-foreground">Health Monitor</span>
                     </div>
                     <div className="space-y-2.5">
@@ -310,15 +310,15 @@ const AdminDashboard = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   {/* Revenue Breakdown */}
                   <div className={glassCard + " p-5"} style={glassStyle}>
-                    <TopGlow color="#00FF88" />
+                    <TopGlow color="#5AADA0" />
                     <div className="flex items-center gap-2 mb-4">
-                      <DollarSign size={14} style={{ color: "#00FF88" }} />
+                      <DollarSign size={14} style={{ color: "#5AADA0" }} />
                       <span className="text-sm font-bold text-foreground">Revenue Breakdown</span>
                     </div>
                     <div className="space-y-3">
                       {[
                         { tier: "Starter", users: Math.round(metrics.paidSubscribers * 0.5) || 0, price: 29, color: "#4FC3F7" },
-                        { tier: "Pro", users: Math.round(metrics.paidSubscribers * 0.35) || 0, price: 79, color: "#B388FF" },
+                        { tier: "Pro", users: Math.round(metrics.paidSubscribers * 0.35) || 0, price: 79, color: "#3A6A9C" },
                         { tier: "Business", users: Math.round(metrics.paidSubscribers * 0.15) || 0, price: 199, color: "#FFB800" },
                       ].map(t => {
                         const rev = t.users * t.price;
@@ -340,7 +340,7 @@ const AdminDashboard = () => {
                       })}
                       <div className="pt-2 border-t border-border flex items-center justify-between">
                         <span className="text-[11px] font-bold text-foreground">Total MRR</span>
-                        <span className="text-sm font-bold" style={{ color: "#00FF88" }}>${metrics.mrr}/mo</span>
+                        <span className="text-sm font-bold" style={{ color: "#5AADA0" }}>${metrics.mrr}/mo</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] text-muted-foreground">ARR (projected)</span>
@@ -375,7 +375,7 @@ const AdminDashboard = () => {
                               <span className={`text-[8px] font-bold uppercase px-1.5 py-0.5 rounded-full shrink-0`}
                                 style={{
                                   background: p.status === "published" ? "rgba(0,255,136,0.1)" : p.status === "scheduled" ? "rgba(0,229,255,0.1)" : "rgba(255,184,0,0.1)",
-                                  color: p.status === "published" ? "#00FF88" : p.status === "scheduled" ? "#00E5FF" : "#FFB800",
+                                  color: p.status === "published" ? "#5AADA0" : p.status === "scheduled" ? "#3A6A9C" : "#FFB800",
                                 }}>{p.status}</span>
                             </div>
                           ))}
@@ -386,9 +386,9 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className={glassCard + " p-5"} style={glassStyle}>
-                  <TopGlow color="#00E5FF" />
+                  <TopGlow color="#3A6A9C" />
                   <div className="flex items-center gap-2 mb-3">
-                    <Activity size={14} style={{ color: "#00E5FF" }} />
+                    <Activity size={14} style={{ color: "#3A6A9C" }} />
                     <span className="text-sm font-bold text-foreground">Real-Time Agent Activity</span>
                     <span className="relative flex h-2 w-2 ml-1">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50" />
@@ -421,9 +421,9 @@ const AdminDashboard = () => {
 
                 {/* Agent Status Grid */}
                 <div className={glassCard + " p-5"} style={glassStyle}>
-                  <TopGlow color="#6366F1" />
+                  <TopGlow color="#1A3A5C" />
                   <div className="flex items-center gap-2 mb-4">
-                    <Zap size={14} style={{ color: "#6366F1" }} />
+                    <Zap size={14} style={{ color: "#1A3A5C" }} />
                     <span className="text-sm font-bold text-foreground">Agent Status</span>
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
@@ -588,7 +588,7 @@ const AdminDashboard = () => {
                 <h2 className="text-sm font-bold text-foreground">
                   Lead Pipeline ({submissions.length})
                   {submissions.filter(s => !s.is_read).length > 0 && (
-                    <span className="ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-bold" style={{ background: "rgba(0,229,255,0.1)", color: "#00E5FF" }}>
+                    <span className="ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-bold" style={{ background: "rgba(0,229,255,0.1)", color: "#3A6A9C" }}>
                       {submissions.filter(s => !s.is_read).length} new
                     </span>
                   )}
@@ -604,10 +604,10 @@ const AdminDashboard = () => {
                 <div className="divide-y divide-border">
                   {submissions.sort((a, b) => (b.lead_score || 0) - (a.lead_score || 0)).map(sub => {
                     const score = sub.lead_score || 0;
-                    const scoreColor = score >= 70 ? "#00FF88" : score >= 40 ? "#FFB800" : "#FF4D6A";
+                    const scoreColor = score >= 70 ? "#5AADA0" : score >= 40 ? "#FFB800" : "#FF4D6A";
                     const status = sub.lead_status || "new";
                     return (
-                      <div key={sub.id} className={`px-5 py-4 hover:bg-white/[0.02] ${!sub.is_read ? 'border-l-2' : ''}`} style={{ borderLeftColor: !sub.is_read ? "#00E5FF" : "transparent" }}>
+                      <div key={sub.id} className={`px-5 py-4 hover:bg-white/[0.02] ${!sub.is_read ? 'border-l-2' : ''}`} style={{ borderLeftColor: !sub.is_read ? "#3A6A9C" : "transparent" }}>
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-3">
                             <span className="text-xs font-bold text-foreground">{sub.name}</span>
@@ -621,7 +621,7 @@ const AdminDashboard = () => {
                               {status}
                             </span>
                             {!sub.is_read && (
-                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(0,229,255,0.1)", color: "#00E5FF" }}>NEW</span>
+                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(0,229,255,0.1)", color: "#3A6A9C" }}>NEW</span>
                             )}
                           </div>
                           <div className="flex items-center gap-2">

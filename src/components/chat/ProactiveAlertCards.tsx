@@ -36,7 +36,7 @@ interface Props {
 const SEVERITY_COLORS: Record<string, string> = {
   critical: "#FF4D6A",
   high: "#FFB800",
-  standard: "#00E5FF",
+  standard: "#3A6A9C",
 };
 
 const ProactiveAlertCards = ({ currentAgentId, accentColor }: Props) => {

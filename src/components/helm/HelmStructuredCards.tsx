@@ -2,12 +2,12 @@ import { NeonFork, NeonCoin, NeonCalendar } from "@/components/NeonIcons";
 
 const CARD_STYLE: React.CSSProperties = {
   background: "#0F0F1C",
-  border: "1px solid #B388FF15",
+  border: "1px solid #3A6A9C15",
   borderRadius: 12,
   boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
 };
 
-const HELM = "#B388FF";
+const HELM = "#3A6A9C";
 
 /* ─── Meal Plan Card ─── */
 interface MealDay {
@@ -28,7 +28,7 @@ export const MealPlanCard = ({
       <NeonFork size={16} /> Weekly Meal Plan
     </h4>
     {days.map((d) => (
-      <div key={d.day} className="border-b border-[#B388FF10] pb-2 last:border-0">
+      <div key={d.day} className="border-b border-[#3A6A9C10] pb-2 last:border-0">
         <div className="flex justify-between items-center">
           <span className="text-xs font-semibold" style={{ color: HELM }}>
             {d.day}
@@ -46,9 +46,9 @@ export const MealPlanCard = ({
       onClick={onGenerateList}
       className="w-full text-xs font-medium py-2 rounded-lg transition-colors"
       style={{
-        background: "#B388FF15",
+        background: "#3A6A9C15",
         color: HELM,
-        border: "1px solid #B388FF25",
+        border: "1px solid #3A6A9C25",
       }}
     >
       Generate Shopping List
@@ -71,7 +71,7 @@ export const BudgetCard = ({
 }) => {
   const total = rows.reduce((s, r) => s + r.amount, 0);
   const pct = income > 0 ? (total / income) * 100 : 0;
-  const barColor = pct > 100 ? "#FF4D6A" : pct > 85 ? "#00E5FF" : "#00FF88";
+  const barColor = pct > 100 ? "#FF4D6A" : pct > 85 ? "#3A6A9C" : "#5AADA0";
 
   return (
     <div style={CARD_STYLE} className="p-4 space-y-2">
@@ -86,7 +86,7 @@ export const BudgetCard = ({
           </span>
         </div>
       ))}
-      <div className="pt-2 border-t border-[#B388FF10]">
+      <div className="pt-2 border-t border-[#3A6A9C10]">
         <div className="flex justify-between text-xs font-semibold">
           <span className="text-foreground">Total</span>
           <span className="text-foreground">${total.toLocaleString()}</span>

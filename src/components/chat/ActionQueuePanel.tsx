@@ -14,10 +14,10 @@ interface ActionItem {
 }
 
 const PRIORITY_COLORS: Record<string, string> = {
-  urgent: "#B388FF",
-  high: "#6366F1",
-  medium: "#00E5FF",
-  low: "#00FF88",
+  urgent: "#3A6A9C",
+  high: "#1A3A5C",
+  medium: "#3A6A9C",
+  low: "#5AADA0",
 };
 
 const ActionQueuePanel = ({ agentColor }: { agentColor: string }) => {
@@ -122,7 +122,7 @@ const ActionQueuePanel = ({ agentColor }: { agentColor: string }) => {
                       )}
                     </div>
                     <div className="flex gap-1 shrink-0">
-                      <button onClick={() => markDone(a.id)} className="p-1 hover:opacity-70" style={{ color: "#00FF88" }} title="Mark done">
+                      <button onClick={() => markDone(a.id)} className="p-1 hover:opacity-70" style={{ color: "#5AADA0" }} title="Mark done">
                         <Check size={12} />
                       </button>
                       <button onClick={() => deleteAction(a.id)} className="p-1 hover:opacity-70 text-destructive" title="Delete">

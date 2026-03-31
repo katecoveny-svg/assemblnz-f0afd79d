@@ -6,7 +6,7 @@ import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 import AgentAvatar from "./AgentAvatar";
 
-const APEX_COLOR = "#00FF88";
+const APEX_COLOR = "#5AADA0";
 
 type VoiceTranscriptTurn = { role: "user" | "agent"; text: string };
 

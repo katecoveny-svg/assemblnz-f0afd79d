@@ -35,7 +35,7 @@ export default function AgentApp() {
 
   const agent = useMemo(() => agents.find(a => a.id === agentId), [agentId]);
   const capabilities = useMemo(() => agentCapabilities[agentId || ""] || [], [agentId]);
-  const color = agent?.color || "#00E5FF";
+  const color = agent?.color || "#3A6A9C";
 
   // Set dynamic PWA manifest for this agent
   useEffect(() => {
@@ -87,7 +87,7 @@ export default function AgentApp() {
       <div className="h-screen flex items-center justify-center" style={{ background: "#09090F" }}>
         <div className="text-center">
           <p className="text-white/60">Agent not found</p>
-          <Link to="/" className="text-sm mt-2 block" style={{ color: "#00E5FF" }}>Back to Assembl</Link>
+          <Link to="/" className="text-sm mt-2 block" style={{ color: "#3A6A9C" }}>Back to Assembl</Link>
         </div>
       </div>
     );

@@ -21,7 +21,7 @@ interface Recommendation {
 }
 
 const SCORE_GRADIENT = (score: number) =>
-  score >= 71 ? "#00FF88" : score >= 41 ? "#FFB800" : "#FF4D6A";
+  score >= 71 ? "#5AADA0" : score >= 41 ? "#FFB800" : "#FF4D6A";
 
 const CircularGauge = ({ score, size = 180 }: { score: number; size?: number }) => {
   const [animatedScore, setAnimatedScore] = useState(0);
@@ -145,12 +145,12 @@ const BusinessScore = () => {
     const growthScore = Math.min(100, 15 + (data.leads > 3 ? 25 : data.leads > 0 ? 10 : 0) + (data.conversations > 10 ? 25 : data.conversations > 3 ? 15 : 0) + (data.activeAgents > 3 ? 20 : data.activeAgents > 0 ? 10 : 0));
 
     return [
-      { key: "compliance", label: "Compliance", icon: ShieldCheck, weight: 20, score: compScore, color: "#B388FF" },
-      { key: "financial", label: "Financial Health", icon: DollarSign, weight: 20, score: finScore, color: "#00FF88" },
+      { key: "compliance", label: "Compliance", icon: ShieldCheck, weight: 20, score: compScore, color: "#3A6A9C" },
+      { key: "financial", label: "Financial Health", icon: DollarSign, weight: 20, score: finScore, color: "#5AADA0" },
       { key: "team", label: "Team", icon: Users, weight: 15, score: teamScore, color: "#FF80AB" },
-      { key: "marketing", label: "Marketing", icon: Megaphone, weight: 15, score: mktScore, color: "#00E5FF" },
+      { key: "marketing", label: "Marketing", icon: Megaphone, weight: 15, score: mktScore, color: "#3A6A9C" },
       { key: "operations", label: "Operations", icon: Settings, weight: 15, score: opsScore, color: "#FFB800" },
-      { key: "growth", label: "Growth", icon: TrendingUp, weight: 15, score: growthScore, color: "#6366F1" },
+      { key: "growth", label: "Growth", icon: TrendingUp, weight: 15, score: growthScore, color: "#1A3A5C" },
     ];
   }, [data]);
 
@@ -222,7 +222,7 @@ const BusinessScore = () => {
                         className="flex items-center justify-between px-3 py-2 rounded-lg group transition-colors"
                         style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-bold tabular-nums" style={{ color: "#00FF88" }}>+{rec.points}</span>
+                          <span className="text-[10px] font-bold tabular-nums" style={{ color: "#5AADA0" }}>+{rec.points}</span>
                           <span className="text-[11px] text-foreground/80 group-hover:text-foreground transition-colors">{rec.text}</span>
                         </div>
                         <div className="flex items-center gap-1.5">

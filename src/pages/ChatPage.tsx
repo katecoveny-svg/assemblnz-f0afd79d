@@ -161,7 +161,7 @@ const TRIGGER_PATTERNS = [
 ];
 
 const MAX_GENERATIONS_PER_SESSION = 5;
-const HELM_COLOR = "#B388FF";
+const HELM_COLOR = "#3A6A9C";
 
 function shouldTrigger3D(text: string): boolean {
   return TRIGGER_PATTERNS.some((p) => p.test(text));
@@ -979,7 +979,7 @@ const ChatPage = () => {
     return tabs;
   }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, isSports, hasLiveDataTab, auraModeKey]);
 
-  const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#00E5FF");
+  const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#3A6A9C");
 
   const handleUniversalFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!canUseFeature("upload")) return;
@@ -1512,7 +1512,7 @@ const ChatPage = () => {
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <div className="relative">
               <AgentAvatar agentId={agent.id} color={agent.color} size={36} showGlow={false} />
-              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-background animate-pulse" style={{ backgroundColor: "#00FF88" }} />
+              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-background animate-pulse" style={{ backgroundColor: "#5AADA0" }} />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
@@ -2397,8 +2397,8 @@ const ChatPage = () => {
                   onClick={toggleListening}
                   className="hidden sm:flex p-2.5 rounded-lg border transition-all duration-200"
                   style={{
-                    borderColor: isListening ? "#B388FF" : "hsl(var(--border))",
-                    color: isListening ? "#B388FF" : "hsl(var(--muted-foreground))",
+                    borderColor: isListening ? "#3A6A9C" : "hsl(var(--border))",
+                    color: isListening ? "#3A6A9C" : "hsl(var(--muted-foreground))",
                     background: isListening ? "rgba(179,136,255,0.15)" : "transparent",
                     boxShadow: isListening ? "0 0 16px rgba(179,136,255,0.3)" : "none",
                     animation: isListening ? "pulse 1.5s infinite" : "none",

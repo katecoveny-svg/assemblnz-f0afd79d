@@ -4,7 +4,7 @@ import { Leaf, BarChart3, FileText, Building2, ChevronRight, ArrowLeft, Copy, Ch
 import ReactMarkdown from "react-markdown";
 import { AgentBarChart, AgentPieChart } from "@/components/shared/AgentCharts";
 
-const APEX_COLOR = "#00FF88";
+const APEX_COLOR = "#5AADA0";
 
 const ESG_QUESTIONS = {
   environmental: [
@@ -76,7 +76,7 @@ const ApexESGDashboard = ({ isPaid, userRole }: Props) => {
     setScore({ total, env, social, gov });
   };
 
-  const getColor = (val: number) => val >= 75 ? "#00FF88" : val >= 50 ? "#00E5FF" : "#FF4D6A";
+  const getColor = (val: number) => val >= 75 ? "#5AADA0" : val >= 50 ? "#3A6A9C" : "#FF4D6A";
 
   const generate = async (key: string, prompt: string) => {
     setGenerating(key);

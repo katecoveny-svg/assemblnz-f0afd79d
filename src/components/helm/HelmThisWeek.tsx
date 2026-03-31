@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { ChevronLeft, ChevronRight, Plus, Check, Calendar } from "lucide-react";
 import { format, startOfWeek, addDays, isToday, isSameDay } from "date-fns";
 
-const HELM_COLOR = "#B388FF";
+const HELM_COLOR = "#3A6A9C";
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 // NZ School Terms 2026

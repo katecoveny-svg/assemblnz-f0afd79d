@@ -175,7 +175,7 @@ const AuraPOS = ({ onGenerate }: Props) => {
             <p className="text-[10px] text-muted-foreground mb-3">AI-powered menu engineering: identify stars, plowhorses, puzzles & dogs. Optimise pricing and placement.</p>
             <div className="grid grid-cols-2 gap-2 mb-3">
               {[
-                { label: "Stars ", desc: "High profit, high sales", bg: "#00FF8820" },
+                { label: "Stars ", desc: "High profit, high sales", bg: "#5AADA020" },
                 { label: "Plowhorses ", desc: "Low profit, high sales", bg: "#FFB80020" },
                 { label: "Puzzles ", desc: "High profit, low sales", bg: "#4FC3F720" },
                 { label: "Dogs ", desc: "Low profit, low sales", bg: "#FF6B6B20" },

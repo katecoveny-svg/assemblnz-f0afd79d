@@ -16,7 +16,7 @@ const CompletedModelCard = ({
   glbUrl,
   modelUrls,
   prompt,
-  color = "#B388FF",
+  color = "#3A6A9C",
   onRefine,
 }: CompletedModelCardProps) => {
   const [refineOpen, setRefineOpen] = useState(false);

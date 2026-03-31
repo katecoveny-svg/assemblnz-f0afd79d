@@ -6,17 +6,17 @@ import { Shield, Server, Lock, Globe, FileText, Eye, Key, Database, RefreshCw, C
 import { motion } from "framer-motion";
 
 const SECURITY_BADGES = [
-  { icon: Lock, label: "TLS 1.3", desc: "All data encrypted in transit", color: "#00FF88" },
-  { icon: Database, label: "AES-256", desc: "At-rest encryption", color: "#00E5FF" },
-  { icon: Eye, label: "NZ Privacy Act 2020", desc: "Full IPP compliance", color: "#B388FF" },
-  { icon: Shield, label: "Row-Level Security", desc: "Every table protected", color: "#6366F1" },
-  { icon: Server, label: "SOC 2", desc: "Via infrastructure partner", color: "#00FF88" },
-  { icon: Globe, label: "NZISM Aligned", desc: "NZ Information Security Manual", color: "#00E5FF" },
+  { icon: Lock, label: "TLS 1.3", desc: "All data encrypted in transit", color: "#5AADA0" },
+  { icon: Database, label: "AES-256", desc: "At-rest encryption", color: "#3A6A9C" },
+  { icon: Eye, label: "NZ Privacy Act 2020", desc: "Full IPP compliance", color: "#3A6A9C" },
+  { icon: Shield, label: "Row-Level Security", desc: "Every table protected", color: "#1A3A5C" },
+  { icon: Server, label: "SOC 2", desc: "Via infrastructure partner", color: "#5AADA0" },
+  { icon: Globe, label: "NZISM Aligned", desc: "NZ Information Security Manual", color: "#3A6A9C" },
   { icon: Key, label: "PCI DSS", desc: "Via Stripe integration", color: "#FFB800" },
-  { icon: Fingerprint, label: "MFA Available", desc: "Multi-factor authentication", color: "#B388FF" },
-  { icon: Users, label: "RBAC", desc: "Role-based access control", color: "#6366F1" },
-  { icon: FileText, label: "Audit Logging", desc: "Full activity trail", color: "#00FF88" },
-  { icon: Clock, label: "Session Timeout", desc: "Automatic expiry", color: "#00E5FF" },
+  { icon: Fingerprint, label: "MFA Available", desc: "Multi-factor authentication", color: "#3A6A9C" },
+  { icon: Users, label: "RBAC", desc: "Role-based access control", color: "#1A3A5C" },
+  { icon: FileText, label: "Audit Logging", desc: "Full activity trail", color: "#5AADA0" },
+  { icon: Clock, label: "Session Timeout", desc: "Automatic expiry", color: "#3A6A9C" },
   { icon: MapPin, label: "AU/NZ Data", desc: "Regional data residency", color: "#FFB800" },
 ];
 
@@ -24,7 +24,7 @@ const COMPLIANCE_SECTIONS = [
   {
     title: "Data Encryption",
     icon: Lock,
-    color: "#00FF88",
+    color: "#5AADA0",
     items: [
       "TLS 1.3 for all data in transit — zero plain-text communication",
       "AES-256 encryption at rest for all stored data",
@@ -35,7 +35,7 @@ const COMPLIANCE_SECTIONS = [
   {
     title: "Privacy & Compliance",
     icon: Eye,
-    color: "#B388FF",
+    color: "#3A6A9C",
     items: [
       "Full alignment with NZ Privacy Act 2020 — all 13 IPPs addressed",
       "IPP 3A (May 2026) compliant — algorithmic transparency in AI processing",
@@ -47,7 +47,7 @@ const COMPLIANCE_SECTIONS = [
   {
     title: "Infrastructure Security",
     icon: Server,
-    color: "#00E5FF",
+    color: "#3A6A9C",
     items: [
       "Row-Level Security (RLS) on every database table — strict data isolation",
       "SOC 2 Type II via infrastructure partner (Supabase/AWS)",
@@ -59,7 +59,7 @@ const COMPLIANCE_SECTIONS = [
   {
     title: "Authentication & Access",
     icon: Key,
-    color: "#6366F1",
+    color: "#1A3A5C",
     items: [
       "Session-based auth with automatic token refresh",
       "Password hashing with bcrypt + salting",
@@ -82,7 +82,7 @@ const COMPLIANCE_SECTIONS = [
   {
     title: "NZ Government & Enterprise",
     icon: Globe,
-    color: "#00FF88",
+    color: "#5AADA0",
     items: [
       "NZISM (NZ Information Security Manual) alignment documented",
       "WCAG 2.1 AA accessibility — keyboard nav, screen readers, high contrast",
@@ -108,11 +108,11 @@ const SecurityPage = () => (
       {/* Hero */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5" style={{ ...glassStyle, borderColor: "rgba(0,255,136,0.15)" }}>
-          <Shield size={14} className="text-[#00FF88]" />
-          <span className="text-[11px] font-semibold text-[#00FF88]">Enterprise-Grade Security</span>
+          <Shield size={14} className="text-[#5AADA0]" />
+          <span className="text-[11px] font-semibold text-[#5AADA0]">Enterprise-Grade Security</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight mb-3">
-          Security & <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(135deg, #00FF88, #00E5FF)" }}>Compliance</span>
+          Security & <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(135deg, #5AADA0, #3A6A9C)" }}>Compliance</span>
         </h1>
         <p className="text-sm text-muted-foreground max-w-xl mx-auto">
           Built for NZ government procurement, enterprise risk assessment, and businesses that demand the highest standards of data protection.
@@ -177,14 +177,14 @@ const SecurityPage = () => (
         className="mt-10 rounded-xl p-6 relative overflow-hidden"
         style={glassStyle}
       >
-        <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-20" style={{ background: "linear-gradient(90deg, transparent, #00E5FF, transparent)" }} />
+        <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-20" style={{ background: "linear-gradient(90deg, transparent, #3A6A9C, transparent)" }} />
         <h2 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
-          <RefreshCw size={14} className="text-[#00E5FF]" />
+          <RefreshCw size={14} className="text-[#3A6A9C]" />
           Data Flow Architecture
         </h2>
         <div className="flex flex-wrap items-center justify-center gap-2 text-[10px] font-mono text-muted-foreground">
           {["User", "→ TLS 1.3 →", "Assembl Edge", "→ Encrypted →", "AI Gateway", "→ Response →", "Edge Function", "→ TLS 1.3 →", "User"].map((step, i) => (
-            <span key={i} className={i % 2 === 0 ? "px-3 py-1.5 rounded-lg font-sans font-semibold text-foreground" : "text-[#00E5FF]"} style={i % 2 === 0 ? { ...glassStyle, borderColor: "rgba(0,229,255,0.1)" } : undefined}>
+            <span key={i} className={i % 2 === 0 ? "px-3 py-1.5 rounded-lg font-sans font-semibold text-foreground" : "text-[#3A6A9C]"} style={i % 2 === 0 ? { ...glassStyle, borderColor: "rgba(0,229,255,0.1)" } : undefined}>
               {step}
             </span>
           ))}
@@ -202,14 +202,14 @@ const SecurityPage = () => (
         className="mt-10 rounded-xl p-6 text-center relative overflow-hidden"
         style={{ ...glassStyle, boxShadow: "0 0 40px rgba(0,255,136,0.05)" }}
       >
-        <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #00FF88, transparent)" }} />
+        <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #5AADA0, transparent)" }} />
         <p className="text-xs text-foreground/70 mb-3">
           Need detailed security documentation for government procurement or enterprise review?
         </p>
         <a
           href="mailto:assembl@assembl.co.nz?subject=Security%20Documentation%20Request"
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-semibold transition-all hover:-translate-y-0.5"
-          style={{ background: "linear-gradient(135deg, #00FF88, #00E5FF)", color: "#0A0A1A" }}
+          style={{ background: "linear-gradient(135deg, #5AADA0, #3A6A9C)", color: "#0A0A1A" }}
         >
           <Shield size={14} />
           Request Security Pack

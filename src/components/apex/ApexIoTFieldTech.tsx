@@ -18,10 +18,10 @@ const EQUIPMENT = [
 ];
 
 const statusColor = (s: string) =>
-  s === "alert" ? "#FF4D4D" : s === "warning" ? "#FFB74D" : "#00FF88";
+  s === "alert" ? "#FF4D4D" : s === "warning" ? "#FFB74D" : "#5AADA0";
 
 const eqStatusColor = (s: string) =>
-  s === "Active" ? "#00FF88" : s === "Idle" ? "#FFB74D" : "#FF4D4D";
+  s === "Active" ? "#5AADA0" : s === "Idle" ? "#FFB74D" : "#FF4D4D";
 
 const ApexIoTFieldTech = () => {
   const [activePanel, setActivePanel] = useState<"sensors" | "trimble" | "drone" | "gps">("sensors");
@@ -47,7 +47,7 @@ const ApexIoTFieldTech = () => {
             className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-jakarta font-medium transition-all"
             style={{
               background: activePanel === p.id ? "rgba(0,255,136,0.1)" : "rgba(255,255,255,0.03)",
-              color: activePanel === p.id ? "#00FF88" : "rgba(255,255,255,0.5)",
+              color: activePanel === p.id ? "#5AADA0" : "rgba(255,255,255,0.5)",
               border: activePanel === p.id ? "1px solid rgba(0,255,136,0.2)" : "1px solid rgba(255,255,255,0.06)",
             }}
           >

@@ -5,7 +5,7 @@ import { Plus, X, Users, Baby, Share2, Settings2, AlertCircle } from "lucide-rea
 import { toast } from "sonner";
 import HelmSmsSettings from "./HelmSmsSettings";
 
-const HELM_COLOR = "#B388FF";
+const HELM_COLOR = "#3A6A9C";
 
 const NZ_REGIONS = [
   "Auckland", "Bay of Plenty", "Canterbury", "Gisborne", "Hawke's Bay",
@@ -92,7 +92,7 @@ export default function HelmSettings() {
 
   const addChild = async () => {
     if (!family || !childName.trim()) return;
-    const colors = ["#B388FF", "#FF80AB", "#80D8FF", "#A5D6A7", "#FFD54F", "#FF8A65"];
+    const colors = ["#3A6A9C", "#FF80AB", "#80D8FF", "#A5D6A7", "#FFD54F", "#FF8A65"];
     const color = colors[children.length % colors.length];
     const { error } = await supabase.from("children").insert({
       family_id: family.id, name: childName, year_level: yearLevel || null,

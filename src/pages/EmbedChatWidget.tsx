@@ -86,7 +86,7 @@ const EmbedChatWidget = () => {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="font-bold text-sm" style={{ color: "#E4E4EC" }}>{agent.name}</span>
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#00FF88", boxShadow: "0 0 6px #00FF88" }} />
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#5AADA0", boxShadow: "0 0 6px #5AADA0" }} />
           </div>
           <p className="text-[11px] truncate" style={{ color: agent.color }}>{agent.role}</p>
         </div>

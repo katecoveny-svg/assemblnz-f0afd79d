@@ -49,7 +49,7 @@ const WhatsAppIcon = () => (
 
 const StatusIcon = ({ status }: { status?: string | null }) => {
   switch (status) {
-    case "read": return <CheckCheck className="w-3.5 h-3.5 text-[#00E5FF]" />;
+    case "read": return <CheckCheck className="w-3.5 h-3.5 text-[#3A6A9C]" />;
     case "delivered": return <CheckCheck className="w-3.5 h-3.5 text-muted-foreground" />;
     case "sent": return <Check className="w-3.5 h-3.5 text-muted-foreground" />;
     case "failed": return <AlertCircle className="w-3.5 h-3.5 text-destructive" />;

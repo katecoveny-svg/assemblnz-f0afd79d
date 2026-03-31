@@ -6,7 +6,7 @@ interface QuickAction {
   subtitle: string;
 }
 
-const HELM = "#B388FF";
+const HELM = "#3A6A9C";
 
 const actions: QuickAction[] = [
   { icon: <NeonClipboard size={22} color={HELM} />, title: "Parse a notice", subtitle: "Upload a school newsletter or notice" },
@@ -32,14 +32,14 @@ const HelmQuickActions = ({ onSelect }: Props) => (
         onClick={() => onSelect(a.title)}
         className="text-left px-3.5 py-3 rounded-xl transition-all duration-200 group"
         style={{
-          background: "#B388FF08",
-          border: "1px solid #B388FF12",
+          background: "#3A6A9C08",
+          border: "1px solid #3A6A9C12",
         }}
         onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.borderColor = "#B388FF30";
+          (e.currentTarget as HTMLElement).style.borderColor = "#3A6A9C30";
         }}
         onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.borderColor = "#B388FF12";
+          (e.currentTarget as HTMLElement).style.borderColor = "#3A6A9C12";
         }}
       >
         <span className="leading-none">{a.icon}</span>

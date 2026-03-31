@@ -8,7 +8,7 @@ const AGENT_COLORS: Record<string, string> = {
   AROHA: "#ec4899", LEDGER: "#22c55e", FLUX: "#3b82f6", ANCHOR: "#a855f7",
   ECHO: "#06b6d4", PRISM: "#f59e0b", HAVEN: "#14b8a6", TURF: "#84cc16",
   APEX: "#ef4444", FORGE: "#f97316", AURA: "#8b5cf6", HELM: "#06b6d4",
-  MANAAKI: "#ec4899", KINDLE: "#f43f5e", NEXUS: "#6366f1",
+  MANAAKI: "#ec4899", KINDLE: "#f43f5e", NEXUS: "#1A3A5C",
 };
 
 interface NotifItem {

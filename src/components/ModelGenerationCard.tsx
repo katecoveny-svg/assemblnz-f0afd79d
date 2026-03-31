@@ -8,7 +8,7 @@ interface ModelGenerationCardProps {
   color?: string;
 }
 
-const ModelGenerationCard = ({ status, progress, prompt, color = "#B388FF" }: ModelGenerationCardProps) => {
+const ModelGenerationCard = ({ status, progress, prompt, color = "#3A6A9C" }: ModelGenerationCardProps) => {
   const statusText =
     status === "PENDING"
       ? "Queuing your model..."

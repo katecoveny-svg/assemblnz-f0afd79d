@@ -18,17 +18,17 @@ import {
 
 const FEATURED = [
   { name: "ECHO", color: "#E4A0FF", id: "echo", title: "Content Command Centre", desc: "Daily content queue, DM drafts, and performance analytics", Preview: EchoContentPreview },
-  { name: "FLUX", color: "#00E5FF", id: "sales", title: "Sales Pipeline Dashboard", desc: "AI-scored leads, deal health alerts, and revenue forecasting", Preview: FluxPipelinePreview },
+  { name: "FLUX", color: "#3A6A9C", id: "sales", title: "Sales Pipeline Dashboard", desc: "AI-scored leads, deal health alerts, and revenue forecasting", Preview: FluxPipelinePreview },
   { name: "HAVEN", color: "#4FC3F7", id: "property", title: "Healthy Homes Compliance", desc: "Instant property compliance check with tradie assignment", Preview: HavenCompliancePreview },
-  { name: "FORGE", color: "#00E5FF", id: "automotive", title: "F&I Payment Comparison", desc: "3-lender comparison with CCCFA-compliant disclosure", Preview: ForgeComparisonPreview },
-  { name: "AROHA", color: "#B388FF", id: "hr", title: "Employment Cost Calculator", desc: "True employer cost breakdown with KiwiSaver & ACC", Preview: ArohaCalculatorPreview },
+  { name: "FORGE", color: "#3A6A9C", id: "automotive", title: "F&I Payment Comparison", desc: "3-lender comparison with CCCFA-compliant disclosure", Preview: ForgeComparisonPreview },
+  { name: "AROHA", color: "#3A6A9C", id: "hr", title: "Employment Cost Calculator", desc: "True employer cost breakdown with KiwiSaver & ACC", Preview: ArohaCalculatorPreview },
   { name: "PRISM", color: "#E040FB", id: "marketing", title: "Campaign Generator", desc: "One brief generates email, social, and ad copy", Preview: PrismCampaignPreview },
   { name: "LEDGER", color: "#4FC3F7", id: "accounting", title: "PAYE Calculator", desc: "Instant NZ PAYE breakdown with net take-home pay", Preview: LedgerPayePreview },
   { name: "VAULT", color: "#7E57C2", id: "finance", title: "Mortgage Comparison", desc: "Compare banks and find the cheapest option", Preview: VaultMortgagePreview },
   { name: "SHIELD", color: "#7E57C2", id: "insurance", title: "Risk Assessment", desc: "Natural hazard profile and recommended sum insured", Preview: ShieldRiskPreview },
-  { name: "APEX", color: "#00FF88", id: "construction", title: "Safety Hazard Matrix", desc: "HSWA-compliant hazard register with risk scores", Preview: ApexHazardPreview },
-  { name: "ANCHOR", color: "#00E5FF", id: "legal", title: "Employment Agreement", desc: "ERA 2000-compliant agreement generated in seconds", Preview: AnchorContractPreview },
-  { name: "HELM", color: "#B388FF", id: "operations", title: "Family Weekly Planner", desc: "School timetable, bus routes, and events dashboard", Preview: HelmWeeklyPreview },
+  { name: "APEX", color: "#5AADA0", id: "construction", title: "Safety Hazard Matrix", desc: "HSWA-compliant hazard register with risk scores", Preview: ApexHazardPreview },
+  { name: "ANCHOR", color: "#3A6A9C", id: "legal", title: "Employment Agreement", desc: "ERA 2000-compliant agreement generated in seconds", Preview: AnchorContractPreview },
+  { name: "HELM", color: "#3A6A9C", id: "operations", title: "Family Weekly Planner", desc: "School timetable, bus routes, and events dashboard", Preview: HelmWeeklyPreview },
 ];
 
 const ContentHubShowcase = () => {

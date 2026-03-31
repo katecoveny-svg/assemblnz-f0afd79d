@@ -234,10 +234,10 @@ export default function ArohaPayroll() {
               <div className="flex gap-1 mt-0.5">{(["weekly", "fortnightly"] as const).map(p => <button key={p} onClick={() => setMwPeriod(p)} className="flex-1 py-2 rounded-lg text-[9px] capitalize border" style={{ borderColor: mwPeriod === p ? AROHA_COLOR : "hsl(var(--border))", color: mwPeriod === p ? AROHA_COLOR : "hsl(var(--muted-foreground))" }}>{p}</button>)}</div>
             </div>
           </div>
-          <div className="p-4 rounded-xl border bg-card" style={{ borderColor: meetsMinWage ? "#00FF8830" : AROHA_COLOR + "30" }}>
+          <div className="p-4 rounded-xl border bg-card" style={{ borderColor: meetsMinWage ? "#5AADA030" : AROHA_COLOR + "30" }}>
             <div className="flex items-center gap-2 mb-1">
-              {meetsMinWage ? <NeonCheckmark size={18} color="#00FF88" /> : <AlertCircle size={18} style={{ color: AROHA_COLOR }} />}
-              <span className="text-sm font-bold" style={{ color: meetsMinWage ? "#00FF88" : AROHA_COLOR }}>{meetsMinWage ? "Compliant" : "Below Minimum Wage"}</span>
+              {meetsMinWage ? <NeonCheckmark size={18} color="#5AADA0" /> : <AlertCircle size={18} style={{ color: AROHA_COLOR }} />}
+              <span className="text-sm font-bold" style={{ color: meetsMinWage ? "#5AADA0" : AROHA_COLOR }}>{meetsMinWage ? "Compliant" : "Below Minimum Wage"}</span>
             </div>
             <p className="text-[10px] text-muted-foreground">Effective hourly rate: <strong className="text-foreground">${effectiveRate.toFixed(2)}/hour</strong> (minimum: $23.95/hour)</p>
             {!meetsMinWage && <p className="text-[10px] mt-1" style={{ color: AROHA_COLOR }}>This rate is ${(23.95 - effectiveRate).toFixed(2)}/hour below the adult minimum wage. Increase pay to at least ${(23.95 * Number(mwHours) * (mwPeriod === "fortnightly" ? 2 : 1)).toFixed(2)} gross per {mwPeriod === "fortnightly" ? "fortnight" : "week"}.</p>}

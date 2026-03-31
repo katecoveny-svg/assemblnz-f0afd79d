@@ -49,7 +49,7 @@ function RobotBody() {
     color: "#6a2fa0",
     metalness: 0.7,
     roughness: 0.2,
-    emissive: "#B388FF",
+    emissive: "#3A6A9C",
     emissiveIntensity: 0.6,
     transparent: true,
     opacity: 0.9,
@@ -91,19 +91,19 @@ function RobotBody() {
         {/* Visor — brighter */}
         <mesh position={[0, 1.25, 0.51]}>
           <boxGeometry args={[1.0, 0.25, 0.02]} />
-          <meshStandardMaterial color="#00E5FF" emissive="#00E5FF" emissiveIntensity={5} toneMapped={false} />
+          <meshStandardMaterial color="#3A6A9C" emissive="#3A6A9C" emissiveIntensity={5} toneMapped={false} />
         </mesh>
 
         {/* Left eye */}
         <mesh position={[-0.25, 1.25, 0.52]}>
           <circleGeometry args={[0.08, 16]} />
-          <meshStandardMaterial color="#00FF88" emissive="#00FF88" emissiveIntensity={6} toneMapped={false} />
+          <meshStandardMaterial color="#5AADA0" emissive="#5AADA0" emissiveIntensity={6} toneMapped={false} />
         </mesh>
 
         {/* Right eye */}
         <mesh position={[0.25, 1.25, 0.52]}>
           <circleGeometry args={[0.08, 16]} />
-          <meshStandardMaterial color="#FF2D9B" emissive="#FF2D9B" emissiveIntensity={6} toneMapped={false} />
+          <meshStandardMaterial color="#C85A54" emissive="#C85A54" emissiveIntensity={6} toneMapped={false} />
         </mesh>
 
         {/* Antenna */}
@@ -114,7 +114,7 @@ function RobotBody() {
           </mesh>
           <mesh position={[0, 2.15, 0]}>
             <sphereGeometry args={[0.1, 16, 16]} />
-            <meshStandardMaterial color="#00FF88" emissive="#00FF88" emissiveIntensity={5} toneMapped={false} />
+            <meshStandardMaterial color="#5AADA0" emissive="#5AADA0" emissiveIntensity={5} toneMapped={false} />
           </mesh>
         </group>
 
@@ -129,14 +129,14 @@ function RobotBody() {
         </mesh>
 
         {/* Chest nexus orbs — brighter */}
-        <GlowOrb position={[0, 0.15, 0.45]} color="#00E5FF" size={0.12} speed={1.2} />
-        <GlowOrb position={[-0.15, -0.1, 0.45]} color="#B388FF" size={0.12} speed={0.9} />
-        <GlowOrb position={[0.15, -0.1, 0.45]} color="#FF2D9B" size={0.12} speed={1.1} />
+        <GlowOrb position={[0, 0.15, 0.45]} color="#3A6A9C" size={0.12} speed={1.2} />
+        <GlowOrb position={[-0.15, -0.1, 0.45]} color="#3A6A9C" size={0.12} speed={0.9} />
+        <GlowOrb position={[0.15, -0.1, 0.45]} color="#C85A54" size={0.12} speed={1.1} />
 
         {/* AI badge on chest */}
         <mesh position={[0, 0.0, 0.41]}>
           <ringGeometry args={[0.2, 0.25, 6]} />
-          <meshStandardMaterial color="#00FF88" emissive="#00FF88" emissiveIntensity={2} toneMapped={false} transparent opacity={0.4} />
+          <meshStandardMaterial color="#5AADA0" emissive="#5AADA0" emissiveIntensity={2} toneMapped={false} transparent opacity={0.4} />
         </mesh>
 
         {/* Left arm */}
@@ -158,11 +158,11 @@ function RobotBody() {
         {/* Edge glow lines — brighter */}
         <mesh position={[0, -0.1, 0.41]}>
           <planeGeometry args={[1.5, 0.015]} />
-          <meshStandardMaterial color="#00E5FF" emissive="#00E5FF" emissiveIntensity={4} toneMapped={false} transparent opacity={0.6} />
+          <meshStandardMaterial color="#3A6A9C" emissive="#3A6A9C" emissiveIntensity={4} toneMapped={false} transparent opacity={0.6} />
         </mesh>
         <mesh position={[0, 0.3, 0.41]}>
           <planeGeometry args={[1.5, 0.015]} />
-          <meshStandardMaterial color="#00FF88" emissive="#00FF88" emissiveIntensity={4} toneMapped={false} transparent opacity={0.5} />
+          <meshStandardMaterial color="#5AADA0" emissive="#5AADA0" emissiveIntensity={4} toneMapped={false} transparent opacity={0.5} />
         </mesh>
       </group>
     </Float>
@@ -202,7 +202,7 @@ function ParticleRing() {
           itemSize={3}
         />
       </bufferGeometry>
-      <pointsMaterial color="#00E5FF" size={0.04} transparent opacity={0.5} sizeAttenuation />
+      <pointsMaterial color="#3A6A9C" size={0.04} transparent opacity={0.5} sizeAttenuation />
     </points>
   );
 }
@@ -239,8 +239,8 @@ function GlowRing() {
         />
       </mesh>
       {/* Outer ring */}
-      <PulseRingLayer radius={3.2} color="#B388FF" speed={1.2} phase={0} />
-      <PulseRingLayer radius={3.6} color="#00E5FF" speed={0.9} phase={1.5} />
+      <PulseRingLayer radius={3.2} color="#3A6A9C" speed={1.2} phase={0} />
+      <PulseRingLayer radius={3.6} color="#3A6A9C" speed={0.9} phase={1.5} />
     </group>
   );
 }
@@ -298,11 +298,11 @@ const NexusHero3D = () => {
       >
         <ambientLight intensity={0.6} />
         <directionalLight position={[5, 5, 5]} intensity={1.2} color="#ffffff" />
-        <directionalLight position={[-3, 3, -3]} intensity={0.8} color="#B388FF" />
+        <directionalLight position={[-3, 3, -3]} intensity={0.8} color="#3A6A9C" />
         <pointLight position={[0, 2, 3]} intensity={2} color="#E040FB" distance={12} />
-        <pointLight position={[-2, -1, 2]} intensity={1} color="#FF2D9B" distance={10} />
-        <pointLight position={[2, 0, 2]} intensity={1} color="#B388FF" distance={10} />
-        <pointLight position={[0, 0, 4]} intensity={0.8} color="#00E5FF" distance={8} />
+        <pointLight position={[-2, -1, 2]} intensity={1} color="#C85A54" distance={10} />
+        <pointLight position={[2, 0, 2]} intensity={1} color="#3A6A9C" distance={10} />
+        <pointLight position={[0, 0, 4]} intensity={0.8} color="#3A6A9C" distance={8} />
         <pointLight position={[0, -1, 3]} intensity={0.6} color="#E040FB" distance={8} />
 
         <Suspense fallback={null}>
@@ -313,10 +313,10 @@ const NexusHero3D = () => {
 
         {/* Background orbs */}
         <GlowOrb position={[-2.5, 1.5, -1]} color="#E040FB" size={0.22} speed={0.7} />
-        <GlowOrb position={[2.8, -0.5, -2]} color="#FF2D9B" size={0.2} speed={0.5} />
-        <GlowOrb position={[1.5, 2, -1.5]} color="#B388FF" size={0.18} speed={0.8} />
-        <GlowOrb position={[-1.8, -1.2, -1]} color="#00FF88" size={0.2} speed={0.6} />
-        <GlowOrb position={[0, -2, -1.5]} color="#00E5FF" size={0.16} speed={0.9} />
+        <GlowOrb position={[2.8, -0.5, -2]} color="#C85A54" size={0.2} speed={0.5} />
+        <GlowOrb position={[1.5, 2, -1.5]} color="#3A6A9C" size={0.18} speed={0.8} />
+        <GlowOrb position={[-1.8, -1.2, -1]} color="#5AADA0" size={0.2} speed={0.6} />
+        <GlowOrb position={[0, -2, -1.5]} color="#3A6A9C" size={0.16} speed={0.9} />
       </Canvas>
     </div>
   );

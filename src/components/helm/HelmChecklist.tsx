@@ -44,8 +44,8 @@ const HelmChecklist = ({ content }: Props) => {
             <span
               className="mt-0.5 w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center shrink-0 transition-all duration-200"
               style={{
-                borderColor: isChecked ? "#B388FF" : "#ffffff25",
-                backgroundColor: isChecked ? "#B388FF" : "transparent",
+                borderColor: isChecked ? "#3A6A9C" : "#ffffff25",
+                backgroundColor: isChecked ? "#3A6A9C" : "transparent",
               }}
             >
               {isChecked && <Check size={11} className="text-white" strokeWidth={3} />}

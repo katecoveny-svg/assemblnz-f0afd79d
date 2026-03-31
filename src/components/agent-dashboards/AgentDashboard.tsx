@@ -104,7 +104,7 @@ const HavenDash = ({ color, data }: { color: string; data: any }) => (
       <p className="text-[10px] mb-2" style={{ color: "#71717A" }}>Maintenance by Urgency</p>
       <ResponsiveContainer width="100%" height={100}>
         <PieChart><Pie data={[{ n: "Low", v: data.urgency?.low || 3 }, { n: "Medium", v: data.urgency?.medium || 5 }, { n: "High", v: data.urgency?.high || 2 }, { n: "Emergency", v: data.urgency?.emergency || 1 }]} cx="50%" cy="50%" outerRadius={40} dataKey="v" label={({ n }) => n}>
-          {["#10B981", "#00E5FF", "#B388FF", "#E040FB"].map((c, i) => <Cell key={i} fill={c} />)}
+          {["#10B981", "#3A6A9C", "#3A6A9C", "#E040FB"].map((c, i) => <Cell key={i} fill={c} />)}
         </Pie><Tooltip {...TIP_STYLE} /></PieChart>
       </ResponsiveContainer>
     </div>
@@ -335,7 +335,7 @@ const AxisDash = ({ color }: { color: string }) => (
       <p className="text-[10px] mb-2" style={{ color: "#71717A" }}>Project Health</p>
       <ResponsiveContainer width="100%" height={100}>
         <PieChart><Pie data={[{ n: "On Track", v: 6 }, { n: "At Risk", v: 1 }, { n: "Behind", v: 1 }]} cx="50%" cy="50%" outerRadius={40} dataKey="v" label={({ n }) => n}>
-          {["#10B981", "#00E5FF", "#B388FF"].map((c, i) => <Cell key={i} fill={c} />)}
+          {["#10B981", "#3A6A9C", "#3A6A9C"].map((c, i) => <Cell key={i} fill={c} />)}
         </Pie><Tooltip {...TIP_STYLE} /></PieChart>
       </ResponsiveContainer>
     </div>

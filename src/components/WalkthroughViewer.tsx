@@ -90,7 +90,7 @@ function LoadingCube() {
   return (
     <mesh>
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="#00FF88" wireframe />
+      <meshStandardMaterial color="#5AADA0" wireframe />
     </mesh>
   );
 }
@@ -101,7 +101,7 @@ interface WalkthroughViewerProps {
   color?: string;
 }
 
-const WalkthroughViewer = ({ glbUrl, color = "#00FF88" }: WalkthroughViewerProps) => {
+const WalkthroughViewer = ({ glbUrl, color = "#5AADA0" }: WalkthroughViewerProps) => {
   const [fullscreen, setFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 

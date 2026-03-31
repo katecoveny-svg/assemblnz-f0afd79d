@@ -76,9 +76,9 @@ export default {
         },
         // Legacy neon aliases → mapped to Whenua
         neon: {
-          green: "#D4A843",
+          green: "#5AADA0",
           pink: "#C85A54",
-          cyan: "#5AADA0",
+          cyan: "#3A6A9C",
           orange: "#D4A843",
           lime: "#5AADA0",
           red: "#C85A54",

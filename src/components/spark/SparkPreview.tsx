@@ -46,7 +46,7 @@ const SparkPreview = ({ code, onIterate, onDeploy }: SparkPreviewProps) => {
         </span>
         <div className="flex-1" />
         <button onClick={handleCopy} className="p-1.5 rounded hover:bg-white/5 transition-colors" title="Copy Code">
-          {copied ? <Check size={13} style={{ color: "#00FF88" }} /> : <Copy size={13} style={{ color: "rgba(255,255,255,0.4)" }} />}
+          {copied ? <Check size={13} style={{ color: "#5AADA0" }} /> : <Copy size={13} style={{ color: "rgba(255,255,255,0.4)" }} />}
         </button>
         <button onClick={handleDownload} className="p-1.5 rounded hover:bg-white/5 transition-colors" title="Download HTML">
           <Download size={13} style={{ color: "rgba(255,255,255,0.4)" }} />

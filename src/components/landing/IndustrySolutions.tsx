@@ -18,7 +18,7 @@ const HERO_INDUSTRIES = [
   {
     industry: "Hospitality",
     agent: "AURA",
-    color: "#00FF88",
+    color: "#5AADA0",
     Icon: UtensilsCrossed,
     description: "Your 18-page Food Control Plan diary replaced with a 90-second voice check. Verifier visits stop being stressful.",
     capabilities: ["Guest intelligence & CRM", "Menu engineering & F&B", "Revenue optimisation", "Compliance autopilot"],
@@ -36,7 +36,7 @@ const HERO_INDUSTRIES = [
   {
     industry: "Operations & Admin",
     agent: "HELM",
-    color: "#B388FF",
+    color: "#3A6A9C",
     Icon: Compass,
     description: "Schedules, meal plans, budgets, school admin, and family logistics handled instantly — purpose-built for NZ families.",
     capabilities: ["Newsletter data extractor", "Meal plan generator", "Budget auto-tracker", "Family calendar sync"],
@@ -45,7 +45,7 @@ const HERO_INDUSTRIES = [
   {
     industry: "Legal & Compliance",
     agent: "ANCHOR",
-    color: "#00E5FF",
+    color: "#3A6A9C",
     Icon: Scale,
     description: "NZ law in plain English — contracts, employment disputes, privacy policies, and separation guidance with compassion.",
     capabilities: ["Contract & NDA drafter", "Employment dispute nav", "Privacy policy generator", "Separation guide AI"],

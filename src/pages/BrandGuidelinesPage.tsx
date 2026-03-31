@@ -15,9 +15,9 @@ const FULL_AGENT_LIST = [echoAgent, pilotAgent, ...allAgents];
 
 const CORE_COLORS = [
   { name: "Page Background", hex: "#09090F", hsl: "234 29% 5%", role: "--color-bg" },
-  { name: "Green", hex: "#00FF88", hsl: "153 100% 50%", role: "Primary CTA / Success" },
-  { name: "Pink", hex: "#FF2D9B", hsl: "326 100% 59%", role: "Alerts / Highlights" },
-  { name: "Cyan", hex: "#00E5FF", hsl: "189 100% 50%", role: "Data / Links" },
+  { name: "Green", hex: "#5AADA0", hsl: "153 100% 50%", role: "Primary CTA / Success" },
+  { name: "Pink", hex: "#C85A54", hsl: "326 100% 59%", role: "Alerts / Highlights" },
+  { name: "Cyan", hex: "#3A6A9C", hsl: "189 100% 50%", role: "Data / Links" },
   { name: "Primary Text", hex: "#FFFFFF", hsl: "0 0% 100%", role: "Headings & body" },
 ];
 
@@ -124,34 +124,34 @@ export default function BrandGuidelinesPage() {
             ))}
           </div>
           <div className="mt-8 p-5 rounded-xl border border-white/10 bg-white/[0.03]">
-            <h4 className="text-sm font-bold text-[#B388FF] mb-3">Usage Rules</h4>
+            <h4 className="text-sm font-bold text-[#3A6A9C] mb-3">Usage Rules</h4>
             <ul className="space-y-1.5 text-sm text-foreground/70">
-              <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Always use on dark backgrounds (#09090B or darker)</li>
-              <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Never alter the colours of the Nexus spheres</li>
-              <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Never rotate, distort, or add effects to the logo</li>
-              <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Minimum clearspace equals the height of one sphere</li>
-              <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Minimum size: 24px digital, 8mm print</li>
+              <li className="flex items-start gap-2"><span className="text-[#3A6A9C]">→</span> Always use on dark backgrounds (#09090B or darker)</li>
+              <li className="flex items-start gap-2"><span className="text-[#3A6A9C]">→</span> Never alter the colours of the Nexus spheres</li>
+              <li className="flex items-start gap-2"><span className="text-[#3A6A9C]">→</span> Never rotate, distort, or add effects to the logo</li>
+              <li className="flex items-start gap-2"><span className="text-[#3A6A9C]">→</span> Minimum clearspace equals the height of one sphere</li>
+              <li className="flex items-start gap-2"><span className="text-[#3A6A9C]">→</span> Minimum size: 24px digital, 8mm print</li>
             </ul>
           </div>
         </Section>
 
         {/* Colour Palette */}
         <Section title="Colour Palette">
-          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Core Brand Colours</h3>
+          <h3 className="text-lg font-display font-semibold text-[#3A6A9C] mb-4">Core Brand Colours</h3>
           <div className="flex flex-wrap gap-6 mb-10">
             {CORE_COLORS.map((c) => (
               <ColorSwatch key={c.hex + c.name} hex={c.hex} name={c.name} role={c.role} large />
             ))}
           </div>
 
-          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Surface System</h3>
+          <h3 className="text-lg font-display font-semibold text-[#3A6A9C] mb-4">Surface System</h3>
           <div className="flex flex-wrap gap-6 mb-10">
             {SURFACE_COLORS.map((c) => (
               <ColorSwatch key={c.hex + c.name} hex={c.hex} name={c.name} role={c.role} />
             ))}
           </div>
 
-          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Agent Colours — All {FULL_AGENT_LIST.length} Agents</h3>
+          <h3 className="text-lg font-display font-semibold text-[#3A6A9C] mb-4">Agent Colours — All {FULL_AGENT_LIST.length} Agents</h3>
           <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 gap-3">
             {FULL_AGENT_LIST.map((a) => (
               <div key={a.id} className="flex flex-col items-center p-2 rounded-lg border border-white/5 bg-white/[0.02]">
@@ -168,7 +168,7 @@ export default function BrandGuidelinesPage() {
           <div className="space-y-8 mb-10">
             {FONTS.map((f) => (
               <div key={f.name} className="p-5 rounded-xl border border-white/10 bg-white/[0.03]">
-                <h3 className={`text-2xl font-bold mb-1 ${f.name === "JetBrains Mono" ? "font-mono-jb" : "font-body"}`} style={{ color: f.name === "JetBrains Mono" ? "#00E5FF" : "#B388FF" }}>
+                <h3 className={`text-2xl font-bold mb-1 ${f.name === "JetBrains Mono" ? "font-mono-jb" : "font-body"}`} style={{ color: f.name === "JetBrains Mono" ? "#3A6A9C" : "#3A6A9C" }}>
                   {f.name}
                 </h3>
                 <p className="text-sm text-foreground/80 mb-1">{f.role} — Weights: {f.weights}</p>
@@ -178,11 +178,11 @@ export default function BrandGuidelinesPage() {
             ))}
           </div>
 
-          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Type Scale</h3>
+          <h3 className="text-lg font-display font-semibold text-[#3A6A9C] mb-4">Type Scale</h3>
           <div className="space-y-2">
             {TYPE_SCALE.map((t) => (
               <div key={t.level} className="flex items-center gap-4">
-                <span className="text-sm font-bold text-[#00E5FF] w-36">{t.level}</span>
+                <span className="text-sm font-bold text-[#3A6A9C] w-36">{t.level}</span>
                 <span className="text-sm text-foreground/70">{t.spec}</span>
               </div>
             ))}
@@ -267,13 +267,13 @@ text-shadow:
 
             {/* Usage Guidelines */}
             <div className="p-5 rounded-xl border border-white/10 bg-white/[0.03]">
-              <h4 className="text-sm font-bold text-[#B388FF] mb-3">Gradient & Glow Usage Rules</h4>
+              <h4 className="text-sm font-bold text-[#3A6A9C] mb-3">Gradient & Glow Usage Rules</h4>
               <ul className="space-y-1.5 text-sm text-foreground/70">
-                <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Hero gradient: Use only on primary headlines (H1) — never on body text</li>
-                <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Glow effects: Use on section headings, stats, and emphasis text only</li>
-                <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Maximum one gradient text element per viewport — avoid competing focal points</li>
-                <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> Always pair gradient/glow text with plain white or muted body copy for contrast</li>
-                <li className="flex items-start gap-2"><span className="text-[#00E5FF]">→</span> The 135° angle is canonical — do not alter the gradient direction</li>
+                <li className="flex items-start gap-2"><span className="text-[#3A6A9C]">→</span> Hero gradient: Use only on primary headlines (H1) — never on body text</li>
+                <li className="flex items-start gap-2"><span className="text-[#3A6A9C]">→</span> Glow effects: Use on section headings, stats, and emphasis text only</li>
+                <li className="flex items-start gap-2"><span className="text-[#3A6A9C]">→</span> Maximum one gradient text element per viewport — avoid competing focal points</li>
+                <li className="flex items-start gap-2"><span className="text-[#3A6A9C]">→</span> Always pair gradient/glow text with plain white or muted body copy for contrast</li>
+                <li className="flex items-start gap-2"><span className="text-[#3A6A9C]">→</span> The 135° angle is canonical — do not alter the gradient direction</li>
               </ul>
             </div>
           </div>
@@ -299,7 +299,7 @@ text-shadow:
             </div>
           </div>
 
-          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Mascot System</h3>
+          <h3 className="text-lg font-display font-semibold text-[#3A6A9C] mb-4">Mascot System</h3>
           <p className="text-sm text-foreground/70 mb-4 max-w-3xl">
             All {FULL_AGENT_LIST.length} agent avatars use the identical Hero Robot base — a Pixar-style 3D mascot with a dark visor face and glowing Nexus triangle on its chest. Each agent is differentiated only by its brand colour glow applied via CSS tint and drop-shadow.
           </p>
@@ -333,7 +333,7 @@ text-shadow:
           </p>
 
           {/* Logos */}
-          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Logos</h3>
+          <h3 className="text-lg font-display font-semibold text-[#3A6A9C] mb-4">Logos</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
             {[
               { src: nexusLogo, label: "Nexus Logo Mark" },
@@ -350,7 +350,7 @@ text-shadow:
           </div>
 
           {/* Agent Robots */}
-          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Agent Mascots</h3>
+          <h3 className="text-lg font-display font-semibold text-[#3A6A9C] mb-4">Agent Mascots</h3>
           <p className="text-xs text-foreground/50 mb-4">All {FULL_AGENT_LIST.length} branded agent robots — click to download.</p>
           <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 gap-3 mb-10">
             {FULL_AGENT_LIST.map((a) => (
@@ -368,7 +368,7 @@ text-shadow:
           </div>
 
           {/* LinkedIn / Social Banners */}
-          <h3 className="text-lg font-display font-semibold text-[#B388FF] mb-4">Social Media Banners</h3>
+          <h3 className="text-lg font-display font-semibold text-[#3A6A9C] mb-4">Social Media Banners</h3>
           <div className="space-y-6 mb-10">
             {[
               { src: linkedinBanner, label: "LinkedIn Banner (1584×396)", filename: "assembl-linkedin-banner.png" },
@@ -396,7 +396,7 @@ text-shadow:
               { ch: "Email", handle: "assembl@assembl.co.nz", href: "mailto:assembl@assembl.co.nz" },
             ].map((s) => (
               <a key={s.ch} href={s.href} target="_blank" rel="noopener noreferrer" className="p-3 rounded-lg border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] transition-colors block">
-                <span className="text-xs font-bold text-[#00E5FF]">{s.ch}</span>
+                <span className="text-xs font-bold text-[#3A6A9C]">{s.ch}</span>
                 <p className="text-[10px] text-muted-foreground mt-0.5">{s.handle}</p>
               </a>
             ))}

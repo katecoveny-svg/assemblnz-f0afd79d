@@ -15,7 +15,7 @@ interface Props {
 
 const formatNZD = (n: number) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD", maximumFractionDigits: 0 }).format(n);
 
-const CashFlowTimeline = ({ periods, currentBalance, agentColor = "#00FF88" }: Props) => {
+const CashFlowTimeline = ({ periods, currentBalance, agentColor = "#5AADA0" }: Props) => {
   return (
     <div className="rounded-xl p-4" style={{ background: "rgba(14,14,26,0.7)", backdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.06)" }}>
       <div className="flex items-center gap-2 mb-3">
@@ -45,7 +45,7 @@ const CashFlowTimeline = ({ periods, currentBalance, agentColor = "#00FF88" }: P
               <div className="rounded-lg p-3" style={{ background: "rgba(255,255,255,0.02)" }}>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[10px] font-bold text-foreground uppercase tracking-wider">{period.label}</span>
-                  <span className="text-[10px] font-bold" style={{ color: isPositive ? "#00FF88" : "#FF4D6A" }}>
+                  <span className="text-[10px] font-bold" style={{ color: isPositive ? "#5AADA0" : "#FF4D6A" }}>
                     {isPositive ? "+" : ""}{formatNZD(net)}
                   </span>
                 </div>
@@ -53,9 +53,9 @@ const CashFlowTimeline = ({ periods, currentBalance, agentColor = "#00FF88" }: P
                 {period.inflows.map((f, j) => (
                   <div key={`in-${j}`} className="flex items-center justify-between py-0.5">
                     <span className="text-[9px] text-muted-foreground flex items-center gap-1">
-                      <TrendingUp size={8} className="text-[#00FF88]" /> {f.description}
+                      <TrendingUp size={8} className="text-[#5AADA0]" /> {f.description}
                     </span>
-                    <span className="text-[9px] text-[#00FF88]">+{formatNZD(f.amount)}</span>
+                    <span className="text-[9px] text-[#5AADA0]">+{formatNZD(f.amount)}</span>
                   </div>
                 ))}
                 {period.outflows.map((f, j) => (

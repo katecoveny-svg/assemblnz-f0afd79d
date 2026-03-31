@@ -5,7 +5,7 @@ import { ICON_MAP, NeonClipboard, NeonDocument, NeonWarning, NeonSafetyVest, Neo
 import ReactMarkdown from "react-markdown";
 import { useAuth } from "@/hooks/useAuth";
 
-const APEX_COLOR = "#00FF88";
+const APEX_COLOR = "#5AADA0";
 
 const TENDER_SECTIONS = [
   { id: "executive_summary", label: "Executive Summary", iconKey: "clipboard" },

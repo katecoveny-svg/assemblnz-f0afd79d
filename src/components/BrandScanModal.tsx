@@ -83,7 +83,7 @@ const BrandCard = ({ dna, onClose }: { dna: BrandDna; onClose: () => void }) => 
 
   return (
     <div className="space-y-4 animate-in fade-in-0 slide-in-from-bottom-3">
-      <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider" style={{ color: "#00E5FF" }}>
+      <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider" style={{ color: "#3A6A9C" }}>
         <CheckCircle2 size={14} /> Brand DNA Extracted
       </div>
 
@@ -166,7 +166,7 @@ const BrandCard = ({ dna, onClose }: { dna: BrandDna; onClose: () => void }) => 
         onClick={handleSave}
         disabled={saving}
         className="w-full px-4 py-2.5 rounded-lg text-sm font-syne font-bold transition-all disabled:opacity-60"
-        style={{ background: "#00E5FF", color: "#0A0A14" }}
+        style={{ background: "#3A6A9C", color: "#0A0A14" }}
       >
         {saving ? "Saving..." : "Continue with Brand DNA →"}
       </button>
@@ -178,7 +178,7 @@ const BrandCard = ({ dna, onClose }: { dna: BrandDna; onClose: () => void }) => 
 const ManualBrandForm = ({ agentColor, onSubmit, loading }: { agentColor: string; onSubmit: (data: any) => void; loading: boolean }) => {
   const [form, setForm] = useState({
     businessName: "", industry: "", audience: "", tagline: "", logoUrl: "",
-    primaryColour: "#10B981", secondaryColour: "#6366F1", accentColour: "#00E5FF",
+    primaryColour: "#10B981", secondaryColour: "#1A3A5C", accentColour: "#3A6A9C",
     headingFont: "", bodyFont: "", formality: 5,
     toneTraits: "" as string,
   });

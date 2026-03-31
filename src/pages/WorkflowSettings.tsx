@@ -64,7 +64,7 @@ const WorkflowSettings = () => {
         </Link>
 
         <div className="flex items-center gap-3 mb-2">
-          <Zap size={24} className="text-[#00FF88]" />
+          <Zap size={24} className="text-[#5AADA0]" />
           <h1 className="font-syne font-extrabold text-2xl">Symbiotic Workflows</h1>
         </div>
         <p className="text-sm text-muted-foreground mb-8">When one agent acts, others follow automatically. Configure your agent chain reactions.</p>
@@ -80,13 +80,13 @@ const WorkflowSettings = () => {
                   className="w-full flex items-center gap-3 p-4 text-left hover:bg-white/[0.02] transition-colors"
                   onClick={() => setExpanded(isExpanded ? null : w.id)}
                 >
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ background: "#00FF8815" }}>
-                    <Icon size={18} className="text-[#00FF88]" />
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ background: "#5AADA015" }}>
+                    <Icon size={18} className="text-[#5AADA0]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="font-syne font-bold text-sm text-foreground">{w.name}</span>
-                      {w.is_system && <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#00FF8815] text-[#00FF88] font-medium">SYSTEM</span>}
+                      {w.is_system && <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#5AADA015] text-[#5AADA0] font-medium">SYSTEM</span>}
                     </div>
                     <p className="text-[11px] text-muted-foreground mt-0.5 truncate">{w.description}</p>
                   </div>
@@ -96,7 +96,7 @@ const WorkflowSettings = () => {
                       className="transition-colors"
                     >
                       {w.is_active ? (
-                        <ToggleRight size={24} className="text-[#00FF88]" />
+                        <ToggleRight size={24} className="text-[#5AADA0]" />
                       ) : (
                         <ToggleLeft size={24} className="text-muted-foreground/40" />
                       )}
@@ -113,8 +113,8 @@ const WorkflowSettings = () => {
                       </p>
                       {w.steps.map((step: any, i: number) => (
                         <div key={i} className="flex items-start gap-2 text-xs">
-                          <div className="w-5 h-5 rounded-full bg-[#00FF8815] flex items-center justify-center shrink-0 mt-0.5">
-                            <span className="text-[9px] font-bold text-[#00FF88]">{i + 1}</span>
+                          <div className="w-5 h-5 rounded-full bg-[#5AADA015] flex items-center justify-center shrink-0 mt-0.5">
+                            <span className="text-[9px] font-bold text-[#5AADA0]">{i + 1}</span>
                           </div>
                           <div>
                             <span className="font-bold text-foreground">{step.target}</span>

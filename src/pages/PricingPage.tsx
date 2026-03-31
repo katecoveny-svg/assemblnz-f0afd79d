@@ -169,7 +169,7 @@ const PricingPage = () => {
               border: '1px solid rgba(179,136,255,0.15)',
             }}
           >
-            <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-3" style={{ color: '#B388FF' }}>
+            <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-3" style={{ color: '#3A6A9C' }}>
               {HELM_PLAN.name}
             </p>
             <div className="flex items-baseline gap-1 mb-1">
@@ -183,7 +183,7 @@ const PricingPage = () => {
             <ul className="space-y-2 mb-6 flex-1">
               {HELM_PLAN.features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-xs font-jakarta" style={{ color: '#A1A1AA' }}>
-                  <Check size={14} className="mt-0.5 shrink-0" style={{ color: '#B388FF' }} />
+                  <Check size={14} className="mt-0.5 shrink-0" style={{ color: '#3A6A9C' }} />
                   {f}
                 </li>
               ))}

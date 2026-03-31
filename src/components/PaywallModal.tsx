@@ -79,7 +79,7 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
                   onClick={() => handleCheckout(STRIPE_TIERS.pro.price_id, "pro")}
                   disabled={loading === "pro"}
                   className="block w-full py-2.5 rounded-lg text-sm font-semibold text-center transition-all"
-                  style={{ background: "#00FF88", color: "#0A0A14" }}
+                  style={{ background: "#5AADA0", color: "#0A0A14" }}
                 >
                   {loading === "pro" ? <Loader2 size={16} className="inline animate-spin" /> : "Pro — $299/mo (recommended)"}
                 </button>

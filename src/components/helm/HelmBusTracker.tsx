@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { RefreshCw, Bus, AlertTriangle } from "lucide-react";
 
-const HELM_COLOR = "#B388FF";
+const HELM_COLOR = "#3A6A9C";
 const REFRESH_INTERVAL = 15000;
 
 interface VehiclePosition {

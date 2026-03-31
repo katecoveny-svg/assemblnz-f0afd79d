@@ -7,21 +7,21 @@ const TESTIMONIALS = [
     name: "Mike T.",
     role: "Construction Company Owner",
     location: "Auckland",
-    color: "#00FF88",
+    color: "#5AADA0",
   },
   {
     quote: "I replaced three SaaS tools with Assembl. The accounting agent handles GST returns, PAYE calculations, and KiwiSaver contributions — all NZ-compliant out of the box.",
     name: "Sarah L.",
     role: "Small Business Accountant",
     location: "Wellington",
-    color: "#00E5FF",
+    color: "#3A6A9C",
   },
   {
     quote: "AURA generates pre-arrival guest dossiers that rival what a five-star concierge team produces. Our repeat booking rate is up 34% since we started using it.",
     name: "James W.",
     role: "Boutique Hotel Manager",
     location: "Queenstown",
-    color: "#B388FF",
+    color: "#3A6A9C",
   },
 ];
 

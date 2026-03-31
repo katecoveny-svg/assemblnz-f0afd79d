@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import { Scale, Shield, Lock, MapPin, Globe, FileCheck } from "lucide-react";
 
 const TRUST_CARDS = [
-  { Icon: Scale, color: "#00FF88", title: "Trained on NZ Legislation", sub: "50+ Acts embedded" },
-  { Icon: Shield, color: "#00E5FF", title: "Privacy Act 2020 Compliant", sub: "AU/NZ data region" },
-  { Icon: Lock, color: "#B388FF", title: "Enterprise Security", sub: "Encrypted at rest" },
-  { Icon: MapPin, color: "#FF2D9B", title: "Built in Auckland", sub: "Founded by Kate Hudson" },
-  { Icon: Globe, color: "#00E5FF", title: "GDPR Ready", sub: "International standards" },
-  { Icon: FileCheck, color: "#00FF88", title: "150+ Compliance Dates", sub: "Auto-tracked for you" },
+  { Icon: Scale, color: "#5AADA0", title: "Trained on NZ Legislation", sub: "50+ Acts embedded" },
+  { Icon: Shield, color: "#3A6A9C", title: "Privacy Act 2020 Compliant", sub: "AU/NZ data region" },
+  { Icon: Lock, color: "#3A6A9C", title: "Enterprise Security", sub: "Encrypted at rest" },
+  { Icon: MapPin, color: "#C85A54", title: "Built in Auckland", sub: "Founded by Kate Hudson" },
+  { Icon: Globe, color: "#3A6A9C", title: "GDPR Ready", sub: "International standards" },
+  { Icon: FileCheck, color: "#5AADA0", title: "150+ Compliance Dates", sub: "Auto-tracked for you" },
 ];
 
 const TESTIMONIALS = [
@@ -16,21 +16,21 @@ const TESTIMONIALS = [
     name: "James T.",
     role: "Construction Co Owner",
     location: "Auckland",
-    color: "#00FF88",
+    color: "#5AADA0",
   },
   {
     quote: "Having NZ legislation built right into the AI means I'm not second-guessing every answer. It actually understands our tax system.",
     name: "Sarah M.",
     role: "Small Business Accountant",
     location: "Wellington",
-    color: "#00E5FF",
+    color: "#3A6A9C",
   },
   {
     quote: "From guest comms to kitchen compliance — Aura handles it all. Our team went from overwhelmed to organised in a week.",
     name: "Liam R.",
     role: "Boutique Hotel Manager",
     location: "Queenstown",
-    color: "#B388FF",
+    color: "#3A6A9C",
   },
 ];
 

@@ -57,7 +57,7 @@ export default function PrismCreativeStudio({ onSendToChat }: { onSendToChat?: (
     const textOverlay = includeText && overlayText ? ` Text overlay: "${overlayText}".` : "";
     const complexityLabel = complexity < 33 ? "simple and clean" : complexity < 66 ? "moderately detailed" : "highly detailed and complex";
     const brandSection = brandPreset === "assembl"
-      ? "Use Assembl brand: #09090F background, #00FF88/#00E5FF/#FF2D9B accents, Syne + JetBrains Mono fonts."
+      ? "Use Assembl brand: #09090F background, #5AADA0/#3A6A9C/#C85A54 accents, Syne + JetBrains Mono fonts."
       : `Use primary colour: ${primaryColour}.`;
 
     // Generate multiple image tags for variants

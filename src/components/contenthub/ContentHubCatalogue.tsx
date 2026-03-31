@@ -57,7 +57,7 @@ const ContentHubCatalogue = () => {
                 className="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-jakarta font-medium transition-all"
                 style={{
                   background: active ? "rgba(0,255,136,0.1)" : "transparent",
-                  color: active ? "#00FF88" : "rgba(255,255,255,0.4)",
+                  color: active ? "#5AADA0" : "rgba(255,255,255,0.4)",
                   border: active ? "1px solid rgba(0,255,136,0.2)" : "1px solid rgba(255,255,255,0.06)",
                 }}
               >

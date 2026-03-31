@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Truck, AlertTriangle, Clock, CheckCircle } from "lucide-react";
 
-const HELM_COLOR = "#B388FF";
+const HELM_COLOR = "#3A6A9C";
 
 interface Child { id: string; name: string; school: string | null; }
 interface Delivery { id: string; child_id: string | null; item_description: string; status: string; created_at: string; tracking_url: string | null; dropoff_address: string; }

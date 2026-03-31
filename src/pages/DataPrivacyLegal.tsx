@@ -133,7 +133,7 @@ const DataPrivacyLegal = () => (
           className="font-syne font-extrabold text-3xl sm:text-5xl lg:text-6xl leading-tight mb-6"
           style={{
             background:
-              "linear-gradient(135deg, #00FF88, #00E5FF, #A855F7, #1E3A5F)",
+              "linear-gradient(135deg, #5AADA0, #3A6A9C, #A855F7, #1E3A5F)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}

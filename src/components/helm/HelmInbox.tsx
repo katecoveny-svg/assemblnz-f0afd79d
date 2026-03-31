@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Upload, FileText, Clock, CheckCircle, AlertCircle } from "lucide-react";
 
-const HELM_COLOR = "#B388FF";
+const HELM_COLOR = "#3A6A9C";
 
 interface InboxMessage { id: string; subject: string | null; sender: string | null; status: string; received_at: string; raw_text: string | null; }
 

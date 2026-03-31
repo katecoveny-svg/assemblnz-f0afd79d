@@ -162,7 +162,7 @@ const PhoneMockup = () => (
               }}
             >
               {msg.from === "agent" && (
-                <span className="block text-[10px] font-mono mb-1" style={{ color: "#00E5FF" }}>
+                <span className="block text-[10px] font-mono mb-1" style={{ color: "#3A6A9C" }}>
                   assembl agent
                 </span>
               )}
@@ -194,7 +194,7 @@ const InvestPage = () => {
           <motion.div variants={fadeUp}>
             <span
               className="inline-block rounded-full px-4 py-1.5 text-[12px] font-mono font-medium mb-8"
-              style={{ background: "rgba(0,229,255,0.1)", color: "#00E5FF", border: "1px solid rgba(0,229,255,0.2)" }}
+              style={{ background: "rgba(0,229,255,0.1)", color: "#3A6A9C", border: "1px solid rgba(0,229,255,0.2)" }}
             >
               First to market in New Zealand
             </span>
@@ -205,7 +205,7 @@ const InvestPage = () => {
           >
             Your customers text.
             <br />
-            <span style={{ color: "#00FF88" }}>An AI agent answers.</span>
+            <span style={{ color: "#5AADA0" }}>An AI agent answers.</span>
           </motion.h1>
           <motion.p
             variants={fadeUp}
@@ -218,7 +218,7 @@ const InvestPage = () => {
             <a
               href="mailto:assembl@assembl.co.nz"
               className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-black transition-shadow hover:shadow-[0_0_30px_rgba(0,255,136,0.3)]"
-              style={{ background: "#00FF88" }}
+              style={{ background: "#5AADA0" }}
             >
               Talk to the founder <ArrowRight size={16} />
             </a>
@@ -242,7 +242,7 @@ const InvestPage = () => {
             { ref: stat4.ref, val: stat4.val, label: "Projected ARR Month 18" },
           ].map((s, i) => (
             <div key={i} className="py-8 px-6 text-center">
-              <span ref={s.ref} className="block text-2xl md:text-3xl font-mono font-bold" style={{ color: "#00FF88" }}>
+              <span ref={s.ref} className="block text-2xl md:text-3xl font-mono font-bold" style={{ color: "#5AADA0" }}>
                 {s.val}
               </span>
               <span className="text-[12px] text-white/40 font-body mt-1 block">{s.label}</span>
@@ -293,7 +293,7 @@ const InvestPage = () => {
                     className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center"
                     style={{ background: "rgba(0,229,255,0.08)" }}
                   >
-                    <f.icon size={18} style={{ color: "#00E5FF" }} />
+                    <f.icon size={18} style={{ color: "#3A6A9C" }} />
                   </div>
                   <div>
                     <h3 className="font-display font-bold text-[15px] mb-1">{f.title}</h3>
@@ -328,7 +328,7 @@ const InvestPage = () => {
               transition={{ delay: i * 0.12, duration: 0.6, ease }}
             >
               <Glass className="p-7 h-full">
-                <span className="block text-3xl font-mono font-bold mb-2" style={{ color: "#00FF88" }}>
+                <span className="block text-3xl font-mono font-bold mb-2" style={{ color: "#5AADA0" }}>
                   {c.stat}
                 </span>
                 <h3 className="font-display font-bold text-[15px] mb-2">{c.label}</h3>
@@ -353,28 +353,28 @@ const InvestPage = () => {
           {([
             {
               tag: "Te Tiriti o Waitangi",
-              tagColor: "#00FF88",
+              tagColor: "#5AADA0",
               title: "Māori Data Sovereignty",
               content:
                 "We recognise the six principles of Te Mana Raraunga: rangatiratanga (self-determination), whakapapa (data lineage), whanaungatanga (reciprocal relationships), kotahitanga (collective benefit), manaakitanga (dignity and care), and kaitiakitanga (guardianship). Māori data is taonga. Our governance framework gives Māori communities decision-making authority over data that relates to them.",
             },
             {
               tag: "Privacy Act 2020",
-              tagColor: "#00E5FF",
+              tagColor: "#3A6A9C",
               title: "13 IPPs with AI-specific controls",
               content:
                 "IPP 8 compliance for automated decisions: data accuracy verification before every agent action. Human review for consequential decisions. Breach notification within 72 hours. Cross-border data transfer safeguards documented. Privacy Impact Assessment completed before launch.",
             },
             {
               tag: "Algorithm Charter",
-              tagColor: "#FF2D9B",
+              tagColor: "#C85A54",
               title: "Aligned with Aotearoa's world-first charter",
               content:
                 "Full transparency on how our agents make decisions. Te Ao Māori perspective embedded in design. Human oversight at every consequential decision point. Algorithm Impact Assessment completed.",
             },
             {
               tag: "UEMA 2007 & Consumer Protection",
-              tagColor: "#00FF88",
+              tagColor: "#5AADA0",
               title: "SMS compliance baked into the platform",
               content:
                 'Every message includes sender identification, functional opt-out ("reply STOP"), and documented consent trails. Fair Trading Act alignment: agents disclose they\'re AI, never misrepresent capabilities.',
@@ -435,7 +435,7 @@ const InvestPage = () => {
                 ].map((r, i) => (
                   <tr key={i} className="border-b border-white/4 last:border-0">
                     <td className="px-6 py-4 font-medium">{r.tier}</td>
-                    <td className="px-6 py-4 font-mono" style={{ color: "#00FF88" }}>{r.price}</td>
+                    <td className="px-6 py-4 font-mono" style={{ color: "#5AADA0" }}>{r.price}</td>
                     <td className="px-6 py-4 font-mono text-white/60">{r.msgs}</td>
                     <td className="px-6 py-4 text-white/50">{r.inc}</td>
                   </tr>
@@ -454,7 +454,7 @@ const InvestPage = () => {
             { val: "78%", label: "Gross margin target" },
           ].map((s, i) => (
             <div key={i} className="py-6 px-5 text-center">
-              <span className="block text-lg md:text-xl font-mono font-bold" style={{ color: "#00E5FF" }}>
+              <span className="block text-lg md:text-xl font-mono font-bold" style={{ color: "#3A6A9C" }}>
                 {s.val}
               </span>
               <span className="text-[11px] text-white/35 font-body mt-1 block">{s.label}</span>
@@ -477,7 +477,7 @@ const InvestPage = () => {
               phase: "Phase 1",
               time: "Now – Month 3",
               title: "Foundation & First Customers",
-              color: "#00FF88",
+              color: "#5AADA0",
               items: [
                 "TNZ integration & dedicated +64 numbers",
                 "Single-agent MVP live",
@@ -489,7 +489,7 @@ const InvestPage = () => {
               phase: "Phase 2",
               time: "Month 4–9",
               title: "Multi-Agent & Integrations",
-              color: "#00E5FF",
+              color: "#3A6A9C",
               items: [
                 "Professional tier launch",
                 "Xero, ServiceM8, Jobber connectors",
@@ -500,7 +500,7 @@ const InvestPage = () => {
               phase: "Phase 3",
               time: "Month 10–15",
               title: "Platform & Scale",
-              color: "#FF2D9B",
+              color: "#C85A54",
               items: [
                 "Enterprise tier & workflow builder",
                 "API for developers",
@@ -513,7 +513,7 @@ const InvestPage = () => {
               phase: "Phase 4",
               time: "Month 16–24",
               title: "Market Leadership",
-              color: "#00FF88",
+              color: "#5AADA0",
               items: [
                 "Agent marketplace",
                 "Australia expansion",
@@ -569,25 +569,25 @@ const InvestPage = () => {
               icon: Phone,
               title: "NZ telco relationships",
               desc: "TNZ integration, dedicated +64 numbers, short code provisioning. Not something a foreign entrant can replicate quickly.",
-              accent: "#00FF88",
+              accent: "#5AADA0",
             },
             {
               icon: Shield,
               title: "Regulatory compliance as product",
               desc: "UEMA, Privacy Act, Algorithm Charter, Treaty compliance. Built into the architecture, not bolted on.",
-              accent: "#00E5FF",
+              accent: "#3A6A9C",
             },
             {
               icon: Brain,
               title: "NZ-specific agent training",
               desc: "GST, ACC, employment law, council regulations, industry licensing. Agents that understand how NZ actually works.",
-              accent: "#00FF88",
+              accent: "#5AADA0",
             },
             {
               icon: Database,
               title: "Network effects",
               desc: "Every interaction improves agents for that vertical. First-mover data advantage compounds over time.",
-              accent: "#00E5FF",
+              accent: "#3A6A9C",
             },
           ].map((c, i) => (
             <motion.div
@@ -628,7 +628,7 @@ const InvestPage = () => {
             <a
               href="mailto:assembl@assembl.co.nz"
               className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-black transition-shadow hover:shadow-[0_0_30px_rgba(0,255,136,0.3)]"
-              style={{ background: "#00FF88" }}
+              style={{ background: "#5AADA0" }}
             >
               Email Kate <ArrowRight size={16} />
             </a>

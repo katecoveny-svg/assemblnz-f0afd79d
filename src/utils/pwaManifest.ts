@@ -20,7 +20,7 @@ export function getAgentManifest(agentId: string): ManifestData {
   const agent = agents.find((a) => a.id === agentId);
   const name = agent ? `${agent.name} by Assembl` : "Assembl Agent";
   const shortName = agent?.name || "Agent";
-  const color = agent?.color || "#6366F1";
+  const color = agent?.color || "#1A3A5C";
   const role = agent?.role || "AI Assistant";
 
   return {

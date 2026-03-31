@@ -4,7 +4,7 @@ import { Shield, Heart, Award, AlertTriangle, ChevronRight, ArrowLeft, Copy, Che
 import { NeonSafetyVest, NeonSiren, NeonWarning } from "@/components/NeonIcons";
 import ReactMarkdown from "react-markdown";
 
-const APEX_COLOR = "#00FF88";
+const APEX_COLOR = "#5AADA0";
 
 const SAFETY_PLAN_SECTIONS = [
   "Hazard identification and risk register",

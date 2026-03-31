@@ -39,7 +39,7 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
           style={{
             background: "rgba(0,255,136,0.06)",
             border: "1px solid rgba(0,255,136,0.15)",
-            color: "#00FF88",
+            color: "#5AADA0",
           }}
         >
            {anniversaryMsg}
@@ -52,7 +52,7 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
         <div className="flex items-center justify-center gap-1.5 mb-1">
           <span
             className="w-1.5 h-1.5 rounded-full animate-pulse-glow"
-            style={{ backgroundColor: "#00FF88", boxShadow: "0 0 6px #00FF88" }}
+            style={{ backgroundColor: "#5AADA0", boxShadow: "0 0 6px #5AADA0" }}
           />
           <span className="text-xs text-foreground/50">online</span>
         </div>

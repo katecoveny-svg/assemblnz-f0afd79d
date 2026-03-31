@@ -3,7 +3,7 @@
  * Each renders a compact, interactive visual that demonstrates
  * what the agent actually produces — with real sample data.
  *
- * Brand palette: #00FF88 (emerald), #00E5FF (cyan), #B388FF (violet),
+ * Brand palette: #5AADA0 (emerald), #3A6A9C (cyan), #3A6A9C (violet),
  *                #E040FB (magenta), #4FC3F7 (sky), #7E57C2 (deep purple)
  */
 
@@ -21,10 +21,10 @@ export const HavenCompliancePreview = () => {
   ];
   const badge = (s: string) =>
     s === "pass"
-      ? { bg: "rgba(0,255,136,0.15)", color: "#00FF88", label: "PASS" }
+      ? { bg: "rgba(0,255,136,0.15)", color: "#5AADA0", label: "PASS" }
       : s === "fail"
-      ? { bg: "rgba(179,136,255,0.15)", color: "#B388FF", label: "FAIL" }
-      : { bg: "rgba(0,229,255,0.15)", color: "#00E5FF", label: "PARTIAL" };
+      ? { bg: "rgba(179,136,255,0.15)", color: "#3A6A9C", label: "FAIL" }
+      : { bg: "rgba(0,229,255,0.15)", color: "#3A6A9C", label: "PARTIAL" };
 
   return (
     <div className="space-y-1.5">
@@ -32,7 +32,7 @@ export const HavenCompliancePreview = () => {
         <span className="font-mono-jb text-[9px]" style={{ color: "rgba(255,255,255,0.3)" }}>
           14 Rata St, Mt Eden
         </span>
-        <span className="font-syne font-bold text-[11px]" style={{ color: "#00E5FF" }}>
+        <span className="font-syne font-bold text-[11px]" style={{ color: "#3A6A9C" }}>
           4/6
         </span>
       </div>
@@ -63,10 +63,10 @@ export const HavenCompliancePreview = () => {
 /* ── FLUX: Pipeline Dashboard ── */
 export const FluxPipelinePreview = () => {
   const stages = [
-    { name: "New", count: 23, value: "$184K", color: "#00E5FF" },
+    { name: "New", count: 23, value: "$184K", color: "#3A6A9C" },
     { name: "Qualified", count: 15, value: "$267K", color: "#4FC3F7" },
-    { name: "Proposal", count: 8, value: "$412K", color: "#B388FF" },
-    { name: "Won", count: 6, value: "$287K", color: "#00FF88" },
+    { name: "Proposal", count: 8, value: "$412K", color: "#3A6A9C" },
+    { name: "Won", count: 6, value: "$287K", color: "#5AADA0" },
   ];
   return (
     <div className="space-y-2">
@@ -94,9 +94,9 @@ export const FluxPipelinePreview = () => {
           Conversion
         </span>
         <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
-          <div className="h-full rounded-full" style={{ width: "26%", background: "#00FF88" }} />
+          <div className="h-full rounded-full" style={{ width: "26%", background: "#5AADA0" }} />
         </div>
-        <span className="font-mono-jb text-[9px] font-bold" style={{ color: "#00FF88" }}>
+        <span className="font-mono-jb text-[9px] font-bold" style={{ color: "#5AADA0" }}>
           26%
         </span>
       </div>
@@ -126,20 +126,20 @@ export const ArohaCalculatorPreview = () => {
         >
           <span
             className="font-jakarta text-[10px]"
-            style={{ color: r.highlight ? "#00E5FF" : "rgba(255,255,255,0.5)", fontWeight: r.highlight ? 700 : 400 }}
+            style={{ color: r.highlight ? "#3A6A9C" : "rgba(255,255,255,0.5)", fontWeight: r.highlight ? 700 : 400 }}
           >
             {r.label}
           </span>
           <span
             className="font-mono-jb text-[10px]"
-            style={{ color: r.highlight ? "#00E5FF" : "rgba(255,255,255,0.7)", fontWeight: r.highlight ? 700 : 400 }}
+            style={{ color: r.highlight ? "#3A6A9C" : "rgba(255,255,255,0.7)", fontWeight: r.highlight ? 700 : 400 }}
           >
             {r.value}
           </span>
         </div>
       ))}
       <div className="text-center pt-1">
-        <span className="font-mono-jb text-[9px]" style={{ color: "#00E5FF" }}>
+        <span className="font-mono-jb text-[9px]" style={{ color: "#3A6A9C" }}>
           +19.6% above base
         </span>
       </div>
@@ -173,14 +173,14 @@ export const ForgeComparisonPreview = () => {
             <span
               key={l.name}
               className="text-center font-mono-jb"
-              style={{ color: l.best && row.key === "total" ? "#00FF88" : "rgba(255,255,255,0.6)" }}
+              style={{ color: l.best && row.key === "total" ? "#5AADA0" : "rgba(255,255,255,0.6)" }}
             >
               {l[row.key]}
             </span>
           ))}
         </div>
       ))}
-      <p className="text-center font-mono-jb text-[8px] mt-2" style={{ color: "#00FF88" }}>
+      <p className="text-center font-mono-jb text-[8px] mt-2" style={{ color: "#5AADA0" }}>
         Save $2,088 with Bank Loan
       </p>
     </div>
@@ -228,7 +228,7 @@ export const EchoContentPreview = () => {
             </span>
             <span
               className="w-1.5 h-1.5 rounded-full"
-              style={{ background: p.status === "ready" ? "#00FF88" : "#B388FF" }}
+              style={{ background: p.status === "ready" ? "#5AADA0" : "#3A6A9C" }}
             />
           </div>
         </div>
@@ -243,7 +243,7 @@ export const PrismCampaignPreview = () => {
     { name: "Email", items: 3, color: "#4FC3F7" },
     { name: "LinkedIn", items: 2, color: "#0A66C2" },
     { name: "Instagram", items: 4, color: "#E040FB" },
-    { name: "Reel", items: 1, color: "#B388FF" },
+    { name: "Reel", items: 1, color: "#3A6A9C" },
   ];
   return (
     <div className="space-y-2">
@@ -322,7 +322,7 @@ export const LedgerPayePreview = () => {
         <span className="font-jakarta text-[10px] font-bold" style={{ color: "rgba(255,255,255,0.6)" }}>
           Net take-home
         </span>
-        <span className="font-mono-jb text-[11px] font-bold" style={{ color: "#00FF88" }}>
+        <span className="font-mono-jb text-[11px] font-bold" style={{ color: "#5AADA0" }}>
           $2,389/fn
         </span>
       </div>
@@ -349,18 +349,18 @@ export const VaultMortgagePreview = () => {
             border: b.best ? "1px solid rgba(0,255,136,0.15)" : "1px solid transparent",
           }}
         >
-          <span className="font-jakarta text-[10px] font-medium" style={{ color: b.best ? "#00FF88" : "rgba(255,255,255,0.5)" }}>
+          <span className="font-jakarta text-[10px] font-medium" style={{ color: b.best ? "#5AADA0" : "rgba(255,255,255,0.5)" }}>
             {b.name}
           </span>
           <span className="font-mono-jb text-[9px]" style={{ color: "rgba(255,255,255,0.4)" }}>
             {b.rate}
           </span>
-          <span className="font-mono-jb text-[10px]" style={{ color: b.best ? "#00FF88" : "rgba(255,255,255,0.6)" }}>
+          <span className="font-mono-jb text-[10px]" style={{ color: b.best ? "#5AADA0" : "rgba(255,255,255,0.6)" }}>
             {b.monthly}
           </span>
         </div>
       ))}
-      <p className="text-center font-mono-jb text-[8px] pt-1" style={{ color: "#00FF88" }}>
+      <p className="text-center font-mono-jb text-[8px] pt-1" style={{ color: "#5AADA0" }}>
         Bank B saves $32,040 over loan life
       </p>
     </div>
@@ -370,10 +370,10 @@ export const VaultMortgagePreview = () => {
 /* ── SHIELD: Risk Assessment ── */
 export const ShieldRiskPreview = () => {
   const risks = [
-    { hazard: "Earthquake", level: "High", color: "#B388FF" },
-    { hazard: "Flood", level: "Low", color: "#00FF88" },
+    { hazard: "Earthquake", level: "High", color: "#3A6A9C" },
+    { hazard: "Flood", level: "Low", color: "#5AADA0" },
     { hazard: "Tsunami", level: "N/A", color: "rgba(255,255,255,0.2)" },
-    { hazard: "Volcanic", level: "Mod", color: "#00E5FF" },
+    { hazard: "Volcanic", level: "Mod", color: "#3A6A9C" },
   ];
   return (
     <div className="space-y-1.5">
@@ -410,10 +410,10 @@ export const ShieldRiskPreview = () => {
 /* ── APEX: Hazard Matrix ── */
 export const ApexHazardPreview = () => {
   const hazards = [
-    { name: "Heights", risk: 12, level: "High", color: "#B388FF" },
-    { name: "Electrical", risk: 15, level: "High", color: "#B388FF" },
-    { name: "Dust", risk: 9, level: "Med", color: "#00E5FF" },
-    { name: "Manual", risk: 6, level: "Med", color: "#00E5FF" },
+    { name: "Heights", risk: 12, level: "High", color: "#3A6A9C" },
+    { name: "Electrical", risk: 15, level: "High", color: "#3A6A9C" },
+    { name: "Dust", risk: 9, level: "Med", color: "#3A6A9C" },
+    { name: "Manual", risk: 6, level: "Med", color: "#3A6A9C" },
     { name: "Noise", risk: 6, level: "Med", color: "#4FC3F7" },
   ];
   return (
@@ -475,11 +475,11 @@ export const AnchorContractPreview = () => (
 /* ── HELM: Weekly Dashboard ── */
 export const HelmWeeklyPreview = () => {
   const days = [
-    { day: "Mon", items: ["Swimming gear", "Library book"], color: "#00E5FF" },
-    { day: "Tue", items: ["Mufti day $2", "Cricket 3:30"], color: "#00FF88" },
+    { day: "Mon", items: ["Swimming gear", "Library book"], color: "#3A6A9C" },
+    { day: "Tue", items: ["Mufti day $2", "Cricket 3:30"], color: "#5AADA0" },
     { day: "Wed", items: ["Lunch order", "ICAS Maths"], color: "#4FC3F7" },
     { day: "Thu", items: ["School photos", "USB for Tech"], color: "#E040FB" },
-    { day: "Fri", items: ["Assembly 2pm", "Early finish"], color: "#B388FF" },
+    { day: "Fri", items: ["Assembly 2pm", "Early finish"], color: "#3A6A9C" },
   ];
   return (
     <div className="flex gap-1">
@@ -521,7 +521,7 @@ export const AuraGuestPreview = () => (
       </div>
       <span
         className="font-mono-jb text-[8px] px-2 py-0.5 rounded-full"
-        style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88" }}
+        style={{ background: "rgba(0,255,136,0.1)", color: "#5AADA0" }}
       >
         VIP
       </span>
@@ -537,7 +537,7 @@ export const AuraGuestPreview = () => (
         {item}
       </p>
     ))}
-    <p className="font-mono-jb text-[8px] text-right" style={{ color: "#00FF88" }}>
+    <p className="font-mono-jb text-[8px] text-right" style={{ color: "#5AADA0" }}>
       LTV: $18,500
     </p>
   </div>

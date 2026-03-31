@@ -10,8 +10,8 @@ const TIP_STYLE = { contentStyle: { background: "#1a1a2e", border: "1px solid rg
 const stats = [
   { label: "Total Funding Requested", value: "$205K", icon: TrendingUp, color: KINDLE_COLOR },
   { label: "Charities Listed", value: String(nzCauses.length), icon: Heart, color: KINDLE_COLOR },
-  { label: "Verified Charities", value: String(nzCauses.filter(c => c.verified).length), icon: Building2, color: "#00FF88" },
-  { label: "Avg Impact Score", value: (nzCauses.reduce((s, c) => s + c.impactScore, 0) / nzCauses.length).toFixed(1), icon: Users, color: "#00E5FF" },
+  { label: "Verified Charities", value: String(nzCauses.filter(c => c.verified).length), icon: Building2, color: "#5AADA0" },
+  { label: "Avg Impact Score", value: (nzCauses.reduce((s, c) => s + c.impactScore, 0) / nzCauses.length).toFixed(1), icon: Users, color: "#3A6A9C" },
 ];
 
 const regionData = (() => {
@@ -30,7 +30,7 @@ const categoryData = (() => {
   return Object.entries(map).map(([name, value]) => ({ name, value }));
 })();
 
-const COLORS = [KINDLE_COLOR, "#00FF88", "#00E5FF", "#FFD700", "#FF6B6B"];
+const COLORS = [KINDLE_COLOR, "#5AADA0", "#3A6A9C", "#FFD700", "#FF6B6B"];
 
 const KindleImpactDashboard = () => (
   <div className="flex-1 overflow-y-auto p-4 space-y-4">

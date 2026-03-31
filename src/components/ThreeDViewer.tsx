@@ -40,7 +40,7 @@ function LoadingCube() {
   return (
     <mesh ref={meshRef}>
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="#B388FF" wireframe />
+      <meshStandardMaterial color="#3A6A9C" wireframe />
     </mesh>
   );
 }
@@ -85,7 +85,7 @@ function DownloadButton({ url, label, color }: { url: string; label: string; col
   );
 }
 
-const ThreeDViewer = ({ glbUrl, color = "#B388FF", modelUrls }: ThreeDViewerProps) => {
+const ThreeDViewer = ({ glbUrl, color = "#3A6A9C", modelUrls }: ThreeDViewerProps) => {
   return (
     <div className="w-full rounded-lg overflow-hidden">
       <div className="w-full h-[300px] md:h-[400px]" style={{ background: "#0E0E1A" }}>

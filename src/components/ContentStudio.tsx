@@ -323,9 +323,9 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                   onClick={handleSaveToLibrary}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-all"
                   style={{
-                    background: saved ? "#00FF8820" : `${PRISM_COLOR}15`,
-                    color: saved ? "#00FF88" : PRISM_COLOR,
-                    border: `1px solid ${saved ? "#00FF8840" : PRISM_COLOR + "30"}`,
+                    background: saved ? "#5AADA020" : `${PRISM_COLOR}15`,
+                    color: saved ? "#5AADA0" : PRISM_COLOR,
+                    border: `1px solid ${saved ? "#5AADA040" : PRISM_COLOR + "30"}`,
                   }}
                 >
                   {saved ? <CheckCircle2 size={12} /> : <Save size={12} />}
@@ -335,9 +335,9 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                   onClick={handleCopy}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-all"
                   style={{
-                    background: copied ? "#00FF8820" : `${PRISM_COLOR}15`,
-                    color: copied ? "#00FF88" : PRISM_COLOR,
-                    border: `1px solid ${copied ? "#00FF8840" : PRISM_COLOR + "30"}`,
+                    background: copied ? "#5AADA020" : `${PRISM_COLOR}15`,
+                    color: copied ? "#5AADA0" : PRISM_COLOR,
+                    border: `1px solid ${copied ? "#5AADA040" : PRISM_COLOR + "30"}`,
                   }}
                 >
                   {copied ? <Check size={12} /> : <Copy size={12} />}
@@ -419,9 +419,9 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                     onClick={handleDownloadImage}
                     className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-syne font-bold transition-all"
                     style={{
-                      background: "#00FF8820",
-                      color: "#00FF88",
-                      border: "1px solid #00FF8840",
+                      background: "#5AADA020",
+                      color: "#5AADA0",
+                      border: "1px solid #5AADA040",
                     }}
                   >
                     <Download size={14} />

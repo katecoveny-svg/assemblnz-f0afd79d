@@ -41,7 +41,7 @@ const ContentHubCTA = () => (
               className="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg text-sm font-jakarta font-semibold transition-all"
               style={{
                 background: "rgba(0,255,136,0.1)",
-                color: "#00FF88",
+                color: "#5AADA0",
                 border: "1px solid rgba(0,255,136,0.2)",
               }}
             >
@@ -50,7 +50,7 @@ const ContentHubCTA = () => (
           </div>
         ))}
       </div>
-      <p className="font-jakarta text-xs" style={{ color: "#00FF88" }}>
+      <p className="font-jakarta text-xs" style={{ color: "#5AADA0" }}>
         Launch pricing — locked in for early adopters
       </p>
     </div>

@@ -158,7 +158,7 @@ const EchoChatWidget = () => {
               <div className="flex items-center gap-2">
                 <span className="font-syne font-bold text-sm" style={{ color: ECHO_COLOR }}>ECHO</span>
                 <span className="text-[10px] font-jakarta text-foreground/40">· Assembl Hero Agent</span>
-                <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#00FF88", boxShadow: "0 0 6px #00FF88" }} />
+                <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#5AADA0", boxShadow: "0 0 6px #5AADA0" }} />
               </div>
             </div>
             {messages.length > 0 && (

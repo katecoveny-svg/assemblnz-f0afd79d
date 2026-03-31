@@ -194,7 +194,7 @@ const OnboardingPage = () => {
             Welcome to Assembl
           </h1>
           <p className="mt-2 text-sm" style={{ color: "#A1A1AA" }}>
-            Your <span className="font-semibold" style={{ color: "#00FF88" }}>{plan.name}</span> plan is active — {plan.agents} ready to go
+            Your <span className="font-semibold" style={{ color: "#5AADA0" }}>{plan.name}</span> plan is active — {plan.agents} ready to go
           </p>
         </div>
 
@@ -216,7 +216,7 @@ const OnboardingPage = () => {
             onClick={handleDownload}
             className="gap-2"
             disabled={autoDownloading}
-            style={{ background: downloaded ? "#10B981" : "#00FF88", color: "#09090B" }}
+            style={{ background: downloaded ? "#10B981" : "#5AADA0", color: "#09090B" }}
           >
             {autoDownloading ? <Sparkles size={16} className="animate-spin" /> : downloaded ? <Check size={16} /> : <Download size={16} />}
             {autoDownloading ? "Your welcome pack is downloading…" : downloaded ? "Downloaded!" : "Download Welcome PDF"}
@@ -239,35 +239,35 @@ const OnboardingPage = () => {
               {action.href.startsWith("mailto:") ? (
                 <a
                   href={action.href}
-                  className="block rounded-xl p-4 border transition-all hover:border-[#00FF88]/30 group"
+                  className="block rounded-xl p-4 border transition-all hover:border-[#5AADA0]/30 group"
                   style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "rgba(0,255,136,0.1)" }}>
-                      <action.icon size={18} style={{ color: "#00FF88" }} />
+                      <action.icon size={18} style={{ color: "#5AADA0" }} />
                     </div>
                     <div>
                       <p className="text-sm font-medium" style={{ color: "#FAFAFA" }}>{action.label}</p>
                       <p className="text-xs" style={{ color: "#71717A" }}>{action.desc}</p>
                     </div>
-                    <ArrowRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#00FF88" }} />
+                    <ArrowRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#5AADA0" }} />
                   </div>
                 </a>
               ) : (
                 <Link
                   to={action.href}
-                  className="block rounded-xl p-4 border transition-all hover:border-[#00FF88]/30 group"
+                  className="block rounded-xl p-4 border transition-all hover:border-[#5AADA0]/30 group"
                   style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "rgba(0,255,136,0.1)" }}>
-                      <action.icon size={18} style={{ color: "#00FF88" }} />
+                      <action.icon size={18} style={{ color: "#5AADA0" }} />
                     </div>
                     <div>
                       <p className="text-sm font-medium" style={{ color: "#FAFAFA" }}>{action.label}</p>
                       <p className="text-xs" style={{ color: "#71717A" }}>{action.desc}</p>
                     </div>
-                    <ArrowRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#00FF88" }} />
+                    <ArrowRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#5AADA0" }} />
                   </div>
                 </Link>
               )}

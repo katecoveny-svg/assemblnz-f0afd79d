@@ -12,7 +12,7 @@ interface Props {
   onAddReminder: (text: string) => void;
 }
 
-const HELM = "#B388FF";
+const HELM = "#3A6A9C";
 
 const HelmDashboard = ({ items, onAddReminder }: Props) => {
   const [quickAdd, setQuickAdd] = useState("");
@@ -34,7 +34,7 @@ const HelmDashboard = ({ items, onAddReminder }: Props) => {
   }) => (
     <div
       className="rounded-xl p-4"
-      style={{ background: "#0F0F1C", border: "1px solid #B388FF15" }}
+      style={{ background: "#0F0F1C", border: "1px solid #3A6A9C15" }}
     >
       <h3 className="text-xs font-bold mb-2 flex items-center gap-1.5" style={{ color: HELM }}>
         {icon} {title}
@@ -51,7 +51,7 @@ const HelmDashboard = ({ items, onAddReminder }: Props) => {
     <div className="space-y-3 p-4 max-w-2xl mx-auto">
       <Section title="Upcoming (7 days)" icon={<NeonCalendar size={14} color={HELM} />} empty="No upcoming events yet. Chat with HELM to extract dates from documents.">
         {events.map((e, i) => (
-          <div key={i} className="flex justify-between text-xs py-1 border-b border-[#B388FF08] last:border-0">
+          <div key={i} className="flex justify-between text-xs py-1 border-b border-[#3A6A9C08] last:border-0">
             <span className="text-foreground/70">{e.text}</span>
             {e.date && <span className="text-foreground/40 text-[10px]">{e.date}</span>}
           </div>
@@ -75,7 +75,7 @@ const HelmDashboard = ({ items, onAddReminder }: Props) => {
           value={quickAdd}
           onChange={(e) => setQuickAdd(e.target.value)}
           placeholder="Quick add a reminder..."
-          className="flex-1 bg-card border border-border rounded-lg px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#B388FF30]"
+          className="flex-1 bg-card border border-border rounded-lg px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#3A6A9C30]"
           onKeyDown={(e) => {
             if (e.key === "Enter" && quickAdd.trim()) {
               onAddReminder(quickAdd.trim());
@@ -91,7 +91,7 @@ const HelmDashboard = ({ items, onAddReminder }: Props) => {
             }
           }}
           className="px-3 py-2 rounded-lg text-xs font-medium"
-          style={{ background: "#B388FF20", color: "#B388FF", border: "1px solid #B388FF30" }}
+          style={{ background: "#3A6A9C20", color: "#3A6A9C", border: "1px solid #3A6A9C30" }}
         >
           + Add
         </button>

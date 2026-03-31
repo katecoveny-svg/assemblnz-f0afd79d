@@ -88,7 +88,7 @@ const WorkflowVisualiser = ({ steps, compact = false, className = "" }: Workflow
                   <span
                     className="text-[7px] mt-0.5 font-medium"
                     style={{
-                      color: isDone ? "#00FF88" : isActive ? color : isFailed ? "#FF4D6A" : "rgba(255,255,255,0.2)",
+                      color: isDone ? "#5AADA0" : isActive ? color : isFailed ? "#FF4D6A" : "rgba(255,255,255,0.2)",
                     }}
                   >
                     {STATUS_LABEL[step.status] || "Pending"}

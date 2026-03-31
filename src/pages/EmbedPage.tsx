@@ -87,7 +87,7 @@ const EmbedPage = () => {
           </p>
           {user && isPaid && (
             <div className="inline-flex items-center gap-2 mt-4 px-4 py-1.5 rounded-full text-xs font-semibold"
-              style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)", color: "#00FF88" }}>
+              style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)", color: "#5AADA0" }}>
               <Sparkles size={12} />
               {planLabel(role)} plan — embed up to {limit === 41 ? "all 41" : limit} agent{limit !== 1 ? "s" : ""}
             </div>
@@ -103,7 +103,7 @@ const EmbedPage = () => {
                 icon: <Zap size={20} />,
                 title: "1. Choose your agent",
                 desc: "Select the AI agent that matches your industry — from construction compliance to hospitality guest intelligence.",
-                color: "#00FF88",
+                color: "#5AADA0",
               },
               {
                 icon: <Code2 size={20} />,
@@ -115,7 +115,7 @@ const EmbedPage = () => {
                 icon: <Globe size={20} />,
                 title: "3. Go live instantly",
                 desc: "Your visitors get 24/7 AI-powered advice grounded in NZ legislation. Leads are captured and conversations logged.",
-                color: "#00E5FF",
+                color: "#3A6A9C",
               },
             ].map((step) => (
               <div
@@ -300,7 +300,7 @@ const EmbedPage = () => {
               {/* Live Preview */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="w-2 h-2 rounded-full" style={{ background: "#00FF88", boxShadow: "0 0 6px #00FF88" }} />
+                  <span className="w-2 h-2 rounded-full" style={{ background: "#5AADA0", boxShadow: "0 0 6px #5AADA0" }} />
                   <h2 className="text-sm font-bold text-foreground">Live preview</h2>
                 </div>
 
@@ -356,9 +356,9 @@ const EmbedPage = () => {
           <h2 className="text-base font-syne font-extrabold text-foreground text-glow-cyan text-center mb-6">Embed access by plan</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
             {[
-              { plan: "Starter", agents: "1 agent", price: "$89/mo", color: "#00FF88", current: role === "starter" },
-              { plan: "Pro", agents: "3 agents", price: "$299/mo", color: "#B388FF", current: role === "pro" },
-              { plan: "Business", agents: "All 42 agents", price: "$599/mo", color: "#00E5FF", current: role === "business" },
+              { plan: "Starter", agents: "1 agent", price: "$89/mo", color: "#5AADA0", current: role === "starter" },
+              { plan: "Pro", agents: "3 agents", price: "$299/mo", color: "#3A6A9C", current: role === "pro" },
+              { plan: "Business", agents: "All 42 agents", price: "$599/mo", color: "#3A6A9C", current: role === "business" },
             ].map((t) => (
               <div
                 key={t.plan}

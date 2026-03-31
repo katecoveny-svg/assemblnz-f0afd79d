@@ -205,8 +205,8 @@ export default function ForgeEvents() {
               <div className="flex items-center justify-between mb-1">
                 <h4 className="text-xs font-bold text-foreground">{e.name}</h4>
                 <span className="text-[9px] px-2 py-0.5 rounded-full" style={{
-                  backgroundColor: e.status === "Complete" ? "#00FF8820" : e.status === "Confirmed" ? "#00E5FF20" : "#FFB80020",
-                  color: e.status === "Complete" ? "#00FF88" : e.status === "Confirmed" ? "#00E5FF" : "#FFB800",
+                  backgroundColor: e.status === "Complete" ? "#5AADA020" : e.status === "Confirmed" ? "#3A6A9C20" : "#FFB80020",
+                  color: e.status === "Complete" ? "#5AADA0" : e.status === "Confirmed" ? "#3A6A9C" : "#FFB800",
                 }}>{e.status}</span>
               </div>
               <p className="text-[10px] text-muted-foreground mb-2">{e.type} · {new Date(e.date).toLocaleDateString("en-NZ", { day: "numeric", month: "short", year: "numeric" })}</p>
