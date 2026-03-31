@@ -676,7 +676,7 @@ const specialistAgents: Agent[] = [
   {
     id: "family",
     name: "TŌROA",
-    designation: "ASM-042",
+    designation: "ASM-043",
     role: "Family AI Navigator",
     tagline: "Schedules, meal plans, budgets, school admin, and family logistics — purpose-built for NZ families.",
     color: "#D4A843",
