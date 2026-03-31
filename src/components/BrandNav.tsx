@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import AccountDropdown from "@/components/AccountDropdown";
 import NotificationBell from "@/components/NotificationBell";
+import { assemblMark } from "@/assets/brand";
 
 const NAV_LINKS = [
   { to: "/#expert-team", label: "Specialist Tools" },
