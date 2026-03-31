@@ -258,8 +258,8 @@ const AgentGrid = () => {
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-4xl font-display font-light tracking-[0.02em] text-foreground mb-3">
-              Enterprise-grade intelligence. SME-friendly pricing.
+            <h2 className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading" style={{ fontWeight: 700 }}>
+              Enterprise-grade intelligence. <span className="text-gradient-hero">SME-friendly pricing.</span>
             </h2>
             <p className="text-sm font-body text-muted-foreground mb-6">From $14/month. No lock-in. Cancel anytime.</p>
 
