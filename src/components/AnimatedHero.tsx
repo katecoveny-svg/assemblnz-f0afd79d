@@ -24,32 +24,6 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
       {/* Full-bleed starfield background */}
       <ConstellationHero fullBleed />
 
-      {/* Hero video background */}
-      <motion.div
-        className="absolute inset-0 z-[1] flex items-center justify-center pointer-events-none"
-        initial={{ opacity: 0, scale: 1.05 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, delay: 0.3 }}
-      >
-        <video
-          src="/videos/hero-toroa.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-30"
-          style={{ mixBlendMode: "screen" }}
-        />
-        {/* Gradient overlay to keep text readable */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 20%, #09090F 75%), " +
-              "linear-gradient(to bottom, transparent 40%, #09090F 95%)",
-          }}
-        />
-      </motion.div>
 
       {/* Radial glow */}
       <div
