@@ -1456,6 +1456,119 @@ canvas.sf { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════
+     11 — AGENT COLOUR ASSIGNMENTS
+══════════════════════════════════════════ -->
+<div class="sec">
+  <div class="sec-line"><div class="bar"></div><span class="sec-num">11</span><span class="sec-title">Agent Colour Assignments</span><div class="bar"></div></div>
+  <p class="sec-desc">Every specialist tool is colour-coded to its Industry Pack using the Whenua palette. 44 agents across 5 packs + specialists.</p>
+</div>
+
+<!-- Pack colour key -->
+<div class="g5" style="margin-bottom:12px;">
+  <div class="card" style="min-height:80px;"><div class="ci col" style="gap:6px;padding:16px;"><div class="chip" style="width:28px;height:28px;background:#D4A843;box-shadow:0 0 12px rgba(212,168,67,.5);"></div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.7);">Manaaki</div><div style="font-size:8px;color:rgba(255,255,255,.25);">Hospitality & Tourism</div></div></div>
+  <div class="card" style="min-height:80px;"><div class="ci col" style="gap:6px;padding:16px;"><div class="chip" style="width:28px;height:28px;background:#3A7D6E;box-shadow:0 0 12px rgba(58,125,110,.5);"></div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(58,125,110,.7);">Hanga</div><div style="font-size:8px;color:rgba(255,255,255,.25);">Construction & Property</div></div></div>
+  <div class="card" style="min-height:80px;"><div class="ci col" style="gap:6px;padding:16px;"><div class="chip" style="width:28px;height:28px;background:#F0D078;box-shadow:0 0 12px rgba(240,208,120,.4);"></div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,208,120,.7);">Auaha</div><div style="font-size:8px;color:rgba(255,255,255,.25);">Creative & Digital</div></div></div>
+  <div class="card" style="min-height:80px;"><div class="ci col" style="gap:6px;padding:16px;"><div class="chip" style="width:28px;height:28px;background:#1A3A5C;box-shadow:0 0 12px rgba(26,58,92,.5);"></div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(58,106,156,.7);">Pakihi</div><div style="font-size:8px;color:rgba(255,255,255,.25);">Business Operations</div></div></div>
+  <div class="card" style="min-height:80px;"><div class="ci col" style="gap:6px;padding:16px;"><div class="chip" style="width:28px;height:28px;background:#5AADA0;box-shadow:0 0 12px rgba(90,173,160,.4);"></div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(90,173,160,.7);">Hangarau</div><div style="font-size:8px;color:rgba(255,255,255,.25);">Technology & Infrastructure</div></div></div>
+</div>
+
+<style>
+  .agent-grid { display:grid; gap:3px; }
+  .agent-chip { display:flex; align-items:center; gap:10px; padding:12px 16px; background:#0A0A13; min-height:48px; }
+  .agent-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .agent-name { font-family:'Lato',sans-serif; font-weight:700; font-size:11px; letter-spacing:3px; text-transform:uppercase; }
+  .agent-role { font-family:'Plus Jakarta Sans',sans-serif; font-size:9px; font-weight:300; color:rgba(255,255,255,.3); }
+  .agent-code { font-family:'JetBrains Mono',monospace; font-size:8px; color:rgba(255,255,255,.15); margin-left:auto; }
+</style>
+
+<!-- MANAAKI — Hospitality & Tourism -->
+<div style="margin-bottom:16px;">
+  <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(212,168,67,.55);margin-bottom:6px;padding-left:2px;">Manaaki · Hospitality & Tourism · #D4A843</div>
+  <div class="agent-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;">
+    <div class="agent-chip"><div class="agent-dot" style="background:#D4A843;box-shadow:0 0 8px rgba(212,168,67,.5);"></div><div><div class="agent-name" style="color:#D4A843;">AURA</div><div class="agent-role">Accommodation & Hospitality</div></div><div class="agent-code">ASM-001</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#D4A843;box-shadow:0 0 8px rgba(212,168,67,.5);"></div><div><div class="agent-name" style="color:#D4A843;">HAVEN</div><div class="agent-role">Hotel & Venue Management</div></div><div class="agent-code">ASM-002</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#D4A843;box-shadow:0 0 8px rgba(212,168,67,.5);"></div><div><div class="agent-name" style="color:#D4A843;">TIDE</div><div class="agent-role">Tourism & Experience</div></div><div class="agent-code">ASM-003</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#D4A843;box-shadow:0 0 8px rgba(212,168,67,.5);"></div><div><div class="agent-name" style="color:#D4A843;">BEACON</div><div class="agent-role">Event & Function</div></div><div class="agent-code">ASM-004</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#D4A843;box-shadow:0 0 8px rgba(212,168,67,.5);"></div><div><div class="agent-name" style="color:#D4A843;">COAST</div><div class="agent-role">Seaside & Water Venues</div></div><div class="agent-code">ASM-005</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#D4A843;box-shadow:0 0 8px rgba(212,168,67,.5);"></div><div><div class="agent-name" style="color:#D4A843;">EMBER</div><div class="agent-role">Bar & Beverage</div></div><div class="agent-code">ASM-006</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#D4A843;box-shadow:0 0 8px rgba(212,168,67,.5);"></div><div><div class="agent-name" style="color:#D4A843;">FLORA</div><div class="agent-role">Garden & Outdoor Venue</div></div><div class="agent-code">ASM-007</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#D4A843;box-shadow:0 0 8px rgba(212,168,67,.5);"></div><div><div class="agent-name" style="color:#D4A843;">CREST</div><div class="agent-role">Premium Concierge</div></div><div class="agent-code">ASM-008</div></div>
+  </div>
+</div>
+
+<!-- HANGA — Construction & Property -->
+<div style="margin-bottom:16px;">
+  <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(58,125,110,.55);margin-bottom:6px;padding-left:2px;">Hanga · Construction & Property · #3A7D6E</div>
+  <div class="agent-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;">
+    <div class="agent-chip"><div class="agent-dot" style="background:#3A7D6E;box-shadow:0 0 8px rgba(58,125,110,.5);"></div><div><div class="agent-name" style="color:#3A7D6E;">APEX</div><div class="agent-role">Construction Project</div></div><div class="agent-code">ASM-009</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#3A7D6E;box-shadow:0 0 8px rgba(58,125,110,.5);"></div><div><div class="agent-name" style="color:#3A7D6E;">ATA</div><div class="agent-role">BIM & Design</div></div><div class="agent-code">ASM-010</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#3A7D6E;box-shadow:0 0 8px rgba(58,125,110,.5);"></div><div><div class="agent-name" style="color:#3A7D6E;">ĀRAI</div><div class="agent-role">Health & Safety</div></div><div class="agent-code">ASM-011</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#3A7D6E;box-shadow:0 0 8px rgba(58,125,110,.5);"></div><div><div class="agent-name" style="color:#3A7D6E;">KAUPAPA</div><div class="agent-role">Project Governance</div></div><div class="agent-code">ASM-012</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#3A7D6E;box-shadow:0 0 8px rgba(58,125,110,.5);"></div><div><div class="agent-name" style="color:#3A7D6E;">RAWA</div><div class="agent-role">Resource & Consenting</div></div><div class="agent-code">ASM-013</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#3A7D6E;box-shadow:0 0 8px rgba(58,125,110,.5);"></div><div><div class="agent-name" style="color:#3A7D6E;">WHAKAAĒ</div><div class="agent-role">Building Consent</div></div><div class="agent-code">ASM-014</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#3A7D6E;box-shadow:0 0 8px rgba(58,125,110,.5);"></div><div><div class="agent-name" style="color:#3A7D6E;">PAI</div><div class="agent-role">Quality Assurance</div></div><div class="agent-code">ASM-015</div></div>
+  </div>
+</div>
+
+<!-- AUAHA — Creative & Digital -->
+<div style="margin-bottom:16px;">
+  <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(240,208,120,.55);margin-bottom:6px;padding-left:2px;">Auaha · Creative & Digital · #F0D078</div>
+  <div class="agent-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;">
+    <div class="agent-chip"><div class="agent-dot" style="background:#F0D078;box-shadow:0 0 8px rgba(240,208,120,.4);"></div><div><div class="agent-name" style="color:#F0D078;">PRISM</div><div class="agent-role">Creative Campaign</div></div><div class="agent-code">ASM-016</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#F0D078;box-shadow:0 0 8px rgba(240,208,120,.4);"></div><div><div class="agent-name" style="color:#F0D078;">MUSE</div><div class="agent-role">Content & Copywriting</div></div><div class="agent-code">ASM-017</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#F0D078;box-shadow:0 0 8px rgba(240,208,120,.4);"></div><div><div class="agent-name" style="color:#F0D078;">PIXEL</div><div class="agent-role">Visual Design & Brand</div></div><div class="agent-code">ASM-018</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#F0D078;box-shadow:0 0 8px rgba(240,208,120,.4);"></div><div><div class="agent-name" style="color:#F0D078;">VERSE</div><div class="agent-role">Video & Motion</div></div><div class="agent-code">ASM-019</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#F0D078;box-shadow:0 0 8px rgba(240,208,120,.4);"></div><div><div class="agent-name" style="color:#F0D078;">CANVAS</div><div class="agent-role">Event & Experience</div></div><div class="agent-code">ASM-020</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#F0D078;box-shadow:0 0 8px rgba(240,208,120,.4);"></div><div><div class="agent-name" style="color:#F0D078;">REEL</div><div class="agent-role">Social Media & Community</div></div><div class="agent-code">ASM-021</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#F0D078;box-shadow:0 0 8px rgba(240,208,120,.4);"></div><div><div class="agent-name" style="color:#F0D078;">QUILL</div><div class="agent-role">Technical Writing</div></div><div class="agent-code">ASM-022</div></div>
+  </div>
+</div>
+
+<!-- PAKIHI — Business Operations -->
+<div style="margin-bottom:16px;">
+  <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(58,106,156,.55);margin-bottom:6px;padding-left:2px;">Pakihi · Business Operations · #1A3A5C</div>
+  <div class="agent-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;">
+    <div class="agent-chip"><div class="agent-dot" style="background:#1A3A5C;box-shadow:0 0 8px rgba(26,58,92,.5);"></div><div><div class="agent-name" style="color:#3A6A9C;">LEDGER</div><div class="agent-role">Finance & Legal</div></div><div class="agent-code">ASM-023</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#FF6F91;box-shadow:0 0 8px rgba(255,111,145,.4);"></div><div><div class="agent-name" style="color:#FF6F91;">AROHA</div><div class="agent-role">HR & Employment Law</div></div><div class="agent-code">ASM-038</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#1A3A5C;box-shadow:0 0 8px rgba(26,58,92,.5);"></div><div><div class="agent-name" style="color:#3A6A9C;">TURF</div><div class="agent-role">Marketing & Brand Strategy</div></div><div class="agent-code">ASM-025</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#1A3A5C;box-shadow:0 0 8px rgba(26,58,92,.5);"></div><div><div class="agent-name" style="color:#3A6A9C;">SAGE</div><div class="agent-role">Business Strategy</div></div><div class="agent-code">ASM-026</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#1A3A5C;box-shadow:0 0 8px rgba(26,58,92,.5);"></div><div><div class="agent-name" style="color:#3A6A9C;">COMPASS</div><div class="agent-role">Risk & Compliance</div></div><div class="agent-code">ASM-027</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#1A3A5C;box-shadow:0 0 8px rgba(26,58,92,.5);"></div><div><div class="agent-name" style="color:#3A6A9C;">ANCHOR</div><div class="agent-role">Operations & Process</div></div><div class="agent-code">ASM-028</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#1A3A5C;box-shadow:0 0 8px rgba(26,58,92,.5);"></div><div><div class="agent-name" style="color:#3A6A9C;">FLUX</div><div class="agent-role">Sales & Revenue</div></div><div class="agent-code">ASM-029</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#1A3A5C;box-shadow:0 0 8px rgba(26,58,92,.5);"></div><div><div class="agent-name" style="color:#3A6A9C;">SHIELD</div><div class="agent-role">Insurance & Risk</div></div><div class="agent-code">ASM-030</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#1A3A5C;box-shadow:0 0 8px rgba(26,58,92,.5);"></div><div><div class="agent-name" style="color:#3A6A9C;">VAULT</div><div class="agent-role">Data & InfoSec</div></div><div class="agent-code">ASM-031</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#1A3A5C;box-shadow:0 0 8px rgba(26,58,92,.5);"></div><div><div class="agent-name" style="color:#3A6A9C;">MINT</div><div class="agent-role">Financial Forecasting</div></div><div class="agent-code">ASM-032</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#1A3A5C;box-shadow:0 0 8px rgba(26,58,92,.5);"></div><div><div class="agent-name" style="color:#3A6A9C;">AXIS</div><div class="agent-role">Performance & Analytics</div></div><div class="agent-code">ASM-033</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#1A3A5C;box-shadow:0 0 8px rgba(26,58,92,.5);"></div><div><div class="agent-name" style="color:#3A6A9C;">KINDLE</div><div class="agent-role">Innovation & Product</div></div><div class="agent-code">ASM-034</div></div>
+  </div>
+</div>
+
+<!-- HANGARAU — Technology & Infrastructure -->
+<div style="margin-bottom:16px;">
+  <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(90,173,160,.55);margin-bottom:6px;padding-left:2px;">Hangarau · Technology & Infrastructure · #5AADA0</div>
+  <div class="agent-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;">
+    <div class="agent-chip"><div class="agent-dot" style="background:#5AADA0;box-shadow:0 0 8px rgba(90,173,160,.4);"></div><div><div class="agent-name" style="color:#5AADA0;">SPARK</div><div class="agent-role">App Builder & Digital</div></div><div class="agent-code">ASM-042</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#5AADA0;box-shadow:0 0 8px rgba(90,173,160,.4);"></div><div><div class="agent-name" style="color:#5AADA0;">SENTINEL</div><div class="agent-role">System Monitoring</div></div><div class="agent-code">ASM-036</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#5AADA0;box-shadow:0 0 8px rgba(90,173,160,.4);"></div><div><div class="agent-name" style="color:#5AADA0;">NEXUS</div><div class="agent-role">Integration & Data</div></div><div class="agent-code">ASM-037</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#5AADA0;box-shadow:0 0 8px rgba(90,173,160,.4);"></div><div><div class="agent-name" style="color:#5AADA0;">CIPHER</div><div class="agent-role">Cryptography & Security</div></div><div class="agent-code">ASM-040</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#5AADA0;box-shadow:0 0 8px rgba(90,173,160,.4);"></div><div><div class="agent-name" style="color:#5AADA0;">RELAY</div><div class="agent-role">Messaging & Events</div></div><div class="agent-code">ASM-039</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#5AADA0;box-shadow:0 0 8px rgba(90,173,160,.4);"></div><div><div class="agent-name" style="color:#5AADA0;">SIGNAL</div><div class="agent-role">IT Security & Cyber</div></div><div class="agent-code">ASM-048</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#5AADA0;box-shadow:0 0 8px rgba(90,173,160,.4);"></div><div><div class="agent-name" style="color:#5AADA0;">FORGE</div><div class="agent-role">DevOps & Deployment</div></div><div class="agent-code">ASM-041</div></div>
+  </div>
+</div>
+
+<!-- SPECIALIST — Cross-Pack -->
+<div style="margin-bottom:16px;">
+  <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px;padding-left:2px;">Specialist · Cross-Pack</div>
+  <div class="agent-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;">
+    <div class="agent-chip"><div class="agent-dot" style="background:#D4A843;box-shadow:0 0 8px rgba(212,168,67,.5);"></div><div><div class="agent-name" style="color:#D4A843;">ECHO</div><div class="agent-role">Founder AI Clone</div></div><div class="agent-code">ASM-000</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#D4A843;box-shadow:0 0 8px rgba(212,168,67,.5);"></div><div><div class="agent-name" style="color:#D4A843;">PILOT</div><div class="agent-role">Executive Assistant</div></div><div class="agent-code">ASM-099</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#D4A843;box-shadow:0 0 8px rgba(212,168,67,.5);"></div><div><div class="agent-name" style="color:#F5D33C;">TŌROA</div><div class="agent-role">Family AI Navigator</div></div><div class="agent-code">ASM-043</div></div>
+    <div class="agent-chip"><div class="agent-dot" style="background:#8D6E63;box-shadow:0 0 8px rgba(141,110,99,.4);"></div><div><div class="agent-name" style="color:#8D6E63;">TIKA</div><div class="agent-role">Te Tiriti & Tikanga</div></div><div class="agent-code">ASM-044</div></div>
+  </div>
+</div>
+
 </div><!-- /page -->
 
 <!-- ══════════════════════════════════════════
