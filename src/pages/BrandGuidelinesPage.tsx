@@ -198,7 +198,7 @@ export default function BrandGuidelinesPage() {
           {/* Hero Gradient */}
           <div className="space-y-8">
             <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03]">
-              <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 uppercase tracking-wider">Hero Gradient — Primary headline effect</h4>
+              <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 tracking-wide">Hero Gradient — Primary headline effect</h4>
               <p className="text-4xl sm:text-5xl font-display font-bold text-gradient-hero mb-4">
                 better than most businesses do.
               </p>
@@ -223,7 +223,7 @@ export default function BrandGuidelinesPage() {
             {/* Glow Text Effects */}
             <div className="grid md:grid-cols-2 gap-6">
               <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03]">
-                <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 uppercase tracking-wider">Emerald Glow</h4>
+                <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 tracking-wide">Emerald Glow</h4>
                 <p className="text-3xl font-display font-bold text-glow-green mb-3">Success state</p>
                 <div className="p-3 rounded-lg bg-black/40 border border-white/5">
                   <p className="text-[10px] font-mono-jb text-muted-foreground whitespace-pre-wrap">{`color: hsl(160 84% 50%);
@@ -234,7 +234,7 @@ text-shadow:
                 </div>
               </div>
               <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03]">
-                <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 uppercase tracking-wider">Cyan Glow</h4>
+                <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 tracking-wide">Cyan Glow</h4>
                 <p className="text-3xl font-display font-bold text-glow-cyan mb-3">Primary accent</p>
                 <div className="p-3 rounded-lg bg-black/40 border border-white/5">
                   <p className="text-[10px] font-mono-jb text-muted-foreground whitespace-pre-wrap">{`color: hsl(189 100% 55%);
@@ -244,7 +244,7 @@ text-shadow:
                 </div>
               </div>
               <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03]">
-                <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 uppercase tracking-wider">Purple Glow</h4>
+                <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 tracking-wide">Purple Glow</h4>
                 <p className="text-3xl font-display font-bold text-glow-purple mb-3">Secondary accent</p>
                 <div className="p-3 rounded-lg bg-black/40 border border-white/5">
                   <p className="text-[10px] font-mono-jb text-muted-foreground whitespace-pre-wrap">{`color: hsl(270 80% 70%);
@@ -254,7 +254,7 @@ text-shadow:
                 </div>
               </div>
               <div className="p-6 rounded-xl border border-white/10 bg-white/[0.03]">
-                <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 uppercase tracking-wider">Pink Glow</h4>
+                <h4 className="text-xs font-mono-jb text-muted-foreground mb-3 tracking-wide">Pink Glow</h4>
                 <p className="text-3xl font-display font-bold text-glow-pink mb-3">Alert / feature</p>
                 <div className="p-3 rounded-lg bg-black/40 border border-white/5">
                   <p className="text-[10px] font-mono-jb text-muted-foreground whitespace-pre-wrap">{`color: hsl(326 100% 59%);
@@ -313,7 +313,7 @@ text-shadow:
           </div>
 
           {/* Full agent grid */}
-          <h4 className="text-sm font-bold text-foreground/60 mb-4 uppercase tracking-wider">All Agents — Colour-Coded Avatars</h4>
+          <h4 className="text-sm font-bold text-foreground/60 mb-4 tracking-wide">All Agents — Colour-Coded Avatars</h4>
           <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 gap-4">
             {FULL_AGENT_LIST.map((a) => (
               <div key={a.id} className="flex flex-col items-center p-3 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">

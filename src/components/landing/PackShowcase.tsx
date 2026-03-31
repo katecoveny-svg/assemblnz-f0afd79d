@@ -72,7 +72,7 @@ const PackShowcase = () => (
                 </div>
                 <div>
                   <h3
-                    className="text-xs font-heading font-light uppercase tracking-[0.12em]"
+                    className="text-xs font-heading font-light tracking-[0.02em]"
                     style={{ color: pack.color }}
                   >
                     {pack.name}

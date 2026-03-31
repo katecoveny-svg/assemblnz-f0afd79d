@@ -131,7 +131,7 @@ export default function AdminAnalyticsDashboard() {
     <div className="rounded-xl border border-border/30 bg-card/40 backdrop-blur-xl p-5">
       <div className="flex items-center gap-3 mb-2">
         <Icon className={`w-5 h-5 ${color}`} />
-        <span className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{label}</span>
+        <span className="text-xs text-muted-foreground tracking-wide font-medium">{label}</span>
       </div>
       <p className={`text-2xl font-bold font-display ${color}`}>{value}</p>
       {sub && <p className="text-xs text-muted-foreground mt-1">{sub}</p>}
@@ -167,7 +167,7 @@ export default function AdminAnalyticsDashboard() {
             <div className="grid lg:grid-cols-2 gap-6 mb-8">
               {/* Daily Trend */}
               <div className="rounded-xl border border-border/30 bg-card/40 backdrop-blur-xl p-5">
-                <h3 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wider">Daily Messages & Cost</h3>
+                <h3 className="text-sm font-medium text-muted-foreground mb-4 tracking-wide">Daily Messages & Cost</h3>
                 <ResponsiveContainer width="100%" height={240}>
                   <LineChart data={data.dailyTrend}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -182,7 +182,7 @@ export default function AdminAnalyticsDashboard() {
 
               {/* Model Split */}
               <div className="rounded-xl border border-border/30 bg-card/40 backdrop-blur-xl p-5">
-                <h3 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wider">Model Split</h3>
+                <h3 className="text-sm font-medium text-muted-foreground mb-4 tracking-wide">Model Split</h3>
                 <ResponsiveContainer width="100%" height={240}>
                   <PieChart>
                     <Pie data={data.modelSplit} cx="50%" cy="50%" outerRadius={80} dataKey="value" label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
@@ -198,7 +198,7 @@ export default function AdminAnalyticsDashboard() {
 
             {/* Agent Usage */}
             <div className="rounded-xl border border-border/30 bg-card/40 backdrop-blur-xl p-5 mb-8">
-              <h3 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wider">Top Agents by Usage</h3>
+              <h3 className="text-sm font-medium text-muted-foreground mb-4 tracking-wide">Top Agents by Usage</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={data.agentUsage} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
