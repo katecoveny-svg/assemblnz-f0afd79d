@@ -49,7 +49,6 @@ export default function ToroaInstallPage() {
       <SEO
         title="Get Tōroa — Your Family's Second Brain | Assembl"
         description="Install Tōroa on your phone. SMS-first AI whānau navigator built for NZ families. No app store needed."
-        canonical="https://assembl.co.nz/toroa/install"
       />
       <PWAInstallBanner agentName="TŌROA" agentColor={TOROA_COLOR} />
 
