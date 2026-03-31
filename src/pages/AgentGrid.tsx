@@ -15,11 +15,7 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 import LiveDemoSection from "@/components/LiveDemoSection";
 import FAQSection from "@/components/FAQSection";
-import CompetitorComparison from "@/components/CompetitorComparison";
-import TrustSection from "@/components/landing/TrustSection";
 import IndustrySolutions from "@/components/landing/IndustrySolutions";
-import PipelineSection from "@/components/landing/PipelineSection";
-import KeyFeaturesSection from "@/components/landing/KeyFeaturesSection";
 import PackShowcase from "@/components/landing/PackShowcase";
 
 const PACK_META: Record<string, { sector: string; description: string }> = {
