@@ -138,6 +138,7 @@ const App = () => (
                   <Route path="/helm" element={<Navigate to="/toroa" replace />} />
                   <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
                   <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
+                  <Route path="/hanga" element={<Suspense fallback={null}><KanohiDashboard /></Suspense>} />
                   <Route path="/hanga/ata" element={<Suspense fallback={null}><AtaBimDashboard /></Suspense>} />
                   <Route path="/hanga/kaupapa" element={<Suspense fallback={null}><KaupapaDashboard /></Suspense>} />
                   <Route path="/hanga/rawa" element={<Suspense fallback={null}><RawaDashboard /></Suspense>} />
