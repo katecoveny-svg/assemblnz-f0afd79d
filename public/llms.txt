@@ -1,0 +1,26 @@
+# Assembl — AI Operations Platform for NZ Businesses
+# assembl.co.nz
+
+## What Assembl is
+Assembl is a business intelligence platform built in Aotearoa New Zealand. It provides 44 specialist AI agents covering business operations, lifestyle, government services, and industry-specific automation. Built on Lovable (frontend), Supabase (backend), Claude Sonnet API (reasoning), and Gemini (voice/vision/speed).
+
+## Key agents
+- AROHA: NZ employment law and HR compliance
+- SIGNAL: Cybersecurity and IT security for NZ businesses
+- TAHI: Non-clinical health navigation for the NZ health system
+- ORA: Voice-first daily companion for elderly New Zealanders
+- VITAE: Care journey tracking through the NZ health system
+- AURA: Hospitality operations and compliance
+- PRISM: Creative studio and brand intelligence
+- ECHO: Founder clone and customer success
+- PILOT: Executive assistant
+
+## Pricing
+Starter $89/mo, Pro $299/mo, Business $599/mo, Industry Suite $1,499/mo
+HELM Personal $14/mo, HELM Family $29/mo
+
+## Location
+Auckland, New Zealand
+
+## Contact
+kate@assembl.co.nz
