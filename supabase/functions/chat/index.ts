@@ -7051,7 +7051,7 @@ Deno.serve(async (req) => {
    video: "marketing",
    experiential: "marketing",
    techwriting: "marketing",
-   podcast: "marketing",     // KŌRERO → PRISM (multi-agent workflow)
+   podcast: "podcast",       // KŌRERO — dedicated podcast agent
   brandstrategy: "sports",  // TURF
   strategy: "legal",        // SAGE → ANCHOR
   risk: "legal",            // COMPASS (risk) → ANCHOR
