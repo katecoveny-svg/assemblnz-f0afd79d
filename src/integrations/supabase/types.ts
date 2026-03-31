@@ -1914,6 +1914,469 @@ export type Database = {
           },
         ]
       }
+      hanga_consents: {
+        Row: {
+          conditions: string[] | null
+          consent_type: Database["public"]["Enums"]["consent_type"]
+          created_at: string
+          decision_date: string | null
+          expiry_date: string | null
+          id: string
+          lodged_date: string | null
+          project_id: string
+          reference_number: string | null
+          status: Database["public"]["Enums"]["consent_status"]
+          user_id: string
+        }
+        Insert: {
+          conditions?: string[] | null
+          consent_type: Database["public"]["Enums"]["consent_type"]
+          created_at?: string
+          decision_date?: string | null
+          expiry_date?: string | null
+          id?: string
+          lodged_date?: string | null
+          project_id: string
+          reference_number?: string | null
+          status?: Database["public"]["Enums"]["consent_status"]
+          user_id: string
+        }
+        Update: {
+          conditions?: string[] | null
+          consent_type?: Database["public"]["Enums"]["consent_type"]
+          created_at?: string
+          decision_date?: string | null
+          expiry_date?: string | null
+          id?: string
+          lodged_date?: string | null
+          project_id?: string
+          reference_number?: string | null
+          status?: Database["public"]["Enums"]["consent_status"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hanga_consents_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "hanga_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hanga_incidents: {
+        Row: {
+          created_at: string
+          date: string
+          description: string
+          id: string
+          immediate_actions: string | null
+          incident_type: Database["public"]["Enums"]["incident_type"]
+          investigation_status: string
+          location: string | null
+          project_id: string
+          user_id: string
+          worksafe_notified: boolean
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          description: string
+          id?: string
+          immediate_actions?: string | null
+          incident_type: Database["public"]["Enums"]["incident_type"]
+          investigation_status?: string
+          location?: string | null
+          project_id: string
+          user_id: string
+          worksafe_notified?: boolean
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          description?: string
+          id?: string
+          immediate_actions?: string | null
+          incident_type?: Database["public"]["Enums"]["incident_type"]
+          investigation_status?: string
+          location?: string | null
+          project_id?: string
+          user_id?: string
+          worksafe_notified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hanga_incidents_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "hanga_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hanga_payment_claims: {
+        Row: {
+          amount: number
+          cca_form_1: boolean
+          claim_date: string
+          claim_number: string | null
+          created_at: string
+          id: string
+          net_amount: number | null
+          project_id: string
+          response_due_date: string | null
+          retention_held: number
+          status: Database["public"]["Enums"]["payment_claim_status"]
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          cca_form_1?: boolean
+          claim_date?: string
+          claim_number?: string | null
+          created_at?: string
+          id?: string
+          net_amount?: number | null
+          project_id: string
+          response_due_date?: string | null
+          retention_held?: number
+          status?: Database["public"]["Enums"]["payment_claim_status"]
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          cca_form_1?: boolean
+          claim_date?: string
+          claim_number?: string | null
+          created_at?: string
+          id?: string
+          net_amount?: number | null
+          project_id?: string
+          response_due_date?: string | null
+          retention_held?: number
+          status?: Database["public"]["Enums"]["payment_claim_status"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hanga_payment_claims_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "hanga_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hanga_projects: {
+        Row: {
+          address: string | null
+          budget: number | null
+          client_name: string | null
+          created_at: string
+          end_date: string | null
+          id: string
+          name: string
+          start_date: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          budget?: number | null
+          client_name?: string | null
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          name: string
+          start_date?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          budget?: number | null
+          client_name?: string | null
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          name?: string
+          start_date?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      hanga_punch_list: {
+        Row: {
+          assigned_to: string | null
+          created_at: string
+          due_date: string | null
+          id: string
+          item_description: string
+          location: string | null
+          photo_url: string | null
+          priority: Database["public"]["Enums"]["punch_priority"]
+          project_id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          item_description: string
+          location?: string | null
+          photo_url?: string | null
+          priority?: Database["public"]["Enums"]["punch_priority"]
+          project_id: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          item_description?: string
+          location?: string | null
+          photo_url?: string | null
+          priority?: Database["public"]["Enums"]["punch_priority"]
+          project_id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hanga_punch_list_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "hanga_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hanga_quality_ncr: {
+        Row: {
+          assigned_to: string | null
+          close_date: string | null
+          corrective_action: string | null
+          created_at: string
+          description: string
+          id: string
+          ncr_number: string | null
+          project_id: string
+          raised_date: string
+          severity: Database["public"]["Enums"]["ncr_severity"]
+          status: string
+          user_id: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          close_date?: string | null
+          corrective_action?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          ncr_number?: string | null
+          project_id: string
+          raised_date?: string
+          severity?: Database["public"]["Enums"]["ncr_severity"]
+          status?: string
+          user_id: string
+        }
+        Update: {
+          assigned_to?: string | null
+          close_date?: string | null
+          corrective_action?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          ncr_number?: string | null
+          project_id?: string
+          raised_date?: string
+          severity?: Database["public"]["Enums"]["ncr_severity"]
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hanga_quality_ncr_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "hanga_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hanga_risk_register: {
+        Row: {
+          consequence: number | null
+          control_hierarchy:
+            | Database["public"]["Enums"]["control_hierarchy"]
+            | null
+          control_measures: string | null
+          created_at: string
+          description: string
+          hazard_category: string | null
+          id: string
+          likelihood: number | null
+          project_id: string
+          responsible_person: string | null
+          review_date: string | null
+          risk_score: number | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          consequence?: number | null
+          control_hierarchy?:
+            | Database["public"]["Enums"]["control_hierarchy"]
+            | null
+          control_measures?: string | null
+          created_at?: string
+          description: string
+          hazard_category?: string | null
+          id?: string
+          likelihood?: number | null
+          project_id: string
+          responsible_person?: string | null
+          review_date?: string | null
+          risk_score?: number | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          consequence?: number | null
+          control_hierarchy?:
+            | Database["public"]["Enums"]["control_hierarchy"]
+            | null
+          control_measures?: string | null
+          created_at?: string
+          description?: string
+          hazard_category?: string | null
+          id?: string
+          likelihood?: number | null
+          project_id?: string
+          responsible_person?: string | null
+          review_date?: string | null
+          risk_score?: number | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hanga_risk_register_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "hanga_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hanga_variations: {
+        Row: {
+          approval_date: string | null
+          cost_impact: number | null
+          created_at: string
+          description: string
+          id: string
+          project_id: string
+          requested_by: string | null
+          status: Database["public"]["Enums"]["variation_status"]
+          time_impact_days: number | null
+          user_id: string
+          variation_number: string | null
+        }
+        Insert: {
+          approval_date?: string | null
+          cost_impact?: number | null
+          created_at?: string
+          description: string
+          id?: string
+          project_id: string
+          requested_by?: string | null
+          status?: Database["public"]["Enums"]["variation_status"]
+          time_impact_days?: number | null
+          user_id: string
+          variation_number?: string | null
+        }
+        Update: {
+          approval_date?: string | null
+          cost_impact?: number | null
+          created_at?: string
+          description?: string
+          id?: string
+          project_id?: string
+          requested_by?: string | null
+          status?: Database["public"]["Enums"]["variation_status"]
+          time_impact_days?: number | null
+          user_id?: string
+          variation_number?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hanga_variations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "hanga_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hanga_worker_competency: {
+        Row: {
+          created_at: string
+          first_aid_cert: boolean
+          id: string
+          induction_completed: boolean
+          induction_date: string | null
+          lbp_class: string | null
+          lbp_number: string | null
+          project_id: string
+          role: string | null
+          site_safe_card: boolean
+          user_id: string
+          worker_name: string
+        }
+        Insert: {
+          created_at?: string
+          first_aid_cert?: boolean
+          id?: string
+          induction_completed?: boolean
+          induction_date?: string | null
+          lbp_class?: string | null
+          lbp_number?: string | null
+          project_id: string
+          role?: string | null
+          site_safe_card?: boolean
+          user_id: string
+          worker_name: string
+        }
+        Update: {
+          created_at?: string
+          first_aid_cert?: boolean
+          id?: string
+          induction_completed?: boolean
+          induction_date?: string | null
+          lbp_class?: string | null
+          lbp_number?: string | null
+          project_id?: string
+          role?: string | null
+          site_safe_card?: boolean
+          user_id?: string
+          worker_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hanga_worker_competency_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "hanga_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       haven_notifications: {
         Row: {
           created_at: string
@@ -4264,6 +4727,21 @@ export type Database = {
     Enums: {
       app_role: "free" | "starter" | "pro" | "business" | "admin"
       compliance_status: "compliant" | "due_soon" | "overdue" | "not_checked"
+      consent_status: "preparing" | "lodged" | "rfi" | "approved" | "expired"
+      consent_type: "building" | "resource" | "subdivision" | "land_use"
+      control_hierarchy:
+        | "elimination"
+        | "substitution"
+        | "isolation"
+        | "engineering"
+        | "administrative"
+        | "ppe"
+      incident_type:
+        | "near_miss"
+        | "first_aid"
+        | "medical_treatment"
+        | "serious_harm"
+        | "notifiable_event"
       job_status:
         | "reported"
         | "contacted"
@@ -4271,7 +4749,16 @@ export type Database = {
         | "in_progress"
         | "completed"
         | "invoice_uploaded"
+      ncr_severity: "minor" | "major" | "critical"
+      payment_claim_status:
+        | "draft"
+        | "submitted"
+        | "approved"
+        | "disputed"
+        | "paid"
+      punch_priority: "P1" | "P2" | "P3"
       urgency_level: "low" | "medium" | "high" | "emergency"
+      variation_status: "proposed" | "approved" | "rejected" | "implemented"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -4401,6 +4888,23 @@ export const Constants = {
     Enums: {
       app_role: ["free", "starter", "pro", "business", "admin"],
       compliance_status: ["compliant", "due_soon", "overdue", "not_checked"],
+      consent_status: ["preparing", "lodged", "rfi", "approved", "expired"],
+      consent_type: ["building", "resource", "subdivision", "land_use"],
+      control_hierarchy: [
+        "elimination",
+        "substitution",
+        "isolation",
+        "engineering",
+        "administrative",
+        "ppe",
+      ],
+      incident_type: [
+        "near_miss",
+        "first_aid",
+        "medical_treatment",
+        "serious_harm",
+        "notifiable_event",
+      ],
       job_status: [
         "reported",
         "contacted",
@@ -4409,7 +4913,17 @@ export const Constants = {
         "completed",
         "invoice_uploaded",
       ],
+      ncr_severity: ["minor", "major", "critical"],
+      payment_claim_status: [
+        "draft",
+        "submitted",
+        "approved",
+        "disputed",
+        "paid",
+      ],
+      punch_priority: ["P1", "P2", "P3"],
       urgency_level: ["low", "medium", "high", "emergency"],
+      variation_status: ["proposed", "approved", "rejected", "implemented"],
     },
   },
 } as const
