@@ -1960,6 +1960,8 @@ const ChatPage = () => {
             <Sparkles size={14} /> Open in Chat
           </button>
         </div>
+      ) : activeTab === "te_reo_learn" ? (
+        <TeReoVideoLearner agentColor={accentColor} onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "live_data" && hasLiveDataTab ? (
         <LiveDataPanel agentId={agent.id} agentName={agent.name} agentColor={accentColor} onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "internal_comms" ? (
