@@ -67,11 +67,11 @@
     --surface-3: 240 20% 15%;
 
     --sidebar-background: 240 29% 4%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 0 0% 100%;
+    --sidebar-foreground: 36 25% 93%;
+    --sidebar-primary: 36 25% 93%;
     --sidebar-primary-foreground: 240 29% 4%;
     --sidebar-accent: 240 14% 11%;
-    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-accent-foreground: 36 25% 93%;
     --sidebar-border: 0 0% 100% / 0.08;
     --sidebar-ring: 42 63% 55%;
   }
