@@ -17,6 +17,7 @@ import SpecialistTeamGrid from "@/components/landing/SpecialistTeamGrid";
 import SocialProofSection from "@/components/landing/SocialProofSection";
 import TeKahuiReoSection from "@/components/landing/TeKahuiReoSection";
 import EmbedDemoSection from "@/components/landing/EmbedDemoSection";
+import FourPouSection from "@/components/landing/FourPouSection";
 
 const PRICING_PLANS = [
   {
