@@ -19,7 +19,7 @@ import HelmSettings from "@/components/helm/HelmSettings";
 import HelmDashboard from "@/components/helm/HelmDashboard";
 import HelmQuickActions from "@/components/helm/HelmQuickActions";
 import HelmGroceryList from "@/components/helm/HelmGroceryList";
-import ToroaAppointments from "@/components/helm/ToroaAppointments";
+import HelmAppointments from "@/components/helm/HelmAppointments";
 import HelmFamilyChat from "@/components/helm/HelmFamilyChat";
 import HelmTasks from "@/components/helm/HelmTasks";
 import AgentAvatar from "@/components/AgentAvatar";
@@ -329,7 +329,7 @@ export default function ToroaApp() {
             </div>
           ) : activeTab === "appointments" ? (
             <div className="flex-1 overflow-y-auto px-4 py-4">
-              <ToroaAppointments familyId={familyId} />
+              <HelmAppointments familyId={familyId} />
             </div>
           ) : activeTab === "family_chat" ? (
             <div className="flex-1 overflow-hidden px-4 py-4">
