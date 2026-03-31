@@ -69,7 +69,7 @@ const EchoSection = () => {
                 </span>
               </div>
               <h2
-                className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
+                className="font-display font-light text-3xl sm:text-4xl mb-1"
                 style={{
                   color: ECHO_COLOR,
                   textShadow: `0 0 20px rgba(212,168,67,0.4), 0 0 60px rgba(212,168,67,0.15)`,

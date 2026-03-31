@@ -23,7 +23,7 @@ const ContentHubHero = () => {
         <AssemblHeroAgent size={260} />
       </div>
       <h1
-        className="font-display font-extrabold text-2xl sm:text-4xl lg:text-5xl tracking-tight halo-heading"
+        className="font-display font-light text-2xl sm:text-4xl lg:text-5xl tracking-tight halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
         See what your expert team builds

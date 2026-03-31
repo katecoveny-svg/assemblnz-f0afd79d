@@ -77,7 +77,7 @@ const HelmSection = () => {
               </div>
 
               <h2
-                className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
+                className="font-display font-light text-3xl sm:text-4xl mb-1"
                 style={{
                   color: TOROA_COLOR,
                   textShadow: `0 0 20px ${TOROA_COLOR}40, 0 0 60px ${TOROA_COLOR}15`,

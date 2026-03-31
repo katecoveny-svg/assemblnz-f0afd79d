@@ -111,7 +111,7 @@ const SecurityPage = () => (
           <Shield size={14} className="text-[#5AADA0]" />
           <span className="text-[11px] font-semibold text-[#5AADA0]">Enterprise-Grade Security</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight mb-3">
+        <h1 className="text-3xl sm:text-4xl font-light text-foreground tracking-tight mb-3">
           Security & <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(135deg, #5AADA0, #3A6A9C)" }}>Compliance</span>
         </h1>
         <p className="text-sm text-muted-foreground max-w-xl mx-auto">

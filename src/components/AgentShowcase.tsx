@@ -74,7 +74,7 @@ const AgentShowcase = () => {
 
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-sm font-extrabold tracking-wider" style={{ color: '#E4E4EC' }}>
+                  <span className="text-sm font-light tracking-wider" style={{ color: '#E4E4EC' }}>
                     {agent.name}
                   </span>
                   <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: agent.color, opacity: 0.5 }} />

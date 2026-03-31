@@ -10,7 +10,7 @@ const ContentHubCTA = () => (
   <section className="px-4 sm:px-8 py-20">
     <div className="max-w-4xl mx-auto text-center space-y-8">
       <h2
-        className="font-display font-extrabold text-2xl sm:text-4xl halo-heading"
+        className="font-display font-light text-2xl sm:text-4xl halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
         Every agent. Every output. One subscription.
@@ -29,7 +29,7 @@ const ContentHubCTA = () => (
               {plan.name}
             </p>
             <p>
-              <span className="font-display font-extrabold text-3xl" style={{ color: "hsl(var(--foreground))" }}>
+              <span className="font-display font-light text-3xl" style={{ color: "hsl(var(--foreground))" }}>
                 {plan.price}
               </span>
               <span className="font-body text-sm" style={{ color: "rgba(255,255,255,0.3)" }}>

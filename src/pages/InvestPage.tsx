@@ -201,7 +201,7 @@ const InvestPage = () => {
           </motion.div>
           <motion.h1
             variants={fadeUp}
-            className="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold leading-[1.1] tracking-tight mb-6"
+            className="text-4xl sm:text-5xl md:text-6xl font-display font-light leading-[1.1] tracking-tight mb-6"
           >
             Your customers text.
             <br />
@@ -254,7 +254,7 @@ const InvestPage = () => {
       {/* ═══ 3. PRODUCT DEMO ═══ */}
       <section id="product" className="px-6 max-w-6xl mx-auto py-20">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
-          <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-display font-extrabold mb-4">
+          <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-display font-light mb-4">
             How it works
           </motion.h2>
           <motion.p variants={fadeUp} className="text-white/45 font-body mb-14 max-w-xl">
@@ -310,7 +310,7 @@ const InvestPage = () => {
       <section id="market" className="px-6 max-w-5xl mx-auto py-20">
         <motion.h2
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-          className="text-3xl md:text-4xl font-display font-extrabold mb-12"
+          className="text-3xl md:text-4xl font-display font-light mb-12"
         >
           Market opportunity
         </motion.h2>
@@ -342,7 +342,7 @@ const InvestPage = () => {
       {/* ═══ 5. GOVERNANCE & COMPLIANCE ═══ */}
       <section id="governance" className="px-6 max-w-5xl mx-auto py-20">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
-          <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-display font-extrabold mb-3">
+          <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-display font-light mb-3">
             Governance &amp; compliance
           </motion.h2>
           <motion.p variants={fadeUp} className="text-white/45 font-body mb-12 max-w-2xl">
@@ -410,7 +410,7 @@ const InvestPage = () => {
       <section id="financials" className="px-6 max-w-5xl mx-auto py-20">
         <motion.h2
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-          className="text-3xl md:text-4xl font-display font-extrabold mb-12"
+          className="text-3xl md:text-4xl font-display font-light mb-12"
         >
           Financial projections
         </motion.h2>
@@ -467,7 +467,7 @@ const InvestPage = () => {
       <section id="roadmap" className="px-6 max-w-4xl mx-auto py-20">
         <motion.h2
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-          className="text-3xl md:text-4xl font-display font-extrabold mb-14"
+          className="text-3xl md:text-4xl font-display font-light mb-14"
         >
           Roadmap
         </motion.h2>
@@ -559,7 +559,7 @@ const InvestPage = () => {
       <section className="px-6 max-w-5xl mx-auto py-20">
         <motion.h2
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-          className="text-3xl md:text-4xl font-display font-extrabold mb-12"
+          className="text-3xl md:text-4xl font-display font-light mb-12"
         >
           Competitive moat
         </motion.h2>
@@ -617,7 +617,7 @@ const InvestPage = () => {
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
           <motion.h2
             variants={fadeUp}
-            className="text-3xl md:text-4xl font-display font-extrabold mb-4"
+            className="text-3xl md:text-4xl font-display font-light mb-4"
           >
             This market won't stay empty.
           </motion.h2>
@@ -644,7 +644,7 @@ const InvestPage = () => {
 
       {/* ═══ 10. FOOTER ═══ */}
       <footer className="px-6 py-8 border-t border-white/6 max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <Link to="/" className="font-display font-extrabold tracking-[4px] uppercase text-[13px]">
+        <Link to="/" className="font-display font-light tracking-[4px] uppercase text-[13px]">
           ASSEMBL
         </Link>
         <span className="text-[12px] text-white/30 font-body">

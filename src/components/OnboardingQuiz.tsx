@@ -121,7 +121,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
               <NexusHero3D />
             </Suspense>
             <div>
-              <h1 className="text-3xl font-display font-extrabold text-foreground mb-2">
+              <h1 className="text-3xl font-display font-light text-foreground mb-2">
                 Welcome to{" "}
                 <span className="tracking-[3px] text-gradient-hero">ASSEMBL</span>
               </h1>

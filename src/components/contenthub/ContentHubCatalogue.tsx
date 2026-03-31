@@ -29,7 +29,7 @@ const ContentHubCatalogue = () => {
   return (
     <section className="px-4 sm:px-8 py-12 max-w-6xl mx-auto">
       <h2
-        className="font-display font-extrabold text-xl sm:text-2xl text-center mb-2 halo-heading"
+        className="font-display font-light text-xl sm:text-2xl text-center mb-2 halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
         Your Business Intelligence Network

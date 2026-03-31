@@ -26,7 +26,7 @@ const CompetitorComparison = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-2xl sm:text-4xl font-display font-extrabold text-foreground mb-3">
+        <h2 className="text-2xl sm:text-4xl font-display font-light text-foreground mb-3">
           Replace <span className="text-primary">6+ subscriptions</span> with one platform
         </h2>
         <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
@@ -84,7 +84,7 @@ const CompetitorComparison = () => (
         <p className="text-[10px] font-mono-jb text-muted-foreground uppercase tracking-wider mb-3">
           All 44 specialist tools included
         </p>
-        <span className="text-2xl font-display font-extrabold text-primary">From $89/mo NZD</span>
+        <span className="text-2xl font-display font-light text-primary">From $89/mo NZD</span>
         <p className="text-[10px] font-body text-muted-foreground mt-2">
           No per-seat charges. No hidden add-ons. Cancel anytime.
         </p>

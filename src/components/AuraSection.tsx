@@ -75,7 +75,7 @@ const AuraSection = () => {
               </div>
 
               <h2
-                className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
+                className="font-display font-light text-3xl sm:text-4xl mb-1"
                 style={{
                   color: AURA_COLOR,
                   textShadow: `0 0 20px ${AURA_COLOR}40, 0 0 60px ${AURA_COLOR}15`,

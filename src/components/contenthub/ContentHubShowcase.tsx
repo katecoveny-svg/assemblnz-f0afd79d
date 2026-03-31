@@ -55,7 +55,7 @@ const ContentHubShowcase = () => {
   return (
     <section className="pb-16">
       <h2
-        className="font-display font-extrabold text-xl sm:text-2xl text-center mb-8 px-4 halo-heading"
+        className="font-display font-light text-xl sm:text-2xl text-center mb-8 px-4 halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
         Live agent outputs

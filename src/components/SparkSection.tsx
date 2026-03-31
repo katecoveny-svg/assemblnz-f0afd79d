@@ -58,7 +58,7 @@ const SparkSection = () => {
                 </span>
               </div>
 
-              <h2 className="font-display font-extrabold text-3xl sm:text-4xl mb-1 text-pounamu-light" style={{ textShadow: `0 0 20px rgba(90,173,160,0.4)` }}>
+              <h2 className="font-display font-light text-3xl sm:text-4xl mb-1 text-pounamu-light" style={{ textShadow: `0 0 20px rgba(90,173,160,0.4)` }}>
                 SPARK
               </h2>
               <p className="font-mono-jb text-[10px] mb-4 text-pounamu-light/40">

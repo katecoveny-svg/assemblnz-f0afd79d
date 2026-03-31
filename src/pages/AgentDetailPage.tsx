@@ -156,7 +156,7 @@ const AgentDetailPage = () => {
               </p>
 
               <h1
-                className="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl mb-2"
+                className="font-display font-light text-4xl sm:text-5xl lg:text-6xl mb-2"
                 style={{
                   color: agent.color,
                   textShadow: `0 0 40px ${agent.color}40, 0 0 100px ${agent.color}15`,
@@ -227,7 +227,7 @@ const AgentDetailPage = () => {
               <Sparkles size={12} /> CORE EXPERTISE
             </div>
             <h2
-              className="font-display font-extrabold text-2xl sm:text-3xl"
+              className="font-display font-light text-2xl sm:text-3xl"
               style={{ color: "hsl(var(--foreground))" }}
             >
               What {agent.name} does
@@ -280,7 +280,7 @@ const AgentDetailPage = () => {
               transition={{ duration: 0.5 }}
               className="text-center mb-12"
             >
-              <h2 className="font-display font-extrabold text-2xl sm:text-3xl" style={{ color: "hsl(var(--foreground))" }}>
+              <h2 className="font-display font-light text-2xl sm:text-3xl" style={{ color: "hsl(var(--foreground))" }}>
                 Built for real NZ work
               </h2>
               <p className="font-body text-sm mt-3 max-w-xl mx-auto" style={{ color: "hsl(var(--muted-foreground))" }}>
@@ -327,7 +327,7 @@ const AgentDetailPage = () => {
             transition={{ duration: 0.5 }}
             className="text-center mb-10"
           >
-            <h2 className="font-display font-extrabold text-2xl sm:text-3xl" style={{ color: "hsl(var(--foreground))" }}>
+            <h2 className="font-display font-light text-2xl sm:text-3xl" style={{ color: "hsl(var(--foreground))" }}>
               Try asking {agent.name}
             </h2>
           </motion.div>
@@ -394,7 +394,7 @@ const AgentDetailPage = () => {
             transition={{ duration: 0.5 }}
           >
             <h2
-              className="font-display font-extrabold text-3xl sm:text-4xl mb-4"
+              className="font-display font-light text-3xl sm:text-4xl mb-4"
               style={{ color: "hsl(var(--foreground))" }}
             >
               Ready to put {agent.name} to work?

@@ -64,7 +64,7 @@ const ApexSection = () => {
               </div>
 
               <h2
-                className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
+                className="font-display font-light text-3xl sm:text-4xl mb-1"
                 style={{ color: APEX_COLOR, textShadow: `0 0 20px ${APEX_COLOR}40, 0 0 60px ${APEX_COLOR}15` }}
               >
                 Meet APEX

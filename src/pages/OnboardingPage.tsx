@@ -164,7 +164,7 @@ const OnboardingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-20" style={{ background: "#09090B" }}>
+    <div className="min-h-screen flex items-center justify-center px-4 py-20" style={{ background: "#09090F" }}>
       <div className="fixed inset-0 pointer-events-none z-0" style={{
         backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)",
         backgroundSize: "24px 24px",
@@ -180,12 +180,12 @@ const OnboardingPage = () => {
         <div className="flex justify-center">
           <motion.div
             className="w-12 h-12 rounded-full flex items-center justify-center"
-            style={{ background: "#10B981" }}
+            style={{ background: "hsl(var(--pounamu))" }}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2, type: "spring" }}
           >
-            <Check size={24} color="#09090B" strokeWidth={3} />
+            <Check size={24} color="#09090F" strokeWidth={3} />
           </motion.div>
         </div>
 
@@ -216,7 +216,7 @@ const OnboardingPage = () => {
             onClick={handleDownload}
             className="gap-2"
             disabled={autoDownloading}
-            style={{ background: downloaded ? "#10B981" : "#5AADA0", color: "#09090B" }}
+            style={{ background: downloaded ? "hsl(var(--pounamu))" : "#5AADA0", color: "#09090F" }}
           >
             {autoDownloading ? <Sparkles size={16} className="animate-spin" /> : downloaded ? <Check size={16} /> : <Download size={16} />}
             {autoDownloading ? "Your welcome pack is downloading…" : downloaded ? "Downloaded!" : "Download Welcome PDF"}

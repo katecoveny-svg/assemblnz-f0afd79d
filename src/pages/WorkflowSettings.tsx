@@ -65,7 +65,7 @@ const WorkflowSettings = () => {
 
         <div className="flex items-center gap-3 mb-2">
           <Zap size={24} className="text-[#5AADA0]" />
-          <h1 className="font-display font-extrabold text-2xl">Symbiotic Workflows</h1>
+          <h1 className="font-display font-light text-2xl">Symbiotic Workflows</h1>
         </div>
         <p className="text-sm text-muted-foreground mb-8">When one agent acts, others follow automatically. Configure your agent chain reactions.</p>
 

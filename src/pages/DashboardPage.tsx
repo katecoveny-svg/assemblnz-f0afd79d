@@ -445,7 +445,7 @@ const DashboardPage = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="font-display font-extrabold text-xl sm:text-2xl text-foreground">{greeting}</h1>
+            <h1 className="font-display font-light text-xl sm:text-2xl text-foreground">{greeting}</h1>
             <p className="text-[11px] text-muted-foreground mt-0.5">Command Centre · 44 agents standing by</p>
           </div>
           <div className="flex items-center gap-3">

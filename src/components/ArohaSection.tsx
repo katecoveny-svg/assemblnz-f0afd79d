@@ -64,7 +64,7 @@ const ArohaSection = () => {
               </div>
 
               <h2
-                className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
+                className="font-display font-light text-3xl sm:text-4xl mb-1"
                 style={{ color: AROHA_COLOR, textShadow: `0 0 20px ${AROHA_COLOR}40, 0 0 60px ${AROHA_COLOR}15` }}
               >
                 Meet AROHA

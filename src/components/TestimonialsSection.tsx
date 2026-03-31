@@ -35,7 +35,7 @@ const TestimonialsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-2xl sm:text-4xl font-display font-extrabold text-foreground mb-3">
+          <h2 className="text-2xl sm:text-4xl font-display font-light text-foreground mb-3">
             Built for <span className="text-gradient-hero">Aotearoa</span>
           </h2>
           <p className="text-sm font-body text-muted-foreground">Real feedback from NZ businesses using Assembl every day.</p>

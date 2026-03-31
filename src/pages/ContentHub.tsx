@@ -134,7 +134,7 @@ const ContentHub = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="font-display font-extrabold text-xl sm:text-2xl text-foreground">Content Hub</h1>
+            <h1 className="font-display font-light text-xl sm:text-2xl text-foreground">Content Hub</h1>
             <p className="text-[11px] text-muted-foreground mt-0.5">{items.length} assets generated across {Object.keys(agentCounts).length} agents</p>
           </div>
           <button onClick={loadContent} disabled={loading}

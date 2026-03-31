@@ -56,7 +56,7 @@ const VoiceAgentWaitlist = ({ agentId, agentName, agentColor }: Props) => {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold mb-4" style={{ background: agentColor + "15", color: agentColor, border: `1px solid ${agentColor}30` }}>
             <Mic size={10} /> COMING SOON
           </div>
-          <h2 className="font-display font-extrabold text-lg text-foreground mb-1">
+          <h2 className="font-display font-light text-lg text-foreground mb-1">
             Voice Agent — {agentName}
           </h2>
           <p className="text-xs text-muted-foreground leading-relaxed max-w-sm mx-auto">

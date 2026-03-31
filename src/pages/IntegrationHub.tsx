@@ -114,7 +114,7 @@ const IntegrationHub = () => {
             <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
               <Plug size={18} className="text-primary" />
             </div>
-            <h1 className="font-display font-extrabold text-2xl md:text-3xl bg-gradient-to-r from-primary via-accent-foreground to-primary bg-clip-text text-transparent">
+            <h1 className="font-display font-light text-2xl md:text-3xl bg-gradient-to-r from-primary via-accent-foreground to-primary bg-clip-text text-transparent">
               Integration Hub
             </h1>
           </div>

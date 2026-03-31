@@ -4,7 +4,7 @@ const ContentHubComparison = () => (
   <section className="px-4 sm:px-8 py-16">
     <div className="max-w-6xl mx-auto">
       <h2
-        className="font-display font-extrabold text-2xl sm:text-3xl text-center mb-10 halo-heading"
+        className="font-display font-light text-2xl sm:text-3xl text-center mb-10 halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
         What Assembl replaces

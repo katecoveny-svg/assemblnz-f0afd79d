@@ -79,7 +79,7 @@ const EmbedPage = () => {
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 flex-1">
         {/* Hero */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-foreground mb-4 text-glow-hero">
+          <h1 className="text-3xl sm:text-5xl font-light text-foreground mb-4 text-glow-hero">
             Embed your AI agent on <span className="text-gradient-hero">your website</span>
           </h1>
           <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.25)" }}>
@@ -96,7 +96,7 @@ const EmbedPage = () => {
 
         {/* ════════════ HOW IT WORKS ════════════ */}
         <section className="mb-16">
-          <h2 className="text-lg sm:text-xl font-display font-extrabold text-foreground text-glow-purple mb-6 text-center">How to embed Assembl on your site</h2>
+          <h2 className="text-lg sm:text-xl font-display font-light text-foreground text-glow-purple mb-6 text-center">How to embed Assembl on your site</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
             {[
               {
@@ -353,7 +353,7 @@ const EmbedPage = () => {
 
         {/* ════════════ PLAN COMPARISON STRIP ════════════ */}
         <section className="mb-16">
-          <h2 className="text-base font-display font-extrabold text-foreground text-glow-cyan text-center mb-6">Embed access by plan</h2>
+          <h2 className="text-base font-display font-light text-foreground text-glow-cyan text-center mb-6">Embed access by plan</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
             {[
               { plan: "Starter", agents: "1 agent", price: "$89/mo", color: "#5AADA0", current: role === "starter" },
@@ -369,7 +369,7 @@ const EmbedPage = () => {
                 }}
               >
                 <p className="text-xs font-bold text-foreground mb-1">{t.plan}</p>
-                <p className="text-lg font-extrabold mb-0.5" style={{ color: t.color }}>{t.agents}</p>
+                <p className="text-lg font-light mb-0.5" style={{ color: t.color }}>{t.agents}</p>
                 <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.25)" }}>{t.price}</p>
                 {t.current && (
                   <span className="inline-block mt-2 text-[9px] font-semibold px-2 py-0.5 rounded-full"
