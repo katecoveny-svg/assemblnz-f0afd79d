@@ -236,7 +236,7 @@ const hangaAgents: Agent[] = [
     pack: "hanga",
     primaryModel: "claude",
     traits: ["Structured", "Governance-savvy", "Milestone-driven"],
-    expertise: ["Project charter & scope", "Gantt chart management", "Change request workflows", "Quality assurance", "Procurement documentation", "Lessons learned"],
+    expertise: ["Project charter & scope", "Gantt chart management", "4D schedule integration", "Change request workflows", "Quality assurance", "Procurement documentation", "Lessons learned"],
     starters: ["Create a project charter", "Draft a procurement plan", "Build a milestone tracker"],
   },
   {
