@@ -122,18 +122,27 @@ const TeKahuiReoSection = () => (
               e.currentTarget.style.boxShadow = "none";
             }}
           >
-            <p
-              style={{
-                fontFamily: "'Lato', sans-serif",
-                fontWeight: 700,
-                fontSize: "13px",
-                color: "#FFFFFF",
-                letterSpacing: "2px",
-                marginBottom: "4px",
-              }}
-            >
-              {agent.name}
-            </p>
+            <div className="flex items-center gap-3 mb-2">
+              {agent.icon && (
+                <img
+                  src={agent.icon}
+                  alt={agent.name}
+                  className="w-7 h-7"
+                  style={{ filter: "drop-shadow(0 0 8px rgba(58,125,110,0.4))" }}
+                />
+              )}
+              <p
+                style={{
+                  fontFamily: "'Lato', sans-serif",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  color: "#FFFFFF",
+                  letterSpacing: "2px",
+                }}
+              >
+                {agent.name}
+              </p>
+            </div>
             <p
               style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
