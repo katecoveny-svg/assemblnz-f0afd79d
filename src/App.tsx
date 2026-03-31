@@ -62,6 +62,7 @@ const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
 const InvestPage = lazy(() => import("./pages/InvestPage"));
 const HelmApp = lazy(() => import("./pages/HelmApp"));
 const AgentApp = lazy(() => import("./pages/AgentApp"));
+const AdminSmsPage = lazy(() => import("./pages/AdminSmsPage"));
 
 const queryClient = new QueryClient();
 
