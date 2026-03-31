@@ -137,6 +137,7 @@ const App = () => (
                   <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
                   <Route path="/hanga/ata" element={<Suspense fallback={null}><AtaBimDashboard /></Suspense>} />
                   <Route path="/hanga/kaupapa" element={<Suspense fallback={null}><KaupapaDashboard /></Suspense>} />
+                  <Route path="/hanga/rawa" element={<Suspense fallback={null}><RawaDashboard /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
