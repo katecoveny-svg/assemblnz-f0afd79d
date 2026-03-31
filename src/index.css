@@ -104,8 +104,12 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 20px rgba(212,168,67,0.12), 0 0 60px rgba(212,168,67,0.04);
+  }
+
+  h1 {
+    text-shadow: 0 0 30px rgba(212,168,67,0.2), 0 0 80px rgba(212,168,67,0.08);
   }
 }
 
@@ -158,6 +162,15 @@
 
   .glow-cyan {
     box-shadow: 0 0 40px rgba(90,173,160,0.12), 0 0 80px rgba(90,173,160,0.04);
+  }
+
+  /* Logo glow */
+  .logo-glow {
+    filter: drop-shadow(0 0 12px rgba(212,168,67,0.25)) drop-shadow(0 0 40px rgba(212,168,67,0.08));
+  }
+
+  .logo-glow-pounamu {
+    filter: drop-shadow(0 0 12px rgba(58,125,110,0.3)) drop-shadow(0 0 40px rgba(58,125,110,0.1));
   }
 
   .glow-dot {

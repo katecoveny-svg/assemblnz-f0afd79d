@@ -24,7 +24,7 @@ const PipelineSection = () => (
         viewport={{ once: true }}
       >
         <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase">Architecture</span>
-        <h2 className="text-2xl sm:text-4xl font-heading font-light uppercase tracking-wider text-foreground mt-2 mb-3">
+        <h2 className="text-2xl sm:text-4xl font-display font-light tracking-wide text-foreground mt-2 mb-3">
           The <span className="text-primary">Pipeline</span>
         </h2>
         <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
@@ -62,7 +62,7 @@ const PipelineSection = () => (
               <div className="flex items-center gap-2 mb-0.5">
                 <span className="font-mono text-[9px] tracking-widest text-muted-foreground">{step.step}</span>
                 <span
-                  className="text-xs font-heading font-light uppercase tracking-[0.15em]"
+                  className="text-xs font-display font-light tracking-[0.02em]"
                   style={{ color: step.color }}
                 >
                   {step.label}
@@ -93,7 +93,7 @@ const PipelineSection = () => (
             <User size={18} className="text-primary" />
           </div>
           <div className="pt-1 sm:pt-0">
-            <span className="text-xs font-heading font-light uppercase tracking-[0.15em] text-primary">
+            <span className="text-xs font-display font-light tracking-[0.02em] text-primary">
               Response returned
             </span>
             <p className="text-sm font-body text-foreground/70">

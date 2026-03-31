@@ -151,7 +151,7 @@ const BrandFooter = () => {
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
           <Link to="/" className="flex items-center gap-2.5 group">
-            <img src={assemblMark} alt="Assembl" className="w-7 h-7 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+            <img src={assemblMark} alt="Assembl" className="w-7 h-7 object-contain opacity-80 logo-glow group-hover:opacity-100 transition-opacity" />
             <span className="font-display font-bold tracking-[3px] uppercase text-xs text-foreground/80">ASSEMBL</span>
           </Link>
 

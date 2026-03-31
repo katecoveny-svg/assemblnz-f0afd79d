@@ -31,7 +31,7 @@ const CopyBtn = ({ text }: { text: string }) => {
 const ContentBlock = ({ title, content }: { title: string; content: string }) => (
   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl p-4" style={{ background: "rgba(15,15,18,0.8)", border: "1px solid rgba(255,255,255,0.06)" }}>
     <div className="flex items-center justify-between mb-2">
-      <h3 className="text-xs font-semibold uppercase tracking-wider" style={{ color: KINDLE_COLOR }}>{title}</h3>
+      <h3 className="text-xs font-semibold tracking-wide" style={{ color: KINDLE_COLOR }}>{title}</h3>
       <CopyBtn text={content} />
     </div>
     <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-wrap">{content}</p>
@@ -121,7 +121,7 @@ const KindleCampaignWriter = ({ onSendToChat }: Props) => {
           <ContentBlock title="Sponsor Pitch Letter" content={result.sponsor_pitch} />
           
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl p-4" style={{ background: "rgba(15,15,18,0.8)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <h3 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: KINDLE_COLOR }}>Social Media Posts</h3>
+            <h3 className="text-xs font-semibold tracking-wide mb-3" style={{ color: KINDLE_COLOR }}>Social Media Posts</h3>
             <div className="space-y-2">
               {result.social_posts.map((post, i) => (
                 <div key={i} className="flex items-start gap-2 p-2.5 rounded-lg bg-white/5">
