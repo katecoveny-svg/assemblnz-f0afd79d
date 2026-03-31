@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assembl Mārama Brand System | Brand Asset Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Syne:wght@400;700;800&family=Plus+Jakarta+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #09090F;
+            --bg-surface: #0F0F1A;
+            --bg-surface-2: #16162A;
+            --bg-card: #0A0A13;
+
+            --color-kowhai: #D4A843;
+            --color-kowhai-light: #F0D078;
+            --color-pounamu: #3A7D6E;
+            --color-pounamu-light: #5AADA0;
+            --color-tangaroa: #1A3A5C;
+            --color-tangaroa-light: #3A6A9C;
+
+            --color-bone: #F5F0E8;
+            --color-ma: #E8E4DD;
+
+            --color-success: #3A7D6E;
+            --color-warning: #D4A843;
+            --color-error: #A52A2A;
+
+            --font-heading: 'Lato', sans-serif;
+            --font-eyebrow: 'Lato', sans-serif; /* Updated: Lato everywhere for headers, just larger sizes */
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--color-bone);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        canvas#starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(9, 9, 15, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem 0;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--color-kowhai) 0%, var(--color-pounamu) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            text-decoration: none;
+            color: var(--color-ma);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s var(--ease-out);
+        }
+
+        .nav-links a:hover {
+            color: var(--color-kowhai);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Header */
+        .header {
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .header-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 300;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--color-kowhai) 0%, var(--color-pounamu) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+        }
+
+        .header-subtitle {
+            font-family: var(--font-eyebrow);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-kowhai);
+            margin-bottom: 0.75rem;
+        }
+
+        .header-meta {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            color: rgba(232, 228, 221, 0.6);
+            letter-spacing: 1px;
+        }
+
+        /* Section */
+        section {
+            padding: 4rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        section:first-of-type {
+            border-top: none;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.75rem, 5vw, 2.5rem);
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--color-kowhai);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(212, 168, 67, 0.2);
+        }
+
+        .section-description {
+            font-family: var(--font-body);
+            color: rgba(232, 228, 221, 0.75);
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        /* Logo Gallery */
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .logo-card {
+            background: rgba(15, 15, 26, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s var(--ease-out);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo-card:hover {
+            background: rgba(15, 15, 26, 0.95);
+            border-color: rgba(212, 168, 67, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .logo-display {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            background: rgba(9, 9, 15, 0.5);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo-display svg {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+        }
+
+        .logo-name {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-bone);
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-subtitle {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            color: rgba(232, 228, 221, 0.6);
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-actions {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 15, 26, 0.6);
+            color: var(--color-bone);
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s var(--ease-out);
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background: rgba(212, 168, 67, 0.15);
+            border-color: var(--color-kowhai);
+            color: var(--color-kowhai);
+        }
+
+        .btn-primary {
+            background: rgba(212, 168, 67, 0.1);
+            border-color: var(--color-kowhai);
+            color: var(--color-kowhai);
+        }
+
+        .btn-primary:hover {
+            background: rgba(212, 168, 67, 0.2);
+        }
+
+        /* Colour Palette */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .color-card {
+            background: rgba(15, 15, 26, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s var(--ease-out);
+            cursor: pointer;
+        }
+
+        .color-card:hover {
+            border-color: rgba(212, 168, 67, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .color-swatch {
+            width: 100%;
+            height: 120px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .color-info {
+            padding: 1.5rem;
+        }
+
+        .color-name {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-bone);
+            margin-bottom: 0.5rem;
+        }
+
+        .color-hex {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--color-kowhai);
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .color-hex:hover {
+            color: var(--color-kowhai-light);
+        }
+
+        .color-var {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: rgba(232, 228, 221, 0.5);
+            margin-bottom: 0.75rem;
+            word-break: break-all;
+        }
+
+        .color-usage {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: rgba(232, 228, 221, 0.6);
+            line-height: 1.4;
+        }
+
+        .color-banned {
+            border: 2px solid var(--color-error);
+        }
+
+        .color-banned .color-swatch {
+            position: relative;
+        }
+
+        .color-banned .color-swatch::after {
+            content: 'BANNED';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-error);
+            text-shadow: 0 0 10px rgba(165, 42, 42, 0.5);
+        }
+
+        /* Typography */
+        .typography-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .typography-card {
+            background: rgba(15, 15, 26, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .typography-label {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--color-kowhai);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .typography-sample {
+            font-size: 1.5rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .typography-sample.lato {
+            font-family: var(--font-heading);
+            font-weight: 300;
+            letter-spacing: 4px;
+        }
+
+        .typography-sample.syne {
+            font-family: var(--font-eyebrow);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .typography-sample.pjs {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .typography-sample.mono {
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            color: var(--color-kowhai);
+            background: rgba(9, 9, 15, 0.5);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        /* Agents Grid */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .agent-card {
+            background: rgba(15, 15, 26, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s var(--ease-out);
+        }
+
+        .agent-card:hover {
+            border-color: rgba(212, 168, 67, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .agent-color-badge {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .agent-name {
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-bone);
+            margin-bottom: 0.5rem;
+        }
+
+        .agent-pack {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            color: rgba(232, 228, 221, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Download All */
+        .download-section {
+            display: flex;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .btn-large {
+            padding: 1.25rem 3rem;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, rgba(212, 168, 67, 0.2), rgba(58, 125, 110, 0.2));
+            border: 2px solid var(--color-kowhai);
+            color: var(--color-kowhai);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+        }
+
+        .btn-large:hover {
+            background: linear-gradient(135deg, rgba(212, 168, 67, 0.3), rgba(58, 125, 110, 0.3));
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(212, 168, 67, 0.2);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 168, 67, 0.3);
+            color: var(--color-kowhai);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            z-index: 1000;
+            animation: slideIn 0.3s var(--ease-out);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            color: rgba(232, 228, 221, 0.5);
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .header {
+                padding: 3rem 0;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .logo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .color-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+
+            .agents-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="starfield"></canvas>
+
+    <nav>
+        <div class="container">
+            <div class="nav-logo">ASSEMBL</div>
+            <ul class="nav-links">
+                <li><a href="#logos">Logos</a></li>
+                <li><a href="#colors">Colours</a></li>
+                <li><a href="#typography">Typography</a></li>
+                <li><a href="#agents">Agents</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <!-- Header -->
+            <section class="header">
+                <h1 class="header-title">ASSEMBL</h1>
+                <p class="header-subtitle">MĀRAMA BRAND SYSTEM</p>
+                <p class="header-meta">v4 · March 2026 · Brand Asset Library</p>
+            </section>
+
+            <!-- Logo Gallery -->
+            <section id="logos">
+                <h2 class="section-title">Logo Gallery</h2>
+                <p class="section-description">Premium brand assets across the Assembl ecosystem. Download SVGs for use across all touchpoints.</p>
+
+                <div class="logo-grid">
+                    <!-- Assembl Main Logo -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="grad-kowhai" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#F0D078;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#D4A843;stop-opacity:1" />
+                                    </radialGradient>
+                                    <radialGradient id="grad-pounamu" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#5AADA0;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#3A7D6E;stop-opacity:1" />
+                                    </radialGradient>
+                                    <radialGradient id="grad-pounamu-light" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#7ABDB8;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#5AADA0;stop-opacity:1" />
+                                    </radialGradient>
+                                    <linearGradient id="grad-wordmark" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#F5F0E8;stop-opacity:1" />
+                                        <stop offset="50%" style="stop-color:#D4A843;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#3A7D6E;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Connection lines -->
+                                <line x1="90" y1="40" x2="50" y2="120" stroke="white" stroke-width="1.5" opacity="0.25"/>
+                                <line x1="90" y1="40" x2="130" y2="120" stroke="white" stroke-width="1.5" opacity="0.25"/>
+                                <line x1="50" y1="120" x2="130" y2="120" stroke="white" stroke-width="1.5" opacity="0.25"/>
+                                <!-- Nodes -->
+                                <circle cx="90" cy="40" r="18" fill="url(#grad-kowhai)"/>
+                                <circle cx="90" cy="40" r="14" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
+                                <circle cx="50" cy="120" r="18" fill="url(#grad-pounamu)"/>
+                                <circle cx="130" cy="120" r="18" fill="url(#grad-pounamu-light)"/>
+                                <!-- Wordmark -->
+                                <text x="90" y="160" font-family="Lato, sans-serif" font-size="14" font-weight="300" letter-spacing="3" text-anchor="middle" fill="url(#grad-wordmark)" text-transform="uppercase">ASSEMBL</text>
+                            </svg>
+                        </div>
+                        <div class="logo-name">ASSEMBL</div>
+                        <div class="logo-subtitle">Primary Brand Mark</div>
+                        <div class="logo-actions">
+                            <button class="btn btn-primary" onclick="downloadSvg('assembl-logo', 'assembl-logo.svg')">Download</button>
+                        </div>
+                    </div>
+
+                    <!-- Te Kāhui Reo Logo -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="grad-kahui-kowhai" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#F0D078;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#D4A843;stop-opacity:1" />
+                                    </radialGradient>
+                                    <radialGradient id="grad-kahui-pounamu" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#5AADA0;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#3A7D6E;stop-opacity:1" />
+                                    </radialGradient>
+                                    <radialGradient id="grad-kahui-tangaroa" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#3A6A9C;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#1A3A5C;stop-opacity:1" />
+                                    </radialGradient>
+                                </defs>
+                                <line x1="90" y1="35" x2="50" y2="125" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="90" y1="35" x2="130" y2="125" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="50" y1="125" x2="130" y2="125" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <circle cx="90" cy="35" r="22" fill="url(#grad-kahui-kowhai)"/>
+                                <circle cx="50" cy="125" r="22" fill="url(#grad-kahui-pounamu)"/>
+                                <circle cx="130" cy="125" r="22" fill="url(#grad-kahui-tangaroa)"/>
+                                <text x="90" y="160" font-family="Lato, sans-serif" font-size="10" font-weight="300" letter-spacing="2" text-anchor="middle" fill="#D4A843" text-transform="uppercase">Te Kāhui Reo</text>
+                            </svg>
+                        </div>
+                        <div class="logo-name">Te Kāhui Reo</div>
+                        <div class="logo-subtitle">BI Agents System</div>
+                        <div class="logo-actions">
+                            <button class="btn btn-primary" onclick="downloadSvg('kahui-reo-logo', 'te-kahui-reo-logo.svg')">Download</button>
+                        </div>
+                    </div>
+
+                    <!-- MANAAKI Logo -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="grad-manaaki" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#F0D078;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#D4A843;stop-opacity:1" />
+                                    </radialGradient>
+                                </defs>
+                                <line x1="90" y1="35" x2="50" y2="125" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="90" y1="35" x2="130" y2="125" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="50" y1="125" x2="130" y2="125" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <circle cx="90" cy="35" r="22" fill="url(#grad-manaaki)"/>
+                                <circle cx="50" cy="125" r="22" fill="url(#grad-manaaki)"/>
+                                <circle cx="130" cy="125" r="22" fill="url(#grad-manaaki)"/>
+                                <text x="90" y="160" font-family="Lato, sans-serif" font-size="11" font-weight="300" letter-spacing="1.5" text-anchor="middle" fill="#D4A843" text-transform="uppercase">Manaaki</text>
+                            </svg>
+                        </div>
+                        <div class="logo-name">MANAAKI</div>
+                        <div class="logo-subtitle">Hospitality & Tourism Pack</div>
+                        <div class="logo-actions">
+                            <button class="btn btn-primary" onclick="downloadSvg('manaaki-logo', 'manaaki-logo.svg')">Download</button>
+                        </div>
+                    </div>
+
+                    <!-- HANGA Logo -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="grad-hanga" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#5AADA0;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#3A7D6E;stop-opacity:1" />
+                                    </radialGradient>
+                                </defs>
+                                <line x1="90" y1="125" x2="50" y2="35" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="90" y1="125" x2="130" y2="35" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="50" y1="35" x2="130" y2="35" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <circle cx="90" cy="125" r="22" fill="url(#grad-hanga)"/>
+                                <circle cx="50" cy="35" r="22" fill="url(#grad-hanga)"/>
+                                <circle cx="130" cy="35" r="22" fill="url(#grad-hanga)"/>
+                                <text x="90" y="160" font-family="Lato, sans-serif" font-size="12" font-weight="300" letter-spacing="2" text-anchor="middle" fill="#3A7D6E" text-transform="uppercase">Hanga</text>
+                            </svg>
+                        </div>
+                        <div class="logo-name">HANGA</div>
+                        <div class="logo-subtitle">Construction & Property Pack</div>
+                        <div class="logo-actions">
+                            <button class="btn btn-primary" onclick="downloadSvg('hanga-logo', 'hanga-logo.svg')">Download</button>
+                        </div>
+                    </div>
+
+                    <!-- AUAHA Logo -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="grad-auaha-kowhai" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#F0D078;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#E5C058;stop-opacity:1" />
+                                    </radialGradient>
+                                    <radialGradient id="grad-auaha-pounamu" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#7ABDB8;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#5AADA0;stop-opacity:1" />
+                                    </radialGradient>
+                                </defs>
+                                <line x1="70" y1="60" x2="40" y2="130" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="90" y1="50" x2="130" y2="130" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="40" y1="130" x2="130" y2="130" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <circle cx="70" cy="60" r="20" fill="url(#grad-auaha-kowhai)"/>
+                                <circle cx="40" cy="130" r="20" fill="url(#grad-auaha-pounamu)"/>
+                                <circle cx="130" cy="130" r="20" fill="url(#grad-auaha-kowhai)"/>
+                                <text x="90" y="160" font-family="Lato, sans-serif" font-size="12" font-weight="300" letter-spacing="2" text-anchor="middle" fill="#F0D078" text-transform="uppercase">Auaha</text>
+                            </svg>
+                        </div>
+                        <div class="logo-name">AUAHA</div>
+                        <div class="logo-subtitle">Creative & Digital Pack</div>
+                        <div class="logo-actions">
+                            <button class="btn btn-primary" onclick="downloadSvg('auaha-logo', 'auaha-logo.svg')">Download</button>
+                        </div>
+                    </div>
+
+                    <!-- PAKIHI Logo -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="grad-pakihi" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#3A6A9C;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#1A3A5C;stop-opacity:1" />
+                                    </radialGradient>
+                                </defs>
+                                <line x1="130" y1="90" x2="50" y2="60" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="130" y1="90" x2="50" y2="120" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="50" y1="60" x2="50" y2="120" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <circle cx="130" cy="90" r="22" fill="url(#grad-pakihi)"/>
+                                <circle cx="50" cy="60" r="22" fill="url(#grad-pakihi)"/>
+                                <circle cx="50" cy="120" r="22" fill="url(#grad-pakihi)"/>
+                                <text x="90" y="160" font-family="Lato, sans-serif" font-size="12" font-weight="300" letter-spacing="2" text-anchor="middle" fill="#1A3A5C" text-transform="uppercase">Pakihi</text>
+                            </svg>
+                        </div>
+                        <div class="logo-name">PAKIHI</div>
+                        <div class="logo-subtitle">Business Operations Pack</div>
+                        <div class="logo-actions">
+                            <button class="btn btn-primary" onclick="downloadSvg('pakihi-logo', 'pakihi-logo.svg')">Download</button>
+                        </div>
+                    </div>
+
+                    <!-- HANGARAU Logo -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="grad-hangarau-pounamu" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#7ABDB8;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#5AADA0;stop-opacity:1" />
+                                    </radialGradient>
+                                    <radialGradient id="grad-hangarau-tangaroa" cx="30%" cy="30%">
+                                        <stop offset="0%" style="stop-color:#3A6A9C;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#1A3A5C;stop-opacity:1" />
+                                    </radialGradient>
+                                </defs>
+                                <line x1="90" y1="50" x2="60" y2="90" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="90" y1="50" x2="120" y2="90" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="60" y1="90" x2="90" y2="130" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <line x1="120" y1="90" x2="90" y2="130" stroke="white" stroke-width="2" opacity="0.25"/>
+                                <circle cx="90" cy="50" r="20" fill="url(#grad-hangarau-pounamu)"/>
+                                <circle cx="60" cy="90" r="20" fill="url(#grad-hangarau-tangaroa)"/>
+                                <circle cx="120" cy="90" r="20" fill="url(#grad-hangarau-pounamu)"/>
+                                <circle cx="90" cy="130" r="20" fill="url(#grad-hangarau-tangaroa)"/>
+                                <text x="90" y="160" font-family="Lato, sans-serif" font-size="10" font-weight="300" letter-spacing="1.5" text-anchor="middle" fill="#5AADA0" text-transform="uppercase">Hangarau</text>
+                            </svg>
+                        </div>
+                        <div class="logo-name">HANGARAU</div>
+                        <div class="logo-subtitle">Technology & Infrastructure Pack</div>
+                        <div class="logo-actions">
+                            <button class="btn btn-primary" onclick="downloadSvg('hangarau-logo', 'hangarau-logo.svg')">Download</button>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="margin-top: 3rem; border-top: 2px solid rgba(212, 168, 67, 0.2); padding-top: 2rem;">Architecture System Icons</h3>
+
+                <div class="logo-grid">
+                    <!-- IHO — 3D Glow Constellation -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="160" height="160" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="i-ihoCore" cx="42%" cy="32%" r="55%">
+                                        <stop offset="0%" stop-color="#FFFDE7" stop-opacity="0.6"/>
+                                        <stop offset="25%" stop-color="#F0D078"/>
+                                        <stop offset="55%" stop-color="#D4A843"/>
+                                        <stop offset="85%" stop-color="#3A7D6E"/>
+                                        <stop offset="100%" stop-color="#2B5C54"/>
+                                    </radialGradient>
+                                    <radialGradient id="i-ihoAura" cx="50%" cy="50%" r="50%">
+                                        <stop offset="0%" stop-color="#D4A843" stop-opacity="0.2"/>
+                                        <stop offset="40%" stop-color="#3A7D6E" stop-opacity="0.06"/>
+                                        <stop offset="100%" stop-color="#1A3A5C" stop-opacity="0"/>
+                                    </radialGradient>
+                                    <filter id="i-ihoGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="4" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                    <filter id="i-ihoStar" x="-100%" y="-100%" width="300%" height="300%">
+                                        <feGaussianBlur stdDeviation="1.5" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                </defs>
+                                <ellipse cx="100" cy="90" rx="80" ry="60" fill="url(#i-ihoAura)"/>
+                                <!-- Stars -->
+                                <circle cx="18" cy="15" r="1.4" fill="#E8E4DD" filter="url(#i-ihoStar)"/>
+                                <circle cx="182" cy="20" r="1.6" fill="#E8E4DD" filter="url(#i-ihoStar)"/>
+                                <circle cx="35" cy="42" r="0.9" fill="#F5F0E8" filter="url(#i-ihoStar)"/>
+                                <circle cx="168" cy="36" r="1.0" fill="#F5F0E8" filter="url(#i-ihoStar)"/>
+                                <circle cx="12" cy="68" r="0.6" fill="white" opacity="0.5"/>
+                                <circle cx="188" cy="62" r="0.7" fill="white" opacity="0.5"/>
+                                <!-- Orbit rings -->
+                                <circle cx="100" cy="90" r="62" fill="none" stroke="#3A7D6E" stroke-width="0.5" opacity="0.1"/>
+                                <circle cx="100" cy="90" r="50" fill="none" stroke="#D4A843" stroke-width="0.7" opacity="0.12"/>
+                                <circle cx="100" cy="90" r="40" fill="none" stroke="#F0D078" stroke-width="0.8" opacity="0.15"/>
+                                <!-- Satellite nodes -->
+                                <circle cx="140" cy="90" r="3.5" fill="#D4A843" opacity="0.4" filter="url(#i-ihoGlow)"/>
+                                <circle cx="140" cy="90" r="1.5" fill="white" opacity="0.6"/>
+                                <circle cx="60" cy="90" r="3.5" fill="#3A7D6E" opacity="0.4" filter="url(#i-ihoGlow)"/>
+                                <circle cx="60" cy="90" r="1.5" fill="white" opacity="0.5"/>
+                                <circle cx="100" cy="50" r="3" fill="#5AADA0" opacity="0.35" filter="url(#i-ihoGlow)"/>
+                                <circle cx="100" cy="50" r="1.2" fill="white" opacity="0.5"/>
+                                <circle cx="100" cy="130" r="3" fill="#1A3A5C" opacity="0.35" filter="url(#i-ihoGlow)"/>
+                                <!-- Connection lines -->
+                                <line x1="100" y1="90" x2="140" y2="90" stroke="#D4A843" stroke-width="0.6" opacity="0.15"/>
+                                <line x1="100" y1="90" x2="60" y2="90" stroke="#3A7D6E" stroke-width="0.6" opacity="0.15"/>
+                                <line x1="100" y1="90" x2="100" y2="50" stroke="#5AADA0" stroke-width="0.6" opacity="0.15"/>
+                                <line x1="100" y1="90" x2="100" y2="130" stroke="#1A3A5C" stroke-width="0.6" opacity="0.12"/>
+                                <!-- Core orb -->
+                                <circle cx="100" cy="90" r="28" fill="url(#i-ihoCore)" filter="url(#i-ihoGlow)"/>
+                                <ellipse cx="92" cy="76" rx="12" ry="10" fill="white" opacity="0.08"/>
+                                <circle cx="100" cy="90" r="28" fill="none" stroke="#FFFDE7" stroke-width="0.6" opacity="0.2"/>
+                                <circle cx="100" cy="90" r="18" fill="none" stroke="#F0D078" stroke-width="0.6" opacity="0.15"/>
+                                <circle cx="100" cy="90" r="7" fill="#F0D078" opacity="0.4" filter="url(#i-ihoGlow)"/>
+                                <circle cx="100" cy="90" r="3.5" fill="white" opacity="0.65"/>
+                            </svg>
+                        </div>
+                        <div class="logo-name">IHO</div>
+                        <div class="logo-subtitle">Assembl Brain</div>
+                    </div>
+
+                    <!-- KAHU — 3D Shield with Glow -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="160" height="160" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="i-kahuBody" cx="40%" cy="30%" r="60%">
+                                        <stop offset="0%" stop-color="#A8D5CB" stop-opacity="0.5"/>
+                                        <stop offset="35%" stop-color="#5AADA0"/>
+                                        <stop offset="70%" stop-color="#3A7D6E"/>
+                                        <stop offset="100%" stop-color="#2B5C54"/>
+                                    </radialGradient>
+                                    <radialGradient id="i-kahuAura" cx="50%" cy="45%" r="50%">
+                                        <stop offset="0%" stop-color="#3A7D6E" stop-opacity="0.18"/>
+                                        <stop offset="60%" stop-color="#3A7D6E" stop-opacity="0.04"/>
+                                        <stop offset="100%" stop-color="#3A7D6E" stop-opacity="0"/>
+                                    </radialGradient>
+                                    <filter id="i-kahuGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="4" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                    <filter id="i-kahuStar" x="-100%" y="-100%" width="300%" height="300%">
+                                        <feGaussianBlur stdDeviation="1.5" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                </defs>
+                                <ellipse cx="100" cy="90" rx="75" ry="58" fill="url(#i-kahuAura)"/>
+                                <!-- Stars -->
+                                <circle cx="22" cy="18" r="1.3" fill="#E8E4DD" filter="url(#i-kahuStar)"/>
+                                <circle cx="178" cy="22" r="1.5" fill="#E8E4DD" filter="url(#i-kahuStar)"/>
+                                <circle cx="38" cy="48" r="0.8" fill="#F5F0E8" filter="url(#i-kahuStar)"/>
+                                <circle cx="164" cy="42" r="1.0" fill="#F5F0E8" filter="url(#i-kahuStar)"/>
+                                <circle cx="15" cy="72" r="0.6" fill="white" opacity="0.5"/>
+                                <circle cx="185" cy="68" r="0.7" fill="white" opacity="0.5"/>
+                                <!-- Shield -->
+                                <path d="M 100 20 L 152 48 L 152 105 Q 152 142 100 158 Q 48 142 48 105 L 48 48 Z" fill="url(#i-kahuBody)" filter="url(#i-kahuGlow)"/>
+                                <path d="M 100 26 L 142 50 L 142 102 Q 142 134 100 148" fill="white" opacity="0.05"/>
+                                <path d="M 100 20 L 152 48 L 152 105 Q 152 142 100 158 Q 48 142 48 105 L 48 48 Z" fill="none" stroke="#A8D5CB" stroke-width="0.8" opacity="0.35"/>
+                                <!-- Inner shield panel -->
+                                <path d="M 100 38 L 135 56 L 135 100 Q 135 128 100 140 Q 65 128 65 100 L 65 56 Z" fill="#3A7D6E" opacity="0.15"/>
+                                <!-- Checkmark -->
+                                <circle cx="100" cy="85" r="16" fill="#3A7D6E" opacity="0.4" filter="url(#i-kahuGlow)"/>
+                                <circle cx="100" cy="85" r="10" fill="#5AADA0" opacity="0.25"/>
+                                <path d="M 89 85 L 96 94 L 113 74" fill="none" stroke="#E8E4DD" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+                                <!-- 3D shine -->
+                                <ellipse cx="88" cy="55" rx="15" ry="10" fill="white" opacity="0.06"/>
+                            </svg>
+                        </div>
+                        <div class="logo-name">KAHU</div>
+                        <div class="logo-subtitle">Compliance Engine</div>
+                    </div>
+
+                    <!-- TĀ — 3D Document with Glow -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="160" height="160" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="i-taBody" cx="40%" cy="30%" r="60%">
+                                        <stop offset="0%" stop-color="#6A9AC4" stop-opacity="0.5"/>
+                                        <stop offset="35%" stop-color="#3A6A9C"/>
+                                        <stop offset="70%" stop-color="#1A3A5C"/>
+                                        <stop offset="100%" stop-color="#0F2440"/>
+                                    </radialGradient>
+                                    <radialGradient id="i-taAura" cx="50%" cy="45%" r="50%">
+                                        <stop offset="0%" stop-color="#1A3A5C" stop-opacity="0.18"/>
+                                        <stop offset="60%" stop-color="#1A3A5C" stop-opacity="0.04"/>
+                                        <stop offset="100%" stop-color="#1A3A5C" stop-opacity="0"/>
+                                    </radialGradient>
+                                    <filter id="i-taGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="4" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                    <filter id="i-taStar" x="-100%" y="-100%" width="300%" height="300%">
+                                        <feGaussianBlur stdDeviation="1.5" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                </defs>
+                                <ellipse cx="100" cy="85" rx="72" ry="55" fill="url(#i-taAura)"/>
+                                <!-- Stars -->
+                                <circle cx="20" cy="15" r="1.3" fill="#E8E4DD" filter="url(#i-taStar)"/>
+                                <circle cx="180" cy="20" r="1.5" fill="#E8E4DD" filter="url(#i-taStar)"/>
+                                <circle cx="35" cy="45" r="0.8" fill="#F5F0E8" filter="url(#i-taStar)"/>
+                                <circle cx="168" cy="38" r="1.0" fill="#F5F0E8" filter="url(#i-taStar)"/>
+                                <circle cx="12" cy="70" r="0.6" fill="white" opacity="0.5"/>
+                                <circle cx="188" cy="65" r="0.7" fill="white" opacity="0.5"/>
+                                <!-- Shadow -->
+                                <rect x="62" y="28" width="82" height="118" rx="5" fill="#0F2440" opacity="0.35" transform="translate(3,3)"/>
+                                <!-- Document body -->
+                                <rect x="59" y="22" width="82" height="118" rx="5" fill="url(#i-taBody)" filter="url(#i-taGlow)"/>
+                                <rect x="61" y="24" width="38" height="56" rx="3" fill="white" opacity="0.05"/>
+                                <rect x="59" y="22" width="82" height="118" rx="5" fill="none" stroke="#6A9AC4" stroke-width="0.8" opacity="0.3"/>
+                                <!-- Folded corner -->
+                                <path d="M 122 22 L 141 22 L 141 42 Z" fill="#3A6A9C" opacity="0.45"/>
+                                <path d="M 122 22 L 122 42 L 141 42" fill="none" stroke="#6A9AC4" stroke-width="0.6" opacity="0.25"/>
+                                <!-- Glowing text lines -->
+                                <line x1="75" y1="52" x2="126" y2="52" stroke="#E8E4DD" stroke-width="1.5" opacity="0.45" filter="url(#i-taGlow)"/>
+                                <line x1="75" y1="66" x2="126" y2="66" stroke="#E8E4DD" stroke-width="1.5" opacity="0.35"/>
+                                <line x1="75" y1="80" x2="126" y2="80" stroke="#E8E4DD" stroke-width="1.5" opacity="0.3"/>
+                                <line x1="75" y1="94" x2="116" y2="94" stroke="#E8E4DD" stroke-width="1.5" opacity="0.25"/>
+                                <line x1="75" y1="108" x2="106" y2="108" stroke="#E8E4DD" stroke-width="1.5" opacity="0.2"/>
+                                <!-- Stamp -->
+                                <circle cx="118" cy="120" r="8" fill="#3A6A9C" opacity="0.35" filter="url(#i-taGlow)"/>
+                                <circle cx="118" cy="120" r="5" fill="#6A9AC4" opacity="0.25"/>
+                                <circle cx="118" cy="120" r="2.5" fill="#E8E4DD" opacity="0.45"/>
+                            </svg>
+                        </div>
+                        <div class="logo-name">T&#256;</div>
+                        <div class="logo-subtitle">Audit Trail</div>
+                    </div>
+
+                    <!-- MAHARA — 3D Brain with Neural Glow -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="160" height="160" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="i-maharaBody" cx="42%" cy="32%" r="55%">
+                                        <stop offset="0%" stop-color="#FFFDE7" stop-opacity="0.5"/>
+                                        <stop offset="30%" stop-color="#F0D078"/>
+                                        <stop offset="70%" stop-color="#D4A843"/>
+                                        <stop offset="100%" stop-color="#B8892A"/>
+                                    </radialGradient>
+                                    <radialGradient id="i-maharaAura" cx="50%" cy="42%" r="50%">
+                                        <stop offset="0%" stop-color="#D4A843" stop-opacity="0.18"/>
+                                        <stop offset="60%" stop-color="#D4A843" stop-opacity="0.04"/>
+                                        <stop offset="100%" stop-color="#D4A843" stop-opacity="0"/>
+                                    </radialGradient>
+                                    <filter id="i-maharaGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="4" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                    <filter id="i-maharaStar" x="-100%" y="-100%" width="300%" height="300%">
+                                        <feGaussianBlur stdDeviation="1.5" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                </defs>
+                                <ellipse cx="100" cy="80" rx="78" ry="58" fill="url(#i-maharaAura)"/>
+                                <!-- Stars -->
+                                <circle cx="18" cy="12" r="1.4" fill="#E8E4DD" filter="url(#i-maharaStar)"/>
+                                <circle cx="182" cy="16" r="1.6" fill="#E8E4DD" filter="url(#i-maharaStar)"/>
+                                <circle cx="38" cy="40" r="0.8" fill="#F5F0E8" filter="url(#i-maharaStar)"/>
+                                <circle cx="164" cy="35" r="1.0" fill="#F5F0E8" filter="url(#i-maharaStar)"/>
+                                <circle cx="10" cy="65" r="0.6" fill="white" opacity="0.5"/>
+                                <circle cx="190" cy="60" r="0.7" fill="white" opacity="0.5"/>
+                                <!-- Neural connections -->
+                                <line x1="60" y1="88" x2="35" y2="118" stroke="#D4A843" stroke-width="1" opacity="0.18" filter="url(#i-maharaGlow)"/>
+                                <line x1="140" y1="88" x2="165" y2="118" stroke="#D4A843" stroke-width="1" opacity="0.18" filter="url(#i-maharaGlow)"/>
+                                <line x1="100" y1="108" x2="100" y2="142" stroke="#D4A843" stroke-width="1" opacity="0.18" filter="url(#i-maharaGlow)"/>
+                                <!-- Neural endpoint nodes -->
+                                <circle cx="35" cy="118" r="3.5" fill="#D4A843" opacity="0.25" filter="url(#i-maharaGlow)"/>
+                                <circle cx="165" cy="118" r="3.5" fill="#D4A843" opacity="0.25" filter="url(#i-maharaGlow)"/>
+                                <circle cx="100" cy="142" r="3.5" fill="#D4A843" opacity="0.25" filter="url(#i-maharaGlow)"/>
+                                <!-- Brain sphere -->
+                                <circle cx="100" cy="75" r="38" fill="url(#i-maharaBody)" filter="url(#i-maharaGlow)"/>
+                                <ellipse cx="90" cy="60" rx="16" ry="12" fill="white" opacity="0.07"/>
+                                <circle cx="100" cy="75" r="38" fill="none" stroke="#FFFDE7" stroke-width="0.6" opacity="0.2"/>
+                                <!-- Brain folds -->
+                                <path d="M 78 65 Q 88 55 100 60 Q 112 65 120 55" fill="none" stroke="#FFFDE7" stroke-width="1" opacity="0.18"/>
+                                <path d="M 74 78 Q 88 72 100 78 Q 112 84 126 76" fill="none" stroke="#FFFDE7" stroke-width="1" opacity="0.15"/>
+                                <path d="M 76 90 Q 90 84 100 90 Q 110 96 124 88" fill="none" stroke="#FFFDE7" stroke-width="0.8" opacity="0.12"/>
+                                <!-- Memory rings -->
+                                <circle cx="100" cy="75" r="24" fill="none" stroke="#F0D078" stroke-width="0.6" opacity="0.12"/>
+                                <circle cx="100" cy="75" r="15" fill="none" stroke="#F0D078" stroke-width="0.5" opacity="0.1"/>
+                                <!-- Memory core -->
+                                <circle cx="100" cy="75" r="8" fill="#F0D078" opacity="0.3" filter="url(#i-maharaGlow)"/>
+                                <circle cx="100" cy="75" r="4" fill="white" opacity="0.5"/>
+                            </svg>
+                        </div>
+                        <div class="logo-name">MAHARA</div>
+                        <div class="logo-subtitle">Business Memory</div>
+                    </div>
+
+                    <!-- MANA — 3D Key with Glow -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="160" height="160" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="i-manaBody" cx="42%" cy="32%" r="55%">
+                                        <stop offset="0%" stop-color="#A8D5CB" stop-opacity="0.5"/>
+                                        <stop offset="30%" stop-color="#5AADA0"/>
+                                        <stop offset="70%" stop-color="#3A7D6E"/>
+                                        <stop offset="100%" stop-color="#2B5C54"/>
+                                    </radialGradient>
+                                    <radialGradient id="i-manaAura" cx="50%" cy="42%" r="50%">
+                                        <stop offset="0%" stop-color="#3A7D6E" stop-opacity="0.16"/>
+                                        <stop offset="60%" stop-color="#3A7D6E" stop-opacity="0.04"/>
+                                        <stop offset="100%" stop-color="#3A7D6E" stop-opacity="0"/>
+                                    </radialGradient>
+                                    <filter id="i-manaGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="4" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                    <filter id="i-manaStar" x="-100%" y="-100%" width="300%" height="300%">
+                                        <feGaussianBlur stdDeviation="1.5" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                </defs>
+                                <ellipse cx="100" cy="85" rx="75" ry="58" fill="url(#i-manaAura)"/>
+                                <!-- Stars -->
+                                <circle cx="15" cy="12" r="1.3" fill="#E8E4DD" filter="url(#i-manaStar)"/>
+                                <circle cx="185" cy="16" r="1.5" fill="#E8E4DD" filter="url(#i-manaStar)"/>
+                                <circle cx="32" cy="40" r="0.8" fill="#F5F0E8" filter="url(#i-manaStar)"/>
+                                <circle cx="170" cy="35" r="1.0" fill="#F5F0E8" filter="url(#i-manaStar)"/>
+                                <circle cx="8" cy="65" r="0.6" fill="white" opacity="0.5"/>
+                                <circle cx="192" cy="60" r="0.7" fill="white" opacity="0.5"/>
+                                <!-- Key bow ring -->
+                                <circle cx="100" cy="58" r="28" fill="#3A7D6E" opacity="0.2" filter="url(#i-manaGlow)"/>
+                                <circle cx="100" cy="58" r="28" fill="none" stroke="#A8D5CB" stroke-width="0.8" opacity="0.3"/>
+                                <circle cx="100" cy="58" r="15" fill="#09090F" opacity="0.5"/>
+                                <circle cx="100" cy="58" r="15" fill="none" stroke="#5AADA0" stroke-width="0.6" opacity="0.25"/>
+                                <ellipse cx="92" cy="48" rx="10" ry="7" fill="white" opacity="0.05"/>
+                                <!-- Key centre node -->
+                                <circle cx="100" cy="58" r="7" fill="#5AADA0" opacity="0.35" filter="url(#i-manaGlow)"/>
+                                <circle cx="100" cy="58" r="3.5" fill="white" opacity="0.5"/>
+                                <!-- Key shaft -->
+                                <rect x="95" y="82" width="10" height="48" rx="2.5" fill="url(#i-manaBody)" filter="url(#i-manaGlow)"/>
+                                <rect x="95" y="82" width="10" height="48" rx="2.5" fill="none" stroke="#A8D5CB" stroke-width="0.6" opacity="0.25"/>
+                                <rect x="96" y="84" width="4" height="22" rx="1.5" fill="white" opacity="0.05"/>
+                                <!-- Key teeth -->
+                                <rect x="105" y="110" width="14" height="5" rx="1.5" fill="url(#i-manaBody)"/>
+                                <rect x="105" y="110" width="14" height="5" rx="1.5" fill="none" stroke="#A8D5CB" stroke-width="0.5" opacity="0.25"/>
+                                <rect x="105" y="122" width="10" height="5" rx="1.5" fill="url(#i-manaBody)"/>
+                                <rect x="105" y="122" width="10" height="5" rx="1.5" fill="none" stroke="#A8D5CB" stroke-width="0.5" opacity="0.25"/>
+                            </svg>
+                        </div>
+                        <div class="logo-name">MANA</div>
+                        <div class="logo-subtitle">Access Control</div>
+                    </div>
+
+                    <!-- KANOHI — 3D Dashboard Monitor with Glow -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="160" height="160" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="i-kanohiBody" cx="42%" cy="30%" r="60%">
+                                        <stop offset="0%" stop-color="#7AAFE0" stop-opacity="0.4"/>
+                                        <stop offset="35%" stop-color="#3A6A9C"/>
+                                        <stop offset="70%" stop-color="#1A3A5C"/>
+                                        <stop offset="100%" stop-color="#0F2440"/>
+                                    </radialGradient>
+                                    <radialGradient id="i-kanohiScreen" cx="50%" cy="40%" r="55%">
+                                        <stop offset="0%" stop-color="#3A6A9C" stop-opacity="0.45"/>
+                                        <stop offset="50%" stop-color="#1A3A5C" stop-opacity="0.25"/>
+                                        <stop offset="100%" stop-color="#0F2440" stop-opacity="0.1"/>
+                                    </radialGradient>
+                                    <radialGradient id="i-kanohiAura" cx="50%" cy="42%" r="50%">
+                                        <stop offset="0%" stop-color="#3A6A9C" stop-opacity="0.16"/>
+                                        <stop offset="60%" stop-color="#3A6A9C" stop-opacity="0.04"/>
+                                        <stop offset="100%" stop-color="#3A6A9C" stop-opacity="0"/>
+                                    </radialGradient>
+                                    <filter id="i-kanohiGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="4" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                    <filter id="i-kanohiStar" x="-100%" y="-100%" width="300%" height="300%">
+                                        <feGaussianBlur stdDeviation="1.5" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                </defs>
+                                <ellipse cx="100" cy="78" rx="80" ry="52" fill="url(#i-kanohiAura)"/>
+                                <!-- Stars -->
+                                <circle cx="12" cy="12" r="1.3" fill="#E8E4DD" filter="url(#i-kanohiStar)"/>
+                                <circle cx="188" cy="16" r="1.5" fill="#E8E4DD" filter="url(#i-kanohiStar)"/>
+                                <circle cx="28" cy="38" r="0.8" fill="#F5F0E8" filter="url(#i-kanohiStar)"/>
+                                <circle cx="172" cy="32" r="1.0" fill="#F5F0E8" filter="url(#i-kanohiStar)"/>
+                                <circle cx="8" cy="62" r="0.6" fill="white" opacity="0.5"/>
+                                <circle cx="192" cy="58" r="0.7" fill="white" opacity="0.5"/>
+                                <!-- Monitor shadow -->
+                                <rect x="30" y="28" width="144" height="90" rx="6" fill="#0F2440" opacity="0.3" transform="translate(3,3)"/>
+                                <!-- Monitor body -->
+                                <rect x="28" y="22" width="144" height="90" rx="6" fill="url(#i-kanohiBody)" filter="url(#i-kanohiGlow)"/>
+                                <rect x="28" y="22" width="144" height="90" rx="6" fill="none" stroke="#7AAFE0" stroke-width="0.8" opacity="0.25"/>
+                                <rect x="30" y="24" width="68" height="38" rx="4" fill="white" opacity="0.04"/>
+                                <!-- Screen -->
+                                <rect x="38" y="32" width="124" height="68" rx="3" fill="url(#i-kanohiScreen)"/>
+                                <rect x="38" y="32" width="124" height="68" rx="3" fill="none" stroke="#3A6A9C" stroke-width="0.6" opacity="0.2"/>
+                                <!-- Dashboard content -->
+                                <polyline points="52,82 66,70 78,75 92,58 106,62 120,50 136,55 148,46" fill="none" stroke="#D4A843" stroke-width="1.2" opacity="0.55" filter="url(#i-kanohiGlow)"/>
+                                <rect x="52" y="86" width="7" height="9" rx="1" fill="#3A7D6E" opacity="0.45"/>
+                                <rect x="63" y="82" width="7" height="13" rx="1" fill="#3A7D6E" opacity="0.55"/>
+                                <rect x="74" y="78" width="7" height="17" rx="1" fill="#5AADA0" opacity="0.45"/>
+                                <rect x="85" y="84" width="7" height="11" rx="1" fill="#3A7D6E" opacity="0.45"/>
+                                <circle cx="142" cy="88" r="3.5" fill="#5AADA0" opacity="0.5" filter="url(#i-kanohiGlow)"/>
+                                <circle cx="142" cy="88" r="1.5" fill="white" opacity="0.45"/>
+                                <!-- Stand -->
+                                <rect x="88" y="112" width="24" height="16" rx="2" fill="url(#i-kanohiBody)"/>
+                                <rect x="88" y="112" width="24" height="16" rx="2" fill="none" stroke="#7AAFE0" stroke-width="0.4" opacity="0.18"/>
+                                <ellipse cx="100" cy="130" rx="26" ry="4.5" fill="url(#i-kanohiBody)"/>
+                                <ellipse cx="100" cy="130" rx="26" ry="4.5" fill="none" stroke="#7AAFE0" stroke-width="0.4" opacity="0.18"/>
+                            </svg>
+                        </div>
+                        <div class="logo-name">KANOHI</div>
+                        <div class="logo-subtitle">Dashboard</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="margin-top: 3rem; border-top: 2px solid rgba(212, 168, 67, 0.2); padding-top: 2rem;">Product Logos</h3>
+
+                <div class="logo-grid">
+                    <!-- TŌROA — Standalone Product: Family Navigator (Enhanced 3D) -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="200" height="165" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="i-tBodyMain" cx="45%" cy="35%" r="55%">
+                                        <stop offset="0%" stop-color="#FFFDE7" stop-opacity="0.5"/>
+                                        <stop offset="30%" stop-color="#F0D078"/>
+                                        <stop offset="100%" stop-color="#D4A843"/>
+                                    </radialGradient>
+                                    <radialGradient id="i-tWingL" cx="70%" cy="40%" r="70%">
+                                        <stop offset="0%" stop-color="#F0D078" stop-opacity="0.95"/>
+                                        <stop offset="60%" stop-color="#D4A843" stop-opacity="0.85"/>
+                                        <stop offset="100%" stop-color="#B8922E" stop-opacity="0.5"/>
+                                    </radialGradient>
+                                    <radialGradient id="i-tWingR" cx="30%" cy="40%" r="70%">
+                                        <stop offset="0%" stop-color="#F0D078" stop-opacity="0.95"/>
+                                        <stop offset="60%" stop-color="#D4A843" stop-opacity="0.85"/>
+                                        <stop offset="100%" stop-color="#B8922E" stop-opacity="0.5"/>
+                                    </radialGradient>
+                                    <radialGradient id="i-tHead" cx="45%" cy="30%" r="50%">
+                                        <stop offset="0%" stop-color="#FFFDE7" stop-opacity="0.6"/>
+                                        <stop offset="40%" stop-color="#F0D078"/>
+                                        <stop offset="100%" stop-color="#D4A843"/>
+                                    </radialGradient>
+                                    <radialGradient id="i-tAura" cx="50%" cy="50%" r="50%">
+                                        <stop offset="0%" stop-color="#D4A843" stop-opacity="0.15"/>
+                                        <stop offset="70%" stop-color="#D4A843" stop-opacity="0.03"/>
+                                        <stop offset="100%" stop-color="#D4A843" stop-opacity="0"/>
+                                    </radialGradient>
+                                    <filter id="i-tGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="5" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                    <filter id="i-tWGlow" x="-50%" y="-50%" width="200%" height="200%">
+                                        <feGaussianBlur stdDeviation="10" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                    <filter id="i-tStar" x="-100%" y="-100%" width="300%" height="300%">
+                                        <feGaussianBlur stdDeviation="2" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                </defs>
+                                <!-- Aura -->
+                                <ellipse cx="200" cy="130" rx="140" ry="80" fill="url(#i-tAura)" filter="url(#i-tWGlow)"/>
+                                <!-- Ma stars -->
+                                <circle cx="45" cy="28" r="1.8" fill="#E8E4DD" filter="url(#i-tStar)"/>
+                                <circle cx="355" cy="32" r="2" fill="#E8E4DD" filter="url(#i-tStar)"/>
+                                <circle cx="78" cy="55" r="1.2" fill="#F5F0E8" filter="url(#i-tStar)"/>
+                                <circle cx="322" cy="50" r="1.4" fill="#F5F0E8" filter="url(#i-tStar)"/>
+                                <circle cx="130" cy="30" r="0.9" fill="white" opacity="0.7"/>
+                                <circle cx="270" cy="25" r="1" fill="white" opacity="0.7"/>
+                                <circle cx="55" cy="95" r="0.8" fill="#E8E4DD" opacity="0.5"/>
+                                <circle cx="345" cy="90" r="0.7" fill="#E8E4DD" opacity="0.5"/>
+                                <circle cx="105" cy="15" r="1.5" fill="#F5F0E8" filter="url(#i-tStar)"/>
+                                <circle cx="295" cy="18" r="1.3" fill="#F5F0E8" filter="url(#i-tStar)"/>
+                                <!-- Left wing -->
+                                <path d="M 200 130 Q 145 95 50 72 Q 30 68 15 70 Q 35 82 75 95 Q 120 108 160 120 Q 180 127 200 130" fill="url(#i-tWingL)" filter="url(#i-tGlow)"/>
+                                <path d="M 200 128 Q 140 92 50 72" fill="none" stroke="#FFFDE7" stroke-width="0.8" opacity="0.3"/>
+                                <path d="M 195 128 Q 130 88 40 74" fill="none" stroke="#F0D078" stroke-width="0.6" opacity="0.35"/>
+                                <!-- Right wing -->
+                                <path d="M 200 130 Q 255 95 350 72 Q 370 68 385 70 Q 365 82 325 95 Q 280 108 240 120 Q 220 127 200 130" fill="url(#i-tWingR)" filter="url(#i-tGlow)"/>
+                                <path d="M 200 128 Q 260 92 350 72" fill="none" stroke="#FFFDE7" stroke-width="0.8" opacity="0.3"/>
+                                <path d="M 205 128 Q 270 88 360 74" fill="none" stroke="#F0D078" stroke-width="0.6" opacity="0.35"/>
+                                <!-- Body -->
+                                <ellipse cx="200" cy="140" rx="32" ry="20" fill="url(#i-tBodyMain)" filter="url(#i-tGlow)"/>
+                                <ellipse cx="193" cy="133" rx="14" ry="8" fill="white" opacity="0.08"/>
+                                <!-- Neck -->
+                                <path d="M 195 122 Q 198 108 200 100" fill="none" stroke="#D4A843" stroke-width="4" opacity="0.5" stroke-linecap="round"/>
+                                <!-- Head -->
+                                <circle cx="200" cy="95" r="18" fill="url(#i-tHead)" filter="url(#i-tGlow)"/>
+                                <circle cx="195" cy="89" r="7" fill="white" opacity="0.12"/>
+                                <!-- Eye -->
+                                <circle cx="193" cy="92" r="4" fill="#09090F"/>
+                                <circle cx="194" cy="90.5" r="1.8" fill="white" opacity="0.85"/>
+                                <circle cx="192" cy="93" r="0.8" fill="white" opacity="0.3"/>
+                                <!-- Beak -->
+                                <path d="M 215 94 L 238 98 L 235 101 L 215 100 Z" fill="#D4A843" stroke="#B8922E" stroke-width="0.5"/>
+                                <path d="M 236 98 Q 240 99 238 101" fill="#B8922E"/>
+                                <path d="M 216 95 L 234 98.5" fill="none" stroke="#F0D078" stroke-width="0.5" opacity="0.4"/>
+                                <!-- Tail -->
+                                <path d="M 180 156 Q 172 185 165 200" fill="none" stroke="#D4A843" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+                                <path d="M 190 158 Q 185 188 182 205" fill="none" stroke="#D4A843" stroke-width="2" stroke-linecap="round" opacity="0.45"/>
+                                <path d="M 200 157 Q 200 190 200 208" fill="none" stroke="#D4A843" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+                                <!-- Trail particles -->
+                                <circle cx="35" cy="75" r="2" fill="#D4A843" opacity="0.25" filter="url(#i-tStar)"/>
+                                <circle cx="365" cy="75" r="2" fill="#D4A843" opacity="0.25" filter="url(#i-tStar)"/>
+                                <!-- Wordmark -->
+                                <text x="200" y="265" font-family="Lato, sans-serif" font-size="24" font-weight="300" letter-spacing="8" text-anchor="middle" fill="#D4A843">TŌROA</text>
+                                <text x="200" y="290" font-family="Plus Jakarta Sans, sans-serif" font-size="11" font-weight="300" letter-spacing="3" text-anchor="middle" fill="#E8E4DD" opacity="0.45">FAMILY AI NAVIGATOR</text>
+                            </svg>
+                        </div>
+                        <div class="logo-name">TŌROA</div>
+                        <div class="logo-subtitle">Family AI Navigator · Standalone Product</div>
+                    </div>
+
+                    <!-- ECHO — Kate's Founder AI Clone -->
+                    <div class="logo-card">
+                        <div class="logo-display">
+                            <svg width="200" height="160" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="echoCore" cx="50%" cy="40%" r="50%">
+                                        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5"/>
+                                        <stop offset="100%" stop-color="#D4A843"/>
+                                    </radialGradient>
+                                    <filter id="echoGlow">
+                                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                    </filter>
+                                </defs>
+                                <!-- Constellation triangle — standard tri-mark -->
+                                <line x1="100" y1="25" x2="55" y2="85" stroke="#D4A843" stroke-width="1.5" opacity="0.2"/>
+                                <line x1="55" y1="85" x2="145" y2="85" stroke="#D4A843" stroke-width="1.5" opacity="0.2"/>
+                                <line x1="145" y1="85" x2="100" y2="25" stroke="#D4A843" stroke-width="1.5" opacity="0.2"/>
+                                <!-- Echo ripple rings radiating from centre -->
+                                <circle cx="100" cy="58" r="18" fill="none" stroke="#D4A843" stroke-width="1" opacity="0.15"/>
+                                <circle cx="100" cy="58" r="30" fill="none" stroke="#D4A843" stroke-width="0.8" opacity="0.1"/>
+                                <circle cx="100" cy="58" r="42" fill="none" stroke="#F0D078" stroke-width="0.5" opacity="0.07"/>
+                                <!-- Three constellation nodes -->
+                                <circle cx="100" cy="25" r="10" fill="url(#echoCore)" filter="url(#echoGlow)"/>
+                                <circle cx="55" cy="85" r="10" fill="#3A7D6E" filter="url(#echoGlow)"/>
+                                <circle cx="145" cy="85" r="10" fill="#5AADA0" filter="url(#echoGlow)"/>
+                                <!-- Centre echo point — the "reflection" -->
+                                <circle cx="100" cy="58" r="6" fill="#F0D078" filter="url(#echoGlow)"/>
+                                <circle cx="100" cy="58" r="3" fill="white" opacity="0.6"/>
+                                <!-- Star particles -->
+                                <circle cx="72" cy="40" r="0.8" fill="#F0D078" opacity="0.5"/>
+                                <circle cx="128" cy="40" r="0.8" fill="#F0D078" opacity="0.5"/>
+                                <circle cx="85" cy="92" r="0.6" fill="white" opacity="0.3"/>
+                                <circle cx="115" cy="92" r="0.6" fill="white" opacity="0.3"/>
+                                <!-- Wordmark -->
+                                <text x="100" y="140" font-family="Lato, sans-serif" font-size="14" font-weight="300" letter-spacing="5" text-anchor="middle" fill="#F0D078">ECHO</text>
+                            </svg>
+                        </div>
+                        <div class="logo-name">KŌRERO (ECHO)</div>
+                        <div class="logo-subtitle">Founder AI Clone</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Colour Palette -->
+            <section id="colors">
+                <h2 class="section-title">Colour Palette</h2>
+                <p class="section-description">The Mārama colour system built on whenua (earth) principles. Click any hex code to copy.</p>
+
+                <h3 class="section-title" style="font-size: 1.5rem; margin-top: 2rem; border: none; padding-bottom: 0.75rem;">Primary Whenua Palette</h3>
+                <div class="color-grid">
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #D4A843;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Kōwhai Gold</div>
+                            <div class="color-hex" onclick="copyToClipboard('#D4A843')">#D4A843</div>
+                            <div class="color-var">--color-kowhai</div>
+                            <div class="color-usage">Primary accent, warmth, trust, energy</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #3A7D6E;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Pounamu Teal</div>
+                            <div class="color-hex" onclick="copyToClipboard('#3A7D6E')">#3A7D6E</div>
+                            <div class="color-var">--color-pounamu</div>
+                            <div class="color-usage">Secondary, calm, growth, balance</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #1A3A5C;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Tāngaroa Navy</div>
+                            <div class="color-hex" onclick="copyToClipboard('#1A3A5C')">#1A3A5C</div>
+                            <div class="color-var">--color-tangaroa</div>
+                            <div class="color-usage">Tertiary, depth, authority, structure</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.5rem; margin-top: 2rem; border: none; padding-bottom: 0.75rem;">Light Variants</h3>
+                <div class="color-grid">
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #F0D078;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Kōwhai Light</div>
+                            <div class="color-hex" onclick="copyToClipboard('#F0D078')">#F0D078</div>
+                            <div class="color-var">--color-kowhai-light</div>
+                            <div class="color-usage">Highlight, accessibility, hover states</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #5AADA0;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Pounamu Light</div>
+                            <div class="color-hex" onclick="copyToClipboard('#5AADA0')">#5AADA0</div>
+                            <div class="color-var">--color-pounamu-light</div>
+                            <div class="color-usage">Secondary highlight, fresh accent</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #3A6A9C;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Tāngaroa Light</div>
+                            <div class="color-hex" onclick="copyToClipboard('#3A6A9C')">#3A6A9C</div>
+                            <div class="color-var">--color-tangaroa-light</div>
+                            <div class="color-usage">Tertiary highlight, interactive elements</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.5rem; margin-top: 2rem; border: none; padding-bottom: 0.75rem;">Neutrals</h3>
+                <div class="color-grid">
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #09090F; border: 1px solid rgba(255, 255, 255, 0.1);"></div>
+                        <div class="color-info">
+                            <div class="color-name">Background</div>
+                            <div class="color-hex" onclick="copyToClipboard('#09090F')">#09090F</div>
+                            <div class="color-var">--bg-primary</div>
+                            <div class="color-usage">Main background, cosmic base</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #0F0F1A;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Surface</div>
+                            <div class="color-hex" onclick="copyToClipboard('#0F0F1A')">#0F0F1A</div>
+                            <div class="color-var">--bg-surface</div>
+                            <div class="color-usage">Primary surface, card backgrounds</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #16162A;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Surface 2</div>
+                            <div class="color-hex" onclick="copyToClipboard('#16162A')">#16162A</div>
+                            <div class="color-var">--bg-surface-2</div>
+                            <div class="color-usage">Secondary surface, elevation</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #0A0A13;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Card</div>
+                            <div class="color-hex" onclick="copyToClipboard('#0A0A13')">#0A0A13</div>
+                            <div class="color-var">--bg-card</div>
+                            <div class="color-usage">Deep surface, nested cards</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #F5F0E8;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Bone</div>
+                            <div class="color-hex" onclick="copyToClipboard('#F5F0E8')">#F5F0E8</div>
+                            <div class="color-var">--color-bone</div>
+                            <div class="color-usage">Primary text, warm white</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #E8E4DD;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Mā</div>
+                            <div class="color-hex" onclick="copyToClipboard('#E8E4DD')">#E8E4DD</div>
+                            <div class="color-var">--color-ma</div>
+                            <div class="color-usage">Secondary text, subtle</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.5rem; margin-top: 2rem; border: none; padding-bottom: 0.75rem;">Status Colours</h3>
+                <div class="color-grid">
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #3A7D6E;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Success</div>
+                            <div class="color-hex" onclick="copyToClipboard('#3A7D6E')">#3A7D6E</div>
+                            <div class="color-var">--color-success</div>
+                            <div class="color-usage">Positive actions, confirmations</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #D4A843;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Warning</div>
+                            <div class="color-hex" onclick="copyToClipboard('#D4A843')">#D4A843</div>
+                            <div class="color-var">--color-warning</div>
+                            <div class="color-usage">Alerts, caution, attention</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background-color: #A52A2A;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Error</div>
+                            <div class="color-hex" onclick="copyToClipboard('#A52A2A')">#A52A2A</div>
+                            <div class="color-var">--color-error</div>
+                            <div class="color-usage">Errors, deletions, failures</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.5rem; margin-top: 2rem; border: none; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(165, 42, 42, 0.2);">BANNED Colours</h3>
+                <div class="color-grid">
+                    <div class="color-card color-banned">
+                        <div class="color-swatch" style="background-color: #00FF88;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Neon Green</div>
+                            <div class="color-hex" style="color: var(--color-error);">#00FF88</div>
+                            <div class="color-var">BANNED</div>
+                            <div class="color-usage">Never use. Violates brand guidelines.</div>
+                        </div>
+                    </div>
+                    <div class="color-card color-banned">
+                        <div class="color-swatch" style="background-color: #00E5FF;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Neon Cyan</div>
+                            <div class="color-hex" style="color: var(--color-error);">#00E5FF</div>
+                            <div class="color-var">BANNED</div>
+                            <div class="color-usage">Never use. Violates brand guidelines.</div>
+                        </div>
+                    </div>
+                    <div class="color-card color-banned">
+                        <div class="color-swatch" style="background-color: #FF2D9B;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Neon Magenta</div>
+                            <div class="color-hex" style="color: var(--color-error);">#FF2D9B</div>
+                            <div class="color-var">BANNED</div>
+                            <div class="color-usage">Never use. Violates brand guidelines.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Typography -->
+            <section id="typography">
+                <h2 class="section-title">Typography</h2>
+                <p class="section-description">The Mārama typographic system emphasizes elegance and readability. All fonts imported from Google Fonts.</p>
+
+                <div class="typography-grid">
+                    <div class="typography-card">
+                        <div class="typography-label">Lato 300 — Headings & Labels</div>
+                        <div class="typography-sample lato">THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG</div>
+                        <div class="typography-label" style="margin-top: 1.5rem;">Lato 400</div>
+                        <div class="typography-sample lato" style="font-weight: 400;">The quick brown fox jumps over the lazy dog</div>
+                        <div class="typography-label" style="margin-top: 1.5rem;">Lato 700</div>
+                        <div class="typography-sample lato" style="font-weight: 700;">The quick brown fox jumps over the lazy dog</div>
+                    </div>
+
+                    <div class="typography-card">
+                        <div class="typography-label">Lato 700 — Eyebrow & Emphasis (was Syne, now Lato everywhere)</div>
+                        <div class="typography-sample syne">MĀRAMA BRAND SYSTEM</div>
+                        <div class="typography-label" style="margin-top: 1.5rem;">Syne 800</div>
+                        <div class="typography-sample syne" style="font-weight: 800;">ASSEMBL BRAND ASSETS</div>
+                    </div>
+
+                    <div class="typography-card">
+                        <div class="typography-label">Plus Jakarta Sans — Body Text</div>
+                        <div class="typography-sample pjs">The Assembl Mārama brand system guides all visual communications. Built on whenua (earth) principles and Aotearoa heritage, it creates a cohesive, premium experience across all touchpoints. Every colour, typeface, and element reflects our commitment to excellence and cultural respect.</div>
+                    </div>
+
+                    <div class="typography-card">
+                        <div class="typography-label">JetBrains Mono — Code & Technical</div>
+                        <div class="typography-sample mono">const brand = {
+  name: "Assembl",
+  system: "Mārama",
+  primaryColor: "#D4A843",
+  darkMode: true
+}</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agent Colour Assignments -->
+            <section id="agents">
+                <h2 class="section-title">Agent Colour Assignments</h2>
+                <p class="section-description">All 44 specialist agents across 5 Industry Packs with their assigned Whenua-palette colours.</p>
+
+                <h3 class="section-title" style="font-size: 1.3rem; margin-top: 2rem; border: none; padding-bottom: 0.75rem;">Manaaki Pack (Hospitality & Tourism) — Kōwhai</h3>
+                <div class="agents-grid">
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #D4A843;"></div>
+                        <div class="agent-name">AURA</div>
+                        <div class="agent-pack">Manaaki</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #D4A843;"></div>
+                        <div class="agent-name">HAVEN</div>
+                        <div class="agent-pack">Manaaki</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #D4A843;"></div>
+                        <div class="agent-name">TIDE</div>
+                        <div class="agent-pack">Manaaki</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #D4A843;"></div>
+                        <div class="agent-name">VISTA</div>
+                        <div class="agent-pack">Manaaki</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.3rem; margin-top: 2rem; border: none; padding-bottom: 0.75rem;">Hanga Pack (Construction & Property) — Pounamu</h3>
+                <div class="agents-grid">
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #3A7D6E;"></div>
+                        <div class="agent-name">ATA</div>
+                        <div class="agent-pack">Hanga / BIM</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #3A7D6E;"></div>
+                        <div class="agent-name">ĀRAI</div>
+                        <div class="agent-pack">Hanga / Safety</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #3A7D6E;"></div>
+                        <div class="agent-name">KAUPAPA</div>
+                        <div class="agent-pack">Hanga / Project</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #3A7D6E;"></div>
+                        <div class="agent-name">RAWA</div>
+                        <div class="agent-pack">Hanga / Resources</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #3A7D6E;"></div>
+                        <div class="agent-name">WHAKAAĒ</div>
+                        <div class="agent-pack">Hanga / Consenting</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #3A7D6E;"></div>
+                        <div class="agent-name">PAI</div>
+                        <div class="agent-pack">Hanga / Quality</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.3rem; margin-top: 2rem; border: none; padding-bottom: 0.75rem;">Auaha Pack (Creative & Digital) — Kōwhai Light</h3>
+                <div class="agents-grid">
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #F0D078;"></div>
+                        <div class="agent-name">PRISM</div>
+                        <div class="agent-pack">Auaha</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #F0D078;"></div>
+                        <div class="agent-name">MUSE</div>
+                        <div class="agent-pack">Auaha</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #F0D078;"></div>
+                        <div class="agent-name">PIXEL</div>
+                        <div class="agent-pack">Auaha</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.3rem; margin-top: 2rem; border: none; padding-bottom: 0.75rem;">Pakihi Pack (Business Operations) — Tāngaroa</h3>
+                <div class="agents-grid">
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #1A3A5C;"></div>
+                        <div class="agent-name">LEDGER</div>
+                        <div class="agent-pack">Pakihi</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #1A3A5C;"></div>
+                        <div class="agent-name">AROHA</div>
+                        <div class="agent-pack">Pakihi</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #1A3A5C;"></div>
+                        <div class="agent-name">TURF</div>
+                        <div class="agent-pack">Pakihi</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.3rem; margin-top: 2rem; border: none; padding-bottom: 0.75rem;">Hangarau Pack (Technology & Infrastructure) — Pounamu Light</h3>
+                <div class="agents-grid">
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #5AADA0;"></div>
+                        <div class="agent-name">SPARK</div>
+                        <div class="agent-pack">Hangarau</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #5AADA0;"></div>
+                        <div class="agent-name">SENTINEL</div>
+                        <div class="agent-pack">Hangarau</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.3rem; margin-top: 2rem; border: none; padding-bottom: 0.75rem;">Te Kāhui Reo (BI Agents) — Tāngaroa</h3>
+                <div class="agents-grid">
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #1A3A5C;"></div>
+                        <div class="agent-name">INSIGHT</div>
+                        <div class="agent-pack">Te Kāhui Reo</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #1A3A5C;"></div>
+                        <div class="agent-name">WAIATA</div>
+                        <div class="agent-pack">Te Kāhui Reo</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #1A3A5C;"></div>
+                        <div class="agent-name">MAHINA</div>
+                        <div class="agent-pack">Te Kāhui Reo</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #1A3A5C;"></div>
+                        <div class="agent-name">WHARE</div>
+                        <div class="agent-pack">Te Kāhui Reo</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #1A3A5C;"></div>
+                        <div class="agent-name">RURU</div>
+                        <div class="agent-pack">Te Kāhui Reo</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #1A3A5C;"></div>
+                        <div class="agent-name">HUIA</div>
+                        <div class="agent-pack">Te Kāhui Reo</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #1A3A5C;"></div>
+                        <div class="agent-name">KŌKAKO</div>
+                        <div class="agent-pack">Te Kāhui Reo</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #1A3A5C;"></div>
+                        <div class="agent-name">TŪĪ</div>
+                        <div class="agent-pack">Te Kāhui Reo</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.3rem; margin-top: 2rem; border: none; padding-bottom: 0.75rem;">Tōroa & Family Products — Kōwhai</h3>
+                <div class="agents-grid">
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #D4A843;"></div>
+                        <div class="agent-name">TŌROA</div>
+                        <div class="agent-pack">Family Navigator</div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-color-badge" style="background-color: #D4A843;"></div>
+                        <div class="agent-name">KŌRERO (ECHO)</div>
+                        <div class="agent-pack">Founder AI Clone</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Download All -->
+            <section>
+                <div class="download-section">
+                    <button class="btn-large" onclick="downloadAllAssets()">Download All Assets (SVG Pack)</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>ASSEMBL MĀRAMA BRAND SYSTEM · v4 · March 2026<br>All brand assets are proprietary. Usage governed by Assembl brand guidelines.</p>
+    </footer>
+
+    <script>
+        // Starfield Background
+        function initStarfield() {
+            const canvas = document.getElementById('starfield');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const stars = [];
+            const starCount = 150;
+
+            for (let i = 0; i < starCount; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5,
+                    opacity: Math.random() * 0.5 + 0.2,
+                    twinkleDuration: Math.random() * 3 + 2,
+                    time: Math.random() * Math.PI * 2
+                });
+            }
+
+            function animate() {
+                ctx.fillStyle = '#09090F';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                stars.forEach(star => {
+                    star.time += 0.02;
+                    const twinkle = Math.sin(star.time / star.twinkleDuration) * 0.3 + 0.5;
+
+                    ctx.fillStyle = `rgba(245, 240, 232, ${star.opacity * twinkle})`;
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        initStarfield();
+
+        // Copy to Clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(`Copied ${text} to clipboard`);
+            });
+        }
+
+        // Toast Notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 2000);
+        }
+
+        // Download SVG
+        function downloadSvg(svgId, filename) {
+            const card = event.target.closest('.logo-card');
+            const svg = card.querySelector('svg');
+            const svgData = svg.outerHTML;
+            const blob = new Blob([svgData], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast(`Downloaded ${filename}`);
+        }
+
+        // Download All Assets
+        function downloadAllAssets() {
+            const svgs = document.querySelectorAll('.logo-card svg');
+            const names = ['assembl-logo', 'te-kahui-reo-logo', 'manaaki-logo', 'hanga-logo', 'auaha-logo', 'pakihi-logo', 'hangarau-logo', 'iho-icon', 'kahu-icon', 'ta-icon', 'mahara-icon', 'mana-icon', 'kanohi-icon', 'toroa-logo', 'toroa-family-logo', 'echo-logo'];
+
+            let downloaded = 0;
+            svgs.forEach((svg, index) => {
+                const svgData = svg.outerHTML;
+                const blob = new Blob([svgData], { type: 'image/svg+xml' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${names[index] || `asset-${index}`}.svg`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                downloaded++;
+            });
+
+            showToast(`Downloaded ${downloaded} SVG assets`);
+        }
+    </script>
+</body>
+</html>
