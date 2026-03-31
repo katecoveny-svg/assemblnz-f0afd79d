@@ -131,9 +131,8 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           <motion.span
             style={{
               fontFamily: "'Lato', sans-serif",
-              fontWeight: 900,
-              fontSize: isMobile ? "1.6rem" : "2.6rem",
               fontWeight: 300,
+              fontSize: isMobile ? "1.6rem" : "2.6rem",
               letterSpacing: isMobile ? "0.45em" : "0.55em",
               textTransform: "uppercase" as const,
               background: "linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 48%, #D4A843 72%, #3A7D6E 100%)",
