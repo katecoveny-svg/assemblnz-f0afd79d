@@ -194,7 +194,7 @@ const hangaAgents: Agent[] = [
     pack: "hanga",
     primaryModel: "claude",
     traits: ["Straight-talking", "Safety-first", "Code-fluent"],
-    expertise: ["Master project coordination", "BIM integration", "Budget & cost control", "Schedule management", "Risk register", "Compliance master checklist"],
+    expertise: ["Master project coordination", "BIM integration & clash detection", "4D construction scheduling", "Budget & cost control", "Schedule management", "Risk register", "Compliance master checklist"],
     starters: ["Generate a site safety plan", "Create a building consent application", "Draft a variation notice under NZS 3910"],
   },
   {
@@ -208,8 +208,8 @@ const hangaAgents: Agent[] = [
     pack: "hanga",
     primaryModel: "gemini",
     traits: ["Spatially aware", "Detail-precise", "Tech-forward"],
-    expertise: ["BIM model generation", "Clash detection", "3D walkthroughs", "MEP coordination", "Material schedules", "Construction sequencing"],
-    starters: ["Generate a BIM model from these plans", "Run clash detection report", "Create a 3D walkthrough"],
+    expertise: ["BIM model analysis (Gemini Vision)", "Inter-trade clash detection", "4D construction sequencing", "MEP coordination", "Material schedules", "IFC/GLB model processing", "3D walkthrough generation"],
+    starters: ["Upload a plan for BIM analysis", "Run clash detection on my drawings", "Generate a 4D construction schedule", "Create a 3D model from this plan"],
   },
   {
     id: "safety",
@@ -222,7 +222,7 @@ const hangaAgents: Agent[] = [
     pack: "hanga",
     primaryModel: "claude",
     traits: ["Safety-obsessed", "Thorough", "Worker-focused"],
-    expertise: ["H&S plan development", "Site induction checklists", "Hazard identification", "Safe work method statements", "Incident investigation", "PPE requirements"],
+    expertise: ["H&S plan development", "Site induction checklists", "Hazard identification", "Safe work method statements", "Incident investigation", "PPE requirements", "BIM-informed safety zones"],
     starters: ["Create a site safety plan", "Hazard register for a residential build", "Incident investigation template"],
   },
   {
@@ -236,7 +236,7 @@ const hangaAgents: Agent[] = [
     pack: "hanga",
     primaryModel: "claude",
     traits: ["Structured", "Governance-savvy", "Milestone-driven"],
-    expertise: ["Project charter & scope", "Gantt chart management", "Change request workflows", "Quality assurance", "Procurement documentation", "Lessons learned"],
+    expertise: ["Project charter & scope", "Gantt chart management", "4D schedule integration", "Change request workflows", "Quality assurance", "Procurement documentation", "Lessons learned"],
     starters: ["Create a project charter", "Draft a procurement plan", "Build a milestone tracker"],
   },
   {
@@ -264,7 +264,7 @@ const hangaAgents: Agent[] = [
     pack: "hanga",
     primaryModel: "claude",
     traits: ["Code-literate", "Detail-precise", "Process-expert"],
-    expertise: ["Building consent preparation", "NZ Building Code compliance", "Technical specification review", "Inspection scheduling", "CCC preparation", "Record of Work"],
+    expertise: ["Building consent preparation", "NZ Building Code compliance", "Technical specification review", "BIM compliance checking", "Inspection scheduling", "CCC preparation", "Record of Work"],
     starters: ["Building consent application checklist", "NZ Building Code compliance matrix", "Prepare for building inspection"],
   },
   {
@@ -278,7 +278,7 @@ const hangaAgents: Agent[] = [
     pack: "hanga",
     primaryModel: "gemini",
     traits: ["Quality-focused", "Standards-driven", "Visually sharp"],
-    expertise: ["Quality control checklists", "Workmanship standards", "Defect identification", "Snagging lists", "Test & commissioning", "Warranty tracking"],
+    expertise: ["Quality control checklists", "Workmanship standards", "Defect identification via BIM overlay", "Snagging lists", "Test & commissioning", "Warranty tracking"],
     starters: ["Create a quality control checklist", "Defect report template", "Practical completion assessment"],
   },
 ];

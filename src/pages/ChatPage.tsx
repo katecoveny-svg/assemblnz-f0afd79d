@@ -46,6 +46,7 @@ import ApexAwardsTracker from "@/components/apex/ApexAwardsTracker";
 import ApexHSHub from "@/components/apex/ApexHSHub";
 import ApexESGDashboard from "@/components/apex/ApexESGDashboard";
 import ApexIoTFieldTech from "@/components/apex/ApexIoTFieldTech";
+import BimAnalysisPanel from "@/components/shared/BimAnalysisPanel";
 import ForgeShowroom from "@/components/forge/ForgeShowroom";
 import ForgeSales from "@/components/forge/ForgeSales";
 import ForgePartsService from "@/components/forge/ForgePartsService";
@@ -357,7 +358,7 @@ const ChatPage = () => {
   const [pendingImage, setPendingImage] = useState<File | null>(null);
   const [pendingImagePreview, setPendingImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "forge_audit" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aroha_retention" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "aura_food_safety" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "prism_adengine" | "axis_automations" | "agent_training" | "voice_waitlist" | "agent_sms" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance" | "live_data">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "templates" | "content_studio" | "tender_writer" | "awards" | "hs_hub" | "esg" | "iot_field" | "bim_analyze" | "bim_clash" | "bim_schedule" | "bim_3d" | "internal_comms" | "forge_showroom" | "forge_sales" | "forge_parts" | "forge_marketing" | "forge_events" | "forge_brand" | "forge_team" | "forge_audit" | "aroha_contracts" | "aroha_onboarding" | "aroha_payroll" | "aroha_recruitment" | "aroha_people" | "aroha_company" | "aroha_retention" | "aura_setup" | "aura_reservations" | "aura_guest" | "aura_kitchen" | "aura_marketing" | "aura_events" | "aura_operations" | "aura_team" | "aura_revenue" | "aura_memory" | "aura_sustainability" | "aura_trade" | "aura_pos" | "aura_food_safety" | "haven_dashboard" | "haven_properties" | "haven_jobs" | "haven_tradies" | "haven_command" | "haven_compliance" | "haven_costs" | "haven_documents" | "haven_notifications" | "flux_pipeline" | "flux_followups" | "flux_clients" | "prism_campaigns" | "prism_social" | "prism_brand" | "prism_creative" | "prism_video" | "prism_brandlab" | "prism_publisher" | "prism_ads" | "prism_product" | "prism_adengine" | "axis_automations" | "agent_training" | "voice_waitlist" | "agent_sms" | "helm_week" | "helm_bus" | "helm_timetable" | "helm_inbox" | "helm_review" | "helm_rescue" | "helm_settings" | "kindle_writer" | "kindle_marketplace" | "kindle_impact" | "kindle_corporate" | "turf_events" | "turf_membership" | "turf_facilities" | "turf_sponsorship" | "turf_performance" | "turf_compliance" | "live_data">("chat");
   const [showDeployModal, setShowDeployModal] = useState(false);
   const [helmView, setHelmView] = useState<"chat" | "dashboard">("chat");
   const [dashboardItems, setDashboardItems] = useState<DashboardItem[]>([]);
@@ -430,6 +431,7 @@ const ChatPage = () => {
   const isNexus = agentId === "customs";
   const isMarketing = agentId === "marketing";
   const isConstruction = agentId === "construction";
+  const isHanga = ["construction", "bim", "safety", "projectgov", "resource", "consent", "quality"].includes(agentId || "");
   const isHaven = agentId === "property";
   const isFlux = agentId === "sales";
   const isPrism = agentId === "marketing";
@@ -936,6 +938,9 @@ const ChatPage = () => {
     if (isConstruction) {
       ["tender_writer:Tenders", "awards:Awards", "hs_hub:H&S", "esg:ESG", "iot_field:IoT"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
+    if (isHanga) {
+      ["bim_analyze:BIM Analysis", "bim_clash:Clash Detection", "bim_schedule:4D Schedule", "bim_3d:3D Model"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+    }
     if (isForge) {
       ["forge_showroom:Showroom", "forge_sales:Sales", "forge_parts:Parts", "forge_marketing:Marketing", "forge_events:Events", "forge_team:Team", "forge_brand:Brand Hub", "forge_audit:Audit"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
@@ -977,7 +982,7 @@ const ChatPage = () => {
     // Settings/Train tab
     tabs.push({ id: "agent_training", label: "Settings", icon: <Brain size={13} /> });
     return tabs;
-  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, isSports, hasLiveDataTab, auraModeKey]);
+  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isHanga, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isHelm, isSports, hasLiveDataTab, auraModeKey]);
 
   const accentColor = isHelm ? HELM_COLOR : (agent?.color || "#3A6A9C");
 
@@ -1885,6 +1890,14 @@ const ChatPage = () => {
         <ApexESGDashboard isPaid={isPaid} userRole={role || undefined} />
       ) : activeTab === "iot_field" && isConstruction ? (
         <ApexIoTFieldTech />
+      ) : activeTab === "bim_analyze" && isHanga ? (
+        <div className="flex-1 overflow-y-auto p-4"><BimAnalysisPanel agentId={agentId || "bim"} agentName={agent?.name || "ATA"} /></div>
+      ) : activeTab === "bim_clash" && isHanga ? (
+        <div className="flex-1 overflow-y-auto p-4"><BimAnalysisPanel agentId={agentId || "bim"} agentName={agent?.name || "ATA"} /></div>
+      ) : activeTab === "bim_schedule" && isHanga ? (
+        <div className="flex-1 overflow-y-auto p-4"><BimAnalysisPanel agentId={agentId || "bim"} agentName={agent?.name || "ATA"} /></div>
+      ) : activeTab === "bim_3d" && isHanga ? (
+        <div className="flex-1 overflow-y-auto p-4"><BimAnalysisPanel agentId={agentId || "bim"} agentName={agent?.name || "ATA"} /></div>
       ) : activeTab.startsWith("turf_") && isSports ? (
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           <h2 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>
