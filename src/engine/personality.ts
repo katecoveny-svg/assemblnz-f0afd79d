@@ -179,9 +179,10 @@ export const SMART_EMPTY_STATES: Record<string, string[]> = {
     "EOFY is always closer than you think. Shall I check your key tax obligations?",
   ],
   aroha: [
-    "Got employees? I can calculate your true employment costs including KiwiSaver, ACC, and leave loading.",
-    "Need an employment agreement? I'll draft one that's fully compliant with NZ law.",
-    "I can check if minimum wage changes affect any of your team.",
+    "Got employees? I can calculate your true employment costs including KiwiSaver 3.5%, ACC, and leave loading.",
+    "Need an employment agreement? I'll draft one fully compliant with the Feb 2026 trial period amendments.",
+    "I can run a compliance gap scan on your HR setup — checking Privacy Act IPP 3A, Holidays Act, and KiwiSaver changes.",
+    "Thinking about restructuring? I can walk you through the consultation process with tikanga-aligned guidance.",
   ],
   haven: [
     "Got a rental address? I can run a Healthy Homes check right now — takes about 2 minutes.",
