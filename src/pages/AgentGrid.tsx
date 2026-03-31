@@ -290,30 +290,7 @@ const AgentGrid = () => {
         </div>
       </section>
 
-      {/* ═══════════════════════ ALSO BY ASSEMBL ═══════════════════════ */}
-      <section className="relative z-10 py-20 sm:py-28 border-t border-border">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-center text-foreground mb-14 heading-glow section-heading" style={{ fontWeight: 700 }}>
-            Also by <span className="text-gradient-hero">Assembl</span>
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {ALSO_BY_ASSEMBL.map((item) => (
-              <div
-                key={item.title}
-                className="relative rounded-2xl p-6 overflow-hidden border border-border bg-card card-glow-hover group"
-                style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
-              >
-                <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-40 transition-opacity" style={{ background: `linear-gradient(90deg, transparent, ${item.color}80, transparent)` }} />
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-4 bg-muted">
-                  <Zap size={16} style={{ color: item.color }} />
-                </div>
-                <h3 className="text-sm font-display font-bold text-foreground mb-2">{item.title}</h3>
-                <p className="text-xs font-body text-muted-foreground leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* ═══════════════════════ FAQ ═══════════════════════ */}
       <FAQSection />
