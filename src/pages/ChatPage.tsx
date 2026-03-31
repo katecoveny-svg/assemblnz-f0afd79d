@@ -921,7 +921,7 @@ const ChatPage = () => {
   }, [messages, isSpark]);
 
   const hasLivePreview = isSpark && !!sparkCode;
-  const previewAccentColor = isSpark ? "#FF6B00" : "#E040FB";
+  const previewAccentColor = isSpark ? "#5AADA0" : "#E040FB";
   const [sparkMobileView, setSparkMobileView] = useState<"chat" | "preview">("chat");
 
   // Collect agent-specific tabs (must be before early return)

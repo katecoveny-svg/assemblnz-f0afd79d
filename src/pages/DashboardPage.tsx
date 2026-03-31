@@ -947,7 +947,7 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
             { to: "/embed", icon: Code2, color: "#5B8CFF", title: "Embed Agents", desc: "Add AI chat to your website" },
-            { to: "/my-apps", icon: Zap, color: "#FF6B00", title: "My SPARK Apps", desc: "Manage deployed apps" },
+            { to: "/my-apps", icon: Zap, color: "#5AADA0", title: "My SPARK Apps", desc: "Manage deployed apps" },
             { to: "/settings/integrations", icon: Plug, color: "#3A6A9C", title: "Integrations", desc: "Connect your tools" },
           ].map(link => (
             <Link key={link.to} to={link.to} className={glassCard + " p-4 flex items-center gap-3 group hover:bg-white/[0.02] transition-colors"} style={glassCardStyle}>
