@@ -7,7 +7,7 @@ const corsHeaders = {
 };
 
 // WhatsApp Cloud API sends JSON webhooks (unlike Twilio's form-encoded)
-// Supports both HELM (family-scoped) and generic agent routing
+// Supports both TŌROA (family-scoped) and generic agent routing
 
 Deno.serve(async (req) => {
   // WhatsApp webhook verification (GET request)
@@ -69,8 +69,8 @@ Deno.serve(async (req) => {
       ? fromNumber
       : `+64${fromNumber.replace(/^0/, "")}`;
 
-    // === Determine if this is HELM or a generic agent ===
-    // Check if the phone is linked to a HELM family conversation
+    // === Determine if this is TŌROA or a generic agent ===
+    // Check if the phone is linked to a TŌROA family conversation
     let { data: helmConvo } = await sb
       .from("helm_sms_conversations")
       .select("*, families(name, nz_region)")
@@ -78,7 +78,7 @@ Deno.serve(async (req) => {
       .single();
 
     // Also check agent_sms_config to see if this WhatsApp number maps to a specific agent
-    let agentId = "operations"; // default to HELM
+    let agentId = "operations"; // default to TŌROA
     let systemPrompt = "";
 
     if (!helmConvo) {
@@ -109,7 +109,7 @@ Deno.serve(async (req) => {
 
     // === Build system prompt ===
     if (helmConvo?.family_id) {
-      // HELM family context
+      // TŌROA family context
       const [familyRes, childrenRes] = await Promise.all([
         sb.from("families").select("name, nz_region").eq("id", helmConvo.family_id).single(),
         sb.from("children").select("name, year_level, school").eq("family_id", helmConvo.family_id),
@@ -124,7 +124,7 @@ Deno.serve(async (req) => {
         familyContext += `\nChildren: ${childrenRes.data.map((c: any) => `${c.name}${c.year_level ? ` (Year ${c.year_level})` : ""}`).join(", ")}`;
       }
 
-      systemPrompt = `You are HELM, a family life admin assistant for NZ families, communicating via WhatsApp.
+      systemPrompt = `You are TŌROA, a family life admin assistant for NZ families, communicating via WhatsApp.
 
 RULES FOR WHATSAPP:
 - You can use *bold*, _italic_, and ~strikethrough~ formatting (WhatsApp supports these)
@@ -227,7 +227,7 @@ Current date/time: ${new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auc
 
             await sb.from("helm_family_chat").insert({
               family_id: familyIdForAction,
-              sender_name: "HELM",
+              sender_name: "TŌROA",
               content: `Added to groceries via WhatsApp: ${(actionData.items as string[]).join(", ")}`,
               msg_type: "grocery_update",
               metadata: { source: "whatsapp", items: actionData.items },
@@ -250,7 +250,7 @@ Current date/time: ${new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auc
 
           await sb.from("helm_family_chat").insert({
             family_id: familyIdForAction,
-            sender_name: "HELM",
+            sender_name: "TŌROA",
             content: `Appointment booked via WhatsApp: ${actionData.title} on ${dateStr} at ${timeStr}`,
             msg_type: "appointment_update",
           });

@@ -69,7 +69,7 @@ export default function HelmApp() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Set dynamic PWA manifest for HELM
+  // Set dynamic PWA manifest for TŌROA
   useEffect(() => setDynamicManifest("operations"), []);
 
   // Load family
@@ -113,7 +113,7 @@ export default function HelmApp() {
       const content = resp.data?.content || "Sorry, I couldn't process that. Please try again.";
       setMessages([...newMessages, { role: "assistant", content }]);
     } catch (err: any) {
-      console.error("HELM chat error:", err);
+      console.error("TŌROA chat error:", err);
       setMessages([...newMessages, { role: "assistant", content: "Something went wrong. Please try again." }]);
     } finally {
       setLoading(false);
@@ -134,7 +134,7 @@ export default function HelmApp() {
 
   return (
     <div className="h-screen flex flex-col" style={{ background: "#09090F", color: "white" }}>
-      <PWAInstallBanner agentName="HELM" agentColor={HELM_COLOR} />
+      <PWAInstallBanner agentName="TŌROA" agentColor={HELM_COLOR} />
       {/* Top Bar */}
       <header className="flex items-center gap-3 px-4 py-3 border-b border-white/5 shrink-0">
         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-white/5 transition lg:hidden">
@@ -142,7 +142,7 @@ export default function HelmApp() {
         </button>
         <AgentAvatar agentId="operations" color={HELM_COLOR} size={32} showGlow={false} eager />
         <div className="flex-1 min-w-0">
-          <h1 className="text-sm font-bold font-display" style={{ color: HELM_COLOR }}>HELM</h1>
+          <h1 className="text-sm font-bold font-display" style={{ color: HELM_COLOR }}>TŌROA</h1>
           <p className="text-[9px] text-white/30 font-mono">Your family's second brain</p>
         </div>
         {user ? (
@@ -203,7 +203,7 @@ export default function HelmApp() {
                     <p className="text-[9px] text-white/30 uppercase tracking-wide mb-1">Status</p>
                     <div className="flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                      <span className="text-[10px] text-white/50">HELM Online</span>
+                      <span className="text-[10px] text-white/50">TŌROA Online</span>
                     </div>
                   </div>
                   <Link to="/" className="flex items-center gap-1.5 text-[10px] text-white/25 hover:text-white/40 transition px-1">
@@ -244,7 +244,7 @@ export default function HelmApp() {
                      </div>
                     <h2 className="text-lg font-display font-bold mb-1" style={{ color: HELM_COLOR }}>Kia ora!</h2>
                     <p className="text-xs text-white/40 text-center max-w-sm mb-6">
-                      I'm HELM, your family's second brain. I can help with school admin, meal plans, budgets, and more.
+                      I'm TŌROA, your family's second brain. I can help with school admin, meal plans, budgets, and more.
                     </p>
                     <HelmQuickActions onSelect={switchToChat} />
                   </div>
@@ -304,7 +304,7 @@ export default function HelmApp() {
                     value={input}
                     onChange={e => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Ask HELM anything..."
+                    placeholder="Ask TŌROA anything..."
                     rows={1}
                     className="flex-1 bg-transparent text-sm text-white/90 placeholder:text-white/25 resize-none focus:outline-none py-1"
                     style={{ maxHeight: "120px" }}
@@ -319,7 +319,7 @@ export default function HelmApp() {
                   </button>
                 </div>
                 <p className="text-[9px] text-white/15 text-center mt-2">
-                  HELM by Assembl — AI-powered family admin for NZ
+                  TŌROA by Assembl — AI-powered family admin for NZ
                 </p>
               </div>
             </div>

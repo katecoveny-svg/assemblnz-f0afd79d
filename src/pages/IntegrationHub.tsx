@@ -40,7 +40,7 @@ const IntegrationHub = () => {
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type === "google-calendar-connected") {
         setConnectedKeys((prev) => new Set([...prev, "Google Calendar"]));
-        toast({ title: "Google Calendar connected!", description: "HELM, AXIS, AURA, and FLUX can now access your calendar." });
+        toast({ title: "Google Calendar connected!", description: "TŌROA, AXIS, AURA, and FLUX can now access your calendar." });
       }
     };
     window.addEventListener("message", handleMessage);

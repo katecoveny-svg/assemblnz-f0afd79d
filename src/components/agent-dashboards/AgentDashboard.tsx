@@ -392,7 +392,7 @@ export default function AgentDashboard({ agentId, agentName, agentColor, experti
             return { postCount: pc || 0, campaignCount: cc || 0 };
           },
           operations: async () => {
-            // HELM family data
+            // TŌROA family data
             const { data: fm } = await supabase.from("family_members").select("family_id").eq("user_id", user.id).limit(1);
             if (!fm?.length) return { childCount: 0, eventCount: 0, taskCount: 0 };
             const fid = fm[0].family_id;

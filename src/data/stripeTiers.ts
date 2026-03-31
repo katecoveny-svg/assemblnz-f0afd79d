@@ -34,7 +34,7 @@ export const STRIPE_TIERS = {
     price_id: "price_1TCrQPPXAX9ohARRM5Ppeq4h",
     product_id: "prod_UBDswdBqmFPkXz",
     role: "starter" as const,
-    label: "HELM",
+    label: "TŌROA",
   },
 } as const;
 

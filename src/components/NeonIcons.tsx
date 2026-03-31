@@ -138,7 +138,7 @@ export const NeonLock = ({ size = 16, color = "hsl(var(--muted-foreground))" }: 
   </svg>;
 
 
-// ── HELM-specific icons (lavender) ──
+// ── TŌROA-specific icons (lavender) ──
 
 export const NeonFork = ({ size = 24 }: P) =>
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none">

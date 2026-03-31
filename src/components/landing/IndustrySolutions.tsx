@@ -35,7 +35,7 @@ const HERO_INDUSTRIES = [
   },
   {
     industry: "Operations & Admin",
-    agent: "HELM",
+    agent: "TŌROA",
     color: "#3A6A9C",
     Icon: Compass,
     description: "Schedules, meal plans, budgets, school admin, and family logistics handled instantly — purpose-built for NZ families.",

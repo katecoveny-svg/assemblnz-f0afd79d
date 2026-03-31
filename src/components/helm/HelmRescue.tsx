@@ -76,7 +76,7 @@ export default function HelmRescue() {
       <div className="rounded-lg p-3" style={{ background: "rgba(239,83,80,0.08)", border: "1px solid rgba(239,83,80,0.15)" }}>
         <div className="flex items-start gap-2">
           <AlertTriangle size={14} className="text-red-400 mt-0.5 shrink-0" />
-          <p className="text-[11px] text-white/60">Forgot something at home? HELM can arrange delivery to school. Currently in demo mode — Uber Direct integration coming soon.</p>
+          <p className="text-[11px] text-white/60">Forgot something at home? TŌROA can arrange delivery to school. Currently in demo mode — Uber Direct integration coming soon.</p>
         </div>
       </div>
 

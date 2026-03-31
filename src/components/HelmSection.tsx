@@ -83,7 +83,7 @@ const HelmSection = () => {
                   textShadow: `0 0 20px ${HELM_COLOR}40, 0 0 60px ${HELM_COLOR}15`,
                 }}
               >
-                Meet HELM
+                Meet TŌROA
               </h2>
               <p className="font-mono-jb text-[10px] mb-4" style={{ color: `${HELM_COLOR}30` }}>
                 ASM-013 · Family Command Centre
@@ -95,7 +95,7 @@ const HelmSection = () => {
                 Your family&apos;s second brain.
               </h3>
               <p className="text-sm font-body leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
-                HELM reads school notices, builds weekly schedules, tracks live bus positions,
+                TŌROA reads school notices, builds weekly schedules, tracks live bus positions,
                 and manages meal plans — all powered by AI that understands NZ school life.
                 One parent said it saved them 4 hours a week.
               </p>
@@ -122,7 +122,7 @@ const HelmSection = () => {
                     boxShadow: `0 0 20px ${HELM_COLOR}20`,
                   }}
                 >
-                  Try HELM <ArrowRight size={14} />
+                  Try TŌROA <ArrowRight size={14} />
                 </Link>
                 <button
                   onClick={() => setShowVoice(true)}
@@ -134,7 +134,7 @@ const HelmSection = () => {
                     boxShadow: `0 0 20px ${HELM_COLOR}10`,
                   }}
                 >
-                  <Mic size={14} /> Talk to HELM
+                  <Mic size={14} /> Talk to TŌROA
                 </button>
               </div>
             </div>
@@ -168,7 +168,7 @@ const HelmSection = () => {
 
       <VoiceAgentModal
         open={showVoice}
-        agentName="HELM"
+        agentName="TŌROA"
         agentId="operations"
         agentColor={HELM_COLOR}
         elevenLabsAgentId={getElevenLabsAgentId("operations")}
