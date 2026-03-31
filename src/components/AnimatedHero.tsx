@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import AgentShowcase from "@/components/AgentShowcase";
+
 import ConstellationHero from "@/components/ConstellationHero";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
