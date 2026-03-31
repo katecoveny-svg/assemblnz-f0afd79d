@@ -423,7 +423,7 @@ const AgentGrid = () => {
               lineHeight: 1.7,
             }}
           >
-            "I kept watching NZ businesses pay for tools built in San Francisco that couldn't tell you the difference between the Holidays Act and the Fair Work Act. So I built 44 that could."
+            "I kept watching NZ businesses pay for tools built in San Francisco that couldn't tell you the difference between the Holidays Act and the Fair Work Act. So I built 45 that could."
           </p>
           <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "14px", color: "#FFFFFF" }}>Kate Hudson</p>
           <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.35)" }}>Founder, Assembl · Auckland</p>
