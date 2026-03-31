@@ -311,12 +311,7 @@ export default function ToroaLandingPage() {
         </div>
       </section>
 
-      {/* Back to Assembl */}
-      <div className="text-center pb-12">
-        <Link to="/" className="font-display uppercase text-xs" style={{ letterSpacing: "4px", color: "rgba(255,255,255,0.3)" }}>
-          ← Back to Assembl
-        </Link>
-      </div>
+      <BrandFooter />
     </div>
   );
 }
