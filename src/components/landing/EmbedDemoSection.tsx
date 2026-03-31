@@ -150,7 +150,7 @@ const EmbedDemoSection = () => (
         {/* CTA */}
         <div className="px-5 pb-5">
           <Link
-            to="/chat/aura"
+            to="/chat/hospitality"
             className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm transition-all duration-300"
             style={{
               fontFamily: "'Lato', sans-serif",
