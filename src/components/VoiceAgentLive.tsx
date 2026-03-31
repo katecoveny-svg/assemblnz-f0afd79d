@@ -18,9 +18,9 @@ const glassCard: React.CSSProperties = {
 };
 
 const VOICES = [
-  { id: "JBFqnCBsd6RMkjVDRZzb", name: "George", style: "professional" },
-  { id: "EXAVITQu4vr4xnSDxMaL", name: "Sarah", style: "warm" },
-  { id: "N2lVS1w4EtoT3dr4eOWO", name: "Callum", style: "mate" },
+  { id: "JBFqnCBsd6RMkjVDRZzb", name: "Rangi", style: "professional", desc: "Professional NZ advisor" },
+  { id: "EXAVITQu4vr4xnSDxMaL", name: "Aroha", style: "warm", desc: "Warm Kiwi colleague" },
+  { id: "N2lVS1w4EtoT3dr4eOWO", name: "Tama", style: "mate", desc: "Your Kiwi mate" },
 ];
 
 const VoiceAgentLive = ({ agentId, agentName, agentColor }: Props) => {

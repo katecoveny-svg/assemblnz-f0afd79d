@@ -157,7 +157,7 @@ const GeminiLiveVoice = ({ agentId, agentName, agentColor, systemPrompt }: Props
             },
             systemInstruction: {
               parts: [{
-                text: systemPrompt || `You are ${agentName}, an AI assistant by Assembl (assembl.co.nz). You are speaking with a user in real-time voice conversation. Be concise, natural, and helpful. Speak like a knowledgeable New Zealand business advisor. Use te reo Māori greetings where appropriate.`,
+                text: (systemPrompt ? systemPrompt + "\n\n" : "") + NZ_VOICE_INSTRUCTION + (systemPrompt ? "" : `\n\nYou are ${agentName}, an AI assistant by Assembl (assembl.co.nz). You are speaking with a user in real-time voice conversation. Be concise, natural, and helpful. Speak like a knowledgeable New Zealand business advisor.`),
               }],
             },
             realtimeInput: {
