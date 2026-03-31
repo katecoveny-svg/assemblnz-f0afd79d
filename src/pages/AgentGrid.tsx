@@ -177,8 +177,6 @@ const AgentGrid = () => {
       <PackShowcase />
 
 
-      {/* ═══════════════════════ INDUSTRY SOLUTIONS ═══════════════════════ */}
-      <IndustrySolutions />
 
       {/* ═══════════════════════ PRICING ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">
