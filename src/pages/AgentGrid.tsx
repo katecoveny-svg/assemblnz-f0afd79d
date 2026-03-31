@@ -60,10 +60,10 @@ const PRICING_PLANS = [
     highlighted: false,
   },
   {
-    name: "Enterprise",
+    name: "Industry Suite",
     monthlyPrice: 1499,
     color: "#D4A843",
-    features: ["Unlimited tools & messages", "Dedicated account manager", "Custom integrations", "SLA guarantee", "On-premise option", "SOC 2 compliant"],
+    features: ["All 45 specialist tools + custom", "5,000 messages/month", "Dedicated account manager", "Custom integrations", "SLA guarantee", "SOC 2 compliant"],
     cta: "Contact sales",
     href: "/#contact",
     external: false,

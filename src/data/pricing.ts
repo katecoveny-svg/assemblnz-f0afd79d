@@ -131,7 +131,7 @@ export function annualMonthly(monthlyPrice: number): number {
 
 /** Feature comparison table data */
 export const COMPARISON_FEATURES = [
-  { feature: 'Specialist Tools', starter: '1', pro: '3', business: 'All 42', suite: 'All 42 + custom', enterprise: 'Unlimited' },
+  { feature: 'Specialist Tools', starter: '1', pro: '3', business: 'All 45', suite: 'All 45 + custom', enterprise: 'Unlimited' },
   { feature: 'Messages/month', starter: '100', pro: '500', business: '2,000', suite: '5,000', enterprise: 'Unlimited' },
   { feature: 'SPARK App Builder', starter: false, pro: '5 deploys', business: '25 deploys', suite: 'Unlimited', enterprise: true },
   { feature: 'Brand DNA Scanner', starter: false, pro: true, business: true, suite: true, enterprise: true },

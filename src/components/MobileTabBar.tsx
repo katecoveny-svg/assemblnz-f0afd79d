@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Bot, CreditCard, LayoutDashboard, FileText, Palette } from "lucide-react";
 
 const TABS = [
-  { to: "/", label: "Agents", icon: Bot },
+  { to: "/content-hub", label: "Agents", icon: Bot },
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/content-hub", label: "Content", icon: FileText },
   { to: "/pricing", label: "Pricing", icon: CreditCard },

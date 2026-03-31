@@ -37,7 +37,7 @@ const PricingPage = () => {
     <div className="min-h-screen flex flex-col relative bg-background">
       <SEO
         title="Assembl Pricing — Enterprise-Grade Business Intelligence | SME-Friendly Pricing"
-        description="Starter $89/mo (1 tool). Pro $299/mo (3 tools + SPARK). Business $599/mo (all 44 tools). Industry Suite $1,499/mo (custom tools + white-label). TŌROA Family from $14/mo."
+        description="Starter $89/mo (1 tool). Pro $299/mo (3 tools + SPARK). Business $599/mo (all 45 tools). Industry Suite $1,499/mo (custom tools + white-label). TŌROA Family from $14/mo."
         path="/pricing"
       />
       <BrandNav />

@@ -295,7 +295,7 @@ const PackGrid = () => {
               background: "rgba(212,168,67,0.05)",
             }}
           >
-            View all 45 specialist tools <ArrowRight size={14} />
+            See all 45 specialist tools <ArrowRight size={14} />
           </Link>
         </div>
       </div>
