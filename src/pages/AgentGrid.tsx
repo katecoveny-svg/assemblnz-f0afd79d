@@ -420,7 +420,7 @@ const AgentGrid = () => {
       <section id="contact" className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-lg mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-display font-light tracking-[0.02em] text-foreground mb-3">Get in touch</h2>
+            <h2 className="text-2xl sm:text-3xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading" style={{ fontWeight: 700 }}>Get in touch</h2>
             <p className="text-sm font-body text-muted-foreground">Custom builds, enterprise pricing, or just to say kia ora.</p>
           </div>
           <form
