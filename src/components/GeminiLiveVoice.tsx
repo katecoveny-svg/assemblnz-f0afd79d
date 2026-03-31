@@ -11,15 +11,17 @@ interface Props {
   systemPrompt?: string;
 }
 
-// Gemini Live voice names
+// Gemini Live voices mapped to NZ personas
 const GEMINI_VOICES = [
-  { id: "Kore", label: "Kore", style: "neutral" },
-  { id: "Puck", label: "Puck", style: "energetic" },
-  { id: "Charon", label: "Charon", style: "deep" },
-  { id: "Leda", label: "Leda", style: "warm" },
-  { id: "Aoede", label: "Aoede", style: "bright" },
-  { id: "Zephyr", label: "Zephyr", style: "light" },
+  { id: "Kore", label: "Aroha", style: "warm-kiwi", desc: "Warm & empathetic — like a trusted NZ colleague" },
+  { id: "Puck", label: "Tama", style: "energetic-kiwi", desc: "Energetic & upbeat — classic Kiwi enthusiasm" },
+  { id: "Charon", label: "Rangi", style: "authoritative-nz", desc: "Deep & authoritative — NZ boardroom voice" },
+  { id: "Leda", label: "Mere", style: "professional-nz", desc: "Professional & measured — NZ business advisor" },
+  { id: "Aoede", label: "Hine", style: "bright-kiwi", desc: "Bright & clear — friendly NZ customer voice" },
+  { id: "Zephyr", label: "Kai", style: "casual-kiwi", desc: "Casual & relaxed — your Kiwi mate" },
 ] as const;
+
+const NZ_VOICE_INSTRUCTION = `IMPORTANT VOICE STYLE: You are speaking with a New Zealand English accent and manner. Use natural Kiwi phrases and idioms where appropriate (e.g., "sweet as", "no worries", "good on ya", "she'll be right"). Pronounce words the NZ way — short vowels, "e" sounds like "i" (e.g., "pen" sounds like "pin"). Use te reo Māori greetings naturally (kia ora, ka pai, tēnā koe). Be warm, down-to-earth, and approachable — like a trusted Kiwi advisor. Avoid American slang. When greeting, prefer "Kia ora" over "Hello".`;
 
 const glassCard: React.CSSProperties = {
   background: "rgba(14,14,26,0.7)",
