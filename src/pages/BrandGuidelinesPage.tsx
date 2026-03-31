@@ -8,8 +8,8 @@ export default function BrandGuidelinesPage() {
         description="Download official Assembl brand assets — logos, colour palettes, typography, and agent colour assignments across the Whenua palette."
       />
       <iframe
-        src="/brand-assets.html"
-        title="Assembl Mārama Brand System"
+        src="/unified-brand-system-v2.html"
+        title="Assembl × Te Kāhui Reo — Unified Brand System"
         className="w-full h-screen border-0"
         style={{ minHeight: "100vh" }}
       />
