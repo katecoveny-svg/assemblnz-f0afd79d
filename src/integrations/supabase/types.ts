@@ -4188,6 +4188,30 @@ export type Database = {
           },
         ]
       }
+      toroa_waitlist: {
+        Row: {
+          email: string
+          id: string
+          joined_at: string
+          name: string | null
+          status: string
+        }
+        Insert: {
+          email: string
+          id?: string
+          joined_at?: string
+          name?: string | null
+          status?: string
+        }
+        Update: {
+          email?: string
+          id?: string
+          joined_at?: string
+          name?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       tradie_availability: {
         Row: {
           available_date: string
