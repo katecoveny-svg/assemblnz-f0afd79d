@@ -738,6 +738,7 @@ export const sectors = [
   "Business Operations",
   "Technology & Infrastructure",
   "Family & Life",
+  "Health & Aged Care",
   "Māori & Te Tiriti",
   "Immigration",
 ];
