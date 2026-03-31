@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { agents, packs, echoAgent, pilotAgent } from "@/data/agents";
+import toroaLogo from "@/assets/brand/toroa-logo-2.svg";
 
 /**
  * Constellation mark SVGs matching the Te Iho architecture diagram.
