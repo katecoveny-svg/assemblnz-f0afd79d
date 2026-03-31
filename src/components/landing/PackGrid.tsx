@@ -2,13 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { agents, packs, echoAgent, pilotAgent } from "@/data/agents";
+import { agents, packs } from "@/data/agents";
 import toroaIcon from "@/assets/brand/toroa-hero.png";
 
-/**
- * Constellation mark SVGs matching the Te Iho architecture diagram.
- * Each pack has a unique geometric constellation glyph.
- */
 const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
   manaaki: (
     <svg viewBox="0 0 30 30" className="w-full h-full">
@@ -65,11 +61,11 @@ const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
 };
 
 const PACK_DESCRIPTIONS: Record<string, string> = {
-  manaaki: "Care for customers, hospitality operations, tourism, and venue management",
-  hanga: "Building, safety, consenting, and project governance for Aotearoa",
-  auaha: "Brand, content, video, social, and creative production",
-  pakihi: "Finance, HR, strategy, sales, risk, and operational excellence",
-  hangarau: "Software, security, DevOps, integrations, and monitoring",
+  manaaki: "Food safety, liquor licensing, staff rosters, guest comms — covered from open to close",
+  hanga: "Consents, site safety plans, CCA claims, and BIM coordination under one roof",
+  auaha: "Strategy, social content, AI imagery, and campaign builds — without the agency retainer",
+  pakihi: "Payroll, employment law, GST, insurance, and banking — the back office you can't afford to hire",
+  hangarau: "Cybersecurity, app builds, API connections, and uptime monitoring — your IT dept in a chat window",
 };
 
 const PackGrid = () => {
@@ -80,15 +76,15 @@ const PackGrid = () => {
   };
 
   return (
-    <section id="expert-team" className="relative z-10 py-16 sm:py-24">
+    <section id="expert-team" className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         {/* Section header */}
         <motion.div
           className="text-center mb-14"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           <p className="font-mono-jb text-[10px] tracking-[4px] uppercase text-primary/60 mb-3">
             Te Kāhui Reo · Packs & Services
@@ -100,11 +96,11 @@ const PackGrid = () => {
             Your Specialist Team
           </h2>
           <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
-            Five industry packs, each with specialist tools trained on NZ legislation. Click to explore.
+            Five packs. 44 specialists. Pick your industry — your team is already trained.
           </p>
         </motion.div>
 
-        {/* Pack cards grid — architecture diagram style */}
+        {/* Pack cards grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
           {packs.map((pack, idx) => {
             const packAgents = agents.filter(a => a.pack === pack.id);
@@ -123,10 +119,10 @@ const PackGrid = () => {
                     : "0 8px 32px rgba(0,0,0,0.3)",
                   transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
                 }}
-                initial={{ opacity: 0, y: 25 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
                 onClick={() => togglePack(pack.id)}
                 whileHover={{
                   y: -4,
@@ -134,14 +130,12 @@ const PackGrid = () => {
                   boxShadow: `0 12px 48px rgba(0,0,0,0.4), 0 0 30px ${pack.color}10`,
                 }}
               >
-                {/* Top accent glow */}
                 <span
                   className="absolute top-0 left-0 right-0 h-[3px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{ background: `linear-gradient(90deg, transparent, ${pack.color}, transparent)` }}
                 />
 
                 <div className="p-5">
-                  {/* Pack header with constellation mark */}
                   <div className="flex items-center gap-3 mb-3">
                     <div
                       className="w-8 h-8 shrink-0"
@@ -176,7 +170,6 @@ const PackGrid = () => {
                     {PACK_DESCRIPTIONS[pack.id]}
                   </p>
 
-                  {/* Expandable agent list */}
                   <AnimatePresence>
                     {isExpanded && (
                       <motion.div
@@ -215,7 +208,7 @@ const PackGrid = () => {
           })}
         </div>
 
-        {/* Full-width standalone products: Te Kāhui Reo + Tōroa */}
+        {/* Full-width standalone products */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
           {/* Te Kāhui Reo */}
           <motion.div
@@ -226,7 +219,7 @@ const PackGrid = () => {
               border: "2px solid rgba(255,255,255,0.08)",
               transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -266,7 +259,7 @@ const PackGrid = () => {
               border: "2px solid rgba(255,255,255,0.08)",
               transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.45 }}
@@ -291,7 +284,7 @@ const PackGrid = () => {
           </motion.div>
         </div>
 
-        {/* CTA to full agents page */}
+        {/* CTA */}
         <div className="text-center">
           <Link
             to="/agents"

@@ -16,10 +16,10 @@ const TE_KAHUI_REO_AGENTS = [
 
 const TeKahuiReoSection = () => (
   <section
-    className="relative z-10 py-16 sm:py-24 overflow-hidden"
+    className="relative z-10 pt-[100px] pb-[100px] overflow-hidden"
     style={{
       background: "#0F0F1A",
-      borderTop: "1px solid rgba(255,255,255,0.08)",
+      borderTop: "1px solid rgba(255,255,255,0.06)",
     }}
   >
     {/* Subtle pounamu nebula orb */}
@@ -33,10 +33,10 @@ const TeKahuiReoSection = () => (
     <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
       <motion.div
         className="text-center mb-12"
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <p
           className="uppercase mb-3"
@@ -69,9 +69,21 @@ const TeKahuiReoSection = () => (
             fontSize: "18px",
             color: "rgba(255,255,255,0.65)",
             lineHeight: 1.6,
+            marginBottom: "0.75rem",
           }}
         >
           Bilingual. Tikanga-governed. Built to serve whānau, hapū, and Māori enterprise with tools that speak te reo and understand Te Tiriti obligations.
+        </p>
+        <p
+          style={{
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontWeight: 500,
+            fontSize: "14px",
+            color: "#D4A843",
+            fontStyle: "italic",
+          }}
+        >
+          The first bilingual AI business intelligence system built in Aotearoa.
         </p>
       </motion.div>
 
@@ -80,14 +92,15 @@ const TeKahuiReoSection = () => (
         {TE_KAHUI_REO_AGENTS.map((agent, i) => (
           <motion.div
             key={agent.name}
-            className="rounded-xl p-4"
+            className="rounded-xl p-5"
             style={{
               background: "rgba(15,15,26,0.7)",
               backdropFilter: "blur(10px)",
               border: "1px solid rgba(255,255,255,0.08)",
+              borderLeft: "3px solid rgba(58,125,110,0.4)",
               transition: "all 300ms cubic-bezier(0.16, 1, 0.3, 1)",
             }}
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: i * 0.05 }}
@@ -116,7 +129,7 @@ const TeKahuiReoSection = () => (
               style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                 fontWeight: 400,
-                fontSize: "11px",
+                fontSize: "12px",
                 color: "rgba(255,255,255,0.65)",
               }}
             >
@@ -126,7 +139,7 @@ const TeKahuiReoSection = () => (
         ))}
       </div>
 
-      {/* Tōroa showcase with video + image */}
+      {/* Tōroa showcase */}
       <motion.div
         className="rounded-xl overflow-hidden mb-8"
         style={{
@@ -134,13 +147,12 @@ const TeKahuiReoSection = () => (
           backdropFilter: "blur(10px)",
           border: "1px solid rgba(212,168,67,0.2)",
         }}
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.3 }}
       >
         <div className="flex flex-col sm:flex-row">
-          {/* Video side */}
           <div className="sm:w-1/2 relative">
             <video
               autoPlay
@@ -153,7 +165,6 @@ const TeKahuiReoSection = () => (
               <source src="/videos/toroa-fly.mp4" type="video/mp4" />
             </video>
           </div>
-          {/* Info side */}
           <div className="sm:w-1/2 p-6 flex flex-col justify-center">
             <div className="flex items-center gap-3 mb-4">
               <img src={toroaIcon} alt="Tōroa" className="w-12 h-12 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 12px rgba(212,168,67,0.3))" }} />

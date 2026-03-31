@@ -10,24 +10,26 @@ const FAQS = [
   { q: "What NZ legislation is built in?", a: "Our tools are trained on 50+ NZ Acts including the Employment Relations Act 2000, Building Act 2004, Health and Safety at Work Act 2015, Privacy Act 2020, Consumer Guarantees Act 1993, Incorporated Societies Act 2022, Food Act 2014, and many more." },
   { q: "Is the advice legally reliable?", a: "Assembl provides guidance based on current NZ legislation, not legal advice. Every response references the specific Act or regulation it draws from, so you can verify it. We recommend using Assembl alongside qualified professionals — think of it as a specialist research assistant that already knows the law, not a replacement for your lawyer or accountant." },
   { q: "Can I use it if I don't speak te reo?", a: "Absolutely. All tools work in English. Te reo Māori is woven into Assembl's governance and naming — reflecting our commitment to tikanga and Te Tiriti. Te Kāhui Reo offers bilingual tools for businesses that serve Māori communities or want te reo capability, but it's completely optional." },
-  { q: "Can I try before I buy?", a: "Absolutely. Every specialist tool offers 3 free messages with no signup required. You can explore all 44 tools before choosing a plan. Powered by specialist intelligence trained on NZ law." },
+  { q: "Can I try before I buy?", a: "Absolutely. Every specialist tool offers free messages with no signup required. You can explore all 44 tools before choosing a plan. Powered by specialist intelligence trained on NZ law." },
   { q: "What happens if legislation changes?", a: "We monitor NZ legislative changes and update our tools regularly. When a rate changes (like minimum wage or KiwiSaver), a new regulation takes effect, or an Act is amended, the relevant specialist tools are updated to reflect the current law." },
   { q: "How does the annual discount work?", a: "Annual billing saves you 15% compared to monthly. You're billed once per year at the discounted rate, and can cancel anytime." },
   { q: "Can I embed tools on my website?", a: "Yes. Pro and above plans include an embeddable chat widget. Drop it straight into your website — instant compliance support for your team or customers." },
   { q: "What industries do you cover?", a: "Construction, hospitality, property management, automotive, HR, finance, maritime, agriculture, nonprofit, government, health, education, and many more — 44 specialist tools across every major NZ industry." },
+  { q: "Who built this?", a: "Assembl was founded in Auckland by Kate Hudson. Every tool is designed, trained, and maintained in Aotearoa. We're not a US company rebranded for NZ — we built this from the ground up for how New Zealand businesses actually operate." },
 ];
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="relative z-10 py-16 sm:py-24" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+    <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <motion.div
           className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           <p
             className="uppercase mb-3"
@@ -39,7 +41,7 @@ const FAQSection = () => {
               color: "#D4A843",
             }}
           >
-            Support
+            FAQ
           </p>
           <h2
             style={{
@@ -53,7 +55,7 @@ const FAQSection = () => {
           </h2>
         </motion.div>
 
-        <div className="space-y-2.5">
+        <div className="space-y-1">
           {FAQS.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
@@ -62,7 +64,7 @@ const FAQSection = () => {
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.03 }}
+                transition={{ delay: i * 0.02 }}
                 className="rounded-xl overflow-hidden"
                 style={{
                   background: isOpen ? "rgba(22,22,42,0.5)" : "rgba(15,15,26,0.4)",
@@ -73,7 +75,7 @@ const FAQSection = () => {
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="w-full flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5 text-left"
+                  className="w-full flex items-center justify-between px-5 sm:px-6 py-4 text-left"
                 >
                   <span
                     className="pr-4"
@@ -105,7 +107,7 @@ const FAQSection = () => {
                       className="overflow-hidden"
                     >
                       <p
-                        className="px-5 sm:px-6 pb-5"
+                        className="px-5 sm:px-6 pb-4"
                         style={{
                           fontFamily: "'Plus Jakarta Sans', sans-serif",
                           fontWeight: 400,
