@@ -30,19 +30,22 @@ const ParticleCanvas = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    const particles: { x: number; y: number; vx: number; vy: number; size: number; alpha: number; pulse: number }[] = [];
+    const particles: { x: number; y: number; vx: number; vy: number; size: number; alpha: number; pulse: number; glowSize: number }[] = [];
     const W = () => window.innerWidth;
     const H = () => window.innerHeight;
 
-    for (let i = 0; i < 120; i++) {
+    // Fewer, larger, glowier particles
+    for (let i = 0; i < 60; i++) {
+      const isLarge = Math.random() < 0.15;
       particles.push({
         x: Math.random() * W(),
         y: Math.random() * H(),
-        vx: (Math.random() - 0.5) * 0.08,
-        vy: (Math.random() - 0.5) * 0.08,
-        size: Math.random() * 1.2 + 0.2,
-        alpha: Math.random() * 0.55 + 0.15,
+        vx: (Math.random() - 0.5) * 0.05,
+        vy: (Math.random() - 0.5) * 0.05,
+        size: isLarge ? Math.random() * 2 + 1.5 : Math.random() * 1 + 0.3,
+        alpha: isLarge ? Math.random() * 0.5 + 0.3 : Math.random() * 0.35 + 0.1,
         pulse: Math.random() * Math.PI * 2,
+        glowSize: isLarge ? Math.random() * 12 + 8 : Math.random() * 4 + 2,
       });
     }
 
@@ -53,13 +56,26 @@ const ParticleCanvas = () => {
         for (const p of particles) {
           p.x += p.vx;
           p.y += p.vy;
-          p.pulse += 0.01;
+          p.pulse += 0.008;
           if (p.x < 0) p.x = W();
           if (p.x > W()) p.x = 0;
           if (p.y < 0) p.y = H();
           if (p.y > H()) p.y = 0;
           const glow = (Math.sin(p.pulse) + 1) / 2;
-          const a = p.alpha * (0.5 + glow * 0.5);
+          const a = p.alpha * (0.4 + glow * 0.6);
+
+          // Outer glow
+          if (p.glowSize > 4) {
+            const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.glowSize);
+            grad.addColorStop(0, `rgba(255,255,255,${a * 0.3})`);
+            grad.addColorStop(1, `rgba(255,255,255,0)`);
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.glowSize, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.fill();
+          }
+
+          // Core
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(255,255,255,${a})`;
@@ -67,7 +83,7 @@ const ParticleCanvas = () => {
         }
         animFrame = requestAnimationFrame(draw);
       } catch {
-        // Canvas detached during navigation — silently stop
+        // Canvas detached — stop
       }
     };
 
