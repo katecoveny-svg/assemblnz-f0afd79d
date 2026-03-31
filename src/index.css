@@ -105,11 +105,11 @@
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     letter-spacing: 0.02em;
-    text-shadow: 0 0 20px rgba(212,168,67,0.12), 0 0 60px rgba(212,168,67,0.04);
+    text-shadow: 0 0 20px rgba(255,255,255,0.06), 0 0 60px rgba(255,255,255,0.02);
   }
 
   h1 {
-    text-shadow: 0 0 30px rgba(212,168,67,0.2), 0 0 80px rgba(212,168,67,0.08);
+    text-shadow: 0 0 30px rgba(255,255,255,0.1), 0 0 80px rgba(255,255,255,0.04);
   }
 }
 
