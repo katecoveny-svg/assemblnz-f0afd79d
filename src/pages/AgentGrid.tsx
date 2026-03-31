@@ -298,15 +298,24 @@ const AgentGrid = () => {
       {/* ═══════════════════════ FOUNDER ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <motion.img
-            src="/img/kate-neon.png"
-            alt="Kate, Founder of Assembl"
-            className="w-32 h-32 rounded-full mx-auto mb-6 object-contain border-2 border-border"
-            loading="lazy"
+          <motion.div
+            className="w-32 h-32 rounded-full mx-auto mb-6 relative overflow-hidden"
+            style={{
+              border: "2px solid rgba(212,168,67,0.4)",
+              boxShadow: "0 0 30px rgba(212,168,67,0.15), 0 0 60px rgba(58,125,110,0.1)",
+              background: "linear-gradient(135deg, rgba(212,168,67,0.1) 0%, rgba(58,125,110,0.1) 100%)",
+            }}
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-          />
+          >
+            <img
+              src="/img/kate-neon.png"
+              alt="Kate, Founder of Assembl"
+              className="w-full h-full object-contain"
+              loading="lazy"
+            />
+          </motion.div>
           <h2 className="text-2xl sm:text-3xl font-display tracking-[0.02em] text-foreground mb-3 flex items-center justify-center gap-2 heading-glow" style={{ fontWeight: 700 }}>Built in <span className="text-gradient-hero ml-2">Aotearoa</span></h2>
           <p className="text-sm font-body text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
             "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work.
