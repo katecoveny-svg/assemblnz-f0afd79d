@@ -304,6 +304,12 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "NZISM compliance check", icon: FileText, title: "NZISM Compliance", description: "Assess your security posture against NZISM", prompt: "Assess my organisation's security posture against the NZ Information Security Manual (NZISM). What level are we at and what gaps need closing?" },
     { bullet: "Security policy generation", icon: Briefcase, title: "Security Policies", description: "Generate NZ-compliant security policy documents", prompt: "Generate a comprehensive Information Security Policy for my NZ business. Include access control, encryption, authentication, incident response, business continuity, and compliance sections." },
   ],
+  podcast: [
+    { bullet: "Multi-agent podcast workflow", icon: Zap, title: "Episode Workflow", description: "Orchestrate SAGE → MUSE → KŌRERO → PRISM → KAHU for a full episode", prompt: "Create a complete podcast episode about [topic]. Use the multi-agent workflow: SAGE provides strategy, MUSE writes the script, you handle production, PRISM checks brand voice, and KAHU screens compliance." },
+    { bullet: "Full episode scripting", icon: FileText, title: "Episode Script", description: "Generate a complete podcast episode script with dialogue", prompt: "Write a full podcast episode script about [topic] for my business. Include intro, main segments, transitions, and outro. Make it conversational and engaging." },
+    { bullet: "Series planning & calendar", icon: Calendar, title: "Series Plan", description: "Plan a multi-episode podcast series with content calendar", prompt: "Plan a 12-episode podcast series for my NZ business. Include episode titles, descriptions, guest suggestions, and a publishing calendar." },
+    { bullet: "Guest prep & research", icon: Users, title: "Guest Prep Sheet", description: "Research brief and interview questions for podcast guests", prompt: "Create a guest preparation sheet for an upcoming podcast interview. Include background research, 10 interview questions, and talking points." },
+  ],
 };
 
 // Quick action labels (3-4 per agent, shown below chat input)
