@@ -704,7 +704,7 @@ const specialistAgents: Agent[] = [
   {
     id: "immigration",
     name: "COMPASS",
-    designation: "ASM-044",
+    designation: "ASM-045",
     role: "Immigration & Visa Pathways",
     tagline: "Navigating NZ immigration with clarity — AEWV, Green List, and employer accreditation",
     color: "#3A6A9C",
