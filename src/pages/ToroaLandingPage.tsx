@@ -109,7 +109,7 @@ export default function ToroaLandingPage() {
       <BrandNav />
 
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden" style={{ padding: "120px 24px 80px" }}>
+      <section className="relative overflow-hidden" style={{ padding: "80px 24px 80px" }}>
         <div
           className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(600px circle at 50% 40%, rgba(212, 168, 67, 0.08), transparent 70%)" }}
