@@ -3089,6 +3089,48 @@ export type Database = {
         }
         Relationships: []
       }
+      pack_visibility: {
+        Row: {
+          agent_count: number
+          created_at: string
+          description: string | null
+          display_order: number
+          icon: string | null
+          id: string
+          is_public: boolean
+          pack_name: string
+          pack_slug: string
+          requires_role: Database["public"]["Enums"]["app_role"]
+          updated_at: string
+        }
+        Insert: {
+          agent_count?: number
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon?: string | null
+          id?: string
+          is_public?: boolean
+          pack_name: string
+          pack_slug: string
+          requires_role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+        }
+        Update: {
+          agent_count?: number
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon?: string | null
+          id?: string
+          is_public?: boolean
+          pack_name?: string
+          pack_slug?: string
+          requires_role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       packing_items: {
         Row: {
           child_id: string | null
@@ -4189,6 +4231,44 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "senior_profiles"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      trial_subscriptions: {
+        Row: {
+          converted_to_paid: boolean
+          created_at: string
+          id: string
+          pack_slug: string
+          trial_expires_at: string
+          trial_started_at: string
+          user_id: string
+        }
+        Insert: {
+          converted_to_paid?: boolean
+          created_at?: string
+          id?: string
+          pack_slug: string
+          trial_expires_at?: string
+          trial_started_at?: string
+          user_id: string
+        }
+        Update: {
+          converted_to_paid?: boolean
+          created_at?: string
+          id?: string
+          pack_slug?: string
+          trial_expires_at?: string
+          trial_started_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trial_subscriptions_pack_slug_fkey"
+            columns: ["pack_slug"]
+            isOneToOne: false
+            referencedRelation: "pack_visibility"
+            referencedColumns: ["pack_slug"]
           },
         ]
       }
