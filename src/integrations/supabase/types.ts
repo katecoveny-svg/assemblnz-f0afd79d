@@ -805,6 +805,285 @@ export type Database = {
         }
         Relationships: []
       }
+      care_alerts: {
+        Row: {
+          acknowledged_at: string | null
+          acknowledged_by: string | null
+          category: string
+          created_at: string | null
+          delivered_to: Json | null
+          description: string
+          id: string
+          priority: string
+          recommended_action: string | null
+          resolution_notes: string | null
+          resolved_at: string | null
+          senior_id: string
+          source_agent: string
+          source_check_in_id: string | null
+          title: string
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          category: string
+          created_at?: string | null
+          delivered_to?: Json | null
+          description: string
+          id?: string
+          priority: string
+          recommended_action?: string | null
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          senior_id: string
+          source_agent: string
+          source_check_in_id?: string | null
+          title: string
+        }
+        Update: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          category?: string
+          created_at?: string | null
+          delivered_to?: Json | null
+          description?: string
+          id?: string
+          priority?: string
+          recommended_action?: string | null
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          senior_id?: string
+          source_agent?: string
+          source_check_in_id?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "care_alerts_senior_id_fkey"
+            columns: ["senior_id"]
+            isOneToOne: false
+            referencedRelation: "senior_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "care_alerts_source_check_in_id_fkey"
+            columns: ["source_check_in_id"]
+            isOneToOne: false
+            referencedRelation: "check_ins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      care_journeys: {
+        Row: {
+          created_at: string | null
+          facility: string | null
+          fsa_actual_date: string | null
+          fsa_target_date: string | null
+          id: string
+          notes: Json | null
+          referral_date: string | null
+          referral_type: string
+          referring_practice: string | null
+          region: string | null
+          senior_id: string
+          speciality: string | null
+          status: string
+          treatment_actual_date: string | null
+          treatment_target_date: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          facility?: string | null
+          fsa_actual_date?: string | null
+          fsa_target_date?: string | null
+          id?: string
+          notes?: Json | null
+          referral_date?: string | null
+          referral_type: string
+          referring_practice?: string | null
+          region?: string | null
+          senior_id: string
+          speciality?: string | null
+          status?: string
+          treatment_actual_date?: string | null
+          treatment_target_date?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          facility?: string | null
+          fsa_actual_date?: string | null
+          fsa_target_date?: string | null
+          id?: string
+          notes?: Json | null
+          referral_date?: string | null
+          referral_type?: string
+          referring_practice?: string | null
+          region?: string | null
+          senior_id?: string
+          speciality?: string | null
+          status?: string
+          treatment_actual_date?: string | null
+          treatment_target_date?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "care_journeys_senior_id_fkey"
+            columns: ["senior_id"]
+            isOneToOne: false
+            referencedRelation: "senior_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      caregiver_wellbeing: {
+        Row: {
+          burnout_factors: string[] | null
+          burnout_risk: string | null
+          check_in_date: string | null
+          connection_id: string
+          created_at: string | null
+          id: string
+          recommended_actions: Json | null
+          respite_hours_this_week: number | null
+          sleep_quality: string | null
+          stress_level: number | null
+          support_satisfaction: string | null
+        }
+        Insert: {
+          burnout_factors?: string[] | null
+          burnout_risk?: string | null
+          check_in_date?: string | null
+          connection_id: string
+          created_at?: string | null
+          id?: string
+          recommended_actions?: Json | null
+          respite_hours_this_week?: number | null
+          sleep_quality?: string | null
+          stress_level?: number | null
+          support_satisfaction?: string | null
+        }
+        Update: {
+          burnout_factors?: string[] | null
+          burnout_risk?: string | null
+          check_in_date?: string | null
+          connection_id?: string
+          created_at?: string | null
+          id?: string
+          recommended_actions?: Json | null
+          respite_hours_this_week?: number | null
+          sleep_quality?: string | null
+          stress_level?: number | null
+          support_satisfaction?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "caregiver_wellbeing_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "whanau_connections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      check_ins: {
+        Row: {
+          agent: string
+          alert_details: Json | null
+          alert_triggered: boolean | null
+          appetite: string | null
+          channel: string | null
+          completed_at: string | null
+          concern_flags: string[] | null
+          created_at: string | null
+          duration_seconds: number | null
+          energy_level: string | null
+          engagement_score: number | null
+          id: string
+          medications_confirmed: boolean | null
+          medications_missed: string[] | null
+          model_used: string | null
+          mood_notes: string | null
+          mood_score: number | null
+          pain_location: string | null
+          pain_reported: boolean | null
+          pain_severity: number | null
+          scheduled_at: string
+          senior_id: string
+          sleep_quality: string | null
+          started_at: string | null
+          topics_discussed: string[] | null
+          transcript: Json | null
+        }
+        Insert: {
+          agent?: string
+          alert_details?: Json | null
+          alert_triggered?: boolean | null
+          appetite?: string | null
+          channel?: string | null
+          completed_at?: string | null
+          concern_flags?: string[] | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          energy_level?: string | null
+          engagement_score?: number | null
+          id?: string
+          medications_confirmed?: boolean | null
+          medications_missed?: string[] | null
+          model_used?: string | null
+          mood_notes?: string | null
+          mood_score?: number | null
+          pain_location?: string | null
+          pain_reported?: boolean | null
+          pain_severity?: number | null
+          scheduled_at: string
+          senior_id: string
+          sleep_quality?: string | null
+          started_at?: string | null
+          topics_discussed?: string[] | null
+          transcript?: Json | null
+        }
+        Update: {
+          agent?: string
+          alert_details?: Json | null
+          alert_triggered?: boolean | null
+          appetite?: string | null
+          channel?: string | null
+          completed_at?: string | null
+          concern_flags?: string[] | null
+          created_at?: string | null
+          duration_seconds?: number | null
+          energy_level?: string | null
+          engagement_score?: number | null
+          id?: string
+          medications_confirmed?: boolean | null
+          medications_missed?: string[] | null
+          model_used?: string | null
+          mood_notes?: string | null
+          mood_score?: number | null
+          pain_location?: string | null
+          pain_reported?: boolean | null
+          pain_severity?: number | null
+          scheduled_at?: string
+          senior_id?: string
+          sleep_quality?: string | null
+          started_at?: string | null
+          topics_discussed?: string[] | null
+          transcript?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "check_ins_senior_id_fkey"
+            columns: ["senior_id"]
+            isOneToOne: false
+            referencedRelation: "senior_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       children: {
         Row: {
           avatar_color: string | null
@@ -1821,6 +2100,56 @@ export type Database = {
           },
         ]
       }
+      home_safety_assessments: {
+        Row: {
+          assessed_by: string | null
+          assessment_type: string | null
+          created_at: string | null
+          device_data: Json | null
+          hazards_identified: Json | null
+          id: string
+          recommendations: Json | null
+          risk_score: number | null
+          room: string | null
+          senior_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          assessed_by?: string | null
+          assessment_type?: string | null
+          created_at?: string | null
+          device_data?: Json | null
+          hazards_identified?: Json | null
+          id?: string
+          recommendations?: Json | null
+          risk_score?: number | null
+          room?: string | null
+          senior_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          assessed_by?: string | null
+          assessment_type?: string | null
+          created_at?: string | null
+          device_data?: Json | null
+          hazards_identified?: Json | null
+          id?: string
+          recommendations?: Json | null
+          risk_score?: number | null
+          room?: string | null
+          senior_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "home_safety_assessments_senior_id_fkey"
+            columns: ["senior_id"]
+            isOneToOne: false
+            referencedRelation: "senior_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       inbox_messages: {
         Row: {
           family_id: string
@@ -2193,6 +2522,50 @@ export type Database = {
           },
         ]
       }
+      medication_schedules: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          dosage: string | null
+          frequency: string
+          id: string
+          important_notes: string | null
+          medication_name: string
+          purpose: string | null
+          senior_id: string
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          dosage?: string | null
+          frequency: string
+          id?: string
+          important_notes?: string | null
+          medication_name: string
+          purpose?: string | null
+          senior_id: string
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          dosage?: string | null
+          frequency?: string
+          id?: string
+          important_notes?: string | null
+          medication_name?: string
+          purpose?: string | null
+          senior_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medication_schedules_senior_id_fkey"
+            columns: ["senior_id"]
+            isOneToOne: false
+            referencedRelation: "senior_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       message_log: {
         Row: {
           agent_id: string
@@ -2545,6 +2918,99 @@ export type Database = {
           created_at?: string
           id?: string
           preview?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      senior_profiles: {
+        Row: {
+          address_line_1: string | null
+          address_line_2: string | null
+          check_in_frequency: string | null
+          check_in_time_preference: string | null
+          city: string | null
+          cognitive_status: string | null
+          created_at: string | null
+          date_of_birth: string | null
+          ethnicity: string[] | null
+          first_name: string
+          gender: string | null
+          gp_practice_name: string | null
+          gp_practice_phone: string | null
+          id: string
+          interests: string[] | null
+          last_name: string
+          living_situation: string | null
+          mobility_level: string | null
+          nhi_number: string | null
+          postcode: string | null
+          preferred_language: string | null
+          preferred_name: string | null
+          primary_conditions: string[] | null
+          region: string | null
+          status: string | null
+          suburb: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          address_line_1?: string | null
+          address_line_2?: string | null
+          check_in_frequency?: string | null
+          check_in_time_preference?: string | null
+          city?: string | null
+          cognitive_status?: string | null
+          created_at?: string | null
+          date_of_birth?: string | null
+          ethnicity?: string[] | null
+          first_name: string
+          gender?: string | null
+          gp_practice_name?: string | null
+          gp_practice_phone?: string | null
+          id?: string
+          interests?: string[] | null
+          last_name: string
+          living_situation?: string | null
+          mobility_level?: string | null
+          nhi_number?: string | null
+          postcode?: string | null
+          preferred_language?: string | null
+          preferred_name?: string | null
+          primary_conditions?: string[] | null
+          region?: string | null
+          status?: string | null
+          suburb?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          address_line_1?: string | null
+          address_line_2?: string | null
+          check_in_frequency?: string | null
+          check_in_time_preference?: string | null
+          city?: string | null
+          cognitive_status?: string | null
+          created_at?: string | null
+          date_of_birth?: string | null
+          ethnicity?: string[] | null
+          first_name?: string
+          gender?: string | null
+          gp_practice_name?: string | null
+          gp_practice_phone?: string | null
+          id?: string
+          interests?: string[] | null
+          last_name?: string
+          living_situation?: string | null
+          mobility_level?: string | null
+          nhi_number?: string | null
+          postcode?: string | null
+          preferred_language?: string | null
+          preferred_name?: string | null
+          primary_conditions?: string[] | null
+          region?: string | null
+          status?: string | null
+          suburb?: string | null
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: []
@@ -3180,6 +3646,89 @@ export type Database = {
         }
         Relationships: []
       }
+      triage_sessions: {
+        Row: {
+          age_band: string | null
+          channel: string | null
+          completed_at: string | null
+          created_at: string | null
+          escalated_to_human: boolean | null
+          escalation_reason: string | null
+          ethnicity: string[] | null
+          id: string
+          model_used: string | null
+          primary_symptom: string | null
+          recommended_service: string | null
+          recommended_service_details: Json | null
+          red_flags_detected: string[] | null
+          region: string | null
+          senior_id: string | null
+          started_at: string | null
+          symptom_details: Json | null
+          thinking_level: string | null
+          transcript: Json | null
+          urgency_assessment: string | null
+          user_accepted_recommendation: boolean | null
+          user_id: string | null
+        }
+        Insert: {
+          age_band?: string | null
+          channel?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          escalated_to_human?: boolean | null
+          escalation_reason?: string | null
+          ethnicity?: string[] | null
+          id?: string
+          model_used?: string | null
+          primary_symptom?: string | null
+          recommended_service?: string | null
+          recommended_service_details?: Json | null
+          red_flags_detected?: string[] | null
+          region?: string | null
+          senior_id?: string | null
+          started_at?: string | null
+          symptom_details?: Json | null
+          thinking_level?: string | null
+          transcript?: Json | null
+          urgency_assessment?: string | null
+          user_accepted_recommendation?: boolean | null
+          user_id?: string | null
+        }
+        Update: {
+          age_band?: string | null
+          channel?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          escalated_to_human?: boolean | null
+          escalation_reason?: string | null
+          ethnicity?: string[] | null
+          id?: string
+          model_used?: string | null
+          primary_symptom?: string | null
+          recommended_service?: string | null
+          recommended_service_details?: Json | null
+          red_flags_detected?: string[] | null
+          region?: string | null
+          senior_id?: string | null
+          started_at?: string | null
+          symptom_details?: Json | null
+          thinking_level?: string | null
+          transcript?: Json | null
+          urgency_assessment?: string | null
+          user_accepted_recommendation?: boolean | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "triage_sessions_senior_id_fkey"
+            columns: ["senior_id"]
+            isOneToOne: false
+            referencedRelation: "senior_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       usage_tracking: {
         Row: {
           cost_nzd: number | null
@@ -3484,6 +4033,59 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      whanau_connections: {
+        Row: {
+          alert_priority_threshold: string | null
+          created_at: string | null
+          email: string | null
+          id: string
+          name: string
+          phone: string | null
+          receives_alerts: boolean | null
+          receives_daily_summary: boolean | null
+          relationship: string
+          role: string | null
+          senior_id: string
+          user_id: string | null
+        }
+        Insert: {
+          alert_priority_threshold?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          name: string
+          phone?: string | null
+          receives_alerts?: boolean | null
+          receives_daily_summary?: boolean | null
+          relationship: string
+          role?: string | null
+          senior_id: string
+          user_id?: string | null
+        }
+        Update: {
+          alert_priority_threshold?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          receives_alerts?: boolean | null
+          receives_daily_summary?: boolean | null
+          relationship?: string
+          role?: string | null
+          senior_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whanau_connections_senior_id_fkey"
+            columns: ["senior_id"]
+            isOneToOne: false
+            referencedRelation: "senior_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       whatsapp_templates: {
         Row: {
