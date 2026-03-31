@@ -264,7 +264,7 @@ const hangaAgents: Agent[] = [
     pack: "hanga",
     primaryModel: "claude",
     traits: ["Code-literate", "Detail-precise", "Process-expert"],
-    expertise: ["Building consent preparation", "NZ Building Code compliance", "Technical specification review", "Inspection scheduling", "CCC preparation", "Record of Work"],
+    expertise: ["Building consent preparation", "NZ Building Code compliance", "Technical specification review", "BIM compliance checking", "Inspection scheduling", "CCC preparation", "Record of Work"],
     starters: ["Building consent application checklist", "NZ Building Code compliance matrix", "Prepare for building inspection"],
   },
   {
