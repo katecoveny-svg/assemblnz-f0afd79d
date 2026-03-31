@@ -95,10 +95,10 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "Fishing rules by region", icon: Anchor, title: "Fishing Rules", description: "Check bag limits for any NZ fishing region", prompt: "What are the recreational fishing rules for snapper in Auckland?" },
   ],
   spark: [
-    { bullet: "Build web apps from text", icon: Code, title: "Build App", description: "Describe what you want and get a working app", prompt: "Build me a quote calculator for my painting business." },
-    { bullet: "Create business calculators", icon: DollarSign, title: "Calculator", description: "Generate interactive calculators and tools", prompt: "Build a GST calculator that can add or remove GST." },
-    { bullet: "Design client forms", icon: FileText, title: "Client Form", description: "Build professional intake forms with validation", prompt: "Create a professional client intake form for my law firm." },
-    { bullet: "Generate dashboards", icon: BarChart3, title: "Dashboard", description: "Create data dashboards with charts", prompt: "Build a business dashboard with revenue and expense charts." },
+    { bullet: "Build web apps from text", icon: Code, title: "Build App", description: "Describe what you want — get a working app", prompt: "Build me a quote calculator for my painting business. Include labour, materials, and GST." },
+    { bullet: "Create business calculators", icon: DollarSign, title: "Calculator", description: "Interactive calculators for any industry", prompt: "Build a GST calculator that can add or remove GST from any amount." },
+    { bullet: "Design client intake forms", icon: FileText, title: "Client Form", description: "Professional forms with validation", prompt: "Create a professional client intake form for my law firm with contact details, matter type, and conflict check." },
+    { bullet: "Generate compliance checklists", icon: Shield, title: "Compliance App", description: "Interactive compliance tools for NZ regulations", prompt: "Build a Healthy Homes compliance checklist app covering all 6 standards with pass/fail tracking." },
   ],
   accounting: [
     { bullet: "GST return preparation", icon: DollarSign, title: "GST Return", description: "Calculate and prepare your GST return", prompt: "Help me prepare my GST return." },
