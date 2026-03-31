@@ -174,7 +174,7 @@ const AgentGrid = () => {
       <EmbedDemoSection />
 
       {/* ═══════ PRICING ═══════ */}
-      <section className="relative z-10 py-16 sm:py-24" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+      <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-8">
             <h2
@@ -186,7 +186,7 @@ const AgentGrid = () => {
                 color: "#FFFFFF",
               }}
             >
-              Enterprise-grade intelligence. <span style={{ color: "#D4A843" }}>SME-friendly pricing.</span>
+              Straight pricing. No surprises. <span style={{ color: "#D4A843" }}>Cancel anytime.</span>
             </h2>
             <p
               className="mb-6"
