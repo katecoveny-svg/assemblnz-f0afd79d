@@ -383,6 +383,9 @@ const SLUG_TO_ID: Record<string, string> = {
   "forge": "devops",
   "toroa": "family",
   "tika": "tiriti",
+  "ora": "healthcompanion",
+  "tahi": "triage",
+  "vitae": "carenavigation",
 };
 
 const ChatPage = () => {

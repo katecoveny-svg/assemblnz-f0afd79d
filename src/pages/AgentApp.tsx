@@ -22,8 +22,28 @@ interface Message {
 
 type Tab = "chat" | "sms" | "settings";
 
+const SLUG_TO_ID: Record<string, string> = {
+  "aura": "hospitality", "apex": "construction", "prism": "marketing",
+  "ledger": "accounting", "spark": "software", "haven": "hotel",
+  "tide": "tourism", "beacon": "events", "coast": "coastal",
+  "ember": "bar", "flora": "garden", "crest": "concierge",
+  "ata": "bim", "arai": "safety", "kaupapa": "projectgov",
+  "rawa": "resource", "whakaae": "consent", "pai": "quality",
+  "muse": "copywriting", "pixel": "design", "verse": "video",
+  "canvas": "experiential", "reel": "social", "quill": "techwriting",
+  "aroha": "hr", "turf": "brandstrategy", "sage": "strategy",
+  "compass": "risk", "anchor": "operations", "flux": "sales",
+  "shield": "insurance", "vault": "datasecurity", "mint": "forecasting",
+  "axis": "analytics", "kindle": "innovation", "sentinel": "monitoring",
+  "nexus": "integration", "cipher": "crypto", "relay": "messaging",
+  "signal": "netsec", "forge": "devops", "toroa": "family",
+  "tika": "tiriti", "ora": "healthcompanion", "tahi": "triage",
+  "vitae": "carenavigation",
+};
+
 export default function AgentApp() {
-  const { agentId } = useParams<{ agentId: string }>();
+  const { agentId: rawAgentId } = useParams<{ agentId: string }>();
+  const agentId = rawAgentId ? (SLUG_TO_ID[rawAgentId] ?? rawAgentId) : rawAgentId;
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>("chat");
   const [messages, setMessages] = useState<Message[]>([]);
