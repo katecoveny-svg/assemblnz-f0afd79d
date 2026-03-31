@@ -127,7 +127,7 @@ const LiveDemoSection = () => {
             to="/content-hub"
             className="inline-flex items-center gap-2 text-sm font-display text-muted-foreground hover:text-foreground transition-colors" style={{ fontWeight: 300 }}
           >
-            See all 44 tools <ArrowRight size={14} />
+            See all 45 tools <ArrowRight size={14} />
           </Link>
         </div>
       </div>
