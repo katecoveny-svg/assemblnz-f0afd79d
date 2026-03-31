@@ -690,7 +690,7 @@ const specialistAgents: Agent[] = [
   {
     id: "tiriti",
     name: "TIKA",
-    designation: "ASM-043",
+    designation: "ASM-044",
     role: "Te Tiriti, Tikanga & Māori Business Advisor",
     tagline: "Grounding business in Te Tiriti obligations and tikanga Māori",
     color: "#8D6E63",
