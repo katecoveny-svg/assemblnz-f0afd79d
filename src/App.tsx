@@ -20,7 +20,7 @@ const ChatPageKeyed = () => {
   return <ChatPage key={agentId} />;
 };
 
-const MarinerLanding = lazy(() => import("./pages/MarinerLanding"));
+// MarinerLanding removed — redirects to /toroa
 const EmbedPage = lazy(() => import("./pages/EmbedPage"));
 const EmbedChatWidget = lazy(() => import("./pages/EmbedChatWidget"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
