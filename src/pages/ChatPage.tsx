@@ -938,6 +938,9 @@ const ChatPage = () => {
     if (isConstruction) {
       ["tender_writer:Tenders", "awards:Awards", "hs_hub:H&S", "esg:ESG", "iot_field:IoT"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
+    if (isHanga) {
+      ["bim_analyze:BIM Analysis", "bim_clash:Clash Detection", "bim_schedule:4D Schedule", "bim_3d:3D Model"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+    }
     if (isForge) {
       ["forge_showroom:Showroom", "forge_sales:Sales", "forge_parts:Parts", "forge_marketing:Marketing", "forge_events:Events", "forge_team:Team", "forge_brand:Brand Hub", "forge_audit:Audit"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
