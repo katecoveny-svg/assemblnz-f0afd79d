@@ -382,7 +382,7 @@ const AgentGrid = () => {
       <FAQSection />
 
       {/* ═══════ FOUNDER ═══════ */}
-      <section className="relative z-10 py-16 sm:py-24" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+      <section className="relative z-10 pt-[80px] pb-[80px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <motion.div
             className="w-32 h-32 rounded-full mx-auto mb-6 relative overflow-hidden"
