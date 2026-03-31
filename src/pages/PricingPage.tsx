@@ -34,7 +34,7 @@ const PricingPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative" style={{ background: '#09090B' }}>
+    <div className="min-h-screen flex flex-col relative bg-background">
       <SEO
         title="Assembl Pricing — Enterprise-Grade Business Intelligence | SME-Friendly Pricing"
         description="Starter $89/mo (1 tool). Pro $299/mo (3 tools + SPARK). Business $599/mo (all 44 tools). Industry Suite $1,499/mo (custom tools + white-label). TŌROA Family from $14/mo."
@@ -45,14 +45,13 @@ const PricingPage = () => {
       {/* Hero */}
       <section className="pt-20 pb-10 sm:py-28">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
-          <h1 className="text-2xl sm:text-5xl font-display font-bold mb-3 leading-tight" style={{ color: '#FAFAFA', letterSpacing: '-0.025em' }}>
-            Enterprise-grade business intelligence. SME-friendly pricing.
+          <h1 className="text-2xl sm:text-5xl font-display mb-3 leading-tight text-foreground" style={{ fontWeight: 300, letterSpacing: '-0.025em' }}>
+            Enterprise-grade business intelligence. <span className="text-gradient-hero">SME-friendly pricing.</span>
           </h1>
-          <p className="text-sm sm:text-base font-body max-w-xl mx-auto mb-6" style={{ color: '#A1A1AA' }}>
+          <p className="text-sm sm:text-base font-body max-w-xl mx-auto mb-6 text-muted-foreground">
             From $14/month. No lock-in. Cancel anytime. Every plan includes NZ legislation, document templates, and proactive compliance alerts.
           </p>
-
-          <p className="text-xs font-body" style={{ color: '#71717A' }}>
+          <p className="text-xs font-body text-muted-foreground/60">
             All prices in NZD. GST inclusive. Billed monthly.
           </p>
         </div>
@@ -65,40 +64,38 @@ const PricingPage = () => {
             {MAIN_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className="relative flex flex-col rounded-xl p-6"
+                className="relative flex flex-col glass-card glow-card-hover p-6"
                 style={{
-                  background: 'rgba(15, 15, 18, 0.8)',
-                  backdropFilter: 'blur(12px)',
-                  border: plan.popular ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid rgba(255,255,255,0.06)',
+                  borderColor: plan.popular ? 'rgba(212,168,67,0.3)' : undefined,
                 }}
               >
                 {plan.popular && (
-                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[10px] font-semibold px-3 py-0.5 rounded-full" style={{ background: '#10B981', color: '#09090B' }}>
+                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[10px] font-display px-3 py-0.5 rounded-full" style={{ background: 'hsl(var(--primary))', color: 'hsl(var(--primary-foreground))', fontWeight: 300, letterSpacing: '2px', textTransform: 'uppercase' }}>
                     Most Popular
                   </span>
                 )}
-                <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-3" style={{ color: '#71717A' }}>
+                <p className="text-[11px] font-display tracking-[2px] uppercase mb-3 text-muted-foreground" style={{ fontWeight: 300 }}>
                   {plan.name}
                 </p>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="font-display text-4xl font-bold" style={{ color: '#FAFAFA' }}>
+                  <span className="font-display text-4xl text-foreground" style={{ fontWeight: 300 }}>
                     {formatPrice(plan.price, 'priceLabel' in plan ? String(plan.priceLabel) : undefined)}
                   </span>
                   {plan.period && (
-                    <span className="text-sm" style={{ color: '#71717A' }}>{plan.period}</span>
+                    <span className="text-sm text-muted-foreground">{plan.period}</span>
                   )}
                 </div>
                 {'agents' in plan && (
-                  <p className="text-xs font-body mb-1" style={{ color: '#10B981' }}>{plan.agents}</p>
+                  <p className="text-xs font-body mb-1" style={{ color: 'hsl(var(--primary))' }}>{plan.agents}</p>
                 )}
                 {'messages' in plan && (
-                  <p className="text-[11px] font-body mb-4" style={{ color: '#71717A' }}>{plan.messages}</p>
+                  <p className="text-[11px] font-body mb-4 text-muted-foreground">{plan.messages}</p>
                 )}
-                <div className="h-px mb-4" style={{ background: 'rgba(255,255,255,0.06)' }} />
+                <div className="h-px mb-4" style={{ background: 'hsl(var(--border))' }} />
                 <ul className="space-y-2 mb-6 flex-1">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs font-body" style={{ color: '#A1A1AA' }}>
-                      <Check size={14} className="mt-0.5 shrink-0" style={{ color: '#10B981' }} />
+                    <li key={f} className="flex items-start gap-2 text-xs font-body text-muted-foreground">
+                      <Check size={14} className="mt-0.5 shrink-0 text-primary" />
                       {f}
                     </li>
                   ))}
@@ -107,10 +104,7 @@ const PricingPage = () => {
                   href={plan.link}
                   target={plan.link.startsWith('#') ? undefined : '_blank'}
                   rel="noopener noreferrer"
-                  className={plan.popular
-                    ? "cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
-                    : "cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
-                  }
+                  className="cta-glass-green block w-full text-center text-sm py-2.5 rounded-lg"
                 >
                   <span>{plan.cta}</span>
                 </a>
@@ -120,30 +114,24 @@ const PricingPage = () => {
 
           {/* Enterprise */}
           <div className="max-w-md mx-auto mt-6">
-            <div
-              className="flex flex-col rounded-xl p-6"
-              style={{
-                background: 'rgba(15, 15, 18, 0.8)',
-                border: '1px solid rgba(255,255,255,0.06)',
-              }}
-            >
-              <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-3" style={{ color: '#71717A' }}>
+            <div className="glass-card glow-card-hover flex flex-col p-6">
+              <p className="text-[11px] font-display tracking-[2px] uppercase mb-3 text-muted-foreground" style={{ fontWeight: 300 }}>
                 Enterprise
               </p>
-              <span className="font-display text-4xl font-bold mb-1" style={{ color: '#FAFAFA' }}>Custom</span>
-              <p className="text-xs font-body mb-4" style={{ color: '#71717A' }}>Unlimited agents & messages</p>
-              <div className="h-px mb-4" style={{ background: 'rgba(255,255,255,0.06)' }} />
+              <span className="font-display text-4xl text-foreground mb-1" style={{ fontWeight: 300 }}>Custom</span>
+              <p className="text-xs font-body mb-4 text-muted-foreground">Unlimited agents & messages</p>
+              <div className="h-px mb-4" style={{ background: 'hsl(var(--border))' }} />
               <ul className="space-y-2 mb-6 flex-1">
                 {PRICING.enterprise.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-xs font-body" style={{ color: '#A1A1AA' }}>
-                    <Check size={14} className="mt-0.5 shrink-0" style={{ color: '#10B981' }} />
+                  <li key={f} className="flex items-start gap-2 text-xs font-body text-muted-foreground">
+                    <Check size={14} className="mt-0.5 shrink-0 text-primary" />
                     {f}
                   </li>
                 ))}
               </ul>
               <button
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
+                className="cta-glass-green block w-full text-center text-sm py-2.5 rounded-lg"
               >
                 <span>Contact Us</span>
               </button>
@@ -153,37 +141,31 @@ const PricingPage = () => {
       </section>
 
       {/* TŌROA */}
-      <div className="max-w-6xl mx-auto px-5 sm:px-6"><div className="h-px" style={{ background: 'rgba(255,255,255,0.06)' }} /></div>
+      <div className="max-w-6xl mx-auto px-5 sm:px-6"><div className="section-divider" /></div>
       <section className="py-14">
         <div className="max-w-md mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-display font-bold text-center mb-2" style={{ color: '#FAFAFA' }}>
+          <h2 className="text-lg sm:text-2xl font-display text-center mb-2 text-foreground" style={{ fontWeight: 300 }}>
             TŌROA — Life Admin for Families
           </h2>
-          <p className="text-xs font-body text-center mb-8" style={{ color: '#71717A' }}>
+          <p className="text-xs font-body text-center mb-8 text-muted-foreground">
             Life admin built for Kiwi households
           </p>
-          <div
-            className="flex flex-col rounded-xl p-6"
-            style={{
-              background: 'rgba(15, 15, 18, 0.8)',
-              border: '1px solid rgba(179,136,255,0.15)',
-            }}
-          >
-            <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-3" style={{ color: '#3A6A9C' }}>
+          <div className="glass-card glow-card-hover flex flex-col p-6" style={{ borderColor: 'rgba(58,106,156,0.15)' }}>
+            <p className="text-[11px] font-display tracking-[2px] uppercase mb-3" style={{ color: 'hsl(var(--tangaroa-light))', fontWeight: 300 }}>
               {TOROA_PLAN.name}
             </p>
             <div className="flex items-baseline gap-1 mb-1">
-              <span className="font-display text-3xl font-bold" style={{ color: '#FAFAFA' }}>
+              <span className="font-display text-3xl text-foreground" style={{ fontWeight: 300 }}>
                 ${TOROA_PLAN.price}
               </span>
-              <span className="text-sm" style={{ color: '#71717A' }}>/mo</span>
+              <span className="text-sm text-muted-foreground">/mo</span>
             </div>
-            <p className="text-xs font-body mb-4" style={{ color: '#71717A' }}>{TOROA_PLAN.desc}</p>
-            <div className="h-px mb-4" style={{ background: 'rgba(255,255,255,0.06)' }} />
+            <p className="text-xs font-body mb-4 text-muted-foreground">{TOROA_PLAN.desc}</p>
+            <div className="h-px mb-4" style={{ background: 'hsl(var(--border))' }} />
             <ul className="space-y-2 mb-6 flex-1">
               {TOROA_PLAN.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-xs font-body" style={{ color: '#A1A1AA' }}>
-                  <Check size={14} className="mt-0.5 shrink-0" style={{ color: '#3A6A9C' }} />
+                <li key={f} className="flex items-start gap-2 text-xs font-body text-muted-foreground">
+                  <Check size={14} className="mt-0.5 shrink-0" style={{ color: 'hsl(var(--tangaroa-light))' }} />
                   {f}
                 </li>
               ))}
@@ -192,7 +174,7 @@ const PricingPage = () => {
               href={TOROA_PLAN.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="cta-glass-green block w-full text-center text-sm font-semibold py-2.5 rounded-lg"
+              className="cta-glass-green block w-full text-center text-sm py-2.5 rounded-lg"
             >
               <span>Get TŌROA — $29/mo</span>
             </a>
@@ -201,38 +183,38 @@ const PricingPage = () => {
       </section>
 
       {/* Comparison Table */}
-      <div className="max-w-6xl mx-auto px-5 sm:px-6"><div className="h-px" style={{ background: 'rgba(255,255,255,0.06)' }} /></div>
+      <div className="max-w-6xl mx-auto px-5 sm:px-6"><div className="section-divider" /></div>
       <section className="py-14">
         <div className="max-w-6xl mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-display font-bold text-center mb-8" style={{ color: '#FAFAFA' }}>
+          <h2 className="text-lg sm:text-2xl font-display text-center mb-8 text-foreground" style={{ fontWeight: 300 }}>
             Compare plans
           </h2>
           <div className="overflow-x-auto">
             <table className="w-full text-xs font-body" style={{ minWidth: '700px' }}>
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <th className="text-left py-3 pr-4" style={{ color: '#71717A' }}>Feature</th>
-                  <th className="text-center py-3 px-2" style={{ color: '#A1A1AA' }}>Starter $89</th>
-                  <th className="text-center py-3 px-2" style={{ color: '#10B981' }}>Pro $299</th>
-                  <th className="text-center py-3 px-2" style={{ color: '#A1A1AA' }}>Business $599</th>
-                  <th className="text-center py-3 px-2" style={{ color: '#A1A1AA' }}>Suite $1,499</th>
-                  <th className="text-center py-3 px-2" style={{ color: '#A1A1AA' }}>Enterprise</th>
+                <tr style={{ borderBottom: '1px solid hsl(var(--border))' }}>
+                  <th className="text-left py-3 pr-4 text-muted-foreground">Feature</th>
+                  <th className="text-center py-3 px-2 text-muted-foreground">Starter $89</th>
+                  <th className="text-center py-3 px-2 text-primary">Pro $299</th>
+                  <th className="text-center py-3 px-2 text-muted-foreground">Business $599</th>
+                  <th className="text-center py-3 px-2 text-muted-foreground">Suite $1,499</th>
+                  <th className="text-center py-3 px-2 text-muted-foreground">Enterprise</th>
                 </tr>
               </thead>
               <tbody>
                 {COMPARISON_FEATURES.map((row, i) => (
-                  <tr key={row.feature} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)' }}>
-                    <td className="py-2.5 pr-4" style={{ color: '#A1A1AA' }}>{row.feature}</td>
+                  <tr key={row.feature} style={{ borderBottom: '1px solid hsl(var(--border) / 0.4)', background: i % 2 === 0 ? 'transparent' : 'hsl(var(--muted) / 0.3)' }}>
+                    <td className="py-2.5 pr-4 text-muted-foreground">{row.feature}</td>
                     {(['starter', 'pro', 'business', 'suite', 'enterprise'] as const).map((tier) => {
                       const val = row[tier];
                       return (
                         <td key={tier} className="text-center py-2.5 px-2">
                           {val === true ? (
-                            <Check size={14} className="mx-auto" style={{ color: '#10B981' }} />
+                            <Check size={14} className="mx-auto text-primary" />
                           ) : val === false ? (
-                            <span style={{ color: '#3F3F46' }}>—</span>
+                            <span className="text-muted-foreground/30">—</span>
                           ) : (
-                            <span style={{ color: '#A1A1AA' }}>{val}</span>
+                            <span className="text-muted-foreground">{val}</span>
                           )}
                         </td>
                       );
@@ -248,43 +230,38 @@ const PricingPage = () => {
       {/* Trust */}
       <section className="pb-8">
         <div className="max-w-4xl mx-auto px-5 sm:px-6 text-center">
-          <p className="text-[11px] font-body" style={{ color: '#71717A' }}>
+          <p className="text-[11px] font-body text-muted-foreground/60">
             Payments secured by Stripe · Monthly billing · Cancel anytime · No lock-in · All plans include a 7-day money-back guarantee
           </p>
         </div>
       </section>
 
       {/* FAQ */}
-      <div className="max-w-3xl mx-auto px-5 sm:px-6"><div className="h-px" style={{ background: 'rgba(255,255,255,0.06)' }} /></div>
+      <div className="max-w-3xl mx-auto px-5 sm:px-6"><div className="section-divider" /></div>
       <section className="py-14 sm:py-20">
         <div className="max-w-3xl mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-display font-bold text-center mb-8" style={{ color: '#FAFAFA' }}>
+          <h2 className="text-lg sm:text-2xl font-display text-center mb-8 text-foreground" style={{ fontWeight: 300 }}>
             Frequently asked questions
           </h2>
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
               <div
                 key={i}
-                className="rounded-xl overflow-hidden"
-                style={{
-                  background: 'rgba(15, 15, 18, 0.8)',
-                  border: '1px solid rgba(255,255,255,0.06)',
-                }}
+                className="glass-card glow-card-hover rounded-xl overflow-hidden"
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between px-5 py-4 text-left"
                 >
-                  <span className="text-sm font-medium font-body pr-4" style={{ color: '#FAFAFA' }}>{faq.q}</span>
+                  <span className="text-sm font-medium font-body pr-4 text-foreground">{faq.q}</span>
                   <ChevronDown
                     size={16}
-                    className={`shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}
-                    style={{ color: '#71717A' }}
+                    className={`shrink-0 transition-transform duration-200 text-muted-foreground ${openFaq === i ? "rotate-180" : ""}`}
                   />
                 </button>
                 {openFaq === i && (
                   <div className="px-5 pb-4">
-                    <p className="text-xs font-body leading-relaxed" style={{ color: '#A1A1AA' }}>{faq.a}</p>
+                    <p className="text-xs font-body leading-relaxed text-muted-foreground">{faq.a}</p>
                   </div>
                 )}
               </div>
@@ -298,8 +275,7 @@ const PricingPage = () => {
         <div className="max-w-lg mx-auto px-5 sm:px-6 text-center space-y-3">
           <Link
             to="/chat/echo"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold font-body transition-colors duration-200"
-            style={{ background: '#10B981', color: '#09090B' }}
+            className="cta-glass-green inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm"
           >
             Not sure which plan? Chat with ECHO →
           </Link>
@@ -309,9 +285,9 @@ const PricingPage = () => {
       {/* Contact */}
       <section id="contact" className="pb-14">
         <div className="max-w-lg mx-auto px-5 sm:px-6 text-center">
-          <p className="text-sm font-body" style={{ color: '#71717A' }}>
+          <p className="text-sm font-body text-muted-foreground">
             Enterprise inquiries:{' '}
-            <a href="mailto:assembl@assembl.co.nz" className="underline" style={{ color: '#A1A1AA' }}>
+            <a href="mailto:assembl@assembl.co.nz" className="underline text-foreground/70 hover:text-foreground transition-colors">
               assembl@assembl.co.nz
             </a>
           </p>
