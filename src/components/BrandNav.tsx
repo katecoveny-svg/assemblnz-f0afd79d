@@ -6,10 +6,11 @@ import AccountDropdown from "@/components/AccountDropdown";
 import NotificationBell from "@/components/NotificationBell";
 import { assemblMark } from "@/assets/brand";
 
+interface NavChild { label: string; to: string; desc: string; badge?: "LIVE" | "ADMIN" }
 interface NavItem {
   label: string;
   to?: string;
-  children?: { label: string; to: string; desc: string }[];
+  children?: NavChild[];
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -27,11 +28,12 @@ const NAV_ITEMS: NavItem[] = [
   {
     label: "Industry Packs",
     children: [
-      { label: "Manaaki — Hospitality", to: "/content-hub#manaaki", desc: "Food safety, liquor, guest comms" },
-      { label: "Hanga — Construction", to: "/hanga", desc: "Consents, safety, BIM, quality" },
-      { label: "Auaha — Creative", to: "/content-hub#auaha", desc: "Brand, social, imagery, campaigns" },
-      { label: "Pakihi — Business", to: "/content-hub#pakihi", desc: "Payroll, employment, GST, insurance" },
-      { label: "Hangarau — Technology", to: "/content-hub#hangarau", desc: "Cyber, apps, APIs, monitoring" },
+      { label: "Pakihi — Business", to: "/packs/pakihi", desc: "HR, payroll, finance, operations", badge: "LIVE" },
+      { label: "Hanga — Construction", to: "/packs/hanga", desc: "Safety, BIM, consenting, quality", badge: "LIVE" },
+      { label: "Manaaki — Hospitality", to: "/packs/manaaki", desc: "Food safety, licensing, guest comms", badge: "LIVE" },
+      { label: "Tōroa — Family Navigator", to: "/packs/toroa", desc: "Whānau services, wellbeing, care", badge: "LIVE" },
+      { label: "Auaha — Creative", to: "/packs/auaha", desc: "Brand, social, imagery, campaigns", badge: "ADMIN" },
+      { label: "Hangarau — Technology", to: "/packs/hangarau", desc: "Cyber, apps, APIs, monitoring", badge: "ADMIN" },
     ],
   },
   { label: "Te Kāhui Reo", to: "/#te-kahui-reo" },
