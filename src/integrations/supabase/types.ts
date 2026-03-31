@@ -243,6 +243,42 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_analytics_events: {
+        Row: {
+          agent_slug: string
+          created_at: string
+          event_id: string
+          event_type: string
+          metadata: Json | null
+          pack_slug: string
+          session_duration_seconds: number | null
+          successful_completion: boolean | null
+          user_id: string | null
+        }
+        Insert: {
+          agent_slug: string
+          created_at?: string
+          event_id?: string
+          event_type: string
+          metadata?: Json | null
+          pack_slug: string
+          session_duration_seconds?: number | null
+          successful_completion?: boolean | null
+          user_id?: string | null
+        }
+        Update: {
+          agent_slug?: string
+          created_at?: string
+          event_id?: string
+          event_type?: string
+          metadata?: Json | null
+          pack_slug?: string
+          session_duration_seconds?: number | null
+          successful_completion?: boolean | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       agent_memory: {
         Row: {
           agent_id: string
@@ -1882,6 +1918,33 @@ export type Database = {
         }
         Relationships: []
       }
+      funnel_analytics: {
+        Row: {
+          completed: boolean
+          created_at: string
+          id: string
+          metadata: Json | null
+          step_name: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          step_name: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          step_name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       gear_rules: {
         Row: {
           created_at: string
@@ -3086,6 +3149,39 @@ export type Database = {
           title?: string
           user_id?: string
           version?: string
+        }
+        Relationships: []
+      }
+      pack_analytics: {
+        Row: {
+          created_at: string
+          device_type: string | null
+          duration_seconds: number | null
+          event_id: string
+          event_type: string
+          metadata: Json | null
+          pack_slug: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          device_type?: string | null
+          duration_seconds?: number | null
+          event_id?: string
+          event_type: string
+          metadata?: Json | null
+          pack_slug: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          device_type?: string | null
+          duration_seconds?: number | null
+          event_id?: string
+          event_type?: string
+          metadata?: Json | null
+          pack_slug?: string
+          user_id?: string | null
         }
         Relationships: []
       }

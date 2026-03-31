@@ -7,6 +7,7 @@ import ParticleField from "@/components/ParticleField";
 import SEO from "@/components/SEO";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const ICON_MAP: Record<string, any> = {
   briefcase: Briefcase, hammer: Hammer, utensils: UtensilsCrossed,
@@ -70,11 +71,17 @@ const STATUS_STYLES: Record<string, { bg: string; text: string }> = {
 const PackLandingPage = () => {
   const { packSlug } = useParams<{ packSlug: string }>();
   const [pack, setPack] = useState<any>(null);
+  const { trackPackEvent, trackAgentEvent, trackFunnelStep } = useAnalytics();
 
   useEffect(() => {
     supabase.from("pack_visibility").select("*").eq("pack_slug", packSlug || "").single()
       .then(({ data }) => { if (data) setPack(data); });
   }, [packSlug]);
+
+  // Track page view
+  useEffect(() => {
+    if (packSlug) trackPackEvent(packSlug, "page_view");
+  }, [packSlug, trackPackEvent]);
 
   const agents = PACK_AGENTS[packSlug || ""] || [];
   const IconComp = ICON_MAP[pack?.icon || "briefcase"] || Briefcase;
@@ -115,6 +122,12 @@ const PackLandingPage = () => {
               to={isToroa ? "/toroa/app" : `/chat/${agents[0]?.name.toLowerCase().replace(/\s+/g, "-") || "aroha"}`}
               className="inline-flex items-center gap-2 mt-8 px-8 py-3 rounded-xl text-sm font-bold transition-all hover:scale-105"
               style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", background: "#D4A843", color: "#09090F" }}
+              onClick={() => {
+                if (packSlug) {
+                  trackPackEvent(packSlug, "trial_start");
+                  trackFunnelStep("trial_start");
+                }
+              }}
             >
               Try {pack?.pack_name?.split("(")[0]?.trim() || packSlug} <ArrowRight size={16} />
             </Link>
@@ -157,8 +170,14 @@ const PackLandingPage = () => {
               return (
                 <motion.div
                   key={agent.name}
-                  className="rounded-2xl p-5 group overflow-hidden relative"
+                  className="rounded-2xl p-5 group overflow-hidden relative cursor-pointer"
                   style={{ background: "rgba(15,15,26,0.8)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.06)" }}
+                  onClick={() => {
+                    if (packSlug) {
+                      trackAgentEvent(packSlug, agent.name.toLowerCase().replace(/\s+/g, "-"), "click");
+                      trackPackEvent(packSlug, "agent_click", { agent: agent.name });
+                    }
+                  }}
                   initial={{ opacity: 0, y: 12 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
