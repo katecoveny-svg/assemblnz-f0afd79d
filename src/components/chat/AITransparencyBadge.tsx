@@ -30,14 +30,15 @@ const AITransparencyBadge = () => {
             {/* AI Model */}
             <div>
               <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonBrain size={14} /> AI Model</h4>
-              <p>Assembl agents are powered by <strong className="text-foreground">Claude</strong>, built by <strong className="text-foreground">Anthropic</strong> — one of the world's leading AI safety companies. We use Claude Sonnet 4 for fast, accurate, industry-specific responses grounded in New Zealand legislation and standards.</p>
+              <p>Assembl agents are powered by leading AI models from providers committed to safety and responsible AI. We deliver fast, accurate, industry-specific responses grounded in New Zealand legislation and standards.</p>
             </div>
 
             {/* Data Handling */}
             <div>
-              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonShield size={14} color="hsl(153,100%,50%)" /> How Your Data Is Handled</h4>
+            <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonShield size={14} color="hsl(42,63%,55%)" /> Your data is taonga</h4>
+              <p className="mb-2 text-foreground/60">Taonga means treasure in Te Reo Māori. We treat every piece of your data with the care it deserves.</p>
               <ul className="space-y-1.5 list-none">
-                <li>• Conversations are processed in real-time via Anthropic's API</li>
+                <li>• Conversations are processed in real-time via secure AI APIs</li>
                 <li>• Your data is <strong className="text-foreground">not used to train AI models</strong></li>
                 <li>• Uploaded documents are processed for the current session only</li>
                 <li>• Conversation history is stored securely for your convenience and can be deleted at any time</li>
@@ -49,10 +50,10 @@ const AITransparencyBadge = () => {
             {/* Data Sovereignty */}
             <div>
               <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonGlobe size={14} /> Data Sovereignty</h4>
-              <p>Your conversations are processed via Anthropic's infrastructure, which operates on servers located in the United States. We acknowledge this means data crosses NZ borders during processing. Mitigations include:</p>
+              <p>Your conversations are processed via secure AI infrastructure. We acknowledge this means data may cross NZ borders during processing. Mitigations include:</p>
               <ul className="space-y-1 list-none mt-1.5">
-                <li>• Data is encrypted in transit (TLS 1.3) and at rest</li>
-                <li>• Anthropic does not retain or use your data for training</li>
+                <li>• Data is encrypted in transit (TLS 1.3) and at rest (AES-256)</li>
+                <li>• AI providers do not retain or use your data for training</li>
                 <li>• Our backend infrastructure uses industry-standard security practices</li>
                 <li>• User account data and metadata is stored in secure cloud infrastructure</li>
               </ul>
