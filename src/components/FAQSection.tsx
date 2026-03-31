@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 const FAQS = [
   { q: "What is Assembl?", a: "Most businesses know they need to comply with NZ law. They just don't have time to read it all. Assembl has — 50+ Acts, from the Holidays Act to the Health and Safety at Work Act. Our 44 specialist tools turn that legislation into plain-English guidance, instant document generation, and compliance checks that take seconds instead of hours." },
   { q: "How is this different from ChatGPT?", a: "ChatGPT gives generic answers based on global training data. Assembl's 44 tools are each trained specifically on NZ legislation — the Employment Relations Act, Building Act, Food Act, Sale and Supply of Alcohol Act, and 50+ other NZ statutes. When you ask a compliance question, you get an answer grounded in the law that actually applies to your business, not American case law rephrased for a NZ audience." },
+  { q: "What is the minimum wage in New Zealand in 2026?", a: "As of 1 April 2026, the NZ adult minimum wage is $23.65 per hour. The starting-out and training minimum wage is $18.92 per hour." },
   { q: "Do I need technical skills to use it?", a: "Not at all. Every advisor works through natural conversation — just type or speak. No code, no setup, no training required." },
   { q: "Is my data safe?", a: "Yes. All data is encrypted in transit and at rest. We follow NZISM guidelines and are SOC 2 ready. Your business data is never used to train models." },
   { q: "What NZ legislation is built in?", a: "Our tools are trained on 50+ NZ Acts including the Employment Relations Act 2000, Building Act 2004, Health and Safety at Work Act 2015, Privacy Act 2020, Consumer Guarantees Act 1993, Incorporated Societies Act 2022, Food Act 2014, and many more." },
@@ -20,6 +21,29 @@ const FAQS = [
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: FAQS.map((faq) => ({
+        "@type": "Question",
+        name: faq.q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.a,
+        },
+      })),
+    };
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "faq-jsonld";
+    script.textContent = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
+    return () => {
+      document.getElementById("faq-jsonld")?.remove();
+    };
+  }, []);
 
   return (
     <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
