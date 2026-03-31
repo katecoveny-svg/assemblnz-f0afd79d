@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-
-import ConstellationHero from "@/components/ConstellationHero";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
+import MatarikiStars from "@/components/MatarikiStars";
+import ConstellationHero from "@/components/ConstellationHero";
 
 interface AnimatedHeroProps {
   onScrollToGrid: () => void;
@@ -27,6 +27,34 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
       <div className="absolute inset-0 z-0">
         <ConstellationHero size={0} fullBleed />
       </div>
+
+      {/* ── Matariki cluster — top right ambient ── */}
+      <motion.div
+        className="absolute z-[1] matariki-ambient pointer-events-none"
+        style={{
+          top: isMobile ? "3%" : "5%",
+          right: isMobile ? "-10%" : "5%",
+          opacity: isMobile ? 0.5 : 0.7,
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isMobile ? 0.5 : 0.7 }}
+        transition={{ duration: 2, delay: 1 }}
+      >
+        <MatarikiStars size={isMobile ? 200 : 360} />
+      </motion.div>
+
+      {/* ── Matariki cluster — bottom left ambient (desktop only) ── */}
+      {!isMobile && (
+        <motion.div
+          className="absolute z-[1] matariki-ambient pointer-events-none"
+          style={{ bottom: "15%", left: "-3%", opacity: 0.35, transform: "rotate(25deg)" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.35 }}
+          transition={{ duration: 2, delay: 1.5 }}
+        >
+          <MatarikiStars size={240} />
+        </motion.div>
+      )}
 
       {/* ── Mauao mountain — bottom ── */}
       <svg
@@ -55,14 +83,6 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
         <circle cx="650" cy="75" r="18" fill="#D4A843" opacity="0.18" />
         <circle cx="650" cy="75" r="8" fill="#FFD860" opacity="0.35" />
         <circle cx="650" cy="75" r="3" fill="white" opacity="0.5" />
-        <g opacity="0.18" fill="#D4A843">
-          <polygon points="80,210 88,198 96,210" /><polygon points="160,210 168,198 176,210" />
-          <polygon points="240,210 248,198 256,210" /><polygon points="320,210 328,198 336,210" />
-        </g>
-        <g opacity="0.15" fill="#3A7D6E">
-          <polygon points="580,212 588,200 596,212" /><polygon points="660,212 668,200 676,212" />
-          <polygon points="740,212 748,200 756,212" /><polygon points="840,212 848,200 856,212" />
-        </g>
       </svg>
 
       {/* ── Hero content — centred ── */}
@@ -77,7 +97,6 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
         >
           {/* Orbital mark */}
           <div className="relative flex items-center justify-center mb-6 sm:mb-8">
-            {/* Orbit rings */}
             <motion.div
               style={{ position: "absolute", width: isMobile ? 130 : 200, height: isMobile ? 130 : 200, borderRadius: "50%", border: "1px solid rgba(212,168,67,0.25)" }}
               animate={{ rotate: 360 }}
@@ -88,13 +107,11 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
               animate={{ rotate: -360 }}
               transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
             />
-            {/* Gold centre glow */}
             <motion.div
               style={{ position: "absolute", width: isMobile ? 60 : 90, height: isMobile ? 60 : 90, borderRadius: "50%", background: "radial-gradient(circle, rgba(212,168,67,0.2) 0%, rgba(58,125,110,0.08) 60%, transparent 100%)", filter: "blur(18px)" }}
               animate={{ scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }}
               transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
             />
-            {/* SVG mark */}
             <motion.svg
               width={isMobile ? 56 : 80}
               height={isMobile ? 56 : 80}
@@ -160,7 +177,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            Business Intelligence · NZ
+            Business Intelligence · Aotearoa
           </motion.p>
         </motion.div>
 
@@ -172,17 +189,33 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           transition={{ duration: 0.8, delay: 0.5 }}
         >
           <h1
-            className="text-[1.65rem] sm:text-5xl lg:text-[3.5rem] font-display font-extrabold mb-2 leading-[1.1] text-foreground"
-            style={{ letterSpacing: "-0.03em" }}
+            className="text-[1.65rem] sm:text-5xl lg:text-[3.5rem] font-display leading-[1.1] text-foreground heading-glow"
+            style={{ letterSpacing: "-0.03em", fontWeight: 700 }}
           >
             Your business runs on NZ law.
           </h1>
-          <p
-            className="text-xl sm:text-4xl lg:text-[3rem] font-display font-extrabold leading-[1.15] text-gradient-hero pb-2"
-            style={{ letterSpacing: "-0.02em" }}
+          <motion.p
+            className="text-xl sm:text-4xl lg:text-[3rem] font-display leading-[1.15] pb-2"
+            style={{
+              letterSpacing: "-0.02em",
+              fontWeight: 700,
+              background: "linear-gradient(135deg, #F0D078 0%, #D4A843 40%, #3A7D6E 80%, #1A3A5C 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              filter: "drop-shadow(0 0 30px rgba(212,168,67,0.3))",
+            }}
+            animate={{
+              filter: [
+                "drop-shadow(0 0 20px rgba(212,168,67,0.25))",
+                "drop-shadow(0 0 40px rgba(212,168,67,0.5)) drop-shadow(0 0 80px rgba(58,125,110,0.2))",
+                "drop-shadow(0 0 20px rgba(212,168,67,0.25))",
+              ],
+            }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
             Your tools should too.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Subheading */}
@@ -199,9 +232,9 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
         {/* Pounamu divider */}
         <motion.div
           className="w-full max-w-xs mx-auto mb-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.75 }}
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 0.8, delay: 0.75 }}
           style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(212,168,67,.4), rgba(58,125,110,.4), transparent)" }}
         />
 
@@ -215,7 +248,8 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           {STAT_PILLS.map((pill) => (
             <span
               key={pill.label}
-              style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", backdropFilter: "blur(12px)", color: "rgba(255,255,255,0.35)", letterSpacing: "0.05em", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", padding: "6px 14px", borderRadius: "9999px" }}
+              className="stat-pill cursor-default"
+              style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.35)", letterSpacing: "0.05em", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", padding: "6px 14px", borderRadius: "9999px" }}
             >
               {pill.label}
             </span>
