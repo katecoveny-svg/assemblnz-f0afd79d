@@ -29,15 +29,6 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
       {/* ── Content layer ── */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 sm:px-8 pb-24">
 
-        {/* Constellation mark */}
-        <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <ConstellationHero size={isMobile ? 140 : 200} />
-        </motion.div>
 
         {/* Eyebrow */}
         <motion.p
