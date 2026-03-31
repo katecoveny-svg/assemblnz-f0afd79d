@@ -1841,6 +1841,16 @@ const ChatPage = () => {
         <PrismAdEngine onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_podcast" && isPrism ? (
         <PrismPodcastStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "ora_checkin" && isOra ? (
+        <OraCheckIn onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "tahi_triage" && isTahi ? (
+        <TahiTriage onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "vitae_journeys" && isVitae ? (
+        <VitaeCareJourneys onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "aroha_caregiver" && isAroha ? (
+        <ArohaCaregiverWellbeing onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "haven_safety" && isHaven ? (
+        <HavenHomeSafety onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "axis_automations" && isAxis ? (
         <AxisAutomations />
       ) : activeTab === "kindle_writer" && isNonprofit ? (
