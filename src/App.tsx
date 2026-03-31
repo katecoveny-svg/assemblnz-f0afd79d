@@ -20,7 +20,7 @@ const ChatPageKeyed = () => {
   return <ChatPage key={agentId} />;
 };
 
-const MarinerLanding = lazy(() => import("./pages/MarinerLanding"));
+// MarinerLanding removed — redirects to /toroa
 const EmbedPage = lazy(() => import("./pages/EmbedPage"));
 const EmbedChatWidget = lazy(() => import("./pages/EmbedChatWidget"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
@@ -43,7 +43,7 @@ const MyAppsPage = lazy(() => import("./pages/MyAppsPage"));
 const SparkAppViewer = lazy(() => import("./pages/SparkAppViewer"));
 const WorkflowSettings = lazy(() => import("./pages/WorkflowSettings"));
 const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
-const WelcomePage = lazy(() => import("./pages/WelcomePage"));
+// WelcomePage removed — merged into onboarding
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const OnboardingPage = lazy(() => import("./pages/OnboardingPage"));
 const AdminHealthDashboard = lazy(() => import("./pages/AdminHealthDashboard"));
@@ -84,7 +84,7 @@ const App = () => (
                   <Route path="/chat/:agentId" element={<ChatPageKeyed />} />
                   <Route path="/login" element={<AuthPage mode="login" />} />
                   <Route path="/signup" element={<AuthPage mode="signup" />} />
-                  <Route path="/mariner" element={<Suspense fallback={null}><MarinerLanding /></Suspense>} />
+                  <Route path="/mariner" element={<Navigate to="/toroa" replace />} />
                   <Route path="/embed/:agentId" element={<Suspense fallback={null}><EmbedChatWidget /></Suspense>} />
                   <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
                   <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
@@ -109,11 +109,11 @@ const App = () => (
                   <Route path="/apps/:appName" element={<Suspense fallback={null}><SparkAppViewer /></Suspense>} />
                   <Route path="/settings/workflows" element={<Suspense fallback={null}><WorkflowSettings /></Suspense>} />
                   <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
-                  <Route path="/welcome" element={<Suspense fallback={null}><WelcomePage /></Suspense>} />
+                  <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
                   <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
                   <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
-                  <Route path="/turf-5-april-2026" element={<Suspense fallback={null}><TurfDeadlinePage /></Suspense>} />
-                  <Route path="/turf" element={<Navigate to="/turf-5-april-2026" replace />} />
+                  <Route path="/turf" element={<Suspense fallback={null}><TurfDeadlinePage /></Suspense>} />
+                  <Route path="/turf-5-april-2026" element={<Navigate to="/turf" replace />} />
                   <Route path="/aura" element={<Suspense fallback={null}><AuraLandingPage /></Suspense>} />
                   <Route path="/nexus" element={<Suspense fallback={null}><NexusLandingPage /></Suspense>} />
                   <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />

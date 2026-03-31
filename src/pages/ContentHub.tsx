@@ -120,7 +120,7 @@ const ContentHub = () => {
         <div className="text-center space-y-4">
           <Sparkles size={32} className="mx-auto text-muted-foreground/30" />
           <p className="text-sm text-muted-foreground">Sign in to access your Content Hub</p>
-          <Link to="/auth" className="inline-block px-6 py-2.5 rounded-lg text-sm font-semibold" style={{ background: "#5AADA0", color: "#09090B" }}>Sign In</Link>
+          <Link to="/login" className="inline-block px-6 py-2.5 rounded-lg text-sm font-semibold" style={{ background: "#5AADA0", color: "#09090B" }}>Sign In</Link>
         </div>
       </div>
       <BrandFooter />

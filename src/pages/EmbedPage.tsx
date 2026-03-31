@@ -168,7 +168,7 @@ const EmbedPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               {!user && (
-                <Link to="/auth" className="px-5 py-2.5 rounded-xl text-xs font-semibold bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 transition-all">
+                <Link to="/login" className="px-5 py-2.5 rounded-xl text-xs font-semibold bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 transition-all">
                   Sign in
                 </Link>
               )}
