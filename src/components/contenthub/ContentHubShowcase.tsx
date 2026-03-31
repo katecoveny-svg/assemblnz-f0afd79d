@@ -22,7 +22,7 @@ const FEATURED = [
   { name: "HAVEN", color: "#4FC3F7", id: "property", title: "Healthy Homes Compliance", desc: "Instant property compliance check with tradie assignment", Preview: HavenCompliancePreview },
   { name: "FORGE", color: "#3A6A9C", id: "automotive", title: "F&I Payment Comparison", desc: "3-lender comparison with CCCFA-compliant disclosure", Preview: ForgeComparisonPreview },
   { name: "AROHA", color: "#3A6A9C", id: "hr", title: "Employment Cost Calculator", desc: "True employer cost breakdown with KiwiSaver & ACC", Preview: ArohaCalculatorPreview },
-  { name: "PRISM", color: "#E040FB", id: "marketing", title: "Campaign Generator", desc: "One brief generates email, social, and ad copy", Preview: PrismCampaignPreview },
+  { name: "PRISM", color: "#C85A54", id: "marketing", title: "Campaign Generator", desc: "One brief generates email, social, and ad copy", Preview: PrismCampaignPreview },
   { name: "LEDGER", color: "#4FC3F7", id: "accounting", title: "PAYE Calculator", desc: "Instant NZ PAYE breakdown with net take-home pay", Preview: LedgerPayePreview },
   { name: "VAULT", color: "#7E57C2", id: "finance", title: "Mortgage Comparison", desc: "Compare banks and find the cheapest option", Preview: VaultMortgagePreview },
   { name: "SHIELD", color: "#7E57C2", id: "insurance", title: "Risk Assessment", desc: "Natural hazard profile and recommended sum insured", Preview: ShieldRiskPreview },

@@ -61,7 +61,7 @@ function RobotBody() {
     roughness: 0.05,
     transmission: 0.3,
     thickness: 0.5,
-    emissive: "#E040FB",
+    emissive: "#C85A54",
     emissiveIntensity: 0.4,
     transparent: true,
     opacity: 0.9,
@@ -230,8 +230,8 @@ function GlowRing() {
       <mesh ref={ringRef} position={[0, 0.3, 0]}>
         <torusGeometry args={[2.8, 0.03, 16, 100]} />
         <meshStandardMaterial
-          color="#E040FB"
-          emissive="#E040FB"
+          color="#C85A54"
+          emissive="#C85A54"
           emissiveIntensity={4}
           toneMapped={false}
           transparent
@@ -299,11 +299,11 @@ const NexusHero3D = () => {
         <ambientLight intensity={0.6} />
         <directionalLight position={[5, 5, 5]} intensity={1.2} color="#ffffff" />
         <directionalLight position={[-3, 3, -3]} intensity={0.8} color="#3A6A9C" />
-        <pointLight position={[0, 2, 3]} intensity={2} color="#E040FB" distance={12} />
+        <pointLight position={[0, 2, 3]} intensity={2} color="#C85A54" distance={12} />
         <pointLight position={[-2, -1, 2]} intensity={1} color="#C85A54" distance={10} />
         <pointLight position={[2, 0, 2]} intensity={1} color="#3A6A9C" distance={10} />
         <pointLight position={[0, 0, 4]} intensity={0.8} color="#3A6A9C" distance={8} />
-        <pointLight position={[0, -1, 3]} intensity={0.6} color="#E040FB" distance={8} />
+        <pointLight position={[0, -1, 3]} intensity={0.6} color="#C85A54" distance={8} />
 
         <Suspense fallback={null}>
           <RobotBody />
@@ -312,7 +312,7 @@ const NexusHero3D = () => {
         </Suspense>
 
         {/* Background orbs */}
-        <GlowOrb position={[-2.5, 1.5, -1]} color="#E040FB" size={0.22} speed={0.7} />
+        <GlowOrb position={[-2.5, 1.5, -1]} color="#C85A54" size={0.22} speed={0.7} />
         <GlowOrb position={[2.8, -0.5, -2]} color="#C85A54" size={0.2} speed={0.5} />
         <GlowOrb position={[1.5, 2, -1.5]} color="#3A6A9C" size={0.18} speed={0.8} />
         <GlowOrb position={[-1.8, -1.2, -1]} color="#5AADA0" size={0.2} speed={0.6} />

@@ -7,7 +7,7 @@ import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
 import { NeonCamera, NeonDocument, NeonMail, NeonFilm, NeonTarget, NeonBulb, NeonSeedling, NeonSparkle, NeonStar } from "@/components/NeonIcons";
 
-const PRISM_COLOR = "#E040FB";
+const PRISM_COLOR = "#C85A54";
 
 const PLATFORMS = [
   { id: "instagram_post", label: "Instagram Post", icon: <NeonCamera size={14} color={PRISM_COLOR} /> },
