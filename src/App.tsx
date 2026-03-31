@@ -60,6 +60,7 @@ const AuraLandingPage = lazy(() => import("./pages/AuraLandingPage"));
 const NexusLandingPage = lazy(() => import("./pages/NexusLandingPage"));
 const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
 const InvestPage = lazy(() => import("./pages/InvestPage"));
+const ToroaLandingPage = lazy(() => import("./pages/ToroaLandingPage"));
 const ToroaApp = lazy(() => import("./pages/HelmApp"));
 const AgentApp = lazy(() => import("./pages/AgentApp"));
 const AdminSmsPage = lazy(() => import("./pages/AdminSmsPage"));
@@ -123,7 +124,8 @@ const App = () => (
                   <Route path="/data-sovereignty" element={<Suspense fallback={null}><DataSovereigntyPage /></Suspense>} />
                   <Route path="/data-privacy" element={<Suspense fallback={null}><DataPrivacyLegal /></Suspense>} />
                   <Route path="/invest" element={<Suspense fallback={null}><InvestPage /></Suspense>} />
-                  <Route path="/toroa" element={<Suspense fallback={null}><ToroaApp /></Suspense>} />
+                  <Route path="/toroa" element={<Suspense fallback={null}><ToroaLandingPage /></Suspense>} />
+                  <Route path="/toroa/app" element={<Suspense fallback={null}><ToroaApp /></Suspense>} />
                   <Route path="/helm" element={<Navigate to="/toroa" replace />} />
                   <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
