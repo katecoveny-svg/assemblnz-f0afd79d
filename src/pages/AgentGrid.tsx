@@ -11,7 +11,7 @@ import { NeonWave } from "@/components/NeonIcons";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import FAQSection from "@/components/FAQSection";
-import HowItWorksSection from "@/components/HowItWorksSection";
+import PipelineSection from "@/components/landing/PipelineSection";
 import PackGrid from "@/components/landing/PackGrid";
 import SpecialistTeamGrid from "@/components/landing/SpecialistTeamGrid";
 import SocialProofSection from "@/components/landing/SocialProofSection";
