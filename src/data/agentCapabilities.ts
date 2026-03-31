@@ -53,10 +53,10 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "Tenancy Tribunal guidance", icon: Scale, title: "Tribunal Guide", description: "Navigate Tenancy Tribunal processes", prompt: "I need help preparing for a Tenancy Tribunal hearing." },
   ],
   hr: [
-    { bullet: "Employment agreements", icon: FileText, title: "Draft Agreement", description: "Generate a compliant employment agreement", prompt: "Draft an individual employment agreement for a full-time employee compliant with the Employment Relations Act 2000." },
-    { bullet: "Holiday pay calculations", icon: DollarSign, title: "Holiday Pay", description: "Calculate leave entitlements under Holidays Act", prompt: "Calculate holiday pay for my employee under the Holidays Act 2003." },
-    { bullet: "Disciplinary processes", icon: Shield, title: "Disciplinary Plan", description: "Create a fair, legally defensible process", prompt: "Create a disciplinary process plan for an employee performance issue." },
-    { bullet: "Recruitment pipeline", icon: Users, title: "Recruitment", description: "Build a recruitment process with job ads", prompt: "Help me build a recruitment process for a new role." },
+    { bullet: "Employment agreement generation", icon: FileText, title: "Employment Agreement", description: "Generate a NZ-compliant employment agreement", prompt: "Draft an individual employment agreement for a permanent full-time role. Include all mandatory ERA s65 clauses, trial period options (Feb 2026 rules), and KiwiSaver 3.5%." },
+    { bullet: "True employment cost calculator", icon: DollarSign, title: "True Cost Calculator", description: "Calculate the real cost of hiring an employee", prompt: "Calculate the true employment cost for a $75,000 salary including KiwiSaver 3.5%, ACC levy, leave loading, and all on-costs." },
+    { bullet: "Compliance gap scan", icon: Shield, title: "HR Compliance Scan", description: "Audit your HR setup against NZ employment law", prompt: "Run a compliance gap scan on my HR setup. Check employment agreements, Privacy Act 2020 (IPP 3A), Holidays Act, KiwiSaver April 2026 changes, and H&S compliance." },
+    { bullet: "Personal grievance workflow", icon: Scale, title: "Personal Grievance", description: "Navigate the personal grievance process step by step", prompt: "An employee has raised a personal grievance for unjustified dismissal. Walk me through the process, 90-day timeline, and mediation preparation." },
   ],
   operations: [
     { bullet: "Family calendar management", icon: Calendar, title: "Weekly Planner", description: "Organise your family's entire week in one view", prompt: "Help me plan our family's week. I have 2 school-age children." },
