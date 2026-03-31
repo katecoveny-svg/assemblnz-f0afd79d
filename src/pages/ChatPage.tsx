@@ -490,6 +490,9 @@ const ChatPage = () => {
   const isNonprofit = agentId === "nonprofit";
   const isSpark = agentId === "spark";
   const isSports = agentId === "sports";
+  const isOra = agentId === "healthcompanion";
+  const isTahi = agentId === "triage";
+  const isVitae = agentId === "carenavigation";
   const hasLiveDataTab = ["maritime", "agriculture", "sports", "hospitality", "pm", "automotive", "construction"].includes(agentId || "");
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
