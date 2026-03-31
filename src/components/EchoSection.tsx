@@ -7,7 +7,7 @@ import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 
-const ECHO_COLOR = "#E4A0FF";
+const ECHO_COLOR = "#D4A843";
 
 type VoiceTranscriptTurn = {
   role: "user" | "agent";
@@ -30,19 +30,19 @@ const EchoSection = () => {
     <section className="relative z-10 py-16 sm:py-24">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <motion.div
-          className="relative rounded-2xl overflow-hidden border border-[#E4A0FF]/15"
+          className="relative rounded-2xl overflow-hidden border border-[#D4A843]/15"
           style={{
             background: "rgba(14, 14, 26, 0.75)",
             backdropFilter: "blur(16px)",
             WebkitBackdropFilter: "blur(16px)",
-            boxShadow: "0 0 60px rgba(228,160,255,0.06), inset 0 1px 0 rgba(228,160,255,0.08)",
+            boxShadow: "0 0 60px rgba(212,168,67,0.06), inset 0 1px 0 rgba(212,168,67,0.08)",
           }}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <span className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-[#E4A0FF]/40 to-transparent" />
+          <span className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-[#D4A843]/40 to-transparent" />
 
           <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 p-6 sm:p-10 items-center">
             {/* Avatar */}
@@ -72,19 +72,19 @@ const EchoSection = () => {
                 className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
                 style={{
                   color: ECHO_COLOR,
-                  textShadow: `0 0 20px rgba(228,160,255,0.4), 0 0 60px rgba(228,160,255,0.15)`,
+                  textShadow: `0 0 20px rgba(212,168,67,0.4), 0 0 60px rgba(212,168,67,0.15)`,
                 }}
               >
                 Meet ECHO
               </h2>
-              <p className="font-mono-jb text-[10px] mb-4" style={{ color: "rgba(228,160,255,0.3)" }}>
+              <p className="font-mono-jb text-[10px] mb-4" style={{ color: "rgba(212,168,67,0.3)" }}>
                 ASM-000 · Assembl Hero Agent
               </p>
               <h3
                 className="font-display font-bold text-base sm:text-lg mb-4"
                 style={{
                   color: ECHO_COLOR,
-                  textShadow: "0 0 12px rgba(228,160,255,0.25)",
+                  textShadow: "0 0 12px rgba(212,168,67,0.25)",
                 }}
               >
                 Your front desk that never sleeps.
@@ -99,7 +99,7 @@ const EchoSection = () => {
                   style={{
                     background: ECHO_COLOR,
                     color: "#0A0A14",
-                    boxShadow: "0 0 20px rgba(228,160,255,0.2)",
+                    boxShadow: "0 0 20px rgba(212,168,67,0.2)",
                   }}
                 >
                   Chat with ECHO <ArrowRight size={14} />

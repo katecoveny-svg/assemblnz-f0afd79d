@@ -22,7 +22,7 @@ const C = {
 
 const T = {
   eyebrow: {
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Lato', sans-serif",
     fontWeight: 700,
     fontSize: "11px",
     letterSpacing: "3.5px",
@@ -44,7 +44,7 @@ const T = {
     color: C.white,
   },
   h3: {
-    fontFamily: "'Syne', sans-serif",
+    fontFamily: "'Lato', sans-serif",
     fontWeight: 700,
     fontSize: "16px",
     letterSpacing: "0.5px",

@@ -315,7 +315,7 @@ export default function LogoStackPage() {
           {[
             { label: "Wordmark", sample: "ASSEMBL", style: { fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "32px", letterSpacing: "0.5em", textTransform: "uppercase" as const, color: "#fff" } },
             { label: "Heading · Lato 900", sample: "Business Intelligence for Aotearoa", style: { fontFamily: "'Lato', sans-serif", fontWeight: 900, fontSize: "24px", color: "#fff" } },
-            { label: "Eyebrow · Syne 700", sample: "SPECIALIST TOOLS", style: { fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "11px", letterSpacing: "0.25em", textTransform: "uppercase" as const, color: "rgba(212,168,67,0.8)" } },
+            { label: "Eyebrow · Syne 700", sample: "SPECIALIST TOOLS", style: { fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "11px", letterSpacing: "0.25em", textTransform: "uppercase" as const, color: "rgba(212,168,67,0.8)" } },
             { label: "Body · Plus Jakarta Sans 300", sample: "Built on 50+ New Zealand Acts. Employment, hospitality, construction, property, and more.", style: { fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 300, fontSize: "14px", color: "rgba(255,255,255,0.6)", lineHeight: 1.6 } },
             { label: "Mono · JetBrains Mono", sample: "$89 / month · assembl.co.nz", style: { fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", color: "rgba(58,125,110,0.8)" } },
           ].map(({ label, sample, style }) => (
@@ -342,7 +342,7 @@ export default function LogoStackPage() {
             <Mark size={200} />
           </div>
 
-          <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(212,168,67,0.7)", marginBottom: "16px" }}>
+          <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(212,168,67,0.7)", marginBottom: "16px" }}>
             Early Access — Aotearoa New Zealand
           </p>
           <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 900, fontSize: "clamp(1.6rem, 4vw, 2.6rem)", color: "#fff", margin: "0 0 12px", lineHeight: 1.2 }}>

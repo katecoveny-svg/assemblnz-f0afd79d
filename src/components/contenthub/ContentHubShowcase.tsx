@@ -17,7 +17,7 @@ import {
 } from "./MiniPreviews";
 
 const FEATURED = [
-  { name: "ECHO", color: "#E4A0FF", id: "echo", title: "Content Command Centre", desc: "Daily content queue, DM drafts, and performance analytics", Preview: EchoContentPreview },
+  { name: "ECHO", color: "#D4A843", id: "echo", title: "Content Command Centre", desc: "Daily content queue, DM drafts, and performance analytics", Preview: EchoContentPreview },
   { name: "FLUX", color: "#3A6A9C", id: "sales", title: "Sales Pipeline Dashboard", desc: "AI-scored leads, deal health alerts, and revenue forecasting", Preview: FluxPipelinePreview },
   { name: "HAVEN", color: "#4FC3F7", id: "property", title: "Healthy Homes Compliance", desc: "Instant property compliance check with tradie assignment", Preview: HavenCompliancePreview },
   { name: "FORGE", color: "#3A6A9C", id: "automotive", title: "F&I Payment Comparison", desc: "3-lender comparison with CCCFA-compliant disclosure", Preview: ForgeComparisonPreview },

@@ -201,7 +201,7 @@ export const EchoContentPreview = () => {
         <span className="font-mono-jb text-[9px]" style={{ color: "rgba(255,255,255,0.3)" }}>
           Today's Queue
         </span>
-        <span className="font-mono-jb text-[9px]" style={{ color: "#E4A0FF" }}>
+        <span className="font-mono-jb text-[9px]" style={{ color: "#D4A843" }}>
           4 posts
         </span>
       </div>

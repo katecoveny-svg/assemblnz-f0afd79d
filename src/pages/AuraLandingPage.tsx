@@ -9,7 +9,7 @@ import VoiceAgentModal from "@/components/VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 import { supabase } from "@/integrations/supabase/client";
 
-const AURA_COLOR = "#00E5A0";
+const AURA_COLOR = "#5AADA0";
 
 const FEATURES = [
   "Food Control Plan diary (MPI-ready PDFs)",

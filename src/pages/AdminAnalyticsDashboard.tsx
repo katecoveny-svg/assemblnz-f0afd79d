@@ -24,7 +24,7 @@ interface AnalyticsData {
 }
 
 const MODEL_COLORS: Record<string, string> = {
-  "gemini-flash": "#00E5A0",
+  "gemini-flash": "#5AADA0",
   "gemini-lite": "#06b6d4",
   "gemini-pro": "#a855f7",
   "gpt-5": "#f59e0b",
@@ -174,7 +174,7 @@ export default function AdminAnalyticsDashboard() {
                     <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={11} />
                     <YAxis stroke="hsl(var(--muted-foreground))" fontSize={11} />
                     <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
-                    <Line type="monotone" dataKey="messages" stroke="#00E5A0" strokeWidth={2} dot={false} />
+                    <Line type="monotone" dataKey="messages" stroke="#5AADA0" strokeWidth={2} dot={false} />
                     <Line type="monotone" dataKey="cost" stroke="#f59e0b" strokeWidth={2} dot={false} />
                   </LineChart>
                 </ResponsiveContainer>
@@ -205,7 +205,7 @@ export default function AdminAnalyticsDashboard() {
                   <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={11} />
                   <YAxis dataKey="name" type="category" width={100} stroke="hsl(var(--muted-foreground))" fontSize={11} />
                   <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
-                  <Bar dataKey="count" fill="#00E5A0" radius={[0, 4, 4, 0]} name="Messages" />
+                  <Bar dataKey="count" fill="#5AADA0" radius={[0, 4, 4, 0]} name="Messages" />
                   <Bar dataKey="cost" fill="#f59e0b" radius={[0, 4, 4, 0]} name="Cost (NZD)" />
                 </BarChart>
               </ResponsiveContainer>

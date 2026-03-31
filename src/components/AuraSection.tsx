@@ -6,7 +6,7 @@ import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 import AgentAvatar from "./AgentAvatar";
 
-const AURA_COLOR = "#00E5A0";
+const AURA_COLOR = "#5AADA0";
 
 type VoiceTranscriptTurn = {
   role: "user" | "agent";

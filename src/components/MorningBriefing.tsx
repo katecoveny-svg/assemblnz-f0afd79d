@@ -75,7 +75,7 @@ const MorningBriefing = () => {
       }
       if (echoConvs.length > 0) echoInsights.push(`${echoConvs.length} conversations today.`);
       if (echoInsights.length === 0) echoInsights.push("Ready to assist — start your day with a task.");
-      briefingInsights.push({ agentId: "echo", agentName: "ECHO", color: "#E4A0FF", insights: echoInsights });
+      briefingInsights.push({ agentId: "echo", agentName: "ECHO", color: "#D4A843", insights: echoInsights });
 
       // LEDGER (finance) insight
       const financeDeadlines = deadlines.filter((d: any) => d.agents?.includes("ledger") || d.category === "tax");

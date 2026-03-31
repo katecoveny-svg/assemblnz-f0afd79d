@@ -90,7 +90,7 @@ const COMPLIANCE_BADGES = [
 const SectionEyebrow = ({ children }: { children: React.ReactNode }) => (
   <p
     style={{
-      fontFamily: "'Syne', sans-serif",
+      fontFamily: "'Lato', sans-serif",
       fontWeight: 700,
       fontSize: "0.7rem",
       letterSpacing: "0.18em",
