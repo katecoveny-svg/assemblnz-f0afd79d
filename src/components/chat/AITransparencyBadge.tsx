@@ -35,9 +35,10 @@ const AITransparencyBadge = () => {
 
             {/* Data Handling */}
             <div>
-              <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonShield size={14} color="hsl(153,100%,50%)" /> How Your Data Is Handled</h4>
+            <h4 className="font-semibold text-foreground mb-1.5 flex items-center gap-1.5"><NeonShield size={14} color="hsl(42,63%,55%)" /> Your data is taonga</h4>
+              <p className="mb-2 text-foreground/60">Taonga means treasure in Te Reo Māori. We treat every piece of your data with the care it deserves.</p>
               <ul className="space-y-1.5 list-none">
-                <li>• Conversations are processed in real-time via Anthropic's API</li>
+                <li>• Conversations are processed in real-time via secure AI APIs</li>
                 <li>• Your data is <strong className="text-foreground">not used to train AI models</strong></li>
                 <li>• Uploaded documents are processed for the current session only</li>
                 <li>• Conversation history is stored securely for your convenience and can be deleted at any time</li>
