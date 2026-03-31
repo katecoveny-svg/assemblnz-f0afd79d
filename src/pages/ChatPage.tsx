@@ -431,6 +431,7 @@ const ChatPage = () => {
   const isNexus = agentId === "customs";
   const isMarketing = agentId === "marketing";
   const isConstruction = agentId === "construction";
+  const isHanga = ["construction", "bim", "safety", "projectgov", "resource", "consent", "quality"].includes(agentId || "");
   const isHaven = agentId === "property";
   const isFlux = agentId === "sales";
   const isPrism = agentId === "marketing";
