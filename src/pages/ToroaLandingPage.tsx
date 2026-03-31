@@ -106,6 +106,7 @@ export default function ToroaLandingPage() {
   return (
     <div style={{ background: "#09090F", color: "#FFFFFF" }} className="min-h-screen font-body">
       <SEO title="Tōroa — SMS-first whānau AI navigator | Assembl" description="SMS-first AI that remembers your family, reminds your nan, and finds the money you're missing. Works on any phone. Built in Aotearoa." />
+      <BrandNav />
 
       {/* ── HERO ── */}
       <section className="relative overflow-hidden" style={{ padding: "120px 24px 80px" }}>
