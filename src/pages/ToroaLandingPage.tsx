@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
+import BrandNav from "@/components/BrandNav";
+import BrandFooter from "@/components/BrandFooter";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -104,9 +106,10 @@ export default function ToroaLandingPage() {
   return (
     <div style={{ background: "#09090F", color: "#FFFFFF" }} className="min-h-screen font-body">
       <SEO title="Tōroa — SMS-first whānau AI navigator | Assembl" description="SMS-first AI that remembers your family, reminds your nan, and finds the money you're missing. Works on any phone. Built in Aotearoa." />
+      <BrandNav />
 
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden" style={{ padding: "120px 24px 80px" }}>
+      <section className="relative overflow-hidden" style={{ padding: "80px 24px 80px" }}>
         <div
           className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(600px circle at 50% 40%, rgba(212, 168, 67, 0.08), transparent 70%)" }}
@@ -308,12 +311,7 @@ export default function ToroaLandingPage() {
         </div>
       </section>
 
-      {/* Back to Assembl */}
-      <div className="text-center pb-12">
-        <Link to="/" className="font-display uppercase text-xs" style={{ letterSpacing: "4px", color: "rgba(255,255,255,0.3)" }}>
-          ← Back to Assembl
-        </Link>
-      </div>
+      <BrandFooter />
     </div>
   );
 }
