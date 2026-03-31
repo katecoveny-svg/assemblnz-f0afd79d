@@ -32,7 +32,7 @@ const MobileTabBar = () => {
               style={{ color: active ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground) / 0.4)' }}
             >
               <Icon size={18} strokeWidth={active ? 2 : 1.5} />
-              <span className="text-[10px] font-inter font-medium">{label}</span>
+              <span className="text-[10px] font-body font-medium">{label}</span>
               {active && (
                 <span
                   className="absolute top-0 w-8 h-px"

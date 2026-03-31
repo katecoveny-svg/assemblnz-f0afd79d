@@ -68,7 +68,7 @@ const SectionHeader = ({
     >
       <Icon size={16} style={{ color: accent }} />
     </div>
-    <h2 className="font-syne font-bold text-lg text-foreground">{title}</h2>
+    <h2 className="font-display font-bold text-lg text-foreground">{title}</h2>
   </div>
 );
 
@@ -130,7 +130,7 @@ const DataPrivacyLegal = () => (
         </div>
 
         <h1
-          className="font-syne font-extrabold text-3xl sm:text-5xl lg:text-6xl leading-tight mb-6"
+          className="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl leading-tight mb-6"
           style={{
             background:
               "linear-gradient(135deg, #5AADA0, #3A6A9C, #A855F7, #1E3A5F)",
@@ -156,7 +156,7 @@ const DataPrivacyLegal = () => (
           <Glass>
             <SectionHeader icon={Lock} accent={GREEN} title="Privacy Policy Summary" />
 
-            <h3 className="text-xs font-syne font-bold uppercase tracking-widest text-foreground/70 mb-3">
+            <h3 className="text-xs font-display font-bold uppercase tracking-widest text-foreground/70 mb-3">
               What we collect
             </h3>
             <ul className="space-y-2.5 mb-5">
@@ -171,7 +171,7 @@ const DataPrivacyLegal = () => (
               </Bullet>
             </ul>
 
-            <h3 className="text-xs font-syne font-bold uppercase tracking-widest text-foreground/70 mb-3">
+            <h3 className="text-xs font-display font-bold uppercase tracking-widest text-foreground/70 mb-3">
               How we use it
             </h3>
             <ul className="space-y-2.5 mb-5">
@@ -189,7 +189,7 @@ const DataPrivacyLegal = () => (
             >
               <div className="flex items-center gap-2 mb-2">
                 <Database size={13} style={{ color: CYAN }} />
-                <span className="text-xs font-syne font-bold text-foreground/80">
+                <span className="text-xs font-display font-bold text-foreground/80">
                   Anthropic API &amp; data handling
                 </span>
               </div>

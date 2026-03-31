@@ -203,18 +203,18 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-1">
             <Sparkles size={18} style={{ color: PRISM_COLOR }} />
-            <h2 className="text-lg font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>Content Studio</h2>
+            <h2 className="text-lg font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>Content Studio</h2>
           </div>
-          <p className="text-xs font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>Generate platform-ready social content & images powered by PRISM</p>
+          <p className="text-xs font-body" style={{ color: "hsl(var(--muted-foreground))" }}>Generate platform-ready social content & images powered by PRISM</p>
         </div>
 
         {/* Agent Selector */}
         <div>
-          <label className="text-[11px] font-jakarta font-semibold uppercase tracking-wide mb-1.5 block" style={{ color: "hsl(var(--muted-foreground))" }}>Agent / Industry Context</label>
+          <label className="text-[11px] font-body font-semibold uppercase tracking-wide mb-1.5 block" style={{ color: "hsl(var(--muted-foreground))" }}>Agent / Industry Context</label>
           <select
             value={selectedAgent}
             onChange={(e) => setSelectedAgent(e.target.value)}
-            className="w-full rounded-lg px-3 py-2.5 text-sm font-jakarta focus:outline-none focus:ring-2"
+            className="w-full rounded-lg px-3 py-2.5 text-sm font-body focus:outline-none focus:ring-2"
             style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", color: "hsl(var(--foreground))" }}
           >
             {agents.map((a) => (
@@ -227,13 +227,13 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
 
         {/* Platform Selector */}
         <div>
-          <label className="text-[11px] font-jakarta font-semibold uppercase tracking-wide mb-1.5 block" style={{ color: "hsl(var(--muted-foreground))" }}>Platform</label>
+          <label className="text-[11px] font-body font-semibold uppercase tracking-wide mb-1.5 block" style={{ color: "hsl(var(--muted-foreground))" }}>Platform</label>
           <div className="flex flex-wrap gap-2">
             {PLATFORMS.map((p) => (
               <button
                 key={p.id}
                 onClick={() => setSelectedPlatform(p.id)}
-                className="px-3 py-2 rounded-lg text-xs font-jakarta font-medium transition-all border"
+                className="px-3 py-2 rounded-lg text-xs font-body font-medium transition-all border"
                 style={{
                   backgroundColor: selectedPlatform === p.id ? `${PRISM_COLOR}20` : "transparent",
                   borderColor: selectedPlatform === p.id ? `${PRISM_COLOR}50` : "hsl(var(--border))",
@@ -248,13 +248,13 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
 
         {/* Content Type */}
         <div>
-          <label className="text-[11px] font-jakarta font-semibold uppercase tracking-wide mb-1.5 block" style={{ color: "hsl(var(--muted-foreground))" }}>Content Type</label>
+          <label className="text-[11px] font-body font-semibold uppercase tracking-wide mb-1.5 block" style={{ color: "hsl(var(--muted-foreground))" }}>Content Type</label>
           <div className="flex flex-wrap gap-2">
             {CONTENT_TYPES.map((c) => (
               <button
                 key={c.id}
                 onClick={() => setSelectedContentType(c.id)}
-                className="px-3 py-2 rounded-lg text-xs font-jakarta font-medium transition-all border"
+                className="px-3 py-2 rounded-lg text-xs font-body font-medium transition-all border"
                 style={{
                   backgroundColor: selectedContentType === c.id ? `${PRISM_COLOR}20` : "transparent",
                   borderColor: selectedContentType === c.id ? `${PRISM_COLOR}50` : "hsl(var(--border))",
@@ -269,13 +269,13 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
 
         {/* Topic */}
         <div>
-          <label className="text-[11px] font-jakarta font-semibold uppercase tracking-wide mb-1.5 block" style={{ color: "hsl(var(--muted-foreground))" }}>Topic (optional)</label>
+          <label className="text-[11px] font-body font-semibold uppercase tracking-wide mb-1.5 block" style={{ color: "hsl(var(--muted-foreground))" }}>Topic (optional)</label>
           <input
             type="text"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             placeholder="e.g. Summer sale, new team member, product feature..."
-            className="w-full rounded-lg px-3 py-2.5 text-sm font-jakarta focus:outline-none focus:ring-2"
+            className="w-full rounded-lg px-3 py-2.5 text-sm font-body focus:outline-none focus:ring-2"
             style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", color: "hsl(var(--foreground))" }}
           />
         </div>
@@ -284,7 +284,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
         <button
           onClick={handleGenerate}
           disabled={!selectedPlatform || !selectedContentType || isGenerating}
-          className="w-full py-3 rounded-xl text-sm font-syne font-bold transition-all disabled:opacity-40"
+          className="w-full py-3 rounded-xl text-sm font-display font-bold transition-all disabled:opacity-40"
           style={{
             background: `linear-gradient(135deg, ${PRISM_COLOR}, ${PRISM_COLOR}CC)`,
             color: "#0A0A14",
@@ -316,12 +316,12 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
             <div className="flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2">
                 <AgentAvatar agentId="marketing" color={PRISM_COLOR} size={20} showGlow={false} />
-                <span className="text-xs font-syne font-bold" style={{ color: PRISM_COLOR }}>PRISM Content Studio</span>
+                <span className="text-xs font-display font-bold" style={{ color: PRISM_COLOR }}>PRISM Content Studio</span>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleSaveToLibrary}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-all"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-body font-medium transition-all"
                   style={{
                     background: saved ? "#5AADA020" : `${PRISM_COLOR}15`,
                     color: saved ? "#5AADA0" : PRISM_COLOR,
@@ -333,7 +333,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                 </button>
                 <button
                   onClick={handleCopy}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-all"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-body font-medium transition-all"
                   style={{
                     background: copied ? "#5AADA020" : `${PRISM_COLOR}15`,
                     color: copied ? "#5AADA0" : PRISM_COLOR,
@@ -346,7 +346,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                 {onSendToChat && (
                   <button
                     onClick={handleSendToChat}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-all"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-body font-medium transition-all"
                     style={{
                       background: `${PRISM_COLOR}15`,
                       color: PRISM_COLOR,
@@ -359,7 +359,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
               </div>
             </div>
 
-            <div className="prose prose-invert prose-sm max-w-none prose-headings:text-sm prose-headings:font-bold prose-p:my-1.5 prose-ul:my-1 prose-li:my-0.5 font-jakarta" style={{ color: "hsl(var(--foreground))" }}>
+            <div className="prose prose-invert prose-sm max-w-none prose-headings:text-sm prose-headings:font-bold prose-p:my-1.5 prose-ul:my-1 prose-li:my-0.5 font-body" style={{ color: "hsl(var(--foreground))" }}>
               <ReactMarkdown>{result}</ReactMarkdown>
             </div>
 
@@ -370,7 +370,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
             >
               <div className="flex items-center gap-2">
                 <ImageIcon size={14} style={{ color: PRISM_COLOR }} />
-                <span className="text-xs font-syne font-bold" style={{ color: PRISM_COLOR }}>Generate Social Image</span>
+                <span className="text-xs font-display font-bold" style={{ color: PRISM_COLOR }}>Generate Social Image</span>
               </div>
 
               <textarea
@@ -378,14 +378,14 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                 onChange={(e) => setImagePrompt(e.target.value)}
                 placeholder="Describe the image you want to create..."
                 rows={3}
-                className="w-full rounded-lg px-3 py-2.5 text-sm font-jakarta resize-none focus:outline-none focus:ring-2"
+                className="w-full rounded-lg px-3 py-2.5 text-sm font-body resize-none focus:outline-none focus:ring-2"
                 style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", color: "hsl(var(--foreground))" }}
               />
 
               <button
                 onClick={handleGenerateImage}
                 disabled={!imagePrompt.trim() || isGeneratingImage}
-                className="w-full py-2.5 rounded-lg text-sm font-syne font-bold transition-all disabled:opacity-40"
+                className="w-full py-2.5 rounded-lg text-sm font-display font-bold transition-all disabled:opacity-40"
                 style={{
                   background: `linear-gradient(135deg, ${PRISM_COLOR}90, ${PRISM_COLOR}60)`,
                   color: "#fff",
@@ -417,7 +417,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                   </div>
                   <button
                     onClick={handleDownloadImage}
-                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-syne font-bold transition-all"
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-display font-bold transition-all"
                     style={{
                       background: "#5AADA020",
                       color: "#5AADA0",

@@ -114,14 +114,14 @@ const IntegrationHub = () => {
             <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
               <Plug size={18} className="text-primary" />
             </div>
-            <h1 className="font-syne font-extrabold text-2xl md:text-3xl bg-gradient-to-r from-primary via-accent-foreground to-primary bg-clip-text text-transparent">
+            <h1 className="font-display font-extrabold text-2xl md:text-3xl bg-gradient-to-r from-primary via-accent-foreground to-primary bg-clip-text text-transparent">
               Integration Hub
             </h1>
           </div>
           <p className="text-sm text-muted-foreground max-w-md mb-2">
             Connect your tools. Your agents get superpowers.
           </p>
-          <p className="text-[10px] font-jakarta text-muted-foreground/60 mb-4 max-w-lg">
+          <p className="text-[10px] font-body text-muted-foreground/60 mb-4 max-w-lg">
             Integration connections are saved to your account. Full API connectivity for accounting, communication, and other platforms is rolling out in Q2 2026.
           </p>
 
@@ -153,7 +153,7 @@ const IntegrationHub = () => {
               <div className="flex items-center gap-2.5 mb-1.5">
                 <div className="w-1 h-5 rounded-full" style={{ background: section.glow }} />
                 <section.icon size={14} className="text-muted-foreground" />
-                <h2 className="font-syne font-bold text-sm tracking-wide uppercase text-foreground">
+                <h2 className="font-display font-bold text-sm tracking-wide uppercase text-foreground">
                   {section.title}
                 </h2>
                 <span className="text-[10px] text-muted-foreground ml-1">({items.length})</span>
@@ -201,7 +201,7 @@ const IntegrationHub = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="font-syne font-bold text-sm text-foreground">{integration.name}</span>
+                            <span className="font-display font-bold text-sm text-foreground">{integration.name}</span>
                             {isConnected && (
                               <span className="text-[9px] px-2 py-0.5 rounded-full bg-primary/15 text-primary font-semibold tracking-wider uppercase">
                                 Connected

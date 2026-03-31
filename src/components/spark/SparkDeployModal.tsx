@@ -100,7 +100,7 @@ export default function SparkDeployModal({ htmlContent, onClose, onDeployed }: S
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
       <div className="w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#0D0D14", border: "1px solid rgba(255,255,255,0.08)" }}>
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-syne font-bold flex items-center gap-2" style={{ color: "#E4E4EC" }}>
+          <h3 className="text-sm font-display font-bold flex items-center gap-2" style={{ color: "#E4E4EC" }}>
             <Rocket size={16} style={{ color: ACCENT }} /> {deployed ? "App Deployed!" : "Deploy Your App"}
           </h3>
           <button onClick={onClose}><X size={16} style={{ color: "rgba(255,255,255,0.4)" }} /></button>
@@ -110,7 +110,7 @@ export default function SparkDeployModal({ htmlContent, onClose, onDeployed }: S
           <>
             {!user && (
               <div className="rounded-xl p-3 space-y-2" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                <p className="text-[11px] font-jakarta" style={{ color: "rgba(255,255,255,0.72)" }}>
+                <p className="text-[11px] font-body" style={{ color: "rgba(255,255,255,0.72)" }}>
                   Sign in first to publish and manage SPARK apps.
                 </p>
                 <a
@@ -126,7 +126,7 @@ export default function SparkDeployModal({ htmlContent, onClose, onDeployed }: S
             <div>
               <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>App Name *</label>
               <input value={displayName} onChange={e => handleNameChange(e.target.value)} placeholder="e.g. Paint Quote Calculator"
-                className="w-full px-3 py-2.5 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+                className="w-full px-3 py-2.5 rounded-lg text-xs font-body bg-transparent border outline-none"
                 style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
               {appName && (
                 <p className="text-[9px] font-mono-jb mt-1" style={{ color: "rgba(255,255,255,0.3)" }}>
@@ -138,14 +138,14 @@ export default function SparkDeployModal({ htmlContent, onClose, onDeployed }: S
             <div>
               <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>Description (SEO)</label>
               <input value={metaDesc} onChange={e => setMetaDesc(e.target.value)} placeholder="Brief description for search engines..."
-                className="w-full px-3 py-2.5 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+                className="w-full px-3 py-2.5 rounded-lg text-xs font-body bg-transparent border outline-none"
                 style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
             </div>
 
             {/* Toggles */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-jakarta flex items-center gap-1.5" style={{ color: "rgba(255,255,255,0.5)" }}>
+                <span className="text-[11px] font-body flex items-center gap-1.5" style={{ color: "rgba(255,255,255,0.5)" }}>
                   <Lock size={12} /> Password protect
                 </span>
                 <button onClick={() => setPasswordProtect(!passwordProtect)} className="w-9 h-5 rounded-full relative transition-all"
@@ -156,12 +156,12 @@ export default function SparkDeployModal({ htmlContent, onClose, onDeployed }: S
               </div>
               {passwordProtect && (
                 <input value={password} onChange={e => setPassword(e.target.value)} placeholder="Set a password..." type="password"
-                  className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+                  className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
                   style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
               )}
 
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-jakarta flex items-center gap-1.5" style={{ color: "rgba(255,255,255,0.5)" }}>
+                <span className="text-[11px] font-body flex items-center gap-1.5" style={{ color: "rgba(255,255,255,0.5)" }}>
                   <Eye size={12} /> Show Assembl branding
                 </span>
                 <button onClick={() => setShowBranding(!showBranding)} className="w-9 h-5 rounded-full relative transition-all"
@@ -184,7 +184,7 @@ export default function SparkDeployModal({ htmlContent, onClose, onDeployed }: S
           <div className="space-y-4">
             <div className="rounded-xl p-4 text-center space-y-3" style={{ background: "rgba(102,187,106,0.08)", border: "1px solid rgba(102,187,106,0.2)" }}>
               <CheckCircle2 size={32} className="mx-auto" style={{ color: "rgba(102,187,106,0.9)" }} />
-              <p className="text-xs font-jakarta" style={{ color: "rgba(102,187,106,0.9)" }}>Your app is live!</p>
+              <p className="text-xs font-body" style={{ color: "rgba(102,187,106,0.9)" }}>Your app is live!</p>
               <div className="flex items-center gap-2 justify-center">
                 <code className="text-[10px] font-mono-jb px-2 py-1 rounded" style={{ background: "rgba(255,255,255,0.05)", color: "#E4E4EC" }}>
                   {deployedUrl}

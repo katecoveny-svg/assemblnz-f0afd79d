@@ -44,10 +44,10 @@ export const PRICING = {
     price: 599,
     period: '/mo',
     currency: 'NZD',
-    agents: 'All 42 specialist tools',
+    agents: 'All 44 specialist tools',
     messages: '2,000 messages/mo',
     features: [
-      'All 42 specialist advisors',
+      'All 44 specialist advisors',
       'SPARK app builder (25 deploys + custom domains)',
       '2,000 messages per month',
       'Command Centre dashboard',

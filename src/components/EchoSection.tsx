@@ -69,7 +69,7 @@ const EchoSection = () => {
                 </span>
               </div>
               <h2
-                className="font-syne font-extrabold text-3xl sm:text-4xl mb-1"
+                className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
                 style={{
                   color: ECHO_COLOR,
                   textShadow: `0 0 20px rgba(228,160,255,0.4), 0 0 60px rgba(228,160,255,0.15)`,
@@ -81,7 +81,7 @@ const EchoSection = () => {
                 ASM-000 · Assembl Hero Agent
               </p>
               <h3
-                className="font-syne font-bold text-base sm:text-lg mb-4"
+                className="font-display font-bold text-base sm:text-lg mb-4"
                 style={{
                   color: ECHO_COLOR,
                   textShadow: "0 0 12px rgba(228,160,255,0.25)",
@@ -89,13 +89,13 @@ const EchoSection = () => {
               >
                 Your front desk that never sleeps.
               </h3>
-              <p className="text-sm font-jakarta text-foreground/70 leading-relaxed mb-6 max-w-lg">
+              <p className="text-sm font-body text-foreground/70 leading-relaxed mb-6 max-w-lg">
                 ECHO is the voice of Assembl — trained on 13 years of NZ brand strategy. It handles client enquiries, creates daily content, writes DMs that convert, and manages social media around the clock. Always on. Always on brand.
               </p>
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                 <Link
                   to="/chat/echo"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{
                     background: ECHO_COLOR,
                     color: "#0A0A14",
@@ -106,7 +106,7 @@ const EchoSection = () => {
                 </Link>
                 <button
                   onClick={() => setShowVoice(true)}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{
                     background: "transparent",
                     color: ECHO_COLOR,

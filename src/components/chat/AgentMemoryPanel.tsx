@@ -158,7 +158,7 @@ const AgentMemoryPanel = ({ agentId, agentColor, agentName }: Props) => {
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <Brain size={18} style={{ color: agentColor }} />
-                  <span className="font-syne font-bold text-sm text-foreground">What I know about your business</span>
+                  <span className="font-display font-bold text-sm text-foreground">What I know about your business</span>
                 </div>
                 <button onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground">
                   <X size={18} />

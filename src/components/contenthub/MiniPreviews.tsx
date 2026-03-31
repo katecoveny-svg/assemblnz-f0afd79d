@@ -32,7 +32,7 @@ export const HavenCompliancePreview = () => {
         <span className="font-mono-jb text-[9px]" style={{ color: "rgba(255,255,255,0.3)" }}>
           14 Rata St, Mt Eden
         </span>
-        <span className="font-syne font-bold text-[11px]" style={{ color: "#3A6A9C" }}>
+        <span className="font-display font-bold text-[11px]" style={{ color: "#3A6A9C" }}>
           4/6
         </span>
       </div>
@@ -44,7 +44,7 @@ export const HavenCompliancePreview = () => {
             className="flex items-center justify-between py-1 px-2 rounded"
             style={{ background: "rgba(255,255,255,0.02)" }}
           >
-            <span className="font-jakarta text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>
+            <span className="font-body text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>
               {it.standard}
             </span>
             <span
@@ -77,13 +77,13 @@ export const FluxPipelinePreview = () => {
             className="flex-1 rounded-lg p-2 text-center"
             style={{ background: `${s.color}08`, border: `1px solid ${s.color}20` }}
           >
-            <p className="font-syne font-bold text-[11px]" style={{ color: s.color }}>
+            <p className="font-display font-bold text-[11px]" style={{ color: s.color }}>
               {s.count}
             </p>
             <p className="font-mono-jb text-[7px]" style={{ color: "rgba(255,255,255,0.3)" }}>
               {s.name}
             </p>
-            <p className="font-jakarta text-[8px] mt-0.5" style={{ color: "rgba(255,255,255,0.5)" }}>
+            <p className="font-body text-[8px] mt-0.5" style={{ color: "rgba(255,255,255,0.5)" }}>
               {s.value}
             </p>
           </div>
@@ -125,7 +125,7 @@ export const ArohaCalculatorPreview = () => {
           }}
         >
           <span
-            className="font-jakarta text-[10px]"
+            className="font-body text-[10px]"
             style={{ color: r.highlight ? "#3A6A9C" : "rgba(255,255,255,0.5)", fontWeight: r.highlight ? 700 : 400 }}
           >
             {r.label}
@@ -168,7 +168,7 @@ export const ForgeComparisonPreview = () => {
         { label: "Total", key: "total" as const },
       ].map((row) => (
         <div key={row.label} className="grid grid-cols-4 gap-0.5 py-1 text-[9px]" style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-          <span className="font-jakarta" style={{ color: "rgba(255,255,255,0.4)" }}>{row.label}</span>
+          <span className="font-body" style={{ color: "rgba(255,255,255,0.4)" }}>{row.label}</span>
           {lenders.map((l) => (
             <span
               key={l.name}
@@ -218,7 +218,7 @@ export const EchoContentPreview = () => {
             >
               {p.platform}
             </span>
-            <span className="font-jakarta text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>
+            <span className="font-body text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>
               {p.type}
             </span>
           </div>
@@ -262,7 +262,7 @@ export const PrismCampaignPreview = () => {
             className="text-center rounded-lg py-2"
             style={{ background: `${ch.color}08`, border: `1px solid ${ch.color}15` }}
           >
-            <p className="font-syne font-bold text-sm" style={{ color: ch.color }}>
+            <p className="font-display font-bold text-sm" style={{ color: ch.color }}>
               {ch.items}
             </p>
             <p className="font-mono-jb text-[7px]" style={{ color: "rgba(255,255,255,0.3)" }}>
@@ -319,7 +319,7 @@ export const LedgerPayePreview = () => {
         </div>
       ))}
       <div className="flex justify-between pt-2 px-2" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <span className="font-jakarta text-[10px] font-bold" style={{ color: "rgba(255,255,255,0.6)" }}>
+        <span className="font-body text-[10px] font-bold" style={{ color: "rgba(255,255,255,0.6)" }}>
           Net take-home
         </span>
         <span className="font-mono-jb text-[11px] font-bold" style={{ color: "#5AADA0" }}>
@@ -349,7 +349,7 @@ export const VaultMortgagePreview = () => {
             border: b.best ? "1px solid rgba(0,255,136,0.15)" : "1px solid transparent",
           }}
         >
-          <span className="font-jakarta text-[10px] font-medium" style={{ color: b.best ? "#5AADA0" : "rgba(255,255,255,0.5)" }}>
+          <span className="font-body text-[10px] font-medium" style={{ color: b.best ? "#5AADA0" : "rgba(255,255,255,0.5)" }}>
             {b.name}
           </span>
           <span className="font-mono-jb text-[9px]" style={{ color: "rgba(255,255,255,0.4)" }}>
@@ -395,7 +395,7 @@ export const ShieldRiskPreview = () => {
             className="w-2 h-2 rounded-full shrink-0"
             style={{ background: r.color }}
           />
-          <span className="font-jakarta text-[10px] flex-1" style={{ color: "rgba(255,255,255,0.5)" }}>
+          <span className="font-body text-[10px] flex-1" style={{ color: "rgba(255,255,255,0.5)" }}>
             {r.hazard}
           </span>
           <span className="font-mono-jb text-[9px]" style={{ color: r.color }}>
@@ -424,7 +424,7 @@ export const ApexHazardPreview = () => {
           className="flex items-center gap-2 py-1 px-2 rounded"
           style={{ background: "rgba(255,255,255,0.02)" }}
         >
-          <span className="font-jakarta text-[10px] flex-1" style={{ color: "rgba(255,255,255,0.5)" }}>
+          <span className="font-body text-[10px] flex-1" style={{ color: "rgba(255,255,255,0.5)" }}>
             {h.name}
           </span>
           <div className="w-12 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
@@ -446,7 +446,7 @@ export const ApexHazardPreview = () => {
 export const AnchorContractPreview = () => (
   <div className="space-y-2">
     <div className="text-center py-1" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-      <p className="font-syne font-bold text-[11px]" style={{ color: "rgba(255,255,255,0.7)" }}>
+      <p className="font-display font-bold text-[11px]" style={{ color: "rgba(255,255,255,0.7)" }}>
         INDIVIDUAL EMPLOYMENT AGREEMENT
       </p>
     </div>
@@ -461,7 +461,7 @@ export const AnchorContractPreview = () => (
         <span className="font-mono-jb text-[9px]" style={{ color: "rgba(255,255,255,0.3)" }}>
           {r.label}
         </span>
-        <span className="font-jakarta text-[9px]" style={{ color: "rgba(255,255,255,0.6)" }}>
+        <span className="font-body text-[9px]" style={{ color: "rgba(255,255,255,0.6)" }}>
           {r.value}
         </span>
       </div>
@@ -495,7 +495,7 @@ export const HelmWeeklyPreview = () => {
           {d.items.map((item) => (
             <p
               key={item}
-              className="font-jakarta text-[7px] leading-tight mb-0.5"
+              className="font-body text-[7px] leading-tight mb-0.5"
               style={{ color: "rgba(255,255,255,0.4)" }}
             >
               {item}
@@ -512,7 +512,7 @@ export const AuraGuestPreview = () => (
   <div className="space-y-2">
     <div className="flex items-center justify-between">
       <div>
-        <p className="font-syne font-bold text-[11px]" style={{ color: "rgba(255,255,255,0.7)" }}>
+        <p className="font-display font-bold text-[11px]" style={{ color: "rgba(255,255,255,0.7)" }}>
           Mr & Mrs Whitfield
         </p>
         <p className="font-mono-jb text-[8px]" style={{ color: "rgba(255,255,255,0.3)" }}>
@@ -533,7 +533,7 @@ export const AuraGuestPreview = () => (
       " Helicopter to Aoraki/Mt Cook",
       " Stargazing session",
     ].map((item) => (
-      <p key={item} className="font-jakarta text-[9px]" style={{ color: "rgba(255,255,255,0.45)" }}>
+      <p key={item} className="font-body text-[9px]" style={{ color: "rgba(255,255,255,0.45)" }}>
         {item}
       </p>
     ))}

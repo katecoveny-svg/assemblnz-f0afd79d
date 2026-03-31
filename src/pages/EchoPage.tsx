@@ -41,13 +41,13 @@ const EchoPage = () => (
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
             <p className="font-mono-jb text-[10px] mb-2" style={{ color: "rgba(228,160,255,0.3)" }}>ASM-000 · Assembl Hero Agent</p>
-            <h1 className="font-syne font-extrabold text-4xl sm:text-5xl mb-4" style={{ color: "#E4A0FF", textShadow: "0 0 30px rgba(228,160,255,0.35), 0 0 80px rgba(228,160,255,0.1)" }}>
+            <h1 className="font-display font-extrabold text-4xl sm:text-5xl mb-4" style={{ color: "#E4A0FF", textShadow: "0 0 30px rgba(228,160,255,0.35), 0 0 80px rgba(228,160,255,0.1)" }}>
               ECHO
             </h1>
-            <p className="text-lg font-jakarta text-foreground/70 leading-relaxed mb-6 max-w-lg">
+            <p className="text-lg font-body text-foreground/70 leading-relaxed mb-6 max-w-lg">
               The voice of Assembl — trained on 13 years of NZ brand strategy. Content, comms, DMs, and business decisions on autopilot. Always on. Always on brand.
             </p>
-            <Link to="/chat/echo" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg" style={{ background: "#E4A0FF", color: "#0A0A14", boxShadow: "0 0 20px rgba(228,160,255,0.2)" }}>
+            <Link to="/chat/echo" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg" style={{ background: "#E4A0FF", color: "#0A0A14", boxShadow: "0 0 20px rgba(228,160,255,0.2)" }}>
               Chat with ECHO <ArrowRight size={14} />
             </Link>
           </motion.div>
@@ -58,7 +58,7 @@ const EchoPage = () => (
     {/* Features */}
     <section className="relative z-10 py-16 sm:py-24 border-t border-white/[0.04]">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-center mb-12" style={{ color: "#E4A0FF", textShadow: "0 0 20px rgba(228,160,255,0.3)" }}>
+        <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-center mb-12" style={{ color: "#E4A0FF", textShadow: "0 0 20px rgba(228,160,255,0.3)" }}>
           What ECHO does
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -74,8 +74,8 @@ const EchoPage = () => (
               whileHover={{ y: -4 }}
             >
               <div className="mb-3" style={{ color: f.color }}>{f.icon}</div>
-              <h3 className="text-sm font-syne font-bold text-foreground mb-2">{f.title}</h3>
-              <p className="text-xs font-jakarta text-foreground/60 leading-relaxed">{f.desc}</p>
+              <h3 className="text-sm font-display font-bold text-foreground mb-2">{f.title}</h3>
+              <p className="text-xs font-body text-foreground/60 leading-relaxed">{f.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -85,7 +85,7 @@ const EchoPage = () => (
     {/* Connect / Social */}
     <section className="relative z-10 py-16 border-t border-white/[0.04]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        <h2 className="text-xl font-syne font-extrabold text-center mb-8 text-glow-cyan">Connect</h2>
+        <h2 className="text-xl font-display font-extrabold text-center mb-8 text-glow-cyan">Connect</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {SOCIAL_LINKS.map((s) => (
             <a
@@ -100,8 +100,8 @@ const EchoPage = () => (
                 {s.icon === "in" ? "in" : "IG"}
               </div>
               <div>
-                <p className="text-xs font-syne font-bold text-foreground">{s.handle}</p>
-                <p className="text-[10px] font-jakarta text-muted-foreground">{s.platform}</p>
+                <p className="text-xs font-display font-bold text-foreground">{s.handle}</p>
+                <p className="text-[10px] font-body text-muted-foreground">{s.platform}</p>
               </div>
             </a>
           ))}

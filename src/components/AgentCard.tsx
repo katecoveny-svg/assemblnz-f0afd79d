@@ -86,22 +86,22 @@ const AgentCard = ({ agent, index }: AgentCardProps) => {
             </div>
           </div>
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-[15px] font-syne font-bold tracking-wide text-foreground">{agent.name}</h3>
+            <h3 className="text-[15px] font-display font-bold tracking-wide text-foreground">{agent.name}</h3>
             <span className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse-glow" style={{ backgroundColor: agent.color, opacity: 0.6 }} />
           </div>
-          <p className="text-xs font-inter text-muted-foreground mb-3">{agent.role}</p>
+          <p className="text-xs font-body text-muted-foreground mb-3">{agent.role}</p>
 
           {/* Capability bullets */}
           <ul className="space-y-1.5 mb-4">
             {bullets.map((b) => (
-              <li key={b} className="flex items-start gap-2 text-[11px] font-inter text-foreground/65">
+              <li key={b} className="flex items-start gap-2 text-[11px] font-body text-foreground/65">
                 <ChevronRight size={10} className="mt-[3px] shrink-0 opacity-70" style={{ color: agent.color }} />
                 {b}
               </li>
             ))}
           </ul>
 
-          <div className="flex items-center gap-2 text-xs font-inter font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
+          <div className="flex items-center gap-2 text-xs font-body font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
             <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: agent.color, opacity: 0.5 }} />
             Chat now
             <span className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>

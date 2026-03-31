@@ -134,7 +134,7 @@ const ContentHub = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="font-syne font-extrabold text-xl sm:text-2xl text-foreground">Content Hub</h1>
+            <h1 className="font-display font-extrabold text-xl sm:text-2xl text-foreground">Content Hub</h1>
             <p className="text-[11px] text-muted-foreground mt-0.5">{items.length} assets generated across {Object.keys(agentCounts).length} agents</p>
           </div>
           <button onClick={loadContent} disabled={loading}
@@ -168,7 +168,7 @@ const ContentHub = () => {
               <>
                 {/* Brand Colors */}
                 <div className={glassCard + " p-6"} style={glassStyle}>
-                  <h3 className="text-sm font-syne font-bold text-foreground mb-4 flex items-center gap-2">
+                  <h3 className="text-sm font-display font-bold text-foreground mb-4 flex items-center gap-2">
                     <Palette size={14} style={{ color: "#3A6A9C" }} /> Brand Colours
                   </h3>
                   <div className="flex flex-wrap gap-3">
@@ -320,7 +320,7 @@ const ContentHub = () => {
                       <Icon size={8} />{item.output_type.replace(/_/g, " ")}
                     </span>
                   </div>
-                  <h3 className="text-sm font-syne font-bold text-foreground mb-2 line-clamp-2">{item.title}</h3>
+                  <h3 className="text-sm font-display font-bold text-foreground mb-2 line-clamp-2">{item.title}</h3>
                   {item.content_preview && (
                     <p className="text-[11px] text-muted-foreground line-clamp-3 mb-3">{item.content_preview}</p>
                   )}

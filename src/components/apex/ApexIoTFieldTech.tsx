@@ -29,8 +29,8 @@ const ApexIoTFieldTech = () => {
   return (
     <div className="space-y-6 p-4 sm:p-6 max-w-5xl mx-auto">
       <div>
-        <h2 className="font-syne font-bold text-lg text-foreground mb-1">IoT & Field Technology</h2>
-        <p className="text-xs font-jakarta text-muted-foreground">Live site monitoring, BIM coordination, and aerial surveys</p>
+        <h2 className="font-display font-bold text-lg text-foreground mb-1">IoT & Field Technology</h2>
+        <p className="text-xs font-body text-muted-foreground">Live site monitoring, BIM coordination, and aerial surveys</p>
       </div>
 
       {/* Panel tabs */}
@@ -44,7 +44,7 @@ const ApexIoTFieldTech = () => {
           <button
             key={p.id}
             onClick={() => setActivePanel(p.id as any)}
-            className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-jakarta font-medium transition-all"
+            className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-all"
             style={{
               background: activePanel === p.id ? "rgba(0,255,136,0.1)" : "rgba(255,255,255,0.03)",
               color: activePanel === p.id ? "#5AADA0" : "rgba(255,255,255,0.5)",
@@ -103,7 +103,7 @@ const ApexIoTFieldTech = () => {
       {activePanel === "trimble" && (
         <div className="space-y-4">
           <div className="rounded-xl p-5" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <h3 className="font-syne font-bold text-sm text-foreground mb-3">Trimble Connect — BIM Coordination</h3>
+            <h3 className="font-display font-bold text-sm text-foreground mb-3">Trimble Connect — BIM Coordination</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
               {[
                 { label: "BIM Import", desc: "Import IFC/RVT models from Trimble Connect projects", icon: "" },
@@ -132,7 +132,7 @@ const ApexIoTFieldTech = () => {
       {activePanel === "drone" && (
         <div className="space-y-4">
           <div className="rounded-xl p-5" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <h3 className="font-syne font-bold text-sm text-foreground mb-3">DroneDeploy — Aerial Intelligence</h3>
+            <h3 className="font-display font-bold text-sm text-foreground mb-3">DroneDeploy — Aerial Intelligence</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
               {[
                 { label: "Aerial Surveys", desc: "Orthomosaic maps and 3D site reconstructions from drone flights", icon: "" },
@@ -162,7 +162,7 @@ const ApexIoTFieldTech = () => {
         <div className="space-y-4">
           <div className="rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.06)" }}>
             <div className="px-4 py-3" style={{ background: "rgba(255,255,255,0.03)" }}>
-              <h3 className="font-syne font-bold text-sm text-foreground">Equipment GPS Tracker</h3>
+              <h3 className="font-display font-bold text-sm text-foreground">Equipment GPS Tracker</h3>
             </div>
             <div className="divide-y" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
               {EQUIPMENT.map((eq) => (

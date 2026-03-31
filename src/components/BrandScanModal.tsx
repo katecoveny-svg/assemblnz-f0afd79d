@@ -94,7 +94,7 @@ const BrandCard = ({ dna, onClose }: { dna: BrandDna; onClose: () => void }) => 
             <img src={editDna.logo_url} alt="Logo" className="w-10 h-10 rounded-lg object-contain bg-white/10" />
           )}
           <div>
-            <h4 className="font-syne font-bold text-sm text-foreground">{editDna.business_name}</h4>
+            <h4 className="font-display font-bold text-sm text-foreground">{editDna.business_name}</h4>
             <p className="text-[10px] text-muted-foreground">{editDna.industry} · Score: {editDna.brand_score}/100</p>
           </div>
         </div>
@@ -165,7 +165,7 @@ const BrandCard = ({ dna, onClose }: { dna: BrandDna; onClose: () => void }) => 
       <button
         onClick={handleSave}
         disabled={saving}
-        className="w-full px-4 py-2.5 rounded-lg text-sm font-syne font-bold transition-all disabled:opacity-60"
+        className="w-full px-4 py-2.5 rounded-lg text-sm font-display font-bold transition-all disabled:opacity-60"
         style={{ background: "#3A6A9C", color: "#0A0A14" }}
       >
         {saving ? "Saving..." : "Continue with Brand DNA →"}
@@ -190,14 +190,14 @@ const ManualBrandForm = ({ agentColor, onSubmit, loading }: { agentColor: string
     });
   };
 
-  const inputClass = "w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none text-foreground";
+  const inputClass = "w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none text-foreground";
   const labelClass = "text-[9px] font-mono uppercase tracking-wider mb-1 block text-muted-foreground";
 
   return (
     <div className="space-y-3 animate-in fade-in-0 slide-in-from-top-2 max-h-[60vh] overflow-y-auto pr-1">
       <div className="flex items-center gap-2 mb-1">
         <PenLine size={14} style={{ color: agentColor }} />
-        <p className="text-xs font-syne font-bold text-foreground">Enter your brand details manually</p>
+        <p className="text-xs font-display font-bold text-foreground">Enter your brand details manually</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -257,7 +257,7 @@ const ManualBrandForm = ({ agentColor, onSubmit, loading }: { agentColor: string
       <button
         onClick={handleSubmit}
         disabled={!form.businessName.trim() || loading}
-        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-syne font-bold transition-all disabled:opacity-40"
+        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-display font-bold transition-all disabled:opacity-40"
         style={{ background: agentColor, color: "#0A0A14" }}
       >
         {loading ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
@@ -383,12 +383,12 @@ const BrandScanModal = ({ agentName, agentColor, open, onClose, onBrandLoaded }:
           <>
             <div className="flex items-center gap-2 mb-2">
               <Globe size={20} style={{ color: agentColor }} />
-              <h3 className="text-sm font-syne font-bold text-foreground">
+              <h3 className="text-sm font-display font-bold text-foreground">
                 Let {agentName} learn your brand
               </h3>
             </div>
 
-            <p className="text-[11px] font-jakarta mb-4 text-muted-foreground">
+            <p className="text-[11px] font-body mb-4 text-muted-foreground">
               Enter your website URL. {agentName} scans colours, fonts, tone, and messaging so every agent matches your brand automatically.
             </p>
 
@@ -399,7 +399,7 @@ const BrandScanModal = ({ agentName, agentColor, open, onClose, onBrandLoaded }:
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
                   placeholder="e.g. assembl.co.nz"
-                  className="w-full px-3 py-2.5 rounded-lg text-xs font-jakarta bg-transparent border outline-none text-foreground"
+                  className="w-full px-3 py-2.5 rounded-lg text-xs font-body bg-transparent border outline-none text-foreground"
                   style={{ borderColor: url ? `${agentColor}40` : "hsl(var(--border))" }}
                   onKeyDown={(e) => e.key === "Enter" && handleScan()}
                   disabled={loading}
@@ -416,13 +416,13 @@ const BrandScanModal = ({ agentName, agentColor, open, onClose, onBrandLoaded }:
                     <label className="text-[9px] font-mono uppercase tracking-wider mb-1 flex items-center gap-1 text-muted-foreground">
                       <Instagram size={10} /> Instagram Handle
                     </label>
-                    <input value={instagram} onChange={(e) => setInstagram(e.target.value)} placeholder="@yourbusiness" className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none text-foreground" style={{ borderColor: "hsl(var(--border))" }} disabled={loading} />
+                    <input value={instagram} onChange={(e) => setInstagram(e.target.value)} placeholder="@yourbusiness" className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none text-foreground" style={{ borderColor: "hsl(var(--border))" }} disabled={loading} />
                   </div>
                   <div>
                     <label className="text-[9px] font-mono uppercase tracking-wider mb-1 flex items-center gap-1 text-muted-foreground">
                       <Linkedin size={10} /> LinkedIn Page URL
                     </label>
-                    <input value={linkedin} onChange={(e) => setLinkedin(e.target.value)} placeholder="linkedin.com/company/yourbusiness" className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none text-foreground" style={{ borderColor: "hsl(var(--border))" }} disabled={loading} />
+                    <input value={linkedin} onChange={(e) => setLinkedin(e.target.value)} placeholder="linkedin.com/company/yourbusiness" className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none text-foreground" style={{ borderColor: "hsl(var(--border))" }} disabled={loading} />
                   </div>
                 </div>
               )}
@@ -434,7 +434,7 @@ const BrandScanModal = ({ agentName, agentColor, open, onClose, onBrandLoaded }:
               <button
                 onClick={handleScan}
                 disabled={!url.trim() || loading}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-syne font-bold transition-all disabled:opacity-40 hover:scale-[0.98]"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-display font-bold transition-all disabled:opacity-40 hover:scale-[0.98]"
                 style={{ backgroundColor: agentColor, color: "#0A0A14" }}
               >
                 {loading ? <Loader2 size={14} className="animate-spin" /> : <Globe size={14} />}

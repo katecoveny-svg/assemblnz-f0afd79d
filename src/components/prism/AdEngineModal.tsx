@@ -274,7 +274,7 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
           <div className="flex items-center gap-3">
             <Target size={20} style={{ color: ACCENT }} />
             <div>
-              <h2 className="text-lg font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>Ad Engine</h2>
+              <h2 className="text-lg font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>Ad Engine</h2>
               <p className="text-xs" style={{ color: "hsl(var(--muted-foreground))" }}>Bulk campaign generator</p>
             </div>
           </div>
@@ -313,7 +313,7 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
                   const active = selectedIndustries.includes(ind.id);
                   return (
                     <button key={ind.id} onClick={() => toggleIndustry(ind.id)}
-                      className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-jakarta transition-all text-left"
+                      className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-body transition-all text-left"
                       style={{
                         background: active ? `${ACCENT}12` : "hsl(var(--muted))",
                         color: active ? ACCENT : "hsl(var(--muted-foreground))",
@@ -390,7 +390,7 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
             {/* Summary */}
             {selectedIndustries.length > 0 && (
               <div className="rounded-xl p-3" style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}20` }}>
-                <p className="text-xs font-jakarta" style={{ color: ACCENT }}>
+                <p className="text-xs font-body" style={{ color: ACCENT }}>
                   Will generate <strong>{selectedIndustries.length * adsPerIndustry * (platform === "both" ? 2 : 1)} ads</strong> across {selectedIndustries.length} {selectedIndustries.length === 1 ? "industry" : "industries"}
                 </p>
               </div>
@@ -398,7 +398,7 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
 
             {/* Generate Button */}
             <button onClick={handleGenerate} disabled={selectedIndustries.length === 0 || !campaignName.trim()}
-              className="w-full py-3.5 rounded-xl text-sm font-syne font-bold transition-all hover:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-30"
+              className="w-full py-3.5 rounded-xl text-sm font-display font-bold transition-all hover:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-30"
               style={{ background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT}CC)`, color: "#0A0A14", boxShadow: `0 0 20px ${ACCENT}30` }}>
               <Rocket size={16} /> Generate Campaign
             </button>
@@ -415,7 +415,7 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
                   <Target size={24} style={{ color: ACCENT }} />
                 </div>
               </div>
-              <p className="text-lg font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>
+              <p className="text-lg font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>
                 {STEPS[currentStep]}
               </p>
               <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: "hsl(var(--muted))" }}>
@@ -445,7 +445,7 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
             {/* Campaign summary */}
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>{campaign.name}</h3>
+                <h3 className="text-sm font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>{campaign.name}</h3>
                 <p className="text-xs" style={{ color: "hsl(var(--muted-foreground))" }}>{campaign.total_ads} ads generated</p>
               </div>
               <button onClick={() => {

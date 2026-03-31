@@ -64,7 +64,7 @@ const ArohaSection = () => {
               </div>
 
               <h2
-                className="font-syne font-extrabold text-3xl sm:text-4xl mb-1"
+                className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
                 style={{ color: AROHA_COLOR, textShadow: `0 0 20px ${AROHA_COLOR}40, 0 0 60px ${AROHA_COLOR}15` }}
               >
                 Meet AROHA
@@ -73,12 +73,12 @@ const ArohaSection = () => {
                 ASM-038 · HR & Employment Law Specialist
               </p>
               <h3
-                className="font-syne font-bold text-base sm:text-lg mb-4"
+                className="font-display font-bold text-base sm:text-lg mb-4"
                 style={{ color: AROHA_COLOR, textShadow: `0 0 12px ${AROHA_COLOR}25` }}
               >
                 The employment questions you'd normally pay a lawyer $350/hour to ask.
               </h3>
-              <p className="text-sm font-jakarta leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
+              <p className="text-sm font-body leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
                 AROHA generates employment agreements, calculates Holidays Act entitlements, builds
                 onboarding programmes, manages recruitment pipelines, and ensures your workplace is
                 fully compliant with NZ employment law — from hire to retire.
@@ -88,7 +88,7 @@ const ArohaSection = () => {
                 {["Employment Agreements", "Holidays Act AI", "Payroll & PAYE", "Onboarding Plans", "Recruitment Pipeline"].map((f) => (
                   <span
                     key={f}
-                    className="text-[10px] font-jakarta px-2.5 py-1 rounded-full"
+                    className="text-[10px] font-body px-2.5 py-1 rounded-full"
                     style={{ background: `${AROHA_COLOR}10`, color: `${AROHA_COLOR}90`, border: `1px solid ${AROHA_COLOR}20` }}
                   >
                     {f}
@@ -99,14 +99,14 @@ const ArohaSection = () => {
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                 <Link
                   to="/chat/hr"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{ background: AROHA_COLOR, color: "#0A0A14", boxShadow: `0 0 20px ${AROHA_COLOR}20` }}
                 >
                   Try AROHA <ArrowRight size={14} />
                 </Link>
                 <button
                   onClick={() => setShowVoice(true)}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{ background: "transparent", color: AROHA_COLOR, border: `1px solid ${AROHA_COLOR}40`, boxShadow: `0 0 20px ${AROHA_COLOR}10` }}
                 >
                   <Mic size={14} /> Talk to AROHA

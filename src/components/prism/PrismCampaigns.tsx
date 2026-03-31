@@ -54,7 +54,7 @@ export default function PrismCampaigns({ onSendToChat }: { onSendToChat?: (msg: 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-syne font-bold" style={{ color: "#E4E4EC" }}>Campaigns</h2>
+        <h2 className="text-sm font-display font-bold" style={{ color: "#E4E4EC" }}>Campaigns</h2>
         <button onClick={() => setShowAdd(true)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium"
           style={{ background: `${ACCENT}15`, color: ACCENT, border: `1px solid ${ACCENT}25` }}>
           <Plus size={12} /> New Campaign
@@ -70,7 +70,7 @@ export default function PrismCampaigns({ onSendToChat }: { onSendToChat?: (msg: 
         ].map(s => (
           <div key={s.label} className="rounded-xl p-3 text-center" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
             <p className="text-[10px] font-mono-jb uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>{s.label}</p>
-            <p className="text-lg font-syne font-bold" style={{ color: "#E4E4EC" }}>{s.value}</p>
+            <p className="text-lg font-display font-bold" style={{ color: "#E4E4EC" }}>{s.value}</p>
           </div>
         ))}
       </div>
@@ -104,12 +104,12 @@ export default function PrismCampaigns({ onSendToChat }: { onSendToChat?: (msg: 
             <div key={c.id} className="rounded-xl p-4 space-y-2" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-syne font-semibold" style={{ color: "#E4E4EC" }}>{c.name}</p>
-                  {c.goal && <p className="text-[10px] font-jakarta" style={{ color: "rgba(255,255,255,0.4)" }}>{c.goal}</p>}
+                  <p className="text-xs font-display font-semibold" style={{ color: "#E4E4EC" }}>{c.name}</p>
+                  {c.goal && <p className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.4)" }}>{c.goal}</p>}
                 </div>
                 <span className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full capitalize" style={{ background: st.bg, color: st.color }}>{c.status}</span>
               </div>
-              {c.subject_line && <p className="text-[11px] font-jakarta" style={{ color: "rgba(255,255,255,0.5)" }}>Subject: {c.subject_line}</p>}
+              {c.subject_line && <p className="text-[11px] font-body" style={{ color: "rgba(255,255,255,0.5)" }}>Subject: {c.subject_line}</p>}
               <div className="flex items-center gap-3 text-[10px] font-mono-jb" style={{ color: "rgba(255,255,255,0.3)" }}>
                 <span>{c.recipient_count} recipients</span>
                 <span>{c.open_count} opens</span>
@@ -122,14 +122,14 @@ export default function PrismCampaigns({ onSendToChat }: { onSendToChat?: (msg: 
             </div>
           );
         })}
-        {campaigns.length === 0 && <p className="text-xs font-jakarta text-center py-8" style={{ color: "rgba(255,255,255,0.3)" }}>No campaigns yet</p>}
+        {campaigns.length === 0 && <p className="text-xs font-body text-center py-8" style={{ color: "rgba(255,255,255,0.3)" }}>No campaigns yet</p>}
       </div>
 
       {showAdd && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="w-full max-w-md rounded-2xl p-6 space-y-3" style={{ background: "#0D0D14", border: "1px solid rgba(255,255,255,0.06)" }}>
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-syne font-bold" style={{ color: "#E4E4EC" }}>New Campaign</h3>
+              <h3 className="text-sm font-display font-bold" style={{ color: "#E4E4EC" }}>New Campaign</h3>
               <button onClick={() => setShowAdd(false)}><X size={16} style={{ color: "rgba(255,255,255,0.4)" }} /></button>
             </div>
             {[
@@ -140,14 +140,14 @@ export default function PrismCampaigns({ onSendToChat }: { onSendToChat?: (msg: 
               <div key={f.key}>
                 <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>{f.label}</label>
                 <input value={(form as any)[f.key]} onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))}
-                  className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+                  className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
                   style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
               </div>
             ))}
             <div>
               <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>Tone</label>
               <select value={form.tone} onChange={e => setForm(prev => ({ ...prev, tone: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+                className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
                 style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }}>
                 {["Professional", "Friendly", "Urgent", "Inspirational", "Conversational"].map(t => <option key={t} value={t} style={{ background: "#0D0D14" }}>{t}</option>)}
               </select>

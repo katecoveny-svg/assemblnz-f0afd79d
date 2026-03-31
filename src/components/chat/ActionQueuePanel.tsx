@@ -79,7 +79,7 @@ const ActionQueuePanel = ({ agentColor }: { agentColor: string }) => {
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <ListChecks size={16} style={{ color: agentColor }} />
-                <span className="font-syne font-bold text-sm text-foreground">Action Queue</span>
+                <span className="font-display font-bold text-sm text-foreground">Action Queue</span>
                 {pendingCount > 0 && (
                   <span className="text-[10px] px-1.5 py-0.5 rounded-full font-bold" style={{ backgroundColor: agentColor + "20", color: agentColor }}>
                     {pendingCount}

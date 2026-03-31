@@ -76,7 +76,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Dna size={14} style={{ color: ACCENT }} />
-          <span className="text-xs font-syne font-bold" style={{ color: "#E4E4EC" }}>
+          <span className="text-xs font-display font-bold" style={{ color: "#E4E4EC" }}>
             Brand DNA: {dna.business_name || "Your Brand"}
           </span>
         </div>
@@ -124,7 +124,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
       {ty && (
         <div className="flex items-center gap-2">
           <Type size={10} style={{ color: "rgba(255,255,255,0.3)" }} />
-          <span className="text-[10px] font-jakarta" style={{ color: "rgba(255,255,255,0.5)" }}>
+          <span className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.5)" }}>
             {ty.heading_font || ty.heading_style} / {ty.body_font || ty.body_style}
           </span>
         </div>
@@ -134,7 +134,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
       {vt && (
         <div className="flex items-center gap-2">
           <MessageSquare size={10} style={{ color: "rgba(255,255,255,0.3)" }} />
-          <span className="text-[10px] font-jakarta" style={{ color: "rgba(255,255,255,0.5)" }}>
+          <span className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.5)" }}>
             {vt.personality_traits?.slice(0, 3).join(", ")} · {vt.formality}/10 formality · {vt.emoji_usage} emoji
           </span>
         </div>
@@ -143,7 +143,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
       {expanded && (
         <div className="space-y-2 pt-2 border-t border-white/5 animate-in fade-in-0 slide-in-from-top-1">
           {dna.brand_summary && (
-            <p className="text-[10px] font-jakarta leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
+            <p className="text-[10px] font-body leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
               {dna.brand_summary}
             </p>
           )}
@@ -162,7 +162,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
               <span className="text-[9px] font-mono-jb uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>USPs</span>
               <ul className="mt-1 space-y-0.5">
                 {dna.usps.map(u => (
-                  <li key={u} className="text-[10px] font-jakarta" style={{ color: "rgba(255,255,255,0.5)" }}>• {u}</li>
+                  <li key={u} className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.5)" }}>• {u}</li>
                 ))}
               </ul>
             </div>

@@ -88,8 +88,8 @@ const HavenJobs = ({ onSendToChat }: { onSendToChat: (msg: string) => void }) =>
     <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4">
       <div className="flex items-center justify-between gap-2">
         <div>
-          <h2 className="font-syne font-bold text-base text-foreground">Maintenance Jobs</h2>
-          <p className="text-[11px] font-jakarta text-muted-foreground">{jobs.filter(j => j.status !== "completed" && j.status !== "invoice_uploaded").length} open jobs</p>
+          <h2 className="font-display font-bold text-base text-foreground">Maintenance Jobs</h2>
+          <p className="text-[11px] font-body text-muted-foreground">{jobs.filter(j => j.status !== "completed" && j.status !== "invoice_uploaded").length} open jobs</p>
         </div>
         <button onClick={() => setShowForm(true)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:opacity-80"
@@ -116,14 +116,14 @@ const HavenJobs = ({ onSendToChat }: { onSendToChat: (msg: string) => void }) =>
       <div className="relative">
         <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search jobs…"
-          className="w-full pl-9 pr-3 py-2 rounded-lg text-xs font-jakarta bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none" />
+          className="w-full pl-9 pr-3 py-2 rounded-lg text-xs font-body bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none" />
       </div>
 
       {/* New Job Form */}
       {showForm && (
         <div className="rounded-xl p-4 space-y-3 border" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
           <div className="flex items-center justify-between">
-            <h3 className="font-syne font-bold text-sm text-foreground">Log New Job</h3>
+            <h3 className="font-display font-bold text-sm text-foreground">Log New Job</h3>
             <button onClick={() => setShowForm(false)} className="p-1 rounded hover:bg-muted"><X size={14} className="text-muted-foreground" /></button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -161,7 +161,7 @@ const HavenJobs = ({ onSendToChat }: { onSendToChat: (msg: string) => void }) =>
       ) : filtered.length === 0 ? (
         <div className="text-center py-12 space-y-2">
           <Wrench size={32} className="mx-auto text-muted-foreground opacity-40" />
-          <p className="text-sm text-muted-foreground font-jakarta">{jobs.length === 0 ? "No jobs logged yet" : "No matching jobs"}</p>
+          <p className="text-sm text-muted-foreground font-body">{jobs.length === 0 ? "No jobs logged yet" : "No matching jobs"}</p>
         </div>
       ) : (
         <div className="space-y-2">
@@ -173,7 +173,7 @@ const HavenJobs = ({ onSendToChat }: { onSendToChat: (msg: string) => void }) =>
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-syne font-bold text-xs text-foreground">{j.title}</span>
+                      <span className="font-display font-bold text-xs text-foreground">{j.title}</span>
                       <span className="px-1.5 py-0.5 rounded-full text-[9px] font-medium" style={{ backgroundColor: URGENCY_COLORS[j.urgency] + "15", color: URGENCY_COLORS[j.urgency] }}>
                         {j.urgency}
                       </span>
@@ -181,7 +181,7 @@ const HavenJobs = ({ onSendToChat }: { onSendToChat: (msg: string) => void }) =>
                         {STATUS_LABELS[j.status]}
                       </span>
                     </div>
-                    <p className="text-[10px] text-muted-foreground font-jakarta mt-0.5">
+                    <p className="text-[10px] text-muted-foreground font-body mt-0.5">
                       {prop?.address}{j.category ? ` · ${j.category}` : ""}
                     </p>
                     <div className="flex items-center gap-3 mt-1">

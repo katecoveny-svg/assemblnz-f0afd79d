@@ -185,7 +185,7 @@ const TradiePortal = () => {
 
   if (loading) return (
     <div className="min-h-screen bg-[#09090F] flex items-center justify-center">
-      <div className="animate-pulse text-white/50 font-jakarta">Loading portal...</div>
+      <div className="animate-pulse text-white/50 font-body">Loading portal...</div>
     </div>
   );
 
@@ -193,7 +193,7 @@ const TradiePortal = () => {
     <div className="min-h-screen bg-[#09090F] flex items-center justify-center">
       <div className="text-center space-y-3">
         <Wrench className="mx-auto" size={48} style={{ color: "#FF80AB" }} />
-        <p className="text-white/70 font-jakarta">{error}</p>
+        <p className="text-white/70 font-body">{error}</p>
       </div>
     </div>
   );
@@ -208,8 +208,8 @@ const TradiePortal = () => {
               <Wrench size={20} style={{ color: "#FF80AB" }} />
             </div>
             <div>
-              <h1 className="font-syne font-bold text-lg">{tradie?.name}</h1>
-              <p className="text-xs font-jakarta" style={{ color: "#FF80AB" }}>{tradie?.trade} · HAVEN Portal</p>
+              <h1 className="font-display font-bold text-lg">{tradie?.name}</h1>
+              <p className="text-xs font-body" style={{ color: "#FF80AB" }}>{tradie?.trade} · HAVEN Portal</p>
             </div>
           </div>
           {tradie?.rating ? (
@@ -252,7 +252,7 @@ const TradiePortal = () => {
                   style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="font-syne font-bold text-sm">{offer.job.title}</h3>
+                      <h3 className="font-display font-bold text-sm">{offer.job.title}</h3>
                       {(offer.job.property_address || offer.job.property_suburb) && (
                         <p className="text-xs text-white/40 flex items-center gap-1 mt-0.5">
                           <MapPin size={10} />
@@ -314,7 +314,7 @@ const TradiePortal = () => {
               <button onClick={() => setCurrentMonth(new Date(year, month - 1))} className="p-2 rounded-lg hover:bg-white/5 transition-colors">
                 <ChevronLeft size={16} />
               </button>
-              <span className="font-syne font-bold text-sm">{monthName}</span>
+              <span className="font-display font-bold text-sm">{monthName}</span>
               <button onClick={() => setCurrentMonth(new Date(year, month + 1))} className="p-2 rounded-lg hover:bg-white/5 transition-colors">
                 <ChevronRight size={16} />
               </button>
@@ -359,7 +359,7 @@ const TradiePortal = () => {
                   {tradie.name.charAt(0)}
                 </div>
                 <div>
-                  <h2 className="font-syne font-bold">{tradie.name}</h2>
+                  <h2 className="font-display font-bold">{tradie.name}</h2>
                   <p className="text-xs" style={{ color: "#FF80AB" }}>{tradie.trade}</p>
                 </div>
               </div>
@@ -416,7 +416,7 @@ const TradiePortal = () => {
         )}
       </main>
 
-      <footer className="border-t border-white/5 py-4 text-center text-[10px] text-white/20 font-jakarta">
+      <footer className="border-t border-white/5 py-4 text-center text-[10px] text-white/20 font-body">
         HAVEN by Assembl · Tradie Portal
       </footer>
     </div>

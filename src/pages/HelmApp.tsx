@@ -142,7 +142,7 @@ export default function HelmApp() {
         </button>
         <AgentAvatar agentId="operations" color={HELM_COLOR} size={32} showGlow={false} eager />
         <div className="flex-1 min-w-0">
-          <h1 className="text-sm font-bold font-syne" style={{ color: HELM_COLOR }}>HELM</h1>
+          <h1 className="text-sm font-bold font-display" style={{ color: HELM_COLOR }}>HELM</h1>
           <p className="text-[9px] text-white/30 font-mono">Your family's second brain</p>
         </div>
         {user ? (
@@ -242,7 +242,7 @@ export default function HelmApp() {
                      <div className="mb-4">
                        <AgentAvatar agentId="operations" color={HELM_COLOR} size={80} />
                      </div>
-                    <h2 className="text-lg font-syne font-bold mb-1" style={{ color: HELM_COLOR }}>Kia ora!</h2>
+                    <h2 className="text-lg font-display font-bold mb-1" style={{ color: HELM_COLOR }}>Kia ora!</h2>
                     <p className="text-xs text-white/40 text-center max-w-sm mb-6">
                       I'm HELM, your family's second brain. I can help with school admin, meal plans, budgets, and more.
                     </p>

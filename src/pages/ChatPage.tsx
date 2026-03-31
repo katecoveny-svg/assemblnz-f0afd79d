@@ -1504,7 +1504,7 @@ const ChatPage = () => {
         <div className="flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3">
           <Link to="/" className="flex items-center gap-2 shrink-0 group">
             <img src={nexusLogo} alt="Assembl" className="w-7 h-7 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-            <span className="font-syne font-bold tracking-[3px] uppercase text-[11px] text-foreground/70 group-hover:text-foreground transition-colors hidden sm:inline">ASSEMBL</span>
+            <span className="font-display font-bold tracking-[3px] uppercase text-[11px] text-foreground/70 group-hover:text-foreground transition-colors hidden sm:inline">ASSEMBL</span>
           </Link>
           <div className="w-px h-5 bg-border/30 hidden sm:block" />
 
@@ -1516,10 +1516,10 @@ const ChatPage = () => {
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h1 className="font-syne font-bold text-base sm:text-lg text-foreground truncate">{agent.name}</h1>
+                <h1 className="font-display font-bold text-base sm:text-lg text-foreground truncate">{agent.name}</h1>
                 <span className="font-mono text-[9px] px-1.5 py-0.5 rounded-full border border-border text-muted-foreground shrink-0">{agent.designation}</span>
               </div>
-              <p className="text-xs font-jakarta truncate" style={{ color: accentColor }}>{agent.role}</p>
+              <p className="text-xs font-body truncate" style={{ color: accentColor }}>{agent.role}</p>
             </div>
           </div>
 
@@ -1546,7 +1546,7 @@ const ChatPage = () => {
                   setGenCount(0);
                   setInput("");
                 }}
-                className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-jakarta font-medium transition-colors hover:opacity-80 shrink-0"
+                className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-body font-medium transition-colors hover:opacity-80 shrink-0"
                 style={{ color: accentColor, border: `1px solid ${accentColor}20` }}
                 title="Start new conversation (current is auto-saved)"
               >
@@ -2213,7 +2213,7 @@ const ChatPage = () => {
                             <span key={i} className="w-1.5 h-1.5 rounded-full animate-bounce-dot" style={{ backgroundColor: agent.color, animationDelay: `${i * 0.2}s` }} />
                           ))}
                         </div>
-                        <span className="text-[11px] font-jakarta" style={{ color: agent.color + "90" }}>
+                        <span className="text-[11px] font-body" style={{ color: agent.color + "90" }}>
                           {AGENT_LOADING_MESSAGES[agent.id] || "Thinking…"}
                         </span>
                       </div>

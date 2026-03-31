@@ -108,7 +108,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
   const renderContent = () => {
     if (!hasChecklist) {
       return (
-        <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-headings:text-foreground prose-strong:text-foreground font-jakarta">
+        <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-headings:text-foreground prose-strong:text-foreground font-body">
           <ReactMarkdown>{content}</ReactMarkdown>
         </div>
       );
@@ -140,7 +140,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
           p.type === "checklist" ? (
             <HelmChecklist key={i} content={p.content} />
           ) : (
-            <div key={i} className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-headings:text-foreground prose-strong:text-foreground font-jakarta">
+            <div key={i} className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-headings:text-foreground prose-strong:text-foreground font-body">
               <ReactMarkdown>{p.content}</ReactMarkdown>
             </div>
           )
@@ -161,7 +161,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
       }}
     >
       <div className="px-4 py-2.5 flex items-center justify-between" style={{ borderBottom: `1px solid ${agentColor}10` }}>
-        <span className="text-xs font-syne font-bold" style={{ color: agentColor }}>
+        <span className="text-xs font-display font-bold" style={{ color: agentColor }}>
           {title}
         </span>
       </div>
@@ -173,7 +173,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
       <div className="px-4 py-2.5 flex gap-2 flex-wrap" style={{ borderTop: `1px solid ${agentColor}10` }}>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-body font-medium transition-colors"
           style={{ background: agentColor + "12", color: agentColor, border: `1px solid ${agentColor}20` }}
         >
           {copied ? <Check size={11} /> : <Copy size={11} />}
@@ -181,7 +181,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
         </button>
         <button
           onClick={handleDownloadPDF}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-body font-medium transition-colors"
           style={{ background: agentColor + "12", color: agentColor, border: `1px solid ${agentColor}20` }}
         >
           <FileDown size={11} />
@@ -189,7 +189,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
         </button>
         <button
           onClick={handleDownloadCSV}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-jakarta font-medium transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-body font-medium transition-colors"
           style={{ background: agentColor + "12", color: agentColor, border: `1px solid ${agentColor}20` }}
         >
           <Download size={11} />

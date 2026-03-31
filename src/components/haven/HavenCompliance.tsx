@@ -76,8 +76,8 @@ const HavenCompliance = () => {
   return (
     <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4">
       <div>
-        <h2 className="font-syne font-bold text-base text-foreground">Compliance</h2>
-        <p className="text-[11px] font-jakarta text-muted-foreground">NZ Healthy Homes Standards</p>
+        <h2 className="font-display font-bold text-base text-foreground">Compliance</h2>
+        <p className="text-[11px] font-body text-muted-foreground">NZ Healthy Homes Standards</p>
       </div>
 
       <div className="flex items-center gap-2 flex-wrap">
@@ -126,7 +126,7 @@ const HavenCompliance = () => {
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full" style={{ backgroundColor: STATUS_COLORS[status] }} />
                   <div>
-                    <span className="text-xs font-jakarta text-foreground">{item.title}</span>
+                    <span className="text-xs font-body text-foreground">{item.title}</span>
                     <p className="text-[10px] text-muted-foreground">{item.category} · {propMap[item.property_id]?.address || ""}</p>
                   </div>
                 </div>

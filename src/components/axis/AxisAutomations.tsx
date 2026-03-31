@@ -44,8 +44,8 @@ export default function AxisAutomations() {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
-      <h2 className="text-sm font-syne font-bold" style={{ color: "#E4E4EC" }}>Automations</h2>
-      <p className="text-[11px] font-jakarta" style={{ color: "rgba(255,255,255,0.4)" }}>Toggle automations on/off. Active automations run in the background.</p>
+      <h2 className="text-sm font-display font-bold" style={{ color: "#E4E4EC" }}>Automations</h2>
+      <p className="text-[11px] font-body" style={{ color: "rgba(255,255,255,0.4)" }}>Toggle automations on/off. Active automations run in the background.</p>
 
       <div className="space-y-2">
         {automations.map(a => {
@@ -56,8 +56,8 @@ export default function AxisAutomations() {
                 <Icon size={16} style={{ color: a.is_active ? ACCENT : "rgba(255,255,255,0.3)" }} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-syne font-semibold" style={{ color: "#E4E4EC" }}>{a.title}</p>
-                <p className="text-[10px] font-jakarta" style={{ color: "rgba(255,255,255,0.4)" }}>{a.description}</p>
+                <p className="text-xs font-display font-semibold" style={{ color: "#E4E4EC" }}>{a.title}</p>
+                <p className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.4)" }}>{a.description}</p>
                 {a.run_count > 0 && <p className="text-[9px] font-mono-jb mt-0.5" style={{ color: "rgba(255,255,255,0.25)" }}>{a.run_count} runs</p>}
               </div>
               <button onClick={() => toggle(a.id, a.is_active)} className="w-10 h-5 rounded-full relative transition-colors shrink-0"

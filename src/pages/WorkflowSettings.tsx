@@ -65,7 +65,7 @@ const WorkflowSettings = () => {
 
         <div className="flex items-center gap-3 mb-2">
           <Zap size={24} className="text-[#5AADA0]" />
-          <h1 className="font-syne font-extrabold text-2xl">Symbiotic Workflows</h1>
+          <h1 className="font-display font-extrabold text-2xl">Symbiotic Workflows</h1>
         </div>
         <p className="text-sm text-muted-foreground mb-8">When one agent acts, others follow automatically. Configure your agent chain reactions.</p>
 
@@ -85,7 +85,7 @@ const WorkflowSettings = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-syne font-bold text-sm text-foreground">{w.name}</span>
+                      <span className="font-display font-bold text-sm text-foreground">{w.name}</span>
                       {w.is_system && <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#5AADA015] text-[#5AADA0] font-medium">SYSTEM</span>}
                     </div>
                     <p className="text-[11px] text-muted-foreground mt-0.5 truncate">{w.description}</p>

@@ -36,10 +36,10 @@ const LiveDemoSection = () => {
               className="text-center rounded-2xl p-5 border border-border bg-card"
               style={{ backdropFilter: "blur(12px)" }}
             >
-              <p className="text-3xl sm:text-4xl font-syne font-extrabold text-gradient-hero mb-1">
+              <p className="text-3xl sm:text-4xl font-display font-extrabold text-gradient-hero mb-1">
                 {s.value}
               </p>
-              <p className="text-xs font-jakarta text-muted-foreground">{s.label}</p>
+              <p className="text-xs font-body text-muted-foreground">{s.label}</p>
             </div>
           ))}
         </motion.div>
@@ -52,10 +52,10 @@ const LiveDemoSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h2 className="text-2xl sm:text-3xl font-syne font-extrabold text-foreground mb-2">
+          <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-foreground mb-2">
             Your specialist <span className="text-gradient-hero">tools</span>
           </h2>
-          <p className="text-sm font-jakarta text-muted-foreground">
+          <p className="text-sm font-body text-muted-foreground">
             Every tool is online and ready — tap to start a conversation
           </p>
         </motion.div>
@@ -82,7 +82,7 @@ const LiveDemoSection = () => {
 
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <p className="font-syne font-bold text-sm text-foreground truncate">
+                    <p className="font-display font-bold text-sm text-foreground truncate">
                       {agent.name}
                     </p>
                     <span
@@ -95,7 +95,7 @@ const LiveDemoSection = () => {
                       Active
                     </span>
                   </div>
-                  <p className="text-[10px] font-jakarta text-muted-foreground leading-snug line-clamp-2">
+                  <p className="text-[10px] font-body text-muted-foreground leading-snug line-clamp-2">
                     {agent.role}
                   </p>
                 </div>
@@ -127,9 +127,9 @@ const LiveDemoSection = () => {
         <div className="text-center">
           <Link
             to="/content-hub"
-            className="inline-flex items-center gap-2 text-sm font-syne font-bold text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-display font-bold text-muted-foreground hover:text-foreground transition-colors"
           >
-            See all 42 tools <ArrowRight size={14} />
+            See all 44 tools <ArrowRight size={14} />
           </Link>
         </div>
       </div>

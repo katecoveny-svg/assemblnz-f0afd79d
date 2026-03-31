@@ -46,7 +46,7 @@ const SymbioticNotification = ({ agentColor, notification, onDismiss, onViewAll 
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <Zap size={14} style={{ color: agentColor }} />
-          <span className="font-syne font-bold text-xs text-foreground">SYMBIOTIC: {notification.workflowName}</span>
+          <span className="font-display font-bold text-xs text-foreground">SYMBIOTIC: {notification.workflowName}</span>
         </div>
         <button onClick={onDismiss} className="text-muted-foreground hover:text-foreground"><X size={14} /></button>
       </div>

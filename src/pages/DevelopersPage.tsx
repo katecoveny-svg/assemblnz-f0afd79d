@@ -36,7 +36,7 @@ export default function DevelopersPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
         <div className="flex items-center gap-3 mb-2">
           <Terminal className="w-6 h-6 text-primary" />
-          <h1 className="text-3xl font-syne font-bold">Developers</h1>
+          <h1 className="text-3xl font-display font-bold">Developers</h1>
         </div>
         <p className="text-muted-foreground mb-10">Connect Assembl's NZ business intelligence tools to Claude Desktop, Cursor, or any MCP-compatible client.</p>
 

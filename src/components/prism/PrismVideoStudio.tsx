@@ -263,14 +263,14 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-sm font-syne font-bold flex items-center gap-2" style={{ color: "hsl(var(--foreground))" }}>
+          <h2 className="text-sm font-display font-bold flex items-center gap-2" style={{ color: "hsl(var(--foreground))" }}>
             <Film size={16} style={{ color: ACCENT }} /> Video Studio
           </h2>
-          <p className="text-[10px] font-jakarta mt-0.5" style={{ color: "hsl(var(--muted-foreground))" }}>
+          <p className="text-[10px] font-body mt-0.5" style={{ color: "hsl(var(--muted-foreground))" }}>
             Script, storyboard & edit production-ready videos
           </p>
         </div>
-        <button onClick={() => setShowGen(true)} className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-syne font-bold transition-all hover:scale-[0.97]"
+        <button onClick={() => setShowGen(true)} className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-display font-bold transition-all hover:scale-[0.97]"
           style={{ background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT}CC)`, color: "#0A0A14", boxShadow: `0 0 20px ${ACCENT}30` }}>
           <Clapperboard size={13} /> New Video
         </button>
@@ -285,8 +285,8 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
         ].map(s => (
           <div key={s.label} className="rounded-xl p-3 text-center" style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
             <s.icon size={14} className="mx-auto mb-1" style={{ color: ACCENT }} />
-            <p className="text-lg font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>{s.value}</p>
-            <p className="text-[9px] font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>{s.label}</p>
+            <p className="text-lg font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>{s.value}</p>
+            <p className="text-[9px] font-body" style={{ color: "hsl(var(--muted-foreground))" }}>{s.label}</p>
           </div>
         ))}
       </div>
@@ -299,7 +299,7 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
             <div className="p-4">
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <p className="text-xs font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>{s.title}</p>
+                  <p className="text-xs font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>{s.title}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full" style={{ background: `${ACCENT}15`, color: ACCENT }}>
                       {VIDEO_TYPES.find(v => v.id === s.video_type)?.label || s.video_type}
@@ -362,21 +362,21 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
                     <div className="mt-2 rounded-lg p-3 space-y-1.5 animate-in slide-in-from-top-1"
                       style={{ background: `${ACCENT}05`, border: `1px solid ${ACCENT}15` }}>
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-syne font-bold" style={{ color: ACCENT }}>Scene {expandedScene + 1}</span>
+                        <span className="text-[10px] font-display font-bold" style={{ color: ACCENT }}>Scene {expandedScene + 1}</span>
                         <span className="text-[9px] font-mono" style={{ color: "hsl(var(--muted-foreground))" }}>{s.scenes[expandedScene].duration}</span>
                       </div>
                       {s.scenes[expandedScene].visual && (
-                        <p className="text-[10px] font-jakarta flex items-start gap-1.5" style={{ color: "hsl(var(--foreground))" }}>
+                        <p className="text-[10px] font-body flex items-start gap-1.5" style={{ color: "hsl(var(--foreground))" }}>
                           <ImageIcon size={10} className="mt-0.5 shrink-0" style={{ color: ACCENT }} /> {s.scenes[expandedScene].visual}
                         </p>
                       )}
                       {s.scenes[expandedScene].voiceover && (
-                        <p className="text-[10px] font-jakarta flex items-start gap-1.5" style={{ color: "hsl(var(--muted-foreground))" }}>
+                        <p className="text-[10px] font-body flex items-start gap-1.5" style={{ color: "hsl(var(--muted-foreground))" }}>
                           <Mic size={10} className="mt-0.5 shrink-0" style={{ color: ACCENT }} /> {s.scenes[expandedScene].voiceover}
                         </p>
                       )}
                       {s.scenes[expandedScene].text_overlay && (
-                        <p className="text-[10px] font-jakarta flex items-start gap-1.5" style={{ color: "hsl(var(--muted-foreground))" }}>
+                        <p className="text-[10px] font-body flex items-start gap-1.5" style={{ color: "hsl(var(--muted-foreground))" }}>
                           <Type size={10} className="mt-0.5 shrink-0" style={{ color: ACCENT }} /> {s.scenes[expandedScene].text_overlay}
                         </p>
                       )}
@@ -387,14 +387,14 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
 
               {/* Narration Preview */}
               {s.narration && (
-                <p className="text-[10px] font-jakarta line-clamp-2 mt-2" style={{ color: "hsl(var(--muted-foreground))" }}>
+                <p className="text-[10px] font-body line-clamp-2 mt-2" style={{ color: "hsl(var(--muted-foreground))" }}>
                   {s.narration}
                 </p>
               )}
 
               {/* Generated Frames */}
               {generatingFrames === s.id && (
-                <div className="mt-3 flex items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-jakarta"
+                <div className="mt-3 flex items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-body"
                   style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}15`, color: ACCENT }}>
                   <Loader2 size={12} className="animate-spin" />
                   <span>Generating scene visuals with AI...</span>
@@ -404,7 +404,7 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
               {generatedFrames[s.id] && generatedFrames[s.id].urls.length > 0 && (
                 <div className="mt-3 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-syne font-bold uppercase tracking-wider" style={{ color: ACCENT }}>
+                    <span className="text-[10px] font-display font-bold uppercase tracking-wider" style={{ color: ACCENT }}>
                       AI Scene Frames
                     </span>
                     <span className="text-[9px] font-mono" style={{ color: "hsl(var(--muted-foreground))" }}>
@@ -438,7 +438,7 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
             {/* Edit Panel */}
             {showEditor === s.id && (
               <div className="border-t p-4 space-y-3" style={{ borderColor: "hsl(var(--border))", background: `${ACCENT}03` }}>
-                <p className="text-[10px] font-syne font-bold uppercase tracking-wider" style={{ color: ACCENT }}>Edit Tools</p>
+                <p className="text-[10px] font-display font-bold uppercase tracking-wider" style={{ color: ACCENT }}>Edit Tools</p>
                 <div className="grid grid-cols-3 gap-1.5">
                   {EDIT_TOOLS.map(tool => (
                     <button key={tool.id}
@@ -462,13 +462,13 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
                       onChange={e => setEditPrompt(e.target.value)}
                       rows={2}
                       placeholder={`Describe your ${EDIT_TOOLS.find(t => t.id === activeEditTool)?.label.toLowerCase()} edit...`}
-                      className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none resize-none"
+                      className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none resize-none"
                       style={{ borderColor: "hsl(var(--border))", color: "hsl(var(--foreground))" }}
                     />
                     <button
                       onClick={() => editVideo(s.id)}
                       disabled={!editPrompt.trim() || isEditing}
-                      className="w-full py-2 rounded-lg text-xs font-syne font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-30"
+                      className="w-full py-2 rounded-lg text-xs font-display font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-30"
                       style={{ background: `${ACCENT}20`, color: ACCENT, border: `1px solid ${ACCENT}30` }}>
                       {isEditing ? <Loader2 size={12} className="animate-spin" /> : <Wand2 size={12} />}
                       Apply Edit
@@ -485,11 +485,11 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
             <div className="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center" style={{ background: `${ACCENT}10` }}>
               <Film size={28} style={{ color: ACCENT }} />
             </div>
-            <p className="text-sm font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>No video scripts yet</p>
-            <p className="text-xs font-jakarta max-w-xs mx-auto" style={{ color: "hsl(var(--muted-foreground))" }}>
+            <p className="text-sm font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>No video scripts yet</p>
+            <p className="text-xs font-body max-w-xs mx-auto" style={{ color: "hsl(var(--muted-foreground))" }}>
               Create your first production-ready video script with AI-powered storyboarding
             </p>
-            <button onClick={() => setShowGen(true)} className="px-4 py-2 rounded-xl text-xs font-syne font-bold mx-auto"
+            <button onClick={() => setShowGen(true)} className="px-4 py-2 rounded-xl text-xs font-display font-bold mx-auto"
               style={{ background: `${ACCENT}15`, color: ACCENT, border: `1px solid ${ACCENT}30` }}>
               <Clapperboard size={12} className="inline mr-1.5" /> Create First Video
             </button>
@@ -503,8 +503,8 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
           <div className="w-full max-w-lg rounded-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto" style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>New Video Production</h3>
-                <p className="text-[10px] font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>AI generates a complete storyboard & script</p>
+                <h3 className="text-sm font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>New Video Production</h3>
+                <p className="text-[10px] font-body" style={{ color: "hsl(var(--muted-foreground))" }}>AI generates a complete storyboard & script</p>
               </div>
               <button onClick={() => setShowGen(false)} className="p-1 rounded-lg" style={{ color: "hsl(var(--muted-foreground))" }}><X size={16} /></button>
             </div>
@@ -536,7 +536,7 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
             <div>
               <label className="text-[10px] font-mono uppercase tracking-wider mb-1 block" style={{ color: "hsl(var(--muted-foreground))" }}>Topic / Brief *</label>
               <textarea value={form.topic} onChange={e => setForm(p => ({ ...p, topic: e.target.value }))} rows={3}
-                className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none resize-none"
+                className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none resize-none"
                 style={{ borderColor: "hsl(var(--border))", color: "hsl(var(--foreground))" }}
                 placeholder="What's this video about? The more detail, the better the output..." />
             </div>
@@ -545,7 +545,7 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
             <div>
               <label className="text-[10px] font-mono uppercase tracking-wider mb-1 block" style={{ color: "hsl(var(--muted-foreground))" }}>Target Audience</label>
               <input value={form.audience} onChange={e => setForm(p => ({ ...p, audience: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+                className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
                 style={{ borderColor: "hsl(var(--border))", color: "hsl(var(--foreground))" }}
                 placeholder="e.g. NZ small business owners, 25-45" />
             </div>
@@ -591,7 +591,7 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
 
             {/* Generate */}
             <button onClick={generate} disabled={!form.topic.trim() || isGenerating}
-              className="w-full py-3 rounded-xl text-sm font-syne font-bold transition-all hover:scale-[0.98] disabled:opacity-30 flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl text-sm font-display font-bold transition-all hover:scale-[0.98] disabled:opacity-30 flex items-center justify-center gap-2"
               style={{ background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT}CC)`, color: "#0A0A14", boxShadow: `0 0 24px ${ACCENT}30` }}>
               {isGenerating ? <Loader2 size={14} className="animate-spin" /> : <Clapperboard size={14} />}
               Generate Production Brief

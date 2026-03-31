@@ -88,8 +88,8 @@ const HavenTradies = ({ onSendToChat }: { onSendToChat: (msg: string) => void })
     <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4">
       <div className="flex items-center justify-between gap-2">
         <div>
-          <h2 className="font-syne font-bold text-base text-foreground">Tradies</h2>
-          <p className="text-[11px] font-jakarta text-muted-foreground">{tradies.length} tradies in directory</p>
+          <h2 className="font-display font-bold text-base text-foreground">Tradies</h2>
+          <p className="text-[11px] font-body text-muted-foreground">{tradies.length} tradies in directory</p>
         </div>
         <button onClick={() => setShowForm(true)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:opacity-80"
@@ -100,8 +100,8 @@ const HavenTradies = ({ onSendToChat }: { onSendToChat: (msg: string) => void })
 
       {/* Uber-style Matcher */}
       <div className="rounded-xl p-3 border space-y-2" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: HAVEN_PINK + "20" }}>
-        <h3 className="font-syne font-bold text-xs" style={{ color: HAVEN_PINK }}> Tradie Matcher</h3>
-        <p className="text-[10px] text-muted-foreground font-jakarta">Describe the issue and we'll find the right tradie</p>
+        <h3 className="font-display font-bold text-xs" style={{ color: HAVEN_PINK }}> Tradie Matcher</h3>
+        <p className="text-[10px] text-muted-foreground font-body">Describe the issue and we'll find the right tradie</p>
         <div className="flex gap-2">
           <input value={matchQuery} onChange={e => setMatchQuery(e.target.value)} placeholder="e.g. Leaking hot water cylinder in bathroom"
             className="flex-1 px-3 py-2 rounded-lg text-xs bg-background border border-border text-foreground placeholder:text-muted-foreground"
@@ -119,7 +119,7 @@ const HavenTradies = ({ onSendToChat }: { onSendToChat: (msg: string) => void })
                 <div className="flex items-center gap-2">
                   <span className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold" style={{ backgroundColor: HAVEN_PINK + "20", color: HAVEN_PINK }}>#{i + 1}</span>
                   <div>
-                    <span className="text-xs font-jakarta font-medium text-foreground">{t.name}</span>
+                    <span className="text-xs font-body font-medium text-foreground">{t.name}</span>
                     <span className="text-[10px] text-muted-foreground ml-2">{t.trade}</span>
                   </div>
                 </div>
@@ -136,14 +136,14 @@ const HavenTradies = ({ onSendToChat }: { onSendToChat: (msg: string) => void })
       <div className="relative">
         <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search tradies…"
-          className="w-full pl-9 pr-3 py-2 rounded-lg text-xs font-jakarta bg-card border border-border text-foreground placeholder:text-muted-foreground" />
+          className="w-full pl-9 pr-3 py-2 rounded-lg text-xs font-body bg-card border border-border text-foreground placeholder:text-muted-foreground" />
       </div>
 
       {/* Add Form */}
       {showForm && (
         <div className="rounded-xl p-4 space-y-3 border" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
           <div className="flex items-center justify-between">
-            <h3 className="font-syne font-bold text-sm text-foreground">Add Tradie</h3>
+            <h3 className="font-display font-bold text-sm text-foreground">Add Tradie</h3>
             <button onClick={() => setShowForm(false)} className="p-1 rounded hover:bg-muted"><X size={14} className="text-muted-foreground" /></button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -170,7 +170,7 @@ const HavenTradies = ({ onSendToChat }: { onSendToChat: (msg: string) => void })
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-syne font-bold text-xs text-foreground">{t.name}</span>
+                      <span className="font-display font-bold text-xs text-foreground">{t.name}</span>
                       <span className="text-[10px] text-muted-foreground">{t.trade}</span>
                       {badge && <span className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-medium" style={{ backgroundColor: badge.color + "15", color: badge.color }}><badge.icon size={8} />{badge.label}</span>}
                     </div>

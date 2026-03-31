@@ -59,7 +59,7 @@ const PWAInstallBanner = ({ agentName, agentColor }: PWAInstallBannerProps) => {
 
   return (
     <div
-      className="flex items-center gap-3 px-4 py-2.5 text-xs font-jakarta shrink-0"
+      className="flex items-center gap-3 px-4 py-2.5 text-xs font-body shrink-0"
       style={{
         background: `${agentColor}12`,
         borderBottom: `1px solid ${agentColor}20`,
@@ -76,7 +76,7 @@ const PWAInstallBanner = ({ agentName, agentColor }: PWAInstallBannerProps) => {
       {!isIOS && deferredPrompt && (
         <button
           onClick={handleInstall}
-          className="px-3 py-1 rounded-lg text-[10px] font-bold font-syne transition"
+          className="px-3 py-1 rounded-lg text-[10px] font-bold font-display transition"
           style={{ background: agentColor, color: "#09090F" }}
         >
           Install

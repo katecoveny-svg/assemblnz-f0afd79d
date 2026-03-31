@@ -133,7 +133,7 @@ export default function AdminAnalyticsDashboard() {
         <Icon className={`w-5 h-5 ${color}`} />
         <span className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{label}</span>
       </div>
-      <p className={`text-2xl font-bold font-syne ${color}`}>{value}</p>
+      <p className={`text-2xl font-bold font-display ${color}`}>{value}</p>
       {sub && <p className="text-xs text-muted-foreground mt-1">{sub}</p>}
     </div>
   );
@@ -144,7 +144,7 @@ export default function AdminAnalyticsDashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-syne font-bold">Analytics & Observability</h1>
+            <h1 className="text-2xl font-display font-bold">Analytics & Observability</h1>
             <p className="text-muted-foreground text-sm mt-1">Real-time AI cost tracking and usage intelligence</p>
           </div>
           <button onClick={fetchData} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-sm transition-colors">

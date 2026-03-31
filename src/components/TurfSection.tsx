@@ -71,7 +71,7 @@ const TurfSection = () => {
               </div>
 
               <h2
-                className="font-syne font-extrabold text-3xl sm:text-4xl mb-1"
+                className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
                 style={{
                   color: TURF_COLOR,
                   textShadow: `0 0 20px ${TURF_COLOR}40, 0 0 60px ${TURF_COLOR}15`,
@@ -83,12 +83,12 @@ const TurfSection = () => {
                 ASM-043 · Sports Operations
               </p>
               <h3
-                className="font-syne font-bold text-base sm:text-lg mb-4"
+                className="font-display font-bold text-base sm:text-lg mb-4"
                 style={{ color: TURF_COLOR, textShadow: `0 0 12px ${TURF_COLOR}25` }}
               >
                 Your club's re-registration deadline is 5 April 2026. Fewer than half have done it.
               </h3>
-              <p className="text-sm font-jakarta leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
+              <p className="text-sm font-body leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
                 TURF handles your club's re-registration under the Incorporated Societies Act 2022, manages season calendars, writes sponsorship proposals, builds tournament draws, and tracks memberships — built for every NZ rugby, netball, football, cricket, and hockey club.
               </p>
 
@@ -96,7 +96,7 @@ const TurfSection = () => {
                 {["Season Planner", "Sponsorship Writer", "Tournament Draws", "Club Compliance", "Membership Drive"].map((f) => (
                   <span
                     key={f}
-                    className="text-[10px] font-jakarta px-2.5 py-1 rounded-full"
+                    className="text-[10px] font-body px-2.5 py-1 rounded-full"
                     style={{ background: `${TURF_COLOR}10`, color: `${TURF_COLOR}90`, border: `1px solid ${TURF_COLOR}20` }}
                   >
                     {f}
@@ -107,7 +107,7 @@ const TurfSection = () => {
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                 <Link
                   to="/chat/sports"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{
                     background: TURF_COLOR,
                     color: "#0A0A14",
@@ -118,7 +118,7 @@ const TurfSection = () => {
                 </Link>
                 <button
                   onClick={() => setShowVoice(true)}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:scale-105"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:scale-105"
                   style={{
                     background: `${TURF_COLOR}12`,
                     color: TURF_COLOR,

@@ -86,8 +86,8 @@ const HavenProperties = ({ onSendToChat }: { onSendToChat: (msg: string) => void
       {/* Header */}
       <div className="flex items-center justify-between gap-2">
         <div>
-          <h2 className="font-syne font-bold text-base text-foreground">Properties</h2>
-          <p className="text-[11px] font-jakarta text-muted-foreground">{properties.length} properties in portfolio</p>
+          <h2 className="font-display font-bold text-base text-foreground">Properties</h2>
+          <p className="text-[11px] font-body text-muted-foreground">{properties.length} properties in portfolio</p>
         </div>
         <button onClick={() => { setShowForm(true); setEditingId(null); setForm({ address: "", suburb: "", region: "Auckland", tenant_name: "", tenant_phone: "", tenant_email: "", notes: "" }); }}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:opacity-80"
@@ -100,14 +100,14 @@ const HavenProperties = ({ onSendToChat }: { onSendToChat: (msg: string) => void
       <div className="relative">
         <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by address, suburb, or tenant…"
-          className="w-full pl-9 pr-3 py-2 rounded-lg text-xs font-jakarta bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-pink-400/30" />
+          className="w-full pl-9 pr-3 py-2 rounded-lg text-xs font-body bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-pink-400/30" />
       </div>
 
       {/* Add/Edit Form Modal */}
       {showForm && (
         <div className="rounded-xl p-4 space-y-3 border" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
           <div className="flex items-center justify-between">
-            <h3 className="font-syne font-bold text-sm text-foreground">{editingId ? "Edit Property" : "New Property"}</h3>
+            <h3 className="font-display font-bold text-sm text-foreground">{editingId ? "Edit Property" : "New Property"}</h3>
             <button onClick={() => setShowForm(false)} className="p-1 rounded hover:bg-muted"><X size={14} className="text-muted-foreground" /></button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -142,10 +142,10 @@ const HavenProperties = ({ onSendToChat }: { onSendToChat: (msg: string) => void
       ) : filtered.length === 0 ? (
         <div className="text-center py-12 space-y-2">
           <Home size={32} className="mx-auto text-muted-foreground opacity-40" />
-          <p className="text-sm text-muted-foreground font-jakarta">{properties.length === 0 ? "No properties yet" : "No matches found"}</p>
+          <p className="text-sm text-muted-foreground font-body">{properties.length === 0 ? "No properties yet" : "No matches found"}</p>
           {properties.length === 0 && (
             <button onClick={() => onSendToChat("Add a property at 14 Rosewood Drive, Ponsonby, Auckland")}
-              className="text-xs font-jakarta underline" style={{ color: HAVEN_PINK }}>Try adding via chat</button>
+              className="text-xs font-body underline" style={{ color: HAVEN_PINK }}>Try adding via chat</button>
           )}
         </div>
       ) : (
@@ -155,8 +155,8 @@ const HavenProperties = ({ onSendToChat }: { onSendToChat: (msg: string) => void
               style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
-                  <p className="font-syne font-bold text-xs text-foreground truncate">{p.address}</p>
-                  <p className="text-[10px] font-jakarta text-muted-foreground">{p.suburb}, {p.region}</p>
+                  <p className="font-display font-bold text-xs text-foreground truncate">{p.address}</p>
+                  <p className="text-[10px] font-body text-muted-foreground">{p.suburb}, {p.region}</p>
                 </div>
                 <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button onClick={() => handleEdit(p)} className="p-1 rounded hover:bg-muted"><Edit2 size={12} className="text-muted-foreground" /></button>
@@ -165,7 +165,7 @@ const HavenProperties = ({ onSendToChat }: { onSendToChat: (msg: string) => void
               </div>
               {p.tenant_name && (
                 <div className="space-y-0.5">
-                  <p className="text-[11px] font-jakarta text-foreground">{p.tenant_name}</p>
+                  <p className="text-[11px] font-body text-foreground">{p.tenant_name}</p>
                   <div className="flex items-center gap-3">
                     {p.tenant_phone && <span className="flex items-center gap-1 text-[10px] text-muted-foreground"><Phone size={9} />{p.tenant_phone}</span>}
                     {p.tenant_email && <span className="flex items-center gap-1 text-[10px] text-muted-foreground"><Mail size={9} />{p.tenant_email}</span>}
@@ -178,10 +178,10 @@ const HavenProperties = ({ onSendToChat }: { onSendToChat: (msg: string) => void
                     <AlertTriangle size={9} /> {jobCounts[p.id]} open {jobCounts[p.id] === 1 ? "job" : "jobs"}
                   </span>
                 ) : (
-                  <span className="text-[10px] text-muted-foreground font-jakarta">No open jobs</span>
+                  <span className="text-[10px] text-muted-foreground font-body">No open jobs</span>
                 )}
                 {p.next_inspection_date && (
-                  <span className="text-[10px] text-muted-foreground font-jakarta">
+                  <span className="text-[10px] text-muted-foreground font-body">
                     Inspection: {new Date(p.next_inspection_date).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}
                   </span>
                 )}

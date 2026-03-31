@@ -54,19 +54,19 @@ const HavenCommandCentre = () => {
     <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-syne font-bold text-base text-foreground">Command Centre</h2>
-          <p className="text-[11px] font-jakarta text-muted-foreground">Real-time operations overview</p>
+          <h2 className="font-display font-bold text-base text-foreground">Command Centre</h2>
+          <p className="text-[11px] font-body text-muted-foreground">Real-time operations overview</p>
         </div>
         <button onClick={fetchAll} className="p-2 rounded-lg hover:bg-muted transition-colors"><RefreshCw size={14} className="text-muted-foreground" /></button>
       </div>
 
       {/* Emergency & High Priority */}
       <section>
-        <h3 className="flex items-center gap-1.5 font-syne font-bold text-xs mb-2" style={{ color: "#EF5350" }}>
+        <h3 className="flex items-center gap-1.5 font-display font-bold text-xs mb-2" style={{ color: "#EF5350" }}>
           <AlertTriangle size={12} /> Emergency & High Priority ({emergencyJobs.length})
         </h3>
         {emergencyJobs.length === 0 ? (
-          <p className="text-[10px] text-muted-foreground font-jakarta pl-1">No urgent jobs — all clear </p>
+          <p className="text-[10px] text-muted-foreground font-body pl-1">No urgent jobs — all clear </p>
         ) : (
           <div className="space-y-1.5">
             {emergencyJobs.map(j => (
@@ -75,7 +75,7 @@ const HavenCommandCentre = () => {
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: j.urgency === "emergency" ? "#EF5350" : "#FF6D00" }} />
-                    <span className="text-xs font-jakarta text-foreground">{j.title}</span>
+                    <span className="text-xs font-body text-foreground">{j.title}</span>
                     <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium" style={{ backgroundColor: j.urgency === "emergency" ? "#EF535015" : "#FF6D0015", color: j.urgency === "emergency" ? "#EF5350" : "#FF6D00" }}>{j.urgency}</span>
                   </div>
                   <p className="text-[10px] text-muted-foreground mt-0.5 pl-3.5">{properties[j.property_id]?.address || "Unknown property"}</p>
@@ -96,17 +96,17 @@ const HavenCommandCentre = () => {
 
       {/* Unassigned */}
       <section>
-        <h3 className="flex items-center gap-1.5 font-syne font-bold text-xs mb-2" style={{ color: "#FFB300" }}>
+        <h3 className="flex items-center gap-1.5 font-display font-bold text-xs mb-2" style={{ color: "#FFB300" }}>
           <Wrench size={12} /> Needs Tradie ({unassignedJobs.length})
         </h3>
         {unassignedJobs.length === 0 ? (
-          <p className="text-[10px] text-muted-foreground font-jakarta pl-1">All jobs assigned </p>
+          <p className="text-[10px] text-muted-foreground font-body pl-1">All jobs assigned </p>
         ) : (
           <div className="space-y-1.5">
             {unassignedJobs.slice(0, 5).map(j => (
               <div key={j.id} className="flex items-center justify-between px-3 py-2 rounded-lg border" style={{ backgroundColor: "rgba(255,255,255,0.01)", borderColor: "rgba(255,255,255,0.04)" }}>
                 <div>
-                  <span className="text-xs font-jakarta text-foreground">{j.title}</span>
+                  <span className="text-xs font-body text-foreground">{j.title}</span>
                   <p className="text-[10px] text-muted-foreground">{properties[j.property_id]?.address}</p>
                 </div>
                 <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium" style={{ backgroundColor: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.5)" }}>No tradie</span>
@@ -118,17 +118,17 @@ const HavenCommandCentre = () => {
 
       {/* Overdue Compliance */}
       <section>
-        <h3 className="flex items-center gap-1.5 font-syne font-bold text-xs mb-2" style={{ color: "#EF5350" }}>
+        <h3 className="flex items-center gap-1.5 font-display font-bold text-xs mb-2" style={{ color: "#EF5350" }}>
           <Shield size={12} /> Overdue Compliance ({overdueCompliance.length})
         </h3>
         {overdueCompliance.length === 0 ? (
-          <p className="text-[10px] text-muted-foreground font-jakarta pl-1">All compliance items up to date </p>
+          <p className="text-[10px] text-muted-foreground font-body pl-1">All compliance items up to date </p>
         ) : (
           <div className="space-y-1.5">
             {overdueCompliance.map(c => (
               <div key={c.id} className="flex items-center justify-between px-3 py-2 rounded-lg border" style={{ backgroundColor: "#EF535008", borderColor: "#EF535020" }}>
                 <div>
-                  <span className="text-xs font-jakarta text-foreground">{c.title}</span>
+                  <span className="text-xs font-body text-foreground">{c.title}</span>
                   <p className="text-[10px] text-muted-foreground">{c.category}</p>
                 </div>
                 <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium" style={{ backgroundColor: "#EF535015", color: "#EF5350" }}>Overdue</span>

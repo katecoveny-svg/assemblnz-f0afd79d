@@ -53,7 +53,7 @@ export default function SparkAppViewer() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#09090F" }}>
         <div className="text-center space-y-2">
-          <p className="text-lg font-syne font-bold" style={{ color: "#E4E4EC" }}>App not found</p>
+          <p className="text-lg font-display font-bold" style={{ color: "#E4E4EC" }}>App not found</p>
           <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>This app may have been removed or paused.</p>
         </div>
       </div>
@@ -64,10 +64,10 @@ export default function SparkAppViewer() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#09090F" }}>
         <div className="w-full max-w-xs space-y-4 p-6 rounded-2xl" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-          <h2 className="text-sm font-syne font-bold text-center" style={{ color: "#E4E4EC" }}>This app is password protected</h2>
+          <h2 className="text-sm font-display font-bold text-center" style={{ color: "#E4E4EC" }}>This app is password protected</h2>
           <input type="password" value={passwordInput} onChange={e => { setPasswordInput(e.target.value); setWrongPassword(false); }}
             placeholder="Enter password..."
-            className="w-full px-3 py-2.5 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+            className="w-full px-3 py-2.5 rounded-lg text-xs font-body bg-transparent border outline-none"
             style={{ borderColor: wrongPassword ? "#FF4D6A" : "rgba(255,255,255,0.06)", color: "#E4E4EC" }}
             onKeyDown={e => e.key === "Enter" && checkPassword()} />
           {wrongPassword && <p className="text-[10px] text-red-400">Incorrect password</p>}

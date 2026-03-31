@@ -121,17 +121,17 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
               <NexusHero3D />
             </Suspense>
             <div>
-              <h1 className="text-3xl font-syne font-extrabold text-foreground mb-2">
+              <h1 className="text-3xl font-display font-extrabold text-foreground mb-2">
                 Welcome to{" "}
                 <span className="tracking-[3px] text-gradient-hero">ASSEMBL</span>
               </h1>
-              <p className="text-muted-foreground text-sm font-jakarta">
+              <p className="text-muted-foreground text-sm font-body">
                 Let's find the right AI agent for you in 30 seconds.
               </p>
             </div>
             <button
               onClick={() => setStep("who")}
-              className="group relative px-10 py-3.5 rounded-2xl font-syne font-bold text-sm transition-all bg-primary text-primary-foreground overflow-hidden hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] hover:-translate-y-0.5"
+              className="group relative px-10 py-3.5 rounded-2xl font-display font-bold text-sm transition-all bg-primary text-primary-foreground overflow-hidden hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)] hover:-translate-y-0.5"
             >
               {/* Shimmer sweep */}
               <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer-sweep opacity-0 group-hover:opacity-100" />
@@ -142,7 +142,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
 
         {step === "who" && (
           <div className="space-y-6 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
-            <h2 className="text-xl font-syne font-bold text-foreground text-center">What best describes you?</h2>
+            <h2 className="text-xl font-display font-bold text-foreground text-center">What best describes you?</h2>
             <div className="grid grid-cols-1 gap-3">
               {WHO_OPTIONS.map((opt, i) => (
                 <button
@@ -161,7 +161,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
                   {/* Top edge glow */}
                   <span className="absolute top-0 left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-20 group-hover:opacity-50 transition-opacity" />
                   <span className="animate-neon-pulse text-primary">{opt.icon}</span>
-                  <span className="text-sm font-jakarta font-medium text-foreground">{opt.label}</span>
+                  <span className="text-sm font-body font-medium text-foreground">{opt.label}</span>
                 </button>
               ))}
             </div>
@@ -170,7 +170,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
 
         {step === "pain" && (
           <div className="space-y-6 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
-            <h2 className="text-xl font-syne font-bold text-foreground text-center">What's your biggest time drain?</h2>
+            <h2 className="text-xl font-display font-bold text-foreground text-center">What's your biggest time drain?</h2>
             <div className="grid grid-cols-1 gap-3">
               {PAIN_OPTIONS.map((opt, i) => (
                 <button
@@ -188,7 +188,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
                 >
                   <span className="absolute top-0 left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-accent to-transparent opacity-20 group-hover:opacity-50 transition-opacity" />
                   <span className="animate-neon-pulse text-accent">{opt.icon}</span>
-                  <span className="text-sm font-jakarta font-medium text-foreground">{opt.label}</span>
+                  <span className="text-sm font-body font-medium text-foreground">{opt.label}</span>
                 </button>
               ))}
             </div>
@@ -197,7 +197,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
 
         {step === "results" && (
           <div className="space-y-6 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
-            <h2 className="text-xl font-syne font-bold text-foreground text-center">We recommend these agents for you:</h2>
+            <h2 className="text-xl font-display font-bold text-foreground text-center">We recommend these agents for you:</h2>
             <div className="grid grid-cols-1 gap-4">
               {recommendedAgents.map((agent, i) =>
                 agent ? (
@@ -228,12 +228,12 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
                       <AgentAvatar agentId={agent.id} color={agent.color} size={40} showGlow={false} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-syne font-bold text-sm text-foreground">{agent.name}</h3>
-                      <p className="text-xs font-jakarta mb-1" style={{ color: agent.color }}>{agent.role}</p>
-                      <p className="text-xs text-muted-foreground font-jakarta italic truncate">"{agent.tagline}"</p>
+                      <h3 className="font-display font-bold text-sm text-foreground">{agent.name}</h3>
+                      <p className="text-xs font-body mb-1" style={{ color: agent.color }}>{agent.role}</p>
+                      <p className="text-xs text-muted-foreground font-body italic truncate">"{agent.tagline}"</p>
                     </div>
                     <span
-                      className="text-xs font-jakarta font-medium shrink-0 px-3 py-1.5 rounded-xl transition-all duration-300 group-hover:shadow-lg"
+                      className="text-xs font-body font-medium shrink-0 px-3 py-1.5 rounded-xl transition-all duration-300 group-hover:shadow-lg"
                       style={{
                         backgroundColor: `${agent.color}12`,
                         color: agent.color,
@@ -250,7 +250,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
             </div>
             <button
               onClick={() => onComplete()}
-              className="w-full text-center text-sm font-jakarta text-primary hover:underline py-2 transition-all hover:text-primary/80"
+              className="w-full text-center text-sm font-body text-primary hover:underline py-2 transition-all hover:text-primary/80"
             >
               See all {agents.length} agents →
             </button>

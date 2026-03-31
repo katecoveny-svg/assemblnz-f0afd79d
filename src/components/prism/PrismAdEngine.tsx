@@ -119,8 +119,8 @@ After all variants, provide a 4-week posting schedule:
       <div className="flex items-center gap-2 mb-2">
         <Target size={16} style={{ color: ACCENT }} />
         <div>
-          <h2 className="text-sm font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>Ad Engine</h2>
-          <p className="text-[10px] font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>
+          <h2 className="text-sm font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>Ad Engine</h2>
+          <p className="text-[10px] font-body" style={{ color: "hsl(var(--muted-foreground))" }}>
             Bulk ad campaign generation across industries
           </p>
         </div>
@@ -142,7 +142,7 @@ After all variants, provide a 4-week posting schedule:
             const active = selectedIndustries.includes(ind.id);
             return (
               <button key={ind.id} onClick={() => toggleIndustry(ind.id)}
-                className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-[10px] font-jakarta transition-all text-left"
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-[10px] font-body transition-all text-left"
                 style={{
                   background: active ? `${ACCENT}12` : "hsl(var(--muted))",
                   color: active ? ACCENT : "hsl(var(--muted-foreground))",
@@ -183,7 +183,7 @@ After all variants, provide a 4-week posting schedule:
         </p>
         <div className="space-y-1">
           {AD_STRUCTURES.map((s, i) => (
-            <div key={s} className="flex items-center gap-2 text-[10px] font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>
+            <div key={s} className="flex items-center gap-2 text-[10px] font-body" style={{ color: "hsl(var(--muted-foreground))" }}>
               <Zap size={9} style={{ color: ACCENT }} />
               <span>{s}</span>
             </div>
@@ -194,7 +194,7 @@ After all variants, provide a 4-week posting schedule:
       {/* Summary */}
       {selectedIndustries.length > 0 && (
         <div className="rounded-xl p-3" style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}20` }}>
-          <p className="text-[10px] font-jakarta" style={{ color: ACCENT }}>
+          <p className="text-[10px] font-body" style={{ color: ACCENT }}>
             Will generate <strong>{selectedIndustries.length * 5} ad variants</strong> across{" "}
             {selectedIndustries.length} {selectedIndustries.length === 1 ? "industry" : "industries"}
             {selectedIndustries.length > 1 && " + content calendar"}
@@ -204,7 +204,7 @@ After all variants, provide a 4-week posting schedule:
 
       {/* Generate Button */}
       <button onClick={handleGenerate} disabled={selectedIndustries.length === 0}
-        className="w-full py-3 rounded-xl text-sm font-syne font-bold transition-all hover:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-30"
+        className="w-full py-3 rounded-xl text-sm font-display font-bold transition-all hover:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-30"
         style={{
           background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT}CC)`,
           color: "#0A0A14",

@@ -46,7 +46,7 @@ const TrustSection = () => (
       >
         <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Trusted platform</p>
         <h2
-          className="text-2xl sm:text-[2.75rem] font-syne font-bold text-foreground"
+          className="text-2xl sm:text-[2.75rem] font-display font-bold text-foreground"
           style={{ letterSpacing: '-0.02em', lineHeight: '1.15' }}
         >
           Built for <span className="text-gradient-hero">Aotearoa</span>
@@ -80,8 +80,8 @@ const TrustSection = () => (
             >
               <card.Icon size={20} style={{ color: card.color }} />
             </div>
-            <p className="text-xs sm:text-sm font-syne font-bold text-foreground mb-1">{card.title}</p>
-            <p className="text-[10px] sm:text-xs font-inter text-muted-foreground">{card.sub}</p>
+            <p className="text-xs sm:text-sm font-display font-bold text-foreground mb-1">{card.title}</p>
+            <p className="text-[10px] sm:text-xs font-body text-muted-foreground">{card.sub}</p>
           </motion.div>
         ))}
       </div>
@@ -116,19 +116,19 @@ const TrustSection = () => (
               "
             </span>
 
-            <p className="text-xs sm:text-[13px] font-inter text-foreground/75 leading-relaxed mb-6 relative z-10">
+            <p className="text-xs sm:text-[13px] font-body text-foreground/75 leading-relaxed mb-6 relative z-10">
               "{t.quote}"
             </p>
             <div className="flex items-center gap-3 relative z-10">
               <div
-                className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-syne font-bold"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-display font-bold"
                 style={{ backgroundColor: `${t.color}15`, color: t.color, border: `1px solid ${t.color}20` }}
               >
                 {t.name.charAt(0)}
               </div>
               <div>
-                <p className="text-xs font-syne font-bold text-foreground">{t.name}</p>
-                <p className="text-[10px] font-inter text-muted-foreground/60">
+                <p className="text-xs font-display font-bold text-foreground">{t.name}</p>
+                <p className="text-[10px] font-body text-muted-foreground/60">
                   {t.role} · {t.location}
                 </p>
               </div>

@@ -75,7 +75,7 @@ const AuraSection = () => {
               </div>
 
               <h2
-                className="font-syne font-extrabold text-3xl sm:text-4xl mb-1"
+                className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
                 style={{
                   color: AURA_COLOR,
                   textShadow: `0 0 20px ${AURA_COLOR}40, 0 0 60px ${AURA_COLOR}15`,
@@ -87,12 +87,12 @@ const AuraSection = () => {
                 ASM-001 · Hospitality Operations Director — Cafés · Restaurants · Hotels · Bars · Lodges
               </p>
               <h3
-                className="font-syne font-bold text-base sm:text-lg mb-4"
+                className="font-display font-bold text-base sm:text-lg mb-4"
                 style={{ color: AURA_COLOR, textShadow: `0 0 12px ${AURA_COLOR}25` }}
               >
                 Your 18-page Food Control Plan diary, replaced with a 90-second voice check.
               </h3>
-              <p className="text-sm font-jakarta leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
+              <p className="text-sm font-body leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
                 AURA handles menu costing, staff rostering, guest experience management,
                 food safety compliance, and revenue optimisation — purpose-built for
                 NZ restaurants, hotels, cafes, and bars.
@@ -102,7 +102,7 @@ const AuraSection = () => {
                 {["Menu Builder", "Staff Rostering", "Guest CRM", "Food Safety", "Revenue AI"].map((f) => (
                   <span
                     key={f}
-                    className="text-[10px] font-jakarta px-2.5 py-1 rounded-full"
+                    className="text-[10px] font-body px-2.5 py-1 rounded-full"
                     style={{ background: `${AURA_COLOR}10`, color: `${AURA_COLOR}90`, border: `1px solid ${AURA_COLOR}20` }}
                   >
                     {f}
@@ -113,7 +113,7 @@ const AuraSection = () => {
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                 <Link
                   to="/chat/hospitality"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{
                     background: AURA_COLOR,
                     color: "#0A0A14",
@@ -124,7 +124,7 @@ const AuraSection = () => {
                 </Link>
                 <button
                   onClick={() => setShowVoice(true)}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{
                     background: "transparent",
                     color: AURA_COLOR,

@@ -190,7 +190,7 @@ const OnboardingPage = () => {
         </div>
 
         <div className="text-center">
-          <h1 className="text-2xl sm:text-[2.5rem] font-syne font-bold leading-tight" style={{ color: "#FAFAFA", letterSpacing: "-0.025em" }}>
+          <h1 className="text-2xl sm:text-[2.5rem] font-display font-bold leading-tight" style={{ color: "#FAFAFA", letterSpacing: "-0.025em" }}>
             Welcome to Assembl
           </h1>
           <p className="mt-2 text-sm" style={{ color: "#A1A1AA" }}>
@@ -206,7 +206,7 @@ const OnboardingPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <h2 className="text-lg font-syne font-bold mb-2" style={{ color: "#FAFAFA" }}>
+          <h2 className="text-lg font-display font-bold mb-2" style={{ color: "#FAFAFA" }}>
             Your Welcome Guide
           </h2>
           <p className="text-sm mb-4" style={{ color: "#A1A1AA" }}>

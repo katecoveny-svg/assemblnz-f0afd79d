@@ -60,8 +60,8 @@ const HavenDashboard = () => {
   return (
     <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4">
       <div>
-        <h2 className="font-syne font-bold text-base text-foreground">Portfolio Overview</h2>
-        <p className="text-[11px] font-jakarta text-muted-foreground">HAVEN by Assembl</p>
+        <h2 className="font-display font-bold text-base text-foreground">Portfolio Overview</h2>
+        <p className="text-[11px] font-body text-muted-foreground">HAVEN by Assembl</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -69,9 +69,9 @@ const HavenDashboard = () => {
           <div key={c.label} className="rounded-xl p-3 border" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
             <div className="flex items-center gap-2 mb-2">
               <c.icon size={14} style={{ color: c.color }} />
-              <span className="text-[10px] font-jakarta text-muted-foreground">{c.label}</span>
+              <span className="text-[10px] font-body text-muted-foreground">{c.label}</span>
             </div>
-            <p className="font-syne font-bold text-lg text-foreground">{c.value}</p>
+            <p className="font-display font-bold text-lg text-foreground">{c.value}</p>
           </div>
         ))}
       </div>
@@ -107,18 +107,18 @@ const HavenDashboard = () => {
 
       {/* Recent Jobs */}
       <div>
-        <h3 className="font-syne font-bold text-sm text-foreground mb-2">Recent Jobs</h3>
+        <h3 className="font-display font-bold text-sm text-foreground mb-2">Recent Jobs</h3>
         {recentJobs.length === 0 ? (
-          <p className="text-xs text-muted-foreground font-jakarta">No jobs logged yet</p>
+          <p className="text-xs text-muted-foreground font-body">No jobs logged yet</p>
         ) : (
           <div className="space-y-1.5">
             {recentJobs.map(j => (
               <div key={j.id} className="flex items-center justify-between px-3 py-2 rounded-lg border" style={{ backgroundColor: "rgba(255,255,255,0.01)", borderColor: "rgba(255,255,255,0.04)" }}>
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: j.urgency === "emergency" ? "#EF5350" : j.urgency === "high" ? "#FF6D00" : j.urgency === "medium" ? "#FFB300" : "#66BB6A" }} />
-                  <span className="text-xs font-jakarta text-foreground">{j.title}</span>
+                  <span className="text-xs font-body text-foreground">{j.title}</span>
                 </div>
-                <span className="text-[10px] font-jakarta text-muted-foreground capitalize">{j.status.replace("_", " ")}</span>
+                <span className="text-[10px] font-body text-muted-foreground capitalize">{j.status.replace("_", " ")}</span>
               </div>
             ))}
           </div>

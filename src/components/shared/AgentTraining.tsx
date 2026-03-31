@@ -79,9 +79,9 @@ export default function AgentTraining({ agentId, agentName, agentColor }: Props)
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
       <div className="flex items-center gap-2">
         <Brain size={16} style={{ color: agentColor }} />
-        <h2 className="text-sm font-syne font-bold" style={{ color: "#E4E4EC" }}>Train {agentName}</h2>
+        <h2 className="text-sm font-display font-bold" style={{ color: "#E4E4EC" }}>Train {agentName}</h2>
       </div>
-      <p className="text-[11px] font-jakarta" style={{ color: "rgba(255,255,255,0.4)" }}>
+      <p className="text-[11px] font-body" style={{ color: "rgba(255,255,255,0.4)" }}>
         Customise how {agentName} behaves. Your training data is referenced in every conversation.
       </p>
 
@@ -92,7 +92,7 @@ export default function AgentTraining({ agentId, agentName, agentColor }: Props)
         </label>
         <textarea value={form.personality} onChange={e => setForm(prev => ({ ...prev, personality: e.target.value }))} rows={3}
           placeholder={`Describe ${agentName}'s personality...`}
-          className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none resize-none"
+          className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none resize-none"
           style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
       </div>
 
@@ -117,7 +117,7 @@ export default function AgentTraining({ agentId, agentName, agentColor }: Props)
         </label>
         <textarea value={form.business_context} onChange={e => setForm(prev => ({ ...prev, business_context: e.target.value }))} rows={3}
           placeholder="What does your business do? Key info the agent should know..."
-          className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none resize-none"
+          className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none resize-none"
           style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
       </div>
 
@@ -138,10 +138,10 @@ export default function AgentTraining({ agentId, agentName, agentColor }: Props)
           ))}
           <div className="space-y-1.5">
             <input value={newFaq.q} onChange={e => setNewFaq(prev => ({ ...prev, q: e.target.value }))} placeholder="Question"
-              className="w-full px-3 py-1.5 rounded-lg text-[10px] font-jakarta bg-transparent border outline-none"
+              className="w-full px-3 py-1.5 rounded-lg text-[10px] font-body bg-transparent border outline-none"
               style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
             <input value={newFaq.a} onChange={e => setNewFaq(prev => ({ ...prev, a: e.target.value }))} placeholder="Answer"
-              className="w-full px-3 py-1.5 rounded-lg text-[10px] font-jakarta bg-transparent border outline-none"
+              className="w-full px-3 py-1.5 rounded-lg text-[10px] font-body bg-transparent border outline-none"
               style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
             <button onClick={addFaq} className="text-[10px] font-medium flex items-center gap-1" style={{ color: agentColor }}>
               <Plus size={10} /> Add FAQ
@@ -158,13 +158,13 @@ export default function AgentTraining({ agentId, agentName, agentColor }: Props)
         <div className="space-y-1.5">
           {form.rules.map((rule, i) => (
             <div key={i} className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
-              <p className="text-[10px] font-jakarta flex-1" style={{ color: "rgba(255,255,255,0.5)" }}>{rule}</p>
+              <p className="text-[10px] font-body flex-1" style={{ color: "rgba(255,255,255,0.5)" }}>{rule}</p>
               <button onClick={() => removeRule(i)}><X size={12} style={{ color: "rgba(255,255,255,0.3)" }} /></button>
             </div>
           ))}
           <div className="flex gap-1.5">
             <input value={newRule} onChange={e => setNewRule(e.target.value)} placeholder="Add a rule..." onKeyDown={e => e.key === "Enter" && addRule()}
-              className="flex-1 px-3 py-1.5 rounded-lg text-[10px] font-jakarta bg-transparent border outline-none"
+              className="flex-1 px-3 py-1.5 rounded-lg text-[10px] font-body bg-transparent border outline-none"
               style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
             <button onClick={addRule} className="text-[10px] font-medium px-2" style={{ color: agentColor }}>
               <Plus size={10} />

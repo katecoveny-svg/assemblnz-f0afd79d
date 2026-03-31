@@ -109,7 +109,7 @@ export default function AgentApp() {
         </button>
         <AgentAvatar agentId={agent.id} color={color} size={32} showGlow={false} eager />
         <div className="flex-1 min-w-0">
-          <h1 className="text-sm font-bold font-syne" style={{ color }}>{agent.name}</h1>
+          <h1 className="text-sm font-bold font-display" style={{ color }}>{agent.name}</h1>
           <p className="text-[9px] text-white/30 font-mono truncate">{agent.designation} · {agent.role}</p>
         </div>
         {user ? (
@@ -203,7 +203,7 @@ export default function AgentApp() {
                     <div className="mb-4">
                       <AgentAvatar agentId={agent.id} color={color} size={80} />
                     </div>
-                    <h2 className="text-lg font-syne font-bold mb-1" style={{ color }}>
+                    <h2 className="text-lg font-display font-bold mb-1" style={{ color }}>
                       {agent.name}
                     </h2>
                     <p className="text-xs text-white/40 text-center max-w-sm mb-2">{agent.role}</p>

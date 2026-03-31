@@ -112,7 +112,7 @@ const AgentDetailPage = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-8">
           <Link
             to="/"
-            className="inline-flex items-center gap-1.5 text-xs font-jakarta mb-10 transition-colors hover:opacity-80"
+            className="inline-flex items-center gap-1.5 text-xs font-body mb-10 transition-colors hover:opacity-80"
             style={{ color: "hsl(var(--muted-foreground))" }}
           >
             <ArrowLeft size={14} /> Back to agents
@@ -156,7 +156,7 @@ const AgentDetailPage = () => {
               </p>
 
               <h1
-                className="font-syne font-extrabold text-4xl sm:text-5xl lg:text-6xl mb-2"
+                className="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl mb-2"
                 style={{
                   color: agent.color,
                   textShadow: `0 0 40px ${agent.color}40, 0 0 100px ${agent.color}15`,
@@ -166,14 +166,14 @@ const AgentDetailPage = () => {
               </h1>
 
               <p
-                className="font-syne font-bold text-lg sm:text-xl mb-4"
+                className="font-display font-bold text-lg sm:text-xl mb-4"
                 style={{ color: "hsl(var(--foreground))" }}
               >
                 {agent.role}
               </p>
 
               <p
-                className="font-jakarta text-base sm:text-lg leading-relaxed mb-8 max-w-lg"
+                className="font-body text-base sm:text-lg leading-relaxed mb-8 max-w-lg"
                 style={{ color: "hsl(var(--muted-foreground))" }}
               >
                 {agent.tagline}
@@ -184,7 +184,7 @@ const AgentDetailPage = () => {
                 {agent.traits.map((t) => (
                   <span
                     key={t}
-                    className="text-[11px] font-jakarta font-medium px-3 py-1.5 rounded-full"
+                    className="text-[11px] font-body font-medium px-3 py-1.5 rounded-full"
                     style={{
                       background: `${agent.color}12`,
                       color: `${agent.color}CC`,
@@ -199,7 +199,7 @@ const AgentDetailPage = () => {
               {/* CTA */}
               <Link
                 to={`/chat/${agent.id}`}
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:scale-[1.03] hover:shadow-lg"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:scale-[1.03] hover:shadow-lg"
                 style={{
                   background: agent.color,
                   color: "#0A0A14",
@@ -227,7 +227,7 @@ const AgentDetailPage = () => {
               <Sparkles size={12} /> CORE EXPERTISE
             </div>
             <h2
-              className="font-syne font-extrabold text-2xl sm:text-3xl"
+              className="font-display font-extrabold text-2xl sm:text-3xl"
               style={{ color: "hsl(var(--foreground))" }}
             >
               What {agent.name} does
@@ -258,7 +258,7 @@ const AgentDetailPage = () => {
                     <Zap size={14} />
                   </div>
                   <div>
-                    <p className="font-syne font-bold text-sm" style={{ color: "hsl(var(--foreground))" }}>
+                    <p className="font-display font-bold text-sm" style={{ color: "hsl(var(--foreground))" }}>
                       {item}
                     </p>
                   </div>
@@ -280,10 +280,10 @@ const AgentDetailPage = () => {
               transition={{ duration: 0.5 }}
               className="text-center mb-12"
             >
-              <h2 className="font-syne font-extrabold text-2xl sm:text-3xl" style={{ color: "hsl(var(--foreground))" }}>
+              <h2 className="font-display font-extrabold text-2xl sm:text-3xl" style={{ color: "hsl(var(--foreground))" }}>
                 Built for real NZ work
               </h2>
-              <p className="font-jakarta text-sm mt-3 max-w-xl mx-auto" style={{ color: "hsl(var(--muted-foreground))" }}>
+              <p className="font-body text-sm mt-3 max-w-xl mx-auto" style={{ color: "hsl(var(--muted-foreground))" }}>
                 Every capability is grounded in New Zealand legislation, standards, and business practice.
               </p>
             </motion.div>
@@ -307,7 +307,7 @@ const AgentDetailPage = () => {
                     className="shrink-0 mt-0.5"
                     style={{ color: agent.color }}
                   />
-                  <p className="font-jakarta text-sm leading-relaxed" style={{ color: "hsl(var(--foreground) / 0.8)" }}>
+                  <p className="font-body text-sm leading-relaxed" style={{ color: "hsl(var(--foreground) / 0.8)" }}>
                     {cap}
                   </p>
                 </motion.div>
@@ -327,7 +327,7 @@ const AgentDetailPage = () => {
             transition={{ duration: 0.5 }}
             className="text-center mb-10"
           >
-            <h2 className="font-syne font-extrabold text-2xl sm:text-3xl" style={{ color: "hsl(var(--foreground))" }}>
+            <h2 className="font-display font-extrabold text-2xl sm:text-3xl" style={{ color: "hsl(var(--foreground))" }}>
               Try asking {agent.name}
             </h2>
           </motion.div>
@@ -363,7 +363,7 @@ const AgentDetailPage = () => {
                   >
                     <span className="text-sm font-bold">"</span>
                   </div>
-                  <p className="font-jakarta text-sm flex-1" style={{ color: "hsl(var(--foreground) / 0.8)" }}>
+                  <p className="font-body text-sm flex-1" style={{ color: "hsl(var(--foreground) / 0.8)" }}>
                     {s}
                   </p>
                   <ArrowRight
@@ -394,17 +394,17 @@ const AgentDetailPage = () => {
             transition={{ duration: 0.5 }}
           >
             <h2
-              className="font-syne font-extrabold text-3xl sm:text-4xl mb-4"
+              className="font-display font-extrabold text-3xl sm:text-4xl mb-4"
               style={{ color: "hsl(var(--foreground))" }}
             >
               Ready to put {agent.name} to work?
             </h2>
-            <p className="font-jakarta text-base mb-8 max-w-md mx-auto" style={{ color: "hsl(var(--muted-foreground))" }}>
+            <p className="font-body text-base mb-8 max-w-md mx-auto" style={{ color: "hsl(var(--muted-foreground))" }}>
               No credit card required. Start chatting with your {agent.sector.toLowerCase()} specialist in seconds.
             </p>
             <Link
               to={`/chat/${agent.id}`}
-              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl text-base font-syne font-bold transition-all duration-300 hover:scale-[1.03]"
+              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl text-base font-display font-bold transition-all duration-300 hover:scale-[1.03]"
               style={{
                 background: agent.color,
                 color: "#0A0A14",

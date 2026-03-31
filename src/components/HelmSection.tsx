@@ -77,7 +77,7 @@ const HelmSection = () => {
               </div>
 
               <h2
-                className="font-syne font-extrabold text-3xl sm:text-4xl mb-1"
+                className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
                 style={{
                   color: HELM_COLOR,
                   textShadow: `0 0 20px ${HELM_COLOR}40, 0 0 60px ${HELM_COLOR}15`,
@@ -89,12 +89,12 @@ const HelmSection = () => {
                 ASM-013 · Family Command Centre
               </p>
               <h3
-                className="font-syne font-bold text-base sm:text-lg mb-4"
+                className="font-display font-bold text-base sm:text-lg mb-4"
                 style={{ color: HELM_COLOR, textShadow: `0 0 12px ${HELM_COLOR}25` }}
               >
                 Your family&apos;s second brain.
               </h3>
-              <p className="text-sm font-jakarta leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
+              <p className="text-sm font-body leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
                 HELM reads school notices, builds weekly schedules, tracks live bus positions,
                 and manages meal plans — all powered by AI that understands NZ school life.
                 One parent said it saved them 4 hours a week.
@@ -104,7 +104,7 @@ const HelmSection = () => {
                 {["School Notice Parser", "Live Bus Tracker", "Meal Planner", "Timetables"].map((f) => (
                   <span
                     key={f}
-                    className="text-[10px] font-jakarta px-2.5 py-1 rounded-full"
+                    className="text-[10px] font-body px-2.5 py-1 rounded-full"
                     style={{ background: `${HELM_COLOR}10`, color: `${HELM_COLOR}90`, border: `1px solid ${HELM_COLOR}20` }}
                   >
                     {f}
@@ -115,7 +115,7 @@ const HelmSection = () => {
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                 <Link
                   to="/chat/operations"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{
                     background: HELM_COLOR,
                     color: "#0A0A14",
@@ -126,7 +126,7 @@ const HelmSection = () => {
                 </Link>
                 <button
                   onClick={() => setShowVoice(true)}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{
                     background: "transparent",
                     color: HELM_COLOR,

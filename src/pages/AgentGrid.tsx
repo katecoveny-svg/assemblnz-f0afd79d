@@ -14,11 +14,6 @@ import { NeonWave } from "@/components/NeonIcons";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import LiveDemoSection from "@/components/LiveDemoSection";
-import EchoSection from "@/components/EchoSection";
-import TurfSection from "@/components/TurfSection";
-import AuraSection from "@/components/AuraSection";
-import ApexSection from "@/components/ApexSection";
-import ArohaSection from "@/components/ArohaSection";
 import FAQSection from "@/components/FAQSection";
 import CompetitorComparison from "@/components/CompetitorComparison";
 import TrustSection from "@/components/landing/TrustSection";
@@ -42,7 +37,7 @@ const PRICING_PLANS = [
     name: "Free",
     monthlyPrice: 0,
     color: "#A1A1AA",
-    features: ["3 messages per advisor", "All 42 specialist tools", "NZ legislation knowledge", "No signup required"],
+    features: ["3 messages per advisor", "All 44 specialist tools", "NZ legislation knowledge", "No signup required"],
     cta: "Start free",
     href: "/",
     external: false,
@@ -72,7 +67,7 @@ const PRICING_PLANS = [
     name: "Business",
     monthlyPrice: 599,
     color: "#3A7D6E",
-    features: ["All 42 specialist tools", "2,000 messages/month", "Command Centre", "MCP API", "Phone support"],
+    features: ["All 44 specialist tools", "2,000 messages/month", "Command Centre", "MCP API", "Phone support"],
     cta: "Start Business",
     href: "https://buy.stripe.com/6oU9AVa1C6Wcbpr2Sq3oA09",
     external: true,
@@ -92,7 +87,7 @@ const PRICING_PLANS = [
 
 const HOW_IT_WORKS = [
   { step: "01", title: "Tell us about your business", desc: "Share your industry, team size, and goals. Your specialist team adapts to you.", icon: <Users size={24} /> },
-  { step: "02", title: "Access your specialist tools", desc: "42 specialist tools covering every NZ industry, all trained on NZ legislation.", icon: <Zap size={24} /> },
+  { step: "02", title: "Access your specialist tools", desc: "44 specialist tools covering every NZ industry, all trained on NZ legislation.", icon: <Zap size={24} /> },
   { step: "03", title: "Get specialist guidance", desc: "Ask anything. Get recommendations grounded in NZ legislation, regulations, and best practice.", icon: <BookOpen size={24} /> },
   { step: "04", title: "Run 24/7", desc: "Embed on your site, share with your team, or let customers chat directly.", icon: <Clock size={24} /> },
 ];
@@ -164,8 +159,8 @@ const AgentGrid = () => {
   return (
     <div className="min-h-screen flex flex-col relative">
       <SEO
-        title="Assembl | Business Intelligence Platform for NZ | 42 Specialist Tools"
-        description="42 specialist tools trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, and more. Enterprise-grade business intelligence at SME pricing. From $14/mo. Built in Aotearoa."
+        title="Assembl | Business Intelligence Platform for NZ | 44 Specialist Tools"
+        description="44 specialist tools trained on 50+ NZ Acts. Employment, hospitality, construction, property, sports, and more. Enterprise-grade business intelligence at SME pricing. From $14/mo. Built in Aotearoa."
         path="/"
       />
       <ParticleField />
@@ -271,12 +266,6 @@ const AgentGrid = () => {
       {/* ═══════════════════════ KEY FEATURES ═══════════════════════ */}
       <KeyFeaturesSection />
 
-      {/* ═══════════════════════ FEATURED AGENTS ═══════════════════════ */}
-      <TurfSection />
-      <AuraSection />
-      <ApexSection />
-      <ArohaSection />
-      <EchoSection />
 
       {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">

@@ -78,7 +78,7 @@ const useCountdown = () => {
 const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
   <div className="flex flex-col items-center">
     <span
-      className="text-4xl sm:text-6xl lg:text-7xl font-syne font-black tabular-nums"
+      className="text-4xl sm:text-6xl lg:text-7xl font-display font-black tabular-nums"
       style={{ color: TURF_COLOR, textShadow: `0 0 30px ${TURF_COLOR}50` }}
     >
       {String(value).padStart(2, "0")}
@@ -211,10 +211,10 @@ Please include all mandatory sections: purpose and objects, officer duties, conf
           viewport={{ once: true }}
           className="text-center mb-6"
         >
-          <h2 className="font-syne font-bold text-2xl sm:text-3xl text-foreground mb-2">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl text-foreground mb-2">
             Generate Your Constitution
           </h2>
-          <p className="text-sm text-muted-foreground font-jakarta">
+          <p className="text-sm text-muted-foreground font-body">
             Answer {WIZARD_STEPS.length} quick questions and TURF will generate a fully compliant constitution for your club.
           </p>
         </motion.div>
@@ -249,7 +249,7 @@ Please include all mandatory sections: purpose and objects, officer duties, conf
           >
             <AgentAvatar agentId="sports" color={TURF_COLOR} size={32} />
             <div>
-              <p className="text-sm font-syne font-bold text-foreground">TURF</p>
+              <p className="text-sm font-display font-bold text-foreground">TURF</p>
               <p className="text-[10px] text-muted-foreground font-mono">Constitution Generator · Online</p>
             </div>
             <div className="ml-auto w-2 h-2 rounded-full animate-pulse" style={{ background: TURF_COLOR }} />
@@ -263,7 +263,7 @@ Please include all mandatory sections: purpose and objects, officer duties, conf
                   <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center" style={{ background: `${TURF_COLOR}15` }}>
                     <Bot size={14} style={{ color: TURF_COLOR }} />
                   </div>
-                  <div className="rounded-xl rounded-tl-sm px-4 py-3 text-sm font-jakarta text-foreground bg-muted/50 max-w-[85%]">
+                  <div className="rounded-xl rounded-tl-sm px-4 py-3 text-sm font-body text-foreground bg-muted/50 max-w-[85%]">
                     Kia ora! 👋 Let's get your club's constitution sorted before <strong>5 April 2026</strong>. I'll ask you {WIZARD_STEPS.length} quick questions, then generate a fully compliant document.
                     <br /><br />
                     <strong>What sport or activity does your club play?</strong>
@@ -275,7 +275,7 @@ Please include all mandatory sections: purpose and objects, officer duties, conf
                     <button
                       key={sport}
                       onClick={() => handleQuickStart(sport)}
-                      className="text-xs font-jakarta px-3 py-1.5 rounded-full border transition-all hover:scale-105"
+                      className="text-xs font-body px-3 py-1.5 rounded-full border transition-all hover:scale-105"
                       style={{ borderColor: `${TURF_COLOR}30`, color: TURF_COLOR, background: `${TURF_COLOR}08` }}
                     >
                       {sport} Club
@@ -293,7 +293,7 @@ Please include all mandatory sections: purpose and objects, officer duties, conf
                   </div>
                 )}
                 <div
-                  className={`rounded-xl px-4 py-3 text-sm font-jakarta max-w-[85%] whitespace-pre-wrap ${
+                  className={`rounded-xl px-4 py-3 text-sm font-body max-w-[85%] whitespace-pre-wrap ${
                     m.role === "user"
                       ? "rounded-tr-sm text-primary-foreground"
                       : "rounded-tl-sm text-foreground bg-muted/50"
@@ -325,7 +325,7 @@ Please include all mandatory sections: purpose and objects, officer duties, conf
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={currentStep && !wizardComplete ? currentStep.placeholder : "Ask a follow-up question..."}
-              className="flex-1 bg-transparent text-sm font-jakarta text-foreground placeholder:text-muted-foreground outline-none px-3 py-2 rounded-lg border border-border focus:border-[--turf]"
+              className="flex-1 bg-transparent text-sm font-body text-foreground placeholder:text-muted-foreground outline-none px-3 py-2 rounded-lg border border-border focus:border-[--turf]"
               style={{ "--turf": TURF_COLOR } as React.CSSProperties}
               disabled={loading}
             />
@@ -342,7 +342,7 @@ Please include all mandatory sections: purpose and objects, officer duties, conf
           <div className="px-4 py-2 border-t border-border text-center">
             <Link
               to="/chat/sports"
-              className="text-xs font-jakarta hover:underline"
+              className="text-xs font-body hover:underline"
               style={{ color: TURF_COLOR }}
             >
               Open full TURF experience →
@@ -383,7 +383,7 @@ const TurfDeadlinePage = () => {
     setMeta("description", "NZ sports clubs must re-register under the Incorporated Societies Act 2022 by 5 April 2026. TURF generates a compliant constitution in minutes — free.", "name");
 
     return () => {
-      document.title = "Assembl | Business Intelligence Platform for NZ | 42 Specialist Tools";
+      document.title = "Assembl | Business Intelligence Platform for NZ | 44 Specialist Tools";
     };
   }, []);
 
@@ -429,7 +429,7 @@ const TurfDeadlinePage = () => {
           </motion.div>
 
           <motion.h1
-            className="font-syne font-black text-4xl sm:text-5xl lg:text-6xl leading-tight mb-4"
+            className="font-display font-black text-4xl sm:text-5xl lg:text-6xl leading-tight mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
@@ -442,7 +442,7 @@ const TurfDeadlinePage = () => {
           </motion.h1>
 
           <motion.p
-            className="text-lg sm:text-xl text-muted-foreground font-jakarta max-w-2xl mx-auto mb-10"
+            className="text-lg sm:text-xl text-muted-foreground font-body max-w-2xl mx-auto mb-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
@@ -459,11 +459,11 @@ const TurfDeadlinePage = () => {
             transition={{ delay: 0.5 }}
           >
             <CountdownUnit value={countdown.days} label="Days" />
-            <span className="text-4xl sm:text-6xl font-syne font-black text-muted-foreground/30 self-start mt-1">:</span>
+            <span className="text-4xl sm:text-6xl font-display font-black text-muted-foreground/30 self-start mt-1">:</span>
             <CountdownUnit value={countdown.hours} label="Hours" />
-            <span className="text-4xl sm:text-6xl font-syne font-black text-muted-foreground/30 self-start mt-1">:</span>
+            <span className="text-4xl sm:text-6xl font-display font-black text-muted-foreground/30 self-start mt-1">:</span>
             <CountdownUnit value={countdown.minutes} label="Min" />
-            <span className="text-4xl sm:text-6xl font-syne font-black text-muted-foreground/30 self-start mt-1">:</span>
+            <span className="text-4xl sm:text-6xl font-display font-black text-muted-foreground/30 self-start mt-1">:</span>
             <CountdownUnit value={countdown.seconds} label="Sec" />
           </motion.div>
 
@@ -475,14 +475,14 @@ const TurfDeadlinePage = () => {
           >
             <a
               href="#try-turf"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-base font-syne font-bold transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-base font-display font-bold transition-all duration-300 hover:scale-105"
               style={{ background: TURF_COLOR, color: "#0A0A14", boxShadow: `0 0 30px ${TURF_COLOR}30` }}
             >
               Generate Your Constitution Free <ArrowRight size={18} />
             </a>
             <button
               onClick={handleShare}
-              className="inline-flex items-center gap-2 px-6 py-4 rounded-xl text-base font-syne font-bold border transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 px-6 py-4 rounded-xl text-base font-display font-bold border transition-all duration-300 hover:scale-105"
               style={{ borderColor: `${TURF_COLOR}30`, color: TURF_COLOR, background: `${TURF_COLOR}08` }}
             >
               <Share2 size={16} /> Share With Your Club
@@ -494,10 +494,10 @@ const TurfDeadlinePage = () => {
       {/* WHY ACT NOW — replaces fear-based "consequences" */}
       <section className="py-16 border-t border-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="font-syne font-bold text-2xl sm:text-3xl text-center mb-3 text-foreground">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl text-center mb-3 text-foreground">
             Why get it done now?
           </h2>
-          <p className="text-center text-muted-foreground text-sm mb-10 font-jakarta max-w-xl mx-auto">
+          <p className="text-center text-muted-foreground text-sm mb-10 font-body max-w-xl mx-auto">
             Clubs that haven't re-registered by 5 April 2026 can still apply to restore their registration — but it's simpler, cheaper, and less stressful to do it before the deadline.
           </p>
           <div className="grid sm:grid-cols-2 gap-4">
@@ -515,8 +515,8 @@ const TurfDeadlinePage = () => {
                     <item.icon size={20} style={{ color: TURF_COLOR }} />
                   </div>
                   <div>
-                    <p className="text-sm font-syne font-bold text-foreground mb-1">{item.text}</p>
-                    <p className="text-xs text-muted-foreground font-jakarta leading-relaxed">{item.detail}</p>
+                    <p className="text-sm font-display font-bold text-foreground mb-1">{item.text}</p>
+                    <p className="text-xs text-muted-foreground font-body leading-relaxed">{item.detail}</p>
                   </div>
                 </div>
               </motion.div>
@@ -531,9 +531,9 @@ const TurfDeadlinePage = () => {
           <div className="rounded-2xl border border-border bg-card p-6 sm:p-8">
             <div className="flex items-start gap-3 mb-4">
               <HelpCircle size={20} style={{ color: TURF_COLOR }} className="shrink-0 mt-0.5" />
-              <h3 className="font-syne font-bold text-lg text-foreground">What if my club misses the deadline?</h3>
+              <h3 className="font-display font-bold text-lg text-foreground">What if my club misses the deadline?</h3>
             </div>
-            <div className="space-y-3 text-sm font-jakarta text-muted-foreground leading-relaxed ml-8">
+            <div className="space-y-3 text-sm font-body text-muted-foreground leading-relaxed ml-8">
               <p>
                 If your club doesn't re-register by 5 April 2026, it will be <strong className="text-foreground">removed from the register</strong> — but this doesn't have to be the end. The Act allows societies to apply for <strong className="text-foreground">restoration</strong> within a set period.
               </p>
@@ -565,14 +565,14 @@ const TurfDeadlinePage = () => {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
               >
-                <p className="text-3xl sm:text-4xl font-syne font-black mb-2" style={{ color: TURF_COLOR }}>
+                <p className="text-3xl sm:text-4xl font-display font-black mb-2" style={{ color: TURF_COLOR }}>
                   {s.stat}
                 </p>
-                <p className="text-xs text-muted-foreground font-jakarta">{s.label}</p>
+                <p className="text-xs text-muted-foreground font-body">{s.label}</p>
               </motion.div>
             ))}
           </div>
-          <p className="text-center text-muted-foreground text-sm font-jakarta max-w-xl mx-auto">
+          <p className="text-center text-muted-foreground text-sm font-body max-w-xl mx-auto">
             The Act requires corporate-grade governance documents — a big ask for volunteer-run committees.
             <span className="block mt-2 font-semibold text-foreground">That's why we built TURF.</span>
           </p>
@@ -582,10 +582,10 @@ const TurfDeadlinePage = () => {
       {/* WHAT TURF GENERATES */}
       <section className="py-16 border-t border-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="font-syne font-bold text-2xl sm:text-3xl text-center mb-3 text-foreground">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl text-center mb-3 text-foreground">
             A complete constitution in minutes
           </h2>
-          <p className="text-center text-muted-foreground text-sm mb-10 font-jakarta">
+          <p className="text-center text-muted-foreground text-sm mb-10 font-body">
             Not a template. A complete document tailored to your sport code — from rugby to rowing to bowls.
           </p>
           <div className="grid sm:grid-cols-2 gap-3">
@@ -599,11 +599,11 @@ const TurfDeadlinePage = () => {
                 transition={{ delay: i * 0.04 }}
               >
                 <CheckCircle2 size={18} className="shrink-0 mt-0.5" style={{ color: TURF_COLOR }} />
-                <span className="text-sm font-jakarta text-foreground">{s}</span>
+                <span className="text-sm font-body text-foreground">{s}</span>
               </motion.div>
             ))}
           </div>
-          <p className="text-center text-muted-foreground text-xs mt-6 font-jakarta">
+          <p className="text-center text-muted-foreground text-xs mt-6 font-body">
             Plus grant applications, sponsorship proposals, and AGM documents.
           </p>
         </div>
@@ -619,27 +619,27 @@ const TurfDeadlinePage = () => {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Clock size={20} style={{ color: TURF_COLOR }} />
-            <span className="font-syne font-bold text-lg" style={{ color: TURF_COLOR }}>
+            <span className="font-display font-bold text-lg" style={{ color: TURF_COLOR }}>
               {countdown.days} days until the window closes
             </span>
           </div>
-          <h2 className="font-syne font-black text-3xl sm:text-4xl text-foreground mb-4">
+          <h2 className="font-display font-black text-3xl sm:text-4xl text-foreground mb-4">
             Your club deserves to keep going.
           </h2>
-          <p className="text-muted-foreground text-sm font-jakarta mb-8 max-w-lg mx-auto">
+          <p className="text-muted-foreground text-sm font-body mb-8 max-w-lg mx-auto">
             Know someone on a club committee? Share this page — it takes 10 minutes to generate a constitution and they'll thank you for it.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link
               to="/chat/sports"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-base font-syne font-bold transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-base font-display font-bold transition-all duration-300 hover:scale-105"
               style={{ background: TURF_COLOR, color: "#0A0A14", boxShadow: `0 0 30px ${TURF_COLOR}30` }}
             >
               Get Started Free <ArrowRight size={18} />
             </Link>
             <button
               onClick={handleShare}
-              className="inline-flex items-center gap-2 px-6 py-4 rounded-xl text-base font-syne font-bold border transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 px-6 py-4 rounded-xl text-base font-display font-bold border transition-all duration-300 hover:scale-105"
               style={{ borderColor: `${TURF_COLOR}30`, color: TURF_COLOR, background: `${TURF_COLOR}08` }}
             >
               <Share2 size={16} /> Share With Your Committee

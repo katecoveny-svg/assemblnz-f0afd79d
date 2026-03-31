@@ -55,7 +55,7 @@ const ContentHubShowcase = () => {
   return (
     <section className="pb-16">
       <h2
-        className="font-syne font-extrabold text-xl sm:text-2xl text-center mb-8 px-4 halo-heading"
+        className="font-display font-extrabold text-xl sm:text-2xl text-center mb-8 px-4 halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
         Live agent outputs
@@ -88,7 +88,7 @@ const ContentHubShowcase = () => {
                 >
                   {item.name}
                 </span>
-                <span className="font-syne font-bold text-sm text-foreground">
+                <span className="font-display font-bold text-sm text-foreground">
                   {item.title}
                 </span>
               </div>
@@ -107,12 +107,12 @@ const ContentHubShowcase = () => {
 
             {/* Card footer */}
             <div className="px-5 pb-5 pt-3 flex items-center justify-between gap-3">
-              <p className="font-jakarta text-xs leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.4)" }}>
+              <p className="font-body text-xs leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.4)" }}>
                 {item.desc}
               </p>
               <Link
                 to={`/chat/${item.id}`}
-                className="cta-glass-green shrink-0 inline-flex items-center gap-2 text-xs font-jakarta font-semibold px-4 py-2.5 rounded-lg"
+                className="cta-glass-green shrink-0 inline-flex items-center gap-2 text-xs font-body font-semibold px-4 py-2.5 rounded-lg"
               >
                 Try it →
               </Link>

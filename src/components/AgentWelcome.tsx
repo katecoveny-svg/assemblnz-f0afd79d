@@ -30,12 +30,12 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
       <AgentAvatar agentId={agent.id} color={agent.color} size={64} />
 
       {/* Time-aware greeting */}
-      <p className="text-sm font-jakarta text-foreground/70">{greeting}</p>
+      <p className="text-sm font-body text-foreground/70">{greeting}</p>
 
       {/* Anniversary message */}
       {anniversaryMsg && (
         <div
-          className="w-full max-w-sm text-center text-xs font-jakarta px-3 py-2.5 rounded-lg"
+          className="w-full max-w-sm text-center text-xs font-body px-3 py-2.5 rounded-lg"
           style={{
             background: "rgba(0,255,136,0.06)",
             border: "1px solid rgba(0,255,136,0.15)",
@@ -62,7 +62,7 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
       {/* Smart empty state suggestion */}
       {randomSuggestion && (
         <div
-          className="w-full max-w-sm text-left text-xs font-jakarta px-3 py-2.5 rounded-lg"
+          className="w-full max-w-sm text-left text-xs font-body px-3 py-2.5 rounded-lg"
           style={{
             background: `${agent.color}06`,
             border: `1px solid ${agent.color}15`,
@@ -76,7 +76,7 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
       {/* Seasonal hint */}
       {seasonalHint && (
         <div
-          className="w-full max-w-sm text-left text-xs font-jakarta px-3 py-2.5 rounded-lg"
+          className="w-full max-w-sm text-left text-xs font-body px-3 py-2.5 rounded-lg"
           style={{
             background: `${agent.color}08`,
             border: `1px solid ${agent.color}20`,

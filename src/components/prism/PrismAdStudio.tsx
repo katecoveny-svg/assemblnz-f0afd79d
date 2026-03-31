@@ -78,8 +78,8 @@ Make each variant genuinely different in creative approach. NZ-focused copy.`;
       <div className="flex items-center gap-2 mb-2">
         <Target size={16} style={{ color: ACCENT }} />
         <div>
-          <h2 className="text-sm font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>Ad Studio</h2>
-          <p className="text-[10px] font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>Performance ad creative generation</p>
+          <h2 className="text-sm font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>Ad Studio</h2>
+          <p className="text-[10px] font-body" style={{ color: "hsl(var(--muted-foreground))" }}>Performance ad creative generation</p>
         </div>
       </div>
 
@@ -124,7 +124,7 @@ Make each variant genuinely different in creative approach. NZ-focused copy.`;
           <div key={f.label}>
             <label className="text-[9px] font-mono uppercase tracking-wider mb-1 block" style={{ color: "hsl(var(--muted-foreground))" }}>{f.label}</label>
             <input value={f.value} onChange={e => f.set(e.target.value)} placeholder={f.placeholder}
-              className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+              className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
               style={{ borderColor: "hsl(var(--border))", color: "hsl(var(--foreground))" }} />
           </div>
         ))}
@@ -132,7 +132,7 @@ Make each variant genuinely different in creative approach. NZ-focused copy.`;
 
       {/* Brand DNA toggle */}
       <div className="flex items-center justify-between rounded-lg p-3" style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
-        <span className="text-[10px] font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>Apply Brand DNA</span>
+        <span className="text-[10px] font-body" style={{ color: "hsl(var(--muted-foreground))" }}>Apply Brand DNA</span>
         <button onClick={() => setUseBrandDna(!useBrandDna)}
           className="w-9 h-5 rounded-full transition-all relative"
           style={{ backgroundColor: useBrandDna ? ACCENT : "hsl(var(--muted))" }}>
@@ -142,7 +142,7 @@ Make each variant genuinely different in creative approach. NZ-focused copy.`;
 
       {/* Generate button */}
       <button onClick={handleGenerate}
-        className="w-full py-3 rounded-xl text-sm font-syne font-bold transition-all hover:scale-[0.98] flex items-center justify-center gap-2"
+        className="w-full py-3 rounded-xl text-sm font-display font-bold transition-all hover:scale-[0.98] flex items-center justify-center gap-2"
         style={{ background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT}CC)`, color: "#0A0A14", boxShadow: `0 0 20px ${ACCENT}30` }}>
         <Wand2 size={14} /> Generate 4 Ad Variants
       </button>
@@ -153,7 +153,7 @@ Make each variant genuinely different in creative approach. NZ-focused copy.`;
           <BarChart3 size={12} style={{ color: ACCENT }} />
           <p className="text-[9px] font-mono uppercase" style={{ color: "hsl(var(--muted-foreground))" }}>Platform Specs</p>
         </div>
-        <div className="grid grid-cols-2 gap-2 text-[10px] font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>
+        <div className="grid grid-cols-2 gap-2 text-[10px] font-body" style={{ color: "hsl(var(--muted-foreground))" }}>
           {platform === "google" && <><span>Headline: 30 chars</span><span>Description: 90 chars</span></>}
           {platform === "meta" && <><span>Headline: 40 chars</span><span>Description: 125 chars</span></>}
           {platform === "instagram" && <><span>Caption: 2,200 chars</span><span>Hashtags: 30 max</span></>}

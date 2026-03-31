@@ -45,7 +45,7 @@ export default function FluxClients() {
         <div className="flex-1 relative">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "rgba(255,255,255,0.3)" }} />
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search clients..."
-            className="w-full pl-8 pr-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+            className="w-full pl-8 pr-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
             style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
         </div>
         <button onClick={() => setShowAdd(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium"
@@ -62,23 +62,23 @@ export default function FluxClients() {
                 <User size={14} style={{ color: ACCENT }} />
               </div>
               <div>
-                <p className="text-xs font-syne font-semibold" style={{ color: "#E4E4EC" }}>{c.name}</p>
-                {c.business_name && <p className="text-[10px] font-jakarta" style={{ color: "rgba(255,255,255,0.4)" }}>{c.business_name}</p>}
+                <p className="text-xs font-display font-semibold" style={{ color: "#E4E4EC" }}>{c.name}</p>
+                {c.business_name && <p className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.4)" }}>{c.business_name}</p>}
               </div>
             </div>
-            {c.email && <p className="text-[10px] font-jakarta flex items-center gap-1.5" style={{ color: "rgba(255,255,255,0.4)" }}><Mail size={9} /> {c.email}</p>}
-            {c.phone && <p className="text-[10px] font-jakarta flex items-center gap-1.5" style={{ color: "rgba(255,255,255,0.4)" }}><Phone size={9} /> {c.phone}</p>}
-            {c.notes && <p className="text-[10px] font-jakarta line-clamp-2" style={{ color: "rgba(255,255,255,0.3)" }}>{c.notes}</p>}
+            {c.email && <p className="text-[10px] font-body flex items-center gap-1.5" style={{ color: "rgba(255,255,255,0.4)" }}><Mail size={9} /> {c.email}</p>}
+            {c.phone && <p className="text-[10px] font-body flex items-center gap-1.5" style={{ color: "rgba(255,255,255,0.4)" }}><Phone size={9} /> {c.phone}</p>}
+            {c.notes && <p className="text-[10px] font-body line-clamp-2" style={{ color: "rgba(255,255,255,0.3)" }}>{c.notes}</p>}
           </div>
         ))}
       </div>
-      {filtered.length === 0 && <p className="text-xs font-jakarta text-center py-8" style={{ color: "rgba(255,255,255,0.3)" }}>No clients yet</p>}
+      {filtered.length === 0 && <p className="text-xs font-body text-center py-8" style={{ color: "rgba(255,255,255,0.3)" }}>No clients yet</p>}
 
       {showAdd && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="w-full max-w-md rounded-2xl p-6 space-y-3" style={{ background: "#0D0D14", border: "1px solid rgba(255,255,255,0.06)" }}>
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-syne font-bold" style={{ color: "#E4E4EC" }}>Add Client</h3>
+              <h3 className="text-sm font-display font-bold" style={{ color: "#E4E4EC" }}>Add Client</h3>
               <button onClick={() => setShowAdd(false)}><X size={16} style={{ color: "rgba(255,255,255,0.4)" }} /></button>
             </div>
             {[
@@ -91,7 +91,7 @@ export default function FluxClients() {
               <div key={f.key}>
                 <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>{f.label}</label>
                 <input value={(form as any)[f.key]} onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))}
-                  className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+                  className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
                   style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
               </div>
             ))}

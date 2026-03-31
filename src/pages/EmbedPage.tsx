@@ -96,7 +96,7 @@ const EmbedPage = () => {
 
         {/* ════════════ HOW IT WORKS ════════════ */}
         <section className="mb-16">
-          <h2 className="text-lg sm:text-xl font-syne font-extrabold text-foreground text-glow-purple mb-6 text-center">How to embed Assembl on your site</h2>
+          <h2 className="text-lg sm:text-xl font-display font-extrabold text-foreground text-glow-purple mb-6 text-center">How to embed Assembl on your site</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
             {[
               {
@@ -353,12 +353,12 @@ const EmbedPage = () => {
 
         {/* ════════════ PLAN COMPARISON STRIP ════════════ */}
         <section className="mb-16">
-          <h2 className="text-base font-syne font-extrabold text-foreground text-glow-cyan text-center mb-6">Embed access by plan</h2>
+          <h2 className="text-base font-display font-extrabold text-foreground text-glow-cyan text-center mb-6">Embed access by plan</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
             {[
               { plan: "Starter", agents: "1 agent", price: "$89/mo", color: "#5AADA0", current: role === "starter" },
               { plan: "Pro", agents: "3 agents", price: "$299/mo", color: "#3A6A9C", current: role === "pro" },
-              { plan: "Business", agents: "All 42 agents", price: "$599/mo", color: "#3A6A9C", current: role === "business" },
+              { plan: "Business", agents: "All 44 agents", price: "$599/mo", color: "#3A6A9C", current: role === "business" },
             ].map((t) => (
               <div
                 key={t.plan}

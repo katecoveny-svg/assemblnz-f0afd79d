@@ -4,7 +4,7 @@ const ContentHubComparison = () => (
   <section className="px-4 sm:px-8 py-16">
     <div className="max-w-6xl mx-auto">
       <h2
-        className="font-syne font-extrabold text-2xl sm:text-3xl text-center mb-10 halo-heading"
+        className="font-display font-extrabold text-2xl sm:text-3xl text-center mb-10 halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
         What Assembl replaces
@@ -27,10 +27,10 @@ const ContentHubComparison = () => (
               >
                 Replaces
               </p>
-              <p className="font-jakarta text-sm font-medium" style={{ color: "hsl(var(--foreground))" }}>
+              <p className="font-body text-sm font-medium" style={{ color: "hsl(var(--foreground))" }}>
                 {c.replaces}
               </p>
-              <p className="font-jakarta text-lg font-bold line-through" style={{ color: "rgba(255,255,255,0.25)" }}>
+              <p className="font-body text-lg font-bold line-through" style={{ color: "rgba(255,255,255,0.25)" }}>
                 {c.theirCost}
               </p>
               <div className="flex items-center gap-2">
@@ -38,10 +38,10 @@ const ContentHubComparison = () => (
                   className="w-2 h-2 rounded-full"
                   style={{ background: c.agentColor }}
                 />
-                <span className="font-syne font-bold text-xs" style={{ color: c.agentColor }}>
+                <span className="font-display font-bold text-xs" style={{ color: c.agentColor }}>
                   {c.agent}
                 </span>
-                <span className="font-jakarta text-sm font-bold" style={{ color: "#5AADA0" }}>
+                <span className="font-body text-sm font-bold" style={{ color: "#5AADA0" }}>
                   Included from {c.assemblCost}
                 </span>
               </div>

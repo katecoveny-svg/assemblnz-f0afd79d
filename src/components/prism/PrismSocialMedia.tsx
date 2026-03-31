@@ -96,10 +96,10 @@ Make them punchy, on-brand, and ready to copy-paste.`);
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-sm font-syne font-bold flex items-center gap-2" style={{ color: "hsl(var(--foreground))" }}>
+          <h2 className="text-sm font-display font-bold flex items-center gap-2" style={{ color: "hsl(var(--foreground))" }}>
             <Sparkles size={15} style={{ color: ACCENT }} /> Social Media
           </h2>
-          <p className="text-[10px] font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>
+          <p className="text-[10px] font-body" style={{ color: "hsl(var(--muted-foreground))" }}>
             Create & manage platform-optimised social content
           </p>
         </div>
@@ -110,7 +110,7 @@ Make them punchy, on-brand, and ready to copy-paste.`);
                 style={{ background: view === v ? `${ACCENT}15` : "transparent", color: view === v ? ACCENT : "hsl(var(--muted-foreground))" }}>{v}</button>
             ))}
           </div>
-          <button onClick={() => setShowGen(true)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-syne font-bold"
+          <button onClick={() => setShowGen(true)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-display font-bold"
             style={{ background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT}CC)`, color: "#0A0A14" }}>
             <Wand2 size={12} /> Generate
           </button>
@@ -125,7 +125,7 @@ Make them punchy, on-brand, and ready to copy-paste.`);
           return (
             <div key={p.id} className="rounded-xl p-2.5 text-center" style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
               <Icon size={14} className="mx-auto mb-1" style={{ color: ACCENT }} />
-              <p className="text-xs font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>{count}</p>
+              <p className="text-xs font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>{count}</p>
               <p className="text-[9px] font-mono" style={{ color: "hsl(var(--muted-foreground))" }}>{p.label}</p>
             </div>
           );
@@ -157,7 +157,7 @@ Make them punchy, on-brand, and ready to copy-paste.`);
                   </button>
                 </div>
               </div>
-              <p className="text-[11px] font-jakarta line-clamp-3" style={{ color: "hsl(var(--foreground) / 0.7)" }}>{post.caption}</p>
+              <p className="text-[11px] font-body line-clamp-3" style={{ color: "hsl(var(--foreground) / 0.7)" }}>{post.caption}</p>
               {post.hashtags && <p className="text-[10px] font-mono" style={{ color: `${ACCENT}80` }}>{post.hashtags}</p>}
               {post.scheduled_at && <p className="text-[9px] font-mono flex items-center gap-1" style={{ color: "hsl(var(--muted-foreground))" }}><Clock size={9} /> {new Date(post.scheduled_at).toLocaleDateString("en-NZ")}</p>}
             </div>
@@ -168,7 +168,7 @@ Make them punchy, on-brand, and ready to copy-paste.`);
             <div className="w-12 h-12 rounded-xl mx-auto flex items-center justify-center" style={{ background: `${ACCENT}10` }}>
               <Instagram size={20} style={{ color: ACCENT }} />
             </div>
-            <p className="text-xs font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>No posts yet — generate your first one!</p>
+            <p className="text-xs font-body" style={{ color: "hsl(var(--muted-foreground))" }}>No posts yet — generate your first one!</p>
           </div>
         )}
       </div>
@@ -177,13 +177,13 @@ Make them punchy, on-brand, and ready to copy-paste.`);
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>Generate Social Posts</h3>
+              <h3 className="text-sm font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>Generate Social Posts</h3>
               <button onClick={() => setShowGen(false)}><X size={16} style={{ color: "hsl(var(--muted-foreground))" }} /></button>
             </div>
             <div>
               <label className="text-[10px] font-mono uppercase tracking-wider mb-1 block" style={{ color: "hsl(var(--muted-foreground))" }}>Topic / Prompt *</label>
               <textarea value={genForm.topic} onChange={e => setGenForm(prev => ({ ...prev, topic: e.target.value }))} rows={3}
-                className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none resize-none"
+                className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none resize-none"
                 style={{ borderColor: "hsl(var(--border))", color: "hsl(var(--foreground))" }} placeholder="What should the posts be about?" />
             </div>
             <div>
@@ -216,7 +216,7 @@ Make them punchy, on-brand, and ready to copy-paste.`);
               </div>
             </div>
             <button onClick={generatePost} disabled={!genForm.topic.trim() || genForm.platforms.length === 0}
-              className="w-full py-2.5 rounded-xl text-xs font-syne font-bold transition-all hover:scale-[0.98] disabled:opacity-30 flex items-center justify-center gap-2"
+              className="w-full py-2.5 rounded-xl text-xs font-display font-bold transition-all hover:scale-[0.98] disabled:opacity-30 flex items-center justify-center gap-2"
               style={{ background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT}CC)`, color: "#0A0A14", boxShadow: `0 0 20px ${ACCENT}30` }}>
               <Sparkles size={12} /> Generate with PRISM AI
             </button>

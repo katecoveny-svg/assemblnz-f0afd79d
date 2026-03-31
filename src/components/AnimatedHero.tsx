@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import AgentShowcase from "@/components/AgentShowcase";
+
 import ConstellationHero from "@/components/ConstellationHero";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -10,7 +10,7 @@ interface AnimatedHeroProps {
 }
 
 const STAT_PILLS = [
-  { label: "46 specialist tools" },
+  { label: "44 specialist tools" },
   { label: "50+ NZ Acts" },
   { label: "16 industries" },
   { label: "From $89/mo NZD" },
@@ -193,7 +193,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.65 }}
         >
-          46 specialist tools trained on New Zealand legislation, built with tikanga Māori at the core, covering every industry from tourism and hospitality, construction to maritime. The compliance, operations, and strategy platform Aotearoa's been missing.
+          44 specialist tools trained on New Zealand legislation, built with tikanga Māori at the core, covering every industry from tourism and hospitality, construction to maritime. The compliance, operations, and strategy platform Aotearoa's been missing.
         </motion.p>
 
         {/* Pounamu divider */}
@@ -237,8 +237,6 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           </Link>
         </motion.div>
 
-        {/* Agent Showcase */}
-        <AgentShowcase />
       </div>
     </section>
   );

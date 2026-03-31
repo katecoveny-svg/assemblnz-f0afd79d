@@ -37,7 +37,7 @@ const PricingPage = () => {
     <div className="min-h-screen flex flex-col relative" style={{ background: '#09090B' }}>
       <SEO
         title="Assembl Pricing — Enterprise-Grade Business Intelligence | SME-Friendly Pricing"
-        description="Starter $89/mo (1 tool). Pro $299/mo (3 tools + SPARK). Business $599/mo (all 42 tools). Industry Suite $1,499/mo (custom tools + white-label). HELM Family from $14/mo."
+        description="Starter $89/mo (1 tool). Pro $299/mo (3 tools + SPARK). Business $599/mo (all 44 tools). Industry Suite $1,499/mo (custom tools + white-label). HELM Family from $14/mo."
         path="/pricing"
       />
       <BrandNav />
@@ -45,14 +45,14 @@ const PricingPage = () => {
       {/* Hero */}
       <section className="pt-20 pb-10 sm:py-28">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
-          <h1 className="text-2xl sm:text-5xl font-syne font-bold mb-3 leading-tight" style={{ color: '#FAFAFA', letterSpacing: '-0.025em' }}>
+          <h1 className="text-2xl sm:text-5xl font-display font-bold mb-3 leading-tight" style={{ color: '#FAFAFA', letterSpacing: '-0.025em' }}>
             Enterprise-grade business intelligence. SME-friendly pricing.
           </h1>
-          <p className="text-sm sm:text-base font-jakarta max-w-xl mx-auto mb-6" style={{ color: '#A1A1AA' }}>
+          <p className="text-sm sm:text-base font-body max-w-xl mx-auto mb-6" style={{ color: '#A1A1AA' }}>
             From $14/month. No lock-in. Cancel anytime. Every plan includes NZ legislation, document templates, and proactive compliance alerts.
           </p>
 
-          <p className="text-xs font-jakarta" style={{ color: '#71717A' }}>
+          <p className="text-xs font-body" style={{ color: '#71717A' }}>
             All prices in NZD. GST inclusive. Billed monthly.
           </p>
         </div>
@@ -81,7 +81,7 @@ const PricingPage = () => {
                   {plan.name}
                 </p>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="font-syne text-4xl font-bold" style={{ color: '#FAFAFA' }}>
+                  <span className="font-display text-4xl font-bold" style={{ color: '#FAFAFA' }}>
                     {formatPrice(plan.price, 'priceLabel' in plan ? String(plan.priceLabel) : undefined)}
                   </span>
                   {plan.period && (
@@ -89,15 +89,15 @@ const PricingPage = () => {
                   )}
                 </div>
                 {'agents' in plan && (
-                  <p className="text-xs font-jakarta mb-1" style={{ color: '#10B981' }}>{plan.agents}</p>
+                  <p className="text-xs font-body mb-1" style={{ color: '#10B981' }}>{plan.agents}</p>
                 )}
                 {'messages' in plan && (
-                  <p className="text-[11px] font-jakarta mb-4" style={{ color: '#71717A' }}>{plan.messages}</p>
+                  <p className="text-[11px] font-body mb-4" style={{ color: '#71717A' }}>{plan.messages}</p>
                 )}
                 <div className="h-px mb-4" style={{ background: 'rgba(255,255,255,0.06)' }} />
                 <ul className="space-y-2 mb-6 flex-1">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs font-jakarta" style={{ color: '#A1A1AA' }}>
+                    <li key={f} className="flex items-start gap-2 text-xs font-body" style={{ color: '#A1A1AA' }}>
                       <Check size={14} className="mt-0.5 shrink-0" style={{ color: '#10B981' }} />
                       {f}
                     </li>
@@ -130,12 +130,12 @@ const PricingPage = () => {
               <p className="text-[11px] font-semibold tracking-[2px] uppercase mb-3" style={{ color: '#71717A' }}>
                 Enterprise
               </p>
-              <span className="font-syne text-4xl font-bold mb-1" style={{ color: '#FAFAFA' }}>Custom</span>
-              <p className="text-xs font-jakarta mb-4" style={{ color: '#71717A' }}>Unlimited agents & messages</p>
+              <span className="font-display text-4xl font-bold mb-1" style={{ color: '#FAFAFA' }}>Custom</span>
+              <p className="text-xs font-body mb-4" style={{ color: '#71717A' }}>Unlimited agents & messages</p>
               <div className="h-px mb-4" style={{ background: 'rgba(255,255,255,0.06)' }} />
               <ul className="space-y-2 mb-6 flex-1">
                 {PRICING.enterprise.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-xs font-jakarta" style={{ color: '#A1A1AA' }}>
+                  <li key={f} className="flex items-start gap-2 text-xs font-body" style={{ color: '#A1A1AA' }}>
                     <Check size={14} className="mt-0.5 shrink-0" style={{ color: '#10B981' }} />
                     {f}
                   </li>
@@ -156,10 +156,10 @@ const PricingPage = () => {
       <div className="max-w-6xl mx-auto px-5 sm:px-6"><div className="h-px" style={{ background: 'rgba(255,255,255,0.06)' }} /></div>
       <section className="py-14">
         <div className="max-w-md mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-syne font-bold text-center mb-2" style={{ color: '#FAFAFA' }}>
+          <h2 className="text-lg sm:text-2xl font-display font-bold text-center mb-2" style={{ color: '#FAFAFA' }}>
             HELM — Life Admin for Families
           </h2>
-          <p className="text-xs font-jakarta text-center mb-8" style={{ color: '#71717A' }}>
+          <p className="text-xs font-body text-center mb-8" style={{ color: '#71717A' }}>
             Life admin built for Kiwi households
           </p>
           <div
@@ -173,16 +173,16 @@ const PricingPage = () => {
               {HELM_PLAN.name}
             </p>
             <div className="flex items-baseline gap-1 mb-1">
-              <span className="font-syne text-3xl font-bold" style={{ color: '#FAFAFA' }}>
+              <span className="font-display text-3xl font-bold" style={{ color: '#FAFAFA' }}>
                 ${HELM_PLAN.price}
               </span>
               <span className="text-sm" style={{ color: '#71717A' }}>/mo</span>
             </div>
-            <p className="text-xs font-jakarta mb-4" style={{ color: '#71717A' }}>{HELM_PLAN.desc}</p>
+            <p className="text-xs font-body mb-4" style={{ color: '#71717A' }}>{HELM_PLAN.desc}</p>
             <div className="h-px mb-4" style={{ background: 'rgba(255,255,255,0.06)' }} />
             <ul className="space-y-2 mb-6 flex-1">
               {HELM_PLAN.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-xs font-jakarta" style={{ color: '#A1A1AA' }}>
+                <li key={f} className="flex items-start gap-2 text-xs font-body" style={{ color: '#A1A1AA' }}>
                   <Check size={14} className="mt-0.5 shrink-0" style={{ color: '#3A6A9C' }} />
                   {f}
                 </li>
@@ -204,11 +204,11 @@ const PricingPage = () => {
       <div className="max-w-6xl mx-auto px-5 sm:px-6"><div className="h-px" style={{ background: 'rgba(255,255,255,0.06)' }} /></div>
       <section className="py-14">
         <div className="max-w-6xl mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-syne font-bold text-center mb-8" style={{ color: '#FAFAFA' }}>
+          <h2 className="text-lg sm:text-2xl font-display font-bold text-center mb-8" style={{ color: '#FAFAFA' }}>
             Compare plans
           </h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-xs font-jakarta" style={{ minWidth: '700px' }}>
+            <table className="w-full text-xs font-body" style={{ minWidth: '700px' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                   <th className="text-left py-3 pr-4" style={{ color: '#71717A' }}>Feature</th>
@@ -248,7 +248,7 @@ const PricingPage = () => {
       {/* Trust */}
       <section className="pb-8">
         <div className="max-w-4xl mx-auto px-5 sm:px-6 text-center">
-          <p className="text-[11px] font-jakarta" style={{ color: '#71717A' }}>
+          <p className="text-[11px] font-body" style={{ color: '#71717A' }}>
             Payments secured by Stripe · Monthly billing · Cancel anytime · No lock-in · All plans include a 7-day money-back guarantee
           </p>
         </div>
@@ -258,7 +258,7 @@ const PricingPage = () => {
       <div className="max-w-3xl mx-auto px-5 sm:px-6"><div className="h-px" style={{ background: 'rgba(255,255,255,0.06)' }} /></div>
       <section className="py-14 sm:py-20">
         <div className="max-w-3xl mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-syne font-bold text-center mb-8" style={{ color: '#FAFAFA' }}>
+          <h2 className="text-lg sm:text-2xl font-display font-bold text-center mb-8" style={{ color: '#FAFAFA' }}>
             Frequently asked questions
           </h2>
           <div className="space-y-2">
@@ -275,7 +275,7 @@ const PricingPage = () => {
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between px-5 py-4 text-left"
                 >
-                  <span className="text-sm font-medium font-jakarta pr-4" style={{ color: '#FAFAFA' }}>{faq.q}</span>
+                  <span className="text-sm font-medium font-body pr-4" style={{ color: '#FAFAFA' }}>{faq.q}</span>
                   <ChevronDown
                     size={16}
                     className={`shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}
@@ -284,7 +284,7 @@ const PricingPage = () => {
                 </button>
                 {openFaq === i && (
                   <div className="px-5 pb-4">
-                    <p className="text-xs font-jakarta leading-relaxed" style={{ color: '#A1A1AA' }}>{faq.a}</p>
+                    <p className="text-xs font-body leading-relaxed" style={{ color: '#A1A1AA' }}>{faq.a}</p>
                   </div>
                 )}
               </div>
@@ -298,7 +298,7 @@ const PricingPage = () => {
         <div className="max-w-lg mx-auto px-5 sm:px-6 text-center space-y-3">
           <Link
             to="/chat/echo"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold font-jakarta transition-colors duration-200"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold font-body transition-colors duration-200"
             style={{ background: '#10B981', color: '#09090B' }}
           >
             Not sure which plan? Chat with ECHO →
@@ -309,7 +309,7 @@ const PricingPage = () => {
       {/* Contact */}
       <section id="contact" className="pb-14">
         <div className="max-w-lg mx-auto px-5 sm:px-6 text-center">
-          <p className="text-sm font-jakarta" style={{ color: '#71717A' }}>
+          <p className="text-sm font-body" style={{ color: '#71717A' }}>
             Enterprise inquiries:{' '}
             <a href="mailto:assembl@assembl.co.nz" className="underline" style={{ color: '#A1A1AA' }}>
               assembl@assembl.co.nz

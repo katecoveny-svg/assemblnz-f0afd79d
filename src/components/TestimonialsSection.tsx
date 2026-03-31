@@ -35,10 +35,10 @@ const TestimonialsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-2xl sm:text-4xl font-syne font-extrabold text-foreground mb-3">
+          <h2 className="text-2xl sm:text-4xl font-display font-extrabold text-foreground mb-3">
             Built for <span className="text-gradient-hero">Aotearoa</span>
           </h2>
-          <p className="text-sm font-jakarta text-muted-foreground">Real feedback from NZ businesses using Assembl every day.</p>
+          <p className="text-sm font-body text-muted-foreground">Real feedback from NZ businesses using Assembl every day.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -60,20 +60,20 @@ const TestimonialsSection = () => {
 
               <Quote size={20} className="mb-3" style={{ color: t.color, opacity: 0.5 }} />
 
-              <p className="text-xs font-jakarta text-foreground/80 leading-relaxed mb-5 italic">
+              <p className="text-xs font-body text-foreground/80 leading-relaxed mb-5 italic">
                 "{t.quote}"
               </p>
 
               <div className="flex items-center gap-3">
                 <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center font-syne font-bold text-xs"
+                  className="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold text-xs"
                   style={{ backgroundColor: t.color + "18", color: t.color, border: `1px solid ${t.color}30` }}
                 >
                   {t.name.charAt(0)}
                 </div>
                 <div>
-                  <p className="text-xs font-syne font-bold text-foreground">{t.name}</p>
-                  <p className="text-[10px] font-jakarta text-muted-foreground">{t.role} · {t.location}</p>
+                  <p className="text-xs font-display font-bold text-foreground">{t.name}</p>
+                  <p className="text-[10px] font-body text-muted-foreground">{t.role} · {t.location}</p>
                 </div>
               </div>
             </motion.div>

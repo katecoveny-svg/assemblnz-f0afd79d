@@ -29,13 +29,13 @@ const ContentHubCatalogue = () => {
   return (
     <section className="px-4 sm:px-8 py-12 max-w-6xl mx-auto">
       <h2
-        className="font-syne font-extrabold text-xl sm:text-2xl text-center mb-2 halo-heading"
+        className="font-display font-extrabold text-xl sm:text-2xl text-center mb-2 halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
         Your Business Intelligence Network
       </h2>
-      <p className="text-center font-jakarta text-sm mb-8" style={{ color: "rgba(255,255,255,0.35)" }}>
-        42 specialist advisors — tap any to start a conversation
+      <p className="text-center font-body text-sm mb-8" style={{ color: "rgba(255,255,255,0.35)" }}>
+        44 specialist advisors — tap any to start a conversation
       </p>
 
       {/* Filter tabs */}
@@ -54,7 +54,7 @@ const ContentHubCatalogue = () => {
               <button
                 key={group.label}
                 onClick={() => setActiveGroup(group.label)}
-                className="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-jakarta font-medium transition-all"
+                className="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-body font-medium transition-all"
                 style={{
                   background: active ? "rgba(0,255,136,0.1)" : "transparent",
                   color: active ? "#5AADA0" : "rgba(255,255,255,0.4)",
@@ -92,14 +92,14 @@ const ContentHubCatalogue = () => {
               <AgentAvatar agentId={agent.id} color={agent.color} size={64} showGlow />
             </div>
             <div className="flex items-center justify-center gap-1.5 mb-0.5">
-              <p className="font-syne font-bold text-sm" style={{ color: agent.color }}>
+              <p className="font-display font-bold text-sm" style={{ color: agent.color }}>
                 {agent.name}
               </p>
               {getElevenLabsAgentId(agent.id) && (
                 <Mic size={10} style={{ color: agent.color, opacity: 0.7 }} />
               )}
             </div>
-            <p className="font-jakarta text-[10px] leading-snug" style={{ color: "rgba(255,255,255,0.4)" }}>
+            <p className="font-body text-[10px] leading-snug" style={{ color: "rgba(255,255,255,0.4)" }}>
               {agent.sector}
             </p>
           </Link>

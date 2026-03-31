@@ -8,8 +8,8 @@ const TIP_STYLE = { contentStyle: { background: "#1a1a2e", border: "1px solid rg
 // ─── Shared metric card ───
 const Metric = ({ label, value, sub, color }: { label: string; value: string; sub?: string; color: string }) => (
   <div className="rounded-lg p-3" style={{ ...GLASS }}>
-    <p className="text-[10px] font-jakarta" style={{ color: "#71717A" }}>{label}</p>
-    <p className="font-syne font-bold text-lg" style={{ color }}>{value}</p>
+    <p className="text-[10px] font-body" style={{ color: "#71717A" }}>{label}</p>
+    <p className="font-display font-bold text-lg" style={{ color }}>{value}</p>
     {sub && <p className="text-[9px]" style={{ color: "#52525B" }}>{sub}</p>}
   </div>
 );
@@ -17,7 +17,7 @@ const Metric = ({ label, value, sub, color }: { label: string; value: string; su
 // ─── Shared mini table ───
 const MiniTable = ({ headers, rows, color }: { headers: string[]; rows: string[][]; color: string }) => (
   <div className="rounded-lg overflow-hidden" style={{ ...GLASS }}>
-    <table className="w-full text-[10px] font-jakarta">
+    <table className="w-full text-[10px] font-body">
       <thead><tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         {headers.map(h => <th key={h} className="text-left p-2" style={{ color: "#71717A" }}>{h}</th>)}
       </tr></thead>
@@ -469,7 +469,7 @@ export default function AgentDashboard({ agentId, agentName, agentColor, experti
       <div className="h-1" style={{ background: `linear-gradient(90deg, ${agentColor}, ${agentColor}40)` }} />
       <div className="p-4 sm:p-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-syne font-bold text-sm" style={{ color: "hsl(var(--foreground))" }}>
+          <h3 className="font-display font-bold text-sm" style={{ color: "hsl(var(--foreground))" }}>
             {agentName} Dashboard
           </h3>
           <Badge label="Live" color="#10B981" />

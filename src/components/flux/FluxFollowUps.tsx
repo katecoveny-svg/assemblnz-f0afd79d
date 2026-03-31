@@ -54,7 +54,7 @@ export default function FluxFollowUps() {
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-syne font-bold" style={{ color: "#E4E4EC" }}>Follow-Ups</h2>
+        <h2 className="text-sm font-display font-bold" style={{ color: "#E4E4EC" }}>Follow-Ups</h2>
         <button onClick={() => setShowAdd(true)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium"
           style={{ background: `${ACCENT}15`, color: ACCENT, border: `1px solid ${ACCENT}25` }}>
           <Plus size={12} /> Add
@@ -68,10 +68,10 @@ export default function FluxFollowUps() {
             <div key={fu.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <p className="text-xs font-syne font-semibold truncate" style={{ color: "#E4E4EC" }}>{fu.contact_name}</p>
+                  <p className="text-xs font-display font-semibold truncate" style={{ color: "#E4E4EC" }}>{fu.contact_name}</p>
                   <span className="text-[9px] font-mono-jb px-1.5 py-0.5 rounded-full shrink-0" style={{ background: s.bg, color: s.color }}>{s.label}</span>
                 </div>
-                <p className="text-[11px] font-jakarta truncate" style={{ color: "rgba(255,255,255,0.5)" }}>{fu.subject}</p>
+                <p className="text-[11px] font-body truncate" style={{ color: "rgba(255,255,255,0.5)" }}>{fu.subject}</p>
                 {fu.due_date && <p className="text-[10px] font-mono-jb flex items-center gap-1 mt-1" style={{ color: "rgba(255,255,255,0.3)" }}>
                   <Clock size={9} /> {new Date(fu.due_date).toLocaleDateString("en-NZ")}
                 </p>}
@@ -85,14 +85,14 @@ export default function FluxFollowUps() {
             </div>
           );
         })}
-        {items.length === 0 && <p className="text-xs font-jakarta text-center py-8" style={{ color: "rgba(255,255,255,0.3)" }}>No follow-ups yet</p>}
+        {items.length === 0 && <p className="text-xs font-body text-center py-8" style={{ color: "rgba(255,255,255,0.3)" }}>No follow-ups yet</p>}
       </div>
 
       {showAdd && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="w-full max-w-md rounded-2xl p-6 space-y-3" style={{ background: "#0D0D14", border: "1px solid rgba(255,255,255,0.06)" }}>
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-syne font-bold" style={{ color: "#E4E4EC" }}>Add Follow-Up</h3>
+              <h3 className="text-sm font-display font-bold" style={{ color: "#E4E4EC" }}>Add Follow-Up</h3>
               <button onClick={() => setShowAdd(false)}><X size={16} style={{ color: "rgba(255,255,255,0.4)" }} /></button>
             </div>
             {[
@@ -104,7 +104,7 @@ export default function FluxFollowUps() {
               <div key={f.key}>
                 <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>{f.label}</label>
                 <input type={f.type} value={(form as any)[f.key]} onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))}
-                  className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+                  className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
                   style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
               </div>
             ))}

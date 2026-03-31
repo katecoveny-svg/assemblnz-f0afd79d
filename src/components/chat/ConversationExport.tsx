@@ -71,7 +71,7 @@ const ConversationExport = ({ messages, agentName, agentDesignation, agentColor 
   return (
     <button
       onClick={handleExport}
-      className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-jakarta font-medium transition-colors hover:opacity-80 shrink-0"
+      className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-body font-medium transition-colors hover:opacity-80 shrink-0"
       style={{ color: agentColor, border: `1px solid ${agentColor}20` }}
       title="Export conversation as PDF"
       aria-label="Export conversation as PDF"

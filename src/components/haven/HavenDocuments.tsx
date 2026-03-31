@@ -15,14 +15,14 @@ const HavenDocuments = ({ onSendToChat }: { onSendToChat: (msg: string) => void 
   return (
     <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4">
       <div>
-        <h2 className="font-syne font-bold text-base text-foreground">Documents</h2>
-        <p className="text-[11px] font-jakarta text-muted-foreground">NZ-compliant templates & AI document parser</p>
+        <h2 className="font-display font-bold text-base text-foreground">Documents</h2>
+        <p className="text-[11px] font-body text-muted-foreground">NZ-compliant templates & AI document parser</p>
       </div>
 
       {/* AI Parser */}
       <div className="rounded-xl p-3 border space-y-2" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: HAVEN_PINK + "20" }}>
-        <h3 className="font-syne font-bold text-xs" style={{ color: HAVEN_PINK }}> AI Document Parser</h3>
-        <p className="text-[10px] text-muted-foreground font-jakarta">Upload a tenancy agreement or inspection report and HAVEN will extract key details.</p>
+        <h3 className="font-display font-bold text-xs" style={{ color: HAVEN_PINK }}> AI Document Parser</h3>
+        <p className="text-[10px] text-muted-foreground font-body">Upload a tenancy agreement or inspection report and HAVEN will extract key details.</p>
         <button onClick={() => onSendToChat("Parse my uploaded document and extract the key details")}
           className="px-3 py-1.5 rounded-lg text-xs font-medium" style={{ backgroundColor: HAVEN_PINK + "20", color: HAVEN_PINK }}>
           Upload & Parse via Chat
@@ -31,7 +31,7 @@ const HavenDocuments = ({ onSendToChat }: { onSendToChat: (msg: string) => void 
 
       {/* Templates */}
       <div>
-        <h3 className="font-syne font-bold text-sm text-foreground mb-2">NZ Document Templates</h3>
+        <h3 className="font-display font-bold text-sm text-foreground mb-2">NZ Document Templates</h3>
         <div className="space-y-2">
           {NZ_TEMPLATES.map(t => (
             <div key={t.title} className="rounded-xl p-3 border" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
@@ -39,8 +39,8 @@ const HavenDocuments = ({ onSendToChat }: { onSendToChat: (msg: string) => void 
                 <div className="flex items-start gap-2">
                   <FileText size={14} className="mt-0.5" style={{ color: HAVEN_PINK }} />
                   <div>
-                    <p className="text-xs font-syne font-bold text-foreground">{t.title}</p>
-                    <p className="text-[10px] text-muted-foreground font-jakarta mt-0.5">{t.desc}</p>
+                    <p className="text-xs font-display font-bold text-foreground">{t.title}</p>
+                    <p className="text-[10px] text-muted-foreground font-body mt-0.5">{t.desc}</p>
                     <p className="text-[9px] font-mono-jb mt-1" style={{ color: HAVEN_PINK + "80" }}>{t.act}</p>
                   </div>
                 </div>

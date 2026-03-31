@@ -79,8 +79,8 @@ export default function FluxLeadPipeline({ onSendToChat }: { onSendToChat?: (msg
           return (
             <div key={s} className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
               <p className="text-[10px] font-mono-jb uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.4)" }}>{STAGE_LABELS[s]}</p>
-              <p className="text-lg font-syne font-bold" style={{ color: "#E4E4EC" }}>{count}</p>
-              <p className="text-[10px] font-jakarta" style={{ color: "rgba(255,255,255,0.3)" }}>${val.toLocaleString()} NZD</p>
+              <p className="text-lg font-display font-bold" style={{ color: "#E4E4EC" }}>{count}</p>
+              <p className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.3)" }}>${val.toLocaleString()} NZD</p>
             </div>
           );
         })}
@@ -107,7 +107,7 @@ export default function FluxLeadPipeline({ onSendToChat }: { onSendToChat?: (msg
         <div className="flex-1 relative">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "rgba(255,255,255,0.3)" }} />
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search leads..."
-            className="w-full pl-8 pr-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+            className="w-full pl-8 pr-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
             style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
         </div>
         <button onClick={() => setShowAdd(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all hover:scale-[0.98] active:scale-[0.96]"
@@ -121,7 +121,7 @@ export default function FluxLeadPipeline({ onSendToChat }: { onSendToChat?: (msg
         {STAGES.map(stage => (
           <div key={stage} className="rounded-xl p-3 space-y-2 min-h-[200px]" style={{ background: "rgba(255,255,255,0.01)", border: "1px solid rgba(255,255,255,0.04)" }}>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-syne font-bold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.5)" }}>{STAGE_LABELS[stage]}</span>
+              <span className="text-[11px] font-display font-bold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.5)" }}>{STAGE_LABELS[stage]}</span>
               <span className="text-[10px] font-mono-jb px-1.5 py-0.5 rounded-full" style={{ background: `${ACCENT}10`, color: ACCENT }}>{filtered.filter(l => l.stage === stage).length}</span>
             </div>
             {filtered.filter(l => l.stage === stage).map(lead => {
@@ -132,15 +132,15 @@ export default function FluxLeadPipeline({ onSendToChat }: { onSendToChat?: (msg
                   style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className="text-xs font-syne font-semibold" style={{ color: "#E4E4EC" }}>{lead.name}</p>
-                      {lead.company && <p className="text-[10px] font-jakarta flex items-center gap-1" style={{ color: "rgba(255,255,255,0.4)" }}><Building2 size={9} />{lead.company}</p>}
+                      <p className="text-xs font-display font-semibold" style={{ color: "#E4E4EC" }}>{lead.name}</p>
+                      {lead.company && <p className="text-[10px] font-body flex items-center gap-1" style={{ color: "rgba(255,255,255,0.4)" }}><Building2 size={9} />{lead.company}</p>}
                     </div>
                     <span className="text-[9px] font-mono-jb px-1.5 py-0.5 rounded-full" style={{ background: ss.bg, color: ss.text }}>{ss.label}</span>
                   </div>
                   {lead.value && <p className="text-sm font-bold font-mono-jb" style={{ color: "#E4E4EC" }}>${lead.value.toLocaleString()}</p>}
                   <div className="flex gap-1 flex-wrap">
                     {STAGES.filter(s => s !== stage).map(s => (
-                      <button key={s} onClick={() => moveStage(lead.id, s)} className="text-[9px] px-1.5 py-0.5 rounded font-jakarta transition-colors hover:opacity-80"
+                      <button key={s} onClick={() => moveStage(lead.id, s)} className="text-[9px] px-1.5 py-0.5 rounded font-body transition-colors hover:opacity-80"
                         style={{ background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.4)" }}>→ {STAGE_LABELS[s]}</button>
                     ))}
                   </div>
@@ -156,7 +156,7 @@ export default function FluxLeadPipeline({ onSendToChat }: { onSendToChat?: (msg
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#0D0D14", border: "1px solid rgba(255,255,255,0.06)" }}>
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-syne font-bold" style={{ color: "#E4E4EC" }}>Add New Lead</h3>
+              <h3 className="text-sm font-display font-bold" style={{ color: "#E4E4EC" }}>Add New Lead</h3>
               <button onClick={() => setShowAdd(false)}><X size={16} style={{ color: "rgba(255,255,255,0.4)" }} /></button>
             </div>
             {[
@@ -170,7 +170,7 @@ export default function FluxLeadPipeline({ onSendToChat }: { onSendToChat?: (msg
               <div key={f.key}>
                 <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>{f.label}</label>
                 <input value={(form as any)[f.key]} onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))} placeholder={f.placeholder}
-                  className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+                  className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
                   style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
               </div>
             ))}

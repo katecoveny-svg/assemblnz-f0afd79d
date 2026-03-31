@@ -39,11 +39,11 @@ const HavenNotifications = () => {
     <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-syne font-bold text-base text-foreground">Notifications</h2>
-          <p className="text-[11px] font-jakarta text-muted-foreground">{unreadCount} unread</p>
+          <h2 className="font-display font-bold text-base text-foreground">Notifications</h2>
+          <p className="text-[11px] font-body text-muted-foreground">{unreadCount} unread</p>
         </div>
         {unreadCount > 0 && (
-          <button onClick={markAllRead} className="text-[10px] font-jakarta" style={{ color: HAVEN_PINK }}>Mark all read</button>
+          <button onClick={markAllRead} className="text-[10px] font-body" style={{ color: HAVEN_PINK }}>Mark all read</button>
         )}
       </div>
 
@@ -63,7 +63,7 @@ const HavenNotifications = () => {
                 style={{ backgroundColor: n.is_read ? "rgba(255,255,255,0.01)" : HAVEN_PINK + "05", borderColor: n.is_read ? "rgba(255,255,255,0.04)" : HAVEN_PINK + "15" }}>
                 <Icon size={12} className="mt-0.5" style={{ color: n.is_read ? "rgba(255,255,255,0.3)" : HAVEN_PINK }} />
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-jakarta text-foreground">{n.title}</p>
+                  <p className="text-xs font-body text-foreground">{n.title}</p>
                   <p className="text-[10px] text-muted-foreground">{n.message}</p>
                   <p className="text-[9px] text-muted-foreground mt-0.5">{new Date(n.created_at).toLocaleString("en-NZ", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</p>
                 </div>

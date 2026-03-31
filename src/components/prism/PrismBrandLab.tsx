@@ -44,7 +44,7 @@ function Label({ children }: { children: React.ReactNode }) {
 function TextInput({ value, onChange, placeholder, multiline }: {
   value: string; onChange: (v: string) => void; placeholder: string; multiline?: boolean;
 }) {
-  const cls = "w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none resize-none";
+  const cls = "w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none resize-none";
   const style = { borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" };
   return multiline
     ? <textarea value={value} onChange={e => onChange(e.target.value)} rows={3} placeholder={placeholder} className={cls} style={style} />
@@ -284,7 +284,7 @@ Provide actionable, specific feedback a business owner can implement immediately
 
   return (
     <div className="space-y-4">
-      <p className="text-[11px] font-jakarta" style={{ color: "rgba(255,255,255,0.4)" }}>
+      <p className="text-[11px] font-body" style={{ color: "rgba(255,255,255,0.4)" }}>
         Provide a website URL or describe your brand assets for analysis.
       </p>
 
@@ -326,8 +326,8 @@ export default function PrismBrandLab({ onSendToChat }: { onSendToChat?: (msg: s
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
-      <h2 className="text-sm font-syne font-bold" style={{ color: "#E4E4EC" }}>Brand Lab</h2>
-      <p className="text-[11px] font-jakarta" style={{ color: "rgba(255,255,255,0.4)" }}>
+      <h2 className="text-sm font-display font-bold" style={{ color: "#E4E4EC" }}>Brand Lab</h2>
+      <p className="text-[11px] font-body" style={{ color: "rgba(255,255,255,0.4)" }}>
         Design logos, build brand guidelines, and audit your brand consistency.
       </p>
 

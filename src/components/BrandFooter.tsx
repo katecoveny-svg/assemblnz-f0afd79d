@@ -89,11 +89,11 @@ const BrandFooter = () => {
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-8 mb-14">
           {Object.entries(FOOTER_LINKS).map(([category, links]) => (
             <div key={category}>
-              <h4 className="font-syne font-bold text-[11px] text-foreground/80 mb-4 uppercase tracking-[2px]">{category}</h4>
+              <h4 className="font-display font-bold text-[11px] text-foreground/80 mb-4 uppercase tracking-[2px]">{category}</h4>
               <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link.to}>
-                    <Link to={link.to} className="text-[12px] font-inter text-muted-foreground hover:text-foreground transition-colors duration-300">
+                    <Link to={link.to} className="text-[12px] font-body text-muted-foreground hover:text-foreground transition-colors duration-300">
                       {link.label}
                     </Link>
                   </li>
@@ -104,15 +104,15 @@ const BrandFooter = () => {
 
           {/* Newsletter */}
           <div className="col-span-2 sm:col-span-4 lg:col-span-1">
-            <h4 className="font-syne font-bold text-[11px] text-foreground/80 mb-4 uppercase tracking-[2px]">Stay Updated</h4>
-            <p className="text-[11px] font-inter text-muted-foreground mb-3 leading-relaxed">NZ business insights, product updates, and specialist tips.</p>
+            <h4 className="font-display font-bold text-[11px] text-foreground/80 mb-4 uppercase tracking-[2px]">Stay Updated</h4>
+            <p className="text-[11px] font-body text-muted-foreground mb-3 leading-relaxed">NZ business insights, product updates, and specialist tips.</p>
             <form onSubmit={handleNewsletter} className="flex gap-2">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.co.nz"
-                className="flex-1 px-3.5 py-2.5 rounded-xl text-xs font-inter text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+                className="flex-1 px-3.5 py-2.5 rounded-xl text-xs font-body text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
                 style={{
                   background: 'hsl(var(--surface-2) / 0.5)',
                   border: '1px solid hsl(var(--border) / 0.5)',
@@ -152,7 +152,7 @@ const BrandFooter = () => {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
           <Link to="/" className="flex items-center gap-2.5 group">
             <img src={nexusLogo} alt="Assembl" className="w-7 h-7 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-            <span className="font-syne font-bold tracking-[3px] uppercase text-xs text-foreground/80">ASSEMBL</span>
+            <span className="font-display font-bold tracking-[3px] uppercase text-xs text-foreground/80">ASSEMBL</span>
           </Link>
 
           {/* Social links */}
@@ -175,15 +175,15 @@ const BrandFooter = () => {
             ))}
           </div>
 
-          <p className="text-[10px] font-inter text-muted-foreground/60 text-center sm:text-right">
+          <p className="text-[10px] font-body text-muted-foreground/60 text-center sm:text-right">
             © 2026 Assembl. All rights reserved. Auckland, New Zealand.
           </p>
         </div>
 
-        <p className="text-[9px] mt-4 text-center font-inter text-muted-foreground/30 leading-relaxed">
+        <p className="text-[9px] mt-4 text-center font-body text-muted-foreground/30 leading-relaxed">
           Business intelligence platform for NZ. Built in Aotearoa. Content is guidance, not professional advice. Always consult qualified professionals. assembl@assembl.co.nz · www.assembl.co.nz · From $89/mo
         </p>
-        <p className="text-[9px] mt-2 text-center font-inter text-muted-foreground/30 leading-relaxed">
+        <p className="text-[9px] mt-2 text-center font-body text-muted-foreground/30 leading-relaxed">
           Assembl uses AI to provide business guidance. Our AI agents follow the MBIE Responsible AI Guidance for Businesses. AI outputs should be verified by qualified professionals before reliance.
         </p>
       </div>

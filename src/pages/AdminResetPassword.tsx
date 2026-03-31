@@ -62,7 +62,7 @@ const AdminResetPassword = () => {
           <div className="w-full max-w-sm text-center">
             <div className="inline-flex items-center gap-2 mb-6">
               <img src={nexusLogo} alt="Assembl" className="w-9 h-9 object-contain drop-shadow-[0_0_12px_rgba(0,229,255,0.25)]" />
-              <span className="font-syne font-extrabold tracking-[3px] uppercase text-foreground">ASSEMBL</span>
+              <span className="font-display font-extrabold tracking-[3px] uppercase text-foreground">ASSEMBL</span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
               This page is only accessible via a password reset link. Please check your email.
@@ -86,7 +86,7 @@ const AdminResetPassword = () => {
           <div className="text-center mb-8 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
             <div className="inline-flex items-center gap-2 mb-6">
               <img src={nexusLogo} alt="Assembl" className="w-9 h-9 object-contain drop-shadow-[0_0_12px_rgba(0,229,255,0.25)]" />
-              <span className="font-syne font-extrabold tracking-[3px] uppercase text-foreground">ASSEMBL</span>
+              <span className="font-display font-extrabold tracking-[3px] uppercase text-foreground">ASSEMBL</span>
             </div>
             <div className="flex items-center justify-center gap-2 mb-2">
               <Shield size={20} className="text-destructive" />

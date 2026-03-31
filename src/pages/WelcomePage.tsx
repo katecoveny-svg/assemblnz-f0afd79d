@@ -46,10 +46,10 @@ const WelcomePage = () => (
 
       {/* Heading */}
       <div className="text-center">
-        <h1 className="text-2xl sm:text-[2.5rem] font-syne font-bold leading-tight" style={{ color: '#FAFAFA', letterSpacing: '-0.025em' }}>
+        <h1 className="text-2xl sm:text-[2.5rem] font-display font-bold leading-tight" style={{ color: '#FAFAFA', letterSpacing: '-0.025em' }}>
           Welcome to Assembl
         </h1>
-        <p className="mt-2 text-sm sm:text-base font-jakarta" style={{ color: '#A1A1AA' }}>
+        <p className="mt-2 text-sm sm:text-base font-body" style={{ color: '#A1A1AA' }}>
           Your subscription is active. Here's what happens next.
         </p>
       </div>
@@ -70,12 +70,12 @@ const WelcomePage = () => (
             transition={{ duration: 0.4, delay: 0.4 + i * 0.15 }}
           >
             <div className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs font-syne font-bold" style={{ background: '#10B981', color: '#09090B' }}>
+              <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs font-display font-bold" style={{ background: '#10B981', color: '#09090B' }}>
                 {i + 1}
               </div>
               <div>
-                <h3 className="text-sm font-syne font-semibold" style={{ color: '#FAFAFA' }}>{step.title}</h3>
-                <p className="text-xs font-jakarta mt-1 leading-relaxed" style={{ color: '#71717A' }}>{step.desc}</p>
+                <h3 className="text-sm font-display font-semibold" style={{ color: '#FAFAFA' }}>{step.title}</h3>
+                <p className="text-xs font-body mt-1 leading-relaxed" style={{ color: '#71717A' }}>{step.desc}</p>
               </div>
             </div>
           </motion.div>
@@ -85,7 +85,7 @@ const WelcomePage = () => (
       {/* CTA */}
       <Link
         to="/"
-        className="block w-full text-center py-3 rounded-lg text-sm font-semibold font-jakarta transition-colors duration-200"
+        className="block w-full text-center py-3 rounded-lg text-sm font-semibold font-body transition-colors duration-200"
         style={{ background: '#10B981', color: '#09090B' }}
         onMouseEnter={e => (e.currentTarget.style.background = '#059669')}
         onMouseLeave={e => (e.currentTarget.style.background = '#10B981')}
@@ -94,14 +94,14 @@ const WelcomePage = () => (
       </Link>
 
       {/* Support */}
-      <p className="text-center text-sm font-jakarta" style={{ color: '#71717A' }}>
+      <p className="text-center text-sm font-body" style={{ color: '#71717A' }}>
         Questions? Email{' '}
         <a href="mailto:assembl@assembl.co.nz" className="underline" style={{ color: '#A1A1AA' }}>
           assembl@assembl.co.nz
         </a>
       </p>
 
-      <p className="text-center text-xs font-jakarta" style={{ color: '#3F3F46' }}>
+      <p className="text-center text-xs font-body" style={{ color: '#3F3F46' }}>
         Built in Aotearoa for NZ businesses
       </p>
     </motion.div>

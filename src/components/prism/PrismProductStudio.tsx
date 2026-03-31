@@ -55,8 +55,8 @@ Make it look like output from a premium creative agency.`;
       <div className="flex items-center gap-2 mb-2">
         <Camera size={16} style={{ color: ACCENT }} />
         <div>
-          <h2 className="text-sm font-syne font-bold" style={{ color: "hsl(var(--foreground))" }}>Product Studio</h2>
-          <p className="text-[10px] font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>Studio-quality product mockups & social graphics</p>
+          <h2 className="text-sm font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>Product Studio</h2>
+          <p className="text-[10px] font-body" style={{ color: "hsl(var(--muted-foreground))" }}>Studio-quality product mockups & social graphics</p>
         </div>
       </div>
 
@@ -65,19 +65,19 @@ Make it look like output from a premium creative agency.`;
         <div>
           <label className="text-[9px] font-mono uppercase tracking-wider mb-1 block" style={{ color: "hsl(var(--muted-foreground))" }}>Product Name *</label>
           <input value={productName} onChange={e => setProductName(e.target.value)} placeholder="e.g. Organic Manuka Honey 500g"
-            className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+            className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
             style={{ borderColor: "hsl(var(--border))", color: "hsl(var(--foreground))" }} />
         </div>
         <div>
           <label className="text-[9px] font-mono uppercase tracking-wider mb-1 block" style={{ color: "hsl(var(--muted-foreground))" }}>Description</label>
           <textarea value={productDesc} onChange={e => setProductDesc(e.target.value)} placeholder="Key features, materials, what makes it special..."
-            rows={2} className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none resize-none"
+            rows={2} className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none resize-none"
             style={{ borderColor: "hsl(var(--border))", color: "hsl(var(--foreground))" }} />
         </div>
         <div>
           <label className="text-[9px] font-mono uppercase tracking-wider mb-1 block" style={{ color: "hsl(var(--muted-foreground))" }}>Tagline (optional)</label>
           <input value={tagline} onChange={e => setTagline(e.target.value)} placeholder="e.g. Pure NZ, naturally."
-            className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none"
+            className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
             style={{ borderColor: "hsl(var(--border))", color: "hsl(var(--foreground))" }} />
         </div>
       </div>
@@ -88,8 +88,8 @@ Make it look like output from a premium creative agency.`;
         <div className="border border-dashed rounded-xl p-6 text-center cursor-pointer hover:border-opacity-40 transition-colors"
           style={{ borderColor: "hsl(var(--border))" }}>
           <Upload size={20} className="mx-auto mb-2" style={{ color: "hsl(var(--muted-foreground))" }} />
-          <p className="text-[10px] font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>Drop product photo here or click to upload</p>
-          <p className="text-[9px] font-jakarta mt-1" style={{ color: "hsl(var(--muted-foreground) / 0.6)" }}>No photo? PRISM creates an AI-generated representation</p>
+          <p className="text-[10px] font-body" style={{ color: "hsl(var(--muted-foreground))" }}>Drop product photo here or click to upload</p>
+          <p className="text-[9px] font-body mt-1" style={{ color: "hsl(var(--muted-foreground) / 0.6)" }}>No photo? PRISM creates an AI-generated representation</p>
         </div>
       </div>
 
@@ -106,9 +106,9 @@ Make it look like output from a premium creative agency.`;
               }}>
               <div className="flex items-center gap-1.5 mb-1">
                 <s.icon size={12} style={{ color: scene === s.id ? ACCENT : "hsl(var(--muted-foreground))" }} />
-                <span className="text-[10px] font-syne font-semibold" style={{ color: scene === s.id ? "hsl(var(--foreground))" : "hsl(var(--muted-foreground))" }}>{s.label}</span>
+                <span className="text-[10px] font-display font-semibold" style={{ color: scene === s.id ? "hsl(var(--foreground))" : "hsl(var(--muted-foreground))" }}>{s.label}</span>
               </div>
-              <p className="text-[9px] font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>{s.desc}</p>
+              <p className="text-[9px] font-body" style={{ color: "hsl(var(--muted-foreground))" }}>{s.desc}</p>
             </button>
           ))}
         </div>
@@ -118,7 +118,7 @@ Make it look like output from a premium creative agency.`;
       <div className="flex items-center justify-between rounded-lg p-3" style={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))" }}>
         <div className="flex items-center gap-1.5">
           <Palette size={10} style={{ color: "hsl(var(--muted-foreground))" }} />
-          <span className="text-[10px] font-jakarta" style={{ color: "hsl(var(--muted-foreground))" }}>Apply Brand DNA</span>
+          <span className="text-[10px] font-body" style={{ color: "hsl(var(--muted-foreground))" }}>Apply Brand DNA</span>
         </div>
         <button onClick={() => setUseBrandDna(!useBrandDna)}
           className="w-9 h-5 rounded-full transition-all relative"
@@ -129,7 +129,7 @@ Make it look like output from a premium creative agency.`;
 
       {/* Generate */}
       <button onClick={handleGenerate} disabled={!productName.trim()}
-        className="w-full py-3 rounded-xl text-sm font-syne font-bold transition-all hover:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-30"
+        className="w-full py-3 rounded-xl text-sm font-display font-bold transition-all hover:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-30"
         style={{ background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT}CC)`, color: "#0A0A14", boxShadow: `0 0 20px ${ACCENT}30` }}>
         <Camera size={14} /> Generate Product Shoot
       </button>

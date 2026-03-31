@@ -66,18 +66,18 @@ const HavenCostIntelligence = () => {
   return (
     <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4">
       <div>
-        <h2 className="font-syne font-bold text-base text-foreground">Cost Intelligence</h2>
-        <p className="text-[11px] font-jakarta text-muted-foreground">Spend analysis across your portfolio</p>
+        <h2 className="font-display font-bold text-base text-foreground">Cost Intelligence</h2>
+        <p className="text-[11px] font-body text-muted-foreground">Spend analysis across your portfolio</p>
       </div>
 
       <div className="rounded-xl p-3 border" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
-        <p className="text-[10px] text-muted-foreground font-jakarta">Total Portfolio Spend</p>
-        <p className="font-syne font-bold text-2xl text-foreground">${totalSpend.toLocaleString("en-NZ", { minimumFractionDigits: 2 })}<span className="text-xs text-muted-foreground ml-1">NZD</span></p>
+        <p className="text-[10px] text-muted-foreground font-body">Total Portfolio Spend</p>
+        <p className="font-display font-bold text-2xl text-foreground">${totalSpend.toLocaleString("en-NZ", { minimumFractionDigits: 2 })}<span className="text-xs text-muted-foreground ml-1">NZD</span></p>
       </div>
 
       {/* Quote Checker */}
       <div className="rounded-xl p-3 border space-y-2" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: HAVEN_PINK + "20" }}>
-        <h3 className="flex items-center gap-1.5 font-syne font-bold text-xs" style={{ color: HAVEN_PINK }}>
+        <h3 className="flex items-center gap-1.5 font-display font-bold text-xs" style={{ color: HAVEN_PINK }}>
           <Calculator size={12} /> Quote Checker
         </h3>
         <div className="flex gap-2 flex-wrap">
@@ -87,7 +87,7 @@ const HavenCostIntelligence = () => {
             className="w-24 px-3 py-1.5 rounded-lg text-xs bg-background border border-border text-foreground placeholder:text-muted-foreground" type="number" />
           <button onClick={checkQuote} className="px-3 py-1.5 rounded-lg text-xs font-medium" style={{ backgroundColor: HAVEN_PINK + "20", color: HAVEN_PINK }}>Check</button>
         </div>
-        {quoteResult && <p className="text-[11px] font-jakarta text-foreground">{quoteResult}</p>}
+        {quoteResult && <p className="text-[11px] font-body text-foreground">{quoteResult}</p>}
       </div>
 
       {/* Category Breakdown with Charts */}
@@ -112,10 +112,10 @@ const HavenCostIntelligence = () => {
             {categories.map(c => (
               <div key={c.category} className="rounded-xl p-3 border" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="font-syne font-bold text-xs text-foreground">{c.category}</span>
+                  <span className="font-display font-bold text-xs text-foreground">{c.category}</span>
                   <span className="text-xs font-mono-jb" style={{ color: "#66BB6A" }}>${c.total.toLocaleString("en-NZ", { minimumFractionDigits: 0 })}</span>
                 </div>
-                <div className="flex items-center gap-4 text-[10px] text-muted-foreground font-jakarta">
+                <div className="flex items-center gap-4 text-[10px] text-muted-foreground font-body">
                   <span>{c.count} {c.count === 1 ? "job" : "jobs"}</span>
                   <span>Avg: ${c.avg.toFixed(0)}</span>
                   <span>Range: ${c.min.toFixed(0)} – ${c.max.toFixed(0)}</span>

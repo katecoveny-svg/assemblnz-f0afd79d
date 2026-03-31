@@ -41,7 +41,7 @@ function PlatformMockup({ platform, caption, image }: {
     <div className="rounded-xl p-3 space-y-2" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
       <div className="flex items-center gap-2">
         <platform.icon size={14} style={{ color: ACCENT }} />
-        <span className="text-[11px] font-syne font-semibold" style={{ color: "#E4E4EC" }}>{platform.label}</span>
+        <span className="text-[11px] font-display font-semibold" style={{ color: "#E4E4EC" }}>{platform.label}</span>
         <span className="text-[9px] font-mono-jb ml-auto" style={{ color: "rgba(255,255,255,0.3)" }}>{platform.dims}</span>
       </div>
 
@@ -52,7 +52,7 @@ function PlatformMockup({ platform, caption, image }: {
           <img src={image} alt="Preview" className="w-full h-full object-cover" />
         ) : (
           <div className="text-center p-4">
-            <div className="text-[10px] font-jakarta" style={{ color: "rgba(255,255,255,0.2)" }}>
+            <div className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.2)" }}>
               Generate an image in Image Studio or Chat, then it will appear here
             </div>
           </div>
@@ -62,7 +62,7 @@ function PlatformMockup({ platform, caption, image }: {
       {/* Caption area */}
       <div className="relative">
         <textarea value={caption} readOnly rows={3}
-          className="w-full px-3 py-2 rounded-lg text-[11px] font-jakarta bg-transparent border outline-none resize-none"
+          className="w-full px-3 py-2 rounded-lg text-[11px] font-body bg-transparent border outline-none resize-none"
           style={{ borderColor: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.6)" }} />
         <div className="flex items-center justify-between mt-1">
           <span className="text-[9px] font-mono-jb" style={{ color: isOverLimit ? "#FF4D6A" : "rgba(255,255,255,0.25)" }}>
@@ -112,8 +112,8 @@ Then generate the hero visual: [GENERATE_IMAGE: Social media graphic for "${topi
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
-      <h2 className="text-sm font-syne font-bold" style={{ color: "#E4E4EC" }}>Social Publisher</h2>
-      <p className="text-[11px] font-jakarta" style={{ color: "rgba(255,255,255,0.4)" }}>
+      <h2 className="text-sm font-display font-bold" style={{ color: "#E4E4EC" }}>Social Publisher</h2>
+      <p className="text-[11px] font-body" style={{ color: "rgba(255,255,255,0.4)" }}>
         Generate platform-optimised captions and preview content across all channels.
       </p>
 
@@ -124,7 +124,7 @@ Then generate the hero visual: [GENERATE_IMAGE: Social media graphic for "${topi
         </label>
         <textarea value={topic} onChange={e => setTopic(e.target.value)} rows={2}
           placeholder="e.g. Launching our new summer collection, 20% off for the first week..."
-          className="w-full px-3 py-2 rounded-lg text-xs font-jakarta bg-transparent border outline-none resize-none"
+          className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none resize-none"
           style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
       </div>
 

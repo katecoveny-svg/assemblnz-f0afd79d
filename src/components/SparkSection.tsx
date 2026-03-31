@@ -72,7 +72,7 @@ const SparkSection = () => {
               </div>
 
               <h2
-                className="font-syne font-extrabold text-3xl sm:text-4xl mb-1"
+                className="font-display font-extrabold text-3xl sm:text-4xl mb-1"
                 style={{
                   color: SPARK_COLOR,
                   textShadow: "0 0 20px rgba(255,107,0,0.4), 0 0 60px rgba(255,107,0,0.15)",
@@ -84,19 +84,19 @@ const SparkSection = () => {
                 ASM-042 · AI App Builder
               </p>
               <h3
-                className="font-syne font-bold text-base sm:text-lg mb-4"
+                className="font-display font-bold text-base sm:text-lg mb-4"
                 style={{ color: SPARK_COLOR, textShadow: "0 0 12px rgba(255,107,0,0.25)" }}
               >
                 Build apps with words.
               </h3>
-              <p className="text-sm font-jakarta leading-relaxed mb-6 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
+              <p className="text-sm font-body leading-relaxed mb-6 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
                 Describe what you need. SPARK generates a working app — forms, dashboards, calculators,
                 landing pages — in seconds. No code. No designers. No developers.
               </p>
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                 <Link
                   to="/chat/spark"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{
                     background: SPARK_COLOR,
                     color: "#0A0A14",
@@ -107,7 +107,7 @@ const SparkSection = () => {
                 </Link>
                 <button
                   onClick={() => setShowVoice(true)}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-syne font-bold transition-all duration-300 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg"
                   style={{
                     background: "transparent",
                     color: SPARK_COLOR,
