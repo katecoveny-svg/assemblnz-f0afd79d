@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import toroaIcon from "@/assets/brand/toroa-hero.png";
 
 const TE_KAHUI_REO_AGENTS = [
   { name: "IHO", desc: "Intelligent router & orchestrator" },
