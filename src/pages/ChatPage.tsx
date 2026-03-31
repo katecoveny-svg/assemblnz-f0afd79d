@@ -1046,7 +1046,7 @@ const ChatPage = () => {
     // Settings/Train tab
     tabs.push({ id: "agent_training", label: "Settings", icon: <Brain size={13} /> });
     return tabs;
-  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isHanga, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isToroa, isSports, hasLiveDataTab, auraModeKey]);
+  }, [agent, agentId, hasTemplateTab, isMarketing, isConstruction, isHanga, isForge, isAroha, isAura, isHaven, isFlux, isPrism, isNonprofit, isAxis, isToroa, isSports, isOra, isTahi, isVitae, hasLiveDataTab, auraModeKey]);
 
   const accentColor = isToroa ? TOROA_COLOR : (agent?.color || "#3A6A9C");
 
