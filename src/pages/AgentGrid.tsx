@@ -245,6 +245,9 @@ const AgentGrid = () => {
         )}
       </main>
 
+      {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
+      <HowItWorksSection />
+
       {/* ═══════════════════════ LIVE DEMO / STATS ═══════════════════════ */}
       <LiveDemoSection />
 
