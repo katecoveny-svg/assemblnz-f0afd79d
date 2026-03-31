@@ -81,12 +81,6 @@ const PRICING_PLANS = [
   },
 ];
 
-const HOW_IT_WORKS = [
-  { step: "01", title: "Tell us about your business", desc: "Share your industry, team size, and goals. Your specialist team adapts to you.", icon: <Users size={24} /> },
-  { step: "02", title: "Access your specialist tools", desc: "44 specialist tools covering every NZ industry, all trained on NZ legislation.", icon: <Zap size={24} /> },
-  { step: "03", title: "Get specialist guidance", desc: "Ask anything. Get recommendations grounded in NZ legislation, regulations, and best practice.", icon: <BookOpen size={24} /> },
-  { step: "04", title: "Run 24/7", desc: "Embed on your site, share with your team, or let customers chat directly.", icon: <Clock size={24} /> },
-];
 
 const ALSO_BY_ASSEMBL = [
   { title: "Custom Intelligence Builds", desc: "Bespoke specialist tools trained on your internal data, SOPs, and brand voice.", color: "hsl(var(--pounamu))" },
