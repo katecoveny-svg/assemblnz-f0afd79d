@@ -72,7 +72,7 @@ export default function SparkAppViewer() {
             onKeyDown={e => e.key === "Enter" && checkPassword()} />
           {wrongPassword && <p className="text-[10px] text-red-400">Incorrect password</p>}
           <button onClick={checkPassword} className="w-full py-2.5 rounded-lg text-xs font-semibold"
-            style={{ background: "#FF6B0020", color: "#FF6B00", border: "1px solid #FF6B0030" }}>
+            style={{ background: "#5AADA020", color: "#5AADA0", border: "1px solid #5AADA030" }}>
             Enter
           </button>
         </div>
@@ -99,7 +99,7 @@ export default function SparkAppViewer() {
       {showBranding && (
         <a href="/chat/spark" target="_blank" rel="noopener noreferrer"
           className="fixed bottom-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-medium backdrop-blur-sm z-50"
-          style={{ background: "rgba(255,107,0,0.15)", color: "#FF6B00", border: "1px solid rgba(255,107,0,0.25)" }}>
+          style={{ background: "rgba(90,173,160,0.15)", color: "#5AADA0", border: "1px solid rgba(90,173,160,0.25)" }}>
            Built with SPARK by Assembl
         </a>
       )}
