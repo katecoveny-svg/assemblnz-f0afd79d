@@ -376,7 +376,7 @@ const AgentGrid = () => {
             {ALSO_BY_ASSEMBL.map((item) => (
               <div
                 key={item.title}
-                className="relative rounded-2xl p-6 overflow-hidden border border-border bg-card group transition-all duration-300 hover:-translate-y-1"
+                className="relative rounded-2xl p-6 overflow-hidden border border-border bg-card card-glow-hover group"
                 style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
               >
                 <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-40 transition-opacity" style={{ background: `linear-gradient(90deg, transparent, ${item.color}80, transparent)` }} />
