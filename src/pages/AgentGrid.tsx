@@ -17,6 +17,7 @@ import LiveDemoSection from "@/components/LiveDemoSection";
 import FAQSection from "@/components/FAQSection";
 import IndustrySolutions from "@/components/landing/IndustrySolutions";
 import PackShowcase from "@/components/landing/PackShowcase";
+import HowItWorksSection from "@/components/HowItWorksSection";
 
 const PACK_META: Record<string, { sector: string; description: string }> = {
   manaaki: { sector: "Hospitality & Tourism", description: "Care for customers, hospitality operations, tourism, and venue management" },
