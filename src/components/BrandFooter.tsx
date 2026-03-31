@@ -99,11 +99,11 @@ const BrandFooter = () => {
         {/* Top: 4-column links + newsletter */}
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-8 mb-14">
           {Object.entries(FOOTER_LINKS).map(([category, links]) => (
-            <div key={category}>
+            <div key={category} className={category === "Industries" ? "col-span-2 sm:col-span-2 lg:col-span-1" : ""}>
               <h4 className="font-display font-bold text-[11px] text-foreground/80 mb-4 uppercase tracking-[2px]">{category}</h4>
-              <ul className="space-y-2.5">
+              <ul className={category === "Industries" ? "grid grid-cols-2 gap-x-4 gap-y-2" : "space-y-2.5"}>
                 {links.map((link) => (
-                  <li key={link.to}>
+                  <li key={link.label}>
                     <Link to={link.to} className="text-[12px] font-body text-muted-foreground hover:text-foreground transition-colors duration-300">
                       {link.label}
                     </Link>
