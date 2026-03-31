@@ -96,7 +96,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          Every compliance question you've ever googled at 11pm — answered by specialists trained on 50+ NZ Acts. From $89/mo.
+          Assembl is 46 AI agents built for New Zealand businesses — from employment law to health compliance to hospitality operations. Every query hits a tikanga-governed compliance pipeline before it reaches you.
         </motion.p>
 
         {/* Stat pills */}
