@@ -1,0 +1,161 @@
+<svg width="400" height="320" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Body gradient — warm yellow with natural 3D shading -->
+    <radialGradient id="bodyMain" cx="45%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.5"/>
+      <stop offset="30%" stop-color="#FFE082"/>
+      <stop offset="65%" stop-color="#FFD747"/>
+      <stop offset="100%" stop-color="#F5C518"/>
+    </radialGradient>
+    <!-- Wing gradients — warm with natural shadow at tips -->
+    <linearGradient id="wingLeft" x1="100%" y1="30%" x2="0%" y2="70%">
+      <stop offset="0%" stop-color="#FFE082" stop-opacity="0.95"/>
+      <stop offset="40%" stop-color="#FFD747" stop-opacity="0.9"/>
+      <stop offset="75%" stop-color="#F5C518" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#D4A843" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="wingRight" x1="0%" y1="30%" x2="100%" y2="70%">
+      <stop offset="0%" stop-color="#FFE082" stop-opacity="0.95"/>
+      <stop offset="40%" stop-color="#FFD747" stop-opacity="0.9"/>
+      <stop offset="75%" stop-color="#F5C518" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#D4A843" stop-opacity="0.35"/>
+    </linearGradient>
+    <!-- Head/neck gradient — seamless with body -->
+    <radialGradient id="headGrad" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#FFF9C4" stop-opacity="0.6"/>
+      <stop offset="35%" stop-color="#FFE082"/>
+      <stop offset="100%" stop-color="#FFD747"/>
+    </radialGradient>
+    <!-- Underwing shadow -->
+    <linearGradient id="underWing" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#D4A843" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Glow filters -->
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="wideGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="starGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="1.8" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Subtle warm aura -->
+    <radialGradient id="auraGrad" cx="50%" cy="48%" r="50%">
+      <stop offset="0%" stop-color="#FFD747" stop-opacity="0.12"/>
+      <stop offset="60%" stop-color="#F5C518" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#F5C518" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Subtle aura -->
+  <ellipse cx="200" cy="125" rx="150" ry="75" fill="url(#auraGrad)" filter="url(#wideGlow)"/>
+
+  <!-- Mā constellation stars -->
+  <circle cx="42" cy="25" r="1.6" fill="#E8E4DD" filter="url(#starGlow)"/>
+  <circle cx="358" cy="30" r="1.8" fill="#E8E4DD" filter="url(#starGlow)"/>
+  <circle cx="75" cy="52" r="1.0" fill="#F5F0E8" filter="url(#starGlow)"/>
+  <circle cx="325" cy="48" r="1.2" fill="#F5F0E8" filter="url(#starGlow)"/>
+  <circle cx="128" cy="28" r="0.8" fill="white" opacity="0.6"/>
+  <circle cx="272" cy="22" r="0.9" fill="white" opacity="0.6"/>
+  <circle cx="52" cy="92" r="0.6" fill="#E8E4DD" opacity="0.4"/>
+  <circle cx="348" cy="88" r="0.6" fill="#E8E4DD" opacity="0.4"/>
+  <circle cx="102" cy="14" r="1.3" fill="#F5F0E8" filter="url(#starGlow)"/>
+  <circle cx="298" cy="16" r="1.1" fill="#F5F0E8" filter="url(#starGlow)"/>
+  <circle cx="168" cy="40" r="0.6" fill="#E8E4DD" opacity="0.5"/>
+  <circle cx="232" cy="36" r="0.5" fill="#E8E4DD" opacity="0.5"/>
+
+  <!-- LEFT WING — long, elegant albatross proportions -->
+  <!-- Main wing surface -->
+  <path d="M 195 128
+           Q 160 108 110 88
+           Q 70 72 35 64
+           Q 18 60 8 62
+           Q 20 72 50 82
+           Q 90 96 135 112
+           Q 165 122 195 130 Z" fill="url(#wingLeft)" filter="url(#softGlow)"/>
+  <!-- Wing leading edge highlight -->
+  <path d="M 192 126 Q 155 105 105 85 Q 65 70 30 63" fill="none" stroke="#FFF9C4" stroke-width="0.7" opacity="0.35"/>
+  <!-- Primary feather separations -->
+  <path d="M 185 124 Q 145 100 95 82 Q 58 68 25 64" fill="none" stroke="#FFE082" stroke-width="0.4" opacity="0.25"/>
+  <path d="M 175 122 Q 140 102 90 86 Q 62 76 38 70" fill="none" stroke="#FFD747" stroke-width="0.3" opacity="0.18"/>
+  <!-- Underwing shadow hint -->
+  <path d="M 195 130 Q 160 115 120 100 Q 80 86 50 78" fill="none" stroke="#D4A843" stroke-width="0.6" opacity="0.12"/>
+
+  <!-- RIGHT WING — mirror -->
+  <path d="M 205 128
+           Q 240 108 290 88
+           Q 330 72 365 64
+           Q 382 60 392 62
+           Q 380 72 350 82
+           Q 310 96 265 112
+           Q 235 122 205 130 Z" fill="url(#wingRight)" filter="url(#softGlow)"/>
+  <path d="M 208 126 Q 245 105 295 85 Q 335 70 370 63" fill="none" stroke="#FFF9C4" stroke-width="0.7" opacity="0.35"/>
+  <path d="M 215 124 Q 255 100 305 82 Q 342 68 375 64" fill="none" stroke="#FFE082" stroke-width="0.4" opacity="0.25"/>
+  <path d="M 225 122 Q 260 102 310 86 Q 338 76 362 70" fill="none" stroke="#FFD747" stroke-width="0.3" opacity="0.18"/>
+  <path d="M 205 130 Q 240 115 280 100 Q 320 86 350 78" fill="none" stroke="#D4A843" stroke-width="0.6" opacity="0.12"/>
+
+  <!-- BODY — streamlined, natural bird shape (not a circle) -->
+  <ellipse cx="200" cy="138" rx="28" ry="18" fill="url(#bodyMain)" filter="url(#softGlow)"/>
+  <!-- Chest highlight — soft, not sharp -->
+  <ellipse cx="196" cy="132" rx="12" ry="7" fill="#FFF9C4" opacity="0.12"/>
+  <!-- Belly shadow -->
+  <ellipse cx="200" cy="148" rx="20" ry="6" fill="#D4A843" opacity="0.06"/>
+
+  <!-- NECK — natural curve, not a stick -->
+  <path d="M 200 122 Q 204 112 208 102 Q 210 96 210 90" fill="url(#bodyMain)" stroke="none"/>
+  <path d="M 196 122 Q 198 112 202 102 Q 204 96 204 90" fill="url(#bodyMain)" stroke="none"/>
+  <!-- Neck contour — subtle edge definition -->
+  <path d="M 196 120 Q 198 110 202 100 Q 204 94 204 88" fill="none" stroke="#FFF9C4" stroke-width="0.4" opacity="0.2"/>
+  <path d="M 210 90 Q 210 96 208 104 Q 206 112 204 120" fill="none" stroke="#D4A843" stroke-width="0.3" opacity="0.1"/>
+
+  <!-- HEAD — elongated, proper albatross shape (NOT a circle) -->
+  <ellipse cx="210" cy="82" rx="17" ry="14" fill="url(#headGrad)" filter="url(#softGlow)"/>
+  <!-- Crown highlight — 3D form -->
+  <ellipse cx="206" cy="76" rx="8" ry="5" fill="#FFF9C4" opacity="0.15"/>
+
+  <!-- EYE — small, intelligent, properly positioned (NOT emoji) -->
+  <ellipse cx="202" cy="81" rx="2.8" ry="2.5" fill="#1A1A1A"/>
+  <!-- Single clean catchlight -->
+  <circle cx="203" cy="79.8" r="1.1" fill="white" opacity="0.85"/>
+
+  <!-- BEAK — proper albatross tube-nose profile, elegant -->
+  <!-- Upper mandible -->
+  <path d="M 225 78 L 252 82 Q 256 83 255 85 L 248 86 L 225 83 Z" fill="#FFD747" stroke="#E0AD00" stroke-width="0.4"/>
+  <!-- Lower mandible -->
+  <path d="M 225 83 L 248 86 Q 252 87 250 89 L 225 87 Z" fill="#F5C518" stroke="#D4A000" stroke-width="0.3"/>
+  <!-- Tube-nose ridge (distinctive albatross feature) -->
+  <path d="M 226 79 L 248 82.5" fill="none" stroke="#FFE082" stroke-width="0.5" opacity="0.4"/>
+  <!-- Beak hook at tip -->
+  <path d="M 252 82 Q 257 83.5 255 85" fill="none" stroke="#D4A000" stroke-width="0.5" opacity="0.6"/>
+  <!-- Nostril tube hint -->
+  <ellipse cx="235" cy="80.5" rx="1.5" ry="0.6" fill="#E0AD00" opacity="0.3"/>
+
+  <!-- TAIL — elegant, tapered -->
+  <path d="M 185 152 Q 178 174 172 190 Q 170 196 168 200" fill="none" stroke="#F5C518" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+  <path d="M 192 154 Q 188 176 185 192 Q 184 198 183 202" fill="none" stroke="#FFD747" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <path d="M 199 155 Q 198 178 197 194 Q 196 200 196 204" fill="none" stroke="#FFD747" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+  <!-- Tail feather tips — slight spread -->
+  <path d="M 178 150 Q 170 170 164 185" fill="none" stroke="#F5C518" stroke-width="1.5" stroke-linecap="round" opacity="0.25"/>
+
+  <!-- Subtle wing-tip particles (not emoji sparkles) -->
+  <circle cx="16" cy="66" r="1.2" fill="#FFE082" opacity="0.15" filter="url(#starGlow)"/>
+  <circle cx="384" cy="66" r="1.2" fill="#FFE082" opacity="0.15" filter="url(#starGlow)"/>
+
+  <!-- Wordmark -->
+  <text x="200" y="260" font-family="Lato, sans-serif" font-size="24" font-weight="300" letter-spacing="8" text-anchor="middle" fill="#F5D33C">TŌROA</text>
+  <text x="200" y="285" font-family="Plus Jakarta Sans, sans-serif" font-size="11" font-weight="300" letter-spacing="3" text-anchor="middle" fill="#E8E4DD" opacity="0.45">FAMILY AI NAVIGATOR</text>
+</svg>

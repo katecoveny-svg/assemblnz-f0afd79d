@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { agents, packs, echoAgent, pilotAgent } from "@/data/agents";
+import toroaLogo from "@/assets/brand/toroa-logo-2.svg";
 
 /**
  * Constellation mark SVGs matching the Te Iho architecture diagram.
@@ -276,14 +277,7 @@ const PackGrid = () => {
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 shrink-0" style={{ filter: "drop-shadow(0 0 8px rgba(212,168,67,0.3))" }}>
-                <svg viewBox="0 0 30 30" className="w-full h-full">
-                  <ellipse cx="15" cy="18" rx="5" ry="4" fill="#D4A843" opacity="0.7" />
-                  <circle cx="15" cy="8" r="3" fill="#D4A843" opacity="0.8" />
-                  <path d="M 10 16 Q 5 12 8 10" stroke="#D4A843" strokeWidth="1.5" fill="none" opacity="0.7" />
-                  <path d="M 20 16 Q 25 12 22 10" stroke="#D4A843" strokeWidth="1.5" fill="none" opacity="0.7" />
-                  <circle cx="4" cy="5" r="0.6" fill="#E8E4DD" opacity="0.6" />
-                  <circle cx="26" cy="4" r="0.5" fill="#E8E4DD" opacity="0.5" />
-                </svg>
+                <img src={toroaLogo} alt="Tōroa" className="w-full h-full" />
               </div>
               <div>
                 <h3 className="font-display text-sm tracking-[3px] uppercase text-foreground" style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif" }}>
