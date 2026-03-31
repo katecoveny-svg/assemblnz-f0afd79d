@@ -208,8 +208,8 @@ const hangaAgents: Agent[] = [
     pack: "hanga",
     primaryModel: "gemini",
     traits: ["Spatially aware", "Detail-precise", "Tech-forward"],
-    expertise: ["BIM model generation", "Clash detection", "3D walkthroughs", "MEP coordination", "Material schedules", "Construction sequencing"],
-    starters: ["Generate a BIM model from these plans", "Run clash detection report", "Create a 3D walkthrough"],
+    expertise: ["BIM model analysis (Gemini Vision)", "Inter-trade clash detection", "4D construction sequencing", "MEP coordination", "Material schedules", "IFC/GLB model processing", "3D walkthrough generation"],
+    starters: ["Upload a plan for BIM analysis", "Run clash detection on my drawings", "Generate a 4D construction schedule", "Create a 3D model from this plan"],
   },
   {
     id: "safety",
