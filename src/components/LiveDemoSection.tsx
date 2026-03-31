@@ -52,7 +52,7 @@ const LiveDemoSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-foreground mb-2">
+          <h2 className="text-2xl sm:text-3xl font-display text-foreground mb-2 heading-glow section-heading" style={{ fontWeight: 700 }}>
             Your specialist <span className="text-gradient-hero">tools</span>
           </h2>
           <p className="text-sm font-body text-muted-foreground">
@@ -72,7 +72,7 @@ const LiveDemoSection = () => {
             <Link
               key={agent.id}
               to={`/chat/${agent.id}`}
-              className="group rounded-xl p-4 border border-border bg-card hover:border-foreground/20 transition-all duration-300 hover:-translate-y-1"
+              className="group rounded-xl p-4 border border-border bg-card card-glow-hover"
               style={{ backdropFilter: "blur(12px)" }}
             >
               <div className="flex items-start gap-3">

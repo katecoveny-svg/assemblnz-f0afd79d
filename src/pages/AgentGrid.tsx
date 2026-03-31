@@ -183,8 +183,8 @@ const AgentGrid = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-2">44 Intelligence Specialists</p>
-          <h2 className="text-2xl sm:text-3xl font-display font-light tracking-[0.02em] text-foreground mb-2">Your Specialist Team</h2>
+          <p className="font-mono-jb text-[10px] tracking-[4px] uppercase text-primary/60 mb-3">44 Intelligence Specialists</p>
+          <h2 className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading" style={{ fontWeight: 700 }}>Your Specialist Team</h2>
           <p className="text-sm font-body text-muted-foreground max-w-md mx-auto">Tap any tool to chat live — no signup needed.</p>
         </motion.div>
 
@@ -206,7 +206,7 @@ const AgentGrid = () => {
               {/* Pack header */}
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: pack.color }} />
-                <h3 className="font-display font-light text-lg tracking-[0.02em] text-foreground">{pack.name}</h3>
+                <h3 className="font-display text-lg tracking-[0.02em] text-foreground heading-glow" style={{ fontWeight: 700 }}>{pack.name}</h3>
                 <span className="font-mono text-[10px] text-muted-foreground tracking-wider uppercase">{pack.label}</span>
               </div>
               <p className="text-xs font-body text-muted-foreground mb-6 ml-[22px]">{meta?.description}</p>
@@ -231,7 +231,7 @@ const AgentGrid = () => {
           >
             <div className="flex items-center gap-3 mb-2">
               <div className="w-2.5 h-2.5 rounded-full bg-foreground/30" />
-              <h3 className="font-display font-light text-lg tracking-[0.02em] text-foreground">Specialist & Cross-Pack</h3>
+              <h3 className="font-display text-lg tracking-[0.02em] text-foreground heading-glow" style={{ fontWeight: 700 }}>Specialist &amp; Cross-Pack</h3>
             </div>
             <p className="text-xs font-body text-muted-foreground mb-6 ml-[22px]">Purpose-built tools that work across every industry pack</p>
 
@@ -258,8 +258,8 @@ const AgentGrid = () => {
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-4xl font-display font-light tracking-[0.02em] text-foreground mb-3">
-              Enterprise-grade intelligence. SME-friendly pricing.
+            <h2 className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading" style={{ fontWeight: 700 }}>
+              Enterprise-grade intelligence. <span className="text-gradient-hero">SME-friendly pricing.</span>
             </h2>
             <p className="text-sm font-body text-muted-foreground mb-6">From $14/month. No lock-in. Cancel anytime.</p>
 
@@ -369,14 +369,14 @@ const AgentGrid = () => {
       {/* ═══════════════════════ ALSO BY ASSEMBL ═══════════════════════ */}
       <section className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-4xl font-display font-light tracking-[0.02em] text-center text-foreground mb-14">
-            Also by Assembl
+          <h2 className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-center text-foreground mb-14 heading-glow section-heading" style={{ fontWeight: 700 }}>
+            Also by <span className="text-gradient-hero">Assembl</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {ALSO_BY_ASSEMBL.map((item) => (
               <div
                 key={item.title}
-                className="relative rounded-2xl p-6 overflow-hidden border border-border bg-card group transition-all duration-300 hover:-translate-y-1"
+                className="relative rounded-2xl p-6 overflow-hidden border border-border bg-card card-glow-hover group"
                 style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
               >
                 <span className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-40 transition-opacity" style={{ background: `linear-gradient(90deg, transparent, ${item.color}80, transparent)` }} />
@@ -406,7 +406,7 @@ const AgentGrid = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           />
-          <h2 className="text-2xl sm:text-3xl font-display font-light tracking-[0.02em] text-foreground mb-3 flex items-center justify-center gap-2">Built in Aotearoa</h2>
+          <h2 className="text-2xl sm:text-3xl font-display tracking-[0.02em] text-foreground mb-3 flex items-center justify-center gap-2 heading-glow" style={{ fontWeight: 700 }}>Built in <span className="text-gradient-hero ml-2">Aotearoa</span></h2>
           <p className="text-sm font-body text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
             "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work.
             Every tool is trained on real NZ legislation — not generic overseas advice."
@@ -420,7 +420,7 @@ const AgentGrid = () => {
       <section id="contact" className="relative z-10 py-20 sm:py-28 border-t border-border">
         <div className="max-w-lg mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-display font-light tracking-[0.02em] text-foreground mb-3">Get in touch</h2>
+            <h2 className="text-2xl sm:text-3xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading" style={{ fontWeight: 700 }}>Get in touch</h2>
             <p className="text-sm font-body text-muted-foreground">Custom builds, enterprise pricing, or just to say kia ora.</p>
           </div>
           <form

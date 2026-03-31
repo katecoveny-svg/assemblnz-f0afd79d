@@ -28,8 +28,8 @@ const FAQSection = () => {
         >
           <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Support</p>
           <h2
-            className="text-2xl sm:text-[2.75rem] font-display font-bold text-foreground mb-4"
-            style={{ letterSpacing: '-0.02em', lineHeight: '1.15' }}
+            className="text-2xl sm:text-[2.75rem] font-display text-foreground mb-4 heading-glow section-heading"
+            style={{ letterSpacing: '-0.02em', lineHeight: '1.15', fontWeight: 700 }}
           >
             Frequently asked <span className="text-gradient-hero">questions</span>
           </h2>
