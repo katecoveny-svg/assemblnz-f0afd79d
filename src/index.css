@@ -372,10 +372,10 @@
 
   /* ── Section heading glow on hover ── */
   .heading-glow {
-    transition: text-shadow 0.4s ease, filter 0.4s ease;
+    transition: text-shadow 0.4s ease;
   }
   .heading-glow:hover {
-    text-shadow: 0 0 20px rgba(212,168,67,0.35), 0 0 60px rgba(212,168,67,0.15), 0 0 120px rgba(212,168,67,0.06);
+    text-shadow: 0 0 20px rgba(255,255,255,0.25), 0 0 60px rgba(255,255,255,0.1), 0 0 120px rgba(255,255,255,0.04);
   }
 
   /* ── Interactive card with glow border ── */
