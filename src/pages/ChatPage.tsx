@@ -1017,6 +1017,13 @@ const ChatPage = () => {
       ["kindle_writer:Campaign Writer", "kindle_marketplace:Marketplace", "kindle_impact:Impact", "kindle_corporate:Corporate"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isAxis) toolTabs.push({ id: "axis_automations", label: "Automations" });
+    if (isOra) {
+      ["ora_checkin:Check-in", "ora_dashboard:Dashboard"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+    }
+    if (isTahi) toolTabs.push({ id: "tahi_triage", label: "Triage" });
+    if (isVitae) toolTabs.push({ id: "vitae_journeys", label: "Journeys" });
+    if (isAroha) toolTabs.push({ id: "aroha_caregiver", label: "Caregiver" });
+    if (isHaven) toolTabs.push({ id: "haven_safety", label: "Home Safety" });
     if (isToroa) {
       ["helm_week:This Week", "helm_bus:Bus", "helm_timetable:Timetable", "helm_inbox:Inbox", "helm_review:Review", "helm_rescue:Rescue", "helm_settings:Settings"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
