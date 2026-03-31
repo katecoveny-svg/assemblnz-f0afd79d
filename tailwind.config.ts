@@ -17,7 +17,7 @@ export default {
         display: ['Lato', 'sans-serif'],
         body: ['"Plus Jakarta Sans"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
-        // Legacy aliases
+        // Legacy aliases — all map to correct Mārama fonts
         inter: ['"Plus Jakarta Sans"', 'sans-serif'],
         outfit: ['"Plus Jakarta Sans"', 'sans-serif'],
         syne: ['Lato', 'sans-serif'],
@@ -58,26 +58,34 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Assembl brand colors
+        // Whenua palette
+        whenua: {
+          kowhai: '#D4A843',
+          'kowhai-light': '#F0D078',
+          pounamu: '#3A7D6E',
+          'pounamu-light': '#5AADA0',
+          tangaroa: '#1A3A5C',
+          'tangaroa-light': '#3A6A9C',
+          rust: '#C85A54',
+        },
+        // Assembl brand surfaces
         assembl: {
           bg: '#09090F',
           surface: '#0F0F1A',
           'surface-2': '#16162A',
-          green: '#00FF88',
-          pink: '#FF2D9B',
-          cyan: '#00E5FF',
         },
+        // Legacy neon aliases → mapped to Whenua
         neon: {
-          green: "#00FF88",
-          pink: "#FF2D9B",
-          cyan: "#00E5FF",
-          orange: "#00FF88",
-          lime: "#7CFF6B",
-          red: "#FF4D6A",
-          gold: "#B388FF",
-          teal: "#00FF94",
-          blue: "#5B8CFF",
-          amber: "#FF8C42",
+          green: "#D4A843",
+          pink: "#C85A54",
+          cyan: "#5AADA0",
+          orange: "#D4A843",
+          lime: "#5AADA0",
+          red: "#C85A54",
+          gold: "#D4A843",
+          teal: "#3A7D6E",
+          blue: "#3A6A9C",
+          amber: "#F0D078",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -130,9 +138,9 @@ export default {
           "50%": { transform: "translate(-10px, -10px)" },
           "75%": { transform: "translate(15px, 10px)" },
         },
-        "neon-pulse": {
-          "0%, 100%": { filter: "drop-shadow(0 0 4px currentColor)" },
-          "50%": { filter: "drop-shadow(0 0 12px currentColor)" },
+        "star-pulse": {
+          "0%, 100%": { opacity: "0.3" },
+          "50%": { opacity: "0.6" },
         },
       },
       animation: {
@@ -144,7 +152,7 @@ export default {
         "sparkle": "sparkle 3s ease-in-out infinite",
         "shimmer-sweep": "shimmer-sweep 4s ease-in-out infinite",
         "float-orb": "float-orb 12s ease-in-out infinite",
-        "neon-pulse": "neon-pulse 2.5s ease-in-out infinite",
+        "star-pulse": "star-pulse 4s ease-in-out infinite",
       },
     },
   },

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Syne:wght@400;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -16,19 +16,19 @@
 
 @layer base {
   :root {
-    --background: 230 20% 4%;
+    --background: 240 29% 4%;
     --foreground: 0 0% 100%;
 
-    --card: 240 18% 8%;
+    --card: 240 24% 8%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 240 18% 8%;
+    --popover: 240 24% 8%;
     --popover-foreground: 0 0% 100%;
 
     --primary: 42 63% 55%;
-    --primary-foreground: 230 20% 4%;
+    --primary-foreground: 240 29% 4%;
 
-    --secondary: 240 18% 8%;
+    --secondary: 240 24% 8%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 240 14% 11%;
@@ -37,49 +37,43 @@
     --accent: 240 14% 14%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 3 45% 56%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 100% / 0.08;
     --input: 0 0% 100% / 0.08;
-    --ring: 153 100% 50%;
+    --ring: 42 63% 55%;
 
     --radius: 0.75rem;
 
-    /* Assembl brand surfaces */
-    --color-bg: 234 29% 5%;
+    /* Assembl Mārama surfaces */
+    --color-bg: 240 29% 4%;
     --color-surface: 240 24% 8%;
     --color-surface-2: 240 24% 12%;
 
-    /* Agent accent colors */
-    --neon-green: 153 100% 50%;
-    --neon-pink: 326 100% 59%;
-    --neon-cyan: 189 100% 50%;
-    --neon-orange: 20 100% 60%;
-    --neon-lime: 113 100% 70%;
-    --neon-red: 349 100% 65%;
-    --neon-gold: 43 100% 50%;
-    --neon-teal: 157 100% 55%;
-    --neon-blue: 224 100% 68%;
-    --neon-amber: 24 100% 55%;
-
-    /* Premium palette */
-    --emerald: 153 100% 50%;
+    /* Whenua palette */
+    --kowhai: 42 63% 55%;
+    --kowhai-light: 44 82% 71%;
+    --pounamu: 164 37% 35%;
+    --pounamu-light: 166 37% 51%;
+    --tangaroa: 213 53% 23%;
+    --tangaroa-light: 213 45% 41%;
+    --rust: 3 45% 56%;
 
     /* Premium surface tokens */
-    --surface-0: 234 29% 5%;
+    --surface-0: 240 29% 4%;
     --surface-1: 240 24% 8%;
     --surface-2: 240 24% 12%;
     --surface-3: 240 20% 15%;
 
-    --sidebar-background: 234 29% 5%;
+    --sidebar-background: 240 29% 4%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 0 0% 100%;
-    --sidebar-primary-foreground: 234 29% 5%;
+    --sidebar-primary-foreground: 240 29% 4%;
     --sidebar-accent: 240 14% 11%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 0 0% 100% / 0.08;
-    --sidebar-ring: 153 100% 50%;
+    --sidebar-ring: 42 63% 55%;
   }
 }
 
@@ -109,7 +103,9 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', sans-serif;
-    font-weight: 900;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 }
 
@@ -118,7 +114,7 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* Hero gradient text — natural Māori palette */
+  /* Hero gradient text — Whenua palette */
   .text-gradient-hero {
     background-image: linear-gradient(
       135deg,
@@ -132,36 +128,36 @@
     filter: drop-shadow(0 0 24px rgba(212,168,67,0.2));
   }
 
-  /* Glass glow for green text */
+  /* Glass glow — Kōwhai warm */
   .text-glow-green,
   .text-emerald-glow {
-    color: #00FF88;
+    color: #D4A843;
     text-shadow: 
-      0 0 10px rgba(0,255,136,0.4),
-      0 0 30px rgba(0,255,136,0.15),
-      0 0 60px rgba(0,255,136,0.08);
+      0 0 10px rgba(212,168,67,0.4),
+      0 0 30px rgba(212,168,67,0.15),
+      0 0 60px rgba(212,168,67,0.08);
   }
 
   .text-glow-cyan {
-    color: #00E5FF;
-    text-shadow: 0 0 10px rgba(0,229,255,0.35), 0 0 30px rgba(0,229,255,0.12);
+    color: #5AADA0;
+    text-shadow: 0 0 10px rgba(90,173,160,0.35), 0 0 30px rgba(90,173,160,0.12);
   }
 
   .text-glow-pink {
-    color: #FF2D9B;
-    text-shadow: 0 0 10px rgba(255,45,155,0.35), 0 0 30px rgba(255,45,155,0.12);
+    color: #C85A54;
+    text-shadow: 0 0 10px rgba(200,90,84,0.35), 0 0 30px rgba(200,90,84,0.12);
   }
 
   .glow-green {
-    box-shadow: 0 0 40px rgba(0,255,136,0.15), 0 0 80px rgba(0,255,136,0.05);
+    box-shadow: 0 0 40px rgba(212,168,67,0.15), 0 0 80px rgba(212,168,67,0.05);
   }
 
   .glow-pink {
-    box-shadow: 0 0 40px rgba(255,45,155,0.15), 0 0 80px rgba(255,45,155,0.05);
+    box-shadow: 0 0 40px rgba(200,90,84,0.15), 0 0 80px rgba(200,90,84,0.05);
   }
 
   .glow-cyan {
-    box-shadow: 0 0 40px rgba(0,229,255,0.12), 0 0 80px rgba(0,229,255,0.04);
+    box-shadow: 0 0 40px rgba(90,173,160,0.12), 0 0 80px rgba(90,173,160,0.04);
   }
 
   .glow-dot {
@@ -177,19 +173,19 @@
 
   /* ── Standard Glass Card ── */
   .glass-card {
-    background: rgba(255,255,255,0.03);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(15, 15, 26, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 168, 67, 0.15);
     border-radius: 16px;
   }
 
   /* ── Elevated Glass Card (modals) ── */
   .glass-card-elevated {
-    background: rgba(255,255,255,0.06);
+    background: rgba(15, 15, 26, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid rgba(212, 168, 67, 0.2);
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
@@ -200,12 +196,12 @@
   }
 
   .glow-card-hover:hover {
-    border-color: rgba(255,255,255,0.15) !important;
-    box-shadow: 0 0 40px rgba(0,255,136,0.08), 0 8px 32px rgba(0,0,0,0.4);
+    border-color: rgba(212, 168, 67, 0.3) !important;
+    box-shadow: 0 0 40px rgba(212,168,67,0.08), 0 8px 32px rgba(0,0,0,0.4);
     transform: translateY(-1px);
   }
 
-  /* ── Primary CTA — gold glow ── */
+  /* ── Primary CTA — Kōwhai gold glow ── */
   .cta-glass-green {
     position: relative;
     overflow: hidden;
@@ -214,19 +210,20 @@
     border: none;
     border-radius: 9999px;
     font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    letter-spacing: 0.03em;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     box-shadow: 0 0 20px rgba(212,168,67,0.45), 0 0 60px rgba(212,168,67,0.2), 0 4px 16px rgba(0,0,0,0.4);
     animation: cta-pulse 3s ease-in-out infinite;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
   @keyframes cta-pulse {
     0%,100% { box-shadow: 0 0 20px rgba(212,168,67,0.45), 0 0 60px rgba(212,168,67,0.2), 0 4px 16px rgba(0,0,0,0.4); }
-    50%      { box-shadow: 0 0 32px rgba(255,220,80,0.8), 0 0 90px rgba(212,168,67,0.4), 0 4px 16px rgba(0,0,0,0.4); }
+    50%      { box-shadow: 0 0 32px rgba(240,208,120,0.8), 0 0 90px rgba(212,168,67,0.4), 0 4px 16px rgba(0,0,0,0.4); }
   }
 
   .cta-glass-green:hover {
-    box-shadow: 0 0 40px rgba(255,220,80,0.9), 0 0 100px rgba(212,168,67,0.5);
+    box-shadow: 0 0 40px rgba(240,208,120,0.9), 0 0 100px rgba(212,168,67,0.5);
     transform: translateY(-2px) scale(1.02);
   }
 
@@ -237,8 +234,9 @@
     border: 1px solid rgba(58,125,110,0.4);
     border-radius: 9999px;
     font-family: 'Lato', sans-serif;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     box-shadow: 0 0 16px rgba(58,125,110,0.15), inset 0 0 20px rgba(58,125,110,0.04);
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -267,8 +265,8 @@
   }
 
   .hero-text-block:hover::before {
-    border-color: rgba(0,255,136,0.06);
-    box-shadow: 0 0 48px rgba(0,255,136,0.03);
+    border-color: rgba(212,168,67,0.06);
+    box-shadow: 0 0 48px rgba(212,168,67,0.03);
   }
 
   /* ── Premium gradient border tag ── */
@@ -287,7 +285,7 @@
     inset: -1px;
     border-radius: 11px;
     padding: 1px;
-    background: linear-gradient(90deg, #00FF88, #00E5FF, #00FF88);
+    background: linear-gradient(90deg, #D4A843, #3A7D6E, #D4A843);
     background-size: 300% 100%;
     animation: enterprise-gradient-sweep 6s linear infinite;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -300,10 +298,10 @@
   /* ── Section divider ── */
   .section-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    background: linear-gradient(90deg, transparent, rgba(212,168,67,0.15), transparent);
   }
 
-  /* ── Aurora ambient glow ── */
+  /* ── Aurora ambient glow — Whenua ── */
   .aurora-glow {
     position: relative;
   }
@@ -317,43 +315,46 @@
     height: 60%;
     background: radial-gradient(
       ellipse at center,
-      rgba(0,229,255,0.06) 0%,
-      rgba(0,255,136,0.04) 30%,
+      rgba(58,125,110,0.06) 0%,
+      rgba(212,168,67,0.04) 30%,
       transparent 60%
     );
     pointer-events: none;
     z-index: 0;
   }
 
-  /* Brand badges */
+  /* Brand badges — Whenua palette */
   .badge-green {
-    background: rgba(0,255,136,0.1);
-    color: #00FF88;
-    border: 1px solid rgba(0,255,136,0.2);
+    background: rgba(58,125,110,0.1);
+    color: #5AADA0;
+    border: 1px solid rgba(58,125,110,0.2);
     border-radius: 9999px;
     padding: 4px 12px;
     font-size: 0.75rem;
     text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
   .badge-pink {
-    background: rgba(255,45,155,0.1);
-    color: #FF2D9B;
-    border: 1px solid rgba(255,45,155,0.2);
+    background: rgba(200,90,84,0.1);
+    color: #C85A54;
+    border: 1px solid rgba(200,90,84,0.2);
     border-radius: 9999px;
     padding: 4px 12px;
     font-size: 0.75rem;
     text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
   .badge-cyan {
-    background: rgba(0,229,255,0.1);
-    color: #00E5FF;
-    border: 1px solid rgba(0,229,255,0.2);
+    background: rgba(26,58,92,0.15);
+    color: #3A6A9C;
+    border: 1px solid rgba(26,58,92,0.3);
     border-radius: 9999px;
     padding: 4px 12px;
     font-size: 0.75rem;
     text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 }
 
@@ -413,4 +414,13 @@
 
 .animate-scan-line {
   animation: scan-line 2s ease-in-out infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
