@@ -133,9 +133,6 @@ const AgentGrid = () => {
     }
   };
 
-  // Group agents by pack
-  const specialistAgents = agents.filter(a => SPECIALIST_SECTORS.includes(a.sector));
-  const crossPackAgents = [echoAgent, pilotAgent];
 
   return (
     <div className="min-h-screen flex flex-col relative">
