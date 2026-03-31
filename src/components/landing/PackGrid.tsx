@@ -87,16 +87,16 @@ const PackGrid = () => {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           <p className="font-mono-jb text-[10px] tracking-[4px] uppercase text-primary/60 mb-3">
-            Te Kāhui Reo · Packs & Services
+            5 Industry Packs · 45 Specialist Tools
           </p>
           <h2
             className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading"
             style={{ fontWeight: 300 }}
           >
-            Your Specialist Team
+            Industry Packs
           </h2>
           <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
-            Five packs. 45 specialists. Pick your industry — your team is already trained.
+            Manaaki · Hanga · Auaha · Pakihi · Hangarau — pick your industry, your team is already trained.
           </p>
         </motion.div>
 
