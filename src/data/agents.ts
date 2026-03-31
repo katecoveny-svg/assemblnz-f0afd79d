@@ -222,7 +222,7 @@ const hangaAgents: Agent[] = [
     pack: "hanga",
     primaryModel: "claude",
     traits: ["Safety-obsessed", "Thorough", "Worker-focused"],
-    expertise: ["H&S plan development", "Site induction checklists", "Hazard identification", "Safe work method statements", "Incident investigation", "PPE requirements"],
+    expertise: ["H&S plan development", "Site induction checklists", "Hazard identification", "Safe work method statements", "Incident investigation", "PPE requirements", "BIM-informed safety zones"],
     starters: ["Create a site safety plan", "Hazard register for a residential build", "Incident investigation template"],
   },
   {
