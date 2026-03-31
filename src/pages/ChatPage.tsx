@@ -1015,6 +1015,9 @@ const ChatPage = () => {
       ["turf_events:Events", "turf_membership:Membership", "turf_facilities:Facilities", "turf_sponsorship:Sponsorship", "turf_performance:Performance", "turf_compliance:Compliance"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (hasLiveDataTab) toolTabs.push({ id: "live_data", label: "Live Data" });
+    // Te Reo Video Learner for TŌROA, ECHO, and Te Kāhui Reo agents
+    const teReoAgents = ["family", "echo", "tiriti"];
+    if (teReoAgents.includes(agentId || "")) toolTabs.push({ id: "te_reo_learn", label: "Mārama" });
     if (!isToroa && !isSports && agentId !== "maritime") toolTabs.push({ id: "internal_comms", label: "Comms" });
 
     // Top-level tabs: Chat is always shown separately; these are the other 4
