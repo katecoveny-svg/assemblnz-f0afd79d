@@ -71,11 +71,17 @@ const STATUS_STYLES: Record<string, { bg: string; text: string }> = {
 const PackLandingPage = () => {
   const { packSlug } = useParams<{ packSlug: string }>();
   const [pack, setPack] = useState<any>(null);
+  const { trackPackEvent, trackAgentEvent, trackFunnelStep } = useAnalytics();
 
   useEffect(() => {
     supabase.from("pack_visibility").select("*").eq("pack_slug", packSlug || "").single()
       .then(({ data }) => { if (data) setPack(data); });
   }, [packSlug]);
+
+  // Track page view
+  useEffect(() => {
+    if (packSlug) trackPackEvent(packSlug, "page_view");
+  }, [packSlug, trackPackEvent]);
 
   const agents = PACK_AGENTS[packSlug || ""] || [];
   const IconComp = ICON_MAP[pack?.icon || "briefcase"] || Briefcase;
