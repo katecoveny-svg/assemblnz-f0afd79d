@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import {
   MessageSquare, Send, Menu, X, ArrowLeft, User, LogIn, ChevronRight,
-  Settings2, Mic, Phone, BookOpen, FileText, Sparkles, LayoutGrid,
+  Settings2, Mic, Phone, BookOpen, FileText, Sparkles, LayoutGrid, ShieldAlert,
 } from "lucide-react";
 import { agents } from "@/data/agents";
 import { agentCapabilities } from "@/data/agentCapabilities";
