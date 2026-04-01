@@ -2,15 +2,13 @@ import { motion } from "framer-motion";
 import { User, Shield, Brain, Search, Lock, Database, GitBranch, Cpu, FileText, HardDrive, ArrowDown } from "lucide-react";
 
 const PIPELINE_STEPS = [
-  { step: "01", label: "USER", desc: "Sends request from Kanohi dashboard or chat", icon: User, color: "hsl(var(--foreground))" },
-  { step: "02", label: "KANOHI", desc: "Bilingual dashboard — parses intent & language", icon: Search, color: "hsl(var(--kowhai))" },
-  { step: "03", label: "MANA", desc: "Access control — role, tenant, usage limits verified", icon: Shield, color: "hsl(var(--pounamu))" },
-  { step: "04", label: "IHO", desc: "Brain & router — classifies intent, selects agent", icon: Brain, color: "hsl(var(--kowhai))" },
-  { step: "05", label: "KAHU", desc: "Compliance guardian — PII masking, Privacy Act 2020", icon: Lock, color: "hsl(var(--pounamu))" },
-  { step: "06", label: "MODEL ROUTER", desc: "Selects AI model — Gemini (speed) or Claude (logic)", icon: GitBranch, color: "hsl(var(--kowhai-light))" },
-  { step: "07", label: "AI MODEL", desc: "Processes request via selected model", icon: Cpu, color: "hsl(var(--pounamu-light))" },
-  { step: "08", label: "TĀ", desc: "Audit trail — logs tokens, cost, compliance status", icon: FileText, color: "hsl(var(--tangaroa-light))" },
-  { step: "09", label: "MAHARA", desc: "Business memory — stores context for future sessions", icon: HardDrive, color: "hsl(var(--tangaroa-light))" },
+  { step: "01", label: "KANOHI", subtitle: "Dashboard", desc: "Bilingual interface — parses intent, language detection, and surfaces the right tools.", icon: Search, color: "hsl(var(--kowhai))" },
+  { step: "02", label: "MANA", subtitle: "Access Control", desc: "Role-based permissions, tenant isolation, and usage limits — verified before every request.", icon: Shield, color: "hsl(var(--pounamu))" },
+  { step: "03", label: "IHO", subtitle: "Brain & Router", desc: "Central intelligence — classifies intent across 45 specialist tools and selects the right agent.", icon: Brain, color: "hsl(var(--kowhai))" },
+  { step: "04", label: "KAHU", subtitle: "Compliance", desc: "PII masking, data classification, and Privacy Act 2020 enforcement on every query.", icon: Lock, color: "hsl(var(--pounamu))" },
+  { step: "05", label: "MODEL ROUTER", subtitle: "AI Selection", desc: "Picks the optimal model per task — Gemini for speed, Claude for complex reasoning.", icon: GitBranch, color: "hsl(var(--kowhai-light))" },
+  { step: "06", label: "TĀ", subtitle: "Audit Trail", desc: "Every token, cost, and compliance decision logged — full transparency for your business.", icon: FileText, color: "hsl(var(--tangaroa-light))" },
+  { step: "07", label: "MAHARA", subtitle: "Memory", desc: "Persistent business context — your agents remember preferences, history, and decisions.", icon: HardDrive, color: "hsl(var(--tangaroa-light))" },
 ];
 
 const PipelineSection = () => (
