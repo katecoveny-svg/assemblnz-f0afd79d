@@ -197,14 +197,13 @@ const Index = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { icon: Building2, stat: "605,000", label: "NZ enterprises" },
-              { icon: Scale, stat: "97%", label: "are small enterprises" },
-              { icon: ShieldAlert, stat: "$4.2B", label: "professional services spend" },
+              { stat: "605,000", label: "NZ enterprises" },
+              { stat: "97%", label: "are small enterprises" },
+              { stat: "$4.2B", label: "professional services spend" },
             ].map((c, i) => (
               <motion.div key={c.label} className="rounded-2xl p-6 text-center card-glow-hover" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 20px rgba(212,168,67,0.06), 0 4px 20px rgba(0,0,0,0.3)" }}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }}>
-                <c.icon size={24} className="mx-auto mb-3" style={{ color: "#D4A843" }} />
-                <p className="text-2xl font-light mb-1" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{c.stat}</p>
+                <p className="text-2xl font-light mb-1" style={{ fontFamily: "'Lato', sans-serif", color: "#D4A843" }}>{c.stat}</p>
                 <p className="text-xs" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.45)" }}>{c.label}</p>
               </motion.div>
             ))}
