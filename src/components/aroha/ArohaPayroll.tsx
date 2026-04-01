@@ -137,7 +137,7 @@ export default function ArohaPayroll() {
               <div className="flex justify-between"><span className="text-muted-foreground">PAYE Tax</span><span className="text-foreground">-${Math.round(paye).toLocaleString()}</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">ACC Earner Levy (~1.53%)</span><span className="text-foreground">-${Math.round(accLevy).toLocaleString()}</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">KiwiSaver ({ksRate}%)</span><span className="text-foreground">-${Math.round(ksEmployee).toLocaleString()}</span></div>
-              {hasStudentLoan && <div className="flex justify-between"><span className="text-muted-foreground">Student Loan (12% over $22,828)</span><span className="text-foreground">-${Math.round(studentLoan).toLocaleString()}</span></div>}
+              {hasStudentLoan && <div className="flex justify-between"><span className="text-muted-foreground">Student Loan (12% over $24,128)</span><span className="text-foreground">-${Math.round(studentLoan).toLocaleString()}</span></div>}
               {Number(childSupport) > 0 && <div className="flex justify-between"><span className="text-muted-foreground">Child Support</span><span className="text-foreground">-${Math.round(childSup).toLocaleString()}</span></div>}
               <div className="border-t border-border pt-1 mt-1 flex justify-between text-sm font-bold"><span className="text-foreground">Net Take-Home (annual)</span><span style={{ color: AROHA_COLOR }}>${Math.round(netAnnual).toLocaleString()}</span></div>
             </div>

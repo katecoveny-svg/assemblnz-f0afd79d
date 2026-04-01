@@ -435,7 +435,7 @@ export default function AtaBimDashboard() {
                   </div>
 
                   {/* Today marker */}
-                  <div className="absolute top-0 h-full w-px" style={{ left: `${(2 / 16) * 100}%`, background: "#D4A843", opacity: 0.5 }}>
+                  <div className="absolute top-0 h-full w-px" style={{ left: `${(3 / 16) * 100}%`, background: "#D4A843", opacity: 0.5 }}>
                     <div className="absolute -top-4 -translate-x-1/2 px-1.5 py-0.5 rounded text-[8px] font-mono" style={{ background: "#D4A843", color: "#09090F", fontFamily: "JetBrains Mono" }}>
                       Today
                     </div>
