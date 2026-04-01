@@ -203,7 +203,7 @@ const NexusLandingPage = () => {
           <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }} className="flex justify-center mb-8">
             <div className="relative">
               <div className="absolute inset-0 rounded-full blur-3xl opacity-20" style={{ background: NEXUS_COLOR }} />
-              <AgentAvatar agentId="customs" color={NEXUS_COLOR} size={120} />
+              <img src={assemblProfile} alt="Assembl" className="w-[120px] h-[120px] rounded-full" />
             </div>
           </motion.div>
 
