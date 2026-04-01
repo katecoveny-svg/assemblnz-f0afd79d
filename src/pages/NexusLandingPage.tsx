@@ -98,7 +98,7 @@ const NexusMiniChat = () => {
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
         >
           <div className="flex items-center gap-3 px-4 py-3 border-b border-border" style={{ background: `${NEXUS_COLOR}08` }}>
-            <AgentAvatar agentId="customs" color={NEXUS_COLOR} size={32} />
+            <img src={assemblProfile} alt="Assembl" className="w-8 h-8 rounded-full" />
             <div>
               <p className="text-sm font-display font-bold text-foreground">NEXUS</p>
               <p className="text-[10px] text-muted-foreground font-mono">Customs & Trade AI · Online</p>
