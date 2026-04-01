@@ -25,8 +25,7 @@ function FPSControls() {
   const locked = useRef(false);
 
   useEffect(() => {
-    // Auto-fit camera
-    const box = new THREE.Box3().setFromObject(gl.domElement.parentElement as unknown as THREE.Object3D);
+    // Set initial camera position
     camera.position.set(0, 1.7, 5);
 
     const onKeyDown = (e: KeyboardEvent) => { keys.current[e.code] = true; };
