@@ -119,37 +119,39 @@ const Index = () => {
       <BrandNav />
 
       {/* ═══ 1. HERO ═══ */}
-      <section className="relative z-0 flex flex-col items-center text-center px-6 sm:px-8 pt-20 sm:pt-28 pb-16">
+      <section className="relative flex flex-col items-center text-center px-6 sm:px-8 pt-16 sm:pt-20 pb-12" style={{ zIndex: 1 }}>
         {/* Subtle radial glow */}
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 30%, rgba(212,168,67,0.04) 0%, transparent 70%)" }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 30%, rgba(212,168,67,0.04) 0%, transparent 70%)", zIndex: 0 }} />
 
         {/* Matariki dots */}
         {[...Array(12)].map((_, i) => (
-          <div key={i} className="absolute rounded-full animate-pulse" style={{
+          <div key={i} className="absolute rounded-full animate-pulse pointer-events-none" style={{
             width: 2 + Math.random() * 2, height: 2 + Math.random() * 2,
             top: `${10 + Math.random() * 60}%`, left: `${5 + Math.random() * 90}%`,
             background: "#FFFFFF", opacity: 0.15 + Math.random() * 0.2,
             animationDelay: `${Math.random() * 4}s`, animationDuration: `${3 + Math.random() * 4}s`,
+            zIndex: 0,
           }} />
         ))}
 
-        <motion.h1 className="relative z-10 max-w-3xl" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: isMobile ? "1.75rem" : "3rem", lineHeight: 1.2, letterSpacing: "-0.01em" }}
+        <motion.h1 className="relative max-w-3xl" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: isMobile ? "1.75rem" : "3rem", lineHeight: 1.2, letterSpacing: "-0.01em", zIndex: 1 }}
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}>
           The operating system for{" "}<span style={{ color: "#D4A843" }}>NZ business.</span>
         </motion.h1>
 
-        <motion.p className="relative z-10 max-w-xl mt-5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isMobile ? "15px" : "17px", lineHeight: 1.7, color: "rgba(255,255,255,0.6)" }}
+        <motion.p className="relative max-w-xl mt-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isMobile ? "15px" : "17px", lineHeight: 1.7, color: "rgba(255,255,255,0.6)", zIndex: 1 }}
           initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}>
           One intelligence layer for quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa.
         </motion.p>
 
-        <motion.p className="relative z-10 max-w-md mt-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.38)" }}
+        <motion.p className="relative max-w-md mt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.38)", zIndex: 1 }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.45 }}>
           42 specialist AI agents across five industry packs. Built in New Zealand. Designed for real businesses.
         </motion.p>
 
         {/* Proof pills */}
-        <motion.div className="relative z-10 flex flex-wrap justify-center gap-2.5 mt-8"
+        <motion.div className="relative flex flex-wrap justify-center gap-2.5 mt-6"
+          style={{ zIndex: 1 }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.55 }}>
           {PROOF.map((p) => (
             <span key={p} className="px-3.5 py-1.5 rounded-full text-[11px]" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, background: "rgba(15,15,26,0.7)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.55)", letterSpacing: "0.03em" }}>
@@ -159,7 +161,8 @@ const Index = () => {
         </motion.div>
 
         {/* CTAs */}
-        <motion.div className="relative z-10 flex flex-col sm:flex-row gap-3 mt-10"
+        <motion.div className="relative flex flex-col sm:flex-row gap-3 mt-8"
+          style={{ zIndex: 1 }}
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.65 }}>
           <a href="#founding-pilots" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, background: "#D4A843", color: "#09090F" }}>
             Book a founding pilot <ArrowRight size={16} />
@@ -170,7 +173,7 @@ const Index = () => {
         </motion.div>
 
         {/* Scroll indicator */}
-        <motion.button onClick={scrollToPacks} className="mt-14" style={{ color: "rgba(255,255,255,0.25)" }}
+        <motion.button onClick={scrollToPacks} className="mt-10" style={{ color: "rgba(255,255,255,0.25)", zIndex: 1 }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}>
           <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}>
             <ChevronDown size={24} />

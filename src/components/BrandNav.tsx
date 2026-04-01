@@ -61,7 +61,7 @@ const BrandNav = () => {
   return (
     <>
       <header
-        className="sticky top-0 z-50 flex items-center gap-3 px-5 sm:px-8 py-3.5"
+        className="sticky top-0 z-[9999] flex items-center gap-3 px-5 sm:px-8 py-3.5"
         style={{
           background: "rgba(9,9,15,0.85)",
           backdropFilter: "blur(24px)",
