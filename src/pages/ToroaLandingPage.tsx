@@ -3,11 +3,7 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import SEO from "@/components/SEO";
 import { toast } from "sonner";
-import {
-  ChevronDown, MessageSquare, Shield, Smartphone, Clock, Camera,
-  CalendarDays, ShoppingCart, Bus, CloudSun, Lock, Youtube,
-  Utensils, Backpack, Bell, Sparkles,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import toroaLogo from "@/assets/brand/toroa-logo.svg";
 
 const fadeUp = {
