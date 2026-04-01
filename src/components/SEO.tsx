@@ -9,7 +9,7 @@ interface SEOProps {
 }
 
 const BASE_URL = "https://www.assembl.co.nz";
-const DEFAULT_IMAGE = "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/02d577a6-1958-4a9a-ae88-30380a772d66/id-preview-3b0a82c6--ce913908-f76e-422f-bdae-2fccb76920c3.lovable.app-1773969756162.png";
+const DEFAULT_IMAGE = "https://www.assembl.co.nz/assembl-og.png";
 
 const SEO = ({
   title,

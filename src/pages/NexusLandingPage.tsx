@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Ship, Package, Shield, FileText, Send, Bot, Loader2, Mic, Globe, Calculator } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
+import assemblProfile from "@/assets/brand/assembl-profile.png";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import VoiceAgentModal from "@/components/VoiceAgentModal";
