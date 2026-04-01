@@ -381,7 +381,7 @@ const Index = () => {
             <Body className="mb-8">
               Tōroa is our standalone SMS-first family AI navigator for Aotearoa — designed for whānau, everyday coordination, and practical support.
             </Body>
-            <Link to="/toroa" className="inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full" style={{ fontFamily: "'Lato', sans-serif", border: "1px solid rgba(212,168,67,0.3)", color: "#D4A843" }}>
+            <Link to="/toroa" className="cta-glass-outline inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full">
               Visit Tōroa <ArrowRight size={16} />
             </Link>
           </motion.div>
