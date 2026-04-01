@@ -4,55 +4,17 @@ import {
   Lock, Fingerprint, Download, Activity
 } from "lucide-react";
 
+const GOLD = "#D4A843";
+
 const FEATURES = [
-  {
-    icon: Brain,
-    title: "Intent Classification",
-    desc: "Automatically detects which industry pack and agent is needed. Keyword matching, pattern recognition, and confidence scoring.",
-    color: "hsl(var(--kowhai))",
-  },
-  {
-    icon: Users,
-    title: "45 Specialist Agents",
-    desc: "Across 5 industry packs — each with specific skills, preferred AI model, and deep NZ expertise. Extensible for future agents.",
-    color: "hsl(var(--pounamu))",
-  },
-  {
-    icon: GitBranch,
-    title: "Model Routing",
-    desc: "Gemini for speed and multimodal. Claude for reasoning, compliance, and code. Cost-aware routing optimises every request.",
-    color: "hsl(var(--kowhai-light))",
-  },
-  {
-    icon: Shield,
-    title: "Privacy & Compliance",
-    desc: "PII detection for emails, IRD numbers, bank accounts. Privacy Act 2020 compliance across all 13 IPPs plus new IPP 3A.",
-    color: "hsl(var(--pounamu))",
-  },
-  {
-    icon: FileText,
-    title: "Audit Logging",
-    desc: "Every request logged — user, agent, model, tokens, cost, and compliance outcome. CSV export for external analysis.",
-    color: "hsl(var(--tangaroa-light))",
-  },
-  {
-    icon: Database,
-    title: "Business Memory",
-    desc: "Stores conversation context, project info, and preferences. Tag-based retrieval with age-based decay for relevance.",
-    color: "hsl(var(--tangaroa-light))",
-  },
-  {
-    icon: Lock,
-    title: "Access Control",
-    desc: "JWT authentication, 5 user roles (Admin to Trial), tenant isolation, and row-level security on every table.",
-    color: "hsl(var(--pounamu))",
-  },
-  {
-    icon: Fingerprint,
-    title: "Tikanga Alignment",
-    desc: "Cultural sensitivity checks ensure every response respects Māori values, te reo macrons, and Aotearoa context.",
-    color: "hsl(var(--kowhai))",
-  },
+  { icon: Brain, title: "Intent Classification", desc: "Automatically detects which industry pack and agent is needed. Keyword matching, pattern recognition, and confidence scoring." },
+  { icon: Users, title: "45 Specialist Agents", desc: "Across 5 industry packs — each with specific skills, preferred AI model, and deep NZ expertise. Extensible for future agents." },
+  { icon: GitBranch, title: "Model Routing", desc: "Gemini for speed and multimodal. Claude for reasoning, compliance, and code. Cost-aware routing optimises every request." },
+  { icon: Shield, title: "Privacy & Compliance", desc: "PII detection for emails, IRD numbers, bank accounts. Privacy Act 2020 compliance across all 13 IPPs plus new IPP 3A." },
+  { icon: FileText, title: "Audit Logging", desc: "Every request logged — user, agent, model, tokens, cost, and compliance outcome. CSV export for external analysis." },
+  { icon: Database, title: "Business Memory", desc: "Stores conversation context, project info, and preferences. Tag-based retrieval with age-based decay for relevance." },
+  { icon: Lock, title: "Access Control", desc: "JWT authentication, 5 user roles (Admin to Trial), tenant isolation, and row-level security on every table." },
+  { icon: Fingerprint, title: "Tikanga Alignment", desc: "Cultural sensitivity checks ensure every response respects Māori values, te reo macrons, and Aotearoa context." },
 ];
 
 const KeyFeaturesSection = () => (
@@ -87,14 +49,14 @@ const KeyFeaturesSection = () => (
             {/* Top glow line */}
             <span
               className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-40 transition-opacity"
-              style={{ background: `linear-gradient(90deg, transparent, ${feat.color}, transparent)` }}
+              style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }}
             />
 
             <div
-              className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
-              style={{ background: `${feat.color}15` }}
+              className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+              style={{ background: `${GOLD}10`, boxShadow: `0 0 12px rgba(212,168,67,0.4)` }}
             >
-              <feat.icon size={16} style={{ color: feat.color }} />
+              <feat.icon size={32} style={{ color: GOLD, filter: `drop-shadow(0 0 6px rgba(212,168,67,0.5))` }} />
             </div>
 
             <h3 className="text-sm font-display font-light tracking-wide text-foreground mb-1.5">
