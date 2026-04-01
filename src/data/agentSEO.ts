@@ -29,8 +29,8 @@ export const agentSEO: Record<string, { title: string; description: string }> = 
     description: "Your club's re-registration under the Incorporated Societies Act 2022. The deadline is 5 April 2026. Fewer than half of NZ's clubs have done it. Gaming trust grant applications, coaching session plans, committee governance. Part of Assembl — the operating system for NZ business.",
   },
   operations: {
-    title: "TŌROA — Family Life Admin | School, Activities, Coparenting | Assembl",
-    description: "Family scheduling, school website scanning, homework help, activity management, coparenting coordination. Voice-powered. Safe for kids. $29/mo. Part of Assembl — the operating system for NZ business.",
+    title: "TŌROA — Family AI Navigator | SMS-first for Aotearoa",
+    description: "Family scheduling, school newsletter parsing, homework help, activity management, coparenting coordination. Voice-powered. SMS-first. $29/mo. A standalone product from Assembl.",
   },
   echo: {
     title: "ECHO — Your Front Desk That Never Sleeps | Assembl",
