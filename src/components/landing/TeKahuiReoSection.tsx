@@ -3,16 +3,17 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import toroaIcon from "@/assets/brand/toroa-hero.png";
 import { teKahuiReoMark, ihoIcon, kanohiIcon, manaIcon, maharaIcon } from "@/assets/brand";
+import { Shield, FileText, Activity, Bell } from "lucide-react";
 
-const TE_KAHUI_REO_AGENTS = [
-  { name: "IHO", desc: "Intelligent router & orchestrator", icon: ihoIcon },
-  { name: "KANOHI", desc: "Front-of-house interface", icon: kanohiIcon },
-  { name: "MANA", desc: "Access control & authentication", icon: manaIcon },
-  { name: "MAHARA", desc: "Memory & context engine", icon: maharaIcon },
-  { name: "KAHU", desc: "Compliance & privacy guardian", icon: null },
-  { name: "TĀ", desc: "Audit & billing logger", icon: null },
-  { name: "PŪNAHA", desc: "System health monitor", icon: null },
-  { name: "TOHU", desc: "Notification & alert system", icon: null },
+const TE_KAHUI_REO_AGENTS: Array<{ name: string; subtitle: string; desc: string; icon: string | null; fallbackIcon: React.ComponentType<{ size?: number; className?: string }> | null }> = [
+  { name: "IHO", subtitle: "Brain", desc: "Intelligent router & orchestrator", icon: ihoIcon, fallbackIcon: null },
+  { name: "KANOHI", subtitle: "Dashboard", desc: "Front-of-house interface", icon: kanohiIcon, fallbackIcon: null },
+  { name: "MANA", subtitle: "Access", desc: "Access control & authentication", icon: manaIcon, fallbackIcon: null },
+  { name: "MAHARA", subtitle: "Memory", desc: "Memory & context engine", icon: maharaIcon, fallbackIcon: null },
+  { name: "KAHU", subtitle: "Compliance", desc: "Compliance & privacy guardian", icon: null, fallbackIcon: Shield },
+  { name: "TĀ", subtitle: "Audit", desc: "Audit trail & billing logger", icon: null, fallbackIcon: FileText },
+  { name: "PŪNAHA", subtitle: "Health", desc: "System health monitor", icon: null, fallbackIcon: Activity },
+  { name: "TOHU", subtitle: "Alerts", desc: "Notification & alert system", icon: null, fallbackIcon: Bell },
 ];
 
 const TeKahuiReoSection = () => (
