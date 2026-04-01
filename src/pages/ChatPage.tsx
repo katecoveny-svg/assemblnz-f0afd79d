@@ -2391,8 +2391,8 @@ const ChatPage = () => {
           )}
 
           {/* Input Bar */}
-          <form onSubmit={handleSubmit} className="px-4 py-3 border-t border-border shrink-0">
-            <div className="max-w-2xl mx-auto flex gap-2 items-center">
+          <form onSubmit={handleSubmit} className="px-3 py-2.5 shrink-0" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+            <div className="max-w-2xl mx-auto flex gap-1.5 items-center rounded-2xl px-2 py-1" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
               {/* ARC / PRISM: dedicated image upload for 3D */}
               {(isArc || isPrism) && (
                 <>
