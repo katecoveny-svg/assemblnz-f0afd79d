@@ -220,45 +220,46 @@ const PackGrid = () => {
 
         {/* Full-width standalone products */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
-          {/* Te Kāhui Reo */}
-          <motion.div
-            className="relative rounded-xl p-5 group"
-            style={{
-              background: "rgba(15, 15, 26, 0.8)",
-              backdropFilter: "blur(12px)",
-              border: "2px solid rgba(255,255,255,0.08)",
-              transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-            }}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            whileHover={{
-              borderColor: "rgba(212,168,67,0.3)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-            }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 shrink-0" style={{ filter: "drop-shadow(0 0 8px rgba(212,168,67,0.3))" }}>
-                <svg viewBox="0 0 30 30" className="w-full h-full">
-                  <circle cx="10" cy="15" r="3" fill="#D4A843" />
-                  <circle cx="20" cy="15" r="3" fill="#3A7D6E" />
-                  <circle cx="15" cy="25" r="3" fill="#1A3A5C" />
-                  <line x1="10" y1="15" x2="20" y2="15" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
-                  <line x1="20" y1="15" x2="15" y2="25" stroke="#3A7D6E" strokeWidth="1" opacity="0.5" />
-                  <line x1="15" y1="25" x2="10" y2="15" stroke="#1A3A5C" strokeWidth="1" opacity="0.5" />
-                </svg>
+          <Link to="#te-kahui-reo" className="block">
+            <motion.div
+              className="relative rounded-xl p-5 group"
+              style={{
+                background: "rgba(15, 15, 26, 0.8)",
+                backdropFilter: "blur(12px)",
+                border: "2px solid rgba(255,255,255,0.08)",
+                transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              whileHover={{
+                borderColor: "rgba(212,168,67,0.3)",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
+              }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 shrink-0" style={{ filter: "drop-shadow(0 0 8px rgba(212,168,67,0.3))" }}>
+                  <svg viewBox="0 0 30 30" className="w-full h-full">
+                    <circle cx="10" cy="15" r="3" fill="#D4A843" />
+                    <circle cx="20" cy="15" r="3" fill="#3A7D6E" />
+                    <circle cx="15" cy="25" r="3" fill="#1A3A5C" />
+                    <line x1="10" y1="15" x2="20" y2="15" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
+                    <line x1="20" y1="15" x2="15" y2="25" stroke="#3A7D6E" strokeWidth="1" opacity="0.5" />
+                    <line x1="15" y1="25" x2="10" y2="15" stroke="#1A3A5C" strokeWidth="1" opacity="0.5" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-display text-sm tracking-[3px] uppercase text-foreground" style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif" }}>
+                    Te Kāhui Reo
+                  </h3>
+                  <p className="text-[11px] font-body text-muted-foreground mt-0.5">
+                    8 Māori Business Intelligence Agents · Bilingual · Tikanga-governed
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-display text-sm tracking-[3px] uppercase text-foreground" style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif" }}>
-                  Te Kāhui Reo
-                </h3>
-                <p className="text-[11px] font-body text-muted-foreground mt-0.5">
-                  8 Māori Business Intelligence Agents · Bilingual · Tikanga-governed
-                </p>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </Link>
 
           {/* Tōroa */}
           <motion.div
