@@ -239,8 +239,8 @@ export default function ArohaPayroll() {
               {meetsMinWage ? <NeonCheckmark size={18} color="#5AADA0" /> : <AlertCircle size={18} style={{ color: AROHA_COLOR }} />}
               <span className="text-sm font-bold" style={{ color: meetsMinWage ? "#5AADA0" : AROHA_COLOR }}>{meetsMinWage ? "Compliant" : "Below Minimum Wage"}</span>
             </div>
-            <p className="text-[10px] text-muted-foreground">Effective hourly rate: <strong className="text-foreground">${effectiveRate.toFixed(2)}/hour</strong> (minimum: $23.95/hour)</p>
-            {!meetsMinWage && <p className="text-[10px] mt-1" style={{ color: AROHA_COLOR }}>This rate is ${(23.95 - effectiveRate).toFixed(2)}/hour below the adult minimum wage. Increase pay to at least ${(23.95 * Number(mwHours) * (mwPeriod === "fortnightly" ? 2 : 1)).toFixed(2)} gross per {mwPeriod === "fortnightly" ? "fortnight" : "week"}.</p>}
+            <p className="text-[10px] text-muted-foreground">Effective hourly rate: <strong className="text-foreground">${effectiveRate.toFixed(2)}/hour</strong> (minimum: $23.65/hour)</p>
+            {!meetsMinWage && <p className="text-[10px] mt-1" style={{ color: AROHA_COLOR }}>This rate is ${(23.65 - effectiveRate).toFixed(2)}/hour below the adult minimum wage. Increase pay to at least ${(23.65 * Number(mwHours) * (mwPeriod === "fortnightly" ? 2 : 1)).toFixed(2)} gross per {mwPeriod === "fortnightly" ? "fortnight" : "week"}.</p>}
           </div>
         </div>
       )}
