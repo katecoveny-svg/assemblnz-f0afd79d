@@ -70,8 +70,14 @@ const LivePacksHero = () => (
           >
             <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-40 transition-opacity duration-700" style={{ background: "linear-gradient(90deg, transparent, #D4A84370, transparent)" }} />
 
-            <div className="w-11 h-11 rounded-xl mb-4 flex items-center justify-center" style={{ background: "rgba(212,168,67,0.1)", border: "1px solid rgba(212,168,67,0.15)" }}>
-              <pack.icon size={20} style={{ color: "#D4A843" }} />
+            <div className="w-11 h-11 rounded-xl mb-4 flex items-center justify-center overflow-hidden" style={{ background: "rgba(212,168,67,0.1)", border: "1px solid rgba(212,168,67,0.15)" }}>
+              {pack.slug === "toroa" ? (
+                <img src={toroaIcon} alt="Tōroa" className="w-7 h-7 object-contain" />
+              ) : (
+                <div className="w-7 h-7" style={{ filter: "drop-shadow(0 0 6px rgba(212,168,67,0.3))" }}>
+                  {CONSTELLATION_MARKS[pack.slug]}
+                </div>
+              )}
             </div>
 
             <h3 className="text-base font-bold mb-0.5" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{pack.name}</h3>
