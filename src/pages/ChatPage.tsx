@@ -2514,21 +2514,19 @@ const ChatPage = () => {
 
               <input
                 ref={inputRef} type="text" value={input} onChange={(e) => setInput(e.target.value)}
-                placeholder={isArc && pendingImage ? "Describe the building, or send to generate from image..." : isToroa ? (isListening ? "Listening..." : "Ask TŌROA anything — meals, budgets, schedules, life admin...") : isNexus ? "Ask NEXUS or upload a document..." : `Ask ${agent.name} anything...`}
-                className="flex-1 bg-card border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 focus:ring-offset-background focus:border-foreground/10 transition-colors"
+                placeholder={isArc && pendingImage ? "Describe the building..." : isToroa ? (isListening ? "Listening..." : "Ask TŌROA anything...") : isNexus ? "Ask NEXUS or upload..." : `Message ${agent.name}...`}
+                className="flex-1 bg-transparent border-none rounded-xl px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none transition-colors"
                 aria-label={`Message ${agent.name}`}
                 onKeyDown={(e) => { if (e.key === "Escape") inputRef.current?.blur(); }}
               />
               <button type="submit" disabled={(!input.trim() && !pendingImage && !pendingFile) || isLoading || isUploading}
-                className="px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 disabled:opacity-30"
+                className="p-2 rounded-xl font-medium text-sm transition-all duration-200 disabled:opacity-20"
                 style={{
                   backgroundColor: input.trim() || pendingImage || pendingFile ? agent.color : "transparent",
                   color: input.trim() || pendingImage || pendingFile ? "#0A0A14" : agent.color,
-                  border: `1px solid ${input.trim() || pendingImage || pendingFile ? agent.color : agent.color + "30"}`,
-                  boxShadow: input.trim() || pendingImage || pendingFile ? `0 0 16px ${agent.color}30` : "none",
                 }}
               >
-                <Send size={16} />
+                <Send size={18} />
               </button>
               {/* Voice Agent button */}
               <button
