@@ -223,6 +223,16 @@ export default function ToroaLandingPage() {
     if (error) { toast.error("Something went wrong — please try again"); return; }
     setDone(true);
     setCount((c) => (c ?? 0) + 1);
+    // Notify admin
+    supabase.functions.invoke("send-contact-email", {
+      body: { name: firstName.trim() || "Tōroa Waitlist", email: email.trim(), message: `New Tōroa beta waitlist signup. Pain point: ${painPoint || "Not specified"}` },
+    }).catch(console.error);
+    // Also store in contact_submissions for admin dashboard
+    supabase.from("contact_submissions").insert({
+      name: firstName.trim() || "Tōroa Waitlist",
+      email: email.trim(),
+      message: `Tōroa beta waitlist signup. Pain point: ${painPoint || "Not specified"}`,
+    }).then(() => {}).catch(console.error);
   };
 
   const inputStyle = {
