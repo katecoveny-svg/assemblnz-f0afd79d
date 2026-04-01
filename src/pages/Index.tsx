@@ -295,7 +295,7 @@ const Index = () => {
             {DIFFS.map((d, i) => (
               <motion.div key={d.title} className="rounded-2xl p-7 card-glow-hover" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 20px rgba(58,125,110,0.05), 0 4px 20px rgba(0,0,0,0.3)" }}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5 }}>
-                <d.icon size={22} className="mb-4" style={{ color: "#3A7D6E" }} />
+                <img src={d.mark} alt="" className="w-6 h-6 mb-4 opacity-70" />
                 <h3 className="text-sm font-medium mb-2" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{d.title}</h3>
                 <Body>{d.body}</Body>
               </motion.div>
