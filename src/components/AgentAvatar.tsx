@@ -26,13 +26,20 @@ const AgentAvatar = ({ agentId, color, size = 40, showGlow = true }: AgentAvatar
   const br  = { x: 28, y: 26 };
 
   return (
-    <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
+    <div
+      className="relative flex items-center justify-center brand-icon-3d"
+      style={{ width: size, height: size }}
+    >
+      {/* Outer glow halo */}
       {showGlow && (
         <div
-          className="absolute inset-[-7px] rounded-full blur-xl"
+          className="absolute rounded-full"
           style={{
-            background: `radial-gradient(circle, ${hexToRgba(color, 0.4)}, transparent 72%)`,
-            opacity: 0.5,
+            inset: -8,
+            background: `radial-gradient(circle, ${hexToRgba(color, 0.35)}, transparent 70%)`,
+            opacity: 0.6,
+            filter: "blur(8px)",
+            pointerEvents: "none",
           }}
         />
       )}
@@ -42,17 +49,37 @@ const AgentAvatar = ({ agentId, color, size = 40, showGlow = true }: AgentAvatar
         style={{
           width: size,
           height: size,
-          background: `radial-gradient(circle at 40% 35%, ${hexToRgba(color, 0.12)}, ${hexToRgba(color, 0.04)} 60%, transparent)`,
+          background: `
+            linear-gradient(145deg, ${hexToRgba(color, 0.16)} 0%, ${hexToRgba(color, 0.04)} 100%)
+          `,
           border: `1.5px solid ${borderColor}`,
-          boxShadow: `0 0 14px ${glowColor}, 0 0 28px ${secondaryGlowColor}`,
+          boxShadow: `
+            0 0 18px ${glowColor},
+            0 0 36px ${secondaryGlowColor},
+            inset 0 1px 1px rgba(255,255,255,0.08),
+            0 6px 20px rgba(0,0,0,0.35)
+          `,
         }}
       >
+        {/* Top highlight reflection */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "15%",
+            right: "15%",
+            height: "1px",
+            background: `linear-gradient(90deg, transparent, ${hexToRgba(color, 0.5)}, transparent)`,
+            borderRadius: "1px",
+          }}
+        />
+
         <svg
           width={size * 0.62}
           height={size * 0.62}
           viewBox="0 0 36 36"
           fill="none"
-          style={{ filter: `drop-shadow(0 0 6px ${glowColor})` }}
+          style={{ filter: `drop-shadow(0 0 8px ${glowColor})` }}
         >
           <defs>
             <radialGradient id={`av-g-${agentId}`} cx="40%" cy="35%" r="50%">
