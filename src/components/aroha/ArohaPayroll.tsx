@@ -84,7 +84,7 @@ export default function ArohaPayroll() {
   const mwTotalPay = Number(mwPay);
   const mwTotalHours = Number(mwHours) * (mwPeriod === "fortnightly" ? 2 : 1);
   const effectiveRate = mwPeriod === "fortnightly" ? mwTotalPay / mwTotalHours : mwTotalPay / Number(mwHours);
-  const meetsMinWage = effectiveRate >= 23.95;
+  const meetsMinWage = effectiveRate >= 23.65;
 
   const tabs = [
     { id: "pay" as const, label: "Pay Calculator", icon: <Calculator size={10} /> },
