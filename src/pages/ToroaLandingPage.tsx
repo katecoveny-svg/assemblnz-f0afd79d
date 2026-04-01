@@ -64,9 +64,9 @@ const MORE_FEATURES = [
 ];
 
 const SMS_REASONS = [
-  { title: "No app friction", desc: "No downloads, no logins, no updates. Just text." },
-  { title: "Easy for busy families", desc: "Works while you're cooking dinner, waiting at sports, or on the school run." },
-  { title: "Accessible and immediate", desc: "Everyone has SMS. Every phone. Every age group. Instant." },
+  { icon: Smartphone, title: "No app friction", desc: "No downloads, no logins, no updates. Just text.", color: "#3A7D6E" },
+  { icon: MessageSquare, title: "Easy for busy families", desc: "Works while you're cooking dinner, waiting at sports, or on the school run.", color: "#D4A843" },
+  { icon: Globe, title: "Accessible and immediate", desc: "Everyone has SMS. Every phone. Every age group. Instant.", color: "#3A7D6E" },
 ];
 
 const FAQS = [
