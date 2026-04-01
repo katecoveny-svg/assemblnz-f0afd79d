@@ -7255,11 +7255,12 @@ Deno.serve(async (req) => {
   resource: "construction",
   consent: "construction",
   quality: "construction",
-   copywriting: "marketing", // MUSE → PRISM
-   design: "marketing",
-   video: "marketing",
-   experiential: "marketing",
-   techwriting: "marketing",
+   copywriting: "copywriting",    // MUSE — dedicated copywriting agent
+   design: "design",              // PIXEL — dedicated design agent
+   video: "video",                // VERSE — dedicated video agent
+   experiential: "experiential",  // CANVAS — dedicated experience agent
+   social: "socialmedia",         // REEL — social media (avoid conflict with lifestyle SOCIAL)
+   techwriting: "techwriting",    // QUILL — dedicated tech writing agent
    podcast: "podcast",       // KŌRERO — dedicated podcast agent
   brandstrategy: "sports",  // TURF
   strategy: "legal",        // SAGE → ANCHOR
