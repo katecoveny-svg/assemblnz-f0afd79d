@@ -11,14 +11,15 @@ interface CheckResult {
   status: "ok" | "error";
   response_time_ms: number;
   error_message?: string;
+  category?: string;
 }
 
 async function checkService(
   name: string,
   url: string,
-  options: { timeout?: number; method?: string; headers?: Record<string, string>; treatAuthAsOk?: boolean } = {}
+  options: { timeout?: number; method?: string; headers?: Record<string, string>; treatAuthAsOk?: boolean; category?: string } = {}
 ): Promise<CheckResult> {
-  const { timeout = 10000, method = "GET", headers = {}, treatAuthAsOk = false } = options;
+  const { timeout = 10000, method = "GET", headers = {}, treatAuthAsOk = false, category = "core" } = options;
   const start = Date.now();
   try {
     const controller = new AbortController();
@@ -26,20 +27,17 @@ async function checkService(
     const res = await fetch(url, { method, signal: controller.signal, headers });
     clearTimeout(timer);
     const elapsed = Date.now() - start;
-
-    // Consume body to avoid resource leak
     await res.text();
 
     if (res.status >= 200 && res.status < 400) {
-      return { service_name: name, status: "ok", response_time_ms: elapsed };
+      return { service_name: name, status: "ok", response_time_ms: elapsed, category };
     }
-    // Treat 401/403 as "reachable" for auth-protected services
     if (treatAuthAsOk && (res.status === 401 || res.status === 403 || res.status === 405)) {
-      return { service_name: name, status: "ok", response_time_ms: elapsed };
+      return { service_name: name, status: "ok", response_time_ms: elapsed, category };
     }
-    return { service_name: name, status: "error", response_time_ms: elapsed, error_message: `HTTP ${res.status}` };
+    return { service_name: name, status: "error", response_time_ms: elapsed, error_message: `HTTP ${res.status}`, category };
   } catch (err) {
-    return { service_name: name, status: "error", response_time_ms: Date.now() - start, error_message: err.message };
+    return { service_name: name, status: "error", response_time_ms: Date.now() - start, error_message: (err as Error).message, category };
   }
 }
 
@@ -54,23 +52,51 @@ Deno.serve(async (req) => {
     const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const supabase = createClient(supabaseUrl, serviceRoleKey);
 
+    // Core services
     const checks = await Promise.all([
-      checkService("assembl_website", "https://assemblnz.lovable.app"),
+      checkService("assembl_website", "https://assemblnz.lovable.app", { category: "frontend" }),
       checkService("supabase_api", `${supabaseUrl}/rest/v1/`, {
         headers: { apikey: anonKey, Authorization: `Bearer ${anonKey}` },
         treatAuthAsOk: true,
+        category: "core",
       }),
       checkService("chat_function", `${supabaseUrl}/functions/v1/chat`, {
         method: "OPTIONS",
         timeout: 8000,
         treatAuthAsOk: true,
+        category: "ai",
+      }),
+      checkService("stitch_generate", `${supabaseUrl}/functions/v1/stitch-generate`, {
+        method: "OPTIONS",
+        timeout: 8000,
+        treatAuthAsOk: true,
+        category: "ai",
       }),
       checkService("elevenlabs_api", "https://api.elevenlabs.io/v1/voices", {
         headers: { "xi-api-key": Deno.env.get("ELEVENLABS_API_KEY") || "" },
         treatAuthAsOk: true,
+        category: "voice",
+      }),
+      // Payment
+      checkService("stripe_api", "https://api.stripe.com/v1/products", {
+        headers: { Authorization: `Bearer ${Deno.env.get("STRIPE_SECRET_KEY") || ""}` },
+        treatAuthAsOk: true,
+        category: "payment",
+      }),
+      // SMS/Comms
+      checkService("tnz_api", Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz", {
+        treatAuthAsOk: true,
+        category: "comms",
+      }),
+      // AI Gateway (Lovable AI)
+      checkService("lovable_ai_gateway", "https://ai-gateway.lovable.app/api/chat/completions", {
+        method: "OPTIONS",
+        treatAuthAsOk: true,
+        category: "ai",
       }),
     ]);
 
+    // Store results
     const rows = checks.map((c) => ({
       service_name: c.service_name,
       status: c.status,
@@ -79,30 +105,68 @@ Deno.serve(async (req) => {
     }));
     await supabase.from("health_checks").insert(rows);
 
+    // Identify failures
     const failures = checks.filter((c) => c.status === "error");
+
+    // Send email alert for ANY failures
     if (failures.length > 0) {
       const brevoKey = Deno.env.get("BREVO_API_KEY");
       if (brevoKey) {
-        const failDetails = failures.map((f) => `- ${f.service_name}: ${f.error_message} (${f.response_time_ms}ms)`).join("\n");
+        const severityMap: Record<string, string> = {
+          payment: "🔴 CRITICAL",
+          ai: "🟠 HIGH",
+          core: "🔴 CRITICAL",
+          frontend: "🟡 MEDIUM",
+          voice: "🟡 MEDIUM",
+          comms: "🟠 HIGH",
+        };
+
+        const failDetails = failures.map((f) => {
+          const sev = severityMap[f.category || "core"] || "⚪ INFO";
+          return `<tr><td style="padding:8px;border-bottom:1px solid #1a1a2e">${sev}</td><td style="padding:8px;border-bottom:1px solid #1a1a2e;font-weight:bold">${f.service_name}</td><td style="padding:8px;border-bottom:1px solid #1a1a2e;color:#ef4444">${f.error_message}</td><td style="padding:8px;border-bottom:1px solid #1a1a2e">${f.response_time_ms}ms</td></tr>`;
+        }).join("");
+
+        const criticalCount = failures.filter(f => ["payment", "core"].includes(f.category || "")).length;
+        const subject = criticalCount > 0
+          ? `🚨 CRITICAL: ${criticalCount} critical service(s) down — ${failures.length} total failures`
+          : `⚠️ ALERT: ${failures.length} service(s) degraded`;
+
         await fetch("https://api.brevo.com/v3/smtp/email", {
           method: "POST",
           headers: { "api-key": brevoKey, "Content-Type": "application/json" },
           body: JSON.stringify({
             sender: { name: "Assembl Health Monitor", email: "noreply@assembl.co.nz" },
             to: [{ email: "assembl@assembl.co.nz", name: "Assembl Team" }],
-            subject: `ALERT: ${failures.length} service(s) down`,
-            htmlContent: `<h2>Assembl Health Alert</h2><p>${failures.length} service(s) failed at ${new Date().toISOString()}:</p><pre>${failDetails}</pre><p>Check the admin health dashboard for details.</p>`,
+            subject,
+            htmlContent: `
+              <div style="font-family:Arial,sans-serif;background:#09090F;color:#E4E4EC;padding:24px;border-radius:12px">
+                <h2 style="color:#D4A843;margin-bottom:4px">Assembl Health Alert</h2>
+                <p style="color:#71717A;font-size:13px;margin-bottom:16px">${failures.length} service(s) failed at ${new Date().toISOString()}</p>
+                <table style="width:100%;border-collapse:collapse;font-size:13px">
+                  <thead><tr style="color:#71717A;border-bottom:2px solid #1a1a2e">
+                    <th style="text-align:left;padding:8px">Severity</th>
+                    <th style="text-align:left;padding:8px">Service</th>
+                    <th style="text-align:left;padding:8px">Error</th>
+                    <th style="text-align:left;padding:8px">Latency</th>
+                  </tr></thead>
+                  <tbody>${failDetails}</tbody>
+                </table>
+                <div style="margin-top:16px;padding:12px;background:#1a1a2e;border-radius:8px;font-size:12px">
+                  <p style="margin:0;color:#71717A"><strong style="color:#D4A843">Healthy services:</strong> ${checks.filter(c => c.status === "ok").map(c => c.service_name).join(", ") || "None"}</p>
+                </div>
+                <p style="margin-top:16px;font-size:11px;color:#52525B">Check the <a href="https://assemblnz.lovable.app/admin/health" style="color:#D4A843">admin health dashboard</a> for details.</p>
+              </div>`,
           }),
         });
       }
     }
 
-    return new Response(JSON.stringify({ checks, failures: failures.length }), {
+    return new Response(JSON.stringify({ checks, failures: failures.length, timestamp: new Date().toISOString() }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
     console.error("Health check error:", err);
-    return new Response(JSON.stringify({ error: err.message }), {
+    return new Response(JSON.stringify({ error: (err as Error).message }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
