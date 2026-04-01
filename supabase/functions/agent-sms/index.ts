@@ -3,21 +3,17 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 /**
- * Generic Agent SMS Webhook
+ * Generic Agent SMS Webhook — TNZ edition.
  *
- * Routes incoming SMS to any Assembl agent based on the Twilio phone number.
- * Each agent can have its own Twilio number configured in agent_sms_config.
+ * Routes incoming SMS/WhatsApp to any Assembl agent based on the
+ * phone number configured in agent_sms_config.
  *
- * Twilio webhook URL format:
+ * TNZ inbound webhook URL:
  *   POST /functions/v1/agent-sms
- *
- * The function looks up which agent is assigned to the receiving Twilio number,
- * fetches that agent's system prompt from the chat function, and responds.
  */
 
 const SMS_BEHAVIOUR = `\n\nSMS RULES — You are responding via text message (SMS):
@@ -30,6 +26,31 @@ const SMS_BEHAVIOUR = `\n\nSMS RULES — You are responding via text message (SM
 - Use NZ English (colour, organise, etc.)
 - Current date/time: `;
 
+/** Send reply via TNZ API */
+async function sendViaTnz(to: string, message: string, reference: string): Promise<{ messageId?: string }> {
+  const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v3.00";
+  const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
+  if (!tnzToken) return {};
+
+  const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
+  const resp = await fetch(`${tnzBase}/sms`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${tnzToken}` },
+    body: JSON.stringify({
+      MessageData: {
+        Message: message,
+        Destinations: [{ Recipient: to }],
+        WebhookCallbackURL: webhookUrl,
+        WebhookCallbackFormat: "JSON",
+        Reference: reference,
+        SendMode: "Normal",
+      },
+    }),
+  });
+  const data = await resp.json();
+  return { messageId: data.Result === "Success" ? data.MessageID : undefined };
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -41,66 +62,63 @@ Deno.serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     const sb = createClient(supabaseUrl, serviceKey);
 
-    const contentType = req.headers.get("content-type") || "";
-    let body: Record<string, string> = {};
+    // Parse TNZ inbound payload
+    const payload = await req.json();
+    const fromNumber = payload.From || payload.from || payload.Sender || payload.sender || "";
+    const toNumber = payload.To || payload.to || payload.Destination || payload.destination || "";
+    const incomingBody = payload.Message || payload.message || payload.Body || payload.body || "";
+    const tnzMessageId = payload.MessageID || payload.messageId || "";
 
-    if (contentType.includes("application/x-www-form-urlencoded")) {
-      const formData = await req.formData();
-      for (const [key, value] of formData.entries()) {
-        body[key] = String(value);
-      }
-    } else {
-      body = await req.json();
+    if (!fromNumber || !incomingBody) {
+      return new Response(JSON.stringify({ ok: false, error: "Missing from/body" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    const incomingBody = body.Body || body.body || "";
-    const fromNumber = body.From || body.from || "";
-    const toNumber = body.To || body.to || "";
-    const messageSid = body.MessageSid || body.message_sid || "";
-
-    // === Handle opt-out ===
+    // Handle opt-out
     const upperBody = incomingBody.trim().toUpperCase();
     if (upperBody === "STOP" || upperBody === "UNSUBSCRIBE") {
-      return twimlResponse("You've been unsubscribed. Text START to re-subscribe anytime.");
+      await sendViaTnz(fromNumber, "You've been unsubscribed. Text START to re-subscribe anytime.", `assembl-optout-${crypto.randomUUID()}`);
+      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
     if (upperBody === "START" || upperBody === "SUBSCRIBE") {
-      return twimlResponse("Welcome back! Text anything to get started.");
+      await sendViaTnz(fromNumber, "Welcome back! Text anything to get started.", `assembl-optin-${crypto.randomUUID()}`);
+      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // === Look up which agent this Twilio number belongs to ===
+    // Look up which agent this number belongs to
     const { data: smsConfig } = await sb
       .from("agent_sms_config")
       .select("*")
-      .eq("twilio_phone_number", toNumber)
+      .eq("tnz_phone_number", toNumber)
       .eq("enabled", true)
       .single();
 
     if (!smsConfig) {
-      // Fallback: try to match without +country code normalization
+      // Fallback: try matching without formatting
       const cleanTo = toNumber.replace(/\D/g, "");
-      const { data: fallbackConfig } = await sb
+      const { data: allConfigs } = await sb
         .from("agent_sms_config")
         .select("*")
         .eq("enabled", true)
         .limit(50);
 
-      const matched = fallbackConfig?.find(
-        (c: any) => c.twilio_phone_number?.replace(/\D/g, "") === cleanTo
+      const matched = allConfigs?.find(
+        (c: any) => (c.tnz_phone_number || c.twilio_phone_number)?.replace(/\D/g, "") === cleanTo
       );
 
       if (!matched) {
-        return twimlResponse(
-          "This number is not currently configured. Please contact the business directly."
-        );
+        await sendViaTnz(fromNumber, "This number is not currently configured. Please contact the business directly.", `assembl-noagent-${crypto.randomUUID()}`);
+        return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
 
-      return await handleAgentSms(sb, matched, fromNumber, incomingBody, messageSid, LOVABLE_API_KEY, supabaseUrl);
+      return await handleAgentSms(sb, matched, fromNumber, incomingBody, tnzMessageId, LOVABLE_API_KEY, supabaseUrl);
     }
 
-    return await handleAgentSms(sb, smsConfig, fromNumber, incomingBody, messageSid, LOVABLE_API_KEY, supabaseUrl);
+    return await handleAgentSms(sb, smsConfig, fromNumber, incomingBody, tnzMessageId, LOVABLE_API_KEY, supabaseUrl);
   } catch (error) {
     console.error("Agent SMS webhook error:", error);
-    return twimlResponse("Something went wrong. Please try again.");
+    return new Response(JSON.stringify({ ok: false }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 });
 
@@ -109,7 +127,7 @@ async function handleAgentSms(
   config: any,
   fromNumber: string,
   incomingBody: string,
-  messageSid: string,
+  tnzMessageId: string,
   apiKey: string | undefined,
   supabaseUrl: string
 ): Promise<Response> {
@@ -123,11 +141,10 @@ async function handleAgentSms(
     phone_number: fromNumber,
     direction: "inbound",
     body: incomingBody,
-    twilio_sid: messageSid,
     status: "received",
   });
 
-  // Fetch recent conversation history for this phone + agent
+  // Fetch recent conversation history
   const { data: recentMessages } = await sb
     .from("agent_sms_messages")
     .select("direction, body, created_at")
@@ -144,7 +161,7 @@ async function handleAgentSms(
       content: m.body,
     }));
 
-  // Fetch agent system prompt from the chat function
+  // Fetch agent system prompt
   let systemPrompt = "";
   try {
     const promptResp = await fetch(`${supabaseUrl}/functions/v1/chat`, {
@@ -163,13 +180,12 @@ async function handleAgentSms(
     console.error("Failed to fetch agent prompt:", e);
   }
 
-  // Add SMS behaviour rules
   const nzTime = new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland" });
   const fullPrompt = systemPrompt + SMS_BEHAVIOUR + nzTime;
 
-  // Call AI
   if (!apiKey) {
-    return twimlResponse("This agent is temporarily unavailable. Please try again shortly.");
+    await sendViaTnz(fromNumber, "This agent is temporarily unavailable. Please try again shortly.", `assembl-unavail-${crypto.randomUUID()}`);
+    return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 
   let aiReply = "Sorry, I couldn't process that. Please try again.";
@@ -203,6 +219,10 @@ async function handleAgentSms(
     console.error("Agent SMS AI error:", aiErr);
   }
 
+  // Send reply via TNZ
+  const ref = `assembl-agent-${agentId}-${crypto.randomUUID()}`;
+  const sendResult = await sendViaTnz(fromNumber, aiReply, ref);
+
   // Log outbound
   await sb.from("agent_sms_messages").insert({
     user_id: userId,
@@ -210,29 +230,8 @@ async function handleAgentSms(
     phone_number: fromNumber,
     direction: "outbound",
     body: aiReply,
-    status: "sent",
+    status: sendResult.messageId ? "sent" : "failed",
   });
 
-  return twimlResponse(aiReply);
-}
-
-function twimlResponse(message: string): Response {
-  return new Response(
-    `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(message)}</Message></Response>`,
-    {
-      headers: {
-        ...corsHeaders,
-        "Content-Type": "text/xml",
-      },
-    }
-  );
-}
-
-function escapeXml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
+  return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
 }

@@ -6,6 +6,11 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+/**
+ * SMS Send — sends outbound SMS via TNZ Group API.
+ * Used by agent dashboards to send messages to customers.
+ */
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -14,18 +19,18 @@ Deno.serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const TWILIO_ACCOUNT_SID = Deno.env.get("TWILIO_ACCOUNT_SID");
-    const TWILIO_AUTH_TOKEN = Deno.env.get("TWILIO_AUTH_TOKEN");
+    const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v3.00";
+    const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
+    const tnzFrom = Deno.env.get("TNZ_FROM_NUMBER");
     const sb = createClient(supabaseUrl, serviceKey);
 
-    if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN) {
+    if (!tnzToken) {
       return new Response(
-        JSON.stringify({ error: "Twilio credentials not configured" }),
+        JSON.stringify({ error: "TNZ credentials not configured" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    // Authenticate — require service role or admin
     const authHeader = req.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -43,68 +48,59 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Look up Twilio number for this agent
-    const { data: phoneMapping } = await sb
-      .from("sms_phone_numbers")
-      .select("*")
-      .eq("agent_id", agent_id)
-      .eq("is_active", true)
-      .single();
+    // Send SMS via TNZ API
+    const ref = `assembl-agent-${agent_id}-${crypto.randomUUID()}`;
+    const webhookUrl = `${supabaseUrl}/functions/v1/tnz-webhook`;
 
-    if (!phoneMapping) {
-      return new Response(
-        JSON.stringify({ error: `No active Twilio number found for agent: ${agent_id}` }),
-        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    // Send SMS via Twilio REST API
-    const twilioUrl = `https://api.twilio.com/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Messages.json`;
-    const twilioAuth = btoa(`${TWILIO_ACCOUNT_SID}:${TWILIO_AUTH_TOKEN}`);
-
-    const smsResponse = await fetch(twilioUrl, {
+    const smsResponse = await fetch(`${tnzBase}/sms`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Basic ${twilioAuth}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${tnzToken}`,
       },
-      body: new URLSearchParams({
-        To: to,
-        From: phoneMapping.twilio_number,
-        Body: message.substring(0, 1600),
+      body: JSON.stringify({
+        MessageData: {
+          Message: message.substring(0, 1600),
+          Destinations: [{ Recipient: to }],
+          WebhookCallbackURL: webhookUrl,
+          WebhookCallbackFormat: "JSON",
+          Reference: ref,
+          SendMode: "Normal",
+        },
       }),
     });
 
     const smsData = await smsResponse.json();
 
-    if (!smsResponse.ok) {
-      console.error("Twilio send error:", smsData);
+    if (smsData.Result !== "Success") {
+      console.error("TNZ send error:", smsData);
       return new Response(
         JSON.stringify({ error: "Failed to send SMS", details: smsData }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    // Find or create conversation
+    // Find or create conversation in messaging_conversations
     const { data: existing } = await sb
-      .from("sms_conversations")
+      .from("messaging_conversations")
       .select("id")
       .eq("phone_number", to)
-      .eq("agent_id", agent_id)
+      .eq("channel", "sms")
+      .eq("status", "active")
       .single();
 
     let conversationId: string;
     if (existing) {
       conversationId = existing.id;
-      await sb.from("sms_conversations").update({ last_message_at: new Date().toISOString() }).eq("id", existing.id);
+      await sb.from("messaging_conversations").update({ updated_at: new Date().toISOString() }).eq("id", existing.id);
     } else {
       const { data: created } = await sb
-        .from("sms_conversations")
+        .from("messaging_conversations")
         .insert({
           phone_number: to,
-          agent_id: agent_id,
-          sms_phone_number_id: phoneMapping.id,
-          last_message_at: new Date().toISOString(),
+          channel: "sms",
+          status: "active",
+          assigned_agent: agent_id,
         })
         .select("id")
         .single();
@@ -112,16 +108,21 @@ Deno.serve(async (req) => {
     }
 
     // Store outbound message
-    await sb.from("sms_messages").insert({
+    await sb.from("messaging_messages").insert({
       conversation_id: conversationId,
+      tnz_message_id: smsData.MessageID || null,
       direction: "outbound",
+      to_number: to,
+      from_number: tnzFrom || "",
       body: message.substring(0, 1600),
-      twilio_sid: smsData.sid,
-      status: smsData.status || "sent",
+      channel: "sms",
+      status: "sent",
+      agent_used: agent_id,
+      tnz_reference: ref,
     });
 
     return new Response(
-      JSON.stringify({ success: true, sid: smsData.sid }),
+      JSON.stringify({ success: true, messageId: smsData.MessageID }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {

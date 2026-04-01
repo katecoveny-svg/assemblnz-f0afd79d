@@ -19,6 +19,35 @@ SMS RULES — You are responding via text message (SMS):
 - No emojis unless the user uses them first
 `;
 
+/** Send reply via TNZ API */
+async function sendViaTnz(channel: string, to: string, message: string, reference: string): Promise<{ messageId?: string }> {
+  const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v3.00";
+  const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
+  if (!tnzToken) return {};
+
+  const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
+  const resp = await fetch(`${tnzBase}/sms`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${tnzToken}` },
+    body: JSON.stringify({
+      MessageData: {
+        Message: message,
+        Destinations: [{ Recipient: to }],
+        WebhookCallbackURL: webhookUrl,
+        WebhookCallbackFormat: "JSON",
+        Reference: reference,
+        SendMode: "Normal",
+      },
+    }),
+  });
+  const data = await resp.json();
+  return { messageId: data.Result === "Success" ? data.MessageID : undefined };
+}
+
+/**
+ * SMS Webhook — handles inbound SMS via TNZ.
+ * Routes to the correct agent based on the receiving number.
+ */
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -32,50 +61,34 @@ Deno.serve(async (req) => {
 
     if (!LOVABLE_API_KEY) {
       console.error("LOVABLE_API_KEY not configured");
-      return new Response(
-        '<?xml version="1.0" encoding="UTF-8"?><Response><Message>Service temporarily unavailable.</Message></Response>',
-        { status: 200, headers: { "Content-Type": "text/xml" } }
-      );
+      return new Response(JSON.stringify({ ok: false }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Parse Twilio webhook payload
-    const contentType = req.headers.get("content-type") || "";
-    let body: Record<string, string> = {};
+    // Parse TNZ inbound payload
+    const payload = await req.json();
+    const fromNumber = payload.From || payload.from || payload.Sender || payload.sender || "";
+    const toNumber = payload.To || payload.to || payload.Destination || payload.destination || "";
+    const messageBody = payload.Message || payload.message || payload.Body || payload.body || "";
+    const tnzMessageId = payload.MessageID || payload.messageId || "";
 
-    if (contentType.includes("application/x-www-form-urlencoded")) {
-      const formData = await req.formData();
-      for (const [key, value] of formData.entries()) {
-        body[key] = String(value);
-      }
-    } else {
-      body = await req.json();
+    if (!fromNumber || !messageBody) {
+      return new Response(JSON.stringify({ ok: false, error: "Missing from/body" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    const fromNumber = body.From || "";
-    const toNumber = body.To || "";
-    const messageBody = body.Body || "";
-    const messageSid = body.MessageSid || "";
-
-    if (!fromNumber || !toNumber || !messageBody) {
-      return new Response(
-        '<?xml version="1.0" encoding="UTF-8"?><Response><Message>Invalid request.</Message></Response>',
-        { status: 200, headers: { "Content-Type": "text/xml" } }
-      );
-    }
-
-    // Look up which agent is assigned to this Twilio number
+    // Look up which agent is assigned to this number
     const { data: phoneMapping } = await sb
       .from("sms_phone_numbers")
       .select("*")
-      .eq("twilio_number", toNumber)
+      .eq("tnz_number", toNumber)
       .eq("is_active", true)
       .single();
 
     if (!phoneMapping) {
-      return new Response(
-        '<?xml version="1.0" encoding="UTF-8"?><Response><Message>This number is not currently active. Visit assembl.co.nz for help.</Message></Response>',
-        { status: 200, headers: { "Content-Type": "text/xml" } }
-      );
+      return new Response(JSON.stringify({ ok: true, message: "No agent for this number" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const agentId = phoneMapping.agent_id;
@@ -112,7 +125,7 @@ Deno.serve(async (req) => {
       conversation_id: conversation.id,
       direction: "inbound",
       body: messageBody,
-      twilio_sid: messageSid,
+      tnz_message_id: tnzMessageId,
       status: "received",
     });
 
@@ -124,7 +137,7 @@ Deno.serve(async (req) => {
       .order("created_at", { ascending: true })
       .limit(20);
 
-    // Get agent system prompt from chat function
+    // Get agent system prompt
     const chatUrl = `${supabaseUrl}/functions/v1/chat`;
     const promptRes = await fetch(chatUrl, {
       method: "POST",
@@ -139,15 +152,11 @@ Deno.serve(async (req) => {
     let systemPrompt = `You are ${agentName} from Assembl, a specialist business advisor for New Zealand.`;
     if (promptRes.ok) {
       const promptData = await promptRes.json();
-      if (promptData.systemPrompt) {
-        systemPrompt = promptData.systemPrompt;
-      }
+      if (promptData.systemPrompt) systemPrompt = promptData.systemPrompt;
     }
 
-    // Add SMS-specific instructions
     const fullSystemPrompt = systemPrompt + SMS_SYSTEM_ADDON + `\nCurrent date/time: ${new Date().toISOString()}`;
 
-    // Build conversation messages
     const isNewConversation = !history || history.length <= 1;
     const messages: Array<{ role: string; content: string }> = [];
 
@@ -160,7 +169,6 @@ Deno.serve(async (req) => {
       messages.push({ role: "system", content: fullSystemPrompt });
     }
 
-    // Add history as alternating messages
     if (history && history.length > 0) {
       for (const msg of history) {
         messages.push({
@@ -190,39 +198,31 @@ Deno.serve(async (req) => {
       reply = aiData.choices?.[0]?.message?.content || reply;
     }
 
-    // Truncate to SMS limit
-    if (reply.length > 1590) {
-      reply = reply.substring(0, 1587) + "...";
+    if (reply.length > 1500) {
+      reply = reply.substring(0, 1497) + "...";
     }
+
+    // Send reply via TNZ
+    const ref = `assembl-sms-${crypto.randomUUID()}`;
+    const sendResult = await sendViaTnz("sms", fromNumber, reply, ref);
 
     // Store outbound message
     await sb.from("sms_messages").insert({
       conversation_id: conversation.id,
       direction: "outbound",
       body: reply,
-      status: "sent",
+      tnz_message_id: sendResult.messageId || null,
+      status: sendResult.messageId ? "sent" : "failed",
     });
 
-    // Return TwiML response
-    const twiml = `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(reply)}</Message></Response>`;
-    return new Response(twiml, {
+    return new Response(JSON.stringify({ ok: true }), {
       status: 200,
-      headers: { "Content-Type": "text/xml" },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {
     console.error("SMS webhook error:", error);
-    return new Response(
-      '<?xml version="1.0" encoding="UTF-8"?><Response><Message>Something went wrong. Please try again.</Message></Response>',
-      { status: 200, headers: { "Content-Type": "text/xml" } }
-    );
+    return new Response(JSON.stringify({ ok: false, error: "Internal error" }), {
+      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });
-
-function escapeXml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
-}

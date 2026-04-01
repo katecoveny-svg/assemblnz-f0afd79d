@@ -3,11 +3,10 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// TŌROA system prompt (condensed for SMS — concise, text-friendly responses)
+// TŌROA system prompt (condensed for SMS)
 const TOROA_SMS_PROMPT = `You are TŌROA, a family life admin assistant for NZ families, communicating via text message (SMS).
 
 RULES FOR SMS:
@@ -31,9 +30,9 @@ CAPABILITIES:
 - Quick reminders and to-do tracking
 - Health appointment tracking
 - NZ-specific info (ACC, school systems, local services)
-- GROCERY LIST management (add/remove items, check off, suggest meals)
-- APPOINTMENT booking (book, cancel, reschedule)
-- FAMILY TASKS (assign chores, track completion)
+- GROCERY LIST management
+- APPOINTMENT booking
+- FAMILY TASKS
 
 SMART COMMANDS (detect intent and act):
 - "Add [items] to groceries" → Add items to the active grocery list
@@ -50,9 +49,34 @@ When you detect an appointment request:
 When you detect a task request:
 ###ACTION:TASK###{"title":"Pack lunches","assigned_to":"Mum","priority":"normal"}###
 
-Include the action block AFTER your friendly reply text. The system will parse and execute it.
+Include the action block AFTER your friendly reply text.
 
 When you detect a meal planning request, consider NZ seasonal produce and supermarket pricing.`;
+
+/** Send reply via TNZ API */
+async function sendViaTnz(to: string, message: string, reference: string): Promise<{ messageId?: string }> {
+  const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v3.00";
+  const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
+  if (!tnzToken) return {};
+
+  const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
+  const resp = await fetch(`${tnzBase}/sms`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${tnzToken}` },
+    body: JSON.stringify({
+      MessageData: {
+        Message: message,
+        Destinations: [{ Recipient: to }],
+        WebhookCallbackURL: webhookUrl,
+        WebhookCallbackFormat: "JSON",
+        Reference: reference,
+        SendMode: "Normal",
+      },
+    }),
+  });
+  const data = await resp.json();
+  return { messageId: data.Result === "Success" ? data.MessageID : undefined };
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -63,29 +87,21 @@ Deno.serve(async (req) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    const TWILIO_ACCOUNT_SID = Deno.env.get("TWILIO_ACCOUNT_SID");
-    const TWILIO_AUTH_TOKEN = Deno.env.get("TWILIO_AUTH_TOKEN");
     const sb = createClient(supabaseUrl, serviceKey);
 
-    const contentType = req.headers.get("content-type") || "";
-    let body: Record<string, string> = {};
+    // Parse TNZ inbound payload
+    const payload = await req.json();
+    const fromNumber = payload.From || payload.from || payload.Sender || payload.sender || "";
+    const incomingBody = payload.Message || payload.message || payload.Body || payload.body || "";
+    const tnzMessageId = payload.MessageID || payload.messageId || "";
 
-    // Twilio sends form-encoded POST for incoming SMS
-    if (contentType.includes("application/x-www-form-urlencoded")) {
-      const formData = await req.formData();
-      for (const [key, value] of formData.entries()) {
-        body[key] = String(value);
-      }
-    } else {
-      body = await req.json();
+    if (!fromNumber || !incomingBody) {
+      return new Response(JSON.stringify({ ok: false, error: "Missing from/body" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    const incomingBody = body.Body || body.body || "";
-    const fromNumber = body.From || body.from || "";
-    const toNumber = body.To || body.to || "";
-    const messageSid = body.MessageSid || body.message_sid || "";
-
-    // === Handle opt-in / opt-out ===
+    // Handle opt-in / opt-out
     const upperBody = incomingBody.trim().toUpperCase();
     if (upperBody === "STOP" || upperBody === "UNSUBSCRIBE") {
       await sb
@@ -93,10 +109,8 @@ Deno.serve(async (req) => {
         .update({ opted_in: false, updated_at: new Date().toISOString() })
         .eq("phone_number", fromNumber);
 
-      return new Response(
-        `<?xml version="1.0" encoding="UTF-8"?><Response><Message>You've been unsubscribed from TŌROA. Text START to re-subscribe anytime.</Message></Response>`,
-        { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
-      );
+      await sendViaTnz(fromNumber, "You've been unsubscribed from TŌROA. Text START to re-subscribe anytime.", `toroa-optout-${crypto.randomUUID()}`);
+      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     if (upperBody === "START" || upperBody === "SUBSCRIBE") {
@@ -105,13 +119,11 @@ Deno.serve(async (req) => {
         .update({ opted_in: true, updated_at: new Date().toISOString() })
         .eq("phone_number", fromNumber);
 
-      return new Response(
-        `<?xml version="1.0" encoding="UTF-8"?><Response><Message>Welcome back to TŌROA! Your family assistant is ready. Text anything to get started.</Message></Response>`,
-        { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
-      );
+      await sendViaTnz(fromNumber, "Welcome back to TŌROA! Your family assistant is ready. Text anything to get started.", `toroa-optin-${crypto.randomUUID()}`);
+      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // === Look up or create conversation ===
+    // Look up or create conversation
     let { data: convo } = await sb
       .from("helm_sms_conversations")
       .select("*")
@@ -119,7 +131,6 @@ Deno.serve(async (req) => {
       .single();
 
     if (!convo) {
-      // New number — create unlinked conversation (will be linked when family adds the number)
       const { data: newConvo } = await sb
         .from("helm_sms_conversations")
         .insert({
@@ -134,35 +145,26 @@ Deno.serve(async (req) => {
     }
 
     if (!convo) {
-      return new Response(
-        `<?xml version="1.0" encoding="UTF-8"?><Response><Message>Sorry, something went wrong setting up your account. Please try again.</Message></Response>`,
-        { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
-      );
+      return new Response(JSON.stringify({ ok: false }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Check opt-in status
     if (!convo.opted_in) {
-      return new Response(
-        `<?xml version="1.0" encoding="UTF-8"?><Response></Response>`,
-        { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
-      );
+      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // === Log inbound message ===
+    // Log inbound message
     await sb.from("helm_sms_messages").insert({
       conversation_id: convo.id,
       direction: "inbound",
       body: incomingBody,
-      twilio_sid: messageSid,
+      tnz_message_id: tnzMessageId,
       status: "received",
     });
 
-    // === If not linked to a family, prompt setup ===
+    // If not linked to a family, prompt setup
     if (!convo.family_id) {
-      // Check if the message is a family link code
       const trimmedBody = incomingBody.trim();
       if (trimmedBody.length >= 4 && trimmedBody.length <= 20) {
-        // Try to match an invite code
         const { data: invite } = await sb
           .from("family_invites")
           .select("family_id")
@@ -173,14 +175,9 @@ Deno.serve(async (req) => {
         if (invite) {
           await sb
             .from("helm_sms_conversations")
-            .update({
-              family_id: invite.family_id,
-              verified: true,
-              updated_at: new Date().toISOString(),
-            })
+            .update({ family_id: invite.family_id, verified: true, updated_at: new Date().toISOString() })
             .eq("id", convo.id);
 
-          // Get family name
           const { data: family } = await sb
             .from("families")
             .select("name")
@@ -189,37 +186,21 @@ Deno.serve(async (req) => {
 
           const replyText = `Connected to ${family?.name || "your family"}! I'm TŌROA, your family assistant. Try:\n\n"What's for dinner?"\n"Remind me to pack lunches at 7am"\n"When does Term 2 start?"`;
 
-          await sb.from("helm_sms_messages").insert({
-            conversation_id: convo.id,
-            direction: "outbound",
-            body: replyText,
-            status: "sent",
-          });
+          await sendViaTnz(fromNumber, replyText, `toroa-linked-${crypto.randomUUID()}`);
+          await sb.from("helm_sms_messages").insert({ conversation_id: convo.id, direction: "outbound", body: replyText, status: "sent" });
 
-          return new Response(
-            `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(replyText)}</Message></Response>`,
-            { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
-          );
+          return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
         }
       }
 
-      const setupReply =
-        "Kia ora! I'm TŌROA, your family assistant. To get started, text me your family invite code from the TŌROA dashboard at assembl.co.nz. Or ask your family admin to add your number in Settings.";
+      const setupReply = "Kia ora! I'm TŌROA, your family assistant. To get started, text me your family invite code from the TŌROA dashboard at assembl.co.nz. Or ask your family admin to add your number in Settings.";
+      await sendViaTnz(fromNumber, setupReply, `toroa-setup-${crypto.randomUUID()}`);
+      await sb.from("helm_sms_messages").insert({ conversation_id: convo.id, direction: "outbound", body: setupReply, status: "sent" });
 
-      await sb.from("helm_sms_messages").insert({
-        conversation_id: convo.id,
-        direction: "outbound",
-        body: setupReply,
-        status: "sent",
-      });
-
-      return new Response(
-        `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(setupReply)}</Message></Response>`,
-        { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
-      );
+      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // === Fetch conversation history for context (last 10 messages) ===
+    // Fetch conversation history
     const { data: recentMessages } = await sb
       .from("helm_sms_messages")
       .select("direction, body, created_at")
@@ -229,12 +210,12 @@ Deno.serve(async (req) => {
 
     const chatHistory = (recentMessages || [])
       .reverse()
-      .map((m) => ({
+      .map((m: any) => ({
         role: m.direction === "inbound" ? "user" : "assistant",
         content: m.body,
       }));
 
-    // === Fetch family context ===
+    // Fetch family context
     let familyContext = "";
     if (convo.family_id) {
       const [familyRes, childrenRes] = await Promise.all([
@@ -247,52 +228,43 @@ Deno.serve(async (req) => {
         if (familyRes.data.nz_region) familyContext += ` (${familyRes.data.nz_region})`;
       }
       if (childrenRes.data?.length) {
-        familyContext += `\nChildren: ${childrenRes.data.map((c) => `${c.name}${c.year_level ? ` (Year ${c.year_level})` : ""}${c.school ? ` at ${c.school}` : ""}`).join(", ")}`;
+        familyContext += `\nChildren: ${childrenRes.data.map((c: any) => `${c.name}${c.year_level ? ` (Year ${c.year_level})` : ""}${c.school ? ` at ${c.school}` : ""}`).join(", ")}`;
       }
     }
 
-    const fullPrompt =
-      TOROA_SMS_PROMPT +
+    const fullPrompt = TOROA_SMS_PROMPT +
       (familyContext ? `\n\nFAMILY CONTEXT:${familyContext}` : "") +
       `\n\nCurrent date/time: ${new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland" })}`;
 
-    // === Call AI ===
     if (!LOVABLE_API_KEY) {
       const fallback = "TŌROA is temporarily unavailable. Please try again shortly.";
-      return new Response(
-        `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(fallback)}</Message></Response>`,
-        { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
-      );
+      await sendViaTnz(fromNumber, fallback, `toroa-unavail-${crypto.randomUUID()}`);
+      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     let aiReply = "Sorry, I couldn't process that. Please try again.";
 
     try {
-      const aiResp = await fetch(
-        "https://ai.gateway.lovable.dev/v1/chat/completions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${LOVABLE_API_KEY}`,
-          },
-          body: JSON.stringify({
-            model: "google/gemini-2.5-flash-lite",
-            messages: [
-              { role: "system", content: fullPrompt },
-              ...chatHistory,
-              { role: "user", content: incomingBody },
-            ],
-            max_tokens: 500,
-          }),
-        }
-      );
+      const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash-lite",
+          messages: [
+            { role: "system", content: fullPrompt },
+            ...chatHistory,
+            { role: "user", content: incomingBody },
+          ],
+          max_tokens: 500,
+        }),
+      });
 
       if (aiResp.ok) {
         const aiData = await aiResp.json();
-        aiReply =
-          aiData.choices?.[0]?.message?.content?.trim() || aiReply;
-        // Truncate to SMS-friendly length (max 1600 chars for concatenated SMS)
+        aiReply = aiData.choices?.[0]?.message?.content?.trim() || aiReply;
         if (aiReply.length > 1500) {
           aiReply = aiReply.substring(0, 1497) + "...";
         }
@@ -301,7 +273,7 @@ Deno.serve(async (req) => {
       console.error("TŌROA SMS AI error:", aiErr);
     }
 
-    // === Process action blocks from AI reply ===
+    // Process action blocks
     const actionRegex = /###ACTION:(\w+)###(\{.*?\})###/g;
     let match;
     while ((match = actionRegex.exec(aiReply)) !== null) {
@@ -311,7 +283,6 @@ Deno.serve(async (req) => {
         const familyIdForAction = convo.family_id;
 
         if (actionType === "GROCERY" && familyIdForAction && actionData.items) {
-          // Find or create active grocery list
           let { data: activeList } = await sb
             .from("helm_grocery_lists")
             .select("id")
@@ -338,8 +309,6 @@ Deno.serve(async (req) => {
               sort_order: i,
             }));
             await sb.from("helm_grocery_items").insert(items);
-
-            // Post to family chat
             await sb.from("helm_family_chat").insert({
               family_id: familyIdForAction,
               sender_name: "TŌROA",
@@ -365,8 +334,6 @@ Deno.serve(async (req) => {
             booked_via: "sms",
             created_by: familyIdForAction,
           });
-
-          // Post to family chat
           await sb.from("helm_family_chat").insert({
             family_id: familyIdForAction,
             sender_name: "TŌROA",
@@ -385,7 +352,6 @@ Deno.serve(async (req) => {
             category: actionData.category || "general",
             created_by: familyIdForAction,
           });
-
           await sb.from("helm_family_chat").insert({
             family_id: familyIdForAction,
             sender_name: "TŌROA",
@@ -398,41 +364,27 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Strip action blocks from the reply before sending to user
+    // Strip action blocks from reply
     const cleanReply = aiReply.replace(/###ACTION:\w+###\{.*?\}###/g, "").trim();
 
-    // === Log outbound message ===
+    // Send reply via TNZ
+    const ref = `toroa-sms-${crypto.randomUUID()}`;
+    const sendResult = await sendViaTnz(fromNumber, cleanReply, ref);
+
+    // Log outbound message
     await sb.from("helm_sms_messages").insert({
       conversation_id: convo.id,
       direction: "outbound",
       body: cleanReply,
-      status: "sent",
+      tnz_message_id: sendResult.messageId || null,
+      status: sendResult.messageId ? "sent" : "failed",
     });
 
-    // Update conversation timestamp
-    await sb
-      .from("helm_sms_conversations")
-      .update({ updated_at: new Date().toISOString() })
-      .eq("id", convo.id);
+    await sb.from("helm_sms_conversations").update({ updated_at: new Date().toISOString() }).eq("id", convo.id);
 
-    return new Response(
-      `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(cleanReply)}</Message></Response>`,
-      { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
-    );
+    return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (error) {
     console.error("TŌROA SMS webhook error:", error);
-    return new Response(
-      `<?xml version="1.0" encoding="UTF-8"?><Response><Message>Something went wrong. Please try again.</Message></Response>`,
-      { headers: { ...corsHeaders, "Content-Type": "text/xml" } }
-    );
+    return new Response(JSON.stringify({ ok: false }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 });
-
-function escapeXml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
-}
