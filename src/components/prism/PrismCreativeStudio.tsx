@@ -61,6 +61,7 @@ export default function PrismCreativeStudio({ onSendToChat }: { onSendToChat?: (
   const generate = () => {
     if (!onSendToChat || !subject.trim()) return;
     const qualityTag = quality === "pro" ? " [QUALITY:pro]" : " [QUALITY:fast]";
+    const providerTag = imageProvider !== "auto" ? ` [PROVIDER:${imageProvider}]` : "";
     const dims = PLATFORMS_MAP[platform] || "1080×1080";
     const textOverlay = includeText && overlayText ? ` Text overlay: "${overlayText}".` : "";
     const complexityLabel = complexity < 33 ? "simple and clean" : complexity < 66 ? "moderately detailed" : "highly detailed and complex";
