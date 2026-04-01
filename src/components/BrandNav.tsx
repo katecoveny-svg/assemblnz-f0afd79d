@@ -84,7 +84,7 @@ const BrandNav = () => {
         <div className="flex-1" />
 
         {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-1 text-[13px]">
+        <nav className="hidden lg:flex items-center gap-1 text-[13px] overflow-visible">
           {NAV_ITEMS.map((item) => (
             <div key={item.label} className="relative" onMouseEnter={() => item.children && setOpenDropdown(item.label)} onMouseLeave={() => setOpenDropdown(null)}>
               {item.children ? (
