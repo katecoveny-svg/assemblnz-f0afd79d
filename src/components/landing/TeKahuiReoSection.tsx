@@ -5,7 +5,7 @@ import toroaIcon from "@/assets/brand/toroa-hero.png";
 import { teKahuiReoMark, ihoIcon, kanohiIcon, manaIcon, maharaIcon } from "@/assets/brand";
 import { Shield, FileText, Activity, Bell } from "lucide-react";
 
-const TE_KAHUI_REO_AGENTS: Array<{ name: string; subtitle: string; desc: string; icon: string | null; fallbackIcon: React.ComponentType<{ size?: number; className?: string }> | null }> = [
+const TE_KAHUI_REO_AGENTS: Array<{ name: string; subtitle: string; desc: string; icon: string | null; fallbackIcon: any }> = [
   { name: "IHO", subtitle: "Brain", desc: "Intelligent router & orchestrator", icon: ihoIcon, fallbackIcon: null },
   { name: "KANOHI", subtitle: "Dashboard", desc: "Front-of-house interface", icon: kanohiIcon, fallbackIcon: null },
   { name: "MANA", subtitle: "Access", desc: "Access control & authentication", icon: manaIcon, fallbackIcon: null },
