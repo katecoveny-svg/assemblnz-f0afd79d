@@ -3,10 +3,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
-import NotificationBell from "@/components/NotificationBell";
 import CelestialLogo from "@/components/CelestialLogo";
 
-interface NavChild { label: string; to: string; desc: string; badge?: "LIVE" | "ADMIN" }
+interface NavChild { label: string; to: string; desc: string }
 interface NavItem {
   label: string;
   to?: string;
@@ -15,18 +14,26 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   {
+    label: "Platform",
+    children: [
+      { label: "How it works", to: "/#how-it-works", desc: "One request, the right intelligence" },
+      { label: "Why Assembl", to: "/#why-assembl", desc: "Built for Aotearoa, not adapted" },
+      { label: "Te Kāhui Reo", to: "/#te-kahui-reo", desc: "Cultural and language intelligence" },
+    ],
+  },
+  {
     label: "Industry Packs",
     children: [
-      { label: "Manaaki — Hospitality", to: "/packs/manaaki", desc: "Food safety, licensing, guest comms", badge: "LIVE" },
-      { label: "Hanga — Construction", to: "/packs/hanga", desc: "Safety, BIM, consenting, quality", badge: "LIVE" },
-      { label: "Pakihi — Business Operations", to: "/packs/pakihi", desc: "HR, payroll, finance, operations", badge: "LIVE" },
-      { label: "Auaha — Creative", to: "/packs/auaha", desc: "Brand, social, imagery, campaigns" },
-      { label: "Hangarau — Technology", to: "/packs/hangarau", desc: "Cyber, apps, APIs, monitoring" },
+      { label: "Manaaki — Hospitality", to: "/packs/manaaki", desc: "Guest experience, food safety, operations" },
+      { label: "Hanga — Construction", to: "/packs/hanga", desc: "BIM, safety, consenting, quoting" },
+      { label: "Auaha — Creative", to: "/packs/auaha", desc: "Strategy, content, campaigns, brand" },
+      { label: "Pakihi — Business Ops", to: "/packs/pakihi", desc: "Finance, HR, legal, reporting" },
+      { label: "Hangarau — Technology", to: "/packs/hangarau", desc: "Systems, monitoring, architecture" },
     ],
   },
   { label: "Pricing", to: "/pricing" },
-  { label: "About", to: "/about" },
-  { label: "Dashboard", to: "/dashboard" },
+  { label: "Founding Pilots", to: "/#founding-pilots" },
+  { label: "Contact", to: "/#contact" },
 ];
 
 const BrandNav = () => {
@@ -56,10 +63,10 @@ const BrandNav = () => {
       <header
         className="sticky top-0 z-50 flex items-center gap-3 px-5 sm:px-8 py-3.5"
         style={{
-          background: 'rgba(9,9,15,0.85)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          background: "rgba(9,9,15,0.85)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
         }}
       >
         <Link to="/" className="flex items-center gap-3 group">
@@ -72,7 +79,6 @@ const BrandNav = () => {
             >
               ASSEMBL
             </motion.span>
-            <span className="font-mono text-[10px] hidden sm:inline text-white/35">.co.nz</span>
           </div>
         </Link>
         <div className="flex-1" />
@@ -102,53 +108,48 @@ const BrandNav = () => {
                 {item.children && openDropdown === item.label && (
                   <motion.div
                     className="absolute top-full left-0 mt-1 w-[260px] rounded-xl overflow-hidden z-50"
-                    style={{
-                      background: "#0D0D15",
-                      border: "1px solid rgba(255,255,255,0.08)",
-                      boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
-                    }}
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
+                    style={{ background: "#0D0D15", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 8px 32px rgba(0,0,0,0.5)" }}
+                    initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.15 }}
                   >
-                    {item.children.map((child, ci) => {
-                      const isLast = item.children && ci === item.children.length - 1;
-                      return (
-                        <button
-                          key={child.label}
-                          onClick={() => handleNavClick(child.to)}
-                          className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors block"
-                          style={{ borderBottom: isLast ? "none" : "1px solid rgba(255,255,255,0.04)" }}
-                        >
-                          <div className="flex items-center gap-2">
-                            <p className="text-xs font-medium" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>{child.label}</p>
-                            {child.badge === "LIVE" && (
-                              <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase" style={{ background: "#3A7D6E", color: "#FFFFFF", letterSpacing: "0.06em" }}>LIVE</span>
-                            )}
-                          </div>
-                          <p className="text-[10px] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{child.desc}</p>
-                        </button>
-                      );
-                    })}
+                    {item.children.map((child, ci) => (
+                      <button
+                        key={child.label}
+                        onClick={() => handleNavClick(child.to)}
+                        className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors block"
+                        style={{ borderBottom: ci === (item.children!.length - 1) ? "none" : "1px solid rgba(255,255,255,0.04)" }}
+                      >
+                        <p className="text-xs font-medium" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>{child.label}</p>
+                        <p className="text-[10px] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{child.desc}</p>
+                      </button>
+                    ))}
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
           ))}
-          <NotificationBell />
+
+          {/* Tōroa utility link */}
+          <Link to="/toroa" className="px-3 py-2 rounded-lg font-body text-xs text-white/40 hover:text-white/70 transition-colors">
+            Tōroa
+          </Link>
+
+          {/* CTA */}
+          <a
+            href="#founding-pilots"
+            onClick={(e) => { e.preventDefault(); handleNavClick("/#founding-pilots"); }}
+            className="ml-2 px-5 py-2 rounded-full text-xs font-body font-medium transition-all duration-300"
+            style={{ background: "#D4A843", color: "#09090F" }}
+          >
+            Book a founding pilot
+          </a>
+
           <AccountDropdown />
         </nav>
 
         {/* Mobile hamburger */}
         <div className="flex lg:hidden items-center gap-2">
-          <NotificationBell />
-          <button
-            onClick={() => setMobileOpen(true)}
-            className="p-2 rounded-lg transition-colors"
-            style={{ color: "rgba(255,255,255,0.7)" }}
-            aria-label="Open menu"
-          >
+          <button onClick={() => setMobileOpen(true)} className="p-2 rounded-lg" style={{ color: "rgba(255,255,255,0.7)" }} aria-label="Open menu">
             <Menu size={22} />
           </button>
         </div>
@@ -158,12 +159,7 @@ const BrandNav = () => {
       <AnimatePresence>
         {mobileOpen && (
           <>
-            <motion.div
-              className="fixed inset-0 z-[60]"
-              style={{ background: "rgba(0,0,0,0.6)" }}
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setMobileOpen(false)}
-            />
+            <motion.div className="fixed inset-0 z-[60]" style={{ background: "rgba(0,0,0,0.6)" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileOpen(false)} />
             <motion.div
               className="fixed top-0 right-0 bottom-0 z-[70] w-[300px] flex flex-col overflow-y-auto"
               style={{ background: "#0D0D15", borderLeft: "1px solid rgba(255,255,255,0.08)" }}
@@ -209,19 +205,30 @@ const BrandNav = () => {
                       </div>
                     );
                   }
-                  const active = item.to && location.pathname === item.to;
                   return (
                     <button key={item.label} onClick={() => handleNavClick(item.to!)}
                       className="w-full text-left px-4 py-3 rounded-xl text-sm font-body transition-all duration-200"
-                      style={{ color: active ? "#D4A843" : "rgba(255,255,255,0.7)", background: active ? "rgba(212,168,67,0.08)" : "transparent", fontWeight: active ? 600 : 400 }}
+                      style={{ color: "rgba(255,255,255,0.7)" }}
                     >
                       {item.label}
                     </button>
                   );
                 })}
+
+                <button onClick={() => handleNavClick("/toroa")} className="w-full text-left px-4 py-3 rounded-xl text-sm font-body text-white/40">
+                  Tōroa
+                </button>
               </nav>
 
               <div className="px-5 py-5 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                <a
+                  href="#founding-pilots"
+                  onClick={(e) => { e.preventDefault(); handleNavClick("/#founding-pilots"); }}
+                  className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium mb-3"
+                  style={{ background: "#D4A843", color: "#09090F" }}
+                >
+                  Book a founding pilot
+                </a>
                 <AccountDropdown />
               </div>
             </motion.div>
