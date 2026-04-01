@@ -79,6 +79,120 @@ const FAQS = [
   { q: "What is the Mārama learning tool?", a: "Drop any YouTube URL into Tōroa and it instantly produces an interactive learning module — vocab flashcards, sentence translations, and quizzes. Perfect for homework help or te reo Māori practice." },
 ];
 
+/* ── Try Tōroa — 3 free messages mini-chat ── */
+function TryToroaChat() {
+  const [messages, setMessages] = useState<{ role: "user" | "assistant"; text: string }[]>([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const MAX_MSGS = 3;
+  const used = messages.filter(m => m.role === "user").length;
+  const remaining = MAX_MSGS - used;
+
+  const send = async () => {
+    if (!input.trim() || remaining <= 0 || loading) return;
+    const userMsg = input.trim();
+    setInput("");
+    const updated = [...messages, { role: "user" as const, text: userMsg }];
+    setMessages(updated);
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("chat", {
+        body: {
+          messages: updated.map(m => ({ role: m.role, content: m.text })),
+          agentId: "toroa",
+          systemPrompt: "You are Tōroa, a warm and helpful SMS-first family AI navigator built for whānau in Aotearoa. Keep responses concise (2-3 sentences), friendly, and practical. You help with school notices, meal planning, bus tracking, weather, and family coordination. Always be encouraging and use simple language.",
+        },
+      });
+      if (error) throw error;
+      const reply = data?.text || data?.choices?.[0]?.message?.content || "Kia ora! I'm here to help your whānau.";
+      setMessages(prev => [...prev, { role: "assistant", text: reply }]);
+    } catch {
+      setMessages(prev => [...prev, { role: "assistant", text: "Kia ora! I'm Tōroa — your family navigator. Try asking me about meal planning, school notices, or what the kids should wear today!" }]);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <section className="relative z-10 px-6 py-16 md:py-20">
+      <div className="max-w-lg mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-8">
+          <h2 className="font-display text-xl mb-3" style={{ fontWeight: 300, color: "#D4A843" }}>
+            Try Tōroa — {remaining} free message{remaining !== 1 ? "s" : ""}
+          </h2>
+          <p className="font-body text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
+            Ask anything a busy parent would need help with.
+          </p>
+        </motion.div>
+
+        <div className="rounded-2xl overflow-hidden" style={{ background: "rgba(15,15,26,0.7)", border: "1px solid rgba(212,168,67,0.2)", boxShadow: "0 0 30px rgba(212,168,67,0.06), 0 8px 30px rgba(0,0,0,0.3)" }}>
+          {/* Messages */}
+          <div className="px-5 py-4 space-y-3 min-h-[180px] max-h-[320px] overflow-y-auto">
+            {messages.length === 0 && (
+              <p className="font-body text-xs text-center py-8" style={{ color: "rgba(255,255,255,0.3)" }}>
+                Try: "What should the kids wear today?" or "Help me plan dinners this week"
+              </p>
+            )}
+            {messages.map((m, i) => (
+              <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                <div
+                  className="rounded-xl px-4 py-2.5 text-xs font-body max-w-[85%]"
+                  style={{
+                    background: m.role === "user" ? "rgba(212,168,67,0.15)" : "rgba(255,255,255,0.04)",
+                    border: `1px solid ${m.role === "user" ? "rgba(212,168,67,0.25)" : "rgba(255,255,255,0.06)"}`,
+                    color: m.role === "user" ? "#FFE082" : "rgba(255,255,255,0.7)",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {m.text}
+                </div>
+              </div>
+            ))}
+            {loading && (
+              <div className="flex justify-start">
+                <div className="rounded-xl px-4 py-2.5 text-xs font-body" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.4)" }}>
+                  <span className="animate-pulse">Tōroa is thinking…</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Input */}
+          <div className="px-4 py-3 flex gap-2" style={{ borderTop: "1px solid rgba(212,168,67,0.1)" }}>
+            {remaining > 0 ? (
+              <>
+                <input
+                  type="text"
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  onKeyDown={e => e.key === "Enter" && send()}
+                  placeholder="Ask Tōroa anything…"
+                  className="flex-1 px-3 py-2.5 rounded-lg text-xs font-body outline-none"
+                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(212,168,67,0.15)", color: "#FFFFFF" }}
+                />
+                <button
+                  onClick={send}
+                  disabled={loading || !input.trim()}
+                  className="px-4 py-2 rounded-lg text-xs flex items-center gap-1.5 transition-all disabled:opacity-40"
+                  style={{ background: "#D4A843", color: "#09090F", fontFamily: "'Lato', sans-serif", fontWeight: 400 }}
+                >
+                  <Send size={12} />
+                </button>
+              </>
+            ) : (
+              <div className="w-full text-center py-2">
+                <p className="font-body text-xs mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>You've used your 3 free messages</p>
+                <a href="#waitlist" className="font-display text-sm transition-colors" style={{ color: "#D4A843", fontWeight: 300 }}>
+                  Join the beta for unlimited access →
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function ToroaLandingPage() {
   const [firstName, setFirstName] = useState("");
   const [mobile, setMobile] = useState("");
