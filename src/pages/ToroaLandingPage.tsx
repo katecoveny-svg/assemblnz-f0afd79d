@@ -111,30 +111,69 @@ export default function ToroaLandingPage() {
         <a href="/" className="text-xs font-body" style={{ color: "rgba(255,255,255,0.4)" }}>← assembl.co.nz</a>
       </header>
 
-      {/* HERO */}
-      <section className="relative flex flex-col items-center justify-center text-center px-6 pt-16 pb-16 md:pt-24 md:pb-20 min-h-[70vh]">
+      {/* HERO with sign-up card */}
+      <section className="relative flex flex-col items-center justify-center px-6 pt-16 pb-16 md:pt-24 md:pb-20 min-h-[70vh]">
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(600px circle at 50% 35%, rgba(212,168,67,0.06), transparent 70%)" }} />
 
-        <motion.div className="relative z-10 max-w-2xl" initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
-          <motion.h1 variants={fadeUp} custom={0} className="font-display mb-4" style={{ fontWeight: 300, fontSize: "clamp(36px,6vw,56px)", color: "#D4A843", letterSpacing: "-0.01em" }}>
-            Tōroa
-          </motion.h1>
-          <motion.p variants={fadeUp} custom={1} className="font-display text-lg mb-4" style={{ fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>
-            Your whānau's intelligent navigator.
-          </motion.p>
-          <motion.p variants={fadeUp} custom={2} className="font-body text-base md:text-lg mb-8 mx-auto" style={{ color: "rgba(255,255,255,0.55)", maxWidth: 560, lineHeight: 1.7 }}>
-            SMS-first support for everyday family life in Aotearoa.
-          </motion.p>
-          <motion.div variants={fadeUp} custom={3}>
-            <a
-              href="#waitlist"
-              className="inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm transition-all duration-300"
-              style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, background: "#D4A843", color: "#09090F" }}
-            >
-              Join the beta waitlist
-            </a>
+        <div className="relative z-10 w-full max-w-4xl grid md:grid-cols-2 gap-10 items-center">
+          {/* Left — copy */}
+          <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
+            <motion.h1 variants={fadeUp} custom={0} className="font-display mb-4" style={{ fontWeight: 300, fontSize: "clamp(36px,6vw,56px)", color: "#D4A843", letterSpacing: "-0.01em" }}>
+              Tōroa
+            </motion.h1>
+            <motion.p variants={fadeUp} custom={1} className="font-display text-lg mb-4" style={{ fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>
+              Your whānau's intelligent navigator.
+            </motion.p>
+            <motion.p variants={fadeUp} custom={2} className="font-body text-base md:text-lg mb-6" style={{ color: "rgba(255,255,255,0.55)", maxWidth: 420, lineHeight: 1.7 }}>
+              SMS-first support for everyday family life in Aotearoa. No app. No login. Just text.
+            </motion.p>
+            <motion.p variants={fadeUp} custom={3} className="font-body text-sm" style={{ color: "rgba(255,255,255,0.3)" }}>
+              $29/mo · Beta invites opening soon
+            </motion.p>
           </motion.div>
-        </motion.div>
+
+          {/* Right — sign-up card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="rounded-2xl p-6 md:p-8"
+            style={{ background: "rgba(15,15,26,0.7)", border: "1px solid rgba(212,168,67,0.15)", boxShadow: "0 8px 40px rgba(0,0,0,0.3)" }}
+          >
+            {done ? (
+              <div className="text-center py-6">
+                <p className="text-3xl mb-3">✓</p>
+                <p className="font-display text-lg mb-2" style={{ fontWeight: 300, color: "#FFFFFF" }}>Ka pai — you're on the list.</p>
+                <p className="font-body text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>We'll text you when your invite is ready.</p>
+              </div>
+            ) : (
+              <form onSubmit={submit} className="space-y-3">
+                <h2 className="font-display text-base mb-1" style={{ fontWeight: 300, color: "#D4A843" }}>Join the beta waitlist</h2>
+                <p className="font-body text-xs mb-3" style={{ color: "rgba(255,255,255,0.4)" }}>Be among the first whānau to try Tōroa.</p>
+                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First name" className="w-full rounded-lg px-4 py-2.5 text-sm font-body outline-none" style={inputStyle} />
+                <input type="tel" value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder="021 XXX XXXX" className="w-full rounded-lg px-4 py-2.5 text-sm font-body outline-none" style={inputStyle} />
+                <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.co.nz" className="w-full rounded-lg px-4 py-2.5 text-sm font-body outline-none" style={inputStyle} />
+                <textarea value={painPoint} onChange={(e) => setPainPoint(e.target.value)} placeholder="Biggest admin pain right now..." rows={2} className="w-full rounded-lg px-4 py-2.5 text-sm font-body outline-none resize-none" style={inputStyle} />
+
+                <label className="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" checked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)} className="mt-0.5 rounded" style={{ accentColor: "#D4A843" }} />
+                  <span className="text-[11px] font-body" style={{ color: "rgba(255,255,255,0.55)" }}>I agree to receive SMS updates about the Tōroa beta</span>
+                </label>
+                <label className="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" checked={emailConsent} onChange={(e) => setEmailConsent(e.target.checked)} className="mt-0.5 rounded" style={{ accentColor: "#D4A843" }} />
+                  <span className="text-[11px] font-body" style={{ color: "rgba(255,255,255,0.4)" }}>I'd also like email updates (optional)</span>
+                </label>
+
+                <button type="submit" disabled={loading} className="w-full rounded-lg px-6 py-3 font-display text-sm transition-all hover:scale-[1.01] disabled:opacity-50" style={{ fontWeight: 400, background: "#D4A843", color: "#09090F" }}>
+                  {loading ? "Joining…" : "Join the beta waitlist"}
+                </button>
+                {count !== null && (
+                  <p className="text-center font-mono text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>{count} whānau already waiting</p>
+                )}
+              </form>
+            )}
+          </motion.div>
+        </div>
       </section>
 
       {/* WHAT TŌROA HELPS WITH */}
