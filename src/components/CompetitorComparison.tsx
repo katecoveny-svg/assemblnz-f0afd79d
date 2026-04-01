@@ -4,7 +4,7 @@ import { Check, Layers, Zap, Shield, Brain } from "lucide-react";
 const VALUE_PROPS = [
   { icon: Layers, label: "One platform, not six", desc: "CRM, marketing, HR, compliance, finance, and operations — unified under one intelligence layer." },
   { icon: Brain, label: "NZ legislation built in", desc: "Trained on 50+ NZ Acts including Employment Relations, Privacy Act 2020, Building Act, and RTA." },
-  { icon: Zap, label: "45 specialist tools, one subscription", desc: "Every module shares context and works together — no per-seat pricing, no add-on fatigue." },
+  { icon: Zap, label: "42 specialist tools, one subscription", desc: "Every module shares context and works together — no per-seat pricing, no add-on fatigue." },
   { icon: Shield, label: "Enterprise-grade, SME-priced", desc: "SOC 2 pipeline, end-to-end encryption, and NZ-hosted data — from $89/mo." },
 ];
 
@@ -82,7 +82,7 @@ const CompetitorComparison = () => (
         transition={{ delay: 0.2 }}
       >
         <p className="text-[10px] font-mono-jb text-muted-foreground uppercase tracking-wider mb-3">
-          All 45 specialist tools included
+          All 42 specialist tools included
         </p>
         <span className="text-2xl font-display font-light text-primary">From $89/mo NZD</span>
         <p className="text-[10px] font-body text-muted-foreground mt-2">

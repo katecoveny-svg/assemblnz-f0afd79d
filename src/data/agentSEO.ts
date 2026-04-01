@@ -30,7 +30,7 @@ export const agentSEO: Record<string, { title: string; description: string }> = 
   },
   operations: {
     title: "TŌROA — Family Life Admin | School, Activities, Coparenting | Assembl",
-    description: "Family scheduling, school website scanning, homework help, activity management, coparenting coordination. Voice-powered. Safe for kids. From $14/mo. Part of Assembl — business intelligence for NZ.",
+    description: "Family scheduling, school website scanning, homework help, activity management, coparenting coordination. Voice-powered. Safe for kids. $29/mo. Part of Assembl — the operating system for NZ business.",
   },
   echo: {
     title: "ECHO — Your Front Desk That Never Sleeps | Assembl",

@@ -230,7 +230,7 @@ const TeKahuiReoSection = () => (
                 marginBottom: "16px",
               }}
             >
-              SMS-first whānau intelligence. Meal plans, budgets, school admin, and NZ benefit eligibility — all from a text message. From $14/mo.
+              SMS-first whānau intelligence. Meal plans, budgets, school admin, and NZ benefit eligibility — all from a text message. $29/mo.
             </p>
             <Link
               to="/chat/toroa"

@@ -15,31 +15,18 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   {
-    label: "Platform",
-    children: [
-      { label: "Iho — Brain & Router", to: "/#pipeline", desc: "Central intelligence orchestrator" },
-      { label: "Kahu — Compliance", to: "/#pipeline", desc: "PII masking & privacy guardian" },
-      { label: "Tā — Audit Trail", to: "/#pipeline", desc: "Every request logged & costed" },
-      { label: "Mahara — Memory", to: "/#pipeline", desc: "Business context engine" },
-      { label: "Mana — Access Control", to: "/#pipeline", desc: "Role-based permissions" },
-      { label: "Kanohi — Dashboard", to: "/dashboard", desc: "Bilingual intelligence hub" },
-    ],
-  },
-  {
     label: "Industry Packs",
     children: [
-      { label: "Pakihi — Business", to: "/packs/pakihi", desc: "HR, payroll, finance, operations", badge: "LIVE" },
-      { label: "Hanga — Construction", to: "/packs/hanga", desc: "Safety, BIM, consenting, quality", badge: "LIVE" },
       { label: "Manaaki — Hospitality", to: "/packs/manaaki", desc: "Food safety, licensing, guest comms", badge: "LIVE" },
-      { label: "Tōroa — Family Navigator", to: "/packs/toroa", desc: "Whānau services, wellbeing, care", badge: "LIVE" },
-      { label: "Auaha — Creative", to: "/packs/auaha", desc: "Brand, social, imagery, campaigns", badge: "ADMIN" },
-      { label: "Hangarau — Technology", to: "/packs/hangarau", desc: "Cyber, apps, APIs, monitoring", badge: "ADMIN" },
+      { label: "Hanga — Construction", to: "/packs/hanga", desc: "Safety, BIM, consenting, quality", badge: "LIVE" },
+      { label: "Pakihi — Business Operations", to: "/packs/pakihi", desc: "HR, payroll, finance, operations", badge: "LIVE" },
+      { label: "Auaha — Creative", to: "/packs/auaha", desc: "Brand, social, imagery, campaigns" },
+      { label: "Hangarau — Technology", to: "/packs/hangarau", desc: "Cyber, apps, APIs, monitoring" },
     ],
   },
-  { label: "Te Kāhui Reo", to: "/#te-kahui-reo" },
   { label: "Pricing", to: "/pricing" },
+  { label: "About", to: "/about" },
   { label: "Dashboard", to: "/dashboard" },
-  { label: "Invest", to: "/invest" },
 ];
 
 const BrandNav = () => {
@@ -117,7 +104,6 @@ const BrandNav = () => {
                 </button>
               )}
 
-              {/* Dropdown */}
               <AnimatePresence>
                 {item.children && openDropdown === item.label && (
                   <motion.div
@@ -134,27 +120,21 @@ const BrandNav = () => {
                   >
                     {item.children.map((child, ci) => {
                       const isLast = item.children && ci === item.children.length - 1;
-                      const hasDivider = item.label === "Industry Packs" && ci === 3; // after Tōroa
                       return (
-                        <div key={child.label}>
-                          {hasDivider && <div className="h-px mx-3" style={{ background: "rgba(255,255,255,0.08)" }} />}
-                          <button
-                            onClick={() => handleNavClick(child.to)}
-                            className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors block"
-                            style={{ borderBottom: isLast ? "none" : "1px solid rgba(255,255,255,0.04)" }}
-                          >
-                            <div className="flex items-center gap-2">
-                              <p className="text-xs font-medium" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>{child.label}</p>
-                              {child.badge === "LIVE" && (
-                                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase" style={{ background: "#3A7D6E", color: "#FFFFFF", letterSpacing: "0.06em" }}>LIVE</span>
-                              )}
-                              {child.badge === "ADMIN" && (
-                                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase" style={{ background: "#D4A843", color: "#09090F", letterSpacing: "0.06em" }}>ADMIN</span>
-                              )}
-                            </div>
-                            <p className="text-[10px] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{child.desc}</p>
-                          </button>
-                        </div>
+                        <button
+                          key={child.label}
+                          onClick={() => handleNavClick(child.to)}
+                          className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors block"
+                          style={{ borderBottom: isLast ? "none" : "1px solid rgba(255,255,255,0.04)" }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <p className="text-xs font-medium" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>{child.label}</p>
+                            {child.badge === "LIVE" && (
+                              <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase" style={{ background: "#3A7D6E", color: "#FFFFFF", letterSpacing: "0.06em" }}>LIVE</span>
+                            )}
+                          </div>
+                          <p className="text-[10px] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{child.desc}</p>
+                        </button>
                       );
                     })}
                   </motion.div>
@@ -166,7 +146,7 @@ const BrandNav = () => {
           <AccountDropdown />
         </nav>
 
-        {/* Tablet/Mobile hamburger */}
+        {/* Mobile hamburger */}
         <div className="flex lg:hidden items-center gap-2">
           <NotificationBell />
           <button
@@ -180,27 +160,20 @@ const BrandNav = () => {
         </div>
       </header>
 
-      {/* Mobile slide-in drawer */}
+      {/* Mobile drawer */}
       <AnimatePresence>
         {mobileOpen && (
           <>
             <motion.div
               className="fixed inset-0 z-[60]"
               style={{ background: "rgba(0,0,0,0.6)" }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
               className="fixed top-0 right-0 bottom-0 z-[70] w-[300px] flex flex-col overflow-y-auto"
-              style={{
-                background: "#0D0D15",
-                borderLeft: "1px solid rgba(255,255,255,0.08)",
-              }}
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
+              style={{ background: "#0D0D15", borderLeft: "1px solid rgba(255,255,255,0.08)" }}
+              initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
             >
               <div className="flex items-center justify-between px-5 py-4">
@@ -226,17 +199,10 @@ const BrandNav = () => {
                         </button>
                         <AnimatePresence>
                           {isExpanded && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              className="overflow-hidden"
-                            >
+                            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                               <div className="pl-4 py-1 space-y-0.5">
                                 {item.children.map((child) => (
-                                  <button
-                                    key={child.label}
-                                    onClick={() => handleNavClick(child.to)}
+                                  <button key={child.label} onClick={() => handleNavClick(child.to)}
                                     className="w-full text-left px-4 py-2.5 rounded-lg text-xs font-body text-white/50 hover:text-white hover:bg-white/5 transition-colors"
                                   >
                                     {child.label}
@@ -249,18 +215,11 @@ const BrandNav = () => {
                       </div>
                     );
                   }
-
                   const active = item.to && location.pathname === item.to;
                   return (
-                    <button
-                      key={item.label}
-                      onClick={() => handleNavClick(item.to!)}
+                    <button key={item.label} onClick={() => handleNavClick(item.to!)}
                       className="w-full text-left px-4 py-3 rounded-xl text-sm font-body transition-all duration-200"
-                      style={{
-                        color: active ? "#D4A843" : "rgba(255,255,255,0.7)",
-                        background: active ? "rgba(212,168,67,0.08)" : "transparent",
-                        fontWeight: active ? 600 : 400,
-                      }}
+                      style={{ color: active ? "#D4A843" : "rgba(255,255,255,0.7)", background: active ? "rgba(212,168,67,0.08)" : "transparent", fontWeight: active ? 600 : 400 }}
                     >
                       {item.label}
                     </button>

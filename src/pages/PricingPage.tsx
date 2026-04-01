@@ -14,14 +14,11 @@ const MAIN_PLANS = [
   PRICING.suite,
 ];
 
-const TOROA_PLAN = { ...PRICING.helm, desc: "Life admin for Kiwi families" };
-
 const FAQS = [
   { q: "Can I try Assembl for free?", a: "Every specialist tool is available for free — no signup required. You get 3 messages per advisor to explore. If you like what you see, sign up for a plan to unlock more." },
   { q: "How do message limits work?", a: "Starter gives you 100 messages per month. Pro provides 500 per month. Business gives you 2,000 and Suite provides 5,000. Enterprise is unlimited." },
   { q: "What NZ legislation is built in?", a: "Our tools are trained on 50+ NZ Acts and regulations including the Employment Relations Act 2000, Health and Safety at Work Act 2015, Building Act 2004, Food Act 2014, Privacy Act 2020, and many more." },
   { q: "Can I cancel anytime?", a: "Yes. All plans are month-to-month with no lock-in contracts. Cancel anytime from your dashboard." },
-  { q: "What is TŌROA?", a: "TŌROA is our family life admin advisor designed for NZ families. It helps with meal planning, budgeting, school admin, and more — all with Kiwi context built in." },
   { q: "Do you offer discounts for nonprofits or startups?", a: "Yes! Through our AssemblFund initiative, we offer subsidised access for Kiwi startups and community organisations. Contact us at assembl@assembl.co.nz." },
 ];
 
@@ -36,8 +33,8 @@ const PricingPage = () => {
   return (
     <div className="min-h-screen flex flex-col relative bg-background">
       <SEO
-        title="Assembl Pricing — Enterprise-Grade Business Intelligence | SME-Friendly Pricing"
-        description="Starter $89/mo (1 tool). Pro $299/mo (3 tools + SPARK). Business $599/mo (all 45 tools). Industry Suite $1,499/mo (custom tools + white-label). TŌROA Family from $14/mo."
+        title="Assembl Pricing — The Operating System for NZ Business"
+        description="Starter $89/mo. Pro $299/mo. Business $599/mo. Industry Suite $1,499/mo. 42 specialist AI agents built for New Zealand businesses."
         path="/pricing"
       />
       <BrandNav />
@@ -46,10 +43,10 @@ const PricingPage = () => {
       <section className="pt-20 pb-10 sm:py-28">
         <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
           <h1 className="text-2xl sm:text-5xl font-display mb-3 leading-tight text-foreground" style={{ fontWeight: 300, letterSpacing: '-0.025em' }}>
-            Enterprise-grade business intelligence. <span className="text-gradient-hero">SME-friendly pricing.</span>
+            Straight pricing. <span style={{ color: '#D4A843' }}>No surprises.</span>
           </h1>
           <p className="text-sm sm:text-base font-body max-w-xl mx-auto mb-6 text-muted-foreground">
-            From $14/month. No lock-in. Cancel anytime. Every plan includes NZ legislation, document templates, and proactive compliance alerts.
+            From $89/month. No lock-in. Cancel anytime. Every plan includes NZ legislation, document templates, and proactive compliance alerts.
           </p>
           <p className="text-xs font-body text-muted-foreground/60">
             All prices in NZD. GST inclusive. Billed monthly.
@@ -74,8 +71,11 @@ const PricingPage = () => {
                     Most Popular
                   </span>
                 )}
-                <p className="text-[11px] font-display tracking-[2px] uppercase mb-3 text-muted-foreground" style={{ fontWeight: 300 }}>
+                <p className="text-[11px] font-display tracking-[2px] uppercase mb-1 text-muted-foreground" style={{ fontWeight: 300 }}>
                   {plan.name}
+                </p>
+                <p className="text-[10px] font-body text-muted-foreground/60 mb-3">
+                  {plan.descriptor}
                 </p>
                 <div className="flex items-baseline gap-1 mb-1">
                   <span className="font-display text-4xl text-foreground" style={{ fontWeight: 300 }}>
@@ -115,9 +115,10 @@ const PricingPage = () => {
           {/* Enterprise */}
           <div className="max-w-md mx-auto mt-6">
             <div className="glass-card glow-card-hover flex flex-col p-6">
-              <p className="text-[11px] font-display tracking-[2px] uppercase mb-3 text-muted-foreground" style={{ fontWeight: 300 }}>
+              <p className="text-[11px] font-display tracking-[2px] uppercase mb-1 text-muted-foreground" style={{ fontWeight: 300 }}>
                 Enterprise
               </p>
+              <p className="text-[10px] font-body text-muted-foreground/60 mb-3">Custom</p>
               <span className="font-display text-4xl text-foreground mb-1" style={{ fontWeight: 300 }}>Custom</span>
               <p className="text-xs font-body mb-4 text-muted-foreground">Unlimited agents & messages</p>
               <div className="h-px mb-4" style={{ background: 'hsl(var(--border))' }} />
@@ -136,48 +137,6 @@ const PricingPage = () => {
                 <span>Contact Us</span>
               </button>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TŌROA */}
-      <div className="max-w-6xl mx-auto px-5 sm:px-6"><div className="section-divider" /></div>
-      <section className="py-14">
-        <div className="max-w-md mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-display text-center mb-2 text-foreground" style={{ fontWeight: 300 }}>
-            TŌROA — Life Admin for Families
-          </h2>
-          <p className="text-xs font-body text-center mb-8 text-muted-foreground">
-            Life admin built for Kiwi households
-          </p>
-          <div className="glass-card glow-card-hover flex flex-col p-6" style={{ borderColor: 'rgba(58,106,156,0.15)' }}>
-            <p className="text-[11px] font-display tracking-[2px] uppercase mb-3" style={{ color: 'hsl(var(--tangaroa-light))', fontWeight: 300 }}>
-              {TOROA_PLAN.name}
-            </p>
-            <div className="flex items-baseline gap-1 mb-1">
-              <span className="font-display text-3xl text-foreground" style={{ fontWeight: 300 }}>
-                ${TOROA_PLAN.price}
-              </span>
-              <span className="text-sm text-muted-foreground">/mo</span>
-            </div>
-            <p className="text-xs font-body mb-4 text-muted-foreground">{TOROA_PLAN.desc}</p>
-            <div className="h-px mb-4" style={{ background: 'hsl(var(--border))' }} />
-            <ul className="space-y-2 mb-6 flex-1">
-              {TOROA_PLAN.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-xs font-body text-muted-foreground">
-                  <Check size={14} className="mt-0.5 shrink-0" style={{ color: 'hsl(var(--tangaroa-light))' }} />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a
-              href={TOROA_PLAN.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cta-glass-green block w-full text-center text-sm py-2.5 rounded-lg"
-            >
-              <span>Get TŌROA — $29/mo</span>
-            </a>
           </div>
         </div>
       </section>
@@ -227,6 +186,26 @@ const PricingPage = () => {
         </div>
       </section>
 
+      {/* Other Products */}
+      <div className="max-w-6xl mx-auto px-5 sm:px-6"><div className="section-divider" /></div>
+      <section className="py-10">
+        <div className="max-w-4xl mx-auto px-5 sm:px-6 text-center">
+          <p className="text-[11px] font-display tracking-[2px] uppercase mb-4 text-muted-foreground" style={{ fontWeight: 300 }}>
+            Other products
+          </p>
+          <div className="glass-card glow-card-hover inline-flex items-center gap-4 px-6 py-4 rounded-xl">
+            <div className="text-left">
+              <p className="text-sm font-display text-foreground" style={{ fontWeight: 300 }}>Tōroa — Family AI Navigator</p>
+              <p className="text-xs font-body text-muted-foreground">SMS-first. Built for whānau in Aotearoa.</p>
+            </div>
+            <span className="font-display text-lg text-foreground" style={{ fontWeight: 300 }}>$29<span className="text-xs text-muted-foreground">/mo</span></span>
+            <Link to="/toroa" className="text-xs font-body text-primary hover:underline">
+              Learn more →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Trust */}
       <section className="pb-8">
         <div className="max-w-4xl mx-auto px-5 sm:px-6 text-center">
@@ -267,18 +246,6 @@ const PricingPage = () => {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Bottom CTA */}
-      <section className="pb-14">
-        <div className="max-w-lg mx-auto px-5 sm:px-6 text-center space-y-3">
-          <Link
-            to="/chat/echo"
-            className="cta-glass-green inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm"
-          >
-            Not sure which plan? Chat with ECHO →
-          </Link>
         </div>
       </section>
 

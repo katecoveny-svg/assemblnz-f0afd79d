@@ -5,6 +5,7 @@ export const PRICING = {
     price: 89,
     period: '/mo',
     currency: 'NZD',
+    descriptor: 'One painful workflow solved',
     agents: '1 specialist advisor',
     messages: '100 messages/mo',
     features: [
@@ -24,6 +25,7 @@ export const PRICING = {
     price: 299,
     period: '/mo',
     currency: 'NZD',
+    descriptor: 'Multi-function growth support',
     agents: '3 advisors + SPARK',
     messages: '500 messages/mo',
     features: [
@@ -44,10 +46,11 @@ export const PRICING = {
     price: 599,
     period: '/mo',
     currency: 'NZD',
-    agents: 'All 45 specialist tools',
+    descriptor: 'Full operating layer',
+    agents: 'All 42 specialist tools',
     messages: '2,000 messages/mo',
     features: [
-      'All 45 specialist advisors',
+      'All 42 specialist advisors',
       'SPARK app builder (25 deploys + custom domains)',
       '2,000 messages per month',
       'Command Centre dashboard',
@@ -65,6 +68,7 @@ export const PRICING = {
     price: 1499,
     period: '/mo',
     currency: 'NZD',
+    descriptor: 'Tailored implementation',
     agents: 'All tools + custom',
     messages: '5,000 messages/mo',
     features: [
@@ -85,6 +89,7 @@ export const PRICING = {
     price: null as number | null,
     priceLabel: 'Custom',
     period: '',
+    descriptor: 'Custom',
     agents: 'Unlimited',
     messages: 'Unlimited',
     features: [
@@ -101,23 +106,6 @@ export const PRICING = {
     link: '#contact',
     popular: false,
   },
-  helm: {
-    name: 'TŌROA',
-    price: 29,
-    period: '/mo',
-    currency: 'NZD',
-    features: [
-      'TŌROA family advisor',
-      '200 messages/mo',
-      'Bus tracking',
-      'Newsletter AI parser',
-      'Multi-child support',
-      'Packing lists & meal plans',
-      'Rescue delivery',
-    ],
-    cta: 'Get TŌROA',
-    link: 'https://buy.stripe.com/28E8wRa1C2FW3WZ9gO3oA07',
-  },
 } as const;
 
 /** Calculate annual price (15% discount = 2 months free) */
@@ -131,7 +119,7 @@ export function annualMonthly(monthlyPrice: number): number {
 
 /** Feature comparison table data */
 export const COMPARISON_FEATURES = [
-  { feature: 'Specialist Tools', starter: '1', pro: '3', business: 'All 45', suite: 'All 45 + custom', enterprise: 'Unlimited' },
+  { feature: 'Specialist Tools', starter: '1', pro: '3', business: 'All 42', suite: 'All 42 + custom', enterprise: 'Unlimited' },
   { feature: 'Messages/month', starter: '100', pro: '500', business: '2,000', suite: '5,000', enterprise: 'Unlimited' },
   { feature: 'SPARK App Builder', starter: false, pro: '5 deploys', business: '25 deploys', suite: 'Unlimited', enterprise: true },
   { feature: 'Brand DNA Scanner', starter: false, pro: true, business: true, suite: true, enterprise: true },
