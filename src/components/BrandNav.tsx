@@ -37,7 +37,7 @@ const BrandNav = () => {
   return (
     <>
       <header
-        className="sticky top-0 z-[9999] flex items-center gap-3 px-5 sm:px-8 h-16"
+        className="sticky top-0 z-[9999] flex items-center gap-3 px-5 sm:px-8 h-16 overflow-visible"
         style={{ background: "#09090F", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <Link to="/" className="flex items-center gap-3 group shrink-0">
