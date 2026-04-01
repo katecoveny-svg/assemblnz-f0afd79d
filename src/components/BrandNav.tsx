@@ -107,7 +107,7 @@ const BrandNav = () => {
               <AnimatePresence>
                 {item.children && openDropdown === item.label && (
                   <motion.div
-                    className="absolute top-full left-0 mt-1 w-[260px] rounded-xl overflow-hidden z-50"
+                    className="absolute top-full left-0 mt-1 w-[260px] rounded-xl overflow-hidden z-[10000]"
                     style={{ background: "#0D0D15", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 8px 32px rgba(0,0,0,0.5)" }}
                     initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.15 }}
