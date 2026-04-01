@@ -23,6 +23,7 @@ const FOOTER_LINKS = {
     { to: "/#founding-pilots", label: "Founding Pilots" },
     { to: "/#contact", label: "Contact" },
     { to: "/about", label: "About" },
+    { to: "/brand-guidelines", label: "Brand Guidelines" },
   ],
   Legal: [
     { to: "/privacy", label: "Privacy" },
