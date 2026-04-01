@@ -253,9 +253,7 @@ export default function ToroaLandingPage() {
             className="rounded-2xl p-8 md:p-10 card-glow-hover text-center"
             style={{ background: "rgba(15,15,26,0.7)", border: "1px solid rgba(212,168,67,0.15)", boxShadow: "0 0 40px rgba(212,168,67,0.08), 0 8px 40px rgba(0,0,0,0.3)" }}
           >
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5" style={{ background: "rgba(212,168,67,0.1)", border: "1px solid rgba(212,168,67,0.25)" }}>
-              <Youtube size={28} style={{ color: "#D4A843" }} />
-            </div>
+            <span className="text-4xl block mx-auto mb-5">🎓</span>
             <h2 className="font-display text-xl mb-3" style={{ fontWeight: 300, color: "#FFFFFF" }}>
               Mārama — instant learning from any video
             </h2>
