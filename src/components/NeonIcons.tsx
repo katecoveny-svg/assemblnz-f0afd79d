@@ -1,4 +1,4 @@
-// Custom SVG icons aligned with the Whenua brand palette
+// Custom SVG icons — Whenua brand palette
 // Kōwhai Gold, Pounamu Teal, Tāngaroa Navy, White
 
 const C = {
