@@ -232,7 +232,7 @@ export default function ToroaLandingPage() {
       name: firstName.trim() || "Tōroa Waitlist",
       email: email.trim(),
       message: `Tōroa beta waitlist signup. Pain point: ${painPoint || "Not specified"}`,
-    }).then(() => {}).catch(console.error);
+    }).then(() => {});
   };
 
   const inputStyle = {
