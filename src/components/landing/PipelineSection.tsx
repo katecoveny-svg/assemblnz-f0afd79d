@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { User, Shield, Brain, Search, Lock, Database, GitBranch, Cpu, FileText, HardDrive, ArrowDown } from "lucide-react";
+import { Shield, Brain, Search, Lock, Database, GitBranch, Cpu, FileText, HardDrive, ArrowDown } from "lucide-react";
 
 const PIPELINE_STEPS = [
   { step: "01", label: "KANOHI", subtitle: "Dashboard", desc: "Bilingual interface — parses intent, language detection, and surfaces the right tools.", icon: Search, color: "hsl(var(--kowhai))" },
