@@ -2538,7 +2538,7 @@ const ChatPage = () => {
             </div>
           </form>
           {/* Build with SPARK cross-agent CTA */}
-          {!isSpark && (
+          {!isSpark && !isAura && (
             <div className="px-4 pb-2 flex justify-end relative z-50">
               <Link
                 to={`/chat/spark?from=${encodeURIComponent(agent.name)}&context=${encodeURIComponent(messages.filter(m => m.role === "user").slice(-1)[0]?.content || "")}`}
