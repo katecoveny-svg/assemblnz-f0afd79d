@@ -335,6 +335,7 @@ export default function ToroaLandingPage() {
         <div className="max-w-3xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0} className="text-center mb-8">
             <GraduationCap size={24} className="mx-auto mb-4" style={{ color: "#D4A843" }} />
+            <h2 className="font-display text-xl mb-3" style={{ fontWeight: 300, color: "#FFFFFF" }}>
               Try Mārama — instant learning from any video
             </h2>
             <p className="font-body text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 520, margin: "0 auto" }}>
