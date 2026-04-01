@@ -124,12 +124,12 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
     if (!testMessage.trim() || !config?.twilio_phone_number) return;
     setSending(true);
     try {
-      const { data, error } = await supabase.functions.invoke("agent-sms", {
+      const { data, error } = await supabase.functions.invoke("tnz-inbound", {
         body: {
-          Body: testMessage,
+          Message: testMessage,
           From: "+64210000000",
           To: config.twilio_phone_number,
-          MessageSid: `test-${Date.now()}`,
+          MessageID: `test-${Date.now()}`,
         },
       });
       if (error) throw error;
@@ -142,7 +142,7 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
     setSending(false);
   };
 
-  const webhookUrl = `${window.location.origin.replace("localhost:8080", "<your-supabase-project>.supabase.co")}/functions/v1/agent-sms`;
+  const webhookUrl = `${import.meta.env.VITE_SUPABASE_URL || window.location.origin}/functions/v1/agent-sms`;
 
   const copyWebhook = () => {
     navigator.clipboard.writeText(webhookUrl);
@@ -175,7 +175,7 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
         <h2 className="text-sm font-semibold text-white/90">{agentName} SMS</h2>
       </div>
       <p className="text-xs text-white/40">
-        Let customers text {agentName} directly via SMS. Powered by Twilio.
+        Let customers text {agentName} directly via SMS. Powered by TNZ Group.
       </p>
 
       {/* Setup / Enable */}
@@ -189,14 +189,14 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
             <p className="text-sm text-white/80 font-medium">Enable SMS for {agentName}</p>
             <p className="text-[10px] text-white/40 mt-1">
               Customers can text a phone number and get instant AI-powered responses from {agentName}.
-              You'll need a Twilio account and phone number.
+              Uses TNZ Group for NZ-native SMS delivery.
             </p>
           </div>
           <div className="max-w-xs mx-auto space-y-2">
             <input
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
-              placeholder="Twilio number (e.g. +6421234567)"
+              placeholder="TNZ number (e.g. +6421234567)"
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white/80 placeholder:text-white/25 focus:outline-none focus:border-white/20"
             />
             <button
@@ -244,7 +244,7 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
             style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
           >
             <p className="text-[10px] text-white/50 font-semibold uppercase tracking-wide">
-              Twilio Webhook URL
+              TNZ Inbound Webhook URL
             </p>
             <div className="flex items-center gap-2">
               <code className="text-[10px] px-2 py-1.5 rounded bg-white/5 text-white/50 font-mono flex-1 truncate">
@@ -259,7 +259,7 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
               </button>
             </div>
             <p className="text-[9px] text-white/20">
-              In your Twilio console, set this URL as the webhook for "A message comes in" on your phone number.
+              In your TNZ dashboard, set this URL as the inbound webhook for your number.
             </p>
           </div>
 
@@ -272,11 +272,11 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
               Quick Setup Guide
             </p>
             <div className="space-y-1.5 text-[10px] text-white/35">
-              <p>1. Sign up at twilio.com and get a NZ phone number (~$1.50/mo)</p>
-              <p>2. In Twilio Console, go to Phone Numbers &gt; your number</p>
-              <p>3. Under "Messaging", set the webhook URL above for incoming messages</p>
-              <p>4. Set method to HTTP POST</p>
-              <p>5. Add your Twilio credentials to Supabase Edge Function secrets</p>
+              <p>1. Sign up at tnz.co.nz and get a NZ phone number</p>
+              <p>2. In TNZ dashboard, go to your number settings</p>
+              <p>3. Set the inbound webhook URL above for incoming messages</p>
+              <p>4. Set format to JSON, method to HTTP POST</p>
+              <p>5. TNZ credentials are already configured in your backend</p>
               <p>6. Text your number to test!</p>
             </div>
           </div>
@@ -288,7 +288,7 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
           >
             <p className="text-[10px] text-white/50 font-semibold uppercase tracking-wide">
               <Phone size={10} className="inline mr-1" />
-              Twilio Phone Number
+              TNZ Phone Number
             </p>
             <div className="flex gap-2">
               <input
@@ -348,7 +348,7 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
             </p>
             {messages.length === 0 ? (
               <p className="text-xs text-white/25 py-4 text-center">
-                No messages yet. Text your Twilio number to start a conversation.
+                No messages yet. Text your TNZ number to start a conversation.
               </p>
             ) : (
               <div className="space-y-1.5 max-h-64 overflow-y-auto">
