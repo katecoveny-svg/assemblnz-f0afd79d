@@ -63,9 +63,7 @@ const BrandNav = () => {
       <header
         className="sticky top-0 z-[9999] flex items-center gap-3 px-5 sm:px-8 py-3.5 overflow-visible"
         style={{
-          background: "rgba(9,9,15,0.85)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
+          background: "#09090F",
           borderBottom: "1px solid rgba(255,255,255,0.06)",
         }}
       >
