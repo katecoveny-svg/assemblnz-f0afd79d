@@ -3,7 +3,11 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import SEO from "@/components/SEO";
 import { toast } from "sonner";
-import { ChevronDown, MessageSquare, Shield, Smartphone, Clock, HelpCircle, CalendarDays, ShoppingCart, UtensilsCrossed, Bus, Heart, Stethoscope, Receipt, BookOpen, Users } from "lucide-react";
+import {
+  ChevronDown, MessageSquare, Shield, Smartphone, Clock, Camera,
+  CalendarDays, ShoppingCart, Bus, CloudSun, Lock, Youtube,
+  Utensils, Backpack, Bell, Sparkles,
+} from "lucide-react";
 import toroaLogo from "@/assets/brand/toroa-logo.svg";
 
 const fadeUp = {
@@ -43,19 +47,53 @@ function Starfield() {
   return <canvas ref={ref} className="absolute inset-0 w-full h-full pointer-events-none" />;
 }
 
-const FEATURES = [
-  { icon: Clock, title: "Reminders & deadlines", desc: "School notices, permission slips, rego renewals, vet appointments — Tōroa remembers so you don't have to." },
-  { icon: UtensilsCrossed, title: "Meal planning", desc: "Weekly meal plans based on what's in your fridge, dietary needs, and budget. Generates shopping lists automatically." },
-  { icon: CalendarDays, title: "Family calendar", desc: "Sports practice, pick-ups, birthday parties, school events — one place for the whole whānau's schedule." },
-  { icon: ShoppingCart, title: "Grocery & shopping lists", desc: "Build, share, and manage household shopping lists via text. Cross items off as you go." },
-  { icon: Bus, title: "School run coordination", desc: "Track bus routes, manage carpools, and coordinate drop-offs and pick-ups across multiple kids and schools." },
-  { icon: Receipt, title: "Household budget", desc: "Track spending, set weekly budgets, and get alerts when you're approaching limits — all via SMS." },
-  { icon: Heart, title: "Wellbeing check-ins", desc: "Gentle daily or weekly check-ins for family members. Track mood, energy, and sleep patterns over time." },
-  { icon: Stethoscope, title: "Health & appointments", desc: "GP visits, prescriptions, immunisation schedules, and specialist referrals — managed and reminded." },
-  { icon: BookOpen, title: "Homework & learning", desc: "Track homework deadlines, reading logs, and school projects. Summarise curriculum topics in plain English." },
-  { icon: Users, title: "Whānau coordination", desc: "Share tasks and responsibilities across parents, grandparents, and caregivers. Everyone stays in the loop via SMS." },
+/* ── Feature showcase cards ── */
+const HERO_FEATURES = [
+  {
+    icon: Camera,
+    title: "Photo → school notice parsed",
+    desc: "Snap a photo of a school newsletter or notice. Tōroa reads it, extracts dates, events, and deadlines, then adds them to your family calendar automatically.",
+    color: "#D4A843",
+  },
+  {
+    icon: CalendarDays,
+    title: "Calendar sync & gear lists",
+    desc: "School events, sports fixtures, and practices sync to one calendar. Tōroa auto-generates packing and gear lists the night before — so nothing gets forgotten.",
+    color: "#3A7D6E",
+  },
+  {
+    icon: Utensils,
+    title: "Photo your fridge → meal plan + shopping list",
+    desc: "Take a photo of what's in your fridge. Tōroa creates a weekly meal plan from what you have, then builds a smart shopping list for what you need.",
+    color: "#D4A843",
+  },
+  {
+    icon: Bus,
+    title: "Live Auckland bus tracking",
+    desc: "Real-time Auckland Transport bus positions. Know exactly when the school bus is arriving — no more standing in the rain guessing.",
+    color: "#1A6B9C",
+  },
+  {
+    icon: CloudSun,
+    title: "Live weather → dress the kids",
+    desc: "Tōroa checks the morning weather and texts you what the kids should wear today. Rain jacket? Sunhat? Shorts or long pants? Sorted.",
+    color: "#3A7D6E",
+  },
+  {
+    icon: Lock,
+    title: "Safe & secure family chat",
+    desc: "A private, encrypted family messaging space. No ads, no strangers, no algorithmic feeds — just your whānau, kept safe.",
+    color: "#D4A843",
+  },
+];
+
+const MORE_FEATURES = [
+  { icon: Bell, title: "Smart reminders", desc: "Permission slips, rego renewals, vet appointments, bill due dates — Tōroa remembers so you don't have to." },
+  { icon: ShoppingCart, title: "Shared grocery lists", desc: "Build, share, and tick off shopping lists via text. Anyone in the whānau can add items on the go." },
+  { icon: Backpack, title: "Homework tracker", desc: "Track homework deadlines, reading logs, and projects. Get gentle nudges before things are due." },
   { icon: Shield, title: "NZ-specific answers", desc: "FamilyBoost, Working for Families, school zones, holiday dates — Tōroa knows Aotearoa context." },
-  { icon: MessageSquare, title: "Just text", desc: "No app to download. No login to remember. No notifications to manage. Just text like you would a friend." },
+  { icon: Clock, title: "Household budget", desc: "Track weekly spending, set limits, and get alerts — all via SMS. No spreadsheets needed." },
+  { icon: MessageSquare, title: "Just text", desc: "No app to download. No login to remember. Works on every phone, every age group. Instant." },
 ];
 
 const SMS_REASONS = [
@@ -67,9 +105,11 @@ const SMS_REASONS = [
 const FAQS = [
   { q: "What is Tōroa?", a: "Tōroa is an SMS-first AI navigator built for families in Aotearoa. It helps with everyday family admin — reminders, coordination, useful information — via text message." },
   { q: "How does it work?", a: "Once you're invited to the beta, you'll receive a text from Tōroa. From there, just text your questions or requests like you would to a friend. Tōroa responds with helpful, NZ-specific answers." },
+  { q: "Can I really photograph a school notice?", a: "Yes. Send a photo of any printed notice, newsletter, or letter. Tōroa uses vision AI to read the content, extract key dates and actions, and add them to your family calendar." },
+  { q: "How does bus tracking work?", a: "Tōroa connects to Auckland Transport's live bus feed. Text 'Where's the bus?' and get real-time position and ETA for your child's route." },
   { q: "Is my data safe?", a: "Yes. Your data stays in New Zealand. We don't sell it, share it, or use it for advertising. Tōroa follows the NZ Privacy Act 2020 and Assembl's tikanga-based data governance." },
   { q: "How much does it cost?", a: "Tōroa will be $29/month when it launches. Beta testers get early access and launch pricing locked in." },
-  { q: "Is Tōroa part of Assembl?", a: "Tōroa is a standalone product built by Assembl. It's designed specifically for families, separate from Assembl's business intelligence platform." },
+  { q: "What is the Mārama learning tool?", a: "Drop any YouTube URL into Tōroa and it instantly produces an interactive learning module — vocab flashcards, sentence translations, and quizzes. Perfect for homework help or te reo Māori practice." },
 ];
 
 export default function ToroaLandingPage() {
@@ -113,7 +153,7 @@ export default function ToroaLandingPage() {
 
   return (
     <div style={{ background: "#09090F" }} className="min-h-screen text-white font-body relative overflow-hidden">
-      <SEO title="Tōroa — Family AI Navigator | SMS-First | Built for Aotearoa" description="SMS-first family AI navigator built for whānau in Aotearoa. Reminders, coordination, useful information — via text. Join the beta waitlist." />
+      <SEO title="Tōroa — Family AI Navigator | SMS-First | Built for Aotearoa" description="SMS-first family AI navigator built for whānau in Aotearoa. Photo school notices, track buses, meal plan from your fridge, live weather reminders. Join the beta." />
       <Starfield />
 
       {/* NAV */}
@@ -121,7 +161,7 @@ export default function ToroaLandingPage() {
         <a href="/" className="text-xs font-body" style={{ color: "rgba(255,255,255,0.4)" }}>← assembl.co.nz</a>
       </header>
 
-      {/* HERO with sign-up card */}
+      {/* ═══ HERO ═══ */}
       <section className="relative flex flex-col items-center justify-center px-6 pt-16 pb-16 md:pt-24 md:pb-20 min-h-[70vh]">
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(600px circle at 50% 35%, rgba(212,168,67,0.06), transparent 70%)" }} />
 
@@ -147,8 +187,8 @@ export default function ToroaLandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-2xl p-6 md:p-8"
-            style={{ background: "rgba(15,15,26,0.7)", border: "1px solid rgba(212,168,67,0.15)", boxShadow: "0 8px 40px rgba(0,0,0,0.3)" }}
+            className="rounded-2xl p-6 md:p-8 card-glow-hover"
+            style={{ background: "rgba(15,15,26,0.7)", border: "1px solid rgba(212,168,67,0.15)", boxShadow: "0 0 30px rgba(212,168,67,0.08), 0 8px 40px rgba(0,0,0,0.3)" }}
           >
             {done ? (
               <div className="text-center py-6">
@@ -174,7 +214,7 @@ export default function ToroaLandingPage() {
                   <span className="text-[11px] font-body" style={{ color: "rgba(255,255,255,0.4)" }}>I'd also like email updates (optional)</span>
                 </label>
 
-                <button type="submit" disabled={loading} className="w-full rounded-lg px-6 py-3 font-display text-sm transition-all hover:scale-[1.01] disabled:opacity-50" style={{ fontWeight: 400, background: "#D4A843", color: "#09090F" }}>
+                <button type="submit" disabled={loading} className="cta-glass-green w-full rounded-lg px-6 py-3 font-display text-sm transition-all disabled:opacity-50">
                   {loading ? "Joining…" : "Join the beta waitlist"}
                 </button>
                 {count !== null && (
@@ -186,17 +226,73 @@ export default function ToroaLandingPage() {
         </div>
       </section>
 
-      {/* WHAT TŌROA HELPS WITH */}
+      {/* ═══ HERO FEATURES — large showcase cards ═══ */}
+      <section className="relative z-10 px-6 py-16 md:py-24">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="font-display text-center mb-4" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,28px)", color: "#D4A843" }}>
+            What Tōroa actually does
+          </h2>
+          <p className="font-body text-center text-sm mb-12" style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "0 auto" }}>
+            Real tools for real families. Not a chatbot — a navigator.
+          </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {HERO_FEATURES.map((f, i) => (
+              <motion.div key={f.title} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i % 3}
+                className="rounded-2xl p-6 card-glow-hover"
+                style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: `0 0 20px ${f.color}10, 0 4px 20px rgba(0,0,0,0.3)` }}
+              >
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style={{ background: `${f.color}15`, border: `1px solid ${f.color}30` }}>
+                  <f.icon size={20} style={{ color: f.color }} />
+                </div>
+                <h3 className="font-display text-sm mb-2" style={{ fontWeight: 400, color: "#FFFFFF" }}>{f.title}</h3>
+                <p className="font-body text-xs" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>{f.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ MĀRAMA LEARNING TOOL — spotlight ═══ */}
+      <section className="relative z-10 px-6 py-16 md:py-20">
+        <div className="max-w-3xl mx-auto">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0}
+            className="rounded-2xl p-8 md:p-10 card-glow-hover text-center"
+            style={{ background: "rgba(15,15,26,0.7)", border: "1px solid rgba(212,168,67,0.15)", boxShadow: "0 0 40px rgba(212,168,67,0.08), 0 8px 40px rgba(0,0,0,0.3)" }}
+          >
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5" style={{ background: "rgba(212,168,67,0.1)", border: "1px solid rgba(212,168,67,0.25)" }}>
+              <Youtube size={28} style={{ color: "#D4A843" }} />
+            </div>
+            <h2 className="font-display text-xl mb-3" style={{ fontWeight: 300, color: "#FFFFFF" }}>
+              Mārama — instant learning from any video
+            </h2>
+            <p className="font-body text-sm mb-4" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 520, margin: "0 auto" }}>
+              Drop in a YouTube URL and Tōroa instantly produces an interactive learning module — vocab flashcards with pronunciation guides, sentence translations, and interactive quizzes with immediate feedback.
+            </p>
+            <p className="font-body text-xs" style={{ color: "rgba(255,255,255,0.35)", lineHeight: 1.6 }}>
+              Perfect for homework help, te reo Māori practice, or exploring any topic together as a whānau.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3 mt-6">
+              {["Vocab flashcards", "Pronunciation guides", "Sentence translations", "Interactive quizzes"].map((t) => (
+                <span key={t} className="px-3 py-1.5 rounded-full text-[10px] stat-pill" style={{ fontFamily: "'JetBrains Mono', monospace", background: "rgba(212,168,67,0.08)", border: "1px solid rgba(212,168,67,0.2)", color: "rgba(255,255,255,0.6)", boxShadow: "0 0 12px rgba(212,168,67,0.06)" }}>
+                  {t}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ MORE FEATURES — compact grid ═══ */}
       <section className="relative z-10 px-6 py-16 md:py-20">
         <div className="max-w-4xl mx-auto">
           <h2 className="font-display text-center mb-10" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,26px)", color: "#D4A843" }}>
-            What Tōroa helps with
+            Plus everything else a busy whānau needs
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {FEATURES.map((f, i) => (
+            {MORE_FEATURES.map((f, i) => (
               <motion.div key={f.title} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i % 3}
-                className="rounded-xl p-5"
-                style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)" }}
+                className="rounded-xl p-5 card-glow-hover"
+                style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)", boxShadow: "0 0 16px rgba(212,168,67,0.04), 0 4px 16px rgba(0,0,0,0.25)" }}
               >
                 <f.icon size={20} style={{ color: "#D4A843", marginBottom: "10px" }} />
                 <h3 className="font-display text-sm mb-1.5" style={{ fontWeight: 300, color: "#FFFFFF" }}>{f.title}</h3>
@@ -207,7 +303,7 @@ export default function ToroaLandingPage() {
         </div>
       </section>
 
-      {/* WHY SMS-FIRST */}
+      {/* ═══ WHY SMS-FIRST ═══ */}
       <section className="relative z-10 px-6 py-16 md:py-20">
         <div className="max-w-3xl mx-auto">
           <h2 className="font-display text-center mb-10" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,26px)", color: "#D4A843" }}>
@@ -216,8 +312,8 @@ export default function ToroaLandingPage() {
           <div className="space-y-4">
             {SMS_REASONS.map((r, i) => (
               <motion.div key={r.title} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i}
-                className="flex items-start gap-4 rounded-xl p-5"
-                style={{ background: "rgba(15,15,26,0.4)", border: "1px solid rgba(255,255,255,0.06)" }}
+                className="flex items-start gap-4 rounded-xl p-5 card-glow-hover"
+                style={{ background: "rgba(15,15,26,0.4)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 16px rgba(58,125,110,0.04), 0 4px 16px rgba(0,0,0,0.2)" }}
               >
                 <Smartphone size={18} style={{ color: "#D4A843", marginTop: "2px", flexShrink: 0 }} />
                 <div>
@@ -230,7 +326,7 @@ export default function ToroaLandingPage() {
         </div>
       </section>
 
-      {/* PRIVACY & TRUST */}
+      {/* ═══ PRIVACY & TRUST ═══ */}
       <section className="relative z-10 px-6 py-16 md:py-20">
         <div className="max-w-2xl mx-auto text-center">
           <Shield size={28} style={{ color: "#3A7D6E", margin: "0 auto 16px" }} />
@@ -242,15 +338,16 @@ export default function ToroaLandingPage() {
               "Your data stays in New Zealand",
               "We never sell or share your family's information",
               "Built under the NZ Privacy Act 2020",
+              "Encrypted family chat — no ads, no strangers",
               "Tikanga-based data governance from Assembl",
             ].map((t) => (
-              <p key={t} className="font-body text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>{t}</p>
+              <p key={t} className="font-body text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>✓ {t}</p>
             ))}
           </div>
         </div>
       </section>
 
-      {/* WAITLIST FORM */}
+      {/* ═══ BOTTOM WAITLIST ═══ */}
       <section id="waitlist" className="relative z-10 px-6 py-16 md:py-20">
         <div className="max-w-md mx-auto">
           <h2 className="font-display text-center mb-8" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,26px)", color: "#D4A843" }}>
@@ -258,68 +355,40 @@ export default function ToroaLandingPage() {
           </h2>
 
           {done ? (
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl p-8 text-center" style={{ background: "rgba(58,125,110,0.15)", border: "1px solid rgba(58,125,110,0.3)" }}>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl p-8 text-center" style={{ background: "rgba(58,125,110,0.15)", border: "1px solid rgba(58,125,110,0.3)", boxShadow: "0 0 30px rgba(58,125,110,0.08)" }}>
               <p className="text-2xl mb-3">✓</p>
               <p className="font-display text-lg mb-2" style={{ fontWeight: 300, color: "#FFFFFF" }}>Ka pai — you're on the list.</p>
               <p className="font-body text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>We'll text you when your invite is ready.</p>
             </motion.div>
           ) : (
-            <form onSubmit={submit} className="space-y-4 rounded-xl p-6" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)" }}>
+            <form onSubmit={submit} className="space-y-4 rounded-xl p-6 card-glow-hover" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)", boxShadow: "0 0 24px rgba(212,168,67,0.06), 0 4px 20px rgba(0,0,0,0.3)" }}>
               <div>
                 <label className="block text-xs mb-1.5 font-body" style={{ color: "rgba(255,255,255,0.6)" }}>First name</label>
-                <input
-                  type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="Your first name"
-                  className="w-full rounded-lg px-4 py-3 text-sm font-body outline-none" style={inputStyle}
-                />
+                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Your first name" className="w-full rounded-lg px-4 py-3 text-sm font-body outline-none" style={inputStyle} />
               </div>
               <div>
                 <label className="block text-xs mb-1.5 font-body" style={{ color: "rgba(255,255,255,0.6)" }}>Mobile number</label>
-                <input
-                  type="tel" value={mobile} onChange={(e) => setMobile(e.target.value)}
-                  placeholder="021 XXX XXXX"
-                  className="w-full rounded-lg px-4 py-3 text-sm font-body outline-none" style={inputStyle}
-                />
+                <input type="tel" value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder="021 XXX XXXX" className="w-full rounded-lg px-4 py-3 text-sm font-body outline-none" style={inputStyle} />
               </div>
               <div>
                 <label className="block text-xs mb-1.5 font-body" style={{ color: "rgba(255,255,255,0.6)" }}>Email</label>
-                <input
-                  type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.co.nz"
-                  className="w-full rounded-lg px-4 py-3 text-sm font-body outline-none" style={inputStyle}
-                />
+                <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.co.nz" className="w-full rounded-lg px-4 py-3 text-sm font-body outline-none" style={inputStyle} />
               </div>
               <div>
                 <label className="block text-xs mb-1.5 font-body" style={{ color: "rgba(255,255,255,0.6)" }}>Biggest admin pain right now</label>
-                <textarea
-                  value={painPoint} onChange={(e) => setPainPoint(e.target.value)}
-                  placeholder="e.g. keeping track of school notices, meal planning..."
-                  rows={3}
-                  className="w-full rounded-lg px-4 py-3 text-sm font-body outline-none resize-none" style={inputStyle}
-                />
+                <textarea value={painPoint} onChange={(e) => setPainPoint(e.target.value)} placeholder="e.g. keeping track of school notices, meal planning..." rows={3} className="w-full rounded-lg px-4 py-3 text-sm font-body outline-none resize-none" style={inputStyle} />
               </div>
 
-              {/* Checkboxes */}
               <label className="flex items-start gap-3 cursor-pointer">
-                <input type="checkbox" checked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)}
-                  className="mt-0.5 rounded" style={{ accentColor: "#D4A843" }} />
-                <span className="text-xs font-body" style={{ color: "rgba(255,255,255,0.6)" }}>
-                  I agree to receive SMS updates about the Tōroa beta
-                </span>
+                <input type="checkbox" checked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)} className="mt-0.5 rounded" style={{ accentColor: "#D4A843" }} />
+                <span className="text-xs font-body" style={{ color: "rgba(255,255,255,0.6)" }}>I agree to receive SMS updates about the Tōroa beta</span>
               </label>
               <label className="flex items-start gap-3 cursor-pointer">
-                <input type="checkbox" checked={emailConsent} onChange={(e) => setEmailConsent(e.target.checked)}
-                  className="mt-0.5 rounded" style={{ accentColor: "#D4A843" }} />
-                <span className="text-xs font-body" style={{ color: "rgba(255,255,255,0.5)" }}>
-                  I'd also like email updates (optional)
-                </span>
+                <input type="checkbox" checked={emailConsent} onChange={(e) => setEmailConsent(e.target.checked)} className="mt-0.5 rounded" style={{ accentColor: "#D4A843" }} />
+                <span className="text-xs font-body" style={{ color: "rgba(255,255,255,0.5)" }}>I'd also like email updates (optional)</span>
               </label>
 
-              <button
-                type="submit" disabled={loading}
-                className="w-full rounded-lg px-6 py-3 font-display text-sm transition-all hover:scale-[1.01] disabled:opacity-50"
-                style={{ fontWeight: 400, background: "#D4A843", color: "#09090F" }}
-              >
+              <button type="submit" disabled={loading} className="cta-glass-green w-full rounded-lg px-6 py-3 font-display text-sm transition-all disabled:opacity-50">
                 {loading ? "Joining…" : "Join the beta waitlist"}
               </button>
             </form>
@@ -333,7 +402,7 @@ export default function ToroaLandingPage() {
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* ═══ FAQ ═══ */}
       <section className="relative z-10 px-6 py-16 md:py-20">
         <div className="max-w-2xl mx-auto">
           <h2 className="font-display text-center mb-8" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,24px)", color: "#D4A843" }}>
@@ -341,11 +410,8 @@ export default function ToroaLandingPage() {
           </h2>
           <div className="space-y-2">
             {FAQS.map((faq, i) => (
-              <div key={i} className="rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.06)" }}>
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between px-5 py-4 text-left"
-                >
+              <div key={i} className="rounded-xl overflow-hidden card-glow-hover" style={{ border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 12px rgba(212,168,67,0.03)" }}>
+                <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between px-5 py-4 text-left">
                   <span className="text-sm font-body pr-4" style={{ color: "#FFFFFF" }}>{faq.q}</span>
                   <ChevronDown size={16} className={`shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`} style={{ color: "rgba(255,255,255,0.35)" }} />
                 </button>
