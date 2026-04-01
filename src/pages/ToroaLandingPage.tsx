@@ -103,7 +103,7 @@ function TryToroaChat() {
         },
       });
       if (error) throw error;
-      const reply = data?.text || data?.choices?.[0]?.message?.content || "Kia ora! I'm here to help your whānau.";
+      const reply = data?.content || data?.text || data?.choices?.[0]?.message?.content || "Kia ora! I'm here to help your whānau.";
       setMessages(prev => [...prev, { role: "assistant", text: reply }]);
     } catch {
       setMessages(prev => [...prev, { role: "assistant", text: "Kia ora! I'm Tōroa — your family navigator. Try asking me about meal planning, school notices, or what the kids should wear today!" }]);
