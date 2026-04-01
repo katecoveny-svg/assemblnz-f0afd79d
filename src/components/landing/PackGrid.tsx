@@ -1,63 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown, UtensilsCrossed, HardHat, Palette, Briefcase, Cpu } from "lucide-react";
 import { agents, packs } from "@/data/agents";
 import toroaIcon from "@/assets/brand/toroa-hero.png";
 
-const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
-  manaaki: (
-    <svg viewBox="0 0 30 30" className="w-full h-full">
-      <circle cx="15" cy="5" r="2.5" fill="#D4A843" />
-      <circle cx="7" cy="22" r="2.5" fill="#D4A843" />
-      <circle cx="23" cy="22" r="2.5" fill="#D4A843" />
-      <line x1="15" y1="5" x2="7" y2="22" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
-      <line x1="7" y1="22" x2="23" y2="22" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
-      <line x1="23" y1="22" x2="15" y2="5" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
-    </svg>
-  ),
-  hanga: (
-    <svg viewBox="0 0 30 30" className="w-full h-full">
-      <circle cx="7" cy="5" r="2.5" fill="#3A7D6E" />
-      <circle cx="23" cy="5" r="2.5" fill="#3A7D6E" />
-      <circle cx="15" cy="22" r="2.5" fill="#3A7D6E" />
-      <line x1="7" y1="5" x2="23" y2="5" stroke="#3A7D6E" strokeWidth="1" opacity="0.5" />
-      <line x1="23" y1="5" x2="15" y2="22" stroke="#3A7D6E" strokeWidth="1" opacity="0.5" />
-      <line x1="15" y1="22" x2="7" y2="5" stroke="#3A7D6E" strokeWidth="1" opacity="0.5" />
-    </svg>
-  ),
-  auaha: (
-    <svg viewBox="0 0 30 30" className="w-full h-full">
-      <circle cx="12" cy="6" r="2.5" fill="#F0D078" />
-      <circle cx="8" cy="20" r="2.5" fill="#5AADA0" />
-      <circle cx="22" cy="18" r="2.5" fill="#F0D078" />
-      <line x1="12" y1="6" x2="8" y2="20" stroke="#F0D078" strokeWidth="1" opacity="0.5" />
-      <line x1="8" y1="20" x2="22" y2="18" stroke="#5AADA0" strokeWidth="1" opacity="0.5" />
-      <line x1="22" y1="18" x2="12" y2="6" stroke="#F0D078" strokeWidth="1" opacity="0.5" />
-    </svg>
-  ),
-  pakihi: (
-    <svg viewBox="0 0 30 30" className="w-full h-full">
-      <circle cx="20" cy="8" r="2.5" fill="#1A3A5C" />
-      <circle cx="20" cy="22" r="2.5" fill="#1A3A5C" />
-      <circle cx="7" cy="15" r="2.5" fill="#1A3A5C" />
-      <line x1="20" y1="8" x2="20" y2="22" stroke="#1A3A5C" strokeWidth="1" opacity="0.5" />
-      <line x1="20" y1="22" x2="7" y2="15" stroke="#1A3A5C" strokeWidth="1" opacity="0.5" />
-      <line x1="7" y1="15" x2="20" y2="8" stroke="#1A3A5C" strokeWidth="1" opacity="0.5" />
-    </svg>
-  ),
-  hangarau: (
-    <svg viewBox="0 0 30 30" className="w-full h-full">
-      <circle cx="15" cy="5" r="2.5" fill="#5AADA0" />
-      <circle cx="25" cy="15" r="2.5" fill="#3A6A9C" />
-      <circle cx="15" cy="25" r="2.5" fill="#5AADA0" />
-      <circle cx="5" cy="15" r="2.5" fill="#3A6A9C" />
-      <line x1="15" y1="5" x2="25" y2="15" stroke="#5AADA0" strokeWidth="1" opacity="0.5" />
-      <line x1="25" y1="15" x2="15" y2="25" stroke="#3A6A9C" strokeWidth="1" opacity="0.5" />
-      <line x1="15" y1="25" x2="5" y2="15" stroke="#5AADA0" strokeWidth="1" opacity="0.5" />
-      <line x1="5" y1="15" x2="15" y2="5" stroke="#3A6A9C" strokeWidth="1" opacity="0.5" />
-    </svg>
-  ),
+const PACK_ICONS: Record<string, React.ReactNode> = {
+  manaaki: <UtensilsCrossed size={28} color="#D4A843" style={{ filter: "drop-shadow(0 0 6px rgba(212,168,67,0.5))" }} />,
+  hanga: <HardHat size={28} color="#D4A843" style={{ filter: "drop-shadow(0 0 6px rgba(212,168,67,0.5))" }} />,
+  auaha: <Palette size={28} color="#D4A843" style={{ filter: "drop-shadow(0 0 6px rgba(212,168,67,0.5))" }} />,
+  pakihi: <Briefcase size={28} color="#D4A843" style={{ filter: "drop-shadow(0 0 6px rgba(212,168,67,0.5))" }} />,
+  hangarau: <Cpu size={28} color="#D4A843" style={{ filter: "drop-shadow(0 0 6px rgba(212,168,67,0.5))" }} />,
 };
 
 const PACK_DESCRIPTIONS: Record<string, string> = {
@@ -137,11 +90,10 @@ const PackGrid = () => {
 
                 <div className="p-5">
                   <div className="flex items-center gap-3 mb-3">
-                    <div
-                      className="w-8 h-8 shrink-0"
-                      style={{ filter: `drop-shadow(0 0 8px ${pack.color}40)` }}
+                     <div
+                      className="w-8 h-8 shrink-0 flex items-center justify-center"
                     >
-                      {CONSTELLATION_MARKS[pack.id]}
+                      {PACK_ICONS[pack.id]}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3
