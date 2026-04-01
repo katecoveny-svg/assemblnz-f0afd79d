@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import SEO from "@/components/SEO";
 import { toast } from "sonner";
-import { ChevronDown, Send } from "lucide-react";
+import { ChevronDown, Send, Camera, CalendarDays, UtensilsCrossed, Bus, CloudSun, ShieldCheck, Bell, ShoppingCart, BookOpen, Globe, Wallet, MessageSquare, Smartphone, Shield, GraduationCap } from "lucide-react";
 import toroaLogo from "@/assets/brand/toroa-logo.svg";
 import TeReoVideoLearner from "@/components/chat/TeReoVideoLearner";
 
