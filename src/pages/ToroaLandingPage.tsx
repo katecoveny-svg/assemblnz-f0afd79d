@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import SEO from "@/components/SEO";
 import { toast } from "sonner";
-import { ChevronDown, MessageSquare, Shield, Smartphone, Clock, HelpCircle } from "lucide-react";
+import { ChevronDown, MessageSquare, Shield, Smartphone, Clock, HelpCircle, CalendarDays, ShoppingCart, UtensilsCrossed, Bus, Heart, Stethoscope, Receipt, BookOpen, Users } from "lucide-react";
+import toroaLogo from "@/assets/brand/toroa-logo.svg";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -43,9 +44,18 @@ function Starfield() {
 }
 
 const FEATURES = [
-  { icon: Clock, title: "Family admin", desc: "Reminders, school notices, appointments — the mental load shared with an AI that actually understands NZ family life." },
-  { icon: MessageSquare, title: "Everyday coordination", desc: "Meal plans, shopping lists, activity schedules — coordinated across parents, caregivers, and whānau." },
-  { icon: HelpCircle, title: "Useful information via SMS", desc: "Ask anything: 'What's the school holiday dates?', 'How do I apply for FamilyBoost?' — answers via text." },
+  { icon: Clock, title: "Reminders & deadlines", desc: "School notices, permission slips, rego renewals, vet appointments — Tōroa remembers so you don't have to." },
+  { icon: UtensilsCrossed, title: "Meal planning", desc: "Weekly meal plans based on what's in your fridge, dietary needs, and budget. Generates shopping lists automatically." },
+  { icon: CalendarDays, title: "Family calendar", desc: "Sports practice, pick-ups, birthday parties, school events — one place for the whole whānau's schedule." },
+  { icon: ShoppingCart, title: "Grocery & shopping lists", desc: "Build, share, and manage household shopping lists via text. Cross items off as you go." },
+  { icon: Bus, title: "School run coordination", desc: "Track bus routes, manage carpools, and coordinate drop-offs and pick-ups across multiple kids and schools." },
+  { icon: Receipt, title: "Household budget", desc: "Track spending, set weekly budgets, and get alerts when you're approaching limits — all via SMS." },
+  { icon: Heart, title: "Wellbeing check-ins", desc: "Gentle daily or weekly check-ins for family members. Track mood, energy, and sleep patterns over time." },
+  { icon: Stethoscope, title: "Health & appointments", desc: "GP visits, prescriptions, immunisation schedules, and specialist referrals — managed and reminded." },
+  { icon: BookOpen, title: "Homework & learning", desc: "Track homework deadlines, reading logs, and school projects. Summarise curriculum topics in plain English." },
+  { icon: Users, title: "Whānau coordination", desc: "Share tasks and responsibilities across parents, grandparents, and caregivers. Everyone stays in the loop via SMS." },
+  { icon: Shield, title: "NZ-specific answers", desc: "FamilyBoost, Working for Families, school zones, holiday dates — Tōroa knows Aotearoa context." },
+  { icon: MessageSquare, title: "Just text", desc: "No app to download. No login to remember. No notifications to manage. Just text like you would a friend." },
 ];
 
 const SMS_REASONS = [
@@ -118,9 +128,9 @@ export default function ToroaLandingPage() {
         <div className="relative z-10 w-full max-w-4xl grid md:grid-cols-2 gap-10 items-center">
           {/* Left — copy */}
           <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
-            <motion.h1 variants={fadeUp} custom={0} className="font-display mb-4" style={{ fontWeight: 300, fontSize: "clamp(36px,6vw,56px)", color: "#D4A843", letterSpacing: "-0.01em" }}>
-              Tōroa
-            </motion.h1>
+            <motion.div variants={fadeUp} custom={0} className="mb-6">
+              <img src={toroaLogo} alt="Tōroa — Family AI Navigator" className="w-40 h-auto" />
+            </motion.div>
             <motion.p variants={fadeUp} custom={1} className="font-display text-lg mb-4" style={{ fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>
               Your whānau's intelligent navigator.
             </motion.p>
@@ -182,15 +192,15 @@ export default function ToroaLandingPage() {
           <h2 className="font-display text-center mb-10" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,26px)", color: "#D4A843" }}>
             What Tōroa helps with
           </h2>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {FEATURES.map((f, i) => (
-              <motion.div key={f.title} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i}
-                className="rounded-xl p-6"
+              <motion.div key={f.title} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i % 3}
+                className="rounded-xl p-5"
                 style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)" }}
               >
-                <f.icon size={24} style={{ color: "#D4A843", marginBottom: "12px" }} />
-                <h3 className="font-display text-sm mb-2" style={{ fontWeight: 300, color: "#FFFFFF" }}>{f.title}</h3>
-                <p className="font-body text-xs" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>{f.desc}</p>
+                <f.icon size={20} style={{ color: "#D4A843", marginBottom: "10px" }} />
+                <h3 className="font-display text-sm mb-1.5" style={{ fontWeight: 300, color: "#FFFFFF" }}>{f.title}</h3>
+                <p className="font-body text-[11px]" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>{f.desc}</p>
               </motion.div>
             ))}
           </div>
