@@ -339,7 +339,7 @@ const Index = () => {
               className="w-full px-4 py-3 rounded-xl text-sm font-body text-white placeholder:text-white/30 focus:outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }} />
             <input value={pilotBiz} onChange={(e) => setPilotBiz(e.target.value)} placeholder="Business name & industry" required
               className="w-full px-4 py-3 rounded-xl text-sm font-body text-white placeholder:text-white/30 focus:outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }} />
-            <button type="submit" className="w-full py-3.5 rounded-full text-sm font-medium flex items-center justify-center gap-2" style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#09090F" }}>
+            <button type="submit" className="cta-glass-green w-full py-3.5 rounded-full text-sm font-medium flex items-center justify-center gap-2">
               Apply for a founding pilot <ArrowRight size={16} />
             </button>
             <p className="text-[11px] text-center" style={{ color: "rgba(255,255,255,0.3)" }}>Best suited to businesses that want to replace fragmented tools with one intelligence layer.</p>
