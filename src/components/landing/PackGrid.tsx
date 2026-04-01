@@ -239,9 +239,9 @@ const PackGrid = () => {
                   <h3 className="font-display text-sm tracking-[3px] uppercase text-foreground" style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif" }}>
                     Tōroa
                   </h3>
-                  <p className="text-[11px] font-body text-muted-foreground mt-0.5">
-                    Family AI Navigator · SMS-first · Whānau intelligence · $14–29/mo
-                  </p>
+                   <p className="text-[11px] font-body text-muted-foreground mt-0.5">
+                     Family AI Navigator · SMS-first · $29/mo
+                   </p>
                 </div>
               </div>
             </motion.div>

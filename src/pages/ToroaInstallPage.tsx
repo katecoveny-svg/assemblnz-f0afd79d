@@ -134,7 +134,7 @@ export default function ToroaInstallPage() {
 
         {/* Pricing */}
         <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
-          From <span style={{ color: GOLD }}>$14/mo</span> · Built in Aotearoa · No app store needed
+          <span style={{ color: GOLD }}>$29/mo</span> · Built in Aotearoa · No app store needed
         </p>
 
         <Link to="/toroa" className="inline-flex items-center gap-1 text-xs transition hover:opacity-80" style={{ color: "rgba(255,255,255,0.25)" }}>
