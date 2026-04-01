@@ -2182,18 +2182,27 @@ const ChatPage = () => {
                   {messages.map((msg, i) => (
                     <div key={i}>
                       <div
-                        className={`flex gap-2 opacity-0 animate-fade-up ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                        className={`flex gap-2.5 opacity-0 animate-fade-up ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                         style={{ animationDelay: `${i * 30}ms`, animationFillMode: "forwards" }}
                       >
-                        {msg.role === "assistant" && <AgentAvatar agentId={agent.id} color={agent.color} size={24} showGlow={false} />}
+                        {msg.role === "assistant" && (
+                          <div className="mt-1 shrink-0">
+                            <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
+                          </div>
+                        )}
                         <div
-                          className={`max-w-[85%] px-3.5 py-2.5 rounded-xl text-sm leading-relaxed ${
-                            msg.role === "user" ? "text-foreground rounded-br-sm" : "bg-card text-foreground/90 rounded-bl-sm"
+                          className={`max-w-[82%] text-sm leading-relaxed ${
+                            msg.role === "user"
+                              ? "px-4 py-3 rounded-2xl rounded-br-md text-foreground"
+                              : "px-4 py-3 rounded-2xl rounded-bl-md text-foreground/90"
                           }`}
-                          style={msg.role === "user" ? { background: `linear-gradient(135deg, ${agent.color}18, ${agent.color}08)`, border: `1px solid ${agent.color}15` } : {}}
+                          style={msg.role === "user"
+                            ? { background: `linear-gradient(135deg, ${agent.color}20, ${agent.color}10)`, border: `1px solid ${agent.color}18` }
+                            : { background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }
+                          }
                         >
                           {msg.imageUrl && (
-                            <img src={msg.imageUrl} alt="Uploaded" className="rounded-lg mb-2 max-h-48 w-auto object-cover" />
+                            <img src={msg.imageUrl} alt="Uploaded" className="rounded-xl mb-2 max-h-48 w-auto object-cover" />
                           )}
                           {msg.fileName && (
                             <div className="flex items-center gap-1.5 mb-2 text-xs text-foreground/60">
@@ -2203,16 +2212,16 @@ const ChatPage = () => {
                           )}
                           {renderMessageContent(msg, i)}
                           {msg.role === "assistant" && (
-                            <div className="flex items-start justify-between gap-2">
+                            <div className="flex items-start justify-between gap-2 mt-2 pt-2" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
                               <div className="flex-1">
                                 <LegislationCard content={msg.content} agentColor={agent.color} />
                                 <ResponseSources content={msg.content} />
                                 <AITransparencyBadge />
-                                <p className="text-[10px] mt-2 leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.35)" }}>
-                                  AI-generated guidance — not a substitute for professional advice. Verify before acting.
+                                <p className="text-[9px] mt-1 leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.2)" }}>
+                                  AI-generated · verify before acting
                                 </p>
                               </div>
-                              <div className="flex items-center gap-1">
+                              <div className="flex items-center gap-0.5 shrink-0">
                                 <button
                                     type="button"
                                     onClick={() => speakText(msg.content, i)}
@@ -2223,7 +2232,7 @@ const ChatPage = () => {
                                     }}
                                     title={isSpeaking === i ? "Stop speaking" : "Read aloud"}
                                   >
-                                    <Volume2 size={14} />
+                                    <Volume2 size={13} />
                                   </button>
                                 <MessagePDFButton content={msg.content} agentId={agent.id} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
                                 <SaveToLibrary content={msg.content} agentId={agent.id} agentName={agent.name} agentColor={agent.color} />
