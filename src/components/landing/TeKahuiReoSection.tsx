@@ -3,16 +3,17 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import toroaIcon from "@/assets/brand/toroa-hero.png";
 import { teKahuiReoMark, ihoIcon, kanohiIcon, manaIcon, maharaIcon } from "@/assets/brand";
+import { Shield, FileText, Activity, Bell } from "lucide-react";
 
-const TE_KAHUI_REO_AGENTS = [
-  { name: "IHO", desc: "Intelligent router & orchestrator", icon: ihoIcon },
-  { name: "KANOHI", desc: "Front-of-house interface", icon: kanohiIcon },
-  { name: "MANA", desc: "Access control & authentication", icon: manaIcon },
-  { name: "MAHARA", desc: "Memory & context engine", icon: maharaIcon },
-  { name: "KAHU", desc: "Compliance & privacy guardian", icon: null },
-  { name: "TĀ", desc: "Audit & billing logger", icon: null },
-  { name: "PŪNAHA", desc: "System health monitor", icon: null },
-  { name: "TOHU", desc: "Notification & alert system", icon: null },
+const TE_KAHUI_REO_AGENTS: Array<{ name: string; subtitle: string; desc: string; icon: string | null; fallbackIcon: any }> = [
+  { name: "IHO", subtitle: "Brain", desc: "Intelligent router & orchestrator", icon: ihoIcon, fallbackIcon: null },
+  { name: "KANOHI", subtitle: "Dashboard", desc: "Front-of-house interface", icon: kanohiIcon, fallbackIcon: null },
+  { name: "MANA", subtitle: "Access", desc: "Access control & authentication", icon: manaIcon, fallbackIcon: null },
+  { name: "MAHARA", subtitle: "Memory", desc: "Memory & context engine", icon: maharaIcon, fallbackIcon: null },
+  { name: "KAHU", subtitle: "Compliance", desc: "Compliance & privacy guardian", icon: null, fallbackIcon: Shield },
+  { name: "TĀ", subtitle: "Audit", desc: "Audit trail & billing logger", icon: null, fallbackIcon: FileText },
+  { name: "PŪNAHA", subtitle: "Health", desc: "System health monitor", icon: null, fallbackIcon: Activity },
+  { name: "TOHU", subtitle: "Alerts", desc: "Notification & alert system", icon: null, fallbackIcon: Bell },
 ];
 
 const TeKahuiReoSection = () => (
@@ -123,25 +124,41 @@ const TeKahuiReoSection = () => (
             }}
           >
             <div className="flex items-center gap-3 mb-2">
-              {agent.icon && (
+              {agent.icon ? (
                 <img
                   src={agent.icon}
                   alt={agent.name}
                   className="w-7 h-7"
                   style={{ filter: "drop-shadow(0 0 8px rgba(58,125,110,0.4))" }}
                 />
-              )}
-              <p
-                style={{
-                  fontFamily: "'Lato', sans-serif",
-                  fontWeight: 700,
-                  fontSize: "13px",
-                  color: "#FFFFFF",
-                  letterSpacing: "2px",
-                }}
-              >
-                {agent.name}
-              </p>
+              ) : agent.fallbackIcon ? (
+                <agent.fallbackIcon size={20} className="text-pounamu shrink-0" style={{ filter: "drop-shadow(0 0 8px rgba(58,125,110,0.4))" } as any} />
+              ) : null}
+              <div>
+                <p
+                  style={{
+                    fontFamily: "'Lato', sans-serif",
+                    fontWeight: 700,
+                    fontSize: "13px",
+                    color: "#FFFFFF",
+                    letterSpacing: "2px",
+                  }}
+                >
+                  {agent.name}
+                </p>
+                <p
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontWeight: 400,
+                    fontSize: "9px",
+                    color: "rgba(212,168,67,0.7)",
+                    letterSpacing: "2px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {agent.subtitle}
+                </p>
+              </div>
             </div>
             <p
               style={{
