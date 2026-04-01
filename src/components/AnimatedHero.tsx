@@ -19,7 +19,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
   const isMobile = useIsMobile();
 
   return (
-    <section className="relative overflow-hidden flex flex-col" style={{ minHeight: "100vh" }}>
+    <section className="relative flex flex-col" style={{ minHeight: "100vh" }}>
       <div className="absolute inset-0 z-0" style={{ background: "#09090F" }} />
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
