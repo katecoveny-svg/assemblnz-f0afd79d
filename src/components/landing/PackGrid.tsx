@@ -170,7 +170,15 @@ const PackGrid = () => {
                     {PACK_DESCRIPTIONS[pack.id]}
                   </p>
 
-                  <AnimatePresence>
+                  {/* Pack page link */}
+                  <Link
+                    to={`/packs/${pack.id}`}
+                    onClick={e => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 mt-2 text-[11px] font-body transition-colors hover:gap-2"
+                    style={{ color: pack.color }}
+                  >
+                    View pack <ArrowRight size={10} />
+                  </Link>
                     {isExpanded && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
