@@ -1,36 +1,15 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import CelestialLogo from "@/components/CelestialLogo";
 
-interface NavChild { label: string; to: string; desc: string }
-interface NavItem {
-  label: string;
-  to?: string;
-  children?: NavChild[];
-}
+interface NavItem { label: string; to: string }
 
 const NAV_ITEMS: NavItem[] = [
-  {
-    label: "Platform",
-    children: [
-      { label: "How it works", to: "/#how-it-works", desc: "One request, the right intelligence" },
-      { label: "Why Assembl", to: "/#why-assembl", desc: "Built for Aotearoa, not adapted" },
-      { label: "Te Kāhui Reo", to: "/#te-kahui-reo", desc: "Cultural and language intelligence" },
-    ],
-  },
-  {
-    label: "Industry Packs",
-    children: [
-      { label: "Manaaki — Hospitality", to: "/packs/manaaki", desc: "Guest experience, food safety, operations" },
-      { label: "Hanga — Construction", to: "/packs/hanga", desc: "BIM, safety, consenting, quoting" },
-      { label: "Auaha — Creative", to: "/packs/auaha", desc: "Strategy, content, campaigns, brand" },
-      { label: "Pakihi — Business Ops", to: "/packs/pakihi", desc: "Finance, HR, legal, reporting" },
-      { label: "Hangarau — Technology", to: "/packs/hangarau", desc: "Systems, monitoring, architecture" },
-    ],
-  },
+  { label: "How it works", to: "/#how-it-works" },
+  { label: "Industry Packs", to: "/#industry-packs" },
   { label: "Pricing", to: "/pricing" },
   { label: "Founding Pilots", to: "/#founding-pilots" },
   { label: "Contact", to: "/#contact" },
@@ -40,12 +19,9 @@ const BrandNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
 
   const handleNavClick = (to: string) => {
     setMobileOpen(false);
-    setOpenDropdown(null);
     if (to.startsWith("/#")) {
       const hash = to.slice(1);
       if (location.pathname === "/") {
@@ -61,78 +37,38 @@ const BrandNav = () => {
   return (
     <>
       <header
-        className="sticky top-0 z-[9999] flex items-center gap-3 px-5 sm:px-8 py-3.5 overflow-visible"
-        style={{
-          background: "#09090F",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
-        }}
+        className="sticky top-0 z-50 flex items-center gap-3 px-5 sm:px-8 h-16"
+        style={{ background: "#09090F", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
-        <Link to="/" className="flex items-center gap-3 group">
+        <Link to="/" className="flex items-center gap-3 group shrink-0">
           <CelestialLogo size={36} />
-          <div className="flex items-baseline gap-1.5">
-            <motion.span
-              style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", fontSize: "13px", color: "rgba(255,255,255,0.85)" }}
-              animate={{ textShadow: ["0 0 6px rgba(255,255,255,0.1)", "0 0 16px rgba(255,255,255,0.3)", "0 0 6px rgba(255,255,255,0.1)"] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-            >
-              ASSEMBL
-            </motion.span>
-          </div>
+          <motion.span
+            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", fontSize: "13px", color: "rgba(255,255,255,0.85)" }}
+            animate={{ textShadow: ["0 0 6px rgba(255,255,255,0.1)", "0 0 16px rgba(255,255,255,0.3)", "0 0 6px rgba(255,255,255,0.1)"] }}
+            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            ASSEMBL
+          </motion.span>
         </Link>
+
         <div className="flex-1" />
 
-        {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-1 text-[13px] overflow-visible">
+        {/* Desktop nav — flat links, no dropdowns */}
+        <nav className="hidden lg:flex items-center gap-1 text-[13px]">
           {NAV_ITEMS.map((item) => (
-            <div key={item.label} className="relative" onMouseEnter={() => item.children && setOpenDropdown(item.label)} onMouseLeave={() => setOpenDropdown(null)}>
-              {item.children ? (
-                <button
-                  className="flex items-center gap-1 px-3 py-2 rounded-lg font-body font-medium text-white/65 hover:text-foreground transition-colors duration-250"
-                  onClick={() => setOpenDropdown(openDropdown === item.label ? null : item.label)}
-                >
-                  {item.label}
-                  <ChevronDown size={12} className="transition-transform" style={{ transform: openDropdown === item.label ? "rotate(180deg)" : "none" }} />
-                </button>
-              ) : (
-                <button
-                  onClick={() => handleNavClick(item.to!)}
-                  className="px-3 py-2 rounded-lg font-body font-medium text-white/65 hover:text-foreground transition-colors duration-250"
-                >
-                  {item.label}
-                </button>
-              )}
-
-              <AnimatePresence>
-                {item.children && openDropdown === item.label && (
-                  <motion.div
-                    className="absolute top-full left-0 mt-1 w-[260px] rounded-xl overflow-hidden z-[10000]"
-                    style={{ background: "#0D0D15", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 8px 32px rgba(0,0,0,0.5)" }}
-                    initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    {item.children.map((child, ci) => (
-                      <button
-                        key={child.label}
-                        onClick={() => handleNavClick(child.to)}
-                        className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors block"
-                        style={{ borderBottom: ci === (item.children!.length - 1) ? "none" : "1px solid rgba(255,255,255,0.04)" }}
-                      >
-                        <p className="text-xs font-medium" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#FFFFFF" }}>{child.label}</p>
-                        <p className="text-[10px] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{child.desc}</p>
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            <button
+              key={item.label}
+              onClick={() => handleNavClick(item.to)}
+              className="px-3 py-2 rounded-lg font-body font-medium text-white/65 hover:text-white transition-colors"
+            >
+              {item.label}
+            </button>
           ))}
 
-          {/* Tōroa utility link */}
           <Link to="/toroa" className="px-3 py-2 rounded-lg font-body text-xs text-white/40 hover:text-white/70 transition-colors">
             Tōroa
           </Link>
 
-          {/* CTA */}
           <a
             href="#founding-pilots"
             onClick={(e) => { e.preventDefault(); handleNavClick("/#founding-pilots"); }}
@@ -172,47 +108,14 @@ const BrandNav = () => {
               </div>
 
               <nav className="flex-1 px-4 py-2 space-y-1">
-                {NAV_ITEMS.map((item) => {
-                  if (item.children) {
-                    const isExpanded = mobileExpanded === item.label;
-                    return (
-                      <div key={item.label}>
-                        <button
-                          onClick={() => setMobileExpanded(isExpanded ? null : item.label)}
-                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-body transition-all duration-200"
-                          style={{ color: isExpanded ? "#D4A843" : "rgba(255,255,255,0.7)", background: isExpanded ? "rgba(212,168,67,0.08)" : "transparent" }}
-                        >
-                          {item.label}
-                          <ChevronDown size={14} style={{ transform: isExpanded ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
-                        </button>
-                        <AnimatePresence>
-                          {isExpanded && (
-                            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                              <div className="pl-4 py-1 space-y-0.5">
-                                {item.children.map((child) => (
-                                  <button key={child.label} onClick={() => handleNavClick(child.to)}
-                                    className="w-full text-left px-4 py-2.5 rounded-lg text-xs font-body text-white/50 hover:text-white hover:bg-white/5 transition-colors"
-                                  >
-                                    {child.label}
-                                  </button>
-                                ))}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    );
-                  }
-                  return (
-                    <button key={item.label} onClick={() => handleNavClick(item.to!)}
-                      className="w-full text-left px-4 py-3 rounded-xl text-sm font-body transition-all duration-200"
-                      style={{ color: "rgba(255,255,255,0.7)" }}
-                    >
-                      {item.label}
-                    </button>
-                  );
-                })}
-
+                {NAV_ITEMS.map((item) => (
+                  <button key={item.label} onClick={() => handleNavClick(item.to)}
+                    className="w-full text-left px-4 py-3 rounded-xl text-sm font-body transition-all duration-200"
+                    style={{ color: "rgba(255,255,255,0.7)" }}
+                  >
+                    {item.label}
+                  </button>
+                ))}
                 <button onClick={() => handleNavClick("/toroa")} className="w-full text-left px-4 py-3 rounded-xl text-sm font-body text-white/40">
                   Tōroa
                 </button>
