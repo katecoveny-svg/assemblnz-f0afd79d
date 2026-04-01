@@ -159,21 +159,56 @@ const AgentGrid = () => {
       {/* ═══════ THE PROBLEM ═══════ */}
       <ProblemSection />
 
+      {/* Bridge: Problem → Solution */}
+      <motion.div className="relative z-10 text-center py-10 px-4" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+        <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>
+          That's why we built Assembl — an AI platform trained on NZ legislation, not American advice with a Kiwi sticker on it.
+        </p>
+      </motion.div>
+
       {/* ═══════ FOUR LIVE PACKS ═══════ */}
       <LivePacksHero />
+
+      {/* Bridge: Packs → Pipeline */}
+      <motion.div className="relative z-10 text-center py-10 px-4" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+        <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>
+          Behind every answer is a compliance pipeline that checks, audits, and protects — before you see a single word.
+        </p>
+      </motion.div>
 
       {/* ═══════ PLATFORM CORE — The Pipeline ═══════ */}
       <div id="pipeline">
         <PipelineSection />
       </div>
 
+      {/* Bridge: Pipeline → Governance */}
+      <motion.div className="relative z-10 text-center py-10 px-4" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+        <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>
+          Technology alone isn't enough. Every decision is guided by four pou — the tikanga values that govern how we build and operate.
+        </p>
+      </motion.div>
+
       {/* ═══════ NGĀ POU E WHĀ — Governance Model ═══════ */}
       <FourPouSection />
+
+      {/* Bridge: Governance → Te Kāhui Reo */}
+      <motion.div className="relative z-10 text-center py-10 px-4" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+        <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>
+          These values are embedded in our intelligence layer — 8 agents that power every interaction across the platform.
+        </p>
+      </motion.div>
 
       {/* ═══════ TE KĀHUI REO ═══════ */}
       <div id="te-kahui-reo">
         <TeKahuiReoSection />
       </div>
+
+      {/* Bridge: Intelligence → Specialists */}
+      <motion.div className="relative z-10 text-center py-10 px-4" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+        <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>
+          On top of that intelligence layer sit 45 specialist tools — each trained on the specific Acts and regulations your industry needs.
+        </p>
+      </motion.div>
 
       {/* ═══════ SPECIALIST TEAM (one per pack) ═══════ */}
       <div ref={gridRef}>
@@ -183,8 +218,22 @@ const AgentGrid = () => {
       {/* ═══════ INDUSTRY PACKS (expandable) ═══════ */}
       <PackGrid />
 
+      {/* Bridge: Packs → Demo */}
+      <motion.div className="relative z-10 text-center py-10 px-4" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+        <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>
+          Don't take our word for it — try it yourself. Ask AURA a real hospitality compliance question.
+        </p>
+      </motion.div>
+
       {/* ═══════ EMBED DEMO ═══════ */}
       <EmbedDemoSection />
+
+      {/* Bridge: Demo → Social Proof */}
+      <motion.div className="relative z-10 text-center py-10 px-4" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+        <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "520px", margin: "0 auto", lineHeight: 1.7 }}>
+          Kiwi businesses are already using Assembl to save hours every week on compliance and operations.
+        </p>
+      </motion.div>
 
       {/* ═══════ SOCIAL PROOF ═══════ */}
       <SocialProofSection />
