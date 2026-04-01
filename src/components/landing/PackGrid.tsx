@@ -261,38 +261,39 @@ const PackGrid = () => {
             </motion.div>
           </Link>
 
-          {/* Tōroa */}
-          <motion.div
-            className="relative rounded-xl p-5 group"
-            style={{
-              background: "rgba(15, 15, 26, 0.8)",
-              backdropFilter: "blur(12px)",
-              border: "2px solid rgba(255,255,255,0.08)",
-              transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-            }}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.45 }}
-            whileHover={{
-              borderColor: "rgba(212,168,67,0.3)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-            }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 shrink-0" style={{ filter: "drop-shadow(0 0 8px rgba(212,168,67,0.3))" }}>
-                <img src={toroaIcon} alt="Tōroa" className="w-full h-full object-contain rounded-lg" />
+          <Link to="/toroa" className="block">
+            <motion.div
+              className="relative rounded-xl p-5 group"
+              style={{
+                background: "rgba(15, 15, 26, 0.8)",
+                backdropFilter: "blur(12px)",
+                border: "2px solid rgba(255,255,255,0.08)",
+                transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.45 }}
+              whileHover={{
+                borderColor: "rgba(212,168,67,0.3)",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
+              }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 shrink-0" style={{ filter: "drop-shadow(0 0 8px rgba(212,168,67,0.3))" }}>
+                  <img src={toroaIcon} alt="Tōroa" className="w-full h-full object-contain rounded-lg" />
+                </div>
+                <div>
+                  <h3 className="font-display text-sm tracking-[3px] uppercase text-foreground" style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif" }}>
+                    Tōroa
+                  </h3>
+                  <p className="text-[11px] font-body text-muted-foreground mt-0.5">
+                    Family AI Navigator · SMS-first · Whānau intelligence · $14–29/mo
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-display text-sm tracking-[3px] uppercase text-foreground" style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif" }}>
-                  Tōroa
-                </h3>
-                <p className="text-[11px] font-body text-muted-foreground mt-0.5">
-                  Family AI Navigator · SMS-first · Whānau intelligence · $14–29/mo
-                </p>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </Link>
         </div>
 
         {/* CTA */}
