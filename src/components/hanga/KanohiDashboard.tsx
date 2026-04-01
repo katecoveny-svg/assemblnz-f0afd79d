@@ -369,18 +369,49 @@ const TABS: { id: TabId; label: string; shortLabel: string; icon: React.ReactNod
 /* ── Overview Stats ── */
 function OverviewDashboard() {
   const globalStats = [
-    { label: "Active Hazards", value: "6", icon: <AlertTriangle size={20} />, accent: "#EF4444", agent: "ĀRAI" },
-    { label: "BIM Clashes Open", value: "4", icon: <Layers size={20} />, accent: "#5A8AB5", agent: "ATA" },
-    { label: "Payment Claims", value: "$1.2M", icon: <FolderKanban size={20} />, accent: KOWHAI, agent: "KAUPAPA" },
-    { label: "Active Tenders", value: "3", icon: <Package size={20} />, accent: POUNAMU, agent: "RAWA" },
-    { label: "Consents Active", value: "5", icon: <FileCheck size={20} />, accent: TANGAROA, agent: "WHAKAAĒ" },
-    { label: "Open NCRs", value: "3", icon: <XCircle size={20} />, accent: "#EF4444", agent: "PAI" },
-    { label: "Punch List Items", value: "6", icon: <ClipboardCheck size={20} />, accent: KOWHAI, agent: "PAI" },
-    { label: "ITP Completion", value: "60%", icon: <CheckCircle2 size={20} />, accent: POUNAMU, agent: "PAI" },
+    { label: "Active Hazards", value: "6", icon: <AlertTriangle size={20} />, accent: "#EF4444", agent: "ĀRAI", trend: "+1", trendUp: true, progress: 60 },
+    { label: "BIM Clashes Open", value: "4", icon: <Layers size={20} />, accent: "#5A8AB5", agent: "ATA", trend: "-2", trendUp: false, progress: 40 },
+    { label: "Payment Claims", value: "$1.2M", icon: <FolderKanban size={20} />, accent: KOWHAI, agent: "KAUPAPA", trend: "+$245k", trendUp: true, progress: 72 },
+    { label: "Active Tenders", value: "3", icon: <Package size={20} />, accent: POUNAMU, agent: "RAWA", trend: "2 due", trendUp: false, progress: 55 },
+    { label: "Consents Active", value: "5", icon: <FileCheck size={20} />, accent: TANGAROA, agent: "WHAKAAĒ", trend: "1 RFI", trendUp: false, progress: 78 },
+    { label: "Open NCRs", value: "3", icon: <XCircle size={20} />, accent: "#EF4444", agent: "PAI", trend: "-1", trendUp: false, progress: 30 },
+    { label: "Punch List", value: "6", icon: <ClipboardCheck size={20} />, accent: KOWHAI, agent: "PAI", trend: "2 done", trendUp: false, progress: 45 },
+    { label: "ITP Completion", value: "60%", icon: <CheckCircle2 size={20} />, accent: POUNAMU, agent: "PAI", trend: "+8%", trendUp: true, progress: 60 },
   ];
 
   return (
     <div className="space-y-5">
+      {/* Project Health Bar */}
+      <Glass glow>
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
+              <Zap size={16} style={{ color: KOWHAI }} /> Project Health
+            </h3>
+            <span className="text-[10px] px-2 py-1 rounded-full" style={{ background: "rgba(58,125,110,0.15)", color: POUNAMU, fontFamily: "JetBrains Mono" }}>68% On Track</span>
+          </div>
+          <div className="grid grid-cols-6 gap-1 h-3 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.04)" }}>
+            <div className="h-full rounded-l-full" style={{ background: POUNAMU, gridColumn: "span 2" }} />
+            <div className="h-full" style={{ background: KOWHAI, gridColumn: "span 2" }} />
+            <div className="h-full" style={{ background: "#EF4444", gridColumn: "span 1" }} />
+            <div className="h-full rounded-r-full" style={{ background: "rgba(255,255,255,0.06)", gridColumn: "span 1" }} />
+          </div>
+          <div className="flex items-center gap-4 mt-2">
+            {[
+              { label: "On Track", color: POUNAMU },
+              { label: "At Risk", color: KOWHAI },
+              { label: "Critical", color: "#EF4444" },
+              { label: "Pending", color: "rgba(255,255,255,0.15)" },
+            ].map(l => (
+              <div key={l.label} className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full" style={{ background: l.color }} />
+                <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>{l.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Glass>
+
       {/* Key Metrics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {globalStats.map(s => (
@@ -393,17 +424,24 @@ function OverviewDashboard() {
                 <span className="text-[8px] px-1.5 py-0.5 rounded" style={{ background: `${s.accent}12`, color: s.accent, fontFamily: "JetBrains Mono" }}>{s.agent}</span>
               </div>
               <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>{s.value}</p>
-              <p className="text-[11px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
+              <div className="flex items-center justify-between mt-1">
+                <p className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
+                <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: s.trendUp ? (s.accent === "#EF4444" ? "#EF4444" : POUNAMU) : "rgba(255,255,255,0.3)" }}>{s.trend}</span>
+              </div>
+              {/* Mini progress bar */}
+              <div className="mt-2 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.04)" }}>
+                <div className="h-full rounded-full transition-all" style={{ width: `${s.progress}%`, background: `linear-gradient(90deg, ${s.accent}, ${s.accent}60)` }} />
+              </div>
             </div>
           </Glass>
         ))}
       </div>
 
       {/* Priority Alerts */}
-      <Glass glow>
+      <Glass>
         <div className="p-4">
           <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
-            <Zap size={16} style={{ color: KOWHAI }} /> Priority Alerts
+            <AlertTriangle size={16} style={{ color: "#EF4444" }} /> Priority Alerts
           </h3>
           <div className="space-y-2">
             {[
@@ -413,13 +451,14 @@ function OverviewDashboard() {
               { agent: "ĀRAI", severity: "info", text: "Scaffold plank incident (5 Mar) reported to WorkSafe. Investigation file complete.", accent: "#5A8AB5" },
               { agent: "RAWA", severity: "info", text: "Structural steel delivery ETA: 8 Apr. Container MSKU-4472891 cleared Tauranga customs.", accent: POUNAMU },
             ].map((a, i) => (
-              <div key={i} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: `${a.accent}06`, border: `1px solid ${a.accent}15` }}>
-                <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ background: a.accent }} />
+              <div key={i} className="flex items-start gap-3 p-3 rounded-xl transition-all hover:translate-x-0.5" style={{ background: `${a.accent}06`, border: `1px solid ${a.accent}15` }}>
+                <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 animate-pulse" style={{ background: a.accent }} />
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-0.5">
                     <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: `${a.accent}15`, color: a.accent, fontFamily: "JetBrains Mono" }}>{a.agent}</span>
+                    <span className="text-[8px] px-1.5 py-0.5 rounded uppercase" style={{ background: `${a.accent}08`, color: a.accent, fontFamily: "JetBrains Mono" }}>{a.severity}</span>
                   </div>
-                  <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.7)" }}>{a.text}</p>
+                  <p className="text-xs leading-relaxed" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.7)" }}>{a.text}</p>
                 </div>
               </div>
             ))}
@@ -429,20 +468,27 @@ function OverviewDashboard() {
 
       {/* Agent Status Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-        {TABS.filter(t => t.id !== "overview").map(t => (
-          <Glass key={t.id} navy={t.id === "whakaae"}>
-            <div className="p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <span style={{ color: t.accent }}>{t.icon}</span>
-                <span className="text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{t.shortLabel}</span>
+        {TABS.filter(t => t.id !== "overview").map((t, i) => {
+          const progressValues = [78, 65, 72, 55, 82, 60];
+          const pv = progressValues[i] || 50;
+          return (
+            <Glass key={t.id} navy={t.id === "whakaae"}>
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span style={{ color: t.accent }}>{t.icon}</span>
+                  <span className="text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{t.shortLabel}</span>
+                </div>
+                <p className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.4)" }}>{t.label.split(" — ")[1]}</p>
+                <div className="mt-3 flex items-center gap-2">
+                  <div className="flex-1 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
+                    <div className="h-full rounded-full transition-all" style={{ width: `${pv}%`, background: `linear-gradient(90deg, ${t.accent}, ${t.accent}60)` }} />
+                  </div>
+                  <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: t.accent }}>{pv}%</span>
+                </div>
               </div>
-              <p className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.4)" }}>{t.label.split(" — ")[1]}</p>
-              <div className="mt-2 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
-                <div className="h-full rounded-full" style={{ width: `${50 + Math.random() * 40}%`, background: `linear-gradient(90deg, ${t.accent}, ${t.accent}80)` }} />
-              </div>
-            </div>
-          </Glass>
-        ))}
+            </Glass>
+          );
+        })}
       </div>
     </div>
   );
