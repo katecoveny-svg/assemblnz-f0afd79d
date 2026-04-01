@@ -7,7 +7,7 @@ import AnimatedHero from "@/components/AnimatedHero";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { Send, ArrowRight } from "lucide-react";
-import { manaIcon, maharaIcon, kanohiIcon, ihoIcon } from "@/assets/brand";
+import { manaIcon, maharaIcon, kanohiIcon, ihoIcon, pakihiMark } from "@/assets/brand";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import PackGrid from "@/components/landing/PackGrid";
