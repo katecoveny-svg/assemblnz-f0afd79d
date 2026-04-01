@@ -18,11 +18,11 @@ export interface Agent {
 // ═══════════════════════════════════════
 
 export const packs = [
-  { id: "manaaki", name: "Manaaki", label: "Hospitality & Tourism", color: "#D4A843", agentCount: 8 },
-  { id: "hanga", name: "Hanga", label: "Construction & Property", color: "#3A7D6E", agentCount: 7 },
-  { id: "auaha", name: "Auaha", label: "Creative & Digital", color: "#F0D078", agentCount: 8 },
+  { id: "manaaki", name: "Manaaki", label: "Hospitality", color: "#D4A843", agentCount: 8 },
+  { id: "hanga", name: "Hanga", label: "Construction", color: "#3A7D6E", agentCount: 7 },
+  { id: "auaha", name: "Auaha", label: "Creative", color: "#D4A843", agentCount: 8 },
   { id: "pakihi", name: "Pakihi", label: "Business Operations", color: "#1A3A5C", agentCount: 12 },
-  { id: "hangarau", name: "Hangarau", label: "Technology & Infrastructure", color: "#5AADA0", agentCount: 7 },
+  { id: "hangarau", name: "Hangarau", label: "Technology", color: "#3A7D6E", agentCount: 7 },
 ];
 
 // ═══════════════════════════════════════
