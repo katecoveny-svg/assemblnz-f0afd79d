@@ -321,7 +321,7 @@ export default function ToroaLandingPage() {
       {/* ═══ PRIVACY & TRUST ═══ */}
       <section className="relative z-10 px-6 py-16 md:py-20">
         <div className="max-w-2xl mx-auto text-center">
-          <Shield size={28} style={{ color: "#3A7D6E", margin: "0 auto 16px" }} />
+          <span className="text-3xl block mb-4">🛡️</span>
           <h2 className="font-display mb-4" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,26px)", color: "#FFFFFF" }}>
             Privacy and trust
           </h2>
