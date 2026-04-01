@@ -118,7 +118,7 @@ const Index = () => {
       <BrandNav />
 
       {/* ═══ 1. HERO ═══ */}
-      <section className="relative flex flex-col items-center text-center px-6 sm:px-8 pt-20 sm:pt-28 pb-16">
+      <section className="relative z-0 flex flex-col items-center text-center px-6 sm:px-8 pt-20 sm:pt-28 pb-16">
         {/* Subtle radial glow */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 30%, rgba(212,168,67,0.04) 0%, transparent 70%)" }} />
 
