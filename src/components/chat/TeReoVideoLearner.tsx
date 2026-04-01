@@ -156,25 +156,28 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
             <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.35)", marginBottom: "8px" }}>
               Or try an example:
             </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {EXAMPLES.map(ex => (
-                <button
-                  key={ex.id}
-                  onClick={() => { setUrl(`https://www.youtube.com/watch?v=${ex.id}`); handleGenerate(`https://www.youtube.com/watch?v=${ex.id}`); }}
-                  className="rounded-lg overflow-hidden text-left group"
-                  style={{ background: `${agentColor}08`, border: `1px solid ${agentColor}20`, transition: "all 200ms" }}
-                >
-                  <img
-                    src={`https://img.youtube.com/vi/${ex.id}/mqdefault.jpg`}
-                    alt={ex.title}
-                    className="w-full h-20 object-cover"
-                    loading="lazy"
-                  />
-                  <p className="px-2 py-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: agentColor }}>
-                    {ex.title}
-                  </p>
-                </button>
-              ))}
+             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {EXAMPLES.map(ex => {
+                const Icon = ex.icon;
+                return (
+                  <button
+                    key={ex.id}
+                    onClick={() => { setUrl(`https://www.youtube.com/watch?v=${ex.id}`); handleGenerate(`https://www.youtube.com/watch?v=${ex.id}`); }}
+                    className="rounded-xl text-left group transition-all duration-200 hover:scale-[1.02]"
+                    style={{ background: `${ex.accent}08`, border: `1px solid ${ex.accent}18` }}
+                  >
+                    <div className="flex flex-col items-center justify-center h-20 gap-2">
+                      <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: `${ex.accent}15` }}>
+                        <Icon size={18} style={{ color: ex.accent }} />
+                      </div>
+                      <div className="w-5 h-0.5 rounded-full" style={{ background: `${ex.accent}30` }} />
+                    </div>
+                    <p className="px-3 pb-2.5 text-center" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: ex.accent, fontWeight: 500 }}>
+                      {ex.title}
+                    </p>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
