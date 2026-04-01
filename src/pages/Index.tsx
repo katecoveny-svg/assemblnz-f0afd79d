@@ -65,11 +65,11 @@ const PACKS = [
 
 /* ─── Differentiators ─── */
 const DIFFS = [
-  { icon: Globe, title: "NZ business context", body: "Built around local business reality, not overseas defaults." },
-  { icon: Brain, title: "Specialist intelligence", body: "Purpose-built capability across five packs, not one generic assistant." },
-  { icon: Database, title: "Shared business memory", body: "Work compounds over time instead of resetting every session." },
-  { icon: MessageSquare, title: "Cultural & language intelligence", body: "Te Kāhui Reo strengthens trust, reo quality, and tikanga alignment." },
-  { icon: Building2, title: "Accessible SME pricing", body: "Enterprise-level capability without enterprise-only pricing." },
+  { mark: ihoIcon, title: "NZ business context", body: "Built around local business reality, not overseas defaults." },
+  { mark: kanohiIcon, title: "Specialist intelligence", body: "Purpose-built capability across five packs, not one generic assistant." },
+  { mark: maharaIcon, title: "Shared business memory", body: "Work compounds over time instead of resetting every session." },
+  { mark: teKahuiReoMark, title: "Cultural & language intelligence", body: "Te Kāhui Reo strengthens trust, reo quality, and tikanga alignment." },
+  { mark: manaIcon, title: "Accessible SME pricing", body: "Enterprise-level capability without enterprise-only pricing." },
 ];
 
 /* ─── Pricing tiers ─── */
