@@ -20,6 +20,13 @@ const QUALITY_TIERS = [
   { id: "pro" as const, label: "Pro", icon: Crown, desc: "Agency-grade" },
 ];
 
+const PROVIDER_OPTIONS = [
+  { id: "auto" as const, label: "Auto", desc: "Best match for prompt" },
+  { id: "gemini" as const, label: "Gemini", desc: "Fast brand assets" },
+  { id: "ideogram" as const, label: "Ideogram", desc: "Text-in-image" },
+  { id: "railway" as const, label: "GPU", desc: "Photorealistic" },
+];
+
 function Chip({ label, active, onClick, sub }: { label: string; active: boolean; onClick: () => void; sub?: string }) {
   return (
     <button onClick={onClick} className="px-2.5 py-1.5 rounded-lg text-[10px] font-medium transition-all"
