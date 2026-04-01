@@ -364,7 +364,7 @@ export default function ToroaLandingPage() {
                 className="rounded-xl p-5 card-glow-hover"
                 style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)", boxShadow: "0 0 16px rgba(212,168,67,0.04), 0 4px 16px rgba(0,0,0,0.25)" }}
               >
-                <span className="text-lg block mb-2.5">{f.emoji}</span>
+                <div className="w-6 h-0.5 rounded-full mb-3" style={{ background: "#D4A843", opacity: 0.5 }} />
                 <h3 className="font-display text-sm mb-1.5" style={{ fontWeight: 300, color: "#FFFFFF" }}>{f.title}</h3>
                 <p className="font-body text-[11px]" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>{f.desc}</p>
               </motion.div>
