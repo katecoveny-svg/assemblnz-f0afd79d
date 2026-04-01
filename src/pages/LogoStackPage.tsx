@@ -439,6 +439,79 @@ export default function LogoStackPage() {
           ))}
         </Card>
 
+        {/* ── TŌROA LOGO ── */}
+        <SectionTitle>Tōroa — Family AI Navigator</SectionTitle>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px", marginBottom: "56px" }}>
+          <Card>
+            <div dangerouslySetInnerHTML={{ __html: TOROA_SVG.replace(/width="400"/, 'width="240"').replace(/height="320"/, 'height="192"') }} />
+            <Label>Full Logo with Wordmark</Label>
+            <DownloadBtn onClick={() => downloadSVG(TOROA_SVG, "toroa-logo-full.svg")} />
+          </Card>
+          <Card>
+            <div dangerouslySetInnerHTML={{ __html: TOROA_MARK_SVG }} />
+            <Label>Bird Mark Only</Label>
+            <DownloadBtn onClick={() => downloadSVG(TOROA_MARK_SVG, "toroa-mark.svg")} />
+          </Card>
+        </div>
+
+        {/* ── SOCIAL MEDIA ASSETS ── */}
+        <SectionTitle>Social Media Assets</SectionTitle>
+        <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.4)", marginBottom: "20px" }}>
+          Download branded banners for social platforms. Available as SVG and @2x PNG.
+        </p>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "16px", marginBottom: "56px" }}>
+          {/* Assembl banners */}
+          <Card>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "0.15em", color: "rgba(212,168,67,0.7)", textTransform: "uppercase", marginBottom: "16px" }}>Assembl</p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", justifyContent: "center", width: "100%" }}>
+              {[
+                { w: 1200, h: 630, label: "OG / Facebook (1200×630)" },
+                { w: 1500, h: 500, label: "Twitter / X Header (1500×500)" },
+                { w: 1080, h: 1080, label: "Instagram Square (1080×1080)" },
+                { w: 1200, h: 628, label: "LinkedIn Banner (1200×628)" },
+              ].map(({ w, h, label }) => (
+                <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+                  <div style={{ width: Math.min(w * 0.15, 180), height: Math.min(h * 0.15, 120), background: "#0F0F1A", borderRadius: "6px", border: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}
+                    dangerouslySetInnerHTML={{ __html: SOCIAL_OG(w, h, "assembl").replace(`width="${w}"`, `width="100%"`).replace(`height="${h}"`, `height="100%"`) }}
+                  />
+                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", color: "rgba(255,255,255,0.3)", textAlign: "center" }}>{label}</p>
+                  <div style={{ display: "flex", gap: "6px" }}>
+                    <DownloadBtn onClick={() => downloadSVG(SOCIAL_OG(w, h, "assembl"), `assembl-${w}x${h}.svg`)} />
+                    <button onClick={() => downloadSVGAsPNG(SOCIAL_OG(w, h, "assembl"), `assembl-${w}x${h}.png`, w, h)}
+                      style={{ marginTop: "16px", background: "transparent", border: "1px solid rgba(58,125,110,0.35)", borderRadius: "9999px", color: "rgba(58,125,110,0.8)", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.08em", padding: "6px 16px", cursor: "pointer", transition: "all 0.2s ease" }}
+                    >↓ PNG</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          {/* Tōroa banners */}
+          <Card>
+            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "0.15em", color: "rgba(245,211,60,0.7)", textTransform: "uppercase", marginBottom: "16px" }}>Tōroa</p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", justifyContent: "center", width: "100%" }}>
+              {[
+                { w: 1200, h: 630, label: "OG / Facebook (1200×630)" },
+                { w: 1500, h: 500, label: "Twitter / X Header (1500×500)" },
+                { w: 1080, h: 1080, label: "Instagram Square (1080×1080)" },
+              ].map(({ w, h, label }) => (
+                <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+                  <div style={{ width: Math.min(w * 0.15, 180), height: Math.min(h * 0.15, 120), background: "#0F0F1A", borderRadius: "6px", border: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}
+                    dangerouslySetInnerHTML={{ __html: SOCIAL_OG(w, h, "toroa").replace(`width="${w}"`, `width="100%"`).replace(`height="${h}"`, `height="100%"`) }}
+                  />
+                  <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", color: "rgba(255,255,255,0.3)", textAlign: "center" }}>{label}</p>
+                  <div style={{ display: "flex", gap: "6px" }}>
+                    <DownloadBtn onClick={() => downloadSVG(SOCIAL_OG(w, h, "toroa"), `toroa-${w}x${h}.svg`)} />
+                    <button onClick={() => downloadSVGAsPNG(SOCIAL_OG(w, h, "toroa"), `toroa-${w}x${h}.png`, w, h)}
+                      style={{ marginTop: "16px", background: "transparent", border: "1px solid rgba(58,125,110,0.35)", borderRadius: "9999px", color: "rgba(58,125,110,0.8)", fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.08em", padding: "6px 16px", cursor: "pointer", transition: "all 0.2s ease" }}
+                    >↓ PNG</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
+
         {/* ── SIGN UP CTA ── */}
         <div style={{
           margin: "56px 0 32px",
