@@ -8,7 +8,7 @@ export interface Template {
 
 // Agents with a dedicated Templates tab
 export const TEMPLATE_TAB_AGENTS = [
-  "customs", "construction", "accounting", "legal", "property", "immigration", "marketing", "sales", "operations",
+  "customs", "construction", "accounting", "legal", "property", "immigration", "marketing", "sales", "operations", "hr",
 ];
 
 export const agentTemplates: Record<string, Template[]> = {
@@ -37,6 +37,17 @@ export const agentTemplates: Record<string, Template[]> = {
   sales: [
   ],
   operations: [
+  ],
+  hr: [
+    { icon: "📝", title: "Employment Agreement", description: "Generate a compliant NZ employment agreement (permanent, fixed-term, or casual)", timeSaved: "~2 hours", prompt: "I need to create an employment agreement. Let's start — is this for a permanent, fixed-term, or casual employee?" },
+    { icon: "💰", title: "True Employment Cost Calculator", description: "Calculate the full cost of employing someone including KiwiSaver, ACC, and leave", timeSaved: "~30 min", prompt: "I need to calculate the true cost of employing someone. What's the proposed salary or hourly rate?" },
+    { icon: "✅", title: "HR Compliance Scan", description: "Audit your employment practices against NZ employment law", timeSaved: "~3 hours", prompt: "I'd like an HR compliance scan. How many employees do you have and what industry are you in?" },
+    { icon: "🏖️", title: "Leave Entitlement Calculator", description: "Calculate leave entitlements under the Holidays Act 2003 (BAPS/ADP/OWP)", timeSaved: "~20 min", prompt: "I need to calculate leave entitlements. Tell me about the employee — start date, hours, and pay type." },
+    { icon: "👋", title: "Onboarding Checklist", description: "Create a comprehensive new employee onboarding checklist", timeSaved: "~1 hour", prompt: "I need an onboarding checklist for a new team member. What role are they starting in?" },
+    { icon: "⚠️", title: "Performance Improvement Plan", description: "Draft a fair and legally compliant PIP", timeSaved: "~1.5 hours", prompt: "I need to create a Performance Improvement Plan. What are the performance concerns?" },
+    { icon: "📊", title: "Flight Risk Assessment", description: "Analyse retention risk factors for your team", timeSaved: "~1 hour", prompt: "I'd like to assess flight risk in my team. How many staff do you have and what's your current turnover rate?" },
+    { icon: "🔒", title: "Privacy Impact Assessment", description: "Assess employee data handling against Privacy Act 2020 (IPP 3A)", timeSaved: "~2 hours", prompt: "I need a privacy impact assessment for employee data. What HR systems do you use and what data do you collect?" },
+    { icon: "📋", title: "Redundancy Process Guide", description: "Step-by-step guide to a fair redundancy process under NZ law", timeSaved: "~2 hours", prompt: "I need guidance on a redundancy process. What's the reason for the proposed restructure?" },
   ],
   // Legacy templates for agents without a dedicated tab
   hospitality: [
