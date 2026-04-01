@@ -154,7 +154,7 @@ const Index = () => {
           style={{ zIndex: 1 }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.55 }}>
           {PROOF.map((p) => (
-            <span key={p} className="px-3.5 py-1.5 rounded-full text-[11px]" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, background: "rgba(15,15,26,0.7)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.55)", letterSpacing: "0.03em" }}>
+            <span key={p} className="px-3.5 py-1.5 rounded-full text-[11px] stat-pill" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, background: "rgba(15,15,26,0.7)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.55)", letterSpacing: "0.03em", boxShadow: "0 0 12px rgba(212,168,67,0.06)" }}>
               {p}
             </span>
           ))}
