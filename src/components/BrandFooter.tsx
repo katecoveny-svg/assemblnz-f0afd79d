@@ -109,7 +109,7 @@ const BrandFooter = () => {
         <div className="h-px mb-10" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)" }} />
 
         {/* Bottom */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-5 font-serif">
           <Link to="/" className="flex items-center gap-2.5 group">
             <CelestialLogo size={28} />
             <span className="tracking-[3px] uppercase text-xs text-foreground/80" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>ASSEMBL</span>
