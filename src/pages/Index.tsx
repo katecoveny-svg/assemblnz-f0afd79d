@@ -221,7 +221,7 @@ const Index = () => {
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {OUTCOMES.map((o, i) => (
-              <motion.div key={o.title} className="rounded-2xl p-8" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)" }}
+              <motion.div key={o.title} className="rounded-2xl p-8 card-glow-hover" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 20px rgba(212,168,67,0.05), 0 4px 20px rgba(0,0,0,0.3)" }}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12, duration: 0.5 }}>
                 <div className="w-10 h-1 rounded-full mb-5" style={{ background: o.color }} />
                 <h3 className="text-lg mb-3" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "#FFFFFF" }}>{o.title}</h3>
