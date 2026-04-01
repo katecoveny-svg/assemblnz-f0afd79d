@@ -8,7 +8,7 @@ import {
   CalendarDays, ShoppingCart, Bus, CloudSun, Lock, Youtube,
   Utensils, Backpack, Bell, Sparkles,
 } from "lucide-react";
-import toroaLogo from "@/assets/brand/toroa-logo.svg";
+import toroaLogo from "@/assets/brand/toroa-hero.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
