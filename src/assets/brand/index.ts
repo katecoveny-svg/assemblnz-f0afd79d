@@ -15,7 +15,7 @@ export { default as auahaMark } from "./auaha-mark.svg";       // Creative / Mar
 
 // Specialist / Standalone
 export { default as echoLogo } from "./echo-logo.svg";
-export { default as toroaLogo } from "./toroa-logo.svg";
+export { default as toroaLogo } from "./toroa-hero.png";
 export { default as teKahuiReoLogo } from "./te-kahui-reo-logo.svg";
 export { default as teKahuiReoMark } from "./te-kahui-reo-mark.svg";
 
