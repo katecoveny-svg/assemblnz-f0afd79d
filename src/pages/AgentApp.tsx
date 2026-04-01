@@ -14,6 +14,7 @@ import AgentTraining from "@/components/shared/AgentTraining";
 import AgentAvatar from "@/components/AgentAvatar";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
 import { setDynamicManifest } from "@/utils/pwaManifest";
+import SignalDashboard from "@/components/signal/SignalDashboard";
 
 interface Message {
   role: "user" | "assistant";
