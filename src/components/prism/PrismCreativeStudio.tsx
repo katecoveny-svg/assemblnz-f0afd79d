@@ -20,6 +20,13 @@ const QUALITY_TIERS = [
   { id: "pro" as const, label: "Pro", icon: Crown, desc: "Agency-grade" },
 ];
 
+const PROVIDER_OPTIONS = [
+  { id: "auto" as const, label: "Auto", desc: "Best match for prompt" },
+  { id: "gemini" as const, label: "Gemini", desc: "Fast brand assets" },
+  { id: "ideogram" as const, label: "Ideogram", desc: "Text-in-image" },
+  { id: "railway" as const, label: "GPU", desc: "Photorealistic" },
+];
+
 function Chip({ label, active, onClick, sub }: { label: string; active: boolean; onClick: () => void; sub?: string }) {
   return (
     <button onClick={onClick} className="px-2.5 py-1.5 rounded-lg text-[10px] font-medium transition-all"
@@ -49,10 +56,12 @@ export default function PrismCreativeStudio({ onSendToChat }: { onSendToChat?: (
   const [quality, setQuality] = useState<"fast" | "pro">("pro");
   const [brandPreset, setBrandPreset] = useState<"assembl" | "custom">("assembl");
   const [numVariants, setNumVariants] = useState(2);
+  const [imageProvider, setImageProvider] = useState<"auto" | "gemini" | "ideogram" | "railway">("auto");
 
   const generate = () => {
     if (!onSendToChat || !subject.trim()) return;
     const qualityTag = quality === "pro" ? " [QUALITY:pro]" : " [QUALITY:fast]";
+    const providerTag = imageProvider !== "auto" ? ` [PROVIDER:${imageProvider}]` : "";
     const dims = PLATFORMS_MAP[platform] || "1080×1080";
     const textOverlay = includeText && overlayText ? ` Text overlay: "${overlayText}".` : "";
     const complexityLabel = complexity < 33 ? "simple and clean" : complexity < 66 ? "moderately detailed" : "highly detailed and complex";
@@ -83,7 +92,7 @@ Generate:
 
 Then generate ${numVariants} visual variant${numVariants > 1 ? "s" : ""}, each with a genuinely different creative direction:
 
-${imageTags}${qualityTag}`
+${imageTags}${qualityTag}${providerTag}`
     );
   };
 
@@ -108,7 +117,26 @@ ${imageTags}${qualityTag}`
         })}
       </div>
 
-      {/* Image Type */}
+      {/* Image Provider */}
+      <div>
+        <Label>Image Engine</Label>
+        <div className="flex gap-1.5">
+          {PROVIDER_OPTIONS.map(p => (
+            <button key={p.id} onClick={() => setImageProvider(p.id)}
+              className="flex-1 py-2 rounded-lg text-[10px] font-medium text-center transition-all"
+              style={{
+                background: imageProvider === p.id ? `${ACCENT}15` : "rgba(255,255,255,0.02)",
+                color: imageProvider === p.id ? ACCENT : "rgba(255,255,255,0.35)",
+                border: `1px solid ${imageProvider === p.id ? ACCENT + "30" : "rgba(255,255,255,0.05)"}`
+              }}>
+              <div className="font-semibold">{p.label}</div>
+              <div className="text-[8px] opacity-50">{p.desc}</div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+
       <div>
         <Label>Image Type</Label>
         <div className="flex flex-wrap gap-1.5">
