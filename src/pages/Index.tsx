@@ -356,7 +356,7 @@ const Index = () => {
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {TIERS.map((t, i) => (
-              <motion.div key={t.name} className="rounded-2xl p-7 text-center" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)" }}
+              <motion.div key={t.name} className="rounded-2xl p-7 text-center card-glow-hover" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 20px rgba(212,168,67,0.05), 0 4px 20px rgba(0,0,0,0.3)" }}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5 }}>
                 <h3 className="text-sm font-medium mb-3" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{t.name}</h3>
                 <p className="text-2xl font-light mb-1" style={{ fontFamily: "'Lato', sans-serif", color: "#D4A843" }}>{t.price}<span className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>{t.period}</span></p>
