@@ -115,7 +115,7 @@ const BrandFooter = () => {
             <span className="tracking-[3px] uppercase text-xs text-foreground/80" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>ASSEMBL</span>
           </Link>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 font-serif">
             {SOCIAL_LINKS.map((s) => (
               <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold text-muted-foreground/60 hover:text-foreground transition-colors"
