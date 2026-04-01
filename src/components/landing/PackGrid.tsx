@@ -179,6 +179,8 @@ const PackGrid = () => {
                   >
                     View pack <ArrowRight size={10} />
                   </Link>
+
+                  <AnimatePresence>
                     {isExpanded && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
