@@ -11,6 +11,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "How it works", to: "/#how-it-works" },
   { label: "Industry Packs", to: "/#industry-packs" },
   { label: "Pricing", to: "/pricing" },
+  { label: "Hanga", to: "/hanga" },
   { label: "Founding Pilots", to: "/#founding-pilots" },
   { label: "Contact", to: "/#contact" },
 ];
