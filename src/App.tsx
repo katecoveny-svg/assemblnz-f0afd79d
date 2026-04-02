@@ -155,12 +155,22 @@ const App = () => (
                   <Route path="/helm" element={<Navigate to="/toroa" replace />} />
                   <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
                   <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
-                  <Route path="/hanga" element={<Suspense fallback={null}><KanohiDashboard /></Suspense>} />
-                  <Route path="/hanga/ata" element={<Suspense fallback={null}><AtaBimDashboard /></Suspense>} />
-                  <Route path="/hanga/kaupapa" element={<Suspense fallback={null}><KaupapaDashboard /></Suspense>} />
-                  <Route path="/hanga/rawa" element={<Suspense fallback={null}><RawaDashboard /></Suspense>} />
-                  <Route path="/hanga/whakaae" element={<Suspense fallback={null}><WhakaaeDashboard /></Suspense>} />
-                  <Route path="/hanga/pai" element={<Suspense fallback={null}><PaiDashboard /></Suspense>} />
+                  <Route path="/hanga" element={<Suspense fallback={null}><HangaLayout /></Suspense>}>
+                    <Route index element={<HangaDashboard />} />
+                    <Route path="arai" element={<AraiSafetyPage />} />
+                    <Route path="kaupapa" element={<KaupapaDashboard />} />
+                    <Route path="site-checkin" element={<SiteCheckinPage />} />
+                    <Route path="photos" element={<PhotoDocsPage />} />
+                    <Route path="tender" element={<TenderWriterPage />} />
+                    <Route path="docs" element={<DocIntelPage />} />
+                    <Route path="comms" element={<CommsHubPage />} />
+                    <Route path="voice" element={<VoiceAgentPage />} />
+                    <Route path="ata" element={<AtaBimDashboard />} />
+                    <Route path="rawa" element={<RawaDashboard />} />
+                    <Route path="whakaae" element={<WhakaaeDashboard />} />
+                    <Route path="pai" element={<PaiDashboard />} />
+                    <Route path="overview" element={<KanohiDashboard />} />
+                  </Route>
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
