@@ -77,7 +77,7 @@ export default function PhotoDocsPage() {
       <div className={view === "grid" ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" : "space-y-3"}>
         {photos.map((photo, i) => (
           <motion.div key={photo.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.05 }}>
-            <Glass className="overflow-hidden cursor-pointer hover:border-white/15 transition-all" onClick={() => setSelectedPhoto(photo)}>
+            <div onClick={() => setSelectedPhoto(photo)}><Glass className="overflow-hidden cursor-pointer hover:border-white/15 transition-all">
               <div className="h-40 flex items-center justify-center text-5xl" style={{ background: "linear-gradient(135deg, rgba(26,58,92,0.3), rgba(15,15,26,0.8))" }}>
                 {photo.thumbnail}
               </div>
