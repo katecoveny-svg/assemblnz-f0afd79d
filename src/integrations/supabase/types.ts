@@ -309,6 +309,45 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_prompts: {
+        Row: {
+          agent_name: string
+          created_at: string | null
+          display_name: string
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          pack: string
+          system_prompt: string
+          updated_at: string | null
+          version: number | null
+        }
+        Insert: {
+          agent_name: string
+          created_at?: string | null
+          display_name: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          pack: string
+          system_prompt: string
+          updated_at?: string | null
+          version?: number | null
+        }
+        Update: {
+          agent_name?: string
+          created_at?: string | null
+          display_name?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          pack?: string
+          system_prompt?: string
+          updated_at?: string | null
+          version?: number | null
+        }
+        Relationships: []
+      }
       agent_sms_config: {
         Row: {
           agent_id: string

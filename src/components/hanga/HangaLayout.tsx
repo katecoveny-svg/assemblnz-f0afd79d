@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import HangaChatPanel from "./HangaChatPanel";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   HardHat, LayoutDashboard, ShieldAlert, FolderKanban, MapPin,
@@ -157,6 +158,9 @@ export default function HangaLayout() {
       <main className="flex-1 min-w-0 overflow-x-hidden">
         <Outlet />
       </main>
+
+      {/* AI Chat Panel */}
+      <HangaChatPanel />
     </div>
   );
 }
