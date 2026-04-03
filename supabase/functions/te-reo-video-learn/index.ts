@@ -1,4 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { chatWithGemini } from "../_shared/gemini-provider.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
