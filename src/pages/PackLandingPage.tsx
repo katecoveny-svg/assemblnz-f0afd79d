@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Briefcase, Hammer, UtensilsCrossed, Heart, Palette, Cpu, Shield, Clock, Users, Zap } from "lucide-react";
+import GlowIcon from "@/components/GlowIcon";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import ParticleField from "@/components/ParticleField";
