@@ -1,271 +1,419 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, ChevronDown, Rocket, Layers, Package, Crown, Shield, Brain, Eye, FileText, Database, Lock, Globe, Heart, PenTool, Monitor, Phone, MessageCircle, Mic, Mail } from "lucide-react";
 import SEO from "@/components/SEO";
-import { motion } from "framer-motion";
-import { ChevronDown, Check } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import { useState } from "react";
-import { PRICING, COMPARISON_FEATURES } from "@/data/pricing";
 
-const MAIN_PLANS = [
-  PRICING.starter,
-  PRICING.pro,
-  PRICING.business,
-  PRICING.suite,
+const ease = [0.16, 1, 0.3, 1];
+
+/* ── Section A: Hero ── */
+const PricingHero = () => (
+  <section className="relative pt-24 pb-16 sm:pt-32 sm:pb-20 overflow-hidden">
+    <div className="absolute inset-0 pointer-events-none">
+      {Array.from({ length: 40 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full"
+          style={{
+            width: Math.random() * 2 + 1,
+            height: Math.random() * 2 + 1,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            background: "rgba(255,255,255,0.3)",
+          }}
+          animate={{ opacity: [0.2, 0.8, 0.2] }}
+          transition={{ duration: 2 + Math.random() * 3, repeat: Infinity, delay: Math.random() * 2 }}
+        />
+      ))}
+    </div>
+    <div className="max-w-4xl mx-auto px-5 text-center relative z-10">
+      <p className="text-[11px] font-display tracking-[5px] uppercase mb-4" style={{ fontWeight: 700, color: "hsl(var(--primary))" }}>
+        HE KETE MĀTAURANGA
+      </p>
+      <h1 className="text-3xl sm:text-5xl font-display mb-4 text-foreground" style={{ fontWeight: 300, letterSpacing: "-0.02em" }}>
+        Business intelligence, built for Aotearoa
+      </h1>
+      <p className="text-base sm:text-lg font-body max-w-2xl mx-auto mb-8" style={{ color: "rgba(255,255,255,0.65)" }}>
+        Assembl builds and runs specialist AI agents for real operational workflows — with governance, privacy, and tikanga built in.
+      </p>
+      <div className="flex flex-wrap justify-center gap-3">
+        <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
+          Book a Launch Sprint
+        </Link>
+        <button onClick={() => document.getElementById("packs")?.scrollIntoView({ behavior: "smooth" })} className="px-7 py-3 rounded-full text-sm font-body font-medium border transition-all" style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.7)" }}>
+          Explore the packs
+        </button>
+      </div>
+    </div>
+  </section>
+);
+
+/* ── Section B: Offer Stack ── */
+const OFFERS = [
+  { icon: Rocket, badge: "START HERE", badgeColor: "hsl(var(--primary))", title: "Launch Sprint", desc: "A one-off setup project. We map your workflows, connect your tools, configure your agents, and launch your first use case. You walk away with a working AI business layer.", time: "2–4 weeks", price: "From NZ$2,500", cta: "Book your sprint", to: "/contact" },
+  { icon: Layers, badge: "FOUNDATION", badgeColor: "hsl(var(--pounamu))", title: "Core Platform", desc: "Monthly platform subscription. Includes your central brain (Iho), governance pipeline, SIGNAL security, SMS/WhatsApp messaging, and dashboard access.", price: "Included in every pack", note: "This is the foundation. Every kete runs on Core.", includes: ["Iho routing brain", "SIGNAL security agent", "Compliance pipeline (Kahu → Tā → Mana)", "SMS & WhatsApp access", "Dashboard & analytics", "NZ data sovereignty"] },
+  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Monthly add-on subscriptions by industry or business function. Each kete is a complete AI operations hub with specialist agents, intelligence dashboards, and end-to-end workflows.", price: "From NZ$750/month per kete", list: "Manaaki · Hanga · Auaha · Pakihi · Hangarau · Te Kāhui Reo · Tōroa", cta: "See all packs", scrollTo: "packs" },
+  { icon: Crown, badge: "PREMIUM", badgeColor: "hsl(var(--primary))", title: "Managed AI", desc: "Premium monthly retainer for businesses that want hands-off AI operations. Higher-touch support, monthly strategy sessions, content creation, change requests, and new workflow rollout.", price: "From NZ$4,000/month", cta: "Talk to us", to: "/contact", includes: ["Dedicated account manager", "Monthly strategy review", "Priority support", "Custom workflow builds", "Agent optimisation"] },
 ];
 
-const FAQS = [
-  { q: "Can I try Assembl for free?", a: "Every specialist tool is available for free — no signup required. You get 3 messages per advisor to explore. If you like what you see, sign up for a plan to unlock more." },
-  { q: "How do message limits work?", a: "Starter gives you 100 messages per month. Pro provides 500 per month. Business gives you 2,000 and Suite provides 5,000. Enterprise is unlimited." },
-  { q: "What NZ legislation is built in?", a: "Our tools are trained on 50+ NZ Acts and regulations including the Employment Relations Act 2000, Health and Safety at Work Act 2015, Building Act 2004, Food Act 2014, Privacy Act 2020, and many more." },
-  { q: "Can I cancel anytime?", a: "Yes. All plans are month-to-month with no lock-in contracts. Cancel anytime from your dashboard." },
-  { q: "Do you offer discounts for nonprofits or startups?", a: "Yes! Through our AssemblFund initiative, we offer subsidised access for Kiwi startups and community organisations. Contact us at assembl@assembl.co.nz." },
-];
-
-const PricingPage = () => {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const formatPrice = (price: number | null, label?: string) => {
-    if (price === null) return label || 'Custom';
-    return `$${price}`;
-  };
-
-  return (
-    <div className="min-h-screen flex flex-col relative bg-background">
-      <SEO
-        title="Assembl Pricing — The Operating System for NZ Business"
-        description="Starter $89/mo. Pro $299/mo. Business $599/mo. Industry Suite $1,499/mo. 42 specialist AI agents built for New Zealand businesses."
-        path="/pricing"
-      />
-      <BrandNav />
-
-      {/* Hero */}
-      <section className="pt-20 pb-10 sm:py-28">
-        <div className="max-w-5xl mx-auto px-5 sm:px-6 text-center">
-          <h1 className="text-2xl sm:text-5xl font-display mb-3 leading-tight text-foreground" style={{ fontWeight: 300, letterSpacing: '-0.025em' }}>
-            Straight pricing. <span style={{ color: '#D4A843' }}>No surprises.</span>
-          </h1>
-          <p className="text-sm sm:text-base font-body max-w-xl mx-auto mb-6 text-muted-foreground">
-            From $89/month. No lock-in. Cancel anytime. Every plan includes NZ legislation, document templates, and proactive compliance alerts.
-          </p>
-          <p className="text-xs font-body text-muted-foreground/60">
-            All prices in NZD. GST inclusive. Billed monthly.
-          </p>
-        </div>
-      </section>
-
-      {/* Main Plans */}
-      <section className="pb-16">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {MAIN_PLANS.map((plan) => (
-              <div
-                key={plan.name}
-                className="relative flex flex-col glass-card glow-card-hover p-6"
-                style={{
-                  borderColor: plan.popular ? 'rgba(212,168,67,0.3)' : undefined,
-                }}
-              >
-                {plan.popular && (
-                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[10px] font-display px-3 py-0.5 rounded-full" style={{ background: 'hsl(var(--primary))', color: 'hsl(var(--primary-foreground))', fontWeight: 300, letterSpacing: '2px', textTransform: 'uppercase' }}>
-                    Most Popular
-                  </span>
-                )}
-                <p className="text-[11px] font-display tracking-[2px] uppercase mb-1 text-muted-foreground" style={{ fontWeight: 300 }}>
-                  {plan.name}
-                </p>
-                <p className="text-[10px] font-body text-muted-foreground/60 mb-3">
-                  {plan.descriptor}
-                </p>
-                <div className="flex items-baseline gap-1 mb-1">
-                  <span className="font-display text-4xl text-foreground" style={{ fontWeight: 300 }}>
-                    {formatPrice(plan.price, 'priceLabel' in plan ? String(plan.priceLabel) : undefined)}
-                  </span>
-                  {plan.period && (
-                    <span className="text-sm text-muted-foreground">{plan.period}</span>
-                  )}
-                </div>
-                {'agents' in plan && (
-                  <p className="text-xs font-body mb-1" style={{ color: 'hsl(var(--primary))' }}>{plan.agents}</p>
-                )}
-                {'messages' in plan && (
-                  <p className="text-[11px] font-body mb-4 text-muted-foreground">{plan.messages}</p>
-                )}
-                <div className="h-px mb-4" style={{ background: 'hsl(var(--border))' }} />
-                <ul className="space-y-2 mb-6 flex-1">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs font-body text-muted-foreground">
-                      <Check size={14} className="mt-0.5 shrink-0 text-primary" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href={plan.link}
-                  target={plan.link.startsWith('#') ? undefined : '_blank'}
-                  rel="noopener noreferrer"
-                  className="cta-glass-green block w-full text-center text-sm py-2.5 rounded-lg"
-                >
-                  <span>{plan.cta}</span>
-                </a>
+const OfferStack = () => (
+  <section className="py-16 sm:py-20">
+    <div className="max-w-6xl mx-auto px-5">
+      <h2 className="text-lg sm:text-2xl font-display text-center mb-10 text-foreground" style={{ fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
+        How we work with you
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {OFFERS.map((o, i) => (
+          <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, ease }} className="glass-card glow-card-hover p-6 rounded-2xl flex flex-col">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(255,255,255,0.04)" }}>
+                <o.icon size={20} style={{ color: o.badgeColor }} />
               </div>
-            ))}
-          </div>
-
-          {/* Enterprise */}
-          <div className="max-w-md mx-auto mt-6">
-            <div className="glass-card glow-card-hover flex flex-col p-6">
-              <p className="text-[11px] font-display tracking-[2px] uppercase mb-1 text-muted-foreground" style={{ fontWeight: 300 }}>
-                Enterprise
-              </p>
-              <p className="text-[10px] font-body text-muted-foreground/60 mb-3">Custom</p>
-              <span className="font-display text-4xl text-foreground mb-1" style={{ fontWeight: 300 }}>Custom</span>
-              <p className="text-xs font-body mb-4 text-muted-foreground">Unlimited agents & messages</p>
-              <div className="h-px mb-4" style={{ background: 'hsl(var(--border))' }} />
-              <ul className="space-y-2 mb-6 flex-1">
-                {PRICING.enterprise.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-xs font-body text-muted-foreground">
-                    <Check size={14} className="mt-0.5 shrink-0 text-primary" />
-                    {f}
+              <span className="text-[9px] font-display tracking-[3px] uppercase px-2 py-0.5 rounded-full" style={{ background: `${o.badgeColor}20`, color: o.badgeColor, fontWeight: 700 }}>
+                {o.badge}
+              </span>
+            </div>
+            <h3 className="text-base font-display text-foreground mb-2" style={{ fontWeight: 300 }}>{o.title}</h3>
+            <p className="text-xs font-body text-muted-foreground mb-3 flex-1">{o.desc}</p>
+            {o.includes && (
+              <ul className="space-y-1 mb-3">
+                {o.includes.map(f => (
+                  <li key={f} className="flex items-center gap-2 text-[11px] font-body text-muted-foreground">
+                    <Check size={12} className="text-primary shrink-0" />{f}
                   </li>
                 ))}
               </ul>
-              <button
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="cta-glass-green block w-full text-center text-sm py-2.5 rounded-lg"
-              >
-                <span>Contact Us</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+            )}
+            {o.list && <p className="text-[11px] font-body text-muted-foreground/60 mb-3">{o.list}</p>}
+            {o.time && <p className="text-[11px] font-body text-muted-foreground/50 mb-1">⏱ {o.time}</p>}
+            <p className="text-sm font-mono text-foreground mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}>{o.price}</p>
+            {o.note && <p className="text-[10px] font-body text-muted-foreground/40 italic mb-3">{o.note}</p>}
+            {o.cta && o.to && (
+              <Link to={o.to} className="text-xs font-body font-medium text-primary hover:underline mt-auto">{o.cta} →</Link>
+            )}
+            {o.cta && o.scrollTo && (
+              <button onClick={() => document.getElementById(o.scrollTo!)?.scrollIntoView({ behavior: "smooth" })} className="text-xs font-body font-medium text-primary hover:underline mt-auto text-left">{o.cta} →</button>
+            )}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
-      {/* Comparison Table */}
-      <div className="max-w-6xl mx-auto px-5 sm:px-6"><div className="section-divider" /></div>
-      <section className="py-14">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-display text-center mb-8 text-foreground" style={{ fontWeight: 300 }}>
-            Compare plans
-          </h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs font-body" style={{ minWidth: '700px' }}>
-              <thead>
-                <tr style={{ borderBottom: '1px solid hsl(var(--border))' }}>
-                  <th className="text-left py-3 pr-4 text-muted-foreground">Feature</th>
-                  <th className="text-center py-3 px-2 text-muted-foreground">Starter $89</th>
-                  <th className="text-center py-3 px-2 text-primary">Pro $299</th>
-                  <th className="text-center py-3 px-2 text-muted-foreground">Business $599</th>
-                  <th className="text-center py-3 px-2 text-muted-foreground">Suite $1,499</th>
-                  <th className="text-center py-3 px-2 text-muted-foreground">Enterprise</th>
-                </tr>
-              </thead>
-              <tbody>
-                {COMPARISON_FEATURES.map((row, i) => (
-                  <tr key={row.feature} style={{ borderBottom: '1px solid hsl(var(--border) / 0.4)', background: i % 2 === 0 ? 'transparent' : 'hsl(var(--muted) / 0.3)' }}>
-                    <td className="py-2.5 pr-4 text-muted-foreground">{row.feature}</td>
-                    {(['starter', 'pro', 'business', 'suite', 'enterprise'] as const).map((tier) => {
-                      const val = row[tier];
-                      return (
-                        <td key={tier} className="text-center py-2.5 px-2">
-                          {val === true ? (
-                            <Check size={14} className="mx-auto text-primary" />
-                          ) : val === false ? (
-                            <span className="text-muted-foreground/30">—</span>
-                          ) : (
-                            <span className="text-muted-foreground">{val}</span>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+/* ── Section C: Pricing Tiers ── */
+const TIERS = [
+  {
+    name: "Kete Tīmatanga", sub: "Starter", accent: "hsl(var(--pounamu))", badge: "GETTING STARTED",
+    price: "NZ$750 – $1,500/mo", setup: "NZ$2,500 – $6,000 one-off",
+    best: "Single-team businesses ready for their first AI workflow",
+    features: ["1 industry kete (choose one)", "Up to 4 specialist agents", "Intelligence dashboard", "SMS & WhatsApp access", "Monthly reporting", "Email support"],
+    goodFor: "BEACON Lite · AROHA Lite · PRISM Lite · VERSE Lite · TŌROA Lite",
+    cta: "Start with a Launch Sprint", highlight: false,
+  },
+  {
+    name: "Kete Tupu", sub: "Growth", accent: "hsl(var(--primary))", badge: "MOST POPULAR",
+    price: "NZ$1,500 – $4,000/mo", setup: "NZ$6,000 – $15,000 one-off",
+    best: "Multi-workflow SMBs scaling operations with AI",
+    features: ["1–3 industry kete", "Full agent access within packs", "Full intelligence dashboards per kete", "SMS, WhatsApp & voice access", "End-to-end workflow automation", "Content calendar & analytics (Auaha)", "Priority email & chat support", "Quarterly strategy review"],
+    goodFor: "Hospitality groups · Construction firms · Agencies · Trades · Māori organisations · Schools",
+    cta: "Book your Launch Sprint", highlight: true,
+  },
+  {
+    name: "Kete Rangatira", sub: "Enterprise", accent: "hsl(var(--tangaroa))", badge: "ENTERPRISE",
+    price: "NZ$4,000 – $15,000+/mo", setup: "NZ$15,000 – $50,000+ one-off",
+    best: "Groups, councils, iwi entities, franchises, and organisations with compliance needs",
+    features: ["All industry kete", "Full 44-agent access", "Custom integrations (Xero, MYOB, Procore, Hilti, Trimble)", "Dedicated account manager", "Monthly strategy sessions", "Custom workflow builds", "Advanced compliance & audit", "Tikanga-aware governance layer", "Multi-tenant / multi-site support", "SLA guarantee"],
+    goodFor: "Councils · Iwi entities · Franchise groups · Construction groups · Multi-site hospitality",
+    cta: "Talk to our team", highlight: false,
+  },
+];
 
-      {/* Other Products */}
-      <div className="max-w-6xl mx-auto px-5 sm:px-6"><div className="section-divider" /></div>
-      <section className="py-10">
-        <div className="max-w-4xl mx-auto px-5 sm:px-6 text-center">
-          <p className="text-[11px] font-display tracking-[2px] uppercase mb-4 text-muted-foreground" style={{ fontWeight: 300 }}>
-            Other products
-          </p>
-          <div className="glass-card glow-card-hover inline-flex items-center gap-4 px-6 py-4 rounded-xl">
-            <div className="text-left">
-              <p className="text-sm font-display text-foreground" style={{ fontWeight: 300 }}>Tōroa — Family AI Navigator</p>
-              <p className="text-xs font-body text-muted-foreground">SMS-first. Built for whānau in Aotearoa.</p>
-            </div>
-            <span className="font-display text-lg text-foreground" style={{ fontWeight: 300 }}>$29<span className="text-xs text-muted-foreground">/mo</span></span>
-            <Link to="/toroa" className="text-xs font-body text-primary hover:underline">
-              Learn more →
+const PricingTiers = () => (
+  <section id="packs" className="py-16 sm:py-20">
+    <div className="max-w-6xl mx-auto px-5">
+      <h2 className="text-lg sm:text-2xl font-display text-center mb-2 text-foreground" style={{ fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
+        Choose your kete
+      </h2>
+      <p className="text-sm font-body text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
+        Every tier includes Assembl Core: Iho brain, SIGNAL security, compliance pipeline, SMS/WhatsApp, and your dashboard.
+      </p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        {TIERS.map((t, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.12, ease }}
+            className="glass-card glow-card-hover p-6 rounded-2xl flex flex-col relative"
+            style={{ borderColor: t.highlight ? "rgba(212,168,67,0.3)" : undefined, borderWidth: t.highlight ? 2 : undefined }}
+          >
+            {t.highlight && (
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[9px] font-display px-4 py-1 rounded-full" style={{ background: t.accent, color: "hsl(var(--primary-foreground))", fontWeight: 700, letterSpacing: "2px" }}>
+                MOST POPULAR
+              </span>
+            )}
+            <span className="text-[9px] font-display tracking-[3px] uppercase mb-3" style={{ color: t.accent, fontWeight: 700 }}>{t.badge}</span>
+            <h3 className="text-lg font-display text-foreground mb-0.5" style={{ fontWeight: 300 }}>{t.name}</h3>
+            <p className="text-xs font-body text-muted-foreground/50 mb-3">{t.sub}</p>
+            <p className="text-base font-mono text-foreground mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}>{t.price}</p>
+            <p className="text-[11px] font-body text-muted-foreground/50 mb-4">Setup: {t.setup}</p>
+            <p className="text-xs font-body text-muted-foreground mb-4 italic">Best for: {t.best}</p>
+            <div className="h-px mb-4" style={{ background: "rgba(255,255,255,0.06)" }} />
+            <ul className="space-y-2 mb-4 flex-1">
+              {t.features.map(f => (
+                <li key={f} className="flex items-start gap-2 text-xs font-body text-muted-foreground">
+                  <Check size={14} className="mt-0.5 shrink-0" style={{ color: t.accent }} />{f}
+                </li>
+              ))}
+            </ul>
+            <p className="text-[10px] font-body text-muted-foreground/40 mb-4">Good for: {t.goodFor}</p>
+            <Link to="/contact" className="block w-full text-center py-3 rounded-lg text-sm font-body font-medium transition-all" style={{ background: t.accent, color: t.highlight ? "hsl(var(--primary-foreground))" : "#fff" }}>
+              {t.cta}
             </Link>
-          </div>
-        </div>
-      </section>
+          </motion.div>
+        ))}
+      </div>
+      <p className="text-[11px] font-body text-muted-foreground/40 text-center mt-8 max-w-2xl mx-auto">
+        All prices in NZ$ + GST. Setup fees cover workflow mapping, tool integration, agent configuration, and launch. Monthly subscriptions include platform hosting, AI compute, agent support, and governance.
+      </p>
+      <p className="text-xs font-body text-center mt-3">
+        <Link to="/contact" className="text-primary hover:underline">Need something custom? →</Link>
+      </p>
+    </div>
+  </section>
+);
 
-      {/* Trust */}
-      <section className="pb-8">
-        <div className="max-w-4xl mx-auto px-5 sm:px-6 text-center">
-          <p className="text-[11px] font-body text-muted-foreground/60">
-            Payments secured by Stripe · Monthly billing · Cancel anytime · No lock-in · All plans include a 7-day money-back guarantee
-          </p>
-        </div>
-      </section>
+/* ── Section D: Capability Map ── */
+const SHARED_AGENTS = [
+  { icon: Brain, name: "Iho", desc: "Central routing brain" },
+  { icon: Shield, name: "SIGNAL", desc: "Security & IT" },
+  { icon: Eye, name: "Kahu", desc: "Compliance check" },
+  { icon: FileText, name: "Tā", desc: "Audit trail" },
+  { icon: Database, name: "Mahara", desc: "Business memory" },
+  { icon: Lock, name: "Mana", desc: "Access control" },
+  { icon: Globe, name: "Te Reo", desc: "Bilingual support" },
+  { icon: Heart, name: "Tikanga", desc: "Cultural governance" },
+  { icon: PenTool, name: "Elite Copy", desc: "Writing quality" },
+];
 
-      {/* FAQ */}
-      <div className="max-w-3xl mx-auto px-5 sm:px-6"><div className="section-divider" /></div>
-      <section className="py-14 sm:py-20">
-        <div className="max-w-3xl mx-auto px-5 sm:px-6">
-          <h2 className="text-lg sm:text-2xl font-display text-center mb-8 text-foreground" style={{ fontWeight: 300 }}>
-            Frequently asked questions
-          </h2>
-          <div className="space-y-2">
-            {FAQS.map((faq, i) => (
-              <div
-                key={i}
-                className="glass-card glow-card-hover rounded-xl overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between px-5 py-4 text-left"
-                >
-                  <span className="text-sm font-medium font-body pr-4 text-foreground">{faq.q}</span>
-                  <ChevronDown
-                    size={16}
-                    className={`shrink-0 transition-transform duration-200 text-muted-foreground ${openFaq === i ? "rotate-180" : ""}`}
-                  />
-                </button>
-                {openFaq === i && (
-                  <div className="px-5 pb-4">
-                    <p className="text-xs font-body leading-relaxed text-muted-foreground">{faq.a}</p>
-                  </div>
-                )}
+const KETE_DATA = [
+  { name: "Manaaki", eng: "Hospitality & Tourism", count: 8, agents: "AURA · HAVEN · TIDE · BEACON · COAST · KURA · MOANA · PAU", desc: "Run your venue from front-of-house to food safety", accent: "hsl(var(--primary))" },
+  { name: "Hanga", eng: "Construction", count: 6, agents: "ATA · ĀRAI · KAUPAPA · RAWA · WHAKAAĒ · PAI", desc: "Site safety to project completion, all in one place", accent: "hsl(var(--pounamu))" },
+  { name: "Auaha", eng: "Creative & Media", count: 8, agents: "PRISM · MUSE · PIXEL · VERSE · ECHO · FLUX · CHROMATIC · RHYTHM", desc: "Brand to publish — the full creative pipeline", accent: "hsl(var(--kowhai-light))" },
+  { name: "Pakihi", eng: "Business & Commerce", count: 8, agents: "LEDGER · AROHA · TURF · SAGE · COMPASS · NEXUS · PRISM-B · ASCEND", desc: "Accounting, HR, legal, sales, and growth", accent: "hsl(var(--pounamu-light))" },
+  { name: "Hangarau", eng: "Technology", count: 8, agents: "SPARK · SENTINEL · NEXUS-T · CIPHER · RELAY · MATRIX · FORGE · ORACLE", desc: "Your in-house tech team", accent: "hsl(var(--tangaroa))" },
+  { name: "Te Kāhui Reo", eng: "Māori Business Intelligence", count: 8, agents: "WHĀNAU · ROHE · KAUPAPA · MANA-BI · KAITIAKI · TĀURA · WHAKAARO · HIRINGA", desc: "BI built on kaupapa Māori, from the ground up", accent: "hsl(var(--tangaroa-light))" },
+];
+
+const CHANNELS = [
+  { icon: Monitor, label: "Web Dashboard" },
+  { icon: Phone, label: "SMS" },
+  { icon: MessageCircle, label: "WhatsApp" },
+  { icon: Mic, label: "Voice" },
+  { icon: Mail, label: "Email" },
+];
+
+const CapabilityMap = () => (
+  <section className="py-16 sm:py-20">
+    <div className="max-w-6xl mx-auto px-5">
+      <h2 className="text-lg sm:text-2xl font-display text-center mb-2 text-foreground" style={{ fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
+        What's inside each kete
+      </h2>
+      <p className="text-sm font-body text-center text-muted-foreground mb-12 max-w-xl mx-auto">
+        44 specialist agents across 7 industry packs, powered by a shared governance layer.
+      </p>
+
+      {/* Channels */}
+      <div className="glass-card rounded-2xl p-5 mb-4">
+        <p className="text-[10px] font-display tracking-[3px] uppercase text-muted-foreground mb-3" style={{ fontWeight: 700 }}>CHANNELS — How you reach your agents</p>
+        <div className="flex flex-wrap gap-4 justify-center">
+          {CHANNELS.map(c => (
+            <div key={c.label} className="flex items-center gap-2 px-4 py-2 rounded-lg" style={{ background: "rgba(255,255,255,0.03)" }}>
+              <c.icon size={16} className="text-primary" />
+              <span className="text-xs font-body text-muted-foreground">{c.label}</span>
+            </div>
+          ))}
+        </div>
+        <p className="text-[10px] font-body text-muted-foreground/40 text-center mt-3">Any channel reaches any agent through Iho</p>
+      </div>
+
+      {/* Kete Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+        {KETE_DATA.map(k => (
+          <motion.div key={k.name} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="glass-card glow-card-hover rounded-2xl p-5 flex flex-col" style={{ borderTop: `2px solid ${k.accent}` }}>
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-base font-display text-foreground" style={{ fontWeight: 300 }}>{k.name}</h3>
+              <span className="text-[9px] font-mono px-2 py-0.5 rounded-full" style={{ background: `${k.accent}20`, color: k.accent, fontFamily: "'JetBrains Mono', monospace" }}>{k.count} agents</span>
+            </div>
+            <p className="text-[11px] font-body text-muted-foreground/60 mb-2">{k.eng}</p>
+            <p className="text-xs font-body text-muted-foreground mb-3 flex-1">{k.desc}</p>
+            <div className="flex flex-wrap gap-1">
+              {k.agents.split(" · ").map(a => (
+                <span key={a} className="text-[9px] font-body px-2 py-0.5 rounded-full" style={{ background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.5)" }}>{a}</span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Tōroa separate */}
+      <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="glass-card glow-card-hover rounded-2xl p-5 max-w-md mx-auto" style={{ borderTop: "2px solid hsl(var(--primary))" }}>
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-[9px] font-display tracking-[2px] uppercase px-2 py-0.5 rounded-full" style={{ background: "rgba(212,168,67,0.15)", color: "hsl(var(--primary))", fontWeight: 700 }}>CONSUMER</span>
+        </div>
+        <h3 className="text-base font-display text-foreground mb-1" style={{ fontWeight: 300 }}>Tōroa</h3>
+        <p className="text-[11px] font-body text-muted-foreground/60 mb-2">Family Navigator · 1 agent</p>
+        <p className="text-xs font-body text-muted-foreground">SMS-first family AI. No app. Just text. $29/mo</p>
+      </motion.div>
+
+      {/* Shared Foundation */}
+      <div className="glass-card rounded-2xl p-5 mt-4">
+        <p className="text-[10px] font-display tracking-[3px] uppercase text-muted-foreground mb-4" style={{ fontWeight: 700 }}>ASSEMBL CORE — Shared across every kete</p>
+        <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-3">
+          {SHARED_AGENTS.map(a => (
+            <div key={a.name} className="text-center">
+              <div className="w-10 h-10 mx-auto rounded-xl flex items-center justify-center mb-1" style={{ background: "rgba(255,255,255,0.04)" }}>
+                <a.icon size={18} className="text-primary" />
+              </div>
+              <p className="text-[10px] font-display text-foreground" style={{ fontWeight: 300 }}>{a.name}</p>
+              <p className="text-[8px] font-body text-muted-foreground/40">{a.desc}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-[10px] font-body text-muted-foreground/30 text-center mt-4">
+          User → Mana (access) → Iho (route) → Kahu (check) → Agent → Tā (log) → Mahara (remember)
+        </p>
+      </div>
+    </div>
+  </section>
+);
+
+/* ── Section E: Tōroa ── */
+const ToroaSection = () => {
+  const features = ["Photo → school notice parsed", "Fridge photo → meal plan", "Live bus tracking", "Weather → dress the kids", "Smart reminders", "Homework tracker"];
+  return (
+    <section className="py-16 sm:py-20">
+      <div className="max-w-3xl mx-auto px-5 text-center">
+        <p className="text-[11px] font-display tracking-[5px] uppercase mb-3" style={{ fontWeight: 700, color: "hsl(var(--primary))" }}>FOR WHĀNAU</p>
+        <h2 className="text-xl sm:text-3xl font-display text-foreground mb-6" style={{ fontWeight: 300 }}>Tōroa — Your family's intelligent navigator</h2>
+        <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="glass-card glow-card-hover rounded-2xl p-8 inline-block text-left" style={{ borderColor: "rgba(212,168,67,0.2)" }}>
+          <p className="text-2xl font-mono text-foreground mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}>NZ$29<span className="text-sm text-muted-foreground">/month</span></p>
+          <p className="text-xs font-body text-muted-foreground mb-5">No app. No login. Just text.</p>
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            {features.map(f => (
+              <div key={f} className="flex items-center gap-2 text-xs font-body text-muted-foreground">
+                <Check size={12} className="text-primary shrink-0" />{f}
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section id="contact" className="pb-14">
-        <div className="max-w-lg mx-auto px-5 sm:px-6 text-center">
-          <p className="text-sm font-body text-muted-foreground">
-            Enterprise inquiries:{' '}
-            <a href="mailto:assembl@assembl.co.nz" className="underline text-foreground/70 hover:text-foreground transition-colors">
-              assembl@assembl.co.nz
-            </a>
-          </p>
-        </div>
-      </section>
-
-      <div className="mt-auto">
-        <BrandFooter />
+          <Link to="/toroa" className="block w-full text-center py-3 rounded-lg text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
+            Join the beta waitlist
+          </Link>
+          <p className="text-[10px] font-body text-muted-foreground/30 text-center mt-3">2 whānau already waiting</p>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
+
+/* ── Section F: FAQ ── */
+const FAQS = [
+  { q: "What's a kete?", a: "A kete is a traditional Māori woven basket, typically crafted from harakeke (New Zealand flax). We use it as a metaphor for our industry packs — each kete is a carefully woven collection of AI agents designed for a specific industry." },
+  { q: "What's included in a Launch Sprint?", a: "We map your business workflows, connect your existing tools (Xero, email, project management, etc.), configure the right agents for your industry, set up SMS/WhatsApp access, train your team, and go live. Takes 2–4 weeks depending on complexity." },
+  { q: "Can I start with one kete and add more later?", a: "Absolutely. Most businesses start with one kete and add more as they see results. Your Assembl Core foundation stays the same — you're just adding new specialist agents." },
+  { q: "How does SMS/WhatsApp work?", a: "You get a dedicated NZ phone number for each kete. Your team texts questions and the right agent answers in seconds. WhatsApp groups let your team share photos, voice messages, and documents directly with agents." },
+  { q: "Where is my data stored?", a: "All data stays in New Zealand on NZ-hosted infrastructure. We follow the NZ Privacy Act 2020, and our tikanga governance layer ensures your data is treated with the care and respect it deserves." },
+  { q: "What AI models do you use?", a: "We use a mix: Claude for logic, compliance, and legal reasoning. Gemini for voice, multimodal, and speed. Haiku for fast routing. Flux 2 Pro and Ideogram for images. Runway and Kling for video. Iho (our brain) picks the best model for each task automatically." },
+  { q: "Do I need technical knowledge?", a: "No. We handle all the setup. Your team just texts, chats, or uses the dashboard. If you can send a text message, you can use Assembl." },
+  { q: "What's the difference between Tōroa and the business kete?", a: "Tōroa is our consumer product for families — $29/mo, SMS-first, helps with school notices, meals, budgets, and daily family life. The business kete (Manaaki, Hanga, Auaha, Pakihi, Hangarau) are enterprise-grade AI operations hubs for businesses. Different products, different audiences." },
+  { q: "Can I get a custom agent built?", a: "Yes. Under Managed AI or Enterprise, we build custom agents tailored to your specific workflows. This includes connecting to your industry-specific tools and data sources." },
+  { q: "What's tikanga governance?", a: "Tikanga Māori is the customary system of values and practices that has developed over time. Our governance layer ensures all AI operations respect the four pou: Rangatiratanga (self-determination), Kaitiakitanga (stewardship), Manaakitanga (care), and Whanaungatanga (connection). Your data is treated as taonga (treasure), not as a product." },
+];
+
+const FAQSection = () => {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <section className="py-16 sm:py-20">
+      <div className="max-w-3xl mx-auto px-5">
+        <h2 className="text-lg sm:text-2xl font-display text-center mb-8 text-foreground" style={{ fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
+          Frequently asked questions
+        </h2>
+        <div className="space-y-2">
+          {FAQS.map((faq, i) => (
+            <div key={i} className="glass-card glow-card-hover rounded-xl overflow-hidden">
+              <button onClick={() => setOpen(open === i ? null : i)} className="w-full flex items-center justify-between px-5 py-4 text-left">
+                <span className="text-sm font-medium font-body pr-4 text-foreground">{faq.q}</span>
+                <ChevronDown size={16} className={`shrink-0 transition-transform duration-200 text-muted-foreground ${open === i ? "rotate-180" : ""}`} />
+              </button>
+              <AnimatePresence>
+                {open === i && (
+                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease }}>
+                    <div className="px-5 pb-4">
+                      <p className="text-xs font-body leading-relaxed text-muted-foreground">{faq.a}</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── Section G: CTA Footer ── */
+const CTAFooter = () => (
+  <section className="py-16 sm:py-20" style={{ borderTop: "2px solid hsl(var(--primary))" }}>
+    <div className="max-w-2xl mx-auto px-5 text-center">
+      <h2 className="text-xl sm:text-3xl font-display text-foreground mb-3" style={{ fontWeight: 300 }}>
+        Ready to build your kete?
+      </h2>
+      <p className="text-sm font-body text-muted-foreground mb-8 max-w-lg mx-auto">
+        Book a free 30-minute discovery call. We'll map your workflows and show you exactly which agents can run them.
+      </p>
+      <div className="flex flex-wrap justify-center gap-3 mb-6">
+        <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
+          Book a discovery call
+        </Link>
+        <Link to="/kete" className="px-7 py-3 rounded-full text-sm font-body font-medium border transition-all" style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.7)" }}>
+          View the demo
+        </Link>
+      </div>
+      <p className="text-xs font-body text-muted-foreground/40">
+        Or email us: <a href="mailto:assembl@assembl.co.nz" className="underline hover:text-foreground transition-colors">assembl@assembl.co.nz</a>
+      </p>
+    </div>
+  </section>
+);
+
+/* ── Main Page ── */
+const PricingPage = () => (
+  <div className="min-h-screen flex flex-col bg-background">
+    <SEO
+      title="Assembl Pricing — Business Intelligence Built for Aotearoa"
+      description="Industry kete from NZ$750/mo. 44 specialist AI agents across 7 industry packs with governance, privacy, and tikanga built in."
+      path="/pricing"
+    />
+    <BrandNav />
+    <PricingHero />
+    <div className="max-w-6xl mx-auto w-full px-5"><div className="section-divider" /></div>
+    <OfferStack />
+    <div className="max-w-6xl mx-auto w-full px-5"><div className="section-divider" /></div>
+    <PricingTiers />
+    <div className="max-w-6xl mx-auto w-full px-5"><div className="section-divider" /></div>
+    <CapabilityMap />
+    <div className="max-w-6xl mx-auto w-full px-5"><div className="section-divider" /></div>
+    <ToroaSection />
+    <div className="max-w-3xl mx-auto w-full px-5"><div className="section-divider" /></div>
+    <FAQSection />
+    <CTAFooter />
+    <div className="mt-auto"><BrandFooter /></div>
+  </div>
+);
 
 export default PricingPage;

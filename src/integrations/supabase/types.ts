@@ -1775,6 +1775,45 @@ export type Database = {
         }
         Relationships: []
       }
+      enquiries: {
+        Row: {
+          business_name: string | null
+          created_at: string | null
+          email: string
+          id: string
+          industry: string | null
+          interest: string | null
+          message: string | null
+          name: string
+          phone: string | null
+          status: string | null
+        }
+        Insert: {
+          business_name?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          industry?: string | null
+          interest?: string | null
+          message?: string | null
+          name: string
+          phone?: string | null
+          status?: string | null
+        }
+        Update: {
+          business_name?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          industry?: string | null
+          interest?: string | null
+          message?: string | null
+          name?: string
+          phone?: string | null
+          status?: string | null
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           child_id: string | null

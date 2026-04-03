@@ -9,9 +9,8 @@ interface NavItem { label: string; to: string }
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Ngā Kete", to: "/kete" },
-  { label: "How it works", to: "/#how-it-works" },
   { label: "Pricing", to: "/pricing" },
-  { label: "Contact", to: "/#contact" },
+  { label: "Contact", to: "/contact" },
 ];
 
 const PACKS = [
@@ -130,14 +129,13 @@ const BrandNav = () => {
             Tōroa
           </Link>
 
-          <a
-            href="#founding-pilots"
-            onClick={(e) => { e.preventDefault(); handleNavClick("/#founding-pilots"); }}
+          <Link
+            to="/contact"
             className="ml-2 px-5 py-2 rounded-full text-xs font-body font-medium transition-all duration-300"
             style={{ background: "#D4A843", color: "#09090F" }}
           >
-            Book a founding pilot
-          </a>
+            Book a Launch Sprint
+          </Link>
 
           <AccountDropdown />
         </nav>
@@ -201,14 +199,14 @@ const BrandNav = () => {
               </nav>
 
               <div className="px-5 py-5 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                <a
-                  href="#founding-pilots"
-                  onClick={(e) => { e.preventDefault(); handleNavClick("/#founding-pilots"); }}
+                <Link
+                  to="/contact"
                   className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium mb-3"
                   style={{ background: "#D4A843", color: "#09090F" }}
+                  onClick={() => setMobileOpen(false)}
                 >
-                  Book a founding pilot
-                </a>
+                  Book a Launch Sprint
+                </Link>
                 <AccountDropdown />
               </div>
             </motion.div>

@@ -48,6 +48,7 @@ const AboutPage = lazy(() => import("./pages/AboutPage"));
 const OnboardingPage = lazy(() => import("./pages/OnboardingPage"));
 const AdminHealthDashboard = lazy(() => import("./pages/AdminHealthDashboard"));
 const AdminLeadsDashboard = lazy(() => import("./pages/AdminLeadsDashboard"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
 const TurfDeadlinePage = lazy(() => import("./pages/TurfDeadlinePage"));
 const AdminAnalyticsDashboard = lazy(() => import("./pages/AdminAnalyticsDashboard"));
 const AdminMessagesPage = lazy(() => import("./pages/AdminMessagesPage"));
@@ -126,6 +127,7 @@ const App = () => (
                   <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
                   <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                   <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
+                  <Route path="/contact" element={<Suspense fallback={null}><ContactPage /></Suspense>} />
                   <Route path="/admin" element={<Suspense fallback={null}><AdminLogin /></Suspense>} />
                   <Route path="/admin/forgot-password" element={<Suspense fallback={null}><AdminForgotPassword /></Suspense>} />
                   <Route path="/admin/reset-password" element={<Suspense fallback={null}><AdminResetPassword /></Suspense>} />
