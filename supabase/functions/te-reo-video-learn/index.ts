@@ -1,4 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { chatWithGemini } from "../_shared/gemini-provider.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -140,62 +141,18 @@ Deno.serve(async (req) => {
     const { title, transcript } = await getVideoTranscript(videoId);
     console.log("Video title:", title, "Transcript length:", transcript.length);
 
-    // Use Lovable AI proxy for Gemini
-    const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-    const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
-
-    const proxyResp = await fetch(`${SUPABASE_URL}/functions/v1/proxy-model`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "gemini-flash",
-        messages: [
-          {
-            role: "user",
-            content: `Video Title: "${title}"\n\nVideo Content/Transcript:\n${transcript.slice(0, 8000)}\n\nGenerate an interactive te reo Māori learning resource from this video content.`,
-          },
-        ],
-        systemPrompt: SYSTEM_PROMPT,
-        temperature: 0.7,
-        maxTokens: 4096,
-      }),
-    });
-
-    if (!proxyResp.ok) {
-      const errText = await proxyResp.text();
-      console.error("Proxy error:", errText);
-      return new Response(JSON.stringify({ error: "Failed to generate learning content" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    // The proxy returns streaming SSE - collect the full response
-    const reader = proxyResp.body!.getReader();
-    const decoder = new TextDecoder();
-    let fullText = "";
-    let buffer = "";
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split("\n");
-      buffer = lines.pop() || "";
-      for (const line of lines) {
-        if (!line.startsWith("data: ")) continue;
-        const data = line.slice(6).trim();
-        if (data === "[DONE]") continue;
-        try {
-          const parsed = JSON.parse(data);
-          const content = parsed.choices?.[0]?.delta?.content;
-          if (content) fullText += content;
-        } catch { /* skip */ }
-      }
-    }
+    // Use direct Gemini API via shared provider
+    const fullText = await chatWithGemini(
+      "gemini-2.5-flash",
+      SYSTEM_PROMPT,
+      [
+        {
+          role: "user",
+          content: `Video Title: "${title}"\n\nVideo Content/Transcript:\n${transcript.slice(0, 8000)}\n\nGenerate an interactive te reo Māori learning resource from this video content.`,
+        },
+      ],
+      { temperature: 0.7, maxTokens: 4096 }
+    );
 
     // Parse the JSON response
     let learningData;
