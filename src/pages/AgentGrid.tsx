@@ -206,8 +206,8 @@ const AgentGrid = () => {
       {/* ═══════ LIVE DEMO ═══════ */}
       <EmbedDemoSection />
 
-      {/* ═══════ FOUNDING PILOT ═══════ */}
-      <section id="founding-pilot" className="relative z-10 py-20" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      {/* ═══════ LAUNCH SPRINT ═══════ */}
+      <section id="launch-sprint" className="relative z-10 py-20" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -215,10 +215,10 @@ const AgentGrid = () => {
             viewport={{ once: true }}
           >
             <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "1.75rem", color: "#FFFFFF", marginBottom: "0.75rem" }}>
-              Founding pilots — <span style={{ color: "#D4A843" }}>now open</span>
+              Book a Launch Sprint — <span style={{ color: "#D4A843" }}>now open</span>
             </h2>
             <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "480px", margin: "0 auto 2rem" }}>
-              We're opening a limited number of founding pilots for NZ businesses. Early access, direct input, and launch pricing locked in.
+              We map your workflows, design your automation, and deploy your Assembl instance. Early access pricing locked in.
             </p>
           </motion.div>
 
@@ -279,7 +279,7 @@ const AgentGrid = () => {
                 boxShadow: "0 0 20px rgba(212,168,67,0.2)",
               }}
             >
-              <Send size={14} /> Book a founding pilot
+              <Send size={14} /> Book a Launch Sprint
             </button>
           </form>
         </div>

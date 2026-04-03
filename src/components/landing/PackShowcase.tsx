@@ -35,7 +35,7 @@ const PackShowcase = () => (
       >
         <span className="font-mono-jb text-[10px] tracking-[4px] text-primary/60 uppercase mb-3">Industry Packs</span>
         <h2 className="text-2xl sm:text-4xl font-display tracking-wide text-foreground mt-2 mb-3 heading-glow section-heading" style={{ fontWeight: 700 }}>
-          5 packs. <span className="text-gradient-hero">42 specialists.</span>
+          7 kete. <span className="text-gradient-hero">44 specialist agents.</span>
         </h2>
         <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
           Every agent is trained on NZ legislation and built for Aotearoa businesses.

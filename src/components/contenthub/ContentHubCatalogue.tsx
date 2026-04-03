@@ -35,7 +35,7 @@ const ContentHubCatalogue = () => {
         Your Business Intelligence Network
       </h2>
       <p className="text-center font-body text-sm mb-8" style={{ color: "rgba(255,255,255,0.35)" }}>
-        45 specialist advisors — tap any to start a conversation
+        44 specialist agents — tap any to start a conversation
       </p>
 
       {/* Filter tabs */}

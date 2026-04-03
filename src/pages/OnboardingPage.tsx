@@ -315,14 +315,14 @@ const OnboardingPage = () => {
                 </div>
               </div>
 
-              {/* Trial highlight */}
+              {/* Launch Sprint highlight */}
               <div className="rounded-2xl p-4 text-center" style={{ background: "rgba(212,168,67,0.06)", border: "1px solid rgba(212,168,67,0.15)" }}>
                 <div className="flex items-center justify-center gap-2 mb-1">
                   <Clock size={14} style={{ color: "#D4A843" }} />
-                  <span className="text-xs font-bold" style={{ color: "#D4A843" }}>14-DAY FREE TRIAL</span>
+                  <span className="text-xs font-bold" style={{ color: "#D4A843" }}>BOOK A LAUNCH SPRINT</span>
                 </div>
                 <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>
-                  Full access to all {ind.reo} agents. No credit card required.
+                  Full access to all {ind.reo} agents. Custom setup for your business.
                 </p>
               </div>
 
@@ -340,7 +340,7 @@ const OnboardingPage = () => {
                   className="flex-[2] py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
                   style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#09090F" }}
                 >
-                  Start Free Trial <ArrowRight size={16} />
+                  Get Started <ArrowRight size={16} />
                 </button>
               </div>
             </motion.div>

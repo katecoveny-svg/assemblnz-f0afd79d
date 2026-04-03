@@ -30,9 +30,9 @@ const AgentDetailPage = () => {
       "url": `https://assembl.co.nz/agents/${agent.id}`,
       "offers": {
         "@type": "Offer",
-        "price": "0",
+        "price": "750",
         "priceCurrency": "NZD",
-        "description": "Free trial available"
+        "description": "Available with Kete Tīmatanga subscription"
       },
       "provider": {
         "@type": "Organization",
