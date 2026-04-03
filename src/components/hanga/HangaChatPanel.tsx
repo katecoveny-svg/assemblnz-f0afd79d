@@ -102,7 +102,7 @@ export default function HangaChatPanel({ packId = "hanga", packLabel = "Hanga In
         },
         body: JSON.stringify({
           message: text.trim(),
-          packId: "hanga",
+          packId,
           messages: messages.filter(m => m.role === "user" || m.role === "assistant")
             .map(m => ({ role: m.role, content: m.content })),
         }),
