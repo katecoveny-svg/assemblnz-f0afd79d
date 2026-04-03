@@ -150,10 +150,12 @@ const App = () => (
                   <Route path="/data-sovereignty" element={<Suspense fallback={null}><DataSovereigntyPage /></Suspense>} />
                   <Route path="/data-privacy" element={<Suspense fallback={null}><DataPrivacyLegal /></Suspense>} />
                   <Route path="/invest" element={<Suspense fallback={null}><InvestPage /></Suspense>} />
+                  <Route path="/kete" element={<Suspense fallback={null}><KeteOverviewPage /></Suspense>} />
                   <Route path="/toroa" element={<Suspense fallback={null}><ToroaLandingPage /></Suspense>} />
                   <Route path="/toroa/app" element={<Suspense fallback={null}><ToroaApp /></Suspense>} />
                   <Route path="/toroa/install" element={<Suspense fallback={null}><ToroaInstallPage /></Suspense>} />
                   <Route path="/helm" element={<Navigate to="/toroa" replace />} />
+                  <Route path="/helm/*" element={<Navigate to="/toroa" replace />} />
                   <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
                   <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
                   <Route path="/hanga" element={<Suspense fallback={null}><HangaLayout /></Suspense>}>
