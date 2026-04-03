@@ -199,14 +199,14 @@ const BrandNav = () => {
               </nav>
 
               <div className="px-5 py-5 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                <a
-                  href="#founding-pilots"
-                  onClick={(e) => { e.preventDefault(); handleNavClick("/#founding-pilots"); }}
+                <Link
+                  to="/contact"
                   className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium mb-3"
                   style={{ background: "#D4A843", color: "#09090F" }}
+                  onClick={() => setMobileOpen(false)}
                 >
-                  Book a founding pilot
-                </a>
+                  Book a Launch Sprint
+                </Link>
                 <AccountDropdown />
               </div>
             </motion.div>
