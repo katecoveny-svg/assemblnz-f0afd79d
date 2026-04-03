@@ -1,7 +1,7 @@
-import { TrendingUp, TrendingDown, Eye, Heart, FileText, DollarSign, Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Pipette, Timer, ArrowRight } from "lucide-react";
+import { TrendingUp, TrendingDown, Eye, Heart, FileText, DollarSign, Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Pipette, Timer, ArrowRight, CreditCard, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import KeteBrainChat from "@/components/KeteBrainChat";
-import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
+import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
 
 const ACCENT = "#F0D078";
 
@@ -18,25 +18,25 @@ const METRICS = [
 ];
 
 const PIPELINE_STEPS = [
-  { label: "Brief", count: 3, color: "#F0D078" },
-  { label: "Copy", count: 5, color: "#D4A843" },
-  { label: "Design", count: 4, color: "#5AADA0" },
-  { label: "Video", count: 2, color: "#3A7D6E" },
-  { label: "Schedule", count: 6, color: "#3A6A9C" },
-  { label: "Publish", count: 8, color: "#1A3A5C" },
-  { label: "Analyse", count: 12, color: "#F0D078" },
-  { label: "Iterate", count: 1, color: "#D4A843" },
+  { label: "Brief", count: 3, color: "#F0D078", agent: "MUSE" },
+  { label: "Copy", count: 5, color: "#D4A843", agent: "MUSE + VERSE" },
+  { label: "Design", count: 4, color: "#5AADA0", agent: "PIXEL + CHROMATIC" },
+  { label: "Video", count: 2, color: "#3A7D6E", agent: "ECHO + FLUX" },
+  { label: "Schedule", count: 6, color: "#3A6A9C", agent: "RHYTHM" },
+  { label: "Publish", count: 8, color: "#1A3A5C", agent: "RHYTHM" },
+  { label: "Analyse", count: 12, color: "#F0D078", agent: "MUSE + RHYTHM" },
+  { label: "Iterate", count: 1, color: "#D4A843", agent: "All" },
 ];
 
 const QUICK_LAUNCH = [
-  { label: "Campaign Builder", desc: "Brief to publish", icon: Megaphone, route: "/auaha/campaign" },
-  { label: "Copy Studio", desc: "Write & refine", icon: PenTool, route: "/auaha/copy" },
-  { label: "Image Studio", desc: "Generate visuals", icon: Image, route: "/auaha/images" },
-  { label: "Video Studio", desc: "Create video", icon: Video, route: "/auaha/video" },
-  { label: "Podcast Studio", desc: "Record & publish", icon: Mic, route: "/auaha/podcast" },
-  { label: "Ad Manager", desc: "Run campaigns", icon: Megaphone, route: "/auaha/ads" },
-  { label: "Content Calendar", desc: "Schedule content", icon: Calendar, route: "/auaha/calendar" },
-  { label: "Analytics Hub", desc: "Performance data", icon: BarChart3, route: "/auaha/analytics" },
+  { label: "Campaign Builder", desc: "Brief → publish in one flow", icon: Megaphone, route: "/auaha/campaign" },
+  { label: "Copy Studio", desc: "MUSE writes sharp copy", icon: PenTool, route: "/auaha/copy" },
+  { label: "Image Studio", desc: "PIXEL + Fal.ai + Runway", icon: Image, route: "/auaha/images" },
+  { label: "Video Studio", desc: "Kling & Gen-3 Alpha", icon: Video, route: "/auaha/video" },
+  { label: "Podcast Studio", desc: "Record with AI co-host", icon: Mic, route: "/auaha/podcast" },
+  { label: "Ad Manager", desc: "Meta + TikTok + Loop", icon: Megaphone, route: "/auaha/ads" },
+  { label: "Content Calendar", desc: "Schedule via Buffer", icon: Calendar, route: "/auaha/calendar" },
+  { label: "Analytics Hub", desc: "All platforms unified", icon: BarChart3, route: "/auaha/analytics" },
 ];
 
 const AGENTS = [
@@ -51,22 +51,26 @@ const AGENTS = [
 ];
 
 const RECENT = [
-  { time: "2 min ago", action: "MUSE drafted 4 LinkedIn posts for Q2 campaign", agents: ["MUSE"] },
-  { time: "15 min ago", action: "PIXEL generated hero image for product launch", agents: ["PIXEL", "CHROMATIC"] },
-  { time: "1 hr ago", action: "ECHO completed video edit for TikTok series", agents: ["ECHO", "FLUX"] },
-  { time: "3 hrs ago", action: "RHYTHM scheduled 12 posts across 4 platforms", agents: ["RHYTHM"] },
-  { time: "Yesterday", action: "PRISM flagged off-brand colour usage in ad creative", agents: ["PRISM", "CHROMATIC"] },
+  { time: "2 min ago", action: "MUSE drafted 4 LinkedIn posts for Q2 campaign", agents: ["MUSE"], flow: "copy" },
+  { time: "15 min ago", action: "PIXEL generated hero image via Fal.ai Flux Pro", agents: ["PIXEL", "CHROMATIC"], flow: "image" },
+  { time: "1 hr ago", action: "ECHO completed TikTok video via Runway Gen-3", agents: ["ECHO", "FLUX"], flow: "video" },
+  { time: "3 hrs ago", action: "RHYTHM scheduled 12 posts across 4 platforms", agents: ["RHYTHM"], flow: "schedule" },
+  { time: "Yesterday", action: "PRISM flagged off-brand colour usage — CHROMATIC corrected", agents: ["PRISM", "CHROMATIC"], flow: "brand" },
 ];
 
-function GlassCard({ children, className = "", accent = false }: { children: React.ReactNode; className?: string; accent?: boolean }) {
+const usageData = [
+  { name: "Lovable AI", value: 42, color: "#5AADA0" },
+  { name: "Fal.ai", value: 28, color: "#F0D078" },
+  { name: "Runway", value: 15, color: "#E1306C" },
+  { name: "TNZ SMS", value: 10, color: "#3A6A9C" },
+  { name: "Other", value: 5, color: "#666" },
+];
+
+function GlassCard({ children, className = "", accent = false, onClick }: { children: React.ReactNode; className?: string; accent?: boolean; onClick?: () => void }) {
   return (
-    <div
-      className={`rounded-xl border backdrop-blur-xl ${className}`}
-      style={{
-        background: "rgba(15, 15, 26, 0.7)",
-        borderColor: accent ? `${ACCENT}33` : "rgba(255,255,255,0.1)",
-      }}
-    >
+    <div onClick={onClick}
+      className={`rounded-xl border backdrop-blur-xl ${onClick ? "cursor-pointer" : ""} ${className}`}
+      style={{ background: "rgba(15, 15, 26, 0.7)", borderColor: accent ? `${ACCENT}33` : "rgba(255,255,255,0.1)" }}>
       {children}
     </div>
   );
@@ -78,14 +82,20 @@ export default function AuahaDashboard() {
   return (
     <div className="p-6 lg:p-8 space-y-8 max-w-[1400px] mx-auto">
       {/* Header */}
-      <div>
-        <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1" style={{ fontFamily: 'Lato, sans-serif' }}>Assembl &gt; Auaha</p>
-        <h1 className="text-white text-2xl lg:text-3xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>
-          Creative Command Centre
-        </h1>
-        <p className="text-white/50 text-sm mt-1" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-          8 agents working symbiotically across your creative pipeline
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1" style={{ fontFamily: 'Lato, sans-serif' }}>Assembl &gt; Auaha</p>
+          <h1 className="text-white text-2xl lg:text-3xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>
+            Creative Command Centre
+          </h1>
+          <p className="text-white/50 text-sm mt-1" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+            8 agents • Lovable AI + Fal.ai + Runway • symbiotic creative pipeline
+          </p>
+        </div>
+        <div className="hidden lg:flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-white/40 text-xs">All systems operational</span>
+        </div>
       </div>
 
       {/* Row 1 — Metrics */}
@@ -107,20 +117,20 @@ export default function AuahaDashboard() {
 
       {/* Row 2 — Pipeline */}
       <GlassCard accent className="p-6">
-        <h3 className="text-white/60 text-xs uppercase tracking-[3px] mb-4" style={{ fontFamily: 'Lato, sans-serif' }}>Creative Pipeline</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-white/60 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Creative Pipeline — Symbiotic Flow</h3>
+          <span className="text-[10px] text-white/30">Content flows through each stage automatically</span>
+        </div>
         <div className="flex items-center gap-2 overflow-x-auto pb-2">
           {PIPELINE_STEPS.map((step, i) => (
             <div key={step.label} className="flex items-center gap-2 flex-shrink-0">
-              <button
-                className="flex flex-col items-center gap-1.5 px-4 py-3 rounded-lg transition-all hover:bg-white/5 min-w-[80px]"
-              >
-                <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium"
-                  style={{ background: `${step.color}22`, color: step.color, border: `1px solid ${step.color}44` }}
-                >
+              <button className="flex flex-col items-center gap-1.5 px-4 py-3 rounded-lg transition-all hover:bg-white/5 min-w-[85px]">
+                <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-medium"
+                  style={{ background: `${step.color}22`, color: step.color, border: `1px solid ${step.color}44` }}>
                   {step.count}
                 </div>
                 <span className="text-white/60 text-[10px] uppercase tracking-wider">{step.label}</span>
+                <span className="text-[8px] text-white/25">{step.agent}</span>
               </button>
               {i < PIPELINE_STEPS.length - 1 && <ArrowRight className="w-3 h-3 text-white/20 flex-shrink-0" />}
             </div>
@@ -131,21 +141,20 @@ export default function AuahaDashboard() {
       {/* Row 3 — Quick Launch */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {QUICK_LAUNCH.map((item) => (
-          <GlassCard key={item.label} className="p-5 cursor-pointer hover:border-[#F0D07844] transition-all group" accent>
-            <button onClick={() => navigate(item.route)} className="w-full text-left">
-              <div className="w-9 h-9 rounded-lg flex items-center justify-center mb-3" style={{ background: `${ACCENT}15` }}>
-                <item.icon className="w-4 h-4" style={{ color: ACCENT }} />
-              </div>
-              <p className="text-white text-sm font-medium">{item.label}</p>
-              <p className="text-white/40 text-xs mt-0.5">{item.desc}</p>
-              <ArrowRight className="w-3 h-3 text-white/20 mt-2 group-hover:text-white/50 transition-colors" />
-            </button>
+          <GlassCard key={item.label} className="p-5 hover:border-[#F0D07844] transition-all group" accent
+            onClick={() => navigate(item.route)}>
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center mb-3" style={{ background: `${ACCENT}15` }}>
+              <item.icon className="w-4 h-4" style={{ color: ACCENT }} />
+            </div>
+            <p className="text-white text-sm font-medium">{item.label}</p>
+            <p className="text-white/40 text-xs mt-0.5">{item.desc}</p>
+            <ArrowRight className="w-3 h-3 text-white/20 mt-2 group-hover:text-white/50 transition-colors" />
           </GlassCard>
         ))}
       </div>
 
-      {/* Row 4 — Reach chart + Recent activity */}
-      <div className="grid lg:grid-cols-5 gap-4">
+      {/* Row 4 — Reach chart + API Usage + Recent */}
+      <div className="grid lg:grid-cols-6 gap-4">
         <GlassCard className="lg:col-span-3 p-6">
           <h3 className="text-white/60 text-xs uppercase tracking-[3px] mb-4" style={{ fontFamily: 'Lato, sans-serif' }}>Weekly Reach</h3>
           <ResponsiveContainer width="100%" height={200}>
@@ -158,13 +167,39 @@ export default function AuahaDashboard() {
               </defs>
               <XAxis dataKey="d" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} axisLine={false} tickLine={false} />
               <YAxis hide />
-              <Tooltip
-                contentStyle={{ background: 'rgba(15,15,26,0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#fff', fontSize: 12 }}
-                formatter={(value: number) => [value.toLocaleString(), 'Reach']}
-              />
+              <Tooltip contentStyle={{ background: 'rgba(15,15,26,0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, color: '#fff', fontSize: 12 }}
+                formatter={(value: number) => [value.toLocaleString(), 'Reach']} />
               <Area type="monotone" dataKey="v" stroke={ACCENT} fill="url(#auahaGrad)" strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>
+        </GlassCard>
+
+        {/* API Usage */}
+        <GlassCard className="lg:col-span-1 p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <CreditCard className="w-3 h-3 text-white/30" />
+            <h3 className="text-white/60 text-[10px] uppercase tracking-[2px]">API Spend</h3>
+          </div>
+          <p className="text-white text-lg font-light" style={{ fontFamily: 'JetBrains Mono, monospace' }}>$47.20</p>
+          <p className="text-white/30 text-[10px] mb-3">this month</p>
+          <ResponsiveContainer width="100%" height={80}>
+            <PieChart>
+              <Pie data={usageData} dataKey="value" cx="50%" cy="50%" innerRadius={20} outerRadius={35} paddingAngle={2}>
+                {usageData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+          <div className="space-y-1 mt-2">
+            {usageData.slice(0, 3).map((u) => (
+              <div key={u.name} className="flex items-center justify-between">
+                <div className="flex items-center gap-1">
+                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: u.color }} />
+                  <span className="text-white/40 text-[9px]">{u.name}</span>
+                </div>
+                <span className="text-white/50 text-[9px] font-mono">{u.value}%</span>
+              </div>
+            ))}
+          </div>
         </GlassCard>
 
         <GlassCard className="lg:col-span-2 p-6">
@@ -190,10 +225,16 @@ export default function AuahaDashboard() {
 
       {/* Row 5 — Agent Status */}
       <GlassCard className="p-6">
-        <h3 className="text-white/60 text-xs uppercase tracking-[3px] mb-4" style={{ fontFamily: 'Lato, sans-serif' }}>Symbiotic Workforce</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-white/60 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Symbiotic Workforce</h3>
+          <div className="flex items-center gap-1">
+            <Zap className="w-3 h-3" style={{ color: ACCENT }} />
+            <span className="text-white/30 text-[10px]">Agents share context across every tool</span>
+          </div>
+        </div>
         <div className="grid grid-cols-4 lg:grid-cols-8 gap-3">
           {AGENTS.map((a) => (
-            <div key={a.name} className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-white/5 transition-all">
+            <div key={a.name} className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-white/5 transition-all cursor-pointer">
               <div className="relative">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: `${ACCENT}15`, border: `1px solid ${ACCENT}33` }}>
                   <a.icon className="w-4 h-4" style={{ color: ACCENT }} />
@@ -208,6 +249,7 @@ export default function AuahaDashboard() {
           ))}
         </div>
       </GlassCard>
+
       <KeteBrainChat keteId="auaha" keteName="Auaha" keteNameEn="Creative" accentColor="#F0D078" />
     </div>
   );
