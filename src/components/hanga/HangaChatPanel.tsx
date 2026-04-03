@@ -230,7 +230,7 @@ export default function HangaChatPanel({ packId = "hanga", packLabel = "Hanga In
                     <p className="text-[11px] text-white/30 mt-1">IHO will route your query to the right specialist</p>
                   </div>
                   <div className="flex flex-wrap gap-1.5 justify-center">
-                    {SUGGESTIONS.map(s => (
+                    {(PACK_SUGGESTIONS[packId] || PACK_SUGGESTIONS.hanga).map(s => (
                       <button
                         key={s}
                         onClick={() => sendMessage(s)}
