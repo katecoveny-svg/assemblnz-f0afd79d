@@ -369,7 +369,7 @@ export default function HangaDashboard() {
         conversations={[]}
       />
 
-      <VoiceFAB packId="hanga" />
+      <KeteBrainChat keteId="hanga" keteName="Hanga" keteNameEn="Construction" accentColor="#3A7D6E" />
     </div>
   );
 }
