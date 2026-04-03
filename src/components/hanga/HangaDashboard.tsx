@@ -5,6 +5,11 @@ import {
   MapPin, TrendingUp, Activity, ChevronRight, Zap, HardHat, Brain
 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import KeteOnboardingCard from "@/components/KeteOnboardingCard";
+import HarakekePattern from "@/components/HarakekePattern";
+import WorkflowCards from "@/components/WorkflowCards";
+import VoiceFAB from "@/components/VoiceFAB";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
