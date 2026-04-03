@@ -146,6 +146,8 @@ const Index = () => {
           The operating system for{" "}<span style={{ color: "#D4A843" }}>NZ business.</span>
         </motion.h1>
 
+        <KeteHero />
+
         <motion.p className="relative max-w-xl mt-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isMobile ? "15px" : "17px", lineHeight: 1.7, color: "rgba(255,255,255,0.6)", zIndex: 1 }}
           initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}>
           One intelligence layer for quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa.
