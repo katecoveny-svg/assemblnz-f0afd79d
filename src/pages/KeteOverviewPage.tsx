@@ -74,7 +74,7 @@ export default function KeteOverviewPage() {
                         <StatusDot status={k.smsStatus} />
                       </div>
                       <div className="flex items-center gap-1">
-                        <MessageSquare size={10} className="text-white/25" />
+                         <GlowIcon name="MessageSquare" size={10} color="rgba(255,255,255,0.25)" />
                         <StatusDot status={k.whatsappStatus} />
                       </div>
                     </div>
