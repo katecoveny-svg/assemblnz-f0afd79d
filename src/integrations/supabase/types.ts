@@ -317,6 +317,7 @@ export type Database = {
           icon: string | null
           id: string
           is_active: boolean | null
+          model_preference: string | null
           pack: string
           system_prompt: string
           updated_at: string | null
@@ -329,6 +330,7 @@ export type Database = {
           icon?: string | null
           id?: string
           is_active?: boolean | null
+          model_preference?: string | null
           pack: string
           system_prompt: string
           updated_at?: string | null
@@ -341,6 +343,7 @@ export type Database = {
           icon?: string | null
           id?: string
           is_active?: boolean | null
+          model_preference?: string | null
           pack?: string
           system_prompt?: string
           updated_at?: string | null

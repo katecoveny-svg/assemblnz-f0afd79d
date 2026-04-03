@@ -12,7 +12,8 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Industry Packs", to: "/#industry-packs" },
   { label: "Pricing", to: "/pricing" },
   { label: "Hanga", to: "/hanga" },
-  { label: "Founding Pilots", to: "/#founding-pilots" },
+  { label: "Manaaki", to: "/chat/aura" },
+  { label: "Pakihi", to: "/chat/aroha" },
   { label: "Contact", to: "/#contact" },
 ];
 
