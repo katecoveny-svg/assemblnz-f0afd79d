@@ -208,6 +208,7 @@ export default function AuahaDashboard() {
           ))}
         </div>
       </GlassCard>
+      <KeteBrainChat keteId="auaha" keteName="Auaha" keteNameEn="Creative" accentColor="#F0D078" />
     </div>
   );
 }
