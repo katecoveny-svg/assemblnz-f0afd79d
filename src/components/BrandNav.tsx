@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, HardHat, UtensilsCrossed, Palette, Briefcase, Cpu, Shield, ChevronDown } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import CelestialLogo from "@/components/CelestialLogo";
 
@@ -9,20 +9,28 @@ interface NavItem { label: string; to: string }
 
 const NAV_ITEMS: NavItem[] = [
   { label: "How it works", to: "/#how-it-works" },
-  { label: "Industry Packs", to: "/#industry-packs" },
   { label: "Pricing", to: "/pricing" },
-  { label: "Hanga", to: "/hanga" },
   { label: "Founding Pilots", to: "/#founding-pilots" },
   { label: "Contact", to: "/#contact" },
+];
+
+const PACKS = [
+  { label: "Hanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#D4A843" },
+  { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#3A7D6E" },
+  { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#7C5CBF" },
+  { label: "Pakihi", sublabel: "Business", to: "/pakihi", icon: Briefcase, color: "#4A90D9" },
+  { label: "Hangarau", sublabel: "Technology", to: "/hangarau", icon: Cpu, color: "#D97B4A" },
 ];
 
 const BrandNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [packsOpen, setPacksOpen] = useState(false);
 
   const handleNavClick = (to: string) => {
     setMobileOpen(false);
+    setPacksOpen(false);
     if (to.startsWith("/#")) {
       const hash = to.slice(1);
       if (location.pathname === "/") {
@@ -54,7 +62,7 @@ const BrandNav = () => {
 
         <div className="flex-1" />
 
-        {/* Desktop nav — flat links, no dropdowns */}
+        {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-1 text-[13px]">
           {NAV_ITEMS.map((item) => (
             <button
@@ -65,6 +73,56 @@ const BrandNav = () => {
               {item.label}
             </button>
           ))}
+
+          {/* Industry Packs dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setPacksOpen(!packsOpen)}
+              className="px-3 py-2 rounded-lg font-body font-medium text-white/65 hover:text-white transition-colors flex items-center gap-1"
+            >
+              Industry Packs
+              <ChevronDown size={12} className={`transition-transform ${packsOpen ? "rotate-180" : ""}`} />
+            </button>
+            <AnimatePresence>
+              {packsOpen && (
+                <>
+                  <div className="fixed inset-0 z-10" onClick={() => setPacksOpen(false)} />
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    className="absolute top-full right-0 mt-2 z-20 w-[260px] rounded-xl p-2 space-y-0.5"
+                    style={{ background: "#13131F", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}
+                  >
+                    {PACKS.map(pack => (
+                      <button
+                        key={pack.label}
+                        onClick={() => handleNavClick(pack.to)}
+                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/[0.04] transition-colors group"
+                      >
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${pack.color}15` }}>
+                          <pack.icon size={16} style={{ color: pack.color }} />
+                        </div>
+                        <div className="text-left">
+                          <div className="text-xs font-semibold text-white/80 group-hover:text-white">{pack.label}</div>
+                          <div className="text-[10px] text-white/35">{pack.sublabel}</div>
+                        </div>
+                      </button>
+                    ))}
+                    <div className="border-t pt-1 mt-1" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                      <button
+                        onClick={() => handleNavClick("/hanga")}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/[0.04] transition-colors"
+                      >
+                        <Shield size={14} className="text-white/30 ml-1" />
+                        <span className="text-[11px] text-white/40">SIGNAL Security — Shared</span>
+                      </button>
+                    </div>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
 
           <Link to="/toroa" className="px-3 py-2 rounded-lg font-body text-xs text-white/40 hover:text-white/70 transition-colors">
             Tōroa
@@ -117,6 +175,24 @@ const BrandNav = () => {
                     {item.label}
                   </button>
                 ))}
+
+                {/* Packs in mobile */}
+                <div className="pt-2 pb-1">
+                  <span className="px-4 text-[10px] font-semibold tracking-widest" style={{ color: "#D4A843" }}>INDUSTRY PACKS</span>
+                </div>
+                {PACKS.map(pack => (
+                  <button
+                    key={pack.label}
+                    onClick={() => handleNavClick(pack.to)}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-body transition-all duration-200"
+                    style={{ color: "rgba(255,255,255,0.7)" }}
+                  >
+                    <pack.icon size={16} style={{ color: pack.color }} />
+                    <span>{pack.label}</span>
+                    <span className="text-[10px] text-white/30 ml-auto">{pack.sublabel}</span>
+                  </button>
+                ))}
+
                 <button onClick={() => handleNavClick("/toroa")} className="w-full text-left px-4 py-3 rounded-xl text-sm font-body text-white/40">
                   Tōroa
                 </button>
