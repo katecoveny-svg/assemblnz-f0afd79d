@@ -83,6 +83,18 @@ const DocIntelPage = lazy(() => import("./components/hanga/DocIntelPage"));
 const CommsHubPage = lazy(() => import("./components/hanga/CommsHubPage"));
 const VoiceAgentPage = lazy(() => import("./components/hanga/VoiceAgentPage"));
 const PackLandingPage = lazy(() => import("./pages/PackLandingPage"));
+const AuahaLayout = lazy(() => import("./components/auaha/AuahaLayout"));
+const AuahaDashboard = lazy(() => import("./components/auaha/AuahaDashboard"));
+const AuahaCampaignBuilder = lazy(() => import("./components/auaha/AuahaCampaignBuilder"));
+const AuahaCopyStudio = lazy(() => import("./components/auaha/AuahaCopyStudio"));
+const AuahaImageStudio = lazy(() => import("./components/auaha/AuahaImageStudio"));
+const AuahaVideoStudio = lazy(() => import("./components/auaha/AuahaVideoStudio"));
+const AuahaPodcastStudio = lazy(() => import("./components/auaha/AuahaPodcastStudio"));
+const AuahaAdManager = lazy(() => import("./components/auaha/AuahaAdManager"));
+const AuahaCalendar = lazy(() => import("./components/auaha/AuahaCalendar"));
+const AuahaAnalytics = lazy(() => import("./components/auaha/AuahaAnalytics"));
+const AuahaBrandIdentity = lazy(() => import("./components/auaha/AuahaBrandIdentity"));
+const AuahaWebBuilder = lazy(() => import("./components/auaha/AuahaWebBuilder"));
 const AdminPacksPage = lazy(() => import("./pages/AdminPacksPage"));
 const AdminPackAnalytics = lazy(() => import("./pages/AdminPackAnalytics"));
 const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboard"));
@@ -173,6 +185,19 @@ const App = () => (
                     <Route path="whakaae" element={<WhakaaeDashboard />} />
                     <Route path="pai" element={<PaiDashboard />} />
                     <Route path="overview" element={<KanohiDashboard />} />
+                  </Route>
+                  <Route path="/auaha" element={<Suspense fallback={null}><AuahaLayout /></Suspense>}>
+                    <Route index element={<AuahaDashboard />} />
+                    <Route path="campaign" element={<AuahaCampaignBuilder />} />
+                    <Route path="copy" element={<AuahaCopyStudio />} />
+                    <Route path="images" element={<AuahaImageStudio />} />
+                    <Route path="video" element={<AuahaVideoStudio />} />
+                    <Route path="podcast" element={<AuahaPodcastStudio />} />
+                    <Route path="ads" element={<AuahaAdManager />} />
+                    <Route path="calendar" element={<AuahaCalendar />} />
+                    <Route path="analytics" element={<AuahaAnalytics />} />
+                    <Route path="brand" element={<AuahaBrandIdentity />} />
+                    <Route path="web" element={<AuahaWebBuilder />} />
                   </Route>
                   <Route path="*" element={<NotFound />} />
                 </Routes>

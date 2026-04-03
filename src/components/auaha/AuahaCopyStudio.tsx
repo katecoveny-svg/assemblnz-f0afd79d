@@ -1,0 +1,237 @@
+import { useState } from "react";
+import { PenTool, Sparkles, Copy, ArrowDown, ArrowUp, Zap, Image } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+
+const ACCENT = "#F0D078";
+
+const CONTENT_TYPES = [
+  "LinkedIn Post", "Instagram Caption", "Facebook Post", "X / Twitter Post", "TikTok Caption",
+  "Email", "Blog Post", "Press Release", "Newsletter", "Ad Copy", "SMS Marketing",
+  "Podcast Script", "Video Script", "Website Copy", "Slide Deck Outline",
+];
+
+const TONES = ["Professional", "Casual", "Bold", "Playful", "Authoritative", "Inspiring"];
+
+function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`rounded-xl border backdrop-blur-xl ${className}`} style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}>
+      {children}
+    </div>
+  );
+}
+
+export default function AuahaCopyStudio() {
+  const [contentType, setContentType] = useState("LinkedIn Post");
+  const [topic, setTopic] = useState("");
+  const [tone, setTone] = useState("Professional");
+  const [length, setLength] = useState<"short" | "medium" | "long">("medium");
+  const [output, setOutput] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const generate = async () => {
+    if (!topic.trim()) return toast.error("Enter a topic or brief");
+    setIsGenerating(true);
+    setOutput("");
+
+    try {
+      const { data, error } = await supabase.functions.invoke("chat", {
+        body: {
+          messages: [
+            {
+              role: "system",
+              content: `You are MUSE, Assembl's elite NZ copywriter. COPY RULES (NON-NEGOTIABLE):
+Never use: unlock, transform, leverage, seamless, cutting-edge, game-changer, revolutionize, next-gen, empower, harness
+Never start with: "In today's...", "In a world where...", "As the industry evolves..."
+Never use the negation pattern: "It's not X, it's Y"
+Always: Lead with a hook. Be specific. Use NZ English. Sound like a person, not a press release.
+Write like a Kiwi copywriter who's been in the game for 15 years. Direct. Sharp. No fluff.`,
+            },
+            {
+              role: "user",
+              content: `Write a ${length} ${contentType} about: ${topic}\nTone: ${tone}\n\nInclude hashtags if it's social media. Include a subject line if it's email. Be platform-specific in format and length.`,
+            },
+          ],
+        },
+      });
+
+      if (error) throw error;
+
+      const reader = data?.body?.getReader();
+      if (!reader) throw new Error("No stream");
+      const decoder = new TextDecoder();
+      let full = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        for (const line of chunk.split("\n")) {
+          if (!line.startsWith("data: ") || line.includes("[DONE]")) continue;
+          try {
+            const parsed = JSON.parse(line.slice(6));
+            const c = parsed.choices?.[0]?.delta?.content;
+            if (c) { full += c; setOutput(full); }
+          } catch {}
+        }
+      }
+      toast.success("MUSE has crafted your copy");
+    } catch (e: any) {
+      toast.error(e.message || "Generation failed");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const refine = async (instruction: string) => {
+    if (!output) return;
+    setIsGenerating(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("chat", {
+        body: {
+          messages: [
+            { role: "system", content: "You are MUSE, Assembl's elite NZ copywriter. Refine the given copy. Same rules: no buzzwords, NZ English, sharp and specific." },
+            { role: "user", content: `Original copy:\n${output}\n\nInstruction: ${instruction}\n\nReturn only the refined copy, nothing else.` },
+          ],
+        },
+      });
+      if (error) throw error;
+      const reader = data?.body?.getReader();
+      if (!reader) throw new Error("No stream");
+      const decoder = new TextDecoder();
+      let full = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        for (const line of chunk.split("\n")) {
+          if (!line.startsWith("data: ") || line.includes("[DONE]")) continue;
+          try {
+            const parsed = JSON.parse(line.slice(6));
+            const c = parsed.choices?.[0]?.delta?.content;
+            if (c) { full += c; setOutput(full); }
+          } catch {}
+        }
+      }
+      toast.success("Copy refined");
+    } catch (e: any) {
+      toast.error(e.message);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  return (
+    <div className="p-6 lg:p-8 max-w-[1200px] mx-auto space-y-6">
+      <div>
+        <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Copy Studio</p>
+        <h1 className="text-white text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Copy Studio</h1>
+        <p className="text-white/50 text-sm mt-1">Powered by MUSE — elite NZ copywriting</p>
+      </div>
+
+      {/* Content type tabs */}
+      <div className="flex overflow-x-auto gap-1 pb-2 no-scrollbar">
+        {CONTENT_TYPES.map((ct) => (
+          <button
+            key={ct}
+            onClick={() => setContentType(ct)}
+            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs transition-all whitespace-nowrap ${
+              ct === contentType ? "text-black font-medium" : "text-white/50 bg-white/5"
+            }`}
+            style={ct === contentType ? { background: ACCENT } : {}}
+          >
+            {ct}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* Input */}
+        <GlassCard className="p-6 space-y-4">
+          <div className="flex items-center gap-2 text-white/60 text-xs uppercase tracking-[2px]">
+            <PenTool className="w-4 h-4" style={{ color: ACCENT }} />
+            Input
+          </div>
+
+          <div>
+            <label className="text-white/50 text-xs block mb-1.5">Topic / Brief</label>
+            <textarea
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-[#F0D07866] min-h-[120px]"
+              placeholder="What should MUSE write about?"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-white/50 text-xs block mb-1.5">Tone</label>
+              <select value={tone} onChange={(e) => setTone(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm">
+                {TONES.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-white/50 text-xs block mb-1.5">Length</label>
+              <div className="flex gap-1">
+                {(["short", "medium", "long"] as const).map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => setLength(l)}
+                    className={`flex-1 px-2 py-2 rounded-lg text-xs transition-all capitalize ${l === length ? "text-black font-medium" : "text-white/50 bg-white/5"}`}
+                    style={l === length ? { background: ACCENT } : {}}
+                  >
+                    {l}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <Button onClick={generate} disabled={isGenerating} className="w-full" style={{ background: ACCENT, color: "#000" }}>
+            {isGenerating ? "MUSE is writing..." : "Generate"}
+            <Sparkles className="w-4 h-4 ml-2" />
+          </Button>
+        </GlassCard>
+
+        {/* Output */}
+        <GlassCard className="p-6 space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-white/60 text-xs uppercase tracking-[2px]">Output</span>
+            {output && (
+              <button onClick={() => { navigator.clipboard.writeText(output); toast.success("Copied"); }} className="text-white/30 hover:text-white/60">
+                <Copy className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 min-h-[200px] text-white/80 text-sm whitespace-pre-wrap" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+            {output || <span className="text-white/20">Your copy will appear here...</span>}
+          </div>
+
+          {output && (
+            <div className="flex flex-wrap gap-2">
+              <button onClick={() => refine("Make it shorter. Cut any fluff.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/5 text-white/50 hover:text-white/80 transition-colors">
+                <ArrowDown className="w-3 h-3" /> Shorter
+              </button>
+              <button onClick={() => refine("Make it longer with more detail and examples.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/5 text-white/50 hover:text-white/80 transition-colors">
+                <ArrowUp className="w-3 h-3" /> Longer
+              </button>
+              <button onClick={() => refine("Make it bolder. More punch, more edge.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/5 text-white/50 hover:text-white/80 transition-colors">
+                <Zap className="w-3 h-3" /> Bolder
+              </button>
+              <button onClick={() => toast.info("Opening Image Studio...")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/5 text-white/50 hover:text-white/80 transition-colors">
+                <Image className="w-3 h-3" /> Create image
+              </button>
+            </div>
+          )}
+
+          {output && (
+            <p className="text-white/20 text-[10px]">
+              {output.length} characters • {contentType}
+            </p>
+          )}
+        </GlassCard>
+      </div>
+    </div>
+  );
+}
