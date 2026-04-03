@@ -1,14 +1,15 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Target, Users, Globe, Rocket, TrendingUp, Shield } from "lucide-react";
+import { ArrowRight, Target, Users, Globe, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import SEO from "@/components/SEO";
 
 const ROADMAP = [
-  { quarter: "Q1 2026", title: "Platform Launch", desc: "42 agents live with NZ legislation training, voice interface, and SPARK app builder.", done: true },
-  { quarter: "Q2 2026", title: "MCP API & Integrations", desc: "Accounting, job management, and Google Workspace integrations. Public API for enterprise.", done: false },
-  { quarter: "Q3 2026", title: "Industry Suites", desc: "Dedicated multi-agent workflows for construction, hospitality, and property management.", done: false },
-  { quarter: "Q4 2026", title: "Enterprise & Government", desc: "SOC 2 certification, on-premise deployment options, and government procurement compliance.", done: false },
+  { quarter: "Q1 2026", title: "Platform Launch", desc: "44 agents live across 7 industry kete with NZ legislation training, voice interface, and SMS access.", done: true },
+  { quarter: "Q2 2026", title: "Health sector expansion", desc: "Aged care, whānau support, and health navigation agents. Additional Xero, MYOB, and Google Workspace integrations.", done: false },
+  { quarter: "Q3 2026", title: "Mobile app beta", desc: "Native iOS and Android apps. API-first features for enterprise customers. Multi-tenant support.", done: false },
+  { quarter: "Q4 2026", title: "Enterprise & Government", desc: "SOC 2 certification, on-premise data options, and government procurement compliance.", done: false },
 ];
 
 const MARKET_STATS = [
@@ -21,6 +22,7 @@ const MARKET_STATS = [
 const AboutPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO title="About Assembl — The Operating System for NZ Business" description="44 specialist AI agents across 7 industry kete, built for New Zealand businesses. Every query hits a tikanga-governed compliance pipeline." path="/about" />
       <BrandNav />
 
       {/* Hero */}
@@ -30,19 +32,14 @@ const AboutPage = () => {
             The operating system for <span className="text-gradient-hero">NZ business</span>
           </h1>
           <p className="text-sm sm:text-base font-body text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Assembl is 45 AI agents built for New Zealand businesses — from employment law to health compliance to hospitality operations. Every query hits a tikanga-governed compliance pipeline before it reaches you.
+            Assembl is 44 specialist AI agents built for New Zealand businesses — from employment law to health compliance to hospitality operations. Every query hits a tikanga-governed compliance pipeline before it reaches you.
           </p>
           <motion.p
             className="mt-8 text-sm sm:text-base font-body max-w-2xl mx-auto leading-relaxed italic"
-            style={{
-              color: "hsl(var(--primary))",
-              textShadow: "0 0 20px hsl(var(--primary) / 0.3), 0 0 40px hsl(var(--primary) / 0.15)",
-            }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            style={{ color: "hsl(var(--primary))", textShadow: "0 0 20px hsl(var(--primary) / 0.3), 0 0 40px hsl(var(--primary) / 0.15)" }}
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
           >
-            I shouldn't need a translator for the Holidays Act. Or a cultural consultant for tikanga. Or a lawyer to check whether its output crosses the Medicines Act. We build intelligence that's native to Aotearoa — the law, the culture, the obligations your business already carries. One platform, 42 agents, zero guesswork.
+            I shouldn't need a translator for the Holidays Act. Or a cultural consultant for tikanga. Or a lawyer to check whether its output crosses the Medicines Act. We build intelligence that's native to Aotearoa — the law, the culture, the obligations your business already carries. One platform, 44 agents, zero guesswork.
           </motion.p>
         </motion.div>
       </section>
@@ -60,7 +57,7 @@ const AboutPage = () => {
                 Most business tools are trained on US data, US laws, and US business practices. They don't know what PAYE is. They've never heard of the Building Act. They can't calculate KiwiSaver contributions.
               </p>
               <p className="text-sm font-body text-muted-foreground leading-relaxed">
-                Assembl changes that. Every tool is grounded in 50+ New Zealand Acts and trained on the specific regulations, standards, and cultural context that NZ businesses operate within. Powered by AI trained on NZ legislation.
+                Assembl changes that. Every tool is grounded in 50+ New Zealand Acts and trained on the specific regulations, standards, and cultural context that NZ businesses operate within.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -106,15 +103,9 @@ const AboutPage = () => {
           </h2>
           <div className="space-y-4">
             {ROADMAP.map((item, i) => (
-              <motion.div
-                key={item.quarter}
-                className="flex gap-4 glass-card glow-card-hover rounded-xl p-5"
+              <motion.div key={item.quarter} className="flex gap-4 glass-card glow-card-hover rounded-xl p-5"
                 style={{ borderColor: item.done ? "hsl(var(--primary) / 0.3)" : undefined }}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
+                initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
                 <div className="shrink-0">
                   <span className={`text-[10px] font-mono-jb px-2.5 py-1 rounded-full ${item.done ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"}`} style={{ fontWeight: 400 }}>
                     {item.quarter}
@@ -133,23 +124,10 @@ const AboutPage = () => {
       {/* Founder */}
       <section className="relative z-10 py-16 border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div
-            className="w-28 h-28 rounded-full mx-auto mb-5 relative overflow-hidden"
-            style={{
-              border: "2px solid rgba(212,168,67,0.4)",
-              boxShadow: "0 0 30px rgba(212,168,67,0.15), 0 0 60px rgba(58,125,110,0.1)",
-              background: "linear-gradient(135deg, rgba(212,168,67,0.1) 0%, rgba(58,125,110,0.1) 100%)",
-            }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-          >
-            <img
-              src="/img/kate-neon.png"
-              alt="Kate, Founder of Assembl"
-              className="w-full h-full object-contain"
-              loading="lazy"
-            />
+          <motion.div className="w-28 h-28 rounded-full mx-auto mb-5 relative overflow-hidden"
+            style={{ border: "2px solid rgba(212,168,67,0.4)", boxShadow: "0 0 30px rgba(212,168,67,0.15), 0 0 60px rgba(58,125,110,0.1)", background: "linear-gradient(135deg, rgba(212,168,67,0.1) 0%, rgba(58,125,110,0.1) 100%)" }}
+            initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
+            <img src="/img/kate-neon.png" alt="Kate, Founder of Assembl" className="w-full h-full object-contain" loading="lazy" />
           </motion.div>
           <h2 className="text-xl sm:text-2xl font-display text-foreground mb-3" style={{ fontWeight: 300 }}>
             Built by <span className="text-gradient-hero">Kate</span>
@@ -159,8 +137,8 @@ const AboutPage = () => {
           </p>
           <p className="text-xs font-display text-foreground" style={{ fontWeight: 300 }}>Kate</p>
           <p className="text-[11px] font-body text-muted-foreground">Founder & CEO · Auckland, New Zealand</p>
-          <Link to="/#contact" className="inline-flex items-center gap-2 mt-4 text-sm font-display text-primary hover:text-foreground transition-colors" style={{ fontWeight: 300 }}>
-            Get in touch <ArrowRight size={14} />
+          <Link to="/contact" className="inline-flex items-center gap-2 mt-4 text-sm font-display text-primary hover:text-foreground transition-colors" style={{ fontWeight: 300 }}>
+            Book a Launch Sprint <ArrowRight size={14} />
           </Link>
         </div>
       </section>

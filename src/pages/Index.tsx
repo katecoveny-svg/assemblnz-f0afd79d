@@ -35,11 +35,10 @@ const INNER = "max-w-5xl mx-auto";
 /* ─── Micro-proof pills ─── */
 const PROOF = [
   "Built in Aotearoa",
-  "42 specialist agents",
-  "5 industry packs",
+  "44 specialist agents",
+  "7 industry kete",
   "NZ-context intelligence",
   "SMS-ready",
-  "From $89/month NZD",
 ];
 
 /* ─── Outcome cards ─── */
@@ -58,28 +57,20 @@ const STEPS = [
 
 /* ─── Industry packs ─── */
 const PACKS = [
-  { name: "Manaaki", sub: "Hospitality", mark: manaakiMark, desc: "Support guest experience, food safety, service operations, and venue workflows.", to: "/packs/manaaki", color: "#D4A843" },
-  { name: "Hanga", sub: "Construction", mark: hangaMark, desc: "Support BIM, documentation, safety, project coordination, and quoting workflows.", to: "/packs/hanga", color: "#3A7D6E" },
-  { name: "Auaha", sub: "Creative", mark: auahaMark, desc: "Support strategy, content, campaigns, creative production, and brand execution.", to: "/packs/auaha", color: "#D4A843" },
-  { name: "Pakihi", sub: "Business Operations", mark: pakihiMark, desc: "Support finance, HR, legal admin, planning, reporting, and internal operations.", to: "/packs/pakihi", color: "#3A7D6E" },
-  { name: "Hangarau", sub: "Technology", mark: hangarauMark, desc: "Support systems, monitoring, architecture, code workflows, and technical delivery.", to: "/packs/hangarau", color: "#1A3A5C" },
+  { name: "Manaaki", sub: "Hospitality", mark: manaakiMark, desc: "Support guest experience, food safety, service operations, and venue workflows.", to: "/manaaki", color: "#D4A843" },
+  { name: "Hanga", sub: "Construction", mark: hangaMark, desc: "Support BIM, documentation, safety, project coordination, and quoting workflows.", to: "/hanga", color: "#3A7D6E" },
+  { name: "Auaha", sub: "Creative", mark: auahaMark, desc: "Support strategy, content, campaigns, creative production, and brand execution.", to: "/auaha", color: "#D4A843" },
+  { name: "Pakihi", sub: "Business Operations", mark: pakihiMark, desc: "Support finance, HR, legal admin, planning, reporting, and internal operations.", to: "/pakihi", color: "#3A7D6E" },
+  { name: "Hangarau", sub: "Technology", mark: hangarauMark, desc: "Support systems, monitoring, architecture, code workflows, and technical delivery.", to: "/hangarau", color: "#1A3A5C" },
 ];
 
 /* ─── Differentiators ─── */
 const DIFFS = [
   { mark: ihoIcon, title: "NZ business context", body: "Built around local business reality, not overseas defaults." },
-  { mark: kanohiIcon, title: "Specialist intelligence", body: "Purpose-built capability across five packs, not one generic assistant." },
+  { mark: kanohiIcon, title: "Specialist intelligence", body: "Purpose-built capability across seven kete, not one generic assistant." },
   { mark: maharaIcon, title: "Shared business memory", body: "Work compounds over time instead of resetting every session." },
   { mark: teKahuiReoMark, title: "Cultural & language intelligence", body: "Te Kāhui Reo strengthens trust, reo quality, and tikanga alignment." },
   { mark: manaIcon, title: "Accessible SME pricing", body: "Enterprise-level capability without enterprise-only pricing." },
-];
-
-/* ─── Pricing tiers ─── */
-const TIERS = [
-  { name: "Starter", price: "$89", period: "/month", desc: "One painful workflow solved well." },
-  { name: "Pro", price: "$299", period: "/month", desc: "Multi-function support for growing teams." },
-  { name: "Business", price: "$599", period: "/month", desc: "A real operating layer for established businesses." },
-  { name: "Industry Suite", price: "$1,499", period: "/month", desc: "Tailored implementation for more complex needs." },
 ];
 
 /* ─── Page ─── */
@@ -98,10 +89,10 @@ const Index = () => {
   const handlePilot = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const msg = `Founding pilot application — ${pilotBiz}`;
+      const msg = `Launch Sprint application — ${pilotBiz}`;
       const { data: inserted, error } = await supabase.from("contact_submissions").insert({ name: pilotName, email: pilotEmail, message: msg }).select("id").single();
       if (error) throw error;
-      toast.success("Application received! We'll be in touch.");
+      toast.success("Application received! We'll be in touch within 24 hours.");
       setPilotName(""); setPilotEmail(""); setPilotBiz("");
       supabase.functions.invoke("send-contact-email", { body: { name: pilotName, email: pilotEmail, message: msg } }).catch(console.error);
       if (inserted?.id) supabase.functions.invoke("qualify-lead", { body: { submissionId: inserted.id } }).catch(console.error);
@@ -120,19 +111,17 @@ const Index = () => {
     } catch { toast.error("Something went wrong. Please try again."); }
   };
 
-  const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-60px" }, transition: { duration: 0.6 } };
+  const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-60px" as const }, transition: { duration: 0.6 } };
 
   return (
     <div className="min-h-screen" style={{ background: "#09090F", color: "#FFFFFF" }}>
-      <SEO title="Assembl — The operating system for NZ business" description="One intelligence layer for quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa." />
+      <SEO title="Assembl — The Operating System for NZ Business" description="44 specialist AI agents across 7 industry kete. One operating system for quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa." />
       <BrandNav />
 
       {/* ═══ 1. HERO ═══ */}
       <section className="relative flex flex-col items-center text-center px-6 sm:px-8 pt-16 sm:pt-20 pb-12" style={{ zIndex: 1 }}>
-        {/* Subtle radial glow */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 30%, rgba(212,168,67,0.04) 0%, transparent 70%)", zIndex: 0 }} />
 
-        {/* Matariki dots */}
         {[...Array(12)].map((_, i) => (
           <div key={i} className="absolute rounded-full animate-pulse pointer-events-none" style={{
             width: 2 + Math.random() * 2, height: 2 + Math.random() * 2,
@@ -152,12 +141,12 @@ const Index = () => {
 
         <motion.p className="relative max-w-xl mt-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isMobile ? "15px" : "17px", lineHeight: 1.7, color: "rgba(255,255,255,0.6)", zIndex: 1 }}
           initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}>
-          One intelligence layer for quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa.
+          All your business operations in one place: quoting, payroll, planning, marketing, compliance, execution — connected and intelligent.
         </motion.p>
 
         <motion.p className="relative max-w-md mt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.38)", zIndex: 1 }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.45 }}>
-          42 specialist AI agents across five industry packs. Built in New Zealand. Designed for real businesses.
+          44 specialist AI agents across seven industry kete. Built in New Zealand. Designed for real businesses.
         </motion.p>
 
         {/* Proof pills */}
@@ -175,15 +164,14 @@ const Index = () => {
         <motion.div className="relative flex flex-col sm:flex-row gap-3 mt-8"
           style={{ zIndex: 1 }}
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.65 }}>
-          <a href="#founding-pilots" className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full">
-            Book a founding pilot <ArrowRight size={16} />
-          </a>
+          <Link to="/contact" className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full">
+            Book a Launch Sprint <ArrowRight size={16} />
+          </Link>
           <button onClick={scrollToPacks} className="cta-glass-outline inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full">
             Explore industry packs →
           </button>
         </motion.div>
 
-        {/* Scroll indicator */}
         <motion.button onClick={scrollToPacks} className="mt-10" style={{ color: "rgba(255,255,255,0.25)", zIndex: 1 }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}>
           <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}>
@@ -272,7 +260,7 @@ const Index = () => {
         <div className={INNER}>
           <motion.div {...fade} className="text-center mb-6">
             <Eyebrow>NGĀ KETE O TE WĀNANGA</Eyebrow>
-            <SectionHeading>Five baskets of knowledge for NZ business.</SectionHeading>
+            <SectionHeading>Seven baskets of knowledge for NZ business.</SectionHeading>
           </motion.div>
           <motion.div {...fade}>
             <Body className="text-center max-w-xl mx-auto mb-14">
@@ -319,14 +307,14 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ═══ 8. FOUNDING PILOTS ═══ */}
-      <section id="founding-pilots" className={SECTION_STYLE}>
+      {/* ═══ 8. LAUNCH SPRINT ═══ */}
+      <section id="launch-sprint" className={SECTION_STYLE}>
         <div className={`${INNER} max-w-2xl mx-auto text-center`}>
           <motion.div {...fade}>
-            <Eyebrow>FOUNDING PILOTS</Eyebrow>
-            <SectionHeading>We're opening a limited number of founding pilots for NZ businesses.</SectionHeading>
+            <Eyebrow>GET STARTED</Eyebrow>
+            <SectionHeading>Book a Launch Sprint — your first step to AI-powered operations.</SectionHeading>
             <Body className="mb-10">
-              We're working with a small group of early customers to shape the next stage of Assembl. Founding pilots receive hands-on onboarding, direct access, and early workflow design support.
+              We map your workflows, connect your tools, configure your agents, and go live in 2–4 weeks. Hands-on onboarding with direct access to the team.
             </Body>
           </motion.div>
           <motion.form onSubmit={handlePilot} className="rounded-2xl p-8 text-left space-y-4 card-glow-hover" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 0 30px rgba(212,168,67,0.08), 0 4px 24px rgba(0,0,0,0.4)" }}
@@ -338,46 +326,21 @@ const Index = () => {
             <input value={pilotBiz} onChange={(e) => setPilotBiz(e.target.value)} placeholder="Business name & industry" required
               className="w-full px-4 py-3 rounded-xl text-sm font-body text-white placeholder:text-white/30 focus:outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }} />
             <button type="submit" className="cta-glass-green w-full py-3.5 rounded-full text-sm font-medium flex items-center justify-center gap-2">
-              Apply for a founding pilot <ArrowRight size={16} />
+              Book a Launch Sprint <ArrowRight size={16} />
             </button>
-            <p className="text-[11px] text-center" style={{ color: "rgba(255,255,255,0.3)" }}>Best suited to businesses that want to replace fragmented tools with one intelligence layer.</p>
+            <p className="text-[11px] text-center" style={{ color: "rgba(255,255,255,0.3)" }}>We'll map your workflows and show you exactly which agents can run them.</p>
           </motion.form>
         </div>
       </section>
 
-      {/* ═══ 9. PRICING PREVIEW ═══ */}
-      <section className={SECTION_STYLE}>
-        <div className={INNER}>
-          <motion.div {...fade} className="text-center mb-14">
-            <Eyebrow>PRICING</Eyebrow>
-            <SectionHeading>Start with the level that fits your business.</SectionHeading>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {TIERS.map((t, i) => (
-              <motion.div key={t.name} className="rounded-2xl p-7 text-center card-glow-hover" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 20px rgba(212,168,67,0.05), 0 4px 20px rgba(0,0,0,0.3)" }}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5 }}>
-                <h3 className="text-sm font-medium mb-3" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{t.name}</h3>
-                <p className="text-2xl font-light mb-1" style={{ fontFamily: "'Lato', sans-serif", color: "#D4A843" }}>{t.price}<span className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>{t.period}</span></p>
-                <Body>{t.desc}</Body>
-              </motion.div>
-            ))}
-          </div>
-          <div className="text-center mt-8">
-            <Link to="/pricing" className="inline-flex items-center gap-2 text-sm" style={{ fontFamily: "'Lato', sans-serif", color: "#3A7D6E" }}>
-              See full pricing <ArrowRight size={14} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 10. TŌROA (Portfolio line) ═══ */}
+      {/* ═══ 9. TŌROA (Portfolio line) ═══ */}
       <section className={SECTION_STYLE}>
         <div className={`${INNER} max-w-2xl mx-auto text-center`}>
           <motion.div {...fade}>
             <Eyebrow>ALSO FROM ASSEMBL</Eyebrow>
             <SectionHeading>Meet Tōroa.</SectionHeading>
             <Body className="mb-8">
-              Tōroa is our standalone SMS-first family AI navigator for Aotearoa — designed for whānau, everyday coordination, and practical support.
+              Tōroa is our standalone SMS-first family AI navigator for Aotearoa — designed for whānau, everyday coordination, and practical support. $29/month.
             </Body>
             <Link to="/toroa" className="cta-glass-outline inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full">
               Visit Tōroa <ArrowRight size={16} />
@@ -386,7 +349,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ═══ 11. CONTACT ═══ */}
+      {/* ═══ 10. CONTACT ═══ */}
       <section id="contact" className={SECTION_STYLE}>
         <div className={`${INNER} max-w-xl mx-auto`}>
           <motion.div {...fade} className="text-center mb-10">

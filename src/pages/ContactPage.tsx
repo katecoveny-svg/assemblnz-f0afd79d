@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle } from "lucide-react";
@@ -8,12 +7,13 @@ import BrandFooter from "@/components/BrandFooter";
 import { supabase } from "@/integrations/supabase/client";
 
 const INDUSTRIES = [
-  "Hospitality",
-  "Construction",
-  "Creative",
-  "Business Services",
-  "Technology",
-  "Māori Organisation",
+  "Manaaki — Hospitality, Venues & Tourism",
+  "Hanga — Construction & Trade",
+  "Auaha — Creative Industries & Media",
+  "Pakihi — Finance & Professional Services",
+  "Hangarau — Technology & Software",
+  "Te Kāhui Reo — Māori Organisations & Cultural Institutions",
+  "Tōroa — Family & Whānau",
   "Other",
 ];
 
@@ -34,6 +34,15 @@ const ContactPage = () => {
     setSending(true);
     try {
       await supabase.from("enquiries" as any).insert(form as any);
+      // Also store in contact_submissions for lead pipeline
+      await supabase.from("contact_submissions").insert({
+        name: form.name,
+        email: form.email,
+        message: `[${form.industry}] [${form.interest}] ${form.business_name} — ${form.message}`,
+      });
+      supabase.functions.invoke("send-contact-email", {
+        body: { name: form.name, email: form.email, message: `Launch Sprint enquiry from ${form.business_name} (${form.industry}). Interest: ${form.interest}. ${form.message}` },
+      }).catch(console.error);
       setSent(true);
     } catch {
       // silent
@@ -47,7 +56,7 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SEO title="Contact Assembl — Book a Launch Sprint" description="Book a free discovery call. We'll map your workflows and show you which AI agents can run them." path="/contact" />
+      <SEO title="Book a Launch Sprint — Assembl" description="Book a free discovery call. We'll map your workflows and show you how Assembl can automate the work that wastes your time." path="/contact" />
       <BrandNav />
 
       <section className="flex-1 py-16 sm:py-24">
@@ -57,17 +66,17 @@ const ContactPage = () => {
               BOOK A LAUNCH SPRINT
             </p>
             <h1 className="text-2xl sm:text-4xl font-display text-center mb-3 text-foreground" style={{ fontWeight: 300 }}>
-              Let's build your kete
+              Let's talk about your business
             </h1>
             <p className="text-sm font-body text-center text-muted-foreground mb-10 max-w-md mx-auto">
-              Free 30-minute discovery call. We'll map your workflows and show you exactly which agents can run them.
+              We'll show you how Assembl can automate the work that wastes your time. Free 30-minute discovery call.
             </p>
 
             {sent ? (
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="glass-card p-10 text-center rounded-2xl">
                 <CheckCircle size={48} className="mx-auto mb-4 text-primary" />
-                <h2 className="text-lg font-display text-foreground mb-2" style={{ fontWeight: 300 }}>Kia ora! Message received.</h2>
-                <p className="text-sm font-body text-muted-foreground">We'll be in touch within 24 hours.</p>
+                <h2 className="text-lg font-display text-foreground mb-2" style={{ fontWeight: 300 }}>Thanks! We'll contact you within 24 hours.</h2>
+                <p className="text-sm font-body text-muted-foreground">We'll schedule your Launch Sprint session and map your workflows.</p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="glass-card p-6 sm:p-8 rounded-2xl space-y-5">
@@ -77,8 +86,8 @@ const ContactPage = () => {
                     <input required className={inputClass} placeholder="Your name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
                   </div>
                   <div>
-                    <label className={labelClass}>Business name</label>
-                    <input className={inputClass} placeholder="Your business" value={form.business_name} onChange={e => setForm(f => ({ ...f, business_name: e.target.value }))} />
+                    <label className={labelClass}>Business name *</label>
+                    <input required className={inputClass} placeholder="Your business" value={form.business_name} onChange={e => setForm(f => ({ ...f, business_name: e.target.value }))} />
                   </div>
                 </div>
 
@@ -95,8 +104,8 @@ const ContactPage = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className={labelClass}>Industry</label>
-                    <select className={inputClass} value={form.industry} onChange={e => setForm(f => ({ ...f, industry: e.target.value }))}>
+                    <label className={labelClass}>Industry *</label>
+                    <select required className={inputClass} value={form.industry} onChange={e => setForm(f => ({ ...f, industry: e.target.value }))}>
                       <option value="">Select industry</option>
                       {INDUSTRIES.map(i => <option key={i} value={i}>{i}</option>)}
                     </select>
@@ -111,13 +120,13 @@ const ContactPage = () => {
                 </div>
 
                 <div>
-                  <label className={labelClass}>Message</label>
-                  <textarea rows={4} className={inputClass} placeholder="Tell us about your business and what you're looking for…" value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
+                  <label className={labelClass}>What are you looking to automate?</label>
+                  <textarea rows={4} className={inputClass} placeholder="Tell us about your business and where manual work drains your team…" value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
                 </div>
 
                 <button type="submit" disabled={sending} className="w-full py-3 rounded-lg text-sm font-body font-medium flex items-center justify-center gap-2 transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
                   <Send size={16} />
-                  {sending ? "Sending…" : "Send message"}
+                  {sending ? "Sending…" : "Book My Launch Sprint"}
                 </button>
 
                 <p className="text-[11px] font-body text-muted-foreground/40 text-center">

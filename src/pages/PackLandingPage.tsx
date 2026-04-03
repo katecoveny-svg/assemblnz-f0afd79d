@@ -1,7 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Briefcase, Hammer, UtensilsCrossed, Heart, Palette, Cpu, Shield, Clock, Users, Zap } from "lucide-react";
-import GlowIcon from "@/components/GlowIcon";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import ParticleField from "@/components/ParticleField";
@@ -19,40 +18,57 @@ type AgentDef = { name: string; desc: string; status: "Deployed" | "Beta" | "Com
 
 const PACK_AGENTS: Record<string, AgentDef[]> = {
   pakihi: [
-    { name: "AROHA", desc: "HR & Employment Law Specialist", status: "Deployed" },
-    { name: "PULSE", desc: "Payroll Compliance & Calculations", status: "Deployed" },
-    { name: "NEXUS", desc: "Business Intelligence & Analytics", status: "Deployed" },
-    { name: "PRISM", desc: "Financial Analysis & Forecasting", status: "Deployed" },
-    { name: "TURF", desc: "Resource Management & Allocation", status: "Deployed" },
-    { name: "FORGE", desc: "Operations Management", status: "Deployed" },
-    { name: "ECHO", desc: "Internal Communications", status: "Deployed" },
-    { name: "ATLAS", desc: "Strategic Planning & Growth", status: "Beta" },
-    { name: "COMPASS", desc: "Market Research & Competitive Analysis", status: "Beta" },
-    { name: "CIPHER", desc: "Data Analytics & Insights", status: "Beta" },
-    { name: "VANGUARD", desc: "Risk Management & Mitigation", status: "Coming Soon" },
-    { name: "SENTINEL", desc: "Business Health Monitoring", status: "Coming Soon" },
+    { name: "LEDGER", desc: "Finance, GST, PAYE & legal compliance", status: "Deployed" },
+    { name: "AROHA", desc: "HR & Employment Law", status: "Deployed" },
+    { name: "TURF", desc: "Marketing & Brand Strategy", status: "Deployed" },
+    { name: "SAGE", desc: "Business Strategy & Planning", status: "Deployed" },
+    { name: "COMPASS", desc: "Risk Management & Compliance", status: "Deployed" },
+    { name: "ANCHOR", desc: "Operations & Process Optimisation", status: "Deployed" },
+    { name: "FLUX", desc: "Sales & Revenue Operations", status: "Deployed" },
+    { name: "SHIELD", desc: "Insurance & Risk Mitigation", status: "Deployed" },
   ],
   hanga: [
-    { name: "ĀRAI", desc: "Site Safety & H&S Compliance", status: "Deployed" },
-    { name: "ATA", desc: "BIM (Building Information Modeling)", status: "Deployed" },
-    { name: "KAUPAPA", desc: "Project Management & Scheduling", status: "Deployed" },
-    { name: "RAWA", desc: "Resources & Procurement", status: "Deployed" },
-    { name: "WHAKAAĒ", desc: "Resource Consenting & Approvals", status: "Deployed" },
+    { name: "ATA", desc: "BIM & Design Coordination", status: "Deployed" },
+    { name: "ĀRAI", desc: "Health & Safety Compliance", status: "Deployed" },
+    { name: "KAUPAPA", desc: "Project Management & Governance", status: "Deployed" },
+    { name: "RAWA", desc: "Resource Management & Consenting", status: "Deployed" },
+    { name: "WHAKAAĒ", desc: "Building Consent & Compliance", status: "Deployed" },
     { name: "PAI", desc: "Quality Assurance & Defect Management", status: "Deployed" },
-    { name: "MANA REVIEW AI", desc: "Environmental & Cultural Impact Assessment", status: "Beta" },
   ],
   manaaki: [
-    { name: "AURA", desc: "Front of House & Guest Experience", status: "Deployed" },
-    { name: "HELM", desc: "Kitchen Operations & Food Safety", status: "Deployed" },
-    { name: "ORA", desc: "Elderly Care & Companionship", status: "Deployed" },
-    { name: "MESA", desc: "Table Management & Reservations", status: "Beta" },
-    { name: "SAVOR", desc: "Menu Planning & Nutrition Analysis", status: "Beta" },
-    { name: "CELLAR", desc: "Beverage Management & Licensing", status: "Coming Soon" },
-    { name: "HAVEN", desc: "Accommodation & Room Management", status: "Deployed" },
-    { name: "THRIVE", desc: "Staff Wellbeing & Scheduling", status: "Coming Soon" },
+    { name: "AURA", desc: "Accommodation & Hospitality Orchestrator", status: "Deployed" },
+    { name: "HAVEN", desc: "Hotel & Venue Management", status: "Deployed" },
+    { name: "TIDE", desc: "Tourism & Experience Design", status: "Deployed" },
+    { name: "BEACON", desc: "Event & Function Management", status: "Deployed" },
+    { name: "COAST", desc: "Seaside & Water Venues", status: "Deployed" },
+    { name: "EMBER", desc: "Bar & Beverage Operations", status: "Deployed" },
+    { name: "FLORA", desc: "Garden & Outdoor Venue Management", status: "Deployed" },
+    { name: "CREST", desc: "Premium Hospitality & Concierge", status: "Deployed" },
+  ],
+  auaha: [
+    { name: "PRISM", desc: "Creative Campaign Orchestrator", status: "Deployed" },
+    { name: "MUSE", desc: "Content & Copywriting", status: "Deployed" },
+    { name: "PIXEL", desc: "Visual Design & Brand", status: "Deployed" },
+    { name: "VERSE", desc: "Video & Motion", status: "Deployed" },
+    { name: "CANVAS", desc: "Event & Experience Design", status: "Deployed" },
+    { name: "REEL", desc: "Social Media & Community", status: "Deployed" },
+    { name: "QUILL", desc: "Technical Writing & Documentation", status: "Deployed" },
+    { name: "KŌRERO", desc: "Podcast & Audio Production", status: "Deployed" },
+  ],
+  hangarau: [
+    { name: "SPARK", desc: "App Builder & Digital Transformation", status: "Deployed" },
+    { name: "SENTINEL", desc: "System Monitoring & Alerts", status: "Deployed" },
+    { name: "NEXUS", desc: "Integration & Data Pipelines", status: "Deployed" },
+    { name: "CIPHER", desc: "Cryptography & Security", status: "Deployed" },
+    { name: "RELAY", desc: "Messaging & Event Systems", status: "Deployed" },
+    { name: "SIGNAL", desc: "IT Security & Cybersecurity", status: "Deployed" },
+    { name: "FORGE", desc: "DevOps & Deployment", status: "Deployed" },
+  ],
+  "te-kahui-reo": [
+    { name: "TIKA", desc: "Te Tiriti, Tikanga & Māori Business Advisor", status: "Deployed" },
   ],
   toroa: [
-    { name: "TŌROA", desc: "Family wellbeing guidance, navigating health/education/social services, whānau support, family coordination", status: "Deployed" },
+    { name: "TŌROA", desc: "SMS-first family AI navigator — school notices, meal planning, bus tracking, reminders, budgets", status: "Deployed" },
   ],
 };
 
@@ -79,7 +95,6 @@ const PackLandingPage = () => {
       .then(({ data }) => { if (data) setPack(data); });
   }, [packSlug]);
 
-  // Track page view
   useEffect(() => {
     if (packSlug) trackPackEvent(packSlug, "page_view");
   }, [packSlug, trackPackEvent]);
@@ -114,13 +129,13 @@ const PackLandingPage = () => {
               </div>
               {isToroa && (
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl font-bold" style={{ color: "#3A7D6E" }}>$19–39</span>
-                  <span className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>/month standalone</span>
+                  <span className="text-2xl font-bold" style={{ color: "#3A7D6E" }}>$29</span>
+                  <span className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>/month</span>
                 </div>
               )}
             </div>
             <Link
-              to={isToroa ? "/toroa/app" : `/chat/${agents[0]?.name.toLowerCase().replace(/\s+/g, "-") || "aroha"}`}
+              to="/contact"
               className="inline-flex items-center gap-2 mt-8 px-8 py-3 rounded-xl text-sm font-bold transition-all hover:scale-105"
               style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", background: "#D4A843", color: "#09090F" }}
               onClick={() => {
@@ -130,7 +145,7 @@ const PackLandingPage = () => {
                 }
               }}
             >
-              Try {pack?.pack_name?.split("(")[0]?.trim() || packSlug} <ArrowRight size={16} />
+              Book a Launch Sprint <ArrowRight size={16} />
             </Link>
           </motion.div>
         </section>
@@ -140,15 +155,8 @@ const PackLandingPage = () => {
           <section className="max-w-5xl mx-auto px-4 sm:px-6 pb-16">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {TOROA_FEATURES.map((f, i) => (
-                <motion.div
-                  key={f.title}
-                  className="rounded-2xl p-6 group overflow-hidden"
-                  style={{ background: "rgba(15,15,26,0.8)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.06)" }}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                >
+                <motion.div key={f.title} className="rounded-2xl p-6 group overflow-hidden" style={{ background: "rgba(15,15,26,0.8)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.06)" }}
+                  initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
                   <div className="w-10 h-10 rounded-xl mb-3 flex items-center justify-center" style={{ background: "rgba(58,125,110,0.12)", border: "1px solid rgba(58,125,110,0.2)" }}>
                     <f.icon size={18} style={{ color: "#3A7D6E" }} />
                   </div>
@@ -169,21 +177,8 @@ const PackLandingPage = () => {
             {agents.map((agent, i) => {
               const st = STATUS_STYLES[agent.status];
               return (
-                <motion.div
-                  key={agent.name}
-                  className="rounded-2xl p-5 group overflow-hidden relative cursor-pointer"
-                  style={{ background: "rgba(15,15,26,0.8)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.06)" }}
-                  onClick={() => {
-                    if (packSlug) {
-                      trackAgentEvent(packSlug, agent.name.toLowerCase().replace(/\s+/g, "-"), "click");
-                      trackPackEvent(packSlug, "agent_click", { agent: agent.name });
-                    }
-                  }}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.04 }}
-                >
+                <motion.div key={agent.name} className="rounded-2xl p-5 group overflow-hidden relative" style={{ background: "rgba(15,15,26,0.8)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.06)" }}
+                  initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.04 }}>
                   <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-30 transition-opacity duration-700" style={{ background: "linear-gradient(90deg, transparent, #D4A84360, transparent)" }} />
                   <div className="flex items-start justify-between mb-3">
                     <h3 className="text-sm font-bold" style={{ fontFamily: "'Lato', sans-serif", letterSpacing: "0.08em", color: "#FFFFFF" }}>{agent.name}</h3>
@@ -196,9 +191,9 @@ const PackLandingPage = () => {
           </div>
         </section>
 
-        {/* Stats bar */}
+        {/* Stats bar — no free trial */}
         <section className="border-t border-b" style={{ borderColor: "rgba(255,255,255,0.06)", background: "rgba(15,15,26,0.5)" }}>
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-2 sm:grid-cols-3 gap-6 text-center">
             <div>
               <p className="text-2xl font-bold" style={{ color: "#D4A843" }}>{agents.length}</p>
               <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>Specialist Agents</p>
@@ -208,11 +203,7 @@ const PackLandingPage = () => {
               <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>Deployed</p>
             </div>
             <div>
-              <p className="text-2xl font-bold" style={{ color: "#D4A843" }}>14</p>
-              <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>Day Free Trial</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold" style={{ color: "#3A7D6E" }}>~5 min</p>
+              <p className="text-2xl font-bold" style={{ color: "#D4A843" }}>~5 min</p>
               <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>Time to Value</p>
             </div>
           </div>
