@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronDown, Send } from "lucide-react";
 import { manaakiMark, hangaMark, auahaMark, pakihiMark, hangarauMark, ihoIcon, kanohiIcon, maharaIcon, manaIcon, teKahuiReoMark } from "@/assets/brand";
+import KeteHero from "@/components/KeteHero";
+import KetePackSelector from "@/components/KetePackSelector";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
