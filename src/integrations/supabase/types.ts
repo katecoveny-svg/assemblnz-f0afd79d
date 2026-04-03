@@ -860,6 +860,33 @@ export type Database = {
         }
         Relationships: []
       }
+      buffer_connections: {
+        Row: {
+          access_token: string
+          connected_at: string | null
+          id: string
+          is_active: boolean | null
+          profiles: Json | null
+          user_id: string
+        }
+        Insert: {
+          access_token: string
+          connected_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          profiles?: Json | null
+          user_id: string
+        }
+        Update: {
+          access_token?: string
+          connected_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          profiles?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       business_memory: {
         Row: {
           category: string
@@ -920,15 +947,21 @@ export type Database = {
         Row: {
           audience: string | null
           body_json: Json | null
+          brand_id: string | null
           click_count: number | null
           created_at: string
+          end_date: string | null
           goal: string | null
           id: string
           name: string
           open_count: number | null
+          performance_summary: Json | null
+          pipeline_step: string | null
+          platforms: string[] | null
           recipient_count: number | null
           scheduled_at: string | null
           sent_at: string | null
+          start_date: string | null
           status: string
           subject_line: string | null
           tone: string | null
@@ -937,15 +970,21 @@ export type Database = {
         Insert: {
           audience?: string | null
           body_json?: Json | null
+          brand_id?: string | null
           click_count?: number | null
           created_at?: string
+          end_date?: string | null
           goal?: string | null
           id?: string
           name: string
           open_count?: number | null
+          performance_summary?: Json | null
+          pipeline_step?: string | null
+          platforms?: string[] | null
           recipient_count?: number | null
           scheduled_at?: string | null
           sent_at?: string | null
+          start_date?: string | null
           status?: string
           subject_line?: string | null
           tone?: string | null
@@ -954,15 +993,21 @@ export type Database = {
         Update: {
           audience?: string | null
           body_json?: Json | null
+          brand_id?: string | null
           click_count?: number | null
           created_at?: string
+          end_date?: string | null
           goal?: string | null
           id?: string
           name?: string
           open_count?: number | null
+          performance_summary?: Json | null
+          pipeline_step?: string | null
+          platforms?: string[] | null
           recipient_count?: number | null
           scheduled_at?: string | null
           sent_at?: string | null
+          start_date?: string | null
           status?: string
           subject_line?: string | null
           tone?: string | null
@@ -3430,6 +3475,42 @@ export type Database = {
           language?: string | null
           template_name?: string
           variables?: string[] | null
+        }
+        Relationships: []
+      }
+      meta_connections: {
+        Row: {
+          access_token: string
+          ad_account_id: string | null
+          connected_at: string | null
+          id: string
+          instagram_account_id: string | null
+          is_active: boolean | null
+          page_id: string | null
+          token_expires_at: string | null
+          user_id: string
+        }
+        Insert: {
+          access_token: string
+          ad_account_id?: string | null
+          connected_at?: string | null
+          id?: string
+          instagram_account_id?: string | null
+          is_active?: boolean | null
+          page_id?: string | null
+          token_expires_at?: string | null
+          user_id: string
+        }
+        Update: {
+          access_token?: string
+          ad_account_id?: string | null
+          connected_at?: string | null
+          id?: string
+          instagram_account_id?: string | null
+          is_active?: boolean | null
+          page_id?: string | null
+          token_expires_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }
