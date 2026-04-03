@@ -62,7 +62,7 @@ const NexusLandingPage = lazy(() => import("./pages/NexusLandingPage"));
 const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
 const InvestPage = lazy(() => import("./pages/InvestPage"));
 const ToroaLandingPage = lazy(() => import("./pages/ToroaLandingPage"));
-const ToroaApp = lazy(() => import("./pages/HelmApp"));
+const ToroaApp = lazy(() => import("./pages/ToroaApp"));
 const ToroaInstallPage = lazy(() => import("./pages/ToroaInstallPage"));
 const AgentApp = lazy(() => import("./pages/AgentApp"));
 const AdminSmsPage = lazy(() => import("./pages/AdminSmsPage"));
