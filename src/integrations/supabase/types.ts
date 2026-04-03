@@ -4741,26 +4741,171 @@ export type Database = {
           },
         ]
       }
+      toroa_calendar: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          event_date: string
+          event_time: string | null
+          family_id: string | null
+          gear_list: Json | null
+          id: string
+          source: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          event_date: string
+          event_time?: string | null
+          family_id?: string | null
+          gear_list?: Json | null
+          id?: string
+          source?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          event_date?: string
+          event_time?: string | null
+          family_id?: string | null
+          gear_list?: Json | null
+          id?: string
+          source?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_calendar_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      toroa_families: {
+        Row: {
+          budget: Json | null
+          created_at: string | null
+          family_name: string | null
+          grocery_list: Json | null
+          id: string
+          location: string | null
+          members: Json | null
+          messages_remaining: number | null
+          preferences: Json | null
+          primary_phone: string
+          reminders: Json | null
+          status: string | null
+          subscription_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          budget?: Json | null
+          created_at?: string | null
+          family_name?: string | null
+          grocery_list?: Json | null
+          id?: string
+          location?: string | null
+          members?: Json | null
+          messages_remaining?: number | null
+          preferences?: Json | null
+          primary_phone: string
+          reminders?: Json | null
+          status?: string | null
+          subscription_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          budget?: Json | null
+          created_at?: string | null
+          family_name?: string | null
+          grocery_list?: Json | null
+          id?: string
+          location?: string | null
+          members?: Json | null
+          messages_remaining?: number | null
+          preferences?: Json | null
+          primary_phone?: string
+          reminders?: Json | null
+          status?: string | null
+          subscription_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      toroa_messages: {
+        Row: {
+          body: string
+          created_at: string | null
+          direction: string
+          family_id: string | null
+          from_number: string
+          id: string
+          media_url: string | null
+        }
+        Insert: {
+          body: string
+          created_at?: string | null
+          direction: string
+          family_id?: string | null
+          from_number: string
+          id?: string
+          media_url?: string | null
+        }
+        Update: {
+          body?: string
+          created_at?: string | null
+          direction?: string
+          family_id?: string | null
+          from_number?: string
+          id?: string
+          media_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_messages_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       toroa_waitlist: {
         Row: {
+          biggest_pain: string | null
           email: string
+          email_consent: boolean | null
           id: string
           joined_at: string
+          mobile: string | null
           name: string | null
+          sms_consent: boolean | null
           status: string
         }
         Insert: {
+          biggest_pain?: string | null
           email: string
+          email_consent?: boolean | null
           id?: string
           joined_at?: string
+          mobile?: string | null
           name?: string | null
+          sms_consent?: boolean | null
           status?: string
         }
         Update: {
+          biggest_pain?: string | null
           email?: string
+          email_consent?: boolean | null
           id?: string
           joined_at?: string
+          mobile?: string | null
           name?: string | null
+          sms_consent?: boolean | null
           status?: string
         }
         Relationships: []
