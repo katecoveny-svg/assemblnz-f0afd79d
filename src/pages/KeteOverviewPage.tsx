@@ -53,7 +53,7 @@ export default function KeteOverviewPage() {
                 <Glass className="p-6 h-full group hover:border-opacity-30 transition-all" style={{ borderColor: `${k.color}15` }}>
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: `${k.color}12` }}>
-                      <k.icon size={22} style={{ color: k.color }} />
+                      <GlowIcon name={k.icon.displayName || k.icon.name || "Star"} size={22} color={k.color} />
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-[9px] px-2 py-0.5 rounded-full font-bold" style={{ background: `${k.color}15`, color: k.color }}>
