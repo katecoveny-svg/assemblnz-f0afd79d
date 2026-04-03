@@ -1,5 +1,6 @@
 import { TrendingUp, TrendingDown, Eye, Heart, FileText, DollarSign, Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Pipette, Timer, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import KeteBrainChat from "@/components/KeteBrainChat";
 import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
 
 const ACCENT = "#F0D078";
@@ -207,6 +208,7 @@ export default function AuahaDashboard() {
           ))}
         </div>
       </GlassCard>
+      <KeteBrainChat keteId="auaha" keteName="Auaha" keteNameEn="Creative" accentColor="#F0D078" />
     </div>
   );
 }
