@@ -97,7 +97,7 @@ export default function KeteOverviewPage() {
                 <Glass className="p-6 h-full" style={{ borderColor: `${k.color}15` }}>
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${k.color}12` }}>
-                      <k.icon size={22} style={{ color: k.color }} />
+                      <GlowIcon name={k.icon.displayName || k.icon.name || "Star"} size={22} color={k.color} />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
