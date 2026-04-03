@@ -121,7 +121,7 @@ Deno.serve(async (req) => {
     // Return SSE stream with agent metadata header
     const headers = new Headers(corsHeaders);
     headers.set("Content-Type", "text/event-stream");
-    headers.set("X-Agent-Name", agentPrompt?.display_name || "IHO Brain");
+    headers.set("X-Agent-Name", encodeURIComponent(agentPrompt?.display_name || "IHO Brain"));
     headers.set("X-Agent-Code", selectedAgent);
     headers.set("X-Agent-Icon", agentPrompt?.icon || "Brain");
     // Expose custom headers to browser
