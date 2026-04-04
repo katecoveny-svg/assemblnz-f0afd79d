@@ -5388,6 +5388,81 @@ export type Database = {
           },
         ]
       }
+      toroa_smart_home_events: {
+        Row: {
+          action: string | null
+          created_at: string | null
+          device_id: string | null
+          event_type: string
+          family_id: string
+          id: string
+          platform: string
+          result: string | null
+        }
+        Insert: {
+          action?: string | null
+          created_at?: string | null
+          device_id?: string | null
+          event_type: string
+          family_id: string
+          id?: string
+          platform: string
+          result?: string | null
+        }
+        Update: {
+          action?: string | null
+          created_at?: string | null
+          device_id?: string | null
+          event_type?: string
+          family_id?: string
+          id?: string
+          platform?: string
+          result?: string | null
+        }
+        Relationships: []
+      }
+      toroa_smart_home_links: {
+        Row: {
+          alexa_token: string | null
+          created_at: string | null
+          devices: Json | null
+          family_id: string
+          google_token: string | null
+          home_assistant_token: string | null
+          home_assistant_url: string | null
+          id: string
+          is_active: boolean | null
+          platform: string
+          updated_at: string | null
+        }
+        Insert: {
+          alexa_token?: string | null
+          created_at?: string | null
+          devices?: Json | null
+          family_id: string
+          google_token?: string | null
+          home_assistant_token?: string | null
+          home_assistant_url?: string | null
+          id?: string
+          is_active?: boolean | null
+          platform?: string
+          updated_at?: string | null
+        }
+        Update: {
+          alexa_token?: string | null
+          created_at?: string | null
+          devices?: Json | null
+          family_id?: string
+          google_token?: string | null
+          home_assistant_token?: string | null
+          home_assistant_url?: string | null
+          id?: string
+          is_active?: boolean | null
+          platform?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       toroa_waitlist: {
         Row: {
           biggest_pain: string | null
