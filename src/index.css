@@ -228,6 +228,76 @@
     transform: translateY(-1px);
   }
 
+  /* ── Homepage outcome cards ── */
+  .outcome-card {
+    background: hsl(var(--card) / 0.7);
+    border: 1px solid hsl(var(--border));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition:
+      border-color 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  .outcome-card__motif {
+    opacity: 0.28;
+    transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), filter 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .outcome-card:hover,
+  .outcome-card:focus-visible {
+    border-color: hsl(var(--foreground) / 0.25);
+  }
+
+  .outcome-card:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 4px;
+  }
+
+  .outcome-card:hover .outcome-card__motif,
+  .outcome-card:focus-visible .outcome-card__motif {
+    opacity: 0.42;
+  }
+
+  .outcome-card--kowhai:hover,
+  .outcome-card--kowhai:focus-visible {
+    box-shadow: 0 22px 50px -24px hsl(var(--kowhai) / 0.3);
+  }
+
+  .outcome-card--kowhai:hover .outcome-card__motif,
+  .outcome-card--kowhai:focus-visible .outcome-card__motif {
+    filter: drop-shadow(0 0 18px hsl(var(--kowhai) / 0.3));
+  }
+
+  .outcome-card--pounamu:hover,
+  .outcome-card--pounamu:focus-visible {
+    box-shadow: 0 22px 50px -24px hsl(var(--pounamu) / 0.3);
+  }
+
+  .outcome-card--pounamu:hover .outcome-card__motif,
+  .outcome-card--pounamu:focus-visible .outcome-card__motif {
+    filter: drop-shadow(0 0 18px hsl(var(--pounamu) / 0.3));
+  }
+
+  .outcome-card--tangaroa:hover,
+  .outcome-card--tangaroa:focus-visible {
+    box-shadow: 0 22px 50px -24px hsl(var(--tangaroa) / 0.45);
+  }
+
+  .outcome-card--tangaroa:hover .outcome-card__motif,
+  .outcome-card--tangaroa:focus-visible .outcome-card__motif {
+    filter: drop-shadow(0 0 18px hsl(var(--tangaroa) / 0.35));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .outcome-card,
+    .outcome-card__motif {
+      transition: none;
+    }
+  }
+
   /* ── Primary CTA — Kōwhai gold glow ── */
   .cta-glass-green {
     position: relative;
