@@ -411,7 +411,8 @@ Current NZ time: ${new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckl
     homework: `\n\nHomework tracking. If you know the child's subjects and year level, personalise. Be encouraging.`,
     traffic: `\n\nTraffic and route intelligence. Provide real-time conditions. If you know their usual routes, proactively advise on timing. Suggest departure times for on-time arrival.`,
     location: `\n\nThe user wants to save or update a location. Confirm the address and label. Supported types: home, school, work, other. Format: "✅ Saved! I'll use this for traffic alerts and smart timing."`,
-    help: `\n\nList capabilities: 📧 Newsletter parsing (text + photo!), 🎒 Packing lists, 🚌 Bus times, 🍽️ Meal planning (send a fridge photo!), 💰 Budget, 📅 Calendar, 📚 Homework, 🚗 Live traffic + smart route alerts, 🧠 I remember everything about your whānau! Be warm and mention you can learn their routines.`,
+    smarthome: `\n\nSmart home control via SMS. The family can control Alexa, Google Home, or Home Assistant devices by texting Tōroa. Parse their request into device + action. Supported: lights (on/off/dim), thermostat (set temp), locks (lock/unlock), garage (open/close), alarms (arm/disarm). Confirm the action clearly: "✅ Done! Living room lights set to 50%." If you don't recognise the device, ask them to clarify. Remind them they can link their smart home account at assembl.co.nz/toroa/smarthome.`,
+    help: `\n\nList capabilities: 📧 Newsletter parsing (text + photo!), 🎒 Packing lists, 🚌 Bus times, 🍽️ Meal planning (send a fridge photo!), 💰 Budget, 📅 Calendar, 📚 Homework, 🚗 Live traffic + smart route alerts, 🏠 Smart home control (Alexa/Google Home), 🧠 I remember everything about your whānau! Be warm and mention you can learn their routines.`,
     general: `\n\nGeneral NZ family questions. Reference FamilyBoost, WINZ, Plunket. Always think: what else might this family need right now?`,
   };
 
