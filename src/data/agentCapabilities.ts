@@ -549,7 +549,7 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
   ],
 
   // ── HANGARAU ──
-  spark: [
+  "spark-cloud": [
     { bullet: "Build web apps from text", icon: Code, title: "Build App", description: "Describe what you want — get a working app", prompt: "Build me a quote calculator for my painting business." },
     { bullet: "Cloud migration planning", icon: Globe, title: "Cloud Migration", description: "Plan a cloud migration", prompt: "Help me plan a cloud migration for my team." },
     { bullet: "System architecture", icon: Building, title: "Architecture", description: "Design system architecture", prompt: "Design the system architecture for our new platform." },
