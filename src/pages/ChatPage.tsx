@@ -1043,6 +1043,8 @@ const ChatPage = () => {
     if (isSports) {
       ["turf_events:Events", "turf_membership:Membership", "turf_facilities:Facilities", "turf_sponsorship:Sponsorship", "turf_performance:Performance", "turf_compliance:Compliance"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
+    if (agentId === "odyssey") {
+      toolTabs.push({ id: "odyssey_planner", label: "Trip Planner" });
     if (hasLiveDataTab) toolTabs.push({ id: "live_data", label: "Live Data" });
     // Te Reo Video Learner for TŌROA, ECHO, and Te Kāhui Reo agents
     const teReoAgents = ["family", "echo", "tiriti"];
