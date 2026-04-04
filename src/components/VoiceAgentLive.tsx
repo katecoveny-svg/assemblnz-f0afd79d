@@ -135,20 +135,14 @@ const VoiceAgentLive = ({ agentId, agentName, agentColor }: Props) => {
       setIsProcessing(true);
 
       try {
-        const { data, error } = await supabase.functions.invoke("chat", {
-          body: {
-            message: text,
-            agentId,
-            history: responses.slice(-6).map((r) => ({
-              role: r.role === "user" ? "user" : "assistant",
-              content: r.text,
-            })),
-          },
+        const reply = await agentChat({
+          agentId,
+          message: text,
+          messages: responses.slice(-6).map((r) => ({
+            role: r.role === "user" ? "user" : "assistant",
+            content: r.text,
+          })),
         });
-
-        if (error) throw error;
-
-        const reply = data?.reply || data?.message || "I didn't catch that. Could you try again?";
         setResponses((prev) => [...prev, { role: "agent", text: reply }]);
         setIsProcessing(false);
 

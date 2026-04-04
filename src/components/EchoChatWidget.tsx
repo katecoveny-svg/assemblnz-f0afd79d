@@ -64,11 +64,13 @@ const EchoChatWidget = () => {
     setIsLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { agentId: "echo", messages: newMessages.map((m) => ({ role: m.role, content: m.content })) },
+      const lastMsg = newMessages[newMessages.length - 1].content;
+      const content = await agentChat({
+        agentId: "echo",
+        message: lastMsg,
+        messages: newMessages.slice(0, -1).map((m) => ({ role: m.role, content: m.content })),
       });
-      if (error) throw error;
-      setMessages((prev) => [...prev, { role: "assistant", content: data.content }]);
+      setMessages((prev) => [...prev, { role: "assistant", content }]);
     } catch {
       setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Try again shortly." }]);
     } finally {

@@ -310,11 +310,7 @@ const VoiceAgentModal = ({ open, onClose, agentId, agentName, agentColor, eleven
       }));
       const messages = [...historyMessages, { role: "user", content: text }];
 
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: { messages, agentId },
-      });
-      if (error) throw error;
-      const reply = data?.content || data?.reply || data?.message || "I didn't catch that.";
+      const reply = await agentChat({ agentId, message: text, messages: historyMessages });
       setTranscript(prev => [...prev, { role: "agent", text: reply }]);
       setFallbackProcessing(false);
       await speakFallback(reply);
