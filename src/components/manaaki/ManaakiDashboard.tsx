@@ -7,7 +7,7 @@ import {
 import KeteBrainChat from "@/components/KeteBrainChat";
 import GlowIcon from "@/components/GlowIcon";
 
-const ACCENT = "#D4A843";
+const ACCENT = "#E8A87C";
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`}
     style={{ background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))", borderColor: "rgba(212,168,67,0.15)" }}>
