@@ -147,21 +147,6 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
     }
   }, [input, isStreaming, messages, keteId, agentId]);
 
-  const startVoice = useCallback(async () => {
-    if (!user) return toast.error("Sign in to use voice");
-    try {
-      const { data, error } = await supabase.functions.invoke("gemini-live-token", {
-        body: { agentId: agentId || keteId, voiceName: "Kore" },
-      });
-      if (error || !data?.token) throw new Error("Voice token failed");
-      toast.success("Kia ora! Voice connected — speak now");
-      // The GeminiLiveVoice component handles the actual WebSocket connection
-      // For now, indicate voice is available
-    } catch (e: any) {
-      toast.error(e.message || "Voice connection failed");
-    }
-  }, [user, agentId, keteId]);
-
   const effectiveAgentId = agentId || keteId;
 
   return (
