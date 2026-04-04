@@ -7,6 +7,7 @@ import assemblMark from "@/assets/brand/assembl-mark.svg";
 
 const SmartAgentSelector = lazy(() => import("@/components/admin/SmartAgentSelector"));
 const SkillWiringDashboard = lazy(() => import("@/components/admin/SkillWiringDashboard"));
+const SkillMarketplace = lazy(() => import("@/components/admin/SkillMarketplace"));
 
 type Role = 'subscriber' | 'admin';
 type Tab = 'smart-select' | 'marketplace' | 'workflows' | 'metrics' | 'skill-wiring' | 'build-agent';
