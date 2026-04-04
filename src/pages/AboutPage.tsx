@@ -22,7 +22,7 @@ const MARKET_STATS = [
 const AboutPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SEO title="About Assembl — The Operating System for NZ Business" description="44 specialist AI agents across 7 industry kete, built for New Zealand businesses. Every query hits a tikanga-governed compliance pipeline." path="/about" />
+      <SEO title="About Assembl — The Intelligence Layer for NZ Business" description="44 specialist tools across 7 industry kete, built for New Zealand businesses. Every query hits a tikanga-governed compliance pipeline." path="/about" />
       <BrandNav />
 
       {/* Hero */}
@@ -32,7 +32,7 @@ const AboutPage = () => {
             The operating system for <span className="text-gradient-hero">NZ business</span>
           </h1>
           <p className="text-sm sm:text-base font-body text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Assembl is 44 specialist AI agents built for New Zealand businesses — from employment law to health compliance to hospitality operations. Every query hits a tikanga-governed compliance pipeline before it reaches you.
+            Assembl is 44 specialist tools built for New Zealand businesses — from employment law to health compliance to hospitality operations. Every query hits a tikanga-governed compliance pipeline before it reaches you.
           </p>
           <motion.p
             className="mt-8 text-sm sm:text-base font-body max-w-2xl mx-auto leading-relaxed italic"
@@ -138,7 +138,7 @@ const AboutPage = () => {
           <p className="text-xs font-display text-foreground" style={{ fontWeight: 300 }}>Kate</p>
           <p className="text-[11px] font-body text-muted-foreground">Founder & CEO · Auckland, New Zealand</p>
           <Link to="/contact" className="inline-flex items-center gap-2 mt-4 text-sm font-display text-primary hover:text-foreground transition-colors" style={{ fontWeight: 300 }}>
-            Book a Launch Sprint <ArrowRight size={14} />
+            Book a free consultation <ArrowRight size={14} />
           </Link>
         </div>
       </section>

@@ -961,7 +961,7 @@ const DashboardPage = () => {
         {/* Quick Links */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
-            { to: "/embed", icon: Code2, color: "#5B8CFF", title: "Embed Agents", desc: "Add AI chat to your website" },
+            { to: "/embed", icon: Code2, color: "#5B8CFF", title: "Embed Agents", desc: "Add a specialist agent to your website" },
             { to: "/my-apps", icon: Zap, color: "#5AADA0", title: "My SPARK Apps", desc: "Manage deployed apps" },
             { to: "/settings/integrations", icon: Plug, color: "#3A6A9C", title: "Integrations", desc: "Connect your tools" },
           ].map(link => (

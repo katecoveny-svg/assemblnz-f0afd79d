@@ -9,7 +9,7 @@ const TRUST_SIGNALS = [
   { icon: Globe, label: "Built in Aotearoa", detail: "NZ-owned, NZ-hosted", color: "#3A7D6E" },
   { icon: Shield, label: "Privacy Act 2020", detail: "Full compliance", color: "#D4A843" },
   { icon: Heart, label: "Tikanga-governed", detail: "Cultural respect built in", color: "#E8B4B8" },
-  { icon: Lock, label: "Data sovereignty", detail: "Your data stays in NZ", color: "#7B68EE" },
+  { icon: Lock, label: "Data sovereignty", detail: "Your data stays in NZ", color: "#5B8FA8" },
   { icon: Scale, label: "50+ NZ Acts", detail: "Legislation knowledge", color: "#4A7AB5" },
   { icon: Fingerprint, label: "Audit trail", detail: "Every action logged", color: "#89CFF0" },
 ];

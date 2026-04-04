@@ -48,7 +48,7 @@ export default function ToroaInstallPage() {
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12" style={{ background: "#09090F", color: "white" }}>
       <SEO
         title="Get Tōroa — Your Family's Second Brain | Assembl"
-        description="Install Tōroa on your phone. SMS-first AI whānau navigator built for NZ families. No app store needed."
+        description="Install Tōroa on your phone. SMS-first whānau navigator built for NZ families. No app store needed."
       />
       <PWAInstallBanner agentName="TŌROA" agentColor={TOROA_COLOR} />
 

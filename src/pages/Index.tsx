@@ -118,7 +118,7 @@ const Index = () => {
   const handlePilot = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const msg = `Launch Sprint application — ${pilotBiz}`;
+      const msg = `Consultation application — ${pilotBiz}`;
       const { data: inserted, error } = await supabase.from("contact_submissions").insert({ name: pilotName, email: pilotEmail, message: msg }).select("id").single();
       if (error) throw error;
       toast.success("Application received! We'll be in touch within 24 hours.");
@@ -144,7 +144,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen" style={{ background: "#09090F", color: "#FFFFFF" }}>
-      <SEO title="Assembl — The Operating System for NZ Business" description="44 specialist AI agents across 7 industry kete. One operating system for quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa." />
+      <SEO title="Assembl — The Operating System for NZ Business" description="44 specialist tools across 7 industry kete. One operating system for quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa." />
       <BrandNav />
 
       {/* ═══ 1. HERO ═══ */}
@@ -175,7 +175,7 @@ const Index = () => {
 
         <motion.p className="relative max-w-md mt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.38)", zIndex: 1 }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.45 }}>
-          44 specialist AI agents across seven industry kete. Built in New Zealand. Designed for real businesses.
+          44 specialist tools across seven industry kete. Built in New Zealand. Designed for real businesses.
         </motion.p>
 
         {/* Proof pills */}
@@ -194,7 +194,7 @@ const Index = () => {
           style={{ zIndex: 1 }}
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.65 }}>
           <Link to="/contact" className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full">
-            Book a Launch Sprint <ArrowRight size={16} />
+            Book a free consultation <ArrowRight size={16} />
           </Link>
           <button onClick={scrollToPacks} className="cta-glass-outline inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full">
             Explore industry packs →
@@ -219,7 +219,7 @@ const Index = () => {
               Most owner-led businesses in Aotearoa are carrying too much operational complexity across too many disconnected tools. They need help with quoting, admin, compliance, planning, people, reporting, and growth — but they cannot justify a stack of consultants, agencies, and enterprise software.
             </Body>
             <Body className="max-w-2xl mb-12" >
-              Generic AI helps in pieces. Assembl brings the whole operation closer together.
+              Generic tools help in pieces. Assembl brings the whole operation closer together.
             </Body>
           </motion.div>
 
@@ -384,7 +384,7 @@ const Index = () => {
         <div className={`${INNER} max-w-2xl mx-auto text-center`}>
           <motion.div {...fade}>
             <Eyebrow>GET STARTED</Eyebrow>
-            <SectionHeading>Book a Launch Sprint — your first step to AI-powered operations.</SectionHeading>
+            <SectionHeading>Book a free consultation — your first step to smarter operations.</SectionHeading>
             <Body className="mb-10">
               We map your workflows, connect your tools, configure your agents, and go live in 2–4 weeks. Hands-on onboarding with direct access to the team.
             </Body>
@@ -398,7 +398,7 @@ const Index = () => {
             <input value={pilotBiz} onChange={(e) => setPilotBiz(e.target.value)} placeholder="Business name & industry" required
               className="w-full px-4 py-3 rounded-xl text-sm font-body text-white placeholder:text-white/30 focus:outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }} />
             <button type="submit" className="cta-glass-green w-full py-3.5 rounded-full text-sm font-medium flex items-center justify-center gap-2">
-              Book a Launch Sprint <ArrowRight size={16} />
+              Book a free consultation <ArrowRight size={16} />
             </button>
             <p className="text-[11px] text-center" style={{ color: "rgba(255,255,255,0.3)" }}>We'll map your workflows and show you exactly which agents can run them.</p>
           </motion.form>
@@ -412,7 +412,7 @@ const Index = () => {
             <Eyebrow>ALSO FROM ASSEMBL</Eyebrow>
             <SectionHeading>Meet Tōroa.</SectionHeading>
             <Body className="mb-8">
-              Tōroa is our standalone SMS-first family AI navigator for Aotearoa — designed for whānau, everyday coordination, and practical support. $29/month.
+              Tōroa is our standalone SMS-first family navigator for Aotearoa — designed for whānau, everyday coordination, and practical support. $29/month.
             </Body>
             <Link to="/toroa" className="cta-glass-outline inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full">
               Visit Tōroa <ArrowRight size={16} />

@@ -68,7 +68,7 @@ const PACK_AGENTS: Record<string, AgentDef[]> = {
     { name: "TIKA", desc: "Te Tiriti, Tikanga & Māori Business Advisor", status: "Deployed" },
   ],
   toroa: [
-    { name: "TŌROA", desc: "SMS-first family AI navigator — school notices, meal planning, bus tracking, reminders, budgets", status: "Deployed" },
+    { name: "TŌROA", desc: "SMS-first family navigator — school notices, meal planning, bus tracking, reminders, budgets", status: "Deployed" },
   ],
 };
 
@@ -145,7 +145,7 @@ const PackLandingPage = () => {
                 }
               }}
             >
-              Book a Launch Sprint <ArrowRight size={16} />
+              Get started <ArrowRight size={16} />
             </Link>
           </motion.div>
         </section>

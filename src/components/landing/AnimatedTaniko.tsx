@@ -88,8 +88,41 @@ export const KoruBackground = ({ color = "#D4A843", opacity = 0.03 }: { color?: 
   </div>
 );
 
+/** Maunga ridge divider — mountain silhouette as section break */
+export const MaungaDivider = ({ color = "#D4A843", width = 300, className = "" }: { color?: string; width?: number; className?: string }) => (
+  <motion.svg
+    width={width}
+    height="16"
+    viewBox={`0 0 ${width} 16`}
+    fill="none"
+    aria-hidden="true"
+    className={`mx-auto opacity-50 ${className}`}
+    initial={{ scaleX: 0, opacity: 0 }}
+    whileInView={{ scaleX: 1, opacity: 0.5 }}
+    viewport={{ once: true }}
+    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+  >
+    <defs>
+      <linearGradient id={`maunga-${color.replace("#", "")}`} x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="transparent" />
+        <stop offset="15%" stopColor={color} stopOpacity="0.5" />
+        <stop offset="50%" stopColor={color} stopOpacity="0.8" />
+        <stop offset="85%" stopColor={color} stopOpacity="0.5" />
+        <stop offset="100%" stopColor="transparent" />
+      </linearGradient>
+    </defs>
+    <path
+      d={`M0 14 Q${width*0.08} 6 ${width*0.15} 10 Q${width*0.22} 3 ${width*0.3} 8 Q${width*0.38} 1 ${width*0.45} 7 Q${width*0.52} 2 ${width*0.58} 6 Q${width*0.65} 0 ${width*0.72} 5 Q${width*0.8} 3 ${width*0.87} 9 Q${width*0.93} 5 ${width} 12`}
+      stroke={`url(#maunga-${color.replace("#", "")})`}
+      strokeWidth="1.2"
+      fill="none"
+      strokeLinecap="round"
+    />
+  </motion.svg>
+);
+
 /** Animated section gradient border — replaces plain `borderTop: 1px solid` */
-export const GradientBorder = ({ colors = ["#D4A843", "#3A7D6E", "#7B68EE"] }: { colors?: string[] }) => (
+export const GradientBorder = ({ colors = ["#D4A843", "#3A7D6E", "#5B8FA8"] }: { colors?: string[] }) => (
   <motion.div
     className="absolute top-0 left-0 right-0 h-px overflow-hidden"
     initial={{ opacity: 0 }}
@@ -105,4 +138,45 @@ export const GradientBorder = ({ colors = ["#D4A843", "#3A7D6E", "#7B68EE"] }: {
       transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
     />
   </motion.div>
+);
+
+/** Full-width maunga ridge section divider — jagged mountain peaks as a visual break */
+export const MaungaRidgeDivider = ({ color = "#D4A843", flip = false, className = "" }: { color?: string; flip?: boolean; className?: string }) => (
+  <motion.div
+    className={`absolute ${flip ? "bottom-0" : "top-0"} left-0 right-0 pointer-events-none ${className}`}
+    style={{ height: "40px", transform: flip ? "scaleY(-1)" : undefined }}
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    viewport={{ once: true }}
+    transition={{ duration: 1.5 }}
+  >
+    <svg viewBox="0 0 1440 40" preserveAspectRatio="none" className="w-full h-full">
+      {/* Filled mountain shape */}
+      <path
+        d="M0 40 L0 28 Q40 18 80 24 Q120 10 160 20 Q200 6 240 16 Q280 8 320 18 Q360 4 400 14 Q440 7 480 16 Q520 2 560 12 Q600 6 640 15 Q680 3 720 13 Q760 0 800 10 Q840 5 880 14 Q920 2 960 11 Q1000 6 1040 15 Q1080 4 1120 13 Q1160 8 1200 17 Q1240 6 1280 14 Q1320 10 1360 20 Q1400 14 1440 22 L1440 40 Z"
+        fill="#0F1623"
+      />
+      {/* Glowing ridge line along peaks */}
+      <path
+        d="M0 28 Q40 18 80 24 Q120 10 160 20 Q200 6 240 16 Q280 8 320 18 Q360 4 400 14 Q440 7 480 16 Q520 2 560 12 Q600 6 640 15 Q680 3 720 13 Q760 0 800 10 Q840 5 880 14 Q920 2 960 11 Q1000 6 1040 15 Q1080 4 1120 13 Q1160 8 1200 17 Q1240 6 1280 14 Q1320 10 1360 20 Q1400 14 1440 22"
+        fill="none"
+        stroke={color}
+        strokeWidth="1"
+        opacity="0.3"
+      />
+    </svg>
+  </motion.div>
+);
+
+/** Subtle maunga watermark for card backgrounds */
+export const MaungaWatermark = ({ color = "#D4A843" }: { color?: string }) => (
+  <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden rounded-b-[20px]" style={{ height: "40%" }}>
+    <svg viewBox="0 0 400 80" preserveAspectRatio="none" className="w-full h-full">
+      <path
+        d="M0 80 L0 50 Q40 30 80 45 Q120 20 160 38 Q200 15 240 35 Q280 22 320 40 Q360 28 400 42 L400 80 Z"
+        fill={color}
+        opacity="0.04"
+      />
+    </svg>
+  </div>
 );

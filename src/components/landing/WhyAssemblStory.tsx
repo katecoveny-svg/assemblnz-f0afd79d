@@ -16,7 +16,7 @@ const BEFORE_SCENES = [
 const AFTER_SCENES = [
   { icon: Sparkles, text: "GST filed automatically. You're at the beach.", color: "#3A7D6E" },
   { icon: Shield, text: "Assembl flagged the change before it happened.", color: "#D4A843" },
-  { icon: CheckCircle2, text: "Safety plan generated in 12 minutes. Audit passed.", color: "#7B68EE" },
+  { icon: CheckCircle2, text: "Safety plan generated in 12 minutes. Audit passed.", color: "#5B8FA8" },
   { icon: Heart, text: "Quote out in 20 mins. You won the contract.", color: "#89CFF0" },
 ];
 
@@ -25,7 +25,7 @@ const VALUES = [
   {
     te_reo: "Manaakitanga",
     english: "Care for people",
-    description: "Every decision we make asks: does this help the person on the other side? AI should serve people, not replace them.",
+    description: "Every decision we make asks: does this help the person on the other side? Technology should serve people, not replace them.",
     color: "#D4A843",
   },
   {
@@ -37,8 +37,8 @@ const VALUES = [
   {
     te_reo: "Kotahitanga",
     english: "Unity",
-    description: "44 agents working as one brain. Not isolated tools, but a connected intelligence that understands your whole business.",
-    color: "#7B68EE",
+    description: "44 specialists working as one team. Not isolated tools, but a connected intelligence that understands your whole business.",
+    color: "#5B8FA8",
   },
   {
     te_reo: "Whanaungatanga",
@@ -58,7 +58,7 @@ const WhyAssemblStory = () => {
       <div className="absolute top-0 left-0 right-0 h-px overflow-hidden">
         <motion.div
           className="h-full w-[200%]"
-          style={{ background: "linear-gradient(90deg, transparent, #D4A843, #3A7D6E, #7B68EE, transparent)" }}
+          style={{ background: "linear-gradient(90deg, transparent, #D4A843, #3A7D6E, #5B8FA8, transparent)" }}
           animate={{ x: ["-50%", "0%"] }}
           transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
         />
@@ -206,7 +206,7 @@ const WhyAssemblStory = () => {
             </p>
             <TanikoDivider color="#3A7D6E" width={180} />
             <h3 className="text-xl sm:text-2xl mt-4 text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
-              AI built on tikanga, not just technology
+              Built on tikanga, not just technology
             </h3>
           </div>
 
@@ -221,7 +221,7 @@ const WhyAssemblStory = () => {
                     onClick={() => setActiveValue(i)}
                     className="w-full text-left rounded-2xl p-5 transition-all duration-300 relative overflow-hidden"
                     style={{
-                      background: isActive ? "rgba(15,15,26,0.8)" : "rgba(15,15,26,0.4)",
+                      background: isActive ? "rgba(15,22,35,0.8)" : "rgba(15,22,35,0.4)",
                       border: isActive ? `1px solid ${v.color}35` : "1px solid rgba(255,255,255,0.05)",
                       boxShadow: isActive ? `0 0 30px ${v.color}10` : "none",
                     }}
@@ -330,7 +330,7 @@ const WhyAssemblStory = () => {
               className="inline"
               style={{ color: "#D4A843" }}
             >
-              {" "}the same AI power{" "}
+              {" "}the same tools{" "}
             </motion.span>
             that big corporates have — but built on our values, our law, and our language."
           </p>

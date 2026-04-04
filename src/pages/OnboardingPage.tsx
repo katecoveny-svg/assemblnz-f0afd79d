@@ -319,7 +319,7 @@ const OnboardingPage = () => {
               <div className="rounded-2xl p-4 text-center" style={{ background: "rgba(212,168,67,0.06)", border: "1px solid rgba(212,168,67,0.15)" }}>
                 <div className="flex items-center justify-center gap-2 mb-1">
                   <Clock size={14} style={{ color: "#D4A843" }} />
-                  <span className="text-xs font-bold" style={{ color: "#D4A843" }}>BOOK A LAUNCH SPRINT</span>
+                  <span className="text-xs font-bold" style={{ color: "#D4A843" }}>GET STARTED</span>
                 </div>
                 <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>
                   Full access to all {ind.reo} agents. Custom setup for your business.

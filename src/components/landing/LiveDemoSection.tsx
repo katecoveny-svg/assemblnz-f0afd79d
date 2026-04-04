@@ -220,7 +220,7 @@ const LiveDemoSection = () => {
                 onClick={() => { setInput(c.question); startDemo(i); }}
                 className="w-full text-left rounded-xl p-3.5 transition-all duration-300 group"
                 style={{
-                  background: activeDemo === i && !customQuestion ? "rgba(15,15,26,0.7)" : "rgba(15,15,26,0.4)",
+                  background: activeDemo === i && !customQuestion ? "rgba(15,22,35,0.7)" : "rgba(15,22,35,0.4)",
                   backdropFilter: "blur(10px)",
                   border: activeDemo === i && !customQuestion ? `1px solid ${c.keteColor}30` : "1px solid rgba(255,255,255,0.06)",
                 }}
@@ -436,7 +436,7 @@ const LiveDemoSection = () => {
           {[
             { icon: Zap, label: "Avg response time", value: 1.2, suffix: "s", color: "#D4A843" },
             { icon: Users, label: "Agents available", value: 44, suffix: "+", color: "#3A7D6E" },
-            { icon: BarChart3, label: "NZ Acts covered", value: 50, suffix: "+", color: "#7B68EE" },
+            { icon: BarChart3, label: "NZ Acts covered", value: 50, suffix: "+", color: "#5B8FA8" },
             { icon: Clock, label: "Hours saved / week", value: 12, suffix: "h", color: "#89CFF0" },
           ].map((stat) => (
             <motion.div

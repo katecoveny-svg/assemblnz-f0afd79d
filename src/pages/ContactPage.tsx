@@ -18,9 +18,9 @@ const INDUSTRIES = [
 ];
 
 const INTERESTS = [
-  "Launch Sprint",
+  "Free Consultation",
   "Monthly Subscription",
-  "Managed AI",
+  "Managed Services",
   "Just Exploring",
 ];
 
@@ -41,7 +41,7 @@ const ContactPage = () => {
         message: `[${form.industry}] [${form.interest}] ${form.business_name} — ${form.message}`,
       });
       supabase.functions.invoke("send-contact-email", {
-        body: { name: form.name, email: form.email, message: `Launch Sprint enquiry from ${form.business_name} (${form.industry}). Interest: ${form.interest}. ${form.message}` },
+        body: { name: form.name, email: form.email, message: `Enquiry from ${form.business_name} (${form.industry}). Interest: ${form.interest}. ${form.message}` },
       }).catch(console.error);
       setSent(true);
     } catch {
@@ -56,14 +56,14 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SEO title="Book a Launch Sprint — Assembl" description="Book a free discovery call. We'll map your workflows and show you how Assembl can automate the work that wastes your time." path="/contact" />
+      <SEO title="Book a Free Consultation — Assembl" description="Book a free discovery call. We'll map your workflows and show you how Assembl can automate the work that wastes your time." path="/contact" />
       <BrandNav />
 
       <section className="flex-1 py-16 sm:py-24">
         <div className="max-w-xl mx-auto px-5 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <p className="text-[11px] font-display tracking-[5px] uppercase text-center mb-3" style={{ fontWeight: 700, color: "hsl(var(--primary))" }}>
-              BOOK A LAUNCH SPRINT
+              BOOK A FREE CONSULTATION
             </p>
             <h1 className="text-2xl sm:text-4xl font-display text-center mb-3 text-foreground" style={{ fontWeight: 300 }}>
               Let's talk about your business
@@ -76,7 +76,7 @@ const ContactPage = () => {
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="glass-card p-10 text-center rounded-2xl">
                 <CheckCircle size={48} className="mx-auto mb-4 text-primary" />
                 <h2 className="text-lg font-display text-foreground mb-2" style={{ fontWeight: 300 }}>Thanks! We'll contact you within 24 hours.</h2>
-                <p className="text-sm font-body text-muted-foreground">We'll schedule your Launch Sprint session and map your workflows.</p>
+                <p className="text-sm font-body text-muted-foreground">We'll schedule your discovery call and map your workflows.</p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="glass-card p-6 sm:p-8 rounded-2xl space-y-5">
@@ -126,7 +126,7 @@ const ContactPage = () => {
 
                 <button type="submit" disabled={sending} className="w-full py-3 rounded-lg text-sm font-body font-medium flex items-center justify-center gap-2 transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
                   <Send size={16} />
-                  {sending ? "Sending…" : "Book My Launch Sprint"}
+                  {sending ? "Sending…" : "Book My Free Consultation"}
                 </button>
 
                 <p className="text-[11px] font-body text-muted-foreground/40 text-center">

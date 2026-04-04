@@ -80,7 +80,7 @@ const EmbedPage = () => {
         {/* Hero */}
         <div className="text-center mb-12">
           <h1 className="text-3xl sm:text-5xl font-light text-foreground mb-4 text-glow-hero">
-            Embed your AI agent on <span className="text-gradient-hero">your website</span>
+            Embed your specialist agent on <span className="text-gradient-hero">your website</span>
           </h1>
           <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.25)" }}>
             One line of code. Your customers get 24/7 expert answers grounded in NZ law. You get leads captured automatically.
@@ -102,7 +102,7 @@ const EmbedPage = () => {
               {
                 icon: <Zap size={20} />,
                 title: "1. Choose your agent",
-                desc: "Select the AI agent that matches your industry — from construction compliance to hospitality guest intelligence.",
+                desc: "Select the specialist agent that matches your industry — from construction compliance to hospitality guest intelligence.",
                 color: "#5AADA0",
               },
               {
@@ -114,7 +114,7 @@ const EmbedPage = () => {
               {
                 icon: <Globe size={20} />,
                 title: "3. Go live instantly",
-                desc: "Your visitors get 24/7 AI-powered advice grounded in NZ legislation. Leads are captured and conversations logged.",
+                desc: "Your visitors get 24/7 expert advice grounded in NZ legislation. Leads are captured and conversations logged.",
                 color: "#3A6A9C",
               },
             ].map((step) => (

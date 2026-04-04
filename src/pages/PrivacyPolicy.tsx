@@ -14,7 +14,7 @@ const PrivacyPolicy = () => (
       <div className="prose-sm space-y-6 text-sm text-foreground/80 leading-relaxed">
         <section>
           <h2 className="text-lg font-display font-bold text-foreground mb-2">1. Who we are</h2>
-          <p>Assembl ("we", "us", "our") is a New Zealand-based business operating from Auckland. We provide AI-powered business intelligence agents through assembl.co.nz.</p>
+          <p>Assembl ("we", "us", "our") is a New Zealand-based business operating from Auckland. We provide specialist business intelligence agents through assembl.co.nz.</p>
           <p>Contact: <a href="mailto:assembl@assembl.co.nz" className="text-primary hover:underline">assembl@assembl.co.nz</a></p>
         </section>
 
@@ -34,7 +34,7 @@ const PrivacyPolicy = () => (
           <ul className="list-disc pl-5 space-y-1">
             <li><strong>Account information:</strong> Name, email address when you create an account</li>
             <li><strong>Contact form submissions:</strong> Name, email, and message content</li>
-            <li><strong>Chat data:</strong> Messages sent to our AI agents (used to provide the service)</li>
+            <li><strong>Chat data:</strong> Messages sent to our specialist agents (used to provide the service)</li>
             <li><strong>Usage data:</strong> Pages visited, features used, anonymised analytics</li>
             <li><strong>Uploaded files:</strong> Documents or images you upload for processing by agents</li>
             <li><strong>Payment information:</strong> Processed securely by Stripe; we do not store card details</li>
@@ -44,7 +44,7 @@ const PrivacyPolicy = () => (
         <section>
           <h2 className="text-lg font-display font-bold text-foreground mb-2">5. How we use your information</h2>
           <ul className="list-disc pl-5 space-y-1">
-            <li>To provide and improve our AI agent services</li>
+            <li>To provide and improve our specialist agent services</li>
             <li>To respond to your enquiries and support requests</li>
             <li>To process payments and manage subscriptions</li>
             <li>To send service-related communications</li>

@@ -15,7 +15,7 @@ import KeteExplorer from "@/components/landing/KeteExplorer";
 import TrustStrip from "@/components/landing/TrustStrip";
 import WhyAssemblStory from "@/components/landing/WhyAssemblStory";
 import VideoShowcase from "@/components/landing/VideoShowcase";
-import { TanikoDivider, GradientBorder, KoruAccent } from "@/components/landing/AnimatedTaniko";
+import { TanikoDivider, GradientBorder, KoruAccent, MaungaRidgeDivider, MaungaWatermark } from "@/components/landing/AnimatedTaniko";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -38,7 +38,7 @@ const OUTCOMES = [
   {
     title: "Never miss a change",
     description: "NZ legislation changes constantly. New minimum wage, updated building code, revised privacy rules. Assembl watches for you and flags what matters to your business.",
-    color: "#7B68EE",
+    color: "#5B8FA8",
     stat: "50+",
     statLabel: "NZ Acts monitored",
   },
@@ -89,8 +89,8 @@ const AgentGrid = () => {
   return (
     <div className="min-h-screen flex flex-col relative">
       <SEO
-        title="Assembl | The AI Operating System for NZ Business | 44+ Specialist Agents"
-        description="44+ specialist AI agents across 9 industry kete. Quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa. From $199/mo + GST."
+        title="Assembl | An Intelligence Layer That Weaves Your Business Together"
+        description="44+ specialist tools across 9 industry kete. Compliance, quoting, payroll, marketing — connected and handled. Built for New Zealand. From $199/mo + GST."
         path="/"
       />
       <ParticleField />
@@ -105,8 +105,13 @@ const AgentGrid = () => {
       </div>
 
       {/* ══════ 2. OUTCOMES — He Hua · Results ══════ */}
-      <section id="outcomes" className="relative z-10 py-20 sm:py-24 overflow-hidden">
-        <GradientBorder colors={["#D4A843", "#3A7D6E", "#7B68EE"]} />
+      <section id="outcomes" className="relative z-10 py-20 sm:py-24 overflow-hidden pt-14">
+        <MaungaRidgeDivider color="#D4A843" />
+
+        {/* Ambient moonlight glow */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-[20%] left-[10%] w-[30vw] h-[30vh] rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 65%)", filter: "blur(50px)" }} />
+        </div>
 
         {/* Background koru accent */}
         <div className="absolute bottom-0 right-0 opacity-[0.02] pointer-events-none">
@@ -116,17 +121,17 @@ const AgentGrid = () => {
         <div className="mx-auto max-w-5xl px-6 sm:px-10">
           <motion.div
             className="mb-12 text-center"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease }}
+            transition={{ duration: 0.4, ease }}
           >
             <p className="mb-4 text-[11px] tracking-[5px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: "#D4A843" }}>
               HE HUA · RESULTS
             </p>
             <TanikoDivider color="#D4A843" width={200} />
-            <h2 className="mx-auto mb-3 mt-4 max-w-3xl text-[2rem] sm:text-[2.75rem] leading-[1.15] text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
-              What changes when Assembl runs your ops
+            <h2 className="mx-auto mb-3 mt-4 max-w-3xl text-[2rem] sm:text-[2.75rem] leading-[1.15] text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, textShadow: "0 0 30px rgba(255,255,255,0.08), 0 0 60px rgba(255,255,255,0.04)" }}>
+              What changes when Assembl weaves it together
             </h2>
             <p className="mx-auto max-w-[34rem] text-[15px] leading-relaxed" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}>
               Your team stops drowning in admin and starts doing the work that actually grows the business.
@@ -138,11 +143,11 @@ const AgentGrid = () => {
               <motion.article
                 key={item.title}
                 className="glass-card group relative overflow-hidden rounded-[20px] p-7 cursor-default"
-                initial={{ opacity: 0, y: 25 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6, delay: i * 0.12, ease }}
-                whileHover={{ y: -5, boxShadow: `0 12px 40px ${item.color}12, 0 0 0 1px ${item.color}15` }}
+                transition={{ duration: 0.35, delay: i * 0.08, ease }}
+                whileHover={{ y: -5, boxShadow: `0 0 20px rgba(255,255,255,0.1), 0 0 40px rgba(255,255,255,0.05), 0 0 10px ${item.color}12` }}
                 style={{ borderColor: `${item.color}15` }}
               >
                 {/* Stat */}
@@ -167,6 +172,8 @@ const AgentGrid = () => {
                   {item.description}
                 </p>
 
+                {/* Maunga watermark */}
+                <MaungaWatermark color={item.color} />
                 {/* Hover glow */}
                 <div
                   className="absolute inset-0 rounded-[20px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -199,15 +206,15 @@ const AgentGrid = () => {
       <TrustStrip />
 
       {/* ══════ 9. PRICING CTA ══════ */}
-      <section id="pricing" className="relative z-10 py-16 sm:py-20 overflow-hidden">
-        <GradientBorder colors={["#3A7D6E", "#D4A843"]} />
+      <section id="pricing" className="relative z-10 py-16 sm:py-20 overflow-hidden pt-14">
+        <MaungaRidgeDivider color="#3A7D6E" />
 
         <div className="max-w-4xl mx-auto px-5 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, ease }}
+            transition={{ duration: 0.4, ease }}
           >
             <p className="text-[11px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: "#3A7D6E" }}>
               UTU · PRICING
@@ -225,17 +232,17 @@ const AgentGrid = () => {
               {[
                 { name: "Essentials", price: "$199", users: "2 users", queries: "500 queries/mo", accent: "#3A7D6E", trial: true },
                 { name: "Business", price: "$399", users: "10 users", queries: "2,000 queries/mo", accent: "#D4A843", popular: true },
-                { name: "Enterprise", price: "$799", users: "Unlimited", queries: "Unlimited", accent: "#7B68EE" },
+                { name: "Enterprise", price: "$799", users: "Unlimited", queries: "Unlimited", accent: "#5B8FA8" },
               ].map((tier, i) => (
                 <motion.div
                   key={tier.name}
                   className="glass-card rounded-xl p-5 text-center relative cursor-default group"
                   style={{ border: tier.popular ? `2px solid ${tier.accent}30` : undefined }}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, ease }}
-                  whileHover={{ y: -5, boxShadow: `0 12px 35px ${tier.accent}12` }}
+                  transition={{ delay: i * 0.08, duration: 0.35, ease }}
+                  whileHover={{ y: -5, boxShadow: `0 0 20px rgba(255,255,255,0.1), 0 0 40px rgba(255,255,255,0.05), 0 0 10px ${tier.accent}12` }}
                 >
                   {tier.popular && (
                     <motion.span
@@ -282,8 +289,8 @@ const AgentGrid = () => {
       </section>
 
       {/* ══════ 10. CONTACT ══════ */}
-      <section id="contact" className="relative z-10 py-16 sm:py-20 overflow-hidden">
-        <GradientBorder colors={["#E8B4B8", "#D4A843"]} />
+      <section id="contact" className="relative z-10 py-16 sm:py-20 overflow-hidden pt-14">
+        <MaungaRidgeDivider color="#E8B4B8" />
 
         <div className="max-w-xl mx-auto px-5">
           <motion.div

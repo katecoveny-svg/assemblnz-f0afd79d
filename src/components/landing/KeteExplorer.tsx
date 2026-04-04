@@ -1,10 +1,25 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, X, MessageSquare } from "lucide-react";
+import { ChevronRight, X, MessageSquare, UtensilsCrossed, HardHat, Palette, Briefcase, Cpu, Globe, Heart, HeartPulse, Compass } from "lucide-react";
 import { KETE_DATA } from "@/components/kete/keteData";
 import KeteIcon from "@/components/kete/KeteIcon";
+import MatarikiCluster from "@/components/MatarikiCluster";
 import { Link } from "react-router-dom";
 import { TanikoDivider, KoruAccent } from "./AnimatedTaniko";
+import type { LucideIcon } from "lucide-react";
+
+/** Industry-specific icons for each kete */
+const KETE_ICONS: Record<string, LucideIcon> = {
+  manaaki: UtensilsCrossed,
+  hanga: HardHat,
+  auaha: Palette,
+  pakihi: Briefcase,
+  waka: Compass,
+  hangarau: Cpu,
+  hauora: HeartPulse,
+  "te-kahui-reo": Globe,
+  toroa: Heart,
+};
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -79,6 +94,12 @@ const KeteExplorer = () => {
         />
       </div>
 
+      {/* Background glow pools — soft moonlight wash */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[10%] left-[5%] w-[40vw] h-[40vh] rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 65%)", filter: "blur(60px)" }} />
+        <div className="absolute top-[50%] right-[10%] w-[30vw] h-[30vh] rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(245,240,230,0.025) 0%, transparent 65%)", filter: "blur(60px)" }} />
+      </div>
+
       {/* Background koru */}
       <div className="absolute top-10 left-5 opacity-[0.02]">
         <KoruAccent color="#D4A843" size={400} delay={0} />
@@ -101,7 +122,7 @@ const KeteExplorer = () => {
             Nine kete. Every industry covered.
           </h2>
           <p className="text-sm max-w-lg mx-auto" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}>
-            Each kete is a basket of specialist AI agents built for a specific industry. Tap to explore what's inside.
+            Each kete is a basket of specialist tools built for a specific industry. Tap to explore what's inside.
           </p>
         </motion.div>
 
@@ -117,21 +138,23 @@ const KeteExplorer = () => {
               <motion.div
                 key={k.slug}
                 layout
-                className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ${isExpanded ? "sm:col-span-2 lg:col-span-3" : ""}`}
+                className={`relative rounded-2xl overflow-hidden cursor-pointer ${isExpanded ? "sm:col-span-2 lg:col-span-3" : ""}`}
                 style={{
-                  background: "rgba(15,15,26,0.7)",
+                  background: "rgba(15,22,35,0.7)",
                   backdropFilter: "blur(12px)",
-                  border: isExpanded ? `1px solid ${k.accentColor}40` : isHovered ? `1px solid ${k.accentColor}25` : "1px solid rgba(255,255,255,0.06)",
+                  border: isExpanded ? `1px solid rgba(255,255,255,0.2)` : isHovered ? `1px solid rgba(255,255,255,0.15)` : "1px solid rgba(255,255,255,0.06)",
                   boxShadow: isExpanded
-                    ? `0 0 50px ${k.accentColor}15`
+                    ? `0 0 30px rgba(255,255,255,0.12), 0 0 60px rgba(255,255,255,0.06), 0 0 15px ${k.accentColor}15`
                     : isHovered
-                    ? `0 0 30px ${k.accentColor}10`
+                    ? `0 0 20px rgba(255,255,255,0.1), 0 0 40px rgba(255,255,255,0.05), 0 0 10px ${k.accentColor}10`
                     : "none",
+                  transition: "transform 0.25s cubic-bezier(0.4,0,0.2,1), border-color 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s cubic-bezier(0.4,0,0.2,1)",
+                  willChange: "transform",
                 }}
-                initial={{ opacity: 0, y: 25 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: Math.min(i * 0.06, 0.35), duration: 0.5, ease }}
+                transition={{ delay: Math.min(i * 0.04, 0.2), duration: 0.3, ease }}
                 onClick={() => !isExpanded && setExpanded(k.slug)}
                 onMouseEnter={() => setHoveredIdx(i)}
                 onMouseLeave={() => setHoveredIdx(null)}
@@ -143,24 +166,24 @@ const KeteExplorer = () => {
                   animate={{ opacity: isHovered || isExpanded ? 1 : 0.5 }}
                 />
 
-                {/* Hover glow effect */}
+                {/* Hover glow pool — soft white moonlight */}
                 {!isExpanded && (
-                  <motion.div
-                    className="absolute inset-0 pointer-events-none"
+                  <div
+                    className="absolute inset-0 pointer-events-none rounded-2xl"
                     style={{
-                      background: `radial-gradient(ellipse at 50% 100%, ${k.accentColor}08 0%, transparent 60%)`,
+                      background: `radial-gradient(ellipse at 50% 80%, rgba(255,255,255,0.06) 0%, ${k.accentColor}06 40%, transparent 70%)`,
+                      opacity: isHovered ? 1 : 0,
+                      transition: "opacity 0.25s cubic-bezier(0.4,0,0.2,1)",
                     }}
-                    animate={{ opacity: isHovered ? 1 : 0 }}
-                    transition={{ duration: 0.3 }}
                   />
                 )}
 
                 {isExpanded ? (
                   /* ──── EXPANDED VIEW ──── */
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     className="p-6 sm:p-8"
                   >
                     {/* Close button */}
@@ -174,6 +197,11 @@ const KeteExplorer = () => {
                       <X size={14} style={{ color: "rgba(255,255,255,0.5)" }} />
                     </motion.button>
 
+                    {/* Decorative MatarikiCluster */}
+                    <div className="absolute top-4 right-12 opacity-40 pointer-events-none">
+                      <MatarikiCluster color={k.accentColor} size={100} />
+                    </div>
+
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                       {/* Left: Kete info */}
                       <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
@@ -185,7 +213,7 @@ const KeteExplorer = () => {
                         >
                           <KeteIcon name={k.name} accentColor={k.accentColor} accentLight={k.accentLight} variant={k.variant} size="small" />
                         </motion.div>
-                        <h3 className="text-xl mb-1" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: k.accentColor }}>
+                        <h3 className="text-xl mb-1" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: k.accentColor, textShadow: `0 0 15px rgba(255,255,255,0.2), 0 0 30px rgba(255,255,255,0.08)` }}>
                           {k.name}
                         </h3>
                         <p className="text-xs tracking-[1px] uppercase mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}>
@@ -213,19 +241,53 @@ const KeteExplorer = () => {
                           {k.agents.map((agent, ai) => (
                             <motion.div
                               key={agent.name}
-                              className="flex items-start gap-2 px-3 py-2 rounded-lg group/agent"
-                              style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
+                              className="px-3 py-2.5 rounded-lg group/agent relative overflow-hidden"
+                              style={{
+                                background: "rgba(255,255,255,0.03)",
+                                backdropFilter: "blur(8px)",
+                                border: `1px solid rgba(255,255,255,0.06)`,
+                              }}
                               initial={{ opacity: 0, x: -10 }}
                               animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: 0.05 + ai * 0.03 }}
-                              whileHover={{ background: `${k.accentColor}08`, borderColor: `${k.accentColor}15` }}
+                              transition={{ delay: ai * 0.05, duration: 0.3 }}
+                              whileHover={{ boxShadow: `0 0 15px ${k.accentColor}25`, borderColor: `${k.accentColor}25`, background: `${k.accentColor}08` }}
                             >
-                              <span className="text-[9px] font-bold tracking-wider shrink-0 mt-0.5 w-16" style={{ fontFamily: "'JetBrains Mono', monospace", color: k.accentColor }}>
-                                {agent.name}
-                              </span>
-                              <span className="text-[11px]" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                                {agent.desc}
-                              </span>
+                              <div className="flex items-start gap-2">
+                                <div className="flex-1 min-w-0">
+                                  <span
+                                    className="block text-[10px] font-bold tracking-wider mb-0.5"
+                                    style={{
+                                      fontFamily: "'JetBrains Mono', monospace",
+                                      color: k.accentColor,
+                                      textShadow: `0 0 8px ${k.accentColor}60`,
+                                    }}
+                                  >
+                                    {agent.name}
+                                  </span>
+                                  <span className="text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                                    {agent.desc}
+                                  </span>
+                                </div>
+                              </div>
+                              {/* Capability tags — shown on hover */}
+                              {agent.capabilities && agent.capabilities.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mt-2 overflow-hidden max-h-0 group-hover/agent:max-h-20 transition-all duration-300">
+                                  {agent.capabilities.map((cap: string) => (
+                                    <span
+                                      key={cap}
+                                      className="text-[9px] px-1.5 py-0.5 rounded-full"
+                                      style={{
+                                        background: `${k.accentColor}12`,
+                                        border: `1px solid ${k.accentColor}25`,
+                                        color: k.accentColor,
+                                        fontFamily: "'JetBrains Mono', monospace",
+                                      }}
+                                    >
+                                      {cap}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
                             </motion.div>
                           ))}
                         </div>
@@ -281,30 +343,43 @@ const KeteExplorer = () => {
                 ) : (
                   /* ──── COLLAPSED VIEW ──── */
                   <motion.div
-                    className="p-5 flex items-center gap-4 group"
+                    className="p-5 flex items-center gap-4 group relative overflow-hidden"
                     whileHover={{ x: 3 }}
                   >
+                    {/* Matariki cluster watermark */}
+                    <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-30 group-hover:opacity-50 transition-opacity">
+                      <MatarikiCluster color={k.accentColor} size={70} starCount={7} showLines pulse={false} delay={i * 0.08} />
+                    </div>
+
                     <motion.div
-                      className="w-12 h-12 shrink-0"
+                      className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center relative z-10"
+                      style={{
+                        background: `${k.accentColor}12`,
+                        border: `1px solid rgba(255,255,255,0.1)`,
+                        boxShadow: isHovered
+                          ? `0 0 20px rgba(255,255,255,0.15), 0 0 8px ${k.accentColor}20`
+                          : `0 0 8px rgba(255,255,255,0.05)`,
+                        transition: "box-shadow 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1)",
+                      }}
                       animate={{ scale: isHovered ? 1.08 : 1 }}
-                      transition={{ duration: 0.2 }}
+                      transition={{ duration: 0.15 }}
                     >
-                      <KeteIcon name={k.name} accentColor={k.accentColor} accentLight={k.accentLight} variant={k.variant} size="small" animated={false} />
+                      {(() => { const Icon = KETE_ICONS[k.slug]; return Icon ? <Icon size={22} style={{ color: k.accentColor, filter: `drop-shadow(0 0 4px rgba(255,255,255,0.3))` }} /> : null; })()}
                     </motion.div>
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 relative z-10">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <h3 className="text-sm" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: k.accentColor }}>
+                        <h3 className="text-sm" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: k.accentColor, textShadow: `0 0 10px rgba(255,255,255,0.2)` }}>
                           {k.name}
                         </h3>
-                        <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: `rgba(${rgb}, 0.08)`, color: k.accentColor, fontFamily: "'JetBrains Mono', monospace" }}>
+                        <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: `rgba(${rgb}, 0.12)`, color: k.accentColor, fontFamily: "'JetBrains Mono', monospace", boxShadow: `0 0 8px ${k.accentColor}20` }}>
                           {k.agentCount}
                         </span>
                       </div>
-                      <p className="text-[11px] truncate" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                      <p className="text-[11px] truncate" style={{ color: "rgba(255,255,255,0.45)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                         {k.englishName} · {k.description}
                       </p>
                     </div>
-                    <ChevronRight size={14} className="shrink-0 group-hover:translate-x-1 transition-transform" style={{ color: "rgba(255,255,255,0.2)" }} />
+                    <ChevronRight size={14} className="shrink-0 group-hover:translate-x-1 transition-transform relative z-10" style={{ color: "rgba(255,255,255,0.25)" }} />
                   </motion.div>
                 )}
               </motion.div>

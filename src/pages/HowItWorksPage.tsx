@@ -10,7 +10,7 @@ const STEPS = [
   {
     num: "01",
     title: "Understand your business",
-    desc: "During your Launch Sprint, we map your current workflows, tools, and pain points. We run 4 hours of focused strategy sessions to understand exactly where manual work drains your team.",
+    desc: "During your discovery session, we map your current workflows, tools, and pain points. We run 4 hours of focused strategy sessions to understand exactly where manual work drains your team.",
     color: "#D4A843",
   },
   {
@@ -43,7 +43,7 @@ const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }
 
 const HowItWorksPage = () => (
   <div className="min-h-screen flex flex-col" style={{ background: "#09090F", color: "#FFFFFF" }}>
-    <SEO title="How Assembl Works — The Operating System for NZ Business" description="Assembl packages 44 specialist AI agents into 7 industry-specific kete. Built for how NZ businesses actually run." path="/how-it-works" />
+    <SEO title="How Assembl Works — The Intelligence Layer for NZ Business" description="Assembl packages 44 specialist tools into 7 industry-specific kete. Built for how NZ businesses actually run." path="/how-it-works" />
     <BrandNav />
 
     {/* Hero */}
@@ -56,7 +56,7 @@ const HowItWorksPage = () => (
           The operating system built for how NZ businesses actually run.
         </h1>
         <p className="text-sm sm:text-base max-w-2xl mx-auto" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.6)", lineHeight: 1.7 }}>
-          Assembl packages 44 specialist AI agents into 7 industry-specific kete (packs). Each agent handles one core workflow: quoting, payroll, planning, marketing, compliance, execution, and reporting. They work together, stay in your data, and run on your schedule.
+          Assembl packages 44 specialist tools into 7 industry-specific kete (packs). Each agent handles one core workflow: quoting, payroll, planning, marketing, compliance, execution, and reporting. They work together, stay in your data, and run on your schedule.
         </p>
       </motion.div>
     </section>
@@ -66,7 +66,7 @@ const HowItWorksPage = () => (
       <div className={INNER}>
         <motion.div {...fade} className="text-center mb-14">
           <h2 className="text-2xl sm:text-3xl" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
-            Three steps to a working AI business layer
+            Three steps to a working business layer
           </h2>
         </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -138,7 +138,7 @@ const HowItWorksPage = () => (
             Transparent, usage-based pricing
           </h2>
           <p className="text-sm leading-relaxed mb-8" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.55)" }}>
-            Every customer starts with a Launch Sprint (from NZ$2,500 setup), then pays a monthly subscription based on which kete you adopt. No per-seat charges. No hidden fees.
+            Every customer starts with a discovery session (from NZ$2,500 setup), then pays a monthly subscription based on which kete you adopt. No per-seat charges. No hidden fees.
           </p>
           <Link to="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full transition-all duration-300" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, background: "transparent", border: "1px solid rgba(58,125,110,0.4)", color: "#3A7D6E" }}>
             See full pricing <ArrowRight size={16} />
@@ -158,7 +158,7 @@ const HowItWorksPage = () => (
             Book a free 30-minute discovery call. We'll map your workflows and show you exactly which agents can run them.
           </p>
           <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, background: "#D4A843", color: "#09090F" }}>
-            Book a Launch Sprint <ArrowRight size={16} />
+            Book a discovery call <ArrowRight size={16} />
           </Link>
         </motion.div>
       </div>

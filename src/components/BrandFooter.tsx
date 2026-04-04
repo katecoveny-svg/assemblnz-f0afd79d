@@ -82,7 +82,7 @@ const BrandFooter = () => {
   };
 
   return (
-    <footer className="relative py-20 pb-32 sm:pb-20 px-6" style={{ background: "#09090F" }}>
+    <footer className="relative py-20 pb-32 sm:pb-20 px-6" style={{ background: "#0F1623" }}>
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(212,168,67,0.3), rgba(58,125,110,0.2), transparent)" }} />
 
       <div className="max-w-6xl mx-auto relative z-10">
@@ -139,7 +139,7 @@ const BrandFooter = () => {
         </div>
 
         <p className="text-[9px] mt-6 text-center font-body text-muted-foreground/30 leading-relaxed max-w-2xl mx-auto">
-          Assembl uses AI to provide business guidance. AI outputs should be verified by qualified professionals before reliance. assembl@assembl.co.nz · www.assembl.co.nz
+          Assembl provides automated business guidance. Outputs should be verified by qualified professionals before reliance. assembl@assembl.co.nz · www.assembl.co.nz
         </p>
       </div>
     </footer>

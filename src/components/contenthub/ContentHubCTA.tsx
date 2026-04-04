@@ -45,13 +45,13 @@ const ContentHubCTA = () => (
                 border: "1px solid rgba(0,255,136,0.2)",
               }}
             >
-              Book a Launch Sprint →
+              Get started →
             </Link>
           </div>
         ))}
       </div>
       <p className="font-body text-xs" style={{ color: "#5AADA0" }}>
-        All prices NZ$ + GST · Starts with a Launch Sprint
+        All prices NZ$ + GST · Starts with a free consultation
       </p>
     </div>
   </section>

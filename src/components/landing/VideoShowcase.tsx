@@ -18,7 +18,7 @@ const MockVideoContent = ({ playing }: { playing: boolean }) => {
   const scenes = [
     { title: "Ask your question", subtitle: "Natural language. Any industry.", color: "#D4A843", bg: "rgba(212,168,67,0.08)" },
     { title: "Intelligent routing", subtitle: "Matched to the right specialist agent.", color: "#3A7D6E", bg: "rgba(58,125,110,0.08)" },
-    { title: "NZ law compliance", subtitle: "50+ Acts checked automatically.", color: "#7B68EE", bg: "rgba(123,104,238,0.08)" },
+    { title: "NZ law compliance", subtitle: "50+ Acts checked automatically.", color: "#5B8FA8", bg: "rgba(91,143,168,0.08)" },
     { title: "Tikanga verified", subtitle: "Cultural respect built into every response.", color: "#E8B4B8", bg: "rgba(232,180,184,0.08)" },
     { title: "Delivered in seconds", subtitle: "Professional-grade output. Every time.", color: "#89CFF0", bg: "rgba(137,207,240,0.08)" },
   ];
@@ -203,7 +203,7 @@ const VideoShowcase = () => {
           {!playing && (
             <motion.div
               className="absolute inset-0 z-10 flex items-center justify-center"
-              style={{ background: "rgba(9,9,15,0.4)" }}
+              style={{ background: "rgba(15,22,35,0.4)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
@@ -226,7 +226,7 @@ const VideoShowcase = () => {
           {playing && (
             <motion.div
               className="absolute bottom-0 left-0 right-0 z-20 px-4 py-3 flex items-center gap-3"
-              style={{ background: "linear-gradient(transparent, rgba(9,9,15,0.8))" }}
+              style={{ background: "linear-gradient(transparent, rgba(15,22,35,0.8))" }}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}

@@ -58,18 +58,27 @@ const PricingTiers = () => {
       accent: "#3A7D6E",
       badge: "GETTING STARTED",
       stripeLink: `/signup?plan=essentials`,
+      who: "Perfect for sole traders, small cafes, and one-person operations",
+      practice: "500 queries = about 25 questions a day. Ask about compliance, generate documents, check legislation — all day, every working day.",
+      example: "A cafe owner asks: 'Is my food control plan up to date for the new MPI changes?' and gets a compliance check in seconds.",
     },
     {
       ...PRICING.business,
       accent: "#D4A843",
       badge: "MOST POPULAR",
       stripeLink: `/signup?plan=business`,
+      who: "Built for growing teams — construction firms, accounting practices, hospitality groups",
+      practice: "2,000 queries across 10 users = your whole team using Assembl throughout the day. Plus priority support when you need answers fast.",
+      example: "A construction PM asks: 'Generate a site safety plan for our Ponsonby build' and gets a compliant SSSP in minutes.",
     },
     {
       ...PRICING.enterprise,
-      accent: "#7B68EE",
+      accent: "#5B8FA8",
       badge: "ENTERPRISE",
       stripeLink: "/contact",
+      who: "For organisations with complex compliance needs — multi-site operators, iwi entities, government contractors",
+      practice: "Unlimited users and queries. Dedicated support. Custom integrations with your existing systems.",
+      example: "An enterprise admin says: 'Audit all our employment agreements against the new ERA amendments' and gets a full compliance report.",
     },
   ];
 
@@ -117,7 +126,7 @@ const PricingTiers = () => {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.12, ease }}
+                transition={{ delay: i * 0.08, duration: 0.4, ease }}
                 className="glass-card glow-card-hover p-6 rounded-2xl flex flex-col relative"
                 style={{
                   borderColor: t.popular ? "rgba(212,168,67,0.3)" : undefined,
@@ -125,7 +134,7 @@ const PricingTiers = () => {
                 }}
               >
                 {t.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[9px] font-display px-4 py-1 rounded-full" style={{ background: t.accent, color: "#09090F", fontWeight: 700, letterSpacing: "2px" }}>
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[9px] font-display px-4 py-1 rounded-full" style={{ background: t.accent, color: "#0F1623", fontWeight: 700, letterSpacing: "2px" }}>
                     MOST POPULAR
                   </span>
                 )}
@@ -156,6 +165,22 @@ const PricingTiers = () => {
                   ))}
                 </ul>
 
+                {/* Who / Practice / Example */}
+                <div className="mb-5 rounded-xl p-4 space-y-3" style={{ background: "rgba(255,255,255,0.02)", border: `1px solid ${t.accent}18` }}>
+                  <div>
+                    <span className="text-[9px] font-display tracking-[2px] uppercase mr-1.5" style={{ color: t.accent, fontWeight: 700 }}>WHO</span>
+                    <span className="text-[10px] font-body leading-snug" style={{ color: "rgba(255,255,255,0.45)" }}>{t.who}</span>
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-display tracking-[2px] uppercase mr-1.5" style={{ color: t.accent, fontWeight: 700 }}>IN PRACTICE</span>
+                    <span className="text-[10px] font-body leading-snug" style={{ color: "rgba(255,255,255,0.45)" }}>{t.practice}</span>
+                  </div>
+                  <div className="rounded-lg px-3 py-2.5" style={{ background: `${t.accent}10`, borderLeft: `2px solid ${t.accent}50` }}>
+                    <span className="text-[9px] font-display tracking-[2px] uppercase mr-1.5" style={{ color: t.accent, fontWeight: 700 }}>EXAMPLE</span>
+                    <p className="text-[10px] font-body leading-snug mt-0.5 italic" style={{ color: "rgba(255,255,255,0.5)" }}>{t.example}</p>
+                  </div>
+                </div>
+
                 {t.trial && (
                   <p className="text-[10px] font-body text-center mb-3" style={{ color: "#5AADA0" }}>
                     {t.trial}
@@ -167,7 +192,7 @@ const PricingTiers = () => {
                   className="block w-full text-center py-3 rounded-lg text-sm font-body font-medium transition-all hover:scale-[1.02]"
                   style={{
                     background: t.popular ? t.accent : "transparent",
-                    color: t.popular ? "#09090F" : t.accent,
+                    color: t.popular ? "#0F1623" : t.accent,
                     border: t.popular ? "none" : `1px solid ${t.accent}40`,
                     boxShadow: t.popular ? `0 0 20px rgba(212,168,67,0.2)` : undefined,
                   }}
@@ -189,7 +214,7 @@ const PricingTiers = () => {
 
 /* ── Section C: What's Inside ── */
 const SHARED_AGENTS = [
-  { icon: Brain, name: "Iho", desc: "Central routing brain" },
+  { icon: Brain, name: "Iho", desc: "Intelligent routing heart" },
   { icon: Shield, name: "SIGNAL", desc: "Security & IT" },
   { icon: Eye, name: "Kahu", desc: "Compliance check" },
   { icon: FileText, name: "Tā", desc: "Audit trail" },
@@ -201,15 +226,15 @@ const SHARED_AGENTS = [
 ];
 
 const KETE_SUMMARY = [
-  { name: "Manaaki", eng: "Hospitality & Tourism", count: 9, accent: "#D4A843" },
-  { name: "Hanga", eng: "Construction", count: 9, accent: "#3A7D6E" },
-  { name: "Auaha", eng: "Creative & Media", count: 9, accent: "#C17A3A" },
-  { name: "Pakihi", eng: "Business & Commerce", count: 11, accent: "#4A7AB5" },
-  { name: "Waka", eng: "Transport & Vehicles", count: 3, accent: "#DEB887" },
-  { name: "Hangarau", eng: "Technology", count: 12, accent: "#7B68EE" },
-  { name: "Hauora", eng: "Health & Lifestyle", count: 8, accent: "#90EE90" },
-  { name: "Te Kāhui Reo", eng: "Māori Business Intelligence", count: 8, accent: "#E8B4B8" },
-  { name: "Tōroa", eng: "Family Navigator", count: 1, accent: "#89CFF0" },
+  { name: "Manaaki", eng: "Hospitality & Tourism", count: 9, accent: "#FFD700" },
+  { name: "Hanga", eng: "Construction", count: 9, accent: "#00CED1" },
+  { name: "Auaha", eng: "Creative & Media", count: 9, accent: "#FF8C00" },
+  { name: "Pakihi", eng: "Business & Commerce", count: 11, accent: "#4169E1" },
+  { name: "Waka", eng: "Transport & Vehicles", count: 3, accent: "#FF7F50" },
+  { name: "Hangarau", eng: "Technology", count: 12, accent: "#00BFFF" },
+  { name: "Hauora", eng: "Health & Lifestyle", count: 8, accent: "#00FF7F" },
+  { name: "Te Kāhui Reo", eng: "Māori Business Intelligence", count: 8, accent: "#FF69B4" },
+  { name: "Tōroa", eng: "Family Navigator", count: 1, accent: "#87CEEB" },
 ];
 
 const CHANNELS = [
@@ -291,7 +316,7 @@ const ToroaSection = () => {
               </div>
             ))}
           </div>
-          <a href={PRICING.toroa.link} target="_blank" rel="noopener noreferrer" className="block w-full text-center py-3 rounded-lg text-sm font-body font-medium transition-all hover:scale-[1.02]" style={{ background: "#89CFF0", color: "#09090F" }}>
+          <a href={PRICING.toroa.link} target="_blank" rel="noopener noreferrer" className="block w-full text-center py-3 rounded-lg text-sm font-body font-medium transition-all hover:scale-[1.02]" style={{ background: "#89CFF0", color: "#0F1623" }}>
             Start with Tōroa
           </a>
         </motion.div>
@@ -303,15 +328,26 @@ const ToroaSection = () => {
 /* ── Section E: FAQ ── */
 const FAQS = [
   { q: "What's included in the setup fee?", a: "The $749 + GST setup fee covers workflow mapping, tool integration, agent configuration, team training, and launch support. We get your Assembl instance running and connected to your existing systems." },
-  { q: "What's a kete?", a: "A kete is a traditional Māori woven basket, typically crafted from harakeke (New Zealand flax). We use it as a metaphor for our industry packs — each kete is a carefully woven collection of AI agents designed for a specific industry." },
+  { q: "What's a kete?", a: "A kete is a traditional Māori woven basket, typically crafted from harakeke (New Zealand flax). We use it as a metaphor for our industry packs — each kete is a carefully woven collection of specialist tools designed for a specific industry." },
   { q: "Do all plans include all agents?", a: "Yes! Every plan — Essentials, Business, and Enterprise — includes access to all 44+ specialist agents across all 9 industry kete. Plans differ by user count, query volume, and support level." },
   { q: "Is there a free trial?", a: "Yes! Essentials comes with a 14-day free trial, no credit card required. Start using all agents immediately and upgrade anytime." },
   { q: "How does the annual discount work?", a: "Pay annually and save 20%. That's $159/mo for Essentials, $319/mo for Business, or $639/mo for Enterprise — all + GST." },
   { q: "Where is my data stored?", a: "All data stays in New Zealand on NZ-hosted infrastructure. We follow the NZ Privacy Act 2020, and our tikanga governance layer ensures your data is treated with the care and respect it deserves." },
-  { q: "What AI models do you use?", a: "We use a mix: Claude for logic, compliance, and legal reasoning. Gemini for voice, multimodal, and speed. Haiku for fast routing. Flux 2 Pro and Ideogram for images. Runway and Kling for video. Iho (our brain) picks the best model for each task automatically." },
+  { q: "What powers Assembl?", a: "We use a mix of leading models: Claude for logic, compliance, and legal reasoning. Gemini for voice, multimodal, and speed. Haiku for fast routing. Flux 2 Pro and Ideogram for images. Runway and Kling for video. Iho — the heart of Assembl — picks the best tool for each task automatically." },
   { q: "Do I need technical knowledge?", a: "No. We handle all the setup. Your team just texts, chats, or uses the dashboard. If you can send a text message, you can use Assembl." },
-  { q: "What's the difference between Tōroa and the business plans?", a: "Tōroa is our consumer product for families — $29/mo, SMS-first, helps with school notices, meals, budgets, and daily family life. The business plans (Essentials, Business, Enterprise) are for organisations that need the full AI operations platform." },
+  { q: "What's the difference between Tōroa and the business plans?", a: "Tōroa is our consumer product for families — $29/mo, SMS-first, helps with school notices, meals, budgets, and daily family life. The business plans (Essentials, Business, Enterprise) are for organisations that need the full business operations platform." },
   { q: "Can I upgrade or downgrade anytime?", a: "Yes. You can change plans at any time. Upgrades take effect immediately, downgrades at the end of your billing period." },
+  { q: "What happens when I hit my query limit?", a: "You'll get a friendly heads-up when you're approaching your limit. You can upgrade instantly, or any unused queries roll over to the next month. We'll never cut you off mid-conversation." },
+  { q: "Can I switch between plans?", a: "Yes — upgrade anytime (takes effect immediately) or downgrade at the end of your billing period. No lock-in contracts, no penalties." },
+  { q: "What does the setup fee cover exactly?", a: "We map your workflows, configure your agents, integrate with your existing tools (Xero, MYOB, Google Workspace, etc.), train your team, and stay with you through launch. It's hands-on — not a template." },
+  { q: "Is my data safe?", a: "Your data stays in New Zealand on NZ-hosted infrastructure. We're Privacy Act 2020 compliant, and our tikanga governance layer adds an extra layer of cultural care. We never sell your data or use it to train models." },
+];
+
+const TRUST_BADGES = [
+  "14-day free trial",
+  "Cancel anytime",
+  "NZ-owned & operated",
+  "Your data stays in NZ",
 ];
 
 const FAQSection = () => {
@@ -339,6 +375,24 @@ const FAQSection = () => {
                 )}
               </AnimatePresence>
             </div>
+          ))}
+        </div>
+
+        {/* Trust strip */}
+        <div className="flex flex-wrap justify-center gap-3 mt-10">
+          {TRUST_BADGES.map((badge) => (
+            <span
+              key={badge}
+              className="text-[11px] font-body px-4 py-2 rounded-full"
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "rgba(255,255,255,0.55)",
+                backdropFilter: "blur(8px)",
+              }}
+            >
+              {badge}
+            </span>
           ))}
         </div>
       </div>
@@ -376,7 +430,7 @@ const PricingPage = () => (
   <div className="min-h-screen flex flex-col bg-background">
     <SEO
       title="Assembl Pricing — From $199/mo + GST | All Agents, All Kete"
-      description="44+ specialist AI agents across 9 industry kete from $199/mo + GST. 14-day free trial, no credit card required. Built for Aotearoa."
+      description="44+ specialist tools across 9 industry kete from $199/mo + GST. 14-day free trial, no credit card required. Built for Aotearoa."
       path="/pricing"
     />
     <BrandNav />

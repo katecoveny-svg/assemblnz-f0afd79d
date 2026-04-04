@@ -419,7 +419,7 @@ const BrandStoryPage = () => {
         >
           <StatPill value="620,000" label="NZ SMEs" />
           <StatPill value="$4.2B" label="Compliance market" />
-          <StatPill value="73%" label="Want AI tools" />
+          <StatPill value="73%" label="Want specialist tools" />
           <StatPill value="50+" label="Acts of Parliament" />
         </motion.div>
       </section>
@@ -628,7 +628,7 @@ const BrandStoryPage = () => {
             <PouCard
               title="Kaitiakitanga"
               subtitle="Stewardship"
-              body="We care for the tools, the whenua, and the digital ecosystem. Building AI that serves people without depleting them — sustainable intelligence for long-term benefit."
+              body="We care for the tools, the whenua, and the digital ecosystem. Building intelligence that serves people without depleting them — sustainable intelligence for long-term benefit."
               delay={0.1}
             />
             <PouCard
@@ -832,7 +832,7 @@ const BrandStoryPage = () => {
             </div>
 
             <p style={{ ...T.mono, color: C.white40, marginTop: "24px", fontSize: "11px" }}>
-              From NZ$750/mo · Book a Launch Sprint to get started
+              From NZ$750/mo · Book a free consultation to get started
             </p>
           </div>
         </motion.div>

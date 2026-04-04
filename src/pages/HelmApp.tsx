@@ -314,7 +314,7 @@ export default function ToroaApp() {
                   </button>
                 </div>
                 <p className="text-[9px] text-white/15 text-center mt-2">
-                  TŌROA by Assembl — AI-powered family admin for NZ
+                  TŌROA by Assembl — intelligent family admin for NZ
                 </p>
               </div>
             </div>

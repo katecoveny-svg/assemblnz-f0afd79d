@@ -20,7 +20,7 @@ const STEPS = [
     id: 2,
     te_reo: "Iho",
     title: "Iho routes to the right specialist",
-    subtitle: "Our brain matches your question to the best agent",
+    subtitle: "Iho, the heart of Assembl, matches your question to the right specialist",
     description: "Iho analyses your question, identifies the domain (employment law), and routes it to Aroha — your HR and Employment Relations specialist. No guesswork.",
     example: "Routing → Manaaki kete → AROHA (Employment Relations)",
     icon: GitBranch,
@@ -35,7 +35,7 @@ const STEPS = [
     description: "Aroha pulls the Employment Relations Act 2000, the 90-day trial provisions, recent case law, and your specific employment agreement templates to build a thorough answer.",
     example: "Checking: ERA s67A · Trial period validity · Recent ERA rulings · Your templates",
     icon: Cpu,
-    color: "#7B68EE",
+    color: "#5B8FA8",
     visual: "processing",
   },
   {
@@ -139,10 +139,10 @@ const ProcessingVisual = ({ active }: { active: boolean }) => (
       >
         <motion.div
           className="w-4 h-4 rounded-full flex items-center justify-center shrink-0"
-          animate={active ? { background: ["rgba(123,104,238,0.1)", "rgba(123,104,238,0.3)", "rgba(123,104,238,0.1)"] } : {}}
+          animate={active ? { background: ["rgba(91,143,168,0.1)", "rgba(91,143,168,0.3)", "rgba(91,143,168,0.1)"] } : {}}
           transition={{ delay: 0.2 + i * 0.25 + 0.3, duration: 1.5, repeat: Infinity }}
         >
-          <CheckCircle2 size={10} style={{ color: "#7B68EE" }} />
+          <CheckCircle2 size={10} style={{ color: "#5B8FA8" }} />
         </motion.div>
         <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'JetBrains Mono', monospace" }}>{item}</span>
       </motion.div>
@@ -256,7 +256,7 @@ const HowItWorksFlow = () => {
                   onClick={() => { setActive(i); setAutoPlay(false); }}
                   className={`w-full text-left rounded-xl p-4 transition-all duration-300 ${isActive ? "glass-card" : ""}`}
                   style={{
-                    background: isActive ? "rgba(15,15,26,0.7)" : "transparent",
+                    background: isActive ? "rgba(15,22,35,0.7)" : "transparent",
                     border: isActive ? `1px solid ${s.color}30` : "1px solid transparent",
                   }}
                   whileHover={{ x: isActive ? 0 : 4 }}

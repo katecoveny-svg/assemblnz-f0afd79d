@@ -46,7 +46,7 @@ export default function BrandGuidelinesPage() {
             <p><strong className="text-white">Assembl</strong> — Company + B2B platform. "The operating system for NZ business."</p>
             <p><strong className="text-white">Industry Packs</strong> — Primary commercial structure (Manaaki, Hanga, Auaha, Pakihi, Hangarau).</p>
             <p><strong className="text-white">Te Kāhui Reo</strong> — Cross-platform trust and cultural intelligence layer.</p>
-            <p><strong className="text-white">Tōroa</strong> — Separate standalone product. "Family AI Navigator. SMS-first. Built for Aotearoa."</p>
+            <p><strong className="text-white">Tōroa</strong> — Separate standalone product. "Family Navigator. SMS-first. Built for Aotearoa."</p>
           </div>
         </Section>
 

@@ -14,7 +14,7 @@ export const PRICING = {
     annualPrice: 159,
     period: '/mo',
     currency: 'NZD',
-    descriptor: 'Perfect for solo operators and small teams getting started with AI',
+    descriptor: 'Perfect for solo operators and small teams getting started',
     features: [
       '2 users',
       '500 queries/month',
@@ -80,7 +80,7 @@ export const PRICING = {
     price: 29,
     period: '/mo',
     currency: 'NZD',
-    descriptor: 'SMS-first AI for NZ whānau',
+    descriptor: 'SMS-first tools for NZ whānau',
     features: [
       'SMS-first family navigator',
       'School notices & calendar',

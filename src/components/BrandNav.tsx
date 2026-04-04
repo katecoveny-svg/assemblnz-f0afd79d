@@ -15,15 +15,15 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 const PACKS = [
-  { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#D4A843", group: "business" },
-  { label: "Hanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
-  { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#C17A3A", group: "business" },
-  { label: "Pakihi", sublabel: "Business", to: "/pakihi", icon: Briefcase, color: "#4A7AB5", group: "business" },
-  { label: "Waka", sublabel: "Transport", to: "/kete/waka", icon: Ship, color: "#DEB887", group: "business" },
-  { label: "Hangarau", sublabel: "Technology", to: "/hangarau", icon: Cpu, color: "#7B68EE", group: "business" },
-  { label: "Hauora", sublabel: "Health & Sport", to: "/kete/hauora", icon: HeartPulse, color: "#90EE90", group: "specialist" },
-  { label: "Te Kāhui Reo", sublabel: "Māori BI", to: "/te-kahui-reo", icon: Globe, color: "#E8B4B8", group: "specialist" },
-  { label: "Tōroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#89CFF0", group: "whanau" },
+  { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#FFD700", group: "business" },
+  { label: "Hanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#00CED1", group: "business" },
+  { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#FF8C00", group: "business" },
+  { label: "Pakihi", sublabel: "Business", to: "/pakihi", icon: Briefcase, color: "#4169E1", group: "business" },
+  { label: "Waka", sublabel: "Transport", to: "/kete/waka", icon: Ship, color: "#FF7F50", group: "business" },
+  { label: "Hangarau", sublabel: "Technology", to: "/hangarau", icon: Cpu, color: "#00BFFF", group: "business" },
+  { label: "Hauora", sublabel: "Health & Sport", to: "/kete/hauora", icon: HeartPulse, color: "#00FF7F", group: "specialist" },
+  { label: "Te Kāhui Reo", sublabel: "Māori BI", to: "/te-kahui-reo", icon: Globe, color: "#FF69B4", group: "specialist" },
+  { label: "Tōroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#87CEEB", group: "whanau" },
 ];
 
 const BrandNav = () => {
@@ -51,7 +51,7 @@ const BrandNav = () => {
     <>
       <header
         className="sticky top-0 z-[9999] flex items-center gap-3 px-5 sm:px-8 h-16 overflow-visible"
-        style={{ background: "#09090F", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        style={{ background: "#0F1623", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <Link to="/" className="flex items-center gap-3 group shrink-0">
           <CelestialLogo size={36} />
@@ -116,7 +116,7 @@ const BrandNav = () => {
 
           <Link to="/pricing"
             className="ml-2 px-5 py-2 rounded-full text-xs font-body font-medium transition-all duration-300"
-            style={{ background: "#D4A843", color: "#09090F" }}>
+            style={{ background: "#D4A843", color: "#0F1623" }}>
             Start free trial
           </Link>
 
@@ -173,7 +173,7 @@ const BrandNav = () => {
               <div className="px-5 py-5 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                 <Link to="/pricing"
                   className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium mb-3"
-                  style={{ background: "#D4A843", color: "#09090F" }}
+                  style={{ background: "#D4A843", color: "#0F1623" }}
                   onClick={() => setMobileOpen(false)}>
                   Start free trial
                 </Link>
