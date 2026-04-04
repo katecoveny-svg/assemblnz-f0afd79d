@@ -172,6 +172,7 @@ const App = () => (
                   <Route path="/admin/packs" element={<Suspense fallback={null}><AdminPacksPage /></Suspense>} />
                   <Route path="/admin/pack-analytics" element={<Suspense fallback={null}><AdminPackAnalytics /></Suspense>} />
                   <Route path="/admin/skill-wiring" element={<Suspense fallback={null}><SkillWiringDashboard /></Suspense>} />
+                  <Route path="/skill-hub" element={<Suspense fallback={null}><SkillHubPage /></Suspense>} />
                   <Route path="/packs/:packSlug" element={<Suspense fallback={null}><PackLandingPage /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
