@@ -59,7 +59,9 @@ const KeteGrid: React.FC = () => {
         <div className="flex justify-center items-center gap-3 mt-24 pt-10 border-t border-white/[0.05] text-sm tracking-[3px] uppercase text-white/50" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
           <span>{KETE_DATA.length} KETE</span>
           <span>·</span>
-          <span>{totalAgents} AGENTS</span>
+          <span>{SHARED_CORE_AGENTS.length} CORE</span>
+          <span>·</span>
+          <span>{TOTAL_AGENTS} AGENTS</span>
           <span>·</span>
           <span>1 BRAIN</span>
         </div>
