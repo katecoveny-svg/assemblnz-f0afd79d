@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { agentChat } from "@/lib/agentChat";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { KIWI_TTS_VOICES, getKiwiVoiceStyle } from "@/data/elevenLabsAgents";
 
 interface Props {
   agentId: string;
@@ -18,11 +19,7 @@ const glassCard: React.CSSProperties = {
   border: "1px solid rgba(255,255,255,0.06)",
 };
 
-const VOICES = [
-  { id: "JBFqnCBsd6RMkjVDRZzb", name: "Rangi", style: "professional", desc: "Professional NZ advisor" },
-  { id: "EXAVITQu4vr4xnSDxMaL", name: "Aroha", style: "warm", desc: "Warm Kiwi colleague" },
-  { id: "N2lVS1w4EtoT3dr4eOWO", name: "Tama", style: "mate", desc: "Your Kiwi mate" },
-];
+const VOICES = KIWI_TTS_VOICES.map(v => ({ id: v.id, name: v.name, style: v.style, desc: v.desc }));
 
 const VoiceAgentLive = ({ agentId, agentName, agentColor }: Props) => {
   const { user } = useAuth();
