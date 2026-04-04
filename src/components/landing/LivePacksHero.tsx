@@ -53,12 +53,12 @@ const LivePacksHero = () => (
   <section className="relative z-10 py-20 sm:py-28">
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
       <motion.div className="text-center mb-14" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Launch 2026</p>
+        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">9 Kete · 78 Agents · 1 Brain</p>
         <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "2.25rem", letterSpacing: "-0.01em", color: "#FFFFFF" }}>
-          Four Products. <span style={{ color: "#D4A843" }}>Live Today.</span>
+          Tell us what's broken. <span style={{ color: "#D4A843" }}>We build your kete.</span>
         </h2>
         <p className="mt-3 text-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.55)", maxWidth: "480px", margin: "12px auto 0" }}>
-          Build. Create. Serve. Navigate. Powered by AI and te reo Māori.
+          9 industry packs + Core Platform, 70 specialist capabilities powered by AI and te reo Māori.
         </p>
       </motion.div>
 
