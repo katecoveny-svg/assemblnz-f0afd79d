@@ -23,6 +23,7 @@ const INTENT_MAP: Record<string, string[]> = {
   homework: ["homework", "assignment", "essay", "due", "study", "project", "science", "maths"],
   traffic: ["traffic", "drive", "commute", "route", "road", "motorway", "highway", "directions"],
   location: ["home", "address", "school address", "work address", "save location", "my address"],
+  smarthome: ["alexa", "lights", "thermostat", "smart home", "heating", "turn on", "turn off", "set temperature", "lock door", "garage", "alarm", "echo", "google home", "home assistant"],
   help: ["help", "commands", "what can you do", "hi toroa", "hey toroa", "start"],
 };
 
