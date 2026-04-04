@@ -1,3 +1,4 @@
+import { agentChat } from "@/lib/agentChat";
 import { useState, useEffect, lazy, Suspense, useRef } from "react";
 import {
   Shield, HardHat, Layers, FolderKanban, Package, FileCheck, CheckCircle2,
