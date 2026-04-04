@@ -1,0 +1,1 @@
+ALTER TABLE public.agent_prompts ADD CONSTRAINT agent_prompts_name_pack_unique UNIQUE (agent_name, pack);
