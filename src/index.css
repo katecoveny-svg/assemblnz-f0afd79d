@@ -512,6 +512,10 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
 }
+@keyframes kete-weave-in {
+  0% { stroke-dashoffset: 300; opacity: 0; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
 @keyframes kete-glow-pulse-kf {
   0%, 100% { opacity: 0.3; filter: drop-shadow(0 0 2px currentColor); }
   50% { opacity: 0.6; filter: drop-shadow(0 0 6px currentColor); }
@@ -524,13 +528,41 @@
   0%, 100% { opacity: 0.4; }
   50% { opacity: 0.8; }
 }
+@keyframes kete-card-entrance {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes kete-albatross-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-2px) rotate(1deg); }
+}
 
-.kete-float { animation: kete-float 6s ease-in-out infinite; transform-origin: center; }
-.kete-float-dense { animation: kete-float 5s ease-in-out infinite; transform-origin: center; }
+.kete-float { animation: kete-float 6s ease-in-out infinite; transform-origin: center; will-change: transform; }
+.kete-float-dense { animation: kete-float 5s ease-in-out infinite; transform-origin: center; will-change: transform; }
+.kete-weave-in { animation: kete-weave-in 1.2s cubic-bezier(0.16,1,0.3,1) forwards; }
 .kete-glow-pulse { animation: kete-glow-pulse-kf 3s cubic-bezier(0.4,0,0.6,1) infinite; }
 .kete-glow-dot { animation: kete-glow-dot-kf 4s cubic-bezier(0.4,0,0.6,1) infinite; }
 .kete-handle { animation: kete-handle-breathe 4s cubic-bezier(0.16,1,0.3,1) infinite; }
 .kete-handle-warm { animation: kete-handle-breathe 3.5s cubic-bezier(0.16,1,0.3,1) infinite; }
+.kete-albatross { animation: kete-albatross-float 5s ease-in-out infinite; }
+
+/* Kete Card */
+.kete-card {
+  background: rgba(15, 15, 26, 0.7);
+  backdrop-filter: blur(10px);
+  border-color: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.kete-card-visible {
+  animation: kete-card-entrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.kete-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(var(--kete-accent-rgb, 212, 168, 67), 0.4);
+  box-shadow: 0 12px 28px rgba(var(--kete-accent-rgb, 212, 168, 67), 0.15);
+  background: rgba(15, 15, 26, 0.85);
+}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
