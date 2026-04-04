@@ -293,12 +293,36 @@ Deno.serve(async (req) => {
 3. Are there related tasks the user hasn't asked about but should consider?
 Add a brief "💡 Also consider..." section at the end if relevant. Keep it to 1-2 items max.`;
 
+    // ═══ DESIGN EXCELLENCE LAYER ═══
+    // Injected into creative, brand, and design agents to ensure distinctive output
+    const DESIGN_AGENTS = ["prism", "muse", "pixel", "verse", "echo", "flux", "chromatic", "rhythm", "market", "spark"];
+    const designBlock = DESIGN_AGENTS.includes(selectedAgent)
+      ? `\n\n--- DESIGN EXCELLENCE STANDARDS ---
+When creating or reviewing any frontend, visual, or design output:
+
+AESTHETIC DIRECTION: Before generating, commit to a BOLD direction — brutally minimal, maximalist, retro-futuristic, organic, luxury, editorial, brutalist, art deco, soft/pastel, or industrial. Execute with conviction. No two outputs should look the same.
+
+TYPOGRAPHY: Choose distinctive, characterful fonts. NEVER default to Inter, Roboto, Arial, or system fonts. Pair a display font with a refined body font. Consider: Playfair Display, Syne, Space Mono, Fraunces, Cabinet Grotesk, Clash Display, Satoshi, General Sans.
+
+COLOUR & THEME: Commit to a cohesive palette with dominant colours and sharp accents. Avoid timid, evenly-distributed palettes. Use CSS variables for consistency. NEVER use clichéd purple gradients on white.
+
+MOTION: Prioritise high-impact moments — staggered page-load reveals create more delight than scattered micro-interactions. Use scroll-triggering and surprising hover states.
+
+SPATIAL COMPOSITION: Unexpected layouts, asymmetry, overlap, diagonal flow, grid-breaking elements. Generous negative space OR controlled density — never lukewarm.
+
+VISUAL DEPTH: Create atmosphere through gradient meshes, noise textures, geometric patterns, layered transparencies, dramatic shadows, grain overlays, decorative borders. Never default to flat solid backgrounds.
+
+ANTI-SLOP RULES: Reject generic AI aesthetics. No overused fonts (Inter, Poppins), no predictable component patterns, no cookie-cutter layouts. Every output must feel genuinely designed for its specific context, audience, and purpose.
+
+Match implementation complexity to vision: maximalist designs need elaborate effects; minimalist designs need precision in spacing, typography, and subtle details. Elegance comes from executing the vision fully.`
+      : "";
+
     const basePrompt = agentPrompt?.system_prompt ||
       `You are ${selectedAgent.toUpperCase()}, an Assembl specialist agent for New Zealand businesses. Help with queries in your area of expertise. Reference relevant NZ legislation where applicable. Write in NZ English with macrons on all Māori words.`;
 
     const complianceRules = (sharedPrompts || []).map(p => p.system_prompt).join("\n\n");
 
-    const systemPrompt = `${basePrompt}\n\n--- COMPLIANCE & GOVERNANCE LAYER ---\n${complianceRules}${sharedContextBlock}${memoryBlock}${symbioticBlock}${preemptiveBlock}\n\nAlways respond in a helpful, professional tone. Use markdown formatting. Reference NZ legislation where applicable. Use NZ English spelling. Include macrons on all Māori words.`;
+    const systemPrompt = `${basePrompt}\n\n--- COMPLIANCE & GOVERNANCE LAYER ---\n${complianceRules}${sharedContextBlock}${memoryBlock}${symbioticBlock}${preemptiveBlock}${designBlock}\n\nAlways respond in a helpful, professional tone. Use markdown formatting. Reference NZ legislation where applicable. Use NZ English spelling. Include macrons on all Māori words.`;
 
     const conversationMessages = [
       { role: "system", content: systemPrompt },
