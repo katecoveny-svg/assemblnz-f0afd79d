@@ -5053,6 +5053,94 @@ export type Database = {
         }
         Relationships: []
       }
+      toroa_family_locations: {
+        Row: {
+          address: string | null
+          created_at: string
+          family_id: string
+          id: string
+          label: string
+          lat: number | null
+          location_type: string
+          lon: number | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          family_id: string
+          id?: string
+          label: string
+          lat?: number | null
+          location_type?: string
+          lon?: number | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          family_id?: string
+          id?: string
+          label?: string
+          lat?: number | null
+          location_type?: string
+          lon?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_family_locations_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      toroa_family_memory: {
+        Row: {
+          category: string
+          confidence: number | null
+          created_at: string
+          expires_at: string | null
+          family_id: string
+          id: string
+          memory_key: string
+          memory_value: Json
+          source: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          confidence?: number | null
+          created_at?: string
+          expires_at?: string | null
+          family_id: string
+          id?: string
+          memory_key: string
+          memory_value?: Json
+          source?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          confidence?: number | null
+          created_at?: string
+          expires_at?: string | null
+          family_id?: string
+          id?: string
+          memory_key?: string
+          memory_value?: Json
+          source?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_family_memory_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       toroa_homework: {
         Row: {
           child_id: string | null
@@ -5255,6 +5343,44 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "toroa_newsletters_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      toroa_proactive_alerts: {
+        Row: {
+          acknowledged: boolean | null
+          alert_key: string
+          alert_type: string
+          family_id: string
+          id: string
+          message: string
+          sent_at: string
+        }
+        Insert: {
+          acknowledged?: boolean | null
+          alert_key: string
+          alert_type: string
+          family_id: string
+          id?: string
+          message: string
+          sent_at?: string
+        }
+        Update: {
+          acknowledged?: boolean | null
+          alert_key?: string
+          alert_type?: string
+          family_id?: string
+          id?: string
+          message?: string
+          sent_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_proactive_alerts_family_id_fkey"
             columns: ["family_id"]
             isOneToOne: false
             referencedRelation: "toroa_families"
