@@ -109,6 +109,24 @@ const HowItWorksPage = () => (
       </div>
     </section>
 
+    {/* Iho Routing Demo */}
+    <section className={SECTION} style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <div className={`${INNER} max-w-3xl`}>
+        <motion.div {...fade} className="text-center mb-10">
+          <span className="inline-block text-[11px] font-bold tracking-[3px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>
+            LIVE DEMO
+          </span>
+          <h2 className="text-2xl sm:text-3xl mb-3" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
+            See Iho route in real time
+          </h2>
+          <p className="text-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.55)" }}>
+            Type any business question and watch the routing engine classify intent, load skills, and select the right agent.
+          </p>
+        </motion.div>
+        <IhoRoutingVisualizer />
+      </div>
+    </section>
+
     {/* Pricing model */}
     <section className={SECTION}>
       <div className={`${INNER} max-w-3xl text-center`}>
