@@ -30,7 +30,7 @@ const GeminiLiveVoice = ({ agentId, agentName, agentColor, systemPrompt }: Props
   const [isConnecting, setIsConnecting] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [voiceName, setVoiceName] = useState<string>("Kore");
+  const [voiceName, setVoiceName] = useState<string>(() => getDefaultGeminiVoice(agentId));
   const [transcript, setTranscript] = useState<{ role: "user" | "agent"; text: string }[]>([]);
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
