@@ -485,26 +485,28 @@ const ChatPage = () => {
   const pollingRef = useRef<Record<string, number>>({});
   const processedVoiceHandoffRef = useRef<string | null>(null);
 
-  const isArc = agentId === "architecture" || agentId === "construction";
-  const isForge = agentId === "automotive";
-  const isAroha = agentId === "hr";
-  const isAura = agentId === "hospitality";
-  const isToroa = agentId === "operations";
-  const isNexus = agentId === "customs";
-  const isMarketing = agentId === "marketing";
-  const isConstruction = agentId === "construction";
-  const isHanga = ["construction", "bim", "safety", "projectgov", "resource", "consent", "quality"].includes(agentId || "");
-  const isHaven = agentId === "property";
-  const isFlux = agentId === "sales";
-  const isPrism = agentId === "marketing";
-  const isAxis = agentId === "pm";
-  const isNonprofit = agentId === "nonprofit";
+  // Agent type detection — using canonical IDs from agents.ts
+  const isArc = agentId === "ata" || agentId === "arc";
+  const isForge = agentId === "motor" || agentId === "forge";
+  const isAroha = agentId === "aroha";
+  const isAura = agentId === "aura";
+  const isToroa = agentId === "toroa";
+  const isNexus = agentId === "gateway";
+  const isMarketing = agentId === "prism" || agentId === "market";
+  const isConstruction = ["arai", "ata", "kaupapa", "rawa", "whakaaē", "pai", "arc", "terra", "pinnacle"].includes(agentId || "");
+  const isHanga = isConstruction;
+  const isHaven = agentId === "haven";
+  const isFlux = agentId === "flux";
+  const isPrism = agentId === "prism";
+  const isAxis = agentId === "sage";
+  const isNonprofit = agentId === "anchor";
   const isSpark = agentId === "spark";
-  const isSports = agentId === "sports";
-  const isOra = agentId === "healthcompanion";
-  const isTahi = agentId === "triage";
-  const isVitae = agentId === "carenavigation";
-  const hasLiveDataTab = ["maritime", "agriculture", "sports", "hospitality", "pm", "automotive", "construction"].includes(agentId || "");
+  const isSports = agentId === "turf" || agentId === "league";
+  const isOra = agentId === "vitals";
+  const isTahi = agentId === "remedy";
+  const isVitae = agentId === "vitae";
+  const hasLiveDataTab = ["mariner", "harvest", "turf", "aura", "kaupapa", "motor", "arai"].includes(agentId || "");
+
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
