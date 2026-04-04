@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import IhoRoutingVisualizer from "@/components/demo/IhoRoutingVisualizer";
 
 const STEPS = [
   {
