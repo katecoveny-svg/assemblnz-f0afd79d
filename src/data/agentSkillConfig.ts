@@ -336,3 +336,77 @@ export function getGlobalSkillStats() {
     totalAgents: 8 + KETE_SKILL_DATA.reduce((sum, k) => sum + k.agents.length, 0),
   };
 }
+
+// ============================================================================
+// IHO ROUTING ENGINE
+// ============================================================================
+
+export interface RoutingResult {
+  targetKete: KeteSkillConfig | null;
+  targetAgentId: string | null;
+  targetAgentName: string | null;
+  skills: Skill[];
+  mcps: MCPConnector[];
+  governanceCheckpoints: string[];
+  classifiedKeteId: string;
+}
+
+const INTENT_KEYWORDS: Record<string, RegExp> = {
+  manaaki:       /hospitality|hotel|restaurant|bar|cafe|venue|guest|menu|booking/i,
+  hanga:         /construction|building|site|contractor|scaffold|concrete|consent|safety|bim/i,
+  auaha:         /design|creative|art|content|campaign|brand|logo|video|podcast/i,
+  pakihi:        /business|finance|sales|pipeline|budget|invoice|tax|accounting|lead/i,
+  waka:          /transport|logistics|fleet|vehicle|driver|freight|shipping|maritime/i,
+  hangarau:      /technology|engineering|code|software|system|security|api|server|deploy/i,
+  'te-kahui-reo':/māori|reo|whānau|kaupapa|rohe|iwi|hapū|tikanga|kaitiaki/i,
+  toroa:         /family|personal|home|tōroa|school|kids|meal|grocery|budget/i,
+  hauora:        /health|fitness|wellness|sports|vitals|medical|gym|rugby|league/i,
+};
+
+export class IhoRouter {
+  /** Classify intent and return full routing result */
+  route(intent: string): RoutingResult {
+    const keteId = this.classifyIntent(intent);
+    const kete = KETE_SKILL_DATA.find(k => k.id === keteId) || null;
+    const agentId = kete ? this.selectAgent(kete, intent) : null;
+
+    const foundationSkills = getFoundationSkills();
+    const keteSkills = kete?.keteSkills ?? [];
+    const agentSkills = agentId
+      ? (SHARED_CORE_AGENTS.find(a => a.id === agentId)?.skills ?? [])
+      : [];
+
+    return {
+      targetKete: kete,
+      targetAgentId: agentId,
+      targetAgentName: agentId?.toUpperCase() ?? null,
+      skills: [...foundationSkills, ...keteSkills, ...agentSkills],
+      mcps: [...SHARED_FOUNDATION.defaultMCPs, ...(kete?.keteMCPs ?? [])],
+      governanceCheckpoints: this.determineGovernance(intent),
+      classifiedKeteId: keteId,
+    };
+  }
+
+  classifyIntent(intent: string): string {
+    for (const [keteId, regex] of Object.entries(INTENT_KEYWORDS)) {
+      if (regex.test(intent)) return keteId;
+    }
+    return 'governance'; // default → NOVA
+  }
+
+  private selectAgent(kete: KeteSkillConfig, intent: string): string {
+    // Simple first-agent selection; expand with NLP scoring in production
+    return kete.agents[0];
+  }
+
+  private determineGovernance(intent: string): string[] {
+    const checks: string[] = [];
+    if (/personal|privacy|data|information|pii/i.test(intent)) checks.push('SHIELD');
+    if (/legal|compliance|contract|regulation|act\b/i.test(intent)) checks.push('CHARTER');
+    if (/dispute|escalat|conflict|complaint/i.test(intent)) checks.push('ARBITER');
+    return checks;
+  }
+}
+
+/** Singleton router instance */
+export const ihoRouter = new IhoRouter();
