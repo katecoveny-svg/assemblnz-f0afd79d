@@ -125,7 +125,7 @@ const TIERS = [
     name: "Kete Rangatira", sub: "Enterprise", accent: "hsl(var(--tangaroa))", badge: "ENTERPRISE",
     price: "NZ$4,000 – $15,000+/mo", setup: "NZ$15,000 – $50,000+ one-off",
     best: "Groups, councils, iwi entities, franchises, and organisations with compliance needs",
-    features: ["All industry kete", "Full 44-agent access", "Custom integrations (Xero, MYOB, Procore, Hilti, Trimble)", "Dedicated account manager", "Monthly strategy sessions", "Custom workflow builds", "Advanced compliance & audit", "Tikanga-aware governance layer", "Multi-tenant / multi-site support", "SLA guarantee"],
+    features: ["All industry kete", "Full 78-agent access", "Custom integrations (Xero, MYOB, Procore, Hilti, Trimble)", "Dedicated account manager", "Monthly strategy sessions", "Custom workflow builds", "Advanced compliance & audit", "Tikanga-aware governance layer", "Multi-tenant / multi-site support", "SLA guarantee"],
     goodFor: "Councils · Iwi entities · Franchise groups · Construction groups · Multi-site hospitality",
     cta: "Talk to our team", highlight: false,
   },

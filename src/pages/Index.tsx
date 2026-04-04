@@ -58,11 +58,15 @@ const STEPS = [
 
 /* ─── Industry packs ─── */
 const PACKS = [
-  { name: "Manaaki", sub: "Hospitality", mark: manaakiMark, desc: "Support guest experience, food safety, service operations, and venue workflows.", to: "/manaaki", color: "#D4A843" },
-  { name: "Hanga", sub: "Construction", mark: hangaMark, desc: "Support BIM, documentation, safety, project coordination, and quoting workflows.", to: "/hanga", color: "#3A7D6E" },
-  { name: "Auaha", sub: "Creative", mark: auahaMark, desc: "Support strategy, content, campaigns, creative production, and brand execution.", to: "/auaha", color: "#D4A843" },
-  { name: "Pakihi", sub: "Business Operations", mark: pakihiMark, desc: "Support finance, HR, legal admin, planning, reporting, and internal operations.", to: "/pakihi", color: "#3A7D6E" },
-  { name: "Hangarau", sub: "Technology", mark: hangarauMark, desc: "Support systems, monitoring, architecture, code workflows, and technical delivery.", to: "/hangarau", color: "#1A3A5C" },
+  { name: "Manaaki", sub: "Hospitality & Tourism", mark: manaakiMark, desc: "Food safety, liquor licensing, guest experience, luxury lodging, adventure tourism.", to: "/manaaki", color: "#D4A843" },
+  { name: "Hanga", sub: "Construction", mark: hangaMark, desc: "Site to sign-off. Safety, BIM, consenting, project management, architecture, tenders.", to: "/hanga", color: "#3A7D6E" },
+  { name: "Auaha", sub: "Creative & Media", mark: auahaMark, desc: "Brief to published. Copy, image, video, podcast, ads, analytics — the full creative pipeline.", to: "/auaha", color: "#D4A843" },
+  { name: "Pakihi", sub: "Business & Commerce", mark: pakihiMark, desc: "Accounting, insurance, retail, trade, agriculture, real estate, immigration.", to: "/pakihi", color: "#5AADA0" },
+  { name: "Hangarau", sub: "Technology", mark: hangarauMark, desc: "Security, DevOps, infrastructure, monitoring, environment, manufacturing, IP.", to: "/hangarau", color: "#1A3A5C" },
+  { name: "Waka", sub: "Transport & Vehicles", mark: pakihiMark, desc: "Automotive, maritime, trucking, logistics. Dealership compliance to heavy vehicle logbooks.", to: "/kete/waka", color: "#6B8FA3" },
+  { name: "Hauora", sub: "Health & Lifestyle", mark: manaakiMark, desc: "Sport, health, beauty, nutrition, interior design, travel.", to: "/kete/hauora", color: "#A87D4A" },
+  { name: "Te Kāhui Reo", sub: "Māori Business Intelligence", mark: teKahuiReoMark, desc: "Data sovereignty, whānau governance, iwi reporting, kaupapa Māori.", to: "/kete/te-kahui-reo", color: "#3A6A9C" },
+  { name: "Tōroa", sub: "Family Navigator", mark: manaakiMark, desc: "SMS-first. No app, no login. Just text. $29/mo.", to: "/toroa", color: "#D4A843" },
 ];
 
 /* ─── Differentiators ─── */
