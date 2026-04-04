@@ -1,0 +1,1 @@
+ALTER TABLE public.agent_prompts DROP CONSTRAINT IF EXISTS agent_prompts_agent_name_key;
