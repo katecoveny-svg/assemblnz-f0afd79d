@@ -8,6 +8,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import ParticleField from "@/components/ParticleField";
 import AgentAvatar from "@/components/AgentAvatar";
+import AgentSkillsSection from "@/components/agents/AgentSkillsSection";
 import { agents } from "@/data/agents";
 import { agentCapabilities } from "@/data/agentCapabilities";
 
