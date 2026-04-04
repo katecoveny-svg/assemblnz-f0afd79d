@@ -41,32 +41,11 @@ export default function AuahaAdManager() {
     if (!adBrief.trim()) return toast.error("Enter a brief");
     setIsGenerating(true);
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: {
-          messages: [
-            { role: "system", content: "You are MUSE, Assembl's ad copywriter. Create 3 ad variants. Each variant has: Headline, Primary Text, Description, CTA. Format clearly with --- between variants. No buzzwords. Sharp, specific, NZ voice." },
-            { role: "user", content: `Create 3 ad variants for: ${adBrief}` },
-          ],
-        },
+      const full = await agentChat({
+        agentId: "muse",
+        packId: "auaha",
+        message: `Create 3 ad variants for: ${adBrief}\n\nEach variant must have: Headline, Primary Text, Description, CTA. Format clearly with --- between variants. No buzzwords. Sharp, specific, NZ voice.`,
       });
-      if (error) throw error;
-      const reader = data?.body?.getReader();
-      if (!reader) return;
-      const decoder = new TextDecoder();
-      let full = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        for (const line of chunk.split("\n")) {
-          if (!line.startsWith("data: ") || line.includes("[DONE]")) continue;
-          try {
-            const p = JSON.parse(line.slice(6));
-            const c = p.choices?.[0]?.delta?.content;
-            if (c) full += c;
-          } catch {}
-        }
-      }
       setAdVariants(full.split("---").filter((v) => v.trim()));
       toast.success("MUSE created 3 ad variants");
     } catch (e: any) {

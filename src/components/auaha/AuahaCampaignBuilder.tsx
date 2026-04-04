@@ -29,34 +29,11 @@ export default function AuahaCampaignBuilder() {
   const generateCopy = async () => {
     setIsGenerating(true);
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: {
-          messages: [
-            { role: "system", content: `You are MUSE, Assembl's elite NZ copywriter. Generate social media copy for each platform. RULES: No buzzwords, no "unlock/transform/leverage/seamless". Be specific, punchy, Kiwi voice. Hook first sentence. NZ English.` },
-            { role: "user", content: `Create copy for a ${brief.objective} campaign.\nBrand message: ${brief.message}\nAudience: ${brief.audience}\nTone: ${brief.tone}\nPlatforms: ${brief.platforms.join(", ")}\n\nFor EACH platform, write a post with appropriate length and hashtags. Format as:\n\n**[Platform Name]**\n[copy here]\n\nHashtags: #tag1 #tag2` },
-          ],
-        },
+      const full = await agentChat({
+        agentId: "muse",
+        packId: "auaha",
+        message: `Create copy for a ${brief.objective} campaign.\nBrand message: ${brief.message}\nAudience: ${brief.audience}\nTone: ${brief.tone}\nPlatforms: ${brief.platforms.join(", ")}\n\nRULES: No buzzwords, no "unlock/transform/leverage/seamless". Be specific, punchy, Kiwi voice. Hook first sentence. NZ English.\n\nFor EACH platform, write a post with appropriate length and hashtags. Format as:\n\n**[Platform Name]**\n[copy here]\n\nHashtags: #tag1 #tag2`,
       });
-      if (error) throw error;
-
-      // Parse streamed text (non-streaming for simplicity here)
-      const reader = data?.body?.getReader();
-      if (!reader) throw new Error("No stream");
-      const decoder = new TextDecoder();
-      let full = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        for (const line of chunk.split("\n")) {
-          if (!line.startsWith("data: ") || line.includes("[DONE]")) continue;
-          try {
-            const parsed = JSON.parse(line.slice(6));
-            const c = parsed.choices?.[0]?.delta?.content;
-            if (c) full += c;
-          } catch {}
-        }
-      }
 
       // Split by platform
       const copy: Record<string, string> = {};

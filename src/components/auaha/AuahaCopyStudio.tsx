@@ -55,32 +55,12 @@ export default function AuahaCopyStudio() {
     if (!output) return;
     setIsGenerating(true);
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: {
-          messages: [
-            { role: "system", content: "You are MUSE, Assembl's elite NZ copywriter. Refine the given copy. Same rules: no buzzwords, NZ English, sharp and specific." },
-            { role: "user", content: `Original copy:\n${output}\n\nInstruction: ${instruction}\n\nReturn only the refined copy, nothing else.` },
-          ],
-        },
+      const full = await agentChat({
+        agentId: "muse",
+        packId: "auaha",
+        message: `Original copy:\n${output}\n\nInstruction: ${instruction}\n\nRefine the given copy. Rules: no buzzwords, NZ English, sharp and specific. Return only the refined copy, nothing else.`,
       });
-      if (error) throw error;
-      const reader = data?.body?.getReader();
-      if (!reader) throw new Error("No stream");
-      const decoder = new TextDecoder();
-      let full = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        for (const line of chunk.split("\n")) {
-          if (!line.startsWith("data: ") || line.includes("[DONE]")) continue;
-          try {
-            const parsed = JSON.parse(line.slice(6));
-            const c = parsed.choices?.[0]?.delta?.content;
-            if (c) { full += c; setOutput(full); }
-          } catch {}
-        }
-      }
+      setOutput(full);
       toast.success("Copy refined");
     } catch (e: any) {
       toast.error(e.message);

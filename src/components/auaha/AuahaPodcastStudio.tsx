@@ -44,28 +44,11 @@ export default function AuahaPodcastStudio() {
   const generateShowNotes = async () => {
     setIsGenerating(true);
     try {
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: {
-          messages: [
-            { role: "system", content: "You are VERSE, Assembl's audio intelligence agent. Generate professional podcast show notes. NZ English. Include: Episode title, Description (2 sentences), Key topics (bullet points), Timestamps, 3 pull quotes for social, Blog summary (1 paragraph)." },
-            { role: "user", content: "Generate show notes for a podcast episode about NZ business trends in 2026 — covering AI adoption in SMEs, remote work patterns, and export market shifts." },
-          ],
-        },
+      const full = await agentChat({
+        agentId: "verse",
+        packId: "auaha",
+        message: "Generate show notes for a podcast episode about NZ business trends in 2026 — covering AI adoption in SMEs, remote work patterns, and export market shifts.\n\nInclude: Episode title, Description (2 sentences), Key topics (bullet points), Timestamps, 3 pull quotes for social, Blog summary (1 paragraph). NZ English.",
       });
-      if (error) throw error;
-      const reader = data?.body?.getReader();
-      if (!reader) return;
-      const decoder = new TextDecoder();
-      let full = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        for (const line of chunk.split("\n")) {
-          if (!line.startsWith("data: ") || line.includes("[DONE]")) continue;
-          try { const c = JSON.parse(line.slice(6)).choices?.[0]?.delta?.content; if (c) full += c; } catch {}
-        }
-      }
       setShowNotes(full);
       toast.success("VERSE generated show notes");
     } catch (e: any) {
