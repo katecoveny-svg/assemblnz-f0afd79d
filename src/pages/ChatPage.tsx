@@ -48,6 +48,7 @@ import ApexESGDashboard from "@/components/apex/ApexESGDashboard";
 import ApexIoTFieldTech from "@/components/apex/ApexIoTFieldTech";
 import BimAnalysisPanel from "@/components/shared/BimAnalysisPanel";
 import ForgeShowroom from "@/components/forge/ForgeShowroom";
+import OdysseyTravelPlanner from "@/components/hauora/OdysseyTravelPlanner";
 import ForgeSales from "@/components/forge/ForgeSales";
 import ForgePartsService from "@/components/forge/ForgePartsService";
 import ForgeMarketing from "@/components/forge/ForgeMarketing";
