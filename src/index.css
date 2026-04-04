@@ -59,6 +59,20 @@
     --tangaroa: 213 53% 23%;
     --tangaroa-light: 213 45% 41%;
     --rust: 3 45% 56%;
+    --bone: 33 42% 93%;
+    --success: 164 37% 35%;
+    --warning: 42 63% 55%;
+    --error: 0 59% 41%;
+
+    /* Kete accents */
+    --kete-manaaki: 22 70% 70%;
+    --kete-hanga: 48 48% 56%;
+    --kete-auaha: 265 85% 77%;
+    --kete-pakihi: 42 63% 55%;
+    --kete-waka: 207 22% 52%;
+    --kete-hangarau: 164 37% 35%;
+    --kete-toroa: 33 42% 81%;
+    --kete-hauora: 152 38% 63%;
 
     /* Premium surface tokens */
     --surface-0: 240 29% 4%;
