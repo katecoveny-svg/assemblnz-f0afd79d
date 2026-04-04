@@ -1,3 +1,4 @@
+import { agentChat } from "@/lib/agentChat";
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { agents, echoAgent, pilotAgent } from "@/data/agents";

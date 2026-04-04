@@ -1,3 +1,4 @@
+import { agentChat } from "@/lib/agentChat";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";

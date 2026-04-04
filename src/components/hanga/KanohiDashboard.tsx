@@ -526,8 +526,8 @@ function HangaChat({ projectName }: { projectName: string }) {
         content: m.content,
       }));
 
-      const { data, error } = await supabase.functions.invoke("chat", {
-        body: {
+      const content = await agentChat({
+        
           messages: [
             {
               role: "system",
