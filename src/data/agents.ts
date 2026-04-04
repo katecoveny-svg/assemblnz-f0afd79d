@@ -842,3 +842,27 @@ export function findAgent(id: string): Agent | undefined {
 export function agentsForPack(packSlug: string): Agent[] {
   return agentsByPack[packSlug] ?? [];
 }
+
+// ═══════════════════════════════════════
+// BACKWARD-COMPATIBLE EXPORTS
+// ═══════════════════════════════════════
+
+/** @deprecated Use allAgents instead */
+export const agents = allAgents;
+
+/** @deprecated ECHO is now in Auaha pack — use findAgent('echo') */
+export const echoAgent: Agent = findAgent('echo') ?? allAgents[0];
+
+/** @deprecated Use findAgent or sharedCoreAgents */
+export const pilotAgent: Agent = {
+  id: "pilot", name: "PILOT", designation: "ASM-099",
+  role: "Executive Assistant",
+  tagline: "Elite executive assistant, second brain, and strategic partner",
+  color: "#D4A843", sector: "Cross-pack", pack: "core", primaryModel: "claude",
+  traits: ["Proactive", "Emotionally intelligent", "Action-oriented"],
+  expertise: ["Calendar management", "Email triage", "Meeting summaries", "Content strategy", "Business prioritisation"],
+  starters: ["What's the priority today?", "Summarise my meetings this week", "Draft a LinkedIn post"],
+};
+
+/** @deprecated Use packs instead */
+export const sectors = [...new Set(allAgents.map(a => a.sector))];
