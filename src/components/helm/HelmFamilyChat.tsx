@@ -88,11 +88,9 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
       // Send to TŌROA agent via chat function
       try {
         await agentChat({
-          body: {
-            agentId: "operations",
-            messages: [{ role: "user", content: input.trim() }],
-            helmContext: { familyId, source: "family_chat" },
-          },
+          agentId: "operations",
+          message: input.trim(),
+          messages: [{ role: "user", content: input.trim() }],
         });
       } catch (_) {
         // Non-blocking — TŌROA response will come through the chat channel

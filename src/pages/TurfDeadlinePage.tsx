@@ -114,12 +114,7 @@ const TurfMiniChat = () => {
     setLoading(true);
     try {
       const apiMessages = [...history, { role: "user" as const, content: prompt }].map((m) => ({ role: m.role, content: m.content }));
-      const data = { content: await agentChat({ agentId: "sports", message: apiMessages[apiMessages.length-1].content, messages: apiMessages.slice(0,-1) }) };
-      if (data?.error) {
-        const isAuth = typeof data.error === "string" && data.error.toLowerCase().includes("unauthorized");
-        return isAuth ? "You'll need to sign in to generate your constitution. Create a free account and head to /chat/sports!" : data.error;
-      }
-      return data?.content || "Sorry, I didn't get a response. Try the full chat at /chat/sports.";
+      return await agentChat({ agentId: "sports", message: apiMessages[apiMessages.length-1].content, messages: apiMessages.slice(0,-1) }) || "Sorry, I didn't get a response. Try the full chat at /chat/sports.";
     } catch {
       return "Sorry, I couldn't connect right now. Try the full chat at /chat/sports.";
     } finally {

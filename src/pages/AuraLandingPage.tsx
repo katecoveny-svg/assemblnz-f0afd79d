@@ -66,14 +66,8 @@ const AuraMiniChat = () => {
 
     try {
       const apiMessages = newMessages.map((m) => ({ role: m.role, content: m.content }));
-      const data = { content: await agentChat({ agentId: "hospitality", message: apiMessages[apiMessages.length-1].content, messages: apiMessages.slice(0,-1) }) };
-      if (data?.error) {
-        const isAuth = typeof data.error === "string" && data.error.toLowerCase().includes("unauthorized");
-        setMessages((prev) => [...prev, { role: "assistant", content: isAuth ? "You'll need to sign in to chat with me. Create a free account at /signup and then come back — or jump straight into the full experience at /chat/hospitality!" : data.error }]);
-      } else {
-        const reply = data?.content || "Sorry, I didn't get a response. Try the full chat at /chat/hospitality for the best experience.";
-        setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
-      }
+      const reply = await agentChat({ agentId: "hospitality", message: apiMessages[apiMessages.length-1].content, messages: apiMessages.slice(0,-1) });
+      setMessages((prev) => [...prev, { role: "assistant", content: reply || "Sorry, I didn't get a response. Try the full chat at /chat/hospitality for the best experience." }]);
     } catch {
       setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I couldn't connect right now. Try the full chat at /chat/hospitality." }]);
     } finally {

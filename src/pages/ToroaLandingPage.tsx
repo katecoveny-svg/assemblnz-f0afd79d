@@ -120,9 +120,7 @@ function TryToroaChat() {
     setMessages(updated);
     setLoading(true);
     try {
-      const data = { content: await agentChat({ agentId: "family", packId: "toroa", message: updated[updated.length-1].text, messages: updated.slice(0,-1).map(m => ({ role: m.role, content: m.text })) }) };
-      
-      const reply = data?.content || data?.text || data?.choices?.[0]?.message?.content || "Kia ora! I'm here to help your whānau.";
+      const reply = await agentChat({ agentId: "family", packId: "toroa", message: updated[updated.length-1].text, messages: updated.slice(0,-1).map(m => ({ role: m.role, content: m.text })) }) || "Kia ora! I'm here to help your whānau.";
       setMessages(prev => [...prev, { role: "assistant", text: reply }]);
     } catch {
       setMessages(prev => [...prev, { role: "assistant", text: "Kia ora! I'm Tōroa — your family navigator. Try asking me about meal planning, school notices, or what the kids should wear today!" }]);
