@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { KETE_DATA } from "./keteData";
+import { KETE_DATA, SHARED_CORE_AGENTS, TOTAL_AGENTS } from "./keteData";
 import KeteCard from "./KeteCard";
 import SEO from "@/components/SEO";
 
@@ -9,7 +9,6 @@ const KeteGrid: React.FC = () => {
   const industry = KETE_DATA.filter(k => k.category === "industry");
   const specialist = KETE_DATA.filter(k => k.category === "specialist");
   const whanau = KETE_DATA.filter(k => k.category === "whanau");
-  const totalAgents = KETE_DATA.reduce((s, k) => s + k.agentCount, 0);
 
   const Section = ({ title, kete }: { title: string; kete: typeof KETE_DATA }) => (
     <section className="mb-20 md:mb-24">
@@ -30,7 +29,7 @@ const KeteGrid: React.FC = () => {
 
   return (
     <>
-      <SEO title="The Kete Collection | Assembl" description="Nine industry-specific agent packs for Aotearoa. Industry Kete, Specialist Kete, and Whānau Kete." />
+      <SEO title="The Kete Collection | Assembl" description="Nine industry-specific agent packs plus Shared Core for Aotearoa. 78 agents, 1 brain." />
       <div className="relative w-full max-w-[1400px] mx-auto px-6 md:px-8 py-16 md:py-20" style={{ background: "linear-gradient(135deg, #09090f 0%, #0f0f1a 100%)" }}>
         {/* Starfield */}
         <div className="fixed inset-0 pointer-events-none -z-10" style={{
@@ -48,7 +47,7 @@ const KeteGrid: React.FC = () => {
             The Kete Collection
           </h1>
           <p className="text-base text-white/65 max-w-[600px] mx-auto leading-relaxed" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-            Nine industry-specific agent packs, built for Aotearoa. Each kete brings together agents, templates, and workflows for their domain.
+            Nine industry-specific agent packs plus a Shared Core foundation, built for Aotearoa. Each kete brings together specialist agents, templates, and workflows for their domain.
           </p>
         </header>
 
@@ -60,7 +59,9 @@ const KeteGrid: React.FC = () => {
         <div className="flex justify-center items-center gap-3 mt-24 pt-10 border-t border-white/[0.05] text-sm tracking-[3px] uppercase text-white/50" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
           <span>{KETE_DATA.length} KETE</span>
           <span>·</span>
-          <span>{totalAgents} AGENTS</span>
+          <span>{SHARED_CORE_AGENTS.length} CORE</span>
+          <span>·</span>
+          <span>{TOTAL_AGENTS} AGENTS</span>
           <span>·</span>
           <span>1 BRAIN</span>
         </div>

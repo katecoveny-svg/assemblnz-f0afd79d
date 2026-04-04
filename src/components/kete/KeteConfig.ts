@@ -1,5 +1,5 @@
 import {
-  UtensilsCrossed, HardHat, Palette, Briefcase, Cpu, Globe, Bird,
+  UtensilsCrossed, HardHat, Palette, Briefcase, Cpu, Globe, Bird, Truck, Heart,
 } from "lucide-react";
 
 export interface KeteDefinition {
@@ -20,50 +20,64 @@ export interface KeteDefinition {
 export const KETE_CONFIG: KeteDefinition[] = [
   {
     id: "manaaki", name: "Manaaki", nameEn: "Hospitality & Tourism",
-    color: "#D4A843", icon: UtensilsCrossed, agentCount: 8, group: "business",
-    description: "Your complete hospitality operations hub. From front-of-house to food safety compliance, Manaaki runs your venue so you can focus on your guests.",
+    color: "#D4A843", icon: UtensilsCrossed, agentCount: 9, group: "business",
+    description: "Your venue runs itself. Food safety, liquor licensing, guest experience, luxury lodging, adventure tourism.",
     wananga: "Te Kete Aronui — the basket of love and care for people",
     route: "/packs/manaaki", smsStatus: "active", whatsappStatus: "coming-soon",
   },
   {
     id: "hanga", name: "Hanga", nameEn: "Construction",
-    color: "#3A7D6E", icon: HardHat, agentCount: 6, group: "business",
-    description: "Construction intelligence from site safety to project completion. Hanga coordinates your build with safety, scheduling, procurement, consenting, and quality assurance.",
+    color: "#3A7D6E", icon: HardHat, agentCount: 9, group: "business",
+    description: "Site to sign-off. Safety, BIM, consenting, project management, architecture, awards, tenders.",
     wananga: "Te Kete Tuauri — the basket of the physical world",
     route: "/hanga", smsStatus: "active", whatsappStatus: "coming-soon",
   },
   {
     id: "auaha", name: "Auaha", nameEn: "Creative & Media",
-    color: "#F0D078", icon: Palette, agentCount: 8, group: "business",
-    description: "Your creative studio in a kete. Brand identity, content strategy, design systems, video production, and social media management — the full creative pipeline.",
+    color: "#F0D078", icon: Palette, agentCount: 9, group: "business",
+    description: "Brief to published. Copy, image, video, podcast, ads, analytics — the full creative pipeline.",
     wananga: "Te Kete Aronui — the basket of human expression",
     route: "/packs/auaha", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
     id: "pakihi", name: "Pakihi", nameEn: "Business & Commerce",
-    color: "#5AADA0", icon: Briefcase, agentCount: 8, group: "business",
-    description: "Run your business from one intelligent hub. Accounting, HR, sales, legal, operations, and growth strategy — corporate firepower without the overhead.",
+    color: "#5AADA0", icon: Briefcase, agentCount: 11, group: "business",
+    description: "Accounting, insurance, retail, trade, agriculture, real estate, immigration. The engine of NZ commerce.",
     wananga: "Te Kete Tuatea — the basket of strategy and governance",
     route: "/packs/pakihi", smsStatus: "active", whatsappStatus: "coming-soon",
   },
   {
+    id: "waka", name: "Waka", nameEn: "Transport & Vehicles",
+    color: "#6B8FA3", icon: Truck, agentCount: 3, group: "business",
+    description: "Automotive, maritime, trucking, logistics. Dealership compliance to heavy vehicle logbooks.",
+    wananga: "Te Kete Tuauri — the basket of movement and trade",
+    route: "/packs/waka", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
+  },
+  {
     id: "hangarau", name: "Hangarau", nameEn: "Technology",
-    color: "#1A3A5C", icon: Cpu, agentCount: 8, group: "business",
-    description: "Your in-house tech team. Software development, infrastructure monitoring, security, integrations, databases, DevOps, and AI/ML.",
+    color: "#1A3A5C", icon: Cpu, agentCount: 12, group: "business",
+    description: "Your in-house tech team. Security, DevOps, infrastructure, monitoring, environment, manufacturing, IP.",
     wananga: "Te Kete Tuauri — the basket of systems and the natural world",
     route: "/packs/hangarau", smsStatus: "active", whatsappStatus: "coming-soon",
   },
   {
+    id: "hauora", name: "Hauora", nameEn: "Health, Wellbeing, Sport & Lifestyle",
+    color: "#A87D4A", icon: Heart, agentCount: 8, group: "business",
+    description: "Sport, health, beauty, nutrition, interior design, travel. Everything that keeps people well.",
+    wananga: "Te Kete Aronui — the basket of wellbeing and human flourishing",
+    route: "/packs/hauora", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
+  },
+  {
     id: "te-kahui-reo", name: "Te Kāhui Reo", nameEn: "Māori Business Intelligence",
     color: "#3A6A9C", icon: Globe, agentCount: 8, group: "specialist",
-    description: "Business intelligence built on kaupapa Māori principles. The only BI suite in the world designed from tikanga up — for whānau enterprise, governance, and kaitiakitanga.",
+    description: "Data sovereignty, whānau governance, iwi reporting, kaupapa Māori — built from the ground up.",
     wananga: "Ngā Kete o te Wānanga — all three baskets woven together",
     route: "/packs/te-kahui-reo", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
     id: "toroa", name: "Tōroa", nameEn: "Family Navigator",
     color: "#D4A843", icon: Bird, agentCount: 1, group: "whanau",
-    description: "Your whānau's intelligent navigator. SMS-first support for everyday family life in Aotearoa — school notices, meal planning, bus tracking, homework, budgets, and more. No app. No login. Just text.",
+    description: "SMS-first. No app, no login. Just text. School notices, meals, budgets, reminders, learning.",
     wananga: "Te Kete Aronui — caring for whānau",
     route: "/toroa", smsStatus: "active", whatsappStatus: "active",
   },

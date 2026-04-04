@@ -54,7 +54,7 @@ const PricingHero = () => (
 const OFFERS = [
   { icon: Rocket, badge: "START HERE", badgeColor: "hsl(var(--primary))", title: "Launch Sprint", desc: "A one-off setup project. We map your workflows, connect your tools, configure your agents, and launch your first use case. You walk away with a working AI business layer.", time: "2–4 weeks", price: "From NZ$2,500", cta: "Book your sprint", to: "/contact" },
   { icon: Layers, badge: "FOUNDATION", badgeColor: "hsl(var(--pounamu))", title: "Core Platform", desc: "Monthly platform subscription. Includes your central brain (Iho), governance pipeline, SIGNAL security, SMS/WhatsApp messaging, and dashboard access.", price: "Included in every pack", note: "This is the foundation. Every kete runs on Core.", includes: ["Iho routing brain", "SIGNAL security agent", "Compliance pipeline (Kahu → Tā → Mana)", "SMS & WhatsApp access", "Dashboard & analytics", "NZ data sovereignty"] },
-  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Monthly add-on subscriptions by industry or business function. Each kete is a complete AI operations hub with specialist agents, intelligence dashboards, and end-to-end workflows.", price: "From NZ$750/month per kete", list: "Manaaki · Hanga · Auaha · Pakihi · Hangarau · Te Kāhui Reo · Tōroa", cta: "See all packs", scrollTo: "packs" },
+  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Monthly add-on subscriptions by industry or business function. Each kete is a complete AI operations hub with specialist agents, intelligence dashboards, and end-to-end workflows.", price: "From NZ$750/month per kete", list: "Manaaki · Hanga · Auaha · Pakihi · Waka · Hangarau · Hauora · Te Kāhui Reo · Tōroa", cta: "See all packs", scrollTo: "packs" },
   { icon: Crown, badge: "PREMIUM", badgeColor: "hsl(var(--primary))", title: "Managed AI", desc: "Premium monthly retainer for businesses that want hands-off AI operations. Higher-touch support, monthly strategy sessions, content creation, change requests, and new workflow rollout.", price: "From NZ$4,000/month", cta: "Talk to us", to: "/contact", includes: ["Dedicated account manager", "Monthly strategy review", "Priority support", "Custom workflow builds", "Agent optimisation"] },
 ];
 
@@ -125,7 +125,7 @@ const TIERS = [
     name: "Kete Rangatira", sub: "Enterprise", accent: "hsl(var(--tangaroa))", badge: "ENTERPRISE",
     price: "NZ$4,000 – $15,000+/mo", setup: "NZ$15,000 – $50,000+ one-off",
     best: "Groups, councils, iwi entities, franchises, and organisations with compliance needs",
-    features: ["All industry kete", "Full 44-agent access", "Custom integrations (Xero, MYOB, Procore, Hilti, Trimble)", "Dedicated account manager", "Monthly strategy sessions", "Custom workflow builds", "Advanced compliance & audit", "Tikanga-aware governance layer", "Multi-tenant / multi-site support", "SLA guarantee"],
+    features: ["All industry kete", "Full 78-agent access", "Custom integrations (Xero, MYOB, Procore, Hilti, Trimble)", "Dedicated account manager", "Monthly strategy sessions", "Custom workflow builds", "Advanced compliance & audit", "Tikanga-aware governance layer", "Multi-tenant / multi-site support", "SLA guarantee"],
     goodFor: "Councils · Iwi entities · Franchise groups · Construction groups · Multi-site hospitality",
     cta: "Talk to our team", highlight: false,
   },

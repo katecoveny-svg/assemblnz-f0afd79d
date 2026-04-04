@@ -1,3 +1,9 @@
+export interface KeteAgent {
+  name: string;
+  desc: string;
+  status?: 'existing' | 'restored' | 'new';
+}
+
 export interface KeteData {
   slug: string;
   name: string;
@@ -9,8 +15,19 @@ export interface KeteData {
   variant: 'standard' | 'dense' | 'organic' | 'tricolor' | 'warm';
   category: 'industry' | 'specialist' | 'whanau';
   badge?: string;
-  agents?: { name: string; desc: string }[];
+  agents: KeteAgent[];
 }
+
+export const SHARED_CORE_AGENTS: KeteAgent[] = [
+  { name: 'CHARTER', desc: 'Company governance & director duties', status: 'new' },
+  { name: 'ARBITER', desc: 'Dispute resolution & legal remedies', status: 'new' },
+  { name: 'SHIELD', desc: 'Privacy Act 2020 & data protection', status: 'new' },
+  { name: 'ANCHOR', desc: 'Non-profit, charities & community organisations', status: 'new' },
+  { name: 'AROHA', desc: 'HR & employment relations', status: 'existing' },
+  { name: 'PULSE', desc: 'Employment law & payroll compliance', status: 'new' },
+  { name: 'SCHOLAR', desc: 'Education & training sector compliance', status: 'new' },
+  { name: 'NOVA', desc: 'General operations & technical troubleshooting', status: 'new' },
+];
 
 export const KETE_DATA: KeteData[] = [
   {
@@ -24,15 +41,15 @@ export const KETE_DATA: KeteData[] = [
     variant: 'standard',
     category: 'industry',
     agents: [
-      { name: 'AURA', desc: 'Property operations & guest experience' },
-      { name: 'HAVEN', desc: 'Accommodation management' },
-      { name: 'TIDE', desc: 'Revenue & demand forecasting' },
-      { name: 'BEACON', desc: 'Tourism marketing & bookings' },
-      { name: 'COAST', desc: 'Adventure & outdoor tourism' },
-      { name: 'KURA', desc: 'Food safety & compliance' },
-      { name: 'MOANA', desc: 'Marine & coastal operations' },
-      { name: 'PAU', desc: 'Events & venue management' },
-      { name: 'SIGNAL', desc: 'Security & monitoring' },
+      { name: 'AURA', desc: 'Front-of-house operations & guest experience', status: 'existing' },
+      { name: 'SAFFRON', desc: 'Food safety & Food Act 2014 compliance', status: 'restored' },
+      { name: 'CELLAR', desc: 'Liquor licensing & Sale of Alcohol Act', status: 'restored' },
+      { name: 'LUXE', desc: 'Luxury lodging & premium hospitality', status: 'new' },
+      { name: 'MOANA', desc: 'Tourism operations & adventure compliance', status: 'existing' },
+      { name: 'COAST', desc: 'Coastal & marine tourism', status: 'existing' },
+      { name: 'KURA', desc: 'Cultural tourism & Māori hospitality', status: 'existing' },
+      { name: 'PAU', desc: 'Event catering & temporary food operations', status: 'existing' },
+      { name: 'SUMMIT', desc: 'Tourism & adventure activities regulation', status: 'restored' },
     ],
   },
   {
@@ -46,15 +63,15 @@ export const KETE_DATA: KeteData[] = [
     variant: 'standard',
     category: 'industry',
     agents: [
-      { name: 'ATA', desc: 'BIM & 3D modelling' },
-      { name: 'ĀRAI', desc: 'Site safety & H&S compliance' },
-      { name: 'KAUPAPA', desc: 'Project management' },
-      { name: 'RAWA', desc: 'Resource & materials tracking' },
-      { name: 'WHAKAAĒ', desc: 'Consenting & approvals' },
-      { name: 'PAI', desc: 'Quality assurance & inspections' },
-      { name: 'KAHU', desc: 'Compliance engine' },
-      { name: 'KANOHI', desc: 'Site overview dashboard' },
-      { name: 'SIGNAL', desc: 'Security & monitoring' },
+      { name: 'ATA', desc: 'Building Information Modelling (BIM)', status: 'existing' },
+      { name: 'ĀRAI', desc: 'Site safety & H&S compliance (WorkSafe)', status: 'existing' },
+      { name: 'KAUPAPA', desc: 'Project management & contract administration', status: 'existing' },
+      { name: 'RAWA', desc: 'Resources, procurement & supply chain', status: 'existing' },
+      { name: 'WHAKAAĒ', desc: 'Resource consent & planning compliance', status: 'existing' },
+      { name: 'PAI', desc: 'Quality assurance & building standards', status: 'existing' },
+      { name: 'ARC', desc: 'Architecture & NZ Building Code compliance', status: 'restored' },
+      { name: 'TERRA', desc: 'Property & land management (RMA)', status: 'restored' },
+      { name: 'PINNACLE', desc: 'Construction awards, tenders & application writing', status: 'new' },
     ],
   },
   {
@@ -68,15 +85,15 @@ export const KETE_DATA: KeteData[] = [
     variant: 'standard',
     category: 'industry',
     agents: [
-      { name: 'PRISM', desc: 'Brand intelligence & DNA' },
-      { name: 'MUSE', desc: 'Copywriting & content' },
-      { name: 'PIXEL', desc: 'Image generation & editing' },
-      { name: 'VERSE', desc: 'Podcast production' },
-      { name: 'ECHO', desc: 'Video production' },
-      { name: 'FLUX', desc: 'Social media publishing' },
-      { name: 'CHROMATIC', desc: 'Design & visual identity' },
-      { name: 'RHYTHM', desc: 'Campaign analytics' },
-      { name: 'SIGNAL', desc: 'Security & monitoring' },
+      { name: 'PRISM', desc: 'Creative design & brand development', status: 'existing' },
+      { name: 'MUSE', desc: 'Content creation & copywriting', status: 'existing' },
+      { name: 'PIXEL', desc: 'Visual design & digital media', status: 'existing' },
+      { name: 'VERSE', desc: 'Narrative design & storytelling', status: 'existing' },
+      { name: 'ECHO', desc: 'Technical production & platform setup', status: 'existing' },
+      { name: 'FLUX', desc: 'Image generation & design innovation', status: 'existing' },
+      { name: 'CHROMATIC', desc: 'Colour, brand aesthetics & visual identity', status: 'existing' },
+      { name: 'RHYTHM', desc: 'Audio, podcast & media production', status: 'existing' },
+      { name: 'MARKET', desc: 'Marketing & advertising compliance (Fair Trading)', status: 'restored' },
     ],
   },
   {
@@ -90,17 +107,17 @@ export const KETE_DATA: KeteData[] = [
     variant: 'dense',
     category: 'industry',
     agents: [
-      { name: 'LEDGER', desc: 'Bank reconciliation & accounting' },
-      { name: 'AROHA', desc: 'HR & employment law' },
-      { name: 'TURF', desc: 'Resource management' },
-      { name: 'SAGE', desc: 'Tax & compliance' },
-      { name: 'COMPASS', desc: 'Market research' },
-      { name: 'NEXUS', desc: 'Business intelligence' },
-      { name: 'PRISM-B', desc: 'Brand analytics' },
-      { name: 'ASCEND', desc: 'Growth strategy' },
-      { name: 'ANCHOR', desc: 'Contract scanning' },
-      { name: 'ATLAS', desc: 'Strategic planning' },
-      { name: 'SIGNAL', desc: 'Security & monitoring' },
+      { name: 'LEDGER', desc: 'Accounting & tax compliance (IRD, GST)', status: 'existing' },
+      { name: 'VAULT', desc: 'Business insurance & risk management', status: 'restored' },
+      { name: 'CATALYST', desc: 'Recruitment & talent management', status: 'restored' },
+      { name: 'COMPASS', desc: 'Immigration & visa guidance', status: 'restored' },
+      { name: 'HAVEN', desc: 'Real estate & property management', status: 'restored' },
+      { name: 'COUNTER', desc: 'Retail operations & consumer guarantees', status: 'restored' },
+      { name: 'GATEWAY', desc: 'Customs brokerage & border compliance', status: 'restored' },
+      { name: 'HARVEST', desc: 'Agriculture & farming compliance', status: 'restored' },
+      { name: 'GROVE', desc: 'Horticulture & viticulture export', status: 'restored' },
+      { name: 'SAGE', desc: 'Business analytics & insights', status: 'existing' },
+      { name: 'ASCEND', desc: 'Growth strategy & performance', status: 'existing' },
     ],
   },
   {
@@ -114,9 +131,9 @@ export const KETE_DATA: KeteData[] = [
     variant: 'standard',
     category: 'industry',
     agents: [
-      { name: 'FORGE', desc: 'Dealership operations' },
-      { name: 'TOROA-M', desc: 'Maritime navigation' },
-      { name: 'SIGNAL', desc: 'Security & monitoring' },
+      { name: 'MOTOR', desc: 'Automotive industry & dealership compliance', status: 'restored' },
+      { name: 'TRANSIT', desc: 'Transport & logistics regulations (NZTA)', status: 'restored' },
+      { name: 'MARINER', desc: 'Maritime compliance & vessel operations', status: 'restored' },
     ],
   },
   {
@@ -130,24 +147,24 @@ export const KETE_DATA: KeteData[] = [
     variant: 'standard',
     category: 'industry',
     agents: [
-      { name: 'SPARK', desc: 'App builder' },
-      { name: 'SENTINEL', desc: 'Threat detection' },
-      { name: 'NEXUS-T', desc: 'Tech intelligence' },
-      { name: 'CIPHER', desc: 'Encryption & data' },
-      { name: 'RELAY', desc: 'API management' },
-      { name: 'MATRIX', desc: 'Infrastructure' },
-      { name: 'FORGE', desc: 'DevOps pipeline' },
-      { name: 'ORACLE', desc: 'Predictive analytics' },
-      { name: 'APEX', desc: 'IoT & field tech' },
-      { name: 'KINDLE', desc: 'Non-profit tech' },
-      { name: 'AXIS', desc: 'Automation engine' },
-      { name: 'SIGNAL', desc: 'Security & monitoring' },
+      { name: 'SPARK', desc: 'Cloud infrastructure & platform engineering', status: 'existing' },
+      { name: 'SENTINEL', desc: 'Security monitoring & alert systems', status: 'existing' },
+      { name: 'NEXUS-T', desc: 'API integration & tech compliance', status: 'existing' },
+      { name: 'CIPHER', desc: 'Cybersecurity & encryption', status: 'existing' },
+      { name: 'RELAY', desc: 'Communication systems & messaging', status: 'existing' },
+      { name: 'MATRIX', desc: 'Data architecture & management', status: 'existing' },
+      { name: 'FORGE', desc: 'DevOps, CI/CD & deployment automation', status: 'existing' },
+      { name: 'ORACLE', desc: 'Predictive analytics & AI systems', status: 'existing' },
+      { name: 'EMBER', desc: 'Energy efficiency & carbon reporting', status: 'existing' },
+      { name: 'REEF', desc: 'Environmental compliance & RMA', status: 'existing' },
+      { name: 'PATENT', desc: 'Intellectual property & IP registration', status: 'existing' },
+      { name: 'FOUNDRY', desc: 'Manufacturing & industrial compliance', status: 'existing' },
     ],
   },
   {
     slug: 'hauora',
     name: 'Hauora',
-    englishName: 'Health, Wellbeing & Lifestyle',
+    englishName: 'Health, Wellbeing, Sport & Lifestyle',
     description: 'Sport, health, beauty, nutrition, interior design, travel. Everything that keeps people well.',
     agentCount: 8,
     accentColor: '#A87D4A',
@@ -155,14 +172,14 @@ export const KETE_DATA: KeteData[] = [
     variant: 'organic',
     category: 'industry',
     agents: [
-      { name: 'ORA', desc: 'Daily wellness check-in' },
-      { name: 'TAHI', desc: 'Health navigation' },
-      { name: 'VITAE', desc: 'Care journey tracking' },
-      { name: 'MĀHINA', desc: 'Mental wellbeing' },
-      { name: 'HAUMARU', desc: 'Home safety' },
-      { name: 'WHĀNAU', desc: 'Family support' },
-      { name: 'RONGOĀ', desc: 'Natural health' },
-      { name: 'SIGNAL', desc: 'Security & monitoring' },
+      { name: 'TURF', desc: 'Sports & recreation governance (Inc Societies Act)', status: 'restored' },
+      { name: 'LEAGUE', desc: 'Competition & events management', status: 'restored' },
+      { name: 'VITALS', desc: 'Workplace health & safety (HSWA)', status: 'restored' },
+      { name: 'REMEDY', desc: 'Healthcare practice compliance (HPCAA)', status: 'restored' },
+      { name: 'VITAE', desc: 'Nutrition & dietary compliance', status: 'new' },
+      { name: 'RADIANCE', desc: 'Beauty & wellness industry compliance', status: 'new' },
+      { name: 'PALETTE', desc: 'Interior design & space planning', status: 'new' },
+      { name: 'ODYSSEY', desc: 'Travel planning & tourism regulations', status: 'new' },
     ],
   },
   {
@@ -176,14 +193,14 @@ export const KETE_DATA: KeteData[] = [
     variant: 'tricolor',
     category: 'specialist',
     agents: [
-      { name: 'WHĀNAU', desc: 'Whānau governance' },
-      { name: 'ROHE', desc: 'Regional coordination' },
-      { name: 'KAUPAPA-M', desc: 'Kaupapa Māori frameworks' },
-      { name: 'MANA', desc: 'Access & permissions' },
-      { name: 'KAITIAKI', desc: 'Data guardianship' },
-      { name: 'TĀURA', desc: 'Cultural compliance' },
-      { name: 'WHAKAARO', desc: 'Strategic thinking' },
-      { name: 'HIRINGA', desc: 'Innovation & growth' },
+      { name: 'WHĀNAU', desc: 'Whānau governance', status: 'existing' },
+      { name: 'ROHE', desc: 'Regional coordination', status: 'existing' },
+      { name: 'KAUPAPA-M', desc: 'Kaupapa Māori frameworks', status: 'existing' },
+      { name: 'MANA', desc: 'Access & permissions', status: 'existing' },
+      { name: 'KAITIAKI', desc: 'Data guardianship', status: 'existing' },
+      { name: 'TĀURA', desc: 'Cultural compliance', status: 'existing' },
+      { name: 'WHAKAARO', desc: 'Strategic thinking', status: 'existing' },
+      { name: 'HIRINGA', desc: 'Innovation & growth', status: 'existing' },
     ],
   },
   {
@@ -198,7 +215,9 @@ export const KETE_DATA: KeteData[] = [
     badge: 'CONSUMER · $29/MO',
     category: 'whanau',
     agents: [
-      { name: 'TŌROA', desc: 'Family SMS navigator' },
+      { name: 'TŌROA', desc: 'Family SMS navigator', status: 'existing' },
     ],
   },
 ];
+
+export const TOTAL_AGENTS = SHARED_CORE_AGENTS.length + KETE_DATA.reduce((s, k) => s + k.agentCount, 0);

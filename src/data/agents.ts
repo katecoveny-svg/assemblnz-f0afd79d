@@ -18,11 +18,15 @@ export interface Agent {
 // ═══════════════════════════════════════
 
 export const packs = [
-  { id: "manaaki", name: "Manaaki", label: "Hospitality", color: "#D4A843", agentCount: 8 },
-  { id: "hanga", name: "Hanga", label: "Construction", color: "#3A7D6E", agentCount: 7 },
-  { id: "auaha", name: "Auaha", label: "Creative", color: "#D4A843", agentCount: 8 },
-  { id: "pakihi", name: "Pakihi", label: "Business Operations", color: "#1A3A5C", agentCount: 12 },
-  { id: "hangarau", name: "Hangarau", label: "Technology", color: "#3A7D6E", agentCount: 7 },
+  { id: "manaaki", name: "Manaaki", label: "Hospitality & Tourism", color: "#D4A843", agentCount: 9 },
+  { id: "hanga", name: "Hanga", label: "Construction", color: "#3A7D6E", agentCount: 9 },
+  { id: "auaha", name: "Auaha", label: "Creative & Media", color: "#F0D078", agentCount: 9 },
+  { id: "pakihi", name: "Pakihi", label: "Business & Commerce", color: "#5AADA0", agentCount: 11 },
+  { id: "waka", name: "Waka", label: "Transport & Vehicles", color: "#6B8FA3", agentCount: 3 },
+  { id: "hangarau", name: "Hangarau", label: "Technology", color: "#3A6A9C", agentCount: 12 },
+  { id: "hauora", name: "Hauora", label: "Health & Lifestyle", color: "#A87D4A", agentCount: 8 },
+  { id: "te-kahui-reo", name: "Te Kāhui Reo", label: "Māori Business Intelligence", color: "#3A6A9C", agentCount: 8 },
+  { id: "toroa", name: "Tōroa", label: "Family Navigator", color: "#D4A843", agentCount: 1 },
 ];
 
 // ═══════════════════════════════════════

@@ -5,46 +5,11 @@ import { HardHat, UtensilsCrossed, Palette, Briefcase, Cpu } from "lucide-react"
 const KOWHAI = "#D4A843";
 
 const KETE_PACKS = [
-  {
-    name: "Hanga",
-    sub: "Construction",
-    wananga: "Te Kete Tuauri",
-    wanangaEn: "Knowledge of the physical world",
-    icon: HardHat,
-    to: "/hanga",
-  },
-  {
-    name: "Manaaki",
-    sub: "Hospitality",
-    wananga: "Te Kete Aronui",
-    wanangaEn: "Knowledge of goodness & humanity",
-    icon: UtensilsCrossed,
-    to: "/packs/manaaki",
-  },
-  {
-    name: "Auaha",
-    sub: "Creative",
-    wananga: "Te Kete Aronui",
-    wanangaEn: "Knowledge of human expression",
-    icon: Palette,
-    to: "/packs/auaha",
-  },
-  {
-    name: "Pakihi",
-    sub: "Business",
-    wananga: "Te Kete Tuatea",
-    wanangaEn: "Knowledge of strategy & governance",
-    icon: Briefcase,
-    to: "/packs/pakihi",
-  },
-  {
-    name: "Hangarau",
-    sub: "Technology",
-    wananga: "Te Kete Tuauri",
-    wanangaEn: "Knowledge of systems & nature",
-    icon: Cpu,
-    to: "/packs/hangarau",
-  },
+  { name: "Manaaki", sub: "Hospitality & Tourism", wananga: "Te Kete Aronui", wanangaEn: "Knowledge of goodness & humanity", icon: UtensilsCrossed, to: "/packs/manaaki" },
+  { name: "Hanga", sub: "Construction", wananga: "Te Kete Tuauri", wanangaEn: "Knowledge of the physical world", icon: HardHat, to: "/hanga" },
+  { name: "Auaha", sub: "Creative & Media", wananga: "Te Kete Aronui", wanangaEn: "Knowledge of human expression", icon: Palette, to: "/packs/auaha" },
+  { name: "Pakihi", sub: "Business & Commerce", wananga: "Te Kete Tuatea", wanangaEn: "Knowledge of strategy & governance", icon: Briefcase, to: "/packs/pakihi" },
+  { name: "Hangarau", sub: "Technology", wananga: "Te Kete Tuauri", wanangaEn: "Knowledge of systems & nature", icon: Cpu, to: "/packs/hangarau" },
 ];
 
 const KetePackSelector = () => (
