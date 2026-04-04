@@ -25,14 +25,15 @@ const revenueData = [
 ];
 
 const agents = [
-  { name: "AURA", desc: "Guest Experience", icon: "Star", status: "online" },
-  { name: "HAVEN", desc: "Property Ops", icon: "Home", status: "online" },
-  { name: "ORA", desc: "Elderly Care", icon: "Heart", status: "online" },
-  { name: "MESA", desc: "Reservations", icon: "Calendar", status: "online" },
-  { name: "SAVOR", desc: "Kitchen & Menu", icon: "Coffee", status: "beta" },
-  { name: "CELLAR", desc: "Beverage Mgmt", icon: "Wine", status: "coming" },
-  { name: "THRIVE", desc: "Staff Wellbeing", icon: "Users", status: "coming" },
-  { name: "SIGNAL", desc: "Security", icon: "Shield", status: "online" },
+  { name: "AURA", desc: "Property Operations", icon: "Star", status: "online" },
+  { name: "SAFFRON", desc: "Food Safety & Kitchen", icon: "Coffee", status: "online" },
+  { name: "CELLAR", desc: "Beverage & Wine", icon: "Wine", status: "online" },
+  { name: "LUXE", desc: "Premium Guest Experience", icon: "Gem", status: "online" },
+  { name: "MOANA", desc: "Marine & Coastal", icon: "Anchor", status: "online" },
+  { name: "COAST", desc: "Sustainability & Eco", icon: "Leaf", status: "online" },
+  { name: "KURA", desc: "Events & Functions", icon: "Calendar", status: "online" },
+  { name: "PAU", desc: "Spa & Wellness", icon: "Heart", status: "beta" },
+  { name: "SUMMIT", desc: "Revenue Management", icon: "TrendingUp", status: "online" },
 ];
 
 const metrics = [
