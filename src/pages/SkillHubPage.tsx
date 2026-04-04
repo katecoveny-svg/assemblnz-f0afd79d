@@ -68,7 +68,7 @@ const SkillHubPage = () => {
       case 'skill-wiring':
         return <SkillWiringDashboard />;
       case 'marketplace':
-        return <PlaceholderTab title="Marketplace" />;
+        return <SkillMarketplace />;
       case 'workflows':
         return <PlaceholderTab title="Workflows" />;
       case 'metrics':
