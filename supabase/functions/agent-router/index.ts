@@ -173,7 +173,7 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { message, packId, agentId, messages = [] } = await req.json();
+    const { message, packId, agentId, messages = [], userId } = await req.json();
     if (!message) {
       return new Response(JSON.stringify({ error: "message is required" }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -208,12 +208,97 @@ Deno.serve(async (req) => {
       .eq("is_active", true)
       .in("agent_name", ["shield", "charter", "aroha"]);
 
+    // ═══ MEMORY & PREEMPTIVE KNOWLEDGE ═══
+    // Load user's shared context (business facts detected across all agents)
+    let sharedContextBlock = "";
+    let memoryBlock = "";
+
+    // Extract user ID from auth header if not passed directly
+    const authHeader = req.headers.get("authorization");
+    let resolvedUserId = userId;
+    if (!resolvedUserId && authHeader) {
+      try {
+        const token = authHeader.replace("Bearer ", "");
+        const { data: { user } } = await supabase.auth.getUser(token);
+        resolvedUserId = user?.id;
+      } catch { /* anonymous user */ }
+    }
+
+    if (resolvedUserId) {
+      // Load shared business context
+      const { data: contextRows } = await supabase
+        .from("shared_context")
+        .select("context_key, context_value")
+        .eq("user_id", resolvedUserId)
+        .limit(20);
+
+      if (contextRows?.length) {
+        const facts = contextRows.map(r => `- ${r.context_key}: ${JSON.stringify(r.context_value)}`).join("\n");
+        sharedContextBlock = `\n\n--- BUSINESS CONTEXT (shared across all agents) ---\nKnown facts about this user's business:\n${facts}\nUse this context to personalise your response. Reference their business name, industry, location, and team size where relevant.`;
+      }
+
+      // Load agent-specific memory
+      const { data: memoryRows } = await supabase
+        .from("agent_memory")
+        .select("memory_key, memory_value")
+        .eq("user_id", resolvedUserId)
+        .eq("agent_id", selectedAgent)
+        .order("updated_at", { ascending: false })
+        .limit(15);
+
+      if (memoryRows?.length) {
+        const memories = memoryRows.map(r => `- ${r.memory_key}: ${JSON.stringify(r.memory_value)}`).join("\n");
+        memoryBlock = `\n\n--- AGENT MEMORY (your previous knowledge about this user) ---\n${memories}\nUse this to continue conversations naturally without asking repeated questions.`;
+      }
+
+      // Load user training data for this agent
+      const { data: trainingData } = await supabase
+        .from("agent_training")
+        .select("business_context, personality, tone, faqs, rules")
+        .eq("user_id", resolvedUserId)
+        .eq("agent_id", selectedAgent)
+        .single();
+
+      if (trainingData) {
+        const parts: string[] = [];
+        if (trainingData.personality) parts.push(`Personality: ${trainingData.personality}`);
+        if (trainingData.tone) parts.push(`Tone: ${trainingData.tone}`);
+        if (trainingData.business_context) parts.push(`Business context: ${trainingData.business_context}`);
+        if (trainingData.faqs && Array.isArray(trainingData.faqs)) {
+          parts.push(`FAQs:\n${(trainingData.faqs as any[]).map((f: any) => `Q: ${f.question}\nA: ${f.answer}`).join("\n")}`);
+        }
+        if (trainingData.rules && Array.isArray(trainingData.rules)) {
+          parts.push(`Rules:\n${(trainingData.rules as any[]).map((r: any) => `- ${r}`).join("\n")}`);
+        }
+        if (parts.length) {
+          memoryBlock += `\n\n--- USER TRAINING ---\n${parts.join("\n")}`;
+        }
+      }
+    }
+
+    // ═══ SYMBIOTIC CONTEXT ═══
+    // Build cross-agent awareness — tell this agent about related kete agents
+    const packAgents = Object.entries(AGENT_PACK)
+      .filter(([_, pack]) => pack === agentPack && _ !== selectedAgent)
+      .map(([name]) => name.toUpperCase());
+
+    const symbioticBlock = packAgents.length > 0
+      ? `\n\n--- SYMBIOTIC NETWORK ---\nYou are part of the ${agentPack.toUpperCase()} kete. Your sibling agents are: ${packAgents.join(", ")}. If a user's query would be better handled by a sibling agent, suggest they "switch to [AGENT_NAME]" for specialist help. You can reference their capabilities when relevant.`
+      : "";
+
+    // ═══ PREEMPTIVE KNOWLEDGE ═══
+    const preemptiveBlock = `\n\n--- PREEMPTIVE INTELLIGENCE ---\nAfter answering, consider:
+1. Are there compliance deadlines the user should know about?
+2. Would another agent in the network add value here? If so, mention them by name.
+3. Are there related tasks the user hasn't asked about but should consider?
+Add a brief "💡 Also consider..." section at the end if relevant. Keep it to 1-2 items max.`;
+
     const basePrompt = agentPrompt?.system_prompt ||
       `You are ${selectedAgent.toUpperCase()}, an Assembl specialist agent for New Zealand businesses. Help with queries in your area of expertise. Reference relevant NZ legislation where applicable. Write in NZ English with macrons on all Māori words.`;
 
     const complianceRules = (sharedPrompts || []).map(p => p.system_prompt).join("\n\n");
 
-    const systemPrompt = `${basePrompt}\n\n--- COMPLIANCE & GOVERNANCE LAYER ---\n${complianceRules}\n\nAlways respond in a helpful, professional tone. Use markdown formatting. Reference NZ legislation where applicable. Use NZ English spelling. Include macrons on all Māori words.`;
+    const systemPrompt = `${basePrompt}\n\n--- COMPLIANCE & GOVERNANCE LAYER ---\n${complianceRules}${sharedContextBlock}${memoryBlock}${symbioticBlock}${preemptiveBlock}\n\nAlways respond in a helpful, professional tone. Use markdown formatting. Reference NZ legislation where applicable. Use NZ English spelling. Include macrons on all Māori words.`;
 
     const conversationMessages = [
       { role: "system", content: systemPrompt },
@@ -264,6 +349,31 @@ Deno.serve(async (req) => {
       const errText = await response.text();
       console.error("AI gateway error:", status, errText);
       throw new Error(`AI error: ${status}`);
+    }
+
+    // ═══ MEMORY PERSISTENCE — extract facts from user message ═══
+    if (resolvedUserId) {
+      // Fire-and-forget: save key facts to shared_context
+      const lc = message.toLowerCase();
+      const contextWrites: { context_key: string; context_value: any; user_id: string; source_agent: string; confidence: number }[] = [];
+
+      const bizNameMatch = message.match(/(?:my (?:business|company|shop|store|firm|practice) (?:is|called|named))\s+["']?([^"'\n,.]+)/i);
+      if (bizNameMatch) contextWrites.push({ context_key: "business_name", context_value: bizNameMatch[1].trim(), user_id: resolvedUserId, source_agent: selectedAgent, confidence: 0.85 });
+
+      const industryMatch = message.match(/(?:we're|we are|i'm|i am|we run|i run)\s+(?:a|an|in)\s+(construction|hospitality|retail|automotive|legal|property|sports|agriculture|tourism|tech|marketing|nonprofit|logistics|finance|healthcare|education)\b/i);
+      if (industryMatch) contextWrites.push({ context_key: "industry", context_value: industryMatch[1].toLowerCase(), user_id: resolvedUserId, source_agent: selectedAgent, confidence: 0.8 });
+
+      const teamMatch = message.match(/(\d+)\s+(?:staff|employees|people|team members)/i);
+      if (teamMatch) contextWrites.push({ context_key: "team_size", context_value: parseInt(teamMatch[1]), user_id: resolvedUserId, source_agent: selectedAgent, confidence: 0.75 });
+
+      const locationMatch = message.match(/(?:based in|located in|we're in|from)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/);
+      if (locationMatch) contextWrites.push({ context_key: "location", context_value: locationMatch[1], user_id: resolvedUserId, source_agent: selectedAgent, confidence: 0.8 });
+
+      if (contextWrites.length > 0) {
+        for (const ctx of contextWrites) {
+          supabase.from("shared_context").upsert(ctx, { onConflict: "user_id,context_key" }).then(() => {});
+        }
+      }
     }
 
     const headers = new Headers(corsHeaders);

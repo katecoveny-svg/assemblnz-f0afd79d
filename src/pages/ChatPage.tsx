@@ -337,55 +337,63 @@ async function fileToBase64(file: File): Promise<string> {
 
 const BINARY_FILE_TYPES = ["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"];
 
+// SLUG_TO_ID maps legacy URL slugs to the canonical agent IDs in agents.ts
+// New agents use their ID directly (e.g. /chat/aura → agent.id = "aura")
 const SLUG_TO_ID: Record<string, string> = {
-  "sports-recreation": "sports",
-  "aura": "hospitality",
-  "apex": "construction",
-  "prism": "marketing",
-  "ledger": "accounting",
-  "spark": "software",
-  "haven": "hotel",
-  "tide": "tourism",
-  "beacon": "events",
-  "coast": "coastal",
-  "ember": "bar",
-  "flora": "garden",
-  "crest": "concierge",
-  "ata": "bim",
-  "arai": "safety",
-  "kaupapa": "projectgov",
-  "rawa": "resource",
-  "whakaaē": "consent",
-  "whakaae": "consent",
-  "pai": "quality",
-  "muse": "copywriting",
-  "pixel": "design",
-  "verse": "video",
-  "canvas": "experiential",
-  "reel": "social",
-  "quill": "techwriting",
-  "aroha": "hr",
-  "turf": "brandstrategy",
-  "sage": "strategy",
-  "compass": "risk",
-  "anchor": "operations",
-  "flux": "sales",
-  "shield": "insurance",
-  "vault": "datasecurity",
-  "mint": "forecasting",
-  "axis": "analytics",
-  "kindle": "innovation",
-  "sentinel": "monitoring",
-  "nexus": "integration",
-  "cipher": "crypto",
-  "relay": "messaging",
-  "signal": "netsec",
-  "forge": "devops",
-  "toroa": "family",
-  "tika": "tiriti",
-  "ora": "healthcompanion",
-  "tahi": "triage",
-  "vitae": "carenavigation",
+  // Legacy slugs that differ from canonical IDs
+  "sports-recreation": "turf",
+  "hospitality": "aura",
+  "construction": "arai",
+  "marketing": "prism",
+  "accounting": "ledger",
+  "software": "spark",
+  "hotel": "aura",
+  "tourism": "moana",
+  "events": "pau",
+  "coastal": "coast",
+  "bar": "cellar",
+  "concierge": "luxe",
+  "bim": "ata",
+  "safety": "arai",
+  "projectgov": "kaupapa",
+  "resource": "rawa",
+  "consent": "whakaaē",
+  "quality": "pai",
+  "copywriting": "muse",
+  "design": "pixel",
+  "video": "echo",
+  "hr": "aroha",
+  "brandstrategy": "prism",
+  "strategy": "sage",
+  "risk": "vault",
+  "operations": "nova",
+  "sales": "flux",
+  "insurance": "vault",
+  "datasecurity": "cipher",
+  "forecasting": "oracle",
+  "analytics": "sage",
+  "innovation": "ascend",
+  "monitoring": "sentinel",
+  "integration": "nexus-t",
+  "crypto": "cipher",
+  "messaging": "relay",
+  "netsec": "sentinel",
+  "devops": "forge",
+  "family": "toroa",
+  "tiriti": "mana-bi",
+  "healthcompanion": "vitals",
+  "triage": "remedy",
+  "carenavigation": "vitae",
+  "sports": "turf",
+  "nonprofit": "anchor",
+  "property": "haven",
+  "customs": "gateway",
+  "maritime": "mariner",
+  "automotive": "motor",
+  "agriculture": "harvest",
+  "pm": "kaupapa",
+  // Agent names that match their IDs (no mapping needed, but keep for explicit routing)
+  "whakaae": "whakaaē",
 };
 
 const ChatPage = () => {
@@ -477,26 +485,28 @@ const ChatPage = () => {
   const pollingRef = useRef<Record<string, number>>({});
   const processedVoiceHandoffRef = useRef<string | null>(null);
 
-  const isArc = agentId === "architecture" || agentId === "construction";
-  const isForge = agentId === "automotive";
-  const isAroha = agentId === "hr";
-  const isAura = agentId === "hospitality";
-  const isToroa = agentId === "operations";
-  const isNexus = agentId === "customs";
-  const isMarketing = agentId === "marketing";
-  const isConstruction = agentId === "construction";
-  const isHanga = ["construction", "bim", "safety", "projectgov", "resource", "consent", "quality"].includes(agentId || "");
-  const isHaven = agentId === "property";
-  const isFlux = agentId === "sales";
-  const isPrism = agentId === "marketing";
-  const isAxis = agentId === "pm";
-  const isNonprofit = agentId === "nonprofit";
+  // Agent type detection — using canonical IDs from agents.ts
+  const isArc = agentId === "ata" || agentId === "arc";
+  const isForge = agentId === "motor" || agentId === "forge";
+  const isAroha = agentId === "aroha";
+  const isAura = agentId === "aura";
+  const isToroa = agentId === "toroa";
+  const isNexus = agentId === "gateway";
+  const isMarketing = agentId === "prism" || agentId === "market";
+  const isConstruction = ["arai", "ata", "kaupapa", "rawa", "whakaaē", "pai", "arc", "terra", "pinnacle"].includes(agentId || "");
+  const isHanga = isConstruction;
+  const isHaven = agentId === "haven";
+  const isFlux = agentId === "flux";
+  const isPrism = agentId === "prism";
+  const isAxis = agentId === "sage";
+  const isNonprofit = agentId === "anchor";
   const isSpark = agentId === "spark";
-  const isSports = agentId === "sports";
-  const isOra = agentId === "healthcompanion";
-  const isTahi = agentId === "triage";
-  const isVitae = agentId === "carenavigation";
-  const hasLiveDataTab = ["maritime", "agriculture", "sports", "hospitality", "pm", "automotive", "construction"].includes(agentId || "");
+  const isSports = agentId === "turf" || agentId === "league";
+  const isOra = agentId === "vitals";
+  const isTahi = agentId === "remedy";
+  const isVitae = agentId === "vitae";
+  const hasLiveDataTab = ["mariner", "harvest", "turf", "aura", "kaupapa", "motor", "arai"].includes(agentId || "");
+
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));
 
