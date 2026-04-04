@@ -6,6 +6,28 @@ class ParticleErrorBoundary extends Component<{ children: ReactNode }, { hasErro
   render() { return this.state.hasError ? null : this.props.children; }
 }
 
+/** Whenua palette hex → RGB arrays */
+const ACCENT_COLORS = [
+  [212, 168, 67],  // Kōwhai gold
+  [58, 125, 110],  // Pounamu teal
+  [123, 104, 238], // Tech purple
+  [74, 122, 181],  // Mid-blue
+  [193, 122, 58],  // Tōtara amber
+  [137, 207, 240], // Sky blue
+];
+
+interface Star {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  alpha: number;
+  pulse: number;
+  color: number[];
+  isNode: boolean;
+}
+
 const ParticleCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -14,6 +36,9 @@ const ParticleCanvas = () => {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    // Respect reduced motion
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     let animFrame: number;
     let cancelled = false;
@@ -30,22 +55,26 @@ const ParticleCanvas = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    const particles: { x: number; y: number; vx: number; vy: number; size: number; alpha: number; pulse: number; glowSize: number }[] = [];
     const W = () => window.innerWidth;
     const H = () => window.innerHeight;
+    const CONNECTION_DIST = 180;
 
-    // Fewer, larger, glowier particles
-    for (let i = 0; i < 40; i++) {
-      const isLarge = Math.random() < 0.15;
-      particles.push({
+    const stars: Star[] = [];
+    const count = Math.min(80, Math.floor((W() * H()) / 15000));
+
+    for (let i = 0; i < count; i++) {
+      const isNode = Math.random() < 0.2;
+      const color = ACCENT_COLORS[Math.floor(Math.random() * ACCENT_COLORS.length)];
+      stars.push({
         x: Math.random() * W(),
         y: Math.random() * H(),
-        vx: (Math.random() - 0.5) * 0.05,
-        vy: (Math.random() - 0.5) * 0.05,
-        size: isLarge ? Math.random() * 2 + 1.5 : Math.random() * 1 + 0.3,
-        alpha: isLarge ? Math.random() * 0.5 + 0.3 : Math.random() * 0.35 + 0.1,
+        vx: prefersReduced ? 0 : (Math.random() - 0.5) * 0.15,
+        vy: prefersReduced ? 0 : (Math.random() - 0.5) * 0.15,
+        size: isNode ? Math.random() * 2.5 + 2 : Math.random() * 1.2 + 0.4,
+        alpha: isNode ? Math.random() * 0.6 + 0.35 : Math.random() * 0.3 + 0.08,
         pulse: Math.random() * Math.PI * 2,
-        glowSize: isLarge ? Math.random() * 12 + 8 : Math.random() * 4 + 2,
+        color,
+        isNode,
       });
     }
 
@@ -53,37 +82,66 @@ const ParticleCanvas = () => {
       if (cancelled) return;
       try {
         ctx.clearRect(0, 0, W(), H());
-        for (const p of particles) {
-          p.x += p.vx;
-          p.y += p.vy;
-          p.pulse += 0.008;
-          if (p.x < 0) p.x = W();
-          if (p.x > W()) p.x = 0;
-          if (p.y < 0) p.y = H();
-          if (p.y > H()) p.y = 0;
-          const glow = (Math.sin(p.pulse) + 1) / 2;
-          const a = p.alpha * (0.4 + glow * 0.6);
 
-          // Outer glow
-          if (p.glowSize > 4) {
-            const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.glowSize);
-            grad.addColorStop(0, `rgba(255,255,255,${a * 0.3})`);
-            grad.addColorStop(1, `rgba(255,255,255,0)`);
+        // Update positions
+        for (const s of stars) {
+          s.x += s.vx;
+          s.y += s.vy;
+          s.pulse += 0.006;
+          if (s.x < -10) s.x = W() + 10;
+          if (s.x > W() + 10) s.x = -10;
+          if (s.y < -10) s.y = H() + 10;
+          if (s.y > H() + 10) s.y = -10;
+        }
+
+        // Draw constellation lines between nearby stars
+        for (let i = 0; i < stars.length; i++) {
+          for (let j = i + 1; j < stars.length; j++) {
+            const dx = stars[i].x - stars[j].x;
+            const dy = stars[i].y - stars[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < CONNECTION_DIST) {
+              const opacity = (1 - dist / CONNECTION_DIST) * 0.12;
+              const c = stars[i].color;
+              ctx.beginPath();
+              ctx.moveTo(stars[i].x, stars[i].y);
+              ctx.lineTo(stars[j].x, stars[j].y);
+              ctx.strokeStyle = `rgba(${c[0]},${c[1]},${c[2]},${opacity})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Draw stars
+        for (const s of stars) {
+          const glow = (Math.sin(s.pulse) + 1) / 2;
+          const a = s.alpha * (0.5 + glow * 0.5);
+          const [r, g, b] = s.color;
+
+          // Node glow ring
+          if (s.isNode) {
+            const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size * 6);
+            grad.addColorStop(0, `rgba(${r},${g},${b},${a * 0.25})`);
+            grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.glowSize, 0, Math.PI * 2);
+            ctx.arc(s.x, s.y, s.size * 6, 0, Math.PI * 2);
             ctx.fillStyle = grad;
             ctx.fill();
           }
 
-          // Core
+          // Core dot
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255,255,255,${a})`;
+          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+          ctx.fillStyle = s.isNode
+            ? `rgba(${r},${g},${b},${a})`
+            : `rgba(255,255,255,${a * 0.8})`;
           ctx.fill();
         }
+
         animFrame = requestAnimationFrame(draw);
       } catch {
-        // Canvas detached — stop
+        // Canvas detached
       }
     };
 

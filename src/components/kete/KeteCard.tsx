@@ -11,11 +11,12 @@ interface KeteCardProps {
   variant: "standard" | "dense" | "organic" | "tricolor" | "warm";
   badge?: string;
   onClick?: () => void;
+  index?: number;
 }
 
 const KeteCard: React.FC<KeteCardProps> = ({
   name, englishName, description, agentCount,
-  accentColor, accentLight, variant, badge, onClick,
+  accentColor, accentLight, variant, badge, onClick, index = 0,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -23,35 +24,72 @@ const KeteCard: React.FC<KeteCardProps> = ({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) {
+      setVisible(true);
+      return;
+    }
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVisible(true); },
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
       { threshold: 0.1 }
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
 
+  const rgb = hexToRgb(accentColor);
+
   return (
     <div
       ref={ref}
       onClick={onClick}
-      className={`kete-card group relative rounded-[14px] cursor-pointer border ${
-        visible ? "kete-card-visible" : "opacity-0 translate-y-5"
+      className={`kete-card group relative rounded-[16px] cursor-pointer overflow-hidden ${
+        visible ? "kete-card-visible" : "opacity-0 translate-y-6"
       }`}
       style={{
         "--kete-accent": accentColor,
-        "--kete-accent-rgb": hexToRgb(accentColor),
+        "--kete-accent-rgb": rgb,
+        animationDelay: visible ? `${index * 150}ms` : undefined,
       } as React.CSSProperties}
     >
-      {/* Top accent bar */}
+      {/* Ambient glow behind the card */}
       <div
-        className="absolute top-0 left-0 right-0 h-[2px] rounded-t-[14px]"
-        style={{ background: accentColor }}
+        className="absolute inset-0 rounded-[16px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: `radial-gradient(ellipse at 50% 0%, rgba(${rgb}, 0.12) 0%, transparent 70%)`,
+        }}
       />
 
-      <div className="flex flex-col items-center text-center gap-4 p-7">
-        {/* Kete Icon */}
-        <div className="w-[140px] h-[140px]">
+      {/* Top accent bar — thicker, glowing */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[16px]"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`,
+          boxShadow: `0 0 12px rgba(${rgb}, 0.4)`,
+        }}
+      />
+
+      {/* Constellation dots decorating top-right */}
+      <svg className="absolute top-3 right-3 w-12 h-12 pointer-events-none opacity-30 group-hover:opacity-60 transition-opacity duration-500" viewBox="0 0 48 48">
+        <circle cx="8" cy="8" r="2" fill={accentColor} />
+        <circle cx="28" cy="6" r="1.5" fill={accentLight} />
+        <circle cx="40" cy="20" r="2.5" fill={accentColor} />
+        <circle cx="16" cy="32" r="1.5" fill={accentLight} />
+        <circle cx="36" cy="38" r="2" fill={accentColor} />
+        <line x1="8" y1="8" x2="28" y2="6" stroke={accentColor} strokeWidth="0.5" opacity="0.4" />
+        <line x1="28" y1="6" x2="40" y2="20" stroke={accentColor} strokeWidth="0.5" opacity="0.4" />
+        <line x1="16" y1="32" x2="36" y2="38" stroke={accentColor} strokeWidth="0.5" opacity="0.3" />
+      </svg>
+
+      <div className="relative z-10 flex flex-col items-center text-center gap-4 p-8">
+        {/* Kete Icon — with accent glow ring */}
+        <div className="relative w-[140px] h-[140px]">
+          <div
+            className="absolute inset-0 rounded-full opacity-20 group-hover:opacity-40 transition-opacity duration-500"
+            style={{
+              background: `radial-gradient(circle, rgba(${rgb}, 0.3) 0%, transparent 70%)`,
+            }}
+          />
           <KeteIcon
             name={name}
             accentColor={accentColor}
@@ -61,13 +99,14 @@ const KeteCard: React.FC<KeteCardProps> = ({
           />
         </div>
 
-        {/* Name */}
+        {/* Name — accent colour, not white */}
         <h3
           className="text-xl tracking-[5px] uppercase"
           style={{
             fontFamily: "'Lato', sans-serif",
             fontWeight: 300,
-            color: "rgba(255,255,255,0.95)",
+            color: accentColor,
+            textShadow: `0 0 20px rgba(${rgb}, 0.3)`,
           }}
         >
           {name}
@@ -79,8 +118,7 @@ const KeteCard: React.FC<KeteCardProps> = ({
           style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontWeight: 500,
-            color: accentColor,
-            opacity: 0.85,
+            color: "rgba(255,255,255,0.7)",
           }}
         >
           {englishName}
@@ -91,30 +129,33 @@ const KeteCard: React.FC<KeteCardProps> = ({
           className="text-sm leading-relaxed min-h-[72px] flex items-center"
           style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
-            color: "rgba(255,255,255,0.75)",
+            color: "rgba(255,255,255,0.65)",
           }}
         >
           {description}
         </p>
 
         {/* Footer */}
-        <div className="flex flex-col items-center gap-2 w-full mt-3 pt-3 border-t border-white/[0.05]">
+        <div className="flex flex-col items-center gap-3 w-full mt-3 pt-4 border-t" style={{ borderColor: `rgba(${rgb}, 0.15)` }}>
           <span
-            className="text-xs tracking-[2px] uppercase"
+            className="text-xs tracking-[2px] uppercase px-3 py-1 rounded-full"
             style={{
               fontFamily: "'JetBrains Mono', monospace",
               color: accentColor,
+              background: `rgba(${rgb}, 0.1)`,
+              border: `1px solid rgba(${rgb}, 0.2)`,
             }}
           >
             {agentCount} agents
           </span>
           {badge && (
             <span
-              className="text-[11px] tracking-[1px] uppercase px-3 py-1.5 rounded"
+              className="text-[11px] tracking-[1px] uppercase px-3 py-1.5 rounded-full"
               style={{
                 fontFamily: "'JetBrains Mono', monospace",
-                color: "rgba(255,255,255,0.6)",
-                background: `${accentColor}1a`,
+                color: accentColor,
+                background: `rgba(${rgb}, 0.08)`,
+                border: `1px solid rgba(${rgb}, 0.15)`,
               }}
             >
               {badge}

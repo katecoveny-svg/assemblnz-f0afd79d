@@ -111,10 +111,10 @@ const BrandNav = () => {
             </AnimatePresence>
           </div>
 
-          <Link to="/contact"
+          <Link to="/pricing"
             className="ml-2 px-5 py-2 rounded-full text-xs font-body font-medium transition-all duration-300"
             style={{ background: "#D4A843", color: "#09090F" }}>
-            Book a Launch Sprint
+            Start free trial
           </Link>
 
           <AccountDropdown />
@@ -168,11 +168,11 @@ const BrandNav = () => {
               </nav>
 
               <div className="px-5 py-5 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                <Link to="/contact"
+                <Link to="/pricing"
                   className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium mb-3"
                   style={{ background: "#D4A843", color: "#09090F" }}
                   onClick={() => setMobileOpen(false)}>
-                  Book a Launch Sprint
+                  Start free trial
                 </Link>
                 <AccountDropdown />
               </div>

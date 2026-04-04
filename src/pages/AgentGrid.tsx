@@ -128,8 +128,8 @@ const AgentGrid = () => {
   return (
     <div className="min-h-screen flex flex-col relative">
       <SEO
-        title="Assembl | The Operating System for NZ Business | 42 Specialist AI Agents"
-        description="42 specialist AI agents across five industry packs. Quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa. From $89/mo."
+        title="Assembl | The AI Operating System for NZ Business | 44+ Specialist Agents"
+        description="44+ specialist AI agents across 9 industry kete. Quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa. From $199/mo + GST."
         path="/"
       />
       <ParticleField />
@@ -273,8 +273,8 @@ const AgentGrid = () => {
       {/* ═══════ LIVE DEMO ═══════ */}
       <EmbedDemoSection />
 
-      {/* ═══════ LAUNCH SPRINT ═══════ */}
-      <section id="launch-sprint" className="relative z-10 py-20" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      {/* ═══════ GET STARTED ═══════ */}
+      <section id="get-started" className="relative z-10 py-20" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -282,12 +282,27 @@ const AgentGrid = () => {
             viewport={{ once: true }}
           >
             <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "1.75rem", color: "#FFFFFF", marginBottom: "0.75rem" }}>
-              Book a Launch Sprint — <span style={{ color: "#D4A843" }}>now open</span>
+              Ready to get started?
             </h2>
             <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "480px", margin: "0 auto 2rem" }}>
-              We map your workflows, design your automation, and deploy your Assembl instance. Early access pricing locked in.
+              From $199/mo + GST. All 44+ agents and 9 industry kete included. 14-day free trial — no credit card required.
             </p>
           </motion.div>
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+            <Link
+              to="/pricing"
+              className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm"
+            >
+              Start free trial <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/contact"
+              className="btn-ghost inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm"
+            >
+              Book a demo
+            </Link>
+          </div>
 
           <form
             onSubmit={handleContactSubmit}
@@ -298,6 +313,9 @@ const AgentGrid = () => {
               border: "1px solid rgba(255,255,255,0.08)",
             }}
           >
+            <p className="text-xs text-center mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.45)" }}>
+              Or tell us about your business and we'll be in touch
+            </p>
             <div>
               <label className="block text-xs mb-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "rgba(255,255,255,0.65)" }}>Name</label>
               <input
@@ -346,7 +364,7 @@ const AgentGrid = () => {
                 boxShadow: "0 0 20px rgba(212,168,67,0.2)",
               }}
             >
-              <Send size={14} /> Book a Launch Sprint
+              <Send size={14} /> Get in touch
             </button>
           </form>
         </div>

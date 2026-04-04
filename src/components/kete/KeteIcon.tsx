@@ -44,29 +44,37 @@ const KeteIcon: React.FC<KeteIconProps> = ({
         role="img"
         aria-label={`Kete basket icon`}
       >
-        {/* Background glow ring */}
+        {/* Background glow ring — larger, more prominent */}
         <circle
           cx="100" cy="110" r="95"
           fill="none"
-          stroke={accentLight}
-          strokeWidth="1"
-          opacity="0.3"
+          stroke={accentColor}
+          strokeWidth="1.5"
+          opacity="0.25"
           className={animated ? "kete-glow-pulse" : ""}
         />
+        {/* Inner glow ring */}
+        <circle
+          cx="100" cy="110" r="80"
+          fill="none"
+          stroke={accentLight}
+          strokeWidth="0.5"
+          opacity="0.15"
+        />
 
-        {/* Basket body — curved bottom */}
+        {/* Basket body — curved bottom, thicker stroke */}
         <path
           d="M 40 80 Q 40 180 100 190 Q 160 180 160 80"
           fill="none"
           stroke={accentColor}
-          strokeWidth="2.5"
+          strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
           className={animated ? "kete-weave-in" : ""}
           style={animated ? { strokeDasharray: 300, animationDelay: "0s" } : undefined}
         />
 
-        {/* Horizontal weave strands */}
+        {/* Horizontal weave strands — 1.5px as specified */}
         {hRows.map((y, i) => {
           const inset = Math.max(0, i * 2);
           const col = variant === "tricolor" ? tricolors[i % tricolors.length] : accentColor;
@@ -79,7 +87,7 @@ const KeteIcon: React.FC<KeteIconProps> = ({
               stroke={col}
               strokeWidth="1.5"
               fill="none"
-              opacity="0.8"
+              opacity="0.85"
               className={animated ? "kete-weave-in" : ""}
               style={animated ? { strokeDasharray: 120, animationDelay: delay } : undefined}
             />
@@ -89,8 +97,8 @@ const KeteIcon: React.FC<KeteIconProps> = ({
               x1={50 - inset} y1={y}
               x2={150 + inset} y2={y}
               stroke={col}
-              strokeWidth={variant === "dense" ? 1 : 1.5}
-              opacity={variant === "dense" ? 0.7 : 0.8}
+              strokeWidth="1.5"
+              opacity={variant === "dense" ? 0.75 : 0.85}
               className={animated ? "kete-weave-in" : ""}
               style={animated ? { strokeDasharray: 120, animationDelay: delay } : undefined}
             />
@@ -108,46 +116,55 @@ const KeteIcon: React.FC<KeteIconProps> = ({
               x1={x} y1="85"
               x2={x} y2="175"
               stroke={col}
-              strokeWidth={variant === "dense" ? 1 : 1.5}
-              opacity={variant === "dense" ? 0.7 : 0.8}
+              strokeWidth="1.5"
+              opacity={variant === "dense" ? 0.75 : 0.85}
               className={animated ? "kete-weave-in" : ""}
               style={animated ? { strokeDasharray: 100, animationDelay: delay } : undefined}
             />
           );
         })}
 
-        {/* Glowing dot intersections */}
+        {/* Constellation nodes — larger r=3 as specified */}
         {hRows.map((y, yi) =>
           vCols.map((x, xi) => (
             <circle
               key={`d-${x}-${y}`}
               cx={x} cy={y}
-              r={variant === "dense" ? 1.2 : 1.5}
-              fill={accentLight}
-              opacity="0.6"
+              r={variant === "dense" ? 2 : 3}
+              fill={accentColor}
+              opacity="0.8"
               className={animated ? "kete-glow-dot" : ""}
               style={animated ? { animationDelay: `${(yi * vCols.length + xi) * 0.15}s` } : undefined}
             />
           ))
         )}
 
-        {/* Handle — animated breathing */}
+        {/* Outer constellation marks — decorative stars */}
+        <circle cx="30" cy="60" r="2" fill={accentLight} opacity="0.4" className={animated ? "kete-glow-dot" : ""} />
+        <circle cx="170" cy="65" r="1.5" fill={accentColor} opacity="0.35" className={animated ? "kete-glow-dot" : ""} />
+        <circle cx="25" cy="130" r="1.5" fill={accentLight} opacity="0.3" className={animated ? "kete-glow-dot" : ""} />
+        <circle cx="175" cy="140" r="2" fill={accentColor} opacity="0.35" className={animated ? "kete-glow-dot" : ""} />
+        {/* Connecting constellation lines */}
+        <line x1="30" y1="60" x2="65" y2="100" stroke={accentColor} strokeWidth="0.5" opacity="0.2" />
+        <line x1="170" y1="65" x2="135" y2="100" stroke={accentColor} strokeWidth="0.5" opacity="0.2" />
+
+        {/* Handle — animated breathing, thicker */}
         <path
           d="M 70 80 Q 100 30 130 80"
           fill="none"
           stroke={accentColor}
-          strokeWidth="2.5"
+          strokeWidth="3"
           strokeLinecap="round"
           className={animated ? (variant === "warm" ? "kete-handle-warm" : "kete-handle") : ""}
         />
 
         {/* Albatross silhouette for Tōroa */}
         {variant === "warm" && (
-          <g opacity="0.4" className={animated ? "kete-albatross" : ""}>
-            <ellipse cx="100" cy="110" rx="12" ry="8" fill={accentColor} />
-            <path d="M 85 110 Q 70 108 60 112" stroke={accentColor} strokeWidth="1" fill="none" strokeLinecap="round" />
-            <path d="M 115 110 Q 130 108 140 112" stroke={accentColor} strokeWidth="1" fill="none" strokeLinecap="round" />
-            <circle cx="96" cy="108" r="1.5" fill={accentColor} />
+          <g opacity="0.5" className={animated ? "kete-albatross" : ""}>
+            <ellipse cx="100" cy="110" rx="14" ry="9" fill={accentColor} />
+            <path d="M 83 110 Q 66 107 55 112" stroke={accentColor} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+            <path d="M 117 110 Q 134 107 145 112" stroke={accentColor} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+            <circle cx="95" cy="107" r="2" fill={accentColor} />
           </g>
         )}
       </svg>

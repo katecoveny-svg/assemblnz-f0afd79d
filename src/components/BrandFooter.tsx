@@ -20,7 +20,7 @@ const FOOTER_LINKS = {
   ],
   Company: [
     { to: "/pricing", label: "Pricing" },
-    { to: "/contact", label: "Book a Launch Sprint" },
+    { to: "/pricing", label: "Start free trial" },
     { to: "/about", label: "About" },
     { to: "/brand-guidelines", label: "Brand Guidelines" },
   ],
