@@ -79,3 +79,9 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.tnz-send]
     verify_jwt = false
+  [functions.toroa-sms]
+    verify_jwt = false
+  [functions.toroa-dashboard]
+    verify_jwt = false
+  [functions.toroa-stripe-webhook]
+    verify_jwt = false
