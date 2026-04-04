@@ -318,6 +318,9 @@ const AgentDetailPage = () => {
         </section>
       )}
 
+      {/* ── SKILLS & MCP WIRING ── */}
+      <AgentSkillsSection agentId={agent.id} agentColor={agent.color} />
+
       {/* ── CONVERSATION STARTERS ── */}
       <section className="relative z-10 py-16 sm:py-24" style={{ borderTop: "1px solid hsl(var(--border) / 0.3)" }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-8">
