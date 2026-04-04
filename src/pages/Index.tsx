@@ -43,10 +43,34 @@ const PROOF = [
 ];
 
 /* ─── Outcome cards ─── */
+const KoruSVG = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style={{ opacity: 0.18 }}>
+    <path d="M40 8C40 8 20 16 20 36C20 50 30 56 40 56C50 56 56 48 56 40C56 32 50 28 44 28C38 28 34 32 34 36C34 40 38 44 42 44C46 44 48 42 48 40" stroke="#D4A843" strokeWidth="2" strokeLinecap="round" fill="none"/>
+  </svg>
+);
+const TanikoSVG = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style={{ opacity: 0.18 }}>
+    <path d="M10 20L20 30L30 20L40 30L50 20L60 30L70 20" stroke="#3A7D6E" strokeWidth="2" strokeLinecap="round" fill="none"/>
+    <path d="M10 32L20 42L30 32L40 42L50 32L60 42L70 32" stroke="#3A7D6E" strokeWidth="2" strokeLinecap="round" fill="none"/>
+    <path d="M10 44L20 54L30 44L40 54L50 44L60 54L70 44" stroke="#3A7D6E" strokeWidth="2" strokeLinecap="round" fill="none"/>
+    <path d="M10 56L20 66L30 56L40 66L50 56L60 66L70 56" stroke="#3A7D6E" strokeWidth="2" strokeLinecap="round" fill="none"/>
+  </svg>
+);
+const MauaoSVG = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style={{ opacity: 0.18 }}>
+    <path d="M8 68L30 24L40 36L56 16L72 68" stroke="#1A3A5C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+    <path d="M8 68H72" stroke="#1A3A5C" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+const TanikoDivider = () => (
+  <svg width="300" height="8" viewBox="0 0 300 8" fill="none" aria-hidden="true" className="mx-auto mb-4">
+    <path d="M0 4L10 0L20 4L30 0L40 4L50 0L60 4L70 0L80 4L90 0L100 4L110 0L120 4L130 0L140 4L150 0L160 4L170 0L180 4L190 0L200 4L210 0L220 4L230 0L240 4L250 0L260 4L270 0L280 4L290 0L300 4" stroke="rgba(255,255,255,0.1)" strokeWidth="1" fill="none"/>
+  </svg>
+);
 const OUTCOMES = [
-  { title: "Win work", body: "Generate proposals, tenders, pricing support, content, and outreach faster — without starting from scratch every time.", color: "#D4A843" },
-  { title: "Run work", body: "Support HR, payroll, reporting, operations, workflows, and day-to-day business execution in one connected system.", color: "#3A7D6E" },
-  { title: "Stay sharp", body: "Bring NZ-aware compliance, shared business memory, and practical business intelligence into everyday decisions.", color: "#1A3A5C" },
+  { title: "Close Faster", body: "Better proposals start with speed. Assembl cuts the busywork, so your team pitches more, quotes tighter, closes harder.", color: "#D4A843", Icon: KoruSVG, iconPos: "top-left" as const },
+  { title: "Run It Right", body: "Every NZ business juggles payroll, tax, compliance, schedules. Assembl handles it. Your team focuses on the work that makes money.", color: "#3A7D6E", Icon: TanikoSVG, iconPos: "top-right" as const },
+  { title: "Alerts That Count", body: "NZ compliance changes weekly. Assembl flags what affects you — regulation, deadline, opportunity — so you're never caught flat.", color: "#1A3A5C", Icon: MauaoSVG, iconPos: "bottom-center" as const },
 ];
 
 /* ─── How-it-works steps ─── */
@@ -215,20 +239,63 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ═══ 3. WHAT ASSEMBL DOES (Outcomes) ═══ */}
+      {/* ═══ 3. WHAT CHANGES ═══ */}
       <section className={SECTION_STYLE}>
         <div className={INNER}>
-          <motion.div {...fade} className="text-center mb-14">
-            <Eyebrow>ONE PLATFORM</Eyebrow>
-            <SectionHeading>Win work. Run work. Stay sharp.</SectionHeading>
+          <motion.div {...fade} className="text-center mb-8">
+            <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "14px", letterSpacing: "4px", color: "#D4A843", textTransform: "uppercase" }}>
+              WHAT CHANGES
+            </p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <TanikoDivider />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-8">
             {OUTCOMES.map((o, i) => (
-              <motion.div key={o.title} className="rounded-2xl p-8 card-glow-hover" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 0 20px rgba(212,168,67,0.05), 0 4px 20px rgba(0,0,0,0.3)" }}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12, duration: 0.5 }}>
-                <div className="w-10 h-1 rounded-full mb-5" style={{ background: o.color }} />
-                <h3 className="text-lg mb-3" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "#FFFFFF" }}>{o.title}</h3>
-                <Body>{o.body}</Body>
+              <motion.div
+                key={o.title}
+                className="relative rounded-2xl p-8 overflow-hidden group cursor-pointer"
+                style={{
+                  background: "rgba(15,15,26,0.7)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  willChange: "transform, opacity",
+                  transition: "border-color 300ms cubic-bezier(0.16,1,0.3,1), transform 300ms cubic-bezier(0.16,1,0.3,1), box-shadow 300ms cubic-bezier(0.16,1,0.3,1)",
+                }}
+                whileHover={{
+                  y: -3,
+                  borderColor: "rgba(255,255,255,0.25)",
+                  boxShadow: `0 0 30px ${o.color}30, 0 8px 32px rgba(0,0,0,0.4)`,
+                }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                tabIndex={0}
+              >
+                {/* Motif SVG */}
+                <div className="absolute pointer-events-none transition-all duration-300" style={{
+                  ...(o.iconPos === "top-left" ? { top: 12, left: 12 } : o.iconPos === "top-right" ? { top: 12, right: 12 } : { bottom: 12, left: "50%", transform: "translateX(-50%)" }),
+                  filter: "none",
+                }}
+                >
+                  <div className="group-hover:drop-shadow-lg transition-[filter] duration-300" style={{ filter: `drop-shadow(0 0 0px transparent)` }}>
+                    <style>{`.group:hover .motif-glow-${i} { filter: drop-shadow(0 0 12px ${o.color}50) !important; }`}</style>
+                    <div className={`motif-glow-${i}`}>
+                      <o.Icon />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="relative z-10" style={{ marginTop: o.iconPos === "top-left" || o.iconPos === "top-right" ? "48px" : "0" }}>
+                  <div className="w-10 h-[2px] rounded-full mb-5" style={{ background: o.color }} />
+                  <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "24px", color: "#FFFFFF", marginBottom: "12px" }}>
+                    {o.title}
+                  </h3>
+                  <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 300, fontSize: "15px", lineHeight: 1.7, color: "rgba(255,255,255,0.65)" }}>
+                    {o.body}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
