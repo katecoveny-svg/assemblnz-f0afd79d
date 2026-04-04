@@ -201,12 +201,14 @@ const SHARED_AGENTS = [
 ];
 
 const KETE_DATA = [
-  { name: "Manaaki", eng: "Hospitality & Tourism", count: 8, agents: "AURA · HAVEN · TIDE · BEACON · COAST · KURA · MOANA · PAU", desc: "Run your venue from front-of-house to food safety", accent: "hsl(var(--primary))" },
-  { name: "Hanga", eng: "Construction", count: 6, agents: "ATA · ĀRAI · KAUPAPA · RAWA · WHAKAAĒ · PAI", desc: "Site safety to project completion, all in one place", accent: "hsl(var(--pounamu))" },
-  { name: "Auaha", eng: "Creative & Media", count: 8, agents: "PRISM · MUSE · PIXEL · VERSE · ECHO · FLUX · CHROMATIC · RHYTHM", desc: "Brand to publish — the full creative pipeline", accent: "hsl(var(--kowhai-light))" },
-  { name: "Pakihi", eng: "Business & Commerce", count: 8, agents: "LEDGER · AROHA · TURF · SAGE · COMPASS · NEXUS · PRISM-B · ASCEND", desc: "Accounting, HR, legal, sales, and growth", accent: "hsl(var(--pounamu-light))" },
-  { name: "Hangarau", eng: "Technology", count: 8, agents: "SPARK · SENTINEL · NEXUS-T · CIPHER · RELAY · MATRIX · FORGE · ORACLE", desc: "Your in-house tech team", accent: "hsl(var(--tangaroa))" },
-  { name: "Te Kāhui Reo", eng: "Māori Business Intelligence", count: 8, agents: "WHĀNAU · ROHE · KAUPAPA · MANA-BI · KAITIAKI · TĀURA · WHAKAARO · HIRINGA", desc: "BI built on kaupapa Māori, from the ground up", accent: "hsl(var(--tangaroa-light))" },
+  { name: "Manaaki", eng: "Hospitality & Tourism", count: 9, agents: "AURA · SAFFRON · CELLAR · LUXE · MOANA · COAST · KURA · PAU · SUMMIT", desc: "Food safety, liquor licensing, guest experience, tourism", accent: "hsl(var(--primary))" },
+  { name: "Hanga", eng: "Construction", count: 9, agents: "ATA · ĀRAI · KAUPAPA · RAWA · WHAKAAĒ · PAI · ARC · TERRA · PINNACLE", desc: "Site safety to project completion, all in one place", accent: "hsl(var(--pounamu))" },
+  { name: "Auaha", eng: "Creative & Media", count: 9, agents: "PRISM · MUSE · PIXEL · VERSE · ECHO · FLUX · CHROMATIC · RHYTHM · MARKET", desc: "Brand to publish — the full creative pipeline", accent: "hsl(var(--kowhai-light))" },
+  { name: "Pakihi", eng: "Business & Commerce", count: 11, agents: "LEDGER · VAULT · CATALYST · COMPASS · HAVEN · COUNTER · GATEWAY · HARVEST · GROVE · SAGE · ASCEND", desc: "Accounting, insurance, retail, trade, agriculture, real estate", accent: "hsl(var(--pounamu-light))" },
+  { name: "Waka", eng: "Transport & Vehicles", count: 3, agents: "MOTOR · TRANSIT · MARINER", desc: "Automotive, maritime, trucking, logistics", accent: "hsl(var(--tangaroa-light))" },
+  { name: "Hangarau", eng: "Technology", count: 12, agents: "SPARK · SENTINEL · NEXUS-T · CIPHER · RELAY · MATRIX · FORGE · ORACLE · EMBER · REEF · PATENT · FOUNDRY", desc: "Your in-house tech team", accent: "hsl(var(--tangaroa))" },
+  { name: "Hauora", eng: "Health & Lifestyle", count: 8, agents: "TURF · LEAGUE · VITALS · REMEDY · VITAE · RADIANCE · PALETTE · ODYSSEY", desc: "Sport, health, beauty, nutrition, interior design, travel", accent: "hsl(var(--primary))" },
+  { name: "Te Kāhui Reo", eng: "Māori Business Intelligence", count: 8, agents: "WHĀNAU · ROHE · KAUPAPA-M · MANA · KAITIAKI · TĀURA · WHAKAARO · HIRINGA", desc: "BI built on kaupapa Māori, from the ground up", accent: "hsl(var(--pounamu))" },
 ];
 
 const CHANNELS = [
@@ -224,7 +226,7 @@ const CapabilityMap = () => (
         What's inside each kete
       </h2>
       <p className="text-sm font-body text-center text-muted-foreground mb-12 max-w-xl mx-auto">
-        44 specialist agents across 7 industry packs, powered by a shared governance layer.
+        78 specialist agents across 9 industry packs, powered by a shared governance layer.
       </p>
 
       {/* Channels */}

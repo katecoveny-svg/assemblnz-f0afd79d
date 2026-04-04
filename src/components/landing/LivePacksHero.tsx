@@ -38,26 +38,31 @@ const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
 };
 
 const LIVE_PACKS = [
-  { slug: "pakihi", name: "Pakihi", english: "Business", agents: 12, desc: "HR, payroll, finance, operations — 12 agents for NZ businesses." },
-  { slug: "hanga", name: "Hanga", english: "Construction", agents: 7, desc: "Safety, BIM, consenting, quality — tikanga-aligned construction intelligence." },
-  { slug: "manaaki", name: "Manaaki", english: "Hospitality", agents: 8, desc: "Food safety, licensing, reservations — front-of-house to kitchen." },
-  { slug: "toroa", name: "Tōroa", english: "Family Navigator", agents: 1, desc: "Find services, track wellbeing, coordinate care — for Aotearoa whānau." },
+  { slug: "manaaki", name: "Manaaki", english: "Hospitality & Tourism", agents: 9, desc: "Food safety, liquor licensing, guest experience, luxury lodging, adventure tourism." },
+  { slug: "hanga", name: "Hanga", english: "Construction", agents: 9, desc: "Site safety, BIM, consenting, project management, architecture, tenders." },
+  { slug: "auaha", name: "Auaha", english: "Creative & Media", agents: 9, desc: "Copy, image, video, podcast, ads, analytics — the full creative pipeline." },
+  { slug: "pakihi", name: "Pakihi", english: "Business & Commerce", agents: 11, desc: "Accounting, insurance, retail, trade, agriculture, real estate, immigration." },
+  { slug: "waka", name: "Waka", english: "Transport & Vehicles", agents: 3, desc: "Automotive, maritime, trucking, logistics, dealership compliance." },
+  { slug: "hangarau", name: "Hangarau", english: "Technology", agents: 12, desc: "Security, DevOps, infrastructure, monitoring, environment, manufacturing, IP." },
+  { slug: "hauora", name: "Hauora", english: "Health & Lifestyle", agents: 8, desc: "Sport, health, beauty, nutrition, interior design, travel." },
+  { slug: "te-kahui-reo", name: "Te Kāhui Reo", english: "Māori Business Intelligence", agents: 8, desc: "Data sovereignty, whānau governance, iwi reporting, kaupapa Māori." },
+  { slug: "toroa", name: "Tōroa", english: "Family Navigator", agents: 1, desc: "SMS-first. No app, no login. Just text. School, meals, budgets, transport." },
 ];
 
 const LivePacksHero = () => (
   <section className="relative z-10 py-20 sm:py-28">
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
       <motion.div className="text-center mb-14" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Launch 2026</p>
+        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">9 Kete · 78 Agents · 1 Brain</p>
         <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "2.25rem", letterSpacing: "-0.01em", color: "#FFFFFF" }}>
-          Four Products. <span style={{ color: "#D4A843" }}>Live Today.</span>
+          Tell us what's broken. <span style={{ color: "#D4A843" }}>We build your kete.</span>
         </h2>
         <p className="mt-3 text-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.55)", maxWidth: "480px", margin: "12px auto 0" }}>
-          Build. Create. Serve. Navigate. Powered by AI and te reo Māori.
+          9 industry packs + Core Platform, 70 specialist capabilities powered by AI and te reo Māori.
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {LIVE_PACKS.map((pack, i) => (
           <motion.div
             key={pack.slug}
@@ -108,7 +113,7 @@ const LivePacksHero = () => (
         viewport={{ once: true }}
         transition={{ delay: 0.4 }}
       >
-        More packs coming Q4 2026
+        9 kete · 78 agents · Shared Core Foundation · $29/mo Tōroa consumer product
       </motion.p>
     </div>
   </section>

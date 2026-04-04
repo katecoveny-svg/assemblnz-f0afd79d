@@ -2,22 +2,29 @@
 # assembl.co.nz
 
 ## What Assembl is
-Assembl is a business intelligence platform built in Aotearoa New Zealand. It provides 44 specialist AI agents covering business operations, lifestyle, government services, and industry-specific automation. Built on Lovable (frontend), Supabase (backend), Claude Sonnet API (reasoning), and Gemini (voice/vision/speed).
+Assembl is a business intelligence platform built in Aotearoa New Zealand. It provides 78 specialist AI agents across 9 industry kete (packs), plus a Shared Core foundation of 8 agents. Built on Lovable (frontend), Supabase (backend), and multi-model AI (Gemini, Claude, GPT). Every action flows through a compliance pipeline: Mana (Intent) → Iho (Brain) → Kahu (Policy) → Model → Tā (Execute) → Mahara (Memory).
 
-## Key agents
-- AROHA: NZ employment law and HR compliance
-- SIGNAL: Cybersecurity and IT security for NZ businesses
-- TAHI: Non-clinical health navigation for the NZ health system
-- ORA: Voice-first daily companion for elderly New Zealanders
-- VITAE: Care journey tracking through the NZ health system
-- AURA: Hospitality operations and compliance
-- PRISM: Creative studio and brand intelligence
-- ECHO: Founder clone and customer success
-- PILOT: Executive assistant
+## Kete (Industry Packs)
+- Manaaki: Hospitality & Tourism (9 agents — AURA, SAFFRON, CELLAR, LUXE, MOANA, COAST, KURA, PAU, SUMMIT)
+- Hanga: Construction (9 agents — ATA, ĀRAI, KAUPAPA, RAWA, WHAKAAĒ, PAI, ARC, TERRA, PINNACLE)
+- Auaha: Creative & Media (9 agents — PRISM, MUSE, PIXEL, VERSE, ECHO, FLUX, CHROMATIC, RHYTHM, MARKET)
+- Pakihi: Business & Commerce (11 agents — LEDGER, VAULT, CATALYST, COMPASS, HAVEN, COUNTER, GATEWAY, HARVEST, GROVE, SAGE, ASCEND)
+- Waka: Transport & Vehicles (3 agents — MOTOR, TRANSIT, MARINER)
+- Hangarau: Technology (12 agents — SPARK, SENTINEL, NEXUS-T, CIPHER, RELAY, MATRIX, FORGE, ORACLE, EMBER, REEF, PATENT, FOUNDRY)
+- Hauora: Health, Wellbeing, Sport & Lifestyle (8 agents — TURF, LEAGUE, VITALS, REMEDY, VITAE, RADIANCE, PALETTE, ODYSSEY)
+- Te Kāhui Reo: Māori Business Intelligence (8 agents — WHĀNAU, ROHE, KAUPAPA-M, MANA, KAITIAKI, TĀURA, WHAKAARO, HIRINGA)
+- Tōroa: Family Navigator (1 agent — TŌROA, $29/mo consumer product)
+
+## Shared Core Foundation (8 agents)
+CHARTER, ARBITER, SHIELD, ANCHOR, AROHA, PULSE, SCHOLAR, NOVA
 
 ## Pricing
-Starter $89/mo, Pro $299/mo, Business $599/mo, Industry Suite $1,499/mo
-HELM Personal $14/mo, HELM Family $29/mo
+Launch Sprint: NZ$2,500–$6,000+ (one-off setup)
+Kete Tīmatanga (Starter): NZ$750–$1,500/mo
+Kete Tupu (Growth): NZ$1,500–$4,000/mo
+Kete Rangatira (Enterprise): NZ$4,000–$15,000+/mo
+Tōroa: NZ$29/mo (consumer)
+All prices NZ$ + GST.
 
 ## Location
 Auckland, New Zealand

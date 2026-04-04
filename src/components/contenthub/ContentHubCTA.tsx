@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
 const PLANS = [
-  { name: "Starter", price: "$89", period: "/mo" },
-  { name: "Pro", price: "$299", period: "/mo" },
-  { name: "Business", price: "$599", period: "/mo" },
+  { name: "Kete Tīmatanga", price: "From $750", period: "/mo" },
+  { name: "Kete Tupu", price: "From $1,500", period: "/mo" },
+  { name: "Kete Rangatira", price: "From $4,000", period: "/mo" },
 ];
 
 const ContentHubCTA = () => (
@@ -13,7 +13,7 @@ const ContentHubCTA = () => (
         className="font-display font-light text-2xl sm:text-4xl halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
-        Every agent. Every output. One subscription.
+        78 specialist agents. 9 industry kete. One platform.
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {PLANS.map((plan) => (
@@ -29,7 +29,7 @@ const ContentHubCTA = () => (
               {plan.name}
             </p>
             <p>
-              <span className="font-display font-light text-3xl" style={{ color: "hsl(var(--foreground))" }}>
+              <span className="font-display font-light text-2xl" style={{ color: "hsl(var(--foreground))" }}>
                 {plan.price}
               </span>
               <span className="font-body text-sm" style={{ color: "rgba(255,255,255,0.3)" }}>
@@ -45,13 +45,13 @@ const ContentHubCTA = () => (
                 border: "1px solid rgba(0,255,136,0.2)",
               }}
             >
-              Start free trial →
+              Book a Launch Sprint →
             </Link>
           </div>
         ))}
       </div>
       <p className="font-body text-xs" style={{ color: "#5AADA0" }}>
-        Launch pricing — locked in for early adopters
+        All prices NZ$ + GST · Starts with a Launch Sprint
       </p>
     </div>
   </section>
