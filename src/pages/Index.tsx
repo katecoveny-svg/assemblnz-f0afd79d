@@ -43,10 +43,34 @@ const PROOF = [
 ];
 
 /* ─── Outcome cards ─── */
+const KoruSVG = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style={{ opacity: 0.18 }}>
+    <path d="M40 8C40 8 20 16 20 36C20 50 30 56 40 56C50 56 56 48 56 40C56 32 50 28 44 28C38 28 34 32 34 36C34 40 38 44 42 44C46 44 48 42 48 40" stroke="#D4A843" strokeWidth="2" strokeLinecap="round" fill="none"/>
+  </svg>
+);
+const TanikoSVG = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style={{ opacity: 0.18 }}>
+    <path d="M10 20L20 30L30 20L40 30L50 20L60 30L70 20" stroke="#3A7D6E" strokeWidth="2" strokeLinecap="round" fill="none"/>
+    <path d="M10 32L20 42L30 32L40 42L50 32L60 42L70 32" stroke="#3A7D6E" strokeWidth="2" strokeLinecap="round" fill="none"/>
+    <path d="M10 44L20 54L30 44L40 54L50 44L60 54L70 44" stroke="#3A7D6E" strokeWidth="2" strokeLinecap="round" fill="none"/>
+    <path d="M10 56L20 66L30 56L40 66L50 56L60 66L70 56" stroke="#3A7D6E" strokeWidth="2" strokeLinecap="round" fill="none"/>
+  </svg>
+);
+const MauaoSVG = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" style={{ opacity: 0.18 }}>
+    <path d="M8 68L30 24L40 36L56 16L72 68" stroke="#1A3A5C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+    <path d="M8 68H72" stroke="#1A3A5C" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+const TanikoDivider = () => (
+  <svg width="300" height="8" viewBox="0 0 300 8" fill="none" aria-hidden="true" className="mx-auto mb-4">
+    <path d="M0 4L10 0L20 4L30 0L40 4L50 0L60 4L70 0L80 4L90 0L100 4L110 0L120 4L130 0L140 4L150 0L160 4L170 0L180 4L190 0L200 4L210 0L220 4L230 0L240 4L250 0L260 4L270 0L280 4L290 0L300 4" stroke="rgba(255,255,255,0.1)" strokeWidth="1" fill="none"/>
+  </svg>
+);
 const OUTCOMES = [
-  { title: "Win work", body: "Generate proposals, tenders, pricing support, content, and outreach faster — without starting from scratch every time.", color: "#D4A843" },
-  { title: "Run work", body: "Support HR, payroll, reporting, operations, workflows, and day-to-day business execution in one connected system.", color: "#3A7D6E" },
-  { title: "Stay sharp", body: "Bring NZ-aware compliance, shared business memory, and practical business intelligence into everyday decisions.", color: "#1A3A5C" },
+  { title: "Close Faster", body: "Better proposals start with speed. Assembl cuts the busywork, so your team pitches more, quotes tighter, closes harder.", color: "#D4A843", Icon: KoruSVG, iconPos: "top-left" as const },
+  { title: "Run It Right", body: "Every NZ business juggles payroll, tax, compliance, schedules. Assembl handles it. Your team focuses on the work that makes money.", color: "#3A7D6E", Icon: TanikoSVG, iconPos: "top-right" as const },
+  { title: "Alerts That Count", body: "NZ compliance changes weekly. Assembl flags what affects you — regulation, deadline, opportunity — so you're never caught flat.", color: "#1A3A5C", Icon: MauaoSVG, iconPos: "bottom-center" as const },
 ];
 
 /* ─── How-it-works steps ─── */
