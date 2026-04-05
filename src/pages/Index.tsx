@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   UtensilsCrossed, HardHat, Palette, Briefcase, Cpu, Globe,
-  HeartPulse, Shield, CheckCircle2, Star,
+  HeartPulse, Heart, Compass, Shield, CheckCircle2, Star,
   Menu, X, ChevronDown, ArrowRight,
 } from "lucide-react";
 import SEO from "@/components/SEO";
@@ -201,6 +201,7 @@ const INDUSTRIES: Industry[] = [
   { name: "Technology", agents: "Security, DevOps, infrastructure, monitoring, IP management", icon: Cpu, to: "/hangarau" },
   { name: "Language & Culture", agents: "Te reo Māori, tikanga alignment, iwi reporting, data sovereignty", icon: Globe, to: "/te-kahui-reo" },
   { name: "Health & Wellbeing", agents: "Sport, health, nutrition, beauty, lifestyle, travel planning", icon: HeartPulse, to: "/kete/hauora" },
+  { name: "Transport & Logistics", agents: "Automotive, maritime, trucking, dealership compliance, heavy vehicle logbooks", icon: Compass, to: "/kete/waka" },
 ];
 
 const IndustryRow = ({ industry }: { industry: Industry }) => {
@@ -858,6 +859,70 @@ const Index = () => {
             </div>
           </motion.div>
         </div>
+      </section>
+
+      {/* ═══ TŌROA CALLOUT ═══ */}
+      <section className="py-20 px-6">
+        <motion.div
+          className="max-w-3xl mx-auto rounded-2xl px-10 py-12 flex flex-col md:flex-row items-center gap-8"
+          style={{
+            background: "rgba(58,125,110,0.06)",
+            border: "1px solid rgba(58,125,110,0.2)",
+          }}
+          {...fadeUp}
+        >
+          <div className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center"
+            style={{ background: "rgba(58,125,110,0.15)" }}>
+            <Heart size={22} style={{ color: TEAL }} />
+          </div>
+          <div className="flex-1 text-center md:text-left">
+            <p
+              className="text-xs mb-2"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: TEAL,
+              }}
+            >
+              Also from Assembl
+            </p>
+            <h3
+              className="mb-2"
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontWeight: 300,
+                fontSize: "22px",
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                color: "#FFFFFF",
+              }}
+            >
+              Tōroa — Family Navigator
+            </h3>
+            <p
+              className="text-sm"
+              style={{
+                color: "rgba(255,255,255,0.48)",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                lineHeight: 1.7,
+              }}
+            >
+              A standalone SMS-first family tool for Aotearoa whānau. No app, no login — just text. $29/month.
+            </p>
+          </div>
+          <Link
+            to="/toroa"
+            className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-all hover:opacity-90 whitespace-nowrap"
+            style={{
+              border: `1px solid ${TEAL}`,
+              color: TEAL,
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+            }}
+          >
+            Learn more <ArrowRight size={14} />
+          </Link>
+        </motion.div>
       </section>
 
       {/* ═══ 7. FOOTER CTA ═══ */}
