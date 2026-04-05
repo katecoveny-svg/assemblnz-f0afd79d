@@ -199,7 +199,6 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
     }
   }, [input, isStreaming, messages, keteId, agentId]);
 
-  const effectiveAgentId = agentId || keteId;
 
   return (
     <>
