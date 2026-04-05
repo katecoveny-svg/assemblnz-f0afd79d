@@ -244,8 +244,9 @@ const Index = () => {
       <BrandNav />
 
       {/* ═══ 1. HERO ═══ */}
-      <section className="px-6 sm:px-8 pt-28 sm:pt-36 pb-16 text-center">
-        <div className="max-w-3xl mx-auto">
+      <section className="relative px-6 sm:px-8 pt-28 sm:pt-36 pb-16 text-center overflow-hidden" style={{ minHeight: "520px" }}>
+        <StarConstellationHero />
+        <div className="relative z-10 max-w-3xl mx-auto">
           <motion.h1
             style={{
               fontFamily: "'Lato', sans-serif",
