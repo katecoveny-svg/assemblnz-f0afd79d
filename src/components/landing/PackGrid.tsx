@@ -65,7 +65,7 @@ const PackGrid = () => {
           transition={{ duration: 0.6, ease }}
         >
           <p className="font-mono-jb text-[10px] tracking-[4px] uppercase text-primary/60 mb-3">
-            Ngā Kete o te Wānanga · 7 Industry Kete · 44 Specialist Agents
+            Ngā Kete o te Wānanga · 9 Industry Kete · 44 Specialist Agents
           </p>
           <h2
             className="text-2xl sm:text-4xl font-display tracking-[0.02em] text-foreground mb-3 heading-glow section-heading"
@@ -302,7 +302,7 @@ const PackGrid = () => {
               background: "rgba(212,168,67,0.05)",
             }}
           >
-            See all 7 kete & 44 specialist agents <ArrowRight size={14} />
+            See all 9 kete & 44 specialist agents <ArrowRight size={14} />
           </Link>
         </div>
       </div>

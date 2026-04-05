@@ -40,7 +40,7 @@ const PricingHero = () => (
       </p>
       <div className="flex flex-wrap justify-center gap-3">
         <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
-          Book a Launch Sprint
+          Start free trial
         </Link>
         <button onClick={() => document.getElementById("packs")?.scrollIntoView({ behavior: "smooth" })} className="px-7 py-3 rounded-full text-sm font-body font-medium border transition-all" style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.7)" }}>
           Explore the packs
@@ -52,10 +52,10 @@ const PricingHero = () => (
 
 /* ── Section B: Offer Stack ── */
 const OFFERS = [
-  { icon: Rocket, badge: "START HERE", badgeColor: "hsl(var(--primary))", title: "Launch Sprint", desc: "A one-off setup project. We map your workflows, connect your tools, configure your agents, and launch your first use case. You walk away with a working AI business layer.", time: "2–4 weeks", price: "From NZ$2,500", cta: "Book your sprint", to: "/contact" },
-  { icon: Layers, badge: "FOUNDATION", badgeColor: "hsl(var(--pounamu))", title: "Core Platform", desc: "Monthly platform subscription. Includes your central brain (Iho), governance pipeline, SIGNAL security, SMS/WhatsApp messaging, and dashboard access.", price: "Included in every pack", note: "This is the foundation. Every kete runs on Core.", includes: ["Iho routing brain", "SIGNAL security agent", "Compliance pipeline (Kahu → Tā → Mana)", "SMS & WhatsApp access", "Dashboard & analytics", "NZ data sovereignty"] },
-  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Monthly add-on subscriptions by industry or business function. Each kete is a complete AI operations hub with specialist agents, intelligence dashboards, and end-to-end workflows.", price: "From NZ$750/month per kete", list: "Manaaki · Hanga · Auaha · Pakihi · Waka · Hangarau · Hauora · Te Kāhui Reo · Tōroa", cta: "See all packs", scrollTo: "packs" },
-  { icon: Crown, badge: "PREMIUM", badgeColor: "hsl(var(--primary))", title: "Managed AI", desc: "Premium monthly retainer for businesses that want hands-off AI operations. Higher-touch support, monthly strategy sessions, content creation, change requests, and new workflow rollout.", price: "From NZ$4,000/month", cta: "Talk to us", to: "/contact", includes: ["Dedicated account manager", "Monthly strategy review", "Priority support", "Custom workflow builds", "Agent optimisation"] },
+  { icon: Rocket, badge: "START HERE", badgeColor: "hsl(var(--primary))", title: "14-Day Free Trial", desc: "Pick a plan, connect your tools, and see Assembl working in your business. No credit card required. No setup fee.", time: "Up and running in minutes", price: "Free for 14 days", cta: "Start free trial", to: "/contact" },
+  { icon: Layers, badge: "FOUNDATION", badgeColor: "hsl(var(--pounamu))", title: "Core Platform", desc: "Included in every subscription. Your central routing engine (Iho), governance pipeline, SIGNAL security, SMS/WhatsApp messaging, and dashboard access.", price: "Included in every plan", note: "This is the foundation. Every kete runs on Core.", includes: ["Iho routing engine", "SIGNAL security agent", "Compliance pipeline (Kahu → Tā → Mana)", "SMS & WhatsApp access", "Dashboard & analytics", "NZ data sovereignty"] },
+  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Each kete is a complete AI operations hub with specialist agents, intelligence dashboards, and end-to-end workflows. Choose the kete that match your industry.", price: "From NZ$89/month", list: "Manaaki · Hanga · Auaha · Pakihi · Waka · Hangarau · Hauora · Te Kāhui Reo · Tōroa", cta: "See all packs", scrollTo: "packs" },
+  { icon: Crown, badge: "ENTERPRISE", badgeColor: "hsl(var(--primary))", title: "Industry Suite", desc: "All 9 kete, all 78 agents, custom integrations, dedicated account manager, weekly strategy sessions, and SLA guarantee. For organisations that need everything.", price: "NZ$1,499/month", cta: "Talk to us", to: "/contact", includes: ["Dedicated account manager", "Weekly strategy sessions", "Unlimited custom workflows", "White-label options", "SLA guarantee"] },
 ];
 
 const OfferStack = () => (
@@ -106,28 +106,36 @@ const OfferStack = () => (
 /* ── Section C: Pricing Tiers ── */
 const TIERS = [
   {
-    name: "Kete Tīmatanga", sub: "Starter", accent: "hsl(var(--pounamu))", badge: "GETTING STARTED",
-    price: "NZ$750 – $1,500/mo", setup: "NZ$2,500 – $6,000 one-off",
-    best: "Single-team businesses ready for their first AI workflow",
+    name: "Starter", sub: "$89/mo", accent: "hsl(var(--pounamu))", badge: "GETTING STARTED",
+    price: "NZ$89/mo", setup: null,
+    best: "Solo operators and small teams getting started with AI",
     features: ["1 industry kete (choose one)", "Up to 4 specialist agents", "Intelligence dashboard", "SMS & WhatsApp access", "Monthly reporting", "Email support"],
-    goodFor: "BEACON Lite · AROHA Lite · PRISM Lite · VERSE Lite · TŌROA Lite",
-    cta: "Start with a Launch Sprint", highlight: false,
+    goodFor: "Sole traders · Cafés · Small trades · Freelancers",
+    cta: "Start free trial", highlight: false,
   },
   {
-    name: "Kete Tupu", sub: "Growth", accent: "hsl(var(--primary))", badge: "MOST POPULAR",
-    price: "NZ$1,500 – $4,000/mo", setup: "NZ$6,000 – $15,000 one-off",
-    best: "Multi-workflow SMBs scaling operations with AI",
+    name: "Pro", sub: "$299/mo", accent: "hsl(var(--primary))", badge: "MOST POPULAR",
+    price: "NZ$299/mo", setup: null,
+    best: "Growing businesses scaling operations with AI",
     features: ["1–3 industry kete", "Full agent access within packs", "Full intelligence dashboards per kete", "SMS, WhatsApp & voice access", "End-to-end workflow automation", "Content calendar & analytics (Auaha)", "Priority email & chat support", "Quarterly strategy review"],
-    goodFor: "Hospitality groups · Construction firms · Agencies · Trades · Māori organisations · Schools",
-    cta: "Book your Launch Sprint", highlight: true,
+    goodFor: "Hospitality groups · Construction firms · Agencies · Trades · Māori organisations",
+    cta: "Start free trial", highlight: true,
   },
   {
-    name: "Kete Rangatira", sub: "Enterprise", accent: "hsl(var(--tangaroa))", badge: "ENTERPRISE",
-    price: "NZ$4,000 – $15,000+/mo", setup: "NZ$15,000 – $50,000+ one-off",
-    best: "Groups, councils, iwi entities, franchises, and organisations with compliance needs",
-    features: ["All industry kete", "Full 78-agent access", "Custom integrations (Xero, MYOB, Procore, Hilti, Trimble)", "Dedicated account manager", "Monthly strategy sessions", "Custom workflow builds", "Advanced compliance & audit", "Tikanga-aware governance layer", "Multi-tenant / multi-site support", "SLA guarantee"],
+    name: "Business", sub: "$599/mo", accent: "hsl(var(--pounamu-light))", badge: "SCALING",
+    price: "NZ$599/mo", setup: null,
+    best: "Multi-site operations with compliance and integration needs",
+    features: ["Up to 5 industry kete", "Full agent access across packs", "Custom integrations (Xero, MYOB, Procore)", "Dedicated success manager", "Monthly strategy sessions", "Custom workflow builds", "Advanced compliance & audit", "Tikanga-aware governance layer", "Multi-tenant / multi-site support"],
+    goodFor: "Multi-site hospitality · Construction groups · Professional services · Schools",
+    cta: "Start free trial", highlight: false,
+  },
+  {
+    name: "Industry Suite", sub: "$1,499/mo", accent: "hsl(var(--tangaroa))", badge: "ENTERPRISE",
+    price: "NZ$1,499/mo", setup: null,
+    best: "Enterprise groups, councils, iwi entities, and franchise networks",
+    features: ["All 9 industry kete", "Full 78-agent access", "Custom integrations (Xero, MYOB, Procore, Hilti, Trimble)", "Dedicated account manager", "Weekly strategy sessions", "Unlimited custom workflow builds", "Advanced compliance & audit", "Tikanga-aware governance layer", "Multi-tenant / multi-site support", "SLA guarantee", "White-label options"],
     goodFor: "Councils · Iwi entities · Franchise groups · Construction groups · Multi-site hospitality",
-    cta: "Talk to our team", highlight: false,
+    cta: "Contact sales", highlight: false,
   },
 ];
 
@@ -138,9 +146,9 @@ const PricingTiers = () => (
         Choose your kete
       </h2>
       <p className="text-sm font-body text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
-        Every tier includes Assembl Core: Iho brain, SIGNAL security, compliance pipeline, SMS/WhatsApp, and your dashboard.
+        Every plan includes Assembl Core: Iho routing engine, SIGNAL security, compliance pipeline, SMS/WhatsApp, and your dashboard.
       </p>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {TIERS.map((t, i) => (
           <motion.div
             key={i}
@@ -160,7 +168,7 @@ const PricingTiers = () => (
             <h3 className="text-lg font-display text-foreground mb-0.5" style={{ fontWeight: 300 }}>{t.name}</h3>
             <p className="text-xs font-body text-muted-foreground/50 mb-3">{t.sub}</p>
             <p className="text-base font-mono text-foreground mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}>{t.price}</p>
-            <p className="text-[11px] font-body text-muted-foreground/50 mb-4">Setup: {t.setup}</p>
+            <p className="text-[11px] font-body text-muted-foreground/50 mb-4">+ GST · No setup fee · 14-day free trial</p>
             <p className="text-xs font-body text-muted-foreground mb-4 italic">Best for: {t.best}</p>
             <div className="h-px mb-4" style={{ background: "rgba(255,255,255,0.06)" }} />
             <ul className="space-y-2 mb-4 flex-1">
@@ -178,7 +186,7 @@ const PricingTiers = () => (
         ))}
       </div>
       <p className="text-[11px] font-body text-muted-foreground/40 text-center mt-8 max-w-2xl mx-auto">
-        All prices in NZ$ + GST. Setup fees cover workflow mapping, tool integration, agent configuration, and launch. Monthly subscriptions include platform hosting, AI compute, agent support, and governance.
+        All prices in NZD + GST. No setup fee. 14-day free trial on all plans — no credit card required. Monthly subscriptions include platform hosting, AI compute, agent support, and governance.
       </p>
       <p className="text-xs font-body text-center mt-3">
         <Link to="/contact" className="text-primary hover:underline">Need something custom? →</Link>
@@ -189,7 +197,7 @@ const PricingTiers = () => (
 
 /* ── Section D: Capability Map ── */
 const SHARED_AGENTS = [
-  { icon: Brain, name: "Iho", desc: "Central routing brain" },
+  { icon: Brain, name: "Iho", desc: "Central routing engine" },
   { icon: Shield, name: "SIGNAL", desc: "Security & IT" },
   { icon: Eye, name: "Kahu", desc: "Compliance check" },
   { icon: FileText, name: "Tā", desc: "Audit trail" },
@@ -325,13 +333,13 @@ const ToroaSection = () => {
 /* ── Section F: FAQ ── */
 const FAQS = [
   { q: "What's a kete?", a: "A kete is a traditional Māori woven basket, typically crafted from harakeke (New Zealand flax). We use it as a metaphor for our industry packs — each kete is a carefully woven collection of AI agents designed for a specific industry." },
-  { q: "What's included in a Launch Sprint?", a: "We map your business workflows, connect your existing tools (Xero, email, project management, etc.), configure the right agents for your industry, set up SMS/WhatsApp access, train your team, and go live. Takes 2–4 weeks depending on complexity." },
+  { q: "How does onboarding work?", a: "Start your 14-day free trial, choose your industry kete, and connect your existing tools (Xero, email, project management, etc.). We configure the right agents for your industry, set up SMS/WhatsApp access, and get you live. No setup fee, no credit card to start." },
   { q: "Can I start with one kete and add more later?", a: "Absolutely. Most businesses start with one kete and add more as they see results. Your Assembl Core foundation stays the same — you're just adding new specialist agents." },
   { q: "How does SMS/WhatsApp work?", a: "You get a dedicated NZ phone number for each kete. Your team texts questions and the right agent answers in seconds. WhatsApp groups let your team share photos, voice messages, and documents directly with agents." },
   { q: "Where is my data stored?", a: "All data stays in New Zealand on NZ-hosted infrastructure. We follow the NZ Privacy Act 2020, and our tikanga governance layer ensures your data is treated with the care and respect it deserves." },
   { q: "What AI models do you use?", a: "We use a mix: Claude for logic, compliance, and legal reasoning. Gemini for voice, multimodal, and speed. Haiku for fast routing. Flux 2 Pro and Ideogram for images. Runway and Kling for video. Iho (our brain) picks the best model for each task automatically." },
   { q: "Do I need technical knowledge?", a: "No. We handle all the setup. Your team just texts, chats, or uses the dashboard. If you can send a text message, you can use Assembl." },
-  { q: "What's the difference between Tōroa and the business kete?", a: "Tōroa is our consumer product for families — $29/mo, SMS-first, helps with school notices, meals, budgets, and daily family life. The business kete (Manaaki, Hanga, Auaha, Pakihi, Hangarau) are enterprise-grade AI operations hubs for businesses. Different products, different audiences." },
+  { q: "What's the difference between Tōroa and the business plans?", a: "Tōroa is our consumer product for families — $29/mo, SMS-first, helps with school notices, meals, budgets, and daily family life. The business plans (Starter through Industry Suite) are enterprise-grade AI operations hubs with full kete access. Different products, different audiences." },
   { q: "Can I get a custom agent built?", a: "Yes. Under Managed AI or Enterprise, we build custom agents tailored to your specific workflows. This includes connecting to your industry-specific tools and data sources." },
   { q: "What's tikanga governance?", a: "Tikanga Māori is the customary system of values and practices that has developed over time. Our governance layer ensures all AI operations respect the four pou: Rangatiratanga (self-determination), Kaitiakitanga (stewardship), Manaakitanga (care), and Whanaungatanga (connection). Your data is treated as taonga (treasure), not as a product." },
 ];
@@ -398,7 +406,7 @@ const PricingPage = () => (
   <div className="min-h-screen flex flex-col bg-background">
     <SEO
       title="Assembl Pricing — Business Intelligence Built for Aotearoa"
-      description="Industry kete from NZ$750/mo. 44 specialist AI agents across 7 industry packs with governance, privacy, and tikanga built in."
+      description="From NZ$89/mo + GST. 44 specialist AI agents across 9 industry kete with governance, privacy, and tikanga built in. No setup fee."
       path="/pricing"
     />
     <BrandNav />
