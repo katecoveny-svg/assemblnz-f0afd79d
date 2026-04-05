@@ -832,7 +832,7 @@ const BrandStoryPage = () => {
             </div>
 
             <p style={{ ...T.mono, color: C.white40, marginTop: "24px", fontSize: "11px" }}>
-              From NZ$750/mo · Book a Launch Sprint to get started
+              From NZ$89/mo + GST · Start your free trial
             </p>
           </div>
         </motion.div>
