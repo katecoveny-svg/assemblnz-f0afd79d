@@ -19,6 +19,7 @@ import { supabase } from "@/integrations/supabase/client";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import StarConstellationHero from "@/components/landing/StarConstellationHero";
 
 /* ── Shared micro-components ── */
 const Eyebrow = ({ children }: { children: string }) => (
