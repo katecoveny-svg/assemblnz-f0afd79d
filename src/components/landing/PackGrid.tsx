@@ -108,27 +108,28 @@ const PackGrid = () => {
                     key={pack.id}
                     className="relative rounded-xl overflow-hidden cursor-pointer group"
                     style={{
-                      background: "rgba(15, 15, 26, 0.8)",
-                      backdropFilter: "blur(12px)",
-                      border: `2px solid ${isExpanded ? accent + "60" : "rgba(255,255,255,0.08)"}`,
+                      background: "rgba(15, 15, 26, 0.85)",
+                      backdropFilter: "blur(16px)",
+                      WebkitBackdropFilter: "blur(16px)",
+                      border: `1.5px solid ${isExpanded ? accent + "55" : "rgba(255,255,255,0.09)"}`,
                       boxShadow: isExpanded
-                        ? `0 8px 32px rgba(0,0,0,0.4), 0 0 20px ${accent}15`
-                        : "0 8px 32px rgba(0,0,0,0.3)",
+                        ? `0 8px 40px rgba(0,0,0,0.5), 0 0 32px ${accent}18`
+                        : "0 4px 24px rgba(0,0,0,0.35)",
                       transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
                     }}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    transition={{ duration: 0.5, delay: idx * 0.12 }}
                     onClick={() => togglePack(pack.id)}
                     whileHover={{
-                      y: -4,
-                      borderColor: accent + "40",
-                      boxShadow: `0 12px 48px rgba(0,0,0,0.4), 0 0 30px ${accent}10`,
+                      y: -3,
+                      boxShadow: `0 12px 48px rgba(0,0,0,0.45), 0 0 40px ${accent}20`,
                     }}
                   >
+                    {/* Top shimmer — faint at rest, bright on hover */}
                     <span
-                      className="absolute top-0 left-0 right-0 h-[3px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      className="absolute top-0 left-0 right-0 h-[2px] opacity-20 group-hover:opacity-100 transition-opacity duration-500"
                       style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }}
                     />
 

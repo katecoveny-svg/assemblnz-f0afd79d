@@ -1,291 +1,949 @@
-import { useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Send, Check } from "lucide-react";
-import KeteHero from "@/components/KeteHero";
-import KetePackSelector from "@/components/KetePackSelector";
+import { useState, type ElementType } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
-import BrandNav from "@/components/BrandNav";
-import BrandFooter from "@/components/BrandFooter";
+import {
+  UtensilsCrossed, HardHat, Palette, Briefcase, Cpu, Globe,
+  HeartPulse, Shield, CheckCircle2, Star,
+  Menu, X, ChevronDown, ArrowRight,
+} from "lucide-react";
 import SEO from "@/components/SEO";
+import CelestialLogo from "@/components/CelestialLogo";
 
-/* ─── Shared ─── */
-const Eyebrow = ({ children }: { children: string }) => (
-  <span className="inline-block text-[11px] font-bold tracking-[3px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843" }}>
-    {children}
-  </span>
-);
-const SectionHeading = ({ children }: { children: React.ReactNode }) => (
-  <h2 className="text-3xl sm:text-4xl lg:text-5xl mb-6" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "#FFFFFF", lineHeight: 1.2 }}>
-    {children}
-  </h2>
-);
-const Body = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <p className={`text-base sm:text-lg leading-relaxed ${className}`} style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.6)" }}>
-    {children}
-  </p>
-);
+/* ─── Brand tokens ─────────────────────────────────────────────── */
+const BG = "#09090F";
+const GOLD = "#D4A843";
+const TEAL = "#3A7D6E";
+const BONE = "#F5F0E8";
 
-const SECTION_STYLE = "relative px-6 sm:px-8 py-20 sm:py-28";
-const INNER = "max-w-5xl mx-auto";
+/* ─── Animation helper ─────────────────────────────────────────── */
+const fadeUp = {
+  initial: { opacity: 0, y: 32 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-60px" as const },
+  transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+};
 
-const TanikoDivider = () => (
-  <svg width="300" height="8" viewBox="0 0 300 8" fill="none" aria-hidden="true" className="mx-auto mb-4">
-    <path d="M0 4L10 0L20 4L30 0L40 4L50 0L60 4L70 0L80 4L90 0L100 4L110 0L120 4L130 0L140 4L150 0L160 4L170 0L180 4L190 0L200 4L210 0L220 4L230 0L240 4L250 0L260 4L270 0L280 4L290 0L300 4" stroke="rgba(255,255,255,0.1)" strokeWidth="1" fill="none"/>
+/* ─── Minimal fixed nav ────────────────────────────────────────── */
+const MinimalNav = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 sm:px-10 h-16"
+        style={{ background: "transparent" }}
+      >
+        <Link to="/" className="flex items-center gap-2.5">
+          <CelestialLogo size={30} />
+          <span
+            style={{
+              fontFamily: "'Lato', sans-serif",
+              fontWeight: 300,
+              letterSpacing: "6px",
+              textTransform: "uppercase",
+              fontSize: "13px",
+              color: "rgba(255,255,255,0.85)",
+            }}
+          >
+            ASSEMBL
+          </span>
+        </Link>
+
+        <div className="hidden md:flex items-center gap-8">
+          <a
+            href="#industries"
+            className="text-sm transition-colors hover:text-white"
+            style={{ color: "rgba(255,255,255,0.55)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          >
+            Industries
+          </a>
+          <a
+            href="#pricing"
+            className="text-sm transition-colors hover:text-white"
+            style={{ color: "rgba(255,255,255,0.55)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          >
+            Pricing
+          </a>
+          <a
+            href="#contact"
+            className="px-5 py-2.5 rounded-full text-sm font-semibold transition-all hover:brightness-110"
+            style={{ background: GOLD, color: BG, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          >
+            See it in action
+          </a>
+        </div>
+
+        <button
+          className="md:hidden p-2"
+          onClick={() => setOpen(true)}
+          style={{ color: "rgba(255,255,255,0.7)" }}
+          aria-label="Open menu"
+        >
+          <Menu size={22} />
+        </button>
+      </nav>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="fixed inset-0 z-[100] flex flex-col"
+            style={{ background: BG }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="flex justify-end p-6">
+              <button
+                onClick={() => setOpen(false)}
+                style={{ color: "rgba(255,255,255,0.7)" }}
+                aria-label="Close menu"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            <div className="flex flex-col items-center gap-10 mt-12">
+              <a
+                href="#industries"
+                className="text-2xl"
+                style={{ color: BONE, fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}
+                onClick={() => setOpen(false)}
+              >
+                Industries
+              </a>
+              <a
+                href="#pricing"
+                className="text-2xl"
+                style={{ color: BONE, fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}
+                onClick={() => setOpen(false)}
+              >
+                Pricing
+              </a>
+              <a
+                href="#contact"
+                className="px-8 py-4 rounded-full text-base font-semibold"
+                style={{ background: GOLD, color: BG, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                onClick={() => setOpen(false)}
+              >
+                See it in action
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
+/* ─── Mārama Moon ──────────────────────────────────────────────── */
+const MaramaMoon = () => (
+  <svg width="180" height="180" viewBox="0 0 180 180" fill="none" aria-hidden="true">
+    <defs>
+      <filter id="moon-glow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="14" result="glow" />
+        <feMerge>
+          <feMergeNode in="glow" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+      <mask id="crescent-mask">
+        <circle cx="90" cy="90" r="70" fill="white" />
+        <circle cx="118" cy="82" r="60" fill="black" />
+      </mask>
+    </defs>
+    <circle cx="90" cy="90" r="72" fill={GOLD} opacity="0.04" />
+    <circle
+      cx="90"
+      cy="90"
+      r="70"
+      fill={GOLD}
+      mask="url(#crescent-mask)"
+      filter="url(#moon-glow)"
+      opacity="0.7"
+    />
   </svg>
 );
 
-/* ─── How-it-works steps ─── */
-const STEPS = [
-  { num: "01", title: "You ask", body: "Start with a real business task, problem, or workflow." },
-  { num: "02", title: "Assembl routes", body: "The platform picks the right specialist agents and applies your business context." },
-  { num: "03", title: "You move faster", body: "Get practical output, clearer decisions, and less admin drag." },
+/* ─── Matariki stars ───────────────────────────────────────────── */
+const STAR_DATA = [
+  { x: 8, y: 12, r: 1.2, o: 0.18 }, { x: 13, y: 20, r: 1, o: 0.14 }, { x: 6, y: 30, r: 1.5, o: 0.2 },
+  { x: 18, y: 8, r: 1, o: 0.16 }, { x: 22, y: 18, r: 1.2, o: 0.12 }, { x: 28, y: 35, r: 0.8, o: 0.13 },
+  { x: 42, y: 5, r: 1, o: 0.15 }, { x: 60, y: 4, r: 1.2, o: 0.17 }, { x: 75, y: 9, r: 0.8, o: 0.12 },
+  { x: 88, y: 14, r: 1, o: 0.14 }, { x: 55, y: 92, r: 1.2, o: 0.15 }, { x: 30, y: 88, r: 1, o: 0.12 },
+  { x: 15, y: 78, r: 0.8, o: 0.13 }, { x: 70, y: 85, r: 1, o: 0.15 }, { x: 85, y: 74, r: 1.5, o: 0.19 },
+  { x: 92, y: 88, r: 1, o: 0.14 }, { x: 78, y: 94, r: 1.2, o: 0.16 }, { x: 45, y: 96, r: 0.8, o: 0.12 },
 ];
 
-/* ─── Page ─── */
-const Index = () => {
-  const isMobile = useIsMobile();
-  const packsRef = useRef<HTMLDivElement>(null);
-  const [contactName, setContactName] = useState("");
-  const [contactEmail, setContactEmail] = useState("");
-  const [contactMsg, setContactMsg] = useState("");
+const MatarikiStars = () => (
+  <svg
+    className="absolute inset-0 w-full h-full pointer-events-none"
+    viewBox="0 0 100 100"
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+  >
+    {STAR_DATA.map((s, i) => (
+      <circle key={i} cx={s.x} cy={s.y} r={s.r} fill={BONE} opacity={s.o} />
+    ))}
+  </svg>
+);
 
-  const scrollToPacks = () => packsRef.current?.scrollIntoView({ behavior: "smooth" });
+/* ─── Industry accordion ───────────────────────────────────────── */
+type Industry = {
+  name: string;
+  agents: string;
+  icon: ElementType;
+  to: string;
+};
 
-  const handleContact = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const { data: inserted, error } = await supabase.from("contact_submissions").insert({ name: contactName, email: contactEmail, message: contactMsg }).select("id").single();
-      if (error) throw error;
-      toast.success("Message sent. We'll get back to you soon.");
-      setContactName(""); setContactEmail(""); setContactMsg("");
-      supabase.functions.invoke("send-contact-email", { body: { name: contactName, email: contactEmail, message: contactMsg } }).catch(console.error);
-      if (inserted?.id) supabase.functions.invoke("qualify-lead", { body: { submissionId: inserted.id } }).catch(console.error);
-    } catch { toast.error("Something went wrong. Please try again."); }
-  };
+const INDUSTRIES: Industry[] = [
+  { name: "Hospitality", agents: "Food safety, liquor licensing, guest experience, menus, adventure tourism", icon: UtensilsCrossed, to: "/manaaki" },
+  { name: "Construction", agents: "Site safety, BIM, consenting, tender writing, project management", icon: HardHat, to: "/hanga" },
+  { name: "Creative", agents: "Copy, design, campaign management, video, podcast, social, analytics", icon: Palette, to: "/auaha" },
+  { name: "Business", agents: "Accounting, payroll, HR, insurance, retail, trade, agriculture", icon: Briefcase, to: "/pakihi" },
+  { name: "Technology", agents: "Security, DevOps, infrastructure, monitoring, IP management", icon: Cpu, to: "/hangarau" },
+  { name: "Language & Culture", agents: "Te reo Māori, tikanga alignment, iwi reporting, data sovereignty", icon: Globe, to: "/te-kahui-reo" },
+  { name: "Health & Wellbeing", agents: "Sport, health, nutrition, beauty, lifestyle, travel planning", icon: HeartPulse, to: "/kete/hauora" },
+];
 
-  const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-60px" as const }, transition: { duration: 0.6 } };
+const IndustryRow = ({ industry }: { industry: Industry }) => {
+  const [open, setOpen] = useState(false);
+  const Icon = industry.icon;
 
   return (
-    <div className="min-h-screen" style={{ background: "#09090F", color: "#FFFFFF" }}>
-      <SEO title="Assembl — The Operating System for NZ Business" description="Nine specialist kete. 78 agents. One platform built for Aotearoa business." />
-      <BrandNav />
+    <div className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+      <button
+        className="w-full flex items-center justify-between py-6 text-left group"
+        onClick={() => setOpen(!open)}
+      >
+        <div className="flex items-center gap-4">
+          <Icon
+            size={18}
+            style={{ color: open ? GOLD : TEAL, flexShrink: 0, transition: "color 0.2s" }}
+          />
+          <span
+            style={{
+              fontFamily: "'Lato', sans-serif",
+              fontWeight: 300,
+              fontSize: "clamp(16px, 2.5vw, 20px)",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: open ? "#FFFFFF" : "rgba(255,255,255,0.7)",
+              transition: "color 0.2s",
+            }}
+          >
+            {industry.name}
+          </span>
+        </div>
+        <ChevronDown
+          size={15}
+          style={{
+            color: "rgba(255,255,255,0.25)",
+            transform: open ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 0.3s",
+            flexShrink: 0,
+          }}
+        />
+      </button>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            style={{ overflow: "hidden" }}
+          >
+            <div className="pb-6 pl-10">
+              <p
+                className="text-sm mb-3 max-w-xl"
+                style={{
+                  color: "rgba(255,255,255,0.48)",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  lineHeight: 1.75,
+                }}
+              >
+                {industry.agents}
+              </p>
+              <Link
+                to={industry.to}
+                className="inline-flex items-center gap-1.5 text-sm transition-opacity hover:opacity-80"
+                style={{ color: GOLD, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              >
+                See what's included <ArrowRight size={13} />
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+/* ─── What Changes cards ───────────────────────────────────────── */
+const OUTCOMES = [
+  {
+    title: "Close Faster",
+    body: "Better proposals start with speed. Assembl cuts the busywork so your team pitches more, quotes tighter, closes harder.",
+  },
+  {
+    title: "Stop Juggling",
+    body: "Payroll, tax, compliance, schedules. Assembl runs the back office so your team runs the business.",
+  },
+  {
+    title: "Alerts That Count",
+    body: "NZ compliance changes weekly. Assembl flags what affects you — regulation, deadline, opportunity — so you're never caught flat.",
+  },
+];
+
+/* ─── Pricing ──────────────────────────────────────────────────── */
+const PLANS = [
+  {
+    name: "Starter",
+    price: 49,
+    desc: "For solo operators and micro-businesses",
+    features: ["1 industry pack", "Up to 2 users", "200 queries/month", "Email support"],
+    popular: false,
+  },
+  {
+    name: "Pro",
+    price: 149,
+    desc: "For growing businesses with real operational needs",
+    features: ["3 industry packs", "Up to 5 users", "1,000 queries/month", "Priority support"],
+    popular: false,
+  },
+  {
+    name: "Business",
+    price: 349,
+    desc: "For teams running a full business operation",
+    features: ["All industry packs", "Up to 20 users", "5,000 queries/month", "Dedicated onboarding"],
+    popular: true,
+  },
+  {
+    name: "Industry Suite",
+    price: 799,
+    desc: "For organisations that need everything",
+    features: ["All packs + custom tools", "Unlimited users", "Unlimited queries", "White-glove support"],
+    popular: false,
+  },
+];
+
+/* ─── How it works ─────────────────────────────────────────────── */
+const HOW_STEPS = [
+  { num: "01", title: "Discovery call", body: "We map your workflows and show you exactly which tools apply to your business." },
+  { num: "02", title: "Setup", body: "Your platform is configured and ready — typically within 48 hours." },
+  { num: "03", title: "First result", body: "You use it on a real business task and see the difference immediately." },
+];
+
+/* ─── Page ─────────────────────────────────────────────────────── */
+const Index = () => {
+  const [annual, setAnnual] = useState(false);
+
+  return (
+    <div style={{ background: BG, color: "#FFFFFF", overflowX: "hidden" }}>
+      <SEO
+        title="Assembl — The Operating System for NZ Business"
+        description="44 specialist tools across 7 industries. Quoting, payroll, compliance, marketing — connected and intelligent. Built in Aotearoa."
+      />
+      <MinimalNav />
 
       {/* ═══ 1. HERO ═══ */}
-      <section className="relative flex flex-col items-center text-center px-6 sm:px-8 pt-20 sm:pt-28 pb-16" style={{ zIndex: 1 }}>
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 30%, rgba(212,168,67,0.05) 0%, transparent 70%)", zIndex: 0 }} />
+      <section
+        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-16"
+        style={{ background: BG }}
+      >
+        <MatarikiStars />
 
-        {[...Array(16)].map((_, i) => (
-          <div key={i} className="absolute rounded-full animate-pulse pointer-events-none" style={{
-            width: 1.5 + Math.random() * 2, height: 1.5 + Math.random() * 2,
-            top: `${10 + Math.random() * 70}%`, left: `${5 + Math.random() * 90}%`,
-            background: "#FFFFFF", opacity: 0.12 + Math.random() * 0.18,
-            animationDelay: `${Math.random() * 4}s`, animationDuration: `${3 + Math.random() * 4}s`,
-            zIndex: 0,
-          }} />
-        ))}
+        {/* Mārama moon — top right */}
+        <div className="absolute top-6 right-6 md:top-10 md:right-14 pointer-events-none" style={{ zIndex: 1 }}>
+          <MaramaMoon />
+        </div>
 
-        <motion.h1
-          className="relative max-w-4xl"
-          style={{
-            fontFamily: "'Lato', sans-serif",
-            fontWeight: 300,
-            fontSize: isMobile ? "2.25rem" : "4.5rem",
-            lineHeight: 1.1,
-            letterSpacing: "-0.02em",
-            zIndex: 1,
-          }}
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
+        <div className="relative z-10 max-w-4xl mx-auto">
+          {/* Wordmark */}
+          <motion.div
+            className="flex items-center justify-center gap-3 mb-14"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <CelestialLogo size={44} />
+            <span
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontWeight: 300,
+                letterSpacing: "8px",
+                textTransform: "uppercase",
+                fontSize: "14px",
+                color: "rgba(255,255,255,0.8)",
+              }}
+            >
+              ASSEMBL
+            </span>
+          </motion.div>
+
+          {/* Headline */}
+          <motion.h1
+            style={{
+              fontFamily: "'Lato', sans-serif",
+              fontWeight: 300,
+              fontSize: "clamp(2.4rem, 6vw, 5rem)",
+              lineHeight: 1.1,
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+            }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.15 }}
+          >
+            The operating system
+            <br />
+            <span style={{ color: GOLD }}>for NZ business.</span>
+          </motion.h1>
+
+          {/* Subheadline */}
+          <motion.p
+            className="mt-7 max-w-lg mx-auto text-lg md:text-xl leading-relaxed"
+            style={{ color: BONE, opacity: 0.68, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            Quoting, payroll, compliance, marketing — connected and intelligent. One platform instead of twelve.
+          </motion.p>
+
+          {/* Badge */}
+          <motion.p
+            className="mt-3 text-sm"
+            style={{
+              color: "rgba(255,255,255,0.25)",
+              fontFamily: "'JetBrains Mono', monospace",
+              letterSpacing: "0.06em",
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.45 }}
+          >
+            44 specialist tools across 7 industries · Built in Aotearoa
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-11"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.55 }}
+          >
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-semibold transition-all hover:brightness-110"
+              style={{ background: GOLD, color: BG, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            >
+              See it in action <ArrowRight size={16} />
+            </a>
+            <a
+              href="#industries"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base transition-all hover:text-white"
+              style={{
+                color: "rgba(255,255,255,0.6)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+              }}
+            >
+              Choose your industry <ArrowRight size={16} />
+            </a>
+          </motion.div>
+        </div>
+
+        {/* Scroll line */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.6 }}
         >
-          The operating system for{" "}
-          <span style={{ color: "#D4A843" }}>NZ business.</span>
-        </motion.h1>
-
-        <KeteHero />
-
-        <motion.p
-          className="relative max-w-2xl mt-6 text-lg sm:text-xl leading-relaxed"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.65)", zIndex: 1 }}
-          initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}
-        >
-          Nine specialist kete. 78 agents. Built in Aotearoa for the way NZ business actually works.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div className="relative flex flex-col sm:flex-row gap-3 mt-10" style={{ zIndex: 1 }}
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.55 }}>
-          <Link to="/contact" className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-4 text-base rounded-full font-medium">
-            Book a free consultation <ArrowRight size={16} />
-          </Link>
-          <button onClick={scrollToPacks} className="cta-glass-outline inline-flex items-center justify-center gap-2 px-8 py-4 text-base rounded-full">
-            See all nine kete →
-          </button>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+            style={{
+              width: 1,
+              height: 36,
+              background: `linear-gradient(to bottom, transparent, ${GOLD}40)`,
+              margin: "0 auto",
+            }}
+          />
         </motion.div>
-
-        <motion.button onClick={scrollToPacks} className="mt-12" style={{ color: "rgba(255,255,255,0.25)", zIndex: 1 }}
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}>
-          <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}>
-            <ChevronDown size={24} />
-          </motion.div>
-        </motion.button>
       </section>
 
-      {/* ═══ 2. WHAT IS A KETE — The core explainer ═══ */}
-      <section ref={packsRef} id="kete" className={SECTION_STYLE} style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-        <div className={INNER}>
-          <motion.div {...fade} className="text-center mb-4">
-            <Eyebrow>NGĀ KETE O TE WĀNANGA</Eyebrow>
-            <SectionHeading>
-              Nine baskets of knowledge.<br />
-              <span style={{ color: "#D4A843" }}>One for every kind of NZ business.</span>
-            </SectionHeading>
+      {/* ═══ 2. WHAT CHANGES ═══ */}
+      <section className="min-h-screen flex flex-col justify-center px-6 py-28">
+        <div className="max-w-5xl mx-auto w-full">
+          <motion.div className="text-center mb-16" {...fadeUp}>
+            <h2
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontWeight: 300,
+                fontSize: "clamp(1.8rem, 4vw, 3.2rem)",
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+              }}
+            >
+              What changes in your first month
+            </h2>
           </motion.div>
 
-          <motion.div {...fade}>
-            <Body className="text-center max-w-2xl mx-auto mb-4">
-              In te ao Māori, a kete is a woven basket — a vessel for knowledge, tools, and wisdom carried from one place to another.
-            </Body>
-            <Body className="text-center max-w-2xl mx-auto mb-16">
-              Assembl's nine kete work the same way. Each one holds specialist agents who know your industry inside out — the legislation, the workflows, the terminology, the compliance. Pick the kete that fits your business. Everything inside is ready to use.
-            </Body>
-          </motion.div>
-
-          <TanikoDivider />
-
-          <div className="mt-10">
-            <KetePackSelector />
-          </div>
-
-          <motion.div {...fade} className="text-center mt-14">
-            <p className="text-base mb-4" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              All nine kete are included on every plan.
-            </p>
-            <Link to="/pricing" className="cta-glass-outline inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full">
-              See pricing <ArrowRight size={16} />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ═══ 3. HOW IT WORKS ═══ */}
-      <section id="how-it-works" className={SECTION_STYLE} style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-        <div className={INNER}>
-          <motion.div {...fade} className="text-center mb-10">
-            <Eyebrow>HOW IT WORKS</Eyebrow>
-            <SectionHeading>One request. The right intelligence.</SectionHeading>
-            <Body className="max-w-xl mx-auto">
-              You ask. Assembl picks the right specialist agents, applies your business context, and delivers output you can actually use.
-            </Body>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {STEPS.map((s, i) => (
-              <motion.div key={s.num} className="rounded-2xl p-8 relative" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)" }}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12, duration: 0.5 }}>
-                <span className="text-5xl font-light absolute top-5 right-6" style={{ fontFamily: "'Lato', sans-serif", color: "rgba(212,168,67,0.1)" }}>{s.num}</span>
-                <h3 className="text-2xl mb-3 mt-4" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "#FFFFFF" }}>{s.title}</h3>
-                <Body>{s.body}</Body>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ 4. PRICING SUMMARY ═══ */}
-      <section id="pricing" className={SECTION_STYLE} style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-        <div className={INNER}>
-          <motion.div {...fade} className="text-center mb-12">
-            <Eyebrow>PRICING</Eyebrow>
-            <SectionHeading>Simple pricing. All kete included.</SectionHeading>
-            <Body className="max-w-xl mx-auto mb-2">
-              Every plan includes all nine kete, all 78 agents, and all core platform features. No add-ons.
-            </Body>
-            <div className="inline-flex items-center gap-2 mt-4 px-4 py-2.5 rounded-full" style={{ background: "rgba(212,168,67,0.1)", border: "1px solid rgba(212,168,67,0.25)" }}>
-              <span className="text-sm font-semibold" style={{ color: "#D4A843", fontFamily: "'JetBrains Mono', monospace" }}>
-                NZ$749 + GST one-time setup fee
-              </span>
-            </div>
-            <p className="text-sm mt-2" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              Workflow mapping, agent configuration, tool integration, and onboarding included.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
-            {[
-              { name: "Essentials", price: "$199", period: "/mo NZD + GST", users: "2 users", queries: "500 queries/mo", accent: "#3A7D6E", trial: "14-day free trial" },
-              { name: "Business", price: "$399", period: "/mo NZD + GST", users: "10 users", queries: "2,000 queries/mo", accent: "#D4A843", trial: "Most popular", popular: true },
-              { name: "Enterprise", price: "$799", period: "/mo NZD + GST", users: "Unlimited users", queries: "Unlimited queries", accent: "#5B8FA8", trial: "Custom integrations" },
-            ].map((tier, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {OUTCOMES.map((o, i) => (
               <motion.div
-                key={tier.name}
-                className="rounded-2xl p-7 relative"
+                key={o.title}
+                className="rounded-2xl p-8"
                 style={{
-                  background: tier.popular ? "rgba(212,168,67,0.06)" : "rgba(15,15,26,0.6)",
-                  border: `1px solid ${tier.popular ? "rgba(212,168,67,0.25)" : "rgba(255,255,255,0.07)"}`,
+                  background: "rgba(255,255,255,0.025)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  border: "1px solid rgba(255,255,255,0.07)",
+                  borderLeft: `3px solid ${TEAL}`,
                 }}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.75, delay: i * 0.13, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -4 }}
               >
-                {tier.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold tracking-widest px-3 py-1 rounded-full" style={{ background: "#D4A843", color: "#0F1623", fontFamily: "'JetBrains Mono', monospace" }}>
-                    MOST POPULAR
-                  </span>
-                )}
-                <h3 className="text-xl font-semibold mb-1" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{tier.name}</h3>
-                <div className="flex items-baseline gap-1 mb-4">
-                  <span className="text-4xl font-light" style={{ fontFamily: "'Lato', sans-serif", color: tier.accent }}>{tier.price}</span>
-                  <span className="text-sm" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{tier.period}</span>
-                </div>
-                <div className="space-y-2 mb-6">
-                  {[tier.users, tier.queries, "All 9 kete", "All 78+ agents"].map(f => (
-                    <div key={f} className="flex items-center gap-2">
-                      <Check size={14} style={{ color: tier.accent, flexShrink: 0 }} />
-                      <span className="text-sm" style={{ color: "rgba(255,255,255,0.65)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{f}</span>
-                    </div>
-                  ))}
-                </div>
-                <p className="text-xs" style={{ color: `${tier.accent}AA`, fontFamily: "'JetBrains Mono', monospace" }}>{tier.trial}</p>
+                <div className="w-8 h-[2px] rounded mb-6" style={{ background: GOLD }} />
+                <h3
+                  style={{
+                    fontFamily: "'Lato', sans-serif",
+                    fontWeight: 300,
+                    fontSize: "22px",
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                    color: "#FFFFFF",
+                    marginBottom: "12px",
+                  }}
+                >
+                  {o.title}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontSize: "15px",
+                    lineHeight: 1.75,
+                    color: "rgba(255,255,255,0.52)",
+                  }}
+                >
+                  {o.body}
+                </p>
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <motion.div {...fade} className="text-center">
-            <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              Save 20% with annual billing. All prices NZD + GST.
+      {/* ═══ 3. INDUSTRIES ═══ */}
+      <section id="industries" className="min-h-screen flex flex-col justify-center px-6 py-28">
+        <div className="max-w-3xl mx-auto w-full">
+          <motion.div className="mb-14" {...fadeUp}>
+            <h2
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontWeight: 300,
+                fontSize: "clamp(1.8rem, 4vw, 3.2rem)",
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+              }}
+            >
+              Choose your industry
+            </h2>
+            <p
+              className="mt-4 text-base max-w-md"
+              style={{
+                color: "rgba(255,255,255,0.42)",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                lineHeight: 1.7,
+              }}
+            >
+              Every industry runs differently. Assembl is built around yours.
             </p>
-            <Link to="/pricing" className="cta-glass-green inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full">
-              View full pricing <ArrowRight size={16} />
-            </Link>
+          </motion.div>
+
+          <motion.div
+            {...fadeUp}
+            transition={{ ...fadeUp.transition, delay: 0.15 }}
+          >
+            {INDUSTRIES.map((ind) => (
+              <IndustryRow key={ind.name} industry={ind} />
+            ))}
           </motion.div>
         </div>
       </section>
 
-      {/* ═══ 5. CONTACT ═══ */}
-      <section id="contact" className={SECTION_STYLE} style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-        <div className={`${INNER} max-w-xl mx-auto`}>
-          <motion.div {...fade} className="text-center mb-10">
-            <Eyebrow>GET STARTED</Eyebrow>
-            <SectionHeading>Talk to us.</SectionHeading>
-            <Body className="max-w-md mx-auto">
-              Tell us what your business does and we'll show you exactly which kete and agents can run it. Free, no obligation.
-            </Body>
+      {/* ═══ 4. PRICING ═══ */}
+      <section id="pricing" className="min-h-screen flex flex-col justify-center px-6 py-28">
+        <div className="max-w-5xl mx-auto w-full">
+          <motion.div className="text-center mb-4" {...fadeUp}>
+            <h2
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontWeight: 300,
+                fontSize: "clamp(1.8rem, 4vw, 3.2rem)",
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+              }}
+            >
+              Simple, transparent pricing
+            </h2>
+            <p
+              className="mt-3 text-sm"
+              style={{
+                color: "rgba(255,255,255,0.3)",
+                fontFamily: "'JetBrains Mono', monospace",
+                letterSpacing: "0.04em",
+              }}
+            >
+              All prices NZD + GST
+            </p>
           </motion.div>
-          <motion.form onSubmit={handleContact} className="rounded-2xl p-8 space-y-4" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 0 30px rgba(212,168,67,0.08), 0 4px 24px rgba(0,0,0,0.4)" }}
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-            <input value={contactName} onChange={(e) => setContactName(e.target.value)} placeholder="Your name" required
-              className="w-full px-4 py-3 rounded-xl text-base font-body text-white placeholder:text-white/30 focus:outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }} />
-            <input value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} type="email" placeholder="Email" required
-              className="w-full px-4 py-3 rounded-xl text-base font-body text-white placeholder:text-white/30 focus:outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }} />
-            <textarea value={contactMsg} onChange={(e) => setContactMsg(e.target.value)} placeholder="Tell us about your business and what you need help with" rows={4} required
-              className="w-full px-4 py-3 rounded-xl text-base font-body text-white placeholder:text-white/30 focus:outline-none resize-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }} />
-            <button type="submit" className="cta-glass-green w-full py-4 rounded-full text-base font-medium flex items-center justify-center gap-2">
-              Send message <Send size={16} />
+
+          {/* Annual toggle */}
+          <motion.div
+            className="flex items-center justify-center gap-4 mt-7 mb-12"
+            {...fadeUp}
+            transition={{ ...fadeUp.transition, delay: 0.1 }}
+          >
+            <span
+              className="text-sm"
+              style={{
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                color: annual ? "rgba(255,255,255,0.32)" : "#FFFFFF",
+                transition: "color 0.2s",
+              }}
+            >
+              Monthly
+            </span>
+            <button
+              onClick={() => setAnnual(!annual)}
+              className="relative w-11 h-6 rounded-full transition-colors duration-300"
+              style={{ background: annual ? GOLD : "rgba(255,255,255,0.12)" }}
+              aria-label="Toggle annual billing"
+            >
+              <div
+                className="absolute top-0.5 w-5 h-5 rounded-full transition-transform duration-300"
+                style={{
+                  background: annual ? BG : "rgba(255,255,255,0.9)",
+                  transform: annual ? "translateX(22px)" : "translateX(2px)",
+                }}
+              />
             </button>
-          </motion.form>
+            <span
+              className="text-sm flex items-center gap-2"
+              style={{
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                color: annual ? "#FFFFFF" : "rgba(255,255,255,0.32)",
+                transition: "color 0.2s",
+              }}
+            >
+              Annual
+              <span
+                className="text-xs px-2 py-0.5 rounded-full font-semibold"
+                style={{ background: `${TEAL}28`, color: TEAL }}
+              >
+                Save 20%
+              </span>
+            </span>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {PLANS.map((p, i) => {
+              const displayPrice = annual ? Math.round(p.price * 0.8) : p.price;
+              return (
+                <motion.div
+                  key={p.name}
+                  className="rounded-2xl p-7 relative flex flex-col"
+                  style={{
+                    background: p.popular ? "rgba(58,125,110,0.07)" : "rgba(255,255,255,0.02)",
+                    border: p.popular
+                      ? `1px solid rgba(58,125,110,0.35)`
+                      : "1px solid rgba(255,255,255,0.06)",
+                  }}
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.75, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {p.popular && (
+                    <div
+                      className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap"
+                      style={{ background: TEAL, color: "#FFFFFF", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                    >
+                      Most popular
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <h3
+                      className="text-sm mb-1"
+                      style={{
+                        fontFamily: "'Lato', sans-serif",
+                        fontWeight: 400,
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        color: "#FFFFFF",
+                      }}
+                    >
+                      {p.name}
+                    </h3>
+                    <p
+                      className="text-xs mb-5"
+                      style={{
+                        color: "rgba(255,255,255,0.36)",
+                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {p.desc}
+                    </p>
+                    <div className="flex items-baseline gap-1 mb-6">
+                      <span
+                        className="text-4xl font-light"
+                        style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}
+                      >
+                        ${displayPrice}
+                      </span>
+                      <span className="text-xs" style={{ color: "rgba(255,255,255,0.32)" }}>
+                        /mo
+                      </span>
+                    </div>
+                    <ul className="space-y-2.5 mb-7">
+                      {p.features.map((f) => (
+                        <li
+                          key={f}
+                          className="flex items-start gap-2 text-xs"
+                          style={{
+                            color: "rgba(255,255,255,0.48)",
+                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                            lineHeight: 1.5,
+                          }}
+                        >
+                          <CheckCircle2 size={12} className="mt-0.5 shrink-0" style={{ color: TEAL }} />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <a
+                    href="#contact"
+                    className="block text-center py-3 rounded-full text-sm font-medium transition-all hover:opacity-90"
+                    style={{
+                      background: p.popular ? TEAL : "transparent",
+                      color: p.popular ? "#FFFFFF" : "rgba(255,255,255,0.55)",
+                      border: p.popular ? "none" : "1px solid rgba(255,255,255,0.14)",
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    }}
+                  >
+                    Start free
+                  </a>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      <BrandFooter />
+      {/* ═══ 5. HOW IT WORKS ═══ */}
+      <section className="min-h-screen flex flex-col justify-center px-6 py-28">
+        <div className="max-w-5xl mx-auto w-full">
+          <motion.div className="text-center mb-20" {...fadeUp}>
+            <h2
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontWeight: 300,
+                fontSize: "clamp(1.8rem, 4vw, 3.2rem)",
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+              }}
+            >
+              How it works
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
+            {HOW_STEPS.map((s, i) => (
+              <motion.div
+                key={s.num}
+                className="text-center md:text-left"
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.75, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div
+                  className="text-8xl font-light leading-none mb-6"
+                  style={{
+                    fontFamily: "'Lato', sans-serif",
+                    color: "rgba(212,168,67,0.07)",
+                    letterSpacing: "-0.04em",
+                  }}
+                >
+                  {s.num}
+                </div>
+                <h3
+                  className="text-lg mb-3"
+                  style={{
+                    fontFamily: "'Lato', sans-serif",
+                    fontWeight: 300,
+                    letterSpacing: "0.07em",
+                    textTransform: "uppercase",
+                    color: "#FFFFFF",
+                  }}
+                >
+                  {s.title}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    color: "rgba(255,255,255,0.46)",
+                    lineHeight: 1.75,
+                    fontSize: "15px",
+                  }}
+                >
+                  {s.body}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 6. TRUST ═══ */}
+      <section className="py-24 px-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <motion.div {...fadeUp}>
+            <h2
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontWeight: 300,
+                fontSize: "clamp(1.6rem, 3.5vw, 2.8rem)",
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+              }}
+            >
+              Built in Aotearoa, for Aotearoa
+            </h2>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-14">
+              {[
+                { Icon: Shield, label: "NZ-owned and operated" },
+                { Icon: CheckCircle2, label: "Data stays in New Zealand" },
+                { Icon: Star, label: "Tikanga Māori governance" },
+                { Icon: CheckCircle2, label: "Cancel anytime" },
+              ].map((t, i) => (
+                <motion.div
+                  key={t.label}
+                  className="flex flex-col items-center gap-3"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                >
+                  <t.Icon size={22} style={{ color: TEAL }} />
+                  <p
+                    className="text-sm leading-relaxed text-center"
+                    style={{
+                      color: "rgba(255,255,255,0.48)",
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    }}
+                  >
+                    {t.label}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ 7. FOOTER CTA ═══ */}
+      <section id="contact" className="py-32 px-6 text-center">
+        <motion.div {...fadeUp}>
+          <h2
+            style={{
+              fontFamily: "'Lato', sans-serif",
+              fontWeight: 300,
+              fontSize: "clamp(1.8rem, 4vw, 3.2rem)",
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+            }}
+          >
+            See it in action
+          </h2>
+          <p
+            className="mt-4 text-base max-w-sm mx-auto"
+            style={{
+              color: "rgba(255,255,255,0.42)",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              lineHeight: 1.75,
+            }}
+          >
+            Book a 20-minute demo. We'll show you exactly how Assembl handles your industry.
+          </p>
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 mt-10 px-10 py-4 rounded-full text-base font-semibold transition-all hover:brightness-110"
+            style={{ background: GOLD, color: BG, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          >
+            Book a demo <ArrowRight size={16} />
+          </Link>
+        </motion.div>
+      </section>
+
+      {/* ═══ FOOTER ═══ */}
+      <footer className="border-t px-6 py-10" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <span
+            style={{
+              fontFamily: "'Lato', sans-serif",
+              fontWeight: 300,
+              letterSpacing: "6px",
+              textTransform: "uppercase",
+              fontSize: "11px",
+              color: "rgba(255,255,255,0.25)",
+            }}
+          >
+            ASSEMBL
+          </span>
+
+          <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+            {[
+              { label: "Platform", to: "/app" },
+              { label: "How It Works", to: "/how-it-works" },
+              { label: "Pricing", to: "/pricing" },
+              { label: "Contact", to: "/contact" },
+              { label: "Privacy", to: "/privacy" },
+              { label: "Terms", to: "/terms" },
+            ].map((link) => (
+              <Link
+                key={link.label}
+                to={link.to}
+                className="text-sm transition-colors hover:text-white"
+                style={{
+                  color: "rgba(255,255,255,0.28)",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                }}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <p
+            className="text-xs"
+            style={{
+              color: "rgba(255,255,255,0.16)",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+            }}
+          >
+            © 2025 Assembl Ltd
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };

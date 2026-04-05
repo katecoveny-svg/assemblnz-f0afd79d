@@ -3,6 +3,19 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import toroaIcon from "@/assets/brand/toroa-logo.svg";
 
+// Per-pack accent colours for icon containers and hover states
+const PACK_ACCENT: Record<string, string> = {
+  manaaki: "#D4A843",
+  hanga: "#3A7D6E",
+  auaha: "#F0D078",
+  pakihi: "#5AADA0",
+  waka: "#3A7D6E",
+  hangarau: "#4A7AB5",
+  hauora: "#D4A843",
+  "te-kahui-reo": "#D4A843",
+  toroa: "#D4A843",
+};
+
 const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
   pakihi: (
     <svg viewBox="0 0 30 30" className="w-full h-full">
@@ -63,46 +76,71 @@ const LivePacksHero = () => (
       </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-        {LIVE_PACKS.map((pack, i) => (
+        {LIVE_PACKS.map((pack, i) => {
+          const accent = PACK_ACCENT[pack.slug] || "#D4A843";
+          return (
           <motion.div
             key={pack.slug}
             className="relative rounded-2xl p-6 group overflow-hidden flex flex-col"
-            style={{ background: "rgba(15,15,26,0.7)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.06)" }}
-            initial={{ opacity: 0, y: 16 }}
+            style={{
+              background: "rgba(15,15,26,0.82)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+              transition: "border-color 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1)",
+            }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.08 }}
+            transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{
+              y: -3,
+              borderColor: `${accent}45`,
+              boxShadow: `0 12px 40px rgba(0,0,0,0.4), 0 0 30px ${accent}15`,
+            }}
           >
-            <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-40 transition-opacity duration-700" style={{ background: "linear-gradient(90deg, transparent, #D4A84370, transparent)" }} />
+            {/* Top shimmer — faint at rest, vibrant on hover */}
+            <span
+              className="absolute top-0 left-0 right-0 h-[2px] opacity-15 group-hover:opacity-100 transition-opacity duration-500"
+              style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }}
+            />
 
-            <div className="w-11 h-11 rounded-xl mb-4 flex items-center justify-center overflow-hidden" style={{ background: "rgba(212,168,67,0.1)", border: "1px solid rgba(212,168,67,0.15)" }}>
+            <div
+              className="w-11 h-11 rounded-xl mb-4 flex items-center justify-center overflow-hidden"
+              style={{ background: `${accent}12`, border: `1px solid ${accent}22` }}
+            >
               {pack.slug === "toroa" ? (
                 <img src={toroaIcon} alt="Tōroa" className="w-7 h-7 object-contain" />
               ) : (
-                <div className="w-7 h-7" style={{ filter: "drop-shadow(0 0 6px rgba(212,168,67,0.3))" }}>
+                <div className="w-7 h-7" style={{ filter: `drop-shadow(0 0 8px ${accent}45)` }}>
                   {CONSTELLATION_MARKS[pack.slug]}
                 </div>
               )}
             </div>
 
-            <h3 className="text-base font-bold mb-0.5" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{pack.name}</h3>
+            <h3 className="text-base font-light mb-0.5" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF", letterSpacing: "0.04em" }}>{pack.name}</h3>
             <p className="text-[10px] italic mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{pack.english}</p>
             <p className="text-xs flex-1 mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>{pack.desc}</p>
 
             <div className="flex items-center justify-between mt-auto">
-              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase" style={{ background: "rgba(58,125,110,0.2)", color: "#3A7D6E", letterSpacing: "0.08em" }}>
+              <span
+                className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase"
+                style={{ background: `${accent}18`, color: accent, letterSpacing: "0.08em" }}
+              >
                 {pack.agents} agent{pack.agents > 1 ? "s" : ""}
               </span>
               <Link
                 to={`/packs/${pack.slug}`}
-                className="inline-flex items-center gap-1 text-[10px] font-bold uppercase transition-colors"
-                style={{ fontFamily: "'Lato', sans-serif", color: "#D4A843", letterSpacing: "0.08em" }}
+                className="inline-flex items-center gap-1 text-[10px] font-bold uppercase transition-all hover:gap-1.5"
+                style={{ fontFamily: "'Lato', sans-serif", color: accent, letterSpacing: "0.08em" }}
               >
                 Start Free Trial <ArrowRight size={12} />
               </Link>
             </div>
           </motion.div>
-        ))}
+          );
+        })}
       </div>
 
       <motion.p

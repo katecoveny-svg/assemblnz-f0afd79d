@@ -13,6 +13,7 @@ import AgentGrid from "./pages/AgentGrid";
 import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
+import Index from "./pages/Index";
 
 // Wrapper to force full remount when agentId changes (prevents removeChild crash)
 const ChatPageKeyed = () => {
@@ -123,7 +124,8 @@ const App = () => (
             <AuthProvider>
               <div className="pb-14 sm:pb-0">
                 <Routes>
-                  <Route path="/" element={<AgentGrid />} />
+                  <Route path="/" element={<Index />} />
+                  <Route path="/app" element={<AgentGrid />} />
                   <Route path="/chat/:agentId" element={<ChatPageKeyed />} />
                   <Route path="/login" element={<AuthPage mode="login" />} />
                   <Route path="/signup" element={<AuthPage mode="signup" />} />

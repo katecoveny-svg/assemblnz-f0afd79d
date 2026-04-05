@@ -50,22 +50,34 @@ const PackShowcase = () => (
           return (
             <motion.div
               key={pack.id}
-              className="relative rounded-2xl p-5 border border-border bg-card group hover:-translate-y-1 transition-all duration-300 overflow-hidden"
-              style={{ backdropFilter: "blur(12px)" }}
+              className="relative rounded-2xl p-5 group overflow-hidden"
+              style={{
+                background: "rgba(15,15,26,0.82)",
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+                transition: "border-color 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.4s cubic-bezier(0.16,1,0.3,1)",
+              }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+              transition={{ duration: 0.45, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{
+                y: -3,
+                borderColor: `${pack.color}45`,
+                boxShadow: `0 10px 36px rgba(0,0,0,0.4), 0 0 24px ${pack.color}15`,
+              }}
             >
               {/* Left accent border */}
               <div
-                className="absolute left-0 top-3 bottom-3 w-[3px] rounded-full"
-                style={{ background: pack.color }}
+                className="absolute left-0 top-3 bottom-3 w-[2.5px] rounded-full"
+                style={{ background: `linear-gradient(180deg, ${pack.color}90, ${pack.color}30)` }}
               />
 
-              {/* Top glow */}
+              {/* Top shimmer — faint at rest, bright on hover */}
               <span
-                className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-50 transition-opacity"
+                className="absolute top-0 left-[10%] right-[10%] h-px opacity-15 group-hover:opacity-70 transition-opacity duration-500"
                 style={{ background: `linear-gradient(90deg, transparent, ${pack.color}, transparent)` }}
               />
 
