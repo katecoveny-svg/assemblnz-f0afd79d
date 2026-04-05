@@ -409,33 +409,27 @@ const OUTCOMES = [
 ];
 
 /* ─── Pricing ──────────────────────────────────────────────────── */
+const SETUP_FEE = 749;
 const PLANS = [
   {
-    name: "Starter",
-    price: 49,
-    desc: "For solo operators and micro-businesses",
-    features: ["1 industry pack", "Up to 2 users", "200 queries/month", "Email support"],
-    popular: false,
-  },
-  {
-    name: "Pro",
-    price: 149,
-    desc: "For growing businesses with real operational needs",
-    features: ["3 industry packs", "Up to 5 users", "1,000 queries/month", "Priority support"],
+    name: "Essentials",
+    price: 199,
+    desc: "For small teams getting started",
+    features: ["2 users", "500 queries/month", "1 industry pack", "Email support"],
     popular: false,
   },
   {
     name: "Business",
-    price: 349,
-    desc: "For teams running a full business operation",
-    features: ["All industry packs", "Up to 20 users", "5,000 queries/month", "Dedicated onboarding"],
+    price: 399,
+    desc: "For growing businesses with real operations",
+    features: ["10 users", "2,000 queries/month", "All industry packs", "Priority support"],
     popular: true,
   },
   {
-    name: "Industry Suite",
+    name: "Enterprise",
     price: 799,
     desc: "For organisations that need everything",
-    features: ["All packs + custom tools", "Unlimited users", "Unlimited queries", "White-glove support"],
+    features: ["Unlimited users", "Unlimited queries", "All packs + custom tools", "White-glove onboarding"],
     popular: false,
   },
 ];
@@ -720,7 +714,7 @@ const Index = () => {
                 letterSpacing: "0.04em",
               }}
             >
-              All prices NZD + GST
+              ${SETUP_FEE} NZD + GST one-time setup · All prices NZD + GST
             </p>
           </motion.div>
 
@@ -772,7 +766,7 @@ const Index = () => {
             </span>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-3xl mx-auto">
             {PLANS.map((p, i) => {
               const displayPrice = annual ? Math.round(p.price * 0.8) : p.price;
               return (
