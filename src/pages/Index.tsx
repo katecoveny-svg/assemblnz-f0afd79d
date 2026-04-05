@@ -68,6 +68,7 @@ const Body = ({
       fontSize: "15px",
       lineHeight: 1.75,
       color: "rgba(255,255,255,0.52)",
+      ...style,
     }}
   >
     {children}
