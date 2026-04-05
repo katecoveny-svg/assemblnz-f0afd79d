@@ -1,4 +1,4 @@
-import { useState, type ElementType } from "react";
+import { useState, useEffect, useRef, type ElementType } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -11,7 +11,7 @@ import CelestialLogo from "@/components/CelestialLogo";
 
 /* ─── Brand tokens ─────────────────────────────────────────────── */
 const BG = "#09090F";
-const GOLD = "#D4A843";
+const GOLD = "#C4A870";   // warm muted bronze-gold (not yellow)
 const TEAL = "#3A7D6E";
 const BONE = "#F5F0E8";
 
@@ -21,6 +21,117 @@ const fadeUp = {
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-60px" as const },
   transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+};
+
+/* ─── Full-page star field canvas ─────────────────────────────── */
+// 120 stars spread across viewport, twinkling, with faint constellation lines
+const StarField = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    // Seed a stable distribution so stars don't move on resize
+    const count = 130;
+    const stars = Array.from({ length: count }, (_, i) => ({
+      // Use a pseudo-deterministic spread
+      x: ((i * 0.618033988 % 1) * 0.96 + 0.02),
+      y: ((i * 0.381966011 % 1) * 0.96 + 0.02),
+      r: 0.4 + (i % 5) * 0.22,
+      baseO: 0.08 + (i % 7) * 0.025,
+      phase: (i * 1.7) % (Math.PI * 2),
+      speed: 0.25 + (i % 9) * 0.08,
+    }));
+
+    // Constellation lines: connect stars that happen to be nearby
+    const lines: [number, number][] = [];
+    for (let a = 0; a < count; a++) {
+      for (let b = a + 1; b < count; b++) {
+        const dx = (stars[a].x - stars[b].x) * 1920;
+        const dy = (stars[a].y - stars[b].y) * 1080;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist > 60 && dist < 140 && lines.length < 28) {
+          lines.push([a, b]);
+        }
+      }
+    }
+
+    let frame: number;
+    let t = 0;
+
+    const draw = () => {
+      if (!canvas || !ctx) return;
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+      t += 0.008;
+
+      // Constellation lines
+      ctx.lineWidth = 0.4;
+      lines.forEach(([a, b]) => {
+        const sa = stars[a], sb = stars[b];
+        const lineO = 0.03 + Math.sin(t * 0.3 + a) * 0.015;
+        ctx.strokeStyle = `rgba(245,240,232,${lineO})`;
+        ctx.beginPath();
+        ctx.moveTo(sa.x * w, sa.y * h);
+        ctx.lineTo(sb.x * w, sb.y * h);
+        ctx.stroke();
+      });
+
+      // Stars
+      stars.forEach((s) => {
+        const twinkle = s.baseO + Math.sin(t * s.speed + s.phase) * 0.07;
+        const opacity = Math.max(0.04, Math.min(0.32, twinkle));
+        // Larger stars get a tiny soft halo
+        if (s.r > 0.8) {
+          const grad = ctx.createRadialGradient(s.x * w, s.y * h, 0, s.x * w, s.y * h, s.r * 3.5);
+          grad.addColorStop(0, `rgba(245,240,232,${opacity * 0.7})`);
+          grad.addColorStop(1, "rgba(245,240,232,0)");
+          ctx.beginPath();
+          ctx.arc(s.x * w, s.y * h, s.r * 3.5, 0, Math.PI * 2);
+          ctx.fillStyle = grad;
+          ctx.fill();
+        }
+        ctx.beginPath();
+        ctx.arc(s.x * w, s.y * h, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(245,240,232,${opacity})`;
+        ctx.fill();
+      });
+
+      frame = requestAnimationFrame(draw);
+    };
+
+    draw();
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      style={{
+        position: "fixed",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: 0,
+        pointerEvents: "none",
+      }}
+    />
+  );
 };
 
 /* ─── Minimal fixed nav ────────────────────────────────────────── */
@@ -133,57 +244,43 @@ const MinimalNav = () => {
   );
 };
 
-/* ─── Mārama Moon ──────────────────────────────────────────────── */
+/* ─── Mārama Moon — triple halo crescent ──────────────────────── */
+// Warm cream-gold (#C4A870) crescent with three nested glow halos
+const MOON = "#C4A870";
 const MaramaMoon = () => (
-  <svg width="180" height="180" viewBox="0 0 180 180" fill="none" aria-hidden="true">
+  <svg width="260" height="260" viewBox="0 0 260 260" fill="none" aria-hidden="true">
     <defs>
-      <filter id="moon-glow" x="-60%" y="-60%" width="220%" height="220%">
-        <feGaussianBlur stdDeviation="14" result="glow" />
+      <filter id="moon-core" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur stdDeviation="8" result="blur" />
         <feMerge>
-          <feMergeNode in="glow" />
+          <feMergeNode in="blur" />
           <feMergeNode in="SourceGraphic" />
         </feMerge>
       </filter>
-      <mask id="crescent-mask">
-        <circle cx="90" cy="90" r="70" fill="white" />
-        <circle cx="118" cy="82" r="60" fill="black" />
+      <mask id="crescent-m">
+        <circle cx="130" cy="130" r="84" fill="white" />
+        <circle cx="163" cy="120" r="72" fill="black" />
       </mask>
     </defs>
-    <circle cx="90" cy="90" r="72" fill={GOLD} opacity="0.04" />
+    {/* Halo 3 — outermost, very faint */}
+    <circle cx="130" cy="130" r="116" fill={MOON} opacity="0.025" />
+    {/* Halo 2 */}
+    <circle cx="130" cy="130" r="100" fill={MOON} opacity="0.04" />
+    {/* Halo 1 — inner atmospheric glow */}
+    <circle cx="130" cy="130" r="88" fill={MOON} opacity="0.06" />
+    {/* Crescent body */}
     <circle
-      cx="90"
-      cy="90"
-      r="70"
-      fill={GOLD}
-      mask="url(#crescent-mask)"
-      filter="url(#moon-glow)"
-      opacity="0.7"
+      cx="130"
+      cy="130"
+      r="84"
+      fill={MOON}
+      mask="url(#crescent-m)"
+      filter="url(#moon-core)"
+      opacity="0.82"
     />
   </svg>
 );
 
-/* ─── Matariki stars ───────────────────────────────────────────── */
-const STAR_DATA = [
-  { x: 8, y: 12, r: 1.2, o: 0.18 }, { x: 13, y: 20, r: 1, o: 0.14 }, { x: 6, y: 30, r: 1.5, o: 0.2 },
-  { x: 18, y: 8, r: 1, o: 0.16 }, { x: 22, y: 18, r: 1.2, o: 0.12 }, { x: 28, y: 35, r: 0.8, o: 0.13 },
-  { x: 42, y: 5, r: 1, o: 0.15 }, { x: 60, y: 4, r: 1.2, o: 0.17 }, { x: 75, y: 9, r: 0.8, o: 0.12 },
-  { x: 88, y: 14, r: 1, o: 0.14 }, { x: 55, y: 92, r: 1.2, o: 0.15 }, { x: 30, y: 88, r: 1, o: 0.12 },
-  { x: 15, y: 78, r: 0.8, o: 0.13 }, { x: 70, y: 85, r: 1, o: 0.15 }, { x: 85, y: 74, r: 1.5, o: 0.19 },
-  { x: 92, y: 88, r: 1, o: 0.14 }, { x: 78, y: 94, r: 1.2, o: 0.16 }, { x: 45, y: 96, r: 0.8, o: 0.12 },
-];
-
-const MatarikiStars = () => (
-  <svg
-    className="absolute inset-0 w-full h-full pointer-events-none"
-    viewBox="0 0 100 100"
-    preserveAspectRatio="xMidYMid slice"
-    aria-hidden="true"
-  >
-    {STAR_DATA.map((s, i) => (
-      <circle key={i} cx={s.x} cy={s.y} r={s.r} fill={BONE} opacity={s.o} />
-    ))}
-  </svg>
-);
 
 /* ─── Industry accordion ───────────────────────────────────────── */
 type Industry = {
@@ -191,42 +288,58 @@ type Industry = {
   agents: string;
   icon: ElementType;
   to: string;
+  accent: string;  // muted moonlit tint — not neon
 };
 
+// Accents are desaturated / darkened so they read as moonlit, not neon
 const INDUSTRIES: Industry[] = [
-  { name: "Hospitality", agents: "Food safety, liquor licensing, guest experience, menus, adventure tourism", icon: UtensilsCrossed, to: "/manaaki" },
-  { name: "Construction", agents: "Site safety, BIM, consenting, tender writing, project management", icon: HardHat, to: "/hanga" },
-  { name: "Creative", agents: "Copy, design, campaign management, video, podcast, social, analytics", icon: Palette, to: "/auaha" },
-  { name: "Business", agents: "Accounting, payroll, HR, insurance, retail, trade, agriculture", icon: Briefcase, to: "/pakihi" },
-  { name: "Technology", agents: "Security, DevOps, infrastructure, monitoring, IP management", icon: Cpu, to: "/hangarau" },
-  { name: "Language & Culture", agents: "Te reo Māori, tikanga alignment, iwi reporting, data sovereignty", icon: Globe, to: "/te-kahui-reo" },
-  { name: "Health & Wellbeing", agents: "Sport, health, nutrition, beauty, lifestyle, travel planning", icon: HeartPulse, to: "/kete/hauora" },
-  { name: "Transport & Logistics", agents: "Automotive, maritime, trucking, dealership compliance, heavy vehicle logbooks", icon: Compass, to: "/kete/waka" },
+  { name: "Hospitality",          agents: "Food safety, liquor licensing, guest experience, menus, adventure tourism",        icon: UtensilsCrossed, to: "/manaaki",        accent: "#B8965A" },
+  { name: "Construction",         agents: "Site safety, BIM, consenting, tender writing, project management",                 icon: HardHat,         to: "/hanga",           accent: "#3A7D6E" },
+  { name: "Creative",             agents: "Copy, design, campaign management, video, podcast, social, analytics",             icon: Palette,         to: "/auaha",           accent: "#A07840" },
+  { name: "Business",             agents: "Accounting, payroll, HR, insurance, retail, trade, agriculture",                   icon: Briefcase,       to: "/pakihi",          accent: "#4A6D9A" },
+  { name: "Technology",           agents: "Security, DevOps, infrastructure, monitoring, IP management",                      icon: Cpu,             to: "/hangarau",        accent: "#3A8090" },
+  { name: "Language & Culture",   agents: "Te reo Māori, tikanga alignment, iwi reporting, data sovereignty",                 icon: Globe,           to: "/te-kahui-reo",    accent: "#8A5A6A" },
+  { name: "Health & Wellbeing",   agents: "Sport, health, nutrition, beauty, lifestyle, travel planning",                     icon: HeartPulse,      to: "/kete/hauora",     accent: "#3A7A50" },
+  { name: "Transport & Logistics",agents: "Automotive, maritime, trucking, dealership compliance, heavy vehicle logbooks",    icon: Compass,         to: "/kete/waka",       accent: "#8A6040" },
 ];
 
 const IndustryRow = ({ industry }: { industry: Industry }) => {
   const [open, setOpen] = useState(false);
   const Icon = industry.icon;
+  const { accent } = industry;
 
   return (
-    <div className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+    <motion.div
+      className="border-b"
+      style={{
+        borderColor: "rgba(255,255,255,0.06)",
+        borderLeft: open ? `2px solid ${accent}` : "2px solid transparent",
+        paddingLeft: open ? "8px" : "8px",
+        transition: "border-color 0.3s, box-shadow 0.3s",
+        boxShadow: open ? `inset 3px 0 12px ${accent}18` : "none",
+      }}
+    >
       <button
-        className="w-full flex items-center justify-between py-6 text-left group"
+        className="w-full flex items-center justify-between py-6 text-left"
         onClick={() => setOpen(!open)}
       >
         <div className="flex items-center gap-4">
-          <Icon
-            size={18}
-            style={{ color: open ? GOLD : TEAL, flexShrink: 0, transition: "color 0.2s" }}
-          />
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300"
+            style={{
+              background: open ? `${accent}20` : "rgba(255,255,255,0.04)",
+            }}
+          >
+            <Icon size={16} style={{ color: open ? accent : "rgba(255,255,255,0.4)", transition: "color 0.2s" }} />
+          </div>
           <span
             style={{
               fontFamily: "'Lato', sans-serif",
               fontWeight: 300,
-              fontSize: "clamp(16px, 2.5vw, 20px)",
+              fontSize: "clamp(15px, 2.5vw, 19px)",
               letterSpacing: "0.08em",
               textTransform: "uppercase",
-              color: open ? "#FFFFFF" : "rgba(255,255,255,0.7)",
+              color: open ? "#FFFFFF" : "rgba(255,255,255,0.65)",
               transition: "color 0.2s",
             }}
           >
@@ -234,11 +347,11 @@ const IndustryRow = ({ industry }: { industry: Industry }) => {
           </span>
         </div>
         <ChevronDown
-          size={15}
+          size={14}
           style={{
-            color: "rgba(255,255,255,0.25)",
+            color: open ? `${accent}` : "rgba(255,255,255,0.2)",
             transform: open ? "rotate(180deg)" : "rotate(0deg)",
-            transition: "transform 0.3s",
+            transition: "transform 0.3s, color 0.3s",
             flexShrink: 0,
           }}
         />
@@ -253,7 +366,7 @@ const IndustryRow = ({ industry }: { industry: Industry }) => {
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             style={{ overflow: "hidden" }}
           >
-            <div className="pb-6 pl-10">
+            <div className="pb-6 pl-12">
               <p
                 className="text-sm mb-3 max-w-xl"
                 style={{
@@ -267,7 +380,7 @@ const IndustryRow = ({ industry }: { industry: Industry }) => {
               <Link
                 to={industry.to}
                 className="inline-flex items-center gap-1.5 text-sm transition-opacity hover:opacity-80"
-                style={{ color: GOLD, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                style={{ color: accent, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
                 See what's included <ArrowRight size={13} />
               </Link>
@@ -275,7 +388,7 @@ const IndustryRow = ({ industry }: { industry: Industry }) => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };
 
@@ -338,20 +451,27 @@ const HOW_STEPS = [
 const Index = () => {
   const [annual, setAnnual] = useState(false);
 
+  // Paint the body so the fixed star canvas background shows correctly
+  useEffect(() => {
+    const prev = document.body.style.background;
+    document.body.style.background = BG;
+    return () => { document.body.style.background = prev; };
+  }, []);
+
   return (
-    <div style={{ background: BG, color: "#FFFFFF", overflowX: "hidden" }}>
+    <div style={{ background: "transparent", color: "#FFFFFF", overflowX: "hidden", position: "relative", zIndex: 1 }}>
       <SEO
         title="Assembl — The Operating System for NZ Business"
         description="44 specialist tools across 7 industries. Quoting, payroll, compliance, marketing — connected and intelligent. Built in Aotearoa."
       />
+      {/* Persistent star field — fixed behind all content */}
+      <StarField />
       <MinimalNav />
 
       {/* ═══ 1. HERO ═══ */}
       <section
         className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-16"
-        style={{ background: BG }}
       >
-        <MatarikiStars />
 
         {/* Mārama moon — top right */}
         <div className="absolute top-6 right-6 md:top-10 md:right-14 pointer-events-none" style={{ zIndex: 1 }}>
