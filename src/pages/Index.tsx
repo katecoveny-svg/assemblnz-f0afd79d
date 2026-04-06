@@ -456,10 +456,10 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ═══ 4. OUTCOMES ═══ */}
+      {/* ═══ 4. OUTCOMES — Signal Node Cards ═══ */}
       <section
         className={SECTION}
-        style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
+        style={{ borderTop: "1px solid rgba(47,203,137,0.08)" }}
       >
         <div className={`${INNER} text-center`}>
           <motion.div {...fade}>
@@ -474,7 +474,7 @@ const Index = () => {
               }}
             >
               Win work.{" "}
-              <span style={{ color: "#D4A843" }}>Run work.</span>{" "}
+              <span style={{ color: "#CBAE6D" }}>Run work.</span>{" "}
               Stay sharp.
             </p>
           </motion.div>
@@ -483,7 +483,7 @@ const Index = () => {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-              gap: "12px",
+              gap: "16px",
               marginTop: "48px",
               textAlign: "left",
             }}
@@ -491,38 +491,64 @@ const Index = () => {
             {[
               {
                 heading: "Win work",
-                accent: "#D4A843",
+                accent: "#CBAE6D",
+                accentRgb: "203,174,109",
+                motif: "koru",
                 body: "Better proposals start with speed. Assembl reduces busywork so your team pitches more, quotes tighter, and closes harder.",
               },
               {
                 heading: "Run work",
-                accent: "#3A7D6E",
+                accent: "#2FCB89",
+                accentRgb: "47,203,137",
+                motif: "taniko",
                 body: "Every NZ business juggles payroll, tax, compliance, and schedules. Assembl handles the operational load so your team focuses on delivery.",
               },
               {
                 heading: "Stay sharp",
-                accent: "rgba(255,255,255,0.5)",
+                accent: "#6B8FA3",
+                accentRgb: "107,143,163",
+                motif: "mauao",
                 body: "NZ compliance and market conditions change constantly. Assembl surfaces what matters — regulation, deadlines, opportunities — before they become problems.",
               },
             ].map((o, i) => (
               <motion.div
                 key={o.heading}
                 style={{
-                  borderRadius: "12px",
-                  padding: "28px",
-                  background: "rgba(255,255,255,0.025)",
-                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: "16px",
+                  padding: "32px 28px",
+                  background: `linear-gradient(145deg, rgba(15,15,26,0.7) 0%, rgba(${o.accentRgb},0.04) 100%)`,
+                  border: `1px solid rgba(${o.accentRgb},0.15)`,
+                  backdropFilter: "blur(10px)",
+                  position: "relative",
+                  overflow: "hidden",
                 }}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
+                transition={{ delay: i * 0.15, duration: 0.6 }}
+                whileHover={{ borderColor: `rgba(${o.accentRgb},0.35)`, y: -2 }}
               >
+                {/* Corner glow */}
                 <div
                   style={{
-                    width: "32px",
-                    height: "1px",
+                    position: "absolute",
+                    top: "-20px",
+                    right: "-20px",
+                    width: "80px",
+                    height: "80px",
+                    borderRadius: "50%",
+                    background: `radial-gradient(circle, rgba(${o.accentRgb},0.12) 0%, transparent 70%)`,
+                    pointerEvents: "none",
+                  }}
+                />
+                {/* Signal node dot */}
+                <div
+                  style={{
+                    width: "8px",
+                    height: "8px",
+                    borderRadius: "50%",
                     background: o.accent,
+                    boxShadow: `0 0 12px rgba(${o.accentRgb},0.4)`,
                     marginBottom: "20px",
                   }}
                 />
@@ -530,9 +556,9 @@ const Index = () => {
                   style={{
                     fontFamily: "'Lato', sans-serif",
                     fontWeight: 300,
-                    fontSize: "20px",
+                    fontSize: "22px",
                     color: "#FFFFFF",
-                    marginBottom: "10px",
+                    marginBottom: "12px",
                   }}
                 >
                   {o.heading}
@@ -541,12 +567,23 @@ const Index = () => {
                   style={{
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
                     fontSize: "14px",
-                    lineHeight: 1.7,
-                    color: "rgba(255,255,255,0.52)",
+                    lineHeight: 1.75,
+                    color: "rgba(234,241,239,0.5)",
                   }}
                 >
                   {o.body}
                 </p>
+                {/* Bottom signal line */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: "28px",
+                    right: "28px",
+                    height: "1px",
+                    background: `linear-gradient(90deg, transparent, rgba(${o.accentRgb},0.2), transparent)`,
+                  }}
+                />
               </motion.div>
             ))}
           </div>
