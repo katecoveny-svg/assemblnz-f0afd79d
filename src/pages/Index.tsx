@@ -89,11 +89,11 @@ const fade = {
 
 /* ── Data ── */
 const PROOF_ITEMS = [
-  "42 specialist agents",
-  "5 industry packs",
+  "78 specialist agents",
+  "9 industry kete",
+  "1 intelligence layer",
   "Built in Aotearoa",
-  "From $89/month NZD",
-  "SMS-ready",
+  "SMS + WhatsApp ready",
 ];
 
 const PACKS = [
