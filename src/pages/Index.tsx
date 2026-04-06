@@ -300,7 +300,7 @@ const Index = () => {
                 gap: "8px",
                 padding: "12px 28px",
                 borderRadius: "100px",
-                background: "#3A7D6E",
+                background: "#2FCB89",
                 color: "#FFFFFF",
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 400,
