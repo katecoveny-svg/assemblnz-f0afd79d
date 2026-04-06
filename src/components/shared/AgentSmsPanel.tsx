@@ -105,19 +105,70 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
   };
 
   const sendTestSms = async () => {
-    if (!testMessage.trim()) return;
+    if (!testMessage.trim() || !user) return;
     setSending(true);
     try {
-      const { data, error } = await supabase.functions.invoke("tnz-inbound", {
-        body: {
-          Message: testMessage,
-          From: "+64210000000",
-          To: "+64test",
-          MessageID: `test-${Date.now()}`,
-        },
+      // Insert a test inbound message to show in the history
+      const { error: insertErr } = await supabase.from("agent_sms_messages").insert({
+        user_id: user.id,
+        agent_id: agentId,
+        phone_number: "+64210000000",
+        direction: "inbound",
+        body: testMessage,
+        status: "test",
       });
-      if (error) throw error;
-      toast.success("Test message sent!");
+      if (insertErr) throw insertErr;
+
+      // Call the agent router for a response
+      const resp = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/agent-router`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({
+          message: testMessage,
+          agentId,
+          packId: agentId,
+          messages: [],
+        }),
+      });
+
+      if (!resp.ok) throw new Error(`Agent error: ${resp.status}`);
+
+      // Read SSE stream
+      const reader = resp.body?.getReader();
+      const decoder = new TextDecoder();
+      let result = "";
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value, { stream: true });
+          for (const line of chunk.split("\n")) {
+            if (!line.startsWith("data: ") || line.includes("[DONE]")) continue;
+            try {
+              const parsed = JSON.parse(line.slice(6));
+              const c = parsed.choices?.[0]?.delta?.content;
+              if (c) result += c;
+            } catch {}
+          }
+        }
+      }
+
+      // Save the AI response as an outbound test message
+      if (result) {
+        await supabase.from("agent_sms_messages").insert({
+          user_id: user.id,
+          agent_id: agentId,
+          phone_number: "+64210000000",
+          direction: "outbound",
+          body: result.slice(0, 1600),
+          status: "test",
+        });
+      }
+
+      toast.success("Test complete — check messages below!");
       setTestMessage("");
       loadData();
     } catch (e: any) {
