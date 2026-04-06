@@ -243,7 +243,7 @@ const Index = () => {
     <div style={{ background: "#09161A", color: "#FFFFFF", minHeight: "100vh" }}>
       <SEO
         title="Assembl — The Operating System for NZ Business"
-        description="42 specialist agents across 5 industry packs. One intelligence layer for quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa."
+        description="78 specialist agents across 9 industry kete. One intelligence layer for quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa."
       />
       <BrandNav />
 
