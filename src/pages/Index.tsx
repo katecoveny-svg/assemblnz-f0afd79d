@@ -503,65 +503,104 @@ const Index = () => {
                 heading: "Reduce admin",
                 accent: "#CBAE6D",
                 accentRgb: "203,174,109",
-                motif: "koru",
+                icon: (
+                  <svg viewBox="0 0 64 64" fill="none" style={{ width: 48, height: 48 }}>
+                    <circle cx="32" cy="32" r="28" stroke="rgba(203,174,109,0.15)" strokeWidth="1" />
+                    <circle cx="32" cy="32" r="18" stroke="rgba(203,174,109,0.25)" strokeWidth="0.5" />
+                    <circle cx="32" cy="18" r="3" fill="rgba(203,174,109,0.6)"/>
+                    <circle cx="18" cy="40" r="3" fill="rgba(203,174,109,0.4)"/>
+                    <circle cx="46" cy="40" r="3" fill="rgba(203,174,109,0.5)"/>
+                    <circle cx="32" cy="32" r="2" fill="#CBAE6D"/>
+                    <line x1="32" y1="18" x2="32" y2="32" stroke="rgba(203,174,109,0.3)" strokeWidth="0.5"/>
+                    <line x1="18" y1="40" x2="32" y2="32" stroke="rgba(203,174,109,0.3)" strokeWidth="0.5"/>
+                    <line x1="46" y1="40" x2="32" y2="32" stroke="rgba(203,174,109,0.3)" strokeWidth="0.5"/>
+                  </svg>
+                ),
                 body: "Repetitive checks, reminders, and data entry handled automatically — so your team spends time on the work that earns revenue.",
               },
               {
                 heading: "Surface issues earlier",
                 accent: "#2FCB89",
                 accentRgb: "47,203,137",
-                motif: "taniko",
+                icon: (
+                  <svg viewBox="0 0 64 64" fill="none" style={{ width: 48, height: 48 }}>
+                    <circle cx="32" cy="32" r="28" stroke="rgba(47,203,137,0.12)" strokeWidth="1" />
+                    <circle cx="20" cy="22" r="4" fill="rgba(47,203,137,0.5)"/>
+                    <circle cx="44" cy="22" r="3" fill="rgba(47,203,137,0.35)"/>
+                    <circle cx="32" cy="44" r="5" fill="rgba(47,203,137,0.6)"/>
+                    <circle cx="12" cy="38" r="2" fill="rgba(47,203,137,0.25)"/>
+                    <circle cx="52" cy="38" r="2" fill="rgba(47,203,137,0.25)"/>
+                    <line x1="20" y1="22" x2="44" y2="22" stroke="rgba(47,203,137,0.2)" strokeWidth="0.5"/>
+                    <line x1="20" y1="22" x2="32" y2="44" stroke="rgba(47,203,137,0.2)" strokeWidth="0.5"/>
+                    <line x1="44" y1="22" x2="32" y2="44" stroke="rgba(47,203,137,0.2)" strokeWidth="0.5"/>
+                    <line x1="12" y1="38" x2="20" y2="22" stroke="rgba(47,203,137,0.15)" strokeWidth="0.5"/>
+                    <line x1="52" y1="38" x2="44" y2="22" stroke="rgba(47,203,137,0.15)" strokeWidth="0.5"/>
+                  </svg>
+                ),
                 body: "Compliance gaps, schedule risks, and approval bottlenecks flagged before they become problems — not after.",
               },
               {
                 heading: "Keep people in control",
                 accent: "#6B8FA3",
                 accentRgb: "107,143,163",
-                motif: "mauao",
+                icon: (
+                  <svg viewBox="0 0 64 64" fill="none" style={{ width: 48, height: 48 }}>
+                    <circle cx="32" cy="32" r="28" stroke="rgba(107,143,163,0.12)" strokeWidth="1" />
+                    <circle cx="32" cy="32" r="6" fill="none" stroke="rgba(107,143,163,0.4)" strokeWidth="1"/>
+                    <circle cx="32" cy="32" r="2" fill="#6B8FA3"/>
+                    <circle cx="32" cy="14" r="2.5" fill="rgba(107,143,163,0.5)"/>
+                    <circle cx="32" cy="50" r="2.5" fill="rgba(107,143,163,0.5)"/>
+                    <circle cx="14" cy="32" r="2.5" fill="rgba(107,143,163,0.5)"/>
+                    <circle cx="50" cy="32" r="2.5" fill="rgba(107,143,163,0.5)"/>
+                    <line x1="32" y1="14" x2="32" y2="26" stroke="rgba(107,143,163,0.25)" strokeWidth="0.5"/>
+                    <line x1="32" y1="38" x2="32" y2="50" stroke="rgba(107,143,163,0.25)" strokeWidth="0.5"/>
+                    <line x1="14" y1="32" x2="26" y2="32" stroke="rgba(107,143,163,0.25)" strokeWidth="0.5"/>
+                    <line x1="38" y1="32" x2="50" y2="32" stroke="rgba(107,143,163,0.25)" strokeWidth="0.5"/>
+                  </svg>
+                ),
                 body: "Every action is policy-gated, explainable, and auditable. Your team sees what matters now — no black boxes, no sci-fi dashboards.",
               },
             ].map((o, i) => (
               <motion.div
                 key={o.heading}
                 style={{
-                  borderRadius: "16px",
-                  padding: "32px 28px",
-                  background: `linear-gradient(145deg, rgba(15,15,26,0.7) 0%, rgba(${o.accentRgb},0.04) 100%)`,
-                  border: `1px solid rgba(${o.accentRgb},0.15)`,
-                  backdropFilter: "blur(10px)",
+                  borderRadius: "24px",
+                  padding: "36px 32px",
+                  background: `radial-gradient(ellipse at 30% 20%, rgba(${o.accentRgb},0.08) 0%, rgba(15,15,26,0.85) 60%)`,
+                  border: `1px solid rgba(${o.accentRgb},0.12)`,
+                  backdropFilter: "blur(20px)",
                   position: "relative",
                   overflow: "hidden",
+                  boxShadow: `0 4px 40px rgba(${o.accentRgb},0.06), inset 0 1px 0 rgba(255,255,255,0.03)`,
                 }}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15, duration: 0.6 }}
-                whileHover={{ borderColor: `rgba(${o.accentRgb},0.35)`, y: -2 }}
+                whileHover={{
+                  borderColor: `rgba(${o.accentRgb},0.3)`,
+                  y: -4,
+                  boxShadow: `0 8px 60px rgba(${o.accentRgb},0.12), inset 0 1px 0 rgba(255,255,255,0.06)`,
+                }}
               >
-                {/* Corner glow */}
+                {/* Organic glow blob */}
                 <div
                   style={{
                     position: "absolute",
-                    top: "-20px",
-                    right: "-20px",
-                    width: "80px",
-                    height: "80px",
+                    top: "-40px",
+                    right: "-40px",
+                    width: "160px",
+                    height: "160px",
                     borderRadius: "50%",
-                    background: `radial-gradient(circle, rgba(${o.accentRgb},0.12) 0%, transparent 70%)`,
+                    background: `radial-gradient(circle, rgba(${o.accentRgb},0.08) 0%, transparent 70%)`,
+                    filter: "blur(20px)",
                     pointerEvents: "none",
                   }}
                 />
-                {/* Signal node dot */}
-                <div
-                  style={{
-                    width: "8px",
-                    height: "8px",
-                    borderRadius: "50%",
-                    background: o.accent,
-                    boxShadow: `0 0 12px rgba(${o.accentRgb},0.4)`,
-                    marginBottom: "20px",
-                  }}
-                />
+                {/* Network icon */}
+                <div style={{ marginBottom: "24px", opacity: 0.9 }}>
+                  {o.icon}
+                </div>
                 <h3
                   style={{
                     fontFamily: "'Lato', sans-serif",
@@ -588,10 +627,10 @@ const Index = () => {
                   style={{
                     position: "absolute",
                     bottom: 0,
-                    left: "28px",
-                    right: "28px",
+                    left: "32px",
+                    right: "32px",
                     height: "1px",
-                    background: `linear-gradient(90deg, transparent, rgba(${o.accentRgb},0.2), transparent)`,
+                    background: `linear-gradient(90deg, transparent, rgba(${o.accentRgb},0.15), transparent)`,
                   }}
                 />
               </motion.div>
