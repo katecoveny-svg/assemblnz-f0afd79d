@@ -54,8 +54,8 @@ const HavenCommandCentre = () => {
     <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-display font-bold text-base text-foreground">Command Centre</h2>
-          <p className="text-[11px] font-body text-muted-foreground">Real-time operations overview</p>
+          <h2 className="font-display font-bold text-base text-foreground">Operations Overview</h2>
+          <p className="text-[11px] font-body text-muted-foreground">Real-time workflow status</p>
         </div>
         <button onClick={fetchAll} className="p-2 rounded-lg hover:bg-muted transition-colors"><RefreshCw size={14} className="text-muted-foreground" /></button>
       </div>

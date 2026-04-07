@@ -446,7 +446,7 @@ const DashboardPage = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="font-display font-light text-xl sm:text-2xl text-foreground">{greeting}</h1>
-            <p className="text-[11px] text-muted-foreground mt-0.5">Command Centre · 45 agents standing by</p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">Operations overview · Your workflows at a glance</p>
           </div>
           <div className="flex items-center gap-3">
             <LivePulse lastUpdated={lastUpdated} isConnected={isConnected} />
