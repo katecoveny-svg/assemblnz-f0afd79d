@@ -89,11 +89,10 @@ const fade = {
 
 /* ── Data ── */
 const PROOF_ITEMS = [
-  "9 industry workflows",
-  "Policy-gated & auditable",
-  "Built in Aotearoa",
-  "SMS + WhatsApp ready",
-  "One pilot at a time",
+  "Built for NZ workflows",
+  "Human approvals built in",
+  "SMS-first for teams on the move",
+  "Audit trail on material actions",
 ];
 
 const PACKS = [
@@ -257,8 +256,8 @@ const Index = () => {
   return (
     <div style={{ background: "#09161A", color: "#FFFFFF", minHeight: "100vh" }}>
       <SEO
-        title="Assembl — Less Admin, Earlier Signals, People in Control"
-        description="Specialist workflows that handle repetitive checks, reminders, approvals, and follow-through — so NZ teams can focus on the work that matters."
+        title="Assembl — Operational Intelligence for Aotearoa Businesses"
+        description="Assembl connects to the signals your business already produces — then helps your team sort, check, escalate, and act with more confidence."
       />
       <BrandNav />
 
@@ -280,8 +279,8 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            Less admin. Earlier signals.{" "}
-            <span style={{ color: "#CBAE6D" }}>People in control.</span>
+            Operational intelligence for{" "}
+            <span style={{ color: "#CBAE6D" }}>Aotearoa businesses.</span>
           </motion.h1>
 
           <motion.p
@@ -296,8 +295,9 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Specialist workflows that handle the repetitive checks, reminders,
-            approvals, and follow-through your team shouldn't have to chase.
+            Assembl connects to the signals your business already produces —
+            messages, documents, calendars, systems, and records — then helps
+            your team sort, check, escalate, and act with more confidence.
           </motion.p>
 
           <motion.div
@@ -324,7 +324,7 @@ const Index = () => {
                 textDecoration: "none",
               }}
             >
-              Book a pilot walkthrough <ArrowRight size={15} />
+              Start a pilot <ArrowRight size={15} />
             </a>
             <a
               href="#packs"
@@ -344,7 +344,7 @@ const Index = () => {
                 textDecoration: "none",
               }}
             >
-              Explore industry packs
+              See how it works
             </a>
           </motion.div>
         </div>
@@ -398,23 +398,18 @@ const Index = () => {
         </div>
       </div>
 
-      {/* ═══ 3. PROBLEM ═══ */}
+      {/* ═══ 3. HUMAN SECTION ═══ */}
       <section className={SECTION}>
         <div className={INNER}>
           <motion.div {...fade}>
-            <Eyebrow>THE CHALLENGE</Eyebrow>
+            <Eyebrow>YOUR TEAM</Eyebrow>
             <SectionHeading>
-              Your team's already doing the work. We make the admin lighter.
+              Built to support your people — not replace them.
             </SectionHeading>
             <Body className="max-w-2xl">
-              NZ businesses carry compliance, approvals, scheduling, and
-              reporting across too many disconnected tools. Staff spend hours
-              chasing paperwork instead of doing the work they were hired for.
-            </Body>
-            <Body className="max-w-2xl" style={{ marginTop: "16px" } as React.CSSProperties}>
-              Assembl doesn't replace your team — it supports them. Specialist
-              workflows handle the repetitive load so your people stay focused
-              on delivery.
+              Assembl handles repetitive checks, reminders, follow-through, and
+              workflow prep so your team can focus on judgment, service,
+              delivery, and growth.
             </Body>
           </motion.div>
 
@@ -488,9 +483,9 @@ const Index = () => {
                 letterSpacing: "-0.02em",
               }}
             >
-              Win work.{" "}
-              <span style={{ color: "#CBAE6D" }}>Run work.</span>{" "}
-              Stay sharp.
+              Reduce admin.{" "}
+              <span style={{ color: "#CBAE6D" }}>Surface issues earlier.</span>{" "}
+              Keep people in control.
             </p>
           </motion.div>
 
@@ -1003,12 +998,13 @@ const Index = () => {
       >
         <div style={{ maxWidth: "560px", margin: "0 auto", textAlign: "center" }}>
           <motion.div {...fade}>
-            <Eyebrow>FOUNDING PILOTS</Eyebrow>
-            <SectionHeading>Apply for the founding pilot programme.</SectionHeading>
+            <Eyebrow>HANGA — CONSTRUCTION PILOT</Eyebrow>
+            <SectionHeading>Start with one project. See the difference in 30 days.</SectionHeading>
             <Body style={{ marginBottom: "36px" } as React.CSSProperties}>
-              We are accepting a limited number of NZ businesses for our
-              founding pilot cohort. Direct access to the team, input into the
-              product, and founding-member pricing.
+              Hanga helps construction teams spot issues earlier, keep approvals
+              moving, and reduce admin — without taking decisions away from the
+              people responsible. One project or one contained workflow. 30 days.
+              Observe and approval mode first.
             </Body>
           </motion.div>
 
@@ -1076,7 +1072,7 @@ const Index = () => {
                 marginTop: "4px",
               }}
             >
-              Submit application <ArrowRight size={15} />
+              Start a pilot <ArrowRight size={15} />
             </button>
             <p
               style={{
