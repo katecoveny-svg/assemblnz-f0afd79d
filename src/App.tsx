@@ -110,6 +110,7 @@ const TeKahuiReoDashboard = lazy(() => import("./components/te-kahui-reo/TeKahui
 const ToroaDashboard = lazy(() => import("./components/toroa/ToroaDashboard"));
 const SkillWiringDashboard = lazy(() => import("./components/admin/SkillWiringDashboard"));
 const SkillHubPage = lazy(() => import("./pages/SkillHubPage"));
+const AaaipDashboard = lazy(() => import("./pages/AaaipDashboard"));
 
 const queryClient = new QueryClient();
 
@@ -175,6 +176,7 @@ const App = () => (
                   <Route path="/admin/pack-analytics" element={<Suspense fallback={null}><AdminPackAnalytics /></Suspense>} />
                   <Route path="/admin/skill-wiring" element={<Suspense fallback={null}><SkillWiringDashboard /></Suspense>} />
                   <Route path="/skill-hub" element={<Suspense fallback={null}><SkillHubPage /></Suspense>} />
+                  <Route path="/aaaip" element={<Suspense fallback={null}><AaaipDashboard /></Suspense>} />
                   <Route path="/packs/:packSlug" element={<Suspense fallback={null}><PackLandingPage /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
