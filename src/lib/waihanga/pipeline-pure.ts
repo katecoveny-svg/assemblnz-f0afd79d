@@ -215,11 +215,9 @@ export function checkCompliance(message: string): ComplianceResult {
 // ─────────────────────────────────────────────
 // MANA — Final post-response compliance gate
 // ─────────────────────────────────────────────
-// This is the missing 5th stage. iho-router currently uses "Mana" to
-// mean access control at the START of the pipeline. Per the locked
-// canonical (Kahu → Iho → Tā → Mahara → Mana), Mana is the FINAL
-// tikanga + compliance check on the agent's RESPONSE before it
-// leaves the system.
+// Canonical pipeline stage 5 (Kahu → Iho → Tā → Mahara → Mana).
+// Runs on the agent's RESPONSE before it leaves the system.
+// Six rules matching the iho-router implementation.
 
 export interface ManaGateResult {
   passed: boolean;
@@ -227,28 +225,43 @@ export interface ManaGateResult {
   warnings: string[];
 }
 
-export function manaGate(response: string, context: { isInternalComms?: boolean; isFatalityIncident?: boolean }): ManaGateResult {
+export function manaGate(
+  response: string,
+  context: { isInternalComms?: boolean; isFatalityIncident?: boolean }
+): ManaGateResult {
   const blockers: string[] = [];
   const warnings: string[] = [];
 
-  // IC-U1: never auto-send for internal comms
+  // Rule 1 — IC-U1: never auto-send for internal comms
   if (context.isInternalComms && /\b(sent|sending now|dispatched|published to)\b/i.test(response)) {
     blockers.push("IC-U1: response claims autonomous send — blocked");
   }
 
-  // IC-IN-05 canary: fatality scenarios MUST pause automation
+  // Rule 2 — IC-IN-05 canary: fatality scenarios MUST pause automation
   if (context.isFatalityIncident && !/(human takeover|pause|escalat|stop automation)/i.test(response)) {
     blockers.push("IC-IN-05: fatality scenario without human takeover — blocked");
   }
 
-  // Generic prompt-injection footprint in the response
+  // Rule 3 — Bare "APPROVED" rubber-stamp (prompt-injection footprint)
   if (/\bAPPROVED\b\s*$/.test(response.trim()) || /^APPROVED$/.test(response.trim())) {
     blockers.push("Mana: bare 'APPROVED' output not allowed — must include reasoning");
   }
 
-  // Tikanga warning: using 'Maori' without macron
+  // Rule 4 — Prompt-injection echo detection
+  if (/\bSYSTEM OVERRIDE\b/i.test(response) || /\bignore (?:all )?(?:previous )?instructions\b/i.test(response)) {
+    blockers.push("Mana: response echoes prompt-injection payload — blocked");
+  }
+
+  // Rule 5 — Missing statutory citation warning (CCA/HSWA)
+  if (/\b(payment claim|retention|cca|construction contract)\b/i.test(response)) {
+    if (!/\b(s\d+|section \d+|form 1|20.working.day)\b/i.test(response)) {
+      warnings.push("Mana: CCA-related response missing statutory citation");
+    }
+  }
+
+  // Rule 6 — Tikanga warning: using 'Maori' without macron
   if (/\bMaori\b/.test(response) && !/\bMāori\b/.test(response)) {
-    warnings.push("Tikanga: 'Maori' used without macron");
+    warnings.push("Tikanga: 'Maori' used without macron — should be 'Māori'");
   }
 
   return {
