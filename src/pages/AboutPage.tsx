@@ -6,9 +6,9 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 
 const ROADMAP = [
-  { quarter: "Q1 2026", title: "Platform Launch", desc: "44 agents live across 7 industry kete with NZ legislation training, voice interface, and SMS access.", done: true },
-  { quarter: "Q2 2026", title: "Health sector expansion", desc: "Aged care, whānau support, and health navigation agents. Additional Xero, MYOB, and Google Workspace integrations.", done: false },
-  { quarter: "Q3 2026", title: "Mobile app beta", desc: "Native iOS and Android apps. API-first features for enterprise customers. Multi-tenant support.", done: false },
+  { quarter: "Q1 2026", title: "Hanga pilot", desc: "Construction operations workflow live — safety signals, schedule visibility, approvals, site-admin follow-through.", done: true },
+  { quarter: "Q2 2026", title: "Manaaki + Pakihi pilots", desc: "Hospitality compliance and business operations workflows. Xero, MYOB, and Google Workspace integrations.", done: false },
+  { quarter: "Q3 2026", title: "Mobile + API access", desc: "Native iOS and Android apps. API-first for enterprise customers. Multi-tenant support.", done: false },
   { quarter: "Q4 2026", title: "Enterprise & Government", desc: "SOC 2 certification, on-premise data options, and government procurement compliance.", done: false },
 ];
 
@@ -22,24 +22,24 @@ const MARKET_STATS = [
 const AboutPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SEO title="About Assembl — The Intelligence Layer for NZ Business" description="44 specialist tools across 7 industry kete, built for New Zealand businesses. Every query hits a tikanga-governed compliance pipeline." path="/about" />
+      <SEO title="About Assembl — Specialist Workflows for NZ Business" description="Assembl helps NZ businesses reduce admin, surface issues earlier, and keep people in control. Governed, auditable, built for Aotearoa." path="/about" />
       <BrandNav />
 
       {/* Hero */}
       <section className="relative z-10 pt-24 pb-16 px-4 sm:px-6 text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <h1 className="text-3xl sm:text-5xl font-display text-foreground mb-4" style={{ fontWeight: 300 }}>
-            The operating system for <span className="text-gradient-hero">NZ business</span>
+            Built for commercially useful <span className="text-gradient-hero">project clarity</span>
           </h1>
           <p className="text-sm sm:text-base font-body text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Assembl is 44 specialist tools built for New Zealand businesses — from employment law to health compliance to hospitality operations. Every query hits a tikanga-governed compliance pipeline before it reaches you.
+            Assembl is a New Zealand-built platform that helps businesses reduce admin, surface issues earlier, and keep people in control. Rather than replacing staff, we support the teams already doing the work — with specialist workflows that handle repetitive checks, reminders, approvals, and follow-through.
           </p>
           <motion.p
             className="mt-8 text-sm sm:text-base font-body max-w-2xl mx-auto leading-relaxed italic"
             style={{ color: "hsl(var(--primary))", textShadow: "0 0 20px hsl(var(--primary) / 0.3), 0 0 40px hsl(var(--primary) / 0.15)" }}
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
           >
-            I shouldn't need a translator for the Holidays Act. Or a cultural consultant for tikanga. Or a lawyer to check whether its output crosses the Medicines Act. We build intelligence that's native to Aotearoa — the law, the culture, the obligations your business already carries. One platform, 44 agents, zero guesswork.
+            It helps leadership, project teams, and site teams see what matters now — without turning the work into a sci-fi command centre. Every material action is policy-gated, explainable, and auditable.
           </motion.p>
         </motion.div>
       </section>
@@ -51,21 +51,21 @@ const AboutPage = () => {
             <div>
               <span className="text-[10px] font-mono-jb text-muted-foreground uppercase tracking-widest">Our Vision</span>
               <h2 className="text-2xl sm:text-3xl font-display text-foreground mt-2 mb-4" style={{ fontWeight: 300 }}>
-                Built for <span className="text-gradient-hero">Aotearoa</span>
+                Supports the teams <span className="text-gradient-hero">already doing the work</span>
               </h2>
               <p className="text-sm font-body text-muted-foreground leading-relaxed mb-4">
-                Most business tools are trained on US data, US laws, and US business practices. They don't know what PAYE is. They've never heard of the Building Act. They can't calculate KiwiSaver contributions.
+                Most business tools are built for a US market. They don't know what PAYE is, they've never heard of the Building Act, and they can't calculate KiwiSaver contributions. Assembl is grounded in 50+ New Zealand Acts and the specific regulations NZ businesses operate within.
               </p>
               <p className="text-sm font-body text-muted-foreground leading-relaxed">
-                Assembl changes that. Every tool is grounded in 50+ New Zealand Acts and trained on the specific regulations, standards, and cultural context that NZ businesses operate within.
+                Our go-to-market stays tightly focused: one pilot workflow at a time, simulation-tested before broader deployment. Plain English in the product; te reo Māori integrated structurally in governance and internal design.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { icon: <Target size={20} />, title: "Purpose-built", desc: "Not adapted — built from the ground up for NZ" },
-                { icon: <Shield size={20} />, title: "Legislation-first", desc: "50+ NZ Acts embedded in every response" },
-                { icon: <Users size={20} />, title: "SME-focused", desc: "Priced for the 620K businesses that need it most" },
-                { icon: <Globe size={20} />, title: "Always on", desc: "24/7 specialist tools that never take leave" },
+                { icon: <Target size={20} />, title: "Outcome-focused", desc: "Commercially useful clarity, not feature overload" },
+                { icon: <Shield size={20} />, title: "Policy-gated", desc: "Every action explainable and auditable" },
+                { icon: <Users size={20} />, title: "Team-first", desc: "Supports your people, doesn't replace them" },
+                { icon: <Globe size={20} />, title: "Pilot-tested", desc: "One workflow at a time, simulation before deployment" },
               ].map((item) => (
                 <div key={item.title} className="glass-card glow-card-hover rounded-xl p-4">
                   <div className="text-primary mb-2">{item.icon}</div>
@@ -133,7 +133,7 @@ const AboutPage = () => {
             Built by <span className="text-gradient-hero">Kate</span>
           </h2>
           <p className="text-sm font-body text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
-            "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work. Every tool is trained on real NZ legislation — not generic overseas advice. My goal is to give every Kiwi business access to enterprise-grade business intelligence at a price they can afford."
+            "I built Assembl because NZ businesses deserve tools that understand our laws, our culture, and our way of working. We're not building a sci-fi command centre — we're building workflows that take the admin load off good teams. One pilot at a time, properly tested, commercially useful from day one."
           </p>
           <p className="text-xs font-display text-foreground" style={{ fontWeight: 300 }}>Kate</p>
           <p className="text-[11px] font-body text-muted-foreground">Founder & CEO · Auckland, New Zealand</p>
