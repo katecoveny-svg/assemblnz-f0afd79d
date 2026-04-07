@@ -89,11 +89,11 @@ const fade = {
 
 /* ── Data ── */
 const PROOF_ITEMS = [
-  "78 specialist agents",
-  "9 industry kete",
-  "1 intelligence layer",
+  "9 industry workflows",
+  "Policy-gated & auditable",
   "Built in Aotearoa",
   "SMS + WhatsApp ready",
+  "One pilot at a time",
 ];
 
 const PACKS = [
@@ -101,7 +101,7 @@ const PACKS = [
     name: "Manaaki",
     sub: "Hospitality & Tourism",
     mark: manaakiMark,
-    desc: "Food safety, liquor licensing, guest experience, luxury lodging, adventure tourism.",
+    desc: "Fewer missed checks. Cleaner compliance. Guests looked after without the paperwork pile-up.",
     to: "/manaaki",
     accent: "#CBAE6D",
     accentRgb: "203,174,109",
@@ -111,7 +111,7 @@ const PACKS = [
     name: "Hanga",
     sub: "Construction",
     mark: hangaMark,
-    desc: "Site to sign-off. Safety, BIM, consenting, project management, tenders.",
+    desc: "Safety signals, schedule visibility, approvals, and site-admin follow-through — without the spreadsheet maze.",
     to: "/hanga",
     accent: "#2FCB89",
     accentRgb: "47,203,137",
@@ -121,7 +121,7 @@ const PACKS = [
     name: "Auaha",
     sub: "Creative & Media",
     mark: auahaMark,
-    desc: "Brief to published. Copy, image, video, podcast, ads, analytics.",
+    desc: "Brief to published with fewer handoffs. Content that stays on-brand and on-deadline.",
     to: "/auaha",
     accent: "#B388FF",
     accentRgb: "179,136,255",
@@ -131,7 +131,7 @@ const PACKS = [
     name: "Pakihi",
     sub: "Business & Commerce",
     mark: pakihiMark,
-    desc: "Accounting, insurance, retail, trade, agriculture, real estate.",
+    desc: "Less admin, earlier exceptions, clearer approvals — across accounting, retail, trade, and property.",
     to: "/pakihi",
     accent: "#6B8FA3",
     accentRgb: "107,143,163",
@@ -141,7 +141,7 @@ const PACKS = [
     name: "Hangarau",
     sub: "Technology",
     mark: hangarauMark,
-    desc: "Security, DevOps, infrastructure, monitoring, manufacturing, IP.",
+    desc: "Surface issues before they escalate. Security, ops, and infrastructure checks that run in the background.",
     to: "/hangarau",
     accent: "#5AADA0",
     accentRgb: "90,173,160",
@@ -152,23 +152,23 @@ const PACKS = [
 const DIFFS = [
   {
     icon: ihoIcon,
-    title: "NZ context",
-    body: "Built around Aotearoa business reality — regulation, culture, market, and language — not adapted from overseas defaults.",
+    title: "Built for NZ",
+    body: "Grounded in Aotearoa regulation, culture, and market reality — not adapted from overseas defaults.",
   },
   {
     icon: kanohiIcon,
-    title: "Specialist intelligence",
-    body: "Purpose-built capability for each industry, not a single generic assistant stretched across five different domains.",
+    title: "Supports your team",
+    body: "Handles repetitive checks, reminders, approvals, and follow-through — so your people focus on the work that matters.",
   },
   {
     icon: maharaIcon,
-    title: "Shared memory",
-    body: "Work compounds over time. Context carries forward instead of resetting every session.",
+    title: "Auditable by design",
+    body: "Every material action is policy-gated, explainable, and logged. No black boxes.",
   },
   {
     icon: manaIcon,
-    title: "Cultural intelligence",
-    body: "Te Kāhui Reo is woven through the platform — not layered on top — supporting tikanga alignment in every output.",
+    title: "One pilot at a time",
+    body: "We deploy tightly focused workflows, test them in simulation, then widen. No big-bang rollouts.",
   },
 ];
 
@@ -257,8 +257,8 @@ const Index = () => {
   return (
     <div style={{ background: "#09161A", color: "#FFFFFF", minHeight: "100vh" }}>
       <SEO
-        title="Assembl — The Operating System for NZ Business"
-        description="78 specialist agents across 9 industry kete. One intelligence layer for quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa."
+        title="Assembl — Less Admin, Earlier Signals, People in Control"
+        description="Specialist workflows that handle repetitive checks, reminders, approvals, and follow-through — so NZ teams can focus on the work that matters."
       />
       <BrandNav />
 
@@ -280,8 +280,8 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            The operating system for{" "}
-            <span style={{ color: "#CBAE6D" }}>NZ business.</span>
+            Less admin. Earlier signals.{" "}
+            <span style={{ color: "#CBAE6D" }}>People in control.</span>
           </motion.h1>
 
           <motion.p
@@ -296,8 +296,8 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            One intelligence layer for quoting, payroll, planning, marketing,
-            compliance and execution.
+            Specialist workflows that handle the repetitive checks, reminders,
+            approvals, and follow-through your team shouldn't have to chase.
           </motion.p>
 
           <motion.div
@@ -324,7 +324,7 @@ const Index = () => {
                 textDecoration: "none",
               }}
             >
-              Apply for the pilot programme <ArrowRight size={15} />
+              Book a pilot walkthrough <ArrowRight size={15} />
             </a>
             <a
               href="#packs"
@@ -404,17 +404,17 @@ const Index = () => {
           <motion.div {...fade}>
             <Eyebrow>THE CHALLENGE</Eyebrow>
             <SectionHeading>
-              Enterprise work, small-team resources.
+              Your team's already doing the work. We make the admin lighter.
             </SectionHeading>
             <Body className="max-w-2xl">
-              Most owner-led businesses in Aotearoa carry too much operational
-              complexity across too many disconnected tools — quoting, admin,
-              compliance, planning, people, reporting. They cannot justify a
-              stack of consultants, agencies, and enterprise software.
+              NZ businesses carry compliance, approvals, scheduling, and
+              reporting across too many disconnected tools. Staff spend hours
+              chasing paperwork instead of doing the work they were hired for.
             </Body>
             <Body className="max-w-2xl" style={{ marginTop: "16px" } as React.CSSProperties}>
-              Assembl replaces the fragmentation. One platform, built for the
-              realities of NZ business.
+              Assembl doesn't replace your team — it supports them. Specialist
+              workflows handle the repetitive load so your people stay focused
+              on delivery.
             </Body>
           </motion.div>
 
@@ -429,7 +429,7 @@ const Index = () => {
             {[
               { stat: "605,000", label: "NZ businesses" },
               { stat: "97%", label: "are small enterprises" },
-              { stat: "78", label: "specialist agents across 9 kete" },
+              { stat: "9", label: "industry workflows, one pilot at a time" },
             ].map((c, i) => (
               <motion.div
                 key={c.label}
@@ -505,25 +505,25 @@ const Index = () => {
           >
             {[
               {
-                heading: "Win work",
+                heading: "Reduce admin",
                 accent: "#CBAE6D",
                 accentRgb: "203,174,109",
                 motif: "koru",
-                body: "Better proposals start with speed. Assembl reduces busywork so your team pitches more, quotes tighter, and closes harder.",
+                body: "Repetitive checks, reminders, and data entry handled automatically — so your team spends time on the work that earns revenue.",
               },
               {
-                heading: "Run work",
+                heading: "Surface issues earlier",
                 accent: "#2FCB89",
                 accentRgb: "47,203,137",
                 motif: "taniko",
-                body: "Every NZ business juggles payroll, tax, compliance, and schedules. Assembl handles the operational load so your team focuses on delivery.",
+                body: "Compliance gaps, schedule risks, and approval bottlenecks flagged before they become problems — not after.",
               },
               {
-                heading: "Stay sharp",
+                heading: "Keep people in control",
                 accent: "#6B8FA3",
                 accentRgb: "107,143,163",
                 motif: "mauao",
-                body: "NZ compliance and market conditions change constantly. Assembl surfaces what matters — regulation, deadlines, opportunities — before they become problems.",
+                body: "Every action is policy-gated, explainable, and auditable. Your team sees what matters now — no black boxes, no sci-fi dashboards.",
               },
             ].map((o, i) => (
               <motion.div
@@ -615,11 +615,11 @@ const Index = () => {
           <motion.div {...fade} style={{ marginBottom: "48px", textAlign: "center" }}>
             <Eyebrow>INDUSTRY KETE</Eyebrow>
             <SectionHeading>
-              Nine specialist kete for NZ industries.
+              Specialist workflows, industry by industry.
             </SectionHeading>
             <Body className="max-w-xl mx-auto">
-              Each kete carries the knowledge, agents, and workflows your
-              industry requires — woven together in one platform.
+              Each kete is a focused set of workflows for a specific industry —
+              built to support the teams already doing the work.
             </Body>
           </motion.div>
 
