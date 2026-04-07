@@ -7,12 +7,16 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { submitAaaipExport } from "./api/export";
 import { RobotAgent, type RobotAgentDecisionResult } from "./agent/robot-agent";
 import { AuditLog, type AuditEntry } from "./metrics/audit";
 import { ComplianceEngine } from "./policy/engine";
 import { ROBOT_POLICIES } from "./policy/human-robot";
 import type { AaaipRuntimeBase } from "./runtime-base";
 import { RobotSimulator, type RobotWorld } from "./simulation/human-robot";
+
+const PILOT_LABEL =
+  "Aotearoa Agentic AI Platform · Pilot 02 — Human-robot collaboration";
 
 export interface RobotRuntime extends AaaipRuntimeBase {
   domain: "robot";
@@ -106,7 +110,18 @@ export function useRobotRuntime(): RobotRuntime {
     forceRender();
   }, [forceRender]);
 
-  const exportJson = useCallback(() => auditRef.current!.exportJson(), []);
+  const exportJson = useCallback(
+    () => auditRef.current!.exportJson({ domain: "robot", pilotLabel: PILOT_LABEL }),
+    [],
+  );
+
+  const submitToAaaip = useCallback(
+    () =>
+      submitAaaipExport(
+        auditRef.current!.buildExportPayload({ domain: "robot", pilotLabel: PILOT_LABEL }),
+      ),
+    [],
+  );
 
   const policies = useMemo(() => engineRef.current!.describePolicies(), []);
   const metrics = auditRef.current!.aggregates();
@@ -115,6 +130,7 @@ export function useRobotRuntime(): RobotRuntime {
 
   return {
     domain: "robot",
+    pilotLabel: PILOT_LABEL,
     world: simRef.current!.world,
     audit,
     pendingApprovals,
@@ -129,6 +145,7 @@ export function useRobotRuntime(): RobotRuntime {
     approve,
     reject,
     exportJson,
+    submitToAaaip,
     injectHumanIntrusion,
     injectSensorFailure,
     scenarioActions: [

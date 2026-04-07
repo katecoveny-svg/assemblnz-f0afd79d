@@ -111,20 +111,25 @@ export class AuditLog {
   }
 
   /**
-   * Export the log as a JSON string. Wired into the dashboard's
-   * "Send to AAAIP researchers" button — also the seam where a
-   * Supabase / S3 connector would live.
+   * Build the structured payload that the dashboard ships to the
+   * `aaaip-audit-export` edge function (or downloads as JSON).
+   * Domain + pilot label make the row queryable for AAAIP researchers.
    */
-  exportJson(): string {
-    return JSON.stringify(
-      {
-        exportedAt: new Date().toISOString(),
-        entries: this.entries,
-        aggregates: this.aggregates(),
-      },
-      null,
-      2,
-    );
+  buildExportPayload(meta: { domain: string; pilotLabel?: string } = { domain: "unknown" }) {
+    return {
+      domain: meta.domain,
+      pilotLabel: meta.pilotLabel,
+      exportedAt: new Date().toISOString(),
+      entries: this.entries,
+      aggregates: this.aggregates(),
+    };
+  }
+
+  /**
+   * Export the log as a pretty JSON string for local download.
+   */
+  exportJson(meta?: { domain: string; pilotLabel?: string }): string {
+    return JSON.stringify(this.buildExportPayload(meta), null, 2);
   }
 
   reset() {

@@ -87,3 +87,5 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.toroa-think-ahead]
     verify_jwt = false
+  [functions.aaaip-audit-export]
+    verify_jwt = false

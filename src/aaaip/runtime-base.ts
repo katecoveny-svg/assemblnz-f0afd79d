@@ -8,12 +8,15 @@
 
 import type { ComplianceEngine } from "./policy/engine";
 import type { AuditEntry, AuditLog } from "./metrics/audit";
+import type { AaaipExportError, AaaipExportResponse } from "./api/export";
 
 /** UI-level domain key — distinct from `Domain` in policy/types.ts. */
-export type RuntimeDomainKey = "clinic" | "robot";
+export type RuntimeDomainKey = "clinic" | "robot" | "science";
 
 export interface AaaipRuntimeBase {
   domain: RuntimeDomainKey;
+  /** Human-readable label of the pilot — surfaced in the export payload. */
+  pilotLabel: string;
   /** Domain-specific world snapshot — narrowed by the live view. */
   world: unknown;
   audit: AuditEntry[];
@@ -29,6 +32,8 @@ export interface AaaipRuntimeBase {
   approve: (entryId: string) => void;
   reject: (entryId: string) => void;
   exportJson: () => string;
+  /** POST the audit log to the aaaip-audit-export edge function. */
+  submitToAaaip: () => Promise<AaaipExportResponse | AaaipExportError>;
   /** Domain-specific scenario buttons rendered in the header. */
   scenarioActions: Array<{
     id: string;

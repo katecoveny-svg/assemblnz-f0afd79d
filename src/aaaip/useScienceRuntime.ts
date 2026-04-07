@@ -1,39 +1,44 @@
 // ═══════════════════════════════════════════════════════════════
-// AAAIP — React runtime hook
-// Owns one ClinicSimulator + ComplianceEngine + ClinicAgent +
-// AuditLog instance and exposes a small imperative API plus
-// reactive state for the dashboard.
+// AAAIP — Drug Screening runtime hook
+// Owns one ScienceSimulator + ComplianceEngine + ScienceAgent +
+// AuditLog instance and exposes the same shape as useAaaipRuntime
+// / useRobotRuntime so the dashboard chrome can render any domain.
 // ═══════════════════════════════════════════════════════════════
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { submitAaaipExport } from "./api/export";
-import { ClinicAgent, type AgentDecisionResult } from "./agent/clinic-agent";
+import { ScienceAgent, type ScienceDecisionResult } from "./agent/science-agent";
 import { AuditLog, type AuditEntry } from "./metrics/audit";
 import { ComplianceEngine } from "./policy/engine";
-import { CLINIC_POLICIES } from "./policy/library";
+import { SCIENCE_POLICIES } from "./policy/science";
 import type { AaaipRuntimeBase } from "./runtime-base";
-import { ClinicSimulator, type ClinicWorld } from "./simulation/clinic";
+import { ScienceSimulator, type ScienceWorld } from "./simulation/science";
 
-const PILOT_LABEL = "Aotearoa Agentic AI Platform · Pilot 01 — Clinic scheduling";
+const PILOT_LABEL =
+  "Aotearoa Agentic AI Platform · Pilot 03 — Drug screening / scientific discovery";
 
-export interface AaaipRuntime extends AaaipRuntimeBase {
-  domain: "clinic";
-  world: ClinicWorld;
-  step: () => AgentDecisionResult | null;
-  injectEmergency: () => void;
+export interface ScienceRuntime extends AaaipRuntimeBase {
+  domain: "science";
+  world: ScienceWorld;
+  step: () => ScienceDecisionResult | null;
+  injectBadCompound: () => void;
 }
 
-export function useAaaipRuntime(): AaaipRuntime {
-  const simRef = useRef<ClinicSimulator | null>(null);
-  const agentRef = useRef<ClinicAgent | null>(null);
+export function useScienceRuntime(): ScienceRuntime {
+  const simRef = useRef<ScienceSimulator | null>(null);
+  const agentRef = useRef<ScienceAgent | null>(null);
   const auditRef = useRef<AuditLog | null>(null);
   const engineRef = useRef<ComplianceEngine | null>(null);
 
-  if (!simRef.current) simRef.current = new ClinicSimulator({ seed: 7 });
+  if (!simRef.current) simRef.current = new ScienceSimulator({ seed: 23 });
   if (!engineRef.current)
-    engineRef.current = new ComplianceEngine({ policies: CLINIC_POLICIES });
-  if (!agentRef.current) agentRef.current = new ClinicAgent({ engine: engineRef.current });
+    engineRef.current = new ComplianceEngine({
+      policies: SCIENCE_POLICIES,
+      defaultUncertaintyThreshold: 0.7,
+    });
+  if (!agentRef.current)
+    agentRef.current = new ScienceAgent({ engine: engineRef.current });
   if (!auditRef.current) auditRef.current = new AuditLog();
 
   const [, setRenderTick] = useState(0);
@@ -41,12 +46,11 @@ export function useAaaipRuntime(): AaaipRuntime {
   const [isRunning, setIsRunning] = useState(false);
   const [tickCount, setTickCount] = useState(0);
 
-  // Bridge audit log changes into React state.
   useEffect(() => {
     return auditRef.current!.subscribe(() => forceRender());
   }, [forceRender]);
 
-  const step = useCallback((): AgentDecisionResult | null => {
+  const step = useCallback((): ScienceDecisionResult | null => {
     const sim = simRef.current!;
     const agent = agentRef.current!;
     const audit = auditRef.current!;
@@ -58,7 +62,6 @@ export function useAaaipRuntime(): AaaipRuntime {
     return result;
   }, [forceRender]);
 
-  // Drive the loop while running.
   useEffect(() => {
     if (!isRunning) return;
     const id = window.setInterval(() => {
@@ -77,56 +80,43 @@ export function useAaaipRuntime(): AaaipRuntime {
     forceRender();
   }, [forceRender]);
 
-  const approve = useCallback(
-    (entryId: string) => {
-      const audit = auditRef.current!;
-      const entry = audit.list().find((e) => e.id === entryId);
-      if (!entry) return;
-      const payload = entry.decision.action.payload as {
-        patientId?: string;
-        slotId?: string;
-      };
-      if (payload.patientId && payload.slotId) {
-        agentRef.current!.approveAndApply(simRef.current!, payload.patientId, payload.slotId);
-      }
-      audit.override(entryId, "approved");
-    },
-    [],
-  );
+  const approve = useCallback((entryId: string) => {
+    const audit = auditRef.current!;
+    const entry = audit.list().find((e) => e.id === entryId);
+    if (!entry) return;
+    const payload = entry.decision.action.payload as {
+      compoundId?: string;
+      wellId?: string;
+    };
+    if (payload.compoundId && payload.wellId) {
+      agentRef.current!.approveAndApply(simRef.current!, payload.compoundId, payload.wellId);
+    }
+    audit.override(entryId, "approved");
+  }, []);
 
   const reject = useCallback((entryId: string) => {
     const audit = auditRef.current!;
     const entry = audit.list().find((e) => e.id === entryId);
     if (!entry) return;
-    const payload = entry.decision.action.payload as { patientId?: string };
-    if (payload.patientId) simRef.current!.drainInboxFor(payload.patientId);
+    const payload = entry.decision.action.payload as { compoundId?: string };
+    if (payload.compoundId) simRef.current!.dropCompound(payload.compoundId);
     audit.override(entryId, "rejected");
   }, []);
 
-  const injectEmergency = useCallback(() => {
-    // Force the next tick to spawn an emergency by mutating the inbox directly.
-    const sim = simRef.current!;
-    sim.world.pendingEmergency = true;
-    sim.world.inbox.push({
-      id: `manual-${Date.now()}`,
-      name: "Walk-in Emergency",
-      acuity: 1,
-      consentOnFile: true,
-      cohort: "A",
-      arrivedAt: sim.world.now,
-    });
+  const injectBadCompound = useCallback(() => {
+    simRef.current!.injectBadCompound();
     forceRender();
   }, [forceRender]);
 
   const exportJson = useCallback(
-    () => auditRef.current!.exportJson({ domain: "clinic", pilotLabel: PILOT_LABEL }),
+    () => auditRef.current!.exportJson({ domain: "science", pilotLabel: PILOT_LABEL }),
     [],
   );
 
   const submitToAaaip = useCallback(
     () =>
       submitAaaipExport(
-        auditRef.current!.buildExportPayload({ domain: "clinic", pilotLabel: PILOT_LABEL }),
+        auditRef.current!.buildExportPayload({ domain: "science", pilotLabel: PILOT_LABEL }),
       ),
     [],
   );
@@ -137,7 +127,7 @@ export function useAaaipRuntime(): AaaipRuntime {
   const pendingApprovals = auditRef.current!.pendingApprovals();
 
   return {
-    domain: "clinic",
+    domain: "science",
     pilotLabel: PILOT_LABEL,
     world: simRef.current!.world,
     audit,
@@ -152,11 +142,15 @@ export function useAaaipRuntime(): AaaipRuntime {
     reset,
     approve,
     reject,
-    injectEmergency,
     exportJson,
     submitToAaaip,
+    injectBadCompound,
     scenarioActions: [
-      { id: "emergency", label: "Inject emergency", onTrigger: injectEmergency },
+      {
+        id: "bad_compound",
+        label: "Inject bad compound",
+        onTrigger: injectBadCompound,
+      },
     ],
   };
 }

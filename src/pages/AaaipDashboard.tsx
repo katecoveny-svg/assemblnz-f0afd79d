@@ -8,19 +8,23 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 import {
   Activity,
   AlertTriangle,
   CheckCircle2,
   Clock,
+  Cloud,
   Cpu,
   Download,
+  FlaskConical,
   Pause,
   Play,
   RefreshCw,
   Shield,
   SkipForward,
   Stethoscope,
+  Upload,
   Users,
 } from "lucide-react";
 import {
@@ -58,13 +62,15 @@ import {
 import {
   useAaaipRuntime,
   useRobotRuntime,
+  useScienceRuntime,
   type AaaipRuntime,
   type AuditEntry,
   type RobotRuntime,
+  type ScienceRuntime,
   type ZoneId,
 } from "@/aaaip";
 
-type DomainKey = "clinic" | "robot";
+type DomainKey = "clinic" | "robot" | "science";
 
 const VERDICT_LABEL: Record<string, string> = {
   allow: "Auto-approved",
@@ -98,13 +104,22 @@ const DOMAIN_META: Record<DomainKey, {
       "A collaborative robot working alongside a human operator in a manufacturing cell. Sensors, intent classification, force limits and zone occupancy are all gated by ISO/TS 15066-aligned policies.",
     policyPrefix: "robot.",
   },
+  science: {
+    title: "Drug Screening Digital Twin",
+    pilotLabel: "Aotearoa Agentic AI Platform · Pilot 03",
+    description:
+      "An autonomous drug-screening agent dispatching compounds to a 96-well plate. Every assay is gated by data-provenance, IRB, dosage and reproducibility policies before it can run.",
+    policyPrefix: "science.",
+  },
 };
 
 export default function AaaipDashboard() {
   const [domain, setDomain] = useState<DomainKey>("clinic");
   const clinic = useAaaipRuntime();
   const robot = useRobotRuntime();
-  const rt = domain === "clinic" ? clinic : robot;
+  const science = useScienceRuntime();
+  const rt =
+    domain === "clinic" ? clinic : domain === "robot" ? robot : science;
   const meta = DOMAIN_META[domain];
 
   const policyHitData = useMemo(
@@ -128,6 +143,8 @@ export default function AaaipDashboard() {
     [rt.metrics],
   );
 
+  const [submitting, setSubmitting] = useState(false);
+
   const downloadExport = () => {
     const json = rt.exportJson();
     const blob = new Blob([json], { type: "application/json" });
@@ -137,6 +154,30 @@ export default function AaaipDashboard() {
     a.download = `aaaip-${domain}-audit-${Date.now()}.json`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const sendToAaaip = async () => {
+    if (rt.audit.length === 0) {
+      toast.warning("Nothing to send", {
+        description: "Run the simulator first so there's something to export.",
+      });
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const result = await rt.submitToAaaip();
+      if (result.ok === true) {
+        toast.success("Sent to AAAIP archive", {
+          description: `${result.stored_entries} decisions stored · id ${result.id.slice(0, 8)}…`,
+        });
+      } else {
+        toast.error("AAAIP export failed", {
+          description: result.detail ?? result.error,
+        });
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -190,7 +231,15 @@ export default function AaaipDashboard() {
             </Button>
             <Button onClick={downloadExport} variant="ghost">
               <Download className="mr-1" />
-              Export
+              Download JSON
+            </Button>
+            <Button onClick={sendToAaaip} disabled={submitting}>
+              {submitting ? (
+                <Cloud className="mr-1 animate-pulse" />
+              ) : (
+                <Upload className="mr-1" />
+              )}
+              {submitting ? "Sending…" : "Send to AAAIP"}
             </Button>
           </div>
         </div>
@@ -205,8 +254,10 @@ export default function AaaipDashboard() {
             icon={
               domain === "clinic" ? (
                 <Stethoscope className="h-4 w-4" />
-              ) : (
+              ) : domain === "robot" ? (
                 <Cpu className="h-4 w-4" />
+              ) : (
+                <FlaskConical className="h-4 w-4" />
               )
             }
           />
@@ -245,11 +296,9 @@ export default function AaaipDashboard() {
           {/* ── Live tab ────────────────────────────────────── */}
           <TabsContent value="live" className="space-y-4">
             <div className="grid gap-4 lg:grid-cols-2">
-              {domain === "clinic" ? (
-                <ClinicLiveView rt={clinic} />
-              ) : (
-                <RobotLiveView rt={robot} />
-              )}
+              {domain === "clinic" && <ClinicLiveView rt={clinic} />}
+              {domain === "robot" && <RobotLiveView rt={robot} />}
+              {domain === "science" && <ScienceLiveView rt={science} />}
 
               <Card>
                 <CardHeader>
@@ -283,9 +332,12 @@ export default function AaaipDashboard() {
               <CardHeader>
                 <CardTitle>Human-in-the-loop queue</CardTitle>
                 <CardDescription>
-                  {domain === "clinic"
-                    ? "Decisions the agent flagged as uncertain or warning-level. Approve to apply, reject to drop the patient back to a clinician."
-                    : "Motion plans the robot agent flagged as uncertain. Approve to execute, reject to drop the task back to the operator."}
+                  {domain === "clinic" &&
+                    "Decisions the agent flagged as uncertain or warning-level. Approve to apply, reject to drop the patient back to a clinician."}
+                  {domain === "robot" &&
+                    "Motion plans the robot agent flagged as uncertain. Approve to execute, reject to drop the task back to the operator."}
+                  {domain === "science" &&
+                    "Screening proposals the science agent flagged as uncertain. Approve to dispatch the assay, reject to drop the compound back to the investigator."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -401,7 +453,7 @@ export default function AaaipDashboard() {
                   label="Human approval rate"
                   value={`${Math.round(rt.metrics.humanApprovalRate * 100)}%`}
                 />
-                {domain === "clinic" ? (
+                {domain === "clinic" && (
                   <>
                     <Stat
                       label="Fairness drift"
@@ -412,7 +464,8 @@ export default function AaaipDashboard() {
                       value={clinic.world.pendingEmergency ? "yes" : "no"}
                     />
                   </>
-                ) : (
+                )}
+                {domain === "robot" && (
                   <>
                     <Stat
                       label="Sensor reliability"
@@ -421,6 +474,17 @@ export default function AaaipDashboard() {
                     <Stat
                       label="Operator intent"
                       value={`${robot.world.humanIntent} (${robot.world.humanIntentConfidence.toFixed(2)})`}
+                    />
+                  </>
+                )}
+                {domain === "science" && (
+                  <>
+                    <Stat label="Plate hits" value={science.world.hits} />
+                    <Stat
+                      label="Wells used"
+                      value={`${science.world.completed.length}/${
+                        science.world.wells.length - science.world.controlWells.length
+                      }`}
                     />
                   </>
                 )}
@@ -485,32 +549,28 @@ function DomainSwitcher({
   value: DomainKey;
   onChange: (v: DomainKey) => void;
 }) {
+  const options: Array<{ key: DomainKey; label: string; icon: React.ReactNode }> = [
+    { key: "clinic", label: "Clinic", icon: <Stethoscope className="h-4 w-4" /> },
+    { key: "robot", label: "Human-robot", icon: <Cpu className="h-4 w-4" /> },
+    { key: "science", label: "Drug screening", icon: <FlaskConical className="h-4 w-4" /> },
+  ];
   return (
     <div className="inline-flex rounded-md border bg-background p-1 shadow-sm">
-      <button
-        type="button"
-        onClick={() => onChange("clinic")}
-        className={`flex items-center gap-2 rounded px-3 py-1.5 text-sm font-medium transition-colors ${
-          value === "clinic"
-            ? "bg-primary text-primary-foreground"
-            : "text-muted-foreground hover:bg-muted"
-        }`}
-      >
-        <Stethoscope className="h-4 w-4" />
-        Clinic
-      </button>
-      <button
-        type="button"
-        onClick={() => onChange("robot")}
-        className={`flex items-center gap-2 rounded px-3 py-1.5 text-sm font-medium transition-colors ${
-          value === "robot"
-            ? "bg-primary text-primary-foreground"
-            : "text-muted-foreground hover:bg-muted"
-        }`}
-      >
-        <Cpu className="h-4 w-4" />
-        Human-robot
-      </button>
+      {options.map((opt) => (
+        <button
+          key={opt.key}
+          type="button"
+          onClick={() => onChange(opt.key)}
+          className={`flex items-center gap-2 rounded px-3 py-1.5 text-sm font-medium transition-colors ${
+            value === opt.key
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:bg-muted"
+          }`}
+        >
+          {opt.icon}
+          {opt.label}
+        </button>
+      ))}
     </div>
   );
 }
@@ -682,6 +742,101 @@ function RobotLiveView({ rt }: { rt: RobotRuntime }) {
           <div className="flex items-center gap-2 rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
             <Activity className="h-4 w-4" />
             Sensor reliability degraded — autonomous motion blocked.
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Science live view ────────────────────────────────────────
+
+function ScienceLiveView({ rt }: { rt: ScienceRuntime }) {
+  const w = rt.world;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Plate state</CardTitle>
+        <CardDescription>
+          Tick {w.now} · {w.completed.length} screenings · {w.hits} hits ·{" "}
+          {w.pipelineVersion}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Compound inbox ({w.inbox.length})
+          </p>
+          <div className="mt-2 space-y-1">
+            {w.inbox.length === 0 && (
+              <p className="text-sm text-muted-foreground">— empty —</p>
+            )}
+            {w.inbox.slice(0, 6).map((c) => (
+              <div
+                key={c.id}
+                className="flex items-center justify-between rounded-md border px-3 py-1.5 text-sm"
+              >
+                <span className="truncate">{c.name}</span>
+                <div className="flex shrink-0 items-center gap-2">
+                  <Badge variant="outline">{c.doseMicromolar} µM</Badge>
+                  <Badge
+                    variant={c.toxicityScore > 0.7 ? "destructive" : "outline"}
+                  >
+                    tox {c.toxicityScore.toFixed(2)}
+                  </Badge>
+                  {!c.provenance && <Badge variant="destructive">no prov</Badge>}
+                  {c.usesHumanTissue && !c.irbApprovalId && (
+                    <Badge variant="destructive">no IRB</Badge>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <Separator />
+
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            96-well plate
+          </p>
+          <div className="mt-2 grid grid-cols-12 gap-1 text-[9px]">
+            {w.wells.map((well) => {
+              let cls = "bg-muted text-muted-foreground";
+              if (well.isControl) cls = "bg-amber-500/20 text-amber-700";
+              else if (well.occupiedBy) cls = "bg-emerald-500/30 text-emerald-800";
+              return (
+                <div
+                  key={well.id}
+                  className={`flex h-7 items-center justify-center rounded ${cls}`}
+                  title={`${well.id}${well.isControl ? " · control" : well.occupiedBy ? " · " + well.occupiedBy : ""}`}
+                >
+                  {well.id.replace("well-", "")}
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-2 flex flex-wrap items-center gap-3 text-[10px] text-muted-foreground">
+            <span>
+              <span className="mr-1 inline-block h-2 w-2 rounded bg-amber-500/60" />
+              control
+            </span>
+            <span>
+              <span className="mr-1 inline-block h-2 w-2 rounded bg-emerald-500/60" />
+              screened
+            </span>
+            <span>
+              <span className="mr-1 inline-block h-2 w-2 rounded bg-muted-foreground/30" />
+              free
+            </span>
+          </div>
+        </div>
+
+        {w.inbox.some((c) => !c.provenance || (c.usesHumanTissue && !c.irbApprovalId)) && (
+          <div className="flex items-center gap-2 rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+            <AlertTriangle className="h-4 w-4" />
+            One or more compounds are missing provenance or IRB approval — they
+            will be blocked by the engine.
           </div>
         )}
       </CardContent>
