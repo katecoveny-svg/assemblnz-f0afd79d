@@ -76,4 +76,10 @@ describe("Mana Gate — Rule 6: tikanga macron warning", () => {
     expect(result.passed).toBe(true); // warning, not blocker
     expect(result.warnings.some(w => w.includes("macron"))).toBe(true);
   });
+
+  it("does NOT warn when 'Māori' is used correctly", () => {
+    const result = manaGate("This is relevant to Māori land legislation.", {});
+    expect(result.passed).toBe(true);
+    expect(result.warnings.length).toBe(0);
+  });
 });
