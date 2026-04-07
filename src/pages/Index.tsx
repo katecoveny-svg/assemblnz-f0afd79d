@@ -605,19 +605,19 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ═══ 5. PACKS ═══ */}
+      {/* ═══ 5. PACKS — Glass Kete Cards ═══ */}
       <section
         id="packs"
         className={SECTION}
         style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
       >
         <div className={INNER}>
-          <motion.div {...fade} style={{ marginBottom: "40px" }}>
+          <motion.div {...fade} style={{ marginBottom: "48px", textAlign: "center" }}>
             <Eyebrow>INDUSTRY KETE</Eyebrow>
             <SectionHeading>
               Nine specialist kete for NZ industries.
             </SectionHeading>
-            <Body className="max-w-xl">
+            <Body className="max-w-xl mx-auto">
               Each kete carries the knowledge, agents, and workflows your
               industry requires — woven together in one platform.
             </Body>
@@ -626,94 +626,195 @@ const Index = () => {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-              gap: "10px",
+              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+              gap: "16px",
             }}
           >
             {PACKS.map((p, i) => (
               <motion.div
                 key={p.name}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.07, duration: 0.5 }}
+                transition={{ delay: i * 0.1, duration: 0.6 }}
               >
                 <Link
                   to={p.to}
+                  className="group"
                   style={{
-                    display: "block",
-                    borderRadius: "12px",
-                    padding: "22px",
-                    background: "rgba(255,255,255,0.02)",
-                    border: "1px solid rgba(255,255,255,0.07)",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                    borderRadius: "20px",
+                    padding: "32px 20px 24px",
+                    background: `linear-gradient(165deg, rgba(${p.accentRgb},0.06) 0%, rgba(15,15,26,0.7) 50%, rgba(${p.accentRgb},0.03) 100%)`,
+                    border: `1px solid rgba(${p.accentRgb},0.18)`,
+                    backdropFilter: "blur(12px)",
                     textDecoration: "none",
                     height: "100%",
+                    position: "relative",
+                    overflow: "hidden",
+                    transition: "border-color 0.3s, transform 0.3s, box-shadow 0.3s",
                   }}
-                  onMouseEnter={(e) =>
-                    ((e.currentTarget as HTMLElement).style.borderColor =
-                      "rgba(255,255,255,0.14)")
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.currentTarget as HTMLElement).style.borderColor =
-                      "rgba(255,255,255,0.07)")
-                  }
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderColor = `rgba(${p.accentRgb},0.4)`;
+                    el.style.transform = "translateY(-4px)";
+                    el.style.boxShadow = `0 8px 40px rgba(${p.accentRgb},0.15), inset 0 1px 0 rgba(255,255,255,0.08)`;
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderColor = `rgba(${p.accentRgb},0.18)`;
+                    el.style.transform = "translateY(0)";
+                    el.style.boxShadow = "none";
+                  }}
                 >
+                  {/* Top corner glow */}
                   <div
                     style={{
+                      position: "absolute",
+                      top: "-30px",
+                      right: "-30px",
+                      width: "100px",
+                      height: "100px",
+                      borderRadius: "50%",
+                      background: `radial-gradient(circle, rgba(${p.accentRgb},0.1) 0%, transparent 70%)`,
+                      pointerEvents: "none",
+                    }}
+                  />
+
+                  {/* Glowing globe icon */}
+                  <div
+                    style={{
+                      width: "72px",
+                      height: "72px",
+                      borderRadius: "50%",
                       display: "flex",
                       alignItems: "center",
-                      gap: "12px",
-                      marginBottom: "14px",
+                      justifyContent: "center",
+                      marginBottom: "18px",
+                      position: "relative",
+                      background: `radial-gradient(circle at 35% 35%, rgba(${p.accentRgb},0.2) 0%, rgba(${p.accentRgb},0.05) 60%, transparent 100%)`,
+                      border: `1px solid rgba(${p.accentRgb},0.25)`,
+                      boxShadow: `0 0 24px rgba(${p.accentRgb},0.12), inset 0 1px 0 rgba(255,255,255,0.08)`,
                     }}
                   >
-                    <img
-                      src={p.mark}
-                      alt=""
-                      style={{ width: "32px", height: "32px", opacity: 0.75 }}
+                    {/* Globe wireframe SVG */}
+                    <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                      <circle cx="18" cy="18" r="14" stroke={p.accent} strokeWidth="0.7" opacity="0.5" />
+                      <ellipse cx="18" cy="18" rx="9" ry="14" stroke={p.accent} strokeWidth="0.5" opacity="0.4" />
+                      <ellipse cx="18" cy="18" rx="14" ry="5" stroke={p.accent} strokeWidth="0.5" opacity="0.35" />
+                      <line x1="4" y1="12" x2="32" y2="12" stroke={p.accent} strokeWidth="0.4" opacity="0.25" />
+                      <line x1="4" y1="24" x2="32" y2="24" stroke={p.accent} strokeWidth="0.4" opacity="0.25" />
+                      <line x1="18" y1="4" x2="18" y2="32" stroke={p.accent} strokeWidth="0.4" opacity="0.25" />
+                    </svg>
+                    {/* Inner glow */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: "4px",
+                        borderRadius: "50%",
+                        background: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06) 0%, transparent 60%)`,
+                        pointerEvents: "none",
+                      }}
                     />
-                    <div>
-                      <p
-                        style={{
-                          fontFamily: "'Lato', sans-serif",
-                          fontWeight: 400,
-                          fontSize: "15px",
-                          color: "#FFFFFF",
-                          marginBottom: "2px",
-                        }}
-                      >
-                        {p.name}
-                      </p>
-                      <p
-                        style={{
-                          fontFamily: "'JetBrains Mono', monospace",
-                          fontSize: "9px",
-                          letterSpacing: "0.1em",
-                          textTransform: "uppercase",
-                          color: "rgba(255,255,255,0.35)",
-                        }}
-                      >
-                        {p.sub}
-                      </p>
-                    </div>
                   </div>
+
+                  {/* Name */}
+                  <p
+                    style={{
+                      fontFamily: "'Lato', sans-serif",
+                      fontWeight: 400,
+                      fontSize: "16px",
+                      color: p.accent,
+                      marginBottom: "4px",
+                      letterSpacing: "0.04em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {p.name}
+                  </p>
+
+                  {/* Subtitle */}
+                  <p
+                    style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: "9px",
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      color: "rgba(255,255,255,0.35)",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    {p.sub}
+                  </p>
+
+                  {/* Description */}
                   <p
                     style={{
                       fontFamily: "'Plus Jakarta Sans', sans-serif",
-                      fontSize: "13px",
+                      fontSize: "12px",
                       lineHeight: 1.6,
-                      color: "rgba(255,255,255,0.42)",
+                      color: "rgba(255,255,255,0.35)",
+                      marginBottom: "16px",
+                      flex: 1,
                     }}
                   >
                     {p.desc}
                   </p>
+
+                  {/* Agent count badge */}
+                  <div
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      padding: "5px 14px",
+                      borderRadius: "100px",
+                      border: `1px solid rgba(${p.accentRgb},0.25)`,
+                      background: `rgba(${p.accentRgb},0.06)`,
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "5px",
+                        height: "5px",
+                        borderRadius: "50%",
+                        background: p.accent,
+                        boxShadow: `0 0 6px rgba(${p.accentRgb},0.5)`,
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: "10px",
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        color: `rgba(${p.accentRgb},0.8)`,
+                      }}
+                    >
+                      {p.agents} agents
+                    </span>
+                  </div>
+
+                  {/* Bottom accent line */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: "20%",
+                      right: "20%",
+                      height: "1px",
+                      background: `linear-gradient(90deg, transparent, rgba(${p.accentRgb},0.3), transparent)`,
+                    }}
+                  />
                 </Link>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
-
-      {/* ═══ 6. DIFFERENCE ═══ */}
       <section
         id="why-assembl"
         className={SECTION}
