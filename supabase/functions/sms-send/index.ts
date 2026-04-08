@@ -70,7 +70,10 @@ Deno.serve(async (req) => {
       }),
     });
 
-    const smsData = await smsResponse.json();
+    const smsText = await smsResponse.text();
+    console.log("TNZ raw response:", smsResponse.status, smsText);
+    let smsData: any;
+    try { smsData = JSON.parse(smsText); } catch { smsData = { Result: smsResponse.ok ? "Success" : "Failed", raw: smsText }; }
 
     if (smsData.Result !== "Success") {
       console.error("TNZ send error:", smsData);
