@@ -30,6 +30,7 @@ export default function AuahaBrandIdentity() {
     try {
       const { data, error } = await supabase.functions.invoke("scan-website", { body: { url } });
       if (error) throw error;
+      if (data?.error) throw new Error(data.error);
       if (data?.brandName) setBrand((b) => ({ ...b, name: data.brandName }));
       toast.success("PRISM scanned the website and extracted brand data");
     } catch (e: any) {
