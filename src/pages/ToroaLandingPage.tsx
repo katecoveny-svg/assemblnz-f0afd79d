@@ -298,8 +298,10 @@ export default function ToroaLandingPage() {
       style={{ background: BG, color: BONE }}
     >
       <SEO
-        title="Tōroa — Family Agent"
-        description="An SMS-first family agent for Aotearoa. No app, no login. Just text. $29/month covers the whole whānau."
+        title="Tōroa — SMS Family Navigator for Aotearoa | $29/mo"
+        description="An SMS-first whānau navigator for New Zealand families. School admin, meal planning, appointments, budgets — no app, no login, just text. $29/month covers the whole whānau."
+        path="/toroa"
+        image="https://www.assembl.co.nz/assembl-og.png"
       />
 
       {/* ── 1. HERO ── */}
@@ -380,7 +382,10 @@ export default function ToroaLandingPage() {
             transition={{ delay: 0.9, duration: 0.7 }}
           >
             <a
-              href="sms:+6421000000?body=Hi%20T%C5%8Droa%2C%20I%27d%20like%20to%20try%20it%20free"
+              href="https://buy.stripe.com/7sYdRbc9KeoE0KNdx43oA0c"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Subscribe to Tōroa for $29 per month"
               className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm uppercase tracking-[0.2em] font-light transition-all duration-300"
               style={{
                 background: `linear-gradient(135deg, ${SKY}28, ${SKY}14)`,
