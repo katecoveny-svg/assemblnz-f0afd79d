@@ -107,7 +107,7 @@ const GlassCard = ({
       WebkitBackdropFilter: "blur(24px)",
       border: `1px solid rgba(255,255,255,0.10)`,
       boxShadow: "0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)",
-      ring: "1px solid rgba(255,255,255,0.05)",
+      outline: "1px solid rgba(255,255,255,0.05)",
       ...style,
     }}
   >
