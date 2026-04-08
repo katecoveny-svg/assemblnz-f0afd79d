@@ -28,12 +28,12 @@ const SMS_BEHAVIOUR = `\n\nSMS RULES — You are responding via text message (SM
 
 /** Send reply via TNZ API */
 async function sendViaTnz(to: string, message: string, reference: string): Promise<{ messageId?: string }> {
-  const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v3.00";
+  const tnzSmsUrl = "https://api.tnz.co.nz/api/v2.04/send/sms";
   const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
   if (!tnzToken) return {};
 
   const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
-  const resp = await fetch(`${tnzBase}/sms`, {
+  const resp = await fetch(tnzSmsUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json; encoding='utf-8'", "Accept": "application/json; encoding='utf-8'", Authorization: `Basic ${tnzToken}` },
     body: JSON.stringify({
