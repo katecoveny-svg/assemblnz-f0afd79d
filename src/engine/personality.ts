@@ -215,7 +215,7 @@ export const SMART_EMPTY_STATES: Record<string, string[]> = {
     "Every app I build is mobile-friendly and can be shared with a link.",
   ],
   echo: [
-    "I'm your guide to all 42 Assembl specialist agents. Ask me which one suits your business.",
+    "I'm your guide to the Assembl specialist kete. Ask me which one suits your business.",
     "Want a daily content plan? I'll create one tailored to your industry and audience.",
     "I can draft DM sequences, email responses, and client communications.",
   ],

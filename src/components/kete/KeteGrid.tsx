@@ -46,7 +46,7 @@ const KeteGrid: React.FC = () => {
     <>
       <SEO
         title="The Kete Collection | Assembl"
-        description="Nine industry-specific agent packs plus Shared Core for Aotearoa. 78 specialist AI agents, 1 brain."
+        description="Five industry-specific kete plus a shared core platform — built in Aotearoa, grounded in NZ legislation."
       />
       <div className="kete-grid-wrapper relative w-full max-w-[1400px] mx-auto px-6 md:px-8 py-16 md:py-20">
         {/* Starfield */}
@@ -95,7 +95,7 @@ const KeteGrid: React.FC = () => {
               color: "rgba(255,255,255,0.65)",
             }}
           >
-            Nine industry-specific agent packs plus a Shared Core foundation, built for Aotearoa. Each kete brings together specialist agents, templates, and workflows for their domain.
+            Five industry kete plus a shared core platform, built for Aotearoa. Each kete brings together specialist workflows, templates, and policy guidance for its domain.
           </p>
         </header>
 
@@ -111,11 +111,9 @@ const KeteGrid: React.FC = () => {
             color: "rgba(255,255,255,0.5)",
           }}
         >
-          <span>9 KETE</span>
+          <span>5 KETE</span>
           <span>·</span>
           <span>{SHARED_CORE_AGENTS.length} CORE</span>
-          <span>·</span>
-          <span>{TOTAL_AGENTS} AGENTS</span>
           <span>·</span>
           <span>1 BRAIN</span>
         </div>

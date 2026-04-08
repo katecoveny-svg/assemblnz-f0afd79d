@@ -138,7 +138,7 @@ export default function ToroaApp() {
         <AgentAvatar agentId="operations" color={TOROA_COLOR} size={32} showGlow={false} eager />
         <div className="flex-1 min-w-0">
           <h1 className="text-sm font-bold font-display" style={{ color: TOROA_COLOR }}>TŌROA</h1>
-          <p className="text-[9px] text-white/30 font-mono">Your family's second brain</p>
+          <p className="text-[9px] text-white/30 font-mono">Your family's intelligent navigator</p>
         </div>
         {user ? (
           <div className="flex items-center gap-2">
@@ -239,7 +239,7 @@ export default function ToroaApp() {
                      </div>
                     <h2 className="text-lg font-display font-bold mb-1" style={{ color: TOROA_COLOR }}>Kia ora!</h2>
                     <p className="text-xs text-white/40 text-center max-w-sm mb-6">
-                      I'm TŌROA, your family's second brain. I can help with school admin, meal plans, budgets, and more.
+                      I'm TŌROA, your family's intelligent navigator. I can help with school admin, meal plans, budgets, and more.
                     </p>
                     <HelmQuickActions onSelect={switchToChat} />
                   </div>

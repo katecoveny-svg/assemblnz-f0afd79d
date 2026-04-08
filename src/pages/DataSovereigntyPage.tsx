@@ -76,9 +76,9 @@ const COMPLIANCE_BADGES = [
     status: "Active",
   },
   {
-    label: "SOC 2 Type II",
-    desc: "Via infrastructure partner (Supabase / AWS)",
-    status: "Planned 2026",
+    label: "Hardened Hosting",
+    desc: "Hosted on Supabase / AWS infrastructure",
+    status: "Active",
   },
   {
     label: "GDPR Aware",

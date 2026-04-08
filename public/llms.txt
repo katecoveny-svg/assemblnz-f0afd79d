@@ -1,33 +1,37 @@
-# Assembl — Specialist Workflows for NZ Businesses
+# Assembl — Specialist operational workflows for NZ business
 # assembl.co.nz
 
 ## What Assembl is
-Assembl is a New Zealand-built platform designed to help businesses reduce admin, surface issues earlier, and keep people in control. Rather than replacing staff, Assembl supports the teams already doing the work — with specialist workflows that handle repetitive checks, reminders, approvals, and follow-through. Built on a governed architecture where every material action is policy-gated, explainable, and auditable. Simulation testing is used before broader deployment.
+Assembl gives New Zealand businesses specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. We help teams act faster with better information — not replace the people who know the work best.
 
-## Kete (Industry Packs)
-- Manaaki: Hospitality & Tourism (9 agents — AURA, SAFFRON, CELLAR, LUXE, MOANA, COAST, KURA, PAU, SUMMIT)
-- Hanga: Construction (9 agents — ATA, ĀRAI, KAUPAPA, RAWA, WHAKAAĒ, PAI, ARC, TERRA, PINNACLE)
-- Auaha: Creative & Media (9 agents — PRISM, MUSE, PIXEL, VERSE, ECHO, FLUX, CHROMATIC, RHYTHM, MARKET)
-- Pakihi: Business & Commerce (11 agents — LEDGER, VAULT, CATALYST, COMPASS, HAVEN, COUNTER, GATEWAY, HARVEST, GROVE, SAGE, ASCEND)
-- Waka: Transport & Vehicles (3 agents — MOTOR, TRANSIT, MARINER)
-- Hangarau: Technology (12 agents — SPARK, SENTINEL, NEXUS-T, CIPHER, RELAY, MATRIX, FORGE, ORACLE, EMBER, REEF, PATENT, FOUNDRY)
-- Hauora: Health, Wellbeing, Sport & Lifestyle (8 agents — TURF, LEAGUE, VITALS, REMEDY, VITAE, RADIANCE, PALETTE, ODYSSEY)
-- Te Kāhui Reo: Māori Business Intelligence (8 agents — WHĀNAU, ROHE, KAUPAPA-M, MANA, KAITIAKI, TĀURA, WHAKAARO, HIRINGA)
-- Tōroa: Family Navigator (1 agent — TŌROA, $29/mo consumer product)
+Built in Aotearoa. Grounded in NZ legislation and policy workflows. Every output runs through a tikanga compliance pipeline (Kahu → Tā → Mahara → Mana) with an audit trail.
 
-## Shared Core Foundation (8 agents)
-CHARTER, ARBITER, SHIELD, ANCHOR, AROHA, PULSE, SCHOLAR, NOVA
+## Five industry kete (locked 2026-04-07)
+- Manaaki — Hospitality: food safety, liquor licensing, guest experience, tourism operations
+- Waihanga — Construction: site safety, consenting, project management, quality and sign-off
+- Auaha — Creative: brief to publish — copy, image, video, podcast, ads, analytics
+- Arataki — Automotive: workshops, fleet, vehicle compliance, service scheduling
+- Pikau — Freight & Customs: route optimisation, declarations, broker hand-off, customs compliance
 
-## Pricing
-Launch Sprint: NZ$2,500–$6,000+ (one-off setup)
-Kete Tīmatanga (Starter): NZ$750–$1,500/mo
-Kete Tupu (Growth): NZ$1,500–$4,000/mo
-Kete Rangatira (Enterprise): NZ$4,000–$15,000+/mo
-Tōroa: NZ$29/mo (consumer)
-All prices NZ$ + GST.
+## Pricing (NZD ex GST, locked 2026-04-08)
+Family: $29/mo — SMS-first whānau agent (consumer)
+Operator: $590/mo + $1,490 setup — sole traders and micro-SMEs, 1 kete, up to 5 seats
+Leader: $1,290/mo + $1,990 setup — multi-discipline SMEs, 2 kete, up to 15 seats, quarterly compliance review
+Enterprise: $2,890/mo + $2,990 setup — multi-site, all 5 kete, unlimited seats, 99.9% uptime SLA, attested NZ data residency, named success manager
+Outcome: from $5,000/mo — bespoke engagements, base + 10–20% of measured savings
+
+Setup fees can be split across the first 3 invoices on request.
+
+## Trust and compliance
+- NZ Privacy Act 2020 alignment (including new IPP 3A from 1 May 2026)
+- AAAIP (Aotearoa AI Principles) alignment
+- NZISM-informed security practices
+- Encrypted in transit and at rest
+- Customer business data is never used to train models
+- Attested NZ data residency on Enterprise
 
 ## Location
 Auckland, New Zealand
 
 ## Contact
-kate@assembl.co.nz
+assembl@assembl.co.nz

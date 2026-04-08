@@ -3,9 +3,9 @@ import { Check, Layers, Zap, Shield, Brain } from "lucide-react";
 
 const VALUE_PROPS = [
   { icon: Layers, label: "One platform, not six", desc: "CRM, marketing, HR, compliance, finance, and operations — unified under one intelligence layer." },
-  { icon: Brain, label: "NZ legislation built in", desc: "Trained on 50+ NZ Acts including Employment Relations, Privacy Act 2020, Building Act, and RTA." },
-  { icon: Zap, label: "42 specialist tools, one subscription", desc: "Every module shares context and works together — no per-seat pricing, no add-on fatigue." },
-  { icon: Shield, label: "Enterprise-grade, SME-priced", desc: "SOC 2 pipeline, end-to-end encryption, and NZ-hosted data — from $89/mo." },
+  { icon: Brain, label: "NZ legislation built in", desc: "Grounded in NZ legislation and policy workflows — Employment Relations, Privacy Act 2020, Building Act, RTA, and more." },
+  { icon: Zap, label: "Five industry kete, one subscription", desc: "Every kete shares context and works together — clear per-seat tiers, no add-on fatigue." },
+  { icon: Shield, label: "NZ-aligned security, SME-priced", desc: "Encrypted in transit and at rest, NZ data residency on Enterprise — from $590/mo." },
 ];
 
 const REPLACES = [
@@ -82,9 +82,9 @@ const CompetitorComparison = () => (
         transition={{ delay: 0.2 }}
       >
         <p className="text-[10px] font-mono-jb text-muted-foreground uppercase tracking-wider mb-3">
-          All 42 specialist tools included
+          All five industry kete available
         </p>
-        <span className="text-2xl font-display font-light text-primary">From $89/mo NZD</span>
+        <span className="text-2xl font-display font-light text-primary">From $590/mo NZD</span>
         <p className="text-[10px] font-body text-muted-foreground mt-2">
           No per-seat charges. No hidden add-ons. Cancel anytime.
         </p>

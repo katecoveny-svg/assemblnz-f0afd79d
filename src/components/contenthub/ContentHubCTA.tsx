@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 
 const PLANS = [
-  { name: "Kete Tīmatanga", price: "From $750", period: "/mo" },
-  { name: "Kete Tupu", price: "From $1,500", period: "/mo" },
-  { name: "Kete Rangatira", price: "From $4,000", period: "/mo" },
+  { name: "Family", price: "$29", period: "/mo" },
+  { name: "Operator", price: "$590", period: "/mo" },
+  { name: "Leader", price: "$1,290", period: "/mo" },
+  { name: "Enterprise", price: "$2,890", period: "/mo" },
 ];
 
 const ContentHubCTA = () => (
@@ -13,9 +14,9 @@ const ContentHubCTA = () => (
         className="font-display font-light text-2xl sm:text-4xl halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
-        78 specialist agents. 9 industry kete. One platform.
+        Five industry kete. One platform. Built in Aotearoa.
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {PLANS.map((plan) => (
           <div
             key={plan.name}
@@ -45,13 +46,13 @@ const ContentHubCTA = () => (
                 border: "1px solid rgba(0,255,136,0.2)",
               }}
             >
-              Get started →
+              Talk to us →
             </Link>
           </div>
         ))}
       </div>
       <p className="font-body text-xs" style={{ color: "#5AADA0" }}>
-        All prices NZ$ + GST · Starts with a free consultation
+        NZD ex GST · Setup fees splittable across first 3 invoices on request
       </p>
     </div>
   </section>

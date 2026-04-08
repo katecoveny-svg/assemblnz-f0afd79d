@@ -29,12 +29,12 @@ export interface OutputCard {
 }
 
 export const COMPARISONS: ComparisonItem[] = [
-  { agent: "FLUX", agentColor: "#3A6A9C", replaces: "CRM & Sales Platform", theirCost: "$450-800/mo", assemblCost: "$299/mo" },
-  { agent: "PRISM", agentColor: "#E040FB", replaces: "AI Writer + Scheduler + Agency", theirCost: "$3,000-8,000/mo", assemblCost: "$299/mo" },
-  { agent: "AROHA", agentColor: "#FF6F91", replaces: "HR Consultant", theirCost: "$150-250/hr", assemblCost: "$299/mo" },
-  { agent: "HAVEN", agentColor: "#FF80AB", replaces: "Property Manager", theirCost: "7-10% of rent", assemblCost: "$299/mo" },
-  { agent: "FORGE", agentColor: "#FF4D6A", replaces: "F&I Software + Compliance", theirCost: "$500-2,000/mo", assemblCost: "$299/mo" },
-  { agent: "ECHO", agentColor: "#E4A0FF", replaces: "Social Media Manager", theirCost: "$3,000-6,000/mo", assemblCost: "$89/mo" },
+  { agent: "FLUX", agentColor: "#3A6A9C", replaces: "CRM & Sales Platform", theirCost: "$450-800/mo", assemblCost: "Included in kete" },
+  { agent: "PRISM", agentColor: "#E040FB", replaces: "AI Writer + Scheduler + Agency", theirCost: "$3,000-8,000/mo", assemblCost: "Included in kete" },
+  { agent: "AROHA", agentColor: "#FF6F91", replaces: "HR Consultant", theirCost: "$150-250/hr", assemblCost: "Included in kete" },
+  { agent: "HAVEN", agentColor: "#FF80AB", replaces: "Property Manager", theirCost: "7-10% of rent", assemblCost: "Included in kete" },
+  { agent: "FORGE", agentColor: "#FF4D6A", replaces: "F&I Software + Compliance", theirCost: "$500-2,000/mo", assemblCost: "Included in kete" },
+  { agent: "ECHO", agentColor: "#E4A0FF", replaces: "Social Media Manager", theirCost: "$3,000-6,000/mo", assemblCost: "Included in kete" },
 ];
 
 export const FILTER_AGENTS = [
@@ -64,8 +64,8 @@ export const OUTPUT_CARDS: OutputCard[] = [
     agentColor: "#E4A0FF",
     outputType: "Instagram Carousel — 5 Slides",
     formatBadge: "Social Post",
-    preview: `**Slide 1 (Hook):**\nYour accountant charges $350/hr.\nYour AI accountant charges $89/mo.\n\n**Slide 2:**\nLEDGER calculates your GST, PAYE, KiwiSaver…`,
-    fullContent: `**Slide 1 (Hook):**\nYour accountant charges $350/hr.\nYour AI accountant charges $89/mo.\n\n**Slide 2:**\nLEDGER calculates your GST, PAYE, KiwiSaver, ACC levies, and provisional tax. In seconds. With every NZ rate current to April 2026.\n\n**Slide 3:**\nAROHA drafts employment agreements that reference the Employment Relations Amendment Act 2026. Your lawyer hasn't read it yet.\n\n**Slide 4:**\nHAVEN checks your rental against Healthy Homes Standards and generates a compliance report with pass/fail per requirement.\n\n**Slide 5 (CTA):**\n42 AI agents. One subscription. Built in Aotearoa.\n→ assembl.co.nz\n\n**Caption:** Your business needs an accountant, a lawyer, a property manager, an HR director, and a marketing team. Or it needs Assembl. 42 AI agents trained on NZ law. Starting at $89/mo. Link in bio.\n\n#AIagents #NZBusiness #Assembl #SmallBusinessNZ #AItools #StartupNZ #BusinessAutomation`,
+    preview: `**Slide 1 (Hook):**\nYour business runs on six different platforms.\nAssembl runs on five industry kete.\n\n**Slide 2:**\nKete handle the workflows that drain your team…`,
+    fullContent: `**Slide 1 (Hook):**\nYour business runs on six different platforms.\nAssembl runs on five industry kete.\n\n**Slide 2:**\nKete handle the workflows that drain your team — payroll, compliance, scheduling, contracts, customer comms.\n\n**Slide 3:**\nGrounded in NZ legislation and policy workflows. Updated when the law changes.\n\n**Slide 4:**\nManaaki, Waihanga, Auaha, Arataki, Pikau. Five industry kete, one platform.\n\n**Slide 5 (CTA):**\nFive industry kete. Built in Aotearoa.\n→ assembl.co.nz\n\n**Caption:** Specialist operational workflows for NZ business. Five industry kete grounded in NZ legislation. From NZ$590/mo. Link in bio.\n\n#NZBusiness #Assembl #SmallBusinessNZ #BusinessAutomation #BuiltInAotearoa`,
   },
   {
     id: "echo-linkedin",

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+/* cache-bust */ import { useState, useRef } from "react";
 import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,40 +7,78 @@ import AnimatedHero from "@/components/AnimatedHero";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import { Send, ArrowRight } from "lucide-react";
+import { manaIcon, maharaIcon, kanohiIcon, ihoIcon, pakihiMark } from "@/assets/brand";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
-import HowItWorksFlow from "@/components/landing/HowItWorksFlow";
-import LiveDemoSection from "@/components/landing/LiveDemoSection";
-import KeteExplorer from "@/components/landing/KeteExplorer";
-import TrustStrip from "@/components/landing/TrustStrip";
-import WhyAssemblStory from "@/components/landing/WhyAssemblStory";
-import VideoShowcase from "@/components/landing/VideoShowcase";
-import { TanikoDivider, GradientBorder, KoruAccent, MaungaRidgeDivider, MaungaWatermark } from "@/components/landing/AnimatedTaniko";
+import PackGrid from "@/components/landing/PackGrid";
+import EmbedDemoSection from "@/components/landing/EmbedDemoSection";
 
-const ease = [0.16, 1, 0.3, 1] as const;
+const KoruMotif = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" className="opacity-80">
+    <path
+      d="M40 8C40 8 20 16 20 36C20 50 30 56 40 56C50 56 56 48 56 40C56 32 50 28 44 28C38 28 34 32 34 36C34 40 38 44 42 44C46 44 48 42 48 40"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      fill="none"
+    />
+  </svg>
+);
 
-/* ── Outcome cards — lead with outcomes, NZ voice ── */
-const OUTCOMES = [
+const TanikoMotif = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" className="opacity-80">
+    <path d="M10 20L20 30L30 20L40 30L50 20L60 30L70 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+    <path d="M10 32L20 42L30 32L40 42L50 32L60 42L70 32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+    <path d="M10 44L20 54L30 44L40 54L50 44L60 54L70 44" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+    <path d="M10 56L20 66L30 56L40 66L50 56L60 66L70 56" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+  </svg>
+);
+
+const MauaoMotif = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true" className="opacity-80">
+    <path d="M8 68L30 24L40 36L56 16L72 68" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    <path d="M8 68H72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
+
+const TanikoDivider = () => (
+  <svg width="300" height="8" viewBox="0 0 300 8" fill="none" aria-hidden="true" className="mx-auto mb-4 h-2 w-full max-w-[300px] opacity-70">
+    <path
+      d="M0 4L10 0L20 4L30 0L40 4L50 0L60 4L70 0L80 4L90 0L100 4L110 0L120 4L130 0L140 4L150 0L160 4L170 0L180 4L190 0L200 4L210 0L220 4L230 0L240 4L250 0L260 4L270 0L280 4L290 0L300 4"
+      stroke="currentColor"
+      strokeWidth="1"
+      fill="none"
+    />
+  </svg>
+);
+
+const OUTCOME_CARDS = [
   {
-    title: "Win more work",
-    description: "Your proposals go out in hours, not days. Assembl writes quotes, checks compliance, and formats tenders — so you pitch more and close faster.",
-    color: "#D4A843",
-    stat: "3x",
-    statLabel: "faster proposals",
+    title: "Close Faster",
+    description:
+      "Better proposals start with speed. Assembl cuts the busywork, so your team pitches more, quotes tighter, closes harder.",
+    motif: KoruMotif,
+    accentClass: "text-[hsl(var(--kowhai))]",
+    glowClass: "outcome-card--kowhai",
+    motifPosition: "left-0 top-0",
   },
   {
-    title: "Stop the paper chase",
-    description: "Payroll, GST, employment agreements, health & safety — every compliance task that eats your Friday afternoon. Assembl runs it. You don't have to.",
-    color: "#3A7D6E",
-    stat: "12h",
-    statLabel: "saved per week",
+    title: "Run It Right",
+    description:
+      "Every NZ business juggles payroll, tax, compliance, schedules. Assembl handles it. Your team focuses on the work that makes money.",
+    motif: TanikoMotif,
+    accentClass: "text-[hsl(var(--pounamu))]",
+    glowClass: "outcome-card--pounamu",
+    motifPosition: "right-0 top-0",
   },
   {
-    title: "Never miss a change",
-    description: "NZ legislation changes constantly. New minimum wage, updated building code, revised privacy rules. Assembl watches for you and flags what matters to your business.",
-    color: "#5B8FA8",
-    stat: "50+",
-    statLabel: "NZ Acts monitored",
+    title: "Alerts That Count",
+    description:
+      "NZ compliance changes weekly. Assembl flags what affects you — regulation, deadline, opportunity — so you're never caught flat.",
+    motif: MauaoMotif,
+    accentClass: "text-[hsl(var(--tangaroa))]",
+    glowClass: "outcome-card--tangaroa",
+    motifPosition: "left-1/2 bottom-0 -translate-x-1/2",
   },
 ] as const;
 
@@ -48,10 +86,10 @@ const AgentGrid = () => {
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactMessage, setContactMessage] = useState("");
-  const flowRef = useRef<HTMLDivElement>(null);
+  const packsRef = useRef<HTMLDivElement>(null);
 
-  const scrollToFlow = () => {
-    flowRef.current?.scrollIntoView({ behavior: "smooth" });
+  const scrollToPacks = () => {
+    packsRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleContactSubmit = async (e: React.FormEvent) => {
@@ -77,20 +115,21 @@ const AgentGrid = () => {
         }).catch((err) => console.error("Lead qualification error:", err));
       }
 
-      toast.success("Kia ora! We'll be in touch soon.");
+      toast.success("Message sent! We'll be in touch soon.");
       setContactName("");
       setContactEmail("");
       setContactMessage("");
-    } catch {
+    } catch (err) {
       toast.error("Something went wrong. Please try again.");
+      console.error("Contact form error:", err);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col relative">
       <SEO
-        title="Assembl | An Intelligence Layer That Weaves Your Business Together"
-        description="44+ specialist tools across 9 industry kete. Compliance, quoting, payroll, marketing — connected and handled. Built for New Zealand. From $199/mo + GST."
+        title="Assembl | Specialist operational workflows for NZ business"
+        description="Specialist operational workflows across five industry kete — Manaaki, Waihanga, Auaha, Arataki, Pikau. Built in Aotearoa. From $590/mo NZD ex GST."
         path="/"
       />
       <ParticleField />
@@ -99,275 +138,234 @@ const AgentGrid = () => {
         <BrandNav />
       </div>
 
-      {/* ══════ 1. HERO — Showstopping constellation + gradient mesh ══════ */}
+      {/* ═══════ HERO ═══════ */}
       <div className="relative z-10">
-        <AnimatedHero onScrollToGrid={scrollToFlow} />
+        <AnimatedHero onScrollToGrid={scrollToPacks} />
       </div>
 
-      {/* ══════ 2. OUTCOMES — He Hua · Results ══════ */}
-      <section id="outcomes" className="relative z-10 py-20 sm:py-24 overflow-hidden pt-14">
-        <MaungaRidgeDivider color="#D4A843" />
-
-        {/* Ambient moonlight glow */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[20%] left-[10%] w-[30vw] h-[30vh] rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 65%)", filter: "blur(50px)" }} />
-        </div>
-
-        {/* Background koru accent */}
-        <div className="absolute bottom-0 right-0 opacity-[0.02] pointer-events-none">
-          <KoruAccent color="#D4A843" size={350} delay={0} />
-        </div>
-
+      {/* ═══════ OUTCOME SECTION ═══════ */}
+      <section className="relative z-10 py-20 border-t border-white/10">
         <div className="mx-auto max-w-5xl px-6 sm:px-10">
           <motion.div
-            className="mb-12 text-center"
+            className="mb-10 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.4, ease }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p className="mb-4 text-[11px] tracking-[5px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: "#D4A843" }}>
-              HE HUA · RESULTS
+            <p className="mb-4 font-display text-[14px] font-bold uppercase tracking-[4px] text-[hsl(var(--kowhai))]">
+              WHAT CHANGES
             </p>
-            <TanikoDivider color="#D4A843" width={200} />
-            <h2 className="mx-auto mb-3 mt-4 max-w-3xl text-[2rem] sm:text-[2.75rem] leading-[1.15] text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, textShadow: "0 0 30px rgba(255,255,255,0.08), 0 0 60px rgba(255,255,255,0.04)" }}>
-              What changes when Assembl weaves it together
+            <div className="text-white/10">
+              <TanikoDivider />
+            </div>
+            <h2 className="mx-auto mb-3 max-w-3xl font-display text-[2.1rem] font-light leading-[1.18] tracking-[0.01em] text-foreground sm:text-[3rem]">
+              What Assembl does for your business
             </h2>
-            <p className="mx-auto max-w-[34rem] text-[15px] leading-relaxed" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}>
-              Your team stops drowning in admin and starts doing the work that actually grows the business.
+            <p className="mx-auto max-w-[34rem] font-body text-[15px] font-light leading-relaxed text-muted-foreground">
+              Three outcomes that matter. Everything else follows.
             </p>
           </motion.div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
-            {OUTCOMES.map((item, i) => (
-              <motion.article
+            {OUTCOME_CARDS.map((item, i) => {
+              const Motif = item.motif;
+
+              return (
+                <motion.article
+                  key={item.title}
+                  className={`outcome-card group relative min-h-[272px] overflow-hidden rounded-[24px] p-8 text-left ${item.glowClass}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.6, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ y: -3 }}
+                >
+                  <div className={`pointer-events-none absolute ${item.motifPosition} ${item.accentClass} outcome-card__motif`}>
+                    <Motif />
+                  </div>
+
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_hsl(var(--foreground)/0.03),_transparent_55%)]" aria-hidden="true" />
+
+                  <div className="relative z-10 mt-14 space-y-4">
+                    <h3 className="font-display text-[24px] font-light tracking-[0.01em] text-foreground">
+                      {item.title}
+                    </h3>
+                    <p className="max-w-[30ch] font-body text-[15px] font-light leading-[1.85] text-muted-foreground md:max-w-none">
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ INDUSTRY PACKS ═══════ */}
+      <div ref={packsRef}>
+        <PackGrid />
+      </div>
+
+      {/* ═══════ WHY ASSEMBL ═══════ */}
+      <section className="relative z-10 py-20" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "1.75rem", color: "#FFFFFF", marginBottom: "0.75rem" }}>
+              Why Assembl
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {[
+              {
+                mark: manaIcon,
+                title: "NZ context",
+                desc: "Grounded in NZ legislation and policy workflows. Employment, health & safety, building, food safety, privacy — your obligations, not American advice.",
+              },
+              {
+                mark: maharaIcon,
+                title: "Shared business memory",
+                desc: "Every agent shares context about your business. Ask one, and the others already know. No re-explaining.",
+              },
+              {
+                mark: ihoIcon,
+                title: "Specialist workflows",
+                desc: "Five industry kete, each going deep on the workflows for its domain. Not a chatbot pretending to know everything — dedicated specialist support.",
+              },
+              {
+                mark: kanohiIcon,
+                title: "Multi-channel delivery",
+                desc: "Chat, SMS, voice, email, embedded widgets. Your team gets answers wherever they already work.",
+              },
+            ].map((item, i) => (
+              <motion.div
                 key={item.title}
-                className="glass-card group relative overflow-hidden rounded-[20px] p-7 cursor-default"
+                className="rounded-xl p-6"
+                style={{
+                  background: "rgba(15,15,26,0.7)",
+                  backdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.35, delay: i * 0.08, ease }}
-                whileHover={{ y: -5, boxShadow: `0 0 20px rgba(255,255,255,0.1), 0 0 40px rgba(255,255,255,0.05), 0 0 10px ${item.color}12` }}
-                style={{ borderColor: `${item.color}15` }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
               >
-                {/* Stat */}
-                <div className="mb-5">
-                  <motion.span
-                    className="text-3xl inline-block"
-                    style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, color: item.color }}
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    {item.stat}
-                  </motion.span>
-                  <span className="text-[10px] ml-2 tracking-[1px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: `${item.color}80` }}>
-                    {item.statLabel}
-                  </span>
-                </div>
-
-                <h3 className="text-lg mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#fff" }}>
+                <img src={item.mark} alt="" className="w-5 h-5 mb-2.5 opacity-70" />
+                <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "16px", color: "#FFFFFF", marginBottom: "6px" }}>
                   {item.title}
                 </h3>
-                <p className="text-[13px] leading-[1.85]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}>
-                  {item.description}
+                <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>
+                  {item.desc}
                 </p>
-
-                {/* Maunga watermark */}
-                <MaungaWatermark color={item.color} />
-                {/* Hover glow */}
-                <div
-                  className="absolute inset-0 rounded-[20px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ background: `radial-gradient(ellipse at 50% 100%, ${item.color}10 0%, transparent 60%)` }}
-                />
-              </motion.article>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══════ 3. WHY ASSEMBL — Te Take · The Why ══════ */}
-      <WhyAssemblStory />
+      {/* ═══════ LIVE DEMO ═══════ */}
+      <EmbedDemoSection />
 
-      {/* ══════ 4. HOW IT WORKS — Te Ara · The Pathway ══════ */}
-      <div id="how-it-works" ref={flowRef}>
-        <HowItWorksFlow />
-      </div>
-
-      {/* ══════ 5. VIDEO SHOWCASE — Mātakitaki · Watch ══════ */}
-      <VideoShowcase />
-
-      {/* ══════ 6. LIVE DEMO — Whakamātau · Try It ══════ */}
-      <LiveDemoSection />
-
-      {/* ══════ 7. KETE EXPLORER — Ngā Kete · The Collection ══════ */}
-      <KeteExplorer />
-
-      {/* ══════ 8. TRUST SIGNALS — Whakapono · Trust ══════ */}
-      <TrustStrip />
-
-      {/* ══════ 9. PRICING CTA ══════ */}
-      <section id="pricing" className="relative z-10 py-16 sm:py-20 overflow-hidden pt-14">
-        <MaungaRidgeDivider color="#3A7D6E" />
-
-        <div className="max-w-4xl mx-auto px-5 text-center">
+      {/* ═══════ DISCOVERY CALL ═══════ */}
+      <section id="launch-sprint" className="relative z-10 py-20" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, ease }}
           >
-            <p className="text-[11px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: "#3A7D6E" }}>
-              UTU · PRICING
-            </p>
-            <TanikoDivider color="#3A7D6E" width={160} />
-            <h2 className="text-2xl sm:text-3xl mb-3 mt-4 text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
-              Simple, transparent, NZ-priced
+            <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "1.75rem", color: "#FFFFFF", marginBottom: "0.75rem" }}>
+              Book a <span style={{ color: "#D4A843" }}>discovery call</span>
             </h2>
-            <p className="text-sm max-w-lg mx-auto mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}>
-              All 44+ agents and 9 kete included on every plan. No hidden add-ons.
+            <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "480px", margin: "0 auto 2rem" }}>
+              Free 30-minute discovery call. We'll map your workflows and show you which kete fit your business.
             </p>
-
-            {/* Quick pricing cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto my-10">
-              {[
-                { name: "Essentials", price: "$199", users: "2 users", queries: "500 queries/mo", accent: "#3A7D6E", trial: true },
-                { name: "Business", price: "$399", users: "10 users", queries: "2,000 queries/mo", accent: "#D4A843", popular: true },
-                { name: "Enterprise", price: "$799", users: "Unlimited", queries: "Unlimited", accent: "#5B8FA8" },
-              ].map((tier, i) => (
-                <motion.div
-                  key={tier.name}
-                  className="glass-card rounded-xl p-5 text-center relative cursor-default group"
-                  style={{ border: tier.popular ? `2px solid ${tier.accent}30` : undefined }}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08, duration: 0.35, ease }}
-                  whileHover={{ y: -5, boxShadow: `0 0 20px rgba(255,255,255,0.1), 0 0 40px rgba(255,255,255,0.05), 0 0 10px ${tier.accent}12` }}
-                >
-                  {tier.popular && (
-                    <motion.span
-                      className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[8px] tracking-[2px] uppercase px-3 py-0.5 rounded-full"
-                      style={{ background: tier.accent, color: "#09090F", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}
-                      animate={{ boxShadow: [`0 0 10px ${tier.accent}30`, `0 0 20px ${tier.accent}50`, `0 0 10px ${tier.accent}30`] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      POPULAR
-                    </motion.span>
-                  )}
-                  <p className="text-xs mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: tier.accent }}>
-                    {tier.name}
-                  </p>
-                  <p className="text-2xl mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, color: "#fff" }}>
-                    {tier.price}<span className="text-xs text-muted-foreground">/mo</span>
-                  </p>
-                  <p className="text-[10px] mb-1" style={{ color: "rgba(255,255,255,0.35)" }}>{tier.users} · {tier.queries}</p>
-                  {tier.trial && (
-                    <p className="text-[9px]" style={{ color: "#5AADA0" }}>14-day free trial</p>
-                  )}
-                  {/* Hover glow */}
-                  <div className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `radial-gradient(ellipse at 50% 100%, ${tier.accent}10 0%, transparent 60%)` }} />
-                </motion.div>
-              ))}
-            </div>
-
-            <p className="text-[11px] mb-6" style={{ color: "rgba(255,255,255,0.3)" }}>All prices NZD + GST. $749 one-time setup fee. Save 20% with annual billing.</p>
-
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                <Link to="/pricing" className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm">
-                  Start free trial <ArrowRight size={16} />
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                <Link to="/pricing" className="btn-ghost inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm">
-                  Compare plans
-                </Link>
-              </motion.div>
-            </div>
           </motion.div>
+
+          <form
+            onSubmit={handleContactSubmit}
+            className="space-y-4 rounded-xl p-6 text-left"
+            style={{
+              background: "rgba(15,15,26,0.8)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}
+          >
+            <div>
+              <label className="block text-xs mb-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "rgba(255,255,255,0.65)" }}>Name</label>
+              <input
+                type="text"
+                value={contactName}
+                onChange={(e) => setContactName(e.target.value)}
+                required
+                className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground focus:outline-none transition-all duration-300"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
+                placeholder="Your name"
+              />
+            </div>
+            <div>
+              <label className="block text-xs mb-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "rgba(255,255,255,0.65)" }}>Email</label>
+              <input
+                type="email"
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
+                required
+                className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground focus:outline-none transition-all duration-300"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
+                placeholder="your@email.co.nz"
+              />
+            </div>
+            <div>
+              <label className="block text-xs mb-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "rgba(255,255,255,0.65)" }}>Tell us about your business</label>
+              <textarea
+                value={contactMessage}
+                onChange={(e) => setContactMessage(e.target.value)}
+                required
+                rows={3}
+                className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground focus:outline-none resize-none transition-all duration-300"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
+                placeholder="Industry, team size, biggest pain point..."
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm transition-all duration-300"
+              style={{
+                fontFamily: "'Lato', sans-serif",
+                fontWeight: 400,
+                background: "#D4A843",
+                border: "1px solid #D4A843",
+                color: "#09090F",
+                boxShadow: "0 0 20px rgba(212,168,67,0.2)",
+              }}
+            >
+              <Send size={14} /> Book discovery call
+            </button>
+          </form>
         </div>
       </section>
 
-      {/* ══════ 10. CONTACT ══════ */}
-      <section id="contact" className="relative z-10 py-16 sm:py-20 overflow-hidden pt-14">
-        <MaungaRidgeDivider color="#E8B4B8" />
-
-        <div className="max-w-xl mx-auto px-5">
-          <motion.div
-            className="text-center mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: "#E8B4B8" }}>
-              WHAKAPĀ MAI · GET IN TOUCH
-            </p>
-            <TanikoDivider color="#E8B4B8" width={160} />
-            <h2 className="text-xl sm:text-2xl mb-2 mt-4 text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
-              Questions? Kia ora, we're here.
-            </h2>
-            <p className="text-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.4)" }}>
-              Whether you need a demo, want to talk enterprise, or just want to say hello.
-            </p>
-          </motion.div>
-
-          <motion.form
-            onSubmit={handleContactSubmit}
-            className="glass-card rounded-2xl p-6 space-y-4 text-left"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            whileHover={{ boxShadow: "0 0 40px rgba(232,180,184,0.05)" }}
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs mb-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "rgba(255,255,255,0.65)" }}>Name</label>
-                <input
-                  type="text" value={contactName} onChange={(e) => setContactName(e.target.value)} required
-                  className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground focus:outline-none transition-all duration-300"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
-                  placeholder="Your name"
-                  onFocus={(e) => { (e.target as HTMLElement).style.borderColor = "rgba(232,180,184,0.3)"; (e.target as HTMLElement).style.boxShadow = "0 0 15px rgba(232,180,184,0.08)"; }}
-                  onBlur={(e) => { (e.target as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; (e.target as HTMLElement).style.boxShadow = "none"; }}
-                />
-              </div>
-              <div>
-                <label className="block text-xs mb-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "rgba(255,255,255,0.65)" }}>Email</label>
-                <input
-                  type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} required
-                  className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground focus:outline-none transition-all duration-300"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
-                  placeholder="your@email.co.nz"
-                  onFocus={(e) => { (e.target as HTMLElement).style.borderColor = "rgba(232,180,184,0.3)"; (e.target as HTMLElement).style.boxShadow = "0 0 15px rgba(232,180,184,0.08)"; }}
-                  onBlur={(e) => { (e.target as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; (e.target as HTMLElement).style.boxShadow = "none"; }}
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-xs mb-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "rgba(255,255,255,0.65)" }}>How can we help?</label>
-              <textarea
-                value={contactMessage} onChange={(e) => setContactMessage(e.target.value)} required rows={3}
-                className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground focus:outline-none resize-none transition-all duration-300"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
-                placeholder="Your industry, team size, biggest pain point..."
-                onFocus={(e) => { (e.target as HTMLElement).style.borderColor = "rgba(232,180,184,0.3)"; (e.target as HTMLElement).style.boxShadow = "0 0 15px rgba(232,180,184,0.08)"; }}
-                onBlur={(e) => { (e.target as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; (e.target as HTMLElement).style.boxShadow = "none"; }}
-              />
-            </div>
-            <motion.button
-              type="submit"
-              className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm transition-all duration-300"
-              style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, background: "#D4A843", border: "1px solid #D4A843", color: "#09090F", boxShadow: "0 0 20px rgba(212,168,67,0.2)" }}
-              whileHover={{ scale: 1.01, boxShadow: "0 0 35px rgba(212,168,67,0.3)" }}
-              whileTap={{ scale: 0.99 }}
-            >
-              <Send size={14} /> Send message
-            </motion.button>
-            <p className="text-center text-[10px]" style={{ color: "rgba(255,255,255,0.25)" }}>
-              Or email <a href="mailto:assembl@assembl.co.nz" className="underline" style={{ color: "#D4A843" }}>assembl@assembl.co.nz</a>
-            </p>
-          </motion.form>
+      {/* ═══════ CONTACT ═══════ */}
+      <section id="contact" className="relative z-10 py-16" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="max-w-lg mx-auto px-4 sm:px-6 text-center">
+          <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "1.5rem", color: "#FFFFFF", marginBottom: "0.5rem" }}>
+            Get in touch
+          </h2>
+          <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)" }}>
+            Enterprise pricing, custom builds, or just to say kia ora.
+          </p>
+          <p className="mt-3">
+            <a href="mailto:assembl@assembl.co.nz" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "#D4A843" }}>
+              assembl@assembl.co.nz
+            </a>
+          </p>
         </div>
       </section>
 

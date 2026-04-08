@@ -532,10 +532,10 @@ export default function LogoStackPage() {
             Early Access — Aotearoa New Zealand
           </p>
           <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 900, fontSize: "clamp(1.6rem, 4vw, 2.6rem)", color: "#fff", margin: "0 0 12px", lineHeight: 1.2 }}>
-            43 specialist tools.<br />Built for NZ business.
+            Five industry kete.<br />Built for NZ business.
           </h2>
           <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 300, fontSize: "15px", color: "rgba(255,255,255,0.5)", maxWidth: "420px", margin: "0 auto 32px", lineHeight: 1.6 }}>
-            Employment law, tax, hospitality compliance, property, construction — every agent trained on NZ legislation.
+            Hospitality, construction, creative, automotive, freight & customs — every kete grounded in NZ legislation and policy workflows.
           </p>
 
           <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>

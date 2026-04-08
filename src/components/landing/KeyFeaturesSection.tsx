@@ -8,7 +8,7 @@ const GOLD = "#D4A843";
 
 const FEATURES = [
   { icon: Brain, title: "Intent Classification", desc: "Automatically detects which industry pack and agent is needed. Keyword matching, pattern recognition, and confidence scoring." },
-  { icon: Users, title: "44 Specialist Agents", desc: "Across 7 industry kete — each with specific skills, preferred AI model, and deep NZ expertise. Extensible for future agents." },
+  { icon: Users, title: "Five Industry Kete", desc: "Manaaki, Waihanga, Auaha, Arataki, Pikau — each kete grounded in NZ legislation and policy workflows for its industry." },
   { icon: GitBranch, title: "Model Routing", desc: "Gemini for speed and multimodal. Claude for reasoning, compliance, and code. Cost-aware routing optimises every request." },
   { icon: Shield, title: "Privacy & Compliance", desc: "PII detection for emails, IRD numbers, bank accounts. Privacy Act 2020 compliance across all 13 IPPs plus new IPP 3A." },
   { icon: FileText, title: "Audit Logging", desc: "Every request logged — user, agent, model, tokens, cost, and compliance outcome. CSV export for external analysis." },
@@ -31,7 +31,7 @@ const KeyFeaturesSection = () => (
           Built for <span className="text-primary">compliance</span>
         </h2>
         <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
-          Enterprise-grade security and NZ legislation compliance — at SME-friendly pricing.
+          NZ-aligned security practices and compliance grounded in legislation — at SME-friendly pricing.
         </p>
       </motion.div>
 

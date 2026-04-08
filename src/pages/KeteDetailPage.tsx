@@ -91,7 +91,7 @@ const KeteDetailPage = () => {
           <div className="mt-16 text-center">
             <button onClick={() => navigate("/contact")} className="px-6 py-3 rounded-xl text-sm font-medium transition-all hover:opacity-80"
               style={{ background: `${kete.accentColor}20`, color: kete.accentColor, border: `1px solid ${kete.accentColor}30`, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              Book a free consultation
+              Book a discovery call
             </button>
           </div>
         </div>

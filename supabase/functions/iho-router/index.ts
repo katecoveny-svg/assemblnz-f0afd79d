@@ -117,6 +117,22 @@ const AGENT_REGISTRY: AgentConfig[] = [
   { code: "ASM-039", name: "RELAY", pack: "hangarau", primaryModel: "claude", skills: ["messaging", "event_systems"], keywords: ["queue", "kafka", "redis", "pub/sub", "event", "async", "notification"] },
   { code: "ASM-040", name: "SIGNAL", pack: "hangarau", primaryModel: "claude", skills: ["network_security", "devops_security"], keywords: ["firewall", "waf", "ddos", "vpn", "zero trust", "container", "kubernetes"] },
   { code: "ASM-041", name: "FORGE", pack: "hangarau", primaryModel: "claude", skills: ["devops", "deployment"], keywords: ["deploy", "ci/cd", "docker", "kubernetes", "terraform", "github actions", "pipeline"] },
+
+  // ARATAKI — Automotive (pilot, claude/arataki-pikau-pilot-build)
+  { code: "ASM-042", name: "ARATAKI", pack: "arataki", primaryModel: "claude",
+    skills: ["vehicle_listing_compliance", "customer_enquiry_drafting", "finance_disclosure"],
+    keywords: ["dealership", "vehicle listing", "vin", "wof", "warrant of fitness", "odometer",
+               "test drive", "trade-in", "trade in", "cccfa", "mvsa", "motor vehicle trader",
+               "consumer information notice", "cin", "finance disclosure", "loan disclosure",
+               "dealer", "car sale", "car finance", "automotive", "warranty claim"] },
+
+  // PIKAU — Freight + Customs (pilot, claude/arataki-pikau-pilot-build)
+  { code: "ASM-043", name: "PIKAU", pack: "pikau", primaryModel: "claude",
+    skills: ["customs_entry_pre_check", "freight_quote_compare", "dangerous_goods_check"],
+    keywords: ["customs", "nzcs", "tariff", "hs code", "harmonised", "broker", "import",
+               "export", "freight", "forwarder", "incoterm", "fob", "cif", "ddp",
+               "biosecurity", "mpi clearance", "imdg", "dangerous goods", "un number",
+               "landed cost", "duty", "gst zero rate", "customs entry", "shipment"] },
 ];
 
 // ═══════════════════════════════════════

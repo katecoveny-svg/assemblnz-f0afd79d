@@ -80,7 +80,7 @@ const EmbedPage = () => {
         {/* Hero */}
         <div className="text-center mb-12">
           <h1 className="text-3xl sm:text-5xl font-light text-foreground mb-4 text-glow-hero">
-            Embed your specialist agent on <span className="text-gradient-hero">your website</span>
+            Embed your AI agent on <span className="text-gradient-hero">your website</span>
           </h1>
           <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.25)" }}>
             One line of code. Your customers get 24/7 expert answers grounded in NZ law. You get leads captured automatically.
@@ -102,7 +102,7 @@ const EmbedPage = () => {
               {
                 icon: <Zap size={20} />,
                 title: "1. Choose your agent",
-                desc: "Select the specialist agent that matches your industry — from construction compliance to hospitality guest intelligence.",
+                desc: "Select the AI agent that matches your industry — from construction compliance to hospitality guest intelligence.",
                 color: "#5AADA0",
               },
               {
@@ -114,7 +114,7 @@ const EmbedPage = () => {
               {
                 icon: <Globe size={20} />,
                 title: "3. Go live instantly",
-                desc: "Your visitors get 24/7 expert advice grounded in NZ legislation. Leads are captured and conversations logged.",
+                desc: "Your visitors get 24/7 AI-powered advice grounded in NZ legislation. Leads are captured and conversations logged.",
                 color: "#3A6A9C",
               },
             ].map((step) => (
@@ -356,9 +356,9 @@ const EmbedPage = () => {
           <h2 className="text-base font-display font-light text-foreground text-glow-cyan text-center mb-6">Embed access by plan</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
             {[
-              { plan: "Kete Tīmatanga", agents: "1 kete", price: "$750/mo", color: "#5AADA0", current: (role as string) === "starter" },
-              { plan: "Kete Pakihi", agents: "Up to 3 kete", price: "$2,200/mo", color: "#3A6A9C", current: (role as string) === "pro" },
-              { plan: "Kete Rangatira", agents: "All 7 kete", price: "$4,500/mo", color: "#3A6A9C", current: (role as string) === "business" },
+              { plan: "Operator", agents: "1 kete", price: "$590/mo", color: "#5AADA0", current: role === "starter" },
+              { plan: "Leader", agents: "2 kete", price: "$1,290/mo", color: "#3A6A9C", current: role === "pro" },
+              { plan: "Enterprise", agents: "All 5 kete", price: "$2,890/mo", color: "#3A6A9C", current: role === "business" },
             ].map((t) => (
               <div
                 key={t.plan}

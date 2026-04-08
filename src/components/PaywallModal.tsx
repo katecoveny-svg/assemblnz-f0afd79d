@@ -76,19 +76,19 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
               </p>
               <div className="flex flex-col gap-2 pt-2">
                 <button
-                  onClick={() => handleCheckout(STRIPE_TIERS.business.price_id, "business")}
-                  disabled={loading === "business"}
+                  onClick={() => handleCheckout(STRIPE_TIERS.pro.price_id, "pro")}
+                  disabled={loading === "pro"}
                   className="block w-full py-2.5 rounded-lg text-sm font-semibold text-center transition-all"
-                  style={{ background: "#D4A843", color: "#09090F" }}
+                  style={{ background: "#5AADA0", color: "#0A0A14" }}
                 >
-                  {loading === "business" ? <Loader2 size={16} className="inline animate-spin" /> : "Business — $399/mo (recommended)"}
+                  {loading === "pro" ? <Loader2 size={16} className="inline animate-spin" /> : "Leader — $1,290/mo (recommended)"}
                 </button>
                 <button
-                  onClick={() => handleCheckout(STRIPE_TIERS.essentials.price_id, "essentials")}
-                  disabled={loading === "essentials"}
+                  onClick={() => handleCheckout(STRIPE_TIERS.starter.price_id, "starter")}
+                  disabled={loading === "starter"}
                   className="block w-full py-2.5 rounded-lg border border-border text-sm font-medium text-foreground/70 text-center hover:text-foreground hover:border-foreground/10 transition-colors"
                 >
-                  {loading === "essentials" ? <Loader2 size={16} className="inline animate-spin" /> : "Essentials — $199/mo"}
+                  {loading === "starter" ? <Loader2 size={16} className="inline animate-spin" /> : "Operator — $590/mo"}
                 </button>
                 <Link
                   to="/pricing"

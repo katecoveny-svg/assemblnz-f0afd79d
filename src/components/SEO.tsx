@@ -26,7 +26,7 @@ const SEO = ({
       <meta name="description" content={description} />
       <link rel="canonical" href={url} />
       <meta name="robots" content="index, follow" />
-      <meta name="author" content="Kate Hudson" />
+      <meta name="author" content="Assembl" />
 
       {/* Geo */}
       <meta name="geo.region" content="NZ-AUK" />

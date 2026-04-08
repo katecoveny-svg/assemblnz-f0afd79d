@@ -337,11 +337,11 @@ const auahaAgents: Agent[] = [
   {
     id: "flux", name: "FLUX", designation: "AUA-006",
     role: "Image Generation & Design Innovation",
-    tagline: "AI image generation, algorithmic art, and cutting-edge design innovation",
+    tagline: "AI image generation, algorithmic art, and advanced design tools",
     color: "#F0D078", sector: "Creative & Media", pack: "auaha", primaryModel: "gemini",
     traits: ["Innovative", "Visually bold", "AI-native"],
     expertise: ["AI image generation", "Algorithmic art", "Design innovation", "Canva integration", "Visual experimentation"],
-    starters: ["Generate product images", "Create an algorithmic art piece", "Design innovation sprint"],
+    starters: ["Generate product images", "Create an algorithmic art piece", "Design innovation workshop"],
   },
   {
     id: "chromatic", name: "CHROMATIC", designation: "AUA-007",
@@ -857,7 +857,7 @@ export const echoAgent: Agent = findAgent('echo') ?? allAgents[0];
 export const pilotAgent: Agent = {
   id: "pilot", name: "PILOT", designation: "ASM-099",
   role: "Executive Assistant",
-  tagline: "Elite executive assistant, second brain, and strategic partner",
+  tagline: "Elite executive assistant, strategic advisor, and operational partner",
   color: "#D4A843", sector: "Cross-pack", pack: "core", primaryModel: "claude",
   traits: ["Proactive", "Emotionally intelligent", "Action-oriented"],
   expertise: ["Calendar management", "Email triage", "Meeting summaries", "Content strategy", "Business prioritisation"],

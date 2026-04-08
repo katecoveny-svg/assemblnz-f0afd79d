@@ -1,631 +1,567 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { agentChat } from "@/lib/agentChat";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
 import SEO from "@/components/SEO";
+import { toast } from "sonner";
+import { Link } from "react-router-dom";
 import {
-  CalendarDays,
-  GraduationCap,
-  HeartPulse,
-  Receipt,
-  UtensilsCrossed,
-  Phone,
+  ChevronDown, Send, Camera, CalendarDays, UtensilsCrossed, Bus, CloudSun,
+  Bell, ShoppingCart, BookOpen, Globe, Wallet, Users, Lock,
+  Smartphone, MessageSquare, Zap, Shield, GraduationCap, MapPin, DollarSign, Clock,
+  Check,
 } from "lucide-react";
+import toroaLogo from "@/assets/brand/toroa-logo.svg";
+import TeReoVideoLearner from "@/components/chat/TeReoVideoLearner";
 
-/* ─── Brand tokens ─── */
-const BG = "#09090F";
-const GOLD = "#D4A843";
-const TEAL = "#3A7D6E";
-const BONE = "#F5F0E8";
-const SKY = "#87CEEB";
+const KOWHAI = "#D4A843";
+const POUNAMU = "#3A7D6E";
 
-/* ─── Animation variants ─── */
 const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0,
+    transition: { delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] },
   }),
 };
 
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
+const glass = (accent = KOWHAI, opacity = 0.12) => ({
+  background: "rgba(15,15,26,0.7)",
+  border: `1px solid ${accent}${Math.round(opacity * 255).toString(16).padStart(2, "0")}`,
+  backdropFilter: "blur(12px)",
+  boxShadow: `0 0 24px ${accent}08, 0 8px 32px rgba(0,0,0,0.3)`,
+});
 
-/* ─── Albatross silhouette ─── */
-function Albatross({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 320 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden="true"
-    >
-      {/* Simplified albatross in soaring flight — wide wingspan, slender body */}
-      <path
-        d="M160 40 C140 32, 80 18, 20 28 C50 26, 90 34, 130 38 L160 40 L190 38 C230 34, 270 26, 300 28 C240 18, 180 32, 160 40Z"
-        fill={SKY}
-        fillOpacity="0.18"
-      />
-      <path
-        d="M155 40 C158 36, 162 36, 165 40 C163 44, 157 44, 155 40Z"
-        fill={SKY}
-        fillOpacity="0.3"
-      />
-      <path
-        d="M163 39 Q175 37 185 38 Q178 42 165 42Z"
-        fill={SKY}
-        fillOpacity="0.22"
-      />
-    </svg>
-  );
+/* ── Starfield ── */
+function Starfield() {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const c = ref.current;
+    if (!c) return;
+    const ctx = c.getContext("2d")!;
+    let raf: number;
+    const stars = Array.from({ length: 120 }, () => ({
+      x: Math.random(), y: Math.random(), r: Math.random() * 1.2 + 0.3, s: Math.random() * 0.3 + 0.1,
+    }));
+    const draw = () => {
+      c.width = c.offsetWidth * 2; c.height = c.offsetHeight * 2;
+      ctx.clearRect(0, 0, c.width, c.height);
+      stars.forEach((s) => {
+        s.y += s.s * 0.0003;
+        if (s.y > 1) s.y = 0;
+        ctx.beginPath();
+        ctx.arc(s.x * c.width, s.y * c.height, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(212,168,67,${0.15 + Math.random() * 0.15})`;
+        ctx.fill();
+      });
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+    return () => cancelAnimationFrame(raf);
+  }, []);
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full pointer-events-none" />;
 }
 
-/* ─── Moon glow ─── */
-function Moon() {
-  return (
-    <div className="relative w-32 h-32 mx-auto mb-10" aria-hidden="true">
-      {/* Outer glow rings */}
-      <div
-        className="absolute inset-0 rounded-full"
-        style={{
-          background: `radial-gradient(circle, ${SKY}18 0%, ${SKY}06 55%, transparent 75%)`,
-          transform: "scale(2.4)",
-        }}
-      />
-      <div
-        className="absolute inset-0 rounded-full"
-        style={{
-          background: `radial-gradient(circle, ${SKY}10 0%, transparent 60%)`,
-          transform: "scale(1.7)",
-        }}
-      />
-      {/* Moon disc */}
-      <div
-        className="absolute inset-0 rounded-full"
-        style={{
-          background: `radial-gradient(circle at 38% 35%, ${BONE} 0%, #D8D0C4 60%, #B8B0A4 100%)`,
-          boxShadow: `0 0 40px ${SKY}40, 0 0 80px ${SKY}20`,
-        }}
-      />
-      {/* Subtle crater texture */}
-      <div
-        className="absolute rounded-full"
-        style={{
-          width: "22%",
-          height: "18%",
-          top: "28%",
-          left: "22%",
-          background: "rgba(0,0,0,0.07)",
-          borderRadius: "50%",
-        }}
-      />
-      <div
-        className="absolute rounded-full"
-        style={{
-          width: "14%",
-          height: "12%",
-          top: "55%",
-          left: "52%",
-          background: "rgba(0,0,0,0.05)",
-          borderRadius: "50%",
-        }}
-      />
-    </div>
-  );
-}
+/* ── All 12 feature cards ── */
+const FEATURES = [
+  { icon: Camera, title: "Photo → school notice parsed", desc: "Snap a photo of a school newsletter or notice. Tōroa reads it, extracts dates, events, and deadlines, then adds them to your family calendar automatically.", color: KOWHAI },
+  { icon: CalendarDays, title: "Calendar sync & gear lists", desc: "School events, sports fixtures, and practices sync to one calendar. Tōroa auto-generates packing and gear lists the night before — so nothing gets forgotten.", color: POUNAMU },
+  { icon: UtensilsCrossed, title: "Photo your fridge → meal plan", desc: "Take a photo of what's in your fridge. Tōroa creates a weekly meal plan from what you have, then builds a smart shopping list for what you need.", color: KOWHAI },
+  { icon: Bus, title: "Live Auckland bus tracking", desc: "Real-time Auckland Transport bus positions. Know exactly when the school bus is arriving — no more standing in the rain guessing.", color: POUNAMU },
+  { icon: CloudSun, title: "Live weather → dress the kids", desc: "Tōroa checks the morning weather and texts you what the kids should wear today. Rain jacket? Sunhat? Shorts or long pants? Sorted.", color: KOWHAI },
+  { icon: Bell, title: "Smart reminders", desc: "Permission slips, rego renewals, vet appointments, bill due dates — Tōroa remembers so you don't have to.", color: POUNAMU },
+  { icon: ShoppingCart, title: "Shared grocery lists", desc: "Build, share, and tick off shopping lists via text. Anyone in the whānau can add items on the go.", color: KOWHAI },
+  { icon: BookOpen, title: "Homework tracker", desc: "Track homework deadlines, reading logs, and projects. Get gentle nudges before things are due.", color: POUNAMU },
+  { icon: DollarSign, title: "Household budget", desc: "Track weekly spending, set limits, and get alerts — all via SMS. No spreadsheets needed.", color: KOWHAI },
+  { icon: MapPin, title: "NZ-specific answers", desc: "FamilyBoost, Working for Families, school zones, holiday dates — Tōroa knows Aotearoa context.", color: POUNAMU },
+  { icon: Users, title: "Family coordination", desc: "Pickups, drop-offs, activities, appointments — Tōroa keeps the whole whānau in sync. Everyone knows who's doing what.", color: KOWHAI },
+  { icon: Lock, title: "Safe family chat", desc: "A private, encrypted family messaging space. No ads, no strangers, no algorithmic feeds — just your whānau, kept safe.", color: POUNAMU },
+];
 
-/* ─── SMS Bubble ─── */
-function SMSConversation({
-  user,
-  agent,
-  delay = 0,
-}: {
-  user: string;
-  agent: string;
-  delay?: number;
-}) {
+const SMS_REASONS = [
+  { icon: Smartphone, title: "No app friction", desc: "No downloads, no logins, no updates. Just text." },
+  { icon: Clock, title: "Easy for busy families", desc: "Works while you're cooking dinner, waiting at sports, or on the school run." },
+  { icon: Zap, title: "Accessible and immediate", desc: "Everyone has SMS. Every phone. Every age group. Instant." },
+];
+
+const PRICING_FEATURES = [
+  "Unlimited texts to Tōroa", "School notice scanning", "Meal planning", "Calendar sync",
+  "Bus tracking (Auckland)", "Weather alerts", "Smart reminders", "Shared lists",
+  "Homework tracking", "Budget tracking", "Family chat", "Mārama learning", "NZ-specific answers",
+];
+
+const FAQS = [
+  { q: "What is Tōroa?", a: "Tōroa is a text-based AI family navigator built for Aotearoa. You text a question about family life — school, meals, schedules, budgets — and Tōroa replies with practical help. No app to download. Works on every phone." },
+  { q: "How does it work?", a: "You get a dedicated NZ phone number. Text it anything. Tōroa uses AI to understand what you need and replies via text. It can also read photos (school notices, fridge contents), track buses in real-time, check the weather, and manage your family calendar." },
+  { q: "Can I really photograph a school notice?", a: "Yes. Take a photo, text it to Tōroa. It reads the notice, extracts dates and events, and can add them to your family calendar. Works with newsletters, permission slips, sports fixtures, and school updates." },
+  { q: "How does bus tracking work?", a: "Tōroa connects to Auckland Transport's real-time API. Text 'Where's the bus?' and get live position data. We're expanding to Wellington and Christchurch." },
+  { q: "Is my data safe?", a: "All data stays in New Zealand. We follow the NZ Privacy Act 2020. We never sell or share your family's information. Our tikanga governance framework treats your data as taonga (treasure)." },
+  { q: "How much does it cost?", a: "$29/month during beta. First 100 whānau get locked in at that price for life. Cancel anytime." },
+  { q: "What is Mārama?", a: "Mārama is Tōroa's built-in learning tool. Drop a YouTube URL and get vocabulary flashcards, translations, and interactive quizzes. Especially good for te reo Māori learning, but works with any video content." },
+  { q: "What's the difference between Tōroa and the business kete?", a: "Tōroa is our consumer product for families — $29/mo, SMS-first, helps with school notices, meals, budgets, and daily family life. The five business kete (Manaaki, Waihanga, Auaha, Arataki, Pikau) are specialist operational workflows for NZ businesses. Different products, different audiences." },
+  { q: "Do I need technical knowledge?", a: "No. If you can send a text message, you can use Tōroa. That's the whole point." },
+  { q: "Can the whole family use it?", a: "Yes. Add family members and they can all text Tōroa independently. Shared grocery lists and calendar updates sync across the whānau." },
+];
+
+/* ── Try Tōroa mini-chat ── */
+function TryToroaChat() {
+  const [messages, setMessages] = useState<{ role: "user" | "assistant"; text: string }[]>([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const MAX_MSGS = 2;
+  const used = messages.filter(m => m.role === "user").length;
+  const remaining = MAX_MSGS - used;
+
+  const send = async () => {
+    if (!input.trim() || remaining <= 0 || loading) return;
+    const userMsg = input.trim();
+    setInput("");
+    const updated = [...messages, { role: "user" as const, text: userMsg }];
+    setMessages(updated);
+    setLoading(true);
+    try {
+      const reply = await agentChat({ agentId: "family", packId: "toroa", message: updated[updated.length-1].text, messages: updated.slice(0,-1).map(m => ({ role: m.role, content: m.text })) }) || "Kia ora! I'm here to help your whānau.";
+      setMessages(prev => [...prev, { role: "assistant", text: reply }]);
+    } catch {
+      setMessages(prev => [...prev, { role: "assistant", text: "Kia ora! I'm Tōroa — your family navigator. Try asking me about meal planning, school notices, or what the kids should wear today!" }]);
+    }
+    setLoading(false);
+  };
+
+  const suggestions = [
+    "What should the kids wear today?",
+    "Help me plan dinners this week",
+    "When's the next school holiday?",
+    "Create a packing list for rugby practice",
+  ];
+
   return (
-    <motion.div
-      className="flex flex-col gap-2"
-      variants={fadeUp}
-      custom={delay}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-    >
-      {/* User message */}
-      <div className="flex justify-end">
-        <div
-          className="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-tr-sm text-sm leading-relaxed"
-          style={{
-            background: TEAL,
-            color: BONE,
-            fontFamily: '"Plus Jakarta Sans", sans-serif',
-          }}
-        >
-          {user}
+    <section className="relative z-10 px-6 py-16 md:py-20">
+      <div className="max-w-lg mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-8">
+          <h2 className="font-display text-xl mb-3" style={{ fontWeight: 300, color: KOWHAI }}>
+            Try Tōroa — {remaining} free message{remaining !== 1 ? "s" : ""}
+          </h2>
+          <p className="font-body text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
+            Ask anything a busy parent would need help with.
+          </p>
+        </motion.div>
+
+        {/* Phone frame mockup */}
+        <div className="mx-auto max-w-[380px]">
+          <div className="rounded-[24px] overflow-hidden" style={{ ...glass(), border: `2px solid ${KOWHAI}25` }}>
+            {/* Status bar */}
+            <div className="flex items-center justify-between px-5 py-3" style={{ borderBottom: `1px solid ${KOWHAI}15` }}>
+              <div className="flex items-center gap-2">
+                <img src={toroaLogo} alt="" className="w-5 h-5" />
+                <span className="font-display text-xs" style={{ color: KOWHAI, fontWeight: 300 }}>Tōroa</span>
+              </div>
+              <span className="font-mono text-[9px]" style={{ color: "rgba(255,255,255,0.3)" }}>SMS</span>
+            </div>
+
+            {/* Messages */}
+            <div className="px-4 py-4 space-y-3 min-h-[200px] max-h-[340px] overflow-y-auto">
+              {messages.length === 0 && (
+                <div className="space-y-2 py-4">
+                  {suggestions.map((s, i) => (
+                    <button key={i} onClick={() => { setInput(s); }} className="block w-full text-left px-3 py-2 rounded-lg text-xs font-body transition-all"
+                      style={{ background: `${KOWHAI}08`, border: `1px solid ${KOWHAI}15`, color: "rgba(255,255,255,0.5)" }}
+                    >{s}</button>
+                  ))}
+                </div>
+              )}
+              {messages.map((m, i) => (
+                <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                  <div
+                    className={`rounded-2xl px-4 py-2.5 text-xs font-body max-w-[85%] ${m.role === "user" ? "rounded-br-md" : "rounded-bl-md"}`}
+                    style={{
+                      background: m.role === "user" ? `${KOWHAI}20` : "rgba(255,255,255,0.04)",
+                      border: `1px solid ${m.role === "user" ? `${KOWHAI}30` : "rgba(255,255,255,0.06)"}`,
+                      color: m.role === "user" ? "#FFE082" : "rgba(255,255,255,0.7)",
+                      lineHeight: 1.6,
+                    }}
+                  >{m.text}</div>
+                </div>
+              ))}
+              {loading && (
+                <div className="flex justify-start">
+                  <div className="rounded-2xl rounded-bl-md px-4 py-2.5 text-xs font-body" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.4)" }}>
+                    <span className="animate-pulse">Tōroa is thinking…</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Input */}
+            <div className="px-4 py-3 flex gap-2" style={{ borderTop: `1px solid ${KOWHAI}10` }}>
+              {remaining > 0 ? (
+                <>
+                  <input type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && send()}
+                    placeholder="Ask Tōroa anything…"
+                    className="flex-1 px-3 py-2.5 rounded-full text-xs font-body outline-none"
+                    style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${KOWHAI}15`, color: "#FFFFFF" }}
+                  />
+                  <button onClick={send} disabled={loading || !input.trim()}
+                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all disabled:opacity-40"
+                    style={{ background: KOWHAI, color: "#09090F" }}
+                  ><Send size={14} /></button>
+                </>
+              ) : (
+                <div className="w-full text-center py-2">
+                  <p className="font-body text-xs mb-2" style={{ color: "rgba(255,255,255,0.5)" }}>You've used your 2 free messages</p>
+                  <a href="#waitlist" className="font-display text-sm transition-colors" style={{ color: KOWHAI, fontWeight: 300 }}>
+                    Join the beta for unlimited access →
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
-      {/* Agent reply */}
-      <div className="flex justify-start">
-        <div
-          className="max-w-[85%] px-4 py-2.5 rounded-2xl rounded-tl-sm text-sm leading-relaxed"
-          style={{
-            background: "rgba(135,206,235,0.10)",
-            border: `1px solid ${SKY}30`,
-            color: BONE,
-            fontFamily: '"Plus Jakarta Sans", sans-serif',
-          }}
-        >
-          <span style={{ color: SKY, fontWeight: 600, fontSize: "0.7rem", letterSpacing: "0.1em", display: "block", marginBottom: "2px" }}>
-            TŌROA
-          </span>
-          {agent}
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-/* ─── Glass card ─── */
-function GlassCard({
-  icon: Icon,
-  title,
-  body,
-  i,
-}: {
-  icon: React.ElementType;
-  title: string;
-  body: string;
-  i: number;
-}) {
-  return (
-    <motion.div
-      variants={fadeUp}
-      custom={i}
-      className="rounded-2xl p-6 flex flex-col gap-3"
-      style={{
-        background: "rgba(15,15,26,0.65)",
-        border: `1px solid ${SKY}22`,
-        backdropFilter: "blur(16px)",
-        boxShadow: `0 0 32px ${SKY}08, 0 8px 40px rgba(0,0,0,0.35)`,
-      }}
-      whileHover={{ y: -4, boxShadow: `0 0 48px ${SKY}18, 0 16px 48px rgba(0,0,0,0.4)` }}
-      transition={{ duration: 0.25 }}
-    >
-      <div
-        className="w-10 h-10 rounded-xl flex items-center justify-center"
-        style={{ background: `${SKY}15`, border: `1px solid ${SKY}30` }}
-      >
-        <Icon size={18} style={{ color: SKY }} strokeWidth={1.5} />
-      </div>
-      <h3
-        className="text-sm uppercase tracking-widest font-light"
-        style={{ color: GOLD, fontFamily: "Lato, sans-serif", letterSpacing: "0.15em" }}
-      >
-        {title}
-      </h3>
-      <p
-        className="text-sm leading-relaxed opacity-70"
-        style={{ color: BONE, fontFamily: '"Plus Jakarta Sans", sans-serif' }}
-      >
-        {body}
-      </p>
-    </motion.div>
-  );
-}
-
-/* ─── Eyebrow label ─── */
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <p
-      className="text-xs uppercase tracking-[0.35em] mb-4 font-light"
-      style={{ color: SKY, fontFamily: "Lato, sans-serif" }}
-    >
-      {children}
-    </p>
-  );
-}
-
-/* ─── Section heading ─── */
-function SectionHeading({ children, gold }: { children: React.ReactNode; gold?: boolean }) {
-  return (
-    <h2
-      className="text-3xl sm:text-4xl md:text-5xl font-light uppercase tracking-[0.18em] leading-tight"
-      style={{
-        color: gold ? GOLD : BONE,
-        fontFamily: "Lato, sans-serif",
-      }}
-    >
-      {children}
-    </h2>
-  );
-}
-
-/* ─── Section wrapper ─── */
-function Section({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <section className={`relative px-6 py-24 md:py-32 max-w-5xl mx-auto ${className}`}>
-      {children}
     </section>
   );
 }
 
-/* ─── Capabilities data ─── */
-const CAPABILITIES = [
-  {
-    icon: CalendarDays,
-    title: "Scheduling",
-    body: "School pickups, sports fixtures, appointments — one text organises the whole whānau calendar without lifting a finger.",
-  },
-  {
-    icon: GraduationCap,
-    title: "School Admin",
-    body: "Permission slips, newsletter dates, term events — Tōroa reads them and adds them before you forget.",
-  },
-  {
-    icon: HeartPulse,
-    title: "Health Appointments",
-    body: "Book the dentist, remind about prescriptions, track GP visits for every family member in one place.",
-  },
-  {
-    icon: Receipt,
-    title: "Household Bills",
-    body: "Track due dates, get alerts before things go overdue, and stay on top of the weekly budget — all by text.",
-  },
-  {
-    icon: UtensilsCrossed,
-    title: "Meal Planning",
-    body: "Tell Tōroa what's in the fridge. It plans the week's meals and writes the shopping list so you don't have to.",
-  },
-  {
-    icon: Phone,
-    title: "Emergency Contacts",
-    body: "Store and instantly retrieve every important number for your whānau — school, GP, plumber, neighbours.",
-  },
-];
-
-/* ─── Main page ─── */
+/* ── Main page ── */
 export default function ToroaLandingPage() {
+  const [firstName, setFirstName] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [painPoint, setPainPoint] = useState("");
+  const [smsConsent, setSmsConsent] = useState(false);
+  const [emailConsent, setEmailConsent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(false);
+  const [count, setCount] = useState<number | null>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  useEffect(() => {
+    supabase.from("toroa_waitlist").select("id", { count: "exact", head: true }).eq("status", "waiting")
+      .then(({ count: c }) => setCount(c ?? 0));
+  }, []);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!smsConsent) { toast.error("Please agree to receive SMS updates about the beta"); return; }
+    if (!firstName.trim()) { toast.error("Please enter your first name"); return; }
+    if (!mobile.trim() || !/^(\+?64|0)2\d{7,9}$/.test(mobile.replace(/\s/g, ""))) {
+      toast.error("Please enter a valid NZ mobile number (e.g. 021 XXX XXXX)"); return;
+    }
+    setLoading(true);
+    const { error } = await supabase.from("toroa_waitlist").insert({
+      name: firstName.trim(),
+      email: email.trim().toLowerCase() || null,
+      mobile: mobile.trim(),
+      biggest_pain: painPoint.trim() || null,
+      sms_consent: smsConsent,
+      email_consent: emailConsent,
+    });
+    setLoading(false);
+    if (error?.code === "23505") { toast.info("You're already on the list!"); return; }
+    if (error) { toast.error("Something went wrong — please try again"); return; }
+    setDone(true);
+    setCount((c) => (c ?? 0) + 1);
+    supabase.functions.invoke("send-contact-email", {
+      body: { name: firstName.trim(), email: email.trim() || "no-email@toroa.co.nz", message: `New Tōroa beta waitlist signup. Mobile: ${mobile}. Pain point: ${painPoint || "Not specified"}` },
+    }).catch(console.error);
+  };
+
+  const inputStyle = { background: "#0F0F1A", border: `1px solid ${KOWHAI}25`, color: "#E8E8F0" };
+
   return (
-    <div
-      className="min-h-screen overflow-x-hidden"
-      style={{ background: BG, color: BONE }}
-    >
-      <SEO
-        title="Tōroa — Family Agent"
-        description="An SMS-first family agent for Aotearoa. No app, no login. Just text. $29/month covers the whole whānau."
-      />
+    <div style={{ background: "#09090F" }} className="min-h-screen text-white font-body relative overflow-hidden">
+      <SEO title="Tōroa — Family AI Navigator | SMS-First | Built for Aotearoa" description="SMS-first family AI navigator built for whānau in Aotearoa. Photo school notices, track buses, meal plan from your fridge. No app. Just text. $29/mo." />
+      <Starfield />
 
-      {/* ── 1. HERO ── */}
-      <section
-        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden"
-      >
-        {/* Sky glow */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `radial-gradient(ellipse 70% 50% at 50% 20%, ${SKY}0F 0%, transparent 65%)`,
-          }}
-          aria-hidden="true"
-        />
+      {/* NAV */}
+      <header className="relative z-20 flex items-center justify-between px-6 py-4">
+        <Link to="/" className="text-xs font-body" style={{ color: "rgba(255,255,255,0.4)" }}>← assembl.co.nz</Link>
+        <a href="#waitlist" className="px-4 py-2 rounded-lg text-xs font-display" style={{ background: `${KOWHAI}15`, border: `1px solid ${KOWHAI}30`, color: KOWHAI, fontWeight: 300 }}>
+          Join the beta
+        </a>
+      </header>
 
-        {/* Albatross */}
-        <motion.div
-          className="absolute top-[12%] inset-x-0 px-8"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 2, ease: "easeOut", delay: 0.8 }}
-          aria-hidden="true"
-        >
-          <Albatross className="w-full max-w-2xl mx-auto" />
-        </motion.div>
-
-        <div className="relative z-10 flex flex-col items-center">
-          {/* Moon */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <Moon />
+      {/* ═══ HERO ═══ */}
+      <section className="relative flex flex-col items-center justify-center px-6 pt-16 pb-16 md:pt-24 md:pb-20 min-h-[70vh]">
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(600px circle at 50% 35%, rgba(212,168,67,0.06), transparent 70%)" }} />
+        <div className="relative z-10 w-full max-w-4xl grid md:grid-cols-2 gap-10 items-center">
+          <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
+            <motion.div variants={fadeUp} custom={0} className="mb-6">
+              <img src={toroaLogo} alt="Tōroa — Family AI Navigator" className="w-40 h-auto" style={{ filter: `drop-shadow(0 0 20px ${KOWHAI}30)` }} />
+            </motion.div>
+            <motion.p variants={fadeUp} custom={0.5} className="font-display text-[10px] tracking-[4px] uppercase mb-4" style={{ fontWeight: 700, color: KOWHAI, letterSpacing: "4px" }}>
+              FAMILY AI NAVIGATOR
+            </motion.p>
+            <motion.h1 variants={fadeUp} custom={1} className="font-display text-3xl md:text-[44px] leading-tight mb-4" style={{ fontWeight: 300, color: "rgba(255,255,255,0.9)" }}>
+              Your whānau's intelligent navigator.
+            </motion.h1>
+            <motion.p variants={fadeUp} custom={2} className="font-body text-base md:text-lg mb-6" style={{ color: "rgba(255,255,255,0.55)", maxWidth: 420, lineHeight: 1.7 }}>
+              SMS-first support for everyday family life in Aotearoa. No app. No login. Just text.
+            </motion.p>
+            <motion.div variants={fadeUp} custom={3} className="inline-flex items-center gap-3 px-4 py-2 rounded-full" style={{ ...glass(KOWHAI, 0.15) }}>
+              <span className="font-mono text-sm" style={{ color: KOWHAI }}>$29/mo</span>
+              <span className="text-xs font-body" style={{ color: "rgba(255,255,255,0.4)" }}>· Beta invites opening soon</span>
+            </motion.div>
           </motion.div>
 
-          {/* Wordmark */}
-          <motion.p
-            className="text-xs uppercase tracking-[0.45em] mb-6 font-light"
-            style={{ color: SKY, fontFamily: "Lato, sans-serif" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
+          {/* Sign-up card */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="rounded-2xl p-6 md:p-8 card-glow-hover" style={{ ...glass() }}
           >
-            Tōroa
-          </motion.p>
-
-          {/* Headline */}
-          <motion.h1
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light uppercase tracking-[0.12em] leading-none mb-6"
-            style={{ color: BONE, fontFamily: "Lato, sans-serif" }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Your whānau,
-            <br />
-            <span style={{ color: GOLD }}>sorted.</span>
-          </motion.h1>
-
-          {/* Subheading */}
-          <motion.p
-            className="text-lg md:text-xl max-w-md leading-relaxed mb-10 opacity-75"
-            style={{ color: BONE, fontFamily: '"Plus Jakarta Sans", sans-serif' }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
-          >
-            A family agent that runs on text.
-            <br />
-            No app. No login.
-          </motion.p>
-
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.7 }}
-          >
-            <a
-              href="sms:+6421000000?body=Hi%20T%C5%8Droa%2C%20I%27d%20like%20to%20try%20it%20free"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm uppercase tracking-[0.2em] font-light transition-all duration-300"
-              style={{
-                background: `linear-gradient(135deg, ${SKY}28, ${SKY}14)`,
-                border: `1px solid ${SKY}50`,
-                color: BONE,
-                fontFamily: "Lato, sans-serif",
-                boxShadow: `0 0 32px ${SKY}20`,
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = `0 0 48px ${SKY}40`;
-                (e.currentTarget as HTMLElement).style.background = `linear-gradient(135deg, ${SKY}40, ${SKY}22)`;
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = `0 0 32px ${SKY}20`;
-                (e.currentTarget as HTMLElement).style.background = `linear-gradient(135deg, ${SKY}28, ${SKY}14)`;
-              }}
-            >
-              Try it free
-            </a>
+            {done ? (
+              <div className="text-center py-6">
+                <div className="w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: `${POUNAMU}20`, border: `1px solid ${POUNAMU}40` }}>
+                  <Check size={20} style={{ color: POUNAMU }} />
+                </div>
+                <p className="font-display text-lg mb-2" style={{ fontWeight: 300, color: "#FFFFFF" }}>Ka pai — you're on the list.</p>
+                <p className="font-body text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>We'll text you when your invite is ready.</p>
+              </div>
+            ) : (
+              <form onSubmit={submit} className="space-y-3">
+                <h2 className="font-display text-base mb-1" style={{ fontWeight: 300, color: KOWHAI }}>Join the beta waitlist</h2>
+                <p className="font-body text-xs mb-3" style={{ color: "rgba(255,255,255,0.4)" }}>Be among the first whānau to try Tōroa.</p>
+                <input type="text" required value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First name *" className="w-full rounded-lg px-4 py-2.5 text-sm font-body outline-none" style={inputStyle} />
+                <input type="tel" required value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder="021 XXX XXXX *" className="w-full rounded-lg px-4 py-2.5 text-sm font-body outline-none" style={inputStyle} />
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.co.nz (optional)" className="w-full rounded-lg px-4 py-2.5 text-sm font-body outline-none" style={inputStyle} />
+                <textarea value={painPoint} onChange={(e) => setPainPoint(e.target.value)} placeholder="Biggest admin pain right now..." rows={2} className="w-full rounded-lg px-4 py-2.5 text-sm font-body outline-none resize-none" style={inputStyle} />
+                <label className="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" checked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)} className="mt-0.5 rounded" style={{ accentColor: KOWHAI }} />
+                  <span className="text-[11px] font-body" style={{ color: "rgba(255,255,255,0.55)" }}>I agree to receive SMS updates about the Tōroa beta *</span>
+                </label>
+                <label className="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" checked={emailConsent} onChange={(e) => setEmailConsent(e.target.checked)} className="mt-0.5 rounded" style={{ accentColor: KOWHAI }} />
+                  <span className="text-[11px] font-body" style={{ color: "rgba(255,255,255,0.4)" }}>I'd also like email updates (optional)</span>
+                </label>
+                <button type="submit" disabled={loading} className="w-full rounded-lg px-6 py-3 font-display text-sm transition-all disabled:opacity-50" style={{ background: KOWHAI, color: "#09090F", fontWeight: 400 }}>
+                  {loading ? "Joining…" : "Join the beta waitlist"}
+                </button>
+                {count !== null && (
+                  <p className="text-center font-mono text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>{count} whānau already waiting</p>
+                )}
+              </form>
+            )}
           </motion.div>
-
-          {/* Pricing hint */}
-          <motion.p
-            className="mt-5 text-xs tracking-widest uppercase opacity-40"
-            style={{ fontFamily: "Lato, sans-serif", color: BONE }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.4 }}
-            transition={{ delay: 1.1, duration: 0.8 }}
-          >
-            $29/mo · whole whānau · cancel anytime
-          </motion.p>
         </div>
-
-        {/* Scroll hint */}
-        <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2.4, ease: "easeInOut" }}
-          aria-hidden="true"
-        >
-          <div
-            className="w-px h-12 mx-auto"
-            style={{ background: `linear-gradient(to bottom, ${SKY}50, transparent)` }}
-          />
-        </motion.div>
       </section>
 
-      {/* Divider */}
-      <div
-        className="h-px max-w-xs mx-auto"
-        style={{ background: `linear-gradient(to right, transparent, ${SKY}30, transparent)` }}
-      />
-
-      {/* ── 2. HOW IT WORKS ── */}
-      <Section>
-        <motion.div
-          className="text-center mb-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeUp}
-        >
-          <Eyebrow>How it works</Eyebrow>
-          <SectionHeading>Text it. Done.</SectionHeading>
-          <p
-            className="mt-5 text-lg max-w-sm mx-auto opacity-60 leading-relaxed"
-            style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}
-          >
-            Tōroa lives in your messages app. No download, no account — just send a text.
+      {/* ═══ 12 FEATURE CARDS ═══ */}
+      <section className="relative z-10 px-6 py-16 md:py-24">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="font-display text-center mb-2" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,28px)", color: KOWHAI }}>
+            Real tools for real families
+          </h2>
+          <p className="font-body text-center text-sm mb-12" style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "0 auto" }}>
+            Not a chatbot — a navigator.
           </p>
-        </motion.div>
-
-        {/* SMS bubbles */}
-        <div className="max-w-sm mx-auto flex flex-col gap-8">
-          <SMSConversation
-            user="Remind me to pick up the kids at 3pm"
-            agent="Done ✓ I'll text you at 2:45pm — 'Leave now to pick up kids at 3pm'. Add it to the family calendar too?"
-            delay={0}
-          />
-          <SMSConversation
-            user="What's on for the kids this week?"
-            agent="Here's the week: Mon — football 4:30pm. Tue — library books due. Thu — school trip (need $5 + packed lunch). Fri — early finish 2pm."
-            delay={1}
-          />
-          <SMSConversation
-            user="Can you book a dentist for Aroha?"
-            agent="On it. I'll find a dentist near you and text you 3 options with available times. Prefer morning or afternoon appointments?"
-            delay={2}
-          />
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {FEATURES.map((f, i) => (
+              <motion.div key={f.title} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i % 4}
+                className="rounded-xl p-5 card-glow-hover group"
+                style={{ ...glass(f.color, 0.08), borderTop: `2px solid ${f.color}30` }}
+              >
+                <f.icon size={22} className="mb-3 transition-transform group-hover:scale-110" style={{ color: f.color }} />
+                <h3 className="font-display text-xs mb-2" style={{ fontWeight: 400, color: "#FFFFFF" }}>{f.title}</h3>
+                <p className="font-body text-[10px]" style={{ color: "rgba(255,255,255,0.45)", lineHeight: 1.7 }}>{f.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </Section>
+      </section>
 
-      {/* Divider */}
-      <div
-        className="h-px max-w-xs mx-auto"
-        style={{ background: `linear-gradient(to right, transparent, ${GOLD}25, transparent)` }}
-      />
-
-      {/* ── 3. WHAT IT HANDLES ── */}
-      <Section>
-        <motion.div
-          className="text-center mb-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeUp}
-        >
-          <Eyebrow>What it handles</Eyebrow>
-          <SectionHeading>One text away</SectionHeading>
-          <p
-            className="mt-2 text-2xl md:text-3xl font-light uppercase tracking-[0.14em]"
-            style={{ color: GOLD, fontFamily: "Lato, sans-serif" }}
-          >
-            from sorted.
-          </p>
-        </motion.div>
-
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={stagger}
-        >
-          {CAPABILITIES.map((cap, i) => (
-            <GlassCard key={cap.title} {...cap} i={i} />
-          ))}
-        </motion.div>
-      </Section>
-
-      {/* Divider */}
-      <div
-        className="h-px max-w-xs mx-auto"
-        style={{ background: `linear-gradient(to right, transparent, ${SKY}25, transparent)` }}
-      />
-
-      {/* ── 4. PRICING ── */}
-      <Section>
-        <motion.div
-          className="text-center max-w-lg mx-auto"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={stagger}
-        >
-          <motion.div variants={fadeUp}>
-            <Eyebrow>Pricing</Eyebrow>
-          </motion.div>
-
-          <motion.div variants={fadeUp} custom={1}>
-            <h2
-              className="text-5xl sm:text-6xl md:text-7xl font-light uppercase tracking-[0.08em] leading-none mb-3"
-              style={{ color: GOLD, fontFamily: "Lato, sans-serif" }}
-            >
-              $29
+      {/* ═══ MĀRAMA LEARNING TOOL ═══ */}
+      <section className="relative z-10 px-6 py-16 md:py-20">
+        <div className="max-w-3xl mx-auto">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={0} className="text-center mb-8">
+            <GraduationCap size={24} className="mx-auto mb-4" style={{ color: KOWHAI }} />
+            <h2 className="font-display text-xl mb-3" style={{ fontWeight: 300, color: "#FFFFFF" }}>
+              Try Mārama — instant learning from any video
             </h2>
-            <p
-              className="text-xl uppercase tracking-[0.2em] font-light mb-10 opacity-60"
-              style={{ color: BONE, fontFamily: "Lato, sans-serif" }}
-            >
-              a month. that's it.
+            <p className="font-body text-sm" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 520, margin: "0 auto" }}>
+              Drop in a YouTube URL and get vocab flashcards, sentence translations, and interactive quizzes instantly.
             </p>
           </motion.div>
+          <div className="rounded-2xl overflow-hidden" style={{ border: `1px solid ${KOWHAI}25`, boxShadow: `0 0 40px ${KOWHAI}08, 0 8px 40px rgba(0,0,0,0.3)`, minHeight: 400 }}>
+            <TeReoVideoLearner agentColor={KOWHAI} />
+          </div>
+        </div>
+      </section>
 
-          {/* Pricing card */}
-          <motion.div
-            variants={fadeUp}
-            custom={2}
-            className="rounded-2xl p-8"
-            style={{
-              background: "rgba(15,15,26,0.7)",
-              border: `1px solid ${GOLD}25`,
-              backdropFilter: "blur(16px)",
-              boxShadow: `0 0 48px ${GOLD}08, 0 16px 48px rgba(0,0,0,0.4)`,
-            }}
-          >
-            <ul className="flex flex-col gap-4 text-left mb-8">
+      {/* ═══ TRY TŌROA ═══ */}
+      <TryToroaChat />
+
+      {/* ═══ WHY SMS-FIRST ═══ */}
+      <section className="relative z-10 px-6 py-16 md:py-20">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-display text-center mb-10" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,26px)", color: KOWHAI }}>
+            Why SMS-first works
+          </h2>
+          <div className="grid md:grid-cols-3 gap-4">
+            {SMS_REASONS.map((r, i) => (
+              <motion.div key={r.title} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i}
+                className="rounded-xl p-5 text-center card-glow-hover" style={glass()}
+              >
+                <r.icon size={24} className="mx-auto mb-3" style={{ color: KOWHAI }} />
+                <h3 className="font-display text-sm mb-1" style={{ fontWeight: 300, color: "#FFFFFF" }}>{r.title}</h3>
+                <p className="font-body text-xs" style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>{r.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ PRIVACY & TRUST ═══ */}
+      <section className="relative z-10 px-6 py-16 md:py-20">
+        <div className="max-w-2xl mx-auto">
+          <div className="rounded-2xl p-8 text-center card-glow-hover" style={{ ...glass(POUNAMU, 0.15) }}>
+            <Shield size={24} className="mx-auto mb-4" style={{ color: POUNAMU }} />
+            <h2 className="font-display mb-6" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,26px)", color: "#FFFFFF" }}>
+              Privacy and trust
+            </h2>
+            <div className="space-y-3">
               {[
-                "Covers your whole whānau — add everyone",
-                "No setup fee, ever",
-                "No lock-in contracts",
-                "Cancel anytime, no questions asked",
-                "Works on any phone, any network",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span
-                    className="mt-0.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs font-bold"
-                    style={{ background: `${TEAL}30`, color: TEAL, border: `1px solid ${TEAL}40` }}
-                  >
-                    ✓
-                  </span>
-                  <span
-                    className="text-base leading-relaxed opacity-75"
-                    style={{ color: BONE, fontFamily: '"Plus Jakarta Sans", sans-serif' }}
-                  >
-                    {item}
-                  </span>
-                </li>
+                "Your data stays in New Zealand",
+                "We never sell or share your family's information",
+                "Built under the NZ Privacy Act 2020",
+                "Encrypted family chat — no ads, no strangers",
+                "Tikanga-based data governance from Assembl",
+              ].map((t) => (
+                <p key={t} className="font-body text-sm flex items-center justify-center gap-2" style={{ color: "rgba(255,255,255,0.6)" }}>
+                  <Check size={14} style={{ color: POUNAMU }} /> {t}
+                </p>
               ))}
-            </ul>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <a
-              href="sms:+6421000000?body=Hi%20T%C5%8Droa%2C%20I%27d%20like%20to%20try%20it%20free"
-              className="w-full flex items-center justify-center gap-2 py-4 rounded-full text-sm uppercase tracking-[0.2em] font-light transition-all duration-300"
-              style={{
-                background: `linear-gradient(135deg, ${SKY}28, ${SKY}14)`,
-                border: `1px solid ${SKY}50`,
-                color: BONE,
-                fontFamily: "Lato, sans-serif",
-                boxShadow: `0 0 24px ${SKY}15`,
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = `0 0 40px ${SKY}35`;
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = `0 0 24px ${SKY}15`;
-              }}
-            >
-              Start free — first month on us
-            </a>
-          </motion.div>
-        </motion.div>
-      </Section>
+      {/* ═══ PRICING ═══ */}
+      <section className="relative z-10 px-6 py-16 md:py-20">
+        <div className="max-w-md mx-auto text-center">
+          <h2 className="font-mono text-4xl mb-2" style={{ color: KOWHAI, fontWeight: 500 }}>$29/month</h2>
+          <p className="font-body text-sm mb-8" style={{ color: "rgba(255,255,255,0.5)" }}>
+            Everything your whānau needs. Cancel anytime.
+          </p>
+          <div className="rounded-xl p-6 text-left" style={glass()}>
+            <div className="grid grid-cols-2 gap-2">
+              {PRICING_FEATURES.map((f) => (
+                <p key={f} className="font-body text-xs flex items-start gap-2" style={{ color: "rgba(255,255,255,0.6)" }}>
+                  <Check size={12} className="shrink-0 mt-0.5" style={{ color: KOWHAI }} /> {f}
+                </p>
+              ))}
+            </div>
+          </div>
+          <a href="#waitlist" className="inline-block mt-6 px-8 py-3 rounded-lg font-display text-sm transition-all" style={{ background: KOWHAI, color: "#09090F", fontWeight: 400 }}>
+            Join the beta waitlist
+          </a>
+          <p className="font-body text-[10px] mt-3" style={{ color: "rgba(255,255,255,0.3)" }}>
+            Beta pricing. First 100 whānau get locked in at $29/mo for life.
+          </p>
+        </div>
+      </section>
 
-      {/* ── 5. FOOTER ── */}
-      <footer
-        className="border-t py-12 px-6 text-center"
-        style={{ borderColor: `${BONE}10` }}
-      >
-        <p
-          className="text-xs uppercase tracking-[0.3em] mb-4 font-light opacity-40"
-          style={{ color: BONE, fontFamily: "Lato, sans-serif" }}
-        >
-          A product by
-        </p>
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.25em] font-light transition-opacity duration-200 hover:opacity-100 opacity-55"
-          style={{ color: GOLD, fontFamily: "Lato, sans-serif" }}
-        >
-          ← Assembl
-        </Link>
-        <p
-          className="mt-8 text-xs opacity-25"
-          style={{ color: BONE, fontFamily: '"Plus Jakarta Sans", sans-serif' }}
-        >
-          © {new Date().getFullYear()} Assembl · Aotearoa New Zealand
-        </p>
+      {/* ═══ BOTTOM WAITLIST ═══ */}
+      <section id="waitlist" className="relative z-10 px-6 py-16 md:py-20">
+        <div className="max-w-md mx-auto">
+          <h2 className="font-display text-center mb-8" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,26px)", color: KOWHAI }}>
+            Join the beta waitlist
+          </h2>
+          {done ? (
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl p-8 text-center" style={{ ...glass(POUNAMU, 0.2) }}>
+              <div className="w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: `${POUNAMU}20`, border: `1px solid ${POUNAMU}40` }}>
+                <Check size={20} style={{ color: POUNAMU }} />
+              </div>
+              <p className="font-display text-lg mb-2" style={{ fontWeight: 300, color: "#FFFFFF" }}>Ka pai — you're on the list.</p>
+              <p className="font-body text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>We'll text you when your invite is ready.</p>
+            </motion.div>
+          ) : (
+            <form onSubmit={submit} className="space-y-4 rounded-xl p-6 card-glow-hover" style={glass()}>
+              <div>
+                <label className="block text-xs mb-1.5 font-body" style={{ color: "rgba(255,255,255,0.6)" }}>First name *</label>
+                <input type="text" required value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Your first name" className="w-full rounded-lg px-4 py-3 text-sm font-body outline-none" style={inputStyle} />
+              </div>
+              <div>
+                <label className="block text-xs mb-1.5 font-body" style={{ color: "rgba(255,255,255,0.6)" }}>Mobile number *</label>
+                <input type="tel" required value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder="021 XXX XXXX" className="w-full rounded-lg px-4 py-3 text-sm font-body outline-none" style={inputStyle} />
+              </div>
+              <div>
+                <label className="block text-xs mb-1.5 font-body" style={{ color: "rgba(255,255,255,0.6)" }}>Email (optional)</label>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.co.nz" className="w-full rounded-lg px-4 py-3 text-sm font-body outline-none" style={inputStyle} />
+              </div>
+              <div>
+                <label className="block text-xs mb-1.5 font-body" style={{ color: "rgba(255,255,255,0.6)" }}>Biggest admin pain right now</label>
+                <textarea value={painPoint} onChange={(e) => setPainPoint(e.target.value)} placeholder="e.g. keeping track of school notices, meal planning..." rows={3} className="w-full rounded-lg px-4 py-3 text-sm font-body outline-none resize-none" style={inputStyle} />
+              </div>
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" checked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)} className="mt-0.5 rounded" style={{ accentColor: KOWHAI }} />
+                <span className="text-xs font-body" style={{ color: "rgba(255,255,255,0.6)" }}>I agree to receive SMS updates about the Tōroa beta *</span>
+              </label>
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" checked={emailConsent} onChange={(e) => setEmailConsent(e.target.checked)} className="mt-0.5 rounded" style={{ accentColor: KOWHAI }} />
+                <span className="text-xs font-body" style={{ color: "rgba(255,255,255,0.5)" }}>I'd also like email updates (optional)</span>
+              </label>
+              <button type="submit" disabled={loading} className="w-full rounded-lg px-6 py-3 font-display text-sm transition-all disabled:opacity-50" style={{ background: KOWHAI, color: "#09090F", fontWeight: 400 }}>
+                {loading ? "Joining…" : "Join the beta waitlist"}
+              </button>
+            </form>
+          )}
+          {count !== null && (
+            <p className="mt-6 text-center font-mono text-sm" style={{ color: "rgba(255,255,255,0.35)" }}>
+              {count} whānau already waiting
+            </p>
+          )}
+        </div>
+      </section>
+
+      {/* ═══ FAQ ═══ */}
+      <section className="relative z-10 px-6 py-16 md:py-20">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="font-display text-center mb-8" style={{ fontWeight: 300, fontSize: "clamp(20px,3vw,24px)", color: KOWHAI }}>
+            Questions
+          </h2>
+          <div className="space-y-2">
+            {FAQS.map((faq, i) => (
+              <div key={i} className="rounded-xl overflow-hidden card-glow-hover" style={{ ...glass(KOWHAI, 0.05) }}>
+                <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full flex items-center justify-between px-5 py-4 text-left">
+                  <span className="text-sm font-body pr-4" style={{ color: "#FFFFFF" }}>{faq.q}</span>
+                  <ChevronDown size={16} className={`shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`} style={{ color: "rgba(255,255,255,0.35)" }} />
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+                      <div className="px-5 pb-4">
+                        <p className="text-xs font-body leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>{faq.a}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ FOOTER ═══ */}
+      <footer className="relative z-10 px-6 py-10" style={{ borderTop: `1px solid ${KOWHAI}08` }}>
+        <div className="max-w-3xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="font-body text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
+            Tōroa is a standalone product by{" "}
+            <Link to="/" style={{ color: KOWHAI }}>Assembl</Link>
+            {" · "}
+            <a href="mailto:assembl@assembl.co.nz" style={{ color: KOWHAI }}>assembl@assembl.co.nz</a>
+          </p>
+          <div className="flex gap-4">
+            {[
+              { label: "Platform", to: "/" },
+              { label: "Packs", to: "/kete" },
+              { label: "Pricing", to: "/pricing" },
+              { label: "Contact", to: "/contact" },
+            ].map(l => (
+              <Link key={l.label} to={l.to} className="font-body text-[10px] transition-colors" style={{ color: "rgba(255,255,255,0.3)" }}>
+                {l.label}
+              </Link>
+            ))}
+          </div>
+        </div>
       </footer>
     </div>
   );

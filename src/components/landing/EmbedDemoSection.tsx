@@ -43,7 +43,7 @@ const EmbedDemoSection = () => (
             color: "rgba(255,255,255,0.65)",
           }}
         >
-          Ask AURA a real compliance question. See how 50+ NZ Acts turn into a straight answer.
+          Ask a real compliance question. See how NZ legislation turns into a straight answer.
         </p>
       </motion.div>
 

@@ -48,7 +48,7 @@ const SKILLS: MarketplaceSkill[] = [
     price: { type: 'free' }, compatibleKete: ['All'], certification: 'official', version: '2.1.0',
   },
   {
-    id: 'xero-integration', name: 'Xero Integration', description: 'Seamless two-way sync with Xero for invoicing, expense tracking, GST returns, and bank reconciliation. Supports multi-currency.',
+    id: 'xero-integration', name: 'Xero Integration', description: 'Full two-way sync with Xero for invoicing, expense tracking, GST returns, and bank reconciliation. Supports multi-currency.',
     category: 'Finance', publisher: 'FinanceNZ', rating: 4.7, installCount: 890,
     price: { type: 'subscription', amount: 49 }, compatibleKete: ['Pakihi'], certification: 'certified', version: '3.0.2',
   },

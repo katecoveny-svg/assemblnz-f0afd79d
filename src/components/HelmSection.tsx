@@ -92,7 +92,7 @@ const HelmSection = () => {
                 className="font-display font-bold text-base sm:text-lg mb-4"
                 style={{ color: TOROA_COLOR, textShadow: `0 0 12px ${TOROA_COLOR}25` }}
               >
-                Your family&apos;s second brain.
+                Your family&apos;s intelligent navigator.
               </h3>
               <p className="text-sm font-body leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
                 TŌROA reads school notices, builds weekly schedules, tracks live bus positions,

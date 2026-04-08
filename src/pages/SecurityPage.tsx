@@ -10,7 +10,7 @@ const SECURITY_BADGES = [
   { icon: Database, label: "AES-256", desc: "At-rest encryption", color: "#3A6A9C" },
   { icon: Eye, label: "NZ Privacy Act 2020", desc: "Full IPP compliance", color: "#3A6A9C" },
   { icon: Shield, label: "Row-Level Security", desc: "Every table protected", color: "#1A3A5C" },
-  { icon: Server, label: "SOC 2", desc: "Via infrastructure partner", color: "#5AADA0" },
+  { icon: Server, label: "Encrypted Backups", desc: "Point-in-time recovery", color: "#5AADA0" },
   { icon: Globe, label: "NZISM Aligned", desc: "NZ Information Security Manual", color: "#3A6A9C" },
   { icon: Key, label: "PCI DSS", desc: "Via Stripe integration", color: "#FFB800" },
   { icon: Fingerprint, label: "MFA Available", desc: "Multi-factor authentication", color: "#3A6A9C" },
@@ -50,7 +50,7 @@ const COMPLIANCE_SECTIONS = [
     color: "#3A6A9C",
     items: [
       "Row-Level Security (RLS) on every database table — strict data isolation",
-      "SOC 2 Type II via infrastructure partner (Supabase/AWS)",
+      "Hosted on hardened infrastructure partners (Supabase/AWS)",
       "Edge functions in isolated Deno runtime sandboxes",
       "All 29 agent system prompts executed server-side only",
       "Proprietary prompt logic never exposed to client",
@@ -109,7 +109,7 @@ const SecurityPage = () => (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5" style={{ ...glassStyle, borderColor: "rgba(0,255,136,0.15)" }}>
           <Shield size={14} className="text-[#5AADA0]" />
-          <span className="text-[11px] font-semibold text-[#5AADA0]">Enterprise-Grade Security</span>
+          <span className="text-[11px] font-semibold text-[#5AADA0]">Mid-market NZ Security</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-light text-foreground tracking-tight mb-3">
           Security & <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(135deg, #5AADA0, #3A6A9C)" }}>Compliance</span>

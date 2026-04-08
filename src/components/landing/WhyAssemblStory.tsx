@@ -37,7 +37,7 @@ const VALUES = [
   {
     te_reo: "Kotahitanga",
     english: "Unity",
-    description: "44 specialists working as one team. Not isolated tools, but a connected intelligence that understands your whole business.",
+    description: "A whole industry kete working as one team. Not isolated tools, but a connected intelligence that understands your whole business.",
     color: "#5B8FA8",
   },
   {
@@ -187,7 +187,7 @@ const WhyAssemblStory = () => {
             viewport={{ once: true }}
           >
             {showAfter
-              ? "This is what 44 agents working for you actually looks like."
+              ? "This is what an Assembl kete working for you actually looks like."
               : "Sound familiar? You're not alone. This is every NZ business owner."
             }
           </motion.p>

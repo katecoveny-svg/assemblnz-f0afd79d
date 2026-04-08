@@ -77,13 +77,13 @@ export default function PrismPodcastStudio({ onSendToChat }: { onSendToChat?: (m
 
     if (outputMode === "script") {
       modeInstructions = `
-${includeIntro ? `## 🎙️ INTRO (30-60 seconds)
+${includeIntro ? `## INTRO (30-60 seconds)
 - Opening hook that grabs attention
 - "Assembl with me" brand mention
 - Episode overview and what listeners will learn
 ` : ""}
 
-## 📋 EPISODE OUTLINE
+## EPISODE OUTLINE
 Break into ${numSegments} distinct segments with:
 - **Segment title** and estimated timing
 - **Key talking points** (3-5 per segment)
@@ -91,7 +91,7 @@ Break into ${numSegments} distinct segments with:
 ${format === "interview" ? "- **Suggested interview questions** for each segment" : ""}
 ${format === "panel" ? "- **Discussion prompts** and **counterpoint suggestions** for panelists" : ""}
 
-## 📝 FULL SCRIPT
+## FULL SCRIPT
 Write the complete script in a natural, ${tone.toLowerCase()} voice:
 ${format === "solo" ? "- Written as direct-to-listener narration" : ""}
 ${format === "interview" ? "- Include HOST: and GUEST: dialogue markers" : ""}
@@ -100,14 +100,14 @@ ${format === "narrative" ? "- Written as immersive storytelling with scene descr
 - Include natural pauses, emphasis markers, and tone directions in [brackets]
 - Mark [MUSIC CUE], [SFX], and [PAUSE] where appropriate for production
 
-${includeOutro ? `## 🔚 OUTRO (30-60 seconds)
+${includeOutro ? `## OUTRO (30-60 seconds)
 - Key takeaway summary
 - Call-to-action for listeners
 - "Assembl with me" sign-off
 - Tease for next episode
 ` : ""}
 
-${includeShowNotes ? `## 📊 EPISODE METADATA
+${includeShowNotes ? `## EPISODE METADATA
 - **Suggested title** (compelling, SEO-friendly, under 60 chars)
 - **Episode description** (150 words for podcast directories)
 - **Tags/Categories** for Apple Podcasts, Spotify
@@ -115,7 +115,7 @@ ${includeShowNotes ? `## 📊 EPISODE METADATA
 - **Chapter markers** with timestamps
 ` : ""}
 
-${includeSocialClips ? `## 📱 SOCIAL MEDIA KIT
+${includeSocialClips ? `## SOCIAL MEDIA KIT
 - **3 quotable moments** formatted for short-form video (15-60 sec clips)
 - **Audiogram text overlays** — the key quote + timestamp for each clip
 - **LinkedIn post** promoting the episode (under 200 words)
