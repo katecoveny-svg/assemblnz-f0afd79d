@@ -2,26 +2,49 @@ import { motion } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 /**
- * Maunga motif with 3D glowing star cluster overlay.
- * Renders an SVG maunga (mountain) silhouette with animated white-glow orbs
- * hovering above it like a cosmic star cluster / Matariki.
+ * Maunga motif — layered triangle mountain range with glowing
+ * Mārama constellation nodes (Electric Blue / Aurora Green / Ocean Teal).
+ * Stars act as data-nodes connected by luminous filaments above the peaks.
  */
 
+const ELECTRIC = "#00CFFF";
+const AURORA = "#00FF9C";
+const OCEAN = "#1B5E6B";
+
 const STARS = [
-  { cx: 50, cy: 18, r: 4, delay: 0, glow: 18 },
-  { cx: 38, cy: 24, r: 3, delay: 0.3, glow: 14 },
-  { cx: 62, cy: 22, r: 3.5, delay: 0.5, glow: 16 },
-  { cx: 44, cy: 14, r: 2.5, delay: 0.8, glow: 12 },
-  { cx: 56, cy: 12, r: 2.5, delay: 1.0, glow: 12 },
-  { cx: 50, cy: 8, r: 3, delay: 0.2, glow: 14 },
-  { cx: 34, cy: 16, r: 2, delay: 1.2, glow: 10 },
-  { cx: 66, cy: 16, r: 2, delay: 0.7, glow: 10 },
-  { cx: 50, cy: 28, r: 2, delay: 1.5, glow: 10 },
+  { cx: 50, cy: 10, r: 4.5, delay: 0, glow: 20, color: ELECTRIC },
+  { cx: 36, cy: 18, r: 3, delay: 0.3, glow: 14, color: AURORA },
+  { cx: 64, cy: 16, r: 3.5, delay: 0.5, glow: 16, color: ELECTRIC },
+  { cx: 42, cy: 6, r: 2.5, delay: 0.8, glow: 12, color: AURORA },
+  { cx: 58, cy: 4, r: 2.5, delay: 1.0, glow: 12, color: ELECTRIC },
+  { cx: 50, cy: -2, r: 3, delay: 0.2, glow: 14, color: AURORA },
+  { cx: 28, cy: 12, r: 2, delay: 1.2, glow: 10, color: OCEAN },
+  { cx: 72, cy: 12, r: 2, delay: 0.7, glow: 10, color: OCEAN },
+  { cx: 50, cy: 22, r: 2.2, delay: 1.5, glow: 11, color: ELECTRIC },
 ];
 
 const CONNECTIONS = [
   [0, 1], [0, 2], [0, 5], [1, 3], [2, 4], [3, 5], [4, 5],
-  [1, 6], [2, 7], [0, 8],
+  [1, 6], [2, 7], [0, 8], [6, 3], [7, 4],
+];
+
+/* Triangle mountain layers — back to front */
+const MOUNTAINS = [
+  // Far range — subtle
+  { d: "M0 70 L15 42 L28 52 L40 36 L52 48 L65 34 L78 46 L90 38 L100 70 Z", opacity: 0.03, stroke: 0.04 },
+  // Mid range
+  { d: "M5 70 L25 40 L38 48 L50 30 L62 48 L75 38 L95 70 Z", opacity: 0.06, stroke: 0.08 },
+  // Front range — strongest
+  { d: "M10 70 L30 44 L42 50 L50 36 L58 50 L70 44 L90 70 Z", opacity: 0.10, stroke: 0.14 },
+];
+
+/* Triangular facets within the main peak for geometric detail */
+const FACETS = [
+  { d: "M50 36 L42 50 L58 50 Z", opacity: 0.08 },
+  { d: "M50 36 L38 48 L42 50 Z", opacity: 0.05 },
+  { d: "M50 36 L58 50 L62 48 Z", opacity: 0.05 },
+  { d: "M30 44 L38 48 L42 50 L35 55 Z", opacity: 0.04 },
+  { d: "M70 44 L62 48 L58 50 L65 55 Z", opacity: 0.04 },
 ];
 
 interface Props {
@@ -42,83 +65,142 @@ const MaungaStarCluster = ({ className = "", size = 400, showMaunga = true }: Pr
         style={{ width: "100%", height: "100%" }}
       >
         <defs>
-          <radialGradient id="star-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
-            <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
-          </radialGradient>
-          <linearGradient id="maunga-fill" x1="50%" y1="0%" x2="50%" y2="100%">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.06" />
-            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.01" />
+          {/* Per-star radial glow gradients */}
+          {STARS.map((star, i) => (
+            <radialGradient key={`sg-${i}`} id={`star-glow-${i}`} cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor={star.color} stopOpacity="0.9" />
+              <stop offset="35%" stopColor={star.color} stopOpacity="0.35" />
+              <stop offset="100%" stopColor={star.color} stopOpacity="0" />
+            </radialGradient>
+          ))}
+
+          {/* Mountain fill gradients */}
+          <linearGradient id="maunga-electric" x1="50%" y1="0%" x2="50%" y2="100%">
+            <stop offset="0%" stopColor={ELECTRIC} stopOpacity="0.12" />
+            <stop offset="60%" stopColor={OCEAN} stopOpacity="0.04" />
+            <stop offset="100%" stopColor={OCEAN} stopOpacity="0.01" />
           </linearGradient>
-          <filter id="star-blur">
-            <feGaussianBlur stdDeviation="1.5" />
+          <linearGradient id="maunga-aurora" x1="50%" y1="0%" x2="50%" y2="100%">
+            <stop offset="0%" stopColor={AURORA} stopOpacity="0.08" />
+            <stop offset="100%" stopColor={OCEAN} stopOpacity="0.01" />
+          </linearGradient>
+
+          <filter id="star-blur-m">
+            <feGaussianBlur stdDeviation="1.2" />
           </filter>
-          <filter id="big-glow">
+          <filter id="big-glow-m">
             <feGaussianBlur stdDeviation="3" />
+          </filter>
+          <filter id="mountain-glow">
+            <feGaussianBlur stdDeviation="2" />
           </filter>
         </defs>
 
-        {/* Maunga (mountain) silhouette */}
+        {/* ── Mountain layers ── */}
         {showMaunga && (
           <>
-            {/* Main peak */}
-            <path
-              d="M5 65 L30 38 L42 42 L50 32 L58 42 L70 38 L95 65 Z"
-              fill="url(#maunga-fill)"
-              stroke="rgba(255,255,255,0.08)"
-              strokeWidth="0.3"
+            {/* Glow aura behind mountains */}
+            <motion.path
+              d={MOUNTAINS[2].d}
+              fill={ELECTRIC}
+              filter="url(#mountain-glow)"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0.03, 0.07, 0.03] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             />
-            {/* Ridge detail */}
+
+            {/* Layered mountain silhouettes */}
+            {MOUNTAINS.map((m, i) => (
+              <path
+                key={`mtn-${i}`}
+                d={m.d}
+                fill={i === 2 ? "url(#maunga-electric)" : "url(#maunga-aurora)"}
+                stroke={ELECTRIC}
+                strokeOpacity={m.stroke}
+                strokeWidth="0.3"
+                opacity={1}
+              />
+            ))}
+
+            {/* Geometric triangle facets */}
+            {FACETS.map((f, i) => (
+              <motion.path
+                key={`facet-${i}`}
+                d={f.d}
+                fill={i % 2 === 0 ? ELECTRIC : AURORA}
+                stroke={ELECTRIC}
+                strokeWidth="0.15"
+                strokeOpacity={0.15}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [f.opacity * 0.5, f.opacity, f.opacity * 0.5] }}
+                transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
+              />
+            ))}
+
+            {/* Ridge lines — electric glow edges */}
             <path
-              d="M20 55 L35 42 L50 35 L65 42 L80 55"
+              d="M30 44 L42 50 L50 36 L58 50 L70 44"
               fill="none"
-              stroke="rgba(255,255,255,0.04)"
-              strokeWidth="0.3"
+              stroke={ELECTRIC}
+              strokeWidth="0.4"
+              strokeOpacity={0.2}
+              strokeLinecap="round"
+            />
+            <path
+              d="M25 40 L38 48 L50 30 L62 48 L75 38"
+              fill="none"
+              stroke={AURORA}
+              strokeWidth="0.25"
+              strokeOpacity={0.1}
+              strokeLinecap="round"
             />
           </>
         )}
 
-        {/* Constellation lines */}
-        {CONNECTIONS.map(([a, b], i) => (
-          <motion.line
-            key={`line-${i}`}
-            x1={STARS[a].cx}
-            y1={STARS[a].cy}
-            x2={STARS[b].cx}
-            y2={STARS[b].cy}
-            stroke="rgba(255,255,255,0.12)"
-            strokeWidth="0.3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0.05, 0.15, 0.05] }}
-            transition={{ duration: 4, repeat: Infinity, delay: i * 0.2 }}
-          />
-        ))}
+        {/* ── Constellation connection lines ── */}
+        {CONNECTIONS.map(([a, b], i) => {
+          const colA = STARS[a].color;
+          return (
+            <motion.line
+              key={`line-${i}`}
+              x1={STARS[a].cx}
+              y1={STARS[a].cy}
+              x2={STARS[b].cx}
+              y2={STARS[b].cy}
+              stroke={colA}
+              strokeWidth="0.3"
+              strokeOpacity={0.25}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0.08, 0.25, 0.08] }}
+              transition={{ duration: 4, repeat: Infinity, delay: i * 0.18 }}
+            />
+          );
+        })}
 
-        {/* Star glow halos (big, blurred) */}
+        {/* ── Star glow halos ── */}
         {STARS.map((star, i) => (
           <motion.circle
             key={`halo-${i}`}
             cx={star.cx}
             cy={star.cy}
             r={star.glow}
-            fill="url(#star-glow)"
-            filter="url(#big-glow)"
+            fill={`url(#star-glow-${i})`}
+            filter="url(#big-glow-m)"
             initial={{ opacity: 0 }}
-            animate={{ opacity: [0.08, 0.2, 0.08] }}
+            animate={{ opacity: [0.1, 0.28, 0.1] }}
             transition={{ duration: 3 + i * 0.4, repeat: Infinity, delay: star.delay, ease: "easeInOut" }}
           />
         ))}
 
-        {/* Star cores */}
+        {/* ── Star cores ── */}
         {STARS.map((star, i) => (
           <motion.circle
             key={`core-${i}`}
             cx={star.cx}
             cy={star.cy}
             r={star.r}
-            fill="white"
-            filter="url(#star-blur)"
+            fill={star.color}
+            filter="url(#star-blur-m)"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{
               opacity: [0.6, 1, 0.6],
@@ -128,17 +210,40 @@ const MaungaStarCluster = ({ className = "", size = 400, showMaunga = true }: Pr
           />
         ))}
 
-        {/* Bright centre dots */}
+        {/* ── Bright centre dots ── */}
         {STARS.map((star, i) => (
           <motion.circle
             key={`dot-${i}`}
             cx={star.cx}
             cy={star.cy}
-            r={star.r * 0.4}
+            r={star.r * 0.35}
             fill="white"
             initial={{ opacity: 0 }}
-            animate={{ opacity: [0.8, 1, 0.8] }}
+            animate={{ opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 2, repeat: Infinity, delay: star.delay + 0.5 }}
+          />
+        ))}
+
+        {/* ── Floating particle motes ── */}
+        {[
+          { cx: 18, cy: 30, color: ELECTRIC },
+          { cx: 82, cy: 28, color: AURORA },
+          { cx: 45, cy: 55, color: OCEAN },
+          { cx: 75, cy: 58, color: ELECTRIC },
+          { cx: 22, cy: 50, color: AURORA },
+        ].map((p, i) => (
+          <motion.circle
+            key={`mote-${i}`}
+            cx={p.cx}
+            cy={p.cy}
+            r={1}
+            fill={p.color}
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: [0, 0.4, 0],
+              cy: [p.cy, p.cy - 4, p.cy],
+            }}
+            transition={{ duration: 5 + i, repeat: Infinity, delay: i * 1.2, ease: "easeInOut" }}
           />
         ))}
       </svg>
