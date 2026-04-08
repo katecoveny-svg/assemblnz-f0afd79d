@@ -12,6 +12,7 @@ import {
   FileText, Download, FolderOpen, Activity, Heart, Zap, Globe,
   BarChart3, Clock, Star, AlertTriangle, CheckCircle2,
 } from "lucide-react";
+import AgentTestResultsTab from "@/components/admin/AgentTestResultsTab";
 
 interface Metrics {
   totalUsers: number;
@@ -756,6 +757,11 @@ const AdminDashboard = () => {
               ))}
             </div>
           </div>
+        )}
+
+        {/* TEST RESULTS TAB */}
+        {tab === "test-results" && (
+          <AgentTestResultsTab />
         )}
       </main>
       <BrandFooter />
