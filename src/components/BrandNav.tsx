@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, HardHat, UtensilsCrossed, Palette, Car, Truck, Bird, Shield, ChevronDown } from "lucide-react";
+import { Menu, X, HardHat, UtensilsCrossed, Palette, Briefcase, Cpu, Bird, Shield, ChevronDown } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import CelestialLogo from "@/components/CelestialLogo";
 
@@ -15,12 +15,11 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 const PACKS = [
-  { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#D4A843", group: "business" },
-  { label: "Waihanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
-  { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#F0D078", group: "business" },
-  { label: "Arataki", sublabel: "Automotive", to: "/arataki", icon: Car, color: "#1A3A5C", group: "business" },
-  { label: "Pikau", sublabel: "Freight & Customs", to: "/pikau", icon: Truck, color: "#5AADA0", group: "business" },
-  { label: "Tōroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843", group: "whanau" },
+  { label: "Manaaki", sublabel: "Hospitality", to: "/packs/manaaki", icon: UtensilsCrossed, color: "#D4A843", group: "business" },
+  { label: "Hanga", sublabel: "Construction", to: "/packs/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
+  { label: "Auaha", sublabel: "Creative", to: "/packs/auaha", icon: Palette, color: "#F0D078", group: "business" },
+  { label: "Pakihi", sublabel: "Business", to: "/packs/pakihi", icon: Briefcase, color: "#5AADA0", group: "business" },
+  { label: "Hangarau", sublabel: "Technology", to: "/packs/hangarau", icon: Cpu, color: "#4A7AB5", group: "business" },
 ];
 
 const BrandNav = () => {
@@ -99,7 +98,14 @@ const BrandNav = () => {
                       </button>
                     ))}
                     <div className="border-t pt-1 mt-1" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                      <button onClick={() => handleNavClick("/hanga")}
+                      <button onClick={() => handleNavClick("/toroa")}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/[0.04] transition-colors">
+                        <Bird size={14} className="text-white/30 ml-1" />
+                        <span className="text-[11px] text-white/40">Tōroa — Whānau Navigator</span>
+                      </button>
+                    </div>
+                    <div className="border-t pt-1 mt-1" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                      <button onClick={() => handleNavClick("/packs/hanga")}
                         className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/[0.04] transition-colors">
                         <Shield size={14} className="text-white/30 ml-1" />
                         <span className="text-[11px] text-white/40">SIGNAL Security — Shared</span>
