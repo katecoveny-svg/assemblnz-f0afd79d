@@ -9,20 +9,21 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 
-/* ─── Design tokens ─── */
+/* ─── Design tokens — Constellation palette ─── */
 const C = {
-  bg: "#09090F",
-  surface: "#0F0F1A",
-  card: "#0A0A13",
-  gold: "#D4A843",
-  teal: "#3A7D6E",
-  navy: "#1A3A5C",
-  bone: "#F5F0E8",
+  bg: "#060610",
+  surface: "#0A0A18",
+  card: "#080C18",
+  electric: "#00CFFF",
+  electricLight: "#66E0FF",
+  aurora: "#00FF9C",
+  ocean: "#1B5E6B",
+  bone: "#F2F0EC",
   white: "#FFFFFF",
   textSec: "rgba(255,255,255,0.55)",
   textMuted: "rgba(255,255,255,0.35)",
-  border: "rgba(255,255,255,0.08)",
-  borderHover: "rgba(255,255,255,0.15)",
+  border: "rgba(0,207,255,0.08)",
+  borderHover: "rgba(0,207,255,0.2)",
 };
 
 const FONT = {
@@ -33,21 +34,26 @@ const FONT = {
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-/* ─── Maunga (mountain) triangle SVG motif ─── */
-const MaungaMark = ({ color = C.gold, size = 28, opacity = 0.7 }: { color?: string; size?: number; opacity?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 28 24" fill="none" style={{ opacity }}>
-    <path d="M14 2 L27 23 L1 23 Z" stroke={color} strokeWidth="1.5" fill="none" strokeLinejoin="round" />
-    <path d="M14 9 L21 23 L7 23 Z" fill={color} opacity={0.18} />
+/* ─── Constellation node SVG motif ─── */
+const ConstellationMark = ({ color = C.electric, size = 28, opacity = 0.7 }: { color?: string; size?: number; opacity?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 28 28" fill="none" style={{ opacity }}>
+    <circle cx="14" cy="6" r="3" fill={color} opacity="0.8" />
+    <circle cx="6" cy="22" r="2.5" fill={color} opacity="0.6" />
+    <circle cx="22" cy="22" r="2.5" fill={color} opacity="0.6" />
+    <line x1="14" y1="6" x2="6" y2="22" stroke={color} strokeWidth="0.8" opacity="0.3" />
+    <line x1="14" y1="6" x2="22" y2="22" stroke={color} strokeWidth="0.8" opacity="0.3" />
+    <line x1="6" y1="22" x2="22" y2="22" stroke={color} strokeWidth="0.8" opacity="0.2" />
   </svg>
 );
 
-/* ─── Subtle kete weave divider ─── */
+/* ─── Constellation weave divider ─── */
 const WeaveDivider = () => (
-  <div className="w-full overflow-hidden" style={{ height: 24, opacity: 0.12 }}>
+  <div className="w-full overflow-hidden" style={{ height: 24, opacity: 0.15 }}>
     <svg width="100%" height="24" viewBox="0 0 400 24" preserveAspectRatio="xMidYMid meet">
       {Array.from({ length: 30 }).map((_, i) => (
         <g key={i} transform={`translate(${i * 14}, 0)`}>
-          <path d="M0 12 L7 0 L14 12 L7 24 Z" stroke={C.gold} strokeWidth="0.8" fill="none" />
+          <circle cx="7" cy="12" r="1.5" fill={i % 2 === 0 ? C.electric : C.aurora} opacity="0.6" />
+          <line x1="0" y1="12" x2="14" y2="12" stroke={C.electric} strokeWidth="0.5" opacity="0.3" />
         </g>
       ))}
     </svg>
@@ -58,7 +64,7 @@ const WeaveDivider = () => (
 const Eyebrow = ({ children }: { children: string }) => (
   <span
     className="inline-block text-[10px] font-bold tracking-[4px] uppercase mb-5"
-    style={{ fontFamily: FONT.mono, color: C.gold }}
+    style={{ fontFamily: FONT.mono, color: C.electric }}
   >
     {children}
   </span>
@@ -99,11 +105,11 @@ const GlassCard = ({
   <div
     className={`rounded-2xl relative overflow-hidden group ${className}`}
     style={{
-      background: "rgba(12,12,22,0.8)",
-      backdropFilter: "blur(16px)",
-      WebkitBackdropFilter: "blur(16px)",
+      background: "rgba(8,12,24,0.75)",
+      backdropFilter: "blur(20px)",
+      WebkitBackdropFilter: "blur(20px)",
       border: `1px solid ${C.border}`,
-      boxShadow: "0 4px 24px rgba(0,0,0,0.35)",
+      boxShadow: "0 4px 24px rgba(0,0,0,0.4), 0 0 40px rgba(0,207,255,0.02)",
       transition: "border-color 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1)",
       ...style,
     }}
@@ -137,37 +143,37 @@ const InputField = ({
     type={type}
     placeholder={placeholder}
     required={required}
-    className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none transition-colors"
+    className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none transition-colors focus:border-[rgba(0,207,255,0.3)]"
     style={{
       fontFamily: FONT.body,
-      background: "rgba(255,255,255,0.04)",
-      border: `1px solid rgba(255,255,255,0.09)`,
+      background: "rgba(255,255,255,0.03)",
+      border: `1px solid rgba(0,207,255,0.08)`,
     }}
   />
 );
 
 /* ─── Data ─── */
 const PROOF = [
-  { label: "5 hours a week back", accent: C.gold },
-  { label: "5 industry kete", accent: C.teal },
-  { label: "Built in Aotearoa", accent: C.gold },
-  { label: "From $590/month NZD", accent: C.teal },
-  { label: "SMS-ready", accent: C.gold },
+  { label: "5 hours a week back", accent: C.electric },
+  { label: "5 industry kete", accent: C.aurora },
+  { label: "Built in Aotearoa", accent: C.electric },
+  { label: "From $590/month NZD", accent: C.aurora },
+  { label: "SMS-ready", accent: C.electric },
 ];
 
 const PACKS = [
-  { reo: "Manaaki", en: "Hospitality", desc: "Food safety, liquor licensing, guest experience, tourism operations.", color: C.gold, to: "/manaaki" },
-  { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. Safety, consenting, project management, quality.", color: C.teal, to: "/hanga" },
-  { reo: "Auaha", en: "Creative", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: "#F0D078", to: "/auaha" },
-  { reo: "Arataki", en: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling.", color: "#5AADA0", to: "/arataki" },
-  { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#4A7AB5", to: "/pikau" },
+  { reo: "Manaaki", en: "Hospitality", desc: "Food safety, liquor licensing, guest experience, tourism operations.", color: C.electric, to: "/manaaki" },
+  { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. Safety, consenting, project management, quality.", color: C.aurora, to: "/hanga" },
+  { reo: "Auaha", en: "Creative", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: C.electricLight, to: "/auaha" },
+  { reo: "Arataki", en: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling.", color: C.aurora, to: "/arataki" },
+  { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: C.ocean, to: "/pikau" },
 ];
 
 const DIFFS = [
-  { num: "01", title: "NZ-context intelligence", body: "Built around local legislation, tax, employment law, and industry realities. Not an overseas product localised after the fact.", accent: C.gold },
-  { num: "02", title: "Specialist, not generic", body: "Purpose-built agents across five industry kete. Each one tuned to the workflows that matter to your sector.", accent: C.teal },
-  { num: "03", title: "Shared business memory", body: "Work compounds over time. Context, decisions, and project history carry forward instead of resetting every session.", accent: "#4A7AB5" },
-  { num: "04", title: "Cultural and language layer", body: "Tikanga governance is woven through every agent — Rangatiratanga, Kaitiakitanga, Manaakitanga, Whanaungatanga.", accent: C.gold },
+  { num: "01", title: "NZ-context intelligence", body: "Built around local legislation, tax, employment law, and industry realities. Not an overseas product localised after the fact.", accent: C.electric },
+  { num: "02", title: "Specialist, not generic", body: "Purpose-built agents across five industry kete. Each one tuned to the workflows that matter to your sector.", accent: C.aurora },
+  { num: "03", title: "Shared business memory", body: "Work compounds over time. Context, decisions, and project history carry forward instead of resetting every session.", accent: C.ocean },
+  { num: "04", title: "Cultural and language layer", body: "Tikanga governance is woven through every agent — Rangatiratanga, Kaitiakitanga, Manaakitanga, Whanaungatanga.", accent: C.electric },
 ];
 
 const PRICING = [
@@ -178,7 +184,7 @@ const PRICING = [
     desc: "NZ whānau — household coordination by SMS, no app required.",
     features: ["SMS-first family agent", "School notices, calendar, meals", "Budget tracking", "Up to 6 family members"],
     highlight: false,
-    accent: C.teal,
+    accent: C.aurora,
   },
   {
     name: "Operator",
@@ -187,7 +193,7 @@ const PRICING = [
     desc: "Sole traders and micro-SMEs — one industry, one team, one source of truth.",
     features: ["1 industry kete (your pick)", "Up to 5 seats", "Tikanga compliance layer", "Email support, 1 business day", "99.0% uptime"],
     highlight: false,
-    accent: C.teal,
+    accent: C.aurora,
   },
   {
     name: "Leader",
@@ -196,7 +202,7 @@ const PRICING = [
     desc: "Multi-discipline SMEs — covers two parts of the business with quarterly compliance review.",
     features: ["2 industry kete (your pick)", "Up to 15 seats", "Quarterly compliance review (signed)", "Monthly audit report", "99.5% uptime"],
     highlight: true,
-    accent: C.gold,
+    accent: C.electric,
   },
   {
     name: "Enterprise",
@@ -205,15 +211,15 @@ const PRICING = [
     desc: "Multi-site, regulated, high-stakes. Every kete, the SLA, and a named human to call.",
     features: ["All 5 industry kete", "Unlimited seats", "NZ data residency (attested)", "Named success manager", "99.9% uptime SLA"],
     highlight: false,
-    accent: "#4A7AB5",
+    accent: C.ocean,
   },
 ];
 
 const FOUR_POU = [
-  { reo: "Rangatiratanga", en: "Self-determination", body: "Every whānau and business owns their data, their decisions, their direction.", accent: C.gold },
-  { reo: "Kaitiakitanga", en: "Stewardship", body: "We care for the tools we build and the whenua they serve, with an intergenerational lens.", accent: C.teal },
-  { reo: "Manaakitanga", en: "Care", body: "We look after our customers, our people, and the communities we operate in.", accent: C.gold },
-  { reo: "Whanaungatanga", en: "Connection", body: "We build genuine relationships. We don't extract — we grow together.", accent: C.teal },
+  { reo: "Rangatiratanga", en: "Self-determination", body: "Every whānau and business owns their data, their decisions, their direction.", accent: C.electric },
+  { reo: "Kaitiakitanga", en: "Stewardship", body: "We care for the tools we build and the whenua they serve, with an intergenerational lens.", accent: C.aurora },
+  { reo: "Manaakitanga", en: "Care", body: "We look after our customers, our people, and the communities we operate in.", accent: C.electric },
+  { reo: "Whanaungatanga", en: "Connection", body: "We build genuine relationships. We don't extract — we grow together.", accent: C.aurora },
 ];
 
 /* ─── Animation preset ─── */
@@ -273,17 +279,24 @@ const Index = () => {
 
       {/* ═══ 1 — HERO ═══ */}
       <section className="relative flex flex-col items-center text-center px-6 sm:px-8 pt-24 sm:pt-32 pb-16" style={{ zIndex: 1 }}>
-        {/* Radial gold glow */}
+        {/* Radial constellation glow */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 60% 45% at 50% 20%, rgba(212,168,67,0.055) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(ellipse 60% 45% at 50% 20%, rgba(0,207,255,0.06) 0%, rgba(0,255,156,0.02) 40%, transparent 70%)" }}
         />
-        {/* Maunga triangles — background motif */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ opacity: 0.04 }}>
+        {/* Constellation background motif */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ opacity: 0.06 }}>
           <svg width="100%" height="100%" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
-            <path d="M600 40 L1100 560 L100 560 Z" stroke={C.gold} strokeWidth="1" fill="none" />
-            <path d="M600 180 L900 560 L300 560 Z" stroke={C.gold} strokeWidth="0.8" fill="none" />
-            <path d="M600 320 L740 560 L460 560 Z" fill={C.gold} opacity="0.6" />
+            <circle cx="600" cy="150" r="4" fill={C.electric} opacity="0.8" />
+            <circle cx="300" cy="400" r="3" fill={C.aurora} opacity="0.6" />
+            <circle cx="900" cy="400" r="3" fill={C.electric} opacity="0.6" />
+            <circle cx="450" cy="250" r="2" fill="#fff" opacity="0.5" />
+            <circle cx="750" cy="250" r="2" fill="#fff" opacity="0.5" />
+            <line x1="600" y1="150" x2="300" y2="400" stroke={C.electric} strokeWidth="0.8" opacity="0.15" />
+            <line x1="600" y1="150" x2="900" y2="400" stroke={C.electric} strokeWidth="0.8" opacity="0.15" />
+            <line x1="300" y1="400" x2="900" y2="400" stroke={C.aurora} strokeWidth="0.8" opacity="0.1" />
+            <line x1="600" y1="150" x2="450" y2="250" stroke="#fff" strokeWidth="0.5" opacity="0.1" />
+            <line x1="600" y1="150" x2="750" y2="250" stroke="#fff" strokeWidth="0.5" opacity="0.1" />
           </svg>
         </div>
 
@@ -297,9 +310,9 @@ const Index = () => {
             className="inline-block text-[10px] tracking-[5px] uppercase px-4 py-1.5 rounded-full"
             style={{
               fontFamily: FONT.mono,
-              color: C.gold,
-              background: "rgba(212,168,67,0.08)",
-              border: "1px solid rgba(212,168,67,0.2)",
+              color: C.electric,
+              background: "rgba(0,207,255,0.06)",
+              border: "1px solid rgba(0,207,255,0.2)",
             }}
           >
             NZ&rsquo;s first specialist AI platform
@@ -323,7 +336,7 @@ const Index = () => {
           The operating system for{" "}
           <span
             style={{
-              background: `linear-gradient(135deg, ${C.gold} 0%, #F0D078 50%, ${C.gold} 100%)`,
+              background: `linear-gradient(135deg, ${C.electric} 0%, ${C.aurora} 50%, ${C.electric} 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -354,14 +367,13 @@ const Index = () => {
         >
           <button
             onClick={scrollToPilot}
-            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full transition-all duration-300 hover:scale-[1.03] hover:shadow-lg"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(0,207,255,0.3)]"
             style={{
               fontFamily: FONT.body,
               fontWeight: 600,
-              background: `linear-gradient(135deg, ${C.teal} 0%, #2d6358 100%)`,
-              color: C.white,
-              border: "1px solid rgba(58,125,110,0.5)",
-              boxShadow: `0 0 0 0 rgba(58,125,110,0.4)`,
+              background: `linear-gradient(135deg, ${C.electric} 0%, #0090B3 100%)`,
+              color: "#060610",
+              border: "1px solid rgba(0,207,255,0.5)",
               letterSpacing: "0.02em",
             }}
           >
@@ -369,7 +381,7 @@ const Index = () => {
           </button>
           <Link
             to="/pricing"
-            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full transition-all duration-300 hover:border-white/20 hover:text-white"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full transition-all duration-300 hover:border-[rgba(0,255,156,0.3)] hover:text-white"
             style={{
               fontFamily: FONT.body,
               fontWeight: 500,
@@ -386,7 +398,7 @@ const Index = () => {
         {/* Scroll indicator */}
         <motion.div
           className="mt-16"
-          style={{ color: "rgba(255,255,255,0.18)" }}
+          style={{ color: "rgba(0,207,255,0.2)" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.1 }}
@@ -411,8 +423,8 @@ const Index = () => {
                 className="px-4 py-1.5 rounded-full text-[11px]"
                 style={{
                   fontFamily: FONT.mono,
-                  background: "rgba(255,255,255,0.03)",
-                  border: `1px solid rgba(255,255,255,0.07)`,
+                  background: "rgba(0,207,255,0.03)",
+                  border: `1px solid rgba(0,207,255,0.07)`,
                   color: "rgba(255,255,255,0.5)",
                   letterSpacing: "0.04em",
                 }}
@@ -420,7 +432,7 @@ const Index = () => {
                 {p.label}
               </span>
               {i < PROOF.length - 1 && (
-                <span style={{ color: "rgba(255,255,255,0.12)", fontSize: "10px" }}>·</span>
+                <span style={{ color: "rgba(0,207,255,0.15)", fontSize: "10px" }}>·</span>
               )}
             </span>
           ))}
@@ -443,16 +455,16 @@ const Index = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-16">
             {[
-              { stat: "605,000", label: "NZ enterprises", accent: C.gold },
-              { stat: "97%", label: "are small businesses", accent: C.teal },
-              { stat: "$4.2B", label: "professional services spend", accent: "#4A7AB5" },
+              { stat: "605,000", label: "NZ enterprises", accent: C.electric },
+              { stat: "97%", label: "are small businesses", accent: C.aurora },
+              { stat: "$4.2B", label: "professional services spend", accent: C.ocean },
             ].map((c, i) => (
               <motion.div
                 key={c.label}
                 className="rounded-2xl p-8 text-center relative overflow-hidden"
                 style={{
-                  background: "rgba(12,12,22,0.7)",
-                  border: `1px solid rgba(255,255,255,0.07)`,
+                  background: "rgba(8,12,24,0.7)",
+                  border: `1px solid rgba(0,207,255,0.07)`,
                 }}
                 {...stagger(i)}
               >
@@ -496,9 +508,9 @@ const Index = () => {
             {...fade}
           >
             Win work.{" "}
-            <span style={{ color: C.teal }}>Run work.</span>
+            <span style={{ color: C.aurora }}>Run work.</span>
             <br />
-            <span style={{ color: C.gold }}>Stay sharp.</span>
+            <span style={{ color: C.electric }}>Stay sharp.</span>
           </motion.h2>
           <motion.div {...fade}>
             <Body className="max-w-lg mx-auto">
@@ -526,9 +538,7 @@ const Index = () => {
                   <GlassCard
                     className="p-7 h-full"
                     accentColor={p.color}
-                    style={{
-                      cursor: "pointer",
-                    }}
+                    style={{ cursor: "pointer" }}
                   >
                     {/* Left accent bar */}
                     <div
@@ -537,7 +547,7 @@ const Index = () => {
                     />
                     <div className="pl-4">
                       <div className="flex items-center gap-3 mb-5">
-                        <MaungaMark color={p.color} size={22} opacity={0.85} />
+                        <ConstellationMark color={p.color} size={22} opacity={0.85} />
                         <p
                           className="text-[10px] uppercase tracking-[3px]"
                           style={{ fontFamily: FONT.mono, color: p.color }}
@@ -627,7 +637,7 @@ const Index = () => {
                   <div
                     className="absolute -inset-px rounded-[17px] pointer-events-none"
                     style={{
-                      background: `linear-gradient(135deg, rgba(212,168,67,0.5) 0%, rgba(212,168,67,0.15) 50%, rgba(212,168,67,0.0) 100%)`,
+                      background: `linear-gradient(135deg, rgba(0,207,255,0.5) 0%, rgba(0,207,255,0.15) 50%, rgba(0,207,255,0.0) 100%)`,
                       zIndex: 0,
                     }}
                   />
@@ -638,9 +648,9 @@ const Index = () => {
                     zIndex: 1,
                     ...(tier.highlight
                       ? {
-                          background: "rgba(15,12,5,0.92)",
-                          border: `1px solid rgba(212,168,67,0.35)`,
-                          boxShadow: `0 0 0 1px rgba(212,168,67,0.1), 0 16px 48px rgba(212,168,67,0.12), 0 4px 24px rgba(0,0,0,0.4)`,
+                          background: "rgba(0,15,25,0.92)",
+                          border: `1px solid rgba(0,207,255,0.35)`,
+                          boxShadow: `0 0 0 1px rgba(0,207,255,0.1), 0 16px 48px rgba(0,207,255,0.12), 0 4px 24px rgba(0,0,0,0.5)`,
                           transform: "scale(1.02)",
                         }
                       : {}),
@@ -649,20 +659,20 @@ const Index = () => {
                   {tier.highlight && (
                     <div
                       className="absolute top-0 left-0 right-0 h-[2px] rounded-t-2xl"
-                      style={{ background: `linear-gradient(90deg, transparent, ${C.gold}, transparent)` }}
+                      style={{ background: `linear-gradient(90deg, transparent, ${C.electric}, transparent)` }}
                     />
                   )}
                   {tier.highlight && (
                     <span
                       className="inline-block text-[9px] uppercase tracking-[2.5px] mb-3 px-2.5 py-1 rounded-full"
-                      style={{ fontFamily: FONT.mono, color: C.gold, background: "rgba(212,168,67,0.1)", border: "1px solid rgba(212,168,67,0.2)" }}
+                      style={{ fontFamily: FONT.mono, color: C.electric, background: "rgba(0,207,255,0.08)", border: "1px solid rgba(0,207,255,0.2)" }}
                     >
                       Most popular
                     </span>
                   )}
                   <h3
                     className="text-sm uppercase tracking-[2px] mb-1"
-                    style={{ fontFamily: FONT.mono, fontWeight: 600, color: tier.highlight ? C.gold : "rgba(255,255,255,0.6)" }}
+                    style={{ fontFamily: FONT.mono, fontWeight: 600, color: tier.highlight ? C.electric : "rgba(255,255,255,0.6)" }}
                   >
                     {tier.name}
                   </h3>
@@ -699,12 +709,12 @@ const Index = () => {
                       fontFamily: FONT.body,
                       fontWeight: 600,
                       letterSpacing: "0.04em",
-                      background: tier.highlight ? C.gold : "rgba(255,255,255,0.05)",
-                      color: tier.highlight ? "#09090F" : "rgba(255,255,255,0.7)",
-                      border: tier.highlight ? "none" : `1px solid rgba(255,255,255,0.08)`,
+                      background: tier.highlight ? C.electric : "rgba(0,207,255,0.05)",
+                      color: tier.highlight ? "#060610" : "rgba(255,255,255,0.7)",
+                      border: tier.highlight ? "none" : `1px solid rgba(0,207,255,0.08)`,
                     }}
                   >
-                    {tier.highlight ? "Talk to us" : "Talk to us"}
+                    Talk to us
                   </Link>
                 </GlassCard>
               </motion.div>
@@ -715,13 +725,13 @@ const Index = () => {
             className="text-center mt-12"
             {...fade}
           >
-            <p className="text-[11px] uppercase tracking-[3px] mb-2" style={{ fontFamily: FONT.mono, color: C.gold, fontWeight: 700 }}>
+            <p className="text-[11px] uppercase tracking-[3px] mb-2" style={{ fontFamily: FONT.mono, color: C.electric, fontWeight: 700 }}>
               OUTCOME · FROM $5,000/MO
             </p>
             <p className="text-xs max-w-xl mx-auto mb-3" style={{ fontFamily: FONT.body, color: "rgba(255,255,255,0.55)" }}>
               Bespoke engagements where Assembl takes on the outcome — freight route optimisation, building maintenance scheduling, fleet uptime. Base fee + 10–20% of measured savings. Scoped per engagement.
             </p>
-            <Link to="/contact" className="text-xs underline" style={{ fontFamily: FONT.body, color: C.gold }}>
+            <Link to="/contact" className="text-xs underline" style={{ fontFamily: FONT.body, color: C.electric }}>
               Talk to us about an Outcome engagement →
             </Link>
           </motion.div>
@@ -750,9 +760,10 @@ const Index = () => {
             onSubmit={handlePilot}
             className="rounded-2xl p-8 text-left space-y-4"
             style={{
-              background: "rgba(12,12,22,0.85)",
-              border: `1px solid rgba(212,168,67,0.15)`,
-              boxShadow: "0 0 48px rgba(212,168,67,0.05), 0 8px 32px rgba(0,0,0,0.45)",
+              background: "rgba(8,12,24,0.85)",
+              backdropFilter: "blur(20px)",
+              border: `1px solid rgba(0,207,255,0.15)`,
+              boxShadow: "0 0 48px rgba(0,207,255,0.05), 0 8px 32px rgba(0,0,0,0.5)",
             }}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -764,13 +775,13 @@ const Index = () => {
             <InputField value={pilotBiz} onChange={setPilotBiz} placeholder="Business name & industry" />
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.01] hover:shadow-lg"
+              className="w-full py-3.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(0,207,255,0.2)]"
               style={{
                 fontFamily: FONT.body,
                 fontWeight: 600,
-                background: `linear-gradient(135deg, ${C.teal} 0%, #2d6358 100%)`,
-                color: C.white,
-                border: "1px solid rgba(58,125,110,0.4)",
+                background: `linear-gradient(135deg, ${C.electric} 0%, #0090B3 100%)`,
+                color: "#060610",
+                border: "1px solid rgba(0,207,255,0.4)",
                 letterSpacing: "0.03em",
               }}
             >
@@ -799,7 +810,7 @@ const Index = () => {
           <motion.div {...fade} className="text-center mb-10">
             <p
               className="text-[10px] uppercase tracking-[4px]"
-              style={{ fontFamily: FONT.mono, color: "rgba(255,255,255,0.3)" }}
+              style={{ fontFamily: FONT.mono, color: "rgba(0,207,255,0.3)" }}
             >
               The four pou
             </p>
@@ -810,7 +821,7 @@ const Index = () => {
               <motion.div key={pou.reo} {...stagger(i)}>
                 <GlassCard className="p-8 h-full" accentColor={pou.accent}>
                   <div className="flex items-start gap-4">
-                    <MaungaMark color={pou.accent} size={24} opacity={0.6} />
+                    <ConstellationMark color={pou.accent} size={24} opacity={0.6} />
                     <div>
                       <h3
                         className="text-base mb-1"
@@ -839,7 +850,7 @@ const Index = () => {
         <div className={`${INNER} max-w-2xl mx-auto text-center`}>
           <motion.div {...fade}>
             <div className="flex justify-center mb-6">
-              <MaungaMark color={C.gold} size={36} opacity={0.5} />
+              <ConstellationMark color={C.electric} size={36} opacity={0.5} />
             </div>
             <Eyebrow>ALSO FROM ASSEMBL</Eyebrow>
             <h3
@@ -853,7 +864,7 @@ const Index = () => {
             </Body>
             <Link
               to="/toroa"
-              className="inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full transition-all duration-300 hover:border-white/20 hover:text-white hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full transition-all duration-300 hover:border-[rgba(0,255,156,0.25)] hover:text-white hover:scale-[1.02]"
               style={{
                 fontFamily: FONT.body,
                 fontWeight: 500,
