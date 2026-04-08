@@ -4,6 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -16,25 +26,25 @@
 
 @layer base {
   :root {
-    --background: 240 29% 4%;
+    --background: 220 20% 7%;
     --foreground: 36 25% 93%;
 
-    --card: 240 24% 8%;
+    --card: 220 18% 10%;
     --card-foreground: 36 25% 93%;
 
-    --popover: 240 24% 8%;
+    --popover: 220 18% 10%;
     --popover-foreground: 36 25% 93%;
 
     --primary: 42 63% 55%;
     --primary-foreground: 240 29% 4%;
 
-    --secondary: 240 24% 8%;
+    --secondary: 220 18% 10%;
     --secondary-foreground: 36 25% 93%;
 
-    --muted: 240 14% 11%;
+    --muted: 220 16% 13%;
     --muted-foreground: 36 25% 93% / 0.45;
 
-    --accent: 240 14% 14%;
+    --accent: 220 16% 16%;
     --accent-foreground: 36 25% 93%;
 
     --destructive: 3 45% 56%;
@@ -47,9 +57,9 @@
     --radius: 0.75rem;
 
     /* Assembl Mārama surfaces */
-    --color-bg: 240 29% 4%;
-    --color-surface: 240 24% 8%;
-    --color-surface-2: 240 24% 12%;
+    --color-bg: 220 20% 7%;
+    --color-surface: 220 18% 10%;
+    --color-surface-2: 220 18% 14%;
 
     /* Whenua palette */
     --kowhai: 42 63% 55%;
@@ -75,12 +85,12 @@
     --kete-hauora: 152 38% 63%;
 
     /* Premium surface tokens */
-    --surface-0: 240 29% 4%;
-    --surface-1: 240 24% 8%;
-    --surface-2: 240 24% 12%;
-    --surface-3: 240 20% 15%;
+    --surface-0: 220 20% 7%;
+    --surface-1: 220 18% 10%;
+    --surface-2: 220 18% 14%;
+    --surface-3: 220 16% 17%;
 
-    --sidebar-background: 240 29% 4%;
+    --sidebar-background: 220 20% 7%;
     --sidebar-foreground: 36 25% 93%;
     --sidebar-primary: 36 25% 93%;
     --sidebar-primary-foreground: 240 29% 4%;
@@ -198,34 +208,37 @@
     opacity: 0.5;
   }
 
-  /* ── Standard Glass Card ── */
+  /* ── Standard Glass Card — moonlit silver border ── */
   .glass-card {
-    background: rgba(15, 15, 26, 0.7);
+    background: rgba(15, 22, 35, 0.7);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(212, 168, 67, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
   }
 
   /* ── Elevated Glass Card (modals) ── */
   .glass-card-elevated {
-    background: rgba(15, 15, 26, 0.85);
+    background: rgba(15, 22, 35, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(212, 168, 67, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
 
-  /* ── Hover glow — refined ── */
+  /* ── Hover glow — mārama white moonlight ── */
   .glow-card-hover {
-    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
   }
 
   .glow-card-hover:hover {
-    border-color: rgba(212, 168, 67, 0.3) !important;
-    box-shadow: 0 0 40px rgba(212,168,67,0.08), 0 8px 32px rgba(0,0,0,0.4);
-    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255,255,255,0.06), 0 0 40px rgba(255,255,255,0.03);
   }
 
   /* ── Homepage outcome cards ── */
@@ -303,7 +316,7 @@
     position: relative;
     overflow: hidden;
     background: linear-gradient(135deg, #F0D078 0%, #D4A843 60%, #B8902E 100%);
-    color: #09090F;
+    color: #0F1623;
     border: none;
     border-radius: 9999px;
     font-family: 'Lato', sans-serif;
@@ -630,22 +643,34 @@
 .kete-handle-warm { animation: kete-handle-breathe 3.5s cubic-bezier(0.16,1,0.3,1) infinite; }
 .kete-albatross { animation: kete-albatross-float 5s ease-in-out infinite; }
 
-/* Kete Card */
+/* Kete Card — Premium Glass */
 .kete-card {
-  background: rgba(15, 15, 26, 0.7);
-  backdrop-filter: blur(10px);
-  border-color: rgba(255, 255, 255, 0.1);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(15, 22, 35, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
 .kete-card-visible {
-  animation: kete-card-entrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: kete-card-entrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .kete-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(var(--kete-accent-rgb, 212, 168, 67), 0.4);
-  box-shadow: 0 12px 28px rgba(var(--kete-accent-rgb, 212, 168, 67), 0.15);
-  background: rgba(15, 15, 26, 0.85);
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(15, 22, 35, 0.85);
+}
+
+/* ── Mārama glow pulse — soft white breathing ── */
+@keyframes marama-breathe {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+.marama-breathe {
+  animation: marama-breathe 5s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 /* Reduced motion */

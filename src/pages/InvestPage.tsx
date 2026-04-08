@@ -205,13 +205,13 @@ const InvestPage = () => {
           >
             Your customers text.
             <br />
-            <span style={{ color: "#5AADA0" }}>An AI agent answers.</span>
+            <span style={{ color: "#5AADA0" }}>A specialist agent answers.</span>
           </motion.h1>
           <motion.p
             variants={fadeUp}
             className="max-w-2xl mx-auto text-base md:text-lg text-white/55 font-body leading-relaxed mb-10"
           >
-            Assembl turns any NZ phone number into an AI-powered agent. Customers text a question, the agent handles it.
+            Assembl turns any NZ phone number into a specialist agent. Customers text a question, the agent handles it.
             Bookings, compliance checks, customer service, intake forms. No app download. No login. Just a text.
           </motion.p>
           <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">
@@ -361,7 +361,7 @@ const InvestPage = () => {
             {
               tag: "Privacy Act 2020",
               tagColor: "#3A6A9C",
-              title: "13 IPPs with AI-specific controls",
+              title: "13 IPPs with automated decision controls",
               content:
                 "IPP 8 compliance for automated decisions: data accuracy verification before every agent action. Human review for consequential decisions. Breach notification within 72 hours. Cross-border data transfer safeguards documented. Privacy Impact Assessment completed before launch.",
             },

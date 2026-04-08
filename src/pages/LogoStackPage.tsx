@@ -92,7 +92,7 @@ const TOROA_SVG = `<svg width="400" height="320" viewBox="0 0 400 320" fill="non
   <path d="M 185 152 Q 178 174 172 190 Q 170 196 168 200" fill="none" stroke="#F5C518" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
   <path d="M 192 154 Q 188 176 185 192 Q 184 198 183 202" fill="none" stroke="#FFD747" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
   <text x="200" y="260" font-family="Lato, sans-serif" font-size="24" font-weight="300" letter-spacing="8" text-anchor="middle" fill="#F5D33C">TOROA</text>
-  <text x="200" y="285" font-family="Plus Jakarta Sans, sans-serif" font-size="11" font-weight="300" letter-spacing="3" text-anchor="middle" fill="#E8E4DD" opacity="0.45">FAMILY AI NAVIGATOR</text>
+  <text x="200" y="285" font-family="Plus Jakarta Sans, sans-serif" font-size="11" font-weight="300" letter-spacing="3" text-anchor="middle" fill="#E8E4DD" opacity="0.45">FAMILY NAVIGATOR</text>
 </svg>`;
 
 const TOROA_MARK_SVG = `<svg width="200" height="200" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -143,7 +143,7 @@ const SOCIAL_OG = (w: number, h: number, brand: "assembl" | "toroa") => {
   </defs>
   <rect width="${w}" height="${h}" fill="url(#bg2)"/>
   <text x="${w/2}" y="${h*0.45}" text-anchor="middle" font-family="Lato, sans-serif" font-weight="300" font-size="36" letter-spacing="10" fill="#F5D33C">TOROA</text>
-  <text x="${w/2}" y="${h*0.58}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-weight="300" font-size="14" letter-spacing="3" fill="rgba(255,255,255,0.5)">Family AI Navigator</text>
+  <text x="${w/2}" y="${h*0.58}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-weight="300" font-size="14" letter-spacing="3" fill="rgba(255,255,255,0.5)">Family Navigator</text>
   <text x="${w/2}" y="${h*0.68}" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-weight="300" font-size="12" letter-spacing="1" fill="rgba(255,255,255,0.35)">SMS-first · Built for Aotearoa</text>
   <text x="${w/2}" y="${h*0.9}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1" fill="rgba(212,168,67,0.5)">assembl.co.nz/toroa</text>
 </svg>`;
@@ -440,7 +440,7 @@ export default function LogoStackPage() {
         </Card>
 
         {/* ── TŌROA LOGO ── */}
-        <SectionTitle>Tōroa — Family AI Navigator</SectionTitle>
+        <SectionTitle>Tōroa — Family Navigator</SectionTitle>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px", marginBottom: "56px" }}>
           <Card>
             <div dangerouslySetInnerHTML={{ __html: TOROA_SVG.replace(/width="400"/, 'width="240"').replace(/height="320"/, 'height="192"') }} />

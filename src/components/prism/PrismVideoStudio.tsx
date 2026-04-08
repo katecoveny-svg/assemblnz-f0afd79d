@@ -152,6 +152,31 @@ If this is a social video, prioritise the hook shot first.
 
 Make it punchy, NZ-focused, optimised for ${vType?.label}, and do NOT return a text-only answer.`;
 
+    // Save a record to video_scripts so the script appears in the library
+    if (user) {
+      const { data: newScript } = await supabase.from("video_scripts").insert({
+        user_id: user.id,
+        topic: form.topic.trim(),
+        audience: form.audience || null,
+        duration: form.duration,
+        format: form.videoType,
+        storyboard: [],
+        narration: "",
+      }).select().single();
+
+      if (newScript) {
+        setScripts(prev => [{
+          ...newScript,
+          scenes: [],
+          narration: "",
+          music_direction: "",
+          video_type: newScript.format || "social_reel",
+          aspect_ratio: form.aspectRatio,
+          title: newScript.topic || "Untitled",
+        }, ...prev]);
+      }
+    }
+
     onSendToChat(prompt);
     setShowGen(false);
     setIsGenerating(false);

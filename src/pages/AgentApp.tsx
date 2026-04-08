@@ -321,7 +321,7 @@ export default function AgentApp() {
                   </button>
                 </div>
                 <p className="text-[9px] text-white/15 text-center mt-2">
-                  {agent.name} by Assembl — AI-powered {agent.sector?.toLowerCase()} intelligence for NZ
+                  {agent.name} by Assembl — {agent.sector?.toLowerCase()} intelligence for NZ
                 </p>
               </div>
             </div>

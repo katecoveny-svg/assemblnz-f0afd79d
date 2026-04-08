@@ -1,45 +1,33 @@
-/** Stripe product ↔ price ↔ app role mapping */
+/** Stripe product ↔ price ↔ app role mapping — 2026 confirmed pricing */
 export const STRIPE_TIERS = {
-  starter: {
+  essentials: {
     price_id: "price_1TCrHlPXAX9ohARR0eFaJYNW",
     product_id: "prod_UBDjBRdDhT4vSP",
-    role: "starter" as const,
-    label: "Starter",
-  },
-  pro: {
-    price_id: "price_1TCrJaPXAX9ohARRca8Hjugj",
-    product_id: "prod_UBDlAXBBnEhMfp",
-    role: "pro" as const,
-    label: "Pro",
+    role: "essentials" as const,
+    label: "Essentials — $199/mo",
   },
   business: {
+    price_id: "price_1TCrJaPXAX9ohARRca8Hjugj",
+    product_id: "prod_UBDlAXBBnEhMfp",
+    role: "business" as const,
+    label: "Business — $399/mo",
+  },
+  enterprise: {
     price_id: "price_1TCrMwPXAX9ohARR7Pb2J8S8",
     product_id: "prod_UBDoF9tASphyxg",
-    role: "business" as const,
-    label: "Business",
-  },
-  industry: {
-    price_id: "price_1TCrOmPXAX9ohARRIFwlBtHY",
-    product_id: "prod_UBDq9nnSgUlUH8",
-    role: "business" as const,
-    label: "Industry Suite",
-  },
-  luxury: {
-    price_id: "price_1TCrPlPXAX9ohARRtNUR3jGZ",
-    product_id: "prod_UBDrUUF0KtUzWJ",
-    role: "business" as const,
-    label: "Luxury Hospitality",
+    role: "enterprise" as const,
+    label: "Enterprise — $799/mo",
   },
   toroa: {
     price_id: "price_1TILj8PXAX9ohARRZqtNCzRW",
     product_id: "prod_UGtW4B1N1JxWUM",
-    role: "starter" as const,
-    label: "Tōroa",
+    role: "essentials" as const,
+    label: "Tōroa — $29/mo",
   },
 } as const;
 
 /** Resolve an app role from a Stripe product ID */
-export function roleFromProductId(productId: string): "starter" | "pro" | "business" | null {
+export function roleFromProductId(productId: string): "essentials" | "business" | "enterprise" | null {
   for (const tier of Object.values(STRIPE_TIERS)) {
     if (tier.product_id === productId) return tier.role;
   }

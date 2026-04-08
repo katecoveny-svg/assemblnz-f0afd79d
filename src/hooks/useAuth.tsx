@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { roleFromProductId } from "@/data/stripeTiers";
 import type { User, Session } from "@supabase/supabase-js";
 
-type AppRole = "free" | "starter" | "pro" | "business" | "admin";
+type AppRole = "free" | "essentials" | "business" | "enterprise" | "admin";
 
 interface AuthState {
   user: User | null;
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
 
   const isAdmin = role === "admin";
-  const isPaid = isAdmin || role === "starter" || role === "pro" || role === "business";
+  const isPaid = isAdmin || role === "essentials" || role === "business" || role === "enterprise";
   const dailyLimit = isPaid ? Infinity : FREE_DAILY_LIMIT;
   const messageLimitReached = !isPaid && user !== null && dailyMessageCount >= FREE_DAILY_LIMIT;
 

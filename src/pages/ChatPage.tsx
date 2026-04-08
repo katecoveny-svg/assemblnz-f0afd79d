@@ -1025,7 +1025,7 @@ const ChatPage = () => {
       ["flux_pipeline:Pipeline", "flux_followups:Follow-Ups", "flux_clients:Clients"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isPrism) {
-      ["prism_creative:Studio", "prism_brand:Brand", "prism_adengine:Ad Engine", "prism_podcast:Podcast"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
+      ["prism_creative:Studio", "prism_brand:Brand", "prism_video:Video", "prism_adengine:Ad Engine", "prism_podcast:Podcast"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
     }
     if (isNonprofit) {
       ["kindle_writer:Campaign Writer", "kindle_marketplace:Marketplace", "kindle_impact:Impact", "kindle_corporate:Corporate"].forEach(s => { const [id, label] = s.split(":"); toolTabs.push({ id, label }); });
@@ -1418,6 +1418,40 @@ const ChatPage = () => {
             source_agent: agentId || "echo",
             confidence: 0.8,
           }, { onConflict: "user_id,context_key" }).then(() => {});
+        }
+
+        // Write agent-specific memory for the current agent
+        const agentMemoryWrites: { key: string; value: any }[] = [];
+
+        const nameMatch = content.match(/(?:my name is|i'm called|call me)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
+        if (nameMatch) agentMemoryWrites.push({ key: "user_name", value: nameMatch[1].trim() });
+
+        const roleMatch = content.match(/(?:i'm|i am)\s+(?:a|an|the)\s+(owner|manager|director|ceo|founder|developer|consultant|designer|operator|farmer|builder)/i);
+        if (roleMatch) agentMemoryWrites.push({ key: "user_role", value: roleMatch[1].toLowerCase() });
+
+        // Also carry over shared context into agent memory
+        for (const ctx of contextWrites) {
+          agentMemoryWrites.push({ key: ctx.key, value: ctx.value });
+        }
+
+        for (const mem of agentMemoryWrites) {
+          supabase.from("agent_memory").upsert({
+            user_id: user.id,
+            agent_id: agentId || agent.id,
+            memory_key: mem.key,
+            memory_value: mem.value,
+          }, { onConflict: "user_id,agent_id,memory_key" }).then(() => {});
+        }
+
+        // Write conversation summary every 10 messages for cross-agent awareness
+        if (newMessages.length > 0 && newMessages.length % 10 === 0) {
+          const recentUserMsgs = newMessages.filter(m => m.role === "user").slice(-3).map(m => m.content).join("; ");
+          supabase.from("conversation_summaries").insert({
+            user_id: user.id,
+            agent_id: agentId || agent.id,
+            summary: recentUserMsgs.substring(0, 500),
+            key_facts_extracted: contextWrites.map(c => ({ key: c.key, value: c.value })),
+          }).then(() => {});
         }
       }
 
@@ -1950,6 +1984,8 @@ const ChatPage = () => {
         <ContentStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_brand" && isPrism ? (
         <PrismBrandVoice onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
+      ) : activeTab === "prism_video" && isPrism ? (
+        <PrismVideoStudio onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_adengine" && isPrism ? (
         <PrismAdEngine onSendToChat={(msg) => { setActiveTab("chat"); sendMessage(msg); }} />
       ) : activeTab === "prism_podcast" && isPrism ? (

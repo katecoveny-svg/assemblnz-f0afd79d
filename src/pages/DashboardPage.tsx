@@ -446,7 +446,7 @@ const DashboardPage = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="font-display font-light text-xl sm:text-2xl text-foreground">{greeting}</h1>
-            <p className="text-[11px] text-muted-foreground mt-0.5">Command Centre · 45 agents standing by</p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">Operations overview · Your workflows at a glance</p>
           </div>
           <div className="flex items-center gap-3">
             <LivePulse lastUpdated={lastUpdated} isConnected={isConnected} />
@@ -961,7 +961,7 @@ const DashboardPage = () => {
         {/* Quick Links */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
-            { to: "/embed", icon: Code2, color: "#5B8CFF", title: "Embed Agents", desc: "Add AI chat to your website" },
+            { to: "/embed", icon: Code2, color: "#5B8CFF", title: "Embed Agents", desc: "Add a specialist agent to your website" },
             { to: "/my-apps", icon: Zap, color: "#5AADA0", title: "My SPARK Apps", desc: "Manage deployed apps" },
             { to: "/settings/integrations", icon: Plug, color: "#3A6A9C", title: "Integrations", desc: "Connect your tools" },
           ].map(link => (

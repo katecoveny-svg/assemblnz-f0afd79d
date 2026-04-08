@@ -19,7 +19,7 @@ const ECHO_BG_ACCENT_SUBTLE = "rgba(212,168,67,0.08)";
 
 const EchoChatWidget = () => {
   const location = useLocation();
-  const isChatPage = location.pathname.startsWith("/chat/");
+  const isChatPage = location.pathname.startsWith("/chat/") || location.pathname.startsWith("/embed/");
   const [open, setOpen] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);

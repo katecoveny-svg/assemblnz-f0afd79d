@@ -121,7 +121,7 @@ const MarinerLanding = () => {
             </span>
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight mb-4 font-display">
-            Your AI skipper for{" "}
+            Your expert skipper for{" "}
             <span style={{ color: NEON }}>NZ waters</span>
           </h1>
           <p className="text-lg sm:text-xl max-w-2xl mx-auto mb-8" style={{ color: "hsl(var(--muted-foreground))" }}>

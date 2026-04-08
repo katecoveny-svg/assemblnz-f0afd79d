@@ -23,7 +23,7 @@ const KeteGrid: React.FC = () => {
         {title}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-        {kete.map(k => (
+        {kete.map((k, i) => (
           <KeteCard
             key={k.slug}
             name={k.name}
@@ -34,6 +34,7 @@ const KeteGrid: React.FC = () => {
             accentLight={k.accentLight}
             variant={k.variant}
             badge={k.badge}
+            index={i}
             onClick={() => navigate(`/kete/${k.slug}`)}
           />
         ))}
