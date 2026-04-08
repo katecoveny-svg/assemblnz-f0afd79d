@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      aaaip_audit_exports: {
+        Row: {
+          allowed: number
+          applied: number
+          blocked: number
+          compliance_rate: number | null
+          created_at: string
+          domain: string
+          entries: Json
+          entry_count: number
+          exported_at: string
+          human_approval_rate: number | null
+          id: string
+          needs_human: number
+          pilot_label: string | null
+          policy_hits: Json
+          source_ip: string | null
+          total_decisions: number
+          user_agent: string | null
+        }
+        Insert: {
+          allowed?: number
+          applied?: number
+          blocked?: number
+          compliance_rate?: number | null
+          created_at?: string
+          domain: string
+          entries?: Json
+          entry_count?: number
+          exported_at: string
+          human_approval_rate?: number | null
+          id?: string
+          needs_human?: number
+          pilot_label?: string | null
+          policy_hits?: Json
+          source_ip?: string | null
+          total_decisions?: number
+          user_agent?: string | null
+        }
+        Update: {
+          allowed?: number
+          applied?: number
+          blocked?: number
+          compliance_rate?: number | null
+          created_at?: string
+          domain?: string
+          entries?: Json
+          entry_count?: number
+          exported_at?: string
+          human_approval_rate?: number | null
+          id?: string
+          needs_human?: number
+          pilot_label?: string | null
+          policy_hits?: Json
+          source_ip?: string | null
+          total_decisions?: number
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       action_queue: {
         Row: {
           agent_id: string
