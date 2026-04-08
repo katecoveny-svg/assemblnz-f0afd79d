@@ -564,6 +564,11 @@ export default function AaaipDashboard() {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {/* ── Agent Test tab ─────────────────────────────── */}
+          <TabsContent value="agent-test" className="space-y-4">
+            <AgentTestToggle />
+          </TabsContent>
         </Tabs>
       </main>
     </div>
