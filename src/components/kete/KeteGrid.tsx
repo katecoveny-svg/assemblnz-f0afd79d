@@ -115,7 +115,7 @@ const KeteGrid: React.FC = () => {
           <span>·</span>
           <span>{SHARED_CORE_AGENTS.length} CORE</span>
           <span>·</span>
-          <span>1 BRAIN</span>
+          <span>1 SHARED INTELLIGENCE</span>
         </div>
       </div>
     </>

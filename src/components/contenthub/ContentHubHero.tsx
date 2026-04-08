@@ -39,7 +39,7 @@ const ContentHubHero = () => {
         style={{ color: "rgba(255,255,255,0.25)" }}
       >
         <span className="text-emerald-glow">{agentCount}</span> industry kete ·{" "}
-        <span className="text-glow-cyan">Policy-gated</span> ·{" "}
+        <span className="text-glow-cyan">Shared intelligence</span> ·{" "}
         <span className="text-glow-purple">Built for NZ</span>
       </div>
     </section>

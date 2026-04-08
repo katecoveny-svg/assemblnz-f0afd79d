@@ -63,7 +63,7 @@ const LivePacksHero = () => (
   <section className="relative z-10 py-20 sm:py-28">
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
       <motion.div className="text-center mb-14" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">5 Kete · 1 Brain · Built in Aotearoa</p>
+        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3"><p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">5 Kete · Shared Intelligence · Built in Aotearoa</p></p>
         <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "2.25rem", letterSpacing: "-0.01em", color: "#FFFFFF" }}>
           Tell us what's broken. <span style={{ color: "#D4A843" }}>We build your kete.</span>
         </h2>
