@@ -42,6 +42,7 @@ import {
 } from "recharts";
 
 import SEO from "@/components/SEO";
+import AgentTestToggle from "@/components/aaaip/AgentTestToggle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -310,6 +311,7 @@ export default function AaaipDashboard() {
             </TabsTrigger>
             <TabsTrigger value="metrics">Metrics</TabsTrigger>
             <TabsTrigger value="policies">Policies</TabsTrigger>
+            <TabsTrigger value="agent-test">Agent Test</TabsTrigger>
           </TabsList>
 
           {/* ── Live tab ────────────────────────────────────── */}
@@ -561,6 +563,11 @@ export default function AaaipDashboard() {
                 ))}
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* ── Agent Test tab ─────────────────────────────── */}
+          <TabsContent value="agent-test" className="space-y-4">
+            <AgentTestToggle />
           </TabsContent>
         </Tabs>
       </main>

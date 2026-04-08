@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import {
   CalendarDays,
   GraduationCap,
@@ -287,6 +290,75 @@ const CAPABILITIES = [
   },
 ];
 
+/* ─── Try Tōroa SMS Demo ─── */
+function TryToroaSmsDemo() {
+  const [phone, setPhone] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const send = async () => {
+    const cleaned = phone.replace(/\s/g, "");
+    if (!/^(\+?64|0)\d{7,10}$/.test(cleaned)) {
+      toast.error("Enter a valid NZ phone number");
+      return;
+    }
+    setSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("tnz-send", {
+        body: { channel: "sms", to: cleaned.startsWith("0") ? "+64" + cleaned.slice(1) : cleaned, message: "Kia ora! This is Tōroa — your whānau navigator. Text us anytime to get started. 🪶" },
+      });
+      if (error) throw error;
+      setSent(true);
+      toast.success("Demo SMS sent — check your phone!");
+    } catch {
+      toast.error("Could not send SMS right now. Try again shortly.");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <Section>
+      <motion.div className="text-center max-w-md mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
+        <motion.div variants={fadeUp}><Eyebrow>Try it now</Eyebrow></motion.div>
+        <motion.div variants={fadeUp} custom={1}>
+          <SectionHeading>Send yourself a demo text</SectionHeading>
+          <p className="mt-3 text-sm opacity-50" style={{ color: BONE, fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
+            Enter your NZ mobile number. We'll send one intro text — no spam, no sign-up.
+          </p>
+        </motion.div>
+        <motion.div variants={fadeUp} custom={2} className="mt-6 flex gap-2 max-w-xs mx-auto">
+          {sent ? (
+            <p className="text-sm w-full text-center py-3" style={{ color: GOLD }}>✓ Sent! Check your phone.</p>
+          ) : (
+            <>
+              <input
+                type="tel"
+                placeholder="021 123 4567"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                aria-label="New Zealand mobile number"
+                className="flex-1 rounded-full px-4 py-3 text-sm bg-white/5 border text-white placeholder:text-white/30 focus:outline-none"
+                style={{ borderColor: `${SKY}30`, fontFamily: '"Plus Jakarta Sans", sans-serif' }}
+                maxLength={15}
+              />
+              <button
+                onClick={send}
+                disabled={sending}
+                aria-label="Send demo SMS"
+                className="px-5 py-3 rounded-full text-sm font-medium transition-all"
+                style={{ background: SKY, color: BG, opacity: sending ? 0.5 : 1 }}
+              >
+                {sending ? "…" : "Send"}
+              </button>
+            </>
+          )}
+        </motion.div>
+      </motion.div>
+    </Section>
+  );
+}
+
 /* ─── Main page ─── */
 export default function ToroaLandingPage() {
   return (
@@ -295,8 +367,10 @@ export default function ToroaLandingPage() {
       style={{ background: BG, color: BONE }}
     >
       <SEO
-        title="Tōroa — Family Agent"
-        description="An SMS-first family agent for Aotearoa. No app, no login. Just text. $29/month covers the whole whānau."
+        title="Tōroa — SMS Family Navigator for Aotearoa | $29/mo"
+        description="An SMS-first whānau navigator for New Zealand families. School admin, meal planning, appointments, budgets — no app, no login, just text. $29/month covers the whole whānau."
+        path="/toroa"
+        image="https://www.assembl.co.nz/assembl-og.png"
       />
 
       {/* ── 1. HERO ── */}
@@ -377,7 +451,10 @@ export default function ToroaLandingPage() {
             transition={{ delay: 0.9, duration: 0.7 }}
           >
             <a
-              href="sms:+6421000000?body=Hi%20T%C5%8Droa%2C%20I%27d%20like%20to%20try%20it%20free"
+              href="https://buy.stripe.com/7sYdRbc9KeoE0KNdx43oA0c"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Subscribe to Tōroa for $29 per month"
               className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm uppercase tracking-[0.2em] font-light transition-all duration-300"
               style={{
                 background: `linear-gradient(135deg, ${SKY}28, ${SKY}14)`,
@@ -580,7 +657,10 @@ export default function ToroaLandingPage() {
             </ul>
 
             <a
-              href="sms:+6421000000?body=Hi%20T%C5%8Droa%2C%20I%27d%20like%20to%20try%20it%20free"
+              href="https://buy.stripe.com/7sYdRbc9KeoE0KNdx43oA0c"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Subscribe to Tōroa — start free, first month on us"
               className="w-full flex items-center justify-center gap-2 py-4 rounded-full text-sm uppercase tracking-[0.2em] font-light transition-all duration-300"
               style={{
                 background: `linear-gradient(135deg, ${SKY}28, ${SKY}14)`,
@@ -601,6 +681,9 @@ export default function ToroaLandingPage() {
           </motion.div>
         </motion.div>
       </Section>
+
+      {/* ── SMS DEMO ── */}
+      <TryToroaSmsDemo />
 
       {/* ── 5. FOOTER ── */}
       <footer

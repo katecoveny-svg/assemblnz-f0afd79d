@@ -525,6 +525,57 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_test_results: {
+        Row: {
+          agent_slug: string
+          audit_entry: Json | null
+          created_at: string
+          id: string
+          kete: string
+          overall_verdict: string | null
+          prompt: string
+          response: string | null
+          run_by: string | null
+          verdict_iho: string | null
+          verdict_kahu: string | null
+          verdict_mahara: string | null
+          verdict_mana: string | null
+          verdict_ta: string | null
+        }
+        Insert: {
+          agent_slug: string
+          audit_entry?: Json | null
+          created_at?: string
+          id?: string
+          kete: string
+          overall_verdict?: string | null
+          prompt: string
+          response?: string | null
+          run_by?: string | null
+          verdict_iho?: string | null
+          verdict_kahu?: string | null
+          verdict_mahara?: string | null
+          verdict_mana?: string | null
+          verdict_ta?: string | null
+        }
+        Update: {
+          agent_slug?: string
+          audit_entry?: Json | null
+          created_at?: string
+          id?: string
+          kete?: string
+          overall_verdict?: string | null
+          prompt?: string
+          response?: string | null
+          run_by?: string | null
+          verdict_iho?: string | null
+          verdict_kahu?: string | null
+          verdict_mahara?: string | null
+          verdict_mana?: string | null
+          verdict_ta?: string | null
+        }
+        Relationships: []
+      }
       agent_training: {
         Row: {
           agent_id: string

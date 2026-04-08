@@ -149,19 +149,34 @@ Deno.serve(async (req) => {
         usedProvider = "runway";
       }
 
-      if (!videoUrl) {
-        return new Response(JSON.stringify({ error: "Video generation failed across all providers." }), {
-          status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+      // Upload video to storage for persistence
+      let persistedUrl = videoUrl;
+      try {
+        const serviceClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+        const videoRes = await fetch(videoUrl);
+        if (videoRes.ok) {
+          const videoBlob = await videoRes.arrayBuffer();
+          const fileName = `videos/${user.id}/${Date.now()}.mp4`;
+          const { data: uploadData, error: uploadErr } = await serviceClient.storage
+            .from("auaha-assets")
+            .upload(fileName, videoBlob, { contentType: "video/mp4", upsert: true });
+          if (!uploadErr && uploadData) {
+            const { data: urlData } = serviceClient.storage.from("auaha-assets").getPublicUrl(fileName);
+            if (urlData?.publicUrl) persistedUrl = urlData.publicUrl;
+          }
+        }
+      } catch (storageErr) {
+        console.error("Video storage upload failed (non-fatal):", storageErr);
       }
 
       await supabase.from("exported_outputs").insert({
         user_id: user.id, agent_id: "marketing", agent_name: "PRISM",
         output_type: "video", title: title || "AI Video",
         content_preview: `${usedProvider} video: ${videoPrompt.substring(0, 100)}`, format: "mp4",
+        image_url: persistedUrl,
       });
 
-      return new Response(JSON.stringify({ success: true, videoUrl, provider: usedProvider }), {
+      return new Response(JSON.stringify({ success: true, videoUrl: persistedUrl, provider: usedProvider }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
