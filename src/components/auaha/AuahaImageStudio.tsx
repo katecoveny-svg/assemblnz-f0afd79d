@@ -67,6 +67,7 @@ export default function AuahaImageStudio() {
           },
         });
         if (error) throw error;
+        if (data?.error) throw new Error(data.error);
         if (data?.imageUrl) {
           const newImg = { url: data.imageUrl, provider: data.provider || "lovable", prompt: fullPrompt };
           setImages((prev) => [newImg, ...prev]);

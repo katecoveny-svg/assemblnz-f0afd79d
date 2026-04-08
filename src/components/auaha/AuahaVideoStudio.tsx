@@ -69,11 +69,10 @@ export default function AuahaVideoStudio() {
         },
       });
       if (error) throw error;
+      if (data?.error) throw new Error(data.error);
       if (data?.videoUrl) {
         setVideoUrl(data.videoUrl);
         toast.success(`Video generated via ${data.provider || selectedProvider}`);
-      } else if (data?.error) {
-        toast.error(data.error);
       }
     } catch (e: any) {
       toast.error(e.message || "Video generation failed");
@@ -91,6 +90,7 @@ export default function AuahaVideoStudio() {
         body: { scenes: validScenes, aspectRatio: aspect.ratio, title: "Full Production Video", videoType: "marketing" },
       });
       if (error) throw error;
+      if (data?.error) throw new Error(data.error);
       const urls = (data?.frames || []).filter((f: any) => f.imageUrl).map((f: any) => f.imageUrl);
       setFrames(urls);
       toast.success(`Generated ${urls.length} scene frames`);
