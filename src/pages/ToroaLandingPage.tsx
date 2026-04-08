@@ -588,7 +588,10 @@ export default function ToroaLandingPage() {
             </ul>
 
             <a
-              href="sms:+6421000000?body=Hi%20T%C5%8Droa%2C%20I%27d%20like%20to%20try%20it%20free"
+              href="https://buy.stripe.com/7sYdRbc9KeoE0KNdx43oA0c"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Subscribe to Tōroa — start free, first month on us"
               className="w-full flex items-center justify-center gap-2 py-4 rounded-full text-sm uppercase tracking-[0.2em] font-light transition-all duration-300"
               style={{
                 background: `linear-gradient(135deg, ${SKY}28, ${SKY}14)`,
