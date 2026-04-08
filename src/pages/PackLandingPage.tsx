@@ -156,7 +156,7 @@ const PackLandingPage = () => {
                 }
               }}
             >
-              Start free trial <ArrowRight size={16} />
+              Book a discovery call <ArrowRight size={16} />
             </Link>
           </motion.div>
         </section>

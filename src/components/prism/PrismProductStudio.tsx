@@ -31,16 +31,16 @@ ${tagline ? `**TAGLINE:** ${tagline}` : "Generate a compelling tagline"}
 ${useBrandDna ? "**BRAND DNA:** Apply my saved brand colours and fonts." : ""}
 
 Generate:
-## 🎨 Hero Product Visual
+## Hero Product Visual
 [GENERATE_IMAGE: Professional product photo of ${productName}, ${selectedScene?.label} style — ${selectedScene?.desc}. Commercial photography quality, clean composition, premium lighting]
 
-## 📱 Social Media Versions
+## Social Media Versions
 For each platform, provide:
 - **Instagram Square** (1080×1080) — caption + 10 hashtags
 - **Instagram Story** (1080×1920) — swipe-up CTA
 - **Facebook** (1200×630) — engagement-focused caption
 
-## ✏️ Product Copy
+## Product Copy
 - **Tagline** (punchy, memorable)
 - **Short description** (50 words)
 - **Feature bullets** (5 key selling points)

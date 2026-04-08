@@ -98,7 +98,7 @@ const FAQS = [
   { q: "Is my data safe?", a: "All data stays in New Zealand. We follow the NZ Privacy Act 2020. We never sell or share your family's information. Our tikanga governance framework treats your data as taonga (treasure)." },
   { q: "How much does it cost?", a: "$29/month during beta. First 100 whānau get locked in at that price for life. Cancel anytime." },
   { q: "What is Mārama?", a: "Mārama is Tōroa's built-in learning tool. Drop a YouTube URL and get vocabulary flashcards, translations, and interactive quizzes. Especially good for te reo Māori learning, but works with any video content." },
-  { q: "What's the difference between Tōroa and the business kete?", a: "Tōroa is our consumer product for families — $29/mo, SMS-first, helps with school notices, meals, budgets, and daily family life. The business kete (Manaaki, Hanga, Auaha, Pakihi, Hangarau) are enterprise-grade AI operations hubs. Different products, different audiences." },
+  { q: "What's the difference between Tōroa and the business kete?", a: "Tōroa is our consumer product for families — $29/mo, SMS-first, helps with school notices, meals, budgets, and daily family life. The five business kete (Manaaki, Waihanga, Auaha, Arataki, Pikau) are specialist operational workflows for NZ businesses. Different products, different audiences." },
   { q: "Do I need technical knowledge?", a: "No. If you can send a text message, you can use Tōroa. That's the whole point." },
   { q: "Can the whole family use it?", a: "Yes. Add family members and they can all text Tōroa independently. Shared grocery lists and calendar updates sync across the whānau." },
 ];

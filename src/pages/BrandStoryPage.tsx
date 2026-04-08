@@ -326,8 +326,8 @@ const BrandStoryPage = () => {
               fontSize: "18px",
             }}
           >
-            New Zealand's first business intelligence platform — 43 specialist agents,
-            16 industries, one unified system grounded in NZ law and culture.
+            Specialist operational workflows for New Zealand business — five industry kete,
+            one unified platform grounded in NZ legislation and tikanga.
           </motion.p>
 
           <motion.div
@@ -351,7 +351,7 @@ const BrandStoryPage = () => {
                 transition: "opacity 0.2s",
               }}
             >
-              Start for free
+              Book a discovery call
             </Link>
             <Link
               to="/pricing"
@@ -404,7 +404,7 @@ const BrandStoryPage = () => {
             NZ businesses were drowning in complexity.
           </h2>
           <p style={{ ...T.body, maxWidth: "640px", marginBottom: "16px" }}>
-            50+ Acts of Parliament. Six different software platforms. Compliance costs climbing every year.
+            A pile of NZ legislation. Six different software platforms. Compliance costs climbing every year.
             And not a single tool that understood New Zealand — its law, its culture, its people.
           </p>
           <p style={{ ...T.body, maxWidth: "640px", marginBottom: "56px" }}>
@@ -420,7 +420,7 @@ const BrandStoryPage = () => {
           <StatPill value="620,000" label="NZ SMEs" />
           <StatPill value="$4.2B" label="Compliance market" />
           <StatPill value="73%" label="Want AI tools" />
-          <StatPill value="50+" label="Acts of Parliament" />
+          <StatPill value="5" label="Industry kete" />
         </motion.div>
       </section>
 
@@ -473,7 +473,7 @@ const BrandStoryPage = () => {
                   marginBottom: "6px",
                 }}
               >
-                Kate Hudson
+                Kate Harland
               </h3>
               <p style={{ ...T.mono, color: C.pounamu, marginBottom: "4px" }}>Founder & CEO, Assembl</p>
               <p style={{ ...T.mono, color: C.white40, marginBottom: "24px" }}>Auckland, Aotearoa New Zealand</p>
@@ -518,7 +518,7 @@ const BrandStoryPage = () => {
                   "I built Assembl because I couldn't find a single tool that understood NZ law,
                   NZ culture, and NZ business at the same time. So I made it."
                 </p>
-                <footer style={{ ...T.mono, color: C.white40 }}>— Kate Hudson, Founder</footer>
+                <footer style={{ ...T.mono, color: C.white40 }}>— Kate Harland, Founder</footer>
               </blockquote>
 
               <p style={{ ...T.body, marginBottom: "20px" }}>
@@ -550,9 +550,9 @@ const BrandStoryPage = () => {
             To <span style={{ color: C.gold }}>assemble</span> — your team, your intelligence, your tools.
           </p>
           <p style={{ ...T.body, marginBottom: "24px" }}>
-            Assembl is not a replacement for your people. It's an assembly of specialists
-            working alongside you — 43 agents that know NZ law, understand your industry,
-            and help you make better decisions, faster.
+            Assembl is not a replacement for your people. It's an assembly of specialist
+            workflows working alongside you — five industry kete that know NZ legislation,
+            understand your industry, and help you make better decisions, faster.
           </p>
           <p style={{ ...T.body }}>
             The missing 'e' is deliberate. We don't do unnecessary complexity.
@@ -652,7 +652,7 @@ const BrandStoryPage = () => {
         <motion.div {...fadeUpView()} style={{ marginBottom: "64px" }}>
           <p style={T.eyebrow}>The Vision</p>
           <h2 style={{ ...T.h2, marginTop: "16px", marginBottom: "20px", maxWidth: "640px" }}>
-            43 specialist agents. 16 industries. One platform.
+            Five industry kete. One platform. Built in Aotearoa.
           </h2>
           <p
             style={{
@@ -666,8 +666,8 @@ const BrandStoryPage = () => {
             Built on NZ law.
           </p>
           <p style={{ ...T.body, maxWidth: "600px", marginTop: "20px" }}>
-            From hospitality compliance to maritime regulations, from construction contracts
-            to property law — Assembl is the intelligence layer NZ business has been waiting for.
+            From hospitality compliance to construction contracts, from creative production
+            to freight & customs — Assembl is the operational layer NZ business has been waiting for.
           </p>
         </motion.div>
 
@@ -698,8 +698,8 @@ const BrandStoryPage = () => {
 
             <div style={{ display: "flex", gap: "8px", position: "relative" }}>
               <TimelineItem year="2024" label="Founded in Auckland" />
-              <TimelineItem year="2025" label="First 20 agents launched" />
-              <TimelineItem year="2026" label="Full platform — 43 agents" active />
+              <TimelineItem year="2025" label="First kete prototypes" />
+              <TimelineItem year="2026" label="Five kete live" active />
               <TimelineItem year="2027" label="Enterprise & API" />
             </div>
           </div>
@@ -711,13 +711,15 @@ const BrandStoryPage = () => {
           style={{ marginTop: "48px" }}
         >
           <p style={{ ...T.mono, color: C.white40, marginBottom: "20px", textAlign: "center" }}>
-            16 industries covered
+            Five industry kete
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center" }}>
             {[
-              "Hospitality", "Construction", "Property", "Automotive", "Finance",
-              "Maritime", "Agriculture", "Healthcare", "Retail", "Legal",
-              "Education", "Tourism", "Manufacturing", "Technology", "Trades", "Media",
+              "Manaaki — Hospitality",
+              "Waihanga — Construction",
+              "Auaha — Creative",
+              "Arataki — Automotive",
+              "Pikau — Freight & Customs",
             ].map((industry, i) => (
               <motion.span
                 key={industry}
@@ -729,9 +731,9 @@ const BrandStoryPage = () => {
                   ...T.mono,
                   padding: "7px 14px",
                   borderRadius: "6px",
-                  background: i < 6 ? `${C.gold}08` : C.surface,
-                  border: `1px solid ${i < 6 ? C.borderGold : C.border}`,
-                  color: i < 6 ? C.gold : C.white40,
+                  background: `${C.gold}08`,
+                  border: `1px solid ${C.borderGold}`,
+                  color: C.gold,
                   fontSize: "11px",
                 }}
               >
@@ -788,8 +790,8 @@ const BrandStoryPage = () => {
               Join the Assembl whānau
             </h2>
             <p style={{ ...T.body, maxWidth: "440px", margin: "0 auto 36px" }}>
-              Start free. No credit card required. Access 3 messages per tool
-              across all 43 specialist agents, instantly.
+              Book a free 30-minute discovery call. We'll map your workflows and show you
+              which kete fit your business.
             </p>
 
             <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
@@ -810,7 +812,7 @@ const BrandStoryPage = () => {
                   transition: "opacity 0.2s",
                 }}
               >
-                Get started free
+                Book a discovery call
               </Link>
               <Link
                 to="/pricing"
@@ -832,7 +834,7 @@ const BrandStoryPage = () => {
             </div>
 
             <p style={{ ...T.mono, color: C.white40, marginTop: "24px", fontSize: "11px" }}>
-              From NZ$89/mo + GST · Start your free trial
+              From NZ$590/mo + GST · NZD ex GST
             </p>
           </div>
         </motion.div>

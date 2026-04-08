@@ -9,18 +9,17 @@ const FOOTER_LINKS = {
   Platform: [
     { to: "/how-it-works", label: "How it works" },
     { to: "/#why-assembl", label: "Why Assembl" },
-    { to: "/#te-kahui-reo", label: "Te Kāhui Reo" },
   ],
-  "Industry Packs": [
+  "Industry Kete": [
     { to: "/manaaki", label: "Manaaki — Hospitality" },
-    { to: "/hanga", label: "Hanga — Construction" },
+    { to: "/hanga", label: "Waihanga — Construction" },
     { to: "/auaha", label: "Auaha — Creative" },
-    { to: "/pakihi", label: "Pakihi — Business Ops" },
-    { to: "/hangarau", label: "Hangarau — Technology" },
+    { to: "/arataki", label: "Arataki — Automotive" },
+    { to: "/pikau", label: "Pikau — Freight & Customs" },
   ],
   Company: [
     { to: "/pricing", label: "Pricing" },
-    { to: "/contact", label: "Book a Launch Sprint" },
+    { to: "/contact", label: "Book a discovery call" },
     { to: "/about", label: "About" },
     { to: "/brand-guidelines", label: "Brand Guidelines" },
   ],

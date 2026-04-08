@@ -192,6 +192,6 @@ export const agentSEO: Record<string, { title: string; description: string }> = 
   },
   podcast: {
     title: "KŌRERO — AI Podcast Production | Multi-Agent Workflow | Assembl",
-    description: "Full podcast episodes in under 5 minutes. KŌRERO orchestrates 5 specialist agents — strategy, scripting, production, brand alignment, and compliance — into one seamless workflow. Part of Assembl — the operating system for NZ business.",
+    description: "Full podcast episodes in under 5 minutes. KŌRERO orchestrates 5 specialist agents — strategy, scripting, production, brand alignment, and compliance — into one integrated workflow. Part of Assembl — the operating system for NZ business.",
   },
 };

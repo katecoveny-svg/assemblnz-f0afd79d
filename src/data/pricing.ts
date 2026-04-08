@@ -1,103 +1,146 @@
-/** Single source of truth for all pricing across the site — 2026 model */
-
-export const LAUNCH_SPRINT = {
-  name: 'Launch Sprint',
-  description: 'One-off setup: workflow mapping, tool integration, agent configuration, and launch.',
-  duration: '2–4 weeks',
-  priceRange: '$2,500 – $6,000+',
-  currency: 'NZD',
-  steps: [
-    { name: 'Understand', desc: 'Map your workflows and pain points' },
-    { name: 'Design', desc: 'Configure agents, integrations, and dashboards' },
-    { name: 'Deploy', desc: 'Launch, train your team, and go live' },
-  ],
-} as const;
+/**
+ * Single source of truth for all pricing across the site.
+ *
+ * LOCKED MODEL — 2026-04-08
+ * Plain-English tier names. NZD ex GST. Add 15% GST at invoice.
+ *
+ * Tier ladder (business):
+ *   Operator   $590/mo  + $1,490 setup  · 1 kete  · up to 5 seats
+ *   Leader     $1,290/mo + $1,990 setup · 2 kete  · up to 15 seats · quarterly compliance review
+ *   Enterprise $2,890/mo + $2,990 setup · all 5 kete · unlimited seats · 99.9% SLA · NZ data residency · named success manager
+ *   Outcome    from $5,000/mo · per-engagement scope · 10–20% of measured savings
+ *
+ * Consumer:
+ *   Family     $29/mo · SMS-first whānau agent · household coordination
+ *
+ * Setup fees can be split across the first 3 invoices on request.
+ *
+ * The 5 locked kete:
+ *   MANAAKI (Hospitality) · WAIHANGA (Construction) · AUAHA (Creative) · ARATAKI (Automotive) · PIKAU (Freight & Customs)
+ *
+ * Existing customers on the legacy $199 / $399 / $799 + $749 setup model are
+ * grandfathered for 12 months from 2026-04-08 (until 2027-04-08). After that,
+ * they roll to the closest new tier with 60 days' written notice.
+ *
+ * DO NOT introduce te reo on the pricing tier names. Te reo stays on the kete
+ * names and the trust layer (Kahu / Iho / Mana / Tā / Mahara). The consumer
+ * agent's internal branding (Tōroa) is unchanged — only the *pricing tier* is
+ * called "Family".
+ */
 
 export const PRICING = {
-  timatanga: {
-    name: 'Kete Tīmatanga',
-    sub: 'Starter',
-    priceRange: '$750 – $1,500',
-    setupRange: '$2,500 – $6,000',
-    period: '/mo',
-    currency: 'NZD',
-    descriptor: 'Single-team businesses ready for their first AI workflow',
-    features: [
-      '1 industry kete (choose one)',
-      'Up to 4 specialist agents',
-      'Intelligence dashboard',
-      'SMS & WhatsApp access',
-      'Monthly reporting',
-      'Email support',
-    ],
-    cta: 'Start with a Launch Sprint',
-    link: '/contact',
-    popular: false,
-  },
-  tupu: {
-    name: 'Kete Tupu',
-    sub: 'Growth',
-    priceRange: '$1,500 – $4,000',
-    setupRange: '$6,000 – $15,000',
-    period: '/mo',
-    currency: 'NZD',
-    descriptor: 'Multi-workflow SMBs scaling operations with AI',
-    features: [
-      '1–3 industry kete',
-      'Full agent access within packs',
-      'Full intelligence dashboards per kete',
-      'SMS, WhatsApp & voice access',
-      'End-to-end workflow automation',
-      'Content calendar & analytics (Auaha)',
-      'Priority email & chat support',
-      'Quarterly strategy review',
-    ],
-    cta: 'Book your Launch Sprint',
-    link: '/contact',
-    popular: true,
-  },
-  rangatira: {
-    name: 'Kete Rangatira',
-    sub: 'Enterprise',
-    priceRange: '$4,000 – $15,000+',
-    setupRange: '$15,000 – $50,000+',
-    period: '/mo',
-    currency: 'NZD',
-    descriptor: 'Groups, councils, iwi entities, franchises with compliance needs',
-    features: [
-      'All industry kete',
-      'Full 78-agent access',
-      'Custom integrations (Xero, MYOB, Procore, Hilti, Trimble)',
-      'Dedicated account manager',
-      'Monthly strategy sessions',
-      'Custom workflow builds',
-      'Advanced compliance & audit',
-      'Tikanga-aware governance layer',
-      'Multi-tenant / multi-site support',
-      'SLA guarantee',
-    ],
-    cta: 'Talk to our team',
-    link: '/contact',
-    popular: false,
-  },
-  toroa: {
-    name: 'Tōroa',
-    sub: 'Family Navigator',
+  family: {
+    name: 'Family',
     price: 29,
     period: '/mo',
     currency: 'NZD',
-    descriptor: 'SMS-first AI for NZ whānau',
+    setup: 0,
+    descriptor: 'SMS-first AI for NZ whānau — household coordination, no app, just text',
     features: [
-      'SMS-first family navigator',
-      'School notices & calendar',
-      'Meal planning & grocery lists',
+      'SMS-first family agent',
+      'Household coordination (school, meals, calendar)',
       'Budget tracking',
       'Transport & bus times',
-      'Learning support',
+      'Up to 6 family members',
+      'Email support',
     ],
-    cta: 'Start with Tōroa',
-    link: 'https://buy.stripe.com/fZuaEZa1CdkA6573Wu3oA0b',
+    cta: 'Join the waitlist',
+    link: '/toroa',
     popular: false,
+  },
+  operator: {
+    name: 'Operator',
+    price: 590,
+    period: '/mo',
+    currency: 'NZD',
+    setup: 1490,
+    setupNote: 'Splittable across first 3 invoices on request',
+    descriptor: 'Sole traders and micro-SMEs — one industry, one team, one source of truth',
+    features: [
+      '1 industry kete (your pick)',
+      'Up to 5 seats',
+      'Tikanga compliance layer',
+      'Privacy Act 2020 + AAAIP alignment',
+      'SMS, WhatsApp & dashboard access',
+      '3 training hours / year',
+      'Email support, 1 business day',
+      '99.0% uptime',
+    ],
+    cta: 'Talk to us',
+    link: '/contact',
+    popular: false,
+    valueAnchor: '5 hours a week back at $60–$120/hr = $1,300–$2,600/mo recovered. ROI before a single risk event.',
+  },
+  leader: {
+    name: 'Leader',
+    price: 1290,
+    period: '/mo',
+    currency: 'NZD',
+    setup: 1990,
+    setupNote: 'Splittable across first 3 invoices on request',
+    descriptor: 'Multi-discipline SMEs and growing teams — covers two parts of the business with quarterly compliance review',
+    features: [
+      '2 industry kete (your pick)',
+      'Up to 15 seats',
+      'Tikanga compliance layer',
+      'Privacy Act 2020 + AAAIP alignment',
+      'Quarterly compliance review (signed)',
+      'Monthly audit report',
+      '8 training hours / year',
+      'Email + chat, 4 business hours',
+      '99.5% uptime',
+    ],
+    cta: 'Talk to us',
+    link: '/contact',
+    popular: true,
+    valueAnchor: 'One avoided compliance event pays for the year — Food Act notice, LBP action, H&S prohibition, or notifiable privacy breach.',
+  },
+  enterprise: {
+    name: 'Enterprise',
+    price: 2890,
+    period: '/mo',
+    currency: 'NZD',
+    setup: 2990,
+    setupNote: 'Splittable across first 3 invoices on request',
+    descriptor: 'Multi-site, regulated, high-stakes operations — every kete, the SLA, and a named human to call',
+    features: [
+      'All 5 industry kete',
+      'Unlimited seats',
+      'NZ data residency (attested)',
+      '99.9% uptime SLA',
+      'Named success manager',
+      'Quarterly compliance review (signed)',
+      'Monthly audit report',
+      '16 training hours / year',
+      'Priority phone + chat, 1 business hour',
+    ],
+    cta: 'Talk to us',
+    link: '/contact',
+    popular: false,
+    valueAnchor: 'A fraction of a full-time compliance manager ($80k–$120k/yr) with auditable agent decisions and an audit trail that stands up.',
+  },
+  outcome: {
+    name: 'Outcome',
+    price: 5000,
+    priceLabel: 'from $5,000',
+    period: '/mo',
+    currency: 'NZD',
+    setup: null,
+    setupNote: 'Per-engagement scope',
+    descriptor: 'Bespoke workflows where Assembl takes on the outcome — freight route optimisation, building maintenance scheduling, fleet uptime',
+    features: [
+      'All 5 kete + custom agent build',
+      'Unlimited seats',
+      'Named engagement team',
+      'Outcome uplift: 10–20% of measured savings',
+      'Monthly reconciliation',
+      'NZ data residency',
+      '99.9% uptime SLA',
+    ],
+    cta: 'Contact sales',
+    link: '/contact',
+    popular: false,
+    valueAnchor: 'Scoped per engagement. Base + a share of measured savings. Don\'t quote cold — talk to us.',
   },
 } as const;
 
@@ -105,28 +148,77 @@ export const CORE_PLATFORM = {
   name: 'Assembl Core',
   description: 'Included in every subscription',
   features: [
-    'Iho routing brain',
+    'Iho routing engine',
     'SIGNAL security agent',
-    'Compliance pipeline (Kahu → Tā → Mana)',
+    'Compliance pipeline (Kahu → Tā → Mahara → Mana)',
     'SMS & WhatsApp access',
     'Dashboard & analytics',
-    'NZ data sovereignty',
+    'NZ data residency on Enterprise',
   ],
 } as const;
 
+/** The 5 locked kete — MANAAKI · WAIHANGA · AUAHA · ARATAKI · PIKAU */
+export const KETE = [
+  {
+    key: 'manaaki',
+    name: 'Manaaki',
+    eng: 'Hospitality',
+    desc: 'Food safety, liquor licensing, guest experience, tourism operations',
+  },
+  {
+    key: 'waihanga',
+    name: 'Waihanga',
+    eng: 'Construction',
+    desc: 'Site safety, consenting, project management, quality and sign-off',
+  },
+  {
+    key: 'auaha',
+    name: 'Auaha',
+    eng: 'Creative',
+    desc: 'Brief to publish — copy, image, video, podcast, ads, analytics',
+  },
+  {
+    key: 'arataki',
+    name: 'Arataki',
+    eng: 'Automotive',
+    desc: 'Workshops, fleet, vehicle compliance, service scheduling',
+  },
+  {
+    key: 'pikau',
+    name: 'Pikau',
+    eng: 'Freight & Customs',
+    desc: 'Route optimisation, declarations, broker hand-off, customs compliance',
+  },
+] as const;
+
 /** Feature comparison table data */
 export const COMPARISON_FEATURES = [
-  { feature: 'Industry Kete', timatanga: '1', tupu: '1–3', rangatira: 'All 9' },
-  { feature: 'Specialist Agents', timatanga: 'Up to 4', tupu: 'Full pack access', rangatira: 'All 78' },
-  { feature: 'Intelligence Dashboards', timatanga: true, tupu: true, rangatira: true },
-  { feature: 'SMS & WhatsApp', timatanga: true, tupu: true, rangatira: true },
-  { feature: 'Voice Access', timatanga: false, tupu: true, rangatira: true },
-  { feature: 'Workflow Automation', timatanga: false, tupu: true, rangatira: true },
-  { feature: 'Custom Integrations', timatanga: false, tupu: false, rangatira: true },
-  { feature: 'Dedicated Account Manager', timatanga: false, tupu: false, rangatira: true },
-  { feature: 'Strategy Sessions', timatanga: false, tupu: 'Quarterly', rangatira: 'Monthly' },
-  { feature: 'Custom Workflows', timatanga: false, tupu: false, rangatira: true },
-  { feature: 'Multi-Site Support', timatanga: false, tupu: false, rangatira: true },
-  { feature: 'SLA Guarantee', timatanga: false, tupu: false, rangatira: true },
-  { feature: 'Support', timatanga: 'Email', tupu: 'Priority email & chat', rangatira: 'Dedicated manager' },
+  { feature: 'Industry Kete', operator: '1', leader: '2', enterprise: 'All 5', outcome: 'All 5 + custom' },
+  { feature: 'Seats', operator: 'Up to 5', leader: 'Up to 15', enterprise: 'Unlimited', outcome: 'Unlimited' },
+  { feature: 'Tikanga compliance layer', operator: true, leader: true, enterprise: true, outcome: true },
+  { feature: 'Privacy Act 2020 + AAAIP', operator: true, leader: true, enterprise: true, outcome: true },
+  { feature: 'SMS & WhatsApp', operator: true, leader: true, enterprise: true, outcome: true },
+  { feature: 'Quarterly compliance review', operator: false, leader: true, enterprise: true, outcome: true },
+  { feature: 'Monthly audit report', operator: false, leader: true, enterprise: true, outcome: true },
+  { feature: 'Named success manager', operator: false, leader: false, enterprise: true, outcome: true },
+  { feature: 'NZ data residency (attested)', operator: false, leader: 'Optional', enterprise: true, outcome: true },
+  { feature: 'Uptime SLA', operator: '99.0%', leader: '99.5%', enterprise: '99.9%', outcome: '99.9%' },
+  { feature: 'Support', operator: 'Email, 1 day', leader: 'Email + chat, 4hrs', enterprise: 'Phone + chat, 1hr', outcome: 'Named team' },
+  { feature: 'Training hours / year', operator: '3', leader: '8', enterprise: '16', outcome: 'Scoped' },
+] as const;
+
+/** Add-ons available across business tiers */
+export const ADD_ONS = [
+  { name: 'Extra kete', price: '$290/mo', available: 'Operator, Leader' },
+  { name: 'Extra seat', price: '$39/mo', available: 'Operator, Leader' },
+  { name: 'Extra training hour', price: '$195', available: 'All tiers' },
+  { name: 'White-glove migration', price: '$3,990 one-time', available: 'All tiers' },
+  { name: 'Custom agent build', price: 'from $7,500', available: 'All tiers' },
+] as const;
+
+/** Plain-English value anchors for the homepage hero */
+export const VALUE_ANCHORS = [
+  '5 hours a week back',
+  'one avoided compliance event pays for itself',
+  'a fraction of a full-time compliance manager',
 ] as const;

@@ -8,8 +8,8 @@ interface AnimatedHeroProps {
 }
 
 const PROOF_STRIP = [
-  { value: "44", label: "specialist agents", color: "#D4A843" },
-  { value: "7", label: "industry kete", color: "#3A7D6E" },
+  { value: "5", label: "industry kete", color: "#D4A843" },
+  { value: "1", label: "Iho brain", color: "#3A7D6E" },
   { value: "Built in", label: "Aotearoa", color: "#D4A843" },
   { value: "SMS", label: "-ready", color: "#3A7D6E" },
 ];
@@ -44,7 +44,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
 
         <motion.p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 400, fontSize: "13px", lineHeight: 1.6, color: "rgba(255,255,255,0.4)", maxWidth: "520px", marginBottom: "1.5rem" }}
           initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.65 }}>
-          44 specialist AI agents across seven industry kete. Built in New Zealand. Designed for real businesses.
+          Specialist operational workflows across five industry kete. Built in Aotearoa. Designed for real NZ businesses.
         </motion.p>
 
         <motion.div className="flex flex-wrap justify-center gap-3 mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.7 }}>
@@ -59,7 +59,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
         <motion.div className="flex flex-col sm:flex-row gap-3 justify-center" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.8 }}>
           <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full transition-all duration-300"
             style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, background: "#D4A843", border: "1px solid #D4A843", color: "#09090F", boxShadow: "0 0 20px rgba(212,168,67,0.2)" }}>
-            Book a Launch Sprint <ArrowRight size={16} />
+            Book a discovery call <ArrowRight size={16} />
           </Link>
           <button onClick={onScrollToGrid} className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm rounded-full transition-all duration-300"
             style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, background: "transparent", border: "1px solid rgba(58,125,110,0.4)", color: "#3A7D6E" }}>

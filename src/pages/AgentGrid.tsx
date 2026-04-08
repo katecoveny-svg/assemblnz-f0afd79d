@@ -128,8 +128,8 @@ const AgentGrid = () => {
   return (
     <div className="min-h-screen flex flex-col relative">
       <SEO
-        title="Assembl | The Operating System for NZ Business | 42 Specialist AI Agents"
-        description="42 specialist AI agents across five industry packs. Quoting, payroll, planning, marketing, compliance, and execution — built for Aotearoa. From $89/mo."
+        title="Assembl | Specialist operational workflows for NZ business"
+        description="Specialist operational workflows across five industry kete — Manaaki, Waihanga, Auaha, Arataki, Pikau. Built in Aotearoa. From $590/mo NZD ex GST."
         path="/"
       />
       <ParticleField />
@@ -226,7 +226,7 @@ const AgentGrid = () => {
               {
                 mark: manaIcon,
                 title: "NZ context",
-                desc: "Trained on 50+ New Zealand Acts. Employment, health & safety, building, food safety, privacy — your obligations, not American advice.",
+                desc: "Grounded in NZ legislation and policy workflows. Employment, health & safety, building, food safety, privacy — your obligations, not American advice.",
               },
               {
                 mark: maharaIcon,
@@ -235,8 +235,8 @@ const AgentGrid = () => {
               },
               {
                 mark: ihoIcon,
-                title: "Specialist agents",
-                desc: "42 agents, each an expert in their domain. Not a chatbot pretending to know everything — dedicated specialists that go deep.",
+                title: "Specialist workflows",
+                desc: "Five industry kete, each going deep on the workflows for its domain. Not a chatbot pretending to know everything — dedicated specialist support.",
               },
               {
                 mark: kanohiIcon,
@@ -273,7 +273,7 @@ const AgentGrid = () => {
       {/* ═══════ LIVE DEMO ═══════ */}
       <EmbedDemoSection />
 
-      {/* ═══════ LAUNCH SPRINT ═══════ */}
+      {/* ═══════ DISCOVERY CALL ═══════ */}
       <section id="launch-sprint" className="relative z-10 py-20" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
           <motion.div
@@ -282,10 +282,10 @@ const AgentGrid = () => {
             viewport={{ once: true }}
           >
             <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "1.75rem", color: "#FFFFFF", marginBottom: "0.75rem" }}>
-              Book a Launch Sprint — <span style={{ color: "#D4A843" }}>now open</span>
+              Book a <span style={{ color: "#D4A843" }}>discovery call</span>
             </h2>
             <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "rgba(255,255,255,0.5)", maxWidth: "480px", margin: "0 auto 2rem" }}>
-              We map your workflows, design your automation, and deploy your Assembl instance. Early access pricing locked in.
+              Free 30-minute discovery call. We'll map your workflows and show you which kete fit your business.
             </p>
           </motion.div>
 
@@ -346,7 +346,7 @@ const AgentGrid = () => {
                 boxShadow: "0 0 20px rgba(212,168,67,0.2)",
               }}
             >
-              <Send size={14} /> Book a Launch Sprint
+              <Send size={14} /> Book discovery call
             </button>
           </form>
         </div>

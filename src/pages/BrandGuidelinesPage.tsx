@@ -56,7 +56,7 @@ export default function BrandGuidelinesPage() {
             <p><strong className="text-white">Primary line:</strong> Assembl — The operating system for NZ business.</p>
             <p><strong className="text-white">Alternate:</strong> One intelligence layer for NZ business.</p>
             <p><strong className="text-white">Alternate:</strong> Enterprise-level intelligence for Aotearoa businesses.</p>
-            <p className="mt-4">Lead with outcomes (Win work, Run work, Stay sharp) and leverage — not compliance jargon.</p>
+            <p className="mt-4">Lead with outcomes (Win work, Run work, Stay sharp) and real value — not compliance jargon.</p>
           </div>
         </Section>
 

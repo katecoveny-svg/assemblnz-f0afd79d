@@ -148,58 +148,62 @@ const InputField = ({
 
 /* ─── Data ─── */
 const PROOF = [
-  { label: "42 specialist agents", accent: C.gold },
-  { label: "9 industry kete", accent: C.teal },
+  { label: "5 hours a week back", accent: C.gold },
+  { label: "5 industry kete", accent: C.teal },
   { label: "Built in Aotearoa", accent: C.gold },
-  { label: "From $89/month NZD", accent: C.teal },
+  { label: "From $590/month NZD", accent: C.teal },
   { label: "SMS-ready", accent: C.gold },
 ];
 
 const PACKS = [
-  { reo: "Manaaki", en: "Hospitality & Tourism", desc: "Guest experience, food safety, liquor licensing, lodge operations, adventure tourism.", color: C.gold, to: "/manaaki" },
-  { reo: "Hanga", en: "Construction", desc: "Site to sign-off. Safety, consenting, project management, tenders, quality.", color: C.teal, to: "/hanga" },
-  { reo: "Auaha", en: "Creative & Media", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: "#F0D078", to: "/auaha" },
-  { reo: "Pakihi", en: "Business & Commerce", desc: "Accounting, insurance, retail, trade, agriculture, real estate, immigration.", color: "#5AADA0", to: "/pakihi" },
-  { reo: "Hangarau", en: "Technology", desc: "Security, DevOps, infrastructure, monitoring, manufacturing, IP.", color: "#4A7AB5", to: "/hangarau" },
+  { reo: "Manaaki", en: "Hospitality", desc: "Food safety, liquor licensing, guest experience, tourism operations.", color: C.gold, to: "/manaaki" },
+  { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. Safety, consenting, project management, quality.", color: C.teal, to: "/hanga" },
+  { reo: "Auaha", en: "Creative", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: "#F0D078", to: "/auaha" },
+  { reo: "Arataki", en: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling.", color: "#5AADA0", to: "/arataki" },
+  { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#4A7AB5", to: "/pikau" },
 ];
 
 const DIFFS = [
   { num: "01", title: "NZ-context intelligence", body: "Built around local legislation, tax, employment law, and industry realities. Not an overseas product localised after the fact.", accent: C.gold },
-  { num: "02", title: "Specialist, not generic", body: "42 purpose-built agents across five industry packs. Each one trained on the workflows that matter to your sector.", accent: C.teal },
+  { num: "02", title: "Specialist, not generic", body: "Purpose-built agents across five industry kete. Each one tuned to the workflows that matter to your sector.", accent: C.teal },
   { num: "03", title: "Shared business memory", body: "Work compounds over time. Context, decisions, and project history carry forward instead of resetting every session.", accent: "#4A7AB5" },
-  { num: "04", title: "Cultural and language layer", body: "Te Kāhui Reo strengthens reo quality, tikanga alignment, and trust across every interaction.", accent: C.gold },
+  { num: "04", title: "Cultural and language layer", body: "Tikanga governance is woven through every agent — Rangatiratanga, Kaitiakitanga, Manaakitanga, Whanaungatanga.", accent: C.gold },
 ];
 
 const PRICING = [
   {
-    name: "Starter",
-    price: "$89",
-    desc: "Sole traders and micro-businesses.",
-    features: ["5 specialist agents", "1 industry kete", "Intelligence dashboard", "Email support"],
+    name: "Family",
+    price: "$29",
+    setup: "No setup fee",
+    desc: "NZ whānau — household coordination by SMS, no app required.",
+    features: ["SMS-first family agent", "School notices, calendar, meals", "Budget tracking", "Up to 6 family members"],
     highlight: false,
     accent: C.teal,
   },
   {
-    name: "Pro",
-    price: "$299",
-    desc: "Growing teams that need more horsepower.",
-    features: ["20 specialist agents", "2 industry kete", "Priority support", "Full memory", "Custom workflows"],
+    name: "Operator",
+    price: "$590",
+    setup: "+ $1,490 setup",
+    desc: "Sole traders and micro-SMEs — one industry, one team, one source of truth.",
+    features: ["1 industry kete (your pick)", "Up to 5 seats", "Tikanga compliance layer", "Email support, 1 business day", "99.0% uptime"],
+    highlight: false,
+    accent: C.teal,
+  },
+  {
+    name: "Leader",
+    price: "$1,290",
+    setup: "+ $1,990 setup",
+    desc: "Multi-discipline SMEs — covers two parts of the business with quarterly compliance review.",
+    features: ["2 industry kete (your pick)", "Up to 15 seats", "Quarterly compliance review (signed)", "Monthly audit report", "99.5% uptime"],
     highlight: true,
     accent: C.gold,
   },
   {
-    name: "Business",
-    price: "$599",
-    desc: "Established businesses, complex operations.",
-    features: ["All agents", "3 industry kete", "Dedicated support", "Team access", "Compliance alerts"],
-    highlight: false,
-    accent: C.teal,
-  },
-  {
-    name: "Industry Suite",
-    price: "$1,499",
-    desc: "Full platform. Every agent. Every pack.",
-    features: ["All agents + all 9 kete", "Dedicated account manager", "Custom integrations", "White-label options", "SLA guarantee"],
+    name: "Enterprise",
+    price: "$2,890",
+    setup: "+ $2,990 setup",
+    desc: "Multi-site, regulated, high-stakes. Every kete, the SLA, and a named human to call.",
+    features: ["All 5 industry kete", "Unlimited seats", "NZ data residency (attested)", "Named success manager", "99.9% uptime SLA"],
     highlight: false,
     accent: "#4A7AB5",
   },
@@ -263,7 +267,7 @@ const Index = () => {
     <div className="min-h-screen" style={{ background: C.bg, color: C.white }}>
       <SEO
         title="Assembl — The Operating System for NZ Business"
-        description="42 specialist agents across 5 industry packs. One intelligence layer for quoting, payroll, planning, marketing, compliance, and execution — built in Aotearoa."
+        description="Specialist AI agents across 5 industry kete — Manaaki, Waihanga, Auaha, Arataki, Pikau. One intelligence layer for quoting, payroll, planning, marketing, compliance, and execution. Built in Aotearoa."
       />
       <BrandNav />
 
@@ -608,7 +612,7 @@ const Index = () => {
             <Eyebrow>PRICING</Eyebrow>
             <SectionHeading>Accessible pricing for real businesses.</SectionHeading>
             <Body className="max-w-lg mx-auto">
-              All plans are per month, in NZD + GST. No lock-in contracts. 14-day free trial on all plans.
+              All prices NZD ex GST (add 15% at invoice). Monthly billing, 30-day cancellation notice. Setup fees splittable across the first 3 invoices on request.
             </Body>
           </motion.div>
 
@@ -669,8 +673,11 @@ const Index = () => {
                     {tier.price}
                     <span className="text-sm" style={{ color: C.textMuted }}>/mo</span>
                   </p>
-                  <p className="text-[10px] mb-5" style={{ fontFamily: FONT.mono, color: "rgba(255,255,255,0.25)" }}>
-                    NZD + GST
+                  <p className="text-[10px] mb-1" style={{ fontFamily: FONT.mono, color: "rgba(255,255,255,0.25)" }}>
+                    NZD ex GST
+                  </p>
+                  <p className="text-[10px] mb-5" style={{ fontFamily: FONT.mono, color: "rgba(255,255,255,0.4)" }}>
+                    {tier.setup}
                   </p>
                   <Body className="mb-6 text-xs">{tier.desc}</Body>
                   <ul className="space-y-2.5 mt-auto mb-6">
@@ -697,19 +704,34 @@ const Index = () => {
                       border: tier.highlight ? "none" : `1px solid rgba(255,255,255,0.08)`,
                     }}
                   >
-                    {tier.highlight ? "Start free trial" : "Get started"}
+                    {tier.highlight ? "Talk to us" : "Talk to us"}
                   </Link>
                 </GlassCard>
               </motion.div>
             ))}
           </div>
 
+          <motion.div
+            className="text-center mt-12"
+            {...fade}
+          >
+            <p className="text-[11px] uppercase tracking-[3px] mb-2" style={{ fontFamily: FONT.mono, color: C.gold, fontWeight: 700 }}>
+              OUTCOME · FROM $5,000/MO
+            </p>
+            <p className="text-xs max-w-xl mx-auto mb-3" style={{ fontFamily: FONT.body, color: "rgba(255,255,255,0.55)" }}>
+              Bespoke engagements where Assembl takes on the outcome — freight route optimisation, building maintenance scheduling, fleet uptime. Base fee + 10–20% of measured savings. Scoped per engagement.
+            </p>
+            <Link to="/contact" className="text-xs underline" style={{ fontFamily: FONT.body, color: C.gold }}>
+              Talk to us about an Outcome engagement →
+            </Link>
+          </motion.div>
+
           <motion.p
             className="text-center mt-8 text-[11px]"
             style={{ fontFamily: FONT.mono, color: "rgba(255,255,255,0.25)" }}
             {...fade}
           >
-            All plans include 14-day free trial · No credit card required · No lock-in contracts
+            NZD ex GST · Setup fees splittable across first 3 invoices · Existing customers grandfathered until 2027-04-08
           </motion.p>
         </div>
       </section>

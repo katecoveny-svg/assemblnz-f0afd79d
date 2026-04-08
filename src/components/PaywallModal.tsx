@@ -81,14 +81,14 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
                   className="block w-full py-2.5 rounded-lg text-sm font-semibold text-center transition-all"
                   style={{ background: "#5AADA0", color: "#0A0A14" }}
                 >
-                  {loading === "pro" ? <Loader2 size={16} className="inline animate-spin" /> : "Pro — $299/mo (recommended)"}
+                  {loading === "pro" ? <Loader2 size={16} className="inline animate-spin" /> : "Leader — $1,290/mo (recommended)"}
                 </button>
                 <button
                   onClick={() => handleCheckout(STRIPE_TIERS.starter.price_id, "starter")}
                   disabled={loading === "starter"}
                   className="block w-full py-2.5 rounded-lg border border-border text-sm font-medium text-foreground/70 text-center hover:text-foreground hover:border-foreground/10 transition-colors"
                 >
-                  {loading === "starter" ? <Loader2 size={16} className="inline animate-spin" /> : "Kete Tīmatanga — $750/mo"}
+                  {loading === "starter" ? <Loader2 size={16} className="inline animate-spin" /> : "Operator — $590/mo"}
                 </button>
                 <Link
                   to="/pricing"

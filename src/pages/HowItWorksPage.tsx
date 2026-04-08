@@ -10,7 +10,7 @@ const STEPS = [
   {
     num: "01",
     title: "Understand your business",
-    desc: "During your Launch Sprint, we map your current workflows, tools, and pain points. We run 4 hours of focused strategy sessions to understand exactly where manual work drains your team.",
+    desc: "During onboarding, we help you map your current workflows, tools, and pain points. We start with a 30-minute discovery call before any contract is signed.",
     color: "#D4A843",
   },
   {
@@ -28,13 +28,11 @@ const STEPS = [
 ];
 
 const KETE = [
-  { name: "Manaaki", sub: "Hospitality, Venues & Tourism", agents: 8, color: "#D4A843", to: "/manaaki" },
-  { name: "Hanga", sub: "Construction & Trade", agents: 6, color: "#3A7D6E", to: "/hanga" },
-  { name: "Auaha", sub: "Creative Industries & Media", agents: 8, color: "#F0D078", to: "/auaha" },
-  { name: "Pakihi", sub: "Finance & Professional Services", agents: 8, color: "#1A3A5C", to: "/pakihi" },
-  { name: "Hangarau", sub: "Technology & Software", agents: 8, color: "#5AADA0", to: "/hangarau" },
-  { name: "Te Kāhui Reo", sub: "Māori Organisations & Cultural Institutions", agents: 8, color: "#3A6A9C", to: "/te-kahui-reo" },
-  { name: "Tōroa", sub: "Family Navigator", agents: 1, color: "#D4A843", to: "/toroa" },
+  { name: "Manaaki", sub: "Hospitality", color: "#D4A843", to: "/manaaki" },
+  { name: "Waihanga", sub: "Construction", color: "#3A7D6E", to: "/hanga" },
+  { name: "Auaha", sub: "Creative", color: "#F0D078", to: "/auaha" },
+  { name: "Arataki", sub: "Automotive", color: "#1A3A5C", to: "/arataki" },
+  { name: "Pikau", sub: "Freight & Customs", color: "#5AADA0", to: "/pikau" },
 ];
 
 const SECTION = "relative px-6 sm:px-8 py-20 sm:py-28";
@@ -43,7 +41,7 @@ const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }
 
 const HowItWorksPage = () => (
   <div className="min-h-screen flex flex-col" style={{ background: "#09090F", color: "#FFFFFF" }}>
-    <SEO title="How Assembl Works — The Operating System for NZ Business" description="Assembl packages 44 specialist AI agents into 7 industry-specific kete. Built for how NZ businesses actually run." path="/how-it-works" />
+    <SEO title="How Assembl Works — Specialist operational workflows for NZ business" description="Assembl gives NZ businesses specialist operational workflows across five industry kete. Reduces admin, surfaces risk earlier, keeps people in control." path="/how-it-works" />
     <BrandNav />
 
     {/* Hero */}
@@ -56,7 +54,7 @@ const HowItWorksPage = () => (
           The operating system built for how NZ businesses actually run.
         </h1>
         <p className="text-sm sm:text-base max-w-2xl mx-auto" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.6)", lineHeight: 1.7 }}>
-          Assembl packages 44 specialist AI agents into 7 industry-specific kete (packs). Each agent handles one core workflow: quoting, payroll, planning, marketing, compliance, execution, and reporting. They work together, stay in your data, and run on your schedule.
+          Assembl packages specialist operational workflows into five industry kete — Manaaki (hospitality), Waihanga (construction), Auaha (creative), Arataki (automotive), Pikau (freight & customs). Each kete handles core workflows for its industry. They work together, stay in your data, and run on your schedule.
         </p>
       </motion.div>
     </section>
@@ -91,7 +89,7 @@ const HowItWorksPage = () => (
             NGĀ KETE
           </span>
           <h2 className="text-2xl sm:text-3xl" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
-            7 industry packs, 44 specialist agents
+            Five industry kete, built in Aotearoa
           </h2>
         </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -101,7 +99,7 @@ const HowItWorksPage = () => (
                 <div className="w-full h-1 rounded-full mb-4" style={{ background: k.color }} />
                 <h3 className="text-base mb-1" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400 }}>{k.name}</h3>
                 <p className="text-xs mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.45)" }}>{k.sub}</p>
-                <span className="text-[11px] px-2.5 py-1 rounded-full" style={{ fontFamily: "'JetBrains Mono', monospace", background: `${k.color}15`, color: k.color }}>{k.agents} agents</span>
+                <span className="text-[11px] px-2.5 py-1 rounded-full" style={{ fontFamily: "'JetBrains Mono', monospace", background: `${k.color}15`, color: k.color }}>Explore →</span>
               </Link>
             </motion.div>
           ))}
@@ -138,7 +136,7 @@ const HowItWorksPage = () => (
             Transparent, usage-based pricing
           </h2>
           <p className="text-sm leading-relaxed mb-8" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.55)" }}>
-            Every customer starts with a Launch Sprint (from NZ$2,500 setup), then pays a monthly subscription based on which kete you adopt. No per-seat charges. No hidden fees.
+            Plans start from NZ$590/mo + $1,490 setup (NZD ex GST). Family plan from $29/mo. Setup fees can be split across the first 3 invoices on request.
           </p>
           <Link to="/pricing" className="inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full transition-all duration-300" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, background: "transparent", border: "1px solid rgba(58,125,110,0.4)", color: "#3A7D6E" }}>
             See full pricing <ArrowRight size={16} />
@@ -158,7 +156,7 @@ const HowItWorksPage = () => (
             Book a free 30-minute discovery call. We'll map your workflows and show you exactly which agents can run them.
           </p>
           <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, background: "#D4A843", color: "#09090F" }}>
-            Book a Launch Sprint <ArrowRight size={16} />
+            Book a discovery call <ArrowRight size={16} />
           </Link>
         </motion.div>
       </div>

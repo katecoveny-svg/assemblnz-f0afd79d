@@ -10,7 +10,7 @@ const STEPS = [
   {
     icon: Share2,
     title: "Meet your whānau of tools",
-    desc: "45 specialists across every NZ industry. Each one trained on the Acts, regulations, and tikanga that apply to your work.",
+    desc: "Five industry kete grounded in the Acts, regulations, and tikanga that apply to your work.",
   },
   {
     icon: ShieldCheck,

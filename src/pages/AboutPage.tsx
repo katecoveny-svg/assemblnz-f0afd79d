@@ -6,10 +6,10 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 
 const ROADMAP = [
-  { quarter: "Q1 2026", title: "Platform Launch", desc: "44 agents live across 7 industry kete with NZ legislation training, voice interface, and SMS access.", done: true },
-  { quarter: "Q2 2026", title: "Health sector expansion", desc: "Aged care, whānau support, and health navigation agents. Additional Xero, MYOB, and Google Workspace integrations.", done: false },
+  { quarter: "Q1 2026", title: "Platform launch", desc: "Five industry kete live — Manaaki, Waihanga, Auaha, Arataki, Pikau — with NZ legislation grounding, SMS access, and tikanga compliance pipeline.", done: true },
+  { quarter: "Q2 2026", title: "Workflow expansion", desc: "Deeper kete coverage. Additional Xero, MYOB, and Google Workspace integrations.", done: false },
   { quarter: "Q3 2026", title: "Mobile app beta", desc: "Native iOS and Android apps. API-first features for enterprise customers. Multi-tenant support.", done: false },
-  { quarter: "Q4 2026", title: "Enterprise & Government", desc: "SOC 2 certification, on-premise data options, and government procurement compliance.", done: false },
+  { quarter: "Q4 2026", title: "Enterprise rollout", desc: "Attested NZ data residency at scale, named success management, and procurement-ready compliance documentation.", done: false },
 ];
 
 const MARKET_STATS = [
@@ -22,7 +22,7 @@ const MARKET_STATS = [
 const AboutPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <SEO title="About Assembl — The Operating System for NZ Business" description="44 specialist AI agents across 7 industry kete, built for New Zealand businesses. Every query hits a tikanga-governed compliance pipeline." path="/about" />
+      <SEO title="About Assembl — Specialist operational workflows for NZ business" description="Specialist operational workflows across five industry kete, built for New Zealand businesses. Every output runs through a tikanga compliance pipeline." path="/about" />
       <BrandNav />
 
       {/* Hero */}
@@ -32,14 +32,14 @@ const AboutPage = () => {
             The operating system for <span className="text-gradient-hero">NZ business</span>
           </h1>
           <p className="text-sm sm:text-base font-body text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Assembl is 44 specialist AI agents built for New Zealand businesses — from employment law to health compliance to hospitality operations. Every query hits a tikanga-governed compliance pipeline before it reaches you.
+            Assembl gives New Zealand businesses specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. We help teams act faster with better information — not replace the people who know the work best.
           </p>
           <motion.p
             className="mt-8 text-sm sm:text-base font-body max-w-2xl mx-auto leading-relaxed italic"
             style={{ color: "hsl(var(--primary))", textShadow: "0 0 20px hsl(var(--primary) / 0.3), 0 0 40px hsl(var(--primary) / 0.15)" }}
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
           >
-            I shouldn't need a translator for the Holidays Act. Or a cultural consultant for tikanga. Or a lawyer to check whether its output crosses the Medicines Act. We build intelligence that's native to Aotearoa — the law, the culture, the obligations your business already carries. One platform, 44 agents, zero guesswork.
+            I shouldn't need a translator for the Holidays Act. Or a cultural consultant for tikanga. Or a lawyer to check whether its output crosses the Medicines Act. We build intelligence that's native to Aotearoa — the law, the culture, the obligations your business already carries. One platform, five kete, zero guesswork.
           </motion.p>
         </motion.div>
       </section>
@@ -57,13 +57,13 @@ const AboutPage = () => {
                 Most business tools are trained on US data, US laws, and US business practices. They don't know what PAYE is. They've never heard of the Building Act. They can't calculate KiwiSaver contributions.
               </p>
               <p className="text-sm font-body text-muted-foreground leading-relaxed">
-                Assembl changes that. Every tool is grounded in 50+ New Zealand Acts and trained on the specific regulations, standards, and cultural context that NZ businesses operate within.
+                Assembl changes that. Every kete is grounded in NZ legislation and policy workflows — the specific regulations, standards, and cultural context that NZ businesses operate within.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
                 { icon: <Target size={20} />, title: "Purpose-built", desc: "Not adapted — built from the ground up for NZ" },
-                { icon: <Shield size={20} />, title: "Legislation-first", desc: "50+ NZ Acts embedded in every response" },
+                { icon: <Shield size={20} />, title: "Legislation-first", desc: "Grounded in NZ legislation and policy workflows" },
                 { icon: <Users size={20} />, title: "SME-focused", desc: "Priced for the 620K businesses that need it most" },
                 { icon: <Globe size={20} />, title: "Always on", desc: "24/7 specialist tools that never take leave" },
               ].map((item) => (
@@ -133,12 +133,12 @@ const AboutPage = () => {
             Built by <span className="text-gradient-hero">Kate</span>
           </h2>
           <p className="text-sm font-body text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
-            "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work. Every tool is trained on real NZ legislation — not generic overseas advice. My goal is to give every Kiwi business access to enterprise-grade business intelligence at a price they can afford."
+            "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work. Every kete is grounded in real NZ legislation — not generic overseas advice. My goal is to give every Kiwi business access to specialist operational support at a price they can afford."
           </p>
           <p className="text-xs font-display text-foreground" style={{ fontWeight: 300 }}>Kate</p>
           <p className="text-[11px] font-body text-muted-foreground">Founder & CEO · Auckland, New Zealand</p>
           <Link to="/contact" className="inline-flex items-center gap-2 mt-4 text-sm font-display text-primary hover:text-foreground transition-colors" style={{ fontWeight: 300 }}>
-            Book a Launch Sprint <ArrowRight size={14} />
+            Book a discovery call <ArrowRight size={14} />
           </Link>
         </div>
       </section>

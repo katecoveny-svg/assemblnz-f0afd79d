@@ -49,7 +49,7 @@ export interface SharedFoundationConfig {
 }
 
 // ============================================================================
-// SHARED FOUNDATION — available to ALL 78 agents
+// SHARED FOUNDATION — available to all kete
 // ============================================================================
 
 export const SHARED_FOUNDATION: SharedFoundationConfig = {
@@ -124,7 +124,7 @@ export const SHARED_CORE_AGENTS: AgentSkillConfig[] = [
 ];
 
 // ============================================================================
-// 9 KETE — Complete skill and MCP configuration
+// 5 KETE — Complete skill and MCP configuration (Manaaki · Waihanga · Auaha · Arataki · Pikau)
 // ============================================================================
 
 export const KETE_SKILL_DATA: KeteSkillConfig[] = [

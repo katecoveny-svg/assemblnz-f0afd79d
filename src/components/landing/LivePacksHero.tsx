@@ -51,27 +51,24 @@ const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
 };
 
 const LIVE_PACKS = [
-  { slug: "manaaki", name: "Manaaki", english: "Hospitality & Tourism", agents: 9, desc: "Food safety, liquor licensing, guest experience, luxury lodging, adventure tourism." },
-  { slug: "hanga", name: "Hanga", english: "Construction", agents: 9, desc: "Site safety, BIM, consenting, project management, architecture, tenders." },
-  { slug: "auaha", name: "Auaha", english: "Creative & Media", agents: 9, desc: "Copy, image, video, podcast, ads, analytics — the full creative pipeline." },
-  { slug: "pakihi", name: "Pakihi", english: "Business & Commerce", agents: 11, desc: "Accounting, insurance, retail, trade, agriculture, real estate, immigration." },
-  { slug: "waka", name: "Waka", english: "Transport & Vehicles", agents: 3, desc: "Automotive, maritime, trucking, logistics, dealership compliance." },
-  { slug: "hangarau", name: "Hangarau", english: "Technology", agents: 12, desc: "Security, DevOps, infrastructure, monitoring, environment, manufacturing, IP." },
-  { slug: "hauora", name: "Hauora", english: "Health & Lifestyle", agents: 8, desc: "Sport, health, beauty, nutrition, interior design, travel." },
-  { slug: "te-kahui-reo", name: "Te Kāhui Reo", english: "Māori Business Intelligence", agents: 8, desc: "Data sovereignty, whānau governance, iwi reporting, kaupapa Māori." },
-  { slug: "toroa", name: "Tōroa", english: "Family Navigator", agents: 1, desc: "SMS-first. No app, no login. Just text. School, meals, budgets, transport." },
+  { slug: "manaaki", name: "Manaaki", english: "Hospitality", desc: "Food safety, liquor licensing, guest experience, tourism operations." },
+  { slug: "hanga", name: "Waihanga", english: "Construction", desc: "Site safety, consenting, project management, quality and sign-off." },
+  { slug: "auaha", name: "Auaha", english: "Creative", desc: "Brief to publish — copy, image, video, podcast, ads, analytics." },
+  { slug: "arataki", name: "Arataki", english: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling." },
+  { slug: "pikau", name: "Pikau", english: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance." },
+  { slug: "toroa", name: "Family", english: "Whānau (consumer)", desc: "SMS-first. No app, no login. Just text. School, meals, budgets, transport." },
 ];
 
 const LivePacksHero = () => (
   <section className="relative z-10 py-20 sm:py-28">
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
       <motion.div className="text-center mb-14" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">9 Kete · 78 Agents · 1 Brain</p>
+        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">5 Kete · 1 Brain · Built in Aotearoa</p>
         <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "2.25rem", letterSpacing: "-0.01em", color: "#FFFFFF" }}>
           Tell us what's broken. <span style={{ color: "#D4A843" }}>We build your kete.</span>
         </h2>
         <p className="mt-3 text-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.55)", maxWidth: "480px", margin: "12px auto 0" }}>
-          9 industry packs + Core Platform, 70 specialist capabilities powered by AI and te reo Māori.
+          Five industry kete grounded in NZ legislation and policy workflows.
         </p>
       </motion.div>
 
@@ -123,19 +120,13 @@ const LivePacksHero = () => (
             <p className="text-[10px] italic mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{pack.english}</p>
             <p className="text-xs flex-1 mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>{pack.desc}</p>
 
-            <div className="flex items-center justify-between mt-auto">
-              <span
-                className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase"
-                style={{ background: `${accent}18`, color: accent, letterSpacing: "0.08em" }}
-              >
-                {pack.agents} agent{pack.agents > 1 ? "s" : ""}
-              </span>
+            <div className="flex items-center justify-end mt-auto">
               <Link
                 to={`/packs/${pack.slug}`}
                 className="inline-flex items-center gap-1 text-[10px] font-bold uppercase transition-all hover:gap-1.5"
                 style={{ fontFamily: "'Lato', sans-serif", color: accent, letterSpacing: "0.08em" }}
               >
-                Start Free Trial <ArrowRight size={12} />
+                Explore kete <ArrowRight size={12} />
               </Link>
             </div>
           </motion.div>
@@ -151,7 +142,7 @@ const LivePacksHero = () => (
         viewport={{ once: true }}
         transition={{ delay: 0.4 }}
       >
-        9 kete · 78 agents · Shared Core Foundation · $29/mo Tōroa consumer product
+        Five locked industry kete · Shared core platform · $29/mo Family consumer agent
       </motion.p>
     </div>
   </section>

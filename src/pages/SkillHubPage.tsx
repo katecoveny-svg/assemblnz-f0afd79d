@@ -180,7 +180,7 @@ const SkillHubPage = () => {
         <div className="p-5 pt-3">
           <p className="font-display font-light text-[9px] uppercase tracking-[3px] text-center"
             style={{ color: 'rgba(255,255,255,0.2)' }}>
-            9 KETE · 78 AGENTS · 1 BRAIN
+            5 KETE · 1 BRAIN
           </p>
         </div>
       </aside>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, HardHat, UtensilsCrossed, Palette, Briefcase, Cpu, Globe, Bird, Shield, ChevronDown } from "lucide-react";
+import { Menu, X, HardHat, UtensilsCrossed, Palette, Car, Truck, Bird, Shield, ChevronDown } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import CelestialLogo from "@/components/CelestialLogo";
 
@@ -15,11 +15,10 @@ const NAV_ITEMS: NavItem[] = [
 
 const PACKS = [
   { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#D4A843", group: "business" },
-  { label: "Hanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
+  { label: "Waihanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
   { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#F0D078", group: "business" },
-  { label: "Pakihi", sublabel: "Business", to: "/pakihi", icon: Briefcase, color: "#5AADA0", group: "business" },
-  { label: "Hangarau", sublabel: "Technology", to: "/hangarau", icon: Cpu, color: "#1A3A5C", group: "business" },
-  { label: "Te Kāhui Reo", sublabel: "Māori BI", to: "/te-kahui-reo", icon: Globe, color: "#3A6A9C", group: "specialist" },
+  { label: "Arataki", sublabel: "Automotive", to: "/arataki", icon: Car, color: "#1A3A5C", group: "business" },
+  { label: "Pikau", sublabel: "Freight & Customs", to: "/pikau", icon: Truck, color: "#5AADA0", group: "business" },
   { label: "Tōroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843", group: "whanau" },
 ];
 
@@ -114,7 +113,7 @@ const BrandNav = () => {
           <Link to="/contact"
             className="ml-2 px-5 py-2 rounded-full text-xs font-body font-medium transition-all duration-300"
             style={{ background: "#D4A843", color: "#09090F" }}>
-            Book a Launch Sprint
+            Book a discovery call
           </Link>
 
           <AccountDropdown />
@@ -172,7 +171,7 @@ const BrandNav = () => {
                   className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium mb-3"
                   style={{ background: "#D4A843", color: "#09090F" }}
                   onClick={() => setMobileOpen(false)}>
-                  Book a Launch Sprint
+                  Book a discovery call
                 </Link>
                 <AccountDropdown />
               </div>
