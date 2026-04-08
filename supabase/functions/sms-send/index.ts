@@ -19,7 +19,8 @@ Deno.serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v3.00";
+    // TNZ_API_BASE may point to v3.00 (workflow API); SMS sending uses the v2.04 REST endpoint
+    const tnzSmsUrl = "https://api.tnz.co.nz/api/v2.04/send/sms";
     const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
     const tnzFrom = Deno.env.get("TNZ_FROM_NUMBER");
     const sb = createClient(supabaseUrl, serviceKey);
@@ -52,11 +53,12 @@ Deno.serve(async (req) => {
     const ref = `assembl-agent-${agent_id}-${crypto.randomUUID()}`;
     const webhookUrl = `${supabaseUrl}/functions/v1/tnz-webhook`;
 
-    const smsResponse = await fetch(`${tnzBase}/sms`, {
+    const smsResponse = await fetch(tnzSmsUrl, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${tnzToken}`,
+        "Content-Type": "application/json; encoding='utf-8'",
+        "Accept": "application/json; encoding='utf-8'",
+        Authorization: `Basic ${tnzToken}`,
       },
       body: JSON.stringify({
         MessageData: {
@@ -70,7 +72,10 @@ Deno.serve(async (req) => {
       }),
     });
 
-    const smsData = await smsResponse.json();
+    const smsText = await smsResponse.text();
+    console.log("TNZ raw response:", smsResponse.status, smsText);
+    let smsData: any;
+    try { smsData = JSON.parse(smsText); } catch { smsData = { Result: smsResponse.ok ? "Success" : "Failed", raw: smsText }; }
 
     if (smsData.Result !== "Success") {
       console.error("TNZ send error:", smsData);
