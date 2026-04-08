@@ -28,7 +28,7 @@ const SMS_BEHAVIOUR = `\n\nSMS RULES — You are responding via text message (SM
 
 /** Send reply via TNZ API */
 async function sendViaTnz(to: string, message: string, reference: string): Promise<{ messageId?: string }> {
-  const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v3.00";
+  const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v2.04";
   const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
   if (!tnzToken) return {};
 

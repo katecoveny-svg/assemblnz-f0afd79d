@@ -19,7 +19,7 @@ Deno.serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v3.00";
+    const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v2.04";
     const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
     const tnzFrom = Deno.env.get("TNZ_FROM_NUMBER");
     const sb = createClient(supabaseUrl, serviceKey);
