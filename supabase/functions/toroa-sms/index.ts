@@ -64,14 +64,25 @@ async function parsePayload(req: Request): Promise<InboundSms> {
       mediaType: numMedia > 0 ? (form.get("MediaContentType0") as string) || undefined : undefined,
     };
   }
-  const json = await req.json();
-  if (json.msisdn) {
-    return { from: json.msisdn.startsWith("+") ? json.msisdn : `+${json.msisdn}`, to: json.to || "", body: json.text || json.message || "", messageId: json.messageId || json["message-id"] || "", provider: "vonage" };
+  const raw = await req.json();
+  console.log("toroa-sms raw inbound", JSON.stringify(raw));
+
+  if (raw.msisdn) {
+    return { from: raw.msisdn.startsWith("+") ? raw.msisdn : `+${raw.msisdn}`, to: raw.to || "", body: raw.text || raw.message || "", messageId: raw.messageId || raw["message-id"] || "", provider: "vonage" };
   }
-  if (json.Sender || json.From) {
-    return { from: json.Sender || json.From || json.from || "", to: json.Destination || json.To || json.to || "", body: json.Message || json.message || json.Body || json.body || "", messageId: json.MessageID || json.messageId || "", provider: "tnz" };
+
+  // Normalise field names — accept TNZ v2.04 capitalised AND lowercase shapes
+  const from = raw.from ?? raw.From ?? raw.Sender ?? raw.SourceAddress ?? null;
+  const to = raw.to ?? raw.To ?? raw.Destination ?? raw.DestinationAddress ?? null;
+  const body = raw.body ?? raw.Body ?? raw.message ?? raw.Message ?? raw.MessageText ?? raw.text ?? null;
+  const messageId = raw.messageId ?? raw.MessageID ?? raw.MessageId ?? raw["message-id"] ?? "";
+
+  if (from || raw.Sender || raw.From) {
+    const provider = (raw.Sender || raw.Destination || raw.MessageText || raw.Message) ? "tnz" as const : "direct" as const;
+    return { from: from || "", to: to || "", body: body || "", messageId, provider, mediaUrl: raw.mediaUrl || raw.imageUrl || undefined, mediaType: raw.mediaType || "image/jpeg" };
   }
-  return { from: json.from || json.phone || "", to: json.to || "", body: json.message || json.body || json.text || "", messageId: json.messageId || "", provider: "direct", mediaUrl: json.mediaUrl || json.imageUrl || undefined, mediaType: json.mediaType || "image/jpeg" };
+
+  return { from: from || raw.phone || "", to: to || "", body: body || "", messageId, provider: "direct", mediaUrl: raw.mediaUrl || raw.imageUrl || undefined, mediaType: raw.mediaType || "image/jpeg" };
 }
 
 /* ── Fetch media for Vision AI ── */
