@@ -33,7 +33,7 @@ async function sendViaTnz(to: string, message: string, reference: string): Promi
   if (!tnzToken) return {};
 
   const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
-  const resp = await fetch(`${tnzBase}/send/sms`, {
+  const resp = await fetch(`${tnzBase}/sms`, {
     method: "POST",
     headers: { "Content-Type": "application/json; encoding='utf-8'", "Accept": "application/json; encoding='utf-8'", Authorization: `Basic ${tnzToken}` },
     body: JSON.stringify({

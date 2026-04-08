@@ -52,7 +52,7 @@ Deno.serve(async (req) => {
     const ref = `assembl-agent-${agent_id}-${crypto.randomUUID()}`;
     const webhookUrl = `${supabaseUrl}/functions/v1/tnz-webhook`;
 
-    const smsResponse = await fetch(`${tnzBase}/send/sms`, {
+    const smsResponse = await fetch(`${tnzBase}/sms`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json; encoding='utf-8'",
