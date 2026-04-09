@@ -1,8 +1,22 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import toroaIcon from "@/assets/brand/toroa-logo.svg";
 import GlowIcon from "@/components/GlowIcon";
+
+/* Albatross silhouette — matches Toro landing page header */
+function AlbatrossIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} aria-hidden="true">
+      <path
+        d="M160 40 C140 32, 80 18, 20 28 C50 26, 90 34, 130 38 L160 40 L190 38 C230 34, 270 26, 300 28 C240 18, 180 32, 160 40Z"
+        fill="#D4A843" opacity="0.85"
+      />
+      <ellipse cx="160" cy="42" rx="18" ry="8" fill="#D4A843" />
+      <ellipse cx="160" cy="42" rx="12" ry="5" fill="#FFE082" opacity="0.3" />
+      <path d="M178 42 L210 40 L215 41" stroke="#D4A843" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+    </svg>
+  );
+}
 
 /**
  * PackGrid — homepage kete display.
