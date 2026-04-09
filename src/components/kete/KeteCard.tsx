@@ -52,20 +52,20 @@ const KeteCard: React.FC<KeteCardProps> = ({
         animationDelay: visible ? `${index * 150}ms` : undefined,
       } as React.CSSProperties}
     >
-      {/* Ambient glow behind the card */}
+      {/* Ambient dawn-gold halo — always present, blooms on hover */}
       <div
-        className="absolute inset-0 rounded-[16px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        className="absolute inset-0 rounded-[16px] pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-500"
         style={{
-          background: `radial-gradient(ellipse at 50% 0%, rgba(${rgb}, 0.12) 0%, transparent 70%)`,
+          background: "radial-gradient(ellipse at 50% -10%, rgba(240,208,120,0.18) 0%, rgba(212,168,67,0.06) 45%, transparent 70%)",
         }}
       />
 
-      {/* Top accent bar — thicker, glowing */}
+      {/* Top accent bar — thicker, glowing with dawn-gold bloom */}
       <div
         className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[16px]"
         style={{
-          background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`,
-          boxShadow: `0 0 12px rgba(${rgb}, 0.4)`,
+          background: `linear-gradient(90deg, transparent, rgba(240,208,120,0.7), ${accentColor}, rgba(240,208,120,0.7), transparent)`,
+          boxShadow: `0 0 18px rgba(240,208,120,0.5), 0 0 8px rgba(${rgb}, 0.3)`,
         }}
       />
 
@@ -82,12 +82,12 @@ const KeteCard: React.FC<KeteCardProps> = ({
       </svg>
 
       <div className="relative z-10 flex flex-col items-center text-center gap-4 p-8">
-        {/* Kete Icon — with accent glow ring */}
+        {/* Kete Icon — with dawn-gold glow ring */}
         <div className="relative w-[140px] h-[140px]">
           <div
-            className="absolute inset-0 rounded-full opacity-20 group-hover:opacity-40 transition-opacity duration-500"
+            className="absolute inset-0 rounded-full opacity-30 group-hover:opacity-70 transition-opacity duration-500"
             style={{
-              background: `radial-gradient(circle, rgba(${rgb}, 0.3) 0%, transparent 70%)`,
+              background: "radial-gradient(circle, rgba(240,208,120,0.28) 0%, rgba(212,168,67,0.10) 45%, transparent 70%)",
             }}
           />
           <KeteIcon
