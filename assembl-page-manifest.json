@@ -1,0 +1,346 @@
+{
+  "$schema": "https://assembl.nz/schemas/page-manifest/v1",
+  "version": "1.0.0",
+  "generatedAt": "2026-04-09",
+  "description": "Flint page-ownership manifest. Declares every Assembl marketing page with its Kete colour tokens, approved messaging hooks, and AAAIP policy constraints Flint must honour before publishing any edit.",
+
+  "globalConstraints": {
+    "keteNamingCanonical": [
+      "Manaaki",
+      "Waihanga",
+      "Auaha",
+      "Arataki",
+      "Pikau",
+      "Tōro"
+    ],
+    "keteNamingRetired": [
+      "Hanga",
+      "Pakihi",
+      "Waka",
+      "Hangarau",
+      "Hauora",
+      "Te Kāhui Reo"
+    ],
+    "note": "Retired names must never appear in Flint-generated copy. If found, the proposal is auto-rejected.",
+    "flintMustNotEdit": [
+      "/aaaip",
+      "/aaaip/*",
+      "/toroa/dashboard",
+      "/toroa/app",
+      "/toroa/install",
+      "/waihanga/*",
+      "/manaaki/*",
+      "/auaha/*",
+      "/arataki/*",
+      "/pikau/*"
+    ],
+    "note_dashboard": "Flint owns the *marketing* landing pages only. Interactive dashboards, AAAIP simulation pages, and Kete app routes are off-limits.",
+    "auahaPoliciesAlwaysApply": true,
+    "auahaPolicies": [
+      "auaha.copyright",
+      "auaha.likeness_consent",
+      "auaha.brand_safety",
+      "auaha.te_reo_integrity",
+      "auaha.misinfo_check",
+      "auaha.uncertainty_handoff"
+    ]
+  },
+
+  "pages": [
+    {
+      "id": "homepage",
+      "route": "/",
+      "title": "Assembl — Agentic AI for Aotearoa business",
+      "flintOwned": true,
+      "keteTokens": {
+        "primary": "#0F172A",
+        "accent": "#3A7D6E",
+        "background": "#FFFFFF",
+        "surface": "#F8FAFC"
+      },
+      "messagingHooks": {
+        "tagline": "Assembl brings policy-governed AI agents to every industry in Aotearoa.",
+        "taglineLocked": true,
+        "note_tagline": "The tagline is version-locked. Flint must not alter it without a senior brand review.",
+        "valueProps": [
+          "Six industry Kete, each governed by AAAIP compliance rules",
+          "SMS-first for whānau who skip smartphones",
+          "Built for Aotearoa — te reo, NZ law, NZ data residency"
+        ],
+        "forbiddenClaims": [
+          "100% accurate",
+          "Replaces human judgment",
+          "No oversight required"
+        ]
+      },
+      "aaaipPolicies": [
+        "auaha.copyright",
+        "auaha.likeness_consent",
+        "auaha.brand_safety",
+        "auaha.te_reo_integrity",
+        "auaha.misinfo_check"
+      ],
+      "editableRegions": [
+        "hero-subheadline",
+        "feature-cards",
+        "social-proof",
+        "cta-copy"
+      ],
+      "lockedRegions": [
+        "hero-tagline",
+        "nav",
+        "footer-legal"
+      ]
+    },
+
+    {
+      "id": "manaaki-landing",
+      "route": "/manaaki",
+      "title": "Manaaki — Hospitality & Tourism",
+      "flintOwned": true,
+      "kete": "Manaaki",
+      "keteTokens": {
+        "primary": "#D4A843",
+        "primaryLight": "#FFE866",
+        "background": "#FFFDF5",
+        "surface": "#FFF8E1",
+        "text": "#1A1200"
+      },
+      "messagingHooks": {
+        "wananga": "Te Kete Aronui — the basket of love and care for people",
+        "headline": "Fewer missed checks. Cleaner compliance. Guests looked after without the paperwork pile-up.",
+        "approvedDescriptors": [
+          "hospitality",
+          "tourism",
+          "accommodation",
+          "compliance",
+          "guest experience"
+        ],
+        "forbiddenDescriptors": [
+          "Pakihi",
+          "Waka",
+          "any retired Kete name"
+        ]
+      },
+      "aaaipPolicies": [
+        "auaha.copyright",
+        "auaha.likeness_consent",
+        "auaha.brand_safety",
+        "auaha.te_reo_integrity",
+        "auaha.misinfo_check"
+      ],
+      "editableRegions": [
+        "hero-subheadline",
+        "feature-list",
+        "use-cases",
+        "cta-copy"
+      ],
+      "lockedRegions": [
+        "kete-name",
+        "wananga-quote",
+        "nav",
+        "footer-legal"
+      ]
+    },
+
+    {
+      "id": "waihanga-landing",
+      "route": "/waihanga",
+      "title": "Waihanga — Construction",
+      "flintOwned": true,
+      "kete": "Waihanga",
+      "keteTokens": {
+        "primary": "#3A7D6E",
+        "primaryLight": "#40E0D0",
+        "background": "#F0FAF8",
+        "surface": "#E6F5F3",
+        "text": "#0A1F1C"
+      },
+      "messagingHooks": {
+        "wananga": "Te Kete Tuauri — the basket of the physical world",
+        "headline": "Site safety, schedule risks surfaced earlier, cleaner audit trails, approvals that don't stall.",
+        "approvedDescriptors": [
+          "construction",
+          "site safety",
+          "compliance",
+          "schedule",
+          "audit",
+          "hazard management"
+        ],
+        "forbiddenDescriptors": [
+          "Hanga",
+          "any retired Kete name"
+        ]
+      },
+      "aaaipPolicies": [
+        "auaha.copyright",
+        "auaha.likeness_consent",
+        "auaha.brand_safety",
+        "auaha.te_reo_integrity",
+        "auaha.misinfo_check"
+      ],
+      "editableRegions": [
+        "hero-subheadline",
+        "feature-list",
+        "use-cases",
+        "cta-copy"
+      ],
+      "lockedRegions": [
+        "kete-name",
+        "wananga-quote",
+        "nav",
+        "footer-legal"
+      ]
+    },
+
+    {
+      "id": "auaha-landing",
+      "route": "/auaha",
+      "title": "Auaha — Creative & Media",
+      "flintOwned": true,
+      "kete": "Auaha",
+      "keteTokens": {
+        "primary": "#F0D078",
+        "primaryLight": "#FFB347",
+        "background": "#FFFEF0",
+        "surface": "#FFFCE0",
+        "text": "#1A1400"
+      },
+      "messagingHooks": {
+        "wananga": "Te Kete Aronui — the basket of human expression",
+        "headline": "Brief to published with fewer handoffs. Content that stays on-brand and on-deadline.",
+        "approvedDescriptors": [
+          "creative",
+          "media",
+          "content",
+          "campaigns",
+          "brand",
+          "copy"
+        ],
+        "forbiddenDescriptors": [
+          "any retired Kete name"
+        ]
+      },
+      "complianceNote": "Auaha is the creative domain. All six Auaha AAAIP policies apply at double strength here — copyright, likeness consent, te reo integrity, brand safety, misinfo, and uncertainty handoff.",
+      "aaaipPolicies": [
+        "auaha.copyright",
+        "auaha.likeness_consent",
+        "auaha.brand_safety",
+        "auaha.te_reo_integrity",
+        "auaha.misinfo_check",
+        "auaha.uncertainty_handoff"
+      ],
+      "editableRegions": [
+        "hero-subheadline",
+        "feature-list",
+        "use-cases",
+        "cta-copy"
+      ],
+      "lockedRegions": [
+        "kete-name",
+        "wananga-quote",
+        "nav",
+        "footer-legal"
+      ]
+    },
+
+    {
+      "id": "arataki-landing",
+      "route": "/arataki",
+      "title": "Arataki — Automotive",
+      "flintOwned": true,
+      "kete": "Arataki",
+      "keteTokens": {
+        "primary": "#C65D4E",
+        "primaryLight": "#E8897E",
+        "background": "#FFF5F4",
+        "surface": "#FDECEA",
+        "text": "#1A0500"
+      },
+      "messagingHooks": {
+        "wananga": "Te Kete Tuauri — the basket of guidance and movement",
+        "headline": "Dealership compliance, customer enquiry response, finance disclosure — the showroom back office handled.",
+        "approvedDescriptors": [
+          "automotive",
+          "dealership",
+          "compliance",
+          "finance disclosure",
+          "customer enquiry"
+        ],
+        "forbiddenDescriptors": [
+          "any retired Kete name"
+        ],
+        "importantNote": "Arataki is the automotive Kete — do NOT label it as 'Automotive Intelligence' or any sub-brand. The Kete name alone (Arataki) is the brand."
+      },
+      "aaaipPolicies": [
+        "auaha.copyright",
+        "auaha.likeness_consent",
+        "auaha.brand_safety",
+        "auaha.te_reo_integrity",
+        "auaha.misinfo_check"
+      ],
+      "editableRegions": [
+        "hero-subheadline",
+        "feature-list",
+        "use-cases",
+        "cta-copy"
+      ],
+      "lockedRegions": [
+        "kete-name",
+        "wananga-quote",
+        "nav",
+        "footer-legal"
+      ]
+    },
+
+    {
+      "id": "pikau-landing",
+      "route": "/pikau",
+      "title": "Pikau — Freight & Customs",
+      "flintOwned": true,
+      "kete": "Pikau",
+      "keteTokens": {
+        "primary": "#5AADA0",
+        "primaryLight": "#7ECFC5",
+        "background": "#F0FAFA",
+        "surface": "#E6F7F6",
+        "text": "#041A18"
+      },
+      "messagingHooks": {
+        "wananga": "Te Kete Tuauri — the basket of movement and trade",
+        "headline": "Customs entries, freight quotes, dangerous goods checks — border compliance without the scramble.",
+        "approvedDescriptors": [
+          "freight",
+          "customs",
+          "logistics",
+          "border compliance",
+          "dangerous goods",
+          "import",
+          "export"
+        ],
+        "forbiddenDescriptors": [
+          "any retired Kete name"
+        ]
+      },
+      "aaaipPolicies": [
+        "auaha.copyright",
+        "auaha.likeness_consent",
+        "auaha.brand_safety",
+        "auaha.te_reo_integrity",
+        "auaha.misinfo_check"
+      ],
+      "editableRegions": [
+        "hero-subheadline",
+        "feature-list",
+        "use-cases",
+        "cta-copy"
+      ],
+      "lockedRegions": [
+        "kete-name",
+        "wananga-quote",
+        "nav",
+        "footer-legal"
+      ]
+    }
+  ]
+}

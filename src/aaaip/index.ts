@@ -88,3 +88,6 @@ export * from "./policy/arataki";
 export * from "./simulation/arataki";
 export * from "./agent/arataki-agent";
 export * from "./useArataikiRuntime";
+
+// ── Integrations ─────────────────────────────────────────────
+export * from "./integrations/flint-guard";
