@@ -222,7 +222,7 @@ const BrandFooter = () => {
               className="tracking-[3px] uppercase text-xs text-foreground/80"
               style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
             >
-              ASSEMBL
+              assembl
             </span>
           </Link>
 
@@ -252,7 +252,7 @@ const BrandFooter = () => {
             className="text-[10px] text-muted-foreground/60 text-center sm:text-right"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
-            © 2026 Assembl. All rights reserved. Auckland, New Zealand.
+            © 2026 assembl. All rights reserved. Auckland, New Zealand.
           </p>
         </div>
 
@@ -260,7 +260,7 @@ const BrandFooter = () => {
           className="text-[9px] mt-6 text-center text-muted-foreground/30 leading-relaxed max-w-2xl mx-auto"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
-          Assembl provides governed, simulation-tested operational intelligence for NZ business. Outputs should be verified by qualified professionals before reliance. assembl@assembl.co.nz · www.assembl.co.nz
+          assembl provides governed, simulation-tested operational intelligence for NZ business. Outputs should be verified by qualified professionals before reliance. assembl@assembl.co.nz · www.assembl.co.nz
         </p>
       </div>
     </footer>
