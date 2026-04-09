@@ -6,7 +6,7 @@ const AUAHA_NAV = [
   { to: "/auaha", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/auaha/campaign", label: "Campaigns", icon: Megaphone },
   { to: "/auaha/copy", label: "Copy Studio", icon: PenTool },
-  { to: "/auaha/images", label: "Image Studio", icon: Image },
+  { to: "/auaha/image-studio", label: "Image Studio", icon: Image },
   { to: "/auaha/video", label: "Video Studio", icon: Video },
   { to: "/auaha/podcast", label: "Podcast Studio", icon: Mic },
   { to: "/auaha/ads", label: "Ad Manager", icon: Megaphone },
