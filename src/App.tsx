@@ -81,6 +81,7 @@ const KanohiDashboard = lazy(() => import("./components/hanga/KanohiDashboard"))
 const HangaLayout = lazy(() => import("./components/hanga/HangaLayout"));
 const HangaDashboard = lazy(() => import("./components/hanga/HangaDashboard"));
 const AraiSafetyPage = lazy(() => import("./components/hanga/AraiSafetyPage"));
+const FuelSavingsPage = lazy(() => import("./pages/FuelSavingsPage"));
 const SiteCheckinPage = lazy(() => import("./components/hanga/SiteCheckinPage"));
 const PhotoDocsPage = lazy(() => import("./components/hanga/PhotoDocsPage"));
 const TenderWriterPage = lazy(() => import("./components/hanga/TenderWriterPage"));
@@ -178,6 +179,7 @@ const App = () => (
                   <Route path="/admin/pack-analytics" element={<Suspense fallback={null}><AdminPackAnalytics /></Suspense>} />
                   <Route path="/admin/skill-wiring" element={<Suspense fallback={null}><SkillWiringDashboard /></Suspense>} />
                   <Route path="/skill-hub" element={<Suspense fallback={null}><SkillHubPage /></Suspense>} />
+                  <Route path="/fuel-savings" element={<Suspense fallback={null}><FuelSavingsPage /></Suspense>} />
                   <Route path="/aaaip" element={<Suspense fallback={null}><AaaipDashboard /></Suspense>} />
                   <Route path="/aaaip/researcher" element={<Suspense fallback={null}><AaaipResearcher /></Suspense>} />
                   <Route path="/packs/:packSlug" element={<Suspense fallback={null}><PackLandingPage /></Suspense>} />
