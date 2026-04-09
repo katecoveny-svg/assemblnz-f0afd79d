@@ -350,15 +350,17 @@ export default function AaaipDashboard() {
       </div>
       <div className="relative z-10">
       <header
-        className="border-b backdrop-blur-sm"
+        className="border-b border-border/40 backdrop-blur-xl"
         style={{
-          background: `linear-gradient(135deg, ${meta.accentColor}10 0%, ${meta.accentLight}08 100%)`,
+          background: `linear-gradient(135deg, ${meta.accentColor}12 0%, ${meta.accentLight}08 50%, transparent 100%)`,
         }}
       >
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-6">
-              <div className="hidden sm:block">
+        {/* Accent top bar */}
+        <div className="h-[2px] w-full" style={{ background: `linear-gradient(90deg, transparent, ${meta.accentColor}, ${meta.accentLight}, transparent)` }} />
+        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-6 py-8">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex items-start gap-5">
+              <div className="hidden sm:flex items-center justify-center rounded-2xl p-3" style={{ background: `${meta.accentColor}12`, border: `1px solid ${meta.accentColor}20` }}>
                 <KeteIcon
                   name={meta.title}
                   accentColor={meta.accentColor}
@@ -369,16 +371,19 @@ export default function AaaipDashboard() {
                 />
               </div>
               <div>
-                <p
-                  className="text-xs font-semibold uppercase tracking-widest"
-                  style={{ color: meta.accentColor }}
-                >
-                  {meta.pilotLabel}
-                </p>
-                <h1 className="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">
+                <div className="flex items-center gap-3 mb-1.5">
+                  <span
+                    className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest"
+                    style={{ background: `${meta.accentColor}15`, color: meta.accentColor, border: `1px solid ${meta.accentColor}25` }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: meta.accentColor }} />
+                    {meta.pilotLabel}
+                  </span>
+                </div>
+                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                   {meta.title}
                 </h1>
-                <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+                <p className="mt-2 max-w-2xl text-sm text-muted-foreground leading-relaxed">
                   {meta.description}
                 </p>
               </div>
@@ -877,10 +882,7 @@ function DomainSwitcher({
   return (
     <Select value={value} onValueChange={(v) => onChange(v as DomainKey)}>
       <SelectTrigger className="w-[260px]">
-        <div className="flex items-center gap-2">
-          <DomainIcon domain={value} />
-          <SelectValue />
-        </div>
+        <SelectValue />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
