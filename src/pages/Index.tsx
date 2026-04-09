@@ -166,7 +166,7 @@ const PRICING = [
 
 const OUTCOMES = [
   { title: "Quotes go out same-day.", body: "Two-hour quote builds drop to twelve minutes. Your win rate climbs because you're not the slowest in the inbox.", accent: C.pounamu },
-  { title: "Compliance stops eating Sundays.", body: "Payroll, food safety, H&S, IRD. Assembl checks the rules on the day they change, not the week after you get fined.", accent: C.pounamuLight },
+  { title: "Compliance stops eating Sundays.", body: "Payroll, food safety, H&S, IRD. assembl checks the rules on the day they change, not the week after you get fined.", accent: C.pounamuLight },
   { title: "Friday actually ends on Friday.", body: "Planning, reporting and the long admin tail run in the background. You get your evenings back.", accent: C.white },
 ];
 
@@ -391,7 +391,7 @@ const Index = () => {
               ChatGPT, Copilot, Gemini — running quietly on staff laptops. No audit trail. No compliance check. No idea what data's being fed into a model hosted offshore.
             </Body>
             <Body className="max-w-2xl" style={{ color: "rgba(255,255,255,0.38)" }}>
-              Assembl is built differently. Every agent operates through a six-layer stack — perception, memory, reasoning, action, explanation, and simulation — inside defined permissions and approval pathways.
+              assembl is built differently. Every agent operates through a six-layer stack — perception, memory, reasoning, action, explanation, and simulation — inside defined permissions and approval pathways.
             </Body>
           </motion.div>
 
@@ -652,7 +652,7 @@ const Index = () => {
             <Eyebrow>FOUNDING PILOTS</Eyebrow>
             <SectionHeading>Twenty businesses. One year.<br />The platform shaped around you.</SectionHeading>
             <Body className="mb-10">
-              We work directly with twenty NZ businesses to wire Assembl into the way you already run things. Hands-on onboarding, weekly working sessions, founder access, and pricing locked at the founding rate forever.
+              We work directly with twenty NZ businesses to wire assembl into the way you already run things. Hands-on onboarding, weekly working sessions, founder access, and pricing locked at the founding rate forever.
             </Body>
           </motion.div>
           <motion.form
