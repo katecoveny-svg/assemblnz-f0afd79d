@@ -220,6 +220,82 @@ async function generateWithProvider(provider: Provider, prompt: string, aspectRa
 }
 
 // ═══════════════════════════════════════════════════
+// PROVIDER 4: Fal.ai FLUX PuLID — identity-preserving portrait generation
+// Best for: founder portraits, team headshots, face-matched brand imagery
+// Requires: FAL_API_KEY secret
+// ═══════════════════════════════════════════════════
+
+async function generateFluxPuLID(
+  apiKey: string,
+  prompt: string,
+  referenceImageUrl: string,
+  idScale: number,
+): Promise<string | null> {
+  try {
+    console.log(`[FluxPuLID] submitting job, idScale=${idScale}`);
+    const submitRes = await fetch("https://queue.fal.run/fal-ai/flux-pulid", {
+      method: "POST",
+      headers: { Authorization: `Key ${apiKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt,
+        reference_images: [{ image_url: referenceImageUrl }],
+        num_inference_steps: 20,
+        guidance_scale: 7.5,
+        id_scale: idScale,
+        true_cfg: 1,
+        timestep_to_start_cfg: 1,
+      }),
+    });
+
+    if (!submitRes.ok) {
+      const errText = await submitRes.text();
+      console.error(`[FluxPuLID] submit error [${submitRes.status}]:`, errText);
+      return null;
+    }
+
+    const submitData = await submitRes.json();
+
+    // Synchronous response — image URL directly
+    if (submitData.images?.[0]?.url) return submitData.images[0].url;
+
+    // Queued response — poll for completion
+    const requestId = submitData.request_id;
+    if (!requestId) {
+      console.error("[FluxPuLID] no request_id in response");
+      return null;
+    }
+
+    for (let i = 0; i < 60; i++) {
+      await new Promise((r) => setTimeout(r, 5000));
+      const statusRes = await fetch(
+        `https://queue.fal.run/fal-ai/flux-pulid/requests/${requestId}/status`,
+        { headers: { Authorization: `Key ${apiKey}` } },
+      );
+      if (!statusRes.ok) continue;
+      const status = await statusRes.json();
+      if (status.status === "COMPLETED") {
+        const resultRes = await fetch(
+          `https://queue.fal.run/fal-ai/flux-pulid/requests/${requestId}`,
+          { headers: { Authorization: `Key ${apiKey}` } },
+        );
+        if (!resultRes.ok) return null;
+        const result = await resultRes.json();
+        return result.images?.[0]?.url || null;
+      }
+      if (status.status === "FAILED") {
+        console.error("[FluxPuLID] job failed:", status.error);
+        return null;
+      }
+    }
+    console.error("[FluxPuLID] timed out after 5 min");
+    return null;
+  } catch (e) {
+    console.error("[FluxPuLID] error:", e);
+    return null;
+  }
+}
+
+// ═══════════════════════════════════════════════════
 // MAIN HANDLER
 // ═══════════════════════════════════════════════════
 
@@ -232,13 +308,45 @@ Deno.serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const { prompt, style, aspectRatio, provider: preferredProvider } = await req.json();
+    const {
+      prompt,
+      style,
+      aspectRatio,
+      provider: preferredProvider,
+      referenceImageUrl,
+      referenceStrength,
+    } = await req.json();
 
     if (!prompt) {
       return new Response(JSON.stringify({ error: "Prompt is required" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+
+    // ── Mode: identity-preserving portrait via FLUX PuLID ──
+    if (referenceImageUrl) {
+      const FAL_API_KEY = Deno.env.get("FAL_API_KEY");
+      if (!FAL_API_KEY) {
+        return new Response(
+          JSON.stringify({ error: "FAL_API_KEY not configured — cannot use reference image" }),
+          { status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+      const idScale = typeof referenceStrength === "number"
+        ? Math.min(1, Math.max(0, referenceStrength))
+        : 0.7;
+      const imageUrl = await generateFluxPuLID(FAL_API_KEY, prompt, referenceImageUrl, idScale);
+      if (!imageUrl) {
+        return new Response(
+          JSON.stringify({ error: "FLUX PuLID generation failed. Please try again." }),
+          { status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+      return new Response(
+        JSON.stringify({ imageUrl, source: "flux-pulid", availableProviders: { "flux-pulid": true } }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
     }
 
     const enhancedPrompt = `Create a professional, high-quality marketing visual: ${prompt}. Style: ${style || "modern, premium, commercial-grade"}. The design should look agency-produced with sophisticated colour palettes, clean composition, and crisp typography. Aspect ratio: ${aspectRatio || "1:1"}.`;

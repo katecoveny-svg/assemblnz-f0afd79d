@@ -89,7 +89,7 @@ Deno.serve(async (req) => {
         category: "comms",
       }),
       // AI Gateway (Lovable AI)
-      checkService("lovable_ai_gateway", "https://ai-gateway.lovable.app/api/chat/completions", {
+      checkService("lovable_ai_gateway", "https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "OPTIONS",
         treatAuthAsOk: true,
         category: "ai",
