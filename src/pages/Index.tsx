@@ -242,44 +242,15 @@ const Index = () => {
   return (
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.white }}>
       <SEO
-        title="Assembl — Governed Operational Intelligence for Aotearoa"
+        title="assembl — Governed Operational Intelligence for Aotearoa"
         description="Simulation-tested specialist digital workers for NZ business. Six-layer agent stack: perception, memory, reasoning, action, explanation, simulation. From $590/mo NZD ex GST."
       />
       <BrandNav />
 
       {/* ═══ 1 — HERO ═══ */}
-      <section className="relative flex flex-col items-center text-center px-6 sm:px-8 pt-28 sm:pt-36 pb-20" style={{ zIndex: 1 }}>
-        {/* Pounamu ambient glow */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 60% 50% at 50% 25%, rgba(58,125,110,0.10) 0%, transparent 65%)" }}
-        />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 40% 35% at 50% 20%, rgba(126,207,194,0.04) 0%, transparent 60%)" }}
-        />
-
-        {/* 3D Animated kete in glowing pounamu orb — BIG hero */}
-        <motion.div
-          className="relative mb-10"
-          initial={{ opacity: 0, scale: 0.6 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.6, ease }}
-          style={{ perspective: "800px" }}
-        >
-          <motion.div
-            animate={{ rotateY: [0, 8, -8, 0], rotateX: [0, 3, -3, 0] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <KeteWeaveVisual
-              size={isMobile ? 200 : 340}
-              accentColor={C.pounamu}
-              accentLight={C.pounamuLight}
-              showNodes={true}
-              showGlow={true}
-            />
-          </motion.div>
-        </motion.div>
+      <section className="relative flex flex-col items-center text-center px-6 sm:px-8 pt-20 sm:pt-24 pb-12" style={{ zIndex: 1 }}>
+        {/* 3D Kete network — green, blue, white orbs */}
+        <HeroKeteNetwork isMobile={isMobile} />
 
         {/* Badge */}
         <motion.div
@@ -327,7 +298,7 @@ const Index = () => {
               backgroundClip: "text",
             }}
           >
-            Assembl is the rest of the team.
+            assembl is the rest of the team.
           </span>
         </motion.h1>
 
