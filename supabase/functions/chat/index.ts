@@ -6831,6 +6831,7 @@ Deno.serve(async (req) => {
     const limit = isAdmin ? 99999 : (PLAN_LIMITS[userPlan as string] || PLAN_LIMITS.free);
     const used = usageRow?.messages_used || 0;
 
+    let fullSystemPrompt = "";
     // PRISM ADMIN BRAND INJECTION — When admin uses PRISM, inject full Assembl brand guidelines
     if (isAdmin && (agentId === "marketing" || rawAgentId === "marketing")) {
       fullSystemPrompt = (fullSystemPrompt || "") + `
