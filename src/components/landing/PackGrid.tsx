@@ -1,8 +1,22 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import toroaIcon from "@/assets/brand/toroa-logo.svg";
 import GlowIcon from "@/components/GlowIcon";
+
+/* Albatross silhouette — matches Toro landing page header */
+function AlbatrossIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} aria-hidden="true">
+      <path
+        d="M160 40 C140 32, 80 18, 20 28 C50 26, 90 34, 130 38 L160 40 L190 38 C230 34, 270 26, 300 28 C240 18, 180 32, 160 40Z"
+        fill="#D4A843" opacity="0.85"
+      />
+      <ellipse cx="160" cy="42" rx="18" ry="8" fill="#D4A843" />
+      <ellipse cx="160" cy="42" rx="12" ry="5" fill="#FFE082" opacity="0.3" />
+      <path d="M178 42 L210 40 L215 41" stroke="#D4A843" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+    </svg>
+  );
+}
 
 /**
  * PackGrid — homepage kete display.
@@ -212,21 +226,17 @@ const PackGrid = () => {
             >
               <div className="flex items-center gap-3">
                 <div
-                  className="w-10 h-10 shrink-0"
+                  className="w-12 h-12 shrink-0 flex items-center justify-center"
                   style={{ filter: "drop-shadow(0 0 8px rgba(212,168,67,0.3))" }}
                 >
-                  <img
-                    src={toroaIcon}
-                    alt="Tōroa"
-                    className="w-full h-full object-contain rounded-lg"
-                  />
+                  <AlbatrossIcon className="w-full h-auto" />
                 </div>
                 <div>
                   <h3
                     className="font-display text-sm tracking-[3px] uppercase text-foreground"
                     style={{ fontWeight: 300 }}
                   >
-                    Tōroa
+                    Toro
                   </h3>
                   <p className="text-[11px] font-body text-muted-foreground mt-0.5">
                     Family AI Navigator · SMS-first · $29/mo
