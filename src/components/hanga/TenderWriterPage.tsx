@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FileText, Sparkles, Download, Save, Copy } from "lucide-react";
+import { FileText, Sparkles, Download, Save, Copy, Send } from "lucide-react";
+import { toast } from "sonner";
+
+import { AaaipGuardBadge, useAaaipGuard } from "@/aaaip";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -18,6 +21,31 @@ export default function TenderWriterPage() {
   const [requirements, setRequirements] = useState("");
   const [generating, setGenerating] = useState(false);
   const [response, setResponse] = useState("");
+  const [humanSignoff, setHumanSignoff] = useState(false);
+  const guard = useAaaipGuard("waihanga");
+
+  const submitTender = () => {
+    const decision = guard.check({
+      kind: "submit_tender",
+      payload: { title, humanSignoff },
+      world: {},
+      rationale: `Submit tender "${title || "Untitled"}"`,
+    });
+    if (decision.blocked) {
+      toast.error("Tender submission blocked", { description: decision.explanation });
+      return;
+    }
+    if (decision.requiresHuman) {
+      toast.warning("Sign-off required", {
+        description:
+          "Waihanga tender-integrity policy requires a principal to sign off before dispatch. Tick the sign-off box and retry.",
+      });
+      return;
+    }
+    toast.success("Tender dispatched", {
+      description: "Cleared by AAAIP Waihanga policies and logged to the audit feed.",
+    });
+  };
 
   const generate = () => {
     setGenerating(true);
@@ -29,9 +57,20 @@ export default function TenderWriterPage() {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto">
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-xl font-bold text-white flex items-center gap-2"><FileText size={22} style={{ color: KOWHAI }} /> Tender Writer — Tono</h1>
-        <p className="text-xs text-white/40">GETS-ready tender response generator</p>
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-wrap items-start justify-between gap-3"
+      >
+        <div>
+          <h1 className="text-xl font-bold text-white flex items-center gap-2"><FileText size={22} style={{ color: KOWHAI }} /> Tender Writer — Tono</h1>
+          <p className="text-xs text-white/40">GETS-ready tender response generator</p>
+        </div>
+        <AaaipGuardBadge
+          domain="waihanga"
+          accentColor={KOWHAI}
+          subtitle="Submissions require sign-off"
+        />
       </motion.div>
 
       <Glass className="p-6 space-y-4">
@@ -63,7 +102,7 @@ export default function TenderWriterPage() {
       </Glass>
 
       {response && (
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
           <Glass className="p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-semibold text-white">Generated Response</h3>
@@ -75,6 +114,27 @@ export default function TenderWriterPage() {
             </div>
             <textarea value={response} onChange={e => setResponse(e.target.value)} rows={20}
               className="w-full px-4 py-3 rounded-xl text-xs text-white/70 bg-white/[0.03] border border-white/[0.06] focus:outline-none leading-relaxed font-mono resize-none" />
+          </Glass>
+          <Glass className="p-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <label className="flex items-center gap-2 text-xs text-white/70">
+                <input
+                  type="checkbox"
+                  checked={humanSignoff}
+                  onChange={(e) => setHumanSignoff(e.target.checked)}
+                  className="h-4 w-4 rounded border-white/20"
+                />
+                Principal sign-off attached (required by AAAIP Waihanga policy)
+              </label>
+              <button
+                onClick={submitTender}
+                className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium"
+                style={{ background: POUNAMU, color: "#fff" }}
+              >
+                <Send size={14} />
+                Submit tender
+              </button>
+            </div>
           </Glass>
         </motion.div>
       )}

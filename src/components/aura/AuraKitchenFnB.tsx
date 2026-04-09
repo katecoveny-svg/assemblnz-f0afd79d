@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NeonDocument, NeonCheckmark, NeonChart, NeonStar } from "@/components/NeonIcons";
+import { AaaipGuardBadge } from "@/aaaip";
 
 const color = "#5AADA0";
 
@@ -34,6 +35,13 @@ const AuraKitchenFnB = ({ onGenerate }: Props) => {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <AaaipGuardBadge
+          domain="manaaki"
+          accentColor={color}
+          subtitle="Allergen safety governs menu confirms"
+        />
+      </div>
       <div className="flex gap-2">
         {([
           { id: "menu" as const, label: "Menu Engineering" },

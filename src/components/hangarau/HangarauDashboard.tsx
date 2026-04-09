@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
 import KeteBrainChat from "@/components/KeteBrainChat";
 import GlowIcon from "@/components/GlowIcon";
+import { AaaipGuardBadge } from "@/aaaip";
 
 const ACCENT = "#1A3A5C";
 const ACCENT_LIGHT = "#4A7AAC";
@@ -42,12 +43,19 @@ const metrics = [
 export default function HangarauDashboard() {
   return (
     <div className="min-h-screen p-4 md:p-8 space-y-6" style={{ background: "#09090F" }}>
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3">
-        <GlowIcon name="Cpu" size={32} color={ACCENT_LIGHT} />
-        <div>
-          <h1 className="text-2xl font-bold text-white/90" style={{ fontFamily: "'Lato', sans-serif" }}>Hangarau</h1>
-          <p className="text-xs text-white/40">Technology & Engineering Intelligence</p>
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <GlowIcon name="Cpu" size={32} color={ACCENT_LIGHT} />
+          <div>
+            <h1 className="text-2xl font-bold text-white/90" style={{ fontFamily: "'Lato', sans-serif" }}>Hangarau</h1>
+            <p className="text-xs text-white/40">Technology & Engineering Intelligence</p>
+          </div>
         </div>
+        <AaaipGuardBadge
+          domain="pikau"
+          accentColor={ACCENT_LIGHT}
+          subtitle="Pikau policies gate freight ops"
+        />
       </motion.div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

@@ -9,6 +9,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
 import { Trash2, Edit2, Plus, Loader2, Search, Filter, X } from "lucide-react";
+import { AaaipGuardBadge, useAaaipGuard } from "@/aaaip";
+
+const MANAAKI_COLOR = "#D4A843";
+const PROPERTY_CAPACITY = 12;
 
 const ROOMS = ["Lodge Suite 1", "Lodge Suite 2", "Valley View 1", "Valley View 2", "Premium Suite"];
 const STATUS_COLORS: Record<string, string> = { booked: "#5AADA0", available: "#5AADA0", maintenance: "#FF4444" };
@@ -71,6 +75,7 @@ const AuraReservations = ({ onGenerate }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<Omit<Booking, 'id'>>(emptyBooking);
+  const guard = useAaaipGuard("manaaki");
 
   // Filter state
   const [searchName, setSearchName] = useState("");
@@ -148,6 +153,38 @@ const AuraReservations = ({ onGenerate }: Props) => {
       toast({ title: "Missing fields", description: "Guest name, arrival and departure dates are required", variant: "destructive" });
       return;
     }
+    // AAAIP Manaaki policy gate — block overbooks before we touch
+    // Supabase. Runs on the create path only; edits pass through.
+    if (!editMode) {
+      const decision = guard.check({
+        kind: "confirm_reservation",
+        payload: {
+          guestName: formData.guest_name,
+          region: "nz",
+        },
+        world: {
+          confirmedCount: bookings.length,
+          propertyCapacity: PROPERTY_CAPACITY,
+        },
+        rationale: `Confirm booking for ${formData.guest_name}`,
+      });
+      if (decision.blocked) {
+        toast({
+          title: "Booking blocked by AAAIP",
+          description: decision.explanation,
+          variant: "destructive",
+        });
+        return;
+      }
+      if (decision.requiresHuman) {
+        toast({
+          title: "Front-of-house approval required",
+          description: decision.explanation,
+        });
+        return;
+      }
+    }
+
     setSaving(true);
     if (editMode && selectedBooking) {
       const { error } = await supabase
@@ -171,7 +208,7 @@ const AuraReservations = ({ onGenerate }: Props) => {
         toast({ title: "Error creating booking", description: error.message, variant: "destructive" });
       } else {
         setBookings(prev => [...prev, data]);
-        toast({ title: "Booking created" });
+        toast({ title: "Booking created — cleared by AAAIP Manaaki" });
         setDialogOpen(false);
       }
     }
@@ -195,15 +232,22 @@ const AuraReservations = ({ onGenerate }: Props) => {
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
-      {/* Section tabs */}
-      <div className="flex gap-2 flex-wrap">
-        {(["dashboard", "comms", "reviews"] as const).map(s => (
-          <button key={s} onClick={() => setActiveSection(s)}
-            className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-            style={{ background: activeSection === s ? color + "20" : "transparent", color: activeSection === s ? color : "hsl(var(--muted-foreground))", border: `1px solid ${activeSection === s ? color + "40" : "hsl(var(--border))"}` }}>
-            {s === "dashboard" ? "Booking Dashboard" : s === "comms" ? "Guest Communications" : "Review Management"}
-          </button>
-        ))}
+      {/* Header row with AAAIP guard badge */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex gap-2 flex-wrap">
+          {(["dashboard", "comms", "reviews"] as const).map(s => (
+            <button key={s} onClick={() => setActiveSection(s)}
+              className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
+              style={{ background: activeSection === s ? color + "20" : "transparent", color: activeSection === s ? color : "hsl(var(--muted-foreground))", border: `1px solid ${activeSection === s ? color + "40" : "hsl(var(--border))"}` }}>
+              {s === "dashboard" ? "Booking Dashboard" : s === "comms" ? "Guest Communications" : "Review Management"}
+            </button>
+          ))}
+        </div>
+        <AaaipGuardBadge
+          domain="manaaki"
+          accentColor={MANAAKI_COLOR}
+          subtitle={`Property cap ${bookings.length}/${PROPERTY_CAPACITY}`}
+        />
       </div>
 
       {activeSection === "dashboard" && (

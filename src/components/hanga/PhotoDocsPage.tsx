@@ -1,6 +1,9 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Camera, Upload, MapPin, Clock, Brain, Grid, List, X, Sparkles } from "lucide-react";
+import { toast } from "sonner";
+
+import { AaaipGuardBadge, useAaaipGuard } from "@/aaaip";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -28,31 +31,84 @@ export default function PhotoDocsPage() {
   const [view, setView] = useState<"grid" | "timeline">("grid");
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [workerConsent, setWorkerConsent] = useState(true);
+  const guard = useAaaipGuard("waihanga");
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setUploading(true);
-    const newPhoto: Photo = {
-      id: Date.now().toString(), name: "new-upload.jpg", timestamp: new Date().toLocaleString(), location: "Pending GPS",
-      aiAnalysis: null, thumbnail: "📷", analyzed: false,
-    };
-    setPhotos(p => [newPhoto, ...p]);
-    setTimeout(() => {
-      setPhotos(p => p.map(ph => ph.id === newPhoto.id ? { ...ph, aiAnalysis: "🔍 Analysis complete: No immediate hazards detected. Good housekeeping observed. PPE compliance confirmed.", analyzed: true } : ph));
-      setUploading(false);
-    }, 2500);
-  }, []);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      // Most site photos contain identifiable workers. The AAAIP
+      // worker-consent policy gates uploads unless the crew's
+      // consent has been recorded.
+      const decision = guard.check({
+        kind: "upload_photo",
+        payload: {
+          containsWorkers: true,
+          workerConsent,
+        },
+        world: {},
+        rationale: "Upload site photo via drag-and-drop",
+      });
+      if (decision.blocked) {
+        toast.error("Photo upload blocked", { description: decision.explanation });
+        return;
+      }
+      if (decision.requiresHuman) {
+        toast.warning("Consent review needed", { description: decision.explanation });
+        return;
+      }
+      setUploading(true);
+      const newPhoto: Photo = {
+        id: Date.now().toString(),
+        name: "new-upload.jpg",
+        timestamp: new Date().toLocaleString(),
+        location: "Pending GPS",
+        aiAnalysis: null,
+        thumbnail: "📷",
+        analyzed: false,
+      };
+      setPhotos((p) => [newPhoto, ...p]);
+      setTimeout(() => {
+        setPhotos((p) =>
+          p.map((ph) =>
+            ph.id === newPhoto.id
+              ? {
+                  ...ph,
+                  aiAnalysis:
+                    "🔍 Analysis complete: No immediate hazards detected. Good housekeeping observed. PPE compliance confirmed.",
+                  analyzed: true,
+                }
+              : ph,
+          ),
+        );
+        setUploading(false);
+      }, 2500);
+    },
+    [guard, workerConsent],
+  );
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold text-white flex items-center gap-2"><Camera size={22} style={{ color: KOWHAI }} /> Photo Documentation</h1>
           <p className="text-xs text-white/40">AI-Powered Hazard Detection — Whakaahua</p>
         </div>
-        <div className="flex gap-1">
-          <button onClick={() => setView("grid")} className={`p-2 rounded-lg ${view === "grid" ? "bg-white/10 text-white" : "text-white/30"}`}><Grid size={16} /></button>
-          <button onClick={() => setView("timeline")} className={`p-2 rounded-lg ${view === "timeline" ? "bg-white/10 text-white" : "text-white/30"}`}><List size={16} /></button>
+        <div className="flex flex-wrap items-center gap-3">
+          <label className="flex items-center gap-2 text-[11px] text-white/60">
+            <input
+              type="checkbox"
+              checked={workerConsent}
+              onChange={(e) => setWorkerConsent(e.target.checked)}
+              className="h-3.5 w-3.5 rounded border-white/20"
+            />
+            Crew photo consent on file
+          </label>
+          <AaaipGuardBadge domain="waihanga" accentColor={POUNAMU} subtitle="Worker consent required" />
+          <div className="flex gap-1">
+            <button onClick={() => setView("grid")} className={`p-2 rounded-lg ${view === "grid" ? "bg-white/10 text-white" : "text-white/30"}`}><Grid size={16} /></button>
+            <button onClick={() => setView("timeline")} className={`p-2 rounded-lg ${view === "timeline" ? "bg-white/10 text-white" : "text-white/30"}`}><List size={16} /></button>
+          </div>
         </div>
       </motion.div>
 

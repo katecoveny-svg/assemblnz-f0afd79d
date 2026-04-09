@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { MapPin, Users, QrCode, AlertOctagon, Clock, CheckCircle2, XCircle, Search, CloudRain, Wind, Thermometer, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useAaaipGuard, AaaipGuardBadge } from "@/aaaip";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -42,9 +43,75 @@ export default function SiteCheckinPage() {
   const [loadingConditions, setLoadingConditions] = useState(true);
   const onSite = workers.filter(w => w.status === "on-site").length;
 
-  const toggleStatus = (id: string) => setWorkers(ws => ws.map(w =>
-    w.id === id ? { ...w, status: w.status === "on-site" ? "checked-out" : "on-site", checkInTime: w.status === "checked-out" ? new Date().toLocaleTimeString("en-NZ", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Pacific/Auckland" }) : w.checkInTime } : w
-  ));
+  // AAAIP policy gate — every check-in runs through the Waihanga
+  // ComplianceEngine (PPE, headcount cap, hazard escalation …) before
+  // it's applied to local state.
+  const guard = useAaaipGuard("waihanga");
+  const HEADCOUNT_CAP = 40;
+
+  const toggleStatus = (id: string) => {
+    const worker = workers.find((w) => w.id === id);
+    if (!worker) return;
+    const isCheckingIn = worker.status !== "on-site";
+
+    if (isCheckingIn) {
+      // Gate the check-in. We model PPE as confirmed unless the worker's
+      // trade hints at scaffolding/crane (high-risk) where we'd expect
+      // explicit verification. Real implementations would read this
+      // from a QR scan or device pairing.
+      const ppeConfirmed = !/scaffold|crane/i.test(worker.trade) || Math.random() > 0.1;
+      const decision = guard.check({
+        kind: "site_checkin",
+        payload: {
+          workerId: worker.id,
+          zone: "gate",
+          ppeConfirmed,
+        },
+        world: {
+          headcount: onSite,
+          headcountCap: HEADCOUNT_CAP,
+          criticalHazardZones: [],
+        },
+        rationale: `Check in ${worker.name} (${worker.trade})`,
+      });
+
+      if (decision.blocked) {
+        toast.error("Check-in blocked", { description: decision.explanation });
+        return;
+      }
+      if (decision.requiresHuman) {
+        toast.warning("Supervisor approval needed", {
+          description: decision.explanation,
+        });
+        return;
+      }
+    }
+
+    setWorkers((ws) =>
+      ws.map((w) =>
+        w.id === id
+          ? {
+              ...w,
+              status: w.status === "on-site" ? "checked-out" : "on-site",
+              checkInTime:
+                w.status === "checked-out"
+                  ? new Date().toLocaleTimeString("en-NZ", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                      timeZone: "Pacific/Auckland",
+                    })
+                  : w.checkInTime,
+            }
+          : w,
+      ),
+    );
+    if (isCheckingIn) {
+      toast.success("Checked in", {
+        description: `${worker.name} cleared by AAAIP Waihanga policies`,
+      });
+    }
+  };
 
   // Fetch live site conditions from iot-construction
   useEffect(() => {
@@ -74,9 +141,20 @@ export default function SiteCheckinPage() {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-xl font-bold text-white">Site Check-in — Tae Mai</h1>
-        <p className="text-xs text-white/40">Christchurch Metro Sports Facility</p>
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-wrap items-start justify-between gap-3"
+      >
+        <div>
+          <h1 className="text-xl font-bold text-white">Site Check-in — Tae Mai</h1>
+          <p className="text-xs text-white/40">Christchurch Metro Sports Facility</p>
+        </div>
+        <AaaipGuardBadge
+          domain="waihanga"
+          accentColor={POUNAMU}
+          subtitle="Every check-in is policy-gated"
+        />
       </motion.div>
 
       {/* Live Site Conditions */}

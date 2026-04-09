@@ -26,6 +26,8 @@ export * from "./runtime-base";
 export * from "./api/export";
 export * from "./api/researcher";
 export * from "./audit/policy-coverage";
+export * from "./useAaaipGuard";
+export { default as AaaipGuardBadge } from "./AaaipGuardBadge";
 
 // ── Pilot 01 — Clinic scheduling ─────────────────────────────
 export * from "./simulation/clinic";
