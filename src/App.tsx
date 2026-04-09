@@ -102,6 +102,7 @@ const AuahaCalendar = lazy(() => import("./components/auaha/AuahaCalendar"));
 const AuahaAnalytics = lazy(() => import("./components/auaha/AuahaAnalytics"));
 const AuahaBrandIdentity = lazy(() => import("./components/auaha/AuahaBrandIdentity"));
 const AuahaWebBuilder = lazy(() => import("./components/auaha/AuahaWebBuilder"));
+const AuahaWhaikorero = lazy(() => import("./components/auaha/AuahaWhaikorero"));
 const AdminPacksPage = lazy(() => import("./pages/AdminPacksPage"));
 const AdminPackAnalytics = lazy(() => import("./pages/AdminPackAnalytics"));
 const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboard"));
@@ -222,6 +223,7 @@ const App = () => (
                   </Route>
                   <Route path="/auaha" element={<Suspense fallback={null}><AuahaLayout /></Suspense>}>
                     <Route index element={<AuahaDashboard />} />
+                    <Route path="whaikorero" element={<AuahaWhaikorero />} />
                     <Route path="campaign" element={<AuahaCampaignBuilder />} />
                     <Route path="copy" element={<AuahaCopyStudio />} />
                     <Route path="images" element={<AuahaImageStudio />} />
