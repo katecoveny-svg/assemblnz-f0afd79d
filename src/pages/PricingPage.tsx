@@ -33,13 +33,13 @@ const PricingHero = () => (
         HE KETE MĀTAURANGA
       </p>
       <h1 className="text-3xl sm:text-5xl font-display mb-4 text-foreground" style={{ fontWeight: 300, letterSpacing: "-0.02em" }}>
-        Business intelligence, built for Aotearoa
+        Every kete ends in an evidence pack.
       </h1>
       <p className="text-base sm:text-lg font-body max-w-2xl mx-auto mb-4" style={{ color: "rgba(255,255,255,0.65)" }}>
-        5 hours a week back. One avoided compliance event pays for itself. A fraction of a full-time compliance manager.
+        Pick the kete that matches your industry. Each run produces a signed, sourced evidence pack your team can file, forward, or footnote.
       </p>
       <p className="text-sm font-body max-w-2xl mx-auto mb-8" style={{ color: "rgba(255,255,255,0.45)" }}>
-        Specialist AI agents for real operational workflows — with governance, privacy, and tikanga built in.
+        Privacy Act 2020 alignment, tikanga governance, and compliance pipeline built in — from first input to signed pack.
       </p>
       <div className="flex flex-wrap justify-center gap-3">
         <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
@@ -57,7 +57,7 @@ const PricingHero = () => (
 const OFFERS = [
   { icon: Rocket, badge: "START HERE", badgeColor: "hsl(var(--primary))", title: "Talk to us first", desc: "Every business is different. We start with a 30-minute discovery call to map your workflows, pick the right kete, and agree what success looks like before you sign anything.", time: "Up and running in 10 business days", price: "Free 30-minute discovery call", cta: "Book a call", to: "/contact" },
   { icon: Layers, badge: "FOUNDATION", badgeColor: "hsl(var(--pounamu))", title: "Core Platform", desc: "Included in every subscription. Your central routing engine (Iho), governance pipeline, SIGNAL security, SMS/WhatsApp messaging, and dashboard access.", price: "Included in every plan", note: "This is the foundation. Every kete runs on Core.", includes: ["Iho routing engine", "SIGNAL security agent", "Compliance pipeline (Kahu → Iho → Tā → Mahara → Mana)", "SMS & WhatsApp access", "Dashboard & analytics", "NZ data residency on Enterprise"] },
-  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Each kete is a complete AI operations hub with specialist agents, intelligence dashboards, and end-to-end workflows. Choose the kete that match your industry.", price: "From NZ$1,490/month", list: "Manaaki · Waihanga · Auaha · Arataki · Pikau", cta: "See all packs", scrollTo: "packs" },
+  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Each kete is a complete AI operations hub with specialist agents, governance pipeline, and evidence pack output. Every workflow run ends in a signed pack — structured, sourced, and ready to file.", price: "From NZ$1,490/month", list: "Manaaki · Waihanga · Auaha · Arataki · Pikau", cta: "See all packs", scrollTo: "packs" },
   { icon: Crown, badge: "ENTERPRISE", badgeColor: "hsl(var(--primary))", title: "Enterprise", desc: "All 5 kete, unlimited seats, attested NZ data residency, 99.9% uptime SLA, named success manager, signed quarterly compliance review. Replaces a fraction of a full-time compliance manager.", price: "NZ$2,990/month + $2,890 setup", cta: "Talk to us", to: "/contact", includes: ["Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "NZ data residency (attested)", "99.9% uptime SLA"] },
 ];
 
@@ -112,6 +112,7 @@ const TIERS = [
     name: "Family", sub: "$29/mo", accent: "hsl(var(--pounamu))", badge: "WHĀNAU",
     price: "NZ$29/mo", setup: "No setup fee",
     best: "NZ whānau — household coordination by SMS, no app required",
+    packsPerMonth: null,
     features: ["SMS-first family agent", "School notices, calendar, meals", "Budget tracking", "Transport & bus times", "Up to 6 family members", "Email support"],
     goodFor: "Busy households · Parents juggling school & work · Whānau on the go",
     cta: "Join the waitlist", highlight: false,
@@ -120,6 +121,7 @@ const TIERS = [
     name: "Operator", sub: "$1,490/mo", accent: "hsl(var(--pounamu-light))", badge: "ENTRY",
     price: "NZ$1,490/mo", setup: "+ $590 setup (splittable across first 3 invoices)",
     best: "Sole traders and micro-SMEs — one industry, one team, one source of truth",
+    packsPerMonth: "[TODO: confirm with Kate] evidence packs/mo", // [TODO: Kate decision] how many packs/mo per kete at Operator?
     features: ["1 industry kete (your pick)", "Up to 5 seats", "Tikanga compliance layer", "Privacy Act 2020 + AAAIP alignment", "SMS, WhatsApp & dashboard access", "3 training hours / year", "Email support, 1 business day", "99.0% uptime"],
     goodFor: "Builders · Cafés · Single-discipline trades · Owner-operator carriers · Solo agencies",
     cta: "Talk to us", highlight: false,
@@ -128,6 +130,7 @@ const TIERS = [
     name: "Leader", sub: "$1,990/mo", accent: "hsl(var(--primary))", badge: "MOST POPULAR",
     price: "NZ$1,990/mo", setup: "+ $1,290 setup (splittable across first 3 invoices)",
     best: "Multi-discipline SMEs and growing teams — covers two parts of the business with quarterly compliance review",
+    packsPerMonth: "[TODO: confirm with Kate] evidence packs/mo per kete", // [TODO: Kate decision] how many packs/mo per kete at Leader?
     features: ["2 industry kete (your pick)", "Up to 15 seats", "Quarterly compliance review (signed)", "Monthly audit report", "8 training hours / year", "Email + chat, 4 business hours", "99.5% uptime", "Optional NZ data residency"],
     goodFor: "Hospitality groups · Construction firms · Multi-disc trades · Creative studios · Workshops",
     cta: "Talk to us", highlight: true,
@@ -136,6 +139,7 @@ const TIERS = [
     name: "Enterprise", sub: "$2,990/mo", accent: "hsl(var(--tangaroa))", badge: "FULL PLATFORM",
     price: "NZ$2,990/mo", setup: "+ $2,890 setup (splittable across first 3 invoices)",
     best: "Multi-site, regulated, high-stakes operations — every kete, the SLA, and a named human to call",
+    packsPerMonth: "[TODO: confirm with Kate] evidence packs/mo across all kete", // [TODO: Kate decision] how many packs/mo total at Enterprise?
     features: ["All 5 industry kete", "Unlimited seats", "NZ data residency (attested)", "99.9% uptime SLA", "Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "16 training hours / year", "Priority phone + chat, 1 business hour"],
     goodFor: "Multi-site hospo · Construction PMO · Regional freight · Franchise networks · Regulated operations",
     cta: "Talk to us", highlight: false,
@@ -149,7 +153,7 @@ const PricingTiers = () => (
         Choose your kete
       </h2>
       <p className="text-sm font-body text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
-        Every plan includes Assembl Core: Iho routing engine, SIGNAL security, compliance pipeline, SMS/WhatsApp, and your dashboard.
+        Every plan includes Assembl Core: Iho routing engine, SIGNAL security, compliance pipeline, SMS/WhatsApp, and your dashboard. Every kete run ends in a signed evidence pack.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {TIERS.map((t, i) => (
@@ -172,6 +176,12 @@ const PricingTiers = () => (
             <p className="text-xs font-body text-muted-foreground/50 mb-3">{t.sub}</p>
             <p className="text-base font-mono text-foreground mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}>{t.price}</p>
             <p className="text-[11px] font-body text-muted-foreground/50 mb-4">NZD ex GST · {t.setup}</p>
+            {t.packsPerMonth && (
+              <div className="rounded-lg px-3 py-2 mb-4 flex items-center gap-2" style={{ background: `${t.accent}18`, border: `1px solid ${t.accent}30` }}>
+                <span className="text-[10px] font-display tracking-[2px] uppercase" style={{ color: t.accent, fontWeight: 700 }}>PACKS</span>
+                <span className="text-xs font-mono text-foreground/80" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{t.packsPerMonth}</span>
+              </div>
+            )}
             <p className="text-xs font-body text-muted-foreground mb-4 italic">Best for: {t.best}</p>
             <div className="h-px mb-4" style={{ background: "rgba(255,255,255,0.06)" }} />
             <ul className="space-y-2 mb-4 flex-1">
@@ -409,8 +419,8 @@ const CTAFooter = () => (
 const PricingPage = () => (
   <div className="min-h-screen flex flex-col bg-background">
     <SEO
-      title="Assembl Pricing — Business Intelligence Built for Aotearoa"
-      description="Family $29/mo · Operator $1,490/mo · Leader $1,990/mo · Enterprise $2,990/mo · Outcome from $5,000/mo. NZD ex GST. AI operations across 5 industry kete with governance, privacy, and tikanga built in."
+      title="Assembl Pricing — Every kete ends in an evidence pack"
+      description="Pick a kete, get a signed evidence pack. Operator $1,490/mo · Leader $1,990/mo · Enterprise $2,990/mo. NZD ex GST. Privacy Act 2020 aligned, tikanga governance built in."
       path="/pricing"
     />
     <BrandNav />
