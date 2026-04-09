@@ -186,6 +186,8 @@ const BrandNav = () => {
           </>
         )}
       </AnimatePresence>
+
+      <KiaOraPopup open={kiaOraOpen} onClose={() => setKiaOraOpen(false)} />
     </>
   );
 };
