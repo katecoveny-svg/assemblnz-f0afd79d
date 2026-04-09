@@ -1589,33 +1589,45 @@ export type Database = {
           email: string
           follow_up_sent: boolean | null
           id: string
+          interest: string | null
           is_read: boolean
           lead_score: number | null
           lead_status: string | null
           message: string
           name: string
+          pain_area: string | null
+          phone: string | null
+          website: string | null
         }
         Insert: {
           created_at?: string
           email: string
           follow_up_sent?: boolean | null
           id?: string
+          interest?: string | null
           is_read?: boolean
           lead_score?: number | null
           lead_status?: string | null
           message: string
           name: string
+          pain_area?: string | null
+          phone?: string | null
+          website?: string | null
         }
         Update: {
           created_at?: string
           email?: string
           follow_up_sent?: boolean | null
           id?: string
+          interest?: string | null
           is_read?: boolean
           lead_score?: number | null
           lead_status?: string | null
           message?: string
           name?: string
+          pain_area?: string | null
+          phone?: string | null
+          website?: string | null
         }
         Relationships: []
       }
