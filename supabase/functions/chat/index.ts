@@ -6453,6 +6453,7 @@ PROCUREMENT DOCUMENT TEMPLATES — Any Agent Can Generate:
 9. Unsuccessful Supplier Letter: professional notification with option for debrief
 10. Capability Statement: company overview, key personnel, relevant experience, certifications, financial capacity
 
+    let fullSystemPrompt = "";
 
 --- NZ GOVERNMENT GRANT FINDER (Cross-Agent Capability) ---
 
