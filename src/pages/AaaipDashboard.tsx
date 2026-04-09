@@ -12,19 +12,26 @@ import { toast } from "sonner";
 import {
   Activity,
   AlertTriangle,
+  Anchor,
+  Briefcase,
   CheckCircle2,
   Clock,
   Cloud,
   Cpu,
   Download,
   FlaskConical,
+  HardHat,
   MessagesSquare,
+  Palette,
   Pause,
   Play,
   RefreshCw,
   Shield,
+  Ship,
   SkipForward,
   Stethoscope,
+  Truck,
+  UtensilsCrossed,
   Upload,
   Users,
 } from "lucide-react";
@@ -42,6 +49,8 @@ import {
 } from "recharts";
 
 import SEO from "@/components/SEO";
+import ParticleField from "@/components/ParticleField";
+import KeteIcon from "@/components/kete/KeteIcon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -54,6 +63,15 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Tabs,
   TabsContent,
   TabsList,
@@ -62,18 +80,37 @@ import {
 
 import {
   useAaaipRuntime,
+  useAuahaRuntime,
+  useManaakiRuntime,
+  useCommunityRuntime,
+  useWaihangaRuntime,
+  usePikauRuntime,
   useRobotRuntime,
   useScienceRuntime,
-  useCommunityRuntime,
+  useToroRuntime,
   type AaaipRuntime,
+  type AuahaRuntime,
   type AuditEntry,
+  type ManaakiRuntime,
   type CommunityRuntime,
+  type WaihangaRuntime,
+  type PikauRuntime,
   type RobotRuntime,
   type ScienceRuntime,
+  type ToroRuntime,
   type ZoneId,
 } from "@/aaaip";
 
-type DomainKey = "clinic" | "robot" | "science" | "community";
+type DomainKey =
+  | "clinic"
+  | "robot"
+  | "science"
+  | "community"
+  | "waihanga"
+  | "pikau"
+  | "manaaki"
+  | "auaha"
+  | "toro";
 
 const VERDICT_LABEL: Record<string, string> = {
   allow: "Auto-approved",
@@ -87,18 +124,28 @@ const VERDICT_COLOUR: Record<string, string> = {
   block: "#B83A3A",
 };
 
-const DOMAIN_META: Record<DomainKey, {
+interface DomainMeta {
   title: string;
   pilotLabel: string;
   description: string;
   policyPrefix: string;
-}> = {
+  group: "foundation" | "industry";
+  accentColor: string;
+  accentLight: string;
+  keteVariant: "standard" | "dense" | "organic" | "tricolor" | "warm";
+}
+
+const DOMAIN_META: Record<DomainKey, DomainMeta> = {
   clinic: {
     title: "Clinic Scheduling Digital Twin",
     pilotLabel: "Aotearoa Agentic AI Platform · Pilot 01",
     description:
       "A policy-governed autonomous agent scheduling appointments inside a simulated clinic. Every decision is checked against AAAIP-aligned policies; uncertain cases are escalated to a human in the loop.",
     policyPrefix: "clinic.",
+    group: "foundation",
+    accentColor: "#3A6A9C",
+    accentLight: "#5AADA0",
+    keteVariant: "organic",
   },
   robot: {
     title: "Human-Robot Collaboration Twin",
@@ -106,6 +153,10 @@ const DOMAIN_META: Record<DomainKey, {
     description:
       "A collaborative robot working alongside a human operator in a manufacturing cell. Sensors, intent classification, force limits and zone occupancy are all gated by ISO/TS 15066-aligned policies.",
     policyPrefix: "robot.",
+    group: "foundation",
+    accentColor: "#1A3A5C",
+    accentLight: "#3A6A9C",
+    keteVariant: "dense",
   },
   science: {
     title: "Drug Screening Digital Twin",
@@ -113,6 +164,10 @@ const DOMAIN_META: Record<DomainKey, {
     description:
       "An autonomous drug-screening agent dispatching compounds to a 96-well plate. Every assay is gated by data-provenance, IRB, dosage and reproducibility policies before it can run.",
     policyPrefix: "science.",
+    group: "foundation",
+    accentColor: "#5AADA0",
+    accentLight: "#3A7D6E",
+    keteVariant: "tricolor",
   },
   community: {
     title: "Community Portal Moderation",
@@ -120,6 +175,65 @@ const DOMAIN_META: Record<DomainKey, {
     description:
       "An autonomous moderation agent for an AAAIP community portal. Posts are gated by harm, te reo respect, Māori data sovereignty, PII leak and misinformation review policies before publishing.",
     policyPrefix: "community.",
+    group: "foundation",
+    accentColor: "#D4A843",
+    accentLight: "#F0D078",
+    keteVariant: "standard",
+  },
+  waihanga: {
+    title: "Waihanga — Construction Digital Twin",
+    pilotLabel: "Aotearoa Agentic AI Platform · Pilot 05",
+    description:
+      "A construction site agent managing worker check-ins, photo documentation, hazard escalations and tender submissions. Gated by NZ Health & Safety at Work Act, WorkSafe PPE guidance and Privacy Act IPP 1 & 3.",
+    policyPrefix: "waihanga.",
+    group: "industry",
+    accentColor: "#3A7D6E",
+    accentLight: "#5AADA0",
+    keteVariant: "dense",
+  },
+  pikau: {
+    title: "Pikau — Freight & Customs Twin",
+    pilotLabel: "Aotearoa Agentic AI Platform · Pilot 06",
+    description:
+      "A fleet / cold-chain agent reading telemetry from trucks and reefer containers. Driver-hours, cold-chain, sensor health, eco-driving and data residency policies gate every dispatch.",
+    policyPrefix: "pikau.",
+    group: "industry",
+    accentColor: "#1A3A5C",
+    accentLight: "#3A6A9C",
+    keteVariant: "standard",
+  },
+  manaaki: {
+    title: "Manaaki — Hospitality Digital Twin",
+    pilotLabel: "Aotearoa Agentic AI Platform · Pilot 07",
+    description:
+      "A reservations and guest-experience agent. Allergen safety, guest consent, accessibility, overbooking and data residency policies keep the property safe and compliant.",
+    policyPrefix: "manaaki.",
+    group: "industry",
+    accentColor: "#D4A843",
+    accentLight: "#F0D078",
+    keteVariant: "organic",
+  },
+  auaha: {
+    title: "Auaha — Creative Digital Twin",
+    pilotLabel: "Aotearoa Agentic AI Platform · Pilot 08",
+    description:
+      "A creative agent generating campaign copy, imagery and video. Copyright, likeness consent, brand safety, te reo integrity and misinformation policies gate every publish.",
+    policyPrefix: "auaha.",
+    group: "industry",
+    accentColor: "#F0D078",
+    accentLight: "#D4A843",
+    keteVariant: "tricolor",
+  },
+  toro: {
+    title: "Tōro — Whānau Family Navigator Twin",
+    pilotLabel: "Aotearoa Agentic AI Platform · Pilot 09",
+    description:
+      "A maritime dispatch agent. Weather/sea-state, STCW crew rest, customs manifest integrity and MPI biosecurity policies gate every vessel dispatch and cargo release.",
+    policyPrefix: "toro.",
+    group: "industry",
+    accentColor: "#D4A843",
+    accentLight: "#F0D078",
+    keteVariant: "warm",
   },
 };
 
@@ -129,14 +243,21 @@ export default function AaaipDashboard() {
   const robot = useRobotRuntime();
   const science = useScienceRuntime();
   const community = useCommunityRuntime();
+  const waihanga = useWaihangaRuntime();
+  const pikau = usePikauRuntime();
+  const manaaki = useManaakiRuntime();
+  const auaha = useAuahaRuntime();
+  const toro = useToroRuntime();
   const rt =
-    domain === "clinic"
-      ? clinic
-      : domain === "robot"
-        ? robot
-        : domain === "science"
-          ? science
-          : community;
+    domain === "clinic" ? clinic :
+    domain === "robot" ? robot :
+    domain === "science" ? science :
+    domain === "community" ? community :
+    domain === "waihanga" ? waihanga :
+    domain === "pikau" ? pikau :
+    domain === "manaaki" ? manaaki :
+    domain === "auaha" ? auaha :
+    toro;
   const meta = DOMAIN_META[domain];
 
   const policyHitData = useMemo(
@@ -198,24 +319,49 @@ export default function AaaipDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="relative min-h-screen bg-background text-foreground">
       <SEO
         title="AAAIP Live Demo · Assembl"
-        description="Simulation-tested, policy-governed autonomous agents for clinic scheduling and human-robot collaboration, built for the Aotearoa Agentic AI Platform."
+        description="Simulation-tested, policy-governed autonomous agents across every Assembl industry Kete — Waihanga, Pikau, Manaaki, Auaha, Tōro — plus clinical, robotics, drug-screening and community-moderation pilots."
       />
-      <header className="border-b bg-muted/30">
+      {/* Animated star-field constellation background */}
+      <div className="pointer-events-none fixed inset-0 z-0 opacity-60">
+        <ParticleField />
+      </div>
+      <div className="relative z-10">
+      <header
+        className="border-b backdrop-blur-sm"
+        style={{
+          background: `linear-gradient(135deg, ${meta.accentColor}10 0%, ${meta.accentLight}08 100%)`,
+        }}
+      >
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-8">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                {meta.pilotLabel}
-              </p>
-              <h1 className="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">
-                {meta.title}
-              </h1>
-              <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                {meta.description}
-              </p>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-6">
+              <div className="hidden sm:block">
+                <KeteIcon
+                  name={meta.title}
+                  accentColor={meta.accentColor}
+                  accentLight={meta.accentLight}
+                  variant={meta.keteVariant}
+                  size="small"
+                  animated
+                />
+              </div>
+              <div>
+                <p
+                  className="text-xs font-semibold uppercase tracking-widest"
+                  style={{ color: meta.accentColor }}
+                >
+                  {meta.pilotLabel}
+                </p>
+                <h1 className="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl">
+                  {meta.title}
+                </h1>
+                <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+                  {meta.description}
+                </p>
+              </div>
             </div>
             <DomainSwitcher value={domain} onChange={setDomain} />
           </div>
@@ -268,17 +414,7 @@ export default function AaaipDashboard() {
           <KpiCard
             label="Decisions made"
             value={rt.metrics.total}
-            icon={
-              domain === "clinic" ? (
-                <Stethoscope className="h-4 w-4" />
-              ) : domain === "robot" ? (
-                <Cpu className="h-4 w-4" />
-              ) : domain === "science" ? (
-                <FlaskConical className="h-4 w-4" />
-              ) : (
-                <MessagesSquare className="h-4 w-4" />
-              )
-            }
+            icon={<DomainIcon domain={domain} />}
           />
           <KpiCard
             label="Compliance rate"
@@ -296,6 +432,13 @@ export default function AaaipDashboard() {
             icon={<Clock className="h-4 w-4" />}
           />
         </section>
+
+        {/* Constellation decision feed — each decision is a pulsing star */}
+        <ConstellationFeed
+          audit={rt.audit}
+          accentColor={meta.accentColor}
+          accentLight={meta.accentLight}
+        />
 
         <Tabs defaultValue="live" className="space-y-4">
           <TabsList>
@@ -319,6 +462,11 @@ export default function AaaipDashboard() {
               {domain === "robot" && <RobotLiveView rt={robot} />}
               {domain === "science" && <ScienceLiveView rt={science} />}
               {domain === "community" && <CommunityLiveView rt={community} />}
+              {domain === "waihanga" && <WaihangaLiveView rt={waihanga} />}
+              {domain === "pikau" && <PikauLiveView rt={pikau} />}
+              {domain === "manaaki" && <ManaakiLiveView rt={manaaki} />}
+              {domain === "auaha" && <AuahaLiveView rt={auaha} />}
+              {domain === "toro" && <ToroLiveView rt={toro} />}
 
               <Card>
                 <CardHeader>
@@ -360,6 +508,16 @@ export default function AaaipDashboard() {
                     "Screening proposals the science agent flagged as uncertain. Approve to dispatch the assay, reject to drop the compound back to the investigator."}
                   {domain === "community" &&
                     "Posts the moderation agent flagged as uncertain. Approve to publish, reject to hide the post."}
+                  {domain === "waihanga" &&
+                    "Construction tasks flagged for supervisor review — check-ins, photos and tender drafts. Approve to apply, reject to drop."}
+                  {domain === "pikau" &&
+                    "Freight dispatch decisions flagged for controller review. Approve to execute, reject to return to queue."}
+                  {domain === "manaaki" &&
+                    "Front-of-house decisions flagged for manager review. Approve to apply, reject to drop."}
+                  {domain === "auaha" &&
+                    "Creative assets flagged for brand-manager / kaitiaki review. Approve to publish, reject to hide."}
+                  {domain === "toro" &&
+                    "Maritime decisions flagged for harbour-master review. Approve to dispatch or release, reject to hold."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -516,6 +674,60 @@ export default function AaaipDashboard() {
                     <Stat label="Rejected" value={community.world.rejected.length} />
                   </>
                 )}
+                {domain === "waihanga" && (
+                  <>
+                    <Stat
+                      label="Headcount"
+                      value={`${waihanga.world.headcount}/${waihanga.world.headcountCap}`}
+                    />
+                    <Stat
+                      label="Critical hazards"
+                      value={waihanga.world.criticalHazardZones.length}
+                    />
+                  </>
+                )}
+                {domain === "pikau" && (
+                  <>
+                    <Stat
+                      label="Sensor reliability"
+                      value={pikau.world.sensorReliability.toFixed(2)}
+                    />
+                    <Stat
+                      label="Fatigue blocks"
+                      value={pikau.world.alerts.fatigueBlocks}
+                    />
+                  </>
+                )}
+                {domain === "manaaki" && (
+                  <>
+                    <Stat
+                      label="Property occupancy"
+                      value={`${manaaki.world.confirmedCount}/${manaaki.world.propertyCapacity}`}
+                    />
+                    <Stat
+                      label="Allergen conflicts"
+                      value={manaaki.world.alerts.allergenConflicts}
+                    />
+                  </>
+                )}
+                {domain === "auaha" && (
+                  <>
+                    <Stat label="Published" value={auaha.world.published.length} />
+                    <Stat label="Te reo flags" value={auaha.world.alerts.teReoFlags} />
+                  </>
+                )}
+                {domain === "toro" && (
+                  <>
+                    <Stat
+                      label="Crisis handoffs"
+                      value={toro.world.alerts.crisisHandoffs}
+                    />
+                    <Stat
+                      label="Messages sent"
+                      value={toro.world.sent.length}
+                    />
+                  </>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -564,11 +776,50 @@ export default function AaaipDashboard() {
           </TabsContent>
         </Tabs>
       </main>
+      </div>
     </div>
   );
 }
 
 // ── Domain switcher ──────────────────────────────────────────
+
+const DOMAIN_OPTIONS: Array<{ key: DomainKey; label: string; group: "foundation" | "industry" }> = [
+  { key: "clinic", label: "Clinic scheduling", group: "foundation" },
+  { key: "robot", label: "Human-robot", group: "foundation" },
+  { key: "science", label: "Drug screening", group: "foundation" },
+  { key: "community", label: "Community portal", group: "foundation" },
+  { key: "waihanga", label: "Waihanga — construction", group: "industry" },
+  { key: "pikau", label: "Pikau — freight & customs", group: "industry" },
+  { key: "manaaki", label: "Manaaki — hospitality", group: "industry" },
+  { key: "auaha", label: "Auaha — creative", group: "industry" },
+  { key: "toro", label: "Tōro — whānau navigator", group: "industry" },
+];
+
+function DomainIcon({ domain }: { domain: DomainKey }) {
+  const cls = "h-4 w-4";
+  switch (domain) {
+    case "clinic":
+      return <Stethoscope className={cls} />;
+    case "robot":
+      return <Cpu className={cls} />;
+    case "science":
+      return <FlaskConical className={cls} />;
+    case "community":
+      return <MessagesSquare className={cls} />;
+    case "waihanga":
+      return <HardHat className={cls} />;
+    case "pikau":
+      return <Truck className={cls} />;
+    case "manaaki":
+      return <UtensilsCrossed className={cls} />;
+    case "auaha":
+      return <Palette className={cls} />;
+    case "toro":
+      return <Ship className={cls} />;
+    default:
+      return <Briefcase className={cls} />;
+  }
+}
 
 function DomainSwitcher({
   value,
@@ -577,30 +828,41 @@ function DomainSwitcher({
   value: DomainKey;
   onChange: (v: DomainKey) => void;
 }) {
-  const options: Array<{ key: DomainKey; label: string; icon: React.ReactNode }> = [
-    { key: "clinic", label: "Clinic", icon: <Stethoscope className="h-4 w-4" /> },
-    { key: "robot", label: "Human-robot", icon: <Cpu className="h-4 w-4" /> },
-    { key: "science", label: "Drug screening", icon: <FlaskConical className="h-4 w-4" /> },
-    { key: "community", label: "Community", icon: <MessagesSquare className="h-4 w-4" /> },
-  ];
+  const foundation = DOMAIN_OPTIONS.filter((o) => o.group === "foundation");
+  const industry = DOMAIN_OPTIONS.filter((o) => o.group === "industry");
   return (
-    <div className="inline-flex rounded-md border bg-background p-1 shadow-sm">
-      {options.map((opt) => (
-        <button
-          key={opt.key}
-          type="button"
-          onClick={() => onChange(opt.key)}
-          className={`flex items-center gap-2 rounded px-3 py-1.5 text-sm font-medium transition-colors ${
-            value === opt.key
-              ? "bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:bg-muted"
-          }`}
-        >
-          {opt.icon}
-          {opt.label}
-        </button>
-      ))}
-    </div>
+    <Select value={value} onValueChange={(v) => onChange(v as DomainKey)}>
+      <SelectTrigger className="w-[260px]">
+        <div className="flex items-center gap-2">
+          <DomainIcon domain={value} />
+          <SelectValue />
+        </div>
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Foundation pilots</SelectLabel>
+          {foundation.map((o) => (
+            <SelectItem key={o.key} value={o.key}>
+              <span className="flex items-center gap-2">
+                <DomainIcon domain={o.key} />
+                {o.label}
+              </span>
+            </SelectItem>
+          ))}
+        </SelectGroup>
+        <SelectGroup>
+          <SelectLabel>Industry pilots</SelectLabel>
+          {industry.map((o) => (
+            <SelectItem key={o.key} value={o.key}>
+              <span className="flex items-center gap-2">
+                <DomainIcon domain={o.key} />
+                {o.label}
+              </span>
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 }
 
@@ -938,6 +1200,447 @@ function CommunityLiveView({ rt }: { rt: CommunityRuntime }) {
             <AlertTriangle className="h-4 w-4" />
             One or more posts exceed the harm threshold — they will be hard-blocked.
           </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Hanga (construction) live view ───────────────────────────
+
+function WaihangaLiveView({ rt }: { rt: WaihangaRuntime }) {
+  const w = rt.world;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Site state</CardTitle>
+        <CardDescription>
+          Tick {w.now} · {w.headcount}/{w.headcountCap} workers on site ·{" "}
+          {w.criticalHazardZones.length} critical hazards
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Zones
+          </p>
+          <div className="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-6">
+            {w.zones.map((z) => {
+              const hazard = w.criticalHazardZones.includes(z);
+              return (
+                <div
+                  key={z}
+                  className={`rounded-md border p-2 text-center text-[10px] uppercase ${
+                    hazard ? "border-destructive/60 bg-destructive/10 text-destructive" : "bg-muted/30"
+                  }`}
+                >
+                  {z}
+                  {hazard && (
+                    <div className="mt-0.5 font-semibold">hazard</div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <Separator />
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Inbox ({w.inbox.length})
+          </p>
+          <div className="mt-2 space-y-1">
+            {w.inbox.length === 0 && (
+              <p className="text-sm text-muted-foreground">— empty —</p>
+            )}
+            {w.inbox.slice(0, 6).map((t) => (
+              <div
+                key={t.id}
+                className="flex items-center justify-between rounded-md border px-3 py-1.5 text-sm"
+              >
+                <span className="truncate">{t.label}</span>
+                <div className="flex shrink-0 items-center gap-2">
+                  <Badge variant="outline">{t.kind.replace("_", " ")}</Badge>
+                  {t.kind === "site_checkin" && t.ppeConfirmed === false && (
+                    <Badge variant="destructive">no PPE</Badge>
+                  )}
+                  {t.kind === "upload_photo" && t.containsWorkers && !t.workerConsent && (
+                    <Badge variant="destructive">no consent</Badge>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Hangarau (freight IoT) live view ─────────────────────────
+
+function PikauLiveView({ rt }: { rt: PikauRuntime }) {
+  const w = rt.world;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Fleet telemetry</CardTitle>
+        <CardDescription>
+          Tick {w.now} · {w.fleetSize} vehicles · sensor reliability{" "}
+          {w.sensorReliability.toFixed(2)}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-3 gap-3 text-xs">
+          <Stat label="Fatigue blocks" value={w.alerts.fatigueBlocks} />
+          <Stat label="Cold chain breaks" value={w.alerts.coldChainBreaks} />
+          <Stat label="Sensor failures" value={w.alerts.sensorFailures} />
+        </div>
+        <Separator />
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Inbox ({w.inbox.length})
+          </p>
+          <div className="mt-2 space-y-1">
+            {w.inbox.length === 0 && (
+              <p className="text-sm text-muted-foreground">— empty —</p>
+            )}
+            {w.inbox.slice(0, 6).map((t) => (
+              <div
+                key={t.id}
+                className="flex items-center justify-between rounded-md border px-3 py-1.5 text-sm"
+              >
+                <span className="truncate">{t.label}</span>
+                <div className="flex shrink-0 items-center gap-2">
+                  {t.kind === "assign_route" && (
+                    <Badge variant={(t.driverMinutesRemaining ?? 999) < 30 ? "destructive" : "outline"}>
+                      {t.driverMinutesRemaining}m left
+                    </Badge>
+                  )}
+                  {t.kind === "clear_delivery" && (
+                    <Badge variant={Math.abs((t.reeferTempC ?? 0) - (t.targetTempC ?? 0)) > 2 ? "destructive" : "outline"}>
+                      {t.reeferTempC?.toFixed(1)}°C
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {w.sensorReliability < 0.75 && (
+          <div className="flex items-center gap-2 rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+            <Activity className="h-4 w-4" />
+            Sensor reliability degraded — autonomous dispatch blocked.
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Aura (hospitality) live view ─────────────────────────────
+
+function ManaakiLiveView({ rt }: { rt: ManaakiRuntime }) {
+  const w = rt.world;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Property state</CardTitle>
+        <CardDescription>
+          Tick {w.now} · {w.confirmedCount}/{w.propertyCapacity} rooms confirmed
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-3 gap-3 text-xs">
+          <Stat label="Allergen conflicts" value={w.alerts.allergenConflicts} />
+          <Stat label="Overbook attempts" value={w.alerts.overbookAttempts} />
+          <Stat label="Accessibility gaps" value={w.alerts.missingAccessibility} />
+        </div>
+        <Separator />
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Inbox ({w.inbox.length})
+          </p>
+          <div className="mt-2 space-y-1">
+            {w.inbox.length === 0 && (
+              <p className="text-sm text-muted-foreground">— empty —</p>
+            )}
+            {w.inbox.slice(0, 6).map((t) => (
+              <div
+                key={t.id}
+                className="flex items-center justify-between rounded-md border px-3 py-1.5 text-sm"
+              >
+                <span className="truncate">{t.label}</span>
+                <div className="flex shrink-0 items-center gap-2">
+                  <Badge variant="outline">{t.kind.replace("_", " ")}</Badge>
+                  {t.allergenConflict && <Badge variant="destructive">allergen</Badge>}
+                  {t.kind === "share_guest_profile" && !t.marketingOptIn && (
+                    <Badge variant="destructive">no opt-in</Badge>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Auaha (creative) live view ───────────────────────────────
+
+function AuahaLiveView({ rt }: { rt: AuahaRuntime }) {
+  const w = rt.world;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Creative queue</CardTitle>
+        <CardDescription>
+          Tick {w.now} · {w.published.length} published · {w.rejected.length} rejected
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
+          <Stat label="Licence gaps" value={w.alerts.licenceGaps} />
+          <Stat label="Likeness gaps" value={w.alerts.likenessGaps} />
+          <Stat label="Te reo flags" value={w.alerts.teReoFlags} />
+          <Stat label="Brand risks" value={w.alerts.brandRisks} />
+        </div>
+        <Separator />
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Pending assets ({w.inbox.length})
+          </p>
+          <div className="mt-2 space-y-1">
+            {w.inbox.length === 0 && (
+              <p className="text-sm text-muted-foreground">— empty —</p>
+            )}
+            {w.inbox.slice(0, 6).map((a) => (
+              <div
+                key={a.id}
+                className="flex items-center justify-between rounded-md border px-3 py-1.5 text-sm"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="truncate">{a.label}</p>
+                  <p className="truncate text-[10px] text-muted-foreground">{a.kind}</p>
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
+                  <Badge variant={a.brandRisk > 0.6 ? "destructive" : "outline"}>
+                    risk {a.brandRisk.toFixed(2)}
+                  </Badge>
+                  {a.usesThirdPartyAsset && !a.licenceRef && (
+                    <Badge variant="destructive">no licence</Badge>
+                  )}
+                  {a.containsLikeness && !a.likenessConsent && (
+                    <Badge variant="destructive">no consent</Badge>
+                  )}
+                  {a.containsTeReo && !a.kaitiakiReview && (
+                    <Badge variant="secondary">kaitiaki?</Badge>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Toroa (shipping) live view ───────────────────────────────
+
+function ToroLiveView({ rt }: { rt: ToroRuntime }) {
+  const w = rt.world;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Whānau state</CardTitle>
+        <CardDescription>
+          Tick {w.now} · {w.childCount} tamariki ·{" "}
+          {w.vulnerableHousehold ? "vulnerable household" : "steady household"}{" "}
+          · {w.sent.length} messages sent · {w.escalated.length} escalated
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
+          <Stat label="Crisis handoffs" value={w.alerts.crisisHandoffs} />
+          <Stat label="Consent blocks" value={w.alerts.consentBlocks} />
+          <Stat label="Financial blocks" value={w.alerts.financialBlocks} />
+          <Stat label="Te reo reviews" value={w.alerts.teReoReviews} />
+        </div>
+        <Separator />
+        <div>
+          <p className="text-xs font-semibold uppercase text-muted-foreground">
+            Pending messages ({w.inbox.length})
+          </p>
+          <div className="mt-2 space-y-1">
+            {w.inbox.length === 0 && (
+              <p className="text-sm text-muted-foreground">— empty —</p>
+            )}
+            {w.inbox.slice(0, 6).map((m) => (
+              <div
+                key={m.id}
+                className="flex items-center justify-between rounded-md border px-3 py-1.5 text-sm"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="truncate">{m.label}</p>
+                  <p className="truncate text-[10px] text-muted-foreground">
+                    {m.kind.replace("send_", "").replace("_", " ")} → {m.recipientType}
+                  </p>
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
+                  {m.crisisFlag && <Badge variant="destructive">crisis</Badge>}
+                  {m.referencesChild && !m.parentalConsent && (
+                    <Badge variant="destructive">no consent</Badge>
+                  )}
+                  {m.kind === "send_budget_alert" && m.recommendationRisk === "high" && (
+                    <Badge variant="destructive">risk</Badge>
+                  )}
+                  {m.containsTeReo && !m.teReoValidated && (
+                    <Badge variant="secondary">te reo</Badge>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {w.vulnerableHousehold && (
+          <div className="flex items-center gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-xs text-amber-700">
+            <Users className="h-4 w-4" />
+            Household flagged vulnerable — financial-harm policy is extra
+            strict and any crisis signal triggers mandatory handoff.
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Constellation decision feed ──────────────────────────────
+// Renders the last 24 decisions as pulsing stars connected by
+// faint lines — a Matariki-style constellation showing how the
+// agent's recent actions hang together. Colours match each
+// pilot's Kete accent; verdict colours dominate.
+
+function ConstellationFeed({
+  audit,
+  accentColor,
+  accentLight,
+}: {
+  audit: AuditEntry[];
+  accentColor: string;
+  accentLight: string;
+}) {
+  const recent = audit.slice(0, 24);
+  // Lay out stars in a quasi-constellation: rows with slight jitter.
+  const width = 1200;
+  const height = 160;
+  const cols = 12;
+  const padding = 40;
+  const colWidth = (width - padding * 2) / (cols - 1);
+  const rowHeight = 44;
+  const nodes = recent.map((entry, i) => {
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const jitterX = ((entry.id.charCodeAt(entry.id.length - 1) || 0) % 11) - 5;
+    const jitterY = ((entry.id.charCodeAt(0) || 0) % 9) - 4;
+    return {
+      entry,
+      x: padding + col * colWidth + jitterX,
+      y: padding + row * rowHeight + jitterY,
+    };
+  });
+
+  const verdictColour = (v: string) => VERDICT_COLOUR[v] ?? accentColor;
+
+  return (
+    <Card className="overflow-hidden bg-background/60 backdrop-blur">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm font-medium text-muted-foreground">
+          Constellation decision feed
+        </CardTitle>
+        <CardDescription className="text-xs">
+          Each star is one agent decision — colour = verdict, connecting
+          lines show the flow of recent actions.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {nodes.length === 0 ? (
+          <div className="flex h-40 items-center justify-center text-xs text-muted-foreground">
+            No decisions yet — press <strong className="mx-1">Run sim</strong>{" "}
+            to light up the sky.
+          </div>
+        ) : (
+          <svg
+            viewBox={`0 0 ${width} ${height}`}
+            className="h-40 w-full"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <defs>
+              <radialGradient id="starGlow">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+                <stop offset="50%" stopColor={accentLight} stopOpacity="0.5" />
+                <stop offset="100%" stopColor={accentColor} stopOpacity="0" />
+              </radialGradient>
+            </defs>
+            {/* Connecting lines between adjacent stars */}
+            {nodes.slice(1).map((n, i) => {
+              const prev = nodes[i];
+              return (
+                <line
+                  key={`line-${n.entry.id}`}
+                  x1={prev.x}
+                  y1={prev.y}
+                  x2={n.x}
+                  y2={n.y}
+                  stroke={accentColor}
+                  strokeOpacity={0.18}
+                  strokeWidth={0.6}
+                />
+              );
+            })}
+            {/* Stars */}
+            {nodes.map((n, i) => {
+              const colour = verdictColour(n.entry.decision.verdict);
+              const r = n.entry.applied ? 4.5 : n.entry.decision.verdict === "block" ? 3.2 : 3.8;
+              return (
+                <g key={`star-${n.entry.id}`}>
+                  <circle
+                    cx={n.x}
+                    cy={n.y}
+                    r={r * 3}
+                    fill="url(#starGlow)"
+                    opacity={0.7}
+                  >
+                    <animate
+                      attributeName="opacity"
+                      values="0.3;0.7;0.3"
+                      dur={`${2 + (i % 4) * 0.4}s`}
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                  <circle cx={n.x} cy={n.y} r={r} fill={colour}>
+                    <animate
+                      attributeName="r"
+                      values={`${r};${r + 0.6};${r}`}
+                      dur={`${1.5 + (i % 3) * 0.3}s`}
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                  {n.entry.humanOverride && (
+                    <circle
+                      cx={n.x}
+                      cy={n.y}
+                      r={r + 3}
+                      fill="none"
+                      stroke="#ffffff"
+                      strokeOpacity={0.4}
+                      strokeWidth={0.8}
+                    />
+                  )}
+                </g>
+              );
+            })}
+          </svg>
         )}
       </CardContent>
     </Card>

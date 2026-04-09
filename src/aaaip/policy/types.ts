@@ -12,7 +12,12 @@ export type Domain =
   | "clinic_scheduling"
   | "human_robot_collab"
   | "scientific_discovery"
-  | "community_portal";
+  | "community_portal"
+  | "construction"
+  | "freight_customs"
+  | "hospitality"
+  | "creative"
+  | "whanau_navigator";
 
 /** Severity controls how a violation is handled by the runtime. */
 export type Severity = "advisory" | "warn" | "block";

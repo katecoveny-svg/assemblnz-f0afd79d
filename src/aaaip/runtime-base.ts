@@ -10,8 +10,21 @@ import type { ComplianceEngine } from "./policy/engine";
 import type { AuditEntry, AuditLog } from "./metrics/audit";
 import type { AaaipExportError, AaaipExportResponse } from "./api/export";
 
-/** UI-level domain key — distinct from `Domain` in policy/types.ts. */
-export type RuntimeDomainKey = "clinic" | "robot" | "science" | "community";
+/**
+ * UI-level domain key — distinct from `Domain` in policy/types.ts.
+ * These match the canonical Assembl Kete names (Waihanga, Manaaki,
+ * Pikau, Auaha) plus the demo / research pilots.
+ */
+export type RuntimeDomainKey =
+  | "clinic"
+  | "robot"
+  | "science"
+  | "community"
+  | "waihanga"
+  | "pikau"
+  | "manaaki"
+  | "auaha"
+  | "toro";
 
 export interface AaaipRuntimeBase {
   domain: RuntimeDomainKey;
