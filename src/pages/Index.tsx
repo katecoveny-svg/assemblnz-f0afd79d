@@ -83,10 +83,9 @@ const INNER = "max-w-5xl mx-auto";
 
 /* ─── Data ─── */
 const PROOF = [
-  "78 NZ-trained agents",
   "5 industry kete",
   "5-stage compliance pipeline",
-  "Built in Aotearoa",
+  "NZ legislation built in",
   "From $590 NZD/mo",
 ];
 
@@ -99,10 +98,10 @@ const PACKS: {
   accentLight: string;
 }[] = [
   { reo: "Manaaki", en: "Hospitality", desc: "Food Act plans, liquor licensing, guest experience, tourism operators.", color: C.gold, accentLight: C.goldLight, to: "/packs/manaaki" },
-  { reo: "Hanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: C.teal, accentLight: C.tealLight, to: "/packs/hanga" },
+  { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: C.teal, accentLight: C.tealLight, to: "/hanga" },
   { reo: "Auaha", en: "Creative", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: "#F0D078", accentLight: "#FFE866", to: "/packs/auaha" },
-  { reo: "Pakihi", en: "Business", desc: "The generalist kete. Quoting, payroll, planning, reporting for any sector.", color: "#5AADA0", accentLight: "#7ECFC2", to: "/packs/pakihi" },
-  { reo: "Hangarau", en: "Technology", desc: "SaaS and IT teams. Sprint planning, customer support, security, docs.", color: "#4A7AB5", accentLight: "#6B9FD4", to: "/packs/hangarau" },
+  { reo: "Arataki", en: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling.", color: "#5AADA0", accentLight: "#7ECFC2", to: "/contact" },
+  { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#4A7AB5", accentLight: "#6B9FD4", to: "/contact" },
 ];
 
 const PIPELINE_STAGES = [
@@ -115,7 +114,7 @@ const PIPELINE_STAGES = [
 
 const DIFFS = [
   { num: "01", title: "Trained on NZ law", body: "Holidays Act 2003, Privacy Act 2020, Food Act 2014, Construction Contracts Act, IRD rules. Updated when the law updates.", accent: C.gold },
-  { num: "02", title: "Specialists, not generalists", body: "78 agents, each one tuned to a specific NZ workflow. No single chatbot pretending to know everything.", accent: C.teal },
+  { num: "02", title: "Specialists, not generalists", body: "Every kete carries agents tuned to a specific NZ workflow. No single chatbot pretending to know everything.", accent: C.teal },
   { num: "03", title: "Memory that compounds", body: "Decisions, projects and customer history carry forward. Tomorrow's session starts where today's ended.", accent: "#4A7AB5" },
   { num: "04", title: "Tikanga at the foundation", body: "Rangatiratanga, kaitiakitanga, manaakitanga, whanaungatanga. Built in, not bolted on.", accent: C.gold },
 ];
@@ -244,7 +243,7 @@ const Index = () => {
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.white }}>
       <SEO
         title="Assembl — Shared Intelligence for Aotearoa Business"
-        description="Five industry kete covering quoting, payroll, planning, marketing and compliance. 78 specialist agents. Five-stage compliance pipeline. Built around NZ law, not adapted from a US product."
+        description="Five industry kete — Manaaki, Waihanga, Auaha, Arataki, Pikau. Five-stage compliance pipeline. Built around NZ law, not adapted from a US product. From $590/mo NZD ex GST."
       />
       <BrandNav />
 

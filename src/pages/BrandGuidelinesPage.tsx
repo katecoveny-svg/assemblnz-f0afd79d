@@ -44,7 +44,7 @@ export default function BrandGuidelinesPage() {
         <Section title="Brand hierarchy">
           <div className="space-y-4 text-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.6)", lineHeight: 1.8 }}>
             <p><strong className="text-white">Assembl</strong> — Company + B2B platform. "The operating system for NZ business."</p>
-            <p><strong className="text-white">Industry Packs</strong> — Primary commercial structure (Manaaki, Hanga, Auaha, Pakihi, Hangarau).</p>
+            <p><strong className="text-white">Industry Kete</strong> — Primary commercial structure (Manaaki, Waihanga, Auaha, Arataki, Pikau).</p>
             <p><strong className="text-white">Te Kāhui Reo</strong> — Cross-platform trust and cultural intelligence layer.</p>
             <p><strong className="text-white">Tōroa</strong> — Separate standalone product. "Family Navigator. SMS-first. Built for Aotearoa."</p>
           </div>
@@ -156,10 +156,10 @@ export default function BrandGuidelinesPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
               { name: "Manaaki — Hospitality", color: "#D4A843" },
-              { name: "Hanga — Construction", color: "#3A7D6E" },
+              { name: "Waihanga — Construction", color: "#3A7D6E" },
               { name: "Auaha — Creative", color: "#D4A843" },
-              { name: "Pakihi — Business Ops", color: "#3A7D6E" },
-              { name: "Hangarau — Technology", color: "#1A3A5C" },
+              { name: "Arataki — Automotive", color: "#5AADA0" },
+              { name: "Pikau — Freight & Customs", color: "#4A7AB5" },
             ].map(p => (
               <div key={p.name} className="flex items-center gap-3 p-4 rounded-xl" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div className="w-3 h-3 rounded-full" style={{ background: p.color }} />

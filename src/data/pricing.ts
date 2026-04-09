@@ -150,7 +150,7 @@ export const CORE_PLATFORM = {
   features: [
     'Iho routing engine',
     'SIGNAL security agent',
-    'Compliance pipeline (Kahu → Tā → Mahara → Mana)',
+    'Compliance pipeline (Kahu → Iho → Tā → Mahara → Mana)',
     'SMS & WhatsApp access',
     'Dashboard & analytics',
     'NZ data residency on Enterprise',

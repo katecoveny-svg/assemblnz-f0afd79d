@@ -16,10 +16,8 @@ const NAV_ITEMS: NavItem[] = [
 
 const PACKS = [
   { label: "Manaaki", sublabel: "Hospitality", to: "/packs/manaaki", icon: UtensilsCrossed, color: "#D4A843", group: "business" },
-  { label: "Hanga", sublabel: "Construction", to: "/packs/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
+  { label: "Waihanga", sublabel: "Construction", to: "/hanga", icon: HardHat, color: "#3A7D6E", group: "business" },
   { label: "Auaha", sublabel: "Creative", to: "/packs/auaha", icon: Palette, color: "#F0D078", group: "business" },
-  { label: "Pakihi", sublabel: "Business", to: "/packs/pakihi", icon: Briefcase, color: "#5AADA0", group: "business" },
-  { label: "Hangarau", sublabel: "Technology", to: "/packs/hangarau", icon: Cpu, color: "#4A7AB5", group: "business" },
 ];
 
 const BrandNav = () => {
