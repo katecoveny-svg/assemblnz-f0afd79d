@@ -52,11 +52,11 @@ const BrandNav = () => {
         <Link to="/" className="flex items-center gap-3 group shrink-0">
           <CelestialLogo size={36} />
           <motion.span
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", fontSize: "13px", color: "rgba(255,255,255,0.85)" }}
+            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "lowercase", fontSize: "13px", color: "rgba(255,255,255,0.85)" }}
             animate={{ textShadow: ["0 0 6px rgba(255,255,255,0.1)", "0 0 16px rgba(255,255,255,0.3)", "0 0 6px rgba(255,255,255,0.1)"] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            ASSEMBL
+            assembl
           </motion.span>
         </Link>
 

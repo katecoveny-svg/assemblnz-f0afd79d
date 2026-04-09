@@ -10,6 +10,7 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
+import HeroKeteNetwork from "@/components/HeroKeteNetwork";
 
 /* ─── Design tokens — Pounamu primary, White secondary, Gold accent ─── */
 const C = {
