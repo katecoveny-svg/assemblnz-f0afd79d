@@ -644,6 +644,22 @@ const AdminDashboard = () => {
                           </div>
                         </div>
                         <p className="text-xs text-foreground/70 leading-relaxed">{sub.message}</p>
+                        {((sub as any).phone || (sub as any).website || (sub as any).pain_area || (sub as any).interest) && (
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            {(sub as any).pain_area && (
+                              <span className="text-[9px] px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400">Pain: {(sub as any).pain_area}</span>
+                            )}
+                            {(sub as any).interest && (
+                              <span className="text-[9px] px-2 py-0.5 rounded-full bg-pounamu/10 text-pounamu-light">Kete: {(sub as any).interest}</span>
+                            )}
+                            {(sub as any).phone && (
+                              <span className="text-[9px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400">📞 {(sub as any).phone}</span>
+                            )}
+                            {(sub as any).website && (
+                              <a href={(sub as any).website} target="_blank" rel="noopener noreferrer" className="text-[9px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 hover:underline">🌐 {(sub as any).website}</a>
+                            )}
+                          </div>
+                        )}
                       </div>
                     );
                   })}

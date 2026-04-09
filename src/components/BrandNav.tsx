@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, HardHat, UtensilsCrossed, Palette, Briefcase, Cpu, Bird, Shield, ChevronDown } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import CelestialLogo from "@/components/CelestialLogo";
+import KiaOraPopup from "@/components/KiaOraPopup";
 
 interface NavItem { label: string; to: string }
 
@@ -25,6 +26,7 @@ const BrandNav = () => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [packsOpen, setPacksOpen] = useState(false);
+  const [kiaOraOpen, setKiaOraOpen] = useState(false);
 
   const handleNavClick = (to: string) => {
     setMobileOpen(false);
@@ -115,11 +117,11 @@ const BrandNav = () => {
             </AnimatePresence>
           </div>
 
-          <Link to="/contact"
+          <button onClick={() => setKiaOraOpen(true)}
             className="ml-2 px-5 py-2 rounded-full text-xs font-body font-medium transition-all duration-300"
             style={{ background: "#3A7D6E", color: "#FFFFFF" }}>
-            Book a discovery call
-          </Link>
+            Kia ora — let's talk
+          </button>
 
           <AccountDropdown />
         </nav>
@@ -172,12 +174,12 @@ const BrandNav = () => {
               </nav>
 
               <div className="px-5 py-5 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                <Link to="/contact"
+                <button
                   className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium mb-3"
                   style={{ background: "#3A7D6E", color: "#FFFFFF" }}
-                  onClick={() => setMobileOpen(false)}>
-                  Book a discovery call
-                </Link>
+                  onClick={() => { setMobileOpen(false); setKiaOraOpen(true); }}>
+                  Kia ora — let's talk
+                </button>
                 <AccountDropdown />
               </div>
             </motion.div>
