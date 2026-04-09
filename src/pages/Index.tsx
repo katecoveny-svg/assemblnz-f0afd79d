@@ -547,8 +547,8 @@ const Index = () => {
       <section id="why-assembl" className={`${SEC} relative z-10`}>
         <div className={INNER}>
           <motion.div {...fade} className="text-center mb-16">
-            <Eyebrow>WHY NZ BUSINESSES PICK ASSEMBL</Eyebrow>
-            <SectionHeading>Four things you won't get<br />from a US product.</SectionHeading>
+            <Eyebrow>WHY ASSEMBL</Eyebrow>
+            <SectionHeading>Governed. Simulation-tested.<br />Built for Aotearoa.</SectionHeading>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">

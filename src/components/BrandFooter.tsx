@@ -129,7 +129,7 @@ const BrandFooter = () => {
               boxShadow: "0 4px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)",
             }}
           >
-            5 industry kete · Shared intelligence · Built in Aotearoa
+            5 industry kete · Governed operational intelligence · Built in Aotearoa
           </div>
         </div>
 
@@ -259,7 +259,7 @@ const BrandFooter = () => {
           className="text-[9px] mt-6 text-center text-muted-foreground/30 leading-relaxed max-w-2xl mx-auto"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
-          Assembl provides specialist operational workflows for NZ business. Outputs should be verified by qualified professionals before reliance. assembl@assembl.co.nz · www.assembl.co.nz
+          Assembl provides governed, simulation-tested operational intelligence for NZ business. Outputs should be verified by qualified professionals before reliance. assembl@assembl.co.nz · www.assembl.co.nz
         </p>
       </div>
     </footer>
