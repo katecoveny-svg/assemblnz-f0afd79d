@@ -295,3 +295,100 @@ describe('WAIHANGA — site safety gap build site', () => {
     expect(high.length).toBeGreaterThan(0);
   });
 });
+
+// ─── ARATAKI happy path ───────────────────────────────────────────────────────
+
+describe('ARATAKI — happy path consultancy (IPP3A-aware)', () => {
+  it('loads the scenario from YAML', () => {
+    const scenario = loadScenario('arataki/happy-path-consultancy-20pax.yaml');
+    expect(scenario.id).toBe('arataki-privacy-consultancy-20pax-happy');
+    expect(scenario.kete).toBe('ARATAKI');
+    expect(scenario.seed).toBe(101);
+    expect(scenario.success_criteria.length).toBeGreaterThan(0);
+  });
+
+  it('runs end-to-end and passes all success criteria', async () => {
+    const scenario = loadScenario('arataki/happy-path-consultancy-20pax.yaml');
+    const result = await runScenario(scenario);
+
+    if (!result.passed) {
+      console.error('Scenario failures:', JSON.stringify(result.failures, null, 2));
+    }
+
+    expect(result.passed).toBe(true);
+    expect(result.failures).toHaveLength(0);
+  });
+
+  it('produces a simulated ARATAKI bundle artifact', async () => {
+    const scenario = loadScenario('arataki/happy-path-consultancy-20pax.yaml');
+    const result = await runScenario(scenario);
+    expect(result.bundle_artifact).not.toBeNull();
+    expect(result.bundle_artifact!.manifest.simulated).toBe(true);
+    expect(result.bundle_artifact!.manifest.kete).toBe('ARATAKI');
+  });
+
+  it('IPP3A status is not_applicable in the happy path (employees notified)', async () => {
+    const scenario = loadScenario('arataki/happy-path-consultancy-20pax.yaml');
+    const { runAgentStub } = await import('./runtime/agent-stub.js');
+    const { aratakiGenerator } = await import('./generators/arataki/index.js');
+    const gen = aratakiGenerator.generate(scenario.id, scenario.seed, scenario.generator_inputs);
+    const wr = await runAgentStub(gen, scenario.workflow_id);
+    const ext = wr.kete_extension as import('../evidence-bundles/schema.js').PikauExtension;
+    const ipp3aEntry = ext.ipp_snapshot.find(e => e.principle === 'IPP3A');
+    expect(ipp3aEntry).toBeDefined();
+    expect(['not_applicable', 'compliant']).toContain(ipp3aEntry!.status);
+  });
+
+  it('generator output is deterministic — same seed produces same employee records', async () => {
+    const { aratakiGenerator } = await import('./generators/arataki/index.js');
+    const params = { employee_count: 20, ipp3a_exposure: 'low', overseas_data_processor: true, employees_notified: true };
+    const r1 = aratakiGenerator.generate('test', 101, params);
+    const r2 = aratakiGenerator.generate('test', 101, params);
+    expect(JSON.stringify(r1.fixtures.employee_records)).toBe(JSON.stringify(r2.fixtures.employee_records));
+  });
+});
+
+// ─── ARATAKI IPP3A triggered ──────────────────────────────────────────────────
+
+describe('ARATAKI — IPP3A triggered consultancy', () => {
+  it('loads the scenario from YAML', () => {
+    const scenario = loadScenario('arataki/ipp3a-triggered-consultancy-20pax.yaml');
+    expect(scenario.id).toBe('arataki-ipp3a-triggered-consultancy-20pax');
+    expect(scenario.kete).toBe('ARATAKI');
+    expect(scenario.seed).toBe(113);
+  });
+
+  it('runs end-to-end and passes all success criteria', async () => {
+    const scenario = loadScenario('arataki/ipp3a-triggered-consultancy-20pax.yaml');
+    const result = await runScenario(scenario);
+
+    if (!result.passed) {
+      console.error('Scenario failures:', JSON.stringify(result.failures, null, 2));
+    }
+
+    expect(result.passed).toBe(true);
+    expect(result.failures).toHaveLength(0);
+  });
+
+  it('IPP3A status is at_risk in the triggered path (employees not notified)', async () => {
+    const scenario = loadScenario('arataki/ipp3a-triggered-consultancy-20pax.yaml');
+    const { runAgentStub } = await import('./runtime/agent-stub.js');
+    const { aratakiGenerator } = await import('./generators/arataki/index.js');
+    const gen = aratakiGenerator.generate(scenario.id, scenario.seed, scenario.generator_inputs);
+    const wr = await runAgentStub(gen, scenario.workflow_id);
+    const ext = wr.kete_extension as import('../evidence-bundles/schema.js').PikauExtension;
+    const ipp3aEntry = ext.ipp_snapshot.find(e => e.principle === 'IPP3A');
+    expect(ipp3aEntry).toBeDefined();
+    expect(['at_risk', 'non_compliant']).toContain(ipp3aEntry!.status);
+  });
+
+  it('has at least one high or critical severity finding', async () => {
+    const scenario = loadScenario('arataki/ipp3a-triggered-consultancy-20pax.yaml');
+    const { runAgentStub } = await import('./runtime/agent-stub.js');
+    const { aratakiGenerator } = await import('./generators/arataki/index.js');
+    const gen = aratakiGenerator.generate(scenario.id, scenario.seed, scenario.generator_inputs);
+    const wr = await runAgentStub(gen, scenario.workflow_id);
+    const high = wr.findings.filter(f => f.severity === 'high' || f.severity === 'critical');
+    expect(high.length).toBeGreaterThan(0);
+  });
+});

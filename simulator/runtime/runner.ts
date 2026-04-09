@@ -15,6 +15,7 @@ import type { PikauExtension } from '../../evidence-bundles/schema.js';
 import { pikauGenerator } from '../generators/pikau/index.js';
 import { manaakiGenerator } from '../generators/manaaki/index.js';
 import { waihangaGenerator } from '../generators/waihanga/index.js';
+import { aratakiGenerator } from '../generators/arataki/index.js';
 import { runAgentStub } from './agent-stub.js';
 import { buildBundle } from '../../evidence-bundles/generator.js';
 
@@ -22,7 +23,8 @@ const GENERATORS: Record<string, import('../types.js').KeteGenerator> = {
   PIKAU: pikauGenerator,
   MANAAKI: manaakiGenerator,
   WAIHANGA: waihangaGenerator,
-  // [TODO: Milestone 11+] add ARATAKI, AUAHA generators
+  ARATAKI: aratakiGenerator,
+  // [TODO: future] add AUAHA generator
 };
 
 /** Severity rank for ordering comparisons. */

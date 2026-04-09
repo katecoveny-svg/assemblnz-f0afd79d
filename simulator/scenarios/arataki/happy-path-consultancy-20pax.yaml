@@ -1,0 +1,67 @@
+# ARATAKI scenario: Privacy & Business Compliance — happy path
+# Scenario ID: arataki-privacy-consultancy-20pax-happy
+# Kete: ARATAKI
+# Version: 0.1.0 · 2026-04-09
+
+id: arataki-privacy-consultancy-20pax-happy
+kete: ARATAKI
+title: "Privacy compliance review — 20-person Wellington consultancy, IPP3A-aware, no material gaps"
+buyer_persona: >
+  The principal or operations manager of a 20-person Wellington professional
+  services consultancy. Has reviewed their Privacy Act 2020 position following
+  the IPP3A announcement and implemented a notice process for employees about
+  the rostering/payroll data flow. Wants a signed evidence pack to document
+  their compliance position before the 1 May 2026 effective date.
+seed: 101
+
+generator_inputs:
+  employee_count: 20
+  industry: professional_services
+  data_scenario: baseline_no_breach
+  ipp3a_exposure: low          # employees have been notified of indirect collection
+  has_vendor_register: true
+  overseas_data_processor: true
+  employees_notified: true     # the compliant condition
+
+workflow_id: arataki-privacy-copilot-v0.1
+
+expected_bundle:
+  simulated: true
+  finding_count_min: 2
+  finding_count_max: 10
+  pipeline_stages_expected:
+    - kahu
+    - iho
+    - ta
+    - mahara
+    - mana
+  kete_extension_fields_required:
+    - ipp_snapshot
+    - breach_risk_score
+    - ipp3a_collection_source_notices
+
+success_criteria:
+  - description: "Bundle is valid — all findings have source pointers"
+    assertion: no_unsourced_findings
+    params: {}
+
+  - description: "Bundle is correctly marked as simulated"
+    assertion: bundle_valid
+    params:
+      simulated: true
+
+  - description: "IPP3A snapshot entry exists"
+    assertion: ipp_snapshot_status
+    params:
+      principle: IPP3A
+      # Employees notified + vendor register in place → compliant or not_applicable
+      expected_statuses: [compliant, not_applicable]
+
+  - description: "At least one Privacy Act 2020 finding produced"
+    assertion: finding_exists
+    params:
+      source_type: law
+      label_contains: "Privacy Act 2020"
+
+public_visibility: true
+last_verified: null

@@ -1,0 +1,78 @@
+# ARATAKI scenario: Privacy & Business Compliance — IPP3A triggered path
+# Scenario ID: arataki-ipp3a-triggered-consultancy-20pax
+# Kete: ARATAKI
+# Version: 0.1.0 · 2026-04-09
+
+id: arataki-ipp3a-triggered-consultancy-20pax
+kete: ARATAKI
+title: "Privacy compliance review — 20-person Wellington consultancy, IPP3A exposure found"
+buyer_persona: >
+  Same Wellington consultancy, but the review discovers that the business
+  uses an overseas HR onboarding platform that receives employee data from
+  a local recruitment agency — without employees being notified of the
+  indirect data flow. This triggers an IPP3A finding (effective 1 May 2026).
+  The scenario demonstrates what the evidence pack looks like when a
+  real IPP3A gap is found in a professional services context.
+seed: 113
+
+generator_inputs:
+  employee_count: 20
+  industry: professional_services
+  data_scenario: ipp3a_indirect_collection
+  ipp3a_exposure: high          # indirect collection via recruitment → overseas HR platform
+  has_vendor_register: false
+  overseas_data_processor: true
+  employees_notified: false     # the trigger condition
+
+workflow_id: arataki-privacy-copilot-v0.1
+
+expected_bundle:
+  simulated: true
+  finding_count_min: 2
+  finding_count_max: 15
+  pipeline_stages_expected:
+    - kahu
+    - iho
+    - ta
+    - mahara
+    - mana
+  kete_extension_fields_required:
+    - ipp_snapshot
+    - breach_risk_score
+    - ipp3a_collection_source_notices
+
+success_criteria:
+  - description: "Bundle is valid — all findings have source pointers"
+    assertion: no_unsourced_findings
+    params: {}
+
+  - description: "Bundle is correctly marked as simulated"
+    assertion: bundle_valid
+    params:
+      simulated: true
+
+  - description: "IPP3A snapshot shows at_risk or non_compliant"
+    assertion: ipp_snapshot_status
+    params:
+      principle: IPP3A
+      expected_statuses: [at_risk, non_compliant]
+
+  - description: "At least one IPP3A-specific finding with Privacy Act 2020 citation"
+    assertion: finding_exists
+    params:
+      source_type: law
+      label_contains: "Privacy Act 2020"
+
+  - description: "At least one high or critical severity finding"
+    assertion: finding_severity
+    params:
+      min_severity: high
+
+  - description: "IPP3A collection source notice recorded for the HR data flow"
+    assertion: finding_exists
+    params:
+      source_type: law
+      label_contains: "IPP3A"
+
+public_visibility: true
+last_verified: null
