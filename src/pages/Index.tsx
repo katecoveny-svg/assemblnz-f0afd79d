@@ -83,8 +83,8 @@ const INNER = "max-w-5xl mx-auto";
 /* ─── Data ─── */
 const PROOF = [
   "5 industry kete",
-  "5-stage compliance pipeline",
-  "NZ legislation built in",
+  "6-layer agent stack",
+  "Simulation-tested",
   "From $590 NZD/mo",
 ];
 
@@ -104,17 +104,18 @@ const PACKS: {
 ];
 
 const PIPELINE_STAGES = [
-  { name: "Kahu", desc: "PII detection & data classification", color: C.pounamu },
-  { name: "Iho", desc: "Intent classification & routing", color: C.pounamuLight },
-  { name: "Tā", desc: "Full audit trail — every action logged", color: C.white },
-  { name: "Mahara", desc: "Business memory & context injection", color: C.pounamuGlow },
-  { name: "Mana", desc: "Final gate — tikanga & compliance check", color: C.gold },
+  { name: "Perception", desc: "Connects to your signals — messages, documents, calendars", color: C.pounamu },
+  { name: "Memory", desc: "Business context carries forward across every session", color: C.pounamuLight },
+  { name: "Reasoning", desc: "Policy-aware decision logic tuned to NZ legislation", color: C.white },
+  { name: "Action", desc: "Executes within defined permissions and approval pathways", color: C.pounamuGlow },
+  { name: "Explanation", desc: "Every output comes with a readable audit trail", color: C.gold },
+  { name: "Simulation", desc: "Tests outcomes before they ship — not after", color: C.navy },
 ];
 
 const DIFFS = [
-  { num: "01", title: "Trained on NZ law", body: "Holidays Act 2003, Privacy Act 2020, Food Act 2014, Construction Contracts Act, IRD rules. Updated when the law updates.", accent: C.pounamu },
-  { num: "02", title: "Specialists, not generalists", body: "Every kete carries agents tuned to a specific NZ workflow. No single chatbot pretending to know everything.", accent: C.pounamuLight },
-  { num: "03", title: "Memory that compounds", body: "Decisions, projects and customer history carry forward. Tomorrow's session starts where today's ended.", accent: C.white },
+  { num: "01", title: "Governed, not generic", body: "Every agent runs inside defined permissions, policy rules, and approval pathways. Not a chatbot. Not a replacement for your team.", accent: C.pounamu },
+  { num: "02", title: "Simulation-tested", body: "Agents are tested against simulated scenarios before they touch production. Outputs are checked before they ship, not after.", accent: C.pounamuLight },
+  { num: "03", title: "Built on NZ law", body: "Holidays Act 2003, Privacy Act 2020, Food Act 2014, Construction Contracts Act, IRD rules. Updated when the law updates.", accent: C.white },
   { num: "04", title: "Tikanga at the foundation", body: "Rangatiratanga, kaitiakitanga, manaakitanga, whanaungatanga. Built in, not bolted on.", accent: C.gold },
 ];
 
@@ -241,8 +242,8 @@ const Index = () => {
   return (
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.white }}>
       <SEO
-        title="Assembl — Shared Intelligence for Aotearoa Business"
-        description="Five industry kete — Manaaki, Waihanga, Auaha, Arataki, Pikau. Five-stage compliance pipeline. Built around NZ law, not adapted from a US product. From $590/mo NZD ex GST."
+        title="Assembl — Governed Operational Intelligence for Aotearoa"
+        description="Simulation-tested specialist digital workers for NZ business. Six-layer agent stack: perception, memory, reasoning, action, explanation, simulation. From $590/mo NZD ex GST."
       />
       <BrandNav />
 
@@ -290,7 +291,7 @@ const Index = () => {
               boxShadow: "0 0 30px rgba(58,125,110,0.1)",
             }}
           >
-            Shared intelligence for Aotearoa
+            Governed operational intelligence for Aotearoa
           </span>
         </motion.div>
 
@@ -309,7 +310,7 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, delay: 0.5, ease }}
         >
-          Your team is already using AI.{" "}
+          You're a 5-person business doing the work of 50.{" "}
           <span
             style={{
               background: `linear-gradient(135deg, ${C.pounamu} 0%, ${C.pounamuGlow} 50%, ${C.pounamu} 100%)`,
@@ -318,7 +319,7 @@ const Index = () => {
               backgroundClip: "text",
             }}
           >
-            None of it has an audit trail.
+            Assembl is the rest of the team.
           </span>
         </motion.h1>
 
@@ -330,7 +331,7 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.65, ease }}
         >
-          ChatGPT, Copilot, Gemini — all running quietly on staff laptops. No compliance check. No idea what's leaving the building. Assembl wraps every action in a five-stage pipeline that runs before anything ships, not after.
+          Specialist digital workers that sit inside your existing workflows — governed by policy rules, tested against simulated scenarios, and built around NZ legislation. Not a chatbot. Not a workforce replacement. Better operational outcomes, stronger compliance, faster decisions.
         </motion.p>
 
         {/* CTAs */}
@@ -405,12 +406,12 @@ const Index = () => {
         <div className={INNER}>
           <motion.div {...fade}>
             <Eyebrow>THE PROBLEM</Eyebrow>
-            <SectionHeading>You can't see what's leaving the building.</SectionHeading>
+            <SectionHeading>Your team's already using AI. None of it's governed.</SectionHeading>
             <Body className="max-w-2xl mb-5">
-              Most NZ businesses I talk to say the same — ChatGPT, Copilot, Gemini, all running quietly on staff laptops. No audit trail. No compliance check. No idea what data is being fed into a model hosted in Virginia.
+              ChatGPT, Copilot, Gemini — running quietly on staff laptops. No audit trail. No compliance check. No idea what data's being fed into a model hosted offshore.
             </Body>
             <Body className="max-w-2xl" style={{ color: "rgba(255,255,255,0.38)" }}>
-              Assembl is built differently. Specialist kete for real NZ operations — each one wrapped in a five-stage compliance pipeline.
+              Assembl is built differently. Every agent operates through a six-layer stack — perception, memory, reasoning, action, explanation, and simulation — inside defined permissions and approval pathways.
             </Body>
           </motion.div>
 
@@ -439,10 +440,10 @@ const Index = () => {
       <section className={`${SEC} relative z-10`}>
         <div className={INNER}>
           <motion.div {...fade} className="text-center mb-16">
-            <Eyebrow>FIVE-STAGE PIPELINE</Eyebrow>
-            <SectionHeading>Every action logged.<br />Every output auditable.</SectionHeading>
+            <Eyebrow>SIX-LAYER AGENT STACK</Eyebrow>
+            <SectionHeading>Every agent. Six layers.<br />Governed end to end.</SectionHeading>
             <Body className="max-w-xl mx-auto">
-              Five compliance stages run before anything ships. Not after. Your lawyers can actually read the audit trail.
+              Every production-grade agent operates through a six-layer stack. No shortcuts, no black boxes. Your lawyers can actually read the audit trail.
             </Body>
           </motion.div>
 
@@ -460,7 +461,7 @@ const Index = () => {
                     className="text-[10px] tracking-[3px] uppercase"
                     style={{ fontFamily: FONT.mono, color: stage.color, fontWeight: 700 }}
                   >
-                    Stage {i + 1}
+                    Layer {i + 1}
                   </span>
                   <h3 className="text-lg" style={{ fontFamily: FONT.heading, fontWeight: 300, color: C.white }}>
                     {stage.name}
@@ -505,9 +506,9 @@ const Index = () => {
         <div className={INNER}>
           <motion.div {...fade} className="text-center mb-16">
             <Eyebrow>INDUSTRY KETE</Eyebrow>
-            <SectionHeading>Five kete. Five sectors.<br />One shared intelligence.</SectionHeading>
+            <SectionHeading>Five kete. Five sectors.<br />Specialist digital workers.</SectionHeading>
             <Body className="max-w-xl mx-auto">
-              Each kete carries the legislation, workflows and terminology its industry actually uses. They share one intelligence layer underneath — tikanga-governed, NZ-hosted.
+              Each kete carries the legislation, workflows and terminology its industry actually uses. Specialist digital workers that operate inside defined permissions — not a generic chatbot pretending to know everything.
             </Body>
           </motion.div>
 
