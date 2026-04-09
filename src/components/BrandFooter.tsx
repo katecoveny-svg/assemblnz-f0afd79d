@@ -8,28 +8,29 @@ import CelestialLogo from "@/components/CelestialLogo";
 const FOOTER_LINKS = {
   Platform: [
     { to: "/#how-it-works", label: "How it works" },
-    { to: "/#kete", label: "Explore kete" },
-    { to: "/#try-assembl", label: "Try Assembl" },
+    { to: "/#industry-packs", label: "Industry kete" },
     { to: "/pricing", label: "Pricing" },
     { to: "/about", label: "About" },
+    { to: "/contact", label: "Contact" },
   ],
   "Industry Kete": [
-    { to: "/manaaki", label: "Manaaki — Hospitality" },
-    { to: "/hanga", label: "Hanga — Construction" },
+    { to: "/packs/manaaki", label: "Manaaki — Hospitality" },
+    { to: "/hanga", label: "Waihanga — Construction" },
     { to: "/auaha", label: "Auaha — Creative" },
-    { to: "/pakihi", label: "Pakihi — Business" },
-    { to: "/hangarau", label: "Hangarau — Technology" },
+    { to: "/packs/pakihi", label: "Arataki — Business Ops" },
+    { to: "/packs/hangarau", label: "Pikau — Freight & Customs" },
   ],
-  "Specialist Kete": [
-    { to: "/hauora", label: "Hauora — Health & Wellness" },
-    { to: "/waka", label: "Waka — Automotive" },
-    { to: "/te-kahui-reo", label: "Te Kāhui Reo — Te Reo Māori" },
-    { to: "/toroa", label: "Tōroa — Elder Care" },
+  Products: [
+    { to: "/toroa", label: "Toro — Family Navigator" },
+    { to: "/how-it-works", label: "Six-layer agent stack" },
+    { to: "/developers", label: "Developers" },
   ],
   Legal: [
     { to: "/privacy", label: "Privacy Policy" },
     { to: "/terms", label: "Terms of Service" },
-    { to: "/#contact", label: "Contact Us" },
+    { to: "/data-privacy", label: "Data Privacy & Legal" },
+    { to: "/cookies", label: "Cookie Policy" },
+    { to: "/disclaimer", label: "Disclaimer" },
   ],
 };
 
