@@ -115,6 +115,15 @@ const SkillWiringDashboard = lazy(() => import("./components/admin/SkillWiringDa
 const SkillHubPage = lazy(() => import("./pages/SkillHubPage"));
 const AaaipDashboard = lazy(() => import("./pages/AaaipDashboard"));
 const AaaipResearcher = lazy(() => import("./pages/AaaipResearcher"));
+const ArohaLayout = lazy(() => import("./components/aroha/ArohaLayout"));
+const ArohaOverviewPage = lazy(() => import("./pages/ArohaOverviewPage"));
+const ArohaContracts = lazy(() => import("./components/aroha/ArohaContracts"));
+const ArohaOnboarding = lazy(() => import("./components/aroha/ArohaOnboarding"));
+const ArohaPayroll = lazy(() => import("./components/aroha/ArohaPayroll"));
+const ArohaRecruitment = lazy(() => import("./components/aroha/ArohaRecruitment"));
+const ArohaPeopleCulture = lazy(() => import("./components/aroha/ArohaPeopleCulture"));
+const ArohaCompanySetup = lazy(() => import("./components/aroha/ArohaCompanySetup"));
+const ArohaRetention = lazy(() => import("./components/aroha/ArohaRetention"));
 
 const queryClient = new QueryClient();
 
@@ -205,6 +214,16 @@ const App = () => (
                   <Route path="/helm/*" element={<Navigate to="/toroa" replace />} />
                   <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
                   <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
+                  <Route path="/aroha" element={<Suspense fallback={null}><ArohaLayout /></Suspense>}>
+                    <Route index element={<Suspense fallback={null}><ArohaOverviewPage /></Suspense>} />
+                    <Route path="contracts" element={<Suspense fallback={null}><ArohaContracts /></Suspense>} />
+                    <Route path="onboarding" element={<Suspense fallback={null}><ArohaOnboarding /></Suspense>} />
+                    <Route path="payroll" element={<Suspense fallback={null}><ArohaPayroll /></Suspense>} />
+                    <Route path="recruitment" element={<Suspense fallback={null}><ArohaRecruitment /></Suspense>} />
+                    <Route path="people" element={<Suspense fallback={null}><ArohaPeopleCulture /></Suspense>} />
+                    <Route path="setup" element={<Suspense fallback={null}><ArohaCompanySetup /></Suspense>} />
+                    <Route path="retention" element={<Suspense fallback={null}><ArohaRetention /></Suspense>} />
+                  </Route>
                   <Route path="/hanga" element={<Suspense fallback={null}><HangaLayout /></Suspense>}>
                     <Route index element={<HangaDashboard />} />
                     <Route path="arai" element={<AraiSafetyPage />} />
