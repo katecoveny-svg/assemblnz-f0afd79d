@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import {
-  UtensilsCrossed, HardHat, Palette, Car, Package, Bird,
+  UtensilsCrossed, HardHat, Palette, ShieldCheck, Package, Bird,
 } from "lucide-react";
 
 /**
@@ -54,11 +54,11 @@ export const KETE_CONFIG: KeteDefinition[] = [
     route: "/auaha", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
-    id: "arataki", name: "Arataki", nameEn: "Automotive",
-    color: "#C65D4E", icon: Car, agentCount: 6, group: "business",
-    description: "Dealership compliance, customer enquiry response, finance disclosure — the showroom back office handled.",
-    wananga: "Te Kete Tuauri — the basket of guidance and movement",
-    route: "/arataki", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
+    id: "arataki", name: "Arataki", nameEn: "Privacy & Business Compliance",
+    color: "#C65D4E", icon: ShieldCheck, agentCount: 4, group: "business",
+    description: "IPP3A-ready. Every Privacy Act 2020 run ends in a signed evidence pack your Privacy Officer can file, forward, or footnote.",
+    wananga: "Te Kete Tuauri — the basket of guidance and protection",
+    route: "/kete/arataki", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
     id: "pikau", name: "Pikau", nameEn: "Freight & Customs",
