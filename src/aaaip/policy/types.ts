@@ -18,13 +18,14 @@ export type Domain =
   | "hospitality"
   | "creative"
   | "whanau_navigator"
-  | "automotive";
+  | "automotive"
+  | "employment";
 
 /** Severity controls how a violation is handled by the runtime. */
-export type Severity = "advisory" | "warn" | "block";
+export type Severity = "advisory" | "warn" | "block" | "info";
 
 /** How human oversight is required for a given action class. */
-export type OversightMode = "always_allow" | "ask_each_time" | "never_allow";
+export type OversightMode = "always_allow" | "ask_each_time" | "never_allow" | "auto_approve" | "always_human";
 
 /** A single policy rule. Pure data — evaluation logic is separate. */
 export interface Policy {
