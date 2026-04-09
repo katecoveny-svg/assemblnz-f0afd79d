@@ -35,8 +35,8 @@ html {
     --popover: 220 18% 10%;
     --popover-foreground: 36 25% 93%;
 
-    --primary: 42 63% 55%;
-    --primary-foreground: 240 29% 4%;
+    --primary: 164 37% 35%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 220 18% 10%;
     --secondary-foreground: 36 25% 93%;
@@ -52,7 +52,7 @@ html {
 
     --border: 0 0% 100% / 0.08;
     --input: 0 0% 100% / 0.08;
-    --ring: 42 63% 55%;
+    --ring: 164 37% 35%;
 
     --radius: 0.75rem;
 
@@ -311,29 +311,29 @@ html {
     }
   }
 
-  /* ── Primary CTA — Kōwhai gold glow ── */
+  /* ── Primary CTA — Pounamu green glow ── */
   .cta-glass-green {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, #F0D078 0%, #D4A843 60%, #B8902E 100%);
-    color: #0F1623;
+    background: linear-gradient(135deg, #7ECFC2 0%, #3A7D6E 50%, #2A5D50 100%);
+    color: #FFFFFF;
     border: none;
     border-radius: 9999px;
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    box-shadow: 0 0 20px rgba(212,168,67,0.45), 0 0 60px rgba(212,168,67,0.2), 0 4px 16px rgba(0,0,0,0.4);
+    box-shadow: 0 0 20px rgba(58,125,110,0.5), 0 0 60px rgba(58,125,110,0.2), 0 4px 16px rgba(0,0,0,0.4);
     animation: cta-pulse 3s ease-in-out infinite;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
   @keyframes cta-pulse {
-    0%,100% { box-shadow: 0 0 20px rgba(212,168,67,0.45), 0 0 60px rgba(212,168,67,0.2), 0 4px 16px rgba(0,0,0,0.4); }
-    50%      { box-shadow: 0 0 32px rgba(240,208,120,0.8), 0 0 90px rgba(212,168,67,0.4), 0 4px 16px rgba(0,0,0,0.4); }
+    0%,100% { box-shadow: 0 0 20px rgba(58,125,110,0.5), 0 0 60px rgba(58,125,110,0.2), 0 4px 16px rgba(0,0,0,0.4); }
+    50%      { box-shadow: 0 0 32px rgba(126,207,194,0.7), 0 0 90px rgba(58,125,110,0.4), 0 4px 16px rgba(0,0,0,0.4); }
   }
 
   .cta-glass-green:hover {
-    box-shadow: 0 0 40px rgba(240,208,120,0.9), 0 0 100px rgba(212,168,67,0.5);
+    box-shadow: 0 0 40px rgba(126,207,194,0.8), 0 0 100px rgba(58,125,110,0.5);
     transform: translateY(-2px) scale(1.02);
   }
 

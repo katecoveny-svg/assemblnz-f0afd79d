@@ -8,20 +8,19 @@ import { supabase } from "@/integrations/supabase/client";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
-import MatarikiStarfield from "@/components/MatarikiStarfield";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 
-/* ─── Design tokens ─── */
+/* ─── Design tokens — Pounamu primary, White secondary, Gold accent ─── */
 const C = {
   bg: "#060610",
   surface: "#0A0A18",
-  gold: "#D4A843",
+  pounamu: "#3A7D6E",
+  pounamuLight: "#5AADA0",
+  pounamuGlow: "#7ECFC2",
+  gold: "#D4A843",       // small accent only
   goldLight: "#F0D078",
-  teal: "#3A7D6E",
-  tealLight: "#5AADA0",
   navy: "#1A3A5C",
-  bone: "#F5F0E8",
   white: "#FFFFFF",
   textSec: "rgba(255,255,255,0.55)",
   textMuted: "rgba(255,255,255,0.30)",
@@ -42,8 +41,8 @@ const WeaveDivider = () => (
     <svg width="100%" height="32" viewBox="0 0 600 32" preserveAspectRatio="xMidYMid meet">
       {Array.from({ length: 44 }).map((_, i) => (
         <g key={i} transform={`translate(${i * 14}, 0)`}>
-          <path d="M0 16 L7 0 L14 16 L7 32 Z" stroke={C.gold} strokeWidth="0.6" fill="none" />
-          <circle cx="7" cy="16" r="1" fill={C.gold} opacity="0.4" />
+          <path d="M0 16 L7 0 L14 16 L7 32 Z" stroke={C.pounamu} strokeWidth="0.6" fill="none" />
+          <circle cx="7" cy="16" r="1" fill={C.pounamu} opacity="0.4" />
         </g>
       ))}
     </svg>
@@ -51,10 +50,10 @@ const WeaveDivider = () => (
 );
 
 /* ─── Typography components ─── */
-const Eyebrow = ({ children }: { children: string }) => (
+const Eyebrow = ({ children, color }: { children: string; color?: string }) => (
   <span
     className="inline-block text-[10px] font-bold tracking-[4px] uppercase mb-5"
-    style={{ fontFamily: FONT.mono, color: C.gold }}
+    style={{ fontFamily: FONT.mono, color: color || C.pounamuLight }}
   >
     {children}
   </span>
@@ -97,25 +96,25 @@ const PACKS: {
   to: string;
   accentLight: string;
 }[] = [
-  { reo: "Manaaki", en: "Hospitality", desc: "Food Act plans, liquor licensing, guest experience, tourism operators.", color: C.gold, accentLight: C.goldLight, to: "/packs/manaaki" },
-  { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: C.teal, accentLight: C.tealLight, to: "/hanga" },
-  { reo: "Auaha", en: "Creative", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: "#F0D078", accentLight: "#FFE866", to: "/packs/auaha" },
-  { reo: "Arataki", en: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling.", color: "#5AADA0", accentLight: "#7ECFC2", to: "/contact" },
-  { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#4A7AB5", accentLight: "#6B9FD4", to: "/contact" },
+  { reo: "Manaaki", en: "Hospitality", desc: "Food Act plans, liquor licensing, guest experience, tourism operators.", color: C.pounamu, accentLight: C.pounamuLight, to: "/packs/manaaki" },
+  { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: C.pounamuLight, accentLight: C.pounamuGlow, to: "/hanga" },
+  { reo: "Auaha", en: "Creative", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: C.white, accentLight: "rgba(255,255,255,0.7)", to: "/packs/auaha" },
+  { reo: "Arataki", en: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling.", color: C.pounamuGlow, accentLight: C.pounamuLight, to: "/contact" },
+  { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: C.navy, accentLight: "#4A7AB5", to: "/contact" },
 ];
 
 const PIPELINE_STAGES = [
-  { name: "Kahu", desc: "PII detection & data classification", color: C.teal },
-  { name: "Iho", desc: "Intent classification & routing", color: C.gold },
-  { name: "Tā", desc: "Full audit trail — every action logged", color: "#4A7AB5" },
-  { name: "Mahara", desc: "Business memory & context injection", color: C.teal },
+  { name: "Kahu", desc: "PII detection & data classification", color: C.pounamu },
+  { name: "Iho", desc: "Intent classification & routing", color: C.pounamuLight },
+  { name: "Tā", desc: "Full audit trail — every action logged", color: C.white },
+  { name: "Mahara", desc: "Business memory & context injection", color: C.pounamuGlow },
   { name: "Mana", desc: "Final gate — tikanga & compliance check", color: C.gold },
 ];
 
 const DIFFS = [
-  { num: "01", title: "Trained on NZ law", body: "Holidays Act 2003, Privacy Act 2020, Food Act 2014, Construction Contracts Act, IRD rules. Updated when the law updates.", accent: C.gold },
-  { num: "02", title: "Specialists, not generalists", body: "Every kete carries agents tuned to a specific NZ workflow. No single chatbot pretending to know everything.", accent: C.teal },
-  { num: "03", title: "Memory that compounds", body: "Decisions, projects and customer history carry forward. Tomorrow's session starts where today's ended.", accent: "#4A7AB5" },
+  { num: "01", title: "Trained on NZ law", body: "Holidays Act 2003, Privacy Act 2020, Food Act 2014, Construction Contracts Act, IRD rules. Updated when the law updates.", accent: C.pounamu },
+  { num: "02", title: "Specialists, not generalists", body: "Every kete carries agents tuned to a specific NZ workflow. No single chatbot pretending to know everything.", accent: C.pounamuLight },
+  { num: "03", title: "Memory that compounds", body: "Decisions, projects and customer history carry forward. Tomorrow's session starts where today's ended.", accent: C.white },
   { num: "04", title: "Tikanga at the foundation", body: "Rangatiratanga, kaitiakitanga, manaakitanga, whanaungatanga. Built in, not bolted on.", accent: C.gold },
 ];
 
@@ -127,7 +126,7 @@ const PRICING = [
     desc: "Whānau coordination over SMS. No app, no logins, just text.",
     features: ["SMS-first family agent", "School notices, calendar, meals", "Budget tracking", "Up to 6 family members"],
     highlight: false,
-    accent: C.teal,
+    accent: C.pounamuLight,
     stripeUrl: "https://buy.stripe.com/7sYdRbc9KeoE0KNdx43oA0c",
   },
   {
@@ -137,7 +136,7 @@ const PRICING = [
     desc: "Sole traders and micro-SMEs. One kete, up to 5 seats, email support.",
     features: ["1 industry kete (your pick)", "Up to 5 seats", "Tikanga compliance layer", "Email support, 1 business day"],
     highlight: true,
-    accent: C.gold,
+    accent: C.pounamu,
     stripeUrl: "https://buy.stripe.com/14AdRbb5GeoEfFHct03oA0d",
     badge: "Most popular",
   },
@@ -148,7 +147,7 @@ const PRICING = [
     desc: "Multi-discipline SMEs. Two kete, 15 seats, signed quarterly compliance review.",
     features: ["2 industry kete", "Up to 15 seats", "Quarterly compliance review (signed)", "Monthly audit report"],
     highlight: false,
-    accent: C.teal,
+    accent: C.pounamuGlow,
     stripeUrl: "https://buy.stripe.com/eVq9AV3DefsIbpr64C3oA0e",
   },
   {
@@ -158,22 +157,22 @@ const PRICING = [
     desc: "Multi-site, regulated, high-stakes. All five kete, unlimited seats, named success manager, 99.9% uptime SLA.",
     features: ["All 5 industry kete", "Unlimited seats", "NZ data residency", "Named success manager", "99.9% uptime SLA"],
     highlight: false,
-    accent: "#4A7AB5",
+    accent: C.navy,
     stripeUrl: "https://buy.stripe.com/14A4gB6Pq94k79bboW3oA0f",
   },
 ];
 
 const OUTCOMES = [
-  { title: "Quotes go out same-day.", body: "Two-hour quote builds drop to twelve minutes. Your win rate climbs because you're not the slowest in the inbox.", accent: C.teal },
-  { title: "Compliance stops eating Sundays.", body: "Payroll, food safety, H&S, IRD. Assembl checks the rules on the day they change, not the week after you get fined.", accent: C.gold },
-  { title: "Friday actually ends on Friday.", body: "Planning, reporting and the long admin tail run in the background. You get your evenings back.", accent: "#4A7AB5" },
+  { title: "Quotes go out same-day.", body: "Two-hour quote builds drop to twelve minutes. Your win rate climbs because you're not the slowest in the inbox.", accent: C.pounamu },
+  { title: "Compliance stops eating Sundays.", body: "Payroll, food safety, H&S, IRD. Assembl checks the rules on the day they change, not the week after you get fined.", accent: C.pounamuLight },
+  { title: "Friday actually ends on Friday.", body: "Planning, reporting and the long admin tail run in the background. You get your evenings back.", accent: C.white },
 ];
 
 const FOUR_POU = [
-  { reo: "Rangatiratanga", en: "Self-determination", body: "Your data, your decisions, your direction.", accent: C.gold },
-  { reo: "Kaitiakitanga", en: "Stewardship", body: "We care for the tools and the whenua they serve, with an intergenerational lens.", accent: C.teal },
+  { reo: "Rangatiratanga", en: "Self-determination", body: "Your data, your decisions, your direction.", accent: C.pounamu },
+  { reo: "Kaitiakitanga", en: "Stewardship", body: "We care for the tools and the whenua they serve, with an intergenerational lens.", accent: C.pounamuLight },
   { reo: "Manaakitanga", en: "Care", body: "We look after our customers, our people, and our communities.", accent: C.gold },
-  { reo: "Whanaungatanga", en: "Connection", body: "We build real relationships. We grow together.", accent: C.teal },
+  { reo: "Whanaungatanga", en: "Connection", body: "We build real relationships. We grow together.", accent: C.pounamuGlow },
 ];
 
 /* ─── Animation presets ─── */
@@ -247,29 +246,30 @@ const Index = () => {
       />
       <BrandNav />
 
-      {/* ── Global Matariki starfield ── */}
-      <MatarikiStarfield fixed starCount={50} showMatariki showConnections showOrbs />
-
       {/* ═══ 1 — HERO ═══ */}
       <section className="relative flex flex-col items-center text-center px-6 sm:px-8 pt-28 sm:pt-36 pb-20" style={{ zIndex: 1 }}>
-        {/* Liquid glass ambient glow */}
+        {/* Pounamu ambient glow */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 60% 50% at 50% 25%, rgba(212,168,67,0.08) 0%, transparent 65%)" }}
+          style={{ background: "radial-gradient(ellipse 60% 50% at 50% 25%, rgba(58,125,110,0.10) 0%, transparent 65%)" }}
         />
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 40% 35% at 50% 20%, rgba(58,125,110,0.05) 0%, transparent 60%)" }}
+          style={{ background: "radial-gradient(ellipse 40% 35% at 50% 20%, rgba(126,207,194,0.04) 0%, transparent 60%)" }}
         />
 
-        {/* Animated kete weave — hero visual */}
+        {/* 3D Animated kete in glowing pounamu orb */}
         <motion.div
           className="relative mb-8"
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease }}
+          transition={{ duration: 1.4, ease }}
         >
-          <KeteWeaveVisual size={isMobile ? 120 : 180} accentColor={C.gold} accentLight={C.goldLight} />
+          <KeteWeaveVisual
+            size={isMobile ? 140 : 220}
+            accentColor={C.pounamu}
+            accentLight={C.pounamuLight}
+          />
         </motion.div>
 
         {/* Badge */}
@@ -283,11 +283,11 @@ const Index = () => {
             className="inline-block text-[10px] tracking-[5px] uppercase px-5 py-2 rounded-full"
             style={{
               fontFamily: FONT.mono,
-              color: C.gold,
-              background: "rgba(212,168,67,0.06)",
-              border: "1px solid rgba(212,168,67,0.15)",
+              color: C.pounamuLight,
+              background: "rgba(58,125,110,0.08)",
+              border: "1px solid rgba(58,125,110,0.2)",
               backdropFilter: "blur(12px)",
-              boxShadow: "0 0 30px rgba(212,168,67,0.08)",
+              boxShadow: "0 0 30px rgba(58,125,110,0.1)",
             }}
           >
             Shared intelligence for Aotearoa
@@ -312,7 +312,7 @@ const Index = () => {
           Your team is already using AI.{" "}
           <span
             style={{
-              background: `linear-gradient(135deg, ${C.gold} 0%, ${C.goldLight} 50%, ${C.gold} 100%)`,
+              background: `linear-gradient(135deg, ${C.pounamu} 0%, ${C.pounamuGlow} 50%, ${C.pounamu} 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -416,9 +416,9 @@ const Index = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-16">
             {[
-              { stat: "605,000", label: "NZ businesses", accent: C.gold },
-              { stat: "97%", label: "have under 20 staff", accent: C.teal },
-              { stat: "0%", label: "audit what their AI does", accent: "#C85A54" },
+              { stat: "605,000", label: "NZ businesses", accent: C.pounamu },
+              { stat: "97%", label: "have under 20 staff", accent: C.pounamuLight },
+              { stat: "0%", label: "audit what their AI does", accent: C.gold },
             ].map((c, i) => (
               <LiquidGlassCard key={c.label} className="p-8 text-center" accentColor={c.accent} delay={i * 0.1}>
                 <p className="text-4xl mb-2" style={{ fontFamily: FONT.heading, fontWeight: 300, color: c.accent }}>
@@ -586,7 +586,7 @@ const Index = () => {
               <motion.div key={tier.name} className="relative" {...stagger(i)}>
                 {tier.highlight && (
                   <div className="absolute -inset-px rounded-[17px] pointer-events-none" style={{
-                    background: `linear-gradient(135deg, rgba(212,168,67,0.5) 0%, rgba(212,168,67,0.15) 50%, transparent 100%)`,
+                    background: `linear-gradient(135deg, rgba(58,125,110,0.5) 0%, rgba(58,125,110,0.15) 50%, transparent 100%)`,
                     zIndex: 0,
                   }} />
                 )}
@@ -598,26 +598,26 @@ const Index = () => {
                   style={{
                     zIndex: 1,
                     ...(tier.highlight ? {
-                      background: "rgba(15,12,5,0.92)",
-                      border: "1px solid rgba(212,168,67,0.35)",
-                      boxShadow: "0 0 0 1px rgba(212,168,67,0.1), 0 16px 48px rgba(212,168,67,0.12), 0 4px 24px rgba(0,0,0,0.4)",
+                      background: "rgba(5,15,12,0.92)",
+                      border: "1px solid rgba(58,125,110,0.35)",
+                      boxShadow: "0 0 0 1px rgba(58,125,110,0.1), 0 16px 48px rgba(58,125,110,0.12), 0 4px 24px rgba(0,0,0,0.4)",
                       transform: "scale(1.02)",
                     } : {}),
                   }}
                 >
                   {tier.highlight && (
                     <div className="absolute top-0 left-0 right-0 h-[2px] rounded-t-2xl"
-                      style={{ background: `linear-gradient(90deg, transparent, ${C.gold}, transparent)` }}
+                      style={{ background: `linear-gradient(90deg, transparent, ${C.pounamu}, transparent)` }}
                     />
                   )}
                   {"badge" in tier && tier.badge && (
                     <span className="inline-block text-[9px] uppercase tracking-[2.5px] mb-3 px-2.5 py-1 rounded-full"
-                      style={{ fontFamily: FONT.mono, color: C.gold, background: "rgba(212,168,67,0.1)", border: "1px solid rgba(212,168,67,0.2)" }}>
+                      style={{ fontFamily: FONT.mono, color: C.pounamuLight, background: "rgba(58,125,110,0.12)", border: "1px solid rgba(58,125,110,0.25)" }}>
                       {tier.badge}
                     </span>
                   )}
                   <h3 className="text-sm uppercase tracking-[2px] mb-1"
-                    style={{ fontFamily: FONT.mono, fontWeight: 600, color: tier.highlight ? C.gold : "rgba(255,255,255,0.6)" }}>
+                    style={{ fontFamily: FONT.mono, fontWeight: 600, color: tier.highlight ? C.pounamuLight : "rgba(255,255,255,0.6)" }}>
                     {tier.name}
                   </h3>
                   <p className="text-4xl mb-1" style={{ fontFamily: FONT.heading, fontWeight: 300, color: C.white }}>
@@ -637,8 +637,8 @@ const Index = () => {
                     className="block w-full text-center py-2.5 rounded-xl text-xs transition-all duration-300 hover:scale-[1.02]"
                     style={{
                       fontFamily: FONT.body, fontWeight: 600, letterSpacing: "0.04em",
-                      background: tier.highlight ? C.gold : "rgba(255,255,255,0.05)",
-                      color: tier.highlight ? "#09090F" : "rgba(255,255,255,0.7)",
+                      background: tier.highlight ? C.pounamu : "rgba(255,255,255,0.05)",
+                      color: tier.highlight ? "#FFFFFF" : "rgba(255,255,255,0.7)",
                       border: tier.highlight ? "none" : "1px solid rgba(255,255,255,0.08)",
                     }}>
                     Subscribe — {tier.price}/mo
@@ -649,13 +649,13 @@ const Index = () => {
           </div>
 
           <motion.div className="text-center mt-12" {...fade}>
-            <p className="text-[11px] uppercase tracking-[3px] mb-2" style={{ fontFamily: FONT.mono, color: C.gold, fontWeight: 700 }}>
+            <p className="text-[11px] uppercase tracking-[3px] mb-2" style={{ fontFamily: FONT.mono, color: C.pounamuLight, fontWeight: 700 }}>
               OUTCOME ENGAGEMENTS · FROM $5,000/MO
             </p>
             <p className="text-xs max-w-xl mx-auto mb-3" style={{ fontFamily: FONT.body, color: "rgba(255,255,255,0.55)" }}>
               We take on the result, not the hours. Base fee plus 10–20% of measured savings.
             </p>
-            <Link to="/contact" className="text-xs underline" style={{ fontFamily: FONT.body, color: C.gold }}>Talk to us →</Link>
+            <Link to="/contact" className="text-xs underline" style={{ fontFamily: FONT.body, color: C.pounamuLight }}>Talk to us →</Link>
           </motion.div>
 
           <motion.p className="text-center mt-8 text-[11px]" style={{ fontFamily: FONT.mono, color: "rgba(255,255,255,0.25)" }} {...fade}>
@@ -680,8 +680,8 @@ const Index = () => {
             style={{
               background: "rgba(255,255,255,0.04)",
               backdropFilter: "blur(24px)",
-              border: "1px solid rgba(212,168,67,0.15)",
-              boxShadow: "0 0 48px rgba(212,168,67,0.05), 0 8px 32px rgba(0,0,0,0.45)",
+              border: "1px solid rgba(58,125,110,0.2)",
+              boxShadow: "0 0 48px rgba(58,125,110,0.06), 0 8px 32px rgba(0,0,0,0.45)",
             }}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -750,7 +750,7 @@ const Index = () => {
         <div className={`${INNER} max-w-2xl mx-auto text-center`}>
           <motion.div {...fade}>
             <div className="flex justify-center mb-6">
-              <KeteWeaveVisual size={48} accentColor={C.teal} accentLight={C.tealLight} showNodes={false} />
+              <KeteWeaveVisual size={48} accentColor={C.pounamuLight} accentLight={C.pounamuGlow} showNodes={false} />
             </div>
             <Eyebrow>ALSO FROM ASSEMBL</Eyebrow>
             <h3 className="text-2xl uppercase tracking-[4px] mb-4" style={{ fontFamily: FONT.heading, fontWeight: 300, color: C.white }}>

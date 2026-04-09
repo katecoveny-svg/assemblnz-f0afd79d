@@ -117,7 +117,7 @@ const BrandNav = () => {
 
           <Link to="/contact"
             className="ml-2 px-5 py-2 rounded-full text-xs font-body font-medium transition-all duration-300"
-            style={{ background: "#D4A843", color: "#09090F" }}>
+            style={{ background: "#3A7D6E", color: "#FFFFFF" }}>
             Book a discovery call
           </Link>
 
@@ -142,7 +142,7 @@ const BrandNav = () => {
               initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}>
               <div className="flex items-center justify-between px-5 py-4">
-                <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "12px", letterSpacing: "3px", color: "#D4A843" }}>MENU</span>
+                <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "12px", letterSpacing: "3px", color: "#5AADA0" }}>MENU</span>
                 <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-lg" style={{ color: "rgba(255,255,255,0.6)" }} aria-label="Close menu">
                   <X size={20} />
                 </button>
@@ -158,7 +158,7 @@ const BrandNav = () => {
                 ))}
 
                 <div className="pt-2 pb-1">
-                  <span className="px-4 text-[10px] font-semibold tracking-widest" style={{ color: "#D4A843" }}>INDUSTRY PACKS</span>
+                  <span className="px-4 text-[10px] font-semibold tracking-widest" style={{ color: "#5AADA0" }}>INDUSTRY PACKS</span>
                 </div>
                 {PACKS.map(pack => (
                   <button key={pack.label} onClick={() => handleNavClick(pack.to)}
@@ -174,7 +174,7 @@ const BrandNav = () => {
               <div className="px-5 py-5 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                 <Link to="/contact"
                   className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium mb-3"
-                  style={{ background: "#D4A843", color: "#09090F" }}
+                  style={{ background: "#3A7D6E", color: "#FFFFFF" }}
                   onClick={() => setMobileOpen(false)}>
                   Book a discovery call
                 </Link>

@@ -11,9 +11,9 @@ const CelestialLogo = ({ size = 36 }: { size?: number }) => {
       <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
         <defs>
           <radialGradient id="nav-gold" cx="40%" cy="32%" r="50%">
-            <stop offset="0%" stopColor="#F5D98A" />
-            <stop offset="45%" stopColor="#D4A843" />
-            <stop offset="100%" stopColor="#8B6020" />
+            <stop offset="0%" stopColor="#7ECFC2" />
+            <stop offset="45%" stopColor="#3A7D6E" />
+            <stop offset="100%" stopColor="#1B4D43" />
           </radialGradient>
           <radialGradient id="nav-pd" cx="40%" cy="35%" r="50%">
             <stop offset="0%" stopColor="#6BBFAE" />
@@ -30,9 +30,9 @@ const CelestialLogo = ({ size = 36 }: { size?: number }) => {
             <stop offset="100%" stopColor="white" stopOpacity="0" />
           </radialGradient>
           <radialGradient id="nav-hg" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#D4A843" stopOpacity="0.5" />
-            <stop offset="50%" stopColor="#D4A843" stopOpacity="0.08" />
-            <stop offset="100%" stopColor="#D4A843" stopOpacity="0" />
+            <stop offset="0%" stopColor="#5AADA0" stopOpacity="0.5" />
+            <stop offset="50%" stopColor="#3A7D6E" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#3A7D6E" stopOpacity="0" />
           </radialGradient>
           <radialGradient id="nav-ht" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#5AADA0" stopOpacity="0.4" />

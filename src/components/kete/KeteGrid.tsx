@@ -81,7 +81,7 @@ const KeteGrid: React.FC = () => {
             style={{
               fontFamily: "'Lato', sans-serif",
               fontWeight: 300,
-              background: "linear-gradient(135deg, #D4A843 0%, #F0D078 100%)",
+              background: "linear-gradient(135deg, #3A7D6E 0%, #7ECFC2 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}
