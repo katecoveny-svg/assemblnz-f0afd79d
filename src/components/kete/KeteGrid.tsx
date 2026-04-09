@@ -45,7 +45,7 @@ const KeteGrid: React.FC = () => {
   return (
     <>
       <SEO
-        title="The Kete Collection | Assembl"
+        title="The Kete Collection | assembl"
         description="Five industry-specific kete plus a shared core platform — built in Aotearoa, grounded in NZ legislation."
       />
       <div className="kete-grid-wrapper relative w-full max-w-[1400px] mx-auto px-6 md:px-8 py-16 md:py-20">

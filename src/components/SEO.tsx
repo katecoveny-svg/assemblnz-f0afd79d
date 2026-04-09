@@ -26,7 +26,7 @@ const SEO = ({
       <meta name="description" content={description} />
       <link rel="canonical" href={url} />
       <meta name="robots" content="index, follow" />
-      <meta name="author" content="Assembl" />
+      <meta name="author" content="assembl" />
 
       {/* Geo */}
       <meta name="geo.region" content="NZ-AUK" />
@@ -40,12 +40,12 @@ const SEO = ({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
-      <meta property="og:site_name" content="Assembl" />
+      <meta property="og:site_name" content="assembl" />
       <meta property="og:locale" content="en_NZ" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@AssemblNZ" />
+      <meta name="twitter:site" content="@assemblNZ" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />

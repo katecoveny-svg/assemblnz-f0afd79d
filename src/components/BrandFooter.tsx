@@ -37,7 +37,7 @@ const FOOTER_LINKS = {
 const SOCIAL_LINKS = [
   { label: "LinkedIn", href: "https://linkedin.com/company/assemblnz", icon: "in" },
   { label: "Instagram", href: "https://www.instagram.com/assemblnz", icon: "ig" },
-  { label: "X", href: "https://x.com/AssemblNZ", icon: "x" },
+  { label: "X", href: "https://x.com/assemblNZ", icon: "x" },
   { label: "Facebook", href: "https://facebook.com/assemblnz", icon: "fb" },
 ];
 
@@ -83,7 +83,7 @@ const BrandFooter = () => {
         message: "Newsletter signup from footer",
       });
       await supabase.functions.invoke("newsletter-signup", { body: { email: email.trim() } });
-      toast.success("Subscribed! Welcome to the Assembl whānau.");
+      toast.success("Subscribed! Welcome to the assembl whānau.");
       setEmail("");
     } catch {
       toast.error("Subscription failed. Please try again.");
