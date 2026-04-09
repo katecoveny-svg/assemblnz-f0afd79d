@@ -259,18 +259,26 @@ const Index = () => {
           style={{ background: "radial-gradient(ellipse 40% 35% at 50% 20%, rgba(126,207,194,0.04) 0%, transparent 60%)" }}
         />
 
-        {/* 3D Animated kete in glowing pounamu orb */}
+        {/* 3D Animated kete in glowing pounamu orb — BIG hero */}
         <motion.div
-          className="relative mb-8"
-          initial={{ opacity: 0, scale: 0.7 }}
+          className="relative mb-10"
+          initial={{ opacity: 0, scale: 0.6 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.4, ease }}
+          transition={{ duration: 1.6, ease }}
+          style={{ perspective: "800px" }}
         >
-          <KeteWeaveVisual
-            size={isMobile ? 140 : 220}
-            accentColor={C.pounamu}
-            accentLight={C.pounamuLight}
-          />
+          <motion.div
+            animate={{ rotateY: [0, 8, -8, 0], rotateX: [0, 3, -3, 0] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <KeteWeaveVisual
+              size={isMobile ? 200 : 340}
+              accentColor={C.pounamu}
+              accentLight={C.pounamuLight}
+              showNodes={true}
+              showGlow={true}
+            />
+          </motion.div>
         </motion.div>
 
         {/* Badge */}
