@@ -14,14 +14,12 @@
 import type { WorkflowResult, Kete } from '../../evidence-bundles/schema.js';
 import type { GeneratorOutput } from '../types.js';
 
-/**
- * [TODO: Milestone 3] Replace stub with a real runtime shim that:
- *   1. Loads the kete's system prompt from agents/{kete}/*/system-prompt.md
- *   2. Loads the KB files referenced in agents/{kete}/*/kb-refs.md
- *   3. Calls the managed agents API (with local fallback adapter during dev)
- *   4. Collects Kahu → Iho → Tā → Mahara → Mana stage outputs
- *   5. Returns a fully-populated WorkflowResult
- */
+// [TODO: Milestone 3] Replace stub with a real runtime shim that:
+//   1. Loads the kete's system prompt from agents/{kete}/<name>/system-prompt.md
+//   2. Loads the KB files referenced in agents/{kete}/<name>/kb-refs.md
+//   3. Calls the managed agents API (with local fallback adapter during dev)
+//   4. Collects Kahu -> Iho -> Ta -> Mahara -> Mana stage outputs
+//   5. Returns a fully-populated WorkflowResult
 export async function runAgentStub(
   generatorOutput: GeneratorOutput,
   workflowId: string,

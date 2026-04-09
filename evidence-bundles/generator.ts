@@ -1,6 +1,6 @@
 /**
  * Evidence pack generator — Assembl
- * Version: stub · 0.1.0 · 2026-04-09
+ * Version: 0.1.0 · 2026-04-09
  *
  * Pure function: WorkflowResult → BundleArtifact | BuildBundleError
  *
@@ -8,17 +8,11 @@
  *   1. Trace check: every Finding must have a non-empty source_pointer. Refuses to build if not.
  *   2. Simulated flag: if ANY input has simulated: true, the bundle is SIMULATED — no override.
  *   3. User-facing strings say "evidence pack" — not "bundle", not "compliance pack".
- *
- * Milestone 2 will replace the zip stub with:
- *   - cover.pdf with SIMULATED watermark if simulated: true (using jsPDF)
- *   - detail.pdf with full pipeline trace
- *   - JSZip packaging
- *   - sha-256 signing of all files
- *
- * [TODO: Milestone 2] Full PDF generation + JSZip packaging
  */
 
 import { createHash } from 'crypto';
+import { buildZip } from './zip.js';
+import { generateCoverPdf, generateDetailPdf } from './pdf.js';
 import type {
   WorkflowResult,
   BundleOptions,
@@ -65,23 +59,24 @@ export function buildBundle(
     return error;
   }
 
-  // ── 3. Assemble data.json ────────────────────────────────────────────────
+  // ── 3. Generate PDFs ─────────────────────────────────────────────────────
+  const coverPdf = generateCoverPdf(workflowResult);
+  const detailPdf = generateDetailPdf(workflowResult);
+
+  // ── 4. Assemble data.json ────────────────────────────────────────────────
   const dataJson = JSON.stringify(workflowResult, null, 2);
   const dataJsonBytes = Buffer.from(dataJson, 'utf-8');
   const rawJsonSha256 = sha256(dataJsonBytes);
 
-  // ── 4. Build manifest.json ───────────────────────────────────────────────
+  // ── 5. Build manifest.json ───────────────────────────────────────────────
   const pipelineStagesRun = Object.entries(workflowResult.pipeline)
     .filter(([, stage]) => stage !== null)
     .map(([name]) => name);
 
   const files: BundleFileEntry[] = [
-    {
-      path: 'data.json',
-      sha256: rawJsonSha256,
-      size_bytes: dataJsonBytes.length,
-    },
-    // [TODO: Milestone 2] add cover.pdf, detail.pdf, cover.docx entries after generation
+    { path: 'cover.pdf',   sha256: sha256(coverPdf),    size_bytes: coverPdf.length },
+    { path: 'detail.pdf',  sha256: sha256(detailPdf),   size_bytes: detailPdf.length },
+    { path: 'data.json',   sha256: rawJsonSha256,        size_bytes: dataJsonBytes.length },
   ];
 
   const manifest: BundleManifest = {
@@ -99,25 +94,27 @@ export function buildBundle(
     raw_json_sha256: rawJsonSha256,
   };
 
-  const manifestJson = JSON.stringify(manifest, null, 2);
-  const manifestBytes = Buffer.from(manifestJson, 'utf-8');
-
-  // Add manifest to the files list now we have its content
+  // Serialise manifest before pushing its own entry (self-referential sha256 is not possible)
+  const manifestBytes = Buffer.from(JSON.stringify(manifest, null, 2), 'utf-8');
   manifest.files.push({
     path: 'manifest.json',
     sha256: sha256(manifestBytes),
     size_bytes: manifestBytes.length,
   });
+  // Re-serialise so the manifest.json file in the zip includes all four entries
+  const finalManifestBytes = Buffer.from(JSON.stringify(manifest, null, 2), 'utf-8');
 
-  // ── 5. Package as zip ────────────────────────────────────────────────────
-  // [TODO: Milestone 2] Replace with JSZip to produce a proper .zip archive.
-  // Stub: produce a minimal valid Uint8Array that encodes both files as a
-  // newline-delimited concatenation so tests can verify the contents.
-  const zipStub = buildZipStub({ 'data.json': dataJsonBytes, 'manifest.json': manifestBytes });
+  // ── 6. Package as zip ────────────────────────────────────────────────────
+  const zipBytes = buildZip([
+    { name: 'cover.pdf',    data: coverPdf },
+    { name: 'detail.pdf',   data: detailPdf },
+    { name: 'data.json',    data: dataJsonBytes },
+    { name: 'manifest.json', data: finalManifestBytes },
+  ]);
 
   return {
     bundle_id: workflowResult.bundle_id,
-    zip_bytes: zipStub,
+    zip_bytes: zipBytes,
     manifest,
   };
 }
@@ -126,34 +123,4 @@ export function buildBundle(
 
 function sha256(bytes: Buffer): string {
   return createHash('sha256').update(bytes).digest('hex');
-}
-
-/**
- * Minimal zip stub — concatenates files with a simple header.
- * Replaced by real JSZip in Milestone 2.
- * Format: JSON array of { path, content_base64 } entries, UTF-8 encoded.
- * Tests use extractZipStub() to verify contents without a real zip parser.
- */
-function buildZipStub(files: Record<string, Buffer>): Uint8Array {
-  const entries = Object.entries(files).map(([path, content]) => ({
-    path,
-    content_base64: content.toString('base64'),
-  }));
-  return Buffer.from(JSON.stringify(entries), 'utf-8');
-}
-
-/**
- * Extracts the zip stub for testing purposes.
- * Not used in production — replaced when real zip is added in Milestone 2.
- */
-export function extractZipStub(zipBytes: Uint8Array): Record<string, Buffer> {
-  const entries = JSON.parse(Buffer.from(zipBytes).toString('utf-8')) as Array<{
-    path: string;
-    content_base64: string;
-  }>;
-  const result: Record<string, Buffer> = {};
-  for (const entry of entries) {
-    result[entry.path] = Buffer.from(entry.content_base64, 'base64');
-  }
-  return result;
 }

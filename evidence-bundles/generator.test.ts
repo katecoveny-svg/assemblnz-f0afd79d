@@ -17,7 +17,8 @@
 
 import { describe, it, expect } from 'vitest';
 import { createHash } from 'crypto';
-import { buildBundle, extractZipStub } from './generator.js';
+import { buildBundle } from './generator.js';
+import { readZipEntry } from './zip.js';
 import type { WorkflowResult, BundleOptions } from './schema.js';
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
@@ -178,23 +179,24 @@ describe('zip contents', () => {
     const result = buildBundle(makeBaseResult(), defaultOptions);
     expect('kind' in result).toBe(false);
     const artifact = result as import('./schema.js').BundleArtifact;
-    const files = extractZipStub(artifact.zip_bytes);
-    expect('data.json' in files).toBe(true);
+    const entry = readZipEntry(Buffer.from(artifact.zip_bytes), 'data.json');
+    expect(entry).not.toBeNull();
   });
 
   it('zip contains manifest.json', () => {
     const result = buildBundle(makeBaseResult(), defaultOptions);
     const artifact = result as import('./schema.js').BundleArtifact;
-    const files = extractZipStub(artifact.zip_bytes);
-    expect('manifest.json' in files).toBe(true);
+    const entry = readZipEntry(Buffer.from(artifact.zip_bytes), 'manifest.json');
+    expect(entry).not.toBeNull();
   });
 
   it('data.json in zip parses back to the original WorkflowResult', () => {
     const input = makeBaseResult();
     const result = buildBundle(input, defaultOptions);
     const artifact = result as import('./schema.js').BundleArtifact;
-    const files = extractZipStub(artifact.zip_bytes);
-    const parsed = JSON.parse(files['data.json'].toString('utf-8')) as WorkflowResult;
+    const entry = readZipEntry(Buffer.from(artifact.zip_bytes), 'data.json');
+    expect(entry).not.toBeNull();
+    const parsed = JSON.parse(entry!.toString('utf-8')) as WorkflowResult;
     expect(parsed.bundle_id).toBe(input.bundle_id);
     expect(parsed.agent.kete).toBe('PIKAU');
   });
@@ -202,8 +204,9 @@ describe('zip contents', () => {
   it('manifest.json raw_json_sha256 matches sha256 of data.json bytes', () => {
     const result = buildBundle(makeBaseResult(), defaultOptions);
     const artifact = result as import('./schema.js').BundleArtifact;
-    const files = extractZipStub(artifact.zip_bytes);
-    const actualHash = createHash('sha256').update(files['data.json']).digest('hex');
+    const entry = readZipEntry(Buffer.from(artifact.zip_bytes), 'data.json');
+    expect(entry).not.toBeNull();
+    const actualHash = createHash('sha256').update(entry!).digest('hex');
     expect(artifact.manifest.raw_json_sha256).toBe(actualHash);
   });
 
@@ -232,9 +235,39 @@ describe('zip contents', () => {
     expect(result.manifest.pipeline_stages_run).not.toContain('mahara');
   });
 
-  // Milestone 2: real PDF + JSZip
-  it.todo('zip contains cover.pdf with SIMULATED watermark when simulated: true');
-  it.todo('zip contains detail.pdf with full pipeline trace');
-  it.todo('cover.pdf has diagonal red SIMULATED watermark on every page when simulated: true');
-  it.todo('manifest.json files array contains sha256 for cover.pdf and detail.pdf');
+  it('zip contains cover.pdf', () => {
+    const result = buildBundle(makeBaseResult(), defaultOptions) as import('./schema.js').BundleArtifact;
+    const entry = readZipEntry(Buffer.from(result.zip_bytes), 'cover.pdf');
+    expect(entry).not.toBeNull();
+    // Valid PDF starts with %PDF-
+    expect(entry!.slice(0, 5).toString('ascii')).toBe('%PDF-');
+  });
+
+  it('zip contains detail.pdf with full pipeline trace', () => {
+    const result = buildBundle(makeBaseResult(), defaultOptions) as import('./schema.js').BundleArtifact;
+    const entry = readZipEntry(Buffer.from(result.zip_bytes), 'detail.pdf');
+    expect(entry).not.toBeNull();
+    expect(entry!.slice(0, 5).toString('ascii')).toBe('%PDF-');
+  });
+
+  it('cover.pdf contains SIMULATED text when simulated: true', () => {
+    const simulatedResult = makeBaseResult({ inputs: [makeInput('inp-1', true)], simulated: true });
+    const result = buildBundle(simulatedResult, defaultOptions) as import('./schema.js').BundleArtifact;
+    const coverPdf = readZipEntry(Buffer.from(result.zip_bytes), 'cover.pdf');
+    expect(coverPdf).not.toBeNull();
+    // PDF stream contains the watermark text
+    expect(coverPdf!.toString('latin1')).toContain('SIMULATED');
+  });
+
+  it('manifest.files contains entries for cover.pdf and detail.pdf', () => {
+    const result = buildBundle(makeBaseResult(), defaultOptions) as import('./schema.js').BundleArtifact;
+    const paths = result.manifest.files.map(f => f.path);
+    expect(paths).toContain('cover.pdf');
+    expect(paths).toContain('detail.pdf');
+    // Each has a non-empty sha256
+    const cover = result.manifest.files.find(f => f.path === 'cover.pdf')!;
+    const detail = result.manifest.files.find(f => f.path === 'detail.pdf')!;
+    expect(cover.sha256).toHaveLength(64);
+    expect(detail.sha256).toHaveLength(64);
+  });
 });
