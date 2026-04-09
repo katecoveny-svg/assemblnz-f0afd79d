@@ -243,7 +243,7 @@ const Index = () => {
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.white }}>
       <SEO
         title="Assembl — Shared Intelligence for Aotearoa Business"
-        description="Five industry kete covering quoting, payroll, planning, marketing and compliance. 78 specialist agents. Five-stage compliance pipeline. Built around NZ law, not adapted from a US product."
+        description="Five industry kete — Manaaki, Waihanga, Auaha, Arataki, Pikau. Five-stage compliance pipeline. Built around NZ law, not adapted from a US product. From $590/mo NZD ex GST."
       />
       <BrandNav />
 
