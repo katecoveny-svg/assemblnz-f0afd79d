@@ -96,11 +96,11 @@ const PACKS: {
   to: string;
   accentLight: string;
 }[] = [
-  { reo: "Manaaki", en: "Hospitality", desc: "Food Act plans, liquor licensing, guest experience, tourism operators.", color: C.pounamu, accentLight: C.pounamuLight, to: "/packs/manaaki" },
-  { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: C.pounamuLight, accentLight: C.pounamuGlow, to: "/hanga" },
-  { reo: "Auaha", en: "Creative", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: C.white, accentLight: "rgba(255,255,255,0.7)", to: "/packs/auaha" },
-  { reo: "Arataki", en: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling.", color: C.pounamuGlow, accentLight: C.pounamuLight, to: "/contact" },
-  { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: C.navy, accentLight: "#4A7AB5", to: "/contact" },
+  { reo: "Manaaki", en: "Hospitality", desc: "Food Act plans, liquor licensing, guest experience, tourism operators.", color: "#3A7D6E", accentLight: "#5AADA0", to: "/packs/manaaki" },
+  { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: "#1A3A5C", accentLight: "#2A5A8C", to: "/hanga" },
+  { reo: "Auaha", en: "Creative", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: "#D4A843", accentLight: "#E8C76A", to: "/packs/auaha" },
+  { reo: "Arataki", en: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling.", color: "#E8E8E8", accentLight: "rgba(255,255,255,0.7)", to: "/contact" },
+  { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#7ECFC2", accentLight: "#A8E6DA", to: "/contact" },
 ];
 
 const PIPELINE_STAGES = [
