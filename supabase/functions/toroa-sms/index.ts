@@ -513,8 +513,8 @@ Deno.serve(async (req) => {
     const forwardContext = await getForwardThinkingContext(sb, family.id, memories);
 
     const chatHistory = (history.data || []).reverse().flatMap((msg: any) => {
-      const msgs = [{ role: "user" as const, content: msg.message }];
-      if (msg.response) msgs.push({ role: "assistant" as const, content: msg.response });
+      const msgs: Array<{ role: "user" | "assistant"; content: string }> = [{ role: "user", content: msg.message }];
+      if (msg.response) msgs.push({ role: "assistant", content: msg.response });
       return msgs;
     });
 

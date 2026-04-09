@@ -54,7 +54,7 @@ function extractMetaFromHtml(html: string, baseUrl: string): Record<string, unkn
   const ogImage = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)?.[1];
   const appleTouchIcon = html.match(/<link[^>]+rel=["']apple-touch-icon["'][^>]+href=["']([^"']+)["']/i)?.[1];
   const favicon = html.match(/<link[^>]+rel=["'](?:shortcut )?icon["'][^>]+href=["']([^"']+)["']/i)?.[1];
-  const resolveUrl = (u: string | null) => {
+  const resolveUrl = (u: string | null | undefined) => {
     if (!u) return null;
     try { return new URL(u, baseUrl).toString(); } catch { return u; }
   };
