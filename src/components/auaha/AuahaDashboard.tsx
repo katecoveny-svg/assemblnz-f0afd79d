@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import KeteBrainChat from "@/components/KeteBrainChat";
 import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
 import { motion } from "framer-motion";
+import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
+import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 
 const ACCENT = "#F0D078";
 const TEAL = "#5AADA0";
@@ -91,7 +93,7 @@ export default function AuahaDashboard() {
   const navigate = useNavigate();
 
   return (
-    <div className="p-6 lg:p-8 space-y-8 max-w-[1400px] mx-auto">
+    <KeteDashboardShell name="Auaha" subtitle="Creative & Media Intelligence" accentColor={ACCENT} accentLight="#FFE866" variant="standard">
       {/* Hero Header */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
         className="relative overflow-hidden rounded-2xl p-8 lg:p-10"
@@ -321,6 +323,6 @@ export default function AuahaDashboard() {
       </GlassCard>
 
       <KeteBrainChat keteId="auaha" keteName="Auaha" keteNameEn="Creative" accentColor="#F0D078" />
-    </div>
+    </KeteDashboardShell>
   );
 }
