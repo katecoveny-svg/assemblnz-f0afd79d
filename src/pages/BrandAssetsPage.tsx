@@ -31,6 +31,59 @@ const FONT_STACK = [
   { name: "JetBrains Mono", weight: "400–500", usage: "Code, stats, badges, labels" },
 ];
 
+/** Convert an SVG string to a PNG blob at the given scale, then trigger download */
+function svgToPngDownload(svgContent: string, filename: string, scale = 2) {
+  // Parse SVG to get dimensions
+  const parser = new DOMParser();
+  const svgDoc = parser.parseFromString(svgContent, "image/svg+xml");
+  const svgEl = svgDoc.documentElement;
+
+  let width = parseInt(svgEl.getAttribute("width") || "0", 10);
+  let height = parseInt(svgEl.getAttribute("height") || "0", 10);
+
+  // Fallback to viewBox
+  if (!width || !height) {
+    const vb = svgEl.getAttribute("viewBox")?.split(/\s+/).map(Number);
+    if (vb && vb.length === 4) {
+      width = vb[2];
+      height = vb[3];
+    }
+  }
+  if (!width) width = 400;
+  if (!height) height = 400;
+
+  // Ensure SVG has explicit width/height for canvas rendering
+  if (!svgEl.getAttribute("width")) svgEl.setAttribute("width", String(width));
+  if (!svgEl.getAttribute("height")) svgEl.setAttribute("height", String(height));
+
+  const serialized = new XMLSerializer().serializeToString(svgEl);
+  const blob = new Blob([serialized], { type: "image/svg+xml;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const img = new window.Image();
+  img.onload = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = width * scale;
+    canvas.height = height * scale;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.scale(scale, scale);
+    ctx.drawImage(img, 0, 0, width, height);
+    URL.revokeObjectURL(url);
+
+    canvas.toBlob((pngBlob) => {
+      if (!pngBlob) return;
+      const pngUrl = URL.createObjectURL(pngBlob);
+      const a = document.createElement("a");
+      a.href = pngUrl;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(pngUrl);
+    }, "image/png");
+  };
+  img.src = url;
+}
+
 const DownloadCard = ({
   title, description, icon: Icon, items, accentColor,
 }: {
@@ -50,23 +103,30 @@ const DownloadCard = ({
     <p className="text-xs font-body text-muted-foreground mb-5">{description}</p>
     <div className="space-y-2">
       {items.map((item) => (
-        <button
-          key={item.filename}
-          onClick={() => generateAndDownload(item.filename, item.type)}
-          className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-body glass-card glow-hover-gold cursor-pointer group"
-        >
-          <span className="text-foreground/70 group-hover:text-foreground transition-colors">{item.label}</span>
-          <Download size={14} className="text-muted-foreground group-hover:text-foreground transition-colors" />
-        </button>
+        <div key={item.filename} className="space-y-1">
+          <button
+            onClick={() => generateAndDownload(item.filename, item.type, "svg")}
+            className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-body glass-card glow-hover-gold cursor-pointer group"
+          >
+            <span className="text-foreground/70 group-hover:text-foreground transition-colors">{item.label} <span className="text-muted-foreground/50">SVG</span></span>
+            <Download size={14} className="text-muted-foreground group-hover:text-foreground transition-colors" />
+          </button>
+          <button
+            onClick={() => generateAndDownload(item.filename, item.type, "png")}
+            className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-body glass-card glow-hover-gold cursor-pointer group"
+          >
+            <span className="text-foreground/70 group-hover:text-foreground transition-colors">{item.label} <span className="text-muted-foreground/50">PNG</span></span>
+            <Download size={14} className="text-muted-foreground group-hover:text-foreground transition-colors" />
+          </button>
+        </div>
       ))}
     </div>
   </LiquidGlassCard>
 );
 
 /** Generate SVG content for brand assets and trigger download */
-function generateAndDownload(filename: string, type: string) {
+function generateAndDownload(filename: string, type: string, format: "svg" | "png" = "svg") {
   let content = "";
-  let mimeType = "image/svg+xml";
 
   if (type === "logo-svg") {
     content = generateLogoSVG();
@@ -86,19 +146,28 @@ function generateAndDownload(filename: string, type: string) {
   } else if (type === "instagram-post") {
     content = generateInstagramSVG();
   } else if (type === "brand-pdf") {
-    downloadBrandGuidelinesPDF();
+    if (format === "png") {
+      const svg = generateBrandGuidelinesSVG();
+      svgToPngDownload(svg, filename.replace(".svg", ".png"), 2);
+    } else {
+      downloadBrandGuidelinesPDF();
+    }
     return;
   } else {
     return;
   }
 
-  const blob = new Blob([content], { type: mimeType });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
+  if (format === "png") {
+    svgToPngDownload(content, filename.replace(".svg", ".png"), 2);
+  } else {
+    const blob = new Blob([content], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 }
 
 function generateLogoSVG(textColor = "#FFFFFF") {
@@ -118,7 +187,7 @@ function generateLogoSVG(textColor = "#FFFFFF") {
 }
 
 function generateKeteIconSVG(color: string, light: string, name: string) {
-  return `<svg width="200" height="200" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+  return `<svg width="200" height="220" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
   <circle cx="100" cy="110" r="85" fill="none" stroke="${color}" stroke-width="1.5" opacity="0.25"/>
   <circle cx="100" cy="110" r="70" fill="none" stroke="${light}" stroke-width="0.8" opacity="0.15"/>
   <path d="M60 80 Q100 60 140 80 L150 160 Q100 180 50 160 Z" fill="none" stroke="${color}" stroke-width="2" opacity="0.8"/>
@@ -163,9 +232,8 @@ function generateInstagramSVG() {
 </svg>`;
 }
 
-function downloadBrandGuidelinesPDF() {
-  // Generate a comprehensive SVG-based brand sheet and download
-  const svg = `<svg width="595" height="842" viewBox="0 0 595 842" xmlns="http://www.w3.org/2000/svg">
+function generateBrandGuidelinesSVG() {
+  return `<svg width="595" height="842" viewBox="0 0 595 842" xmlns="http://www.w3.org/2000/svg">
   <rect width="595" height="842" fill="#09090F"/>
   <rect width="595" height="2" y="0" fill="#3A7D6E"/>
   <text x="297" y="80" text-anchor="middle" font-family="Lato, sans-serif" font-weight="300" font-size="28" letter-spacing="8" fill="#FFFFFF">ASSEMBL</text>
@@ -199,7 +267,10 @@ function downloadBrandGuidelinesPDF() {
   
   <text x="297" y="810" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="2" fill="rgba(255,255,255,0.3)">© 2026 ASSEMBL · assembl.co.nz</text>
 </svg>`;
+}
 
+function downloadBrandGuidelinesPDF() {
+  const svg = generateBrandGuidelinesSVG();
   const blob = new Blob([svg], { type: "image/svg+xml" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -235,7 +306,7 @@ const BrandAssetsPage = () => {
             Download everything you need
           </h1>
           <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.55)" }}>
-            Logos, kete icons, social media templates, and brand guidelines — all in the Mārama design system.
+            Logos, kete icons, social media templates, and brand guidelines — all in SVG and PNG.
           </p>
         </div>
 
@@ -281,7 +352,7 @@ const BrandAssetsPage = () => {
             icon={FileText}
             accentColor="#D4A843"
             items={[
-              { label: "Brand Guidelines (SVG)", filename: "assembl-brand-guidelines.svg", type: "brand-pdf" },
+              { label: "Brand Guidelines", filename: "assembl-brand-guidelines.svg", type: "brand-pdf" },
             ]}
           />
 
