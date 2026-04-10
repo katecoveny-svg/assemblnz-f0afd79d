@@ -243,7 +243,7 @@ const DOMAIN_META: Record<DomainKey, DomainMeta> = {
     keteVariant: "standard",
   },
   toro: {
-    title: "Tōro — Whānau Family Navigator",
+    title: "Tōroa — Whānau Family Navigator",
     pilotLabel: "Aotearoa Agentic AI Platform · Pilot 09",
     description:
       "An SMS-first whānau family navigator sending school notices, meal ideas, budget alerts, learning prompts and reminders. Parental-consent, age-appropriate, financial-harm, wellbeing-crisis and te reo integrity policies gate every outbound message.",
@@ -342,7 +342,7 @@ export default function AaaipDashboard() {
     <div className="relative min-h-screen bg-background text-foreground">
       <SEO
         title="AAAIP Live Demo · Assembl"
-        description="Simulation-tested, policy-governed autonomous agents across every Assembl industry Kete — Waihanga, Pikau, Manaaki, Auaha, Tōro — plus clinical, robotics, drug-screening and community-moderation pilots."
+        description="Simulation-tested, policy-governed autonomous agents across every Assembl industry Kete — Waihanga, Pikau, Manaaki, Auaha, Tōroa — plus clinical, robotics, drug-screening and community-moderation pilots."
       />
       {/* Animated star-field constellation background */}
       <div className="pointer-events-none fixed inset-0 z-0 opacity-60">
@@ -839,7 +839,7 @@ const DOMAIN_OPTIONS: Array<{ key: DomainKey; label: string; group: "foundation"
   { key: "manaaki", label: "Manaaki — hospitality", group: "industry" },
   { key: "auaha", label: "Auaha — creative", group: "industry" },
   { key: "arataki", label: "Arataki — automotive", group: "industry" },
-  { key: "toro", label: "Tōro — whānau navigator", group: "industry" },
+  { key: "toro", label: "Tōroa — whānau navigator", group: "industry" },
 ];
 
 function DomainIcon({ domain }: { domain: DomainKey }) {

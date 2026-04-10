@@ -142,7 +142,7 @@ export default function KeteOverviewPage() {
                         <StatusDot status={k.whatsappStatus} />
                       </div>
                       <Link to={k.route} className="flex items-center gap-1 text-xs font-bold px-4 py-2 rounded-full transition-all hover:brightness-110" style={{ background: k.color, color: "#09090F" }}>
-                        Try Tōro <GlowIcon name="ArrowRight" size={14} color="#09090F" />
+                        Try Tōroa <GlowIcon name="ArrowRight" size={14} color="#09090F" />
                       </Link>
                     </div>
                   </div>

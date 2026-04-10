@@ -34,7 +34,7 @@ const KETE_LABEL: Record<GuardDomain, string> = {
   pikau: "Pikau",
   manaaki: "Manaaki",
   auaha: "Auaha",
-  toro: "Tōro",
+  toro: "Tōroa",
 };
 
 export default function AaaipGuardBadge({ domain, accentColor, subtitle }: Props) {

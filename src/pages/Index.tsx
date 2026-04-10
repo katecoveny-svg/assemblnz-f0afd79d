@@ -735,14 +735,14 @@ const Index = () => {
             </div>
             <Eyebrow>ALSO FROM ASSEMBL</Eyebrow>
             <h3 className="text-2xl uppercase tracking-[4px] mb-4" style={{ fontFamily: FONT.heading, fontWeight: 300, color: C.white }}>
-              Tōro
+              Tōroa
             </h3>
             <Body className="mb-8">SMS-first whānau navigator for Aotearoa. No app, no login, just text. $29/month.</Body>
             <Link
               to="/toroa"
               className="btn-ghost inline-flex items-center gap-2 px-8 py-3.5 text-sm rounded-full"
             >
-              Visit Tōro <ArrowRight size={15} />
+              Visit Tōroa <ArrowRight size={15} />
             </Link>
           </motion.div>
         </div>

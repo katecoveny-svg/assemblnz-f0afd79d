@@ -84,7 +84,7 @@ const PACKS: PackCard[] = [
       "Customs entries, freight quotes, dangerous goods checks — border compliance without the scramble.",
     accent: "#5AADA0",
     iconName: "package",
-    route: "/pikau",
+    route: "/packs/pikau",
   },
 ];
 
