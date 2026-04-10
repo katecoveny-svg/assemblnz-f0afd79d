@@ -131,6 +131,8 @@ const ToroaTravelPage = lazy(() => import("./pages/ToroaTravelPage"));
 const ToroaChatPage = lazy(() => import("./pages/ToroaChatPage"));
 const WaihangaArchitecturePage = lazy(() => import("./pages/WaihangaArchitecturePage"));
 const TeReoReferencePage = lazy(() => import("./pages/TeReoReferencePage"));
+const TryPage = lazy(() => import("./pages/TryPage"));
+const CaseStudiesPage = lazy(() => import("./pages/CaseStudiesPage"));
 
 const queryClient = new QueryClient();
 
@@ -184,6 +186,8 @@ const App = () => (
                   <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
                   <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
                   <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
+                  <Route path="/try" element={<Suspense fallback={null}><TryPage /></Suspense>} />
+                  <Route path="/case-studies" element={<Suspense fallback={null}><CaseStudiesPage /></Suspense>} />
                   <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                   <Route path="/turf" element={<Suspense fallback={null}><TurfDeadlinePage /></Suspense>} />
                   <Route path="/turf-5-april-2026" element={<Navigate to="/turf" replace />} />

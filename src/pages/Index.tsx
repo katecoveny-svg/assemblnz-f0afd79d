@@ -335,12 +335,12 @@ const Index = () => {
           >
             See a sample pack <ArrowRight size={15} />
           </Link>
-          <a
-            href="#pricing"
+          <Link
+            to="/contact"
             className="btn-ghost inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm"
           >
-            See pricing
-          </a>
+            Book a 20-minute pack walk-through
+          </Link>
         </motion.div>
 
         {/* Scroll */}

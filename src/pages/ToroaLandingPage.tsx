@@ -426,9 +426,9 @@ export default function ToroaLandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            Your whānau,
+            The record of your household's decisions —
             <br />
-            <span style={{ color: GOLD }}>sorted.</span>
+            <span style={{ color: GOLD }}>in one place, when you need it.</span>
           </motion.h1>
 
           {/* Subheading */}
@@ -439,9 +439,9 @@ export default function ToroaLandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.8 }}
           >
-            A family agent that runs on text.
-            <br />
             No app. No login.
+            <br />
+            Just text your whānau's next move.
           </motion.p>
 
           {/* CTA */}
@@ -450,11 +450,9 @@ export default function ToroaLandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.7 }}
           >
-            <a
-              href="https://buy.stripe.com/7sYdRbc9KeoE0KNdx43oA0c"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Subscribe to Tōroa for $29 per month"
+            <Link
+              to="/toroa/app"
+              aria-label="Start a Tōro record"
               className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm uppercase tracking-[0.2em] font-light transition-all duration-300"
               style={{
                 background: `linear-gradient(135deg, ${SKY}28, ${SKY}14)`,
@@ -463,17 +461,9 @@ export default function ToroaLandingPage() {
                 fontFamily: "Lato, sans-serif",
                 boxShadow: `0 0 32px ${SKY}20`,
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = `0 0 48px ${SKY}40`;
-                (e.currentTarget as HTMLElement).style.background = `linear-gradient(135deg, ${SKY}40, ${SKY}22)`;
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = `0 0 32px ${SKY}20`;
-                (e.currentTarget as HTMLElement).style.background = `linear-gradient(135deg, ${SKY}28, ${SKY}14)`;
-              }}
             >
-              Try it free
-            </a>
+              Start a Tōro record
+            </Link>
           </motion.div>
 
           {/* Pricing hint */}

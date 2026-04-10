@@ -24,25 +24,26 @@ const AboutPage = () => {
   return (
     <GlowPageWrapper accentColor="#3A7D6E">
     <div className="min-h-screen flex flex-col">
-      <SEO title="About Assembl — Specialist operational workflows for NZ business" description="Specialist operational workflows across five industry kete, built for New Zealand businesses. Every output runs through a tikanga compliance pipeline." path="/about" />
+      <SEO title="About Assembl — A New Zealand AI company" description="We build the paperwork New Zealand businesses need to defend their decisions. Every workflow ends in a pack you can file, forward, or footnote." path="/about" />
       <BrandNav />
 
       {/* Hero */}
       <section className="relative z-10 pt-24 pb-16 px-4 sm:px-6 text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <h1 className="text-3xl sm:text-5xl font-display text-foreground mb-4" style={{ fontWeight: 300 }}>
-            The operating system for <span className="text-gradient-hero">NZ business</span>
+            We build the paperwork New Zealand businesses need to <span className="text-gradient-hero">defend their decisions.</span>
           </h1>
-          <p className="text-sm sm:text-base font-body text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Assembl gives New Zealand businesses specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. We help teams act faster with better information — not replace the people who know the work best.
+          <p className="text-sm sm:text-base font-body text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-8">
+            A New Zealand AI company. Five industry kete, one compliance pipeline, every output signed and sourced.
           </p>
-          <motion.p
-            className="mt-8 text-sm sm:text-base font-body max-w-2xl mx-auto leading-relaxed italic"
-            style={{ color: "hsl(var(--primary))", textShadow: "0 0 20px hsl(var(--primary) / 0.3), 0 0 40px hsl(var(--primary) / 0.15)" }}
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            I shouldn't need a translator for the Holidays Act. Or a cultural consultant for tikanga. Or a lawyer to check whether its output crosses the Medicines Act. We build intelligence that's native to Aotearoa — the law, the culture, the obligations your business already carries. One platform, five kete, zero guesswork.
-          </motion.p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
+              Meet the team
+            </Link>
+            <Link to="/about#founder" className="px-7 py-3 rounded-full text-sm font-body font-medium border transition-all" style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.7)" }}>
+              Read the founder note
+            </Link>
+          </div>
         </motion.div>
       </section>
 
