@@ -434,7 +434,8 @@ const CTAFooter = () => (
 
 /* ── Main Page ── */
 const PricingPage = () => (
-  <div className="min-h-screen flex flex-col bg-background">
+  <GlowPageWrapper accentColor="#3A7D6E">
+  <div className="min-h-screen flex flex-col">
     <SEO
       title="Assembl Pricing — Every kete ends in an evidence pack"
       description="Pick a kete, get a signed evidence pack. Operator $1,490/mo · Leader $1,990/mo · Enterprise $2,990/mo. NZD ex GST. Privacy Act 2020 aligned, tikanga governance built in."
@@ -455,6 +456,7 @@ const PricingPage = () => (
     <CTAFooter />
     <div className="mt-auto"><BrandFooter /></div>
   </div>
+  </GlowPageWrapper>
 );
 
 export default PricingPage;
