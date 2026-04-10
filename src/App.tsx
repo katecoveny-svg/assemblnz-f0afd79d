@@ -123,6 +123,8 @@ const ArohaRecruitment = lazy(() => import("./components/aroha/ArohaRecruitment"
 const ArohaPeopleCulture = lazy(() => import("./components/aroha/ArohaPeopleCulture"));
 const ArohaCompanySetup = lazy(() => import("./components/aroha/ArohaCompanySetup"));
 const ArohaRetention = lazy(() => import("./components/aroha/ArohaRetention"));
+const AratakiLandingPage = lazy(() => import("./pages/AratakiLandingPage"));
+const PikauLandingPage = lazy(() => import("./pages/PikauLandingPage"));
 
 const queryClient = new QueryClient();
 
@@ -203,6 +205,8 @@ const App = () => (
                   <Route path="/kete" element={<Suspense fallback={null}><KeteCollectionPage /></Suspense>} />
                   <Route path="/kete/:slug" element={<Suspense fallback={null}><KeteDetailPageNew /></Suspense>} />
                   <Route path="/manaaki" element={<Suspense fallback={null}><ManaakiDashboard /></Suspense>} />
+                  <Route path="/arataki" element={<Suspense fallback={null}><AratakiLandingPage /></Suspense>} />
+                  <Route path="/pikau" element={<Suspense fallback={null}><PikauLandingPage /></Suspense>} />
                   {/* Retired kete — redirected 2026-04-10 */}
                   <Route path="/pakihi" element={<Navigate to="/" replace />} />
                   <Route path="/hangarau" element={<Navigate to="/" replace />} />
@@ -225,7 +229,9 @@ const App = () => (
                     <Route path="setup" element={<Suspense fallback={null}><ArohaCompanySetup /></Suspense>} />
                     <Route path="retention" element={<Suspense fallback={null}><ArohaRetention /></Suspense>} />
                   </Route>
-                  <Route path="/hanga" element={<Suspense fallback={null}><HangaLayout /></Suspense>}>
+                  <Route path="/hanga" element={<Navigate to="/waihanga" replace />} />
+                  <Route path="/hanga/*" element={<Navigate to="/waihanga" replace />} />
+                  <Route path="/waihanga" element={<Suspense fallback={null}><HangaLayout /></Suspense>}>
                     <Route index element={<HangaDashboard />} />
                     <Route path="arai" element={<AraiSafetyPage />} />
                     <Route path="kaupapa" element={<KaupapaDashboard />} />
