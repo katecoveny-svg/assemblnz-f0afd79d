@@ -131,7 +131,7 @@ const TIERS = [
     name: "Operator", sub: "$1,490/mo", accent: "hsl(var(--pounamu-light))", badge: "ENTRY",
     price: "NZ$1,490/mo", setup: "+ $590 setup (splittable across first 3 invoices)",
     best: "Sole traders and micro-SMEs — one industry, one team, one source of truth",
-    packsPerMonth: "[TODO: confirm with Kate] evidence packs/mo", // [TODO: Kate decision] how many packs/mo per kete at Operator?
+    packsPerMonth: "20 evidence packs/mo",
     features: ["1 industry kete (your pick)", "Up to 5 seats", "Tikanga compliance layer", "Privacy Act 2020 + AAAIP alignment", "SMS, WhatsApp & dashboard access", "3 training hours / year", "Email support, 1 business day", "99.0% uptime"],
     goodFor: "Builders · Cafés · Single-discipline trades · Owner-operator carriers · Solo agencies",
     cta: "Talk to us", highlight: false,
@@ -140,7 +140,7 @@ const TIERS = [
     name: "Leader", sub: "$1,990/mo", accent: "hsl(var(--primary))", badge: "MOST POPULAR",
     price: "NZ$1,990/mo", setup: "+ $1,290 setup (splittable across first 3 invoices)",
     best: "Multi-discipline SMEs and growing teams — covers two parts of the business with quarterly compliance review",
-    packsPerMonth: "[TODO: confirm with Kate] evidence packs/mo per kete", // [TODO: Kate decision] how many packs/mo per kete at Leader?
+    packsPerMonth: "60 evidence packs/mo",
     features: ["2 industry kete (your pick)", "Up to 15 seats", "Quarterly compliance review (signed)", "Monthly audit report", "8 training hours / year", "Email + chat, 4 business hours", "99.5% uptime", "Optional NZ data residency"],
     goodFor: "Hospitality groups · Construction firms · Multi-disc trades · Creative studios · Workshops",
     cta: "Talk to us", highlight: true,
@@ -149,8 +149,8 @@ const TIERS = [
     name: "Enterprise", sub: "$2,990/mo", accent: "hsl(var(--tangaroa))", badge: "FULL PLATFORM",
     price: "NZ$2,990/mo", setup: "+ $2,890 setup (splittable across first 3 invoices)",
     best: "Multi-site, regulated, high-stakes operations — every kete, the SLA, and a named human to call",
-    packsPerMonth: "[TODO: confirm with Kate] evidence packs/mo across all kete", // [TODO: Kate decision] how many packs/mo total at Enterprise?
-    features: ["All 5 industry kete", "Unlimited seats", "NZ data residency (attested)", "99.9% uptime SLA", "Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "16 training hours / year", "Priority phone + chat, 1 business hour"],
+    packsPerMonth: "200 evidence packs/mo",
+    features: ["All 5 industry kete", "Unlimited seats", "Data at rest in NZ⁷", "99.9% uptime SLA", "Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "16 training hours / year", "Priority phone + chat, 1 business hour"],
     goodFor: "Multi-site hospo · Construction PMO · Regional freight · Franchise networks · Regulated operations",
     cta: "Talk to us", highlight: false,
   },
