@@ -56,6 +56,7 @@ const AdminAnalyticsDashboard = lazy(() => import("./pages/AdminAnalyticsDashboa
 const AdminMessagesPage = lazy(() => import("./pages/AdminMessagesPage"));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
 const BrandGuidelinesPage = lazy(() => import("./pages/BrandGuidelinesPage"));
+const BrandAssetsPage = lazy(() => import("./pages/BrandAssetsPage"));
 const LogoStackPage = lazy(() => import("./pages/LogoStackPage"));
 const BrandStoryPage = lazy(() => import("./pages/BrandStoryPage"));
 const DataSovereigntyPage = lazy(() => import("./pages/DataSovereigntyPage"));
@@ -204,6 +205,7 @@ const App = () => (
                   <Route path="/sample/:kete" element={<Suspense fallback={null}><SampleEvidencePackPage /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
+                  <Route path="/brand-assets" element={<Suspense fallback={null}><BrandAssetsPage /></Suspense>} />
                   <Route path="/logo-stack" element={<Suspense fallback={null}><LogoStackPage /></Suspense>} />
                   <Route path="/brand-story" element={<Suspense fallback={null}><BrandStoryPage /></Suspense>} />
                   <Route path="/data-sovereignty" element={<Suspense fallback={null}><DataSovereigntyPage /></Suspense>} />
