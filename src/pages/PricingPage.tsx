@@ -33,14 +33,24 @@ const PricingHero = () => (
         HE KETE MĀTAURANGA
       </p>
       <h1 className="text-3xl sm:text-5xl font-display mb-4 text-foreground" style={{ fontWeight: 300, letterSpacing: "-0.02em" }}>
-        Every kete ends in an evidence pack.
+        NZ enterprises<Link to="/claims-register#claim-1" className="text-primary hover:underline align-super text-[0.5em]">¹</Link> with fewer than 20 staff<Link to="/claims-register#claim-2" className="text-primary hover:underline align-super text-[0.5em]">²</Link> produce a signed evidence pack today.<Link to="/claims-register#claim-3" className="text-primary hover:underline align-super text-[0.5em]">³</Link>
       </h1>
       <p className="text-base sm:text-lg font-body max-w-2xl mx-auto mb-4" style={{ color: "rgba(255,255,255,0.65)" }}>
         Pick the kete that matches your industry. Each run produces a signed, sourced evidence pack your team can file, forward, or footnote.
       </p>
-      <p className="text-sm font-body max-w-2xl mx-auto mb-8" style={{ color: "rgba(255,255,255,0.45)" }}>
-        Privacy Act 2020 alignment, tikanga governance, and compliance pipeline built in — from first input to signed pack.
-      </p>
+      {/* Privacy Act 2020 · IPP 3A banner */}
+      <div className="glass-card rounded-xl px-6 py-4 max-w-xl mx-auto mb-8 text-left" style={{ borderLeft: "2px solid hsl(var(--primary))" }}>
+        <p className="text-[10px] font-display tracking-[3px] uppercase mb-2" style={{ fontWeight: 700, color: "hsl(var(--primary))" }}>
+          Privacy Act 2020 · IPP 3A
+        </p>
+        <ul className="space-y-1">
+          {["Consent notices", "Audit log", "Subject access pack", "Breach notification"].map((b) => (
+            <li key={b} className="flex items-center gap-2 text-xs font-body text-muted-foreground">
+              <Check size={12} className="text-primary shrink-0" />{b}
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className="flex flex-wrap justify-center gap-3">
         <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
           Book a discovery call
