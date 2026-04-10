@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Zap, ArrowLeft, ToggleLeft, ToggleRight, ChevronRight, Plus, Users, Home, Trophy, Handshake, MessageSquare, BarChart3, AlertTriangle } from "lucide-react";
+import { Zap, ArrowLeft, ToggleLeft, ToggleRight, ChevronRight, Plus, Users, Home, Trophy, Handshake, MessageSquare, BarChart3, AlertTriangle, FileText, CalendarClock, HardHat, Receipt, Ship, Building2 } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -26,6 +26,12 @@ const WORKFLOW_ICONS: Record<string, any> = {
   "Website Inquiry": MessageSquare,
   "Monthly Business Review": BarChart3,
   "Compliance Alert": AlertTriangle,
+  "Quote Requested": FileText,
+  "Roster Shift Gap": CalendarClock,
+  "Site Induction": HardHat,
+  "Payment Claim": Receipt,
+  "Customs Entry": Ship,
+  "Building Consent": Building2,
 };
 
 const glassCard: React.CSSProperties = {
