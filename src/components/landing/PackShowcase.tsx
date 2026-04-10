@@ -1,27 +1,12 @@
 import { motion } from "framer-motion";
-import { packs } from "@/data/agents";
-import BrandIcon3D, {
-  ManaakiIcon3D,
-  HangaIcon3D,
-  AuahaIcon3D,
-  PakihiIcon3D,
-  HangarauIcon3D,
-} from "@/components/BrandIcon3D";
-
-const PACK_ICONS: Record<string, React.FC<{ size?: "sm" | "md" | "lg" | "xl"; variant?: "glass" | "solid" | "floating" }>> = {
-  manaaki: ManaakiIcon3D,
-  hanga: HangaIcon3D,
-  auaha: AuahaIcon3D,
-  pakihi: PakihiIcon3D,
-  hangarau: HangarauIcon3D,
-};
+import { KETE_CONFIG } from "@/components/kete/KeteConfig";
 
 const PACK_AGENTS: Record<string, string[]> = {
-  manaaki: ["AURA", "HAVEN", "TIDE", "BEACON", "COAST", "EMBER", "FLORA", "CREST"],
-  hanga: ["APEX", "ATA", "ĀRAI", "KAUPAPA", "RAWA", "WHAKAAĒ", "PAI"],
-  auaha: ["PRISM", "MUSE", "PIXEL", "VERSE", "CANVAS", "REEL", "QUILL"],
-  pakihi: ["LEDGER", "AROHA", "TURF", "SAGE", "COMPASS", "ANCHOR", "FLUX", "SHIELD", "VAULT", "MINT", "AXIS", "KINDLE"],
-  hangarau: ["SPARK", "SENTINEL", "NEXUS", "CIPHER", "RELAY", "SIGNAL", "FORGE"],
+  manaaki: ["AURA", "SAFFRON", "CELLAR", "LUXE", "MOANA", "COAST", "KURA", "PAU", "SUMMIT"],
+  waihanga: ["ATA", "ĀRAI", "KAUPAPA", "RAWA", "WHAKAAĒ", "PAI", "ARC", "TERRA", "PINNACLE"],
+  auaha: ["PRISM", "MUSE", "PIXEL", "VERSE", "ECHO", "FLUX", "CHROMATIC", "RHYTHM", "MARKET"],
+  arataki: ["CHARTER", "ARBITER", "SHIELD", "ANCHOR"],
+  pikau: ["MOTOR", "TRANSIT", "MARINER", "GATEWAY", "HARVEST", "COUNTER", "ASCEND"],
 };
 
 const PackShowcase = () => (
@@ -35,16 +20,16 @@ const PackShowcase = () => (
       >
         <span className="font-mono-jb text-[10px] tracking-[4px] text-primary/60 uppercase mb-3">Industry Packs</span>
         <h2 className="text-2xl sm:text-4xl font-display tracking-wide text-foreground mt-2 mb-3 heading-glow section-heading" style={{ fontWeight: 700 }}>
-          Five kete. <span className="text-gradient-hero">Built for Aotearoa.</span>
+          Six kete. <span className="text-gradient-hero">Built for Aotearoa.</span>
         </h2>
         <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
           Every kete is grounded in NZ legislation and built for the way NZ businesses actually run.
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        {packs.map((pack, i) => {
-          const IconComp = PACK_ICONS[pack.id];
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {KETE_CONFIG.filter(k => k.group === "business").map((pack, i) => {
+          const IconComp = pack.icon;
           const agentNames = PACK_AGENTS[pack.id] || [];
 
           return (
@@ -82,7 +67,9 @@ const PackShowcase = () => (
               />
 
               <div className="flex items-center gap-3 mb-3">
-                {IconComp ? <IconComp size="sm" variant="floating" /> : null}
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${pack.color}15` }}>
+                  <IconComp size={16} style={{ color: pack.color }} />
+                </div>
                 <div>
                   <h3
                     className="text-xs font-display font-light tracking-[0.02em]"
@@ -90,7 +77,7 @@ const PackShowcase = () => (
                   >
                     {pack.name}
                   </h3>
-                  <p className="text-[10px] font-body text-muted-foreground">{pack.label}</p>
+                  <p className="text-[10px] font-body text-muted-foreground">{pack.nameEn}</p>
                 </div>
               </div>
 
@@ -112,7 +99,7 @@ const PackShowcase = () => (
 
               <div className="mt-3 pt-2 border-t border-border">
                 <span className="text-[10px] font-mono text-muted-foreground">
-                  {pack.agentCount} agents
+                  {agentNames.length || pack.agentCount} agents
                 </span>
               </div>
             </motion.div>
