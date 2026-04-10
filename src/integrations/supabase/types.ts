@@ -4746,6 +4746,130 @@ export type Database = {
           },
         ]
       }
+      tenant_consent: {
+        Row: {
+          consent_timestamp: string
+          consent_version: string
+          contact_email: string
+          created_at: string
+          id: string
+          intake_id: string | null
+          ip_hash: string | null
+        }
+        Insert: {
+          consent_timestamp: string
+          consent_version: string
+          contact_email: string
+          created_at?: string
+          id?: string
+          intake_id?: string | null
+          ip_hash?: string | null
+        }
+        Update: {
+          consent_timestamp?: string
+          consent_version?: string
+          contact_email?: string
+          created_at?: string
+          id?: string
+          intake_id?: string | null
+          ip_hash?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_consent_intake_id_fkey"
+            columns: ["intake_id"]
+            isOneToOne: false
+            referencedRelation: "tenant_intake"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tenant_intake: {
+        Row: {
+          business_name: string | null
+          consent_timestamp: string
+          consent_version: string
+          contact_email: string
+          contact_name: string
+          created_at: string
+          exception_path: string | null
+          exception_reason: string | null
+          id: string
+          kete_requested: string
+          pain_points: string[]
+          personalised_plan: Json | null
+          pipeline_status: string
+          plan_html_url: string | null
+          priority_workflow: string | null
+          scrape_companies_office: Json | null
+          scrape_google: Json | null
+          scrape_linkedin: Json | null
+          scrape_nzbn: Json | null
+          scrape_website: Json | null
+          team_size: string
+          tenant_id: string | null
+          website_url: string
+        }
+        Insert: {
+          business_name?: string | null
+          consent_timestamp: string
+          consent_version: string
+          contact_email: string
+          contact_name: string
+          created_at?: string
+          exception_path?: string | null
+          exception_reason?: string | null
+          id?: string
+          kete_requested: string
+          pain_points: string[]
+          personalised_plan?: Json | null
+          pipeline_status?: string
+          plan_html_url?: string | null
+          priority_workflow?: string | null
+          scrape_companies_office?: Json | null
+          scrape_google?: Json | null
+          scrape_linkedin?: Json | null
+          scrape_nzbn?: Json | null
+          scrape_website?: Json | null
+          team_size: string
+          tenant_id?: string | null
+          website_url: string
+        }
+        Update: {
+          business_name?: string | null
+          consent_timestamp?: string
+          consent_version?: string
+          contact_email?: string
+          contact_name?: string
+          created_at?: string
+          exception_path?: string | null
+          exception_reason?: string | null
+          id?: string
+          kete_requested?: string
+          pain_points?: string[]
+          personalised_plan?: Json | null
+          pipeline_status?: string
+          plan_html_url?: string | null
+          priority_workflow?: string | null
+          scrape_companies_office?: Json | null
+          scrape_google?: Json | null
+          scrape_linkedin?: Json | null
+          scrape_nzbn?: Json | null
+          scrape_website?: Json | null
+          team_size?: string
+          tenant_id?: string | null
+          website_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_intake_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenant_members: {
         Row: {
           created_at: string | null
