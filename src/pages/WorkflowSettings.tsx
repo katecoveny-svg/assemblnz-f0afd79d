@@ -122,21 +122,60 @@ const WorkflowSettings = () => {
 
                 {isExpanded && (
                   <div className="px-4 pb-4 border-t border-white/[0.04]">
-                    <div className="pt-3 space-y-2">
-                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-2">
-                        Trigger: {w.trigger_agent} → {w.trigger_event.replace(/_/g, " ")}
-                      </p>
-                      {w.steps.map((step: any, i: number) => (
-                        <div key={i} className="flex items-start gap-2 text-xs">
-                          <div className="w-5 h-5 rounded-full bg-[#5AADA015] flex items-center justify-center shrink-0 mt-0.5">
-                            <span className="text-[9px] font-bold text-[#5AADA0]">{i + 1}</span>
-                          </div>
-                          <div>
-                            <span className="font-bold text-foreground">{step.target}</span>
-                            <span className="text-muted-foreground ml-1">{step.action}</span>
+                    <div className="pt-3 space-y-4">
+                      {/* Pipeline trace */}
+                      <div>
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-2">Pipeline</p>
+                        <div className="flex items-center gap-1">
+                          {PIPELINE_STAGES.map((stage, i) => {
+                            const StageIcon = stage.icon;
+                            return (
+                              <div key={stage.key} className="flex items-center gap-1">
+                                <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-[#5AADA008] border border-[#5AADA020]">
+                                  <StageIcon size={12} className="text-[#5AADA0]" />
+                                  <div>
+                                    <span className="text-[10px] font-bold text-foreground block leading-tight">{stage.label}</span>
+                                    <span className="text-[8px] text-muted-foreground leading-tight">{stage.desc}</span>
+                                  </div>
+                                </div>
+                                {i < PIPELINE_STAGES.length - 1 && <span className="text-[10px] text-muted-foreground/40">→</span>}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Relevant Acts */}
+                      {w.relevant_acts && w.relevant_acts.length > 0 && (
+                        <div>
+                          <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Legislation checked at Mana gate</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {w.relevant_acts.map((act) => (
+                              <span key={act} className="text-[9px] px-2 py-0.5 rounded-full bg-[#5AADA010] border border-[#5AADA020] text-[#5AADA0] font-medium">
+                                {act}
+                              </span>
+                            ))}
                           </div>
                         </div>
-                      ))}
+                      )}
+
+                      {/* Trigger + Steps */}
+                      <div>
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-2">
+                          Trigger: {w.trigger_agent} → {w.trigger_event.replace(/_/g, " ")}
+                        </p>
+                        {w.steps.map((step: any, i: number) => (
+                          <div key={i} className="flex items-start gap-2 text-xs mb-1.5">
+                            <div className="w-5 h-5 rounded-full bg-[#5AADA015] flex items-center justify-center shrink-0 mt-0.5">
+                              <span className="text-[9px] font-bold text-[#5AADA0]">{i + 1}</span>
+                            </div>
+                            <div>
+                              <span className="font-bold text-foreground">{step.target}</span>
+                              <span className="text-muted-foreground ml-1">{step.action}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
