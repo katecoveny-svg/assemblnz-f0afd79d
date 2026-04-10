@@ -19,7 +19,8 @@ export type Domain =
   | "creative"
   | "whanau_navigator"
   | "automotive"
-  | "employment";
+  | "employment"
+  | "language";
 
 /** Severity controls how a violation is handled by the runtime. */
 export type Severity = "advisory" | "warn" | "block" | "info";

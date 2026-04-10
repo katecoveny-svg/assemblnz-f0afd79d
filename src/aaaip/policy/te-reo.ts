@@ -13,18 +13,25 @@
 // - MBIE Responsible AI Guidance (Feb 2025)
 // ═══════════════════════════════════════════════════════════════
 
-import type { Policy, RegisteredPolicy, PolicyPredicate } from "./types";
-import { pass, fail } from "./engine";
+import type { RegisteredPolicy } from "./library";
+import type { Policy, PolicyEvaluation, PolicyPredicate } from "./types";
+
+const pass = (id: string, severity: Policy["severity"]): PolicyEvaluation => ({
+  policyId: id, passed: true, severity, message: "ok",
+});
+const fail = (id: string, severity: Policy["severity"], message: string): PolicyEvaluation => ({
+  policyId: id, passed: false, severity, message,
+});
 
 /* ── 1. Te Reo accuracy — macrons & grammar ─────────────────── */
 const TE_REO_ACCURACY: Policy = {
   id: "tereo.accuracy",
   domain: "language",
   name: "Te reo accuracy check",
-  description:
-    "Te reo content must have correct macrons and basic grammar. " +
+  rationale:
     "Macrons change meaning (e.g. ata vs āta). All te reo output must " +
-    "carry the AI-generated disclaimer.",
+    "have correct macrons and carry the AI-generated disclaimer.",
+  source: "Te Taura Whiri i te Reo Māori — orthographic conventions",
   severity: "warn",
   oversight: "ask_each_time",
   tags: ["te-reo", "macrons", "cultural-safety"],
@@ -49,10 +56,10 @@ const KAITIAKI_REVIEW: Policy = {
   id: "tereo.kaitiaki_review",
   domain: "language",
   name: "Kaitiaki review required",
-  description:
-    "Sentences, paragraphs, karakia, whaikōrero, waiata, legal te reo, " +
-    "product naming, and culturally sensitive content MUST be reviewed " +
-    "by a competent reo speaker before use.",
+  rationale:
+    "Complex te reo (sentences, karakia, legal, product naming) MUST be " +
+    "reviewed by a competent reo speaker. AI is a support tool only.",
+  source: "Te Mana Raraunga — Māori Data Sovereignty; Four Pou governance",
   severity: "block",
   oversight: "always_human",
   tags: ["te-reo", "human-in-loop", "cultural-safety"],
@@ -66,7 +73,7 @@ const kaitiakiPredicate: PolicyPredicate = (action) => {
       KAITIAKI_REVIEW.id,
       "block",
       "Complex te reo content requires kaitiaki (reo speaker) review. " +
-      "This agent is a support tool — nō rātou te reo, mā rātou e ārahi."
+      "Nō rātou te reo, mā rātou e ārahi."
     );
   }
   return pass(KAITIAKI_REVIEW.id, "block");
@@ -77,10 +84,10 @@ const DATA_SOVEREIGNTY: Policy = {
   id: "tereo.data_sovereignty",
   domain: "language",
   name: "Māori data sovereignty",
-  description:
-    "Māori data is a taonga, not a commodity. Data about te reo Māori " +
-    "usage, iwi-specific dialect, and revitalisation efforts must be " +
-    "governed by Māori. Kaitiakitanga licence applies.",
+  rationale:
+    "Māori data is a taonga. Data about te reo usage, iwi-specific " +
+    "dialect, and revitalisation must be governed by Māori.",
+  source: "Te Mana Raraunga; Te Hiku Media Kaitiakitanga licence",
   severity: "block",
   oversight: "always_human",
   tags: ["data-sovereignty", "te-mana-raraunga", "kaitiakitanga"],
@@ -94,7 +101,7 @@ const sovereigntyPredicate: PolicyPredicate = (action) => {
       DATA_SOVEREIGNTY.id,
       "block",
       "Action touches Māori data without sovereignty clearance. " +
-      "Te Mana Raraunga principles require Māori governance over Māori data."
+      "Te Mana Raraunga principles require Māori governance."
     );
   }
   return pass(DATA_SOVEREIGNTY.id, "block");
@@ -105,10 +112,10 @@ const TIKANGA_COMPLIANCE: Policy = {
   id: "tereo.tikanga_compliance",
   domain: "language",
   name: "Tikanga compliance (Mead's Five Tests)",
-  description:
-    "Cultural content must pass the Tika, Pono, Aroha, Tikanga, and " +
-    "Mana tests (Prof. Hirini Moko Mead). If any test fails, stop and " +
-    "recommend human cultural consultation.",
+  rationale:
+    "Cultural content must pass Tika, Pono, Aroha, Tikanga, and Mana " +
+    "tests. If any fails, recommend human cultural consultation.",
+  source: "Prof. Hirini Moko Mead — Tikanga Māori (2003); Ellis v R [2022] NZSC 114",
   severity: "warn",
   oversight: "ask_each_time",
   tags: ["tikanga", "cultural-safety", "meads-tests"],
@@ -121,8 +128,7 @@ const tikangaPredicate: PolicyPredicate = (action) => {
     return fail(
       TIKANGA_COMPLIANCE.id,
       "warn",
-      "Cultural content has not passed Mead's Five Tests. " +
-      "Apply Tika, Pono, Aroha, Tikanga, Mana checks before proceeding."
+      "Cultural content has not passed Mead's Five Tests (Tika, Pono, Aroha, Tikanga, Mana)."
     );
   }
   return pass(TIKANGA_COMPLIANCE.id, "warn");
@@ -133,9 +139,10 @@ const SACRED_CONTENT: Policy = {
   id: "tereo.sacred_content",
   domain: "language",
   name: "Sacred content prohibition",
-  description:
+  rationale:
     "AI must NEVER generate karakia, whaikōrero, or waiata. These must " +
-    "be sourced from kaumātua or your organisation's Māori advisor.",
+    "be sourced from kaumātua or the organisation's Māori advisor.",
+  source: "Four Pou Framework — Rangatiratanga; Te Ture mō Te Reo Māori 2016",
   severity: "block",
   oversight: "never_allow",
   tags: ["te-reo", "sacred", "karakia"],
