@@ -121,7 +121,7 @@ const BrandNav = () => {
           <button onClick={() => handleNavClick("/contact")}
             className="ml-2 px-5 py-2 rounded-full text-xs font-body font-medium transition-all duration-300"
             style={{ background: "#3A7D6E", color: "#FFFFFF" }}>
-            Get Started
+            Kia ora — get started
           </button>
 
           <AccountDropdown />
@@ -179,7 +179,7 @@ const BrandNav = () => {
                   className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium mb-3"
                   style={{ background: "#3A7D6E", color: "#FFFFFF" }}
                   onClick={() => { setMobileOpen(false); handleNavClick("/contact"); }}>
-                  Get Started
+                  Kia ora — get started
                 </button>
                 <AccountDropdown />
               </div>
