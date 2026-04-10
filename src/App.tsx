@@ -280,6 +280,8 @@ const App = () => (
                     <Route path="brand" element={<AuahaBrandIdentity />} />
                     <Route path="web" element={<AuahaWebBuilder />} />
                   </Route>
+                  <Route path="/start" element={<Suspense fallback={null}><StartPage /></Suspense>} />
+                  <Route path="/start/pending/:id" element={<Suspense fallback={null}><StartPendingPage /></Suspense>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
