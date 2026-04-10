@@ -335,7 +335,7 @@ const WhyAssemblStory = () => {
             that big corporates have — but built on our values, our law, and our language."
           </p>
           <p className="text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.3)" }}>
-            — Kate Harland, Founder
+            — Kate Hudson, Founder
           </p>
 
           <motion.div className="mt-8" whileHover={{ scale: 1.02 }}>

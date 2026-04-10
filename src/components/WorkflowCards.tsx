@@ -126,7 +126,6 @@ export const ALL_WORKFLOWS: Record<string, WorkflowDef[]> = {
   hanga: HANGA_WORKFLOWS,
   waihanga: HANGA_WORKFLOWS,
   manaaki: MANAAKI_WORKFLOWS,
-  auaha: AUAHA_WORKFLOWS,
 };
 
 interface WorkflowCardsProps {
