@@ -179,13 +179,13 @@ export const PILOT_COVERAGE: PilotCoverageEntry[] = [
     note: "In-house tech team (DevOps, security, IP). Lower risk profile — mostly human_in_loop oversight.",
   },
   {
-    id: "te-kahui-reo",
-    name: "Te Kāhui Reo — Māori BI",
-    module: "src/components/te-kahui-reo",
+    id: "te-reo-tikanga",
+    name: "Te Reo Tikanga Advisory",
+    module: "src/aaaip/policy/te-reo",
     domain: "language",
-    status: "planned",
+    status: "wired",
     policies: ["data_sovereignty", "te_reo", "consent"],
-    note: "Whānau governance, iwi reporting, kaupapa Māori. Needs kaitiaki-led policy drafting.",
+    note: "5 policies. Te Ture mō Te Reo Māori 2016, Te Mana Raraunga, Ellis v R [2022], Mead's Five Tests. Kaitiaki gate on complex content.",
   },
 ];
 
