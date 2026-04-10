@@ -154,6 +154,15 @@ const TIERS = [
     goodFor: "Multi-site hospo · Construction PMO · Regional freight · Franchise networks · Regulated operations",
     cta: "Talk to us", highlight: false,
   },
+  {
+    name: "Outcome", sub: "from $5,000/mo", accent: "hsl(var(--primary))", badge: "BESPOKE",
+    price: "From NZ$5,000/mo", setup: "Scoped per engagement",
+    best: "Engagements where Assembl takes on the result — freight routes, maintenance scheduling, fleet uptime",
+    packsPerMonth: "Unlimited evidence packs",
+    features: ["All 5 industry kete", "Unlimited seats", "SLA", "Bespoke scoping", "Named success manager", "Base fee + 10–20% of measured savings"],
+    goodFor: "Outcome-based engagements · Route optimisation · Maintenance scheduling · Fleet uptime",
+    cta: "Talk to us", highlight: false,
+  },
 ];
 
 const PricingTiers = () => (
