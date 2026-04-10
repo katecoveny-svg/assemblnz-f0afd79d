@@ -90,6 +90,7 @@ const DocIntelPage = lazy(() => import("./components/hanga/DocIntelPage"));
 const CommsHubPage = lazy(() => import("./components/hanga/CommsHubPage"));
 const VoiceAgentPage = lazy(() => import("./components/hanga/VoiceAgentPage"));
 const PackLandingPage = lazy(() => import("./pages/PackLandingPage"));
+const SampleEvidencePackPage = lazy(() => import("./pages/SampleEvidencePackPage"));
 const AuahaLayout = lazy(() => import("./components/auaha/AuahaLayout"));
 const AuahaDashboard = lazy(() => import("./components/auaha/AuahaDashboard"));
 const AuahaCampaignBuilder = lazy(() => import("./components/auaha/AuahaCampaignBuilder"));
@@ -200,6 +201,7 @@ const App = () => (
                   <Route path="/aaaip" element={<Suspense fallback={null}><AaaipDashboard /></Suspense>} />
                   <Route path="/aaaip/researcher" element={<Suspense fallback={null}><AaaipResearcher /></Suspense>} />
                   <Route path="/packs/:packSlug" element={<Suspense fallback={null}><PackLandingPage /></Suspense>} />
+                  <Route path="/sample/:kete" element={<Suspense fallback={null}><SampleEvidencePackPage /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
                   <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
                   <Route path="/logo-stack" element={<Suspense fallback={null}><LogoStackPage /></Suspense>} />

@@ -101,11 +101,12 @@ const PACKS: {
   to: string;
   accentLight: string;
 }[] = [
-  { reo: "Manaaki", en: "Hospitality", desc: "Food Act plans, liquor licensing, guest experience, tourism operators.", color: "#3A7D6E", accentLight: "#5AADA0", to: "/packs/manaaki" },
-  { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: "#1A3A5C", accentLight: "#2A5A8C", to: "/waihanga" },
-  { reo: "Auaha", en: "Creative", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: "#D4A843", accentLight: "#E8C76A", to: "/packs/auaha" },
-  { reo: "Arataki", en: "Privacy & Business Compliance", desc: "IPP3A-ready. Every Privacy Act 2020 run ends in a signed evidence pack your Privacy Officer can file, forward, or footnote.", color: "#E8E8E8", accentLight: "rgba(255,255,255,0.7)", to: "/kete/arataki" },
-  { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#7ECFC2", accentLight: "#A8E6DA", to: "/contact" },
+  { reo: "Manaaki", en: "Hospitality", desc: "Food Act plans, liquor licensing, guest experience, tourism operators.", color: "#3A7D6E", accentLight: "#5AADA0", to: "/sample/manaaki" },
+  { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: "#1A3A5C", accentLight: "#2A5A8C", to: "/sample/waihanga" },
+  { reo: "Auaha", en: "Creative", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: "#D4A843", accentLight: "#E8C76A", to: "/sample/auaha" },
+  { reo: "Arataki", en: "Privacy & Business Compliance", desc: "IPP3A-ready. Every Privacy Act 2020 run ends in a signed evidence pack your Privacy Officer can file, forward, or footnote.", color: "#E8E8E8", accentLight: "rgba(255,255,255,0.7)", to: "/sample/arataki" },
+  { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#7ECFC2", accentLight: "#A8E6DA", to: "/sample/pikau" },
+  { reo: "Toroa", en: "Family Navigator", desc: "SMS-first whānau coordination. School notices, kai plans, appointments, budgets — no app needed.", color: "#87CEEB", accentLight: "#AEE0F7", to: "/sample/toroa" },
 ];
 
 const PIPELINE_STAGES = [
@@ -326,12 +327,12 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8, ease }}
         >
-          <a
-            href="#industry-packs"
+          <Link
+            to="/sample/manaaki"
             className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm"
           >
             See a sample pack <ArrowRight size={15} />
-          </a>
+          </Link>
           <a
             href="#pricing"
             className="btn-ghost inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm"
