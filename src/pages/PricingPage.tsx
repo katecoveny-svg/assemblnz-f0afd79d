@@ -33,14 +33,24 @@ const PricingHero = () => (
         HE KETE MĀTAURANGA
       </p>
       <h1 className="text-3xl sm:text-5xl font-display mb-4 text-foreground" style={{ fontWeight: 300, letterSpacing: "-0.02em" }}>
-        Every kete ends in an evidence pack.
+        NZ enterprises<Link to="/claims-register#claim-1" className="text-primary hover:underline align-super text-[0.5em]">¹</Link> with fewer than 20 staff<Link to="/claims-register#claim-2" className="text-primary hover:underline align-super text-[0.5em]">²</Link> produce a signed evidence pack today.<Link to="/claims-register#claim-3" className="text-primary hover:underline align-super text-[0.5em]">³</Link>
       </h1>
       <p className="text-base sm:text-lg font-body max-w-2xl mx-auto mb-4" style={{ color: "rgba(255,255,255,0.65)" }}>
         Pick the kete that matches your industry. Each run produces a signed, sourced evidence pack your team can file, forward, or footnote.
       </p>
-      <p className="text-sm font-body max-w-2xl mx-auto mb-8" style={{ color: "rgba(255,255,255,0.45)" }}>
-        Privacy Act 2020 alignment, tikanga governance, and compliance pipeline built in — from first input to signed pack.
-      </p>
+      {/* Privacy Act 2020 · IPP 3A banner */}
+      <div className="glass-card rounded-xl px-6 py-4 max-w-xl mx-auto mb-8 text-left" style={{ borderLeft: "2px solid hsl(var(--primary))" }}>
+        <p className="text-[10px] font-display tracking-[3px] uppercase mb-2" style={{ fontWeight: 700, color: "hsl(var(--primary))" }}>
+          Privacy Act 2020 · IPP 3A
+        </p>
+        <ul className="space-y-1">
+          {["Consent notices", "Audit log", "Subject access pack", "Breach notification"].map((b) => (
+            <li key={b} className="flex items-center gap-2 text-xs font-body text-muted-foreground">
+              <Check size={12} className="text-primary shrink-0" />{b}
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className="flex flex-wrap justify-center gap-3">
         <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
           Book a discovery call
@@ -121,7 +131,7 @@ const TIERS = [
     name: "Operator", sub: "$1,490/mo", accent: "hsl(var(--pounamu-light))", badge: "ENTRY",
     price: "NZ$1,490/mo", setup: "+ $590 setup (splittable across first 3 invoices)",
     best: "Sole traders and micro-SMEs — one industry, one team, one source of truth",
-    packsPerMonth: "[TODO: confirm with Kate] evidence packs/mo", // [TODO: Kate decision] how many packs/mo per kete at Operator?
+    packsPerMonth: "20 evidence packs/mo",
     features: ["1 industry kete (your pick)", "Up to 5 seats", "Tikanga compliance layer", "Privacy Act 2020 + AAAIP alignment", "SMS, WhatsApp & dashboard access", "3 training hours / year", "Email support, 1 business day", "99.0% uptime"],
     goodFor: "Builders · Cafés · Single-discipline trades · Owner-operator carriers · Solo agencies",
     cta: "Talk to us", highlight: false,
@@ -130,7 +140,7 @@ const TIERS = [
     name: "Leader", sub: "$1,990/mo", accent: "hsl(var(--primary))", badge: "MOST POPULAR",
     price: "NZ$1,990/mo", setup: "+ $1,290 setup (splittable across first 3 invoices)",
     best: "Multi-discipline SMEs and growing teams — covers two parts of the business with quarterly compliance review",
-    packsPerMonth: "[TODO: confirm with Kate] evidence packs/mo per kete", // [TODO: Kate decision] how many packs/mo per kete at Leader?
+    packsPerMonth: "60 evidence packs/mo",
     features: ["2 industry kete (your pick)", "Up to 15 seats", "Quarterly compliance review (signed)", "Monthly audit report", "8 training hours / year", "Email + chat, 4 business hours", "99.5% uptime", "Optional NZ data residency"],
     goodFor: "Hospitality groups · Construction firms · Multi-disc trades · Creative studios · Workshops",
     cta: "Talk to us", highlight: true,
@@ -139,9 +149,18 @@ const TIERS = [
     name: "Enterprise", sub: "$2,990/mo", accent: "hsl(var(--tangaroa))", badge: "FULL PLATFORM",
     price: "NZ$2,990/mo", setup: "+ $2,890 setup (splittable across first 3 invoices)",
     best: "Multi-site, regulated, high-stakes operations — every kete, the SLA, and a named human to call",
-    packsPerMonth: "[TODO: confirm with Kate] evidence packs/mo across all kete", // [TODO: Kate decision] how many packs/mo total at Enterprise?
-    features: ["All 5 industry kete", "Unlimited seats", "NZ data residency (attested)", "99.9% uptime SLA", "Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "16 training hours / year", "Priority phone + chat, 1 business hour"],
+    packsPerMonth: "200 evidence packs/mo",
+    features: ["All 5 industry kete", "Unlimited seats", "Data at rest in NZ⁷", "99.9% uptime SLA", "Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "16 training hours / year", "Priority phone + chat, 1 business hour"],
     goodFor: "Multi-site hospo · Construction PMO · Regional freight · Franchise networks · Regulated operations",
+    cta: "Talk to us", highlight: false,
+  },
+  {
+    name: "Outcome", sub: "from $5,000/mo", accent: "hsl(var(--primary))", badge: "BESPOKE",
+    price: "From NZ$5,000/mo", setup: "Scoped per engagement",
+    best: "Engagements where Assembl takes on the result — freight routes, maintenance scheduling, fleet uptime",
+    packsPerMonth: "Unlimited evidence packs",
+    features: ["All 5 industry kete", "Unlimited seats", "SLA", "Bespoke scoping", "Named success manager", "Base fee + 10–20% of measured savings"],
+    goodFor: "Outcome-based engagements · Route optimisation · Maintenance scheduling · Fleet uptime",
     cta: "Talk to us", highlight: false,
   },
 ];
@@ -155,7 +174,7 @@ const PricingTiers = () => (
       <p className="text-sm font-body text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
         Every plan includes Assembl Core: Iho routing engine, SIGNAL security, compliance pipeline, SMS/WhatsApp, and your dashboard. Every kete run ends in a signed evidence pack.
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
         {TIERS.map((t, i) => (
           <motion.div
             key={i}
@@ -185,11 +204,17 @@ const PricingTiers = () => (
             <p className="text-xs font-body text-muted-foreground mb-4 italic">Best for: {t.best}</p>
             <div className="h-px mb-4" style={{ background: "rgba(255,255,255,0.06)" }} />
             <ul className="space-y-2 mb-4 flex-1">
-              {t.features.map(f => (
-                <li key={f} className="flex items-start gap-2 text-xs font-body text-muted-foreground">
-                  <Check size={14} className="mt-0.5 shrink-0" style={{ color: t.accent }} />{f}
-                </li>
-              ))}
+              {t.features.map(f => {
+                const hasFootnote = f.includes("⁷");
+                const text = hasFootnote ? f.replace("⁷", "") : f;
+                return (
+                  <li key={f} className="flex items-start gap-2 text-xs font-body text-muted-foreground">
+                    <Check size={14} className="mt-0.5 shrink-0" style={{ color: t.accent }} />
+                    {text}
+                    {hasFootnote && <Link to="/claims-register#claim-7" className="text-primary hover:underline align-super text-[0.7em]">⁷</Link>}
+                  </li>
+                );
+              })}
             </ul>
             <p className="text-[10px] font-body text-muted-foreground/40 mb-4">Good for: {t.goodFor}</p>
             <Link to="/contact" className="block w-full text-center py-3 rounded-lg text-sm font-body font-medium transition-all" style={{ background: t.accent, color: t.highlight ? "hsl(var(--primary-foreground))" : "#fff" }}>
@@ -203,15 +228,6 @@ const PricingTiers = () => (
       </p>
       <p className="text-[11px] font-body text-muted-foreground/40 text-center mt-3 max-w-2xl mx-auto">
         All prices in NZD, ex GST (add 15% at invoice). Setup fees can be split across the first 3 invoices on request. Monthly subscriptions include platform hosting, AI compute, agent support, and governance. Existing customers on the legacy model are grandfathered until 2027-04-08.
-      </p>
-      <p className="text-xs font-body text-center mt-6 mb-2">
-        <span className="text-[11px] font-display tracking-[3px] uppercase" style={{ color: "hsl(var(--primary))", fontWeight: 700 }}>OUTCOME — FROM $5,000/MO</span>
-      </p>
-      <p className="text-[11px] font-body text-muted-foreground/50 text-center max-w-xl mx-auto mb-4">
-        Bespoke engagements where Assembl takes on the outcome — freight route optimisation, building maintenance scheduling, fleet uptime. Base fee + 10–20% of measured savings. Scoped per engagement.
-      </p>
-      <p className="text-xs font-body text-center">
-        <Link to="/contact" className="text-primary hover:underline">Talk to us about an Outcome engagement →</Link>
       </p>
     </div>
   </section>

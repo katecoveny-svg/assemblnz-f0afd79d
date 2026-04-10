@@ -30,6 +30,7 @@ const AdminForgotPassword = lazy(() => import("./pages/AdminForgotPassword"));
 const AdminResetPassword = lazy(() => import("./pages/AdminResetPassword"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const PricingPage = lazy(() => import("./pages/PricingPage"));
+const ClaimsRegisterPage = lazy(() => import("./pages/ClaimsRegisterPage"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfUse = lazy(() => import("./pages/TermsOfUse"));
 const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
@@ -148,6 +149,7 @@ const App = () => (
                   <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
                   <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                   <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
+                  <Route path="/claims-register" element={<Suspense fallback={null}><ClaimsRegisterPage /></Suspense>} />
                   <Route path="/contact" element={<Suspense fallback={null}><ContactPage /></Suspense>} />
                   <Route path="/how-it-works" element={<Suspense fallback={null}><HowItWorksPage /></Suspense>} />
                   <Route path="/content-hub" element={<Navigate to="/how-it-works" replace />} />
