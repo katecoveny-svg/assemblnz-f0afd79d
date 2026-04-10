@@ -24,6 +24,7 @@ const FOOTER_LINKS = {
     { to: "/toroa", label: "Toro — Family Navigator" },
     { to: "/how-it-works", label: "Six-layer agent stack" },
     { to: "/developers", label: "Developers" },
+    { to: "/brand-assets", label: "Brand Assets" },
   ],
   Legal: [
     { to: "/privacy", label: "Privacy Policy" },
