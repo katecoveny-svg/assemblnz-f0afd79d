@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Zap, ArrowLeft, ToggleLeft, ToggleRight, ChevronRight, Plus, Users, Home, Trophy, Handshake, MessageSquare, BarChart3, AlertTriangle, FileText, CalendarClock, HardHat, Receipt, Ship, Building2, ShieldCheck, Eye, Route, BookOpen, Brain, Scale, Package, Hash, PenTool, FileCheck, Forward, FileDigit } from "lucide-react";
+import { Zap, ArrowLeft, ToggleLeft, ToggleRight, ChevronRight, Plus, Users, Home, Trophy, Handshake, MessageSquare, BarChart3, AlertTriangle, FileText, CalendarClock, HardHat, Receipt, Ship, Building2, ShieldCheck, Eye, Route, BookOpen, Brain, Scale, Package, Hash, PenTool, FileCheck, Forward, FileDigit, Ban } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -24,7 +24,13 @@ const PIPELINE_STAGES = [
   { key: "iho", label: "Iho", desc: "Route", icon: Route },
   { key: "ta", label: "Tā", desc: "Audit log", icon: BookOpen },
   { key: "mahara", label: "Mahara", desc: "Memory", icon: Brain },
-  { key: "mana", label: "Mana", desc: "Tikanga gate", icon: Scale },
+  { key: "mana", label: "Mana", desc: "Tikanga · Privacy · Sector Acts", icon: Scale },
+] as const;
+
+const MANA_GATE_CHECKS = [
+  { label: "Tikanga", desc: "Macrons, Te Reo accuracy, cultural respect" },
+  { label: "Privacy Act 2020", desc: "PII masked, IPP 3A disclosure" },
+  { label: "Sector Acts", desc: "Statutory citations for referenced legislation" },
 ] as const;
 
 const WORKFLOW_ICONS: Record<string, any> = {
@@ -158,6 +164,22 @@ const WorkflowSettings = () => {
                           </div>
                         </div>
                       )}
+
+                      {/* Mana gate enforcement */}
+                      <div className="rounded-lg p-3" style={{ background: "rgba(220, 38, 38, 0.04)", border: "1px solid rgba(220, 38, 38, 0.12)" }}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <Ban size={12} className="text-red-400" />
+                          <p className="text-[9px] font-bold text-red-400 uppercase tracking-wider">Kete refuses to close pack if Mana gate fails</p>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2">
+                          {MANA_GATE_CHECKS.map((check) => (
+                            <div key={check.label} className="text-center">
+                              <span className="text-[10px] font-bold text-foreground block">{check.label}</span>
+                              <span className="text-[8px] text-muted-foreground">{check.desc}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
 
                       {/* Evidence pack output */}
                       <div>

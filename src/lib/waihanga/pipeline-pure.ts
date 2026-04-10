@@ -217,56 +217,135 @@ export function checkCompliance(message: string): ComplianceResult {
 // ─────────────────────────────────────────────
 // Canonical pipeline stage 5 (Kahu → Iho → Tā → Mahara → Mana).
 // Runs on the agent's RESPONSE before it leaves the system.
-// Six rules matching the iho-router implementation.
+// The kete refuses to close a pack that fails this gate.
+//
+// Three mandatory compliance layers:
+//   1. Tikanga — Te Reo Māori accuracy, macrons, cultural respect
+//   2. Privacy Act 2020 — PII handling, IPP 3A disclosure
+//   3. Sector Acts — CCA 2002, HSWA 2015, ERA 2000, etc.
+//
+// Capability order: Perceive · Memory · Reason · Simulate · Action · Explain · Govern
 
 export interface ManaGateResult {
   passed: boolean;
   blockers: string[];
   warnings: string[];
+  /** When false the kete MUST refuse to close the evidence pack. */
+  packClosable: boolean;
 }
+
+/** Sector Acts the gate can detect and enforce citation for. */
+const SECTOR_ACT_TRIGGERS: { pattern: RegExp; actName: string; citationPattern: RegExp }[] = [
+  {
+    pattern: /\b(payment claim|retention|cca|construction contract|form 1|nzs.?39[12]0)\b/i,
+    actName: "Construction Contracts Act 2002",
+    citationPattern: /\b(s\d+|section \d+|form 1|20.working.day|cca\s*200[2])\b/i,
+  },
+  {
+    pattern: /\b(hazard|h&s|ppe|notifiable event|worksafe|hswa|pcbu|swms)\b/i,
+    actName: "Health and Safety at Work Act 2015",
+    citationPattern: /\b(s\d+|section \d+|hswa|pcbu|reg\s*\d+)\b/i,
+  },
+  {
+    pattern: /\b(personal grievance|unjustified dismiss|employment agreement|trial period|90.?day)\b/i,
+    actName: "Employment Relations Act 2000",
+    citationPattern: /\b(s\s?\d+|section \d+|era\s*200[0]|part\s*\d+)\b/i,
+  },
+  {
+    pattern: /\b(building consent|code compliance|producer statement|building act)\b/i,
+    actName: "Building Act 2004",
+    citationPattern: /\b(s\d+|section \d+|nzbc|clause [a-z]\d)\b/i,
+  },
+  {
+    pattern: /\b(customs entry|tariff|biosecurity|mpi|border)\b/i,
+    actName: "Customs and Excise Act 2018",
+    citationPattern: /\b(s\d+|section \d+|tariff item|hs code)\b/i,
+  },
+  {
+    pattern: /\b(fair trading|misleading|consumer guarantee)\b/i,
+    actName: "Fair Trading Act 1986",
+    citationPattern: /\b(s\s?\d+|section \d+|fta)\b/i,
+  },
+];
 
 export function manaGate(
   response: string,
-  context: { isInternalComms?: boolean; isFatalityIncident?: boolean }
+  context: {
+    isInternalComms?: boolean;
+    isFatalityIncident?: boolean;
+    relevantActs?: string[];
+  }
 ): ManaGateResult {
   const blockers: string[] = [];
   const warnings: string[] = [];
 
-  // Rule 1 — IC-U1: never auto-send for internal comms
+  // ── Layer 1: Tikanga ────────────────────────────────────────
+  // Rule T1 — 'Maori' without macron
+  if (/\bMaori\b/.test(response) && !/\bMāori\b/.test(response)) {
+    blockers.push("Tikanga-T1: 'Maori' used without macron — must be 'Māori'");
+  }
+  // Rule T2 — common Te Reo terms missing macrons
+  const macronPairs: [RegExp, string][] = [
+    [/\bwhanau\b/i, "whānau"], [/\btikanga\b(?!.*\btikanga\b)/i, "tikanga"],
+    [/\bMaori\b/, "Māori"], [/\bkaupapa\b/i, "kaupapa"],
+  ];
+  for (const [re, correct] of macronPairs) {
+    if (re.test(response) && !new RegExp(`\\b${correct}\\b`).test(response)) {
+      warnings.push(`Tikanga: '${re.source}' should use correct form '${correct}'`);
+    }
+  }
+
+  // ── Layer 2: Privacy Act 2020 ───────────────────────────────
+  // Rule P1 — response must not leak raw PII patterns
+  if (/\b\d{2,3}[- ]?\d{3}[- ]?\d{3}\b/.test(response)) {
+    blockers.push("Privacy Act 2020: response contains possible IRD number — must be masked");
+  }
+  if (/\b\d{2}[- ]?\d{4}[- ]?\d{7,8}[- ]?\d{2,3}\b/.test(response)) {
+    blockers.push("Privacy Act 2020: response contains possible bank account — must be masked");
+  }
+  // Rule P2 — IPP 3A: indirect collection must name source
+  if (/\b(from your records|we obtained|sourced from)\b/i.test(response)) {
+    if (!/\b(source:|collected from|provided by)\b/i.test(response)) {
+      warnings.push("Privacy Act 2020 IPP 3A: indirect collection without naming source");
+    }
+  }
+
+  // ── Layer 3: Sector Acts ────────────────────────────────────
+  for (const rule of SECTOR_ACT_TRIGGERS) {
+    if (rule.pattern.test(response)) {
+      if (!rule.citationPattern.test(response)) {
+        warnings.push(`Mana: ${rule.actName} referenced without statutory citation`);
+      }
+    }
+  }
+
+  // ── Existing safety rules ──────────────────────────────────
+  // Rule S1 — IC-U1: never auto-send for internal comms
   if (context.isInternalComms && /\b(sent|sending now|dispatched|published to)\b/i.test(response)) {
     blockers.push("IC-U1: response claims autonomous send — blocked");
   }
 
-  // Rule 2 — IC-IN-05 canary: fatality scenarios MUST pause automation
+  // Rule S2 — IC-IN-05 canary: fatality scenarios MUST pause automation
   if (context.isFatalityIncident && !/(human takeover|pause|escalat|stop automation)/i.test(response)) {
     blockers.push("IC-IN-05: fatality scenario without human takeover — blocked");
   }
 
-  // Rule 3 — Bare "APPROVED" rubber-stamp (prompt-injection footprint)
+  // Rule S3 — Bare "APPROVED" rubber-stamp (prompt-injection footprint)
   if (/\bAPPROVED\b\s*$/.test(response.trim()) || /^APPROVED$/.test(response.trim())) {
     blockers.push("Mana: bare 'APPROVED' output not allowed — must include reasoning");
   }
 
-  // Rule 4 — Prompt-injection echo detection
+  // Rule S4 — Prompt-injection echo detection
   if (/\bSYSTEM OVERRIDE\b/i.test(response) || /\bignore (?:all )?(?:previous )?instructions\b/i.test(response)) {
     blockers.push("Mana: response echoes prompt-injection payload — blocked");
   }
 
-  // Rule 5 — Missing statutory citation warning (CCA/HSWA)
-  if (/\b(payment claim|retention|cca|construction contract)\b/i.test(response)) {
-    if (!/\b(s\d+|section \d+|form 1|20.working.day)\b/i.test(response)) {
-      warnings.push("Mana: CCA-related response missing statutory citation");
-    }
-  }
-
-  // Rule 6 — Tikanga warning: using 'Maori' without macron
-  if (/\bMaori\b/.test(response) && !/\bMāori\b/.test(response)) {
-    warnings.push("Tikanga: 'Maori' used without macron — should be 'Māori'");
-  }
+  const passed = blockers.length === 0;
 
   return {
-    passed: blockers.length === 0,
+    passed,
     blockers,
     warnings,
+    packClosable: passed, // kete refuses to close if ANY blocker fires
   };
 }
