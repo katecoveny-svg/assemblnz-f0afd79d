@@ -327,7 +327,7 @@ const Index = () => {
           transition={{ duration: 0.6, delay: 0.8, ease }}
         >
           <a
-            href="#packs"
+            href="#industry-packs"
             className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm"
           >
             See a sample pack <ArrowRight size={15} />
