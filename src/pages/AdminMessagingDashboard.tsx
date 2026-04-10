@@ -37,15 +37,19 @@ const AGENT_COLOURS: Record<string, string> = {
   aroha: "bg-rose-600",
   aura: "bg-amber-600",
   hanga: "bg-blue-600",
-  pakihi: "bg-purple-600",
+  waihanga: "bg-blue-600",
+  manaaki: "bg-amber-600",
+  auaha: "bg-yellow-600",
 };
 
 const AGENT_LABELS: Record<string, string> = {
   toroa: "Tōroa",
   aroha: "AROHA",
   aura: "AURA",
-  hanga: "Hanga",
-  pakihi: "Pakihi",
+  hanga: "Waihanga",
+  waihanga: "Waihanga",
+  manaaki: "Manaaki",
+  auaha: "Auaha",
 };
 
 const CHANNEL_ICON: Record<string, typeof Phone> = {

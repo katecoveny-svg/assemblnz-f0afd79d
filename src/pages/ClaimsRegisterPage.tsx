@@ -201,7 +201,7 @@ const ClaimsRegisterPage = () => (
             ["Rows", "7"],
             ["Status", "All claims sourced"],
             ["Review cadence", "Quarterly"],
-            ["Owner", "Kate Hudson"],
+            ["Owner", "Kate Harland"],
             ["Next audit", "2026-07-10"],
           ].map(([label, value]) => (
             <div key={label}>
