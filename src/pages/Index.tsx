@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Send, ChevronDown, Check } from "lucide-react";
 import { Link } from "react-router-dom";
