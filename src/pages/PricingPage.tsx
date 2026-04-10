@@ -206,8 +206,6 @@ const PricingTiers = () => (
                   </li>
                 );
               })}
-                </li>
-              ))}
             </ul>
             <p className="text-[10px] font-body text-muted-foreground/40 mb-4">Good for: {t.goodFor}</p>
             <Link to="/contact" className="block w-full text-center py-3 rounded-lg text-sm font-body font-medium transition-all" style={{ background: t.accent, color: t.highlight ? "hsl(var(--primary-foreground))" : "#fff" }}>
