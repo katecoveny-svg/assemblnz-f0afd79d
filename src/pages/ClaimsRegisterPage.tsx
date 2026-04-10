@@ -194,8 +194,25 @@ const ClaimsRegisterPage = () => (
           </p>
         </div>
 
-        <p className="text-[10px] font-body text-muted-foreground/30 text-center mt-8">
-          Last updated: April 2026 · <Link to="/pricing" className="underline hover:text-foreground transition-colors">Back to pricing</Link>
+        {/* Register metadata */}
+        <div className="glass-card rounded-xl p-5 mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+          {[
+            ["Version", "claims-register-v1.1-2026-04-10"],
+            ["Rows", "7"],
+            ["Status", "All claims sourced"],
+            ["Review cadence", "Quarterly"],
+            ["Owner", "Kate Hudson"],
+            ["Next audit", "2026-07-10"],
+          ].map(([label, value]) => (
+            <div key={label}>
+              <p className="text-[9px] font-display tracking-[2px] uppercase text-muted-foreground/40 mb-0.5" style={{ fontWeight: 700 }}>{label}</p>
+              <p className="text-xs font-body text-muted-foreground">{value}</p>
+            </div>
+          ))}
+        </div>
+
+        <p className="text-[10px] font-body text-muted-foreground/30 text-center mt-6">
+          <Link to="/pricing" className="underline hover:text-foreground transition-colors">Back to pricing</Link>
         </p>
       </div>
     </section>
