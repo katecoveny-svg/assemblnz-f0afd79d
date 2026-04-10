@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
 const PLANS = [
-  { name: "Family", price: "$29", period: "/mo" },
-  { name: "Operator", price: "$590", period: "/mo" },
-  { name: "Leader", price: "$1,290", period: "/mo" },
-  { name: "Enterprise", price: "$2,890", period: "/mo" },
+  { name: "Family", price: "$29", period: "/mo", cta: "Start a Tōro record", to: "/toroa" },
+  { name: "Operator", price: "$1,490", period: "/mo", cta: "Start with one pack", to: "/contact" },
+  { name: "Leader", price: "$1,990", period: "/mo", cta: "Talk to us", to: "/contact" },
+  { name: "Enterprise", price: "$2,990", period: "/mo", cta: "Talk to us", to: "/contact" },
 ];
 
 const ContentHubCTA = () => (
@@ -46,7 +46,7 @@ const ContentHubCTA = () => (
                 border: "1px solid rgba(0,255,136,0.2)",
               }}
             >
-              Talk to us →
+              {plan.cta} →
             </Link>
           </div>
         ))}
