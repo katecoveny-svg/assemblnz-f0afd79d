@@ -133,6 +133,8 @@ const WaihangaArchitecturePage = lazy(() => import("./pages/WaihangaArchitecture
 const TeReoReferencePage = lazy(() => import("./pages/TeReoReferencePage"));
 const TryPage = lazy(() => import("./pages/TryPage"));
 const CaseStudiesPage = lazy(() => import("./pages/CaseStudiesPage"));
+const StartPage = lazy(() => import("./pages/StartPage"));
+const StartPendingPage = lazy(() => import("./pages/StartPendingPage"));
 
 const queryClient = new QueryClient();
 
