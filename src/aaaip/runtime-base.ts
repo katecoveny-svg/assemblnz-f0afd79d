@@ -26,7 +26,8 @@ export type RuntimeDomainKey =
   | "manaaki"
   | "auaha"
   | "arataki"
-  | "toro";
+  | "toro"
+  | "tereo";
 
 export interface AaaipRuntimeBase {
   domain: RuntimeDomainKey;
