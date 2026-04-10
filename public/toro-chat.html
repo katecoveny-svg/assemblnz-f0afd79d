@@ -3,371 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Toro — Your Family Navigator</title>
+<title>Tōroa — Your Family Navigator</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  :root {
-    --bg-primary: #0A1628;
-    --bg-secondary: #0F1F38;
-    --bg-card: #132743;
-    --bg-input: #1A3050;
-    --pounamu: #3A7D6E;
-    --pounamu-light: #4A9D8E;
-    --pounamu-glow: rgba(58, 125, 110, 0.25);
-    --dawn-gold: #D4A853;
-    --dawn-gold-light: #E4C87A;
-    --text-primary: #E8EDF5;
-    --text-secondary: #8A9BBF;
-    --text-muted: #5A6F96;
-    --border: rgba(58, 125, 110, 0.2);
-    --shadow: rgba(0, 0, 0, 0.3);
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --bg-primary:#0A1628;--bg-secondary:#0F1F38;--bg-card:#132743;--bg-input:#1A3050;
+    --pounamu:#3A7D6E;--pounamu-light:#4A9D8E;
+    --pounamu-glow:rgba(58,125,110,0.25);--pounamu-glow-strong:rgba(58,125,110,0.45);
+    --dawn-gold:#D4A853;--dawn-gold-light:#E4C87A;--dawn-gold-glow:rgba(212,168,83,0.25);
+    --text-primary:#E8EDF5;--text-secondary:#8A9BBF;--text-muted:#5A6F96;
+    --border:rgba(58,125,110,0.2);--border-glow:rgba(58,125,110,0.35);
+    --glass-bg:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);
   }
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg-primary);color:var(--text-primary);height:100dvh;display:flex;flex-direction:column;overflow:hidden;position:relative}
+  body::before{content:'';position:fixed;top:-30%;left:-20%;width:60%;height:60%;background:radial-gradient(circle,rgba(58,125,110,.08) 0%,transparent 70%);pointer-events:none;z-index:0}
+  body::after{content:'';position:fixed;bottom:-20%;right:-15%;width:50%;height:50%;background:radial-gradient(circle,rgba(212,168,83,.05) 0%,transparent 70%);pointer-events:none;z-index:0}
 
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+  .header{background:linear-gradient(135deg,var(--bg-secondary),var(--bg-card));border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:14px;flex-shrink:0;position:relative;z-index:2;backdrop-filter:blur(20px)}
+  .header::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--pounamu),var(--dawn-gold),var(--pounamu));opacity:.7}
+  .logo-mark{width:42px;height:42px;background:linear-gradient(135deg,var(--pounamu),var(--pounamu-light));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 16px var(--pounamu-glow),0 0 30px var(--pounamu-glow);flex-shrink:0;transition:box-shadow .3s,transform .3s}
+  .logo-mark:hover{box-shadow:0 4px 24px var(--pounamu-glow-strong),0 0 50px var(--pounamu-glow);transform:scale(1.05)}
+  .header-text h1{font-size:17px;font-weight:600;letter-spacing:-.3px;background:linear-gradient(90deg,var(--text-primary),var(--dawn-gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .header-text span{font-size:12px;color:var(--text-secondary);font-weight:400;font-family:'JetBrains Mono',monospace;letter-spacing:.5px}
+  .header-status{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:11px;color:var(--pounamu-light);font-weight:500;font-family:'JetBrains Mono',monospace}
+  .status-dot{width:7px;height:7px;background:var(--pounamu-light);border-radius:50%;animation:pulse 2s ease-in-out infinite;box-shadow:0 0 8px var(--pounamu-glow)}
+  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 8px var(--pounamu-glow)}50%{opacity:.7;box-shadow:0 0 16px var(--pounamu-glow-strong)}}
 
-  /* Header */
-  .header {
-    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-shrink: 0;
-  }
+  .quick-actions{padding:12px 16px;display:flex;gap:8px;overflow-x:auto;flex-shrink:0;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:relative;z-index:2}
+  .quick-actions::-webkit-scrollbar{display:none}
+  .quick-btn{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:20px;padding:8px 16px;color:var(--text-primary);font-size:13px;font-weight:500;white-space:nowrap;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:7px;font-family:inherit;backdrop-filter:blur(12px);position:relative;overflow:hidden}
+  .quick-btn::before{content:'';position:absolute;inset:0;border-radius:20px;opacity:0;background:linear-gradient(135deg,var(--pounamu-glow),var(--dawn-gold-glow));transition:opacity .3s}
+  .quick-btn:hover::before,.quick-btn:active::before{opacity:1}
+  .quick-btn:hover,.quick-btn:active{border-color:var(--pounamu);transform:translateY(-2px);box-shadow:0 4px 20px var(--pounamu-glow),0 0 40px rgba(58,125,110,.1)}
+  .quick-btn .icon{font-size:15px;position:relative;z-index:1}
+  .quick-btn span:not(.icon){position:relative;z-index:1}
 
-  .logo-mark {
-    width: 42px; height: 42px;
-    background: linear-gradient(135deg, var(--pounamu) 0%, var(--pounamu-light) 100%);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 4px 16px var(--pounamu-glow);
-    flex-shrink: 0;
-  }
+  .chat-area{flex:1;overflow-y:auto;padding:16px 16px 8px;display:flex;flex-direction:column;gap:16px;scroll-behavior:smooth;position:relative;z-index:1}
+  .chat-area::-webkit-scrollbar{width:4px}
+  .chat-area::-webkit-scrollbar-track{background:transparent}
+  .chat-area::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:4px}
 
-  .header-text h1 {
-    font-size: 17px; font-weight: 600; letter-spacing: -0.3px;
-    background: linear-gradient(90deg, var(--text-primary), var(--dawn-gold-light));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
+  .msg-group{display:flex;gap:10px;max-width:85%;animation:fadeUp .4s cubic-bezier(.4,0,.2,1)}
+  .msg-group.user{align-self:flex-end;flex-direction:row-reverse}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-  .header-text span {
-    font-size: 12px; color: var(--text-secondary); font-weight: 400;
-  }
+  .msg-avatar{width:32px;height:32px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;margin-top:2px;transition:box-shadow .3s,transform .3s}
+  .msg-avatar.toro{background:linear-gradient(135deg,var(--pounamu),var(--pounamu-light));box-shadow:0 2px 8px var(--pounamu-glow),0 0 20px rgba(58,125,110,.1)}
+  .msg-avatar.toro:hover{box-shadow:0 2px 16px var(--pounamu-glow-strong),0 0 30px rgba(58,125,110,.2);transform:scale(1.08)}
+  .msg-avatar.user-avatar{background:linear-gradient(135deg,var(--dawn-gold),var(--dawn-gold-light));box-shadow:0 2px 8px var(--dawn-gold-glow)}
 
-  .header-status {
-    margin-left: auto; display: flex; align-items: center; gap: 6px;
-    font-size: 11px; color: var(--pounamu-light); font-weight: 500;
-  }
+  .msg-bubble{padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.55;position:relative;transition:box-shadow .3s,transform .2s}
+  .msg-group:not(.user) .msg-bubble{background:var(--glass-bg);border:1px solid var(--glass-border);border-bottom-left-radius:4px;color:var(--text-primary);backdrop-filter:blur(12px)}
+  .msg-group:not(.user) .msg-bubble:hover{box-shadow:0 4px 20px rgba(58,125,110,.1),0 0 40px rgba(58,125,110,.05);border-color:var(--border-glow);transform:translateY(-1px)}
+  .msg-group.user .msg-bubble{background:linear-gradient(135deg,var(--pounamu),#2E6B5E);border-bottom-right-radius:4px;color:#fff;box-shadow:0 2px 12px var(--pounamu-glow)}
+  .msg-group.user .msg-bubble:hover{box-shadow:0 4px 24px var(--pounamu-glow-strong);transform:translateY(-1px)}
+  .msg-time{font-size:10px;color:var(--text-muted);margin-top:4px;padding:0 4px;font-family:'JetBrains Mono',monospace}
+  .msg-group.user .msg-time{text-align:right}
 
-  .status-dot {
-    width: 7px; height: 7px; background: var(--pounamu-light);
-    border-radius: 50%; animation: pulse 2s ease-in-out infinite;
-  }
+  .typing-indicator{display:none;gap:10px;max-width:85%;animation:fadeUp .3s ease}
+  .typing-indicator.visible{display:flex}
+  .typing-dots{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;border-bottom-left-radius:4px;padding:14px 20px;display:flex;gap:5px;align-items:center;backdrop-filter:blur(12px)}
+  .typing-dots span{width:7px;height:7px;background:var(--pounamu-light);border-radius:50%;animation:bounce 1.4s ease-in-out infinite;box-shadow:0 0 6px var(--pounamu-glow)}
+  .typing-dots span:nth-child(2){animation-delay:.2s}
+  .typing-dots span:nth-child(3){animation-delay:.4s}
+  @keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--pounamu-glow); }
-    50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
-  }
+  .input-area{padding:12px 16px 16px;background:linear-gradient(180deg,rgba(15,31,56,.95),rgba(10,22,40,.98));border-top:1px solid var(--border);flex-shrink:0;position:relative;z-index:2;backdrop-filter:blur(20px)}
+  .input-row{display:flex;gap:8px;align-items:flex-end;background:var(--bg-input);border:1px solid var(--border);border-radius:24px;padding:6px 6px 6px 16px;transition:all .3s cubic-bezier(.4,0,.2,1)}
+  .input-row:focus-within{border-color:var(--pounamu);box-shadow:0 0 0 3px var(--pounamu-glow),0 0 30px rgba(58,125,110,.08)}
+  .input-row textarea{flex:1;background:none;border:none;outline:none;color:var(--text-primary);font-family:inherit;font-size:14px;resize:none;max-height:100px;line-height:1.4;padding:8px 0}
+  .input-row textarea::placeholder{color:var(--text-muted)}
 
-  /* Quick Actions */
-  .quick-actions {
-    padding: 12px 16px;
-    display: flex; gap: 8px;
-    overflow-x: auto; flex-shrink: 0;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .quick-actions::-webkit-scrollbar { display: none; }
+  .btn-icon{width:38px;height:38px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);flex-shrink:0;font-size:18px;position:relative}
+  .btn-mic{background:transparent;color:var(--text-secondary)}
+  .btn-mic:hover{color:var(--dawn-gold);box-shadow:0 0 20px var(--dawn-gold-glow)}
+  .btn-mic.recording{background:radial-gradient(circle,var(--dawn-gold),rgba(212,168,83,.8));color:#0A1628;animation:mic-pulse 1.5s ease-in-out infinite;box-shadow:0 0 20px var(--dawn-gold-glow),0 0 40px rgba(212,168,83,.15)}
+  @keyframes mic-pulse{0%,100%{box-shadow:0 0 20px var(--dawn-gold-glow),0 0 40px rgba(212,168,83,.15)}50%{box-shadow:0 0 30px rgba(212,168,83,.5),0 0 60px rgba(212,168,83,.25)}}
+  .btn-mic .tooltip{display:none;position:absolute;bottom:48px;left:50%;transform:translateX(-50%);background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);font-size:11px;padding:6px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;backdrop-filter:blur(12px);font-family:'JetBrains Mono',monospace}
+  .btn-mic:not(.recording):hover .tooltip{display:block}
 
-  .quick-btn {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 8px 16px;
-    color: var(--text-primary);
-    font-size: 13px; font-weight: 500;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex; align-items: center; gap: 7px;
-    font-family: inherit;
-  }
+  .btn-send{background:linear-gradient(135deg,var(--pounamu),var(--pounamu-light));color:#fff;box-shadow:0 2px 8px var(--pounamu-glow)}
+  .btn-send:hover{transform:scale(1.08);box-shadow:0 4px 24px var(--pounamu-glow-strong),0 0 40px rgba(58,125,110,.15)}
+  .btn-send:active{transform:scale(.97)}
 
-  .quick-btn:hover, .quick-btn:active {
-    background: var(--pounamu);
-    border-color: var(--pounamu-light);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px var(--pounamu-glow);
-  }
+  .powered-by{text-align:center;padding:8px;font-size:10px;color:var(--text-muted);letter-spacing:.5px;font-family:'JetBrains Mono',monospace}
+  .powered-by span{color:var(--dawn-gold);font-weight:600}
 
-  .quick-btn .icon { font-size: 15px; }
+  .voice-status{display:none;align-items:center;gap:8px;padding:8px 16px;margin-bottom:8px;background:linear-gradient(135deg,rgba(212,168,83,.1),rgba(58,125,110,.08));border:1px solid rgba(212,168,83,.2);border-radius:12px;font-size:12px;color:var(--dawn-gold-light);font-family:'JetBrains Mono',monospace;animation:fadeUp .3s ease}
+  .voice-status.visible{display:flex}
+  .voice-status .wave{display:flex;gap:2px;align-items:center;height:16px}
+  .voice-status .wave span{display:block;width:3px;background:var(--dawn-gold);border-radius:2px;animation:wave-bar .8s ease-in-out infinite}
+  .voice-status .wave span:nth-child(1){height:6px;animation-delay:0s}
+  .voice-status .wave span:nth-child(2){height:12px;animation-delay:.15s}
+  .voice-status .wave span:nth-child(3){height:8px;animation-delay:.3s}
+  .voice-status .wave span:nth-child(4){height:14px;animation-delay:.45s}
+  .voice-status .wave span:nth-child(5){height:6px;animation-delay:.6s}
+  @keyframes wave-bar{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1.2)}}
 
-  /* Chat Area */
-  .chat-area {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px 16px 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    scroll-behavior: smooth;
-  }
+  .welcome-card{background:linear-gradient(135deg,rgba(58,125,110,.12),rgba(212,168,83,.06));border:1px solid var(--glass-border);border-radius:16px;padding:24px 20px;text-align:center;margin-bottom:8px;backdrop-filter:blur(12px);transition:box-shadow .3s,border-color .3s;position:relative;overflow:hidden}
+  .welcome-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 30%,rgba(58,125,110,.08) 0%,transparent 50%);pointer-events:none}
+  .welcome-card:hover{border-color:var(--border-glow);box-shadow:0 4px 30px rgba(58,125,110,.1),0 0 60px rgba(58,125,110,.05)}
+  .welcome-card h2{font-size:20px;font-weight:600;margin-bottom:8px;background:linear-gradient(90deg,var(--pounamu-light),var(--dawn-gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative}
+  .welcome-card p{font-size:13px;color:var(--text-secondary);line-height:1.6;position:relative}
 
-  .chat-area::-webkit-scrollbar { width: 4px; }
-  .chat-area::-webkit-scrollbar-track { background: transparent; }
-  .chat-area::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
+  .date-divider{display:flex;align-items:center;gap:12px;color:var(--text-muted);font-size:11px;font-weight:500;padding:4px 0;font-family:'JetBrains Mono',monospace}
+  .date-divider::before,.date-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
 
-  /* Messages */
-  .msg-group { display: flex; gap: 10px; max-width: 85%; animation: fadeUp 0.3s ease; }
-  .msg-group.user { align-self: flex-end; flex-direction: row-reverse; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .msg-avatar {
-    width: 32px; height: 32px;
-    border-radius: 10px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; margin-top: 2px;
-  }
-
-  .msg-avatar.toro {
-    background: linear-gradient(135deg, var(--pounamu), var(--pounamu-light));
-    box-shadow: 0 2px 8px var(--pounamu-glow);
-  }
-
-  .msg-avatar.user-avatar {
-    background: linear-gradient(135deg, var(--dawn-gold), var(--dawn-gold-light));
-    box-shadow: 0 2px 8px rgba(212, 168, 83, 0.25);
-  }
-
-  .msg-bubble {
-    padding: 12px 16px;
-    border-radius: 16px;
-    font-size: 14px;
-    line-height: 1.55;
-    position: relative;
-  }
-
-  .msg-group:not(.user) .msg-bubble {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-bottom-left-radius: 4px;
-    color: var(--text-primary);
-  }
-
-  .msg-group.user .msg-bubble {
-    background: linear-gradient(135deg, var(--pounamu), #2E6B5E);
-    border-bottom-right-radius: 4px;
-    color: #fff;
-  }
-
-  .msg-time {
-    font-size: 10px;
-    color: var(--text-muted);
-    margin-top: 4px;
-    padding: 0 4px;
-  }
-
-  .msg-group.user .msg-time { text-align: right; }
-
-  /* Typing indicator */
-  .typing-indicator {
-    display: none;
-    gap: 10px;
-    max-width: 85%;
-    animation: fadeUp 0.3s ease;
-  }
-
-  .typing-indicator.visible { display: flex; }
-
-  .typing-dots {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    border-bottom-left-radius: 4px;
-    padding: 14px 20px;
-    display: flex; gap: 5px; align-items: center;
-  }
-
-  .typing-dots span {
-    width: 7px; height: 7px;
-    background: var(--pounamu-light);
-    border-radius: 50%;
-    animation: bounce 1.4s ease-in-out infinite;
-  }
-
-  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes bounce {
-    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-    30% { transform: translateY(-6px); opacity: 1; }
-  }
-
-  /* Input Area */
-  .input-area {
-    padding: 12px 16px 16px;
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-
-  .input-row {
-    display: flex; gap: 8px; align-items: flex-end;
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 6px 6px 6px 16px;
-    transition: border-color 0.2s;
-  }
-
-  .input-row:focus-within {
-    border-color: var(--pounamu);
-    box-shadow: 0 0 0 3px var(--pounamu-glow);
-  }
-
-  .input-row textarea {
-    flex: 1;
-    background: none; border: none; outline: none;
-    color: var(--text-primary);
-    font-family: inherit;
-    font-size: 14px;
-    resize: none;
-    max-height: 100px;
-    line-height: 1.4;
-    padding: 8px 0;
-  }
-
-  .input-row textarea::placeholder { color: var(--text-muted); }
-
-  .btn-icon {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    border: none;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    flex-shrink: 0;
-    font-size: 18px;
-    position: relative;
-  }
-
-  .btn-mic {
-    background: transparent;
-    color: var(--text-secondary);
-  }
-
-  .btn-mic:hover { color: var(--dawn-gold); }
-
-  .btn-mic .tooltip {
-    display: none;
-    position: absolute;
-    bottom: 48px; left: 50%;
-    transform: translateX(-50%);
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
-    font-size: 11px;
-    padding: 6px 10px;
-    border-radius: 8px;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  .btn-mic:hover .tooltip { display: block; }
-
-  .btn-send {
-    background: linear-gradient(135deg, var(--pounamu), var(--pounamu-light));
-    color: #fff;
-    box-shadow: 0 2px 8px var(--pounamu-glow);
-  }
-
-  .btn-send:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 16px var(--pounamu-glow);
-  }
-
-  .btn-send:active { transform: scale(0.97); }
-
-  .powered-by {
-    text-align: center;
-    padding: 8px;
-    font-size: 10px;
-    color: var(--text-muted);
-    letter-spacing: 0.5px;
-  }
-
-  .powered-by span { color: var(--dawn-gold); font-weight: 600; }
-
-  /* Welcome card */
-  .welcome-card {
-    background: linear-gradient(135deg, rgba(58, 125, 110, 0.15), rgba(212, 168, 83, 0.08));
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-    text-align: center;
-    margin-bottom: 8px;
-  }
-
-  .welcome-card h2 {
-    font-size: 18px; font-weight: 600;
-    margin-bottom: 6px;
-    background: linear-gradient(90deg, var(--pounamu-light), var(--dawn-gold-light));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-
-  .welcome-card p {
-    font-size: 13px; color: var(--text-secondary); line-height: 1.5;
-  }
-
-  /* Date divider */
-  .date-divider {
-    display: flex; align-items: center; gap: 12px;
-    color: var(--text-muted); font-size: 11px; font-weight: 500;
-    padding: 4px 0;
-  }
-
-  .date-divider::before, .date-divider::after {
-    content: ''; flex: 1; height: 1px;
-    background: var(--border);
-  }
-
-  /* Mobile tweaks */
-  @media (max-width: 600px) {
-    .header { padding: 12px 14px; }
-    .msg-group { max-width: 92%; }
-    .quick-btn { padding: 7px 13px; font-size: 12px; }
-  }
-
-  /* Safe area for iOS */
-  @supports (padding-bottom: env(safe-area-inset-bottom)) {
-    .input-area { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
-  }
+  @media(max-width:600px){.header{padding:12px 14px}.msg-group{max-width:92%}.quick-btn{padding:7px 13px;font-size:12px}}
+  @supports(padding-bottom:env(safe-area-inset-bottom)){.input-area{padding-bottom:calc(16px + env(safe-area-inset-bottom))}}
 </style>
 </head>
 <body>
 
-<!-- Header -->
 <div class="header">
   <div class="logo-mark">🐂</div>
   <div class="header-text">
-    <h1>Toro &mdash; Your Family Navigator</h1>
+    <h1>Tōroa &mdash; Your Family Navigator</h1>
     <span>Powered by Assembl</span>
   </div>
   <div class="header-status">
@@ -376,227 +128,104 @@
   </div>
 </div>
 
-<!-- Quick Actions -->
 <div class="quick-actions">
-  <button class="quick-btn" onclick="sendQuickAction('I need help planning a family trip')">
-    <span class="icon">&#9992;&#65039;</span> Plan a trip
-  </button>
-  <button class="quick-btn" onclick="sendQuickAction('Can you help me with the family budget this week?')">
-    <span class="icon">&#128176;</span> Family budget
-  </button>
-  <button class="quick-btn" onclick="sendQuickAction('What school stuff do I need to sort out?')">
-    <span class="icon">&#127891;</span> School stuff
-  </button>
-  <button class="quick-btn" onclick="sendQuickAction('Help me plan meals for the week')">
-    <span class="icon">&#127834;</span> Meal planning
-  </button>
-  <button class="quick-btn" onclick="sendQuickAction(&quot;What's on around us this weekend?&quot;)">
-    <span class="icon">&#127915;</span> What's on
-  </button>
+  <button class="quick-btn" onclick="sendQuickAction('I need help planning a family trip')"><span class="icon">&#9992;&#65039;</span><span>Plan a trip</span></button>
+  <button class="quick-btn" onclick="sendQuickAction('Can you help me with the family budget this week?')"><span class="icon">&#128176;</span><span>Family budget</span></button>
+  <button class="quick-btn" onclick="sendQuickAction('What school stuff do I need to sort out?')"><span class="icon">&#127891;</span><span>School stuff</span></button>
+  <button class="quick-btn" onclick="sendQuickAction('Help me plan meals for the week')"><span class="icon">&#127834;</span><span>Meal planning</span></button>
+  <button class="quick-btn" onclick="sendQuickAction(&quot;What's on around us this weekend?&quot;)"><span class="icon">&#127915;</span><span>What's on</span></button>
 </div>
 
-<!-- Chat Area -->
 <div class="chat-area" id="chatArea">
-
-  <!-- Welcome -->
   <div class="welcome-card">
-    <h2>Kia ora! I'm Toro</h2>
-    <p>Your family's AI navigator. I help with trips, budgets, school admin, meals, and finding fun stuff to do. Just ask me anything.</p>
+    <h2>Kia ora! I'm Tōroa</h2>
+    <p>Your family's AI navigator. I help with trips, budgets, school admin, meals, and finding fun stuff to do. Just ask me anything &mdash; or tap the mic to talk.</p>
   </div>
-
   <div class="date-divider">Today</div>
-
-  <!-- Demo conversation -->
-  <div class="msg-group user">
-    <div class="msg-avatar user-avatar">K</div>
-    <div>
-      <div class="msg-bubble">Hey Toro, I'm planning a trip to Italy soon</div>
-      <div class="msg-time">10:32 AM</div>
-    </div>
-  </div>
-
-  <div class="msg-group">
-    <div class="msg-avatar toro">🐂</div>
-    <div>
-      <div class="msg-bubble">Oh amazing! Italy is incredible. Let me help you plan that out. When are you thinking of going, and how long for? Also &mdash; solo trip or taking the wh&#257;nau?</div>
-      <div class="msg-time">10:32 AM</div>
-    </div>
-  </div>
-
-  <div class="msg-group user">
-    <div class="msg-avatar user-avatar">K</div>
-    <div>
-      <div class="msg-bubble">Just me and my partner, 2 weeks in September. We love food and history!</div>
-      <div class="msg-time">10:33 AM</div>
-    </div>
-  </div>
-
-  <div class="msg-group">
-    <div class="msg-avatar toro">🐂</div>
-    <div>
-      <div class="msg-bubble">September is mint timing &mdash; the summer crowds thin out but the weather's still gorgeous. For two weeks with food and history vibes, here's what I'd suggest:<br><br><strong>Week 1:</strong> Rome (3 nights) &rarr; Florence (3 nights) &rarr; Cinque Terre (1 night)<br><strong>Week 2:</strong> Bologna (2 nights) &rarr; Venice (2 nights) &rarr; Amalfi Coast (2 nights)<br><br>Bologna is Italy's food capital &mdash; you'll want to do a pasta-making class there. And Rome obviously has history coming out its ears.<br><br>Want me to rough out a day-by-day itinerary, or shall we sort flights and accommodation first?</div>
-      <div class="msg-time">10:33 AM</div>
-    </div>
-  </div>
-
-  <!-- Typing indicator -->
-  <div class="typing-indicator" id="typingIndicator">
-    <div class="msg-avatar toro">🐂</div>
-    <div class="typing-dots">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
+  <div class="msg-group user"><div class="msg-avatar user-avatar">K</div><div><div class="msg-bubble">Hey Tōroa, I'm planning a trip to Italy soon</div><div class="msg-time">10:32 AM</div></div></div>
+  <div class="msg-group"><div class="msg-avatar toro">🐂</div><div><div class="msg-bubble">Oh amazing! Italy is incredible. Let me help you plan that out. When are you thinking of going, and how long for? Also &mdash; solo trip or taking the whānau?</div><div class="msg-time">10:32 AM</div></div></div>
+  <div class="msg-group user"><div class="msg-avatar user-avatar">K</div><div><div class="msg-bubble">Just me and my partner, 2 weeks in September. We love food and history!</div><div class="msg-time">10:33 AM</div></div></div>
+  <div class="msg-group"><div class="msg-avatar toro">🐂</div><div><div class="msg-bubble">September is mint timing &mdash; the summer crowds thin out but the weather's still gorgeous. For two weeks with food and history vibes, here's what I'd suggest:<br><br><strong>Week 1:</strong> Rome (3 nights) &rarr; Florence (3 nights) &rarr; Cinque Terre (1 night)<br><strong>Week 2:</strong> Bologna (2 nights) &rarr; Venice (2 nights) &rarr; Amalfi Coast (2 nights)<br><br>Bologna is Italy's food capital &mdash; you'll want to do a pasta-making class there. And Rome obviously has history coming out its ears.<br><br>Want me to rough out a day-by-day itinerary, or shall we sort flights and accommodation first?</div><div class="msg-time">10:33 AM</div></div></div>
+  <div class="typing-indicator" id="typingIndicator"><div class="msg-avatar toro">🐂</div><div class="typing-dots"><span></span><span></span><span></span></div></div>
 </div>
 
-<!-- Input -->
 <div class="input-area">
+  <div class="voice-status" id="voiceStatus">
+    <div class="wave"><span></span><span></span><span></span><span></span><span></span></div>
+    <span id="voiceStatusText">Kei te whakarongo... Listening</span>
+  </div>
   <div class="input-row">
-    <textarea id="msgInput" rows="1" placeholder="Message Toro..." onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea>
-    <button class="btn-icon btn-mic" onclick="micClick()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-      <div class="tooltip">Voice coming soon</div>
+    <textarea id="msgInput" rows="1" placeholder="Message Tōroa..." onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea>
+    <button class="btn-icon btn-mic" id="micBtn" onclick="micClick()">
+      <svg id="micIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      <svg id="micStopIcon" style="display:none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+      <div class="tooltip">Tap to speak</div>
     </button>
     <button class="btn-icon btn-send" onclick="sendMessage()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
     </button>
   </div>
-  <div class="powered-by">Built with <span>Assembl</span> &bull; Aotearoa NZ</div>
+  <div class="powered-by">Built with <span>Assembl</span> · Aotearoa NZ</div>
 </div>
 
 <script>
-const chatArea = document.getElementById('chatArea');
-const msgInput = document.getElementById('msgInput');
-const typingIndicator = document.getElementById('typingIndicator');
+var chatArea=document.getElementById('chatArea'),msgInput=document.getElementById('msgInput'),typingIndicator=document.getElementById('typingIndicator'),micBtn=document.getElementById('micBtn'),micIcon=document.getElementById('micIcon'),micStopIcon=document.getElementById('micStopIcon'),voiceStatus=document.getElementById('voiceStatus'),voiceStatusText=document.getElementById('voiceStatusText');
+var recognition=null,isRecording=false;
 
-// Toro's response bank — warm, NZ-flavoured, family-focused
-const toroResponses = {
-  trip: [
-    "Love it! I can pull together some flight options for you. Air NZ usually has solid deals to Europe via Asia if you book early. Want me to check what's available for September?",
-    "Great shout. September in Europe is chef's kiss. Let me know your budget range and I'll map out a plan that makes the most of every day.",
-    "Ooh exciting! Have you thought about travel insurance? I always recommend sorting that early, especially for longer trips. Want me to compare a few NZ-based options?"
-  ],
-  budget: [
-    "Ka pai, let's have a look at your week. The big recurring ones are usually groceries, petrol, and the kids' activities. Want me to break those down, or are you more focused on finding where to cut back?",
-    "Right, money stuff! I can set up a simple weekly tracker for you. Usually the sneaky costs are the small daily ones — coffees, Uber Eats, subscriptions you forgot about. Shall we do a quick audit?",
-    "Good call getting on top of this. I'll pull together a snapshot of your typical weekly spend. Do you use a particular bank app I should know about, or shall we just map it out from scratch?"
-  ],
-  school: [
-    "School admin — the never-ending pile! Let me think... common ones this time of year are permission slips for trips, sports sign-ups, and parent-teacher interviews. What's on your radar?",
-    "Ah, the school stuff. I can help you set reminders for important dates, draft permission slip responses, or keep track of what each kid has coming up. What do you need sorted?",
-    "Kia ora! Term 2 usually brings a bunch of stuff — cross country, ICAS entries, and mid-year reports. Want me to make a checklist of what's likely coming up?"
-  ],
-  meals: [
-    "Meal planning — one of my favourites! What's the vibe this week? Quick and easy, or are we feeling a bit more adventurous? Also, any dietary stuff I should keep in mind?",
-    "Nice! A good meal plan saves so much stress (and money). I usually suggest picking 2-3 hero proteins for the week and building around them. Want me to suggest a plan based on what's in season right now?",
-    "Let's do it! How many people are we feeding, and what nights are busy ones where you need something super fast? I'll work around your schedule."
-  ],
-  events: [
-    "Let me think about what's on... this time of year there's usually markets, kids' shows, and some cool outdoor stuff happening. What area are you in? I'll find the best picks nearby.",
-    "Weekend plans! Are we talking kid-friendly activities, date night vibes, or a bit of both? I'll tailor my suggestions.",
-    "Great question! There's usually heaps on around Aotearoa. Want me to focus on free stuff, or are you happy to splash out on something special?"
-  ],
-  general: [
-    "Good question! Let me have a think about that. Can you give me a bit more detail so I can give you the best answer?",
-    "Hmm, interesting! I've got a few ideas on that. Let me break it down for you...",
-    "Ka pai! I can definitely help with that. Let me pull some info together — give me a sec.",
-    "Sure thing! That's right up my alley. Here's what I'd suggest...",
-    "No worries at all! Let me sort that out for you. Anything else I should keep in mind while I'm at it?",
-    "Ah yeah, I get asked about that a lot. The short answer is it depends on your situation, but here's the general gist..."
-  ]
+function initSpeechRecognition(){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR)return null;
+  var rec=new SR();
+  rec.lang='en-NZ';rec.continuous=false;rec.interimResults=true;rec.maxAlternatives=1;
+  rec.onstart=function(){isRecording=true;micBtn.classList.add('recording');micIcon.style.display='none';micStopIcon.style.display='block';voiceStatus.classList.add('visible');voiceStatusText.textContent='Kei te whakarongo... Listening'};
+  rec.onresult=function(e){var t='';for(var i=e.resultIndex;i<e.results.length;i++)t+=e.results[i][0].transcript;msgInput.value=t;voiceStatusText.textContent=t?'\u201C'+t+'\u201D':'Kei te whakarongo...'};
+  rec.onend=function(){isRecording=false;micBtn.classList.remove('recording');micIcon.style.display='block';micStopIcon.style.display='none';voiceStatus.classList.remove('visible');if(msgInput.value.trim())sendMessage()};
+  rec.onerror=function(e){isRecording=false;micBtn.classList.remove('recording');micIcon.style.display='block';micStopIcon.style.display='none';voiceStatus.classList.remove('visible');if(e.error==='not-allowed'){voiceStatusText.textContent='Microphone access denied';voiceStatus.classList.add('visible');setTimeout(function(){voiceStatus.classList.remove('visible')},3000)}};
+  return rec;
+}
+
+function micClick(){
+  if(!recognition)recognition=initSpeechRecognition();
+  if(!recognition){voiceStatusText.textContent='Voice not supported in this browser';voiceStatus.classList.add('visible');setTimeout(function(){voiceStatus.classList.remove('visible')},3000);return}
+  if(isRecording){recognition.stop()}else{msgInput.value='';recognition.start()}
+}
+
+var toroResponses={
+  trip:["Love it! I can pull together some flight options for you. Air NZ usually has solid deals to Europe via Asia if you book early. Want me to check what\u2019s available for September?","Great shout. September in Europe is chef\u2019s kiss. Let me know your budget range and I\u2019ll map out a plan.","Ooh exciting! Have you thought about travel insurance? I always recommend sorting that early. Want me to compare a few NZ-based options?"],
+  budget:["Ka pai, let\u2019s have a look at your week. The big recurring ones are usually groceries, petrol, and the kids\u2019 activities. Want me to break those down?","Right, money stuff! I can set up a simple weekly tracker for you. Shall we do a quick audit?","Good call getting on top of this. I\u2019ll pull together a snapshot of your typical weekly spend."],
+  school:["School admin \u2014 the never-ending battle! What\u2019s going on? Permission slips, sports days, or something else?","Sure thing! I can help you stay on top of term dates and notices. What school are the kids at?","Right, let\u2019s get sorted. Is this about something specific coming up, or more of a general \u2018help me not drop the ball\u2019 situation?"],
+  meals:["Meal planning \u2014 smart move! What\u2019s the wh\u0101nau vibe \u2014 quick weeknight dinners, batch cooking, or something adventurous?","Let\u2019s sort it! How many mouths are we feeding, and any dietary things I should know about?","Easy! I\u2019ll come up with a plan that uses overlapping ingredients so you\u2019re not buying a million different things."],
+  events:["Let me have a look at what\u2019s happening near you! What area are you in?","Ooh fun! There\u2019s usually heaps on weekends. Are you after free stuff, or happy to spend a bit?","Love it! I\u2019ll hunt down the best events. Any preferences \u2014 outdoors, food markets, sports, arts?"],
+  general:["Hmm, interesting! I\u2019ve got a few ideas on that. Let me break it down for you\u2026","Ka pai! I can definitely help with that. Give me a sec.","Sure thing! Here\u2019s what I\u2019d suggest\u2026","No worries at all! Let me sort that out for you.","Ah yeah, I get asked about that a lot. Here\u2019s the general gist\u2026"]
 };
 
-function classifyMessage(text) {
-  const lower = text.toLowerCase();
-  if (/trip|travel|flight|holiday|vacation|italy|destination|overseas|airport|hotel|airbnb/.test(lower)) return 'trip';
-  if (/budget|money|spend|cost|saving|bank|finance|bills|expensive|afford/.test(lower)) return 'budget';
-  if (/school|teacher|homework|permission|uniform|sports day|icas|term|parent/.test(lower)) return 'school';
-  if (/meal|dinner|lunch|recipe|cook|food|grocery|groceries|eat/.test(lower)) return 'meals';
-  if (/event|weekend|what's on|whats on|activities|things to do|markets|show|concert/.test(lower)) return 'events';
-  return 'general';
+function classifyMessage(t){var l=t.toLowerCase();if(/trip|travel|flight|holiday|vacation|italy|destination|overseas|airport|hotel|airbnb/.test(l))return'trip';if(/budget|money|spend|cost|saving|bank|finance|bills|expensive|afford/.test(l))return'budget';if(/school|teacher|homework|permission|uniform|sports day|icas|term|parent/.test(l))return'school';if(/meal|dinner|lunch|recipe|cook|food|grocery|groceries|eat/.test(l))return'meals';if(/event|weekend|what's on|whats on|activities|things to do|markets|show|concert/.test(l))return'events';return'general'}
+function getResponse(t){var c=classifyMessage(t),o=toroResponses[c];return o[Math.floor(Math.random()*o.length)]}
+function now(){return new Date().toLocaleTimeString('en-NZ',{hour:'numeric',minute:'2-digit',hour12:true})}
+
+function addMessage(text,isUser){
+  var g=document.createElement('div');g.className='msg-group'+(isUser?' user':'');
+  var a=document.createElement('div');a.className='msg-avatar '+(isUser?'user-avatar':'toro');a.textContent=isUser?'K':'\u{1F402}';
+  var w=document.createElement('div');
+  var b=document.createElement('div');b.className='msg-bubble';b.innerHTML=text;
+  var tm=document.createElement('div');tm.className='msg-time';tm.textContent=now();
+  w.appendChild(b);w.appendChild(tm);g.appendChild(a);g.appendChild(w);
+  chatArea.insertBefore(g,typingIndicator);chatArea.scrollTop=chatArea.scrollHeight;
 }
 
-function getResponse(text) {
-  const category = classifyMessage(text);
-  const options = toroResponses[category];
-  return options[Math.floor(Math.random() * options.length)];
-}
+function showTyping(){typingIndicator.classList.add('visible');chatArea.scrollTop=chatArea.scrollHeight}
+function hideTyping(){typingIndicator.classList.remove('visible')}
 
-function now() {
-  return new Date().toLocaleTimeString('en-NZ', { hour: 'numeric', minute: '2-digit', hour12: true });
-}
-
-function addMessage(text, isUser) {
-  const group = document.createElement('div');
-  group.className = 'msg-group' + (isUser ? ' user' : '');
-
-  const avatar = document.createElement('div');
-  avatar.className = 'msg-avatar ' + (isUser ? 'user-avatar' : 'toro');
-  avatar.textContent = isUser ? 'K' : '\u{1F402}';
-
-  const wrap = document.createElement('div');
-  const bubble = document.createElement('div');
-  bubble.className = 'msg-bubble';
-  bubble.innerHTML = text;
-
-  const time = document.createElement('div');
-  time.className = 'msg-time';
-  time.textContent = now();
-
-  wrap.appendChild(bubble);
-  wrap.appendChild(time);
-  group.appendChild(avatar);
-  group.appendChild(wrap);
-
-  chatArea.insertBefore(group, typingIndicator);
-  chatArea.scrollTop = chatArea.scrollHeight;
-}
-
-function showTyping() {
-  typingIndicator.classList.add('visible');
-  chatArea.scrollTop = chatArea.scrollHeight;
-}
-
-function hideTyping() {
-  typingIndicator.classList.remove('visible');
-}
-
-function sendMessage() {
-  const text = msgInput.value.trim();
-  if (!text) return;
-
-  addMessage(text, true);
-  msgInput.value = '';
-  msgInput.style.height = 'auto';
-
+function sendMessage(){
+  var text=msgInput.value.trim();if(!text)return;
+  addMessage(text,true);msgInput.value='';msgInput.style.height='auto';
   showTyping();
-
-  const delay = 800 + Math.random() * 1200;
-  setTimeout(() => {
-    hideTyping();
-    addMessage(getResponse(text), false);
-  }, delay);
+  setTimeout(function(){hideTyping();addMessage(getResponse(text),false)},800+Math.random()*1200);
 }
 
-function sendQuickAction(text) {
-  msgInput.value = text;
-  sendMessage();
-}
-
-function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-}
-
-function autoGrow(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
-}
-
-function micClick() {
-  // Future: integrate Web Speech API
-}
+function sendQuickAction(t){msgInput.value=t;sendMessage()}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}}
+function autoGrow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px'}
 </script>
 </body>
 </html>
