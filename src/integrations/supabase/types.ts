@@ -6383,6 +6383,7 @@ export type Database = {
           is_active: boolean | null
           is_system: boolean | null
           name: string
+          relevant_acts: string[]
           steps: Json
           trigger_agent: string
           trigger_event: string
@@ -6395,6 +6396,7 @@ export type Database = {
           is_active?: boolean | null
           is_system?: boolean | null
           name: string
+          relevant_acts?: string[]
           steps?: Json
           trigger_agent: string
           trigger_event: string
@@ -6407,6 +6409,7 @@ export type Database = {
           is_active?: boolean | null
           is_system?: boolean | null
           name?: string
+          relevant_acts?: string[]
           steps?: Json
           trigger_agent?: string
           trigger_event?: string
