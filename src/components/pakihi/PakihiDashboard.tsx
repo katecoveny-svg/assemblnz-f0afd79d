@@ -534,6 +534,6 @@ function DocumentsTab() {
           LEDGER uses OCR and AI extraction to pull amounts, dates, GST, and vendor details from scanned documents. Data is stored in your Assembl account and never shared.
         </p>
       </Glass>
-    </div>
+    </KeteDashboardShell>
   );
 }
