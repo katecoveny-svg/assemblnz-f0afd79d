@@ -33,8 +33,8 @@ const PricingHero = () => (
       <p className="text-[11px] font-display tracking-[5px] uppercase mb-4" style={{ fontWeight: 700, color: "hsl(var(--primary))" }}>
         HE KETE MĀTAURANGA
       </p>
-      <h1 className="text-3xl sm:text-5xl font-display mb-4 text-foreground" style={{ fontWeight: 300, letterSpacing: "-0.02em" }}>
-        NZ enterprises<Link to="/claims-register#claim-1" className="text-primary hover:underline align-super text-[0.5em]">¹</Link> with fewer than 20 staff<Link to="/claims-register#claim-2" className="text-primary hover:underline align-super text-[0.5em]">²</Link> produce a signed evidence pack today.<Link to="/claims-register#claim-3" className="text-primary hover:underline align-super text-[0.5em]">³</Link>
+        <h1 className="text-3xl sm:text-5xl font-display mb-4 text-foreground" style={{ fontWeight: 300, letterSpacing: "-0.02em" }}>
+        Priced by the packs you need each month. Seats and usage included.
       </h1>
       <p className="text-base sm:text-lg font-body max-w-2xl mx-auto mb-4" style={{ color: "rgba(255,255,255,0.65)" }}>
         Pick the kete that matches your industry. Each run produces a signed, sourced evidence pack your team can file, forward, or footnote.
@@ -54,11 +54,11 @@ const PricingHero = () => (
       </div>
       <div className="flex flex-wrap justify-center gap-3">
         <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
-          Get started
+          Start with one pack a month
         </Link>
-        <button onClick={() => document.getElementById("packs")?.scrollIntoView({ behavior: "smooth" })} className="px-7 py-3 rounded-full text-sm font-body font-medium border transition-all" style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.7)" }}>
-          Explore the kete
-        </button>
+        <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium border transition-all" style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.7)" }}>
+          Talk to us about bundles
+        </Link>
       </div>
     </div>
   </section>
