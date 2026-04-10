@@ -5,6 +5,7 @@ import { Check, ChevronDown, Rocket, Layers, Package, Crown, Shield, Brain, Eye,
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 
 const ease = [0.16, 1, 0.3, 1];
 
