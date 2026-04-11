@@ -463,6 +463,8 @@ const GeminiLiveVoice = forwardRef<GeminiLiveVoiceHandle, Props>(({ agentId, age
       </div>
     </div>
   );
-};
+});
+
+GeminiLiveVoice.displayName = "GeminiLiveVoice";
 
 export default GeminiLiveVoice;
