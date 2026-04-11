@@ -16,7 +16,7 @@ const FAQS = [
   { q: "How does the annual prepay work?", a: "Annual prepay saves 12% on any business tier. You're billed once per year alongside the setup fee, with a 14-day cool-off. Non-refundable after that." },
   { q: "Can I embed agents on my website?", a: "Yes. Leader and above include an embeddable chat widget. Drop it straight into your website — instant compliance and operational support for your team or customers." },
   { q: "What industries do you cover?", a: "Five industry kete: Manaaki (hospitality), Waihanga (construction), Auaha (creative), Arataki (automotive), and Pikau (freight & customs)." },
-  { q: "Who built this?", a: "Assembl was founded in Auckland by Kate Harland. Every agent is designed, trained, and maintained in Aotearoa — built from the ground up for how NZ businesses actually operate." },
+  { q: "Who built this?", a: "Assembl was founded in Auckland by Kate Hudson. Every workflow is designed, trained, and maintained in Aotearoa — built from the ground up for how NZ businesses actually operate." },
 ];
 
 const FAQSection = () => {

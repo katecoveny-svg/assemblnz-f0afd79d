@@ -67,9 +67,9 @@ const PricingHero = () => (
 /* ── Section B: Offer Stack ── */
 const OFFERS = [
   { icon: Rocket, badge: "START HERE", badgeColor: "hsl(var(--primary))", title: "Talk to us first", desc: "Every business is different. We map your workflows, pick the right kete, and agree what success looks like before you sign anything.", time: "Up and running in 10 business days", price: "Free workflow mapping", cta: "Get started", to: "/contact" },
-  { icon: Layers, badge: "FOUNDATION", badgeColor: "hsl(var(--pounamu))", title: "Core Platform", desc: "Included in every subscription. Your central routing engine (Iho), governance pipeline, SIGNAL security, SMS/WhatsApp messaging, and dashboard access.", price: "Included in every plan", note: "This is the foundation. Every kete runs on Core.", includes: ["Iho routing engine", "SIGNAL security agent", "Compliance pipeline (Kahu → Iho → Tā → Mahara → Mana)", "SMS & WhatsApp access", "Dashboard & analytics", "NZ data residency on Enterprise"] },
-  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Each kete is a complete AI operations hub with specialist agents, governance pipeline, and evidence pack output. Every workflow run ends in a signed pack — structured, sourced, and ready to file.", price: "From NZ$1,490/month", list: "Manaaki · Waihanga · Auaha · Arataki · Pikau", cta: "See all packs", scrollTo: "packs" },
-  { icon: Crown, badge: "ENTERPRISE", badgeColor: "hsl(var(--primary))", title: "Enterprise", desc: "All 5 kete, unlimited seats, attested NZ data residency, 99.9% uptime SLA, named success manager, signed quarterly compliance review. Replaces a fraction of a full-time compliance manager.", price: "NZ$2,990/month + $2,890 setup", cta: "Talk to us", to: "/contact", includes: ["Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "NZ data residency (attested)", "99.9% uptime SLA"] },
+  { icon: Layers, badge: "FOUNDATION", badgeColor: "hsl(var(--pounamu))", title: "Core Platform", desc: "Included in every subscription. Your central routing engine (Iho), governance pipeline, security layer, SMS/WhatsApp messaging, and dashboard access.", price: "Included in every plan", note: "This is the foundation. Every kete runs on Core.", includes: ["Iho routing engine", "Security & compliance layer", "Compliance pipeline (Kahu → Iho → Tā → Mahara → Mana)", "SMS & WhatsApp access", "Dashboard & analytics", "NZ data residency on Enterprise"] },
+  { icon: Package, badge: "SPECIALIST AI", badgeColor: "hsl(var(--tangaroa-light))", title: "Industry Kete", desc: "Each kete is a complete operations hub with specialist workflows, governance pipeline, and evidence pack output. Every workflow run ends in a signed pack — structured, sourced, and ready to file.", price: "From NZ$590/month", list: "Manaaki · Waihanga · Auaha · Arataki · Pikau", cta: "See all packs", scrollTo: "packs" },
+  { icon: Crown, badge: "ENTERPRISE", badgeColor: "hsl(var(--primary))", title: "Enterprise", desc: "All 5 kete, unlimited seats, attested NZ data residency, 99.9% uptime SLA, named success manager, signed quarterly compliance review. Replaces a fraction of a full-time compliance manager.", price: "NZ$2,890/month + $2,990 setup", cta: "Talk to us", to: "/contact", includes: ["Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "NZ data residency (attested)", "99.9% uptime SLA"] },
 ];
 
 const OfferStack = () => (
@@ -129,8 +129,8 @@ const TIERS = [
     cta: "Join the waitlist", highlight: false,
   },
   {
-    name: "Operator", sub: "$1,490/mo", accent: "hsl(var(--pounamu-light))", badge: "ENTRY",
-    price: "NZ$1,490/mo", setup: "+ $590 setup (splittable across first 3 invoices)",
+    name: "Operator", sub: "$590/mo", accent: "hsl(var(--pounamu-light))", badge: "ENTRY",
+    price: "NZ$590/mo", setup: "+ $1,490 setup (splittable across first 3 invoices)",
     best: "Sole traders and micro-SMEs — one industry, one team, one source of truth",
     packsPerMonth: "20 evidence packs/mo",
     features: ["1 industry kete (your pick)", "Up to 5 seats", "Tikanga compliance layer", "Privacy Act 2020 + AAAIP alignment", "SMS, WhatsApp & dashboard access", "3 training hours / year", "Email support, 1 business day", "99.0% uptime"],
@@ -138,8 +138,8 @@ const TIERS = [
     cta: "Talk to us", highlight: false,
   },
   {
-    name: "Leader", sub: "$1,990/mo", accent: "hsl(var(--primary))", badge: "MOST POPULAR",
-    price: "NZ$1,990/mo", setup: "+ $1,290 setup (splittable across first 3 invoices)",
+    name: "Leader", sub: "$1,290/mo", accent: "hsl(var(--primary))", badge: "MOST POPULAR",
+    price: "NZ$1,290/mo", setup: "+ $1,990 setup (splittable across first 3 invoices)",
     best: "Multi-discipline SMEs and growing teams — covers two parts of the business with quarterly compliance review",
     packsPerMonth: "60 evidence packs/mo",
     features: ["2 industry kete (your pick)", "Up to 15 seats", "Quarterly compliance review (signed)", "Monthly audit report", "8 training hours / year", "Email + chat, 4 business hours", "99.5% uptime", "Optional NZ data residency"],
@@ -147,8 +147,8 @@ const TIERS = [
     cta: "Talk to us", highlight: true,
   },
   {
-    name: "Enterprise", sub: "$2,990/mo", accent: "hsl(var(--tangaroa))", badge: "FULL PLATFORM",
-    price: "NZ$2,990/mo", setup: "+ $2,890 setup (splittable across first 3 invoices)",
+    name: "Enterprise", sub: "$2,890/mo", accent: "hsl(var(--tangaroa))", badge: "FULL PLATFORM",
+    price: "NZ$2,890/mo", setup: "+ $2,990 setup (splittable across first 3 invoices)",
     best: "Multi-site, regulated, high-stakes operations — every kete, the SLA, and a named human to call",
     packsPerMonth: "200 evidence packs/mo",
     features: ["All 5 industry kete", "Unlimited seats", "Data at rest in NZ⁷", "99.9% uptime SLA", "Named success manager", "Quarterly compliance review (signed)", "Monthly audit report", "16 training hours / year", "Priority phone + chat, 1 business hour"],
@@ -437,7 +437,7 @@ const PricingPage = () => (
   <div className="min-h-screen flex flex-col">
     <SEO
       title="Assembl Pricing — Every kete ends in an evidence pack"
-      description="Pick a kete, get a signed evidence pack. Operator $1,490/mo · Leader $1,990/mo · Enterprise $2,990/mo. NZD ex GST. Privacy Act 2020 aligned, tikanga governance built in."
+      description="Pick a kete, get a signed evidence pack. Operator $590/mo · Leader $1,290/mo · Enterprise $2,890/mo. NZD ex GST. Privacy Act 2020 aligned, tikanga governance built in."
       path="/pricing"
     />
     <BrandNav />

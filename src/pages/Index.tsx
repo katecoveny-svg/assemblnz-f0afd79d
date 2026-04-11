@@ -92,7 +92,7 @@ const PROOF = [
   "5 industry kete",
   "6-layer agent stack",
   "Simulation-tested",
-  "From $1,490 NZD/mo",
+  "From $590 NZD/mo",
 ];
 
 const PACKS: {
@@ -140,8 +140,8 @@ const PRICING = [
   },
   {
     name: "Operator",
-    price: "$1,490",
-    setup: "+ $590 setup (invoiced separately)",
+    price: "$590",
+    setup: "+ $1,490 setup (invoiced separately)",
     desc: "Sole traders and micro-SMEs. One kete, up to 5 seats, email support.",
     features: ["1 industry kete (your pick)", "Up to 5 seats", "Tikanga compliance layer", "Email support, 1 business day"],
     highlight: true,
@@ -151,8 +151,8 @@ const PRICING = [
   },
   {
     name: "Leader",
-    price: "$1,990",
-    setup: "+ $1,290 setup (invoiced separately)",
+    price: "$1,290",
+    setup: "+ $1,990 setup (invoiced separately)",
     desc: "Multi-discipline SMEs. Two kete, 15 seats, signed quarterly compliance review.",
     features: ["2 industry kete", "Up to 15 seats", "Quarterly compliance review (signed)", "Monthly audit report"],
     highlight: false,
@@ -161,8 +161,8 @@ const PRICING = [
   },
   {
     name: "Enterprise",
-    price: "$2,990",
-    setup: "+ $2,890 setup (invoiced separately)",
+    price: "$2,890",
+    setup: "+ $2,990 setup (invoiced separately)",
     desc: "Multi-site, regulated, high-stakes. All five kete, unlimited seats, named success manager, 99.9% uptime SLA.",
     features: ["All 5 industry kete", "Unlimited seats", "NZ data residency", "Named success manager", "99.9% uptime SLA"],
     highlight: false,

@@ -5,7 +5,7 @@ const TRUST_CARDS = [
   { Icon: Scale, color: "#5AADA0", title: "Grounded in NZ Legislation", sub: "13 IPPs · policy workflows" },
   { Icon: Shield, color: "#3A6A9C", title: "Te Tiriti Aligned", sub: "Articles 2 & 3 honoured" },
   { Icon: Lock, color: "#3A6A9C", title: "Māori Data Sovereignty", sub: "Te Mana Raraunga principles" },
-  { Icon: MapPin, color: "#C85A54", title: "Built in Auckland", sub: "Founded by Kate Harland" },
+  { Icon: MapPin, color: "#C85A54", title: "Built in Auckland", sub: "Founded by Kate Hudson" },
   { Icon: Globe, color: "#3A6A9C", title: "Cultural Impact Assessments", sub: "Built into Waihanga kete" },
   { Icon: FileCheck, color: "#5AADA0", title: "Bilingual at Every Level", sub: "Dashboard · agents · support" },
 ];
