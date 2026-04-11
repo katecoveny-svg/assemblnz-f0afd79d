@@ -40,14 +40,7 @@ export default function WaihangaLandingPage() {
 
         <main className="flex flex-col items-center px-6 py-24 text-center">
           <motion.div
-            className="w-20 h-20 rounded-2xl flex items-center justify-center mb-8"
-            style={{ background: `${ACCENT}20`, border: `1px solid ${ACCENT}40` }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <HardHat size={36} style={{ color: ACCENT }} />
-          </motion.div>
+          <LandingKeteHero accentColor="#1A3A5C" accentLight="#2A5A8C" size={160} />
 
           <motion.h1
             className="text-4xl sm:text-6xl font-bold mb-4 max-w-3xl"
