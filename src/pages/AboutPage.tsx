@@ -24,17 +24,17 @@ const AboutPage = () => {
   return (
     <GlowPageWrapper accentColor="#3A7D6E">
     <div className="min-h-screen flex flex-col">
-      <SEO title="About Assembl — A New Zealand AI company" description="We build the paperwork New Zealand businesses need to defend their decisions. Every workflow ends in a pack you can file, forward, or footnote." path="/about" />
+      <SEO title="About assembl — Operational intelligence for Aotearoa" description="We build the operational intelligence New Zealand businesses need to run smarter. Every workflow ends in a pack you can file, forward, or footnote." path="/about" />
       <BrandNav />
 
       {/* Hero */}
       <section className="relative z-10 pt-24 pb-16 px-4 sm:px-6 text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <h1 className="text-3xl sm:text-5xl font-display text-foreground mb-4" style={{ fontWeight: 300 }}>
-            We build the paperwork New Zealand businesses need to <span className="text-gradient-hero">defend their decisions.</span>
+            Operational intelligence for the businesses that <span className="text-gradient-hero">build Aotearoa.</span>
           </h1>
           <p className="text-sm sm:text-base font-body text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-8">
-            A New Zealand AI company. Five industry kete, one compliance pipeline, every output signed and sourced.
+            A New Zealand company. Five industry kete, one compliance pipeline, every output signed and sourced.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
