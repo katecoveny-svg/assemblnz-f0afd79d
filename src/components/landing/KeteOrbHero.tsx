@@ -101,7 +101,7 @@ function ParticleSphere() {
       float d = length(gl_PointCoord - vec2(0.5));
       if (d > 0.5) discard;
       float alpha = 1.0 - smoothstep(0.05, 0.5, d);
-      gl_FragColor = vec4(vColor * 1.6, alpha * 0.85);
+      gl_FragColor = vec4(vColor, alpha * 0.6);
     }
   `;
 
@@ -117,8 +117,7 @@ function ParticleSphere() {
         fragmentShader={fragmentShader}
         transparent
         depthWrite={false}
-        vertexColors
-        blending={THREE.AdditiveBlending}
+        blending={THREE.NormalBlending}
       />
     </points>
   );
