@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════
-// SIM RUNNER — runs all Arataki + Pikau sims through the pipeline
+// SIM RUNNER — runs all Arataki + Pikau + Waihanga sims through the pipeline
 // Usage:  node --experimental-strip-types supabase/functions/_shared/kete/run-sims.ts
 // ═══════════════════════════════════════════════════════════════
 import { runPipeline, maharaReset, maharaStoreSnapshot } from "./pipeline.ts";
@@ -7,6 +7,8 @@ import { arataki } from "./arataki/index.ts";
 import { arataki_sims } from "./arataki/sims.ts";
 import { pikau } from "./pikau/index.ts";
 import { pikau_sims } from "./pikau/sims.ts";
+import { waihanga } from "./waihanga/index.ts";
+import { waihanga_sims } from "./waihanga/sims.ts";
 
 interface SimResult {
   id: string;
@@ -65,6 +67,7 @@ function runKete(name: string, kete: any, sims: any[]): SimResult[] {
 
 const arResults = runKete("ARATAKI", arataki, arataki_sims);
 const piResults = runKete("PIKAU", pikau, pikau_sims);
+const whResults = runKete("WAIHANGA", waihanga, waihanga_sims);
 
 function summary(label: string, results: SimResult[]) {
   const total = results.length;
@@ -81,8 +84,9 @@ function summary(label: string, results: SimResult[]) {
 
 summary("ARATAKI", arResults);
 summary("PIKAU", piResults);
+summary("WAIHANGA", whResults);
 
-const allPassed = [...arResults, ...piResults].every(r => r.pass);
+const allPassed = [...arResults, ...piResults, ...whResults].every(r => r.pass);
 console.log(`\n══════ OVERALL ══════`);
 console.log(allPassed ? "ALL SIMS PASSED ✅" : "SIM FAILURES PRESENT ❌");
 
@@ -91,6 +95,7 @@ const json = JSON.stringify({
   generatedAt: new Date().toISOString(),
   arataki: arResults,
   pikau: piResults,
+  waihanga: whResults,
   allPassed,
 }, null, 2);
 const outPath = process.argv[2] || "./sim-results.json";
