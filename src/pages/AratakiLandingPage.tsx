@@ -7,6 +7,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
+import KeteAgentChat from "@/components/kete/KeteAgentChat";
 
 const BG = "#09090F";
 const ACCENT = "#E8E8E8";
@@ -149,6 +150,19 @@ export default function AratakiLandingPage() {
         </main>
 
         <BrandFooter />
+        <KeteAgentChat
+          keteName="Arataki"
+          keteLabel="Automotive Dealerships"
+          accentColor="#E8E8E8"
+          defaultAgentId="motor"
+          packId="waka"
+          starterPrompts={[
+            "What does Arataki help with?",
+            "How does the customer relay race work?",
+            "Tell me about warranty claim drafting",
+            "What compliance is built in for dealerships?",
+          ]}
+        />
       </div>
     </GlowPageWrapper>
   );

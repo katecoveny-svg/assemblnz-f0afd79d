@@ -7,6 +7,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
+import KeteAgentChat from "@/components/kete/KeteAgentChat";
 
 const BG = "#09090F";
 const ACCENT = "#D4A843";
@@ -139,6 +140,19 @@ export default function ManaakiLandingPage() {
         </section>
 
         <BrandFooter />
+        <KeteAgentChat
+          keteName="Manaaki"
+          keteLabel="Hospitality & Tourism"
+          accentColor="#D4A843"
+          defaultAgentId="aura"
+          packId="manaaki"
+          starterPrompts={[
+            "What does Manaaki help with?",
+            "How does food safety compliance work?",
+            "Tell me about alcohol licensing support",
+            "What evidence packs do I get?",
+          ]}
+        />
       </div>
     </GlowPageWrapper>
   );

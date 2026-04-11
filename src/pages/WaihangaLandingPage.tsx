@@ -7,6 +7,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
+import KeteAgentChat from "@/components/kete/KeteAgentChat";
 
 const BG = "#09090F";
 const ACCENT = "#3A7D6E";
@@ -138,6 +139,19 @@ export default function WaihangaLandingPage() {
         </section>
 
         <BrandFooter />
+        <KeteAgentChat
+          keteName="Waihanga"
+          keteLabel="Construction"
+          accentColor="#3A7D6E"
+          defaultAgentId="kaupapa"
+          packId="hanga"
+          starterPrompts={[
+            "What does Waihanga help with?",
+            "How does CCA payment claim compliance work?",
+            "Tell me about Building Code checklists",
+            "What evidence packs do I get for site safety?",
+          ]}
+        />
       </div>
     </GlowPageWrapper>
   );

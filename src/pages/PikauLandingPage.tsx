@@ -6,6 +6,7 @@ import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import KeteAgentChat from "@/components/kete/KeteAgentChat";
 
 const BG = "#09090F";
 const ACCENT = "#7ECFC2";
@@ -90,6 +91,19 @@ export default function PikauLandingPage() {
         </main>
 
         <BrandFooter />
+        <KeteAgentChat
+          keteName="Pikau"
+          keteLabel="Freight & Customs"
+          accentColor="#7ECFC2"
+          defaultAgentId="gateway"
+          packId="pikau"
+          starterPrompts={[
+            "What does Pikau help with?",
+            "How does customs declaration support work?",
+            "Tell me about HS code validation",
+            "What evidence packs do I get for shipments?",
+          ]}
+        />
       </div>
     </GlowPageWrapper>
   );

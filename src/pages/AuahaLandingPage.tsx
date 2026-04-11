@@ -7,6 +7,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
+import KeteAgentChat from "@/components/kete/KeteAgentChat";
 
 const BG = "#09090F";
 const ACCENT = "#F0D078";
@@ -139,6 +140,19 @@ export default function AuahaLandingPage() {
         </section>
 
         <BrandFooter />
+        <KeteAgentChat
+          keteName="Auaha"
+          keteLabel="Creative & Media"
+          accentColor="#F0D078"
+          defaultAgentId="prism"
+          packId="auaha"
+          starterPrompts={[
+            "What does Auaha help with?",
+            "How does the 9-agent creative studio work?",
+            "Tell me about content calendar workflows",
+            "What compliance checks run on my content?",
+          ]}
+        />
       </div>
     </GlowPageWrapper>
   );
