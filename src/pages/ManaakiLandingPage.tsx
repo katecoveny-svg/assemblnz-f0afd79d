@@ -40,7 +40,6 @@ export default function ManaakiLandingPage() {
         <BrandNav />
 
         <main className="flex flex-col items-center px-6 py-24 text-center">
-          <motion.div
           <LandingKeteHero accentColor="#D4A843" accentLight="#F0D078" size={160} />
 
           <motion.h1

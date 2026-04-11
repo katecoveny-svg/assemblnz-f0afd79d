@@ -30,7 +30,6 @@ export default function PikauLandingPage() {
         <BrandNav />
 
         <main className="flex flex-col items-center justify-center px-6 py-24 text-center">
-          <motion.div
           <LandingKeteHero accentColor="#7ECFC2" accentLight="#A8E6DA" size={160} />
 
           <motion.h1
