@@ -117,6 +117,7 @@ function ParticleSphere() {
         fragmentShader={fragmentShader}
         transparent
         depthWrite={false}
+        vertexColors
         blending={THREE.AdditiveBlending}
       />
     </points>
