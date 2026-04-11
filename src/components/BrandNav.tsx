@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, HardHat, UtensilsCrossed, Palette, Bird, Briefcase, Package, ChevronDown } from "lucide-react";
+import { Menu, X, HardHat, UtensilsCrossed, Palette, Bird, Car, Package, ChevronDown } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import Nav3DKeteLogo from "@/components/Nav3DKeteLogo";
 import KiaOraPopup from "@/components/KiaOraPopup";
@@ -19,7 +19,7 @@ const KETE = [
   { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#D4A843" },
   { label: "Waihanga", sublabel: "Construction", to: "/waihanga/about", icon: HardHat, color: "#3A7D6E" },
   { label: "Auaha", sublabel: "Creative", to: "/auaha/about", icon: Palette, color: "#F0D078" },
-  { label: "Arataki", sublabel: "Automotive", to: "/arataki", icon: Briefcase, color: "#E8E8E8" },
+  { label: "Arataki", sublabel: "Automotive", to: "/arataki", icon: Car, color: "#E8E8E8" },
   { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", icon: Package, color: "#7ECFC2" },
   { label: "Toro", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843" },
 ];
