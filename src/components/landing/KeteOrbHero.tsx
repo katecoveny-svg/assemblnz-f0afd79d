@@ -9,7 +9,8 @@ import { motion } from "framer-motion";
  * constellation nodes, and dynamic particle drift.
  */
 
-const PARTICLE_COUNT = 900;
+const PARTICLE_COUNT = 1000;
+const HANDLE_PARTICLES = 80;
 const ORBIT_RING_COUNT = 3;
 
 const KETE_COLORS = ["#D4A843", "#3A7D6E", "#F0D078", "#E8E8E8", "#5AADA0"];
