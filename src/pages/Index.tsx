@@ -10,7 +10,8 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
-import KeteOrbHero from "@/components/landing/KeteOrbHero";
+import HeroKeteNetwork from "@/components/HeroKeteNetwork";
+import KeteIcon from "@/components/kete/KeteIcon";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
 import ToroBirdIcon from "@/components/ToroBirdIcon";
@@ -107,7 +108,7 @@ const PACKS: {
   { reo: "Manaaki", en: "Hospitality", desc: "Food Act plans, liquor licensing, guest experience, tourism operators.", color: "#3A7D6E", accentLight: "#5AADA0", to: "/sample/manaaki" },
   { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: "#1A3A5C", accentLight: "#2A5A8C", to: "/sample/waihanga" },
   { reo: "Auaha", en: "Creative & Media", desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio.", color: "#D4A843", accentLight: "#E8C76A", to: "/sample/auaha" },
-  { reo: "Arataki", en: "Automotive", desc: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped across DMS, CRM, and OEM portals.", color: "#E8E8E8", accentLight: "rgba(255,255,255,0.7)", to: "/sample/arataki" },
+  { reo: "Arataki", en: "Automotive", desc: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped across DMS, CRM, and OEM portals.", color: "#E8E8E8", accentLight: "#D8D8D8", to: "/sample/arataki" },
   { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#7ECFC2", accentLight: "#A8E6DA", to: "/sample/pikau" },
   { reo: "Toro", en: "Family Navigator", desc: "SMS-first whānau coordination. School notices, kai plans, appointments, budgets — no app needed.", color: "#87CEEB", accentLight: "#AEE0F7", to: "/sample/toroa" },
 ];
@@ -258,62 +259,74 @@ const Index = () => {
 
       {/* ═══ 1 — HERO ═══ */}
       <section className="relative flex flex-col items-center text-center px-6 sm:px-8 pt-20 sm:pt-24 pb-12" style={{ zIndex: 1 }}>
-        {/* 3D Particle sphere hero */}
-        <KeteOrbHero hideText />
+        {/* Signature Assembl hero network */}
+        <HeroKeteNetwork isMobile={isMobile} />
 
-        {/* Orbiting kete ring beneath the sphere */}
+        {/* Featured kete strip */}
         <motion.div
-          className="relative flex flex-wrap justify-center gap-4 sm:gap-6 -mt-8 mb-4"
-          initial={{ opacity: 0, y: 20 }}
+          className="relative grid grid-cols-3 sm:flex sm:flex-wrap sm:justify-center gap-4 sm:gap-5 -mt-8 sm:-mt-10 mb-6"
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease }}
         >
-          {PACKS.filter(p => p.reo !== "Toro").map((p, i) => (
+          {PACKS.map((p, i) => (
             <motion.div
               key={p.reo}
-              className="flex flex-col items-center gap-1.5"
-              initial={{ opacity: 0, scale: 0.7 }}
+              className="flex flex-col items-center gap-2"
+              initial={{ opacity: 0, scale: 0.82 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.8 + i * 0.1, ease }}
+              transition={{ duration: 0.45, delay: 0.75 + i * 0.08, ease }}
+              whileHover={{ y: -6, scale: 1.04 }}
             >
               <div
-                className="rounded-xl p-1"
+                className="relative flex items-center justify-center rounded-2xl overflow-hidden"
                 style={{
-                  background: `radial-gradient(circle, ${p.color}15, transparent)`,
-                  filter: `drop-shadow(0 0 12px ${p.color}30)`,
+                  width: isMobile ? 92 : 112,
+                  height: isMobile ? 92 : 112,
+                  background: `linear-gradient(180deg, ${p.color}12 0%, rgba(10,10,24,0.9) 100%)`,
+                  border: `1px solid ${p.color}25`,
+                  boxShadow: `0 0 30px ${p.color}18, inset 0 1px 0 rgba(255,255,255,0.08)`,
+                  backdropFilter: 'blur(14px)',
+                  WebkitBackdropFilter: 'blur(14px)',
                 }}
               >
-                <Suspense fallback={<div className="w-12 h-12 rounded-full animate-pulse" style={{ background: `${p.color}10` }} />}>
-                  <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={isMobile ? 52 : 64} />
-                </Suspense>
+                <div
+                  className="absolute top-0 left-[14%] right-[14%] h-px"
+                  style={{ background: `linear-gradient(90deg, transparent, ${p.color}55, transparent)` }}
+                />
+                {p.reo === "Toro" ? (
+                  <div className="flex h-full w-full items-center justify-center" style={{ filter: 'drop-shadow(0 0 18px rgba(135,206,235,0.35))' }}>
+                    <ToroBirdIcon size={isMobile ? 44 : 54} color="#87CEEB" />
+                  </div>
+                ) : (
+                  <KeteIcon
+                    name={p.reo}
+                    accentColor={p.color}
+                    accentLight={p.accentLight}
+                    variant={
+                      p.reo === "Manaaki"
+                        ? "warm"
+                        : p.reo === "Waihanga"
+                          ? "dense"
+                          : p.reo === "Auaha"
+                            ? "tricolor"
+                            : p.reo === "Arataki"
+                              ? "organic"
+                              : "standard"
+                    }
+                    size="small"
+                    animated
+                  />
+                )}
               </div>
-              <span className="text-[8px] tracking-[2px] uppercase" style={{ fontFamily: FONT.mono, color: `${p.color}90` }}>
+              <span
+                className="text-[8px] sm:text-[9px] tracking-[2.5px] uppercase"
+                style={{ fontFamily: FONT.mono, color: p.color, textShadow: `0 0 16px ${p.color}22` }}
+              >
                 {p.reo}
               </span>
             </motion.div>
           ))}
-          {/* Toro bird */}
-          <motion.div
-            className="flex flex-col items-center gap-1.5"
-            initial={{ opacity: 0, scale: 0.7 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 1.2, ease }}
-          >
-            <div
-              className="rounded-xl p-1 flex items-center justify-center"
-              style={{
-                width: isMobile ? 52 : 64,
-                height: isMobile ? 52 : 64,
-                background: "radial-gradient(circle, rgba(135,206,235,0.1), transparent)",
-                filter: "drop-shadow(0 0 12px rgba(135,206,235,0.25))",
-              }}
-            >
-              <ToroBirdIcon size={isMobile ? 40 : 48} color="#87CEEB" />
-            </div>
-            <span className="text-[8px] tracking-[2px] uppercase" style={{ fontFamily: FONT.mono, color: "rgba(135,206,235,0.6)" }}>
-              Toro
-            </span>
-          </motion.div>
         </motion.div>
 
         {/* Badge */}
