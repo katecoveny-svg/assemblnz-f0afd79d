@@ -207,6 +207,8 @@ export default function KeteAgentChat({
     }
   }, [messages]);
 
+  const systemPrompt = KETE_SYSTEM_PROMPTS[keteName.toLowerCase()];
+
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
     const userMsg: ChatMsg = { role: "user", content: text.trim() };
@@ -234,6 +236,7 @@ export default function KeteAgentChat({
         packId,
         message: text.trim(),
         messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
+        systemPrompt,
         onDelta: updateAssistant,
         onDone: () => setIsLoading(false),
         onError: (err) => {
