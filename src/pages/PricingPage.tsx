@@ -249,7 +249,7 @@ const SHARED_AGENTS = [
 const KETE_DATA = [
   { name: "Manaaki", eng: "Hospitality", desc: "Food safety, liquor licensing, guest experience, tourism operations", accent: "hsl(var(--primary))" },
   { name: "Waihanga", eng: "Construction", desc: "Site safety, consenting, project management, quality and sign-off", accent: "hsl(var(--pounamu))" },
-  { name: "Auaha", eng: "Creative", desc: "Brief to publish — copy, image, video, podcast, ads, analytics", accent: "hsl(var(--kowhai-light))" },
+  { name: "Auaha", eng: "Creative & Media", desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio", accent: "hsl(var(--kowhai-light))" },
   { name: "Arataki", eng: "Business Operations", desc: "Dealership compliance, finance disclosure, and customer enquiry — the showroom back office handled.", accent: "hsl(var(--tangaroa-light))" },
   { name: "Pikau", eng: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance", accent: "hsl(var(--tangaroa))" },
 ];
