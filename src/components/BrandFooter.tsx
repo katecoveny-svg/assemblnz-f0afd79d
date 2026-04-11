@@ -121,14 +121,15 @@ const BrandFooter = () => {
         {/* Tagline in liquid glass pill */}
         <div className="flex justify-center mb-14">
           <div
-            className="px-6 py-2.5 rounded-full text-sm"
+            className="px-6 py-2.5 rounded-full text-sm animate-pulse"
             style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
-              color: "hsl(var(--muted-foreground))",
-              background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
+              color: "hsl(160 60% 65%)",
+              background: "linear-gradient(135deg, rgba(47,203,137,0.08) 0%, rgba(255,255,255,0.02) 50%, rgba(47,203,137,0.05) 100%)",
               backdropFilter: "blur(12px)",
-              border: "1px solid rgba(255,255,255,0.06)",
-              boxShadow: "0 4px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)",
+              border: "1px solid rgba(47,203,137,0.2)",
+              boxShadow: "0 0 20px rgba(47,203,137,0.15), 0 0 40px rgba(47,203,137,0.05), inset 0 1px 0 rgba(255,255,255,0.06)",
+              animationDuration: "3s",
             }}
           >
             5 industry kete · Governed operational intelligence · Built in Aotearoa
