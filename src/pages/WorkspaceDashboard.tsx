@@ -257,6 +257,45 @@ export default function WorkspaceDashboard() {
             )}
           </motion.div>
 
+          {/* Proof-of-life evidence brief */}
+          {evidenceBrief && (
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="rounded-xl p-5"
+              style={{ background: `${accent}06`, border: `1px solid ${accent}20` }}
+            >
+              <h2 className="text-sm font-semibold text-white mb-1 flex items-center gap-2">
+                <FileText size={16} style={{ color: accent }} /> {evidenceBrief.title}
+              </h2>
+              <p className="text-[10px] text-white/30 mb-3">
+                {evidenceBrief.date}
+                {evidenceBrief.simulated && (
+                  <span className="ml-2 px-1.5 py-0.5 rounded text-[9px]" style={{ background: `${accent}15`, color: accent }}>
+                    Simulated
+                  </span>
+                )}
+              </p>
+              <p className="text-xs text-white/50 mb-3">{evidenceBrief.summary}</p>
+              {evidenceBrief.findings?.length > 0 && (
+                <div className="space-y-1.5">
+                  {evidenceBrief.findings.map((f, i) => (
+                    <div key={i} className="flex items-center gap-2 text-xs">
+                      <span
+                        className="w-1.5 h-1.5 rounded-full shrink-0"
+                        style={{
+                          background: f.risk_level === "high" ? "#E74C3C" : f.risk_level === "medium" ? "#F39C12" : "#27AE60",
+                        }}
+                      />
+                      <span className="text-white/60">{f.title}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          )}
+
           {/* Quick actions */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
