@@ -143,20 +143,24 @@ const KeteIcon: React.FC<KeteIconProps> = ({
           );
         })}
 
-        {/* Constellation nodes — larger r=3 as specified */}
-        {hRows.map((y, yi) =>
-          vCols.map((x, xi) => (
-            <circle
-              key={`d-${x}-${y}`}
-              cx={x} cy={y}
-              r={variant === "dense" ? 2 : 3}
-              fill={accentColor}
-              opacity="0.8"
-              className={animated ? "kete-glow-dot" : ""}
-              style={animated ? { animationDelay: `${(yi * vCols.length + xi) * 0.15}s` } : undefined}
-            />
-          ))
-        )}
+        {/* Constellation nodes — only render if inside basket */}
+        {hRows.map((y, yi) => {
+          const [lx, rx] = basketX(y);
+          return vCols.map((x, xi) => {
+            if (x < lx || x > rx) return null;
+            return (
+              <circle
+                key={`d-${x}-${y}`}
+                cx={x} cy={y}
+                r={variant === "dense" ? 2 : 3}
+                fill={accentColor}
+                opacity="0.8"
+                className={animated ? "kete-glow-dot" : ""}
+                style={animated ? { animationDelay: `${(yi * vCols.length + xi) * 0.15}s` } : undefined}
+              />
+            );
+          });
+        })}
 
         {/* Outer constellation marks — decorative stars */}
         <circle cx="30" cy="60" r="2" fill={accentLight} opacity="0.4" className={animated ? "kete-glow-dot" : ""} />
