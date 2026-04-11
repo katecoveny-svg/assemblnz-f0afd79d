@@ -221,10 +221,10 @@ const DOMAIN_META: Record<DomainKey, DomainMeta> = {
     keteVariant: "organic",
   },
   auaha: {
-    title: "Auaha — Creative Digital Twin",
-    pilotLabel: "Aotearoa Agentic AI Platform · Pilot 08",
+    title: "Auaha — Creative & Media Studio",
+    pilotLabel: "Aotearoa Agentic AI Platform · Pilot 08 — Auaha (creative & media)",
     description:
-      "A creative agent generating campaign copy, imagery and video. Copyright, likeness consent, brand safety, te reo integrity and misinformation policies gate every publish.",
+      "A coordinated studio of nine specialist agents — Rautaki (strategy), Kōrero (content), Mana Kupu (compliance), Toi (creative), Whakahaere (campaigns), Whaikōrero-Ā-Hoko (lead gen), Aro (analytics), Reo Whare (internal comms) and Studio Director (orchestrator). Every output is gated by the claim register, Fair Trading Act, Privacy Act + IPP 3A, UEMA, and tikanga-compliance before a human signs it off. No autonomous publishing — ever.",
     policyPrefix: "auaha.",
     group: "industry",
     accentColor: "#F0D078",
