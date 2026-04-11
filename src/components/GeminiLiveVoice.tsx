@@ -53,6 +53,24 @@ const GeminiLiveVoice = forwardRef<GeminiLiveVoiceHandle, Props>(({ agentId, age
     }
   }, [transcript]);
 
+  // Expose sendTextPrompt to parent via ref
+  useImperativeHandle(ref, () => ({
+    sendTextPrompt: (text: string) => {
+      if (wsRef.current?.readyState === WebSocket.OPEN) {
+        // Send text as a client message to the Gemini Live session
+        wsRef.current.send(JSON.stringify({
+          clientContent: {
+            turns: [{ role: "user", parts: [{ text }] }],
+            turnComplete: true,
+          },
+        }));
+        setTranscript(prev => [...prev, { role: "user", text }]);
+      } else {
+        toast.info("Start a voice session first, then try a quick prompt");
+      }
+    },
+  }));
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
