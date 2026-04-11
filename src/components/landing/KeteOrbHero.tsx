@@ -1,6 +1,6 @@
 import { useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float } from "@react-three/drei";
+import { Float, Line } from "@react-three/drei";
 import * as THREE from "three";
 import { motion } from "framer-motion";
 
@@ -19,21 +19,16 @@ const KETE_NODES = [
 
 /* Assembl constellation triangle inside the orb */
 function ConstellationMark() {
-  const points = useMemo(() => {
-    const p = [
-      new THREE.Vector3(0, 0.5, 0),
-      new THREE.Vector3(0.45, -0.3, 0),
-      new THREE.Vector3(-0.45, -0.3, 0),
-      new THREE.Vector3(0, 0.5, 0),
-    ];
-    return new THREE.BufferGeometry().setFromPoints(p);
-  }, []);
+  const points: [number, number, number][] = useMemo(() => [
+    [0, 0.5, 0],
+    [0.45, -0.3, 0],
+    [-0.45, -0.3, 0],
+    [0, 0.5, 0],
+  ], []);
 
   return (
     <group>
-      <line geometry={points}>
-        <lineBasicMaterial color="#D4A843" transparent opacity={0.4} />
-      </line>
+      <Line points={points} color="#D4A843" lineWidth={1} transparent opacity={0.4} />
       {/* Constellation nodes */}
       <mesh position={[0, 0.5, 0]}>
         <sphereGeometry args={[0.04, 8, 8]} />
