@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { HardHat, ArrowRight, Check, Shield, FileText, Wrench, Building, Users } from "lucide-react";
+import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -38,15 +39,7 @@ export default function WaihangaLandingPage() {
         <BrandNav />
 
         <main className="flex flex-col items-center px-6 py-24 text-center">
-          <motion.div
-            className="w-20 h-20 rounded-2xl flex items-center justify-center mb-8"
-            style={{ background: `${ACCENT}20`, border: `1px solid ${ACCENT}40` }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <HardHat size={36} style={{ color: ACCENT }} />
-          </motion.div>
+          <LandingKeteHero accentColor="#1A3A5C" accentLight="#2A5A8C" size={160} />
 
           <motion.h1
             className="text-4xl sm:text-6xl font-bold mb-4 max-w-3xl"

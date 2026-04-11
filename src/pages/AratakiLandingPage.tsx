@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Car, ArrowRight, Check, Wrench, Users, Calendar, FileText } from "lucide-react";
+import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -40,15 +41,7 @@ export default function AratakiLandingPage() {
         <BrandNav />
 
         <main className="flex flex-col items-center px-6 py-24 text-center">
-          <motion.div
-            className="w-20 h-20 rounded-2xl flex items-center justify-center mb-8"
-            style={{ background: `${POUNAMU}20`, border: `1px solid ${POUNAMU}40` }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <Car size={36} style={{ color: ACCENT }} />
-          </motion.div>
+          <LandingKeteHero accentColor="#E8E8E8" accentLight="#D8D8D8" size={160} />
 
           <motion.p
             className="text-xs uppercase tracking-[5px] mb-4"
