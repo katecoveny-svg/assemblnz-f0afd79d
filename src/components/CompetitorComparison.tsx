@@ -27,10 +27,10 @@ const CompetitorComparison = () => (
         viewport={{ once: true }}
       >
         <h2 className="text-2xl sm:text-4xl font-display font-light text-foreground mb-3">
-          Replace <span className="text-primary">6+ subscriptions</span> with one platform
+          One platform. <span className="text-primary">Tangible outcomes</span> across every function.
         </h2>
         <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
-          Stop paying for fragmented tools that don't talk to each other — and none of them know NZ law.
+          CRM, marketing, HR, compliance, finance — assembl runs them together and hands you evidence packs ready for audits, legal review, or board sign-off.
         </p>
       </motion.div>
 

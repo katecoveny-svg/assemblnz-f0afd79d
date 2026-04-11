@@ -90,8 +90,8 @@ const INNER = "max-w-5xl mx-auto";
 /* ─── Data ─── */
 const PROOF = [
   "5 industry kete",
-  "6-layer agent stack",
-  "Simulation-tested",
+  "Audit-ready evidence packs",
+  "NZ legislation built in",
   "From $590 NZD/mo",
 ];
 
@@ -172,9 +172,9 @@ const PRICING = [
 ];
 
 const OUTCOMES = [
-  { title: "Quotes go out same-day.", body: "Two-hour quote builds drop to twelve minutes. Your win rate climbs because you're not the slowest in the inbox.", accent: C.pounamu },
-  { title: "Compliance stops eating Sundays.", body: "Payroll, food safety, H&S, IRD. assembl checks the rules on the day they change, not the week after you get fined.", accent: C.pounamuLight },
-  { title: "Friday actually ends on Friday.", body: "Planning, reporting and the long admin tail run in the background. You get your evenings back.", accent: C.white },
+  { title: "Quotes out in minutes, not days.", body: "Two-hour quote builds drop to twelve minutes. You win more work because you're first in the inbox with a professional pack.", accent: C.pounamu },
+  { title: "Compliance sorted before it's due.", body: "Payroll, food safety, H&S, IRD — assembl checks the rules on the day they change and hands you a signed pack you can file straight away.", accent: C.pounamuLight },
+  { title: "Your evenings back.", body: "Planning, reporting, and the long admin tail run in the background. You get a finished evidence pack — not another to-do list.", accent: C.white },
 ];
 
 const FOUR_POU = [
@@ -250,8 +250,8 @@ const Index = () => {
   return (
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.white }}>
       <SEO
-        title="assembl — Every workflow ends in a pack you can file, forward or footnote"
-        description="Five industry kete for NZ business. Each run ends in a signed evidence pack — your hospitality audit, privacy review, or site sign-off. File it, forward it, footnote it. From $1,490/mo NZD ex GST."
+        title="assembl — Intelligent business solutions for Aotearoa"
+        description="assembl handles admin, compliance, and paperwork so NZ teams can do the mahi that counts. Every workflow produces a signed evidence pack for audits, legal, and governance. From $590/mo NZD."
       />
       <BrandNav />
 
@@ -297,7 +297,7 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, delay: 0.5, ease }}
         >
-          Every workflow ends in a pack you can{" "}
+          Do the mahi that counts.{" "}
           <span
             style={{
               background: `linear-gradient(135deg, ${C.pounamu} 0%, ${C.pounamuGlow} 50%, ${C.pounamu} 100%)`,
@@ -306,7 +306,7 @@ const Index = () => {
               backgroundClip: "text",
             }}
           >
-            file, forward or footnote.
+            We handle the rest.
           </span>
         </motion.h1>
 
@@ -318,7 +318,7 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.65, ease }}
         >
-          Specialist operational workflows for NZ businesses — reduce admin, surface risk earlier, and keep people in control. Five industry kete, each run ending in a signed evidence pack your auditor can read, your lawyer can rely on, and your client can sign.
+          assembl runs the admin, compliance checks, and paperwork so your team can focus on the work that actually grows the business. Every workflow produces a signed evidence pack — ready for your auditor, your lawyer, or your next board meeting.
         </motion.p>
 
         {/* CTAs */}
@@ -393,9 +393,9 @@ const Index = () => {
         <div className={INNER}>
           <motion.div {...fade}>
             <Eyebrow>THE PROBLEM</Eyebrow>
-            <SectionHeading>Your team's already using AI. None of it's governed.</SectionHeading>
+            <SectionHeading>Admin is eating your business alive.</SectionHeading>
             <Body className="max-w-2xl mb-5">
-              ChatGPT, Copilot, Gemini — running quietly on staff laptops. No audit trail. No compliance check. No idea what data's being fed into a model hosted offshore.
+              You're spending more time on compliance paperwork, employment law updates, and audit prep than on the actual work your customers pay you for. And when something goes wrong, you can't find the paper trail.
             </Body>
             <Body className="max-w-2xl" style={{ color: "rgba(255,255,255,0.38)" }}>
               assembl is built differently. Every agent operates through a six-layer stack — perception, memory, reasoning, action, explanation, and simulation — inside defined permissions and approval pathways.

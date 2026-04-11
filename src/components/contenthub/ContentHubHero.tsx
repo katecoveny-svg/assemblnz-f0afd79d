@@ -26,13 +26,13 @@ const ContentHubHero = () => {
         className="font-display font-light text-2xl sm:text-4xl lg:text-5xl tracking-tight halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
-        See what your workflows produce
+        Tangible outcomes you can file, forward, or defend
       </h1>
       <p
         className="mt-3 font-body text-sm sm:text-base max-w-xl mx-auto"
         style={{ color: "rgba(255,255,255,0.4)" }}
       >
-        Real outputs from Assembl's specialist workflows — checks, reminders, approvals
+        Every workflow produces signed evidence packs — compliance checks, audit trails, approved documents ready for your lawyer or accountant
       </p>
       <div
         className="mt-4 font-mono-jb text-xs tracking-widest"

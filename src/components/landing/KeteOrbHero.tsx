@@ -172,7 +172,7 @@ const KeteOrbHero = () => {
             color: "rgba(212,168,67,0.6)",
           }}
         >
-          Ngā Kete o te Wānanga · 5 Industry Kete
+          Ngā Kete · 5 Industries · Tangible Outcomes
         </p>
         <h2
           className="text-2xl sm:text-4xl tracking-[0.02em] text-foreground mb-3"
@@ -182,7 +182,7 @@ const KeteOrbHero = () => {
             textShadow: "0 0 40px rgba(212,168,67,0.15)",
           }}
         >
-          Your specialist team
+          More efficiency. Less admin. Real evidence.
         </h2>
         <p
           className="text-sm max-w-lg mx-auto leading-relaxed"
@@ -191,7 +191,7 @@ const KeteOrbHero = () => {
             color: "rgba(255,255,255,0.5)",
           }}
         >
-          Five industry kete. Each one a focused operations hub — grounded in NZ legislation, built for how your business actually runs.
+          Five industry kete that run your compliance, operations, and reporting — then hand you a signed pack your auditor can read and your lawyer can rely on.
         </p>
       </div>
     </motion.div>
