@@ -10,7 +10,7 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
-import HeroKeteNetwork from "@/components/HeroKeteNetwork";
+import KeteOrbHero from "@/components/landing/KeteOrbHero";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
 import ToroBirdIcon from "@/components/ToroBirdIcon";
@@ -258,8 +258,8 @@ const Index = () => {
 
       {/* ═══ 1 — HERO ═══ */}
       <section className="relative flex flex-col items-center text-center px-6 sm:px-8 pt-20 sm:pt-24 pb-12" style={{ zIndex: 1 }}>
-        {/* 3D Kete network — green, blue, white orbs */}
-        <HeroKeteNetwork isMobile={isMobile} />
+        {/* 3D Particle sphere hero */}
+        <KeteOrbHero hideText />
 
         {/* Badge */}
         <motion.div

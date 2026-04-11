@@ -100,9 +100,8 @@ function ParticleSphere() {
     void main() {
       float d = length(gl_PointCoord - vec2(0.5));
       if (d > 0.5) discard;
-      float alpha = 1.0 - smoothstep(0.0, 0.5, d);
-      alpha *= 0.85;
-      gl_FragColor = vec4(vColor, alpha);
+      float alpha = 1.0 - smoothstep(0.1, 0.5, d);
+      gl_FragColor = vec4(vColor * 1.4, alpha);
     }
   `;
 
@@ -137,7 +136,7 @@ function OrbitalRing({ radius, color, speed, tilt }: { radius: number; color: st
   return (
     <mesh ref={ref} rotation={[tilt, 0, 0]}>
       <torusGeometry args={[radius, 0.005, 8, 128]} />
-      <meshBasicMaterial color={color} transparent opacity={0.25} />
+      <meshBasicMaterial color={color} transparent opacity={0.45} />
     </mesh>
   );
 }
@@ -232,7 +231,7 @@ function AmbientDust() {
 }
 
 /* ── Main export ── */
-const KeteOrbHero = () => {
+const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
   return (
     <motion.div
       className="relative flex flex-col items-center justify-center mb-16"
@@ -246,7 +245,7 @@ const KeteOrbHero = () => {
         className="absolute w-[420px] h-[420px] sm:w-[560px] sm:h-[560px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(58,125,110,0.18) 0%, rgba(212,168,67,0.08) 35%, rgba(90,173,160,0.04) 60%, transparent 80%)",
+            "radial-gradient(circle, rgba(58,125,110,0.25) 0%, rgba(212,168,67,0.12) 35%, rgba(90,173,160,0.06) 60%, transparent 80%)",
           filter: "blur(50px)",
         }}
       />
@@ -254,7 +253,7 @@ const KeteOrbHero = () => {
         className="absolute w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(212,168,67,0.15) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(212,168,67,0.2) 0%, transparent 70%)",
           filter: "blur(30px)",
         }}
       />
@@ -293,39 +292,41 @@ const KeteOrbHero = () => {
         </Suspense>
       </div>
 
-      {/* Text below orb */}
-      <div className="text-center mt-8">
-        <p
-          className="text-[10px] tracking-[4px] uppercase mb-3"
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            color: "rgba(212,168,67,0.6)",
-          }}
-        >
-          Ngā Kete · 5 Industries · Tangible Outcomes
-        </p>
-        <h2
-          className="text-2xl sm:text-4xl tracking-[0.02em] text-foreground mb-3"
-          style={{
-            fontWeight: 300,
-            fontFamily: "'Lato', sans-serif",
-            textShadow: "0 0 40px rgba(212,168,67,0.15)",
-          }}
-        >
-          More efficiency. Less admin. Real evidence.
-        </h2>
-        <p
-          className="text-sm max-w-lg mx-auto leading-relaxed"
-          style={{
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-            color: "rgba(255,255,255,0.5)",
-          }}
-        >
-          Five industry kete that run your compliance, operations, and reporting
-          — then hand you a signed pack your auditor can read and your lawyer can
-          rely on.
-        </p>
-      </div>
+      {/* Text below orb — optional */}
+      {!hideText && (
+        <div className="text-center mt-8">
+          <p
+            className="text-[10px] tracking-[4px] uppercase mb-3"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              color: "rgba(212,168,67,0.6)",
+            }}
+          >
+            Ngā Kete · 5 Industries · Tangible Outcomes
+          </p>
+          <h2
+            className="text-2xl sm:text-4xl tracking-[0.02em] text-foreground mb-3"
+            style={{
+              fontWeight: 300,
+              fontFamily: "'Lato', sans-serif",
+              textShadow: "0 0 40px rgba(212,168,67,0.15)",
+            }}
+          >
+            More efficiency. Less admin. Real evidence.
+          </h2>
+          <p
+            className="text-sm max-w-lg mx-auto leading-relaxed"
+            style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              color: "rgba(255,255,255,0.5)",
+            }}
+          >
+            Five industry kete that run your compliance, operations, and reporting
+            — then hand you a signed pack your auditor can read and your lawyer can
+            rely on.
+          </p>
+        </div>
+      )}
     </motion.div>
   );
 };
