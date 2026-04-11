@@ -42,7 +42,18 @@ export default function HangaLayout() {
       <div className="p-4 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${POUNAMU}, ${KOWHAI})` }}>
-            <HardHat size={20} color="#fff" />
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              {/* Kete (woven basket) */}
+              <path d="M4 8 C4 8 5 4 12 4 C19 4 20 8 20 8" />
+              <path d="M3 8 L5 20 C5 21 6 22 12 22 C18 22 19 21 19 20 L21 8" />
+              <path d="M3 8 H21" />
+              {/* Weave lines */}
+              <path d="M8 8 L7 22" opacity="0.5" />
+              <path d="M12 8 L12 22" opacity="0.5" />
+              <path d="M16 8 L17 22" opacity="0.5" />
+              <path d="M4 13 H20" opacity="0.5" />
+              <path d="M5 17.5 H19" opacity="0.5" />
+            </svg>
           </div>
           {!collapsed && (
             <div>
