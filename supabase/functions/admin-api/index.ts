@@ -251,6 +251,120 @@ const { data: usersListData } = await supabase.auth.admin.listUsers({ perPage: 1
         });
       }
 
+      case "get_pipeline_audit_logs": {
+        const { data } = await supabase
+          .from("pipeline_audit_logs")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(params.limit || 200);
+        return new Response(JSON.stringify(data || []), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      case "get_evidence_packs": {
+        const { data } = await supabase
+          .from("evidence_packs")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(params.limit || 100);
+        return new Response(JSON.stringify(data || []), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      case "get_explanation_objects": {
+        const { data } = await supabase
+          .from("explanation_objects")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(params.limit || 200);
+        return new Response(JSON.stringify(data || []), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      case "get_approval_queue": {
+        const statusFilter = params.status || null;
+        let query = supabase
+          .from("approval_queue")
+          .select("*")
+          .order("requested_at", { ascending: false })
+          .limit(params.limit || 100);
+        if (statusFilter) query = query.eq("status", statusFilter);
+        const { data } = await query;
+        return new Response(JSON.stringify(data || []), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      case "get_aaaip_exports": {
+        const { data } = await supabase
+          .from("aaaip_audit_exports")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(params.limit || 100);
+        return new Response(JSON.stringify(data || []), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      case "approve_queue_item": {
+        const { itemId, reason } = params;
+        await supabase
+          .from("approval_queue")
+          .update({ status: "approved", approved_by: user.id, decided_at: new Date().toISOString(), decision_reason: reason || "Approved by admin" })
+          .eq("id", itemId);
+        return new Response(JSON.stringify({ success: true }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      case "reject_queue_item": {
+        const { itemId, reason } = params;
+        await supabase
+          .from("approval_queue")
+          .update({ status: "rejected", approved_by: user.id, decided_at: new Date().toISOString(), decision_reason: reason || "Rejected by admin" })
+          .eq("id", itemId);
+        return new Response(JSON.stringify({ success: true }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      case "sign_evidence_pack": {
+        const { packId } = params;
+        await supabase
+          .from("evidence_packs")
+          .update({ signed_by: user.id, signed_at: new Date().toISOString() })
+          .eq("id", packId);
+        return new Response(JSON.stringify({ success: true }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      case "get_pipeline_summary": {
+        const [auditRes, approvalRes, evidenceRes, exportsRes] = await Promise.all([
+          supabase.from("pipeline_audit_logs").select("id", { count: "exact", head: true }),
+          supabase.from("approval_queue").select("id, status"),
+          supabase.from("evidence_packs").select("id, signed_by", { count: "exact" }),
+          supabase.from("aaaip_audit_exports").select("id", { count: "exact", head: true }),
+        ]);
+        const approvals = approvalRes.data || [];
+        const pending = approvals.filter(a => a.status === "pending").length;
+        const approved = approvals.filter(a => a.status === "approved").length;
+        const rejected = approvals.filter(a => a.status === "rejected").length;
+        const evidencePacks = evidenceRes.data || [];
+        const signed = evidencePacks.filter(e => e.signed_by).length;
+        return new Response(JSON.stringify({
+          totalAuditLogs: auditRes.count || 0,
+          approvals: { total: approvals.length, pending, approved, rejected },
+          evidencePacks: { total: evidenceRes.count || 0, signed, unsigned: (evidenceRes.count || 0) - signed },
+          totalExports: exportsRes.count || 0,
+        }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
       default:
         return new Response(JSON.stringify({ error: "Unknown action" }), {
           status: 400,
