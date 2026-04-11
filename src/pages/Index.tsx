@@ -117,12 +117,12 @@ const PACKS: {
 ];
 
 const PIPELINE_STAGES = [
-  { name: "Perception", desc: "Connects to your signals — messages, documents, calendars", color: C.pounamu },
-  { name: "Memory", desc: "Business context carries forward across every session", color: C.pounamuLight },
-  { name: "Reasoning", desc: "Policy-aware decision logic tuned to NZ legislation", color: C.white },
-  { name: "Action", desc: "Executes within defined permissions and approval pathways", color: C.pounamuGlow },
-  { name: "Explanation", desc: "Every output comes with a readable audit trail", color: C.gold },
-  { name: "Simulation", desc: "Tests outcomes before they ship — not after", color: C.navy },
+  { name: "Perception", plain: "Reads your inputs", desc: "Your messages, documents, emails and calendars are picked up automatically — no manual data entry.", color: C.pounamu },
+  { name: "Memory", plain: "Remembers your business", desc: "Context from past conversations and decisions carries forward, so you never repeat yourself.", color: C.pounamuLight },
+  { name: "Reasoning", plain: "Applies NZ rules", desc: "Checks your industry legislation — Privacy Act, Building Code, Food Act — before suggesting anything.", color: C.white },
+  { name: "Action", plain: "Acts with your permission", desc: "Nothing happens without your approval. You set the boundaries, the system works inside them.", color: C.pounamuGlow },
+  { name: "Explanation", plain: "Shows its working", desc: "Every decision comes with a plain-English explanation your lawyer, auditor, or board can actually read.", color: C.gold },
+  { name: "Simulation", plain: "Tests before it ships", desc: "Runs scenarios to catch problems before they reach your customers — not after.", color: C.navy },
 ];
 
 const DIFFS = [
@@ -507,46 +507,74 @@ const Index = () => {
 
       <WeaveDivider />
 
-      {/* ═══ 4 — COMPLIANCE PIPELINE ═══ */}
+      {/* ═══ 4 — HOW IT WORKS ═══ */}
       <section className={`${SEC} relative z-10`}>
         <div className={INNER}>
-          <motion.div {...fade} className="text-center mb-16">
-            <Eyebrow>SIX-LAYER AGENT STACK</Eyebrow>
-            <SectionHeading>Every agent. Six layers.<br />Governed end to end.</SectionHeading>
-            <Body className="max-w-xl mx-auto">
-              Every production-grade agent operates through a six-layer stack. No shortcuts, no black boxes. Your lawyers can actually read the audit trail.
+          <motion.div {...fade} className="text-center mb-10">
+            <Eyebrow>HOW ASSEMBL WORKS</Eyebrow>
+            <SectionHeading>Six layers between your request<br />and a signed evidence pack.</SectionHeading>
+            <Body className="max-w-2xl mx-auto">
+              Think of <span style={{ fontFamily: FONT.heading, fontWeight: 300, letterSpacing: '0.08em', textTransform: 'lowercase', color: C.pounamuLight, textShadow: '0 0 18px rgba(58,125,110,0.4)' }}>assembl</span> as a team of specialist digital workers. When you ask for something — a compliance check, a document, a workflow — it passes through six clear steps before anything reaches you. Every step is logged, explained, and auditable.
             </Body>
           </motion.div>
 
-          <div className="flex flex-col sm:flex-row items-stretch gap-3">
+          {/* Government compliance badge */}
+          <motion.div {...fade} className="flex justify-center mb-12">
+            <div
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full"
+              style={{
+                background: 'rgba(58,125,110,0.08)',
+                border: '1px solid rgba(58,125,110,0.2)',
+                backdropFilter: 'blur(12px)',
+              }}
+            >
+              <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: C.pounamu, boxShadow: `0 0 8px ${C.pounamu}` }} />
+              <span className="text-[10px] sm:text-[11px] tracking-[2px] uppercase" style={{ fontFamily: FONT.mono, color: C.pounamuLight }}>
+                Aligned with NZ Government Responsible AI Guidance · MBIE 2025 · NZ Algorithm Charter
+              </span>
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {PIPELINE_STAGES.map((stage, i) => (
               <LiquidGlassCard
                 key={stage.name}
-                className="flex-1 p-6 text-center"
+                className="p-7"
                 accentColor={stage.color}
                 delay={i * 0.08}
                 glassIntensity="strong"
               >
-                <div className="flex flex-col items-center gap-3">
-                  <span
-                    className="text-[10px] tracking-[3px] uppercase"
-                    style={{ fontFamily: FONT.mono, color: stage.color, fontWeight: 700 }}
-                  >
-                    Layer {i + 1}
-                  </span>
-                  <h3 className="text-lg" style={{ fontFamily: FONT.heading, fontWeight: 300, color: C.white }}>
-                    {stage.name}
-                  </h3>
-                  <p className="text-xs leading-relaxed" style={{ fontFamily: FONT.body, color: C.textSec }}>
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="flex items-center justify-center w-8 h-8 rounded-lg text-[11px]"
+                      style={{ fontFamily: FONT.mono, fontWeight: 700, color: stage.color, background: `${stage.color}12`, border: `1px solid ${stage.color}20` }}
+                    >
+                      {i + 1}
+                    </span>
+                    <div>
+                      <h3 className="text-base" style={{ fontFamily: FONT.heading, fontWeight: 400, color: C.white, letterSpacing: '0.5px' }}>
+                        {stage.name}
+                      </h3>
+                      <p className="text-[10px] uppercase tracking-[2px]" style={{ fontFamily: FONT.mono, color: stage.color }}>
+                        {stage.plain}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-sm leading-relaxed" style={{ fontFamily: FONT.body, color: C.textSec }}>
                     {stage.desc}
                   </p>
-                  {i < PIPELINE_STAGES.length - 1 && (
-                    <span className="hidden sm:block absolute -right-2 top-1/2 text-xs" style={{ color: C.textMuted }}>→</span>
-                  )}
                 </div>
               </LiquidGlassCard>
             ))}
           </div>
+
+          {/* Human-in-the-loop callout */}
+          <motion.div {...fade} className="mt-8 text-center">
+            <p className="text-xs leading-relaxed max-w-xl mx-auto" style={{ fontFamily: FONT.body, color: C.textMuted }}>
+              Nothing is autonomous. Every consequential decision requires human approval. Your team stays in control — the system handles the paperwork, not the judgement calls.
+            </p>
+          </motion.div>
         </div>
       </section>
 
