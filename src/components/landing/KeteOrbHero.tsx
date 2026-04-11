@@ -390,82 +390,173 @@ function AmbientDust({ count = 40 }: { count?: number }) {
   );
 }
 
-/* ── Six cognitive layers — floating around the orb as HTML overlays ── */
+/* ── Six cognitive layers — visual data network around the orb ── */
 const LAYERS = [
-  { name: "Perception", icon: "◎", color: POUNAMU, angle: 0, radius: 46, yOff: -2 },
-  { name: "Memory", icon: "◈", color: TEAL_LIGHT, angle: 60, radius: 48, yOff: -18 },
-  { name: "Reasoning", icon: "◇", color: "#FFFFFF", angle: 120, radius: 46, yOff: 2 },
-  { name: "Action", icon: "▸", color: GOLD_LIGHT, angle: 180, radius: 47, yOff: 12 },
-  { name: "Explanation", icon: "◌", color: KOWHAI, angle: 240, radius: 48, yOff: -8 },
-  { name: "Simulation", icon: "⬡", color: "#1A3A5C", angle: 300, radius: 46, yOff: 18 },
+  { name: "Perceive", icon: "◎", color: POUNAMU, angle: -30, radius: 48, yOff: -6 },
+  { name: "Memory", icon: "◈", color: TEAL_LIGHT, angle: 30, radius: 50, yOff: -12 },
+  { name: "Reason", icon: "◇", color: "#FFFFFF", angle: 90, radius: 46, yOff: 0 },
+  { name: "Action", icon: "▸", color: GOLD_LIGHT, angle: 150, radius: 50, yOff: 12 },
+  { name: "Explain", icon: "◌", color: KOWHAI, angle: 210, radius: 48, yOff: 6 },
+  { name: "Simulate", icon: "⬡", color: "#7BA8C4", angle: 270, radius: 46, yOff: -4 },
+];
+
+/* Network edge pairs — which nodes connect to form the data mesh */
+const NETWORK_EDGES = [
+  [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0], // outer ring
+  [0, 3], [1, 4], [2, 5], // cross connections
 ];
 
 function CognitiveLayerLabels({ size }: { size: number }) {
-  const centerX = size / 2;
-  const centerY = size / 2;
+  const cx = size / 2;
+  const cy = size / 2;
+
+  /* Compute pixel positions for each node */
+  const nodePositions = LAYERS.map((layer) => {
+    const rPx = (size * layer.radius) / 100;
+    const rad = (layer.angle * Math.PI) / 180;
+    return {
+      x: cx + Math.cos(rad) * rPx,
+      y: cy + Math.sin(rad) * rPx * 0.55 + layer.yOff,
+    };
+  });
+
+  /* Inner hub points — smaller radius for secondary mesh lines to orb centre */
+  const hubR = size * 0.18;
+  const hubPositions = LAYERS.map((layer) => {
+    const rad = (layer.angle * Math.PI) / 180;
+    return {
+      x: cx + Math.cos(rad) * hubR,
+      y: cy + Math.sin(rad) * hubR * 0.55,
+    };
+  });
 
   return (
     <div className="absolute inset-0 pointer-events-none" style={{ width: size, height: size }}>
-      {LAYERS.map((layer, i) => {
-        const rPx = (size * layer.radius) / 100;
-        const angleRad = (layer.angle * Math.PI) / 180;
-        const x = centerX + Math.cos(angleRad) * rPx;
-        const y = centerY + Math.sin(angleRad) * rPx * 0.55 + layer.yOff;
+      {/* SVG network layer */}
+      <svg width={size} height={size} className="absolute inset-0" style={{ overflow: "visible" }}>
+        <defs>
+          {LAYERS.map((layer, i) => (
+            <linearGradient key={`grad-${i}`} id={`edge-grad-${i}`} x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor={layer.color} stopOpacity="0.25" />
+              <stop offset="50%" stopColor={layer.color} stopOpacity="0.08" />
+              <stop offset="100%" stopColor={LAYERS[(i + 1) % LAYERS.length].color} stopOpacity="0.25" />
+            </linearGradient>
+          ))}
+          {/* Animated pulse circle */}
+          <filter id="glow-net">
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
 
+        {/* Network edges — outer mesh */}
+        {NETWORK_EDGES.map(([a, b], i) => {
+          const pA = nodePositions[a];
+          const pB = nodePositions[b];
+          return (
+            <g key={`edge-${i}`}>
+              <line
+                x1={pA.x} y1={pA.y} x2={pB.x} y2={pB.y}
+                stroke={LAYERS[a].color}
+                strokeWidth="0.5"
+                strokeOpacity="0.15"
+                strokeDasharray="4 6"
+              >
+                <animate attributeName="stroke-dashoffset" from="0" to="-20" dur={`${3 + i * 0.4}s`} repeatCount="indefinite" />
+              </line>
+              {/* Travelling data pulse */}
+              <circle r="1.5" fill={LAYERS[a].color} opacity="0.6" filter="url(#glow-net)">
+                <animateMotion
+                  dur={`${2.5 + i * 0.3}s`}
+                  repeatCount="indefinite"
+                  path={`M${pA.x},${pA.y} L${pB.x},${pB.y}`}
+                />
+                <animate attributeName="opacity" values="0;0.7;0.7;0" dur={`${2.5 + i * 0.3}s`} repeatCount="indefinite" />
+              </circle>
+            </g>
+          );
+        })}
+
+        {/* Radial spokes — node to hub (inner orb edge) */}
+        {LAYERS.map((layer, i) => {
+          const outer = nodePositions[i];
+          const inner = hubPositions[i];
+          return (
+            <g key={`spoke-${i}`}>
+              <line
+                x1={outer.x} y1={outer.y} x2={inner.x} y2={inner.y}
+                stroke={layer.color}
+                strokeWidth="0.6"
+                strokeOpacity="0.12"
+              />
+              {/* Inward data pulse */}
+              <circle r="1" fill={layer.color} opacity="0.5">
+                <animateMotion
+                  dur={`${3 + i * 0.5}s`}
+                  repeatCount="indefinite"
+                  path={`M${outer.x},${outer.y} L${inner.x},${inner.y}`}
+                />
+                <animate attributeName="opacity" values="0;0.6;0.6;0" dur={`${3 + i * 0.5}s`} repeatCount="indefinite" />
+              </circle>
+            </g>
+          );
+        })}
+
+        {/* Node circles — visual anchors */}
+        {LAYERS.map((layer, i) => {
+          const pos = nodePositions[i];
+          return (
+            <g key={`node-dot-${i}`}>
+              {/* Outer ring */}
+              <circle cx={pos.x} cy={pos.y} r="16" fill="none" stroke={layer.color} strokeWidth="0.5" strokeOpacity="0.2">
+                <animate attributeName="r" values="14;17;14" dur={`${5 + i}s`} repeatCount="indefinite" />
+              </circle>
+              {/* Core dot */}
+              <circle cx={pos.x} cy={pos.y} r="3" fill={layer.color} opacity="0.5" filter="url(#glow-net)">
+                <animate attributeName="opacity" values="0.3;0.7;0.3" dur={`${3 + i * 0.4}s`} repeatCount="indefinite" />
+              </circle>
+            </g>
+          );
+        })}
+      </svg>
+
+      {/* Label overlays — minimal, positioned at nodes */}
+      {LAYERS.map((layer, i) => {
+        const pos = nodePositions[i];
         return (
           <motion.div
             key={layer.name}
-            className="absolute flex items-center gap-1.5 pointer-events-auto"
+            className="absolute flex flex-col items-center pointer-events-auto"
             style={{
-              left: x,
-              top: y,
+              left: pos.x,
+              top: pos.y,
               transform: "translate(-50%, -50%)",
             }}
-            initial={{ opacity: 0, scale: 0.7 }}
+            initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.2 + i * 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ delay: 1.0 + i * 0.12, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Connecting line to orb edge */}
-            <div
-              className="absolute rounded-full"
-              style={{
-                width: 2,
-                height: rPx * 0.15,
-                background: `linear-gradient(to bottom, ${layer.color}40, transparent)`,
-                left: "50%",
-                top: "100%",
-                transform: `translateX(-50%) rotate(${layer.angle + 90}deg)`,
-                transformOrigin: "top center",
-              }}
-            />
-            {/* Label pill */}
             <motion.div
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-md cursor-default"
-              style={{
-                background: `${layer.color}08`,
-                border: `1px solid ${layer.color}25`,
-                boxShadow: `0 0 20px ${layer.color}10, inset 0 1px 0 rgba(255,255,255,0.05)`,
-              }}
-              animate={{
-                y: [0, -3, 0, 2, 0],
-              }}
-              transition={{
-                duration: 6 + i * 0.8,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 0.5,
-              }}
+              className="flex flex-col items-center gap-0.5"
+              animate={{ y: [0, -2, 0, 1.5, 0] }}
+              transition={{ duration: 7 + i * 0.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
             >
-              <span className="text-[10px]" style={{ color: layer.color, opacity: 0.7 }}>
+              {/* Icon */}
+              <span
+                className="text-sm sm:text-base leading-none"
+                style={{ color: layer.color, opacity: 0.7, textShadow: `0 0 10px ${layer.color}40` }}
+              >
                 {layer.icon}
               </span>
+              {/* Label */}
               <span
-                className="text-[9px] sm:text-[10px] tracking-[2px] uppercase whitespace-nowrap"
+                className="text-[8px] sm:text-[9px] tracking-[2.5px] uppercase whitespace-nowrap"
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
                   color: layer.color,
                   fontWeight: 500,
-                  textShadow: `0 0 12px ${layer.color}30`,
+                  opacity: 0.65,
+                  textShadow: `0 0 8px ${layer.color}25`,
                 }}
               >
                 {layer.name}
