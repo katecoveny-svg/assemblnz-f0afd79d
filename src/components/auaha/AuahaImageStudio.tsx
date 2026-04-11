@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Image, Sparkles, Download, RefreshCw, Wand2, Video, Calendar, Copy, Star, Layers } from "lucide-react";
+import { Image, Sparkles, Download, RefreshCw, Wand2, Video, Calendar, Copy, Star, Layers, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ACCENT = "#F0D078";
 
