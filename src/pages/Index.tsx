@@ -324,12 +324,20 @@ const Index = () => {
                     />
                   )}
                 </div>
-                <span
-                  className="text-[8px] sm:text-[9px] tracking-[2.5px] uppercase"
-                  style={{ fontFamily: FONT.mono, color: p.color, textShadow: `0 0 16px ${p.color}22` }}
-                >
-                  {p.reo}
-                </span>
+                <div className="flex flex-col items-center gap-0.5">
+                  <span
+                    className="text-[8px] sm:text-[9px] tracking-[2.5px] uppercase"
+                    style={{ fontFamily: FONT.mono, color: p.color, textShadow: `0 0 16px ${p.color}22` }}
+                  >
+                    {p.reo}
+                  </span>
+                  <span
+                    className="text-[7px] sm:text-[8px] tracking-[1px] uppercase text-muted-foreground"
+                    style={{ fontFamily: FONT.mono }}
+                  >
+                    {p.en}
+                  </span>
+                </div>
               </motion.div>
             </Link>
           ))}
