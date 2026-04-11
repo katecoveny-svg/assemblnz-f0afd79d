@@ -129,6 +129,9 @@ const ArohaCompanySetup = lazy(() => import("./components/aroha/ArohaCompanySetu
 const ArohaRetention = lazy(() => import("./components/aroha/ArohaRetention"));
 const AratakiLandingPage = lazy(() => import("./pages/AratakiLandingPage"));
 const PikauLandingPage = lazy(() => import("./pages/PikauLandingPage"));
+const ManaakiLandingPage = lazy(() => import("./pages/ManaakiLandingPage"));
+const AuahaLandingPage = lazy(() => import("./pages/AuahaLandingPage"));
+const WaihangaLandingPage = lazy(() => import("./pages/WaihangaLandingPage"));
 const ToroaTravelPage = lazy(() => import("./pages/ToroaTravelPage"));
 const ToroaChatPage = lazy(() => import("./pages/ToroaChatPage"));
 const WaihangaArchitecturePage = lazy(() => import("./pages/WaihangaArchitecturePage"));
@@ -221,7 +224,8 @@ const App = () => (
                   <Route path="/invest" element={<Suspense fallback={null}><InvestPage /></Suspense>} />
                   <Route path="/kete" element={<Suspense fallback={null}><KeteCollectionPage /></Suspense>} />
                   <Route path="/kete/:slug" element={<Suspense fallback={null}><KeteDetailPageNew /></Suspense>} />
-                  <Route path="/manaaki" element={<Suspense fallback={null}><ManaakiDashboard /></Suspense>} />
+                  <Route path="/manaaki" element={<Suspense fallback={null}><ManaakiLandingPage /></Suspense>} />
+                  <Route path="/manaaki/dashboard" element={<Suspense fallback={null}><ManaakiDashboard /></Suspense>} />
                   <Route path="/arataki" element={<Suspense fallback={null}><AratakiLandingPage /></Suspense>} />
                   <Route path="/pikau" element={<Suspense fallback={null}><PikauLandingPage /></Suspense>} />
                   {/* Retired kete — redirected 2026-04-10 */}
@@ -250,6 +254,7 @@ const App = () => (
                   </Route>
                   <Route path="/hanga" element={<Navigate to="/waihanga" replace />} />
                   <Route path="/hanga/*" element={<Navigate to="/waihanga" replace />} />
+                  <Route path="/waihanga/about" element={<Suspense fallback={null}><WaihangaLandingPage /></Suspense>} />
                   <Route path="/waihanga" element={<Suspense fallback={null}><HangaLayout /></Suspense>}>
                     <Route index element={<HangaDashboard />} />
                     <Route path="arai" element={<AraiSafetyPage />} />
@@ -267,6 +272,7 @@ const App = () => (
                     <Route path="overview" element={<KanohiDashboard />} />
                     <Route path="architecture" element={<Suspense fallback={null}><WaihangaArchitecturePage /></Suspense>} />
                   </Route>
+                  <Route path="/auaha/about" element={<Suspense fallback={null}><AuahaLandingPage /></Suspense>} />
                   <Route path="/auaha" element={<Suspense fallback={null}><AuahaLayout /></Suspense>}>
                     <Route index element={<AuahaDashboard />} />
                     <Route path="whaikorero" element={<AuahaWhaikorero />} />

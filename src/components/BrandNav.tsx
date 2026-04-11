@@ -19,9 +19,9 @@ const PACKS = [
   { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#D4A843" },
   { label: "Waihanga", sublabel: "Construction", to: "/waihanga", icon: HardHat, color: "#3A7D6E" },
   { label: "Auaha", sublabel: "Creative", to: "/auaha", icon: Palette, color: "#F0D078" },
-  { label: "Arataki", sublabel: "Business", to: "/arataki", icon: Briefcase, color: "#5A8FBF" },
-  { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", icon: Package, color: "#7B6FA0" },
-  { label: "Toro", sublabel: "Family", to: "/toroa", icon: Bird, color: "#87CEEB" },
+  { label: "Arataki", sublabel: "Automotive", to: "/arataki", icon: Briefcase, color: "#E8E8E8" },
+  { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", icon: Package, color: "#7ECFC2" },
+  { label: "Toro", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843" },
 ];
 
 const BrandNav = () => {
