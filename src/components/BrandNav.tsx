@@ -9,6 +9,7 @@ import KiaOraPopup from "@/components/KiaOraPopup";
 interface NavItem { label: string; to: string }
 
 const NAV_ITEMS: NavItem[] = [
+  { label: "Home", to: "/" },
   { label: "How It Works", to: "/how-it-works" },
   { label: "Pricing", to: "/pricing" },
   { label: "About", to: "/about" },
