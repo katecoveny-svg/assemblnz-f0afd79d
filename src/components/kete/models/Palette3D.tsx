@@ -3,60 +3,106 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Line } from "@react-three/drei";
 import * as THREE from "three";
 
-const PaletteMesh = ({ accentColor, accentLight }: { accentColor: string; accentLight: string }) => {
+const MegaphoneMesh = ({ accentColor, accentLight }: { accentColor: string; accentLight: string }) => {
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame(({ clock }) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y = clock.getElapsedTime() * 0.3;
-      groupRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.2) * 0.12;
+      groupRef.current.rotation.y = clock.getElapsedTime() * 0.25;
+      groupRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.15) * 0.08;
     }
   });
 
-  const { outlinePts, thumbHolePts } = useMemo(() => {
-    // Palette outline - organic kidney shape
-    const outline: [number, number, number][] = [];
-    for (let i = 0; i <= 64; i++) {
-      const t = (i / 64) * Math.PI * 2;
-      const r = 0.55 + 0.15 * Math.cos(t * 2) + 0.08 * Math.sin(t * 3);
-      outline.push([Math.cos(t) * r, 0, Math.sin(t) * r]);
+  const { coneLines, ringLines, waveLines, handleLine } = useMemo(() => {
+    // Megaphone cone — longitudinal kete weave strands
+    const cone: [number, number, number][][] = [];
+    const strands = 16;
+    for (let s = 0; s < strands; s++) {
+      const angle = (s / strands) * Math.PI * 2;
+      const pts: [number, number, number][] = [];
+      for (let i = 0; i <= 24; i++) {
+        const t = i / 24;
+        const radius = 0.08 + t * 0.45;
+        const x = -0.5 + t * 1.0;
+        // Gentle weave wobble
+        const wobble = Math.sin(t * Math.PI * 4 + s * 0.8) * 0.02;
+        pts.push([
+          x,
+          Math.cos(angle + t * 0.4) * (radius + wobble),
+          Math.sin(angle + t * 0.4) * (radius + wobble),
+        ]);
+      }
+      cone.push(pts);
     }
-    // Thumb hole
-    const thumb: [number, number, number][] = [];
-    for (let i = 0; i <= 32; i++) {
-      const t = (i / 32) * Math.PI * 2;
-      thumb.push([0.25 + Math.cos(t) * 0.12, 0.01, -0.2 + Math.sin(t) * 0.12]);
+
+    // Horizontal ring weave lines
+    const rings: [number, number, number][][] = [];
+    for (let r = 0; r < 8; r++) {
+      const t = (r + 1) / 9;
+      const radius = 0.08 + t * 0.45;
+      const x = -0.5 + t * 1.0;
+      const ringPts: [number, number, number][] = [];
+      for (let i = 0; i <= 48; i++) {
+        const angle = (i / 48) * Math.PI * 2;
+        ringPts.push([x, Math.cos(angle) * radius, Math.sin(angle) * radius]);
+      }
+      rings.push(ringPts);
     }
-    return { outlinePts: outline, thumbHolePts: thumb };
+
+    // Sound waves emanating from the bell
+    const waves: [number, number, number][][] = [];
+    for (let w = 0; w < 3; w++) {
+      const offset = 0.6 + w * 0.18;
+      const waveR = 0.2 + w * 0.12;
+      const wavePts: [number, number, number][] = [];
+      for (let i = 0; i <= 32; i++) {
+        const angle = (i / 32) * Math.PI * 2;
+        wavePts.push([offset, Math.cos(angle) * waveR, Math.sin(angle) * waveR]);
+      }
+      waves.push(wavePts);
+    }
+
+    // Handle
+    const handle: [number, number, number][] = [
+      [-0.5, -0.12, 0],
+      [-0.65, -0.22, 0],
+      [-0.72, -0.35, 0],
+    ];
+
+    return { coneLines: cone, ringLines: rings, waveLines: waves, handleLine: handle };
   }, []);
 
-  // Paint blob positions
-  const blobs = [
-    { pos: [-0.3, 0.02, 0.25] as [number, number, number], color: "#D4A843", r: 0.06 },
-    { pos: [-0.05, 0.02, 0.35] as [number, number, number], color: "#3A7D6E", r: 0.055 },
-    { pos: [0.2, 0.02, 0.3] as [number, number, number], color: "#7ECFC2", r: 0.05 },
-    { pos: [-0.4, 0.02, 0.0] as [number, number, number], color: "#E8C76A", r: 0.05 },
-    { pos: [-0.15, 0.02, -0.1] as [number, number, number], color: "#B8892A", r: 0.045 },
-  ];
-
   return (
-    <group ref={groupRef} rotation={[Math.PI * 0.15, 0, 0]}>
+    <group ref={groupRef} rotation={[0, 0, Math.PI * 0.05]}>
+      {/* Ambient glow sphere */}
       <mesh>
-        <sphereGeometry args={[1.0, 16, 16]} />
+        <sphereGeometry args={[0.9, 16, 16]} />
         <meshBasicMaterial color={accentColor} transparent opacity={0.03} side={THREE.BackSide} />
       </mesh>
-      <Line points={outlinePts} color={accentColor} lineWidth={2} transparent opacity={0.8} />
-      <Line points={thumbHolePts} color={accentLight} lineWidth={1.5} transparent opacity={0.7} />
-      {/* Cross-hatch surface lines */}
-      {[-0.3, 0, 0.3].map((z, i) => {
-        const pts: [number, number, number][] = [[-0.6, 0, z], [0.6, 0, z]];
-        return <Line key={`hx-${i}`} points={pts} color={accentColor} lineWidth={0.4} transparent opacity={0.15} />;
-      })}
-      {/* Paint blobs */}
-      {blobs.map((b, i) => (
-        <mesh key={`blob-${i}`} position={b.pos}>
-          <sphereGeometry args={[b.r, 12, 12]} />
-          <meshBasicMaterial color={b.color} transparent opacity={0.85} />
+
+      {/* Cone weave strands */}
+      {coneLines.map((pts, i) => (
+        <Line key={`strand-${i}`} points={pts} color={accentColor} lineWidth={1.5} transparent opacity={0.7} />
+      ))}
+
+      {/* Ring weave lines */}
+      {ringLines.map((pts, i) => (
+        <Line key={`ring-${i}`} points={pts} color={accentLight} lineWidth={0.8} transparent opacity={0.25} />
+      ))}
+
+      {/* Sound waves */}
+      {waveLines.map((pts, i) => (
+        <Line key={`wave-${i}`} points={pts} color={accentColor} lineWidth={1} transparent opacity={0.15 - i * 0.03} />
+      ))}
+
+      {/* Handle */}
+      <Line points={handleLine} color={accentColor} lineWidth={2} transparent opacity={0.6} />
+
+      {/* Small accent nodes at intersections */}
+      {[[-0.3, 0, 0], [0.0, 0, 0], [0.3, 0, 0]].map((pos, i) => (
+        <mesh key={`node-${i}`} position={pos as [number, number, number]}>
+          <sphereGeometry args={[0.02, 8, 8]} />
+          <meshBasicMaterial color={accentLight} transparent opacity={0.6} />
         </mesh>
       ))}
     </group>
@@ -68,12 +114,12 @@ interface Props { accentColor: string; accentLight: string; size?: number; class
 const Palette3D: React.FC<Props> = ({ accentColor, accentLight, size = 140, className = "" }) => (
   <div className={`relative ${className}`} style={{ width: size, height: size }}>
     <div className="absolute inset-0 rounded-full pointer-events-none" style={{ background: `radial-gradient(circle, ${accentColor}25 0%, transparent 70%)`, filter: "blur(12px)" }} />
-    <Canvas camera={{ position: [0, 1.2, 1.8], fov: 42 }} gl={{ antialias: true, alpha: true }} style={{ background: "transparent" }}>
+    <Canvas camera={{ position: [0, 0.3, 2.2], fov: 38 }} gl={{ antialias: true, alpha: true }} style={{ background: "transparent" }}>
       <ambientLight intensity={0.5} />
       <pointLight position={[2, 3, 2]} intensity={0.8} color={accentLight} />
       <pointLight position={[-2, -1, 2]} intensity={0.3} color={accentColor} />
-      <Float speed={2} rotationIntensity={0.25} floatIntensity={0.35}>
-        <PaletteMesh accentColor={accentColor} accentLight={accentLight} />
+      <Float speed={1.5} rotationIntensity={0.15} floatIntensity={0.25}>
+        <MegaphoneMesh accentColor={accentColor} accentLight={accentLight} />
       </Float>
     </Canvas>
   </div>
