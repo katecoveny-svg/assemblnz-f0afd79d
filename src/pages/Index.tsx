@@ -803,7 +803,7 @@ const Index = () => {
               type="submit"
               className="cta-glass-green w-full py-3.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2"
             >
-              Apply for a founding pilot <Send size={14} />
+              Apply for a pilot spot <Send size={14} />
             </button>
             <p className="text-[11px] text-center" style={{ fontFamily: FONT.mono, color: "rgba(255,255,255,0.2)" }}>
               Limited places. We respond within one business day.
