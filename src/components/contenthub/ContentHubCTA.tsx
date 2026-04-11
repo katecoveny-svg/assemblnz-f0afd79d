@@ -14,7 +14,7 @@ const ContentHubCTA = () => (
         className="font-display font-light text-2xl sm:text-4xl halo-heading"
         style={{ color: "hsl(var(--foreground))" }}
       >
-        Five industry kete. One platform. Built in Aotearoa.
+        Less admin. More mahi. Audit-ready outcomes.
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {PLANS.map((plan) => (

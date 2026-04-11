@@ -1,8 +1,8 @@
-# Assembl — Specialist operational workflows for NZ business
+# assembl — Intelligent business solutions for Aotearoa
 # assembl.co.nz
 
-## What Assembl is
-Assembl gives New Zealand businesses specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. We help teams act faster with better information — not replace the people who know the work best.
+## What assembl is
+assembl is an intelligent business platform built in Aotearoa. It increases efficiency, lets people focus on the mahi that counts, and produces signed evidence packs for audits, legal review, and governance. Every workflow ends in a tangible outcome — not a to-do list.
 
 Built in Aotearoa. Grounded in NZ legislation and policy workflows. Every output runs through a tikanga compliance pipeline (Kahu → Tā → Mahara → Mana) with an audit trail.
 

@@ -44,16 +44,15 @@ const ProblemSection = () => (
           className="text-2xl sm:text-4xl tracking-[0.02em] text-foreground mb-4"
           style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
         >
-          Your business runs on <span style={{ color: GOLD }}>NZ law</span>.
+           You're spending more time on <span style={{ color: GOLD }}>admin</span>
           <br />
-          Your tools should too.
+          than on the mahi that counts.
         </h2>
         <p
           className="text-sm max-w-xl mx-auto leading-relaxed"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.6)" }}
         >
-          Most AI tools are trained on American law, American tax codes, and American employment rules.
-          That's not just unhelpful — it's dangerous for Kiwi businesses.
+          Compliance paperwork, employment law updates, audit prep — it piles up fast. assembl handles it and gives you signed evidence packs your auditor and lawyer can actually use.
         </p>
       </motion.div>
 
