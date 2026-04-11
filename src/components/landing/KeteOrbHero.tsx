@@ -136,7 +136,7 @@ function OrbitalRing({ radius, color, speed, tilt }: { radius: number; color: st
   return (
     <mesh ref={ref} rotation={[tilt, 0, 0]}>
       <torusGeometry args={[radius, 0.005, 8, 128]} />
-      <meshBasicMaterial color={color} transparent opacity={0.25} />
+      <meshBasicMaterial color={color} transparent opacity={0.45} />
     </mesh>
   );
 }
