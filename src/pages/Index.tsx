@@ -417,7 +417,7 @@ const Index = () => {
             to="/manaaki"
             className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm"
           >
-            See a sample pack <ArrowRight size={15} />
+            Book a walkthrough <ArrowRight size={15} />
           </Link>
           <Link
             to="/contact"
