@@ -33,7 +33,7 @@ export default function AuahaLayout() {
             </div>
             <div>
               <h2 className="text-white font-light uppercase tracking-[3px] text-sm" style={{ fontFamily: 'Lato, sans-serif' }}>AUAHA</h2>
-              <p className="text-white/50 text-xs" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Creative Intelligence</p>
+              <p className="text-white/50 text-xs" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Creative & Media Studio</p>
             </div>
           </div>
         </div>
