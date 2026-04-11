@@ -4022,6 +4022,57 @@ export type Database = {
         }
         Relationships: []
       }
+      policy_rules: {
+        Row: {
+          applicable_action_types: string[] | null
+          applicable_kete: string[] | null
+          conditions: Json | null
+          created_at: string | null
+          effective_date: string | null
+          expiry_date: string | null
+          id: string
+          legislation_code: string
+          legislation_title: string
+          policy_type: string
+          rule_text: string
+          section: string | null
+          severity: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          applicable_action_types?: string[] | null
+          applicable_kete?: string[] | null
+          conditions?: Json | null
+          created_at?: string | null
+          effective_date?: string | null
+          expiry_date?: string | null
+          id?: string
+          legislation_code: string
+          legislation_title: string
+          policy_type?: string
+          rule_text: string
+          section?: string | null
+          severity?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          applicable_action_types?: string[] | null
+          applicable_kete?: string[] | null
+          conditions?: Json | null
+          created_at?: string | null
+          effective_date?: string | null
+          expiry_date?: string | null
+          id?: string
+          legislation_code?: string
+          legislation_title?: string
+          policy_type?: string
+          rule_text?: string
+          section?: string | null
+          severity?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       proactive_alerts: {
         Row: {
           alert_type: string
@@ -4169,6 +4220,45 @@ export type Database = {
           model_used?: string | null
           response_text?: string
           tokens_saved?: number | null
+        }
+        Relationships: []
+      }
+      routing_log: {
+        Row: {
+          confidence_score: number | null
+          created_at: string | null
+          detected_intent: string | null
+          id: string
+          request_id: string
+          routing_time_ms: number | null
+          selected_agent: string
+          selected_kete: string
+          selected_model: string
+          user_input: string
+        }
+        Insert: {
+          confidence_score?: number | null
+          created_at?: string | null
+          detected_intent?: string | null
+          id?: string
+          request_id: string
+          routing_time_ms?: number | null
+          selected_agent: string
+          selected_kete: string
+          selected_model: string
+          user_input: string
+        }
+        Update: {
+          confidence_score?: number | null
+          created_at?: string | null
+          detected_intent?: string | null
+          id?: string
+          request_id?: string
+          routing_time_ms?: number | null
+          selected_agent?: string
+          selected_kete?: string
+          selected_model?: string
+          user_input?: string
         }
         Relationships: []
       }
