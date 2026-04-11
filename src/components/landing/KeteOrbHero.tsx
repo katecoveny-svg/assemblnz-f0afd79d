@@ -442,14 +442,14 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
     >
       <div
-        className="absolute w-[360px] h-[360px] sm:w-[520px] sm:h-[520px] rounded-full pointer-events-none"
+        className="absolute w-[480px] h-[480px] sm:w-[680px] sm:h-[680px] rounded-full pointer-events-none"
         style={{
           background: "radial-gradient(circle, rgba(58,125,110,0.08) 0%, rgba(212,168,67,0.04) 40%, transparent 70%)",
           filter: "blur(80px)",
         }}
       />
 
-      <div className="relative w-[320px] h-[320px] sm:w-[460px] sm:h-[460px]">
+      <div className="relative w-[420px] h-[420px] sm:w-[600px] sm:h-[600px]">
         <Suspense
           fallback={
             <div className="w-full h-full rounded-full animate-pulse" style={{ background: "rgba(58,125,110,0.06)" }} />
