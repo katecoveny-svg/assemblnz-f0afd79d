@@ -70,12 +70,13 @@ export default function ManaakiLandingPage() {
             className="flex flex-col sm:flex-row items-center gap-4"
             variants={fadeUp} initial="hidden" animate="visible" custom={4}
           >
-            <Link
-              to="/sample/manaaki"
+             <Link
+              to="/manaaki/dashboard"
               className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:opacity-90"
               style={{ background: ACCENT, color: "#09090F" }}
             >
-              See the Manaaki pack <ArrowRight size={16} />
+              Open Manaaki dashboard <ArrowRight size={16} />
+            </Link>
             </Link>
             <Link
               to="/contact"

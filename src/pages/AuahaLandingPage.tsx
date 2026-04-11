@@ -70,12 +70,13 @@ export default function AuahaLandingPage() {
             className="flex flex-col sm:flex-row items-center gap-4"
             variants={fadeUp} initial="hidden" animate="visible" custom={4}
           >
-            <Link
-              to="/sample/auaha"
+             <Link
+              to="/auaha"
               className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:opacity-90"
               style={{ background: ACCENT, color: "#09090F" }}
             >
-              See the Auaha pack <ArrowRight size={16} />
+              Open Auaha studio <ArrowRight size={16} />
+            </Link>
             </Link>
             <Link
               to="/contact"

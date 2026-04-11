@@ -119,7 +119,8 @@ export default function AratakiLandingPage() {
               className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:opacity-90"
               style={{ background: POUNAMU, color: "#fff" }}
             >
-              See the Arataki pack <ArrowRight size={16} />
+              Open Arataki dashboard <ArrowRight size={16} />
+            </Link>
             </Link>
             <Link
               to="/contact"

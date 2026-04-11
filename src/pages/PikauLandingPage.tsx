@@ -77,7 +77,8 @@ export default function PikauLandingPage() {
               className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:opacity-90"
               style={{ background: ACCENT, color: "#09090F" }}
             >
-              See the Pikau pack <ArrowRight size={16} />
+              Open Pikau dashboard <ArrowRight size={16} />
+            </Link>
             </Link>
             <Link
               to="/contact"
