@@ -46,7 +46,7 @@ function ParticleSphere() {
       col[i * 3 + 1] = c.g;
       col[i * 3 + 2] = c.b;
 
-      sz[i] = 3 + Math.random() * 5;
+      sz[i] = 1.5 + Math.random() * 2;
     }
 
     return { positions: pos, colors: col, sizes: sz };
@@ -101,7 +101,7 @@ function ParticleSphere() {
       float d = length(gl_PointCoord - vec2(0.5));
       if (d > 0.5) discard;
       float alpha = 1.0 - smoothstep(0.0, 0.5, d);
-      gl_FragColor = vec4(vColor * 1.2, alpha * 0.5);
+      gl_FragColor = vec4(vColor * 1.3, alpha * 0.3);
     }
   `;
 
