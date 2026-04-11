@@ -113,7 +113,7 @@ const PACKS: {
  { reo: "Auaha", en: "Creative & Media", desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio.", color: "#D4A843", accentLight: "#E8C76A", to: "/auaha/about" },
  { reo: "Arataki", en: "Automotive", desc: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped across DMS, CRM, and OEM portals.", color: "#E8E8E8", accentLight: "#D8D8D8", to: "/arataki" },
  { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#7ECFC2", accentLight: "#A8E6DA", to: "/pikau" },
- { reo: "Toro", en: "Family Navigator", desc: "SMS-first whānau coordination. School notices, kai plans, appointments, budgets — no app needed.", color: "#87CEEB", accentLight: "#AEE0F7", to: "/toroa" },
+ 
 ];
 
 const PIPELINE_STAGES = [
@@ -299,12 +299,7 @@ const Index = () => {
                     className="absolute top-0 left-[14%] right-[14%] h-px"
                     style={{ background: `linear-gradient(90deg, transparent, ${p.color}55, transparent)` }}
                   />
-                  {p.reo === "Toro" ? (
-                    <div className="flex h-full w-full items-center justify-center" style={{ filter: 'drop-shadow(0 0 18px rgba(135,206,235,0.35))' }}>
-                      <ToroBirdIcon size={isMobile ? 44 : 54} color="#87CEEB" />
-                    </div>
-                  ) : (
-                    <KeteIcon
+                  <KeteIcon
                       name={p.reo}
                       accentColor={p.color}
                       accentLight={p.accentLight}
@@ -322,7 +317,6 @@ const Index = () => {
                       size="small"
                       animated
                     />
-                  )}
                 </div>
                 <div className="flex flex-col items-center gap-0.5">
                   <span
@@ -616,15 +610,9 @@ const Index = () => {
               <LiquidGlassCard key={p.reo} className="h-full" accentColor={p.color} delay={i * 0.08}>
                 <Link to={p.to} className="block h-full group p-7">
                   <div className="flex items-center gap-4 mb-5">
-                    {p.reo === "Toro" ? (
-                      <div className="w-16 h-16 flex items-center justify-center rounded-xl" style={{ background: `${p.color}10`, border: `1px solid ${p.color}20` }}>
-                        <ToroBirdIcon size={48} color={p.color} />
-                      </div>
-                    ) : (
-                      <Suspense fallback={<KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
+                    <Suspense fallback={<KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
                         <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={64} />
                       </Suspense>
-                    )}
                     <div>
                       <p className="text-[10px] uppercase tracking-[3px]" style={{ fontFamily: FONT.mono, color: p.color }}>
                         {p.en}
@@ -645,6 +633,50 @@ const Index = () => {
               </LiquidGlassCard>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ═══ 6b — TORO — FAMILY NAVIGATOR ═══ */}
+      <section className={`${SEC} relative z-10`}>
+        <div className={INNER}>
+          <motion.div {...fade}>
+            <LiquidGlassCard className="overflow-hidden" accentColor="#87CEEB" glassIntensity="strong">
+              <div className="flex flex-col md:flex-row items-center gap-8 p-8 sm:p-12">
+                <div className="flex-shrink-0 flex items-center justify-center w-28 h-28 rounded-2xl"
+                  style={{
+                    background: "rgba(135,206,235,0.06)",
+                    border: "1px solid rgba(135,206,235,0.15)",
+                    boxShadow: "0 0 40px rgba(135,206,235,0.1)",
+                  }}>
+                  <ToroBirdIcon size={64} color="#87CEEB" />
+                </div>
+                <div className="flex-1 text-center md:text-left">
+                  <p className="text-[10px] uppercase tracking-[3px] mb-2" style={{ fontFamily: FONT.mono, color: "#87CEEB" }}>
+                    TORO · FAMILY NAVIGATOR
+                  </p>
+                  <h3 className="text-2xl sm:text-3xl mb-3" style={{ fontFamily: FONT.heading, fontWeight: 300, color: C.white, letterSpacing: "1px" }}>
+                    Your family's admin, handled over text.
+                  </h3>
+                  <Body className="max-w-lg mb-6">
+                    School notices, meal planning, appointments, budgets — coordinated across your whānau over SMS. No app to download. No passwords. Just text.
+                  </Body>
+                  <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+                    <Link
+                      to="/toroa"
+                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium transition-all hover:gap-3"
+                      style={{ background: "rgba(135,206,235,0.12)", border: "1px solid rgba(135,206,235,0.25)", color: "#87CEEB", fontFamily: FONT.body }}
+                    >
+                      Explore Toro <ArrowRight size={13} />
+                    </Link>
+                    <span className="inline-flex items-center px-4 py-2.5 rounded-full text-[11px]"
+                      style={{ fontFamily: FONT.mono, color: "rgba(135,206,235,0.6)", background: "rgba(135,206,235,0.04)", border: "1px solid rgba(135,206,235,0.1)" }}>
+                      $29/mo · No setup fee
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </LiquidGlassCard>
+          </motion.div>
         </div>
       </section>
 
