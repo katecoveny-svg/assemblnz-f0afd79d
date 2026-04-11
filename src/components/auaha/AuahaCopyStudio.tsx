@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { PenTool, Sparkles, Copy, ArrowDown, ArrowUp, Zap, Image } from "lucide-react";
+import { PenTool, Sparkles, Copy, ArrowDown, ArrowUp, Zap, Image, Save, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { agentChat } from "@/lib/agentChat";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ACCENT = "#F0D078";
 
@@ -30,11 +31,15 @@ export default function AuahaCopyStudio() {
   const [length, setLength] = useState<"short" | "medium" | "long">("medium");
   const [output, setOutput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const queryClient = useQueryClient();
 
   const generate = async () => {
     if (!topic.trim()) return toast.error("Enter a topic or brief");
     setIsGenerating(true);
     setOutput("");
+    setSaved(false);
 
     try {
       const full = await agentChat({
@@ -44,6 +49,25 @@ export default function AuahaCopyStudio() {
       });
       setOutput(full);
       toast.success("MUSE has crafted your copy");
+
+      // Auto-save as content item
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await supabase.from("content_items").insert({
+          user_id: user.id,
+          title: `${contentType}: ${topic.slice(0, 60)}`,
+          content_type: contentType.toLowerCase().replace(/\s+/g, "_"),
+          platform: contentType.split(" ")[0],
+          tone,
+          body: full,
+          pipeline_stage: "copy",
+          agent_attribution: "MUSE",
+          metadata: { length, topic },
+        });
+        queryClient.invalidateQueries({ queryKey: ["auaha-pipeline-counts"] });
+        queryClient.invalidateQueries({ queryKey: ["auaha-recent-content"] });
+        queryClient.invalidateQueries({ queryKey: ["auaha-dashboard-metrics"] });
+      }
     } catch (e: any) {
       toast.error(e.message || "Generation failed");
     } finally {
@@ -54,6 +78,7 @@ export default function AuahaCopyStudio() {
   const refine = async (instruction: string) => {
     if (!output) return;
     setIsGenerating(true);
+    setSaved(false);
     try {
       const full = await agentChat({
         agentId: "muse",
@@ -66,6 +91,30 @@ export default function AuahaCopyStudio() {
       toast.error(e.message);
     } finally {
       setIsGenerating(false);
+    }
+  };
+
+  const saveToLibrary = async () => {
+    if (!output) return;
+    setIsSaving(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Sign in to save");
+      await supabase.from("exported_outputs").insert({
+        user_id: user.id,
+        agent_id: "muse",
+        agent_name: "MUSE",
+        title: `${contentType}: ${topic.slice(0, 60)}`,
+        content_preview: output.slice(0, 500),
+        output_type: "copy",
+        format: contentType.toLowerCase().replace(/\s+/g, "_"),
+      });
+      setSaved(true);
+      toast.success("Saved to your content library");
+    } catch (e: any) {
+      toast.error(e.message || "Save failed");
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -145,11 +194,24 @@ export default function AuahaCopyStudio() {
         <GlassCard className="p-6 space-y-4">
           <div className="flex items-center justify-between">
             <span className="text-white/60 text-xs uppercase tracking-[2px]">Output</span>
-            {output && (
-              <button onClick={() => { navigator.clipboard.writeText(output); toast.success("Copied"); }} className="text-white/30 hover:text-white/60">
-                <Copy className="w-4 h-4" />
-              </button>
-            )}
+            <div className="flex items-center gap-2">
+              {output && (
+                <>
+                  <button onClick={() => { navigator.clipboard.writeText(output); toast.success("Copied"); }} className="text-white/30 hover:text-white/60">
+                    <Copy className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={saveToLibrary}
+                    disabled={isSaving || saved}
+                    className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full transition-all"
+                    style={saved ? { background: "rgba(52,211,153,0.15)", color: "#34d399" } : { background: `${ACCENT}15`, color: ACCENT }}
+                  >
+                    {saved ? <Check className="w-3 h-3" /> : <Save className="w-3 h-3" />}
+                    {saved ? "Saved" : isSaving ? "Saving..." : "Save"}
+                  </button>
+                </>
+              )}
+            </div>
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 min-h-[200px] text-white/80 text-sm whitespace-pre-wrap" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
@@ -175,7 +237,7 @@ export default function AuahaCopyStudio() {
 
           {output && (
             <p className="text-white/20 text-[10px]">
-              {output.length} characters • {contentType}
+              {output.length} characters • {contentType} • Auto-saved to pipeline
             </p>
           )}
         </GlassCard>

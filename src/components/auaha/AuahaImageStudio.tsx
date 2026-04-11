@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Image, Sparkles, Download, RefreshCw, Wand2, Video, Calendar, Copy, Star, Layers } from "lucide-react";
+import { Image, Sparkles, Download, RefreshCw, Wand2, Video, Calendar, Copy, Star, Layers, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ACCENT = "#F0D078";
 
@@ -36,6 +37,7 @@ function GlassCard({ children, className = "", accent = false }: { children: Rea
 
 export default function AuahaImageStudio() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [prompt, setPrompt] = useState("");
   const [style, setStyle] = useState("Photorealistic");
   const [platform, setPlatform] = useState(PLATFORMS[0]);
@@ -72,6 +74,22 @@ export default function AuahaImageStudio() {
           const newImg = { url: data.imageUrl, provider: data.provider || "lovable", prompt: fullPrompt };
           setImages((prev) => [newImg, ...prev]);
           if (i === 0) setSelectedIdx(0);
+
+          // Persist to creative_assets
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user) {
+            await supabase.from("creative_assets").insert({
+              user_id: user.id,
+              asset_type: "image",
+              file_url: data.imageUrl,
+              prompt: fullPrompt,
+              style,
+              platform: platform.label,
+              metadata: { provider: data.provider || "lovable", quality },
+            });
+            queryClient.invalidateQueries({ queryKey: ["auaha-assets"] });
+            queryClient.invalidateQueries({ queryKey: ["auaha-dashboard-metrics"] });
+          }
         }
         if (i < variationCount - 1) await new Promise(r => setTimeout(r, 800));
       }

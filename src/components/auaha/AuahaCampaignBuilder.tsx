@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Megaphone, ArrowRight, ArrowLeft, Sparkles, Check, Copy, Image, Video, Calendar } from "lucide-react";
+import { Megaphone, ArrowRight, ArrowLeft, Sparkles, Check, Copy, Image, Video, Calendar, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { agentChat } from "@/lib/agentChat";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ACCENT = "#F0D078";
 const OBJECTIVES = ["Brand Awareness", "Lead Generation", "Sales", "Event Promotion", "Thought Leadership", "Product Launch"];
@@ -25,17 +26,45 @@ export default function AuahaCampaignBuilder() {
   const [brief, setBrief] = useState({ name: "", objective: "", audience: "", message: "", platforms: [] as string[], tone: "", budget: "" });
   const [generatedCopy, setGeneratedCopy] = useState<Record<string, string>>({});
   const [isGenerating, setIsGenerating] = useState(false);
+  const [campaignId, setCampaignId] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+
+  const saveCampaignToDB = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error("Sign in required");
+
+    const { data, error } = await supabase.from("campaigns").insert({
+      user_id: user.id,
+      name: brief.name,
+      goal: brief.objective,
+      audience: brief.audience,
+      tone: brief.tone,
+      platforms: brief.platforms,
+      pipeline_step: "brief",
+      status: "draft",
+      body_json: { message: brief.message, budget: brief.budget },
+    }).select("id").single();
+
+    if (error) throw error;
+    setCampaignId(data.id);
+    queryClient.invalidateQueries({ queryKey: ["auaha-campaigns"] });
+    queryClient.invalidateQueries({ queryKey: ["auaha-dashboard-metrics"] });
+    return data.id;
+  };
 
   const generateCopy = async () => {
     setIsGenerating(true);
     try {
+      // Save brief to DB first
+      const id = await saveCampaignToDB();
+
       const full = await agentChat({
         agentId: "muse",
         packId: "auaha",
         message: `Create copy for a ${brief.objective} campaign.\nBrand message: ${brief.message}\nAudience: ${brief.audience}\nTone: ${brief.tone}\nPlatforms: ${brief.platforms.join(", ")}\n\nRULES: No buzzwords, no "unlock/transform/leverage/seamless". Be specific, punchy, Kiwi voice. Hook first sentence. NZ English.\n\nFor EACH platform, write a post with appropriate length and hashtags. Format as:\n\n**[Platform Name]**\n[copy here]\n\nHashtags: #tag1 #tag2`,
       });
 
-      // Split by platform
+      // Parse platform copy
       const copy: Record<string, string> = {};
       for (const p of brief.platforms) {
         const regex = new RegExp(`\\*\\*${p}\\*\\*\\n([\\s\\S]*?)(?=\\*\\*|$)`, "i");
@@ -43,13 +72,61 @@ export default function AuahaCampaignBuilder() {
         copy[p] = match ? match[1].trim() : `Copy for ${p} — regenerate to try again.`;
       }
       setGeneratedCopy(copy);
+
+      // Update campaign with copy and advance pipeline
+      await supabase.from("campaigns").update({
+        body_json: { message: brief.message, budget: brief.budget, copy },
+        pipeline_step: "copy",
+      }).eq("id", id);
+
+      // Save each platform's copy as a content item
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const items = brief.platforms.map((p) => ({
+          user_id: user.id,
+          campaign_id: id,
+          title: `${brief.name} — ${p}`,
+          content_type: "campaign_post",
+          platform: p,
+          tone: brief.tone,
+          body: copy[p] || "",
+          pipeline_stage: "copy",
+          agent_attribution: "MUSE",
+        }));
+        await supabase.from("content_items").insert(items);
+        queryClient.invalidateQueries({ queryKey: ["auaha-pipeline-counts"] });
+        queryClient.invalidateQueries({ queryKey: ["auaha-recent-content"] });
+      }
+
       setStep(1);
-      toast.success("MUSE generated copy for " + brief.platforms.length + " platforms");
+      toast.success("Campaign saved & copy generated for " + brief.platforms.length + " platforms");
     } catch (e: any) {
       toast.error(e.message || "Copy generation failed");
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const advancePipeline = async (nextStep: number) => {
+    const stageMap = ["brief", "copy", "design", "video", "schedule", "approve"];
+    if (campaignId) {
+      await supabase.from("campaigns").update({ pipeline_step: stageMap[nextStep] || "approve" }).eq("id", campaignId);
+      // Advance all content items for this campaign
+      await supabase.from("content_items").update({ pipeline_stage: stageMap[nextStep] || "approve" }).eq("campaign_id", campaignId);
+      queryClient.invalidateQueries({ queryKey: ["auaha-pipeline-counts"] });
+    }
+    setStep(nextStep);
+  };
+
+  const finalizeCampaign = async () => {
+    if (campaignId) {
+      await supabase.from("campaigns").update({ status: "active", pipeline_step: "analyse" }).eq("id", campaignId);
+      await supabase.from("content_items").update({ pipeline_stage: "analyse" }).eq("campaign_id", campaignId);
+      queryClient.invalidateQueries({ queryKey: ["auaha-campaigns"] });
+      queryClient.invalidateQueries({ queryKey: ["auaha-pipeline-counts"] });
+      queryClient.invalidateQueries({ queryKey: ["auaha-dashboard-metrics"] });
+    }
+    toast.success("Campaign finalised and tracking!");
   };
 
   return (
@@ -173,7 +250,7 @@ export default function AuahaCampaignBuilder() {
             className="mt-4"
             style={{ background: ACCENT, color: "#000" }}
           >
-            {isGenerating ? "MUSE is writing..." : "Generate Campaign Plan"}
+            {isGenerating ? "Saving brief & generating copy..." : "Generate Campaign Plan"}
             <Sparkles className="w-4 h-4 ml-2" />
           </Button>
         </GlassCard>
@@ -215,14 +292,14 @@ export default function AuahaCampaignBuilder() {
             <Button variant="outline" onClick={() => setStep(0)} className="border-white/10 text-white/60">
               <ArrowLeft className="w-4 h-4 mr-2" /> Back
             </Button>
-            <Button onClick={() => { setStep(2); toast.success("Moving to design phase"); }} style={{ background: ACCENT, color: "#000" }}>
+            <Button onClick={() => { advancePipeline(2); toast.success("Moving to design phase"); }} style={{ background: ACCENT, color: "#000" }}>
               Continue to Design <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
         </div>
       )}
 
-      {/* Step 2-5 — Placeholder cards */}
+      {/* Step 2-5 — Interactive steps */}
       {step >= 2 && (
         <GlassCard className="p-8 text-center">
           <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
@@ -238,18 +315,21 @@ export default function AuahaCampaignBuilder() {
             {step === 4 && "RHYTHM will suggest optimal posting times and manage your content calendar."}
             {step === 5 && "Review all content before publishing. Everything looks great!"}
           </p>
+          {campaignId && (
+            <p className="text-white/20 text-[10px] mt-2 font-mono">Campaign ID: {campaignId.slice(0, 8)}… • Pipeline: {STEPS[step].toLowerCase()}</p>
+          )}
           <div className="flex gap-3 justify-center mt-6">
-            <Button variant="outline" onClick={() => setStep(step - 1)} className="border-white/10 text-white/60">
+            <Button variant="outline" onClick={() => advancePipeline(step - 1)} className="border-white/10 text-white/60">
               <ArrowLeft className="w-4 h-4 mr-2" /> Back
             </Button>
             {step < 5 && (
-              <Button onClick={() => setStep(step + 1)} style={{ background: ACCENT, color: "#000" }}>
+              <Button onClick={() => advancePipeline(step + 1)} style={{ background: ACCENT, color: "#000" }}>
                 Next <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             )}
             {step === 5 && (
-              <Button onClick={() => toast.success("Campaign saved!")} style={{ background: ACCENT, color: "#000" }}>
-                Save Campaign <Check className="w-4 h-4 ml-2" />
+              <Button onClick={finalizeCampaign} style={{ background: ACCENT, color: "#000" }}>
+                Finalise Campaign <Check className="w-4 h-4 ml-2" />
               </Button>
             )}
           </div>

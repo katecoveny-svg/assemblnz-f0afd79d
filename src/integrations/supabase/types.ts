@@ -1760,6 +1760,62 @@ export type Database = {
         }
         Relationships: []
       }
+      content_items: {
+        Row: {
+          agent_attribution: string | null
+          body: string | null
+          campaign_id: string | null
+          content_type: string
+          created_at: string
+          id: string
+          metadata: Json | null
+          pipeline_stage: string
+          platform: string | null
+          title: string
+          tone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          agent_attribution?: string | null
+          body?: string | null
+          campaign_id?: string | null
+          content_type?: string
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          pipeline_stage?: string
+          platform?: string | null
+          title: string
+          tone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          agent_attribution?: string | null
+          body?: string | null
+          campaign_id?: string | null
+          content_type?: string
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          pipeline_stage?: string
+          platform?: string | null
+          title?: string
+          tone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_items_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       conversation_summaries: {
         Row: {
           agent_id: string
