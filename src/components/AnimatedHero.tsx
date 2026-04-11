@@ -617,7 +617,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.45 }}
             >
-              From $199/mo + GST. 14-day free trial — no credit card required.
+              From $590/mo + GST. See it in action — book a walkthrough.
             </motion.p>
 
             {/* Proof strip */}

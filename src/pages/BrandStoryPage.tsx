@@ -473,7 +473,7 @@ const BrandStoryPage = () => {
                   marginBottom: "6px",
                 }}
               >
-                Kate Harland
+                Kate Hudson
               </h3>
               <p style={{ ...T.mono, color: C.pounamu, marginBottom: "4px" }}>Founder & CEO, Assembl</p>
               <p style={{ ...T.mono, color: C.white40, marginBottom: "24px" }}>Auckland, Aotearoa New Zealand</p>
@@ -518,7 +518,7 @@ const BrandStoryPage = () => {
                   "I built Assembl because I couldn't find a single tool that understood NZ law,
                   NZ culture, and NZ business at the same time. So I made it."
                 </p>
-                <footer style={{ ...T.mono, color: C.white40 }}>— Kate Harland, Founder</footer>
+                <footer style={{ ...T.mono, color: C.white40 }}>— Kate Hudson, Founder</footer>
               </blockquote>
 
               <p style={{ ...T.body, marginBottom: "20px" }}>
