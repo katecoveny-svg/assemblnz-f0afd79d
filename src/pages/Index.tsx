@@ -683,7 +683,7 @@ const Index = () => {
         <div className={INNER}>
           <motion.div {...fade} className="text-center mb-16">
             <Eyebrow>PRICING</Eyebrow>
-            <SectionHeading>Pricing that fits an NZ small business.</SectionHeading>
+            <SectionHeading>Pricing that fits a NZ small business.</SectionHeading>
             <Body className="max-w-lg mx-auto">
               Monthly billing. 30-day notice. NZD ex GST (15% added at invoice). Setup fees can split across the first three invoices on request.
             </Body>
