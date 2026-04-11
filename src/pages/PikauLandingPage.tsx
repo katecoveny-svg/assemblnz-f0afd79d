@@ -23,8 +23,8 @@ export default function PikauLandingPage() {
     <GlowPageWrapper accentColor={ACCENT}>
       <div style={{ background: BG, minHeight: "100vh", color: "#fff" }}>
         <SEO
-          title="Pikau — Security & Governance | Assembl"
-          description="The security and governance pack your enterprise buyer will ask for before the MSA lands. NZISM control mapping, built for NZ tech teams."
+          title="Pikau — Freight & Customs | Assembl"
+          description="Customs entries, freight quotes, dangerous goods checks — border compliance without the scramble. Built for NZ importers and logistics teams."
         />
         <BrandNav />
 
@@ -47,7 +47,7 @@ export default function PikauLandingPage() {
             animate="visible"
             custom={1}
           >
-            The security and governance pack your enterprise buyer will ask for before the MSA lands.
+            Customs entries, freight quotes, and dangerous goods checks — border compliance without the scramble.
           </motion.h1>
 
           <motion.p
@@ -58,7 +58,7 @@ export default function PikauLandingPage() {
             animate="visible"
             custom={2}
           >
-            AI for NZ tech teams.
+            AI for NZ importers and logistics teams.
           </motion.p>
 
           <motion.p
@@ -69,7 +69,7 @@ export default function PikauLandingPage() {
             animate="visible"
             custom={3}
           >
-            NZISM control mapping, compliance documentation, and security governance — packed, signed, and ready to send to procurement.
+            HS code validation, incoterm handling, landed cost analysis, and broker hand-off — packed, checked, and ready to clear.
           </motion.p>
 
           <motion.div
@@ -84,14 +84,14 @@ export default function PikauLandingPage() {
               className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:opacity-90"
               style={{ background: ACCENT, color: "#09090F" }}
             >
-              See the PIKAU pack <ArrowRight size={16} />
+              See the Pikau pack <ArrowRight size={16} />
             </Link>
             <Link
               to="/contact"
               className="px-8 py-3 rounded-full text-sm font-medium transition-colors"
               style={{ color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.1)" }}
             >
-              Book a security walk-through
+              Book a freight walk-through
             </Link>
           </motion.div>
         </main>
