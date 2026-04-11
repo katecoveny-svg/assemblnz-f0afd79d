@@ -605,7 +605,7 @@ const Index = () => {
         <div className={INNER}>
           <motion.div {...fade} className="text-center mb-16">
             <Eyebrow>INDUSTRY KETE</Eyebrow>
-            <SectionHeading>Five kete. Five sectors.<br />Specialist digital workers.</SectionHeading>
+            <SectionHeading>Specialist digital workflows<br />for five NZ industry sectors.</SectionHeading>
             <Body className="max-w-xl mx-auto">
               Each kete carries the legislation, workflows and terminology its industry actually uses. Specialist digital workers that operate inside defined permissions — not a generic chatbot pretending to know everything.
             </Body>
