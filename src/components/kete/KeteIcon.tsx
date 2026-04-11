@@ -18,15 +18,30 @@ const KeteIcon: React.FC<KeteIconProps> = ({
 }) => {
   const sizeMap = { small: "w-20 h-20", medium: "w-40 h-44", large: "w-56 h-64" };
 
+  // Helper: get the x-extent of the basket at a given y
+  // Basket path: M 40 80 Q 40 180 100 190 Q 160 180 160 80
+  // Left edge: quadratic from (40,80) ctrl (40,180) to (100,190)
+  // Right edge: quadratic from (100,190) ctrl (160,180) to (160,80)
+  const basketX = (y: number): [number, number] => {
+    if (y <= 80) return [40, 160];
+    if (y >= 190) return [100, 100];
+    // Solve for t: y = (1-t)^2*80 + 2*(1-t)*t*180 + t^2*190
+    // Approximate with linear interpolation for simplicity
+    const t = (y - 80) / (190 - 80);
+    const leftX = (1 - t) * (1 - t) * 40 + 2 * (1 - t) * t * 40 + t * t * 100;
+    const rightX = (1 - t) * (1 - t) * 160 + 2 * (1 - t) * t * 160 + t * t * 100;
+    return [leftX + 4, rightX - 4];
+  };
+
   const hRows =
-    variant === "organic" ? [100, 120, 140, 160] :
+    variant === "organic" ? [95, 115, 135, 155] :
     variant === "dense" ? [90, 105, 120, 135, 150, 165] :
-    [100, 125, 150, 175];
+    [95, 120, 145, 170];
 
   const vCols =
     variant === "dense" ? [65, 80, 95, 110, 125, 140, 155] :
-    variant === "tricolor" ? [70, 100, 130] :
-    [65, 100, 135];
+    variant === "tricolor" ? [75, 100, 125] :
+    [75, 100, 125];
 
   const tricolors = [accentColor, accentLight, "#3A7D6E", accentColor];
 
@@ -76,14 +91,14 @@ const KeteIcon: React.FC<KeteIconProps> = ({
 
         {/* Horizontal weave strands — 1.5px as specified */}
         {hRows.map((y, i) => {
-          const inset = Math.max(0, i * 2);
+          const [lx, rx] = basketX(y);
           const col = variant === "tricolor" ? tricolors[i % tricolors.length] : accentColor;
           const delay = animated ? `${0.1 + i * 0.08}s` : undefined;
 
           return variant === "organic" ? (
             <path
               key={`h-${y}`}
-              d={`M ${50 - inset} ${y} Q 100 ${y - 2} ${150 + inset} ${y}`}
+              d={`M ${lx} ${y} Q 100 ${y - 2} ${rx} ${y}`}
               stroke={col}
               strokeWidth="1.5"
               fill="none"
@@ -94,8 +109,8 @@ const KeteIcon: React.FC<KeteIconProps> = ({
           ) : (
             <line
               key={`h-${y}`}
-              x1={50 - inset} y1={y}
-              x2={150 + inset} y2={y}
+              x1={lx} y1={y}
+              x2={rx} y2={y}
               stroke={col}
               strokeWidth="1.5"
               opacity={variant === "dense" ? 0.75 : 0.85}
@@ -105,16 +120,20 @@ const KeteIcon: React.FC<KeteIconProps> = ({
           );
         })}
 
-        {/* Vertical weave strands */}
+        {/* Vertical weave strands — clipped to basket */}
         {vCols.map((x, i) => {
           const col = variant === "tricolor" ? tricolors[i % tricolors.length] : accentColor;
           const delay = animated ? `${0.4 + i * 0.1}s` : undefined;
+          // Find the y range where this x is inside the basket
+          const yStart = 82;
+          // Find bottom y where basket edge reaches this x
+          const yEnd = Math.min(185, 80 + ((x >= 100 ? (160 - x) : (x - 40)) / 60) * 110);
 
           return (
             <line
               key={`v-${x}`}
-              x1={x} y1="85"
-              x2={x} y2="175"
+              x1={x} y1={yStart}
+              x2={x} y2={yEnd}
               stroke={col}
               strokeWidth="1.5"
               opacity={variant === "dense" ? 0.75 : 0.85}
@@ -124,20 +143,24 @@ const KeteIcon: React.FC<KeteIconProps> = ({
           );
         })}
 
-        {/* Constellation nodes — larger r=3 as specified */}
-        {hRows.map((y, yi) =>
-          vCols.map((x, xi) => (
-            <circle
-              key={`d-${x}-${y}`}
-              cx={x} cy={y}
-              r={variant === "dense" ? 2 : 3}
-              fill={accentColor}
-              opacity="0.8"
-              className={animated ? "kete-glow-dot" : ""}
-              style={animated ? { animationDelay: `${(yi * vCols.length + xi) * 0.15}s` } : undefined}
-            />
-          ))
-        )}
+        {/* Constellation nodes — only render if inside basket */}
+        {hRows.map((y, yi) => {
+          const [lx, rx] = basketX(y);
+          return vCols.map((x, xi) => {
+            if (x < lx || x > rx) return null;
+            return (
+              <circle
+                key={`d-${x}-${y}`}
+                cx={x} cy={y}
+                r={variant === "dense" ? 2 : 3}
+                fill={accentColor}
+                opacity="0.8"
+                className={animated ? "kete-glow-dot" : ""}
+                style={animated ? { animationDelay: `${(yi * vCols.length + xi) * 0.15}s` } : undefined}
+              />
+            );
+          });
+        })}
 
         {/* Outer constellation marks — decorative stars */}
         <circle cx="30" cy="60" r="2" fill={accentLight} opacity="0.4" className={animated ? "kete-glow-dot" : ""} />
