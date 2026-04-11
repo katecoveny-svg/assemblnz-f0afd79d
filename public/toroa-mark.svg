@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Tōroa mark — albatross wing with guiding star">
+  <defs>
+    <linearGradient id="ocean" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1f2a"/>
+      <stop offset="100%" stop-color="#133449"/>
+    </linearGradient>
+    <linearGradient id="dawn" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f5c26b"/>
+      <stop offset="55%" stop-color="#f2b24a"/>
+      <stop offset="100%" stop-color="#e89a28"/>
+    </linearGradient>
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff4d6" stop-opacity="1"/>
+      <stop offset="40%" stop-color="#f5c26b" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#f5c26b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Oceanic disc -->
+  <circle cx="128" cy="128" r="120" fill="url(#ocean)"/>
+  <circle cx="128" cy="128" r="120" fill="none" stroke="#f5c26b" stroke-opacity="0.25" stroke-width="1.5"/>
+
+  <!-- Soft horizon glow -->
+  <ellipse cx="128" cy="170" rx="110" ry="22" fill="#f5c26b" opacity="0.08"/>
+
+  <!-- Albatross wing arc — single sweeping curve -->
+  <path d="M 36 148 Q 96 70 152 92 Q 192 108 220 138"
+        fill="none"
+        stroke="url(#dawn)"
+        stroke-width="9"
+        stroke-linecap="round"/>
+
+  <!-- Secondary feather stroke for depth -->
+  <path d="M 60 150 Q 108 100 156 112 Q 186 122 206 142"
+        fill="none"
+        stroke="#f5c26b"
+        stroke-opacity="0.35"
+        stroke-width="3"
+        stroke-linecap="round"/>
+
+  <!-- Guiding star glow -->
+  <circle cx="178" cy="76" r="22" fill="url(#starGlow)"/>
+  <!-- Star proper (four-point) -->
+  <path d="M 178 60 L 182 76 L 198 80 L 182 84 L 178 100 L 174 84 L 158 80 L 174 76 Z"
+        fill="#fff4d6"/>
+  <circle cx="178" cy="80" r="2.5" fill="#fff"/>
+</svg>
