@@ -22,44 +22,45 @@ const METRICS = [
 ];
 
 const PIPELINE_STEPS = [
-  { label: "Brief", count: 3, color: "#F0D078", agent: "MUSE" },
-  { label: "Copy", count: 5, color: "#D4A843", agent: "MUSE + VERSE" },
-  { label: "Design", count: 4, color: "#5AADA0", agent: "PIXEL + CHROMATIC" },
-  { label: "Video", count: 2, color: "#3A7D6E", agent: "ECHO + FLUX" },
-  { label: "Schedule", count: 6, color: "#3A6A9C", agent: "RHYTHM" },
-  { label: "Publish", count: 8, color: "#1A3A5C", agent: "RHYTHM" },
-  { label: "Analyse", count: 12, color: "#F0D078", agent: "MUSE + RHYTHM" },
-  { label: "Iterate", count: 1, color: "#D4A843", agent: "All" },
+  { label: "Brief", count: 3, color: "#F0D078", agent: "Rautaki" },
+  { label: "Copy", count: 5, color: "#D4A843", agent: "Kōrero" },
+  { label: "Compliance", count: 4, color: "#5AADA0", agent: "Mana Kupu" },
+  { label: "Design", count: 2, color: "#3A7D6E", agent: "Toi" },
+  { label: "Schedule", count: 6, color: "#3A6A9C", agent: "Whakahaere" },
+  { label: "Approve", count: 8, color: "#1A3A5C", agent: "Studio Director" },
+  { label: "Analyse", count: 12, color: "#F0D078", agent: "Aro" },
+  { label: "Iterate", count: 1, color: "#D4A843", agent: "Rautaki → all" },
 ];
 
 const QUICK_LAUNCH = [
-  { label: "Campaign Builder", desc: "Brief → publish in one flow", icon: Megaphone, route: "/auaha/campaign" },
-  { label: "Copy Studio", desc: "MUSE writes sharp copy", icon: PenTool, route: "/auaha/copy" },
-  { label: "Image Studio", desc: "PIXEL + Fal.ai + Runway", icon: Image, route: "/auaha/images" },
-  { label: "Video Studio", desc: "Kling & Gen-3 Alpha", icon: Video, route: "/auaha/video" },
+  { label: "Campaign Brief", desc: "Rautaki sequences the team", icon: Megaphone, route: "/auaha/campaign" },
+  { label: "Copy Studio", desc: "Kōrero drafts sharp copy", icon: PenTool, route: "/auaha/copy" },
+  { label: "Image Studio", desc: "Toi + Fal.ai + Runway", icon: Image, route: "/auaha/images" },
+  { label: "Video Studio", desc: "Toi visual production", icon: Video, route: "/auaha/video" },
   { label: "Podcast Studio", desc: "Record with AI co-host", icon: Mic, route: "/auaha/podcast" },
-  { label: "Ad Manager", desc: "Meta + TikTok + Loop", icon: Megaphone, route: "/auaha/ads" },
-  { label: "Content Calendar", desc: "Schedule via Buffer", icon: Calendar, route: "/auaha/calendar" },
-  { label: "Analytics Hub", desc: "All platforms unified", icon: BarChart3, route: "/auaha/analytics" },
+  { label: "Ad Manager", desc: "Read-only connectors at pilot", icon: Megaphone, route: "/auaha/ads" },
+  { label: "Content Calendar", desc: "Whakahaere schedules drafts", icon: Calendar, route: "/auaha/calendar" },
+  { label: "Analytics Hub", desc: "Aro closes the loop", icon: BarChart3, route: "/auaha/analytics" },
 ];
 
 const AGENTS = [
-  { name: "PRISM", role: "Brand", icon: Palette, status: "monitoring" },
-  { name: "MUSE", role: "Content", icon: PenTool, status: "active" },
-  { name: "PIXEL", role: "Design", icon: Image, status: "active" },
-  { name: "VERSE", role: "Audio", icon: Mic, status: "standby" },
-  { name: "ECHO", role: "Video", icon: Video, status: "active" },
-  { name: "FLUX", role: "Animation", icon: Video, status: "standby" },
-  { name: "CHROMATIC", role: "Colour", icon: Pipette, status: "monitoring" },
-  { name: "RHYTHM", role: "Production", icon: Timer, status: "active" },
+  { name: "Studio Director", role: "Orchestrator", icon: Zap, status: "active" },
+  { name: "Rautaki", role: "Strategy", icon: Megaphone, status: "active" },
+  { name: "Kōrero", role: "Content", icon: PenTool, status: "active" },
+  { name: "Mana Kupu", role: "Compliance", icon: Palette, status: "monitoring" },
+  { name: "Toi", role: "Creative", icon: Image, status: "active" },
+  { name: "Whakahaere", role: "Campaigns", icon: Calendar, status: "active" },
+  { name: "Whaikōrero-Ā-Hoko", role: "Lead gen", icon: Activity, status: "standby" },
+  { name: "Aro", role: "Analytics", icon: BarChart3, status: "monitoring" },
+  { name: "Reo Whare", role: "Internal comms", icon: Timer, status: "standby" },
 ];
 
 const RECENT = [
-  { time: "2 min ago", action: "MUSE drafted 4 LinkedIn posts for Q2 campaign", agents: ["MUSE"], flow: "copy" },
-  { time: "15 min ago", action: "PIXEL generated hero image via Fal.ai Flux Pro", agents: ["PIXEL", "CHROMATIC"], flow: "image" },
-  { time: "1 hr ago", action: "ECHO completed TikTok video via Runway Gen-3", agents: ["ECHO", "FLUX"], flow: "video" },
-  { time: "3 hrs ago", action: "RHYTHM scheduled 12 posts across 4 platforms", agents: ["RHYTHM"], flow: "schedule" },
-  { time: "Yesterday", action: "PRISM flagged off-brand colour usage — CHROMATIC corrected", agents: ["PRISM", "CHROMATIC"], flow: "brand" },
+  { time: "2 min ago", action: "Kōrero drafted 4 LinkedIn posts for Q2 campaign", agents: ["Kōrero"], flow: "copy" },
+  { time: "15 min ago", action: "Toi generated hero image via Fal.ai Flux Pro", agents: ["Toi"], flow: "image" },
+  { time: "1 hr ago", action: "Mana Kupu blocked claim — missing register entry", agents: ["Mana Kupu"], flow: "compliance" },
+  { time: "3 hrs ago", action: "Whakahaere scheduled 12 posts across 4 platforms", agents: ["Whakahaere"], flow: "schedule" },
+  { time: "Yesterday", action: "Rautaki sequenced campaign brief → Kōrero → Toi → Mana Kupu", agents: ["Rautaki", "Studio Director"], flow: "strategy" },
 ];
 
 const usageData = [

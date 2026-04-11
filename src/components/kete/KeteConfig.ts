@@ -49,7 +49,7 @@ export const KETE_CONFIG: KeteDefinition[] = [
   {
     id: "auaha", name: "Auaha", nameEn: "Creative & Media",
     color: "#F0D078", icon: Palette, agentCount: 9, group: "business",
-    description: "Brief to published with fewer handoffs. Content that stays on-brand and on-deadline.",
+    description: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio, not six tools and a freelancer.",
     wananga: "Te Kete Aronui — the basket of human expression",
     route: "/auaha", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },

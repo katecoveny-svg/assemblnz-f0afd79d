@@ -33,7 +33,7 @@ export default function AuahaLayout() {
             </div>
             <div>
               <h2 className="text-white font-light uppercase tracking-[3px] text-sm" style={{ fontFamily: 'Lato, sans-serif' }}>AUAHA</h2>
-              <p className="text-white/50 text-xs" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Creative Intelligence</p>
+              <p className="text-white/50 text-xs" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Creative & Media Studio</p>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@ export default function AuahaLayout() {
         <div className="p-4 border-t border-white/10">
           <div className="flex items-center gap-2 text-xs text-white/30">
             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>8 agents active</span>
+            <span>9 agents active</span>
           </div>
         </div>
       </aside>
