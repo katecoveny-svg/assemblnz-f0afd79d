@@ -40,7 +40,7 @@ export default function AuahaLandingPage() {
         <BrandNav />
 
         <main className="flex flex-col items-center px-6 py-24 text-center">
-          <LandingKeteHero accentColor="#D4A843" accentLight="#E8C76A" size={160} />
+          <LandingKeteHero accentColor="#D4A843" accentLight="#E8C76A" model="palette" size={160} />
 
           <motion.h1
             className="text-4xl sm:text-6xl font-bold mb-4 max-w-3xl"
@@ -70,12 +70,12 @@ export default function AuahaLandingPage() {
             className="flex flex-col sm:flex-row items-center gap-4"
             variants={fadeUp} initial="hidden" animate="visible" custom={4}
           >
-            <Link
-              to="/sample/auaha"
+             <Link
+              to="/auaha"
               className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:opacity-90"
               style={{ background: ACCENT, color: "#09090F" }}
             >
-              See the Auaha pack <ArrowRight size={16} />
+              Open Auaha studio <ArrowRight size={16} />
             </Link>
             <Link
               to="/contact"

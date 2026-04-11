@@ -41,7 +41,7 @@ export default function AratakiLandingPage() {
         <BrandNav />
 
         <main className="flex flex-col items-center px-6 py-24 text-center">
-          <LandingKeteHero accentColor="#E8E8E8" accentLight="#D8D8D8" size={160} />
+          <LandingKeteHero accentColor="#E8E8E8" accentLight="#D8D8D8" model="car" size={160} />
 
           <motion.p
             className="text-xs uppercase tracking-[5px] mb-4"
@@ -119,7 +119,7 @@ export default function AratakiLandingPage() {
               className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:opacity-90"
               style={{ background: POUNAMU, color: "#fff" }}
             >
-              See the Arataki pack <ArrowRight size={16} />
+              Open Arataki dashboard <ArrowRight size={16} />
             </Link>
             <Link
               to="/contact"

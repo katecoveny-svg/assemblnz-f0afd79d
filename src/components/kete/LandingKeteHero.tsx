@@ -1,22 +1,37 @@
 import { Suspense, lazy } from "react";
 import { motion } from "framer-motion";
 
-const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
+const WineGlass3D = lazy(() => import("@/components/kete/models/WineGlass3D"));
+const HardHat3D = lazy(() => import("@/components/kete/models/HardHat3D"));
+const Palette3D = lazy(() => import("@/components/kete/models/Palette3D"));
+const CarSilhouette3D = lazy(() => import("@/components/kete/models/CarSilhouette3D"));
+const Container3D = lazy(() => import("@/components/kete/models/Container3D"));
+
+export type IndustryModel = "wine-glass" | "hard-hat" | "palette" | "car" | "container";
 
 interface LandingKeteHeroProps {
   accentColor: string;
   accentLight: string;
+  model: IndustryModel;
   size?: number;
 }
 
-/**
- * Animated 3D kete basket with glow, used as the hero visual on each industry landing page.
- */
+const MODEL_MAP: Record<IndustryModel, React.LazyExoticComponent<React.FC<{ accentColor: string; accentLight: string; size?: number }>>> = {
+  "wine-glass": WineGlass3D,
+  "hard-hat": HardHat3D,
+  "palette": Palette3D,
+  "car": CarSilhouette3D,
+  "container": Container3D,
+};
+
 export default function LandingKeteHero({
   accentColor,
   accentLight,
+  model,
   size = 180,
 }: LandingKeteHeroProps) {
+  const ModelComponent = MODEL_MAP[model];
+
   return (
     <motion.div
       className="relative flex items-center justify-center mb-10"
@@ -24,7 +39,6 @@ export default function LandingKeteHero({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Outer glow pulse */}
       <motion.div
         className="absolute rounded-full pointer-events-none"
         style={{
@@ -36,7 +50,6 @@ export default function LandingKeteHero({
         animate={{ scale: [1, 1.08, 1], opacity: [0.6, 1, 0.6] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
-      {/* Inner glow ring */}
       <div
         className="absolute rounded-full pointer-events-none"
         style={{
@@ -46,24 +59,15 @@ export default function LandingKeteHero({
           boxShadow: `0 0 40px ${accentColor}12, inset 0 0 30px ${accentColor}08`,
         }}
       />
-      {/* 3D Kete model */}
       <Suspense
         fallback={
           <div
             className="rounded-full animate-pulse"
-            style={{
-              width: size,
-              height: size,
-              background: `${accentColor}10`,
-            }}
+            style={{ width: size, height: size, background: `${accentColor}10` }}
           />
         }
       >
-        <Kete3DModel
-          accentColor={accentColor}
-          accentLight={accentLight}
-          size={size}
-        />
+        <ModelComponent accentColor={accentColor} accentLight={accentLight} size={size} />
       </Suspense>
     </motion.div>
   );

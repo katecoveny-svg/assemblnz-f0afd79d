@@ -30,7 +30,7 @@ export default function PikauLandingPage() {
         <BrandNav />
 
         <main className="flex flex-col items-center justify-center px-6 py-24 text-center">
-          <LandingKeteHero accentColor="#7ECFC2" accentLight="#A8E6DA" size={160} />
+          <LandingKeteHero accentColor="#7ECFC2" accentLight="#A8E6DA" model="container" size={160} />
 
           <motion.h1
             className="text-4xl sm:text-6xl font-bold mb-4 max-w-3xl"
@@ -77,7 +77,7 @@ export default function PikauLandingPage() {
               className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:opacity-90"
               style={{ background: ACCENT, color: "#09090F" }}
             >
-              See the Pikau pack <ArrowRight size={16} />
+              Open Pikau dashboard <ArrowRight size={16} />
             </Link>
             <Link
               to="/contact"

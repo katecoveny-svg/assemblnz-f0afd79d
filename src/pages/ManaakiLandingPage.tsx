@@ -40,7 +40,7 @@ export default function ManaakiLandingPage() {
         <BrandNav />
 
         <main className="flex flex-col items-center px-6 py-24 text-center">
-          <LandingKeteHero accentColor="#D4A843" accentLight="#F0D078" size={160} />
+          <LandingKeteHero accentColor="#3A7D6E" accentLight="#7ECFC2" model="wine-glass" size={160} />
 
           <motion.h1
             className="text-4xl sm:text-6xl font-bold mb-4 max-w-3xl"
@@ -70,12 +70,12 @@ export default function ManaakiLandingPage() {
             className="flex flex-col sm:flex-row items-center gap-4"
             variants={fadeUp} initial="hidden" animate="visible" custom={4}
           >
-            <Link
-              to="/sample/manaaki"
+             <Link
+              to="/manaaki/dashboard"
               className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:opacity-90"
               style={{ background: ACCENT, color: "#09090F" }}
             >
-              See the Manaaki pack <ArrowRight size={16} />
+              Open Manaaki dashboard <ArrowRight size={16} />
             </Link>
             <Link
               to="/contact"
