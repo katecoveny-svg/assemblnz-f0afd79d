@@ -477,7 +477,7 @@ const Index = () => {
         <div className={INNER}>
           <motion.div {...fade}>
             <Eyebrow>THE PROBLEM</Eyebrow>
-            <SectionHeading>Admin is eating your business alive.</SectionHeading>
+            <SectionHeading>Real workflows. Real outcomes. Every time.</SectionHeading>
             <Body className="max-w-2xl mb-5">
               You're spending more time on compliance paperwork, employment law updates, and audit prep than on the actual work your customers pay you for. And when something goes wrong, you can't find the paper trail.
             </Body>
