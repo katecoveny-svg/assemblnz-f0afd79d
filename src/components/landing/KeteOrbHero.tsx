@@ -239,21 +239,13 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
       viewport={{ once: true }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Multi-layer ambient glow */}
+      {/* Subtle ambient glow */}
       <div
         className="absolute w-[420px] h-[420px] sm:w-[560px] sm:h-[560px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(58,125,110,0.18) 0%, rgba(212,168,67,0.10) 35%, rgba(90,173,160,0.05) 60%, transparent 80%)",
-          filter: "blur(50px)",
-        }}
-      />
-      <div
-        className="absolute w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(212,168,67,0.12) 0%, transparent 70%)",
-          filter: "blur(30px)",
+            "radial-gradient(circle, rgba(58,125,110,0.06) 0%, rgba(212,168,67,0.03) 40%, transparent 70%)",
+          filter: "blur(60px)",
         }}
       />
 
