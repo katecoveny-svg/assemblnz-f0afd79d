@@ -79,7 +79,6 @@ export default function PikauLandingPage() {
             >
               Open Pikau dashboard <ArrowRight size={16} />
             </Link>
-            </Link>
             <Link
               to="/contact"
               className="px-8 py-3 rounded-full text-sm font-medium transition-colors"
