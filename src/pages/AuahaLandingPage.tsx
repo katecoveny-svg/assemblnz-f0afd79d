@@ -40,7 +40,7 @@ export default function AuahaLandingPage() {
         <BrandNav />
 
         <main className="flex flex-col items-center px-6 py-24 text-center">
-          <LandingKeteHero accentColor="#D4A843" accentLight="#E8C76A" size={160} />
+          <LandingKeteHero accentColor="#D4A843" accentLight="#E8C76A" model="palette" size={160} />
 
           <motion.h1
             className="text-4xl sm:text-6xl font-bold mb-4 max-w-3xl"
