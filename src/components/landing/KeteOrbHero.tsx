@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
  * constellation nodes, and dynamic particle drift.
  */
 
-const PARTICLE_COUNT = 300;
+const PARTICLE_COUNT = 600;
 const ORBIT_RING_COUNT = 3;
 
 const KETE_COLORS = ["#D4A843", "#3A7D6E", "#F0D078", "#E8E8E8", "#5AADA0"];
@@ -46,7 +46,7 @@ function ParticleSphere() {
       col[i * 3 + 1] = c.g;
       col[i * 3 + 2] = c.b;
 
-      sz[i] = 2.0 + Math.random() * 3;
+      sz[i] = 1.0 + Math.random() * 1.5;
     }
 
     return { positions: pos, colors: col, sizes: sz };
@@ -271,7 +271,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
             <pointLight position={[-4, -2, 3]} intensity={0.3} color="#3A7D6E" />
             <pointLight position={[0, -4, 2]} intensity={0.2} color="#5AADA0" />
 
-            {/* <ParticleSphere /> */}
+            <ParticleSphere />
             <InnerWireframe />
             <OrbitingKeteNodes />
             <AmbientDust />
