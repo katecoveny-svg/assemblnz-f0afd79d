@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
-import { Check, Layers, Zap, Shield, Brain } from "lucide-react";
+import { Check, Layers, Zap, Scale, FileCheck } from "lucide-react";
 
 const VALUE_PROPS = [
   { icon: Layers, label: "One platform, not six", desc: "CRM, marketing, HR, compliance, finance, and operations — unified under one intelligence layer." },
-  { icon: Brain, label: "NZ legislation built in", desc: "Grounded in NZ legislation and policy workflows — Employment Relations, Privacy Act 2020, Building Act, RTA, and more." },
+  { icon: Scale, label: "NZ legislation built in", desc: "Grounded in NZ legislation and policy workflows — Employment Relations, Privacy Act 2020, Building Act, RTA, and more." },
   { icon: Zap, label: "Five industry kete, one subscription", desc: "Every kete shares context and works together — clear per-seat tiers, no add-on fatigue." },
-  { icon: Shield, label: "NZ-aligned security, SME-priced", desc: "Encrypted in transit and at rest, NZ data residency on Enterprise — from $590/mo." },
+  { icon: FileCheck, label: "NZ-aligned security, SME-priced", desc: "Encrypted in transit and at rest, NZ data residency on Enterprise — from $590/mo." },
 ];
 
 const REPLACES = [
