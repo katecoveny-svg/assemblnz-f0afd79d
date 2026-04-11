@@ -584,8 +584,8 @@ const Index = () => {
       <section className={`${SEC} relative z-10`}>
         <div className={INNER}>
           <motion.div {...fade} className="text-center mb-14">
-            <Eyebrow>WHAT CHANGES</Eyebrow>
-            <SectionHeading>What the first 30 days look like.</SectionHeading>
+            <Eyebrow>TANGIBLE OUTCOMES</Eyebrow>
+            <SectionHeading>Less admin. Fewer risks. Better records.</SectionHeading>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {OUTCOMES.map((o, i) => (
