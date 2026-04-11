@@ -108,12 +108,12 @@ const PACKS: {
   to: string;
   accentLight: string;
 }[] = [
-  { reo: "Manaaki", en: "Hospitality", desc: "Food Act plans, liquor licensing, guest experience, tourism operators.", color: "#3A7D6E", accentLight: "#5AADA0", to: "/sample/manaaki" },
-  { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: "#1A3A5C", accentLight: "#2A5A8C", to: "/sample/waihanga" },
-  { reo: "Auaha", en: "Creative & Media", desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio.", color: "#D4A843", accentLight: "#E8C76A", to: "/sample/auaha" },
-  { reo: "Arataki", en: "Automotive", desc: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped across DMS, CRM, and OEM portals.", color: "#E8E8E8", accentLight: "#D8D8D8", to: "/arataki" },
-  { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#7ECFC2", accentLight: "#A8E6DA", to: "/sample/pikau" },
-  { reo: "Toro", en: "Family Navigator", desc: "SMS-first whānau coordination. School notices, kai plans, appointments, budgets — no app needed.", color: "#87CEEB", accentLight: "#AEE0F7", to: "/sample/toroa" },
+ { reo: "Manaaki", en: "Hospitality", desc: "Food Act plans, liquor licensing, guest experience, tourism operators.", color: "#3A7D6E", accentLight: "#5AADA0", to: "/manaaki" },
+ { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: "#1A3A5C", accentLight: "#2A5A8C", to: "/waihanga/about" },
+ { reo: "Auaha", en: "Creative & Media", desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio.", color: "#D4A843", accentLight: "#E8C76A", to: "/auaha/about" },
+ { reo: "Arataki", en: "Automotive", desc: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped across DMS, CRM, and OEM portals.", color: "#E8E8E8", accentLight: "#D8D8D8", to: "/arataki" },
+ { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#7ECFC2", accentLight: "#A8E6DA", to: "/pikau" },
+ { reo: "Toro", en: "Family Navigator", desc: "SMS-first whānau coordination. School notices, kai plans, appointments, budgets — no app needed.", color: "#87CEEB", accentLight: "#AEE0F7", to: "/toroa" },
 ];
 
 const PIPELINE_STAGES = [
@@ -405,7 +405,7 @@ const Index = () => {
           transition={{ duration: 0.6, delay: 0.8, ease }}
         >
           <Link
-            to="/sample/manaaki"
+            to="/manaaki"
             className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm"
           >
             See a sample pack <ArrowRight size={15} />
