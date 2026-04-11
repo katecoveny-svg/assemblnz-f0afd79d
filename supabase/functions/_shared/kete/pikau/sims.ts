@@ -138,6 +138,7 @@ export const pikau_sims: Sim[] = [
       },
     },
     expected: "PASS", // injection is content, output never claims to file
+    expectedReasonContains: "[redacted-injection]",
   },
   {
     id: "PIK-A4",
