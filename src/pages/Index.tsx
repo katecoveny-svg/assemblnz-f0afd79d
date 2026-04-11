@@ -13,6 +13,7 @@ import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import HeroKeteNetwork from "@/components/HeroKeteNetwork";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
+import ToroBirdIcon from "@/components/ToroBirdIcon";
 
 /* ─── Design tokens — Pounamu primary, White secondary, Gold accent ─── */
 const C = {
@@ -504,9 +505,15 @@ const Index = () => {
               <LiquidGlassCard key={p.reo} className="h-full" accentColor={p.color} delay={i * 0.08}>
                 <Link to={p.to} className="block h-full group p-7">
                   <div className="flex items-center gap-4 mb-5">
-                    <Suspense fallback={<KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
-                      <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={64} />
-                    </Suspense>
+                    {p.reo === "Toro" ? (
+                      <div className="w-16 h-16 flex items-center justify-center rounded-xl" style={{ background: `${p.color}10`, border: `1px solid ${p.color}20` }}>
+                        <ToroBirdIcon size={48} color={p.color} />
+                      </div>
+                    ) : (
+                      <Suspense fallback={<KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
+                        <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={64} />
+                      </Suspense>
+                    )}
                     <div>
                       <p className="text-[10px] uppercase tracking-[3px]" style={{ fontFamily: FONT.mono, color: p.color }}>
                         {p.en}
