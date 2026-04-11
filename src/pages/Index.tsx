@@ -134,16 +134,6 @@ const DIFFS = [
 
 const PRICING = [
   {
-    name: "Family",
-    price: "$29",
-    setup: "No setup fee",
-    desc: "Whānau coordination over SMS. No app, no logins, just text.",
-    features: ["SMS-first family agent", "School notices, calendar, meals", "Budget tracking", "Up to 6 family members"],
-    highlight: false,
-    accent: C.pounamuLight,
-    stripeUrl: "https://buy.stripe.com/7sYdRbc9KeoE0KNdx43oA0c",
-  },
-  {
     name: "Operator",
     price: "$590",
     setup: "+ $1,490 setup (invoiced separately)",
@@ -721,7 +711,7 @@ const Index = () => {
             </Body>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {PRICING.map((tier, i) => (
               <motion.div key={tier.name} className="relative" {...stagger(i)}>
                 {tier.highlight && (
