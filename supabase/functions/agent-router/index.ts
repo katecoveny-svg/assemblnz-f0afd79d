@@ -173,7 +173,7 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { message, packId, agentId, messages = [], userId } = await req.json();
+    const { message, packId, agentId, messages = [], userId, systemPromptOverride } = await req.json();
     if (!message) {
       return new Response(JSON.stringify({ error: "message is required" }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -317,7 +317,7 @@ ANTI-SLOP RULES: Reject generic AI aesthetics. No overused fonts (Inter, Poppins
 Match implementation complexity to vision: maximalist designs need elaborate effects; minimalist designs need precision in spacing, typography, and subtle details. Elegance comes from executing the vision fully.`
       : "";
 
-    const basePrompt = agentPrompt?.system_prompt ||
+    const basePrompt = systemPromptOverride || agentPrompt?.system_prompt ||
       `You are ${selectedAgent.toUpperCase()}, an assembl specialist agent for New Zealand businesses. Help with queries in your area of expertise. Reference relevant NZ legislation where applicable. Write in NZ English with macrons on all Māori words.`;
 
     const complianceRules = (sharedPrompts || []).map(p => p.system_prompt).join("\n\n");
