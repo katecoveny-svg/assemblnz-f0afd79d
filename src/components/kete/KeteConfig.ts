@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import {
-  UtensilsCrossed, HardHat, Palette, ShieldCheck, Package, Bird,
+  UtensilsCrossed, HardHat, Palette, Car, Package, Bird,
 } from "lucide-react";
 
 /**
@@ -55,10 +55,10 @@ export const KETE_CONFIG: KeteDefinition[] = [
   },
   {
     id: "arataki", name: "Arataki", nameEn: "Automotive",
-    color: "#E8E8E8", icon: ShieldCheck, agentCount: 4, group: "business",
-    description: "Workshops, fleet, vehicle compliance, service scheduling.",
+    color: "#E8E8E8", icon: Car, agentCount: 11, group: "business",
+    description: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped.",
     wananga: "Te Kete Tuauri — the basket of guidance and protection",
-    route: "/kete/arataki", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
+    route: "/arataki", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
     id: "pikau", name: "Pikau", nameEn: "Freight & Customs",

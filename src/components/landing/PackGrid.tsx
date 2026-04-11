@@ -71,8 +71,8 @@ const PACKS: PackCard[] = [
     name: "Arataki",
     label: "Automotive",
     description:
-      "Dealership compliance, customer enquiry response, finance disclosure — the showroom back office handled.",
-    accent: "#C65D4E",
+      "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped.",
+    accent: "#E8E8E8",
     iconName: "car",
     route: "/arataki",
   },

@@ -106,7 +106,7 @@ const PACKS: {
   { reo: "Manaaki", en: "Hospitality", desc: "Food Act plans, liquor licensing, guest experience, tourism operators.", color: "#3A7D6E", accentLight: "#5AADA0", to: "/sample/manaaki" },
   { reo: "Waihanga", en: "Construction", desc: "Site to sign-off. H&S, consenting, project programmes, quality records.", color: "#1A3A5C", accentLight: "#2A5A8C", to: "/sample/waihanga" },
   { reo: "Auaha", en: "Creative", desc: "Brief to published. Copy, image, video, podcast, ads, analytics.", color: "#D4A843", accentLight: "#E8C76A", to: "/sample/auaha" },
-  { reo: "Arataki", en: "Privacy & Business Compliance", desc: "IPP3A-ready. Every Privacy Act 2020 run ends in a signed evidence pack your Privacy Officer can file, forward, or footnote.", color: "#E8E8E8", accentLight: "rgba(255,255,255,0.7)", to: "/sample/arataki" },
+  { reo: "Arataki", en: "Automotive", desc: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped across DMS, CRM, and OEM portals.", color: "#E8E8E8", accentLight: "rgba(255,255,255,0.7)", to: "/sample/arataki" },
   { reo: "Pikau", en: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance.", color: "#7ECFC2", accentLight: "#A8E6DA", to: "/sample/pikau" },
   { reo: "Toroa", en: "Family Navigator", desc: "SMS-first whānau coordination. School notices, kai plans, appointments, budgets — no app needed.", color: "#87CEEB", accentLight: "#AEE0F7", to: "/sample/toroa" },
 ];

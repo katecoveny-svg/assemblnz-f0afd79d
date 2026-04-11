@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Shield, ArrowRight, Check, FileText, Lock, Eye } from "lucide-react";
+import { Car, ArrowRight, Check, Wrench, Users, Calendar, FileText } from "lucide-react";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -20,11 +20,13 @@ const fadeUp = {
   }),
 };
 
-const PACK_CONTENTS = [
-  { icon: Lock, label: "Consent notices", desc: "Pre-drafted, sector-specific, IPP 3A compliant" },
-  { icon: Eye, label: "Audit log", desc: "Every decision timestamped, every source cited" },
-  { icon: FileText, label: "Subject access pack", desc: "Ready to send within the 20-day window" },
-  { icon: Shield, label: "Breach notification", desc: "Template, timeline, and regulator contact" },
+const WORKFLOWS = [
+  { icon: Users, label: "Customer journey orchestrator", desc: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped." },
+  { icon: FileText, label: "Warranty claim drafter", desc: "Technical narratives that get approved first time. Flags risk before submission." },
+  { icon: Car, label: "Service loan car allocator", desc: "Matches loan cars to bookings, degrades gracefully to courtesy rides when the fleet's out." },
+  { icon: Wrench, label: "Workshop capacity co-pilot", desc: "Bay + tech + parts + loan car aligned before the customer arrives." },
+  { icon: Calendar, label: "Campaign speed engine", desc: "National brief lands, localised pack drafted in every brand voice, ready for one-click approval." },
+  { icon: Users, label: "Internal comms co-pilot", desc: "Shift handovers, team updates, distributor briefings — drafted in the right voice for the right audience." },
 ];
 
 export default function AratakiLandingPage() {
@@ -32,8 +34,8 @@ export default function AratakiLandingPage() {
     <GlowPageWrapper accentColor={ACCENT}>
       <div style={{ background: BG, minHeight: "100vh", color: "#fff" }}>
         <SEO
-          title="Arataki — Business Compliance | Assembl"
-          description="The IPP3A-ready privacy pack your board and the Privacy Commissioner will both recognise. Built for NZ businesses."
+          title="Arataki — Automotive Dealership AI | Assembl"
+          description="Customer journey orchestration, warranty claims, loan car allocation, workshop booking — the dealership back office handled. Built for NZ motor dealers."
         />
         <BrandNav />
 
@@ -45,7 +47,7 @@ export default function AratakiLandingPage() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Shield size={36} style={{ color: ACCENT }} />
+            <Car size={36} style={{ color: ACCENT }} />
           </motion.div>
 
           <motion.p
@@ -56,7 +58,7 @@ export default function AratakiLandingPage() {
             animate="visible"
             custom={0}
           >
-            ARATAKI · LEAD KETE FOR LAUNCH
+            ARATAKI · AUTOMOTIVE
           </motion.p>
 
           <motion.h1
@@ -67,7 +69,7 @@ export default function AratakiLandingPage() {
             animate="visible"
             custom={1}
           >
-            The IPP3A-ready privacy pack your board and the Privacy Commissioner will both recognise.
+            The baton around the dealership relay race — so no handoff gets dropped.
           </motion.h1>
 
           <motion.p
@@ -78,10 +80,10 @@ export default function AratakiLandingPage() {
             animate="visible"
             custom={2}
           >
-            Business compliance, done by agents. Every run ends in a signed evidence pack — structured, sourced, and ready for your Privacy Officer to file.
+            Enquiry → test drive → sale → delivery → service → loyalty. Arataki works alongside your existing DMS, CRM, and OEM portals from day one. No rip and replace.
           </motion.p>
 
-          {/* IPP 3A badge */}
+          {/* Compliance badge */}
           <motion.div
             className="rounded-xl px-6 py-4 max-w-md mb-10 text-left"
             style={{
@@ -95,13 +97,18 @@ export default function AratakiLandingPage() {
             custom={3}
           >
             <p className="text-[10px] uppercase tracking-[3px] mb-3" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
-              Privacy Act 2020 · IPP 3A · 1 May 2026
+              11 workflows · human-in-the-loop
             </p>
             <ul className="space-y-2">
-              {PACK_CONTENTS.map((item) => (
-                <li key={item.label} className="flex items-start gap-2 text-xs" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.65)" }}>
+              {[
+                "Fair Trading Act 1986 — every claim scanned",
+                "Motor Vehicle Sales Act 2003 — CIN timing enforced",
+                "CCCFA 2003 — finance language guardrails",
+                "Privacy Act 2020 · IPP 3A — automated-decision notices",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2 text-xs" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.65)" }}>
                   <Check size={12} className="shrink-0 mt-0.5" style={{ color: POUNAMU }} />
-                  <span><strong style={{ color: "#fff" }}>{item.label}</strong> — {item.desc}</span>
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
@@ -119,18 +126,18 @@ export default function AratakiLandingPage() {
               className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:opacity-90"
               style={{ background: POUNAMU, color: "#fff" }}
             >
-              See the ARATAKI pack <ArrowRight size={16} />
+              See the Arataki pack <ArrowRight size={16} />
             </Link>
             <Link
               to="/contact"
               className="px-8 py-3 rounded-full text-sm font-medium transition-colors"
               style={{ color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.1)" }}
             >
-              Book an IPP3A walk-through
+              Book a dealership walk-through
             </Link>
           </motion.div>
 
-          {/* Pack contents grid */}
+          {/* Workflow grid */}
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-20 max-w-3xl w-full"
             variants={fadeUp}
@@ -138,7 +145,7 @@ export default function AratakiLandingPage() {
             animate="visible"
             custom={5}
           >
-            {PACK_CONTENTS.map((item, i) => (
+            {WORKFLOWS.map((item, i) => (
               <LiquidGlassCard key={item.label} className="p-6 text-left" accentColor={POUNAMU} delay={i * 0.1}>
                 <item.icon size={20} style={{ color: POUNAMU }} className="mb-3" />
                 <h3 className="text-sm font-semibold mb-1" style={{ fontFamily: "'Lato', sans-serif" }}>{item.label}</h3>
