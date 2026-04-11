@@ -1,165 +1,300 @@
 import { useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float } from "@react-three/drei";
+import { Float, Line, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { motion } from "framer-motion";
 
 /**
- * KeteOrbHero — Particles arranged in a woven kete basket shape
- * with orbital rings, constellation nodes, and breathing animation.
- * Mobile-optimised with reduced particle counts.
+ * KeteOrbHero — 6-layer cognitive stack visualised as a data network
+ * radiating from a central kete wireframe basket.
+ * Layers: Perception → Memory → Reasoning → Action → Explanation → Simulation
  */
 
-const KETE_COLORS = ["#D4A843", "#3A7D6E", "#F0D078", "#E8E8E8", "#5AADA0"];
+const LAYERS = [
+  { label: "Perception", color: "#D4A843", angle: 0 },
+  { label: "Memory", color: "#3A7D6E", angle: Math.PI / 3 },
+  { label: "Reasoning", color: "#5AADA0", angle: (2 * Math.PI) / 3 },
+  { label: "Action", color: "#F0D078", angle: Math.PI },
+  { label: "Explanation", color: "#E8E8E8", angle: (4 * Math.PI) / 3 },
+  { label: "Simulation", color: "#D4A843", angle: (5 * Math.PI) / 3 },
+];
 
 function useIsMobile() {
   return typeof window !== "undefined" && window.innerWidth < 640;
 }
 
-/* ── Particle kete basket ── */
-function ParticleKete({ mobile }: { mobile: boolean }) {
-  const pointsRef = useRef<THREE.Points>(null);
+/* ── Central kete wireframe basket ── */
+function CentralKete() {
+  const groupRef = useRef<THREE.Group>(null);
+
+  useFrame(({ clock }) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y = clock.getElapsedTime() * 0.15;
+      groupRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.1) * 0.08;
+    }
+  });
+
+  const { horizontalLines, verticalLines, handleLine } = useMemo(() => {
+    const hLines: [number, number, number][][] = [];
+    const vLines: [number, number, number][][] = [];
+    const scale = 0.55;
+
+    for (let i = 0; i < 7; i++) {
+      const y = (-0.5 + i * 0.16) * scale;
+      const radius = (0.4 + Math.sin((i / 6) * Math.PI) * 0.25) * scale;
+      const pts: [number, number, number][] = [];
+      for (let j = 0; j <= 48; j++) {
+        const angle = (j / 48) * Math.PI * 2;
+        pts.push([Math.cos(angle) * radius, y, Math.sin(angle) * radius]);
+      }
+      hLines.push(pts);
+    }
+
+    for (let i = 0; i < 12; i++) {
+      const angle = (i / 12) * Math.PI * 2;
+      const pts: [number, number, number][] = [];
+      for (let j = 0; j <= 24; j++) {
+        const t = j / 24;
+        const y = (-0.5 + t * 1.0) * scale;
+        const baseRadius = (0.4 + Math.sin(t * Math.PI) * 0.25) * scale;
+        const wobble = Math.sin(t * Math.PI * 3 + i) * 0.015 * scale;
+        pts.push([Math.cos(angle) * (baseRadius + wobble), y, Math.sin(angle) * (baseRadius + wobble)]);
+      }
+      vLines.push(pts);
+    }
+
+    const hPts: [number, number, number][] = [];
+    for (let i = 0; i <= 24; i++) {
+      const t = i / 24;
+      const a = -Math.PI * 0.3 + t * Math.PI * 0.6;
+      hPts.push([Math.sin(a) * 0.35 * scale, (0.5 + Math.cos(a) * 0.28) * scale, 0]);
+    }
+
+    return { horizontalLines: hLines, verticalLines: vLines, handleLine: hPts };
+  }, []);
+
+  return (
+    <group ref={groupRef}>
+      {/* Inner glow sphere */}
+      <mesh>
+        <sphereGeometry args={[0.35, 16, 16]} />
+        <meshBasicMaterial color="#3A7D6E" transparent opacity={0.04} side={THREE.BackSide} />
+      </mesh>
+      {/* Core pulse */}
+      <mesh>
+        <sphereGeometry args={[0.06, 12, 12]} />
+        <meshBasicMaterial color="#D4A843" transparent opacity={0.6} />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[0.09, 12, 12]} />
+        <meshBasicMaterial color="#D4A843" transparent opacity={0.12} />
+      </mesh>
+
+      {horizontalLines.map((pts, i) => (
+        <Line key={`h-${i}`} points={pts} color={i % 2 === 0 ? "#D4A843" : "#3A7D6E"} lineWidth={1} transparent opacity={0.5} />
+      ))}
+      {verticalLines.map((pts, i) => (
+        <Line key={`v-${i}`} points={pts} color={i % 3 === 0 ? "#5AADA0" : "#D4A843"} lineWidth={0.6} transparent opacity={0.35} />
+      ))}
+      <Line points={handleLine} color="#D4A843" lineWidth={1.5} transparent opacity={0.7} />
+    </group>
+  );
+}
+
+/* ── Network connection lines from center to layer nodes ── */
+function NetworkLines({ mobile }: { mobile: boolean }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const dataParticlesRef = useRef<THREE.Points>(null);
   const basePositions = useRef<Float32Array | null>(null);
 
-  const BODY_COUNT = mobile ? 400 : 800;
-  const HANDLE_COUNT = mobile ? 30 : 60;
-  const totalCount = BODY_COUNT + HANDLE_COUNT;
+  const nodeRadius = mobile ? 1.3 : 1.7;
+  const particleCount = mobile ? 60 : 120;
 
-  const { positions, colors, sizes } = useMemo(() => {
-    const pos = new Float32Array(totalCount * 3);
-    const col = new Float32Array(totalCount * 3);
-    const sz = new Float32Array(totalCount);
+  const nodePositions = useMemo(() => {
+    return LAYERS.map((l) => {
+      const y = Math.sin(l.angle * 0.5) * 0.3;
+      return new THREE.Vector3(
+        Math.cos(l.angle) * nodeRadius,
+        y,
+        Math.sin(l.angle) * nodeRadius
+      );
+    });
+  }, [nodeRadius]);
+
+  // Connection lines: center → each node, and node → next node (ring)
+  const connectionLines = useMemo(() => {
+    const lines: { points: [number, number, number][]; color: string; opacity: number }[] = [];
+    const center: [number, number, number] = [0, 0, 0];
+
+    // Radial lines from center to each node
+    nodePositions.forEach((pos, i) => {
+      const midY = pos.y + Math.sin(LAYERS[i].angle) * 0.15;
+      const mid: [number, number, number] = [pos.x * 0.5, midY, pos.z * 0.5];
+      lines.push({
+        points: [center, mid, [pos.x, pos.y, pos.z]],
+        color: LAYERS[i].color,
+        opacity: 0.3,
+      });
+    });
+
+    // Ring connections between adjacent nodes
+    for (let i = 0; i < LAYERS.length; i++) {
+      const next = (i + 1) % LAYERS.length;
+      const p1 = nodePositions[i];
+      const p2 = nodePositions[next];
+      const mid: [number, number, number] = [
+        (p1.x + p2.x) * 0.5,
+        (p1.y + p2.y) * 0.5 + 0.15,
+        (p1.z + p2.z) * 0.5,
+      ];
+      lines.push({
+        points: [[p1.x, p1.y, p1.z], mid, [p2.x, p2.y, p2.z]],
+        color: LAYERS[i].color,
+        opacity: 0.15,
+      });
+    }
+
+    return lines;
+  }, [nodePositions]);
+
+  // Data flow particles along connections
+  const { positions: particlePositions, colors: particleColors } = useMemo(() => {
+    const pos = new Float32Array(particleCount * 3);
+    const col = new Float32Array(particleCount * 3);
     const c = new THREE.Color();
 
-    // Body — basket shape: cylinder with waist (tapered middle)
-    for (let i = 0; i < BODY_COUNT; i++) {
-      const t = Math.random(); // 0=bottom, 1=top of basket
-      const angle = Math.random() * Math.PI * 2;
-      const y = -0.8 + t * 1.6;
-
-      // Basket profile: wide at top, narrower waist at ~40%, narrow base
-      let radius: number;
-      if (t < 0.15) {
-        // Flat base
-        radius = 0.3 + t * 2.0;
-      } else if (t < 0.5) {
-        // Taper in to waist
-        const w = (t - 0.15) / 0.35;
-        radius = 0.6 - w * 0.15;
-      } else {
-        // Flare out to rim
-        const w = (t - 0.5) / 0.5;
-        radius = 0.45 + w * 0.55;
-      }
-
-      // Add weave texture: slight sine wobble
-      const weave = Math.sin(angle * 8 + y * 6) * 0.03;
-      radius += weave;
-
-      // Slight random scatter for organic feel
-      const scatter = (Math.random() - 0.5) * 0.06;
-
-      pos[i * 3] = Math.cos(angle) * (radius + scatter);
-      pos[i * 3 + 1] = y;
-      pos[i * 3 + 2] = Math.sin(angle) * (radius + scatter);
-
-      const keteColor = KETE_COLORS[i % KETE_COLORS.length];
-      c.set(keteColor);
-      const hsl = { h: 0, s: 0, l: 0 };
-      c.getHSL(hsl);
-      c.setHSL(hsl.h, hsl.s * (0.6 + Math.random() * 0.4), hsl.l * (0.7 + Math.random() * 0.5));
+    for (let i = 0; i < particleCount; i++) {
+      const layerIdx = i % LAYERS.length;
+      const t = Math.random();
+      const target = nodePositions[layerIdx];
+      pos[i * 3] = target.x * t;
+      pos[i * 3 + 1] = target.y * t;
+      pos[i * 3 + 2] = target.z * t;
+      c.set(LAYERS[layerIdx].color);
       col[i * 3] = c.r;
       col[i * 3 + 1] = c.g;
       col[i * 3 + 2] = c.b;
-
-      sz[i] = 1.0 + Math.random() * 1.2;
     }
-
-    // Handle — arch over the top
-    for (let i = 0; i < HANDLE_COUNT; i++) {
-      const idx = BODY_COUNT + i;
-      const t = i / (HANDLE_COUNT - 1);
-      const a = -Math.PI * 0.35 + t * Math.PI * 0.7;
-      const handleRadius = 0.5;
-      const scatter = (Math.random() - 0.5) * 0.04;
-
-      pos[idx * 3] = Math.sin(a) * handleRadius + scatter;
-      pos[idx * 3 + 1] = 0.8 + Math.cos(a) * 0.45;
-      pos[idx * 3 + 2] = scatter;
-
-      c.set("#D4A843");
-      col[idx * 3] = c.r;
-      col[idx * 3 + 1] = c.g;
-      col[idx * 3 + 2] = c.b;
-
-      sz[idx] = 1.2 + Math.random() * 0.8;
-    }
-
-    return { positions: pos, colors: col, sizes: sz };
-  }, [BODY_COUNT, HANDLE_COUNT, totalCount]);
+    return { positions: pos, colors: col };
+  }, [particleCount, nodePositions]);
 
   useMemo(() => {
-    basePositions.current = new Float32Array(positions);
-  }, [positions]);
+    basePositions.current = new Float32Array(particlePositions);
+  }, [particlePositions]);
 
   useFrame(({ clock }) => {
-    if (!pointsRef.current || !basePositions.current) return;
-    const t = clock.getElapsedTime();
-    const posAttr = pointsRef.current.geometry.attributes.position as THREE.BufferAttribute;
-    const base = basePositions.current;
+    if (!dataParticlesRef.current || !basePositions.current) return;
+    const time = clock.getElapsedTime();
+    const posAttr = dataParticlesRef.current.geometry.attributes.position as THREE.BufferAttribute;
 
-    for (let i = 0; i < totalCount; i++) {
-      const i3 = i * 3;
-      const bx = base[i3], by = base[i3 + 1], bz = base[i3 + 2];
-      const breathe = 1 + Math.sin(t * 0.5 + i * 0.008) * 0.02;
-      const ripple = Math.sin(t * 1.2 + by * 4.0) * 0.015;
-
-      posAttr.array[i3] = bx * breathe + ripple;
-      posAttr.array[i3 + 1] = by * breathe;
-      posAttr.array[i3 + 2] = bz * breathe + ripple * 0.5;
+    for (let i = 0; i < particleCount; i++) {
+      const layerIdx = i % LAYERS.length;
+      const target = nodePositions[layerIdx];
+      // Animate t along the line
+      const speed = 0.3 + (i % 5) * 0.08;
+      const t = ((time * speed + i * 0.15) % 1.0);
+      posAttr.array[i * 3] = target.x * t + Math.sin(time + i) * 0.02;
+      posAttr.array[i * 3 + 1] = target.y * t + Math.cos(time * 0.7 + i) * 0.02;
+      posAttr.array[i * 3 + 2] = target.z * t + Math.sin(time * 0.5 + i * 2) * 0.02;
     }
     posAttr.needsUpdate = true;
-
-    pointsRef.current.rotation.y = t * 0.12;
-    pointsRef.current.rotation.x = Math.sin(t * 0.06) * 0.08 + 0.15;
   });
 
-  const vertexShader = `
-    attribute float size;
-    varying vec3 vColor;
-    void main() {
-      vColor = color;
-      vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-      gl_PointSize = size * (40.0 / -mvPosition.z);
-      gl_Position = projectionMatrix * mvPosition;
-    }
-  `;
+  return (
+    <group ref={groupRef}>
+      {connectionLines.map((line, i) => (
+        <Line key={i} points={line.points} color={line.color} lineWidth={1} transparent opacity={line.opacity} />
+      ))}
 
-  const fragmentShader = `
-    varying vec3 vColor;
-    void main() {
-      float d = length(gl_PointCoord - vec2(0.5));
-      if (d > 0.5) discard;
-      float alpha = 1.0 - smoothstep(0.0, 0.45, d);
-      gl_FragColor = vec4(vColor * 1.5, alpha * 0.55);
-    }
-  `;
+      {/* Data flow particles */}
+      <points ref={dataParticlesRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" count={particleCount} array={particlePositions} itemSize={3} />
+          <bufferAttribute attach="attributes-color" count={particleCount} array={particleColors} itemSize={3} />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.04}
+          transparent
+          opacity={0.6}
+          vertexColors
+          sizeAttenuation
+          blending={THREE.AdditiveBlending}
+        />
+      </points>
+    </group>
+  );
+}
+
+/* ── Layer node with label ── */
+function LayerNode({ label, color, angle, radius, mobile }: {
+  label: string; color: string; angle: number; radius: number; mobile: boolean;
+}) {
+  const y = Math.sin(angle * 0.5) * 0.3;
+  const position: [number, number, number] = [
+    Math.cos(angle) * radius,
+    y,
+    Math.sin(angle) * radius,
+  ];
 
   return (
-    <points ref={pointsRef}>
+    <Float speed={1.5} floatIntensity={0.08}>
+      <group position={position}>
+        {/* Outer glow */}
+        <mesh>
+          <sphereGeometry args={[0.14, 16, 16]} />
+          <meshBasicMaterial color={color} transparent opacity={0.06} />
+        </mesh>
+        {/* Inner node */}
+        <mesh>
+          <sphereGeometry args={[0.07, 16, 16]} />
+          <meshBasicMaterial color={color} transparent opacity={0.85} />
+        </mesh>
+        {/* Bright core */}
+        <mesh>
+          <sphereGeometry args={[0.035, 12, 12]} />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.4} />
+        </mesh>
+
+        {/* Label */}
+        {!mobile && (
+          <Text
+            position={[0, -0.22, 0]}
+            fontSize={0.09}
+            color={color}
+            anchorX="center"
+            anchorY="middle"
+            font="/fonts/Lato-Light.ttf"
+            letterSpacing={0.12}
+          >
+            {label.toUpperCase()}
+          </Text>
+        )}
+      </group>
+    </Float>
+  );
+}
+
+/* ── Ambient dust ── */
+function AmbientDust({ count = 60 }: { count?: number }) {
+  const ref = useRef<THREE.Points>(null);
+  const positions = useMemo(() => {
+    const p = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      p[i * 3] = (Math.random() - 0.5) * 5;
+      p[i * 3 + 1] = (Math.random() - 0.5) * 5;
+      p[i * 3 + 2] = (Math.random() - 0.5) * 5;
+    }
+    return p;
+  }, [count]);
+  useFrame(({ clock }) => {
+    if (ref.current) ref.current.rotation.y = clock.getElapsedTime() * 0.008;
+  });
+  return (
+    <points ref={ref}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={totalCount} array={positions} itemSize={3} />
-        <bufferAttribute attach="attributes-color" count={totalCount} array={colors} itemSize={3} />
-        <bufferAttribute attach="attributes-size" count={totalCount} array={sizes} itemSize={1} />
+        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
       </bufferGeometry>
-      <shaderMaterial
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        transparent
-        depthWrite={false}
-        vertexColors
-        blending={THREE.AdditiveBlending}
-      />
+      <pointsMaterial color="#D4A843" size={0.02} transparent opacity={0.25} sizeAttenuation blending={THREE.AdditiveBlending} />
     </points>
   );
 }
@@ -172,60 +307,16 @@ function OrbitalRing({ radius, color, speed, tilt }: { radius: number; color: st
   });
   return (
     <mesh ref={ref} rotation={[tilt, 0, 0]}>
-      <torusGeometry args={[radius, 0.005, 8, 128]} />
-      <meshBasicMaterial color={color} transparent opacity={0.3} />
+      <torusGeometry args={[radius, 0.004, 8, 128]} />
+      <meshBasicMaterial color={color} transparent opacity={0.15} />
     </mesh>
-  );
-}
-
-/* ── Orbiting kete nodes ── */
-function OrbitingKeteNodes() {
-  const groupRef = useRef<THREE.Group>(null);
-  useFrame(({ clock }) => {
-    if (groupRef.current) groupRef.current.rotation.y = clock.getElapsedTime() * 0.12;
-  });
-  return (
-    <group ref={groupRef}>
-      {KETE_COLORS.map((color, i) => {
-        const angle = (i / KETE_COLORS.length) * Math.PI * 2;
-        const r = 1.8;
-        return (
-          <Float key={i} speed={2 + i * 0.3} floatIntensity={0.15}>
-            <group position={[Math.cos(angle) * r, Math.sin(angle * 2) * 0.3, Math.sin(angle) * r]}>
-              <mesh><sphereGeometry args={[0.08, 12, 12]} /><meshBasicMaterial color={color} transparent opacity={0.08} /></mesh>
-              <mesh><sphereGeometry args={[0.05, 12, 12]} /><meshBasicMaterial color={color} /></mesh>
-            </group>
-          </Float>
-        );
-      })}
-    </group>
-  );
-}
-
-/* ── Ambient dust ── */
-function AmbientDust({ count = 80 }: { count?: number }) {
-  const ref = useRef<THREE.Points>(null);
-  const positions = useMemo(() => {
-    const p = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      p[i * 3] = (Math.random() - 0.5) * 6;
-      p[i * 3 + 1] = (Math.random() - 0.5) * 6;
-      p[i * 3 + 2] = (Math.random() - 0.5) * 6;
-    }
-    return p;
-  }, [count]);
-  useFrame(({ clock }) => { if (ref.current) ref.current.rotation.y = clock.getElapsedTime() * 0.01; });
-  return (
-    <points ref={ref}>
-      <bufferGeometry><bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} /></bufferGeometry>
-      <pointsMaterial color="#D4A843" size={0.025} transparent opacity={0.3} sizeAttenuation blending={THREE.AdditiveBlending} />
-    </points>
   );
 }
 
 /* ── Main export ── */
 const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
   const mobile = useIsMobile();
+  const nodeRadius = mobile ? 1.3 : 1.7;
 
   return (
     <motion.div
@@ -243,14 +334,14 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
         }}
       />
 
-      <div className="relative w-[280px] h-[280px] sm:w-[400px] sm:h-[400px]">
+      <div className="relative w-[320px] h-[320px] sm:w-[460px] sm:h-[460px]">
         <Suspense
           fallback={
             <div className="w-full h-full rounded-full animate-pulse" style={{ background: "rgba(58,125,110,0.06)" }} />
           }
         >
           <Canvas
-            camera={{ position: [0, 0.3, 4], fov: 42 }}
+            camera={{ position: [0, 0.8, 4.2], fov: 42 }}
             gl={{ antialias: true, alpha: true }}
             style={{ background: "transparent" }}
             dpr={[1, mobile ? 1.5 : 2]}
@@ -259,13 +350,23 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
             <pointLight position={[4, 3, 4]} intensity={0.5} color="#D4A843" />
             <pointLight position={[-4, -2, 3]} intensity={0.3} color="#3A7D6E" />
 
-            <ParticleKete mobile={mobile} />
-            <OrbitingKeteNodes />
-            <AmbientDust count={mobile ? 40 : 80} />
+            <CentralKete />
+            <NetworkLines mobile={mobile} />
 
-            <OrbitalRing radius={1.6} color="#3A7D6E" speed={0.08} tilt={0.3} />
-            <OrbitalRing radius={1.9} color="#D4A843" speed={-0.05} tilt={-0.5} />
-            {!mobile && <OrbitalRing radius={2.2} color="#5AADA0" speed={0.03} tilt={0.8} />}
+            {LAYERS.map((layer) => (
+              <LayerNode
+                key={layer.label}
+                label={layer.label}
+                color={layer.color}
+                angle={layer.angle}
+                radius={nodeRadius}
+                mobile={mobile}
+              />
+            ))}
+
+            <AmbientDust count={mobile ? 30 : 60} />
+            <OrbitalRing radius={2.1} color="#3A7D6E" speed={0.04} tilt={0.3} />
+            <OrbitalRing radius={2.4} color="#D4A843" speed={-0.03} tilt={-0.5} />
           </Canvas>
         </Suspense>
       </div>
@@ -276,7 +377,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
             className="text-[10px] tracking-[4px] uppercase mb-3"
             style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(212,168,67,0.6)" }}
           >
-            Ngā Kete · 5 Industries · Tangible Outcomes
+            6-Layer Cognitive Stack · Ngā Kete · Tangible Outcomes
           </p>
           <h2
             className="text-2xl sm:text-4xl tracking-[0.02em] text-foreground mb-3"
@@ -288,9 +389,9 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
             className="text-sm max-w-lg mx-auto leading-relaxed"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}
           >
-            Five industry kete that run your compliance, operations, and reporting
-            — then hand you a signed pack your auditor can read and your lawyer can
-            rely on.
+            Every agent operates through perception, memory, reasoning, action,
+            explanation, and simulation — inside defined permissions and approval
+            pathways.
           </p>
         </div>
       )}
