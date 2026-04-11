@@ -278,7 +278,7 @@ const Index = () => {
               boxShadow: "0 0 30px rgba(58,125,110,0.1)",
             }}
           >
-            Evidence packs for Aotearoa — file it · forward it · footnote it
+            Governed Intelligence for Aotearoa — specialist kete for real NZ operations
           </span>
         </motion.div>
 
@@ -318,7 +318,7 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.65, ease }}
         >
-          Five industry kete, each built to end in a signed evidence pack. Your hospitality audit, privacy review, or site sign-off — the work runs, the pack builds. Your auditor can read it. Your lawyer can rely on it. Your client can sign it.
+          Specialist operational workflows for NZ businesses — reduce admin, surface risk earlier, and keep people in control. Five industry kete, each run ending in a signed evidence pack your auditor can read, your lawyer can rely on, and your client can sign.
         </motion.p>
 
         {/* CTAs */}

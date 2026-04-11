@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, ChevronDown, Rocket, Layers, Package, Crown, Shield, Brain, Eye, FileText, Database, Lock, Globe, Heart, PenTool, Monitor, Phone, MessageCircle, Mic, Mail } from "lucide-react";
+import { Check, ChevronDown, Rocket, Layers, Package, Crown, Brain, Eye, FileText, Database, Lock, Globe, Heart, PenTool, Monitor, Phone, MessageCircle, Mic, Mail } from "lucide-react";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -173,7 +173,7 @@ const PricingTiers = () => (
         Choose your kete
       </h2>
       <p className="text-sm font-body text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
-        Every plan includes Assembl Core: Iho routing engine, SIGNAL security, compliance pipeline, SMS/WhatsApp, and your dashboard. Every kete run ends in a signed evidence pack.
+        Every plan includes Assembl Core: Iho routing engine, compliance pipeline, SMS/WhatsApp, and your dashboard. Every kete run ends in a signed evidence pack.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
         {TIERS.map((t, i) => (
@@ -237,7 +237,6 @@ const PricingTiers = () => (
 /* ── Section D: Capability Map ── */
 const SHARED_AGENTS = [
   { icon: Brain, name: "Iho", desc: "Central routing engine" },
-  { icon: Shield, name: "SIGNAL", desc: "Security & IT" },
   { icon: Eye, name: "Kahu", desc: "Compliance check" },
   { icon: FileText, name: "Tā", desc: "Audit trail" },
   { icon: Database, name: "Mahara", desc: "Business memory" },
