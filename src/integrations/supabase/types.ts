@@ -857,6 +857,33 @@ export type Database = {
         }
         Relationships: []
       }
+      biosecurity_clearances: {
+        Row: {
+          clearance_time: number | null
+          created_at: string
+          id: string
+          mpi_standards_applied: string[] | null
+          shipment_id: string
+          status: string | null
+        }
+        Insert: {
+          clearance_time?: number | null
+          created_at?: string
+          id?: string
+          mpi_standards_applied?: string[] | null
+          shipment_id: string
+          status?: string | null
+        }
+        Update: {
+          clearance_time?: number | null
+          created_at?: string
+          id?: string
+          mpi_standards_applied?: string[] | null
+          shipment_id?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           arrival: string
@@ -1013,6 +1040,63 @@ export type Database = {
           tone?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      breach_reports: {
+        Row: {
+          affected_data_types: string[] | null
+          breach_id: string
+          containment_actions: string[] | null
+          created_at: string
+          deadline_72h: string | null
+          description: string
+          discovery_date: string
+          estimated_affected: number | null
+          harm_likelihood: string
+          id: string
+          is_notifiable: boolean | null
+          level: string | null
+          notify_commissioner: boolean | null
+          notify_individuals: boolean | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          affected_data_types?: string[] | null
+          breach_id: string
+          containment_actions?: string[] | null
+          created_at?: string
+          deadline_72h?: string | null
+          description: string
+          discovery_date?: string
+          estimated_affected?: number | null
+          harm_likelihood?: string
+          id?: string
+          is_notifiable?: boolean | null
+          level?: string | null
+          notify_commissioner?: boolean | null
+          notify_individuals?: boolean | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          affected_data_types?: string[] | null
+          breach_id?: string
+          containment_actions?: string[] | null
+          created_at?: string
+          deadline_72h?: string | null
+          description?: string
+          discovery_date?: string
+          estimated_affected?: number | null
+          harm_likelihood?: string
+          id?: string
+          is_notifiable?: boolean | null
+          level?: string | null
+          notify_commissioner?: boolean | null
+          notify_individuals?: boolean | null
+          status?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1769,6 +1853,45 @@ export type Database = {
           style?: string | null
           thumbnail_url?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      customs_declarations: {
+        Row: {
+          created_at: string
+          estimated_duties: number | null
+          hs_code: string | null
+          id: string
+          importer_id: string | null
+          item_description: string | null
+          shipment_id: string
+          status: string | null
+          tariff_rate: number | null
+          value_nzd: number | null
+        }
+        Insert: {
+          created_at?: string
+          estimated_duties?: number | null
+          hs_code?: string | null
+          id?: string
+          importer_id?: string | null
+          item_description?: string | null
+          shipment_id: string
+          status?: string | null
+          tariff_rate?: number | null
+          value_nzd?: number | null
+        }
+        Update: {
+          created_at?: string
+          estimated_duties?: number | null
+          hs_code?: string | null
+          id?: string
+          importer_id?: string | null
+          item_description?: string | null
+          shipment_id?: string
+          status?: string | null
+          tariff_rate?: number | null
+          value_nzd?: number | null
         }
         Relationships: []
       }
@@ -3171,6 +3294,30 @@ export type Database = {
           },
         ]
       }
+      hsno_classification: {
+        Row: {
+          created_at: string
+          description: string | null
+          hazard_class: string
+          id: string
+          special_handling: boolean | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          hazard_class: string
+          id?: string
+          special_handling?: boolean | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          hazard_class?: string
+          id?: string
+          special_handling?: boolean | null
+        }
+        Relationships: []
+      }
       inbox_messages: {
         Row: {
           family_id: string
@@ -3279,6 +3426,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      ipp_consents: {
+        Row: {
+          action_type: string
+          consented: boolean | null
+          consented_at: string | null
+          created_at: string
+          id: string
+          ipp_numbers: number[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          action_type: string
+          consented?: boolean | null
+          consented_at?: string | null
+          created_at?: string
+          id?: string
+          ipp_numbers?: number[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          action_type?: string
+          consented?: boolean | null
+          consented_at?: string | null
+          created_at?: string
+          id?: string
+          ipp_numbers?: number[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       job_offers: {
         Row: {
@@ -3793,6 +3973,36 @@ export type Database = {
         }
         Relationships: []
       }
+      mpi_import_standards: {
+        Row: {
+          clearance_required: boolean | null
+          created_at: string
+          id: string
+          item_category: string
+          origin_country: string
+          prohibited: boolean | null
+          standard_reference: string | null
+        }
+        Insert: {
+          clearance_required?: boolean | null
+          created_at?: string
+          id?: string
+          item_category: string
+          origin_country: string
+          prohibited?: boolean | null
+          standard_reference?: string | null
+        }
+        Update: {
+          clearance_required?: boolean | null
+          created_at?: string
+          id?: string
+          item_category?: string
+          origin_country?: string
+          prohibited?: boolean | null
+          standard_reference?: string | null
+        }
+        Relationships: []
+      }
       onboarding_sessions: {
         Row: {
           completed: boolean
@@ -4052,6 +4262,38 @@ export type Database = {
             columns: ["message_id"]
             isOneToOne: false
             referencedRelation: "inbox_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      permissions: {
+        Row: {
+          action: string
+          allowed: boolean | null
+          id: string
+          kete: string
+          role_id: string
+        }
+        Insert: {
+          action: string
+          allowed?: boolean | null
+          id?: string
+          kete: string
+          role_id: string
+        }
+        Update: {
+          action?: string
+          allowed?: boolean | null
+          id?: string
+          kete?: string
+          role_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "permissions_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
             referencedColumns: ["id"]
           },
         ]
@@ -4382,6 +4624,27 @@ export type Database = {
         }
         Relationships: []
       }
+      roles: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       routing_log: {
         Row: {
           confidence_score: number | null
@@ -4418,6 +4681,45 @@ export type Database = {
           selected_kete?: string
           selected_model?: string
           user_input?: string
+        }
+        Relationships: []
+      }
+      sar_requests: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          notes: string | null
+          request_type: string
+          response_deadline: string | null
+          status: string | null
+          subject_description: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          request_type?: string
+          response_deadline?: string | null
+          status?: string | null
+          subject_description?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          request_type?: string
+          response_deadline?: string | null
+          status?: string | null
+          subject_description?: string | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -4941,6 +5243,33 @@ export type Database = {
           id?: string
           metadata?: Json | null
           reason?: string
+        }
+        Relationships: []
+      }
+      tariff_classification: {
+        Row: {
+          created_at: string
+          description: string | null
+          dual_use_flag: boolean | null
+          hs_code: string
+          id: string
+          tariff_rate: number | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          dual_use_flag?: boolean | null
+          hs_code: string
+          id?: string
+          tariff_rate?: number | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          dual_use_flag?: boolean | null
+          hs_code?: string
+          id?: string
+          tariff_rate?: number | null
         }
         Relationships: []
       }
@@ -6533,6 +6862,54 @@ export type Database = {
         }
         Relationships: []
       }
+      vehicles: {
+        Row: {
+          cof_expiry: string | null
+          created_at: string
+          fleet_id: string | null
+          id: string
+          make: string | null
+          model: string | null
+          registration: string | null
+          status: string | null
+          updated_at: string
+          user_id: string
+          vehicle_id: string
+          wof_expiry: string | null
+          year: number | null
+        }
+        Insert: {
+          cof_expiry?: string | null
+          created_at?: string
+          fleet_id?: string | null
+          id?: string
+          make?: string | null
+          model?: string | null
+          registration?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id: string
+          vehicle_id: string
+          wof_expiry?: string | null
+          year?: number | null
+        }
+        Update: {
+          cof_expiry?: string | null
+          created_at?: string
+          fleet_id?: string | null
+          id?: string
+          make?: string | null
+          model?: string | null
+          registration?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+          vehicle_id?: string
+          wof_expiry?: string | null
+          year?: number | null
+        }
+        Relationships: []
+      }
       video_scripts: {
         Row: {
           audience: string | null
@@ -6778,6 +7155,33 @@ export type Database = {
         }
         Relationships: []
       }
+      wof_bookings: {
+        Row: {
+          booked_at: string
+          created_at: string
+          fleet_id: string | null
+          id: string
+          status: string | null
+          vehicle_id: string
+        }
+        Insert: {
+          booked_at?: string
+          created_at?: string
+          fleet_id?: string | null
+          id?: string
+          status?: string | null
+          vehicle_id: string
+        }
+        Update: {
+          booked_at?: string
+          created_at?: string
+          fleet_id?: string | null
+          id?: string
+          status?: string | null
+          vehicle_id?: string
+        }
+        Relationships: []
+      }
       workflow_executions: {
         Row: {
           completed_at: string | null
@@ -6858,6 +7262,51 @@ export type Database = {
           trigger_agent?: string
           trigger_event?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      workshop_jobs: {
+        Row: {
+          created_at: string
+          fleet_id: string | null
+          id: string
+          job_id: string
+          job_type: string | null
+          notes: string | null
+          scheduled_end: string | null
+          scheduled_start: string | null
+          status: string | null
+          updated_at: string
+          user_id: string | null
+          vehicle_id: string
+        }
+        Insert: {
+          created_at?: string
+          fleet_id?: string | null
+          id?: string
+          job_id?: string
+          job_type?: string | null
+          notes?: string | null
+          scheduled_end?: string | null
+          scheduled_start?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+          vehicle_id: string
+        }
+        Update: {
+          created_at?: string
+          fleet_id?: string | null
+          id?: string
+          job_id?: string
+          job_type?: string | null
+          notes?: string | null
+          scheduled_end?: string | null
+          scheduled_start?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+          vehicle_id?: string
         }
         Relationships: []
       }
