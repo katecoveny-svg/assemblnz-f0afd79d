@@ -274,62 +274,63 @@ const Index = () => {
           transition={{ duration: 0.8, delay: 0.6, ease }}
         >
           {PACKS.map((p, i) => (
-            <motion.div
-              key={p.reo}
-              className="flex flex-col items-center gap-2"
-              initial={{ opacity: 0, scale: 0.82 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.45, delay: 0.75 + i * 0.08, ease }}
-              whileHover={{ y: -6, scale: 1.04 }}
-            >
-              <div
-                className="relative flex items-center justify-center rounded-2xl overflow-hidden"
-                style={{
-                  width: isMobile ? 92 : 112,
-                  height: isMobile ? 92 : 112,
-                  background: `linear-gradient(180deg, ${p.color}12 0%, rgba(10,10,24,0.9) 100%)`,
-                  border: `1px solid ${p.color}25`,
-                  boxShadow: `0 0 30px ${p.color}18, inset 0 1px 0 rgba(255,255,255,0.08)`,
-                  backdropFilter: 'blur(14px)',
-                  WebkitBackdropFilter: 'blur(14px)',
-                }}
+            <Link key={p.reo} to={p.to}>
+              <motion.div
+                className="flex flex-col items-center gap-2 cursor-pointer"
+                initial={{ opacity: 0, scale: 0.82 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.45, delay: 0.75 + i * 0.08, ease }}
+                whileHover={{ y: -6, scale: 1.04 }}
               >
                 <div
-                  className="absolute top-0 left-[14%] right-[14%] h-px"
-                  style={{ background: `linear-gradient(90deg, transparent, ${p.color}55, transparent)` }}
-                />
-                {p.reo === "Toro" ? (
-                  <div className="flex h-full w-full items-center justify-center" style={{ filter: 'drop-shadow(0 0 18px rgba(135,206,235,0.35))' }}>
-                    <ToroBirdIcon size={isMobile ? 44 : 54} color="#87CEEB" />
-                  </div>
-                ) : (
-                  <KeteIcon
-                    name={p.reo}
-                    accentColor={p.color}
-                    accentLight={p.accentLight}
-                    variant={
-                      p.reo === "Manaaki"
-                        ? "warm"
-                        : p.reo === "Waihanga"
-                          ? "dense"
-                          : p.reo === "Auaha"
-                            ? "tricolor"
-                            : p.reo === "Arataki"
-                              ? "organic"
-                              : "standard"
-                    }
-                    size="small"
-                    animated
+                  className="relative flex items-center justify-center rounded-2xl overflow-hidden"
+                  style={{
+                    width: isMobile ? 92 : 112,
+                    height: isMobile ? 92 : 112,
+                    background: `linear-gradient(180deg, ${p.color}12 0%, rgba(10,10,24,0.9) 100%)`,
+                    border: `1px solid ${p.color}25`,
+                    boxShadow: `0 0 30px ${p.color}18, inset 0 1px 0 rgba(255,255,255,0.08)`,
+                    backdropFilter: 'blur(14px)',
+                    WebkitBackdropFilter: 'blur(14px)',
+                  }}
+                >
+                  <div
+                    className="absolute top-0 left-[14%] right-[14%] h-px"
+                    style={{ background: `linear-gradient(90deg, transparent, ${p.color}55, transparent)` }}
                   />
-                )}
-              </div>
-              <span
-                className="text-[8px] sm:text-[9px] tracking-[2.5px] uppercase"
-                style={{ fontFamily: FONT.mono, color: p.color, textShadow: `0 0 16px ${p.color}22` }}
-              >
-                {p.reo}
-              </span>
-            </motion.div>
+                  {p.reo === "Toro" ? (
+                    <div className="flex h-full w-full items-center justify-center" style={{ filter: 'drop-shadow(0 0 18px rgba(135,206,235,0.35))' }}>
+                      <ToroBirdIcon size={isMobile ? 44 : 54} color="#87CEEB" />
+                    </div>
+                  ) : (
+                    <KeteIcon
+                      name={p.reo}
+                      accentColor={p.color}
+                      accentLight={p.accentLight}
+                      variant={
+                        p.reo === "Manaaki"
+                          ? "warm"
+                          : p.reo === "Waihanga"
+                            ? "dense"
+                            : p.reo === "Auaha"
+                              ? "tricolor"
+                              : p.reo === "Arataki"
+                                ? "organic"
+                                : "standard"
+                      }
+                      size="small"
+                      animated
+                    />
+                  )}
+                </div>
+                <span
+                  className="text-[8px] sm:text-[9px] tracking-[2.5px] uppercase"
+                  style={{ fontFamily: FONT.mono, color: p.color, textShadow: `0 0 16px ${p.color}22` }}
+                >
+                  {p.reo}
+                </span>
+              </motion.div>
+            </Link>
           ))}
         </motion.div>
 
