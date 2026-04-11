@@ -219,14 +219,16 @@ function KeteWireframe() {
 
   return (
     <group ref={groupRef}>
-      {lines.map((line, i) => {
-        const geometry = new THREE.BufferGeometry().setFromPoints(line.points);
-        return (
-          <line key={i} geometry={geometry}>
-            <lineBasicMaterial color={line.color} transparent opacity={line.opacity} />
-          </line>
-        );
-      })}
+      {lines.map((line, i) => (
+        <Line
+          key={i}
+          points={line.points.map(p => [p.x, p.y, p.z] as [number, number, number])}
+          color={line.color}
+          lineWidth={1}
+          transparent
+          opacity={line.opacity}
+        />
+      ))}
     </group>
   );
 }
