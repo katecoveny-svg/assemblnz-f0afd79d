@@ -62,7 +62,7 @@ Deno.serve(async (req) => {
           },
           body: JSON.stringify({
             url: intake.website_url,
-            formats: ["markdown", "links"],
+            formats: ["markdown", "links", "branding"],
             onlyMainContent: true,
           }),
         });
@@ -72,6 +72,7 @@ Deno.serve(async (req) => {
             markdown: scrapeData.data?.markdown?.substring(0, 10000),
             links: (scrapeData.data?.links || []).slice(0, 50),
             metadata: scrapeData.data?.metadata || {},
+            branding: scrapeData.data?.branding || null,
           };
         }
       } catch (e) {
@@ -79,15 +80,13 @@ Deno.serve(async (req) => {
       }
     }
 
-    // NZBN lookup (stub — requires NZBN_API_TOKEN)
+    // NZBN lookup
     const nzbnToken = Deno.env.get("NZBN_API_TOKEN");
     if (nzbnToken && intake.business_name) {
       try {
         const nzbnRes = await fetch(
           `https://api.business.govt.nz/services/v4/nz-business/entities?search-term=${encodeURIComponent(intake.business_name)}&entity-status=Registered`,
-          {
-            headers: { Authorization: `Bearer ${nzbnToken}` },
-          }
+          { headers: { Authorization: `Bearer ${nzbnToken}` } }
         );
         const nzbnData = await nzbnRes.json();
         if (nzbnData?.items?.[0]) {
@@ -257,49 +256,216 @@ Write in plain English. No jargon. No buzzwords. Respond in JSON:
 
     // ─── STAGE 4: MAHARA — Compliance Check ───────────────────────
     console.log("[MAHARA] Running compliance checks…");
-    // Stub — rule-based checks would go here
-    // For now, pass through
+    // Stub — rule-based checks pass through
 
     // ─── STAGE 5: MANA — Render + Deliver ─────────────────────────
     console.log("[MANA] Rendering plan…");
 
     const planSlug = intake_id;
-    const planUrl = `${Deno.env.get("SUPABASE_URL")}/storage/v1/object/public/plans/${planSlug}.html`;
-
-    // Generate plan HTML
     const planHtml = renderPlanHtml(intake, classification, plan);
 
     // Upload to storage
-    const { error: uploadErr } = await supabase.storage
+    await supabase.storage
       .from("plans")
       .upload(`${planSlug}.html`, new Blob([planHtml], { type: "text/html" }), {
         contentType: "text/html",
         upsert: true,
       });
 
-    if (uploadErr) {
-      console.error("[MANA] Upload error:", uploadErr);
-    }
-
-    // Get public URL
     const { data: urlData } = supabase.storage
       .from("plans")
       .getPublicUrl(`${planSlug}.html`);
 
-    // Final update
     await supabase
       .from("tenant_intake")
       .update({
         personalised_plan: plan,
-        plan_html_url: urlData?.publicUrl || planUrl,
+        plan_html_url: urlData?.publicUrl,
+        pipeline_status: "provisioning",
+      })
+      .eq("id", intake_id);
+
+    // ─── STAGE 6: PROVISION TENANT ────────────────────────────────
+    console.log("[PROVISION] Creating tenant + user…");
+
+    const businessName = intake.business_name || new URL(intake.website_url).hostname.replace("www.", "");
+    const brandColor = scrapeWebsite?.branding?.colors?.primary || "#3A7D6E";
+    const logoUrl = scrapeWebsite?.branding?.images?.logo || null;
+
+    // 6a. Create tenant record
+    const { data: tenant, error: tenantErr } = await supabase
+      .from("tenants")
+      .insert({
+        name: businessName,
+        plan: "trial",
+        billing_email: intake.contact_email,
+        website_url: intake.website_url,
+        kete_primary: classification.kete_primary,
+        brand_color: brandColor,
+        logo_url: logoUrl,
+        metadata: {
+          scrape_summary: scrapeWebsite?.metadata || {},
+          nzbn: scrapeNzbn || {},
+          classification,
+          pain_points: intake.pain_points,
+          team_size: intake.team_size,
+        },
+      })
+      .select("id")
+      .single();
+
+    if (tenantErr || !tenant) {
+      console.error("[PROVISION] Tenant creation error:", tenantErr);
+      await supabase.from("tenant_intake").update({ pipeline_status: "error" }).eq("id", intake_id);
+      return new Response(
+        JSON.stringify({ error: "Failed to create tenant" }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // 6b. Create auth user + send magic link
+    // First check if user already exists
+    const { data: existingUsers } = await supabase.auth.admin.listUsers();
+    const existingUser = existingUsers?.users?.find(u => u.email === intake.contact_email);
+
+    let authUserId: string;
+
+    if (existingUser) {
+      authUserId = existingUser.id;
+      console.log("[PROVISION] User already exists, skipping creation");
+    } else {
+      // Create user with a random password (they'll use magic link)
+      const tempPassword = crypto.randomUUID() + "Aa1!";
+      const { data: newUser, error: userErr } = await supabase.auth.admin.createUser({
+        email: intake.contact_email,
+        password: tempPassword,
+        email_confirm: true,
+        user_metadata: {
+          full_name: intake.contact_name,
+          tenant_id: tenant.id,
+        },
+      });
+
+      if (userErr || !newUser.user) {
+        console.error("[PROVISION] User creation error:", userErr);
+        await supabase.from("tenant_intake").update({ pipeline_status: "error" }).eq("id", intake_id);
+        return new Response(
+          JSON.stringify({ error: "Failed to create user" }),
+          { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+      authUserId = newUser.user.id;
+    }
+
+    // 6c. Create tenant membership (admin role)
+    await supabase.from("tenant_members").upsert({
+      tenant_id: tenant.id,
+      user_id: authUserId,
+      role: "admin",
+    }, { onConflict: "tenant_id,user_id" });
+
+    // 6d. Set up agent access for the kete
+    const keteAgents = getKeteAgents(classification.kete_primary);
+    for (const agent of keteAgents) {
+      await supabase.from("agent_access").upsert({
+        tenant_id: tenant.id,
+        agent_code: agent.code,
+        pack_id: classification.kete_primary,
+        is_enabled: true,
+      }, { onConflict: "tenant_id,agent_code" });
+    }
+
+    // 6e. Seed business memory from scrape data
+    const memoryEntries = [];
+
+    if (scrapeWebsite?.markdown) {
+      memoryEntries.push({
+        user_id: authUserId,
+        tenant_id: tenant.id,
+        category: "business_context",
+        tags: ["onboarding", "website", "auto-scraped"],
+        content: `Website content for ${businessName}: ${scrapeWebsite.markdown.substring(0, 5000)}`,
+        metadata: { source: "firecrawl", url: intake.website_url },
+        relevance_score: 0.9,
+      });
+    }
+
+    if (scrapeNzbn) {
+      memoryEntries.push({
+        user_id: authUserId,
+        tenant_id: tenant.id,
+        category: "business_context",
+        tags: ["onboarding", "nzbn", "legal"],
+        content: `NZBN record: ${JSON.stringify(scrapeNzbn)}`,
+        metadata: { source: "nzbn" },
+        relevance_score: 0.85,
+      });
+    }
+
+    if (intake.pain_points?.length) {
+      memoryEntries.push({
+        user_id: authUserId,
+        tenant_id: tenant.id,
+        category: "preferences",
+        tags: ["onboarding", "pain-points"],
+        content: `Priority pain points: ${intake.pain_points.join(", ")}. Priority workflow: ${intake.priority_workflow || "none specified"}.`,
+        metadata: { source: "intake_form" },
+        relevance_score: 0.95,
+      });
+    }
+
+    if (plan) {
+      memoryEntries.push({
+        user_id: authUserId,
+        tenant_id: tenant.id,
+        category: "plan",
+        tags: ["onboarding", "30-60-90"],
+        content: `Personalised plan: ${JSON.stringify(plan)}`,
+        metadata: { source: "pipeline" },
+        relevance_score: 0.9,
+      });
+    }
+
+    if (memoryEntries.length > 0) {
+      await supabase.from("business_memory").insert(memoryEntries);
+    }
+
+    // 6f. Send magic link
+    const siteUrl = Deno.env.get("SITE_URL") || "https://assemblnz.lovable.app";
+    const { error: magicLinkErr } = await supabase.auth.admin.generateLink({
+      type: "magiclink",
+      email: intake.contact_email,
+      options: {
+        redirectTo: `${siteUrl}/workspace`,
+      },
+    });
+
+    const magicLinkSent = !magicLinkErr;
+    if (magicLinkErr) {
+      console.error("[PROVISION] Magic link error:", magicLinkErr);
+    }
+
+    // 6g. Link intake to tenant
+    await supabase
+      .from("tenant_intake")
+      .update({
+        tenant_id: tenant.id,
+        auth_user_id: authUserId,
+        magic_link_sent: magicLinkSent,
+        provisioned_at: new Date().toISOString(),
         pipeline_status: "complete",
       })
       .eq("id", intake_id);
 
-    console.log("[MANA] Pipeline complete!");
+    console.log("[PROVISION] Pipeline complete! Tenant:", tenant.id);
 
     return new Response(
-      JSON.stringify({ status: "complete", plan_url: urlData?.publicUrl }),
+      JSON.stringify({
+        status: "complete",
+        plan_url: urlData?.publicUrl,
+        tenant_id: tenant.id,
+        magic_link_sent: magicLinkSent,
+      }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
@@ -312,6 +478,51 @@ Write in plain English. No jargon. No buzzwords. Respond in JSON:
   }
 });
 
+// ─── Agent mapping per kete ──────────────────────────────────
+function getKeteAgents(kete: string): { code: string; name: string }[] {
+  const base = [
+    { code: "iho", name: "Iho" },
+    { code: "kahu", name: "Kahu" },
+    { code: "ta", name: "Tā" },
+    { code: "mahara", name: "Mahara" },
+    { code: "mana", name: "Mana" },
+  ];
+
+  const keteMap: Record<string, { code: string; name: string }[]> = {
+    MANAAKI: [
+      { code: "aura", name: "Aura" },
+      { code: "aroha", name: "Aroha" },
+      { code: "echo", name: "Echo" },
+    ],
+    WAIHANGA: [
+      { code: "apex", name: "Apex" },
+      { code: "forge", name: "Forge" },
+      { code: "sentinel", name: "Sentinel" },
+      { code: "kaupapa", name: "Kaupapa" },
+    ],
+    AUAHA: [
+      { code: "prism", name: "Prism" },
+      { code: "muse", name: "Muse" },
+      { code: "pixel", name: "Pixel" },
+      { code: "verse", name: "Verse" },
+      { code: "spark", name: "Spark" },
+    ],
+    ARATAKI: [
+      { code: "pilot", name: "Pilot" },
+      { code: "echo", name: "Echo" },
+      { code: "navigator", name: "Navigator" },
+    ],
+    PIKAU: [
+      { code: "navigator", name: "Navigator" },
+      { code: "pilot", name: "Pilot" },
+      { code: "echo", name: "Echo" },
+    ],
+  };
+
+  return [...base, ...(keteMap[kete] || [])];
+}
+
+// ─── Plan HTML renderer ──────────────────────────────────────
 function renderPlanHtml(
   intake: Record<string, unknown>,
   classification: Record<string, unknown>,
@@ -359,6 +570,8 @@ h2{font-size:20px;margin:40px 0 16px;color:#E8B94A}
 .price-includes{font-size:13px;color:#9A9690;margin-top:12px}
 .cta{display:block;width:100%;padding:16px;background:#E8B94A;color:#0B0D10;font-weight:700;font-size:16px;border:none;border-radius:12px;cursor:pointer;text-align:center;text-decoration:none;margin-top:24px}
 .cta:hover{background:#D4A843}
+.magic{display:block;width:100%;padding:14px;background:transparent;color:#E8B94A;font-weight:600;font-size:14px;border:1px solid rgba(232,185,74,0.3);border-radius:12px;text-align:center;text-decoration:none;margin-top:12px}
+.magic:hover{background:rgba(232,185,74,0.08)}
 .footer{text-align:center;margin-top:40px;font-size:12px;color:#6B6760}
 .footer a{color:#E8B94A;text-decoration:none}
 @media(max-width:480px){.timeline{grid-template-columns:1fr}}
@@ -415,8 +628,10 @@ ${price.setup_nzd > 0 ? `<div class="price-period">$${price.setup_nzd} setup</di
 <div class="price-includes">${(price.includes || []).join(" · ")}</div>
 </div>
 
+<p style="text-align:center;font-size:13px;color:#9A9690;margin-bottom:8px">Check your email for a magic link to log in and start.</p>
+
 <a href="mailto:kia-ora@assembl.co.nz?subject=Start my Assembl — ${businessName}" class="cta">
-Start — set up my Assembl
+Talk to us
 </a>
 
 <div class="footer">
