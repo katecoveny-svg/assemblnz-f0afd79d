@@ -4,7 +4,7 @@
  * what the agent actually produces — with real sample data.
  *
  * Brand palette: #5AADA0 (emerald), #3A6A9C (cyan), #3A6A9C (violet),
- *                #E040FB (magenta), #4FC3F7 (sky), #7E57C2 (deep purple)
+ *                #3A7D6E (magenta), #4FC3F7 (sky), #1A3A5C (deep purple)
  */
 
 import { useState } from "react";
@@ -190,10 +190,10 @@ export const ForgeComparisonPreview = () => {
 /* ── ECHO: Content Queue ── */
 export const EchoContentPreview = () => {
   const posts = [
-    { platform: "IG", type: "Carousel", time: "7am", status: "ready", color: "#E040FB" },
+    { platform: "IG", type: "Carousel", time: "7am", status: "ready", color: "#3A7D6E" },
     { platform: "LI", type: "Post", time: "8am", status: "ready", color: "#0A66C2" },
-    { platform: "IG", type: "Reel", time: "12pm", status: "draft", color: "#E040FB" },
-    { platform: "IG", type: "Stories", time: "6pm", status: "draft", color: "#E040FB" },
+    { platform: "IG", type: "Reel", time: "12pm", status: "draft", color: "#3A7D6E" },
+    { platform: "IG", type: "Stories", time: "6pm", status: "draft", color: "#3A7D6E" },
   ];
   return (
     <div className="space-y-1.5">
@@ -242,7 +242,7 @@ export const PrismCampaignPreview = () => {
   const channels = [
     { name: "Email", items: 3, color: "#4FC3F7" },
     { name: "LinkedIn", items: 2, color: "#0A66C2" },
-    { name: "Instagram", items: 4, color: "#E040FB" },
+    { name: "Instagram", items: 4, color: "#3A7D6E" },
     { name: "Reel", items: 1, color: "#3A6A9C" },
   ];
   return (
@@ -251,7 +251,7 @@ export const PrismCampaignPreview = () => {
         <span className="font-mono-jb text-[9px]" style={{ color: "rgba(255,255,255,0.3)" }}>
           Campaign: FORGE Launch
         </span>
-        <span className="font-mono-jb text-[9px]" style={{ color: "#E040FB" }}>
+        <span className="font-mono-jb text-[9px]" style={{ color: "#3A7D6E" }}>
           14 days
         </span>
       </div>
@@ -381,7 +381,7 @@ export const ShieldRiskPreview = () => {
         <span className="font-mono-jb text-[9px]" style={{ color: "rgba(255,255,255,0.3)" }}>
           Mt Eden, Auckland
         </span>
-        <span className="font-mono-jb text-[10px] font-bold" style={{ color: "#7E57C2" }}>
+        <span className="font-mono-jb text-[10px] font-bold" style={{ color: "#1A3A5C" }}>
           $609,400
         </span>
       </div>
@@ -478,7 +478,7 @@ export const HelmWeeklyPreview = () => {
     { day: "Mon", items: ["Swimming gear", "Library book"], color: "#3A6A9C" },
     { day: "Tue", items: ["Mufti day $2", "Cricket 3:30"], color: "#5AADA0" },
     { day: "Wed", items: ["Lunch order", "ICAS Maths"], color: "#4FC3F7" },
-    { day: "Thu", items: ["School photos", "USB for Tech"], color: "#E040FB" },
+    { day: "Thu", items: ["School photos", "USB for Tech"], color: "#3A7D6E" },
     { day: "Fri", items: ["Assembly 2pm", "Early finish"], color: "#3A6A9C" },
   ];
   return (

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Target, Zap, Crown, Sparkles, Copy, CheckCircle2, Wand2, BarChart3 } from "lucide-react";
 
-const ACCENT = "#E040FB";
+const ACCENT = "#3A7D6E";
 
 const AD_PLATFORMS = [
   { id: "google", label: "Google Display" },

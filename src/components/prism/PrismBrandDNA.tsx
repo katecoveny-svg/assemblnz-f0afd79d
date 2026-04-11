@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Dna, Palette, Type, MessageSquare, RefreshCw, Edit3, Shield, ChevronDown, ChevronUp } from "lucide-react";
 
-const ACCENT = "#E040FB";
+const ACCENT = "#3A7D6E";
 
 interface BrandDna {
   business_name?: string;

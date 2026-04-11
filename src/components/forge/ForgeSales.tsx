@@ -196,7 +196,7 @@ export default function ForgeSales() {
             title="Lead Sources"
             data={SOURCES.map(s => ({ name: s, value: leads.filter(l => l.source === s).length })).filter(d => d.value > 0)}
             height={180}
-            colors={["#FF4D6A", "#FF6B00", "#5AADA0", "#3A6A9C", "#E040FB"]}
+            colors={["#FF4D6A", "#FF6B00", "#5AADA0", "#3A6A9C", "#3A7D6E"]}
           />
         </div>
 

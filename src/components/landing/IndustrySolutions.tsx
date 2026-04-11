@@ -27,7 +27,7 @@ const HERO_INDUSTRIES = [
   {
     industry: "Marketing & Creative",
     agent: "PRISM",
-    color: "#E040FB",
+    color: "#3A7D6E",
     Icon: Palette,
     description: "Brand strategy, campaign creation, image generation, and social deployment — your entire marketing department in one place.",
     capabilities: ["Brand strategy builder", "AI image generation", "Social media deployment", "Campaign auto-creator"],

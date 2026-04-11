@@ -5,9 +5,9 @@ import { Bell } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const AGENT_COLORS: Record<string, string> = {
-  AROHA: "#ec4899", LEDGER: "#22c55e", FLUX: "#3b82f6", ANCHOR: "#a855f7",
+  AROHA: "#ec4899", LEDGER: "#22c55e", FLUX: "#3b82f6", ANCHOR: "#3A7D6E",
   ECHO: "#06b6d4", PRISM: "#f59e0b", HAVEN: "#14b8a6", TURF: "#84cc16",
-  APEX: "#ef4444", FORGE: "#f97316", AURA: "#8b5cf6", TORO: "#06b6d4",
+  APEX: "#ef4444", FORGE: "#f97316", AURA: "#3A7D6E", TORO: "#06b6d4",
   MANAAKI: "#ec4899", KINDLE: "#f43f5e", NEXUS: "#1A3A5C",
 };
 

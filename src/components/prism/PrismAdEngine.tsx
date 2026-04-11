@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Target, Zap, Rocket, CheckSquare, Square } from "lucide-react";
 
-const ACCENT = "#E040FB";
+const ACCENT = "#3A7D6E";
 
 const INDUSTRIES = [
   { id: "hospitality", label: "Hospitality", agent: "AURA" },

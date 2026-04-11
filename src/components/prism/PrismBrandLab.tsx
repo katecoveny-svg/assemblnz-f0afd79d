@@ -6,7 +6,7 @@ import {
   Palette, Type, Target, Heart, Layers, Eye, ChevronRight, Loader2
 } from "lucide-react";
 
-const ACCENT = "#E040FB";
+const ACCENT = "#3A7D6E";
 
 type Mode = "logo" | "guidelines" | "analyser";
 
@@ -56,7 +56,7 @@ function LogoGenerator({ onSendToChat }: { onSendToChat?: (msg: string) => void 
   const [desc, setDesc] = useState("");
   const [feeling, setFeeling] = useState("Innovation & Tech");
   const [style, setStyle] = useState("Combination Mark");
-  const [colour, setColour] = useState("#E040FB");
+  const [colour, setColour] = useState("#3A7D6E");
 
   const generate = () => {
     if (!onSendToChat || !desc.trim()) return;
@@ -112,7 +112,7 @@ Then generate the best concept as an actual image: [GENERATE_IMAGE: Logo for "${
           <input type="color" value={colour} onChange={e => setColour(e.target.value)}
             className="w-8 h-8 rounded-lg border-0 cursor-pointer" style={{ background: "transparent" }} />
           <span className="text-[11px] font-mono-jb" style={{ color: "rgba(255,255,255,0.5)" }}>{colour}</span>
-          <button onClick={() => setColour("#E040FB")} className="text-[9px] px-2 py-1 rounded"
+          <button onClick={() => setColour("#3A7D6E")} className="text-[9px] px-2 py-1 rounded"
             style={{ background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.3)" }}>
             Reset
           </button>

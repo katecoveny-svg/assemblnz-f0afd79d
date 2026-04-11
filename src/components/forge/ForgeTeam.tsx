@@ -20,7 +20,7 @@ const DEMO_TEAM: TeamMember[] = [
   { id: "6", name: "Ngaio Te Pania", role: "Parts Manager", department: "Parts", phone: "021 555 0606", email: "ngaio@forge.co.nz", specialties: ["Inventory", "Warranty claims"], years: 7, certifications: ["Parts Management"], unitsSold: 0, grossProfit: 0, testDrives: 0, conversionRate: 0, satisfaction: 93 },
 ];
 
-const DEPT_COLORS: Record<string, string> = { Sales: FORGE_COLOR, Service: "#3A6A9C", Parts: "#3A6A9C", Admin: "#E040FB", Management: "#5AADA0" };
+const DEPT_COLORS: Record<string, string> = { Sales: FORGE_COLOR, Service: "#3A6A9C", Parts: "#3A6A9C", Admin: "#3A7D6E", Management: "#5AADA0" };
 
 const generateBio = (m: TeamMember, format: "website" | "email" | "social" | "trademe") => {
   switch (format) {
