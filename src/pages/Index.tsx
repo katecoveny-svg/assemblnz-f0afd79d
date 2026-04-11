@@ -278,7 +278,7 @@ const Index = () => {
               boxShadow: "0 0 30px rgba(58,125,110,0.1)",
             }}
           >
-            Governed Intelligence for Aotearoa — specialist kete for real NZ operations
+            Intelligent business solutions for Aotearoa
           </span>
         </motion.div>
 
