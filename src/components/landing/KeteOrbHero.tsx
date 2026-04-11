@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
  * constellation nodes, and dynamic particle drift.
  */
 
-const PARTICLE_COUNT = 2400;
+const PARTICLE_COUNT = 900;
 const ORBIT_RING_COUNT = 3;
 
 const KETE_COLORS = ["#D4A843", "#3A7D6E", "#F0D078", "#E8E8E8", "#5AADA0"];
@@ -46,7 +46,7 @@ function ParticleSphere() {
       col[i * 3 + 1] = c.g;
       col[i * 3 + 2] = c.b;
 
-      sz[i] = 1.5 + Math.random() * 3;
+      sz[i] = 1.0 + Math.random() * 1.5;
     }
 
     return { positions: pos, colors: col, sizes: sz };
@@ -90,7 +90,7 @@ function ParticleSphere() {
     void main() {
       vColor = color;
       vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-      gl_PointSize = size * (200.0 / -mvPosition.z);
+      gl_PointSize = size * (40.0 / -mvPosition.z);
       gl_Position = projectionMatrix * mvPosition;
     }
   `;
@@ -100,8 +100,8 @@ function ParticleSphere() {
     void main() {
       float d = length(gl_PointCoord - vec2(0.5));
       if (d > 0.5) discard;
-      float alpha = 1.0 - smoothstep(0.1, 0.5, d);
-      gl_FragColor = vec4(vColor * 0.9, alpha * 0.7);
+      float alpha = 1.0 - smoothstep(0.0, 0.45, d);
+      gl_FragColor = vec4(vColor * 1.5, alpha * 0.55);
     }
   `;
 
@@ -136,7 +136,7 @@ function OrbitalRing({ radius, color, speed, tilt }: { radius: number; color: st
   return (
     <mesh ref={ref} rotation={[tilt, 0, 0]}>
       <torusGeometry args={[radius, 0.005, 8, 128]} />
-      <meshBasicMaterial color={color} transparent opacity={0.2} />
+      <meshBasicMaterial color={color} transparent opacity={0.35} />
     </mesh>
   );
 }
@@ -164,8 +164,8 @@ function OrbitingKeteNodes() {
             <group position={[x, y, z]}>
               {/* Glow */}
               <mesh>
-                <sphereGeometry args={[0.16, 12, 12]} />
-                <meshBasicMaterial color={color} transparent opacity={0.12} />
+                <sphereGeometry args={[0.1, 12, 12]} />
+                <meshBasicMaterial color={color} transparent opacity={0.08} />
               </mesh>
               {/* Core */}
               <mesh>
@@ -225,7 +225,7 @@ function AmbientDust() {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
       </bufferGeometry>
-      <pointsMaterial color="#D4A843" size={0.015} transparent opacity={0.15} sizeAttenuation blending={THREE.AdditiveBlending} />
+      <pointsMaterial color="#D4A843" size={0.025} transparent opacity={0.3} sizeAttenuation blending={THREE.AdditiveBlending} />
     </points>
   );
 }
@@ -240,21 +240,13 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
       viewport={{ once: true }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Multi-layer ambient glow */}
+      {/* Subtle ambient glow */}
       <div
         className="absolute w-[420px] h-[420px] sm:w-[560px] sm:h-[560px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(58,125,110,0.12) 0%, rgba(212,168,67,0.06) 35%, rgba(90,173,160,0.03) 60%, transparent 80%)",
-          filter: "blur(50px)",
-        }}
-      />
-      <div
-        className="absolute w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(212,168,67,0.08) 0%, transparent 70%)",
-          filter: "blur(30px)",
+            "radial-gradient(circle, rgba(58,125,110,0.06) 0%, rgba(212,168,67,0.03) 40%, transparent 70%)",
+          filter: "blur(60px)",
         }}
       />
 
