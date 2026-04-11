@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mic, Brain, PenTool, Palette, Shield, ArrowRight, CheckCircle2, Loader2, Sparkles, Play } from "lucide-react";
+import { Mic, Layers, PenTool, Palette, Shield, ArrowRight, CheckCircle2, Loader2, Sparkles, Play } from "lucide-react";
 
 const WORKFLOW_STEPS = [
   {

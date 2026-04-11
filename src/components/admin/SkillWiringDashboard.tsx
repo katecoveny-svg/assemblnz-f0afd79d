@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, Clock, Plug, ChevronDown, ChevronUp, Download, Layers, Brain } from "lucide-react";
+import { CheckCircle2, Clock, Plug, ChevronDown, ChevronUp, Download, Layers } from "lucide-react";
 import { KETE_SKILL_DATA, SHARED_FOUNDATION, SHARED_CORE_AGENTS, getGlobalSkillStats, getSkillCoverage, getFoundationSkills } from "@/data/agentSkillConfig";
 import { Button } from "@/components/ui/button";
 

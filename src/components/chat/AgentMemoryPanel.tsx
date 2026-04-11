@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Brain, X, Trash2, Edit2, Check, RefreshCw, Globe } from "lucide-react";
+import { Layers, X, Trash2, Edit2, Check, RefreshCw, Globe } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 

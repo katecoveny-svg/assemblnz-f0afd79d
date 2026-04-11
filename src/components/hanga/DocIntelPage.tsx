@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FileText, Search, Brain, AlertTriangle, Shield, CheckCircle2, Lightbulb } from "lucide-react";
+import { FileText, Search, Layers, AlertTriangle, Shield, CheckCircle2, Lightbulb } from "lucide-react";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";

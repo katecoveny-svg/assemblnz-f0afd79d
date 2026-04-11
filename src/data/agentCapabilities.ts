@@ -1,5 +1,5 @@
 // Agent-specific capability bullets for cards + quick actions + starter cards
-import { FileText, DollarSign, Calendar, Shield, Utensils, Wine, Users, Building, HardHat, CreditCard, Car, Palette, BarChart3, Globe, Anchor, Ship, Heart, Brain, Scale, Laptop, GraduationCap, Home, MapPin, Leaf, Zap, Shirt, Plane, Dumbbell, Apple, Sparkles, PartyPopper, BookOpen, Building2, TreePine, HandHeart, School, Stethoscope, House, AlertTriangle, Briefcase, Code, Trophy, Megaphone, Phone, type LucideIcon } from "lucide-react";
+import { FileText, DollarSign, Calendar, Shield, Utensils, Wine, Users, Building, HardHat, CreditCard, Car, Palette, BarChart3, Globe, Anchor, Ship, Heart, Layers, Scale, Laptop, GraduationCap, Home, MapPin, Leaf, Zap, Shirt, Plane, Dumbbell, Apple, Sparkles, PartyPopper, BookOpen, Building2, TreePine, HandHeart, School, Stethoscope, House, AlertTriangle, Briefcase, Code, Trophy, Megaphone, Phone, type LucideIcon } from "lucide-react";
 // All icons used across agent capabilities
 
 export interface AgentCapability {
