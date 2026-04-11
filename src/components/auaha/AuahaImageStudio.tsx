@@ -37,6 +37,7 @@ function GlassCard({ children, className = "", accent = false }: { children: Rea
 
 export default function AuahaImageStudio() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [prompt, setPrompt] = useState("");
   const [style, setStyle] = useState("Photorealistic");
   const [platform, setPlatform] = useState(PLATFORMS[0]);
