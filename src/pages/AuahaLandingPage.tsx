@@ -43,26 +43,29 @@ export default function AuahaLandingPage() {
         <main className="flex flex-col items-center px-6 py-24 text-center">
           <LandingKeteHero accentColor="#D4A843" accentLight="#E8C76A" model="palette" size={160} />
 
+          {/* Kete label */}
+          <motion.p
+            className="text-[10px] uppercase tracking-[5px] mb-5"
+            style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}
+            variants={fadeUp} initial="hidden" animate="visible" custom={0}
+          >
+            AUAHA · CREATIVE & MEDIA
+          </motion.p>
+
           <motion.h1
-            className="text-4xl sm:text-6xl font-bold mb-4 max-w-3xl"
-            style={{ fontFamily: "'Lato', sans-serif", letterSpacing: "-1px" }}
+            className="text-3xl sm:text-5xl font-display font-light uppercase tracking-[0.08em] mb-6 max-w-3xl"
             variants={fadeUp} initial="hidden" animate="visible" custom={1}
           >
-            One coordinated studio, not six tools and a freelancer.
+            One coordinated studio.
+            <span className="block text-lg sm:text-2xl mt-2 normal-case tracking-[0.02em]" style={{ color: "rgba(255,255,255,0.5)" }}>
+              Nine specialist agents for NZ creative teams
+            </span>
           </motion.h1>
 
           <motion.p
-            className="text-xl sm:text-2xl mb-4"
-            style={{ color: ACCENT }}
+            className="text-sm sm:text-base max-w-xl mb-4 font-body leading-relaxed"
+            style={{ color: "rgba(255,255,255,0.5)" }}
             variants={fadeUp} initial="hidden" animate="visible" custom={2}
-          >
-            Nine specialist agents for NZ creative teams.
-          </motion.p>
-
-          <motion.p
-            className="text-base sm:text-lg max-w-xl mb-10"
-            style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.7 }}
-            variants={fadeUp} initial="hidden" animate="visible" custom={3}
           >
             Strategy, content, brand voice, design, campaigns, lead formation, analytics — coordinated from brief to publish.
           </motion.p>
@@ -73,14 +76,14 @@ export default function AuahaLandingPage() {
           >
              <Link
               to="/auaha"
-              className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover:opacity-90"
-              style={{ background: ACCENT, color: "#09090F" }}
+              className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold font-body transition-all duration-300 hover:opacity-90"
+              style={{ background: POUNAMU, color: "#fff" }}
             >
               Open Auaha studio <ArrowRight size={16} />
             </Link>
             <Link
               to="/contact"
-              className="px-8 py-3 rounded-full text-sm font-medium transition-colors"
+              className="px-8 py-3 rounded-full text-sm font-medium font-body transition-colors"
               style={{ color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.1)" }}
             >
               Book a creative walk-through
@@ -91,8 +94,7 @@ export default function AuahaLandingPage() {
         {/* Workflows */}
         <section className="max-w-5xl mx-auto px-6 pb-24">
           <motion.h2
-            className="text-2xl sm:text-3xl font-bold text-center mb-12"
-            style={{ fontFamily: "'Lato', sans-serif" }}
+            className="text-2xl sm:text-3xl font-display font-light uppercase tracking-[0.08em] text-center mb-12"
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
           >
             From Rautaki to Studio Director — your full creative pipeline.
@@ -109,9 +111,9 @@ export default function AuahaLandingPage() {
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
                       <w.icon size={20} style={{ color: ACCENT }} />
                     </div>
-                    <h3 className="text-sm font-semibold text-white/90">{w.label}</h3>
+                    <h3 className="text-sm font-display font-light uppercase tracking-[0.08em] text-white/90">{w.label}</h3>
                   </div>
-                  <p className="text-xs text-white/50 leading-relaxed">{w.desc}</p>
+                  <p className="text-xs font-body text-white/50 leading-relaxed">{w.desc}</p>
                 </LiquidGlassCard>
               </motion.div>
             ))}
@@ -121,7 +123,7 @@ export default function AuahaLandingPage() {
         {/* Value prop */}
         <section className="max-w-3xl mx-auto px-6 pb-24 text-center">
           <div className="rounded-2xl p-8" style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}15` }}>
-            <p className="text-[10px] font-semibold tracking-[4px] uppercase mb-4" style={{ color: ACCENT }}>
+            <p className="text-[10px] tracking-[4px] uppercase mb-4" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
               TE KETE ARONUI — THE BASKET OF HUMAN EXPRESSION
             </p>
             <ul className="space-y-2 text-left max-w-md mx-auto">
@@ -131,8 +133,8 @@ export default function AuahaLandingPage() {
                 "Every workflow run ends in a signed evidence pack",
                 "Privacy Act 2020 and IPP 3A alignment built in",
               ].map(f => (
-                <li key={f} className="flex items-center gap-2 text-sm text-white/70">
-                  <Check size={14} style={{ color: ACCENT }} className="shrink-0" />{f}
+                <li key={f} className="flex items-center gap-2 text-sm font-body text-white/70">
+                  <Check size={14} style={{ color: POUNAMU }} className="shrink-0" />{f}
                 </li>
               ))}
             </ul>
