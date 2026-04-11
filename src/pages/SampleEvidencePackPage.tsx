@@ -450,6 +450,154 @@ const DocSection = ({ section, accent, index }: { section: Section; accent: stri
   </motion.div>
 );
 
+/* ─── PDF generation ─── */
+function generatePackPDF(pack: PackData) {
+  const doc = new jsPDF({ unit: "mm", format: "a4" });
+  const margin = 20;
+  const pw = doc.internal.pageSize.getWidth();
+  const maxW = pw - margin * 2;
+
+  let y = drawAssemblPDFHeader(doc, {
+    agentName: pack.kete,
+    agentDesignation: pack.subtitle,
+    documentTitle: pack.scenario,
+    subtitle: `${pack.client}  ·  ${pack.date}  ·  Pack ID: ${pack.packId}`,
+    margin,
+  });
+
+  // Summary
+  doc.setFontSize(9.5);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(40, 40, 50);
+  const summaryLines = doc.splitTextToSize(pack.summary, maxW);
+  for (const l of summaryLines) { doc.text(l, margin, y); y += 4.5; }
+  y += 6;
+
+  // Sections
+  for (const section of pack.sections) {
+    // Check page space
+    if (y > 230) { doc.addPage(); y = 20; }
+
+    // Section header bar
+    doc.setFillColor(240, 238, 232);
+    doc.rect(margin, y - 3, maxW, 8, "F");
+    doc.setFillColor(212, 168, 67);
+    doc.rect(margin, y - 3, 1.5, 8, "F");
+
+    doc.setFontSize(7);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(100, 100, 110);
+    doc.text(section.agent, margin + 5, y + 1);
+
+    doc.setFontSize(10);
+    doc.setTextColor(20, 20, 30);
+    doc.text(section.title, margin + 5 + doc.getTextWidth(section.agent + "  "), y + 1);
+    y += 9;
+
+    // Body text
+    doc.setFontSize(8.5);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(90, 90, 100);
+    const bodyLines = doc.splitTextToSize(section.body, maxW - 4);
+    for (const l of bodyLines) { doc.text(l, margin + 2, y); y += 4; }
+    y += 3;
+
+    // Items table
+    const labelW = maxW * 0.55;
+    const valueW = maxW * 0.35;
+    const statusW = maxW * 0.1;
+
+    for (const item of section.items) {
+      if (y > 255) { doc.addPage(); y = 20; }
+
+      // Status indicator
+      const statusColor: [number, number, number] =
+        item.status === "ok" ? [58, 125, 110] :
+        item.status === "warn" ? [212, 168, 67] :
+        [90, 143, 191];
+      doc.setFillColor(...statusColor);
+      doc.circle(margin + 3, y - 1, 1.5, "F");
+
+      // Label
+      doc.setFontSize(8.5);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(60, 60, 70);
+      doc.text(item.label, margin + 8, y, { maxWidth: labelW - 10 });
+
+      // Value
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(30, 30, 40);
+      const valLines = doc.splitTextToSize(item.value, valueW);
+      doc.text(valLines[0] || "", margin + labelW, y, { maxWidth: valueW });
+      y += Math.max(valLines.length * 4, 5);
+
+      // Divider
+      doc.setDrawColor(230, 228, 220);
+      doc.setLineWidth(0.15);
+      doc.line(margin + 8, y - 1, margin + maxW, y - 1);
+      y += 1;
+    }
+    y += 4;
+  }
+
+  // Sign-off block
+  if (y > 230) { doc.addPage(); y = 20; }
+  doc.setDrawColor(212, 168, 67);
+  doc.setLineWidth(0.6);
+  doc.line(margin, y, margin + 25, y);
+  y += 5;
+
+  doc.setFontSize(8);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(58, 125, 110);
+  doc.text("PACK SIGN-OFF", margin, y);
+  y += 5;
+
+  doc.setFontSize(8.5);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(90, 90, 100);
+  const signOffLines = doc.splitTextToSize(pack.signOff, maxW);
+  for (const l of signOffLines) { doc.text(l, margin, y); y += 4; }
+  y += 8;
+
+  // Signature lines
+  if (y > 240) { doc.addPage(); y = 20; }
+  doc.setFontSize(8);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(140, 140, 150);
+
+  const sigY = y;
+  doc.text("Reviewed by:", margin, sigY);
+  doc.setDrawColor(200, 195, 185);
+  doc.setLineWidth(0.3);
+  doc.line(margin + 25, sigY, margin + 80, sigY);
+
+  doc.text("Date:", margin + 90, sigY);
+  doc.line(margin + 100, sigY, margin + 140, sigY);
+
+  y = sigY + 8;
+  doc.text("Signed:", margin, y);
+  doc.line(margin + 25, y, margin + 80, y);
+
+  doc.text("Role:", margin + 90, y);
+  doc.line(margin + 100, y, margin + 140, y);
+
+  // SAMPLE watermark on every page
+  const totalPages = doc.getNumberOfPages();
+  for (let p = 1; p <= totalPages; p++) {
+    doc.setPage(p);
+    doc.setFontSize(60);
+    doc.setTextColor(200, 200, 200);
+    doc.setGState(new (doc as any).GState({ opacity: 0.08 }));
+    doc.text("SAMPLE", pw / 2, 150, { align: "center", angle: 35 });
+    doc.setGState(new (doc as any).GState({ opacity: 1 }));
+  }
+
+  drawAssemblPDFFooter(doc, { agentName: `${pack.kete} — ${pack.subtitle}`, margin });
+
+  return doc;
+}
+
 /* ═══ PAGE ═══ */
 const SampleEvidencePackPage = () => {
   const { kete } = useParams<{ kete: string }>();
