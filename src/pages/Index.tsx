@@ -261,6 +261,61 @@ const Index = () => {
         {/* 3D Particle sphere hero */}
         <KeteOrbHero hideText />
 
+        {/* Orbiting kete ring beneath the sphere */}
+        <motion.div
+          className="relative flex flex-wrap justify-center gap-4 sm:gap-6 -mt-8 mb-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6, ease }}
+        >
+          {PACKS.filter(p => p.reo !== "Toro").map((p, i) => (
+            <motion.div
+              key={p.reo}
+              className="flex flex-col items-center gap-1.5"
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.8 + i * 0.1, ease }}
+            >
+              <div
+                className="rounded-xl p-1"
+                style={{
+                  background: `radial-gradient(circle, ${p.color}15, transparent)`,
+                  filter: `drop-shadow(0 0 12px ${p.color}30)`,
+                }}
+              >
+                <Suspense fallback={<div className="w-12 h-12 rounded-full animate-pulse" style={{ background: `${p.color}10` }} />}>
+                  <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={isMobile ? 52 : 64} />
+                </Suspense>
+              </div>
+              <span className="text-[8px] tracking-[2px] uppercase" style={{ fontFamily: FONT.mono, color: `${p.color}90` }}>
+                {p.reo}
+              </span>
+            </motion.div>
+          ))}
+          {/* Toro bird */}
+          <motion.div
+            className="flex flex-col items-center gap-1.5"
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 1.2, ease }}
+          >
+            <div
+              className="rounded-xl p-1 flex items-center justify-center"
+              style={{
+                width: isMobile ? 52 : 64,
+                height: isMobile ? 52 : 64,
+                background: "radial-gradient(circle, rgba(135,206,235,0.1), transparent)",
+                filter: "drop-shadow(0 0 12px rgba(135,206,235,0.25))",
+              }}
+            >
+              <ToroBirdIcon size={isMobile ? 40 : 48} color="#87CEEB" />
+            </div>
+            <span className="text-[8px] tracking-[2px] uppercase" style={{ fontFamily: FONT.mono, color: "rgba(135,206,235,0.6)" }}>
+              Toro
+            </span>
+          </motion.div>
+        </motion.div>
+
         {/* Badge */}
         <motion.div
           className="relative mb-6"
