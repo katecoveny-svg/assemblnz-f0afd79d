@@ -131,7 +131,7 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "Satellite crop monitoring", icon: Globe, title: "Crop Monitor", description: "Check crop health via satellite imagery", prompt: "Help me monitor my crop health using satellite data." },
   ],
   echo: [
-    { bullet: "Match you with the right agent", icon: Brain, title: "Agent Matcher", description: "Tell me your industry and I'll recommend your ideal tools", prompt: "Which Assembl agent is right for my business? I'll tell you about my industry and needs." },
+    { bullet: "Match you with the right agent", icon: Layers, title: "Agent Matcher", description: "Tell me your industry and I'll recommend your ideal tools", prompt: "Which Assembl agent is right for my business? I'll tell you about my industry and needs." },
     { bullet: "Troubleshoot platform issues", icon: Shield, title: "Fix Issues", description: "Patient step-by-step technical troubleshooting", prompt: "I'm having a technical issue with the platform — can you help me troubleshoot?" },
     { bullet: "Get started with Assembl", icon: Sparkles, title: "Onboarding Guide", description: "Personalised setup checklist for your business", prompt: "Help me get started with Assembl — walk me through the onboarding process for my business." },
     { bullet: "Discover features on your plan", icon: Zap, title: "Plan Features", description: "Learn what your current plan can do", prompt: "What can I do on my current plan? Show me features I might not have discovered yet." },
@@ -283,7 +283,7 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
   publichealth: [
     { bullet: "GP enrolment help", icon: Stethoscope, title: "Find a GP", description: "Find and enrol with a GP near you", prompt: "How do I enrol with a GP in NZ? What if I can't find one accepting new patients?" },
     { bullet: "Free health services guide", icon: Heart, title: "Free Health", description: "Know which health services are free in NZ", prompt: "What health services are free in NZ? Include GP visits, prescriptions, and hospital care." },
-    { bullet: "Mental health pathways", icon: Brain, title: "Mental Health", description: "Find mental health support near you", prompt: "I need mental health support — what are my options in NZ from free to funded to private?" },
+    { bullet: "Mental health pathways", icon: Layers, title: "Mental Health", description: "Find mental health support near you", prompt: "I need mental health support — what are my options in NZ from free to funded to private?" },
     { bullet: "Maternity rights advice", icon: Shield, title: "Maternity Rights", description: "Know your maternity and parental leave rights", prompt: "What are my maternity and parental leave rights in NZ? Include paid leave, keeping-in-touch days, and returning to work." },
   ],
   housing: [
@@ -593,7 +593,7 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
   ],
   oracle: [
     { bullet: "Predictive analytics", icon: BarChart3, title: "Predictions", description: "Build predictive models", prompt: "Help me build a predictive analytics model for our sales data." },
-    { bullet: "ML model guidance", icon: Brain, title: "ML Models", description: "Guide ML implementation", prompt: "Guide me through implementing a machine learning model." },
+    { bullet: "ML model guidance", icon: Layers, title: "ML Models", description: "Guide ML implementation", prompt: "Guide me through implementing a machine learning model." },
     { bullet: "AI implementation strategy", icon: Sparkles, title: "AI Strategy", description: "Plan AI implementation", prompt: "Create an AI implementation strategy for our business." },
     { bullet: "Metric tracking", icon: BarChart3, title: "Metrics", description: "Set up metric tracking", prompt: "Set up comprehensive metric tracking for our product." },
   ],

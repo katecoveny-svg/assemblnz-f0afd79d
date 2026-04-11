@@ -44,7 +44,7 @@ const SkillWiringDashboard = () => {
         {/* Global Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
           {[
-            { label: 'Total Agents', value: stats.totalAgents, icon: Brain },
+            { label: 'Total Agents', value: stats.totalAgents, icon: Layers },
             { label: 'Total Skills', value: stats.totalSkills, icon: Layers },
             { label: 'Wired', value: stats.wired, icon: CheckCircle2, color: '#22C55E' },
             { label: 'Gaps', value: stats.gap, icon: Clock, color: '#EAB308' },

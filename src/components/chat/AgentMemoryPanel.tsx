@@ -138,7 +138,7 @@ const AgentMemoryPanel = ({ agentId, agentColor, agentName }: Props) => {
         style={{ color: agentColor, border: `1px solid ${agentColor}20` }}
         title="What I know about your business"
       >
-        <Brain size={10} />
+        <Layers size={10} />
         {totalCount > 0 && (
           <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full text-[8px] font-bold flex items-center justify-center text-white" style={{ backgroundColor: agentColor }}>
             {totalCount > 9 ? "9+" : totalCount}
@@ -157,7 +157,7 @@ const AgentMemoryPanel = ({ agentId, agentColor, agentName }: Props) => {
             <div className="sticky top-0 bg-card/95 backdrop-blur-sm border-b border-border z-10 p-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <Brain size={18} style={{ color: agentColor }} />
+                  <Layers size={18} style={{ color: agentColor }} />
                   <span className="font-display font-bold text-sm text-foreground">What I know about your business</span>
                 </div>
                 <button onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground">

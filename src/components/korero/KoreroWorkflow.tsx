@@ -6,7 +6,7 @@ const WORKFLOW_STEPS = [
   {
     agent: "SAGE",
     role: "Business Strategy",
-    icon: Brain,
+    icon: Layers,
     color: "#1A3A5C",
     action: "Provides topic direction, key points, and audience insight",
     output: "Strategic brief with audience persona and core messaging",
