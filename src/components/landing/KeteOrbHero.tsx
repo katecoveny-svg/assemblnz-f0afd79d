@@ -263,7 +263,7 @@ function LayerNode({ label, color, angle, radius, mobile }: {
             color={color}
             anchorX="center"
             anchorY="middle"
-            font="/fonts/Lato-Light.ttf"
+            font="https://fonts.gstatic.com/s/lato/v24/S6u8w4BMUTPHjxswWyWrFCbw7A.ttf"
             letterSpacing={0.12}
           >
             {label.toUpperCase()}
