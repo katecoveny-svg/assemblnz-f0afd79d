@@ -12,6 +12,7 @@ import LiquidGlassCard from "@/components/LiquidGlassCard";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import HeroKeteNetwork from "@/components/HeroKeteNetwork";
 import KeteIcon from "@/components/kete/KeteIcon";
+import KeteAgentChat from "@/components/kete/KeteAgentChat";
 
 const KeteOrbHero = lazy(() => import("@/components/landing/KeteOrbHero"));
 
@@ -838,6 +839,20 @@ const Index = () => {
       </section>
 
       <BrandFooter />
+      <KeteAgentChat
+        keteName="assembl"
+        keteLabel="Platform Concierge"
+        accentColor="#3A7D6E"
+        defaultAgentId="echo"
+        packId="assembl"
+        starterPrompts={[
+          "What industry kete is right for my business?",
+          "How does the onboarding process work?",
+          "What's included in the Growth plan?",
+          "I run a dealership — what can assembl do for me?",
+          "How does assembl handle compliance and privacy?",
+        ]}
+      />
     </div>
   );
 };
