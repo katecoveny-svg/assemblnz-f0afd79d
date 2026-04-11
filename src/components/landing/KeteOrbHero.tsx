@@ -53,7 +53,6 @@ function ParticleSphere() {
     return { positions: pos, colors: col, sizes: sz };
   }, []);
 
-  // Store base positions for animation
   useMemo(() => {
     basePositions.current = new Float32Array(positions);
   }, [positions]);
@@ -65,24 +64,26 @@ function ParticleSphere() {
     const posAttr = geo.attributes.position as THREE.BufferAttribute;
     const base = basePositions.current;
 
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
+    for (let i = 0; i < totalCount; i++) {
       const i3 = i * 3;
       const bx = base[i3], by = base[i3 + 1], bz = base[i3 + 2];
 
-      // Breathing effect
-      const breathe = 1 + Math.sin(t * 0.6 + i * 0.003) * 0.04;
-      // Ripple wave from top
-      const wave = Math.sin(t * 1.2 + by * 2) * 0.03;
+      // Weaving breathing — undulates like fabric
+      const breathe = 1 + Math.sin(t * 0.5 + i * 0.008) * 0.03;
+      // Ripple traveling upward through the weave
+      const ripple = Math.sin(t * 1.5 + by * 3.0) * 0.025;
+      // Gentle sway
+      const sway = Math.sin(t * 0.3 + i * 0.002) * 0.015;
 
-      posAttr.array[i3] = bx * breathe + wave;
+      posAttr.array[i3] = bx * breathe + ripple + sway;
       posAttr.array[i3 + 1] = by * breathe;
-      posAttr.array[i3 + 2] = bz * breathe + wave * 0.5;
+      posAttr.array[i3 + 2] = bz * breathe + ripple * 0.6;
     }
     posAttr.needsUpdate = true;
 
-    // Slow rotation
-    pointsRef.current.rotation.y = t * 0.06;
-    pointsRef.current.rotation.x = Math.sin(t * 0.08) * 0.08;
+    // Slow rotation with slight tilt to show basket shape
+    pointsRef.current.rotation.y = t * 0.1;
+    pointsRef.current.rotation.x = Math.sin(t * 0.06) * 0.1 + 0.15;
   });
 
   const vertexShader = `
@@ -109,9 +110,9 @@ function ParticleSphere() {
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={PARTICLE_COUNT} array={positions} itemSize={3} />
-        <bufferAttribute attach="attributes-color" count={PARTICLE_COUNT} array={colors} itemSize={3} />
-        <bufferAttribute attach="attributes-size" count={PARTICLE_COUNT} array={sizes} itemSize={1} />
+        <bufferAttribute attach="attributes-position" count={totalCount} array={positions} itemSize={3} />
+        <bufferAttribute attach="attributes-color" count={totalCount} array={colors} itemSize={3} />
+        <bufferAttribute attach="attributes-size" count={totalCount} array={sizes} itemSize={1} />
       </bufferGeometry>
       <shaderMaterial
         vertexShader={vertexShader}
