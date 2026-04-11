@@ -101,7 +101,7 @@ function ParticleSphere() {
       float d = length(gl_PointCoord - vec2(0.5));
       if (d > 0.5) discard;
       float alpha = 1.0 - smoothstep(0.0, 0.5, d);
-      gl_FragColor = vec4(vColor * 1.3, alpha * 0.3);
+      gl_FragColor = vec4(vColor * 1.5, alpha * 0.06);
     }
   `;
 
