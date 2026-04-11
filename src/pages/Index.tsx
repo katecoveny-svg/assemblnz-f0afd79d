@@ -351,14 +351,15 @@ const Index = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <span
-            className="inline-block text-[10px] tracking-[5px] uppercase px-5 py-2 rounded-full"
+            className="inline-block text-sm sm:text-lg tracking-[6px] uppercase px-8 py-3 rounded-full"
             style={{
               fontFamily: FONT.mono,
               color: C.pounamuLight,
-              background: "rgba(58,125,110,0.08)",
-              border: "1px solid rgba(58,125,110,0.2)",
-              backdropFilter: "blur(12px)",
-              boxShadow: "0 0 30px rgba(58,125,110,0.1)",
+              background: "rgba(58,125,110,0.1)",
+              border: "1px solid rgba(58,125,110,0.25)",
+              backdropFilter: "blur(14px)",
+              boxShadow: "0 0 50px rgba(58,125,110,0.25), 0 0 100px rgba(58,125,110,0.12), inset 0 0 20px rgba(58,125,110,0.06)",
+              textShadow: "0 0 20px rgba(90,173,160,0.6), 0 0 40px rgba(58,125,110,0.3)",
             }}
           >
             Intelligent business solutions for Aotearoa
