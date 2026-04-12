@@ -462,6 +462,279 @@ Keep under 600 chars. Format for WhatsApp.`,
         return { success: true, result: { review_generated: !!review } };
       }
 
+      // ═══════════════════════════════════════════════════
+      // AHUWHENUA (Agriculture) task handlers
+      // ═══════════════════════════════════════════════════
+
+      case "seasonal_compliance_sweep": {
+        // TERRA — Start-of-season compliance sweep
+        const { data: farmContext } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .like("context_key", "farm.%")
+          .limit(40);
+
+        const farmData = (farmContext || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        const sweep = await callAI(
+          `You are TERRA, the NZ agriculture specialist agent.
+Generate a seasonal compliance sweep report for a NZ farm.
+
+Check and report status of:
+- NAIT compliance: location registered, movements recorded within 48hrs, annual web declaration done
+- FEP (Farm Environment Plan): audit date, risk grade, regional council specific requirements
+- Water consent expiry dates — flag any expiring within 6 months
+- Effluent system compliance — storage capacity, discharge limits
+- ETS obligations — emissions reporting, forestry carbon credits
+- Stock exclusion compliance (NES-Freshwater 2020)
+- H&S: quad bike training, chemical handling certs, visitor register
+
+Flag anything overdue as ⚠️ OVERDUE.
+Current date: ${new Date().toLocaleDateString("en-NZ")}
+Format as a one-page status report. Keep under 1200 chars.`,
+          farmData || "No farm data available — generate a generic NZ farm compliance checklist.",
+          "google/gemini-2.5-flash"
+        );
+
+        if (sweep) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "terra",
+            description: sweep,
+            priority: "high",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { sweep_generated: !!sweep } };
+      }
+
+      case "weather_ops_advisory": {
+        // TERRA — Weather-to-operations mapping
+        const { data: farmCtx } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .or("context_key.like.farm.type,context_key.like.farm.region,context_key.like.farm.stock_units,context_key.like.farm.effluent_%")
+          .limit(10);
+
+        const farmInfo = (farmCtx || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        const advisory = await callAI(
+          `You are TERRA, the NZ agriculture specialist. Generate a weather-operations advisory for a NZ farm.
+Based on the farm type and region, provide practical advice:
+
+Map weather conditions to farming operations:
+- Heavy rain (>25mm): stock off hills, delay effluent spreading, check flood-prone paddocks
+- Frost: delay milking (teat damage), check water troughs, brassica break-feeding
+- Strong wind (>60km/h): delay spraying, secure shelters
+- Drought: reduce stocking rate, supplementary feed plan, MPI adverse events contact
+- Snow: lamb survival protocols, supplementary feeding
+
+Also include:
+- Pasture growth estimates for the season
+- Soil moisture status impact on operations
+- Feed budget implications
+
+Format for WhatsApp/SMS delivery. Use emojis. Keep under 800 chars.
+Current date: ${new Date().toLocaleDateString("en-NZ")}`,
+          farmInfo || "No farm data — generate generic NZ autumn/winter farming advisory.",
+          "google/gemini-2.5-flash"
+        );
+
+        if (advisory) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "terra",
+            description: advisory,
+            priority: "medium",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { advisory_generated: !!advisory } };
+      }
+
+      case "nait_reminder": {
+        // TERRA — NAIT compliance check
+        const { data: naitData } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .or("context_key.like.farm.nait_%,context_key.like.farm.stock_units,context_key.like.farm.type")
+          .limit(10);
+
+        const naitInfo = (naitData || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        const reminder = await callAI(
+          `You are TERRA, the NZ agriculture specialist.
+Generate a NAIT compliance reminder.
+
+Check:
+- Annual web declaration due (must be completed each year)
+- Movement recordings within 48 hours of any animal movement
+- Tag ordering — sufficient tags for upcoming calving/fawning season
+- Saleyard/processor movements recorded
+
+Penalties: Up to $5,000 per infringement, $100,000 court fine.
+Be direct and helpful. Keep under 500 chars.
+Current date: ${new Date().toLocaleDateString("en-NZ")}`,
+          naitInfo || "No NAIT data — generate generic NAIT compliance reminder for NZ farmer.",
+          "google/gemini-2.5-flash-lite"
+        );
+
+        if (reminder) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "terra",
+            description: reminder,
+            priority: "medium",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { reminder_generated: !!reminder } };
+      }
+
+      case "wellbeing_checkin": {
+        // TERRA — Farmstrong-aligned rural wellbeing check-in
+        const { data: farmType } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .or("context_key.like.farm.type,context_key.like.farm.region,context_key.like.farm.calendar.%")
+          .limit(5);
+
+        const context = (farmType || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        // Determine season stress level
+        const month = new Date().getMonth(); // 0-indexed
+        const highStressMonths = [6, 7, 8, 9]; // Jul-Oct: calving/lambing
+        const isHighStress = highStressMonths.includes(month);
+
+        const checkin = await callAI(
+          `You are TERRA, providing a Farmstrong-aligned wellbeing check-in for a NZ farmer.
+${isHighStress ? "This is a HIGH STRESS season (calving/lambing period)." : ""}
+
+Write a brief, non-intrusive wellbeing message:
+- Acknowledge the season and workload
+- One practical tip (sleep, breaks, asking for help)
+- Mention Farmstrong.co.nz, 1737, or Rural Support Trust naturally
+- Use warm, Kiwi tone — like a mate checking in, not a counsellor
+- Never be patronising
+
+Keep under 400 chars. Format for SMS/WhatsApp.`,
+          context || "Generic NZ farmer",
+          "google/gemini-2.5-flash-lite"
+        );
+
+        if (checkin) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "terra",
+            description: checkin,
+            priority: "low",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { checkin_generated: !!checkin } };
+      }
+
+      case "milk_price_update": {
+        // TERRA — Fonterra milk price tracking
+        const { data: dairyCtx } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .or("context_key.like.farm.milk_production_%,context_key.like.farm.processor,context_key.like.farm.supplier_number")
+          .limit(5);
+
+        const dairyInfo = (dairyCtx || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        const update = await callAI(
+          `You are TERRA, the NZ agriculture specialist.
+Generate a milk price season update for a NZ dairy farmer.
+
+Include:
+- Current Fonterra forecast farmgate milk price range (use latest publicly available data)
+- Advance rate payment schedule status
+- If production data available, estimate payout: kgMS × farmgate price
+- Note any dividend forecast changes
+- Compare to previous season if data available
+
+Keep under 600 chars. Be factual and specific. Use $/kgMS format.
+Current date: ${new Date().toLocaleDateString("en-NZ")}`,
+          dairyInfo || "No dairy data — generate generic Fonterra season update.",
+          "google/gemini-2.5-flash"
+        );
+
+        if (update) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "terra",
+            description: update,
+            priority: "medium",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { update_generated: !!update } };
+      }
+
+      case "schedule_price_alert": {
+        // TERRA — Meat schedule price monitoring
+        const { data: meatCtx } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .or("context_key.like.farm.schedule.%,context_key.like.farm.type,context_key.like.farm.stock_units")
+          .limit(10);
+
+        const meatInfo = (meatCtx || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        const alert = await callAI(
+          `You are TERRA, the NZ agriculture specialist.
+Generate a meat schedule price update for a NZ farmer.
+
+Include:
+- Current schedule price movements for relevant species (lamb, beef, mutton, venison)
+- Major processor schedules (Silver Fern Farms, Alliance, ANZCO)
+- Timing advice: if schedule is rising, consider holding; if falling, lock in contracts
+- Grade premiums worth noting
+
+Keep under 600 chars. Be actionable. Use $/kg carcass weight format.
+Current date: ${new Date().toLocaleDateString("en-NZ")}`,
+          meatInfo || "No livestock data — generate generic NZ meat schedule overview.",
+          "google/gemini-2.5-flash"
+        );
+
+        if (alert) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "terra",
+            description: alert,
+            priority: "medium",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { alert_generated: !!alert } };
+      }
+
       default:
         return { success: true, result: { task_type, note: "executed with default handler" } };
     }

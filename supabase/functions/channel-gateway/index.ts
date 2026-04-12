@@ -93,6 +93,13 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
   freight: ["freight", "shipping", "cargo", "container", "logistics"],
   // Toro
   operations: ["family", "groceries", "school", "pickup", "kids", "dinner"],
+  // Ahuwhenua (Agriculture)
+  terra: ["farm", "dairy", "cattle", "sheep", "lambing", "calving", "milking", "nait", "fep",
+    "effluent", "ets", "emissions", "milk price", "schedule price", "kgms", "stock units",
+    "paddock", "pasture", "silage", "hay", "supplement", "water consent", "irrigation",
+    "fonterra", "silver fern", "alliance", "drought", "flood", "rural", "succession",
+    "overseer", "nutrient", "stocking rate", "drenching", "dipping", "shearing",
+    "mating", "weaning", "scanning", "fencing", "forestry", "carbon", "nzu"],
   // Fallback
   nova: ["help", "general", "how do i", "what is"],
 };
@@ -483,6 +490,19 @@ Deno.serve(async (req) => {
         { pattern: /(?:don't|dont|never|avoid|stop)\s+(?:use|using|say|saying)\s+["']?(\w[\w\s]{2,20})["']?/i, key: "brand.forbidden_words" },
         { pattern: /(?:tone|voice)[\s:]+(\d+)\/10/i, key: "brand.dna.voice_formality" },
         { pattern: /(?:approve|approved|lock|locked|✅)/i, key: "_content_approval" },
+        // Ahuwhenua (Agriculture) patterns
+        { pattern: /nait (?:number|#|location)[\s:]*([A-Z\d-]{6,})/i, key: "farm.nait_number" },
+        { pattern: /supplier (?:number|#|no)[\s:]*(\d{4,})/i, key: "farm.supplier_number" },
+        { pattern: /(?:farm|property)[\s:]+(\d+)\s*(?:ha|hectares)/i, key: "farm.effective_area_ha" },
+        { pattern: /(\d+)\s*(?:kgms|kg\s*ms|milk\s*solids)/i, key: "farm.milk_production_kgms" },
+        { pattern: /(?:fep|farm environment plan)[\s:]+(?:status\s+)?(none|draft|submitted|audited)/i, key: "farm.fep_status" },
+        { pattern: /(?:water|resource)\s+consent[\s:#]*([A-Z]{2,5}[\d./-]+)/i, key: "farm.water_consent" },
+        { pattern: /(?:effluent|pond)[\s:]+(?:system\s+)?(storage pond|spray irrigation|two-pond|lined pond|herd home)/i, key: "farm.effluent_system" },
+        { pattern: /(\d+)\s*(?:stock units|su)\b/i, key: "farm.stock_units" },
+        { pattern: /(?:lamb|beef|mutton|venison)\s+(?:schedule|price)[\s:]*\$?([\d.]+)\/kg/i, key: "farm.schedule_price" },
+        { pattern: /(?:calving|lambing|mating|shearing|weaning)[\s:]+(\w+\s+\d{4}|\d{1,2}\s+\w+)/i, key: "farm.seasonal_event" },
+        { pattern: /(?:ets|carbon|nzu)[\s:]+(\d+)\s*(?:units|credits|nzu)/i, key: "farm.ets_nzu_balance" },
+        { pattern: /(?:regional council|council)[\s:]+(\w+(?:\s+\w+)?)/i, key: "farm.region_council" },
       ];
 
       for (const { pattern, key } of factPatterns) {
