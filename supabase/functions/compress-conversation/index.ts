@@ -122,7 +122,7 @@ function getIndustry(agentId: string): "waihanga" | "auaha" | "default" {
   return "default";
 }
 
-// ─── Construction-specific tool schema ─────────────────
+// ─── Industry-specific tool schemas ────────────────────
 function getToolSchema(agentId: string) {
   const base: Record<string, any> = {
     summary: { type: "string" },
@@ -143,7 +143,9 @@ function getToolSchema(agentId: string) {
     compliance_notes: { type: "array", items: { type: "string" } },
   };
 
-  if (WAIHANGA_AGENTS.has(agentId?.toLowerCase())) {
+  const industry = getIndustry(agentId);
+
+  if (industry === "waihanga") {
     base.construction = {
       type: "object",
       properties: {
@@ -199,6 +201,56 @@ function getToolSchema(agentId: string) {
             trust_compliant: { type: "boolean" },
           },
         },
+      },
+    };
+  }
+
+  if (industry === "auaha") {
+    base.creative = {
+      type: "object",
+      properties: {
+        brand_dna: {
+          type: "object",
+          properties: {
+            primary_colour: { type: "string" },
+            voice_formality: { type: "number", description: "0-10 scale" },
+            tone_notes: { type: "string" },
+            forbidden_words: { type: "array", items: { type: "string" } },
+            approved_phrases: { type: "array", items: { type: "string" } },
+          },
+        },
+        content_performance: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              platform: { type: "string" },
+              format: { type: "string" },
+              engagement_rate: { type: "number" },
+              what_worked: { type: "string" },
+              what_failed: { type: "string" },
+            },
+          },
+        },
+        audience_insights: {
+          type: "object",
+          properties: {
+            top_locations: { type: "array", items: { type: "string" } },
+            best_posting_day: { type: "string" },
+            best_posting_time: { type: "string" },
+            demographic_skew: { type: "string" },
+          },
+        },
+        style_preferences: {
+          type: "object",
+          properties: {
+            preferred_formats: { type: "array", items: { type: "string" } },
+            rejected_styles: { type: "array", items: { type: "string" } },
+            edit_patterns: { type: "array", items: { type: "string", description: "e.g. 'changed innovative→practical'" } },
+          },
+        },
+        competitor_notes: { type: "array", items: { type: "string" } },
+        seasonal_calendar: { type: "array", items: { type: "string" } },
       },
     };
   }
