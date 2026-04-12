@@ -26,7 +26,7 @@ const EchoPage = () => (
   <div className="min-h-screen flex flex-col relative">
     <SEO
       title="ECHO — AI Business Assistant | Customer Service, FAQ | Assembl"
-      description="Your AI front desk. Handles customer enquiries, answers FAQs, routes complex questions, captures leads. Trained on your business. Available 24/7."
+      description="Your front desk that never sleeps. Handles customer enquiries, answers FAQs, routes complex questions, captures leads. Built on your business context. Available 24/7."
       path="/agents/echo"
     />
     <ParticleField />
@@ -45,7 +45,7 @@ const EchoPage = () => (
               ECHO
             </h1>
             <p className="text-lg font-body text-foreground/70 leading-relaxed mb-6 max-w-lg">
-              The voice of Assembl — trained on 13 years of NZ brand strategy. Content, comms, DMs, and business decisions on autopilot. Always on. Always on brand.
+              The voice of Assembl — built on 13 years of NZ brand strategy. Content, comms, DMs, and business decisions on autopilot. Always on. Always on brand.
             </p>
             <Link to="/chat/echo" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-display font-bold transition-all duration-300 hover:shadow-lg" style={{ background: "#E4A0FF", color: "#0A0A14", boxShadow: "0 0 20px rgba(228,160,255,0.2)" }}>
               Chat with ECHO <ArrowRight size={14} />

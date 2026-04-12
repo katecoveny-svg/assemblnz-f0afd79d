@@ -80,8 +80,8 @@ const ArohaSection = () => {
               </h3>
               <p className="text-sm font-body leading-relaxed mb-4 max-w-lg" style={{ color: "rgba(255,255,255,0.4)" }}>
                 AROHA generates employment agreements, calculates Holidays Act entitlements, builds
-                onboarding programmes, manages recruitment pipelines, and ensures your workplace is
-                fully compliant with NZ employment law — from hire to retire.
+                onboarding programmes, manages recruitment pipelines, and keeps your workplace
+                designed with NZ compliance workflows in mind — from hire to retire.
               </p>
 
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start mb-6">

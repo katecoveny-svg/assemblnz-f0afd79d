@@ -118,7 +118,7 @@ const HowItWorksPage = () => (
   <div className="min-h-screen flex flex-col relative" style={{ background: C.bg, color: "#FFFFFF" }}>
     <SEO
       title="How Assembl Works — Specialist operational workflows for NZ business"
-      description="Five industry kete — Manaaki, Waihanga, Auaha, Arataki, Pikau. Five-stage compliance pipeline. Built around NZ law. From $590/mo NZD ex GST."
+      description="Five industry kete — Manaaki, Waihanga, Auaha, Arataki, Pikau. Five-stage compliance pipeline. Built around NZ law."
       path="/how-it-works"
     />
     <BrandNav />
@@ -345,7 +345,7 @@ const HowItWorksPage = () => (
             Pricing that fits an NZ small business.
           </h2>
           <p className="text-sm leading-relaxed mb-8" style={{ fontFamily: FONT.body, color: C.textSec }}>
-            Plans from NZ$590/mo + $1,490 setup (NZD ex GST). Family plan from $29/mo. Setup fees can be split across the first 3 invoices on request.
+            Priced by the kete you need each month. Setup fees can be split across the first 3 invoices on request.
           </p>
           <Link
             to="/pricing"
