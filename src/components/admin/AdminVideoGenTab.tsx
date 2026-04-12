@@ -104,13 +104,12 @@ export default function AdminVideoGenTab() {
               key={k.slug}
               onClick={() => !generating && toggleKete(k.slug)}
               className={`relative rounded-xl p-4 text-left transition-all ${
-                isSelected ? "ring-2" : "opacity-60 hover:opacity-80"
+                isSelected ? "ring-2 ring-primary" : "opacity-60 hover:opacity-80"
               } ${generating ? "cursor-default" : "cursor-pointer"}`}
               style={{
                 ...glassStyle,
-                ringColor: isSelected ? k.accent : undefined,
                 borderColor: isSelected ? `${k.accent}40` : undefined,
-                ...(isSelected ? { boxShadow: `0 0 20px ${k.accent}15` } : {}),
+                ...(isSelected ? { boxShadow: `0 0 20px ${k.accent}15`, outlineColor: k.accent } : {}),
               }}
             >
               {isDone && (
