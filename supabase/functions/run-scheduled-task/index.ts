@@ -736,6 +736,194 @@ Current date: ${new Date().toLocaleDateString("en-NZ")}`,
       }
 
       // ═══════════════════════════════════════════════════
+      // MANAAKI — Hospitality & Tourism cron handlers
+      // ═══════════════════════════════════════════════════
+
+      case "daily_fcp_checks": {
+        // Daily 6am: AURA sends opening check prompt via WhatsApp
+        const alert = await callAI(
+          `You are AURA, the assembl hospitality operations specialist.
+Generate a morning opening check prompt for a NZ café/restaurant.
+
+Include these checks in order:
+1. Chiller temperatures (must be ≤5°C per Food Act 2014)
+2. Freezer temperatures (must be ≤-15°C)
+3. Hot-hold units if applicable (must be ≥65°C)
+4. Handwash station — soap, paper towels, warm water
+5. Food dating — check use-by dates on prep items
+6. Cleaning schedule — overnight tasks completed?
+
+Format as a brief WhatsApp-friendly checklist.
+Keep under 500 chars. Use ✅ and 📝 emojis.
+Current date: ${new Date().toLocaleDateString("en-NZ")}
+Day: ${new Date().toLocaleDateString("en-NZ", { weekday: "long" })}`,
+          "Generate daily opening FCP check prompt",
+          "google/gemini-2.5-flash-lite"
+        );
+
+        if (alert && user_id) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "aura",
+            description: alert,
+            priority: "high",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { alert_generated: !!alert } };
+      }
+
+      case "verification_prep": {
+        // 4 weeks before MPI verification: generate preparation pack checklist
+        if (!user_id) return { success: true, result: { note: "No user_id for verification prep" } };
+
+        const { data: hospCtx } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .or("context_key.like.hospitality.%")
+          .limit(20);
+
+        const hospInfo = (hospCtx || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        const pack = await callAI(
+          `You are AURA, the assembl hospitality specialist.
+Generate a verifier preparation checklist for an upcoming MPI Food Act 2014 verification visit.
+
+Business context:
+${hospInfo || "No specific context — generate a generic NZ café preparation pack"}
+
+Include:
+1. 12-month temperature records — are they complete?
+2. Staff food safety training register — all current?
+3. Corrective action register — all resolved?
+4. Supplier records and traceability documentation
+5. Cleaning schedules — 12 months of records
+6. Food Control Plan — current version, last reviewed?
+7. Allergen declarations — up to date for current menu?
+8. Calibration records for thermometers
+9. Pest control records
+
+Flag any gaps. Keep under 800 chars. Be specific and actionable.
+Current date: ${new Date().toLocaleDateString("en-NZ")}`,
+          hospInfo || "Generate generic verification prep pack",
+          "google/gemini-2.5-flash"
+        );
+
+        if (pack) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "aura",
+            description: `📋 VERIFICATION PREP PACK\n${pack}`,
+            priority: "high",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { pack_generated: !!pack } };
+      }
+
+      case "liquor_licence_renewal": {
+        // 3 months before expiry: alert + checklist
+        if (!user_id) return { success: true, result: { note: "No user_id" } };
+
+        const { data: licenceCtx } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .or("context_key.like.hospitality.liquor%,context_key.like.hospitality.manager%")
+          .limit(5);
+
+        const licenceInfo = (licenceCtx || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        const renewal = await callAI(
+          `You are CELLAR, the assembl alcohol licensing specialist.
+Generate a liquor licence renewal preparation alert for a NZ hospitality business.
+
+Known licence details:
+${licenceInfo || "No licence data — generate generic renewal checklist"}
+
+Include:
+1. Renewal application form requirements (SSAA 2012)
+2. Manager certificate status — is it current? Expires before licence?
+3. Host responsibility training — all bar staff current?
+4. Building compliance — has anything changed?
+5. Objection risk assessment
+6. Timeline: file at least 20 working days before expiry
+
+Keep under 500 chars. Be specific.`,
+          licenceInfo || "Generate generic liquor licence renewal alert",
+          "google/gemini-2.5-flash-lite"
+        );
+
+        if (renewal) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "cellar",
+            description: `🍷 LICENCE RENEWAL ALERT\n${renewal}`,
+            priority: "high",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { renewal_generated: !!renewal } };
+      }
+
+      case "weekend_prep_brief": {
+        // Friday 4pm: weekend service preparation brief
+        if (!user_id) return { success: true, result: { note: "No user_id" } };
+
+        const { data: opsCtx } = await supabase
+          .from("shared_context")
+          .select("context_key, context_value")
+          .eq("user_id", user_id)
+          .or("context_key.like.hospitality.%,context_key.like.company.team_size")
+          .limit(15);
+
+        const opsInfo = (opsCtx || [])
+          .map((r: any) => `${r.context_key}: ${r.context_value}`)
+          .join("\n");
+
+        const brief = await callAI(
+          `You are AURA, the assembl hospitality operations specialist.
+Generate a weekend preparation brief for a NZ café/restaurant.
+
+Business context:
+${opsInfo || "No specific context — generate generic weekend prep brief"}
+
+Include:
+1. Public holiday check — is this weekend a public holiday? If so, note staff pay rates (time and a half + day in lieu under Holidays Act 2003)
+2. Expected covers based on patterns
+3. Any allergen menu updates needed
+4. Stock check reminders for high-volume items
+5. Weekend roster confirmation
+6. Any unresolved corrective actions that need attention before service
+
+Keep under 500 chars. Practical and actionable.
+Current date: ${new Date().toLocaleDateString("en-NZ")}`,
+          opsInfo || "Generate generic weekend prep brief",
+          "google/gemini-2.5-flash-lite"
+        );
+
+        if (brief) {
+          await supabase.from("action_queue").insert({
+            user_id,
+            agent_id: "aura",
+            description: `🍽️ WEEKEND BRIEF\n${brief}`,
+            priority: "medium",
+            status: "pending",
+          });
+        }
+
+        return { success: true, result: { brief_generated: !!brief } };
+      }
+
+      // ═══════════════════════════════════════════════════
       // LEARNING LOOPS — Self-improving architecture
       // ═══════════════════════════════════════════════════
 
