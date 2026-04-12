@@ -952,6 +952,7 @@ serve(async (req) => {
     }
 
 
+    const compressionMessage = {
       role: "assistant" as const,
       content:
         `[EARLIER IN THIS CONVERSATION]\n${parsed.summary}\n` +
