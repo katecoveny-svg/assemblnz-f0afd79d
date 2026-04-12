@@ -10,6 +10,7 @@ import toroaLogo from "@/assets/brand/toroa-logo.svg";
 import KeteBrainChat from "@/components/KeteBrainChat";
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
+import KeteDocUpload from "@/components/shared/KeteDocUpload";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -221,6 +222,9 @@ export default function ToroaDashboard() {
         </motion.div>
 
         {/* ── Chat with Toro ── */}
+        <KeteDocUpload keteSlug="toroa" keteColor={KOWHAI} keteName="Toro — Family Navigator"
+          docContext="Expect school newsletters, permission slips, medical forms, invoices, bills, and family schedules. Extract events, deadlines, costs, and required actions." />
+
         <KeteBrainChat keteId="toroa" keteName="Toro" keteNameEn="Family Navigator" accentColor={KOWHAI} />
       </div>
     </KeteDashboardShell>

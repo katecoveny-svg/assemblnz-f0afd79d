@@ -9,6 +9,7 @@ import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
 import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
+import KeteDocUpload from "@/components/shared/KeteDocUpload";
 
 const ACCENT = "#7ECFC2";
 const ACCENT_LIGHT = "#A8E6DA";
@@ -312,6 +313,9 @@ export default function PikauDashboard() {
         <SovereigntyPanel kete="pikau" accentColor={ACCENT} />
         <SovereigntySimulator kete="pikau" accentColor={ACCENT} />
       </div>
+
+      <KeteDocUpload keteSlug="pikau" keteColor={ACCENT} keteName="Pikau — Freight & Customs"
+        docContext="Expect customs declarations, commercial invoices, bills of lading, packing lists, certificates of origin, biosecurity certificates, and HS code schedules. Flag NZ Customs compliance issues." />
 
       <KeteAgentChat keteName="Pikau" keteLabel="Freight & Customs" accentColor={ACCENT} defaultAgentId="gateway" packId="pikau"
         starterPrompts={["Validate an HS code", "Generate a customs declaration", "Check biosecurity requirements", "Calculate landed costs for an import"]} />

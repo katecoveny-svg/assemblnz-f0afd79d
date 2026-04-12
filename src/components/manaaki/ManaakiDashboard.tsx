@@ -12,6 +12,7 @@ import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
 import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
 import SovereigntyBadge from "@/components/sovereignty/SovereigntyBadge";
+import KeteDocUpload from "@/components/shared/KeteDocUpload";
 
 const ACCENT = "#D4A843";
 const ACCENT_LIGHT = "#E8C76A";
@@ -275,6 +276,9 @@ export default function ManaakiDashboard() {
         <SovereigntyPanel kete="manaaki" accentColor={ACCENT} />
         <SovereigntySimulator kete="manaaki" accentColor={ACCENT} />
       </div>
+
+      <KeteDocUpload keteSlug="manaaki" keteColor={ACCENT} keteName="Manaaki — Hospitality"
+        docContext="Expect food safety plans, alcohol licence documents, health & safety reports, guest contracts, event agreements, and supplier invoices. Flag Food Act 2014 and Sale and Supply of Alcohol Act 2012 compliance." />
 
       <KeteAgentChat keteName="Manaaki" keteLabel="Hospitality" accentColor={ACCENT} defaultAgentId="aura" packId="manaaki"
         starterPrompts={["Create a food safety evidence pack", "Check alcohol licensing compliance", "Prepare a VIP guest brief", "Run a dietary requirements audit"]} />

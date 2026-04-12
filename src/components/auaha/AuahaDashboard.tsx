@@ -8,6 +8,7 @@ import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import { useAuahaDashboardMetrics, useRecentContentItems, useAuahaCampaigns } from "@/hooks/useAuahaData";
 import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
 import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
+import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import { formatDistanceToNow } from "date-fns";
 
 const ACCENT = "#F0D078";
@@ -338,6 +339,9 @@ export default function AuahaDashboard() {
         <SovereigntyPanel kete="auaha" accentColor="#F0D078" />
         <SovereigntySimulator kete="auaha" accentColor="#F0D078" />
       </div>
+
+      <KeteDocUpload keteSlug="auaha" keteColor="#F0D078" keteName="Auaha — Creative & Media"
+        docContext="Expect brand guidelines, creative briefs, media plans, campaign reports, analytics exports, and content calendars. Extract brand voice, colour palettes, and performance metrics." />
 
       <KeteBrainChat keteId="auaha" keteName="Auaha" keteNameEn="Creative" accentColor="#F0D078" />
     </KeteDashboardShell>

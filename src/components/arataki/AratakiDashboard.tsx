@@ -9,6 +9,7 @@ import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
 import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
+import KeteDocUpload from "@/components/shared/KeteDocUpload";
 
 const ACCENT = "#E8E8E8";
 const ACCENT_LIGHT = "#D8D8D8";
@@ -231,6 +232,9 @@ export default function AratakiDashboard() {
         <SovereigntyPanel kete="arataki" accentColor={ACCENT} />
         <SovereigntySimulator kete="arataki" accentColor={ACCENT} />
       </div>
+
+      <KeteDocUpload keteSlug="waka" keteColor={ACCENT} keteName="Arataki — Automotive"
+        docContext="Expect job cards, warranty claims, vehicle inspection reports, sale agreements, CGA compliance documents, and MVSA 2003 records. Flag consumer guarantee and privacy compliance." />
 
       <KeteAgentChat keteName="Arataki" keteLabel="Automotive" accentColor={ACCENT} defaultAgentId="motor" packId="waka"
         starterPrompts={["Draft a warranty narrative", "Check MVSA compliance for a sale", "Generate a delivery evidence pack", "Run a customer journey audit"]} />

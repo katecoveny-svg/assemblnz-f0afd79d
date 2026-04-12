@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Home, Wrench, AlertTriangle, Shield, DollarSign, Clock, TrendingUp, ChevronRight, Zap } from "lucide-react";
 import { AgentPieChart, AgentBarChart, AgentWorkflow } from "@/components/shared/AgentCharts";
+import KeteDocUpload from "@/components/shared/KeteDocUpload";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -188,6 +189,9 @@ const HavenDashboard = () => {
           )}
         </div>
       </Glass>
+
+      <KeteDocUpload keteSlug="haven" keteColor={KOWHAI} keteName="Haven — Property Management"
+        docContext="Expect tenancy agreements, inspection reports, Section 51 notices, rent increase notices, bond forms, Healthy Homes compliance statements, and maintenance invoices. Flag Residential Tenancies Act 1986 and Healthy Homes Guarantee Act 2017 compliance." />
     </div>
   );
 };

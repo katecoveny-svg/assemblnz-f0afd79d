@@ -18,6 +18,7 @@ import KeteSmsExplainer from "@/components/sms/KeteSmsExplainer";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
+import KeteDocUpload from "@/components/shared/KeteDocUpload";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -366,6 +367,9 @@ export default function HangaDashboard() {
         accentColor="#3A7D6E"
         conversations={[]}
       />
+
+      <KeteDocUpload keteSlug="waihanga" keteColor={KOWHAI} keteName="Waihanga — Construction"
+        docContext="Expect construction contracts, specifications, building consents, payment claims, site diaries, health & safety plans, and NZS 3910 documents. Flag Building Act 2004, Health & Safety at Work Act 2015, and Construction Contracts Act 2002 compliance." />
 
       <KeteBrainChat keteId="waihanga" keteName="Waihanga" keteNameEn="Construction" accentColor="#3A7D6E" />
     </KeteDashboardShell>
