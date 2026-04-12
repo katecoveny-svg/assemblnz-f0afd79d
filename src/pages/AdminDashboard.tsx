@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import AgentTestResultsTab from "@/components/admin/AgentTestResultsTab";
 import AdminPipelineTab from "@/components/admin/AdminPipelineTab";
+import AdminVideoGenTab from "@/components/admin/AdminVideoGenTab";
 
 interface Metrics {
   totalUsers: number;
@@ -59,7 +60,7 @@ const LEAD_COLORS: Record<string, string> = { new: "#3A6A9C", contacted: "#3A6A9
 const AdminDashboard = () => {
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "leads" | "documents" | "test" | "test-results" | "pipeline">("overview");
+  const [tab, setTab] = useState<"overview" | "users" | "agents" | "activity" | "leads" | "documents" | "test" | "test-results" | "pipeline" | "videos">("overview");
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [users, setUsers] = useState<UserRow[]>([]);
   const [agentStatuses, setAgentStatuses] = useState<AgentStatus[]>([]);
@@ -181,7 +182,7 @@ const AdminDashboard = () => {
   const getAgentInfo = (id: string) => agents.find(a => a.id === id);
   const getStatus = (id: string) => agentStatuses.find(a => a.agent_id === id);
 
-  const tabs = ["overview", "users", "agents", "activity", "leads", "documents", "pipeline", "test", "test-results"] as const;
+  const tabs = ["overview", "users", "agents", "activity", "leads", "documents", "pipeline", "videos", "test", "test-results"] as const;
 
   return (
     <div className="min-h-screen star-field flex flex-col">
@@ -756,6 +757,9 @@ const AdminDashboard = () => {
 
         {/* PIPELINE TAB */}
         {tab === "pipeline" && <AdminPipelineTab />}
+
+        {/* VIDEOS TAB */}
+        {tab === "videos" && <AdminVideoGenTab />}
 
         {/* TEST TAB */}
         {tab === "test" && (
