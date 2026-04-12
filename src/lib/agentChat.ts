@@ -3,6 +3,8 @@
  * Routes through agent-router for full skill wiring, memory, symbiotic context, and governance.
  */
 
+import { searchMemory, buildMemoryBlock } from "@/lib/searchMemory";
+
 const AGENT_ROUTER_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/agent-router`;
 
 interface AgentChatOptions {
