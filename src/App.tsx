@@ -121,6 +121,7 @@ const SkillHubPage = lazy(() => import("./pages/SkillHubPage"));
 const AaaipDashboard = lazy(() => import("./pages/AaaipDashboard"));
 const AaaipResearcher = lazy(() => import("./pages/AaaipResearcher"));
 const AaaipPitchPrep = lazy(() => import("./pages/AaaipPitchPrep"));
+const AaaipLanding = lazy(() => import("./pages/AaaipLanding"));
 const ArohaLayout = lazy(() => import("./components/aroha/ArohaLayout"));
 const ArohaOverviewPage = lazy(() => import("./pages/ArohaOverviewPage"));
 const ArohaContracts = lazy(() => import("./components/aroha/ArohaContracts"));
@@ -217,6 +218,7 @@ const App = () => (
                   <Route path="/aaaip" element={<Suspense fallback={null}><AaaipDashboard /></Suspense>} />
                   <Route path="/aaaip/researcher" element={<Suspense fallback={null}><AaaipResearcher /></Suspense>} />
                   <Route path="/aaaip/pitch-prep" element={<Suspense fallback={null}><AaaipPitchPrep /></Suspense>} />
+                  <Route path="/aaaip/landing" element={<Suspense fallback={null}><AaaipLanding /></Suspense>} />
                   <Route path="/packs/:packSlug" element={<Suspense fallback={null}><PackLandingPage /></Suspense>} />
                   <Route path="/sample/:kete" element={<Suspense fallback={null}><SampleEvidencePackPage /></Suspense>} />
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
