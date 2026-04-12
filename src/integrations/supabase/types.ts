@@ -4999,6 +4999,66 @@ export type Database = {
         }
         Relationships: []
       }
+      scheduled_tasks: {
+        Row: {
+          agent_id: string
+          created_at: string
+          description: string | null
+          error_message: string | null
+          id: string
+          last_run_at: string | null
+          max_runs: number | null
+          next_run_at: string
+          payload: Json | null
+          result: Json | null
+          run_count: number
+          schedule_cron: string | null
+          status: string
+          task_type: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          description?: string | null
+          error_message?: string | null
+          id?: string
+          last_run_at?: string | null
+          max_runs?: number | null
+          next_run_at?: string
+          payload?: Json | null
+          result?: Json | null
+          run_count?: number
+          schedule_cron?: string | null
+          status?: string
+          task_type?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          description?: string | null
+          error_message?: string | null
+          id?: string
+          last_run_at?: string | null
+          max_runs?: number | null
+          next_run_at?: string
+          payload?: Json | null
+          result?: Json | null
+          run_count?: number
+          schedule_cron?: string | null
+          status?: string
+          task_type?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       senior_profiles: {
         Row: {
           address_line_1: string | null
