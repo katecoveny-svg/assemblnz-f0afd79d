@@ -1712,6 +1712,60 @@ export type Database = {
           },
         ]
       }
+      compliance_updates: {
+        Row: {
+          affected_agents: string[] | null
+          affected_industries: string[] | null
+          auto_applied: boolean | null
+          change_summary: string
+          created_at: string | null
+          effective_date: string | null
+          id: string
+          impact_level: string
+          legislation_ref: string | null
+          review_notes: string | null
+          reviewed_by: string | null
+          source_name: string
+          source_url: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          affected_agents?: string[] | null
+          affected_industries?: string[] | null
+          auto_applied?: boolean | null
+          change_summary: string
+          created_at?: string | null
+          effective_date?: string | null
+          id?: string
+          impact_level?: string
+          legislation_ref?: string | null
+          review_notes?: string | null
+          reviewed_by?: string | null
+          source_name: string
+          source_url?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          affected_agents?: string[] | null
+          affected_industries?: string[] | null
+          auto_applied?: boolean | null
+          change_summary?: string
+          created_at?: string | null
+          effective_date?: string | null
+          id?: string
+          impact_level?: string
+          legislation_ref?: string | null
+          review_notes?: string | null
+          reviewed_by?: string | null
+          source_name?: string
+          source_url?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           created_at: string
@@ -4249,6 +4303,42 @@ export type Database = {
           step_3_at?: string | null
           updated_at?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      output_feedback: {
+        Row: {
+          action: string
+          agent_id: string
+          created_at: string | null
+          edit_diff: string | null
+          id: string
+          metadata: Json | null
+          original_output: string | null
+          output_type: string
+          user_id: string
+        }
+        Insert: {
+          action?: string
+          agent_id: string
+          created_at?: string | null
+          edit_diff?: string | null
+          id?: string
+          metadata?: Json | null
+          original_output?: string | null
+          output_type?: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          agent_id?: string
+          created_at?: string | null
+          edit_diff?: string | null
+          id?: string
+          metadata?: Json | null
+          original_output?: string | null
+          output_type?: string
+          user_id?: string
         }
         Relationships: []
       }
