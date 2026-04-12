@@ -735,6 +735,155 @@ Current date: ${new Date().toLocaleDateString("en-NZ")}`,
         return { success: true, result: { alert_generated: !!alert } };
       }
 
+      // ═══════════════════════════════════════════════════
+      // LEARNING LOOPS — Self-improving architecture
+      // ═══════════════════════════════════════════════════
+
+      case "compliance_autoupdate": {
+        // Loop 1: Daily compliance scanner — check NZ government sources for changes
+        // In production this would scrape legislation.govt.nz, IRD, WorkSafe, MPI, etc.
+        // For now, use AI to generate awareness of recent changes
+
+        const sources = [
+          { name: "IRD", domain: "Tax, GST, PAYE, KiwiSaver", agents: ["ledger", "pulse"] },
+          { name: "WorkSafe NZ", domain: "H&S, HSWA 2015, notifiable events", agents: ["arai", "vitals"] },
+          { name: "MPI", domain: "Food safety, biosecurity, agriculture", agents: ["saffron", "terra", "gateway"] },
+          { name: "MBIE", domain: "Employment, building, consumer, immigration", agents: ["aroha", "kaupapa", "whakaae", "compass", "counter"] },
+          { name: "NZ Legislation", domain: "Acts, amendments, regulations", agents: [] },
+          { name: "NZTA/Waka Kotahi", domain: "Transport, vehicle compliance, RUCs", agents: ["motor", "transit"] },
+          { name: "Privacy Commissioner", domain: "Privacy Act 2020, IPP amendments", agents: ["shield"] },
+          { name: "DIA", domain: "Charities, incorporated societies, anti-money laundering", agents: ["anchor"] },
+          { name: "Fonterra/DairyNZ", domain: "Milk price, dairy compliance", agents: ["terra"] },
+          { name: "Regional Councils", domain: "Resource management, freshwater, FEPs", agents: ["terra", "reef"] },
+        ];
+
+        const scanResult = await callAI(
+          `You are the assembl Compliance Auto-Updater. Your job is to identify recent or upcoming NZ regulatory changes.
+
+For each source below, identify the MOST IMPORTANT recent change (last 30 days) or upcoming change (next 60 days).
+Only include REAL, verifiable changes — not speculation.
+
+Sources to scan:
+${sources.map(s => `- ${s.name}: ${s.domain}`).join("\n")}
+
+Return a JSON array of changes found:
+[{
+  "source_name": "IRD",
+  "title": "Brief title of change",
+  "change_summary": "One sentence explaining what changed and impact",
+  "impact_level": "low | medium | high",
+  "affected_agents": ["ledger", "pulse"],
+  "legislation_ref": "Tax Administration Act 1994 s33A",
+  "effective_date": "2026-04-01"
+}]
+
+Rules:
+- Only include changes you are confident are real
+- Rate impact: HIGH = affects most users immediately, MEDIUM = affects some users or upcoming, LOW = minor/admin
+- Return empty array [] if no significant changes
+- Current date: ${new Date().toISOString()}`,
+          `Scan all ${sources.length} NZ government and industry sources.`,
+          "google/gemini-2.5-flash"
+        );
+
+        let changesInserted = 0;
+        if (scanResult) {
+          try {
+            const jsonMatch = scanResult.match(/\[[\s\S]*\]/);
+            if (jsonMatch) {
+              const changes = JSON.parse(jsonMatch[0]);
+              for (const change of changes) {
+                const { error: insertErr } = await supabase
+                  .from("compliance_updates")
+                  .insert({
+                    source_name: change.source_name || "Unknown",
+                    source_url: change.source_url || null,
+                    title: change.title,
+                    change_summary: change.change_summary,
+                    impact_level: change.impact_level || "low",
+                    affected_agents: change.affected_agents || [],
+                    legislation_ref: change.legislation_ref || null,
+                    effective_date: change.effective_date || null,
+                    auto_applied: change.impact_level === "low",
+                  });
+                if (!insertErr) changesInserted++;
+              }
+            }
+          } catch (parseErr) {
+            console.error("[compliance_autoupdate] Parse error:", parseErr);
+          }
+        }
+
+        return { success: true, result: { changes_detected: changesInserted } };
+      }
+
+      case "feedback_analysis": {
+        // Loop 3: Weekly user feedback analysis
+        // Analyse accept/edit/reject patterns to identify agent improvement opportunities
+        const sevenDaysAgo = new Date(Date.now() - 7 * 86400_000).toISOString();
+
+        const { data: feedback } = await supabase
+          .from("output_feedback")
+          .select("agent_id, output_type, action, edit_diff")
+          .gte("created_at", sevenDaysAgo)
+          .limit(200);
+
+        if (!feedback?.length) {
+          return { success: true, result: { note: "No feedback data this week" } };
+        }
+
+        // Aggregate by agent
+        const agentStats: Record<string, { accepted: number; edited: number; rejected: number; regenerated: number; edits: string[] }> = {};
+        for (const fb of feedback) {
+          if (!agentStats[fb.agent_id]) {
+            agentStats[fb.agent_id] = { accepted: 0, edited: 0, rejected: 0, regenerated: 0, edits: [] };
+          }
+          agentStats[fb.agent_id][fb.action as keyof typeof agentStats[string]]++;
+          if (fb.action === "edited" && fb.edit_diff) {
+            agentStats[fb.agent_id].edits.push(fb.edit_diff);
+          }
+        }
+
+        // For agents with high edit/reject rates, generate improvement insights
+        for (const [agentId, stats] of Object.entries(agentStats)) {
+          const total = stats.accepted + stats.edited + stats.rejected + stats.regenerated;
+          const editRate = (stats.edited + stats.rejected + stats.regenerated) / total;
+
+          if (editRate > 0.3 && total >= 5) {
+            const insight = await callAI(
+              `You are the assembl Agent Improvement Analyst.
+Agent ${agentId.toUpperCase()} has a ${(editRate * 100).toFixed(0)}% edit/reject rate this week (${total} total outputs).
+
+Accepted: ${stats.accepted}, Edited: ${stats.edited}, Rejected: ${stats.rejected}, Regenerated: ${stats.regenerated}
+
+Common user edits:
+${stats.edits.slice(0, 10).map(e => `- ${e}`).join("\n")}
+
+Identify:
+1. What pattern explains why users are editing/rejecting outputs?
+2. What specific prompt adjustment would reduce the edit rate?
+3. Is there a tone, format, or content issue?
+
+Keep under 300 chars. Be specific and actionable.`,
+              `Analyse feedback patterns for ${agentId}`,
+              "google/gemini-2.5-flash-lite"
+            );
+
+            if (insight) {
+              await supabase.from("action_queue").insert({
+                user_id: user_id || "00000000-0000-0000-0000-000000000000",
+                agent_id: "nova",
+                description: `📊 Agent improvement insight for ${agentId.toUpperCase()}: ${insight}`,
+                priority: "low",
+                status: "pending",
+              });
+            }
+          }
+        }
+
+        return { success: true, result: { agents_analysed: Object.keys(agentStats).length, feedback_count: feedback.length } };
+      }
+
       default:
         return { success: true, result: { task_type, note: "executed with default handler" } };
     }

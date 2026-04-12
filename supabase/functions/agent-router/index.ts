@@ -276,8 +276,94 @@ Deno.serve(async (req) => {
       }
     }
 
+    // ═══ EXPERT MODE — Active for ALL agents ═══
+    // Confidence scoring, citations, proactive intelligence, handoff, action queue
+    let expertBlock = `\n\n--- EXPERT MODE — ACTIVE ---
+
+CONFIDENCE: For every factual claim, rate your confidence:
+🟢 HIGH: Current rate/law verified. Example: "Minimum wage is $23.15/hr from 1 Apr 2025 🟢"
+🟡 MEDIUM: Likely current but may have changed. Example: "ACC employer levy ~$0.63/$100 — verify at acc.co.nz 🟡"
+🔴 CHECK: May be outdated or region-specific. Example: "Regional council requirement — verify with your local council 🔴"
+
+CITATIONS: Always cite the specific Act, section, and regulation. Not "you might need consent" but "under s9 RMA 1991, this activity requires resource consent as a discretionary activity." Include the full legislative reference.
+
+PROACTIVE: At conversation start, consider:
+- Upcoming deadlines relevant to this user's business
+- Action items from previous conversations
+- Seasonal reminders relevant to your domain
+Surface the top 2-3 items as a brief alert. Don't lecture — just flag.
+
+HANDOFF: If a question is outside your expertise, show:
+"This is a [domain] question — [AGENT_NAME] is better suited. Here's what I'd brief them:"
+[2-3 sentence context summary]
+[Switch to AGENT_NAME →]
+
+AGENTIC: When given a complex goal, present a numbered plan first, then execute each step showing progress. Don't ask "shall I continue?" between steps unless the step requires a decision.
+
+ACTION QUEUE: When the user commits to an action ("I'll update that agreement", "I need to file that"), note it clearly with ✅ ACTION: [description]. These will be tracked and followed up on next visit.
+
+COMPLIANCE FEED: If there's a recent high-impact legislative change relevant to this conversation, mention it proactively: "Heads up — [change] took effect [date]. This affects [specific thing you're discussing]."
+
+MEMORY: If you have context from previous conversations, use it naturally. Don't ask the user to repeat themselves. If you remember something, reference it: "Last time we discussed [topic]..."
+
+OUTPUT VERSIONING: When generating documents or structured outputs, label them as v1.0. If the user requests edits, increment to v1.1. Note the version clearly.`;
+
+    // Load recent compliance updates for proactive intelligence
+    let complianceAlertBlock = "";
+    if (resolvedUserId) {
+      const thirtyDaysAgo = new Date(Date.now() - 30 * 86400_000).toISOString();
+      const { data: recentUpdates } = await supabase
+        .from("compliance_updates")
+        .select("title, change_summary, impact_level, affected_agents, effective_date")
+        .gte("created_at", thirtyDaysAgo)
+        .in("impact_level", ["high", "medium"])
+        .order("created_at", { ascending: false })
+        .limit(5);
+
+      if (recentUpdates?.length) {
+        // Filter to updates relevant to this agent
+        const relevant = recentUpdates.filter((u: any) =>
+          !u.affected_agents?.length || u.affected_agents.includes(selectedAgent)
+        );
+        if (relevant.length) {
+          const alerts = relevant.map((u: any) =>
+            `⚡ ${u.impact_level.toUpperCase()}: ${u.title} (effective ${u.effective_date || "now"}) — ${u.change_summary}`
+          ).join("\n");
+          complianceAlertBlock = `\n\n--- RECENT COMPLIANCE CHANGES ---\n${alerts}\nReference these in your response if relevant to the user's question.`;
+        }
+      }
+
+      // Load pending action items for this user
+      const { data: actionItems } = await supabase
+        .from("action_queue")
+        .select("description, created_at")
+        .eq("user_id", resolvedUserId)
+        .eq("agent_id", selectedAgent)
+        .eq("status", "pending")
+        .order("created_at", { ascending: false })
+        .limit(3);
+
+      if (actionItems?.length) {
+        const items = actionItems.map((a: any) => `- ${a.description}`).join("\n");
+        expertBlock += `\n\n--- PENDING ACTION ITEMS ---\nThis user has outstanding items:\n${items}\nMention the most relevant one briefly at conversation start.`;
+      }
+
+      // Load FTS memory for this query
+      const { data: memoryHits } = await supabase
+        .rpc("search_memory", {
+          p_user_id: resolvedUserId,
+          p_query: message,
+          p_agent_id: selectedAgent,
+          p_limit: 3,
+        });
+
+      if (memoryHits?.length) {
+        const memories = memoryHits.map((m: any) => `- ${m.summary}`).join("\n");
+        expertBlock += `\n\n--- RELEVANT PAST CONVERSATIONS ---\n${memories}\nUse this context naturally. Don't repeat what the user already knows.`;
+      }
+    }
+
     // ═══ SYMBIOTIC CONTEXT ═══
-    // Build cross-agent awareness — tell this agent about related kete agents
     const packAgents = Object.entries(AGENT_PACK)
       .filter(([_, pack]) => pack === agentPack && _ !== selectedAgent)
       .map(([name]) => name.toUpperCase());
@@ -285,13 +371,6 @@ Deno.serve(async (req) => {
     const symbioticBlock = packAgents.length > 0
       ? `\n\n--- SYMBIOTIC NETWORK ---\nYou are part of the ${agentPack.toUpperCase()} kete. Your sibling agents are: ${packAgents.join(", ")}. If a user's query would be better handled by a sibling agent, suggest they "switch to [AGENT_NAME]" for specialist help. You can reference their capabilities when relevant.`
       : "";
-
-    // ═══ PREEMPTIVE KNOWLEDGE ═══
-    const preemptiveBlock = `\n\n--- PREEMPTIVE INTELLIGENCE ---\nAfter answering, consider:
-1. Are there compliance deadlines the user should know about?
-2. Would another agent in the network add value here? If so, mention them by name.
-3. Are there related tasks the user hasn't asked about but should consider?
-Add a brief "💡 Also consider..." section at the end if relevant. Keep it to 1-2 items max.`;
 
     // ═══ DESIGN EXCELLENCE LAYER ═══
     // Injected into creative, brand, and design agents to ensure distinctive output
@@ -362,7 +441,7 @@ Trust & compliance:
 - assembl uses shared intelligence — agents collaborate via a shared context bus and unified business profiles.
 `;
 
-    const systemPrompt = `${basePrompt}\n\n${platformContext}\n\n--- COMPLIANCE & GOVERNANCE LAYER ---\n${complianceRules}${sharedContextBlock}${memoryBlock}${symbioticBlock}${preemptiveBlock}${designBlock}\n\nAlways respond in a helpful, professional tone. Use markdown formatting. Reference NZ legislation where applicable. Use NZ English spelling. Include macrons on all Māori words.`;
+    const systemPrompt = `${basePrompt}\n\n${platformContext}\n\n--- COMPLIANCE & GOVERNANCE LAYER ---\n${complianceRules}${sharedContextBlock}${memoryBlock}${expertBlock}${complianceAlertBlock}${symbioticBlock}${designBlock}\n\nAlways respond in a helpful, professional tone. Use markdown formatting. Reference NZ legislation where applicable. Use NZ English spelling. Include macrons on all Māori words.`;
 
     const conversationMessages = [
       { role: "system", content: systemPrompt },
