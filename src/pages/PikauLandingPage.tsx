@@ -8,6 +8,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 
 const BG = "#09090F";
 const ACCENT = "#7ECFC2";
@@ -236,6 +237,9 @@ export default function PikauLandingPage() {
             )}
           </motion.div>
         </section>
+
+        {/* ── Race Video ── */}
+        <KeteRaceVideo slug="pikau" keteName="Pikau" accentColor={ACCENT} />
 
         {/* ── CTA ── */}
         <section className="text-center px-6 pb-24">

@@ -7,6 +7,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import aratakiIcon from "@/assets/arataki-kete-car.png";
 
 const BG = "#09090F";
@@ -245,6 +246,9 @@ export default function AratakiLandingPage() {
             )}
           </motion.div>
         </section>
+
+        {/* ── Race Video ── */}
+        <KeteRaceVideo slug="arataki" keteName="Arataki" accentColor={ACCENT} />
 
         {/* ── CTA ── */}
         <section className="text-center px-6 pb-24">

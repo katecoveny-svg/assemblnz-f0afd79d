@@ -8,6 +8,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 
 const BG = "#09090F";
 const ACCENT = "#F0D078";
@@ -239,6 +240,9 @@ export default function AuahaLandingPage() {
             )}
           </motion.div>
         </section>
+
+        {/* ── Race Video ── */}
+        <KeteRaceVideo slug="auaha" keteName="Auaha" accentColor={ACCENT} />
 
         {/* ── CTA ── */}
         <section className="text-center px-6 pb-24">

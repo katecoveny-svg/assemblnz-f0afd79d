@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
+import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
@@ -671,6 +672,9 @@ export default function ToroaLandingPage() {
           </motion.div>
         </motion.div>
       </Section>
+
+      {/* ── Race Video ── */}
+      <KeteRaceVideo slug="toroa" keteName="Toroa" accentColor={TEAL} />
 
       {/* ── SMS DEMO ── */}
       <TryToroaSmsDemo />
