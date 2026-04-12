@@ -268,7 +268,7 @@ const Index = () => {
         <div className="max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4">
           {TRUST_ITEMS.map((t, i) => (
             <motion.div key={t.label} className="text-center p-5" {...stagger(i)}>
-              <t.icon size={22} className="mx-auto mb-3" style={{ color: t.color }} />
+              <KeteMiniIcon glyph={t.glyph} color={t.color} size={28} />
               <p className="text-sm mb-1" style={{ fontFamily: FONT.heading, fontWeight: 400, color: C.white }}>{t.label}</p>
               <p className="text-xs" style={{ fontFamily: FONT.body, color: C.textMuted }}>{t.desc}</p>
             </motion.div>
@@ -326,7 +326,7 @@ const Index = () => {
             {WHAT_YOU_GET.map((item, i) => (
               <LiquidGlassCard key={item.text} className="p-6" accentColor={C.pounamu} delay={i * 0.06}>
                 <div className="flex items-start gap-4">
-                  <item.icon size={18} className="mt-0.5 shrink-0" style={{ color: C.pounamuLight }} />
+                  <KeteMiniIcon glyph={item.glyph} color={C.pounamuLight} size={24} />
                   <p className="text-sm" style={{ fontFamily: FONT.body, color: C.textSec }}>{item.text}</p>
                 </div>
               </LiquidGlassCard>
@@ -376,7 +376,7 @@ const Index = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {OUTCOMES.map((o, i) => (
               <LiquidGlassCard key={o.text} className="p-5 text-center" accentColor={C.pounamu} delay={i * 0.06}>
-                <o.icon size={20} className="mx-auto mb-3" style={{ color: C.pounamuLight }} />
+                <KeteMiniIcon glyph={o.glyph} color={C.pounamuLight} size={28} />
                 <p className="text-xs" style={{ fontFamily: FONT.body, color: C.textSec }}>{o.text}</p>
               </LiquidGlassCard>
             ))}
