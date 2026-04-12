@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import { useAuahaDashboardMetrics, useRecentContentItems, useAuahaCampaigns } from "@/hooks/useAuahaData";
+import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
+import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
 import { formatDistanceToNow } from "date-fns";
 
 const ACCENT = "#F0D078";
@@ -331,6 +333,11 @@ export default function AuahaDashboard() {
           ))}
         </div>
       </GlassCard>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        <SovereigntyPanel kete="auaha" accentColor="#F0D078" />
+        <SovereigntySimulator kete="auaha" accentColor="#F0D078" />
+      </div>
 
       <KeteBrainChat keteId="auaha" keteName="Auaha" keteNameEn="Creative" accentColor="#F0D078" />
     </KeteDashboardShell>

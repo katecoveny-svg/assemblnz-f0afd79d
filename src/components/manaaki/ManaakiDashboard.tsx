@@ -9,6 +9,9 @@ import { Plus, Calendar, Users, DollarSign, Star, Coffee, Check, FileText, Arrow
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
+import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
+import SovereigntyBadge from "@/components/sovereignty/SovereigntyBadge";
 
 const ACCENT = "#D4A843";
 const ACCENT_LIGHT = "#E8C76A";
@@ -266,6 +269,12 @@ export default function ManaakiDashboard() {
           ))}
         </div>
       </DashboardGlassCard>
+
+      {/* Māori Data Sovereignty */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <SovereigntyPanel kete="manaaki" accentColor={ACCENT} />
+        <SovereigntySimulator kete="manaaki" accentColor={ACCENT} />
+      </div>
 
       <KeteAgentChat keteName="Manaaki" keteLabel="Hospitality" accentColor={ACCENT} defaultAgentId="aura" packId="manaaki"
         starterPrompts={["Create a food safety evidence pack", "Check alcohol licensing compliance", "Prepare a VIP guest brief", "Run a dietary requirements audit"]} />

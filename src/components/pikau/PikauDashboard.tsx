@@ -7,6 +7,8 @@ import { Ship, FileText, Shield, Package, Globe, AlertTriangle, Check, ArrowRigh
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
+import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
 
 const ACCENT = "#7ECFC2";
 const ACCENT_LIGHT = "#A8E6DA";
@@ -207,6 +209,11 @@ export default function PikauDashboard() {
           ))}
         </div>
       </DashboardGlassCard>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        <SovereigntyPanel kete="pikau" accentColor={ACCENT} />
+        <SovereigntySimulator kete="pikau" accentColor={ACCENT} />
+      </div>
 
       <KeteAgentChat keteName="Pikau" keteLabel="Freight & Customs" accentColor={ACCENT} defaultAgentId="gateway" packId="pikau"
         starterPrompts={["Validate an HS code", "Generate a customs declaration", "Check biosecurity requirements", "Calculate landed costs for an import"]} />
