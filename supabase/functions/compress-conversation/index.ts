@@ -371,9 +371,9 @@ serve(async (req) => {
       );
     }
 
-    const isWaihanga = WAIHANGA_AGENTS.has(agentId?.toLowerCase());
+    const industry = getIndustry(agentId);
     console.log(
-      `[compress] Compressing ${toCompress.length} messages for agent=${agentId}, user=${userId}${isWaihanga ? " [WAIHANGA]" : ""}`
+      `[compress] Compressing ${toCompress.length} messages for agent=${agentId}, user=${userId} [${industry.toUpperCase()}]`
     );
 
     // Call Lovable AI Gateway with industry-specific extraction
@@ -472,6 +472,7 @@ serve(async (req) => {
     const allFacts = [
       ...(parsed.facts || []),
       ...flattenConstructionFacts(parsed.construction),
+      ...flattenCreativeFacts(parsed.creative),
     ];
 
     if (allFacts.length) {
@@ -495,10 +496,25 @@ serve(async (req) => {
     }
 
     console.log(
-      `[compress] Done: ${toCompress.length} msgs → summary + ${allFacts.length} facts${isWaihanga ? ` (incl. construction data)` : ""}`
+      `[compress] Done: ${toCompress.length} msgs → summary + ${allFacts.length} facts [${industry}]`
+    );
     );
 
     // 3. Rebuild compressed message array
+    let industryContext = "";
+    if (industry === "waihanga") {
+      if (parsed.construction?.inspection_stage) industryContext += `Inspection Stage: ${parsed.construction.inspection_stage}\n`;
+      if (parsed.construction?.code_decisions?.length) industryContext += `Code Decisions: ${parsed.construction.code_decisions.map((c: any) => `${c.clause}: ${c.decision}`).join("; ")}\n`;
+    }
+    if (industry === "auaha") {
+      if (parsed.creative?.brand_dna?.tone_notes) industryContext += `Brand Voice: ${parsed.creative.brand_dna.tone_notes}\n`;
+      if (parsed.creative?.content_performance?.length) {
+        const top = parsed.creative.content_performance.filter((c: any) => c.what_worked);
+        if (top.length) industryContext += `Top Content: ${top.map((c: any) => `${c.platform} ${c.format}: ${c.what_worked}`).join("; ")}\n`;
+      }
+      if (parsed.creative?.style_preferences?.edit_patterns?.length) industryContext += `Style Patterns: ${parsed.creative.style_preferences.edit_patterns.join("; ")}\n`;
+    }
+
     const compressionMessage = {
       role: "assistant" as const,
       content:
@@ -506,12 +522,7 @@ serve(async (req) => {
         (parsed.decisions?.length ? `Decisions: ${parsed.decisions.join("; ")}\n` : "") +
         (parsed.pending_actions?.length ? `Pending: ${parsed.pending_actions.join("; ")}\n` : "") +
         (parsed.compliance_notes?.length ? `Compliance: ${parsed.compliance_notes.join("; ")}\n` : "") +
-        (isWaihanga && parsed.construction?.inspection_stage
-          ? `Inspection Stage: ${parsed.construction.inspection_stage}\n`
-          : "") +
-        (isWaihanga && parsed.construction?.code_decisions?.length
-          ? `Code Decisions: ${parsed.construction.code_decisions.map((c: any) => `${c.clause}: ${c.decision}`).join("; ")}\n`
-          : ""),
+        industryContext,
     };
 
     const compressedMessages = [
@@ -529,7 +540,7 @@ serve(async (req) => {
           compressed_count: compressedMessages.length,
           facts_extracted: allFacts.length,
           decisions: parsed.decisions?.length || 0,
-          construction_data: isWaihanga,
+          industry,
         },
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
