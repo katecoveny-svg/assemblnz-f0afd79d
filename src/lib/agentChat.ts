@@ -11,6 +11,10 @@ interface AgentChatOptions {
   messages?: { role: string; content: string }[];
   packId?: string;
   systemPrompt?: string;
+  /** If provided, search memory for this user and inject relevant context */
+  userId?: string;
+  /** Skip memory injection even if userId is set */
+  skipMemory?: boolean;
 }
 
 /**
