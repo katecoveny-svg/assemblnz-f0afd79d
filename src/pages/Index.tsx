@@ -12,6 +12,7 @@ import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteMiniIcon, { type KeteGlyph } from "@/components/kete/KeteMiniIcon";
 
+const KeteOrbHero = lazy(() => import("@/components/landing/KeteOrbHero"));
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
 
 /* ─── Tokens ─── */
@@ -136,7 +137,10 @@ const Index = () => {
       <BrandNav />
 
       {/* ═══ HERO ═══ */}
-      <section className="relative flex flex-col items-center text-center px-6 pt-28 sm:pt-36 pb-16">
+      <section className="relative flex flex-col items-center text-center px-6 pt-20 sm:pt-24 pb-16">
+        <Suspense fallback={null}>
+          <KeteOrbHero hideText />
+        </Suspense>
         <motion.p
           className="text-[11px] font-semibold tracking-[5px] uppercase mb-7"
           style={{ color: C.pounamuLight, fontFamily: "'JetBrains Mono', monospace" }}
