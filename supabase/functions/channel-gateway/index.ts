@@ -67,10 +67,16 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
   shield: ["privacy", "data", "breach", "personal information", "privacy act"],
   aroha: ["employment", "hiring", "leave", "kiwisaver", "wages", "redundancy", "hr", "salary"],
   ledger: ["accounting", "tax", "gst", "ird", "invoice", "xero", "myob", "financial"],
-  // Manaaki
-  aura: ["guest", "check-in", "room", "housekeeping", "hotel", "lodge"],
-  saffron: ["food safety", "food act", "allergen", "kitchen", "hygiene", "haccp"],
-  cellar: ["alcohol", "liquor", "licence", "duty manager", "bar", "wine"],
+  // Manaaki (Hospitality & Tourism)
+  aura: ["guest", "check-in", "room", "housekeeping", "hotel", "lodge", "booking", "front desk",
+    "food safety", "chiller", "temperature", "fcp", "food control plan", "opening checks",
+    "closing checks", "corrective action", "food handler", "menu", "allergen"],
+  saffron: ["food act", "haccp", "verification", "verifier", "mpi", "food hygiene",
+    "kitchen", "supplier records", "traceability", "food recall"],
+  cellar: ["alcohol", "liquor", "licence", "duty manager", "bar", "wine", "host responsibility",
+    "intoxication", "ssaa", "manager certificate", "on licence", "off licence"],
+  nova: ["tourism", "visitor", "activity", "experience", "adventure", "qualmark",
+    "booking engine", "travel", "accommodation"],
   // Waihanga (Construction)
   apex: ["site", "site ops", "construction", "foreman", "builder"],
   arai: ["hazard", "safety", "h&s", "worksafe", "ppe", "incident", "scaffold", "hswa", "notifiable"],
@@ -503,6 +509,16 @@ Deno.serve(async (req) => {
         { pattern: /(?:calving|lambing|mating|shearing|weaning)[\s:]+(\w+\s+\d{4}|\d{1,2}\s+\w+)/i, key: "farm.seasonal_event" },
         { pattern: /(?:ets|carbon|nzu)[\s:]+(\d+)\s*(?:units|credits|nzu)/i, key: "farm.ets_nzu_balance" },
         { pattern: /(?:regional council|council)[\s:]+(\w+(?:\s+\w+)?)/i, key: "farm.region_council" },
+        // Manaaki (Hospitality) patterns
+        { pattern: /(?:chiller|fridge|freezer)\s*(?:\d+)?[\s:]+(\d+\.?\d*)\s*(?:°?c|degrees)/i, key: "hospitality.temp_reading" },
+        { pattern: /(?:food control plan|fcp)[\s:]+(?:type\s+)?(sss\s*level\s*\d|custom|national programme)/i, key: "hospitality.fcp_type" },
+        { pattern: /(?:liquor|alcohol)\s+licen[cs]e[\s:#]*([A-Z\d/-]+)/i, key: "hospitality.liquor_licence" },
+        { pattern: /(?:manager|duty manager)\s+cert(?:ificate)?[\s:#]*([A-Z]{2}-?\d{6,})/i, key: "hospitality.manager_cert" },
+        { pattern: /(?:covers|seats|capacity)[\s:]+(\d+)\s*(?:per day|daily|avg|average)?/i, key: "hospitality.covers_avg" },
+        { pattern: /(?:food cost|cost of goods)[\s:]+(\d+\.?\d*)%/i, key: "hospitality.food_cost_pct" },
+        { pattern: /(?:verification|verifier)\s+(?:date|due|visit)[\s:]+(\d{1,2}\s+\w+\s+\d{4}|\d{4}-\d{2}-\d{2})/i, key: "hospitality.verification_due" },
+        { pattern: /(?:host responsibility|hr training)[\s:]+(?:completed|done|passed)\s*(\d{1,2}\s+\w+)?/i, key: "hospitality.host_responsibility_training" },
+        { pattern: /(?:waste|spoilage)[\s:]+\$?([\d,.]+)\s*(?:this week|today|per week)?/i, key: "hospitality.waste_cost" },
       ];
 
       for (const { pattern, key } of factPatterns) {
