@@ -37,18 +37,20 @@ import { MANAAKI_POLICIES } from "./policy/manaaki";
 import { PIKAU_POLICIES } from "./policy/pikau";
 import { TORO_POLICIES } from "./policy/toro";
 import { WAIHANGA_POLICIES } from "./policy/waihanga";
+import { SOVEREIGNTY_POLICIES } from "./policy/sovereignty";
 import type { RegisteredPolicy } from "./policy/library";
 import type { AgentAction, ComplianceDecision } from "./policy/types";
 
 /** Kete-scoped domain keys this guard knows about. */
 export type GuardDomain = "waihanga" | "pikau" | "manaaki" | "auaha" | "toro";
 
+// Sovereignty policies are appended to every kete's policy set
 const POLICIES_BY_DOMAIN: Record<GuardDomain, RegisteredPolicy[]> = {
-  waihanga: WAIHANGA_POLICIES,
-  pikau: PIKAU_POLICIES,
-  manaaki: MANAAKI_POLICIES,
-  auaha: AUAHA_POLICIES,
-  toro: TORO_POLICIES,
+  waihanga: [...WAIHANGA_POLICIES, ...SOVEREIGNTY_POLICIES],
+  pikau: [...PIKAU_POLICIES, ...SOVEREIGNTY_POLICIES],
+  manaaki: [...MANAAKI_POLICIES, ...SOVEREIGNTY_POLICIES],
+  auaha: [...AUAHA_POLICIES, ...SOVEREIGNTY_POLICIES],
+  toro: [...TORO_POLICIES, ...SOVEREIGNTY_POLICIES],
 };
 
 /** Shape of the action a consumer passes to `guard.check()`. */

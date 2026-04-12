@@ -2651,6 +2651,77 @@ export type Database = {
           },
         ]
       }
+      governance_gates: {
+        Row: {
+          benefit_hypothesis: string | null
+          conditions: string | null
+          created_at: string
+          dataset_id: string | null
+          decided_at: string | null
+          expiry: string | null
+          gate_type: string
+          governance_pack: Json | null
+          harm_hypothesis: string | null
+          id: string
+          kaitiaki_decision_by: string | null
+          kete: string | null
+          purpose: string
+          request_id: string
+          requested_by: string | null
+          simulator_results: Json | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          benefit_hypothesis?: string | null
+          conditions?: string | null
+          created_at?: string
+          dataset_id?: string | null
+          decided_at?: string | null
+          expiry?: string | null
+          gate_type?: string
+          governance_pack?: Json | null
+          harm_hypothesis?: string | null
+          id?: string
+          kaitiaki_decision_by?: string | null
+          kete?: string | null
+          purpose: string
+          request_id: string
+          requested_by?: string | null
+          simulator_results?: Json | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          benefit_hypothesis?: string | null
+          conditions?: string | null
+          created_at?: string
+          dataset_id?: string | null
+          decided_at?: string | null
+          expiry?: string | null
+          gate_type?: string
+          governance_pack?: Json | null
+          harm_hypothesis?: string | null
+          id?: string
+          kaitiaki_decision_by?: string | null
+          kete?: string | null
+          purpose?: string
+          request_id?: string
+          requested_by?: string | null
+          simulator_results?: Json | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "governance_gates_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "maori_data_registry"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hanga_consents: {
         Row: {
           conditions: string[] | null
@@ -3778,6 +3849,69 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      maori_data_registry: {
+        Row: {
+          approval_expiry: string | null
+          created_at: string
+          created_by: string | null
+          dataset_description: string | null
+          dataset_name: string
+          governance_status: string
+          id: string
+          is_maori_data: boolean
+          iwi_hapu_relevance: string[] | null
+          kaitiaki_contact: Json | null
+          locality_restriction: string
+          notes: string | null
+          permitted_purposes: string[] | null
+          provenance: Json | null
+          source_kete: string | null
+          source_table: string | null
+          tapu_noa_classification: string
+          updated_at: string
+        }
+        Insert: {
+          approval_expiry?: string | null
+          created_at?: string
+          created_by?: string | null
+          dataset_description?: string | null
+          dataset_name: string
+          governance_status?: string
+          id?: string
+          is_maori_data?: boolean
+          iwi_hapu_relevance?: string[] | null
+          kaitiaki_contact?: Json | null
+          locality_restriction?: string
+          notes?: string | null
+          permitted_purposes?: string[] | null
+          provenance?: Json | null
+          source_kete?: string | null
+          source_table?: string | null
+          tapu_noa_classification?: string
+          updated_at?: string
+        }
+        Update: {
+          approval_expiry?: string | null
+          created_at?: string
+          created_by?: string | null
+          dataset_description?: string | null
+          dataset_name?: string
+          governance_status?: string
+          id?: string
+          is_maori_data?: boolean
+          iwi_hapu_relevance?: string[] | null
+          kaitiaki_contact?: Json | null
+          locality_restriction?: string
+          notes?: string | null
+          permitted_purposes?: string[] | null
+          provenance?: Json | null
+          source_kete?: string | null
+          source_table?: string | null
+          tapu_noa_classification?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       medication_schedules: {
         Row: {
@@ -5232,6 +5366,59 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      sovereignty_audit_log: {
+        Row: {
+          action_type: string
+          agent_code: string | null
+          created_at: string
+          dataset_id: string | null
+          decision: string
+          id: string
+          kete: string | null
+          metadata: Json | null
+          obligations: Json | null
+          provenance_chain: Json | null
+          purpose_declared: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action_type: string
+          agent_code?: string | null
+          created_at?: string
+          dataset_id?: string | null
+          decision?: string
+          id?: string
+          kete?: string | null
+          metadata?: Json | null
+          obligations?: Json | null
+          provenance_chain?: Json | null
+          purpose_declared?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action_type?: string
+          agent_code?: string | null
+          created_at?: string
+          dataset_id?: string | null
+          decision?: string
+          id?: string
+          kete?: string | null
+          metadata?: Json | null
+          obligations?: Json | null
+          provenance_chain?: Json | null
+          purpose_declared?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sovereignty_audit_log_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "maori_data_registry"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       spark_apps: {
         Row: {

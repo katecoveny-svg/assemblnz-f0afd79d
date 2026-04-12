@@ -7,6 +7,8 @@ import { Car, Users, FileText, Shield, ArrowRight, Plus, Check, Clock, DollarSig
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
+import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
 
 const ACCENT = "#E8E8E8";
 const ACCENT_LIGHT = "#D8D8D8";
@@ -224,6 +226,11 @@ export default function AratakiDashboard() {
           ))}
         </div>
       </DashboardGlassCard>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        <SovereigntyPanel kete="arataki" accentColor={ACCENT} />
+        <SovereigntySimulator kete="arataki" accentColor={ACCENT} />
+      </div>
 
       <KeteAgentChat keteName="Arataki" keteLabel="Automotive" accentColor={ACCENT} defaultAgentId="motor" packId="waka"
         starterPrompts={["Draft a warranty narrative", "Check MVSA compliance for a sale", "Generate a delivery evidence pack", "Run a customer journey audit"]} />
