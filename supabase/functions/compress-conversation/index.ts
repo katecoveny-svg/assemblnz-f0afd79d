@@ -142,6 +142,41 @@ Extract NZ agriculture-specific data:
 - Regional council — critical as rules vary by region
 Omit any "agriculture" sub-object fields that are empty/unknown.`;
 
+const MANAAKI_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ hospitality & tourism AI platform.
+Compress the conversation into structured JSON, extracting hospitality-specific data.
+Return ONLY valid JSON:
+{
+  "summary": "2-3 sentence overview of what was discussed",
+  "facts": [{"key": "dot.notation.key", "value": "string value", "confidence": 0.9}],
+  "decisions": ["decision 1"],
+  "pending_actions": ["action 1"],
+  "compliance_notes": ["any compliance-relevant items"],
+  "hospitality": {
+    "venue": { "name": "", "type": "", "location": "", "covers_avg": 0 },
+    "fcp": { "template": "", "level": "", "last_verification_date": "", "last_verification_result": "", "next_verification_due": "" },
+    "liquor_licence": { "type": "", "number": "", "expiry_date": "", "conditions": [] },
+    "manager_certificate": { "holder": "", "number": "", "expiry_date": "" },
+    "equipment": [{ "type": "", "name": "", "last_calibration": "", "temp_issues": "" }],
+    "staff_training": [{ "name": "", "topic": "", "date": "", "next_due": "" }],
+    "temperature_records": [{ "equipment": "", "temp_c": 0, "timestamp": "", "within_range": true, "corrective_action": "" }],
+    "allergen_declarations": [{ "menu_item": "", "allergens": [] }],
+    "corrective_actions": [{ "issue": "", "action_taken": "", "date": "", "resolved": true }],
+    "operational_patterns": { "peak_days": [], "avg_food_cost_pct": 0, "common_issues": [], "seasonal_changes": [] }
+  }
+}
+Extract NZ hospitality-specific data (Food Act 2014 / SSAA 2012):
+- Food Control Plan type, level, verification dates and results
+- Temperature records with corrective actions (critical for FCP compliance)
+- Liquor licence details: type, number, expiry, conditions
+- Manager certificate (duty manager) number and expiry
+- Equipment inventory: chillers, freezers, hot-hold units, calibration dates
+- Staff food safety training records: who, when, what, next due
+- Allergen declarations per menu item
+- Corrective action register: issue, action, date, resolution
+- Operational patterns: peak days, food cost %, recurring issues, seasonal menu changes
+- Host responsibility training status
+Omit any "hospitality" sub-object fields that are empty/unknown.`;
+
 const DEFAULT_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ business AI platform. Compress the conversation into structured JSON. Extract: decisions made, facts learned, action items, compliance notes. Return ONLY valid JSON:
 {
   "summary": "2-3 sentence overview of what was discussed",
