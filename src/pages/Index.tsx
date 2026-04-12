@@ -1,6 +1,6 @@
 import React, { useRef, useState, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Send, ChevronDown, Check, Shield, Globe, Zap, Layers, Eye, Users, FileCheck, Settings, Headphones, RefreshCw, CheckCircle, ClipboardCheck, Clock, BarChart3, BookOpen, UserPlus, ThumbsUp } from "lucide-react";
+import { ArrowRight, Send, ChevronDown, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
@@ -12,6 +12,7 @@ import LiquidGlassCard from "@/components/LiquidGlassCard";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import KeteIcon from "@/components/kete/KeteIcon";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import KeteMiniIcon, { type KeteGlyph } from "@/components/kete/KeteMiniIcon";
 
 const KeteOrbHero = lazy(() => import("@/components/landing/KeteOrbHero"));
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
@@ -94,11 +95,11 @@ const stagger = (i: number) => ({
 });
 
 /* ─── Data ─── */
-const TRUST_ITEMS = [
-  { icon: Shield, label: "Built for control", desc: "Clear rules, approvals, and review pathways", color: C.pounamu },
-  { icon: Globe, label: "NZ-ready", desc: "Designed around local operating conditions", color: C.pounamuLight },
-  { icon: Zap, label: "Practical outcomes", desc: "Less admin, better consistency, faster turnaround", color: C.gold },
-  { icon: Layers, label: "Start small", desc: "Begin with one workflow and expand when it proves value", color: C.navy },
+const TRUST_ITEMS: { glyph: KeteGlyph; label: string; desc: string; color: string }[] = [
+  { glyph: "shield", label: "Built for control", desc: "Clear rules, approvals, and review pathways", color: C.pounamu },
+  { glyph: "globe", label: "NZ-ready", desc: "Designed around local operating conditions", color: C.pounamuLight },
+  { glyph: "bolt", label: "Practical outcomes", desc: "Less admin, better consistency, faster turnaround", color: C.gold },
+  { glyph: "layers", label: "Start small", desc: "Begin with one workflow and expand when it proves value", color: C.navy },
 ];
 
 const WHAT_WE_DO = [
@@ -110,14 +111,14 @@ const WHAT_WE_DO = [
   "Keeping context and prior decisions visible",
 ];
 
-const WHAT_YOU_GET = [
-  { icon: FileCheck, text: "Defined workflow coverage" },
-  { icon: Users, text: "Role-based support for specific jobs" },
-  { icon: Shield, text: "Built-in rules and operating boundaries" },
-  { icon: CheckCircle, text: "Approvals and review pathways where needed" },
-  { icon: Settings, text: "Configuration for your business context" },
-  { icon: Headphones, text: "Onboarding and rollout support" },
-  { icon: RefreshCw, text: "Ongoing refinement as your needs evolve" },
+const WHAT_YOU_GET: { glyph: KeteGlyph; text: string }[] = [
+  { glyph: "file", text: "Defined workflow coverage" },
+  { glyph: "people", text: "Role-based support for specific jobs" },
+  { glyph: "shield", text: "Built-in rules and operating boundaries" },
+  { glyph: "check", text: "Approvals and review pathways where needed" },
+  { glyph: "gear", text: "Configuration for your business context" },
+  { glyph: "headset", text: "Onboarding and rollout support" },
+  { glyph: "refresh", text: "Ongoing refinement as your needs evolve" },
 ];
 
 const BEST_FIT = [
@@ -129,14 +130,14 @@ const BEST_FIT = [
   "Introduce modern workflow support without creating extra risk",
 ];
 
-const OUTCOMES = [
-  { icon: CheckCircle, text: "Fewer missed steps" },
-  { icon: RefreshCw, text: "Less rework" },
-  { icon: Clock, text: "Faster turnaround" },
-  { icon: BarChart3, text: "Better visibility across workflows" },
-  { icon: ClipboardCheck, text: "Clearer process discipline" },
-  { icon: BookOpen, text: "Easier onboarding for staff" },
-  { icon: ThumbsUp, text: "More confidence in how work is being handled" },
+const OUTCOMES: { glyph: KeteGlyph; text: string }[] = [
+  { glyph: "check", text: "Fewer missed steps" },
+  { glyph: "refresh", text: "Less rework" },
+  { glyph: "clock", text: "Faster turnaround" },
+  { glyph: "chart", text: "Better visibility across workflows" },
+  { glyph: "clipboard", text: "Clearer process discipline" },
+  { glyph: "book", text: "Easier onboarding for staff" },
+  { glyph: "thumbs", text: "More confidence in how work is being handled" },
 ];
 
 const PACKS: { reo: string; en: string; desc: string; color: string; to: string; accentLight: string }[] = [
