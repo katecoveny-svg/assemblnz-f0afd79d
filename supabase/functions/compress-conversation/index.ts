@@ -17,9 +17,13 @@ const COMPRESS_THRESHOLD_TOKENS = 80_000;
 const KEEP_RECENT = 6;
 const MIN_COMPRESSIBLE = 8;
 
-// ─── Waihanga (Construction) agent IDs ─────────────────
+// ─── Industry agent sets ───────────────────────────────
 const WAIHANGA_AGENTS = new Set([
   "apex", "arai", "kaupapa", "ata", "rawa", "pai", "whakaae",
+]);
+
+const AUAHA_AGENTS = new Set([
+  "prism", "echo", "spark", "flux", "muse", "toi", "kōrero", "whakaata", "ahua",
 ]);
 
 // ─── Industry-specific extraction schemas ──────────────
@@ -51,6 +55,50 @@ Extract NZ-specific construction data:
 - Producer statements (PS1, PS2, PS3, PS4)
 Omit any "construction" sub-object fields that are empty/unknown.`;
 
+const AUAHA_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ creative & marketing AI platform.
+Compress the conversation into structured JSON, extracting brand and content performance data.
+Return ONLY valid JSON:
+{
+  "summary": "2-3 sentence overview of what was discussed",
+  "facts": [{"key": "dot.notation.key", "value": "string value", "confidence": 0.9}],
+  "decisions": ["decision 1"],
+  "pending_actions": ["action 1"],
+  "compliance_notes": ["any compliance-relevant items"],
+  "creative": {
+    "brand_dna": {
+      "primary_colour": "",
+      "voice_formality": 0,
+      "tone_notes": "",
+      "forbidden_words": [],
+      "approved_phrases": []
+    },
+    "content_performance": [
+      { "platform": "", "format": "", "engagement_rate": 0, "what_worked": "", "what_failed": "" }
+    ],
+    "audience_insights": {
+      "top_locations": [],
+      "best_posting_day": "",
+      "best_posting_time": "",
+      "demographic_skew": ""
+    },
+    "style_preferences": {
+      "preferred_formats": [],
+      "rejected_styles": [],
+      "edit_patterns": []
+    },
+    "competitor_notes": [],
+    "seasonal_calendar": []
+  }
+}
+Extract NZ creative/marketing-specific data:
+- Brand voice preferences (formality level, humour style, words to avoid/prefer)
+- Content performance data (engagement rates, what worked/bombed, platform breakdowns)
+- Audience demographics and behaviour (NZ location skews, posting times)
+- User edit patterns — when they change "innovative" to "practical", log the preference
+- Competitor observations and seasonal NZ events (Matariki, ANZAC Day, school holidays)
+- Platform-specific insights (LinkedIn vs Instagram vs Facebook performance)
+Omit any "creative" sub-object fields that are empty/unknown.`;
+
 const DEFAULT_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ business AI platform. Compress the conversation into structured JSON. Extract: decisions made, facts learned, action items, compliance notes. Return ONLY valid JSON:
 {
   "summary": "2-3 sentence overview of what was discussed",
@@ -61,7 +109,17 @@ const DEFAULT_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ bu
 }`;
 
 function getExtractionPrompt(agentId: string): string {
-  return WAIHANGA_AGENTS.has(agentId?.toLowerCase()) ? WAIHANGA_EXTRACTION_PROMPT : DEFAULT_EXTRACTION_PROMPT;
+  const id = agentId?.toLowerCase();
+  if (WAIHANGA_AGENTS.has(id)) return WAIHANGA_EXTRACTION_PROMPT;
+  if (AUAHA_AGENTS.has(id)) return AUAHA_EXTRACTION_PROMPT;
+  return DEFAULT_EXTRACTION_PROMPT;
+}
+
+function getIndustry(agentId: string): "waihanga" | "auaha" | "default" {
+  const id = agentId?.toLowerCase();
+  if (WAIHANGA_AGENTS.has(id)) return "waihanga";
+  if (AUAHA_AGENTS.has(id)) return "auaha";
+  return "default";
 }
 
 // ─── Construction-specific tool schema ─────────────────
