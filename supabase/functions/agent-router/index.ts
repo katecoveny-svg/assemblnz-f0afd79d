@@ -464,17 +464,60 @@ Trust & compliance:
     const rawPref = agentPrompt?.model_preference || "gemini-3-flash-preview";
     const model = MODEL_MAP[rawPref] || `google/${rawPref}`;
 
+
+    // ═══ DYNAMIC TOOL REGISTRY — load tools for this agent ═══
+    let agentTools: any[] = [];
+    {
+      const { data: toolLinks } = await supabase
+        .from("agent_toolsets")
+        .select("tool_name")
+        .eq("agent_id", selectedAgent);
+
+      if (toolLinks?.length) {
+        const { data: tools } = await supabase
+          .from("tool_registry")
+          .select("tool_name, tool_schema, requires_integration")
+          .in("tool_name", toolLinks.map((t: any) => t.tool_name))
+          .eq("is_active", true);
+
+        if (tools?.length) {
+          // Filter tools by user's connected integrations
+          let userIntegrations: string[] = [];
+          if (resolvedUserId) {
+            const { data: connections } = await supabase
+              .from("tenant_tool_connections")
+              .select("tool_name")
+              .eq("is_active", true);
+            userIntegrations = (connections || []).map((c: any) => c.tool_name);
+          }
+
+          agentTools = tools
+            .filter((t: any) => {
+              if (!t.requires_integration?.length) return true;
+              return t.requires_integration.every((req: string) => userIntegrations.includes(req));
+            })
+            .map((t: any) => t.tool_schema)
+            .filter((schema: any) => schema && Object.keys(schema).length > 0);
+        }
+      }
+    }
+
+    const aiRequestBody: any = {
+      model,
+      messages: conversationMessages,
+      stream: true,
+    };
+    if (agentTools.length > 0) {
+      aiRequestBody.tools = agentTools;
+    }
+
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        model,
-        messages: conversationMessages,
-        stream: true,
-      }),
+      body: JSON.stringify(aiRequestBody),
     });
 
     if (!response.ok) {

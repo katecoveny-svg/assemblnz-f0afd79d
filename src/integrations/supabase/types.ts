@@ -576,6 +576,29 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_toolsets: {
+        Row: {
+          agent_id: string
+          tool_name: string
+        }
+        Insert: {
+          agent_id: string
+          tool_name: string
+        }
+        Update: {
+          agent_id?: string
+          tool_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_toolsets_tool_name_fkey"
+            columns: ["tool_name"]
+            isOneToOne: false
+            referencedRelation: "tool_registry"
+            referencedColumns: ["tool_name"]
+          },
+        ]
+      }
       agent_training: {
         Row: {
           agent_id: string
@@ -6145,6 +6168,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      tool_registry: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          requires_integration: string[] | null
+          tool_category: string | null
+          tool_name: string
+          tool_schema: Json
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          requires_integration?: string[] | null
+          tool_category?: string | null
+          tool_name: string
+          tool_schema?: Json
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          requires_integration?: string[] | null
+          tool_category?: string | null
+          tool_name?: string
+          tool_schema?: Json
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       toroa_budgets: {
         Row: {
