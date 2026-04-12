@@ -90,7 +90,7 @@ const EchoSection = () => {
                 Your front desk that never sleeps.
               </h3>
               <p className="text-sm font-body text-foreground/70 leading-relaxed mb-6 max-w-lg">
-                ECHO is the voice of Assembl — trained on 13 years of NZ brand strategy. It handles client enquiries, creates daily content, writes DMs that convert, and manages social media around the clock. Always on. Always on brand.
+                ECHO is the voice of Assembl — built on 13 years of NZ brand strategy. It handles client enquiries, creates daily content, writes DMs that convert, and manages social media around the clock. Always on. Always on brand.
               </p>
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                 <Link

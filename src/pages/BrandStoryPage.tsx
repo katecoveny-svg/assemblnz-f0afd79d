@@ -833,7 +833,7 @@ const BrandStoryPage = () => {
             </div>
 
             <p style={{ ...T.mono, color: C.white40, marginTop: "24px", fontSize: "11px" }}>
-              From NZ$590/mo + GST · NZD ex GST
+              <Link to="/pricing" style={{ color: C.white40, textDecoration: "underline" }}>See pricing</Link> · NZD ex GST
             </p>
           </div>
         </motion.div>

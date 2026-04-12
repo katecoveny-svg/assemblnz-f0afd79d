@@ -39,7 +39,7 @@ const SecurityPage = lazy(() => import("./pages/SecurityPage"));
 const TradiePortal = lazy(() => import("./pages/TradiePortal"));
 const LandlordPortal = lazy(() => import("./pages/LandlordPortal"));
 const EchoPage = lazy(() => import("./pages/EchoPage"));
-const ContentHub = lazy(() => import("./pages/ContentHub"));
+// ContentHub — retired, route redirects to /how-it-works
 const AgentDetailPage = lazy(() => import("./pages/AgentDetailPage"));
 const MyAppsPage = lazy(() => import("./pages/MyAppsPage"));
 const SparkAppViewer = lazy(() => import("./pages/SparkAppViewer"));
@@ -141,7 +141,7 @@ const ToroaChatPage = lazy(() => import("./pages/ToroaChatPage"));
 const WaihangaArchitecturePage = lazy(() => import("./pages/WaihangaArchitecturePage"));
 const WaihangaWorkflow = lazy(() => import("./pages/WaihangaWorkflow"));
 const TeReoReferencePage = lazy(() => import("./pages/TeReoReferencePage"));
-const TryPage = lazy(() => import("./pages/TryPage"));
+// TryPage — retired, "free trial" concept removed
 const CaseStudiesPage = lazy(() => import("./pages/CaseStudiesPage"));
 const StartPage = lazy(() => import("./pages/StartPage"));
 const StartPendingPage = lazy(() => import("./pages/StartPendingPage"));
@@ -191,14 +191,14 @@ const App = () => (
                   <Route path="/landlord" element={<Suspense fallback={null}><LandlordPortal /></Suspense>} />
                   <Route path="/agents/echo" element={<Suspense fallback={null}><EchoPage /></Suspense>} />
                   <Route path="/agents/:agentId" element={<Suspense fallback={null}><AgentDetailPage /></Suspense>} />
-                  <Route path="/content-hub" element={<Suspense fallback={null}><ContentHub /></Suspense>} />
+                  {/* ContentHub route removed — redirects via line 175 */}
                   <Route path="/my-apps" element={<Suspense fallback={null}><MyAppsPage /></Suspense>} />
                   <Route path="/apps/:appName" element={<Suspense fallback={null}><SparkAppViewer /></Suspense>} />
                   <Route path="/settings/workflows" element={<Suspense fallback={null}><WorkflowSettings /></Suspense>} />
                   <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
                   <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
                   <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
-                  <Route path="/try" element={<Suspense fallback={null}><TryPage /></Suspense>} />
+                  <Route path="/try" element={<Navigate to="/contact" replace />} />
                   <Route path="/case-studies" element={<Suspense fallback={null}><CaseStudiesPage /></Suspense>} />
                   <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                   <Route path="/turf" element={<Suspense fallback={null}><TurfDeadlinePage /></Suspense>} />
