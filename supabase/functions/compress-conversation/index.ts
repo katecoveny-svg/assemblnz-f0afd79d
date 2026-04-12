@@ -498,7 +498,6 @@ serve(async (req) => {
     console.log(
       `[compress] Done: ${toCompress.length} msgs → summary + ${allFacts.length} facts [${industry}]`
     );
-    );
 
     // 3. Rebuild compressed message array
     let industryContext = "";
