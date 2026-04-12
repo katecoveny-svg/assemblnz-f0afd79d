@@ -5183,6 +5183,66 @@ export type Database = {
         }
         Relationships: []
       }
+      shipments: {
+        Row: {
+          broker_code: string | null
+          carrier: string | null
+          country_of_origin: string | null
+          created_at: string
+          dangerous_goods: boolean | null
+          description: string
+          destination: string
+          hs_code: string | null
+          id: string
+          incoterm: string | null
+          notes: string | null
+          origin: string
+          status: string
+          tracking_code: string | null
+          updated_at: string
+          user_id: string
+          value_nzd: number | null
+        }
+        Insert: {
+          broker_code?: string | null
+          carrier?: string | null
+          country_of_origin?: string | null
+          created_at?: string
+          dangerous_goods?: boolean | null
+          description: string
+          destination: string
+          hs_code?: string | null
+          id?: string
+          incoterm?: string | null
+          notes?: string | null
+          origin: string
+          status?: string
+          tracking_code?: string | null
+          updated_at?: string
+          user_id: string
+          value_nzd?: number | null
+        }
+        Update: {
+          broker_code?: string | null
+          carrier?: string | null
+          country_of_origin?: string | null
+          created_at?: string
+          dangerous_goods?: boolean | null
+          description?: string
+          destination?: string
+          hs_code?: string | null
+          id?: string
+          incoterm?: string | null
+          notes?: string | null
+          origin?: string
+          status?: string
+          tracking_code?: string | null
+          updated_at?: string
+          user_id?: string
+          value_nzd?: number | null
+        }
+        Relationships: []
+      }
       sms_channels: {
         Row: {
           created_at: string | null
