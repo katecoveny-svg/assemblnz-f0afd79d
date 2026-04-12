@@ -121,6 +121,7 @@ const SkillHubPage = lazy(() => import("./pages/SkillHubPage"));
 const AaaipDashboard = lazy(() => import("./pages/AaaipDashboard"));
 const AaaipResearcher = lazy(() => import("./pages/AaaipResearcher"));
 const AaaipPitchPrep = lazy(() => import("./pages/AaaipPitchPrep"));
+const AaaipLanding = lazy(() => import("./pages/AaaipLanding"));
 const ArohaLayout = lazy(() => import("./components/aroha/ArohaLayout"));
 const ArohaOverviewPage = lazy(() => import("./pages/ArohaOverviewPage"));
 const ArohaContracts = lazy(() => import("./components/aroha/ArohaContracts"));
