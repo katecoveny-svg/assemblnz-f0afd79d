@@ -78,6 +78,7 @@ const NexusEntryCard = ({ data, color = "#5B8CFF" }: Props) => {
       agentDesignation: "ASM-009",
       subtitle: `Import Entry Summary — ${new Date().toLocaleDateString("en-NZ")}`,
       margin: m,
+      keteSlug: "pikau",
     });
 
     // Meta
