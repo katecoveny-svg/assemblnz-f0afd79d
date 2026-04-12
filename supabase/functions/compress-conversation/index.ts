@@ -26,6 +26,10 @@ const AUAHA_AGENTS = new Set([
   "prism", "echo", "spark", "flux", "muse", "toi", "kōrero", "whakaata", "ahua",
 ]);
 
+const AHUWHENUA_AGENTS = new Set([
+  "terra",
+]);
+
 // ─── Industry-specific extraction schemas ──────────────
 const WAIHANGA_EXTRACTION_PROMPT = `You are a conversation compressor for a NZ construction/trades AI platform.
 Compress the conversation into structured JSON, extracting NZ construction-specific data.
