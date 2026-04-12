@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Download, Share2, Check } from "lucide-react";
 import jsPDF from "jspdf";
-import { drawAssemblPDFHeader, drawAssemblPDFFooter, renderMarkdownToPDF } from "@/lib/pdfBranding";
+import { drawAssemblPDFHeader, drawAssemblPDFFooter, renderMarkdownToPDF, AGENT_KETE_MAP } from "@/lib/pdfBranding";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
@@ -23,12 +23,16 @@ const ConversationExport = ({ messages, agentName, agentDesignation, agentColor 
     const doc = new jsPDF({ unit: "mm", format: "a4" });
     const margin = 20;
 
+    const keteSlug = AGENT_KETE_MAP[agentName.toUpperCase()] || undefined;
+    const resolvedKete = keteSlug === "platform" ? undefined : keteSlug;
+
     let y = drawAssemblPDFHeader(doc, {
       agentName,
       agentDesignation,
       documentTitle: `${agentName} Conversation`,
       subtitle: `Exported on ${new Date().toLocaleDateString("en-NZ", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}`,
       margin,
+      keteSlug: resolvedKete,
     });
 
     for (const msg of messages) {
@@ -45,7 +49,7 @@ const ConversationExport = ({ messages, agentName, agentDesignation, agentColor 
       y += 4;
     }
 
-    drawAssemblPDFFooter(doc, { agentName, margin });
+    drawAssemblPDFFooter(doc, { agentName, margin, keteSlug: resolvedKete });
 
     const fileName = `assembl-${agentName.toLowerCase()}-conversation-${new Date().toISOString().split("T")[0]}.pdf`;
     doc.save(fileName);

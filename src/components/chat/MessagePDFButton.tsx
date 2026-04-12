@@ -1,6 +1,6 @@
 import { FileDown } from "lucide-react";
 import jsPDF from "jspdf";
-import { drawAssemblPDFHeader, drawAssemblPDFFooter, renderMarkdownToPDF } from "@/lib/pdfBranding";
+import { drawAssemblPDFHeader, drawAssemblPDFFooter, renderMarkdownToPDF, AGENT_KETE_MAP } from "@/lib/pdfBranding";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -21,19 +21,22 @@ const MessagePDFButton = ({ content, agentId, agentName, agentDesignation, agent
     const titleMatch = content.match(/^#+\s+(.{5,80})/m);
     const docTitle = titleMatch?.[1]?.replace(/[#*]/g, "").trim() || `${agentName} Output`;
 
+    const keteSlug = AGENT_KETE_MAP[agentName.toUpperCase()] || undefined;
+
     let y = drawAssemblPDFHeader(doc, {
       agentName,
       agentDesignation,
       documentTitle: docTitle,
       subtitle: `Generated on ${new Date().toLocaleDateString("en-NZ", { day: "numeric", month: "long", year: "numeric" })}`,
       margin,
+      keteSlug: keteSlug === "platform" ? undefined : keteSlug,
     });
 
     // Render content using shared markdown renderer
     const cleanContent = content.replace(/\[GENERATE_IMAGE:\s*.*?\]/g, "").trim();
     renderMarkdownToPDF(doc, cleanContent, { startY: y, margin });
 
-    drawAssemblPDFFooter(doc, { agentName, margin });
+    drawAssemblPDFFooter(doc, { agentName, margin, keteSlug: keteSlug === "platform" ? undefined : keteSlug });
 
     const fileName = `${agentName.toLowerCase()}-${docTitle.toLowerCase().replace(/\s+/g, "-").substring(0, 40)}.pdf`;
     doc.save(fileName);

@@ -3,7 +3,7 @@ import { Copy, Download, Check, FileDown, Share2, Link2 } from "lucide-react";
 import jsPDF from "jspdf";
 import ReactMarkdown from "react-markdown";
 import HelmChecklist from "@/components/helm/HelmChecklist";
-import { drawAssemblPDFHeader, drawAssemblPDFFooter, renderMarkdownToPDF } from "@/lib/pdfBranding";
+import { drawAssemblPDFHeader, drawAssemblPDFFooter, renderMarkdownToPDF, AGENT_KETE_MAP } from "@/lib/pdfBranding";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Props {
@@ -107,16 +107,19 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
   const handleDownloadPDF = () => {
     const doc = new jsPDF({ unit: "mm", format: "a4" });
     const margin = 20;
+    const keteSlug = AGENT_KETE_MAP[agentName.toUpperCase()] || undefined;
+    const resolvedKete = keteSlug === "platform" ? undefined : keteSlug;
 
     let y = drawAssemblPDFHeader(doc, {
       agentName,
       documentTitle: title,
       subtitle: `Generated on ${new Date().toLocaleDateString("en-NZ", { day: "numeric", month: "long", year: "numeric" })}`,
       margin,
+      keteSlug: resolvedKete,
     });
 
     renderMarkdownToPDF(doc, content, { startY: y, margin });
-    drawAssemblPDFFooter(doc, { agentName, margin });
+    drawAssemblPDFFooter(doc, { agentName, margin, keteSlug: resolvedKete });
 
     doc.save(`${title.toLowerCase().replace(/\s+/g, "-")}.pdf`);
     logExport("pdf");
