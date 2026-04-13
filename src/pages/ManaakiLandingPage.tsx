@@ -74,7 +74,7 @@ export default function ManaakiLandingPage() {
           </motion.p>
 
           <motion.h1
-            className="text-3xl sm:text-5xl font-display font-light uppercase tracking-[0.08em] mb-6 max-w-3xl"
+            className="text-3xl sm:text-5xl font-display font-light tracking-[0.02em] mb-6 max-w-3xl"
             variants={fadeUp} initial="hidden" animate="visible" custom={1}
           >
             Compliance handled. Guests looked after.
