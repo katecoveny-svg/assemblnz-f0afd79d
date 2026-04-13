@@ -670,7 +670,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
 
   return (
     <motion.div
-      className="relative flex flex-col items-center justify-center mb-16"
+      className="relative flex flex-col items-center justify-center mb-6"
       initial={{ opacity: 0, scale: 0.9 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
