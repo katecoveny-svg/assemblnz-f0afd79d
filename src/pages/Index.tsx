@@ -103,6 +103,43 @@ const FAQS = [
   { q: "Do people still stay involved?", a: "Yes. Review, approvals, and human oversight built into workflows." },
 ];
 
+const CASE_STUDIES = [
+  {
+    title: "Christchurch residential builder",
+    industry: "Construction",
+    team: "8-person team",
+    result: "4.2 hours saved per week on H&S documentation and consent tracking",
+    detail: "Replaced manual site safety briefings and Building Code lookups with governed workflows. Evidence packs now auto-generated for council sign-off.",
+    stat: "4.2 hrs/wk",
+    color: "#1A3A5C",
+  },
+  {
+    title: "Ponsonby café & bar group",
+    industry: "Hospitality",
+    team: "3 venues, 22 staff",
+    result: "Food safety diary compliance from 60% → 98% in 6 weeks",
+    detail: "Digital food control plans via WhatsApp replaced paper logs. MPI audit prep reduced from 2 days to 20 minutes.",
+    stat: "98% compliant",
+    color: C.pounamu,
+  },
+  {
+    title: "Tauranga freight forwarder",
+    industry: "Freight & Customs",
+    team: "12-person operation",
+    result: "$14,200/year saved on customs declaration errors and rework",
+    detail: "HS code validation and automated Customs Declaration Packs eliminated manual entry errors and reduced clearance delays.",
+    stat: "$14.2K saved",
+    color: C.pounamuGlow,
+  },
+];
+
+const CITATION_EXAMPLES = [
+  { law: "Building Act 2004, s.362", context: "Consent processing timeframes", agent: "Waihanga" },
+  { law: "Health and Safety at Work Act 2015, s.36", context: "PCBU obligations", agent: "Waihanga" },
+  { law: "Food Act 2014, s.40", context: "Food control plan requirements", agent: "Manaaki" },
+  { law: "Privacy Act 2020, s.22", context: "Information privacy principles", agent: "All agents" },
+];
+
 /* ═══ PAGE ═══ */
 const Index = () => {
   const isMobile = useIsMobile();
