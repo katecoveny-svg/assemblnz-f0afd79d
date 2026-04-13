@@ -10,7 +10,7 @@
         "@remotion/compositor-linux-x64-musl": "^4.0.448",
         "@remotion/fonts": "^4.0.448",
         "@remotion/google-fonts": "^4.0.448",
-        "@remotion/player": "^4.0.440",
+        "@remotion/player": "^4.0.448",
         "@remotion/renderer": "^4.0.448",
         "@remotion/transitions": "^4.0.448",
         "@types/react": "^19.2.14",
@@ -151,7 +151,7 @@
 
     "@remotion/paths": ["@remotion/paths@4.0.448", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@remotion/paths/-/paths-4.0.448.tgz", {}, "sha512-B9qKJeMJVwFAl7OnNi4yxL0DivQoCf9i9Tf2iRARjEAaTyI7GJGKG7df5oyoLm5uBE333vXpmX9tN+TgwjDSjg=="],
 
-    "@remotion/player": ["@remotion/player@4.0.440", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@remotion/player/-/player-4.0.440.tgz", { "dependencies": { "remotion": "4.0.440" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-zOk7JcuZfOhPpjcMnt49i0WUc96/NSJg733nXIxquSni9HFrY0dT1Eq781/dTymDk5e9Ay0Lphi1wDVNY0k1ig=="],
+    "@remotion/player": ["@remotion/player@4.0.448", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@remotion/player/-/player-4.0.448.tgz", { "dependencies": { "remotion": "4.0.448" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-lXwiJvAqlaUTwt5NGoGma9Md5IF9nf4Zetn6OAaNk0zTiXegUN42IFBSmzKZC8qUwNV10IpeLsTlQQEv4ntU1Q=="],
 
     "@remotion/renderer": ["@remotion/renderer@4.0.448", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@remotion/renderer/-/renderer-4.0.448.tgz", { "dependencies": { "@remotion/licensing": "4.0.448", "@remotion/streaming": "4.0.448", "execa": "5.1.1", "extract-zip": "2.0.1", "remotion": "4.0.448", "source-map": "^0.8.0-beta.0", "ws": "8.17.1" }, "optionalDependencies": { "@remotion/compositor-darwin-arm64": "4.0.448", "@remotion/compositor-darwin-x64": "4.0.448", "@remotion/compositor-linux-arm64-gnu": "4.0.448", "@remotion/compositor-linux-arm64-musl": "4.0.448", "@remotion/compositor-linux-x64-gnu": "4.0.448", "@remotion/compositor-linux-x64-musl": "4.0.448", "@remotion/compositor-win32-x64-msvc": "4.0.448" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-ST3Gfa7Ai0G4hqkWvk6J438tRXCVypv+x8KqKdfbIUK4v7A12eg/a1hlu5Sms7ncpFOnm10BwdtoyNpAlf68eg=="],
 
@@ -501,13 +501,7 @@
 
     "zod": ["zod@4.3.6", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/zod/-/zod-4.3.6.tgz", {}, "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="],
 
-    "@remotion/cli/@remotion/player": ["@remotion/player@4.0.448", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@remotion/player/-/player-4.0.448.tgz", { "dependencies": { "remotion": "4.0.448" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-lXwiJvAqlaUTwt5NGoGma9Md5IF9nf4Zetn6OAaNk0zTiXegUN42IFBSmzKZC8qUwNV10IpeLsTlQQEv4ntU1Q=="],
-
-    "@remotion/player/remotion": ["remotion@4.0.440", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/remotion/-/remotion-4.0.440.tgz", { "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-ai17CML42kRsmUPWSHpd0UTJjETnnYQaACaLPeX8lZnoYqUUXMRe+yrtQHzqDGUjK0tThtJy12VxVkRjjl5IMQ=="],
-
     "@remotion/renderer/source-map": ["source-map@0.8.0-beta.0", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/source-map/-/source-map-0.8.0-beta.0.tgz", { "dependencies": { "whatwg-url": "^7.0.0" } }, "sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA=="],
-
-    "@remotion/studio/@remotion/player": ["@remotion/player@4.0.448", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@remotion/player/-/player-4.0.448.tgz", { "dependencies": { "remotion": "4.0.448" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-lXwiJvAqlaUTwt5NGoGma9Md5IF9nf4Zetn6OAaNk0zTiXegUN42IFBSmzKZC8qUwNV10IpeLsTlQQEv4ntU1Q=="],
 
     "esrecurse/estraverse": ["estraverse@5.3.0", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/estraverse/-/estraverse-5.3.0.tgz", {}, "sha512-MMdARuVEQziNTeJD8DgMqmhwR11BRQ/cBP+pLtYdSTnf3MIO8fFeiINEbX36ZdNlfU/7A9f3gUw49B3oQsvwBA=="],
 

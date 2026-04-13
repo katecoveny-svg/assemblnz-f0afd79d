@@ -15,7 +15,7 @@
     "@remotion/compositor-linux-x64-musl": "^4.0.448",
     "@remotion/fonts": "^4.0.448",
     "@remotion/google-fonts": "^4.0.448",
-    "@remotion/player": "^4.0.440",
+    "@remotion/player": "^4.0.448",
     "@remotion/renderer": "^4.0.448",
     "@remotion/transitions": "^4.0.448",
     "@types/react": "^19.2.14",
