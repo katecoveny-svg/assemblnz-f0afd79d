@@ -1,6 +1,7 @@
 // ═══════════════════════════════════════════════════════════════
 // Sovereignty Panel — Integrated into kete dashboards
 // Shows Māori data registry, governance gates, and audit trail
+// Brand palette: Gold #D4A843, Pounamu #3A7D6E/#5AADA0, Navy #1A3A5C, Bone #F5F0E8
 // ═══════════════════════════════════════════════════════════════
 
 import React, { useState } from "react";
@@ -14,9 +15,10 @@ interface SovereigntyPanelProps {
   accentColor: string;
 }
 
-const TAPU_COLOR = "#E53E3E";
-const NOA_COLOR = "#38A169";
-const PENDING_COLOR = "#D69E2E";
+// Mārama brand-compliant status colors
+const TAPU_COLOR = "#C85A54";   // Warm red — Mārama earth tone
+const NOA_COLOR = "#5AADA0";    // Pounamu teal
+const PENDING_COLOR = "#D4A843"; // Kōwhai gold
 
 const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }) => {
   const stats = useSovereigntyStats(kete);
@@ -27,10 +29,10 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
   const statCards = [
     { label: "Māori Datasets", value: stats.maoriDatasets, icon: Database, color: accentColor },
     { label: "Tapu Classified", value: stats.tapuDatasets, icon: Lock, color: TAPU_COLOR },
-    { label: "NZ-Only Storage", value: stats.nzOnlyDatasets, icon: Globe, color: "#3B82F6" },
+    { label: "NZ-Only Storage", value: stats.nzOnlyDatasets, icon: Globe, color: "#3A7D6E" },
     { label: "Pending Gates", value: stats.pendingGates, icon: Clock, color: PENDING_COLOR },
     { label: "Approved Gates", value: stats.approvedGates, icon: CheckCircle, color: NOA_COLOR },
-    { label: "Audit Entries", value: stats.totalAuditEntries, icon: Activity, color: "#8B5CF6" },
+    { label: "Audit Entries", value: stats.totalAuditEntries, icon: Activity, color: "#1A3A5C" },
   ];
 
   return (
@@ -45,7 +47,7 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
           <p className="text-[10px] text-white/40">Te Mana Raraunga Control Plane</p>
         </div>
         {stats.pendingGates > 0 && (
-          <span className="ml-auto px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: "rgba(214,158,46,0.2)", color: PENDING_COLOR }}>
+          <span className="ml-auto px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: "rgba(212,168,67,0.2)", color: PENDING_COLOR }}>
             {stats.pendingGates} pending
           </span>
         )}
@@ -54,7 +56,7 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
       {/* Stats Grid */}
       <div className="grid grid-cols-3 gap-2 mb-4">
         {statCards.map(s => (
-          <div key={s.label} className="rounded-lg p-2.5 text-center" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}>
+          <div key={s.label} className="rounded-lg p-2.5 text-center" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
             <s.icon size={14} className="mx-auto mb-1" style={{ color: s.color }} />
             <div className="text-lg font-bold text-white/90" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
               {stats.isLoading ? "—" : s.value}
@@ -66,7 +68,6 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
 
       {/* Expandable Sections */}
       <div className="space-y-2">
-        {/* Registry */}
         <CollapsibleSection
           title="Data Registry"
           icon={Database}
@@ -93,7 +94,6 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
           )}
         </CollapsibleSection>
 
-        {/* Governance Gates */}
         <CollapsibleSection
           title="Governance Gates"
           icon={FileText}
@@ -119,11 +119,10 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
           )}
         </CollapsibleSection>
 
-        {/* Audit Trail */}
         <CollapsibleSection
           title="Audit Trail"
           icon={Eye}
-          color="#8B5CF6"
+          color="#1A3A5C"
           count={stats.totalAuditEntries}
           expanded={expandedSection === "audit"}
           onToggle={() => toggle("audit")}
@@ -179,7 +178,7 @@ const CollapsibleSection: React.FC<{
   onToggle: () => void;
   children: React.ReactNode;
 }> = ({ title, icon: Icon, color, count, expanded, onToggle, children }) => (
-  <div className="rounded-xl" style={{ border: "1px solid rgba(255,255,255,0.04)" }}>
+  <div className="rounded-xl" style={{ border: "1px solid rgba(255,255,255,0.06)" }}>
     <button onClick={onToggle} className="w-full flex items-center gap-2 px-3 py-2 text-left">
       <Icon size={13} style={{ color }} />
       <span className="text-xs text-white/70 flex-1">{title}</span>
@@ -205,7 +204,7 @@ const CollapsibleSection: React.FC<{
 );
 
 const ClassificationBadge: React.FC<{ classification: string }> = ({ classification }) => {
-  const color = classification === "tapu" ? TAPU_COLOR : classification === "noa" ? NOA_COLOR : "#6B7280";
+  const color = classification === "tapu" ? TAPU_COLOR : classification === "noa" ? NOA_COLOR : "#1A3A5C";
   return (
     <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: `rgba(${hexToRgb(color)}, 0.15)`, color }}>
       {classification.toUpperCase()}
@@ -214,7 +213,7 @@ const ClassificationBadge: React.FC<{ classification: string }> = ({ classificat
 };
 
 const StatusDot: React.FC<{ status: string }> = ({ status }) => {
-  const color = status === "approved" ? NOA_COLOR : status === "declined" ? TAPU_COLOR : status === "expired" ? "#6B7280" : PENDING_COLOR;
+  const color = status === "approved" ? NOA_COLOR : status === "declined" ? TAPU_COLOR : status === "expired" ? "#1A3A5C" : PENDING_COLOR;
   return <div className="w-2 h-2 rounded-full" style={{ background: color }} />;
 };
 
@@ -222,7 +221,7 @@ const GateStatusIcon: React.FC<{ status: string }> = ({ status }) => {
   if (status === "approved" || status === "approved_with_conditions") return <CheckCircle size={12} style={{ color: NOA_COLOR }} />;
   if (status === "declined") return <XCircle size={12} style={{ color: TAPU_COLOR }} />;
   if (status === "pending") return <Clock size={12} style={{ color: PENDING_COLOR }} />;
-  return <AlertTriangle size={12} style={{ color: "#6B7280" }} />;
+  return <AlertTriangle size={12} style={{ color: "#1A3A5C" }} />;
 };
 
 function hexToRgb(hex: string): string {

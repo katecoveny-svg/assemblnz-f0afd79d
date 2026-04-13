@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════════════
 // Sovereignty Simulator — Red-team scenarios for Māori data
-// Tests policy gates with synthetic data before real deployment
+// Brand palette: Gold #D4A843, Pounamu #5AADA0, Navy #1A3A5C, Earth Red #C85A54
 // ═══════════════════════════════════════════════════════════════
 
 import React, { useState, useCallback } from "react";
@@ -83,13 +83,14 @@ const SCENARIOS: Scenario[] = [
   },
 ];
 
+// Mārama brand-compliant category colors
 const CATEGORY_COLORS: Record<string, string> = {
-  happy_path: "#38A169",
-  purpose_creep: "#E53E3E",
-  locality_breach: "#3B82F6",
-  tapu_violation: "#D69E2E",
-  genai_leak: "#8B5CF6",
-  consent_expired: "#6B7280",
+  happy_path: "#5AADA0",    // Pounamu teal
+  purpose_creep: "#C85A54",  // Earth red
+  locality_breach: "#1A3A5C", // Tāngaroa navy
+  tapu_violation: "#D4A843",  // Kōwhai gold
+  genai_leak: "#3A7D6E",     // Deep pounamu
+  consent_expired: "#7ECFC2", // Light pounamu
 };
 
 const SovereigntySimulator: React.FC<SimulatorProps> = ({ kete, accentColor }) => {
@@ -107,7 +108,7 @@ const SovereigntySimulator: React.FC<SimulatorProps> = ({ kete, accentColor }) =
     const newResults = new Map<string, ComplianceDecision>();
 
     for (const scenario of SCENARIOS) {
-      await new Promise(r => setTimeout(r, 300)); // Visual stagger
+      await new Promise(r => setTimeout(r, 300));
       const action: AgentAction = {
         id: scenario.id,
         domain: "community_portal",
@@ -157,7 +158,7 @@ const SovereigntySimulator: React.FC<SimulatorProps> = ({ kete, accentColor }) =
       {results.size > 0 && (
         <div className="mb-3 px-3 py-2 rounded-lg" style={{ background: "rgba(255,255,255,0.03)" }}>
           <div className="flex items-center gap-2">
-            <Shield size={14} style={{ color: passCount === SCENARIOS.length ? "#38A169" : "#D69E2E" }} />
+            <Shield size={14} style={{ color: passCount === SCENARIOS.length ? "#5AADA0" : "#D4A843" }} />
             <span className="text-xs text-white/70">
               {passCount}/{SCENARIOS.length} scenarios passed
             </span>
@@ -166,7 +167,7 @@ const SovereigntySimulator: React.FC<SimulatorProps> = ({ kete, accentColor }) =
                 className="h-full rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${(passCount / SCENARIOS.length) * 100}%` }}
-                style={{ background: passCount === SCENARIOS.length ? "#38A169" : "#D69E2E" }}
+                style={{ background: passCount === SCENARIOS.length ? "#5AADA0" : "#D4A843" }}
               />
             </div>
           </div>
@@ -178,14 +179,14 @@ const SovereigntySimulator: React.FC<SimulatorProps> = ({ kete, accentColor }) =
         {SCENARIOS.map(scenario => {
           const result = results.get(scenario.id);
           const passed = result && result.verdict === scenario.expectedVerdict;
-          const catColor = CATEGORY_COLORS[scenario.category] ?? "#6B7280";
+          const catColor = CATEGORY_COLORS[scenario.category] ?? "#1A3A5C";
 
           return (
             <motion.div
               key={scenario.id}
               layout
               className="flex items-center gap-2 px-3 py-2 rounded-lg"
-              style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
+              style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}
             >
               {/* Status */}
               <div className="w-5 flex-shrink-0">
@@ -193,9 +194,9 @@ const SovereigntySimulator: React.FC<SimulatorProps> = ({ kete, accentColor }) =
                   {result ? (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
                       {passed ? (
-                        <CheckCircle size={14} style={{ color: "#38A169" }} />
+                        <CheckCircle size={14} style={{ color: "#5AADA0" }} />
                       ) : (
-                        <XCircle size={14} style={{ color: "#E53E3E" }} />
+                        <XCircle size={14} style={{ color: "#C85A54" }} />
                       )}
                     </motion.div>
                   ) : running ? (
@@ -226,7 +227,7 @@ const SovereigntySimulator: React.FC<SimulatorProps> = ({ kete, accentColor }) =
 
               {/* Result */}
               {result && (
-                <span className="text-[9px] font-mono" style={{ color: passed ? "#38A169" : "#E53E3E" }}>
+                <span className="text-[9px] font-mono" style={{ color: passed ? "#5AADA0" : "#C85A54" }}>
                   → {result.verdict}
                 </span>
               )}
