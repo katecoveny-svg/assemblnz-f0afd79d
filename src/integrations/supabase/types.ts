@@ -377,8 +377,10 @@ export type Database = {
           created_at: string
           id: string
           is_active: boolean | null
+          is_stale: boolean | null
           last_verified: string | null
           source_url: string | null
+          stale_reason: string | null
           topic: string
           updated_at: string
         }
@@ -389,8 +391,10 @@ export type Database = {
           created_at?: string
           id?: string
           is_active?: boolean | null
+          is_stale?: boolean | null
           last_verified?: string | null
           source_url?: string | null
+          stale_reason?: string | null
           topic: string
           updated_at?: string
         }
@@ -401,8 +405,10 @@ export type Database = {
           created_at?: string
           id?: string
           is_active?: boolean | null
+          is_stale?: boolean | null
           last_verified?: string | null
           source_url?: string | null
+          stale_reason?: string | null
           topic?: string
           updated_at?: string
         }
@@ -1842,12 +1848,14 @@ export type Database = {
           affected_agents: string[] | null
           affected_industries: string[] | null
           auto_applied: boolean | null
+          change_detail: Json | null
           change_summary: string
           created_at: string | null
           effective_date: string | null
           id: string
           impact_level: string
           legislation_ref: string | null
+          requires_human_review: boolean | null
           review_notes: string | null
           reviewed_by: string | null
           source_name: string
@@ -1860,12 +1868,14 @@ export type Database = {
           affected_agents?: string[] | null
           affected_industries?: string[] | null
           auto_applied?: boolean | null
+          change_detail?: Json | null
           change_summary: string
           created_at?: string | null
           effective_date?: string | null
           id?: string
           impact_level?: string
           legislation_ref?: string | null
+          requires_human_review?: boolean | null
           review_notes?: string | null
           reviewed_by?: string | null
           source_name: string
@@ -1878,12 +1888,14 @@ export type Database = {
           affected_agents?: string[] | null
           affected_industries?: string[] | null
           auto_applied?: boolean | null
+          change_detail?: Json | null
           change_summary?: string
           created_at?: string | null
           effective_date?: string | null
           id?: string
           impact_level?: string
           legislation_ref?: string | null
+          requires_human_review?: boolean | null
           review_notes?: string | null
           reviewed_by?: string | null
           source_name?: string
