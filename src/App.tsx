@@ -146,6 +146,7 @@ const CaseStudiesPage = lazy(() => import("./pages/CaseStudiesPage"));
 const StartPage = lazy(() => import("./pages/StartPage"));
 const StartPendingPage = lazy(() => import("./pages/StartPendingPage"));
 const AdminComplianceDashboard = lazy(() => import("./pages/AdminComplianceDashboard"));
+const AdminTestReports = lazy(() => import("./pages/AdminTestReports"));
 
 const queryClient = new QueryClient();
 
