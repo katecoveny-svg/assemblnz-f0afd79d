@@ -1,5 +1,5 @@
 import { Outlet, NavLink, useLocation } from "react-router-dom";
-import { Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Fingerprint, Globe, LayoutDashboard, Target, ChevronRight, Sparkles, Shield, BookOpen, Grid3X3 } from "lucide-react";
+import { Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Fingerprint, Globe, LayoutDashboard, Target, ChevronRight, Sparkles, Shield, BookOpen, Grid3X3, MonitorPlay } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const AUAHA_NAV = [
@@ -13,6 +13,7 @@ const AUAHA_NAV = [
   { to: "/auaha/copy", label: "Copy Studio", icon: PenTool },
   { to: "/auaha/image-studio", label: "Image Studio", icon: Image },
   { to: "/auaha/video", label: "Video Studio", icon: Video },
+  { to: "/auaha/loom", label: "Loom Studio", icon: MonitorPlay },
   { to: "/auaha/podcast", label: "Podcast Studio", icon: Mic },
   { to: "/auaha/ads", label: "Ad Manager", icon: Megaphone },
   { to: "/auaha/calendar", label: "Calendar", icon: Calendar },
