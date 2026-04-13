@@ -258,39 +258,68 @@ const Index = () => {
             </Link>
           </motion.div>
           <motion.div
-            className="rounded-2xl p-8 relative overflow-hidden"
-            style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.border}`, boxShadow: `0 4px 40px ${C.gold}08` }}
+            className="rounded-2xl relative overflow-hidden"
+            style={{
+              background: "rgba(255,255,255,0.025)",
+              border: `1px solid rgba(255,255,255,0.06)`,
+              backdropFilter: "blur(14px)",
+              boxShadow: `0 8px 48px ${C.pounamu}0a, 0 0 0 1px rgba(255,255,255,0.03) inset`,
+            }}
             initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
             transition={{ duration: 0.6, ease }}
           >
-            <div className="space-y-4">
+            {/* Top accent line */}
+            <div className="h-[1px] w-full" style={{ background: `linear-gradient(90deg, transparent, ${C.pounamu}60, transparent)` }} />
+
+            <div className="p-8 space-y-5">
+              {/* Header */}
               <div className="flex items-center gap-3 pb-4" style={{ borderBottom: `1px solid ${C.border}` }}>
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: `${C.pounamu}20` }}>
-                  <span className="text-lg">📋</span>
-                </div>
+                <KeteMiniIcon glyph="shield" color={C.pounamu} size={36} />
                 <div>
-                  <p className="text-[14px] font-medium" style={{ color: C.t1 }}>Compliance Evidence Pack</p>
-                  <p className="text-[11px]" style={{ color: C.t3 }}>Generated 13 Apr 2026 · Manaaki Kete</p>
+                  <p className="text-[14px] font-medium tracking-tight" style={{ color: C.t1, fontFamily: "'Lato', sans-serif" }}>Compliance Evidence Pack</p>
+                  <p className="text-[11px] tracking-wide" style={{ color: C.t3, fontFamily: "'JetBrains Mono', monospace" }}>Generated 13 Apr 2026 · Manaaki Kete</p>
                 </div>
-                <span className="ml-auto text-[10px] px-2 py-1 rounded-full font-semibold" style={{ background: `${C.pounamu}20`, color: C.pounamuGlow }}>
+                <span
+                  className="ml-auto text-[10px] px-2.5 py-1 rounded-full font-semibold tracking-[2px] uppercase"
+                  style={{ background: `${C.pounamu}18`, color: C.pounamuGlow, border: `1px solid ${C.pounamu}30` }}
+                >
                   PASS
                 </span>
               </div>
-              <div className="space-y-2">
-                {["Food Control Plan verification ✓", "Temperature log compliance ✓", "Staff certification check ✓", "Privacy Act 2020, s.22 — satisfied ✓"].map((line) => (
-                  <p key={line} className="text-[13px] font-mono" style={{ color: C.t2, fontFamily: "'JetBrains Mono', monospace" }}>{line}</p>
+
+              {/* Check items */}
+              <div className="space-y-2.5">
+                {[
+                  { label: "Food Control Plan verification", ref: "FCP-2024" },
+                  { label: "Temperature log compliance", ref: "TMP-047" },
+                  { label: "Staff certification check", ref: "CERT-12" },
+                  { label: "Privacy Act 2020, s.22 — satisfied", ref: "PA-s22" },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.pounamu}20` }}>
+                      <Check size={10} style={{ color: C.pounamuGlow }} />
+                    </div>
+                    <span className="text-[13px] flex-1" style={{ color: C.t2, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{item.label}</span>
+                    <span className="text-[10px] tracking-wider" style={{ color: C.t3, fontFamily: "'JetBrains Mono', monospace" }}>{item.ref}</span>
+                  </div>
                 ))}
               </div>
-              <div className="pt-4 mt-2" style={{ borderTop: `1px solid ${C.border}` }}>
-                <p className="text-[11px]" style={{ color: C.t3 }}>Pack Sign-Off</p>
-                <div className="flex gap-8 mt-2">
+
+              {/* Sign-off block */}
+              <div className="pt-4 mt-1" style={{ borderTop: `1px solid ${C.border}` }}>
+                <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ color: C.t3, fontFamily: "'JetBrains Mono', monospace" }}>Pack Sign-Off</p>
+                <div className="flex gap-8">
                   <div>
-                    <p className="text-[10px]" style={{ color: C.t3 }}>Reviewer</p>
-                    <div className="w-24 mt-1" style={{ borderBottom: `1px solid ${C.t3}` }}>&nbsp;</div>
+                    <p className="text-[10px] mb-1" style={{ color: C.t3 }}>Reviewer</p>
+                    <div className="w-28 h-[1px]" style={{ background: `linear-gradient(90deg, ${C.t3}, transparent)` }} />
                   </div>
                   <div>
-                    <p className="text-[10px]" style={{ color: C.t3 }}>Date</p>
-                    <div className="w-20 mt-1" style={{ borderBottom: `1px solid ${C.t3}` }}>&nbsp;</div>
+                    <p className="text-[10px] mb-1" style={{ color: C.t3 }}>Date</p>
+                    <div className="w-20 h-[1px]" style={{ background: `linear-gradient(90deg, ${C.t3}, transparent)` }} />
+                  </div>
+                  <div>
+                    <p className="text-[10px] mb-1" style={{ color: C.t3 }}>Status</p>
+                    <div className="w-16 h-[1px]" style={{ background: `linear-gradient(90deg, ${C.t3}, transparent)` }} />
                   </div>
                 </div>
               </div>
