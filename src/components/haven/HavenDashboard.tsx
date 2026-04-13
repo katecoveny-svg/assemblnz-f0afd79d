@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Home, Wrench, AlertTriangle, Shield, DollarSign, Clock, TrendingUp, ChevronRight, Zap } from "lucide-react";
 import { AgentPieChart, AgentBarChart, AgentWorkflow } from "@/components/shared/AgentCharts";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
+import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -189,6 +190,33 @@ const HavenDashboard = () => {
           )}
         </div>
       </Glass>
+
+      <KeteEvidencePackPanel
+        keteSlug="whenua"
+        keteName="Whenua — Property Management"
+        accentColor={KOWHAI}
+        agentId="haven"
+        agentName="HAVEN"
+        packTemplates={[
+          { label: "Healthy Homes Pack", description: "Healthy Homes Guarantee Act 2017 compliance", packType: "healthy-homes-pack", complianceChecks: [
+            { check: "Heating — fixed heater installed", status: "pass" },
+            { check: "Insulation — ceiling & underfloor", status: "pass" },
+            { check: "Ventilation — extractor fans", status: "pass" },
+            { check: "Moisture & drainage — no issues", status: "pass" },
+            { check: "Draught stopping — completed", status: "pass" },
+          ]},
+          { label: "Tenancy Compliance Pack", description: "RTA 1986 tenancy evidence", packType: "tenancy-compliance-pack", complianceChecks: [
+            { check: "RTA 1986 — tenancy agreement filed", status: "pass" },
+            { check: "Bond lodged with MBIE", status: "pass" },
+            { check: "Inspection schedule documented", status: "pass" },
+          ]},
+          { label: "Property Inspection Pack", description: "Quarterly inspection evidence", packType: "property-inspection-pack", complianceChecks: [
+            { check: "Section 48 notice served (48hrs)", status: "pass" },
+            { check: "Photo evidence captured", status: "pass" },
+            { check: "Maintenance items logged", status: "pass" },
+          ]},
+        ]}
+      />
 
       <KeteDocUpload keteSlug="haven" keteColor={KOWHAI} keteName="Haven — Property Management"
         docContext="Expect tenancy agreements, inspection reports, Section 51 notices, rent increase notices, bond forms, Healthy Homes compliance statements, and maintenance invoices. Flag Residential Tenancies Act 1986 and Healthy Homes Guarantee Act 2017 compliance." />
