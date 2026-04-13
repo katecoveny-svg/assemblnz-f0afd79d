@@ -3986,6 +3986,141 @@ export type Database = {
           },
         ]
       }
+      manaaki_food_diary: {
+        Row: {
+          business_name: string | null
+          completed_by: string | null
+          corrective_actions: string | null
+          created_at: string
+          entry_date: string
+          entry_type: string
+          id: string
+          supplier_records: Json | null
+          temperature_logs: Json | null
+          user_id: string
+          verified: boolean | null
+          verifier_notes: string | null
+        }
+        Insert: {
+          business_name?: string | null
+          completed_by?: string | null
+          corrective_actions?: string | null
+          created_at?: string
+          entry_date?: string
+          entry_type?: string
+          id?: string
+          supplier_records?: Json | null
+          temperature_logs?: Json | null
+          user_id: string
+          verified?: boolean | null
+          verifier_notes?: string | null
+        }
+        Update: {
+          business_name?: string | null
+          completed_by?: string | null
+          corrective_actions?: string | null
+          created_at?: string
+          entry_date?: string
+          entry_type?: string
+          id?: string
+          supplier_records?: Json | null
+          temperature_logs?: Json | null
+          user_id?: string
+          verified?: boolean | null
+          verifier_notes?: string | null
+        }
+        Relationships: []
+      }
+      manaaki_pricing: {
+        Row: {
+          accepted: boolean | null
+          competitor_rates: Json | null
+          created_at: string
+          current_rate_cents: number | null
+          id: string
+          local_events: Json | null
+          occupancy_pct: number | null
+          reasoning: string | null
+          recommended_rate_cents: number | null
+          target_date: string
+          user_id: string
+        }
+        Insert: {
+          accepted?: boolean | null
+          competitor_rates?: Json | null
+          created_at?: string
+          current_rate_cents?: number | null
+          id?: string
+          local_events?: Json | null
+          occupancy_pct?: number | null
+          reasoning?: string | null
+          recommended_rate_cents?: number | null
+          target_date: string
+          user_id: string
+        }
+        Update: {
+          accepted?: boolean | null
+          competitor_rates?: Json | null
+          created_at?: string
+          current_rate_cents?: number | null
+          id?: string
+          local_events?: Json | null
+          occupancy_pct?: number | null
+          reasoning?: string | null
+          recommended_rate_cents?: number | null
+          target_date?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      manaaki_reviews: {
+        Row: {
+          created_at: string
+          id: string
+          platform: string
+          rating: number | null
+          response_draft: string | null
+          response_sent_at: string | null
+          response_status: string | null
+          review_date: string | null
+          review_text: string | null
+          reviewer_name: string | null
+          sentiment: string | null
+          themes: string[] | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          platform?: string
+          rating?: number | null
+          response_draft?: string | null
+          response_sent_at?: string | null
+          response_status?: string | null
+          review_date?: string | null
+          review_text?: string | null
+          reviewer_name?: string | null
+          sentiment?: string | null
+          themes?: string[] | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          platform?: string
+          rating?: number | null
+          response_draft?: string | null
+          response_sent_at?: string | null
+          response_status?: string | null
+          review_date?: string | null
+          review_text?: string | null
+          reviewer_name?: string | null
+          sentiment?: string | null
+          themes?: string[] | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       maori_data_registry: {
         Row: {
           approval_expiry: string | null
@@ -4560,6 +4695,128 @@ export type Database = {
             columns: ["family_id"]
             isOneToOne: false
             referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pakihi_clients: {
+        Row: {
+          client_name: string
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string
+          engagement_letter_sent: boolean | null
+          engagement_signed_date: string | null
+          engagement_type: string | null
+          fee_estimate_cents: number | null
+          id: string
+          industry: string | null
+          notes: string | null
+          probability_pct: number | null
+          renewal_date: string | null
+          source: string | null
+          stage: string | null
+          total_billed_cents: number | null
+          total_paid_cents: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          client_name: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          engagement_letter_sent?: boolean | null
+          engagement_signed_date?: string | null
+          engagement_type?: string | null
+          fee_estimate_cents?: number | null
+          id?: string
+          industry?: string | null
+          notes?: string | null
+          probability_pct?: number | null
+          renewal_date?: string | null
+          source?: string | null
+          stage?: string | null
+          total_billed_cents?: number | null
+          total_paid_cents?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          client_name?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          engagement_letter_sent?: boolean | null
+          engagement_signed_date?: string | null
+          engagement_type?: string | null
+          fee_estimate_cents?: number | null
+          id?: string
+          industry?: string | null
+          notes?: string | null
+          probability_pct?: number | null
+          renewal_date?: string | null
+          source?: string | null
+          stage?: string | null
+          total_billed_cents?: number | null
+          total_paid_cents?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      pakihi_time_entries: {
+        Row: {
+          billable: boolean | null
+          client_id: string | null
+          created_at: string
+          description: string
+          entry_date: string
+          hours: number
+          id: string
+          invoice_id: string | null
+          invoiced: boolean | null
+          matter: string | null
+          rate_cents: number | null
+          user_id: string
+        }
+        Insert: {
+          billable?: boolean | null
+          client_id?: string | null
+          created_at?: string
+          description: string
+          entry_date?: string
+          hours: number
+          id?: string
+          invoice_id?: string | null
+          invoiced?: boolean | null
+          matter?: string | null
+          rate_cents?: number | null
+          user_id: string
+        }
+        Update: {
+          billable?: boolean | null
+          client_id?: string | null
+          created_at?: string
+          description?: string
+          entry_date?: string
+          hours?: number
+          id?: string
+          invoice_id?: string | null
+          invoiced?: boolean | null
+          matter?: string | null
+          rate_cents?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pakihi_time_entries_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "pakihi_clients"
             referencedColumns: ["id"]
           },
         ]
@@ -6244,6 +6501,98 @@ export type Database = {
         }
         Relationships: []
       }
+      toroa_appointments: {
+        Row: {
+          appointment_at: string
+          category: string | null
+          child_id: string | null
+          created_at: string
+          description: string | null
+          duration_minutes: number | null
+          family_id: string
+          id: string
+          is_overdue: boolean | null
+          location: string | null
+          member_id: string | null
+          notes: string | null
+          pet_id: string | null
+          recurrence: string | null
+          reminder_sent: boolean | null
+          status: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          appointment_at: string
+          category?: string | null
+          child_id?: string | null
+          created_at?: string
+          description?: string | null
+          duration_minutes?: number | null
+          family_id: string
+          id?: string
+          is_overdue?: boolean | null
+          location?: string | null
+          member_id?: string | null
+          notes?: string | null
+          pet_id?: string | null
+          recurrence?: string | null
+          reminder_sent?: boolean | null
+          status?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          appointment_at?: string
+          category?: string | null
+          child_id?: string | null
+          created_at?: string
+          description?: string | null
+          duration_minutes?: number | null
+          family_id?: string
+          id?: string
+          is_overdue?: boolean | null
+          location?: string | null
+          member_id?: string | null
+          notes?: string | null
+          pet_id?: string | null
+          recurrence?: string | null
+          reminder_sent?: boolean | null
+          status?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_appointments_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_appointments_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_appointments_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_appointments_pet_id_fkey"
+            columns: ["pet_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_pets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       toroa_budgets: {
         Row: {
           categories: Json | null
@@ -6853,6 +7202,77 @@ export type Database = {
           },
         ]
       }
+      toroa_pets: {
+        Row: {
+          breed: string | null
+          created_at: string
+          date_of_birth: string | null
+          family_id: string
+          id: string
+          insurance_policy: string | null
+          insurance_provider: string | null
+          medications: Json | null
+          microchip_number: string | null
+          name: string
+          notes: string | null
+          photo_url: string | null
+          species: string
+          updated_at: string
+          vaccinations: Json | null
+          vet_clinic: string | null
+          vet_phone: string | null
+          weight_kg: number | null
+        }
+        Insert: {
+          breed?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          family_id: string
+          id?: string
+          insurance_policy?: string | null
+          insurance_provider?: string | null
+          medications?: Json | null
+          microchip_number?: string | null
+          name: string
+          notes?: string | null
+          photo_url?: string | null
+          species?: string
+          updated_at?: string
+          vaccinations?: Json | null
+          vet_clinic?: string | null
+          vet_phone?: string | null
+          weight_kg?: number | null
+        }
+        Update: {
+          breed?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          family_id?: string
+          id?: string
+          insurance_policy?: string | null
+          insurance_provider?: string | null
+          medications?: Json | null
+          microchip_number?: string | null
+          name?: string
+          notes?: string | null
+          photo_url?: string | null
+          species?: string
+          updated_at?: string
+          vaccinations?: Json | null
+          vet_clinic?: string | null
+          vet_phone?: string | null
+          weight_kg?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_pets_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       toroa_proactive_alerts: {
         Row: {
           acknowledged: boolean | null
@@ -6884,6 +7304,65 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "toroa_proactive_alerts_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      toroa_shopping: {
+        Row: {
+          actual_cost_cents: number | null
+          added_by: string | null
+          category: string | null
+          created_at: string
+          estimated_cost_cents: number | null
+          family_id: string
+          id: string
+          item: string
+          notes: string | null
+          priority: string | null
+          purchased: boolean | null
+          purchased_at: string | null
+          quantity: number | null
+          store: string | null
+        }
+        Insert: {
+          actual_cost_cents?: number | null
+          added_by?: string | null
+          category?: string | null
+          created_at?: string
+          estimated_cost_cents?: number | null
+          family_id: string
+          id?: string
+          item: string
+          notes?: string | null
+          priority?: string | null
+          purchased?: boolean | null
+          purchased_at?: string | null
+          quantity?: number | null
+          store?: string | null
+        }
+        Update: {
+          actual_cost_cents?: number | null
+          added_by?: string | null
+          category?: string | null
+          created_at?: string
+          estimated_cost_cents?: number | null
+          family_id?: string
+          id?: string
+          item?: string
+          notes?: string | null
+          priority?: string | null
+          purchased?: boolean | null
+          purchased_at?: string | null
+          quantity?: number | null
+          store?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_shopping_family_id_fkey"
             columns: ["family_id"]
             isOneToOne: false
             referencedRelation: "toroa_families"
@@ -6965,6 +7444,75 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      toroa_uniforms: {
+        Row: {
+          child_id: string | null
+          color: string | null
+          condition: string | null
+          cost_cents: number | null
+          created_at: string
+          family_id: string
+          id: string
+          item_type: string
+          needs_replacement: boolean | null
+          notes: string | null
+          purchase_date: string | null
+          quantity: number
+          school: string | null
+          size: string | null
+          updated_at: string
+        }
+        Insert: {
+          child_id?: string | null
+          color?: string | null
+          condition?: string | null
+          cost_cents?: number | null
+          created_at?: string
+          family_id: string
+          id?: string
+          item_type: string
+          needs_replacement?: boolean | null
+          notes?: string | null
+          purchase_date?: string | null
+          quantity?: number
+          school?: string | null
+          size?: string | null
+          updated_at?: string
+        }
+        Update: {
+          child_id?: string | null
+          color?: string | null
+          condition?: string | null
+          cost_cents?: number | null
+          created_at?: string
+          family_id?: string
+          id?: string
+          item_type?: string
+          needs_replacement?: boolean | null
+          notes?: string | null
+          purchase_date?: string | null
+          quantity?: number
+          school?: string | null
+          size?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_uniforms_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_uniforms_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       toroa_waitlist: {
         Row: {
@@ -7625,6 +8173,158 @@ export type Database = {
         }
         Relationships: []
       }
+      waka_customer_vehicles: {
+        Row: {
+          churn_risk_pct: number | null
+          created_at: string
+          customer_email: string | null
+          customer_name: string
+          customer_phone: string | null
+          finance_balloon_date: string | null
+          id: string
+          last_contact_date: string | null
+          last_service_date: string | null
+          lifetime_value_cents: number | null
+          make_model: string | null
+          next_service_due: string | null
+          notes: string | null
+          rego: string | null
+          updated_at: string
+          user_id: string
+          vehicle_id: string | null
+          wof_expiry: string | null
+        }
+        Insert: {
+          churn_risk_pct?: number | null
+          created_at?: string
+          customer_email?: string | null
+          customer_name: string
+          customer_phone?: string | null
+          finance_balloon_date?: string | null
+          id?: string
+          last_contact_date?: string | null
+          last_service_date?: string | null
+          lifetime_value_cents?: number | null
+          make_model?: string | null
+          next_service_due?: string | null
+          notes?: string | null
+          rego?: string | null
+          updated_at?: string
+          user_id: string
+          vehicle_id?: string | null
+          wof_expiry?: string | null
+        }
+        Update: {
+          churn_risk_pct?: number | null
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string
+          customer_phone?: string | null
+          finance_balloon_date?: string | null
+          id?: string
+          last_contact_date?: string | null
+          last_service_date?: string | null
+          lifetime_value_cents?: number | null
+          make_model?: string | null
+          next_service_due?: string | null
+          notes?: string | null
+          rego?: string | null
+          updated_at?: string
+          user_id?: string
+          vehicle_id?: string | null
+          wof_expiry?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "waka_customer_vehicles_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "waka_vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      waka_vehicles: {
+        Row: {
+          colour: string | null
+          created_at: string
+          current_location: string | null
+          fuel_type: string | null
+          id: string
+          listing_url: string | null
+          make: string | null
+          model: string | null
+          notes: string | null
+          odometer_km: number | null
+          photos: string[] | null
+          purchase_date: string | null
+          purchase_price_cents: number | null
+          rego: string
+          rego_expiry: string | null
+          ruc_avg_weekly_km: number | null
+          ruc_balance_km: number | null
+          service_history: Json | null
+          status: string | null
+          updated_at: string
+          user_id: string
+          vin: string | null
+          wof_expiry: string | null
+          year: number | null
+        }
+        Insert: {
+          colour?: string | null
+          created_at?: string
+          current_location?: string | null
+          fuel_type?: string | null
+          id?: string
+          listing_url?: string | null
+          make?: string | null
+          model?: string | null
+          notes?: string | null
+          odometer_km?: number | null
+          photos?: string[] | null
+          purchase_date?: string | null
+          purchase_price_cents?: number | null
+          rego: string
+          rego_expiry?: string | null
+          ruc_avg_weekly_km?: number | null
+          ruc_balance_km?: number | null
+          service_history?: Json | null
+          status?: string | null
+          updated_at?: string
+          user_id: string
+          vin?: string | null
+          wof_expiry?: string | null
+          year?: number | null
+        }
+        Update: {
+          colour?: string | null
+          created_at?: string
+          current_location?: string | null
+          fuel_type?: string | null
+          id?: string
+          listing_url?: string | null
+          make?: string | null
+          model?: string | null
+          notes?: string | null
+          odometer_km?: number | null
+          photos?: string[] | null
+          purchase_date?: string | null
+          purchase_price_cents?: number | null
+          rego?: string
+          rego_expiry?: string | null
+          ruc_avg_weekly_km?: number | null
+          ruc_balance_km?: number | null
+          service_history?: Json | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+          vin?: string | null
+          wof_expiry?: string | null
+          year?: number | null
+        }
+        Relationships: []
+      }
       whanau_connections: {
         Row: {
           alert_priority_threshold: string | null
@@ -7725,6 +8425,223 @@ export type Database = {
           whatsapp_template_id?: string | null
         }
         Relationships: []
+      }
+      whenua_maintenance: {
+        Row: {
+          completed_at: string | null
+          contractor_name: string | null
+          contractor_phone: string | null
+          cost_cents: number | null
+          created_at: string
+          description: string | null
+          id: string
+          notes: string | null
+          photos: string[] | null
+          property_id: string | null
+          reported_at: string | null
+          status: string | null
+          title: string
+          user_id: string
+          warranty_until: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          contractor_name?: string | null
+          contractor_phone?: string | null
+          cost_cents?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          notes?: string | null
+          photos?: string[] | null
+          property_id?: string | null
+          reported_at?: string | null
+          status?: string | null
+          title: string
+          user_id: string
+          warranty_until?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          contractor_name?: string | null
+          contractor_phone?: string | null
+          cost_cents?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          notes?: string | null
+          photos?: string[] | null
+          property_id?: string | null
+          reported_at?: string | null
+          status?: string | null
+          title?: string
+          user_id?: string
+          warranty_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whenua_maintenance_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "whenua_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      whenua_properties: {
+        Row: {
+          address: string
+          bathrooms: number | null
+          bedrooms: number | null
+          bond_cents: number | null
+          city: string | null
+          created_at: string
+          current_tenant_name: string | null
+          gross_yield_pct: number | null
+          healthy_homes_drainage: string | null
+          healthy_homes_draught: string | null
+          healthy_homes_heating: string | null
+          healthy_homes_insulation: string | null
+          healthy_homes_moisture: string | null
+          healthy_homes_ventilation: string | null
+          id: string
+          insurance_premium_cents: number | null
+          insurance_provider: string | null
+          insurance_renewal: string | null
+          lease_end: string | null
+          lease_start: string | null
+          net_yield_pct: number | null
+          notes: string | null
+          property_type: string | null
+          rates_annual_cents: number | null
+          suburb: string | null
+          updated_at: string
+          user_id: string
+          weekly_rent_cents: number | null
+        }
+        Insert: {
+          address: string
+          bathrooms?: number | null
+          bedrooms?: number | null
+          bond_cents?: number | null
+          city?: string | null
+          created_at?: string
+          current_tenant_name?: string | null
+          gross_yield_pct?: number | null
+          healthy_homes_drainage?: string | null
+          healthy_homes_draught?: string | null
+          healthy_homes_heating?: string | null
+          healthy_homes_insulation?: string | null
+          healthy_homes_moisture?: string | null
+          healthy_homes_ventilation?: string | null
+          id?: string
+          insurance_premium_cents?: number | null
+          insurance_provider?: string | null
+          insurance_renewal?: string | null
+          lease_end?: string | null
+          lease_start?: string | null
+          net_yield_pct?: number | null
+          notes?: string | null
+          property_type?: string | null
+          rates_annual_cents?: number | null
+          suburb?: string | null
+          updated_at?: string
+          user_id: string
+          weekly_rent_cents?: number | null
+        }
+        Update: {
+          address?: string
+          bathrooms?: number | null
+          bedrooms?: number | null
+          bond_cents?: number | null
+          city?: string | null
+          created_at?: string
+          current_tenant_name?: string | null
+          gross_yield_pct?: number | null
+          healthy_homes_drainage?: string | null
+          healthy_homes_draught?: string | null
+          healthy_homes_heating?: string | null
+          healthy_homes_insulation?: string | null
+          healthy_homes_moisture?: string | null
+          healthy_homes_ventilation?: string | null
+          id?: string
+          insurance_premium_cents?: number | null
+          insurance_provider?: string | null
+          insurance_renewal?: string | null
+          lease_end?: string | null
+          lease_start?: string | null
+          net_yield_pct?: number | null
+          notes?: string | null
+          property_type?: string | null
+          rates_annual_cents?: number | null
+          suburb?: string | null
+          updated_at?: string
+          user_id?: string
+          weekly_rent_cents?: number | null
+        }
+        Relationships: []
+      }
+      whenua_tenants: {
+        Row: {
+          bond_lodged: boolean | null
+          bond_reference: string | null
+          communication_log: Json | null
+          created_at: string
+          id: string
+          lease_end: string | null
+          lease_start: string | null
+          property_id: string | null
+          status: string | null
+          tenant_email: string | null
+          tenant_name: string
+          tenant_phone: string | null
+          updated_at: string
+          user_id: string
+          weekly_rent_cents: number | null
+        }
+        Insert: {
+          bond_lodged?: boolean | null
+          bond_reference?: string | null
+          communication_log?: Json | null
+          created_at?: string
+          id?: string
+          lease_end?: string | null
+          lease_start?: string | null
+          property_id?: string | null
+          status?: string | null
+          tenant_email?: string | null
+          tenant_name: string
+          tenant_phone?: string | null
+          updated_at?: string
+          user_id: string
+          weekly_rent_cents?: number | null
+        }
+        Update: {
+          bond_lodged?: boolean | null
+          bond_reference?: string | null
+          communication_log?: Json | null
+          created_at?: string
+          id?: string
+          lease_end?: string | null
+          lease_start?: string | null
+          property_id?: string | null
+          status?: string | null
+          tenant_email?: string | null
+          tenant_name?: string
+          tenant_phone?: string | null
+          updated_at?: string
+          user_id?: string
+          weekly_rent_cents?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whenua_tenants_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "whenua_properties"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       wof_bookings: {
         Row: {
