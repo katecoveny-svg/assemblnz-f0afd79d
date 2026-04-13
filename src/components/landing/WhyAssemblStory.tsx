@@ -341,7 +341,7 @@ const WhyAssemblStory = () => {
           <motion.div className="mt-8" whileHover={{ scale: 1.02 }}>
             <a
               href="#try-assembl"
-              className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm"
+              className="cta-glass-gold inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm"
             >
               See it in action <ArrowRight size={16} />
             </a>

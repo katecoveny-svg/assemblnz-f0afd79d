@@ -514,7 +514,7 @@ const DashboardPage = () => {
                     }
                   }}
                   className="flex items-center gap-1 text-[9px] px-2 py-1 rounded-md font-medium transition-colors"
-                  style={{ color: "#5AADA0", border: "1px solid rgba(0,255,136,0.2)", background: "rgba(0,255,136,0.05)" }}
+                  style={{ color: "#5AADA0", border: "1px solid rgba(58,125,110,0.22)", background: "rgba(58,125,110,0.06)" }}
                 >
                   <RefreshCw size={9} /> Run Check
                 </button>
@@ -690,7 +690,7 @@ const DashboardPage = () => {
               trailing={<Link to="/settings/workflows" className="text-[9px] text-[#5AADA0] hover:underline">View all</Link>} />
 
             {workflowSteps.length > 0 && (
-              <div className="mb-4 p-3 rounded-lg" style={{ background: "rgba(0,255,136,0.03)", border: "1px solid rgba(0,255,136,0.08)" }}>
+              <div className="mb-4 p-3 rounded-lg" style={{ background: "rgba(58,125,110,0.04)", border: "1px solid rgba(58,125,110,0.10)" }}>
                 <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mb-2 block">Latest Chain</span>
                 <WorkflowVisualiser steps={workflowSteps} compact />
               </div>
@@ -704,7 +704,7 @@ const DashboardPage = () => {
                   const steps = Array.isArray(exec.steps_log) ? exec.steps_log : [];
                   const completed = steps.filter((s: any) => s.status === "completed").length;
                   return (
-                    <div key={exec.id} className="p-3 rounded-lg" style={{ background: exec.status === "completed" ? "rgba(0,255,136,0.04)" : "rgba(255,184,0,0.04)", border: `1px solid ${exec.status === "completed" ? "rgba(0,255,136,0.1)" : "rgba(255,184,0,0.1)"}` }}>
+                    <div key={exec.id} className="p-3 rounded-lg" style={{ background: exec.status === "completed" ? "rgba(58,125,110,0.05)" : "rgba(255,184,0,0.04)", border: `1px solid ${exec.status === "completed" ? "rgba(58,125,110,0.12)" : "rgba(255,184,0,0.1)"}` }}>
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-bold text-foreground">Workflow</span>
                         <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium" style={{
@@ -800,21 +800,21 @@ const DashboardPage = () => {
           <TopGlow color="#5AADA0" />
           <SectionHeader icon={Trophy} title="Milestones" color="#5AADA0" />
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: exports.length > 0 ? "rgba(0,255,136,0.04)" : "rgba(255,255,255,0.02)" }}>
+            <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: exports.length > 0 ? "rgba(58,125,110,0.05)" : "rgba(255,255,255,0.02)" }}>
               <CheckCircle2 size={14} className={exports.length > 0 ? "text-[#5AADA0] shrink-0" : "text-muted-foreground/20 shrink-0"} />
               <div>
                 <p className="text-xs font-bold text-foreground">{exports.length} documents</p>
                 <p className="text-[9px] text-muted-foreground">{exports.length > 0 ? (MILESTONES.find(m => m.metric === "documents" && exports.length >= m.threshold)?.message || "Keep generating!") : "Generate your first document"}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: executions.length > 0 ? "rgba(0,255,136,0.04)" : "rgba(255,255,255,0.02)" }}>
+            <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: executions.length > 0 ? "rgba(58,125,110,0.05)" : "rgba(255,255,255,0.02)" }}>
               <CheckCircle2 size={14} className={executions.length > 0 ? "text-[#5AADA0] shrink-0" : "text-muted-foreground/20 shrink-0"} />
               <div>
                 <p className="text-xs font-bold text-foreground">{executions.filter(e => e.status === "completed").length} workflows</p>
                 <p className="text-[9px] text-muted-foreground">{executions.length > 0 ? "Agents collaborating" : "Trigger your first workflow"}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: savedItems.length > 0 ? "rgba(0,255,136,0.04)" : "rgba(255,255,255,0.02)" }}>
+            <div className="flex items-center gap-3 p-3 rounded-lg" style={{ background: savedItems.length > 0 ? "rgba(58,125,110,0.05)" : "rgba(255,255,255,0.02)" }}>
               <CheckCircle2 size={14} className={savedItems.length > 0 ? "text-[#5AADA0] shrink-0" : "text-muted-foreground/20 shrink-0"} />
               <div>
                 <p className="text-xs font-bold text-foreground">{savedItems.length} saved</p>

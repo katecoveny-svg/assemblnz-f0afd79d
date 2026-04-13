@@ -37,8 +37,8 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
         <div
           className="w-full max-w-sm text-center text-xs font-body px-3 py-2.5 rounded-lg"
           style={{
-            background: "rgba(0,255,136,0.06)",
-            border: "1px solid rgba(0,255,136,0.15)",
+            background: "rgba(58,125,110,0.08)",
+            border: "1px solid rgba(58,125,110,0.18)",
             color: "#5AADA0",
           }}
         >

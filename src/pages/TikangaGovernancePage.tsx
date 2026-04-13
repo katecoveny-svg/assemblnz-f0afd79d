@@ -252,7 +252,7 @@ const TikangaGovernancePage = () => (
             Every output checked, cited, and ready for sign-off.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/pricing" className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
+            <Link to="/pricing" className="cta-glass-gold inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
               Get started <ArrowRight size={15} />
             </Link>
             <Link to="/contact" className="btn-ghost inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">

@@ -6,7 +6,7 @@ import { nzCauses, causeTypes, locationOptions, valueOptions } from "@/data/nzCa
 const KINDLE_COLOR = "#CE93D8";
 
 const ScoreBadge = ({ score }: { score: number }) => {
-  const bg = score >= 8 ? `${KINDLE_COLOR}20` : score >= 5 ? "rgba(0,255,136,0.1)" : "rgba(239,68,68,0.1)";
+  const bg = score >= 8 ? `${KINDLE_COLOR}20` : score >= 5 ? "rgba(58,125,110,0.12)" : "rgba(239,68,68,0.1)";
   const color = score >= 8 ? KINDLE_COLOR : score >= 5 ? "#5AADA0" : "#EF4444";
   return (
     <div className="w-8 h-8 rounded-full grid place-items-center text-[10px] font-bold tabular-nums" style={{ background: bg, color }}>{score}</div>

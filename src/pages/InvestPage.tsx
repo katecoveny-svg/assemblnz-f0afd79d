@@ -156,9 +156,9 @@ const PhoneMockup = () => (
               style={{
                 background:
                   msg.from === "user"
-                    ? "rgba(0,255,136,0.12)"
+                    ? "rgba(58,125,110,0.14)"
                     : "rgba(255,255,255,0.05)",
-                border: `1px solid ${msg.from === "user" ? "rgba(0,255,136,0.2)" : "rgba(255,255,255,0.06)"}`,
+                border: `1px solid ${msg.from === "user" ? "rgba(58,125,110,0.22)" : "rgba(255,255,255,0.06)"}`,
               }}
             >
               {msg.from === "agent" && (
@@ -217,7 +217,7 @@ const InvestPage = () => {
           <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">
             <a
               href="mailto:assembl@assembl.co.nz"
-              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-black transition-shadow hover:shadow-[0_0_30px_rgba(0,255,136,0.3)]"
+              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-black transition-shadow hover:shadow-[0_0_30px_rgba(58,125,110,0.30)]"
               style={{ background: "#5AADA0" }}
             >
               Talk to the founder <ArrowRight size={16} />
@@ -278,7 +278,7 @@ const InvestPage = () => {
               {
                 icon: Globe,
                 title: "Built for Aotearoa",
-                desc: "NZ phone numbers via TNZ. UEMA-compliant opt-in/opt-out. Te reo support planned. Privacy Act audit trail.",
+                desc: "Dedicated NZ phone numbers with UEMA-compliant opt-in/opt-out. Te reo support planned. Privacy Act audit trail.",
               },
             ].map((f, i) => (
               <motion.div
@@ -479,7 +479,7 @@ const InvestPage = () => {
               title: "Foundation & First Customers",
               color: "#5AADA0",
               items: [
-                "TNZ integration & dedicated +64 numbers",
+                "NZ telco integration & dedicated +64 numbers",
                 "Single-agent MVP live",
                 "First 10 paying customers",
                 "UEMA compliance & PIA complete",
@@ -568,7 +568,7 @@ const InvestPage = () => {
             {
               icon: Phone,
               title: "NZ telco relationships",
-              desc: "TNZ integration, dedicated +64 numbers, short code provisioning. Not something a foreign entrant can replicate quickly.",
+              desc: "NZ telco integration, dedicated +64 numbers, short code provisioning. Not something a foreign entrant can replicate quickly.",
               accent: "#5AADA0",
             },
             {
@@ -627,16 +627,16 @@ const InvestPage = () => {
           <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">
             <a
               href="mailto:assembl@assembl.co.nz"
-              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-black transition-shadow hover:shadow-[0_0_30px_rgba(0,255,136,0.3)]"
-              style={{ background: "#5AADA0" }}
+               className="cta-glass-gold inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold"
+
             >
               Email Kate <ArrowRight size={16} />
             </a>
             <a
-              href="#"
+              href="mailto:assembl@assembl.co.nz"
               className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-white border border-white/20 hover:border-white/40 transition-colors"
             >
-              Download Business Plan
+              Request Business Plan
             </a>
           </motion.div>
         </motion.div>

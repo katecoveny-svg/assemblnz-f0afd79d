@@ -56,9 +56,9 @@ const ContentHubCatalogue = () => {
                 onClick={() => setActiveGroup(group.label)}
                 className="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-body font-medium transition-all"
                 style={{
-                  background: active ? "rgba(0,255,136,0.1)" : "transparent",
+                  background: active ? "rgba(58,125,110,0.12)" : "transparent",
                   color: active ? "#5AADA0" : "rgba(255,255,255,0.4)",
-                  border: active ? "1px solid rgba(0,255,136,0.2)" : "1px solid rgba(255,255,255,0.06)",
+                  border: active ? "1px solid rgba(58,125,110,0.22)" : "1px solid rgba(255,255,255,0.06)",
                 }}
               >
                 {group.label}

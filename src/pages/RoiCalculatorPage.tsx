@@ -167,7 +167,7 @@ const RoiCalculatorPage = () => {
             </div>
 
             <div className="mt-8">
-              <Link to="/pricing" className="cta-glass-green w-full inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
+              <Link to="/pricing" className="cta-glass-gold w-full inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
                 See pricing <ArrowRight size={15} />
               </Link>
             </div>

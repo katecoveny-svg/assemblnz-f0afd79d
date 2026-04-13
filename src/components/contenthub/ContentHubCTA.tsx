@@ -41,9 +41,9 @@ const ContentHubCTA = () => (
               to="/pricing"
               className="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-lg text-sm font-body font-semibold transition-all"
               style={{
-                background: "rgba(0,255,136,0.1)",
+                background: "rgba(58,125,110,0.12)",
                 color: "#5AADA0",
-                border: "1px solid rgba(0,255,136,0.2)",
+                border: "1px solid rgba(58,125,110,0.22)",
               }}
             >
               {plan.cta} →

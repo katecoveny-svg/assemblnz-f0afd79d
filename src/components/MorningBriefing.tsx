@@ -139,7 +139,7 @@ const MorningBriefing = () => {
   if (insights.length === 0 && !loading) return null;
 
   return (
-    <div className="rounded-xl relative overflow-hidden p-5" style={{ ...glassCardStyle, boxShadow: "0 0 30px rgba(0,255,136,0.05)" }}>
+    <div className="rounded-xl relative overflow-hidden p-5" style={{ ...glassCardStyle, boxShadow: "0 0 30px rgba(58,125,110,0.06)" }}>
       <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #5AADA0, transparent)" }} />
 
       <div className="flex items-center justify-between mb-4">

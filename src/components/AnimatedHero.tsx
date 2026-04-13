@@ -660,7 +660,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             >
               <Link
                 to="/pricing"
-                className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm group"
+                className="cta-glass-gold inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm group"
               >
                 Start free trial <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>

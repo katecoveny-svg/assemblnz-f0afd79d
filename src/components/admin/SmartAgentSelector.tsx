@@ -145,7 +145,7 @@ const SmartAgentSelector = () => {
                   </div>
 
                   {/* CTA */}
-                  <button className="mt-4 cta-glass-green px-5 py-2 text-xs flex items-center gap-2">
+                  <button className="mt-4 cta-glass-gold px-5 py-2 text-xs flex items-center gap-2">
                     <Zap size={12} /> Chat with {result.agentName}
                     <ArrowRight size={12} />
                   </button>

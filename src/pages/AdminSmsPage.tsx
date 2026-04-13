@@ -196,7 +196,7 @@ const AdminSmsPage = () => {
                       </select>
                     </div>
                   </div>
-                  <button onClick={addPhoneNumber} className="cta-glass-green px-5 py-2 text-xs">Save</button>
+                  <button onClick={addPhoneNumber} className="cta-glass-gold px-5 py-2 text-xs">Save</button>
                 </motion.div>
               )}
             </AnimatePresence>
