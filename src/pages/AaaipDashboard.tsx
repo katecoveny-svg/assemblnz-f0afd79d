@@ -259,6 +259,9 @@ const DOMAIN_META: Record<DomainKey, DomainMeta> = {
 };
 
 export default function AaaipDashboard() {
+  const auth = useAuthSafe();
+  const isAdmin = auth?.isAdmin ?? false;
+  const authLoading = auth?.loading ?? true;
   const [domain, setDomain] = useState<DomainKey>("clinic");
   const clinic = useAaaipRuntime();
   const robot = useRobotRuntime();
