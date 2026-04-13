@@ -493,7 +493,7 @@ const Index = () => {
                 <span className="text-base ml-2" style={{ color: C.t3 }}>NZD/mo ex GST</span>
               </p>
             </div>
-            <Link to="/pricing" className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
+            <Link to="/pricing" className="cta-glass-gold inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
               See pricing <ArrowRight size={15} />
             </Link>
           </motion.div>
@@ -616,7 +616,7 @@ const Index = () => {
               Start with one workflow and see where governed support makes the biggest difference.
             </P>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/pricing" className="cta-glass-green inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
+              <Link to="/pricing" className="cta-glass-gold inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
                 See pricing <ArrowRight size={15} />
               </Link>
               <Link to="/contact" className="btn-ghost inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-medium">
