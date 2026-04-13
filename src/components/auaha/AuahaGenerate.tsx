@@ -24,14 +24,12 @@ const MODEL_CATALOGUE = {
   image: [
     { id: "fal-flux-pro", provider: "fal", label: "Fal.ai — Flux Pro 1.1", desc: "Photorealism, fastest" },
     { id: "fal-flux-schnell", provider: "fal", label: "Fal.ai — Flux Schnell", desc: "Ultra-fast drafts" },
-    { id: "replicate-sdxl", provider: "replicate", label: "Replicate — SDXL", desc: "Versatile, fine-tunable" },
-    { id: "replicate-playground", provider: "replicate", label: "Replicate — Playground v2.5", desc: "Creative, artistic" },
+    { id: "fal-flux-realism", provider: "fal", label: "Fal.ai — Flux Realism", desc: "Hyper-realistic output" },
     { id: "lovable-gemini", provider: "lovable", label: "Lovable AI — Gemini", desc: "No API key needed" },
   ],
   video: [
     { id: "fal-kling", provider: "fal", label: "Fal.ai — Kling v1.6", desc: "Long clips, social video" },
     { id: "fal-minimax", provider: "fal", label: "Fal.ai — MiniMax", desc: "Fast, cost-effective" },
-    { id: "replicate-luma", provider: "replicate", label: "Replicate — Luma Dream Machine", desc: "Cinematic motion" },
     { id: "runway-gen3", provider: "runway", label: "Runway Gen-3 Alpha", desc: "Premium cinematic" },
   ],
 };
