@@ -148,6 +148,7 @@ const StartPendingPage = lazy(() => import("./pages/StartPendingPage"));
 const AdminComplianceDashboard = lazy(() => import("./pages/AdminComplianceDashboard"));
 const AdminTestReports = lazy(() => import("./pages/AdminTestReports"));
 const AdminKnowledgeBase = lazy(() => import("./pages/AdminKnowledgeBase"));
+const AdminFlintDashboard = lazy(() => import("./pages/AdminFlintDashboard"));
 
 const queryClient = new QueryClient();
 
