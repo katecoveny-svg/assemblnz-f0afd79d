@@ -3,7 +3,7 @@ import { TrendingUp, Users, Building2, Heart, Globe, DollarSign, BarChart3 } fro
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { nzCauses } from "@/data/nzCauses";
 
-const KINDLE_COLOR = "#CE93D8";
+const KINDLE_COLOR = "#D4A843";
 const GLASS = { background: "rgba(15,15,18,0.8)", border: "1px solid rgba(255,255,255,0.06)" };
 const TIP_STYLE = { contentStyle: { background: "#1a1a2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 11 }, labelStyle: { color: "#A1A1AA" } };
 
@@ -30,7 +30,7 @@ const categoryData = (() => {
   return Object.entries(map).map(([name, value]) => ({ name, value }));
 })();
 
-const COLORS = [KINDLE_COLOR, "#5AADA0", "#3A6A9C", "#FFD700", "#FF6B6B"];
+const COLORS = [KINDLE_COLOR, "#5AADA0", "#3A7D6E", "#7ECFC2", "#1A3A5C"];
 
 const KindleImpactDashboard = () => (
   <div className="flex-1 overflow-y-auto p-4 space-y-4">

@@ -88,7 +88,7 @@ const MorningBriefing = () => {
       const financeActions = actions.filter((a: any) => a.agent_id === "finance");
       if (financeActions.length > 0) ledgerInsights.push(`${financeActions.length} pending financial actions.`);
       if (ledgerInsights.length > 0) {
-        briefingInsights.push({ agentId: "finance", agentName: "LEDGER", color: "#4FC3F7", insights: ledgerInsights });
+        briefingInsights.push({ agentId: "finance", agentName: "LEDGER", color: "#1A3A5C", insights: ledgerInsights });
       }
 
       // FLUX (sales) insight
@@ -97,7 +97,7 @@ const MorningBriefing = () => {
       const fluxActions = actions.filter((a: any) => a.agent_id === "sales");
       if (fluxActions.length > 0) fluxInsights.push(`${fluxActions.length} follow-ups pending.`);
       if (fluxInsights.length > 0) {
-        briefingInsights.push({ agentId: "sales", agentName: "FLUX", color: "#FF6B00", insights: fluxInsights });
+        briefingInsights.push({ agentId: "sales", agentName: "FLUX", color: "#D4A843", insights: fluxInsights });
       }
 
       // Cross-agent alerts
@@ -118,7 +118,7 @@ const MorningBriefing = () => {
       });
       if (urgentDeadlines.length > 0) {
         briefingInsights.push({
-          agentId: "legal", agentName: "ANCHOR", color: "#5B8CFF",
+          agentId: "legal", agentName: "ANCHOR", color: "#1A3A5C",
           insights: [`${urgentDeadlines.length} compliance deadline${urgentDeadlines.length !== 1 ? "s" : ""} within 14 days.`],
         });
       }

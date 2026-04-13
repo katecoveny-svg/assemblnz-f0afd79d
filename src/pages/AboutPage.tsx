@@ -162,26 +162,75 @@ const AboutPage = () => {
       </section>
 
       {/* Founder */}
-      <section id="founder" className="relative z-10 py-16 border-t border-border">
-        <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse 50% 50% at 50% 50%, ${GOLD}05 0%, transparent 60%)` }} />
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center relative z-10">
-          <motion.div className="w-28 h-28 rounded-full mx-auto mb-5 relative overflow-hidden"
-            style={{ border: `2px solid ${GOLD}40`, boxShadow: `0 0 30px ${GOLD}15, 0 0 60px ${POUNAMU}10`, background: `linear-gradient(135deg, ${GOLD}10, ${POUNAMU}10)` }}
-            initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
-            <img src="/img/kate-neon.png" alt="Kate, Founder of Assembl" className="w-full h-full object-contain" loading="lazy" />
+      <section id="founder" className="relative z-10 py-20 border-t border-border">
+        <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${GOLD}08 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 30% 40%, ${POUNAMU}05 0%, transparent 50%)` }} />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+          <motion.div
+            className="relative rounded-2xl overflow-hidden p-8 sm:p-10"
+            style={{
+              background: "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)",
+              border: "1px solid rgba(255,255,255,0.06)",
+              boxShadow: `0 16px 48px rgba(0,0,0,0.4), 0 0 80px ${GOLD}05, inset 0 1px 0 rgba(255,255,255,0.04)`,
+            }}
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          >
+            <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}40, ${POUNAMU}30, transparent)` }} />
+
+            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+              {/* Photo */}
+              <motion.div className="shrink-0"
+                initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
+                <div className="relative">
+                  <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-2xl overflow-hidden relative"
+                    style={{
+                      border: `2px solid ${GOLD}30`,
+                      boxShadow: `0 0 40px ${GOLD}15, 0 0 80px ${POUNAMU}08`,
+                      background: `linear-gradient(135deg, ${GOLD}10, ${POUNAMU}10)`,
+                    }}>
+                    <img src="/img/kate-neon.png" alt="Kate, Founder of Assembl" className="w-full h-full object-contain" loading="lazy" />
+                  </div>
+                  {/* Status dot */}
+                  <div className="absolute -bottom-1 -right-1 flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{
+                    background: "rgba(14,14,26,0.9)",
+                    border: `1px solid ${POUNAMU}30`,
+                    boxShadow: `0 4px 12px rgba(0,0,0,0.3)`,
+                  }}>
+                    <motion.div className="w-2 h-2 rounded-full" style={{ background: POUNAMU }}
+                      animate={{ opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} />
+                    <span className="text-[9px] font-mono" style={{ color: POUNAMU }}>Building</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Content */}
+              <div className="flex-1 text-center lg:text-left">
+                <p className="text-[10px] font-bold tracking-[4px] uppercase mb-3" style={{ color: GOLD, fontFamily: "'JetBrains Mono', monospace" }}>
+                  FOUNDER
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-display text-foreground mb-4" style={{ fontWeight: 300 }}>
+                  Built by{" "}
+                  <span style={{ background: `linear-gradient(135deg, ${BONE}, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Kate</span>
+                </h2>
+                <blockquote className="text-sm font-body text-muted-foreground leading-relaxed mb-6 relative">
+                  <span className="absolute -left-3 top-0 text-2xl" style={{ color: `${GOLD}30`, fontFamily: "Georgia, serif" }}>"</span>
+                  I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work. Every kete is grounded in real NZ legislation — not generic overseas advice. My goal is to give every Kiwi business access to specialist operational support at a price they can afford.
+                </blockquote>
+                <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4">
+                  <div>
+                    <p className="text-sm font-display text-foreground" style={{ fontWeight: 400 }}>Kate</p>
+                    <p className="text-[11px] font-body text-muted-foreground">Founder & CEO · Auckland, New Zealand</p>
+                  </div>
+                  <Link to="/contact" className="group relative inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-body font-medium overflow-hidden sm:ml-auto">
+                    <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(135deg, ${GOLD}, ${GOLD}DD)` }} />
+                    <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 20px ${GOLD}40` }} />
+                    <span className="relative z-10" style={{ color: "#09090F" }}>Get in touch</span>
+                    <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" style={{ color: "#09090F" }} />
+                  </Link>
+                </div>
+              </div>
+            </div>
           </motion.div>
-          <h2 className="text-xl sm:text-2xl font-display text-foreground mb-3" style={{ fontWeight: 300 }}>
-            Built by{" "}
-            <span style={{ background: `linear-gradient(135deg, ${BONE}, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Kate</span>
-          </h2>
-          <p className="text-sm font-body text-muted-foreground leading-relaxed max-w-lg mx-auto mb-4">
-            "I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work. Every kete is grounded in real NZ legislation — not generic overseas advice. My goal is to give every Kiwi business access to specialist operational support at a price they can afford."
-          </p>
-          <p className="text-xs font-display text-foreground" style={{ fontWeight: 300 }}>Kate</p>
-          <p className="text-[11px] font-body text-muted-foreground">Founder & CEO · Auckland, New Zealand</p>
-          <Link to="/contact" className="inline-flex items-center gap-2 mt-4 text-sm font-display text-primary hover:text-foreground transition-colors group" style={{ fontWeight: 300 }}>
-            Get started <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
         </div>
       </section>
 
