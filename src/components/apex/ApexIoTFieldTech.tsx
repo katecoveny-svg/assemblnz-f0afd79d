@@ -46,9 +46,9 @@ const ApexIoTFieldTech = () => {
             onClick={() => setActivePanel(p.id as any)}
             className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-body font-medium transition-all"
             style={{
-              background: activePanel === p.id ? "rgba(0,255,136,0.1)" : "rgba(255,255,255,0.03)",
+              background: activePanel === p.id ? "rgba(58,125,110,0.12)" : "rgba(255,255,255,0.03)",
               color: activePanel === p.id ? "#5AADA0" : "rgba(255,255,255,0.5)",
-              border: activePanel === p.id ? "1px solid rgba(0,255,136,0.2)" : "1px solid rgba(255,255,255,0.06)",
+              border: activePanel === p.id ? "1px solid rgba(58,125,110,0.22)" : "1px solid rgba(255,255,255,0.06)",
             }}
           >
             {p.icon} {p.label}

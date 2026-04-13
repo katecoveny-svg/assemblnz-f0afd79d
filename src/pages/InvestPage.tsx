@@ -156,9 +156,9 @@ const PhoneMockup = () => (
               style={{
                 background:
                   msg.from === "user"
-                    ? "rgba(0,255,136,0.12)"
+                    ? "rgba(58,125,110,0.14)"
                     : "rgba(255,255,255,0.05)",
-                border: `1px solid ${msg.from === "user" ? "rgba(0,255,136,0.2)" : "rgba(255,255,255,0.06)"}`,
+                border: `1px solid ${msg.from === "user" ? "rgba(58,125,110,0.22)" : "rgba(255,255,255,0.06)"}`,
               }}
             >
               {msg.from === "agent" && (
@@ -217,7 +217,7 @@ const InvestPage = () => {
           <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">
             <a
               href="mailto:assembl@assembl.co.nz"
-              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-black transition-shadow hover:shadow-[0_0_30px_rgba(0,255,136,0.3)]"
+              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-black transition-shadow hover:shadow-[0_0_30px_rgba(58,125,110,0.30)]"
               style={{ background: "#5AADA0" }}
             >
               Talk to the founder <ArrowRight size={16} />

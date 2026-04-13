@@ -87,7 +87,7 @@ const EmbedPage = () => {
           </p>
           {user && isPaid && (
             <div className="inline-flex items-center gap-2 mt-4 px-4 py-1.5 rounded-full text-xs font-semibold"
-              style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)", color: "#5AADA0" }}>
+              style={{ background: "rgba(58,125,110,0.10)", border: "1px solid rgba(58,125,110,0.18)", color: "#5AADA0" }}>
               <Sparkles size={12} />
               {planLabel(role)} plan — embed up to {limit === 41 ? "all 41" : limit} agent{limit !== 1 ? "s" : ""}
             </div>
