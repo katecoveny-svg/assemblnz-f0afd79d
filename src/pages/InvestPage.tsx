@@ -627,16 +627,16 @@ const InvestPage = () => {
           <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">
             <a
               href="mailto:assembl@assembl.co.nz"
-              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-black transition-shadow hover:shadow-[0_0_30px_rgba(0,255,136,0.3)]"
-              style={{ background: "#5AADA0" }}
+               className="cta-glass-gold inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold"
+
             >
               Email Kate <ArrowRight size={16} />
             </a>
             <a
-              href="#"
+              href="mailto:assembl@assembl.co.nz"
               className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-white border border-white/20 hover:border-white/40 transition-colors"
             >
-              Download Business Plan
+              Request Business Plan
             </a>
           </motion.div>
         </motion.div>
