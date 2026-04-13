@@ -21,7 +21,7 @@ export const HavenCompliancePreview = () => {
   ];
   const badge = (s: string) =>
     s === "pass"
-      ? { bg: "rgba(0,255,136,0.15)", color: "#5AADA0", label: "PASS" }
+      ? { bg: "rgba(58,125,110,0.18)", color: "#5AADA0", label: "PASS" }
       : s === "fail"
       ? { bg: "rgba(179,136,255,0.15)", color: "#3A6A9C", label: "FAIL" }
       : { bg: "rgba(212,168,67,0.15)", color: "#3A6A9C", label: "PARTIAL" };
@@ -345,8 +345,8 @@ export const VaultMortgagePreview = () => {
           key={b.name}
           className="flex items-center justify-between py-1.5 px-2 rounded"
           style={{
-            background: b.best ? "rgba(0,255,136,0.06)" : "rgba(255,255,255,0.02)",
-            border: b.best ? "1px solid rgba(0,255,136,0.15)" : "1px solid transparent",
+            background: b.best ? "rgba(58,125,110,0.08)" : "rgba(255,255,255,0.02)",
+            border: b.best ? "1px solid rgba(58,125,110,0.18)" : "1px solid transparent",
           }}
         >
           <span className="font-body text-[10px] font-medium" style={{ color: b.best ? "#5AADA0" : "rgba(255,255,255,0.5)" }}>
@@ -521,7 +521,7 @@ export const AuraGuestPreview = () => (
       </div>
       <span
         className="font-mono-jb text-[8px] px-2 py-0.5 rounded-full"
-        style={{ background: "rgba(0,255,136,0.1)", color: "#5AADA0" }}
+        style={{ background: "rgba(58,125,110,0.12)", color: "#5AADA0" }}
       >
         VIP
       </span>

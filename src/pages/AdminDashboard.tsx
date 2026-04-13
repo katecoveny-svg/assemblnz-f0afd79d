@@ -301,7 +301,7 @@ const AdminDashboard = () => {
                           <span className="text-[11px] text-foreground flex-1">{svc.name}</span>
                           {svc.responseTime && <span className="text-[9px] text-muted-foreground tabular-nums">{svc.responseTime}ms</span>}
                           <span className={`text-[9px] uppercase font-bold px-1.5 py-0.5 rounded-full ${svc.status === "ok" ? "text-pounamu-light" : svc.status === "degraded" ? "text-amber-400" : "text-red-400"}`}
-                            style={{ background: svc.status === "ok" ? "rgba(0,255,136,0.1)" : svc.status === "degraded" ? "rgba(255,184,0,0.1)" : "rgba(255,77,106,0.1)" }}>
+                            style={{ background: svc.status === "ok" ? "rgba(58,125,110,0.12)" : svc.status === "degraded" ? "rgba(255,184,0,0.1)" : "rgba(255,77,106,0.1)" }}>
                             {svc.status}
                           </span>
                         </div>
@@ -378,7 +378,7 @@ const AdminDashboard = () => {
                               <span className="text-[9px] text-muted-foreground shrink-0">{p.time}</span>
                               <span className={`text-[8px] font-bold uppercase px-1.5 py-0.5 rounded-full shrink-0`}
                                 style={{
-                                  background: p.status === "published" ? "rgba(0,255,136,0.1)" : p.status === "scheduled" ? "rgba(212,168,67,0.1)" : "rgba(255,184,0,0.1)",
+                                  background: p.status === "published" ? "rgba(58,125,110,0.12)" : p.status === "scheduled" ? "rgba(212,168,67,0.1)" : "rgba(255,184,0,0.1)",
                                   color: p.status === "published" ? "#5AADA0" : p.status === "scheduled" ? "#3A6A9C" : "#FFB800",
                                 }}>{p.status}</span>
                             </div>

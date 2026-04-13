@@ -107,7 +107,7 @@ const SecurityPage = () => (
     <main className="max-w-5xl mx-auto px-4 sm:px-6 py-12 flex-1 relative z-10">
       {/* Hero */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5" style={{ ...glassStyle, borderColor: "rgba(0,255,136,0.15)" }}>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5" style={{ ...glassStyle, borderColor: "rgba(58,125,110,0.18)" }}>
           <Shield size={14} className="text-[#5AADA0]" />
           <span className="text-[11px] font-semibold text-[#5AADA0]">Mid-market NZ Security</span>
         </div>
@@ -200,7 +200,7 @@ const SecurityPage = () => (
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
         className="mt-10 rounded-xl p-6 text-center relative overflow-hidden"
-        style={{ ...glassStyle, boxShadow: "0 0 40px rgba(0,255,136,0.05)" }}
+        style={{ ...glassStyle, boxShadow: "0 0 40px rgba(58,125,110,0.06)" }}
       >
         <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30" style={{ background: "linear-gradient(90deg, transparent, #5AADA0, transparent)" }} />
         <p className="text-xs text-foreground/70 mb-3">
