@@ -503,7 +503,7 @@ export default function WhakaaeDashboard() {
         {/* Footer */}
         <div className="text-center pt-4">
           <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
-            WHAKAAĒ — Consenting &amp; Compliance · Hanga Construction Suite · Assembl Mārama
+            WHAKAAĒ — Consenting &amp; Compliance · Waihanga Construction Suite · Assembl Mārama
           </p>
         </div>
       </div>

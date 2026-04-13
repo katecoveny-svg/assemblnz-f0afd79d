@@ -158,7 +158,7 @@ export default function PaiDashboard() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <CheckCircle2 size={20} style={{ color: "#3A7D6E" }} />
-            <span className="text-xs tracking-widest uppercase" style={{ color: "#5AADA0", fontFamily: "JetBrains Mono" }}>Hanga Construction Suite</span>
+            <span className="text-xs tracking-widest uppercase" style={{ color: "#5AADA0", fontFamily: "JetBrains Mono" }}>Waihanga Construction Suite</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>
             PAI — Quality Assurance
@@ -487,7 +487,7 @@ export default function PaiDashboard() {
         {/* Footer */}
         <div className="text-center pt-4">
           <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
-            PAI — Quality Assurance · Hanga Construction Suite · Assembl Mārama
+            PAI — Quality Assurance · Waihanga Construction Suite · Assembl Mārama
           </p>
         </div>
       </div>

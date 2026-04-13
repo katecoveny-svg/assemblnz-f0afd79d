@@ -161,7 +161,7 @@ export default function AtaBimDashboard() {
             <div className="flex items-center gap-2 mb-1">
               <Box size={20} style={{ color: "#D4A843" }} />
               <span className="text-xs font-mono tracking-widest uppercase" style={{ color: "#D4A843", fontFamily: "JetBrains Mono" }}>
-                Hanga Construction Suite
+                Waihanga Construction Suite
               </span>
             </div>
             <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>
@@ -611,7 +611,7 @@ export default function AtaBimDashboard() {
         {/* Footer */}
         <div className="text-center pt-4">
           <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
-            ATA — BIM Management · Hanga Construction Suite · Assembl Mārama
+            ATA — BIM Management · Waihanga Construction Suite · Assembl Mārama
           </p>
         </div>
       </div>

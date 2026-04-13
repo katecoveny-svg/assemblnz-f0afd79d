@@ -153,7 +153,7 @@ export default function RawaDashboard() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Package size={20} style={{ color: "#3A7D6E" }} />
-            <span className="text-xs tracking-widest uppercase" style={{ color: "#3A7D6E", fontFamily: "JetBrains Mono" }}>Hanga Construction Suite</span>
+            <span className="text-xs tracking-widest uppercase" style={{ color: "#3A7D6E", fontFamily: "JetBrains Mono" }}>Waihanga Construction Suite</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>
             RAWA — Resources &amp; Procurement
@@ -506,7 +506,7 @@ export default function RawaDashboard() {
         {/* Footer */}
         <div className="text-center pt-4">
           <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
-            RAWA — Resources &amp; Procurement · Hanga Construction Suite · Assembl Mārama
+            RAWA — Resources &amp; Procurement · Waihanga Construction Suite · Assembl Mārama
           </p>
         </div>
       </div>
