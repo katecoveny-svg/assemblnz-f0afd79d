@@ -4,26 +4,15 @@ import KeteIcon from "./KeteIcon";
 import HarakekePattern from "@/components/HarakekePattern";
 
 interface KeteDashboardShellProps {
-  /** Kete name in Te Reo (e.g. "Manaaki") */
   name: string;
-  /** English subtitle */
   subtitle: string;
-  /** Primary accent hex */
   accentColor: string;
-  /** Lighter accent hex */
   accentLight: string;
-  /** KeteIcon weave variant */
   variant?: "standard" | "dense" | "organic" | "tricolor" | "warm";
   children: React.ReactNode;
-  /** Optional extra header elements (badges, buttons) */
   headerExtra?: React.ReactNode;
 }
 
-/**
- * Consistent dashboard wrapper matching homepage kete card aesthetics.
- * Provides: starfield background, harakeke border, animated header with KeteIcon,
- * accent bar, and constellation decorations.
- */
 const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
   name,
   subtitle,
@@ -36,36 +25,46 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
   const rgb = hexToRgb(accentColor);
 
   return (
-    <div className="min-h-screen relative" style={{ background: "#09090F" }}>
-      {/* Starfield — matches KeteGrid */}
+    <div className="min-h-screen relative" style={{ background: "#0F1018" }}>
+      {/* Dot grid texture */}
       <div
         className="fixed inset-0 pointer-events-none -z-10"
         style={{
           backgroundImage:
-            "radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.2), transparent)," +
-            "radial-gradient(2px 2px at 60px 70px, rgba(255,255,255,0.15), transparent)," +
-            "radial-gradient(1px 1px at 50px 50px, rgba(255,255,255,0.25), transparent)," +
-            "radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.2), transparent)," +
-            "radial-gradient(2px 2px at 90px 10px, rgba(255,255,255,0.1), transparent)",
+            "radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
+
+      {/* Starfield overlay */}
+      <div
+        className="fixed inset-0 pointer-events-none -z-10"
+        style={{
+          backgroundImage:
+            "radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.25), transparent)," +
+            "radial-gradient(2px 2px at 60px 70px, rgba(255,255,255,0.2), transparent)," +
+            "radial-gradient(1.5px 1.5px at 50px 50px, rgba(255,255,255,0.3), transparent)," +
+            "radial-gradient(1.5px 1.5px at 130px 80px, rgba(255,255,255,0.25), transparent)," +
+            "radial-gradient(2px 2px at 90px 10px, rgba(255,255,255,0.15), transparent)",
           backgroundRepeat: "repeat",
           backgroundSize: "200px 200px",
         }}
       />
 
-      {/* Ambient kete-colour halo at top */}
+      {/* Ambient kete-colour halo — stronger */}
       <div
-        className="absolute top-0 left-0 right-0 h-[300px] pointer-events-none"
+        className="absolute top-0 left-0 right-0 h-[350px] pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse 70% 60% at 50% -10%, rgba(${rgb},0.12) 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse 70% 60% at 50% -10%, rgba(${rgb},0.2) 0%, transparent 70%)`,
         }}
       />
 
-      {/* Top accent bar */}
+      {/* Top accent bar — thicker, brighter */}
       <div
-        className="absolute top-0 left-0 right-0 h-[3px]"
+        className="absolute top-0 left-0 right-0 h-[4px]"
         style={{
-          background: `linear-gradient(90deg, transparent 5%, rgba(240,208,120,0.5) 30%, ${accentColor} 50%, rgba(240,208,120,0.5) 70%, transparent 95%)`,
-          boxShadow: `0 0 18px rgba(240,208,120,0.4), 0 0 8px rgba(${rgb},0.3)`,
+          background: `linear-gradient(90deg, transparent 5%, rgba(240,208,120,0.6) 30%, ${accentColor} 50%, rgba(240,208,120,0.6) 70%, transparent 95%)`,
+          boxShadow: `0 0 24px rgba(240,208,120,0.5), 0 0 12px rgba(${rgb},0.4)`,
         }}
       />
 
@@ -84,7 +83,7 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
             <div
               className="absolute inset-0 rounded-full"
               style={{
-                background: `radial-gradient(circle, rgba(${rgb},0.2) 0%, transparent 70%)`,
+                background: `radial-gradient(circle, rgba(${rgb},0.3) 0%, transparent 70%)`,
               }}
             />
             <KeteIcon
@@ -104,7 +103,7 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 300,
                 color: accentColor,
-                textShadow: `0 0 20px rgba(${rgb},0.3)`,
+                textShadow: `0 0 24px rgba(${rgb},0.4)`,
               }}
             >
               {name}
@@ -113,7 +112,7 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
               className="text-xs tracking-[1px]"
               style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
-                color: "rgba(255,255,255,0.5)",
+                color: "rgba(255,255,255,0.55)",
               }}
             >
               {subtitle}
@@ -122,19 +121,19 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
 
           {headerExtra}
 
-          {/* Constellation dots — decorative, matches kete cards */}
+          {/* Constellation dots — more visible */}
           <svg
-            className="hidden md:block w-16 h-16 opacity-30"
+            className="hidden md:block w-16 h-16 opacity-50"
             viewBox="0 0 64 64"
           >
-            <circle cx="8" cy="12" r="2" fill={accentColor} />
-            <circle cx="36" cy="8" r="1.5" fill={accentLight} />
-            <circle cx="56" cy="28" r="2.5" fill={accentColor} />
-            <circle cx="20" cy="48" r="1.5" fill={accentLight} />
-            <circle cx="50" cy="54" r="2" fill={accentColor} />
-            <line x1="8" y1="12" x2="36" y2="8" stroke={accentColor} strokeWidth="0.5" opacity="0.4" />
-            <line x1="36" y1="8" x2="56" y2="28" stroke={accentColor} strokeWidth="0.5" opacity="0.4" />
-            <line x1="20" y1="48" x2="50" y2="54" stroke={accentColor} strokeWidth="0.5" opacity="0.3" />
+            <circle cx="8" cy="12" r="2.5" fill={accentColor} />
+            <circle cx="36" cy="8" r="2" fill={accentLight} />
+            <circle cx="56" cy="28" r="3" fill={accentColor} />
+            <circle cx="20" cy="48" r="2" fill={accentLight} />
+            <circle cx="50" cy="54" r="2.5" fill={accentColor} />
+            <line x1="8" y1="12" x2="36" y2="8" stroke={accentColor} strokeWidth="0.8" opacity="0.5" />
+            <line x1="36" y1="8" x2="56" y2="28" stroke={accentColor} strokeWidth="0.8" opacity="0.5" />
+            <line x1="20" y1="48" x2="50" y2="54" stroke={accentColor} strokeWidth="0.8" opacity="0.4" />
           </svg>
         </motion.div>
 

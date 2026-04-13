@@ -28,7 +28,7 @@ export default function AuahaLayout() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen bg-[#09090F] flex">
+    <div className="min-h-screen flex" style={{ background: "#0F1018" }}>
       {/* Sidebar */}
       <aside className="hidden lg:flex w-60 flex-col border-r border-white/[0.06] relative overflow-hidden"
         style={{
