@@ -381,7 +381,7 @@ export default function ProposalTemplatePage() {
           </motion.div>
           <motion.p variants={fade} className="text-sm max-w-2xl mb-10" style={{ color: C.t2 }}>
             Businesses in{" "}
-            <EditableText value={industry} onChange={setIndustry} editing={editing} className="inline font-medium" style={{ color: C.t1 } as any} placeholder="[Industry]" />{" "}
+            <EditableText value={industry} onChange={setIndustry} editing={editing} className="inline font-medium text-foreground" placeholder="[Industry]" />{" "}
             consistently report three operational pain points that slow teams down, increase risk, and erode margins.
           </motion.p>
 
