@@ -253,6 +253,17 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
 
   return (
     <>
+      {/* Memory Panel */}
+      {user && (
+        <MemoryPanel
+          open={showMemory}
+          onClose={() => setShowMemory(false)}
+          userId={user.id}
+          agentId={effectiveAgentId}
+          accentColor={accentColor}
+        />
+      )}
+
       {/* Voice Modal */}
       <VoiceAgentModal
         open={showVoice}
