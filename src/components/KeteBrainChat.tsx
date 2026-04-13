@@ -151,6 +151,35 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages]);
 
+  // Load agent context on first open
+  useEffect(() => {
+    if (!open || contextLoaded || !user) return;
+    loadContext().then(ctx => {
+      setContextInjection(ctx.systemPromptInjection);
+      setContextLoaded(true);
+    });
+  }, [open, contextLoaded, user, loadContext]);
+
+  // Inactivity compression — 5 min idle triggers compression
+  useEffect(() => {
+    if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+    if (messages.length > 20 && user) {
+      inactivityTimer.current = setTimeout(() => {
+        compressAndLearn(messages, effectiveAgentId, user.id);
+      }, 5 * 60 * 1000);
+    }
+    return () => { if (inactivityTimer.current) clearTimeout(inactivityTimer.current); };
+  }, [messages, user, effectiveAgentId]);
+
+  // Compress on unmount if >20 messages
+  useEffect(() => {
+    return () => {
+      if (messages.length > 20 && user) {
+        compressAndLearn(messages, effectiveAgentId, user.id);
+      }
+    };
+  }, []); // intentionally empty — cleanup only
+
   const sendMessage = useCallback(async () => {
     const text = input.trim();
     if (!text || isStreaming) return;
@@ -158,6 +187,15 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
     const userMsg: Msg = { role: "user", content: text };
     setMessages(prev => [...prev, userMsg]);
     setIsStreaming(true);
+
+    // Load context with first message for FTS relevance
+    let ctxPrompt = contextInjection;
+    if (!contextLoaded && user) {
+      const ctx = await loadContext(text);
+      ctxPrompt = ctx.systemPromptInjection;
+      setContextInjection(ctxPrompt);
+      setContextLoaded(true);
+    }
 
     let assistantSoFar = "";
     try {
@@ -172,6 +210,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
           packId: keteId,
           agentId: agentId || keteId,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
+          contextInjection: ctxPrompt,
         }),
       });
 
@@ -191,12 +230,14 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
             const c = parsed.choices?.[0]?.delta?.content;
             if (c) {
               assistantSoFar += c;
+              // Apply compliance pipeline to streamed content
+              const { output: processed } = enforceAssemblProtocol(assistantSoFar, effectiveAgentId);
               setMessages(prev => {
                 const last = prev[prev.length - 1];
                 if (last?.role === "assistant") {
-                  return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: assistantSoFar } : m);
+                  return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: processed } : m);
                 }
-                return [...prev, { role: "assistant", content: assistantSoFar }];
+                return [...prev, { role: "assistant", content: processed }];
               });
             }
           } catch {}
