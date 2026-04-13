@@ -11,7 +11,11 @@ import { useAuth } from "@/hooks/useAuth";
 import ReactMarkdown from "react-markdown";
 import GlowIcon from "./GlowIcon";
 import VoiceAgentModal from "./VoiceAgentModal";
+import MemoryPanel from "./MemoryPanel";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
+import { enforceAssemblProtocol } from "@/lib/compliancePipeline";
+import { useAgentContext } from "@/hooks/useAgentContext";
+import { compressAndLearn } from "@/lib/contextCompression";
 import toroaMark from "@/assets/brand/toroa-mark.svg";
 
 interface KeteBrainChatProps {
@@ -79,15 +83,20 @@ function BrainAvatar({ color, size = 48 }: { color: string; size?: number }) {
 export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColor, agentId }: KeteBrainChatProps) {
   const [open, setOpen] = useState(false);
   const [showVoice, setShowVoice] = useState(false);
+  const [showMemory, setShowMemory] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const [tab, setTab] = useState<"chat" | "sms" | "whatsapp">("chat");
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const [contextLoaded, setContextLoaded] = useState(false);
+  const [contextInjection, setContextInjection] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { user } = useAuth();
   const effectiveAgentId = agentId || keteId;
+  const { loadContext } = useAgentContext(user?.id, effectiveAgentId);
 
   // Load previous conversation on mount
   useEffect(() => {
@@ -142,6 +151,35 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages]);
 
+  // Load agent context on first open
+  useEffect(() => {
+    if (!open || contextLoaded || !user) return;
+    loadContext().then(ctx => {
+      setContextInjection(ctx.systemPromptInjection);
+      setContextLoaded(true);
+    });
+  }, [open, contextLoaded, user, loadContext]);
+
+  // Inactivity compression — 5 min idle triggers compression
+  useEffect(() => {
+    if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
+    if (messages.length > 20 && user) {
+      inactivityTimer.current = setTimeout(() => {
+        compressAndLearn(messages, effectiveAgentId, user.id);
+      }, 5 * 60 * 1000);
+    }
+    return () => { if (inactivityTimer.current) clearTimeout(inactivityTimer.current); };
+  }, [messages, user, effectiveAgentId]);
+
+  // Compress on unmount if >20 messages
+  useEffect(() => {
+    return () => {
+      if (messages.length > 20 && user) {
+        compressAndLearn(messages, effectiveAgentId, user.id);
+      }
+    };
+  }, []); // intentionally empty — cleanup only
+
   const sendMessage = useCallback(async () => {
     const text = input.trim();
     if (!text || isStreaming) return;
@@ -149,6 +187,15 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
     const userMsg: Msg = { role: "user", content: text };
     setMessages(prev => [...prev, userMsg]);
     setIsStreaming(true);
+
+    // Load context with first message for FTS relevance
+    let ctxPrompt = contextInjection;
+    if (!contextLoaded && user) {
+      const ctx = await loadContext(text);
+      ctxPrompt = ctx.systemPromptInjection;
+      setContextInjection(ctxPrompt);
+      setContextLoaded(true);
+    }
 
     let assistantSoFar = "";
     try {
@@ -163,6 +210,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
           packId: keteId,
           agentId: agentId || keteId,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
+          contextInjection: ctxPrompt,
         }),
       });
 
@@ -182,12 +230,14 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
             const c = parsed.choices?.[0]?.delta?.content;
             if (c) {
               assistantSoFar += c;
+              // Apply compliance pipeline to streamed content
+              const { output: processed } = enforceAssemblProtocol(assistantSoFar, effectiveAgentId);
               setMessages(prev => {
                 const last = prev[prev.length - 1];
                 if (last?.role === "assistant") {
-                  return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: assistantSoFar } : m);
+                  return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: processed } : m);
                 }
-                return [...prev, { role: "assistant", content: assistantSoFar }];
+                return [...prev, { role: "assistant", content: processed }];
               });
             }
           } catch {}
@@ -203,6 +253,17 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
 
   return (
     <>
+      {/* Memory Panel */}
+      {user && (
+        <MemoryPanel
+          open={showMemory}
+          onClose={() => setShowMemory(false)}
+          userId={user.id}
+          agentId={effectiveAgentId}
+          accentColor={accentColor}
+        />
+      )}
+
       {/* Voice Modal */}
       <VoiceAgentModal
         open={showVoice}
@@ -273,6 +334,14 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                 </p>
                 <p className="text-white/40 text-[10px]">{keteNameEn} Intelligence • NZ Voice</p>
               </div>
+              <button
+                onClick={() => setShowMemory(true)}
+                className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                style={{ background: hexRgba(accentColor, 0.1), border: `1px solid ${hexRgba(accentColor, 0.2)}` }}
+                title="What I remember"
+              >
+                <GlowIcon name="Brain" size={14} color={accentColor} glow={false} />
+              </button>
               <button
                 onClick={() => setShowVoice(true)}
                 className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"

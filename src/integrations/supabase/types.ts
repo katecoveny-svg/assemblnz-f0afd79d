@@ -214,6 +214,36 @@ export type Database = {
           },
         ]
       }
+      admin_notifications: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          priority: string | null
+          read: boolean | null
+          title: string
+          type: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          priority?: string | null
+          read?: boolean | null
+          title: string
+          type: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          priority?: string | null
+          read?: boolean | null
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
       agent_access: {
         Row: {
           agent_code: string
@@ -1774,6 +1804,39 @@ export type Database = {
           },
         ]
       }
+      compliance_scan_log: {
+        Row: {
+          changes_detected: number | null
+          created_at: string
+          errors: string[] | null
+          high_impact_count: number | null
+          id: string
+          scan_date: string
+          scan_duration_seconds: number | null
+          sources_checked: number | null
+        }
+        Insert: {
+          changes_detected?: number | null
+          created_at?: string
+          errors?: string[] | null
+          high_impact_count?: number | null
+          id?: string
+          scan_date?: string
+          scan_duration_seconds?: number | null
+          sources_checked?: number | null
+        }
+        Update: {
+          changes_detected?: number | null
+          created_at?: string
+          errors?: string[] | null
+          high_impact_count?: number | null
+          id?: string
+          scan_date?: string
+          scan_duration_seconds?: number | null
+          sources_checked?: number | null
+        }
+        Relationships: []
+      }
       compliance_updates: {
         Row: {
           affected_agents: string[] | null
@@ -1791,6 +1854,7 @@ export type Database = {
           source_url: string | null
           title: string
           updated_at: string | null
+          verified: boolean | null
         }
         Insert: {
           affected_agents?: string[] | null
@@ -1808,6 +1872,7 @@ export type Database = {
           source_url?: string | null
           title: string
           updated_at?: string | null
+          verified?: boolean | null
         }
         Update: {
           affected_agents?: string[] | null
@@ -1825,6 +1890,7 @@ export type Database = {
           source_url?: string | null
           title?: string
           updated_at?: string | null
+          verified?: boolean | null
         }
         Relationships: []
       }
