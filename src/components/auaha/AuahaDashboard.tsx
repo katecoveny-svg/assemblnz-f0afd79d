@@ -71,10 +71,11 @@ function GlassCard({ children, className = "", accent = false, onClick, glow = f
     <div onClick={onClick}
       className={`relative rounded-2xl border backdrop-blur-xl transition-all duration-300 ${onClick ? "cursor-pointer hover:scale-[1.02] hover:shadow-lg" : ""} ${className}`}
       style={{
-        background: "rgba(15, 15, 26, 0.65)",
-        borderColor: accent ? `${ACCENT}33` : "rgba(255,255,255,0.08)",
-        boxShadow: glow ? `0 0 40px ${ACCENT}08, inset 0 1px 0 rgba(255,255,255,0.05)` : "inset 0 1px 0 rgba(255,255,255,0.05)",
+        background: "linear-gradient(135deg, rgba(22, 22, 38, 0.85), rgba(18, 18, 30, 0.7))",
+        borderColor: accent ? `${ACCENT}40` : glow ? `${ACCENT}30` : "rgba(255,255,255,0.1)",
+        boxShadow: glow ? `0 0 40px ${ACCENT}0A, 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)` : "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06)",
       }}>
+      {glow && <div className="absolute top-0 left-4 right-4 h-px rounded-full" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}60, transparent)` }} />}
       {children}
     </div>
   );
