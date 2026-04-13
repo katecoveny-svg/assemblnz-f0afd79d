@@ -85,7 +85,7 @@ If there are no significant changes in the past 7 days, return an empty array.
 Respond as a JSON array only. No markdown, no explanation.`;
 
     const aiResponse = await fetch(
-      "https://ai.lovable.dev/chat/v1/completions",
+      "https://ai.lovable.dev/chat/completions",
       {
         method: "POST",
         headers: {
