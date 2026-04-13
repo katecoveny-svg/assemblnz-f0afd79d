@@ -29,6 +29,14 @@ const NZ_COMPLIANCE_SOURCES = [
   { name: "Commerce Commission", url: "https://comcom.govt.nz/news-and-media" },
   { name: "ERA Determinations", url: "https://www.era.govt.nz/elawsearch/" },
   { name: "Financial Markets Authority", url: "https://www.fma.govt.nz/news/" },
+  // Lifestyle agent sources
+  { name: "Ministry of Education", url: "https://www.education.govt.nz/news/" },
+  { name: "Auckland Transport", url: "https://at.govt.nz/bus-train-ferry/service-announcements/" },
+  { name: "DOC", url: "https://www.doc.govt.nz/news/" },
+  { name: "Ministry of Health", url: "https://www.health.govt.nz/news-media" },
+  { name: "MetService", url: "https://www.metservice.com/warnings/" },
+  { name: "SunSmart NZ", url: "https://www.sunsmart.org.nz/" },
+  { name: "GETS Tenders", url: "https://www.gets.govt.nz/ExternalIndex.htm" },
 ];
 
 // Map source → likely affected agents
@@ -42,6 +50,14 @@ const SOURCE_AGENT_MAP: Record<string, string[]> = {
   "Commerce Commission": ["counter", "market"],
   "Financial Markets Authority": ["vault", "ledger"],
   "ERA Determinations": ["aroha", "pulse"],
+  // Lifestyle agent sources
+  "Ministry of Education": ["helm", "grove"],
+  "Auckland Transport": ["helm"],
+  "DOC": ["voyage", "atlas"],
+  "Ministry of Health": ["thrive", "nourish"],
+  "MetService": ["helm", "voyage", "atlas"],
+  "SunSmart NZ": ["glow", "atlas"],
+  "GETS Tenders": ["flux"],
 };
 
 Deno.serve(async (req) => {
