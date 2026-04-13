@@ -110,6 +110,7 @@ const AuahaGenerate = lazy(() => import("./components/auaha/AuahaGenerate"));
 const AuahaGallery = lazy(() => import("./components/auaha/AuahaGallery"));
 const AuahaTaAudit = lazy(() => import("./components/auaha/AuahaTaAudit"));
 const AuahaPromptLibrary = lazy(() => import("./components/auaha/AuahaPromptLibrary"));
+const AuahaLoomStudio = lazy(() => import("./components/auaha/AuahaLoomStudio"));
 const AdminPacksPage = lazy(() => import("./pages/AdminPacksPage"));
 const AdminPackAnalytics = lazy(() => import("./pages/AdminPackAnalytics"));
 const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboard"));
@@ -313,6 +314,7 @@ const App = () => (
                     <Route path="images" element={<AuahaImageStudio />} />
                     <Route path="image-studio" element={<PixelImageStudio />} />
                     <Route path="video" element={<AuahaVideoStudio />} />
+                    <Route path="loom" element={<AuahaLoomStudio />} />
                     <Route path="podcast" element={<AuahaPodcastStudio />} />
                     <Route path="ads" element={<AuahaAdManager />} />
                     <Route path="calendar" element={<AuahaCalendar />} />

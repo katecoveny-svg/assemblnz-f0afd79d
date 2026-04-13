@@ -152,7 +152,7 @@ export default function WhakaaeDashboard() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Shield size={20} style={{ color: "#1A3A5C" }} />
-            <span className="text-xs tracking-widest uppercase" style={{ color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>Hanga Construction Suite</span>
+            <span className="text-xs tracking-widest uppercase" style={{ color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>Waihanga Construction Suite</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>
             WHAKAAĒ — Consenting &amp; Compliance
@@ -503,7 +503,7 @@ export default function WhakaaeDashboard() {
         {/* Footer */}
         <div className="text-center pt-4">
           <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
-            WHAKAAĒ — Consenting &amp; Compliance · Hanga Construction Suite · Assembl Mārama
+            WHAKAAĒ — Consenting &amp; Compliance · Waihanga Construction Suite · Assembl Mārama
           </p>
         </div>
       </div>

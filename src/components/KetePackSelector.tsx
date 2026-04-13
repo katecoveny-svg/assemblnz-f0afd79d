@@ -18,7 +18,7 @@ const KETE_PACKS = [
     desc: "Food safety, liquor licensing, guest experience, adventure tourism.",
   },
   {
-    name: "Hanga",
+    name: "Waihanga",
     sub: "Construction",
     wananga: "Te Kete Tuauri",
     wanangaEn: "Physical world & craft",

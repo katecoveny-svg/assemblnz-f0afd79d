@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, HardHat, UtensilsCrossed, Palette, Bird, Car, Package, ChevronDown } from "lucide-react";
+import { Menu, X, HardHat, UtensilsCrossed, Palette, Bird, Car, Package, ChevronDown, Calculator, Shield, TrendingUp, Code, Brain } from "lucide-react";
 import AccountDropdown from "@/components/AccountDropdown";
 import Nav3DKeteLogo from "@/components/Nav3DKeteLogo";
 import KiaOraPopup from "@/components/KiaOraPopup";
@@ -21,7 +21,15 @@ const KETE = [
   { label: "Auaha", sublabel: "Creative", to: "/auaha/about", icon: Palette, color: "#F0D078" },
   { label: "Arataki", sublabel: "Automotive", to: "/arataki", icon: Car, color: "#E8E8E8" },
   { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", icon: Package, color: "#7ECFC2" },
-  { label: "Toro", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843" },
+  { label: "Tōroa", sublabel: "Family", to: "/toroa", icon: Bird, color: "#D4A843" },
+];
+
+const MORE_LINKS = [
+  { label: "ROI Calculator", sublabel: "Sales tool", to: "/roi", icon: Calculator, color: "#5AADA0" },
+  { label: "Data Sovereignty", sublabel: "Enterprise trust", to: "/data-sovereignty", icon: Shield, color: "#3A7D6E" },
+  { label: "Invest", sublabel: "Opportunity", to: "/invest", icon: TrendingUp, color: "#D4A843" },
+  { label: "Developers", sublabel: "API & docs", to: "/developers", icon: Code, color: "#7ECFC2" },
+  { label: "AAAIP", sublabel: "R&D showcase", to: "/aaaip", icon: Brain, color: "#F0D078" },
 ];
 
 const BrandNav = () => {
@@ -29,11 +37,13 @@ const BrandNav = () => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [packsOpen, setPacksOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [kiaOraOpen, setKiaOraOpen] = useState(false);
 
   const handleNavClick = (to: string) => {
     setMobileOpen(false);
     setPacksOpen(false);
+    setMoreOpen(false);
     if (to.startsWith("/#")) {
       const hash = to.slice(1);
       if (location.pathname === "/") {
@@ -45,6 +55,28 @@ const BrandNav = () => {
       navigate(to);
     }
   };
+
+  const DropdownPanel = ({ items, onClose }: { items: typeof KETE; onClose: () => void }) => (
+    <>
+      <div className="fixed inset-0 z-10" onClick={onClose} />
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
+        className="absolute top-full right-0 mt-2 z-20 w-[260px] rounded-xl p-2 space-y-0.5"
+        style={{ background: "#13131F", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
+        {items.map(item => (
+          <button key={item.label} onClick={() => handleNavClick(item.to)}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/[0.04] transition-colors group">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${item.color}15` }}>
+              <item.icon size={16} style={{ color: item.color }} />
+            </div>
+            <div className="text-left">
+              <div className="text-xs font-semibold text-white/80 group-hover:text-white">{item.label}</div>
+              <div className="text-[10px] text-white/35">{item.sublabel}</div>
+            </div>
+          </button>
+        ))}
+      </motion.div>
+    </>
+  );
 
   return (
     <>
@@ -76,33 +108,25 @@ const BrandNav = () => {
 
           {/* Industry Kete dropdown */}
           <div className="relative">
-            <button onClick={() => setPacksOpen(!packsOpen)}
+            <button onClick={() => { setPacksOpen(!packsOpen); setMoreOpen(false); }}
               className="px-3 py-2 rounded-lg font-body font-medium text-white/65 hover:text-white transition-colors flex items-center gap-1">
               Industry Kete
               <ChevronDown size={12} className={`transition-transform ${packsOpen ? "rotate-180" : ""}`} />
             </button>
             <AnimatePresence>
-              {packsOpen && (
-                <>
-                  <div className="fixed inset-0 z-10" onClick={() => setPacksOpen(false)} />
-                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
-                    className="absolute top-full right-0 mt-2 z-20 w-[260px] rounded-xl p-2 space-y-0.5"
-                    style={{ background: "#13131F", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
-                    {KETE.map(pack => (
-                      <button key={pack.label} onClick={() => handleNavClick(pack.to)}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/[0.04] transition-colors group">
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${pack.color}15` }}>
-                          <pack.icon size={16} style={{ color: pack.color }} />
-                        </div>
-                        <div className="text-left">
-                          <div className="text-xs font-semibold text-white/80 group-hover:text-white">{pack.label}</div>
-                          <div className="text-[10px] text-white/35">{pack.sublabel}</div>
-                        </div>
-                      </button>
-                    ))}
-                  </motion.div>
-                </>
-              )}
+              {packsOpen && <DropdownPanel items={KETE} onClose={() => setPacksOpen(false)} />}
+            </AnimatePresence>
+          </div>
+
+          {/* More dropdown */}
+          <div className="relative">
+            <button onClick={() => { setMoreOpen(!moreOpen); setPacksOpen(false); }}
+              className="px-3 py-2 rounded-lg font-body font-medium text-white/65 hover:text-white transition-colors flex items-center gap-1">
+              More
+              <ChevronDown size={12} className={`transition-transform ${moreOpen ? "rotate-180" : ""}`} />
+            </button>
+            <AnimatePresence>
+              {moreOpen && <DropdownPanel items={MORE_LINKS} onClose={() => setMoreOpen(false)} />}
             </AnimatePresence>
           </div>
 
@@ -158,6 +182,18 @@ const BrandNav = () => {
                     <pack.icon size={16} style={{ color: pack.color }} />
                     <span>{pack.label}</span>
                     <span className="text-[10px] text-white/30 ml-auto">{pack.sublabel}</span>
+                  </button>
+                ))}
+
+                <div className="pt-2 pb-1">
+                  <span className="px-4 text-[10px] font-semibold tracking-widest" style={{ color: "#5AADA0" }}>MORE</span>
+                </div>
+                {MORE_LINKS.map(link => (
+                  <button key={link.label} onClick={() => handleNavClick(link.to)}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-body transition-all duration-200"
+                    style={{ color: "rgba(255,255,255,0.7)" }}>
+                    <link.icon size={16} style={{ color: link.color }} />
+                    <span>{link.label}</span>
                   </button>
                 ))}
               </nav>
