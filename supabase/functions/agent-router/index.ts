@@ -217,6 +217,7 @@ Deno.serve(async (req) => {
     // Load user's shared context (business facts detected across all agents)
     let sharedContextBlock = "";
     let memoryBlock = "";
+    let industryContextBlock = "";
 
     // Extract user ID from auth header if not passed directly
     const authHeader = req.headers.get("authorization");
@@ -543,7 +544,6 @@ Trust & compliance:
 
     // ═══ DYNAMIC TOOL REGISTRY + INDUSTRY-AWARE LOADING ═══
     let agentTools: any[] = [];
-    let industryContextBlock = "";
     {
       // 1. Load base tools from agent_toolsets
       const { data: toolLinks } = await supabase
