@@ -112,7 +112,7 @@ const ContentHubShowcase = () => {
               </p>
               <Link
                 to={`/chat/${item.id}`}
-                className="cta-glass-green shrink-0 inline-flex items-center gap-2 text-xs font-body font-semibold px-4 py-2.5 rounded-lg"
+                className="cta-glass-gold shrink-0 inline-flex items-center gap-2 text-xs font-body font-semibold px-4 py-2.5 rounded-lg"
               >
                 Try it →
               </Link>
