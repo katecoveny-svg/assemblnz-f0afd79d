@@ -90,7 +90,7 @@ export default function AuahaPromptLibrary() {
 
       {/* New prompt form */}
       {showNew && (
-        <GlassCard className="p-5 space-y-3" accent>
+        <GlassCard className="p-5 space-y-3">
           <input value={newName} onChange={e => setNewName(e.target.value)}
             className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder:text-white/20"
             placeholder="Prompt name..." />
