@@ -177,30 +177,37 @@ const Index = () => {
 
       {/* ═══ HERO ═══ */}
       <section className="relative flex flex-col items-center text-center px-6 pt-20 sm:pt-24 pb-16 overflow-hidden">
-        {/* Ambient background glows */}
+        {/* PHOTON-style dramatic ambient glows */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: `radial-gradient(ellipse 80% 50% at 50% 20%, ${C.pounamu}10 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 30% 60%, ${C.gold}06 0%, transparent 60%), radial-gradient(ellipse 50% 30% at 75% 35%, ${C.pounamuGlow}05 0%, transparent 50%)`,
+          background: `radial-gradient(ellipse 90% 55% at 50% 20%, ${C.pounamu}14 0%, transparent 65%), radial-gradient(ellipse 65% 45% at 30% 60%, ${C.gold}0A 0%, transparent 55%), radial-gradient(ellipse 55% 35% at 75% 35%, ${C.pounamuGlow}08 0%, transparent 50%)`,
         }} />
 
-        {/* Floating particles */}
-        {[...Array(8)].map((_, i) => (
+        {/* Dot grid texture */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }} />
+
+        {/* Floating particles with trails */}
+        {[...Array(12)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full pointer-events-none"
             style={{
-              width: 2 + i * 1.2,
-              height: 2 + i * 1.2,
+              width: 2 + i * 1.0,
+              height: 2 + i * 1.0,
               background: i % 3 === 0 ? C.gold : i % 3 === 1 ? C.pounamu : C.pounamuGlow,
-              left: `${10 + i * 11}%`,
-              top: `${15 + (i % 4) * 20}%`,
-              opacity: 0.12,
+              left: `${8 + i * 7.5}%`,
+              top: `${12 + (i % 5) * 18}%`,
+              opacity: 0.15,
+              boxShadow: `0 0 ${8 + i * 2}px ${i % 3 === 0 ? C.gold : C.pounamu}40`,
             }}
             animate={{
-              y: [0, -18 - i * 4, 0],
-              opacity: [0.08, 0.25, 0.08],
-              scale: [1, 1.4, 1],
+              y: [0, -22 - i * 4, 0],
+              opacity: [0.08, 0.3, 0.08],
+              scale: [1, 1.5, 1],
             }}
-            transition={{ duration: 5 + i * 0.8, repeat: Infinity, ease: "easeInOut", delay: i * 0.6 }}
+            transition={{ duration: 5 + i * 0.7, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
           />
         ))}
 
