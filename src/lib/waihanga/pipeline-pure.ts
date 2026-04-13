@@ -280,9 +280,9 @@ export function manaGate(
   const warnings: string[] = [];
 
   // ── Layer 1: Tikanga ────────────────────────────────────────
-  // Rule T1 — 'Maori' without macron
+  // Rule T1 — 'Maori' without macron (warning, not blocker)
   if (/\bMaori\b/.test(response) && !/\bMāori\b/.test(response)) {
-    blockers.push("Tikanga-T1: 'Maori' used without macron — must be 'Māori'");
+    warnings.push("Tikanga-T1: 'Maori' used without macron — must be 'Māori'");
   }
   // Rule T2 — common Te Reo terms missing macrons
   const macronPairs: [RegExp, string][] = [
