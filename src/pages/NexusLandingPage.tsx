@@ -11,7 +11,7 @@ import VoiceAgentModal from "@/components/VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 import { supabase } from "@/integrations/supabase/client";
 
-const NEXUS_COLOR = "#5B8CFF";
+const NEXUS_COLOR = "#1A3A5C";
 
 const FEATURES = [
   "Invoice-to-entry AI processing",

@@ -27,15 +27,15 @@ interface PipelineSummary {
 type SubTab = "overview" | "audit-logs" | "approvals" | "evidence" | "exports";
 
 const STATUS_COLORS: Record<string, string> = {
-  pending: "#FFB800",
+  pending: "#D4A843",
   approved: "#5AADA0",
   rejected: "#C85A54",
   expired: "#888",
-  started: "#4FC3F7",
+  started: "#7ECFC2",
   completed: "#5AADA0",
   forbidden: "#C85A54",
   allowed: "#5AADA0",
-  approval_required: "#FFB800",
+  approval_required: "#D4A843",
 };
 
 export default function AdminPipelineTab() {
@@ -89,10 +89,10 @@ export default function AdminPipelineTab() {
 
   const subTabs: { id: SubTab; label: string; icon: any; color: string }[] = [
     { id: "overview", label: "Overview", icon: Scale, color: "#5AADA0" },
-    { id: "audit-logs", label: "Audit Trail", icon: ShieldCheck, color: "#3A6A9C" },
-    { id: "approvals", label: "Approvals", icon: Clock, color: "#FFB800" },
-    { id: "evidence", label: "Evidence Packs", icon: FileText, color: "#E040FB" },
-    { id: "exports", label: "Exports", icon: Download, color: "#4FC3F7" },
+    { id: "audit-logs", label: "Audit Trail", icon: ShieldCheck, color: "#3A7D6E" },
+    { id: "approvals", label: "Approvals", icon: Clock, color: "#D4A843" },
+    { id: "evidence", label: "Evidence Packs", icon: FileText, color: "#7ECFC2" },
+    { id: "exports", label: "Exports", icon: Download, color: "#1A3A5C" },
   ];
 
   const filteredApprovals = approvalFilter === "all" ? approvals : approvals.filter(a => a.status === approvalFilter);

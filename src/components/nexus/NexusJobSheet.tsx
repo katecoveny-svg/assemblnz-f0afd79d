@@ -41,7 +41,7 @@ interface Props {
   isProcessing: boolean;
 }
 
-const NEXUS_COLOR = "#5B8CFF";
+const NEXUS_COLOR = "#1A3A5C";
 
 const STEPS = [
   "Upload Job Sheet",
