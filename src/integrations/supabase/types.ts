@@ -339,6 +339,45 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_knowledge_base: {
+        Row: {
+          agent_id: string
+          confidence: number | null
+          content: string
+          created_at: string
+          id: string
+          is_active: boolean | null
+          last_verified: string | null
+          source_url: string | null
+          topic: string
+          updated_at: string
+        }
+        Insert: {
+          agent_id: string
+          confidence?: number | null
+          content: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          last_verified?: string | null
+          source_url?: string | null
+          topic: string
+          updated_at?: string
+        }
+        Update: {
+          agent_id?: string
+          confidence?: number | null
+          content?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          last_verified?: string | null
+          source_url?: string | null
+          topic?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       agent_memory: {
         Row: {
           agent_id: string
