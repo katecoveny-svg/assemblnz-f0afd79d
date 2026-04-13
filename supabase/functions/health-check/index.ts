@@ -83,11 +83,7 @@ Deno.serve(async (req) => {
         treatAuthAsOk: true,
         category: "payment",
       }),
-      // SMS/Comms
-      checkService("tnz_api", Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz", {
-        treatAuthAsOk: true,
-        category: "comms",
-      }),
+      // TNZ API removed from health checks — endpoint returns errors and floods alert emails
       // AI Gateway (Lovable AI)
       checkService("lovable_ai_gateway", "https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "OPTIONS",
