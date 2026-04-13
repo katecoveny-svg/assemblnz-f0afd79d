@@ -1,232 +1,337 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import {
-  Calendar, ShoppingCart, DollarSign, Bell, MessageSquare, BookOpen,
-  Plus, Check, Trash2, Send, ExternalLink,
+  Home, Users, PawPrint, GraduationCap, Shirt, Clock, ShoppingCart,
+  BookOpen, MessageSquare, Settings, ChevronLeft, Menu, X, Wifi,
 } from "lucide-react";
 import toroaLogo from "@/assets/brand/toroa-logo.svg";
 import KeteBrainChat from "@/components/KeteBrainChat";
-import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
-import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
+
+// Modules
+import FamilyOverview from "./modules/FamilyOverview";
+import TodayDigest from "./modules/TodayDigest";
+import PetModule from "./modules/PetModule";
+import SchoolModule from "./modules/SchoolModule";
+import UniformTracker from "./modules/UniformTracker";
+import AppointmentsModule from "./modules/AppointmentsModule";
+import ShoppingModule from "./modules/ShoppingModule";
+import HomeworkHelp from "./modules/HomeworkHelp";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
+const TANGAROA = "#1A3A5C";
+const BONE = "#F5F0E8";
+const BG = "#09090F";
 
-const glass = (accent = KOWHAI) => ({
-  background: "rgba(15,15,26,0.7)",
-  border: `1px solid ${accent}18`,
-  backdropFilter: "blur(12px)",
-  boxShadow: `0 0 20px ${accent}06, 0 4px 20px rgba(0,0,0,0.3)`,
-});
+type ModuleKey = "today" | "family" | "pets" | "school" | "uniforms" | "appointments" | "shopping" | "homework";
 
-interface CalendarEvent {
-  id: string;
-  title: string;
-  event_date: string;
-  event_time: string | null;
-  source: string;
-  gear_list: string[] | null;
-}
+const NAV_ITEMS: { key: ModuleKey; label: string; icon: React.ElementType }[] = [
+  { key: "today", label: "Today", icon: Home },
+  { key: "family", label: "Household", icon: Users },
+  { key: "pets", label: "Pets", icon: PawPrint },
+  { key: "school", label: "School", icon: GraduationCap },
+  { key: "uniforms", label: "Uniforms", icon: Shirt },
+  { key: "appointments", label: "Appointments", icon: Clock },
+  { key: "shopping", label: "Shopping", icon: ShoppingCart },
+  { key: "homework", label: "Homework", icon: BookOpen },
+];
 
-interface GroceryItem {
-  name: string;
-  checked: boolean;
-}
+// ── DEMO DATA ──
+const DEMO_FAMILY = {
+  members: [
+    { name: "Sarah", role: "Parent" },
+    { name: "James", role: "Parent" },
+  ],
+  children: [
+    { name: "Mia", school: "Ponsonby Primary", year: "5" },
+    { name: "Ethan", school: "Ponsonby Primary", year: "3" },
+  ],
+  pets: [
+    { name: "Buddy", species: "dog", breed: "Labrador" },
+    { name: "Whiskers", species: "cat", breed: "Domestic Shorthair" },
+  ],
+};
+
+const DEMO_DIGEST = [
+  { type: "alert" as const, text: "Permission slip — camp (due Friday)", urgent: true },
+  { type: "event" as const, text: "Mia — netball Saturday 9am (Western Springs)", time: "09:00" },
+  { type: "reminder" as const, text: "WoF due 15 April" },
+  { type: "event" as const, text: "Piano lesson — Wednesday 3:30pm", time: "15:30" },
+  { type: "task" as const, text: "Buddy — vet checkup next Tuesday" },
+];
+
+const DEMO_PETS = [
+  {
+    id: "1", name: "Buddy", species: "dog", breed: "Labrador", weight_kg: 32, vet_clinic: "Grey Lynn Vet", vet_phone: "09 376 1234", microchip_number: "NZ-9001234567",
+    vaccinations: [
+      { name: "C5 Vaccination", date: "2025-09-15", next_due: "2026-09-15" },
+      { name: "Kennel Cough", date: "2025-06-01", next_due: "2026-06-01" },
+      { name: "Rabies", date: "2024-12-01", next_due: "2025-12-01" },
+    ],
+    medications: [
+      { name: "Nexgard", dosage: "68mg", frequency: "Monthly" },
+    ],
+  },
+  {
+    id: "2", name: "Whiskers", species: "cat", breed: "Domestic Shorthair", weight_kg: 4.5, vet_clinic: "Grey Lynn Vet", vet_phone: "09 376 1234",
+    vaccinations: [
+      { name: "F3 Vaccination", date: "2025-11-01", next_due: "2026-11-01" },
+    ],
+    medications: [],
+  },
+];
+
+const DEMO_SCHOOL_CHILDREN = [
+  { name: "Mia", school: "Ponsonby Primary", year_level: "5", teacher: "Mrs Williams", upcoming: ["Camp form due 18 Apr", "Photo day 22 Apr", "Maths test Fri"], newsletters: [{ title: "Week 10 Newsletter", date: "11 Apr" }, { title: "Camp Information Pack", date: "8 Apr" }] },
+  { name: "Ethan", school: "Ponsonby Primary", year_level: "3", teacher: "Mr Thompson", upcoming: ["Book Week starts Mon"], newsletters: [{ title: "Week 10 Newsletter", date: "11 Apr" }] },
+];
+
+const DEMO_TERM_DATES = [
+  { term: "Term 1", start: "3 Feb", end: "11 Apr", current: false },
+  { term: "Term 2", start: "28 Apr", end: "3 Jul", current: true },
+  { term: "Term 3", start: "21 Jul", end: "26 Sep", current: false },
+  { term: "Term 4", start: "13 Oct", end: "12 Dec", current: false },
+];
+
+const DEMO_UNIFORMS = [
+  { item_type: "Polo shirt", size: "8", quantity: 3, condition: "good" as const, child_name: "Mia" },
+  { item_type: "Skort", size: "8", quantity: 2, condition: "fair" as const, child_name: "Mia" },
+  { item_type: "Jumper", size: "8", quantity: 1, condition: "replace" as const, child_name: "Mia" },
+  { item_type: "Polo shirt", size: "6", quantity: 2, condition: "good" as const, child_name: "Ethan" },
+  { item_type: "Shorts", size: "6", quantity: 2, condition: "good" as const, child_name: "Ethan" },
+  { item_type: "Hat", size: "S", quantity: 1, condition: "fair" as const, child_name: "Ethan" },
+];
+
+const DEMO_APPOINTMENTS = [
+  { id: "1", title: "Buddy — vet checkup", appointment_at: "2026-04-15T10:00:00", location: "Grey Lynn Vet", category: "vet", status: "upcoming", member_name: "Buddy" },
+  { id: "2", title: "Mia — dentist", appointment_at: "2026-04-18T14:30:00", location: "Ponsonby Dental", category: "dental", status: "upcoming", member_name: "Mia" },
+  { id: "3", title: "WoF inspection", appointment_at: "2026-04-10T09:00:00", location: "AA Ponsonby", category: "general", status: "overdue", is_overdue: true },
+  { id: "4", title: "Ethan — GP checkup", appointment_at: "2026-04-22T11:00:00", location: "Ponsonby Medical", category: "medical", status: "upcoming", member_name: "Ethan" },
+];
+
+const DEMO_SHOPPING = [
+  { id: "1", item: "Milk (2L)", quantity: 2, category: "groceries", estimated_cost_cents: 640, purchased: false },
+  { id: "2", item: "Bread — Vogels", quantity: 1, category: "groceries", estimated_cost_cents: 580, purchased: false },
+  { id: "3", item: "Chicken thighs", quantity: 1, category: "groceries", estimated_cost_cents: 1200, purchased: false },
+  { id: "4", item: "Bananas", quantity: 1, category: "groceries", estimated_cost_cents: 350, purchased: true },
+  { id: "5", item: "Broccoli", quantity: 1, category: "groceries", estimated_cost_cents: 300, purchased: false },
+  { id: "6", item: "Dishwashing liquid", quantity: 1, category: "household", estimated_cost_cents: 450, purchased: false },
+  { id: "7", item: "Glue stick (Mia)", quantity: 2, category: "school", estimated_cost_cents: 400, purchased: false },
+];
+
+const DEMO_HW_CHILDREN = [
+  { name: "Mia", year_level: "5", subjects: [
+    { name: "Mathematics", icon: "maths", nzcLevel: "3" },
+    { name: "English", icon: "english", nzcLevel: "3" },
+    { name: "Science", icon: "science", nzcLevel: "3" },
+    { name: "Te Reo Māori", icon: "te_reo", nzcLevel: "2" },
+  ]},
+  { name: "Ethan", year_level: "3", subjects: [
+    { name: "Mathematics", icon: "maths", nzcLevel: "2" },
+    { name: "English", icon: "english", nzcLevel: "2" },
+  ]},
+];
 
 export default function ToroaDashboard() {
-  const [events] = useState<CalendarEvent[]>([
-    { id: "1", title: "School assembly", event_date: "2026-04-06", event_time: "09:00", source: "school_notice", gear_list: null },
-    { id: "2", title: "Rugby practice", event_date: "2026-04-07", event_time: "15:30", source: "manual", gear_list: ["mouthguard", "boots", "drink bottle"] },
-    { id: "3", title: "Maths test — Year 8", event_date: "2026-04-08", event_time: null, source: "school_notice", gear_list: ["calculator", "ruler"] },
-  ]);
+  const [active, setActive] = useState<ModuleKey>("today");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [whatsappConnected, setWhatsappConnected] = useState(false);
+  const [shoppingItems, setShoppingItems] = useState(DEMO_SHOPPING);
 
-  const [groceries, setGroceries] = useState<GroceryItem[]>([
-    { name: "Milk (2L)", checked: false },
-    { name: "Bread — Vogels", checked: false },
-    { name: "Bananas", checked: true },
-    { name: "Chicken thighs", checked: false },
-    { name: "Broccoli", checked: false },
-  ]);
-  const [newItem, setNewItem] = useState("");
-
-  const [reminders] = useState([
-    { text: "Permission slip — camp (due Fri)", urgent: true },
-    { text: "WoF due 15 April", urgent: false },
-    { text: "Vet — Buddy's checkup next Tues", urgent: false },
-  ]);
-
-  const budget = { limit: 250, spent: 163, transactions: [
-    { text: "Pak'n'Save", amount: 89 },
-    { text: "Petrol", amount: 45 },
-    { text: "School uniform shop", amount: 29 },
-  ]};
-
-  const addGrocery = () => {
-    if (!newItem.trim()) return;
-    setGroceries(prev => [...prev, { name: newItem.trim(), checked: false }]);
-    setNewItem("");
+  const toggleShopping = (id: string) => {
+    setShoppingItems(prev => prev.map(i => i.id === id ? { ...i, purchased: !i.purchased } : i));
+  };
+  const addShopping = (item: string) => {
+    setShoppingItems(prev => [...prev, { id: Date.now().toString(), item, quantity: 1, category: "groceries", estimated_cost_cents: 0, purchased: false }]);
   };
 
-  const toggleGrocery = (idx: number) => {
-    setGroceries(prev => prev.map((g, i) => i === idx ? { ...g, checked: !g.checked } : g));
+  const renderModule = () => {
+    switch (active) {
+      case "today":
+        return <TodayDigest items={DEMO_DIGEST} greeting="Kia ora, Sarah" />;
+      case "family":
+        return <FamilyOverview members={DEMO_FAMILY.members} pets={DEMO_FAMILY.pets} children={DEMO_FAMILY.children} />;
+      case "pets":
+        return <PetModule pets={DEMO_PETS} />;
+      case "school":
+        return <SchoolModule children={DEMO_SCHOOL_CHILDREN} termDates={DEMO_TERM_DATES} />;
+      case "uniforms":
+        return <UniformTracker items={DEMO_UNIFORMS} children={["Mia", "Ethan"]} />;
+      case "appointments":
+        return <AppointmentsModule appointments={DEMO_APPOINTMENTS} />;
+      case "shopping":
+        return <ShoppingModule items={shoppingItems} weeklyBudget={25000} spent={16300} onToggle={toggleShopping} onAdd={addShopping} />;
+      case "homework":
+        return <HomeworkHelp children={DEMO_HW_CHILDREN} />;
+    }
   };
-
-  const pct = Math.min(100, Math.round((budget.spent / budget.limit) * 100));
-  const overBudget = budget.spent > budget.limit;
 
   return (
-    <KeteDashboardShell name="Toro" subtitle="Whānau Navigator — Family Intelligence" accentColor={KOWHAI} accentLight="#FFE866" variant="warm">
-      {/* Top bar */}
-      <header className="sticky top-0 z-50 px-4 py-3 flex items-center justify-between" style={{ ...glass(), borderRadius: 0, borderTop: "none", borderLeft: "none", borderRight: "none" }}>
-        <div className="flex items-center gap-3">
-          <img src={toroaLogo} alt="Toro" className="w-8 h-8" style={{ filter: `drop-shadow(0 0 8px ${KOWHAI}30)` }} />
+    <div className="min-h-screen flex" style={{ background: BG }}>
+      {/* ── SIDEBAR (desktop) ── */}
+      <aside className="hidden md:flex w-64 flex-col fixed top-0 left-0 bottom-0 z-40" style={{
+        background: "rgba(9,9,15,0.95)",
+        borderRight: `1px solid ${KOWHAI}10`,
+        backdropFilter: "blur(20px)",
+      }}>
+        {/* Logo */}
+        <div className="p-5 flex items-center gap-3" style={{ borderBottom: `1px solid ${KOWHAI}08` }}>
+          <img src={toroaLogo} alt="Tōroa" className="w-8 h-8" style={{ filter: `drop-shadow(0 0 8px ${KOWHAI}30)` }} />
           <div>
-            <h1 className="font-display text-sm" style={{ fontWeight: 300, color: "rgba(255,255,255,0.9)" }}>Toro</h1>
-            <p className="font-body text-[9px]" style={{ color: "rgba(255,255,255,0.35)" }}>Whānau Navigator</p>
+            <h1 className="font-display text-sm uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: `${BONE}DD` }}>Tōroa</h1>
+            <p className="font-body text-[9px]" style={{ color: `${BONE}40` }}>Whānau Navigator</p>
           </div>
         </div>
-        <a href="sms:+64XXXXXXXXX" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-display" style={{ background: `${KOWHAI}15`, border: `1px solid ${KOWHAI}25`, color: KOWHAI, fontWeight: 300 }}>
-          <MessageSquare size={12} /> Text Toro
-        </a>
+
+        {/* Nav items */}
+        <nav className="flex-1 py-4 px-3 space-y-0.5 overflow-y-auto">
+          {NAV_ITEMS.map(({ key, label, icon: Icon }) => {
+            const isActive = active === key;
+            return (
+              <button
+                key={key}
+                onClick={() => setActive(key)}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all relative"
+                style={{
+                  background: isActive ? `${KOWHAI}12` : "transparent",
+                  color: isActive ? KOWHAI : `${BONE}60`,
+                }}
+              >
+                {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full" style={{ background: KOWHAI }} />}
+                <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
+                <span className="font-body text-xs">{label}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* WhatsApp toggle */}
+        <div className="p-4" style={{ borderTop: `1px solid ${KOWHAI}08` }}>
+          <button
+            onClick={() => setWhatsappConnected(!whatsappConnected)}
+            className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all"
+            style={{ background: whatsappConnected ? `${POUNAMU}12` : `${BONE}04`, border: `1px solid ${whatsappConnected ? POUNAMU : BONE}15` }}
+          >
+            <div className="flex items-center gap-2">
+              <Wifi size={14} style={{ color: whatsappConnected ? POUNAMU : `${BONE}40` }} />
+              <span className="font-body text-xs" style={{ color: whatsappConnected ? POUNAMU : `${BONE}50` }}>WhatsApp</span>
+            </div>
+            <div className="w-8 h-4 rounded-full relative transition-all" style={{ background: whatsappConnected ? `${POUNAMU}40` : `${BONE}15` }}>
+              <div className="absolute top-0.5 w-3 h-3 rounded-full transition-all" style={{
+                left: whatsappConnected ? "calc(100% - 14px)" : "2px",
+                background: whatsappConnected ? POUNAMU : `${BONE}50`,
+              }} />
+            </div>
+          </button>
+        </div>
+      </aside>
+
+      {/* ── MOBILE HEADER ── */}
+      <header className="fixed top-0 left-0 right-0 z-50 md:hidden flex items-center justify-between px-4 h-14" style={{
+        background: "rgba(9,9,15,0.9)",
+        borderBottom: `1px solid ${KOWHAI}10`,
+        backdropFilter: "blur(20px)",
+      }}>
+        <div className="flex items-center gap-2">
+          <img src={toroaLogo} alt="Tōroa" className="w-6 h-6" />
+          <span className="font-display text-xs uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: `${BONE}CC` }}>Tōroa</span>
+        </div>
+        <button onClick={() => setSidebarOpen(!sidebarOpen)}>
+          {sidebarOpen ? <X size={20} style={{ color: `${BONE}80` }} /> : <Menu size={20} style={{ color: `${BONE}80` }} />}
+        </button>
       </header>
 
-      <div className="p-4 md:p-6 space-y-4 max-w-2xl mx-auto pb-24">
-        {/* ── Family Calendar ── */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl p-5" style={glass()}>
-          <div className="flex items-center gap-2 mb-4">
-            <Calendar size={16} style={{ color: KOWHAI }} />
-            <h2 className="font-display text-sm" style={{ fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>This week</h2>
-          </div>
-          <div className="space-y-3">
-            {events.map(ev => (
-              <div key={ev.id} className="flex items-start gap-3 p-3 rounded-lg" style={{ background: `${KOWHAI}06` }}>
-                <div className="w-10 text-center shrink-0">
-                  <div className="font-mono text-lg" style={{ color: KOWHAI }}>{new Date(ev.event_date).getDate()}</div>
-                  <div className="font-body text-[8px] uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>
-                    {new Date(ev.event_date).toLocaleDateString("en-NZ", { weekday: "short" })}
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <p className="font-body text-xs" style={{ color: "rgba(255,255,255,0.75)" }}>{ev.title}</p>
-                  {ev.event_time && <p className="font-mono text-[10px]" style={{ color: "rgba(255,255,255,0.35)" }}>{ev.event_time}</p>}
-                  {ev.source === "school_notice" && <span className="font-body text-[8px] px-1.5 py-0.5 rounded mt-1 inline-block" style={{ background: `${POUNAMU}20`, color: POUNAMU }}>from school notice</span>}
-                  {ev.gear_list && ev.gear_list.length > 0 && (
-                    <p className="font-body text-[9px] mt-1" style={{ color: "rgba(255,255,255,0.35)" }}>
-                      Pack: {ev.gear_list.join(", ")}
-                    </p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* ── Grocery List ── */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-xl p-5" style={glass(POUNAMU)}>
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <ShoppingCart size={16} style={{ color: POUNAMU }} />
-              <h2 className="font-display text-sm" style={{ fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>Grocery list</h2>
+      {/* Mobile slide-out nav */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ type: "spring", damping: 25 }}
+            className="fixed inset-0 z-40 md:hidden"
+            style={{ background: "rgba(9,9,15,0.97)", backdropFilter: "blur(20px)" }}
+          >
+            <div className="pt-16 px-4 space-y-1">
+              {NAV_ITEMS.map(({ key, label, icon: Icon }) => (
+                <button
+                  key={key}
+                  onClick={() => { setActive(key); setSidebarOpen(false); }}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left"
+                  style={{
+                    background: active === key ? `${KOWHAI}12` : "transparent",
+                    color: active === key ? KOWHAI : `${BONE}60`,
+                  }}
+                >
+                  <Icon size={18} />
+                  <span className="font-body text-sm">{label}</span>
+                </button>
+              ))}
             </div>
-            <span className="font-mono text-[10px]" style={{ color: "rgba(255,255,255,0.3)" }}>
-              {groceries.filter(g => g.checked).length}/{groceries.length} done
-            </span>
-          </div>
-          <div className="space-y-1.5 mb-3">
-            {groceries.map((g, i) => (
-              <button key={i} onClick={() => toggleGrocery(i)} className="w-full flex items-center gap-2 p-2 rounded-lg text-left transition-all" style={{ background: g.checked ? "rgba(58,125,110,0.08)" : "transparent" }}>
-                <div className="w-5 h-5 rounded flex items-center justify-center shrink-0" style={{ border: `1px solid ${g.checked ? POUNAMU : "rgba(255,255,255,0.15)"}`, background: g.checked ? `${POUNAMU}20` : "transparent" }}>
-                  {g.checked && <Check size={12} style={{ color: POUNAMU }} />}
-                </div>
-                <span className={`font-body text-xs ${g.checked ? "line-through" : ""}`} style={{ color: g.checked ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.65)" }}>
-                  {g.name}
-                </span>
-              </button>
-            ))}
-          </div>
-          <div className="flex gap-2">
-            <input type="text" value={newItem} onChange={e => setNewItem(e.target.value)} onKeyDown={e => e.key === "Enter" && addGrocery()}
-              placeholder="Add item…" className="flex-1 px-3 py-2 rounded-lg text-xs font-body outline-none"
-              style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${POUNAMU}20`, color: "#FFFFFF" }}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── MAIN CONTENT ── */}
+      <main className="flex-1 md:ml-64 pt-14 md:pt-0 pb-20 md:pb-8">
+        {/* Gold accent line */}
+        <div className="h-px" style={{ background: `linear-gradient(90deg, transparent, ${KOWHAI}40, transparent)` }} />
+
+        <div className="max-w-2xl mx-auto p-4 md:p-6 space-y-6">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+            >
+              {renderModule()}
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Chat + Doc upload always visible */}
+          <div className="space-y-4 pt-4" style={{ borderTop: `1px solid ${KOWHAI}08` }}>
+            <KeteDocUpload
+              keteSlug="toroa"
+              keteColor={KOWHAI}
+              keteName="Tōroa — Family Navigator"
+              docContext="Expect school newsletters, permission slips, medical forms, invoices, bills, and family schedules. Extract events, deadlines, costs, and required actions."
             />
-            <button onClick={addGrocery} className="px-3 py-2 rounded-lg" style={{ background: `${POUNAMU}20`, color: POUNAMU }}>
-              <Plus size={14} />
-            </button>
+            <KeteBrainChat keteId="toroa" keteName="Tōroa" keteNameEn="Family Navigator" accentColor={KOWHAI} />
           </div>
-        </motion.div>
+        </div>
+      </main>
 
-        {/* ── Budget ── */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="rounded-xl p-5" style={glass()}>
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <DollarSign size={16} style={{ color: KOWHAI }} />
-              <h2 className="font-display text-sm" style={{ fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>Budget this week</h2>
-            </div>
-            <span className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: overBudget ? "rgba(239,68,68,0.15)" : `${POUNAMU}15`, color: overBudget ? "#ef4444" : POUNAMU }}>
-              {overBudget ? "Over budget" : "On track"}
-            </span>
-          </div>
-          {/* Progress bar */}
-          <div className="mb-3">
-            <div className="flex justify-between text-[10px] font-mono mb-1" style={{ color: "rgba(255,255,255,0.4)" }}>
-              <span>${budget.spent} spent</span>
-              <span>${budget.limit} limit</span>
-            </div>
-            <div className="h-2 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
-              <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: overBudget ? "#ef4444" : `linear-gradient(90deg, ${POUNAMU}, ${KOWHAI})` }} />
-            </div>
-          </div>
-          <div className="space-y-1.5">
-            {budget.transactions.map((t, i) => (
-              <div key={i} className="flex justify-between text-xs font-body" style={{ color: "rgba(255,255,255,0.5)" }}>
-                <span>{t.text}</span>
-                <span className="font-mono">${t.amount}</span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* ── Reminders ── */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="rounded-xl p-5" style={glass()}>
-          <div className="flex items-center gap-2 mb-4">
-            <Bell size={16} style={{ color: KOWHAI }} />
-            <h2 className="font-display text-sm" style={{ fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>Reminders</h2>
-          </div>
-          <div className="space-y-2">
-            {reminders.map((r, i) => (
-              <div key={i} className="flex items-center gap-2 p-2 rounded-lg" style={{ background: r.urgent ? `${KOWHAI}08` : "transparent" }}>
-                {r.urgent && <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: KOWHAI }} />}
-                <span className="font-body text-xs" style={{ color: r.urgent ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.5)" }}>{r.text}</span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* ── Mārama Learning ── */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="rounded-xl p-5" style={glass(POUNAMU)}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <BookOpen size={16} style={{ color: POUNAMU }} />
-              <h2 className="font-display text-sm" style={{ fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>Mārama Learning</h2>
-            </div>
-            <Link to="/toroa" className="text-[10px] font-body flex items-center gap-1" style={{ color: POUNAMU }}>
-              Open <ExternalLink size={10} />
-            </Link>
-          </div>
-          <p className="font-body text-xs mt-2" style={{ color: "rgba(255,255,255,0.4)" }}>
-            Drop a YouTube URL to get vocab flashcards, translations, and quizzes.
-          </p>
-        </motion.div>
-
-        {/* ── Chat with Toro ── */}
-        <KeteDocUpload keteSlug="toroa" keteColor={KOWHAI} keteName="Toro — Family Navigator"
-          docContext="Expect school newsletters, permission slips, medical forms, invoices, bills, and family schedules. Extract events, deadlines, costs, and required actions." />
-
-        <KeteBrainChat keteId="toroa" keteName="Toro" keteNameEn="Family Navigator" accentColor={KOWHAI} />
-      </div>
-    </KeteDashboardShell>
+      {/* ── MOBILE BOTTOM TABS ── */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden" style={{
+        background: "rgba(9,9,15,0.92)",
+        borderTop: `1px solid ${KOWHAI}10`,
+        backdropFilter: "blur(24px) saturate(1.5)",
+      }}>
+        <div className="flex items-stretch justify-around h-14 max-w-lg mx-auto">
+          {NAV_ITEMS.slice(0, 5).map(({ key, label, icon: Icon }) => {
+            const isActive = active === key;
+            return (
+              <button
+                key={key}
+                onClick={() => setActive(key)}
+                className="flex flex-col items-center justify-center gap-0.5 flex-1 transition-colors relative"
+                style={{ color: isActive ? KOWHAI : `${BONE}30` }}
+              >
+                <Icon size={18} strokeWidth={isActive ? 2 : 1.5} />
+                <span className="text-[9px] font-body">{label}</span>
+                {isActive && (
+                  <span className="absolute top-0 w-8 h-px" style={{ background: `linear-gradient(90deg, transparent, ${KOWHAI}80, transparent)` }} />
+                )}
+              </button>
+            );
+          })}
+        </div>
+        <div className="h-[env(safe-area-inset-bottom)]" style={{ background: "rgba(9,9,15,0.92)" }} />
+      </nav>
+    </div>
   );
 }
