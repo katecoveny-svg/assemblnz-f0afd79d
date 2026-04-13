@@ -83,15 +83,20 @@ function BrainAvatar({ color, size = 48 }: { color: string; size?: number }) {
 export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColor, agentId }: KeteBrainChatProps) {
   const [open, setOpen] = useState(false);
   const [showVoice, setShowVoice] = useState(false);
+  const [showMemory, setShowMemory] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const [tab, setTab] = useState<"chat" | "sms" | "whatsapp">("chat");
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const [contextLoaded, setContextLoaded] = useState(false);
+  const [contextInjection, setContextInjection] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { user } = useAuth();
   const effectiveAgentId = agentId || keteId;
+  const { loadContext } = useAgentContext(user?.id, effectiveAgentId);
 
   // Load previous conversation on mount
   useEffect(() => {
