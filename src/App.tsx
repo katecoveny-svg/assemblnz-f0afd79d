@@ -194,6 +194,8 @@ const App = () => (
                   <Route path="/admin/knowledge" element={<Suspense fallback={null}><AdminKnowledgeBase /></Suspense>} />
                   <Route path="/admin/flint" element={<Suspense fallback={null}><AdminFlintDashboard /></Suspense>} />
                   <Route path="/proposal" element={<Suspense fallback={null}><ProposalTemplatePage /></Suspense>} />
+                  <Route path="/tikanga" element={<Suspense fallback={null}><TikangaGovernancePage /></Suspense>} />
+                  <Route path="/roi" element={<Suspense fallback={null}><RoiCalculatorPage /></Suspense>} />
                   <Route path="/privacy" element={<Suspense fallback={null}><PrivacyPolicy /></Suspense>} />
                   <Route path="/terms" element={<Suspense fallback={null}><TermsOfUse /></Suspense>} />
                   <Route path="/cookies" element={<Suspense fallback={null}><CookiePolicy /></Suspense>} />
