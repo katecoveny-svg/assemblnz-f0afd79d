@@ -109,6 +109,9 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
   // ── TŌROA — Family Navigator (1) ──
   toroa: ["family", "school", "kids", "children", "meal", "bus", "homework", "budget", "grocery", "reminder", "whānau navigator"],
 
+  // ── PILOT — Founder EA (1) ──
+  pilot: ["pilot", "kate", "prospect", "outreach", "pipeline", "weekly briefing", "content schedule", "sales", "founder"],
+
   // ── TE REO (legacy, kept for backward compat) ──
   tereo: ["te reo", "māori language", "macron", "pronunciation", "kupu", "translate", "mihi", "karakia"],
 };
@@ -146,6 +149,8 @@ const AGENT_PACK: Record<string, string> = {
   whakaaro: "te-kahui-reo", hiringa: "te-kahui-reo",
   // Tōroa
   toroa: "toroa",
+  // Pilot
+  pilot: "shared",
   // Legacy
   tereo: "shared",
 };
