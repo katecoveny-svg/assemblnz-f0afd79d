@@ -7,12 +7,15 @@
 // while reusing the chrome.
 // ═══════════════════════════════════════════════════════════════
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useAuthSafe } from "@/hooks/useAuth";
 import {
   Activity,
   AlertTriangle,
   Anchor,
+  ArrowLeft,
   Bird,
   Briefcase,
   Car,
