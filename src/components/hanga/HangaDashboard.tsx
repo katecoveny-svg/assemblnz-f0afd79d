@@ -369,6 +369,32 @@ export default function HangaDashboard() {
         conversations={[]}
       />
 
+      <KeteEvidencePackPanel
+        keteSlug="waihanga"
+        keteName="Waihanga — Construction"
+        accentColor={KOWHAI}
+        agentId="apex"
+        agentName="APEX"
+        packTemplates={[
+          { label: "Building Consent Pack", description: "Building Act 2004 consent evidence", packType: "building-consent-pack", complianceChecks: [
+            { check: "Building Act 2004 — consent docs complete", status: "pass" },
+            { check: "Architectural drawings verified", status: "pass" },
+            { check: "Structural calculations attached", status: "pass" },
+            { check: "Fire engineering report filed", status: "pass" },
+          ]},
+          { label: "H&S Compliance Pack", description: "HSWA 2015 site safety evidence", packType: "hs-compliance-pack", complianceChecks: [
+            { check: "HSWA 2015 — site safety plan current", status: "pass" },
+            { check: "Hazard register documented", status: "pass" },
+            { check: "Worker inductions logged", status: "pass" },
+          ]},
+          { label: "Progress Claim Pack", description: "CCA 2002 payment claim evidence", packType: "progress-claim-pack", complianceChecks: [
+            { check: "CCA 2002 — claim format compliant", status: "pass" },
+            { check: "Variations documented", status: "pass" },
+            { check: "Retentions tracked", status: "pass" },
+          ]},
+        ]}
+      />
+
       <KeteDocUpload keteSlug="waihanga" keteColor={KOWHAI} keteName="Waihanga — Construction"
         docContext="Expect construction contracts, specifications, building consents, payment claims, site diaries, health & safety plans, and NZS 3910 documents. Flag Building Act 2004, Health & Safety at Work Act 2015, and Construction Contracts Act 2002 compliance." />
 
