@@ -541,23 +541,110 @@ Trust & compliance:
     const model = MODEL_MAP[rawPref] || `google/${rawPref}`;
 
 
-    // ═══ DYNAMIC TOOL REGISTRY — load tools for this agent ═══
+    // ═══ DYNAMIC TOOL REGISTRY + INDUSTRY-AWARE LOADING ═══
     let agentTools: any[] = [];
+    let industryContextBlock = "";
     {
+      // 1. Load base tools from agent_toolsets
       const { data: toolLinks } = await supabase
         .from("agent_toolsets")
         .select("tool_name")
         .eq("agent_id", selectedAgent);
 
-      if (toolLinks?.length) {
+      // 2. Industry-aware tool loading: detect user's active packs
+      const packToolNames: string[] = [];
+      if (resolvedUserId) {
+        // Check agent_access for pack subscriptions
+        const { data: accessRows } = await supabase
+          .from("agent_access")
+          .select("pack_id")
+          .eq("is_enabled", true);
+
+        const activePacks: string[] = accessRows?.length
+          ? [...new Set(accessRows.map((a: any) => a.pack_id))] as string[]
+          : [];
+
+        // Fallback: detect industry from shared_context
+        if (!activePacks.length) {
+          const { data: ctxRows } = await supabase
+            .from("shared_context")
+            .select("context_key, context_value")
+            .eq("user_id", resolvedUserId)
+            .like("context_key", "company.industry%")
+            .limit(5);
+
+          const industryMap: Record<string, string> = {
+            hospitality: "manaaki", restaurant: "manaaki", cafe: "manaaki", hotel: "manaaki",
+            construction: "hanga", building: "hanga", contractor: "hanga",
+            creative: "auaha", marketing: "auaha", design: "auaha",
+            automotive: "arataki", dealership: "arataki", workshop: "arataki",
+            freight: "pikau", logistics: "pikau", customs: "pikau",
+            farming: "toro", agriculture: "toro", dairy: "toro",
+          };
+
+          for (const c of ctxRows || []) {
+            const val = String(c.context_value).toLowerCase();
+            for (const [kw, pack] of Object.entries(industryMap)) {
+              if (val.includes(kw) && !activePacks.includes(pack)) activePacks.push(pack);
+            }
+          }
+        }
+
+        // Load pack-specific toolsets for industry packs
+        const INDUSTRY_TOOLSETS: Record<string, string[]> = {
+          manaaki: ["assembl_aura_fcp_daily_check", "assembl_aura_temp_logger", "assembl_aura_verifier_pack", "assembl_aura_liquor_licence_renewal"],
+          hanga: ["assembl_apex_safety_plan", "assembl_kaupapa_progress_claim", "assembl_arai_hazard_register", "assembl_whakaae_consent_checklist"],
+          auaha: ["assembl_prism_brand_scanner", "assembl_prism_campaign_engine", "assembl_echo_content_calendar", "assembl_echo_analytics_feedback"],
+          arataki: ["assembl_forge_ruc_calculator", "assembl_forge_cin_generator", "assembl_forge_wof_tracker", "assembl_forge_service_reminder", "assembl_forge_fleet_dashboard"],
+          pikau: ["assembl_gateway_customs_entry", "assembl_gateway_hs_lookup", "assembl_gateway_tariff_calculator"],
+          toro: ["assembl_toro_nait_tracker", "assembl_toro_fep_builder", "assembl_toro_ets_calculator", "assembl_toro_milk_price", "assembl_toro_weather_ops", "assembl_toro_seasonal_sweep"],
+        };
+
+        // Pack agents membership
+        const PACK_AGENTS: Record<string, string[]> = {
+          manaaki: ["aura", "saffron", "cellar", "luxe", "moana", "coast", "kura", "pau", "summit"],
+          hanga: ["arai", "kaupapa", "ata", "rawa", "whakaae", "pai", "arc", "terra", "pinnacle"],
+          auaha: ["prism", "muse", "pixel", "verse", "echo", "flux", "chromatic", "rhythm", "market"],
+          arataki: ["motor", "transit", "mariner"],
+          pikau: ["gateway", "harvest", "grove"],
+          toro: ["toroa"],
+        };
+
+        for (const pack of activePacks) {
+          const agents = PACK_AGENTS[pack] || [];
+          if (agents.includes(selectedAgent)) {
+            const tools = INDUSTRY_TOOLSETS[pack] || [];
+            packToolNames.push(...tools);
+          }
+        }
+
+        // Shared agents get industry context
+        const SHARED_AGENTS = ["ledger", "aroha", "anchor", "vault", "shield", "nova", "pilot"];
+        if (SHARED_AGENTS.includes(selectedAgent) && activePacks.length > 0) {
+          const packLabels: Record<string, string> = {
+            manaaki: "Hospitality & Tourism", hanga: "Construction", auaha: "Creative & Media",
+            arataki: "Automotive", pikau: "Freight & Customs", toro: "Agriculture & Farming",
+          };
+          const names = activePacks.map(p => packLabels[p] || p).join(", ");
+          industryContextBlock = `\n\n--- INDUSTRY CONTEXT ---\nThis user has active packs: ${names}.\nLoad industry-specific templates and compliance rules for their sector(s). Tailor all advice, calculations, and documents to their industry.`;
+        }
+      }
+
+      // 3. Combine base + industry tools and load schemas
+      const allToolNames = [
+        ...(toolLinks || []).map((t: any) => t.tool_name),
+        ...packToolNames,
+      ];
+      const uniqueToolNames = [...new Set(allToolNames)];
+
+      if (uniqueToolNames.length) {
         const { data: tools } = await supabase
           .from("tool_registry")
           .select("tool_name, tool_schema, requires_integration")
-          .in("tool_name", toolLinks.map((t: any) => t.tool_name))
+          .in("tool_name", uniqueToolNames)
           .eq("is_active", true);
 
         if (tools?.length) {
-          // Filter tools by user's connected integrations
           let userIntegrations: string[] = [];
           if (resolvedUserId) {
             const { data: connections } = await supabase
