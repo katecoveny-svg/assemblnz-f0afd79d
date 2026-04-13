@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Home, Wrench, AlertTriangle, Shield, DollarSign, Clock, TrendingUp, ChevronRight, Zap } from "lucide-react";
 import { AgentPieChart, AgentBarChart, AgentWorkflow } from "@/components/shared/AgentCharts";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
+import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
