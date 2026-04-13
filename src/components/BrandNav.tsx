@@ -13,7 +13,6 @@ const NAV_ITEMS: NavItem[] = [
   { label: "How It Works", to: "/how-it-works" },
   { label: "Pricing", to: "/pricing" },
   { label: "About", to: "/about" },
-  { label: "Research Lab", to: "/aaaip" },
 ];
 
 const KETE = [

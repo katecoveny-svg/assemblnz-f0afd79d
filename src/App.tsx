@@ -149,6 +149,7 @@ const AdminComplianceDashboard = lazy(() => import("./pages/AdminComplianceDashb
 const AdminTestReports = lazy(() => import("./pages/AdminTestReports"));
 const AdminKnowledgeBase = lazy(() => import("./pages/AdminKnowledgeBase"));
 const AdminFlintDashboard = lazy(() => import("./pages/AdminFlintDashboard"));
+const ProposalTemplatePage = lazy(() => import("./pages/ProposalTemplatePage"));
 
 const queryClient = new QueryClient();
 
