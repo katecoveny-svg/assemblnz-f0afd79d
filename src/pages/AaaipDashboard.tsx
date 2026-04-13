@@ -412,7 +412,7 @@ export default function AaaipDashboard() {
                 Pause
               </Button>
             ) : (
-              <Button onClick={rt.start}>
+              <Button onClick={rt.start} variant="outline">
                 <Play className="mr-1" />
                 Run sim
               </Button>
