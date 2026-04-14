@@ -27,6 +27,9 @@ import {
 } from "lucide-react";
 
 import SEO from "@/components/SEO";
+import BrandNav from "@/components/BrandNav";
+import BrandFooter from "@/components/BrandFooter";
+import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {

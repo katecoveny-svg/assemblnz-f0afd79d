@@ -5,6 +5,9 @@
 // ═══════════════════════════════════════════════════════════════
 
 import React, { lazy, Suspense } from "react";
+import BrandNav from "@/components/BrandNav";
+import BrandFooter from "@/components/BrandFooter";
+import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import { motion } from "framer-motion";
 import {
   ArrowRight,

@@ -3,6 +3,9 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, MapPin, User, Target, MessageSquare, CheckCircle2, XCircle, HelpCircle, Lightbulb, Shield, Zap, Users, FlaskConical, Brain, Award, BookOpen, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
+import BrandNav from "@/components/BrandNav";
+import BrandFooter from "@/components/BrandFooter";
+import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 
 const C = {
   bg: "#060610",
