@@ -6,8 +6,22 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+/* ═══════════════════════════════════════════════════════════════════════
+ * TNZ Inbound — Unified SMS + WhatsApp gateway for ALL kete & agents.
+ *
+ * Flow:
+ *  1. Parse TNZ inbound payload (SMS or WhatsApp)
+ *  2. Iho intent router → maps message content to kete + primary agent
+ *  3. Load agent system prompt from agent_prompts table
+ *  4. Generate AI response via Lovable gateway
+ *  5. Send reply via TNZ (SMS or WhatsApp)
+ *  6. Log everything to messaging_messages + audit_log
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+// ─── Channel-specific behaviour injections ──────────────────────────────────
+
 const SMS_BEHAVIOUR = `
-SMS/WhatsApp RULES — You are responding via text message:
+SMS RULES — You are responding via text message:
 - Keep responses UNDER 400 characters when possible (max 1500)
 - Use short, clear sentences with line breaks
 - Never use markdown formatting (no **, ##, etc.)
@@ -18,35 +32,226 @@ SMS/WhatsApp RULES — You are responding via text message:
 - No emojis unless the user uses them first
 `;
 
-/** Route message to the correct Assembl agent based on content keywords (Iho routing). */
-function routeToAgent(message: string): { agentId: string; agentName: string; pack: string; signature: string } {
+const WHATSAPP_BEHAVIOUR = `
+WHATSAPP RULES — You are responding via WhatsApp:
+- WhatsApp supports rich formatting: *bold*, _italic_, ~strikethrough~
+- Use bullet lists and numbered lists for clarity
+- Keep responses under 4000 characters
+- Use NZ English (colour, organise, licence, recognised, centre, programme)
+- Use emojis naturally but don't overdo it
+- Be conversational — like a smart Kiwi colleague, not a corporate chatbot
+`;
+
+// ─── Iho Router: All 8 Kete + Shared agents ────────────────────────────────
+
+interface RouteResult {
+  agentId: string;
+  agentName: string;
+  kete: string;
+  signature: string;
+}
+
+/**
+ * Full Iho intent router — maps inbound message keywords to the correct
+ * kete and primary agent across all 8 industry verticals + shared agents.
+ *
+ * Priority order: specific industry → shared/general → default (pakihi)
+ */
+function routeToAgent(message: string): RouteResult {
   const lower = message.toLowerCase();
 
-  if (/\b(gp|doctor|health|clinic|hospital|whānau|whanau|medical|nurse|prescription)\b/.test(lower)) {
-    return { agentId: "toroa", agentName: "Tōroa", pack: "hauora", signature: "— Tōroa, your whānau navigator" };
-  }
-  if (/\b(job|employ|wage|leave|hr|staff|hiring|recruit|redundan|holiday|sick\s?leave|kiwisaver)\b/.test(lower)) {
-    return { agentId: "aroha", agentName: "AROHA", pack: "pakihi", signature: "— AROHA, your HR navigator" };
-  }
-  if (/\b(food|restaurant|alcohol|hospitality|menu|cafe|bar|kitchen|chef|liquor|hygiene)\b/.test(lower)) {
-    return { agentId: "aura", agentName: "AURA", pack: "manaaki", signature: "— AURA, your hospitality partner" };
-  }
-  if (/\b(build|construct|safety|site|scaffold|consent|building\s?code|h&s|worksafe)\b/.test(lower)) {
-    return { agentId: "hanga", agentName: "Hanga", pack: "hanga", signature: "— Hanga, your site safety partner" };
+  // ── Manaaki (Hospitality) ──
+  if (/\b(food|restaurant|alcohol|hospitality|menu|cafe|bar|kitchen|chef|liquor|hygiene|fcp|food\s?control|food\s?act|food\s?safety|cellar|wine|cocktail|sommelier|dining|hotel|lodge|bed\s?and\s?breakfast|b&b|accommodation|guest|booking|check.?in|concierge|housekeeping|event\s?catering)\b/.test(lower)) {
+    // Sub-route within Manaaki
+    if (/\b(wine|cellar|sommelier|cocktail|spirits|vintage|tasting)\b/.test(lower)) {
+      return { agentId: "cellar", agentName: "CELLAR", kete: "manaaki", signature: "— CELLAR, your beverage specialist" };
+    }
+    if (/\b(luxury|luxe|premium|vip|five.?star|boutique|exclusive)\b/.test(lower)) {
+      return { agentId: "luxe", agentName: "LUXE", kete: "manaaki", signature: "— LUXE, your premium hospitality partner" };
+    }
+    if (/\b(coast|coastal|beach|seaside|waterfront)\b/.test(lower)) {
+      return { agentId: "coast", agentName: "COAST", kete: "manaaki", signature: "— COAST, your coastal hospitality partner" };
+    }
+    if (/\b(training|staff\s?training|induction|onboard|kura)\b/.test(lower)) {
+      return { agentId: "kura", agentName: "KURA", kete: "manaaki", signature: "— KURA, your hospitality trainer" };
+    }
+    if (/\b(summit|conference|event|function|banquet|wedding)\b/.test(lower)) {
+      return { agentId: "summit", agentName: "SUMMIT", kete: "manaaki", signature: "— SUMMIT, your events specialist" };
+    }
+    if (/\b(saffron|spice|recipe|cuisine|cultural\s?food)\b/.test(lower)) {
+      return { agentId: "saffron", agentName: "SAFFRON", kete: "manaaki", signature: "— SAFFRON, your cuisine specialist" };
+    }
+    if (/\b(sustainability|waste|compost|carbon|green|eco)\b/.test(lower)) {
+      return { agentId: "pau", agentName: "PAU", kete: "manaaki", signature: "— PAU, your sustainability partner" };
+    }
+    if (/\b(marine|fishing|aquaculture|seafood|ocean)\b/.test(lower)) {
+      return { agentId: "moana", agentName: "MOANA", kete: "manaaki", signature: "— MOANA, your marine hospitality partner" };
+    }
+    return { agentId: "aura", agentName: "AURA", kete: "manaaki", signature: "— AURA, your hospitality partner" };
   }
 
-  return { agentId: "pakihi", agentName: "Pakihi", pack: "pakihi", signature: "— Pakihi, your business partner" };
+  // ── Waihanga (Construction) ──
+  if (/\b(build|construct|safety|site|scaffold|consent|building\s?code|h&s|worksafe|lbp|nzs\s?360[14]|e2|concrete|steel|plumbing|electrical|roofing|cladding|foundation|excavat|demolit|crane|hard\s?hat|ppe|hazard|toolbox|prestart|progress\s?claim|retention|defect|pc\s?sum|variation|cca\s?2002|building\s?act|hswa|seismic|bracing)\b/.test(lower)) {
+    if (/\b(safety|hazard|worksafe|hswa|ppe|toolbox|prestart|incident|near.?miss|notifiable)\b/.test(lower)) {
+      return { agentId: "arai", agentName: "ĀRAI", kete: "waihanga", signature: "— ĀRAI, your safety compliance partner" };
+    }
+    if (/\b(consent|building\s?act|resource\s?consent|code\s?compliance|ccc|producer\s?statement)\b/.test(lower)) {
+      return { agentId: "whakaae", agentName: "WHAKAAĒ", kete: "waihanga", signature: "— WHAKAAĒ, your consent specialist" };
+    }
+    if (/\b(progress\s?claim|retention|payment|cca|invoice|valuation|variation|pc\s?sum)\b/.test(lower)) {
+      return { agentId: "kaupapa", agentName: "KAUPAPA", kete: "waihanga", signature: "— KAUPAPA, your contracts & payments partner" };
+    }
+    if (/\b(quality|defect|inspection|qa|qc|itp|checklist)\b/.test(lower)) {
+      return { agentId: "pai", agentName: "PAI", kete: "waihanga", signature: "— PAI, your quality assurance partner" };
+    }
+    if (/\b(environment|erosion|sediment|stormwater|resource\s?consent)\b/.test(lower)) {
+      return { agentId: "terra", agentName: "TERRA", kete: "waihanga", signature: "— TERRA, your environmental partner" };
+    }
+    if (/\b(estimate|cost|budget|pricing|tender|bid|quantity)\b/.test(lower)) {
+      return { agentId: "rawa", agentName: "RAWA", kete: "waihanga", signature: "— RAWA, your estimating partner" };
+    }
+    if (/\b(design|architect|bim|3d|model|drawing|plan)\b/.test(lower)) {
+      return { agentId: "ata", agentName: "ATA", kete: "waihanga", signature: "— ATA, your design intelligence partner" };
+    }
+    if (/\b(project\s?manag|programme|schedule|gantt|milestone)\b/.test(lower)) {
+      return { agentId: "pinnacle", agentName: "PINNACLE", kete: "waihanga", signature: "— PINNACLE, your project management partner" };
+    }
+    return { agentId: "arc", agentName: "ARC", kete: "waihanga", signature: "— ARC, your construction partner" };
+  }
+
+  // ── Auaha (Creative) ──
+  if (/\b(brand|creative|design|marketing|social\s?media|content|campaign|copywrite|advertis|seo|website|logo|graphic|video|photo|podcast|influencer|audience|engagement|analytics|post|story|reel|tiktok|instagram|facebook|linkedin)\b/.test(lower)) {
+    if (/\b(brand|logo|identity|visual|colour|palette|guideline|brand\s?dna)\b/.test(lower)) {
+      return { agentId: "prism", agentName: "PRISM", kete: "auaha", signature: "— PRISM, your brand identity partner" };
+    }
+    if (/\b(content|blog|article|newsletter|calendar|schedule|post)\b/.test(lower)) {
+      return { agentId: "echo", agentName: "ECHO", kete: "auaha", signature: "— ECHO, your content partner" };
+    }
+    if (/\b(copy|headline|tagline|slogan|ad\s?copy|subject\s?line|email\s?copy)\b/.test(lower)) {
+      return { agentId: "verse", agentName: "VERSE", kete: "auaha", signature: "— VERSE, your copywriting partner" };
+    }
+    if (/\b(pixel|image|photo|graphic|visual|illustration)\b/.test(lower)) {
+      return { agentId: "pixel", agentName: "PIXEL", kete: "auaha", signature: "— PIXEL, your visual design partner" };
+    }
+    if (/\b(video|motion|animation|reel|youtube)\b/.test(lower)) {
+      return { agentId: "rhythm", agentName: "RHYTHM", kete: "auaha", signature: "— RHYTHM, your video & motion partner" };
+    }
+    if (/\b(market\s?research|competitor|trend|insight|audience\s?analysis)\b/.test(lower)) {
+      return { agentId: "market", agentName: "MARKET", kete: "auaha", signature: "— MARKET, your market research partner" };
+    }
+    if (/\b(campaign|advertis|ad|paid|spend|roi|cpc|cpm|conversion)\b/.test(lower)) {
+      return { agentId: "flux", agentName: "FLUX", kete: "auaha", signature: "— FLUX, your campaign partner" };
+    }
+    if (/\b(colour|color|palette|chromatic|scheme|hex|hsl)\b/.test(lower)) {
+      return { agentId: "chromatic", agentName: "CHROMATIC", kete: "auaha", signature: "— CHROMATIC, your colour specialist" };
+    }
+    if (/\b(music|audio|sound|jingle|sonic)\b/.test(lower)) {
+      return { agentId: "muse", agentName: "MUSE", kete: "auaha", signature: "— MUSE, your creative muse" };
+    }
+    return { agentId: "echo", agentName: "ECHO", kete: "auaha", signature: "— ECHO, your creative partner" };
+  }
+
+  // ── Arataki (Automotive) ──
+  if (/\b(car|vehicle|mechanic|workshop|garage|wof|warrant|rego|registration|ruc|road\s?user|fleet|tyre|tire|brake|engine|transmission|panel|paint|auto|motor|diesel|petrol|ev|electric\s?vehicle|hybrid|vin|odometer|service|repair|parts|dealer|trade.?me|turners|cin|cccfa|finance|loan)\b/.test(lower)) {
+    if (/\b(forge|ruc|road\s?user|distance|hubodometer)\b/.test(lower)) {
+      return { agentId: "forge", agentName: "FORGE", kete: "arataki", signature: "— FORGE, your RUC & compliance partner" };
+    }
+    if (/\b(finance|loan|cccfa|credit|interest|repayment|lease)\b/.test(lower)) {
+      return { agentId: "foundry", agentName: "FOUNDRY", kete: "arataki", signature: "— FOUNDRY, your auto finance partner" };
+    }
+    if (/\b(cipher|vin|decode|history|stolen|written.?off)\b/.test(lower)) {
+      return { agentId: "cipher", agentName: "CIPHER", kete: "arataki", signature: "— CIPHER, your vehicle intelligence partner" };
+    }
+    if (/\b(fleet|tracking|telematics|gps|utilisation)\b/.test(lower)) {
+      return { agentId: "matrix", agentName: "MATRIX", kete: "arataki", signature: "— MATRIX, your fleet management partner" };
+    }
+    if (/\b(ev|electric|hybrid|charging|battery|range)\b/.test(lower)) {
+      return { agentId: "spark", agentName: "SPARK", kete: "arataki", signature: "— SPARK, your EV specialist" };
+    }
+    if (/\b(patent|intellectual\s?property|ip|invention)\b/.test(lower)) {
+      return { agentId: "patent", agentName: "PATENT", kete: "arataki", signature: "— PATENT, your IP specialist" };
+    }
+    return { agentId: "ember", agentName: "EMBER", kete: "arataki", signature: "— EMBER, your automotive partner" };
+  }
+
+  // ── Pikau (Freight & Customs) ──
+  if (/\b(freight|cargo|shipping|container|customs|import|export|logistics|warehouse|supply\s?chain|courier|deliver|tracking|manifest|bill\s?of\s?lading|bol|hs\s?code|tariff|dut|excise|mpi|biosecurity|fumigat|quarantine|port|wharf|nzcs|border|clearance|origin)\b/.test(lower)) {
+    if (/\b(customs|tariff|hs\s?code|dut|excise|clearance|border|declaration)\b/.test(lower)) {
+      return { agentId: "gateway", agentName: "GATEWAY", kete: "pikau", signature: "— GATEWAY, your customs clearance partner" };
+    }
+    if (/\b(biosecurity|mpi|fumigat|quarantine|phytosanitary|sanitary)\b/.test(lower)) {
+      return { agentId: "sentinel", agentName: "SENTINEL", kete: "pikau", signature: "— SENTINEL, your biosecurity partner" };
+    }
+    if (/\b(tracking|trace|location|eta|shipment\s?status|where|gps)\b/.test(lower)) {
+      return { agentId: "relay", agentName: "RELAY", kete: "pikau", signature: "— RELAY, your shipment tracking partner" };
+    }
+    if (/\b(warehouse|inventory|stock|storage|pick|pack|3pl)\b/.test(lower)) {
+      return { agentId: "nexus-t", agentName: "NEXUS-T", kete: "pikau", signature: "— NEXUS-T, your warehouse partner" };
+    }
+    return { agentId: "compass", agentName: "COMPASS", kete: "pikau", signature: "— COMPASS, your freight & logistics partner" };
+  }
+
+  // ── Tōro (Agriculture & Primary) ──
+  if (/\b(farm|dairy|sheep|cattle|beef|lamb|wool|crop|harvest|irrigat|fertiliser|fertilizer|soil|pasture|fep|nait|fonterra|milk|price|payout|livestock|animal|vet|drench|tb|m\.?bovis|rural|agri|horti|orchard|vineyard|kiwifruit|apple|avocado|forestry|timber|log|plantation|apiculture|honey|manuka|beekeep)\b/.test(lower)) {
+    return { agentId: "harvest", agentName: "TŌRO", kete: "toro", signature: "— TŌRO, your agriculture & primary sector partner" };
+  }
+
+  // ── Whenua (Property) ──
+  if (/\b(property|landlord|tenant|rent|lease|rental|tenancy|rta|bond|inspection|healthy\s?homes|insulation|heating|ventilation|moisture|draught|letting|property\s?manag|real\s?estate|strata|body\s?corp|unit\s?title|mortgage|rates|valuation|cv|rv|settlement|vendor|purchaser|listing|open\s?home)\b/.test(lower)) {
+    return { agentId: "haven", agentName: "HAVEN", kete: "whenua", signature: "— HAVEN, your property management partner" };
+  }
+
+  // ── Professional Services (Pakihi) ──
+  if (/\b(accounting|accountant|tax|gst|ir[d3]|income\s?tax|payroll|paye|invoice|billing|timesheet|wip|trust\s?account|law|lawyer|solicitor|barrister|conveyancing|litigation|contract|agreement|deed|will|estate|power\s?of\s?attorney|compliance|audit|due\s?diligence|aml|anti.?money|kyc|financial\s?advis|chartered|ca|cpa)\b/.test(lower)) {
+    if (/\b(tax|gst|ird|paye|income\s?tax|provisional|terminal)\b/.test(lower)) {
+      return { agentId: "ledger", agentName: "LEDGER", kete: "pakihi", signature: "— LEDGER, your tax & accounting partner" };
+    }
+    if (/\b(law|lawyer|solicitor|legal|litigation|contract|deed|conveyancing)\b/.test(lower)) {
+      return { agentId: "anchor", agentName: "ANCHOR", kete: "pakihi", signature: "— ANCHOR, your legal documentation partner" };
+    }
+    if (/\b(aml|anti.?money|kyc|due\s?diligence|compliance|audit)\b/.test(lower)) {
+      return { agentId: "vault", agentName: "VAULT", kete: "pakihi", signature: "— VAULT, your compliance & AML partner" };
+    }
+    if (/\b(billing|invoice|timesheet|wip|utilisation)\b/.test(lower)) {
+      return { agentId: "counter", agentName: "COUNTER", kete: "pakihi", signature: "— COUNTER, your billing partner" };
+    }
+    return { agentId: "sage", agentName: "SAGE", kete: "pakihi", signature: "— SAGE, your professional services partner" };
+  }
+
+  // ── Tōroa (Family / Consumer) ──
+  if (/\b(family|kids|children|school|term\s?date|pick.?up|drop.?off|lunch|dinner|meal|grocery|shopping|appointment|doctor|dentist|vet|sports|activity|homework|budget|bills|chore|remind|birthday|parent|mum|dad|whānau|whanau)\b/.test(lower)) {
+    return { agentId: "helm", agentName: "TŌROA", kete: "toroa", signature: "— TŌROA, your family life partner" };
+  }
+
+  // ── Shared / Cross-Kete agents ──
+  if (/\b(job|employ|wage|leave|hr|staff|hiring|recruit|redundan|holiday|sick\s?leave|kiwisaver|employment|era|personal\s?grievance|dismissal|trial\s?period)\b/.test(lower)) {
+    return { agentId: "aroha-core", agentName: "AROHA", kete: "shared", signature: "— AROHA, your HR & employment partner" };
+  }
+  if (/\b(privacy|data|breach|information|pii|gdpr|nz\s?privacy\s?act|ipp)\b/.test(lower)) {
+    return { agentId: "privacy", agentName: "PRIVACY", kete: "shared", signature: "— Privacy Compliance, your data protection partner" };
+  }
+  if (/\b(te\s?reo|māori|maori|tikanga|karakia|mihi|pepeha|whakapapa|iwi|hapū|hapu|marae)\b/.test(lower)) {
+    return { agentId: "tereo", agentName: "Te Reo Specialist", kete: "shared", signature: "— Te Reo Specialist" };
+  }
+  if (/\b(security|cyber|phishing|password|mfa|firewall|encryption|nzism|irap)\b/.test(lower)) {
+    return { agentId: "shield-agent", agentName: "SHIELD", kete: "shared", signature: "— SHIELD, your security partner" };
+  }
+
+  // ── Default: General business (ASCEND) ──
+  return { agentId: "ascend", agentName: "ASCEND", kete: "pakihi", signature: "— ASCEND, your business growth partner" };
 }
 
-/** Check if current NZST time is outside business hours (before 8am or after 6pm). */
+// ─── Helpers ────────────────────────────────────────────────────────────────
+
 function isAfterHours(): boolean {
   const nzHour = new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland", hour: "numeric", hour12: false });
-  const hour = parseInt(nzHour, 10);
-  return hour < 8 || hour >= 18;
+  return parseInt(nzHour, 10) < 8 || parseInt(nzHour, 10) >= 18;
 }
 
-/** Send message via TNZ API. */
-async function sendViaTnz(channel: string, to: string, message: string, reference: string): Promise<{ messageId?: string; error?: string }> {
+/** Send message via TNZ API (supports both SMS and WhatsApp). */
+async function sendViaTnz(
+  channel: string, to: string, message: string, reference: string
+): Promise<{ messageId?: string; error?: string }> {
   const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v3.00";
   const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
   if (!tnzToken) return { error: "TNZ_AUTH_TOKEN not configured" };
@@ -54,32 +259,30 @@ async function sendViaTnz(channel: string, to: string, message: string, referenc
   const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
   const endpoint = channel === "whatsapp" ? "whatsapp" : "sms";
 
-  const body: Record<string, unknown> = {
-    MessageData: {
-      Message: message,
-      Destinations: [{ Recipient: to }],
-      WebhookCallbackURL: webhookUrl,
-      WebhookCallbackFormat: "JSON",
-      Reference: reference,
-      ...(endpoint === "sms" ? { SendMode: "Normal", FallbackMode: "WhatsApp" } : {}),
-    },
-  };
-
   const resp = await fetch(`${tnzBase}/${endpoint}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${tnzToken}`,
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify({
+      MessageData: {
+        Message: message,
+        Destinations: [{ Recipient: to }],
+        WebhookCallbackURL: webhookUrl,
+        WebhookCallbackFormat: "JSON",
+        Reference: reference,
+        ...(endpoint === "sms" ? { SendMode: "Normal" } : {}),
+      },
+    }),
   });
 
   const data = await resp.json();
-  if (data.Result === "Success") {
-    return { messageId: data.MessageID };
-  }
+  if (data.Result === "Success") return { messageId: data.MessageID };
   return { error: data.Result || "TNZ send failed" };
 }
+
+// ─── Main handler ───────────────────────────────────────────────────────────
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -91,15 +294,18 @@ Deno.serve(async (req) => {
     const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
-    // Parse TNZ inbound payload
+    // Parse TNZ inbound payload (works for both SMS and WhatsApp)
     const payload = await req.json();
     console.log("TNZ inbound payload:", JSON.stringify(payload));
 
     const fromNumber = payload.From || payload.from || payload.Sender || payload.sender || "";
     const toNumber = payload.To || payload.to || payload.Destination || payload.destination || "";
     const messageBody = payload.Message || payload.message || payload.Body || payload.body || "";
-    const channel = (payload.Channel || payload.channel || "sms").toLowerCase() as string;
+    const channel = (payload.Channel || payload.channel || payload.Type || payload.type || "sms").toLowerCase();
     const tnzMessageId = payload.MessageID || payload.messageId || "";
+
+    // Normalise channel to sms|whatsapp
+    const validChannel = channel.includes("whatsapp") ? "whatsapp" : "sms";
 
     if (!fromNumber || !messageBody) {
       return new Response(JSON.stringify({ ok: false, error: "Missing from/body" }), {
@@ -108,19 +314,18 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Handle opt-out/opt-in
+    // ── Opt-out / Opt-in ──
     const upper = messageBody.trim().toUpperCase();
     if (upper === "STOP" || upper === "UNSUBSCRIBE") {
-      await sendViaTnz(channel, fromNumber, "You've been unsubscribed from Assembl messages. Text START to re-subscribe anytime.", `assembl-optout-${crypto.randomUUID()}`);
+      await sendViaTnz(validChannel, fromNumber, "You've been unsubscribed from Assembl messages. Text START to re-subscribe anytime.", `assembl-optout-${crypto.randomUUID()}`);
       return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
     if (upper === "START" || upper === "SUBSCRIBE") {
-      await sendViaTnz(channel, fromNumber, "Kia ora! Welcome back to Assembl. Text anything to get started.", `assembl-optin-${crypto.randomUUID()}`);
+      await sendViaTnz(validChannel, fromNumber, "Kia ora! Welcome back to Assembl. Text anything to get started.", `assembl-optin-${crypto.randomUUID()}`);
       return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Find or create conversation
-    const validChannel = ["sms", "whatsapp", "rcs"].includes(channel) ? channel : "sms";
+    // ── Find or create conversation ──
     let conversation: { id: string };
 
     const { data: existing } = await sb
@@ -137,11 +342,7 @@ Deno.serve(async (req) => {
     } else {
       const { data: created, error: createErr } = await sb
         .from("messaging_conversations")
-        .insert({
-          phone_number: fromNumber,
-          channel: validChannel,
-          status: "active",
-        })
+        .insert({ phone_number: fromNumber, channel: validChannel, status: "active" })
         .select("id")
         .single();
       if (createErr || !created) {
@@ -151,7 +352,7 @@ Deno.serve(async (req) => {
       conversation = created;
     }
 
-    // Store inbound message
+    // ── Store inbound message ──
     await sb.from("messaging_messages").insert({
       conversation_id: conversation.id,
       tnz_message_id: tnzMessageId || null,
@@ -163,39 +364,57 @@ Deno.serve(async (req) => {
       status: "received",
     });
 
-    // Route to agent (Iho)
+    // ── Iho routing ──
     const agent = routeToAgent(messageBody);
 
     // Update conversation with agent assignment
     await sb.from("messaging_conversations").update({
       assigned_agent: agent.agentId,
-      assigned_pack: agent.pack,
+      assigned_pack: agent.kete,
     }).eq("id", conversation.id);
 
-    // Check after hours
+    // ── After-hours check ──
     if (isAfterHours()) {
-      const afterHoursMsg = "Kia ora! We've received your message. Our team will respond during business hours (8am-6pm NZST). For urgent enquiries, visit assembl.co.nz";
-      const ref = `assembl-${validChannel}-${crypto.randomUUID()}`;
+      const afterHoursMsg = `Kia ora! We've received your message and routed it to ${agent.agentName}. Our team will respond during business hours (8am–6pm NZST). For urgent enquiries, visit assembl.co.nz`;
+      const ref = `assembl-${validChannel}-afterhours-${crypto.randomUUID()}`;
       const sendResult = await sendViaTnz(validChannel, fromNumber, afterHoursMsg, ref);
 
       await sb.from("messaging_messages").insert({
         conversation_id: conversation.id,
         tnz_message_id: sendResult.messageId || null,
         direction: "outbound",
-        from_number: toNumber,
-        to_number: fromNumber,
-        body: afterHoursMsg,
-        channel: validChannel,
+        from_number: toNumber, to_number: fromNumber,
+        body: afterHoursMsg, channel: validChannel,
         status: sendResult.messageId ? "sent" : "failed",
         agent_used: "system",
         response_time_ms: Date.now() - startTime,
         tnz_reference: ref,
       });
 
-      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ ok: true, afterHours: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Fetch conversation history (last 20 messages)
+    // ── Fetch agent system prompt from agent_prompts table ──
+    let systemPrompt = `You are ${agent.agentName} from Assembl, a specialist business advisor for New Zealand.`;
+
+    const { data: promptRow } = await sb
+      .from("agent_prompts")
+      .select("system_prompt, display_name")
+      .eq("agent_name", agent.agentId)
+      .eq("is_active", true)
+      .limit(1)
+      .maybeSingle();
+
+    if (promptRow?.system_prompt) {
+      systemPrompt = promptRow.system_prompt;
+    }
+
+    // Inject channel-specific behaviour
+    const channelBehaviour = validChannel === "whatsapp" ? WHATSAPP_BEHAVIOUR : SMS_BEHAVIOUR;
+    const nzTime = new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland" });
+    const fullPrompt = systemPrompt + channelBehaviour + `\nCurrent NZ date/time: ${nzTime}\n\nEnd every response with your signature: ${agent.signature}`;
+
+    // ── Fetch conversation history (last 20 messages) ──
     const { data: history } = await sb
       .from("messaging_messages")
       .select("direction, body, created_at")
@@ -208,32 +427,11 @@ Deno.serve(async (req) => {
       content: m.body,
     }));
 
-    // Fetch agent system prompt from chat function
-    let systemPrompt = `You are ${agent.agentName} from Assembl, a specialist business advisor for New Zealand.`;
-    try {
-      const promptResp = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/chat`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Deno.env.get("SUPABASE_ANON_KEY")}`,
-          apikey: Deno.env.get("SUPABASE_ANON_KEY")!,
-        },
-        body: JSON.stringify({ agentId: agent.agentId, getSystemPrompt: true }),
-      });
-      if (promptResp.ok) {
-        const pd = await promptResp.json();
-        if (pd.systemPrompt) systemPrompt = pd.systemPrompt;
-      }
-    } catch (e) {
-      console.error("Failed to fetch agent prompt:", e);
-    }
-
-    const nzTime = new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland" });
-    const fullPrompt = systemPrompt + SMS_BEHAVIOUR + `\nCurrent NZ date/time: ${nzTime}\n\nEnd every response with your signature: ${agent.signature}`;
-
-    // Generate AI response via Lovable gateway
+    // ── Generate AI response ──
     if (!LOVABLE_API_KEY) {
       console.error("LOVABLE_API_KEY not configured");
+      const fallback = "Kia ora! Our service is temporarily unavailable. Please try again shortly or visit assembl.co.nz";
+      await sendViaTnz(validChannel, fromNumber, fallback, `assembl-unavail-${crypto.randomUUID()}`);
       return new Response(JSON.stringify({ ok: false }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
@@ -252,7 +450,7 @@ Deno.serve(async (req) => {
             { role: "system", content: fullPrompt },
             ...chatHistory,
           ],
-          max_tokens: 800,
+          max_tokens: validChannel === "whatsapp" ? 1024 : 800,
         }),
       });
 
@@ -265,24 +463,22 @@ Deno.serve(async (req) => {
     }
 
     // Truncate for channel limits
-    const maxLen = validChannel === "sms" ? 1500 : 4000;
+    const maxLen = validChannel === "whatsapp" ? 4000 : 1500;
     if (aiReply.length > maxLen) {
       aiReply = aiReply.substring(0, maxLen - 3) + "...";
     }
 
-    // Send response via TNZ
-    const ref = `assembl-${validChannel}-${crypto.randomUUID()}`;
+    // ── Send response via TNZ ──
+    const ref = `assembl-${agent.kete}-${validChannel}-${crypto.randomUUID()}`;
     const sendResult = await sendViaTnz(validChannel, fromNumber, aiReply, ref);
-
     const responseTimeMs = Date.now() - startTime;
 
-    // Store outbound message
+    // ── Store outbound message ──
     await sb.from("messaging_messages").insert({
       conversation_id: conversation.id,
       tnz_message_id: sendResult.messageId || null,
       direction: "outbound",
-      from_number: toNumber,
-      to_number: fromNumber,
+      from_number: toNumber, to_number: fromNumber,
       body: aiReply,
       channel: validChannel,
       status: sendResult.messageId ? "sent" : "failed",
@@ -293,14 +489,14 @@ Deno.serve(async (req) => {
       tnz_reference: ref,
     });
 
-    // Log to audit trail (Tā)
+    // ── Audit trail (Tā) ──
     try {
       await sb.from("audit_log").insert({
         agent_code: agent.agentId,
         agent_name: agent.agentName,
         model_used: "gemini-2.5-flash",
         user_id: "00000000-0000-0000-0000-000000000000",
-        request_summary: `[${validChannel.toUpperCase()}] ${messageBody.substring(0, 100)}`,
+        request_summary: `[${validChannel.toUpperCase()} → ${agent.kete}] ${messageBody.substring(0, 100)}`,
         response_summary: aiReply.substring(0, 200),
         duration_ms: responseTimeMs,
         compliance_passed: true,
@@ -310,9 +506,9 @@ Deno.serve(async (req) => {
       console.error("Audit log error:", auditErr);
     }
 
-    console.log(`Processed ${validChannel} from ${fromNumber} → ${agent.agentName} in ${responseTimeMs}ms`);
+    console.log(`[Iho] ${validChannel} from ${fromNumber} → ${agent.agentName} (${agent.kete}) in ${responseTimeMs}ms`);
 
-    return new Response(JSON.stringify({ ok: true, agent: agent.agentId, responseTimeMs }), {
+    return new Response(JSON.stringify({ ok: true, agent: agent.agentId, kete: agent.kete, channel: validChannel, responseTimeMs }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
