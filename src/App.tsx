@@ -125,6 +125,7 @@ const AdminComplianceDashboard = lazy(() => import("./pages/AdminComplianceDashb
 const AdminTestReports = lazy(() => import("./pages/AdminTestReports"));
 const AdminKnowledgeBase = lazy(() => import("./pages/AdminKnowledgeBase"));
 const AdminFlintDashboard = lazy(() => import("./pages/AdminFlintDashboard"));
+const AdminAgentTestLab = lazy(() => import("./pages/AdminAgentTestLab"));
 const RoiCalculatorPage = lazy(() => import("./pages/RoiCalculatorPage"));
 
 const queryClient = new QueryClient();
@@ -169,6 +170,7 @@ const App = () => (
                   <Route path="/admin/test-reports" element={<Suspense fallback={null}><AdminTestReports /></Suspense>} />
                   <Route path="/admin/knowledge" element={<Suspense fallback={null}><AdminKnowledgeBase /></Suspense>} />
                   <Route path="/admin/flint" element={<Suspense fallback={null}><AdminFlintDashboard /></Suspense>} />
+                  <Route path="/admin/test-lab" element={<Suspense fallback={null}><AdminAgentTestLab /></Suspense>} />
                   <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
                   <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />
                   <Route path="/admin/sms" element={<Suspense fallback={null}><AdminSmsPage /></Suspense>} />
