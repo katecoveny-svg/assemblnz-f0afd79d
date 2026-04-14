@@ -10,7 +10,6 @@ import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import TextUsButton from "@/components/kete/TextUsButton";
-import WhatsAppBubble from "@/components/kete/WhatsAppBubble";
 
 const BG = "#09090F";
 const ACCENT = "#3A7D6E";
@@ -331,7 +330,6 @@ export default function WaihangaLandingPage() {
           defaultAgentId="kaupapa" packId="hanga"
           starterPrompts={["What does Waihanga cover for builders?", "How does CCA payment claim compliance work?", "Tell me about Building Code checklists", "What evidence packs do I get for site safety?"]}
         />
-        <WhatsAppBubble keteName="Waihanga" />
       </div>
     </GlowPageWrapper>
   );

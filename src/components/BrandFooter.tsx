@@ -18,7 +18,7 @@ const FOOTER_LINKS = {
     { to: "/auaha/about", label: "Auaha — Creative" },
     { to: "/arataki", label: "Arataki — Automotive" },
     { to: "/pikau", label: "Pikau — Freight" },
-    { to: "/toroa", label: "Toro — Family" },
+    { to: "/toro", label: "Tōro — Family" },
   ],
   Legal: [
     { to: "/privacy", label: "Privacy Policy" },

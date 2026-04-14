@@ -10,7 +10,6 @@ import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import TextUsButton from "@/components/kete/TextUsButton";
-import WhatsAppBubble from "@/components/kete/WhatsAppBubble";
 
 const BG = "#09090F";
 const ACCENT = "#F0D078";
@@ -290,7 +289,6 @@ export default function AuahaLandingPage() {
           defaultAgentId="prism" packId="auaha"
           starterPrompts={["What does Auaha help with?", "How does the 9-agent creative studio work?", "Tell me about content calendar workflows", "What compliance checks run on my content?"]}
         />
-        <WhatsAppBubble keteName="Auaha" />
       </div>
     </GlowPageWrapper>
   );

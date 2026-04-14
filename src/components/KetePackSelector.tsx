@@ -44,7 +44,7 @@ const TORO = {
   wananga: "Te Kete Aronui",
   wanangaEn: "Whānau & everyday life",
   icon: Bird,
-  to: "/toroa",
+  to: "/toro",
   color: "#7FB069",
   desc: "No app, no login. Just text. Built for NZ whānau.",
 };

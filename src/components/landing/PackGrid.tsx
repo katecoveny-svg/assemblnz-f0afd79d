@@ -187,7 +187,7 @@ const PackGrid = () => {
               </p>
             </div>
           </motion.div>
-          <Link to="/toroa" className="block">
+          <Link to="/toro" className="block">
             <motion.div
               className="relative rounded-xl p-5 group"
               style={{
