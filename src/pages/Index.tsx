@@ -197,8 +197,8 @@ const Index = () => {
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4, ease }}
             >
-              <Link to="/contact" className="group inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-semibold rounded-lg"
-                style={{ background: C.gold, color: C.bg, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <Link to="/contact" className="group inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-semibold rounded-lg transition-all duration-300"
+                style={{ background: "rgba(212,168,83,0.12)", border: "1px solid rgba(212,168,83,0.5)", color: C.goldLight, boxShadow: "0 0 20px rgba(212,168,83,0.15), inset 0 1px 0 rgba(212,168,83,0.2)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 See it in action <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <a href="#industry-packs" className="inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-lg transition-all duration-300"
