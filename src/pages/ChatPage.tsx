@@ -2067,20 +2067,6 @@ const ChatPage = () => {
         <AuraTrade onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
       ) : activeTab === "aura_pos" && isAura ? (
         <AuraPOS onGenerate={(p) => { setActiveTab("chat"); sendMessage(p); }} />
-      ) : activeTab === "aroha_contracts" && isAroha ? (
-        <ArohaContracts />
-      ) : activeTab === "aroha_onboarding" && isAroha ? (
-        <ArohaOnboarding />
-      ) : activeTab === "aroha_payroll" && isAroha ? (
-        <ArohaPayroll />
-      ) : activeTab === "aroha_recruitment" && isAroha ? (
-        <ArohaRecruitment />
-      ) : activeTab === "aroha_people" && isAroha ? (
-        <ArohaPeopleCulture />
-      ) : activeTab === "aroha_company" && isAroha ? (
-        <ArohaCompanySetup />
-      ) : activeTab === "aroha_retention" && isAroha ? (
-        <ArohaRetention />
       ) : activeTab === "forge_showroom" && isForge ? (
         <ForgeShowroom />
       ) : activeTab === "forge_sales" && isForge ? (
