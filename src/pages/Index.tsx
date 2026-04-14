@@ -16,6 +16,7 @@ import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteMiniIcon, { type KeteGlyph } from "@/components/kete/KeteMiniIcon";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
+const KeteOrbHero = lazy(() => import("@/components/landing/KeteOrbHero"));
 
 /* ─── Tokens ─── */
 const C = {
