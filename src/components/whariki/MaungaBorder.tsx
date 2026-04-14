@@ -1,10 +1,11 @@
 /**
- * Maunga Border — mountain range silhouette inspired by NZ Southern Alps.
- * Replaces the zigzag tāniko pattern with an organic mountain ridge line.
+ * Maunga Border — mountain peak pattern inspired by the user's sketch.
+ * Groups of filled and outlined triangles sitting on a baseline,
+ * alternating pounamu green and dawn gold.
  */
 const MaungaBorder = ({
   className = "",
-  height = 12,
+  height = 16,
   variant = "top",
   accentColor,
 }: {
@@ -15,51 +16,49 @@ const MaungaBorder = ({
 }) => {
   const flip = variant === "bottom";
   const primary = accentColor || "#3A7D6E";
+  const gold = "#D4A853";
 
+  // Each "cluster" is a group of peaks: mix of filled (▲) and outlined (△) triangles
+  // Pattern from sketch: baseline with clusters of 2-3 peaks, some filled some outline
   return (
     <svg
       className={className}
       width="100%"
       height={height}
       preserveAspectRatio="none"
-      viewBox="0 0 400 12"
+      viewBox="0 0 400 16"
       style={{ transform: flip ? "scaleY(-1)" : undefined, display: "block" }}
     >
-      <defs>
-        <linearGradient id={`maunga-grad-${variant}`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor={primary} stopOpacity="0" />
-          <stop offset="20%" stopColor={primary} stopOpacity="0.5" />
-          <stop offset="50%" stopColor="#D4A853" stopOpacity="0.6" />
-          <stop offset="80%" stopColor={primary} stopOpacity="0.5" />
-          <stop offset="100%" stopColor={primary} stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id={`maunga-fill-${variant}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={primary} stopOpacity="0.12" />
-          <stop offset="100%" stopColor={primary} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      {/* Mountain silhouette fill */}
-      <path
-        d="M0 12 L10 8 L22 10 L35 5 L48 9 L58 3 L68 7 L80 2 L92 6 L105 1 L118 5 L128 3 L140 7 L152 2 L165 6 L175 4 L188 8 L200 1 L212 6 L222 3 L235 7 L245 2 L258 5 L270 3 L280 7 L292 4 L305 8 L315 2 L328 6 L340 4 L352 8 L365 3 L378 7 L390 5 L400 9 L400 12 Z"
-        fill={`url(#maunga-fill-${variant})`}
-      />
-      {/* Mountain ridge line */}
-      <path
-        d="M0 12 L10 8 L22 10 L35 5 L48 9 L58 3 L68 7 L80 2 L92 6 L105 1 L118 5 L128 3 L140 7 L152 2 L165 6 L175 4 L188 8 L200 1 L212 6 L222 3 L235 7 L245 2 L258 5 L270 3 L280 7 L292 4 L305 8 L315 2 L328 6 L340 4 L352 8 L365 3 L378 7 L390 5 L400 9"
-        fill="none"
-        stroke={`url(#maunga-grad-${variant})`}
-        strokeWidth="1.2"
-        strokeLinejoin="round"
-      />
-      {/* Dawn gold highlight on the peaks */}
-      <path
-        d="M80 2 L92 6 M105 1 L118 5 M152 2 L165 6 M200 1 L212 6 M245 2 L258 5 M315 2 L328 6"
-        fill="none"
-        stroke="#D4A853"
-        strokeWidth="0.8"
-        opacity="0.4"
-        strokeLinecap="round"
-      />
+      {/* Baseline */}
+      <line x1="0" y1="13" x2="400" y2="13" stroke={primary} strokeWidth="0.8" opacity="0.3" />
+
+      {/* Cluster 1 — left */}
+      <polygon points="30,13 37,4 44,13" fill={primary} opacity="0.5" />
+      <polygon points="42,13 49,5 56,13" fill="none" stroke={primary} strokeWidth="0.8" opacity="0.4" />
+      <polygon points="52,13 58,6 64,13" fill={primary} opacity="0.4" />
+
+      {/* Cluster 2 */}
+      <polygon points="110,13 116,5 122,13" fill="none" stroke={gold} strokeWidth="0.8" opacity="0.5" />
+      <polygon points="120,13 127,3 134,13" fill={gold} opacity="0.35" />
+      <polygon points="132,13 138,6 144,13" fill="none" stroke={gold} strokeWidth="0.8" opacity="0.4" />
+
+      {/* Cluster 3 — center */}
+      <polygon points="185,13 192,4 199,13" fill={primary} opacity="0.45" />
+      <polygon points="196,13 203,2 210,13" fill={primary} opacity="0.55" />
+      <polygon points="208,13 214,6 220,13" fill="none" stroke={primary} strokeWidth="0.8" opacity="0.35" />
+
+      {/* Cluster 4 */}
+      <polygon points="268,13 274,5 280,13" fill="none" stroke={gold} strokeWidth="0.8" opacity="0.45" />
+      <polygon points="278,13 285,3 292,13" fill={gold} opacity="0.4" />
+
+      {/* Cluster 5 — right */}
+      <polygon points="340,13 346,6 352,13" fill={primary} opacity="0.4" />
+      <polygon points="350,13 357,4 364,13" fill="none" stroke={primary} strokeWidth="0.8" opacity="0.35" />
+      <polygon points="362,13 368,5 374,13" fill={primary} opacity="0.5" />
+
+      {/* Diagonal connector lines from sketch (bottom-left to first cluster, etc.) */}
+      <line x1="0" y1="13" x2="30" y2="13" stroke={primary} strokeWidth="0.6" opacity="0.2" />
+      <line x1="374" y1="13" x2="400" y2="13" stroke={primary} strokeWidth="0.6" opacity="0.2" />
     </svg>
   );
 };
