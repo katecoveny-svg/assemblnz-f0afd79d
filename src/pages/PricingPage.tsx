@@ -1,11 +1,12 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Check, ChevronDown, Rocket, Layers, Package, Crown, Eye, FileText, Database, Lock, Globe, Heart, PenTool, Monitor, Phone, MessageCircle, Mic, Mail } from "lucide-react";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import { KETE } from "@/data/pricing";
+import FAQSectionShared from "@/components/FAQSection";
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -225,7 +226,7 @@ const PricingTiers = () => (
         ))}
       </div>
       <p className="text-sm font-body text-center mt-8 italic" style={{ color: "hsl(var(--primary))" }}>
-        Save 12% on annual plans with code ANNUAL12.
+        Annual prepay saves 12% on any business tier. <Link to="/contact" className="underline hover:text-foreground">Talk to us</Link>.
       </p>
       <p className="text-[11px] font-body text-muted-foreground/40 text-center mt-3 max-w-2xl mx-auto">
         All prices in NZD, ex GST (add 15% at invoice). Setup fees can be split across the first 3 invoices on request. Monthly subscriptions include platform hosting, AI compute, agent support, and governance. Existing customers on the legacy model are grandfathered until 2027-04-08.
@@ -246,13 +247,16 @@ const SHARED_AGENTS = [
   { icon: PenTool, name: "Elite Copy", desc: "Writing quality" },
 ];
 
-const KETE_DATA = [
-  { name: "Manaaki", eng: "Hospitality", desc: "Food safety, liquor licensing, guest experience, tourism operations", accent: "hsl(var(--primary))" },
-  { name: "Waihanga", eng: "Construction", desc: "Site safety, consenting, project management, quality and sign-off", accent: "hsl(var(--pounamu))" },
-  { name: "Auaha", eng: "Creative & Media", desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio", accent: "hsl(var(--kowhai-light))" },
-  { name: "Arataki", eng: "Business Operations", desc: "Dealership compliance, finance disclosure, and customer enquiry — the showroom back office handled.", accent: "hsl(var(--tangaroa-light))" },
-  { name: "Pikau", eng: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance", accent: "hsl(var(--tangaroa))" },
-];
+const KETE_DATA = KETE.map((k) => {
+  const accents: Record<string, string> = {
+    manaaki: "hsl(var(--primary))",
+    waihanga: "hsl(var(--pounamu))",
+    auaha: "hsl(var(--kowhai-light))",
+    arataki: "hsl(var(--tangaroa-light))",
+    pikau: "hsl(var(--tangaroa))",
+  };
+  return { name: k.name, eng: k.eng, desc: k.desc, accent: accents[k.key] || "hsl(var(--primary))" };
+});
 
 const CHANNELS = [
   { icon: Monitor, label: "Web Dashboard" },
@@ -359,53 +363,7 @@ const ToroaSection = () => {
   );
 };
 
-/* ── Section F: FAQ ── */
-const FAQS = [
-  { q: "What's a kete?", a: "A kete is a traditional Māori woven basket, typically crafted from harakeke (New Zealand flax). We use it as a metaphor for our industry packs — each kete is a carefully woven collection of AI agents designed for a specific industry." },
-  { q: "How does onboarding work?", a: "Fill out our get started form. We map your workflows, agree on the right kete and tier, then run a 10-business-day setup: kickoff workshop, data import, brand kit, two policy gates, and a pilot kit. The setup fee covers the work. If we miss the 10-day window, we refund the setup fee." },
-  { q: "Can I start with one kete and add more later?", a: "Absolutely. Operator includes 1 kete. Leader includes 2. Enterprise includes all 5. You can also add an extra kete to Operator or Leader for $290/mo per kete without changing tiers." },
-  { q: "How does SMS/WhatsApp work?", a: "You get a dedicated NZ phone number for each kete. Your team texts questions and the right agent answers in seconds. WhatsApp groups let your team share photos, voice messages, and documents directly with agents." },
-  { q: "Where is my data stored?", a: "Operator and Leader run on standard NZ-region infrastructure. Enterprise includes attested NZ data residency. We follow the NZ Privacy Act 2020 and our tikanga governance layer ensures your data is treated with the care and respect it deserves." },
-  { q: "What AI models do you use?", a: "We use a mix: Claude for logic, compliance, and legal reasoning. Gemini for voice, multimodal, and speed. Iho (our routing engine) picks the best model for each task automatically." },
-  { q: "Do I need technical knowledge?", a: "No. We handle all the setup. Your team just texts, chats, or uses the dashboard. If you can send a text message, you can use Assembl." },
-  { q: "What's the difference between Family and the business tiers?", a: "Family is our consumer product for whānau — $29/mo, SMS-first, helps with school notices, meals, budgets, and daily household life. The business tiers (Operator, Leader, Enterprise, Outcome) are AI operations hubs for sole traders through multi-site enterprises. Different products, different audiences." },
-  { q: "What's the Outcome tier?", a: "Outcome is for engagements where Assembl takes on the result, not just the tools. Things like freight route optimisation, building maintenance scheduling, or fleet uptime. Base fee from $5,000/mo plus 10–20% of measured savings, scoped per engagement. Talk to us." },
-  { q: "Can I get a custom agent built?", a: "Yes. Custom agent builds start from $7,500 one-time and are available on any business tier. For workflows where the agent needs to take on the outcome end-to-end, that's the Outcome tier." },
-  { q: "What's tikanga governance?", a: "Tikanga Māori is the customary system of values and practices that has developed over time. Our governance layer ensures all AI operations respect the four pou: Rangatiratanga (self-determination), Kaitiakitanga (stewardship), Manaakitanga (care), and Whanaungatanga (connection). Your data is treated as taonga (treasure), not as a product." },
-];
-
-const FAQSection = () => {
-  const [open, setOpen] = useState<number | null>(null);
-  return (
-    <section className="py-16 sm:py-20">
-      <div className="max-w-3xl mx-auto px-5">
-        <h2 className="text-lg sm:text-2xl font-display text-center mb-8 text-foreground" style={{ fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
-          Frequently asked questions
-        </h2>
-        <div className="space-y-2">
-          {FAQS.map((faq, i) => (
-            <div key={i} className="glass-card glow-card-hover rounded-xl overflow-hidden">
-              <button onClick={() => setOpen(open === i ? null : i)} className="w-full flex items-center justify-between px-5 py-4 text-left">
-                <span className="text-sm font-medium font-body pr-4 text-foreground">{faq.q}</span>
-                <ChevronDown size={16} className={`shrink-0 transition-transform duration-200 text-muted-foreground ${open === i ? "rotate-180" : ""}`} />
-              </button>
-              <AnimatePresence>
-                {open === i && (
-                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease }}>
-                    <div className="px-5 pb-4">
-                      <p className="text-xs font-body leading-relaxed text-muted-foreground">{faq.a}</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
+/* FAQ uses the shared component from src/components/FAQSection.tsx */
 /* ── Section G: CTA Footer ── */
 const CTAFooter = () => (
   <section className="py-16 sm:py-20" style={{ borderTop: "2px solid hsl(var(--primary))" }}>
@@ -451,7 +409,7 @@ const PricingPage = () => (
     <div className="max-w-6xl mx-auto w-full px-5"><div className="section-divider" /></div>
     <ToroaSection />
     <div className="max-w-3xl mx-auto w-full px-5"><div className="section-divider" /></div>
-    <FAQSection />
+    <div id="faq"><FAQSectionShared /></div>
     <CTAFooter />
     <div className="mt-auto"><BrandFooter /></div>
   </div>
