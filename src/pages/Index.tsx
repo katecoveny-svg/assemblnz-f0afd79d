@@ -242,7 +242,7 @@ const Index = () => {
             <motion.div {...fade}>
               <GlassPanel className="p-8 sm:p-10" goldRim>
                 <p className="text-[15px] sm:text-base leading-[1.9]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.t2 }}>
-                  Assembl gives New Zealand businesses specialist operational workflows that reduce admin, surface risk earlier, and keep people in control.
+                  Assembl creates New Zealand business specialist operational workflows, that reduce admin, surface risk earlier, and keep people in control.
                 </p>
                 <WovenDivider className="my-6" />
                 <p className="text-[15px] sm:text-base leading-[1.9]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.t2 }}>
