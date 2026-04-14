@@ -10,7 +10,7 @@ import EchoChatWidget from "@/components/EchoChatWidget";
 import { HighContrastProvider } from "@/components/chat/HighContrastProvider";
 import { TeReoProvider } from "@/components/chat/TeReoProvider";
 import { PersonalizationProvider } from "@/contexts/PersonalizationContext";
-import AgentGrid from "./pages/AgentGrid";
+
 import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
@@ -75,7 +75,7 @@ const TenderWriterPage = lazy(() => import("./components/hanga/TenderWriterPage"
 const DocIntelPage = lazy(() => import("./components/hanga/DocIntelPage"));
 const CommsHubPage = lazy(() => import("./components/hanga/CommsHubPage"));
 const VoiceAgentPage = lazy(() => import("./components/hanga/VoiceAgentPage"));
-const PackLandingPage = lazy(() => import("./pages/PackLandingPage"));
+
 const SampleEvidencePackPage = lazy(() => import("./pages/SampleEvidencePackPage"));
 const AuahaLayout = lazy(() => import("./components/auaha/AuahaLayout"));
 const AuahaDashboard = lazy(() => import("./components/auaha/AuahaDashboard"));
@@ -142,7 +142,7 @@ const App = () => (
               <div className="pb-14 sm:pb-0">
                 <Routes>
                   <Route path="/" element={<Index />} />
-                  <Route path="/app" element={<AgentGrid />} />
+                  <Route path="/app" element={<Navigate to="/kete" replace />} />
                   <Route path="/chat/:agentId" element={<ChatPageKeyed />} />
                   <Route path="/login" element={<AuthPage mode="login" />} />
                   <Route path="/signup" element={<AuthPage mode="signup" />} />
@@ -201,7 +201,7 @@ const App = () => (
                   <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
                   <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                   <Route path="/try" element={<Navigate to="/contact" replace />} />
-                  <Route path="/packs/:packSlug" element={<Suspense fallback={null}><PackLandingPage /></Suspense>} />
+                  <Route path="/packs/:packSlug" element={<Navigate to="/kete" replace />} />
                   <Route path="/sample/:kete" element={<Suspense fallback={null}><SampleEvidencePackPage /></Suspense>} />
                   <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
                   <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
