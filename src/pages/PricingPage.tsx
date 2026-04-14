@@ -6,6 +6,8 @@ import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import { KETE } from "@/data/pricing";
+import FAQSectionShared from "@/components/FAQSection";
 
 const ease = [0.16, 1, 0.3, 1];
 
