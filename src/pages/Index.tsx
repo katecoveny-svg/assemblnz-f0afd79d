@@ -143,8 +143,11 @@ const Index = () => {
 
       {/* ═══ HERO ═══ */}
       <section className="relative flex flex-col items-center text-center px-6 pt-16 sm:pt-24 pb-14 overflow-hidden">
+        {/* Atmosphere overlay */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: atmosphere.bgOverlay }} />
         <div className="absolute inset-0 pointer-events-none" style={{
           background: `radial-gradient(ellipse 80% 50% at 50% 20%, ${C.pounamu}10 0%, transparent 65%)`,
+          opacity: atmosphere.particleBrightness,
         }} />
 
         <motion.p
@@ -152,7 +155,7 @@ const Index = () => {
           style={{ color: C.pounamuLight, fontFamily: "'JetBrains Mono', monospace" }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}
         >
-          GOVERNED WORKFLOWS · AOTEAROA
+          {hero.eyebrow}
         </motion.p>
 
         <motion.h1
@@ -166,6 +169,7 @@ const Index = () => {
           }}
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease }}
+          key={hero.headline} // remount on variant change for animation
         >
           <span style={{
             background: `linear-gradient(135deg, ${C.bone} 0%, ${C.pounamuGlow} 50%, ${C.bone} 100%)`,
@@ -173,17 +177,7 @@ const Index = () => {
             WebkitTextFillColor: "transparent",
             backgroundSize: "200% auto",
           }}>
-            Governed workflow tools
-          </span>
-          <br />
-          for{" "}
-          <span style={{
-            background: `linear-gradient(135deg, ${C.bone} 0%, ${C.gold} 60%, ${C.bone} 100%)`,
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundSize: "200% auto",
-          }}>
-            NZ businesses
+            {hero.headline}
           </span>
         </motion.h1>
 
@@ -192,8 +186,9 @@ const Index = () => {
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.t2 }}
           initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2, ease }}
+          key={hero.subheadline}
         >
-          Quoting, compliance, planning, reporting, and admin — handled more consistently with built-in rules, oversight, and NZ operating context.
+          {hero.subheadline}
         </motion.p>
 
         <motion.div
@@ -202,23 +197,25 @@ const Index = () => {
           transition={{ duration: 0.5, delay: 0.35, ease }}
         >
           <Link
-            to="/contact"
+            to={hero.ctaLink}
             className="group relative inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-full overflow-hidden"
           >
             <div className="absolute inset-0 rounded-full" style={{
               background: `linear-gradient(135deg, ${C.gold} 0%, ${C.goldLight} 50%, ${C.gold} 100%)`,
               backgroundSize: "200% auto",
             }} />
-            <span className="relative z-10" style={{ color: "#09090F" }}>Talk to us</span>
+            <span className="relative z-10" style={{ color: "#09090F" }}>{hero.cta}</span>
             <ArrowRight size={15} className="relative z-10 group-hover:translate-x-1 transition-transform" style={{ color: "#09090F" }} />
           </Link>
-          <Link to="/pricing" className="group inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-full transition-all duration-300" style={{
-            border: "1px solid rgba(255,255,255,0.08)",
-            color: "rgba(255,255,255,0.5)",
-            background: "rgba(255,255,255,0.02)",
-          }}>
-            <span className="group-hover:text-white/80 transition-colors">See pricing</span>
-          </Link>
+          {hero.secondaryCta && (
+            <Link to={hero.secondaryCtaLink || '/pricing'} className="group inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-full transition-all duration-300" style={{
+              border: "1px solid rgba(255,255,255,0.08)",
+              color: "rgba(255,255,255,0.5)",
+              background: "rgba(255,255,255,0.02)",
+            }}>
+              <span className="group-hover:text-white/80 transition-colors">{hero.secondaryCta}</span>
+            </Link>
+          )}
         </motion.div>
 
         {/* Trust badges inline */}
