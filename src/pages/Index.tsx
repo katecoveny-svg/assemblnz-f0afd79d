@@ -147,16 +147,24 @@ const Index = () => {
 
         {/* ═══ HERO — Full viewport + Kete Particle Canvas ═══ */}
         <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 overflow-hidden">
+          {/* Deep luminous background — not flat */}
+          <div className="absolute inset-0 pointer-events-none" style={{
+            background: `
+              radial-gradient(ellipse 60% 50% at 50% 45%, rgba(58,125,110,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse 40% 40% at 30% 30%, rgba(58,125,110,0.08) 0%, transparent 50%),
+              radial-gradient(ellipse 35% 45% at 70% 60%, rgba(212,168,83,0.05) 0%, transparent 50%),
+              radial-gradient(ellipse 80% 80% at 50% 50%, rgba(10,30,50,0.9) 0%, rgba(6,14,28,1) 100%)
+            `,
+          }} />
           <KeteParticleCanvas />
-          {/* Radial vignette */}
+          {/* Soft pounamu bloom behind kete shape */}
           <div className="absolute inset-0 pointer-events-none" style={{
-            background: "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, rgba(10,22,40,0.6) 100%)",
+            background: "radial-gradient(ellipse 45% 40% at 50% 50%, rgba(79,228,167,0.06) 0%, transparent 60%)",
           }} />
-          {/* Warm ambient glow behind hero text */}
+          {/* Vignette edges */}
           <div className="absolute inset-0 pointer-events-none" style={{
-            background: "radial-gradient(ellipse 40% 35% at 50% 45%, rgba(212,168,83,0.06) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse 90% 70% at 50% 50%, transparent 40%, rgba(6,14,28,0.7) 100%)",
           }} />
-          <div className="absolute inset-0 pointer-events-none" style={{ background: atmosphere.bgOverlay, opacity: 0.4 }} />
 
           <div className="relative z-10 max-w-3xl">
             <motion.h1
