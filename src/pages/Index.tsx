@@ -163,16 +163,16 @@ const Index = () => {
           <div className="absolute inset-0 pointer-events-none animate-[glowPulse_4s_ease-in-out_infinite]" style={{
             background: "radial-gradient(ellipse 55% 45% at 50% 55%, rgba(79,228,167,0.10) 0%, transparent 60%)",
           }} />
-          <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover opacity-80 pointer-events-none">
+          <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none">
             <source src="/hero-woven-video.mp4" type="video/mp4" />
           </video>
-          {/* Soft pounamu bloom behind kete shape */}
-          <div className="absolute inset-0 pointer-events-none" style={{
-            background: "radial-gradient(ellipse 45% 40% at 50% 55%, rgba(79,228,167,0.08) 0%, transparent 60%)",
-          }} />
           {/* Vignette edges */}
           <div className="absolute inset-0 pointer-events-none" style={{
             background: "radial-gradient(ellipse 90% 70% at 50% 50%, transparent 40%, rgba(6,14,28,0.7) 100%)",
+          }} />
+          {/* Dark scrim behind text for legibility */}
+          <div className="absolute inset-0 pointer-events-none" style={{
+            background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(6,14,28,0.6) 0%, transparent 80%)",
           }} />
 
           <div className="relative z-10 max-w-3xl">
@@ -185,6 +185,7 @@ const Index = () => {
                 letterSpacing: isMobile ? "3px" : "6px",
                 textTransform: "uppercase" as const,
                 color: C.white,
+                textShadow: "0 2px 30px rgba(0,0,0,0.8), 0 0 60px rgba(6,14,28,0.9)",
               }}
               initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1, ease }}
@@ -194,7 +195,7 @@ const Index = () => {
 
             <motion.p
               className="max-w-[640px] mx-auto mt-6 text-base sm:text-lg leading-[1.8]"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.8)" }}
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.8)", textShadow: "0 1px 20px rgba(0,0,0,0.7)" }}
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.25, ease }}
             >
@@ -207,18 +208,18 @@ const Index = () => {
               transition={{ duration: 0.5, delay: 0.4, ease }}
             >
               <Link to="/contact" className="group inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-semibold rounded-lg transition-all duration-300"
-                style={{ background: "rgba(212,168,83,0.12)", border: "1px solid rgba(212,168,83,0.5)", color: C.goldLight, boxShadow: "0 0 20px rgba(212,168,83,0.15), inset 0 1px 0 rgba(212,168,83,0.2)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                style={{ background: "rgba(212,168,83,0.12)", border: "1px solid rgba(212,168,83,0.5)", color: C.goldLight, boxShadow: "0 0 20px rgba(212,168,83,0.15), inset 0 1px 0 rgba(212,168,83,0.2)", fontFamily: "'Plus Jakarta Sans', sans-serif", backdropFilter: "blur(8px)" }}>
                 See it in action <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <a href="#industry-packs" className="inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-lg transition-all duration-300"
-                style={{ border: `1px solid ${C.pounamu}`, color: C.bone }}>
+                style={{ border: `1px solid ${C.pounamu}`, color: C.bone, backdropFilter: "blur(8px)" }}>
                 Choose your industry ↓
               </a>
             </motion.div>
 
             <motion.p
               className="mt-10 text-[11px] tracking-[3px] uppercase"
-              style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: C.gold }}
+              style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: C.gold, textShadow: "0 1px 16px rgba(0,0,0,0.6)" }}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.5 }}
             >
               Governed Intelligence for Aotearoa
