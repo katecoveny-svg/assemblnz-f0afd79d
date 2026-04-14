@@ -118,6 +118,8 @@ const Index = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { profile, atmosphere, isPersonalized } = usePersonalization();
   const hero = profile.preferences.heroVariant;
+  const engagementDepth = profile.signals.engagementDepth;
+  useReturnVisitor();
 
   // Reorder PACKS based on personalization
   const orderedPacks = useMemo(() => {
