@@ -469,8 +469,15 @@ const Index = () => {
 
         {/* ═══ FINAL CTA ═══ */}
         <section className="relative px-4 sm:px-6 py-20 sm:py-24 text-center overflow-hidden">
+          {/* Cinematic background */}
+          <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none">
+            <source src="/hero-woven-video.mp4" type="video/mp4" />
+          </video>
           <div className="absolute inset-0 pointer-events-none" style={{
-            background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${C.pounamu}08 0%, transparent 60%)`,
+            background: "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(6,14,28,0.7) 0%, rgba(6,14,28,0.9) 100%)",
+          }} />
+          <div className="absolute inset-0 pointer-events-none" style={{
+            background: "radial-gradient(ellipse 90% 80% at 50% 50%, transparent 30%, rgba(6,14,28,0.85) 100%)",
           }} />
           <div className="max-w-xl mx-auto relative z-10">
             <motion.div {...fade}>
@@ -480,12 +487,17 @@ const Index = () => {
                   Pick your kete. Run the demo. See the evidence pack it produces.
                 </P>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-semibold rounded-lg"
-                    style={{ background: C.gold, color: C.bg }}>
-                    See it in action <ArrowRight size={15} />
+                  <Link to="/contact" className="group inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-semibold rounded-lg transition-all duration-300"
+                    style={{
+                      background: `linear-gradient(135deg, ${C.gold}, ${C.goldLight})`,
+                      color: C.bg,
+                      boxShadow: `0 4px 24px rgba(212,168,83,0.35), 0 0 40px rgba(212,168,83,0.15)`,
+                      textShadow: "0 1px 2px rgba(0,0,0,0.2)",
+                    }}>
+                    See it in action <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
                   </Link>
-                  <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-lg"
-                    style={{ border: `1px solid ${C.pounamu}`, color: C.bone }}>
+                  <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-lg transition-all duration-300"
+                    style={{ border: `1px solid ${C.pounamu}`, color: C.bone, backdropFilter: "blur(8px)", boxShadow: `0 0 20px ${C.pounamu}15` }}>
                     Book a walkthrough
                   </Link>
                 </div>
