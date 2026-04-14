@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useMemo } from "react";
 import { motion, LayoutGroup } from "framer-motion";
-import { ArrowRight, ChevronDown, Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePersonalization } from "@/contexts/PersonalizationContext";
