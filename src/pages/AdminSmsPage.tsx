@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import AdminShell from "@/components/admin/AdminShell";
-import { Phone, MessageSquare, Plus, ToggleLeft, ToggleRight, Send, ChevronRight } from "lucide-react";
+import { Phone, MessageSquare, Plus, ToggleLeft, ToggleRight, Send, ChevronRight, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { agents, echoAgent, pilotAgent } from "@/data/agents";
 import { motion, AnimatePresence } from "framer-motion";
