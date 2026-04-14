@@ -13,7 +13,7 @@ import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteMiniIcon, { type KeteGlyph } from "@/components/kete/KeteMiniIcon";
 import WharikiFoundation from "@/components/whariki/WharikiFoundation";
-import KeteParticleCanvas from "@/components/whariki/KeteParticleCanvas";
+import heroWovenNetwork from "@/assets/hero-woven-network.png";
 import GlassPanel from "@/components/whariki/GlassPanel";
 import MaungaBorder from "@/components/whariki/MaungaBorder";
 import WovenDivider from "@/components/whariki/WovenDivider";
