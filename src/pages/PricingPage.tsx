@@ -410,7 +410,7 @@ const PricingPage = () => (
     <div className="max-w-6xl mx-auto w-full px-5"><div className="section-divider" /></div>
     <ToroaSection />
     <div className="max-w-3xl mx-auto w-full px-5"><div className="section-divider" /></div>
-    <FAQSection />
+    <div id="faq"><FAQSectionShared /></div>
     <CTAFooter />
     <div className="mt-auto"><BrandFooter /></div>
   </div>
