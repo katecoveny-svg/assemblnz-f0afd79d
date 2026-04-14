@@ -237,6 +237,43 @@ function routeToAgent(message: string): RouteResult {
     return { agentId: "shield-agent", agentName: "SHIELD", kete: "shared", signature: "— SHIELD, your security partner" };
   }
 
+  // ── Pipeline orchestration agents (Iho, Kahu, Tā, Mahara, Mana) ──
+  if (/\b(route|routing|iho|classify|intent|which\s?agent|who\s?should\s?i\s?talk\s?to)\b/.test(lower)) {
+    return { agentId: "iho", agentName: "IHO", kete: "shared", signature: "— IHO, the Assembl Brain" };
+  }
+  if (/\b(compliance|compliant|kahu|scan|policy\s?check|legislation\s?check|regulation\s?check)\b/.test(lower)) {
+    return { agentId: "kahu", agentName: "KAHU", kete: "shared", signature: "— KAHU, compliance guardian" };
+  }
+  if (/\b(format|formatter|tā|nz\s?english|citation|output\s?format|clean\s?up)\b/.test(lower)) {
+    return { agentId: "ta", agentName: "TĀ", kete: "shared", signature: "— TĀ, output formatter" };
+  }
+  if (/\b(review|mahara|fact.?check|verify|accuracy|double.?check|proofread)\b/.test(lower)) {
+    return { agentId: "mahara", agentName: "MAHARA", kete: "shared", signature: "— MAHARA, review & verification" };
+  }
+  if (/\b(sign.?off|approve|mana|disclaimer|final\s?check|release|publish\s?check)\b/.test(lower)) {
+    return { agentId: "mana", agentName: "MANA", kete: "shared", signature: "— MANA, sign-off authority" };
+  }
+
+  // ── Other shared agents ──
+  if (/\b(contract|legal\s?doc|engagement\s?letter|terms|agreement|charter)\b/.test(lower)) {
+    return { agentId: "charter", agentName: "CHARTER", kete: "shared", signature: "— CHARTER, your document governance partner" };
+  }
+  if (/\b(dispute|mediation|arbitrat|conflict|resolution|tribunal)\b/.test(lower)) {
+    return { agentId: "arbiter", agentName: "ARBITER", kete: "shared", signature: "— ARBITER, your dispute resolution partner" };
+  }
+  if (/\b(onboard|getting\s?started|setup|pilot|trial|demo)\b/.test(lower)) {
+    return { agentId: "pilot", agentName: "PILOT", kete: "shared", signature: "— PILOT, your onboarding partner" };
+  }
+  if (/\b(news|update|pulse|what.?s\s?new|latest|alert|notification)\b/.test(lower)) {
+    return { agentId: "pulse", agentName: "PULSE", kete: "shared", signature: "— PULSE, your business intelligence feed" };
+  }
+  if (/\b(research|scholar|learn|study|explain|how\s?does|what\s?is|definition)\b/.test(lower)) {
+    return { agentId: "scholar", agentName: "SCHOLAR", kete: "shared", signature: "— SCHOLAR, your research partner" };
+  }
+  if (/\b(innovation|idea|brainstorm|nova|startup|venture|new\s?product)\b/.test(lower)) {
+    return { agentId: "nova", agentName: "NOVA", kete: "shared", signature: "— NOVA, your innovation partner" };
+  }
+
   // ── Default: General business (ASCEND) ──
   return { agentId: "ascend", agentName: "ASCEND", kete: "pakihi", signature: "— ASCEND, your business growth partner" };
 }
