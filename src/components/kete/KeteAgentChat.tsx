@@ -1,8 +1,10 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, MessageCircle, X, Loader2 } from "lucide-react";
+import { Send, MessageCircle, X, Loader2, Mic } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { agentChatStream } from "@/lib/agentChat";
+import VoiceAgentModal from "@/components/VoiceAgentModal";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 interface KeteAgentChatProps {
   keteName: string;        // e.g. "Manaaki"
