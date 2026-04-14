@@ -276,7 +276,9 @@ export default function AaaipResearcher() {
           </TabsContent>
         </Tabs>
       </main>
+      <BrandFooter />
     </div>
+    </GlowPageWrapper>
   );
 }
 
