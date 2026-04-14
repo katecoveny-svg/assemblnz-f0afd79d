@@ -50,7 +50,7 @@ const AdminMessagesPage = lazy(() => import("./pages/AdminMessagesPage"));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
 const DataSovereigntyPage = lazy(() => import("./pages/DataSovereigntyPage"));
 const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
-const InvestPage = lazy(() => import("./pages/InvestPage"));
+
 const ToroaLandingPage = lazy(() => import("./pages/ToroaLandingPage"));
 const ToroaApp = lazy(() => import("./pages/ToroaApp"));
 const ToroaInstallPage = lazy(() => import("./pages/ToroaInstallPage"));
@@ -184,7 +184,7 @@ const App = () => (
                   <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
                   <Route path="/case-studies" element={<Suspense fallback={null}><CaseStudiesPage /></Suspense>} />
                   <Route path="/data-sovereignty" element={<Suspense fallback={null}><DataSovereigntyPage /></Suspense>} />
-                  <Route path="/invest" element={<Suspense fallback={null}><InvestPage /></Suspense>} />
+                  
                   <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
 
                   {/* Legal */}

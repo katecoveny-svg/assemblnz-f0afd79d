@@ -28,7 +28,7 @@ const KETE = [
 const MORE_LINKS = [
   { label: "ROI Calculator", sublabel: "Sales tool", to: "/roi", icon: Calculator, color: "#5AADA0" },
   { label: "Data Sovereignty", sublabel: "Enterprise trust", to: "/data-sovereignty", icon: Shield, color: "#3A7D6E" },
-  { label: "Invest", sublabel: "Opportunity", to: "/invest", icon: TrendingUp, color: "#D4A843" },
+  
   { label: "Developers", sublabel: "API & docs", to: "/developers", icon: Code, color: "#7ECFC2" },
   { label: "AAAIP", sublabel: "R&D showcase", to: "/aaaip", icon: Brain, color: "#F0D078" },
 ];
