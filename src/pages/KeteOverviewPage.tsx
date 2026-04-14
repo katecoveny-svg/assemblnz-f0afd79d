@@ -4,6 +4,7 @@ import GlowIcon from "@/components/GlowIcon";
 import { KETE_CONFIG, KETE_BY_GROUP } from "@/components/kete/KeteConfig";
 import BrandNav from "@/components/BrandNav";
 import SEO from "@/components/SEO";
+import KeteAgentChat from "@/components/kete/KeteAgentChat";
 
 const Glass = ({ children, className = "", style = {} }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) => (
   <div
@@ -152,6 +153,11 @@ export default function KeteOverviewPage() {
           ))}
         </div>
       </div>
+      <KeteAgentChat
+        keteName="assembl" keteLabel="Platform Concierge" accentColor="#3A7D6E"
+        defaultAgentId="echo" packId="assembl"
+        starterPrompts={["Which kete is right for my business?", "How does assembl pricing work?", "What's the onboarding process?"]}
+      />
     </div>
   );
 }

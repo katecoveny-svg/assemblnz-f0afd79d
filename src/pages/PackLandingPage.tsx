@@ -8,6 +8,7 @@ import SEO from "@/components/SEO";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import KeteAgentChat from "@/components/kete/KeteAgentChat";
 
 const ICON_MAP: Record<string, any> = {
   briefcase: Briefcase, hammer: Hammer, utensils: UtensilsCrossed,
@@ -242,6 +243,11 @@ const PackLandingPage = () => {
         </section>
       </main>
       <BrandFooter />
+      <KeteAgentChat
+        keteName="assembl" keteLabel="Platform Concierge" accentColor="#3A7D6E"
+        defaultAgentId="echo" packId="assembl"
+        starterPrompts={["Tell me about this pack's agents", "How does assembl pricing work?", "What compliance is covered?"]}
+      />
     </div>
   );
 };

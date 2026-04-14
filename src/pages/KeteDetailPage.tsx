@@ -4,6 +4,15 @@ import KeteIcon from "@/components/kete/KeteIcon";
 import SEO from "@/components/SEO";
 import GlowIcon from "@/components/GlowIcon";
 import TextUsButton from "@/components/kete/TextUsButton";
+import KeteAgentChat from "@/components/kete/KeteAgentChat";
+
+const SLUG_TO_PACK: Record<string, { packId: string; agentId: string }> = {
+  manaaki: { packId: "manaaki", agentId: "aura" },
+  waihanga: { packId: "hanga", agentId: "kaupapa" },
+  auaha: { packId: "auaha", agentId: "prism" },
+  arataki: { packId: "waka", agentId: "motor" },
+  pikau: { packId: "pikau", agentId: "gateway" },
+};
 
 const KeteDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -98,6 +107,23 @@ const KeteDetailPage = () => {
           </div>
         </div>
       </div>
+      {(() => {
+        const pack = SLUG_TO_PACK[kete.slug] || { packId: "assembl", agentId: "echo" };
+        return (
+          <KeteAgentChat
+            keteName={kete.name}
+            keteLabel={kete.englishName}
+            accentColor={kete.accentColor}
+            defaultAgentId={pack.agentId}
+            packId={pack.packId}
+            starterPrompts={[
+              `What can ${kete.name} agents do for my business?`,
+              `How does onboarding work for ${kete.englishName}?`,
+              "What compliance is covered?",
+            ]}
+          />
+        );
+      })()}
     </>
   );
 };
