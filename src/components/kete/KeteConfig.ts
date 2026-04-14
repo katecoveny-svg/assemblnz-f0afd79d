@@ -72,7 +72,7 @@ export const KETE_CONFIG: KeteDefinition[] = [
     color: "#D4A843", icon: Bird, agentCount: 1, group: "whanau",
     description: "SMS-first. No app, no login. Just text. School notices, meals, budgets, reminders, learning.",
     wananga: "Te Kete Aronui — caring for whānau",
-    route: "/toroa/dashboard", smsStatus: "active", whatsappStatus: "active",
+    route: "/toro/dashboard", smsStatus: "active", whatsappStatus: "active",
   },
 ];
 
