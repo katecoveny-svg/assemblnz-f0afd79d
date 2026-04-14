@@ -112,18 +112,12 @@ const EVIDENCE_PACKS = [
   },
 ];
 
-const FAQS = [
-  { q: "What does Assembl actually help with?", a: "Operational workflows — quoting, compliance, planning, reporting, admin, and follow-up." },
-  { q: "Do we have to roll out everywhere at once?", a: "No. Start with one workflow, prove value, expand from there." },
-  { q: "Is this designed for NZ businesses?", a: "Yes. Built for NZ operating conditions and sector realities." },
-  { q: "What makes this different from generic tools?", a: "Governed workflows with clear boundaries — not open-ended, unmanaged usage." },
-  { q: "Do people still stay involved?", a: "Yes. Review, approvals, and human oversight built into workflows." },
-];
+
+
 
 /* ═══ PAGE ═══ */
 const Index = () => {
   const isMobile = useIsMobile();
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { profile, atmosphere, isPersonalized } = usePersonalization();
   const hero = profile.preferences.heroVariant;
   useReturnVisitor();
@@ -431,32 +425,25 @@ const Index = () => {
           </div>
         </Sect>
 
-        {/* ═══ FAQ ═══ */}
+        {/* ═══ CTA to Pricing FAQ ═══ */}
         <Sect>
-          <div className="max-w-2xl mx-auto">
-            <motion.div {...fade} className="text-center mb-8">
-              <Eye color={C.pounamu}>FAQ</Eye>
-              <H2>Common questions</H2>
-            </motion.div>
-            <div className="space-y-3">
-              {FAQS.map((faq, i) => (
-                <motion.div key={i} {...stagger(i)}>
-                  <button
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 glass-panel rounded-2xl"
-                  >
-                    <span className="text-[15px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: C.t1 }}>{faq.q}</span>
-                    <ChevronDown size={16} className="shrink-0 transition-transform duration-200"
-                      style={{ color: C.t3, transform: openFaq === i ? "rotate(180deg)" : "rotate(0deg)" }} />
-                  </button>
-                  <motion.div initial={false} animate={{ height: openFaq === i ? "auto" : 0, opacity: openFaq === i ? 1 : 0 }}
-                    transition={{ duration: 0.25, ease }} className="overflow-hidden">
-                    <p className="px-6 pt-2 pb-5 text-[14px] leading-relaxed" style={{ color: C.t3 }}>{faq.a}</p>
-                  </motion.div>
-                </motion.div>
-              ))}
+          <motion.div {...fade} className="text-center">
+            <Eye color={C.pounamu}>QUESTIONS?</Eye>
+            <H2>Got questions?</H2>
+            <P className="max-w-md mx-auto mb-8">
+              Check our comprehensive FAQ on the pricing page, or get in touch.
+            </P>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/pricing#faq" className="inline-flex items-center justify-center gap-2 px-8 py-3 text-sm font-medium rounded-lg"
+                style={{ border: `1px solid ${C.pounamu}`, color: C.bone }}>
+                View FAQ
+              </Link>
+              <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-3 text-sm font-medium rounded-lg"
+                style={{ border: `1px solid ${C.gold}50`, color: C.goldLight }}>
+                Talk to us
+              </Link>
             </div>
-          </div>
+          </motion.div>
         </Sect>
 
         {/* ═══ FINAL CTA ═══ */}
