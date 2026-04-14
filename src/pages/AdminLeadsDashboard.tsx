@@ -2,8 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import BrandFooter from "@/components/BrandFooter";
-import { ArrowLeft, Target, Mail, TrendingUp, Users, RefreshCw } from "lucide-react";
+import { Target, Mail, TrendingUp, Users, RefreshCw } from "lucide-react";
+import AdminShell from "@/components/admin/AdminShell";
 
 interface LeadRow {
   id: string;
@@ -95,23 +95,22 @@ export default function AdminLeadsDashboard() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-3">
-            <button onClick={() => navigate("/admin/dashboard")} className="text-muted-foreground hover:text-foreground">
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-            <Target className="w-6 h-6 text-primary" />
-            <h1 className="text-2xl font-bold">Lead Intelligence</h1>
-          </div>
-          {unscoredCount > 0 && (
-            <button onClick={scoreAll} className="flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary rounded-lg hover:bg-primary/30">
-              <TrendingUp className="w-4 h-4" />
-              Score {unscoredCount} Unscored
-            </button>
-          )}
-        </div>
+    <AdminShell
+      title="Lead Intelligence"
+      subtitle={`${leads.length} contacts tracked`}
+      icon={<Target className="w-5 h-5 text-primary" />}
+      backTo="/admin/dashboard"
+      actions={
+        unscoredCount > 0 ? (
+          <button onClick={scoreAll} className="flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary rounded-lg hover:bg-primary/30 text-sm"
+            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <TrendingUp className="w-4 h-4" />
+            Score {unscoredCount} Unscored
+          </button>
+        ) : undefined
+      }
+    >
+      <div className="space-y-6">
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
@@ -236,7 +235,6 @@ export default function AdminLeadsDashboard() {
           )}
         </div>
       </div>
-      <BrandFooter />
-    </div>
+    </AdminShell>
   );
 }
