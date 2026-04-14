@@ -225,7 +225,7 @@ async function executeTask(
         });
 
         if (staleItems.length > 0) {
-          await notifyAndQueue(supabase, user_id, agent_id, "shared", `${staleItems.length} business facts may be outdated: ${staleItems.map((s: any) => s.context_key).join(", "low", payload);
+          await notifyAndQueue(supabase, user_id, agent_id, "shared", `${staleItems.length} business facts may be outdated: ${staleItems.map((s: any) => s.context_key).join(", ")}. Consider reviewing.`, "low", payload);
         }
         return { success: true, result: { stale_items: staleItems.length } };
       }
