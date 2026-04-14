@@ -227,7 +227,6 @@ const PricingTiers = () => (
       <p className="text-sm font-body text-center mt-8 italic" style={{ color: "hsl(var(--primary))" }}>
         Annual prepay saves 12% on any business tier. <Link to="/contact" className="underline hover:text-foreground">Talk to us</Link>.
       </p>
-      </p>
       <p className="text-[11px] font-body text-muted-foreground/40 text-center mt-3 max-w-2xl mx-auto">
         All prices in NZD, ex GST (add 15% at invoice). Setup fees can be split across the first 3 invoices on request. Monthly subscriptions include platform hosting, AI compute, agent support, and governance. Existing customers on the legacy model are grandfathered until 2027-04-08.
       </p>
