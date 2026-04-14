@@ -97,7 +97,6 @@ const AuahaLayout = lazy(() => import("./components/auaha/AuahaLayout"));
 const AuahaDashboard = lazy(() => import("./components/auaha/AuahaDashboard"));
 const AuahaCampaignBuilder = lazy(() => import("./components/auaha/AuahaCampaignBuilder"));
 const AuahaCopyStudio = lazy(() => import("./components/auaha/AuahaCopyStudio"));
-const AuahaImageStudio = lazy(() => import("./components/auaha/AuahaImageStudio"));
 const PixelImageStudio = lazy(() => import("./pages/auaha/ImageStudio"));
 const AuahaVideoStudio = lazy(() => import("./components/auaha/AuahaVideoStudio"));
 const AuahaPodcastStudio = lazy(() => import("./components/auaha/AuahaPodcastStudio"));
@@ -313,7 +312,6 @@ const App = () => (
                     <Route path="whaikorero" element={<AuahaWhaikorero />} />
                     <Route path="campaign" element={<AuahaCampaignBuilder />} />
                     <Route path="copy" element={<AuahaCopyStudio />} />
-                    <Route path="images" element={<AuahaImageStudio />} />
                     <Route path="image-studio" element={<PixelImageStudio />} />
                     <Route path="video" element={<AuahaVideoStudio />} />
                     <Route path="loom" element={<AuahaLoomStudio />} />
