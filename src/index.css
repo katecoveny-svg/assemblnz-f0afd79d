@@ -65,7 +65,7 @@ html {
     --kowhai: 42 63% 55%;
     --kowhai-light: 44 82% 71%;
     --pounamu: 164 37% 35%;
-    --pounamu-light: 166 37% 51%;
+    --pounamu-light: 152 75% 65%;
     --tangaroa: 213 53% 23%;
     --tangaroa-light: 213 45% 41%;
     --rust: 3 45% 56%;
@@ -215,6 +215,30 @@ html {
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
+  }
+
+  /* ── Glass Panel — whāriki design system ── */
+  .glass-panel {
+    background: rgba(10, 22, 40, 0.7);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border: 1px solid rgba(58, 125, 110, 0.15);
+    border-radius: 16px;
+    box-shadow:
+      0 0 1px rgba(58, 125, 110, 0.2),
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(245, 240, 232, 0.05);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .glass-panel:hover {
+    border-color: rgba(58, 125, 110, 0.3);
+  }
+
+  /* Pounamu glow text for data values */
+  .text-glow-pounamu {
+    color: #4FE4A7;
+    text-shadow: 0 0 10px rgba(79, 228, 167, 0.3), 0 0 30px rgba(79, 228, 167, 0.1);
   }
 
   /* ── Elevated Glass Card (modals) ── */
