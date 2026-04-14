@@ -40,7 +40,7 @@ serve(async (req) => {
     const origin = req.headers.get("origin") || "https://assemblnz.lovable.app";
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: customers.data[0].id,
-      return_url: `${origin}/dashboard`,
+      return_url: `${origin}/workspace`,
     });
 
     return new Response(JSON.stringify({ url: portalSession.url }), {

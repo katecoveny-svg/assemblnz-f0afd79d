@@ -5,8 +5,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { motion } from "framer-motion";
 import {
   LayoutDashboard, Play, Settings, Plug, FileText, Brain,
-  ArrowRight, CheckCircle, Clock, Loader2
+  ArrowRight, CheckCircle, Clock, Loader2, CreditCard, Crown
 } from "lucide-react";
+import { toast } from "sonner";
 import SEO from "@/components/SEO";
 
 interface Tenant {
@@ -51,8 +52,16 @@ const KETE_LABELS: Record<string, string> = {
   PIKAU: "Technology",
 };
 
+const ROLE_LABELS: Record<string, string> = {
+  free: "Free",
+  essentials: "Operator",
+  business: "Leader",
+  enterprise: "Enterprise",
+  admin: "Admin",
+};
+
 export default function WorkspaceDashboard() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, role, isPaid, subscriptionEnd, checkSubscription } = useAuth();
   const navigate = useNavigate();
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [workflows, setWorkflows] = useState<WorkflowItem[]>([]);
@@ -171,7 +180,10 @@ export default function WorkspaceDashboard() {
               )}
               <div>
                 <h1 className="text-sm font-semibold text-white">{tenant.name}</h1>
-                <p className="text-[10px] text-white/40">{keteLabel} · {tenant.plan} plan</p>
+                <p className="text-[10px] text-white/40">
+                  {keteLabel} · {ROLE_LABELS[role || "free"] || tenant.plan} plan
+                  {isPaid && <Crown size={10} className="inline ml-1" style={{ color: accent }} />}
+                </p>
               </div>
             </div>
             <div className="flex gap-2">
@@ -187,6 +199,58 @@ export default function WorkspaceDashboard() {
         </header>
 
         <div className="max-w-3xl mx-auto p-4 space-y-4 pb-24">
+          {/* Subscription management */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="rounded-xl p-4"
+            style={{ background: isPaid ? `${accent}08` : "rgba(255,255,255,0.03)", border: `1px solid ${isPaid ? `${accent}25` : "rgba(255,255,255,0.06)"}` }}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <CreditCard size={16} style={{ color: accent }} />
+                <div>
+                  <p className="text-xs font-medium text-white">
+                    {isPaid ? `${ROLE_LABELS[role || "free"]} plan` : "Free plan"}
+                  </p>
+                  {subscriptionEnd && (
+                    <p className="text-[10px] text-white/30">
+                      Renews {new Date(subscriptionEnd).toLocaleDateString("en-NZ", { day: "numeric", month: "short", year: "numeric" })}
+                    </p>
+                  )}
+                  {!isPaid && (
+                    <p className="text-[10px] text-white/30">Upgrade to unlock unlimited agents and compliance features</p>
+                  )}
+                </div>
+              </div>
+              {isPaid ? (
+                <button
+                  onClick={async () => {
+                    try {
+                      const { data, error } = await supabase.functions.invoke("customer-portal");
+                      if (error) throw error;
+                      if (data?.url) window.open(data.url, "_blank");
+                    } catch (err: any) {
+                      toast.error(err.message || "Failed to open billing portal");
+                    }
+                  }}
+                  className="px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5"
+                  style={{ background: `${accent}15`, color: accent, border: `1px solid ${accent}25` }}
+                >
+                  <Settings size={12} /> Manage billing
+                </button>
+              ) : (
+                <Link
+                  to="/pricing"
+                  className="px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 font-semibold"
+                  style={{ background: accent, color: "#0A0A14" }}
+                >
+                  <Crown size={12} /> Upgrade
+                </Link>
+              )}
+            </div>
+          </motion.div>
+
           {/* Onboarding checklist */}
           {!tenant.onboarding_complete && (
             <motion.div

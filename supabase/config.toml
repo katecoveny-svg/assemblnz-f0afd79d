@@ -27,6 +27,8 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.customer-portal]
     verify_jwt = false
+  [functions.customer-portal]
+    verify_jwt = false
   [functions.generate-3d]
     verify_jwt = false
   [functions.generate-image]
