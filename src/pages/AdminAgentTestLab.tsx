@@ -338,6 +338,59 @@ export default function AdminAgentTestLab() {
     >
       <div className="space-y-6">
 
+        {/* Protocol Overview */}
+        <AdminGlassCard accent="#D4A843">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-1">
+              <ShieldAlert className="w-5 h-5" style={{ color: "#D4A843" }} />
+              <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
+                className="text-base tracking-[2px] uppercase text-foreground">
+                Assembl Testing Protocols
+              </h2>
+            </div>
+            <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              className="text-sm text-muted-foreground leading-relaxed max-w-4xl">
+              Every Assembl agent passes through a <strong className="text-foreground">5-stage Governance Pipeline</strong> before
+              any output reaches a user. This lab allows you to stress-test agents across four critical dimensions —
+              bias detection, hallucination checking, compliance boundary testing, and adversarial jailbreak resistance —
+              and verify that the pipeline catches failures at every stage.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-5 gap-2">
+              {[
+                { stage: "Kahu", label: "Policy Gate", desc: "Flags regulatory context and data classification" },
+                { stage: "Iho", label: "Routing", desc: "Routes to the correct specialist agent" },
+                { stage: "Tā", label: "Execution", desc: "Formats response with NZ English and macrons" },
+                { stage: "Mahara", label: "Memory", desc: "Cross-checks against source legislation" },
+                { stage: "Mana", label: "Assurance", desc: "Final governance and sovereignty check" },
+              ].map(s => (
+                <div key={s.stage} className="rounded-xl p-3" style={{ background: "rgba(212,168,83,0.06)", border: "1px solid rgba(212,168,83,0.12)" }}>
+                  <div style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                    className="text-[10px] tracking-wider uppercase" style={{ color: "#D4A843", fontFamily: "'JetBrains Mono', monospace" }}>
+                    {s.stage}
+                  </div>
+                  <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                    className="text-xs font-semibold text-foreground mt-0.5">{s.label}</div>
+                  <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                    className="text-[10px] text-muted-foreground mt-0.5">{s.desc}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-4 pt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <span className="text-[11px] text-muted-foreground">
+                <strong className="text-foreground">Data Sovereignty:</strong> All data handled as taonga under Te Mana Raraunga principles
+              </span>
+              <span className="text-[11px] text-muted-foreground">
+                <strong className="text-foreground">Compliance:</strong> NZ Privacy Act 2020 · MBIE Responsible AI · NZ Algorithm Charter
+              </span>
+              <span className="text-[11px] text-muted-foreground">
+                <strong className="text-foreground">Anti-Hallucination:</strong> 7-layer verification stack with source grounding
+              </span>
+            </div>
+          </div>
+        </AdminGlassCard>
+
         {/* Stats bar */}
         {results.length > 0 && (
           <div className="grid grid-cols-4 gap-3">
