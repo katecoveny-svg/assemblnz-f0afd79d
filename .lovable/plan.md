@@ -1,76 +1,35 @@
 
 
-# Audit: Agent Mascots & PWA Installation
+## Upgrade KeteParticleCanvas to Match Reference Image
 
-## Current State
+The reference image shows **flowing woven strands with intense volumetric glow** — thick harakeke-textured fibers radiating from a vanishing point, bathed in bright cyan/teal light with golden accents. The current canvas is a kete-shaped constellation of dots with thin connections. This plan transforms it into something much closer to the reference.
 
-### Mascots — Mostly Correct
-The unified `AgentAvatar` component (`src/components/AgentAvatar.tsx`) correctly uses a **single base image** (`assembl-mascot-base.png`) with CSS `mix-blend-hue` and `mix-blend-saturation` overlays to tint eyes/glow to each agent's brand colour. This is used across 29 files.
+### What Changes
 
-**However, several pages bypass `AgentAvatar` and import individual agent PNGs directly:**
+**1. KeteParticleCanvas.tsx — Complete visual overhaul**
 
-| File | Import | Should Use |
-|------|--------|------------|
-| `HelmSection.tsx` | `helm-3d-avatar.png` | `AgentAvatar` with Helm colour |
-| `HelmApp.tsx` | `helm-3d-avatar.png` | `AgentAvatar` with Helm colour |
-| `EchoSection.tsx` | `echo-fullbody.png` | `AgentAvatar` with Echo colour |
-| `EchoPage.tsx` | `echo.png` | `AgentAvatar` with Echo colour |
-| `SparkSection.tsx` | `spark.png` | `AgentAvatar` with Spark colour |
-| `AgentApp.tsx` | `helm-3d-avatar.png` (lazy) | `AgentAvatar` |
+- **Flowing strands instead of dot-to-dot connections**: Replace the paired quadratic bezier connections with long, continuous flowing curves that sweep across the canvas from a perspective vanishing point (bottom-center toward top-corners), like harakeke fibers being pulled from the earth
+- **Thicker, luminous strands**: Increase line widths from 0.8-1.2px to 2-4px with heavy `ctx.shadowBlur` (15-25px) in cyan/teal to create the volumetric glow from the reference
+- **Strand texture**: Add a subtle herringbone/chevron pattern along the thicker gold strands by drawing tiny V-shaped marks at intervals — mimicking the woven texture visible in the reference
+- **Perspective depth**: Strands converge toward a central vanishing point with parallax — closer strands are brighter/wider, distant ones are thinner/dimmer
+- **Particle sparkle**: Scatter tiny bright point particles (1-2px, high opacity) along and between strands — the "digital dust" visible in the reference
+- **Brighter color palette**: Push the teal from `rgba(58,125,110)` up to `rgba(79,228,167)` and `rgba(0,220,200)` for the intense cyan glow; keep gold strands as warm contrast
+- **Ambient fog/mist**: Draw soft, large radial gradients (200-400px radius, very low opacity) drifting slowly across the canvas to simulate the atmospheric haze in the reference
 
-These six files use **different robot images** instead of the unified mascot template. `RobotIcon.tsx` is dead code (not imported anywhere).
+**2. Index.tsx hero background**
 
-Files that correctly stay as-is:
-- `AssemblHeroAgent.tsx` — uses `hero-orb-robot.png` (the hero, not an agent mascot)
-- `BrandGuidelinesPage.tsx` — uses `hero-orb-robot.png` for brand docs
-- `EchoChatWidget.tsx` — already uses `assembl-mascot-base.png`
-- `MyAppsPage.tsx` / `ChatPage.tsx` — use `spark.png` as a CTA illustration (not an avatar)
+- Deepen the radial gradient bloom behind the canvas — increase pounamu glow from 12% to 18% opacity to let the strands feel like they're emitting light into the surrounding space
+- Add a subtle animated CSS radial gradient pulse (scale breathing 1.0-1.05 over 4s) on the backdrop glow layer
 
-### PWA — Already Working
-PWA is already configured:
-- `public/manifest.json` exists with correct metadata
-- `index.html` has manifest link and Apple meta tags
-- `public/sw.js` service worker handles caching
-- `src/utils/pwaManifest.ts` generates per-agent manifests dynamically
-- `AgentApp.tsx` and `HelmApp.tsx` both call `setDynamicManifest()` on mount
+### Technical Approach
 
-**How to install as PWA**: On mobile (iOS Safari or Android Chrome), visit the agent app route (e.g., `/app/aura` or `/helm`), then use the browser's "Add to Home Screen" option. On desktop Chrome/Edge, click the install icon in the address bar.
+- All rendering stays on a single 2D canvas for performance
+- Strands are drawn as long bezier paths (8-12 control points each) rather than short node-to-node segments
+- `ctx.shadowBlur` and `ctx.shadowColor` handle the volumetric glow (GPU-accelerated on most browsers)
+- Mouse interaction: strands near cursor brighten and warp slightly toward it (existing logic, amplified)
+- Mobile: reduce strand count from ~24 to ~12, reduce shadowBlur from 20 to 8
 
----
-
-## Plan
-
-### Step 1 — Replace direct agent image imports with AgentAvatar (4 files)
-
-Update these files to use the `AgentAvatar` component instead of individual PNGs:
-
-1. **`src/components/HelmSection.tsx`** — Replace `helmImg` with `<AgentAvatar agentId="operations" color="#B388FF" size={180} />`
-2. **`src/components/EchoSection.tsx`** — Replace `echoImg` with `<AgentAvatar agentId="echo" color="#00E5FF" size={180} />`
-3. **`src/components/SparkSection.tsx`** — Replace `sparkImg` with `<AgentAvatar agentId="spark" color="#FF6B00" size={180} />`
-4. **`src/pages/EchoPage.tsx`** — Replace `echoImg` with `<AgentAvatar>`
-
-### Step 2 — Fix AgentApp.tsx avatar fallback
-
-Remove the `agentAvatars` lazy-load map and use `AgentAvatar` component directly for the chat header/sidebar avatar, so every agent gets the unified mascot with correct brand colour.
-
-### Step 3 — Fix HelmApp.tsx avatar
-
-Replace `helmImg` import with `AgentAvatar` component usage.
-
-### Step 4 — Delete dead code
-
-Remove `src/components/RobotIcon.tsx` (unused).
-
-### Step 5 — No PWA changes needed
-
-PWA is already functional. I will add a brief install-prompt banner or tooltip to agent app pages so users know they can install, OR simply document the install flow in the response.
-
----
-
-## Technical Details
-
-- All agent colours come from `src/data/agents.ts` — no hardcoding needed in most cases
-- The `AgentAvatar` component handles glow, hue-shift, and eager/lazy loading
-- The hero robot (`hero-orb-robot.png`) and brand guidelines references remain untouched
-- `MyAppsPage.tsx` and `ChatPage.tsx` spark imports are CTA illustrations, not mascots — left as-is
+### Files Modified
+- `src/components/whariki/KeteParticleCanvas.tsx` — rewrite drawing logic
+- `src/pages/Index.tsx` — adjust hero background glow layers
 
