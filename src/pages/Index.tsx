@@ -156,6 +156,15 @@ const Index = () => {
           opacity: atmosphere.particleBrightness,
         }} />
 
+        {/* 3D Kete Orb */}
+        <Suspense fallback={
+          <div className="w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] rounded-full animate-pulse mb-4" style={{ background: `radial-gradient(circle, ${C.pounamu}18, transparent)` }} />
+        }>
+          <div className="mb-4">
+            <KeteOrbHero hideText />
+          </div>
+        </Suspense>
+
         <motion.p
           className="text-[11px] font-semibold tracking-[5px] uppercase mb-6"
           style={{ color: C.pounamuLight, fontFamily: "'JetBrains Mono', monospace" }}
