@@ -1,8 +1,10 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, MessageCircle, X, Loader2 } from "lucide-react";
+import { Send, MessageCircle, X, Loader2, Mic } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { agentChatStream } from "@/lib/agentChat";
+import VoiceAgentModal from "@/components/VoiceAgentModal";
+import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 interface KeteAgentChatProps {
   keteName: string;        // e.g. "Manaaki"
@@ -227,10 +229,24 @@ export default function KeteAgentChat({
   starterPrompts = [],
 }: KeteAgentChatProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showVoice, setShowVoice] = useState(false);
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const elevenLabsAgentId = getElevenLabsAgentId(defaultAgentId);
+
+  const handleVoiceHandoff = useCallback((voiceTranscript: { role: "user" | "agent"; text: string }[]) => {
+    if (voiceTranscript.length === 0) return;
+    const chatMsgs: ChatMsg[] = voiceTranscript.map((t) => ({
+      role: t.role === "agent" ? "assistant" as const : "user" as const,
+      content: t.text,
+    }));
+    setMessages((prev) => [...prev, ...chatMsgs]);
+    setShowVoice(false);
+    setIsOpen(true);
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -340,9 +356,19 @@ export default function KeteAgentChat({
                   {keteLabel} specialist
                 </p>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-white/40 hover:text-white/80 transition-colors">
-                <X size={18} />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => { setShowVoice(true); setIsOpen(false); }}
+                  className="p-1.5 rounded-lg transition-colors hover:bg-white/10"
+                  style={{ color: accentColor }}
+                  title={`Talk to ${keteName} by voice`}
+                >
+                  <Mic size={16} />
+                </button>
+                <button onClick={() => setIsOpen(false)} className="text-white/40 hover:text-white/80 transition-colors">
+                  <X size={18} />
+                </button>
+              </div>
             </div>
 
             {/* Messages */}
@@ -426,6 +452,16 @@ export default function KeteAgentChat({
           </motion.div>
         )}
       </AnimatePresence>
+
+      <VoiceAgentModal
+        open={showVoice}
+        onClose={() => setShowVoice(false)}
+        agentId={defaultAgentId}
+        agentName={keteName}
+        agentColor={accentColor}
+        elevenLabsAgentId={elevenLabsAgentId}
+        onHandoffToChat={handleVoiceHandoff}
+      />
     </>
   );
 }
