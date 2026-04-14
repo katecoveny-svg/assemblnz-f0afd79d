@@ -356,9 +356,19 @@ export default function KeteAgentChat({
                   {keteLabel} specialist
                 </p>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-white/40 hover:text-white/80 transition-colors">
-                <X size={18} />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => { setShowVoice(true); setIsOpen(false); }}
+                  className="p-1.5 rounded-lg transition-colors hover:bg-white/10"
+                  style={{ color: accentColor }}
+                  title={`Talk to ${keteName} by voice`}
+                >
+                  <Mic size={16} />
+                </button>
+                <button onClick={() => setIsOpen(false)} className="text-white/40 hover:text-white/80 transition-colors">
+                  <X size={18} />
+                </button>
+              </div>
             </div>
 
             {/* Messages */}
