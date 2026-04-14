@@ -410,26 +410,7 @@ Deno.serve(async (req) => {
       assigned_pack: agent.kete,
     }).eq("id", conversation.id);
 
-    // ── After-hours check ──
-    if (isAfterHours()) {
-      const afterHoursMsg = `Kia ora! We've received your message and routed it to ${agent.agentName}. Our team will respond during business hours (8am–6pm NZST). For urgent enquiries, visit assembl.co.nz`;
-      const ref = `assembl-${validChannel}-afterhours-${crypto.randomUUID()}`;
-      const sendResult = await sendViaTnz(validChannel, fromNumber, afterHoursMsg, ref);
-
-      await sb.from("messaging_messages").insert({
-        conversation_id: conversation.id,
-        tnz_message_id: sendResult.messageId || null,
-        direction: "outbound",
-        from_number: toNumber, to_number: fromNumber,
-        body: afterHoursMsg, channel: validChannel,
-        status: sendResult.messageId ? "sent" : "failed",
-        agent_used: "system",
-        response_time_ms: Date.now() - startTime,
-        tnz_reference: ref,
-      });
-
-      return new Response(JSON.stringify({ ok: true, afterHours: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
+    // After-hours gate removed — AI agents respond 24/7
 
     // ── Fetch agent system prompt from agent_prompts table ──
     let systemPrompt = `You are ${agent.agentName} from Assembl, a specialist business advisor for New Zealand.`;
