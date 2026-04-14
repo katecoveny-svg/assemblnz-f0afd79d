@@ -5278,18 +5278,27 @@ export type Database = {
           created_at: string
           full_name: string | null
           id: string
+          notify_channel: string | null
+          notify_enabled: boolean | null
+          phone: string | null
           updated_at: string
         }
         Insert: {
           created_at?: string
           full_name?: string | null
           id: string
+          notify_channel?: string | null
+          notify_enabled?: boolean | null
+          phone?: string | null
           updated_at?: string
         }
         Update: {
           created_at?: string
           full_name?: string | null
           id?: string
+          notify_channel?: string | null
+          notify_enabled?: boolean | null
+          phone?: string | null
           updated_at?: string
         }
         Relationships: []
