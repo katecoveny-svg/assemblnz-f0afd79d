@@ -3900,6 +3900,36 @@ export type Database = {
           },
         ]
       }
+      kete_channel_config: {
+        Row: {
+          created_at: string
+          id: string
+          kete_code: string
+          sms_enabled: boolean
+          updated_at: string
+          user_id: string
+          whatsapp_enabled: boolean
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kete_code: string
+          sms_enabled?: boolean
+          updated_at?: string
+          user_id: string
+          whatsapp_enabled?: boolean
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kete_code?: string
+          sms_enabled?: boolean
+          updated_at?: string
+          user_id?: string
+          whatsapp_enabled?: boolean
+        }
+        Relationships: []
+      }
       lead_activity: {
         Row: {
           activity_type: string
