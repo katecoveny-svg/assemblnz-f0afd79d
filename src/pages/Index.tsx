@@ -160,7 +160,7 @@ const Index = () => {
           <div className="absolute inset-0 pointer-events-none animate-[glowPulse_4s_ease-in-out_infinite]" style={{
             background: "radial-gradient(ellipse 55% 45% at 50% 55%, rgba(79,228,167,0.10) 0%, transparent 60%)",
           }} />
-          <KeteParticleCanvas />
+          <img src={heroWovenNetwork} alt="" className="absolute inset-0 w-full h-full object-cover opacity-80 pointer-events-none" />
           {/* Soft pounamu bloom behind kete shape */}
           <div className="absolute inset-0 pointer-events-none" style={{
             background: "radial-gradient(ellipse 45% 40% at 50% 55%, rgba(79,228,167,0.08) 0%, transparent 60%)",
