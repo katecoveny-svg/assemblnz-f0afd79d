@@ -1,0 +1,118 @@
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { usePersonalization } from '@/contexts/PersonalizationContext';
+import { ArrowRight, ChevronDown } from 'lucide-react';
+import KeteMiniIcon, { type KeteGlyph } from '@/components/kete/KeteMiniIcon';
+import type { KeteType } from '@/lib/personalization/types';
+
+const KETE_INFO: Record<KeteType, { name: string; glyph: KeteGlyph; color: string; path: string; samplePath: string }> = {
+  manaaki: { name: 'MANAAKI', glyph: 'fork-knife', color: '#D4A843', path: '/manaaki', samplePath: '/sample/manaaki' },
+  waihanga: { name: 'WAIHANGA', glyph: 'hard-hat', color: '#3A7D6E', path: '/waihanga/about', samplePath: '/sample/manaaki' },
+  auaha: { name: 'AUAHA', glyph: 'palette', color: '#F0D078', path: '/auaha/about', samplePath: '/sample/manaaki' },
+  arataki: { name: 'ARATAKI', glyph: 'car', color: '#E8E8E8', path: '/arataki', samplePath: '/sample/manaaki' },
+  pikau: { name: 'PIKAU', glyph: 'container', color: '#7ECFC2', path: '/pikau', samplePath: '/sample/manaaki' },
+  toro: { name: 'TŌROA', glyph: 'bird', color: '#D4A843', path: '/toroa', samplePath: '/sample/manaaki' },
+};
+
+export default function ContextBar() {
+  const { profile, isPersonalized } = usePersonalization();
+  const [visible, setVisible] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
+
+  useEffect(() => {
+    if (!isPersonalized || dismissed) return;
+
+    const kete = profile.detectedIndustry;
+    if (!kete) return;
+
+    // Show after 60% scroll depth OR 2+ pages in same kete
+    const ketePages = profile.signals.pagesViewed.filter(p => {
+      if (kete === 'manaaki') return p.startsWith('/manaaki');
+      if (kete === 'waihanga') return p.startsWith('/waihanga');
+      if (kete === 'auaha') return p.startsWith('/auaha');
+      if (kete === 'arataki') return p.startsWith('/arataki');
+      if (kete === 'pikau') return p.startsWith('/pikau');
+      if (kete === 'toro') return p.startsWith('/toro');
+      return false;
+    });
+
+    if (ketePages.length >= 2) {
+      setVisible(true);
+      return;
+    }
+
+    const handleScroll = () => {
+      const scrollPct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      if (scrollPct > 0.6) {
+        setVisible(true);
+        window.removeEventListener('scroll', handleScroll);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isPersonalized, profile.detectedIndustry, profile.signals.pagesViewed, dismissed]);
+
+  if (!isPersonalized || !profile.detectedIndustry || dismissed) return null;
+
+  const info = KETE_INFO[profile.detectedIndustry];
+  if (!info) return null;
+
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          className="fixed top-16 left-0 right-0 z-[9998] flex items-center justify-center"
+          initial={{ y: -48, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -48, opacity: 0 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div
+            className="flex items-center gap-3 px-5 h-[48px] text-[12px] backdrop-blur-xl w-full"
+            style={{
+              background: 'rgba(13,13,21,0.85)',
+              borderBottom: '1px solid rgba(255,255,255,0.06)',
+              fontFamily: "'JetBrains Mono', monospace",
+            }}
+          >
+            <KeteMiniIcon glyph={info.glyph} color={info.color} size={22} />
+            <span style={{ color: 'rgba(255,255,255,0.5)' }}>
+              You're exploring
+            </span>
+            <span className="font-semibold tracking-[2px]" style={{ color: info.color }}>
+              {info.name}
+            </span>
+            <span style={{ color: 'rgba(255,255,255,0.25)' }}>·</span>
+            <Link
+              to={info.samplePath}
+              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+              style={{ color: 'rgba(255,255,255,0.6)' }}
+            >
+              See a sample evidence pack
+              <ArrowRight size={11} />
+            </Link>
+            <span style={{ color: 'rgba(255,255,255,0.15)' }}>|</span>
+            <Link
+              to="/kete"
+              className="flex items-center gap-1 hover:opacity-80 transition-opacity"
+              style={{ color: 'rgba(255,255,255,0.4)' }}
+            >
+              Browse all industries
+              <ChevronDown size={11} />
+            </Link>
+            <button
+              onClick={() => setDismissed(true)}
+              className="ml-auto text-[10px] hover:opacity-80 transition-opacity"
+              style={{ color: 'rgba(255,255,255,0.25)' }}
+              aria-label="Dismiss"
+            >
+              ✕
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
