@@ -75,7 +75,7 @@ const TenderWriterPage = lazy(() => import("./components/hanga/TenderWriterPage"
 const DocIntelPage = lazy(() => import("./components/hanga/DocIntelPage"));
 const CommsHubPage = lazy(() => import("./components/hanga/CommsHubPage"));
 const VoiceAgentPage = lazy(() => import("./components/hanga/VoiceAgentPage"));
-const PackLandingPage = lazy(() => import("./pages/PackLandingPage"));
+
 const SampleEvidencePackPage = lazy(() => import("./pages/SampleEvidencePackPage"));
 const AuahaLayout = lazy(() => import("./components/auaha/AuahaLayout"));
 const AuahaDashboard = lazy(() => import("./components/auaha/AuahaDashboard"));
@@ -201,7 +201,7 @@ const App = () => (
                   <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
                   <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                   <Route path="/try" element={<Navigate to="/contact" replace />} />
-                  <Route path="/packs/:packSlug" element={<Suspense fallback={null}><PackLandingPage /></Suspense>} />
+                  <Route path="/packs/:packSlug" element={<Navigate to="/kete" replace />} />
                   <Route path="/sample/:kete" element={<Suspense fallback={null}><SampleEvidencePackPage /></Suspense>} />
                   <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
                   <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
