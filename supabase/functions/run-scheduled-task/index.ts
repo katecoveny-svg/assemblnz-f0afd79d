@@ -183,13 +183,7 @@ async function executeTask(
             .map((d: any) => `• ${d.title} — due ${d.due_date} (${d.severity})`)
             .join("\n");
 
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id,
-            description: `Upcoming compliance deadlines:\n${alertContent}`,
-            priority: deadlines.some((d: any) => d.severity === "critical") ? "high" : "medium",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, agent_id, "shared", `Upcoming compliance deadlines:\n${alertContent}`, "medium", payload);
         }
         return { success: true, result: { deadlines_found: deadlines?.length || 0 } };
       }
@@ -201,37 +195,19 @@ async function executeTask(
         );
 
         if (insight) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id,
-            description: insight,
-            priority: payload?.priority || "low",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, agent_id, "shared", insight, "medium", payload);
           return { success: true, result: { insight_generated: true } };
         }
         return { success: false, error: "AI generation failed" };
       }
 
       case "report": {
-        await supabase.from("action_queue").insert({
-          user_id,
-          agent_id,
-          description: `Scheduled report ready: ${task.title}. ${payload?.report_type || "summary"} report has been generated.`,
-          priority: "low",
-          status: "pending",
-        });
+        await notifyAndQueue(supabase, user_id, agent_id, "shared", `Scheduled report ready: ${task.title}. ${payload?.report_type || "summary"} report has been generated.`, "low", payload);
         return { success: true, result: { report_type: payload?.report_type } };
       }
 
       case "reminder": {
-        await supabase.from("action_queue").insert({
-          user_id,
-          agent_id,
-          description: payload?.message || task.description || task.title,
-          priority: payload?.priority || "medium",
-          status: "pending",
-        });
+        await notifyAndQueue(supabase, user_id, agent_id, "shared", payload?.message || task.description || task.title, "medium", payload);
         return { success: true, result: { reminded: true } };
       }
 
@@ -249,13 +225,7 @@ async function executeTask(
         });
 
         if (staleItems.length > 0) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id,
-            description: `${staleItems.length} business facts may be outdated: ${staleItems.map((s: any) => s.context_key).join(", ")}. Consider reviewing.`,
-            priority: "low",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, agent_id, "shared", `${staleItems.length} business facts may be outdated: ${staleItems.map((s: any) => s.context_key).join(", "low", payload);
         }
         return { success: true, result: { stale_items: staleItems.length } };
       }
@@ -294,13 +264,7 @@ Current date: ${new Date().toLocaleDateString("en-NZ")}`,
         );
 
         if (briefing) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "arai",
-            description: briefing,
-            priority: "medium",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "arai", "waihanga", briefing, "medium", payload);
         }
 
         return { success: true, result: { briefing_generated: !!briefing } };
@@ -337,13 +301,7 @@ Current date: ${new Date().toLocaleDateString("en-NZ")}`,
         );
 
         if (claimSummary) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "kaupapa",
-            description: claimSummary,
-            priority: "high",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "kaupapa", "waihanga", claimSummary, "high", payload);
         }
 
         return { success: true, result: { claim_generated: !!claimSummary } };
@@ -380,13 +338,7 @@ Keep under 500 chars. Format as a checklist.`,
         );
 
         if (alert) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "whakaae",
-            description: alert,
-            priority: "high",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "whakaae", "waihanga", alert, "high", payload);
         }
 
         return { success: true, result: { ccc_alert_generated: !!alert } };
@@ -439,13 +391,7 @@ Week of: ${weekStart.toLocaleDateString("en-NZ")} – ${weekEnd.toLocaleDateStri
         );
 
         if (calendar) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "echo",
-            description: calendar,
-            priority: "medium",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "echo", "auaha", calendar, "medium", payload);
         }
 
         return { success: true, result: { calendar_generated: !!calendar } };
@@ -491,13 +437,7 @@ Today: ${dayOfWeek}, ${new Date().toLocaleDateString("en-NZ")}`,
         );
 
         if (post) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "prism",
-            description: post,
-            priority: "medium",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "prism", "auaha", post, "medium", payload);
         }
 
         return { success: true, result: { post_generated: !!post } };
@@ -534,13 +474,7 @@ Keep under 600 chars. Format for WhatsApp.`,
         );
 
         if (review) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "echo",
-            description: review,
-            priority: "low",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "echo", "auaha", review, "low", payload);
         }
 
         return { success: true, result: { review_generated: !!review } };
@@ -584,13 +518,7 @@ Format as a one-page status report. Keep under 1200 chars.`,
         );
 
         if (sweep) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "terra",
-            description: sweep,
-            priority: "high",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "terra", "toro-ahuwhenua", sweep, "high", payload);
         }
 
         return { success: true, result: { sweep_generated: !!sweep } };
@@ -632,13 +560,7 @@ Current date: ${new Date().toLocaleDateString("en-NZ")}`,
         );
 
         if (advisory) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "terra",
-            description: advisory,
-            priority: "medium",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "terra", "toro-ahuwhenua", advisory, "medium", payload);
         }
 
         return { success: true, result: { advisory_generated: !!advisory } };
@@ -675,13 +597,7 @@ Current date: ${new Date().toLocaleDateString("en-NZ")}`,
         );
 
         if (reminder) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "terra",
-            description: reminder,
-            priority: "medium",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "terra", "toro-ahuwhenua", reminder, "medium", payload);
         }
 
         return { success: true, result: { reminder_generated: !!reminder } };
@@ -722,13 +638,7 @@ Keep under 400 chars. Format for SMS/WhatsApp.`,
         );
 
         if (checkin) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "terra",
-            description: checkin,
-            priority: "low",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "terra", "toro-ahuwhenua", checkin, "low", payload);
         }
 
         return { success: true, result: { checkin_generated: !!checkin } };
@@ -765,13 +675,7 @@ Current date: ${new Date().toLocaleDateString("en-NZ")}`,
         );
 
         if (update) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "terra",
-            description: update,
-            priority: "medium",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "terra", "toro-ahuwhenua", update, "medium", payload);
         }
 
         return { success: true, result: { update_generated: !!update } };
@@ -807,13 +711,7 @@ Current date: ${new Date().toLocaleDateString("en-NZ")}`,
         );
 
         if (alert) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "terra",
-            description: alert,
-            priority: "medium",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "terra", "toro-ahuwhenua", alert, "medium", payload);
         }
 
         return { success: true, result: { alert_generated: !!alert } };
@@ -846,13 +744,7 @@ Day: ${new Date().toLocaleDateString("en-NZ", { weekday: "long" })}`,
         );
 
         if (alert && user_id) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "aura",
-            description: alert,
-            priority: "high",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "aura", "manaaki", alert, "high", payload);
         }
 
         return { success: true, result: { alert_generated: !!alert } };
@@ -898,13 +790,7 @@ Current date: ${new Date().toLocaleDateString("en-NZ")}`,
         );
 
         if (pack) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "aura",
-            description: `📋 VERIFICATION PREP PACK\n${pack}`,
-            priority: "high",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "aura", "manaaki", `📋 VERIFICATION PREP PACK\n${pack}`, "high", payload);
         }
 
         return { success: true, result: { pack_generated: !!pack } };
@@ -946,13 +832,7 @@ Keep under 500 chars. Be specific.`,
         );
 
         if (renewal) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "cellar",
-            description: `🍷 LICENCE RENEWAL ALERT\n${renewal}`,
-            priority: "high",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "cellar", "manaaki", `🍷 LICENCE RENEWAL ALERT\n${renewal}`, "high", payload);
         }
 
         return { success: true, result: { renewal_generated: !!renewal } };
@@ -995,13 +875,7 @@ Current date: ${new Date().toLocaleDateString("en-NZ")}`,
         );
 
         if (brief) {
-          await supabase.from("action_queue").insert({
-            user_id,
-            agent_id: "aura",
-            description: `🍽️ WEEKEND BRIEF\n${brief}`,
-            priority: "medium",
-            status: "pending",
-          });
+          await notifyAndQueue(supabase, user_id, "aura", "manaaki", `🍽️ WEEKEND BRIEF\n${brief}`, "medium", payload);
         }
 
         return { success: true, result: { brief_generated: !!brief } };
@@ -1142,13 +1016,7 @@ Keep under 300 chars. Be specific and actionable.`,
             );
 
             if (insight) {
-              await supabase.from("action_queue").insert({
-                user_id: user_id || "00000000-0000-0000-0000-000000000000",
-                agent_id: "nova",
-                description: `📊 Agent improvement insight for ${agentId.toUpperCase()}: ${insight}`,
-                priority: "low",
-                status: "pending",
-              });
+              await notifyAndQueue(supabase, user_id, "nova", "shared", `📊 Agent improvement insight for ${agentId.toUpperCase()}: ${insight}`, "low", payload);
             }
           }
         }
