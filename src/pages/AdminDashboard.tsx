@@ -204,13 +204,21 @@ const AdminDashboard = () => {
       </header>
 
       {/* Tabs */}
-      <div className="flex gap-1 px-6 pt-4 border-b border-border overflow-x-auto">
+      <div className="flex gap-1 px-6 pt-4 border-b border-border overflow-x-auto items-center">
         {tabs.map(t => (
           <button key={t} onClick={() => setTab(t)}
             className={`px-4 py-2.5 text-xs font-medium capitalize border-b-2 transition-colors ${tab === t ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
             {t === "leads" ? "Leads" : t === "documents" ? <span className="flex items-center gap-1.5"><FolderOpen size={12} />Documents</span> : t}
           </button>
         ))}
+        <div className="ml-auto pl-4">
+          <button onClick={() => navigate("/admin/test-lab")}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all hover:scale-105"
+            style={{ background: "rgba(212,168,67,0.15)", border: "1px solid rgba(212,168,67,0.3)", color: "#D4A843" }}>
+            <Zap size={14} />
+            Agent Testing Lab
+          </button>
+        </div>
       </div>
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 space-y-6">
