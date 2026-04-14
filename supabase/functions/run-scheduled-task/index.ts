@@ -11,6 +11,90 @@ const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
 
+// ─── SMS/WhatsApp notification helper ──────────────────
+async function sendNotification(
+  supabase: any, userId: string, agentId: string, kete: string,
+  message: string, overrideChannel?: string, overridePhone?: string
+): Promise<{ sent: boolean; channel?: string; error?: string }> {
+  try {
+    let finalPhone = overridePhone;
+    let finalChannel = overrideChannel || "sms";
+
+    if (!finalPhone) {
+      const { data: profile } = await supabase
+        .from("profiles").select("phone, notify_channel, notify_enabled")
+        .eq("id", userId).single();
+      if (!profile?.notify_enabled || !profile?.phone) {
+        return { sent: false, error: "Notifications not enabled or no phone" };
+      }
+      finalPhone = profile.phone;
+      finalChannel = profile.notify_channel || "sms";
+    }
+
+    const maxLen = finalChannel === "sms" ? 380 : 1500;
+    const truncated = message.length > maxLen ? message.substring(0, maxLen - 3) + "..." : message;
+    const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v3.00";
+    const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
+    if (!tnzToken) return { sent: false, error: "TNZ_AUTH_TOKEN not configured" };
+
+    const endpoint = finalChannel === "whatsapp" ? "whatsapp" : "sms";
+    const ref = `assembl-${kete}-${agentId}-${crypto.randomUUID().slice(0, 8)}`;
+
+    const tnzResp = await fetch(`${tnzBase}/${endpoint}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${tnzToken}` },
+      body: JSON.stringify({
+        MessageData: {
+          Message: truncated,
+          Destinations: [{ Recipient: finalPhone }],
+          WebhookCallbackURL: `${SUPABASE_URL}/functions/v1/tnz-webhook`,
+          WebhookCallbackFormat: "JSON",
+          Reference: ref,
+          ...(endpoint === "sms" ? { SendMode: "Normal" } : {}),
+        },
+      }),
+    });
+
+    const tnzData = await tnzResp.json();
+    const success = tnzData.Result === "Success";
+
+    try {
+      await supabase.from("audit_log").insert({
+        agent_code: agentId, agent_name: agentId.toUpperCase(),
+        model_used: "scheduled-task", user_id: userId,
+        request_summary: `[PROACTIVE ${endpoint.toUpperCase()} → ${finalPhone}]`,
+        response_summary: truncated.substring(0, 200),
+        compliance_passed: true, data_classification: "INTERNAL",
+      });
+    } catch (_) {}
+
+    console.log(`[notify] ${endpoint} → ${finalPhone} (${agentId}): ${success ? "OK" : "FAIL"}`);
+    return { sent: success, channel: endpoint };
+  } catch (err) {
+    console.error("[notify] Error:", err);
+    return { sent: false, error: err instanceof Error ? err.message : "Unknown" };
+  }
+}
+
+// Helper: insert action_queue + send SMS/WhatsApp notification in parallel
+async function notifyAndQueue(
+  supabase: any, userId: string, agentId: string, kete: string,
+  description: string, priority: string, payload?: any
+) {
+  const [qR, nR] = await Promise.allSettled([
+    supabase.from("action_queue").insert({
+      user_id: userId, agent_id: agentId, description, priority, status: "pending",
+    }),
+    sendNotification(supabase, userId, agentId, kete, description,
+      payload?.notify_channel, payload?.notify_phone),
+  ]);
+  return {
+    queued: qR.status === "fulfilled",
+    notified: nR.status === "fulfilled" ? (nR as any).value?.sent : false,
+  };
+}
+
+
 // ─── Cron parser ───────────────────────────────────────
 function getNextRun(cron: string, from: Date = new Date()): Date {
   const parts = cron.trim().split(/\s+/);
