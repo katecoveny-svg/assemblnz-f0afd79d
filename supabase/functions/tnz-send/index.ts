@@ -7,8 +7,10 @@ const corsHeaders = {
 };
 
 /**
- * TNZ Send — manually send SMS or WhatsApp via TNZ API.
- * Used by the admin dashboard for manual takeover replies.
+ * TNZ Send — send SMS or WhatsApp via TNZ API.
+ * Used by dashboards, agent workflows, and manual takeover.
+ *
+ * Body: { channel, to, message, conversationId?, agentId?, kete? }
  */
 
 Deno.serve(async (req) => {
@@ -27,7 +29,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const { channel, to, message, conversationId } = await req.json();
+    const { channel, to, message, conversationId, agentId, kete } = await req.json();
 
     if (!to || !message) {
       return new Response(JSON.stringify({ error: "Missing 'to' or 'message'" }), {
@@ -36,7 +38,9 @@ Deno.serve(async (req) => {
     }
 
     const endpoint = channel === "whatsapp" ? "whatsapp" : "sms";
-    const ref = `assembl-manual-${crypto.randomUUID()}`;
+    const agentLabel = agentId || "manual";
+    const keteLabel = kete || "unknown";
+    const ref = `assembl-${keteLabel}-${agentLabel}-${crypto.randomUUID()}`;
     const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
 
     const tnzResp = await fetch(`${tnzBase}/${endpoint}`, {
@@ -58,6 +62,7 @@ Deno.serve(async (req) => {
     });
 
     const tnzData = await tnzResp.json();
+    const success = tnzData.Result === "Success";
 
     // Log outbound message
     if (conversationId) {
@@ -68,13 +73,31 @@ Deno.serve(async (req) => {
         to_number: to,
         body: message,
         channel: channel || "sms",
-        status: tnzData.Result === "Success" ? "sent" : "failed",
-        agent_used: "manual",
+        status: success ? "sent" : "failed",
+        agent_used: agentLabel,
         tnz_reference: ref,
       });
     }
 
-    return new Response(JSON.stringify({ ok: tnzData.Result === "Success", messageId: tnzData.MessageID }), {
+    // Audit trail
+    if (agentId) {
+      try {
+        await sb.from("audit_log").insert({
+          agent_code: agentId,
+          agent_name: agentId.toUpperCase(),
+          model_used: "manual",
+          user_id: "00000000-0000-0000-0000-000000000000",
+          request_summary: `[OUTBOUND ${(channel || "sms").toUpperCase()} → ${to}]`,
+          response_summary: message.substring(0, 200),
+          compliance_passed: true,
+          data_classification: "INTERNAL",
+        });
+      } catch (e) {
+        console.error("Audit error:", e);
+      }
+    }
+
+    return new Response(JSON.stringify({ ok: success, messageId: tnzData.MessageID, kete: keteLabel, agent: agentLabel }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
