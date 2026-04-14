@@ -15,13 +15,40 @@ interface WeatherRequest {
   mode?: "current" | "forecast" | "both";
 }
 
+const FALLBACK_WEATHER = {
+  fallback: true,
+  summary: "Weather data temporarily unavailable — using cached NZ defaults",
+  current: {
+    weather: [{ description: "data unavailable" }],
+    main: { temp: 15, feels_like: 14, humidity: 70, pressure: 1013 },
+    wind: { speed: 5, deg: 220 },
+    visibility: 10000,
+  },
+};
+
+async function safeFetch(url: string): Promise<{ ok: boolean; data: any }> {
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) {
+      const text = await resp.text().catch(() => "");
+      console.error(`OpenWeatherMap API error: ${resp.status} ${text}`);
+      return { ok: false, data: null };
+    }
+    return { ok: true, data: await resp.json() };
+  } catch (err) {
+    console.error("OpenWeatherMap fetch failed:", err);
+    return { ok: false, data: null };
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
     if (!OWM_KEY) {
-      return new Response(JSON.stringify({ error: "OPENWEATHERMAP_API_KEY not configured" }), {
-        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      console.warn("[iot-weather] OPENWEATHERMAP_API_KEY not configured — returning fallback");
+      return new Response(JSON.stringify({ ...FALLBACK_WEATHER, error: "API_KEY_MISSING" }), {
+        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
@@ -33,11 +60,10 @@ Deno.serve(async (req) => {
     if (!useLat || !useLon) {
       if (city) {
         const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(city)},NZ&limit=1&appid=${OWM_KEY}`;
-        const geoResp = await fetch(geoUrl);
-        const geoData = await geoResp.json();
-        if (geoData?.[0]) {
-          useLat = geoData[0].lat;
-          useLon = geoData[0].lon;
+        const geo = await safeFetch(geoUrl);
+        if (geo.ok && geo.data?.[0]) {
+          useLat = geo.data[0].lat;
+          useLon = geo.data[0].lon;
         }
       }
       if (!useLat || !useLon) {
@@ -45,18 +71,28 @@ Deno.serve(async (req) => {
       }
     }
 
-    const results: any = { coordinates: { lat: useLat, lon: useLon } };
+    const results: any = { coordinates: { lat: useLat, lon: useLon }, fallback: false };
 
     if (mode === "current" || mode === "both") {
       const url = `https://api.openweathermap.org/data/2.5/weather?lat=${useLat}&lon=${useLon}&units=${units}&appid=${OWM_KEY}`;
-      const resp = await fetch(url);
-      results.current = resp.ok ? await resp.json() : null;
+      const resp = await safeFetch(url);
+      if (resp.ok) {
+        results.current = resp.data;
+      } else {
+        results.current = FALLBACK_WEATHER.current;
+        results.fallback = true;
+      }
     }
 
     if (mode === "forecast" || mode === "both") {
       const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${useLat}&lon=${useLon}&units=${units}&appid=${OWM_KEY}`;
-      const resp = await fetch(url);
-      results.forecast = resp.ok ? await resp.json() : null;
+      const resp = await safeFetch(url);
+      if (resp.ok) {
+        results.forecast = resp.data;
+      } else {
+        results.forecast = null;
+        results.fallback = true;
+      }
     }
 
     // Generate formatted summary
@@ -74,12 +110,16 @@ Deno.serve(async (req) => {
     }
 
     return new Response(JSON.stringify(results), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
     console.error("iot-weather error:", e);
-    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
-      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    // Return 200 with fallback instead of 500
+    return new Response(JSON.stringify({
+      ...FALLBACK_WEATHER,
+      error: e instanceof Error ? e.message : "Unknown error",
+    }), {
+      status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });
