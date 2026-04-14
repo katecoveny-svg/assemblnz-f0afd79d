@@ -250,26 +250,46 @@ const Index = () => {
                 </p>
               </GlassPanel>
             </motion.div>
-            {/* Convergence diagram */}
-            <motion.div {...fade} className="flex justify-center">
-              <svg width="260" height="260" viewBox="0 0 260 260" className="opacity-60">
-                {PACKS.map((p, i) => {
-                  const a = (i / PACKS.length) * Math.PI * 2 - Math.PI / 2;
-                  const ox = 130 + Math.cos(a) * 110;
-                  const oy = 130 + Math.sin(a) * 110;
-                  return (
-                    <g key={p.reo}>
-                      <line x1={ox} y1={oy} x2={130} y2={130} stroke={p.color} strokeWidth="1.5" opacity="0.35">
-                        <animate attributeName="opacity" values="0.2;0.5;0.2" dur={`${3 + i * 0.4}s`} repeatCount="indefinite" />
-                      </line>
-                      <circle cx={ox} cy={oy} r="5" fill={p.color} opacity="0.5" />
-                      <text x={ox + Math.cos(a) * 16} y={oy + Math.sin(a) * 16} fill={p.color} fontSize="7" textAnchor="middle" dominantBaseline="middle" fontFamily="'JetBrains Mono', monospace" opacity="0.5">{p.reo}</text>
-                    </g>
-                  );
-                })}
-                <circle cx="130" cy="130" r="8" fill={C.pounamu} opacity="0.25" />
-                <circle cx="130" cy="130" r="4" fill={C.gold} opacity="0.6" />
-              </svg>
+            {/* Convergence visual — cinematic hero style */}
+            <motion.div {...fade} className="relative flex justify-center items-center rounded-2xl overflow-hidden" style={{ minHeight: 280 }}>
+              {/* Background video with hero treatment */}
+              <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none">
+                <source src="/hero-woven-video.mp4" type="video/mp4" />
+              </video>
+              {/* Dark scrim */}
+              <div className="absolute inset-0 pointer-events-none" style={{
+                background: "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(6,14,28,0.65) 0%, rgba(6,14,28,0.85) 100%)",
+              }} />
+              {/* Vignette */}
+              <div className="absolute inset-0 pointer-events-none" style={{
+                background: "radial-gradient(ellipse 90% 80% at 50% 50%, transparent 30%, rgba(6,14,28,0.8) 100%)",
+              }} />
+              {/* Convergence nodes */}
+              <div className="relative z-10 flex flex-col items-center py-10">
+                <div className="flex flex-wrap justify-center gap-3 mb-6 max-w-[240px]">
+                  {PACKS.map((p) => (
+                    <span key={p.reo} className="text-[9px] tracking-[2px] uppercase px-2.5 py-1 rounded-full"
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        color: p.color,
+                        border: `1px solid ${p.color}40`,
+                        background: `${p.color}10`,
+                        textShadow: `0 0 12px ${p.color}60`,
+                      }}>
+                      {p.reo}
+                    </span>
+                  ))}
+                </div>
+                <div className="w-px h-8" style={{ background: `linear-gradient(to bottom, ${C.pounamu}60, ${C.gold}60)` }} />
+                <div className="w-4 h-4 rounded-full mt-1" style={{
+                  background: `radial-gradient(circle, ${C.gold} 0%, ${C.pounamu}80 100%)`,
+                  boxShadow: `0 0 20px ${C.pounamu}40, 0 0 40px ${C.gold}20`,
+                }} />
+                <p className="mt-3 text-[10px] tracking-[3px] uppercase"
+                  style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold, textShadow: "0 1px 12px rgba(0,0,0,0.7)" }}>
+                  Iho
+                </p>
+              </div>
             </motion.div>
           </div>
         </Sect>
