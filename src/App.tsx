@@ -146,7 +146,7 @@ const App = () => (
                   <Route path="/chat/:agentId" element={<ChatPageKeyed />} />
                   <Route path="/login" element={<AuthPage mode="login" />} />
                   <Route path="/signup" element={<AuthPage mode="signup" />} />
-                  <Route path="/mariner" element={<Navigate to="/toroa" replace />} />
+                  <Route path="/mariner" element={<Navigate to="/toro" replace />} />
                   <Route path="/embed/:agentId" element={<Suspense fallback={null}><EmbedChatWidget /></Suspense>} />
                   <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
                   <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
@@ -235,12 +235,12 @@ const App = () => (
                   <Route path="/pikau/dashboard" element={<Suspense fallback={null}><PikauDashboard /></Suspense>} />
 
                   {/* Tōro (Family) */}
-                  <Route path="/toroa" element={<Suspense fallback={null}><ToroaLandingPage /></Suspense>} />
-                  <Route path="/toroa/dashboard" element={<Suspense fallback={null}><ToroaDashboard /></Suspense>} />
-                  <Route path="/toroa/app" element={<Suspense fallback={null}><ToroaApp /></Suspense>} />
-                  <Route path="/toroa/install" element={<Suspense fallback={null}><ToroaInstallPage /></Suspense>} />
-                  <Route path="/toroa/travel" element={<Suspense fallback={null}><ToroaTravelPage /></Suspense>} />
-                  <Route path="/toroa/chat" element={<Suspense fallback={null}><ToroaChatPage /></Suspense>} />
+                  <Route path="/toro" element={<Suspense fallback={null}><ToroaLandingPage /></Suspense>} />
+                  <Route path="/toro/dashboard" element={<Suspense fallback={null}><ToroaDashboard /></Suspense>} />
+                  <Route path="/toro/app" element={<Suspense fallback={null}><ToroaApp /></Suspense>} />
+                  <Route path="/toro/install" element={<Suspense fallback={null}><ToroaInstallPage /></Suspense>} />
+                  <Route path="/toro/travel" element={<Suspense fallback={null}><ToroaTravelPage /></Suspense>} />
+                  <Route path="/toro/chat" element={<Suspense fallback={null}><ToroaChatPage /></Suspense>} />
 
                   {/* Waihanga (Construction) */}
                   <Route path="/waihanga/workflow" element={<Suspense fallback={null}><WaihangaWorkflow /></Suspense>} />
@@ -288,8 +288,10 @@ const App = () => (
                   {/* ── Retired routes → redirects ── */}
                   <Route path="/hanga" element={<Navigate to="/waihanga" replace />} />
                   <Route path="/hanga/*" element={<Navigate to="/waihanga" replace />} />
-                  <Route path="/helm" element={<Navigate to="/toroa" replace />} />
-                  <Route path="/helm/*" element={<Navigate to="/toroa" replace />} />
+                  <Route path="/helm" element={<Navigate to="/toro" replace />} />
+                  <Route path="/helm/*" element={<Navigate to="/toro" replace />} />
+                  <Route path="/toroa" element={<Navigate to="/toro" replace />} />
+                  <Route path="/toroa/*" element={<Navigate to="/toro" replace />} />
                   <Route path="/pakihi" element={<Navigate to="/" replace />} />
                   <Route path="/hangarau" element={<Navigate to="/" replace />} />
                   <Route path="/te-kahui-reo" element={<Navigate to="/" replace />} />
