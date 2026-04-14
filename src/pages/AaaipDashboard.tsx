@@ -55,8 +55,10 @@ import {
 } from "recharts";
 
 import SEO from "@/components/SEO";
+import BrandNav from "@/components/BrandNav";
+import BrandFooter from "@/components/BrandFooter";
+import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import ParticleField from "@/components/ParticleField";
-import KeteIcon from "@/components/kete/KeteIcon";
 import AgentTestToggle from "@/components/aaaip/AgentTestToggle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -347,22 +349,14 @@ export default function AaaipDashboard() {
   if (!authLoading && !isAdmin) return <Navigate to="/" replace />;
 
   return (
-    <div className="relative min-h-screen bg-background text-foreground">
+    <GlowPageWrapper accentColor={meta.accentColor}>
+    <div className="relative min-h-screen" style={{ background: "#0A0A14", color: "#fff" }}>
       <SEO
         title="AAAIP Live Demo · Assembl"
         description="Simulation-tested, policy-governed autonomous agents across every Assembl industry Kete — Waihanga, Pikau, Manaaki, Auaha, Toro — plus clinical, robotics, drug-screening and community-moderation pilots."
       />
-      {/* Animated star-field constellation background */}
-      <div className="pointer-events-none fixed inset-0 z-0 opacity-60">
-        <ParticleField />
-      </div>
+      <BrandNav />
       <div className="relative z-10">
-      {/* Back to home bar */}
-      <div className="border-b border-border/20 px-6 py-2" style={{ background: "rgba(9,9,15,0.8)" }}>
-        <Link to="/" className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft size={14} /> Back to assembl
-        </Link>
-      </div>
       <header
         className="border-b border-border/40 backdrop-blur-xl"
         style={{
