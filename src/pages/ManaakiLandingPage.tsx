@@ -10,6 +10,7 @@ import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import TextUsButton from "@/components/kete/TextUsButton";
+import WhatsAppBubble from "@/components/kete/WhatsAppBubble";
 
 const BG = "#09090F";
 const ACCENT = "#D4A843";
@@ -516,6 +517,7 @@ export default function ManaakiLandingPage() {
           defaultAgentId="aura" packId="manaaki"
           starterPrompts={["What does Manaaki cover for hospitality?", "How does food safety compliance work?", "Tell me about alcohol licensing support", "What evidence packs do I get?"]}
         />
+        <WhatsAppBubble keteName="Manaaki" />
       </div>
     </GlowPageWrapper>
   );

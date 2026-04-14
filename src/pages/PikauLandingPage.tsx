@@ -10,6 +10,7 @@ import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import TextUsButton from "@/components/kete/TextUsButton";
+import WhatsAppBubble from "@/components/kete/WhatsAppBubble";
 
 const BG = "#09090F";
 const ACCENT = "#7ECFC2";
@@ -295,6 +296,7 @@ export default function PikauLandingPage() {
           defaultAgentId="gateway" packId="pikau"
           starterPrompts={["What does Pikau cover for freight teams?", "How does customs declaration support work?", "Tell me about HS code validation", "What evidence packs do I get for shipments?"]}
         />
+        <WhatsAppBubble keteName="Pikau" />
       </div>
     </GlowPageWrapper>
   );
