@@ -93,3 +93,11 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.compress-context]
     verify_jwt = false
+  [functions.sms-send]
+    verify_jwt = false
+  [functions.sms-webhook]
+    verify_jwt = false
+  [functions.helm-sms]
+    verify_jwt = false
+  [functions.helm-whatsapp]
+    verify_jwt = false
