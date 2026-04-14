@@ -462,6 +462,7 @@ export default function AdminMessagingDashboard() {
         </Tabs>
     </AdminShell>
   );
+}
 
 function MessageLogsTable() {
   const [logs, setLogs] = useState<any[]>([]);
