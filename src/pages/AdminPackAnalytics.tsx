@@ -221,33 +221,34 @@ const AdminPackAnalytics = () => {
       icon={<BarChart3 size={18} style={{ color: "#D4A843" }} />}
       backTo="/admin/dashboard"
       actions={
-            {/* Date range selector */}
-            <div className="flex rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
-              {(["7d", "30d", "90d"] as DateRange[]).map(r => (
-                <button
-                  key={r}
-                  onClick={() => setDateRange(r)}
-                  className="px-3 py-1.5 text-[10px] font-bold uppercase transition-colors"
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    background: dateRange === r ? "rgba(212,168,67,0.15)" : "transparent",
-                    color: dateRange === r ? "#D4A843" : "rgba(255,255,255,0.4)",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={exportCSV}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase transition-all hover:scale-105"
-              style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#09090F", letterSpacing: "0.08em" }}
-            >
-              <Download size={12} /> CSV Export
-            </button>
+        <div className="flex items-center gap-3">
+          <div className="flex rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+            {(["7d", "30d", "90d"] as DateRange[]).map(r => (
+              <button
+                key={r}
+                onClick={() => setDateRange(r)}
+                className="px-3 py-1.5 text-[10px] font-bold uppercase transition-colors"
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  background: dateRange === r ? "rgba(212,168,67,0.15)" : "transparent",
+                  color: dateRange === r ? "#D4A843" : "rgba(255,255,255,0.4)",
+                  letterSpacing: "0.08em",
+                }}
+              >
+                {r}
+              </button>
+            ))}
           </div>
+          <button
+            onClick={exportCSV}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase transition-all hover:scale-105"
+            style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#09090F", letterSpacing: "0.08em" }}
+          >
+            <Download size={12} /> CSV Export
+          </button>
         </div>
+      }
+    >
 
         {/* Tabs */}
         <div className="flex gap-1 mb-8 rounded-xl p-1" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}>
@@ -487,8 +488,7 @@ const AdminPackAnalytics = () => {
             )}
           </>
         )}
-      </main>
-    </div>
+    </AdminShell>
   );
 };
 
