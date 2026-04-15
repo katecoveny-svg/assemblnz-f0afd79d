@@ -9,7 +9,7 @@ const FOOTER_LINKS = {
   Platform: [
     { to: "/#industry-packs", label: "Your industry" },
     { to: "/pricing", label: "Pricing" },
-    { to: "/about", label: "How it works" },
+    { to: "/how-it-works", label: "How it works" },
     { to: "/contact", label: "Contact" },
   ],
   Demos: [
@@ -28,8 +28,8 @@ const FOOTER_LINKS = {
     { to: "/toro", label: "Toro — Family" },
   ],
   "Trust & Compliance": [
-    { to: "/tikanga", label: "Governance Pipeline" },
     { to: "/data-sovereignty", label: "Data Sovereignty" },
+    { to: "/security", label: "Security" },
     { to: "/privacy", label: "Privacy Policy" },
     { to: "/terms", label: "Terms of Service" },
     { to: "/data-privacy", label: "Data Privacy" },
