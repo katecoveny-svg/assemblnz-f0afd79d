@@ -12,6 +12,7 @@ import SEO from "@/components/SEO";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import WharikiFoundation from "@/components/whariki/WharikiFoundation";
+import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
