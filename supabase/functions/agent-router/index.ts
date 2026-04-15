@@ -32,7 +32,7 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
   pau: ["event", "catering", "wedding", "function", "banquet", "conference", "venue", "run sheet"],
   summit: ["adventure regulation", "safety activity", "bungy", "jet boat", "rafting", "zipline", "outdoor safety"],
 
-  // ── HANGA — Construction (9) ──
+  // ── WAIHANGA — Construction (9) ──
   arai: ["hazard", "safety", "h&s", "risk", "ppe", "incident", "worksafe", "swms", "sssp", "toolbox", "height", "scaffold", "fall", "induction", "notifiable"],
   kaupapa: ["payment claim", "project", "schedule", "variation", "cca", "gantt", "milestone", "budget", "programme", "delay", "progress", "retention", "subcontract"],
   ata: ["bim", "3d", "model", "clash", "revit", "ifc", "mep", "coordination", "digital twin", "autodesk"],
@@ -72,7 +72,7 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
   transit: ["transport", "trucking", "logistics", "freight", "nzta", "heavy vehicle", "logbook", "ruc", "chain rule"],
   mariner: ["maritime", "vessel", "ship", "boat", "seafarer", "maritime transport", "coastguard", "port"],
 
-  // ── HANGARAU — Technology (12) ──
+  // ── WAIHANGARAU — Technology (12) ──
   spark: ["app", "software", "code", "deploy", "cloud", "saas", "platform", "api", "build"],
   sentinel: ["monitoring", "uptime", "alert", "incident", "observability", "grafana", "datadog"],
   "nexus-t": ["integration", "api management", "webhook", "connector", "middleware", "zapier"],
@@ -124,9 +124,9 @@ const AGENT_PACK: Record<string, string> = {
   // Manaaki
   aura: "manaaki", saffron: "manaaki", cellar: "manaaki", luxe: "manaaki",
   moana: "manaaki", coast: "manaaki", kura: "manaaki", pau: "manaaki", summit: "manaaki",
-  // Hanga
-  arai: "hanga", kaupapa: "hanga", ata: "hanga", rawa: "hanga",
-  whakaae: "hanga", pai: "hanga", arc: "hanga", terra: "hanga", pinnacle: "hanga",
+  // Waihanga
+  arai: "waihanga", kaupapa: "waihanga", ata: "waihanga", rawa: "waihanga",
+  whakaae: "waihanga", pai: "waihanga", arc: "waihanga", terra: "waihanga", pinnacle: "waihanga",
   // Auaha
   prism: "auaha", muse: "auaha", pixel: "auaha", verse: "auaha",
   echo: "auaha", flux: "auaha", chromatic: "auaha", rhythm: "auaha", market: "auaha",
@@ -136,7 +136,7 @@ const AGENT_PACK: Record<string, string> = {
   grove: "pakihi", sage: "pakihi", ascend: "pakihi",
   // Waka
   motor: "waka", transit: "waka", mariner: "waka",
-  // Hangarau
+  // Waihangarau
   spark: "hangarau", sentinel: "hangarau", "nexus-t": "hangarau", cipher: "hangarau",
   relay: "hangarau", matrix: "hangarau", forge: "hangarau", oracle: "hangarau",
   ember: "hangarau", reef: "hangarau", patent: "hangarau", foundry: "hangarau",
@@ -575,7 +575,7 @@ Trust & compliance:
 
           const industryMap: Record<string, string> = {
             hospitality: "manaaki", restaurant: "manaaki", cafe: "manaaki", hotel: "manaaki",
-            construction: "hanga", building: "hanga", contractor: "hanga",
+            construction: "waihanga", building: "waihanga", contractor: "waihanga",
             creative: "auaha", marketing: "auaha", design: "auaha",
             automotive: "arataki", dealership: "arataki", workshop: "arataki",
             freight: "pikau", logistics: "pikau", customs: "pikau",

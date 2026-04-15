@@ -21,7 +21,7 @@ interface Props {
   agentId?: string;
 }
 
-const VoiceFAB = ({ packId = "hanga", agentId }: Props) => {
+const VoiceFAB = ({ packId = "waihanga", agentId }: Props) => {
   const [state, setState] = useState<VoiceState>("idle");
   const [expanded, setExpanded] = useState(false);
   const [transcript, setTranscript] = useState("");

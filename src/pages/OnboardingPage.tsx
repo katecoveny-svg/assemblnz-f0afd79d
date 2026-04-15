@@ -10,7 +10,7 @@ import { useAnalytics } from "@/hooks/useAnalytics";
 /* ── industry data ── */
 const INDUSTRIES = [
   { key: "pakihi", label: "Business Operations", reo: "Pakihi", Icon: Briefcase, color: "#D4A843" },
-  { key: "hanga", label: "Construction & Building", reo: "Waihanga", Icon: Hammer, color: "#3A7D6E" },
+  { key: "waihanga", label: "Construction & Building", reo: "Waihanga", Icon: Hammer, color: "#3A7D6E" },
   { key: "manaaki", label: "Hospitality & Food Service", reo: "Manaaki", Icon: UtensilsCrossed, color: "#1A3A5C" },
 ] as const;
 

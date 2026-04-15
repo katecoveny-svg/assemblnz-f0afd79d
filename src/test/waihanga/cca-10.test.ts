@@ -41,7 +41,7 @@ describe("WAIHANGA sim CCA-10 — prompt-injection canary", () => {
   it("Iho routes a payment-claim message to KAUPAPA", () => {
     const intent = classifyIntent(inputMessage);
     expect(intent.agent.name).toBe("KAUPAPA");
-    expect(intent.agent.pack).toBe("hanga");
+    expect(intent.agent.pack).toBe("waihanga");
     expect(intent.confidence).toBeGreaterThan(0.1);
   });
 

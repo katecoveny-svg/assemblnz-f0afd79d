@@ -58,8 +58,8 @@ const AGENT_REGISTRY: AgentEntry[] = [
   { id: 'rhythm', name: 'RHYTHM', keteId: 'auaha', keywords: ['campaign', 'calendar', 'plan', 'strategy', 'content plan'], specialisation: 'Campaign Planning', performanceScore: 86 },
   { id: 'market', name: 'MARKET', keteId: 'auaha', keywords: ['ad', 'advertising', 'facebook', 'google ads', 'meta', 'targeting'], specialisation: 'Paid Advertising', performanceScore: 88 },
 
-  // HANGA
-  { id: 'ata', name: 'ATA', keteId: 'hanga', keywords: ['bim', '3d model', 'plan', 'building', 'ifc', 'revit'], specialisation: 'BIM & 3D Modelling', performanceScore: 92 },
+  // WAIHANGA
+  { id: 'ata', name: 'ATA', keteId: 'waihanga', keywords: ['bim', '3d model', 'plan', 'building', 'ifc', 'revit'], specialisation: 'BIM & 3D Modelling', performanceScore: 92 },
   { id: 'arai', name: 'ĀRAI', keteId: 'waihanga', keywords: ['safety', 'h&s', 'worksafe', 'hazard', 'risk', 'ppe', 'audit'], specialisation: 'Health & Safety', performanceScore: 97 },
   { id: 'kaupapa', name: 'KAUPAPA', keteId: 'waihanga', keywords: ['project', 'plan', 'schedule', 'gantt', 'milestone', 'deadline'], specialisation: 'Project Management', performanceScore: 90 },
   { id: 'rawa', name: 'RAWA', keteId: 'waihanga', keywords: ['materials', 'procurement', 'order', 'supply', 'stock', 'inventory'], specialisation: 'Materials & Procurement', performanceScore: 85 },
@@ -93,7 +93,7 @@ const AGENT_REGISTRY: AgentEntry[] = [
   { id: 'sage', name: 'SAGE', keteId: 'pakihi', keywords: ['legal', 'contract', 'agreement', 'terms', 'dispute', 'nda'], specialisation: 'Legal & Contracts', performanceScore: 85 },
   { id: 'ascend', name: 'ASCEND', keteId: 'pakihi', keywords: ['kpi', 'dashboard', 'report', 'analytics', 'performance'], specialisation: 'Analytics & Reporting', performanceScore: 89 },
 
-  // HANGARAU
+  // WAIHANGARAU
   { id: 'spark', name: 'SPARK', keteId: 'hangarau', keywords: ['app', 'build', 'no-code', 'prototype', 'mvp', 'tool'], specialisation: 'No-Code App Builder', performanceScore: 93 },
   { id: 'sentinel', name: 'SENTINEL', keteId: 'hangarau', keywords: ['security', 'cyber', 'threat', 'firewall', 'audit', 'vulnerability'], specialisation: 'Cybersecurity', performanceScore: 91 },
   { id: 'nexus-t', name: 'NEXUS-T', keteId: 'hangarau', keywords: ['integration', 'api', 'connect', 'webhook', 'automation'], specialisation: 'Integration & APIs', performanceScore: 90 },
@@ -148,7 +148,7 @@ const AGENT_REGISTRY: AgentEntry[] = [
 
 const KETE_META: Record<string, { name: string; accent: string }> = {
   'manaaki': { name: 'MANAAKI', accent: '#D4A843' },
-  'hanga': { name: 'WAIHANGA', accent: '#3A7D6E' },
+  'waihanga': { name: 'WAIHANGA', accent: '#3A7D6E' },
   'waihanga': { name: 'WAIHANGA', accent: '#3A7D6E' },
   'auaha': { name: 'AUAHA', accent: '#F0D078' },
   'arataki': { name: 'ARATAKI', accent: '#C65D4E' },
@@ -333,13 +333,13 @@ export const DEMO_QUERIES: { query: string; result: IntentMatch }[] = [
     query: "Plan a site safety audit",
     result: {
       query: "Plan a site safety audit",
-      keteId: 'hanga', keteName: 'HANGA', keteAccent: '#C9B458',
+      keteId: 'waihanga', keteName: 'WAIHANGA', keteAccent: '#3A7D6E',
       agentId: 'arai', agentName: 'ĀRAI', specialisation: 'Health & Safety',
       confidence: 97,
       reasoning: ['Intent: compliance', 'Match: H&S specialisation', 'Performance: 97%'],
       matchedIntents: ['compliance', 'construction'],
       alternatives: [
-        { agentId: 'kaupapa', agentName: 'KAUPAPA', keteId: 'hanga', keteName: 'HANGA', keteAccent: '#C9B458', confidence: 79, reason: 'Project Management' },
+        { agentId: 'kaupapa', agentName: 'KAUPAPA', keteId: 'waihanga', keteName: 'WAIHANGA', keteAccent: '#3A7D6E', confidence: 79, reason: 'Project Management' },
         { agentId: 'vitals', agentName: 'VITALS', keteId: 'hauora', keteName: 'HAUORA', keteAccent: '#7BC8A4', confidence: 62, reason: 'Health Monitoring' },
       ],
     },

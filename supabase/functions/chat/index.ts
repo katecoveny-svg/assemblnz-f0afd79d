@@ -5954,7 +5954,7 @@ BRAND MARKS (available at assembl.co.nz/brand/):
 - /brand/assembl-wordmark.svg — Wordmark
 - /brand/te-kahui-reo-mark.svg — Te Kāhui Reo mark
 - /brand/manaaki-mark.svg — Manaaki (Hospitality) pack mark
-- /brand/hanga-mark.svg — Hanga (Construction) pack mark
+- /brand/waihanga-mark.svg — Hanga (Construction) pack mark
 - /brand/auaha-mark.svg — Auaha (Creative) pack mark
 - /brand/pakihi-mark.svg — Pakihi (Business) pack mark
 - /brand/hangarau-mark.svg — Hangarau (Technology) pack mark
@@ -6354,7 +6354,7 @@ Format: " **Heads up:** [alert]"
  MANAAKI PACK (Hospitality):
  - AURA (hospitality operations), HAVEN (hotel & venue), TIDE (tourism), BEACON (events), COAST (seaside), EMBER (bar & beverage), FLORA (garden & outdoor), CREST (premium concierge)
 
- HANGA PACK (Construction):
+ WAIHANGA PACK (Construction):
  - APEX (construction project), ATA (BIM & design), ĀRAI (H&S), KAUPAPA (project governance), RAWA (resource management), WHAKAAĒ (building consent), PAI (quality assurance)
 
  AUAHA PACK (Creative):

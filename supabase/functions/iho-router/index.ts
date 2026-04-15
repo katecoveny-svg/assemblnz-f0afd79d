@@ -77,14 +77,14 @@ const AGENT_REGISTRY: AgentConfig[] = [
   { code: "ASM-007", name: "FLORA", pack: "manaaki", primaryModel: "gemini", skills: ["garden_venue", "outdoor_management"], keywords: ["garden", "landscape", "outdoor", "plant", "grounds"] },
   { code: "ASM-008", name: "CREST", pack: "manaaki", primaryModel: "gemini", skills: ["luxury_hospitality", "concierge"], keywords: ["luxury", "premium", "vip", "concierge", "bespoke", "fine dining"] },
 
-  // HANGA — Construction & Property
-  { code: "ASM-009", name: "APEX", pack: "hanga", primaryModel: "claude", skills: ["project_management", "construction_compliance", "bim"], keywords: ["construction", "build", "project", "site", "contractor", "sssp", "h&s", "safety"] },
-  { code: "ASM-010", name: "ATA", pack: "hanga", primaryModel: "gemini", skills: ["bim_modeling", "3d_visualization"], keywords: ["bim", "3d", "model", "design", "plans", "cad", "revit", "clash"] },
-  { code: "ASM-011", name: "ĀRAI", pack: "hanga", primaryModel: "claude", skills: ["health_safety", "risk_assessment"], keywords: ["h&s", "safety", "hazard", "risk", "ppe", "incident", "worksafe", "swms"] },
-  { code: "ASM-012", name: "KAUPAPA", pack: "hanga", primaryModel: "claude", skills: ["project_governance", "planning", "construction_contracts_act"], keywords: ["project plan", "gantt", "milestone", "governance", "scope", "charter", "payment claim", "cca", "form 1", "retention", "subcontractor"] },
-  { code: "ASM-013", name: "RAWA", pack: "hanga", primaryModel: "claude", skills: ["resource_management", "consenting"], keywords: ["resource consent", "rma", "council", "environment", "consent"] },
-  { code: "ASM-014", name: "WHAKAAĒ", pack: "hanga", primaryModel: "claude", skills: ["building_consent", "building_code"], keywords: ["building consent", "building code", "ccc", "inspection", "compliance schedule"] },
-  { code: "ASM-015", name: "PAI", pack: "hanga", primaryModel: "gemini", skills: ["quality_assurance", "defect_management"], keywords: ["quality", "defect", "snag", "inspection", "workmanship", "punch list"] },
+  // WAIHANGA — Construction & Property
+  { code: "ASM-009", name: "APEX", pack: "waihanga", primaryModel: "claude", skills: ["project_management", "construction_compliance", "bim"], keywords: ["construction", "build", "project", "site", "contractor", "sssp", "h&s", "safety"] },
+  { code: "ASM-010", name: "ATA", pack: "waihanga", primaryModel: "gemini", skills: ["bim_modeling", "3d_visualization"], keywords: ["bim", "3d", "model", "design", "plans", "cad", "revit", "clash"] },
+  { code: "ASM-011", name: "ĀRAI", pack: "waihanga", primaryModel: "claude", skills: ["health_safety", "risk_assessment"], keywords: ["h&s", "safety", "hazard", "risk", "ppe", "incident", "worksafe", "swms"] },
+  { code: "ASM-012", name: "KAUPAPA", pack: "waihanga", primaryModel: "claude", skills: ["project_governance", "planning", "construction_contracts_act"], keywords: ["project plan", "gantt", "milestone", "governance", "scope", "charter", "payment claim", "cca", "form 1", "retention", "subcontractor"] },
+  { code: "ASM-013", name: "RAWA", pack: "waihanga", primaryModel: "claude", skills: ["resource_management", "consenting"], keywords: ["resource consent", "rma", "council", "environment", "consent"] },
+  { code: "ASM-014", name: "WHAKAAĒ", pack: "waihanga", primaryModel: "claude", skills: ["building_consent", "building_code"], keywords: ["building consent", "building code", "ccc", "inspection", "compliance schedule"] },
+  { code: "ASM-015", name: "PAI", pack: "waihanga", primaryModel: "gemini", skills: ["quality_assurance", "defect_management"], keywords: ["quality", "defect", "snag", "inspection", "workmanship", "punch list"] },
 
   // AUAHA — Creative & Digital
   { code: "ASM-016", name: "PRISM", pack: "auaha", primaryModel: "gemini", skills: ["brand_strategy", "campaign_design", "content_creation"], keywords: ["brand", "campaign", "marketing", "content", "social media", "design", "logo", "creative"] },
@@ -109,7 +109,7 @@ const AGENT_REGISTRY: AgentConfig[] = [
   { code: "ASM-033", name: "AXIS", pack: "pakihi", primaryModel: "claude", skills: ["analytics", "performance"], keywords: ["analytics", "dashboard", "kpi", "metric", "reporting", "data", "benchmark", "cohort"] },
   { code: "ASM-034", name: "KINDLE", pack: "pakihi", primaryModel: "claude", skills: ["innovation", "product_development"], keywords: ["product", "innovation", "mvp", "prototype", "roadmap", "feature", "ideation", "beta"] },
 
-  // HANGARAU — Technology & Infrastructure
+  // WAIHANGARAU — Technology & Infrastructure
   { code: "ASM-035", name: "SPARK", pack: "hangarau", primaryModel: "claude", skills: ["software_development", "architecture"], keywords: ["code", "api", "database", "typescript", "python", "architecture", "deploy", "ci/cd"] },
   { code: "ASM-036", name: "SENTINEL", pack: "hangarau", primaryModel: "claude", skills: ["monitoring", "alerting"], keywords: ["monitoring", "uptime", "alert", "incident", "error", "log", "status"] },
   { code: "ASM-037", name: "NEXUS", pack: "hangarau", primaryModel: "claude", skills: ["integration", "data_pipelines"], keywords: ["integration", "api", "webhook", "etl", "sync", "migration", "pipeline"] },

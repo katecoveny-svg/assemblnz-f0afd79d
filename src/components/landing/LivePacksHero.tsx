@@ -52,7 +52,7 @@ const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
 
 const LIVE_PACKS = [
   { slug: "manaaki", name: "Manaaki", english: "Hospitality", desc: "Food safety, liquor licensing, guest experience, tourism operations." },
-  { slug: "hanga", name: "Waihanga", english: "Construction", desc: "Site safety, consenting, project management, quality and sign-off." },
+  { slug: "waihanga", name: "Waihanga", english: "Construction", desc: "Site safety, consenting, project management, quality and sign-off." },
   { slug: "auaha", name: "Auaha", english: "Creative", desc: "Brief to publish — copy, image, video, podcast, ads, analytics." },
   { slug: "arataki", name: "Arataki", english: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling." },
   { slug: "pikau", name: "Pikau", english: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance." },
