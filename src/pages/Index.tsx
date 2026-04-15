@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useMemo } from "react";
 import { motion, LayoutGroup } from "framer-motion";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Shield, Layers, Brain, Eye as EyeIcon, Zap, TestTube } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePersonalization } from "@/contexts/PersonalizationContext";
@@ -11,18 +11,15 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import KeteMiniIcon, { type KeteGlyph } from "@/components/kete/KeteMiniIcon";
 import WharikiFoundation from "@/components/whariki/WharikiFoundation";
-import { KETE } from "@/data/pricing";
-import GlassPanel from "@/components/whariki/GlassPanel";
-import MaungaBorder from "@/components/whariki/MaungaBorder";
 import WovenDivider from "@/components/whariki/WovenDivider";
+import { KETE } from "@/data/pricing";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
 
 /* ─── Tokens ─── */
 const C = {
-  bg: "#0A1628",
+  bg: "#080E1A",
   pounamu: "#3A7D6E",
   pounamuLight: "#7ECFC2",
   pounamuGlow: "#5AADA0",
@@ -31,27 +28,23 @@ const C = {
   navy: "#1A3A5C",
   bone: "#F5F0E8",
   white: "#FFFFFF",
-  t1: "rgba(245,240,232,0.92)",
-  t2: "rgba(245,240,232,0.70)",
-  t3: "rgba(245,240,232,0.40)",
-  border: "rgba(58,125,110,0.12)",
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const fade = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-40px" as const },
-  transition: { duration: 0.4, ease },
+  viewport: { once: true, margin: "-60px" as const },
+  transition: { duration: 0.6, ease },
 };
 const stagger = (i: number) => ({
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
-  transition: { delay: i * 0.07, duration: 0.4, ease },
+  transition: { delay: i * 0.08, duration: 0.5, ease },
 });
 
-/* ─── Data (sourced from pricing.ts) ─── */
+/* ─── Data ─── */
 const KETE_COLORS: Record<string, { color: string; accentLight: string; to: string }> = {
   manaaki: { color: C.pounamu, accentLight: C.pounamuLight, to: "/manaaki" },
   waihanga: { color: C.navy, accentLight: "#2A5A8C", to: "/waihanga/about" },
@@ -62,21 +55,19 @@ const KETE_COLORS: Record<string, { color: string; accentLight: string; to: stri
 
 const PACKS = [
   ...KETE.map((k) => ({
-    reo: k.name,
-    en: k.eng,
-    desc: k.desc,
+    reo: k.name, en: k.eng, desc: k.desc,
     ...KETE_COLORS[k.key],
   })),
   { reo: "Toro", en: "Family", desc: "School runs, meal planning, family admin — one less thing to worry about.", color: C.bone, accentLight: "#E8DDD0", to: "/toroa" },
 ];
 
-const LAYERS = [
-  { name: "Perception", desc: "Reads your real inputs: invoices, emails, sensor data, calendar events." },
-  { name: "Memory", desc: "Separates verified facts from inferred guesses. Keeps a validated knowledge base." },
-  { name: "Reasoning", desc: "Combines pattern recognition with hard compliance rules. Never guesses on legislation." },
-  { name: "Action", desc: "Every action is classified: allowed, needs approval, or forbidden. No rogue moves." },
-  { name: "Explanation", desc: "Logs the reason behind every material decision in plain language." },
-  { name: "Simulation", desc: "Tests workflows against realistic scenarios before they touch production." },
+const LAYERS_DATA = [
+  { name: "Perception", desc: "Reads your real inputs: invoices, emails, sensor data, calendar events.", icon: EyeIcon },
+  { name: "Memory", desc: "Separates verified facts from inferred guesses. Keeps a validated knowledge base.", icon: Brain },
+  { name: "Reasoning", desc: "Combines pattern recognition with hard compliance rules. Never guesses on legislation.", icon: Layers },
+  { name: "Action", desc: "Every action is classified: allowed, needs approval, or forbidden.", icon: Zap },
+  { name: "Explanation", desc: "Logs the reason behind every material decision in plain language.", icon: Shield },
+  { name: "Simulation", desc: "Tests workflows against realistic scenarios before they touch production.", icon: TestTube },
 ];
 
 const TRUST_NODES = [
@@ -112,14 +103,10 @@ const EVIDENCE_PACKS = [
   },
 ];
 
-
-
-
 /* ═══ PAGE ═══ */
 const Index = () => {
   const isMobile = useIsMobile();
-  const { profile, atmosphere, isPersonalized } = usePersonalization();
-  const hero = profile.preferences.heroVariant;
+  const { profile, isPersonalized } = usePersonalization();
   useReturnVisitor();
 
   const orderedPacks = useMemo(() => {
@@ -137,7 +124,7 @@ const Index = () => {
   }, [isPersonalized, profile.preferences.keteOrder]);
 
   return (
-    <div className="min-h-screen relative" style={{ background: `linear-gradient(180deg, #0A1628 0%, #0D1E35 30%, #0A1628 60%, #0E1A2E 100%)`, color: C.bone }}>
+    <div className="min-h-screen relative" style={{ background: C.bg, color: C.bone }}>
       <SEO
         title="assembl — Governed workflow tools for NZ businesses"
         description="Specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. Built for NZ."
@@ -148,308 +135,231 @@ const Index = () => {
         <BrandNav />
         <ContextBar />
 
-        {/* ═══ HERO — Full viewport + Kete Particle Canvas ═══ */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 sm:px-8 overflow-hidden">
-          {/* Cinematic depth layers */}
+        {/* ═══════════════════════════════════════════════════
+            HERO — Cinematic full viewport
+        ═══════════════════════════════════════════════════ */}
+        <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+          {/* Deep luminous layers */}
           <div className="absolute inset-0 pointer-events-none" style={{
             background: `
-              radial-gradient(ellipse 50% 45% at 50% 50%, rgba(212,168,83,0.08) 0%, transparent 50%),
-              radial-gradient(ellipse 70% 60% at 50% 55%, rgba(58,125,110,0.06) 0%, transparent 55%),
-              radial-gradient(ellipse 90% 80% at 50% 50%, rgba(10,22,40,0.95) 0%, rgba(6,14,28,1) 100%)
+              radial-gradient(ellipse 45% 40% at 50% 48%, rgba(212,168,83,0.10) 0%, transparent 50%),
+              radial-gradient(ellipse 65% 55% at 50% 52%, rgba(58,125,110,0.08) 0%, transparent 55%),
+              radial-gradient(ellipse 90% 90% at 50% 50%, rgba(8,14,26,0.85) 0%, ${C.bg} 100%)
             `,
           }} />
 
-          {/* Orbiting glow orbs */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <motion.div
-              className="absolute w-[600px] h-[600px] rounded-full"
-              style={{
-                top: "10%", left: "10%",
-                background: "radial-gradient(circle, rgba(58,125,110,0.08) 0%, transparent 60%)",
-                filter: "blur(60px)",
-              }}
-              animate={{ x: [0, 40, 0], y: [0, -20, 0] }}
-              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-              className="absolute w-[500px] h-[500px] rounded-full"
-              style={{
-                bottom: "5%", right: "5%",
-                background: "radial-gradient(circle, rgba(212,168,83,0.06) 0%, transparent 60%)",
-                filter: "blur(50px)",
-              }}
-              animate={{ x: [0, -30, 0], y: [0, 20, 0] }}
-              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-              className="absolute w-[300px] h-[300px] rounded-full"
-              style={{
-                top: "40%", left: "50%", transform: "translateX(-50%)",
-                background: "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%)",
-                filter: "blur(40px)",
-              }}
-              animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </div>
+          {/* Animated orbs */}
+          <motion.div className="absolute pointer-events-none" style={{ width: 500, height: 500, top: "5%", left: "5%", background: "radial-gradient(circle, rgba(58,125,110,0.10) 0%, transparent 60%)", filter: "blur(80px)" }}
+            animate={{ x: [0, 50, 0], y: [0, -30, 0] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} />
+          <motion.div className="absolute pointer-events-none" style={{ width: 400, height: 400, bottom: "10%", right: "8%", background: "radial-gradient(circle, rgba(212,168,83,0.08) 0%, transparent 60%)", filter: "blur(70px)" }}
+            animate={{ x: [0, -40, 0], y: [0, 25, 0] }} transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }} />
+          {/* Central bloom */}
+          <motion.div className="absolute pointer-events-none" style={{ width: 350, height: 350, top: "50%", left: "50%", transform: "translate(-50%, -50%)", background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 50%)", filter: "blur(50px)" }}
+            animate={{ scale: [1, 1.4, 1], opacity: [0.4, 1, 0.4] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} />
 
           {/* Video layer */}
-          <video autoPlay muted loop playsInline preload="auto" className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none" style={{ mixBlendMode: "lighten" }}>
+          <video autoPlay muted loop playsInline preload="auto" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.25, mixBlendMode: "screen" }}>
             <source src="/hero-woven-video.mp4" type="video/mp4" />
           </video>
 
-          {/* Vignette */}
-          <div className="absolute inset-0 pointer-events-none" style={{
-            background: "radial-gradient(ellipse 85% 65% at 50% 50%, transparent 35%, rgba(6,14,28,0.85) 100%)",
-          }} />
-
-          {/* Gold accent line at bottom of hero */}
-          <div className="absolute bottom-0 left-0 right-0 h-px" style={{
-            background: "linear-gradient(90deg, transparent 10%, rgba(212,168,83,0.25) 50%, transparent 90%)",
-          }} />
+          {/* Edge vignette */}
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, rgba(8,14,26,0.9) 100%)" }} />
+          {/* Bottom gradient fade */}
+          <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: `linear-gradient(transparent, ${C.bg})` }} />
 
           <div className="relative z-10 max-w-3xl">
-            {/* Floating badge */}
-            <motion.div
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full mb-10"
-              style={{
-                background: "rgba(212,168,83,0.06)",
-                border: "1px solid rgba(212,168,83,0.15)",
-                backdropFilter: "blur(16px)",
-              }}
-              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease }}
+            {/* Status badge */}
+            <motion.div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full mb-12"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", backdropFilter: "blur(20px)" }}
+              initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}
             >
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: C.gold, boxShadow: `0 0 8px ${C.gold}60` }} />
-              <span className="text-[10px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(212,168,83,0.7)" }}>
+              <div className="w-2 h-2 rounded-full" style={{ background: C.pounamuGlow, boxShadow: `0 0 10px ${C.pounamuGlow}80` }} />
+              <span className="text-[10px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.5)" }}>
                 Now onboarding NZ businesses
               </span>
             </motion.div>
 
+            {/* H1 — Bigger, bolder, glowing */}
             <motion.h1
               style={{
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 300,
-                fontSize: isMobile ? "2rem" : "3.75rem",
+                fontSize: isMobile ? "2.25rem" : "4rem",
                 lineHeight: 1.05,
-                letterSpacing: isMobile ? "5px" : "10px",
+                letterSpacing: isMobile ? "6px" : "12px",
                 textTransform: "uppercase" as const,
                 color: C.white,
-                textShadow: "0 0 80px rgba(255,255,255,0.08), 0 2px 40px rgba(0,0,0,0.9)",
+                textShadow: "0 0 60px rgba(255,255,255,0.12), 0 0 120px rgba(212,168,83,0.08)",
               }}
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.05, ease }}
             >
-              The operating system for NZ business.
+              The operating system<br />for NZ business
             </motion.h1>
 
-            {/* Glowing accent line under headline */}
-            <motion.div
-              className="mx-auto mt-8 mb-8"
-              style={{
-                width: 80, height: 2,
-                background: `linear-gradient(90deg, transparent, ${C.gold}, transparent)`,
-                boxShadow: `0 0 20px rgba(212,168,83,0.4)`,
-              }}
-              initial={{ opacity: 0, scaleX: 0 }} animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.6, delay: 0.3, ease }}
-            />
+            {/* Glowing accent bar */}
+            <motion.div className="mx-auto mt-10 mb-10" style={{ width: 100, height: 1, background: `linear-gradient(90deg, transparent, ${C.gold}, transparent)`, boxShadow: `0 0 30px rgba(212,168,83,0.5), 0 0 60px rgba(212,168,83,0.2)` }}
+              initial={{ opacity: 0, scaleX: 0 }} animate={{ opacity: 1, scaleX: 1 }} transition={{ duration: 0.7, delay: 0.3, ease }} />
 
             <motion.p
-              className="max-w-[520px] mx-auto text-[15px] sm:text-[17px] leading-[2]"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.55)" }}
+              className="max-w-[500px] mx-auto text-[16px] sm:text-[18px] leading-[2]"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.6)" }}
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2, ease }}
             >
-              Specialist operational workflows that reduce admin, surface risk earlier, and keep people in control.
+              Specialist workflows that reduce admin, surface risk earlier, and keep your people in control.
             </motion.p>
 
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 mt-14 justify-center"
+            {/* CTA buttons */}
+            <motion.div className="flex flex-col sm:flex-row gap-5 mt-16 justify-center"
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.35, ease }}
             >
-              <Link to="/contact" className="group inline-flex items-center justify-center gap-2.5 px-14 py-4 text-[12px] font-semibold rounded-full transition-all duration-300 tracking-[2px] uppercase"
+              <Link to="/contact" className="group inline-flex items-center justify-center gap-3 px-14 py-[18px] text-[11px] font-semibold rounded-full transition-all duration-300 tracking-[3px] uppercase hover:scale-[1.03]"
                 style={{
-                  background: "linear-gradient(135deg, rgba(212,168,83,0.15), rgba(240,208,120,0.08))",
-                  border: "1px solid rgba(212,168,83,0.4)",
-                  color: C.goldLight,
-                  boxShadow: "0 0 40px rgba(212,168,83,0.12), 0 0 80px rgba(212,168,83,0.05), inset 0 1px 0 rgba(255,255,255,0.06)",
+                  background: `linear-gradient(135deg, ${C.gold}, ${C.goldLight})`,
+                  color: C.bg,
+                  boxShadow: `0 4px 30px rgba(212,168,83,0.35), 0 0 60px rgba(212,168,83,0.15)`,
                   fontFamily: "'Lato', sans-serif",
-                  backdropFilter: "blur(16px)",
                 }}>
                 Get started <ArrowRight size={13} className="group-hover:translate-x-1.5 transition-transform" />
               </Link>
-              <Link to="/demos" className="inline-flex items-center justify-center gap-2.5 px-14 py-4 text-[12px] font-medium rounded-full transition-all duration-300 tracking-[2px] uppercase"
+              <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-14 py-[18px] text-[11px] font-medium rounded-full transition-all duration-300 tracking-[3px] uppercase hover:border-white/20"
                 style={{
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  color: "rgba(255,255,255,0.5)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  color: "rgba(255,255,255,0.6)",
                   backdropFilter: "blur(16px)",
                   fontFamily: "'Lato', sans-serif",
                 }}>
-                See it in action →
+                See it in action <ArrowRight size={13} className="opacity-40 group-hover:opacity-70 transition-opacity" />
               </Link>
             </motion.div>
 
-            <motion.p
-              className="mt-20 text-[9px] tracking-[5px] uppercase"
-              style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "rgba(212,168,83,0.3)" }}
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.5 }}
+            <motion.p className="mt-24 text-[9px] tracking-[6px] uppercase"
+              style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.2)" }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.5 }}
             >
               Trusted · Intelligent · Aotearoa
             </motion.p>
           </div>
         </section>
 
-        {/* Luminous transition divider */}
-        <div className="relative h-32 overflow-hidden">
-          <div className="absolute inset-0" style={{
-            background: `linear-gradient(180deg, transparent 0%, ${C.bg} 100%)`,
-          }} />
-          <div className="absolute bottom-0 left-[20%] right-[20%] h-px" style={{
-            background: "linear-gradient(90deg, transparent, rgba(58,125,110,0.2), rgba(212,168,83,0.15), transparent)",
-          }} />
-        </div>
-
-        {/* ═══ WHAT WE DO ═══ */}
+        {/* ═══ WHAT WE DO — Bright cards on dark ═══ */}
         <Sect>
-          <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <motion.div {...fade}>
-              <GlassPanel className="p-8 sm:p-10" goldRim>
-                <p className="text-[15px] sm:text-base leading-[1.9]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.t2 }}>
-                  Assembl creates New Zealand business specialist operational workflows, that reduce admin, surface risk earlier, and keep people in control.
+              <LuminousCard>
+                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold }}>
+                  — What we do —
                 </p>
-                <WovenDivider className="my-6" />
-                <p className="text-[15px] sm:text-base leading-[1.9]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.t2 }}>
+                <p className="text-[17px] leading-[2] mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>
+                  Assembl creates New Zealand business specialist operational workflows that reduce admin, surface risk earlier, and keep people in control.
+                </p>
+                <div className="h-px my-6" style={{ background: "linear-gradient(90deg, transparent, rgba(212,168,83,0.2), transparent)" }} />
+                <p className="text-[15px] leading-[1.9]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.5)" }}>
                   We help teams act faster with better information — not replace the people who know the work best.
                 </p>
-              </GlassPanel>
+              </LuminousCard>
             </motion.div>
-            {/* Convergence visual — cinematic hero style */}
-            <motion.div {...fade} className="relative flex justify-center items-center rounded-2xl overflow-hidden" style={{ minHeight: 280 }}>
-              {/* Static woven background */}
-              <div className="absolute inset-0 pointer-events-none opacity-50" style={{
-                backgroundImage: `linear-gradient(45deg, ${C.pounamu}12 1px, transparent 1px), linear-gradient(-45deg, ${C.gold}08 1px, transparent 1px), linear-gradient(135deg, ${C.pounamu}06 1px, transparent 1px)`,
-                backgroundSize: "18px 18px, 24px 24px, 12px 12px",
-              }} />
-              {/* Dark scrim */}
-              <div className="absolute inset-0 pointer-events-none" style={{
-                background: "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(6,14,28,0.65) 0%, rgba(6,14,28,0.85) 100%)",
-              }} />
-              {/* Vignette */}
-              <div className="absolute inset-0 pointer-events-none" style={{
-                background: "radial-gradient(ellipse 90% 80% at 50% 50%, transparent 30%, rgba(6,14,28,0.8) 100%)",
-              }} />
-              {/* Convergence nodes */}
-              <div className="relative z-10 flex flex-col items-center py-10">
-                <div className="flex flex-wrap justify-center gap-3 mb-6 max-w-[240px]">
+
+            {/* Kete convergence — brighter */}
+            <motion.div {...fade}>
+              <LuminousCard className="text-center py-12">
+                <p className="text-[10px] tracking-[4px] uppercase mb-8" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.35)" }}>
+                  Industry kete
+                </p>
+                <div className="flex flex-wrap justify-center gap-3 mb-8">
                   {PACKS.map((p) => (
-                    <span key={p.reo} className="text-[9px] tracking-[2px] uppercase px-2.5 py-1 rounded-full"
+                    <Link to={p.to} key={p.reo} className="text-[9px] tracking-[2px] uppercase px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
                       style={{
                         fontFamily: "'JetBrains Mono', monospace",
-                        color: p.color,
-                        border: `1px solid ${p.color}40`,
-                        background: `${p.color}10`,
-                        textShadow: `0 0 12px ${p.color}60`,
+                        color: "rgba(255,255,255,0.7)",
+                        border: `1px solid rgba(255,255,255,0.1)`,
+                        background: `rgba(255,255,255,0.03)`,
                       }}>
-                      {p.reo} <span style={{ opacity: 0.55, fontSize: "8px" }}>/ {p.en}</span>
-                    </span>
+                      <span style={{ color: p.color }}>{p.reo}</span> <span style={{ opacity: 0.4 }}>/ {p.en}</span>
+                    </Link>
                   ))}
                 </div>
-                <div className="w-px h-8" style={{ background: `linear-gradient(to bottom, ${C.pounamu}60, ${C.gold}60)` }} />
-                <div className="w-4 h-4 rounded-full mt-1" style={{
-                  background: `radial-gradient(circle, ${C.gold} 0%, ${C.pounamu}80 100%)`,
-                  boxShadow: `0 0 20px ${C.pounamu}40, 0 0 40px ${C.gold}20`,
-                }} />
-                <p className="mt-3 text-[10px] tracking-[3px] uppercase"
-                  style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold, textShadow: "0 1px 12px rgba(0,0,0,0.7)" }}>
-                  Iho
-                </p>
-              </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-px h-10" style={{ background: `linear-gradient(to bottom, rgba(255,255,255,0.1), ${C.gold}80)` }} />
+                  <div className="w-5 h-5 rounded-full mt-2" style={{
+                    background: `radial-gradient(circle, ${C.goldLight} 0%, ${C.gold} 100%)`,
+                    boxShadow: `0 0 30px ${C.gold}50, 0 0 60px ${C.gold}20`,
+                  }} />
+                  <p className="mt-3 text-[9px] tracking-[4px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold }}>
+                    Iho Router
+                  </p>
+                </div>
+              </LuminousCard>
             </motion.div>
           </div>
         </Sect>
 
-        {/* ═══ DEMOS SECTION ═══ */}
+        {/* ═══ DEMOS — Glowing cards ═══ */}
         <Sect>
-          <motion.div {...fade} className="text-center mb-12">
-            <Eye color={C.gold}>GOVERNANCE IN ACTION</Eye>
-            <H2>See the governance pipeline in action</H2>
-            <P className="max-w-xl mx-auto">
-              Four 60-second demos showing how Assembl enforces NZ law, tikanga, and human oversight before any output reaches a user.
-            </P>
+          <motion.div {...fade} className="text-center mb-16">
+            <SectionEyebrow color={C.gold}>Governance in action</SectionEyebrow>
+            <SectionH2>See the pipeline in action</SectionH2>
+            <SectionP>Four 60-second demos showing how Assembl enforces NZ law, tikanga, and human oversight.</SectionP>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {[
-              { title: "Pipeline Walkthrough", desc: "Watch a query flow through five governance stages", to: "/demos/pipeline", accent: C.pounamu },
-              { title: "Evidence Pack", desc: "See the structured, watermarked output your team keeps", to: "/demos/evidence-pack", accent: C.gold },
-              { title: "Confidence Scoring", desc: "Every claim tagged with source, confidence, and citation", to: "/demos/confidence-scoring", accent: C.pounamuLight },
-              { title: "Kaitiaki Gate", desc: "Sacred content guardrail and human-in-the-loop escalation", to: "/demos/kaitiaki-gate", accent: "#E87461" },
+              { title: "Pipeline Walkthrough", desc: "Watch a query flow through five governance stages", to: "/demos/pipeline", accent: C.pounamuGlow },
+              { title: "Evidence Pack", desc: "See the structured output your team keeps", to: "/demos/evidence-pack", accent: C.gold },
+              { title: "Confidence Scoring", desc: "Every claim tagged with source and citation", to: "/demos/confidence-scoring", accent: C.pounamuLight },
+              { title: "Kaitiaki Gate", desc: "Sacred content guardrail and human-in-the-loop", to: "/demos/kaitiaki-gate", accent: "#E87461" },
             ].map((d, i) => (
               <motion.div key={d.title} {...stagger(i)}>
                 <Link to={d.to} className="group block h-full">
-                  <GlassPanel className="p-6 h-full" tilt>
-                    <div className="w-3 h-3 rounded-full mb-4" style={{ background: d.accent, boxShadow: `0 0 12px ${d.accent}40` }} />
-                    <h3 className="text-[13px] mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "2px", textTransform: "uppercase", color: C.t1 }}>{d.title}</h3>
-                    <p className="text-[12px] mb-3" style={{ color: C.t3 }}>{d.desc}</p>
-                    <span className="inline-flex items-center gap-1.5 text-[11px] font-medium group-hover:gap-3 transition-all" style={{ color: d.accent }}>
+                  <LuminousCard className="h-full hover:translate-y-[-6px] transition-all duration-300">
+                    <div className="w-3 h-3 rounded-full mb-5" style={{ background: d.accent, boxShadow: `0 0 20px ${d.accent}50, 0 0 40px ${d.accent}20` }} />
+                    <h3 className="text-[13px] mb-3 tracking-[2px] uppercase" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "rgba(255,255,255,0.85)" }}>{d.title}</h3>
+                    <p className="text-[12px] leading-[1.8] mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>{d.desc}</p>
+                    <span className="inline-flex items-center gap-2 text-[11px] font-medium group-hover:gap-3 transition-all" style={{ color: d.accent }}>
                       Try it <ArrowRight size={10} />
                     </span>
-                  </GlassPanel>
+                  </LuminousCard>
                 </Link>
               </motion.div>
             ))}
           </div>
         </Sect>
 
-
-
-
         {/* ═══ INDUSTRY KETE ═══ */}
         <Sect id="industry-packs">
-          <motion.div {...fade} className="text-center mb-12">
-            <Eye color={C.pounamu}>YOUR INDUSTRY</Eye>
-            <H2>Sector-specific workflow packs</H2>
+          <motion.div {...fade} className="text-center mb-16">
+            <SectionEyebrow color={C.pounamuGlow}>Your industry</SectionEyebrow>
+            <SectionH2>Sector-specific workflow packs</SectionH2>
           </motion.div>
           <LayoutGroup>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {orderedPacks.map((p, i) => {
                 const isDetected = isPersonalized && i === 0;
                 return (
                   <motion.div key={p.reo} layout layoutId={`kete-${p.reo}`} {...stagger(i)}>
                     <Link to={p.to} className="group block h-full">
-                      <div className="glass-panel h-full rounded-2xl overflow-hidden transition-all duration-300 group-hover:translate-y-[-4px]"
-                        style={isDetected ? { boxShadow: `0 0 40px ${C.gold}12, inset 0 1px 0 rgba(212,168,83,0.25)` } : undefined}>
-                        <MaungaBorder variant="top" accentColor={p.color} />
-                        <div className="p-6 relative z-[1]">
-                          {isDetected && (
-                            <span className="text-[9px] px-2 py-0.5 rounded-full tracking-[2px] uppercase inline-block mb-3"
-                              style={{ background: `${C.gold}15`, color: `${C.gold}aa`, border: `1px solid ${C.gold}25`, fontFamily: "'JetBrains Mono', monospace" }}>
-                              Recommended for you
-                            </span>
-                          )}
-                          <div className="flex items-center gap-4 mb-4">
-                            <Suspense fallback={<KeteWeaveVisual size={40} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
-                              <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={48} />
-                            </Suspense>
-                            <div>
-                              <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "1.15rem", letterSpacing: "4px", textTransform: "uppercase", color: C.white }}>{p.reo}</h3>
-                              <p className="text-[11px] tracking-[1px] uppercase" style={{ color: "rgba(245,240,232,0.45)", fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500 }}>{p.en}</p>
-                            </div>
-                          </div>
-                          <p className="text-[14px] leading-relaxed mb-4" style={{ color: C.t2 }}>{p.desc}</p>
-                          <span className="inline-flex items-center gap-1.5 text-[13px] font-medium group-hover:gap-3 transition-all" style={{ color: p.color }}>
-                            See a sample pack <ArrowRight size={12} />
+                      <LuminousCard className="h-full hover:translate-y-[-6px] transition-all duration-300" accentColor={p.color}>
+                        {isDetected && (
+                          <span className="text-[9px] px-3 py-1 rounded-full tracking-[2px] uppercase inline-block mb-4"
+                            style={{ background: `${C.gold}15`, color: C.gold, border: `1px solid ${C.gold}30`, fontFamily: "'JetBrains Mono', monospace" }}>
+                            Recommended
                           </span>
+                        )}
+                        <div className="flex items-center gap-4 mb-5">
+                          <Suspense fallback={<KeteWeaveVisual size={40} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />}>
+                            <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={48} />
+                          </Suspense>
+                          <div>
+                            <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "1.2rem", letterSpacing: "5px", textTransform: "uppercase", color: C.white }}>{p.reo}</h3>
+                            <p className="text-[11px] tracking-[2px] uppercase mt-0.5" style={{ color: "rgba(255,255,255,0.35)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{p.en}</p>
+                          </div>
                         </div>
-                        {/* Fading weave at bottom */}
-                        <div className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none z-0" style={{
-                          backgroundImage: `linear-gradient(45deg, rgba(58,125,110,0.04) 1px, transparent 1px), linear-gradient(-45deg, rgba(58,125,110,0.04) 1px, transparent 1px)`,
-                          backgroundSize: "12px 12px",
-                          maskImage: "linear-gradient(transparent, rgba(0,0,0,0.3))",
-                          WebkitMaskImage: "linear-gradient(transparent, rgba(0,0,0,0.3))",
-                        }} />
-                      </div>
+                        <p className="text-[14px] leading-[1.8] mb-5" style={{ color: "rgba(255,255,255,0.55)" }}>{p.desc}</p>
+                        <span className="inline-flex items-center gap-2 text-[13px] font-medium group-hover:gap-3 transition-all" style={{ color: p.color }}>
+                          Explore <ArrowRight size={12} />
+                        </span>
+                      </LuminousCard>
                     </Link>
                   </motion.div>
                 );
@@ -460,118 +370,108 @@ const Index = () => {
 
         {/* ═══ HOW IT WORKS — 6 layers ═══ */}
         <Sect>
-          <motion.div {...fade} className="text-center mb-12">
-            <Eye color={C.gold}>HOW ASSEMBL WORKS</Eye>
-            <H2>Six layers of governed intelligence, woven together</H2>
-            <P className="max-w-xl mx-auto">
-              Every decision is checked, every action is logged, every output is something you can file.
-            </P>
+          <motion.div {...fade} className="text-center mb-16">
+            <SectionEyebrow color={C.gold}>How assembl works</SectionEyebrow>
+            <SectionH2>Six layers of governed intelligence</SectionH2>
+            <SectionP>Every decision checked, every action logged, every output something you can file.</SectionP>
           </motion.div>
-          <div className="max-w-2xl mx-auto space-y-1">
-            {LAYERS.map((layer, i) => (
-              <motion.div key={layer.name} {...stagger(i)}>
-                <GlassPanel className="p-5 flex items-center gap-5">
-                  <div className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center" style={{ background: `${i % 2 === 0 ? C.pounamu : C.gold}15` }}>
-                    <span className="text-[11px] font-bold" style={{ color: i % 2 === 0 ? C.pounamuLight : C.goldLight, fontFamily: "'JetBrains Mono', monospace" }}>{String(i + 1).padStart(2, "0")}</span>
-                  </div>
-                  <div>
-                    <p className="text-[13px] mb-0.5" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "2px", textTransform: "uppercase", color: C.t1 }}>{layer.name}</p>
-                    <p className="text-[13px]" style={{ color: C.t3 }}>{layer.desc}</p>
-                  </div>
-                </GlassPanel>
-                {i < LAYERS.length - 1 && (
-                  <div className="flex justify-center">
-                    <svg width="4" height="12" viewBox="0 0 4 12">
-                      <path d="M1 0 Q2 6 3 12" fill="none" stroke={C.pounamu} strokeWidth="1" opacity="0.3" />
-                      <path d="M3 0 Q2 6 1 12" fill="none" stroke={C.gold} strokeWidth="0.8" opacity="0.2" />
-                    </svg>
-                  </div>
-                )}
-              </motion.div>
-            ))}
+          <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {LAYERS_DATA.map((layer, i) => {
+              const Icon = layer.icon;
+              return (
+                <motion.div key={layer.name} {...stagger(i)}>
+                  <LuminousCard className="h-full">
+                    <div className="flex items-start gap-4">
+                      <div className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: `rgba(255,255,255,0.06)`, border: "1px solid rgba(255,255,255,0.06)" }}>
+                        <Icon size={18} style={{ color: i % 2 === 0 ? C.pounamuLight : C.goldLight }} />
+                      </div>
+                      <div>
+                        <p className="text-[13px] mb-1 tracking-[2px] uppercase" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "rgba(255,255,255,0.85)" }}>
+                          <span className="text-[10px] mr-2" style={{ color: "rgba(255,255,255,0.25)", fontFamily: "'JetBrains Mono', monospace" }}>{String(i + 1).padStart(2, "0")}</span>
+                          {layer.name}
+                        </p>
+                        <p className="text-[12px] leading-[1.8]" style={{ color: "rgba(255,255,255,0.4)" }}>{layer.desc}</p>
+                      </div>
+                    </div>
+                  </LuminousCard>
+                </motion.div>
+              );
+            })}
           </div>
         </Sect>
 
         {/* ═══ EVIDENCE PACKS ═══ */}
         <Sect>
-          <motion.div {...fade} className="text-center mb-12">
-            <Eye color={C.gold}>EVIDENCE PACKS</Eye>
-            <H2>Every workflow ends in a pack you can file, forward, or footnote</H2>
-            <P className="max-w-xl mx-auto">
-              Not a chatbot response. A structured, evidence-backed document your auditor, your bank, or your regulator can trust.
-            </P>
+          <motion.div {...fade} className="text-center mb-16">
+            <SectionEyebrow color={C.gold}>Evidence packs</SectionEyebrow>
+            <SectionH2>Every workflow ends in a pack you can file</SectionH2>
+            <SectionP>Not a chatbot response. A structured document your auditor, bank, or regulator can trust.</SectionP>
           </motion.div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {EVIDENCE_PACKS.map((pack, i) => (
               <motion.div key={pack.kete} {...stagger(i)}>
-                <GlassPanel className="p-0 h-full" tilt>
-                   <MaungaBorder variant="top" />
-                   <div className="p-6">
-                     <p className="text-[10px] tracking-[3px] uppercase mb-1" style={{ color: C.gold, fontFamily: "'JetBrains Mono', monospace" }}>Evidence Pack</p>
-                     <h3 className="text-[15px] mb-0.5" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: C.t1 }}>{pack.title}</h3>
-                     <p className="text-[11px] tracking-[1px] uppercase mb-4" style={{ color: C.pounamu, fontFamily: "'JetBrains Mono', monospace" }}>{pack.kete} · {pack.date}</p>
-                     <div className="space-y-2">
-                       {pack.checks.map((c) => (
-                         <div key={c.ref} className="flex items-center gap-2 p-2 rounded-lg" style={{ background: "rgba(58,125,110,0.06)" }}>
-                           <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.pounamu}20` }}>
-                             <Check size={10} style={{ color: C.pounamuLight }} />
-                           </div>
-                           <span className="text-[12px] flex-1" style={{ color: C.t2 }}>{c.label}</span>
-                           <span className="text-[9px] tracking-wider" style={{ color: C.t3, fontFamily: "'JetBrains Mono', monospace" }}>{c.ref}</span>
-                         </div>
-                       ))}
-                     </div>
-                   </div>
-                   <MaungaBorder variant="bottom" />
-                </GlassPanel>
+                <LuminousCard className="h-full">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-2 h-2 rounded-full" style={{ background: C.gold, boxShadow: `0 0 8px ${C.gold}60` }} />
+                    <p className="text-[9px] tracking-[3px] uppercase" style={{ color: C.gold, fontFamily: "'JetBrains Mono', monospace" }}>Evidence Pack</p>
+                  </div>
+                  <h3 className="text-[15px] mb-1" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "rgba(255,255,255,0.85)" }}>{pack.title}</h3>
+                  <p className="text-[10px] tracking-[2px] uppercase mb-5" style={{ color: C.pounamuGlow, fontFamily: "'JetBrains Mono', monospace" }}>{pack.kete} · {pack.date}</p>
+                  <div className="space-y-2.5">
+                    {pack.checks.map((c) => (
+                      <div key={c.ref} className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                        <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.pounamuGlow}20` }}>
+                          <Check size={11} style={{ color: C.pounamuLight }} />
+                        </div>
+                        <span className="text-[12px] flex-1" style={{ color: "rgba(255,255,255,0.6)" }}>{c.label}</span>
+                        <span className="text-[9px] tracking-wider" style={{ color: "rgba(255,255,255,0.25)", fontFamily: "'JetBrains Mono', monospace" }}>{c.ref}</span>
+                      </div>
+                    ))}
+                  </div>
+                </LuminousCard>
               </motion.div>
             ))}
           </div>
         </Sect>
 
-        {/* ═══ TRUST / COMPLIANCE PIPELINE ═══ */}
+        {/* ═══ TRUST PIPELINE ═══ */}
         <Sect>
-          <motion.div {...fade} className="text-center mb-12">
-            <Eye color={C.pounamu}>TRUST</Eye>
-            <H2>Governed from the ground up</H2>
-            <P className="max-w-md mx-auto">Five stages of oversight from policy to proof.</P>
+          <motion.div {...fade} className="text-center mb-16">
+            <SectionEyebrow color={C.pounamuGlow}>Trust</SectionEyebrow>
+            <SectionH2>Governed from the ground up</SectionH2>
+            <SectionP>Five stages of oversight from policy to proof.</SectionP>
           </motion.div>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-2 max-w-4xl mx-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-3 max-w-4xl mx-auto">
             {TRUST_NODES.map((node, i) => (
               <React.Fragment key={node.name}>
-                <motion.div {...stagger(i)} className="flex flex-col items-center text-center min-w-[80px]">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center mb-2" style={{ background: `${C.pounamu}15`, boxShadow: `0 0 12px ${C.pounamu}20` }}>
-                    <div className="w-3 h-3 rounded-full" style={{ background: C.pounamu }} />
+                <motion.div {...stagger(i)} className="flex flex-col items-center text-center min-w-[100px]">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-3" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", boxShadow: `0 0 20px ${C.pounamuGlow}15` }}>
+                    <div className="w-3.5 h-3.5 rounded-full" style={{ background: C.pounamuGlow, boxShadow: `0 0 12px ${C.pounamuGlow}60` }} />
                   </div>
-                  <span className="text-[10px] tracking-[2px] uppercase font-bold" style={{ color: C.pounamuLight, fontFamily: "'JetBrains Mono', monospace" }}>{node.name}</span>
-                  <span className="text-[10px] mt-1 max-w-[120px]" style={{ color: C.t3 }}>{node.desc}</span>
+                  <span className="text-[10px] tracking-[3px] uppercase font-bold" style={{ color: C.pounamuLight, fontFamily: "'JetBrains Mono', monospace" }}>{node.name}</span>
+                  <span className="text-[10px] mt-2 max-w-[130px] leading-[1.6]" style={{ color: "rgba(255,255,255,0.35)" }}>{node.desc}</span>
                 </motion.div>
                 {i < TRUST_NODES.length - 1 && (
-                  <svg className="hidden sm:block w-10 h-6 shrink-0" viewBox="0 0 40 6">
-                    <path d="M0 3 Q10 1 20 3 Q30 5 40 3" fill="none" stroke={C.pounamu} strokeWidth="1" opacity="0.3" />
-                    <path d="M0 3 Q10 5 20 3 Q30 1 40 3" fill="none" stroke={C.gold} strokeWidth="0.8" opacity="0.2" />
-                  </svg>
+                  <div className="hidden sm:block w-8 h-px" style={{ background: "linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.12), rgba(255,255,255,0.06))" }} />
                 )}
               </React.Fragment>
             ))}
           </div>
         </Sect>
 
-        {/* ═══ CTA to Pricing FAQ ═══ */}
+        {/* ═══ CTA ═══ */}
         <Sect>
           <motion.div {...fade} className="text-center">
-            <Eye color={C.pounamu}>QUESTIONS?</Eye>
-            <H2>Got questions?</H2>
-            <P className="max-w-md mx-auto mb-8">
-              Check our comprehensive FAQ on the pricing page, or get in touch.
-            </P>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/pricing#faq" className="inline-flex items-center justify-center gap-2 px-8 py-3 text-sm font-medium rounded-lg"
-                style={{ border: `1px solid ${C.pounamu}`, color: C.bone }}>
+            <SectionEyebrow color={C.pounamuGlow}>Questions?</SectionEyebrow>
+            <SectionH2>Got questions?</SectionH2>
+            <SectionP className="mb-10">Check our FAQ on the pricing page, or get in touch.</SectionP>
+            <div className="flex flex-col sm:flex-row gap-5 justify-center">
+              <Link to="/pricing#faq" className="inline-flex items-center justify-center gap-2 px-10 py-4 text-[11px] tracking-[2px] uppercase font-medium rounded-full transition-all duration-300 hover:border-white/20"
+                style={{ border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)", fontFamily: "'Lato', sans-serif" }}>
                 View FAQ
               </Link>
-              <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-3 text-sm font-medium rounded-lg"
-                style={{ border: `1px solid ${C.gold}50`, color: C.goldLight }}>
+              <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-10 py-4 text-[11px] tracking-[2px] uppercase font-medium rounded-full transition-all duration-300"
+                style={{ background: `linear-gradient(135deg, ${C.gold}, ${C.goldLight})`, color: C.bg, boxShadow: `0 4px 24px rgba(212,168,83,0.3)`, fontFamily: "'Lato', sans-serif" }}>
                 Talk to us
               </Link>
             </div>
@@ -579,40 +479,27 @@ const Index = () => {
         </Sect>
 
         {/* ═══ FINAL CTA ═══ */}
-        <section className="relative px-4 sm:px-6 py-20 sm:py-24 text-center overflow-hidden">
-          {/* Cinematic background */}
-          <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none">
-            <source src="/hero-woven-video.mp4" type="video/mp4" />
-          </video>
+        <section className="relative px-6 py-32 text-center overflow-hidden">
+          {/* Bright glow behind */}
           <div className="absolute inset-0 pointer-events-none" style={{
-            background: "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(6,14,28,0.7) 0%, rgba(6,14,28,0.9) 100%)",
-          }} />
-          <div className="absolute inset-0 pointer-events-none" style={{
-            background: "radial-gradient(ellipse 90% 80% at 50% 50%, transparent 30%, rgba(6,14,28,0.85) 100%)",
+            background: `radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,168,83,0.06) 0%, transparent 60%)`,
           }} />
           <div className="max-w-xl mx-auto relative z-10">
             <motion.div {...fade}>
-              <GlassPanel className="p-10 sm:p-16" goldRim>
-                <H2>Ready to see what your industry team looks like?</H2>
-                <P className="mb-10">
-                  Pick your kete. Run the demo. See the evidence pack it produces.
-                </P>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link to="/contact" className="group inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-semibold rounded-lg transition-all duration-300"
-                    style={{
-                      background: `linear-gradient(135deg, ${C.gold}, ${C.goldLight})`,
-                      color: C.bg,
-                      boxShadow: `0 4px 24px rgba(212,168,83,0.35), 0 0 40px rgba(212,168,83,0.15)`,
-                      textShadow: "0 1px 2px rgba(0,0,0,0.2)",
-                    }}>
-                    See it in action <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+              <LuminousCard className="p-12 sm:p-16 text-center">
+                <SectionH2>Ready to see your industry team?</SectionH2>
+                <SectionP className="mb-12">Pick your kete. Run the demo. See the evidence pack it produces.</SectionP>
+                <div className="flex flex-col sm:flex-row gap-5 justify-center">
+                  <Link to="/contact" className="group inline-flex items-center justify-center gap-3 px-12 py-4 text-[11px] tracking-[2px] uppercase font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
+                    style={{ background: `linear-gradient(135deg, ${C.gold}, ${C.goldLight})`, color: C.bg, boxShadow: `0 4px 30px rgba(212,168,83,0.35), 0 0 60px rgba(212,168,83,0.15)`, fontFamily: "'Lato', sans-serif" }}>
+                    See it in action <ArrowRight size={13} className="group-hover:translate-x-1.5 transition-transform" />
                   </Link>
-                  <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-lg transition-all duration-300"
-                    style={{ border: `1px solid ${C.pounamu}`, color: C.bone, backdropFilter: "blur(8px)", boxShadow: `0 0 20px ${C.pounamu}15` }}>
+                  <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-12 py-4 text-[11px] tracking-[2px] uppercase font-medium rounded-full transition-all duration-300 hover:border-white/20"
+                    style={{ border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)", fontFamily: "'Lato', sans-serif" }}>
                     Book a walkthrough
                   </Link>
                 </div>
-              </GlassPanel>
+              </LuminousCard>
             </motion.div>
           </div>
         </section>
@@ -631,39 +518,62 @@ const Index = () => {
 
 export default Index;
 
-/* ─── Layout primitives ─── */
+/* ─── Layout Primitives ─── */
+
 function Sect({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
-    <section id={id} className="px-6 sm:px-8 py-24 sm:py-32 relative">
+    <section id={id} className="px-6 py-28 sm:py-36 relative">
       <div className="max-w-5xl mx-auto relative z-10">{children}</div>
-      <div className="absolute bottom-0 left-0 right-0"><WovenDivider /></div>
+      {/* Subtle section divider */}
+      <div className="absolute bottom-0 left-[15%] right-[15%] h-px" style={{
+        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)",
+      }} />
     </section>
   );
 }
 
-function Eye({ children, color = "#3A7D6E" }: { children: string; color?: string }) {
+function SectionEyebrow({ children, color = "#3A7D6E" }: { children: string; color?: string }) {
   return (
-    <p className="text-[10px] font-bold tracking-[4px] uppercase mb-4"
+    <p className="text-[10px] font-bold tracking-[5px] uppercase mb-5"
       style={{ color, fontFamily: "'JetBrains Mono', monospace" }}>
       — {children} —
     </p>
   );
 }
 
-function H2({ children }: { children: React.ReactNode }) {
+function SectionH2({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-2xl sm:text-3xl lg:text-[38px] mb-6"
-      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "5px", textTransform: "uppercase", lineHeight: 1.12, color: "rgba(255,255,255,0.88)" }}>
+    <h2 className="text-2xl sm:text-[34px] lg:text-[40px] mb-6"
+      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", lineHeight: 1.1, color: "rgba(255,255,255,0.92)" }}>
       {children}
     </h2>
   );
 }
 
-function P({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function SectionP({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={`text-[15px] sm:text-base leading-relaxed ${className}`}
-      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.75)" }}>
+    <p className={`text-[15px] sm:text-[16px] leading-[1.9] max-w-xl mx-auto ${className}`}
+      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.45)" }}>
       {children}
     </p>
+  );
+}
+
+/* ─── Luminous Card — the core surface component ─── */
+function LuminousCard({ children, className = "", accentColor }: { children: React.ReactNode; className?: string; accentColor?: string }) {
+  return (
+    <div className={`relative rounded-2xl overflow-hidden p-7 ${className}`}
+      style={{
+        background: "linear-gradient(145deg, rgba(20,28,45,0.9) 0%, rgba(12,20,35,0.8) 100%)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        boxShadow: "0 0 1px rgba(255,255,255,0.1), 0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)",
+      }}
+    >
+      {/* Top edge highlight */}
+      <div className="absolute top-0 left-[10%] right-[10%] h-px" style={{
+        background: `linear-gradient(90deg, transparent, ${accentColor ? accentColor + "40" : "rgba(255,255,255,0.12)"}, transparent)`,
+      }} />
+      {children}
+    </div>
   );
 }
