@@ -161,6 +161,7 @@ const App = () => (
                   <Route path="/mariner" element={<Navigate to="/toro" replace />} />
                   <Route path="/embed/:agentId" element={<Suspense fallback={null}><EmbedChatWidget /></Suspense>} />
                   <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
+                  <Route path="/command" element={<Suspense fallback={null}><CommandDashboard /></Suspense>} />
                   <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                   <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
                   <Route path="/contact" element={<Suspense fallback={null}><ContactPage /></Suspense>} />
