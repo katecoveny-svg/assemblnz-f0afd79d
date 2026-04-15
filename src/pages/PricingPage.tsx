@@ -53,6 +53,10 @@ const PricingHero = () => (
           ))}
         </ul>
       </div>
+      <p className="text-center text-xs mb-6" style={{ color: "rgba(255,255,255,0.45)" }}>
+        Want to see what you're paying for?{" "}
+        <Link to="/demos" className="underline hover:text-white transition-colors" style={{ color: "hsl(var(--primary))" }}>See the demos →</Link>
+      </p>
       <div className="flex flex-wrap justify-center gap-3">
         <Link to="/contact" className="px-7 py-3 rounded-full text-sm font-body font-medium transition-all" style={{ background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))" }}>
           Start with one kete a month

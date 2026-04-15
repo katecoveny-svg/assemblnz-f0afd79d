@@ -12,6 +12,13 @@ const FOOTER_LINKS = {
     { to: "/about", label: "How it works" },
     { to: "/contact", label: "Contact" },
   ],
+  Demos: [
+    { to: "/demos", label: "Demo hub" },
+    { to: "/demos/pipeline", label: "Five-stage pipeline" },
+    { to: "/demos/evidence-pack", label: "Evidence pack" },
+    { to: "/demos/confidence-scoring", label: "Confidence scoring" },
+    { to: "/demos/kaitiaki-gate", label: "Kaitiaki gate" },
+  ],
   "Industry Kete": [
     { to: "/manaaki", label: "Manaaki — Hospitality" },
     { to: "/waihanga/about", label: "Waihanga — Construction" },

@@ -4,6 +4,7 @@ import { Check, X, AlertTriangle, Play, ChevronDown } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import { DemoBreadcrumb, DemoProvesCard, DemoBottomNav } from "@/components/demos/DemoNavFooter";
 
 const QUERIES = [
   {
@@ -88,16 +89,18 @@ const PipelineDemo = () => {
 
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(180deg, #0A1628 0%, #0D1E35 50%, #0A1628 100%)", color: "#F5F0E8" }}>
-      <SEO title="Pipeline Walkthrough Demo | assembl" description="See a sample query flow through the five-stage governance pipeline: Kahu, Iho, Tā, Mahara, Mana." path="/demos/pipeline" />
+      <SEO title="Pipeline Walkthrough Demo | assembl" description="See a sample query flow through the five-stage governance pipeline: Kahu, Iho, Tā, Mahara, Mana." path="/demos/pipeline" image="/og/demos-pipeline.png" />
       <BrandNav />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-28 pb-20">
+        <DemoBreadcrumb title="Five-stage pipeline" />
         {/* Demo banner */}
         <div className="rounded-xl px-4 py-2 text-center mb-10" style={{ background: "rgba(240,208,120,0.08)", border: "1px solid rgba(240,208,120,0.2)" }}>
           <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#F0D078" }}>
             Demo mode — no real data leaves this page
           </p>
         </div>
+        <DemoProvesCard slug="pipeline" />
 
         <h1 className="text-2xl sm:text-4xl mb-2 text-center" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
           Five-Stage Pipeline
@@ -203,6 +206,7 @@ const PipelineDemo = () => {
         </AnimatePresence>
       </div>
 
+      <DemoBottomNav />
       <BrandFooter />
     </div>
   );

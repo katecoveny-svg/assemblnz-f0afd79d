@@ -209,12 +209,12 @@ const Index = () => {
             >
               <Link to="/contact" className="group inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-semibold rounded-lg transition-all duration-300"
                 style={{ background: "rgba(212,168,83,0.12)", border: "1px solid rgba(212,168,83,0.5)", color: C.goldLight, boxShadow: "0 0 20px rgba(212,168,83,0.15), inset 0 1px 0 rgba(212,168,83,0.2)", fontFamily: "'Plus Jakarta Sans', sans-serif", backdropFilter: "blur(8px)" }}>
-                See it in action <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+                Get started <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
               </Link>
-              <a href="#industry-packs" className="inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-lg transition-all duration-300"
+              <Link to="/demos" className="inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-lg transition-all duration-300"
                 style={{ border: `1px solid ${C.pounamu}`, color: C.bone, backdropFilter: "blur(8px)" }}>
-                Choose your industry ↓
-              </a>
+                See it in action →
+              </Link>
             </motion.div>
 
             <motion.p

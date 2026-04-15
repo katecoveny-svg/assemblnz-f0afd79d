@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import { DemoBreadcrumb, DemoProvesCard, DemoBottomNav } from "@/components/demos/DemoNavFooter";
 
 interface Claim {
   text: string;
@@ -89,10 +90,12 @@ const ConfidenceScoringDemo = () => {
 
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(180deg, #0A1628 0%, #0D1E35 50%, #0A1628 100%)", color: "#F5F0E8" }}>
-      <SEO title="Confidence Scoring Demo | assembl" description="See how every claim carries a confidence badge and legislative citation from the anti-hallucination stack." path="/demos/confidence-scoring" />
+      <SEO title="Confidence Scoring Demo | assembl" description="See how every claim carries a confidence badge and legislative citation from the anti-hallucination stack." path="/demos/confidence-scoring" image="/og/demos-confidence-scoring.png" />
       <BrandNav />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-28 pb-20">
+        <DemoBreadcrumb title="Confidence scoring" />
+        <DemoProvesCard slug="confidence-scoring" />
         <div className="rounded-xl px-4 py-2 text-center mb-10" style={{ background: "rgba(240,208,120,0.08)", border: "1px solid rgba(240,208,120,0.2)" }}>
           <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#F0D078" }}>
             Demo mode — no real data leaves this page
@@ -177,6 +180,7 @@ const ConfidenceScoringDemo = () => {
         </div>
       </div>
 
+      <DemoBottomNav />
       <BrandFooter />
     </div>
   );

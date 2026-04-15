@@ -127,6 +127,7 @@ const AdminKnowledgeBase = lazy(() => import("./pages/AdminKnowledgeBase"));
 const AdminFlintDashboard = lazy(() => import("./pages/AdminFlintDashboard"));
 const AdminAgentTestLab = lazy(() => import("./pages/AdminAgentTestLab"));
 const RoiCalculatorPage = lazy(() => import("./pages/RoiCalculatorPage"));
+const DemosHub = lazy(() => import("./pages/demos/DemosHub"));
 const PipelineDemo = lazy(() => import("./pages/demos/PipelineDemo"));
 const EvidencePackDemo = lazy(() => import("./pages/demos/EvidencePackDemo"));
 const ConfidenceScoringDemo = lazy(() => import("./pages/demos/ConfidenceScoringDemo"));
@@ -227,6 +228,7 @@ const App = () => (
                   <Route path="/aaaip/landing" element={<Suspense fallback={null}><AaaipLanding /></Suspense>} />
 
                   {/* Demos */}
+                  <Route path="/demos" element={<Suspense fallback={null}><DemosHub /></Suspense>} />
                   <Route path="/demos/pipeline" element={<Suspense fallback={null}><PipelineDemo /></Suspense>} />
                   <Route path="/demos/evidence-pack" element={<Suspense fallback={null}><EvidencePackDemo /></Suspense>} />
                   <Route path="/demos/confidence-scoring" element={<Suspense fallback={null}><ConfidenceScoringDemo /></Suspense>} />

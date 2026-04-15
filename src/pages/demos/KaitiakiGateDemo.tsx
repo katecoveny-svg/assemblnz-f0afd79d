@@ -4,6 +4,7 @@ import { Check, X, AlertTriangle, Play } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import { DemoBreadcrumb, DemoProvesCard, DemoBottomNav } from "@/components/demos/DemoNavFooter";
 
 const PROMPTS = [
   {
@@ -61,10 +62,12 @@ const KaitiakiGateDemo = () => {
 
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(180deg, #0A1628 0%, #0D1E35 50%, #0A1628 100%)", color: "#F5F0E8" }}>
-      <SEO title="Kaitiaki Gate Demo | assembl" description="See the sacred content guardrail and Kaitiaki Review escalation path in action." path="/demos/kaitiaki-gate" />
+      <SEO title="Kaitiaki Gate Demo | assembl" description="See the sacred content guardrail and Kaitiaki Review escalation path in action." path="/demos/kaitiaki-gate" image="/og/demos-kaitiaki-gate.png" />
       <BrandNav />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-28 pb-20">
+        <DemoBreadcrumb title="Kaitiaki gate" />
+        <DemoProvesCard slug="kaitiaki-gate" />
         <div className="rounded-xl px-4 py-2 text-center mb-10" style={{ background: "rgba(240,208,120,0.08)", border: "1px solid rgba(240,208,120,0.2)" }}>
           <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#F0D078" }}>
             Demo mode — no real data leaves this page
@@ -211,6 +214,7 @@ const KaitiakiGateDemo = () => {
         </div>
       </div>
 
+      <DemoBottomNav />
       <BrandFooter />
     </div>
   );
