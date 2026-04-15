@@ -153,6 +153,7 @@ const App = () => (
             <AuthProvider>
               <BrandDnaProvider>
               <PersonalizationProvider>
+              <BusinessProvider>
               <div className="pb-14 sm:pb-0">
                 <Routes>
                   <Route path="/" element={<Index />} />
