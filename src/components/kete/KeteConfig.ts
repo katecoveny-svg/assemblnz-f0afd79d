@@ -68,7 +68,7 @@ export const KETE_CONFIG: KeteDefinition[] = [
     route: "/pikau", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
-    id: "toro", name: "Tōro", nameEn: "Whānau Family Navigator",
+    id: "toro", name: "Toro", nameEn: "Whānau Family Navigator",
     color: "#D4A843", icon: Bird, agentCount: 1, group: "whanau",
     description: "SMS-first. No app, no login. Just text. School notices, meals, budgets, reminders, learning.",
     wananga: "Te Kete Aronui — caring for whānau",

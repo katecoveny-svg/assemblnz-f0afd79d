@@ -50,10 +50,10 @@ export const PRICING = {
   },
   operator: {
     name: 'Operator',
-    price: 590,
+    price: 1490,
     period: '/mo',
     currency: 'NZD',
-    setup: 1490,
+    setup: 590,
     setupNote: 'Splittable across first 3 invoices on request',
     descriptor: 'Sole traders and micro-SMEs — one industry, one team, one source of truth',
     features: [
@@ -73,10 +73,10 @@ export const PRICING = {
   },
   leader: {
     name: 'Leader',
-    price: 1290,
+    price: 1990,
     period: '/mo',
     currency: 'NZD',
-    setup: 1990,
+    setup: 1290,
     setupNote: 'Splittable across first 3 invoices on request',
     descriptor: 'Multi-discipline SMEs and growing teams — covers two parts of the business with quarterly compliance review',
     features: [
@@ -97,10 +97,10 @@ export const PRICING = {
   },
   enterprise: {
     name: 'Enterprise',
-    price: 2890,
+    price: 2990,
     period: '/mo',
     currency: 'NZD',
-    setup: 2990,
+    setup: 2890,
     setupNote: 'Splittable across first 3 invoices on request',
     descriptor: 'Multi-site, regulated, high-stakes operations — every kete, the SLA, and a named human to call',
     features: [
