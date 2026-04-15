@@ -15,7 +15,7 @@ const GLASS: React.CSSProperties = {
   boxShadow: "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
 };
 
-type OutputType = "all" | "image" | "copy" | "ad" | "evidence";
+type OutputType = "all" | "image" | "copy" | "ad" | "evidence" | "video";
 
 interface OutputItem {
   id: string;
