@@ -100,6 +100,7 @@ const PipelineDemo = () => {
             Demo mode — no real data leaves this page
           </p>
         </div>
+        <DemoProvesCard slug="pipeline" />
 
         <h1 className="text-2xl sm:text-4xl mb-2 text-center" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
           Five-Stage Pipeline
