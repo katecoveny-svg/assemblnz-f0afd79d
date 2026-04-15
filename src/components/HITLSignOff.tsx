@@ -130,6 +130,18 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
   }
 
   return (
+    <div>
+      {/* Compliance RAG Gate — must pass before sign-off for regulated docs */}
+      {needsCompliance && (
+        <ComplianceRAGGate
+          content={content}
+          documentType={documentType}
+          kete={kete}
+          onResult={setComplianceResult}
+          required={needsCompliance}
+        />
+      )}
+
     <AnimatePresence mode="wait">
       {!confirming ? (
         <motion.button
