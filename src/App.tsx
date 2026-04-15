@@ -51,6 +51,7 @@ const AdminMessagesPage = lazy(() => import("./pages/AdminMessagesPage"));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
 const DataSovereigntyPage = lazy(() => import("./pages/DataSovereigntyPage"));
 const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
+const CommandDashboard = lazy(() => import("./pages/CommandDashboard"));
 
 const ToroaLandingPage = lazy(() => import("./pages/ToroaLandingPage"));
 const ToroaApp = lazy(() => import("./pages/ToroaApp"));
