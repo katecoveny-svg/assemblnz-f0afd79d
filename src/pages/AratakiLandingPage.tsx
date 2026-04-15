@@ -7,6 +7,8 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
+import { ARATAKI_USE_CASE } from "@/data/useCases";
 
 const BG = "#09090F";
 const POUNAMU = "#3A7D6E";
@@ -79,6 +81,9 @@ export default function AratakiLandingPage() {
             </Link>
           </motion.div>
         </main>
+
+        {/* ── Real Use Case ── */}
+        <KeteUseCaseSection data={ARATAKI_USE_CASE} />
 
         {/* Sections */}
         <section className="max-w-5xl mx-auto px-6 pb-24">

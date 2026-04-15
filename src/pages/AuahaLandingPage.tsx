@@ -10,6 +10,8 @@ import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import TextUsButton from "@/components/kete/TextUsButton";
+import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
+import { AUAHA_USE_CASE } from "@/data/useCases";
 
 const BG = "#09090F";
 const ACCENT = "#F0D078";
@@ -131,6 +133,9 @@ export default function AuahaLandingPage() {
             </Link>
           </motion.div>
         </main>
+
+        {/* ── Real Use Case ── */}
+        <KeteUseCaseSection data={AUAHA_USE_CASE} />
 
         {/* ── Agent Network ── */}
         <section className="relative px-6 pb-24 max-w-5xl mx-auto">

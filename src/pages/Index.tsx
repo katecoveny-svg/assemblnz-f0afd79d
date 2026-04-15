@@ -12,6 +12,7 @@ import SEO from "@/components/SEO";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import WharikiFoundation from "@/components/whariki/WharikiFoundation";
+import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
@@ -501,6 +502,53 @@ const Index = () => {
               })}
             </div>
           </LayoutGroup>
+        </Sect>
+
+        {/* ═══ REAL USE CASES ═══ */}
+        <Sect>
+          <motion.div {...fade} className="text-center mb-16">
+            <SectionEyebrow color={C.gold}>Real use cases</SectionEyebrow>
+            <SectionH2>A day in the life</SectionH2>
+            <SectionP>Real NZ businesses. Real scenarios. See what changes.</SectionP>
+          </motion.div>
+          <div className="space-y-6 max-w-4xl mx-auto">
+            {ALL_USE_CASES.map((uc, i) => (
+              <motion.div key={uc.kete} {...stagger(i)}>
+                <Link to={uc.to} className="group block">
+                  <GlowCard className="hover:translate-y-[-4px] transition-all duration-400" accentColor={uc.data.accentColor}>
+                    <div className="flex items-start gap-5">
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-base font-bold"
+                        style={{ background: `${uc.data.accentColor}12`, color: uc.data.accentColor, fontFamily: "'Lato', sans-serif" }}>
+                        {uc.data.persona.name[0]}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3 mb-2 flex-wrap">
+                          <span className="text-[10px] tracking-[2px] uppercase font-bold" style={{ color: uc.data.accentColor, fontFamily: "'JetBrains Mono', monospace" }}>
+                            {uc.kete} · {uc.en}
+                          </span>
+                          <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.3)" }}>
+                            {uc.data.persona.name}, {uc.data.persona.role}
+                          </span>
+                        </div>
+                        <p className="text-[13px] leading-[1.8] mb-3" style={{ color: "rgba(255,255,255,0.6)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                          {uc.data.situation.substring(0, 180)}…
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {uc.data.benefits.slice(0, 3).map(b => (
+                            <span key={b.label} className="text-[9px] px-2.5 py-1 rounded-full"
+                              style={{ background: `${uc.data.accentColor}08`, color: `${uc.data.accentColor}CC`, border: `1px solid ${uc.data.accentColor}15`, fontFamily: "'JetBrains Mono', monospace" }}>
+                              {b.label}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <ArrowRight size={16} className="shrink-0 mt-2 opacity-30 group-hover:opacity-70 group-hover:translate-x-1 transition-all" style={{ color: uc.data.accentColor }} />
+                    </div>
+                  </GlowCard>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </Sect>
 
         {/* ═══ HOW IT WORKS — 6 layers ═══ */}
