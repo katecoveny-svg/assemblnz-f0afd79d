@@ -1,3 +1,4 @@
+import React from "react";
 import { TrendingUp, TrendingDown, Eye, Heart, FileText, DollarSign, Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Pipette, Timer, ArrowRight, CreditCard, Zap, Sparkles, Activity, MonitorPlay } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import KeteBrainChat from "@/components/KeteBrainChat";
@@ -33,11 +34,10 @@ const PIPELINE_STAGES = [
 const QUICK_LAUNCH = [
   { label: "Campaign Brief", desc: "Rautaki sequences the team", icon: Megaphone, route: "/auaha/campaign" },
   { label: "Copy Studio", desc: "Kōrero drafts sharp copy", icon: PenTool, route: "/auaha/copy" },
-  { label: "Image Studio", desc: "Toi + Fal.ai + Runway", icon: Image, route: "/auaha/images" },
+  { label: "Image Studio", desc: "Toi + Fal.ai generation", icon: Image, route: "/auaha/image-studio" },
   { label: "Video Studio", desc: "Toi visual production", icon: Video, route: "/auaha/video" },
   { label: "Loom Studio", desc: "Record & embed walkthroughs", icon: MonitorPlay, route: "/auaha/loom" },
   { label: "Podcast Studio", desc: "Record with AI co-host", icon: Mic, route: "/auaha/podcast" },
-  { label: "Ad Manager", desc: "Read-only connectors at pilot", icon: Megaphone, route: "/auaha/ads" },
   { label: "Content Calendar", desc: "Whakahaere schedules drafts", icon: Calendar, route: "/auaha/calendar" },
   { label: "Analytics Hub", desc: "Aro closes the loop", icon: BarChart3, route: "/auaha/analytics" },
 ];
@@ -68,15 +68,28 @@ const fadeUp = {
 };
 
 function GlassCard({ children, className = "", accent = false, onClick, glow = false }: { children: React.ReactNode; className?: string; accent?: boolean; onClick?: () => void; glow?: boolean }) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    ref.current.style.setProperty("--mx", `${((e.clientX - rect.left) / rect.width) * 100}%`);
+    ref.current.style.setProperty("--my", `${((e.clientY - rect.top) / rect.height) * 100}%`);
+  };
   return (
-    <div onClick={onClick}
-      className={`relative rounded-2xl border backdrop-blur-xl transition-all duration-300 ${onClick ? "cursor-pointer hover:scale-[1.02] hover:shadow-lg" : ""} ${className}`}
+    <div ref={ref} onClick={onClick} onMouseMove={handleMouseMove}
+      className={`relative rounded-2xl border backdrop-blur-xl transition-all duration-300 group/gc ${onClick ? "cursor-pointer hover:scale-[1.02] hover:-translate-y-1 hover:shadow-xl" : "hover:-translate-y-0.5"} ${className}`}
       style={{
         background: "linear-gradient(135deg, rgba(22, 22, 38, 0.85), rgba(18, 18, 30, 0.7))",
         borderColor: accent ? `${ACCENT}40` : glow ? `${ACCENT}30` : "rgba(255,255,255,0.1)",
         boxShadow: glow ? `0 0 40px ${ACCENT}0A, 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)` : "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06)",
       }}>
+      {/* Specular top edge */}
+      <div className="absolute top-0 left-[10%] right-[10%] h-[1px] rounded-full opacity-30 group-hover/gc:opacity-70 transition-opacity duration-500"
+        style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)" }} />
       {glow && <div className="absolute top-0 left-4 right-4 h-px rounded-full" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}60, transparent)` }} />}
+      {/* Mouse-follow glow */}
+      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover/gc:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{ background: `radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), ${ACCENT}0A, transparent 40%)` }} />
       {children}
     </div>
   );
