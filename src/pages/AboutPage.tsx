@@ -11,12 +11,6 @@ const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
 const GOLD = "#D4A843";
 
-const ROADMAP = [
-  { quarter: "Q1 2026", title: "Platform launch", desc: "Five industry kete live — Manaaki, Waihanga, Auaha, Arataki, Pikau — with NZ legislation grounding, SMS access, and tikanga compliance pipeline.", done: true },
-  { quarter: "Q2 2026", title: "Workflow expansion", desc: "Deeper kete coverage. Additional Xero, MYOB, and Google Workspace integrations.", done: false },
-  { quarter: "Q3 2026", title: "Mobile app beta", desc: "Native iOS and Android apps. API-first features for enterprise customers. Multi-tenant support.", done: false },
-  { quarter: "Q4 2026", title: "Enterprise rollout", desc: "Attested NZ data residency at scale, named success management, and procurement-ready compliance documentation.", done: false },
-];
 
 const MARKET_STATS = [
   { value: "$4.2B", label: "NZ SaaS Market by 2027" },
@@ -130,36 +124,6 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Roadmap */}
-      <section className="relative z-10 py-16 border-t border-border">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-3xl font-display text-center text-foreground mb-10" style={{ fontWeight: 300 }}>
-            <span style={{ background: `linear-gradient(135deg, ${BONE}, ${POUNAMU_LIGHT})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Roadmap</span>
-          </h2>
-          <div className="space-y-4">
-            {ROADMAP.map((item, i) => (
-              <motion.div key={item.quarter} className="group relative flex gap-4 rounded-xl p-5 overflow-hidden transition-all duration-400 hover:translate-y-[-1px]"
-                style={{
-                  background: "linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))",
-                  border: `1px solid ${item.done ? POUNAMU + "30" : "rgba(255,255,255,0.06)"}`,
-                  boxShadow: item.done ? `0 4px 24px rgba(0,0,0,0.2), 0 0 30px ${POUNAMU}05` : "0 4px 20px rgba(0,0,0,0.2)",
-                }}
-                initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                {item.done && <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${POUNAMU}40, transparent)` }} />}
-                <div className="shrink-0">
-                  <span className={`text-[10px] font-mono-jb px-2.5 py-1 rounded-full ${item.done ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"}`} style={{ fontWeight: 400 }}>
-                    {item.quarter}
-                  </span>
-                </div>
-                <div>
-                  <p className="text-sm font-display text-foreground mb-1" style={{ fontWeight: 300 }}>{item.title}</p>
-                  <p className="text-xs font-body text-muted-foreground">{item.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Founder */}
       <section id="founder" className="relative z-10 py-20 border-t border-border">
