@@ -39,11 +39,18 @@ const GLASS = {
   border: "1px solid rgba(255,255,255,0.08)",
 };
 
-export default function HITLSignOff({ outputId, outputType, agentName, content, onSigned }: Props) {
+export default function HITLSignOff({ outputId, outputType, agentName, content, kete = "general", documentType = "general", requireComplianceCheck, onSigned }: Props) {
   const { user, profile } = useAuth();
   const [signed, setSigned] = useState<SignOffRecord | null>(null);
   const [confirming, setConfirming] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [complianceResult, setComplianceResult] = useState<ComplianceResult | null>(null);
+
+  // Auto-detect if compliance check is required
+  const needsCompliance = requireComplianceCheck ?? 
+    ["hs_report", "customs_declaration", "building_consent", "privacy_assessment"].includes(documentType);
+
+  const complianceBlocking = needsCompliance && (!complianceResult || complianceResult.overallStatus === "breach");
 
   const handleSignOff = async () => {
     if (!user) {
