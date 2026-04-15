@@ -4,6 +4,8 @@ import { Check, X, AlertTriangle, Play, ChevronDown } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import DemoGlassShell from "@/components/demos/DemoGlassShell";
+import PoweredByAssembl from "@/components/demos/PoweredByAssembl";
 import { DemoBreadcrumb, DemoProvesCard, DemoBottomNav } from "@/components/demos/DemoNavFooter";
 
 const QUERIES = [
@@ -51,9 +53,9 @@ const STAGES = [
 ];
 
 const VERDICT_STYLES = {
-  pass: { icon: Check, color: "#4FE4A7", bg: "rgba(79,228,167,0.1)", label: "PASS" },
-  flag: { icon: AlertTriangle, color: "#F0D078", bg: "rgba(240,208,120,0.1)", label: "FLAG" },
-  block: { icon: X, color: "#E87461", bg: "rgba(232,116,97,0.1)", label: "BLOCK" },
+  pass: { icon: Check, color: "#4FE4A7", bg: "rgba(79,228,167,0.08)", label: "PASS" },
+  flag: { icon: AlertTriangle, color: "#F0D078", bg: "rgba(240,208,120,0.08)", label: "FLAG" },
+  block: { icon: X, color: "#E87461", bg: "rgba(232,116,97,0.08)", label: "BLOCK" },
   skip: { icon: ChevronDown, color: "rgba(255,255,255,0.2)", bg: "rgba(255,255,255,0.02)", label: "SKIPPED" },
 };
 
@@ -88,18 +90,20 @@ const PipelineDemo = () => {
   const timestamp = new Date().toISOString().slice(0, 19).replace("T", " ") + " NZST";
 
   return (
-    <div className="min-h-screen" style={{ background: "linear-gradient(180deg, #0A1628 0%, #0D1E35 50%, #0A1628 100%)", color: "#F5F0E8" }}>
+    <DemoGlassShell>
       <SEO title="Pipeline Walkthrough Demo | assembl" description="See a sample query flow through the five-stage governance pipeline: Kahu, Iho, Tā, Mahara, Mana." path="/demos/pipeline" image="/og/demos-pipeline.png" />
       <BrandNav />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-28 pb-20">
         <DemoBreadcrumb title="Five-stage pipeline" />
-        {/* Demo banner */}
-        <div className="rounded-xl px-4 py-2 text-center mb-10" style={{ background: "rgba(240,208,120,0.08)", border: "1px solid rgba(240,208,120,0.2)" }}>
+
+        {/* Demo mode banner */}
+        <div className="liquid-glass liquid-glass-gold rounded-xl px-4 py-2 text-center mb-10">
           <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#F0D078" }}>
             Demo mode — no real data leaves this page
           </p>
         </div>
+
         <DemoProvesCard slug="pipeline" />
 
         <h1 className="text-2xl sm:text-4xl mb-2 text-center" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
@@ -109,37 +113,34 @@ const PipelineDemo = () => {
           Watch a query flow through Kahu → Iho → Tā → Mahara → Mana
         </p>
 
-        {/* Query selector */}
+        {/* Query selector — glass cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
           {QUERIES.map((q, i) => (
             <button key={i} onClick={() => setSelectedQuery(i)}
-              className="text-left p-4 rounded-xl transition-all text-xs"
+              className={`liquid-glass text-left p-5 rounded-2xl transition-all text-xs group ${selectedQuery === i ? "liquid-glass-pounamu" : ""}`}
               style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
-                background: selectedQuery === i ? "rgba(58,125,110,0.12)" : "rgba(255,255,255,0.03)",
-                border: `1px solid ${selectedQuery === i ? "rgba(58,125,110,0.4)" : "rgba(255,255,255,0.06)"}`,
-                color: "rgba(245,240,232,0.75)",
+                borderColor: selectedQuery === i ? "rgba(58,125,110,0.4)" : undefined,
+                boxShadow: selectedQuery === i ? "0 0 30px rgba(58,125,110,0.1), inset 0 1px 0 rgba(255,255,255,0.1)" : undefined,
               }}>
               <span className="text-[9px] tracking-[2px] uppercase block mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#7ECFC2" }}>{q.kete}</span>
-              {q.label}
+              <span style={{ color: "rgba(245,240,232,0.75)" }}>{q.label}</span>
             </button>
           ))}
         </div>
 
         <div className="text-center mb-10">
           <button onClick={handleRun} disabled={running}
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-lg text-sm font-medium transition-all"
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-medium transition-all liquid-glass liquid-glass-gold"
             style={{
-              background: running ? "rgba(255,255,255,0.05)" : "rgba(212,168,83,0.12)",
-              border: `1px solid ${running ? "rgba(255,255,255,0.1)" : "rgba(212,168,83,0.4)"}`,
               color: running ? "rgba(245,240,232,0.4)" : "#F0D078",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              borderColor: running ? "rgba(255,255,255,0.06)" : "rgba(212,168,83,0.3)",
             }}>
             <Play size={14} /> {running ? "Running..." : "Run query"}
           </button>
         </div>
 
-        {/* Pipeline stages */}
+        {/* Pipeline stages — premium glass */}
         <div className="space-y-3">
           {STAGES.map((stage, i) => {
             const isActive = activeStage >= i;
@@ -149,16 +150,22 @@ const PipelineDemo = () => {
             return (
               <React.Fragment key={stage.name}>
                 <motion.div
-                  animate={isActive ? { boxShadow: `0 0 30px ${v?.color}15` } : {}}
-                  className="rounded-2xl p-5 transition-all duration-500"
+                  animate={isActive ? { boxShadow: `0 0 40px ${v?.color}12, 0 8px 32px rgba(0,0,0,0.3)` } : {}}
+                  className="liquid-glass rounded-2xl p-5 transition-all duration-500"
                   style={{
-                    background: isActive ? v?.bg : "rgba(255,255,255,0.02)",
-                    border: `1px solid ${isActive ? `${v?.color}30` : "rgba(255,255,255,0.05)"}`,
+                    borderColor: isActive ? `${v?.color}30` : undefined,
+                    background: isActive 
+                      ? `linear-gradient(145deg, ${v?.bg} 0%, rgba(10,22,40,0.55) 100%)`
+                      : undefined,
                   }}>
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-                      style={{ background: isActive ? `${v?.color}20` : "rgba(255,255,255,0.04)" }}>
-                      {isActive && v ? <v.icon size={16} style={{ color: v.color }} /> : (
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
+                      style={{ 
+                        background: isActive ? `${v?.color}15` : "rgba(255,255,255,0.04)",
+                        border: `1px solid ${isActive ? `${v?.color}25` : "rgba(255,255,255,0.06)"}`,
+                        boxShadow: isActive ? `0 0 20px ${v?.color}10` : "none",
+                      }}>
+                      {isActive && v ? <v.icon size={18} style={{ color: v.color }} /> : (
                         <span className="text-[11px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.2)" }}>{String(i + 1).padStart(2, "0")}</span>
                       )}
                     </div>
@@ -167,14 +174,21 @@ const PipelineDemo = () => {
                         <span className="text-sm" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "2px", textTransform: "uppercase", color: isActive ? "#F5F0E8" : "rgba(245,240,232,0.4)" }}>{stage.name}</span>
                         <span className="text-[11px]" style={{ color: "rgba(245,240,232,0.3)" }}>{stage.fn}</span>
                         {isActive && v && (
-                          <span className="text-[9px] tracking-[2px] uppercase px-2 py-0.5 rounded-full" style={{ background: `${v.color}15`, color: v.color, fontFamily: "'JetBrains Mono', monospace" }}>
+                          <span className="text-[9px] tracking-[2px] uppercase px-3 py-1 rounded-full" 
+                            style={{ 
+                              background: `${v.color}12`, 
+                              color: v.color, 
+                              fontFamily: "'JetBrains Mono', monospace",
+                              border: `1px solid ${v.color}20`,
+                              boxShadow: `0 0 12px ${v.color}10`,
+                            }}>
                             {v.label}
                           </span>
                         )}
                       </div>
                       <AnimatePresence>
                         {isActive && (
-                          <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="text-xs mt-1" style={{ color: "rgba(245,240,232,0.55)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                          <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="text-xs mt-2" style={{ color: "rgba(245,240,232,0.55)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                             {stageData.explanation}
                           </motion.p>
                         )}
@@ -184,7 +198,11 @@ const PipelineDemo = () => {
                 </motion.div>
                 {i < 4 && (
                   <div className="flex justify-center">
-                    <div className="w-px h-4" style={{ background: isActive ? `${v?.color}30` : "rgba(255,255,255,0.06)" }} />
+                    <div className="w-px h-5" style={{ 
+                      background: isActive 
+                        ? `linear-gradient(180deg, ${v?.color}30, transparent)` 
+                        : "rgba(255,255,255,0.06)" 
+                    }} />
                   </div>
                 )}
               </React.Fragment>
@@ -192,15 +210,17 @@ const PipelineDemo = () => {
           })}
         </div>
 
-        {/* End state */}
+        {/* End state — evidence pack preview */}
         <AnimatePresence>
           {activeStage >= (query.stages[0].verdict === "block" ? 0 : 4) && (
-            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mt-8 rounded-2xl p-6 text-center"
-              style={{ background: "rgba(58,125,110,0.06)", border: "1px solid rgba(58,125,110,0.15)" }}>
-              <p className="text-[10px] tracking-[3px] uppercase mb-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#7ECFC2" }}>Evidence Pack (Demo)</p>
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} 
+              className="mt-8 liquid-glass liquid-glass-pounamu rounded-2xl p-8 text-center"
+              style={{ borderColor: "rgba(58,125,110,0.25)" }}>
+              <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#7ECFC2" }}>Evidence Pack (Demo)</p>
               <p className="text-xs mb-1" style={{ color: "rgba(245,240,232,0.6)" }}>Pack ID: <span style={{ fontFamily: "'JetBrains Mono', monospace" }}>EP-DEMO-{String(selectedQuery + 1).padStart(3, "0")}</span></p>
               <p className="text-xs mb-1" style={{ color: "rgba(245,240,232,0.4)" }}>Timestamp: {timestamp}</p>
               <p className="text-xs" style={{ color: "rgba(245,240,232,0.4)", fontFamily: "'JetBrains Mono', monospace" }}>SHA-256: {hashStub}</p>
+              <PoweredByAssembl />
             </motion.div>
           )}
         </AnimatePresence>
@@ -208,7 +228,7 @@ const PipelineDemo = () => {
 
       <DemoBottomNav />
       <BrandFooter />
-    </div>
+    </DemoGlassShell>
   );
 };
 

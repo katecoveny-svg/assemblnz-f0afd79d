@@ -291,6 +291,106 @@ html {
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
 
+  /* ── Premium Liquid Glass — Apple-tier surface ── */
+  .liquid-glass {
+    background: linear-gradient(
+      145deg,
+      rgba(18, 32, 55, 0.75) 0%,
+      rgba(10, 22, 40, 0.55) 40%,
+      rgba(14, 28, 48, 0.65) 100%
+    );
+    backdrop-filter: blur(40px) saturate(1.6);
+    -webkit-backdrop-filter: blur(40px) saturate(1.6);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    box-shadow:
+      0 0 1px rgba(255, 255, 255, 0.15),
+      0 8px 40px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .liquid-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    z-index: 2;
+  }
+
+  .liquid-glass::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .liquid-glass > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .liquid-glass:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow:
+      0 0 2px rgba(255, 255, 255, 0.2),
+      0 12px 48px rgba(0, 0, 0, 0.5),
+      0 0 60px rgba(58, 125, 110, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+  }
+
+  /* Liquid glass with accent glow */
+  .liquid-glass-pounamu:hover {
+    border-color: rgba(58, 125, 110, 0.35);
+    box-shadow:
+      0 0 2px rgba(58, 125, 110, 0.35),
+      0 0 40px rgba(58, 125, 110, 0.08),
+      0 12px 48px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  .liquid-glass-gold:hover {
+    border-color: rgba(212, 168, 83, 0.35);
+    box-shadow:
+      0 0 2px rgba(212, 168, 83, 0.35),
+      0 0 40px rgba(212, 168, 83, 0.08),
+      0 12px 48px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  /* Powered by Assembl watermark */
+  .assembl-watermark {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: rgba(58, 125, 110, 0.06);
+    font-size: 4rem;
+    transform: rotate(-35deg);
+    user-select: none;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .liquid-glass {
+      backdrop-filter: blur(16px) saturate(1.3);
+      -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    }
+  }
+
   /* ── Hover glow — mārama white moonlight ── */
   .glow-card-hover {
     transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),

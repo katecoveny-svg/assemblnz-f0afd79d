@@ -4,6 +4,8 @@ import { Check, Download, Play } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import DemoGlassShell from "@/components/demos/DemoGlassShell";
+import PoweredByAssembl from "@/components/demos/PoweredByAssembl";
 import { DemoBreadcrumb, DemoProvesCard, DemoBottomNav } from "@/components/demos/DemoNavFooter";
 
 const CHECKS = [
@@ -23,14 +25,15 @@ const EvidencePackDemo = () => {
   const hash = "b7e4a9c3d1f8...2a6e";
 
   return (
-    <div className="min-h-screen" style={{ background: "linear-gradient(180deg, #0A1628 0%, #0D1E35 50%, #0A1628 100%)", color: "#F5F0E8" }}>
+    <DemoGlassShell>
       <SEO title="Evidence Pack Demo | assembl" description="See what a customer keeps — a structured, watermarked evidence pack with legislative citations and confidence scores." path="/demos/evidence-pack" image="/og/demos-evidence-pack.png" />
       <BrandNav />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-28 pb-20">
         <DemoBreadcrumb title="Evidence pack" />
         <DemoProvesCard slug="evidence-pack" />
-        <div className="rounded-xl px-4 py-2 text-center mb-10" style={{ background: "rgba(240,208,120,0.08)", border: "1px solid rgba(240,208,120,0.2)" }}>
+
+        <div className="liquid-glass liquid-glass-gold rounded-xl px-4 py-2 text-center mb-10">
           <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#F0D078" }}>
             Demo mode — no real data leaves this page
           </p>
@@ -44,35 +47,45 @@ const EvidencePackDemo = () => {
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left: trigger */}
+          {/* Left: trigger — liquid glass */}
           <div>
-            <div className="rounded-2xl p-6" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+            <div className="liquid-glass liquid-glass-pounamu rounded-2xl p-6">
               <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#7ECFC2" }}>Query</p>
               <p className="text-sm mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.7)" }}>
                 "Draft a site induction for a new scaffolder on a three-storey residential build."
               </p>
               <button onClick={() => setGenerated(true)} disabled={generated}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all liquid-glass liquid-glass-gold"
                 style={{
-                  background: generated ? "rgba(255,255,255,0.05)" : "rgba(212,168,83,0.12)",
-                  border: `1px solid ${generated ? "rgba(255,255,255,0.1)" : "rgba(212,168,83,0.4)"}`,
                   color: generated ? "rgba(245,240,232,0.4)" : "#F0D078",
+                  borderColor: generated ? "rgba(255,255,255,0.06)" : "rgba(212,168,83,0.3)",
                 }}>
                 <Play size={14} /> {generated ? "Generated" : "Generate pack"}
               </button>
             </div>
           </div>
 
-          {/* Right: A4 pack preview */}
+          {/* Right: A4 pack preview — premium white glass */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: generated ? 1 : 0.3 }}
-            className="rounded-2xl relative overflow-hidden"
-            style={{ background: "#FFF", color: "#1a1a1a", minHeight: 600 }}>
+            className="rounded-3xl relative overflow-hidden"
+            style={{ 
+              background: "linear-gradient(180deg, #FFFFFF 0%, #F8F7F5 100%)", 
+              color: "#1a1a1a", 
+              minHeight: 600,
+              boxShadow: "0 20px 60px rgba(0,0,0,0.4), 0 0 1px rgba(255,255,255,0.2), inset 0 1px 0 rgba(255,255,255,0.8)",
+              border: "1px solid rgba(255,255,255,0.15)",
+            }}>
             {/* Watermark */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ transform: "rotate(-35deg)" }}>
-              <p className="text-6xl font-bold tracking-[12px] uppercase select-none" style={{ color: "rgba(58,125,110,0.06)" }}>ASSEMBL — DEMO</p>
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <p className="assembl-watermark">ASSEMBL — DEMO</p>
             </div>
+
+            {/* Top accent line */}
+            <div className="absolute top-0 left-0 right-0 h-[3px]" style={{
+              background: "linear-gradient(90deg, #3A7D6E, #D4A853, #3A7D6E)",
+            }} />
 
             <div className="relative z-10 p-8">
               {/* Header */}
@@ -83,27 +96,38 @@ const EvidencePackDemo = () => {
                   <p className="text-xs text-gray-500">Scaffolder Induction — Three-storey Residential</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-[9px] tracking-[2px] uppercase px-3 py-1 rounded-full" style={{ background: "rgba(58,125,110,0.1)", color: "#3A7D6E", fontFamily: "'JetBrains Mono', monospace" }}>WAIHANGA</span>
+                  <span className="text-[9px] tracking-[2px] uppercase px-3 py-1 rounded-full" style={{ background: "rgba(58,125,110,0.1)", color: "#3A7D6E", fontFamily: "'JetBrains Mono', monospace", border: "1px solid rgba(58,125,110,0.2)" }}>WAIHANGA</span>
                 </div>
               </div>
 
-              {/* Checks */}
-              <div className="space-y-3 mb-6">
+              {/* Checks — glass rows */}
+              <div className="space-y-2 mb-6">
                 {CHECKS.map((c) => {
                   const conf = CONFIDENCE[c.confidence as keyof typeof CONFIDENCE];
                   return (
-                    <div key={c.ref} className="flex items-start gap-3 p-3 rounded-lg" style={{ background: "#f8f7f5" }}>
-                      <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: c.pass ? "rgba(58,125,110,0.15)" : "rgba(232,116,97,0.15)" }}>
+                    <div key={c.ref} className="flex items-start gap-3 p-3 rounded-xl" style={{ 
+                      background: "rgba(58,125,110,0.04)", 
+                      border: "1px solid rgba(58,125,110,0.08)",
+                    }}>
+                      <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ 
+                        background: c.pass ? "rgba(58,125,110,0.12)" : "rgba(232,116,97,0.12)",
+                        border: `1px solid ${c.pass ? "rgba(58,125,110,0.2)" : "rgba(232,116,97,0.2)"}`,
+                      }}>
                         <Check size={12} style={{ color: c.pass ? "#3A7D6E" : "#E87461" }} />
                       </div>
                       <div className="flex-1">
                         <p className="text-xs" style={{ color: "#333" }}>{c.label}</p>
                         <div className="flex items-center gap-2 mt-1">
-                          <span className="text-[9px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#999" }}>{c.ref}</span>
+                          <span className="text-[9px] px-2 py-0.5 rounded" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#999", background: "rgba(0,0,0,0.04)" }}>{c.ref}</span>
                           <span className="text-[9px]" style={{ color: conf.color }}>{conf.dot} {c.confidence}</span>
                         </div>
                       </div>
-                      <span className="text-[9px] tracking-[2px] uppercase px-2 py-0.5 rounded" style={{ background: c.pass ? "rgba(58,125,110,0.1)" : "rgba(232,116,97,0.1)", color: c.pass ? "#3A7D6E" : "#E87461", fontFamily: "'JetBrains Mono', monospace" }}>
+                      <span className="text-[9px] tracking-[2px] uppercase px-2 py-1 rounded-lg" style={{ 
+                        background: c.pass ? "rgba(58,125,110,0.08)" : "rgba(232,116,97,0.08)", 
+                        color: c.pass ? "#3A7D6E" : "#E87461", 
+                        fontFamily: "'JetBrains Mono', monospace",
+                        border: `1px solid ${c.pass ? "rgba(58,125,110,0.15)" : "rgba(232,116,97,0.15)"}`,
+                      }}>
                         {c.pass ? "PASS" : "FLAG"}
                       </span>
                     </div>
@@ -112,34 +136,37 @@ const EvidencePackDemo = () => {
               </div>
 
               {/* Legislative citations */}
-              <div className="mb-6 p-3 rounded-lg" style={{ background: "#f8f7f5" }}>
-                <p className="text-[9px] tracking-[2px] uppercase mb-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#999" }}>Legislative Citations</p>
+              <div className="mb-6 p-4 rounded-xl" style={{ background: "rgba(58,125,110,0.04)", border: "1px solid rgba(58,125,110,0.1)" }}>
+                <p className="text-[9px] tracking-[2px] uppercase mb-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>Legislative Citations</p>
                 <p className="text-[11px]" style={{ color: "#555" }}>Health and Safety at Work Act 2015 · s36, s37 · WorkSafe NZ</p>
                 <p className="text-[11px]" style={{ color: "#555" }}>NZS 3910:2013 · Conditions of Contract</p>
                 <p className="text-[11px]" style={{ color: "#555" }}>Building Act 2004 · s17 Building Work</p>
               </div>
 
               {/* Hash + sign-off */}
-              <div className="pt-4" style={{ borderTop: "1px solid #e5e5e5" }}>
+              <div className="pt-4" style={{ borderTop: "1px solid rgba(58,125,110,0.15)" }}>
                 <div className="flex justify-between text-[9px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#999" }}>
                   <span>SHA-256: {hash}</span>
                   <span>{timestamp}</span>
                 </div>
-                <div className="mt-4 p-3 rounded-lg" style={{ border: "1px dashed #ccc" }}>
-                  <p className="text-[9px] tracking-[2px] uppercase mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#999" }}>Sign-off</p>
+                <div className="mt-4 p-4 rounded-xl" style={{ border: "1px dashed rgba(58,125,110,0.25)", background: "rgba(58,125,110,0.02)" }}>
+                  <p className="text-[9px] tracking-[2px] uppercase mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>Sign-off</p>
                   <p className="text-xs" style={{ color: "#666" }}>Named operator: ___________________________</p>
                   <p className="text-xs mt-1" style={{ color: "#666" }}>Date: _______________</p>
                 </div>
+
+                {/* Powered by Assembl */}
+                <PoweredByAssembl variant="light" />
               </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Download button */}
+        {/* Download button — glass */}
         {generated && (
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="text-center mt-8">
-            <button className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium transition-all"
-              style={{ background: "rgba(58,125,110,0.12)", border: "1px solid rgba(58,125,110,0.3)", color: "#7ECFC2" }}
+            <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all liquid-glass liquid-glass-pounamu"
+              style={{ color: "#7ECFC2", borderColor: "rgba(58,125,110,0.3)" }}
               onClick={() => window.print()}>
               <Download size={14} /> Download PDF (print to PDF)
             </button>
@@ -150,7 +177,7 @@ const EvidencePackDemo = () => {
 
       <DemoBottomNav />
       <BrandFooter />
-    </div>
+    </DemoGlassShell>
   );
 };
 
