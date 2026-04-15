@@ -1,6 +1,7 @@
 /**
  * Human-in-the-Loop Sign-Off — "Verify & Sign-Off" button
  * Legally defensible timestamp for WorkSafe/Customs audits.
+ * Now includes Compliance RAG Gate — pre-finalization legislation check.
  */
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,12 +9,19 @@ import { ShieldCheck, User, Clock, CheckCircle2, AlertTriangle } from "lucide-re
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import ComplianceRAGGate, { type ComplianceResult } from "@/components/ComplianceRAGGate";
 
 interface Props {
   outputId: string;
   outputType: string;
   agentName: string;
   content: string;
+  /** Kete context for compliance check */
+  kete?: string;
+  /** Document type for targeted legislation check */
+  documentType?: "hs_report" | "customs_declaration" | "building_consent" | "privacy_assessment" | "general";
+  /** Require compliance check before sign-off (default: true for H&S/Customs) */
+  requireComplianceCheck?: boolean;
   onSigned?: (signoff: SignOffRecord) => void;
 }
 
@@ -31,11 +39,18 @@ const GLASS = {
   border: "1px solid rgba(255,255,255,0.08)",
 };
 
-export default function HITLSignOff({ outputId, outputType, agentName, content, onSigned }: Props) {
+export default function HITLSignOff({ outputId, outputType, agentName, content, kete = "general", documentType = "general", requireComplianceCheck, onSigned }: Props) {
   const { user, profile } = useAuth();
   const [signed, setSigned] = useState<SignOffRecord | null>(null);
   const [confirming, setConfirming] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [complianceResult, setComplianceResult] = useState<ComplianceResult | null>(null);
+
+  // Auto-detect if compliance check is required
+  const needsCompliance = requireComplianceCheck ?? 
+    ["hs_report", "customs_declaration", "building_consent", "privacy_assessment"].includes(documentType);
+
+  const complianceBlocking = needsCompliance && (!complianceResult || complianceResult.overallStatus === "breach");
 
   const handleSignOff = async () => {
     if (!user) {
@@ -115,6 +130,18 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
   }
 
   return (
+    <div>
+      {/* Compliance RAG Gate — must pass before sign-off for regulated docs */}
+      {needsCompliance && (
+        <ComplianceRAGGate
+          content={content}
+          documentType={documentType}
+          kete={kete}
+          onResult={setComplianceResult}
+          required={needsCompliance}
+        />
+      )}
+
     <AnimatePresence mode="wait">
       {!confirming ? (
         <motion.button
@@ -122,8 +149,9 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={() => setConfirming(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl mt-3 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98]"
+          onClick={() => !complianceBlocking && setConfirming(true)}
+          disabled={complianceBlocking}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl mt-3 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
           style={{
             ...GLASS,
             color: "#D4A843",
@@ -173,5 +201,6 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
         </motion.div>
       )}
     </AnimatePresence>
+    </div>
   );
 }

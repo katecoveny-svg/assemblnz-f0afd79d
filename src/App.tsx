@@ -11,6 +11,7 @@ import { HighContrastProvider } from "@/components/chat/HighContrastProvider";
 import { TeReoProvider } from "@/components/chat/TeReoProvider";
 import { PersonalizationProvider } from "@/contexts/PersonalizationContext";
 import { BrandDnaProvider } from "@/contexts/BrandDnaContext";
+import { BusinessProvider } from "@/contexts/BusinessContext";
 
 import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
@@ -152,6 +153,7 @@ const App = () => (
             <AuthProvider>
               <BrandDnaProvider>
               <PersonalizationProvider>
+              <BusinessProvider>
               <div className="pb-14 sm:pb-0">
                 <Routes>
                   <Route path="/" element={<Index />} />
@@ -346,6 +348,7 @@ const App = () => (
               </div>
               <EchoChatWidget />
               <MobileTabBar />
+              </BusinessProvider>
               </PersonalizationProvider>
               </BrandDnaProvider>
             </AuthProvider>

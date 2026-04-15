@@ -2,12 +2,22 @@
  * Shared Agent Router helper — replaces all legacy supabase.functions.invoke("chat") calls.
  * Routes through agent-router for full skill wiring, memory, symbiotic context, and governance.
  * Includes Privacy Shield PII scrubbing before AI calls.
+ * Includes Global Brand DNA injection across ALL agents.
  */
 
 import { searchMemory, buildMemoryBlock } from "@/lib/searchMemory";
 import { scrubPII } from "@/lib/privacyShield";
 
 const AGENT_ROUTER_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/agent-router`;
+
+/** Global Brand DNA injection — set by BrandDnaContext, read by every agentChat call */
+let _globalBrandPrompt: string = "";
+export function setGlobalBrandPrompt(prompt: string) {
+  _globalBrandPrompt = prompt;
+}
+export function getGlobalBrandPrompt(): string {
+  return _globalBrandPrompt;
+}
 
 interface AgentChatOptions {
   agentId: string;
@@ -19,21 +29,28 @@ interface AgentChatOptions {
   userId?: string;
   /** Skip memory injection even if userId is set */
   skipMemory?: boolean;
+  /** Skip Brand DNA injection for this call */
+  skipBrandDna?: boolean;
 }
 
 /**
  * One-shot (non-streaming) call to agent-router.
  * Collects the full SSE stream and returns the complete response text.
  */
-export async function agentChat({ agentId, message, messages = [], packId, systemPrompt, userId, skipMemory }: AgentChatOptions): Promise<string> {
+export async function agentChat({ agentId, message, messages = [], packId, systemPrompt, userId, skipMemory, skipBrandDna }: AgentChatOptions): Promise<string> {
   // Privacy Shield: scrub PII from user message before AI call
   const { scrubbed: scrubbedMessage } = scrubPII(message);
   const scrubbedMessages = messages.map(m =>
     m.role === "user" ? { ...m, content: scrubPII(m.content).scrubbed } : m
   );
 
-  // Memory injection: search for relevant past context
+  // Brand DNA injection: apply to ALL agents unless explicitly skipped
   let enrichedPrompt = systemPrompt;
+  if (!skipBrandDna && _globalBrandPrompt) {
+    enrichedPrompt = (enrichedPrompt || "") + _globalBrandPrompt;
+  }
+
+  // Memory injection: search for relevant past context
   if (userId && !skipMemory) {
     try {
       const memories = await searchMemory(userId, scrubbedMessage, agentId, 3);
@@ -116,8 +133,13 @@ export async function agentChatStream({
       m.role === "user" ? { ...m, content: scrubPII(m.content).scrubbed } : m
     );
 
-    // Memory injection for streaming calls
+    // Brand DNA injection for streaming calls
     let enrichedPrompt = systemPrompt;
+    if (_globalBrandPrompt) {
+      enrichedPrompt = (enrichedPrompt || "") + _globalBrandPrompt;
+    }
+
+    // Memory injection for streaming calls
     if (userId && !skipMemory) {
       try {
         const memories = await searchMemory(userId, scrubbedMessage, agentId, 3);

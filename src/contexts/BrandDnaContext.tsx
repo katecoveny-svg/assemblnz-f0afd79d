@@ -3,9 +3,10 @@
  * Shares brand identity across all AUAHA NZ modules so that
  * Video, Copy, Podcast, and App Forge auto-adapt to the scanned brand.
  */
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { agentChat } from "@/lib/agentChat";
+import { setGlobalBrandPrompt } from "@/lib/agentChat";
 import { toast } from "sonner";
 
 export interface BrandDna {
@@ -136,6 +137,11 @@ Be specific to the brand. NZ context. No generic ideas.`,
     if (!brand) return "";
     return `\n\n[BRAND DNA CONTEXT]\nBusiness: ${brand.businessName}\nIndustry: ${brand.industry}\nVoice/Tone: ${brand.voiceTone}\nTagline: "${brand.tagline}"\nTarget audience: ${brand.targetAudience}\nKeywords: ${brand.keywords.join(", ")}\nBrand colours: primary ${brand.colors.primary}, secondary ${brand.colors.secondary}, accent ${brand.colors.accent}\n\nAdapt your language, tone, and recommendations to match this brand identity. Use NZ English throughout.\n[/BRAND DNA CONTEXT]`;
   }, [brand]);
+
+  // Sync brand DNA to global agentChat so ALL 42+ agents inherit brand voice
+  useEffect(() => {
+    setGlobalBrandPrompt(getBrandPromptInjection());
+  }, [getBrandPromptInjection]);
 
   return (
     <BrandDnaContext.Provider value={{ brand, isScanning, scanUrl, setBrand, getSuggestion, getBrandPromptInjection }}>
