@@ -95,6 +95,9 @@ const AuahaGallery = lazy(() => import("./components/auaha/AuahaGallery"));
 const AuahaTaAudit = lazy(() => import("./components/auaha/AuahaTaAudit"));
 const AuahaPromptLibrary = lazy(() => import("./components/auaha/AuahaPromptLibrary"));
 const AuahaLoomStudio = lazy(() => import("./components/auaha/AuahaLoomStudio"));
+const AuahaSpeechToImage = lazy(() => import("./components/auaha/AuahaSpeechToImage"));
+const AppSparkForge = lazy(() => import("./components/auaha/AppSparkForge"));
+const AuahaBrandScanner = lazy(() => import("./components/auaha/AuahaBrandScanner"));
 const AdminPacksPage = lazy(() => import("./pages/AdminPacksPage"));
 const AdminPackAnalytics = lazy(() => import("./pages/AdminPackAnalytics"));
 const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboard"));
@@ -296,6 +299,9 @@ const App = () => (
                     <Route path="analytics" element={<AuahaAnalytics />} />
                     <Route path="brand" element={<AuahaBrandIdentity />} />
                     <Route path="web" element={<AuahaWebBuilder />} />
+                    <Route path="speech-image" element={<AuahaSpeechToImage />} />
+                    <Route path="app-spark" element={<AppSparkForge />} />
+                    <Route path="brand-scan" element={<AuahaBrandScanner />} />
                   </Route>
 
                   {/* ── Retired routes → redirects ── */}

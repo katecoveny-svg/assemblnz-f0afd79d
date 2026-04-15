@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { PenTool, Sparkles, Copy, ArrowDown, ArrowUp, Zap, Image, Save, Check } from "lucide-react";
+import { PenTool, Sparkles, Copy, ArrowDown, ArrowUp, Zap, Image, Save, Check, ShieldCheck, MessageSquare, Globe2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { agentChat } from "@/lib/agentChat";
 import { useQueryClient } from "@tanstack/react-query";
+import { motion, AnimatePresence } from "framer-motion";
 
-const ACCENT = "#F0D078";
+const POUNAMU = "#00A86B";
+const TEAL = "#00CED1";
+const OBSIDIAN = "#0A0A0A";
 
 const CONTENT_TYPES = [
   "LinkedIn Post", "Instagram Caption", "Facebook Post", "X / Twitter Post", "TikTok Caption",
@@ -14,41 +17,86 @@ const CONTENT_TYPES = [
   "Podcast Script", "Video Script", "Website Copy", "Slide Deck Outline",
 ];
 
-const TONES = ["Professional", "Casual", "Bold", "Playful", "Authoritative", "Inspiring"];
+const TONES = [
+  { id: "professional", label: "Professional", desc: "Clear, authoritative, NZ business standard" },
+  { id: "kiwi-casual", label: "Kiwi Casual", desc: "Friendly, approachable, down-to-earth NZ voice" },
+  { id: "mana-enhancing", label: "Mana-Enhancing", desc: "Respectful, empowering, tikanga-aware" },
+  { id: "bold", label: "Bold", desc: "Direct, confident, attention-grabbing" },
+  { id: "playful", label: "Playful", desc: "Fun, witty, engaging" },
+  { id: "authoritative", label: "Authoritative", desc: "Expert-level, trustworthy, data-driven" },
+];
 
-function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`rounded-xl border backdrop-blur-xl ${className}`} style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}>
-      {children}
-    </div>
-  );
+// NZ English auto-corrections
+const NZ_CORRECTIONS: [RegExp, string][] = [
+  [/\borganiz(e|ation|ational|ing)\b/gi, (m: string) => m.replace(/z/g, "s")],
+  [/\boptimiz(e|ation|ing)\b/gi, (m: string) => m.replace(/z/g, "s")],
+  [/\brecogniz(e|ed|ing|ation)\b/gi, (m: string) => m.replace(/z/g, "s")],
+  [/\bcustomiz(e|ed|ing|ation)\b/gi, (m: string) => m.replace(/z/g, "s")],
+  [/\bspecializ(e|ed|ing|ation)\b/gi, (m: string) => m.replace(/z/g, "s")],
+  [/\banalyze\b/gi, "analyse"],
+  [/\bcolor\b/gi, "colour"],
+  [/\bfavor(ite)?\b/gi, (m: string) => m.replace("favor", "favour")],
+  [/\bhonor\b/gi, "honour"],
+  [/\blabor\b/gi, "labour"],
+  [/\bcenter\b/gi, "centre"],
+  [/\bdefense\b/gi, "defence"],
+  [/\blicense\b/gi, "licence"],
+  [/\bpractice\b(?=\s)/gi, "practise"], // verb form
+] as any;
+
+function applyNzEnglish(text: string): string {
+  let result = text;
+  for (const [pattern, replacement] of NZ_CORRECTIONS) {
+    result = result.replace(pattern, replacement as any);
+  }
+  return result;
 }
+
+const NZ_SYSTEM_PROMPT = `You are an award-winning NZ Copywriter. You prioritise clarity, avoid Americanisms, and respect Te Ao Māori principles in every brand scan.
+
+STRICT RULES:
+- Use NZ English: 's' not 'z' (organise, recognise, specialise)
+- Use 'colour' not 'color', 'centre' not 'center', 'defence' not 'defense'
+- Follow NZ Government Web Standards for accessibility and plain language
+- NEVER use: unlock, transform, leverage, seamless, cutting-edge, game-changer, holistic, synergy, revolutionary, streamline
+- NEVER start with "In today's..."
+- Lead with a hook. Be specific. Direct. Sharp. No fluff.
+- Respect tikanga Māori — use Te Reo terms correctly with macrons
+- Reference NZ context where relevant (legislation, geography, culture)`;
 
 export default function AuahaCopyStudio() {
   const [contentType, setContentType] = useState("LinkedIn Post");
   const [topic, setTopic] = useState("");
-  const [tone, setTone] = useState("Professional");
+  const [tone, setTone] = useState("professional");
   const [length, setLength] = useState<"short" | "medium" | "long">("medium");
   const [output, setOutput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [toneCheckResult, setToneCheckResult] = useState<string | null>(null);
+  const [isCheckingTone, setIsCheckingTone] = useState(false);
   const queryClient = useQueryClient();
+
+  const selectedTone = TONES.find(t => t.id === tone) || TONES[0];
 
   const generate = async () => {
     if (!topic.trim()) return toast.error("Enter a topic or brief");
     setIsGenerating(true);
     setOutput("");
     setSaved(false);
+    setToneCheckResult(null);
 
     try {
       const full = await agentChat({
         agentId: "muse",
         packId: "auaha",
-        message: `Write a ${length} ${contentType} about: ${topic}\nTone: ${tone}\n\nCOPY RULES: Never use: unlock, transform, leverage, seamless, cutting-edge, game-changer. Never start with "In today's...". Lead with a hook. Be specific. NZ English. Direct. Sharp. No fluff.\n\nInclude hashtags if it's social media. Include a subject line if it's email. Be platform-specific in format and length.`,
+        message: `Write a ${length} ${contentType} about: ${topic}\nTone: ${selectedTone.label} — ${selectedTone.desc}\n\nInclude hashtags if it's social media. Include a subject line if it's email. Be platform-specific in format and length.`,
+        systemPrompt: NZ_SYSTEM_PROMPT,
       });
-      setOutput(full);
-      toast.success("MUSE has crafted your copy");
+      // Apply NZ English corrections
+      const nzCorrected = applyNzEnglish(full);
+      setOutput(nzCorrected);
+      toast.success("Kia Ora Copywriter has crafted your copy");
 
       // Auto-save as content item
       const { data: { user } } = await supabase.auth.getUser();
@@ -58,11 +106,11 @@ export default function AuahaCopyStudio() {
           title: `${contentType}: ${topic.slice(0, 60)}`,
           content_type: contentType.toLowerCase().replace(/\s+/g, "_"),
           platform: contentType.split(" ")[0],
-          tone,
-          body: full,
+          tone: selectedTone.label,
+          body: nzCorrected,
           pipeline_stage: "copy",
-          agent_attribution: "MUSE",
-          metadata: { length, topic },
+          agent_attribution: "MUSE (Kia Ora Copywriter)",
+          metadata: { length, topic, toneId: tone },
         });
         queryClient.invalidateQueries({ queryKey: ["auaha-pipeline-counts"] });
         queryClient.invalidateQueries({ queryKey: ["auaha-recent-content"] });
@@ -75,17 +123,37 @@ export default function AuahaCopyStudio() {
     }
   };
 
+  const toneCheck = async () => {
+    if (!output) return;
+    setIsCheckingTone(true);
+    try {
+      const result = await agentChat({
+        agentId: "muse",
+        packId: "auaha",
+        message: `Tone-check this copy against "${selectedTone.label}" tone (${selectedTone.desc}):\n\n${output}\n\nProvide:\n1. Tone score (1-10)\n2. NZ English compliance (any Americanisms found?)\n3. Tikanga awareness check\n4. Readability score\n5. Specific improvement suggestions\n\nBe concise. NZ perspective.`,
+        systemPrompt: NZ_SYSTEM_PROMPT,
+      });
+      setToneCheckResult(result);
+    } catch (e: any) {
+      toast.error(e.message || "Tone check failed");
+    } finally {
+      setIsCheckingTone(false);
+    }
+  };
+
   const refine = async (instruction: string) => {
     if (!output) return;
     setIsGenerating(true);
     setSaved(false);
+    setToneCheckResult(null);
     try {
       const full = await agentChat({
         agentId: "muse",
         packId: "auaha",
-        message: `Original copy:\n${output}\n\nInstruction: ${instruction}\n\nRefine the given copy. Rules: no buzzwords, NZ English, sharp and specific. Return only the refined copy, nothing else.`,
+        message: `Original copy:\n${output}\n\nInstruction: ${instruction}\n\nRefine the copy. Return only the refined copy.`,
+        systemPrompt: NZ_SYSTEM_PROMPT,
       });
-      setOutput(full);
+      setOutput(applyNzEnglish(full));
       toast.success("Copy refined");
     } catch (e: any) {
       toast.error(e.message);
@@ -103,7 +171,7 @@ export default function AuahaCopyStudio() {
       await supabase.from("exported_outputs").insert({
         user_id: user.id,
         agent_id: "muse",
-        agent_name: "MUSE",
+        agent_name: "MUSE (Kia Ora Copywriter)",
         title: `${contentType}: ${topic.slice(0, 60)}`,
         content_preview: output.slice(0, 500),
         output_type: "copy",
@@ -119,11 +187,16 @@ export default function AuahaCopyStudio() {
   };
 
   return (
-    <div className="p-6 lg:p-8 max-w-[1200px] mx-auto space-y-6">
+    <div className="p-6 lg:p-10 max-w-7xl mx-auto space-y-6">
+      {/* Header */}
       <div>
-        <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Copy Studio</p>
-        <h1 className="text-white text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Copy Studio</h1>
-        <p className="text-white/50 text-sm mt-1">Powered by MUSE — elite NZ copywriting</p>
+        <div className="flex items-center gap-3 mb-1">
+          <PenTool className="w-5 h-5" style={{ color: POUNAMU }} />
+          <h1 className="text-2xl font-light uppercase tracking-[3px] text-white/90" style={{ fontFamily: "Lato, sans-serif" }}>
+            Kia Ora Copywriter
+          </h1>
+        </div>
+        <p className="text-white/40 text-sm">Award-winning NZ English copy — Te Ao Māori aware, Govt Web Standards compliant</p>
       </div>
 
       {/* Content type tabs */}
@@ -132,10 +205,11 @@ export default function AuahaCopyStudio() {
           <button
             key={ct}
             onClick={() => setContentType(ct)}
-            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs transition-all whitespace-nowrap ${
-              ct === contentType ? "text-black font-medium" : "text-white/50 bg-white/5"
-            }`}
-            style={ct === contentType ? { background: ACCENT } : {}}
+            className="flex-shrink-0 px-3 py-1.5 rounded-full text-xs transition-all whitespace-nowrap"
+            style={ct === contentType
+              ? { background: POUNAMU, color: OBSIDIAN, fontWeight: 500 }
+              : { background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.4)" }
+            }
           >
             {ct}
           </button>
@@ -143,104 +217,171 @@ export default function AuahaCopyStudio() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        {/* Input */}
-        <GlassCard className="p-6 space-y-4">
-          <div className="flex items-center gap-2 text-white/60 text-xs uppercase tracking-[2px]">
-            <PenTool className="w-4 h-4" style={{ color: ACCENT }} />
-            Input
+        {/* Input Panel */}
+        <div className="rounded-2xl border p-6 space-y-5" style={{
+          background: "linear-gradient(135deg, rgba(10,10,10,0.9), rgba(0,168,107,0.03))",
+          borderColor: "rgba(255,255,255,0.06)",
+        }}>
+          <div className="flex items-center gap-2 text-white/50 text-xs uppercase tracking-[2px]">
+            <PenTool className="w-3.5 h-3.5" style={{ color: POUNAMU }} />
+            Brief
           </div>
 
           <div>
-            <label className="text-white/50 text-xs block mb-1.5">Topic / Brief</label>
+            <label className="text-white/40 text-xs block mb-1.5">Topic / Brief</label>
             <textarea
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-[#F0D07866] min-h-[120px]"
-              placeholder="What should MUSE write about?"
+              className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-white/80 text-sm focus:outline-none focus:border-[#00A86B44] min-h-[120px] transition-colors"
+              placeholder="What should the Kia Ora Copywriter craft?"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="text-white/50 text-xs block mb-1.5">Tone</label>
-              <select value={tone} onChange={(e) => setTone(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm">
-                {TONES.map((t) => <option key={t} value={t}>{t}</option>)}
-              </select>
-            </div>
-            <div>
-              <label className="text-white/50 text-xs block mb-1.5">Length</label>
-              <div className="flex gap-1">
-                {(["short", "medium", "long"] as const).map((l) => (
-                  <button
-                    key={l}
-                    onClick={() => setLength(l)}
-                    className={`flex-1 px-2 py-2 rounded-lg text-xs transition-all capitalize ${l === length ? "text-black font-medium" : "text-white/50 bg-white/5"}`}
-                    style={l === length ? { background: ACCENT } : {}}
-                  >
-                    {l}
-                  </button>
-                ))}
-              </div>
+          {/* Tone Selection */}
+          <div>
+            <label className="text-white/40 text-xs block mb-2">Voice Tone</label>
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
+              {TONES.map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => setTone(t.id)}
+                  className="text-left px-3 py-2.5 rounded-xl text-xs transition-all"
+                  style={t.id === tone
+                    ? { background: `${POUNAMU}15`, border: `1px solid ${POUNAMU}30`, color: POUNAMU }
+                    : { background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.5)" }
+                  }
+                >
+                  <span className="font-medium block">{t.label}</span>
+                  <span className="text-[10px] opacity-60 block mt-0.5">{t.desc}</span>
+                </button>
+              ))}
             </div>
           </div>
 
-          <Button onClick={generate} disabled={isGenerating} className="w-full" style={{ background: ACCENT, color: "#000" }}>
-            {isGenerating ? "MUSE is writing..." : "Generate"}
+          {/* Length */}
+          <div>
+            <label className="text-white/40 text-xs block mb-1.5">Length</label>
+            <div className="flex gap-1">
+              {(["short", "medium", "long"] as const).map((l) => (
+                <button
+                  key={l}
+                  onClick={() => setLength(l)}
+                  className="flex-1 px-2 py-2 rounded-lg text-xs transition-all capitalize"
+                  style={l === length
+                    ? { background: POUNAMU, color: OBSIDIAN, fontWeight: 500 }
+                    : { background: "rgba(255,255,255,0.03)", color: "rgba(255,255,255,0.4)" }
+                  }
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* NZ Standards Badge */}
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg text-[10px]" style={{
+            background: "rgba(0,168,107,0.06)",
+            border: `1px solid ${POUNAMU}15`,
+          }}>
+            <Globe2 className="w-3.5 h-3.5" style={{ color: POUNAMU }} />
+            <span className="text-white/40">NZ Govt Web Standards · Te Reo aware · Auto NZ English</span>
+          </div>
+
+          <Button
+            onClick={generate}
+            disabled={isGenerating || !topic.trim()}
+            className="w-full rounded-xl py-3"
+            style={{ background: `linear-gradient(135deg, ${POUNAMU}, ${TEAL})`, color: OBSIDIAN }}
+          >
+            {isGenerating ? "Writing..." : "Generate Copy"}
             <Sparkles className="w-4 h-4 ml-2" />
           </Button>
-        </GlassCard>
+        </div>
 
-        {/* Output */}
-        <GlassCard className="p-6 space-y-4">
+        {/* Output Panel */}
+        <div className="rounded-2xl border p-6 space-y-4" style={{
+          background: "linear-gradient(135deg, rgba(10,10,10,0.9), rgba(0,206,209,0.02))",
+          borderColor: "rgba(255,255,255,0.06)",
+        }}>
           <div className="flex items-center justify-between">
-            <span className="text-white/60 text-xs uppercase tracking-[2px]">Output</span>
+            <span className="text-white/50 text-xs uppercase tracking-[2px]">Output</span>
             <div className="flex items-center gap-2">
               {output && (
                 <>
-                  <button onClick={() => { navigator.clipboard.writeText(output); toast.success("Copied"); }} className="text-white/30 hover:text-white/60">
+                  <button onClick={() => { navigator.clipboard.writeText(output); toast.success("Copied"); }} className="text-white/30 hover:text-white/60 transition-colors">
                     <Copy className="w-4 h-4" />
                   </button>
                   <button
                     onClick={saveToLibrary}
                     disabled={isSaving || saved}
                     className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full transition-all"
-                    style={saved ? { background: "rgba(90,173,160,0.15)", color: "#34d399" } : { background: `${ACCENT}15`, color: ACCENT }}
+                    style={saved ? { background: `${POUNAMU}20`, color: POUNAMU } : { background: `${TEAL}15`, color: TEAL }}
                   >
                     {saved ? <Check className="w-3 h-3" /> : <Save className="w-3 h-3" />}
-                    {saved ? "Saved" : isSaving ? "Saving..." : "Save"}
+                    {saved ? "Saved" : isSaving ? "..." : "Save"}
                   </button>
                 </>
               )}
             </div>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 min-h-[200px] text-white/80 text-sm whitespace-pre-wrap" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-            {output || <span className="text-white/20">Your copy will appear here...</span>}
+          <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl px-4 py-3 min-h-[200px] text-white/80 text-sm whitespace-pre-wrap" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
+            {output || <span className="text-white/15">Your copy will appear here...</span>}
           </div>
 
+          {/* Action Buttons */}
           {output && (
-            <div className="flex flex-wrap gap-2">
-              <button onClick={() => refine("Make it shorter. Cut any fluff.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/5 text-white/50 hover:text-white/80 transition-colors">
-                <ArrowDown className="w-3 h-3" /> Shorter
-              </button>
-              <button onClick={() => refine("Make it longer with more detail and examples.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/5 text-white/50 hover:text-white/80 transition-colors">
-                <ArrowUp className="w-3 h-3" /> Longer
-              </button>
-              <button onClick={() => refine("Make it bolder. More punch, more edge.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/5 text-white/50 hover:text-white/80 transition-colors">
-                <Zap className="w-3 h-3" /> Bolder
-              </button>
-              <button onClick={() => toast.info("Opening Image Studio...")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/5 text-white/50 hover:text-white/80 transition-colors">
-                <Image className="w-3 h-3" /> Create image
-              </button>
-            </div>
-          )}
+            <>
+              {/* Tone Check */}
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={toneCheck}
+                  disabled={isCheckingTone}
+                  className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all"
+                  style={{ background: `${POUNAMU}12`, color: POUNAMU, border: `1px solid ${POUNAMU}20` }}
+                >
+                  <ShieldCheck className="w-3 h-3" />
+                  {isCheckingTone ? "Checking..." : "Tone Check"}
+                </button>
+                <button onClick={() => refine("Make it shorter. Cut any fluff.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/[0.03] text-white/40 hover:text-white/70 transition-colors border border-white/[0.04]">
+                  <ArrowDown className="w-3 h-3" /> Shorter
+                </button>
+                <button onClick={() => refine("Make it longer with more detail and examples.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/[0.03] text-white/40 hover:text-white/70 transition-colors border border-white/[0.04]">
+                  <ArrowUp className="w-3 h-3" /> Longer
+                </button>
+                <button onClick={() => refine("Make it bolder. More punch, more edge.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/[0.03] text-white/40 hover:text-white/70 transition-colors border border-white/[0.04]">
+                  <Zap className="w-3 h-3" /> Bolder
+                </button>
+                <button onClick={() => refine("Rewrite in Kiwi Casual tone — friendly, approachable, down-to-earth.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/[0.03] text-white/40 hover:text-white/70 transition-colors border border-white/[0.04]">
+                  <MessageSquare className="w-3 h-3" /> Kiwi-fy
+                </button>
+              </div>
 
-          {output && (
-            <p className="text-white/20 text-[10px]">
-              {output.length} characters • {contentType} • Auto-saved to pipeline
-            </p>
+              {/* Tone Check Results */}
+              <AnimatePresence>
+                {toneCheckResult && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="rounded-xl border p-4 text-xs text-white/60 whitespace-pre-wrap"
+                    style={{ background: `${POUNAMU}05`, borderColor: `${POUNAMU}15` }}
+                  >
+                    <div className="flex items-center gap-1.5 mb-2 text-white/40 uppercase tracking-wider text-[10px]">
+                      <ShieldCheck className="w-3 h-3" style={{ color: POUNAMU }} />
+                      Tone Check Results
+                    </div>
+                    {toneCheckResult}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <p className="text-white/15 text-[10px]">
+                {output.length} characters · {contentType} · {selectedTone.label} tone · Auto-saved to pipeline
+              </p>
+            </>
           )}
-        </GlassCard>
+        </div>
       </div>
     </div>
   );
