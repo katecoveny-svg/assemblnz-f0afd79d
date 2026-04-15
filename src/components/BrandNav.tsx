@@ -22,7 +22,7 @@ const KETE = [
   { label: "Auaha", sublabel: "Creative", to: "/auaha/about", icon: Palette, color: "#F0D078" },
   { label: "Arataki", sublabel: "Automotive", to: "/arataki", icon: Car, color: "#E8E8E8" },
   { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", icon: Package, color: "#7ECFC2" },
-  { label: "Tōro", sublabel: "Family", to: "/toro", icon: Bird, color: "#D4A843" },
+  { label: "Toro", sublabel: "Family", to: "/toro", icon: Bird, color: "#D4A843" },
 ];
 
 const MORE_LINKS = [
@@ -45,7 +45,7 @@ const BrandNav = () => {
   // Smart kete reordering based on detected industry
   const KETE_SLUG_MAP: Record<string, string> = {
     manaaki: 'Manaaki', waihanga: 'Waihanga', auaha: 'Auaha',
-    arataki: 'Arataki', pikau: 'Pikau', toro: 'Tōroa',
+    arataki: 'Arataki', pikau: 'Pikau', toro: 'Toro',
   };
 
   const orderedKete = useMemo(() => {

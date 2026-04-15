@@ -127,6 +127,10 @@ const AdminKnowledgeBase = lazy(() => import("./pages/AdminKnowledgeBase"));
 const AdminFlintDashboard = lazy(() => import("./pages/AdminFlintDashboard"));
 const AdminAgentTestLab = lazy(() => import("./pages/AdminAgentTestLab"));
 const RoiCalculatorPage = lazy(() => import("./pages/RoiCalculatorPage"));
+const PipelineDemo = lazy(() => import("./pages/demos/PipelineDemo"));
+const EvidencePackDemo = lazy(() => import("./pages/demos/EvidencePackDemo"));
+const ConfidenceScoringDemo = lazy(() => import("./pages/demos/ConfidenceScoringDemo"));
+const KaitiakiGateDemo = lazy(() => import("./pages/demos/KaitiakiGateDemo"));
 
 const queryClient = new QueryClient();
 
@@ -222,7 +226,12 @@ const App = () => (
                   <Route path="/aaaip/pitch-prep" element={<Suspense fallback={null}><AaaipPitchPrep /></Suspense>} />
                   <Route path="/aaaip/landing" element={<Suspense fallback={null}><AaaipLanding /></Suspense>} />
 
-                  {/* ── Industry Kete ── */}
+                  {/* Demos */}
+                  <Route path="/demos/pipeline" element={<Suspense fallback={null}><PipelineDemo /></Suspense>} />
+                  <Route path="/demos/evidence-pack" element={<Suspense fallback={null}><EvidencePackDemo /></Suspense>} />
+                  <Route path="/demos/confidence-scoring" element={<Suspense fallback={null}><ConfidenceScoringDemo /></Suspense>} />
+                  <Route path="/demos/kaitiaki-gate" element={<Suspense fallback={null}><KaitiakiGateDemo /></Suspense>} />
+
 
                   {/* Manaaki (Hospitality) */}
                   <Route path="/manaaki" element={<Suspense fallback={null}><ManaakiLandingPage /></Suspense>} />
