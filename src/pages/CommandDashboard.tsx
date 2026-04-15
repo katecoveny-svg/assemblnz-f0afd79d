@@ -276,6 +276,14 @@ export default function CommandDashboard() {
                 </div>
               </div>
             </motion.div>
+
+            {/* Aotearoa Verified Badge */}
+            <AotearoaVerifiedBadge />
+          </div>
+
+          {/* Business Pulse */}
+          <div className="mt-8">
+            <BusinessPulse />
           </div>
         </div>
       </div>
