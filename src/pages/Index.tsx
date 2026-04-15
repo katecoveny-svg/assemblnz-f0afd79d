@@ -295,6 +295,53 @@ const Index = () => {
           </div>
         </Sect>
 
+        {/* ═══ DEMOS SECTION ═══ */}
+        <Sect>
+          <motion.div {...fade} className="text-center mb-12">
+            <Eye color={C.gold}>GOVERNANCE IN ACTION</Eye>
+            <H2>See the governance pipeline in action</H2>
+            <P className="max-w-xl mx-auto">
+              Four 60-second demos showing how Assembl enforces NZ law, tikanga, and human oversight before any output reaches a user.
+            </P>
+          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
+            {[
+              { title: "Pipeline Walkthrough", desc: "Watch a query flow through five governance stages", to: "/demos/pipeline", accent: C.pounamu },
+              { title: "Evidence Pack", desc: "See the structured, watermarked output your team keeps", to: "/demos/evidence-pack", accent: C.gold },
+              { title: "Confidence Scoring", desc: "Every claim tagged with source, confidence, and citation", to: "/demos/confidence-scoring", accent: C.pounamuLight },
+              { title: "Kaitiaki Gate", desc: "Sacred content guardrail and human-in-the-loop escalation", to: "/demos/kaitiaki-gate", accent: "#E87461" },
+            ].map((d, i) => (
+              <motion.div key={d.title} {...stagger(i)}>
+                <Link to={d.to} className="group block h-full">
+                  <GlassPanel className="p-6 h-full" tilt>
+                    <div className="w-3 h-3 rounded-full mb-4" style={{ background: d.accent, boxShadow: `0 0 12px ${d.accent}40` }} />
+                    <h3 className="text-[13px] mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "2px", textTransform: "uppercase", color: C.t1 }}>{d.title}</h3>
+                    <p className="text-[12px] mb-3" style={{ color: C.t3 }}>{d.desc}</p>
+                    <span className="inline-flex items-center gap-1.5 text-[11px] font-medium group-hover:gap-3 transition-all" style={{ color: d.accent }}>
+                      Try it <ArrowRight size={10} />
+                    </span>
+                  </GlassPanel>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </Sect>
+
+        {/* ═══ AAAIP CALLOUT ═══ */}
+        <Sect>
+          <motion.div {...fade} className="text-center">
+            <GlassPanel className="p-6 sm:p-8 max-w-2xl mx-auto" goldRim>
+              <p className="text-[10px] tracking-[3px] uppercase mb-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold }}>Research Lab</p>
+              <p className="text-[15px] leading-relaxed mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.t2 }}>
+                Live AAAIP pilots and audit log for the Aotearoa Agentic AI Platform bid.
+              </p>
+              <Link to="/aaaip" className="inline-flex items-center gap-2 text-[13px] font-medium hover:gap-3 transition-all" style={{ color: C.gold }}>
+                View Research Lab <ArrowRight size={12} />
+              </Link>
+            </GlassPanel>
+          </motion.div>
+        </Sect>
+
         {/* ═══ INDUSTRY KETE ═══ */}
         <Sect id="industry-packs">
           <motion.div {...fade} className="text-center mb-12">
