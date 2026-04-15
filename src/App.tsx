@@ -10,6 +10,7 @@ import EchoChatWidget from "@/components/EchoChatWidget";
 import { HighContrastProvider } from "@/components/chat/HighContrastProvider";
 import { TeReoProvider } from "@/components/chat/TeReoProvider";
 import { PersonalizationProvider } from "@/contexts/PersonalizationContext";
+import { BrandDnaProvider } from "@/contexts/BrandDnaContext";
 
 import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
@@ -50,6 +51,7 @@ const AdminMessagesPage = lazy(() => import("./pages/AdminMessagesPage"));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
 const DataSovereigntyPage = lazy(() => import("./pages/DataSovereigntyPage"));
 const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
+const CommandDashboard = lazy(() => import("./pages/CommandDashboard"));
 
 const ToroaLandingPage = lazy(() => import("./pages/ToroaLandingPage"));
 const ToroaApp = lazy(() => import("./pages/ToroaApp"));
@@ -147,6 +149,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <AuthProvider>
+              <BrandDnaProvider>
               <PersonalizationProvider>
               <div className="pb-14 sm:pb-0">
                 <Routes>
@@ -158,6 +161,7 @@ const App = () => (
                   <Route path="/mariner" element={<Navigate to="/toro" replace />} />
                   <Route path="/embed/:agentId" element={<Suspense fallback={null}><EmbedChatWidget /></Suspense>} />
                   <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
+                  <Route path="/command" element={<Suspense fallback={null}><CommandDashboard /></Suspense>} />
                   <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                   <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
                   <Route path="/contact" element={<Suspense fallback={null}><ContactPage /></Suspense>} />
@@ -341,6 +345,7 @@ const App = () => (
               <EchoChatWidget />
               <MobileTabBar />
               </PersonalizationProvider>
+              </BrandDnaProvider>
             </AuthProvider>
           </BrowserRouter>
         </TeReoProvider>

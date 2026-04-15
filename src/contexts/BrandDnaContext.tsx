@@ -32,6 +32,8 @@ interface BrandDnaContextValue {
   scanUrl: (url: string) => Promise<void>;
   setBrand: (brand: BrandDna | null) => void;
   getSuggestion: (module: "video" | "podcast" | "copy" | "app") => string[];
+  /** Returns a system prompt snippet injecting brand voice for any kete */
+  getBrandPromptInjection: () => string;
 }
 
 const BrandDnaContext = createContext<BrandDnaContextValue | null>(null);
@@ -129,8 +131,14 @@ Be specific to the brand. NZ context. No generic ideas.`,
     return map[module] || [];
   }, [brand]);
 
+  /** Injects brand voice context into any agent's system prompt */
+  const getBrandPromptInjection = useCallback((): string => {
+    if (!brand) return "";
+    return `\n\n[BRAND DNA CONTEXT]\nBusiness: ${brand.businessName}\nIndustry: ${brand.industry}\nVoice/Tone: ${brand.voiceTone}\nTagline: "${brand.tagline}"\nTarget audience: ${brand.targetAudience}\nKeywords: ${brand.keywords.join(", ")}\nBrand colours: primary ${brand.colors.primary}, secondary ${brand.colors.secondary}, accent ${brand.colors.accent}\n\nAdapt your language, tone, and recommendations to match this brand identity. Use NZ English throughout.\n[/BRAND DNA CONTEXT]`;
+  }, [brand]);
+
   return (
-    <BrandDnaContext.Provider value={{ brand, isScanning, scanUrl, setBrand, getSuggestion }}>
+    <BrandDnaContext.Provider value={{ brand, isScanning, scanUrl, setBrand, getSuggestion, getBrandPromptInjection }}>
       {children}
     </BrandDnaContext.Provider>
   );

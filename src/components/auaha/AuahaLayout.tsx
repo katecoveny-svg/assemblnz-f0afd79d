@@ -197,9 +197,5 @@ function AuahaLayoutInner() {
 }
 
 export default function AuahaLayout() {
-  return (
-    <BrandDnaProvider>
-      <AuahaLayoutInner />
-    </BrandDnaProvider>
-  );
+  return <AuahaLayoutInner />;
 }
