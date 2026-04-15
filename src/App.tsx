@@ -237,7 +237,7 @@ const App = () => (
                   <Route path="/demos/evidence-pack" element={<Suspense fallback={null}><EvidencePackDemo /></Suspense>} />
                   <Route path="/demos/confidence-scoring" element={<Suspense fallback={null}><ConfidenceScoringDemo /></Suspense>} />
                   <Route path="/demos/kaitiaki-gate" element={<Suspense fallback={null}><KaitiakiGateDemo /></Suspense>} />
-
+const CommandDashboard = lazy(() => import("./pages/CommandDashboard"));
 
                   {/* Manaaki (Hospitality) */}
                   <Route path="/manaaki" element={<Suspense fallback={null}><ManaakiLandingPage /></Suspense>} />
