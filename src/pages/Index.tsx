@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useMemo } from "react";
 import { motion, LayoutGroup } from "framer-motion";
-import { ArrowRight, Check, Shield, Layers, Brain, Eye as EyeIcon, Zap, TestTube } from "lucide-react";
+import { ArrowRight, Check, Shield, Layers, Brain, Eye as EyeIcon, Zap, TestTube, MessageSquare, FileText, Megaphone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePersonalization } from "@/contexts/PersonalizationContext";
@@ -100,6 +100,37 @@ const EVIDENCE_PACKS = [
       { label: "WoF/CoF status verified", ref: "VCC-12", pass: true },
       { label: "Workshop service log", ref: "WSL-033", pass: true },
     ],
+  },
+];
+
+const START_HERE = [
+  {
+    title: "Ask A Live Agent",
+    desc: "Open a working agent chat and ask real business questions instead of reading another explainer.",
+    to: "/chat/echo",
+    accent: C.pounamuLight,
+    icon: MessageSquare,
+  },
+  {
+    title: "Review A Document",
+    desc: "Paste a contract, brief, or operational document and get issues, risks, and recommendations back.",
+    to: "/waihanga/docs",
+    accent: C.gold,
+    icon: FileText,
+  },
+  {
+    title: "Make An Ad",
+    desc: "Go straight into the ad workflow to generate campaigns, visuals, and creative that actually looks finished.",
+    to: "/auaha/ads",
+    accent: C.pounamuGlow,
+    icon: Megaphone,
+  },
+  {
+    title: "Show A Client The Demo",
+    desc: "Use the demo hub when you need to explain Assembl clearly in a meeting or sales conversation.",
+    to: "/demos",
+    accent: C.goldLight,
+    icon: EyeIcon,
   },
 ];
 
@@ -215,14 +246,14 @@ const Index = () => {
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.35, ease }}
             >
-              <Link to="/contact" className="group inline-flex items-center justify-center gap-3 px-14 py-[18px] text-[11px] font-semibold rounded-full transition-all duration-300 tracking-[3px] uppercase hover:scale-[1.03]"
+              <Link to="/how-it-works" className="group inline-flex items-center justify-center gap-3 px-14 py-[18px] text-[11px] font-semibold rounded-full transition-all duration-300 tracking-[3px] uppercase hover:scale-[1.03]"
                 style={{
                   background: `linear-gradient(135deg, ${C.gold}, ${C.goldLight})`,
                   color: C.bg,
                   boxShadow: `0 4px 30px rgba(212,168,83,0.35), 0 0 60px rgba(212,168,83,0.15)`,
                   fontFamily: "'Lato', sans-serif",
                 }}>
-                Get started <ArrowRight size={13} className="group-hover:translate-x-1.5 transition-transform" />
+                Start here <ArrowRight size={13} className="group-hover:translate-x-1.5 transition-transform" />
               </Link>
               <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-14 py-[18px] text-[11px] font-medium rounded-full transition-all duration-300 tracking-[3px] uppercase hover:border-white/20"
                 style={{
@@ -231,7 +262,7 @@ const Index = () => {
                   backdropFilter: "blur(16px)",
                   fontFamily: "'Lato', sans-serif",
                 }}>
-                See it in action <ArrowRight size={13} className="opacity-40 group-hover:opacity-70 transition-opacity" />
+                Run live demo <ArrowRight size={13} className="opacity-40 group-hover:opacity-70 transition-opacity" />
               </Link>
             </motion.div>
 
@@ -243,6 +274,40 @@ const Index = () => {
             </motion.p>
           </div>
         </section>
+
+        <Sect>
+          <motion.div {...fade} className="text-center mb-16">
+            <SectionEyebrow color={C.pounamuLight}>Start Here</SectionEyebrow>
+            <SectionH2>Choose the job you need done</SectionH2>
+            <SectionP>This is the shortest path through the platform: ask an agent, review a document, make an ad, or run a client demo.</SectionP>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {START_HERE.map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <motion.div key={item.title} {...stagger(i)}>
+                  <Link to={item.to} className="group block h-full">
+                    <LuminousCard className="h-full hover:translate-y-[-6px] transition-all duration-300" accentColor={item.accent}>
+                      <div className="w-11 h-11 rounded-2xl flex items-center justify-center mb-5" style={{ background: `${item.accent}18`, border: `1px solid ${item.accent}22` }}>
+                        <Icon size={18} style={{ color: item.accent }} />
+                      </div>
+                      <h3 className="text-[13px] mb-3 tracking-[2px] uppercase" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "rgba(255,255,255,0.9)" }}>
+                        {item.title}
+                      </h3>
+                      <p className="text-[12px] leading-[1.8] mb-4" style={{ color: "rgba(255,255,255,0.46)" }}>
+                        {item.desc}
+                      </p>
+                      <span className="inline-flex items-center gap-2 text-[11px] font-medium group-hover:gap-3 transition-all" style={{ color: item.accent }}>
+                        Open now <ArrowRight size={10} />
+                      </span>
+                    </LuminousCard>
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+        </Sect>
 
         {/* ═══ WHAT WE DO — Bright cards on dark ═══ */}
         <Sect>

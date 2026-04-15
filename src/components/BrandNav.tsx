@@ -11,8 +11,8 @@ interface NavItem { label: string; to: string }
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Home", to: "/" },
-  { label: "How It Works", to: "/how-it-works" },
-  { label: "Demos", to: "/demos" },
+  { label: "Start Here", to: "/how-it-works" },
+  { label: "Client Demos", to: "/demos" },
   { label: "Pricing", to: "/pricing" },
   { label: "About", to: "/about" },
 ];
