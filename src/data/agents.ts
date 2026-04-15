@@ -19,7 +19,7 @@ export interface Agent {
 
 export const packs = [
   { id: "manaaki", name: "Manaaki", label: "Hospitality & Tourism", color: "#D4A843", agentCount: 9 },
-  { id: "waihanga", name: "Hanga", label: "Construction", color: "#3A7D6E", agentCount: 9 },
+  { id: "waihanga", name: "Waihanga", label: "Construction", color: "#3A7D6E", agentCount: 9 },
   { id: "auaha", name: "Auaha", label: "Creative & Media", color: "#F0D078", agentCount: 9 },
   { id: "pakihi", name: "Pakihi", label: "Business & Commerce", color: "#5AADA0", agentCount: 11 },
   { id: "waka", name: "Waka", label: "Transport & Vehicles", color: "#6B8FA3", agentCount: 3 },
@@ -197,7 +197,7 @@ const manaakiAgents: Agent[] = [
 ];
 
 // ═══════════════════════════════════════
-// KETE 2: HANGA — Construction (9 agents)
+// KETE 2: WAIHANGA — Construction (9 agents)
 // ═══════════════════════════════════════
 
 const hangaAgents: Agent[] = [

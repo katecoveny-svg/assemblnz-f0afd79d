@@ -1,4 +1,4 @@
-# WAIHANGA Wiring Map — what's real, what's stubbed, what's missing
+# WAIWAIHANGA Wiring Map — what's real, what's stubbed, what's missing
 
 _Date: 2026-04-07. Audit done by reading the actual repo on the `main` branch
 just before the `waihanga-sim-scaffold` branch was cut._
@@ -59,7 +59,7 @@ Step 10 Mahara   Store outcome                  ✅ real
 
 ## Repo inventory by kete
 
-### WAIHANGA / hanga (Construction)
+### WAIWAIHANGA (Construction)
 - Agents in registry: APEX (ASM-009), ATA (ASM-010), ĀRAI (ASM-011), KAUPAPA (ASM-012), RAWA (ASM-013), WHAKAAĒ (ASM-014), PAI (ASM-015) — 7/9, missing 2.
 - Backend functions: `bim-analysis`, `iot-construction`, `plan-to-3d`, `generate-3d`.
 - Tests: 0 → CCA-10 (now 1).
