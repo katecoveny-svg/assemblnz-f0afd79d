@@ -34,7 +34,7 @@ const PACK_DATA: Record<PackKey, {
       "Getting real-time visibility into business performance without spreadsheets",
     ],
   },
-  hanga: {
+  waihanga: {
     agents: [
       { name: "Ārai", desc: "Site Safety & H&S — SSSP generation, hazard registers, WorkSafe compliance" },
       { name: "Ata", desc: "BIM Management — model register, clash detection, LOD tracking" },

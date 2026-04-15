@@ -149,7 +149,6 @@ const AGENT_REGISTRY: AgentEntry[] = [
 const KETE_META: Record<string, { name: string; accent: string }> = {
   'manaaki': { name: 'MANAAKI', accent: '#D4A843' },
   'waihanga': { name: 'WAIHANGA', accent: '#3A7D6E' },
-  'waihanga': { name: 'WAIHANGA', accent: '#3A7D6E' },
   'auaha': { name: 'AUAHA', accent: '#F0D078' },
   'arataki': { name: 'ARATAKI', accent: '#C65D4E' },
   'pikau': { name: 'PIKAU', accent: '#5AADA0' },
