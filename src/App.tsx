@@ -226,7 +226,12 @@ const App = () => (
                   <Route path="/aaaip/pitch-prep" element={<Suspense fallback={null}><AaaipPitchPrep /></Suspense>} />
                   <Route path="/aaaip/landing" element={<Suspense fallback={null}><AaaipLanding /></Suspense>} />
 
-                  {/* ── Industry Kete ── */}
+                  {/* Demos */}
+                  <Route path="/demos/pipeline" element={<Suspense fallback={null}><PipelineDemo /></Suspense>} />
+                  <Route path="/demos/evidence-pack" element={<Suspense fallback={null}><EvidencePackDemo /></Suspense>} />
+                  <Route path="/demos/confidence-scoring" element={<Suspense fallback={null}><ConfidenceScoringDemo /></Suspense>} />
+                  <Route path="/demos/kaitiaki-gate" element={<Suspense fallback={null}><KaitiakiGateDemo /></Suspense>} />
+
 
                   {/* Manaaki (Hospitality) */}
                   <Route path="/manaaki" element={<Suspense fallback={null}><ManaakiLandingPage /></Suspense>} />
