@@ -149,6 +149,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <AuthProvider>
+              <BrandDnaProvider>
               <PersonalizationProvider>
               <div className="pb-14 sm:pb-0">
                 <Routes>
