@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Video, Sparkles, Play, Plus, Trash2, Mic, Image, Film, Clock } from "lucide-react";
+import { useState, useRef } from "react";
+import { Video, Sparkles, Play, Plus, Trash2, Mic, Image, Film, Clock, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -32,7 +32,6 @@ function GlassCard({ children, className = "" }: { children: React.ReactNode; cl
   );
 }
 
-/** Pure gate decision — exported so it can be unit-tested without mounting the component. */
 export function resolveVideoGate(isAdmin: boolean, subscribed: boolean): "proceed" | "paywall" {
   if (isAdmin) return "proceed";
   return subscribed ? "proceed" : "paywall";
@@ -52,6 +51,8 @@ export default function AuahaVideoStudio() {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [quickPrompt, setQuickPrompt] = useState("");
   const [paywallOpen, setPaywallOpen] = useState(false);
+  const [progress, setProgress] = useState("");
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const addScene = () => setScenes([...scenes, { text: "", visual: "", duration: 5 }]);
   const removeScene = (i: number) => setScenes(scenes.filter((_, idx) => idx !== i));
@@ -66,38 +67,75 @@ export default function AuahaVideoStudio() {
     : provider === "fal" ? `~$${(totalDuration * 0.07).toFixed(2)}`
     : "Free (scene frames)";
 
-  /**
-   * Returns true if generation should proceed.
-   * Admins bypass the check entirely; everyone else must have an active subscription.
-   * Always resets isGenerating on failure so the button can't get stuck.
-   */
   const checkGate = async (): Promise<boolean> => {
     if (isAdmin) return true;
-
     try {
       const headers: Record<string, string> = {};
       if (session?.access_token) headers["Authorization"] = `Bearer ${session.access_token}`;
       const { data, error } = await supabase.functions.invoke("check-subscription", { headers });
       if (error) throw error;
       const decision = resolveVideoGate(false, !!data?.subscribed);
-      if (decision === "paywall") {
-        setPaywallOpen(true);
-        return false;
-      }
+      if (decision === "paywall") { setPaywallOpen(true); return false; }
       return true;
     } catch {
-      // If the subscription check itself errors, fail safe — show the paywall rather than
-      // accidentally granting access or silently blocking without feedback.
       setPaywallOpen(true);
       return false;
     }
   };
 
+  const stopPolling = () => {
+    if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
+  };
+
+  const pollForVideo = (requestId: string, title: string) => {
+    let attempts = 0;
+    const maxAttempts = 60; // 5 minutes max
+    setProgress("Video queued — generating...");
+
+    pollRef.current = setInterval(async () => {
+      attempts++;
+      if (attempts > maxAttempts) {
+        stopPolling();
+        setIsGenerating(false);
+        setProgress("");
+        toast.error("Video generation timed out. Try again.");
+        return;
+      }
+
+      setProgress(`Generating video... (${attempts * 5}s)`);
+
+      try {
+        const { data, error } = await supabase.functions.invoke("generate-video", {
+          body: { action: "poll", requestId, title },
+        });
+        if (error) throw error;
+
+        if (data?.status === "completed" && data?.videoUrl) {
+          stopPolling();
+          setVideoUrl(data.videoUrl);
+          setIsGenerating(false);
+          setProgress("");
+          toast.success("Video generated successfully!");
+        } else if (data?.status === "failed" || data?.status === "error") {
+          stopPolling();
+          setIsGenerating(false);
+          setProgress("");
+          toast.error("Video generation failed. Try a different prompt.");
+        }
+        // else: still processing, keep polling
+      } catch (e: any) {
+        console.error("Poll error:", e);
+        // Don't stop on transient errors
+      }
+    }, 5000);
+  };
+
   const generateQuickVideo = async () => {
     if (!quickPrompt.trim()) return toast.error("Describe your video");
     setIsGenerating(true);
+    setProgress("Submitting to AI...");
     try {
-      if (!(await checkGate())) return;
+      if (!(await checkGate())) { setIsGenerating(false); setProgress(""); return; }
 
       const selectedProvider = provider === "auto" ? "fal" : provider;
       const { data, error } = await supabase.functions.invoke("generate-video", {
@@ -110,14 +148,27 @@ export default function AuahaVideoStudio() {
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
+
+      // If video returned immediately (Runway or instant Fal)
       if (data?.videoUrl) {
         setVideoUrl(data.videoUrl);
+        setIsGenerating(false);
+        setProgress("");
         toast.success(`Video generated via ${data.provider || selectedProvider}`);
+        return;
       }
+
+      // Fal.ai async: start polling
+      if (data?.requestId) {
+        pollForVideo(data.requestId, "Quick Video");
+        return;
+      }
+
+      throw new Error("No video URL or request ID returned");
     } catch (e: any) {
-      toast.error(e.message || "Video generation failed");
-    } finally {
       setIsGenerating(false);
+      setProgress("");
+      toast.error(e.message || "Video generation failed");
     }
   };
 
@@ -125,8 +176,9 @@ export default function AuahaVideoStudio() {
     const validScenes = scenes.filter((s) => s.visual.trim());
     if (validScenes.length === 0) return toast.error("Add at least one scene with a visual description");
     setIsGenerating(true);
+    setProgress("Generating scene frames...");
     try {
-      if (!(await checkGate())) return;
+      if (!(await checkGate())) { setIsGenerating(false); setProgress(""); return; }
 
       const { data, error } = await supabase.functions.invoke("generate-video", {
         body: { scenes: validScenes, aspectRatio: aspect.ratio, title: "Full Production Video", videoType: "marketing" },
@@ -140,6 +192,7 @@ export default function AuahaVideoStudio() {
       toast.error(e.message || "Scene generation failed");
     } finally {
       setIsGenerating(false);
+      setProgress("");
     }
   };
 
@@ -208,9 +261,22 @@ export default function AuahaVideoStudio() {
             </div>
 
             <Button onClick={generateQuickVideo} disabled={isGenerating} className="w-full" style={{ background: ACCENT, color: "#000" }}>
-              {isGenerating ? "ECHO is generating..." : "Generate Video"}
-              <Sparkles className="w-4 h-4 ml-2" />
+              {isGenerating ? (
+                <><Loader2 className="w-4 h-4 animate-spin mr-2" /> {progress || "Generating..."}</>
+              ) : (
+                <>Generate Video <Sparkles className="w-4 h-4 ml-2" /></>
+              )}
             </Button>
+
+            {isGenerating && progress && (
+              <div className="text-center">
+                <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
+                  <div className="h-full rounded-full animate-pulse" style={{ background: ACCENT, width: "60%" }} />
+                </div>
+                <p className="text-white/40 text-[11px] mt-2">{progress}</p>
+                <p className="text-white/20 text-[10px]">Fal.ai Kling video generation typically takes 1–3 minutes</p>
+              </div>
+            )}
           </GlassCard>
 
           <GlassCard className="p-6">
@@ -291,8 +357,11 @@ export default function AuahaVideoStudio() {
               </div>
               <div className="text-white/30 text-xs">{scenes.length} scene{scenes.length !== 1 ? "s" : ""} • {totalDuration}s total</div>
               <Button onClick={generateFrames} disabled={isGenerating} className="w-full" style={{ background: ACCENT, color: "#000" }}>
-                {isGenerating ? "Generating..." : "Generate Scene Frames"}
-                <Sparkles className="w-4 h-4 ml-2" />
+                {isGenerating ? (
+                  <><Loader2 className="w-4 h-4 animate-spin mr-2" /> {progress || "Generating..."}</>
+                ) : (
+                  <>Generate Scene Frames <Sparkles className="w-4 h-4 ml-2" /></>
+                )}
               </Button>
             </GlassCard>
 
@@ -324,13 +393,7 @@ export default function AuahaVideoStudio() {
         </GlassCard>
       )}
 
-      {/* Paywall — shown when subscription check fails */}
-      <PaywallModal
-        type="daily_limit"
-        agentName="Video Studio"
-        open={paywallOpen}
-        onClose={() => setPaywallOpen(false)}
-      />
+      <PaywallModal type="daily_limit" agentName="Video Studio" open={paywallOpen} onClose={() => setPaywallOpen(false)} />
     </div>
   );
 }
