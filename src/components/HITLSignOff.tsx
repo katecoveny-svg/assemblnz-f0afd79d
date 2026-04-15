@@ -1,6 +1,7 @@
 /**
  * Human-in-the-Loop Sign-Off — "Verify & Sign-Off" button
  * Legally defensible timestamp for WorkSafe/Customs audits.
+ * Now includes Compliance RAG Gate — pre-finalization legislation check.
  */
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,12 +9,19 @@ import { ShieldCheck, User, Clock, CheckCircle2, AlertTriangle } from "lucide-re
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import ComplianceRAGGate, { type ComplianceResult } from "@/components/ComplianceRAGGate";
 
 interface Props {
   outputId: string;
   outputType: string;
   agentName: string;
   content: string;
+  /** Kete context for compliance check */
+  kete?: string;
+  /** Document type for targeted legislation check */
+  documentType?: "hs_report" | "customs_declaration" | "building_consent" | "privacy_assessment" | "general";
+  /** Require compliance check before sign-off (default: true for H&S/Customs) */
+  requireComplianceCheck?: boolean;
   onSigned?: (signoff: SignOffRecord) => void;
 }
 

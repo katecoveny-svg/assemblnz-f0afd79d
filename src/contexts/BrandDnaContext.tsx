@@ -138,6 +138,11 @@ Be specific to the brand. NZ context. No generic ideas.`,
     return `\n\n[BRAND DNA CONTEXT]\nBusiness: ${brand.businessName}\nIndustry: ${brand.industry}\nVoice/Tone: ${brand.voiceTone}\nTagline: "${brand.tagline}"\nTarget audience: ${brand.targetAudience}\nKeywords: ${brand.keywords.join(", ")}\nBrand colours: primary ${brand.colors.primary}, secondary ${brand.colors.secondary}, accent ${brand.colors.accent}\n\nAdapt your language, tone, and recommendations to match this brand identity. Use NZ English throughout.\n[/BRAND DNA CONTEXT]`;
   }, [brand]);
 
+  // Sync brand DNA to global agentChat so ALL 42+ agents inherit brand voice
+  useEffect(() => {
+    setGlobalBrandPrompt(getBrandPromptInjection());
+  }, [getBrandPromptInjection]);
+
   return (
     <BrandDnaContext.Provider value={{ brand, isScanning, scanUrl, setBrand, getSuggestion, getBrandPromptInjection }}>
       {children}
