@@ -4,6 +4,7 @@ import { Check, Download, Play } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import { DemoBreadcrumb, DemoProvesCard, DemoBottomNav } from "@/components/demos/DemoNavFooter";
 
 const CHECKS = [
   { label: "Scaffolding height compliant (≤5m single, >5m LBP required)", ref: "HSWA-s36", confidence: "high", pass: true },

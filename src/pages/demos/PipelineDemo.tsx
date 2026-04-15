@@ -4,6 +4,7 @@ import { Check, X, AlertTriangle, Play, ChevronDown } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import { DemoBreadcrumb, DemoProvesCard, DemoBottomNav } from "@/components/demos/DemoNavFooter";
 
 const QUERIES = [
   {
