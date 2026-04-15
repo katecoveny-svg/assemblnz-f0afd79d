@@ -76,7 +76,7 @@ const DemosHub = () => {
         title="See Assembl in action — Interactive demos"
         description="Four short demos. Each one shows what Assembl actually does on real NZ operations — not just what the marketing says."
         path="/demos"
-        ogImage="/og/demos-hub.png"
+        image="/og/demos-hub.png"
       />
       <BrandNav />
 
