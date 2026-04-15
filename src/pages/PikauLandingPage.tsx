@@ -10,6 +10,8 @@ import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import TextUsButton from "@/components/kete/TextUsButton";
+import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
+import { PIKAU_USE_CASE } from "@/data/useCases";
 
 const BG = "#09090F";
 const ACCENT = "#7ECFC2";
