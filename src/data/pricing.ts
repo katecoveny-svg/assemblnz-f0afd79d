@@ -59,7 +59,7 @@ export const PRICING = {
     features: [
       '1 industry kete (your pick)',
       'Up to 5 seats',
-      'Tikanga compliance layer',
+      'Tikanga posture — partner, not label. Mead\'s Five Tests applied to Māori-origin content. Sacred content hard-blocked.',
       'Privacy Act 2020 + AAAIP alignment',
       'SMS, WhatsApp & dashboard access',
       '3 training hours / year',
@@ -82,7 +82,7 @@ export const PRICING = {
     features: [
       '2 industry kete (your pick)',
       'Up to 15 seats',
-      'Tikanga compliance layer',
+      'Tikanga posture — partner, not label. Mead\'s Five Tests applied to Māori-origin content. Sacred content hard-blocked.',
       'Privacy Act 2020 + AAAIP alignment',
       'Quarterly compliance review (signed)',
       'Monthly audit report',
@@ -195,7 +195,7 @@ export const KETE = [
 export const COMPARISON_FEATURES = [
   { feature: 'Industry Kete', operator: '1', leader: '2', enterprise: 'All 5', outcome: 'All 5 + custom' },
   { feature: 'Seats', operator: 'Up to 5', leader: 'Up to 15', enterprise: 'Unlimited', outcome: 'Unlimited' },
-  { feature: 'Tikanga compliance layer', operator: true, leader: true, enterprise: true, outcome: true },
+  { feature: 'Tikanga — Cultural governance', operator: true, leader: true, enterprise: true, outcome: true },
   { feature: 'Privacy Act 2020 + AAAIP', operator: true, leader: true, enterprise: true, outcome: true },
   { feature: 'SMS & WhatsApp', operator: true, leader: true, enterprise: true, outcome: true },
   { feature: 'Quarterly compliance review', operator: false, leader: true, enterprise: true, outcome: true },

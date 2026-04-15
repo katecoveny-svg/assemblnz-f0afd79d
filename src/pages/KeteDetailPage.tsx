@@ -12,6 +12,7 @@ const SLUG_TO_PACK: Record<string, { packId: string; agentId: string }> = {
   auaha: { packId: "auaha", agentId: "prism" },
   arataki: { packId: "waka", agentId: "motor" },
   pikau: { packId: "pikau", agentId: "gateway" },
+  contracts: { packId: "contracts", agentId: "accord" },
 };
 
 const KeteDetailPage = () => {

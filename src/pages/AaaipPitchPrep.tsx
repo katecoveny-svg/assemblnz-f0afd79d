@@ -334,8 +334,8 @@ export default function AaaipPitchPrep() {
           a="Every agent output passes through a five-stage compliance pipeline — Kahu flags the regulatory context, Iho routes to the right specialist, Tā formats the response, Mahara checks it against source legislation, and Mana does a final governance check. If any stage fails, the output doesn't reach the user. I'd love to share data on where agents fail and how the pipeline catches errors — that could be valuable research material for your hallucination work."
         />
         <QACard
-          q="How does the tikanga compliance layer work?"
-          a="It's a governance framework built into the agent architecture. Every output is checked against four pou — Rangatiratanga, Kaitiakitanga, Manaakitanga, and Whanaungatanga. If content touches Māori contexts, the tikanga layer ensures it's handled with appropriate cultural respect. I should be transparent — I'm still developing the full protocol and I've paused expanding Māori-specific content until the governance framework is properly in place. I'm taking a default-deny approach."
+          q="How does the tikanga governance posture work?"
+          a="It's a governance framework built into the agent architecture. Every output is checked against four pou — Rangatiratanga, Kaitiakitanga, Manaakitanga, and Whanaungatanga. If content touches Māori contexts, the tikanga posture ensures it's handled with appropriate cultural respect. Mead's Five Tests are applied to Māori-origin content, and sacred content is hard-blocked. I should be transparent — I'm still developing the full protocol and I've paused expanding Māori-specific content until the governance framework is properly in place. I'm taking a default-deny approach."
         />
         <QACard
           q="What's your technical background?"
