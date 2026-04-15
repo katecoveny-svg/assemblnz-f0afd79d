@@ -167,6 +167,9 @@ export default function WaihangaLandingPage() {
           </motion.div>
         </main>
 
+        {/* ── Real Use Case ── */}
+        <KeteUseCaseSection data={WAIHANGA_USE_CASE} />
+
         {/* ── Agent Network ── */}
         <section className="relative px-6 pb-24 max-w-5xl mx-auto">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${GOLD}06 0%, transparent 70%)` }} />

@@ -221,6 +221,9 @@ export default function ManaakiLandingPage() {
           </motion.div>
         </main>
 
+        {/* ── Real Use Case ── */}
+        <KeteUseCaseSection data={MANAAKI_USE_CASE} />
+
         {/* ── Agent Network ── */}
         <section className="relative px-6 pb-24 max-w-5xl mx-auto">
           {/* Section ambient glow */}
