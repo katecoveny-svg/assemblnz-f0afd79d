@@ -37,10 +37,20 @@ const LiquidGlassCard: React.FC<Props> = ({
   style = {},
 }) => {
   const g = GLASS[glassIntensity];
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = React.useCallback((e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    ref.current.style.setProperty("--lx", `${((e.clientX - rect.left) / rect.width) * 100}%`);
+    ref.current.style.setProperty("--ly", `${((e.clientY - rect.top) / rect.height) * 100}%`);
+  }, []);
 
   const inner = (
     <div
-      className={`rounded-2xl relative overflow-hidden group transition-all duration-500 hover:-translate-y-1.5 ${onClick ? "cursor-pointer" : ""} ${className}`}
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      className={`rounded-2xl relative overflow-hidden group transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl ${onClick ? "cursor-pointer" : ""} ${className}`}
       style={{
         background: `rgba(255,255,255,${g.bg})`,
         backdropFilter: `blur(${g.blur}px) saturate(1.2)`,
@@ -63,13 +73,13 @@ const LiquidGlassCard: React.FC<Props> = ({
         }}
       />
 
-      {/* Accent glow on hover — enhanced with stronger bloom */}
+      {/* Accent glow on hover — mouse-following */}
       {accentColor && (
         <>
           <div
             className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             style={{
-              background: `radial-gradient(ellipse at 50% 0%, ${accentColor}22 0%, ${accentColor}08 40%, transparent 65%)`,
+              background: `radial-gradient(400px circle at var(--lx, 50%) var(--ly, 50%), ${accentColor}18 0%, transparent 50%)`,
             }}
           />
           <div
