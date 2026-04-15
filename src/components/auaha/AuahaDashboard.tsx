@@ -33,11 +33,10 @@ const PIPELINE_STAGES = [
 const QUICK_LAUNCH = [
   { label: "Campaign Brief", desc: "Rautaki sequences the team", icon: Megaphone, route: "/auaha/campaign" },
   { label: "Copy Studio", desc: "Kōrero drafts sharp copy", icon: PenTool, route: "/auaha/copy" },
-  { label: "Image Studio", desc: "Toi + Fal.ai + Runway", icon: Image, route: "/auaha/images" },
+  { label: "Image Studio", desc: "Toi + Fal.ai generation", icon: Image, route: "/auaha/image-studio" },
   { label: "Video Studio", desc: "Toi visual production", icon: Video, route: "/auaha/video" },
   { label: "Loom Studio", desc: "Record & embed walkthroughs", icon: MonitorPlay, route: "/auaha/loom" },
   { label: "Podcast Studio", desc: "Record with AI co-host", icon: Mic, route: "/auaha/podcast" },
-  { label: "Ad Manager", desc: "Read-only connectors at pilot", icon: Megaphone, route: "/auaha/ads" },
   { label: "Content Calendar", desc: "Whakahaere schedules drafts", icon: Calendar, route: "/auaha/calendar" },
   { label: "Analytics Hub", desc: "Aro closes the loop", icon: BarChart3, route: "/auaha/analytics" },
 ];
