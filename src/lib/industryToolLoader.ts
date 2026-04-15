@@ -217,7 +217,7 @@ export async function getUserActivePacks(
 
   const industryMap: Record<string, string> = {
     hospitality: "manaaki", restaurant: "manaaki", cafe: "manaaki", hotel: "manaaki", tourism: "manaaki",
-    construction: "hanga", building: "hanga", contractor: "hanga",
+    construction: "waihanga", building: "waihanga", contractor: "waihanga",
     creative: "auaha", marketing: "auaha", media: "auaha", design: "auaha",
     automotive: "arataki", dealership: "arataki", workshop: "arataki", mechanic: "arataki",
     freight: "pikau", logistics: "pikau", customs: "pikau", shipping: "pikau",

@@ -10,7 +10,7 @@ import { useAnalytics } from "@/hooks/useAnalytics";
 /* ── industry data ── */
 const INDUSTRIES = [
   { key: "pakihi", label: "Business Operations", reo: "Pakihi", Icon: Briefcase, color: "#D4A843" },
-  { key: "hanga", label: "Construction & Building", reo: "Waihanga", Icon: Hammer, color: "#3A7D6E" },
+  { key: "waihanga", label: "Construction & Building", reo: "Waihanga", Icon: Hammer, color: "#3A7D6E" },
   { key: "manaaki", label: "Hospitality & Food Service", reo: "Manaaki", Icon: UtensilsCrossed, color: "#1A3A5C" },
 ] as const;
 
@@ -34,7 +34,7 @@ const PACK_DATA: Record<PackKey, {
       "Getting real-time visibility into business performance without spreadsheets",
     ],
   },
-  hanga: {
+  waihanga: {
     agents: [
       { name: "Ārai", desc: "Site Safety & H&S — SSSP generation, hazard registers, WorkSafe compliance" },
       { name: "Ata", desc: "BIM Management — model register, clash detection, LOD tracking" },

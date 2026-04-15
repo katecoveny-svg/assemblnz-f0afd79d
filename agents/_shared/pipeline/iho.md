@@ -24,7 +24,7 @@ Passes the updated `workflow_result` to the Tā stage.
 ## Hard rules
 
 - Agent version must be a semantic version string (e.g. `1.0.0`). A missing version is a hard error.
-- Kete must be one of: `MANAAKI`, `WAIHANGA`, `AUAHA`, `ARATAKI`, `PIKAU`. Unknown kete is a hard error.
+- Kete must be one of: `MANAAKI`, `WAIWAIHANGA`, `AUAHA`, `ARATAKI`, `PIKAU`. Unknown kete is a hard error.
 
 ---
 

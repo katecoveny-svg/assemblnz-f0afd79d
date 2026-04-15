@@ -528,7 +528,7 @@ function HangaChat({ projectName }: { projectName: string }) {
 
       const reply = await agentChat({
         agentId: "construction",
-        packId: "hanga",
+        packId: "waihanga",
         message: history[history.length - 1]?.content || "",
         messages: history.slice(0, -1),
       });
@@ -714,7 +714,7 @@ export default function KanohiDashboard() {
               <span className="text-xs tracking-widest uppercase" style={{ color: `${KOWHAI}90`, fontFamily: "JetBrains Mono" }}>Construction Intelligence Platform</span>
             </div>
             <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>
-              HANGA — Kanohi Dashboard
+              WAIHANGA — Kanohi Dashboard
             </h1>
           </div>
 
@@ -830,7 +830,7 @@ export default function KanohiDashboard() {
         {/* Footer */}
         <div className="text-center pt-4 pb-20">
           <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
-            HANGA — Kanohi Dashboard · Construction Intelligence · Assembl Mārama
+            WAIHANGA — Kanohi Dashboard · Construction Intelligence · Assembl Mārama
           </p>
         </div>
       </div>

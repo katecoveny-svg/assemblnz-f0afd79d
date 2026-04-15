@@ -147,19 +147,19 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
     ],
   },
   {
-    id: 'hanga', name: 'HANGA', accent: '#C9B458',
+    id: 'waihanga', name: 'WAIHANGA', accent: '#3A7D6E',
     purpose: 'Construction, building, and infrastructure',
     agents: ['ata', 'ārai', 'kaupapa', 'rawa', 'whakaaē', 'pai', 'arc', 'terra', 'pinnacle'],
     keteSkills: [
       { id: 'arai-site-safety', name: 'Ārai Site Safety', category: 'safety', description: 'Site safety, hazard management, compliance', status: 'wired' },
-      { id: 'hanga-kaupapa', name: 'Kaupapa Project Mgmt', category: 'operations', description: 'Māori-centred project management', status: 'wired' },
-      { id: 'hanga-operations', name: 'Operations', category: 'operations', description: 'Process docs, runbooks, change requests, risk assessment, vendor review', status: 'wired' },
-      { id: 'hanga-data', name: 'Data Analytics', category: 'data', description: 'Data analysis and visualization', status: 'wired' },
-      { id: 'hanga-legal', name: 'Legal', category: 'legal', description: 'Contract review, vendor checks', status: 'wired' },
-      { id: 'hanga-pdf-viewer', name: 'PDF Viewer Pro', category: 'documents', description: 'PDF annotation and digital signatures', status: 'gap' },
+      { id: 'waihanga-kaupapa', name: 'Kaupapa Project Mgmt', category: 'operations', description: 'Māori-centred project management', status: 'wired' },
+      { id: 'waihanga-operations', name: 'Operations', category: 'operations', description: 'Process docs, runbooks, change requests, risk assessment, vendor review', status: 'wired' },
+      { id: 'waihanga-data', name: 'Data Analytics', category: 'data', description: 'Data analysis and visualization', status: 'wired' },
+      { id: 'waihanga-legal', name: 'Legal', category: 'legal', description: 'Contract review, vendor checks', status: 'wired' },
+      { id: 'waihanga-pdf-viewer', name: 'PDF Viewer Pro', category: 'documents', description: 'PDF annotation and digital signatures', status: 'gap' },
     ],
     keteMCPs: [
-      { id: 'canva-hanga', name: 'Canva (Signage & Safety)', provider: 'Canva', tools: ['generate-design', 'export-design'], connectionStatus: 'available' },
+      { id: 'canva-waihanga', name: 'Canva (Signage & Safety)', provider: 'Canva', tools: ['generate-design', 'export-design'], connectionStatus: 'available' },
     ],
   },
   {

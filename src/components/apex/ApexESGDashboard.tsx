@@ -82,7 +82,7 @@ const ApexESGDashboard = ({ isPaid, userRole }: Props) => {
   const generate = async (key: string, prompt: string) => {
     setGenerating(key);
     try {
-      const content = await agentChat({ agentId: "construction", message: prompt, packId: "hanga" });
+      const content = await agentChat({ agentId: "construction", message: prompt, packId: "waihanga" });
       setGeneratedContent(prev => ({ ...prev, [key]: content }));
     } catch { setGeneratedContent(prev => ({ ...prev, [key]: "Error generating. Please try again." })); }
     finally { setGenerating(null); }

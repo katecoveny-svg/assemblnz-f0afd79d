@@ -8,7 +8,7 @@ import KeteAgentChat from "@/components/kete/KeteAgentChat";
 
 const SLUG_TO_PACK: Record<string, { packId: string; agentId: string }> = {
   manaaki: { packId: "manaaki", agentId: "aura" },
-  waihanga: { packId: "hanga", agentId: "kaupapa" },
+  waihanga: { packId: "waihanga", agentId: "kaupapa" },
   auaha: { packId: "auaha", agentId: "prism" },
   arataki: { packId: "waka", agentId: "motor" },
   pikau: { packId: "pikau", agentId: "gateway" },

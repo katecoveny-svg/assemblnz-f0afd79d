@@ -20,8 +20,8 @@ const INTENT_MAP: IntentKeywordMap[] = [
   { category: 'finance', keywords: ['payroll', 'invoice', 'tax', 'gst', 'acc', 'budget', 'cashflow', 'accounting', 'profit', 'loss', 'expense', 'revenue'], keteIds: ['arataki'] },
   { category: 'hr', keywords: ['hire', 'recruit', 'staff', 'employee', 'onboard', 'payroll', 'leave', 'kiwisaver', 'employment', 'contract', 'performance review'], keteIds: ['arataki'] },
   { category: 'legal', keywords: ['contract', 'agreement', 'terms', 'compliance', 'regulation', 'act', 'legislation', 'legal', 'dispute', 'liability'], keteIds: ['arataki'] },
-  { category: 'compliance', keywords: ['health and safety', 'h&s', 'worksafe', 'audit', 'inspection', 'certification', 'resource consent', 'building consent', 'rma'], keteIds: ['hanga', 'arataki'] },
-  { category: 'construction', keywords: ['build', 'site', 'construction', 'project', 'tender', 'safety', 'concrete', 'scaffold', 'bim', 'plan', 'checkin', 'iot', 'sensor'], keteIds: ['hanga'] },
+  { category: 'compliance', keywords: ['health and safety', 'h&s', 'worksafe', 'audit', 'inspection', 'certification', 'resource consent', 'building consent', 'rma'], keteIds: ['waihanga', 'arataki'] },
+  { category: 'construction', keywords: ['build', 'site', 'construction', 'project', 'tender', 'safety', 'concrete', 'scaffold', 'bim', 'plan', 'checkin', 'iot', 'sensor'], keteIds: ['waihanga'] },
   { category: 'hospitality', keywords: ['hotel', 'motel', 'lodge', 'restaurant', 'café', 'cafe', 'bar', 'reservation', 'booking', 'guest', 'accommodation', 'room'], keteIds: ['manaaki'] },
   { category: 'food', keywords: ['food', 'menu', 'kitchen', 'chef', 'wine', 'dining', 'recipe', 'food safety', 'fcp', 'allergen', 'dietary'], keteIds: ['manaaki'] },
   { category: 'transport', keywords: ['vehicle', 'fleet', 'truck', 'ship', 'freight', 'logistics', 'maritime', 'ais', 'route', 'delivery', 'transport'], keteIds: ['pikau'] },
@@ -58,16 +58,16 @@ const AGENT_REGISTRY: AgentEntry[] = [
   { id: 'rhythm', name: 'RHYTHM', keteId: 'auaha', keywords: ['campaign', 'calendar', 'plan', 'strategy', 'content plan'], specialisation: 'Campaign Planning', performanceScore: 86 },
   { id: 'market', name: 'MARKET', keteId: 'auaha', keywords: ['ad', 'advertising', 'facebook', 'google ads', 'meta', 'targeting'], specialisation: 'Paid Advertising', performanceScore: 88 },
 
-  // HANGA
-  { id: 'ata', name: 'ATA', keteId: 'hanga', keywords: ['bim', '3d model', 'plan', 'building', 'ifc', 'revit'], specialisation: 'BIM & 3D Modelling', performanceScore: 92 },
-  { id: 'arai', name: 'ĀRAI', keteId: 'hanga', keywords: ['safety', 'h&s', 'worksafe', 'hazard', 'risk', 'ppe', 'audit'], specialisation: 'Health & Safety', performanceScore: 97 },
-  { id: 'kaupapa', name: 'KAUPAPA', keteId: 'hanga', keywords: ['project', 'plan', 'schedule', 'gantt', 'milestone', 'deadline'], specialisation: 'Project Management', performanceScore: 90 },
-  { id: 'rawa', name: 'RAWA', keteId: 'hanga', keywords: ['materials', 'procurement', 'order', 'supply', 'stock', 'inventory'], specialisation: 'Materials & Procurement', performanceScore: 85 },
-  { id: 'whakaae', name: 'WHAKAAĒ', keteId: 'hanga', keywords: ['consent', 'resource consent', 'building consent', 'council', 'rma'], specialisation: 'Consents & Compliance', performanceScore: 88 },
-  { id: 'pai', name: 'PAI', keteId: 'hanga', keywords: ['quality', 'inspection', 'defect', 'snag', 'check', 'standard'], specialisation: 'Quality Assurance', performanceScore: 86 },
-  { id: 'arc', name: 'ARC', keteId: 'hanga', keywords: ['architecture', 'design', 'draft', 'elevation', 'floor plan'], specialisation: 'Architectural Design', performanceScore: 84 },
-  { id: 'terra', name: 'TERRA', keteId: 'hanga', keywords: ['survey', 'gis', 'land', 'topography', 'map', 'site'], specialisation: 'Surveying & GIS', performanceScore: 82 },
-  { id: 'pinnacle', name: 'PINNACLE', keteId: 'hanga', keywords: ['tender', 'bid', 'proposal', 'rfp', 'pricing', 'estimate'], specialisation: 'Tender Writing', performanceScore: 91 },
+  // WAIHANGA
+  { id: 'ata', name: 'ATA', keteId: 'waihanga', keywords: ['bim', '3d model', 'plan', 'building', 'ifc', 'revit'], specialisation: 'BIM & 3D Modelling', performanceScore: 92 },
+  { id: 'arai', name: 'ĀRAI', keteId: 'waihanga', keywords: ['safety', 'h&s', 'worksafe', 'hazard', 'risk', 'ppe', 'audit'], specialisation: 'Health & Safety', performanceScore: 97 },
+  { id: 'kaupapa', name: 'KAUPAPA', keteId: 'waihanga', keywords: ['project', 'plan', 'schedule', 'gantt', 'milestone', 'deadline'], specialisation: 'Project Management', performanceScore: 90 },
+  { id: 'rawa', name: 'RAWA', keteId: 'waihanga', keywords: ['materials', 'procurement', 'order', 'supply', 'stock', 'inventory'], specialisation: 'Materials & Procurement', performanceScore: 85 },
+  { id: 'whakaae', name: 'WHAKAAĒ', keteId: 'waihanga', keywords: ['consent', 'resource consent', 'building consent', 'council', 'rma'], specialisation: 'Consents & Compliance', performanceScore: 88 },
+  { id: 'pai', name: 'PAI', keteId: 'waihanga', keywords: ['quality', 'inspection', 'defect', 'snag', 'check', 'standard'], specialisation: 'Quality Assurance', performanceScore: 86 },
+  { id: 'arc', name: 'ARC', keteId: 'waihanga', keywords: ['architecture', 'design', 'draft', 'elevation', 'floor plan'], specialisation: 'Architectural Design', performanceScore: 84 },
+  { id: 'terra', name: 'TERRA', keteId: 'waihanga', keywords: ['survey', 'gis', 'land', 'topography', 'map', 'site'], specialisation: 'Surveying & GIS', performanceScore: 82 },
+  { id: 'pinnacle', name: 'PINNACLE', keteId: 'waihanga', keywords: ['tender', 'bid', 'proposal', 'rfp', 'pricing', 'estimate'], specialisation: 'Tender Writing', performanceScore: 91 },
 
   // MANAAKI
   { id: 'aura', name: 'AURA', keteId: 'manaaki', keywords: ['hotel', 'lodge', 'accommodation', 'guest', 'hospitality', 'room', 'booking'], specialisation: 'Property Operations', performanceScore: 93 },
@@ -93,7 +93,7 @@ const AGENT_REGISTRY: AgentEntry[] = [
   { id: 'sage', name: 'SAGE', keteId: 'pakihi', keywords: ['legal', 'contract', 'agreement', 'terms', 'dispute', 'nda'], specialisation: 'Legal & Contracts', performanceScore: 85 },
   { id: 'ascend', name: 'ASCEND', keteId: 'pakihi', keywords: ['kpi', 'dashboard', 'report', 'analytics', 'performance'], specialisation: 'Analytics & Reporting', performanceScore: 89 },
 
-  // HANGARAU
+  // WAIHANGARAU
   { id: 'spark', name: 'SPARK', keteId: 'hangarau', keywords: ['app', 'build', 'no-code', 'prototype', 'mvp', 'tool'], specialisation: 'No-Code App Builder', performanceScore: 93 },
   { id: 'sentinel', name: 'SENTINEL', keteId: 'hangarau', keywords: ['security', 'cyber', 'threat', 'firewall', 'audit', 'vulnerability'], specialisation: 'Cybersecurity', performanceScore: 91 },
   { id: 'nexus-t', name: 'NEXUS-T', keteId: 'hangarau', keywords: ['integration', 'api', 'connect', 'webhook', 'automation'], specialisation: 'Integration & APIs', performanceScore: 90 },
@@ -148,7 +148,6 @@ const AGENT_REGISTRY: AgentEntry[] = [
 
 const KETE_META: Record<string, { name: string; accent: string }> = {
   'manaaki': { name: 'MANAAKI', accent: '#D4A843' },
-  'hanga': { name: 'WAIHANGA', accent: '#3A7D6E' },
   'waihanga': { name: 'WAIHANGA', accent: '#3A7D6E' },
   'auaha': { name: 'AUAHA', accent: '#F0D078' },
   'arataki': { name: 'ARATAKI', accent: '#C65D4E' },
@@ -333,13 +332,13 @@ export const DEMO_QUERIES: { query: string; result: IntentMatch }[] = [
     query: "Plan a site safety audit",
     result: {
       query: "Plan a site safety audit",
-      keteId: 'hanga', keteName: 'HANGA', keteAccent: '#C9B458',
+      keteId: 'waihanga', keteName: 'WAIHANGA', keteAccent: '#3A7D6E',
       agentId: 'arai', agentName: 'ĀRAI', specialisation: 'Health & Safety',
       confidence: 97,
       reasoning: ['Intent: compliance', 'Match: H&S specialisation', 'Performance: 97%'],
       matchedIntents: ['compliance', 'construction'],
       alternatives: [
-        { agentId: 'kaupapa', agentName: 'KAUPAPA', keteId: 'hanga', keteName: 'HANGA', keteAccent: '#C9B458', confidence: 79, reason: 'Project Management' },
+        { agentId: 'kaupapa', agentName: 'KAUPAPA', keteId: 'waihanga', keteName: 'WAIHANGA', keteAccent: '#3A7D6E', confidence: 79, reason: 'Project Management' },
         { agentId: 'vitals', agentName: 'VITALS', keteId: 'hauora', keteName: 'HAUORA', keteAccent: '#7BC8A4', confidence: 62, reason: 'Health Monitoring' },
       ],
     },

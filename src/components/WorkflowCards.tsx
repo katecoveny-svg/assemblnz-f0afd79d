@@ -32,7 +32,7 @@ const HANGA_WORKFLOWS: WorkflowDef[] = [
       { id: "induction", label: "Induction pack", agentName: "ĀRAI", agentIcon: "ShieldAlert" },
       { id: "notify", label: "Notify team", labelMi: "Kōrero" },
     ],
-    packId: "hanga",
+    packId: "waihanga",
   },
   {
     id: "hanga-daily", title: "Daily Site Operations", titleMi: "Mahi o te Rā",
@@ -45,7 +45,7 @@ const HANGA_WORKFLOWS: WorkflowDef[] = [
       { id: "briefing", label: "Daily briefing", agentName: "IHO", agentIcon: "Brain" },
       { id: "toolbox", label: "Toolbox talk SMS", labelMi: "Kōrero Haumarutanga" },
     ],
-    packId: "hanga",
+    packId: "waihanga",
   },
   {
     id: "hanga-payment", title: "Payment Claim Cycle", titleMi: "Tono Utu",
@@ -59,7 +59,7 @@ const HANGA_WORKFLOWS: WorkflowDef[] = [
       { id: "track", label: "Track response (5 days)" },
       { id: "escalate", label: "Escalation if needed", agentName: "KAHU", agentIcon: "FileText" },
     ],
-    packId: "hanga",
+    packId: "waihanga",
   },
   {
     id: "hanga-incident", title: "Incident Response", titleMi: "Ōhorere",
@@ -74,7 +74,7 @@ const HANGA_WORKFLOWS: WorkflowDef[] = [
       { id: "investigate", label: "Investigation report" },
       { id: "followup", label: "Schedule follow-up" },
     ],
-    packId: "hanga",
+    packId: "waihanga",
   },
 ];
 

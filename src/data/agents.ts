@@ -19,7 +19,7 @@ export interface Agent {
 
 export const packs = [
   { id: "manaaki", name: "Manaaki", label: "Hospitality & Tourism", color: "#D4A843", agentCount: 9 },
-  { id: "hanga", name: "Hanga", label: "Construction", color: "#3A7D6E", agentCount: 9 },
+  { id: "waihanga", name: "Waihanga", label: "Construction", color: "#3A7D6E", agentCount: 9 },
   { id: "auaha", name: "Auaha", label: "Creative & Media", color: "#F0D078", agentCount: 9 },
   { id: "pakihi", name: "Pakihi", label: "Business & Commerce", color: "#5AADA0", agentCount: 11 },
   { id: "waka", name: "Waka", label: "Transport & Vehicles", color: "#6B8FA3", agentCount: 3 },
@@ -197,7 +197,7 @@ const manaakiAgents: Agent[] = [
 ];
 
 // ═══════════════════════════════════════
-// KETE 2: HANGA — Construction (9 agents)
+// KETE 2: WAIHANGA — Construction (9 agents)
 // ═══════════════════════════════════════
 
 const hangaAgents: Agent[] = [
@@ -205,7 +205,7 @@ const hangaAgents: Agent[] = [
     id: "ata", name: "ATA", designation: "HAN-001",
     role: "Building Information Modelling (BIM)",
     tagline: "BIM model analysis, clash detection, and 3D construction intelligence",
-    color: "#3A7D6E", sector: "Construction", pack: "hanga", primaryModel: "gemini",
+    color: "#3A7D6E", sector: "Construction", pack: "waihanga", primaryModel: "gemini",
     traits: ["Spatially aware", "Detail-precise", "Tech-forward"],
     expertise: ["BIM model analysis", "Clash detection", "4D scheduling", "MEP coordination", "IFC processing", "3D walkthroughs"],
     starters: ["Upload a plan for BIM analysis", "Run clash detection", "Generate a 4D schedule"],
@@ -214,7 +214,7 @@ const hangaAgents: Agent[] = [
     id: "arai", name: "ĀRAI", designation: "HAN-002",
     role: "Site Safety & H&S Compliance (WorkSafe)",
     tagline: "Site safety plans, hazard identification, and Health & Safety at Work Act compliance",
-    color: "#3A7D6E", sector: "Construction", pack: "hanga", primaryModel: "claude",
+    color: "#3A7D6E", sector: "Construction", pack: "waihanga", primaryModel: "claude",
     traits: ["Safety-obsessed", "Thorough", "Worker-focused"],
     expertise: ["H&S plans", "Site inductions", "Hazard identification", "SWMS", "Incident investigation", "PPE requirements"],
     starters: ["Create a site safety plan", "Hazard register for a build", "Incident investigation template"],
@@ -223,7 +223,7 @@ const hangaAgents: Agent[] = [
     id: "kaupapa", name: "KAUPAPA", designation: "HAN-003",
     role: "Project Management & Contract Administration",
     tagline: "Project management, contract administration, and NZS 3910 compliance",
-    color: "#3A7D6E", sector: "Construction", pack: "hanga", primaryModel: "claude",
+    color: "#3A7D6E", sector: "Construction", pack: "waihanga", primaryModel: "claude",
     traits: ["Structured", "Governance-savvy", "Milestone-driven"],
     expertise: ["Project charters", "Contract administration", "NZS 3910", "Change requests", "Payment claims", "Variations"],
     starters: ["Create a project charter", "NZS 3910 variation notice", "Payment claim review"],
@@ -232,7 +232,7 @@ const hangaAgents: Agent[] = [
     id: "rawa", name: "RAWA", designation: "HAN-004",
     role: "Resources, Procurement & Supply Chain",
     tagline: "Procurement management, supply chain optimisation, and vendor review for construction",
-    color: "#3A7D6E", sector: "Construction", pack: "hanga", primaryModel: "claude",
+    color: "#3A7D6E", sector: "Construction", pack: "waihanga", primaryModel: "claude",
     traits: ["Resourceful", "Analytical", "Cost-aware"],
     expertise: ["Procurement planning", "Supply chain management", "Vendor assessment", "Capacity planning", "Cost control"],
     starters: ["Procurement plan for a build", "Vendor assessment checklist", "Supply chain risk review"],
@@ -241,7 +241,7 @@ const hangaAgents: Agent[] = [
     id: "whakaaē", name: "WHAKAAĒ", designation: "HAN-005",
     role: "Resource Consent & Planning Compliance",
     tagline: "Resource consent applications, RMA compliance, and planning authority liaison",
-    color: "#3A7D6E", sector: "Construction", pack: "hanga", primaryModel: "claude",
+    color: "#3A7D6E", sector: "Construction", pack: "waihanga", primaryModel: "claude",
     traits: ["Code-literate", "Detail-precise", "Process-expert"],
     expertise: ["Resource consent", "RMA compliance", "Building consent", "NZ Building Code", "CCC preparation", "Council liaison"],
     starters: ["Resource consent application", "Building Code compliance check", "CCC preparation checklist"],
@@ -250,7 +250,7 @@ const hangaAgents: Agent[] = [
     id: "pai", name: "PAI", designation: "HAN-006",
     role: "Quality Assurance & Building Standards",
     tagline: "Quality control, defect management, and workmanship standards for construction",
-    color: "#3A7D6E", sector: "Construction", pack: "hanga", primaryModel: "gemini",
+    color: "#3A7D6E", sector: "Construction", pack: "waihanga", primaryModel: "gemini",
     traits: ["Quality-focused", "Standards-driven", "Visually sharp"],
     expertise: ["Quality control checklists", "Defect identification", "Snagging lists", "Test & commissioning", "Warranty tracking"],
     starters: ["Quality control checklist", "Defect report template", "Practical completion assessment"],
@@ -259,7 +259,7 @@ const hangaAgents: Agent[] = [
     id: "arc", name: "ARC", designation: "HAN-007",
     role: "Architecture & NZ Building Code Compliance",
     tagline: "Architectural compliance, NZ Building Code guidance, and design review",
-    color: "#3A7D6E", sector: "Construction", pack: "hanga", primaryModel: "claude",
+    color: "#3A7D6E", sector: "Construction", pack: "waihanga", primaryModel: "claude",
     traits: ["Design-aware", "Code-fluent", "Detail-oriented"],
     expertise: ["NZ Building Code", "Architectural compliance", "Design review", "Specification writing", "Building performance"],
     starters: ["Building Code compliance for my design", "Specification review", "Design compliance check"],
@@ -268,7 +268,7 @@ const hangaAgents: Agent[] = [
     id: "terra", name: "TERRA", designation: "HAN-008",
     role: "Property & Land Management (RMA)",
     tagline: "Property management, land use compliance, and Resource Management Act guidance",
-    color: "#3A7D6E", sector: "Construction", pack: "hanga", primaryModel: "claude",
+    color: "#3A7D6E", sector: "Construction", pack: "waihanga", primaryModel: "claude",
     traits: ["Kaitiaki-minded", "Process-savvy", "Land-aware"],
     expertise: ["RMA compliance", "Land use", "Environmental assessment", "Heritage impact", "LINZ requirements"],
     starters: ["RMA compliance check", "Land use assessment", "Environmental impact review"],
@@ -277,7 +277,7 @@ const hangaAgents: Agent[] = [
     id: "pinnacle", name: "PINNACLE", designation: "HAN-009",
     role: "Construction Awards, Tenders & Application Writing",
     tagline: "Award submissions, tender writing, and competitive application preparation for construction",
-    color: "#3A7D6E", sector: "Construction", pack: "hanga", primaryModel: "claude",
+    color: "#3A7D6E", sector: "Construction", pack: "waihanga", primaryModel: "claude",
     traits: ["Persuasive", "Detail-obsessed", "Achievement-focused"],
     expertise: ["Award submissions", "Tender writing", "Application preparation", "Case studies", "Competitive positioning"],
     starters: ["Write a tender response", "Award submission draft", "Construction case study"],

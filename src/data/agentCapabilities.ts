@@ -404,7 +404,7 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "Risk management systems", icon: AlertTriangle, title: "Risk Systems", description: "Build a risk management system", prompt: "Build a risk management system for my bungy operation." },
   ],
 
-  // ── HANGA (new agents) ──
+  // ── WAIHANGA (new agents) ──
   ata: [
     { bullet: "BIM model analysis", icon: Building, title: "BIM Analysis", description: "Analyse a BIM model for issues", prompt: "Upload a plan for BIM analysis." },
     { bullet: "Clash detection", icon: AlertTriangle, title: "Clash Detection", description: "Run clash detection across trades", prompt: "Run clash detection across MEP and structural trades." },
@@ -548,7 +548,7 @@ export const agentCapabilities: Record<string, AgentCapability[]> = {
     { bullet: "Live vessel tracking", icon: Ship, title: "Track Vessel", description: "Track vessels in NZ waters", prompt: "Track vessels near Auckland port." },
   ],
 
-  // ── HANGARAU ──
+  // ── WAIHANGARAU ──
   "spark-cloud": [
     { bullet: "Build web apps from text", icon: Code, title: "Build App", description: "Describe what you want — get a working app", prompt: "Build me a quote calculator for my painting business." },
     { bullet: "Cloud migration planning", icon: Globe, title: "Cloud Migration", description: "Plan a cloud migration", prompt: "Help me plan a cloud migration for my team." },

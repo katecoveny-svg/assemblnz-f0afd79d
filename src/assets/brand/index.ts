@@ -8,7 +8,7 @@ export { default as assemblWordmark } from "./assembl-wordmark.svg";
 
 // Intelligence Group marks (5 packs)
 export { default as manaakiMark } from "./manaaki-mark.svg";   // Hospitality
-export { default as hangaMark } from "./hanga-mark.svg";       // Construction / Trades
+export { default as waihangaMark } from "./hanga-mark.svg";       // Construction / Trades
 export { default as pakihiMark } from "./pakihi-mark.svg";     // Business / Professional
 export { default as hangarauMark } from "./hangarau-mark.svg"; // Technology
 export { default as auahaMark } from "./auaha-mark.svg";       // Creative / Marketing

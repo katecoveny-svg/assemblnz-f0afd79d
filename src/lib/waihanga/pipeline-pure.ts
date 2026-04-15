@@ -58,11 +58,11 @@ export interface ComplianceResult {
 // ─────────────────────────────────────────────
 
 export const AGENT_REGISTRY: AgentConfig[] = [
-  // HANGA / WAIHANGA — Construction
+  // WAIHANGA / WAIHANGA — Construction
   {
     code: "ASM-011",
     name: "ĀRAI",
-    pack: "hanga",
+    pack: "waihanga",
     primaryModel: "claude",
     skills: ["health_safety", "risk_assessment"],
     keywords: [
@@ -72,7 +72,7 @@ export const AGENT_REGISTRY: AgentConfig[] = [
   {
     code: "ASM-012",
     name: "KAUPAPA",
-    pack: "hanga",
+    pack: "waihanga",
     primaryModel: "claude",
     skills: ["project_governance", "planning", "construction_contracts_act"],
     keywords: [
