@@ -15,6 +15,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import SectorSwitcher from "@/components/SectorSwitcher";
 import SEO from "@/components/SEO";
+import BusinessPulse from "@/components/BusinessPulse";
+import AotearoaVerifiedBadge from "@/components/AotearoaVerifiedBadge";
 
 const GOLD = "#D4A843";
 

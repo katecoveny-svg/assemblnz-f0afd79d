@@ -137,6 +137,7 @@ const PipelineDemo = lazy(() => import("./pages/demos/PipelineDemo"));
 const EvidencePackDemo = lazy(() => import("./pages/demos/EvidencePackDemo"));
 const ConfidenceScoringDemo = lazy(() => import("./pages/demos/ConfidenceScoringDemo"));
 const KaitiakiGateDemo = lazy(() => import("./pages/demos/KaitiakiGateDemo"));
+const PrivacyVault = lazy(() => import("./pages/PrivacyVault"));
 
 const queryClient = new QueryClient();
 
@@ -206,6 +207,7 @@ const App = () => (
                   <Route path="/disclaimer" element={<Suspense fallback={null}><Disclaimer /></Suspense>} />
                   <Route path="/security" element={<Suspense fallback={null}><SecurityPage /></Suspense>} />
                   <Route path="/data-privacy" element={<Suspense fallback={null}><DataPrivacyLegal /></Suspense>} />
+                  <Route path="/privacy-vault" element={<Suspense fallback={null}><PrivacyVault /></Suspense>} />
 
                   {/* Functional */}
                   <Route path="/my-apps" element={<Suspense fallback={null}><MyAppsPage /></Suspense>} />

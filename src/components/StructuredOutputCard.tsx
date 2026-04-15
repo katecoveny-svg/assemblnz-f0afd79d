@@ -7,6 +7,7 @@ import { drawAssemblPDFHeader, drawAssemblPDFFooter, renderMarkdownToPDF, AGENT_
 import { supabase } from "@/integrations/supabase/client";
 import TikangaCheckButton from "@/components/TikangaCheckButton";
 import NZExportPresets from "@/components/NZExportPresets";
+import HITLSignOff from "@/components/HITLSignOff";
 
 interface Props {
   title: string;
@@ -253,6 +254,16 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
       >
         <TikangaCheckButton content={content} agentName={agentName} agentColor={agentColor} />
         <NZExportPresets content={content} title={title} agentName={agentName} agentColor={agentColor} />
+      </div>
+
+      {/* HITL Sign-Off */}
+      <div className="px-4 pb-3">
+        <HITLSignOff
+          outputId={`${agentName}-${Date.now()}`}
+          outputType={outputType || "AI Output"}
+          agentName={agentName}
+          content={content}
+        />
       </div>
     </div>
   );
