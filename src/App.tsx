@@ -344,6 +344,7 @@ const App = () => (
               <EchoChatWidget />
               <MobileTabBar />
               </PersonalizationProvider>
+              </BrandDnaProvider>
             </AuthProvider>
           </BrowserRouter>
         </TeReoProvider>
