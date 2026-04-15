@@ -116,6 +116,11 @@ const AaaipResearcher = lazy(() => import("./pages/AaaipResearcher"));
 const AaaipPitchPrep = lazy(() => import("./pages/AaaipPitchPrep"));
 const AaaipLanding = lazy(() => import("./pages/AaaipLanding"));
 const AratakiLandingPage = lazy(() => import("./pages/AratakiLandingPage"));
+const AratakiFuelOracle = lazy(() => import("./pages/arataki/FuelOracle"));
+const AratakiVehicleEconomy = lazy(() => import("./pages/arataki/VehicleEconomy"));
+const AratakiRouteIntelligence = lazy(() => import("./pages/arataki/RouteIntelligence"));
+const AratakiDriverCompliance = lazy(() => import("./pages/arataki/DriverCompliance"));
+const SimulatorHub = lazy(() => import("./pages/SimulatorHub"));
 const PikauLandingPage = lazy(() => import("./pages/PikauLandingPage"));
 const ManaakiLandingPage = lazy(() => import("./pages/ManaakiLandingPage"));
 const AuahaLandingPage = lazy(() => import("./pages/AuahaLandingPage"));
@@ -242,6 +247,12 @@ const App = () => (
 
                         <Route path="/arataki" element={<Suspense fallback={null}><AratakiLandingPage /></Suspense>} />
                         <Route path="/arataki/dashboard" element={<Suspense fallback={null}><AratakiDashboard /></Suspense>} />
+                        <Route path="/arataki/fuel-oracle" element={<Suspense fallback={null}><AratakiFuelOracle /></Suspense>} />
+                        <Route path="/arataki/vehicle-economy" element={<Suspense fallback={null}><AratakiVehicleEconomy /></Suspense>} />
+                        <Route path="/arataki/route-intelligence" element={<Suspense fallback={null}><AratakiRouteIntelligence /></Suspense>} />
+                        <Route path="/arataki/driver-compliance" element={<Suspense fallback={null}><AratakiDriverCompliance /></Suspense>} />
+
+                        <Route path="/simulator" element={<Suspense fallback={null}><SimulatorHub /></Suspense>} />
 
                         <Route path="/pikau" element={<Suspense fallback={null}><PikauLandingPage /></Suspense>} />
                         <Route path="/pikau/dashboard" element={<Suspense fallback={null}><PikauDashboard /></Suspense>} />
