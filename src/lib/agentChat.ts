@@ -26,11 +26,17 @@ interface AgentChatOptions {
  * Collects the full SSE stream and returns the complete response text.
  */
 export async function agentChat({ agentId, message, messages = [], packId, systemPrompt, userId, skipMemory }: AgentChatOptions): Promise<string> {
+  // Privacy Shield: scrub PII from user message before AI call
+  const { scrubbed: scrubbedMessage } = scrubPII(message);
+  const scrubbedMessages = messages.map(m =>
+    m.role === "user" ? { ...m, content: scrubPII(m.content).scrubbed } : m
+  );
+
   // Memory injection: search for relevant past context
   let enrichedPrompt = systemPrompt;
   if (userId && !skipMemory) {
     try {
-      const memories = await searchMemory(userId, message, agentId, 3);
+      const memories = await searchMemory(userId, scrubbedMessage, agentId, 3);
       const block = buildMemoryBlock(memories);
       if (block) {
         enrichedPrompt = (enrichedPrompt || "") + block;
