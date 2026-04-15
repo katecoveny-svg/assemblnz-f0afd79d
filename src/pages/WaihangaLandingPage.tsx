@@ -327,7 +327,7 @@ export default function WaihangaLandingPage() {
         <BrandFooter />
         <KeteAgentChat
           keteName="Waihanga" keteLabel="Construction" accentColor="#3A7D6E"
-          defaultAgentId="kaupapa" packId="hanga"
+          defaultAgentId="kaupapa" packId="waihanga"
           starterPrompts={["What does Waihanga cover for builders?", "How does CCA payment claim compliance work?", "Tell me about Building Code checklists", "What evidence packs do I get for site safety?"]}
         />
       </div>

@@ -28,7 +28,7 @@ export const AGENT_KETE_MAP: Record<string, string> = {
   // Manaaki
   AURA: "manaaki", SAFFRON: "manaaki", CELLAR: "manaaki", NOVA: "manaaki",
   // Waihanga / Hanga
-  APEX: "hanga", KAUPAPA: "hanga", ARAI: "hanga", WHAKAE: "hanga", MATAI: "hanga",
+  APEX: "waihanga", KAUPAPA: "waihanga", ARAI: "waihanga", WHAKAE: "waihanga", MATAI: "waihanga",
   // Auaha
   PRISM: "auaha", ECHO: "auaha", SPARK: "auaha", FLUX: "auaha",
   TAHI: "auaha", RUA: "auaha", TORU: "auaha", WHA: "auaha", RIMA: "auaha",

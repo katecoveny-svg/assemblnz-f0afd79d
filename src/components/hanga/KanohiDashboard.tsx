@@ -528,7 +528,7 @@ function HangaChat({ projectName }: { projectName: string }) {
 
       const reply = await agentChat({
         agentId: "construction",
-        packId: "hanga",
+        packId: "waihanga",
         message: history[history.length - 1]?.content || "",
         messages: history.slice(0, -1),
       });

@@ -69,7 +69,7 @@ interface PackChatPanelProps {
   packLabel?: string;
 }
 
-export default function HangaChatPanel({ packId = "hanga", packLabel = "Hanga Intelligence" }: PackChatPanelProps) {
+export default function HangaChatPanel({ packId = "waihanga", packLabel = "Hanga Intelligence" }: PackChatPanelProps) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");

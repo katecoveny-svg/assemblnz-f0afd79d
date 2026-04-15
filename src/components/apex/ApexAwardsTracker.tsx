@@ -100,7 +100,7 @@ ${companyProfile ? `\nCOMPANY PROFILE:\n${companyProfile}` : ""}${portfolioConte
 Generate: project overview, innovation highlights, sustainability measures, challenges overcome, community benefit, team recognition. Write in confident, professional NZ English. Tailor to the specific award's evaluation criteria.`;
 
     try {
-      const content = await agentChat({ agentId: "construction", message: prompt, packId: "hanga" });
+      const content = await agentChat({ agentId: "construction", message: prompt, packId: "waihanga" });
       setNomResult(content);
     } catch { setNomResult("Error generating nomination. Please try again."); }
     finally { setIsGenerating(false); }

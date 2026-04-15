@@ -205,7 +205,7 @@ const AdminPackAnalytics = () => {
     { key: "cohorts", label: "User Cohorts", icon: Users },
   ] as const;
 
-  const PACKS = ["pakihi", "hanga", "manaaki", "toroa", "auaha", "hangarau"];
+  const PACKS = ["pakihi", "waihanga", "manaaki", "toroa", "auaha", "hangarau"];
 
   const cardStyle = {
     background: "rgba(15,15,26,0.8)",
