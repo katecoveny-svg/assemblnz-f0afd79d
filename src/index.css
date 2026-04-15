@@ -277,8 +277,8 @@ html {
 
   /* Pounamu glow text for data values */
   .text-glow-pounamu {
-    color: #4FE4A7;
-    text-shadow: 0 0 10px rgba(79, 228, 167, 0.3), 0 0 30px rgba(79, 228, 167, 0.1);
+    color: #7ECFC2;
+    text-shadow: 0 0 10px rgba(126, 207, 194, 0.3), 0 0 30px rgba(126, 207, 194, 0.1);
   }
 
   /* ── Elevated Glass Card (modals) ── */

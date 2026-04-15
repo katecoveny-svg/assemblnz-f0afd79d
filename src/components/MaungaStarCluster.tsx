@@ -7,9 +7,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
  * Stars act as data-nodes connected by luminous filaments above the peaks.
  */
 
-const ELECTRIC = "#00CFFF";
-const AURORA = "#00FF9C";
-const OCEAN = "#1B5E6B";
+const ELECTRIC = "#7ECFC2";
+const AURORA = "#5AADA0";
+const OCEAN = "#3A7D6E";
 
 const STARS = [
   { cx: 50, cy: 10, r: 4.5, delay: 0, glow: 20, color: ELECTRIC },

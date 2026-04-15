@@ -36,7 +36,7 @@ const SCORE_STYLES: Record<string, { bg: string; text: string; label: string }> 
   cold: { bg: "rgba(66,165,245,0.15)", text: "rgba(66,165,245,0.9)", label: "Cold" },
 };
 
-const ACCENT = "#00FF94";
+const ACCENT = "#5AADA0";
 
 export default function FluxLeadPipeline({ onSendToChat }: { onSendToChat?: (msg: string) => void }) {
   const { user } = useAuth();

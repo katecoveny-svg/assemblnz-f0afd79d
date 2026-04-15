@@ -24,17 +24,17 @@ const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
 const C = {
   bg: "#0A1628",
   pounamu: "#3A7D6E",
-  pounamuLight: "#4FE4A7",
-  pounamuGlow: "#7ECFC2",
+  pounamuLight: "#7ECFC2",
+  pounamuGlow: "#5AADA0",
   gold: "#D4A853",
   goldLight: "#F0D078",
   navy: "#1A3A5C",
   bone: "#F5F0E8",
   white: "#FFFFFF",
   t1: "rgba(245,240,232,0.92)",
-  t2: "rgba(245,240,232,0.75)",
-  t3: "rgba(245,240,232,0.45)",
-  border: "rgba(58,125,110,0.15)",
+  t2: "rgba(245,240,232,0.70)",
+  t3: "rgba(245,240,232,0.40)",
+  border: "rgba(58,125,110,0.12)",
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -149,21 +149,21 @@ const Index = () => {
         <ContextBar />
 
         {/* ═══ HERO — Full viewport + Kete Particle Canvas ═══ */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 overflow-hidden">
-          {/* Deep luminous background — not flat */}
+        <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 sm:px-8 overflow-hidden">
+          {/* Deep luminous background — refined pounamu + gold */}
           <div className="absolute inset-0 pointer-events-none" style={{
             background: `
-              radial-gradient(ellipse 60% 50% at 50% 55%, rgba(79,228,167,0.18) 0%, transparent 60%),
-              radial-gradient(ellipse 40% 40% at 30% 30%, rgba(0,220,200,0.10) 0%, transparent 50%),
-              radial-gradient(ellipse 35% 45% at 70% 60%, rgba(212,168,83,0.07) 0%, transparent 50%),
+              radial-gradient(ellipse 60% 50% at 50% 55%, rgba(58,125,110,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse 40% 40% at 30% 30%, rgba(58,125,110,0.06) 0%, transparent 50%),
+              radial-gradient(ellipse 35% 45% at 70% 60%, rgba(212,168,83,0.06) 0%, transparent 50%),
               radial-gradient(ellipse 80% 80% at 50% 50%, rgba(10,30,50,0.9) 0%, rgba(6,14,28,1) 100%)
             `,
           }} />
-          {/* Breathing glow pulse */}
+          {/* Breathing glow pulse — subtle pounamu */}
           <div className="absolute inset-0 pointer-events-none animate-[glowPulse_4s_ease-in-out_infinite]" style={{
-            background: "radial-gradient(ellipse 55% 45% at 50% 55%, rgba(79,228,167,0.10) 0%, transparent 60%)",
+            background: "radial-gradient(ellipse 55% 45% at 50% 55%, rgba(58,125,110,0.06) 0%, transparent 60%)",
           }} />
-          <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none">
+          <video autoPlay muted loop playsInline preload="auto" className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none">
             <source src="/hero-woven-video.mp4" type="video/mp4" />
           </video>
           {/* Vignette edges */}
@@ -180,49 +180,61 @@ const Index = () => {
               style={{
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 300,
-                fontSize: isMobile ? "1.75rem" : "3.25rem",
-                lineHeight: 1.1,
-                letterSpacing: isMobile ? "3px" : "6px",
+                fontSize: isMobile ? "2rem" : "3.5rem",
+                lineHeight: 1.08,
+                letterSpacing: isMobile ? "4px" : "8px",
                 textTransform: "uppercase" as const,
                 color: C.white,
-                textShadow: "0 2px 30px rgba(0,0,0,0.8), 0 0 60px rgba(6,14,28,0.9)",
+                textShadow: "0 2px 40px rgba(0,0,0,0.9), 0 0 80px rgba(6,14,28,0.95)",
               }}
               initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1, ease }}
+              transition={{ duration: 0.6, delay: 0.05, ease }}
             >
               The operating system for NZ business.
             </motion.h1>
 
             <motion.p
-              className="max-w-[640px] mx-auto mt-6 text-base sm:text-lg leading-[1.8]"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.8)", textShadow: "0 1px 20px rgba(0,0,0,0.7)" }}
+              className="max-w-[560px] mx-auto mt-8 text-base sm:text-lg leading-[1.9]"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 300, color: "rgba(245,240,232,0.72)", textShadow: "0 1px 20px rgba(0,0,0,0.7)" }}
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.25, ease }}
+              transition={{ duration: 0.5, delay: 0.15, ease }}
             >
               Specialist operational workflows that reduce admin, surface risk earlier, and keep people in control.
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-3 mt-10 justify-center"
+              className="flex flex-col sm:flex-row gap-4 mt-14 justify-center"
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4, ease }}
+              transition={{ duration: 0.5, delay: 0.3, ease }}
             >
-              <Link to="/contact" className="group inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-semibold rounded-lg transition-all duration-300"
-                style={{ background: "rgba(212,168,83,0.12)", border: "1px solid rgba(212,168,83,0.5)", color: C.goldLight, boxShadow: "0 0 20px rgba(212,168,83,0.15), inset 0 1px 0 rgba(212,168,83,0.2)", fontFamily: "'Plus Jakarta Sans', sans-serif", backdropFilter: "blur(8px)" }}>
-                Get started <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+              <Link to="/contact" className="group inline-flex items-center justify-center gap-2.5 px-12 py-4 text-[13px] font-semibold rounded-full transition-all duration-300 tracking-wide uppercase"
+                style={{
+                  background: "linear-gradient(135deg, rgba(240,208,120,0.15), rgba(212,168,83,0.1))",
+                  border: "1px solid rgba(212,168,83,0.45)",
+                  color: C.goldLight,
+                  boxShadow: "0 0 30px rgba(212,168,83,0.15), 0 0 60px rgba(212,168,83,0.06), inset 0 1px 0 rgba(255,255,255,0.08)",
+                  fontFamily: "'Lato', sans-serif",
+                  backdropFilter: "blur(12px)",
+                }}>
+                Get started <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link to="/demos" className="inline-flex items-center justify-center gap-2 px-10 py-4 text-sm font-medium rounded-lg transition-all duration-300"
-                style={{ border: `1px solid ${C.pounamu}`, color: C.bone, backdropFilter: "blur(8px)" }}>
+              <Link to="/demos" className="inline-flex items-center justify-center gap-2.5 px-12 py-4 text-[13px] font-medium rounded-full transition-all duration-300 tracking-wide uppercase"
+                style={{
+                  border: `1px solid rgba(255,255,255,0.12)`,
+                  color: "rgba(245,240,232,0.7)",
+                  backdropFilter: "blur(12px)",
+                  fontFamily: "'Lato', sans-serif",
+                }}>
                 See it in action →
               </Link>
             </motion.div>
 
             <motion.p
-              className="mt-10 text-[11px] tracking-[3px] uppercase"
-              style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: C.gold, textShadow: "0 1px 16px rgba(0,0,0,0.6)" }}
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.5 }}
+              className="mt-16 text-[10px] tracking-[4px] uppercase"
+              style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "rgba(212,168,83,0.5)", textShadow: "0 1px 16px rgba(0,0,0,0.6)" }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 0.5 }}
             >
-              Trusted. Intelligent. Aotearoa.
+              Trusted · Intelligent · Aotearoa
             </motion.p>
           </div>
         </section>
@@ -571,7 +583,7 @@ export default Index;
 /* ─── Layout primitives ─── */
 function Sect({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
-    <section id={id} className="px-4 sm:px-6 py-16 sm:py-20 relative">
+    <section id={id} className="px-6 sm:px-8 py-24 sm:py-32 relative">
       <div className="max-w-5xl mx-auto relative z-10">{children}</div>
       <div className="absolute bottom-0 left-0 right-0"><WovenDivider /></div>
     </section>
@@ -589,8 +601,8 @@ function Eye({ children, color = "#3A7D6E" }: { children: string; color?: string
 
 function H2({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-2xl sm:text-3xl lg:text-[36px] mb-4"
-      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase", lineHeight: 1.15, color: "rgba(245,240,232,0.9)" }}>
+    <h2 className="text-2xl sm:text-3xl lg:text-[38px] mb-6"
+      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "5px", textTransform: "uppercase", lineHeight: 1.12, color: "rgba(255,255,255,0.88)" }}>
       {children}
     </h2>
   );
