@@ -5,6 +5,8 @@ import ReactMarkdown from "react-markdown";
 import HelmChecklist from "@/components/helm/HelmChecklist";
 import { drawAssemblPDFHeader, drawAssemblPDFFooter, renderMarkdownToPDF, AGENT_KETE_MAP } from "@/lib/pdfBranding";
 import { supabase } from "@/integrations/supabase/client";
+import TikangaCheckButton from "@/components/TikangaCheckButton";
+import NZExportPresets from "@/components/NZExportPresets";
 
 interface Props {
   title: string;
@@ -242,6 +244,15 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
           <Link2 size={11} />
           Share
         </ActionBtn>
+      </div>
+
+      {/* Tikanga Check & NZ Export Presets */}
+      <div
+        className="px-4 py-2 flex flex-wrap gap-2"
+        style={{ borderTop: "1px solid rgba(212, 168, 67, 0.06)" }}
+      >
+        <TikangaCheckButton content={content} agentName={agentName} agentColor={agentColor} />
+        <NZExportPresets content={content} title={title} agentName={agentName} agentColor={agentColor} />
       </div>
     </div>
   );

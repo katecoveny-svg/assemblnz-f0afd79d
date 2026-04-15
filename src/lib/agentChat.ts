@@ -1,9 +1,11 @@
 /**
  * Shared Agent Router helper — replaces all legacy supabase.functions.invoke("chat") calls.
  * Routes through agent-router for full skill wiring, memory, symbiotic context, and governance.
+ * Includes Privacy Shield PII scrubbing before AI calls.
  */
 
 import { searchMemory, buildMemoryBlock } from "@/lib/searchMemory";
+import { scrubPII } from "@/lib/privacyShield";
 
 const AGENT_ROUTER_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/agent-router`;
 
@@ -24,11 +26,17 @@ interface AgentChatOptions {
  * Collects the full SSE stream and returns the complete response text.
  */
 export async function agentChat({ agentId, message, messages = [], packId, systemPrompt, userId, skipMemory }: AgentChatOptions): Promise<string> {
+  // Privacy Shield: scrub PII from user message before AI call
+  const { scrubbed: scrubbedMessage } = scrubPII(message);
+  const scrubbedMessages = messages.map(m =>
+    m.role === "user" ? { ...m, content: scrubPII(m.content).scrubbed } : m
+  );
+
   // Memory injection: search for relevant past context
   let enrichedPrompt = systemPrompt;
   if (userId && !skipMemory) {
     try {
-      const memories = await searchMemory(userId, message, agentId, 3);
+      const memories = await searchMemory(userId, scrubbedMessage, agentId, 3);
       const block = buildMemoryBlock(memories);
       if (block) {
         enrichedPrompt = (enrichedPrompt || "") + block;
@@ -43,10 +51,10 @@ export async function agentChat({ agentId, message, messages = [], packId, syste
       Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
     },
     body: JSON.stringify({
-      message,
+      message: scrubbedMessage,
       agentId,
       packId: packId || agentId,
-      messages,
+      messages: scrubbedMessages,
       ...(enrichedPrompt ? { systemPromptOverride: enrichedPrompt } : {}),
     }),
   });
@@ -102,11 +110,17 @@ export async function agentChatStream({
   onError?: (error: Error) => void;
 }): Promise<void> {
   try {
+    // Privacy Shield: scrub PII from user messages
+    const { scrubbed: scrubbedMessage } = scrubPII(message);
+    const scrubbedMessages = messages.map(m =>
+      m.role === "user" ? { ...m, content: scrubPII(m.content).scrubbed } : m
+    );
+
     // Memory injection for streaming calls
     let enrichedPrompt = systemPrompt;
     if (userId && !skipMemory) {
       try {
-        const memories = await searchMemory(userId, message, agentId, 3);
+        const memories = await searchMemory(userId, scrubbedMessage, agentId, 3);
         const block = buildMemoryBlock(memories);
         if (block) enrichedPrompt = (enrichedPrompt || "") + block;
       } catch { /* non-blocking */ }
@@ -119,10 +133,10 @@ export async function agentChatStream({
         Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
       },
       body: JSON.stringify({
-        message,
+        message: scrubbedMessage,
         agentId,
         packId: packId || agentId,
-        messages,
+        messages: scrubbedMessages,
         ...(enrichedPrompt ? { systemPromptOverride: enrichedPrompt } : {}),
       }),
     });
