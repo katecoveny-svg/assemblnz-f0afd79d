@@ -110,11 +110,17 @@ export async function agentChatStream({
   onError?: (error: Error) => void;
 }): Promise<void> {
   try {
+    // Privacy Shield: scrub PII from user messages
+    const { scrubbed: scrubbedMessage } = scrubPII(message);
+    const scrubbedMessages = messages.map(m =>
+      m.role === "user" ? { ...m, content: scrubPII(m.content).scrubbed } : m
+    );
+
     // Memory injection for streaming calls
     let enrichedPrompt = systemPrompt;
     if (userId && !skipMemory) {
       try {
-        const memories = await searchMemory(userId, message, agentId, 3);
+        const memories = await searchMemory(userId, scrubbedMessage, agentId, 3);
         const block = buildMemoryBlock(memories);
         if (block) enrichedPrompt = (enrichedPrompt || "") + block;
       } catch { /* non-blocking */ }
@@ -127,10 +133,10 @@ export async function agentChatStream({
         Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
       },
       body: JSON.stringify({
-        message,
+        message: scrubbedMessage,
         agentId,
         packId: packId || agentId,
-        messages,
+        messages: scrubbedMessages,
         ...(enrichedPrompt ? { systemPromptOverride: enrichedPrompt } : {}),
       }),
     });
