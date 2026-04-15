@@ -245,6 +245,15 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
           Share
         </ActionBtn>
       </div>
+
+      {/* Tikanga Check & NZ Export Presets */}
+      <div
+        className="px-4 py-2 flex flex-wrap gap-2"
+        style={{ borderTop: "1px solid rgba(212, 168, 67, 0.06)" }}
+      >
+        <TikangaCheckButton content={content} agentName={agentName} agentColor={agentColor} />
+        <NZExportPresets content={content} title={title} agentName={agentName} agentColor={agentColor} />
+      </div>
     </div>
   );
 };

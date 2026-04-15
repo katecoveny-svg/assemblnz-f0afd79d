@@ -1,9 +1,11 @@
 /**
  * Shared Agent Router helper — replaces all legacy supabase.functions.invoke("chat") calls.
  * Routes through agent-router for full skill wiring, memory, symbiotic context, and governance.
+ * Includes Privacy Shield PII scrubbing before AI calls.
  */
 
 import { searchMemory, buildMemoryBlock } from "@/lib/searchMemory";
+import { scrubPII } from "@/lib/privacyShield";
 
 const AGENT_ROUTER_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/agent-router`;
 
