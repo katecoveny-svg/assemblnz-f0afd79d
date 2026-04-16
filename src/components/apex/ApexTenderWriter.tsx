@@ -240,7 +240,7 @@ Generate comprehensive, detailed content for this section. Include specific fram
                   </button>
                 </div>
               </div>
-              <div className="prose prose-invert prose-sm max-w-none text-foreground/80">
+              <div className="prose prose-sm max-w-none [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]">
                 <ReactMarkdown>{companyProfile}</ReactMarkdown>
               </div>
               <p className="text-[9px] text-muted-foreground">This profile is saved and will auto-populate your tenders and proposals.</p>
@@ -303,7 +303,7 @@ Generate comprehensive, detailed content for this section. Include specific fram
                   {copied === "pqq" ? <Check size={10} /> : <Copy size={10} />} {copied === "pqq" ? "Copied" : "Copy all"}
                 </button>
               </div>
-              <div className="prose prose-invert prose-sm max-w-none"><ReactMarkdown>{pqqResult}</ReactMarkdown></div>
+              <div className="prose prose-sm max-w-none [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]"><ReactMarkdown>{pqqResult}</ReactMarkdown></div>
             </div>
           )}
         </div>
@@ -348,7 +348,7 @@ Generate comprehensive, detailed content for this section. Include specific fram
         {framework && (
           <div className="rounded-xl p-4" style={{ background: `${APEX_COLOR}08`, border: `1px solid ${APEX_COLOR}20` }}>
             <span className="text-xs font-bold" style={{ color: APEX_COLOR }}>Response Framework</span>
-            <div className="prose prose-invert prose-sm max-w-none mt-2"><ReactMarkdown>{framework}</ReactMarkdown></div>
+            <div className="prose prose-sm max-w-none mt-2 [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]"><ReactMarkdown>{framework}</ReactMarkdown></div>
           </div>
         )}
 
@@ -376,7 +376,7 @@ Generate comprehensive, detailed content for this section. Include specific fram
                         {copied === s.id ? <Check size={8} /> : <Copy size={8} />} {copied === s.id ? "Copied" : "Copy"}
                       </button>
                     </div>
-                    <div className="prose prose-invert prose-xs max-w-none text-foreground/80"><ReactMarkdown>{sectionResults[s.id]}</ReactMarkdown></div>
+                    <div className="prose prose-xs max-w-none [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]"><ReactMarkdown>{sectionResults[s.id]}</ReactMarkdown></div>
                   </div>
                 )}
               </div>

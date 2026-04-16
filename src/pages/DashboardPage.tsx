@@ -928,7 +928,7 @@ const DashboardPage = () => {
                 {viewItem && new Date(viewItem.created_at).toLocaleDateString("en-NZ", { day: "numeric", month: "long", year: "numeric" })}
               </DialogDescription>
             </DialogHeader>
-            <div className="prose prose-invert prose-sm max-w-none"><ReactMarkdown>{viewItem?.content || ""}</ReactMarkdown></div>
+            <div className="prose prose-sm max-w-none [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140] [&_h1]:text-[#3D4250] [&_h2]:text-[#3D4250] [&_h3]:text-[#3D4250]"><ReactMarkdown>{viewItem?.content || ""}</ReactMarkdown></div>
           </DialogContent>
         </Dialog>
 

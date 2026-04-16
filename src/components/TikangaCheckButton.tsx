@@ -120,7 +120,7 @@ const TikangaCheckButton = ({ content, agentName, agentColor = "#00A86B" }: Prop
               className="px-4 pb-3"
               style={{ borderTop: `1px solid ${config.color}15` }}
             >
-              <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-headings:text-foreground prose-strong:text-foreground font-body text-[12px] leading-relaxed">
+              <div className="prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140] font-body text-[12px] leading-relaxed">
                 <ReactMarkdown>{result}</ReactMarkdown>
               </div>
             </div>

@@ -357,7 +357,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
               </div>
             </div>
 
-            <div className="prose prose-invert prose-sm max-w-none prose-headings:text-sm prose-headings:font-bold prose-p:my-1.5 prose-ul:my-1 prose-li:my-0.5 font-body" style={{ color: "hsl(var(--foreground))" }}>
+            <div className="prose prose-sm max-w-none prose-headings:text-sm prose-headings:font-bold prose-p:my-1.5 prose-ul:my-1 prose-li:my-0.5 font-body [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]" style={{ color: "#3D4250" }}>
               <ReactMarkdown>{result}</ReactMarkdown>
             </div>
 

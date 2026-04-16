@@ -132,7 +132,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
   const renderContent = () => {
     if (!hasChecklist) {
       return (
-        <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-headings:text-foreground prose-strong:text-foreground font-body">
+        <div className="prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140] [&_h1]:text-[#3D4250] [&_h2]:text-[#3D4250] [&_h3]:text-[#3D4250] font-body">
           <ReactMarkdown>{content}</ReactMarkdown>
         </div>
       );
@@ -164,7 +164,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
           p.type === "checklist" ? (
             <HelmChecklist key={i} content={p.content} />
           ) : (
-            <div key={i} className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-headings:text-foreground prose-strong:text-foreground font-body">
+            <div key={i} className="prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140] [&_h1]:text-[#3D4250] [&_h2]:text-[#3D4250] [&_h3]:text-[#3D4250] font-body">
               <ReactMarkdown>{p.content}</ReactMarkdown>
             </div>
           )

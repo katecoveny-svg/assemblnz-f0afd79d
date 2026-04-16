@@ -219,7 +219,7 @@ export default function BimAnalysisPanel({ agentId, agentName }: BimPanelProps) 
       {/* ── Results ── */}
       {result && (
         <div className="border-t border-pounamu/10 px-4 py-4">
-          <div className="prose prose-sm prose-invert max-w-none text-xs font-body leading-relaxed [&_h1]:text-pounamu [&_h1]:font-display [&_h1]:tracking-wider [&_h2]:text-pounamu [&_h2]:font-display [&_h2]:tracking-wider [&_h3]:text-pounamu/80 [&_h3]:font-display [&_strong]:text-foreground [&_a]:text-pounamu [&_code]:font-mono-jb [&_code]:text-pounamu/70 [&_table]:border-pounamu/20 [&_th]:text-pounamu [&_th]:font-display [&_th]:tracking-wider [&_th]:uppercase [&_th]:text-[10px]">
+          <div className="prose prose-sm max-w-none text-xs font-body leading-relaxed [&_h1]:text-pounamu [&_h1]:font-display [&_h1]:tracking-wider [&_h2]:text-pounamu [&_h2]:font-display [&_h2]:tracking-wider [&_h3]:text-pounamu/80 [&_h3]:font-display [&_strong]:text-[#2D3140] [&_a]:text-pounamu [&_code]:font-mono-jb [&_code]:text-pounamu/70 [&_table]:border-pounamu/20 [&_th]:text-pounamu [&_th]:font-display [&_th]:tracking-wider [&_th]:uppercase [&_th]:text-[10px] [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_td]:text-[#3D4250]">
             <ReactMarkdown>{result}</ReactMarkdown>
           </div>
         </div>

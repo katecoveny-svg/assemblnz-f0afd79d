@@ -162,7 +162,7 @@ const InternalComms = ({ agentId, agentName, agentColor, isPaid, userRole }: Pro
                   {copied ? <Check size={10} /> : <Copy size={10} />} {copied ? "Copied" : "Copy"}
                 </button>
               </div>
-              <div className="prose prose-invert prose-sm max-w-none"><ReactMarkdown>{result}</ReactMarkdown></div>
+              <div className="prose prose-sm max-w-none [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]"><ReactMarkdown>{result}</ReactMarkdown></div>
             </div>
           )}
         </div>
