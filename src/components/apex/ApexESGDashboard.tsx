@@ -224,7 +224,7 @@ const ApexESGDashboard = ({ isPaid, userRole }: Props) => {
                 {copied === key ? <Check size={10} /> : <Copy size={10} />} {copied === key ? "Copied" : "Copy"}
               </button>
             </div>
-            <div className="prose prose-invert prose-sm max-w-none"><ReactMarkdown>{generatedContent[key]}</ReactMarkdown></div>
+            <div className="prose prose-sm max-w-none"><ReactMarkdown>{generatedContent[key]}</ReactMarkdown></div>
           </div>
         )}
       </div>
