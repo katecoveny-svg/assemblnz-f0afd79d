@@ -24,7 +24,7 @@ const KeteDetailPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAFBFC" }}>
         <div className="text-center">
-          <h1 className="text-2xl text-white/80 mb-4" style={{ fontFamily: "'Lato', sans-serif" }}>Kete not found</h1>
+          <h1 className="text-2xl mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}>Kete not found</h1>
           <button onClick={() => navigate("/kete")} className="text-sm px-4 py-2 rounded-lg" style={{ color: "#D4A843", border: "1px solid #D4A84330", background: "#D4A84310" }}>
             Back to collection
           </button>
@@ -39,8 +39,8 @@ const KeteDetailPage = () => {
       <div className="min-h-screen" style={{ background: "#FAFBFC" }}>
         {/* Hero */}
         <div className="max-w-[1200px] mx-auto px-6 py-16 md:py-24">
-          <button onClick={() => navigate("/kete")} className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white/60 mb-10 transition-colors" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-            <GlowIcon name="ArrowLeft" size={14} color="rgba(255,255,255,0.4)" />
+          <button onClick={() => navigate("/kete")} className="flex items-center gap-1.5 text-xs mb-10 transition-colors" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D425080" }}>
+            <GlowIcon name="ArrowLeft" size={14} color="rgba(61,66,80,0.4)" />
             Back to Kete Collection
           </button>
 
@@ -49,13 +49,13 @@ const KeteDetailPage = () => {
               <KeteIcon name={kete.name} accentColor={kete.accentColor} accentLight={kete.accentLight} variant={kete.variant} size="large" />
             </div>
             <div>
-              <h1 className="text-4xl md:text-5xl text-white/95 tracking-[5px] uppercase mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
+              <h1 className="text-4xl md:text-5xl tracking-[5px] uppercase mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250" }}>
                 {kete.name}
               </h1>
               <p className="text-base tracking-[2px] uppercase mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: kete.accentColor }}>
                 {kete.englishName}
               </p>
-              <p className="text-base text-white/65 leading-relaxed max-w-lg" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <p className="text-base leading-relaxed max-w-lg" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250CC" }}>
                 {kete.description}
               </p>
               <div className="flex items-center gap-4 mt-6">
@@ -63,7 +63,7 @@ const KeteDetailPage = () => {
                   {kete.agentCount} agents
                 </span>
                 {kete.badge && (
-                  <span className="text-[11px] tracking-[1px] uppercase text-gray-500 px-3 py-1 rounded" style={{ fontFamily: "'JetBrains Mono', monospace", background: `${kete.accentColor}15` }}>
+                  <span className="text-[11px] tracking-[1px] uppercase px-3 py-1 rounded" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3D425080", background: `${kete.accentColor}15` }}>
                     {kete.badge}
                   </span>
                 )}
@@ -74,13 +74,13 @@ const KeteDetailPage = () => {
           {/* Agents grid */}
           {kete.agents && kete.agents.length > 0 && (
             <section>
-              <h2 className="text-lg text-white/70 tracking-[3px] uppercase mb-8" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
+              <h2 className="text-lg tracking-[3px] uppercase mb-8" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250B3" }}>
                 Specialist Agents
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {kete.agents.map(agent => (
                   <div key={agent.name} className="p-4 rounded-xl border transition-all duration-200 hover:border-gray-300"
-                    style={{ background: "rgba(15,15,26,0.7)", backdropFilter: "blur(10px)", borderColor: "rgba(255,255,255,0.06)" }}>
+                    style={{ background: "rgba(255,255,255,0.7)", backdropFilter: "blur(10px)", borderColor: "rgba(61,66,80,0.08)" }}>
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${kete.accentColor}15` }}>
                         <span className="text-[10px] font-bold" style={{ color: kete.accentColor, fontFamily: "'JetBrains Mono', monospace" }}>
@@ -88,8 +88,8 @@ const KeteDetailPage = () => {
                         </span>
                       </div>
                       <div>
-                        <p className="text-xs font-bold text-white/85 tracking-wider uppercase">{agent.name}</p>
-                        <p className="text-[11px] text-white/40" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{agent.desc}</p>
+                        <p className="text-xs font-bold tracking-wider uppercase" style={{ color: "#3D4250DD" }}>{agent.name}</p>
+                        <p className="text-[11px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D425066" }}>{agent.desc}</p>
                       </div>
                     </div>
                   </div>
