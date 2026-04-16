@@ -96,7 +96,7 @@ export default function AraiSafetyPage() {
           ))}
         </div>
         <motion.button onClick={() => setShowForm(!showForm)} whileHover={{ scale: 1.02 }}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium" style={{ background: "#E44D4D", color: "#fff" }}>
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium" style={{ background: "#E44D4D", color: "#1A1D29" }}>
           <Plus size={14} /> Report Hazard
         </motion.button>
       </div>
@@ -170,7 +170,7 @@ export default function AraiSafetyPage() {
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
               <XAxis dataKey="week" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 11 }} axisLine={false} />
               <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 11 }} axisLine={false} />
-              <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#fff", fontSize: 12 }} />
+              <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#1A1D29", fontSize: 12 }} />
               <Bar dataKey="reported" fill="#E44D4D" radius={[6, 6, 0, 0]} name="Reported" />
               <Bar dataKey="resolved" fill={POUNAMU} radius={[6, 6, 0, 0]} name="Resolved" />
             </BarChart>

@@ -198,7 +198,7 @@ export default function AdminFlintDashboard() {
                 onClick={() => generateMutation.mutate()}
                 disabled={generateMutation.isPending}
                 className="w-full"
-                style={{ background: ACCENT, color: "#fff" }}
+                style={{ background: ACCENT, color: "#1A1D29" }}
               >
                 {generateMutation.isPending ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <Sparkles className="w-4 h-4 mr-2" />}
                 Generate with Flint AI
@@ -262,7 +262,7 @@ export default function AdminFlintDashboard() {
                 onClick={() => seoAuditMutation.mutate()}
                 disabled={seoAuditMutation.isPending}
                 className="w-full"
-                style={{ background: ACCENT, color: "#fff" }}
+                style={{ background: ACCENT, color: "#1A1D29" }}
               >
                 {seoAuditMutation.isPending ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <BarChart3 className="w-4 h-4 mr-2" />}
                 Run SEO Audit

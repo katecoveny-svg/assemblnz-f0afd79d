@@ -57,7 +57,8 @@ import {
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteIcon from "@/components/kete/KeteIcon";
 import ParticleField from "@/components/ParticleField";
 import AgentTestToggle from "@/components/aaaip/AgentTestToggle";
@@ -350,8 +351,8 @@ export default function AaaipDashboard() {
   if (!authLoading && !isAdmin) return <Navigate to="/" replace />;
 
   return (
-    <GlowPageWrapper accentColor={meta.accentColor}>
-    <div className="relative min-h-screen" style={{ background: "#0A0A14", color: "#fff" }}>
+    <LightPageShell>
+    <div className="relative min-h-screen" style={{ background: "#0A0A14", color: "#1A1D29" }}>
       <SEO
         title="AAAIP Live Demo · Assembl"
         description="Simulation-tested, policy-governed autonomous agents across every Assembl industry Kete — Waihanga, Pikau, Manaaki, Auaha, Toro — plus clinical, robotics, drug-screening and community-moderation pilots."
@@ -834,7 +835,7 @@ export default function AaaipDashboard() {
       <BrandFooter />
       </div>
     </div>
-    </GlowPageWrapper>
+    </LightPageShell>
   );
 }
 

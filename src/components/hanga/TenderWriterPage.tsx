@@ -129,7 +129,7 @@ export default function TenderWriterPage() {
               <button
                 onClick={submitTender}
                 className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium"
-                style={{ background: POUNAMU, color: "#fff" }}
+                style={{ background: POUNAMU, color: "#1A1D29" }}
               >
                 <Send size={14} />
                 Submit tender

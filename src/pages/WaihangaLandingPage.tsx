@@ -6,14 +6,15 @@ import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { WAIHANGA_USE_CASE } from "@/data/useCases";
 
-const BG = "#09090F";
+const BG = "#FAFBFC";
 const ACCENT = "#3A7D6E";
 const POUNAMU = "#3A7D6E";
 const ACCENT_LIGHT = "#7ECFC2";
@@ -59,8 +60,8 @@ export default function WaihangaLandingPage() {
   const [hoveredAgent, setHoveredAgent] = useState<number | null>(null);
 
   return (
-    <GlowPageWrapper accentColor={ACCENT}>
-      <div style={{ background: BG, minHeight: "100vh", color: "#fff" }}>
+    <LightPageShell>
+      <div style={{ minHeight: "100vh" }}>
         <SEO
           title="Waihanga — Construction | assembl"
           description="Site safety, building code compliance, tender writing, BIM coordination — construction operations without the paper trail chaos. Built for NZ builders."
@@ -104,25 +105,25 @@ export default function WaihangaLandingPage() {
             variants={fadeUp} initial="hidden" animate="visible" custom={1}
           >
             <span style={{
-              background: `linear-gradient(135deg, ${BONE} 0%, ${ACCENT_LIGHT} 50%, ${BONE} 100%)`,
+              background: `linear-gradient(135deg, #1A1D29 0%, ${ACCENT_LIGHT} 50%, ${BONE} 100%)`,
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto",
             }}>
               Site to sign-off.
             </span>
             <br />
             <span style={{
-              background: `linear-gradient(135deg, ${BONE} 0%, ${GOLD} 60%, ${BONE} 100%)`,
+              background: `linear-gradient(135deg, #1A1D29 0%, ${GOLD} 60%, ${BONE} 100%)`,
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto",
             }}>
               Tracked.
             </span>
           </motion.h1>
 
-          <motion.p className="text-lg sm:text-xl font-display font-light tracking-[0.02em] mb-6 max-w-2xl" style={{ color: "rgba(255,255,255,0.35)" }} variants={fadeUp} initial="hidden" animate="visible" custom={1.5}>
+          <motion.p className="text-lg sm:text-xl font-display font-light tracking-[0.02em] mb-6 max-w-2xl" style={{ color: "#6B7280" }} variants={fadeUp} initial="hidden" animate="visible" custom={1.5}>
             Operational intelligence for NZ construction
           </motion.p>
 
-          <motion.p className="text-sm sm:text-base max-w-xl mb-8 font-body leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }} variants={fadeUp} initial="hidden" animate="visible" custom={2}>
+          <motion.p className="text-sm sm:text-base max-w-xl mb-8 font-body leading-relaxed" style={{ color: "#6B7280" }} variants={fadeUp} initial="hidden" animate="visible" custom={2}>
             Building Code checklists, CCA compliance, BIM coordination, site check-ins, and tender management — documented, checked, and evidence-packed.
           </motion.p>
 
@@ -144,7 +145,7 @@ export default function WaihangaLandingPage() {
             </p>
             <ul className="space-y-3">
               {COMPLIANCE.map((item, idx) => (
-                <motion.li key={item} className="flex items-start gap-3 text-xs font-body" style={{ color: "rgba(255,255,255,0.6)" }}
+                <motion.li key={item} className="flex items-start gap-3 text-xs font-body" style={{ color: "#9CA3AF" }}
                   initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + idx * 0.08 }}>
                   <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${POUNAMU}20`, boxShadow: `0 0 8px ${POUNAMU}20` }}>
                     <Check size={10} style={{ color: ACCENT_LIGHT }} />
@@ -157,13 +158,13 @@ export default function WaihangaLandingPage() {
 
           {/* CTAs */}
           <motion.div className="flex flex-col sm:flex-row items-center gap-4" variants={fadeUp} initial="hidden" animate="visible" custom={4}>
-            <Link to="/waihanga/workflow" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold font-body transition-all duration-500 overflow-hidden" style={{ color: "#fff" }}>
+            <Link to="/waihanga/workflow" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold font-body transition-all duration-500 overflow-hidden" style={{ color: "#1A1D29" }}>
               <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(135deg, ${POUNAMU} 0%, #2D6A5E 50%, ${POUNAMU} 100%)`, backgroundSize: "200% auto" }} />
               <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40, 0 0 60px ${POUNAMU}20` }} />
               <span className="relative z-10">Launch Construction Dashboard</span>
               <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link to="/contact" className="group px-10 py-4 rounded-full text-sm font-medium font-body transition-all duration-300" style={{ color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}>
+            <Link to="/contact" className="group px-10 py-4 rounded-full text-sm font-medium font-body transition-all duration-300" style={{ color: "#6B7280", border: "1px solid rgba(74,165,168,0.15)", background: "rgba(255,255,255,0.5)" }}>
               <span className="group-hover:text-white/80 transition-colors">Book a walk-through</span>
             </Link>
           </motion.div>
@@ -255,10 +256,10 @@ export default function WaihangaLandingPage() {
                   { label: "Start", value: "22 Apr 2026" },
                   { label: "PC target", value: "18 Dec 2026" },
                 ].map((f, idx) => (
-                  <motion.div key={f.label} className="p-3 rounded-lg text-xs" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
+                  <motion.div key={f.label} className="p-3 rounded-lg text-xs" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}
                     initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
                     <span className="text-white/25 text-[10px]">{f.label}</span>
-                    <p className="text-white/70 font-mono mt-1">{f.value}</p>
+                    <p className="text-assembl-text/70 font-mono mt-1">{f.value}</p>
                   </motion.div>
                 ))}
               </motion.div>
@@ -284,9 +285,9 @@ export default function WaihangaLandingPage() {
                   { check: "Retention — 5% held per contract", st: "pass", ref: "RET-05" },
                   { check: "Working day count — within 20 WD window", st: "pass", ref: "WD-20" },
                 ].map((c, idx) => (
-                  <motion.div key={c.check} className="flex items-center justify-between text-xs p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
+                  <motion.div key={c.check} className="flex items-center justify-between text-xs p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}
                     initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.08 }}>
-                    <span className="text-white/50">{c.check}</span>
+                    <span className="text-gray-500">{c.check}</span>
                     <div className="flex items-center gap-3">
                       <span className="text-[9px] font-mono text-white/25">{c.ref}</span>
                       <span className="text-emerald-400 text-[10px] uppercase font-semibold">{c.st}</span>
@@ -319,7 +320,7 @@ export default function WaihangaLandingPage() {
           }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${POUNAMU}40, transparent)` }} />
             <p className="text-sm text-white/60">Ready to streamline your construction compliance?</p>
-            <Link to="/waihanga/workflow" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold transition-all overflow-hidden" style={{ color: "#fff" }}>
+            <Link to="/waihanga/workflow" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold transition-all overflow-hidden" style={{ color: "#1A1D29" }}>
               <div className="absolute inset-0 rounded-full" style={{ background: POUNAMU }} />
               <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
               <span className="relative z-10">Open Waihanga Dashboard</span>
@@ -336,6 +337,6 @@ export default function WaihangaLandingPage() {
           starterPrompts={["What does Waihanga cover for builders?", "How does CCA payment claim compliance work?", "Tell me about Building Code checklists", "What evidence packs do I get for site safety?"]}
         />
       </div>
-    </GlowPageWrapper>
+    </LightPageShell>
   );
 }

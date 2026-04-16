@@ -41,7 +41,7 @@ export default function MyAppsPage() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#09090F" }}>
         <div className="text-center space-y-3">
-          <p className="text-sm font-body" style={{ color: "rgba(255,255,255,0.5)" }}>Sign in to view your deployed apps</p>
+          <p className="text-sm font-body" style={{ color: "#6B7280" }}>Sign in to view your deployed apps</p>
           <Link to="/login" className="text-xs font-semibold px-4 py-2 rounded-lg" style={{ background: `${ACCENT}20`, color: ACCENT }}>Sign In</Link>
         </div>
       </div>
@@ -53,8 +53,8 @@ export default function MyAppsPage() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link to="/chat/spark" className="p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.04)" }}>
-              <ArrowLeft size={16} style={{ color: "rgba(255,255,255,0.5)" }} />
+            <Link to="/chat/spark" className="p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.65)" }}>
+              <ArrowLeft size={16} style={{ color: "#6B7280" }} />
             </Link>
             <img src={sparkImg} alt="SPARK" className="w-8 h-8 object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 6px rgba(255,107,0,0.4))" }} />
             <h1 className="text-lg font-display font-bold" style={{ color: "#E4E4EC" }}>My Apps</h1>
@@ -66,13 +66,13 @@ export default function MyAppsPage() {
 
         {loading ? (
           <div className="text-center py-16">
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>Loading...</p>
+            <p className="text-xs" style={{ color: "#9CA3AF" }}>Loading...</p>
           </div>
         ) : apps.length === 0 ? (
           <div className="text-center py-16 space-y-3">
-            <Rocket size={32} className="mx-auto" style={{ color: "rgba(255,255,255,0.15)" }} />
-            <p className="text-sm font-body" style={{ color: "rgba(255,255,255,0.4)" }}>No apps deployed yet</p>
-            <p className="text-xs font-body" style={{ color: "rgba(255,255,255,0.25)" }}>Build an app with SPARK, then click Deploy to publish it here.</p>
+            <Rocket size={32} className="mx-auto" style={{ color: "#D1D5DB" }} />
+            <p className="text-sm font-body" style={{ color: "#6B7280" }}>No apps deployed yet</p>
+            <p className="text-xs font-body" style={{ color: "#9CA3AF" }}>Build an app with SPARK, then click Deploy to publish it here.</p>
             <Link to="/chat/spark" className="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-lg"
               style={{ background: `${ACCENT}20`, color: ACCENT }}>
               <Rocket size={12} /> Open SPARK
@@ -81,7 +81,7 @@ export default function MyAppsPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {apps.map(app => (
-              <div key={app.id} className="rounded-xl p-4 space-y-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <div key={app.id} className="rounded-xl p-4 space-y-3" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-display font-semibold" style={{ color: "#E4E4EC" }}>{app.display_name}</h3>
                   <span className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
@@ -92,10 +92,10 @@ export default function MyAppsPage() {
                 </div>
 
                 {app.meta_description && (
-                  <p className="text-[10px] font-body line-clamp-2" style={{ color: "rgba(255,255,255,0.35)" }}>{app.meta_description}</p>
+                  <p className="text-[10px] font-body line-clamp-2" style={{ color: "#6B7280" }}>{app.meta_description}</p>
                 )}
 
-                <div className="flex items-center gap-2 text-[9px] font-mono-jb" style={{ color: "rgba(255,255,255,0.25)" }}>
+                <div className="flex items-center gap-2 text-[9px] font-mono-jb" style={{ color: "#9CA3AF" }}>
                   <Eye size={10} /> {app.view_count} views
                   <span className="mx-1">·</span>
                   {new Date(app.created_at).toLocaleDateString()}
@@ -108,12 +108,12 @@ export default function MyAppsPage() {
                     <ExternalLink size={10} /> Open
                   </a>
                   <button onClick={() => copyUrl(app)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-medium"
-                    style={{ background: "rgba(255,255,255,0.03)", color: "rgba(255,255,255,0.4)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                    style={{ background: "rgba(255,255,255,0.65)", color: "#6B7280", border: "1px solid rgba(74,165,168,0.15)" }}>
                     {copied === app.id ? <CheckCircle2 size={10} style={{ color: "rgba(102,187,106,0.9)" }} /> : <Copy size={10} />}
                     {copied === app.id ? "Copied" : "URL"}
                   </button>
                   <button onClick={() => toggleStatus(app)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-medium"
-                    style={{ background: "rgba(255,255,255,0.03)", color: "rgba(255,255,255,0.4)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                    style={{ background: "rgba(255,255,255,0.65)", color: "#6B7280", border: "1px solid rgba(74,165,168,0.15)" }}>
                     {app.status === "live" ? <><Pause size={10} /> Pause</> : <><Play size={10} /> Resume</>}
                   </button>
                   <button onClick={() => deleteApp(app.id)} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-medium"

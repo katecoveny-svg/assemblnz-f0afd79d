@@ -47,7 +47,7 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
       {/* Start assessment */}
       <div className="p-5 rounded-2xl" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)" }}>
         <Camera size={20} style={{ color: KOWHAI, marginBottom: 12 }} />
-        <p className="text-sm font-medium" style={{ color: "#fff" }}>Room-by-room safety check</p>
+        <p className="text-sm font-medium" style={{ color: "#1A1D29" }}>Room-by-room safety check</p>
         <p className="text-xs mt-1 mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>
           Take photos of each room. HAVEN analyses for trip hazards, poor lighting, missing grab rails, and fall risks using AI spatial reasoning.
         </p>
@@ -75,7 +75,7 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
                 <div className="flex items-center gap-2">
                   <Home size={13} style={{ color: KOWHAI }} />
                   <div>
-                    <p className="text-xs font-medium" style={{ color: "#fff" }}>{a.room || "Full assessment"}</p>
+                    <p className="text-xs font-medium" style={{ color: "#1A1D29" }}>{a.room || "Full assessment"}</p>
                     <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.4)" }}>{new Date(a.created_at).toLocaleDateString("en-NZ")}</p>
                   </div>
                 </div>

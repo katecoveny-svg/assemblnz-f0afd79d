@@ -33,10 +33,10 @@ interface SectorStat {
 }
 
 const GLASS: React.CSSProperties = {
-  background: "rgba(255,255,255,0.02)",
+  background: "rgba(255,255,255,0.65)",
   backdropFilter: "blur(24px)",
   WebkitBackdropFilter: "blur(24px)",
-  border: "1px solid rgba(255,255,255,0.05)",
+  border: "1px solid rgba(74,165,168,0.15)",
   boxShadow: "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
 };
 
@@ -219,7 +219,7 @@ export default function CommandDashboard() {
                         <div
                           key={stat.label}
                           className="rounded-lg px-2.5 py-2 text-center"
-                          style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
+                          style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
                         >
                           <StatIcon size={12} className="mx-auto mb-1" style={{ color: sector.color, opacity: 0.6 }} />
                           <div className="text-xs font-body font-bold text-white/80">{stat.value}</div>

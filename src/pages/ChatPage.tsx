@@ -2110,7 +2110,7 @@ const ChatPage = () => {
           <h2 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>
             {activeTab === "turf_events" ? "Event Manager" : activeTab === "turf_membership" ? "Membership" : activeTab === "turf_facilities" ? "Facilities" : activeTab === "turf_sponsorship" ? "Sponsorship" : activeTab === "turf_performance" ? "Performance" : "Compliance"}
           </h2>
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
+          <p className="text-xs" style={{ color: "#6B7280" }}>
             Use TURF chat to manage {activeTab.replace("turf_", "")} — ask anything about your club's {activeTab.replace("turf_", "")} needs.
           </p>
           <button onClick={() => { setActiveTab("chat"); setInput(`Help me with ${activeTab.replace("turf_", "")} management for my sports club. `); inputRef.current?.focus(); }}
@@ -2326,7 +2326,7 @@ const ChatPage = () => {
                           }`}
                           style={msg.role === "user"
                             ? { background: `linear-gradient(135deg, ${agent.color}20, ${agent.color}10)`, border: `1px solid ${agent.color}18` }
-                            : { background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }
+                            : { background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }
                           }
                         >
                           {msg.imageUrl && (
@@ -2440,7 +2440,7 @@ const ChatPage = () => {
                       <div className="mt-1 shrink-0">
                         <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
                       </div>
-                      <div className="px-4 py-3 rounded-2xl rounded-bl-md" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                      <div className="px-4 py-3 rounded-2xl rounded-bl-md" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
                         <div className="flex items-center gap-2">
                           <div className="flex gap-1">
                             {[0, 1, 2].map((i) => (
@@ -2524,7 +2524,7 @@ const ChatPage = () => {
 
           {/* Input Bar */}
           <form onSubmit={handleSubmit} className="px-3 py-2.5 shrink-0" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-            <div className="max-w-2xl mx-auto flex gap-1.5 items-center rounded-2xl px-2 py-1" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+            <div className="max-w-2xl mx-auto flex gap-1.5 items-center rounded-2xl px-2 py-1" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
               {/* ARC / PRISM: dedicated image upload for 3D */}
               {(isArc || isPrism) && (
                 <>
@@ -2705,19 +2705,19 @@ const ChatPage = () => {
       {/* PRISM Image Generation Modal */}
       {prismImageModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={() => setPrismImageModalOpen(false)}>
-          <div className="w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#0D0D14", border: "1px solid rgba(255,255,255,0.06)" }} onClick={e => e.stopPropagation()}>
+          <div className="w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#0D0D14", border: "1px solid rgba(74,165,168,0.15)" }} onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>Generate Image</h3>
-              <button onClick={() => setPrismImageModalOpen(false)}><X size={16} style={{ color: "rgba(255,255,255,0.4)" }} /></button>
+              <button onClick={() => setPrismImageModalOpen(false)}><X size={16} style={{ color: "#6B7280" }} /></button>
             </div>
             <div>
-              <label className="text-[10px] uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>Prompt *</label>
+              <label className="text-[10px] uppercase tracking-wider mb-1 block" style={{ color: "#6B7280" }}>Prompt *</label>
               <textarea value={prismImagePrompt} onChange={e => setPrismImagePrompt(e.target.value)} rows={3}
                 className="w-full px-3 py-2 rounded-lg text-xs bg-transparent border outline-none resize-none"
                 style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} placeholder="Describe the image you want to create..." />
             </div>
             <div>
-              <label className="text-[10px] uppercase tracking-wider mb-1.5 block" style={{ color: "rgba(255,255,255,0.4)" }}>Aspect Ratio</label>
+              <label className="text-[10px] uppercase tracking-wider mb-1.5 block" style={{ color: "#6B7280" }}>Aspect Ratio</label>
               <div className="flex gap-2">
                 {(["1:1", "16:9", "9:16", "4:3"] as const).map(ar => (
                   <button key={ar} onClick={() => setPrismImageAspect(ar)} className="px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all"

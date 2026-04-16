@@ -22,7 +22,7 @@ const statusBadge = (s: string) => {
 
 export default function DriverCompliance() {
   return (
-    <div style={{ background: "#09090F", minHeight: "100vh", color: "#fff" }}>
+    <div style={{ background: "#09090F", minHeight: "100vh", color: "#1A1D29" }}>
       <SEO title="Driver Compliance Dashboard | Arataki | assembl" description="WoF/CoF expiry, RUC balance, licence class watch, logbook prompts for NZ fleets." />
       <BrandNav />
       <main className="max-w-5xl mx-auto px-6 pt-16 pb-32">

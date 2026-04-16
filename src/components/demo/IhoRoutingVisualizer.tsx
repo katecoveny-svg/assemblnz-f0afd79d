@@ -120,7 +120,7 @@ const IhoRoutingVisualizer = () => {
           onClick={() => runVisualization(query)}
           disabled={isAnimating || !query.trim()}
           className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg text-[11px] font-display font-bold transition-all disabled:opacity-30"
-          style={{ background: '#3A7D6E', color: '#fff' }}
+          style={{ background: '#3A7D6E', color: '#1A1D29' }}
         >
           Route
         </button>

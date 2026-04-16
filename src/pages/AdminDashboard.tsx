@@ -49,10 +49,10 @@ const TEAL = "#5AADA0";
 
 // ── Glass card primitives ──────────────────────────────
 const GLASS: React.CSSProperties = {
-  background: "rgba(255,255,255,0.02)",
+  background: "rgba(255,255,255,0.65)",
   backdropFilter: "blur(24px)",
   WebkitBackdropFilter: "blur(24px)",
-  border: "1px solid rgba(255,255,255,0.05)",
+  border: "1px solid rgba(74,165,168,0.15)",
   boxShadow: "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
 };
 
@@ -302,7 +302,7 @@ const AdminDashboard = () => {
               {loadingData && !metrics ? (
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="h-32 rounded-3xl animate-pulse" style={{ background: "rgba(255,255,255,0.02)" }} />
+                    <div key={i} className="h-32 rounded-3xl animate-pulse" style={{ background: "rgba(255,255,255,0.65)" }} />
                   ))}
                 </div>
               ) : metrics && (
@@ -367,7 +367,7 @@ const AdminDashboard = () => {
                               <span className="text-[10px] w-4 text-white/20 shrink-0 font-mono">{i + 1}</span>
                               <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: info?.color || "#888" }} />
                               <span className="text-[12px] font-medium text-white/70 flex-1 truncate">{info?.name || agent}</span>
-                              <div className="w-20 h-1.5 rounded-full overflow-hidden shrink-0" style={{ background: "rgba(255,255,255,0.04)" }}>
+                              <div className="w-20 h-1.5 rounded-full overflow-hidden shrink-0" style={{ background: "rgba(255,255,255,0.65)" }}>
                                 <div className="h-full rounded-full" style={{ width: `${(count / maxCount) * 100}%`, background: info?.color || "#888" }} />
                               </div>
                               <span className="text-[10px] text-white/25 font-mono tabular-nums w-6 text-right shrink-0">{count}</span>
@@ -548,7 +548,7 @@ const AdminDashboard = () => {
                               value={u.role}
                               onChange={(e) => handleRoleChange(u.id, e.target.value)}
                               className="appearance-none rounded-lg px-2 py-1 text-[11px] font-medium text-white/70 pr-5 cursor-pointer outline-none"
-                              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
+                              style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
                             >
                               {ROLES.map((r) => (
                                 <option key={r} value={r}>{r.charAt(0).toUpperCase() + r.slice(1)}</option>

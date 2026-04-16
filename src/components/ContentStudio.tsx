@@ -386,7 +386,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                 className="w-full py-2.5 rounded-lg text-sm font-display font-bold transition-all disabled:opacity-40"
                 style={{
                   background: `linear-gradient(135deg, ${PRISM_COLOR}90, ${PRISM_COLOR}60)`,
-                  color: "#fff",
+                  color: "#1A1D29",
                   boxShadow: imagePrompt.trim() ? `0 0 16px ${PRISM_COLOR}20` : "none",
                 }}
               >

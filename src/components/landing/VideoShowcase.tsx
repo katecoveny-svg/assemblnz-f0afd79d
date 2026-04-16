@@ -92,7 +92,7 @@ const MockVideoContent = ({ playing }: { playing: boolean }) => {
           </motion.p>
           <motion.h3
             className="text-xl sm:text-3xl mb-2"
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#fff" }}
+            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.5 }}

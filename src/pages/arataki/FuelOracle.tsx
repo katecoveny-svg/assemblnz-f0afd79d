@@ -16,7 +16,7 @@ const FUEL_DATA = [
 export default function FuelOracle() {
   const cheapest = FUEL_DATA.reduce((a, b) => a.diesel < b.diesel ? a : b);
   return (
-    <div style={{ background: "#09090F", minHeight: "100vh", color: "#fff" }}>
+    <div style={{ background: "#09090F", minHeight: "100vh", color: "#1A1D29" }}>
       <SEO title="FuelOracle — Live NZ Fuel Pricing | Arataki | assembl" description="Live NZ fuel pricing across Z, BP, Mobil, Gull, Waitomo. Route cost optimisation for fleets." />
       <BrandNav />
       <main className="max-w-5xl mx-auto px-6 pt-16 pb-32">

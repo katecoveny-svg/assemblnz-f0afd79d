@@ -54,12 +54,12 @@ const AdminPacksPage = () => {
         {loading ? (
           <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>Loading…</p>
         ) : (
-          <div className="rounded-2xl overflow-hidden" style={{ background: "rgba(15,15,26,0.8)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="rounded-2xl overflow-hidden" style={{ background: "rgba(15,15,26,0.8)", backdropFilter: "blur(20px)", border: "1px solid rgba(74,165,168,0.15)" }}>
             <table className="w-full text-xs" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               <thead>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                <tr style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
                   {["Order", "Pack", "Public", "Min Role", "Agents", "Subscribers", "Updated"].map(h => (
-                    <th key={h} className="px-4 py-3 text-left font-bold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.4)", fontSize: "10px", letterSpacing: "0.1em" }}>{h}</th>
+                    <th key={h} className="px-4 py-3 text-left font-bold uppercase tracking-wider" style={{ color: "#6B7280", fontSize: "10px", letterSpacing: "0.1em" }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -70,12 +70,12 @@ const AdminPacksPage = () => {
                       <div className="flex items-center gap-1">
                         <button onClick={() => moveOrder(idx, -1)} disabled={idx === 0} className="p-1 rounded hover:bg-white/5 disabled:opacity-20"><ArrowUp size={12} color="#A8A8B8" /></button>
                         <button onClick={() => moveOrder(idx, 1)} disabled={idx === packs.length - 1} className="p-1 rounded hover:bg-white/5 disabled:opacity-20"><ArrowDown size={12} color="#A8A8B8" /></button>
-                        <span className="ml-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.4)" }}>{pack.display_order}</span>
+                        <span className="ml-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>{pack.display_order}</span>
                       </div>
                     </td>
                     <td className="px-4 py-3">
                       <p className="font-bold" style={{ color: "#FFFFFF" }}>{pack.pack_name}</p>
-                      <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "10px" }}>{pack.pack_slug}</p>
+                      <p style={{ color: "#9CA3AF", fontSize: "10px" }}>{pack.pack_slug}</p>
                     </td>
                     <td className="px-4 py-3">
                       <button
@@ -97,8 +97,8 @@ const AdminPacksPage = () => {
                       </select>
                     </td>
                     <td className="px-4 py-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843" }}>{pack.agent_count}</td>
-                    <td className="px-4 py-3" style={{ color: "rgba(255,255,255,0.35)" }}>Coming Soon</td>
-                    <td className="px-4 py-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.35)", fontSize: "10px" }}>
+                    <td className="px-4 py-3" style={{ color: "#9CA3AF" }}>Coming Soon</td>
+                    <td className="px-4 py-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF", fontSize: "10px" }}>
                       {new Date(pack.updated_at).toLocaleDateString("en-NZ")}
                     </td>
                   </tr>

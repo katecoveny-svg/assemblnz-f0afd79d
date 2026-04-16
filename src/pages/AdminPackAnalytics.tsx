@@ -211,7 +211,7 @@ const AdminPackAnalytics = () => {
     background: "rgba(15,15,26,0.8)",
     backdropFilter: "blur(20px)",
     WebkitBackdropFilter: "blur(20px)",
-    border: "1px solid rgba(255,255,255,0.06)",
+    border: "1px solid rgba(74,165,168,0.15)",
   };
 
   return (
@@ -222,7 +222,7 @@ const AdminPackAnalytics = () => {
       backTo="/admin/dashboard"
       actions={
         <div className="flex items-center gap-3">
-          <div className="flex rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+          <div className="flex rounded-xl overflow-hidden" style={{ border: "1px solid rgba(74,165,168,0.15)" }}>
             {(["7d", "30d", "90d"] as DateRange[]).map(r => (
               <button
                 key={r}
@@ -251,7 +251,7 @@ const AdminPackAnalytics = () => {
     >
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-8 rounded-xl p-1" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}>
+        <div className="flex gap-1 mb-8 rounded-xl p-1" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
           {TABS.map(t => (
             <button
               key={t.key}
@@ -269,7 +269,7 @@ const AdminPackAnalytics = () => {
         </div>
 
         {loading && tab === "overview" ? (
-          <p className="text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>Loading analytics…</p>
+          <p className="text-sm" style={{ color: "#6B7280" }}>Loading analytics…</p>
         ) : (
           <>
             {/* OVERVIEW TAB */}
@@ -285,14 +285,14 @@ const AdminPackAnalytics = () => {
                   ].map(kpi => (
                     <motion.div key={kpi.label} className="rounded-2xl p-5 text-center" style={cardStyle} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
                       <p className="text-2xl font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: kpi.color }}>{kpi.value}</p>
-                      <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>{kpi.label}</p>
+                      <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "#6B7280" }}>{kpi.label}</p>
                     </motion.div>
                   ))}
                 </div>
 
                 {/* Pack views bar chart */}
                 <div className="rounded-2xl p-6" style={cardStyle}>
-                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>
                     Pack Views — Last {daysFromRange(dateRange)} Days
                   </h3>
                   <ResponsiveContainer width="100%" height={220}>
@@ -308,7 +308,7 @@ const AdminPackAnalytics = () => {
 
                 {/* Funnel */}
                 <div className="rounded-2xl p-6" style={cardStyle}>
-                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>
                     Conversion Funnel
                   </h3>
                   <div className="flex items-end gap-2 h-[180px]">
@@ -319,7 +319,7 @@ const AdminPackAnalytics = () => {
                         <div key={step.step} className="flex-1 flex flex-col items-center justify-end">
                           <span className="text-xs font-bold mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843" }}>{step.count}</span>
                           <div className="w-full rounded-t-lg" style={{ height, background: `rgba(212,168,67,${0.3 + (i * 0.15)})` }} />
-                          <span className="text-[9px] mt-2 text-center" style={{ color: "rgba(255,255,255,0.4)", lineHeight: 1.2 }}>{step.step}</span>
+                          <span className="text-[9px] mt-2 text-center" style={{ color: "#6B7280", lineHeight: 1.2 }}>{step.step}</span>
                         </div>
                       );
                     })}
@@ -339,7 +339,7 @@ const AdminPackAnalytics = () => {
                           <span className="text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>{a.clicks} clicks</span>
                         </div>
                       ))}
-                      {agents.length === 0 && <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.3)" }}>No data yet</p>}
+                      {agents.length === 0 && <p className="text-[10px]" style={{ color: "#9CA3AF" }}>No data yet</p>}
                     </div>
                   ))}
                 </div>
@@ -368,7 +368,7 @@ const AdminPackAnalytics = () => {
 
                 {/* Daily views line chart */}
                 <div className="rounded-2xl p-6" style={cardStyle}>
-                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>
                     Daily Views — {selectedPack}
                   </h3>
                   <ResponsiveContainer width="100%" height={200}>
@@ -379,33 +379,33 @@ const AdminPackAnalytics = () => {
                       <Line type="monotone" dataKey="count" stroke="#D4A843" strokeWidth={2} dot={false} />
                     </LineChart>
                   </ResponsiveContainer>
-                  {dailyViews.length === 0 && <p className="text-center text-[10px] mt-4" style={{ color: "rgba(255,255,255,0.3)" }}>No view data yet for {selectedPack}</p>}
+                  {dailyViews.length === 0 && <p className="text-center text-[10px] mt-4" style={{ color: "#9CA3AF" }}>No view data yet for {selectedPack}</p>}
                 </div>
 
                 {/* Agent performance grid */}
                 <div className="rounded-2xl overflow-hidden" style={cardStyle}>
-                  <div className="px-5 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                    <h3 className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: "'Lato', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+                  <div className="px-5 py-3" style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
+                    <h3 className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>
                       Agent Performance — {selectedPack}
                     </h3>
                   </div>
                   <table className="w-full text-xs" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                     <thead>
-                      <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                      <tr style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
                         {["Agent", "Clicks", "Sessions", "Avg Duration", "Completion %"].map(h => (
-                          <th key={h} className="px-4 py-2.5 text-left font-bold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.35)", fontSize: "9px", letterSpacing: "0.1em" }}>{h}</th>
+                          <th key={h} className="px-4 py-2.5 text-left font-bold uppercase tracking-wider" style={{ color: "#6B7280", fontSize: "9px", letterSpacing: "0.1em" }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
                       {agentPerf.length === 0 ? (
-                        <tr><td colSpan={5} className="px-4 py-6 text-center" style={{ color: "rgba(255,255,255,0.3)" }}>No agent data yet</td></tr>
+                        <tr><td colSpan={5} className="px-4 py-6 text-center" style={{ color: "#9CA3AF" }}>No agent data yet</td></tr>
                       ) : agentPerf.map(a => (
                         <tr key={a.name} style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
                           <td className="px-4 py-2.5 font-bold" style={{ color: "#FFFFFF" }}>{a.name}</td>
                           <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843" }}>{a.clicks}</td>
                           <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>{a.sessions}</td>
-                          <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.5)" }}>{a.avgDuration}s</td>
+                          <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>{a.avgDuration}s</td>
                           <td className="px-4 py-2.5">
                             <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{
                               background: a.completionRate > 70 ? "rgba(58,125,110,0.2)" : a.completionRate > 40 ? "rgba(212,168,67,0.2)" : "rgba(200,90,84,0.2)",
@@ -438,33 +438,33 @@ const AdminPackAnalytics = () => {
                   ].map(kpi => (
                     <div key={kpi.label} className="rounded-2xl p-5 text-center" style={cardStyle}>
                       <p className="text-2xl font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: kpi.color }}>{kpi.value}</p>
-                      <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>{kpi.label}</p>
+                      <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "#6B7280" }}>{kpi.label}</p>
                     </div>
                   ))}
                 </div>
 
                 {/* Cohort table */}
                 <div className="rounded-2xl overflow-hidden" style={cardStyle}>
-                  <div className="px-5 py-3 flex items-center justify-between" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                    <h3 className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: "'Lato', sans-serif", color: "rgba(255,255,255,0.5)" }}>User Cohort Analysis</h3>
-                    <Filter size={14} style={{ color: "rgba(255,255,255,0.3)" }} />
+                  <div className="px-5 py-3 flex items-center justify-between" style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
+                    <h3 className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>User Cohort Analysis</h3>
+                    <Filter size={14} style={{ color: "#9CA3AF" }} />
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full text-xs" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                       <thead>
-                        <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                        <tr style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
                           {["User", "Signup", "Trial", "Converted", "Days to Upgrade"].map(h => (
-                            <th key={h} className="px-4 py-2.5 text-left font-bold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.35)", fontSize: "9px", letterSpacing: "0.1em" }}>{h}</th>
+                            <th key={h} className="px-4 py-2.5 text-left font-bold uppercase tracking-wider" style={{ color: "#6B7280", fontSize: "9px", letterSpacing: "0.1em" }}>{h}</th>
                           ))}
                         </tr>
                       </thead>
                       <tbody>
                         {cohortData.length === 0 ? (
-                          <tr><td colSpan={5} className="px-4 py-6 text-center" style={{ color: "rgba(255,255,255,0.3)" }}>No cohort data yet</td></tr>
+                          <tr><td colSpan={5} className="px-4 py-6 text-center" style={{ color: "#9CA3AF" }}>No cohort data yet</td></tr>
                         ) : cohortData.slice(0, 50).map(u => (
                           <tr key={u.user_id} style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                            <td className="px-4 py-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.5)" }}>{u.user_id}…</td>
-                            <td className="px-4 py-2" style={{ color: "rgba(255,255,255,0.5)" }}>{u.signup_date}</td>
+                            <td className="px-4 py-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>{u.user_id}…</td>
+                            <td className="px-4 py-2" style={{ color: "#6B7280" }}>{u.signup_date}</td>
                             <td className="px-4 py-2">
                               <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: u.trial_started ? "rgba(58,125,110,0.2)" : "rgba(255,255,255,0.05)", color: u.trial_started ? "#3A7D6E" : "rgba(255,255,255,0.3)" }}>
                                 {u.trial_started ? "Yes" : "No"}

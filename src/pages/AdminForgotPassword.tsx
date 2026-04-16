@@ -83,7 +83,7 @@ const AdminForgotPassword = () => {
                 type="submit"
                 disabled={loading}
                 className="w-full flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all disabled:opacity-50"
-                style={{ background: 'hsl(0 84% 60%)', color: '#fff' }}
+                style={{ background: 'hsl(0 84% 60%)', color: '#1A1D29' }}
               >
                 {loading && <Loader2 size={14} className="animate-spin" />}
                 Send Reset Link

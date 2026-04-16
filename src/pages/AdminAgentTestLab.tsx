@@ -394,7 +394,7 @@ export default function AdminAgentTestLab() {
         {results.length > 0 && (
           <div className="grid grid-cols-4 gap-3">
             {[
-              { label: "Total", value: stats.total, color: "#fff", icon: FlaskConical },
+              { label: "Total", value: stats.total, color: "#1A1D29", icon: FlaskConical },
               { label: "Passed", value: stats.pass, color: "#5AADA0", icon: CheckCircle2 },
               { label: "Warnings", value: stats.warn, color: "#D4A843", icon: AlertTriangle },
               { label: "Failed", value: stats.fail, color: "#C85A54", icon: XCircle },

@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 
 const C = {
   bg: "#060610",
@@ -113,7 +114,7 @@ const DontItem = ({ text }: { text: string }) => (
 
 export default function AaaipPitchPrep() {
   return (
-    <GlowPageWrapper accentColor={C.pounamu}>
+    <LightPageShell>
     <div className="min-h-screen" style={{ background: C.bg }}>
       <SEO title="AAAIP Pitch Prep — Assembl" description="Pitch preparation for Professor Gill Dobbie meeting, 16 April 2026." />
       <BrandNav />
@@ -377,6 +378,6 @@ export default function AaaipPitchPrep() {
       </Section>
       <BrandFooter />
     </div>
-    </GlowPageWrapper>
+    </LightPageShell>
   );
 }

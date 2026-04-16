@@ -70,7 +70,7 @@ const cardStyle: React.CSSProperties = {
   background: "rgba(15,15,26,0.8)",
   backdropFilter: "blur(20px)",
   WebkitBackdropFilter: "blur(20px)",
-  border: "1px solid rgba(255,255,255,0.06)",
+  border: "1px solid rgba(74,165,168,0.15)",
 };
 
 /* ── Component ── */
@@ -182,7 +182,7 @@ const OnboardingPage = () => {
               />
             </div>
           ))}
-          <span className="text-[10px] font-mono ml-2" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <span className="text-[10px] font-mono ml-2" style={{ color: "#9CA3AF" }}>
             {step}/3
           </span>
         </div>
@@ -202,7 +202,7 @@ const OnboardingPage = () => {
                 <h1 className="text-xl sm:text-2xl font-bold" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "-0.025em", color: "#FFFFFF" }}>
                   What industry are you in?
                 </h1>
-                <p className="text-sm mt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.4)" }}>
+                <p className="text-sm mt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
                   We'll personalise your experience with the right agents and templates
                 </p>
               </div>
@@ -227,7 +227,7 @@ const OnboardingPage = () => {
                       </div>
                       <div className="flex-1">
                         <p className="text-sm font-bold" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{label}</p>
-                        <p className="text-xs mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.4)" }}>
+                        <p className="text-xs mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
                           {reo} Pack — {PACK_DATA[key].agents.length} specialist agents
                         </p>
                       </div>
@@ -275,7 +275,7 @@ const OnboardingPage = () => {
                 <h1 className="text-xl sm:text-2xl font-bold" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#FFFFFF" }}>
                   {ind.reo} — {ind.label}
                 </h1>
-                <p className="text-sm mt-2" style={{ color: "rgba(255,255,255,0.4)" }}>
+                <p className="text-sm mt-2" style={{ color: "#6B7280" }}>
                   Here's what your pack includes
                 </p>
               </div>
@@ -293,7 +293,7 @@ const OnboardingPage = () => {
                       </div>
                       <div>
                         <p className="text-sm font-bold" style={{ color: "#FFFFFF" }}>{agent.name}</p>
-                        <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>{agent.desc}</p>
+                        <p className="text-xs mt-0.5" style={{ color: "#6B7280" }}>{agent.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -309,7 +309,7 @@ const OnboardingPage = () => {
                   {packData.problems.map(problem => (
                     <div key={problem} className="flex items-start gap-2.5">
                       <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#3A7D6E" }} />
-                      <p className="text-xs" style={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.5 }}>{problem}</p>
+                      <p className="text-xs" style={{ color: "#9CA3AF", lineHeight: 1.5 }}>{problem}</p>
                     </div>
                   ))}
                 </div>
@@ -321,7 +321,7 @@ const OnboardingPage = () => {
                   <Clock size={14} style={{ color: "#D4A843" }} />
                   <span className="text-xs font-bold" style={{ color: "#D4A843" }}>GET STARTED</span>
                 </div>
-                <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>
+                <p className="text-[11px]" style={{ color: "#6B7280" }}>
                   Full access to all {ind.reo} agents. Custom setup for your business.
                 </p>
               </div>
@@ -331,7 +331,7 @@ const OnboardingPage = () => {
                 <button
                   onClick={() => setStep(1)}
                   className="flex-1 py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-all"
-                  style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)" }}
+                  style={{ background: "rgba(255,255,255,0.06)", color: "#6B7280" }}
                 >
                   <ArrowLeft size={16} /> Back
                 </button>
@@ -372,7 +372,7 @@ const OnboardingPage = () => {
                 <h1 className="text-xl sm:text-2xl font-bold" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#FFFFFF" }}>
                   Welcome to {ind.reo}!
                 </h1>
-                <p className="text-sm mt-2" style={{ color: "rgba(255,255,255,0.4)" }}>
+                <p className="text-sm mt-2" style={{ color: "#6B7280" }}>
                   Your onboarding starts now
                 </p>
               </div>
@@ -382,7 +382,7 @@ const OnboardingPage = () => {
                 <div className="flex items-center justify-center gap-3">
                   <div className="text-center">
                     <p className="text-3xl font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843" }}>{trialDaysLeft}</p>
-                    <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>Days Remaining</p>
+                    <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "#6B7280" }}>Days Remaining</p>
                   </div>
                 </div>
               </div>
@@ -409,7 +409,7 @@ const OnboardingPage = () => {
                       <p className="text-sm font-bold" style={{ color: "#FFFFFF" }}>
                         Click to explore: {packData.agents[0].name}
                       </p>
-                      <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>
+                      <p className="text-xs mt-0.5" style={{ color: "#6B7280" }}>
                         {packData.agents[0].desc.split("—")[0].trim()}
                       </p>
                     </div>
@@ -430,7 +430,7 @@ const OnboardingPage = () => {
                       <p className="text-sm font-bold" style={{ color: "#FFFFFF" }}>
                         Browse all {ind.reo} agents
                       </p>
-                      <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>
+                      <p className="text-xs mt-0.5" style={{ color: "#6B7280" }}>
                         See every specialist in your pack
                       </p>
                     </div>
@@ -441,7 +441,7 @@ const OnboardingPage = () => {
 
               {/* Email notification */}
               <div className="rounded-xl p-3 text-center" style={{ background: "rgba(58,125,110,0.06)", border: "1px solid rgba(58,125,110,0.12)" }}>
-                <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>
+                <p className="text-[11px]" style={{ color: "#6B7280" }}>
                   ✉ A confirmation email has been sent to your inbox
                 </p>
               </div>

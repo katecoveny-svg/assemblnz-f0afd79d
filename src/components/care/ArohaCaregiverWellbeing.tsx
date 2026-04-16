@@ -26,12 +26,12 @@ const ArohaCaregiverWellbeing = ({ onSendToChat }: ArohaCaregiverWellbeingProps)
       {/* Wellbeing check */}
       <div className="p-5 rounded-2xl" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,111,145,0.15)" }}>
         <Heart size={20} style={{ color: AROHA_PINK, marginBottom: 12 }} />
-        <p className="text-sm font-medium" style={{ color: "#fff" }}>How are you holding up?</p>
+        <p className="text-sm font-medium" style={{ color: "#1A1D29" }}>How are you holding up?</p>
         <p className="text-xs mt-1 mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>Caregiving is hard mahi. AROHA can check in on your stress levels, respite hours, and connect you with support.</p>
         <button
           onClick={() => onSendToChat("I'm a caregiver and I'd like a wellbeing check-in. Ask me about my stress, sleep, respite time, and support satisfaction. Be warm and validating.")}
           className="px-4 py-2 rounded-lg text-xs font-semibold"
-          style={{ background: AROHA_PINK, color: "#fff" }}
+          style={{ background: AROHA_PINK, color: "#1A1D29" }}
         >
           Start wellbeing check-in
         </button>
@@ -64,7 +64,7 @@ const ArohaCaregiverWellbeing = ({ onSendToChat }: ArohaCaregiverWellbeingProps)
           {SUPPORT_SERVICES.map(s => (
             <div key={s.name} className="flex items-center justify-between p-3 rounded-xl" style={{ background: "rgba(15,15,26,0.4)", border: "1px solid rgba(255,255,255,0.04)" }}>
               <div>
-                <p className="text-xs font-medium" style={{ color: "#fff" }}>{s.name}</p>
+                <p className="text-xs font-medium" style={{ color: "#1A1D29" }}>{s.name}</p>
                 <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.4)" }}>{s.desc}</p>
               </div>
               <span className="text-[11px] font-mono" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace" }}>{s.phone}</span>

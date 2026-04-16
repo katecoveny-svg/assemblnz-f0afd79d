@@ -15,9 +15,9 @@ import { toast } from "sonner";
 import SEO from "@/components/SEO";
 
 const GLASS: React.CSSProperties = {
-  background: "rgba(255,255,255,0.02)",
+  background: "rgba(255,255,255,0.65)",
   backdropFilter: "blur(24px)",
-  border: "1px solid rgba(255,255,255,0.06)",
+  border: "1px solid rgba(74,165,168,0.15)",
 };
 
 const GOLD = "#D4A843";

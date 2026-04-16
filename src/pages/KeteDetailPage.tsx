@@ -63,7 +63,7 @@ const KeteDetailPage = () => {
                   {kete.agentCount} agents
                 </span>
                 {kete.badge && (
-                  <span className="text-[11px] tracking-[1px] uppercase text-white/50 px-3 py-1 rounded" style={{ fontFamily: "'JetBrains Mono', monospace", background: `${kete.accentColor}15` }}>
+                  <span className="text-[11px] tracking-[1px] uppercase text-gray-500 px-3 py-1 rounded" style={{ fontFamily: "'JetBrains Mono', monospace", background: `${kete.accentColor}15` }}>
                     {kete.badge}
                   </span>
                 )}

@@ -444,7 +444,7 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
                           <button
                             onClick={() => downloadFrame(url, fi)}
                             className="p-2 rounded-lg transition-colors"
-                            style={{ background: "rgba(0,0,0,0.6)", color: "#fff" }}
+                            style={{ background: "rgba(0,0,0,0.6)", color: "#1A1D29" }}
                           >
                             <Download size={14} />
                           </button>

@@ -151,7 +151,7 @@ export default function AgentApp() {
           <div className="relative w-56 border-r border-white/5 flex flex-col py-2 overflow-y-auto shrink-0" style={{ background: "#0C0C16" }}>
             {sidebarOpen && (
               <button onClick={() => setSidebarOpen(false)} className="absolute top-2 right-2 p-1 rounded hover:bg-white/5 lg:hidden">
-                <X size={14} className="text-white/40" />
+                <X size={14} className="text-assembl-text/40" />
               </button>
             )}
             <div className="px-3 mb-3">
@@ -173,11 +173,11 @@ export default function AgentApp() {
             {/* Capabilities */}
             {capabilities.length > 0 && (
               <div className="px-4 mt-4 space-y-2">
-                <p className="text-[9px] font-semibold uppercase tracking-widest text-white/20 px-1">Quick Actions</p>
+                <p className="text-[9px] font-semibold uppercase tracking-widest text-gray-300 px-1">Quick Actions</p>
                 {capabilities.slice(0, 4).map((cap, i) => (
                   <button key={i} onClick={() => { setActiveTab("chat"); sendMessage(cap.prompt); setSidebarOpen(false); }}
                     className="w-full text-left rounded-lg px-3 py-2 transition hover:bg-white/5"
-                    style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                    style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
                     <p className="text-[10px] font-medium text-white/60">{cap.title}</p>
                     <p className="text-[8px] text-white/25 mt-0.5">{cap.description}</p>
                   </button>
@@ -186,10 +186,10 @@ export default function AgentApp() {
             )}
 
             <div className="mt-auto px-4 py-4 space-y-3">
-              <div className="rounded-lg p-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+              <div className="rounded-lg p-3" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
                 <div className="flex items-center gap-1.5">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                  <span className="text-[10px] text-white/50">{agent.name} Online</span>
+                  <span className="text-[10px] text-gray-500">{agent.name} Online</span>
                 </div>
               </div>
               <Link to={`/chat/${agentId}`} className="flex items-center gap-1.5 text-[10px] text-white/25 hover:text-white/40 transition px-1">
@@ -277,7 +277,7 @@ export default function AgentApp() {
                     </div>
                     {msg.role === "user" && (
                       <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center bg-white/10">
-                        <User size={14} className="text-white/50" />
+                        <User size={14} className="text-gray-500" />
                       </div>
                     )}
                   </div>
@@ -288,7 +288,7 @@ export default function AgentApp() {
                     <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center">
                       <AgentAvatar agentId={agent.id} color={color} size={28} showGlow={false} />
                     </div>
-                    <div className="rounded-2xl px-4 py-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                    <div className="rounded-2xl px-4 py-3" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
                       <div className="flex gap-1.5">
                         {[0, 0.2, 0.4].map(delay => (
                           <motion.div key={delay} className="w-2 h-2 rounded-full" style={{ background: color }}
@@ -304,7 +304,7 @@ export default function AgentApp() {
               {/* Input */}
               <div className="shrink-0 px-4 pb-4 pt-2 border-t border-white/5">
                 <div className="flex items-end gap-2 rounded-2xl px-4 py-2"
-                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                  style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
                   <textarea
                     value={input}
                     onChange={e => setInput(e.target.value)}

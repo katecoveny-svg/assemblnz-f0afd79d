@@ -257,7 +257,7 @@ export default function WorkspaceDashboard() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               className="rounded-xl p-5"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+              style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
             >
               <h2 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
                 <LayoutDashboard size={16} style={{ color: accent }} /> Getting started
@@ -295,7 +295,7 @@ export default function WorkspaceDashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="rounded-xl p-5"
-            style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+            style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
           >
             <h2 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
               <Play size={16} style={{ color: accent }} /> Your workflows
@@ -377,7 +377,7 @@ export default function WorkspaceDashboard() {
                 key={i}
                 to={action.href}
                 className="flex items-center gap-2 p-3 rounded-xl text-xs text-white/60 hover:text-white/80 transition-colors"
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
               >
                 <action.icon size={16} style={{ color: accent }} />
                 {action.label}

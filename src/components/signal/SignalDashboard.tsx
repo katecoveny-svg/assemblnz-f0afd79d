@@ -125,7 +125,7 @@ const AlertInput = ({ onAnalyse }: { onAnalyse?: (text: string) => void }) => {
         <button
           type="submit"
           className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-medium transition hover:opacity-90"
-          style={{ background: BRAND.teal, color: "#fff" }}
+          style={{ background: BRAND.teal, color: "#1A1D29" }}
         >
           <Send size={12} /> Analyse
         </button>

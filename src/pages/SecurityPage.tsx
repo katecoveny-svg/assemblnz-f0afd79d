@@ -97,7 +97,7 @@ const glassStyle: React.CSSProperties = {
   background: "rgba(14,14,26,0.6)",
   backdropFilter: "blur(24px) saturate(1.4)",
   WebkitBackdropFilter: "blur(24px) saturate(1.4)",
-  border: "1px solid rgba(255,255,255,0.06)",
+  border: "1px solid rgba(74,165,168,0.15)",
 };
 
 const SecurityPage = () => (

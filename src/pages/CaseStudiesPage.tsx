@@ -4,7 +4,8 @@ import { ArrowRight, FileText } from "lucide-react";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
@@ -57,8 +58,8 @@ const fadeUp = {
 
 export default function CaseStudiesPage() {
   return (
-    <GlowPageWrapper accentColor="#3A7D6E">
-      <div className="min-h-screen" style={{ background: "#09090F", color: "#fff" }}>
+    <LightPageShell>
+      <div className="min-h-screen" style={{ background: "#09090F", color: "#1A1D29" }}>
         <SEO
           title="Case Studies — The packs our customers took to their boards | Assembl"
           description="Real evidence packs from real NZ businesses. See what assembl produces for hospitality, construction, privacy, and creative teams."
@@ -84,11 +85,11 @@ export default function CaseStudiesPage() {
             </p>
             <h1 className="text-3xl sm:text-5xl mb-4" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "-0.5px" }}>
               The packs our customers took to their{" "}
-              <span style={{ background: `linear-gradient(135deg, ${BONE}, ${POUNAMU_LIGHT}, ${BONE})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
+              <span style={{ background: `linear-gradient(135deg, #1A1D29, ${POUNAMU_LIGHT}, ${BONE})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
                 boards.
               </span>
             </h1>
-            <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.55)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Every pack tagged with the meeting it went into. Real outputs, real businesses, real outcomes.
             </p>
           </motion.div>
@@ -115,10 +116,10 @@ export default function CaseStudiesPage() {
                   <h3 className="text-base mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400 }}>
                     {c.packTitle}
                   </h3>
-                  <p className="text-xs mb-1" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <p className="text-xs mb-1" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                     {c.business} · {c.meeting}
                   </p>
-                  <blockquote className="text-sm italic mt-4 pt-4" style={{ color: "rgba(255,255,255,0.6)", borderTop: "1px solid rgba(255,255,255,0.06)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <blockquote className="text-sm italic mt-4 pt-4" style={{ color: "#9CA3AF", borderTop: "1px solid rgba(255,255,255,0.06)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                     "{c.quote}"
                   </blockquote>
                   <Link to={`/sample/${c.kete.toLowerCase()}`} className="inline-flex items-center gap-1 mt-4 text-xs group/link" style={{ color: c.color, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -132,6 +133,6 @@ export default function CaseStudiesPage() {
 
         <BrandFooter />
       </div>
-    </GlowPageWrapper>
+    </LightPageShell>
   );
 }

@@ -8,10 +8,12 @@ import IhoRoutingVisualizer from "@/components/demo/IhoRoutingVisualizer";
 import MatarikiStarfield from "@/components/MatarikiStarfield";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 
 /* ─── Design tokens ─── */
 const C = {
-  bg: "#060610",
+  bg: "#FAFBFC",
   gold: "#D4A843",
   goldLight: "#F0D078",
   teal: "#3A7D6E",

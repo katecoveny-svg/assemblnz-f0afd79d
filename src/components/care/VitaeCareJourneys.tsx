@@ -50,10 +50,10 @@ const VitaeCareJourneys = ({ onSendToChat }: VitaeCareJourneysProps) => {
       {journeys.length === 0 ? (
         <div className="p-6 rounded-2xl text-center" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)" }}>
           <FileText size={24} style={{ color: NAVY, margin: "0 auto 12px" }} />
-          <p className="text-sm font-medium" style={{ color: "#fff" }}>No care journeys tracked</p>
+          <p className="text-sm font-medium" style={{ color: "#1A1D29" }}>No care journeys tracked</p>
           <p className="text-xs mt-1 mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>Ask VITAE to help you track a referral or specialist appointment.</p>
           <button onClick={() => onSendToChat("I have a specialist referral I'd like to track. Help me log the details.")}
-            className="px-4 py-2 rounded-lg text-xs font-semibold" style={{ background: NAVY, color: "#fff" }}>
+            className="px-4 py-2 rounded-lg text-xs font-semibold" style={{ background: NAVY, color: "#1A1D29" }}>
             Track a referral
           </button>
         </div>
@@ -68,7 +68,7 @@ const VitaeCareJourneys = ({ onSendToChat }: VitaeCareJourneysProps) => {
               <div key={j.id} className="p-4 rounded-2xl" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(26,58,92,0.2)" }}>
                 <div className="flex items-center justify-between mb-2">
                   <div>
-                    <p className="text-xs font-medium" style={{ color: "#fff" }}>{j.speciality || j.referral_type}</p>
+                    <p className="text-xs font-medium" style={{ color: "#1A1D29" }}>{j.speciality || j.referral_type}</p>
                     <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.4)" }}>{seniorName}</p>
                   </div>
                   <span className="text-[9px] uppercase px-2 py-0.5 rounded-full font-bold" style={{ background: "rgba(26,58,92,0.2)", color: "#5A9ACC", fontFamily: "'JetBrains Mono', monospace" }}>

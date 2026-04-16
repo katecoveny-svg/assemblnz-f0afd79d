@@ -5,7 +5,8 @@ import { CalendarDays, GraduationCap, HeartPulse, Receipt, UtensilsCrossed, Phon
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import { supabase } from "@/integrations/supabase/client";
@@ -113,8 +114,8 @@ export default function ToroaLandingPage() {
   const [hoveredAgent, setHoveredAgent] = useState<number | null>(null);
 
   return (
-    <GlowPageWrapper accentColor={ACCENT}>
-      <div style={{ background: BG, minHeight: "100vh", color: "#fff" }}>
+    <LightPageShell>
+      <div style={{ minHeight: "100vh" }}>
         <SEO
           title="Tōro — Family Navigator for Aotearoa | $29/mo"
           description="An SMS-first whānau navigator for New Zealand families. School admin, meal planning, appointments, budgets — no app, no login, just text."
@@ -165,7 +166,7 @@ export default function ToroaLandingPage() {
               </Link>
               <a href="sms:+64223194572?body=Hi%20Toro"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm uppercase tracking-[0.15em] font-light transition-all"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", color: BONE }}>
+                style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)", color: BONE }}>
                 Text us now <Phone size={14} />
               </a>
             </motion.div>
@@ -312,6 +313,6 @@ export default function ToroaLandingPage() {
           ]}
         />
       </div>
-    </GlowPageWrapper>
+    </LightPageShell>
   );
 }

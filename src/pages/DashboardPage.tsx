@@ -57,7 +57,7 @@ const glassCardStyle: React.CSSProperties = {
   background: "rgba(14,14,26,0.7)",
   backdropFilter: "blur(16px)",
   WebkitBackdropFilter: "blur(16px)",
-  border: "1px solid rgba(255,255,255,0.06)",
+  border: "1px solid rgba(74,165,168,0.15)",
 };
 
 const PRIORITY_COLORS: Record<string, string> = { urgent: "#C85A54", high: "#1A3A5C", medium: "#3A7D6E", low: "#5AADA0" };
@@ -182,7 +182,7 @@ const SectionHeader = ({ icon: Icon, title, color, count, trailing }: { icon: an
 
 const EmptyState = ({ message, cta, to }: { message: string; cta?: string; to?: string }) => (
   <div className="flex flex-col items-center justify-center py-8 gap-3">
-    <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+    <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
       <Sparkles size={18} className="text-muted-foreground/30" />
     </div>
     <p className="text-xs text-muted-foreground text-center max-w-[200px]">{message}</p>
@@ -530,7 +530,7 @@ const DashboardPage = () => {
                     key={svc.name}
                     to={linkTo}
                     className="flex items-center gap-3 p-3 rounded-lg transition-all hover:scale-[1.02] group"
-                    style={{ background: "rgba(255,255,255,0.02)", border: `1px solid ${statusColor}15` }}
+                    style={{ background: "rgba(255,255,255,0.65)", border: `1px solid ${statusColor}15` }}
                   >
                     <span className="relative flex h-2.5 w-2.5 shrink-0">
                       {svc.status === "ok" && <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-40" style={{ background: statusColor }} />}
@@ -566,7 +566,7 @@ const DashboardPage = () => {
                   const LEAD_COLORS: Record<string, string> = { new: "#1A3A5C", contacted: "#3A7D6E", qualified: "#D4A843", converted: "#5AADA0" };
                   const lColor = LEAD_COLORS[status] || "#888";
                   return (
-                    <Link key={lead.id} to="/chat/sales" className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors" style={{ background: "rgba(255,255,255,0.02)" }}>
+                    <Link key={lead.id} to="/chat/sales" className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors" style={{ background: "rgba(255,255,255,0.65)" }}>
                       <div className="w-2 h-2 rounded-full shrink-0" style={{ background: lColor }} />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-medium text-foreground truncate">{lead.name}</p>
@@ -598,7 +598,7 @@ const DashboardPage = () => {
                       key={fault.id}
                       to={fault.to}
                       className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/[0.03] transition-colors"
-                      style={{ background: "rgba(255,255,255,0.02)", borderLeft: `3px solid ${faultColor}` }}
+                      style={{ background: "rgba(255,255,255,0.65)", borderLeft: `3px solid ${faultColor}` }}
                     >
                       <div className="w-2 h-2 rounded-full shrink-0" style={{ background: faultColor }} />
                       <div className="flex-1 min-w-0">
@@ -634,7 +634,7 @@ const DashboardPage = () => {
                 const agent = agents.find((a) => a.id === action.agent_id || a.name.toLowerCase() === action.agent_id.toLowerCase());
                 const color = agent?.color || "#888";
                 return (
-                  <div key={action.id} className="flex items-center gap-3 p-2.5 rounded-lg transition-colors hover:bg-white/[0.02]" style={{ background: "rgba(255,255,255,0.02)" }}>
+                  <div key={action.id} className="flex items-center gap-3 p-2.5 rounded-lg transition-colors hover:bg-white/[0.02]" style={{ background: "rgba(255,255,255,0.65)" }}>
                     <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: PRIORITY_COLORS[action.priority] || "#D4A843" }} />
                     <span className="text-[9px] font-bold px-1.5 py-0.5 rounded shrink-0" style={{ backgroundColor: color + "15", color }}>{agent?.name || action.agent_id}</span>
                     <span className="text-xs text-foreground flex-1 truncate">{action.description}</span>
@@ -741,7 +741,7 @@ const DashboardPage = () => {
                 const agent = agents.find(a => a.id === item.agent || a.name.toLowerCase() === item.agent.toLowerCase());
                 const agentColor = agent?.color || sevColor;
                 return (
-                  <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/[0.02] transition-colors" style={{ background: "rgba(255,255,255,0.02)", borderLeft: `3px solid ${sevColor}` }}>
+                  <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/[0.02] transition-colors" style={{ background: "rgba(255,255,255,0.65)", borderLeft: `3px solid ${sevColor}` }}>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-xs font-bold text-foreground">{item.title}</span>

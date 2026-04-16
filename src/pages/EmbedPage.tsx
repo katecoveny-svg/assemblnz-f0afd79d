@@ -82,7 +82,7 @@ const EmbedPage = () => {
           <h1 className="text-3xl sm:text-5xl font-light text-foreground mb-4 text-glow-hero">
             Embed your AI agent on <span className="text-gradient-hero">your website</span>
           </h1>
-          <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.25)" }}>
+          <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: "#9CA3AF" }}>
             One line of code. Your customers get 24/7 expert answers grounded in NZ law. You get leads captured automatically.
           </p>
           {user && isPaid && (
@@ -122,7 +122,7 @@ const EmbedPage = () => {
                 key={step.title}
                 className="rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1"
                 style={{
-                  background: "rgba(255,255,255,0.02)",
+                  background: "rgba(255,255,255,0.65)",
                   border: `1px solid ${step.color}15`,
                   backdropFilter: "blur(12px)",
                 }}
@@ -132,7 +132,7 @@ const EmbedPage = () => {
                   {step.icon}
                 </div>
                 <h3 className="text-sm font-bold text-foreground mb-1.5">{step.title}</h3>
-                <p className="text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.35)" }}>{step.desc}</p>
+                <p className="text-[11px] leading-relaxed" style={{ color: "#9CA3AF" }}>{step.desc}</p>
               </div>
             ))}
           </div>
@@ -146,7 +146,7 @@ const EmbedPage = () => {
               { icon: <Lock size={10} />, label: "Secure & HTTPS" },
             ].map((f) => (
               <span key={f.label} className="flex items-center gap-1.5 text-[10px] font-medium px-2.5 py-1 rounded-full"
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.3)" }}>
+                style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)", color: "#9CA3AF" }}>
                 {f.icon} {f.label}
               </span>
             ))}
@@ -161,7 +161,7 @@ const EmbedPage = () => {
             <h3 className="text-base font-bold text-foreground mb-2">
               {user ? "Upgrade to embed agents" : "Sign in to embed agents"}
             </h3>
-            <p className="text-xs mb-4" style={{ color: "rgba(255,255,255,0.35)" }}>
+            <p className="text-xs mb-4" style={{ color: "#9CA3AF" }}>
               {user
                 ? "Embed is available on Starter (1 agent), Pro (3 agents), and Business (all 41 agents) plans."
                 : "Create an account and subscribe to a paid plan to embed Assembl agents on your website."}
@@ -228,7 +228,7 @@ const EmbedPage = () => {
                 )}
               </div>
               {limit < 41 && (
-                <p className="text-[10px] mt-2" style={{ color: "rgba(255,255,255,0.2)" }}>
+                <p className="text-[10px] mt-2" style={{ color: "#9CA3AF" }}>
                   Your {planLabel(role)} plan includes {limit} agent{limit !== 1 ? "s" : ""}.{" "}
                   <Link to="/pricing" className="text-primary underline">Upgrade</Link> for more.
                 </p>
@@ -271,7 +271,7 @@ const EmbedPage = () => {
                 {/* Code snippet */}
                 <div className="rounded-xl border border-border bg-card overflow-hidden">
                   <div className="flex items-center justify-between px-4 py-2 border-b border-border">
-                    <span className="text-xs font-mono-jb" style={{ color: "rgba(255,255,255,0.22)" }}>
+                    <span className="text-xs font-mono-jb" style={{ color: "#9CA3AF" }}>
                       {codeTab === "iframe" ? "HTML" : "HTML / JavaScript"}
                     </span>
                     <button
@@ -289,7 +289,7 @@ const EmbedPage = () => {
 
                 {/* Info */}
                 <div className="mt-4 rounded-lg p-3" style={{ background: `${agent.color}08`, border: `1px solid ${agent.color}15` }}>
-                  <p className="text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.3)" }}>
+                  <p className="text-[11px] leading-relaxed" style={{ color: "#9CA3AF" }}>
                     {codeTab === "iframe"
                       ? "Paste this code anywhere in your HTML. The iframe renders a self-contained chat widget styled with the agent's brand colours. Works with WordPress, Squarespace, Wix, Shopify, and any custom site."
                       : "Add these two script tags before </body>. A floating chat bubble will appear in the bottom-right corner of your website. No additional CSS or JavaScript required."}
@@ -314,7 +314,7 @@ const EmbedPage = () => {
                       <div className="w-2.5 h-2.5 rounded-full bg-primary/20" />
                     </div>
                     <div className="flex-1 text-center">
-                      <span className="text-[10px] font-mono-jb" style={{ color: "rgba(255,255,255,0.13)" }}>
+                      <span className="text-[10px] font-mono-jb" style={{ color: "#D1D5DB" }}>
                         yourwebsite.co.nz
                       </span>
                     </div>
@@ -370,7 +370,7 @@ const EmbedPage = () => {
               >
                 <p className="text-xs font-bold text-foreground mb-1">{t.plan}</p>
                 <p className="text-lg font-light mb-0.5" style={{ color: t.color }}>{t.agents}</p>
-                <Link to="/pricing" className="text-[10px] underline" style={{ color: "rgba(255,255,255,0.25)" }}>See pricing</Link>
+                <Link to="/pricing" className="text-[10px] underline" style={{ color: "#9CA3AF" }}>See pricing</Link>
                 {t.current && (
                   <span className="inline-block mt-2 text-[9px] font-semibold px-2 py-0.5 rounded-full"
                     style={{ background: `${t.color}15`, color: t.color }}>

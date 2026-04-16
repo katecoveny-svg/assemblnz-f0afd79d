@@ -246,7 +246,7 @@ export default function AuahaDashboard() {
               </defs>
               <XAxis dataKey="d" tick={{ fill: 'rgba(255,255,255,0.25)', fontSize: 10 }} axisLine={false} tickLine={false} />
               <YAxis hide />
-              <Tooltip contentStyle={{ background: 'rgba(15,15,26,0.95)', border: '1px solid rgba(240,208,120,0.2)', borderRadius: 12, color: '#fff', fontSize: 12, boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}
+              <Tooltip contentStyle={{ background: 'rgba(15,15,26,0.95)', border: '1px solid rgba(240,208,120,0.2)', borderRadius: 12, color: '#1A1D29', fontSize: 12, boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}
                 formatter={(value: number) => [value.toLocaleString(), 'Reach']} />
               <Area type="monotone" dataKey="v" stroke={ACCENT} fill="url(#auahaGrad)" strokeWidth={2.5} dot={false} />
             </AreaChart>

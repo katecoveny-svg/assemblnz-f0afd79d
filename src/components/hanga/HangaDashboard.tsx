@@ -101,7 +101,7 @@ export default function HangaDashboard() {
             <span className="text-[11px] text-white/60 font-medium">Christchurch Metro Sports</span>
             <ChevronRight size={12} className="text-white/30" />
           </div>
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold" style={{ background: `linear-gradient(135deg, ${KOWHAI}, ${POUNAMU})`, color: "#fff" }}>
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold" style={{ background: `linear-gradient(135deg, ${KOWHAI}, ${POUNAMU})`, color: "#1A1D29" }}>
             KH
           </div>
         </div>
@@ -187,7 +187,7 @@ export default function HangaDashboard() {
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
                   <XAxis dataKey="day" tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} axisLine={false} tickLine={false} domain={[60, 100]} />
-                  <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#fff", fontSize: 11 }} />
+                  <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#1A1D29", fontSize: 11 }} />
                   <Area type="monotone" dataKey="actual" stroke={KOWHAI} fill="url(#progGrad)" strokeWidth={2} />
                   <Line type="monotone" dataKey="planned" stroke="rgba(255,255,255,0.15)" strokeWidth={1} strokeDasharray="4 4" dot={false} />
                 </AreaChart>
@@ -205,7 +205,7 @@ export default function HangaDashboard() {
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
                   <XAxis dataKey="name" tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                  <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#fff", fontSize: 11 }} />
+                  <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#1A1D29", fontSize: 11 }} />
                   <Bar dataKey="complete" fill={POUNAMU} radius={[4, 4, 0, 0]} />
                   <Bar dataKey="pending" fill="rgba(255,255,255,0.08)" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -255,7 +255,7 @@ export default function HangaDashboard() {
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
                   <XAxis dataKey="day" tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10 }} axisLine={false} tickLine={false} domain={[0, 100]} />
-                  <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#fff", fontSize: 11 }} />
+                  <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#1A1D29", fontSize: 11 }} />
                   <Line type="monotone" dataKey="score" stroke={KOWHAI} strokeWidth={2.5} dot={{ r: 3, fill: KOWHAI }} activeDot={{ r: 5, fill: KOWHAI, stroke: "#0F0F1A", strokeWidth: 2 }} />
                 </LineChart>
               </ResponsiveContainer>

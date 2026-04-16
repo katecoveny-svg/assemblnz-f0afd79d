@@ -178,7 +178,7 @@ const RoiCalculatorPage = () => {
                     </label>
                     <span
                       className="text-[14px] font-medium px-3 py-1 rounded-lg"
-                      style={{ color: C.t1, fontFamily: "'JetBrains Mono', monospace", background: "rgba(255,255,255,0.04)" }}
+                      style={{ color: C.t1, fontFamily: "'JetBrains Mono', monospace", background: "rgba(255,255,255,0.65)" }}
                     >
                       {input.value} <span style={{ color: C.t3, fontSize: "11px" }}>{input.unit}</span>
                     </span>
@@ -267,7 +267,7 @@ function ResultRow({ icon, label, value, highlight }: { icon: React.ReactNode; l
     <div className="flex items-center justify-between py-1">
       <div className="flex items-center gap-3">
         {icon}
-        <span className="text-[13px]" style={{ color: "rgba(255,255,255,0.36)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{label}</span>
+        <span className="text-[13px]" style={{ color: "#9CA3AF", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{label}</span>
       </div>
       <span
         className="text-[14px] font-medium"
@@ -283,7 +283,7 @@ function ResultRow({ icon, label, value, highlight }: { icon: React.ReactNode; l
 function SummaryRow({ label, value, color, large }: { label: string; value: string; color: string; large?: boolean }) {
   return (
     <div className="flex justify-between items-center">
-      <span className="text-[13px]" style={{ color: "rgba(255,255,255,0.36)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{label}</span>
+      <span className="text-[13px]" style={{ color: "#9CA3AF", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{label}</span>
       <span
         className={large ? "text-2xl font-light" : "text-base font-medium"}
         style={{ fontFamily: "'Lato', sans-serif", color }}

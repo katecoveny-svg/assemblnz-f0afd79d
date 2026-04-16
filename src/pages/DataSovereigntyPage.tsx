@@ -4,6 +4,8 @@ import { Shield, Lock, Eye, FileText, Database, CheckCircle2, AlertTriangle, Lay
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 
 const C = {
   bg: "#09090F",

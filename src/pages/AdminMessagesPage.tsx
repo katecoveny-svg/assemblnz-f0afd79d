@@ -38,7 +38,7 @@ const glassStyle: React.CSSProperties = {
   background: "rgba(14,14,26,0.7)",
   backdropFilter: "blur(16px)",
   WebkitBackdropFilter: "blur(16px)",
-  border: "1px solid rgba(255,255,255,0.06)",
+  border: "1px solid rgba(74,165,168,0.15)",
 };
 
 const WhatsAppIcon = () => (

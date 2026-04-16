@@ -94,7 +94,7 @@ export default function AuahaBrandScanner() {
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-bold" style={{
                   background: brand.colors.primary,
-                  color: "#fff",
+                  color: "#1A1D29",
                 }}>
                   {brand.businessName.charAt(0)}
                 </div>

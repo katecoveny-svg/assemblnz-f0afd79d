@@ -54,7 +54,7 @@ export default function SparkAppViewer() {
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#09090F" }}>
         <div className="text-center space-y-2">
           <p className="text-lg font-display font-bold" style={{ color: "#E4E4EC" }}>App not found</p>
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>This app may have been removed or paused.</p>
+          <p className="text-xs" style={{ color: "#6B7280" }}>This app may have been removed or paused.</p>
         </div>
       </div>
     );
@@ -63,7 +63,7 @@ export default function SparkAppViewer() {
   if (passwordRequired) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#09090F" }}>
-        <div className="w-full max-w-xs space-y-4 p-6 rounded-2xl" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="w-full max-w-xs space-y-4 p-6 rounded-2xl" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
           <h2 className="text-sm font-display font-bold text-center" style={{ color: "#E4E4EC" }}>This app is password protected</h2>
           <input type="password" value={passwordInput} onChange={e => { setPasswordInput(e.target.value); setWrongPassword(false); }}
             placeholder="Enter password..."
@@ -83,7 +83,7 @@ export default function SparkAppViewer() {
   if (!htmlContent) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#09090F" }}>
-        <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>Loading...</p>
+        <p className="text-xs" style={{ color: "#9CA3AF" }}>Loading...</p>
       </div>
     );
   }

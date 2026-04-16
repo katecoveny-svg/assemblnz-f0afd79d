@@ -173,7 +173,7 @@ export default function AdminComplianceDashboard() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 rounded-xl p-1" style={{ background: "rgba(255,255,255,0.03)" }}>
+      <div className="flex gap-1 rounded-xl p-1" style={{ background: "rgba(255,255,255,0.65)" }}>
         {(["updates", "scans", "stale"] as const).map((t) => (
           <button
             key={t}

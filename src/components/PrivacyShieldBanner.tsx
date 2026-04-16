@@ -118,7 +118,7 @@ const PrivacyShieldBanner = ({ originalText, onApprove, onSkip, agentColor = "#0
           className="px-4 py-1.5 rounded-lg text-[11px] font-body font-medium transition-all hover:brightness-110"
           style={{
             background: `linear-gradient(135deg, ${config.color}, ${config.color}CC)`,
-            color: "#fff",
+            color: "#1A1D29",
             boxShadow: `0 2px 8px ${config.color}30`,
           }}
         >
