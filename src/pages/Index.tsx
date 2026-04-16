@@ -77,7 +77,7 @@ const PACKS = [
     reo: k.name, en: k.eng, desc: k.desc,
     ...KETE_COLORS[k.key],
   })),
-  { reo: "Toro", en: "Family", desc: "School runs, meal planning, family admin — one less thing to worry about.", color: C.ochre, accentLight: C.ochreLight, to: "/toroa" },
+  { reo: "Toro", en: "Family", desc: "School runs, meal planning, family admin — one less thing to worry about.", color: C.ochre, accentLight: C.ochreLight, to: "/toro" },
 ];
 
 const LAYERS_DATA = [
@@ -290,11 +290,12 @@ const Index = () => {
               {/* H1 with typewriter */}
               <h1 style={{
                 fontFamily: "'Lato', sans-serif",
-                fontWeight: 300,
+                fontWeight: 400,
                 fontSize: isMobile ? "2.5rem" : "4.2rem",
                 lineHeight: 1.05,
                 letterSpacing: "-0.02em",
                 color: C.text,
+                textShadow: "0 2px 4px rgba(0,0,0,0.06)",
               }}>
                 <TypewriterText
                   text="The operating system for NZ business"
@@ -330,21 +331,23 @@ const Index = () => {
                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.35, ease }}
               >
-                <Link to="/how-it-works" className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-medium rounded-full transition-all duration-300 hover:scale-[1.02] overflow-hidden"
+                <Link to="/how-it-works" className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03] overflow-hidden"
                   style={{
-                    background: C.teal,
+                    background: `linear-gradient(145deg, #55BFC1, ${C.teal})`,
                     color: "#FFFFFF",
-                    boxShadow: "0 4px 20px rgba(74,165,168,0.25)",
+                    boxShadow: `0 6px 24px rgba(74,165,168,0.35), 0 2px 8px rgba(74,165,168,0.2), inset 0 1px 0 rgba(255,255,255,0.3)`,
                     fontFamily: "'Lato', sans-serif",
+                    textShadow: "0 1px 2px rgba(0,0,0,0.15)",
                   }}>
                   Start here <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
                 </Link>
-                <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-medium rounded-full transition-all duration-300"
+                <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
                   style={{
-                    border: `1px solid ${C.teal}`,
+                    background: "linear-gradient(145deg, #F5F5F8, #E4E4E8)",
+                    border: `1px solid rgba(74,165,168,0.2)`,
                     color: C.teal,
-                    background: "#FFFFFF",
                     fontFamily: "'Lato', sans-serif",
+                    boxShadow: `4px 4px 10px rgba(166,166,180,0.4), -4px -4px 10px rgba(255,255,255,0.9), inset 0 1px 0 rgba(255,255,255,0.8)`,
                   }}>
                   Run live demo <ArrowRight size={14} className="opacity-50 group-hover:opacity-80 transition-opacity" />
                 </Link>
@@ -413,11 +416,14 @@ const Index = () => {
                 <motion.div key={item.title} {...stagger(i)}>
                   <Link to={item.to} className="group block h-full">
                     <GlowCard className="h-full hover:translate-y-[-4px] transition-all duration-300" accentColor={item.accent}>
-                      <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6" style={{ background: `${item.accent}10` }}>
-                        <Icon size={20} style={{ color: item.accent }} />
+                      <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6" style={{
+                        background: `${item.accent}12`,
+                        boxShadow: `3px 3px 8px rgba(166,166,180,0.3), -3px -3px 8px rgba(255,255,255,0.85), 0 0 20px ${item.accent}15`,
+                      }}>
+                        <Icon size={20} style={{ color: item.accent, filter: `drop-shadow(0 0 4px ${item.accent}40)` }} />
                       </div>
-                      <h3 className="text-[15px] mb-3 font-medium" style={{ color: C.text }}>{item.title}</h3>
-                      <p className="text-[14px] leading-[1.7] mb-5" style={{ color: C.textSecondary }}>{item.desc}</p>
+                      <h3 className="text-[15px] mb-3 font-semibold" style={{ color: C.text }}>{item.title}</h3>
+                      <p className="text-[14px] leading-[1.7] mb-5" style={{ color: C.textSecondary, fontWeight: 450 }}>{item.desc}</p>
                       <span className="inline-flex items-center gap-2 text-[12px] font-medium group-hover:gap-3 transition-all" style={{ color: item.accent }}>
                         Open now <ArrowRight size={12} />
                       </span>
@@ -498,8 +504,8 @@ const Index = () => {
                             <Kete3DModel accentColor={p.color} accentLight={p.accentLight} size={48} />
                           </Suspense>
                           <div>
-                            <h3 className="text-[18px] font-light" style={{ color: C.text }}>{p.reo}</h3>
-                            <p className="text-[12px] mt-0.5" style={{ color: C.textTertiary }}>{p.en}</p>
+                            <h3 className="text-[18px] font-medium" style={{ color: C.text }}>{p.reo}</h3>
+                            <p className="text-[12px] mt-0.5 font-medium" style={{ color: C.textTertiary }}>{p.en}</p>
                           </div>
                         </div>
                         <p className="text-[14px] leading-[1.7] mb-5" style={{ color: C.textSecondary }}>{p.desc}</p>
@@ -576,11 +582,14 @@ const Index = () => {
                 <motion.div key={layer.name} {...stagger(i)}>
                   <GlowCard className="h-full">
                     <div className="flex items-start gap-4">
-                      <div className="shrink-0 w-11 h-11 rounded-2xl flex items-center justify-center" style={{ background: i % 2 === 0 ? `${C.teal}10` : `${C.ochre}10` }}>
-                        <Icon size={18} style={{ color: i % 2 === 0 ? C.teal : C.ochre }} />
+                      <div className="shrink-0 w-11 h-11 rounded-2xl flex items-center justify-center" style={{
+                        background: i % 2 === 0 ? `${C.teal}12` : `${C.ochre}12`,
+                        boxShadow: `3px 3px 8px rgba(166,166,180,0.3), -3px -3px 8px rgba(255,255,255,0.85)`,
+                      }}>
+                        <Icon size={18} style={{ color: i % 2 === 0 ? C.teal : C.ochre, filter: `drop-shadow(0 0 3px ${i % 2 === 0 ? C.teal : C.ochre}40)` }} />
                       </div>
                       <div>
-                        <p className="text-[14px] mb-1 font-medium" style={{ color: C.text }}>
+                        <p className="text-[14px] mb-1 font-semibold" style={{ color: C.text }}>
                           <span className="inline-flex items-center gap-1.5 mr-2">
                             <span className="w-1.5 h-1.5 rounded-full" style={{ background: i % 2 === 0 ? C.teal : C.ochre }} />
                             <span className="text-[10px] font-normal" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{String(i + 1).padStart(2, "0")}</span>
@@ -663,12 +672,12 @@ const Index = () => {
                 <SectionH2>Ready to see your industry team?</SectionH2>
                 <SectionP className="mb-12">Pick your kete. Run the demo. See the evidence pack it produces.</SectionP>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link to="/contact" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-medium rounded-full transition-all duration-300 hover:scale-[1.02]"
-                    style={{ background: C.teal, color: "#FFFFFF", boxShadow: `0 4px 20px ${C.teal}30`, fontFamily: "'Lato', sans-serif" }}>
+                  <Link to="/contact" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
+                    style={{ background: `linear-gradient(145deg, #55BFC1, ${C.teal})`, color: "#FFFFFF", boxShadow: `0 6px 24px rgba(74,165,168,0.35), 0 2px 8px rgba(74,165,168,0.2), inset 0 1px 0 rgba(255,255,255,0.3)`, fontFamily: "'Lato', sans-serif", textShadow: "0 1px 2px rgba(0,0,0,0.15)" }}>
                     See it in action <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
                   </Link>
-                  <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-10 py-5 text-[13px] font-medium rounded-full transition-all duration-300"
-                    style={{ border: `1px solid ${C.teal}`, color: C.teal, background: "#FFFFFF", fontFamily: "'Lato', sans-serif" }}>
+                  <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
+                    style={{ background: "linear-gradient(145deg, #F5F5F8, #E4E4E8)", border: `1px solid rgba(74,165,168,0.2)`, color: C.teal, fontFamily: "'Lato', sans-serif", boxShadow: `4px 4px 10px rgba(166,166,180,0.4), -4px -4px 10px rgba(255,255,255,0.9), inset 0 1px 0 rgba(255,255,255,0.8)` }}>
                     Book a walkthrough
                   </Link>
                 </div>
@@ -722,12 +731,12 @@ function TrustPipeline() {
               className="flex flex-col items-center text-center min-w-[110px]"
             >
               <div className="w-14 h-14 rounded-full flex items-center justify-center mb-3" style={{
-                background: "rgba(255,255,255,0.65)",
+                background: "linear-gradient(145deg, rgba(255,255,255,0.8), rgba(238,238,242,0.6))",
                 backdropFilter: "blur(20px)",
                 border: "1px solid rgba(255,255,255,0.9)",
-                boxShadow: "0 4px 20px rgba(74,165,168,0.1)",
+                boxShadow: "4px 4px 12px rgba(166,166,180,0.35), -4px -4px 12px rgba(255,255,255,0.9), 0 0 20px rgba(74,165,168,0.1)",
               }}>
-                <div className="w-4 h-4 rounded-full" style={{ background: C.teal }} />
+                <div className="w-4 h-4 rounded-full" style={{ background: C.teal, boxShadow: `0 0 10px ${C.teal}50` }} />
               </div>
               <span className="text-[10px] tracking-[3px] uppercase font-medium" style={{ color: C.teal, fontFamily: "'JetBrains Mono', monospace" }}>{node.name}</span>
               <span className="text-[11px] mt-2 max-w-[130px] leading-[1.6]" style={{ color: C.textSecondary }}>{node.desc}</span>
@@ -766,7 +775,7 @@ function SectionEyebrow({ children }: { children: string }) {
 function SectionH2({ children }: { children: React.ReactNode }) {
   return (
     <h2 className="text-2xl sm:text-[36px] lg:text-[42px] mb-6"
-      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "-0.02em", lineHeight: 1.1, color: "#1A1D29" }}>
+      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.1, color: "#1A1D29", textShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
       {children}
     </h2>
   );
@@ -781,19 +790,31 @@ function SectionP({ children, className = "" }: { children: React.ReactNode; cla
   );
 }
 
-/* ─── Glow Card — light glass ─── */
+/* ─── Glow Card — 3D neumorphic glass ─── */
 function GlowCard({ children, className = "", accentColor }: { children: React.ReactNode; className?: string; accentColor?: string }) {
+  const ac = accentColor || "#4AA5A8";
   return (
     <div className={`relative rounded-3xl overflow-hidden p-10 ${className}`}
       style={{
-        background: "rgba(255,255,255,0.65)",
-        backdropFilter: "blur(20px) saturate(140%)",
-        border: "1px solid rgba(255,255,255,0.9)",
-        boxShadow: `0 10px 40px -10px rgba(74,165,168,0.12), 0 4px 12px rgba(0,0,0,0.03)${accentColor ? `, 0 0 0 0px ${accentColor}00` : ""}`,
+        background: "linear-gradient(145deg, rgba(255,255,255,0.8), rgba(238,238,242,0.65))",
+        backdropFilter: "blur(24px) saturate(160%)",
+        border: "1px solid rgba(255,255,255,0.95)",
+        boxShadow: `
+          6px 6px 16px rgba(166,166,180,0.3),
+          -6px -6px 16px rgba(255,255,255,0.85),
+          inset 0 1px 0 rgba(255,255,255,0.9),
+          0 0 40px -15px ${ac}25
+        `,
       }}
     >
+      {/* Top glass shine */}
       <div className="absolute top-0 left-[8%] right-[8%] h-px" style={{
         background: "linear-gradient(90deg, transparent, rgba(255,255,255,1), transparent)",
+      }} />
+      {/* Accent glow line */}
+      <div className="absolute bottom-0 left-[15%] right-[15%] h-[2px]" style={{
+        background: `linear-gradient(90deg, transparent, ${ac}30, transparent)`,
+        filter: `blur(1px)`,
       }} />
       {children}
     </div>

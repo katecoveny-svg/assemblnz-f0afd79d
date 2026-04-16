@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, HardHat, UtensilsCrossed, Palette, Bird, Car, Package, ChevronDown, Calculator, Shield, Code, Brain } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import GlowIcon from "@/components/GlowIcon";
 import AccountDropdown from "@/components/AccountDropdown";
 import Nav3DKeteLogo from "@/components/Nav3DKeteLogo";
 import KiaOraPopup from "@/components/KiaOraPopup";
@@ -18,20 +19,20 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 const KETE = [
-  { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", icon: UtensilsCrossed, color: "#4AA5A8" },
-  { label: "Waihanga", sublabel: "Construction", to: "/waihanga/about", icon: HardHat, color: "#E8A948" },
-  { label: "Auaha", sublabel: "Creative", to: "/auaha/about", icon: Palette, color: "#9B8EC4" },
-  { label: "Arataki", sublabel: "Automotive", to: "/arataki", icon: Car, color: "#4AA5A8" },
-  { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", icon: Package, color: "#6CBFC1" },
-  { label: "Toro", sublabel: "Family", to: "/toro", icon: Bird, color: "#E8A948" },
+  { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", glowIcon: "UtensilsCrossed", color: "#4AA5A8" },
+  { label: "Waihanga", sublabel: "Construction", to: "/waihanga/about", glowIcon: "HardHat", color: "#E8A948" },
+  { label: "Auaha", sublabel: "Creative", to: "/auaha/about", glowIcon: "Palette", color: "#9B8EC4" },
+  { label: "Arataki", sublabel: "Automotive", to: "/arataki", glowIcon: "Cpu", color: "#4AA5A8" },
+  { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", glowIcon: "Globe", color: "#6CBFC1" },
+  { label: "Toro", sublabel: "Family", to: "/toro", glowIcon: "Bird", color: "#E8A948" },
 ];
 
 const MORE_LINKS = [
-  { label: "ROI Calculator", sublabel: "Sales tool", to: "/roi", icon: Calculator, color: "#4AA5A8" },
-  { label: "Scenario Simulator", sublabel: "Try a live demo", to: "/simulator", icon: Brain, color: "#E8A948" },
-  { label: "Data Sovereignty", sublabel: "Enterprise trust", to: "/data-sovereignty", icon: Shield, color: "#4AA5A8" },
-  { label: "Developers", sublabel: "API & docs", to: "/developers", icon: Code, color: "#6CBFC1" },
-  { label: "AAAIP", sublabel: "R&D showcase", to: "/aaaip", icon: Brain, color: "#E8A948" },
+  { label: "ROI Calculator", sublabel: "Sales tool", to: "/roi", glowIcon: "BarChart3", color: "#4AA5A8" },
+  { label: "Scenario Simulator", sublabel: "Try a live demo", to: "/simulator", glowIcon: "Brain", color: "#E8A948" },
+  { label: "Data Sovereignty", sublabel: "Enterprise trust", to: "/data-sovereignty", glowIcon: "Shield", color: "#4AA5A8" },
+  { label: "Developers", sublabel: "API & docs", to: "/developers", glowIcon: "Cpu", color: "#6CBFC1" },
+  { label: "AAAIP", sublabel: "R&D showcase", to: "/aaaip", glowIcon: "Sparkles", color: "#E8A948" },
 ];
 
 const BrandNav = () => {
@@ -80,12 +81,12 @@ const BrandNav = () => {
     <>
       <div className="fixed inset-0 z-10" onClick={onClose} />
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
-        className="absolute top-full right-0 mt-2 z-20 w-[260px] rounded-2xl p-2 space-y-0.5"
+        className="absolute top-full right-0 mt-2 z-20 w-[280px] rounded-2xl p-2 space-y-0.5"
         style={{
-          background: "rgba(255,255,255,0.85)",
+          background: "linear-gradient(145deg, rgba(255,255,255,0.9), rgba(238,238,242,0.7))",
           backdropFilter: "blur(24px) saturate(150%)",
           border: "1px solid rgba(255,255,255,0.95)",
-          boxShadow: "0 14px 48px -10px rgba(74,165,168,0.15), 0 6px 16px rgba(0,0,0,0.06)",
+          boxShadow: "6px 6px 20px rgba(166,166,180,0.3), -6px -6px 20px rgba(255,255,255,0.85), 0 14px 48px -10px rgba(74,165,168,0.15)",
         }}>
         {items.map(item => {
           const isDetected = item.label === detectedLabel;
@@ -93,8 +94,11 @@ const BrandNav = () => {
             <button key={item.label} onClick={() => handleNavClick(item.to)}
               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-black/[0.03] transition-colors group relative"
               style={isDetected ? { borderLeft: `2px solid ${item.color}`, background: `${item.color}08` } : {}}>
-              <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${item.color}10` }}>
-                <item.icon size={16} style={{ color: item.color }} />
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{
+                background: `${item.color}12`,
+                boxShadow: `2px 2px 6px rgba(166,166,180,0.25), -2px -2px 6px rgba(255,255,255,0.8)`,
+              }}>
+                <GlowIcon name={item.glowIcon} size={16} color={item.color} glow />
               </div>
               <div className="text-left">
                 <div className="text-xs font-medium text-foreground/80 group-hover:text-foreground flex items-center gap-2">
@@ -172,8 +176,13 @@ const BrandNav = () => {
           </div>
 
           <button onClick={() => handleNavClick("/contact")}
-            className="ml-2 px-8 py-2.5 rounded-full text-xs font-body font-medium transition-all duration-300"
-            style={{ background: "#4AA5A8", color: "#FFFFFF" }}>
+            className="ml-2 px-8 py-2.5 rounded-full text-xs font-body font-semibold transition-all duration-300 hover:scale-[1.03]"
+            style={{
+              background: "linear-gradient(145deg, #55BFC1, #4AA5A8)",
+              color: "#FFFFFF",
+              boxShadow: "0 4px 16px rgba(74,165,168,0.3), inset 0 1px 0 rgba(255,255,255,0.25)",
+              textShadow: "0 1px 2px rgba(0,0,0,0.12)",
+            }}>
             Kia ora — get started
           </button>
 
@@ -222,7 +231,7 @@ const BrandNav = () => {
                   <button key={pack.label} onClick={() => handleNavClick(pack.to)}
                     className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-body transition-all duration-200"
                     style={{ color: "#1A1D29" }}>
-                    <pack.icon size={16} style={{ color: pack.color }} />
+                    <GlowIcon name={pack.glowIcon} size={16} color={pack.color} glow />
                     <span>{pack.label}</span>
                     <span className="text-[10px] ml-auto" style={{ color: "#6B7280" }}>{pack.sublabel}</span>
                   </button>
@@ -235,7 +244,7 @@ const BrandNav = () => {
                   <button key={link.label} onClick={() => handleNavClick(link.to)}
                     className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-body transition-all duration-200"
                     style={{ color: "#1A1D29" }}>
-                    <link.icon size={16} style={{ color: link.color }} />
+                    <GlowIcon name={link.glowIcon} size={16} color={link.color} glow />
                     <span>{link.label}</span>
                   </button>
                 ))}
