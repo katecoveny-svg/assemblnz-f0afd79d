@@ -6,7 +6,7 @@ import KeteOrbHero from "./KeteOrbHero";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
 
-import ToroBirdIcon from "@/components/ToroBirdIcon";
+
 
 type PackCard = {
   id: string;
@@ -76,7 +76,7 @@ const PackGrid = () => {
     <section
       id="expert-team"
       className="relative z-10 pt-[100px] pb-[100px]"
-      style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+      style={{ borderTop: "1px solid rgba(74,165,168,0.08)" }}
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         {/* Hero orb */}
