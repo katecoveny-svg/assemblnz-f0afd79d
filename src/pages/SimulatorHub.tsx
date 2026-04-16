@@ -5,6 +5,8 @@ import { UtensilsCrossed, HardHat, Car, Play, ChevronRight, FileText, CheckCircl
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 
 const BG = "#09090F";
 const GOLD = "#D4A843";
