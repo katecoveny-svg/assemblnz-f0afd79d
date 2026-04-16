@@ -412,7 +412,6 @@ const Index = () => {
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-[1200px] mx-auto">
             {START_HERE.map((item, i) => {
-              const Icon = item.icon;
               return (
                 <motion.div key={item.title} {...stagger(i)}>
                   <Link to={item.to} className="group block h-full">
@@ -421,7 +420,7 @@ const Index = () => {
                         background: `${item.accent}12`,
                         boxShadow: `3px 3px 8px rgba(166,166,180,0.3), -3px -3px 8px rgba(255,255,255,0.85), 0 0 20px ${item.accent}15`,
                       }}>
-                        <Icon size={20} style={{ color: item.accent, filter: `drop-shadow(0 0 4px ${item.accent}40)` }} />
+                        <GlowIcon name={item.icon} size={20} color={item.accent} glow />
                       </div>
                       <h3 className="text-[15px] mb-3 font-semibold" style={{ color: C.text }}>{item.title}</h3>
                       <p className="text-[14px] leading-[1.7] mb-5" style={{ color: C.textSecondary, fontWeight: 450 }}>{item.desc}</p>
@@ -578,16 +577,15 @@ const Index = () => {
           </motion.div>
           <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
             {LAYERS_DATA.map((layer, i) => {
-              const Icon = layer.icon;
               return (
                 <motion.div key={layer.name} {...stagger(i)}>
                   <GlowCard className="h-full">
                     <div className="flex items-start gap-4">
                       <div className="shrink-0 w-11 h-11 rounded-2xl flex items-center justify-center" style={{
-                        background: i % 2 === 0 ? `${C.teal}12` : `${C.ochre}12`,
+                        background: `${layer.color}12`,
                         boxShadow: `3px 3px 8px rgba(166,166,180,0.3), -3px -3px 8px rgba(255,255,255,0.85)`,
                       }}>
-                        <Icon size={18} style={{ color: i % 2 === 0 ? C.teal : C.ochre, filter: `drop-shadow(0 0 3px ${i % 2 === 0 ? C.teal : C.ochre}40)` }} />
+                        <GlowIcon name={layer.icon} size={18} color={layer.color} glow />
                       </div>
                       <div>
                         <p className="text-[14px] mb-1 font-semibold" style={{ color: C.text }}>
