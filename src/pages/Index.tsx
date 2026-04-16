@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState } from "react";
 import { motion, LayoutGroup, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Check, Send, Bot, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,13 +17,10 @@ import CursorFollower from "@/components/CursorFollower";
 import GlassKoruHero from "@/components/hero/GlassKoruHero";
 import CompliancePipeline from "@/components/landing/CompliancePipeline";
 import ScrollDepthLayers from "@/components/hero/ScrollDepthLayers";
-import TypewriterText from "@/components/TypewriterText";
-import { AnimatedUnderline, DotDivider } from "@/components/MicroDetails";
+import { DotDivider } from "@/components/MicroDetails";
 import { KeteHoverEffect } from "@/components/KeteHoverEffects";
 import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
-
-const KoruDataNetwork = lazy(() => import("@/components/hero/KoruDataNetwork").catch(() => ({ default: () => null })));
 
 /* ─── Light Palette Tokens ─── */
 const C = {
