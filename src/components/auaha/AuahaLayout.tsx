@@ -69,7 +69,7 @@ function AuahaLayoutInner() {
   const allItems = AUAHA_NAV.flatMap(g => g.items);
 
   return (
-    <div className="min-h-screen flex" style={{ background: BG }}>
+    <div className="min-h-screen flex" style={{ background: BG, ["--btn-glow" as string]: "232,169,72" } as React.CSSProperties}>
       {/* Sidebar — light glass */}
       <aside className="hidden lg:flex w-64 flex-col relative overflow-hidden"
         style={{
