@@ -306,17 +306,18 @@ const Index = () => {
               </h1>
 
               {/* Animated gradient underline */}
-              <div className="mt-10 mb-10 lg:mx-0 mx-auto" style={{ width: 80 }}>
+              <div className="mt-6 sm:mt-10 mb-6 sm:mb-10 lg:mx-0 mx-auto" style={{ width: 80 }}>
                 <AnimatedUnderline width={80} />
               </div>
 
               <motion.p
-                className="max-w-[480px] text-[17px] leading-[1.7] lg:mx-0 mx-auto"
+                className="max-w-[480px] text-[15px] sm:text-[17px] leading-[1.7] lg:mx-0 mx-auto"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 400, color: C.textSecondary }}
                 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2, ease }}
               >
                 Specialist workflows that reduce admin, surface risk earlier, and keep your people in control.
+              </motion.p>
               </motion.p>
 
               {/* Tagline with animated underline */}
