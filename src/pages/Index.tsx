@@ -12,10 +12,10 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import WharikiFoundation from "@/components/whariki/WharikiFoundation";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import CursorFollower from "@/components/CursorFollower";
-
+import GlassKoruHero from "@/components/hero/GlassKoruHero";
+import CompliancePipeline from "@/components/landing/CompliancePipeline";
 import ScrollDepthLayers from "@/components/hero/ScrollDepthLayers";
 import TypewriterText from "@/components/TypewriterText";
 import { AnimatedUnderline, DotDivider } from "@/components/MicroDetails";
@@ -23,7 +23,6 @@ import { KeteHoverEffect } from "@/components/KeteHoverEffects";
 import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 
-const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel").catch(() => ({ default: () => null })));
 const KoruDataNetwork = lazy(() => import("@/components/hero/KoruDataNetwork").catch(() => ({ default: () => null })));
 
 /* ─── Light Palette Tokens ─── */
