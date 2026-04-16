@@ -37,7 +37,7 @@ const MobileTabBar = () => {
               {active && (
                 <span
                   className="absolute top-0 w-8 h-px"
-                  style={{ background: 'linear-gradient(90deg, transparent, hsl(var(--primary) / 0.5), transparent)' }}
+                  style={{ background: 'linear-gradient(90deg, transparent, #4AA5A8, transparent)' }}
                 />
               )}
             </Link>
