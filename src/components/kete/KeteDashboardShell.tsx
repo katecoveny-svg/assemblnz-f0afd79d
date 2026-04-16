@@ -28,7 +28,14 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
   const rgb = hexToRgb(accentColor);
 
   return (
-    <div className="min-h-screen relative" style={{ background: "#FAFBFC" }}>
+    <div
+      className="min-h-screen relative"
+      style={{
+        background: "#FAFBFC",
+        // Buttons inside this shell pick up the kete's accent for their glow
+        ["--btn-glow" as string]: rgb,
+      } as React.CSSProperties}
+    >
       {/* Neumorphic base texture — subtle noise */}
       <div
         className="fixed inset-0 pointer-events-none"

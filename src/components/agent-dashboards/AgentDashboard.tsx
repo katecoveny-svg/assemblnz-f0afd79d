@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { BarChart, Bar, LineChart, Line, AreaChart, Area, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const GLASS = { background: "rgba(15,15,18,0.8)", border: "1px solid rgba(255,255,255,0.06)", backdropFilter: "blur(12px)" };
-const TIP_STYLE = { contentStyle: { background: "#1a1a2e", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 11 }, labelStyle: { color: "#A1A1AA" } };
+const TIP_STYLE = { contentStyle: { background: "rgba(255,255,255,0.98)", border: "1px solid rgba(74,165,168,0.20)", color: "#1A1D29", boxShadow: "0 8px 24px rgba(26,29,41,0.10)", borderRadius: 8, fontSize: 11 }, labelStyle: { color: "#4A5160" } };
 
 // ─── Shared metric card ───
 const Metric = ({ label, value, sub, color }: { label: string; value: string; sub?: string; color: string }) => (

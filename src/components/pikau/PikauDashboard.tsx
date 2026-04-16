@@ -215,7 +215,7 @@ export default function PikauDashboard() {
                 <Pie data={statusData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={65} label={({ name }) => name}>
                   {statusData.map(e => <Cell key={e.name} fill={STATUS_COLORS[e.name] || "#666"} />)}
                 </Pie>
-                <Tooltip contentStyle={{ background: "#1a1a2e", border: `1px solid ${ACCENT}33`, borderRadius: 8, fontSize: 11 }} />
+                <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", color: "#1A1D29", border: `1px solid ${ACCENT}33`, borderRadius: 8, fontSize: 11 }} />
               </PieChart>
             </ResponsiveContainer>
           </DashboardGlassCard>
@@ -225,7 +225,7 @@ export default function PikauDashboard() {
               <BarChart data={valueData}>
                 <XAxis dataKey="id" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} />
                 <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} />
-                <Tooltip contentStyle={{ background: "#1a1a2e", border: `1px solid ${ACCENT}33`, borderRadius: 8, fontSize: 11 }} />
+                <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", color: "#1A1D29", border: `1px solid ${ACCENT}33`, borderRadius: 8, fontSize: 11 }} />
                 <Bar dataKey="value" fill={ACCENT} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>

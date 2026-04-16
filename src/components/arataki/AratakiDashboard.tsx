@@ -162,7 +162,7 @@ export default function AratakiDashboard() {
             <BarChart data={stageData} layout="vertical">
               <XAxis type="number" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} />
               <YAxis dataKey="stage" type="category" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} width={45} />
-              <Tooltip contentStyle={{ background: "#1a1a2e", border: `1px solid ${POUNAMU}33`, borderRadius: 8, fontSize: 11 }} />
+              <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", color: "#1A1D29", border: `1px solid ${POUNAMU}33`, borderRadius: 8, fontSize: 11 }} />
               <Bar dataKey="count" fill={POUNAMU} radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
