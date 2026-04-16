@@ -290,7 +290,7 @@ function KoruSVGFallback() {
   }, []);
 
   return (
-    <svg viewBox="0 0 400 400" className="w-full h-full" style={{ maxWidth: 320 }}>
+    <svg viewBox="0 0 400 400" className="w-full h-full" style={{ maxWidth: 240 }}>
       <defs>
         <filter id="koru-glow">
           <feGaussianBlur stdDeviation="3" result="blur" />
@@ -346,7 +346,7 @@ export default function KoruDataNetwork({
 }) {
   if (isMobile) {
     return (
-      <div className="flex items-center justify-center w-full h-[320px]">
+      <div className="flex items-center justify-center w-full h-[240px]">
         <KoruSVGFallback />
       </div>
     );

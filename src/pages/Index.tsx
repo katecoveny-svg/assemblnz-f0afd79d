@@ -1,8 +1,9 @@
 import React, { lazy, Suspense, useMemo, useState, useCallback } from "react";
 import { motion, LayoutGroup, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Check, Shield, Layers, Brain, Eye as EyeIcon, Zap, TestTube, MessageSquare, FileText, Megaphone, Send, Bot, User, Play, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Send, Bot, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
+import GlowIcon from "@/components/GlowIcon";
 import { usePersonalization } from "@/contexts/PersonalizationContext";
 import { useReturnVisitor } from "@/hooks/useReturnVisitor";
 import ContextBar from "@/components/personalized/ContextBar";
@@ -81,12 +82,12 @@ const PACKS = [
 ];
 
 const LAYERS_DATA = [
-  { name: "Perception", desc: "Reads your real inputs: invoices, emails, sensor data, calendar events.", icon: EyeIcon },
-  { name: "Memory", desc: "Separates verified facts from inferred guesses. Keeps a validated knowledge base.", icon: Brain },
-  { name: "Reasoning", desc: "Combines pattern recognition with hard compliance rules. Never guesses on legislation.", icon: Layers },
-  { name: "Action", desc: "Every action is classified: allowed, needs approval, or forbidden.", icon: Zap },
-  { name: "Explanation", desc: "Logs the reason behind every material decision in plain language.", icon: Shield },
-  { name: "Simulation", desc: "Tests workflows against realistic scenarios before they touch production.", icon: TestTube },
+  { name: "Perception", desc: "Reads your real inputs: invoices, emails, sensor data, calendar events.", icon: "Eye", color: "#4AA5A8" },
+  { name: "Memory", desc: "Separates verified facts from inferred guesses. Keeps a validated knowledge base.", icon: "Brain", color: "#E8A948" },
+  { name: "Reasoning", desc: "Combines pattern recognition with hard compliance rules. Never guesses on legislation.", icon: "Fingerprint", color: "#4AA5A8" },
+  { name: "Action", desc: "Every action is classified: allowed, needs approval, or forbidden.", icon: "Zap", color: "#E8A948" },
+  { name: "Explanation", desc: "Logs the reason behind every material decision in plain language.", icon: "Shield", color: "#4AA5A8" },
+  { name: "Simulation", desc: "Tests workflows against realistic scenarios before they touch production.", icon: "Activity", color: "#E8A948" },
 ];
 
 const TRUST_NODES = [
@@ -98,10 +99,10 @@ const TRUST_NODES = [
 ];
 
 const START_HERE = [
-  { title: "Ask A Live Agent", desc: "Open a working agent and ask real business questions.", to: "/chat/echo", accent: C.teal, icon: MessageSquare },
-  { title: "Review A Document", desc: "Paste a contract or brief and get risks flagged instantly.", to: "/waihanga/docs", accent: C.ochre, icon: FileText },
-  { title: "Make An Ad", desc: "Generate campaigns and visuals that look finished.", to: "/auaha/ads", accent: "#9B8EC4", icon: Megaphone },
-  { title: "Run The Demo", desc: "Show a client what Assembl does in 60 seconds.", to: "/demos", accent: C.tealLight, icon: Play },
+  { title: "Ask A Live Agent", desc: "Open a working agent and ask real business questions.", to: "/chat/echo", accent: C.teal, icon: "MessageSquare" },
+  { title: "Review A Document", desc: "Paste a contract or brief and get risks flagged instantly.", to: "/waihanga/docs", accent: C.ochre, icon: "FileText" },
+  { title: "Make An Ad", desc: "Generate campaigns and visuals that look finished.", to: "/auaha/ads", accent: "#9B8EC4", icon: "Megaphone" },
+  { title: "Run The Demo", desc: "Show a client what Assembl does in 60 seconds.", to: "/demos", accent: C.tealLight, icon: "Rocket" },
 ];
 
 /* ─── Live Demo Chat ─── */
@@ -246,7 +247,7 @@ const Index = () => {
         <ContextBar />
 
         {/* ═══ HERO ═══ */}
-        <section className="relative min-h-[90vh] flex items-center justify-center px-6 overflow-hidden">
+        <section className="relative min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center px-4 sm:px-6 overflow-hidden pt-8 sm:pt-0">
           {/* Ambient blobs behind hero — drift slowly */}
           <motion.div className="absolute pointer-events-none" style={{
             width: 500, height: 500, top: "5%", left: "-5%",
@@ -291,11 +292,11 @@ const Index = () => {
               <h1 style={{
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 400,
-                fontSize: isMobile ? "2.5rem" : "4.2rem",
-                lineHeight: 1.05,
+                fontSize: isMobile ? "2rem" : "4.2rem",
+                lineHeight: 1.1,
                 letterSpacing: "-0.02em",
                 color: C.text,
-                textShadow: "0 2px 4px rgba(0,0,0,0.06)",
+                textShadow: "0 2px 8px rgba(0,0,0,0.08)",
               }}>
                 <TypewriterText
                   text="The operating system for NZ business"
@@ -305,12 +306,12 @@ const Index = () => {
               </h1>
 
               {/* Animated gradient underline */}
-              <div className="mt-10 mb-10 lg:mx-0 mx-auto" style={{ width: 80 }}>
+              <div className="mt-6 sm:mt-10 mb-6 sm:mb-10 lg:mx-0 mx-auto" style={{ width: 80 }}>
                 <AnimatedUnderline width={80} />
               </div>
 
               <motion.p
-                className="max-w-[480px] text-[17px] leading-[1.7] lg:mx-0 mx-auto"
+                className="max-w-[480px] text-[15px] sm:text-[17px] leading-[1.7] lg:mx-0 mx-auto"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 400, color: C.textSecondary }}
                 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2, ease }}
@@ -319,7 +320,7 @@ const Index = () => {
               </motion.p>
 
               {/* Tagline with animated underline */}
-              <motion.p className="text-[13px] tracking-[1px] mt-6 mb-12 lg:mx-0 mx-auto max-w-[400px]"
+              <motion.p className="text-[12px] sm:text-[13px] tracking-[1px] mt-4 sm:mt-6 mb-8 sm:mb-12 lg:mx-0 mx-auto max-w-[400px]"
                 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: C.textSecondary }}
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
                 Governed intelligence for Aotearoa
@@ -331,7 +332,7 @@ const Index = () => {
                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.35, ease }}
               >
-                <Link to="/how-it-works" className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03] overflow-hidden"
+                <Link to="/how-it-works" className="group relative inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03] overflow-hidden"
                   style={{
                     background: `linear-gradient(145deg, #55BFC1, ${C.teal})`,
                     color: "#FFFFFF",
@@ -341,7 +342,7 @@ const Index = () => {
                   }}>
                   Start here <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
                 </Link>
-                <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
+                <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
                   style={{
                     background: "linear-gradient(145deg, #F5F5F8, #E4E4E8)",
                     border: `1px solid rgba(74,165,168,0.2)`,
@@ -381,7 +382,7 @@ const Index = () => {
 
             {/* Mobile: SVG koru fallback */}
             {isMobile && heroTyped && (
-              <motion.div className="mx-auto mt-8"
+              <motion.div className="mx-auto mt-4 max-w-[260px]"
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
                 <Suspense fallback={null}>
                   <KoruDataNetwork isMobile={true} />
@@ -411,7 +412,6 @@ const Index = () => {
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-[1200px] mx-auto">
             {START_HERE.map((item, i) => {
-              const Icon = item.icon;
               return (
                 <motion.div key={item.title} {...stagger(i)}>
                   <Link to={item.to} className="group block h-full">
@@ -420,7 +420,7 @@ const Index = () => {
                         background: `${item.accent}12`,
                         boxShadow: `3px 3px 8px rgba(166,166,180,0.3), -3px -3px 8px rgba(255,255,255,0.85), 0 0 20px ${item.accent}15`,
                       }}>
-                        <Icon size={20} style={{ color: item.accent, filter: `drop-shadow(0 0 4px ${item.accent}40)` }} />
+                        <GlowIcon name={item.icon} size={20} color={item.accent} glow />
                       </div>
                       <h3 className="text-[15px] mb-3 font-semibold" style={{ color: C.text }}>{item.title}</h3>
                       <p className="text-[14px] leading-[1.7] mb-5" style={{ color: C.textSecondary, fontWeight: 450 }}>{item.desc}</p>
@@ -577,21 +577,20 @@ const Index = () => {
           </motion.div>
           <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
             {LAYERS_DATA.map((layer, i) => {
-              const Icon = layer.icon;
               return (
                 <motion.div key={layer.name} {...stagger(i)}>
                   <GlowCard className="h-full">
                     <div className="flex items-start gap-4">
                       <div className="shrink-0 w-11 h-11 rounded-2xl flex items-center justify-center" style={{
-                        background: i % 2 === 0 ? `${C.teal}12` : `${C.ochre}12`,
+                        background: `${layer.color}12`,
                         boxShadow: `3px 3px 8px rgba(166,166,180,0.3), -3px -3px 8px rgba(255,255,255,0.85)`,
                       }}>
-                        <Icon size={18} style={{ color: i % 2 === 0 ? C.teal : C.ochre, filter: `drop-shadow(0 0 3px ${i % 2 === 0 ? C.teal : C.ochre}40)` }} />
+                        <GlowIcon name={layer.icon} size={18} color={layer.color} glow />
                       </div>
                       <div>
                         <p className="text-[14px] mb-1 font-semibold" style={{ color: C.text }}>
                           <span className="inline-flex items-center gap-1.5 mr-2">
-                            <span className="w-1.5 h-1.5 rounded-full" style={{ background: i % 2 === 0 ? C.teal : C.ochre }} />
+                            <span className="w-1.5 h-1.5 rounded-full" style={{ background: layer.color }} />
                             <span className="text-[10px] font-normal" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{String(i + 1).padStart(2, "0")}</span>
                           </span>
                           {layer.name}
@@ -754,7 +753,7 @@ function TrustPipeline() {
 /* ─── Layout Primitives ─── */
 function Sect({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
-    <section id={id} className="px-6 py-32 relative">
+    <section id={id} className="px-4 sm:px-6 py-16 sm:py-32 relative">
       <div className="max-w-[1200px] mx-auto relative z-10">{children}</div>
       <div className="absolute bottom-0 left-0 right-0 flex justify-center py-2">
         <DotDivider />
@@ -774,8 +773,8 @@ function SectionEyebrow({ children }: { children: string }) {
 
 function SectionH2({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-2xl sm:text-[36px] lg:text-[42px] mb-6"
-      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.1, color: "#1A1D29", textShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+    <h2 className="text-xl sm:text-[36px] lg:text-[42px] mb-4 sm:mb-6"
+      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#1A1D29", textShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
       {children}
     </h2>
   );
@@ -794,7 +793,7 @@ function SectionP({ children, className = "" }: { children: React.ReactNode; cla
 function GlowCard({ children, className = "", accentColor }: { children: React.ReactNode; className?: string; accentColor?: string }) {
   const ac = accentColor || "#4AA5A8";
   return (
-    <div className={`relative rounded-3xl overflow-hidden p-10 ${className}`}
+    <div className={`relative rounded-3xl overflow-hidden p-6 sm:p-10 ${className}`}
       style={{
         background: "linear-gradient(145deg, rgba(255,255,255,0.8), rgba(238,238,242,0.65))",
         backdropFilter: "blur(24px) saturate(160%)",
