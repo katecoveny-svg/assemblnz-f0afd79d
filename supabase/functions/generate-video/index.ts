@@ -128,6 +128,20 @@ async function persistVideo(supabaseUrl: string, videoUrl: string, userId: strin
   } catch { return videoUrl; }
 }
 
+/* ── Save to creative_assets so it appears in gallery ── */
+async function saveToGallery(supabase: any, userId: string, fileUrl: string, prompt: string, assetType: "video" | "image", provider: string) {
+  try {
+    await supabase.from("creative_assets").insert({
+      user_id: userId,
+      file_url: fileUrl,
+      asset_type: assetType,
+      prompt: prompt || "",
+      style: provider,
+      metadata: { provider, generated_at: new Date().toISOString() },
+    });
+  } catch (e) { console.error("saveToGallery error:", e); }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -149,13 +163,18 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const { action, scenes, aspectRatio, title, videoType, provider, prompt: videoPrompt, requestId } = body;
 
+    console.log("[generate-video] action:", action, "provider:", provider, "prompt:", videoPrompt?.substring(0, 50));
+
     // ── ACTION: poll — check Fal.ai job status ──
     if (action === "poll" && requestId) {
       if (!FAL_API_KEY) return respond({ error: "FAL_API_KEY not configured" }, 500);
       const result = await falCheck(FAL_API_KEY, requestId);
+      console.log("[generate-video] poll result:", result.status);
 
       if (result.status === "completed" && result.videoUrl) {
         const persistedUrl = await persistVideo(supabaseUrl, result.videoUrl, user.id);
+        // Save to both tables so gallery works
+        await saveToGallery(supabase, user.id, persistedUrl, videoPrompt || title || "", "video", "fal-kling");
         await supabase.from("exported_outputs").insert({
           user_id: user.id, agent_id: "marketing", agent_name: "PRISM",
           output_type: "video", title: title || "AI Video",
@@ -170,12 +189,14 @@ Deno.serve(async (req) => {
     // ── ACTION: generate (default) — submit video job ──
     if (videoPrompt) {
       const selectedProvider = provider === "auto" ? "fal" : provider;
+      console.log("[generate-video] using provider:", selectedProvider);
 
       // Runway: try to complete within edge function timeout
       if (selectedProvider === "runway" && RUNWAY_API_KEY) {
         const videoUrl = await generateVideoWithRunway(RUNWAY_API_KEY, videoPrompt);
         if (videoUrl) {
           const persistedUrl = await persistVideo(supabaseUrl, videoUrl, user.id);
+          await saveToGallery(supabase, user.id, persistedUrl, videoPrompt, "video", "runway");
           await supabase.from("exported_outputs").insert({
             user_id: user.id, agent_id: "marketing", agent_name: "PRISM",
             output_type: "video", title: title || "AI Video",
@@ -184,6 +205,7 @@ Deno.serve(async (req) => {
           });
           return respond({ success: true, videoUrl: persistedUrl, provider: "runway" });
         }
+        console.log("[generate-video] Runway failed, falling through");
       }
 
       // Fal.ai: submit async job, return requestId for client polling
@@ -194,14 +216,17 @@ Deno.serve(async (req) => {
           if (result.requestId.startsWith("done:")) {
             const url = result.requestId.replace("done:", "");
             const persistedUrl = await persistVideo(supabaseUrl, url, user.id);
+            await saveToGallery(supabase, user.id, persistedUrl, videoPrompt, "video", "fal-kling");
             return respond({ success: true, videoUrl: persistedUrl, provider: "fal" });
           }
           // Return requestId for client-side polling
+          console.log("[generate-video] Fal job submitted:", result.requestId);
           return respond({ success: true, status: "submitted", requestId: result.requestId, provider: "fal" });
         }
+        console.error("[generate-video] Fal submit returned null");
       }
 
-      return respond({ error: "No video provider available. Check FAL_API_KEY or RUNWAY_API_KEY." }, 500);
+      return respond({ error: "No video provider available. Check FAL_API_KEY or RUNWAY_API_KEY configuration." }, 500);
     }
 
     // ── Scene-by-scene frames (original behavior) ──
@@ -220,6 +245,12 @@ Deno.serve(async (req) => {
     }
 
     const successCount = results.filter(r => r.imageUrl).length;
+    // Save frames to gallery too
+    for (const r of results) {
+      if (r.imageUrl) {
+        await saveToGallery(supabase, user.id, r.imageUrl, r.prompt, "image", "lovable-ai");
+      }
+    }
     await supabase.from("exported_outputs").insert({
       user_id: user.id, agent_id: "marketing", agent_name: "PRISM",
       output_type: "video_frames", title: title || "Video Scene Frames",
