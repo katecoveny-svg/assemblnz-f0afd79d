@@ -1,5 +1,5 @@
-import React, { lazy, Suspense, useMemo, useState } from "react";
-import { motion, LayoutGroup } from "framer-motion";
+import React, { lazy, Suspense, useMemo, useState, useCallback } from "react";
+import { motion, LayoutGroup, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Check, Shield, Layers, Brain, Eye as EyeIcon, Zap, TestTube, MessageSquare, FileText, Megaphone, Send, Bot, User, Play, Sparkles } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -12,10 +12,16 @@ import SEO from "@/components/SEO";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import WharikiFoundation from "@/components/whariki/WharikiFoundation";
+import NoiseOverlay from "@/components/NoiseOverlay";
+import CursorFollower from "@/components/CursorFollower";
+import TypewriterText from "@/components/TypewriterText";
+import { AnimatedUnderline, DotDivider } from "@/components/MicroDetails";
+import { KeteHoverEffect } from "@/components/KeteHoverEffects";
 import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
+const HeroGlassBlob = lazy(() => import("@/components/HeroGlassBlob"));
 
 /* ─── Light Palette Tokens ─── */
 const C = {
@@ -43,16 +49,16 @@ const KETE_BLEED: Record<string, string> = {
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const fade = {
-  initial: { opacity: 0, y: 24 },
+  initial: { opacity: 0, y: 40 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-60px" as const },
-  transition: { duration: 0.6, ease },
+  transition: { duration: 0.7, ease },
 };
 const stagger = (i: number) => ({
-  initial: { opacity: 0, y: 24 },
+  initial: { opacity: 0, y: 40 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
-  transition: { delay: i * 0.08, duration: 0.5, ease },
+  transition: { delay: i * 0.08, duration: 0.6, ease },
 });
 
 /* ─── Data ─── */
@@ -118,7 +124,6 @@ function LiveDemoChatSection() {
   return (
     <div className="max-w-[680px] mx-auto">
       <GlowCard className="overflow-hidden">
-        {/* Header */}
         <div className="flex items-center gap-3 px-6 py-4" style={{ borderBottom: `1px solid rgba(74,165,168,0.08)` }}>
           <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: `${C.teal}10` }}>
             <Bot size={18} style={{ color: C.teal }} />
@@ -132,8 +137,6 @@ function LiveDemoChatSection() {
             <span className="text-[9px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>Active</span>
           </div>
         </div>
-
-        {/* Messages */}
         <div className="px-6 py-6 space-y-5 min-h-[220px]">
           {DEMO_MESSAGES.slice(0, showMessages).map((msg, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease }}>
@@ -180,8 +183,6 @@ function LiveDemoChatSection() {
             </motion.div>
           )}
         </div>
-
-        {/* Input bar */}
         <div className="px-6 pb-5">
           <button onClick={() => navigate("/chat/hospitality")} className="w-full flex items-center justify-between px-5 py-4 rounded-2xl transition-all duration-300 group" style={{
             background: C.lavender + "40",
@@ -192,7 +193,6 @@ function LiveDemoChatSection() {
           </button>
         </div>
       </GlowCard>
-
       <div className="text-center mt-8">
         <Link to="/chat/hospitality" className="inline-flex items-center gap-2 text-[12px] tracking-[2px] uppercase transition-all hover:gap-3" style={{ fontFamily: "'Lato', sans-serif", color: C.teal }}>
           Try it live with your own question <ArrowRight size={12} />
@@ -207,6 +207,11 @@ const Index = () => {
   const isMobile = useIsMobile();
   const { profile, isPersonalized } = usePersonalization();
   useReturnVisitor();
+  const [heroTyped, setHeroTyped] = useState(false);
+
+  const { scrollYProgress } = useScroll();
+  const heroParallax = useTransform(scrollYProgress, [0, 0.3], [0, -60]);
+  const blobParallax = useTransform(scrollYProgress, [0, 0.3], [0, -35]);
 
   const orderedPacks = useMemo(() => {
     if (!isPersonalized) return PACKS;
@@ -229,93 +234,157 @@ const Index = () => {
         description="Specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. Built for NZ."
       />
       <WharikiFoundation />
+      <NoiseOverlay />
+      <CursorFollower />
 
       <div className="relative z-10">
         <BrandNav />
         <ContextBar />
 
         {/* ═══ HERO ═══ */}
-        <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden">
-          <div className="relative z-10 max-w-3xl">
-            {/* Status badge */}
-            <motion.div className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full mb-14"
-              style={{
-                background: "rgba(255,255,255,0.65)",
-                backdropFilter: "blur(20px)",
-                border: "1px solid rgba(255,255,255,0.9)",
-                boxShadow: "0 4px 20px rgba(74,165,168,0.08)",
-              }}
-              initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}
-            >
-              <div className="w-2 h-2 rounded-full" style={{ background: C.teal }} />
-              <span className="text-[10px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textSecondary }}>
-                Now onboarding NZ businesses
-              </span>
-            </motion.div>
+        <section className="relative min-h-[90vh] flex items-center justify-center px-6 overflow-hidden">
+          {/* Ambient blobs behind hero — drift slowly */}
+          <motion.div className="absolute pointer-events-none" style={{
+            width: 500, height: 500, top: "5%", left: "-5%",
+            background: "radial-gradient(circle, rgba(74,165,168,0.08) 0%, transparent 60%)",
+            filter: "blur(80px)",
+          }} animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
+            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }} />
+          <motion.div className="absolute pointer-events-none" style={{
+            width: 400, height: 400, top: "20%", right: "-3%",
+            background: "radial-gradient(circle, rgba(232,169,72,0.06) 0%, transparent 60%)",
+            filter: "blur(80px)",
+          }} animate={{ x: [0, -25, 0], y: [0, 20, 0] }}
+            transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }} />
+          <motion.div className="absolute pointer-events-none" style={{
+            width: 350, height: 350, bottom: "10%", left: "25%",
+            background: "radial-gradient(circle, rgba(232,230,240,0.1) 0%, transparent 60%)",
+            filter: "blur(80px)",
+          }} animate={{ x: [0, 15, 0], y: [0, -15, 0] }}
+            transition={{ duration: 35, repeat: Infinity, ease: "easeInOut" }} />
 
-            {/* H1 */}
-            <motion.h1
-              style={{
+          {/* Content grid: text left, 3D blob right */}
+          <div className="max-w-[1200px] mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-10 items-center relative z-10">
+            {/* Left: Text */}
+            <motion.div style={{ y: heroParallax }} className="text-center lg:text-left">
+              {/* Status badge */}
+              <motion.div className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full mb-12"
+                style={{
+                  background: "rgba(255,255,255,0.65)",
+                  backdropFilter: "blur(20px)",
+                  border: "1px solid rgba(255,255,255,0.9)",
+                  boxShadow: "0 4px 20px rgba(74,165,168,0.08)",
+                }}
+                initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}
+              >
+                <div className="w-2 h-2 rounded-full" style={{ background: C.teal }} />
+                <span className="text-[10px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textSecondary }}>
+                  Now onboarding NZ businesses
+                </span>
+              </motion.div>
+
+              {/* H1 with typewriter */}
+              <h1 style={{
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 300,
-                fontSize: isMobile ? "2.5rem" : "4.5rem",
+                fontSize: isMobile ? "2.5rem" : "4.2rem",
                 lineHeight: 1.05,
                 letterSpacing: "-0.02em",
                 color: C.text,
-              }}
-              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.05, ease }}
-            >
-              The operating system<br />for NZ business
-            </motion.h1>
+              }}>
+                <TypewriterText
+                  text="The operating system for NZ business"
+                  speed={30}
+                  onComplete={() => setHeroTyped(true)}
+                />
+              </h1>
 
-            {/* Ochre accent line */}
-            <motion.div className="mx-auto mt-10 mb-10" style={{
-              width: 80, height: 2,
-              background: C.ochre,
-              borderRadius: 2,
-            }} initial={{ opacity: 0, scaleX: 0 }} animate={{ opacity: 1, scaleX: 1 }} transition={{ duration: 0.7, delay: 0.3, ease }} />
+              {/* Animated gradient underline */}
+              <div className="mt-10 mb-10 lg:mx-0 mx-auto" style={{ width: 80 }}>
+                <AnimatedUnderline width={80} />
+              </div>
 
-            <motion.p
-              className="max-w-[520px] mx-auto text-[17px] leading-[1.7]"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 400, color: C.textSecondary }}
-              initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2, ease }}
-            >
-              Specialist workflows that reduce admin, surface risk earlier, and keep your people in control.
-            </motion.p>
+              <motion.p
+                className="max-w-[480px] text-[17px] leading-[1.7] lg:mx-0 mx-auto"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 400, color: C.textSecondary }}
+                initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2, ease }}
+              >
+                Specialist workflows that reduce admin, surface risk earlier, and keep your people in control.
+              </motion.p>
 
-            {/* CTA buttons */}
-            <motion.div className="flex flex-col sm:flex-row gap-4 mt-14 justify-center"
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.35, ease }}
-            >
-              <Link to="/how-it-works" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-medium rounded-full transition-all duration-300 hover:scale-[1.02]"
-                style={{
-                  background: C.teal,
-                  color: "#FFFFFF",
-                  boxShadow: "0 4px 20px rgba(74,165,168,0.25)",
-                  fontFamily: "'Lato', sans-serif",
-                }}>
-                Start here <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
-              </Link>
-              <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-medium rounded-full transition-all duration-300"
-                style={{
-                  border: `1px solid ${C.teal}`,
-                  color: C.teal,
-                  background: "#FFFFFF",
-                  fontFamily: "'Lato', sans-serif",
-                }}>
-                Run live demo <ArrowRight size={14} className="opacity-50 group-hover:opacity-80 transition-opacity" />
-              </Link>
+              {/* Tagline with animated underline */}
+              <motion.p className="text-[13px] tracking-[1px] mt-6 mb-12 lg:mx-0 mx-auto max-w-[400px]"
+                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: C.textSecondary }}
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+                Governed intelligence for Aotearoa
+                <span className="block mt-1"><AnimatedUnderline width={220} /></span>
+              </motion.p>
+
+              {/* CTA buttons */}
+              <motion.div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.35, ease }}
+              >
+                <Link to="/how-it-works" className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-medium rounded-full transition-all duration-300 hover:scale-[1.02] overflow-hidden"
+                  style={{
+                    background: C.teal,
+                    color: "#FFFFFF",
+                    boxShadow: "0 4px 20px rgba(74,165,168,0.25)",
+                    fontFamily: "'Lato', sans-serif",
+                  }}>
+                  Start here <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
+                </Link>
+                <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-medium rounded-full transition-all duration-300"
+                  style={{
+                    border: `1px solid ${C.teal}`,
+                    color: C.teal,
+                    background: "#FFFFFF",
+                    fontFamily: "'Lato', sans-serif",
+                  }}>
+                  Run live demo <ArrowRight size={14} className="opacity-50 group-hover:opacity-80 transition-opacity" />
+                </Link>
+              </motion.div>
+
+              <motion.p className="mt-16 text-[10px] tracking-[4px] uppercase"
+                style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.5 }}
+              >
+                Trusted · Intelligent · Aotearoa
+              </motion.p>
             </motion.div>
 
-            <motion.p className="mt-20 text-[10px] tracking-[4px] uppercase"
-              style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.5 }}
+            {/* Right: 3D Glass Blob */}
+            <motion.div
+              style={{ y: blobParallax }}
+              className="hidden lg:block relative"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: heroTyped ? 1 : 0, scale: heroTyped ? 1 : 0.8 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              Trusted · Intelligent · Aotearoa
-            </motion.p>
+              <div className="w-[480px] h-[480px] relative mx-auto">
+                <Suspense fallback={
+                  <div className="w-full h-full rounded-full" style={{
+                    background: "radial-gradient(ellipse, rgba(74,165,168,0.12) 0%, rgba(232,169,72,0.06) 50%, transparent 70%)",
+                    filter: "blur(40px)",
+                  }} />
+                }>
+                  <HeroGlassBlob className="w-full h-full" />
+                </Suspense>
+              </div>
+            </motion.div>
+
+            {/* Mobile: soft glass SVG fallback */}
+            {isMobile && heroTyped && (
+              <motion.div className="mx-auto w-48 h-48 mt-8"
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+                <div className="w-full h-full rounded-full" style={{
+                  background: "radial-gradient(ellipse, rgba(74,165,168,0.15) 0%, rgba(232,169,72,0.08) 50%, transparent 70%)",
+                  filter: "blur(20px)",
+                  animation: "pulse 4s ease-in-out infinite",
+                }} />
+              </motion.div>
+            )}
           </div>
         </section>
 
@@ -337,7 +406,6 @@ const Index = () => {
             <SectionEyebrow>What do you need?</SectionEyebrow>
             <SectionH2>Choose the job you need done</SectionH2>
           </motion.div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-[1200px] mx-auto">
             {START_HERE.map((item, i) => {
               const Icon = item.icon;
@@ -348,12 +416,8 @@ const Index = () => {
                       <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6" style={{ background: `${item.accent}10` }}>
                         <Icon size={20} style={{ color: item.accent }} />
                       </div>
-                      <h3 className="text-[15px] mb-3 font-medium" style={{ color: C.text }}>
-                        {item.title}
-                      </h3>
-                      <p className="text-[14px] leading-[1.7] mb-5" style={{ color: C.textSecondary }}>
-                        {item.desc}
-                      </p>
+                      <h3 className="text-[15px] mb-3 font-medium" style={{ color: C.text }}>{item.title}</h3>
+                      <p className="text-[14px] leading-[1.7] mb-5" style={{ color: C.textSecondary }}>{item.desc}</p>
                       <span className="inline-flex items-center gap-2 text-[12px] font-medium group-hover:gap-3 transition-all" style={{ color: item.accent }}>
                         Open now <ArrowRight size={12} />
                       </span>
@@ -370,46 +434,31 @@ const Index = () => {
           <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <motion.div {...fade}>
               <GlowCard>
-                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>
-                  — What we do —
-                </p>
+                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>— What we do —</p>
                 <p className="text-[18px] leading-[1.7] mb-6" style={{ fontWeight: 400, color: C.text }}>
                   Assembl creates New Zealand business specialist operational workflows that reduce admin, surface risk earlier, and keep people in control.
                 </p>
-                <div className="h-px my-6" style={{ background: `linear-gradient(90deg, transparent, ${C.teal}25, transparent)` }} />
+                <div className="my-6"><DotDivider /></div>
                 <p className="text-[15px] leading-[1.7]" style={{ fontWeight: 400, color: C.textSecondary }}>
                   We help teams act faster with better information — not replace the people who know the work best.
                 </p>
               </GlowCard>
             </motion.div>
-
             <motion.div {...fade}>
               <GlowCard className="text-center py-12">
-                <p className="text-[10px] tracking-[4px] uppercase mb-8" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}>
-                  Industry kete
-                </p>
+                <p className="text-[10px] tracking-[4px] uppercase mb-8" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}>Industry kete</p>
                 <div className="flex flex-wrap justify-center gap-3 mb-8">
                   {PACKS.map((p) => (
                     <Link to={p.to} key={p.reo} className="text-[10px] tracking-[1px] px-4 py-2.5 rounded-full transition-all duration-300 hover:scale-105"
-                      style={{
-                        fontFamily: "'JetBrains Mono', monospace",
-                        color: C.text,
-                        border: `1px solid rgba(74,165,168,0.12)`,
-                        background: "rgba(255,255,255,0.5)",
-                      }}>
+                      style={{ fontFamily: "'JetBrains Mono', monospace", color: C.text, border: `1px solid rgba(74,165,168,0.12)`, background: "rgba(255,255,255,0.5)" }}>
                       <span style={{ color: p.color, fontWeight: 500 }}>{p.reo}</span> <span style={{ color: C.textTertiary }}>/ {p.en}</span>
                     </Link>
                   ))}
                 </div>
                 <div className="flex flex-col items-center">
                   <div className="w-px h-10" style={{ background: `linear-gradient(to bottom, rgba(74,165,168,0.1), ${C.teal}60)` }} />
-                  <div className="w-6 h-6 rounded-full mt-2" style={{
-                    background: C.teal,
-                    boxShadow: `0 4px 20px ${C.teal}30`,
-                  }} />
-                  <p className="mt-3 text-[9px] tracking-[4px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>
-                    Iho Router
-                  </p>
+                  <div className="w-6 h-6 rounded-full mt-2" style={{ background: C.teal, boxShadow: `0 4px 20px ${C.teal}30` }} />
+                  <p className="mt-3 text-[9px] tracking-[4px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>Iho Router</p>
                 </div>
               </GlowCard>
             </motion.div>
@@ -429,14 +478,15 @@ const Index = () => {
                 const bleedColor = KETE_BLEED[p.reo.toLowerCase()] || "transparent";
                 return (
                   <motion.div key={p.reo} layout layoutId={`kete-${p.reo}`} {...stagger(i)} className="relative">
-                    {/* Pastel colour bleed behind card */}
                     <div className="absolute inset-0 rounded-[32px]" style={{
                       background: `radial-gradient(circle at 50% 50%, ${bleedColor}, transparent 70%)`,
-                      filter: "blur(40px)",
-                      transform: "scale(1.2)",
+                      filter: "blur(40px)", transform: "scale(1.2)",
                     }} />
                     <Link to={p.to} className="group block h-full relative">
                       <GlowCard className="h-full hover:translate-y-[-4px] transition-all duration-300" accentColor={p.color}>
+                        {/* Kete-specific hover effect */}
+                        <KeteHoverEffect kete={p.reo} />
+
                         {isDetected && (
                           <span className="text-[9px] px-3 py-1 rounded-full tracking-[2px] uppercase inline-block mb-4"
                             style={{ background: `${C.teal}08`, color: C.teal, border: `1px solid ${C.teal}15`, fontFamily: "'JetBrains Mono', monospace" }}>
@@ -531,7 +581,10 @@ const Index = () => {
                       </div>
                       <div>
                         <p className="text-[14px] mb-1 font-medium" style={{ color: C.text }}>
-                          <span className="text-[10px] mr-2 font-normal" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace" }}>{String(i + 1).padStart(2, "0")}</span>
+                          <span className="inline-flex items-center gap-1.5 mr-2">
+                            <span className="w-1.5 h-1.5 rounded-full" style={{ background: i % 2 === 0 ? C.teal : C.ochre }} />
+                            <span className="text-[10px] font-normal" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{String(i + 1).padStart(2, "0")}</span>
+                          </span>
                           {layer.name}
                         </p>
                         <p className="text-[13px] leading-[1.7]" style={{ color: C.textSecondary }}>{layer.desc}</p>
@@ -582,7 +635,7 @@ const Index = () => {
                           <Check size={11} style={{ color: C.teal }} />
                         </div>
                         <span className="text-[12px] flex-1" style={{ color: C.text }}>{c.label}</span>
-                        <span className="text-[9px] tracking-wider" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace" }}>{c.ref}</span>
+                        <span className="text-[9px] tracking-wider" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{c.ref}</span>
                       </div>
                     ))}
                   </div>
@@ -592,34 +645,14 @@ const Index = () => {
           </div>
         </Sect>
 
-        {/* ═══ TRUST PIPELINE ═══ */}
+        {/* ═══ TRUST PIPELINE — draw on scroll ═══ */}
         <Sect>
           <motion.div {...fade} className="text-center mb-16">
             <SectionEyebrow>Trust</SectionEyebrow>
             <SectionH2>Governed from the ground up</SectionH2>
             <SectionP>Five stages of oversight from policy to proof.</SectionP>
           </motion.div>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-4 max-w-4xl mx-auto">
-            {TRUST_NODES.map((node, i) => (
-              <React.Fragment key={node.name}>
-                <motion.div {...stagger(i)} className="flex flex-col items-center text-center min-w-[110px]">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-3" style={{
-                    background: "rgba(255,255,255,0.65)",
-                    backdropFilter: "blur(20px)",
-                    border: "1px solid rgba(255,255,255,0.9)",
-                    boxShadow: "0 4px 20px rgba(74,165,168,0.1)",
-                  }}>
-                    <div className="w-4 h-4 rounded-full" style={{ background: C.teal }} />
-                  </div>
-                  <span className="text-[10px] tracking-[3px] uppercase font-medium" style={{ color: C.teal, fontFamily: "'JetBrains Mono', monospace" }}>{node.name}</span>
-                  <span className="text-[11px] mt-2 max-w-[130px] leading-[1.6]" style={{ color: C.textSecondary }}>{node.desc}</span>
-                </motion.div>
-                {i < TRUST_NODES.length - 1 && (
-                  <div className="hidden sm:block w-10 h-px" style={{ background: `linear-gradient(90deg, transparent, ${C.teal}30, transparent)` }} />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
+          <TrustPipeline />
         </Sect>
 
         {/* ═══ FINAL CTA ═══ */}
@@ -658,15 +691,64 @@ const Index = () => {
 
 export default Index;
 
-/* ─── Layout Primitives ─── */
+/* ─── Trust Pipeline with scroll-drawn line ─── */
+function TrustPipeline() {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end center"],
+  });
+  const lineWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
+  return (
+    <div ref={ref} className="relative max-w-4xl mx-auto">
+      {/* Connecting gradient line */}
+      <div className="hidden sm:block absolute top-7 left-[55px] right-[55px] h-px" style={{ background: "rgba(74,165,168,0.1)" }}>
+        <motion.div className="h-full" style={{
+          width: lineWidth,
+          background: `linear-gradient(90deg, ${C.teal}, ${C.ochre})`,
+        }} />
+      </div>
+
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-4">
+        {TRUST_NODES.map((node, i) => (
+          <React.Fragment key={node.name}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.12, duration: 0.5, type: "spring", stiffness: 300, damping: 25 }}
+              className="flex flex-col items-center text-center min-w-[110px]"
+            >
+              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-3" style={{
+                background: "rgba(255,255,255,0.65)",
+                backdropFilter: "blur(20px)",
+                border: "1px solid rgba(255,255,255,0.9)",
+                boxShadow: "0 4px 20px rgba(74,165,168,0.1)",
+              }}>
+                <div className="w-4 h-4 rounded-full" style={{ background: C.teal }} />
+              </div>
+              <span className="text-[10px] tracking-[3px] uppercase font-medium" style={{ color: C.teal, fontFamily: "'JetBrains Mono', monospace" }}>{node.name}</span>
+              <span className="text-[11px] mt-2 max-w-[130px] leading-[1.6]" style={{ color: C.textSecondary }}>{node.desc}</span>
+            </motion.div>
+            {i < TRUST_NODES.length - 1 && (
+              <div className="hidden sm:block w-10" />
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Layout Primitives ─── */
 function Sect({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
     <section id={id} className="px-6 py-32 relative">
       <div className="max-w-[1200px] mx-auto relative z-10">{children}</div>
-      <div className="absolute bottom-0 left-[10%] right-[10%] h-px" style={{
-        background: "linear-gradient(90deg, transparent, rgba(74,165,168,0.08), transparent)",
-      }} />
+      <div className="absolute bottom-0 left-0 right-0 flex justify-center py-2">
+        <DotDivider />
+      </div>
     </section>
   );
 }
@@ -709,7 +791,6 @@ function GlowCard({ children, className = "", accentColor }: { children: React.R
         boxShadow: `0 10px 40px -10px rgba(74,165,168,0.12), 0 4px 12px rgba(0,0,0,0.03)${accentColor ? `, 0 0 0 0px ${accentColor}00` : ""}`,
       }}
     >
-      {/* Top edge highlight */}
       <div className="absolute top-0 left-[8%] right-[8%] h-px" style={{
         background: "linear-gradient(90deg, transparent, rgba(255,255,255,1), transparent)",
       }} />
