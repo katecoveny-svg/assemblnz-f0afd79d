@@ -50,6 +50,7 @@ const SECTIONS: { title: string; items: NavItem[] }[] = [
     items: [
       { to: "/admin/dashboard#outputs", label: "Output Library", icon: FolderOpen },
       { to: "/admin/dashboard#evidence", label: "Evidence Packs", icon: FileText },
+      { to: "/admin/dashboard#brand-assets", label: "Brand Assets", icon: Film },
     ],
   },
   {
