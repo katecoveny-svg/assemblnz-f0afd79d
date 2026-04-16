@@ -210,7 +210,7 @@ export default function AdminPipelineTab() {
             {["all", "pending", "approved", "rejected"].map(f => (
               <button key={f} onClick={() => setApprovalFilter(f)}
                 className={`text-[10px] px-2.5 py-1 rounded-full font-bold uppercase transition-colors ${approvalFilter === f ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
-                style={approvalFilter === f ? { background: `${STATUS_COLORS[f] || "#9CA3AF", border: `1px solid ${STATUS_COLORS[f] || "#9CA3AF" } : { border: "1px solid transparent" }}>
+                style={approvalFilter === f ? { background: `${STATUS_COLORS[f] || "#9CA3AF"}15`, border: `1px solid ${STATUS_COLORS[f] || "#9CA3AF"}30` } : { border: "1px solid transparent" }}>
                 {f} {f !== "all" && `(${approvals.filter(a => a.status === f).length})`}
               </button>
             ))}
