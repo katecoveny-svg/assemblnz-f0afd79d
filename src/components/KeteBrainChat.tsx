@@ -383,8 +383,8 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                   {messages.length === 0 && (
                     <div className="text-center py-8">
                       <BrainAvatar color={accentColor} size={56} />
-                      <p className="text-gray-500 text-xs mt-3">Kia ora! I'm the {keteName} specialist.</p>
-                      <p className="text-gray-400 text-[10px] mt-1">Ask me anything about {keteNameEn.toLowerCase()}.</p>
+                      <p className="text-xs mt-3" style={{ color: "#3D4250" }}>Kia ora! I'm the {keteName} specialist.</p>
+                      <p className="text-[10px] mt-1" style={{ color: "#9CA3AF" }}>Ask me anything about {keteNameEn.toLowerCase()}.</p>
                     </div>
                   )}
                   {messages.map((m, i) => (
@@ -397,10 +397,11 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                         }`}
                         style={{
                           background: m.role === "user"
-                            ? hexRgba(accentColor, 0.2)
-                            : "rgba(255,255,255,0.85)",
+                            ? hexRgba(accentColor, 0.18)
+                            : "#FFFFFF",
                           border: `1px solid ${m.role === "user" ? hexRgba(accentColor, 0.3) : "rgba(74,165,168,0.15)"}`,
                           color: "#3D4250",
+                          boxShadow: m.role === "assistant" ? "0 1px 4px rgba(0,0,0,0.04)" : undefined,
                         }}
                       >
                         {m.role === "assistant" ? (
@@ -415,7 +416,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                   ))}
                   {isStreaming && messages[messages.length - 1]?.role !== "assistant" && (
                     <div className="flex justify-start">
-                      <div className="px-3.5 py-2.5 rounded-2xl rounded-bl-md" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                      <div className="px-3.5 py-2.5 rounded-2xl rounded-bl-md" style={{ background: "#FFFFFF", border: "1px solid rgba(74,165,168,0.15)" }}>
                         <div className="flex gap-1">
                           <div className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: accentColor, animationDelay: "0ms" }} />
                           <div className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ background: accentColor, animationDelay: "150ms" }} />
@@ -427,79 +428,55 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                 </div>
 
                 {/* Input */}
-                <div className="shrink-0 p-3 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                <div className="shrink-0 p-3 border-t" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
                   <form onSubmit={(e) => { e.preventDefault(); sendMessage(); }} className="flex gap-2">
                     <input
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
-                      className="flex-1 bg-white/5 border border-gray-200 rounded-full px-4 py-2 text-foreground text-sm focus:outline-none placeholder:text-white/20"
+                      className="flex-1 rounded-full px-4 py-2 text-sm focus:outline-none"
                       placeholder={`Ask ${keteName}...`}
                       disabled={isStreaming}
-                      style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}
+                      style={{
+                        fontFamily: "Plus Jakarta Sans, sans-serif",
+                        background: "#FFFFFF",
+                        border: "1px solid rgba(0,0,0,0.08)",
+                        color: "#1A1D29",
+                      }}
                     />
                     <button
                       type="submit"
                       disabled={isStreaming || !input.trim()}
                       className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
                       style={{
-                        background: input.trim() ? accentColor : "rgba(255,255,255,0.05)",
-                        opacity: input.trim() ? 1 : 0.3,
+                        background: input.trim() ? accentColor : "rgba(0,0,0,0.05)",
+                        opacity: input.trim() ? 1 : 0.4,
                       }}
                     >
-                      <GlowIcon name="Send" size={14} color={input.trim() ? "#09090F" : "#666"} glow={false} />
+                      <GlowIcon name="Send" size={14} color={input.trim() ? "#FFFFFF" : "#9CA3AF"} glow={false} />
                     </button>
                   </form>
                 </div>
               </>
             )}
 
-            {/* SMS Tab */}
+            {/* SMS Tab — real config + test */}
             {tab === "sms" && (
-              <div className="p-6 text-center">
-                <GlowIcon name="Phone" size={32} color={accentColor} className="mx-auto mb-3" />
-                <p className="text-foreground text-sm font-medium">Text your {keteName} team</p>
-                <p className="text-white/40 text-xs mt-1 mb-4">
-                  Send a text message and the right agent answers instantly
-                </p>
-                <div className="bg-white/5 rounded-xl p-3 border border-gray-200 mb-3">
-                  <p className="text-gray-400 text-[10px] uppercase tracking-wider mb-1">Example</p>
-                  <p className="text-white/60 text-xs italic">"What are my obligations for working at height?"</p>
-                  <p className="text-xs mt-1" style={{ color: accentColor }}>→ Routed to specialist agent</p>
-                </div>
-                <button
-                  onClick={() => toast.info("SMS setup — configure in Settings")}
-                  className="w-full py-2.5 rounded-lg text-xs font-medium transition-all"
-                  style={{ background: hexRgba(accentColor, 0.15), color: accentColor, border: `1px solid ${hexRgba(accentColor, 0.3)}` }}
-                >
-                  Set up SMS Access
-                </button>
-              </div>
+              <AgentMessagingPanel
+                agentId={effectiveAgentId}
+                agentName={keteName}
+                agentColor={accentColor}
+                channel="sms"
+              />
             )}
 
-            {/* WhatsApp Tab */}
+            {/* WhatsApp Tab — real config + test */}
             {tab === "whatsapp" && (
-              <div className="p-6 text-center">
-                <GlowIcon name="Send" size={32} color="#25D366" className="mx-auto mb-3" />
-                <p className="text-foreground text-sm font-medium">WhatsApp your {keteName} team</p>
-                <p className="text-white/40 text-xs mt-1 mb-4">
-                  Share photos, voice messages, and documents with your agents
-                </p>
-                <div className="bg-white/5 rounded-xl p-3 border border-gray-200 mb-3">
-                  <p className="text-gray-400 text-[10px] uppercase tracking-wider mb-1">Capabilities</p>
-                  <div className="space-y-1.5 text-xs text-gray-500 text-left">
-                    <p>📸 Photo → Agent analyses and responds</p>
-                    <p>🎤 Voice → Transcribed and routed</p>
-                    <p>📄 Document → Extracted and processed</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => toast.info("WhatsApp Business setup — configure in Settings")}
-                  className="w-full py-2.5 rounded-lg text-xs font-medium transition-all"
-                  style={{ background: "rgba(37,211,102,0.15)", color: "#25D366", border: "1px solid rgba(37,211,102,0.3)" }}
-                >
-                  Connect WhatsApp Business
-                </button>
-              </div>
+              <AgentMessagingPanel
+                agentId={effectiveAgentId}
+                agentName={keteName}
+                agentColor={accentColor}
+                channel="whatsapp"
+              />
             )}
           </motion.div>
         )}
