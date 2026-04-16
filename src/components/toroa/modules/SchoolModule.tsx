@@ -38,7 +38,7 @@ export default function SchoolModule({ children, termDates }: Props) {
 
   return (
     <div className="space-y-4">
-      <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#1A1D29"}90` }}>
+      <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#6B7280" }}>
         <GraduationCap size={14} style={{ color: POUNAMU }} /> School
       </h2>
 
@@ -47,9 +47,9 @@ export default function SchoolModule({ children, termDates }: Props) {
         <div className="rounded-xl p-3 flex items-center justify-between" style={glass(TANGAROA)}>
           <div className="flex items-center gap-2">
             <Calendar size={12} style={{ color: POUNAMU }} />
-            <span className="font-body text-xs" style={{ color: "#1A1D29"}90` }}>{currentTerm.term}</span>
+            <span className="font-body text-xs" style={{ color: "#6B7280" }}>{currentTerm.term}</span>
           </div>
-          <span className="font-mono text-[10px]" style={{ color: "#1A1D29"}50` }}>
+          <span className="font-mono text-[10px]" style={{ color: "#9CA3AF" }}>
             {currentTerm.start} — {currentTerm.end}
           </span>
         </div>
@@ -67,8 +67,8 @@ export default function SchoolModule({ children, termDates }: Props) {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-body text-sm" style={{ color: "#1A1D29"}CC` }}>{child.name}</p>
-              <p className="font-body text-[10px]" style={{ color: "#1A1D29"}50` }}>
+              <p className="font-body text-sm" style={{ color: "#1A1D29" }}>{child.name}</p>
+              <p className="font-body text-[10px]" style={{ color: "#9CA3AF" }}>
                 {child.school} · Year {child.year_level}
                 {child.teacher ? ` · ${child.teacher}` : ""}
               </p>
@@ -88,7 +88,7 @@ export default function SchoolModule({ children, termDates }: Props) {
                 {child.upcoming.map((u, j) => (
                   <div key={j} className="flex items-center gap-2 py-1">
                     <span className="w-1 h-1 rounded-full" style={{ background: KOWHAI }} />
-                    <span className="font-body text-xs" style={{ color: "#1A1D29"}80` }}>{u}</span>
+                    <span className="font-body text-xs" style={{ color: "#6B7280" }}>{u}</span>
                   </div>
                 ))}
               </div>
@@ -104,8 +104,8 @@ export default function SchoolModule({ children, termDates }: Props) {
               <div className="space-y-1">
                 {child.newsletters.map((n, j) => (
                   <div key={j} className="flex items-center justify-between py-1">
-                    <span className="font-body text-xs" style={{ color: "#1A1D29"}70` }}>{n.title}</span>
-                    <span className="font-mono text-[9px]" style={{ color: "#1A1D29"}35` }}>{n.date}</span>
+                    <span className="font-body text-xs" style={{ color: "#6B7280" }}>{n.title}</span>
+                    <span className="font-mono text-[9px]" style={{ color: "#9CA3AF" }}>{n.date}</span>
                   </div>
                 ))}
               </div>

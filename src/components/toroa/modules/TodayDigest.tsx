@@ -37,8 +37,8 @@ export default function TodayDigest({ items, greeting }: Props) {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="font-display text-lg" style={{ fontWeight: 300, color: "#1A1D29"}DD` }}>{greeting}</h2>
-        <p className="font-body text-xs mt-0.5" style={{ color: "#1A1D29"}50` }}>{today}</p>
+        <h2 className="font-display text-lg" style={{ fontWeight: 300, color: "#1A1D29" }}>{greeting}</h2>
+        <p className="font-body text-xs mt-0.5" style={{ color: "#9CA3AF" }}>{today}</p>
       </div>
 
       <div className="space-y-2">
@@ -59,7 +59,7 @@ export default function TodayDigest({ items, greeting }: Props) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-body text-xs" style={{ color: item.urgent ? "#fca5a5" : "#3D4250" }}>{item.text}</p>
-                {item.time && <p className="font-mono text-[10px] mt-0.5" style={{ color: "#1A1D29"}40` }}>{item.time}</p>}
+                {item.time && <p className="font-mono text-[10px] mt-0.5" style={{ color: "#9CA3AF" }}>{item.time}</p>}
               </div>
               {item.urgent && <span className="w-2 h-2 rounded-full shrink-0 mt-1" style={{ background: "#ef4444" }} />}
             </motion.div>
@@ -69,7 +69,7 @@ export default function TodayDigest({ items, greeting }: Props) {
 
       {items.length === 0 && (
         <div className="rounded-xl p-8 text-center" style={glass}>
-          <p className="font-body text-xs" style={{ color: "#1A1D29"}40` }}>Nothing urgent today. Enjoy the calm.</p>
+          <p className="font-body text-xs" style={{ color: "#9CA3AF" }}>Nothing urgent today. Enjoy the calm.</p>
         </div>
       )}
     </div>

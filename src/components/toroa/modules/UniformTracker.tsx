@@ -36,7 +36,7 @@ export default function UniformTracker({ items, children }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#1A1D29"}90` }}>
+        <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#6B7280" }}>
           <Shirt size={14} style={{ color: KOWHAI }} /> Uniforms
         </h2>
         {needsReplacement.length > 0 && (
@@ -58,7 +58,7 @@ export default function UniformTracker({ items, children }: Props) {
             className="rounded-xl p-4 space-y-3"
             style={glass}
           >
-            <p className="font-body text-xs" style={{ color: "#1A1D29"}CC` }}>{child}</p>
+            <p className="font-body text-xs" style={{ color: "#1A1D29" }}>{child}</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {childItems.map((item, i) => (
                 <div
@@ -66,8 +66,8 @@ export default function UniformTracker({ items, children }: Props) {
                   className="rounded-lg p-3 text-center"
                   style={{ background: `${conditionColor[item.condition]}08`, border: `1px solid ${conditionColor[item.condition]}15` }}
                 >
-                  <p className="font-body text-xs" style={{ color: "#1A1D29"}BB` }}>{item.item_type}</p>
-                  <p className="font-mono text-[10px] mt-0.5" style={{ color: "#1A1D29"}50` }}>
+                  <p className="font-body text-xs" style={{ color: "#3D4250" }}>{item.item_type}</p>
+                  <p className="font-mono text-[10px] mt-0.5" style={{ color: "#9CA3AF" }}>
                     Size {item.size} × {item.quantity}
                   </p>
                   <span

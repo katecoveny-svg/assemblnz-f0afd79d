@@ -44,7 +44,7 @@ export default function ShoppingModule({ items, weeklyBudget, spent, onToggle, o
 
   return (
     <div className="space-y-4">
-      <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#1A1D29"}90` }}>
+      <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#6B7280" }}>
         <ShoppingCart size={14} style={{ color: POUNAMU }} /> Shopping
       </h2>
 
@@ -53,7 +53,7 @@ export default function ShoppingModule({ items, weeklyBudget, spent, onToggle, o
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1.5">
             <DollarSign size={12} style={{ color: KOWHAI }} />
-            <span className="font-body text-xs" style={{ color: "#1A1D29"}90` }}>Weekly budget</span>
+            <span className="font-body text-xs" style={{ color: "#6B7280" }}>Weekly budget</span>
           </div>
           <span className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: over ? "rgba(239,68,68,0.12)" : `${POUNAMU}15`, color: over ? "#fca5a5" : POUNAMU }}>
             ${(spent / 100).toFixed(0)} / ${(weeklyBudget / 100).toFixed(0)}
@@ -86,7 +86,7 @@ export default function ShoppingModule({ items, weeklyBudget, spent, onToggle, o
                 {item.item}{item.quantity > 1 ? ` ×${item.quantity}` : ""}
               </span>
               {item.estimated_cost_cents && (
-                <span className="font-mono text-[9px]" style={{ color: "#1A1D29"}35` }}>
+                <span className="font-mono text-[9px]" style={{ color: "#9CA3AF" }}>
                   ${(item.estimated_cost_cents / 100).toFixed(2)}
                 </span>
               )}

@@ -38,12 +38,12 @@ const glass = {
 export default function HomeworkHelp({ children }: Props) {
   return (
     <div className="space-y-4">
-      <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#1A1D29"}90` }}>
+      <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#6B7280" }}>
         <BookOpen size={14} style={{ color: POUNAMU }} /> Homework Help
       </h2>
 
       <div className="rounded-xl p-4" style={{ ...glass, borderColor: `${POUNAMU}15` }}>
-        <p className="font-body text-xs" style={{ color: "#1A1D29"}70` }}>
+        <p className="font-body text-xs" style={{ color: "#6B7280" }}>
           NZC-aligned, age-appropriate help. Ask Tōroa about any subject and it will tailor explanations to your child's year level.
         </p>
       </div>
@@ -58,7 +58,7 @@ export default function HomeworkHelp({ children }: Props) {
           style={glass}
         >
           <div className="flex items-center justify-between">
-            <p className="font-body text-sm" style={{ color: "#1A1D29"}CC` }}>{child.name}</p>
+            <p className="font-body text-sm" style={{ color: "#1A1D29" }}>{child.name}</p>
             <span className="font-mono text-[9px] px-2 py-0.5 rounded" style={{ background: `${POUNAMU}15`, color: POUNAMU }}>
               Year {child.year_level} · NZC
             </span>
@@ -75,8 +75,8 @@ export default function HomeworkHelp({ children }: Props) {
                   {subjectIcons[s.icon] || <BookOpen size={14} />}
                 </div>
                 <div>
-                  <p className="font-body text-xs" style={{ color: "#1A1D29"}BB` }}>{s.name}</p>
-                  <p className="font-mono text-[8px]" style={{ color: "#1A1D29"}35` }}>Level {s.nzcLevel}</p>
+                  <p className="font-body text-xs" style={{ color: "#3D4250" }}>{s.name}</p>
+                  <p className="font-mono text-[8px]" style={{ color: "#9CA3AF" }}>Level {s.nzcLevel}</p>
                 </div>
               </button>
             ))}

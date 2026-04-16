@@ -110,12 +110,12 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
             <div className="sticky top-0 z-10 p-4 flex items-center justify-between" style={{ background: "rgba(9,9,15,0.95)", borderBottom: `1px solid rgba(255,255,255,0.5)` }}>
               <div className="flex items-center gap-2">
                 <Brain size={18} style={{ color: accentColor }} />
-                <span className="text-sm font-light uppercase tracking-[2px]" style={{ color: "#1A1D29"}DD`, fontFamily: "Lato, sans-serif" }}>
+                <span className="text-sm font-light uppercase tracking-[2px]" style={{ color: "#1A1D29", fontFamily: "Lato, sans-serif" }}>
                   What I remember
                 </span>
               </div>
               <button onClick={onClose} className="w-7 h-7 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.5)" }}>
-                <X size={14} style={{ color: "#1A1D29"}60` }} />
+                <X size={14} style={{ color: "#6B7280" }} />
               </button>
             </div>
 
@@ -126,14 +126,14 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
                   <Database size={10} /> Business Profile
                 </h3>
                 {sharedCtx.length === 0 ? (
-                  <p className="text-[11px]" style={{ color: "#1A1D29"}30` }}>No context stored yet. Chat with agents to build your profile.</p>
+                  <p className="text-[11px]" style={{ color: "#9CA3AF" }}>No context stored yet. Chat with agents to build your profile.</p>
                 ) : (
                   <div className="space-y-1.5">
                     {sharedCtx.map((item) => (
                       <div key={item.id} className="rounded-lg p-2.5 group" style={glass}>
                         <div className="flex items-start justify-between">
                           <div className="flex-1 min-w-0">
-                            <p className="text-[10px] font-mono" style={{ color: "#1A1D29"}50` }}>{item.context_key}</p>
+                            <p className="text-[10px] font-mono" style={{ color: "#9CA3AF" }}>{item.context_key}</p>
                             {editingKey === item.id ? (
                               <div className="flex gap-1 mt-1">
                                 <input
@@ -146,17 +146,17 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
                                 <button onClick={() => saveEdit(item)} className="px-1.5"><Check size={12} style={{ color: POUNAMU }} /></button>
                               </div>
                             ) : (
-                              <p className="text-xs mt-0.5" style={{ color: "#1A1D29"}AA` }}>
+                              <p className="text-xs mt-0.5" style={{ color: "#3D4250" }}>
                                 {typeof item.context_value === "object" ? JSON.stringify(item.context_value?.value || item.context_value) : String(item.context_value)}
                               </p>
                             )}
-                            <p className="text-[9px] mt-0.5" style={{ color: "#1A1D29"}25` }}>
+                            <p className="text-[9px] mt-0.5" style={{ color: "#9CA3AF" }}>
                               Learned from {item.source_agent}, {timeSince(item.updated_at)}
                             </p>
                           </div>
                           <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button onClick={() => { setEditingKey(item.id); setEditValue(typeof item.context_value === "object" ? JSON.stringify(item.context_value?.value || item.context_value) : String(item.context_value)); }} className="p-1">
-                              <Edit2 size={10} style={{ color: "#1A1D29"}40` }} />
+                              <Edit2 size={10} style={{ color: "#9CA3AF" }} />
                             </button>
                             <button onClick={() => deleteContext(item.id)} className="p-1">
                               <Trash2 size={10} style={{ color: "#ef444480" }} />
@@ -175,13 +175,13 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
                   <Brain size={10} /> Agent Memory
                 </h3>
                 {agentMem.length === 0 ? (
-                  <p className="text-[11px]" style={{ color: "#1A1D29"}30` }}>No agent-specific memory yet.</p>
+                  <p className="text-[11px]" style={{ color: "#9CA3AF" }}>No agent-specific memory yet.</p>
                 ) : (
                   <div className="space-y-1.5">
                     {agentMem.map((m, i) => (
                       <div key={i} className="rounded-lg p-2.5" style={glass}>
-                        <p className="text-[10px] font-mono" style={{ color: "#1A1D29"}50` }}>{m.memory_key}</p>
-                        <p className="text-xs mt-0.5" style={{ color: "#1A1D29"}AA` }}>
+                        <p className="text-[10px] font-mono" style={{ color: "#9CA3AF" }}>{m.memory_key}</p>
+                        <p className="text-xs mt-0.5" style={{ color: "#3D4250" }}>
                           {typeof m.memory_value === "object" ? JSON.stringify(m.memory_value) : String(m.memory_value)}
                         </p>
                       </div>
@@ -192,11 +192,11 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
 
               {/* Section 3: Recent Activity */}
               <div>
-                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: "#1A1D29"}60`, fontFamily: "Lato, sans-serif" }}>
+                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: "#6B7280", fontFamily: "Lato, sans-serif" }}>
                   <Clock size={10} /> Recent Activity
                 </h3>
                 {summaries.length === 0 ? (
-                  <p className="text-[11px]" style={{ color: "#1A1D29"}30` }}>No cross-agent activity yet.</p>
+                  <p className="text-[11px]" style={{ color: "#9CA3AF" }}>No cross-agent activity yet.</p>
                 ) : (
                   <div className="space-y-1.5">
                     {summaries.map((s, i) => (
@@ -205,9 +205,9 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
                           <span className="text-[9px] font-mono px-1.5 py-0.5 rounded" style={{ background: `${accentColor}15`, color: accentColor }}>
                             {s.agent_id}
                           </span>
-                          <span className="text-[9px]" style={{ color: "#1A1D29"}30` }}>{timeSince(s.created_at)}</span>
+                          <span className="text-[9px]" style={{ color: "#9CA3AF" }}>{timeSince(s.created_at)}</span>
                         </div>
-                        <p className="text-xs" style={{ color: "#1A1D29"}80` }}>{s.summary}</p>
+                        <p className="text-xs" style={{ color: "#6B7280" }}>{s.summary}</p>
                       </div>
                     ))}
                   </div>
@@ -216,11 +216,11 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
 
               {/* Section 4: Compliance Updates */}
               <div>
-                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: "#1A1D29"}60`, fontFamily: "Lato, sans-serif" }}>
+                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: "#6B7280", fontFamily: "Lato, sans-serif" }}>
                   <Shield size={10} /> Compliance Updates
                 </h3>
                 {compliance.length === 0 ? (
-                  <p className="text-[11px]" style={{ color: "#1A1D29"}30` }}>No recent compliance updates.</p>
+                  <p className="text-[11px]" style={{ color: "#9CA3AF" }}>No recent compliance updates.</p>
                 ) : (
                   <div className="space-y-1.5">
                     {compliance.map((u, i) => (
@@ -230,10 +230,10 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
                             style={{ background: `${impactColors[u.impact_level] || KOWHAI}18`, color: impactColors[u.impact_level] || KOWHAI }}>
                             {u.impact_level}
                           </span>
-                          {u.effective_date && <span className="text-[9px]" style={{ color: "#1A1D29"}35` }}>Effective {u.effective_date}</span>}
+                          {u.effective_date && <span className="text-[9px]" style={{ color: "#9CA3AF" }}>Effective {u.effective_date}</span>}
                         </div>
-                        <p className="text-xs font-medium" style={{ color: "#1A1D29"}CC` }}>{u.title}</p>
-                        <p className="text-[11px] mt-0.5" style={{ color: "#1A1D29"}60` }}>{u.change_summary}</p>
+                        <p className="text-xs font-medium" style={{ color: "#1A1D29" }}>{u.title}</p>
+                        <p className="text-[11px] mt-0.5" style={{ color: "#6B7280" }}>{u.change_summary}</p>
                       </div>
                     ))}
                   </div>
