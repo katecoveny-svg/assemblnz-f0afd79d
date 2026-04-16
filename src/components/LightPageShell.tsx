@@ -1,5 +1,7 @@
 import React from "react";
 import WharikiFoundation from "@/components/whariki/WharikiFoundation";
+import WaterCausticBackground from "@/components/hero/WaterCausticBackground";
+import ScrollDepthLayers from "@/components/hero/ScrollDepthLayers";
 
 /**
  * Light-mode page shell — neumorphic #EEEEF2 background,
@@ -15,6 +17,7 @@ const LightPageShell: React.FC<{
     style={{ background: "#EEEEF2", color: "#1A1D29" }}
   >
     <WharikiFoundation />
+    <WaterCausticBackground />
 
     {/* Noise grain */}
     <div
@@ -99,7 +102,9 @@ const LightPageShell: React.FC<{
       }}
     />
 
-    <div className="relative z-10">{children}</div>
+    <ScrollDepthLayers>
+      <div className="relative z-10">{children}</div>
+    </ScrollDepthLayers>
 
     <style>{`
       @keyframes shellParticle {

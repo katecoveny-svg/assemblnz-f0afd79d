@@ -9,10 +9,10 @@ function generateKoruPath(turns = 2.5, points = 200): THREE.Vector3[] {
   for (let i = 0; i < points; i++) {
     const t = i / (points - 1);
     const angle = t * turns * Math.PI * 2;
-    const r = 0.3 + t * 2.8;
+    const r = 0.6 + t * 5.6; // 2x radius for dramatic fill
     const x = Math.cos(angle) * r;
     const y = Math.sin(angle) * r;
-    const z = Math.sin(t * Math.PI) * 0.6;
+    const z = Math.sin(t * Math.PI) * 1.2;
     pts.push(new THREE.Vector3(x, y, z));
   }
   return pts;
@@ -87,17 +87,17 @@ function DataPulse({
 
   useFrame(({ clock }) => {
     if (!ref.current) return;
-    const t = ((clock.getElapsedTime() + delay) % 3) / 3;
+    const t = ((clock.getElapsedTime() * 1.8 + delay) % 1.8) / 1.8;
     ref.current.position.lerpVectors(start, end, t);
     ref.current.material &&
       ((ref.current.material as THREE.MeshBasicMaterial).opacity =
-        Math.sin(t * Math.PI) * 0.9);
+        0.4 + Math.sin(t * Math.PI) * 0.6);
   });
 
   return (
     <mesh ref={ref}>
-      <sphereGeometry args={[0.025, 8, 8]} />
-      <meshBasicMaterial color="#4AA5A8" transparent opacity={0.5} />
+      <sphereGeometry args={[0.04, 10, 10]} />
+      <meshBasicMaterial color="#7EEEF0" transparent opacity={0.9} toneMapped={false} />
     </mesh>
   );
 }
@@ -199,7 +199,7 @@ function KoruScene() {
       result.push({
         position: pos,
         color: keteColor || "#4AA5A8",
-        radius: isKete ? 0.12 : 0.07,
+        radius: isKete ? 0.22 : 0.09,
         phase: Math.random() * Math.PI * 2,
         bobSpeed: 0.6 + Math.random() * 0.8,
       });
@@ -231,7 +231,7 @@ function KoruScene() {
   // Data pulses
   const pulses = useMemo(() => {
     return threads
-      .filter((_, i) => i % 3 === 0)
+      .filter((_, i) => i % 2 === 0)
       .map((t, i) => ({
         start: t.start,
         end: t.end,
@@ -250,7 +250,7 @@ function KoruScene() {
       />
       <pointLight position={[3, -2, 4]} intensity={0.4} color="#4AA5A8" />
 
-      <group ref={groupRef} scale={1}>
+      <group ref={groupRef} scale={0.9}>
         {spheres.map((s, i) => (
           <GlassSphere key={i} {...s} />
         ))}
