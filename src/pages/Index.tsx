@@ -590,7 +590,7 @@ const Index = () => {
                       <div>
                         <p className="text-[14px] mb-1 font-semibold" style={{ color: C.text }}>
                           <span className="inline-flex items-center gap-1.5 mr-2">
-                            <span className="w-1.5 h-1.5 rounded-full" style={{ background: i % 2 === 0 ? C.teal : C.ochre }} />
+                            <span className="w-1.5 h-1.5 rounded-full" style={{ background: layer.color }} />
                             <span className="text-[10px] font-normal" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{String(i + 1).padStart(2, "0")}</span>
                           </span>
                           {layer.name}
