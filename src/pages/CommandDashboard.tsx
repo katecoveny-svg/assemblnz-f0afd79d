@@ -148,7 +148,7 @@ export default function CommandDashboard() {
               <LayoutDashboard size={20} style={{ color: GOLD }} />
               <h1 className="text-xl font-display font-bold text-foreground tracking-wide">Command Centre</h1>
             </div>
-            <p className="text-xs font-body text-white/40 ml-8">
+            <p className="text-xs font-body text-[#9CA3AF] ml-8">
               Your entire NZ operation at a glance — {new Date().toLocaleDateString("en-NZ", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
             </p>
           </div>
@@ -198,7 +198,7 @@ export default function CommandDashboard() {
                     </div>
                     <ArrowRight
                       size={14}
-                      className="text-white/20 group-hover:text-gray-500 transition-all group-hover:translate-x-1"
+                      className="text-[#D1D5DB] group-hover:text-gray-500 transition-all group-hover:translate-x-1"
                     />
                   </div>
 
@@ -222,7 +222,7 @@ export default function CommandDashboard() {
                           style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
                         >
                           <StatIcon size={12} className="mx-auto mb-1" style={{ color: sector.color, opacity: 0.6 }} />
-                          <div className="text-xs font-body font-bold text-white/80">{stat.value}</div>
+                          <div className="text-xs font-body font-bold text-[#3D4250]">{stat.value}</div>
                           <div className="text-[8px] font-body text-gray-400 uppercase tracking-wider">{stat.label}</div>
                         </div>
                       );
@@ -257,7 +257,7 @@ export default function CommandDashboard() {
                     <span className="text-[9px] font-mono-jb uppercase tracking-wider text-gray-400">Cross-sector intelligence</span>
                   </div>
                 </div>
-                <p className="text-[11px] font-body text-white/40 leading-relaxed mb-4">
+                <p className="text-[11px] font-body text-[#9CA3AF] leading-relaxed mb-4">
                   Construction milestones auto-generate creative content. Freight arrivals trigger hospitality inventory. All sectors share Brand DNA.
                 </p>
                 <div className="space-y-1.5">
@@ -268,7 +268,7 @@ export default function CommandDashboard() {
                   ].map((bridge, i) => (
                     <div key={i} className="flex items-center gap-2 text-[10px] font-body">
                       <span className="px-1.5 py-0.5 rounded" style={{ background: `${bridge.fromColor}15`, color: bridge.fromColor }}>{bridge.from}</span>
-                      <ArrowRight size={10} className="text-white/20" />
+                      <ArrowRight size={10} className="text-[#D1D5DB]" />
                       <span className="px-1.5 py-0.5 rounded" style={{ background: `${bridge.toColor}15`, color: bridge.toColor }}>{bridge.to}</span>
                       <span className="text-gray-400 ml-1">{bridge.label}</span>
                     </div>

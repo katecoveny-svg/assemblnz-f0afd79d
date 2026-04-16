@@ -7,11 +7,11 @@ import { MessageSquare, FlaskConical, Search, Filter } from "lucide-react";
 const GOLD = "#D4A843";
 
 const GLASS: React.CSSProperties = {
-  background: "rgba(255,255,255,0.02)",
+  background: "rgba(255,255,255,0.65)",
   backdropFilter: "blur(20px)",
   WebkitBackdropFilter: "blur(20px)",
-  border: "1px solid rgba(255,255,255,0.05)",
-  boxShadow: "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
+  border: "1px solid rgba(74,165,168,0.12)",
+  boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
 };
 
 export default function AdminAgentDirectory() {
@@ -38,12 +38,12 @@ export default function AdminAgentDirectory() {
       {/* Header */}
       <div>
         <h2
-          className="text-2xl font-light tracking-[3px] uppercase text-white/90"
-          style={{ fontFamily: "'Lato', sans-serif" }}
+          className="text-2xl font-light tracking-[3px] uppercase"
+          style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}
         >
           Agent Directory
         </h2>
-        <p className="text-sm text-white/40 mt-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <p className="text-sm mt-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
           {agents.length} specialist agents across {packs.length} kete
         </p>
       </div>
@@ -54,32 +54,29 @@ export default function AdminAgentDirectory() {
           className="flex-1 flex items-center gap-3 px-4 py-3 rounded-2xl"
           style={GLASS}
         >
-          <Search className="w-4 h-4 text-gray-400" />
+          <Search className="w-4 h-4" style={{ color: "#9CA3AF" }} />
           <input
             type="text"
             placeholder="Search agents by name or role…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 bg-transparent text-sm text-white/80 placeholder:text-white/20 outline-none"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            className="flex-1 bg-transparent text-sm outline-none"
+            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250" }}
           />
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <button
             onClick={() => setFilterPack("all")}
-            className={`px-4 py-2.5 rounded-2xl text-[11px] font-medium transition-all ${
-              filterPack === "all"
-                ? "text-foreground"
-                : "text-gray-400 hover:text-gray-500"
-            }`}
+            className={`px-4 py-2.5 rounded-2xl text-[11px] font-medium transition-all`}
             style={
               filterPack === "all"
                 ? {
                     ...GLASS,
                     background: `linear-gradient(135deg, ${GOLD}12, ${GOLD}05)`,
                     border: `1px solid ${GOLD}25`,
+                    color: "#3D4250",
                   }
-                : GLASS
+                : { ...GLASS, color: "#6B7280" }
             }
           >
             All ({agents.length})
@@ -88,19 +85,16 @@ export default function AdminAgentDirectory() {
             <button
               key={p.id}
               onClick={() => setFilterPack(p.id)}
-              className={`px-3 py-2.5 rounded-2xl text-[11px] font-medium transition-all ${
-                filterPack === p.id
-                  ? "text-foreground"
-                  : "text-gray-400 hover:text-gray-500"
-              }`}
+              className={`px-3 py-2.5 rounded-2xl text-[11px] font-medium transition-all`}
               style={
                 filterPack === p.id
                   ? {
                       ...GLASS,
                       background: `linear-gradient(135deg, ${p.color}15, ${p.color}05)`,
                       border: `1px solid ${p.color}30`,
+                      color: "#3D4250",
                     }
-                  : GLASS
+                  : { ...GLASS, color: "#6B7280" }
               }
             >
               <span className="flex items-center gap-1.5">
@@ -125,15 +119,15 @@ export default function AdminAgentDirectory() {
               className="group rounded-3xl p-5 transition-all duration-300 hover:translate-y-[-2px]"
               style={{
                 ...GLASS,
-                boxShadow: `0 8px 32px rgba(0,0,0,0.25), 0 0 0 0 ${agent.color}00`,
+                boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = `0 12px 40px rgba(0,0,0,0.35), 0 0 30px ${agent.color}10`;
-                e.currentTarget.style.borderColor = `${agent.color}20`;
+                e.currentTarget.style.boxShadow = `0 8px 32px rgba(0,0,0,0.1), 0 0 20px ${agent.color}15`;
+                e.currentTarget.style.borderColor = `${agent.color}30`;
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = `0 8px 32px rgba(0,0,0,0.25)`;
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.05)";
+                e.currentTarget.style.boxShadow = "0 4px 24px rgba(0,0,0,0.06)";
+                e.currentTarget.style.borderColor = "rgba(74,165,168,0.12)";
               }}
             >
               {/* Top accent line */}
@@ -153,13 +147,14 @@ export default function AdminAgentDirectory() {
                 />
                 <div className="flex-1 min-w-0">
                   <p
-                    className="text-sm font-bold text-white/90 tracking-wide"
-                    style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                    className="text-sm font-bold tracking-wide"
+                    style={{ fontFamily: "'JetBrains Mono', monospace", color: "#2D3140" }}
                   >
                     {agent.name}
                   </p>
                   <p
-                    className="text-[10px] text-gray-400 font-mono"
+                    className="text-[10px] font-mono"
+                    style={{ color: "#9CA3AF" }}
                   >
                     {agent.designation}
                   </p>
@@ -179,8 +174,8 @@ export default function AdminAgentDirectory() {
               </div>
 
               <p
-                className="text-[11px] text-white/40 leading-relaxed mb-4 line-clamp-2"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                className="text-[11px] leading-relaxed mb-4 line-clamp-2"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}
               >
                 {agent.role}
               </p>
@@ -192,9 +187,9 @@ export default function AdminAgentDirectory() {
                   className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[11px] font-medium transition-all duration-200"
                   style={{
                     background: `linear-gradient(135deg, ${agent.color}15, ${agent.color}08)`,
-                    border: `1px solid ${agent.color}20`,
+                    border: `1px solid ${agent.color}25`,
                     color: agent.color,
-                    boxShadow: `0 4px 16px ${agent.color}08, inset 0 1px 0 rgba(255,255,255,0.03)`,
+                    boxShadow: `0 4px 16px ${agent.color}08`,
                   }}
                 >
                   <MessageSquare className="w-3.5 h-3.5" />
@@ -205,7 +200,7 @@ export default function AdminAgentDirectory() {
                   className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-[11px] font-medium transition-all duration-200"
                   style={{
                     ...GLASS,
-                    color: "rgba(255,255,255,0.5)",
+                    color: "#6B7280",
                   }}
                 >
                   <FlaskConical className="w-3.5 h-3.5" />
@@ -219,8 +214,8 @@ export default function AdminAgentDirectory() {
 
       {filtered.length === 0 && (
         <div className="text-center py-16">
-          <Filter className="w-8 h-8 mx-auto text-white/10 mb-3" />
-          <p className="text-sm text-gray-400">No agents match your search</p>
+          <Filter className="w-8 h-8 mx-auto mb-3" style={{ color: "#D1D5DB" }} />
+          <p className="text-sm" style={{ color: "#6B7280" }}>No agents match your search</p>
         </div>
       )}
     </div>
