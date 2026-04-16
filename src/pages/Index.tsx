@@ -236,9 +236,11 @@ const Index = () => {
         description="Specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. Built for NZ."
       />
       <WharikiFoundation />
+      <WaterCausticBackground />
       <NoiseOverlay />
       <CursorFollower />
 
+      <ScrollDepthLayers>
       <div className="relative z-10">
         <BrandNav />
         <ContextBar />
