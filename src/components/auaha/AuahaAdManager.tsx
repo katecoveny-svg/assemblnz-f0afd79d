@@ -25,7 +25,7 @@ const LOOP_CRITERIA = [
 
 function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`rounded-xl border backdrop-blur-xl ${className}`} style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}>
+    <div className={`rounded-xl border backdrop-blur-xl ${className}`} style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}>
       {children}
     </div>
   );
@@ -58,7 +58,7 @@ export default function AuahaAdManager() {
   return (
     <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
       <div>
-        <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Ad Manager</p>
+        <p className="text-[#6B7280] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Ad Manager</p>
         <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Ad Manager</h1>
       </div>
 
@@ -68,7 +68,7 @@ export default function AuahaAdManager() {
           <button
             key={key}
             onClick={() => setTab(key)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs transition-all ${tab === key ? "text-black font-medium" : "text-gray-500 bg-white/5"}`}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs transition-all ${tab === key ? "text-[#1A1D29] font-medium" : "text-[#6B7280] bg-[rgba(74,165,168,0.04)]"}`}
             style={tab === key ? { background: ACCENT } : {}}
           >
             <Icon className="w-3.5 h-3.5" /> {label}
@@ -79,11 +79,11 @@ export default function AuahaAdManager() {
       {tab === "create" && (
         <div className="space-y-4">
           <GlassCard className="p-6">
-            <label className="text-gray-500 text-xs block mb-2">Ad Brief</label>
+            <label className="text-[#6B7280] text-xs block mb-2">Ad Brief</label>
             <textarea
               value={adBrief}
               onChange={(e) => setAdBrief(e.target.value)}
-              className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm focus:outline-none min-h-[80px]"
+              className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm focus:outline-none min-h-[80px]"
               placeholder="Describe your product/service and campaign goal..."
             />
             <Button onClick={generateAds} disabled={isGenerating} className="mt-3" style={{ background: ACCENT, color: "#000" }}>
@@ -97,7 +97,7 @@ export default function AuahaAdManager() {
               {adVariants.map((v, i) => (
                 <GlassCard key={i} className="p-5">
                   <span className="text-xs px-2 py-0.5 rounded" style={{ background: `${ACCENT}20`, color: ACCENT }}>Variant {i + 1}</span>
-                  <div className="mt-3 text-white/70 text-sm whitespace-pre-wrap">{v.trim()}</div>
+                  <div className="mt-3 text-[#2A2F3D] text-sm whitespace-pre-wrap">{v.trim()}</div>
                 </GlassCard>
               ))}
             </div>
@@ -108,12 +108,12 @@ export default function AuahaAdManager() {
       {tab === "analytics" && (
         <div className="grid lg:grid-cols-2 gap-4">
           <GlassCard className="p-6">
-            <h3 className="text-white/60 text-xs uppercase tracking-[3px] mb-4">Ad Performance</h3>
+            <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px] mb-4">Ad Performance</h3>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={DEMO_ADS}>
                 <XAxis dataKey="name" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 10 }} axisLine={false} />
                 <YAxis tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} axisLine={false} />
-                <Tooltip contentStyle={{ background: 'rgba(15,15,26,0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }} />
+                <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(232,169,72,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 12 }} />
                 <Bar dataKey="clicks" radius={[4, 4, 0, 0]}>
                   {DEMO_ADS.map((_, i) => <Cell key={i} fill={i === 2 ? ACCENT : `${ACCENT}66`} />)}
                 </Bar>
@@ -122,17 +122,17 @@ export default function AuahaAdManager() {
           </GlassCard>
 
           <GlassCard className="p-6">
-            <h3 className="text-white/60 text-xs uppercase tracking-[3px] mb-4">Campaign Metrics</h3>
+            <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px] mb-4">Campaign Metrics</h3>
             <div className="space-y-4">
               {DEMO_ADS.map((ad) => (
-                <div key={ad.name} className="flex items-center justify-between p-3 rounded-lg bg-white/5">
+                <div key={ad.name} className="flex items-center justify-between p-3 rounded-lg bg-[rgba(74,165,168,0.04)]">
                   <div>
                     <p className="text-foreground text-sm">{ad.name}</p>
-                    <p className="text-gray-400 text-xs">{ad.impressions.toLocaleString()} impressions</p>
+                    <p className="text-[#6B7280] text-xs">{ad.impressions.toLocaleString()} impressions</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-mono" style={{ color: ACCENT }}>{ad.ctr}% CTR</p>
-                    <p className="text-gray-400 text-xs">${ad.spend} spend</p>
+                    <p className="text-[#6B7280] text-xs">${ad.spend} spend</p>
                   </div>
                 </div>
               ))}
@@ -145,18 +145,18 @@ export default function AuahaAdManager() {
         <GlassCard className="p-6">
           <div className="flex items-center gap-2 mb-4">
             <Zap className="w-4 h-4" style={{ color: ACCENT }} />
-            <h3 className="text-white/60 text-xs uppercase tracking-[3px]">Loop Testing Lab</h3>
+            <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]">Loop Testing Lab</h3>
           </div>
-          <p className="text-white/40 text-sm mb-6">MUSE simulates audience response and scores each ad variant.</p>
+          <p className="text-[#6B7280] text-sm mb-6">MUSE simulates audience response and scores each ad variant.</p>
           <div className="grid md:grid-cols-5 gap-4">
             {LOOP_CRITERIA.map((c) => {
               const score = Math.floor(Math.random() * 4) + 6;
               return (
-                <div key={c.name} className="text-center p-4 rounded-lg bg-white/5">
+                <div key={c.name} className="text-center p-4 rounded-lg bg-[rgba(74,165,168,0.04)]">
                   <div className="w-12 h-12 rounded-full mx-auto mb-2 flex items-center justify-center text-lg font-mono" style={{ background: `${ACCENT}15`, color: ACCENT }}>
                     {score}
                   </div>
-                  <p className="text-gray-500 text-[10px] uppercase tracking-wider">{c.name}</p>
+                  <p className="text-[#6B7280] text-[10px] uppercase tracking-wider">{c.name}</p>
                 </div>
               );
             })}

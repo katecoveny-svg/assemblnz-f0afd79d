@@ -87,7 +87,7 @@ interface Job {
 function GlassCard({ children, className = "", accent = false }: { children: React.ReactNode; className?: string; accent?: boolean }) {
   return (
     <div className={`rounded-xl border backdrop-blur-xl ${className}`}
-      style={{ background: "rgba(15,15,26,0.7)", borderColor: accent ? `${ACCENT}33` : "rgba(255,255,255,0.1)" }}>
+      style={{ background: "rgba(255,255,255,0.92)", borderColor: accent ? `${ACCENT}33` : "rgba(255,255,255,0.1)" }}>
       {children}
     </div>
   );
@@ -105,7 +105,7 @@ function KahuBadge({ result }: { result: KahuResult }) {
     <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: config.bg, border: `1px solid ${config.color}30` }}>
       <Icon className="w-4 h-4" style={{ color: config.color }} />
       <span className="text-xs font-medium" style={{ color: config.color }}>{config.label}</span>
-      {result.flags.length > 0 && <span className="text-[10px] text-white/40 ml-2">({result.flags.length} flag{result.flags.length > 1 ? "s" : ""})</span>}
+      {result.flags.length > 0 && <span className="text-[10px] text-[#6B7280] ml-2">({result.flags.length} flag{result.flags.length > 1 ? "s" : ""})</span>}
     </div>
   );
 }
@@ -264,11 +264,11 @@ export default function AuahaGenerate() {
     <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
       {/* Header */}
       <div>
-        <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Generate</p>
+        <p className="text-[#6B7280] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Generate</p>
         <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>
           Generate Studio
         </h1>
-        <p className="text-gray-500 text-sm mt-1">Kahu compliance → Iho routing → Tā audit → Output + Evidence Pack</p>
+        <p className="text-[#6B7280] text-sm mt-1">Kahu compliance → Iho routing → Tā audit → Output + Evidence Pack</p>
       </div>
 
       <div className="grid lg:grid-cols-5 gap-6">
@@ -278,7 +278,7 @@ export default function AuahaGenerate() {
           <div className="flex gap-2">
             {(["image", "video"] as const).map(t => (
               <button key={t} onClick={() => { setGenType(t); setSelectedModel("auto"); }}
-                className={`flex-1 px-4 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all ${t === genType ? "text-black font-medium" : "text-gray-500 bg-white/5"}`}
+                className={`flex-1 px-4 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all ${t === genType ? "text-[#1A1D29] font-medium" : "text-[#6B7280] bg-[rgba(74,165,168,0.04)]"}`}
                 style={t === genType ? { background: ACCENT } : {}}>
                 {t}
               </button>
@@ -287,9 +287,9 @@ export default function AuahaGenerate() {
 
           {/* Prompt */}
           <div>
-            <label className="text-gray-500 text-xs block mb-1.5">Prompt</label>
+            <label className="text-[#6B7280] text-xs block mb-1.5">Prompt</label>
             <textarea value={prompt} onChange={e => setPrompt(e.target.value)}
-              className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm min-h-[120px] placeholder:text-white/20 focus:outline-none focus:border-[#F0D07866]"
+              className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm min-h-[120px] placeholder:text-[#8B92A0] focus:outline-none focus:border-[#F0D07866]"
               placeholder="Describe what you want to create... Kahu will scan for compliance before dispatch." />
           </div>
 
@@ -298,31 +298,31 @@ export default function AuahaGenerate() {
 
           {/* Model selector */}
           <div>
-            <label className="text-gray-500 text-xs block mb-1.5">Model / Provider (Iho routing)</label>
+            <label className="text-[#6B7280] text-xs block mb-1.5">Model / Provider (Iho routing)</label>
             <div className="space-y-1">
               <button onClick={() => setSelectedModel("auto")}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all ${selectedModel === "auto" ? "border" : "bg-white/5"}`}
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all ${selectedModel === "auto" ? "border" : "bg-[rgba(74,165,168,0.04)]"}`}
                 style={selectedModel === "auto" ? { borderColor: `${ACCENT}66`, background: `${ACCENT}10` } : {}}>
-                <span className={selectedModel === "auto" ? "text-foreground" : "text-gray-500"}>Auto (Iho picks best)</span>
-                <span className="text-gray-400 text-[10px]">Recommended</span>
+                <span className={selectedModel === "auto" ? "text-foreground" : "text-[#6B7280]"}>Auto (Iho picks best)</span>
+                <span className="text-[#6B7280] text-[10px]">Recommended</span>
               </button>
               {models.map(m => (
                 <button key={m.id} onClick={() => setSelectedModel(m.id)}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all ${m.id === selectedModel ? "border" : "bg-white/5"}`}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all ${m.id === selectedModel ? "border" : "bg-[rgba(74,165,168,0.04)]"}`}
                   style={m.id === selectedModel ? { borderColor: `${ACCENT}66`, background: `${ACCENT}10` } : {}}>
-                  <span className={m.id === selectedModel ? "text-foreground" : "text-gray-500"}>{m.label}</span>
-                  <span className="text-gray-400 text-[10px]">{m.desc}</span>
+                  <span className={m.id === selectedModel ? "text-foreground" : "text-[#6B7280]"}>{m.label}</span>
+                  <span className="text-[#6B7280] text-[10px]">{m.desc}</span>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Demo mode notice */}
-          <div className="flex items-start gap-2 p-3 rounded-lg bg-white/5">
-            <Info className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
+          <div className="flex items-start gap-2 p-3 rounded-lg bg-[rgba(74,165,168,0.04)]">
+            <Info className="w-4 h-4 text-[#6B7280] mt-0.5 flex-shrink-0" />
             <div>
-              <p className="text-gray-500 text-xs">Demo mode active</p>
-              <p className="text-white/25 text-[10px]">Set REPLICATE_API_TOKEN or FAL_KEY to go live. The full UI, audit trail, and evidence packs work without credentials.</p>
+              <p className="text-[#6B7280] text-xs">Demo mode active</p>
+              <p className="text-[#8B92A0] text-[10px]">Set REPLICATE_API_TOKEN or FAL_KEY to go live. The full UI, audit trail, and evidence packs work without credentials.</p>
             </div>
           </div>
 
@@ -335,9 +335,9 @@ export default function AuahaGenerate() {
         <div className="lg:col-span-3 space-y-4">
           {jobs.length === 0 ? (
             <GlassCard className="p-12 text-center">
-              <Shield className="w-12 h-12 mx-auto mb-3 text-white/10" />
-              <p className="text-gray-400 text-sm">No jobs yet</p>
-              <p className="text-white/15 text-[10px] mt-1">Submit a prompt to see the full Kahu → Iho → Tā pipeline in action</p>
+              <Shield className="w-12 h-12 mx-auto mb-3 text-[#1A1D29]/10" />
+              <p className="text-[#6B7280] text-sm">No jobs yet</p>
+              <p className="text-[#1A1D29]/15 text-[10px] mt-1">Submit a prompt to see the full Kahu → Iho → Tā pipeline in action</p>
             </GlassCard>
           ) : (
             jobs.map(job => (
@@ -347,14 +347,14 @@ export default function AuahaGenerate() {
                   className="w-full flex items-center justify-between p-4 hover:bg-white/[0.02] transition-all">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 rounded-full" style={{ background: statusColor(job.status) }} />
-                    <span className="text-white/60 text-xs font-mono">{job.id.slice(0, 8)}</span>
-                    <span className="text-white/40 text-xs uppercase">{job.status.replace("_", " ")}</span>
-                    <span className="text-white/20 text-[10px]">{job.type} • {job.provider}</span>
+                    <span className="text-[#4A5160] text-xs font-mono">{job.id.slice(0, 8)}</span>
+                    <span className="text-[#6B7280] text-xs uppercase">{job.status.replace("_", " ")}</span>
+                    <span className="text-[#8B92A0] text-[10px]">{job.type} • {job.provider}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     {job.status === "complete" && (
                       <button onClick={e => { e.stopPropagation(); downloadEvidence(job); }}
-                        className="flex items-center gap-1 px-2 py-1 rounded text-[10px] text-white/40 hover:text-white/70 bg-white/5">
+                        className="flex items-center gap-1 px-2 py-1 rounded text-[10px] text-[#6B7280] hover:text-[#2A2F3D] bg-[rgba(74,165,168,0.04)]">
                         <Download className="w-3 h-3" /> Evidence Pack
                       </button>
                     )}
@@ -364,7 +364,7 @@ export default function AuahaGenerate() {
                         <CheckCircle2 className="w-3 h-3" /> Approve
                       </button>
                     )}
-                    <ChevronDown className={`w-4 h-4 text-white/20 transition-transform ${expandedJob === job.id ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`w-4 h-4 text-[#8B92A0] transition-transform ${expandedJob === job.id ? "rotate-180" : ""}`} />
                   </div>
                 </button>
 
@@ -372,9 +372,9 @@ export default function AuahaGenerate() {
                 {expandedJob === job.id && (
                   <div className="border-t border-gray-100 p-4 space-y-4">
                     {/* Prompt */}
-                    <div className="bg-white/5 rounded-lg p-3">
-                      <span className="text-gray-400 text-[10px] uppercase tracking-wider">Prompt</span>
-                      <p className="text-white/70 text-sm mt-1">{job.prompt}</p>
+                    <div className="bg-[rgba(74,165,168,0.04)] rounded-lg p-3">
+                      <span className="text-[#6B7280] text-[10px] uppercase tracking-wider">Prompt</span>
+                      <p className="text-[#2A2F3D] text-sm mt-1">{job.prompt}</p>
                     </div>
 
                     {/* Kahu result */}
@@ -384,7 +384,7 @@ export default function AuahaGenerate() {
                     {job.resultUrl && (
                       <div className="rounded-lg overflow-hidden border border-gray-200">
                         {job.type === "image" ? (
-                          <img src={job.resultUrl} alt="Generated" className="w-full max-h-[400px] object-contain bg-black/50" />
+                          <img src={job.resultUrl} alt="Generated" className="w-full max-h-[400px] object-contain bg-[rgba(26,29,41,0.02)]0" />
                         ) : (
                           <video src={job.resultUrl} controls className="w-full" />
                         )}
@@ -393,25 +393,25 @@ export default function AuahaGenerate() {
 
                     {/* Tā Audit Trail */}
                     <div>
-                      <span className="text-white/40 text-xs uppercase tracking-[2px] block mb-3">Tā Audit Trail</span>
+                      <span className="text-[#6B7280] text-xs uppercase tracking-[2px] block mb-3">Tā Audit Trail</span>
                       <div className="space-y-2">
                         {job.audit.map((entry, i) => (
                           <div key={entry.id} className="flex gap-3 items-start">
                             <div className="flex flex-col items-center">
                               <div className="w-2 h-2 rounded-full mt-1.5" style={{ background: stageColor(entry.status) }} />
-                              {i < job.audit.length - 1 && <div className="w-px flex-1 mt-1 bg-white/5" />}
+                              {i < job.audit.length - 1 && <div className="w-px flex-1 mt-1 bg-[rgba(74,165,168,0.04)]" />}
                             </div>
                             <div className="flex-1 pb-2">
                               <div className="flex items-center gap-2">
                                 <span className="text-[10px] font-mono px-1.5 py-0.5 rounded" style={{ background: `${stageColor(entry.status)}15`, color: stageColor(entry.status) }}>
                                   {entry.stage.toUpperCase()}
                                 </span>
-                                <span className="text-gray-500 text-[10px]">{entry.actor}</span>
-                                <span className="text-white/20 text-[9px] ml-auto font-mono">
+                                <span className="text-[#6B7280] text-[10px]">{entry.actor}</span>
+                                <span className="text-[#8B92A0] text-[9px] ml-auto font-mono">
                                   {new Date(entry.timestamp).toLocaleTimeString("en-NZ", { hour12: false, timeZone: "Pacific/Auckland" })}
                                 </span>
                               </div>
-                              <p className="text-white/60 text-xs mt-1">{entry.detail}</p>
+                              <p className="text-[#4A5160] text-xs mt-1">{entry.detail}</p>
                             </div>
                           </div>
                         ))}

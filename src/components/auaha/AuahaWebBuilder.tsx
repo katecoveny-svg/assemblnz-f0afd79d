@@ -93,8 +93,9 @@ export default function AuahaWebBuilder() {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
         className="relative overflow-hidden rounded-2xl p-8 lg:p-10"
         style={{
-          background: "linear-gradient(135deg, rgba(240,208,120,0.08) 0%, rgba(15,15,26,0.9) 40%, rgba(90,173,160,0.06) 100%)",
-          border: "1px solid rgba(240,208,120,0.12)",
+          background: "linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(232,169,72,0.06) 50%, rgba(74,165,168,0.05) 100%)",
+          border: "1px solid rgba(232,169,72,0.30)",
+          boxShadow: "0 12px 40px rgba(26,29,41,0.08), inset 0 1px 0 rgba(255,255,255,0.95)",
         }}>
         <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-20 blur-[80px]" style={{ background: ACCENT }} />
         <div className="absolute bottom-0 left-1/3 w-48 h-48 rounded-full opacity-10 blur-[60px]" style={{ background: TEAL }} />
@@ -105,12 +106,12 @@ export default function AuahaWebBuilder() {
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${ACCENT}18`, border: `1px solid ${ACCENT}30` }}>
                 <Globe className="w-5 h-5" style={{ color: ACCENT }} />
               </div>
-              <p className="text-white/40 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>auaha &gt; web builder</p>
+              <p className="text-[#6B7280] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>auaha &gt; web builder</p>
             </div>
             <h1 className="text-foreground text-3xl lg:text-4xl font-light uppercase tracking-[5px] mb-2" style={{ fontFamily: 'Lato, sans-serif' }}>
               Website Builder
             </h1>
-            <p className="text-white/45 text-sm max-w-lg" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+            <p className="text-[#1A1D29]/45 text-sm max-w-lg" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
               Brief → Structure → Design → Build → Export. Three agents orchestrate your website from concept to code.
             </p>
           </div>
@@ -119,7 +120,7 @@ export default function AuahaWebBuilder() {
               <div className="w-2 h-2 rounded-full bg-[#5AADA0] animate-pulse" />
               <span className="text-[#5AADA0]/80 text-xs font-medium">PIXEL · MUSE · CHROMATIC</span>
             </div>
-            <span className="text-white/25 text-[10px] font-mono">Kahu compliance on all outputs</span>
+            <span className="text-[#8B92A0] text-[10px] font-mono">Kahu compliance on all outputs</span>
           </div>
         </div>
       </motion.div>
@@ -129,7 +130,7 @@ export default function AuahaWebBuilder() {
         <GlassCard glow className="p-6 lg:p-8">
           <div className="flex items-center gap-3 mb-6">
             <Zap className="w-4 h-4" style={{ color: ACCENT }} />
-            <h3 className="text-white/70 text-xs uppercase tracking-[3px] font-medium" style={{ fontFamily: 'Lato, sans-serif' }}>Build Pipeline</h3>
+            <h3 className="text-[#2A2F3D] text-xs uppercase tracking-[3px] font-medium" style={{ fontFamily: 'Lato, sans-serif' }}>Build Pipeline</h3>
           </div>
           <div className="relative">
             <div className="absolute top-[22px] left-[40px] right-[40px] h-px" style={{ background: `linear-gradient(90deg, ${ACCENT}30, ${TEAL}30, ${ACCENT}30)` }} />
@@ -139,7 +140,7 @@ export default function AuahaWebBuilder() {
                 const isDone = i < activeStep;
                 return (
                   <motion.div key={step.key} custom={i} initial="hidden" animate="visible" variants={fadeUp}
-                    className="flex flex-col items-center gap-2 px-3 py-2 rounded-xl transition-all hover:bg-white/5 min-w-[90px] relative cursor-pointer"
+                    className="flex flex-col items-center gap-2 px-3 py-2 rounded-xl transition-all hover:bg-[rgba(74,165,168,0.04)] min-w-[90px] relative cursor-pointer"
                     onClick={() => !isGenerating && setActiveStep(i)}>
                     <div className={`w-11 h-11 rounded-full flex items-center justify-center relative z-10 transition-all duration-500 ${isActive ? 'scale-110' : ''}`}
                       style={{
@@ -155,8 +156,8 @@ export default function AuahaWebBuilder() {
                         <step.icon className="w-4 h-4" style={{ color: isDone || isActive ? step.color : `${step.color}60` }} />
                       )}
                     </div>
-                    <span className={`text-[10px] uppercase tracking-wider font-medium transition-colors ${isDone || isActive ? 'text-white/70' : 'text-gray-400'}`}>{step.label}</span>
-                    <span className="text-[8px] text-white/20 font-mono">{step.agent}</span>
+                    <span className={`text-[10px] uppercase tracking-wider font-medium transition-colors ${isDone || isActive ? 'text-[#2A2F3D]' : 'text-[#6B7280]'}`}>{step.label}</span>
+                    <span className="text-[8px] text-[#8B92A0] font-mono">{step.agent}</span>
                   </motion.div>
                 );
               })}
@@ -174,12 +175,12 @@ export default function AuahaWebBuilder() {
             <GlassCard className="p-6">
               <div className="flex items-center gap-2 mb-4">
                 <Wand2 className="w-4 h-4" style={{ color: ACCENT }} />
-                <h3 className="text-white/60 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Website Brief</h3>
+                <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Website Brief</h3>
               </div>
               <textarea
                 value={brief}
                 onChange={(e) => setBrief(e.target.value)}
-                className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-foreground text-sm focus:outline-none focus:border-[#F0D078]/30 min-h-[140px] resize-none transition-colors placeholder:text-white/20"
+                className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-foreground text-sm focus:outline-none focus:border-[#F0D078]/30 min-h-[140px] resize-none transition-colors placeholder:text-[#8B92A0]"
                 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
                 placeholder="Describe your website…&#10;&#10;e.g. A modern landing page for a Wellington coffee roastery. Hero section with video background, menu section, about page, and contact form. Earthy colour palette."
               />
@@ -204,7 +205,7 @@ export default function AuahaWebBuilder() {
             <GlassCard className="p-6">
               <div className="flex items-center gap-2 mb-4">
                 <Layout className="w-4 h-4" style={{ color: TEAL }} />
-                <h3 className="text-white/60 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Templates</h3>
+                <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Templates</h3>
               </div>
               <div className="space-y-2">
                 {TEMPLATES.map((t) => (
@@ -218,12 +219,12 @@ export default function AuahaWebBuilder() {
                       selectedTemplate === t.name ? 'border-[#F0D078]/30 bg-[#F0D078]/[0.04]' : 'border-white/[0.05] bg-transparent'
                     }`}>
                     <div className="flex-1 min-w-0">
-                      <p className="text-white/80 text-sm font-medium truncate">{t.name}</p>
-                      <p className="text-gray-400 text-[11px] truncate">{t.desc}</p>
+                      <p className="text-[#1A1D29] text-sm font-medium truncate">{t.name}</p>
+                      <p className="text-[#6B7280] text-[11px] truncate">{t.desc}</p>
                     </div>
                     <div className="flex items-center gap-2 ml-3 flex-shrink-0">
-                      <span className="text-white/20 text-[10px] font-mono">{t.pages}p</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-white/10 group-hover:text-white/40 group-hover:translate-x-1 transition-all" />
+                      <span className="text-[#8B92A0] text-[10px] font-mono">{t.pages}p</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-[#1A1D29]/10 group-hover:text-[#6B7280] group-hover:translate-x-1 transition-all" />
                     </div>
                   </div>
                 ))}
@@ -240,7 +241,7 @@ export default function AuahaWebBuilder() {
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-2">
                   <Eye className="w-4 h-4" style={{ color: ACCENT }} />
-                  <h3 className="text-white/60 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Preview</h3>
+                  <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Preview</h3>
                 </div>
                 <div className="flex items-center gap-1 p-1 rounded-lg" style={{ background: "rgba(255,255,255,0.04)" }}>
                   {([
@@ -251,7 +252,7 @@ export default function AuahaWebBuilder() {
                     <button
                       key={mode}
                       onClick={() => setDeviceMode(mode)}
-                      className={`p-2 rounded-md transition-all ${deviceMode === mode ? 'bg-white/10' : 'hover:bg-white/5'}`}>
+                      className={`p-2 rounded-md transition-all ${deviceMode === mode ? 'bg-[rgba(74,165,168,0.06)]' : 'hover:bg-[rgba(74,165,168,0.04)]'}`}>
                       <Icon className="w-3.5 h-3.5" style={{ color: deviceMode === mode ? ACCENT : 'rgba(255,255,255,0.3)' }} />
                     </button>
                   ))}
@@ -265,19 +266,20 @@ export default function AuahaWebBuilder() {
                     deviceMode === "mobile" ? "w-[320px]" : deviceMode === "tablet" ? "w-[500px]" : "w-full"
                   }`}
                   style={{
-                    background: "linear-gradient(180deg, rgba(20,20,35,0.95) 0%, rgba(15,15,26,1) 100%)",
-                    borderColor: "rgba(255,255,255,0.06)",
+                    background: "linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 100%)",
+                    borderColor: "rgba(74,165,168,0.14)",
+                    boxShadow: "0 8px 28px rgba(26,29,41,0.07)",
                     minHeight: 380,
                   }}>
                   {/* Browser chrome */}
-                  <div className="flex items-center gap-2 px-4 py-2.5 border-b" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+                  <div className="flex items-center gap-2 px-4 py-2.5 border-b" style={{ borderColor: "rgba(74,165,168,0.10)" }}>
                     <div className="flex gap-1.5">
                       <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
                       <div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
                       <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
                     </div>
                     <div className="flex-1 mx-4">
-                      <div className="h-5 rounded-md flex items-center justify-center text-[10px] text-white/20 font-mono" style={{ background: "rgba(255,255,255,0.04)" }}>
+                      <div className="h-5 rounded-md flex items-center justify-center text-[10px] text-[#8B92A0] font-mono" style={{ background: "rgba(255,255,255,0.04)" }}>
                         yoursite.co.nz
                       </div>
                     </div>
@@ -295,15 +297,15 @@ export default function AuahaWebBuilder() {
                                 <div className="w-8 h-8 rounded-lg mx-auto mb-2 flex items-center justify-center" style={{ background: `${ACCENT}20` }}>
                                   <Globe className="w-4 h-4" style={{ color: ACCENT }} />
                                 </div>
-                                <p className="text-white/60 text-sm font-medium">Hero Section</p>
-                                <p className="text-white/25 text-[10px]">Generated from your brief</p>
+                                <p className="text-[#4A5160] text-sm font-medium">Hero Section</p>
+                                <p className="text-[#8B92A0] text-[10px]">Generated from your brief</p>
                               </div>
                             </div>
                           </div>
                           <div className="grid grid-cols-3 gap-3">
                             {["Features", "About", "Contact"].map((s) => (
                               <div key={s} className="h-20 rounded-lg flex items-center justify-center" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                                <span className="text-gray-400 text-[10px]">{s}</span>
+                                <span className="text-[#6B7280] text-[10px]">{s}</span>
                               </div>
                             ))}
                           </div>
@@ -316,10 +318,10 @@ export default function AuahaWebBuilder() {
                           style={{ background: `linear-gradient(135deg, ${ACCENT}10, ${TEAL}08)`, border: `1px solid ${ACCENT}15` }}>
                           <Globe className="w-7 h-7" style={{ color: `${ACCENT}50` }} />
                         </div>
-                        <p className="text-gray-400 text-sm mb-2" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                        <p className="text-[#6B7280] text-sm mb-2" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
                           {isGenerating ? "Building your website…" : "Enter a brief to start"}
                         </p>
-                        <p className="text-white/15 text-xs text-center max-w-xs">
+                        <p className="text-[#1A1D29]/15 text-xs text-center max-w-xs">
                           {isGenerating
                             ? "PIXEL, MUSE & CHROMATIC are working together to build your site"
                             : "Describe what you need or pick a template. Our agents will handle structure, design, and code."}
@@ -327,7 +329,7 @@ export default function AuahaWebBuilder() {
                         {isGenerating && (
                           <div className="mt-6 flex items-center gap-2">
                             <Loader2 className="w-4 h-4 animate-spin" style={{ color: ACCENT }} />
-                            <span className="text-gray-400 text-xs font-mono">Step {activeStep} of 5</span>
+                            <span className="text-[#6B7280] text-xs font-mono">Step {activeStep} of 5</span>
                           </div>
                         )}
                       </motion.div>
@@ -357,7 +359,7 @@ export default function AuahaWebBuilder() {
         <GlassCard className="p-6">
           <div className="flex items-center gap-2 mb-5">
             <Zap className="w-4 h-4" style={{ color: ACCENT }} />
-            <h3 className="text-gray-500 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Powering this builder</h3>
+            <h3 className="text-[#6B7280] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Powering this builder</h3>
           </div>
           <div className="grid grid-cols-3 gap-4">
             {[
@@ -373,11 +375,11 @@ export default function AuahaWebBuilder() {
                     <Sparkles className="w-4 h-4" style={{ color: agent.color }} />
                   </div>
                   <div>
-                    <p className="text-white/80 text-xs font-semibold tracking-wider">{agent.name}</p>
-                    <p className="text-gray-400 text-[10px]">{agent.role}</p>
+                    <p className="text-[#1A1D29] text-xs font-semibold tracking-wider">{agent.name}</p>
+                    <p className="text-[#6B7280] text-[10px]">{agent.role}</p>
                   </div>
                 </div>
-                <p className="text-white/25 text-[11px] leading-relaxed">{agent.desc}</p>
+                <p className="text-[#8B92A0] text-[11px] leading-relaxed">{agent.desc}</p>
               </div>
             ))}
           </div>

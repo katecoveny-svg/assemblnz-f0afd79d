@@ -39,15 +39,17 @@ const DashboardGlassCard: React.FC<DashboardGlassCardProps> = ({
       onMouseMove={handleMouseMove}
       className={`relative rounded-2xl transition-all duration-300 group/card ${onClick ? "cursor-pointer hover:-translate-y-1" : "hover:-translate-y-0.5"} ${className}`}
       style={{
-        background: "#FAFBFC",
+        background: "linear-gradient(145deg, rgba(255,255,255,0.96), rgba(255,255,255,0.82))",
+        backdropFilter: "blur(22px) saturate(160%)",
+        border: `1px solid ${glow ? `rgba(${rgb},0.22)` : "rgba(74,165,168,0.12)"}`,
         boxShadow: glow
-          ? `6px 6px 16px rgba(166,166,180,0.4),
-             -6px -6px 16px rgba(255,255,255,0.9),
-             inset 0 1px 0 rgba(255,255,255,0.7),
-             0 0 30px rgba(${rgb},0.08)`
-          : `6px 6px 16px rgba(166,166,180,0.35),
-             -6px -6px 16px rgba(255,255,255,0.85),
-             inset 0 1px 0 rgba(255,255,255,0.6)`,
+          ? `0 12px 40px rgba(26,29,41,0.10),
+             0 2px 6px rgba(26,29,41,0.05),
+             inset 0 1px 0 rgba(255,255,255,0.95),
+             0 0 36px rgba(${rgb},0.18)`
+          : `0 8px 28px rgba(26,29,41,0.07),
+             0 1px 3px rgba(26,29,41,0.04),
+             inset 0 1px 0 rgba(255,255,255,0.85)`,
       }}
     >
       {/* Specular top edge — neumorphic inner light */}

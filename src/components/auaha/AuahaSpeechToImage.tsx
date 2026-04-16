@@ -116,10 +116,10 @@ export default function AuahaSpeechToImage() {
     <div className="p-6 lg:p-10 max-w-6xl mx-auto space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-light tracking-wide text-white/90" style={{ fontFamily: "Lato, sans-serif" }}>
+        <h1 className="text-3xl font-light tracking-wide text-[#1A1D29]" style={{ fontFamily: "Lato, sans-serif" }}>
           Speech-to-Image Canvas
         </h1>
-        <p className="text-white/40 text-sm mt-1" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
+        <p className="text-[#6B7280] text-sm mt-1" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
           Describe a scene with your voice — AUAHA NZ generates it instantly
         </p>
       </div>
@@ -154,7 +154,7 @@ export default function AuahaSpeechToImage() {
             {isListening ? (
               <MicOff className="w-10 h-10" style={{ color: POUNAMU }} />
             ) : (
-              <Mic className="w-10 h-10 text-white/40" />
+              <Mic className="w-10 h-10 text-[#6B7280]" />
             )}
 
             {/* Rings */}
@@ -176,7 +176,7 @@ export default function AuahaSpeechToImage() {
             )}
           </motion.button>
 
-          <p className="text-gray-500 text-sm">
+          <p className="text-[#6B7280] text-sm">
             {isListening ? "Listening — speak naturally, then click to stop" : "Click the microphone to start"}
           </p>
 
@@ -195,14 +195,14 @@ export default function AuahaSpeechToImage() {
                 }}>
                   <div className="flex items-center gap-2 mb-2">
                     <Volume2 className="w-3.5 h-3.5" style={{ color: POUNAMU }} />
-                    <span className="text-[11px] uppercase tracking-wider text-gray-400" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                    <span className="text-[11px] uppercase tracking-wider text-[#6B7280]" style={{ fontFamily: "JetBrains Mono, monospace" }}>
                       Your prompt
                     </span>
                   </div>
                   <textarea
                     value={transcript}
                     onChange={(e) => setTranscript(e.target.value)}
-                    className="w-full bg-transparent text-white/80 text-sm resize-none outline-none min-h-[60px]"
+                    className="w-full bg-transparent text-[#1A1D29] text-sm resize-none outline-none min-h-[60px]"
                     style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}
                   />
                 </div>
@@ -263,7 +263,7 @@ export default function AuahaSpeechToImage() {
               </div>
             </div>
             <div className="p-4" style={{ background: "rgba(10,10,10,0.8)" }}>
-              <p className="text-gray-500 text-xs italic">"{transcript}"</p>
+              <p className="text-[#6B7280] text-xs italic">"{transcript}"</p>
             </div>
           </motion.div>
         )}
@@ -272,7 +272,7 @@ export default function AuahaSpeechToImage() {
       {/* Suggested prompts from brand */}
       {brand && brand.suggestions.videoIdeas.length > 0 && !transcript && (
         <div className="space-y-3">
-          <h3 className="text-white/40 text-xs uppercase tracking-wider" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+          <h3 className="text-[#6B7280] text-xs uppercase tracking-wider" style={{ fontFamily: "JetBrains Mono, monospace" }}>
             Suggested scenes from Brand DNA
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -287,7 +287,7 @@ export default function AuahaSpeechToImage() {
                 }}
               >
                 <Image className="w-4 h-4 mb-2" style={{ color: TEAL }} />
-                <p className="text-white/70 text-sm">{idea}</p>
+                <p className="text-[#2A2F3D] text-sm">{idea}</p>
               </button>
             ))}
           </div>

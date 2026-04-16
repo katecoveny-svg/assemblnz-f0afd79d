@@ -192,11 +192,11 @@ export default function AuahaCopyStudio() {
       <div>
         <div className="flex items-center gap-3 mb-1">
           <PenTool className="w-5 h-5" style={{ color: POUNAMU }} />
-          <h1 className="text-2xl font-light uppercase tracking-[3px] text-white/90" style={{ fontFamily: "Lato, sans-serif" }}>
+          <h1 className="text-2xl font-light uppercase tracking-[3px] text-[#1A1D29]" style={{ fontFamily: "Lato, sans-serif" }}>
             Kia Ora Copywriter
           </h1>
         </div>
-        <p className="text-white/40 text-sm">Award-winning NZ English copy — Te Ao Māori aware, Govt Web Standards compliant</p>
+        <p className="text-[#6B7280] text-sm">Award-winning NZ English copy — Te Ao Māori aware, Govt Web Standards compliant</p>
       </div>
 
       {/* Content type tabs */}
@@ -222,24 +222,24 @@ export default function AuahaCopyStudio() {
           background: "linear-gradient(135deg, rgba(10,10,10,0.9), rgba(0,168,107,0.03))",
           borderColor: "rgba(255,255,255,0.06)",
         }}>
-          <div className="flex items-center gap-2 text-gray-500 text-xs uppercase tracking-[2px]">
+          <div className="flex items-center gap-2 text-[#6B7280] text-xs uppercase tracking-[2px]">
             <PenTool className="w-3.5 h-3.5" style={{ color: POUNAMU }} />
             Brief
           </div>
 
           <div>
-            <label className="text-white/40 text-xs block mb-1.5">Topic / Brief</label>
+            <label className="text-[#6B7280] text-xs block mb-1.5">Topic / Brief</label>
             <textarea
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-white/80 text-sm focus:outline-none focus:border-[#00A86B44] min-h-[120px] transition-colors"
+              className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-[#1A1D29] text-sm focus:outline-none focus:border-[#00A86B44] min-h-[120px] transition-colors"
               placeholder="What should the Kia Ora Copywriter craft?"
             />
           </div>
 
           {/* Tone Selection */}
           <div>
-            <label className="text-white/40 text-xs block mb-2">Voice Tone</label>
+            <label className="text-[#6B7280] text-xs block mb-2">Voice Tone</label>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
               {TONES.map((t) => (
                 <button
@@ -260,7 +260,7 @@ export default function AuahaCopyStudio() {
 
           {/* Length */}
           <div>
-            <label className="text-white/40 text-xs block mb-1.5">Length</label>
+            <label className="text-[#6B7280] text-xs block mb-1.5">Length</label>
             <div className="flex gap-1">
               {(["short", "medium", "long"] as const).map((l) => (
                 <button
@@ -284,7 +284,7 @@ export default function AuahaCopyStudio() {
             border: `1px solid ${POUNAMU}15`,
           }}>
             <Globe2 className="w-3.5 h-3.5" style={{ color: POUNAMU }} />
-            <span className="text-white/40">NZ Govt Web Standards · Te Reo aware · Auto NZ English</span>
+            <span className="text-[#6B7280]">NZ Govt Web Standards · Te Reo aware · Auto NZ English</span>
           </div>
 
           <Button
@@ -304,11 +304,11 @@ export default function AuahaCopyStudio() {
           borderColor: "rgba(255,255,255,0.06)",
         }}>
           <div className="flex items-center justify-between">
-            <span className="text-gray-500 text-xs uppercase tracking-[2px]">Output</span>
+            <span className="text-[#6B7280] text-xs uppercase tracking-[2px]">Output</span>
             <div className="flex items-center gap-2">
               {output && (
                 <>
-                  <button onClick={() => { navigator.clipboard.writeText(output); toast.success("Copied"); }} className="text-gray-400 hover:text-white/60 transition-colors">
+                  <button onClick={() => { navigator.clipboard.writeText(output); toast.success("Copied"); }} className="text-[#6B7280] hover:text-[#4A5160] transition-colors">
                     <Copy className="w-4 h-4" />
                   </button>
                   <button
@@ -325,8 +325,8 @@ export default function AuahaCopyStudio() {
             </div>
           </div>
 
-          <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl px-4 py-3 min-h-[200px] text-white/80 text-sm whitespace-pre-wrap" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
-            {output || <span className="text-white/15">Your copy will appear here...</span>}
+          <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl px-4 py-3 min-h-[200px] text-[#1A1D29] text-sm whitespace-pre-wrap" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
+            {output || <span className="text-[#1A1D29]/15">Your copy will appear here...</span>}
           </div>
 
           {/* Action Buttons */}
@@ -343,16 +343,16 @@ export default function AuahaCopyStudio() {
                   <ShieldCheck className="w-3 h-3" />
                   {isCheckingTone ? "Checking..." : "Tone Check"}
                 </button>
-                <button onClick={() => refine("Make it shorter. Cut any fluff.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/[0.03] text-white/40 hover:text-white/70 transition-colors border border-white/[0.04]">
+                <button onClick={() => refine("Make it shorter. Cut any fluff.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/[0.03] text-[#6B7280] hover:text-[#2A2F3D] transition-colors border border-white/[0.04]">
                   <ArrowDown className="w-3 h-3" /> Shorter
                 </button>
-                <button onClick={() => refine("Make it longer with more detail and examples.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/[0.03] text-white/40 hover:text-white/70 transition-colors border border-white/[0.04]">
+                <button onClick={() => refine("Make it longer with more detail and examples.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/[0.03] text-[#6B7280] hover:text-[#2A2F3D] transition-colors border border-white/[0.04]">
                   <ArrowUp className="w-3 h-3" /> Longer
                 </button>
-                <button onClick={() => refine("Make it bolder. More punch, more edge.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/[0.03] text-white/40 hover:text-white/70 transition-colors border border-white/[0.04]">
+                <button onClick={() => refine("Make it bolder. More punch, more edge.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/[0.03] text-[#6B7280] hover:text-[#2A2F3D] transition-colors border border-white/[0.04]">
                   <Zap className="w-3 h-3" /> Bolder
                 </button>
-                <button onClick={() => refine("Rewrite in Kiwi Casual tone — friendly, approachable, down-to-earth.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/[0.03] text-white/40 hover:text-white/70 transition-colors border border-white/[0.04]">
+                <button onClick={() => refine("Rewrite in Kiwi Casual tone — friendly, approachable, down-to-earth.")} className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-white/[0.03] text-[#6B7280] hover:text-[#2A2F3D] transition-colors border border-white/[0.04]">
                   <MessageSquare className="w-3 h-3" /> Kiwi-fy
                 </button>
               </div>
@@ -364,10 +364,10 @@ export default function AuahaCopyStudio() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="rounded-xl border p-4 text-xs text-white/60 whitespace-pre-wrap"
+                    className="rounded-xl border p-4 text-xs text-[#4A5160] whitespace-pre-wrap"
                     style={{ background: `${POUNAMU}05`, borderColor: `${POUNAMU}15` }}
                   >
-                    <div className="flex items-center gap-1.5 mb-2 text-white/40 uppercase tracking-wider text-[10px]">
+                    <div className="flex items-center gap-1.5 mb-2 text-[#6B7280] uppercase tracking-wider text-[10px]">
                       <ShieldCheck className="w-3 h-3" style={{ color: POUNAMU }} />
                       Tone Check Results
                     </div>
@@ -376,7 +376,7 @@ export default function AuahaCopyStudio() {
                 )}
               </AnimatePresence>
 
-              <p className="text-white/15 text-[10px]">
+              <p className="text-[#1A1D29]/15 text-[10px]">
                 {output.length} characters · {contentType} · {selectedTone.label} tone · Auto-saved to pipeline
               </p>
             </>

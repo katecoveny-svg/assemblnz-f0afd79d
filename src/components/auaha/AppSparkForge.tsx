@@ -140,10 +140,10 @@ Return ONLY the code, no markdown fences.`,
               <Zap className="w-5 h-5" style={{ color: POUNAMU }} />
             </div>
             <div>
-              <h1 className="text-2xl font-light tracking-wide text-white/90" style={{ fontFamily: "Lato, sans-serif" }}>
+              <h1 className="text-2xl font-light tracking-wide text-[#1A1D29]" style={{ fontFamily: "Lato, sans-serif" }}>
                 App SPARK
               </h1>
-              <p className="text-gray-400 text-xs">No-Code App Forge — Describe, Design, Deploy</p>
+              <p className="text-[#6B7280] text-xs">No-Code App Forge — Describe, Design, Deploy</p>
             </div>
           </div>
         </div>
@@ -164,14 +164,14 @@ Return ONLY the code, no markdown fences.`,
         background: "linear-gradient(135deg, rgba(10,10,10,0.9), rgba(0,168,107,0.03))",
         borderColor: "rgba(255,255,255,0.08)",
       }}>
-        <label className="text-white/40 text-xs uppercase tracking-wider mb-3 block" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+        <label className="text-[#6B7280] text-xs uppercase tracking-wider mb-3 block" style={{ fontFamily: "JetBrains Mono, monospace" }}>
           Describe your app
         </label>
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="e.g., A booking app for a Queenstown ski rental with equipment inventory, customer management, and seasonal pricing..."
-          className="w-full bg-transparent text-white/80 text-sm resize-none outline-none min-h-[100px] placeholder:text-white/20"
+          className="w-full bg-transparent text-[#1A1D29] text-sm resize-none outline-none min-h-[100px] placeholder:text-[#8B92A0]"
           style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}
         />
 
@@ -245,7 +245,7 @@ Return ONLY the code, no markdown fences.`,
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Tables */}
                 <div className="lg:col-span-2 space-y-4">
-                  <h3 className="text-gray-500 text-xs uppercase tracking-wider flex items-center gap-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                  <h3 className="text-[#6B7280] text-xs uppercase tracking-wider flex items-center gap-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
                     <Table2 className="w-3.5 h-3.5" /> Database Tables
                   </h3>
                   {schema.tables.map((table, i) => (
@@ -254,7 +254,7 @@ Return ONLY the code, no markdown fences.`,
                       borderColor: "rgba(255,255,255,0.06)",
                     }}>
                       <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm font-mono text-white/80">{table.name}</span>
+                        <span className="text-sm font-mono text-[#1A1D29]">{table.name}</span>
                         <Button
                           size="sm"
                           variant="ghost"
@@ -273,8 +273,8 @@ Return ONLY the code, no markdown fences.`,
                       <div className="space-y-1">
                         {table.columns.map((col, j) => (
                           <div key={j} className="flex items-center gap-3 text-xs">
-                            <span className="text-white/60 font-mono w-32 truncate">{col.name}</span>
-                            <span className="text-gray-400 font-mono text-[10px] flex-1 truncate">{col.type}</span>
+                            <span className="text-[#4A5160] font-mono w-32 truncate">{col.name}</span>
+                            <span className="text-[#6B7280] font-mono text-[10px] flex-1 truncate">{col.type}</span>
                             {!col.nullable && <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: `${POUNAMU}15`, color: POUNAMU }}>required</span>}
                           </div>
                         ))}
@@ -286,22 +286,22 @@ Return ONLY the code, no markdown fences.`,
                 {/* Pages & API */}
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-gray-500 text-xs uppercase tracking-wider flex items-center gap-2 mb-3" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                    <h3 className="text-[#6B7280] text-xs uppercase tracking-wider flex items-center gap-2 mb-3" style={{ fontFamily: "JetBrains Mono, monospace" }}>
                       <Layout className="w-3.5 h-3.5" /> UI Pages
                     </h3>
                     {schema.pages.map((page, i) => (
                       <div key={i} className="flex items-center gap-3 py-2 border-b border-white/[0.04]">
-                        <Layers className="w-3.5 h-3.5 text-gray-400" />
+                        <Layers className="w-3.5 h-3.5 text-[#6B7280]" />
                         <div>
-                          <p className="text-white/70 text-sm">{page.name}</p>
-                          <p className="text-gray-400 text-[10px] font-mono">{page.route}</p>
+                          <p className="text-[#2A2F3D] text-sm">{page.name}</p>
+                          <p className="text-[#6B7280] text-[10px] font-mono">{page.route}</p>
                         </div>
                       </div>
                     ))}
                   </div>
 
                   <div>
-                    <h3 className="text-gray-500 text-xs uppercase tracking-wider flex items-center gap-2 mb-3" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                    <h3 className="text-[#6B7280] text-xs uppercase tracking-wider flex items-center gap-2 mb-3" style={{ fontFamily: "JetBrains Mono, monospace" }}>
                       <Globe className="w-3.5 h-3.5" /> API Routes
                     </h3>
                     {schema.apiRoutes.map((route, i) => (
@@ -312,7 +312,7 @@ Return ONLY the code, no markdown fences.`,
                         }}>
                           {route.method}
                         </span>
-                        <span className="text-gray-500 text-xs font-mono truncate">{route.path}</span>
+                        <span className="text-[#6B7280] text-xs font-mono truncate">{route.path}</span>
                       </div>
                     ))}
                   </div>
@@ -346,17 +346,17 @@ Return ONLY the code, no markdown fences.`,
                 borderColor: "rgba(255,255,255,0.06)",
               }}>
                 <div className="flex items-center justify-between px-4 py-2 border-b border-white/[0.06]">
-                  <span className="text-[10px] font-mono text-gray-400">
+                  <span className="text-[10px] font-mono text-[#6B7280]">
                     {schema.name.replace(/\s+/g, "")}.tsx
                   </span>
                   <button
                     onClick={() => { navigator.clipboard.writeText(generatedCode); toast.success("Code copied"); }}
-                    className="text-[10px] text-gray-400 hover:text-white/60 transition-colors"
+                    className="text-[10px] text-[#6B7280] hover:text-[#4A5160] transition-colors"
                   >
                     Copy
                   </button>
                 </div>
-                <pre className="p-4 overflow-auto max-h-[500px] text-xs text-white/60 font-mono leading-relaxed">
+                <pre className="p-4 overflow-auto max-h-[500px] text-xs text-[#4A5160] font-mono leading-relaxed">
                   {generatedCode || "Generating code..."}
                 </pre>
               </div>
@@ -368,10 +368,10 @@ Return ONLY the code, no markdown fences.`,
                 background: "rgba(10,10,10,0.9)",
                 borderColor: "rgba(255,255,255,0.06)",
               }}>
-                <div className="p-4 text-center text-white/40 text-sm">
+                <div className="p-4 text-center text-[#6B7280] text-sm">
                   <Layout className="w-8 h-8 mx-auto mb-2 opacity-30" />
                   <p>Live preview renders the generated component</p>
-                  <p className="text-xs text-white/20 mt-1">Download the code to preview locally</p>
+                  <p className="text-xs text-[#8B92A0] mt-1">Download the code to preview locally</p>
                   <Button
                     variant="ghost"
                     className="mt-3 text-xs"

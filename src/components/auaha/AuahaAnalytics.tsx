@@ -36,7 +36,7 @@ const AI_INSIGHTS = [
 
 function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`rounded-xl border backdrop-blur-xl ${className}`} style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}>
+    <div className={`rounded-xl border backdrop-blur-xl ${className}`} style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}>
       {children}
     </div>
   );
@@ -46,9 +46,9 @@ export default function AuahaAnalytics() {
   return (
     <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
       <div>
-        <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Analytics</p>
+        <p className="text-[#6B7280] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Analytics</p>
         <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Analytics Hub</h1>
-        <p className="text-gray-500 text-sm mt-1">Unified performance across all platforms</p>
+        <p className="text-[#6B7280] text-sm mt-1">Unified performance across all platforms</p>
       </div>
 
       {/* Metric cards */}
@@ -56,11 +56,11 @@ export default function AuahaAnalytics() {
         {METRICS.map((m) => (
           <GlassCard key={m.label} className="p-5">
             <div className="flex items-start justify-between mb-2">
-              <m.icon className="w-4 h-4 text-gray-400" />
+              <m.icon className="w-4 h-4 text-[#6B7280]" />
               <span className="text-xs text-[#5AADA0]">{m.change}</span>
             </div>
             <p className="text-foreground text-xl font-light" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{m.value}</p>
-            <p className="text-white/40 text-xs mt-1">{m.label}</p>
+            <p className="text-[#6B7280] text-xs mt-1">{m.label}</p>
           </GlassCard>
         ))}
       </div>
@@ -68,7 +68,7 @@ export default function AuahaAnalytics() {
       <div className="grid lg:grid-cols-2 gap-4">
         {/* Reach chart */}
         <GlassCard className="p-6">
-          <h3 className="text-white/60 text-xs uppercase tracking-[3px] mb-4">Reach by Platform</h3>
+          <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px] mb-4">Reach by Platform</h3>
           <ResponsiveContainer width="100%" height={220}>
             <AreaChart data={reachData}>
               <defs>
@@ -83,7 +83,7 @@ export default function AuahaAnalytics() {
               </defs>
               <XAxis dataKey="d" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} axisLine={false} tickLine={false} />
               <YAxis hide />
-              <Tooltip contentStyle={{ background: 'rgba(15,15,26,0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 11 }} />
+              <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(232,169,72,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 11 }} />
               <Area type="monotone" dataKey="ig" stroke="#E1306C" fill="url(#igGrad)" strokeWidth={2} name="Instagram" />
               <Area type="monotone" dataKey="tt" stroke="#F0D078" fill="url(#ttGrad)" strokeWidth={2} name="TikTok" />
               <Area type="monotone" dataKey="li" stroke="#0A66C2" fill="none" strokeWidth={1.5} name="LinkedIn" />
@@ -94,12 +94,12 @@ export default function AuahaAnalytics() {
 
         {/* Content type */}
         <GlassCard className="p-6">
-          <h3 className="text-white/60 text-xs uppercase tracking-[3px] mb-4">Engagement by Content Type</h3>
+          <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px] mb-4">Engagement by Content Type</h3>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={contentTypeData}>
               <XAxis dataKey="type" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 10 }} axisLine={false} />
               <YAxis hide />
-              <Tooltip contentStyle={{ background: 'rgba(15,15,26,0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 11 }} />
+              <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(232,169,72,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 11 }} />
               <Bar dataKey="engagement" radius={[4, 4, 0, 0]}>
                 {contentTypeData.map((_, i) => <Cell key={i} fill={i === 4 ? ACCENT : `${ACCENT}55`} />)}
               </Bar>
@@ -112,13 +112,13 @@ export default function AuahaAnalytics() {
       <GlassCard className="p-6" >
         <div className="flex items-center gap-2 mb-4">
           <Sparkles className="w-4 h-4" style={{ color: ACCENT }} />
-          <h3 className="text-white/60 text-xs uppercase tracking-[3px]">AI Insights — MUSE + RHYTHM</h3>
+          <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]">AI Insights — MUSE + RHYTHM</h3>
         </div>
         <div className="grid md:grid-cols-2 gap-3">
           {AI_INSIGHTS.map((insight, i) => (
-            <div key={i} className="flex gap-3 p-3 rounded-lg bg-white/5">
+            <div key={i} className="flex gap-3 p-3 rounded-lg bg-[rgba(74,165,168,0.04)]">
               <div className="w-1 rounded-full flex-shrink-0" style={{ background: ACCENT, opacity: 0.4 }} />
-              <p className="text-white/70 text-sm">{insight}</p>
+              <p className="text-[#2A2F3D] text-sm">{insight}</p>
             </div>
           ))}
         </div>

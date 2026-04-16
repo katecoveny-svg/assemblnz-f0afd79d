@@ -22,10 +22,10 @@ export default function AuahaBrandScanner() {
   return (
     <div className="p-6 lg:p-10 max-w-5xl mx-auto space-y-8">
       <div>
-        <h1 className="text-3xl font-light tracking-wide text-white/90" style={{ fontFamily: "Lato, sans-serif" }}>
+        <h1 className="text-3xl font-light tracking-wide text-[#1A1D29]" style={{ fontFamily: "Lato, sans-serif" }}>
           Brand Scanner
         </h1>
-        <p className="text-white/40 text-sm mt-1">
+        <p className="text-[#6B7280] text-sm mt-1">
           Enter a URL to extract brand voice, colours, values — powering all AUAHA NZ modules
         </p>
       </div>
@@ -37,12 +37,12 @@ export default function AuahaBrandScanner() {
       }}>
         <div className="flex gap-3">
           <div className="relative flex-1">
-            <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280]" />
             <Input
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://yourbrand.co.nz"
-              className="pl-10 bg-transparent border-gray-200 text-white/80"
+              className="pl-10 bg-transparent border-gray-200 text-[#1A1D29]"
               onKeyDown={(e) => e.key === "Enter" && handleScan()}
             />
           </div>
@@ -68,7 +68,7 @@ export default function AuahaBrandScanner() {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.6 }}
-                className="flex items-center gap-2 text-xs text-white/40"
+                className="flex items-center gap-2 text-xs text-[#6B7280]"
               >
                 <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: POUNAMU }} />
                 {step}
@@ -99,32 +99,32 @@ export default function AuahaBrandScanner() {
                   {brand.businessName.charAt(0)}
                 </div>
                 <div>
-                  <h2 className="text-xl text-white/90 font-light">{brand.businessName}</h2>
-                  <p className="text-white/40 text-sm">{brand.industry} · {brand.voiceTone}</p>
+                  <h2 className="text-xl text-[#1A1D29] font-light">{brand.businessName}</h2>
+                  <p className="text-[#6B7280] text-sm">{brand.industry} · {brand.voiceTone}</p>
                 </div>
                 {brand.scanUrl && (
                   <a href={brand.scanUrl} target="_blank" rel="noopener" className="ml-auto">
-                    <ExternalLink className="w-4 h-4 text-gray-400 hover:text-white/60" />
+                    <ExternalLink className="w-4 h-4 text-[#6B7280] hover:text-[#4A5160]" />
                   </a>
                 )}
               </div>
 
               {/* Tagline */}
               {brand.tagline && (
-                <p className="text-white/60 text-sm italic mb-4">"{brand.tagline}"</p>
+                <p className="text-[#4A5160] text-sm italic mb-4">"{brand.tagline}"</p>
               )}
 
               {/* Colours */}
               <div className="mb-4">
-                <span className="text-gray-400 text-xs uppercase tracking-wider block mb-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                <span className="text-[#6B7280] text-xs uppercase tracking-wider block mb-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
                   Colour Palette
                 </span>
                 <div className="flex gap-3">
                   {Object.entries(brand.colors).map(([name, hex]) => (
                     <div key={name} className="text-center">
                       <div className="w-12 h-12 rounded-xl border border-gray-200" style={{ background: hex }} />
-                      <span className="text-[9px] text-gray-400 mt-1 block">{name}</span>
-                      <span className="text-[9px] text-white/20 font-mono">{hex}</span>
+                      <span className="text-[9px] text-[#6B7280] mt-1 block">{name}</span>
+                      <span className="text-[9px] text-[#8B92A0] font-mono">{hex}</span>
                     </div>
                   ))}
                 </div>
@@ -132,7 +132,7 @@ export default function AuahaBrandScanner() {
 
               {/* Keywords */}
               <div className="mb-4">
-                <span className="text-gray-400 text-xs uppercase tracking-wider block mb-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                <span className="text-[#6B7280] text-xs uppercase tracking-wider block mb-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
                   Keywords
                 </span>
                 <div className="flex flex-wrap gap-2">
@@ -150,10 +150,10 @@ export default function AuahaBrandScanner() {
 
               {/* Target Audience */}
               <div>
-                <span className="text-gray-400 text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                <span className="text-[#6B7280] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "JetBrains Mono, monospace" }}>
                   Target Audience
                 </span>
-                <p className="text-white/60 text-sm">{brand.targetAudience}</p>
+                <p className="text-[#4A5160] text-sm">{brand.targetAudience}</p>
               </div>
             </div>
 
@@ -170,10 +170,10 @@ export default function AuahaBrandScanner() {
                   borderColor: "rgba(255,255,255,0.06)",
                 }}>
                   <span className="text-lg mb-2 block">{icon}</span>
-                  <h4 className="text-white/60 text-xs uppercase tracking-wider mb-2">{label}</h4>
+                  <h4 className="text-[#4A5160] text-xs uppercase tracking-wider mb-2">{label}</h4>
                   <ul className="space-y-1.5">
                     {brand.suggestions[module === "video" ? "videoIdeas" : module === "podcast" ? "podcastTopics" : module === "copy" ? "copyAngles" : "appIdeas"].map((item, i) => (
-                      <li key={i} className="text-gray-500 text-xs flex items-start gap-1.5">
+                      <li key={i} className="text-[#6B7280] text-xs flex items-start gap-1.5">
                         <Sparkles className="w-3 h-3 mt-0.5 flex-shrink-0" style={{ color: TEAL }} />
                         {item}
                       </li>

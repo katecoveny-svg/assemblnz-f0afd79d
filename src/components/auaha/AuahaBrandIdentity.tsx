@@ -92,8 +92,8 @@ function ColourSwatch({ color, label, delay = 0 }: { color: string; label: strin
           </motion.div>
         )}
       </motion.div>
-      <span className="text-[10px] font-mono text-white/40">{color}</span>
-      <span className="text-[9px] text-white/25 uppercase tracking-wider">{label}</span>
+      <span className="text-[10px] font-mono text-[#6B7280]">{color}</span>
+      <span className="text-[9px] text-[#8B92A0] uppercase tracking-wider">{label}</span>
     </motion.div>
   );
 }
@@ -101,7 +101,7 @@ function ColourSwatch({ color, label, delay = 0 }: { color: string; label: strin
 /* ── Scanning animation ── */
 function ScanAnimation() {
   return (
-    <div className="relative w-full h-48 rounded-xl overflow-hidden" style={{ background: "rgba(15,15,26,0.9)" }}>
+    <div className="relative w-full h-48 rounded-xl overflow-hidden" style={{ background: "linear-gradient(135deg, #FFFFFF, #FAFBFC)" }}>
       {/* Scan line */}
       <motion.div
         className="absolute left-0 right-0 h-0.5"
@@ -129,13 +129,13 @@ function ScanAnimation() {
           <Zap className="w-8 h-8" style={{ color: ACCENT }} />
         </motion.div>
         <motion.p
-          className="text-white/60 text-xs mt-3 tracking-widest uppercase"
+          className="text-[#4A5160] text-xs mt-3 tracking-widest uppercase"
           animate={{ opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         >
           PRISM is analysing...
         </motion.p>
-        <p className="text-gray-400 text-[10px] mt-1">Extracting colours · fonts · voice · identity</p>
+        <p className="text-[#6B7280] text-[10px] mt-1">Extracting colours · fonts · voice · identity</p>
       </div>
     </div>
   );
@@ -175,7 +175,7 @@ function BrandScoreRing({ score }: { score: number }) {
         >
           {score}
         </motion.span>
-        <p className="text-[9px] text-white/40 uppercase tracking-wider">Brand Score</p>
+        <p className="text-[9px] text-[#6B7280] uppercase tracking-wider">Brand Score</p>
       </div>
     </motion.div>
   );
@@ -185,8 +185,8 @@ function BrandScoreRing({ score }: { score: number }) {
 function FormalityMeter({ level }: { level: number }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-[10px] text-gray-400">Casual</span>
-      <div className="flex-1 h-1.5 rounded-full bg-white/5 relative overflow-hidden">
+      <span className="text-[10px] text-[#6B7280]">Casual</span>
+      <div className="flex-1 h-1.5 rounded-full bg-[rgba(74,165,168,0.04)] relative overflow-hidden">
         <motion.div
           className="absolute inset-y-0 left-0 rounded-full"
           style={{ background: `linear-gradient(90deg, #34d399, ${ACCENT}, #ef4444)` }}
@@ -195,7 +195,7 @@ function FormalityMeter({ level }: { level: number }) {
           transition={{ duration: 1, ease: "easeOut" }}
         />
       </div>
-      <span className="text-[10px] text-gray-400">Formal</span>
+      <span className="text-[10px] text-[#6B7280]">Formal</span>
     </div>
   );
 }
@@ -259,8 +259,8 @@ export default function AuahaBrandIdentity() {
     return (
       <div className="p-6 lg:p-8 max-w-[1200px] mx-auto">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-white/5 rounded w-48" />
-          <div className="h-32 bg-white/5 rounded" />
+          <div className="h-8 bg-[rgba(74,165,168,0.04)] rounded w-48" />
+          <div className="h-32 bg-[rgba(74,165,168,0.04)] rounded" />
         </div>
       </div>
     );
@@ -275,18 +275,18 @@ export default function AuahaBrandIdentity() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Brand Identity</p>
+          <p className="text-[#6B7280] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Brand Identity</p>
           <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>
             Brand DNA Scanner
           </h1>
-          <p className="text-gray-500 text-sm mt-1">Powered by PRISM · AI-powered brand extraction</p>
+          <p className="text-[#6B7280] text-sm mt-1">Powered by PRISM · AI-powered brand extraction</p>
         </div>
         {brandDna && (
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full" style={{ background: "rgba(90,173,160,0.1)", color: "#34d399" }}>
               <Check className="w-3 h-3" /> DNA Extracted
             </span>
-            <button onClick={rescan} className="text-gray-400 hover:text-white/60 transition-colors" title="Re-scan">
+            <button onClick={rescan} className="text-[#6B7280] hover:text-[#4A5160] transition-colors" title="Re-scan">
               <RotateCcw className="w-4 h-4" />
             </button>
           </div>
@@ -297,11 +297,11 @@ export default function AuahaBrandIdentity() {
       <motion.div
         layout
         className="rounded-xl border backdrop-blur-xl p-6"
-        style={{ background: "rgba(15,15,26,0.7)", borderColor: isScanning ? `${ACCENT}44` : "rgba(255,255,255,0.1)" }}
+        style={{ background: "rgba(255,255,255,0.92)", borderColor: isScanning ? `${ACCENT}44` : "rgba(255,255,255,0.1)" }}
       >
         <div className="flex items-center gap-2 mb-4">
           <Globe className="w-4 h-4" style={{ color: ACCENT }} />
-          <span className="text-white/60 text-xs uppercase tracking-[2px]">Website Scanner</span>
+          <span className="text-[#4A5160] text-xs uppercase tracking-[2px]">Website Scanner</span>
         </div>
 
         {!isScanning ? (
@@ -310,7 +310,7 @@ export default function AuahaBrandIdentity() {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && scanWebsite()}
-              className="flex-1 bg-white/5 border border-gray-200 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:border-gray-300 transition-colors"
+              className="flex-1 bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:border-gray-300 transition-colors"
               placeholder="https://yourbusiness.co.nz"
             />
             <Button onClick={scanWebsite} style={{ background: ACCENT, color: "#000" }} className="min-w-[120px]">
@@ -338,13 +338,13 @@ export default function AuahaBrandIdentity() {
               {brandDna.brand_score != null && (
                 <motion.div
                   className="rounded-xl border backdrop-blur-xl p-6 flex flex-col items-center justify-center"
-                  style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+                  style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
                 >
                   <BrandScoreRing score={brandDna.brand_score} />
-                  <p className="text-[10px] text-gray-400 mt-2 text-center max-w-[120px]">
+                  <p className="text-[10px] text-[#6B7280] mt-2 text-center max-w-[120px]">
                     Based on visual consistency, messaging & digital presence
                   </p>
                 </motion.div>
@@ -353,7 +353,7 @@ export default function AuahaBrandIdentity() {
               {/* Identity Card */}
               <motion.div
                 className="rounded-xl border backdrop-blur-xl p-6"
-                style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
@@ -361,9 +361,9 @@ export default function AuahaBrandIdentity() {
                 <button className="flex items-center justify-between w-full mb-3" onClick={() => toggleSection("identity")}>
                   <div className="flex items-center gap-2">
                     <Fingerprint className="w-4 h-4" style={{ color: ACCENT }} />
-                    <span className="text-white/60 text-xs uppercase tracking-[2px]">Brand Identity</span>
+                    <span className="text-[#4A5160] text-xs uppercase tracking-[2px]">Brand Identity</span>
                   </div>
-                  {expandedSections.identity ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                  {expandedSections.identity ? <ChevronUp className="w-4 h-4 text-[#6B7280]" /> : <ChevronDown className="w-4 h-4 text-[#6B7280]" />}
                 </button>
 
                 <AnimatePresence>
@@ -371,23 +371,23 @@ export default function AuahaBrandIdentity() {
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden space-y-3">
                       <div className="flex items-center gap-3">
                         {brandDna.logo_url && (
-                          <img src={brandDna.logo_url} alt="Logo" className="w-10 h-10 rounded-lg object-contain bg-white/5 p-1" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                          <img src={brandDna.logo_url} alt="Logo" className="w-10 h-10 rounded-lg object-contain bg-[rgba(74,165,168,0.04)] p-1" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
                         )}
                         <div>
                           <h2 className="text-foreground text-lg font-medium">{brandDna.business_name}</h2>
-                          <p className="text-white/40 text-xs">{brandDna.industry} · {brandDna.target_audience}</p>
+                          <p className="text-[#6B7280] text-xs">{brandDna.industry} · {brandDna.target_audience}</p>
                         </div>
                       </div>
                       {brandDna.tagline && (
                         <p className="text-sm italic" style={{ color: `${ACCENT}cc` }}>"{brandDna.tagline}"</p>
                       )}
                       {brandDna.brand_summary && (
-                        <p className="text-gray-500 text-xs leading-relaxed">{brandDna.brand_summary}</p>
+                        <p className="text-[#6B7280] text-xs leading-relaxed">{brandDna.brand_summary}</p>
                       )}
                       {brandDna.social_links && brandDna.social_links.length > 0 && (
                         <div className="flex gap-2 flex-wrap">
                           {brandDna.social_links.map((link, i) => (
-                            <a key={i} href={link} target="_blank" rel="noopener noreferrer" className="text-[10px] px-2 py-1 rounded-full bg-white/5 text-white/40 hover:text-white/70 hover:bg-white/10 transition-all flex items-center gap-1">
+                            <a key={i} href={link} target="_blank" rel="noopener noreferrer" className="text-[10px] px-2 py-1 rounded-full bg-[rgba(74,165,168,0.04)] text-[#6B7280] hover:text-[#2A2F3D] hover:bg-[rgba(74,165,168,0.06)] transition-all flex items-center gap-1">
                               <ExternalLink className="w-3 h-3" />
                               {new URL(link).hostname.replace("www.", "")}
                             </a>
@@ -404,7 +404,7 @@ export default function AuahaBrandIdentity() {
             {vi && (
               <motion.div
                 className="rounded-xl border backdrop-blur-xl p-6"
-                style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
@@ -412,9 +412,9 @@ export default function AuahaBrandIdentity() {
                 <button className="flex items-center justify-between w-full mb-4" onClick={() => toggleSection("visual")}>
                   <div className="flex items-center gap-2">
                     <Palette className="w-4 h-4" style={{ color: ACCENT }} />
-                    <span className="text-white/60 text-xs uppercase tracking-[2px]">Visual Identity</span>
+                    <span className="text-[#4A5160] text-xs uppercase tracking-[2px]">Visual Identity</span>
                   </div>
-                  {expandedSections.visual ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                  {expandedSections.visual ? <ChevronUp className="w-4 h-4 text-[#6B7280]" /> : <ChevronDown className="w-4 h-4 text-[#6B7280]" />}
                 </button>
 
                 <AnimatePresence>
@@ -422,7 +422,7 @@ export default function AuahaBrandIdentity() {
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden space-y-5">
                       {/* Colour palette */}
                       <div>
-                        <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-3">Colour Palette</p>
+                        <p className="text-[10px] text-[#6B7280] uppercase tracking-wider mb-3">Colour Palette</p>
                         <div className="flex gap-4 flex-wrap">
                           {vi.primary_color && <ColourSwatch color={vi.primary_color} label="Primary" delay={0} />}
                           {vi.secondary_color && <ColourSwatch color={vi.secondary_color} label="Secondary" delay={0.1} />}
@@ -446,17 +446,17 @@ export default function AuahaBrandIdentity() {
                       {/* Style tags */}
                       <div className="flex gap-2 flex-wrap">
                         {vi.visual_aesthetic && (
-                          <span className="text-[10px] px-2 py-1 rounded-full border border-gray-200 text-gray-500">
+                          <span className="text-[10px] px-2 py-1 rounded-full border border-gray-200 text-[#6B7280]">
                             ✦ {vi.visual_aesthetic}
                           </span>
                         )}
                         {vi.photography_style && (
-                          <span className="text-[10px] px-2 py-1 rounded-full border border-gray-200 text-gray-500">
+                          <span className="text-[10px] px-2 py-1 rounded-full border border-gray-200 text-[#6B7280]">
                             📷 {vi.photography_style}
                           </span>
                         )}
                         {vi.background_preference && (
-                          <span className="text-[10px] px-2 py-1 rounded-full border border-gray-200 text-gray-500">
+                          <span className="text-[10px] px-2 py-1 rounded-full border border-gray-200 text-[#6B7280]">
                             🌗 {vi.background_preference} mode
                           </span>
                         )}
@@ -465,21 +465,21 @@ export default function AuahaBrandIdentity() {
                       {/* Typography */}
                       {ty && (
                         <div className="space-y-2">
-                          <p className="text-[10px] text-gray-400 uppercase tracking-wider">Typography</p>
+                          <p className="text-[10px] text-[#6B7280] uppercase tracking-wider">Typography</p>
                           <div className="grid grid-cols-2 gap-3">
-                            <div className="p-3 rounded-lg bg-white/5">
+                            <div className="p-3 rounded-lg bg-[rgba(74,165,168,0.04)]">
                               <div className="flex items-center gap-2 mb-1">
-                                <Type className="w-3 h-3 text-gray-400" />
-                                <span className="text-[9px] text-gray-400 uppercase">Heading</span>
+                                <Type className="w-3 h-3 text-[#6B7280]" />
+                                <span className="text-[9px] text-[#6B7280] uppercase">Heading</span>
                               </div>
                               <p className="text-foreground text-lg" style={{ fontFamily: `"${ty.heading_font}", ${ty.heading_style}` }}>
                                 {ty.heading_font || ty.heading_style}
                               </p>
                             </div>
-                            <div className="p-3 rounded-lg bg-white/5">
+                            <div className="p-3 rounded-lg bg-[rgba(74,165,168,0.04)]">
                               <div className="flex items-center gap-2 mb-1">
-                                <Type className="w-3 h-3 text-gray-400" />
-                                <span className="text-[9px] text-gray-400 uppercase">Body</span>
+                                <Type className="w-3 h-3 text-[#6B7280]" />
+                                <span className="text-[9px] text-[#6B7280] uppercase">Body</span>
                               </div>
                               <p className="text-foreground text-sm" style={{ fontFamily: `"${ty.body_font}", ${ty.body_style}` }}>
                                 {ty.body_font || ty.body_style}
@@ -498,7 +498,7 @@ export default function AuahaBrandIdentity() {
             {vt && (
               <motion.div
                 className="rounded-xl border backdrop-blur-xl p-6"
-                style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
@@ -506,9 +506,9 @@ export default function AuahaBrandIdentity() {
                 <button className="flex items-center justify-between w-full mb-4" onClick={() => toggleSection("voice")}>
                   <div className="flex items-center gap-2">
                     <MessageSquare className="w-4 h-4" style={{ color: ACCENT }} />
-                    <span className="text-white/60 text-xs uppercase tracking-[2px]">Voice & Tone</span>
+                    <span className="text-[#4A5160] text-xs uppercase tracking-[2px]">Voice & Tone</span>
                   </div>
-                  {expandedSections.voice ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                  {expandedSections.voice ? <ChevronUp className="w-4 h-4 text-[#6B7280]" /> : <ChevronDown className="w-4 h-4 text-[#6B7280]" />}
                 </button>
 
                 <AnimatePresence>
@@ -535,7 +535,7 @@ export default function AuahaBrandIdentity() {
                       {/* Formality */}
                       {vt.formality != null && (
                         <div>
-                          <p className="text-[10px] text-gray-400 mb-2">Formality Level</p>
+                          <p className="text-[10px] text-[#6B7280] mb-2">Formality Level</p>
                           <FormalityMeter level={vt.formality} />
                         </div>
                       )}
@@ -543,27 +543,27 @@ export default function AuahaBrandIdentity() {
                       {/* Voice attributes */}
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                         {vt.sentence_style && (
-                          <div className="p-2 rounded-lg bg-white/5 text-center">
-                            <p className="text-[9px] text-gray-400 uppercase">Sentences</p>
-                            <p className="text-white/60 text-[11px] mt-0.5">{vt.sentence_style}</p>
+                          <div className="p-2 rounded-lg bg-[rgba(74,165,168,0.04)] text-center">
+                            <p className="text-[9px] text-[#6B7280] uppercase">Sentences</p>
+                            <p className="text-[#4A5160] text-[11px] mt-0.5">{vt.sentence_style}</p>
                           </div>
                         )}
                         {vt.emoji_usage && (
-                          <div className="p-2 rounded-lg bg-white/5 text-center">
-                            <p className="text-[9px] text-gray-400 uppercase">Emojis</p>
-                            <p className="text-white/60 text-[11px] mt-0.5">{vt.emoji_usage}</p>
+                          <div className="p-2 rounded-lg bg-[rgba(74,165,168,0.04)] text-center">
+                            <p className="text-[9px] text-[#6B7280] uppercase">Emojis</p>
+                            <p className="text-[#4A5160] text-[11px] mt-0.5">{vt.emoji_usage}</p>
                           </div>
                         )}
                         {vt.jargon_level && (
-                          <div className="p-2 rounded-lg bg-white/5 text-center">
-                            <p className="text-[9px] text-gray-400 uppercase">Jargon</p>
-                            <p className="text-white/60 text-[11px] mt-0.5">{vt.jargon_level}</p>
+                          <div className="p-2 rounded-lg bg-[rgba(74,165,168,0.04)] text-center">
+                            <p className="text-[9px] text-[#6B7280] uppercase">Jargon</p>
+                            <p className="text-[#4A5160] text-[11px] mt-0.5">{vt.jargon_level}</p>
                           </div>
                         )}
                         {vt.cta_style && (
-                          <div className="p-2 rounded-lg bg-white/5 text-center">
-                            <p className="text-[9px] text-gray-400 uppercase">CTA Style</p>
-                            <p className="text-white/60 text-[11px] mt-0.5">{vt.cta_style}</p>
+                          <div className="p-2 rounded-lg bg-[rgba(74,165,168,0.04)] text-center">
+                            <p className="text-[9px] text-[#6B7280] uppercase">CTA Style</p>
+                            <p className="text-[#4A5160] text-[11px] mt-0.5">{vt.cta_style}</p>
                           </div>
                         )}
                       </div>
@@ -577,7 +577,7 @@ export default function AuahaBrandIdentity() {
             {((brandDna.key_products && brandDna.key_products.length > 0) || (brandDna.usps && brandDna.usps.length > 0)) && (
               <motion.div
                 className="rounded-xl border backdrop-blur-xl p-6"
-                style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
@@ -585,9 +585,9 @@ export default function AuahaBrandIdentity() {
                 <button className="flex items-center justify-between w-full mb-4" onClick={() => toggleSection("products")}>
                   <div className="flex items-center gap-2">
                     <Package className="w-4 h-4" style={{ color: ACCENT }} />
-                    <span className="text-white/60 text-xs uppercase tracking-[2px]">Products & USPs</span>
+                    <span className="text-[#4A5160] text-xs uppercase tracking-[2px]">Products & USPs</span>
                   </div>
-                  {expandedSections.products ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                  {expandedSections.products ? <ChevronUp className="w-4 h-4 text-[#6B7280]" /> : <ChevronDown className="w-4 h-4 text-[#6B7280]" />}
                 </button>
 
                 <AnimatePresence>
@@ -595,7 +595,7 @@ export default function AuahaBrandIdentity() {
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden space-y-4">
                       {brandDna.key_products && brandDna.key_products.length > 0 && (
                         <div>
-                          <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-2">Products / Services</p>
+                          <p className="text-[10px] text-[#6B7280] uppercase tracking-wider mb-2">Products / Services</p>
                           <div className="flex gap-2 flex-wrap">
                             {brandDna.key_products.map((p, i) => (
                               <motion.span
@@ -603,7 +603,7 @@ export default function AuahaBrandIdentity() {
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: i * 0.05 }}
-                                className="text-xs px-3 py-1.5 rounded-lg bg-white/5 text-white/60 border border-gray-100"
+                                className="text-xs px-3 py-1.5 rounded-lg bg-[rgba(74,165,168,0.04)] text-[#4A5160] border border-gray-100"
                               >
                                 {p}
                               </motion.span>
@@ -613,7 +613,7 @@ export default function AuahaBrandIdentity() {
                       )}
                       {brandDna.usps && brandDna.usps.length > 0 && (
                         <div>
-                          <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-2">Unique Selling Points</p>
+                          <p className="text-[10px] text-[#6B7280] uppercase tracking-wider mb-2">Unique Selling Points</p>
                           <div className="space-y-2">
                             {brandDna.usps.map((u, i) => (
                               <motion.div
@@ -621,10 +621,10 @@ export default function AuahaBrandIdentity() {
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.1 * i }}
-                                className="flex items-start gap-2 p-3 rounded-lg bg-white/5"
+                                className="flex items-start gap-2 p-3 rounded-lg bg-[rgba(74,165,168,0.04)]"
                               >
                                 <Shield className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: ACCENT }} />
-                                <span className="text-white/60 text-xs">{u}</span>
+                                <span className="text-[#4A5160] text-xs">{u}</span>
                               </motion.div>
                             ))}
                           </div>
@@ -640,14 +640,14 @@ export default function AuahaBrandIdentity() {
             {brandDna.key_messaging && brandDna.key_messaging.length > 0 && (
               <motion.div
                 className="rounded-xl border backdrop-blur-xl p-6"
-                style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
               >
                 <div className="flex items-center gap-2 mb-3">
                   <Target className="w-4 h-4" style={{ color: ACCENT }} />
-                  <span className="text-white/60 text-xs uppercase tracking-[2px]">Key Messaging</span>
+                  <span className="text-[#4A5160] text-xs uppercase tracking-[2px]">Key Messaging</span>
                 </div>
                 <div className="space-y-2">
                   {brandDna.key_messaging.map((msg, i) => (
@@ -656,7 +656,7 @@ export default function AuahaBrandIdentity() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.1 * i }}
-                      className="text-gray-500 text-xs pl-3 border-l-2"
+                      className="text-[#6B7280] text-xs pl-3 border-l-2"
                       style={{ borderColor: `${ACCENT}44` }}
                     >
                       {msg}
@@ -675,11 +675,11 @@ export default function AuahaBrandIdentity() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="rounded-xl border border-dashed p-12 text-center"
-          style={{ borderColor: "rgba(255,255,255,0.1)", background: "rgba(15,15,26,0.3)" }}
+          style={{ borderColor: "rgba(74,165,168,0.14)", background: "rgba(74,165,168,0.04)" }}
         >
           <Fingerprint className="w-12 h-12 mx-auto mb-4" style={{ color: `${ACCENT}44` }} />
-          <h3 className="text-white/60 text-sm mb-1">No Brand DNA Yet</h3>
-          <p className="text-gray-400 text-xs">Enter a website URL above and PRISM will extract colours, fonts, voice, and identity</p>
+          <h3 className="text-[#4A5160] text-sm mb-1">No Brand DNA Yet</h3>
+          <p className="text-[#6B7280] text-xs">Enter a website URL above and PRISM will extract colours, fonts, voice, and identity</p>
         </motion.div>
       )}
     </div>

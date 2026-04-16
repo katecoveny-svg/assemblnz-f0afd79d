@@ -23,7 +23,7 @@ const DEMO_POSTS = [
 
 function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`rounded-xl border backdrop-blur-xl ${className}`} style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}>
+    <div className={`rounded-xl border backdrop-blur-xl ${className}`} style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}>
       {children}
     </div>
   );
@@ -40,13 +40,13 @@ export default function AuahaCalendar() {
     <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Content Calendar</p>
+          <p className="text-[#6B7280] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Content Calendar</p>
           <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Content Calendar</h1>
         </div>
         <div className="flex items-center gap-3">
-          <button className="text-gray-400 hover:text-white/60"><ChevronLeft className="w-5 h-5" /></button>
+          <button className="text-[#6B7280] hover:text-[#4A5160]"><ChevronLeft className="w-5 h-5" /></button>
           <span className="text-foreground text-sm font-mono">April 2026</span>
-          <button className="text-gray-400 hover:text-white/60"><ChevronRight className="w-5 h-5" /></button>
+          <button className="text-[#6B7280] hover:text-[#4A5160]"><ChevronRight className="w-5 h-5" /></button>
         </div>
       </div>
 
@@ -54,7 +54,7 @@ export default function AuahaCalendar() {
         {/* Day headers */}
         <div className="grid grid-cols-7 gap-1 mb-2 min-w-[700px]">
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-            <div key={d} className="text-gray-400 text-xs text-center py-2 uppercase tracking-wider">{d}</div>
+            <div key={d} className="text-[#6B7280] text-xs text-center py-2 uppercase tracking-wider">{d}</div>
           ))}
         </div>
 
@@ -66,9 +66,9 @@ export default function AuahaCalendar() {
             return (
               <div key={day} className="min-h-[100px] rounded-lg bg-white/[0.03] p-2 hover:bg-white/[0.06] transition-all group">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-white/40 text-xs">{day}</span>
+                  <span className="text-[#6B7280] text-xs">{day}</span>
                   <button className="opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Plus className="w-3 h-3 text-gray-400" />
+                    <Plus className="w-3 h-3 text-[#6B7280]" />
                   </button>
                 </div>
                 <div className="space-y-1">
@@ -94,7 +94,7 @@ export default function AuahaCalendar() {
         {Object.entries(PLATFORM_COLORS).map(([platform, color]) => (
           <div key={platform} className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full" style={{ background: color }} />
-            <span className="text-white/40 text-[10px]">{platform}</span>
+            <span className="text-[#6B7280] text-[10px]">{platform}</span>
           </div>
         ))}
       </div>

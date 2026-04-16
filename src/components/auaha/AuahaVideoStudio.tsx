@@ -26,7 +26,7 @@ interface Scene { text: string; visual: string; duration: number }
 
 function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`rounded-xl border backdrop-blur-xl ${className}`} style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}>
+    <div className={`rounded-xl border backdrop-blur-xl ${className}`} style={{ background: "rgba(255,255,255,0.92)", borderColor: "rgba(74,165,168,0.14)" }}>
       {children}
     </div>
   );
@@ -199,16 +199,16 @@ export default function AuahaVideoStudio() {
   return (
     <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
       <div>
-        <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Video Studio</p>
+        <p className="text-[#6B7280] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Video Studio</p>
         <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Video Studio</h1>
-        <p className="text-gray-500 text-sm mt-1">ECHO + FLUX + VERSE — Fal.ai Kling & Runway Gen-3</p>
+        <p className="text-[#6B7280] text-sm mt-1">ECHO + FLUX + VERSE — Fal.ai Kling & Runway Gen-3</p>
       </div>
 
       {/* Workflow tabs */}
       <div className="flex gap-2">
         {([["quick", "Quick Video", Film], ["full", "Full Production", Video], ["narration", "Stock + Narration", Mic]] as const).map(([key, label, Icon]) => (
           <button key={key} onClick={() => setWorkflow(key)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs transition-all ${workflow === key ? "text-black font-medium" : "text-gray-500 bg-white/5"}`}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs transition-all ${workflow === key ? "text-[#1A1D29] font-medium" : "text-[#6B7280] bg-[rgba(74,165,168,0.04)]"}`}
             style={workflow === key ? { background: ACCENT } : {}}>
             <Icon className="w-3.5 h-3.5" /> {label}
           </button>
@@ -218,17 +218,17 @@ export default function AuahaVideoStudio() {
       {/* Provider selector */}
       <GlassCard className="p-4">
         <div className="flex items-center gap-4">
-          <span className="text-white/40 text-xs">Engine:</span>
+          <span className="text-[#6B7280] text-xs">Engine:</span>
           {PROVIDERS.map((p) => (
             <button key={p.id} onClick={() => setProvider(p.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs transition-all ${p.id === provider ? "text-black font-medium" : "text-gray-500 bg-white/5"}`}
+              className={`px-3 py-1.5 rounded-lg text-xs transition-all ${p.id === provider ? "text-[#1A1D29] font-medium" : "text-[#6B7280] bg-[rgba(74,165,168,0.04)]"}`}
               style={p.id === provider ? { background: ACCENT } : {}}>
               {p.label}
               <span className="text-[9px] block opacity-60">{p.desc}</span>
             </button>
           ))}
           <div className="ml-auto text-right">
-            <span className="text-gray-400 text-[10px]">Est. cost</span>
+            <span className="text-[#6B7280] text-[10px]">Est. cost</span>
             <p className="text-xs font-mono" style={{ color: ACCENT }}>{estimatedCost}</p>
           </div>
         </div>
@@ -240,21 +240,21 @@ export default function AuahaVideoStudio() {
           <GlassCard className="p-6 space-y-4">
             <h3 className="text-foreground text-sm">Quick Video — paste a prompt, get a video</h3>
             <textarea value={quickPrompt} onChange={(e) => setQuickPrompt(e.target.value)}
-              className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm min-h-[120px] placeholder:text-white/20"
+              className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm min-h-[120px] placeholder:text-[#8B92A0]"
               placeholder="E.g. A professional NZ landscape with text overlay revealing 'Business in a Kete' — cinematic drone shot" />
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-gray-500 text-xs block mb-1">Aspect Ratio</label>
+                <label className="text-[#6B7280] text-xs block mb-1">Aspect Ratio</label>
                 <select value={aspect.label} onChange={(e) => setAspect(ASPECTS.find(a => a.label === e.target.value) || ASPECTS[0])}
-                  className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm">
+                  className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm">
                   {ASPECTS.map((a) => <option key={a.label} value={a.label}>{a.label}</option>)}
                 </select>
               </div>
               <div>
-                <label className="text-gray-500 text-xs block mb-1">AI Voice</label>
+                <label className="text-[#6B7280] text-xs block mb-1">AI Voice</label>
                 <select value={voice} onChange={(e) => setVoice(e.target.value)}
-                  className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm">
+                  className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm">
                   {VOICES.map((v) => <option key={v} value={v}>{v}</option>)}
                 </select>
               </div>
@@ -270,30 +270,30 @@ export default function AuahaVideoStudio() {
 
             {isGenerating && progress && (
               <div className="text-center">
-                <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
+                <div className="w-full bg-[rgba(74,165,168,0.04)] rounded-full h-1.5 overflow-hidden">
                   <div className="h-full rounded-full animate-pulse" style={{ background: ACCENT, width: "60%" }} />
                 </div>
-                <p className="text-white/40 text-[11px] mt-2">{progress}</p>
-                <p className="text-white/20 text-[10px]">Fal.ai Kling video generation typically takes 1–3 minutes</p>
+                <p className="text-[#6B7280] text-[11px] mt-2">{progress}</p>
+                <p className="text-[#8B92A0] text-[10px]">Fal.ai Kling video generation typically takes 1–3 minutes</p>
               </div>
             )}
           </GlassCard>
 
           <GlassCard className="p-6">
-            <span className="text-white/60 text-xs uppercase tracking-[2px] block mb-4">Preview</span>
+            <span className="text-[#4A5160] text-xs uppercase tracking-[2px] block mb-4">Preview</span>
             {videoUrl ? (
               <div className="space-y-3">
                 <video src={videoUrl} controls className="w-full rounded-lg" />
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline" className="border-gray-200 text-white/60 text-xs" onClick={() => navigate("/auaha/calendar")}>
+                  <Button size="sm" variant="outline" className="border-gray-200 text-[#4A5160] text-xs" onClick={() => navigate("/auaha/calendar")}>
                     <Clock className="w-3 h-3 mr-1" /> Schedule Post
                   </Button>
-                  <a href={videoUrl} download><Button size="sm" variant="outline" className="border-gray-200 text-white/60 text-xs">Download</Button></a>
+                  <a href={videoUrl} download><Button size="sm" variant="outline" className="border-gray-200 text-[#4A5160] text-xs">Download</Button></a>
                 </div>
               </div>
             ) : (
-              <div className="bg-white/5 border border-gray-200 rounded-lg min-h-[300px] flex items-center justify-center">
-                <div className="text-center text-white/20">
+              <div className="bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg min-h-[300px] flex items-center justify-center">
+                <div className="text-center text-[#8B92A0]">
                   <Play className="w-10 h-10 mx-auto mb-2 opacity-30" />
                   <p className="text-sm">Generated videos appear here</p>
                 </div>
@@ -308,30 +308,30 @@ export default function AuahaVideoStudio() {
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-white/60 text-xs uppercase tracking-[2px]">Scenes — {scenes.length} total, {totalDuration}s</span>
-              <Button onClick={addScene} variant="outline" size="sm" className="border-gray-200 text-white/60 text-xs">
+              <span className="text-[#4A5160] text-xs uppercase tracking-[2px]">Scenes — {scenes.length} total, {totalDuration}s</span>
+              <Button onClick={addScene} variant="outline" size="sm" className="border-gray-200 text-[#4A5160] text-xs">
                 <Plus className="w-3 h-3 mr-1" /> Add Scene
               </Button>
             </div>
             {scenes.map((scene, i) => (
               <GlassCard key={i} className="p-5">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-white/40 text-xs">Scene {i + 1}</span>
-                  {scenes.length > 1 && <button onClick={() => removeScene(i)} className="text-white/20 hover:text-[#C85A54]"><Trash2 className="w-3.5 h-3.5" /></button>}
+                  <span className="text-[#6B7280] text-xs">Scene {i + 1}</span>
+                  {scenes.length > 1 && <button onClick={() => removeScene(i)} className="text-[#8B92A0] hover:text-[#C85A54]"><Trash2 className="w-3.5 h-3.5" /></button>}
                 </div>
                 <div className="space-y-3">
                   <textarea value={scene.text} onChange={(e) => updateScene(i, "text", e.target.value)}
-                    className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm min-h-[50px] placeholder:text-white/20" placeholder="Voiceover text..." />
+                    className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm min-h-[50px] placeholder:text-[#8B92A0]" placeholder="Voiceover text..." />
                   <textarea value={scene.visual} onChange={(e) => updateScene(i, "visual", e.target.value)}
-                    className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm min-h-[40px] placeholder:text-white/20" placeholder="Visual description..." />
+                    className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm min-h-[40px] placeholder:text-[#8B92A0]" placeholder="Visual description..." />
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-2">
-                      <label className="text-gray-400 text-xs">Duration:</label>
+                      <label className="text-[#6B7280] text-xs">Duration:</label>
                       <input type="number" value={scene.duration} onChange={(e) => updateScene(i, "duration", parseInt(e.target.value) || 5)}
-                        className="w-16 bg-white/5 border border-gray-200 rounded-lg px-2 py-1 text-foreground text-xs text-center" min={2} max={30} />
-                      <span className="text-gray-400 text-xs">sec</span>
+                        className="w-16 bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-2 py-1 text-foreground text-xs text-center" min={2} max={30} />
+                      <span className="text-[#6B7280] text-xs">sec</span>
                     </div>
-                    <Button size="sm" variant="ghost" className="text-gray-400 text-[10px]" onClick={() => navigate("/auaha/images")}>
+                    <Button size="sm" variant="ghost" className="text-[#6B7280] text-[10px]" onClick={() => navigate("/auaha/images")}>
                       <Image className="w-3 h-3 mr-1" /> Generate visual
                     </Button>
                   </div>
@@ -343,19 +343,19 @@ export default function AuahaVideoStudio() {
           <div className="space-y-4">
             <GlassCard className="p-5 space-y-4">
               <div>
-                <label className="text-gray-500 text-xs block mb-1.5">AI Voice</label>
-                <select value={voice} onChange={(e) => setVoice(e.target.value)} className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm">
+                <label className="text-[#6B7280] text-xs block mb-1.5">AI Voice</label>
+                <select value={voice} onChange={(e) => setVoice(e.target.value)} className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm">
                   {VOICES.map((v) => <option key={v} value={v}>{v}</option>)}
                 </select>
               </div>
               <div>
-                <label className="text-gray-500 text-xs block mb-1.5">Aspect Ratio</label>
+                <label className="text-[#6B7280] text-xs block mb-1.5">Aspect Ratio</label>
                 <select value={aspect.label} onChange={(e) => setAspect(ASPECTS.find(a => a.label === e.target.value) || ASPECTS[0])}
-                  className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm">
+                  className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm">
                   {ASPECTS.map((a) => <option key={a.label} value={a.label}>{a.label}</option>)}
                 </select>
               </div>
-              <div className="text-gray-400 text-xs">{scenes.length} scene{scenes.length !== 1 ? "s" : ""} • {totalDuration}s total</div>
+              <div className="text-[#6B7280] text-xs">{scenes.length} scene{scenes.length !== 1 ? "s" : ""} • {totalDuration}s total</div>
               <Button onClick={generateFrames} disabled={isGenerating} className="w-full" style={{ background: ACCENT, color: "#000" }}>
                 {isGenerating ? (
                   <><Loader2 className="w-4 h-4 animate-spin mr-2" /> {progress || "Generating..."}</>
@@ -367,12 +367,12 @@ export default function AuahaVideoStudio() {
 
             {frames.length > 0 && (
               <GlassCard className="p-5">
-                <span className="text-white/60 text-xs uppercase tracking-[2px] block mb-3">Generated Frames</span>
+                <span className="text-[#4A5160] text-xs uppercase tracking-[2px] block mb-3">Generated Frames</span>
                 <div className="space-y-2">
                   {frames.map((f, i) => (
                     <div key={i} className="relative rounded-lg overflow-hidden">
                       <img src={f} alt={`Scene ${i + 1}`} className="w-full rounded-lg" />
-                      <div className="absolute bottom-2 left-2 bg-black/60 px-2 py-0.5 rounded text-foreground text-[10px]">Scene {i + 1}</div>
+                      <div className="absolute bottom-2 left-2 bg-[#FAFBFC]/60 px-2 py-0.5 rounded text-foreground text-[10px]">Scene {i + 1}</div>
                     </div>
                   ))}
                 </div>
@@ -385,10 +385,10 @@ export default function AuahaVideoStudio() {
       {/* Stock + Narration */}
       {workflow === "narration" && (
         <GlassCard className="p-6">
-          <div className="text-center py-12 text-white/20">
+          <div className="text-center py-12 text-[#8B92A0]">
             <Mic className="w-12 h-12 mx-auto mb-3 opacity-30" />
-            <h3 className="text-gray-500 text-sm mb-2">Stock + Narration</h3>
-            <p className="text-gray-400 text-xs max-w-md mx-auto">Upload existing video, add AI narration overlay, brand intro/outro, and text cards. Coming in next release.</p>
+            <h3 className="text-[#6B7280] text-sm mb-2">Stock + Narration</h3>
+            <p className="text-[#6B7280] text-xs max-w-md mx-auto">Upload existing video, add AI narration overlay, brand intro/outro, and text cards. Coming in next release.</p>
           </div>
         </GlassCard>
       )}
