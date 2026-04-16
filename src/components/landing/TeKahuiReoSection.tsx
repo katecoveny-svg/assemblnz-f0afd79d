@@ -84,7 +84,7 @@ const TeKahuiReoSection = () => (
             marginBottom: "0.75rem",
           }}
         >
-          Bilingual. Tikanga-governed. Built to serve whānau, hapū, and Māori enterprise with tools that speak te reo and understand Te Tiriti obligations.
+          Bilingual. Aligning with tikanga Māori governance principles. Built to serve whānau, hapū, and Māori enterprise with tools that speak te reo and understand Te Tiriti obligations.
         </p>
         <p
           style={{
