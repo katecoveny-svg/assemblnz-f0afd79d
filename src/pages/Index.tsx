@@ -263,20 +263,36 @@ const Index = () => {
           </div>
 
           {/* Text overlay centred on the koru */}
-          <div className="relative z-10 max-w-[800px] mx-auto text-center">
-            <motion.div style={{ y: heroParallax }}>
-              {/* Status badge */}
-              <motion.div className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full mb-8"
+          <div className="relative z-10 max-w-[860px] mx-auto w-full px-4 text-center">
+            <motion.div
+              style={{ y: heroParallax }}
+              className="mx-auto max-w-[760px] rounded-[32px] px-5 py-6 sm:px-8 sm:py-10"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease }}
+            >
+              <div
+                className="absolute inset-0 -z-10 rounded-[32px]"
                 style={{
-                  background: "rgba(255,255,255,0.75)",
-                  backdropFilter: "blur(20px)",
+                  background: "linear-gradient(180deg, rgba(255,255,255,0.84) 0%, rgba(250,251,252,0.74) 100%)",
+                  backdropFilter: "blur(18px)",
                   border: "1px solid rgba(255,255,255,0.9)",
-                  boxShadow: "0 4px 20px rgba(74,165,168,0.08)",
+                  boxShadow: "0 18px 60px rgba(15,23,42,0.12), inset 0 1px 0 rgba(255,255,255,0.95)",
+                }}
+              />
+
+              {/* Status badge */}
+              <motion.div className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full mb-7"
+                style={{
+                  background: "rgba(255,255,255,0.92)",
+                  backdropFilter: "blur(14px)",
+                  border: "1px solid rgba(255,255,255,0.95)",
+                  boxShadow: "0 8px 24px rgba(74,165,168,0.12)",
                 }}
                 initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}
               >
                 <div className="w-2 h-2 rounded-full" style={{ background: C.teal }} />
-                <span className="text-[10px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textSecondary }}>
+                <span className="text-[10px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#334155", fontWeight: 600 }}>
                   Now onboarding NZ businesses
                 </span>
               </motion.div>
@@ -284,12 +300,12 @@ const Index = () => {
               {/* H1 */}
               <h1 style={{
                 fontFamily: "'Lato', sans-serif",
-                fontWeight: 600,
+                fontWeight: 700,
                 fontSize: isMobile ? "2rem" : "4.5rem",
-                lineHeight: 1.08,
-                letterSpacing: "-0.02em",
-                color: "#1A1D29",
-                textShadow: "0 2px 16px rgba(255,255,255,0.6)",
+                lineHeight: 1.04,
+                letterSpacing: "-0.03em",
+                color: "#0F172A",
+                textShadow: "0 2px 0 rgba(255,255,255,0.55)",
               }}>
                 <TypewriterText
                   text="The operating system for NZ business"
@@ -298,17 +314,16 @@ const Index = () => {
                 />
               </h1>
 
-              <div className="mt-6 mb-6 mx-auto" style={{ width: 80 }}>
+              <div className="mt-5 mb-5 mx-auto" style={{ width: 80 }}>
                 <AnimatedUnderline width={80} />
               </div>
 
               <motion.p
-                className="max-w-[520px] mx-auto text-[14px] sm:text-[18px] leading-[1.7]"
+                className="max-w-[560px] mx-auto text-[15px] sm:text-[18px] leading-[1.75]"
                 style={{
                   fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontWeight: 500,
-                  color: "#374151",
-                  textShadow: "0 1px 8px rgba(255,255,255,0.7)",
+                  fontWeight: 600,
+                  color: "#1F2937",
                 }}
                 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2, ease }}
@@ -316,8 +331,8 @@ const Index = () => {
                 Specialist workflows that reduce admin, surface risk earlier, and keep your people in control.
               </motion.p>
 
-              <motion.p className="text-[12px] sm:text-[13px] tracking-[1px] mt-4 mb-10 mx-auto max-w-[400px]"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: C.textSecondary }}
+              <motion.p className="text-[12px] sm:text-[13px] tracking-[1px] mt-4 mb-9 mx-auto max-w-[420px]"
+                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 600, color: "#475569" }}
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
                 Governed intelligence for Aotearoa
                 <span className="block mt-1"><AnimatedUnderline width={220} /></span>
@@ -340,19 +355,19 @@ const Index = () => {
                 </Link>
                 <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
                   style={{
-                    background: "rgba(255,255,255,0.8)",
+                    background: "rgba(255,255,255,0.92)",
                     backdropFilter: "blur(12px)",
-                    border: `1px solid rgba(74,165,168,0.2)`,
+                    border: `1px solid rgba(74,165,168,0.25)`,
                     color: C.teal,
                     fontFamily: "'Lato', sans-serif",
-                    boxShadow: `4px 4px 10px rgba(166,166,180,0.4), -4px -4px 10px rgba(255,255,255,0.9), inset 0 1px 0 rgba(255,255,255,0.8)`,
+                    boxShadow: `4px 4px 10px rgba(166,166,180,0.32), -4px -4px 10px rgba(255,255,255,0.95), inset 0 1px 0 rgba(255,255,255,0.9)`,
                   }}>
-                  Run live demo <ArrowRight size={14} className="opacity-50 group-hover:opacity-80 transition-opacity" />
+                  Run live demo <ArrowRight size={14} className="opacity-60 group-hover:opacity-90 transition-opacity" />
                 </Link>
               </motion.div>
 
-              <motion.p className="mt-12 text-[10px] tracking-[4px] uppercase"
-                style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}
+              <motion.p className="mt-10 text-[10px] tracking-[4px] uppercase"
+                style={{ fontFamily: "'JetBrains Mono', monospace", color: "#64748B", fontWeight: 600 }}
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.5 }}
               >
                 Trusted · Intelligent · Aotearoa
