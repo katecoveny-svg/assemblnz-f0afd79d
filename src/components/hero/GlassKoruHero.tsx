@@ -54,23 +54,34 @@ function GlassSphere({
     ref.current.position.x = position[0] + Math.cos(t * speed * 0.7 + phase) * 0.02;
   });
 
+  // Brighter color for glass effect
+  const brightColor = useMemo(() => {
+    const c = new THREE.Color(color);
+    c.multiplyScalar(1.4);
+    return c;
+  }, [color]);
+
   return (
     <mesh ref={ref} position={position}>
       <sphereGeometry args={[radius, 32, 32]} />
       <meshPhysicalMaterial
-        color={color}
+        color={brightColor}
         transparent
-        opacity={0.85}
-        roughness={0.05}
-        metalness={0.1}
+        opacity={0.75}
+        roughness={0.02}
+        metalness={0.0}
         clearcoat={1}
-        clearcoatRoughness={0.05}
-        envMapIntensity={1.5}
-        ior={1.5}
-        thickness={radius * 2}
-        transmission={0.92}
-        attenuationColor={new THREE.Color(color)}
-        attenuationDistance={0.5}
+        clearcoatRoughness={0.02}
+        envMapIntensity={2.5}
+        ior={1.45}
+        thickness={radius * 3}
+        transmission={0.95}
+        attenuationColor={brightColor}
+        attenuationDistance={0.3}
+        specularIntensity={1}
+        specularColor={new THREE.Color("#FFFFFF")}
+        sheen={0.3}
+        sheenColor={new THREE.Color(color)}
       />
     </mesh>
   );
