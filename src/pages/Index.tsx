@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useMemo, useState, useCallback } from "react";
-import koruHeroImg from "@/assets/koru-hero-3d.jpg";
+import { motion, LayoutGroup, useScroll, useTransform } from "framer-motion";
 import { motion, LayoutGroup, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Check, Send, Bot, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -25,7 +25,7 @@ import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel").catch(() => ({ default: () => null })));
-const LiquidKoru = lazy(() => import("@/components/hero/LiquidKoru").catch(() => ({ default: () => null })));
+const KoruDataNetwork = lazy(() => import("@/components/hero/KoruDataNetwork").catch(() => ({ default: () => null })));
 
 /* ─── Light Palette Tokens ─── */
 const C = {
