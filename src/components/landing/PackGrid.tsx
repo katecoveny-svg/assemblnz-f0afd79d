@@ -54,9 +54,9 @@ const PACKS: PackCard[] = [
     name: "Arataki",
     label: "AUTOMOTIVE",
     description:
-      "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped across DMS, CRM, and OEM portals.",
-    accent: "#E8E8E8",
-    accentLight: "#FFFFFF",
+      "Service, sales, parts, loan fleet — four verticals, one governed agent. No handoff dropped between workshop and showroom.",
+    accent: "#4AA5A8",
+    accentLight: "#7DD4D6",
     route: "/arataki",
   },
   {
@@ -83,17 +83,16 @@ const PackGrid = () => {
         <KeteOrbHero />
 
         {/* The 5 industry kete */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           {PACKS.map((pack, idx) => (
             <motion.div
               key={pack.id}
-              className="relative rounded-xl overflow-hidden group"
+              className="relative rounded-3xl overflow-hidden group"
               style={{
-                background: "rgba(15, 15, 26, 0.85)",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1.5px solid rgba(255,255,255,0.09)",
-                boxShadow: "0 4px 24px rgba(0,0,0,0.35)",
+                background: "rgba(255,255,255,0.65)",
+                backdropFilter: "blur(20px) saturate(140%)",
+                border: "1px solid rgba(255,255,255,0.9)",
+                boxShadow: "0 10px 40px -10px rgba(74,165,168,0.15), 0 4px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8)",
                 transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
               }}
               initial={{ opacity: 0, y: 30 }}
@@ -101,19 +100,18 @@ const PackGrid = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.08 }}
               whileHover={{
-                y: -3,
-                boxShadow: `0 12px 48px rgba(0,0,0,0.45), 0 0 40px ${pack.accent}20`,
+                y: -4,
+                boxShadow: `0 16px 48px -12px rgba(74,165,168,0.2), 0 4px 12px rgba(0,0,0,0.06)`,
               }}
             >
               <span
-                className="absolute top-0 left-0 right-0 h-[2px] opacity-20 group-hover:opacity-100 transition-opacity duration-500"
+                className="absolute bottom-0 left-[15%] right-[15%] h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 style={{
-                  background: `linear-gradient(90deg, transparent, ${pack.accent}, transparent)`,
+                  background: `linear-gradient(90deg, transparent, ${pack.accent}50, transparent)`,
                 }}
               />
 
-              <div className="p-5">
-                {/* 3D Kete model */}
+              <div className="p-6">
                 <div className="flex justify-center mb-4">
                   <Suspense
                     fallback={
@@ -142,20 +140,20 @@ const PackGrid = () => {
                     {pack.label}
                   </p>
                   <h3
-                    className="text-lg tracking-[2px] uppercase text-foreground"
-                    style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif" }}
+                    className="text-lg tracking-[2px] uppercase"
+                    style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif", color: "#1A1D29" }}
                   >
                     {pack.name}
                   </h3>
                 </div>
 
-                <p className="text-xs font-body text-muted-foreground leading-relaxed mb-3">
+                <p className="text-[13px] leading-[1.7] mb-3" style={{ color: "#6B7280" }}>
                   {pack.description}
                 </p>
 
                 <Link
                   to={pack.route}
-                  className="inline-flex items-center gap-1.5 text-[11px] font-body transition-all duration-200 hover:gap-2.5 group/link"
+                  className="inline-flex items-center gap-1.5 text-[11px] transition-all duration-200 hover:gap-2.5 group/link"
                   style={{ color: pack.accent }}
                 >
                   Explore kete <ArrowRight size={10} className="transition-transform group-hover/link:translate-x-0.5" />
@@ -165,81 +163,16 @@ const PackGrid = () => {
           ))}
         </div>
 
-        {/* Whānau kete — Toro */}
-        <div className="max-w-md mx-auto mb-8">
-          <motion.div
-            className="flex items-center gap-3 mb-3"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="w-1 h-6 rounded-full" style={{ background: "#D4A843" }} />
-            <div>
-              <p
-                className="text-[10px] tracking-[3px] uppercase"
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontWeight: 400,
-                  color: "#D4A843",
-                }}
-              >
-                FAMILY NAVIGATOR
-              </p>
-            </div>
-          </motion.div>
-          <Link to="/toro" className="block">
-            <motion.div
-              className="relative rounded-xl p-5 group"
-              style={{
-                background: "rgba(15, 15, 26, 0.8)",
-                backdropFilter: "blur(12px)",
-                border: "2px solid rgba(255,255,255,0.08)",
-                transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              whileHover={{
-                borderColor: "rgba(212,168,67,0.3)",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.4), 0 0 30px rgba(212,168,67,0.08)",
-              }}
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-14 h-14 shrink-0 flex items-center justify-center rounded-lg"
-                  style={{
-                    background: "rgba(212,168,67,0.06)",
-                    border: "1px solid rgba(212,168,67,0.15)",
-                    filter: "drop-shadow(0 0 8px rgba(212,168,67,0.3))",
-                  }}
-                >
-                  <ToroBirdIcon size={36} color="#D4A843" />
-                </div>
-                <div>
-                  <h3
-                    className="text-lg tracking-[3px] uppercase text-foreground"
-                    style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif" }}
-                  >
-                    Toro
-                  </h3>
-                  <p className="text-[11px] font-body text-muted-foreground mt-0.5">
-                    SMS-first whānau coordination. School notices, kai plans, appointments, budgets — just text.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </Link>
-        </div>
-
         {/* CTA */}
         <div className="text-center">
           <Link
             to="/kete"
-            className="inline-flex items-center gap-2 text-xs font-display font-light px-6 py-3 rounded-xl transition-all duration-300 hover:gap-3"
+            className="inline-flex items-center gap-2 text-xs font-light px-6 py-3 rounded-full transition-all duration-300 hover:gap-3"
             style={{
-              color: "hsl(var(--kowhai))",
-              border: "1px solid rgba(212,168,67,0.25)",
-              background: "rgba(212,168,67,0.05)",
+              color: "#4AA5A8",
+              border: "1px solid rgba(74,165,168,0.25)",
+              background: "rgba(255,255,255,0.65)",
+              backdropFilter: "blur(12px)",
             }}
           >
             See all five kete <ArrowRight size={14} />

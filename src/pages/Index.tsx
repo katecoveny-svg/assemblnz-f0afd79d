@@ -78,12 +78,11 @@ const PACKS = [
 ];
 
 const LAYERS_DATA = [
-  { name: "Perception", desc: "Reads your real inputs: invoices, emails, sensor data, calendar events.", icon: "Eye", color: "#4AA5A8" },
-  { name: "Memory", desc: "Separates verified facts from inferred guesses. Keeps a validated knowledge base.", icon: "Brain", color: "#E8A948" },
-  { name: "Reasoning", desc: "Combines pattern recognition with hard compliance rules. Never guesses on legislation.", icon: "Fingerprint", color: "#4AA5A8" },
-  { name: "Action", desc: "Every action is classified: allowed, needs approval, or forbidden.", icon: "Zap", color: "#E8A948" },
-  { name: "Explanation", desc: "Logs the reason behind every material decision in plain language.", icon: "Shield", color: "#4AA5A8" },
-  { name: "Simulation", desc: "Tests workflows against realistic scenarios before they touch production.", icon: "Activity", color: "#E8A948" },
+  { name: "Kahu — Intake", desc: "Receives the request, classifies data sensitivity, checks PII, and routes to the right specialist agent.", icon: "Eye", color: "#4AA5A8" },
+  { name: "Iho — Reasoning", desc: "The specialist agent processes the task — grounded in NZ legislation with section references, never guessing.", icon: "Brain", color: "#E8A948" },
+  { name: "Tā — Action", desc: "Generates the output: draft, calculation, document, or creative. Every action classified: allowed, needs approval, or forbidden.", icon: "Zap", color: "#4AA5A8" },
+  { name: "Mahara — Memory", desc: "Logs the decision, updates shared business memory, and creates the audit trail in plain language.", icon: "Shield", color: "#E8A948" },
+  { name: "Mana — Evidence", desc: "Packages the output into a structured evidence pack your auditor, bank, or regulator can trust.", icon: "Activity", color: "#4AA5A8" },
 ];
 
 
@@ -415,7 +414,7 @@ const Index = () => {
         <Sect>
           <motion.div {...fade} className="text-center mb-16">
             <SectionEyebrow>How assembl works</SectionEyebrow>
-            <SectionH2>Six layers of governed intelligence</SectionH2>
+            <SectionH2>Five stages of governed intelligence</SectionH2>
             <SectionP>Every decision checked, every action logged, every output something you can file.</SectionP>
           </motion.div>
           <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
