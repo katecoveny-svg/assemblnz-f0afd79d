@@ -93,9 +93,9 @@ const BrandFooter = () => {
             style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250" }}>
             ASSEMBL
           </h2>
-          <p className="text-lg"
+          <p className="text-lg max-w-2xl mx-auto leading-relaxed"
             style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#6B7280" }}>
-            Trusted. Intelligent. Aotearoa.
+            One governed intelligence layer for every NZ business — from the café to the construction site to the customs house.
           </p>
         </div>
 

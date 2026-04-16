@@ -15,6 +15,87 @@ const SLUG_TO_PACK: Record<string, { packId: string; agentId: string }> = {
   contracts: { packId: "contracts", agentId: "accord" },
 };
 
+const NZ_BARRIER_COPY: Record<string, { heading: string; body: string; legislation: string }> = {
+  manaaki: {
+    heading: "Why this matters in Aotearoa",
+    body: "A café owner in Queenstown shouldn't need a lawyer to know if she can trade on Easter Sunday. But right now she does — because the Shop Trading Hours Amendment Act 2016, the Sale and Supply of Alcohol Act 2012, and her local council's alcohol policy all interact differently depending on her location, licence type, and time of day. That's before she gets to her monthly Food Control Plan under the Food Act 2014.",
+    legislation: "Food Act 2014 · Shop Trading Hours Amendment Act 2016 · Sale and Supply of Alcohol Act 2012",
+  },
+  waihanga: {
+    heading: "Why this matters in Aotearoa",
+    body: "A small builder in Christchurch knows HSWA 2015 requires a site induction before any subcontractor starts work. But when the subbies arrive at 6:30am and the client's pushing for handover, the induction gets skipped — and the PCBU carries personal liability under s.36. Payment claims under the Construction Contracts Act 2002 fail on technicality. Not because the work wasn't done, but because the paperwork wasn't formatted right.",
+    legislation: "HSWA 2015 s.36 · Construction Contracts Act 2002 s.20",
+  },
+  auaha: {
+    heading: "Why this matters in Aotearoa",
+    body: "A creative studio in Wellington publishes 'NZ's best coffee packaging design' on Instagram. That's an unsubstantiated claim under the Fair Trading Act 1986 — and the Commerce Commission does act on complaints. But the real gap isn't legal compliance. It's cultural. When a brief calls for 'Māori-inspired design elements,' most AI tools generate content without any tikanga review. That's not a compliance failure — it's a trust failure.",
+    legislation: "Fair Trading Act 1986 s.9 · s.13",
+  },
+  arataki: {
+    heading: "Why this matters in Aotearoa",
+    body: "A customer walks onto the yard in Hamilton comparing a hybrid and a petrol SUV. She wants real NZ fuel costs — not brochure claims from overseas testing cycles. The sales manager needs to get her a CCCFA-compliant finance disclosure before she leaves, because the Credit Contracts and Consumer Finance Act has real teeth since the 2021 amendments. Meanwhile, the service loan car she needs while her trade-in gets inspected requires insurance verification and Consumer Guarantees Act-compliant terms.",
+    legislation: "CCCFA 2003 (amended 2021) · Consumer Guarantees Act 1993",
+  },
+  pikau: {
+    heading: "Why this matters in Aotearoa",
+    body: "A three-person customs brokerage in Auckland is losing work to bigger firms who've automated their data entry. The owner spends 80% of his brokers' time keying consignment data into CusMod — the same tariff classifications, the same biosecurity declarations, the same GST calculations — while competitors undercut him on price-per-entry. He can't compete on volume. But he can compete on accuracy, relationships, and local knowledge — if the repetitive work is handled.",
+    legislation: "Customs and Excise Act 2018 · Biosecurity Act 1993 · NZ Working Tariff",
+  },
+};
+
+const PIPELINE_IN_ACTION: Record<string, { query: string; stages: { name: string; question: string; action: string }[] }> = {
+  manaaki: {
+    query: "Can I serve alcohol at my Easter Sunday brunch event?",
+    stages: [
+      { name: "Kahu", question: "What's allowed here?", action: "Checks Shop Trading Hours Amendment Act 2016 + local alcohol policy + Easter trading exemption register" },
+      { name: "Iho", question: "Which specialist handles this?", action: "Routes to Hospitality compliance specialist (AURA agent)" },
+      { name: "Tā", question: "Does the work, properly", action: "Drafts location-specific answer with Act + Section citations in NZ English" },
+      { name: "Mahara", question: "Checks against what we've learned", action: "Cross-checks against latest council policy update (verified 5am scan)" },
+      { name: "Mana", question: "Proves it was done right", action: "Adds 'Not legal advice' disclaimer + requires operator sign-off before posting to staff" },
+    ],
+  },
+  waihanga: {
+    query: "Generate a site induction for the new electrical subcontractor starting Monday",
+    stages: [
+      { name: "Kahu", question: "What's allowed here?", action: "Checks HSWA 2015 s.36 site induction requirements + SWMS for this site" },
+      { name: "Iho", question: "Which specialist handles this?", action: "Routes to Site safety specialist (ĀRAI agent)" },
+      { name: "Tā", question: "Does the work, properly", action: "Generates site-specific induction from SWMS + LBP register, formatted for SMS delivery" },
+      { name: "Mahara", question: "Checks against what we've learned", action: "Cross-checks against current site hazard register and active notifiable works" },
+      { name: "Mana", question: "Proves it was done right", action: "Requires PCBU sign-off + acknowledged receipt timestamp before marking 'complete'" },
+    ],
+  },
+  auaha: {
+    query: "Review this Instagram campaign copy before we publish",
+    stages: [
+      { name: "Kahu", question: "What's allowed here?", action: "Checks Fair Trading Act 1986 s.9 (misleading conduct) and s.13 (false representations)" },
+      { name: "Iho", question: "Which specialist handles this?", action: "Routes to Creative compliance specialist + tikanga review if cultural content detected" },
+      { name: "Tā", question: "Does the work, properly", action: "Reviews each claim against substantiation requirements, suggests compliant rewording" },
+      { name: "Mahara", question: "Checks against what we've learned", action: "Cross-checks against previous campaign approvals and known Commerce Commission guidance" },
+      { name: "Mana", question: "Proves it was done right", action: "Outputs PASS / FLAG / FAIL per claim, with human approval required before publish" },
+    ],
+  },
+  arataki: {
+    query: "Compare fuel costs for the RAV4 Hybrid vs petrol for a customer commuting Hillcrest to CBD daily",
+    stages: [
+      { name: "Kahu", question: "What's allowed here?", action: "Checks CCCFA disclosure requirements if finance is discussed" },
+      { name: "Iho", question: "Which specialist handles this?", action: "Routes to Dealership sales specialist (ARATAKI agent)" },
+      { name: "Tā", question: "Does the work, properly", action: "Calculates real NZ fuel costs using live prices (Z, BP, Mobil, Gull, Waitomo) × customer's commute distance" },
+      { name: "Mahara", question: "Checks against what we've learned", action: "Verifies fuel price data is timestamped and sourced; CCCFA disclosure matches current requirements" },
+      { name: "Mana", question: "Proves it was done right", action: "Requires human sign-off before customer handover of any comparison or finance document" },
+    ],
+  },
+  pikau: {
+    query: "Process this commercial invoice for a shipment of automotive parts from Osaka",
+    stages: [
+      { name: "Kahu", question: "What's allowed here?", action: "Checks Customs and Excise Act 2018 + Biosecurity Act 1993 + applicable tariff concessions" },
+      { name: "Iho", question: "Which specialist handles this?", action: "Routes to Customs entry specialist (PIKAU agent)" },
+      { name: "Tā", question: "Does the work, properly", action: "Extracts invoice data, maps to NZ Working Tariff codes, populates CusMod fields, calculates duty + GST" },
+      { name: "Mahara", question: "Checks against what we've learned", action: "Cross-checks tariff classification against latest Working Tariff update + flags any biosecurity declarations" },
+      { name: "Mana", question: "Proves it was done right", action: "Requires licensed customs broker sign-off before submission — never auto-submits" },
+    ],
+  },
+};
+
 const KeteDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -32,6 +113,10 @@ const KeteDetailPage = () => {
       </div>
     );
   }
+
+  const nzBarrier = NZ_BARRIER_COPY[kete.slug];
+  const pipelineExample = PIPELINE_IN_ACTION[kete.slug];
+  const isAuaha = kete.slug === "auaha";
 
   return (
     <>
@@ -70,6 +155,118 @@ const KeteDetailPage = () => {
               </div>
             </div>
           </div>
+
+          {/* PART 3 — Why this matters in Aotearoa */}
+          {nzBarrier && (
+            <section
+              className="rounded-xl p-6 mb-12"
+              style={{
+                background: `${kete.accentColor}14`,
+                borderLeft: `3px solid ${kete.accentColor}`,
+              }}
+            >
+              <h2 className="text-base mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 600, color: "#1A1D29" }}>
+                {nzBarrier.heading}
+              </h2>
+              <p className="text-sm leading-relaxed mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                {nzBarrier.body}
+              </p>
+              <div className="pt-3" style={{ borderTop: `1px solid ${kete.accentColor}25` }}>
+                <p className="text-[11px] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace", color: kete.accentColor }}>
+                  {nzBarrier.legislation}
+                </p>
+              </div>
+            </section>
+          )}
+
+          {/* PART 4 — Refuse-When-Unsafe (AUAHA only) */}
+          {isAuaha && (
+            <section className="mb-12">
+              <h2 className="text-lg tracking-[3px] uppercase mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250B3" }}>
+                Refuse-When-Unsafe
+              </h2>
+              <p className="text-sm mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#1A1D29", fontWeight: 500 }}>
+                How Assembl Handles Cultural Boundaries
+              </p>
+              <p className="text-sm leading-relaxed mb-6 max-w-3xl" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                Most AI safety systems use a binary approach: allow or block. Assembl's creative agents use a three-stage pattern that's more nuanced — and more useful.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  { label: "Stage 1 — Generate", desc: "The agent works normally on the brief. Design concepts, copy drafts, campaign ideas — standard creative output with FTA 1986 compliance checks." },
+                  { label: "Stage 2 — Detect & Pause", desc: "When the brief crosses a tikanga boundary — say, 'Māori-inspired design elements' — the agent pauses. Not a hard block. A structured pause that explains what it detected and why it stopped." },
+                  { label: "Stage 3 — Offer Alternatives", desc: "The agent offers three paths: consult a Māori advisor (with draft questions prepared), use publicly available design elements with proper attribution, or restructure the brief to avoid the boundary entirely." },
+                ].map(card => (
+                  <div
+                    key={card.label}
+                    className="rounded-2xl p-5"
+                    style={{
+                      background: "rgba(255,255,255,0.65)",
+                      backdropFilter: "blur(20px)",
+                      border: "1px solid rgba(184,165,208,0.25)",
+                      boxShadow: "0 4px 24px rgba(184,165,208,0.08)",
+                    }}
+                  >
+                    <p className="text-[11px] uppercase tracking-wider mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#B8A5D0" }}>
+                      {card.label}
+                    </p>
+                    <p className="text-[13px] leading-relaxed" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250CC" }}>
+                      {card.desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-[12px] mt-5 max-w-3xl leading-relaxed italic" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#9CA3AF" }}>
+                This pattern is what Assembl proposes as a testable research artefact for the AAAIP programme. The question isn't whether AI should refuse — it's whether there's a middle ground between "generate everything" and "block everything" that actually serves creative professionals and the communities whose taonga they're working with.
+              </p>
+            </section>
+          )}
+
+          {/* PART 6 — Pipeline in Action */}
+          {pipelineExample && (
+            <section
+              className="rounded-xl p-6 mb-12"
+              style={{
+                background: "rgba(34,197,94,0.05)",
+                borderLeft: "3px solid #22C55E",
+              }}
+            >
+              <h2 className="text-base mb-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 600, color: "#1A1D29" }}>
+                Pipeline in Action
+              </h2>
+              <p className="text-[11px] uppercase tracking-wider mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#22C55E" }}>
+                Real query · Five stages
+              </p>
+              <p className="text-[14px] mb-5 italic" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250" }}>
+                "{pipelineExample.query}"
+              </p>
+              <ol className="space-y-3">
+                {pipelineExample.stages.map((s, i) => (
+                  <li key={s.name} className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
+                    <div className="flex items-baseline gap-2 shrink-0 sm:w-[280px]">
+                      <span className="text-[11px] tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#22C55E", fontWeight: 700 }}>
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-[13px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#1A1D29", fontWeight: 600 }}>
+                        {s.name}
+                      </span>
+                      <span className="text-[12px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                        ("{s.question}")
+                      </span>
+                    </div>
+                    <p className="text-[13px] leading-relaxed flex-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250CC" }}>
+                      {s.action}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+              <p className="text-[12px] mt-5 leading-relaxed" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                Every output passes through all five stages. Draft-only posture — no agent publishes, sends, or executes without a named human operator's approval.
+              </p>
+            </section>
+          )}
 
           {/* Agents grid */}
           {kete.agents && kete.agents.length > 0 && (
