@@ -59,7 +59,7 @@ export default function ShoppingModule({ items, weeklyBudget, spent, onToggle, o
             ${(spent / 100).toFixed(0)} / ${(weeklyBudget / 100).toFixed(0)}
           </span>
         </div>
-        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: `${BONE}08` }}>
+        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "#9CA3AF" }}>
           <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: over ? "#ef4444" : `linear-gradient(90deg, ${POUNAMU}, ${KOWHAI})` }} />
         </div>
       </div>
@@ -77,12 +77,12 @@ export default function ShoppingModule({ items, weeklyBudget, spent, onToggle, o
               whileTap={{ scale: 0.98 }}
             >
               <div className="w-5 h-5 rounded flex items-center justify-center shrink-0" style={{
-                border: `1px solid ${item.purchased ? POUNAMU : `${BONE}20`}`,
+                border: `1px solid ${item.purchased ? POUNAMU : "#9CA3AF"}`,
                 background: item.purchased ? `${POUNAMU}20` : "transparent"
               }}>
                 {item.purchased && <Check size={12} style={{ color: POUNAMU }} />}
               </div>
-              <span className={`font-body text-xs flex-1 ${item.purchased ? "line-through" : ""}`} style={{ color: item.purchased ? `${BONE}35` : `${BONE}80` }}>
+              <span className={`font-body text-xs flex-1 ${item.purchased ? "line-through" : ""}`} style={{ color: item.purchased ? "#9CA3AF" : "#9CA3AF" }}>
                 {item.item}{item.quantity > 1 ? ` ×${item.quantity}` : ""}
               </span>
               {item.estimated_cost_cents && (
@@ -104,7 +104,7 @@ export default function ShoppingModule({ items, weeklyBudget, spent, onToggle, o
           onKeyDown={e => { if (e.key === "Enter" && newItem.trim()) { onAdd(newItem.trim()); setNewItem(""); } }}
           placeholder="Add item…"
           className="flex-1 px-3 py-2.5 rounded-xl text-xs font-body outline-none"
-          style={{ background: `${BONE}04`, border: `1px solid ${POUNAMU}18`, color: "#1A1D29" }}
+          style={{ background: "#9CA3AF", border: `1px solid ${POUNAMU}18`, color: "#1A1D29" }}
         />
         <button onClick={() => { if (newItem.trim()) { onAdd(newItem.trim()); setNewItem(""); } }} className="px-3 py-2.5 rounded-xl" style={{ background: `${POUNAMU}18`, color: POUNAMU }}>
           <Plus size={14} />

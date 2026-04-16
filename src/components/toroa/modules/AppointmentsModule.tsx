@@ -25,7 +25,7 @@ const categoryColors: Record<string, string> = {
   dental: "#3b82f6",
   vet: KOWHAI,
   school: POUNAMU,
-  general: `${BONE}60`,
+  general: "#9CA3AF",
 };
 
 const glass = {
@@ -73,7 +73,7 @@ export default function AppointmentsModule({ appointments }: Props) {
               <div className="rounded-xl p-4" style={{ ...glass, borderColor: apt.is_overdue ? "rgba(239,68,68,0.2)" : `${KOWHAI}15` }}>
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="font-body text-xs" style={{ color: apt.is_overdue ? "#fca5a5" : `${BONE}CC` }}>{apt.title}</p>
+                    <p className="font-body text-xs" style={{ color: apt.is_overdue ? "#fca5a5" : "#1A1D29" }}>{apt.title}</p>
                     {apt.member_name && <p className="font-body text-[10px]" style={{ color: "#1A1D29"}50` }}>{apt.member_name}</p>}
                     {apt.location && (
                       <p className="font-body text-[10px] flex items-center gap-1 mt-0.5" style={{ color: "#1A1D29"}40` }}>

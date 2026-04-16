@@ -116,7 +116,7 @@ export default function PetModule({ pets }: Props) {
 
                 {/* Vet info */}
                 {pet.vet_clinic && (
-                  <div className="p-2 rounded-lg" style={{ background: `${BONE}06` }}>
+                  <div className="p-2 rounded-lg" style={{ background: "#9CA3AF" }}>
                     <p className="font-body text-[10px]" style={{ color: "#1A1D29"}50` }}>Vet: {pet.vet_clinic}</p>
                     {pet.vet_phone && <p className="font-mono text-[10px]" style={{ color: "#1A1D29"}40` }}>{pet.vet_phone}</p>}
                     {pet.microchip_number && <p className="font-mono text-[9px] mt-1" style={{ color: "#1A1D29"}30` }}>Microchip: {pet.microchip_number}</p>}

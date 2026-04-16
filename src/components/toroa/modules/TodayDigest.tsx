@@ -58,7 +58,7 @@ export default function TodayDigest({ items, greeting }: Props) {
                 <Icon size={14} style={{ color: accent }} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-body text-xs" style={{ color: item.urgent ? "#fca5a5" : `${BONE}BB` }}>{item.text}</p>
+                <p className="font-body text-xs" style={{ color: item.urgent ? "#fca5a5" : "#3D4250" }}>{item.text}</p>
                 {item.time && <p className="font-mono text-[10px] mt-0.5" style={{ color: "#1A1D29"}40` }}>{item.time}</p>}
               </div>
               {item.urgent && <span className="w-2 h-2 rounded-full shrink-0 mt-1" style={{ background: "#ef4444" }} />}

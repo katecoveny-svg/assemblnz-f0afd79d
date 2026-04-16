@@ -181,8 +181,8 @@ export default function ToroaDashboard() {
         <div className="p-5 flex items-center gap-3" style={{ borderBottom: `1px solid ${KOWHAI}08` }}>
           <img src={toroaLogo} alt="Tōroa" className="w-8 h-8" style={{ filter: `drop-shadow(0 0 8px ${KOWHAI}30)` }} />
           <div>
-            <h1 className="font-display text-sm uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: `${BONE}DD` }}>Tōroa</h1>
-            <p className="font-body text-[9px]" style={{ color: `${BONE}40` }}>Whānau Navigator</p>
+            <h1 className="font-display text-sm uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: "#1A1D29" }}>Tōroa</h1>
+            <p className="font-body text-[9px]" style={{ color: "#9CA3AF" }}>Whānau Navigator</p>
           </div>
         </div>
 
@@ -197,7 +197,7 @@ export default function ToroaDashboard() {
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all relative"
                 style={{
                   background: isActive ? `${KOWHAI}12` : "transparent",
-                  color: isActive ? KOWHAI : `${BONE}60`,
+                  color: isActive ? KOWHAI : "#9CA3AF",
                 }}
               >
                 {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full" style={{ background: KOWHAI }} />}
@@ -213,16 +213,16 @@ export default function ToroaDashboard() {
           <button
             onClick={() => setWhatsappConnected(!whatsappConnected)}
             className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all"
-            style={{ background: whatsappConnected ? `${POUNAMU}12` : `${BONE}04`, border: `1px solid ${whatsappConnected ? POUNAMU : BONE}15` }}
+            style={{ background: whatsappConnected ? `${POUNAMU}12` : "#9CA3AF", border: `1px solid ${whatsappConnected ? POUNAMU : "#1A1D29"}15` }}
           >
             <div className="flex items-center gap-2">
-              <Wifi size={14} style={{ color: whatsappConnected ? POUNAMU : `${BONE}40` }} />
-              <span className="font-body text-xs" style={{ color: whatsappConnected ? POUNAMU : `${BONE}50` }}>WhatsApp</span>
+              <Wifi size={14} style={{ color: whatsappConnected ? POUNAMU : "#9CA3AF" }} />
+              <span className="font-body text-xs" style={{ color: whatsappConnected ? POUNAMU : "#9CA3AF" }}>WhatsApp</span>
             </div>
-            <div className="w-8 h-4 rounded-full relative transition-all" style={{ background: whatsappConnected ? `${POUNAMU}40` : `${BONE}15` }}>
+            <div className="w-8 h-4 rounded-full relative transition-all" style={{ background: whatsappConnected ? `${POUNAMU}40` : "#9CA3AF" }}>
               <div className="absolute top-0.5 w-3 h-3 rounded-full transition-all" style={{
                 left: whatsappConnected ? "calc(100% - 14px)" : "2px",
-                background: whatsappConnected ? POUNAMU : `${BONE}50`,
+                background: whatsappConnected ? POUNAMU : "#9CA3AF",
               }} />
             </div>
           </button>
@@ -237,10 +237,10 @@ export default function ToroaDashboard() {
       }}>
         <div className="flex items-center gap-2">
           <img src={toroaLogo} alt="Tōroa" className="w-6 h-6" />
-          <span className="font-display text-xs uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: `${BONE}CC` }}>Tōroa</span>
+          <span className="font-display text-xs uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: "#1A1D29" }}>Tōroa</span>
         </div>
         <button onClick={() => setSidebarOpen(!sidebarOpen)}>
-          {sidebarOpen ? <X size={20} style={{ color: `${BONE}80` }} /> : <Menu size={20} style={{ color: `${BONE}80` }} />}
+          {sidebarOpen ? <X size={20} style={{ color: "#9CA3AF" }} /> : <Menu size={20} style={{ color: "#9CA3AF" }} />}
         </button>
       </header>
 
@@ -263,7 +263,7 @@ export default function ToroaDashboard() {
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left"
                   style={{
                     background: active === key ? `${KOWHAI}12` : "transparent",
-                    color: active === key ? KOWHAI : `${BONE}60`,
+                    color: active === key ? KOWHAI : "#9CA3AF",
                   }}
                 >
                   <Icon size={18} />
@@ -339,7 +339,7 @@ export default function ToroaDashboard() {
                 key={key}
                 onClick={() => setActive(key)}
                 className="flex flex-col items-center justify-center gap-0.5 flex-1 transition-colors relative"
-                style={{ color: isActive ? KOWHAI : `${BONE}30` }}
+                style={{ color: isActive ? KOWHAI : "#9CA3AF" }}
               >
                 <Icon size={18} strokeWidth={isActive ? 2 : 1.5} />
                 <span className="text-[9px] font-body">{label}</span>
