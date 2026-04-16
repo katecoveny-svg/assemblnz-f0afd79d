@@ -235,7 +235,7 @@ const Index = () => {
         title="assembl — Governed workflow tools for NZ businesses"
         description="Specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. Built for NZ."
       />
-      <WharikiFoundation />
+      {/* WharikiFoundation removed — light glass background */}
       
       <NoiseOverlay />
       <CursorFollower />
