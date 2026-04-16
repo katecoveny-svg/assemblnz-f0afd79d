@@ -679,6 +679,7 @@ const Index = () => {
 
         <BrandFooter />
       </div>
+      </ScrollDepthLayers>
 
       <KeteAgentChat
         keteName="assembl" keteLabel="Platform Concierge" accentColor="#4AA5A8"
