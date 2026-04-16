@@ -1,4 +1,5 @@
 import React, { lazy, Suspense, useMemo, useState, useCallback } from "react";
+import koruHeroImg from "@/assets/koru-hero-3d.jpg";
 import { motion, LayoutGroup, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Check, Send, Bot, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -365,19 +366,19 @@ const Index = () => {
             {/* Right: Liquid Koru */}
             <motion.div
               style={{ y: blobParallax }}
-              className="relative"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: heroTyped ? 1 : 0, scale: heroTyped ? 1 : 0.8 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              className="relative flex items-center justify-center"
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: heroTyped ? 1 : 0, scale: heroTyped ? 1 : 0.85 }}
+              transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
             >
-              <Suspense fallback={
-                <div className="w-full h-[300px] sm:h-[480px] rounded-full mx-auto" style={{
-                  background: "radial-gradient(ellipse, rgba(74,165,168,0.12) 0%, rgba(232,169,72,0.06) 50%, transparent 70%)",
-                  filter: "blur(40px)",
-                }} />
-              }>
-                <LiquidKoru className={isMobile ? "min-h-[280px]" : "min-h-[480px]"} />
-              </Suspense>
+              <motion.img
+                src={koruHeroImg}
+                alt="Assembl Koru data network — glass spheres connected in a spiral"
+                className="w-full max-w-[560px] mx-auto drop-shadow-2xl"
+                style={{ filter: "drop-shadow(0 20px 60px rgba(74,165,168,0.25))" }}
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              />
             </motion.div>
           </div>
         </section>
