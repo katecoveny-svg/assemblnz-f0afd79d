@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Layers, CreditCard, Phone } from "lucide-react";
+import { Home, Layers, CreditCard, Phone, Shield } from "lucide-react";
+import { useAuthSafe } from "@/hooks/useAuth";
 
 const TABS = [
   { to: "/", label: "Platform", icon: Home, exact: true },
@@ -10,6 +11,12 @@ const TABS = [
 
 const MobileTabBar = () => {
   const { pathname } = useLocation();
+  const auth = useAuthSafe();
+  const isAdmin = auth?.isAdmin ?? false;
+
+  const tabs = isAdmin
+    ? [...TABS, { to: "/admin/dashboard", label: "Admin", icon: Shield, exact: false }]
+    : TABS;
 
   return (
     <nav
@@ -23,7 +30,7 @@ const MobileTabBar = () => {
       }}
     >
       <div className="flex items-stretch justify-around h-14">
-        {TABS.map(({ to, label, icon: Icon, exact }) => {
+        {tabs.map(({ to, label, icon: Icon, exact }) => {
           const active = exact ? pathname === to : pathname.startsWith(to);
           return (
             <Link
