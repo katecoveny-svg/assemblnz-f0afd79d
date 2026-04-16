@@ -57,7 +57,7 @@ export default function KeteDocUpload({
       } else if (file.type.startsWith("image/")) {
         // Convert image to base64 for AI vision
         const buffer = await file.arrayBuffer();
-        const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+        const base64 = arrayBufferToBase64(new Uint8Array(buffer));
         textContent = `[Image uploaded: ${file.name}]\n[base64:${base64.slice(0, 50000)}]`;
       } else {
         // For PDFs/docx, read as text (basic) or send raw

@@ -76,7 +76,7 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
         memory_key: `signoff-${outputId}`,
         memory_value: {
           ...record,
-          contentHash: btoa(content.slice(0, 200)).slice(0, 32),
+          contentHash: safeBase64(content.slice(0, 200)).slice(0, 32),
           contentPreview: content.slice(0, 300),
         } as any,
       });
