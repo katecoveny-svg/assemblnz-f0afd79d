@@ -269,9 +269,9 @@ export default function AgentApp() {
                     )}
                     <div className="rounded-2xl px-4 py-2.5 max-w-[85%] text-sm leading-relaxed whitespace-pre-wrap"
                       style={{
-                        background: msg.role === "user" ? color + "20" : "rgba(255,255,255,0.04)",
-                        color: msg.role === "user" ? "white" : "rgba(255,255,255,0.8)",
-                        border: `1px solid ${msg.role === "user" ? color + "30" : "rgba(255,255,255,0.06)"}`,
+                        background: msg.role === "user" ? color + "20" : "rgba(255,255,255,0.85)",
+                        color: "#3D4250",
+                        border: `1px solid ${msg.role === "user" ? color + "30" : "rgba(74,165,168,0.15)"}`,
                       }}>
                       {msg.content}
                     </div>
