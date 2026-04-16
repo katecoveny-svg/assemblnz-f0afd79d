@@ -2,11 +2,11 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const stages = [
-  { name: "KAHU", color: "#4AA5A8", glow: "rgba(74,165,168,0.3)" },
-  { name: "IHO", color: "#E8A948", glow: "rgba(232,169,72,0.3)" },
-  { name: "TĀ", color: "#B8A5D0", glow: "rgba(184,165,208,0.35)" },
-  { name: "MAHARA", color: "#7BA88C", glow: "rgba(123,168,140,0.25)" },
-  { name: "MANA", color: "#4AA5A8", glow: "rgba(74,165,168,0.25)" },
+  { name: "KAHU", question: "What's allowed here?", subtitle: "Policy detection", color: "#4AA5A8", glow: "rgba(74,165,168,0.3)" },
+  { name: "IHO", question: "Which specialist handles this?", subtitle: "Routing", color: "#E8A948", glow: "rgba(232,169,72,0.3)" },
+  { name: "TĀ", question: "Does the work, properly", subtitle: "Execution + NZ English / te reo correctness", color: "#B8A5D0", glow: "rgba(184,165,208,0.35)" },
+  { name: "MAHARA", question: "Checks against what we've learned", subtitle: "Memory + cross-verification", color: "#7BA88C", glow: "rgba(123,168,140,0.25)" },
+  { name: "MANA", question: "Proves it was done right", subtitle: "Assurance, disclaimers, human-in-the-loop", color: "#4AA5A8", glow: "rgba(74,165,168,0.25)" },
 ];
 
 const lineColors = [
@@ -42,6 +42,16 @@ const CompliancePipeline = () => {
         >
           Every output passes through all five stages. No shortcuts.
         </motion.h2>
+
+        <motion.p
+          className="text-center text-[13px] max-w-[640px] mx-auto -mt-12 mb-16"
+          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280", lineHeight: 1.7 }}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          Every output passes through all five stages. Draft-only posture — no agent publishes, sends, or executes without a named human operator's approval.
+        </motion.p>
 
         {/* Pipeline row */}
         <div className="relative flex items-center justify-center gap-0 mx-auto" style={{ maxWidth: 900 }}>
