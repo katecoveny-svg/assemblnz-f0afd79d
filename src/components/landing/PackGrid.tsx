@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { lazy, Suspense } from "react";
 import KeteOrbHero from "./KeteOrbHero";
 
-const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
+const GlassKeteSphere = lazy(() => import("@/components/kete/GlassKeteSphere"));
 
 
 
@@ -121,10 +121,11 @@ const PackGrid = () => {
                       />
                     }
                   >
-                    <Kete3DModel
+                    <GlassKeteSphere
                       accentColor={pack.accent}
                       accentLight={pack.accentLight}
-                      size={100}
+                      size={110}
+                      patternDensity={5}
                     />
                   </Suspense>
                 </div>
