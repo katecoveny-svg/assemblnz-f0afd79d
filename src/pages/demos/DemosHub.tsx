@@ -109,15 +109,15 @@ function InlinePipelineDemo() {
 
   return (
     <div className="rounded-2xl overflow-hidden" style={{
-      background: "linear-gradient(145deg, rgba(18,30,52,0.95) 0%, rgba(255,255,255,0.6) 100%)",
-      border: "1px solid rgba(255,255,255,0.10)",
-      boxShadow: "0 0 60px rgba(90,173,160,0.06), 0 20px 60px rgba(0,0,0,0.4)",
+      background: "rgba(255,255,255,0.65)",
+      border: "1px solid rgba(74,165,168,0.15)",
+      boxShadow: "0 10px 40px -10px rgba(74,165,168,0.15), 0 4px 12px rgba(0,0,0,0.04)",
     }}>
       {/* Query bar */}
-      <div className="px-6 py-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <div className="px-6 py-4" style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
         <div className="flex items-center gap-3">
           <div className="w-2.5 h-2.5 rounded-full" style={{ background: C.gold, boxShadow: `0 0 8px ${C.gold}60` }} />
-          <p className="text-[13px] flex-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.7)" }}>
+          <p className="text-[13px] flex-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#374151" }}>
             "Do I need a food control plan for my cafe?"
           </p>
           {hasRun && !running && (
@@ -196,7 +196,7 @@ function InlinePipelineDemo() {
               background: `${C.pounamuGlow}08`, border: `1px solid ${C.pounamuGlow}20`,
             }}>
             <Check size={16} style={{ color: C.pounamuGlow }} />
-            <p className="text-[13px] flex-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.7)" }}>
+            <p className="text-[13px] flex-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#374151" }}>
               Evidence pack ready. All 5 governance stages passed.
             </p>
             <Link to="/demos/pipeline" className="text-[10px] tracking-[2px] uppercase flex items-center gap-1" style={{
