@@ -54,38 +54,39 @@ function GlassSphere({
     ref.current.position.x = position[0] + Math.cos(t * speed * 0.7 + phase) * 0.02;
   });
 
-  // Brighter color for glass effect
-  const brightColor = useMemo(() => {
-    const c = new THREE.Color(color);
-    c.multiplyScalar(1.4);
-    return c;
-  }, [color]);
+  const brightColor = useMemo(() => new THREE.Color(color).multiplyScalar(1.3), [color]);
 
   return (
-    <mesh ref={ref} position={position}>
-      <sphereGeometry args={[radius, 32, 32]} />
-      <meshPhysicalMaterial
-        color={brightColor}
-        transparent
-        opacity={0.75}
-        roughness={0.02}
-        metalness={0.0}
-        clearcoat={1}
-        clearcoatRoughness={0.02}
-        envMapIntensity={2.5}
-        ior={1.45}
-        thickness={radius * 3}
-        transmission={0.95}
-        attenuationColor={brightColor}
-        attenuationDistance={0.3}
-        specularIntensity={1}
-        specularColor={new THREE.Color("#FFFFFF")}
-        sheen={0.3}
-        sheenColor={new THREE.Color(color)}
-      />
-    </mesh>
+    <group>
+      {/* Outer glass shell */}
+      <mesh ref={ref} position={position}>
+        <sphereGeometry args={[radius, 48, 48]} />
+        <meshPhysicalMaterial
+          color={brightColor}
+          transparent
+          opacity={isKete ? 0.7 : 0.55}
+          roughness={0.02}
+          metalness={0.05}
+          clearcoat={1}
+          clearcoatRoughness={0.01}
+          envMapIntensity={3}
+          ior={1.5}
+          reflectivity={1}
+          specularIntensity={1.2}
+          specularColor={new THREE.Color("#FFFFFF")}
+        />
+      </mesh>
+      {/* Inner bright core — creates the glass marble highlight */}
+      <mesh position={[position[0] - radius * 0.25, position[1] + radius * 0.3, position[2] + radius * 0.3]}>
+        <sphereGeometry args={[radius * 0.3, 16, 16]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={isKete ? 0.5 : 0.35} />
+      </mesh>
+    </group>
   );
 }
+
+/* ─── Is kete helper ─── */
+const isKeteIndex = (i: number) => KETE.some(k => k.index === i);
 
 function Thread({
   start,
