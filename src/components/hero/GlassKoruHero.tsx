@@ -37,11 +37,13 @@ function GlassSphere({
   radius,
   color,
   index,
+  isKete,
 }: {
   position: [number, number, number];
   radius: number;
   color: string;
   index: number;
+  isKete: boolean;
 }) {
   const ref = useRef<THREE.Mesh>(null);
   const speed = 0.4 + (index * 0.037) % 0.6;
