@@ -19,10 +19,10 @@ const AdminGlassCard: React.FC<AdminGlassCardProps> = ({
   noPadding = false,
 }) => (
   <div className={`rounded-2xl relative overflow-hidden ${className}`} style={{
-    background: "rgba(14,14,26,0.7)",
+    background: "rgba(255,255,255,0.65)",
     backdropFilter: "blur(24px)",
     WebkitBackdropFilter: "blur(24px)",
-    border: "1px solid rgba(255,255,255,0.06)",
+    border: "1px solid rgba(74,165,168,0.12)",
   }}>
     {/* Top accent glow */}
     <span className="absolute top-0 left-[10%] right-[10%] h-px opacity-30"
