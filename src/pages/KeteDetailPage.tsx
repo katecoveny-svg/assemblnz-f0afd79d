@@ -5,6 +5,7 @@ import SEO from "@/components/SEO";
 import GlowIcon from "@/components/GlowIcon";
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import KeteVideoBlock from "@/components/kete/KeteVideoBlock";
 
 const SLUG_TO_PACK: Record<string, { packId: string; agentId: string }> = {
   manaaki: { packId: "manaaki", agentId: "aura" },
@@ -267,6 +268,9 @@ const KeteDetailPage = () => {
               </p>
             </section>
           )}
+
+          {/* Per-kete video block (silently hides if no video uploaded) */}
+          <KeteVideoBlock slug={kete.slug} accentColor={kete.accentColor} keteName={kete.name} />
 
           {/* Agents grid */}
           {kete.agents && kete.agents.length > 0 && (

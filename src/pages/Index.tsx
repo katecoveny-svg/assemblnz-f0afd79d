@@ -15,6 +15,7 @@ import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import CursorFollower from "@/components/CursorFollower";
 import GlassKoruHero from "@/components/hero/GlassKoruHero";
+import IndustryKeteShowcase from "@/components/showcase/IndustryKeteShowcase";
 import CompliancePipeline from "@/components/landing/CompliancePipeline";
 import MigrationFeatureSection from "@/components/MigrationFeatureSection";
 import ScrollDepthLayers from "@/components/hero/ScrollDepthLayers";
@@ -236,6 +237,9 @@ const Index = () => {
 
         {/* ═══ HERO ═══ */}
         <GlassKoruHero />
+
+        {/* ═══ INDUSTRY KETE SHOWCASE ═══ */}
+        <IndustryKeteShowcase />
 
         {/* ═══ LIVE DEMO ═══ */}
         <Sect>
