@@ -216,7 +216,7 @@ export default function ImageStudio() {
                 <p className="text-[#9CA3AF] text-xs">
                   Drag &amp; drop or <span className="underline">browse</span>
                 </p>
-                <p className="text-white/20 text-[10px] mt-1">JPG, PNG, WebP · max 10MB</p>
+                <p className="text-[#9CA3AF] text-[10px] mt-1">JPG, PNG, WebP · max 10MB</p>
               </div>
             )}
 
@@ -239,10 +239,10 @@ export default function ImageStudio() {
             <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm min-h-[110px] placeholder:text-white/20"
+              className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm min-h-[110px] placeholder:text-[#9CA3AF]"
               placeholder="E.g. Professional headshot for a Māori technology founder, warm office environment, confident and approachable expression"
             />
-            <p className="text-white/20 text-[10px]">
+            <p className="text-[#9CA3AF] text-[10px]">
               Brand guardrails applied automatically — dawn-gold palette, NZ editorial style, no sci-fi or neon.
             </p>
           </GlassCard>
@@ -301,7 +301,7 @@ export default function ImageStudio() {
             </div>
           ) : (
             <div className="bg-white/5 border border-gray-200 rounded-lg min-h-[400px] flex items-center justify-center">
-              <div className="text-center text-white/20">
+              <div className="text-center text-[#9CA3AF]">
                 <ImageIcon className="w-10 h-10 mx-auto mb-2 opacity-30" />
                 <p className="text-sm">Generated images appear here</p>
                 {referenceFile && (

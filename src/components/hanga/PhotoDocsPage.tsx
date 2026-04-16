@@ -122,7 +122,7 @@ export default function PhotoDocsPage() {
               <Layers size={40} style={{ color: KOWHAI }} className="mx-auto mb-3" />
             </motion.div>
           ) : (
-            <Upload size={40} className="text-white/20 mx-auto mb-3" />
+            <Upload size={40} className="text-[#9CA3AF] mx-auto mb-3" />
           )}
           <p className="text-sm text-gray-500">{uploading ? "AI analyzing photo..." : "Drag & drop photos here or click to upload"}</p>
           <p className="text-[11px] text-white/25 mt-1">ĀRAI will automatically scan for hazards</p>
