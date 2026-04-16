@@ -66,7 +66,7 @@ export default function TeKahuiReoDashboard() {
           <BarChart data={biData} layout="vertical">
             <XAxis type="number" domain={[0, 100]} tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} />
             <YAxis dataKey="metric" type="category" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 10 }} axisLine={false} width={80} />
-            <Tooltip contentStyle={{ background: "#1a1a2e", border: `1px solid ${ACCENT}33`, borderRadius: 8, fontSize: 11 }} />
+            <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", border: `1px solid ${ACCENT}40`, color: "#1A1D29", boxShadow: "0 8px 24px rgba(26,29,41,0.10)", borderRadius: 8, fontSize: 11 }} />
             <Bar dataKey="score" fill={ACCENT} radius={[0, 6, 6, 0]} />
           </BarChart>
         </ResponsiveContainer>
