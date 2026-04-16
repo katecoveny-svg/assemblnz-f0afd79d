@@ -315,30 +315,30 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="fixed bottom-24 right-4 z-50 w-[380px] max-w-[calc(100vw-2rem)] rounded-2xl overflow-hidden border flex flex-col"
             style={{
-              background: "rgba(9,9,15,0.95)",
+              background: "rgba(255,255,255,0.95)",
               backdropFilter: "blur(24px)",
-              borderColor: hexRgba(accentColor, 0.2),
-              boxShadow: `0 8px 40px rgba(0,0,0,0.6), 0 0 60px ${hexRgba(accentColor, 0.08)}`,
+              borderColor: hexRgba(accentColor, 0.25),
+              boxShadow: `0 8px 40px rgba(0,0,0,0.12), 0 0 60px ${hexRgba(accentColor, 0.08)}`,
               maxHeight: "70vh",
             }}
           >
             {/* Header */}
-            <div className="p-4 border-b flex items-center gap-3" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+            <div className="p-4 border-b flex items-center gap-3" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
               {keteId === "toroa" ? (
                 <img src={toroaMark} alt="Tōro" className="w-10 h-10 rounded-full" />
               ) : (
                 <BrainAvatar color={accentColor} size={40} />
               )}
               <div className="flex-1 min-w-0">
-                <p className="text-foreground text-sm font-light uppercase tracking-[2px]" style={{ fontFamily: "Lato, sans-serif" }}>
+                <p className="text-sm font-light uppercase tracking-[2px]" style={{ fontFamily: "Lato, sans-serif", color: "#1A1D29" }}>
                   {keteName}
                 </p>
-                <p className="text-white/40 text-[10px]">{keteNameEn} Intelligence • NZ Voice</p>
+                <p className="text-[10px]" style={{ color: "#6B7280" }}>{keteNameEn} Intelligence • NZ Voice</p>
               </div>
               <button
                 onClick={() => setShowMemory(true)}
                 className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                style={{ background: hexRgba(accentColor, 0.1), border: `1px solid ${hexRgba(accentColor, 0.2)}` }}
+                style={{ background: hexRgba(accentColor, 0.1), border: `1px solid ${hexRgba(accentColor, 0.25)}` }}
                 title="What I remember"
               >
                 <GlowIcon name="Brain" size={14} color={accentColor} glow={false} />
@@ -354,20 +354,21 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
             </div>
 
             {/* Channel tabs */}
-            <div className="flex border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+            <div className="flex border-b" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
               {(["chat", "sms", "whatsapp"] as const).map(t => (
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-[10px] uppercase tracking-wider transition-all ${
-                    tab === t ? "text-foreground" : "text-gray-400"
-                  }`}
-                  style={tab === t ? { borderBottom: `2px solid ${accentColor}` } : {}}
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 text-[10px] uppercase tracking-wider transition-all"
+                  style={{
+                    color: tab === t ? "#1A1D29" : "#9CA3AF",
+                    borderBottom: tab === t ? `2px solid ${accentColor}` : "2px solid transparent",
+                  }}
                 >
                   <GlowIcon
                     name={t === "chat" ? "MessageSquare" : t === "sms" ? "Phone" : "Send"}
                     size={12}
-                    color={tab === t ? accentColor : "#666"}
+                    color={tab === t ? accentColor : "#9CA3AF"}
                     glow={false}
                   />
                   {t === "whatsapp" ? "WhatsApp" : t.toUpperCase()}
