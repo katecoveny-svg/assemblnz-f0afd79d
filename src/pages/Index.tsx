@@ -382,7 +382,7 @@ const Index = () => {
 
             {/* Mobile: SVG koru fallback */}
             {isMobile && heroTyped && (
-              <motion.div className="mx-auto mt-8"
+              <motion.div className="mx-auto mt-4 max-w-[260px]"
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
                 <Suspense fallback={null}>
                   <KoruDataNetwork isMobile={true} />
