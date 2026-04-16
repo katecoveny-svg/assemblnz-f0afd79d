@@ -87,7 +87,7 @@ export default function AuahaVideoStudio() {
     if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
   };
 
-  const pollForVideo = (requestId: string, title: string) => {
+  const pollForVideo = (requestId: string, title: string, prompt?: string) => {
     let attempts = 0;
     const maxAttempts = 60; // 5 minutes max
     setProgress("Video queued — generating...");
@@ -106,7 +106,7 @@ export default function AuahaVideoStudio() {
 
       try {
         const { data, error } = await supabase.functions.invoke("generate-video", {
-          body: { action: "poll", requestId, title },
+          body: { action: "poll", requestId, title, prompt: prompt || quickPrompt },
         });
         if (error) throw error;
 
@@ -115,7 +115,7 @@ export default function AuahaVideoStudio() {
           setVideoUrl(data.videoUrl);
           setIsGenerating(false);
           setProgress("");
-          toast.success("Video generated successfully!");
+          toast.success("Video generated! Check the Gallery to see it.");
         } else if (data?.status === "failed" || data?.status === "error") {
           stopPolling();
           setIsGenerating(false);
