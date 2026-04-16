@@ -1854,7 +1854,7 @@ const ChatPage = () => {
 
       {/* First-time onboarding tooltip */}
       {showOnboardingTooltip && agent && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={dismissOnboarding}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/40 backdrop-blur-sm p-4" onClick={dismissOnboarding}>
           <div className="w-full max-w-sm rounded-2xl p-5 space-y-4 animate-scale-in" style={{ background: "#FAFBFC", border: `1px solid ${accentColor}30`, boxShadow: `0 0 40px ${accentColor}15` }} onClick={e => e.stopPropagation()}>
             <div className="flex items-center gap-2">
               {[0,1,2].map(i => (
@@ -2405,7 +2405,7 @@ const ChatPage = () => {
                                          document.body.removeChild(a);
                                          URL.revokeObjectURL(blobUrl);
                                        } catch { /* fallback */ window.open(url, "_blank"); }
-                                     }} className="p-1.5 rounded-md bg-black/60 hover:bg-black/80 text-white transition-colors" title="Download PNG">
+                                     }} className="p-1.5 rounded-md bg-black/60 hover:bg-white/80 text-foreground transition-colors" title="Download PNG">
                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                                      </button>
                                    </div>

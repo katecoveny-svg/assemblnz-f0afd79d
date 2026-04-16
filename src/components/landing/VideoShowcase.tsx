@@ -231,7 +231,7 @@ const VideoShowcase = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <button onClick={(e) => { e.stopPropagation(); setPlaying(false); }} className="text-white/50 hover:text-white transition-colors">
+              <button onClick={(e) => { e.stopPropagation(); setPlaying(false); }} className="text-gray-500 hover:text-foreground transition-colors">
                 <Pause size={14} />
               </button>
               {/* Progress bar */}
@@ -244,8 +244,8 @@ const VideoShowcase = () => {
                   transition={{ duration: 15, ease: "linear", repeat: Infinity }}
                 />
               </div>
-              <Volume2 size={12} className="text-white/30" />
-              <Maximize2 size={12} className="text-white/30" />
+              <Volume2 size={12} className="text-gray-400" />
+              <Maximize2 size={12} className="text-gray-400" />
             </motion.div>
           )}
         </motion.div>

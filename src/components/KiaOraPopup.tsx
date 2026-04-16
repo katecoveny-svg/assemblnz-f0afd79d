@@ -145,7 +145,7 @@ export default function KiaOraPopup({ open, onClose }: Props) {
         onChange={(e) => setExplanation(e.target.value)}
         rows={5}
         placeholder="What does your business do? What would you love to automate?"
-        className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-primary/30"
+        className="w-full px-4 py-3 rounded-xl text-sm text-foreground placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-primary/30"
         style={inputStyle}
       />
     </div>,
@@ -167,7 +167,7 @@ export default function KiaOraPopup({ open, onClose }: Props) {
           onChange={(e) => f.set(e.target.value)}
           type={f.type}
           placeholder={f.ph}
-          className="w-full px-4 py-3 rounded-xl text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-primary/30"
+          className="w-full px-4 py-3 rounded-xl text-sm text-foreground placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-primary/30"
           style={inputStyle}
         />
       ))}

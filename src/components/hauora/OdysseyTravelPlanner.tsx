@@ -121,7 +121,7 @@ export default function OdysseyTravelPlanner() {
       }}>
         <div className="flex items-center gap-2 mb-5">
           <Compass className="w-5 h-5" style={{ color: "#D4A843" }} />
-          <h2 className="text-lg font-light text-white tracking-wide" style={{ fontFamily: "'Lato', sans-serif" }}>
+          <h2 className="text-lg font-light text-foreground tracking-wide" style={{ fontFamily: "'Lato', sans-serif" }}>
             Plan Your Trip
           </h2>
         </div>
@@ -131,11 +131,11 @@ export default function OdysseyTravelPlanner() {
           <div>
             <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">Destination</label>
             <div className="relative">
-              <MapPin className="absolute left-3 top-2.5 w-4 h-4 text-white/30" />
+              <MapPin className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
               <select
                 value={destination}
                 onChange={e => setDestination(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-white border"
+                className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-foreground border"
                 style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
               >
                 <option value="">Choose region...</option>
@@ -148,9 +148,9 @@ export default function OdysseyTravelPlanner() {
           <div>
             <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">Start Date</label>
             <div className="relative">
-              <Calendar className="absolute left-3 top-2.5 w-4 h-4 text-white/30" />
+              <Calendar className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
               <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-white border"
+                className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-foreground border"
                 style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
               />
             </div>
@@ -158,9 +158,9 @@ export default function OdysseyTravelPlanner() {
           <div>
             <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">End Date</label>
             <div className="relative">
-              <Calendar className="absolute left-3 top-2.5 w-4 h-4 text-white/30" />
+              <Calendar className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
               <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-white border"
+                className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-foreground border"
                 style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
               />
             </div>
@@ -170,9 +170,9 @@ export default function OdysseyTravelPlanner() {
           <div>
             <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">Travellers</label>
             <div className="relative">
-              <Users className="absolute left-3 top-2.5 w-4 h-4 text-white/30" />
+              <Users className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
               <input type="number" min={1} max={20} value={travellers} onChange={e => setTravellers(Number(e.target.value))}
-                className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-white border"
+                className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-foreground border"
                 style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
               />
             </div>
@@ -182,9 +182,9 @@ export default function OdysseyTravelPlanner() {
           <div>
             <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">Budget (NZ$)</label>
             <div className="relative">
-              <DollarSign className="absolute left-3 top-2.5 w-4 h-4 text-white/30" />
+              <DollarSign className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
               <input type="number" min={200} step={100} value={budget} onChange={e => setBudget(Number(e.target.value))}
-                className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-white border"
+                className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-foreground border"
                 style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
               />
             </div>
@@ -194,7 +194,7 @@ export default function OdysseyTravelPlanner() {
           <div>
             <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">Accommodation</label>
             <select value={accomStyle} onChange={e => setAccomStyle(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg text-sm text-white border"
+              className="w-full px-3 py-2 rounded-lg text-sm text-foreground border"
               style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
             >
               {ACCOM_STYLES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
@@ -246,16 +246,16 @@ export default function OdysseyTravelPlanner() {
             }}>
               <p className="text-white/70 text-sm leading-relaxed mb-3">{result.summary}</p>
               <div className="flex flex-wrap gap-4 text-xs">
-                <span className="text-white/50">💰 Est. Total: <strong className="text-white">NZ${result.totalEstimatedCostNzd?.toLocaleString()}</strong></span>
-                {result.bestTimeToBook && <span className="text-white/50">📅 Book: <strong className="text-white">{result.bestTimeToBook}</strong></span>}
-                <span className="text-white/50">📍 {result.itinerary?.length} days</span>
+                <span className="text-gray-500">💰 Est. Total: <strong className="text-foreground">NZ${result.totalEstimatedCostNzd?.toLocaleString()}</strong></span>
+                {result.bestTimeToBook && <span className="text-gray-500">📅 Book: <strong className="text-foreground">{result.bestTimeToBook}</strong></span>}
+                <span className="text-gray-500">📍 {result.itinerary?.length} days</span>
               </div>
               {result.packingTips && result.packingTips.length > 0 && (
                 <div className="mt-3 pt-3 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                  <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1">Packing Tips</p>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Packing Tips</p>
                   <div className="flex flex-wrap gap-2">
                     {result.packingTips.map((tip, i) => (
-                      <span key={i} className="text-[10px] px-2 py-0.5 rounded-full text-white/50" style={{ background: "rgba(255,255,255,0.05)" }}>
+                      <span key={i} className="text-[10px] px-2 py-0.5 rounded-full text-gray-500" style={{ background: "rgba(255,255,255,0.05)" }}>
                         {tip}
                       </span>
                     ))}
@@ -281,15 +281,15 @@ export default function OdysseyTravelPlanner() {
                         {day.day}
                       </div>
                       <div>
-                        <h3 className="text-sm font-medium text-white">{day.title}</h3>
-                        {day.date && <p className="text-[10px] text-white/30">{day.date}</p>}
+                        <h3 className="text-sm font-medium text-foreground">{day.title}</h3>
+                        {day.date && <p className="text-[10px] text-gray-400">{day.date}</p>}
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
                       {day.estimatedCostNzd && (
                         <span className="text-[10px] text-white/40">NZ${day.estimatedCostNzd}</span>
                       )}
-                      {expandedDay === idx ? <ChevronDown className="w-4 h-4 text-white/30" /> : <ChevronRight className="w-4 h-4 text-white/30" />}
+                      {expandedDay === idx ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronRight className="w-4 h-4 text-gray-400" />}
                     </div>
                   </button>
 
@@ -307,8 +307,8 @@ export default function OdysseyTravelPlanner() {
                             <div key={ai} className="flex gap-3 pl-2 border-l-2" style={{ borderColor: activityTypeColors[act.type || "nature"] || "#5AADA0" }}>
                               <div className="flex-1">
                                 <div className="flex items-center gap-2">
-                                  <span className="text-[10px] text-white/30 font-mono">{act.time}</span>
-                                  <span className="text-xs text-white font-medium">{act.name}</span>
+                                  <span className="text-[10px] text-gray-400 font-mono">{act.time}</span>
+                                  <span className="text-xs text-foreground font-medium">{act.name}</span>
                                   {act.bookingRequired && (
                                     <span className="text-[8px] px-1.5 py-0.5 rounded-full font-bold" style={{ background: "rgba(212,168,67,0.2)", color: "#D4A843" }}>BOOK</span>
                                   )}
@@ -339,7 +339,7 @@ export default function OdysseyTravelPlanner() {
                             <div className="flex gap-4 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
                               <Bed className="w-3.5 h-3.5 text-white/20 mt-0.5 shrink-0" />
                               <div className="text-[10px] text-white/35">
-                                <span className="text-white/50">{day.accommodation.name}</span>
+                                <span className="text-gray-500">{day.accommodation.name}</span>
                                 {day.accommodation.type && <span className="ml-2 text-white/25">({day.accommodation.type})</span>}
                                 {day.accommodation.costNzd && <span className="ml-2">NZ${day.accommodation.costNzd}/night</span>}
                               </div>

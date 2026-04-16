@@ -172,7 +172,7 @@ export default function SimulatorHub() {
                 {pack.steps.map((step, i) => (
                   <motion.div key={i} initial={{ opacity: 0, x: -12 }} animate={{ opacity: i <= stepIndex ? 1 : 0.3, x: 0 }} transition={{ delay: i * 0.1 }}
                     className="flex items-start gap-4 p-4 rounded-xl transition-all" style={{ background: i <= stepIndex ? "rgba(255,255,255,0.03)" : "transparent" }}>
-                    <div className="mt-0.5">{i <= stepIndex ? statusIcon(step.status) : <div className="w-3.5 h-3.5 rounded-full border border-white/10" />}</div>
+                    <div className="mt-0.5">{i <= stepIndex ? statusIcon(step.status) : <div className="w-3.5 h-3.5 rounded-full border border-gray-200" />}</div>
                     <div className="flex-1">
                       <div className="text-sm font-medium text-white/80">{step.label}</div>
                       {i <= stepIndex && <p className="text-xs text-gray-500 mt-1">{step.detail}</p>}

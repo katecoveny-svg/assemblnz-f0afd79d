@@ -329,7 +329,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                 <BrainAvatar color={accentColor} size={40} />
               )}
               <div className="flex-1 min-w-0">
-                <p className="text-white text-sm font-light uppercase tracking-[2px]" style={{ fontFamily: "Lato, sans-serif" }}>
+                <p className="text-foreground text-sm font-light uppercase tracking-[2px]" style={{ fontFamily: "Lato, sans-serif" }}>
                   {keteName}
                 </p>
                 <p className="text-white/40 text-[10px]">{keteNameEn} Intelligence • NZ Voice</p>
@@ -359,7 +359,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                   key={t}
                   onClick={() => setTab(t)}
                   className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-[10px] uppercase tracking-wider transition-all ${
-                    tab === t ? "text-white" : "text-white/30"
+                    tab === t ? "text-foreground" : "text-gray-400"
                   }`}
                   style={tab === t ? { borderBottom: `2px solid ${accentColor}` } : {}}
                 >
@@ -381,8 +381,8 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                   {messages.length === 0 && (
                     <div className="text-center py-8">
                       <BrainAvatar color={accentColor} size={56} />
-                      <p className="text-white/50 text-xs mt-3">Kia ora! I'm the {keteName} specialist.</p>
-                      <p className="text-white/30 text-[10px] mt-1">Ask me anything about {keteNameEn.toLowerCase()}.</p>
+                      <p className="text-gray-500 text-xs mt-3">Kia ora! I'm the {keteName} specialist.</p>
+                      <p className="text-gray-400 text-[10px] mt-1">Ask me anything about {keteNameEn.toLowerCase()}.</p>
                     </div>
                   )}
                   {messages.map((m, i) => (
@@ -390,7 +390,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                       <div
                         className={`max-w-[85%] px-3.5 py-2.5 text-sm leading-relaxed ${
                           m.role === "user"
-                            ? "rounded-2xl rounded-br-md text-white"
+                            ? "rounded-2xl rounded-br-md text-foreground"
                             : "rounded-2xl rounded-bl-md text-white/80"
                         }`}
                         style={{
@@ -429,7 +429,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                     <input
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
-                      className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white text-sm focus:outline-none placeholder:text-white/20"
+                      className="flex-1 bg-white/5 border border-gray-200 rounded-full px-4 py-2 text-foreground text-sm focus:outline-none placeholder:text-white/20"
                       placeholder={`Ask ${keteName}...`}
                       disabled={isStreaming}
                       style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}
@@ -454,12 +454,12 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
             {tab === "sms" && (
               <div className="p-6 text-center">
                 <GlowIcon name="Phone" size={32} color={accentColor} className="mx-auto mb-3" />
-                <p className="text-white text-sm font-medium">Text your {keteName} team</p>
+                <p className="text-foreground text-sm font-medium">Text your {keteName} team</p>
                 <p className="text-white/40 text-xs mt-1 mb-4">
                   Send a text message and the right agent answers instantly
                 </p>
-                <div className="bg-white/5 rounded-xl p-3 border border-white/10 mb-3">
-                  <p className="text-white/30 text-[10px] uppercase tracking-wider mb-1">Example</p>
+                <div className="bg-white/5 rounded-xl p-3 border border-gray-200 mb-3">
+                  <p className="text-gray-400 text-[10px] uppercase tracking-wider mb-1">Example</p>
                   <p className="text-white/60 text-xs italic">"What are my obligations for working at height?"</p>
                   <p className="text-xs mt-1" style={{ color: accentColor }}>→ Routed to specialist agent</p>
                 </div>
@@ -477,13 +477,13 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
             {tab === "whatsapp" && (
               <div className="p-6 text-center">
                 <GlowIcon name="Send" size={32} color="#25D366" className="mx-auto mb-3" />
-                <p className="text-white text-sm font-medium">WhatsApp your {keteName} team</p>
+                <p className="text-foreground text-sm font-medium">WhatsApp your {keteName} team</p>
                 <p className="text-white/40 text-xs mt-1 mb-4">
                   Share photos, voice messages, and documents with your agents
                 </p>
-                <div className="bg-white/5 rounded-xl p-3 border border-white/10 mb-3">
-                  <p className="text-white/30 text-[10px] uppercase tracking-wider mb-1">Capabilities</p>
-                  <div className="space-y-1.5 text-xs text-white/50 text-left">
+                <div className="bg-white/5 rounded-xl p-3 border border-gray-200 mb-3">
+                  <p className="text-gray-400 text-[10px] uppercase tracking-wider mb-1">Capabilities</p>
+                  <div className="space-y-1.5 text-xs text-gray-500 text-left">
                     <p>📸 Photo → Agent analyses and responds</p>
                     <p>🎤 Voice → Transcribed and routed</p>
                     <p>📄 Document → Extracted and processed</p>

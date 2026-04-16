@@ -146,7 +146,7 @@ export default function CommandDashboard() {
           <div className="px-8 pt-8 pb-4">
             <div className="flex items-center gap-3 mb-1">
               <LayoutDashboard size={20} style={{ color: GOLD }} />
-              <h1 className="text-xl font-display font-bold text-white tracking-wide">Command Centre</h1>
+              <h1 className="text-xl font-display font-bold text-foreground tracking-wide">Command Centre</h1>
             </div>
             <p className="text-xs font-body text-white/40 ml-8">
               Your entire NZ operation at a glance — {new Date().toLocaleDateString("en-NZ", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
@@ -190,15 +190,15 @@ export default function CommandDashboard() {
                         <Icon size={18} style={{ color: sector.color }} />
                       </div>
                       <div>
-                        <h3 className="text-sm font-display font-bold text-white">{sector.name}</h3>
-                        <span className="text-[9px] font-mono-jb uppercase tracking-wider text-white/30">
+                        <h3 className="text-sm font-display font-bold text-foreground">{sector.name}</h3>
+                        <span className="text-[9px] font-mono-jb uppercase tracking-wider text-gray-400">
                           / {sector.nameEn}
                         </span>
                       </div>
                     </div>
                     <ArrowRight
                       size={14}
-                      className="text-white/20 group-hover:text-white/50 transition-all group-hover:translate-x-1"
+                      className="text-white/20 group-hover:text-gray-500 transition-all group-hover:translate-x-1"
                     />
                   </div>
 
@@ -208,7 +208,7 @@ export default function CommandDashboard() {
                       className="w-2 h-2 rounded-full"
                       style={{ background: statusColor(sector.status), boxShadow: `0 0 8px ${statusColor(sector.status)}` }}
                     />
-                    <span className="text-[10px] font-body text-white/50">{sector.statusLabel}</span>
+                    <span className="text-[10px] font-body text-gray-500">{sector.statusLabel}</span>
                   </div>
 
                   {/* Stats row */}
@@ -223,7 +223,7 @@ export default function CommandDashboard() {
                         >
                           <StatIcon size={12} className="mx-auto mb-1" style={{ color: sector.color, opacity: 0.6 }} />
                           <div className="text-xs font-body font-bold text-white/80">{stat.value}</div>
-                          <div className="text-[8px] font-body text-white/30 uppercase tracking-wider">{stat.label}</div>
+                          <div className="text-[8px] font-body text-gray-400 uppercase tracking-wider">{stat.label}</div>
                         </div>
                       );
                     })}
@@ -253,8 +253,8 @@ export default function CommandDashboard() {
                     <Zap size={18} style={{ color: GOLD }} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-display font-bold text-white">Symbiotic Bridge</h3>
-                    <span className="text-[9px] font-mono-jb uppercase tracking-wider text-white/30">Cross-sector intelligence</span>
+                    <h3 className="text-sm font-display font-bold text-foreground">Symbiotic Bridge</h3>
+                    <span className="text-[9px] font-mono-jb uppercase tracking-wider text-gray-400">Cross-sector intelligence</span>
                   </div>
                 </div>
                 <p className="text-[11px] font-body text-white/40 leading-relaxed mb-4">
@@ -270,7 +270,7 @@ export default function CommandDashboard() {
                       <span className="px-1.5 py-0.5 rounded" style={{ background: `${bridge.fromColor}15`, color: bridge.fromColor }}>{bridge.from}</span>
                       <ArrowRight size={10} className="text-white/20" />
                       <span className="px-1.5 py-0.5 rounded" style={{ background: `${bridge.toColor}15`, color: bridge.toColor }}>{bridge.to}</span>
-                      <span className="text-white/30 ml-1">{bridge.label}</span>
+                      <span className="text-gray-400 ml-1">{bridge.label}</span>
                     </div>
                   ))}
                 </div>

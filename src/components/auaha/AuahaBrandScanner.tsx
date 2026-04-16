@@ -37,12 +37,12 @@ export default function AuahaBrandScanner() {
       }}>
         <div className="flex gap-3">
           <div className="relative flex-1">
-            <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+            <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://yourbrand.co.nz"
-              className="pl-10 bg-transparent border-white/10 text-white/80"
+              className="pl-10 bg-transparent border-gray-200 text-white/80"
               onKeyDown={(e) => e.key === "Enter" && handleScan()}
             />
           </div>
@@ -104,7 +104,7 @@ export default function AuahaBrandScanner() {
                 </div>
                 {brand.scanUrl && (
                   <a href={brand.scanUrl} target="_blank" rel="noopener" className="ml-auto">
-                    <ExternalLink className="w-4 h-4 text-white/30 hover:text-white/60" />
+                    <ExternalLink className="w-4 h-4 text-gray-400 hover:text-white/60" />
                   </a>
                 )}
               </div>
@@ -116,14 +116,14 @@ export default function AuahaBrandScanner() {
 
               {/* Colours */}
               <div className="mb-4">
-                <span className="text-white/30 text-xs uppercase tracking-wider block mb-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                <span className="text-gray-400 text-xs uppercase tracking-wider block mb-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
                   Colour Palette
                 </span>
                 <div className="flex gap-3">
                   {Object.entries(brand.colors).map(([name, hex]) => (
                     <div key={name} className="text-center">
-                      <div className="w-12 h-12 rounded-xl border border-white/10" style={{ background: hex }} />
-                      <span className="text-[9px] text-white/30 mt-1 block">{name}</span>
+                      <div className="w-12 h-12 rounded-xl border border-gray-200" style={{ background: hex }} />
+                      <span className="text-[9px] text-gray-400 mt-1 block">{name}</span>
                       <span className="text-[9px] text-white/20 font-mono">{hex}</span>
                     </div>
                   ))}
@@ -132,7 +132,7 @@ export default function AuahaBrandScanner() {
 
               {/* Keywords */}
               <div className="mb-4">
-                <span className="text-white/30 text-xs uppercase tracking-wider block mb-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                <span className="text-gray-400 text-xs uppercase tracking-wider block mb-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
                   Keywords
                 </span>
                 <div className="flex flex-wrap gap-2">
@@ -150,7 +150,7 @@ export default function AuahaBrandScanner() {
 
               {/* Target Audience */}
               <div>
-                <span className="text-white/30 text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                <span className="text-gray-400 text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "JetBrains Mono, monospace" }}>
                   Target Audience
                 </span>
                 <p className="text-white/60 text-sm">{brand.targetAudience}</p>
@@ -173,7 +173,7 @@ export default function AuahaBrandScanner() {
                   <h4 className="text-white/60 text-xs uppercase tracking-wider mb-2">{label}</h4>
                   <ul className="space-y-1.5">
                     {brand.suggestions[module === "video" ? "videoIdeas" : module === "podcast" ? "podcastTopics" : module === "copy" ? "copyAngles" : "appIdeas"].map((item, i) => (
-                      <li key={i} className="text-white/50 text-xs flex items-start gap-1.5">
+                      <li key={i} className="text-gray-500 text-xs flex items-start gap-1.5">
                         <Sparkles className="w-3 h-3 mt-0.5 flex-shrink-0" style={{ color: TEAL }} />
                         {item}
                       </li>

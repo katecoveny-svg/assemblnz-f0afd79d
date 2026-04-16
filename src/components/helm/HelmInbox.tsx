@@ -63,7 +63,7 @@ export default function HelmInbox({ onSendToChat }: { onSendToChat?: (msg: strin
     switch (status) {
       case "parsed": return <CheckCircle size={12} className="text-[#5AADA0]" />;
       case "pending": return <Clock size={12} className="text-[#D4A843]" />;
-      default: return <AlertCircle size={12} className="text-white/30" />;
+      default: return <AlertCircle size={12} className="text-gray-400" />;
     }
   };
 
@@ -83,7 +83,7 @@ export default function HelmInbox({ onSendToChat }: { onSendToChat?: (msg: strin
 
       <div className="rounded-lg p-3" style={{ background: HELM_COLOR + "08", border: `1px solid ${HELM_COLOR}15` }}>
         <p className="text-[11px] text-white/60">Upload school newsletters, notices, or emails. TORO's AI will extract events, tasks, and deadlines automatically.</p>
-        <p className="text-[10px] text-white/30 mt-1">Supports: PDF, TXT, JPG, PNG, WEBP</p>
+        <p className="text-[10px] text-gray-400 mt-1">Supports: PDF, TXT, JPG, PNG, WEBP</p>
       </div>
 
       {messages.length === 0 ? (
@@ -104,7 +104,7 @@ export default function HelmInbox({ onSendToChat }: { onSendToChat?: (msg: strin
                   <p className="text-xs font-medium text-white/80 truncate">{msg.subject || "Untitled"}</p>
                   {statusIcon(msg.status)}
                 </div>
-                {msg.sender && <p className="text-[10px] text-white/30 mt-0.5">From: {msg.sender}</p>}
+                {msg.sender && <p className="text-[10px] text-gray-400 mt-0.5">From: {msg.sender}</p>}
                 {msg.raw_text && <p className="text-[10px] text-white/20 mt-1 line-clamp-2">{msg.raw_text.slice(0, 150)}</p>}
               </div>
               <span className="text-[9px] text-white/20 font-mono shrink-0">{new Date(msg.received_at).toLocaleDateString("en-NZ")}</span>

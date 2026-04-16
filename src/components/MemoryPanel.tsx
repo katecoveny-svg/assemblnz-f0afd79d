@@ -95,7 +95,7 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-black/40"
+            className="fixed inset-0 z-[60] bg-white/40"
             onClick={onClose}
           />
           <motion.div

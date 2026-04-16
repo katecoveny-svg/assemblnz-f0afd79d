@@ -142,7 +142,7 @@ const VoiceFAB = ({ packId = "waihanga", agentId }: Props) => {
               boxShadow: "0 0 40px rgba(0,0,0,0.5)",
             }}
           >
-            <button onClick={close} className="absolute top-2 right-2 text-white/30 hover:text-white/60">
+            <button onClick={close} className="absolute top-2 right-2 text-gray-400 hover:text-white/60">
               <X size={14} />
             </button>
 

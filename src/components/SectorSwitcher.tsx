@@ -38,14 +38,14 @@ export default function SectorSwitcher({ collapsed = false, onToggle }: Props) {
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-[9px] font-display uppercase tracking-[4px] text-white/30"
+            className="text-[9px] font-display uppercase tracking-[4px] text-gray-400"
           >
             Sectors
           </motion.span>
         )}
         <button
           onClick={onToggle}
-          className="w-7 h-7 rounded-lg flex items-center justify-center text-white/30 hover:text-white/60 hover:bg-white/5 transition-all"
+          className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 hover:text-white/60 hover:bg-white/5 transition-all"
         >
           {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
         </button>
@@ -78,7 +78,7 @@ export default function SectorSwitcher({ collapsed = false, onToggle }: Props) {
         {!collapsed && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-w-0">
             <span className="text-xs font-body font-medium text-white/80 block truncate">Command Centre</span>
-            <span className="text-[9px] font-body text-white/30 block">All sectors overview</span>
+            <span className="text-[9px] font-body text-gray-400 block">All sectors overview</span>
           </motion.div>
         )}
       </button>

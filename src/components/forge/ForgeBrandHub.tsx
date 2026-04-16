@@ -68,7 +68,7 @@ export default function ForgeBrandHub() {
           <button onClick={() => setSelectedBrand(null)} className="text-xs text-muted-foreground hover:text-foreground">← All brands</button>
           <div className="p-4 rounded-xl border bg-card" style={{ borderColor: brand.primaryColor + "40" }}>
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-black text-white" style={{ backgroundColor: brand.primaryColor }}>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-black text-foreground" style={{ backgroundColor: brand.primaryColor }}>
                 {brand.name[0]}
               </div>
               <div>

@@ -295,7 +295,7 @@ Rules:
                       <span className="font-medium text-white/90">{flag.legislation}</span>
                       {flag.section && <span className="text-white/40"> · {flag.section}</span>}
                     </p>
-                    <p className="text-[10px] text-white/50">{flag.message}</p>
+                    <p className="text-[10px] text-gray-500">{flag.message}</p>
                   </div>
                 </div>
               ))}

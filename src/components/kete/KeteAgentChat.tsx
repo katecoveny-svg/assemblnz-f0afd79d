@@ -349,7 +349,7 @@ export default function KeteAgentChat({
               style={{ borderBottom: `1px solid ${accentColor}20` }}
             >
               <div>
-                <p className="text-sm font-semibold text-white" style={{ fontFamily: "'Lato', sans-serif" }}>
+                <p className="text-sm font-semibold text-foreground" style={{ fontFamily: "'Lato', sans-serif" }}>
                   {keteName} Agent
                 </p>
                 <p className="text-[10px] uppercase tracking-[2px]" style={{ color: accentColor, fontFamily: "'JetBrains Mono', monospace" }}>
@@ -433,7 +433,7 @@ export default function KeteAgentChat({
                   onChange={(e) => setInput(e.target.value)}
                   placeholder={`Ask ${keteName} anything...`}
                   disabled={isLoading}
-                  className="flex-1 bg-transparent text-xs text-white placeholder:text-white/25 outline-none"
+                  className="flex-1 bg-transparent text-xs text-foreground placeholder:text-white/25 outline-none"
                   style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                 />
                 <button

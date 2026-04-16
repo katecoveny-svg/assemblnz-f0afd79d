@@ -399,7 +399,7 @@ export default function AdminAgentTestLab() {
               { label: "Warnings", value: stats.warn, color: "#D4A843", icon: AlertTriangle },
               { label: "Failed", value: stats.fail, color: "#C85A54", icon: XCircle },
             ].map(s => (
-              <Card key={s.label} className="bg-white/5 border-white/10">
+              <Card key={s.label} className="bg-white/5 border-gray-200">
                 <CardContent className="pt-4 pb-3 flex items-center gap-3 justify-center">
                   <s.icon className="w-5 h-5" style={{ color: s.color }} />
                   <div className="text-center">
@@ -413,14 +413,14 @@ export default function AdminAgentTestLab() {
         )}
 
         {/* Controls */}
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-gray-200">
           <CardContent className="pt-5 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Kete selector */}
               <div>
                 <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">Kete</label>
                 <Select value={selectedKete} onValueChange={(v) => { setSelectedKete(v); setSelectedAgent(""); }}>
-                  <SelectTrigger className="bg-white/5 border-white/10"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="bg-white/5 border-gray-200"><SelectValue /></SelectTrigger>
                   <SelectContent>
                     {keteOptions.map(k => <SelectItem key={k} value={k}>{k}</SelectItem>)}
                   </SelectContent>
@@ -431,11 +431,11 @@ export default function AdminAgentTestLab() {
               <div>
                 <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">Agent</label>
                 <Select value={selectedAgent} onValueChange={setSelectedAgent}>
-                  <SelectTrigger className="bg-white/5 border-white/10"><SelectValue placeholder="Select agent..." /></SelectTrigger>
+                  <SelectTrigger className="bg-white/5 border-gray-200"><SelectValue placeholder="Select agent..." /></SelectTrigger>
                   <SelectContent>
                     {filteredAgents.map(a => (
                       <SelectItem key={`${a.kete}-${a.id}`} value={a.id}>
-                        {a.name} <span className="text-white/30 ml-1">({a.keteName})</span>
+                        {a.name} <span className="text-gray-400 ml-1">({a.keteName})</span>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -466,7 +466,7 @@ export default function AdminAgentTestLab() {
 
         {/* Test Category Tabs with prompts */}
         <Tabs value={selectedCategory} onValueChange={(v) => setSelectedCategory(v as TestCategory)}>
-          <TabsList className="bg-white/5 border border-white/10">
+          <TabsList className="bg-white/5 border border-gray-200">
             {Object.entries(TEST_CATEGORIES).map(([key, cat]) => (
               <TabsTrigger key={key} value={key} className="gap-1.5 data-[state=active]:bg-white/10">
                 <cat.icon className="w-3.5 h-3.5" style={{ color: cat.color }} />
@@ -479,7 +479,7 @@ export default function AdminAgentTestLab() {
             <TabsContent key={key} value={key} className="mt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {cat.prompts.map((prompt, i) => (
-                  <Card key={i} className="bg-white/[0.03] border-white/[0.06] hover:border-white/10 transition-colors cursor-pointer group"
+                  <Card key={i} className="bg-white/[0.03] border-white/[0.06] hover:border-gray-200 transition-colors cursor-pointer group"
                     onClick={() => handleRunTest(prompt)}>
                     <CardContent className="pt-4 pb-3 flex items-start justify-between gap-3">
                       <p className="text-sm text-white/70 leading-relaxed flex-1">"{prompt}"</p>
@@ -496,7 +496,7 @@ export default function AdminAgentTestLab() {
               <div className="mt-4 flex gap-2">
                 <Textarea placeholder="Type a custom test prompt..."
                   value={customPrompt} onChange={(e) => setCustomPrompt(e.target.value)}
-                  className="bg-white/5 border-white/10 text-sm min-h-[44px] resize-none" rows={1} />
+                  className="bg-white/5 border-gray-200 text-sm min-h-[44px] resize-none" rows={1} />
                 <Button onClick={() => { if (customPrompt.trim()) handleRunTest(customPrompt.trim()); }}
                   disabled={!!running || !selectedAgent || !customPrompt.trim()}
                   className="shrink-0 bg-[#D4A843] hover:bg-[#D4A843]/80 text-black">
@@ -529,7 +529,7 @@ export default function AdminAgentTestLab() {
                         </Badge>
                         <Badge variant="outline" className="text-[#D4A843] border-[#D4A843]/30">{r.agent.kete}</Badge>
                         <span className="text-sm font-bold">{r.agent.name}</span>
-                        <span className="text-[10px] text-white/30">{r.timestamp.toLocaleTimeString("en-NZ")}</span>
+                        <span className="text-[10px] text-gray-400">{r.timestamp.toLocaleTimeString("en-NZ")}</span>
                       </div>
                       <Badge className="text-xs px-3 py-1" style={{
                         background: `${VERDICT_COLORS[r.overall]}20`,
@@ -560,7 +560,7 @@ export default function AdminAgentTestLab() {
                       <summary className="cursor-pointer text-white/40 hover:text-white/60 transition-colors">
                         View full response ({r.response.length} chars)
                       </summary>
-                      <div className="mt-2 p-3 bg-black/40 rounded-lg text-white/50 whitespace-pre-wrap max-h-48 overflow-auto text-[12px] leading-relaxed">
+                      <div className="mt-2 p-3 bg-white/40 rounded-lg text-gray-500 whitespace-pre-wrap max-h-48 overflow-auto text-[12px] leading-relaxed">
                         {r.response}
                       </div>
                     </details>

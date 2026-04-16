@@ -238,7 +238,7 @@ const WorkflowCards = ({ packId }: WorkflowCardsProps) => {
                     {getIcon(wf.icon)}
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-white">{wf.title}</h4>
+                    <h4 className="text-sm font-bold text-foreground">{wf.title}</h4>
                     {wf.titleMi && (
                       <p className="text-[10px]" style={{ color: "rgba(212,168,67,0.5)" }}>{wf.titleMi}</p>
                     )}
@@ -250,7 +250,7 @@ const WorkflowCards = ({ packId }: WorkflowCardsProps) => {
                     {completedCount}/{totalSteps}
                   </div>
                 ) : (
-                  <Play size={14} className="text-white/20 group-hover:text-white/50 transition-colors" />
+                  <Play size={14} className="text-white/20 group-hover:text-gray-500 transition-colors" />
                 )}
               </div>
 

@@ -133,7 +133,7 @@ export default function AratakiDashboard() {
         <div className="flex items-center gap-1 overflow-x-auto pb-2">
           {JOURNEY_STAGES.map((stage, i) => (
             <button key={stage} onClick={() => setSelectedStage(i)} className="flex items-center gap-1 shrink-0">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${i <= selectedStage ? "text-white" : "text-white/30"}`}
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${i <= selectedStage ? "text-foreground" : "text-gray-400"}`}
                 style={{ background: i <= selectedStage ? POUNAMU : "rgba(255,255,255,0.05)", border: `1px solid ${i <= selectedStage ? POUNAMU : "rgba(255,255,255,0.1)"}` }}>
                 {i + 1}
               </div>
@@ -167,7 +167,7 @@ export default function AratakiDashboard() {
             </BarChart>
           </ResponsiveContainer>
         ) : (
-          <div className="h-[180px] flex items-center justify-center text-white/30 text-xs">Add customers to see funnel</div>
+          <div className="h-[180px] flex items-center justify-center text-gray-400 text-xs">Add customers to see funnel</div>
         )}
       </DashboardGlassCard>
 
@@ -181,12 +181,12 @@ export default function AratakiDashboard() {
         </div>
         {showForm && (
           <form onSubmit={e => { e.preventDefault(); addLead.mutate(); }} className="grid grid-cols-2 gap-3 mb-4">
-            <input placeholder="Customer name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required className="col-span-2 px-3 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/25 focus:outline-none" />
-            <input placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/25 focus:outline-none" />
-            <input placeholder="Phone" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/25 focus:outline-none" />
-            <input placeholder="Vehicle interest" value={form.business_name} onChange={e => setForm(f => ({ ...f, business_name: e.target.value }))} className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/25 focus:outline-none" />
-            <input placeholder="Notes" value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/25 focus:outline-none" />
-            <button type="submit" disabled={addLead.isPending} className="col-span-2 py-2 rounded-lg text-sm font-medium text-white" style={{ background: POUNAMU }}>
+            <input placeholder="Customer name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required className="col-span-2 px-3 py-2 rounded-lg text-sm bg-white/5 border border-gray-200 text-foreground placeholder:text-white/25 focus:outline-none" />
+            <input placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-gray-200 text-foreground placeholder:text-white/25 focus:outline-none" />
+            <input placeholder="Phone" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-gray-200 text-foreground placeholder:text-white/25 focus:outline-none" />
+            <input placeholder="Vehicle interest" value={form.business_name} onChange={e => setForm(f => ({ ...f, business_name: e.target.value }))} className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-gray-200 text-foreground placeholder:text-white/25 focus:outline-none" />
+            <input placeholder="Notes" value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-gray-200 text-foreground placeholder:text-white/25 focus:outline-none" />
+            <button type="submit" disabled={addLead.isPending} className="col-span-2 py-2 rounded-lg text-sm font-medium text-foreground" style={{ background: POUNAMU }}>
               {addLead.isPending ? "Adding..." : "Add to Pipeline"}
             </button>
           </form>

@@ -265,10 +265,10 @@ export default function AuahaGenerate() {
       {/* Header */}
       <div>
         <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Generate</p>
-        <h1 className="text-white text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>
+        <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>
           Generate Studio
         </h1>
-        <p className="text-white/50 text-sm mt-1">Kahu compliance → Iho routing → Tā audit → Output + Evidence Pack</p>
+        <p className="text-gray-500 text-sm mt-1">Kahu compliance → Iho routing → Tā audit → Output + Evidence Pack</p>
       </div>
 
       <div className="grid lg:grid-cols-5 gap-6">
@@ -278,7 +278,7 @@ export default function AuahaGenerate() {
           <div className="flex gap-2">
             {(["image", "video"] as const).map(t => (
               <button key={t} onClick={() => { setGenType(t); setSelectedModel("auto"); }}
-                className={`flex-1 px-4 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all ${t === genType ? "text-black font-medium" : "text-white/50 bg-white/5"}`}
+                className={`flex-1 px-4 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all ${t === genType ? "text-black font-medium" : "text-gray-500 bg-white/5"}`}
                 style={t === genType ? { background: ACCENT } : {}}>
                 {t}
               </button>
@@ -287,9 +287,9 @@ export default function AuahaGenerate() {
 
           {/* Prompt */}
           <div>
-            <label className="text-white/50 text-xs block mb-1.5">Prompt</label>
+            <label className="text-gray-500 text-xs block mb-1.5">Prompt</label>
             <textarea value={prompt} onChange={e => setPrompt(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm min-h-[120px] placeholder:text-white/20 focus:outline-none focus:border-[#F0D07866]"
+              className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm min-h-[120px] placeholder:text-white/20 focus:outline-none focus:border-[#F0D07866]"
               placeholder="Describe what you want to create... Kahu will scan for compliance before dispatch." />
           </div>
 
@@ -298,20 +298,20 @@ export default function AuahaGenerate() {
 
           {/* Model selector */}
           <div>
-            <label className="text-white/50 text-xs block mb-1.5">Model / Provider (Iho routing)</label>
+            <label className="text-gray-500 text-xs block mb-1.5">Model / Provider (Iho routing)</label>
             <div className="space-y-1">
               <button onClick={() => setSelectedModel("auto")}
                 className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all ${selectedModel === "auto" ? "border" : "bg-white/5"}`}
                 style={selectedModel === "auto" ? { borderColor: `${ACCENT}66`, background: `${ACCENT}10` } : {}}>
-                <span className={selectedModel === "auto" ? "text-white" : "text-white/50"}>Auto (Iho picks best)</span>
-                <span className="text-white/30 text-[10px]">Recommended</span>
+                <span className={selectedModel === "auto" ? "text-foreground" : "text-gray-500"}>Auto (Iho picks best)</span>
+                <span className="text-gray-400 text-[10px]">Recommended</span>
               </button>
               {models.map(m => (
                 <button key={m.id} onClick={() => setSelectedModel(m.id)}
                   className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all ${m.id === selectedModel ? "border" : "bg-white/5"}`}
                   style={m.id === selectedModel ? { borderColor: `${ACCENT}66`, background: `${ACCENT}10` } : {}}>
-                  <span className={m.id === selectedModel ? "text-white" : "text-white/50"}>{m.label}</span>
-                  <span className="text-white/30 text-[10px]">{m.desc}</span>
+                  <span className={m.id === selectedModel ? "text-foreground" : "text-gray-500"}>{m.label}</span>
+                  <span className="text-gray-400 text-[10px]">{m.desc}</span>
                 </button>
               ))}
             </div>
@@ -319,9 +319,9 @@ export default function AuahaGenerate() {
 
           {/* Demo mode notice */}
           <div className="flex items-start gap-2 p-3 rounded-lg bg-white/5">
-            <Info className="w-4 h-4 text-white/30 mt-0.5 flex-shrink-0" />
+            <Info className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
             <div>
-              <p className="text-white/50 text-xs">Demo mode active</p>
+              <p className="text-gray-500 text-xs">Demo mode active</p>
               <p className="text-white/25 text-[10px]">Set REPLICATE_API_TOKEN or FAL_KEY to go live. The full UI, audit trail, and evidence packs work without credentials.</p>
             </div>
           </div>
@@ -336,7 +336,7 @@ export default function AuahaGenerate() {
           {jobs.length === 0 ? (
             <GlassCard className="p-12 text-center">
               <Shield className="w-12 h-12 mx-auto mb-3 text-white/10" />
-              <p className="text-white/30 text-sm">No jobs yet</p>
+              <p className="text-gray-400 text-sm">No jobs yet</p>
               <p className="text-white/15 text-[10px] mt-1">Submit a prompt to see the full Kahu → Iho → Tā pipeline in action</p>
             </GlassCard>
           ) : (
@@ -370,10 +370,10 @@ export default function AuahaGenerate() {
 
                 {/* Expanded detail */}
                 {expandedJob === job.id && (
-                  <div className="border-t border-white/5 p-4 space-y-4">
+                  <div className="border-t border-gray-100 p-4 space-y-4">
                     {/* Prompt */}
                     <div className="bg-white/5 rounded-lg p-3">
-                      <span className="text-white/30 text-[10px] uppercase tracking-wider">Prompt</span>
+                      <span className="text-gray-400 text-[10px] uppercase tracking-wider">Prompt</span>
                       <p className="text-white/70 text-sm mt-1">{job.prompt}</p>
                     </div>
 
@@ -382,7 +382,7 @@ export default function AuahaGenerate() {
 
                     {/* Result preview */}
                     {job.resultUrl && (
-                      <div className="rounded-lg overflow-hidden border border-white/10">
+                      <div className="rounded-lg overflow-hidden border border-gray-200">
                         {job.type === "image" ? (
                           <img src={job.resultUrl} alt="Generated" className="w-full max-h-[400px] object-contain bg-black/50" />
                         ) : (
@@ -406,7 +406,7 @@ export default function AuahaGenerate() {
                                 <span className="text-[10px] font-mono px-1.5 py-0.5 rounded" style={{ background: `${stageColor(entry.status)}15`, color: stageColor(entry.status) }}>
                                   {entry.stage.toUpperCase()}
                                 </span>
-                                <span className="text-white/50 text-[10px]">{entry.actor}</span>
+                                <span className="text-gray-500 text-[10px]">{entry.actor}</span>
                                 <span className="text-white/20 text-[9px] ml-auto font-mono">
                                   {new Date(entry.timestamp).toLocaleTimeString("en-NZ", { hour12: false, timeZone: "Pacific/Auckland" })}
                                 </span>

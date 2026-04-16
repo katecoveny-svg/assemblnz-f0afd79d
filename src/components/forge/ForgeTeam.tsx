@@ -67,7 +67,7 @@ export default function ForgeTeam() {
           {DEMO_TEAM.map(m => (
             <div key={m.id} className="p-3 rounded-xl border border-border bg-card">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white" style={{ backgroundColor: DEPT_COLORS[m.department] || "#666" }}>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-foreground" style={{ backgroundColor: DEPT_COLORS[m.department] || "#666" }}>
                   {m.name.split(" ").map(n => n[0]).join("")}
                 </div>
                 <div className="flex-1 min-w-0">

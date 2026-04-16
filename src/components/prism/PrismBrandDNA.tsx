@@ -103,7 +103,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
             <div key={s.key} className="flex items-center gap-1">
               {editing ? (
                 <label className="cursor-pointer relative">
-                  <div className="w-4 h-4 rounded-full border border-white/20 ring-1 ring-offset-1 ring-offset-transparent" style={{ backgroundColor: s.color }} />
+                  <div className="w-4 h-4 rounded-full border border-gray-300 ring-1 ring-offset-1 ring-offset-transparent" style={{ backgroundColor: s.color }} />
                   <input
                     type="color"
                     value={s.color || "#000000"}
@@ -112,7 +112,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
                   />
                 </label>
               ) : (
-                <div className="w-4 h-4 rounded-full border border-white/10" style={{ backgroundColor: s.color }} />
+                <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: s.color }} />
               )}
               <span className="text-[9px] font-mono-jb" style={{ color: "rgba(255,255,255,0.4)" }}>{s.color}</span>
             </div>
@@ -141,7 +141,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
       )}
 
       {expanded && (
-        <div className="space-y-2 pt-2 border-t border-white/5 animate-in fade-in-0 slide-in-from-top-1">
+        <div className="space-y-2 pt-2 border-t border-gray-100 animate-in fade-in-0 slide-in-from-top-1">
           {dna.brand_summary && (
             <p className="text-[10px] font-body leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
               {dna.brand_summary}

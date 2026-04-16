@@ -219,7 +219,7 @@ export default function AdminMessagingDashboard() {
 
         {/* Main Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-[#0F0F1A] border border-white/10">
+          <TabsList className="bg-[#FAFBFC] border border-gray-200">
             <TabsTrigger value="conversations" className="data-[state=active]:bg-[#D4A843]/20 data-[state=active]:text-[#D4A843]">
               <MessageSquare className="w-4 h-4 mr-1" /> Conversations
             </TabsTrigger>
@@ -238,7 +238,7 @@ export default function AdminMessagingDashboard() {
               <div className="flex items-center gap-2">
                 <Filter className="w-4 h-4 text-white/40" />
                 <Select value={channelFilter} onValueChange={setChannelFilter}>
-                  <SelectTrigger className="w-32 h-8 text-xs bg-[#09090F] border-white/10">
+                  <SelectTrigger className="w-32 h-8 text-xs bg-[#F5F5F7] border-gray-200">
                     <SelectValue placeholder="Channel" />
                   </SelectTrigger>
                   <SelectContent>
@@ -249,7 +249,7 @@ export default function AdminMessagingDashboard() {
                 </Select>
               </div>
               <Select value={keteFilter} onValueChange={setKeteFilter}>
-                <SelectTrigger className="w-36 h-8 text-xs bg-[#09090F] border-white/10">
+                <SelectTrigger className="w-36 h-8 text-xs bg-[#F5F5F7] border-gray-200">
                   <SelectValue placeholder="Kete" />
                 </SelectTrigger>
                 <SelectContent>
@@ -263,7 +263,7 @@ export default function AdminMessagingDashboard() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Conversation List */}
-              <Card className="bg-[#0F0F1A] border-white/10 lg:col-span-1">
+              <Card className="bg-[#FAFBFC] border-gray-200 lg:col-span-1">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-xs uppercase tracking-wider text-white/60 flex items-center gap-2">
                     <ArrowUpDown className="w-3 h-3" /> Conversations ({filteredConversations.length})
@@ -278,11 +278,11 @@ export default function AdminMessagingDashboard() {
                         <button
                           key={c.id}
                           onClick={() => setSelectedConvo(c.id)}
-                          className={`w-full text-left px-4 py-3 border-b border-white/5 hover:bg-white/5 transition ${selectedConvo === c.id ? "bg-white/10 border-l-2 border-l-[#D4A843]" : ""}`}
+                          className={`w-full text-left px-4 py-3 border-b border-gray-100 hover:bg-white/5 transition ${selectedConvo === c.id ? "bg-white/10 border-l-2 border-l-[#D4A843]" : ""}`}
                         >
                           <div className="flex items-center gap-2 mb-1">
                             <ChannelIcon className="w-4 h-4 text-white/40" />
-                            <span className="text-sm font-medium text-white truncate">{c.contact_name || c.phone_number}</span>
+                            <span className="text-sm font-medium text-foreground truncate">{c.contact_name || c.phone_number}</span>
                             <Badge className={`text-[10px] ml-auto ${c.channel === "whatsapp" ? "bg-green-700/50 text-green-300" : "bg-blue-700/50 text-blue-300"}`}>
                               {c.channel.toUpperCase()}
                             </Badge>
@@ -298,7 +298,7 @@ export default function AdminMessagingDashboard() {
                                 {c.assigned_agent.toUpperCase()}
                               </Badge>
                             )}
-                            <span className="text-[10px] text-white/30 ml-auto">
+                            <span className="text-[10px] text-gray-400 ml-auto">
                               {new Date(c.updated_at).toLocaleString("en-NZ", { timeZone: "Pacific/Auckland", hour: "2-digit", minute: "2-digit" })}
                             </span>
                           </div>
@@ -306,14 +306,14 @@ export default function AdminMessagingDashboard() {
                       );
                     })}
                     {filteredConversations.length === 0 && (
-                      <div className="p-8 text-center text-white/30 text-sm">No conversations yet</div>
+                      <div className="p-8 text-center text-gray-400 text-sm">No conversations yet</div>
                     )}
                   </ScrollArea>
                 </CardContent>
               </Card>
 
               {/* Message Thread */}
-              <Card className="bg-[#0F0F1A] border-white/10 lg:col-span-2">
+              <Card className="bg-[#FAFBFC] border-gray-200 lg:col-span-2">
                 <CardHeader className="pb-2 flex flex-row items-center justify-between">
                   <CardTitle className="text-xs uppercase tracking-wider text-white/60">
                     {selectedConvo ? "Thread" : "Select a conversation"}
@@ -323,7 +323,7 @@ export default function AdminMessagingDashboard() {
                       value={conversations.find((c) => c.id === selectedConvo)?.status || "active"}
                       onValueChange={(v) => updateStatus(selectedConvo, v)}
                     >
-                      <SelectTrigger className="w-28 h-7 text-xs bg-[#09090F] border-white/10">
+                      <SelectTrigger className="w-28 h-7 text-xs bg-[#F5F5F7] border-gray-200">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -338,7 +338,7 @@ export default function AdminMessagingDashboard() {
                   <ScrollArea className="h-[500px] px-4">
                     {messages.map((m) => (
                       <div key={m.id} className={`mb-3 flex ${m.direction === "inbound" ? "justify-start" : "justify-end"}`}>
-                        <div className={`max-w-[80%] rounded-xl px-4 py-2 text-sm ${m.direction === "inbound" ? "bg-[#1A3A5C] text-white" : "bg-[#3A7D6E] text-white"}`}>
+                        <div className={`max-w-[80%] rounded-xl px-4 py-2 text-sm ${m.direction === "inbound" ? "bg-[#1A3A5C] text-foreground" : "bg-[#3A7D6E] text-foreground"}`}>
                           <p className="whitespace-pre-wrap">{m.body}</p>
                           <div className="flex items-center gap-2 mt-1">
                             <span className="text-[10px] text-white/40">
@@ -350,7 +350,7 @@ export default function AdminMessagingDashboard() {
                               </Badge>
                             )}
                             {m.response_time_ms && (
-                              <span className="text-[9px] text-white/30">{m.response_time_ms}ms</span>
+                              <span className="text-[9px] text-gray-400">{m.response_time_ms}ms</span>
                             )}
                           </div>
                         </div>
@@ -365,14 +365,14 @@ export default function AdminMessagingDashboard() {
 
                   {/* Manual reply */}
                   {selectedConvo && (
-                    <div className="p-4 border-t border-white/10 flex gap-2">
+                    <div className="p-4 border-t border-gray-200 flex gap-2">
                       <input
                         type="text"
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && sendManualReply()}
                         placeholder="Type a manual reply..."
-                        className="flex-1 bg-[#09090F] border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#D4A843]/50"
+                        className="flex-1 bg-[#F5F5F7] border border-gray-200 rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-gray-400 focus:outline-none focus:border-[#D4A843]/50"
                       />
                       <Button
                         onClick={sendManualReply}
@@ -404,7 +404,7 @@ export default function AdminMessagingDashboard() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: KETE_LIST.indexOf(kete) * 0.05 }}
                   >
-                    <Card className="bg-[#0F0F1A] border-white/10 hover:border-white/20 transition">
+                    <Card className="bg-[#FAFBFC] border-gray-200 hover:border-gray-300 transition">
                       <CardHeader className="pb-3">
                         <div className="flex items-center justify-between">
                           <div>
@@ -442,8 +442,8 @@ export default function AdminMessagingDashboard() {
                             className="data-[state=checked]:bg-green-600"
                           />
                         </div>
-                        <div className="pt-2 border-t border-white/5">
-                          <p className="text-[10px] text-white/30">
+                        <div className="pt-2 border-t border-gray-100">
+                          <p className="text-[10px] text-gray-400">
                             {smsOn && waOn ? "All channels active" : smsOn ? "SMS only" : waOn ? "WhatsApp only" : "All channels paused"}
                           </p>
                         </div>
@@ -481,10 +481,10 @@ function MessageLogsTable() {
     fetchLogs();
   }, []);
 
-  if (loading) return <div className="text-center text-white/30 py-12">Loading logs...</div>;
+  if (loading) return <div className="text-center text-gray-400 py-12">Loading logs...</div>;
 
   return (
-    <Card className="bg-[#0F0F1A] border-white/10">
+    <Card className="bg-[#FAFBFC] border-gray-200">
       <CardHeader className="pb-2">
         <CardTitle className="text-xs uppercase tracking-wider text-white/60">
           Recent Message Log ({logs.length} entries)
@@ -493,7 +493,7 @@ function MessageLogsTable() {
       <CardContent className="p-0">
         <ScrollArea className="h-[600px]">
           <table className="w-full text-xs">
-            <thead className="sticky top-0 bg-[#0F0F1A] border-b border-white/10">
+            <thead className="sticky top-0 bg-[#FAFBFC] border-b border-gray-200">
               <tr className="text-assembl-text/40 uppercase tracking-wider">
                 <th className="text-left p-3">Time</th>
                 <th className="text-left p-3">Dir</th>
@@ -507,7 +507,7 @@ function MessageLogsTable() {
             </thead>
             <tbody>
               {logs.map((log) => (
-                <tr key={log.id} className="border-b border-white/5 hover:bg-white/5 transition">
+                <tr key={log.id} className="border-b border-gray-100 hover:bg-white/5 transition">
                   <td className="p-3 text-gray-500 whitespace-nowrap">
                     {new Date(log.created_at).toLocaleString("en-NZ", { timeZone: "Pacific/Auckland", month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit" })}
                   </td>
@@ -545,7 +545,7 @@ function MessageLogsTable() {
             </tbody>
           </table>
           {logs.length === 0 && (
-            <div className="p-12 text-center text-white/30">No message logs yet</div>
+            <div className="p-12 text-center text-gray-400">No message logs yet</div>
           )}
         </ScrollArea>
       </CardContent>
@@ -555,12 +555,12 @@ function MessageLogsTable() {
 
 function StatCard({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: string | number; accent?: string }) {
   return (
-    <Card className="bg-[#0F0F1A] border-white/10">
+    <Card className="bg-[#FAFBFC] border-gray-200">
       <CardContent className="p-3 flex items-center gap-3">
         <div style={{ color: accent || GOLD }}>{icon}</div>
         <div>
           <p className="text-[10px] uppercase tracking-wider text-white/40">{label}</p>
-          <p className="text-lg font-semibold text-white">{value}</p>
+          <p className="text-lg font-semibold text-foreground">{value}</p>
         </div>
       </CardContent>
     </Card>

@@ -49,7 +49,7 @@ function BrandDnaBadge() {
         background: `${POUNAMU}08`,
         border: `1px solid ${POUNAMU}15`,
       }}>
-        <div className="flex items-center gap-1.5 text-white/50">
+        <div className="flex items-center gap-1.5 text-gray-500">
           <div className="w-2 h-2 rounded-full" style={{ background: brand.colors.primary }} />
           <span className="truncate">{brand.businessName}</span>
         </div>
@@ -126,7 +126,7 @@ function AuahaLayoutInner() {
                       end={item.end}
                       className={() => cn(
                         "group relative flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-all duration-200",
-                        isActive ? "text-white" : "text-white/35 hover:text-white/60 hover:bg-white/[0.02]"
+                        isActive ? "text-foreground" : "text-white/35 hover:text-white/60 hover:bg-white/[0.02]"
                       )}
                     >
                       {isActive && (

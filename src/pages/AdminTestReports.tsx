@@ -212,41 +212,41 @@ export default function AdminTestReports() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-gray-200">
             <CardContent className="pt-4 text-center">
               <BarChart3 className="w-6 h-6 mx-auto mb-1 text-[#D4A843]" />
               <div className="text-2xl font-bold">{stats.total}</div>
-              <div className="text-xs text-white/50">Total Tests</div>
+              <div className="text-xs text-gray-500">Total Tests</div>
             </CardContent>
           </Card>
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-gray-200">
             <CardContent className="pt-4 text-center">
               <CheckCircle2 className="w-6 h-6 mx-auto mb-1 text-emerald-400" />
               <div className="text-2xl font-bold text-emerald-400">{stats.pass}</div>
-              <div className="text-xs text-white/50">Passed</div>
+              <div className="text-xs text-gray-500">Passed</div>
             </CardContent>
           </Card>
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-gray-200">
             <CardContent className="pt-4 text-center">
               <AlertTriangle className="w-6 h-6 mx-auto mb-1 text-amber-400" />
               <div className="text-2xl font-bold text-amber-400">{stats.warn}</div>
-              <div className="text-xs text-white/50">Warnings</div>
+              <div className="text-xs text-gray-500">Warnings</div>
             </CardContent>
           </Card>
-          <Card className="bg-white/5 border-white/10">
+          <Card className="bg-white/5 border-gray-200">
             <CardContent className="pt-4 text-center">
               <XCircle className="w-6 h-6 mx-auto mb-1 text-red-400" />
               <div className="text-2xl font-bold text-red-400">{stats.fail}</div>
-              <div className="text-xs text-white/50">Failed</div>
+              <div className="text-xs text-gray-500">Failed</div>
             </CardContent>
           </Card>
         </div>
 
         {/* Filters */}
         <div className="flex gap-3 items-center">
-          <Filter className="w-4 h-4 text-white/50" />
+          <Filter className="w-4 h-4 text-gray-500" />
           <Select value={keteFilter} onValueChange={setKeteFilter}>
-            <SelectTrigger className="w-40 bg-white/5 border-white/10">
+            <SelectTrigger className="w-40 bg-white/5 border-gray-200">
               <SelectValue placeholder="All Kete" />
             </SelectTrigger>
             <SelectContent>
@@ -257,7 +257,7 @@ export default function AdminTestReports() {
             </SelectContent>
           </Select>
           <Select value={verdictFilter} onValueChange={setVerdictFilter}>
-            <SelectTrigger className="w-40 bg-white/5 border-white/10">
+            <SelectTrigger className="w-40 bg-white/5 border-gray-200">
               <SelectValue placeholder="All Verdicts" />
             </SelectTrigger>
             <SelectContent>
@@ -271,7 +271,7 @@ export default function AdminTestReports() {
         </div>
 
         {/* Results Table */}
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-gray-200">
           <CardHeader>
             <CardTitle className="text-sm font-medium text-white/70 flex items-center gap-2">
               <FileText className="w-4 h-4" /> Test Results
@@ -290,22 +290,22 @@ export default function AdminTestReports() {
                       <div className="flex items-center gap-3">
                         <Badge variant="outline" className="text-[#D4A843] border-[#D4A843]/30">{r.kete}</Badge>
                         <span className="text-sm font-medium">{r.agent_slug}</span>
-                        <span className="text-xs text-white/30">{new Date(r.created_at).toLocaleString("en-NZ")}</span>
+                        <span className="text-xs text-gray-400">{new Date(r.created_at).toLocaleString("en-NZ")}</span>
                       </div>
                       {verdictBadge(r.overall_verdict)}
                     </div>
                     <div className="text-sm text-white/60 truncate">"{r.prompt}"</div>
                     <div className="flex gap-2 text-xs">
-                      <span className="text-white/30">Kahu</span>{verdictBadge(r.verdict_kahu)}
-                      <span className="text-white/30">Iho</span>{verdictBadge(r.verdict_iho)}
-                      <span className="text-white/30">Tā</span>{verdictBadge(r.verdict_ta)}
-                      <span className="text-white/30">Mahara</span>{verdictBadge(r.verdict_mahara)}
-                      <span className="text-white/30">Mana</span>{verdictBadge(r.verdict_mana)}
+                      <span className="text-gray-400">Kahu</span>{verdictBadge(r.verdict_kahu)}
+                      <span className="text-gray-400">Iho</span>{verdictBadge(r.verdict_iho)}
+                      <span className="text-gray-400">Tā</span>{verdictBadge(r.verdict_ta)}
+                      <span className="text-gray-400">Mahara</span>{verdictBadge(r.verdict_mahara)}
+                      <span className="text-gray-400">Mana</span>{verdictBadge(r.verdict_mana)}
                     </div>
                     {r.response && (
                       <details className="text-xs text-white/40">
                         <summary className="cursor-pointer hover:text-white/60">View response</summary>
-                        <div className="mt-2 p-2 bg-black/30 rounded text-white/50 whitespace-pre-wrap max-h-40 overflow-auto">
+                        <div className="mt-2 p-2 bg-black/30 rounded text-gray-500 whitespace-pre-wrap max-h-40 overflow-auto">
                           {r.response}
                         </div>
                       </details>
@@ -318,7 +318,7 @@ export default function AdminTestReports() {
         </Card>
 
         {/* Compliance Scan Log */}
-        <Card className="bg-white/5 border-white/10">
+        <Card className="bg-white/5 border-gray-200">
           <CardHeader>
             <CardTitle className="text-sm font-medium text-white/70">Compliance Scanner Log</CardTitle>
           </CardHeader>
@@ -330,12 +330,12 @@ export default function AdminTestReports() {
                 {scanLogs.map((s) => (
                   <div key={s.id} className="flex items-center justify-between p-3 rounded bg-white/[0.03] border border-white/[0.06] text-sm">
                     <span>{s.scan_date}</span>
-                    <span className="text-white/50">{s.sources_checked} sources</span>
+                    <span className="text-gray-500">{s.sources_checked} sources</span>
                     <span>{s.changes_detected} changes</span>
                     <span className={s.high_impact_count ? "text-red-400" : "text-white/40"}>
                       {s.high_impact_count || 0} high
                     </span>
-                    <span className="text-white/30">{s.scan_duration_seconds}s</span>
+                    <span className="text-gray-400">{s.scan_duration_seconds}s</span>
                     {s.errors?.length ? (
                       <Badge variant="outline" className="text-amber-400 border-amber-400/30 text-xs">
                         {s.errors.length} errors

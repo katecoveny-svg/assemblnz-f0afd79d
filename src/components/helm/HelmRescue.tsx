@@ -85,15 +85,15 @@ export default function HelmRescue() {
         <h3 className="text-xs font-semibold text-white/70">New Rescue Request</h3>
         {children.length > 0 && (
           <select value={selectedChild} onChange={e => setSelectedChild(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80">
+            className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-xs text-white/80">
             <option value="">Select child</option>
             {children.map(c => <option key={c.id} value={c.id}>{c.name} — {c.school || "No school set"}</option>)}
           </select>
         )}
         <input value={item} onChange={e => setItem(e.target.value)} placeholder="What was forgotten? e.g. Swimming togs, lunch box"
-          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none focus:border-white/20" />
+          className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none focus:border-gray-300" />
         <input value={pickup} onChange={e => setPickup(e.target.value)} placeholder="Pickup address (home)"
-          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none focus:border-white/20" />
+          className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none focus:border-gray-300" />
         <button onClick={submit} disabled={submitting || !item.trim() || !pickup.trim()}
           className="w-full py-2 rounded-lg text-xs font-medium transition disabled:opacity-30"
           style={{ background: HELM_COLOR + "20", color: HELM_COLOR, border: `1px solid ${HELM_COLOR}30` }}>
@@ -109,7 +109,7 @@ export default function HelmRescue() {
             <div key={d.id} className="rounded-lg p-3 flex items-center gap-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
               <div className="flex-1">
                 <p className="text-xs text-white/80">{d.item_description}</p>
-                <p className="text-[10px] text-white/30 mt-0.5">→ {d.dropoff_address}</p>
+                <p className="text-[10px] text-gray-400 mt-0.5">→ {d.dropoff_address}</p>
               </div>
               {statusBadge(d.status)}
               {d.tracking_url && <a href={d.tracking_url} target="_blank" rel="noopener noreferrer" className="text-[10px] underline" style={{ color: HELM_COLOR }}>Track</a>}

@@ -186,7 +186,7 @@ const NZExportPresets = ({ content, title, agentName, agentColor = "#D4A843" }: 
                       </div>
                       <div className="min-w-0">
                         <span className="text-[11px] font-body font-medium text-white/80 block">{preset.label}</span>
-                        <span className="text-[9px] font-body text-white/30 block">{preset.description}</span>
+                        <span className="text-[9px] font-body text-gray-400 block">{preset.description}</span>
                       </div>
                     </button>
                   );

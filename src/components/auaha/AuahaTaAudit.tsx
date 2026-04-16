@@ -53,11 +53,11 @@ export default function AuahaTaAudit() {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Tā Audit</p>
-          <h1 className="text-white text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Tā Audit Trail</h1>
-          <p className="text-white/50 text-sm mt-1">Timestamped NZ time • Every stage logged • JSON export</p>
+          <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Tā Audit Trail</h1>
+          <p className="text-gray-500 text-sm mt-1">Timestamped NZ time • Every stage logged • JSON export</p>
         </div>
         <button onClick={exportAll}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 text-white/50 text-xs hover:bg-white/10 transition-all">
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 text-gray-500 text-xs hover:bg-white/10 transition-all">
           <Download className="w-3.5 h-3.5" /> Export JSON
         </button>
       </div>
@@ -67,7 +67,7 @@ export default function AuahaTaAudit() {
         <div className="relative">
           <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-white/20" />
           <input value={search} onChange={e => setSearch(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-white text-xs placeholder:text-white/20"
+            className="w-full bg-white/5 border border-gray-200 rounded-lg pl-9 pr-3 py-2 text-foreground text-xs placeholder:text-white/20"
             placeholder="Search audit entries..." />
         </div>
       </GlassCard>
@@ -77,7 +77,7 @@ export default function AuahaTaAudit() {
         {filtered.length === 0 ? (
           <GlassCard className="p-12 text-center">
             <Shield className="w-12 h-12 mx-auto mb-3 text-white/10" />
-            <p className="text-white/30 text-sm">No audit entries yet</p>
+            <p className="text-gray-400 text-sm">No audit entries yet</p>
             <p className="text-white/15 text-[10px] mt-1">Entries appear when agents process requests through the pipeline</p>
           </GlassCard>
         ) : (
@@ -88,8 +88,8 @@ export default function AuahaTaAudit() {
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: log.compliance_passed ? "#34D399" : "#EF4444" }} />
                   <span className="text-white/60 text-xs font-mono flex-shrink-0">{log.request_id?.slice(0, 8) || "—"}</span>
-                  <span className="text-white/50 text-xs truncate">{log.agent_name}</span>
-                  <span className="text-white/30 text-[10px] flex-shrink-0">{log.model_used}</span>
+                  <span className="text-gray-500 text-xs truncate">{log.agent_name}</span>
+                  <span className="text-gray-400 text-[10px] flex-shrink-0">{log.model_used}</span>
                 </div>
                 <div className="flex items-center gap-3 flex-shrink-0">
                   <span className="text-white/20 text-[10px] font-mono">
@@ -105,48 +105,48 @@ export default function AuahaTaAudit() {
               </button>
 
               {expandedId === log.id && (
-                <div className="border-t border-white/5 p-4 space-y-3">
+                <div className="border-t border-gray-100 p-4 space-y-3">
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <div>
-                      <span className="text-white/30 text-[10px]">Agent</span>
+                      <span className="text-gray-400 text-[10px]">Agent</span>
                       <p className="text-white/60">{log.agent_name} ({log.agent_code})</p>
                     </div>
                     <div>
-                      <span className="text-white/30 text-[10px]">Model</span>
+                      <span className="text-gray-400 text-[10px]">Model</span>
                       <p className="text-white/60">{log.model_used}</p>
                     </div>
                     <div>
-                      <span className="text-white/30 text-[10px]">Tokens</span>
+                      <span className="text-gray-400 text-[10px]">Tokens</span>
                       <p className="text-white/60 font-mono">{log.input_tokens || 0} → {log.output_tokens || 0} ({log.total_tokens || 0})</p>
                     </div>
                     <div>
-                      <span className="text-white/30 text-[10px]">Duration</span>
+                      <span className="text-gray-400 text-[10px]">Duration</span>
                       <p className="text-white/60 font-mono">{log.duration_ms || 0}ms</p>
                     </div>
                     <div>
-                      <span className="text-white/30 text-[10px]">Cost</span>
+                      <span className="text-gray-400 text-[10px]">Cost</span>
                       <p className="text-white/60 font-mono">${(log.cost_nzd || 0).toFixed(4)} NZD</p>
                     </div>
                     <div>
-                      <span className="text-white/30 text-[10px]">PII</span>
+                      <span className="text-gray-400 text-[10px]">PII</span>
                       <p className="text-white/60">{log.pii_detected ? `Detected${log.pii_masked ? " (masked)" : ""}` : "None"}</p>
                     </div>
                   </div>
                   {log.request_summary && (
                     <div>
-                      <span className="text-white/30 text-[10px]">Request</span>
-                      <p className="text-white/50 text-xs mt-1">{log.request_summary}</p>
+                      <span className="text-gray-400 text-[10px]">Request</span>
+                      <p className="text-gray-500 text-xs mt-1">{log.request_summary}</p>
                     </div>
                   )}
                   {log.response_summary && (
                     <div>
-                      <span className="text-white/30 text-[10px]">Response</span>
-                      <p className="text-white/50 text-xs mt-1">{log.response_summary}</p>
+                      <span className="text-gray-400 text-[10px]">Response</span>
+                      <p className="text-gray-500 text-xs mt-1">{log.response_summary}</p>
                     </div>
                   )}
                   {log.policies_checked && log.policies_checked.length > 0 && (
                     <div>
-                      <span className="text-white/30 text-[10px]">Policies Checked</span>
+                      <span className="text-gray-400 text-[10px]">Policies Checked</span>
                       <div className="flex flex-wrap gap-1 mt-1">
                         {log.policies_checked.map((p: string, i: number) => (
                           <span key={i} className="text-[9px] px-2 py-0.5 rounded-full bg-white/5 text-white/40">{p}</span>

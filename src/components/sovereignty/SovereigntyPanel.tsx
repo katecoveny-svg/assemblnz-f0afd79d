@@ -77,7 +77,7 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
           onToggle={() => toggle("registry")}
         >
           {stats.registry.length === 0 ? (
-            <p className="text-xs text-white/30 py-2">No datasets registered yet</p>
+            <p className="text-xs text-gray-400 py-2">No datasets registered yet</p>
           ) : (
             <div className="space-y-1.5 max-h-48 overflow-y-auto">
               {stats.registry.slice(0, 10).map(r => (
@@ -85,7 +85,7 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
                   <ClassificationBadge classification={r.tapu_noa_classification} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs text-white/80 truncate">{r.dataset_name}</p>
-                    <p className="text-[9px] text-white/30">{r.locality_restriction} · {r.governance_status}</p>
+                    <p className="text-[9px] text-gray-400">{r.locality_restriction} · {r.governance_status}</p>
                   </div>
                   <StatusDot status={r.governance_status} />
                 </div>
@@ -103,7 +103,7 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
           onToggle={() => toggle("gates")}
         >
           {stats.gates.length === 0 ? (
-            <p className="text-xs text-white/30 py-2">No governance gates created yet</p>
+            <p className="text-xs text-gray-400 py-2">No governance gates created yet</p>
           ) : (
             <div className="space-y-1.5 max-h-48 overflow-y-auto">
               {stats.gates.slice(0, 10).map(g => (
@@ -111,7 +111,7 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
                   <GateStatusIcon status={g.status} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs text-white/80 truncate">{g.purpose}</p>
-                    <p className="text-[9px] text-white/30">{g.gate_type} · {new Date(g.created_at).toLocaleDateString("en-NZ")}</p>
+                    <p className="text-[9px] text-gray-400">{g.gate_type} · {new Date(g.created_at).toLocaleDateString("en-NZ")}</p>
                   </div>
                 </div>
               ))}
@@ -128,7 +128,7 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
           onToggle={() => toggle("audit")}
         >
           {stats.audit.length === 0 ? (
-            <p className="text-xs text-white/30 py-2">No audit entries yet</p>
+            <p className="text-xs text-gray-400 py-2">No audit entries yet</p>
           ) : (
             <div className="space-y-1.5 max-h-48 overflow-y-auto">
               {stats.audit.slice(0, 15).map(a => (
@@ -140,7 +140,7 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
                   )}
                   <div className="flex-1 min-w-0">
                     <p className="text-xs text-white/80 truncate">{a.action_type}</p>
-                    <p className="text-[9px] text-white/30">
+                    <p className="text-[9px] text-gray-400">
                       {a.agent_code ?? "unknown"} · {a.purpose_declared ?? "no purpose"} · {new Date(a.created_at).toLocaleTimeString("en-NZ")}
                     </p>
                   </div>
@@ -152,7 +152,7 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
       </div>
 
       {/* Sovereignty Principles Footer */}
-      <div className="mt-4 pt-3 border-t border-white/5">
+      <div className="mt-4 pt-3 border-t border-gray-100">
         <div className="flex items-center gap-4 text-[9px] text-white/25">
           <span>Rangatiratanga</span>
           <span>·</span>
@@ -185,7 +185,7 @@ const CollapsibleSection: React.FC<{
       <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: `rgba(${hexToRgb(color)}, 0.12)`, color }}>
         {count}
       </span>
-      {expanded ? <ChevronDown size={12} className="text-white/30" /> : <ChevronRight size={12} className="text-white/30" />}
+      {expanded ? <ChevronDown size={12} className="text-gray-400" /> : <ChevronRight size={12} className="text-gray-400" />}
     </button>
     <AnimatePresence>
       {expanded && (

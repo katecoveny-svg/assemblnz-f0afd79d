@@ -54,7 +54,7 @@ export default function AdminAgentDirectory() {
           className="flex-1 flex items-center gap-3 px-4 py-3 rounded-2xl"
           style={GLASS}
         >
-          <Search className="w-4 h-4 text-white/30" />
+          <Search className="w-4 h-4 text-gray-400" />
           <input
             type="text"
             placeholder="Search agents by name or role…"
@@ -69,8 +69,8 @@ export default function AdminAgentDirectory() {
             onClick={() => setFilterPack("all")}
             className={`px-4 py-2.5 rounded-2xl text-[11px] font-medium transition-all ${
               filterPack === "all"
-                ? "text-white"
-                : "text-white/30 hover:text-white/50"
+                ? "text-foreground"
+                : "text-gray-400 hover:text-gray-500"
             }`}
             style={
               filterPack === "all"
@@ -90,8 +90,8 @@ export default function AdminAgentDirectory() {
               onClick={() => setFilterPack(p.id)}
               className={`px-3 py-2.5 rounded-2xl text-[11px] font-medium transition-all ${
                 filterPack === p.id
-                  ? "text-white"
-                  : "text-white/30 hover:text-white/50"
+                  ? "text-foreground"
+                  : "text-gray-400 hover:text-gray-500"
               }`}
               style={
                 filterPack === p.id
@@ -159,7 +159,7 @@ export default function AdminAgentDirectory() {
                     {agent.name}
                   </p>
                   <p
-                    className="text-[10px] text-white/30 font-mono"
+                    className="text-[10px] text-gray-400 font-mono"
                   >
                     {agent.designation}
                   </p>
@@ -220,7 +220,7 @@ export default function AdminAgentDirectory() {
       {filtered.length === 0 && (
         <div className="text-center py-16">
           <Filter className="w-8 h-8 mx-auto text-white/10 mb-3" />
-          <p className="text-sm text-white/30">No agents match your search</p>
+          <p className="text-sm text-gray-400">No agents match your search</p>
         </div>
       )}
     </div>

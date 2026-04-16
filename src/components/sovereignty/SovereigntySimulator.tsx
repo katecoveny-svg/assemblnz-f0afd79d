@@ -212,7 +212,7 @@ const SovereigntySimulator: React.FC<SimulatorProps> = ({ kete, accentColor }) =
               {/* Info */}
               <div className="flex-1 min-w-0">
                 <p className="text-xs text-white/80">{scenario.name}</p>
-                <p className="text-[9px] text-white/30 truncate">{scenario.description}</p>
+                <p className="text-[9px] text-gray-400 truncate">{scenario.description}</p>
               </div>
 
               {/* Category badge */}

@@ -71,7 +71,7 @@ export default function DocIntelPage() {
             className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground bg-black/[0.03] border border-black/[0.08] focus:outline-none placeholder:text-muted-foreground/60" />
         </div>
         <motion.button onClick={analyze} disabled={analyzing || !document} whileHover={{ scale: 1.02 }}
-          className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium text-white disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium text-foreground disabled:opacity-50"
           style={{ background: POUNAMU }}>
           {analyzing ? <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Layers size={16} /></motion.div> : <Search size={16} />}
           {analyzing ? "Analyzing..." : "Analyze Document"}

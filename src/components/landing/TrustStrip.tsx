@@ -54,7 +54,7 @@ const TrustCard = ({ t, i }: { t: typeof TRUST_SIGNALS[0]; i: number }) => {
       >
         <t.icon size={22} className="mx-auto mb-2" style={{ color: t.color }} />
       </motion.div>
-      <p className="text-[11px] mb-0.5 transition-colors duration-300 group-hover:text-white" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>
+      <p className="text-[11px] mb-0.5 transition-colors duration-300 group-hover:text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>
         {t.label}
       </p>
       <p className="text-[9px]" style={{ color: "rgba(255,255,255,0.3)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>

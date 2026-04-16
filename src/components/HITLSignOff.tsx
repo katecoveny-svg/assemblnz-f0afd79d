@@ -115,7 +115,7 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
           </div>
           <div className="flex-1">
             <p className="text-sm font-semibold text-[#00A86B]">Verified & Signed Off</p>
-            <p className="text-xs text-white/50">
+            <p className="text-xs text-gray-500">
               Certified by <span className="text-white/80 font-medium">{signed.signedBy}</span>
             </p>
             <p className="text-xs text-white/40 flex items-center gap-1 mt-0.5">
@@ -175,20 +175,20 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
             <div className="flex items-center gap-2">
               <User className="h-4 w-4 text-white/40" />
               <span className="text-sm text-white/60">
-                Signing as: <span className="font-medium text-white">{profile?.full_name || user?.email}</span>
+                Signing as: <span className="font-medium text-foreground">{profile?.full_name || user?.email}</span>
               </span>
             </div>
             <div className="flex gap-2">
               <button
                 onClick={handleSignOff}
                 disabled={loading}
-                className="flex-1 rounded-lg bg-[#00A86B] py-2 text-sm font-semibold text-white transition-all hover:bg-[#00A86B]/90 disabled:opacity-50"
+                className="flex-1 rounded-lg bg-[#00A86B] py-2 text-sm font-semibold text-foreground transition-all hover:bg-[#00A86B]/90 disabled:opacity-50"
               >
                 {loading ? "Signing…" : "Confirm Sign-Off"}
               </button>
               <button
                 onClick={() => setConfirming(false)}
-                className="rounded-lg px-4 py-2 text-sm text-white/50 transition-colors hover:text-white/80"
+                className="rounded-lg px-4 py-2 text-sm text-gray-500 transition-colors hover:text-white/80"
                 style={GLASS}
               >
                 Cancel

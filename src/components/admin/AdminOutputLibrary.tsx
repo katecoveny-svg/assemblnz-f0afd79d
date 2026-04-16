@@ -166,7 +166,7 @@ export default function AdminOutputLibrary() {
             key={t.key}
             onClick={() => setFilter(t.key)}
             className={`px-4 py-2.5 rounded-2xl text-[11px] font-medium transition-all ${
-              filter === t.key ? "text-white" : "text-white/30 hover:text-white/50"
+              filter === t.key ? "text-foreground" : "text-gray-400 hover:text-gray-500"
             }`}
             style={
               filter === t.key
@@ -193,7 +193,7 @@ export default function AdminOutputLibrary() {
       ) : filtered.length === 0 ? (
         <div className="text-center py-20">
           <FolderOpen className="w-10 h-10 mx-auto text-white/10 mb-4" />
-          <p className="text-sm text-white/30 mb-2">No outputs yet</p>
+          <p className="text-sm text-gray-400 mb-2">No outputs yet</p>
           <p className="text-xs text-white/15">
             Generate content from the Creative Studio, Ad Manager, or Copy Studio
           </p>
@@ -242,7 +242,7 @@ export default function AdminOutputLibrary() {
                 <div className="p-4">
                   <p className="text-[12px] font-medium text-white/80 line-clamp-2 mb-2">{item.title}</p>
                   {item.preview && (
-                    <p className="text-[10px] text-white/30 line-clamp-2 mb-3">{item.preview}</p>
+                    <p className="text-[10px] text-gray-400 line-clamp-2 mb-3">{item.preview}</p>
                   )}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">

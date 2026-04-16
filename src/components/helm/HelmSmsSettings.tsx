@@ -135,7 +135,7 @@ export default function HelmSmsSettings({ familyId }: Props) {
   if (loading) {
     return (
       <div className="py-6 text-center">
-        <p className="text-xs text-white/30">Loading SMS settings...</p>
+        <p className="text-xs text-gray-400">Loading SMS settings...</p>
       </div>
     );
   }
@@ -177,9 +177,9 @@ export default function HelmSmsSettings({ familyId }: Props) {
             className="rounded-lg p-3 space-y-2"
             style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
           >
-            <p className="text-[10px] text-white/50 font-semibold uppercase tracking-wide">Twilio Webhook URL</p>
+            <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wide">Twilio Webhook URL</p>
             <div className="flex items-center gap-2">
-              <code className="text-[10px] px-2 py-1.5 rounded bg-white/5 text-white/50 font-mono flex-1 truncate">
+              <code className="text-[10px] px-2 py-1.5 rounded bg-white/5 text-gray-500 font-mono flex-1 truncate">
                 {webhookUrl}
               </code>
               <button onClick={copyWebhook} className="p-1.5 rounded hover:bg-white/5 transition">
@@ -200,7 +200,7 @@ export default function HelmSmsSettings({ familyId }: Props) {
             className="rounded-lg p-3 space-y-3"
             style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
           >
-            <p className="text-[10px] text-white/50 font-semibold uppercase tracking-wide">Preferences</p>
+            <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wide">Preferences</p>
 
             <label className="flex items-center justify-between cursor-pointer">
               <span className="flex items-center gap-2 text-xs text-white/70">
@@ -253,7 +253,7 @@ export default function HelmSmsSettings({ familyId }: Props) {
             style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
           >
             <div className="flex items-center justify-between">
-              <p className="text-[10px] text-white/50 font-semibold uppercase tracking-wide">
+              <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wide">
                 <Phone size={10} className="inline mr-1" />
                 Family Phone Numbers
               </p>
@@ -275,13 +275,13 @@ export default function HelmSmsSettings({ familyId }: Props) {
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   placeholder="Name (e.g. Mum, Dad)"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none"
+                  className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none"
                 />
                 <input
                   value={newPhone}
                   onChange={(e) => setNewPhone(e.target.value)}
                   placeholder="Phone (e.g. 021 123 4567)"
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none"
+                  className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none"
                 />
                 <div className="flex gap-2">
                   <button
@@ -317,7 +317,7 @@ export default function HelmSmsSettings({ familyId }: Props) {
                   </div>
                   <div className="flex-1">
                     <p className="text-xs font-medium text-white/80">{c.display_name || c.phone_number}</p>
-                    <p className="text-[10px] text-white/30 font-mono">{c.phone_number}</p>
+                    <p className="text-[10px] text-gray-400 font-mono">{c.phone_number}</p>
                     <div className="flex gap-2 mt-0.5">
                       {c.verified && (
                         <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-[#5AADA0]/10 text-[#5AADA0]/60">
@@ -356,7 +356,7 @@ export default function HelmSmsSettings({ familyId }: Props) {
             className="rounded-lg p-3"
             style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
           >
-            <p className="text-[10px] text-white/50 font-semibold uppercase tracking-wide mb-2">How it works</p>
+            <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wide mb-2">How it works</p>
             <div className="space-y-1.5 text-[10px] text-white/35">
               <p>1. Add your family's phone numbers above</p>
               <p>2. Family members text the TORO number</p>

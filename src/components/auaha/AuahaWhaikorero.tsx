@@ -84,7 +84,7 @@ function ProspectingPanel() {
 
   return (
     <div className="space-y-5">
-      <p className="text-white/50 text-sm leading-relaxed">
+      <p className="text-gray-500 text-sm leading-relaxed">
         Build an ideal customer profile (ICP) to focus prospecting. Enter your company or product
         context — Whaikōrero generates a structured ICP with firmographics, technographics, and
         buying signals.
@@ -97,7 +97,7 @@ function ProspectingPanel() {
             value={company}
             onChange={(e) => setCompany(e.target.value)}
             placeholder="e.g. Assembl — AI business operations platform for NZ SMEs"
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
+            className="w-full rounded-xl border border-gray-200 bg-white/5 px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
           />
         </div>
         <div>
@@ -121,7 +121,7 @@ function ProspectingPanel() {
             onChange={(e) => setBrief(e.target.value)}
             rows={2}
             placeholder="Additional context..."
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20 resize-none"
+            className="w-full rounded-xl border border-gray-200 bg-white/5 px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20 resize-none"
           />
         </div>
         <button
@@ -135,7 +135,7 @@ function ProspectingPanel() {
       </div>
 
       {output && (
-        <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 relative">
+        <div className="rounded-xl border border-gray-200 bg-white/[0.03] p-4 relative">
           <button
             onClick={() => navigator.clipboard?.writeText(output)}
             className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
@@ -189,7 +189,7 @@ function OutreachPanel() {
 
   return (
     <div className="space-y-5">
-      <p className="text-white/50 text-sm leading-relaxed">
+      <p className="text-gray-500 text-sm leading-relaxed">
         Generate first-draft outreach for cold email, LinkedIn, follow-up, or referral asks.
         Built for NZ B2B sales — direct, no fluff, personalisation-first.
       </p>
@@ -218,7 +218,7 @@ function OutreachPanel() {
             value={prospect}
             onChange={(e) => setProspect(e.target.value)}
             placeholder="e.g. Acme NZ"
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
+            className="w-full rounded-xl border border-gray-200 bg-white/5 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
           />
         </div>
         <div>
@@ -227,7 +227,7 @@ function OutreachPanel() {
             value={pain}
             onChange={(e) => setPain(e.target.value)}
             placeholder="e.g. manual payroll processing"
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
+            className="w-full rounded-xl border border-gray-200 bg-white/5 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
           />
         </div>
         <div>
@@ -236,7 +236,7 @@ function OutreachPanel() {
             value={product}
             onChange={(e) => setProduct(e.target.value)}
             placeholder="e.g. Assembl"
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
+            className="w-full rounded-xl border border-gray-200 bg-white/5 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
           />
         </div>
       </div>
@@ -250,7 +250,7 @@ function OutreachPanel() {
       </button>
 
       {output && (
-        <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 relative">
+        <div className="rounded-xl border border-gray-200 bg-white/[0.03] p-4 relative">
           <button
             onClick={() => navigator.clipboard?.writeText(output)}
             className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
@@ -302,10 +302,10 @@ function PipelinePanel() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-white/50 text-sm">
+        <p className="text-gray-500 text-sm">
           Pipeline health review — deals flagged by last-contact and time-in-stage thresholds.
         </p>
-        <span className="text-[10px] text-white/30 uppercase tracking-widest">Demo data</span>
+        <span className="text-[10px] text-gray-400 uppercase tracking-widest">Demo data</span>
       </div>
 
       {/* Summary */}
@@ -316,8 +316,8 @@ function PipelinePanel() {
           return (
             <div key={r} className="rounded-xl p-3" style={{ background: `${RISK_COLORS[r]}12`, border: `1px solid ${RISK_COLORS[r]}30` }}>
               <p className="text-xs font-medium mb-1" style={{ color: RISK_COLORS[r] }}>{RISK_LABELS[r]}</p>
-              <p className="text-xl text-white font-mono">{count}</p>
-              <p className="text-[10px] text-white/30">NZ${(val / 1000).toFixed(0)}k ARR</p>
+              <p className="text-xl text-foreground font-mono">{count}</p>
+              <p className="text-[10px] text-gray-400">NZ${(val / 1000).toFixed(0)}k ARR</p>
             </div>
           );
         })}
@@ -328,7 +328,7 @@ function PipelinePanel() {
         {DEMO_PIPELINE.map((deal) => {
           const risk = riskLevel(deal);
           return (
-            <div key={deal.id} className="rounded-xl p-3 border border-white/5 bg-white/[0.02]">
+            <div key={deal.id} className="rounded-xl p-3 border border-gray-100 bg-white/[0.02]">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
@@ -336,8 +336,8 @@ function PipelinePanel() {
                       className="w-2 h-2 rounded-full shrink-0"
                       style={{ background: RISK_COLORS[risk] }}
                     />
-                    <span className="text-sm text-white truncate">{deal.name}</span>
-                    <span className="text-[10px] text-white/30 shrink-0">{deal.stage}</span>
+                    <span className="text-sm text-foreground truncate">{deal.name}</span>
+                    <span className="text-[10px] text-gray-400 shrink-0">{deal.stage}</span>
                   </div>
                   <div className="flex items-center gap-4 text-[11px] text-white/40">
                     <span>NZ${(deal.value / 1000).toFixed(0)}k/yr</span>
@@ -412,7 +412,7 @@ function CallPrepPanel() {
 
   return (
     <div className="space-y-5">
-      <p className="text-white/50 text-sm leading-relaxed">
+      <p className="text-gray-500 text-sm leading-relaxed">
         Generate a structured call brief — discovery questions, value statement, objection handling,
         and a close framework. Prep takes 5 minutes; it shows.
       </p>
@@ -424,7 +424,7 @@ function CallPrepPanel() {
             value={prospect}
             onChange={(e) => setProspect(e.target.value)}
             placeholder="e.g. Acme NZ — Sarah (CEO)"
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
+            className="w-full rounded-xl border border-gray-200 bg-white/5 px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
           />
         </div>
         <div>
@@ -433,7 +433,7 @@ function CallPrepPanel() {
             value={context}
             onChange={(e) => setContext(e.target.value)}
             placeholder="e.g. Second demo — pricing discussion"
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
+            className="w-full rounded-xl border border-gray-200 bg-white/5 px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
           />
         </div>
       </div>
@@ -448,7 +448,7 @@ function CallPrepPanel() {
       </button>
 
       {output && (
-        <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 relative">
+        <div className="rounded-xl border border-gray-200 bg-white/[0.03] p-4 relative">
           <button
             onClick={() => navigator.clipboard?.writeText(output)}
             className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
@@ -485,7 +485,7 @@ export default function AuahaWhaikorero() {
           WHAIKŌRERO — SALES ASSISTANT
         </p>
         <h1
-          className="text-2xl text-white mb-2"
+          className="text-2xl text-foreground mb-2"
           style={{ fontFamily: "Lato, sans-serif", fontWeight: 300, letterSpacing: "-0.01em" }}
         >
           Prospecting, outreach & pipeline — done right
@@ -516,7 +516,7 @@ export default function AuahaWhaikorero() {
       </div>
 
       {/* Panel */}
-      <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-5">
+      <div className="rounded-2xl border border-gray-100 bg-white/[0.02] p-5">
         {tab === "prospecting" && <ProspectingPanel />}
         {tab === "outreach" && <OutreachPanel />}
         {tab === "pipeline" && <PipelinePanel />}

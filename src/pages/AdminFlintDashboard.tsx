@@ -121,14 +121,14 @@ export default function AdminFlintDashboard() {
     >
 
       <Tabs defaultValue="generate" className="space-y-4">
-        <TabsList className="bg-white/5 border border-white/10">
-          <TabsTrigger value="generate" className="data-[state=active]:bg-white/10 text-white/60 data-[state=active]:text-white">
+        <TabsList className="bg-white/5 border border-gray-200">
+          <TabsTrigger value="generate" className="data-[state=active]:bg-white/10 text-white/60 data-[state=active]:text-foreground">
             <Sparkles className="w-4 h-4 mr-2" /> Generate Copy
           </TabsTrigger>
-          <TabsTrigger value="seo" className="data-[state=active]:bg-white/10 text-white/60 data-[state=active]:text-white">
+          <TabsTrigger value="seo" className="data-[state=active]:bg-white/10 text-white/60 data-[state=active]:text-foreground">
             <Search className="w-4 h-4 mr-2" /> SEO Audit
           </TabsTrigger>
-          <TabsTrigger value="proposals" className="data-[state=active]:bg-white/10 text-white/60 data-[state=active]:text-white">
+          <TabsTrigger value="proposals" className="data-[state=active]:bg-white/10 text-white/60 data-[state=active]:text-foreground">
             <FileText className="w-4 h-4 mr-2" /> Proposals ({proposals?.length || 0})
           </TabsTrigger>
         </TabsList>
@@ -137,7 +137,7 @@ export default function AdminFlintDashboard() {
         <TabsContent value="generate">
           <div className="grid md:grid-cols-2 gap-6">
             <GlassCard className="p-6 space-y-4">
-              <h3 className="text-white text-sm font-medium">Target Page</h3>
+              <h3 className="text-foreground text-sm font-medium">Target Page</h3>
               <div className="grid grid-cols-3 gap-2">
                 {PAGES.map((p) => (
                   <button
@@ -151,13 +151,13 @@ export default function AdminFlintDashboard() {
                 ))}
               </div>
 
-              <h3 className="text-white text-sm font-medium pt-2">Region</h3>
+              <h3 className="text-foreground text-sm font-medium pt-2">Region</h3>
               <div className="flex flex-wrap gap-2">
                 {availableRegions.map((r) => (
                   <button
                     key={r}
                     onClick={() => setSelectedRegion(r)}
-                    className={`px-3 py-1.5 rounded-lg text-xs transition-all ${selectedRegion === r ? "bg-white/20 text-white" : "bg-white/5 text-white/50 hover:bg-white/10"}`}
+                    className={`px-3 py-1.5 rounded-lg text-xs transition-all ${selectedRegion === r ? "bg-white/20 text-foreground" : "bg-white/5 text-gray-500 hover:bg-white/10"}`}
                   >
                     {r}
                   </button>
@@ -165,31 +165,31 @@ export default function AdminFlintDashboard() {
               </div>
 
               <div>
-                <label className="text-white/50 text-xs block mb-1">Current Content (optional)</label>
+                <label className="text-gray-500 text-xs block mb-1">Current Content (optional)</label>
                 <textarea
                   value={currentContent}
                   onChange={(e) => setCurrentContent(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm min-h-[80px] focus:outline-none"
+                  className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm min-h-[80px] focus:outline-none"
                   placeholder="Paste current copy to improve..."
                 />
               </div>
 
               <div>
-                <label className="text-white/50 text-xs block mb-1">Instructions</label>
+                <label className="text-gray-500 text-xs block mb-1">Instructions</label>
                 <textarea
                   value={instructions}
                   onChange={(e) => setInstructions(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm min-h-[60px] focus:outline-none"
+                  className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm min-h-[60px] focus:outline-none"
                   placeholder="e.g. Make it more urgent, add social proof, focus on compliance..."
                 />
               </div>
 
               <div>
-                <label className="text-white/50 text-xs block mb-1">SEO Target Keywords</label>
+                <label className="text-gray-500 text-xs block mb-1">SEO Target Keywords</label>
                 <input
                   value={seoTarget}
                   onChange={(e) => setSeoTarget(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none"
+                  className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm focus:outline-none"
                   placeholder="e.g. NZ construction compliance software"
                 />
               </div>
@@ -206,15 +206,15 @@ export default function AdminFlintDashboard() {
             </GlassCard>
 
             <GlassCard className="p-6">
-              <h3 className="text-white text-sm font-medium mb-3">Latest Result</h3>
+              <h3 className="text-foreground text-sm font-medium mb-3">Latest Result</h3>
               {generateMutation.data ? (
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     {verdictIcon(generateMutation.data.guard?.verdict || "")}
-                    <span className="text-white text-xs uppercase tracking-wider">
+                    <span className="text-foreground text-xs uppercase tracking-wider">
                       {generateMutation.data.guard?.verdict || "Unknown"}
                     </span>
-                    <span className="text-white/30 text-xs ml-auto">{generateMutation.data.guard?.auditId}</span>
+                    <span className="text-gray-400 text-xs ml-auto">{generateMutation.data.guard?.auditId}</span>
                   </div>
                   <div className="bg-white/5 rounded-lg p-4 text-white/80 text-sm whitespace-pre-wrap max-h-[400px] overflow-y-auto">
                     {typeof generateMutation.data.proposal?.result?.content === "string"
@@ -226,7 +226,7 @@ export default function AdminFlintDashboard() {
                   )}
                 </div>
               ) : (
-                <p className="text-white/30 text-sm">Generate copy to see results here</p>
+                <p className="text-gray-400 text-sm">Generate copy to see results here</p>
               )}
             </GlassCard>
           </div>
@@ -236,7 +236,7 @@ export default function AdminFlintDashboard() {
         <TabsContent value="seo">
           <div className="grid md:grid-cols-2 gap-6">
             <GlassCard className="p-6 space-y-4">
-              <h3 className="text-white text-sm font-medium">SEO Audit</h3>
+              <h3 className="text-foreground text-sm font-medium">SEO Audit</h3>
               <div className="grid grid-cols-3 gap-2">
                 {PAGES.map((p) => (
                   <button
@@ -250,11 +250,11 @@ export default function AdminFlintDashboard() {
                 ))}
               </div>
               <div>
-                <label className="text-white/50 text-xs block mb-1">Target Keywords</label>
+                <label className="text-gray-500 text-xs block mb-1">Target Keywords</label>
                 <input
                   value={seoTarget}
                   onChange={(e) => setSeoTarget(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none"
+                  className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm focus:outline-none"
                   placeholder="e.g. NZ hospitality compliance, hotel management software"
                 />
               </div>
@@ -270,7 +270,7 @@ export default function AdminFlintDashboard() {
             </GlassCard>
 
             <GlassCard className="p-6">
-              <h3 className="text-white text-sm font-medium mb-3">Audit Results</h3>
+              <h3 className="text-foreground text-sm font-medium mb-3">Audit Results</h3>
               {seoAuditMutation.data ? (
                 <div className="bg-white/5 rounded-lg p-4 text-white/80 text-sm whitespace-pre-wrap max-h-[500px] overflow-y-auto">
                   {(() => {
@@ -282,11 +282,11 @@ export default function AdminFlintDashboard() {
                             <div className="text-3xl font-bold" style={{ color: audit.overallScore > 70 ? "#4ade80" : audit.overallScore > 40 ? "#fbbf24" : "#f87171" }}>
                               {audit.overallScore}
                             </div>
-                            <span className="text-white/50 text-xs">/ 100</span>
+                            <span className="text-gray-500 text-xs">/ 100</span>
                           </div>
                           {audit.recommendations?.map((r: string, i: number) => (
                             <div key={i} className="flex items-start gap-2">
-                              <span className="text-white/30 text-xs mt-0.5">{i + 1}.</span>
+                              <span className="text-gray-400 text-xs mt-0.5">{i + 1}.</span>
                               <span className="text-white/70 text-xs">{r}</span>
                             </div>
                           ))}
@@ -297,7 +297,7 @@ export default function AdminFlintDashboard() {
                   })()}
                 </div>
               ) : (
-                <p className="text-white/30 text-sm">Run an audit to see results</p>
+                <p className="text-gray-400 text-sm">Run an audit to see results</p>
               )}
             </GlassCard>
           </div>
@@ -306,19 +306,19 @@ export default function AdminFlintDashboard() {
         {/* ── Proposals Tab ────────────────────────────────── */}
         <TabsContent value="proposals">
           <GlassCard className="p-6">
-            <h3 className="text-white text-sm font-medium mb-4">All Proposals</h3>
+            <h3 className="text-foreground text-sm font-medium mb-4">All Proposals</h3>
             {loadingProposals ? (
-              <p className="text-white/30 text-sm">Loading...</p>
+              <p className="text-gray-400 text-sm">Loading...</p>
             ) : !proposals?.length ? (
-              <p className="text-white/30 text-sm">No proposals yet. Generate some copy to get started.</p>
+              <p className="text-gray-400 text-sm">No proposals yet. Generate some copy to get started.</p>
             ) : (
               <div className="space-y-3 max-h-[600px] overflow-y-auto">
                 {proposals.map((p: any) => (
                   <div key={p.id} className="bg-white/5 rounded-lg p-4 space-y-2">
                     <div className="flex items-center gap-2 flex-wrap">
                       {verdictIcon(p.status)}
-                      <span className="text-white text-xs font-medium">{p.page_id}</span>
-                      <span className="text-white/30 text-xs">/{p.region}</span>
+                      <span className="text-foreground text-xs font-medium">{p.page_id}</span>
+                      <span className="text-gray-400 text-xs">/{p.region}</span>
                       <span className={`ml-auto px-2 py-0.5 rounded text-xs ${
                         p.status === "approved" ? "bg-green-500/20 text-green-400" :
                         p.status === "rejected" ? "bg-red-500/20 text-red-400" :
@@ -328,16 +328,16 @@ export default function AdminFlintDashboard() {
                       </span>
                     </div>
                     <p className="text-white/60 text-xs line-clamp-3">{p.proposed_content}</p>
-                    <div className="flex items-center gap-2 text-white/30 text-xs">
+                    <div className="flex items-center gap-2 text-gray-400 text-xs">
                       <span>{new Date(p.created_at).toLocaleDateString("en-NZ")}</span>
                       {p.audit_id && <span>· {p.audit_id}</span>}
                     </div>
                     {p.status === "pending_review" && (
                       <div className="flex gap-2 pt-1">
-                        <Button size="sm" onClick={() => reviewMutation.mutate({ id: p.id, status: "approved" })} className="bg-green-600 hover:bg-green-700 text-white text-xs h-7">
+                        <Button size="sm" onClick={() => reviewMutation.mutate({ id: p.id, status: "approved" })} className="bg-green-600 hover:bg-green-700 text-foreground text-xs h-7">
                           Approve
                         </Button>
-                        <Button size="sm" onClick={() => reviewMutation.mutate({ id: p.id, status: "rejected", notes: "Manually rejected" })} className="bg-red-600 hover:bg-red-700 text-white text-xs h-7">
+                        <Button size="sm" onClick={() => reviewMutation.mutate({ id: p.id, status: "rejected", notes: "Manually rejected" })} className="bg-red-600 hover:bg-red-700 text-foreground text-xs h-7">
                           Reject
                         </Button>
                       </div>

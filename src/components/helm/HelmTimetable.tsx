@@ -125,7 +125,7 @@ export default function HelmTimetable({ onSendToChat }: { onSendToChat?: (msg: s
         <div className="flex items-center gap-2">
           {children.length > 1 && (
             <select value={selectedChild || ""} onChange={e => setSelectedChild(e.target.value)}
-              className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white/80">
+              className="bg-white/5 border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-white/80">
               {children.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           )}
@@ -156,9 +156,9 @@ export default function HelmTimetable({ onSendToChat }: { onSendToChat?: (msg: s
           {showAddGear && (
             <div className="rounded-lg p-3 space-y-2" style={{ background: HELM_COLOR + "08", border: `1px solid ${HELM_COLOR}15` }}>
               <input value={newGearSubject} onChange={e => setNewGearSubject(e.target.value)} placeholder="Subject or activity name"
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none" />
+                className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none" />
               <input value={newGearItems} onChange={e => setNewGearItems(e.target.value)} placeholder="Items (comma-separated, e.g. Togs, Towel, Goggles)"
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none" />
+                className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none" />
               <div className="flex gap-2">
                 <button onClick={addGearRule} disabled={!newGearSubject.trim() || !newGearItems.trim()}
                   className="flex-1 py-1.5 rounded-lg text-xs font-medium disabled:opacity-30"
@@ -170,7 +170,7 @@ export default function HelmTimetable({ onSendToChat }: { onSendToChat?: (msg: s
           )}
 
           {gearRules.length === 0 ? (
-            <p className="text-xs text-white/30 text-center py-6">No gear rules set. Load defaults or add custom rules.</p>
+            <p className="text-xs text-gray-400 text-center py-6">No gear rules set. Load defaults or add custom rules.</p>
           ) : (
             gearRules.map(rule => (
               <div key={rule.id} className="rounded-lg p-3 flex items-start gap-2" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
@@ -195,7 +195,7 @@ export default function HelmTimetable({ onSendToChat }: { onSendToChat?: (msg: s
           <table className="w-full text-xs border-collapse">
             <thead>
               <tr>
-                <th className="p-2 text-left text-white/30 font-medium w-12">P</th>
+                <th className="p-2 text-left text-gray-400 font-medium w-12">P</th>
                 {DAYS.map(d => <th key={d} className="p-2 text-center text-white/40 font-medium">{d.slice(0, 3)}</th>)}
               </tr>
             </thead>
@@ -214,7 +214,7 @@ export default function HelmTimetable({ onSendToChat }: { onSendToChat?: (msg: s
                         {isEditing ? (
                           <input autoFocus value={editValue} onChange={e => setEditValue(e.target.value)}
                             onBlur={saveCell} onKeyDown={e => e.key === "Enter" && saveCell()}
-                            className="w-full bg-white/10 border border-white/20 rounded px-2 py-1.5 text-xs text-white focus:outline-none text-center"
+                            className="w-full bg-white/10 border border-gray-300 rounded px-2 py-1.5 text-xs text-foreground focus:outline-none text-center"
                             style={{ borderColor: HELM_COLOR + "60" }} />
                         ) : (
                           <button onClick={() => { setEditingCell({ day, period }); setEditValue(subject); }}
@@ -251,7 +251,7 @@ export default function HelmTimetable({ onSendToChat }: { onSendToChat?: (msg: s
               <div className="flex flex-wrap gap-1">
                 {items.map(i => <span key={i} className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-white/60">{i}</span>)}
               </div>
-            ) : <p className="text-[10px] text-white/30">No special gear needed</p>;
+            ) : <p className="text-[10px] text-gray-400">No special gear needed</p>;
           })()}
         </div>
       )}

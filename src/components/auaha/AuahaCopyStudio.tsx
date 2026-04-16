@@ -222,7 +222,7 @@ export default function AuahaCopyStudio() {
           background: "linear-gradient(135deg, rgba(10,10,10,0.9), rgba(0,168,107,0.03))",
           borderColor: "rgba(255,255,255,0.06)",
         }}>
-          <div className="flex items-center gap-2 text-white/50 text-xs uppercase tracking-[2px]">
+          <div className="flex items-center gap-2 text-gray-500 text-xs uppercase tracking-[2px]">
             <PenTool className="w-3.5 h-3.5" style={{ color: POUNAMU }} />
             Brief
           </div>
@@ -304,11 +304,11 @@ export default function AuahaCopyStudio() {
           borderColor: "rgba(255,255,255,0.06)",
         }}>
           <div className="flex items-center justify-between">
-            <span className="text-white/50 text-xs uppercase tracking-[2px]">Output</span>
+            <span className="text-gray-500 text-xs uppercase tracking-[2px]">Output</span>
             <div className="flex items-center gap-2">
               {output && (
                 <>
-                  <button onClick={() => { navigator.clipboard.writeText(output); toast.success("Copied"); }} className="text-white/30 hover:text-white/60 transition-colors">
+                  <button onClick={() => { navigator.clipboard.writeText(output); toast.success("Copied"); }} className="text-gray-400 hover:text-white/60 transition-colors">
                     <Copy className="w-4 h-4" />
                   </button>
                   <button

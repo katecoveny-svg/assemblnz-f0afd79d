@@ -170,7 +170,7 @@ export default function PikauDashboard() {
 
       {/* Add Shipment */}
       <div className="flex justify-end">
-        <button onClick={() => setShowForm(!showForm)} className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium text-white transition-colors" style={{ background: POUNAMU }}>
+        <button onClick={() => setShowForm(!showForm)} className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium text-foreground transition-colors" style={{ background: POUNAMU }}>
           {showForm ? <X size={14} /> : <Plus size={14} />}
           {showForm ? "Cancel" : "New Shipment"}
         </button>
@@ -180,25 +180,25 @@ export default function PikauDashboard() {
         <DashboardGlassCard accentColor={ACCENT} glow className="p-5">
           <h3 className="text-sm text-white/80 font-medium mb-4">New Shipment</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <input placeholder="Description *" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-white/30" />
-            <input placeholder="Origin *" value={form.origin} onChange={e => setForm(f => ({ ...f, origin: e.target.value }))} className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-white/30" />
-            <input placeholder="Destination *" value={form.destination} onChange={e => setForm(f => ({ ...f, destination: e.target.value }))} className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-white/30" />
-            <input placeholder="HS Code (e.g. 8708.30)" value={form.hs_code} onChange={e => setForm(f => ({ ...f, hs_code: e.target.value }))} className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-white/30" />
-            <input placeholder="Value (NZD)" type="number" value={form.value_nzd} onChange={e => setForm(f => ({ ...f, value_nzd: e.target.value }))} className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-white/30" />
-            <select value={form.incoterm} onChange={e => setForm(f => ({ ...f, incoterm: e.target.value }))} className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/80">
+            <input placeholder="Description *" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
+            <input placeholder="Origin *" value={form.origin} onChange={e => setForm(f => ({ ...f, origin: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
+            <input placeholder="Destination *" value={form.destination} onChange={e => setForm(f => ({ ...f, destination: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
+            <input placeholder="HS Code (e.g. 8708.30)" value={form.hs_code} onChange={e => setForm(f => ({ ...f, hs_code: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
+            <input placeholder="Value (NZD)" type="number" value={form.value_nzd} onChange={e => setForm(f => ({ ...f, value_nzd: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
+            <select value={form.incoterm} onChange={e => setForm(f => ({ ...f, incoterm: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80">
               {INCOTERMS.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
-            <input placeholder="Carrier" value={form.carrier} onChange={e => setForm(f => ({ ...f, carrier: e.target.value }))} className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-white/30" />
-            <input placeholder="Tracking Code" value={form.tracking_code} onChange={e => setForm(f => ({ ...f, tracking_code: e.target.value }))} className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-white/30" />
-            <input placeholder="Broker Code" value={form.broker_code} onChange={e => setForm(f => ({ ...f, broker_code: e.target.value }))} className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-white/30" />
-            <input placeholder="Country of Origin (ISO2)" value={form.country_of_origin} onChange={e => setForm(f => ({ ...f, country_of_origin: e.target.value }))} className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-white/30" />
+            <input placeholder="Carrier" value={form.carrier} onChange={e => setForm(f => ({ ...f, carrier: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
+            <input placeholder="Tracking Code" value={form.tracking_code} onChange={e => setForm(f => ({ ...f, tracking_code: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
+            <input placeholder="Broker Code" value={form.broker_code} onChange={e => setForm(f => ({ ...f, broker_code: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
+            <input placeholder="Country of Origin (ISO2)" value={form.country_of_origin} onChange={e => setForm(f => ({ ...f, country_of_origin: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
             <label className="flex items-center gap-2 text-sm text-white/60 col-span-full">
               <input type="checkbox" checked={form.dangerous_goods} onChange={e => setForm(f => ({ ...f, dangerous_goods: e.target.checked }))} className="accent-red-500" />
               Contains Dangerous Goods
             </label>
-            <textarea placeholder="Notes" value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-white/30 col-span-full" rows={2} />
+            <textarea placeholder="Notes" value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400 col-span-full" rows={2} />
           </div>
-          <button onClick={() => addShipment.mutate()} disabled={!form.description || !form.origin || !form.destination || addShipment.isPending} className="mt-4 flex items-center gap-2 px-5 py-2 rounded-lg text-xs font-medium text-white disabled:opacity-50" style={{ background: POUNAMU }}>
+          <button onClick={() => addShipment.mutate()} disabled={!form.description || !form.origin || !form.destination || addShipment.isPending} className="mt-4 flex items-center gap-2 px-5 py-2 rounded-lg text-xs font-medium text-foreground disabled:opacity-50" style={{ background: POUNAMU }}>
             {addShipment.isPending ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
             Create Shipment
           </button>
@@ -251,7 +251,7 @@ export default function PikauDashboard() {
             {selectedShipment.tracking_code && <div><span className="text-white/40">Tracking:</span> <span className="text-white/70 font-mono">{selectedShipment.tracking_code}</span></div>}
           </div>
           <div className="flex gap-2 mt-4">
-            <button onClick={() => generateCustomsPack.mutate(selectedShipment)} disabled={generateCustomsPack.isPending} className="flex items-center gap-1 px-4 py-2 rounded-lg text-xs font-medium text-white disabled:opacity-50" style={{ background: POUNAMU }}>
+            <button onClick={() => generateCustomsPack.mutate(selectedShipment)} disabled={generateCustomsPack.isPending} className="flex items-center gap-1 px-4 py-2 rounded-lg text-xs font-medium text-foreground disabled:opacity-50" style={{ background: POUNAMU }}>
               {generateCustomsPack.isPending ? <Loader2 size={13} className="animate-spin" /> : <FileText size={13} />} Generate Declaration Pack
             </button>
             {selectedShipment.status !== "cleared" && (
@@ -279,7 +279,7 @@ export default function PikauDashboard() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-white/50 font-mono">${(Number(s.value_nzd || 0) / 1000).toFixed(1)}k</span>
+                <span className="text-xs text-gray-500 font-mono">${(Number(s.value_nzd || 0) / 1000).toFixed(1)}k</span>
                 <span className="px-2 py-0.5 rounded-full text-[9px] uppercase tracking-wider" style={{ background: `${STATUS_COLORS[s.status] || "#666"}20`, color: STATUS_COLORS[s.status] || "#666" }}>
                   {s.status}
                 </span>

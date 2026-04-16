@@ -108,7 +108,7 @@ const TikangaCheckButton = ({ content, agentName, agentColor = "#00A86B" }: Prop
             <div className="flex items-center gap-2">
               <button
                 onClick={(e) => { e.stopPropagation(); runCheck(); }}
-                className="text-[10px] font-body text-white/30 hover:text-white/50 transition-colors"
+                className="text-[10px] font-body text-gray-400 hover:text-gray-500 transition-colors"
               >
                 Re-check
               </button>

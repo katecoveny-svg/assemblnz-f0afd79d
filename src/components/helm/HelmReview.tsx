@@ -108,7 +108,7 @@ export default function HelmReview() {
                     </span>
                   </div>
                   <p className="text-xs font-medium text-white/80 mt-1">{item.parsed_data?.title || "Untitled"}</p>
-                  {item.parsed_data?.date && <p className="text-[10px] text-white/30 mt-0.5">{new Date(item.parsed_data.date).toLocaleDateString("en-NZ")}</p>}
+                  {item.parsed_data?.date && <p className="text-[10px] text-gray-400 mt-0.5">{new Date(item.parsed_data.date).toLocaleDateString("en-NZ")}</p>}
                   {item.parsed_data?.location && <p className="text-[10px] text-white/25">{item.parsed_data.location}</p>}
                   {item.parsed_data?.description && <p className="text-[10px] text-white/20 mt-1 line-clamp-2">{item.parsed_data.description}</p>}
                 </div>

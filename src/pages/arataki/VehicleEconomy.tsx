@@ -28,7 +28,7 @@ export default function VehicleEconomy() {
         <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-light mb-3" style={{ fontFamily: "'Lato', sans-serif" }}>
           <Calculator className="inline mr-3 text-amber-400" size={28} />Vehicle Economy Calculator
         </motion.h1>
-        <p className="text-white/50 mb-10 max-w-xl">Real-world per-km cost including fuel, RUC, depreciation, maintenance, and insurance.</p>
+        <p className="text-gray-500 mb-10 max-w-xl">Real-world per-km cost including fuel, RUC, depreciation, maintenance, and insurance.</p>
 
         <div className="grid md:grid-cols-2 gap-8">
           <div className="space-y-6">

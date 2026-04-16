@@ -54,7 +54,7 @@ export default function RiskRegister() {
                           return (
                             <td key={li} className="p-1">
                               <div className="w-full aspect-square rounded flex items-center justify-center text-[9px] font-bold" style={{ background: cellColor(sevIdx, li), minWidth: 28 }}>
-                                {risk && <span className="w-5 h-5 rounded-full flex items-center justify-center text-white" style={{ background: risk.color }}>{risk.id.slice(1)}</span>}
+                                {risk && <span className="w-5 h-5 rounded-full flex items-center justify-center text-foreground" style={{ background: risk.color }}>{risk.id.slice(1)}</span>}
                               </div>
                             </td>
                           );

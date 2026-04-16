@@ -207,7 +207,7 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                   <Brain size={16} style={{ color: KOWHAI }} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{packLabel}</h3>
+                  <h3 className="text-sm font-semibold text-foreground">{packLabel}</h3>
                   <p className="text-[10px] text-white/40">
                     {activeAgent ? `${activeAgent} responding...` : "IHO routing active"}
                   </p>
@@ -227,14 +227,14 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                   </div>
                   <div>
                     <p className="text-sm text-white/70 font-medium">Kia ora! How can I help?</p>
-                    <p className="text-[11px] text-white/30 mt-1">IHO will route your query to the right specialist</p>
+                    <p className="text-[11px] text-gray-400 mt-1">IHO will route your query to the right specialist</p>
                   </div>
                   <div className="flex flex-wrap gap-1.5 justify-center">
                     {(PACK_SUGGESTIONS[packId] || PACK_SUGGESTIONS.hanga).map(s => (
                       <button
                         key={s}
                         onClick={() => sendMessage(s)}
-                        className="px-3 py-1.5 rounded-full text-[10px] text-white/50 hover:text-white/80 transition-colors"
+                        className="px-3 py-1.5 rounded-full text-[10px] text-gray-500 hover:text-white/80 transition-colors"
                         style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
                       >
                         {s}
@@ -256,7 +256,7 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                     <div
                       className={`px-3.5 py-2.5 text-[13px] leading-relaxed ${
                         msg.role === "user"
-                          ? "rounded-2xl rounded-br-md text-white"
+                          ? "rounded-2xl rounded-br-md text-foreground"
                           : "rounded-2xl rounded-bl-md text-white/80"
                       }`}
                       style={msg.role === "user" ? {
@@ -267,7 +267,7 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                       }}
                     >
                       {msg.role === "assistant" ? (
-                        <div className="prose prose-sm prose-invert max-w-none [&_h2]:text-sm [&_h2]:mt-3 [&_h2]:mb-1 [&_h3]:text-xs [&_p]:text-[13px] [&_li]:text-[13px] [&_strong]:text-white">
+                        <div className="prose prose-sm prose-invert max-w-none [&_h2]:text-sm [&_h2]:mt-3 [&_h2]:mb-1 [&_h3]:text-xs [&_p]:text-[13px] [&_li]:text-[13px] [&_strong]:text-foreground">
                           <ReactMarkdown>{msg.content}</ReactMarkdown>
                         </div>
                       ) : msg.content}
@@ -295,7 +295,7 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && !e.shiftKey && sendMessage(input)}
                   placeholder="Ask about safety, projects, consents..."
-                  className="flex-1 bg-transparent text-sm text-white placeholder:text-white/25 outline-none"
+                  className="flex-1 bg-transparent text-sm text-foreground placeholder:text-white/25 outline-none"
                   disabled={isLoading}
                 />
                 <button

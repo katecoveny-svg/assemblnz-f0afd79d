@@ -128,10 +128,10 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
   return (
     <div className="flex flex-col h-[calc(100vh-200px)] max-h-[600px]">
       {/* Header */}
-      <div className="flex items-center gap-2 pb-3 border-b border-white/5">
+      <div className="flex items-center gap-2 pb-3 border-b border-gray-100">
         <MessageCircle className="w-5 h-5 text-pounamu" />
-        <h2 className="text-lg font-semibold text-white">Family Chat</h2>
-        <span className="text-xs text-white/30 ml-auto">{messages.length} messages</span>
+        <h2 className="text-lg font-semibold text-foreground">Family Chat</h2>
+        <span className="text-xs text-gray-400 ml-auto">{messages.length} messages</span>
       </div>
 
       {/* Messages */}
@@ -139,7 +139,7 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
         {messages.length === 0 && !loading && (
           <div className="text-center py-12">
             <Bot className="w-8 h-8 text-pounamu/40 mx-auto mb-3" />
-            <p className="text-sm text-white/30">Start your family chat</p>
+            <p className="text-sm text-gray-400">Start your family chat</p>
             <p className="text-xs text-white/20 mt-1">Messages here are shared with all family members</p>
             <p className="text-xs text-pounamu/40 mt-2">Tip: Tag @TORO to get assistant help</p>
           </div>
@@ -151,10 +151,10 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
           const avatar = getAvatar(msg.sender_name);
 
           if (isSystem) {
-            const msgColor = MSG_COLORS[msg.msg_type] || "bg-white/5 border-white/10";
+            const msgColor = MSG_COLORS[msg.msg_type] || "bg-white/5 border-gray-200";
             return (
               <div key={msg.id} className={`mx-4 px-3 py-2 rounded-lg border text-xs ${msgColor}`}>
-                <div className="flex items-center gap-1.5 text-white/50 mb-0.5">
+                <div className="flex items-center gap-1.5 text-gray-500 mb-0.5">
                   {MSG_ICONS[msg.msg_type] || <Bot className="w-3 h-3" />}
                   <span className="font-medium">{msg.sender_name}</span>
                   <span className="text-white/20">·</span>
@@ -168,7 +168,7 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
           return (
             <div key={msg.id} className={`flex gap-2.5 px-2 ${isMe ? "flex-row-reverse" : ""}`}>
               <div className={`shrink-0 w-8 h-8 rounded-full ${avatar.color} flex items-center justify-center`}>
-                <span className="text-[10px] font-bold text-white">{avatar.initials}</span>
+                <span className="text-[10px] font-bold text-foreground">{avatar.initials}</span>
               </div>
               <div className={`max-w-[75%] ${isMe ? "items-end" : ""}`}>
                 <div className={`flex items-center gap-2 mb-0.5 ${isMe ? "flex-row-reverse" : ""}`}>
@@ -177,7 +177,7 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
                 </div>
                 <div className={`rounded-2xl px-3.5 py-2 text-sm ${
                   isMe
-                    ? "bg-pounamu text-white rounded-br-sm"
+                    ? "bg-pounamu text-foreground rounded-br-sm"
                     : "bg-white/5 text-white/80 rounded-bl-sm"
                 }`}>
                   {msg.content}
@@ -190,19 +190,19 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
       </div>
 
       {/* Input */}
-      <div className="pt-3 border-t border-white/5">
+      <div className="pt-3 border-t border-gray-100">
         <div className="flex gap-2">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
             placeholder="Message your family... (tag @TORO for help)"
-            className="flex-1 text-sm px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50"
+            className="flex-1 text-sm px-4 py-2.5 rounded-xl bg-white/5 border border-gray-200 text-foreground placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50"
           />
           <button
             onClick={sendMessage}
             disabled={!input.trim()}
-            className="shrink-0 w-10 h-10 rounded-xl bg-pounamu text-white flex items-center justify-center disabled:opacity-30 hover:bg-pounamu transition-colors"
+            className="shrink-0 w-10 h-10 rounded-xl bg-pounamu text-foreground flex items-center justify-center disabled:opacity-30 hover:bg-pounamu transition-colors"
           >
             <Send className="w-4 h-4" />
           </button>

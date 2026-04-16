@@ -48,7 +48,7 @@ const HelmChecklist = ({ content }: Props) => {
                 backgroundColor: isChecked ? "#3A6A9C" : "transparent",
               }}
             >
-              {isChecked && <Check size={11} className="text-white" strokeWidth={3} />}
+              {isChecked && <Check size={11} className="text-foreground" strokeWidth={3} />}
             </span>
             <span
               className={`text-sm transition-all duration-200 ${

@@ -81,7 +81,7 @@ const KeteOnboardingCard = ({ packId }: Props) => {
 
         <button
           onClick={dismiss}
-          className="absolute top-3 right-3 p-1 text-white/30 hover:text-white/60 transition-colors z-10"
+          className="absolute top-3 right-3 p-1 text-gray-400 hover:text-white/60 transition-colors z-10"
         >
           <X size={16} />
         </button>

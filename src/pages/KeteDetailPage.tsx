@@ -79,7 +79,7 @@ const KeteDetailPage = () => {
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {kete.agents.map(agent => (
-                  <div key={agent.name} className="p-4 rounded-xl border transition-all duration-200 hover:border-white/20"
+                  <div key={agent.name} className="p-4 rounded-xl border transition-all duration-200 hover:border-gray-300"
                     style={{ background: "rgba(15,15,26,0.7)", backdropFilter: "blur(10px)", borderColor: "rgba(255,255,255,0.06)" }}>
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${kete.accentColor}15` }}>

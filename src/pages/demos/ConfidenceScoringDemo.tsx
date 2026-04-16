@@ -111,7 +111,7 @@ const ConfidenceScoringDemo = () => {
                         <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: dot.color }}>{claim.confidence} confidence</span>
                       </div>
                       <p className="text-xs mb-2" style={{ color: "rgba(245,240,232,0.5)" }}>
-                        <a href={claim.link} target="_blank" rel="noopener noreferrer" className="underline hover:text-white">{claim.source} · {claim.section}</a>
+                        <a href={claim.link} target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">{claim.source} · {claim.section}</a>
                       </p>
                       <p className="text-xs mb-2" style={{ color: "rgba(245,240,232,0.6)" }}>{claim.reasoning}</p>
                       <p className="text-[10px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(245,240,232,0.3)" }}>Last verified: {claim.lastVerified}</p>

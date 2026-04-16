@@ -173,7 +173,7 @@ export default function ManaakiDashboard() {
               </PieChart>
             </ResponsiveContainer>
           ) : (
-            <div className="h-[180px] flex items-center justify-center text-white/30 text-xs">No bookings yet — add one below</div>
+            <div className="h-[180px] flex items-center justify-center text-gray-400 text-xs">No bookings yet — add one below</div>
           )}
         </DashboardGlassCard>
         <DashboardGlassCard accentColor={ACCENT} className="p-4">
@@ -188,7 +188,7 @@ export default function ManaakiDashboard() {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div className="h-[180px] flex items-center justify-center text-white/30 text-xs">Add bookings to see room data</div>
+            <div className="h-[180px] flex items-center justify-center text-gray-400 text-xs">Add bookings to see room data</div>
           )}
         </DashboardGlassCard>
       </div>
@@ -203,16 +203,16 @@ export default function ManaakiDashboard() {
         </div>
         {showAddForm && (
           <form onSubmit={(e) => { e.preventDefault(); addBooking.mutate(); }} className="grid grid-cols-2 gap-3">
-            <input placeholder="Guest name" value={form.guest_name} onChange={e => setForm(f => ({ ...f, guest_name: e.target.value }))} required className="col-span-2 px-3 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-primary/30" />
-            <input placeholder="Room" value={form.room} onChange={e => setForm(f => ({ ...f, room: e.target.value }))} required className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/25 focus:outline-none" />
-            <input placeholder="Occasion" value={form.occasion} onChange={e => setForm(f => ({ ...f, occasion: e.target.value }))} className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/25 focus:outline-none" />
-            <input type="date" value={form.arrival} onChange={e => setForm(f => ({ ...f, arrival: e.target.value }))} required className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white focus:outline-none" />
-            <input type="date" value={form.departure} onChange={e => setForm(f => ({ ...f, departure: e.target.value }))} required className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white focus:outline-none" />
-            <input placeholder="Dietary requirements" value={form.dietary} onChange={e => setForm(f => ({ ...f, dietary: e.target.value }))} className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-white/10 text-white placeholder:text-white/25 focus:outline-none" />
-            <label className="flex items-center gap-2 text-xs text-white/50">
+            <input placeholder="Guest name" value={form.guest_name} onChange={e => setForm(f => ({ ...f, guest_name: e.target.value }))} required className="col-span-2 px-3 py-2 rounded-lg text-sm bg-white/5 border border-gray-200 text-foreground placeholder:text-white/25 focus:outline-none focus:ring-1 focus:ring-primary/30" />
+            <input placeholder="Room" value={form.room} onChange={e => setForm(f => ({ ...f, room: e.target.value }))} required className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-gray-200 text-foreground placeholder:text-white/25 focus:outline-none" />
+            <input placeholder="Occasion" value={form.occasion} onChange={e => setForm(f => ({ ...f, occasion: e.target.value }))} className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-gray-200 text-foreground placeholder:text-white/25 focus:outline-none" />
+            <input type="date" value={form.arrival} onChange={e => setForm(f => ({ ...f, arrival: e.target.value }))} required className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-gray-200 text-foreground focus:outline-none" />
+            <input type="date" value={form.departure} onChange={e => setForm(f => ({ ...f, departure: e.target.value }))} required className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-gray-200 text-foreground focus:outline-none" />
+            <input placeholder="Dietary requirements" value={form.dietary} onChange={e => setForm(f => ({ ...f, dietary: e.target.value }))} className="px-3 py-2 rounded-lg text-sm bg-white/5 border border-gray-200 text-foreground placeholder:text-white/25 focus:outline-none" />
+            <label className="flex items-center gap-2 text-xs text-gray-500">
               <input type="checkbox" checked={form.vip} onChange={e => setForm(f => ({ ...f, vip: e.target.checked }))} /> VIP Guest
             </label>
-            <button type="submit" disabled={addBooking.isPending} className="col-span-2 py-2 rounded-lg text-sm font-medium text-white" style={{ background: POUNAMU }}>
+            <button type="submit" disabled={addBooking.isPending} className="col-span-2 py-2 rounded-lg text-sm font-medium text-foreground" style={{ background: POUNAMU }}>
               {addBooking.isPending ? "Adding..." : "Add Booking"}
             </button>
           </form>
@@ -223,9 +223,9 @@ export default function ManaakiDashboard() {
       <DashboardGlassCard accentColor={ACCENT} className="p-4">
         <h3 className="text-xs font-semibold text-white/60 mb-3">Active Bookings</h3>
         {isLoading ? (
-          <div className="text-white/30 text-xs py-8 text-center">Loading bookings...</div>
+          <div className="text-gray-400 text-xs py-8 text-center">Loading bookings...</div>
         ) : bookings.length === 0 ? (
-          <div className="text-white/30 text-xs py-8 text-center">No bookings yet. Add your first booking above.</div>
+          <div className="text-gray-400 text-xs py-8 text-center">No bookings yet. Add your first booking above.</div>
         ) : (
           <div className="space-y-2 max-h-[400px] overflow-y-auto">
             {bookings.map(b => (

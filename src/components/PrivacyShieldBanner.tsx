@@ -52,7 +52,7 @@ const PrivacyShieldBanner = ({ originalText, onApprove, onSkip, agentColor = "#0
             <span className="text-xs font-display uppercase tracking-[3px] block" style={{ color: config.color }}>
               Privacy Shield
             </span>
-            <span className="text-[10px] font-body text-white/50">
+            <span className="text-[10px] font-body text-gray-500">
               {config.label} — {result.redactions.length} item{result.redactions.length !== 1 ? "s" : ""} flagged
             </span>
           </div>

@@ -41,12 +41,12 @@ export default function AuahaCalendar() {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Content Calendar</p>
-          <h1 className="text-white text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Content Calendar</h1>
+          <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Content Calendar</h1>
         </div>
         <div className="flex items-center gap-3">
-          <button className="text-white/30 hover:text-white/60"><ChevronLeft className="w-5 h-5" /></button>
-          <span className="text-white text-sm font-mono">April 2026</span>
-          <button className="text-white/30 hover:text-white/60"><ChevronRight className="w-5 h-5" /></button>
+          <button className="text-gray-400 hover:text-white/60"><ChevronLeft className="w-5 h-5" /></button>
+          <span className="text-foreground text-sm font-mono">April 2026</span>
+          <button className="text-gray-400 hover:text-white/60"><ChevronRight className="w-5 h-5" /></button>
         </div>
       </div>
 
@@ -54,7 +54,7 @@ export default function AuahaCalendar() {
         {/* Day headers */}
         <div className="grid grid-cols-7 gap-1 mb-2 min-w-[700px]">
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-            <div key={d} className="text-white/30 text-xs text-center py-2 uppercase tracking-wider">{d}</div>
+            <div key={d} className="text-gray-400 text-xs text-center py-2 uppercase tracking-wider">{d}</div>
           ))}
         </div>
 
@@ -68,7 +68,7 @@ export default function AuahaCalendar() {
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-white/40 text-xs">{day}</span>
                   <button className="opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Plus className="w-3 h-3 text-white/30" />
+                    <Plus className="w-3 h-3 text-gray-400" />
                   </button>
                 </div>
                 <div className="space-y-1">

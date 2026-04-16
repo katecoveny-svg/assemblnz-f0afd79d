@@ -61,8 +61,8 @@ export default function KeteSmsExplainer({
             <MessageSquare size={16} style={{ color: accentColor }} />
           </div>
           <div className="text-left">
-            <h3 className="text-sm font-semibold text-white">Text your {keteName} team</h3>
-            <p className="text-[10px] text-white/30">Every agent available via SMS and WhatsApp</p>
+            <h3 className="text-sm font-semibold text-foreground">Text your {keteName} team</h3>
+            <p className="text-[10px] text-gray-400">Every agent available via SMS and WhatsApp</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -70,7 +70,7 @@ export default function KeteSmsExplainer({
             {smsConnected && <span className="text-[8px] px-2 py-0.5 rounded-full bg-[#5AADA0]/10 text-[#5AADA0] border border-green-500/20">SMS LIVE</span>}
             {whatsappConnected && <span className="text-[8px] px-2 py-0.5 rounded-full bg-[#5AADA0]/10 text-[#5AADA0] border border-green-500/20">WA LIVE</span>}
           </div>
-          {expanded ? <ChevronUp size={16} className="text-white/30" /> : <ChevronDown size={16} className="text-white/30" />}
+          {expanded ? <ChevronUp size={16} className="text-gray-400" /> : <ChevronDown size={16} className="text-gray-400" />}
         </div>
       </button>
 

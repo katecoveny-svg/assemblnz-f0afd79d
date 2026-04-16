@@ -74,7 +74,7 @@ const SectionNav = () => {
         <button
           key={s.id}
           onClick={() => scrollTo(s.id)}
-          className="font-body font-medium text-gray-500 hover:text-white transition-colors"
+          className="font-body font-medium text-gray-500 hover:text-foreground transition-colors"
         >
           {s.label}
         </button>
@@ -135,9 +135,9 @@ const PhoneMockup = () => (
       }}
     >
       {/* notch */}
-      <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-black border border-white/10" />
+      <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-black border border-gray-200" />
       {/* carrier */}
-      <div className="text-center text-[10px] font-mono text-white/30 mb-3">+64 22 ASSEMBL</div>
+      <div className="text-center text-[10px] font-mono text-gray-400 mb-3">+64 22 ASSEMBL</div>
       {/* messages */}
       <div className="space-y-3 px-1 max-h-[400px] overflow-hidden">
         {SMS_CONVO.map((msg, i) => (
@@ -151,7 +151,7 @@ const PhoneMockup = () => (
           >
             <div
               className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-[12.5px] leading-relaxed whitespace-pre-line ${
-                msg.from === "user" ? "text-white" : "text-white/90"
+                msg.from === "user" ? "text-foreground" : "text-white/90"
               }`}
               style={{
                 background:
@@ -224,7 +224,7 @@ const InvestPage = () => {
             </a>
             <button
               onClick={() => document.getElementById("product")?.scrollIntoView({ behavior: "smooth" })}
-              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-white border border-white/20 hover:border-white/40 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-foreground border border-gray-300 hover:border-white/40 transition-colors"
             >
               See it work
             </button>
@@ -634,7 +634,7 @@ const InvestPage = () => {
             </a>
             <a
               href="mailto:assembl@assembl.co.nz"
-              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-white border border-white/20 hover:border-white/40 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-foreground border border-gray-300 hover:border-white/40 transition-colors"
             >
               Request Business Plan
             </a>
@@ -647,7 +647,7 @@ const InvestPage = () => {
         <Link to="/" className="font-display font-light tracking-[4px] uppercase text-[13px]">
           ASSEMBL
         </Link>
-        <span className="text-[12px] text-white/30 font-body">
+        <span className="text-[12px] text-gray-400 font-body">
           © 2026 Assembl. Built in Aotearoa New Zealand.
         </span>
       </footer>

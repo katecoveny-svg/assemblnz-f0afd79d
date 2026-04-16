@@ -200,7 +200,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
             <ShoppingCart className="w-5 h-5 text-pounamu" />
             Groceries
           </h2>
@@ -210,11 +210,11 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
         </div>
         <div className="flex gap-2">
           {lists.length === 0 ? (
-            <button onClick={createList} className="text-xs px-3 py-1.5 rounded-lg font-semibold bg-pounamu text-white">
+            <button onClick={createList} className="text-xs px-3 py-1.5 rounded-lg font-semibold bg-pounamu text-foreground">
               New List
             </button>
           ) : (
-            <button onClick={() => setShowAdd(!showAdd)} className="text-xs px-3 py-1.5 rounded-lg font-semibold bg-pounamu text-white inline-flex items-center gap-1">
+            <button onClick={() => setShowAdd(!showAdd)} className="text-xs px-3 py-1.5 rounded-lg font-semibold bg-pounamu text-foreground inline-flex items-center gap-1">
               <Plus className="w-3 h-3" /> Add Item
             </button>
           )}
@@ -227,19 +227,19 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
           <div className="h-2 bg-white/10 rounded-full overflow-hidden">
             <div className="h-full bg-[#3A7D6E] rounded-full transition-all duration-500" style={{ width: `${(checkedCount / totalCount) * 100}%` }} />
           </div>
-          <div className="text-[10px] text-white/30 mt-1.5 text-right">{Math.round((checkedCount / totalCount) * 100)}% complete</div>
+          <div className="text-[10px] text-gray-400 mt-1.5 text-right">{Math.round((checkedCount / totalCount) * 100)}% complete</div>
         </div>
       )}
 
       {/* Order Online */}
       {totalCount > 0 && (
-        <div className="bg-white/5 rounded-xl border border-white/5 p-4 space-y-3">
+        <div className="bg-white/5 rounded-xl border border-gray-100 p-4 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Truck className="w-4 h-4 text-[#5AADA0]" />
               <span className="text-sm font-medium text-white/80">Order Online</span>
             </div>
-            <span className="text-[10px] text-white/30">{items.filter(i => !i.checked).length} items to buy</span>
+            <span className="text-[10px] text-gray-400">{items.filter(i => !i.checked).length} items to buy</span>
           </div>
           <div className="flex gap-2">
             {NZ_STORES.map(store => (
@@ -248,8 +248,8 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
                 onClick={() => setSelectedStore(store.id)}
                 className={`flex-1 text-[10px] px-2 py-2 rounded-lg border font-medium text-center transition-all ${
                   selectedStore === store.id
-                    ? "text-white border-white/20"
-                    : "bg-white/5 border-white/5 text-white/40"
+                    ? "text-foreground border-gray-300"
+                    : "bg-white/5 border-gray-100 text-white/40"
                 }`}
                 style={selectedStore === store.id ? { background: store.color + "20", borderColor: store.color + "40" } : undefined}
               >
@@ -261,7 +261,7 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
             href={getShopOnlineUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full text-sm py-2.5 rounded-lg font-semibold text-white flex items-center justify-center gap-2 transition-colors"
+            className="w-full text-sm py-2.5 rounded-lg font-semibold text-foreground flex items-center justify-center gap-2 transition-colors"
             style={{ background: NZ_STORES.find(s => s.id === selectedStore)?.color || "#00A651" }}
           >
             <ShoppingCart className="w-4 h-4" />
@@ -276,13 +276,13 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
 
       {/* Quick add */}
       {showAdd && (
-        <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3">
+        <div className="bg-white/5 border border-gray-200 rounded-xl p-4 space-y-3">
           <input
             value={newItem}
             onChange={(e) => setNewItem(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addItem()}
             placeholder="Item name (e.g. milk, bread, avocados)"
-            className="w-full text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50"
+            className="w-full text-sm px-3 py-2 rounded-lg bg-white/5 border border-gray-200 text-foreground placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50"
             autoFocus
           />
           <div className="flex gap-2">
@@ -290,19 +290,19 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
               value={newQty}
               onChange={(e) => setNewQty(e.target.value)}
               placeholder="Qty"
-              className="w-20 text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50"
+              className="w-20 text-sm px-3 py-2 rounded-lg bg-white/5 border border-gray-200 text-foreground placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50"
             />
             <select
               value={newCat}
               onChange={(e) => setNewCat(e.target.value)}
-              className="flex-1 text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-pounamu/50"
+              className="flex-1 text-sm px-3 py-2 rounded-lg bg-white/5 border border-gray-200 text-foreground focus:outline-none focus:ring-2 focus:ring-pounamu/50"
             >
               {CATEGORIES.map(c => (
                 <option key={c.value} value={c.value}>{c.emoji} {c.label}</option>
               ))}
             </select>
           </div>
-          <button onClick={addItem} className="w-full text-sm py-2 rounded-lg font-semibold bg-pounamu text-white">
+          <button onClick={addItem} className="w-full text-sm py-2 rounded-lg font-semibold bg-pounamu text-foreground">
             Add to List
           </button>
         </div>
@@ -311,39 +311,39 @@ export default function HelmGroceryList({ familyId }: { familyId: string | null 
       {/* Grouped items */}
       {grouped.length === 0 && !loading && lists.length > 0 && (
         <div className="text-center py-8">
-          <p className="text-sm text-white/30">List is empty. Add items above, or text TORO:</p>
+          <p className="text-sm text-gray-400">List is empty. Add items above, or text TORO:</p>
           <p className="text-xs text-pounamu/60 mt-1 font-mono">"Add milk, bread, eggs to groceries"</p>
         </div>
       )}
 
       {grouped.map(group => (
-        <div key={group.value} className="bg-white/5 rounded-xl border border-white/5 overflow-hidden">
+        <div key={group.value} className="bg-white/5 rounded-xl border border-gray-100 overflow-hidden">
           <button
             onClick={() => toggleCat(group.value)}
             className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-white/5 transition-colors"
           >
             <span className="text-sm font-medium text-white/80">
               {group.emoji} {group.label}
-              <span className="text-white/30 ml-2 text-xs">({group.items.filter(i => !i.checked).length})</span>
+              <span className="text-gray-400 ml-2 text-xs">({group.items.filter(i => !i.checked).length})</span>
             </span>
-            {expandedCats.has(group.value) ? <ChevronUp className="w-4 h-4 text-white/30" /> : <ChevronDown className="w-4 h-4 text-white/30" />}
+            {expandedCats.has(group.value) ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
           </button>
           {expandedCats.has(group.value) && (
-            <div className="border-t border-white/5 divide-y divide-white/5">
+            <div className="border-t border-gray-100 divide-y divide-white/5">
               {group.items.map(item => (
                 <div key={item.id} className={`flex items-center gap-3 px-4 py-2.5 transition-colors ${item.checked ? "opacity-40" : ""}`}>
                   <button
                     onClick={() => toggleItem(item.id, item.checked)}
                     className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
-                      item.checked ? "bg-[#3A7D6E] border-emerald-500 text-white" : "border-white/20 hover:border-white/40"
+                      item.checked ? "bg-[#3A7D6E] border-emerald-500 text-foreground" : "border-gray-300 hover:border-white/40"
                     }`}
                   >
                     {item.checked && <Check className="w-3 h-3" />}
                   </button>
                   <div className="flex-1 min-w-0">
-                    <span className={`text-sm ${item.checked ? "line-through text-white/30" : "text-white/80"}`}>{item.name}</span>
+                    <span className={`text-sm ${item.checked ? "line-through text-gray-400" : "text-white/80"}`}>{item.name}</span>
                     {item.quantity !== "1" && (
-                      <span className="text-xs text-white/30 ml-2">x{item.quantity}</span>
+                      <span className="text-xs text-gray-400 ml-2">x{item.quantity}</span>
                     )}
                   </div>
                   {!item.checked && (

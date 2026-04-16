@@ -140,7 +140,7 @@ const AgentMemoryPanel = ({ agentId, agentColor, agentName }: Props) => {
       >
         <Layers size={10} />
         {totalCount > 0 && (
-          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full text-[8px] font-bold flex items-center justify-center text-white" style={{ backgroundColor: agentColor }}>
+          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full text-[8px] font-bold flex items-center justify-center text-foreground" style={{ backgroundColor: agentColor }}>
             {totalCount > 9 ? "9+" : totalCount}
           </span>
         )}

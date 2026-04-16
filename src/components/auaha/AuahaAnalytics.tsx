@@ -47,8 +47,8 @@ export default function AuahaAnalytics() {
     <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
       <div>
         <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Analytics</p>
-        <h1 className="text-white text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Analytics Hub</h1>
-        <p className="text-white/50 text-sm mt-1">Unified performance across all platforms</p>
+        <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Analytics Hub</h1>
+        <p className="text-gray-500 text-sm mt-1">Unified performance across all platforms</p>
       </div>
 
       {/* Metric cards */}
@@ -56,10 +56,10 @@ export default function AuahaAnalytics() {
         {METRICS.map((m) => (
           <GlassCard key={m.label} className="p-5">
             <div className="flex items-start justify-between mb-2">
-              <m.icon className="w-4 h-4 text-white/30" />
+              <m.icon className="w-4 h-4 text-gray-400" />
               <span className="text-xs text-[#5AADA0]">{m.change}</span>
             </div>
-            <p className="text-white text-xl font-light" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{m.value}</p>
+            <p className="text-foreground text-xl font-light" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{m.value}</p>
             <p className="text-white/40 text-xs mt-1">{m.label}</p>
           </GlassCard>
         ))}

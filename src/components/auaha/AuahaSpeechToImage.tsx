@@ -176,7 +176,7 @@ export default function AuahaSpeechToImage() {
             )}
           </motion.button>
 
-          <p className="text-white/50 text-sm">
+          <p className="text-gray-500 text-sm">
             {isListening ? "Listening — speak naturally, then click to stop" : "Click the microphone to start"}
           </p>
 
@@ -195,7 +195,7 @@ export default function AuahaSpeechToImage() {
                 }}>
                   <div className="flex items-center gap-2 mb-2">
                     <Volume2 className="w-3.5 h-3.5" style={{ color: POUNAMU }} />
-                    <span className="text-[11px] uppercase tracking-wider text-white/30" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                    <span className="text-[11px] uppercase tracking-wider text-gray-400" style={{ fontFamily: "JetBrains Mono, monospace" }}>
                       Your prompt
                     </span>
                   </div>
@@ -258,12 +258,12 @@ export default function AuahaSpeechToImage() {
                   background: "rgba(0,0,0,0.6)",
                   border: "1px solid rgba(255,255,255,0.1)",
                 }}>
-                  <Download className="w-4 h-4 text-white" />
+                  <Download className="w-4 h-4 text-foreground" />
                 </a>
               </div>
             </div>
             <div className="p-4" style={{ background: "rgba(10,10,10,0.8)" }}>
-              <p className="text-white/50 text-xs italic">"{transcript}"</p>
+              <p className="text-gray-500 text-xs italic">"{transcript}"</p>
             </div>
           </motion.div>
         )}

@@ -106,7 +106,7 @@ export default function NotificationBell() {
               >
                 <div className="flex-shrink-0 mt-1">
                   <div
-                    className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white"
+                    className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-foreground"
                     style={{ backgroundColor: AGENT_COLORS[n.agent_name.toUpperCase()] || "#64748b" }}
                   >
                     {n.agent_name.slice(0, 2).toUpperCase()}

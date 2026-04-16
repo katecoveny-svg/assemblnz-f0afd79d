@@ -83,25 +83,25 @@ const KindleCampaignWriter = ({ onSendToChat }: Props) => {
       <form onSubmit={handleGenerate} className="space-y-3 rounded-xl p-4" style={{ background: "rgba(15,15,18,0.8)", border: "1px solid rgba(255,255,255,0.06)" }}>
         <div>
           <label className="text-[10px] font-medium text-muted-foreground mb-1 block">Organisation Name *</label>
-          <Input value={orgName} onChange={(e) => setOrgName(e.target.value)} placeholder="e.g. Kaitiaki Youth Trust" required className="bg-background/50 border-white/10 text-sm" />
+          <Input value={orgName} onChange={(e) => setOrgName(e.target.value)} placeholder="e.g. Kaitiaki Youth Trust" required className="bg-background/50 border-gray-200 text-sm" />
         </div>
         <div>
           <label className="text-[10px] font-medium text-muted-foreground mb-1 block">Mission / Cause *</label>
-          <Textarea value={mission} onChange={(e) => setMission(e.target.value)} placeholder="Describe your mission..." required rows={3} className="bg-background/50 border-white/10 text-sm" />
+          <Textarea value={mission} onChange={(e) => setMission(e.target.value)} placeholder="Describe your mission..." required rows={3} className="bg-background/50 border-gray-200 text-sm" />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="text-[10px] font-medium text-muted-foreground mb-1 block">Funding Goal (NZD)</label>
-            <Input type="number" value={fundingGoal} onChange={(e) => setFundingGoal(e.target.value)} placeholder="25000" className="bg-background/50 border-white/10 text-sm" />
+            <Input type="number" value={fundingGoal} onChange={(e) => setFundingGoal(e.target.value)} placeholder="25000" className="bg-background/50 border-gray-200 text-sm" />
           </div>
           <div>
             <label className="text-[10px] font-medium text-muted-foreground mb-1 block">Location</label>
-            <Input value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Wellington, NZ" className="bg-background/50 border-white/10 text-sm" />
+            <Input value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Wellington, NZ" className="bg-background/50 border-gray-200 text-sm" />
           </div>
         </div>
         <div>
           <label className="text-[10px] font-medium text-muted-foreground mb-1 block">Beneficiaries</label>
-          <Input value={beneficiaries} onChange={(e) => setBeneficiaries(e.target.value)} placeholder="e.g. At-risk youth aged 12-18" className="bg-background/50 border-white/10 text-sm" />
+          <Input value={beneficiaries} onChange={(e) => setBeneficiaries(e.target.value)} placeholder="e.g. At-risk youth aged 12-18" className="bg-background/50 border-gray-200 text-sm" />
         </div>
         <button type="submit" disabled={loading || !orgName.trim() || !mission.trim()} className="w-full h-10 rounded-lg font-semibold text-sm inline-flex items-center justify-center gap-2 transition-opacity disabled:opacity-50" style={{ background: KINDLE_COLOR, color: "#000" }}>
           {loading ? <><Loader2 size={14} className="animate-spin" /> Generating...</> : <><Sparkles size={14} /> Generate Campaign</>}

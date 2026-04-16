@@ -59,7 +59,7 @@ export default function AuahaAdManager() {
     <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
       <div>
         <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Ad Manager</p>
-        <h1 className="text-white text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Ad Manager</h1>
+        <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Ad Manager</h1>
       </div>
 
       {/* Tabs */}
@@ -68,7 +68,7 @@ export default function AuahaAdManager() {
           <button
             key={key}
             onClick={() => setTab(key)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs transition-all ${tab === key ? "text-black font-medium" : "text-white/50 bg-white/5"}`}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs transition-all ${tab === key ? "text-black font-medium" : "text-gray-500 bg-white/5"}`}
             style={tab === key ? { background: ACCENT } : {}}
           >
             <Icon className="w-3.5 h-3.5" /> {label}
@@ -79,11 +79,11 @@ export default function AuahaAdManager() {
       {tab === "create" && (
         <div className="space-y-4">
           <GlassCard className="p-6">
-            <label className="text-white/50 text-xs block mb-2">Ad Brief</label>
+            <label className="text-gray-500 text-xs block mb-2">Ad Brief</label>
             <textarea
               value={adBrief}
               onChange={(e) => setAdBrief(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:outline-none min-h-[80px]"
+              className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm focus:outline-none min-h-[80px]"
               placeholder="Describe your product/service and campaign goal..."
             />
             <Button onClick={generateAds} disabled={isGenerating} className="mt-3" style={{ background: ACCENT, color: "#000" }}>
@@ -127,12 +127,12 @@ export default function AuahaAdManager() {
               {DEMO_ADS.map((ad) => (
                 <div key={ad.name} className="flex items-center justify-between p-3 rounded-lg bg-white/5">
                   <div>
-                    <p className="text-white text-sm">{ad.name}</p>
-                    <p className="text-white/30 text-xs">{ad.impressions.toLocaleString()} impressions</p>
+                    <p className="text-foreground text-sm">{ad.name}</p>
+                    <p className="text-gray-400 text-xs">{ad.impressions.toLocaleString()} impressions</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-mono" style={{ color: ACCENT }}>{ad.ctr}% CTR</p>
-                    <p className="text-white/30 text-xs">${ad.spend} spend</p>
+                    <p className="text-gray-400 text-xs">${ad.spend} spend</p>
                   </div>
                 </div>
               ))}
@@ -156,7 +156,7 @@ export default function AuahaAdManager() {
                   <div className="w-12 h-12 rounded-full mx-auto mb-2 flex items-center justify-center text-lg font-mono" style={{ background: `${ACCENT}15`, color: ACCENT }}>
                     {score}
                   </div>
-                  <p className="text-white/50 text-[10px] uppercase tracking-wider">{c.name}</p>
+                  <p className="text-gray-500 text-[10px] uppercase tracking-wider">{c.name}</p>
                 </div>
               );
             })}

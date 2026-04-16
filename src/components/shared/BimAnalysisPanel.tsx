@@ -198,7 +198,7 @@ export default function BimAnalysisPanel({ agentId, agentName }: BimPanelProps) 
         <button
           onClick={run}
           disabled={loading}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-display font-bold tracking-wider uppercase bg-pounamu text-white transition-all hover:scale-[0.98] active:scale-[0.96] disabled:opacity-50 disabled:hover:scale-100"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-display font-bold tracking-wider uppercase bg-pounamu text-foreground transition-all hover:scale-[0.98] active:scale-[0.96] disabled:opacity-50 disabled:hover:scale-100"
           style={{ boxShadow: "0 0 20px rgba(58,125,110,0.15)" }}
         >
           {loading ? <Loader2 size={13} className="animate-spin" /> : ACTION_META[action].icon}

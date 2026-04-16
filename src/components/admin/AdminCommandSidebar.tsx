@@ -181,7 +181,7 @@ export default function AdminCommandSidebar({
                     className={cn(
                       "group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-[12px] transition-all duration-200 cursor-pointer",
                       active
-                        ? "text-white"
+                        ? "text-foreground"
                         : "text-white/35 hover:text-white/60 hover:bg-white/[0.02]"
                     )}
                   >
@@ -238,7 +238,7 @@ export default function AdminCommandSidebar({
         </div>
         <button
           onClick={() => { signOut(); navigate("/"); }}
-          className="flex items-center gap-2 text-[11px] text-white/25 hover:text-white/50 transition-colors"
+          className="flex items-center gap-2 text-[11px] text-white/25 hover:text-gray-500 transition-colors"
         >
           <LogOut className="w-3.5 h-3.5" />
           <span>Sign out</span>

@@ -179,7 +179,7 @@ export default function WorkspaceDashboard() {
                 </div>
               )}
               <div>
-                <h1 className="text-sm font-semibold text-white">{tenant.name}</h1>
+                <h1 className="text-sm font-semibold text-foreground">{tenant.name}</h1>
                 <p className="text-[10px] text-white/40">
                   {keteLabel} · {ROLE_LABELS[role || "free"] || tenant.plan} plan
                   {isPaid && <Crown size={10} className="inline ml-1" style={{ color: accent }} />}
@@ -210,16 +210,16 @@ export default function WorkspaceDashboard() {
               <div className="flex items-center gap-3">
                 <CreditCard size={16} style={{ color: accent }} />
                 <div>
-                  <p className="text-xs font-medium text-white">
+                  <p className="text-xs font-medium text-foreground">
                     {isPaid ? `${ROLE_LABELS[role || "free"]} plan` : "Free plan"}
                   </p>
                   {subscriptionEnd && (
-                    <p className="text-[10px] text-white/30">
+                    <p className="text-[10px] text-gray-400">
                       Renews {new Date(subscriptionEnd).toLocaleDateString("en-NZ", { day: "numeric", month: "short", year: "numeric" })}
                     </p>
                   )}
                   {!isPaid && (
-                    <p className="text-[10px] text-white/30">Upgrade to unlock unlimited agents and compliance features</p>
+                    <p className="text-[10px] text-gray-400">Upgrade to unlock unlimited agents and compliance features</p>
                   )}
                 </div>
               </div>
@@ -259,7 +259,7 @@ export default function WorkspaceDashboard() {
               className="rounded-xl p-5"
               style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
             >
-              <h2 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+              <h2 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
                 <LayoutDashboard size={16} style={{ color: accent }} /> Getting started
               </h2>
               <div className="space-y-2">
@@ -275,7 +275,7 @@ export default function WorkspaceDashboard() {
                     ) : (
                       <Clock size={16} className="text-white/20" />
                     )}
-                    <span className={`text-xs ${step.done ? "text-white/50 line-through" : "text-white/70"}`}>
+                    <span className={`text-xs ${step.done ? "text-gray-500 line-through" : "text-white/70"}`}>
                       {step.label}
                     </span>
                     {step.href && !step.done && (
@@ -297,7 +297,7 @@ export default function WorkspaceDashboard() {
             className="rounded-xl p-5"
             style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
           >
-            <h2 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+            <h2 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
               <Play size={16} style={{ color: accent }} /> Your workflows
             </h2>
             {workflows.length > 0 ? (
@@ -317,7 +317,7 @@ export default function WorkspaceDashboard() {
                 ))}
               </div>
             ) : (
-              <p className="text-xs text-white/30">Your workflows will appear here once the plan is loaded.</p>
+              <p className="text-xs text-gray-400">Your workflows will appear here once the plan is loaded.</p>
             )}
           </motion.div>
 
@@ -330,10 +330,10 @@ export default function WorkspaceDashboard() {
               className="rounded-xl p-5"
               style={{ background: `${accent}06`, border: `1px solid ${accent}20` }}
             >
-              <h2 className="text-sm font-semibold text-white mb-1 flex items-center gap-2">
+              <h2 className="text-sm font-semibold text-foreground mb-1 flex items-center gap-2">
                 <FileText size={16} style={{ color: accent }} /> {evidenceBrief.title}
               </h2>
-              <p className="text-[10px] text-white/30 mb-3">
+              <p className="text-[10px] text-gray-400 mb-3">
                 {evidenceBrief.date}
                 {evidenceBrief.simulated && (
                   <span className="ml-2 px-1.5 py-0.5 rounded text-[9px]" style={{ background: `${accent}15`, color: accent }}>
@@ -341,7 +341,7 @@ export default function WorkspaceDashboard() {
                   </span>
                 )}
               </p>
-              <p className="text-xs text-white/50 mb-3">{evidenceBrief.summary}</p>
+              <p className="text-xs text-gray-500 mb-3">{evidenceBrief.summary}</p>
               {evidenceBrief.findings?.length > 0 && (
                 <div className="space-y-1.5">
                   {evidenceBrief.findings.map((f, i) => (

@@ -131,7 +131,7 @@ export default function WorkspaceConnections() {
               <ArrowLeft size={18} />
             </Link>
             <div>
-              <h1 className="text-sm font-semibold text-white">Connect your tools</h1>
+              <h1 className="text-sm font-semibold text-foreground">Connect your tools</h1>
               <p className="text-[10px] text-white/40">Click to connect — no code required</p>
             </div>
           </div>
@@ -176,7 +176,7 @@ export default function WorkspaceConnections() {
                     <CheckCircle size={14} /> Connected
                   </span>
                 ) : isPending ? (
-                  <span className="text-[11px] text-white/30 shrink-0">Pending…</span>
+                  <span className="text-[11px] text-gray-400 shrink-0">Pending…</span>
                 ) : (
                   <button
                     onClick={() => handleConnect(tool.provider)}

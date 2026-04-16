@@ -54,7 +54,7 @@ function CompileModal({ accentColor, onClose }: { accentColor: string; onClose: 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" onClick={onClose}>
-      <div className="bg-[#0D0D14] border border-white/10 rounded-xl p-8 max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
+      <div className="bg-[#0D0D14] border border-gray-200 rounded-xl p-8 max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
         <div className="flex items-center gap-2 mb-4">
           <Sparkles size={20} style={{ color: accentColor }} />
           <h3 className="text-lg font-medium text-white/90">Compiling Evidence Pack</h3>
@@ -172,7 +172,7 @@ export default function KeteEvidencePackPanel({
           </div>
 
           {/* Compliance badge row */}
-          <div className="flex items-center gap-3 text-[10px] text-white/30">
+          <div className="flex items-center gap-3 text-[10px] text-gray-400">
             <span className="flex items-center gap-1"><Shield size={10} style={{ color: accentColor }} /> Pipeline-verified</span>
             <span className="flex items-center gap-1"><Check size={10} /> Watermarked</span>
             {lastGenerated && (

@@ -93,13 +93,13 @@ export default function AotearoaVerifiedBadge({ compact = false }: { compact?: b
           <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${allComplete ? "bg-[#00A86B]/20" : "bg-white/5"}`}>
             {allComplete
               ? <Star className="w-8 h-8 text-[#00A86B]" />
-              : <Shield className="w-8 h-8 text-white/30" />}
+              : <Shield className="w-8 h-8 text-gray-400" />}
           </div>
           {allComplete && (
             <motion.div
               initial={{ scale: 0 }} animate={{ scale: 1 }}
               className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#00A86B] flex items-center justify-center">
-              <CheckCircle2 className="w-4 h-4 text-white" />
+              <CheckCircle2 className="w-4 h-4 text-foreground" />
             </motion.div>
           )}
         </div>

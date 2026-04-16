@@ -61,7 +61,7 @@ const ActionQueuePanel = ({ agentColor }: { agentColor: string }) => {
         <ListChecks size={10} />
         {pendingCount > 0 && (
           <span
-            className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full text-[8px] font-bold flex items-center justify-center text-white"
+            className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full text-[8px] font-bold flex items-center justify-center text-foreground"
             style={{ backgroundColor: "#FF6B00" }}
           >
             {pendingCount}

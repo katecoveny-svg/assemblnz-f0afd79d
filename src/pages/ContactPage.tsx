@@ -178,8 +178,8 @@ const ContactPage = () => {
                 <button type="submit" disabled={sending} className="group relative w-full py-4 rounded-xl text-sm font-body font-medium flex items-center justify-center gap-2 overflow-hidden transition-all">
                   <div className="absolute inset-0 rounded-xl" style={{ background: `linear-gradient(135deg, ${POUNAMU}, #2D6A5E)` }} />
                   <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
-                  <Send size={16} className="relative z-10 text-white" />
-                  <span className="relative z-10 text-white">{sending ? "Sending…" : "Get started"}</span>
+                  <Send size={16} className="relative z-10 text-foreground" />
+                  <span className="relative z-10 text-foreground">{sending ? "Sending…" : "Get started"}</span>
                 </button>
 
                 <p className="text-[11px] font-body text-muted-foreground/40 text-center">

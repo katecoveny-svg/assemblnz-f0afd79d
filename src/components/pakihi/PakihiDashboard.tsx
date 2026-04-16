@@ -113,7 +113,7 @@ export default function PakihiDashboard() {
       <div className="flex gap-1 p-1 rounded-xl" style={{ background: "rgba(255,255,255,0.03)" }}>
         {tabs.map(t => (
           <button key={t.key} onClick={() => setActiveTab(t.key)}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[11px] font-medium transition-all ${activeTab === t.key ? "text-white" : "text-white/35 hover:text-white/60"}`}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[11px] font-medium transition-all ${activeTab === t.key ? "text-foreground" : "text-white/35 hover:text-white/60"}`}
             style={activeTab === t.key ? { background: `${ACCENT}18`, color: ACCENT } : {}}>
             <GlowIcon name={t.icon} size={14} color={activeTab === t.key ? ACCENT : "rgba(255,255,255,0.35)"} />
             <span className="hidden sm:inline">{t.label}</span>
@@ -194,7 +194,7 @@ function OverviewTab() {
             {invoiceQueue.map(inv => (
               <div key={inv.ref} className="flex items-center justify-between p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono text-white/50">{inv.ref}</span>
+                  <span className="text-[10px] font-mono text-gray-500">{inv.ref}</span>
                   <span className="text-[11px] text-white/80">{inv.client}</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -290,7 +290,7 @@ function ReconciliationTab() {
           <div className="flex gap-1">
             {(["all", "matched", "unmatched"] as const).map(f => (
               <button key={f} onClick={() => setFilter(f)}
-                className={`text-[9px] px-2 py-1 rounded-md transition-all ${filter === f ? "text-white" : "text-white/30 hover:text-white/50"}`}
+                className={`text-[9px] px-2 py-1 rounded-md transition-all ${filter === f ? "text-foreground" : "text-gray-400 hover:text-gray-500"}`}
                 style={filter === f ? { background: `${ACCENT}20`, color: ACCENT } : {}}>
                 {f.charAt(0).toUpperCase() + f.slice(1)}
               </button>
@@ -302,11 +302,11 @@ function ReconciliationTab() {
           {filtered.map(txn => (
             <div key={txn.id} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.02] transition-colors">
               <div className={`w-2 h-2 rounded-full shrink-0 ${txn.matched ? "bg-[#5AADA0]" : "bg-[#D4A843] animate-pulse"}`} />
-              <span className="text-[10px] text-white/30 w-12 shrink-0 font-mono">{txn.date}</span>
+              <span className="text-[10px] text-gray-400 w-12 shrink-0 font-mono">{txn.date}</span>
               <div className="flex-1 min-w-0">
                 <p className="text-[11px] text-white/80 truncate">{txn.description}</p>
                 {txn.category ? (
-                  <p className="text-[9px] text-white/30">{txn.category} · {txn.confidence}% confidence</p>
+                  <p className="text-[9px] text-gray-400">{txn.category} · {txn.confidence}% confidence</p>
                 ) : (
                   <p className="text-[9px] text-[#D4A843]/70">Uncategorised — click to assign</p>
                 )}
@@ -325,15 +325,15 @@ function ReconciliationTab() {
           <GlowIcon name="Brain" size={14} color={KOWHAI} />
           <h3 className="text-xs font-semibold text-white/60">Smart Categorisation — Learning from Your Accountant</h3>
         </div>
-        <p className="text-[10px] text-white/30 mb-3">LEDGER learns when your accountant corrects a category. After 3 corrections, it auto-applies the new rule.</p>
+        <p className="text-[10px] text-gray-400 mb-3">LEDGER learns when your accountant corrects a category. After 3 corrections, it auto-applies the new rule.</p>
         <div className="space-y-2">
           {learningHistory.map((l, i) => (
             <div key={i} className="flex items-center gap-2 p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
               <span className="text-[10px] text-white/40 line-through">{l.original}</span>
               <GlowIcon name="ArrowRight" size={10} color="rgba(255,255,255,0.2)" />
               <span className="text-[10px] text-white/80">{l.corrected}</span>
-              <span className="ml-auto text-[9px] text-white/30">{l.count}× seen</span>
-              <span className={`text-[9px] px-1.5 py-0.5 rounded-full ${l.adopted ? "bg-[#3A7D6E]/15 text-[#5AADA0]" : "bg-white/5 text-white/30"}`}>
+              <span className="ml-auto text-[9px] text-gray-400">{l.count}× seen</span>
+              <span className={`text-[9px] px-1.5 py-0.5 rounded-full ${l.adopted ? "bg-[#3A7D6E]/15 text-[#5AADA0]" : "bg-white/5 text-gray-400"}`}>
                 {l.adopted ? "Adopted" : "Learning"}
               </span>
             </div>
@@ -390,7 +390,7 @@ function CashFlowTab() {
               <div key={inv.ref} className="flex justify-between p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
                 <div>
                   <p className="text-[11px] text-white/80">{inv.client}</p>
-                  <p className="text-[9px] text-white/30">{inv.ref} · {inv.daysOut}d outstanding</p>
+                  <p className="text-[9px] text-gray-400">{inv.ref} · {inv.daysOut}d outstanding</p>
                 </div>
                 <span className="text-[11px] font-medium text-[#5AADA0]">+{formatNZD(inv.amount)}</span>
               </div>
@@ -414,7 +414,7 @@ function CashFlowTab() {
               <div key={bill.name} className="flex justify-between p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
                 <div>
                   <p className="text-[11px] text-white/80">{bill.name}</p>
-                  <p className="text-[9px] text-white/30">Due {bill.due}</p>
+                  <p className="text-[9px] text-gray-400">Due {bill.due}</p>
                 </div>
                 <span className="text-[11px] font-medium text-[#C85A54]/80">-{formatNZD(bill.amount)}</span>
               </div>
@@ -467,7 +467,7 @@ function DocumentsTab() {
     <div className="space-y-4">
       {/* Upload Zone */}
       <Glass className="p-6">
-        <div className="border-2 border-dashed rounded-xl p-8 text-center transition-colors hover:border-white/20" style={{ borderColor: `${ACCENT}30` }}>
+        <div className="border-2 border-dashed rounded-xl p-8 text-center transition-colors hover:border-gray-300" style={{ borderColor: `${ACCENT}30` }}>
           <GlowIcon name="ScanLine" size={32} color={ACCENT} />
           <h3 className="text-sm font-semibold text-white/80 mt-3">Hubdoc — Document Scanner</h3>
           <p className="text-[11px] text-white/40 mt-1 max-w-sm mx-auto">
@@ -494,23 +494,23 @@ function DocumentsTab() {
                   <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium" style={{ background: `${ACCENT}15`, color: ACCENT }}>{doc.type}</span>
                   <span className="text-[11px] font-medium text-white/80">{doc.vendor}</span>
                 </div>
-                <span className="text-[9px] text-white/30">{doc.confidence}% confidence</span>
+                <span className="text-[9px] text-gray-400">{doc.confidence}% confidence</span>
               </div>
               <div className="grid grid-cols-4 gap-2">
                 <div>
-                  <p className="text-[9px] text-white/30">Amount</p>
+                  <p className="text-[9px] text-gray-400">Amount</p>
                   <p className="text-[11px] text-white/80">{formatNZD(doc.amount)}</p>
                 </div>
                 <div>
-                  <p className="text-[9px] text-white/30">GST</p>
+                  <p className="text-[9px] text-gray-400">GST</p>
                   <p className="text-[11px] text-white/80">{formatNZD(doc.gst)}</p>
                 </div>
                 <div>
-                  <p className="text-[9px] text-white/30">Date</p>
+                  <p className="text-[9px] text-gray-400">Date</p>
                   <p className="text-[11px] text-white/80">{doc.date}</p>
                 </div>
                 <div>
-                  <p className="text-[9px] text-white/30">Category</p>
+                  <p className="text-[9px] text-gray-400">Category</p>
                   <p className="text-[11px] text-white/80">{doc.category}</p>
                 </div>
               </div>

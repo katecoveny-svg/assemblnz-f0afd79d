@@ -147,11 +147,11 @@ export default function AdminKnowledgeBase() {
               placeholder="Search topics or content..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-white/5 border-white/10 text-white"
+              className="pl-10 bg-white/5 border-gray-200 text-foreground"
             />
           </div>
           <Select value={agentFilter} onValueChange={setAgentFilter}>
-            <SelectTrigger className="w-[160px] bg-white/5 border-white/10 text-white">
+            <SelectTrigger className="w-[160px] bg-white/5 border-gray-200 text-foreground">
               <SelectValue placeholder="All Agents" />
             </SelectTrigger>
             <SelectContent>
@@ -162,7 +162,7 @@ export default function AdminKnowledgeBase() {
             </SelectContent>
           </Select>
           <Select value={staleFilter} onValueChange={setStaleFilter}>
-            <SelectTrigger className="w-[140px] bg-white/5 border-white/10 text-white">
+            <SelectTrigger className="w-[140px] bg-white/5 border-gray-200 text-foreground">
               <SelectValue placeholder="All Status" />
             </SelectTrigger>
             <SelectContent>
@@ -174,7 +174,7 @@ export default function AdminKnowledgeBase() {
         </div>
 
         {/* Table */}
-        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+        <div className="bg-white/5 border border-gray-200 rounded-xl overflow-hidden">
           {isLoading ? (
             <div className="p-12 text-center text-white/40">Loading knowledge base...</div>
           ) : filtered.length === 0 ? (
@@ -182,7 +182,7 @@ export default function AdminKnowledgeBase() {
           ) : (
             <Table>
               <TableHeader>
-                <TableRow className="border-white/10 hover:bg-transparent">
+                <TableRow className="border-gray-200 hover:bg-transparent">
                   <TableHead className="text-white/60">Agent</TableHead>
                   <TableHead className="text-white/60">Topic</TableHead>
                   <TableHead className="text-white/60 hidden lg:table-cell">Content</TableHead>
@@ -194,7 +194,7 @@ export default function AdminKnowledgeBase() {
               </TableHeader>
               <TableBody>
                 {filtered.map((entry) => (
-                  <TableRow key={entry.id} className="border-white/10 hover:bg-white/5">
+                  <TableRow key={entry.id} className="border-gray-200 hover:bg-white/5">
                     <TableCell>
                       <Badge className="bg-[#1A3A5C]/60 text-[#D4A843] border-[#D4A843]/30 uppercase text-xs">
                         {entry.agent_id}
@@ -217,15 +217,15 @@ export default function AdminKnowledgeBase() {
                       ) : entry.is_active ? (
                         <Badge variant="outline" className="border-[#3A7D6E]/50 text-[#3A7D6E] text-xs">Active</Badge>
                       ) : (
-                        <Badge variant="outline" className="border-white/20 text-white/40 text-xs">Inactive</Badge>
+                        <Badge variant="outline" className="border-gray-300 text-white/40 text-xs">Inactive</Badge>
                       )}
                     </TableCell>
-                    <TableCell className="text-white/50 text-xs">
+                    <TableCell className="text-gray-500 text-xs">
                       {entry.last_verified ? new Date(entry.last_verified).toLocaleDateString("en-NZ") : "—"}
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-1">
-                        <Button variant="ghost" size="icon" className="h-7 w-7 text-white/40 hover:text-white" onClick={() => openEdit(entry)}>
+                        <Button variant="ghost" size="icon" className="h-7 w-7 text-white/40 hover:text-foreground" onClick={() => openEdit(entry)}>
                           <Pencil className="h-3.5 w-3.5" />
                         </Button>
                         <Button
@@ -253,16 +253,16 @@ export default function AdminKnowledgeBase() {
 
         {/* Add/Edit Dialog */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="bg-[#0F0F13] border-white/10 text-white max-w-lg">
+          <DialogContent className="bg-[#FAFBFC] border-gray-200 text-foreground max-w-lg">
             <DialogHeader>
               <DialogTitle className="text-[#D4A843]">{editEntry?.id ? "Edit" : "Add"} Knowledge Entry</DialogTitle>
             </DialogHeader>
             {editEntry && (
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs text-white/50 uppercase mb-1 block">Agent</label>
+                  <label className="text-xs text-gray-500 uppercase mb-1 block">Agent</label>
                   <Select value={editEntry.agent_id?.toUpperCase() || ""} onValueChange={(v) => setEditEntry({ ...editEntry, agent_id: v })}>
-                    <SelectTrigger className="bg-white/5 border-white/10 text-white">
+                    <SelectTrigger className="bg-white/5 border-gray-200 text-foreground">
                       <SelectValue placeholder="Select agent" />
                     </SelectTrigger>
                     <SelectContent>
@@ -273,41 +273,41 @@ export default function AdminKnowledgeBase() {
                   </Select>
                 </div>
                 <div>
-                  <label className="text-xs text-white/50 uppercase mb-1 block">Topic / Domain</label>
+                  <label className="text-xs text-gray-500 uppercase mb-1 block">Topic / Domain</label>
                   <Input
                     value={editEntry.topic || ""}
                     onChange={(e) => setEditEntry({ ...editEntry, topic: e.target.value })}
                     placeholder="e.g. Minimum Wage Rate 2026"
-                    className="bg-white/5 border-white/10 text-white"
+                    className="bg-white/5 border-gray-200 text-foreground"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-white/50 uppercase mb-1 block">Content</label>
+                  <label className="text-xs text-gray-500 uppercase mb-1 block">Content</label>
                   <Textarea
                     value={editEntry.content || ""}
                     onChange={(e) => setEditEntry({ ...editEntry, content: e.target.value })}
                     placeholder="The current minimum wage is $23.15/hour as of 1 April 2024..."
                     rows={5}
-                    className="bg-white/5 border-white/10 text-white"
+                    className="bg-white/5 border-gray-200 text-foreground"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs text-white/50 uppercase mb-1 block">Confidence (0-1)</label>
+                    <label className="text-xs text-gray-500 uppercase mb-1 block">Confidence (0-1)</label>
                     <Input
                       type="number" min={0} max={1} step={0.05}
                       value={editEntry.confidence ?? 1.0}
                       onChange={(e) => setEditEntry({ ...editEntry, confidence: parseFloat(e.target.value) })}
-                      className="bg-white/5 border-white/10 text-white"
+                      className="bg-white/5 border-gray-200 text-foreground"
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-white/50 uppercase mb-1 block">Source URL</label>
+                    <label className="text-xs text-gray-500 uppercase mb-1 block">Source URL</label>
                     <Input
                       value={editEntry.source_url || ""}
                       onChange={(e) => setEditEntry({ ...editEntry, source_url: e.target.value })}
                       placeholder="https://..."
-                      className="bg-white/5 border-white/10 text-white"
+                      className="bg-white/5 border-gray-200 text-foreground"
                     />
                   </div>
                 </div>
@@ -332,7 +332,7 @@ export default function AdminKnowledgeBase() {
                   </label>
                 </div>
                 <div className="flex justify-end gap-2 pt-2">
-                  <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="border-white/10 text-white/60">
+                  <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="border-gray-200 text-white/60">
                     Cancel
                   </Button>
                   <Button

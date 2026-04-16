@@ -133,7 +133,7 @@ export default function AuahaDashboard() {
               </div>
               <p className="text-white/40 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>assembl &gt; auaha</p>
             </div>
-            <h1 className="text-white text-3xl lg:text-4xl font-light uppercase tracking-[5px] mb-2" style={{ fontFamily: 'Lato, sans-serif' }}>
+            <h1 className="text-foreground text-3xl lg:text-4xl font-light uppercase tracking-[5px] mb-2" style={{ fontFamily: 'Lato, sans-serif' }}>
               Creative Command Centre
             </h1>
             <p className="text-white/45 text-sm max-w-lg" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
@@ -159,14 +159,14 @@ export default function AuahaDashboard() {
               <div className="relative">
                 <div className="flex items-start justify-between mb-3">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}12` }}>
-                    <m.icon className="w-4 h-4 text-white/50" />
+                    <m.icon className="w-4 h-4 text-gray-500" />
                   </div>
                   <span className={`text-xs flex items-center gap-1 px-2 py-0.5 rounded-full ${m.up ? 'text-[#5AADA0] bg-[#5AADA0]/10' : 'text-white/40 bg-white/5'}`}>
                     {m.up ? <TrendingUp className="w-3 h-3" /> : null}
                     {m.change}
                   </span>
                 </div>
-                <p className="text-white text-2xl font-light" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{m.value}</p>
+                <p className="text-foreground text-2xl font-light" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{m.value}</p>
                 <p className="text-white/35 text-xs mt-1.5 uppercase tracking-wider">{m.label}</p>
               </div>
             </GlassCard>
@@ -207,7 +207,7 @@ export default function AuahaDashboard() {
       <div>
         <div className="flex items-center gap-2 mb-4">
           <Zap className="w-4 h-4" style={{ color: ACCENT }} />
-          <h3 className="text-white/50 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Quick Launch</h3>
+          <h3 className="text-gray-500 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Quick Launch</h3>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {QUICK_LAUNCH.map((item, i) => (
@@ -220,8 +220,8 @@ export default function AuahaDashboard() {
                   </div>
                   <ArrowRight className="w-3.5 h-3.5 text-white/10 group-hover:text-white/40 group-hover:translate-x-1 transition-all" />
                 </div>
-                <p className="text-white text-sm font-medium mb-0.5">{item.label}</p>
-                <p className="text-white/30 text-xs">{item.desc}</p>
+                <p className="text-foreground text-sm font-medium mb-0.5">{item.label}</p>
+                <p className="text-gray-400 text-xs">{item.desc}</p>
               </GlassCard>
             </motion.div>
           ))}
@@ -256,10 +256,10 @@ export default function AuahaDashboard() {
         {/* API Usage */}
         <GlassCard className="lg:col-span-1 p-5">
           <div className="flex items-center gap-2 mb-3">
-            <CreditCard className="w-3.5 h-3.5 text-white/30" />
-            <h3 className="text-white/50 text-[10px] uppercase tracking-[2px] font-medium">API Spend</h3>
+            <CreditCard className="w-3.5 h-3.5 text-gray-400" />
+            <h3 className="text-gray-500 text-[10px] uppercase tracking-[2px] font-medium">API Spend</h3>
           </div>
-          <p className="text-white text-xl font-light mb-0.5" style={{ fontFamily: 'JetBrains Mono, monospace' }}>$47.20</p>
+          <p className="text-foreground text-xl font-light mb-0.5" style={{ fontFamily: 'JetBrains Mono, monospace' }}>$47.20</p>
           <p className="text-white/25 text-[10px] mb-4">this month</p>
           <ResponsiveContainer width="100%" height={80}>
             <PieChart>
@@ -275,7 +275,7 @@ export default function AuahaDashboard() {
                   <div className="w-2 h-2 rounded-full" style={{ background: u.color }} />
                   <span className="text-white/40 text-[9px]">{u.name}</span>
                 </div>
-                <span className="text-white/50 text-[9px] font-mono">{u.value}%</span>
+                <span className="text-gray-500 text-[9px] font-mono">{u.value}%</span>
               </div>
             ))}
           </div>
@@ -303,7 +303,7 @@ export default function AuahaDashboard() {
                         <span className="text-[9px] px-2 py-0.5 rounded-full font-medium"
                           style={{ background: `${ACCENT}10`, color: `${ACCENT}BB`, border: `1px solid ${ACCENT}15` }}>{item.agent_attribution}</span>
                       )}
-                      <span className="text-[9px] px-2 py-0.5 rounded-full text-white/30 bg-white/5">{item.pipeline_stage}</span>
+                      <span className="text-[9px] px-2 py-0.5 rounded-full text-gray-400 bg-white/5">{item.pipeline_stage}</span>
                     </div>
                   </div>
                 </motion.div>

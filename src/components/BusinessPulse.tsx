@@ -116,7 +116,7 @@ export default function BusinessPulse() {
       <div className="flex items-center gap-2 mb-2">
         <Activity className="w-5 h-5" style={{ color: GOLD }} />
         <h2 className="text-lg font-bold">Business Pulse</h2>
-        <span className="text-xs text-white/30 ml-auto">Live • NZST</span>
+        <span className="text-xs text-gray-400 ml-auto">Live • NZST</span>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4">
@@ -138,7 +138,7 @@ export default function BusinessPulse() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold">{sector.name}</p>
-                  <p className="text-[10px] text-white/30 uppercase tracking-wider">{sector.nameMaori}</p>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wider">{sector.nameMaori}</p>
                 </div>
               </div>
               {/* Health Score Ring */}
@@ -161,8 +161,8 @@ export default function BusinessPulse() {
             <div className="space-y-2.5">
               {sector.metrics.map((m) => (
                 <div key={m.label} className="flex items-center gap-3">
-                  <m.icon className="w-3.5 h-3.5 text-white/30 shrink-0" />
-                  <span className="text-xs text-white/50 flex-1">{m.label}</span>
+                  <m.icon className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                  <span className="text-xs text-gray-500 flex-1">{m.label}</span>
                   <span className="text-sm font-bold" style={{ color: m.color }}>{m.value}</span>
                   <span className="flex items-center gap-1 text-[10px]" style={{ color: trendColor(m.trend) }}>
                     <TrendIcon trend={m.trend} />

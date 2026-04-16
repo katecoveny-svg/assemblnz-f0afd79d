@@ -122,12 +122,12 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
     <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "#FAFBFC" }}>
       {/* Week Header */}
       <div className="flex items-center justify-between">
-        <button onClick={() => setWeekStart(addDays(weekStart, -7))} className="p-1.5 rounded-lg hover:bg-white/5 transition"><ChevronLeft size={16} className="text-white/50" /></button>
+        <button onClick={() => setWeekStart(addDays(weekStart, -7))} className="p-1.5 rounded-lg hover:bg-white/5 transition"><ChevronLeft size={16} className="text-gray-500" /></button>
         <div className="text-center">
           <h2 className="text-sm font-semibold text-white/90">{format(weekStart, "d MMM")} — {format(addDays(weekStart, 6), "d MMM yyyy")}</h2>
           {term && <p className="text-[10px] mt-0.5" style={{ color: HELM_COLOR }}>Term {term.term}</p>}
         </div>
-        <button onClick={() => setWeekStart(addDays(weekStart, 7))} className="p-1.5 rounded-lg hover:bg-white/5 transition"><ChevronRight size={16} className="text-white/50" /></button>
+        <button onClick={() => setWeekStart(addDays(weekStart, 7))} className="p-1.5 rounded-lg hover:bg-white/5 transition"><ChevronRight size={16} className="text-gray-500" /></button>
       </div>
 
       {/* Day Pills */}
@@ -140,7 +140,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
             <button key={i} onClick={() => setSelectedDay(day)} className="flex-1 rounded-lg py-2 text-center transition-all relative"
               style={{ background: selected ? HELM_COLOR + "20" : "rgba(255,255,255,0.02)", border: `1px solid ${selected ? HELM_COLOR + "40" : "rgba(255,255,255,0.04)"}` }}>
               <div className="text-[9px] font-medium" style={{ color: selected ? HELM_COLOR : "rgba(255,255,255,0.4)" }}>{DAYS[i]}</div>
-              <div className={`text-sm font-semibold ${isToday(day) ? "text-white" : "text-white/70"}`}>{format(day, "d")}</div>
+              <div className={`text-sm font-semibold ${isToday(day) ? "text-foreground" : "text-white/70"}`}>{format(day, "d")}</div>
               {hasEvents && <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full" style={{ background: HELM_COLOR }} />}
               {!school && day.getDay() !== 0 && day.getDay() !== 6 && (
                 <div className="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-full bg-amber-500/60" title="No school" />
@@ -167,7 +167,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
         </h3>
         {displayEvents.length === 0 ? (
           <div className="rounded-lg p-4 text-center" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
-            <p className="text-xs text-white/30">Nothing scheduled</p>
+            <p className="text-xs text-gray-400">Nothing scheduled</p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -178,7 +178,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
                   {evt.location && <p className="text-[11px] text-white/40 mt-0.5">{evt.location}</p>}
                   {(evt as any).child_id && <span className="text-[9px] px-1.5 py-0.5 rounded-full mt-1 inline-block" style={{ background: getChildColor((evt as any).child_id) + "20", color: getChildColor((evt as any).child_id) }}>{getChildName((evt as any).child_id)}</span>}
                 </div>
-                <div className="text-[10px] text-white/30 font-mono">{format(new Date(evt.start_at), "h:mm a")}</div>
+                <div className="text-[10px] text-gray-400 font-mono">{format(new Date(evt.start_at), "h:mm a")}</div>
               </div>
             ))}
           </div>
@@ -216,7 +216,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
                 ))}
               </div>
             ) : (
-              <p className="text-xs text-white/30 px-3 py-2">No special gear needed from timetable</p>
+              <p className="text-xs text-gray-400 px-3 py-2">No special gear needed from timetable</p>
             );
           })()}
         </div>
@@ -251,7 +251,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
               <span className="text-xs text-white/70">{task.title}</span>
             </button>
           ))}
-          {displayTasks.length === 0 && <p className="text-xs text-white/30 px-3 py-2">No tasks this week </p>}
+          {displayTasks.length === 0 && <p className="text-xs text-gray-400 px-3 py-2">No tasks this week </p>}
         </div>
       </div>
     </div>

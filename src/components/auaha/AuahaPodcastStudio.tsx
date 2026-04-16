@@ -62,15 +62,15 @@ export default function AuahaPodcastStudio() {
     <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
       <div>
         <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Podcast Studio</p>
-        <h1 className="text-white text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Podcast Studio</h1>
-        <p className="text-white/50 text-sm mt-1">Powered by VERSE — record, edit, publish with AI</p>
+        <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Podcast Studio</h1>
+        <p className="text-gray-500 text-sm mt-1">Powered by VERSE — record, edit, publish with AI</p>
       </div>
 
       {/* Tabs */}
       <div className="flex gap-2">
         {([["record", "Record", Mic], ["edit", "Edit & Enhance", AudioLines], ["publish", "Publish", Radio]] as const).map(([key, label, Icon]) => (
           <button key={key} onClick={() => setTab(key)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs transition-all ${tab === key ? "text-black font-medium" : "text-white/50 bg-white/5"}`}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs transition-all ${tab === key ? "text-black font-medium" : "text-gray-500 bg-white/5"}`}
             style={tab === key ? { background: ACCENT } : {}}>
             <Icon className="w-3.5 h-3.5" /> {label}
           </button>
@@ -84,14 +84,14 @@ export default function AuahaPodcastStudio() {
               style={{ background: isRecording ? `${ACCENT}30` : `${ACCENT}15`, border: `2px solid ${isRecording ? ACCENT : `${ACCENT}33`}` }}>
               <Mic className="w-10 h-10" style={{ color: ACCENT }} />
             </div>
-            <h3 className="text-white text-sm font-medium mb-1">{isRecording ? "Recording..." : "Record"}</h3>
+            <h3 className="text-foreground text-sm font-medium mb-1">{isRecording ? "Recording..." : "Record"}</h3>
             <p className="text-white/40 text-xs mb-4">Browser-based recording via Web Audio API</p>
             <Button onClick={() => { setIsRecording(!isRecording); toast.info(isRecording ? "Recording stopped" : "Recording started — speak now"); }}
               style={{ background: isRecording ? "#ef4444" : ACCENT, color: isRecording ? "#fff" : "#000" }} className="w-full">
               {isRecording ? "Stop Recording" : "Start Recording"}
             </Button>
-            <div className="mt-4 pt-4 border-t border-white/10">
-              <label className="flex items-center gap-2 text-white/50 text-xs cursor-pointer">
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <label className="flex items-center gap-2 text-gray-500 text-xs cursor-pointer">
                 <input type="checkbox" checked={coHostEnabled} onChange={(e) => setCoHostEnabled(e.target.checked)} className="rounded" />
                 Enable AI co-host (VERSE)
               </label>
@@ -103,22 +103,22 @@ export default function AuahaPodcastStudio() {
             <div className="w-24 h-24 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: `${ACCENT}15`, border: `2px solid ${ACCENT}33` }}>
               <Upload className="w-10 h-10" style={{ color: ACCENT }} />
             </div>
-            <h3 className="text-white text-sm font-medium mb-1">Upload Audio</h3>
+            <h3 className="text-foreground text-sm font-medium mb-1">Upload Audio</h3>
             <p className="text-white/40 text-xs mb-4">MP3, WAV, M4A — we'll enhance and process</p>
             <input ref={fileRef} type="file" accept="audio/*" className="hidden" onChange={(e) => { if (e.target.files?.[0]) { setAudioFile(e.target.files[0]); toast.success(`Uploaded: ${e.target.files[0].name}`); }}} />
-            <Button variant="outline" className="w-full border-white/10 text-white/60" onClick={() => fileRef.current?.click()}>
+            <Button variant="outline" className="w-full border-gray-200 text-white/60" onClick={() => fileRef.current?.click()}>
               {audioFile ? audioFile.name : "Choose File"}
             </Button>
           </GlassCard>
 
           <GlassCard className="p-6">
-            <h3 className="text-white text-sm font-medium mb-3">AI Enhancement</h3>
+            <h3 className="text-foreground text-sm font-medium mb-3">AI Enhancement</h3>
             <div className="space-y-3">
               {AI_FEATURES.map((f) => (
                 <div key={f.label} className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-all">
                   <div>
                     <p className="text-white/70 text-xs">{f.label}</p>
-                    <p className="text-white/30 text-[10px]">{f.desc}</p>
+                    <p className="text-gray-400 text-[10px]">{f.desc}</p>
                   </div>
                   {f.active ? <Sparkles className="w-3 h-3" style={{ color: ACCENT }} /> : <span className="text-[8px] text-white/20">Soon</span>}
                 </div>
@@ -140,14 +140,14 @@ export default function AuahaPodcastStudio() {
               </div>
             </div>
             <div className="flex items-center justify-between mt-3">
-              <Button size="sm" variant="outline" className="border-white/10 text-white/60"><Play className="w-3 h-3 mr-1" /> Play</Button>
-              <span className="text-white/30 text-xs font-mono">00:00 / 24:30</span>
+              <Button size="sm" variant="outline" className="border-gray-200 text-white/60"><Play className="w-3 h-3 mr-1" /> Play</Button>
+              <span className="text-gray-400 text-xs font-mono">00:00 / 24:30</span>
             </div>
           </GlassCard>
 
           <div className="grid lg:grid-cols-2 gap-4">
             <GlassCard className="p-6">
-              <h3 className="text-white text-sm mb-3">AI Show Notes</h3>
+              <h3 className="text-foreground text-sm mb-3">AI Show Notes</h3>
               <Button onClick={generateShowNotes} disabled={isGenerating} className="mb-3" style={{ background: ACCENT, color: "#000" }}>
                 {isGenerating ? "VERSE is writing..." : "Generate Show Notes"}
                 <Sparkles className="w-4 h-4 ml-2" />
@@ -158,7 +158,7 @@ export default function AuahaPodcastStudio() {
             </GlassCard>
 
             <GlassCard className="p-6">
-              <h3 className="text-white text-sm mb-3">Social Promotion</h3>
+              <h3 className="text-foreground text-sm mb-3">Social Promotion</h3>
               <p className="text-white/40 text-xs mb-4">Auto-generate promotional content for this episode</p>
               <div className="space-y-2">
                 {["Audiogram (60s video clip)", "Pull quote cards → Image Studio", "LinkedIn carousel summary", "Newsletter snippet"].map((item) => (
@@ -186,10 +186,10 @@ export default function AuahaPodcastStudio() {
                       <Play className="w-4 h-4" style={{ color: ACCENT }} />
                     </div>
                     <div>
-                      <p className="text-white text-sm">{ep.title}</p>
+                      <p className="text-foreground text-sm">{ep.title}</p>
                       <div className="flex items-center gap-3 mt-0.5">
-                        <span className="text-white/30 text-[10px] flex items-center gap-1"><Clock className="w-2.5 h-2.5" /> {ep.duration}</span>
-                        <span className="text-white/30 text-[10px]">{ep.date}</span>
+                        <span className="text-gray-400 text-[10px] flex items-center gap-1"><Clock className="w-2.5 h-2.5" /> {ep.duration}</span>
+                        <span className="text-gray-400 text-[10px]">{ep.date}</span>
                       </div>
                     </div>
                   </div>

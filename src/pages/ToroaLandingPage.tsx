@@ -93,7 +93,7 @@ function TryToroSmsDemo() {
             <input
               type="tel" placeholder="021 123 4567" value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="flex-1 rounded-full px-4 py-3 text-sm bg-white/5 border text-white placeholder:text-white/30 focus:outline-none"
+              className="flex-1 rounded-full px-4 py-3 text-sm bg-white/5 border text-foreground placeholder:text-gray-400 focus:outline-none"
               style={{ borderColor: `${POUNAMU}40` }}
               maxLength={15}
             />

@@ -46,7 +46,7 @@ export default function RouteIntelligence() {
         <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-light mb-3" style={{ fontFamily: "'Lato', sans-serif" }}>
           <MapPin className="inline mr-3 text-blue-400" size={28} />Route Intelligence
         </motion.h1>
-        <p className="text-white/50 mb-10 max-w-xl">Live NZ weather, roadworks, and closures integrated into trip planning.</p>
+        <p className="text-gray-500 mb-10 max-w-xl">Live NZ weather, roadworks, and closures integrated into trip planning.</p>
 
         <div className="space-y-8">
           {ROUTES.map((route, ri) => (
@@ -75,7 +75,7 @@ export default function RouteIntelligence() {
                   <AlertTriangle size={14} className="text-amber-400 mt-0.5 shrink-0" />
                   <div>
                     <span className="text-xs font-semibold text-amber-300">{a.location}</span>
-                    <p className="text-xs text-white/50">{a.detail}</p>
+                    <p className="text-xs text-gray-500">{a.detail}</p>
                   </div>
                 </div>
               ))}

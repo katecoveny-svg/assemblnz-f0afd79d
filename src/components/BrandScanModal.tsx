@@ -105,7 +105,7 @@ const BrandCard = ({ dna, onClose }: { dna: BrandDna; onClose: () => void }) => 
           <div className="flex gap-2">
             {colourKeys.map(({ key, label }) => (
               <label key={key} className="flex flex-col items-center gap-0.5 cursor-pointer group">
-                <div className="relative w-8 h-8 rounded-lg border border-white/10 overflow-hidden group-hover:ring-1 group-hover:ring-white/20 transition-all">
+                <div className="relative w-8 h-8 rounded-lg border border-gray-200 overflow-hidden group-hover:ring-1 group-hover:ring-white/20 transition-all">
                   <div className="absolute inset-0" style={{ background: vi[key] }} />
                   <input
                     type="color"

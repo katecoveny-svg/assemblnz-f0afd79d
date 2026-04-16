@@ -124,14 +124,14 @@ export default function AgentApp() {
     <div className="h-screen flex flex-col" style={{ background: "#FAFBFC", color: "white" }}>
       <PWAInstallBanner agentName={agent.name} agentColor={color} />
       {/* Top Bar */}
-      <header className="flex items-center gap-3 px-4 py-3 border-b border-white/5 shrink-0">
+      <header className="flex items-center gap-3 px-4 py-3 border-b border-gray-100 shrink-0">
         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg hover:bg-white/5 transition lg:hidden">
           <Menu size={18} className="text-white/60" />
         </button>
         <AgentAvatar agentId={agent.id} color={color} size={32} showGlow={false} eager />
         <div className="flex-1 min-w-0">
           <h1 className="text-sm font-bold font-display" style={{ color }}>{agent.name}</h1>
-          <p className="text-[9px] text-white/30 font-mono truncate">{agent.designation} · {agent.role}</p>
+          <p className="text-[9px] text-gray-400 font-mono truncate">{agent.designation} · {agent.role}</p>
         </div>
         {user ? (
           <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold"
@@ -148,7 +148,7 @@ export default function AgentApp() {
         {/* Sidebar (desktop) */}
         <aside className={`${sidebarOpen ? "fixed inset-0 z-50 flex lg:relative" : "hidden lg:flex"}`}>
           {sidebarOpen && <div className="absolute inset-0 bg-black/60 lg:hidden" onClick={() => setSidebarOpen(false)} />}
-          <div className="relative w-56 border-r border-white/5 flex flex-col py-2 overflow-y-auto shrink-0" style={{ background: "#F5F5F7" }}>
+          <div className="relative w-56 border-r border-gray-100 flex flex-col py-2 overflow-y-auto shrink-0" style={{ background: "#F5F5F7" }}>
             {sidebarOpen && (
               <button onClick={() => setSidebarOpen(false)} className="absolute top-2 right-2 p-1 rounded hover:bg-white/5 lg:hidden">
                 <X size={14} className="text-assembl-text/40" />
@@ -205,7 +205,7 @@ export default function AgentApp() {
         {/* Main Content */}
         <main className="flex-1 flex flex-col min-w-0">
           {/* Mobile Tab Bar */}
-          <div className="flex lg:hidden overflow-x-auto border-b border-white/5 px-2 gap-1 shrink-0">
+          <div className="flex lg:hidden overflow-x-auto border-b border-gray-100 px-2 gap-1 shrink-0">
             {tabs.map(tab => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
                 className="flex items-center gap-1.5 px-3 py-2.5 text-[10px] font-medium whitespace-nowrap transition shrink-0"
@@ -228,7 +228,7 @@ export default function AgentApp() {
                       {agent.name}
                     </h2>
                     <p className="text-xs text-white/40 text-center max-w-sm mb-2">{agent.role}</p>
-                    <p className="text-[11px] text-white/30 text-center max-w-md mb-6">{agent.tagline}</p>
+                    <p className="text-[11px] text-gray-400 text-center max-w-md mb-6">{agent.tagline}</p>
 
                     {/* Starter prompts */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-lg">
@@ -302,7 +302,7 @@ export default function AgentApp() {
               </div>
 
               {/* Input */}
-              <div className="shrink-0 px-4 pb-4 pt-2 border-t border-white/5">
+              <div className="shrink-0 px-4 pb-4 pt-2 border-t border-gray-100">
                 <div className="flex items-end gap-2 rounded-2xl px-4 py-2"
                   style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
                   <textarea

@@ -440,7 +440,7 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
                     {generatedFrames[s.id].urls.map((url, fi) => (
                       <div key={fi} className="relative group rounded-lg overflow-hidden" style={{ border: `1px solid ${ACCENT}20` }}>
                         <img src={url} alt={`Scene ${fi + 1}`} className="w-full h-auto rounded-lg" />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-white/40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
                           <button
                             onClick={() => downloadFrame(url, fi)}
                             className="p-2 rounded-lg transition-colors"

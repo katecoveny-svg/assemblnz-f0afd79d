@@ -45,12 +45,12 @@ const KindleMarketplace = ({ onSendToChat }: Props) => {
         <div className="relative flex-1 min-w-[180px] max-w-sm">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
           <input type="text" placeholder="Search causes..." value={search} onChange={e => setSearch(e.target.value)}
-            className="w-full pl-8 pr-3 py-2 rounded-lg text-xs bg-background/50 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-pounamu" />
+            className="w-full pl-8 pr-3 py-2 rounded-lg text-xs bg-background/50 border border-gray-200 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-pounamu" />
         </div>
-        <select value={causeFilter} onChange={e => setCauseFilter(e.target.value)} className="px-2.5 py-2 rounded-lg text-xs bg-background/50 border border-white/10 text-foreground">
+        <select value={causeFilter} onChange={e => setCauseFilter(e.target.value)} className="px-2.5 py-2 rounded-lg text-xs bg-background/50 border border-gray-200 text-foreground">
           {causeTypes.map(c => <option key={c}>{c}</option>)}
         </select>
-        <select value={locationFilter} onChange={e => setLocationFilter(e.target.value)} className="px-2.5 py-2 rounded-lg text-xs bg-background/50 border border-white/10 text-foreground">
+        <select value={locationFilter} onChange={e => setLocationFilter(e.target.value)} className="px-2.5 py-2 rounded-lg text-xs bg-background/50 border border-gray-200 text-foreground">
           {locationOptions.map(l => <option key={l}>{l}</option>)}
         </select>
       </div>

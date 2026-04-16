@@ -133,7 +133,7 @@ export default function AuahaCampaignBuilder() {
     <div className="p-6 lg:p-8 max-w-[1200px] mx-auto space-y-6">
       <div>
         <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Campaign Builder</p>
-        <h1 className="text-white text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>New Campaign</h1>
+        <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>New Campaign</h1>
       </div>
 
       {/* Stepper */}
@@ -143,7 +143,7 @@ export default function AuahaCampaignBuilder() {
             <button
               onClick={() => i <= step && setStep(i)}
               className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs transition-all ${
-                i === step ? "text-black font-medium" : i < step ? "text-white/70 bg-white/10" : "text-white/30 bg-white/5"
+                i === step ? "text-black font-medium" : i < step ? "text-white/70 bg-white/10" : "text-gray-400 bg-white/5"
               }`}
               style={i === step ? { background: ACCENT } : {}}
             >
@@ -165,26 +165,26 @@ export default function AuahaCampaignBuilder() {
 
           <div className="space-y-4">
             <div>
-              <label className="text-white/50 text-xs block mb-1.5">Campaign Name</label>
+              <label className="text-gray-500 text-xs block mb-1.5">Campaign Name</label>
               <input
                 value={brief.name}
                 onChange={(e) => setBrief({ ...brief, name: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#F0D07866]"
+                className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:border-[#F0D07866]"
                 placeholder="e.g. Q2 Product Launch"
               />
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="text-white/50 text-xs block mb-1.5">Objective</label>
-                <select value={brief.objective} onChange={(e) => setBrief({ ...brief, objective: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none">
+                <label className="text-gray-500 text-xs block mb-1.5">Objective</label>
+                <select value={brief.objective} onChange={(e) => setBrief({ ...brief, objective: e.target.value })} className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none">
                   <option value="">Select objective</option>
                   {OBJECTIVES.map((o) => <option key={o} value={o}>{o}</option>)}
                 </select>
               </div>
               <div>
-                <label className="text-white/50 text-xs block mb-1.5">Tone</label>
-                <select value={brief.tone} onChange={(e) => setBrief({ ...brief, tone: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none">
+                <label className="text-gray-500 text-xs block mb-1.5">Tone</label>
+                <select value={brief.tone} onChange={(e) => setBrief({ ...brief, tone: e.target.value })} className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none">
                   <option value="">Select tone</option>
                   {TONES.map((t) => <option key={t} value={t}>{t}</option>)}
                 </select>
@@ -192,27 +192,27 @@ export default function AuahaCampaignBuilder() {
             </div>
 
             <div>
-              <label className="text-white/50 text-xs block mb-1.5">Target Audience</label>
+              <label className="text-gray-500 text-xs block mb-1.5">Target Audience</label>
               <textarea
                 value={brief.audience}
                 onChange={(e) => setBrief({ ...brief, audience: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none min-h-[60px]"
+                className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none min-h-[60px]"
                 placeholder="Describe your target audience..."
               />
             </div>
 
             <div>
-              <label className="text-white/50 text-xs block mb-1.5">Key Message</label>
+              <label className="text-gray-500 text-xs block mb-1.5">Key Message</label>
               <textarea
                 value={brief.message}
                 onChange={(e) => setBrief({ ...brief, message: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none min-h-[80px]"
+                className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none min-h-[80px]"
                 placeholder="What's the core message?"
               />
             </div>
 
             <div>
-              <label className="text-white/50 text-xs block mb-1.5">Platforms</label>
+              <label className="text-gray-500 text-xs block mb-1.5">Platforms</label>
               <div className="flex flex-wrap gap-2">
                 {PLATFORMS.map((p) => (
                   <button
@@ -222,7 +222,7 @@ export default function AuahaCampaignBuilder() {
                       platforms: brief.platforms.includes(p) ? brief.platforms.filter((x) => x !== p) : [...brief.platforms, p]
                     })}
                     className={`px-3 py-1.5 rounded-full text-xs transition-all ${
-                      brief.platforms.includes(p) ? "text-black font-medium" : "text-white/50 bg-white/5 border border-white/10"
+                      brief.platforms.includes(p) ? "text-black font-medium" : "text-gray-500 bg-white/5 border border-gray-200"
                     }`}
                     style={brief.platforms.includes(p) ? { background: ACCENT } : {}}
                   >
@@ -233,12 +233,12 @@ export default function AuahaCampaignBuilder() {
             </div>
 
             <div>
-              <label className="text-white/50 text-xs block mb-1.5">Budget (optional, NZD)</label>
+              <label className="text-gray-500 text-xs block mb-1.5">Budget (optional, NZD)</label>
               <input
                 type="number"
                 value={brief.budget}
                 onChange={(e) => setBrief({ ...brief, budget: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:outline-none max-w-[200px]"
+                className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none max-w-[200px]"
                 placeholder="$0"
               />
             </div>
@@ -266,9 +266,9 @@ export default function AuahaCampaignBuilder() {
           {brief.platforms.map((p) => (
             <GlassCard key={p} className="p-5">
               <div className="flex items-center justify-between mb-3">
-                <h4 className="text-white text-sm font-medium">{p}</h4>
+                <h4 className="text-foreground text-sm font-medium">{p}</h4>
                 <div className="flex gap-2">
-                  <button onClick={() => { navigator.clipboard.writeText(generatedCopy[p] || ""); toast.success("Copied"); }} className="text-white/30 hover:text-white/60 transition-colors">
+                  <button onClick={() => { navigator.clipboard.writeText(generatedCopy[p] || ""); toast.success("Copied"); }} className="text-gray-400 hover:text-white/60 transition-colors">
                     <Copy className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -276,20 +276,20 @@ export default function AuahaCampaignBuilder() {
               <textarea
                 value={generatedCopy[p] || ""}
                 onChange={(e) => setGeneratedCopy({ ...generatedCopy, [p]: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white/80 text-sm focus:outline-none min-h-[120px]"
+                className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-3 text-white/80 text-sm focus:outline-none min-h-[120px]"
               />
               <div className="flex gap-2 mt-3">
-                <button className="text-xs px-3 py-1.5 rounded-full bg-white/5 text-white/50 hover:text-white/80 transition-colors flex items-center gap-1">
+                <button className="text-xs px-3 py-1.5 rounded-full bg-white/5 text-gray-500 hover:text-white/80 transition-colors flex items-center gap-1">
                   <Image className="w-3 h-3" /> Create image
                 </button>
-                <button className="text-xs px-3 py-1.5 rounded-full bg-white/5 text-white/50 hover:text-white/80 transition-colors flex items-center gap-1">
+                <button className="text-xs px-3 py-1.5 rounded-full bg-white/5 text-gray-500 hover:text-white/80 transition-colors flex items-center gap-1">
                   <Video className="w-3 h-3" /> Make video
                 </button>
               </div>
             </GlassCard>
           ))}
           <div className="flex gap-3">
-            <Button variant="outline" onClick={() => setStep(0)} className="border-white/10 text-white/60">
+            <Button variant="outline" onClick={() => setStep(0)} className="border-gray-200 text-white/60">
               <ArrowLeft className="w-4 h-4 mr-2" /> Back
             </Button>
             <Button onClick={() => { advancePipeline(2); toast.success("Moving to design phase"); }} style={{ background: ACCENT, color: "#000" }}>
@@ -308,7 +308,7 @@ export default function AuahaCampaignBuilder() {
             {step === 4 && <Calendar className="w-6 h-6" style={{ color: ACCENT }} />}
             {step === 5 && <Check className="w-6 h-6" style={{ color: ACCENT }} />}
           </div>
-          <h3 className="text-white text-lg font-light uppercase tracking-[3px]">{STEPS[step]}</h3>
+          <h3 className="text-foreground text-lg font-light uppercase tracking-[3px]">{STEPS[step]}</h3>
           <p className="text-white/40 text-sm mt-2">
             {step === 2 && "PIXEL and CHROMATIC will generate visuals for each post. Use the Image Studio for full control."}
             {step === 3 && "ECHO and FLUX will create video content. Use the Video Studio for full production."}
@@ -319,7 +319,7 @@ export default function AuahaCampaignBuilder() {
             <p className="text-white/20 text-[10px] mt-2 font-mono">Campaign ID: {campaignId.slice(0, 8)}… • Pipeline: {STEPS[step].toLowerCase()}</p>
           )}
           <div className="flex gap-3 justify-center mt-6">
-            <Button variant="outline" onClick={() => advancePipeline(step - 1)} className="border-white/10 text-white/60">
+            <Button variant="outline" onClick={() => advancePipeline(step - 1)} className="border-gray-200 text-white/60">
               <ArrowLeft className="w-4 h-4 mr-2" /> Back
             </Button>
             {step < 5 && (

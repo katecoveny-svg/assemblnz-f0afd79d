@@ -91,7 +91,7 @@ export default function PhotoDocsPage() {
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-bold text-white flex items-center gap-2"><Camera size={22} style={{ color: KOWHAI }} /> Photo Documentation</h1>
+          <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><Camera size={22} style={{ color: KOWHAI }} /> Photo Documentation</h1>
           <p className="text-xs text-white/40">AI-Powered Hazard Detection — Whakaahua</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
@@ -100,14 +100,14 @@ export default function PhotoDocsPage() {
               type="checkbox"
               checked={workerConsent}
               onChange={(e) => setWorkerConsent(e.target.checked)}
-              className="h-3.5 w-3.5 rounded border-white/20"
+              className="h-3.5 w-3.5 rounded border-gray-300"
             />
             Crew photo consent on file
           </label>
           <AaaipGuardBadge domain="waihanga" accentColor={POUNAMU} subtitle="Worker consent required" />
           <div className="flex gap-1">
-            <button onClick={() => setView("grid")} className={`p-2 rounded-lg ${view === "grid" ? "bg-white/10 text-white" : "text-white/30"}`}><Grid size={16} /></button>
-            <button onClick={() => setView("timeline")} className={`p-2 rounded-lg ${view === "timeline" ? "bg-white/10 text-white" : "text-white/30"}`}><List size={16} /></button>
+            <button onClick={() => setView("grid")} className={`p-2 rounded-lg ${view === "grid" ? "bg-white/10 text-foreground" : "text-gray-400"}`}><Grid size={16} /></button>
+            <button onClick={() => setView("timeline")} className={`p-2 rounded-lg ${view === "timeline" ? "bg-white/10 text-foreground" : "text-gray-400"}`}><List size={16} /></button>
           </div>
         </div>
       </motion.div>
@@ -115,7 +115,7 @@ export default function PhotoDocsPage() {
       {/* Upload area */}
       <Glass className="p-8">
         <div onDrop={handleDrop} onDragOver={e => e.preventDefault()}
-          className="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all hover:border-white/20"
+          className="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all hover:border-gray-300"
           style={{ borderColor: "rgba(255,255,255,0.1)" }}>
           {uploading ? (
             <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }}>
@@ -124,7 +124,7 @@ export default function PhotoDocsPage() {
           ) : (
             <Upload size={40} className="text-white/20 mx-auto mb-3" />
           )}
-          <p className="text-sm text-white/50">{uploading ? "AI analyzing photo..." : "Drag & drop photos here or click to upload"}</p>
+          <p className="text-sm text-gray-500">{uploading ? "AI analyzing photo..." : "Drag & drop photos here or click to upload"}</p>
           <p className="text-[11px] text-white/25 mt-1">ĀRAI will automatically scan for hazards</p>
         </div>
       </Glass>
@@ -139,7 +139,7 @@ export default function PhotoDocsPage() {
               </div>
               <div className="p-4">
                 <div className="text-xs text-white/70 font-medium truncate">{photo.name}</div>
-                <div className="flex items-center gap-3 mt-2 text-[10px] text-white/30">
+                <div className="flex items-center gap-3 mt-2 text-[10px] text-gray-400">
                   <span className="flex items-center gap-1"><Clock size={10} />{photo.timestamp}</span>
                   <span className="flex items-center gap-1"><MapPin size={10} />{photo.location}</span>
                 </div>
@@ -171,9 +171,9 @@ export default function PhotoDocsPage() {
             <motion.div className="fixed inset-0 z-50 bg-black/60" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedPhoto(null)} />
             <motion.div className="fixed inset-4 sm:inset-10 z-50 flex items-center justify-center" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}>
               <Glass className="w-full max-w-lg p-6 relative">
-                <button onClick={() => setSelectedPhoto(null)} className="absolute top-4 right-4 text-white/30"><X size={18} /></button>
-                <h3 className="text-sm font-semibold text-white mb-2">{selectedPhoto.name}</h3>
-                <div className="flex items-center gap-3 text-[11px] text-white/30 mb-4">
+                <button onClick={() => setSelectedPhoto(null)} className="absolute top-4 right-4 text-gray-400"><X size={18} /></button>
+                <h3 className="text-sm font-semibold text-foreground mb-2">{selectedPhoto.name}</h3>
+                <div className="flex items-center gap-3 text-[11px] text-gray-400 mb-4">
                   <span className="flex items-center gap-1"><Clock size={10} />{selectedPhoto.timestamp}</span>
                   <span className="flex items-center gap-1"><MapPin size={10} />{selectedPhoto.location}</span>
                 </div>

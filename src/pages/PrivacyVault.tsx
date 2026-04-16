@@ -109,7 +109,7 @@ export default function PrivacyVault() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[#0A0A0A] text-foreground">
       <SEO title="Privacy & Governance | Assembl" description="Manage your data, AI transparency, and NZ Privacy Act 2020 compliance." />
       <div className="max-w-4xl mx-auto px-4 py-12 sm:py-16 space-y-8">
         {/* Header */}
@@ -120,7 +120,7 @@ export default function PrivacyVault() {
             </div>
             <div>
               <h1 className="text-2xl font-bold">Privacy & Governance</h1>
-              <p className="text-sm text-white/50">NZ Privacy Act 2020 · Your data, your control</p>
+              <p className="text-sm text-gray-500">NZ Privacy Act 2020 · Your data, your control</p>
             </div>
           </div>
         </motion.div>
@@ -132,7 +132,7 @@ export default function PrivacyVault() {
             <Lock className="w-5 h-5 text-[#00A86B] mt-0.5 shrink-0" />
             <div className="space-y-1">
               <p className="text-sm font-medium text-[#00A86B]">NZ Privacy Act 2020 Compliance</p>
-              <p className="text-xs text-white/50">
+              <p className="text-xs text-gray-500">
                 Under Information Privacy Principles (IPPs), you have the right to access all personal information
                 we hold about you and request its correction or deletion. All data is processed within
                 NZ-aligned infrastructure.
@@ -168,7 +168,7 @@ export default function PrivacyVault() {
                   <p className="text-lg font-bold" style={{ color: GOLD }}>
                     {cat.count !== null ? cat.count : "—"}
                   </p>
-                  <p className="text-[10px] text-white/30 uppercase">records</p>
+                  <p className="text-[10px] text-gray-400 uppercase">records</p>
                 </div>
               </motion.div>
             ))}
@@ -224,7 +224,7 @@ export default function PrivacyVault() {
               <AlertTriangle className="w-5 h-5 text-red-400 mt-0.5 shrink-0" />
               <div>
                 <p className="font-semibold text-red-400">Confirm Deletion</p>
-                <p className="text-xs text-white/50 mt-1">
+                <p className="text-xs text-gray-500 mt-1">
                   This will permanently delete all AI memory and learned context. This action cannot be undone.
                   Your chat history and account will remain intact.
                 </p>
@@ -232,11 +232,11 @@ export default function PrivacyVault() {
             </div>
             <div className="flex gap-3">
               <button onClick={handleDeleteAIData} disabled={!!deleting}
-                className="px-6 py-2.5 rounded-xl bg-red-500 text-white text-sm font-semibold hover:bg-red-600 disabled:opacity-50 transition-all">
+                className="px-6 py-2.5 rounded-xl bg-red-500 text-foreground text-sm font-semibold hover:bg-red-600 disabled:opacity-50 transition-all">
                 {deleting ? "Deleting…" : "Yes, Delete Everything"}
               </button>
               <button onClick={() => setDeleteConfirm(false)}
-                className="px-6 py-2.5 rounded-xl text-sm text-white/50 hover:text-white transition-colors" style={GLASS}>
+                className="px-6 py-2.5 rounded-xl text-sm text-gray-500 hover:text-foreground transition-colors" style={GLASS}>
                 Cancel
               </button>
             </div>
@@ -250,7 +250,7 @@ export default function PrivacyVault() {
             <Key className="w-4 h-4 text-[#D4A843]" />
             Your Rights Under NZ Privacy Act 2020
           </h3>
-          <div className="grid sm:grid-cols-2 gap-3 text-xs text-white/50">
+          <div className="grid sm:grid-cols-2 gap-3 text-xs text-gray-500">
             <div className="flex items-start gap-2">
               <CheckCircle2 className="w-3.5 h-3.5 text-[#00A86B] mt-0.5 shrink-0" />
               <span><strong className="text-white/70">IPP 6:</strong> Right to access your personal information</span>

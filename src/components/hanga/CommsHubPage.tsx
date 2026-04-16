@@ -47,7 +47,7 @@ export default function CommsHubPage() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-6xl mx-auto">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-xl font-bold text-white flex items-center gap-2"><MessageSquare size={22} style={{ color: KOWHAI }} /> Communication Hub — Kōrero</h1>
+        <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><MessageSquare size={22} style={{ color: KOWHAI }} /> Communication Hub — Kōrero</h1>
         <p className="text-xs text-white/40">SMS & WhatsApp messaging for site teams</p>
       </motion.div>
 
@@ -57,7 +57,7 @@ export default function CommsHubPage() {
           <div className="flex gap-2">
             {(["sms", "whatsapp"] as const).map(c => (
               <button key={c} onClick={() => setChannel(c)}
-                className={`flex-1 px-4 py-2.5 rounded-xl text-xs font-medium transition-all ${channel === c ? "text-white" : "text-white/40"}`}
+                className={`flex-1 px-4 py-2.5 rounded-xl text-xs font-medium transition-all ${channel === c ? "text-foreground" : "text-white/40"}`}
                 style={channel === c ? { background: c === "sms" ? "rgba(26,58,92,0.3)" : "rgba(58,125,110,0.2)", border: `1px solid ${c === "sms" ? "rgba(26,58,92,0.4)" : "rgba(58,125,110,0.3)"}` } : {}}>
                 {c === "sms" ? "📱 SMS" : "💬 WhatsApp"}
               </button>
@@ -67,9 +67,9 @@ export default function CommsHubPage() {
           <div>
             <label className="text-[11px] text-white/40 mb-1 block">Recipient Phone (+64)</label>
             <div className="flex gap-2">
-              <span className="px-3 py-2.5 rounded-xl text-sm text-white/50 bg-white/[0.04] border border-white/[0.06]">+64</span>
+              <span className="px-3 py-2.5 rounded-xl text-sm text-gray-500 bg-white/[0.04] border border-white/[0.06]">+64</span>
               <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="21 123 4567"
-                className="flex-1 px-4 py-2.5 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
+                className="flex-1 px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
             </div>
           </div>
 
@@ -78,7 +78,7 @@ export default function CommsHubPage() {
             <div className="flex flex-wrap gap-2">
               {TEMPLATES.map(t => (
                 <button key={t.id} onClick={() => selectTemplate(t.id)}
-                  className={`px-3 py-1.5 rounded-lg text-[11px] transition-all ${selectedTemplate === t.id ? "text-white bg-white/10" : "text-white/40 bg-white/[0.03] hover:bg-white/[0.06]"}`}>
+                  className={`px-3 py-1.5 rounded-lg text-[11px] transition-all ${selectedTemplate === t.id ? "text-foreground bg-white/10" : "text-white/40 bg-white/[0.03] hover:bg-white/[0.06]"}`}>
                   {t.label}
                 </button>
               ))}
@@ -88,7 +88,7 @@ export default function CommsHubPage() {
           <div>
             <label className="text-[11px] text-white/40 mb-1 block">Message</label>
             <textarea value={message} onChange={e => setMessage(e.target.value)} rows={4} placeholder="Type your message..."
-              className="w-full px-4 py-3 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:outline-none resize-none" />
+              className="w-full px-4 py-3 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none resize-none" />
           </div>
 
           <motion.button onClick={send} whileHover={{ scale: 1.02 }} className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-medium"
@@ -107,8 +107,8 @@ export default function CommsHubPage() {
                   <Phone size={14} style={{ color: POUNAMU }} />
                 </div>
                 <div>
-                  <div className="text-xs text-white font-medium">{phone || "+64 21 ..."}</div>
-                  <div className="text-[10px] text-white/30">{channel === "sms" ? "SMS" : "WhatsApp"}</div>
+                  <div className="text-xs text-foreground font-medium">{phone || "+64 21 ..."}</div>
+                  <div className="text-[10px] text-gray-400">{channel === "sms" ? "SMS" : "WhatsApp"}</div>
                 </div>
               </div>
 
@@ -117,7 +117,7 @@ export default function CommsHubPage() {
                 {messages.map(m => (
                   <div key={m.id} className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}>
                     <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-[11px] leading-relaxed ${
-                      m.sender === "user" ? "text-white" : "text-white/70"
+                      m.sender === "user" ? "text-foreground" : "text-white/70"
                     }`} style={{
                       background: m.sender === "user" ? `linear-gradient(135deg, ${POUNAMU}, ${POUNAMU}CC)` : "rgba(255,255,255,0.05)",
                       borderRadius: m.sender === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",

@@ -65,7 +65,7 @@ export default function AuahaLoomStudio() {
           <MonitorPlay className="w-5 h-5" style={{ color: ACCENT }} />
         </div>
         <div>
-          <h1 className="text-white text-xl font-light uppercase tracking-[4px]" style={{ fontFamily: "Lato, sans-serif" }}>
+          <h1 className="text-foreground text-xl font-light uppercase tracking-[4px]" style={{ fontFamily: "Lato, sans-serif" }}>
             Loom Studio
           </h1>
           <p className="text-white/40 text-xs" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
@@ -138,7 +138,7 @@ export default function AuahaLoomStudio() {
                     </button>
                     <button onClick={() => removeLoom(loom.id)}
                       className="p-2 rounded-lg hover:bg-white/5 transition-colors" title="Remove">
-                      <Trash2 className="w-4 h-4 text-white/30 hover:text-[#C85A54]" />
+                      <Trash2 className="w-4 h-4 text-gray-400 hover:text-[#C85A54]" />
                     </button>
                   </div>
                 </div>
@@ -158,7 +158,7 @@ export default function AuahaLoomStudio() {
       <DashboardGlassCard className="p-5">
         <div className="flex items-center gap-2 mb-3">
           <Play className="w-3.5 h-3.5" style={{ color: ACCENT }} />
-          <h4 className="text-white/50 text-[10px] uppercase tracking-[2px]">Tips</h4>
+          <h4 className="text-gray-500 text-[10px] uppercase tracking-[2px]">Tips</h4>
         </div>
         <div className="grid sm:grid-cols-3 gap-4 text-xs text-white/35" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
           <div>Record product walkthroughs for client onboarding and embed them directly in proposals.</div>

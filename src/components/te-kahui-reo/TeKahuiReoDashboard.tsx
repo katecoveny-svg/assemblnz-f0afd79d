@@ -42,7 +42,7 @@ export default function TeKahuiReoDashboard() {
     >
       {/* Wānanga reference */}
       <DashboardGlassCard accentColor={ACCENT} glow className="p-3">
-        <p className="text-xs text-white/50 italic">
+        <p className="text-xs text-gray-500 italic">
           "Ngā Kete o te Wānanga — all three baskets of knowledge woven together. This is BI built from tikanga up."
         </p>
       </DashboardGlassCard>

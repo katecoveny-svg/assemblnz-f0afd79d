@@ -135,9 +135,9 @@ export default function HelmSettings() {
             <p className="text-xs text-white/40 mt-1">TORO needs to know about your family to help manage your schedule</p>
           </div>
           <input value={familyName} onChange={e => setFamilyName(e.target.value)} placeholder="Family name (e.g. The Smiths)"
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white/80 placeholder:text-white/25 focus:outline-none focus:border-white/20" />
+            className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-white/80 placeholder:text-white/25 focus:outline-none focus:border-gray-300" />
           <select value={region} onChange={e => setRegion(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white/80"
+            className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-white/80"
             style={{ colorScheme: "dark" }}>
             {NZ_REGIONS.map(r => <option key={r} value={r} style={{ background: "#FAFBFC" }}>{r}</option>)}
           </select>
@@ -163,7 +163,7 @@ export default function HelmSettings() {
         <div className="rounded-lg p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
           <h3 className="text-xs font-semibold text-white/60 mb-2">Family</h3>
           <p className="text-sm text-white/80">{family.name}</p>
-          {family.nz_region && <p className="text-[10px] text-white/30 mt-0.5">{family.nz_region}</p>}
+          {family.nz_region && <p className="text-[10px] text-gray-400 mt-0.5">{family.nz_region}</p>}
         </div>
       )}
 
@@ -179,18 +179,18 @@ export default function HelmSettings() {
         {showAddChild && (
           <div className="rounded-lg p-3 mb-3 space-y-2" style={{ background: HELM_COLOR + "08", border: `1px solid ${HELM_COLOR}15` }}>
             <input value={childName} onChange={e => setChildName(e.target.value)} placeholder="Child's name"
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none" />
+              className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none" />
             <div className="flex gap-2">
               <select value={yearLevel} onChange={e => setYearLevel(e.target.value)}
-                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80">
+                className="flex-1 bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-xs text-white/80">
                 <option value="">Year level</option>
                 {Array.from({ length: 13 }, (_, i) => <option key={i + 1} value={`${i + 1}`}>Year {i + 1}</option>)}
               </select>
               <input value={school} onChange={e => setSchool(e.target.value)} placeholder="School"
-                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none" />
+                className="flex-1 bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none" />
             </div>
             <input value={busRoute} onChange={e => setBusRoute(e.target.value)} placeholder="Bus route ID (optional, e.g. 751)"
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none" />
+              className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-xs text-white/80 placeholder:text-white/25 focus:outline-none" />
             <div className="flex gap-2">
               <button onClick={addChild} disabled={!childName.trim()} className="flex-1 py-1.5 rounded-lg text-xs font-medium disabled:opacity-30"
                 style={{ background: HELM_COLOR + "20", color: HELM_COLOR }}>Add</button>
@@ -207,7 +207,7 @@ export default function HelmSettings() {
               </div>
               <div className="flex-1">
                 <p className="text-xs font-medium text-white/80">{child.name}</p>
-                <p className="text-[10px] text-white/30">{child.year_level ? `Year ${child.year_level}` : ""} {child.school ? `· ${child.school}` : ""}</p>
+                <p className="text-[10px] text-gray-400">{child.year_level ? `Year ${child.year_level}` : ""} {child.school ? `· ${child.school}` : ""}</p>
                 {child.bus_route_id && <p className="text-[9px] text-white/20 font-mono">Bus: {child.bus_route_id}</p>}
               </div>
               <button onClick={() => removeChild(child.id)} className="p-1 rounded hover:bg-[#C85A54]/20 transition"><X size={12} className="text-[#C85A54]/50" /></button>

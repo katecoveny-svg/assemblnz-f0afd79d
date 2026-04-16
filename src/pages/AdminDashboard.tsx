@@ -260,7 +260,7 @@ const AdminDashboard = () => {
           <span className="text-xs tracking-[3px] uppercase font-light text-white/80"
             style={{ fontFamily: "'Lato', sans-serif" }}>Command</span>
         </div>
-        <button onClick={() => setMobileNav(!mobileNav)} className="p-2 text-white/50">
+        <button onClick={() => setMobileNav(!mobileNav)} className="p-2 text-gray-500">
           {mobileNav ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
@@ -318,7 +318,7 @@ const AdminDashboard = () => {
                         <m.icon className="w-5 h-5 mb-3" style={{ color: m.color }} />
                         <p className="text-3xl font-bold text-white/90 tabular-nums mb-1"
                           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{m.value}</p>
-                        <p className="text-[11px] text-white/30 uppercase tracking-wider"
+                        <p className="text-[11px] text-gray-400 uppercase tracking-wider"
                           style={{ fontFamily: "'JetBrains Mono', monospace" }}>{m.label}</p>
                       </GlassCard>
                     ))}
@@ -390,7 +390,7 @@ const AdminDashboard = () => {
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-50" style={{ background: TEAL }} />
                         <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: TEAL }} />
                       </span>
-                      <button onClick={loadData} className="ml-auto p-1.5 rounded-lg text-white/20 hover:text-white/50 transition-colors">
+                      <button onClick={loadData} className="ml-auto p-1.5 rounded-lg text-white/20 hover:text-gray-500 transition-colors">
                         <RefreshCw className={`w-3.5 h-3.5 ${loadingData ? "animate-spin" : ""}`} />
                       </button>
                     </div>
@@ -409,8 +409,8 @@ const AdminDashboard = () => {
                               <span className="text-[11px] font-bold shrink-0 w-16 truncate" style={{ color: agent?.color || "#888" }}>
                                 {agent?.name || item.agent_id}
                               </span>
-                              <span className="text-[11px] text-white/30 shrink-0 w-20 truncate">{item.user_name}</span>
-                              <span className="text-[11px] text-white/50 flex-1 truncate">{item.message_preview}</span>
+                              <span className="text-[11px] text-gray-400 shrink-0 w-20 truncate">{item.user_name}</span>
+                              <span className="text-[11px] text-gray-500 flex-1 truncate">{item.message_preview}</span>
                             </div>
                           );
                         })}
@@ -430,7 +430,7 @@ const AdminDashboard = () => {
                 {activity.length === 0 ? (
                   <div className="text-center py-16">
                     <MessageSquare className="w-8 h-8 mx-auto text-white/10 mb-3" />
-                    <p className="text-sm text-white/30">No activity logged yet.</p>
+                    <p className="text-sm text-gray-400">No activity logged yet.</p>
                   </div>
                 ) : (
                   <div className="space-y-1 max-h-[600px] overflow-y-auto scrollbar-hide">
@@ -445,8 +445,8 @@ const AdminDashboard = () => {
                           <span className="text-[11px] font-bold shrink-0 w-20 truncate" style={{ color: agent?.color }}>
                             {agent?.name || item.agent_id}
                           </span>
-                          <span className="text-[11px] text-white/30 shrink-0 w-24 truncate">{item.user_name}</span>
-                          <span className="text-[11px] text-white/50 flex-1 truncate">{item.message_preview}</span>
+                          <span className="text-[11px] text-gray-400 shrink-0 w-24 truncate">{item.user_name}</span>
+                          <span className="text-[11px] text-gray-500 flex-1 truncate">{item.message_preview}</span>
                         </div>
                       );
                     })}
@@ -530,19 +530,19 @@ const AdminDashboard = () => {
                   <table className="w-full text-xs">
                     <thead>
                       <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                        <th className="text-left px-5 py-3 font-medium text-white/30">Name</th>
-                        <th className="text-left px-5 py-3 font-medium text-white/30">Email</th>
-                        <th className="text-left px-5 py-3 font-medium text-white/30">Plan</th>
-                        <th className="text-left px-5 py-3 font-medium text-white/30">Signed Up</th>
-                        <th className="text-right px-5 py-3 font-medium text-white/30">Messages</th>
-                        <th className="text-right px-5 py-3 font-medium text-white/30">Actions</th>
+                        <th className="text-left px-5 py-3 font-medium text-gray-400">Name</th>
+                        <th className="text-left px-5 py-3 font-medium text-gray-400">Email</th>
+                        <th className="text-left px-5 py-3 font-medium text-gray-400">Plan</th>
+                        <th className="text-left px-5 py-3 font-medium text-gray-400">Signed Up</th>
+                        <th className="text-right px-5 py-3 font-medium text-gray-400">Messages</th>
+                        <th className="text-right px-5 py-3 font-medium text-gray-400">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {users.map((u) => (
                         <tr key={u.id} className="hover:bg-white/[0.02]" style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
                           <td className="px-5 py-3 text-white/80 font-medium">{u.name || "—"}</td>
-                          <td className="px-5 py-3 text-white/50">{u.email}</td>
+                          <td className="px-5 py-3 text-gray-500">{u.email}</td>
                           <td className="px-5 py-3">
                             <select
                               value={u.role}
@@ -555,7 +555,7 @@ const AdminDashboard = () => {
                               ))}
                             </select>
                           </td>
-                          <td className="px-5 py-3 text-white/30">{new Date(u.createdAt).toLocaleDateString()}</td>
+                          <td className="px-5 py-3 text-gray-400">{new Date(u.createdAt).toLocaleDateString()}</td>
                           <td className="px-5 py-3 text-right font-mono text-white/40">{u.totalMessages}</td>
                           <td className="px-5 py-3 text-right">
                             <button onClick={() => handleDeleteUser(u.id, u.email || "")}
@@ -608,7 +608,7 @@ const AdminDashboard = () => {
                 {submissions.length === 0 ? (
                   <div className="px-6 py-16 text-center">
                     <Mail className="w-8 h-8 mx-auto text-white/10 mb-3" />
-                    <p className="text-sm text-white/30">No leads yet.</p>
+                    <p className="text-sm text-gray-400">No leads yet.</p>
                   </div>
                 ) : (
                   <div className="divide-y" style={{ borderColor: "rgba(255,255,255,0.03)" }}>
@@ -626,10 +626,10 @@ const AdminDashboard = () => {
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <a href={`mailto:${sub.email}`} className="p-1.5 rounded-lg text-white/20 hover:text-white/50 transition-colors">
+                              <a href={`mailto:${sub.email}`} className="p-1.5 rounded-lg text-white/20 hover:text-gray-500 transition-colors">
                                 <Mail className="w-3.5 h-3.5" />
                               </a>
-                              <button onClick={() => handleMarkRead(sub.id, !sub.is_read)} className="p-1.5 rounded-lg text-white/20 hover:text-white/50 transition-colors">
+                              <button onClick={() => handleMarkRead(sub.id, !sub.is_read)} className="p-1.5 rounded-lg text-white/20 hover:text-gray-500 transition-colors">
                                 {sub.is_read ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                               </button>
                               <button onClick={() => handleDeleteSubmission(sub.id)} className="p-1.5 rounded-lg text-red-400/30 hover:text-red-400 transition-colors">
@@ -637,7 +637,7 @@ const AdminDashboard = () => {
                               </button>
                             </div>
                           </div>
-                          <p className="text-xs text-white/50 leading-relaxed">{sub.message}</p>
+                          <p className="text-xs text-gray-500 leading-relaxed">{sub.message}</p>
                         </div>
                       );
                     })}

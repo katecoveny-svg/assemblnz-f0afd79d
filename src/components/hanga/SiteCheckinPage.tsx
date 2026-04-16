@@ -180,7 +180,7 @@ export default function SiteCheckinPage() {
           <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-xl flex items-center justify-center bg-white">
             <div className="grid grid-cols-5 gap-0.5 p-2">
               {Array.from({ length: 25 }).map((_, i) => (
-                <div key={i} className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-[1px] ${[0,1,2,3,4,5,9,10,14,15,19,20,21,22,23,24].includes(i) ? "bg-[#09090F]" : "bg-white"}`} />
+                <div key={i} className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-[1px] ${[0,1,2,3,4,5,9,10,14,15,19,20,21,22,23,24].includes(i) ? "bg-[#F5F5F7]" : "bg-white"}`} />
               ))}
             </div>
           </div>
@@ -193,7 +193,7 @@ export default function SiteCheckinPage() {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={handleMuster}
-            className="w-full py-5 sm:py-6 rounded-2xl text-white font-display font-bold text-base sm:text-lg flex flex-col items-center gap-2 bg-destructive hover:bg-destructive/90 transition-colors"
+            className="w-full py-5 sm:py-6 rounded-2xl text-foreground font-display font-bold text-base sm:text-lg flex flex-col items-center gap-2 bg-destructive hover:bg-destructive/90 transition-colors"
             style={{ boxShadow: "0 0 30px hsl(var(--destructive) / 0.3)" }}
           >
             <AlertOctagon size={28} />

@@ -181,14 +181,14 @@ export default function HelmBusTracker() {
   return (
     <div className="flex-1 flex flex-col" style={{ background: "#FAFBFC" }}>
       {/* Controls */}
-      <div className="p-3 flex items-center gap-3 border-b border-white/5">
+      <div className="p-3 flex items-center gap-3 border-b border-gray-100">
         {children.length > 1 && (
           <select value={selectedChild || ""} onChange={e => setSelectedChild(e.target.value)}
-            className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white/80 focus:outline-none" style={{ accentColor: HELM_COLOR }}>
+            className="bg-white/5 border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-white/80 focus:outline-none" style={{ accentColor: HELM_COLOR }}>
             {children.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
         )}
-        {child && <span className="text-[10px] font-mono text-white/30">Route: {child.bus_route_id}</span>}
+        {child && <span className="text-[10px] font-mono text-gray-400">Route: {child.bus_route_id}</span>}
         <div className="flex-1" />
         <button onClick={fetchPositions} disabled={loading} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition hover:bg-white/5" style={{ color: HELM_COLOR }}>
           <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
@@ -208,29 +208,29 @@ export default function HelmBusTracker() {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center space-y-3">
             <Bus size={32} style={{ color: HELM_COLOR }} className="mx-auto opacity-40" />
-            <p className="text-sm text-white/50">No bus routes configured</p>
-            <p className="text-xs text-white/30">Add a bus route ID to a child's profile in Settings</p>
+            <p className="text-sm text-gray-500">No bus routes configured</p>
+            <p className="text-xs text-gray-400">Add a bus route ID to a child's profile in Settings</p>
           </div>
         </div>
       ) : !mapboxToken ? (
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center space-y-3">
             <Bus size={32} style={{ color: HELM_COLOR }} className="mx-auto opacity-50" />
-            <p className="text-sm text-white/50">Loading map...</p>
+            <p className="text-sm text-gray-500">Loading map...</p>
           </div>
         </div>
       ) : (
         <>
           <div ref={mapRef} className="flex-1 min-h-[300px]" />
           {vehicles.length > 0 && (
-            <div className="p-3 border-t border-white/5 space-y-2">
+            <div className="p-3 border-t border-gray-100 space-y-2">
               <h3 className="text-[10px] font-semibold text-white/40 uppercase tracking-wider">{vehicles.length} bus{vehicles.length > 1 ? "es" : ""} tracked</h3>
               {vehicles.map(v => (
                 <div key={v.vehicle_id} className="rounded-lg px-3 py-2 flex items-center gap-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
                   <span className="text-sm"></span>
                   <div className="flex-1">
                     <span className="text-xs text-white/70 font-medium">Route {v.route_id}</span>
-                    {v.speed != null && <span className="text-[10px] text-white/30 ml-2">{Math.round(v.speed)} km/h</span>}
+                    {v.speed != null && <span className="text-[10px] text-gray-400 ml-2">{Math.round(v.speed)} km/h</span>}
                   </div>
                   {v.occupancy_status && <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/5 text-white/40">{v.occupancy_status}</span>}
                 </div>

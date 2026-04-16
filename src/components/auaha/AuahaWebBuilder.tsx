@@ -107,7 +107,7 @@ export default function AuahaWebBuilder() {
               </div>
               <p className="text-white/40 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>auaha &gt; web builder</p>
             </div>
-            <h1 className="text-white text-3xl lg:text-4xl font-light uppercase tracking-[5px] mb-2" style={{ fontFamily: 'Lato, sans-serif' }}>
+            <h1 className="text-foreground text-3xl lg:text-4xl font-light uppercase tracking-[5px] mb-2" style={{ fontFamily: 'Lato, sans-serif' }}>
               Website Builder
             </h1>
             <p className="text-white/45 text-sm max-w-lg" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
@@ -155,7 +155,7 @@ export default function AuahaWebBuilder() {
                         <step.icon className="w-4 h-4" style={{ color: isDone || isActive ? step.color : `${step.color}60` }} />
                       )}
                     </div>
-                    <span className={`text-[10px] uppercase tracking-wider font-medium transition-colors ${isDone || isActive ? 'text-white/70' : 'text-white/30'}`}>{step.label}</span>
+                    <span className={`text-[10px] uppercase tracking-wider font-medium transition-colors ${isDone || isActive ? 'text-white/70' : 'text-gray-400'}`}>{step.label}</span>
                     <span className="text-[8px] text-white/20 font-mono">{step.agent}</span>
                   </motion.div>
                 );
@@ -179,7 +179,7 @@ export default function AuahaWebBuilder() {
               <textarea
                 value={brief}
                 onChange={(e) => setBrief(e.target.value)}
-                className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[#F0D078]/30 min-h-[140px] resize-none transition-colors placeholder:text-white/20"
+                className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-foreground text-sm focus:outline-none focus:border-[#F0D078]/30 min-h-[140px] resize-none transition-colors placeholder:text-white/20"
                 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
                 placeholder="Describe your website…&#10;&#10;e.g. A modern landing page for a Wellington coffee roastery. Hero section with video background, menu section, about page, and contact form. Earthy colour palette."
               />
@@ -219,7 +219,7 @@ export default function AuahaWebBuilder() {
                     }`}>
                     <div className="flex-1 min-w-0">
                       <p className="text-white/80 text-sm font-medium truncate">{t.name}</p>
-                      <p className="text-white/30 text-[11px] truncate">{t.desc}</p>
+                      <p className="text-gray-400 text-[11px] truncate">{t.desc}</p>
                     </div>
                     <div className="flex items-center gap-2 ml-3 flex-shrink-0">
                       <span className="text-white/20 text-[10px] font-mono">{t.pages}p</span>
@@ -303,7 +303,7 @@ export default function AuahaWebBuilder() {
                           <div className="grid grid-cols-3 gap-3">
                             {["Features", "About", "Contact"].map((s) => (
                               <div key={s} className="h-20 rounded-lg flex items-center justify-center" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                                <span className="text-white/30 text-[10px]">{s}</span>
+                                <span className="text-gray-400 text-[10px]">{s}</span>
                               </div>
                             ))}
                           </div>
@@ -316,7 +316,7 @@ export default function AuahaWebBuilder() {
                           style={{ background: `linear-gradient(135deg, ${ACCENT}10, ${TEAL}08)`, border: `1px solid ${ACCENT}15` }}>
                           <Globe className="w-7 h-7" style={{ color: `${ACCENT}50` }} />
                         </div>
-                        <p className="text-white/30 text-sm mb-2" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                        <p className="text-gray-400 text-sm mb-2" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
                           {isGenerating ? "Building your website…" : "Enter a brief to start"}
                         </p>
                         <p className="text-white/15 text-xs text-center max-w-xs">
@@ -327,7 +327,7 @@ export default function AuahaWebBuilder() {
                         {isGenerating && (
                           <div className="mt-6 flex items-center gap-2">
                             <Loader2 className="w-4 h-4 animate-spin" style={{ color: ACCENT }} />
-                            <span className="text-white/30 text-xs font-mono">Step {activeStep} of 5</span>
+                            <span className="text-gray-400 text-xs font-mono">Step {activeStep} of 5</span>
                           </div>
                         )}
                       </motion.div>
@@ -357,7 +357,7 @@ export default function AuahaWebBuilder() {
         <GlassCard className="p-6">
           <div className="flex items-center gap-2 mb-5">
             <Zap className="w-4 h-4" style={{ color: ACCENT }} />
-            <h3 className="text-white/50 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Powering this builder</h3>
+            <h3 className="text-gray-500 text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Powering this builder</h3>
           </div>
           <div className="grid grid-cols-3 gap-4">
             {[
@@ -374,7 +374,7 @@ export default function AuahaWebBuilder() {
                   </div>
                   <div>
                     <p className="text-white/80 text-xs font-semibold tracking-wider">{agent.name}</p>
-                    <p className="text-white/30 text-[10px]">{agent.role}</p>
+                    <p className="text-gray-400 text-[10px]">{agent.role}</p>
                   </div>
                 </div>
                 <p className="text-white/25 text-[11px] leading-relaxed">{agent.desc}</p>

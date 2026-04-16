@@ -231,11 +231,11 @@ export default function AuahaLandingPage() {
             {activeDemo === 1 && (
               <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="ad-1">
                 <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
-                  <p className="text-[10px] text-white/30 mb-1">Instagram caption — drafted by MUSE</p>
+                  <p className="text-[10px] text-gray-400 mb-1">Instagram caption — drafted by MUSE</p>
                   <p className="text-xs text-white/60 italic">"Sunday mornings at Kōwhai. Fresh baking, strong flat whites, and the sun hitting the deck just right. Come find your spot 🌿☕"</p>
                 </div>
                 <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
-                  <p className="text-[10px] text-white/30 mb-1">EDM subject line — drafted by PRISM</p>
+                  <p className="text-[10px] text-gray-400 mb-1">EDM subject line — drafted by PRISM</p>
                   <p className="text-xs text-white/60 italic">"This week at Kōwhai: New winter menu + live music Friday"</p>
                 </div>
               </motion.div>

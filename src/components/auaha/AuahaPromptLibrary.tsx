@@ -68,8 +68,8 @@ export default function AuahaPromptLibrary() {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Prompts</p>
-          <h1 className="text-white text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Prompt Library</h1>
-          <p className="text-white/50 text-sm mt-1">Team prompt templates with type + model tagging</p>
+          <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Prompt Library</h1>
+          <p className="text-gray-500 text-sm mt-1">Team prompt templates with type + model tagging</p>
         </div>
         <Button onClick={() => setShowNew(!showNew)} size="sm" style={{ background: ACCENT, color: "#000" }}>
           <Plus className="w-3.5 h-3.5 mr-1.5" /> New Prompt
@@ -80,7 +80,7 @@ export default function AuahaPromptLibrary() {
       <div className="flex gap-2">
         {(["all", "image", "video"] as const).map(f => (
           <button key={f} onClick={() => setFilter(f)}
-            className={`px-3 py-1.5 rounded-lg text-xs transition-all ${f === filter ? "text-black font-medium" : "text-white/50 bg-white/5"}`}
+            className={`px-3 py-1.5 rounded-lg text-xs transition-all ${f === filter ? "text-black font-medium" : "text-gray-500 bg-white/5"}`}
             style={f === filter ? { background: ACCENT } : {}}>
             {f === "all" ? "All" : f === "image" ? "Image" : "Video"}
           </button>
@@ -92,23 +92,23 @@ export default function AuahaPromptLibrary() {
       {showNew && (
         <GlassCard className="p-5 space-y-3">
           <input value={newName} onChange={e => setNewName(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder:text-white/20"
+            className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm placeholder:text-white/20"
             placeholder="Prompt name..." />
           <textarea value={newPrompt} onChange={e => setNewPrompt(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm min-h-[80px] placeholder:text-white/20"
+            className="w-full bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-foreground text-sm min-h-[80px] placeholder:text-white/20"
             placeholder="Prompt text..." />
           <div className="flex gap-3">
             <div className="flex gap-2">
               {(["image", "video"] as const).map(t => (
                 <button key={t} onClick={() => setNewType(t)}
-                  className={`px-3 py-1.5 rounded-lg text-xs ${t === newType ? "text-black font-medium" : "text-white/50 bg-white/5"}`}
+                  className={`px-3 py-1.5 rounded-lg text-xs ${t === newType ? "text-black font-medium" : "text-gray-500 bg-white/5"}`}
                   style={t === newType ? { background: ACCENT } : {}}>
                   {t}
                 </button>
               ))}
             </div>
             <input value={newTags} onChange={e => setNewTags(e.target.value)}
-              className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-white text-xs placeholder:text-white/20"
+              className="flex-1 bg-white/5 border border-gray-200 rounded-lg px-3 py-1.5 text-foreground text-xs placeholder:text-white/20"
               placeholder="Tags (comma-separated)" />
             <Button onClick={addPrompt} size="sm" style={{ background: ACCENT, color: "#000" }}>
               <Save className="w-3.5 h-3.5 mr-1" /> Save
@@ -121,7 +121,7 @@ export default function AuahaPromptLibrary() {
       {filtered.length === 0 ? (
         <GlassCard className="p-12 text-center">
           <BookOpen className="w-12 h-12 mx-auto mb-3 text-white/10" />
-          <p className="text-white/30 text-sm">No prompts saved yet</p>
+          <p className="text-gray-400 text-sm">No prompts saved yet</p>
         </GlassCard>
       ) : (
         <div className="grid md:grid-cols-2 gap-4">
@@ -144,11 +144,11 @@ export default function AuahaPromptLibrary() {
                   </button>
                 </div>
               </div>
-              <p className="text-white/50 text-xs leading-relaxed line-clamp-3">{p.prompt}</p>
+              <p className="text-gray-500 text-xs leading-relaxed line-clamp-3">{p.prompt}</p>
               {p.tags.length > 0 && (
                 <div className="flex gap-1 mt-3 flex-wrap">
                   {p.tags.map(tag => (
-                    <span key={tag} className="text-[9px] px-2 py-0.5 rounded-full bg-white/5 text-white/30 flex items-center gap-1">
+                    <span key={tag} className="text-[9px] px-2 py-0.5 rounded-full bg-white/5 text-gray-400 flex items-center gap-1">
                       <Tag className="w-2.5 h-2.5" /> {tag}
                     </span>
                   ))}

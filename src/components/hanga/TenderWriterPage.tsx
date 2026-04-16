@@ -63,7 +63,7 @@ export default function TenderWriterPage() {
         className="flex flex-wrap items-start justify-between gap-3"
       >
         <div>
-          <h1 className="text-xl font-bold text-white flex items-center gap-2"><FileText size={22} style={{ color: KOWHAI }} /> Tender Writer — Tono</h1>
+          <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><FileText size={22} style={{ color: KOWHAI }} /> Tender Writer — Tono</h1>
           <p className="text-xs text-white/40">GETS-ready tender response generator</p>
         </div>
         <AaaipGuardBadge
@@ -77,7 +77,7 @@ export default function TenderWriterPage() {
         <div>
           <label className="text-[11px] text-white/40 mb-1 block">Tender Title</label>
           <input value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Christchurch Metro Sports Facility — Main Works"
-            className="w-full px-4 py-2.5 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:outline-none focus:border-white/20" />
+            className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none focus:border-gray-300" />
         </div>
         <div>
           <label className="text-[11px] text-white/40 mb-1 block">Template Type</label>
@@ -91,7 +91,7 @@ export default function TenderWriterPage() {
         <div>
           <label className="text-[11px] text-white/40 mb-1 block">Requirements & Scope</label>
           <textarea value={requirements} onChange={e => setRequirements(e.target.value)} rows={5} placeholder="Paste tender requirements here..."
-            className="w-full px-4 py-2.5 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:outline-none focus:border-white/20 resize-none" />
+            className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none focus:border-gray-300 resize-none" />
         </div>
         <motion.button onClick={generate} disabled={generating} whileHover={{ scale: 1.02 }}
           className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium disabled:opacity-50"
@@ -105,11 +105,11 @@ export default function TenderWriterPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
           <Glass className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-white">Generated Response</h3>
+              <h3 className="text-sm font-semibold text-foreground">Generated Response</h3>
               <div className="flex gap-2">
-                <button className="p-2 rounded-lg text-white/30 hover:text-white/60 hover:bg-white/5"><Copy size={14} /></button>
-                <button className="p-2 rounded-lg text-white/30 hover:text-white/60 hover:bg-white/5"><Save size={14} /></button>
-                <button className="p-2 rounded-lg text-white/30 hover:text-white/60 hover:bg-white/5"><Download size={14} /></button>
+                <button className="p-2 rounded-lg text-gray-400 hover:text-white/60 hover:bg-white/5"><Copy size={14} /></button>
+                <button className="p-2 rounded-lg text-gray-400 hover:text-white/60 hover:bg-white/5"><Save size={14} /></button>
+                <button className="p-2 rounded-lg text-gray-400 hover:text-white/60 hover:bg-white/5"><Download size={14} /></button>
               </div>
             </div>
             <textarea value={response} onChange={e => setResponse(e.target.value)} rows={20}
@@ -122,7 +122,7 @@ export default function TenderWriterPage() {
                   type="checkbox"
                   checked={humanSignoff}
                   onChange={(e) => setHumanSignoff(e.target.checked)}
-                  className="h-4 w-4 rounded border-white/20"
+                  className="h-4 w-4 rounded border-gray-300"
                 />
                 Principal sign-off attached (required by AAAIP Waihanga policy)
               </label>

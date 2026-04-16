@@ -58,7 +58,7 @@ export default function AraiSafetyPage() {
             <ShieldAlert size={20} style={{ color: "#E44D4D" }} />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white">ĀRAI — Site Safety & H&S</h1>
+            <h1 className="text-xl font-bold text-foreground">ĀRAI — Site Safety & H&S</h1>
             <p className="text-xs text-white/40">Haumarutanga · Hazard Register</p>
           </div>
         </div>
@@ -73,7 +73,7 @@ export default function AraiSafetyPage() {
         ].map(s => (
           <Glass key={s.label} className="p-4 text-center">
             <s.icon size={18} style={{ color: s.color }} className="mx-auto mb-2" />
-            <div className="text-2xl font-bold text-white">{s.value}</div>
+            <div className="text-2xl font-bold text-foreground">{s.value}</div>
             <div className="text-[11px] text-white/40">{s.label}</div>
           </Glass>
         ))}
@@ -82,14 +82,14 @@ export default function AraiSafetyPage() {
       {/* Controls */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex-1 min-w-[200px] relative">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search hazards..."
-            className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:outline-none focus:border-white/20" />
+            className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none focus:border-gray-300" />
         </div>
         <div className="flex gap-1">
           {(["all", "critical", "high", "medium", "low"] as const).map(s => (
             <button key={s} onClick={() => setFilterSev(s)}
-              className={`px-3 py-2 rounded-lg text-[11px] font-medium transition-all ${filterSev === s ? "text-white" : "text-white/40 hover:text-white/60"}`}
+              className={`px-3 py-2 rounded-lg text-[11px] font-medium transition-all ${filterSev === s ? "text-foreground" : "text-white/40 hover:text-white/60"}`}
               style={filterSev === s ? { background: s === "all" ? "rgba(255,255,255,0.08)" : `${SEV_COLORS[s as Severity]}20`, border: `1px solid ${s === "all" ? "rgba(255,255,255,0.15)" : SEV_COLORS[s as Severity]}40` } : {}}>
               {s === "all" ? "All" : s.charAt(0).toUpperCase() + s.slice(1)}
             </button>
@@ -107,16 +107,16 @@ export default function AraiSafetyPage() {
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
             <Glass className="p-5">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-white">Report New Hazard — Pūrongo Mōrearea</h3>
-                <button onClick={() => setShowForm(false)} className="text-white/30"><X size={16} /></button>
+                <h3 className="text-sm font-semibold text-foreground">Report New Hazard — Pūrongo Mōrearea</h3>
+                <button onClick={() => setShowForm(false)} className="text-gray-400"><X size={16} /></button>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <input placeholder="Description" className="px-4 py-2.5 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
-                <input placeholder="Location" className="px-4 py-2.5 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
+                <input placeholder="Description" className="px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
+                <input placeholder="Location" className="px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
                 <select className="px-4 py-2.5 rounded-xl text-sm text-white/70 bg-white/[0.04] border border-white/[0.06] focus:outline-none">
                   <option value="">Severity</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option>
                 </select>
-                <input placeholder="Assigned To" className="px-4 py-2.5 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
+                <input placeholder="Assigned To" className="px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
               </div>
               <button className="mt-4 px-6 py-2.5 rounded-xl text-xs font-medium" style={{ background: KOWHAI, color: "#09090F" }}>Submit Hazard Report</button>
             </Glass>
@@ -131,7 +131,7 @@ export default function AraiSafetyPage() {
             <thead>
               <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                 {["ID", "Description", "Location", "Severity", "Status", "Assigned", "Date"].map(h => (
-                  <th key={h} className="px-4 py-3 text-[11px] font-medium text-white/30 uppercase tracking-wider">{h}</th>
+                  <th key={h} className="px-4 py-3 text-[11px] font-medium text-gray-400 uppercase tracking-wider">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -139,9 +139,9 @@ export default function AraiSafetyPage() {
               {filtered.map((h, i) => (
                 <motion.tr key={h.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.03 }}
                   className="border-b hover:bg-white/[0.02] transition-colors" style={{ borderColor: "rgba(255,255,255,0.03)" }}>
-                  <td className="px-4 py-3 text-xs text-white/50 font-mono">{h.id}</td>
+                  <td className="px-4 py-3 text-xs text-gray-500 font-mono">{h.id}</td>
                   <td className="px-4 py-3 text-xs text-white/70 max-w-[300px] truncate">{h.description}</td>
-                  <td className="px-4 py-3 text-xs text-white/50">{h.location}</td>
+                  <td className="px-4 py-3 text-xs text-gray-500">{h.location}</td>
                   <td className="px-4 py-3">
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ background: `${SEV_COLORS[h.severity]}20`, color: SEV_COLORS[h.severity] }}>
                       {h.severity}
@@ -152,8 +152,8 @@ export default function AraiSafetyPage() {
                       {h.status}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-xs text-white/50">{h.assignedTo}</td>
-                  <td className="px-4 py-3 text-xs text-white/30">{h.date}</td>
+                  <td className="px-4 py-3 text-xs text-gray-500">{h.assignedTo}</td>
+                  <td className="px-4 py-3 text-xs text-gray-400">{h.date}</td>
                 </motion.tr>
               ))}
             </tbody>
@@ -163,7 +163,7 @@ export default function AraiSafetyPage() {
 
       {/* Safety Trend */}
       <Glass className="p-5">
-        <h3 className="text-sm font-semibold text-white mb-4">Weekly Hazard Trend</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-4">Weekly Hazard Trend</h3>
         <div className="h-48">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={trendData} barGap={4}>

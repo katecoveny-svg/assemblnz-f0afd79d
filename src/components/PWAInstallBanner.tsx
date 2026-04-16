@@ -83,7 +83,7 @@ const PWAInstallBanner = ({ agentName, agentColor }: PWAInstallBannerProps) => {
         </button>
       )}
       <button onClick={handleDismiss} className="p-1 rounded hover:bg-white/5 transition">
-        <X size={12} className="text-white/30" />
+        <X size={12} className="text-gray-400" />
       </button>
     </div>
   );

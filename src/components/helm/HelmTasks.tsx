@@ -106,13 +106,13 @@ export default function HelmTasks({ familyId }: { familyId: string | null }) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
             <ListTodo className="w-5 h-5 text-pounamu" />
             Tasks
           </h2>
           {pendingCount > 0 && <p className="text-xs text-white/40 mt-0.5">{pendingCount} pending</p>}
         </div>
-        <button onClick={() => setShowForm(!showForm)} className="text-xs px-3 py-1.5 rounded-lg font-semibold bg-pounamu text-white inline-flex items-center gap-1">
+        <button onClick={() => setShowForm(!showForm)} className="text-xs px-3 py-1.5 rounded-lg font-semibold bg-pounamu text-foreground inline-flex items-center gap-1">
           <Plus className="w-3 h-3" /> Add
         </button>
       </div>
@@ -128,7 +128,7 @@ export default function HelmTasks({ familyId }: { familyId: string | null }) {
       <div className="flex gap-1.5">
         {(["pending", "all", "completed"] as const).map(f => (
           <button key={f} onClick={() => setFilter(f)}
-            className={`text-[10px] px-3 py-1.5 rounded-lg font-medium border capitalize ${filter === f ? "bg-pounamu text-white border-pounamu" : "bg-white/5 border-white/10 text-white/40"}`}>
+            className={`text-[10px] px-3 py-1.5 rounded-lg font-medium border capitalize ${filter === f ? "bg-pounamu text-foreground border-pounamu" : "bg-white/5 border-gray-200 text-white/40"}`}>
             {f}
           </button>
         ))}
@@ -136,28 +136,28 @@ export default function HelmTasks({ familyId }: { familyId: string | null }) {
 
       {/* Add form */}
       {showForm && (
-        <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3">
+        <div className="bg-white/5 border border-gray-200 rounded-xl p-4 space-y-3">
           <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
             onKeyDown={(e) => e.key === "Enter" && addTask()}
             placeholder="Task description" autoFocus
-            className="w-full text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50" />
+            className="w-full text-sm px-3 py-2 rounded-lg bg-white/5 border border-gray-200 text-foreground placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50" />
           <div className="flex gap-2">
             <input value={form.assignedTo} onChange={(e) => setForm({ ...form, assignedTo: e.target.value })}
               placeholder="Assign to"
-              className="flex-1 text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50" />
+              className="flex-1 text-sm px-3 py-2 rounded-lg bg-white/5 border border-gray-200 text-foreground placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50" />
             <input value={form.dueDate} onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
               type="date"
-              className="text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-pounamu/50" />
+              className="text-sm px-3 py-2 rounded-lg bg-white/5 border border-gray-200 text-foreground focus:outline-none focus:ring-2 focus:ring-pounamu/50" />
           </div>
           <div className="flex gap-1.5">
             {(Object.keys(PRIORITIES) as (keyof typeof PRIORITIES)[]).map(p => (
               <button key={p} onClick={() => setForm({ ...form, priority: p })}
-                className={`text-[10px] px-2.5 py-1 rounded-lg border font-medium capitalize ${form.priority === p ? "bg-pounamu text-white border-pounamu" : "bg-white/5 border-white/10 text-white/40"}`}>
+                className={`text-[10px] px-2.5 py-1 rounded-lg border font-medium capitalize ${form.priority === p ? "bg-pounamu text-foreground border-pounamu" : "bg-white/5 border-gray-200 text-white/40"}`}>
                 {p}
               </button>
             ))}
           </div>
-          <button onClick={addTask} className="w-full text-sm py-2 rounded-lg font-semibold bg-pounamu text-white">Add Task</button>
+          <button onClick={addTask} className="w-full text-sm py-2 rounded-lg font-semibold bg-pounamu text-foreground">Add Task</button>
         </div>
       )}
 
@@ -167,9 +167,9 @@ export default function HelmTasks({ familyId }: { familyId: string | null }) {
           const p = PRIORITIES[task.priority];
           const done = task.status === "completed";
           return (
-            <div key={task.id} className={`bg-white/5 rounded-xl border border-white/5 p-3 flex items-start gap-3 transition-colors ${done ? "opacity-40" : ""}`}>
+            <div key={task.id} className={`bg-white/5 rounded-xl border border-gray-100 p-3 flex items-start gap-3 transition-colors ${done ? "opacity-40" : ""}`}>
               <button onClick={() => toggleTask(task.id, task.status)}
-                className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center mt-0.5 transition-all ${done ? "bg-[#3A7D6E] border-emerald-500 text-white" : "border-white/20 hover:border-white/40"}`}>
+                className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center mt-0.5 transition-all ${done ? "bg-[#3A7D6E] border-emerald-500 text-foreground" : "border-gray-300 hover:border-white/40"}`}>
                 {done && <Check className="w-3 h-3" />}
               </button>
               <div className="flex-1 min-w-0">
@@ -178,13 +178,13 @@ export default function HelmTasks({ familyId }: { familyId: string | null }) {
                     <span className={`text-[9px] px-1.5 py-0.5 rounded border font-semibold ${p.bg} ${p.color} ${p.border}`}>{p.label}</span>
                   )}
                 </div>
-                <div className={`text-sm mt-0.5 ${done ? "line-through text-white/30" : "text-white/80"}`}>{task.title}</div>
+                <div className={`text-sm mt-0.5 ${done ? "line-through text-gray-400" : "text-white/80"}`}>{task.title}</div>
                 <div className="flex items-center gap-3 mt-1">
                   {task.assigned_to && (
-                    <span className="text-[10px] text-white/30 inline-flex items-center gap-1"><User className="w-2.5 h-2.5" />{task.assigned_to}</span>
+                    <span className="text-[10px] text-gray-400 inline-flex items-center gap-1"><User className="w-2.5 h-2.5" />{task.assigned_to}</span>
                   )}
                   {task.due_date && (
-                    <span className="text-[10px] text-white/30 inline-flex items-center gap-1"><Clock className="w-2.5 h-2.5" />{new Date(task.due_date).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}</span>
+                    <span className="text-[10px] text-gray-400 inline-flex items-center gap-1"><Clock className="w-2.5 h-2.5" />{new Date(task.due_date).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}</span>
                   )}
                 </div>
               </div>
@@ -196,7 +196,7 @@ export default function HelmTasks({ familyId }: { familyId: string | null }) {
         })}
         {filtered.length === 0 && (
           <div className="text-center py-8">
-            <p className="text-sm text-white/30">{filter === "completed" ? "No completed tasks" : "All clear!"}</p>
+            <p className="text-sm text-gray-400">{filter === "completed" ? "No completed tasks" : "All clear!"}</p>
           </div>
         )}
       </div>
