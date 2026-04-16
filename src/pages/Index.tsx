@@ -383,6 +383,9 @@ const Index = () => {
                 </Suspense>
               </motion.div>
             )}
+          </div>
+        </section>
+
         {/* ═══ LIVE DEMO ═══ */}
         <Sect>
           <motion.div {...fade} className="text-center mb-14">
