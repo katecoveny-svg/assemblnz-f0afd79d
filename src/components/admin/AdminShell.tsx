@@ -21,7 +21,7 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen relative" style={{ background: "#FAFBFC", color: "#3D4250" }}>
+    <div className="min-h-screen relative" style={{ background: "#FAFBFC", color: "#3D4250", ["--btn-glow" as string]: "58,125,110" } as React.CSSProperties}>
       {/* Whāriki weave background */}
       <div className="fixed inset-0 pointer-events-none -z-10" style={{
         backgroundImage: `
