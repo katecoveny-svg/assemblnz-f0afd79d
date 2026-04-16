@@ -218,13 +218,13 @@ const AdminDashboard = () => {
           }}>
           <Icon className="w-4 h-4" style={{ color }} />
         </div>
-        <h1 className="text-2xl font-light tracking-[3px] uppercase text-white/90"
-          style={{ fontFamily: "'Lato', sans-serif" }}>
+        <h1 className="text-2xl font-light tracking-[3px] uppercase"
+          style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}>
           {title}
         </h1>
       </div>
       {subtitle && (
-        <p className="text-sm text-white/35 ml-11" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <p className="text-sm ml-11" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
           {subtitle}
         </p>
       )}
@@ -251,16 +251,17 @@ const AdminDashboard = () => {
       {/* Mobile header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 px-4 py-3 flex items-center justify-between"
         style={{
-          background: "rgba(6,14,28,0.95)",
+          background: "rgba(250,251,252,0.95)",
           backdropFilter: "blur(20px)",
-          borderBottom: "1px solid rgba(255,255,255,0.04)",
+          borderBottom: "1px solid rgba(74,165,168,0.12)",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
         }}>
         <div className="flex items-center gap-2">
           <Shield className="w-4 h-4" style={{ color: "#C85A54" }} />
-          <span className="text-xs tracking-[3px] uppercase font-light text-white/80"
-            style={{ fontFamily: "'Lato', sans-serif" }}>Command</span>
+          <span className="text-xs tracking-[3px] uppercase font-light"
+            style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}>Command</span>
         </div>
-        <button onClick={() => setMobileNav(!mobileNav)} className="p-2 text-gray-500">
+        <button onClick={() => setMobileNav(!mobileNav)} className="p-2" style={{ color: "#6B7280" }}>
           {mobileNav ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
