@@ -274,10 +274,10 @@ const Index = () => {
               <div
                 className="absolute inset-0 -z-10 rounded-[32px]"
                 style={{
-                  background: "linear-gradient(180deg, rgba(255,255,255,0.84) 0%, rgba(250,251,252,0.74) 100%)",
-                  backdropFilter: "blur(18px)",
-                  border: "1px solid rgba(255,255,255,0.9)",
-                  boxShadow: "0 18px 60px rgba(15,23,42,0.12), inset 0 1px 0 rgba(255,255,255,0.95)",
+                  background: "linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(250,251,252,0.35) 100%)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid rgba(255,255,255,0.5)",
+                  boxShadow: "0 18px 60px rgba(15,23,42,0.06), inset 0 1px 0 rgba(255,255,255,0.6)",
                 }}
               />
 
