@@ -144,34 +144,34 @@ function InlinePipelineDemo() {
               transition={{ duration: 0.3 }}
               className="flex items-start gap-4 p-4 rounded-xl transition-all"
               style={{
-                background: isCurrent ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.02)",
-                border: `1px solid ${isCurrent ? "rgba(255,255,255,0.10)" : "rgba(255,255,255,0.04)"}`,
+                background: isCurrent ? "rgba(74,165,168,0.06)" : "rgba(0,0,0,0.02)",
+                border: `1px solid ${isCurrent ? "rgba(74,165,168,0.15)" : "rgba(0,0,0,0.04)"}`,
               }}
             >
               <div className="flex flex-col items-center gap-1 shrink-0 w-12">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{
-                  background: isActive ? `${stage.color}18` : "rgba(255,255,255,0.04)",
-                  border: `1px solid ${isActive ? stage.color + "30" : "rgba(255,255,255,0.06)"}`,
+                  background: isActive ? `${stage.color}18` : "rgba(0,0,0,0.04)",
+                  border: `1px solid ${isActive ? stage.color + "30" : "rgba(0,0,0,0.06)"}`,
                   boxShadow: isCurrent ? `0 0 16px ${stage.color}30` : "none",
                 }}>
                   {isActive ? verdictIcon(result.verdict) : (
-                    <div className="w-2 h-2 rounded-full" style={{ background: "rgba(255,255,255,0.15)" }} />
+                    <div className="w-2 h-2 rounded-full" style={{ background: "rgba(0,0,0,0.15)" }} />
                   )}
                 </div>
                 <span className="text-[8px] tracking-[2px] uppercase" style={{
                   fontFamily: "'JetBrains Mono', monospace",
-                  color: isActive ? stage.color : "rgba(255,255,255,0.2)",
+                  color: isActive ? stage.color : "rgba(0,0,0,0.3)",
                 }}>{stage.name}</span>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[11px] tracking-[1px] uppercase mb-1" style={{
                   fontFamily: "'Lato', sans-serif", fontWeight: 400,
-                  color: isActive ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.25)",
+                  color: isActive ? "#374151" : "rgba(0,0,0,0.3)",
                 }}>{stage.fn}</p>
                 <AnimatePresence>
                   {isActive && (
                     <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0 }}
-                      className="text-[12px] leading-[1.7]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+                      className="text-[12px] leading-[1.7]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
                       {result.text}
                     </motion.p>
                   )}
@@ -228,7 +228,7 @@ const DemosHub = () => {
           <h1 className="text-2xl sm:text-[40px] mb-4" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", color: "#1A1D29" }}>
             See it work
           </h1>
-          <p className="text-[15px] max-w-lg mx-auto" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.6)" }}>
+          <p className="text-[15px] max-w-lg mx-auto" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
             Watch a real query flow through the governance pipeline. Then explore each demo in detail.
           </p>
         </motion.div>
@@ -238,7 +238,7 @@ const DemosHub = () => {
           style={{ background: "rgba(212,168,83,0.06)", border: "1px solid rgba(212,168,83,0.12)" }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.4 }}>
           <Shield size={14} className="shrink-0 mt-0.5" style={{ color: C.goldLight }} />
-          <p className="text-[11px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.5)" }}>
+          <p className="text-[11px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#9CA3AF" }}>
             These demos run with synthetic data. Nothing leaves this page.
           </p>
         </motion.div>
@@ -260,30 +260,30 @@ const DemosHub = () => {
             >
               <Link to={d.path} className="group block h-full">
                 <div className="h-full rounded-2xl p-6 transition-all duration-400 group-hover:translate-y-[-6px]"
-                  style={{
-                    background: "rgba(255,255,255,0.6)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    boxShadow: "0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)",
+                   style={{
+                    background: "rgba(255,255,255,0.7)",
+                    border: "1px solid rgba(0,0,0,0.06)",
+                    boxShadow: "0 8px 40px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
                   }}>
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-3.5 h-3.5 rounded-full" style={{ background: d.accent, boxShadow: `0 0 16px ${d.accent}50` }} />
-                    <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(245,240,232,0.35)" }}>
+                    <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF" }}>
                       Demo {i + 1}
                     </span>
-                    <span className="ml-auto flex items-center gap-1 text-[10px]" style={{ color: "rgba(245,240,232,0.25)" }}>
+                    <span className="ml-auto flex items-center gap-1 text-[10px]" style={{ color: "#9CA3AF" }}>
                       <Clock size={10} /> {d.time}
                     </span>
                   </div>
 
-                  <h3 className="text-[15px] mb-3" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "2px", textTransform: "uppercase", color: "rgba(245,240,232,0.92)" }}>
+                  <h3 className="text-[15px] mb-3" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "2px", textTransform: "uppercase", color: "#1F2937" }}>
                     {d.title}
                   </h3>
-                  <p className="text-[13px] leading-[1.7] mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.5)" }}>
+                  <p className="text-[13px] leading-[1.7] mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
                     {d.pitch}
                   </p>
 
                   <div className="rounded-xl px-3 py-2.5 mb-5" style={{ background: `${d.accent}08`, border: `1px solid ${d.accent}15` }}>
-                    <p className="text-[11px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: `rgba(255,255,255,0.6)` }}>
+                    <p className="text-[11px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
                       <span className="font-semibold" style={{ color: d.accent }}>Proves:</span> {d.proves}
                     </p>
                   </div>
