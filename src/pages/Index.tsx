@@ -15,7 +15,7 @@ import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import WharikiFoundation from "@/components/whariki/WharikiFoundation";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import CursorFollower from "@/components/CursorFollower";
-import WaterCausticBackground from "@/components/hero/WaterCausticBackground";
+
 import ScrollDepthLayers from "@/components/hero/ScrollDepthLayers";
 import TypewriterText from "@/components/TypewriterText";
 import { AnimatedUnderline, DotDivider } from "@/components/MicroDetails";
@@ -237,7 +237,7 @@ const Index = () => {
         description="Specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. Built for NZ."
       />
       <WharikiFoundation />
-      <WaterCausticBackground />
+      
       <NoiseOverlay />
       <CursorFollower />
 
