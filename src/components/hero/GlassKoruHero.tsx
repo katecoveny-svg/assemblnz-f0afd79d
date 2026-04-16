@@ -1,6 +1,6 @@
 import { useRef, useMemo, Suspense, useState, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Float } from "@react-three/drei";
+import { Float, Environment } from "@react-three/drei";
 import * as THREE from "three";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -371,16 +371,14 @@ const GlassKoruHero = () => {
               style={{ background: "transparent" }}
               dpr={[1, 2]}
             >
-              {/* Lighting to create the glass/caustic look */}
-              <ambientLight intensity={0.8} color="#F5F0E8" />
-              <directionalLight position={[8, 8, 5]} intensity={1.2} color="#FFFFFF" />
-              <directionalLight position={[-5, 3, 8]} intensity={0.6} color="#D4F0F0" />
-              <pointLight position={[0, 0, 6]} intensity={0.5} color="#FFFFFF" />
-
-              {/* Subtle environment reflection */}
-              <hemisphereLight
-                args={["#E8F4F4", "#F5F0E8", 0.6]}
-              />
+              {/* Environment map is essential for transmission/glass to work */}
+              <Environment preset="city" environmentIntensity={0.4} />
+              
+              {/* Lighting */}
+              <ambientLight intensity={1.0} color="#F8F6F0" />
+              <directionalLight position={[8, 8, 5]} intensity={1.5} color="#FFFFFF" />
+              <directionalLight position={[-5, 3, 8]} intensity={0.8} color="#D4F0F0" />
+              <pointLight position={[0, 0, 6]} intensity={0.8} color="#FFFFFF" />
 
               <Suspense fallback={null}>
                 <KoruScene />
