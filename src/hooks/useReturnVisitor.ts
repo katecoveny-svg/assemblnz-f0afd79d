@@ -38,10 +38,12 @@ export function useReturnVisitor() {
         },
         duration: 8000,
         style: {
-          background: '#13131F',
-          border: '1px solid rgba(255,255,255,0.08)',
-          color: 'rgba(255,255,255,0.85)',
+          background: 'rgba(255,255,255,0.85)',
+          backdropFilter: 'blur(20px) saturate(140%)',
+          border: '1px solid rgba(255,255,255,0.9)',
+          color: '#3D4250',
           fontFamily: "'Plus Jakarta Sans', sans-serif",
+          boxShadow: '0 10px 40px -10px rgba(74,165,168,0.15), 0 4px 12px rgba(0,0,0,0.04)',
         },
       });
     }, 1500);
