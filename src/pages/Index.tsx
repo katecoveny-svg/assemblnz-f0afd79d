@@ -247,7 +247,7 @@ const Index = () => {
         <ContextBar />
 
         {/* ═══ HERO ═══ */}
-        <section className="relative min-h-[90vh] flex items-center justify-center px-6 overflow-hidden">
+        <section className="relative min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center px-4 sm:px-6 overflow-hidden pt-8 sm:pt-0">
           {/* Ambient blobs behind hero — drift slowly */}
           <motion.div className="absolute pointer-events-none" style={{
             width: 500, height: 500, top: "5%", left: "-5%",
@@ -292,11 +292,11 @@ const Index = () => {
               <h1 style={{
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 400,
-                fontSize: isMobile ? "2.5rem" : "4.2rem",
-                lineHeight: 1.05,
+                fontSize: isMobile ? "2rem" : "4.2rem",
+                lineHeight: 1.1,
                 letterSpacing: "-0.02em",
                 color: C.text,
-                textShadow: "0 2px 4px rgba(0,0,0,0.06)",
+                textShadow: "0 2px 8px rgba(0,0,0,0.08)",
               }}>
                 <TypewriterText
                   text="The operating system for NZ business"
