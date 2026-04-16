@@ -82,34 +82,54 @@ export default function ContextBar() {
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         >
           <div
-            className="flex items-center gap-3 px-5 h-[48px] text-[12px] backdrop-blur-xl w-full"
+            className="flex items-center gap-3 px-5 h-[48px] text-[12px] w-full relative overflow-hidden"
             style={{
-              background: 'rgba(13,13,21,0.85)',
-              borderBottom: '1px solid rgba(255,255,255,0.06)',
+              background: '#EEEEF2',
+              boxShadow: `
+                0 4px 16px rgba(166,166,180,0.35),
+                0 1px 0 rgba(255,255,255,0.85) inset,
+                0 -1px 0 rgba(166,166,180,0.15) inset,
+                0 0 24px rgba(58,125,110,0.08)
+              `,
+              borderBottom: '1px solid rgba(58,125,110,0.1)',
               fontFamily: "'JetBrains Mono', monospace",
             }}
           >
+            {/* Accent glow line */}
+            <div
+              className="absolute top-0 left-[10%] right-[10%] h-[2px]"
+              style={{
+                background: `linear-gradient(90deg, transparent, ${info.color}60, ${info.color}, ${info.color}60, transparent)`,
+                boxShadow: `0 0 12px ${info.color}30, 0 0 4px ${info.color}20`,
+              }}
+            />
+            {/* Specular highlight */}
+            <div
+              className="absolute top-0 left-[5%] right-[5%] h-[1px] opacity-70"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent)' }}
+            />
+
             <KeteMiniIcon glyph={info.glyph} color={info.color} size={22} />
-            <span style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <span style={{ color: 'rgba(26,29,41,0.5)' }}>
               You're exploring
             </span>
-            <span className="font-semibold tracking-[2px]" style={{ color: info.color }}>
+            <span className="font-semibold tracking-[2px]" style={{ color: info.color, textShadow: `0 0 8px ${info.color}30` }}>
               {info.name}
             </span>
-            <span style={{ color: 'rgba(255,255,255,0.25)' }}>·</span>
+            <span style={{ color: 'rgba(26,29,41,0.2)' }}>·</span>
             <Link
               to={info.samplePath}
               className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
-              style={{ color: 'rgba(255,255,255,0.6)' }}
+              style={{ color: '#3A7D6E' }}
             >
               See a sample evidence pack
               <ArrowRight size={11} />
             </Link>
-            <span style={{ color: 'rgba(255,255,255,0.15)' }}>|</span>
+            <span style={{ color: 'rgba(26,29,41,0.12)' }}>|</span>
             <Link
               to="/kete"
               className="flex items-center gap-1 hover:opacity-80 transition-opacity"
-              style={{ color: 'rgba(255,255,255,0.4)' }}
+              style={{ color: 'rgba(26,29,41,0.45)' }}
             >
               Browse all industries
               <ChevronDown size={11} />
@@ -117,7 +137,7 @@ export default function ContextBar() {
             <button
               onClick={() => setDismissed(true)}
               className="ml-auto text-[10px] hover:opacity-80 transition-opacity"
-              style={{ color: 'rgba(255,255,255,0.25)' }}
+              style={{ color: 'rgba(26,29,41,0.25)' }}
               aria-label="Dismiss"
             >
               ✕
