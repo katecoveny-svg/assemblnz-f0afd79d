@@ -1,57 +1,70 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Trophy, UtensilsCrossed, Palette, Compass, Scale, ChevronDown, ArrowRight } from "lucide-react";
+import { ChevronDown, ArrowRight } from "lucide-react";
 import AgentCard from "@/components/AgentCard";
+import KeteIcon from "@/components/kete/KeteIcon";
 import { agents, sectors } from "@/data/agents";
 
 const HERO_INDUSTRIES = [
   {
-    industry: "Sports & Recreation",
-    agent: "TURF",
-    color: "#00E676",
-    Icon: Trophy,
-    description: "Your club's re-registration under the Incorporated Societies Act 2022. The deadline is 5 April 2026. Fewer than half of NZ's clubs have done it.",
-    capabilities: ["Season calendar builder", "Gaming trust grant writer", "Coaching session planner", "Incorporated Societies compliance"],
-    agentId: "sports",
-  },
-  {
-    industry: "Hospitality",
-    agent: "AURA",
-    color: "#5AADA0",
-    Icon: UtensilsCrossed,
+    industry: "Hospitality & Tourism",
+    agent: "MANAAKI",
+    color: "#D4A843",
+    accentLight: "#F0D078",
+    variant: "warm" as const,
     description: "Your 18-page Food Control Plan diary replaced with a 90-second voice check. Verifier visits stop being stressful.",
-    capabilities: ["Guest intelligence & CRM", "Menu engineering & F&B", "Revenue optimisation", "Compliance autopilot"],
-    agentId: "hospitality",
+    capabilities: ["Season calendar builder", "Gaming trust grant writer", "Coaching session planner", "Incorporated Societies compliance"],
+    agentId: "manaaki",
   },
   {
-    industry: "Marketing & Creative",
-    agent: "PRISM",
+    industry: "Construction",
+    agent: "WAIHANGA",
     color: "#3A7D6E",
-    Icon: Palette,
+    accentLight: "#5AADA0",
+    variant: "dense" as const,
+    description: "Site safety, schedule risks surfaced earlier, cleaner audit trails, approvals that don't stall.",
+    capabilities: ["Guest intelligence & CRM", "Menu engineering & F&B", "Revenue optimisation", "Compliance autopilot"],
+    agentId: "waihanga",
+  },
+  {
+    industry: "Creative & Media",
+    agent: "AUAHA",
+    color: "#F0D078",
+    accentLight: "#F7E6A0",
+    variant: "tricolor" as const,
     description: "Brand strategy, campaign creation, image generation, and social deployment — your entire marketing department in one place.",
     capabilities: ["Brand strategy builder", "AI image generation", "Social media deployment", "Campaign auto-creator"],
-    agentId: "marketing",
+    agentId: "auaha",
   },
   {
-    industry: "Operations & Admin",
-    agent: "TORO",
-    color: "#3A6A9C",
-    Icon: Compass,
-    description: "Schedules, meal plans, budgets, school admin, and family logistics handled instantly — purpose-built for NZ families.",
-    capabilities: ["Newsletter data extractor", "Meal plan generator", "Budget auto-tracker", "Family calendar sync"],
-    agentId: "operations",
+    industry: "Automotive",
+    agent: "ARATAKI",
+    color: "#E8E8E8",
+    accentLight: "#C8C8D0",
+    variant: "standard" as const,
+    description: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped.",
+    capabilities: ["Fuel oracle AI", "Fleet compliance", "Driver safety scoring", "Route optimisation"],
+    agentId: "arataki",
   },
   {
-    industry: "Legal & Compliance",
-    agent: "ANCHOR",
-    color: "#3A6A9C",
-    Icon: Scale,
-    description: "NZ law in plain English — contracts, employment disputes, privacy policies, and separation guidance with compassion.",
-    capabilities: ["Contract & NDA drafter", "Employment dispute nav", "Privacy policy generator", "Separation guide AI"],
-    agentId: "legal",
+    industry: "Freight & Customs",
+    agent: "PIKAU",
+    color: "#5AADA0",
+    accentLight: "#8ECFC6",
+    variant: "organic" as const,
+    description: "Customs entries, freight quotes, dangerous goods checks — border compliance without the scramble.",
+    capabilities: ["Customs entry builder", "Freight rate comparison", "DG check automation", "Border compliance"],
+    agentId: "pikau",
   },
 ];
+
+function hexToRgb(hex: string): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `${r},${g},${b}`;
+}
 
 const IndustrySolutions = () => {
   const [expanded, setExpanded] = useState(false);
@@ -81,82 +94,132 @@ const IndustrySolutions = () => {
           </p>
         </motion.div>
 
-        {/* Hero industry cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-12">
-          {HERO_INDUSTRIES.map((ind, i) => (
-            <motion.div
-              key={ind.agent}
-              className="relative rounded-2xl p-6 group cursor-pointer overflow-hidden"
-              style={{
-                background: 'hsl(var(--surface-1) / 0.6)',
-                backdropFilter: 'blur(20px) saturate(1.3)',
-                WebkitBackdropFilter: 'blur(20px) saturate(1.3)',
-                border: '1px solid hsl(var(--border) / 0.5)',
-                boxShadow: '0 1px 3px hsl(228 14% 4% / 0.3)',
-              }}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -4 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06, duration: 0.5 }}
-            >
-              {/* Hover glow */}
-              <span
-                className="absolute top-0 left-[10%] right-[10%] h-px opacity-0 group-hover:opacity-50 transition-opacity duration-700"
-                style={{ background: `linear-gradient(90deg, transparent, ${ind.color}80, transparent)` }}
-              />
-              <span
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                style={{ background: `radial-gradient(ellipse at 50% 0%, ${ind.color}06 0%, transparent 60%)` }}
-              />
-
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-4">
-                  <div
-                    className="w-11 h-11 rounded-xl flex items-center justify-center"
-                    style={{ backgroundColor: `${ind.color}10`, border: `1px solid ${ind.color}15` }}
-                  >
-                    <ind.Icon size={20} style={{ color: ind.color }} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-display font-bold text-foreground">{ind.industry}</p>
-                    <p className="text-[10px] font-mono-jb text-muted-foreground/50 uppercase tracking-[2px]">{ind.agent}</p>
-                  </div>
+        {/* Hero industry cards with liquid glass + kete icons */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 mb-12">
+          {HERO_INDUSTRIES.map((ind, i) => {
+            const rgb = hexToRgb(ind.color);
+            return (
+              <motion.div
+                key={ind.agent}
+                className="relative rounded-2xl p-6 group cursor-pointer overflow-hidden"
+                style={{
+                  background: '#EEEEF2',
+                  boxShadow: `
+                    6px 6px 16px rgba(166,166,180,0.35),
+                    -6px -6px 16px rgba(255,255,255,0.85),
+                    inset 0 1px 0 rgba(255,255,255,0.6)
+                  `,
+                  border: '1px solid rgba(255,255,255,0.4)',
+                }}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -6, boxShadow: `8px 8px 24px rgba(166,166,180,0.45), -8px -8px 24px rgba(255,255,255,0.95), inset 0 1px 0 rgba(255,255,255,0.7), 0 0 30px rgba(${rgb},0.12)` }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06, duration: 0.5 }}
+              >
+                {/* Liquid blob background */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl" aria-hidden="true">
+                  <div className="absolute rounded-full" style={{
+                    width: 160, height: 120,
+                    top: '-30px', left: '-20px',
+                    background: `radial-gradient(ellipse, rgba(${rgb},0.1) 0%, transparent 70%)`,
+                    animation: `indLiquid1 ${8 + i * 2}s ease-in-out infinite`,
+                  }} />
+                  <div className="absolute rounded-full" style={{
+                    width: 120, height: 90,
+                    bottom: '-20px', right: '-10px',
+                    background: `radial-gradient(ellipse, rgba(${rgb},0.07) 0%, transparent 70%)`,
+                    animation: `indLiquid2 ${10 + i}s ease-in-out infinite`,
+                  }} />
                 </div>
 
-                <p className="text-xs font-body text-muted-foreground mb-4 leading-relaxed">{ind.description}</p>
+                {/* Accent top glow */}
+                <span
+                  className="absolute top-0 left-[10%] right-[10%] h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background: `linear-gradient(90deg, transparent, rgba(${rgb},0.6), ${ind.color}, rgba(${rgb},0.6), transparent)`,
+                    boxShadow: `0 0 14px rgba(${rgb},0.3)`,
+                  }}
+                />
+                {/* Specular highlight */}
+                <span className="absolute top-0 left-[5%] right-[5%] h-[1px] opacity-50" style={{
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent)',
+                }} />
 
-                <ul className="space-y-2 mb-5">
-                  {ind.capabilities.map((cap) => (
-                    <li key={cap} className="flex items-start gap-2 text-[11px] font-body text-foreground/60">
-                      <span className="mt-1.5 w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: ind.color, opacity: 0.7 }} />
-                      {cap}
-                    </li>
-                  ))}
-                </ul>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-4 mb-5">
+                    {/* Real woven kete basket icon */}
+                    <div style={{ filter: `drop-shadow(0 0 10px rgba(${rgb},0.35))` }}>
+                      <KeteIcon
+                        name={ind.agentId}
+                        accentColor={ind.color}
+                        accentLight={ind.accentLight}
+                        variant={ind.variant}
+                        size="small"
+                        animated={true}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm font-display font-bold" style={{ color: '#1A1D29' }}>{ind.industry}</p>
+                      <p className="text-[10px] font-mono-jb uppercase tracking-[2px]" style={{
+                        color: ind.color,
+                        textShadow: `0 0 8px rgba(${rgb},0.3)`,
+                      }}>{ind.agent}</p>
+                    </div>
+                  </div>
 
-                <Link
-                  to={`/chat/${ind.agentId}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-display font-bold transition-all duration-300 group-hover:gap-2.5"
-                  style={{ color: ind.color }}
-                >
-                  Try {ind.agent} <ArrowRight size={12} />
-                </Link>
-              </div>
-            </motion.div>
-          ))}
+                  <p className="text-xs font-body mb-4 leading-relaxed" style={{ color: 'rgba(26,29,41,0.6)' }}>{ind.description}</p>
+
+                  <ul className="space-y-2 mb-5">
+                    {ind.capabilities.map((cap) => (
+                      <li key={cap} className="flex items-start gap-2 text-[11px] font-body" style={{ color: 'rgba(26,29,41,0.55)' }}>
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0" style={{
+                          backgroundColor: ind.color,
+                          boxShadow: `0 0 4px rgba(${rgb},0.4)`,
+                        }} />
+                        {cap}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* 3D pop-out CTA button */}
+                  <Link
+                    to={`/chat/${ind.agentId}`}
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-display font-bold transition-all duration-300 hover:-translate-y-[2px] active:translate-y-[1px] group-hover:gap-3"
+                    style={{
+                      color: '#1A1D29',
+                      background: 'linear-gradient(145deg, #F5F5F8, #E4E4E8)',
+                      boxShadow: `
+                        4px 4px 10px rgba(166,166,180,0.5),
+                        -4px -4px 10px rgba(255,255,255,0.95),
+                        inset 0 1px 0 rgba(255,255,255,0.8),
+                        0 0 12px rgba(${rgb},0.1)
+                      `,
+                      border: `1px solid rgba(${rgb},0.1)`,
+                    }}
+                  >
+                    Try {ind.agent} <ArrowRight size={13} />
+                  </Link>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Expand button */}
+        {/* 3D expand button */}
         <motion.div className="text-center" layout>
           <button
             onClick={() => setExpanded(!expanded)}
-            className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full text-sm font-display font-bold text-foreground transition-all duration-300 hover:scale-[1.02]"
+            className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl text-sm font-display font-bold transition-all duration-300 hover:-translate-y-[2px] hover:scale-[1.02] active:translate-y-[1px]"
             style={{
-              background: 'hsl(var(--surface-2) / 0.5)',
-              border: '1px solid hsl(var(--border))',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
+              color: '#1A1D29',
+              background: 'linear-gradient(145deg, #F5F5F8, #E4E4E8)',
+              boxShadow: `
+                6px 6px 16px rgba(166,166,180,0.45),
+                -6px -6px 16px rgba(255,255,255,0.9),
+                inset 0 1px 0 rgba(255,255,255,0.7)
+              `,
+              border: '1px solid rgba(255,255,255,0.4)',
             }}
           >
             {expanded ? "Collapse" : "See all five kete"}
@@ -181,14 +244,18 @@ const IndustrySolutions = () => {
                   <button
                     key={s}
                     onClick={() => setActiveSector(s)}
-                    className={`px-3.5 py-1.5 rounded-full text-[10px] font-mono-jb uppercase tracking-wider transition-all duration-300 ${
-                      activeSector === s
-                        ? "border-primary/50 bg-primary/10 text-primary"
-                        : "text-muted-foreground/60 hover:text-muted-foreground"
+                    className={`px-4 py-2 rounded-xl text-[10px] font-mono-jb uppercase tracking-wider transition-all duration-300 hover:-translate-y-[1px] ${
+                      activeSector === s ? "font-bold" : ""
                     }`}
                     style={{
-                      border: `1px solid ${activeSector === s ? '' : 'hsl(var(--border) / 0.4)'}`,
-                      background: activeSector === s ? '' : 'hsl(var(--surface-1) / 0.4)',
+                      color: activeSector === s ? '#3A7D6E' : 'rgba(26,29,41,0.5)',
+                      background: activeSector === s
+                        ? 'linear-gradient(145deg, #F5F5F8, #E4E4E8)'
+                        : '#EEEEF2',
+                      boxShadow: activeSector === s
+                        ? '4px 4px 10px rgba(166,166,180,0.4), -4px -4px 10px rgba(255,255,255,0.9), inset 0 1px 0 rgba(255,255,255,0.7), 0 0 10px rgba(58,125,110,0.08)'
+                        : 'inset 2px 2px 4px rgba(166,166,180,0.25), inset -2px -2px 4px rgba(255,255,255,0.7)',
+                      border: activeSector === s ? '1px solid rgba(58,125,110,0.12)' : '1px solid rgba(255,255,255,0.3)',
                     }}
                   >
                     {s}
@@ -205,6 +272,18 @@ const IndustrySolutions = () => {
           )}
         </AnimatePresence>
       </div>
+
+      <style>{`
+        @keyframes indLiquid1 {
+          0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+          33% { transform: translate(20px, 10px) scale(1.15); opacity: 0.9; }
+          66% { transform: translate(-10px, 5px) scale(1.05); opacity: 0.7; }
+        }
+        @keyframes indLiquid2 {
+          0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+          50% { transform: translate(-15px, -8px) scale(1.1); opacity: 0.8; }
+        }
+      `}</style>
     </section>
   );
 };

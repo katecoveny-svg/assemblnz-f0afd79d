@@ -4,58 +4,26 @@ import { Link } from 'react-router-dom';
 import { usePersonalization } from '@/contexts/PersonalizationContext';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { KETE_CONFIG } from '@/components/kete/KeteConfig';
+import KeteIcon from '@/components/kete/KeteIcon';
 import type { KeteType } from '@/lib/personalization/types';
 
-/* ── Industry-specific SVG icons (not generic glyphs) ── */
-function KeteIcon({ id, color, size = 20 }: { id: string; color: string; size?: number }) {
-  if (id === 'manaaki') return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <path d="M12 3C9.5 3 7.5 5 7.5 7.5c0 2 1.5 3.8 3.5 4.3V15H9v2h6v-2h-2v-3.2c2-.5 3.5-2.3 3.5-4.3C16.5 5 14.5 3 12 3z" fill={color} opacity="0.9"/>
-      <path d="M9 19h6v1.5a1 1 0 01-1 1h-4a1 1 0 01-1-1V19z" fill={color} opacity="0.5"/>
-    </svg>
-  );
-  if (id === 'waihanga') return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <rect x="4" y="17" width="16" height="3" rx="1" fill={color} opacity="0.9"/>
-      <path d="M6 17v-2a6 6 0 0112 0v2" stroke={color} strokeWidth="2" fill="none"/>
-      <line x1="10" y1="17" x2="10" y2="12" stroke={color} strokeWidth="1.2" opacity="0.5"/>
-      <line x1="14" y1="17" x2="14" y2="11" stroke={color} strokeWidth="1.2" opacity="0.5"/>
-    </svg>
-  );
-  if (id === 'auaha') return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="12" r="8" stroke={color} strokeWidth="1.5" fill="none" opacity="0.5"/>
-      <circle cx="9" cy="9.5" r="2" fill={color} opacity="0.85"/>
-      <circle cx="15.5" cy="9.5" r="1.5" fill={color} opacity="0.65"/>
-      <circle cx="9.5" cy="15" r="1.3" fill={color} opacity="0.55"/>
-      <circle cx="15" cy="15" r="1.7" fill={color} opacity="0.75"/>
-    </svg>
-  );
-  if (id === 'arataki') return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <path d="M4 15h16v2.5a1 1 0 01-1 1H5a1 1 0 01-1-1V15z" fill={color} opacity="0.85"/>
-      <path d="M6 15l1.5-5h9L18 15" stroke={color} strokeWidth="1.5" fill="none"/>
-      <circle cx="7.5" cy="16.5" r="1.5" fill={color} opacity="0.5"/>
-      <circle cx="16.5" cy="16.5" r="1.5" fill={color} opacity="0.5"/>
-      <rect x="9" y="12" width="6" height="2" rx="0.5" fill={color} opacity="0.3"/>
-    </svg>
-  );
-  if (id === 'pikau') return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="5" width="18" height="14" rx="2" stroke={color} strokeWidth="1.5" fill="none"/>
-      <line x1="9" y1="5" x2="9" y2="19" stroke={color} strokeWidth="1" opacity="0.4"/>
-      <line x1="15" y1="5" x2="15" y2="19" stroke={color} strokeWidth="1" opacity="0.4"/>
-      <path d="M3 10h18" stroke={color} strokeWidth="1" opacity="0.35"/>
-    </svg>
-  );
-  if (id === 'toro') return (
-    <svg width={size + 4} height={size} viewBox="0 0 28 20" fill="none">
-      <path d="M14 10 C11 7, 5 5, 1 7 C5 6.5, 9 8, 12 9.5 L14 10 L16 9.5 C19 8, 23 6.5, 27 7 C23 5, 17 7, 14 10Z" fill={color} opacity="0.85"/>
-      <ellipse cx="14" cy="10.5" rx="2.5" ry="1.2" fill={color}/>
-    </svg>
-  );
-  return null;
-}
+const KETE_VARIANTS: Record<string, "standard" | "dense" | "organic" | "tricolor" | "warm"> = {
+  manaaki: "warm",
+  waihanga: "dense",
+  auaha: "tricolor",
+  arataki: "standard",
+  pikau: "organic",
+  toro: "warm",
+};
+
+const KETE_ACCENT_LIGHT: Record<string, string> = {
+  manaaki: "#F0D078",
+  waihanga: "#5AADA0",
+  auaha: "#F7E6A0",
+  arataki: "#C8C8D0",
+  pikau: "#8ECFC6",
+  toro: "#F0D078",
+};
 
 const KETE_INFO: Record<string, { name: string; nameEn: string; color: string; path: string; samplePath: string }> = Object.fromEntries(
   KETE_CONFIG.map(k => [k.id, {
@@ -74,7 +42,6 @@ export default function ContextBar() {
 
   useEffect(() => {
     if (!isPersonalized || dismissed) return;
-
     const kete = profile.detectedIndustry;
     if (!kete) return;
 
@@ -110,7 +77,10 @@ export default function ContextBar() {
   const info = KETE_INFO[profile.detectedIndustry];
   if (!info) return null;
 
+  const keteId = profile.detectedIndustry!;
   const rgb = hexToRgb(info.color);
+  const variant = KETE_VARIANTS[keteId] ?? "standard";
+  const accentLight = KETE_ACCENT_LIGHT[keteId] ?? info.color;
 
   return (
     <AnimatePresence>
@@ -123,7 +93,7 @@ export default function ContextBar() {
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         >
           <div
-            className="flex items-center gap-3 px-5 h-[52px] text-[12px] w-full relative overflow-hidden"
+            className="flex items-center gap-3 px-5 h-[56px] text-[12px] w-full relative overflow-hidden"
             style={{
               background: '#EEEEF2',
               boxShadow: `
@@ -136,125 +106,105 @@ export default function ContextBar() {
               fontFamily: "'JetBrains Mono', monospace",
             }}
           >
-            {/* Liquid glass animated background blobs */}
-            <div
-              className="absolute inset-0 pointer-events-none overflow-hidden"
-              aria-hidden="true"
-            >
-              <div
-                className="absolute rounded-full"
-                style={{
-                  width: 180, height: 60,
-                  left: '10%', top: '-10px',
-                  background: `radial-gradient(ellipse, rgba(${rgb},0.10) 0%, transparent 70%)`,
-                  animation: 'contextBlob1 8s ease-in-out infinite',
-                }}
-              />
-              <div
-                className="absolute rounded-full"
-                style={{
-                  width: 120, height: 50,
-                  right: '20%', top: '-5px',
-                  background: `radial-gradient(ellipse, rgba(232,169,72,0.08) 0%, transparent 70%)`,
-                  animation: 'contextBlob2 10s ease-in-out infinite',
-                }}
-              />
-              <div
-                className="absolute rounded-full"
-                style={{
-                  width: 100, height: 40,
-                  left: '55%', top: '5px',
-                  background: `radial-gradient(ellipse, rgba(200,195,220,0.08) 0%, transparent 70%)`,
-                  animation: 'contextBlob1 12s ease-in-out infinite reverse',
-                }}
+            {/* Liquid glass blobs */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+              <div className="absolute rounded-full" style={{
+                width: 200, height: 70, left: '5%', top: '-15px',
+                background: `radial-gradient(ellipse, rgba(${rgb},0.12) 0%, transparent 70%)`,
+                animation: 'ctxLiquid1 8s ease-in-out infinite',
+              }} />
+              <div className="absolute rounded-full" style={{
+                width: 140, height: 55, right: '15%', top: '-8px',
+                background: `radial-gradient(ellipse, rgba(${rgb},0.08) 0%, transparent 70%)`,
+                animation: 'ctxLiquid2 11s ease-in-out infinite',
+              }} />
+              <div className="absolute rounded-full" style={{
+                width: 100, height: 45, left: '50%', bottom: '-10px',
+                background: `radial-gradient(ellipse, rgba(200,195,220,0.08) 0%, transparent 70%)`,
+                animation: 'ctxLiquid1 14s ease-in-out infinite reverse',
+              }} />
+            </div>
+
+            {/* Accent glow line */}
+            <div className="absolute top-0 left-[5%] right-[5%] h-[2px]" style={{
+              background: `linear-gradient(90deg, transparent, rgba(${rgb},0.5), ${info.color}, rgba(${rgb},0.5), transparent)`,
+              boxShadow: `0 0 16px rgba(${rgb},0.3), 0 0 6px rgba(${rgb},0.2)`,
+            }} />
+            <div className="absolute top-0 left-[3%] right-[3%] h-[1px] opacity-70" style={{
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent)',
+            }} />
+
+            {/* ACTUAL Kete woven basket icon */}
+            <div className="relative shrink-0 -my-2" style={{
+              filter: `drop-shadow(0 0 8px rgba(${rgb},0.4))`,
+            }}>
+              <KeteIcon
+                name={keteId}
+                accentColor={info.color}
+                accentLight={accentLight}
+                variant={variant}
+                size="small"
+                animated={true}
               />
             </div>
 
-            {/* Accent glow line top */}
-            <div
-              className="absolute top-0 left-[8%] right-[8%] h-[2px]"
-              style={{
-                background: `linear-gradient(90deg, transparent, rgba(${rgb},0.5), ${info.color}, rgba(${rgb},0.5), transparent)`,
-                boxShadow: `0 0 16px rgba(${rgb},0.25), 0 0 6px rgba(${rgb},0.15)`,
-              }}
-            />
-            {/* Specular highlight */}
-            <div
-              className="absolute top-0 left-[4%] right-[4%] h-[1px] opacity-80"
-              style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent)' }}
-            />
-
-            {/* Kete icon */}
-            <div
-              className="relative shrink-0"
-              style={{
-                filter: `drop-shadow(0 0 6px rgba(${rgb},0.35))`,
-              }}
-            >
-              <KeteIcon id={profile.detectedIndustry!} color={info.color} size={22} />
-            </div>
-
-            <span style={{ color: 'rgba(26,29,41,0.5)' }}>
-              You're exploring
-            </span>
-            <span
-              className="font-semibold tracking-[2px]"
-              style={{
-                color: info.color,
-                textShadow: `0 0 10px rgba(${rgb},0.3)`,
-              }}
-            >
+            <span style={{ color: 'rgba(26,29,41,0.5)' }}>You're exploring</span>
+            <span className="font-semibold tracking-[2px]" style={{
+              color: info.color,
+              textShadow: `0 0 12px rgba(${rgb},0.35)`,
+            }}>
               {info.name}
             </span>
             <span style={{ color: 'rgba(26,29,41,0.15)' }}>·</span>
 
-            {/* 3D pop-out button — sample pack */}
+            {/* 3D pop-out button */}
             <Link
               to={info.samplePath}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-[11px] transition-all duration-200 hover:-translate-y-[1px] active:translate-y-[1px]"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-[11px] font-semibold transition-all duration-200 hover:-translate-y-[2px] active:translate-y-[1px]"
               style={{
                 color: '#1A1D29',
-                background: '#EEEEF2',
+                background: 'linear-gradient(145deg, #F5F5F8, #E4E4E8)',
                 boxShadow: `
-                  3px 3px 8px rgba(166,166,180,0.4),
-                  -3px -3px 8px rgba(255,255,255,0.9),
-                  inset 0 1px 0 rgba(255,255,255,0.7)
+                  4px 4px 10px rgba(166,166,180,0.5),
+                  -4px -4px 10px rgba(255,255,255,0.95),
+                  inset 0 1px 0 rgba(255,255,255,0.8),
+                  0 0 12px rgba(${rgb},0.08)
                 `,
-                border: `1px solid rgba(${rgb},0.1)`,
+                border: `1px solid rgba(${rgb},0.08)`,
               }}
             >
               See sample pack
-              <ArrowRight size={10} />
+              <ArrowRight size={11} />
             </Link>
 
-            {/* 3D pop-out button — browse */}
+            {/* 3D pop-out button */}
             <Link
               to="/kete"
-              className="flex items-center gap-1 px-3 py-1 rounded-lg text-[11px] transition-all duration-200 hover:-translate-y-[1px] active:translate-y-[1px]"
+              className="flex items-center gap-1 px-3.5 py-1.5 rounded-xl text-[11px] transition-all duration-200 hover:-translate-y-[2px] active:translate-y-[1px]"
               style={{
                 color: 'rgba(26,29,41,0.55)',
-                background: '#EEEEF2',
+                background: 'linear-gradient(145deg, #F5F5F8, #E4E4E8)',
                 boxShadow: `
-                  3px 3px 8px rgba(166,166,180,0.35),
-                  -3px -3px 8px rgba(255,255,255,0.85),
-                  inset 0 1px 0 rgba(255,255,255,0.6)
+                  4px 4px 10px rgba(166,166,180,0.45),
+                  -4px -4px 10px rgba(255,255,255,0.9),
+                  inset 0 1px 0 rgba(255,255,255,0.7)
                 `,
               }}
             >
               Browse all
-              <ChevronDown size={10} />
+              <ChevronDown size={11} />
             </Link>
 
-            {/* Dismiss — 3D inset button */}
+            {/* Dismiss — inset button */}
             <button
               onClick={() => setDismissed(true)}
-              className="ml-auto w-6 h-6 rounded-full flex items-center justify-center text-[10px] transition-all duration-200 hover:scale-105 active:scale-95"
+              className="ml-auto w-7 h-7 rounded-full flex items-center justify-center text-[10px] transition-all duration-200 hover:scale-105 active:scale-95"
               style={{
                 color: 'rgba(26,29,41,0.3)',
-                background: '#E8E8EC',
+                background: '#E6E6EA',
                 boxShadow: `
-                  inset 2px 2px 4px rgba(166,166,180,0.35),
-                  inset -2px -2px 4px rgba(255,255,255,0.8)
+                  inset 2px 2px 5px rgba(166,166,180,0.4),
+                  inset -2px -2px 5px rgba(255,255,255,0.85)
                 `,
               }}
               aria-label="Dismiss"
@@ -264,13 +214,14 @@ export default function ContextBar() {
           </div>
 
           <style>{`
-            @keyframes contextBlob1 {
-              0%, 100% { transform: translateX(0) scale(1); opacity: 0.7; }
-              50% { transform: translateX(30px) scale(1.15); opacity: 1; }
+            @keyframes ctxLiquid1 {
+              0%, 100% { transform: translateX(0) translateY(0) scale(1); opacity: 0.6; }
+              33% { transform: translateX(25px) translateY(5px) scale(1.1); opacity: 0.9; }
+              66% { transform: translateX(-15px) translateY(-3px) scale(1.05); opacity: 0.7; }
             }
-            @keyframes contextBlob2 {
-              0%, 100% { transform: translateX(0) scale(1); opacity: 0.6; }
-              50% { transform: translateX(-20px) scale(1.1); opacity: 1; }
+            @keyframes ctxLiquid2 {
+              0%, 100% { transform: translateX(0) scale(1); opacity: 0.5; }
+              50% { transform: translateX(-25px) scale(1.15); opacity: 0.85; }
             }
           `}</style>
         </motion.div>
