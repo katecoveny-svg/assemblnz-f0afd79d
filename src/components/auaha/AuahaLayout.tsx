@@ -36,9 +36,12 @@ const AUAHA_NAV = [
   ]},
 ];
 
-const OBSIDIAN = "#0A0A0A";
-const POUNAMU = "#00A86B";
-const TEAL = "#00CED1";
+const BG = "#FAFBFC";
+const ACCENT = "#F0D078"; // Auaha ochre
+const TEAL = "#4AA5A8";
+const TEXT_PRIMARY = "#1A1D29";
+const TEXT_SECONDARY = "#6B7280";
+const TEXT_MUTED = "#9CA3AF";
 
 function BrandDnaBadge() {
   try {
@@ -46,14 +49,14 @@ function BrandDnaBadge() {
     if (!brand) return null;
     return (
       <div className="mx-4 mb-3 px-3 py-2 rounded-lg text-[10px]" style={{
-        background: `${POUNAMU}08`,
-        border: `1px solid ${POUNAMU}15`,
+        background: "rgba(74,165,168,0.06)",
+        border: "1px solid rgba(74,165,168,0.15)",
       }}>
-        <div className="flex items-center gap-1.5 text-gray-500">
+        <div className="flex items-center gap-1.5" style={{ color: TEXT_SECONDARY }}>
           <div className="w-2 h-2 rounded-full" style={{ background: brand.colors.primary }} />
           <span className="truncate">{brand.businessName}</span>
         </div>
-        <span className="text-white/25 text-[9px]">Brand DNA active across all modules</span>
+        <span className="text-[9px]" style={{ color: TEXT_MUTED }}>Brand DNA active across all modules</span>
       </div>
     );
   } catch {
@@ -66,43 +69,45 @@ function AuahaLayoutInner() {
   const allItems = AUAHA_NAV.flatMap(g => g.items);
 
   return (
-    <div className="min-h-screen flex" style={{ background: OBSIDIAN }}>
-      {/* Sidebar */}
-      <aside className="hidden lg:flex w-64 flex-col border-r relative overflow-hidden"
+    <div className="min-h-screen flex" style={{ background: BG }}>
+      {/* Sidebar — light glass */}
+      <aside className="hidden lg:flex w-64 flex-col relative overflow-hidden"
         style={{
-          background: `linear-gradient(180deg, ${OBSIDIAN}F8 0%, ${OBSIDIAN} 100%)`,
-          borderColor: "rgba(255,255,255,0.04)",
+          background: "rgba(255,255,255,0.65)",
+          backdropFilter: "blur(20px)",
+          borderRight: "1px solid rgba(74,165,168,0.12)",
+          boxShadow: "2px 0 12px rgba(0,0,0,0.03)",
         }}>
         {/* Ambient glow */}
         <div className="absolute top-0 left-0 right-0 h-48 pointer-events-none" style={{
-          background: `radial-gradient(ellipse 80% 80% at 50% -20%, ${POUNAMU}08 0%, transparent 100%)`,
+          background: `radial-gradient(ellipse 80% 80% at 50% -20%, ${ACCENT}14 0%, transparent 100%)`,
         }} />
         <div className="absolute top-0 left-0 right-0 h-px" style={{
-          background: `linear-gradient(90deg, transparent, ${POUNAMU}40, ${TEAL}30, transparent)`,
+          background: `linear-gradient(90deg, transparent, ${ACCENT}60, ${TEAL}50, transparent)`,
         }} />
 
         {/* Logo */}
         <div className="relative p-5 pb-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{
-              background: `linear-gradient(135deg, ${POUNAMU}20, ${TEAL}10)`,
-              border: `1px solid ${POUNAMU}25`,
-              boxShadow: `0 0 30px ${POUNAMU}08`,
+              background: `linear-gradient(135deg, ${ACCENT}20, ${TEAL}10)`,
+              border: `1px solid ${ACCENT}40`,
+              boxShadow: `0 2px 12px ${ACCENT}20`,
             }}>
-              <Palette className="w-5 h-5" style={{ color: POUNAMU }} />
+              <Palette className="w-5 h-5" style={{ color: "#B8860B" }} />
             </div>
             <div>
-              <h2 className="text-white/90 font-light uppercase tracking-[4px] text-[14px]" style={{ fontFamily: "Lato, sans-serif" }}>
+              <h2 className="font-light uppercase tracking-[4px] text-[14px]" style={{ fontFamily: "Lato, sans-serif", color: TEXT_PRIMARY }}>
                 AUAHA NZ
               </h2>
-              <p className="text-white/25 text-[10px] tracking-wide" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
+              <p className="text-[10px] tracking-wide" style={{ fontFamily: "Plus Jakarta Sans, sans-serif", color: TEXT_MUTED }}>
                 Creative Suite
               </p>
             </div>
           </div>
         </div>
 
-        <div className="mx-4 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)" }} />
+        <div className="mx-4 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(26,29,41,0.08), transparent)" }} />
 
         <BrandDnaBadge />
 
@@ -110,7 +115,7 @@ function AuahaLayoutInner() {
         <nav className="flex-1 px-3 py-2 overflow-y-auto scrollbar-hide space-y-4">
           {AUAHA_NAV.map((group) => (
             <div key={group.group}>
-              <span className="block px-3 mb-1.5 text-[9px] uppercase tracking-[2px] text-white/20 font-medium" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+              <span className="block px-3 mb-1.5 text-[9px] uppercase tracking-[2px] font-medium" style={{ fontFamily: "JetBrains Mono, monospace", color: TEXT_MUTED }}>
                 {group.group}
               </span>
               <div className="space-y-0.5">
@@ -125,26 +130,26 @@ function AuahaLayoutInner() {
                       to={item.to}
                       end={item.end}
                       className={() => cn(
-                        "group relative flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-all duration-200",
-                        isActive ? "text-foreground" : "text-white/35 hover:text-white/60 hover:bg-white/[0.02]"
+                        "group relative flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-all duration-200"
                       )}
+                      style={{ color: isActive ? TEXT_PRIMARY : TEXT_SECONDARY }}
                     >
                       {isActive && (
                         <>
                           <div className="absolute inset-0 rounded-lg" style={{
-                            background: `linear-gradient(135deg, ${POUNAMU}10, ${TEAL}05)`,
-                            border: `1px solid ${POUNAMU}12`,
-                            boxShadow: `0 0 20px ${POUNAMU}05`,
+                            background: `linear-gradient(135deg, ${ACCENT}18, ${TEAL}10)`,
+                            border: `1px solid ${ACCENT}35`,
+                            boxShadow: `0 2px 12px ${ACCENT}20`,
                           }} />
                           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-4 rounded-full" style={{
-                            background: `linear-gradient(180deg, ${POUNAMU}, ${TEAL})`,
-                            boxShadow: `0 0 8px ${POUNAMU}60`,
+                            background: `linear-gradient(180deg, ${ACCENT}, ${TEAL})`,
+                            boxShadow: `0 0 8px ${ACCENT}80`,
                           }} />
                         </>
                       )}
-                      <item.icon className="w-3.5 h-3.5 relative z-10 transition-colors" style={{ color: isActive ? POUNAMU : undefined }} />
+                      <item.icon className="w-3.5 h-3.5 relative z-10 transition-colors" style={{ color: isActive ? "#B8860B" : TEXT_SECONDARY }} />
                       <span className="relative z-10 flex-1" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>{item.label}</span>
-                      {isActive && <ChevronRight className="w-3 h-3 relative z-10" style={{ color: `${POUNAMU}50` }} />}
+                      {isActive && <ChevronRight className="w-3 h-3 relative z-10" style={{ color: "#B8860B" }} />}
                     </NavLink>
                   );
                 })}
@@ -154,21 +159,26 @@ function AuahaLayoutInner() {
         </nav>
 
         {/* Status */}
-        <div className="mx-4 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)" }} />
+        <div className="mx-4 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(26,29,41,0.06), transparent)" }} />
         <div className="p-4">
-          <div className="flex items-center gap-2 text-[10px] text-white/20 tracking-wide">
-            <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: POUNAMU }} />
+          <div className="flex items-center gap-2 text-[10px] tracking-wide" style={{ color: TEXT_MUTED }}>
+            <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: TEAL }} />
             <span>AUAHA NZ — All Systems Active</span>
           </div>
         </div>
       </aside>
 
       {/* Mobile nav */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 border-b"
-        style={{ background: `${OBSIDIAN}F7`, backdropFilter: "blur(20px)", borderColor: "rgba(255,255,255,0.04)" }}>
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40"
+        style={{
+          background: "rgba(250,251,252,0.95)",
+          backdropFilter: "blur(20px)",
+          borderBottom: "1px solid rgba(74,165,168,0.12)",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+        }}>
         <div className="flex items-center gap-3 px-4 py-3">
-          <Palette className="w-4 h-4" style={{ color: POUNAMU }} />
-          <span className="text-white/80 text-[13px] uppercase tracking-[3px] font-light" style={{ fontFamily: "Lato, sans-serif" }}>AUAHA NZ</span>
+          <Palette className="w-4 h-4" style={{ color: "#B8860B" }} />
+          <span className="text-[13px] uppercase tracking-[3px] font-light" style={{ fontFamily: "Lato, sans-serif", color: TEXT_PRIMARY }}>AUAHA NZ</span>
         </div>
         <div className="flex overflow-x-auto px-2 pb-2 gap-1 no-scrollbar">
           {allItems.map((item) => (
@@ -177,10 +187,12 @@ function AuahaLayoutInner() {
               to={item.to}
               end={item.end}
               className={({ isActive }) => cn(
-                "flex-shrink-0 px-3 py-1.5 rounded-full text-[11px] transition-all whitespace-nowrap",
-                isActive ? "text-[#0A0A0A] font-medium" : "text-white/40 bg-white/[0.04]"
+                "flex-shrink-0 px-3 py-1.5 rounded-full text-[11px] transition-all whitespace-nowrap"
               )}
-              style={({ isActive }) => isActive ? { background: POUNAMU, boxShadow: `0 0 16px ${POUNAMU}30` } : {}}
+              style={({ isActive }) => isActive
+                ? { background: ACCENT, color: TEXT_PRIMARY, fontWeight: 500, boxShadow: `0 2px 12px ${ACCENT}50` }
+                : { background: "rgba(26,29,41,0.05)", color: TEXT_SECONDARY }
+              }
             >
               {item.label}
             </NavLink>
