@@ -50,10 +50,12 @@ const WORKFLOW_ICONS: Record<string, any> = {
 };
 
 const glassCard: React.CSSProperties = {
-  background: "rgba(255,255,255,0.65)",
-  backdropFilter: "blur(16px)",
-  border: "1px solid rgba(74,165,168,0.12)",
-  boxShadow: "0 8px 32px -8px rgba(74,165,168,0.08)",
+  background: "#EEEEF2",
+  boxShadow: `
+    6px 6px 16px rgba(166,166,180,0.35),
+    -6px -6px 16px rgba(255,255,255,0.85),
+    inset 0 1px 0 rgba(255,255,255,0.6)
+  `,
 };
 
 const WorkflowSettings = () => {
