@@ -1,5 +1,5 @@
 const ToroaChatPage = () => (
-  <div style={{ width: "100%", height: "100vh", background: "#0A1628" }}>
+  <div style={{ width: "100%", height: "100vh", background: "#FAFBFC" }}>
     <iframe
       src="/toro-chat.html"
       title="Toro Web Chat"

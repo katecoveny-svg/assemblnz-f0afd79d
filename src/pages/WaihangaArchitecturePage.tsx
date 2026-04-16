@@ -1,5 +1,5 @@
 const WaihangaArchitecturePage = () => (
-  <div style={{ width: "100%", height: "100vh", background: "#0A1628" }}>
+  <div style={{ width: "100%", height: "100vh", background: "#FAFBFC" }}>
     <iframe
       src="/waihanga-architecture-workflow.html"
       title="Waihanga Architecture Workflow"
