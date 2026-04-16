@@ -468,6 +468,96 @@ color: #4AA5A8;`}
 
       <SectionDivider />
 
+      {/* Brand Video */}
+      <section className={`${SECTION_PAD} px-6`}>
+        <div className="max-w-[1200px] mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-[11px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>
+              Motion Identity
+            </p>
+            <h2 className="text-[28px] sm:text-[36px] font-light tracking-[-0.02em] mb-4" style={{ color: "#1A1D29" }}>
+              Brand Video
+            </h2>
+            <p className={`${SUB} mx-auto`} style={{ color: "#6B7280" }}>
+              The hero motion piece — five industries, one intelligence layer. Use across socials,
+              decks, and pitch material.
+            </p>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="rounded-3xl overflow-hidden relative group"
+            style={GLASS_CARD}
+          >
+            <div className="relative" style={{ background: "#0A0A0F" }}>
+              <img
+                src="/brand/assembl-brand-video.gif"
+                alt="Assembl brand video — five industries, one intelligence layer"
+                className="w-full h-auto block"
+                style={{ maxHeight: 600, objectFit: "contain", margin: "0 auto" }}
+              />
+              {/* Logo overlay (bottom-left) */}
+              <div className="absolute bottom-5 left-5 flex items-center gap-2.5 px-4 py-2 rounded-full" style={{
+                background: "rgba(255,255,255,0.12)",
+                backdropFilter: "blur(20px) saturate(140%)",
+                border: "1px solid rgba(255,255,255,0.2)",
+              }}>
+                <img src="/brand/assembl-mark.svg" alt="" className="w-5 h-5" />
+                <span className="text-[11px] tracking-[3px] uppercase text-white" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                  Assembl
+                </span>
+              </div>
+            </div>
+
+            <div className="p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <p className="text-[15px] font-medium mb-1" style={{ color: "#1A1D29" }}>
+                  Assembl — Five Industries, One Intelligence
+                </p>
+                <p className="text-[13px]" style={{ color: "#6B7280" }}>
+                  Animated GIF · 16:9 · Loops seamlessly · Optimised for LinkedIn, Instagram, X
+                </p>
+              </div>
+              <a
+                href="/brand/assembl-brand-video.gif"
+                download="assembl-brand-video.gif"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-[13px] font-medium transition-all hover:scale-105 shrink-0"
+                style={{
+                  background: "linear-gradient(135deg, #4AA5A8, #3D8F92)",
+                  color: "#FFFFFF",
+                  boxShadow: "0 6px 20px -6px rgba(74,165,168,0.5)",
+                }}
+              >
+                <Download size={14} />
+                Download GIF
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Usage notes */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+            {[
+              { label: "LinkedIn", note: "Native upload as GIF or convert to MP4 for autoplay" },
+              { label: "Instagram", note: "Convert to MP4 (Reels/Stories don't support GIF)" },
+              { label: "X / Web", note: "Upload as-is — GIF plays inline" },
+            ].map(item => (
+              <div key={item.label} className="rounded-2xl p-5" style={GLASS_CARD}>
+                <p className="text-[11px] tracking-[2px] uppercase mb-2" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>
+                  {item.label}
+                </p>
+                <p className="text-[13px] leading-[1.6]" style={{ color: "#6B7280" }}>
+                  {item.note}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
       {/* Downloadable Assets */}
       <section className={`${SECTION_PAD} px-6`}>
         <div className="max-w-[1200px] mx-auto">
