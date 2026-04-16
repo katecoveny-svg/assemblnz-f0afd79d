@@ -194,26 +194,26 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
             className="fixed bottom-6 right-6 z-50 w-[380px] h-[600px] max-h-[80vh] rounded-2xl flex flex-col overflow-hidden"
             style={{
-              background: "linear-gradient(180deg, rgba(13,13,24,0.97), rgba(9,9,15,0.98))",
+              background: "rgba(255,255,255,0.92)",
               border: "1px solid rgba(212,168,67,0.15)",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(212,168,67,0.05)",
-              backdropFilter: "blur(20px)",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.12), 0 0 40px rgba(212,168,67,0.05)",
+              backdropFilter: "blur(20px) saturate(140%)",
             }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+            <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${POUNAMU}30, ${KOWHAI}30)` }}>
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${POUNAMU}20, ${KOWHAI}20)` }}>
                   <Brain size={16} style={{ color: KOWHAI }} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-foreground">{packLabel}</h3>
-                  <p className="text-[10px] text-white/40">
+                  <h3 className="text-sm font-semibold" style={{ color: "#3D4250" }}>{packLabel}</h3>
+                  <p className="text-[10px]" style={{ color: "#9CA3AF" }}>
                     {activeAgent ? `${activeAgent} responding...` : "IHO routing active"}
                   </p>
                 </div>
               </div>
-              <button onClick={() => setOpen(false)} className="p-1.5 rounded-lg hover:bg-white/5 text-white/40 hover:text-white/70 transition-colors">
+              <button onClick={() => setOpen(false)} className="p-1.5 rounded-lg hover:bg-black/5 transition-colors" style={{ color: "#9CA3AF" }}>
                 <X size={16} />
               </button>
             </div>
@@ -226,16 +226,16 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                     <Sparkles size={22} style={{ color: KOWHAI }} />
                   </div>
                   <div>
-                    <p className="text-sm text-white/70 font-medium">Kia ora! How can I help?</p>
-                    <p className="text-[11px] text-gray-400 mt-1">IHO will route your query to the right specialist</p>
+                    <p className="text-sm font-medium" style={{ color: "#3D4250" }}>Kia ora! How can I help?</p>
+                    <p className="text-[11px] mt-1" style={{ color: "#9CA3AF" }}>IHO will route your query to the right specialist</p>
                   </div>
                   <div className="flex flex-wrap gap-1.5 justify-center">
                     {(PACK_SUGGESTIONS[packId] || PACK_SUGGESTIONS.hanga).map(s => (
                       <button
                         key={s}
                         onClick={() => sendMessage(s)}
-                        className="px-3 py-1.5 rounded-full text-[10px] text-gray-500 hover:text-white/80 transition-colors"
-                        style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
+                        className="px-3 py-1.5 rounded-full text-[10px] transition-colors hover:bg-black/[0.03]"
+                        style={{ background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.06)", color: "#6B7280" }}
                       >
                         {s}
                       </button>
@@ -246,7 +246,7 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
 
               {messages.map(msg => (
                 <div key={msg.id} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[85%] ${msg.role === "user" ? "" : ""}`}>
+                  <div className="max-w-[85%]">
                     {msg.role === "assistant" && msg.agentName && (
                       <div className="flex items-center gap-1.5 mb-1 ml-1">
                         <AgentIcon icon={msg.agentIcon} />
@@ -256,18 +256,20 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                     <div
                       className={`px-3.5 py-2.5 text-[13px] leading-relaxed ${
                         msg.role === "user"
-                          ? "rounded-2xl rounded-br-md text-foreground"
-                          : "rounded-2xl rounded-bl-md text-white/80"
+                          ? "rounded-2xl rounded-br-md"
+                          : "rounded-2xl rounded-bl-md"
                       }`}
                       style={msg.role === "user" ? {
-                        background: `linear-gradient(135deg, ${POUNAMU}, ${POUNAMU}CC)`,
+                        background: `${POUNAMU}15`,
+                        color: "#3D4250",
                       } : {
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.06)",
+                        background: "rgba(0,0,0,0.03)",
+                        border: "1px solid rgba(0,0,0,0.06)",
+                        color: "#3D4250",
                       }}
                     >
                       {msg.role === "assistant" ? (
-                        <div className="prose prose-sm prose-invert max-w-none [&_h2]:text-sm [&_h2]:mt-3 [&_h2]:mb-1 [&_h3]:text-xs [&_p]:text-[13px] [&_li]:text-[13px] [&_strong]:text-foreground">
+                        <div className="prose prose-sm max-w-none [&_h2]:text-sm [&_h2]:mt-3 [&_h2]:mb-1 [&_h3]:text-xs [&_p]:text-[13px] [&_li]:text-[13px] [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]">
                           <ReactMarkdown>{msg.content}</ReactMarkdown>
                         </div>
                       ) : msg.content}
@@ -279,7 +281,7 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
               {isLoading && messages[messages.length - 1]?.role === "user" && (
                 <div className="flex items-center gap-2 ml-1">
                   <Loader2 size={14} className="animate-spin" style={{ color: KOWHAI }} />
-                  <span className="text-[11px] text-white/40">{activeAgent || "Thinking"}...</span>
+                  <span className="text-[11px]" style={{ color: "#9CA3AF" }}>{activeAgent || "Thinking"}...</span>
                 </div>
               )}
             </div>
@@ -288,23 +290,24 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
             <div className="px-3 pb-3 pt-1">
               <div
                 className="flex items-center gap-2 rounded-xl px-3 py-2"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+                style={{ background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.08)" }}
               >
                 <input
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && !e.shiftKey && sendMessage(input)}
                   placeholder="Ask about safety, projects, consents..."
-                  className="flex-1 bg-transparent text-sm text-foreground placeholder:text-white/25 outline-none"
+                  className="flex-1 bg-transparent text-sm outline-none"
+                  style={{ color: "#3D4250" }}
                   disabled={isLoading}
                 />
                 <button
                   onClick={() => sendMessage(input)}
                   disabled={!input.trim() || isLoading}
                   className="p-2 rounded-lg transition-all disabled:opacity-30"
-                  style={{ background: input.trim() ? `${POUNAMU}30` : "transparent" }}
+                  style={{ background: input.trim() ? `${POUNAMU}15` : "transparent" }}
                 >
-                  <Send size={16} style={{ color: input.trim() ? POUNAMU : "rgba(255,255,255,0.2)" }} />
+                  <Send size={16} style={{ color: input.trim() ? POUNAMU : "#9CA3AF" }} />
                 </button>
               </div>
             </div>

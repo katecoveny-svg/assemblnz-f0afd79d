@@ -78,7 +78,7 @@ const EmbedChatWidget = () => {
       {/* Compact header */}
       <header
         className="flex items-center gap-2.5 px-4 py-3 shrink-0"
-        style={{ borderBottom: "1px solid #ffffff08" }}
+        style={{ borderBottom: "1px solid rgba(0,0,0,0.06)" }}
       >
         <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
         <div className="flex-1 min-w-0">
@@ -93,7 +93,7 @@ const EmbedChatWidget = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="text-[9px] font-medium px-2 py-0.5 rounded"
-          style={{ color: "#ffffff38", border: "1px solid #ffffff08" }}
+          style={{ color: "#9CA3AF", border: "1px solid rgba(0,0,0,0.08)" }}
         >
           by ASSEMBL
         </a>
@@ -106,7 +106,7 @@ const EmbedChatWidget = () => {
             <AgentAvatar agentId={agent.id} color={agent.color} size={56} />
             <div>
               <h2 className="text-sm font-bold" style={{ color: "#3D4250" }}>{agent.name}</h2>
-              <p className="text-[11px] italic" style={{ color: "#ffffff38" }}>"{agent.tagline}"</p>
+              <p className="text-[11px] italic" style={{ color: "#9CA3AF" }}>"{agent.tagline}"</p>
             </div>
             <div className="flex flex-col gap-1.5 w-full max-w-xs mt-2">
               {agent.starters.slice(0, 3).map((q) => (
@@ -114,13 +114,13 @@ const EmbedChatWidget = () => {
                   key={q}
                   onClick={() => sendMessage(q)}
                   className="text-left text-[11px] px-3 py-2.5 rounded-lg transition-colors"
-                  style={{ background: "#FAFBFC", border: "1px solid #ffffff08", color: "#3D4250" }}
+                  style={{ background: "rgba(0,0,0,0.02)", border: "1px solid rgba(0,0,0,0.06)", color: "#3D4250" }}
                 >
                   {q}
                 </button>
               ))}
             </div>
-            <p className="text-[10px] mt-2" style={{ color: "#ffffff22" }}>
+            <p className="text-[10px] mt-2" style={{ color: "#9CA3AF" }}>
               {remaining} free messages remaining
             </p>
           </div>
@@ -136,16 +136,16 @@ const EmbedChatWidget = () => {
               className="max-w-[85%] px-3 py-2 rounded-xl text-[13px] leading-relaxed"
               style={
                 msg.role === "user"
-                  ? { background: `${agent.color}18`, border: `1px solid ${agent.color}15`, borderBottomRightRadius: 4 }
-                  : { background: "#FAFBFC", borderBottomLeftRadius: 4 }
+                   ? { background: `${agent.color}18`, border: `1px solid ${agent.color}15`, borderBottomRightRadius: 4, color: "#3D4250" }
+                   : { background: "rgba(0,0,0,0.03)", borderBottomLeftRadius: 4, color: "#3D4250" }
               }
             >
               {msg.role === "assistant" ? (
                 <>
-                  <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-headings:text-sm">
+                  <div className="prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-headings:text-sm [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]">
                     <ReactMarkdown>{msg.content}</ReactMarkdown>
                   </div>
-                  <p className="text-[9px] mt-2 leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.35)" }}>
+                  <p className="text-[9px] mt-2 leading-relaxed" style={{ color: "#9CA3AF" }}>
                     AI-generated guidance — not a substitute for professional advice. Verify before acting.
                   </p>
                 </>
@@ -178,7 +178,7 @@ const EmbedChatWidget = () => {
         {limitReached && (
           <div className="text-center py-6 px-4">
             <p className="text-sm font-medium mb-2" style={{ color: "#3D4250" }}>Free preview limit reached</p>
-            <p className="text-[11px] mb-4" style={{ color: "#ffffff38" }}>
+            <p className="text-[11px] mb-4" style={{ color: "#9CA3AF" }}>
               Sign up for unlimited access to {agent.name} and all 41 Assembl agents.
             </p>
             <a
@@ -201,7 +201,7 @@ const EmbedChatWidget = () => {
         <form
           onSubmit={handleSubmit}
           className="px-3 py-3 shrink-0"
-          style={{ borderTop: "1px solid #ffffff08" }}
+          style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }}
         >
           <div className="flex gap-2 items-center">
             <input
@@ -212,8 +212,8 @@ const EmbedChatWidget = () => {
               placeholder={`Ask ${agent.name}...`}
               className="flex-1 px-3 py-2.5 rounded-lg text-sm focus:outline-none"
               style={{
-                background: "#FAFBFC",
-                border: "1px solid #ffffff08",
+                background: "rgba(0,0,0,0.02)",
+                border: "1px solid rgba(0,0,0,0.08)",
                 color: "#3D4250",
               }}
               disabled={isLoading}

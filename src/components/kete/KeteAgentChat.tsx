@@ -337,19 +337,19 @@ export default function KeteAgentChat({
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="fixed bottom-6 right-6 z-50 flex flex-col w-[360px] sm:w-[400px] max-h-[520px] rounded-2xl overflow-hidden"
             style={{
-              background: "rgba(9,9,15,0.96)",
+              background: "rgba(255,255,255,0.92)",
               border: `1px solid ${accentColor}30`,
-              boxShadow: `0 24px 80px rgba(0,0,0,0.6), 0 0 60px ${accentColor}15`,
-              backdropFilter: "blur(24px)",
+              boxShadow: `0 24px 80px rgba(0,0,0,0.12), 0 0 60px ${accentColor}10`,
+              backdropFilter: "blur(24px) saturate(140%)",
             }}
           >
             {/* Header */}
             <div
               className="flex items-center justify-between px-5 py-3.5"
-              style={{ borderBottom: `1px solid ${accentColor}20` }}
+              style={{ borderBottom: `1px solid rgba(0,0,0,0.06)` }}
             >
               <div>
-                <p className="text-sm font-semibold text-foreground" style={{ fontFamily: "'Lato', sans-serif" }}>
+                <p className="text-sm font-semibold" style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}>
                   {keteName} Agent
                 </p>
                 <p className="text-[10px] uppercase tracking-[2px]" style={{ color: accentColor, fontFamily: "'JetBrains Mono', monospace" }}>
@@ -359,13 +359,13 @@ export default function KeteAgentChat({
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => { setShowVoice(true); setIsOpen(false); }}
-                  className="p-1.5 rounded-lg transition-colors hover:bg-white/10"
+                  className="p-1.5 rounded-lg transition-colors hover:bg-black/5"
                   style={{ color: accentColor }}
                   title={`Talk to ${keteName} by voice`}
                 >
                   <Mic size={16} />
                 </button>
-                <button onClick={() => setIsOpen(false)} className="text-white/40 hover:text-white/80 transition-colors">
+                <button onClick={() => setIsOpen(false)} className="transition-colors" style={{ color: "#9CA3AF" }}>
                   <X size={18} />
                 </button>
               </div>
@@ -375,17 +375,17 @@ export default function KeteAgentChat({
             <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3" style={{ minHeight: 280, maxHeight: 360 }}>
               {messages.length === 0 && (
                 <div className="space-y-2">
-                  <p className="text-xs text-white/40 mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <p className="text-xs mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
                     Ask anything about {keteLabel.toLowerCase()} operations, compliance, or workflows:
                   </p>
                   {starterPrompts.map((prompt) => (
                     <button
                       key={prompt}
                       onClick={() => sendMessage(prompt)}
-                      className="block w-full text-left text-xs px-3 py-2.5 rounded-lg transition-colors hover:bg-white/[0.06]"
+                      className="block w-full text-left text-xs px-3 py-2.5 rounded-lg transition-colors hover:bg-black/[0.03]"
                       style={{
-                        color: "rgba(255,255,255,0.6)",
-                        border: `1px solid ${accentColor}18`,
+                        color: "#6B7280",
+                        border: `1px solid ${accentColor}20`,
                         fontFamily: "'Plus Jakarta Sans', sans-serif",
                       }}
                     >
@@ -401,12 +401,12 @@ export default function KeteAgentChat({
                     style={{
                       fontFamily: "'Plus Jakarta Sans', sans-serif",
                       ...(msg.role === "user"
-                        ? { background: `${accentColor}20`, color: "rgba(255,255,255,0.9)" }
-                        : { background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.75)" }),
+                        ? { background: `${accentColor}18`, color: "#3D4250" }
+                        : { background: "rgba(0,0,0,0.03)", color: "#3D4250" }),
                     }}
                   >
                     {msg.role === "assistant" ? (
-                      <div className="prose prose-sm prose-invert max-w-none [&_p]:mb-1.5 [&_li]:text-xs [&_h3]:text-sm [&_h3]:mb-1">
+                      <div className="prose prose-sm max-w-none [&_p]:mb-1.5 [&_li]:text-xs [&_h3]:text-sm [&_h3]:mb-1 [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]">
                         <ReactMarkdown>{msg.content}</ReactMarkdown>
                       </div>
                     ) : (
@@ -426,15 +426,15 @@ export default function KeteAgentChat({
             <form onSubmit={handleSubmit} className="px-4 pb-4 pt-2">
               <div
                 className="flex items-center gap-2 rounded-xl px-3 py-2"
-                style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${accentColor}18` }}
+                style={{ background: "rgba(0,0,0,0.03)", border: `1px solid ${accentColor}20` }}
               >
                 <input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder={`Ask ${keteName} anything...`}
                   disabled={isLoading}
-                  className="flex-1 bg-transparent text-xs text-foreground placeholder:text-white/25 outline-none"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                  className="flex-1 bg-transparent text-xs outline-none"
+                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250" }}
                 />
                 <button
                   type="submit"
@@ -445,7 +445,7 @@ export default function KeteAgentChat({
                   <Send size={14} />
                 </button>
               </div>
-              <p className="text-[9px] text-center mt-2" style={{ color: "rgba(255,255,255,0.2)", fontFamily: "'JetBrains Mono', monospace" }}>
+              <p className="text-[9px] text-center mt-2" style={{ color: "#9CA3AF", fontFamily: "'JetBrains Mono', monospace" }}>
                 assembl · governed · draft-only · evidence-packed
               </p>
             </form>
