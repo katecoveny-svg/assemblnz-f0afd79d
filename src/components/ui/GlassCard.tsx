@@ -41,7 +41,7 @@ const GlassCard = ({ title, description, accentColor, icon, children }: GlassCar
       {/* Glass surface */}
       <div className="absolute inset-0 rounded-3xl"
         style={{
-          background: "linear-gradient(145deg, rgba(255,255,255,0.85), rgba(238,238,242,0.65))",
+          background: "linear-gradient(145deg, rgba(255,255,255,0.90), rgba(255,255,255,0.65))",
           backdropFilter: "blur(24px) saturate(160%)",
           border: "1px solid rgba(255,255,255,0.95)",
           boxShadow: `

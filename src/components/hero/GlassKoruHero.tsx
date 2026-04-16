@@ -1,6 +1,6 @@
 import { useRef, useMemo, Suspense, useState, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Float, Environment } from "@react-three/drei";
+import { Float, Environment, MeshTransmissionMaterial } from "@react-three/drei";
 import * as THREE from "three";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -63,19 +63,19 @@ function GlassSphere({
       {/* Outer glass shell */}
       <mesh ref={ref} position={position}>
         <sphereGeometry args={[radius, 48, 48]} />
-        <meshPhysicalMaterial
+        <MeshTransmissionMaterial
           color={brightColor}
-          transparent
-          opacity={isKete ? 0.7 : 0.55}
+          transmission={isKete ? 0.85 : 0.92}
           roughness={0.02}
-          metalness={0.05}
           clearcoat={1}
           clearcoatRoughness={0.01}
-          envMapIntensity={3}
           ior={1.5}
-          reflectivity={1}
-          specularIntensity={1.2}
-          specularColor={new THREE.Color("#FFFFFF")}
+          samples={16}
+          distortion={0.4}
+          temporalDistortion={0.2}
+          envMapIntensity={3}
+          chromaticAberration={0.03}
+          thickness={0.5}
         />
       </mesh>
       {/* Inner bright core — creates the glass marble highlight */}
@@ -376,7 +376,7 @@ const GlassKoruHero = () => {
               dpr={[1, 2]}
             >
               {/* Environment map is essential for transmission/glass to work */}
-              <Environment preset="city" environmentIntensity={0.4} />
+              <Environment preset="studio" environmentIntensity={0.5} />
               
               {/* Lighting */}
               <ambientLight intensity={1.0} color="#F8F6F0" />
