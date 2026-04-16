@@ -335,10 +335,10 @@ const App = () => (
                         <Route path="/tikanga" element={<Navigate to="/about" replace />} />
                         <Route path="/skill-hub" element={<Navigate to="/" replace />} />
                         <Route path="/proposal" element={<Navigate to="/contact" replace />} />
-                        <Route path="/brand-guidelines" element={<Navigate to="/about" replace />} />
-                        <Route path="/brand-assets" element={<Navigate to="/about" replace />} />
-                        <Route path="/logo-stack" element={<Navigate to="/about" replace />} />
-                        <Route path="/brand-story" element={<Navigate to="/about" replace />} />
+                        <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
+                        <Route path="/brand-assets" element={<Navigate to="/brand-guidelines" replace />} />
+                        <Route path="/logo-stack" element={<Navigate to="/brand-guidelines" replace />} />
+                        <Route path="/brand-story" element={<Navigate to="/brand-guidelines" replace />} />
                         <Route path="/te-reo" element={<Navigate to="/about" replace />} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
