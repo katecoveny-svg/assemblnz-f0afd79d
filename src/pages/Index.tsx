@@ -82,12 +82,12 @@ const PACKS = [
 ];
 
 const LAYERS_DATA = [
-  { name: "Perception", desc: "Reads your real inputs: invoices, emails, sensor data, calendar events.", icon: EyeIcon },
-  { name: "Memory", desc: "Separates verified facts from inferred guesses. Keeps a validated knowledge base.", icon: Brain },
-  { name: "Reasoning", desc: "Combines pattern recognition with hard compliance rules. Never guesses on legislation.", icon: Layers },
-  { name: "Action", desc: "Every action is classified: allowed, needs approval, or forbidden.", icon: Zap },
-  { name: "Explanation", desc: "Logs the reason behind every material decision in plain language.", icon: Shield },
-  { name: "Simulation", desc: "Tests workflows against realistic scenarios before they touch production.", icon: TestTube },
+  { name: "Perception", desc: "Reads your real inputs: invoices, emails, sensor data, calendar events.", icon: "Eye", color: "#4AA5A8" },
+  { name: "Memory", desc: "Separates verified facts from inferred guesses. Keeps a validated knowledge base.", icon: "Brain", color: "#E8A948" },
+  { name: "Reasoning", desc: "Combines pattern recognition with hard compliance rules. Never guesses on legislation.", icon: "Fingerprint", color: "#4AA5A8" },
+  { name: "Action", desc: "Every action is classified: allowed, needs approval, or forbidden.", icon: "Zap", color: "#E8A948" },
+  { name: "Explanation", desc: "Logs the reason behind every material decision in plain language.", icon: "Shield", color: "#4AA5A8" },
+  { name: "Simulation", desc: "Tests workflows against realistic scenarios before they touch production.", icon: "Activity", color: "#E8A948" },
 ];
 
 const TRUST_NODES = [
@@ -99,10 +99,10 @@ const TRUST_NODES = [
 ];
 
 const START_HERE = [
-  { title: "Ask A Live Agent", desc: "Open a working agent and ask real business questions.", to: "/chat/echo", accent: C.teal, icon: MessageSquare },
-  { title: "Review A Document", desc: "Paste a contract or brief and get risks flagged instantly.", to: "/waihanga/docs", accent: C.ochre, icon: FileText },
-  { title: "Make An Ad", desc: "Generate campaigns and visuals that look finished.", to: "/auaha/ads", accent: "#9B8EC4", icon: Megaphone },
-  { title: "Run The Demo", desc: "Show a client what Assembl does in 60 seconds.", to: "/demos", accent: C.tealLight, icon: Play },
+  { title: "Ask A Live Agent", desc: "Open a working agent and ask real business questions.", to: "/chat/echo", accent: C.teal, icon: "MessageSquare" },
+  { title: "Review A Document", desc: "Paste a contract or brief and get risks flagged instantly.", to: "/waihanga/docs", accent: C.ochre, icon: "FileText" },
+  { title: "Make An Ad", desc: "Generate campaigns and visuals that look finished.", to: "/auaha/ads", accent: "#9B8EC4", icon: "Megaphone" },
+  { title: "Run The Demo", desc: "Show a client what Assembl does in 60 seconds.", to: "/demos", accent: C.tealLight, icon: "Rocket" },
 ];
 
 /* ─── Live Demo Chat ─── */
