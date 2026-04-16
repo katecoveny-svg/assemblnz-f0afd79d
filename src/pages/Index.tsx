@@ -512,11 +512,40 @@ const Index = () => {
           <motion.div {...fade} className="text-center mb-16">
             <SectionEyebrow>Trust</SectionEyebrow>
             <SectionH2>Governed from the ground up</SectionH2>
-            <SectionP>Five stages of oversight from policy to proof.</SectionP>
+            <SectionP>Every decision checked, every action logged, every output something you can file.</SectionP>
           </motion.div>
-          <TrustPipeline />
+          <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {LAYERS_DATA.map((layer, i) => {
+              return (
+                <motion.div key={layer.name} {...stagger(i)}>
+                  <GlowCard className="h-full">
+                    <div className="flex items-start gap-4">
+                      <div className="shrink-0 w-11 h-11 rounded-2xl flex items-center justify-center" style={{
+                        background: `${layer.color}12`,
+                        boxShadow: `3px 3px 8px rgba(166,166,180,0.3), -3px -3px 8px rgba(255,255,255,0.85)`,
+                      }}>
+                        <GlowIcon name={layer.icon} size={18} color={layer.color} glow />
+                      </div>
+                      <div>
+                        <p className="text-[14px] mb-1 font-semibold" style={{ color: C.text }}>
+                          <span className="inline-flex items-center gap-1.5 mr-2">
+                            <span className="w-1.5 h-1.5 rounded-full" style={{ background: layer.color }} />
+                            <span className="text-[10px] font-normal" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{String(i + 1).padStart(2, "0")}</span>
+                          </span>
+                          {layer.name}
+                        </p>
+                        <p className="text-[13px] leading-[1.7]" style={{ color: C.textSecondary }}>{layer.desc}</p>
+                      </div>
+                    </div>
+                  </GlowCard>
+                </motion.div>
+              );
+            })}
+          </div>
         </Sect>
 
+        {/* ═══ COMPLIANCE PIPELINE ═══ */}
+        <CompliancePipeline />
         {/* ═══ FINAL CTA ═══ */}
         <section className="relative px-6 py-32 text-center">
           <div className="max-w-xl mx-auto relative z-10">
