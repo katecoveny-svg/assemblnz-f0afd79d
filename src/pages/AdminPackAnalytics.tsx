@@ -242,7 +242,7 @@ const AdminPackAnalytics = () => {
           <button
             onClick={exportCSV}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase transition-all hover:scale-105"
-            style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#09090F", letterSpacing: "0.08em" }}
+            style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#3D4250", letterSpacing: "0.08em" }}
           >
             <Download size={12} /> CSV Export
           </button>

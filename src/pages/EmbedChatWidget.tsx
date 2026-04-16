@@ -31,7 +31,7 @@ const EmbedChatWidget = () => {
 
   if (!agent) {
     return (
-      <div className="h-screen flex items-center justify-center" style={{ background: "#FAFBFC", color: "#E4E4EC" }}>
+      <div className="h-screen flex items-center justify-center" style={{ background: "#FAFBFC", color: "#3D4250" }}>
         <p className="text-sm">Agent not found.</p>
       </div>
     );
@@ -74,7 +74,7 @@ const EmbedChatWidget = () => {
   const remaining = PREVIEW_LIMIT - parseInt(sessionStorage.getItem(PREVIEW_MSG_KEY) || "0", 10);
 
   return (
-    <div className="h-screen flex flex-col" style={{ background: "#FAFBFC", color: "#E4E4EC", fontFamily: "'Outfit', sans-serif" }}>
+    <div className="h-screen flex flex-col" style={{ background: "#FAFBFC", color: "#3D4250", fontFamily: "'Outfit', sans-serif" }}>
       {/* Compact header */}
       <header
         className="flex items-center gap-2.5 px-4 py-3 shrink-0"
@@ -83,7 +83,7 @@ const EmbedChatWidget = () => {
         <AgentAvatar agentId={agent.id} color={agent.color} size={28} showGlow={false} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-sm" style={{ color: "#E4E4EC" }}>{agent.name}</span>
+            <span className="font-bold text-sm" style={{ color: "#3D4250" }}>{agent.name}</span>
             <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#5AADA0", boxShadow: "0 0 6px #5AADA0" }} />
           </div>
           <p className="text-[11px] truncate" style={{ color: agent.color }}>{agent.role}</p>
@@ -105,7 +105,7 @@ const EmbedChatWidget = () => {
           <div className="flex flex-col items-center justify-center h-full text-center gap-3">
             <AgentAvatar agentId={agent.id} color={agent.color} size={56} />
             <div>
-              <h2 className="text-sm font-bold" style={{ color: "#E4E4EC" }}>{agent.name}</h2>
+              <h2 className="text-sm font-bold" style={{ color: "#3D4250" }}>{agent.name}</h2>
               <p className="text-[11px] italic" style={{ color: "#ffffff38" }}>"{agent.tagline}"</p>
             </div>
             <div className="flex flex-col gap-1.5 w-full max-w-xs mt-2">
@@ -114,7 +114,7 @@ const EmbedChatWidget = () => {
                   key={q}
                   onClick={() => sendMessage(q)}
                   className="text-left text-[11px] px-3 py-2.5 rounded-lg transition-colors"
-                  style={{ background: "#0E0E1A", border: "1px solid #ffffff08", color: "#E4E4EC" }}
+                  style={{ background: "#FAFBFC", border: "1px solid #ffffff08", color: "#3D4250" }}
                 >
                   {q}
                 </button>
@@ -137,7 +137,7 @@ const EmbedChatWidget = () => {
               style={
                 msg.role === "user"
                   ? { background: `${agent.color}18`, border: `1px solid ${agent.color}15`, borderBottomRightRadius: 4 }
-                  : { background: "#0E0E1A", borderBottomLeftRadius: 4 }
+                  : { background: "#FAFBFC", borderBottomLeftRadius: 4 }
               }
             >
               {msg.role === "assistant" ? (
@@ -177,7 +177,7 @@ const EmbedChatWidget = () => {
 
         {limitReached && (
           <div className="text-center py-6 px-4">
-            <p className="text-sm font-medium mb-2" style={{ color: "#E4E4EC" }}>Free preview limit reached</p>
+            <p className="text-sm font-medium mb-2" style={{ color: "#3D4250" }}>Free preview limit reached</p>
             <p className="text-[11px] mb-4" style={{ color: "#ffffff38" }}>
               Sign up for unlimited access to {agent.name} and all 41 Assembl agents.
             </p>
@@ -212,9 +212,9 @@ const EmbedChatWidget = () => {
               placeholder={`Ask ${agent.name}...`}
               className="flex-1 px-3 py-2.5 rounded-lg text-sm focus:outline-none"
               style={{
-                background: "#0E0E1A",
+                background: "#FAFBFC",
                 border: "1px solid #ffffff08",
-                color: "#E4E4EC",
+                color: "#3D4250",
               }}
               disabled={isLoading}
             />

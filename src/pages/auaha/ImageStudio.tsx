@@ -270,7 +270,7 @@ export default function ImageStudio() {
             onClick={generate}
             disabled={isGenerating}
             className="w-full"
-            style={{ background: ACCENT, color: "#000" }}
+            style={{ background: ACCENT, color: "#3D4250" }}
           >
             {isGenerating
               ? "PIXEL is generating..."
@@ -291,7 +291,7 @@ export default function ImageStudio() {
                   <img src={url} alt={`Result ${i + 1}`} className="w-full rounded-lg" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
                     <a href={url} download={`pixel-${Date.now()}.png`} target="_blank" rel="noreferrer">
-                      <Button size="sm" className="text-xs" style={{ background: ACCENT, color: "#000" }}>
+                      <Button size="sm" className="text-xs" style={{ background: ACCENT, color: "#3D4250" }}>
                         <Download className="w-3 h-3 mr-1" /> Download
                       </Button>
                     </a>

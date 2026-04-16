@@ -148,7 +148,7 @@ export default function AgentApp() {
         {/* Sidebar (desktop) */}
         <aside className={`${sidebarOpen ? "fixed inset-0 z-50 flex lg:relative" : "hidden lg:flex"}`}>
           {sidebarOpen && <div className="absolute inset-0 bg-black/60 lg:hidden" onClick={() => setSidebarOpen(false)} />}
-          <div className="relative w-56 border-r border-white/5 flex flex-col py-2 overflow-y-auto shrink-0" style={{ background: "#0C0C16" }}>
+          <div className="relative w-56 border-r border-white/5 flex flex-col py-2 overflow-y-auto shrink-0" style={{ background: "#F5F5F7" }}>
             {sidebarOpen && (
               <button onClick={() => setSidebarOpen(false)} className="absolute top-2 right-2 p-1 rounded hover:bg-white/5 lg:hidden">
                 <X size={14} className="text-assembl-text/40" />
