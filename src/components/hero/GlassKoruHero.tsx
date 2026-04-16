@@ -202,6 +202,7 @@ function KoruScene() {
               radius={kete ? 0.28 : 0.1}
               color={kete ? kete.color : "#8DD8DA"}
               index={i}
+              isKete={!!kete}
             />
           );
         })}
