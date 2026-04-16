@@ -1,6 +1,7 @@
-import React, { useRef, useMemo, useCallback } from "react";
+import React, { useRef, useMemo, useCallback, useEffect, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, MeshTransmissionMaterial } from "@react-three/drei";
+import { motion } from "framer-motion";
 import * as THREE from "three";
 
 /* ── Koru spiral path ── */
@@ -151,7 +152,7 @@ function SceneController({ groupRef }: { groupRef: React.RefObject<THREE.Group> 
   return null;
 }
 
-/* ── Main scene ── */
+/* ── Main 3D scene ── */
 function KoruScene() {
   const groupRef = useRef<THREE.Group>(null!);
   const spiralPoints = useMemo(() => generateKoruPath(2.5, 200), []);
@@ -179,7 +180,6 @@ function KoruScene() {
     for (let i = 0; i < spheres.length - 1; i++) {
       r.push({ start: spheres[i].position, end: spheres[i + 1].position, phase: i * 0.4 });
     }
-    // Cross-connections for network feel
     for (let i = 0; i < spheres.length - 6; i += 3) {
       r.push({ start: spheres[i].position, end: spheres[Math.min(i + 6, spheres.length - 1)].position, phase: i * 0.2 });
     }
@@ -236,46 +236,168 @@ function KoruScene() {
   );
 }
 
-/* ── Mobile SVG fallback ── */
-function KoruSVGFallback() {
+/* ── Canvas-based animated mobile koru (uses 2D canvas, not WebGL) ── */
+function MobileCanvasKoru() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animRef = useRef<number>(0);
+
   const dots = useMemo(() => {
-    const pts: { x: number; y: number; r: number; color: string; delay: number }[] = [];
+    const pts: { x: number; y: number; baseR: number; color: string; phase: number; isKete: boolean; name?: string }[] = [];
     for (let i = 0; i < 44; i++) {
       const t = i / 43;
       const angle = t * 2.5 * Math.PI * 2;
-      const radius = 20 + t * 130;
+      const radius = 30 + t * 140;
       const x = 200 + Math.cos(angle) * radius;
       const y = 200 + Math.sin(angle) * radius;
-      const keteColor = getKeteColor(i);
-      pts.push({ x, y, r: keteColor ? 7 : 3.5, color: keteColor || "#8AD4D6", delay: i * 0.06 });
+      const kete = KETE_COLORS.find(k => k.index === i);
+      pts.push({
+        x, y,
+        baseR: kete ? 9 : 4,
+        color: kete?.color || "#8AD4D6",
+        phase: i * 0.15,
+        isKete: !!kete,
+        name: kete?.name,
+      });
     }
     return pts;
   }, []);
 
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const dpr = window.devicePixelRatio || 2;
+    canvas.width = 400 * dpr;
+    canvas.height = 400 * dpr;
+    ctx.scale(dpr, dpr);
+
+    function draw(time: number) {
+      const t = time / 1000;
+      ctx!.clearRect(0, 0, 400, 400);
+
+      // Background glow
+      const bgGrad = ctx!.createRadialGradient(200, 200, 0, 200, 200, 190);
+      const glowPulse = 0.1 + Math.sin(t * 0.8) * 0.05;
+      bgGrad.addColorStop(0, `rgba(74, 165, 168, ${glowPulse})`);
+      bgGrad.addColorStop(0.5, `rgba(232, 169, 72, ${glowPulse * 0.4})`);
+      bgGrad.addColorStop(1, "transparent");
+      ctx!.fillStyle = bgGrad;
+      ctx!.fillRect(0, 0, 400, 400);
+
+      // Connection lines
+      for (let i = 0; i < dots.length - 1; i++) {
+        const d = dots[i];
+        const next = dots[i + 1];
+        const lineAlpha = 0.1 + Math.sin(t * 1.5 + d.phase) * 0.12;
+        ctx!.beginPath();
+        ctx!.moveTo(d.x, d.y);
+        ctx!.lineTo(next.x, next.y);
+        ctx!.strokeStyle = `rgba(126, 238, 240, ${lineAlpha})`;
+        ctx!.lineWidth = 0.8;
+        ctx!.stroke();
+      }
+
+      // Cross-connections
+      for (let i = 0; i < dots.length - 6; i += 4) {
+        const d = dots[i];
+        const far = dots[Math.min(i + 6, dots.length - 1)];
+        const lineAlpha = 0.05 + Math.sin(t * 1.2 + i * 0.3) * 0.06;
+        ctx!.beginPath();
+        ctx!.moveTo(d.x, d.y);
+        ctx!.lineTo(far.x, far.y);
+        ctx!.strokeStyle = `rgba(126, 238, 240, ${lineAlpha})`;
+        ctx!.lineWidth = 0.4;
+        ctx!.stroke();
+      }
+
+      // Data pulses traveling along threads
+      for (let p = 0; p < 8; p++) {
+        const segIdx = (Math.floor(t * 3 + p * 5.5)) % (dots.length - 1);
+        const frac = ((t * 3 + p * 5.5) % 1);
+        const d = dots[segIdx];
+        const next = dots[Math.min(segIdx + 1, dots.length - 1)];
+        const px = d.x + (next.x - d.x) * frac;
+        const py = d.y + (next.y - d.y) * frac;
+        const pulseAlpha = Math.sin(frac * Math.PI) * 0.8;
+        ctx!.beginPath();
+        ctx!.arc(px, py, 2.5, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(126, 238, 240, ${pulseAlpha})`;
+        ctx!.fill();
+      }
+
+      // Dots with glow
+      for (const d of dots) {
+        const pulse = Math.sin(t * 2 + d.phase) * 0.3 + 0.7;
+        const r = d.baseR * (0.85 + pulse * 0.3);
+
+        // Glow
+        const glow = ctx!.createRadialGradient(d.x, d.y, 0, d.x, d.y, r * 3);
+        glow.addColorStop(0, d.color + "40");
+        glow.addColorStop(1, "transparent");
+        ctx!.fillStyle = glow;
+        ctx!.fillRect(d.x - r * 3, d.y - r * 3, r * 6, r * 6);
+
+        // Core dot
+        ctx!.beginPath();
+        ctx!.arc(d.x, d.y, r, 0, Math.PI * 2);
+        ctx!.fillStyle = d.color + (d.isKete ? "DD" : "AA");
+        ctx!.fill();
+
+        // Inner highlight
+        ctx!.beginPath();
+        ctx!.arc(d.x - r * 0.2, d.y - r * 0.3, r * 0.4, 0, Math.PI * 2);
+        ctx!.fillStyle = "rgba(255,255,255,0.3)";
+        ctx!.fill();
+      }
+
+      // Kete labels
+      ctx!.textAlign = "center";
+      ctx!.font = "600 7px 'Lato', sans-serif";
+      for (const d of dots) {
+        if (!d.name) continue;
+        const labelAlpha = 0.4 + Math.sin(t * 1.5 + d.phase) * 0.4;
+        ctx!.fillStyle = d.color + Math.round(labelAlpha * 255).toString(16).padStart(2, "0");
+        ctx!.letterSpacing = "1px";
+        ctx!.fillText(d.name, d.x, d.y - d.baseR - 6);
+      }
+
+      // Floating sparkles
+      for (let i = 0; i < 20; i++) {
+        const st = i / 19;
+        const sAngle = st * 2.5 * Math.PI * 2 + t * 0.3 + i * 0.7;
+        const sRad = 40 + st * 155 + Math.sin(t * 2 + i) * 8;
+        const sx = 200 + Math.cos(sAngle) * sRad;
+        const sy = 200 + Math.sin(sAngle) * sRad;
+        const sparkAlpha = Math.sin(t * 3 + i * 0.5) * 0.4 + 0.3;
+        if (sparkAlpha > 0) {
+          ctx!.beginPath();
+          ctx!.arc(sx, sy, 1.2, 0, Math.PI * 2);
+          ctx!.fillStyle = `rgba(255,255,255,${sparkAlpha})`;
+          ctx!.fill();
+        }
+      }
+
+      animRef.current = requestAnimationFrame(draw);
+    }
+
+    animRef.current = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(animRef.current);
+  }, [dots]);
+
   return (
-    <svg viewBox="0 0 400 400" className="w-full h-full" style={{ maxWidth: 340 }}>
-      <defs>
-        <filter id="koru-glow">
-          <feGaussianBlur stdDeviation="4" result="blur" />
-          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-        </filter>
-        <radialGradient id="koru-bg-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="rgba(74,165,168,0.08)" />
-          <stop offset="100%" stopColor="transparent" />
-        </radialGradient>
-      </defs>
-      <circle cx="200" cy="200" r="180" fill="url(#koru-bg-glow)" />
-      {dots.slice(0, -1).map((d, i) => (
-        <line key={`l-${i}`} x1={d.x} y1={d.y} x2={dots[i + 1].x} y2={dots[i + 1].y}
-          stroke="#7EEEF0" strokeWidth="0.6" opacity="0.2" />
-      ))}
-      {dots.map((d, i) => (
-        <circle key={`d-${i}`} cx={d.x} cy={d.y} r={d.r} fill={d.color} opacity="0.85"
-          filter="url(#koru-glow)"
-          style={{ animation: `koruPulse 3s ease-in-out ${d.delay}s infinite` }} />
-      ))}
-      <style>{`@keyframes koruPulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.3)} }`}</style>
-    </svg>
+    <motion.div
+      className="w-full h-full flex items-center justify-center"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <canvas
+        ref={canvasRef}
+        style={{ width: "100%", height: "100%", maxWidth: 380, maxHeight: 380 }}
+      />
+    </motion.div>
   );
 }
 
@@ -283,19 +405,19 @@ function KoruSVGFallback() {
 export default function KoruDataNetwork({ isMobile = false }: { isMobile?: boolean }) {
   if (isMobile) {
     return (
-      <div className="flex items-center justify-center w-full h-[320px]">
-        <KoruSVGFallback />
+      <div className="w-full h-full" style={{ minHeight: 380 }}>
+        <MobileCanvasKoru />
       </div>
     );
   }
 
   return (
-    <div className="w-full" style={{ height: "80vh", minHeight: 600 }}>
+    <div className="w-full h-full" style={{ height: "80vh", minHeight: 600 }}>
       <Canvas
         camera={{ position: [0, 0, 7], fov: 50 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
-        style={{ background: "transparent" }}
+        style={{ width: "100%", height: "100%", background: "transparent" }}
       >
         <KoruScene />
       </Canvas>
