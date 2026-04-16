@@ -23,8 +23,8 @@ import { KeteHoverEffect } from "@/components/KeteHoverEffects";
 import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 
-const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel"));
-const LiquidKoru = lazy(() => import("@/components/hero/LiquidKoru"));
+const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel").catch(() => ({ default: () => null })));
+const LiquidKoru = lazy(() => import("@/components/hero/LiquidKoru").catch(() => ({ default: () => null })));
 
 /* ─── Light Palette Tokens ─── */
 const C = {
