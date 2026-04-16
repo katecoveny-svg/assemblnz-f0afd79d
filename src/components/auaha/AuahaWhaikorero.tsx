@@ -84,7 +84,7 @@ function ProspectingPanel() {
 
   return (
     <div className="space-y-5">
-      <p className="text-gray-500 text-sm leading-relaxed">
+      <p className="text-[#6B7280] text-sm leading-relaxed">
         Build an ideal customer profile (ICP) to focus prospecting. Enter your company or product
         context — Whaikōrero generates a structured ICP with firmographics, technographics, and
         buying signals.
@@ -92,16 +92,16 @@ function ProspectingPanel() {
 
       <div className="space-y-3">
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Your company or product</label>
+          <label className="block text-xs text-[#6B7280] mb-1.5">Your company or product</label>
           <input
             value={company}
             onChange={(e) => setCompany(e.target.value)}
             placeholder="e.g. Assembl — AI business operations platform for NZ SMEs"
-            className="w-full rounded-xl border border-gray-200 bg-white/5 px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
+            className="w-full rounded-xl border border-gray-200 bg-[rgba(74,165,168,0.04)] px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-[#8B92A0]"
           />
         </div>
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">
+          <label className="block text-xs text-[#6B7280] mb-1.5">
             ICP signals to emphasise (optional)
           </label>
           <div className="flex flex-wrap gap-2 mb-2">
@@ -110,7 +110,7 @@ function ProspectingPanel() {
                 key={s}
                 type="button"
                 onClick={() => setBrief((b) => (b ? `${b}, ${s}` : s))}
-                className="px-2.5 py-1 rounded-full text-[10px] bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70 transition-colors"
+                className="px-2.5 py-1 rounded-full text-[10px] bg-[rgba(74,165,168,0.04)] text-[#6B7280] hover:bg-[rgba(74,165,168,0.06)] hover:text-[#2A2F3D] transition-colors"
               >
                 {s}
               </button>
@@ -121,7 +121,7 @@ function ProspectingPanel() {
             onChange={(e) => setBrief(e.target.value)}
             rows={2}
             placeholder="Additional context..."
-            className="w-full rounded-xl border border-gray-200 bg-white/5 px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20 resize-none"
+            className="w-full rounded-xl border border-gray-200 bg-[rgba(74,165,168,0.04)] px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-[#8B92A0] resize-none"
           />
         </div>
         <button
@@ -138,11 +138,11 @@ function ProspectingPanel() {
         <div className="rounded-xl border border-gray-200 bg-white/[0.03] p-4 relative">
           <button
             onClick={() => navigator.clipboard?.writeText(output)}
-            className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+            className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-[rgba(74,165,168,0.06)] transition-colors"
           >
-            <Copy className="w-3.5 h-3.5 text-white/40" />
+            <Copy className="w-3.5 h-3.5 text-[#6B7280]" />
           </button>
-          <pre className="text-xs text-white/70 whitespace-pre-wrap font-mono leading-relaxed">{output}</pre>
+          <pre className="text-xs text-[#2A2F3D] whitespace-pre-wrap font-mono leading-relaxed">{output}</pre>
         </div>
       )}
     </div>
@@ -189,7 +189,7 @@ function OutreachPanel() {
 
   return (
     <div className="space-y-5">
-      <p className="text-gray-500 text-sm leading-relaxed">
+      <p className="text-[#6B7280] text-sm leading-relaxed">
         Generate first-draft outreach for cold email, LinkedIn, follow-up, or referral asks.
         Built for NZ B2B sales — direct, no fluff, personalisation-first.
       </p>
@@ -213,30 +213,30 @@ function OutreachPanel() {
 
       <div className="grid sm:grid-cols-3 gap-3">
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Prospect / company</label>
+          <label className="block text-xs text-[#6B7280] mb-1.5">Prospect / company</label>
           <input
             value={prospect}
             onChange={(e) => setProspect(e.target.value)}
             placeholder="e.g. Acme NZ"
-            className="w-full rounded-xl border border-gray-200 bg-white/5 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
+            className="w-full rounded-xl border border-gray-200 bg-[rgba(74,165,168,0.04)] px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-[#8B92A0]"
           />
         </div>
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Pain point</label>
+          <label className="block text-xs text-[#6B7280] mb-1.5">Pain point</label>
           <input
             value={pain}
             onChange={(e) => setPain(e.target.value)}
             placeholder="e.g. manual payroll processing"
-            className="w-full rounded-xl border border-gray-200 bg-white/5 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
+            className="w-full rounded-xl border border-gray-200 bg-[rgba(74,165,168,0.04)] px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-[#8B92A0]"
           />
         </div>
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Your product / company</label>
+          <label className="block text-xs text-[#6B7280] mb-1.5">Your product / company</label>
           <input
             value={product}
             onChange={(e) => setProduct(e.target.value)}
             placeholder="e.g. Assembl"
-            className="w-full rounded-xl border border-gray-200 bg-white/5 px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
+            className="w-full rounded-xl border border-gray-200 bg-[rgba(74,165,168,0.04)] px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-[#8B92A0]"
           />
         </div>
       </div>
@@ -253,11 +253,11 @@ function OutreachPanel() {
         <div className="rounded-xl border border-gray-200 bg-white/[0.03] p-4 relative">
           <button
             onClick={() => navigator.clipboard?.writeText(output)}
-            className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+            className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-[rgba(74,165,168,0.06)] transition-colors"
           >
-            <Copy className="w-3.5 h-3.5 text-white/40" />
+            <Copy className="w-3.5 h-3.5 text-[#6B7280]" />
           </button>
-          <pre className="text-xs text-white/70 whitespace-pre-wrap font-mono leading-relaxed">{output}</pre>
+          <pre className="text-xs text-[#2A2F3D] whitespace-pre-wrap font-mono leading-relaxed">{output}</pre>
         </div>
       )}
     </div>
@@ -302,10 +302,10 @@ function PipelinePanel() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-gray-500 text-sm">
+        <p className="text-[#6B7280] text-sm">
           Pipeline health review — deals flagged by last-contact and time-in-stage thresholds.
         </p>
-        <span className="text-[10px] text-gray-400 uppercase tracking-widest">Demo data</span>
+        <span className="text-[10px] text-[#6B7280] uppercase tracking-widest">Demo data</span>
       </div>
 
       {/* Summary */}
@@ -317,7 +317,7 @@ function PipelinePanel() {
             <div key={r} className="rounded-xl p-3" style={{ background: `${RISK_COLORS[r]}12`, border: `1px solid ${RISK_COLORS[r]}30` }}>
               <p className="text-xs font-medium mb-1" style={{ color: RISK_COLORS[r] }}>{RISK_LABELS[r]}</p>
               <p className="text-xl text-foreground font-mono">{count}</p>
-              <p className="text-[10px] text-gray-400">NZ${(val / 1000).toFixed(0)}k ARR</p>
+              <p className="text-[10px] text-[#6B7280]">NZ${(val / 1000).toFixed(0)}k ARR</p>
             </div>
           );
         })}
@@ -337,9 +337,9 @@ function PipelinePanel() {
                       style={{ background: RISK_COLORS[risk] }}
                     />
                     <span className="text-sm text-foreground truncate">{deal.name}</span>
-                    <span className="text-[10px] text-gray-400 shrink-0">{deal.stage}</span>
+                    <span className="text-[10px] text-[#6B7280] shrink-0">{deal.stage}</span>
                   </div>
-                  <div className="flex items-center gap-4 text-[11px] text-white/40">
+                  <div className="flex items-center gap-4 text-[11px] text-[#6B7280]">
                     <span>NZ${(deal.value / 1000).toFixed(0)}k/yr</span>
                     <span>{deal.daysInStage}d in stage</span>
                     <span>Last contact: {deal.lastContact}d ago</span>
@@ -361,7 +361,7 @@ function PipelinePanel() {
         })}
       </div>
 
-      <p className="text-[10px] text-white/20">
+      <p className="text-[10px] text-[#8B92A0]">
         Thresholds: at-risk = 10+ days in stage or 7+ days since contact. Stalled = 21+ days or 14+ days.
         Connect your CRM to replace demo data.
       </p>
@@ -412,28 +412,28 @@ function CallPrepPanel() {
 
   return (
     <div className="space-y-5">
-      <p className="text-gray-500 text-sm leading-relaxed">
+      <p className="text-[#6B7280] text-sm leading-relaxed">
         Generate a structured call brief — discovery questions, value statement, objection handling,
         and a close framework. Prep takes 5 minutes; it shows.
       </p>
 
       <div className="grid sm:grid-cols-2 gap-3">
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Prospect / company</label>
+          <label className="block text-xs text-[#6B7280] mb-1.5">Prospect / company</label>
           <input
             value={prospect}
             onChange={(e) => setProspect(e.target.value)}
             placeholder="e.g. Acme NZ — Sarah (CEO)"
-            className="w-full rounded-xl border border-gray-200 bg-white/5 px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
+            className="w-full rounded-xl border border-gray-200 bg-[rgba(74,165,168,0.04)] px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-[#8B92A0]"
           />
         </div>
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Call context / stage</label>
+          <label className="block text-xs text-[#6B7280] mb-1.5">Call context / stage</label>
           <input
             value={context}
             onChange={(e) => setContext(e.target.value)}
             placeholder="e.g. Second demo — pricing discussion"
-            className="w-full rounded-xl border border-gray-200 bg-white/5 px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-white/20"
+            className="w-full rounded-xl border border-gray-200 bg-[rgba(74,165,168,0.04)] px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-yellow-400/40 placeholder:text-[#8B92A0]"
           />
         </div>
       </div>
@@ -451,11 +451,11 @@ function CallPrepPanel() {
         <div className="rounded-xl border border-gray-200 bg-white/[0.03] p-4 relative">
           <button
             onClick={() => navigator.clipboard?.writeText(output)}
-            className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+            className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-[rgba(74,165,168,0.06)] transition-colors"
           >
-            <Copy className="w-3.5 h-3.5 text-white/40" />
+            <Copy className="w-3.5 h-3.5 text-[#6B7280]" />
           </button>
-          <pre className="text-xs text-white/70 whitespace-pre-wrap font-mono leading-relaxed">{output}</pre>
+          <pre className="text-xs text-[#2A2F3D] whitespace-pre-wrap font-mono leading-relaxed">{output}</pre>
         </div>
       )}
     </div>
@@ -490,7 +490,7 @@ export default function AuahaWhaikorero() {
         >
           Prospecting, outreach & pipeline — done right
         </h1>
-        <p className="text-white/40 text-sm leading-relaxed">
+        <p className="text-[#6B7280] text-sm leading-relaxed">
           Structured sales workflows for NZ B2B — ICP building, first-draft outreach, deal health
           review, and call prep. All output is a first draft: personalise before sending.
         </p>
@@ -524,7 +524,7 @@ export default function AuahaWhaikorero() {
       </div>
 
       {/* Disclaimer */}
-      <div className="mt-5 flex items-start gap-2 text-[10px] text-white/20">
+      <div className="mt-5 flex items-start gap-2 text-[10px] text-[#8B92A0]">
         <AlertTriangle className="w-3 h-3 mt-0.5 shrink-0" />
         <p>
           Whaikōrero generates first-draft content for review. Always personalise outreach before

@@ -61,16 +61,16 @@ export default function AuahaPodcastStudio() {
   return (
     <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
       <div>
-        <p className="text-white/40 text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Podcast Studio</p>
+        <p className="text-[#6B7280] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Podcast Studio</p>
         <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Podcast Studio</h1>
-        <p className="text-gray-500 text-sm mt-1">Powered by VERSE — record, edit, publish with AI</p>
+        <p className="text-[#6B7280] text-sm mt-1">Powered by VERSE — record, edit, publish with AI</p>
       </div>
 
       {/* Tabs */}
       <div className="flex gap-2">
         {([["record", "Record", Mic], ["edit", "Edit & Enhance", AudioLines], ["publish", "Publish", Radio]] as const).map(([key, label, Icon]) => (
           <button key={key} onClick={() => setTab(key)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs transition-all ${tab === key ? "text-black font-medium" : "text-gray-500 bg-white/5"}`}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs transition-all ${tab === key ? "text-[#1A1D29] font-medium" : "text-[#6B7280] bg-[rgba(74,165,168,0.04)]"}`}
             style={tab === key ? { background: ACCENT } : {}}>
             <Icon className="w-3.5 h-3.5" /> {label}
           </button>
@@ -85,17 +85,17 @@ export default function AuahaPodcastStudio() {
               <Mic className="w-10 h-10" style={{ color: ACCENT }} />
             </div>
             <h3 className="text-foreground text-sm font-medium mb-1">{isRecording ? "Recording..." : "Record"}</h3>
-            <p className="text-white/40 text-xs mb-4">Browser-based recording via Web Audio API</p>
+            <p className="text-[#6B7280] text-xs mb-4">Browser-based recording via Web Audio API</p>
             <Button onClick={() => { setIsRecording(!isRecording); toast.info(isRecording ? "Recording stopped" : "Recording started — speak now"); }}
               style={{ background: isRecording ? "#ef4444" : ACCENT, color: isRecording ? "#fff" : "#000" }} className="w-full">
               {isRecording ? "Stop Recording" : "Start Recording"}
             </Button>
             <div className="mt-4 pt-4 border-t border-gray-200">
-              <label className="flex items-center gap-2 text-gray-500 text-xs cursor-pointer">
+              <label className="flex items-center gap-2 text-[#6B7280] text-xs cursor-pointer">
                 <input type="checkbox" checked={coHostEnabled} onChange={(e) => setCoHostEnabled(e.target.checked)} className="rounded" />
                 Enable AI co-host (VERSE)
               </label>
-              {coHostEnabled && <p className="text-[10px] text-white/20 mt-1">VERSE will respond conversationally during recording</p>}
+              {coHostEnabled && <p className="text-[10px] text-[#8B92A0] mt-1">VERSE will respond conversationally during recording</p>}
             </div>
           </GlassCard>
 
@@ -104,9 +104,9 @@ export default function AuahaPodcastStudio() {
               <Upload className="w-10 h-10" style={{ color: ACCENT }} />
             </div>
             <h3 className="text-foreground text-sm font-medium mb-1">Upload Audio</h3>
-            <p className="text-white/40 text-xs mb-4">MP3, WAV, M4A — we'll enhance and process</p>
+            <p className="text-[#6B7280] text-xs mb-4">MP3, WAV, M4A — we'll enhance and process</p>
             <input ref={fileRef} type="file" accept="audio/*" className="hidden" onChange={(e) => { if (e.target.files?.[0]) { setAudioFile(e.target.files[0]); toast.success(`Uploaded: ${e.target.files[0].name}`); }}} />
-            <Button variant="outline" className="w-full border-gray-200 text-white/60" onClick={() => fileRef.current?.click()}>
+            <Button variant="outline" className="w-full border-gray-200 text-[#4A5160]" onClick={() => fileRef.current?.click()}>
               {audioFile ? audioFile.name : "Choose File"}
             </Button>
           </GlassCard>
@@ -115,12 +115,12 @@ export default function AuahaPodcastStudio() {
             <h3 className="text-foreground text-sm font-medium mb-3">AI Enhancement</h3>
             <div className="space-y-3">
               {AI_FEATURES.map((f) => (
-                <div key={f.label} className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-all">
+                <div key={f.label} className="flex items-center justify-between p-2 rounded-lg hover:bg-[rgba(74,165,168,0.04)] transition-all">
                   <div>
-                    <p className="text-white/70 text-xs">{f.label}</p>
-                    <p className="text-gray-400 text-[10px]">{f.desc}</p>
+                    <p className="text-[#2A2F3D] text-xs">{f.label}</p>
+                    <p className="text-[#6B7280] text-[10px]">{f.desc}</p>
                   </div>
-                  {f.active ? <Sparkles className="w-3 h-3" style={{ color: ACCENT }} /> : <span className="text-[8px] text-white/20">Soon</span>}
+                  {f.active ? <Sparkles className="w-3 h-3" style={{ color: ACCENT }} /> : <span className="text-[8px] text-[#8B92A0]">Soon</span>}
                 </div>
               ))}
             </div>
@@ -131,8 +131,8 @@ export default function AuahaPodcastStudio() {
       {tab === "edit" && (
         <div className="space-y-4">
           <GlassCard className="p-6">
-            <h3 className="text-white/60 text-xs uppercase tracking-[3px] mb-4">Waveform Editor</h3>
-            <div className="bg-white/5 rounded-lg h-24 flex items-center justify-center">
+            <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px] mb-4">Waveform Editor</h3>
+            <div className="bg-[rgba(74,165,168,0.04)] rounded-lg h-24 flex items-center justify-center">
               <div className="flex items-end gap-[2px] h-16">
                 {Array.from({ length: 80 }).map((_, i) => (
                   <div key={i} className="w-1 rounded-full transition-all" style={{ height: `${Math.random() * 100}%`, background: `${ACCENT}${Math.random() > 0.5 ? "88" : "44"}` }} />
@@ -140,8 +140,8 @@ export default function AuahaPodcastStudio() {
               </div>
             </div>
             <div className="flex items-center justify-between mt-3">
-              <Button size="sm" variant="outline" className="border-gray-200 text-white/60"><Play className="w-3 h-3 mr-1" /> Play</Button>
-              <span className="text-gray-400 text-xs font-mono">00:00 / 24:30</span>
+              <Button size="sm" variant="outline" className="border-gray-200 text-[#4A5160]"><Play className="w-3 h-3 mr-1" /> Play</Button>
+              <span className="text-[#6B7280] text-xs font-mono">00:00 / 24:30</span>
             </div>
           </GlassCard>
 
@@ -153,19 +153,19 @@ export default function AuahaPodcastStudio() {
                 <Sparkles className="w-4 h-4 ml-2" />
               </Button>
               {showNotes && (
-                <div className="bg-white/5 rounded-lg p-4 text-white/70 text-xs whitespace-pre-wrap max-h-[300px] overflow-y-auto">{showNotes}</div>
+                <div className="bg-[rgba(74,165,168,0.04)] rounded-lg p-4 text-[#2A2F3D] text-xs whitespace-pre-wrap max-h-[300px] overflow-y-auto">{showNotes}</div>
               )}
             </GlassCard>
 
             <GlassCard className="p-6">
               <h3 className="text-foreground text-sm mb-3">Social Promotion</h3>
-              <p className="text-white/40 text-xs mb-4">Auto-generate promotional content for this episode</p>
+              <p className="text-[#6B7280] text-xs mb-4">Auto-generate promotional content for this episode</p>
               <div className="space-y-2">
                 {["Audiogram (60s video clip)", "Pull quote cards → Image Studio", "LinkedIn carousel summary", "Newsletter snippet"].map((item) => (
-                  <button key={item} className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all text-left"
+                  <button key={item} className="w-full flex items-center justify-between p-3 rounded-lg bg-[rgba(74,165,168,0.04)] hover:bg-[rgba(74,165,168,0.06)] transition-all text-left"
                     onClick={() => item.includes("Image") ? navigate("/auaha/images") : toast.info("Creating promotional asset...")}>
-                    <span className="text-white/60 text-xs">{item}</span>
-                    <Sparkles className="w-3 h-3 text-white/20" />
+                    <span className="text-[#4A5160] text-xs">{item}</span>
+                    <Sparkles className="w-3 h-3 text-[#8B92A0]" />
                   </button>
                 ))}
               </div>
@@ -176,11 +176,11 @@ export default function AuahaPodcastStudio() {
 
       {tab === "publish" && (
         <GlassCard className="p-6">
-          <h3 className="text-white/60 text-xs uppercase tracking-[3px] mb-4">Episodes</h3>
+          <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px] mb-4">Episodes</h3>
           {DEMO_EPISODES.length > 0 ? (
             <div className="space-y-3">
               {DEMO_EPISODES.map((ep) => (
-                <div key={ep.title} className="flex items-center justify-between p-4 rounded-lg bg-white/5 hover:bg-white/[0.07] transition-all">
+                <div key={ep.title} className="flex items-center justify-between p-4 rounded-lg bg-[rgba(74,165,168,0.04)] hover:bg-white/[0.07] transition-all">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: `${ACCENT}15` }}>
                       <Play className="w-4 h-4" style={{ color: ACCENT }} />
@@ -188,21 +188,21 @@ export default function AuahaPodcastStudio() {
                     <div>
                       <p className="text-foreground text-sm">{ep.title}</p>
                       <div className="flex items-center gap-3 mt-0.5">
-                        <span className="text-gray-400 text-[10px] flex items-center gap-1"><Clock className="w-2.5 h-2.5" /> {ep.duration}</span>
-                        <span className="text-gray-400 text-[10px]">{ep.date}</span>
+                        <span className="text-[#6B7280] text-[10px] flex items-center gap-1"><Clock className="w-2.5 h-2.5" /> {ep.duration}</span>
+                        <span className="text-[#6B7280] text-[10px]">{ep.date}</span>
                       </div>
                     </div>
                   </div>
                   <span className={`text-[10px] px-2 py-0.5 rounded-full ${
                     ep.status === "published" ? "bg-[#5AADA0]/20 text-[#5AADA0]" :
                     ep.status === "editing" ? "bg-[#D4A843]/20 text-[#D4A843]" :
-                    "bg-white/10 text-white/40"
+                    "bg-[rgba(74,165,168,0.06)] text-[#6B7280]"
                   }`}>{ep.status}</span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-white/20">
+            <div className="text-center py-8 text-[#8B92A0]">
               <FileText className="w-8 h-8 mx-auto mb-2 opacity-30" />
               <p className="text-sm">No episodes yet. Record or upload audio to get started.</p>
             </div>
