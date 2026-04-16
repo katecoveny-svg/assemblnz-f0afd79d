@@ -1,5 +1,4 @@
 import React, { lazy, Suspense, useMemo, useState, useCallback } from "react";
-import koruHeroImg from "@/assets/koru-hero-3d.jpg";
 import { motion, LayoutGroup, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Check, Send, Bot, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -25,7 +24,7 @@ import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 
 const Kete3DModel = lazy(() => import("@/components/kete/Kete3DModel").catch(() => ({ default: () => null })));
-const LiquidKoru = lazy(() => import("@/components/hero/LiquidKoru").catch(() => ({ default: () => null })));
+const KoruDataNetwork = lazy(() => import("@/components/hero/KoruDataNetwork").catch(() => ({ default: () => null })));
 
 /* ─── Light Palette Tokens ─── */
 const C = {
@@ -248,35 +247,28 @@ const Index = () => {
         <ContextBar />
 
         {/* ═══ HERO ═══ */}
-        <section className="relative min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center px-4 sm:px-6 overflow-hidden pt-8 sm:pt-0">
-          {/* Ambient blobs behind hero — drift slowly */}
-          <motion.div className="absolute pointer-events-none" style={{
-            width: 500, height: 500, top: "5%", left: "-5%",
-            background: "radial-gradient(circle, rgba(74,165,168,0.08) 0%, transparent 60%)",
-            filter: "blur(80px)",
-          }} animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
-            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }} />
-          <motion.div className="absolute pointer-events-none" style={{
-            width: 400, height: 400, top: "20%", right: "-3%",
-            background: "radial-gradient(circle, rgba(232,169,72,0.06) 0%, transparent 60%)",
-            filter: "blur(80px)",
-          }} animate={{ x: [0, -25, 0], y: [0, 20, 0] }}
-            transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }} />
-          <motion.div className="absolute pointer-events-none" style={{
-            width: 350, height: 350, bottom: "10%", left: "25%",
-            background: "radial-gradient(circle, rgba(232,230,240,0.1) 0%, transparent 60%)",
-            filter: "blur(80px)",
-          }} animate={{ x: [0, 15, 0], y: [0, -15, 0] }}
-            transition={{ duration: 35, repeat: Infinity, ease: "easeInOut" }} />
+        <section className="relative min-h-[100vh] flex flex-col items-center justify-center px-4 sm:px-6 overflow-hidden">
+          {/* Full-bleed 3D Koru behind everything */}
+          <div className="absolute inset-0 z-0">
+            <Suspense fallback={
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="w-[400px] h-[400px] rounded-full" style={{
+                  background: "radial-gradient(ellipse, rgba(74,165,168,0.12) 0%, rgba(232,169,72,0.06) 50%, transparent 70%)",
+                  filter: "blur(40px)",
+                }} />
+              </div>
+            }>
+              <KoruDataNetwork isMobile={isMobile} />
+            </Suspense>
+          </div>
 
-          {/* Content grid: text left, 3D blob right */}
-          <div className="max-w-[1200px] mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-10 items-center relative z-10">
-            {/* Left: Text */}
-            <motion.div style={{ y: heroParallax }} className="text-center lg:text-left">
+          {/* Text overlay centred on the koru */}
+          <div className="relative z-10 max-w-[800px] mx-auto text-center">
+            <motion.div style={{ y: heroParallax }}>
               {/* Status badge */}
-              <motion.div className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full mb-12"
+              <motion.div className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full mb-8"
                 style={{
-                  background: "rgba(255,255,255,0.65)",
+                  background: "rgba(255,255,255,0.75)",
                   backdropFilter: "blur(20px)",
                   border: "1px solid rgba(255,255,255,0.9)",
                   boxShadow: "0 4px 20px rgba(74,165,168,0.08)",
@@ -289,15 +281,15 @@ const Index = () => {
                 </span>
               </motion.div>
 
-              {/* H1 with typewriter */}
+              {/* H1 */}
               <h1 style={{
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 600,
-                fontSize: isMobile ? "1.75rem" : "4.2rem",
-                lineHeight: 1.1,
+                fontSize: isMobile ? "2rem" : "4.5rem",
+                lineHeight: 1.08,
                 letterSpacing: "-0.02em",
                 color: "#1A1D29",
-                textShadow: "0 2px 12px rgba(0,0,0,0.12)",
+                textShadow: "0 2px 16px rgba(255,255,255,0.6)",
               }}>
                 <TypewriterText
                   text="The operating system for NZ business"
@@ -306,22 +298,25 @@ const Index = () => {
                 />
               </h1>
 
-              {/* Animated gradient underline */}
-              <div className="mt-6 sm:mt-10 mb-6 sm:mb-10 lg:mx-0 mx-auto" style={{ width: 80 }}>
+              <div className="mt-6 mb-6 mx-auto" style={{ width: 80 }}>
                 <AnimatedUnderline width={80} />
               </div>
 
               <motion.p
-                className="max-w-[480px] text-[14px] sm:text-[17px] leading-[1.7] lg:mx-0 mx-auto"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "#374151" }}
+                className="max-w-[520px] mx-auto text-[14px] sm:text-[18px] leading-[1.7]"
+                style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontWeight: 500,
+                  color: "#374151",
+                  textShadow: "0 1px 8px rgba(255,255,255,0.7)",
+                }}
                 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2, ease }}
               >
                 Specialist workflows that reduce admin, surface risk earlier, and keep your people in control.
               </motion.p>
 
-              {/* Tagline with animated underline */}
-              <motion.p className="text-[12px] sm:text-[13px] tracking-[1px] mt-4 sm:mt-6 mb-8 sm:mb-12 lg:mx-0 mx-auto max-w-[400px]"
+              <motion.p className="text-[12px] sm:text-[13px] tracking-[1px] mt-4 mb-10 mx-auto max-w-[400px]"
                 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: C.textSecondary }}
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
                 Governed intelligence for Aotearoa
@@ -329,11 +324,11 @@ const Index = () => {
               </motion.p>
 
               {/* CTA buttons */}
-              <motion.div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              <motion.div className="flex flex-col sm:flex-row gap-4 justify-center"
                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.35, ease }}
               >
-                <Link to="/how-it-works" className="group relative inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03] overflow-hidden"
+                <Link to="/how-it-works" className="group relative inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03] overflow-hidden"
                   style={{
                     background: `linear-gradient(145deg, #55BFC1, ${C.teal})`,
                     color: "#FFFFFF",
@@ -343,9 +338,10 @@ const Index = () => {
                   }}>
                   Start here <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
                 </Link>
-                <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
+                <Link to="/demos" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
                   style={{
-                    background: "linear-gradient(145deg, #F5F5F8, #E4E4E8)",
+                    background: "rgba(255,255,255,0.8)",
+                    backdropFilter: "blur(12px)",
                     border: `1px solid rgba(74,165,168,0.2)`,
                     color: C.teal,
                     fontFamily: "'Lato', sans-serif",
@@ -355,30 +351,12 @@ const Index = () => {
                 </Link>
               </motion.div>
 
-              <motion.p className="mt-16 text-[10px] tracking-[4px] uppercase"
+              <motion.p className="mt-12 text-[10px] tracking-[4px] uppercase"
                 style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.5 }}
               >
                 Trusted · Intelligent · Aotearoa
               </motion.p>
-            </motion.div>
-
-            {/* Right: Liquid Koru */}
-            <motion.div
-              style={{ y: blobParallax }}
-              className="relative flex items-center justify-center"
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: heroTyped ? 1 : 0, scale: heroTyped ? 1 : 0.85 }}
-              transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <motion.img
-                src={koruHeroImg}
-                alt="Assembl Koru data network — glass spheres connected in a spiral"
-                className="w-full max-w-[560px] mx-auto drop-shadow-2xl"
-                style={{ filter: "drop-shadow(0 20px 60px rgba(74,165,168,0.25))" }}
-                animate={{ y: [0, -12, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              />
             </motion.div>
           </div>
         </section>
