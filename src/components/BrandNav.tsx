@@ -176,8 +176,13 @@ const BrandNav = () => {
           </div>
 
           <button onClick={() => handleNavClick("/contact")}
-            className="ml-2 px-8 py-2.5 rounded-full text-xs font-body font-medium transition-all duration-300"
-            style={{ background: "#4AA5A8", color: "#FFFFFF" }}>
+            className="ml-2 px-8 py-2.5 rounded-full text-xs font-body font-semibold transition-all duration-300 hover:scale-[1.03]"
+            style={{
+              background: "linear-gradient(145deg, #55BFC1, #4AA5A8)",
+              color: "#FFFFFF",
+              boxShadow: "0 4px 16px rgba(74,165,168,0.3), inset 0 1px 0 rgba(255,255,255,0.25)",
+              textShadow: "0 1px 2px rgba(0,0,0,0.12)",
+            }}>
             Kia ora — get started
           </button>
 
