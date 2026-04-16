@@ -69,19 +69,10 @@ export default function AgentMessagingPanel({ agentId, agentName, agentColor, ch
           .eq("agent_id", agentId)
           .eq("channel", channel)
           .order("created_at", { ascending: false })
-          .limit: 50 as never,
-      ] as never);
-      // re-issue messages query cleanly (the trick above fails — fix below)
-      const msgs2 = await supabase
-        .from("agent_sms_messages")
-        .select("*")
-        .eq("user_id", user.id)
-        .eq("agent_id", agentId)
-        .eq("channel", channel)
-        .order("created_at", { ascending: false })
-        .limit(50);
-      setConfig((configRes as any).data as MsgConfig | null);
-      setMessages((msgs2.data || []) as MsgRow[]);
+          .limit(50),
+      ]);
+      setConfig(configRes.data as MsgConfig | null);
+      setMessages((msgsRes.data || []) as MsgRow[]);
     } catch (e) {
       console.error(`[Agent ${channelLabel}] Load error:`, e);
     }
