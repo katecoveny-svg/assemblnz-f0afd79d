@@ -239,7 +239,7 @@ const BrandNav = () => {
                   <button key={link.label} onClick={() => handleNavClick(link.to)}
                     className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-body transition-all duration-200"
                     style={{ color: "#1A1D29" }}>
-                    <link.icon size={16} style={{ color: link.color }} />
+                    <GlowIcon name={link.glowIcon} size={16} color={link.color} glow />
                     <span>{link.label}</span>
                   </button>
                 ))}
