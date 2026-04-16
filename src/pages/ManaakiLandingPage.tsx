@@ -6,7 +6,8 @@ import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import TextUsButton from "@/components/kete/TextUsButton";
@@ -58,8 +59,8 @@ export default function ManaakiLandingPage() {
   const [hoveredAgent, setHoveredAgent] = useState<number | null>(null);
 
   return (
-    <GlowPageWrapper accentColor={ACCENT}>
-      <div style={{ background: BG, minHeight: "100vh", color: "#fff" }}>
+    <LightPageShell>
+      <div style={{ minHeight: "100vh" }}>
         <SEO
           title="Manaaki — Hospitality & Tourism | assembl"
           description="Food safety, alcohol licensing, guest experience, sustainability — hospitality compliance without the paperwork pile-up. Built for NZ operators."
@@ -112,7 +113,7 @@ export default function ManaakiLandingPage() {
             variants={fadeUp} initial="hidden" animate="visible" custom={1}
           >
             <span style={{
-              background: `linear-gradient(135deg, ${BONE} 0%, ${POUNAMU_LIGHT} 50%, ${BONE} 100%)`,
+              background: `linear-gradient(135deg, #1A1D29 0%, ${POUNAMU_LIGHT} 50%, ${BONE} 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundSize: "200% auto",
@@ -121,7 +122,7 @@ export default function ManaakiLandingPage() {
             </span>
             <br />
             <span style={{
-              background: `linear-gradient(135deg, ${BONE} 0%, ${ACCENT} 60%, ${BONE} 100%)`,
+              background: `linear-gradient(135deg, #1A1D29 0%, ${ACCENT} 60%, ${BONE} 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundSize: "200% auto",
@@ -132,7 +133,7 @@ export default function ManaakiLandingPage() {
 
           <motion.p
             className="text-lg sm:text-xl font-display font-light tracking-[0.02em] mb-6 max-w-2xl"
-            style={{ color: "rgba(255,255,255,0.35)" }}
+            style={{ color: "#6B7280" }}
             variants={fadeUp} initial="hidden" animate="visible" custom={1.5}
           >
             Operational intelligence for NZ hospitality
@@ -140,7 +141,7 @@ export default function ManaakiLandingPage() {
 
           <motion.p
             className="text-sm sm:text-base max-w-xl mb-8 font-body leading-relaxed"
-            style={{ color: "rgba(255,255,255,0.45)" }}
+            style={{ color: "#6B7280" }}
             variants={fadeUp} initial="hidden" animate="visible" custom={2}
           >
             Food safety plans, alcohol licensing, guest profiles, sustainability reporting, and event coordination — handled, checked, and evidence-packed.
@@ -171,7 +172,7 @@ export default function ManaakiLandingPage() {
                 <motion.li
                   key={item}
                   className="flex items-start gap-3 text-xs font-body"
-                  style={{ color: "rgba(255,255,255,0.6)" }}
+                  style={{ color: "#9CA3AF" }}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 + idx * 0.08 }}
@@ -213,9 +214,9 @@ export default function ManaakiLandingPage() {
               to="/contact"
               className="group px-10 py-4 rounded-full text-sm font-medium font-body transition-all duration-300"
               style={{
-                color: "rgba(255,255,255,0.5)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(255,255,255,0.02)",
+                color: "#6B7280",
+                border: "1px solid rgba(74,165,168,0.15)",
+                background: "rgba(255,255,255,0.5)",
               }}
             >
               <span className="group-hover:text-white/80 transition-colors">Book a hospitality walk-through</span>
@@ -389,13 +390,13 @@ export default function ManaakiLandingPage() {
                   <motion.div
                     key={f.label}
                     className="p-3 rounded-lg text-xs"
-                    style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
+                    style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.05 }}
                   >
                     <span className="text-white/25 text-[10px]">{f.label}</span>
-                    <p className="text-white/70 font-mono mt-1">{f.value}</p>
+                    <p className="text-assembl-text/70 font-mono mt-1">{f.value}</p>
                   </motion.div>
                 ))}
               </motion.div>
@@ -430,12 +431,12 @@ export default function ManaakiLandingPage() {
                   <motion.div
                     key={c.check}
                     className="flex items-center justify-between text-xs p-3 rounded-lg"
-                    style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
+                    style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.08 }}
                   >
-                    <span className="text-white/50">{c.check}</span>
+                    <span className="text-gray-500">{c.check}</span>
                     <div className="flex items-center gap-3">
                       <span className="text-[9px] font-mono text-white/25">{c.ref}</span>
                       <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full" style={{
@@ -522,6 +523,6 @@ export default function ManaakiLandingPage() {
           starterPrompts={["What does Manaaki cover for hospitality?", "How does food safety compliance work?", "Tell me about alcohol licensing support", "What evidence packs do I get?"]}
         />
       </div>
-    </GlowPageWrapper>
+    </LightPageShell>
   );
 }

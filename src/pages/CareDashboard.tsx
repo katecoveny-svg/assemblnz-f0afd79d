@@ -71,7 +71,7 @@ const CareDashboard = () => {
 
   if (!senior) return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "#09090F" }}>
-      <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Senior profile not found</p>
+      <p className="text-sm" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Senior profile not found</p>
       <Link to="/" className="text-xs underline" style={{ color: KOWHAI }}>Back to home</Link>
     </div>
   );
@@ -100,7 +100,7 @@ const CareDashboard = () => {
             <h1 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, textTransform: "uppercase", letterSpacing: "4px", fontSize: "24px", color: "#fff" }}>
               {senior.preferred_name || senior.first_name} {senior.last_name}
             </h1>
-            <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>
+            <p className="text-xs mt-1" style={{ color: "#6B7280" }}>
               {senior.date_of_birth ? `Age ${Math.floor((Date.now() - new Date(senior.date_of_birth).getTime()) / 31557600000)}` : ""} · {senior.city || senior.region || "NZ"}
             </p>
           </div>
@@ -127,7 +127,7 @@ const CareDashboard = () => {
               <span className="text-3xl">{moodEmoji(latestCheckIn.mood_score || 5)}</span>
               <div>
                 <p className="text-sm" style={{ color: "#fff" }}>Mood: {latestCheckIn.mood_score || "—"}/10</p>
-                <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.5)" }}>
+                <p className="text-xs mt-0.5" style={{ color: "#6B7280" }}>
                   {latestCheckIn.mood_notes || "No notes from this check-in"}
                 </p>
               </div>
@@ -178,7 +178,7 @@ const CareDashboard = () => {
                   <AlertTriangle size={14} style={{ color: a.priority === "critical" ? KOKKOWAI : a.priority === "high" ? "#FF6D00" : KOWHAI, marginTop: 2 }} />
                   <div className="flex-1">
                     <p className="text-xs font-medium" style={{ color: "#fff" }}>{a.title}</p>
-                    <p className="text-[11px] mt-0.5" style={{ color: "rgba(255,255,255,0.5)" }}>{a.description}</p>
+                    <p className="text-[11px] mt-0.5" style={{ color: "#6B7280" }}>{a.description}</p>
                     {a.recommended_action && <p className="text-[10px] mt-1 italic" style={{ color: POUNAMU }}>{a.recommended_action}</p>}
                   </div>
                   <span className="text-[9px] uppercase px-2 py-0.5 rounded-full font-bold" style={{
@@ -260,7 +260,7 @@ const CareDashboard = () => {
             </div>
           ) : (
             <div>
-              <p className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>
+              <p className="text-xs" style={{ color: "#6B7280" }}>
                 Last assessed: {new Date(safetyAssessments[0].created_at).toLocaleDateString("en-NZ")} · Room: {safetyAssessments[0].room || "Full home"}
               </p>
             </div>

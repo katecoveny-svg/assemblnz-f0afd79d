@@ -357,7 +357,7 @@ export default function AdminMessagingDashboard() {
                       </div>
                     ))}
                     {!selectedConvo && (
-                      <div className="flex items-center justify-center h-full text-white/20 text-sm pt-40">
+                      <div className="flex items-center justify-center h-full text-gray-300 text-sm pt-40">
                         Select a conversation to view messages
                       </div>
                     )}
@@ -494,7 +494,7 @@ function MessageLogsTable() {
         <ScrollArea className="h-[600px]">
           <table className="w-full text-xs">
             <thead className="sticky top-0 bg-[#0F0F1A] border-b border-white/10">
-              <tr className="text-white/40 uppercase tracking-wider">
+              <tr className="text-assembl-text/40 uppercase tracking-wider">
                 <th className="text-left p-3">Time</th>
                 <th className="text-left p-3">Dir</th>
                 <th className="text-left p-3">Channel</th>
@@ -508,7 +508,7 @@ function MessageLogsTable() {
             <tbody>
               {logs.map((log) => (
                 <tr key={log.id} className="border-b border-white/5 hover:bg-white/5 transition">
-                  <td className="p-3 text-white/50 whitespace-nowrap">
+                  <td className="p-3 text-gray-500 whitespace-nowrap">
                     {new Date(log.created_at).toLocaleString("en-NZ", { timeZone: "Pacific/Auckland", month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit" })}
                   </td>
                   <td className="p-3">

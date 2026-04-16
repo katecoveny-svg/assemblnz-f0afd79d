@@ -419,7 +419,7 @@ const DocSection = ({ section, accent, index }: { section: Section; accent: stri
 
     {/* Body */}
     <div className="px-6 pt-4 pb-2">
-      <p className="text-xs mb-4" style={{ fontFamily: FONT_BODY, color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>
+      <p className="text-xs mb-4" style={{ fontFamily: FONT_BODY, color: "#6B7280", lineHeight: 1.7 }}>
         {section.body}
       </p>
 
@@ -429,7 +429,7 @@ const DocSection = ({ section, accent, index }: { section: Section; accent: stri
           <div key={item.label} className="flex items-start gap-3 py-2" style={{ borderTop: `1px solid rgba(255,255,255,0.04)` }}>
             <StatusDot status={item.status} />
             <div className="flex-1 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-              <span className="text-xs" style={{ fontFamily: FONT_BODY, color: "rgba(255,255,255,0.55)" }}>
+              <span className="text-xs" style={{ fontFamily: FONT_BODY, color: "#6B7280" }}>
                 {item.label}
               </span>
               <span
@@ -656,7 +656,7 @@ const SampleEvidencePackPage = () => {
               <div>
                 <p
                   className="text-[10px] tracking-[3px] uppercase mb-1"
-                  style={{ fontFamily: FONT_MONO, color: "rgba(255,255,255,0.35)" }}
+                  style={{ fontFamily: FONT_MONO, color: "#6B7280" }}
                 >
                   Evidence Pack
                 </p>
@@ -695,7 +695,7 @@ const SampleEvidencePackPage = () => {
                       {label}
                     </span>
                   </div>
-                  <span className="text-xs" style={{ fontFamily: FONT_BODY, color: "rgba(255,255,255,0.7)" }}>
+                  <span className="text-xs" style={{ fontFamily: FONT_BODY, color: "#4AA5A8" }}>
                     {value}
                   </span>
                 </div>
@@ -736,7 +736,7 @@ const SampleEvidencePackPage = () => {
                 >
                   Pack Sign-Off
                 </p>
-                <p className="text-xs" style={{ fontFamily: FONT_BODY, color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>
+                <p className="text-xs" style={{ fontFamily: FONT_BODY, color: "#6B7280", lineHeight: 1.7 }}>
                   {pack.signOff}
                 </p>
               </div>
@@ -751,7 +751,7 @@ const SampleEvidencePackPage = () => {
           >
             <p
               className="text-xs"
-              style={{ fontFamily: FONT_MONO, color: "rgba(255,255,255,0.35)", letterSpacing: "0.05em" }}
+              style={{ fontFamily: FONT_MONO, color: "#6B7280", letterSpacing: "0.05em" }}
             >
               Export this pack:
             </p>
@@ -780,7 +780,7 @@ const SampleEvidencePackPage = () => {
                 className="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium transition-all hover:opacity-80 cursor-pointer"
                 style={{
                   fontFamily: FONT_BODY,
-                  color: "rgba(255,255,255,0.7)",
+                  color: "#4AA5A8",
                   background: "rgba(255,255,255,0.06)",
                   border: "1px solid rgba(255,255,255,0.12)",
                 }}
@@ -798,9 +798,9 @@ const SampleEvidencePackPage = () => {
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs"
                   style={{
                     fontFamily: FONT_BODY,
-                    color: "rgba(255,255,255,0.55)",
+                    color: "#6B7280",
                     background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.08)",
+                    border: "1px solid rgba(74,165,168,0.15)",
                   }}
                 >
                   <Icon size={11} />
@@ -828,7 +828,7 @@ const SampleEvidencePackPage = () => {
             >
               Your real pack is built from your actual data.
             </h2>
-            <p className="text-sm mb-6 max-w-xl mx-auto" style={{ fontFamily: FONT_BODY, color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>
+            <p className="text-sm mb-6 max-w-xl mx-auto" style={{ fontFamily: FONT_BODY, color: "#6B7280", lineHeight: 1.7 }}>
               Every assembl run ends in a signed evidence pack like this — except with your client's name, your documents, and your compliance history. File it, forward it, footnote it.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -851,7 +851,7 @@ const SampleEvidencePackPage = () => {
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm transition-all hover:opacity-80"
                 style={{
                   fontFamily: FONT_BODY,
-                  color: "rgba(255,255,255,0.5)",
+                  color: "#6B7280",
                   border: "1px solid rgba(255,255,255,0.12)",
                 }}
               >

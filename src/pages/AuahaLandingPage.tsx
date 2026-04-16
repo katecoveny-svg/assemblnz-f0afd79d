@@ -6,7 +6,8 @@ import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteRaceVideo from "@/components/kete/KeteRaceVideo";
 import TextUsButton from "@/components/kete/TextUsButton";
@@ -52,8 +53,8 @@ export default function AuahaLandingPage() {
   const [hoveredAgent, setHoveredAgent] = useState<number | null>(null);
 
   return (
-    <GlowPageWrapper accentColor={ACCENT}>
-      <div style={{ background: BG, minHeight: "100vh", color: "#fff" }}>
+    <LightPageShell>
+      <div style={{ minHeight: "100vh" }}>
         <SEO
           title="Auaha — Creative & Media | Assembl"
           description="Strategy, content, brand voice, design, campaigns, analytics — one coordinated studio, not six tools and a freelancer. Built for NZ creative teams."
@@ -84,16 +85,16 @@ export default function AuahaLandingPage() {
 
           <motion.h1 className="text-4xl sm:text-6xl font-display font-light tracking-[0.02em] mb-4 max-w-3xl leading-[1.1]"
             variants={fadeUp} initial="hidden" animate="visible" custom={1}>
-            <span style={{ background: `linear-gradient(135deg, ${BONE} 0%, ${ACCENT} 50%, ${BONE} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
+            <span style={{ background: `linear-gradient(135deg, #1A1D29 0%, ${ACCENT} 50%, ${BONE} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
               One coordinated studio.
             </span>
           </motion.h1>
 
-          <motion.p className="text-lg sm:text-xl font-display font-light tracking-[0.02em] mb-6 max-w-2xl" style={{ color: "rgba(255,255,255,0.35)" }} variants={fadeUp} initial="hidden" animate="visible" custom={1.5}>
+          <motion.p className="text-lg sm:text-xl font-display font-light tracking-[0.02em] mb-6 max-w-2xl" style={{ color: "#6B7280" }} variants={fadeUp} initial="hidden" animate="visible" custom={1.5}>
             Nine specialist agents for NZ creative teams
           </motion.p>
 
-          <motion.p className="text-sm sm:text-base max-w-xl mb-8 font-body leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }} variants={fadeUp} initial="hidden" animate="visible" custom={2}>
+          <motion.p className="text-sm sm:text-base max-w-xl mb-8 font-body leading-relaxed" style={{ color: "#6B7280" }} variants={fadeUp} initial="hidden" animate="visible" custom={2}>
             Strategy, content, brand voice, design, campaigns, lead formation, analytics — coordinated from brief to publish.
           </motion.p>
 
@@ -110,7 +111,7 @@ export default function AuahaLandingPage() {
             </p>
             <ul className="space-y-3">
               {["No autonomous publishing — every piece reviewed before it goes live", "Brand voice enforced across every format and channel", "Every workflow run ends in a signed evidence pack", "Privacy Act 2020 and IPP 3A alignment built in"].map((item, idx) => (
-                <motion.li key={item} className="flex items-start gap-3 text-xs font-body" style={{ color: "rgba(255,255,255,0.6)" }}
+                <motion.li key={item} className="flex items-start gap-3 text-xs font-body" style={{ color: "#9CA3AF" }}
                   initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + idx * 0.08 }}>
                   <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${POUNAMU}20`, boxShadow: `0 0 8px ${POUNAMU}20` }}>
                     <Check size={10} style={{ color: POUNAMU_LIGHT }} />
@@ -128,7 +129,7 @@ export default function AuahaLandingPage() {
               <span className="relative z-10">Open Auaha Studio</span>
               <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link to="/contact" className="group px-10 py-4 rounded-full text-sm font-medium font-body transition-all duration-300" style={{ color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}>
+            <Link to="/contact" className="group px-10 py-4 rounded-full text-sm font-medium font-body transition-all duration-300" style={{ color: "#6B7280", border: "1px solid rgba(74,165,168,0.15)", background: "rgba(255,255,255,0.5)" }}>
               <span className="group-hover:text-white/80 transition-colors">Book a creative walk-through</span>
             </Link>
           </motion.div>
@@ -219,21 +220,21 @@ export default function AuahaLandingPage() {
                   { label: "Audience", value: "Local families, 25–45" },
                   { label: "Channels", value: "Instagram, Facebook, EDM" },
                 ].map((f, idx) => (
-                  <motion.div key={f.label} className="p-3 rounded-lg text-xs" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
+                  <motion.div key={f.label} className="p-3 rounded-lg text-xs" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}
                     initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
                     <span className="text-white/25 text-[10px]">{f.label}</span>
-                    <p className="text-white/70 font-mono mt-1">{f.value}</p>
+                    <p className="text-assembl-text/70 font-mono mt-1">{f.value}</p>
                   </motion.div>
                 ))}
               </motion.div>
             )}
             {activeDemo === 1 && (
               <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="ad-1">
-                <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}>
                   <p className="text-[10px] text-white/30 mb-1">Instagram caption — drafted by MUSE</p>
                   <p className="text-xs text-white/60 italic">"Sunday mornings at Kōwhai. Fresh baking, strong flat whites, and the sun hitting the deck just right. Come find your spot 🌿☕"</p>
                 </div>
-                <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}>
                   <p className="text-[10px] text-white/30 mb-1">EDM subject line — drafted by PRISM</p>
                   <p className="text-xs text-white/60 italic">"This week at Kōwhai: New winter menu + live music Friday"</p>
                 </div>
@@ -247,9 +248,9 @@ export default function AuahaLandingPage() {
                   { check: "Privacy Act — no PII in content", st: "pass" },
                   { check: "Human approval — awaiting sign-off", st: "pending" },
                 ].map((c, idx) => (
-                  <motion.div key={c.check} className="flex items-center justify-between text-xs p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
+                  <motion.div key={c.check} className="flex items-center justify-between text-xs p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.04)" }}
                     initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.08 }}>
-                    <span className="text-white/50">{c.check}</span>
+                    <span className="text-gray-500">{c.check}</span>
                     <span className={`text-[10px] uppercase font-semibold ${c.st === "pass" ? "text-emerald-400" : "text-amber-400"}`}>{c.st}</span>
                   </motion.div>
                 ))}
@@ -295,6 +296,6 @@ export default function AuahaLandingPage() {
           starterPrompts={["What does Auaha help with?", "How does the 9-agent creative studio work?", "Tell me about content calendar workflows", "What compliance checks run on my content?"]}
         />
       </div>
-    </GlowPageWrapper>
+    </LightPageShell>
   );
 }

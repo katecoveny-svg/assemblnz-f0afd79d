@@ -63,7 +63,7 @@ export default function SparkAppViewer() {
   if (passwordRequired) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#09090F" }}>
-        <div className="w-full max-w-xs space-y-4 p-6 rounded-2xl" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="w-full max-w-xs space-y-4 p-6 rounded-2xl" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
           <h2 className="text-sm font-display font-bold text-center" style={{ color: "#E4E4EC" }}>This app is password protected</h2>
           <input type="password" value={passwordInput} onChange={e => { setPasswordInput(e.target.value); setWrongPassword(false); }}
             placeholder="Enter password..."

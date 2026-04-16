@@ -70,7 +70,7 @@ const cardStyle: React.CSSProperties = {
   background: "rgba(15,15,26,0.8)",
   backdropFilter: "blur(20px)",
   WebkitBackdropFilter: "blur(20px)",
-  border: "1px solid rgba(255,255,255,0.06)",
+  border: "1px solid rgba(74,165,168,0.15)",
 };
 
 /* ── Component ── */
@@ -309,7 +309,7 @@ const OnboardingPage = () => {
                   {packData.problems.map(problem => (
                     <div key={problem} className="flex items-start gap-2.5">
                       <Check size={14} className="shrink-0 mt-0.5" style={{ color: "#3A7D6E" }} />
-                      <p className="text-xs" style={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.5 }}>{problem}</p>
+                      <p className="text-xs" style={{ color: "#9CA3AF", lineHeight: 1.5 }}>{problem}</p>
                     </div>
                   ))}
                 </div>
@@ -331,7 +331,7 @@ const OnboardingPage = () => {
                 <button
                   onClick={() => setStep(1)}
                   className="flex-1 py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-all"
-                  style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)" }}
+                  style={{ background: "rgba(255,255,255,0.06)", color: "#6B7280" }}
                 >
                   <ArrowLeft size={16} /> Back
                 </button>

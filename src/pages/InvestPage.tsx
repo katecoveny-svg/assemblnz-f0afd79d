@@ -15,7 +15,7 @@ const Glass = ({ children, className = "" }: { children: React.ReactNode; classN
   <div
     className={`rounded-2xl border ${className}`}
     style={{
-      background: "rgba(255,255,255,0.03)",
+      background: "rgba(255,255,255,0.65)",
       backdropFilter: "blur(12px)",
       WebkitBackdropFilter: "blur(12px)",
       borderColor: "rgba(255,255,255,0.08)",
@@ -74,7 +74,7 @@ const SectionNav = () => {
         <button
           key={s.id}
           onClick={() => scrollTo(s.id)}
-          className="font-body font-medium text-white/50 hover:text-white transition-colors"
+          className="font-body font-medium text-gray-500 hover:text-white transition-colors"
         >
           {s.label}
         </button>
@@ -257,7 +257,7 @@ const InvestPage = () => {
           <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-display font-light mb-4">
             How it works
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-white/45 font-body mb-14 max-w-xl">
+          <motion.p variants={fadeUp} className="text-gray-500 font-body mb-14 max-w-xl">
             A real conversation between a customer and an Assembl agent — no app, no portal, just SMS.
           </motion.p>
         </motion.div>
@@ -297,7 +297,7 @@ const InvestPage = () => {
                   </div>
                   <div>
                     <h3 className="font-display font-bold text-[15px] mb-1">{f.title}</h3>
-                    <p className="text-[13px] text-white/45 font-body leading-relaxed">{f.desc}</p>
+                    <p className="text-[13px] text-gray-500 font-body leading-relaxed">{f.desc}</p>
                   </div>
                 </Glass>
               </motion.div>
@@ -345,7 +345,7 @@ const InvestPage = () => {
           <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-display font-light mb-3">
             Governance &amp; compliance
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-white/45 font-body mb-12 max-w-2xl">
+          <motion.p variants={fadeUp} className="text-gray-500 font-body mb-12 max-w-2xl">
             Not an afterthought. Our regulatory framework is the product.
           </motion.p>
         </motion.div>
@@ -399,7 +399,7 @@ const InvestPage = () => {
                   {c.tag}
                 </span>
                 <h3 className="font-display font-bold text-lg mb-3">{c.title}</h3>
-                <p className="text-[13px] text-white/45 font-body leading-relaxed">{c.content}</p>
+                <p className="text-[13px] text-gray-500 font-body leading-relaxed">{c.content}</p>
               </Glass>
             </motion.div>
           ))}
@@ -437,7 +437,7 @@ const InvestPage = () => {
                     <td className="px-6 py-4 font-medium">{r.tier}</td>
                     <td className="px-6 py-4 font-mono" style={{ color: "#5AADA0" }}>{r.price}</td>
                     <td className="px-6 py-4 font-mono text-white/60">{r.msgs}</td>
-                    <td className="px-6 py-4 text-white/50">{r.inc}</td>
+                    <td className="px-6 py-4 text-gray-500">{r.inc}</td>
                   </tr>
                 ))}
               </tbody>
@@ -544,7 +544,7 @@ const InvestPage = () => {
               </h3>
               <ul className="space-y-1 mt-3">
                 {p.items.map((it, j) => (
-                  <li key={j} className="text-[13px] text-white/45 font-body flex items-start gap-2">
+                  <li key={j} className="text-[13px] text-gray-500 font-body flex items-start gap-2">
                     <ChevronRight size={12} className="mt-0.5 shrink-0" style={{ color: p.color }} />
                     {it}
                   </li>
@@ -621,7 +621,7 @@ const InvestPage = () => {
           >
             This market won't stay empty.
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-white/45 font-body mb-10 max-w-lg mx-auto">
+          <motion.p variants={fadeUp} className="text-gray-500 font-body mb-10 max-w-lg mx-auto">
             If you're interested in NZ's first text-to-agent platform, let's talk.
           </motion.p>
           <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">

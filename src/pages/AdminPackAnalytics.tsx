@@ -211,7 +211,7 @@ const AdminPackAnalytics = () => {
     background: "rgba(15,15,26,0.8)",
     backdropFilter: "blur(20px)",
     WebkitBackdropFilter: "blur(20px)",
-    border: "1px solid rgba(255,255,255,0.06)",
+    border: "1px solid rgba(74,165,168,0.15)",
   };
 
   return (
@@ -222,7 +222,7 @@ const AdminPackAnalytics = () => {
       backTo="/admin/dashboard"
       actions={
         <div className="flex items-center gap-3">
-          <div className="flex rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+          <div className="flex rounded-xl overflow-hidden" style={{ border: "1px solid rgba(74,165,168,0.15)" }}>
             {(["7d", "30d", "90d"] as DateRange[]).map(r => (
               <button
                 key={r}
@@ -292,7 +292,7 @@ const AdminPackAnalytics = () => {
 
                 {/* Pack views bar chart */}
                 <div className="rounded-2xl p-6" style={cardStyle}>
-                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>
                     Pack Views — Last {daysFromRange(dateRange)} Days
                   </h3>
                   <ResponsiveContainer width="100%" height={220}>
@@ -308,7 +308,7 @@ const AdminPackAnalytics = () => {
 
                 {/* Funnel */}
                 <div className="rounded-2xl p-6" style={cardStyle}>
-                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>
                     Conversion Funnel
                   </h3>
                   <div className="flex items-end gap-2 h-[180px]">
@@ -368,7 +368,7 @@ const AdminPackAnalytics = () => {
 
                 {/* Daily views line chart */}
                 <div className="rounded-2xl p-6" style={cardStyle}>
-                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>
                     Daily Views — {selectedPack}
                   </h3>
                   <ResponsiveContainer width="100%" height={200}>
@@ -385,7 +385,7 @@ const AdminPackAnalytics = () => {
                 {/* Agent performance grid */}
                 <div className="rounded-2xl overflow-hidden" style={cardStyle}>
                   <div className="px-5 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                    <h3 className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: "'Lato', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+                    <h3 className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>
                       Agent Performance — {selectedPack}
                     </h3>
                   </div>
@@ -393,7 +393,7 @@ const AdminPackAnalytics = () => {
                     <thead>
                       <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
                         {["Agent", "Clicks", "Sessions", "Avg Duration", "Completion %"].map(h => (
-                          <th key={h} className="px-4 py-2.5 text-left font-bold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.35)", fontSize: "9px", letterSpacing: "0.1em" }}>{h}</th>
+                          <th key={h} className="px-4 py-2.5 text-left font-bold uppercase tracking-wider" style={{ color: "#6B7280", fontSize: "9px", letterSpacing: "0.1em" }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
@@ -405,7 +405,7 @@ const AdminPackAnalytics = () => {
                           <td className="px-4 py-2.5 font-bold" style={{ color: "#FFFFFF" }}>{a.name}</td>
                           <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843" }}>{a.clicks}</td>
                           <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>{a.sessions}</td>
-                          <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.5)" }}>{a.avgDuration}s</td>
+                          <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>{a.avgDuration}s</td>
                           <td className="px-4 py-2.5">
                             <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{
                               background: a.completionRate > 70 ? "rgba(58,125,110,0.2)" : a.completionRate > 40 ? "rgba(212,168,67,0.2)" : "rgba(200,90,84,0.2)",
@@ -446,7 +446,7 @@ const AdminPackAnalytics = () => {
                 {/* Cohort table */}
                 <div className="rounded-2xl overflow-hidden" style={cardStyle}>
                   <div className="px-5 py-3 flex items-center justify-between" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                    <h3 className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: "'Lato', sans-serif", color: "rgba(255,255,255,0.5)" }}>User Cohort Analysis</h3>
+                    <h3 className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>User Cohort Analysis</h3>
                     <Filter size={14} style={{ color: "rgba(255,255,255,0.3)" }} />
                   </div>
                   <div className="overflow-x-auto">
@@ -454,7 +454,7 @@ const AdminPackAnalytics = () => {
                       <thead>
                         <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
                           {["User", "Signup", "Trial", "Converted", "Days to Upgrade"].map(h => (
-                            <th key={h} className="px-4 py-2.5 text-left font-bold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.35)", fontSize: "9px", letterSpacing: "0.1em" }}>{h}</th>
+                            <th key={h} className="px-4 py-2.5 text-left font-bold uppercase tracking-wider" style={{ color: "#6B7280", fontSize: "9px", letterSpacing: "0.1em" }}>{h}</th>
                           ))}
                         </tr>
                       </thead>
@@ -463,8 +463,8 @@ const AdminPackAnalytics = () => {
                           <tr><td colSpan={5} className="px-4 py-6 text-center" style={{ color: "rgba(255,255,255,0.3)" }}>No cohort data yet</td></tr>
                         ) : cohortData.slice(0, 50).map(u => (
                           <tr key={u.user_id} style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                            <td className="px-4 py-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.5)" }}>{u.user_id}…</td>
-                            <td className="px-4 py-2" style={{ color: "rgba(255,255,255,0.5)" }}>{u.signup_date}</td>
+                            <td className="px-4 py-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>{u.user_id}…</td>
+                            <td className="px-4 py-2" style={{ color: "#6B7280" }}>{u.signup_date}</td>
                             <td className="px-4 py-2">
                               <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: u.trial_started ? "rgba(58,125,110,0.2)" : "rgba(255,255,255,0.05)", color: u.trial_started ? "#3A7D6E" : "rgba(255,255,255,0.3)" }}>
                                 {u.trial_started ? "Yes" : "No"}

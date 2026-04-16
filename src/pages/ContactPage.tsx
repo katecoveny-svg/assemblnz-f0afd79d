@@ -4,7 +4,8 @@ import { Send, CheckCircle } from "lucide-react";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 import { supabase } from "@/integrations/supabase/client";
 
 const POUNAMU = "#3A7D6E";
@@ -61,7 +62,7 @@ const ContactPage = () => {
   const labelClass = "block text-xs font-body text-muted-foreground mb-1.5 tracking-wide";
 
   return (
-    <GlowPageWrapper accentColor="#3A7D6E">
+    <LightPageShell>
     <div className="min-h-screen flex flex-col">
       <SEO title="Get Started — Assembl" description="Tell us about your business and we'll show you exactly which kete can run your workflows. Zero phone call required." path="/contact" />
       <BrandNav />
@@ -86,7 +87,7 @@ const ContactPage = () => {
             </p>
             <h1 className="text-2xl sm:text-4xl font-display text-center mb-3 text-foreground" style={{ fontWeight: 300 }}>
               Let's talk about your{" "}
-              <span style={{ background: `linear-gradient(135deg, ${BONE}, ${POUNAMU_LIGHT})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>business</span>
+              <span style={{ background: `linear-gradient(135deg, #1A1D29, ${POUNAMU_LIGHT})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>business</span>
             </h1>
             <p className="text-sm font-body text-center text-muted-foreground mb-10 max-w-md mx-auto">
               We'll show you how Assembl can automate the work that wastes your time. No phone call required.
@@ -116,14 +117,14 @@ const ContactPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClass}>Name *</label>
-                    <input required className={inputClass} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                    <input required className={inputClass} style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
                       placeholder="Your name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                       onFocus={e => { e.target.style.borderColor = POUNAMU + "60"; e.target.style.boxShadow = `0 0 20px ${POUNAMU}10`; }}
                       onBlur={e => { e.target.style.borderColor = "rgba(255,255,255,0.06)"; e.target.style.boxShadow = "none"; }} />
                   </div>
                   <div>
                     <label className={labelClass}>Business name *</label>
-                    <input required className={inputClass} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                    <input required className={inputClass} style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
                       placeholder="Your business" value={form.business_name} onChange={e => setForm(f => ({ ...f, business_name: e.target.value }))}
                       onFocus={e => { e.target.style.borderColor = POUNAMU + "60"; e.target.style.boxShadow = `0 0 20px ${POUNAMU}10`; }}
                       onBlur={e => { e.target.style.borderColor = "rgba(255,255,255,0.06)"; e.target.style.boxShadow = "none"; }} />
@@ -133,14 +134,14 @@ const ContactPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClass}>Email *</label>
-                    <input required type="email" className={inputClass} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                    <input required type="email" className={inputClass} style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
                       placeholder="you@business.co.nz" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                       onFocus={e => { e.target.style.borderColor = POUNAMU + "60"; e.target.style.boxShadow = `0 0 20px ${POUNAMU}10`; }}
                       onBlur={e => { e.target.style.borderColor = "rgba(255,255,255,0.06)"; e.target.style.boxShadow = "none"; }} />
                   </div>
                   <div>
                     <label className={labelClass}>Phone</label>
-                    <input type="tel" className={inputClass} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                    <input type="tel" className={inputClass} style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
                       placeholder="021 000 0000" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
                       onFocus={e => { e.target.style.borderColor = POUNAMU + "60"; e.target.style.boxShadow = `0 0 20px ${POUNAMU}10`; }}
                       onBlur={e => { e.target.style.borderColor = "rgba(255,255,255,0.06)"; e.target.style.boxShadow = "none"; }} />
@@ -150,7 +151,7 @@ const ContactPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className={labelClass}>Industry *</label>
-                    <select required className={inputClass} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                    <select required className={inputClass} style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
                       value={form.industry} onChange={e => setForm(f => ({ ...f, industry: e.target.value }))}>
                       <option value="">Select industry</option>
                       {INDUSTRIES.map(i => <option key={i} value={i}>{i}</option>)}
@@ -158,7 +159,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <label className={labelClass}>What are you looking for?</label>
-                    <select className={inputClass} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                    <select className={inputClass} style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
                       value={form.interest} onChange={e => setForm(f => ({ ...f, interest: e.target.value }))}>
                       <option value="">Select</option>
                       {INTERESTS.map(i => <option key={i} value={i}>{i}</option>)}
@@ -168,7 +169,7 @@ const ContactPage = () => {
 
                 <div>
                   <label className={labelClass}>What are you looking to automate?</label>
-                  <textarea rows={4} className={inputClass} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                  <textarea rows={4} className={inputClass} style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
                     placeholder="Tell us about your business and where manual work drains your team…" value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                     onFocus={e => { e.target.style.borderColor = POUNAMU + "60"; e.target.style.boxShadow = `0 0 20px ${POUNAMU}10`; }}
                     onBlur={e => { e.target.style.borderColor = "rgba(255,255,255,0.06)"; e.target.style.boxShadow = "none"; }} />
@@ -192,7 +193,7 @@ const ContactPage = () => {
 
       <BrandFooter />
     </div>
-    </GlowPageWrapper>
+    </LightPageShell>
   );
 };
 

@@ -57,7 +57,8 @@ import {
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteIcon from "@/components/kete/KeteIcon";
 import ParticleField from "@/components/ParticleField";
 import AgentTestToggle from "@/components/aaaip/AgentTestToggle";
@@ -350,7 +351,7 @@ export default function AaaipDashboard() {
   if (!authLoading && !isAdmin) return <Navigate to="/" replace />;
 
   return (
-    <GlowPageWrapper accentColor={meta.accentColor}>
+    <LightPageShell>
     <div className="relative min-h-screen" style={{ background: "#0A0A14", color: "#fff" }}>
       <SEO
         title="AAAIP Live Demo · Assembl"
@@ -834,7 +835,7 @@ export default function AaaipDashboard() {
       <BrandFooter />
       </div>
     </div>
-    </GlowPageWrapper>
+    </LightPageShell>
   );
 }
 

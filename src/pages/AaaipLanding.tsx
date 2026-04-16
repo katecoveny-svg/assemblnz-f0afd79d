@@ -7,7 +7,8 @@
 import React, { lazy, Suspense } from "react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -80,7 +81,7 @@ const StatBlock = ({ value, label, color = C.pounamuGlow }: { value: string; lab
 /* ═══════════════════════════════════════════════════════════════ */
 export default function AaaipLanding() {
   return (
-    <GlowPageWrapper accentColor={C.pounamu}>
+    <LightPageShell>
     <div className="min-h-screen" style={{ background: C.bg }}>
       <SEO
         title="AAAIP Industry Partner — Assembl"
@@ -375,6 +376,6 @@ export default function AaaipLanding() {
         <BrandFooter />
       </div>
     </div>
-    </GlowPageWrapper>
+    </LightPageShell>
   );
 }

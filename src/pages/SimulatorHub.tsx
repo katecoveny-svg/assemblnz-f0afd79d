@@ -70,7 +70,7 @@ const PACKS = [
 const statusIcon = (s: string) => {
   if (s === "pass") return <CheckCircle2 size={14} className="text-emerald-400" />;
   if (s === "warn") return <AlertTriangle size={14} className="text-amber-400" />;
-  return <Clock size={14} className="text-white/40" />;
+  return <Clock size={14} className="text-assembl-text/40" />;
 };
 
 export default function SimulatorHub() {
@@ -97,7 +97,7 @@ export default function SimulatorHub() {
   };
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: "#fff" }}>
+    <div style={{ minHeight: "100vh" }}>
       <SEO title="Scenario Simulator | assembl" description="Run realistic industry scenarios and see how Assembl agents handle compliance, operations, and evidence packs." />
       <BrandNav />
 
@@ -106,7 +106,7 @@ export default function SimulatorHub() {
           <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-4" style={{ fontFamily: "'Lato', sans-serif" }}>
             Scenario Simulator
           </h1>
-          <p className="text-lg max-w-2xl mx-auto" style={{ color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-lg max-w-2xl mx-auto" style={{ color: "#6B7280" }}>
             See exactly how an agent handles a real NZ business scenario — step by step, with compliance checks and evidence packs.
           </p>
         </motion.div>
@@ -127,7 +127,7 @@ export default function SimulatorHub() {
                   <p className="text-[11px] text-white/40">{p.subtitle}</p>
                 </div>
               </div>
-              <p className="text-sm text-white/50 mb-4">{p.scenario}</p>
+              <p className="text-sm text-gray-500 mb-4">{p.scenario}</p>
               <div className="flex flex-wrap gap-1.5 mb-4">
                 {p.compliance.map(c => (
                   <span key={c} className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: `${p.color}10`, color: `${p.color}CC`, border: `1px solid ${p.color}20` }}>{c}</span>
@@ -144,7 +144,7 @@ export default function SimulatorHub() {
         <AnimatePresence mode="wait">
           {pack && (
             <motion.div key={pack.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-              className="rounded-2xl p-8" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+              className="rounded-2xl p-8" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
               <div className="flex items-center gap-3 mb-6">
                 <pack.icon size={20} style={{ color: pack.color }} />
                 <h2 className="text-xl font-light text-white/90">{pack.name} — {pack.scenario}</h2>
@@ -154,13 +154,13 @@ export default function SimulatorHub() {
                 <div>
                   <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3">Inputs</h4>
                   <ul className="space-y-1.5">
-                    {pack.inputs.map(inp => <li key={inp} className="text-sm text-white/60 flex items-center gap-2"><ChevronRight size={10} className="text-white/20" />{inp}</li>)}
+                    {pack.inputs.map(inp => <li key={inp} className="text-sm text-white/60 flex items-center gap-2"><ChevronRight size={10} className="text-gray-300" />{inp}</li>)}
                   </ul>
                 </div>
                 <div>
                   <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3">Expected outputs</h4>
                   <ul className="space-y-1.5">
-                    {pack.outputs.map(out => <li key={out} className="text-sm text-white/60 flex items-center gap-2"><FileText size={10} className="text-white/20" />{out}</li>)}
+                    {pack.outputs.map(out => <li key={out} className="text-sm text-white/60 flex items-center gap-2"><FileText size={10} className="text-gray-300" />{out}</li>)}
                   </ul>
                 </div>
               </div>
@@ -173,7 +173,7 @@ export default function SimulatorHub() {
                     <div className="mt-0.5">{i <= stepIndex ? statusIcon(step.status) : <div className="w-3.5 h-3.5 rounded-full border border-white/10" />}</div>
                     <div className="flex-1">
                       <div className="text-sm font-medium text-white/80">{step.label}</div>
-                      {i <= stepIndex && <p className="text-xs text-white/45 mt-1">{step.detail}</p>}
+                      {i <= stepIndex && <p className="text-xs text-gray-500 mt-1">{step.detail}</p>}
                     </div>
                     {i <= stepIndex && (
                       <span className={`text-[9px] px-2 py-0.5 rounded-full ${step.status === "pass" ? "bg-emerald-500/10 text-emerald-400" : "bg-amber-500/10 text-amber-400"}`}>

@@ -29,7 +29,8 @@ import {
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import GlowPageWrapper from "@/components/kete/GlowPageWrapper";
+import LightPageShell from "@/components/LightPageShell";
+import HeroParticlesLight from "@/components/HeroParticlesLight";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -122,14 +123,14 @@ export default function AaaipResearcher() {
   }, [rows]);
 
   return (
-    <GlowPageWrapper accentColor="#3A7D6E">
+    <LightPageShell>
     <div className="min-h-screen" style={{ background: "#0A0A14", color: "#fff" }}>
       <SEO
         title="AAAIP Researcher Console · Assembl"
         description="Read-only researcher view over every audit-log export submitted by the AAAIP demo dashboard."
       />
       <BrandNav />
-      <header className="border-b" style={{ borderColor: "rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.02)" }}>
+      <header className="border-b" style={{ borderColor: "rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.5)" }}>
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#5AADA0" }}>
@@ -138,7 +139,7 @@ export default function AaaipResearcher() {
             <h1 className="mt-1 text-3xl font-semibold tracking-tight sm:text-4xl" style={{ color: "#F5F0E8" }}>
               Audit-log archive
             </h1>
-            <p className="mt-2 max-w-2xl text-sm" style={{ color: "rgba(255,255,255,0.55)" }}>
+            <p className="mt-2 max-w-2xl text-sm" style={{ color: "#6B7280" }}>
               Every audit-log export submitted by the AAAIP demo dashboard,
               across every pilot. Filter by domain, expand a row to see policy
               hits and the full decision list.
@@ -278,7 +279,7 @@ export default function AaaipResearcher() {
       </main>
       <BrandFooter />
     </div>
-    </GlowPageWrapper>
+    </LightPageShell>
   );
 }
 
