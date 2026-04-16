@@ -18,7 +18,7 @@ const KETE_ICONS: Record<string, LucideIcon> = {
   hangarau: Cpu,
   hauora: HeartPulse,
   "te-kahui-reo": Globe,
-  toroa: Heart,
+  
 };
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -64,11 +64,6 @@ const SAMPLE_QUESTIONS: Record<string, string[]> = {
     "How should our iwi structure its data sovereignty policy?",
     "Draft a Te Tiriti compliance framework for a Crown entity",
     "Help us design a whānau-centred governance model",
-  ],
-  toroa: [
-    "What's for dinner? Here's a photo of my fridge",
-    "Parse this school newsletter and add events to my calendar",
-    "Track the bus to Ponsonby Intermediate",
   ],
 };
 

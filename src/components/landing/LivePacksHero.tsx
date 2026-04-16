@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import toroaIcon from "@/assets/brand/toroa-logo.svg";
+
 
 // Per-pack accent colours for icon containers and hover states
 const PACK_ACCENT: Record<string, string> = {
@@ -13,7 +13,7 @@ const PACK_ACCENT: Record<string, string> = {
   hangarau: "#4A7AB5",
   hauora: "#D4A843",
   "te-kahui-reo": "#D4A843",
-  toroa: "#D4A843",
+  
 };
 
 const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
@@ -54,9 +54,8 @@ const LIVE_PACKS = [
   { slug: "manaaki", name: "Manaaki", english: "Hospitality", desc: "Food safety, liquor licensing, guest experience, tourism operations." },
   { slug: "waihanga", name: "Waihanga", english: "Construction", desc: "Site safety, consenting, project management, quality and sign-off." },
   { slug: "auaha", name: "Auaha", english: "Creative", desc: "Brief to publish — copy, image, video, podcast, ads, analytics." },
-  { slug: "arataki", name: "Arataki", english: "Automotive", desc: "Workshops, fleet, vehicle compliance, service scheduling." },
+  { slug: "arataki", name: "Arataki", english: "Automotive", desc: "Service, sales, parts, loan fleet — four dealership verticals, one governed agent." },
   { slug: "pikau", name: "Pikau", english: "Freight & Customs", desc: "Route optimisation, declarations, broker hand-off, customs compliance." },
-  { slug: "toroa", name: "Family", english: "Whānau (consumer)", desc: "SMS-first. No app, no login. Just text. School, meals, budgets, transport." },
 ];
 
 const LivePacksHero = () => (
@@ -107,13 +106,9 @@ const LivePacksHero = () => (
               className="w-11 h-11 rounded-xl mb-4 flex items-center justify-center overflow-hidden"
               style={{ background: `${accent}12`, border: `1px solid ${accent}22` }}
             >
-              {pack.slug === "toroa" ? (
-                <img src={toroaIcon} alt="Toro" className="w-7 h-7 object-contain" />
-              ) : (
-                <div className="w-7 h-7" style={{ filter: `drop-shadow(0 0 8px ${accent}45)` }}>
-                  {CONSTELLATION_MARKS[pack.slug]}
-                </div>
-              )}
+              <div className="w-7 h-7" style={{ filter: `drop-shadow(0 0 8px ${accent}45)` }}>
+                {CONSTELLATION_MARKS[pack.slug]}
+              </div>
             </div>
 
             <h3 className="text-base font-light mb-0.5" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF", letterSpacing: "0.04em" }}>{pack.name}</h3>
