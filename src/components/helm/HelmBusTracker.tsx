@@ -179,7 +179,7 @@ export default function HelmBusTracker() {
   const child = children.find(c => c.id === selectedChild);
 
   return (
-    <div className="flex-1 flex flex-col" style={{ background: "#09090F" }}>
+    <div className="flex-1 flex flex-col" style={{ background: "#FAFBFC" }}>
       {/* Controls */}
       <div className="p-3 flex items-center gap-3 border-b border-white/5">
         {children.length > 1 && (

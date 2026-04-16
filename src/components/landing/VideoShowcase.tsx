@@ -24,7 +24,7 @@ const MockVideoContent = ({ playing }: { playing: boolean }) => {
   ];
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: "#0A0A14" }}>
+    <div className="relative w-full h-full flex items-center justify-center overflow-hidden" style={{ background: "#FAFBFC" }}>
       {/* Animated gradient background */}
       <motion.div
         className="absolute inset-0"

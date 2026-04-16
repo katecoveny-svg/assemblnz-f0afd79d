@@ -123,7 +123,7 @@ export default function HangaLayout() {
   );
 
   return (
-    <div className="min-h-screen flex" style={{ background: "#09090F" }}>
+    <div className="min-h-screen flex" style={{ background: "#FAFBFC" }}>
       {/* Desktop sidebar */}
       <aside
         className={`hidden lg:flex flex-col shrink-0 sticky top-0 h-screen transition-all duration-300 border-r`}

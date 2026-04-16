@@ -135,7 +135,7 @@ export default function CommandDashboard() {
   return (
     <>
       <SEO title="Command Centre — Assembl" description="Cross-sector overview of your entire NZ operation" />
-      <div className="flex h-screen" style={{ background: "#0A0A14" }}>
+      <div className="flex h-screen" style={{ background: "#FAFBFC" }}>
         <SectorSwitcher
           collapsed={sidebarCollapsed}
           onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}

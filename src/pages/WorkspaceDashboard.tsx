@@ -166,7 +166,7 @@ export default function WorkspaceDashboard() {
     <>
       <SEO title={`${tenant.name} — Workspace`} description="Your Assembl workspace dashboard" />
 
-      <div className="min-h-screen" style={{ background: "#0A0A14" }}>
+      <div className="min-h-screen" style={{ background: "#FAFBFC" }}>
         {/* Header */}
         <header className="border-b border-white/[0.06] px-4 py-4">
           <div className="max-w-3xl mx-auto flex items-center justify-between">

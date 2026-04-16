@@ -138,7 +138,7 @@ export default function WhakaaeDashboard() {
   ];
 
   return (
-    <div className="min-h-screen p-4 md:p-6 space-y-5" style={{ background: "#09090F" }}>
+    <div className="min-h-screen p-4 md:p-6 space-y-5" style={{ background: "#FAFBFC" }}>
       {/* Starfield */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
         {Array.from({ length: 50 }).map((_, i) => (

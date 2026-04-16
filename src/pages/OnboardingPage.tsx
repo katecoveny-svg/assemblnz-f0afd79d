@@ -165,7 +165,7 @@ const OnboardingPage = () => {
   const packData = selected ? PACK_DATA[selected] : null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative" style={{ background: "#09090F" }}>
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative" style={{ background: "#FAFBFC" }}>
       <ParticleField />
 
       <div className="relative z-10 w-full max-w-[680px]">

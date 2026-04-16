@@ -299,7 +299,7 @@ const AdminPackAnalytics = () => {
                     <BarChart data={packViews}>
                       <XAxis dataKey="slug" tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10 }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                      <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 11 }} />
+                      <Tooltip contentStyle={{ background: "#FAFBFC", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 11 }} />
                       <Bar dataKey="views" fill="#D4A843" radius={[4, 4, 0, 0]} />
                       <Bar dataKey="trials" fill="#3A7D6E" radius={[4, 4, 0, 0]} />
                     </BarChart>
@@ -375,7 +375,7 @@ const AdminPackAnalytics = () => {
                     <LineChart data={dailyViews}>
                       <XAxis dataKey="date" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                      <Tooltip contentStyle={{ background: "#0F0F1A", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 11 }} />
+                      <Tooltip contentStyle={{ background: "#FAFBFC", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 11 }} />
                       <Line type="monotone" dataKey="count" stroke="#D4A843" strokeWidth={2} dot={false} />
                     </LineChart>
                   </ResponsiveContainer>

@@ -22,7 +22,7 @@ const KeteDetailPage = () => {
 
   if (!kete) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#09090F" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAFBFC" }}>
         <div className="text-center">
           <h1 className="text-2xl text-white/80 mb-4" style={{ fontFamily: "'Lato', sans-serif" }}>Kete not found</h1>
           <button onClick={() => navigate("/kete")} className="text-sm px-4 py-2 rounded-lg" style={{ color: "#D4A843", border: "1px solid #D4A84330", background: "#D4A84310" }}>
@@ -36,7 +36,7 @@ const KeteDetailPage = () => {
   return (
     <>
       <SEO title={`${kete.name} — ${kete.englishName} | Assembl`} description={kete.description} />
-      <div className="min-h-screen" style={{ background: "#09090F" }}>
+      <div className="min-h-screen" style={{ background: "#FAFBFC" }}>
         {/* Hero */}
         <div className="max-w-[1200px] mx-auto px-6 py-16 md:py-24">
           <button onClick={() => navigate("/kete")} className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white/60 mb-10 transition-colors" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
