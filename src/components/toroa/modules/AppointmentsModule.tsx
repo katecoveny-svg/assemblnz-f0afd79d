@@ -41,7 +41,7 @@ export default function AppointmentsModule({ appointments }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#1A1D29"}90` }}>
+        <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#6B7280" }}>
           <Clock size={14} style={{ color: KOWHAI }} /> Appointments
         </h2>
         {overdue.length > 0 && (
@@ -74,18 +74,18 @@ export default function AppointmentsModule({ appointments }: Props) {
                 <div className="flex items-start justify-between">
                   <div>
                     <p className="font-body text-xs" style={{ color: apt.is_overdue ? "#fca5a5" : "#1A1D29" }}>{apt.title}</p>
-                    {apt.member_name && <p className="font-body text-[10px]" style={{ color: "#1A1D29"}50` }}>{apt.member_name}</p>}
+                    {apt.member_name && <p className="font-body text-[10px]" style={{ color: "#9CA3AF" }}>{apt.member_name}</p>}
                     {apt.location && (
-                      <p className="font-body text-[10px] flex items-center gap-1 mt-0.5" style={{ color: "#1A1D29"}40` }}>
+                      <p className="font-body text-[10px] flex items-center gap-1 mt-0.5" style={{ color: "#9CA3AF" }}>
                         <MapPin size={8} /> {apt.location}
                       </p>
                     )}
                   </div>
                   <div className="text-right">
-                    <p className="font-mono text-[10px]" style={{ color: "#1A1D29"}60` }}>
+                    <p className="font-mono text-[10px]" style={{ color: "#6B7280" }}>
                       {d.toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}
                     </p>
-                    <p className="font-mono text-[9px]" style={{ color: "#1A1D29"}35` }}>
+                    <p className="font-mono text-[9px]" style={{ color: "#9CA3AF" }}>
                       {d.toLocaleTimeString("en-NZ", { hour: "2-digit", minute: "2-digit" })}
                     </p>
                   </div>

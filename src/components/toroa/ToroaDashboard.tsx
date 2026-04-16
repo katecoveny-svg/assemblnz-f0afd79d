@@ -213,7 +213,7 @@ export default function ToroaDashboard() {
           <button
             onClick={() => setWhatsappConnected(!whatsappConnected)}
             className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all"
-            style={{ background: whatsappConnected ? `${POUNAMU}12` : "#9CA3AF", border: `1px solid ${whatsappConnected ? POUNAMU : "#1A1D29"}15` }}
+            style={{ background: whatsappConnected ? `${POUNAMU}12` : "#9CA3AF", border: `1px solid ${whatsappConnected ? POUNAMU : "#9CA3AF" }}
           >
             <div className="flex items-center gap-2">
               <Wifi size={14} style={{ color: whatsappConnected ? POUNAMU : "#9CA3AF" }} />
