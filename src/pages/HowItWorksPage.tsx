@@ -19,8 +19,9 @@ const C = {
   teal: "#3A7D6E",
   tealLight: "#5AADA0",
   navy: "#1A3A5C",
-  textSec: "rgba(255,255,255,0.55)",
-  textMuted: "rgba(255,255,255,0.30)",
+  text: "#3D4250",
+  textSec: "#6B7280",
+  textMuted: "#9CA3AF",
 };
 
 const FONT = {
@@ -117,14 +118,14 @@ const Eyebrow = ({ children, color = C.gold }: { children: string; color?: strin
 );
 
 const HowItWorksPage = () => (
-  <div className="min-h-screen flex flex-col relative" style={{ background: C.bg, color: "#FFFFFF" }}>
+  <div className="min-h-screen flex flex-col relative" style={{ background: C.bg, color: C.text }}>
     <SEO
       title="How Assembl Works — Specialist operational workflows for NZ business"
       description="Five industry kete — Manaaki, Waihanga, Auaha, Arataki, Pikau. Five-stage compliance pipeline. Built around NZ law."
       path="/how-it-works"
     />
     <BrandNav />
-    <MatarikiStarfield fixed starCount={40} showMatariki showConnections showOrbs />
+    {/* MatarikiStarfield removed — light glass background only */}
 
     {/* ═══ HERO ═══ */}
     <section className="relative pt-28 sm:pt-36 pb-16 px-6 sm:px-8 text-center z-10">
