@@ -46,6 +46,7 @@ function GlassSphere({
   isKete: boolean;
 }) {
   const ref = useRef<THREE.Mesh>(null);
+  const glowRef = useRef<THREE.Mesh>(null);
   const speed = 0.4 + (index * 0.037) % 0.6;
   const phase = index * 0.7;
 
@@ -54,34 +55,50 @@ function GlassSphere({
     const t = clock.elapsedTime;
     ref.current.position.y = position[1] + Math.sin(t * speed + phase) * 0.06;
     ref.current.position.x = position[0] + Math.cos(t * speed * 0.7 + phase) * 0.02;
+    // Sparkle pulse on the glow shell
+    if (glowRef.current) {
+      glowRef.current.position.copy(ref.current.position);
+      const sparkle = 0.6 + 0.4 * Math.sin(t * 4 + index * 1.3);
+      (glowRef.current.material as THREE.MeshBasicMaterial).opacity = isKete ? sparkle * 0.35 : sparkle * 0.15;
+    }
   });
 
-  const brightColor = useMemo(() => new THREE.Color(color).multiplyScalar(1.3), [color]);
+  const brightColor = useMemo(() => new THREE.Color(color).multiplyScalar(1.5), [color]);
 
   return (
     <group>
-      {/* Outer glass shell */}
+      {/* Outer glass shell — shinier, more reflective */}
       <mesh ref={ref} position={position}>
         <sphereGeometry args={[radius, 48, 48]} />
         <MeshTransmissionMaterial
           color={brightColor}
-          transmission={isKete ? 0.85 : 0.92}
-          roughness={0.02}
+          transmission={isKete ? 0.8 : 0.88}
+          roughness={0.005}
           clearcoat={1}
-          clearcoatRoughness={0.01}
-          ior={1.5}
+          clearcoatRoughness={0.005}
+          ior={1.65}
           samples={16}
-          distortion={0.4}
-          temporalDistortion={0.2}
-          envMapIntensity={3}
-          chromaticAberration={0.03}
-          thickness={0.5}
+          distortion={0.5}
+          temporalDistortion={0.25}
+          envMapIntensity={5}
+          chromaticAberration={0.06}
+          thickness={0.6}
         />
       </mesh>
-      {/* Inner bright core — creates the glass marble highlight */}
-      <mesh position={[position[0] - radius * 0.25, position[1] + radius * 0.3, position[2] + radius * 0.3]}>
-        <sphereGeometry args={[radius * 0.3, 16, 16]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={isKete ? 0.5 : 0.35} />
+      {/* Sparkle glow halo — pulsing outer ring */}
+      <mesh ref={glowRef} position={position}>
+        <sphereGeometry args={[radius * 1.5, 24, 24]} />
+        <meshBasicMaterial color={color} transparent opacity={0.2} depthWrite={false} />
+      </mesh>
+      {/* Inner bright core — specular highlight */}
+      <mesh position={[position[0] - radius * 0.2, position[1] + radius * 0.35, position[2] + radius * 0.35]}>
+        <sphereGeometry args={[radius * 0.35, 16, 16]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={isKete ? 0.7 : 0.45} />
+      </mesh>
+      {/* Secondary specular — bottom edge catch light */}
+      <mesh position={[position[0] + radius * 0.15, position[1] - radius * 0.25, position[2] + radius * 0.2]}>
+        <sphereGeometry args={[radius * 0.15, 12, 12]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={isKete ? 0.4 : 0.2} />
       </mesh>
     </group>
   );
@@ -142,27 +159,45 @@ function DataPulse({
   index: number;
 }) {
   const ref = useRef<THREE.Mesh>(null);
+  const trailRef = useRef<THREE.Mesh>(null);
   const speed = 0.25 + (index * 0.05) % 0.3;
   const offset = index * 1.3;
 
   useFrame(({ clock }) => {
     if (!ref.current) return;
     const t = (Math.sin(clock.elapsedTime * speed + offset) + 1) / 2;
-    ref.current.position.set(
-      start[0] + (end[0] - start[0]) * t,
-      start[1] + (end[1] - start[1]) * t,
-      start[2] + (end[2] - start[2]) * t,
-    );
+    const x = start[0] + (end[0] - start[0]) * t;
+    const y = start[1] + (end[1] - start[1]) * t;
+    const z = start[2] + (end[2] - start[2]) * t;
+    ref.current.position.set(x, y, z);
     // Pulse glow
-    const scale = 0.8 + 0.4 * Math.sin(clock.elapsedTime * 3 + index);
+    const scale = 1.0 + 0.5 * Math.sin(clock.elapsedTime * 4 + index);
     ref.current.scale.setScalar(scale);
+    // Trail follows slightly behind
+    if (trailRef.current) {
+      const tt = Math.max(0, t - 0.08);
+      trailRef.current.position.set(
+        start[0] + (end[0] - start[0]) * tt,
+        start[1] + (end[1] - start[1]) * tt,
+        start[2] + (end[2] - start[2]) * tt,
+      );
+      trailRef.current.scale.setScalar(scale * 0.6);
+    }
   });
 
   return (
-    <mesh ref={ref}>
-      <sphereGeometry args={[0.035, 8, 8]} />
-      <meshBasicMaterial color="#FFFFFF" transparent opacity={0.9} />
-    </mesh>
+    <group>
+      {/* Main pulse — brighter, larger */}
+      <mesh ref={ref}>
+        <sphereGeometry args={[0.055, 12, 12]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={1} />
+      </mesh>
+      {/* Glow halo around pulse */}
+      <mesh ref={trailRef}>
+        <sphereGeometry args={[0.09, 8, 8]} />
+        <meshBasicMaterial color="#7DD4D6" transparent opacity={0.5} depthWrite={false} />
+      </mesh>
+    </group>
   );
 }
 
@@ -376,13 +411,14 @@ const GlassKoruHero = () => {
               dpr={[1, 2]}
             >
               {/* Environment map is essential for transmission/glass to work */}
-              <Environment preset="studio" environmentIntensity={0.5} />
+              <Environment preset="studio" environmentIntensity={0.8} />
               
-              {/* Lighting */}
-              <ambientLight intensity={1.0} color="#F8F6F0" />
-              <directionalLight position={[8, 8, 5]} intensity={1.5} color="#FFFFFF" />
-              <directionalLight position={[-5, 3, 8]} intensity={0.8} color="#D4F0F0" />
-              <pointLight position={[0, 0, 6]} intensity={0.8} color="#FFFFFF" />
+              {/* Lighting — brighter for more sparkle/reflections */}
+              <ambientLight intensity={1.2} color="#F8F6F0" />
+              <directionalLight position={[8, 8, 5]} intensity={2.0} color="#FFFFFF" />
+              <directionalLight position={[-5, 3, 8]} intensity={1.0} color="#D4F0F0" />
+              <directionalLight position={[3, -3, 6]} intensity={0.6} color="#FFFBE8" />
+              <pointLight position={[0, 0, 6]} intensity={1.2} color="#FFFFFF" />
 
               <Suspense fallback={null}>
                 <KoruScene />

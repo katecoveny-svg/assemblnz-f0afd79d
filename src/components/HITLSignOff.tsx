@@ -4,6 +4,14 @@
  * Now includes Compliance RAG Gate — pre-finalization legislation check.
  */
 import { useState } from "react";
+
+function safeBase64(str: string): string {
+  try {
+    return btoa(unescape(encodeURIComponent(str)));
+  } catch {
+    return btoa(str.replace(/[^\x00-\xFF]/g, "?"));
+  }
+}
 import { motion, AnimatePresence } from "framer-motion";
 import { ShieldCheck, User, Clock, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -76,7 +84,7 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
         memory_key: `signoff-${outputId}`,
         memory_value: {
           ...record,
-          contentHash: btoa(content.slice(0, 200)).slice(0, 32),
+          contentHash: safeBase64(content.slice(0, 200)).slice(0, 32),
           contentPreview: content.slice(0, 300),
         } as any,
       });

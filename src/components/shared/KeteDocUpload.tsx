@@ -1,4 +1,13 @@
 import { useState, useRef, useCallback } from "react";
+
+function arrayBufferToBase64(bytes: Uint8Array): string {
+  let binary = "";
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
 import { motion, AnimatePresence } from "framer-motion";
 import { Upload, FileText, Loader2, CheckCircle2, X, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -57,7 +66,7 @@ export default function KeteDocUpload({
       } else if (file.type.startsWith("image/")) {
         // Convert image to base64 for AI vision
         const buffer = await file.arrayBuffer();
-        const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+        const base64 = arrayBufferToBase64(new Uint8Array(buffer));
         textContent = `[Image uploaded: ${file.name}]\n[base64:${base64.slice(0, 50000)}]`;
       } else {
         // For PDFs/docx, read as text (basic) or send raw
