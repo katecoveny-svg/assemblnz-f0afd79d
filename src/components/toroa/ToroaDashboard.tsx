@@ -213,17 +213,26 @@ export default function ToroaDashboard() {
           <button
             onClick={() => setWhatsappConnected(!whatsappConnected)}
             className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all"
-            style={{ background: whatsappConnected ? `${POUNAMU}12` : "#9CA3AF", border: `1px solid ${whatsappConnected ? POUNAMU : "#9CA3AF" }}
+            style={{
+              background: whatsappConnected ? `${POUNAMU}12` : "rgba(255,255,255,0.5)",
+              border: `1px solid ${whatsappConnected ? `${POUNAMU}30` : "rgba(255,255,255,0.6)"}`,
+            }}
           >
             <div className="flex items-center gap-2">
               <Wifi size={14} style={{ color: whatsappConnected ? POUNAMU : "#9CA3AF" }} />
-              <span className="font-body text-xs" style={{ color: whatsappConnected ? POUNAMU : "#9CA3AF" }}>WhatsApp</span>
+              <span className="font-body text-xs" style={{ color: whatsappConnected ? POUNAMU : "#6B7280" }}>WhatsApp</span>
             </div>
-            <div className="w-8 h-4 rounded-full relative transition-all" style={{ background: whatsappConnected ? `${POUNAMU}40` : "#9CA3AF" }}>
-              <div className="absolute top-0.5 w-3 h-3 rounded-full transition-all" style={{
-                left: whatsappConnected ? "calc(100% - 14px)" : "2px",
-                background: whatsappConnected ? POUNAMU : "#9CA3AF",
-              }} />
+            <div
+              className="w-8 h-4 rounded-full relative transition-all"
+              style={{ background: whatsappConnected ? `${POUNAMU}40` : "rgba(156,163,175,0.45)" }}
+            >
+              <div
+                className="absolute top-0.5 w-3 h-3 rounded-full transition-all"
+                style={{
+                  left: whatsappConnected ? "calc(100% - 14px)" : "2px",
+                  background: whatsappConnected ? POUNAMU : "#9CA3AF",
+                }}
+              />
             </div>
           </button>
         </div>
