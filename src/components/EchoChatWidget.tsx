@@ -239,7 +239,7 @@ const EchoChatWidget = () => {
                   }
                 >
                   {msg.role === "assistant" ? (
-                    <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-headings:text-sm">
+                    <div className="prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-headings:text-sm [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]">
                       <ReactMarkdown>{msg.content.replace(/\[GENERATE_IMAGE:\s*.*?\]/g, "").trim()}</ReactMarkdown>
                     </div>
                   ) : msg.content}

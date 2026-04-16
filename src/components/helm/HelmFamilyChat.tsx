@@ -157,10 +157,10 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
                 <div className="flex items-center gap-1.5 text-gray-500 mb-0.5">
                   {MSG_ICONS[msg.msg_type] || <Bot className="w-3 h-3" />}
                   <span className="font-medium">{msg.sender_name}</span>
-                  <span className="text-white/20">·</span>
-                  <span className="text-white/20">{formatTime(msg.created_at)}</span>
-                </div>
-                <p className="text-white/60">{msg.content}</p>
+                   <span className="text-gray-300">·</span>
+                   <span className="text-gray-400">{formatTime(msg.created_at)}</span>
+                 </div>
+                 <p className="text-[#3D4250]">{msg.content}</p>
               </div>
             );
           }
@@ -172,13 +172,13 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
               </div>
               <div className={`max-w-[75%] ${isMe ? "items-end" : ""}`}>
                 <div className={`flex items-center gap-2 mb-0.5 ${isMe ? "flex-row-reverse" : ""}`}>
-                  <span className="text-[10px] font-medium text-white/40">{msg.sender_name}</span>
-                  <span className="text-[9px] text-white/20">{formatTime(msg.created_at)}</span>
+                   <span className="text-[10px] font-medium text-gray-500">{msg.sender_name}</span>
+                   <span className="text-[9px] text-gray-400">{formatTime(msg.created_at)}</span>
                 </div>
                 <div className={`rounded-2xl px-3.5 py-2 text-sm ${
                   isMe
-                    ? "bg-pounamu text-foreground rounded-br-sm"
-                    : "bg-white/5 text-white/80 rounded-bl-sm"
+                    ? "bg-pounamu text-white rounded-br-sm"
+                     : "bg-white/85 text-[#3D4250] border border-gray-200/60 rounded-bl-sm"
                 }`}>
                   {msg.content}
                 </div>
@@ -197,7 +197,7 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
             placeholder="Message your family... (tag @TORO for help)"
-            className="flex-1 text-sm px-4 py-2.5 rounded-xl bg-white/5 border border-gray-200 text-foreground placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-pounamu/50"
+            className="flex-1 text-sm px-4 py-2.5 rounded-xl bg-white/80 border border-gray-200 text-[#3D4250] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pounamu/50"
           />
           <button
             onClick={sendMessage}
@@ -207,7 +207,7 @@ export default function HelmFamilyChat({ familyId, familyMembers }: { familyId: 
             <Send className="w-4 h-4" />
           </button>
         </div>
-        <p className="text-[9px] text-white/20 mt-1.5 text-center">
+        <p className="text-[9px] text-gray-400 mt-1.5 text-center">
           Family members also receive updates via SMS
         </p>
       </div>

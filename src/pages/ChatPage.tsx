@@ -1649,7 +1649,7 @@ const ChatPage = () => {
             p.type === "checklist" ? (
               <HelmChecklist key={i} content={p.content} />
             ) : (
-              <div key={i} className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
+              <div key={i} className="prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140] [&_h1]:text-[#3D4250] [&_h2]:text-[#3D4250] [&_h3]:text-[#3D4250]">
                 <ReactMarkdown components={mdComponents}>{p.content}</ReactMarkdown>
               </div>
             )
@@ -1664,7 +1664,7 @@ const ChatPage = () => {
     }
 
     return (
-      <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent prose-headings:text-foreground prose-strong:text-foreground">
+      <div className="prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-code:text-accent [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140] [&_h1]:text-[#3D4250] [&_h2]:text-[#3D4250] [&_h3]:text-[#3D4250]">
         <ReactMarkdown components={mdComponents}>{content}</ReactMarkdown>
       </div>
     );
@@ -2322,11 +2322,11 @@ const ChatPage = () => {
                           className={`max-w-[82%] text-sm leading-relaxed ${
                             msg.role === "user"
                               ? "px-4 py-3 rounded-2xl rounded-br-md text-foreground"
-                              : "px-4 py-3 rounded-2xl rounded-bl-md text-foreground/90"
+                          : "px-4 py-3 rounded-2xl rounded-bl-md"
                           }`}
                           style={msg.role === "user"
-                            ? { background: `linear-gradient(135deg, ${agent.color}20, ${agent.color}10)`, border: `1px solid ${agent.color}18` }
-                            : { background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }
+                            ? { background: `linear-gradient(135deg, ${agent.color}20, ${agent.color}10)`, border: `1px solid ${agent.color}18`, color: "#3D4250" }
+                            : { background: "rgba(255,255,255,0.85)", border: "1px solid rgba(74,165,168,0.15)", color: "#3D4250" }
                           }
                         >
                           {msg.imageUrl && (
@@ -2345,7 +2345,7 @@ const ChatPage = () => {
                                 <LegislationCard content={msg.content} agentColor={agent.color} />
                                 <ResponseSources content={msg.content} />
                                 <AITransparencyBadge />
-                                <p className="text-[9px] mt-1 leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.2)" }}>
+                                <p className="text-[9px] mt-1 leading-relaxed" style={{ color: "#9CA3AF" }}>
                                   AI-generated · verify before acting
                                 </p>
                               </div>

@@ -390,18 +390,19 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                       <div
                         className={`max-w-[85%] px-3.5 py-2.5 text-sm leading-relaxed ${
                           m.role === "user"
-                            ? "rounded-2xl rounded-br-md text-foreground"
-                            : "rounded-2xl rounded-bl-md text-white/80"
+                            ? "rounded-2xl rounded-br-md"
+                            : "rounded-2xl rounded-bl-md"
                         }`}
                         style={{
                           background: m.role === "user"
                             ? hexRgba(accentColor, 0.2)
-                            : "rgba(255,255,255,0.03)",
-                          border: `1px solid ${m.role === "user" ? hexRgba(accentColor, 0.3) : "rgba(255,255,255,0.06)"}`,
+                            : "rgba(255,255,255,0.85)",
+                          border: `1px solid ${m.role === "user" ? hexRgba(accentColor, 0.3) : "rgba(74,165,168,0.15)"}`,
+                          color: "#3D4250",
                         }}
                       >
                         {m.role === "assistant" ? (
-                          <div className="prose prose-sm prose-invert max-w-none [&_p]:mb-1 [&_p]:text-sm">
+                          <div className="prose prose-sm max-w-none [&_p]:mb-1 [&_p]:text-sm [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]">
                             <ReactMarkdown>{m.content}</ReactMarkdown>
                           </div>
                         ) : (
