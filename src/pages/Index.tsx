@@ -86,13 +86,8 @@ const LAYERS_DATA = [
   { name: "Simulation", desc: "Tests workflows against realistic scenarios before they touch production.", icon: "Activity", color: "#E8A948" },
 ];
 
-const TRUST_NODES = [
-  { name: "Kahu", desc: "Policy layer — what's allowed" },
-  { name: "Iho", desc: "Routing — picks the right specialist" },
-  { name: "Tā", desc: "Execution — does the work" },
-  { name: "Mahara", desc: "Memory — learns and remembers" },
-  { name: "Mana", desc: "Assurance — proves it was done right" },
-];
+
+
 
 const START_HERE = [
   { title: "Ask A Live Agent", desc: "Open a working agent and ask real business questions.", to: "/chat/echo", accent: C.teal, icon: "MessageSquare" },
@@ -206,11 +201,8 @@ const Index = () => {
   const isMobile = useIsMobile();
   const { profile, isPersonalized } = usePersonalization();
   useReturnVisitor();
-  const [heroTyped, setHeroTyped] = useState(false);
 
   const { scrollYProgress } = useScroll();
-  const heroParallax = useTransform(scrollYProgress, [0, 0.3], [0, -60]);
-  const blobParallax = useTransform(scrollYProgress, [0, 0.3], [0, -35]);
 
   const orderedPacks = useMemo(() => {
     if (!isPersonalized) return PACKS;
