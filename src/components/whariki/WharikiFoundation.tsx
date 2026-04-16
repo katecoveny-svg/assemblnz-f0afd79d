@@ -1,54 +1,59 @@
-import { useEffect, useRef } from "react";
-
 /**
- * Whāriki Foundation Layer — the digital woven mat that sits beneath all content.
- * Subtle cross-hatch pattern with ambient glow pools for depth and warmth.
+ * Whāriki Foundation Layer — light mode.
+ * Very soft pastel blurred blobs behind the content for depth.
  */
 const WharikiFoundation = () => {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const onScroll = () => {
-      const sy = window.scrollY;
-      const vh = window.innerHeight;
-      const brightness = Math.min(1, 0.6 + (Math.sin(sy / vh * Math.PI) * 0.4));
-      el.style.opacity = String(brightness);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <>
-      {/* Cross-hatch weave */}
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      {/* Teal blob — top left */}
       <div
-        ref={ref}
-        className="fixed inset-0 pointer-events-none z-0"
+        className="absolute"
         style={{
-          backgroundImage: `
-            linear-gradient(45deg, rgba(58,125,110,0.04) 1px, transparent 1px),
-            linear-gradient(-45deg, rgba(58,125,110,0.04) 1px, transparent 1px),
-            linear-gradient(45deg, rgba(212,168,83,0.02) 1px, transparent 1px),
-            linear-gradient(-45deg, rgba(212,168,83,0.02) 1px, transparent 1px)
-          `,
-          backgroundSize: "24px 24px, 24px 24px, 48px 48px, 48px 48px",
-          opacity: 0.7,
-          transition: "opacity 0.3s ease",
+          width: 600,
+          height: 600,
+          top: "-5%",
+          left: "-10%",
+          background: "radial-gradient(circle, rgba(74,165,168,0.12) 0%, transparent 60%)",
+          filter: "blur(120px)",
         }}
       />
-      {/* Ambient glow pools — adds warmth and depth to the dark background */}
-      <div className="fixed inset-0 pointer-events-none z-0" style={{
-        background: `
-          radial-gradient(ellipse 50% 40% at 20% 20%, rgba(58,125,110,0.08) 0%, transparent 70%),
-          radial-gradient(ellipse 45% 35% at 80% 30%, rgba(212,168,83,0.06) 0%, transparent 70%),
-          radial-gradient(ellipse 60% 40% at 50% 70%, rgba(58,125,110,0.05) 0%, transparent 60%),
-          radial-gradient(ellipse 40% 50% at 15% 80%, rgba(212,168,83,0.04) 0%, transparent 60%),
-          radial-gradient(ellipse 35% 30% at 85% 75%, rgba(79,228,167,0.03) 0%, transparent 50%)
-        `,
-      }} />
-    </>
+      {/* Ochre blob — top right */}
+      <div
+        className="absolute"
+        style={{
+          width: 500,
+          height: 500,
+          top: "5%",
+          right: "-5%",
+          background: "radial-gradient(circle, rgba(232,169,72,0.10) 0%, transparent 60%)",
+          filter: "blur(120px)",
+        }}
+      />
+      {/* Lavender blob — center */}
+      <div
+        className="absolute"
+        style={{
+          width: 700,
+          height: 700,
+          top: "30%",
+          left: "30%",
+          background: "radial-gradient(circle, rgba(232,230,240,0.25) 0%, transparent 60%)",
+          filter: "blur(150px)",
+        }}
+      />
+      {/* Teal blob — bottom */}
+      <div
+        className="absolute"
+        style={{
+          width: 500,
+          height: 500,
+          bottom: "0%",
+          left: "10%",
+          background: "radial-gradient(circle, rgba(74,165,168,0.08) 0%, transparent 60%)",
+          filter: "blur(120px)",
+        }}
+      />
+    </div>
   );
 };
 

@@ -9,7 +9,7 @@ export default {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1200px",
       },
     },
     extend: {
@@ -17,7 +17,6 @@ export default {
         display: ['Lato', 'sans-serif'],
         body: ['"Plus Jakarta Sans"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
-        // Legacy aliases — all map to correct Mārama fonts
         inter: ['"Plus Jakarta Sans"', 'sans-serif'],
         outfit: ['"Plus Jakarta Sans"', 'sans-serif'],
         syne: ['Lato', 'sans-serif'],
@@ -58,34 +57,32 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Whenua palette
+        // Whenua palette — softened for light
         whenua: {
-          kowhai: '#D4A843',
-          'kowhai-light': '#F0D078',
-          pounamu: '#3A7D6E',
-          'pounamu-light': '#5AADA0',
-          tangaroa: '#1A3A5C',
-          'tangaroa-light': '#3A6A9C',
+          kowhai: '#E8A948',
+          'kowhai-light': '#F0C670',
+          pounamu: '#4AA5A8',
+          'pounamu-light': '#6CBFC1',
+          tangaroa: '#5A7A9C',
+          'tangaroa-light': '#7A9ABC',
           rust: '#C85A54',
         },
-        // Assembl brand surfaces
         assembl: {
-          bg: '#09090F',
-          surface: '#0F0F1A',
-          'surface-2': '#16162A',
+          bg: '#FAFBFC',
+          surface: '#FFFFFF',
+          'surface-2': '#E8E6F0',
         },
-        // Legacy neon aliases → mapped to Whenua
         neon: {
-          green: "#5AADA0",
+          green: "#4AA5A8",
           pink: "#C85A54",
-          cyan: "#3A6A9C",
-          orange: "#D4A843",
-          lime: "#5AADA0",
+          cyan: "#5A7A9C",
+          orange: "#E8A948",
+          lime: "#4AA5A8",
           red: "#C85A54",
-          gold: "#D4A843",
-          teal: "#3A7D6E",
-          blue: "#3A6A9C",
-          amber: "#F0D078",
+          gold: "#E8A948",
+          teal: "#4AA5A8",
+          blue: "#5A7A9C",
+          amber: "#F0C670",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
