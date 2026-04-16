@@ -67,7 +67,7 @@ export default function HangarauDashboard() {
             <AreaChart data={uptimeData}>
               <XAxis dataKey="hour" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} />
               <YAxis domain={[99.5, 100]} tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} />
-              <Tooltip contentStyle={{ background: "#1a1a2e", border: `1px solid ${ACCENT_LIGHT}33`, borderRadius: 8, fontSize: 11 }} />
+              <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", border: `1px solid ${ACCENT_LIGHT}40`, color: "#1A1D29", boxShadow: "0 8px 24px rgba(26,29,41,0.10)", borderRadius: 8, fontSize: 11 }} />
               <Area type="monotone" dataKey="uptime" stroke={ACCENT_LIGHT} fill={`${ACCENT_LIGHT}20`} strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>
@@ -78,7 +78,7 @@ export default function HangarauDashboard() {
             <BarChart data={deployData}>
               <XAxis dataKey="week" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} />
               <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} />
-              <Tooltip contentStyle={{ background: "#1a1a2e", border: `1px solid ${ACCENT_LIGHT}33`, borderRadius: 8, fontSize: 11 }} />
+              <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", border: `1px solid ${ACCENT_LIGHT}40`, color: "#1A1D29", boxShadow: "0 8px 24px rgba(26,29,41,0.10)", borderRadius: 8, fontSize: 11 }} />
               <Bar dataKey="deploys" fill={ACCENT_LIGHT} radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
