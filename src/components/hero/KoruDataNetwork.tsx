@@ -1,6 +1,7 @@
 import React, { useRef, useMemo, useCallback } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, MeshTransmissionMaterial } from "@react-three/drei";
+import { motion } from "framer-motion";
 import * as THREE from "three";
 
 /* ── Koru spiral path ── */
@@ -236,8 +237,8 @@ function KoruScene() {
   );
 }
 
-/* ── Mobile SVG fallback ── */
-function KoruSVGFallback() {
+/* ── Animated Mobile Koru ── */
+function MobileKoru() {
   const dots = useMemo(() => {
     const pts: { x: number; y: number; r: number; color: string; delay: number }[] = [];
     for (let i = 0; i < 44; i++) {
@@ -253,29 +254,84 @@ function KoruSVGFallback() {
   }, []);
 
   return (
-    <svg viewBox="0 0 400 400" className="w-full h-full" style={{ maxWidth: 340 }}>
-      <defs>
-        <filter id="koru-glow">
-          <feGaussianBlur stdDeviation="4" result="blur" />
-          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-        </filter>
-        <radialGradient id="koru-bg-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="rgba(74,165,168,0.08)" />
-          <stop offset="100%" stopColor="transparent" />
-        </radialGradient>
-      </defs>
-      <circle cx="200" cy="200" r="180" fill="url(#koru-bg-glow)" />
-      {dots.slice(0, -1).map((d, i) => (
-        <line key={`l-${i}`} x1={d.x} y1={d.y} x2={dots[i + 1].x} y2={dots[i + 1].y}
-          stroke="#7EEEF0" strokeWidth="0.6" opacity="0.2" />
-      ))}
-      {dots.map((d, i) => (
-        <circle key={`d-${i}`} cx={d.x} cy={d.y} r={d.r} fill={d.color} opacity="0.85"
-          filter="url(#koru-glow)"
-          style={{ animation: `koruPulse 3s ease-in-out ${d.delay}s infinite` }} />
-      ))}
-      <style>{`@keyframes koruPulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.3)} }`}</style>
-    </svg>
+    <div className="relative w-full h-full flex items-center justify-center" style={{ maxWidth: 380, margin: "0 auto" }}>
+      {/* Background glow */}
+      <motion.div
+        className="absolute rounded-full"
+        style={{
+          width: 280, height: 280,
+          background: "radial-gradient(ellipse, rgba(74,165,168,0.15) 0%, rgba(232,169,72,0.08) 50%, transparent 70%)",
+          filter: "blur(30px)",
+        }}
+        animate={{ scale: [1, 1.12, 1], opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* SVG spiral with animated dots */}
+      <svg viewBox="0 0 400 400" className="w-full h-full relative z-10" style={{ maxWidth: 340 }}>
+        <defs>
+          <filter id="koru-glow-m">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
+
+        {/* Connection lines */}
+        {dots.slice(0, -1).map((d, i) => (
+          <motion.line
+            key={`l-${i}`}
+            x1={d.x} y1={d.y}
+            x2={dots[i + 1].x} y2={dots[i + 1].y}
+            stroke="#7EEEF0" strokeWidth="0.8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0.1, 0.35, 0.1] }}
+            transition={{ duration: 3, delay: d.delay, repeat: Infinity, ease: "easeInOut" }}
+          />
+        ))}
+
+        {/* Dots */}
+        {dots.map((d, i) => (
+          <motion.circle
+            key={`d-${i}`}
+            cx={d.x} cy={d.y}
+            r={d.r}
+            fill={d.color}
+            filter="url(#koru-glow-m)"
+            initial={{ opacity: 0, r: 0 }}
+            animate={{ opacity: [0.5, 1, 0.5], r: [d.r, d.r * 1.3, d.r] }}
+            transition={{
+              duration: 3,
+              delay: d.delay,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+
+        {/* Kete labels on large dots */}
+        {KETE_COLORS.map((k) => {
+          const dot = dots[k.index];
+          if (!dot) return null;
+          return (
+            <motion.text
+              key={k.name}
+              x={dot.x} y={dot.y - 14}
+              textAnchor="middle"
+              fill={k.color}
+              fontSize="8"
+              fontWeight="600"
+              letterSpacing="1.5"
+              fontFamily="'Lato', sans-serif"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 0.8, 0] }}
+              transition={{ duration: 4, delay: dot.delay + 0.5, repeat: Infinity, ease: "easeInOut" }}
+            >
+              {k.name}
+            </motion.text>
+          );
+        })}
+      </svg>
+    </div>
   );
 }
 
@@ -283,8 +339,8 @@ function KoruSVGFallback() {
 export default function KoruDataNetwork({ isMobile = false }: { isMobile?: boolean }) {
   if (isMobile) {
     return (
-      <div className="flex items-center justify-center w-full h-[320px]">
-        <KoruSVGFallback />
+      <div className="flex items-center justify-center w-full h-[420px]">
+        <MobileKoru />
       </div>
     );
   }
