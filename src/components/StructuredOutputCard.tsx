@@ -191,10 +191,11 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
     <div
       className="rounded-xl overflow-hidden my-2"
       style={{
-        background: "rgba(15, 15, 26, 0.8)",
-        backdropFilter: "blur(12px)",
-        border: "1px solid rgba(212, 168, 67, 0.12)",
+        background: "rgba(255, 255, 255, 0.85)",
+        backdropFilter: "blur(20px)",
+        border: "1px solid rgba(74, 165, 168, 0.15)",
         borderLeft: `3px solid ${agentColor}`,
+        boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
       }}
     >
       {/* Header */}
