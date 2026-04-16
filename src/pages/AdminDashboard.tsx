@@ -317,7 +317,7 @@ const AdminDashboard = () => {
                     ].map((m) => (
                       <GlassCard key={m.label} className="p-6" accent={m.color}>
                         <m.icon className="w-5 h-5 mb-3" style={{ color: m.color }} />
-                        <p className="text-3xl font-bold text-white/90 tabular-nums mb-1"
+                        <p className="text-3xl font-bold text-[#2D3140] tabular-nums mb-1"
                           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{m.value}</p>
                         <p className="text-[11px] text-gray-400 uppercase tracking-wider"
                           style={{ fontFamily: "'JetBrains Mono', monospace" }}>{m.label}</p>
@@ -330,15 +330,15 @@ const AdminDashboard = () => {
                     <GlassCard className="p-6" accent={TEAL}>
                       <div className="flex items-center gap-2 mb-4">
                         <Heart className="w-4 h-4" style={{ color: TEAL }} />
-                        <span className="text-sm font-bold text-white/80">System Health</span>
+                        <span className="text-sm font-bold text-[#3D4250]">System Health</span>
                       </div>
                       <div className="space-y-3">
                         {healthServices.map((svc) => (
                           <div key={svc.name} className="flex items-center gap-3">
                             <StatusDot status={svc.status} />
-                            <span className="text-[12px] text-white/60 flex-1">{svc.name}</span>
+                            <span className="text-[12px] text-[#6B7280] flex-1">{svc.name}</span>
                             {svc.responseTime && (
-                              <span className="text-[10px] text-white/25 font-mono tabular-nums">{svc.responseTime}ms</span>
+                              <span className="text-[10px] text-[#D1D5DB] font-mono tabular-nums">{svc.responseTime}ms</span>
                             )}
                             <span
                               className="text-[9px] uppercase font-bold px-2 py-0.5 rounded-lg"
@@ -357,7 +357,7 @@ const AdminDashboard = () => {
                     <GlassCard className="p-6" accent="#3A6A9C">
                       <div className="flex items-center gap-2 mb-4">
                         <Star className="w-4 h-4" style={{ color: "#3A6A9C" }} />
-                        <span className="text-sm font-bold text-white/80">Popular Agents</span>
+                        <span className="text-sm font-bold text-[#3D4250]">Popular Agents</span>
                       </div>
                       <div className="space-y-2.5">
                         {popularAgents.slice(0, 6).map(({ agent, count }, i) => {
@@ -365,18 +365,18 @@ const AdminDashboard = () => {
                           const maxCount = popularAgents[0]?.count || 1;
                           return (
                             <div key={agent} className="flex items-center gap-3">
-                              <span className="text-[10px] w-4 text-white/20 shrink-0 font-mono">{i + 1}</span>
+                              <span className="text-[10px] w-4 text-[#D1D5DB] shrink-0 font-mono">{i + 1}</span>
                               <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: info?.color || "#888" }} />
-                              <span className="text-[12px] font-medium text-white/70 flex-1 truncate">{info?.name || agent}</span>
+                              <span className="text-[12px] font-medium text-[#3D4250] flex-1 truncate">{info?.name || agent}</span>
                               <div className="w-20 h-1.5 rounded-full overflow-hidden shrink-0" style={{ background: "rgba(255,255,255,0.65)" }}>
                                 <div className="h-full rounded-full" style={{ width: `${(count / maxCount) * 100}%`, background: info?.color || "#888" }} />
                               </div>
-                              <span className="text-[10px] text-white/25 font-mono tabular-nums w-6 text-right shrink-0">{count}</span>
+                              <span className="text-[10px] text-[#D1D5DB] font-mono tabular-nums w-6 text-right shrink-0">{count}</span>
                             </div>
                           );
                         })}
                         {popularAgents.length === 0 && (
-                          <p className="text-[11px] text-white/20 text-center py-4">No activity data yet</p>
+                          <p className="text-[11px] text-[#D1D5DB] text-center py-4">No activity data yet</p>
                         )}
                       </div>
                     </GlassCard>
@@ -386,24 +386,24 @@ const AdminDashboard = () => {
                   <GlassCard className="p-6" accent="#3A6A9C">
                     <div className="flex items-center gap-2 mb-4">
                       <Activity className="w-4 h-4" style={{ color: "#3A6A9C" }} />
-                      <span className="text-sm font-bold text-white/80">Real-Time Activity</span>
+                      <span className="text-sm font-bold text-[#3D4250]">Real-Time Activity</span>
                       <span className="relative flex h-2 w-2 ml-1">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-50" style={{ background: TEAL }} />
                         <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: TEAL }} />
                       </span>
-                      <button onClick={loadData} className="ml-auto p-1.5 rounded-lg text-white/20 hover:text-gray-500 transition-colors">
+                      <button onClick={loadData} className="ml-auto p-1.5 rounded-lg text-[#D1D5DB] hover:text-gray-500 transition-colors">
                         <RefreshCw className={`w-3.5 h-3.5 ${loadingData ? "animate-spin" : ""}`} />
                       </button>
                     </div>
                     {activity.length === 0 ? (
-                      <p className="text-[11px] text-white/20 text-center py-8">No activity yet</p>
+                      <p className="text-[11px] text-[#D1D5DB] text-center py-8">No activity yet</p>
                     ) : (
                       <div className="space-y-1 max-h-[300px] overflow-y-auto scrollbar-hide">
                         {activity.slice(0, 30).map((item) => {
                           const agent = getAgentInfo(item.agent_id);
                           return (
                             <div key={item.id} className="flex items-center gap-3 py-2 px-2 rounded-xl hover:bg-white/[0.02] transition-colors">
-                              <span className="text-[9px] font-mono text-white/20 shrink-0 w-14">
+                              <span className="text-[9px] font-mono text-[#D1D5DB] shrink-0 w-14">
                                 {new Date(item.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                               </span>
                               <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: agent?.color || "#888" }} />
@@ -430,7 +430,7 @@ const AdminDashboard = () => {
               <GlassCard className="p-6" accent="#3A6A9C">
                 {activity.length === 0 ? (
                   <div className="text-center py-16">
-                    <MessageSquare className="w-8 h-8 mx-auto text-white/10 mb-3" />
+                    <MessageSquare className="w-8 h-8 mx-auto text-[#E5E7EB] mb-3" />
                     <p className="text-sm text-gray-400">No activity logged yet.</p>
                   </div>
                 ) : (
@@ -439,7 +439,7 @@ const AdminDashboard = () => {
                       const agent = getAgentInfo(item.agent_id);
                       return (
                         <div key={item.id} className="flex items-center gap-3 py-2.5 px-3 rounded-xl hover:bg-white/[0.02] transition-colors">
-                          <span className="text-[10px] font-mono text-white/20 shrink-0 w-16">
+                          <span className="text-[10px] font-mono text-[#D1D5DB] shrink-0 w-16">
                             {new Date(item.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                           </span>
                           <AgentAvatar agentId={item.agent_id} color={agent?.color || "#888"} size={24} showGlow={false} />
@@ -465,7 +465,7 @@ const AdminDashboard = () => {
             <div className="space-y-6">
               <SectionTitle title="Creative Studio" subtitle="Generate images, video & creative assets" icon={Sparkles} color="#F0D078" />
               <GlassCard className="p-0 overflow-visible" style={{ background: "transparent", border: "none", boxShadow: "none", backdropFilter: "none" }}>
-                <Suspense fallback={<div className="h-96 flex items-center justify-center text-white/20">Loading studio…</div>}>
+                <Suspense fallback={<div className="h-96 flex items-center justify-center text-[#D1D5DB]">Loading studio…</div>}>
                   <AuahaGenerate />
                 </Suspense>
               </GlassCard>
@@ -477,7 +477,7 @@ const AdminDashboard = () => {
             <div className="space-y-6">
               <SectionTitle title="Ad Manager" subtitle="Create and manage ad campaigns" icon={Globe} color={GOLD} />
               <GlassCard className="p-0 overflow-visible" style={{ background: "transparent", border: "none", boxShadow: "none", backdropFilter: "none" }}>
-                <Suspense fallback={<div className="h-96 flex items-center justify-center text-white/20">Loading…</div>}>
+                <Suspense fallback={<div className="h-96 flex items-center justify-center text-[#D1D5DB]">Loading…</div>}>
                   <AuahaAdManager />
                 </Suspense>
               </GlassCard>
@@ -489,7 +489,7 @@ const AdminDashboard = () => {
             <div className="space-y-6">
               <SectionTitle title="Copy Studio" subtitle="Generate brand-aligned copy and content" icon={FileText} color={TEAL} />
               <GlassCard className="p-0 overflow-visible" style={{ background: "transparent", border: "none", boxShadow: "none", backdropFilter: "none" }}>
-                <Suspense fallback={<div className="h-96 flex items-center justify-center text-white/20">Loading…</div>}>
+                <Suspense fallback={<div className="h-96 flex items-center justify-center text-[#D1D5DB]">Loading…</div>}>
                   <AuahaCopyStudio />
                 </Suspense>
               </GlassCard>
@@ -501,7 +501,7 @@ const AdminDashboard = () => {
             <div className="space-y-6">
               <SectionTitle title="Image Studio" subtitle="Generate and edit images with AI" icon={Globe} color="#F0D078" />
               <GlassCard className="p-0 overflow-visible" style={{ background: "transparent", border: "none", boxShadow: "none", backdropFilter: "none" }}>
-                <Suspense fallback={<div className="h-96 flex items-center justify-center text-white/20">Loading…</div>}>
+                <Suspense fallback={<div className="h-96 flex items-center justify-center text-[#D1D5DB]">Loading…</div>}>
                   <PixelImageStudio />
                 </Suspense>
               </GlassCard>
@@ -525,7 +525,7 @@ const AdminDashboard = () => {
               <SectionTitle title="Users & Roles" subtitle="Manage user accounts and access levels" icon={Users} color="#3A6A9C" />
               <GlassCard className="overflow-hidden">
                 <div className="px-6 py-4 border-b" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
-                  <p className="text-sm font-bold text-white/70">Registered Users ({users.length})</p>
+                  <p className="text-sm font-bold text-[#3D4250]">Registered Users ({users.length})</p>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-xs">
@@ -542,13 +542,13 @@ const AdminDashboard = () => {
                     <tbody>
                       {users.map((u) => (
                         <tr key={u.id} className="hover:bg-white/[0.02]" style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                          <td className="px-5 py-3 text-white/80 font-medium">{u.name || "—"}</td>
+                          <td className="px-5 py-3 text-[#3D4250] font-medium">{u.name || "—"}</td>
                           <td className="px-5 py-3 text-gray-500">{u.email}</td>
                           <td className="px-5 py-3">
                             <select
                               value={u.role}
                               onChange={(e) => handleRoleChange(u.id, e.target.value)}
-                              className="appearance-none rounded-lg px-2 py-1 text-[11px] font-medium text-white/70 pr-5 cursor-pointer outline-none"
+                              className="appearance-none rounded-lg px-2 py-1 text-[11px] font-medium text-[#3D4250] pr-5 cursor-pointer outline-none"
                               style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
                             >
                               {ROLES.map((r) => (
@@ -557,7 +557,7 @@ const AdminDashboard = () => {
                             </select>
                           </td>
                           <td className="px-5 py-3 text-gray-400">{new Date(u.createdAt).toLocaleDateString()}</td>
-                          <td className="px-5 py-3 text-right font-mono text-white/40">{u.totalMessages}</td>
+                          <td className="px-5 py-3 text-right font-mono text-[#9CA3AF]">{u.totalMessages}</td>
                           <td className="px-5 py-3 text-right">
                             <button onClick={() => handleDeleteUser(u.id, u.email || "")}
                               className="p-1.5 rounded-lg hover:bg-red-500/10 text-red-400/50 hover:text-red-400 transition-colors">
@@ -599,7 +599,7 @@ const AdminDashboard = () => {
                   const colors: Record<string, string> = { new: "#3A6A9C", contacted: "#3A6A9C", qualified: "#FFB800", converted: TEAL };
                   return (
                     <GlassCard key={status} className="p-5" accent={colors[status]}>
-                      <p className="text-3xl font-bold text-white/90 mb-1">{count}</p>
+                      <p className="text-3xl font-bold text-[#2D3140] mb-1">{count}</p>
                       <p className="text-[10px] uppercase tracking-wider font-bold" style={{ color: colors[status] }}>{status}</p>
                     </GlassCard>
                   );
@@ -608,7 +608,7 @@ const AdminDashboard = () => {
               <GlassCard className="overflow-hidden">
                 {submissions.length === 0 ? (
                   <div className="px-6 py-16 text-center">
-                    <Mail className="w-8 h-8 mx-auto text-white/10 mb-3" />
+                    <Mail className="w-8 h-8 mx-auto text-[#E5E7EB] mb-3" />
                     <p className="text-sm text-gray-400">No leads yet.</p>
                   </div>
                 ) : (
@@ -620,17 +620,17 @@ const AdminDashboard = () => {
                         <div key={sub.id} className="px-6 py-4 hover:bg-white/[0.02]">
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-3">
-                              <span className="text-xs font-bold text-white/80">{sub.name}</span>
-                              <span className="text-[11px] text-white/40">{sub.email}</span>
+                              <span className="text-xs font-bold text-[#3D4250]">{sub.name}</span>
+                              <span className="text-[11px] text-[#9CA3AF]">{sub.email}</span>
                               <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg" style={{ background: `${scoreColor}15`, color: scoreColor }}>
                                 Score: {score}
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <a href={`mailto:${sub.email}`} className="p-1.5 rounded-lg text-white/20 hover:text-gray-500 transition-colors">
+                              <a href={`mailto:${sub.email}`} className="p-1.5 rounded-lg text-[#D1D5DB] hover:text-gray-500 transition-colors">
                                 <Mail className="w-3.5 h-3.5" />
                               </a>
-                              <button onClick={() => handleMarkRead(sub.id, !sub.is_read)} className="p-1.5 rounded-lg text-white/20 hover:text-gray-500 transition-colors">
+                              <button onClick={() => handleMarkRead(sub.id, !sub.is_read)} className="p-1.5 rounded-lg text-[#D1D5DB] hover:text-gray-500 transition-colors">
                                 {sub.is_read ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                               </button>
                               <button onClick={() => handleDeleteSubmission(sub.id)} className="p-1.5 rounded-lg text-red-400/30 hover:text-red-400 transition-colors">
