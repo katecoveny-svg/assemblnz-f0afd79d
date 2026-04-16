@@ -1,6 +1,7 @@
 import React, { useRef, useMemo, useCallback } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, MeshTransmissionMaterial } from "@react-three/drei";
+import { motion } from "framer-motion";
 import * as THREE from "three";
 
 /* ── Koru spiral path ── */
