@@ -32,6 +32,18 @@ html {
   }
 }
 
+@keyframes liquidShimmer {
+  0%   { background-position: 0% 0%; }
+  50%  { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+@keyframes liquidGlossDrift {
+  0%   { transform: translate(-10%, -10%) rotate(0deg); }
+  50%  { transform: translate(10%, 10%) rotate(180deg); }
+  100% { transform: translate(-10%, -10%) rotate(360deg); }
+}
+
 @layer base {
   :root {
     --background: 216 20% 98%;

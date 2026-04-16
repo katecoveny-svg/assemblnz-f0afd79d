@@ -25,7 +25,7 @@ interface Pet {
 interface Props { pets: Pet[]; }
 
 const glass = (accent = KOWHAI) => ({
-  background: "rgba(15,15,26,0.55)",
+  background: "rgba(255,255,255,0.65)",
   border: `1px solid ${accent}15`,
   backdropFilter: "blur(14px)",
 });
@@ -35,7 +35,7 @@ export default function PetModule({ pets }: Props) {
 
   return (
     <div className="space-y-4">
-      <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: `${BONE}90` }}>
+      <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#1A1D29"}90` }}>
         <PawPrint size={14} style={{ color: KOWHAI }} /> Pet Health
       </h2>
 
@@ -53,8 +53,8 @@ export default function PetModule({ pets }: Props) {
                   <PawPrint size={16} style={{ color: KOWHAI }} />
                 </div>
                 <div>
-                  <p className="font-body text-sm" style={{ color: `${BONE}CC` }}>{pet.name}</p>
-                  <p className="font-body text-[10px]" style={{ color: `${BONE}50` }}>
+                  <p className="font-body text-sm" style={{ color: "#1A1D29"}CC` }}>{pet.name}</p>
+                  <p className="font-body text-[10px]" style={{ color: "#1A1D29"}50` }}>
                     {pet.breed || pet.species}{pet.weight_kg ? ` · ${pet.weight_kg}kg` : ""}
                   </p>
                 </div>
@@ -65,7 +65,7 @@ export default function PetModule({ pets }: Props) {
                     {overdueVax.length} overdue
                   </span>
                 )}
-                {open ? <ChevronUp size={14} style={{ color: `${BONE}40` }} /> : <ChevronDown size={14} style={{ color: `${BONE}40` }} />}
+                {open ? <ChevronUp size={14} style={{ color: "#1A1D29"}40` }} /> : <ChevronDown size={14} style={{ color: "#1A1D29"}40` }} />}
               </div>
             </button>
 
@@ -82,8 +82,8 @@ export default function PetModule({ pets }: Props) {
                       return (
                         <div key={i} className="flex items-center justify-between p-2 rounded-lg" style={{ background: overdue ? "rgba(239,68,68,0.06)" : `${POUNAMU}06` }}>
                           <div>
-                            <p className="font-body text-xs" style={{ color: `${BONE}BB` }}>{v.name}</p>
-                            <p className="font-mono text-[9px]" style={{ color: `${BONE}40` }}>Given: {v.date}</p>
+                            <p className="font-body text-xs" style={{ color: "#1A1D29"}BB` }}>{v.name}</p>
+                            <p className="font-mono text-[9px]" style={{ color: "#1A1D29"}40` }}>Given: {v.date}</p>
                           </div>
                           <span className="font-mono text-[9px] px-2 py-0.5 rounded" style={{ 
                             background: overdue ? "rgba(239,68,68,0.15)" : `${POUNAMU}15`,
@@ -106,8 +106,8 @@ export default function PetModule({ pets }: Props) {
                     <div className="space-y-1.5">
                       {pet.medications.map((m, i) => (
                         <div key={i} className="p-2 rounded-lg" style={{ background: `${KOWHAI}06` }}>
-                          <p className="font-body text-xs" style={{ color: `${BONE}BB` }}>{m.name} — {m.dosage}</p>
-                          <p className="font-mono text-[9px]" style={{ color: `${BONE}40` }}>{m.frequency}{m.until ? ` until ${m.until}` : ""}</p>
+                          <p className="font-body text-xs" style={{ color: "#1A1D29"}BB` }}>{m.name} — {m.dosage}</p>
+                          <p className="font-mono text-[9px]" style={{ color: "#1A1D29"}40` }}>{m.frequency}{m.until ? ` until ${m.until}` : ""}</p>
                         </div>
                       ))}
                     </div>
@@ -116,10 +116,10 @@ export default function PetModule({ pets }: Props) {
 
                 {/* Vet info */}
                 {pet.vet_clinic && (
-                  <div className="p-2 rounded-lg" style={{ background: `${BONE}06` }}>
-                    <p className="font-body text-[10px]" style={{ color: `${BONE}50` }}>Vet: {pet.vet_clinic}</p>
-                    {pet.vet_phone && <p className="font-mono text-[10px]" style={{ color: `${BONE}40` }}>{pet.vet_phone}</p>}
-                    {pet.microchip_number && <p className="font-mono text-[9px] mt-1" style={{ color: `${BONE}30` }}>Microchip: {pet.microchip_number}</p>}
+                  <div className="p-2 rounded-lg" style={{ background: "#9CA3AF" }}>
+                    <p className="font-body text-[10px]" style={{ color: "#1A1D29"}50` }}>Vet: {pet.vet_clinic}</p>
+                    {pet.vet_phone && <p className="font-mono text-[10px]" style={{ color: "#1A1D29"}40` }}>{pet.vet_phone}</p>}
+                    {pet.microchip_number && <p className="font-mono text-[9px] mt-1" style={{ color: "#1A1D29"}30` }}>Microchip: {pet.microchip_number}</p>}
                   </div>
                 )}
               </motion.div>

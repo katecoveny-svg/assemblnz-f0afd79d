@@ -46,7 +46,7 @@ const FAQSection = () => {
   }, []);
 
   return (
-    <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+    <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <motion.div
           className="text-center mb-12"
@@ -72,7 +72,7 @@ const FAQSection = () => {
               fontFamily: "'Lato', sans-serif",
               fontWeight: 300,
               fontSize: "2rem",
-              color: "#FFFFFF",
+              color: "#1A1D29",
             }}
           >
             Frequently asked questions
@@ -91,9 +91,9 @@ const FAQSection = () => {
                 transition={{ delay: i * 0.02 }}
                 className="rounded-xl overflow-hidden"
                 style={{
-                  background: isOpen ? "rgba(22,22,42,0.5)" : "rgba(15,15,26,0.4)",
+                  background: isOpen ? "rgba(22,22,42,0.5)" : "rgba(255,255,255,0.65)",
                   backdropFilter: "blur(20px)",
-                  border: `1px solid ${isOpen ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.04)"}`,
+                  border: `1px solid ${isOpen ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.5)"}`,
                   transition: "all 300ms cubic-bezier(0.16, 1, 0.3, 1)",
                 }}
               >
@@ -107,7 +107,7 @@ const FAQSection = () => {
                       fontFamily: "'Lato', sans-serif",
                       fontWeight: 300,
                       fontSize: "14px",
-                      color: "#FFFFFF",
+                      color: "#1A1D29",
                     }}
                   >
                     {faq.q}

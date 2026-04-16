@@ -54,7 +54,7 @@ const AdminPacksPage = () => {
         {loading ? (
           <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>Loading…</p>
         ) : (
-          <div className="rounded-2xl overflow-hidden" style={{ background: "rgba(15,15,26,0.8)", backdropFilter: "blur(20px)", border: "1px solid rgba(74,165,168,0.15)" }}>
+          <div className="rounded-2xl overflow-hidden" style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(20px)", border: "1px solid rgba(74,165,168,0.15)" }}>
             <table className="w-full text-xs" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
@@ -65,7 +65,7 @@ const AdminPacksPage = () => {
               </thead>
               <tbody>
                 {packs.map((pack, idx) => (
-                  <tr key={pack.id} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                  <tr key={pack.id} style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1">
                         <button onClick={() => moveOrder(idx, -1)} disabled={idx === 0} className="p-1 rounded hover:bg-white/5 disabled:opacity-20"><ArrowUp size={12} color="#A8A8B8" /></button>
@@ -74,7 +74,7 @@ const AdminPacksPage = () => {
                       </div>
                     </td>
                     <td className="px-4 py-3">
-                      <p className="font-bold" style={{ color: "#FFFFFF" }}>{pack.pack_name}</p>
+                      <p className="font-bold" style={{ color: "#1A1D29" }}>{pack.pack_name}</p>
                       <p style={{ color: "#9CA3AF", fontSize: "10px" }}>{pack.pack_slug}</p>
                     </td>
                     <td className="px-4 py-3">
@@ -91,7 +91,7 @@ const AdminPacksPage = () => {
                         value={pack.requires_role}
                         onChange={(e) => updatePack(pack.id, { requires_role: e.target.value })}
                         className="bg-transparent border rounded px-2 py-1 text-xs"
-                        style={{ borderColor: "rgba(255,255,255,0.1)", color: "#FFFFFF" }}
+                        style={{ borderColor: "rgba(255,255,255,0.1)", color: "#1A1D29" }}
                       >
                         {ROLE_OPTIONS.map(r => <option key={r} value={r} style={{ background: "#FAFBFC" }}>{r}</option>)}
                       </select>

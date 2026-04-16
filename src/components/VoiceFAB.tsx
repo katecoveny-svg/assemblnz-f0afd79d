@@ -106,11 +106,11 @@ const VoiceFAB = ({ packId = "waihanga", agentId }: Props) => {
         style={{
           background: state === "listening"
             ? `radial-gradient(circle, ${KOWHAI}, rgba(212,168,67,0.8))`
-            : "linear-gradient(135deg, rgba(15,15,26,0.95), rgba(15,15,26,0.8))",
+            : "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
           border: `2px solid ${state === "listening" ? KOWHAI : "rgba(212,168,67,0.3)"}`,
           boxShadow: state === "listening"
             ? `0 0 30px rgba(212,168,67,0.4), 0 0 60px rgba(212,168,67,0.15)`
-            : "0 4px 24px rgba(0,0,0,0.5)",
+            : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
         }}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
@@ -137,12 +137,12 @@ const VoiceFAB = ({ packId = "waihanga", agentId }: Props) => {
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             className="fixed bottom-24 right-6 z-50 rounded-2xl p-4 min-w-[220px] border backdrop-blur-md"
             style={{
-              background: "rgba(15,15,26,0.9)",
+              background: "rgba(255,255,255,0.65)",
               borderColor: "rgba(212,168,67,0.2)",
               boxShadow: "0 0 40px rgba(0,0,0,0.5)",
             }}
           >
-            <button onClick={close} className="absolute top-2 right-2 text-gray-400 hover:text-white/60">
+            <button onClick={close} className="absolute top-2 right-2 text-gray-400 hover:text-[#6B7280]">
               <X size={14} />
             </button>
 
@@ -172,12 +172,12 @@ const VoiceFAB = ({ packId = "waihanga", agentId }: Props) => {
             <p className="text-xs text-center" style={{ color: KOWHAI, fontFamily: "'JetBrains Mono', monospace" }}>
               {statusLabel.mi}
             </p>
-            <p className="text-[10px] text-center text-white/40 mt-0.5">
+            <p className="text-[10px] text-center text-[#9CA3AF] mt-0.5">
               {statusLabel.en}
             </p>
 
             {transcript && (
-              <p className="mt-3 text-[11px] text-white/60 border-t pt-2" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+              <p className="mt-3 text-[11px] text-[#6B7280] border-t pt-2" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
                 {transcript}
               </p>
             )}

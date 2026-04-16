@@ -25,7 +25,7 @@ const conditionColor = {
 };
 
 const glass = {
-  background: "rgba(15,15,26,0.55)",
+  background: "rgba(255,255,255,0.65)",
   border: `1px solid ${KOWHAI}15`,
   backdropFilter: "blur(14px)",
 };
@@ -36,7 +36,7 @@ export default function UniformTracker({ items, children }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: `${BONE}90` }}>
+        <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#1A1D29"}90` }}>
           <Shirt size={14} style={{ color: KOWHAI }} /> Uniforms
         </h2>
         {needsReplacement.length > 0 && (
@@ -58,7 +58,7 @@ export default function UniformTracker({ items, children }: Props) {
             className="rounded-xl p-4 space-y-3"
             style={glass}
           >
-            <p className="font-body text-xs" style={{ color: `${BONE}CC` }}>{child}</p>
+            <p className="font-body text-xs" style={{ color: "#1A1D29"}CC` }}>{child}</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {childItems.map((item, i) => (
                 <div
@@ -66,8 +66,8 @@ export default function UniformTracker({ items, children }: Props) {
                   className="rounded-lg p-3 text-center"
                   style={{ background: `${conditionColor[item.condition]}08`, border: `1px solid ${conditionColor[item.condition]}15` }}
                 >
-                  <p className="font-body text-xs" style={{ color: `${BONE}BB` }}>{item.item_type}</p>
-                  <p className="font-mono text-[10px] mt-0.5" style={{ color: `${BONE}50` }}>
+                  <p className="font-body text-xs" style={{ color: "#1A1D29"}BB` }}>{item.item_type}</p>
+                  <p className="font-mono text-[10px] mt-0.5" style={{ color: "#1A1D29"}50` }}>
                     Size {item.size} × {item.quantity}
                   </p>
                   <span

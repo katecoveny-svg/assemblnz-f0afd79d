@@ -116,8 +116,8 @@ export default function OdysseyTravelPlanner() {
     <div className="space-y-6">
       {/* ── Planner Form ── */}
       <div className="rounded-2xl border p-6" style={{
-        background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.6))",
-        borderColor: "rgba(255,255,255,0.06)",
+        background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
+        borderColor: "rgba(255,255,255,0.5)",
       }}>
         <div className="flex items-center gap-2 mb-5">
           <Compass className="w-5 h-5" style={{ color: "#D4A843" }} />
@@ -129,14 +129,14 @@ export default function OdysseyTravelPlanner() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
           {/* Destination */}
           <div>
-            <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">Destination</label>
+            <label className="text-[10px] text-[#9CA3AF] uppercase tracking-wider mb-1 block">Destination</label>
             <div className="relative">
               <MapPin className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
               <select
                 value={destination}
                 onChange={e => setDestination(e.target.value)}
                 className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-foreground border"
-                style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.5)", borderColor: "rgba(255,255,255,0.1)" }}
               >
                 <option value="">Choose region...</option>
                 {NZ_REGIONS.map(r => <option key={r} value={r}>{r}</option>)}
@@ -146,56 +146,56 @@ export default function OdysseyTravelPlanner() {
 
           {/* Dates */}
           <div>
-            <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">Start Date</label>
+            <label className="text-[10px] text-[#9CA3AF] uppercase tracking-wider mb-1 block">Start Date</label>
             <div className="relative">
               <Calendar className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
               <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}
                 className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-foreground border"
-                style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.5)", borderColor: "rgba(255,255,255,0.1)" }}
               />
             </div>
           </div>
           <div>
-            <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">End Date</label>
+            <label className="text-[10px] text-[#9CA3AF] uppercase tracking-wider mb-1 block">End Date</label>
             <div className="relative">
               <Calendar className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
               <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)}
                 className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-foreground border"
-                style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.5)", borderColor: "rgba(255,255,255,0.1)" }}
               />
             </div>
           </div>
 
           {/* Travellers */}
           <div>
-            <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">Travellers</label>
+            <label className="text-[10px] text-[#9CA3AF] uppercase tracking-wider mb-1 block">Travellers</label>
             <div className="relative">
               <Users className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
               <input type="number" min={1} max={20} value={travellers} onChange={e => setTravellers(Number(e.target.value))}
                 className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-foreground border"
-                style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.5)", borderColor: "rgba(255,255,255,0.1)" }}
               />
             </div>
           </div>
 
           {/* Budget */}
           <div>
-            <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">Budget (NZ$)</label>
+            <label className="text-[10px] text-[#9CA3AF] uppercase tracking-wider mb-1 block">Budget (NZ$)</label>
             <div className="relative">
               <DollarSign className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
               <input type="number" min={200} step={100} value={budget} onChange={e => setBudget(Number(e.target.value))}
                 className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-foreground border"
-                style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
+                style={{ background: "rgba(255,255,255,0.5)", borderColor: "rgba(255,255,255,0.1)" }}
               />
             </div>
           </div>
 
           {/* Accommodation */}
           <div>
-            <label className="text-[10px] text-white/40 uppercase tracking-wider mb-1 block">Accommodation</label>
+            <label className="text-[10px] text-[#9CA3AF] uppercase tracking-wider mb-1 block">Accommodation</label>
             <select value={accomStyle} onChange={e => setAccomStyle(e.target.value)}
               className="w-full px-3 py-2 rounded-lg text-sm text-foreground border"
-              style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}
+              style={{ background: "rgba(255,255,255,0.5)", borderColor: "rgba(255,255,255,0.1)" }}
             >
               {ACCOM_STYLES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
             </select>
@@ -204,7 +204,7 @@ export default function OdysseyTravelPlanner() {
 
         {/* Interests */}
         <div className="mb-5">
-          <label className="text-[10px] text-white/40 uppercase tracking-wider mb-2 block">Interests</label>
+          <label className="text-[10px] text-[#9CA3AF] uppercase tracking-wider mb-2 block">Interests</label>
           <div className="flex flex-wrap gap-2">
             {INTEREST_OPTIONS.map(i => (
               <button
@@ -212,7 +212,7 @@ export default function OdysseyTravelPlanner() {
                 onClick={() => toggleInterest(i)}
                 className="px-3 py-1 rounded-full text-xs font-medium transition-all"
                 style={{
-                  background: interests.includes(i) ? "#D4A843" : "rgba(255,255,255,0.05)",
+                  background: interests.includes(i) ? "#D4A843" : "rgba(255,255,255,0.5)",
                   color: interests.includes(i) ? "#09090F" : "rgba(255,255,255,0.5)",
                   borderColor: interests.includes(i) ? "#D4A843" : "rgba(255,255,255,0.1)",
                   border: "1px solid",
@@ -241,21 +241,21 @@ export default function OdysseyTravelPlanner() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
             {/* Summary */}
             <div className="rounded-2xl border p-6 mb-4" style={{
-              background: "linear-gradient(135deg, rgba(58,125,110,0.15), rgba(15,15,26,0.8))",
+              background: "linear-gradient(135deg, rgba(58,125,110,0.15), rgba(255,255,255,0.65))",
               borderColor: "rgba(58,125,110,0.2)",
             }}>
-              <p className="text-white/70 text-sm leading-relaxed mb-3">{result.summary}</p>
+              <p className="text-[#3D4250] text-sm leading-relaxed mb-3">{result.summary}</p>
               <div className="flex flex-wrap gap-4 text-xs">
                 <span className="text-gray-500">💰 Est. Total: <strong className="text-foreground">NZ${result.totalEstimatedCostNzd?.toLocaleString()}</strong></span>
                 {result.bestTimeToBook && <span className="text-gray-500">📅 Book: <strong className="text-foreground">{result.bestTimeToBook}</strong></span>}
                 <span className="text-gray-500">📍 {result.itinerary?.length} days</span>
               </div>
               {result.packingTips && result.packingTips.length > 0 && (
-                <div className="mt-3 pt-3 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                <div className="mt-3 pt-3 border-t" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
                   <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Packing Tips</p>
                   <div className="flex flex-wrap gap-2">
                     {result.packingTips.map((tip, i) => (
-                      <span key={i} className="text-[10px] px-2 py-0.5 rounded-full text-gray-500" style={{ background: "rgba(255,255,255,0.05)" }}>
+                      <span key={i} className="text-[10px] px-2 py-0.5 rounded-full text-gray-500" style={{ background: "rgba(255,255,255,0.5)" }}>
                         {tip}
                       </span>
                     ))}
@@ -268,8 +268,8 @@ export default function OdysseyTravelPlanner() {
             <div className="space-y-2">
               {result.itinerary?.map((day, idx) => (
                 <div key={idx} className="rounded-xl border overflow-hidden" style={{
-                  background: "rgba(15,15,26,0.7)",
-                  borderColor: expandedDay === idx ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.06)",
+                  background: "rgba(255,255,255,0.65)",
+                  borderColor: expandedDay === idx ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.5)",
                 }}>
                   <button
                     onClick={() => setExpandedDay(expandedDay === idx ? null : idx)}
@@ -287,7 +287,7 @@ export default function OdysseyTravelPlanner() {
                     </div>
                     <div className="flex items-center gap-3">
                       {day.estimatedCostNzd && (
-                        <span className="text-[10px] text-white/40">NZ${day.estimatedCostNzd}</span>
+                        <span className="text-[10px] text-[#9CA3AF]">NZ${day.estimatedCostNzd}</span>
                       )}
                       {expandedDay === idx ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronRight className="w-4 h-4 text-gray-400" />}
                     </div>
@@ -313,7 +313,7 @@ export default function OdysseyTravelPlanner() {
                                     <span className="text-[8px] px-1.5 py-0.5 rounded-full font-bold" style={{ background: "rgba(212,168,67,0.2)", color: "#D4A843" }}>BOOK</span>
                                   )}
                                 </div>
-                                <p className="text-[11px] text-white/40 mt-0.5">{act.description}</p>
+                                <p className="text-[11px] text-[#9CA3AF] mt-0.5">{act.description}</p>
                                 <div className="flex gap-3 mt-1 text-[10px] text-white/25">
                                   {act.duration && <span>⏱ {act.duration}</span>}
                                   {act.costNzd !== undefined && <span>💰 NZ${act.costNzd}</span>}
@@ -324,7 +324,7 @@ export default function OdysseyTravelPlanner() {
 
                           {/* Meals */}
                           {day.meals && (
-                            <div className="flex gap-4 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
+                            <div className="flex gap-4 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
                               <UtensilsCrossed className="w-3.5 h-3.5 text-white/20 mt-0.5 shrink-0" />
                               <div className="text-[10px] text-white/35 space-y-0.5">
                                 {day.meals.breakfast && <p>🌅 {day.meals.breakfast}</p>}
@@ -336,7 +336,7 @@ export default function OdysseyTravelPlanner() {
 
                           {/* Accommodation */}
                           {day.accommodation && (
-                            <div className="flex gap-4 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
+                            <div className="flex gap-4 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
                               <Bed className="w-3.5 h-3.5 text-white/20 mt-0.5 shrink-0" />
                               <div className="text-[10px] text-white/35">
                                 <span className="text-gray-500">{day.accommodation.name}</span>
@@ -348,7 +348,7 @@ export default function OdysseyTravelPlanner() {
 
                           {/* Tips */}
                           {day.tips && day.tips.length > 0 && (
-                            <div className="flex gap-4 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
+                            <div className="flex gap-4 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
                               <Lightbulb className="w-3.5 h-3.5 text-white/20 mt-0.5 shrink-0" />
                               <div className="text-[10px] text-white/35 space-y-0.5">
                                 {day.tips.map((tip, ti) => <p key={ti}>💡 {tip}</p>)}

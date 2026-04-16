@@ -30,8 +30,8 @@ const WorkflowStepper = ({ steps, title, onStepClick, onSkip }: Props) => {
 
   return (
     <div className="rounded-2xl border p-5 mb-6" style={{
-      background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))",
-      borderColor: "rgba(255,255,255,0.06)",
+      background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
+      borderColor: "rgba(255,255,255,0.5)",
     }}>
       <h3 className="text-sm font-bold text-foreground mb-4" style={{ fontFamily: "'Lato', sans-serif" }}>
         {title}
@@ -49,12 +49,12 @@ const WorkflowStepper = ({ steps, title, onStepClick, onSkip }: Props) => {
                   background:
                     step.status === "active" ? "rgba(212,168,67,0.15)" :
                     step.status === "completed" ? "rgba(58,125,110,0.12)" :
-                    step.status === "skipped" ? "rgba(255,255,255,0.03)" :
-                    "rgba(255,255,255,0.03)",
+                    step.status === "skipped" ? "rgba(255,255,255,0.5)" :
+                    "rgba(255,255,255,0.5)",
                   border: `1px solid ${
                     step.status === "active" ? "rgba(212,168,67,0.3)" :
                     step.status === "completed" ? "rgba(58,125,110,0.2)" :
-                    "rgba(255,255,255,0.06)"
+                    "rgba(255,255,255,0.5)"
                   }`,
                   color:
                     step.status === "active" ? KOWHAI :

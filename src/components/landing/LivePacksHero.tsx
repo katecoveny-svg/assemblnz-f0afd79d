@@ -63,7 +63,7 @@ const LivePacksHero = () => (
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
       <motion.div className="text-center mb-14" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
         <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">5 Kete · Tangible Outcomes · Built in Aotearoa</p>
-        <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "2.25rem", letterSpacing: "-0.01em", color: "#FFFFFF" }}>
+        <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "2.25rem", letterSpacing: "-0.01em", color: "#1A1D29" }}>
           Your industry. <span style={{ color: "#D4A843" }}>Your evidence packs.</span>
         </h2>
         <p className="mt-3 text-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.55)", maxWidth: "480px", margin: "12px auto 0" }}>
@@ -79,11 +79,11 @@ const LivePacksHero = () => (
             key={pack.slug}
             className="relative rounded-2xl p-6 group overflow-hidden flex flex-col"
             style={{
-              background: "rgba(15,15,26,0.82)",
+              background: "rgba(255,255,255,0.65)",
               backdropFilter: "blur(20px)",
               WebkitBackdropFilter: "blur(20px)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+              border: "1px solid rgba(255,255,255,0.5)",
+              boxShadow: "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
               transition: "border-color 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1)",
             }}
             initial={{ opacity: 0, y: 20 }}
@@ -111,7 +111,7 @@ const LivePacksHero = () => (
               </div>
             </div>
 
-            <h3 className="text-base font-light mb-0.5" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF", letterSpacing: "0.04em" }}>{pack.name}</h3>
+            <h3 className="text-base font-light mb-0.5" style={{ fontFamily: "'Lato', sans-serif", color: "#1A1D29", letterSpacing: "0.04em" }}>{pack.name}</h3>
             <p className="text-[10px] italic mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.35)" }}>{pack.english}</p>
             <p className="text-xs flex-1 mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>{pack.desc}</p>
 

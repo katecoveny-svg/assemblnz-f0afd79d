@@ -76,20 +76,20 @@ const KetePackSelector = () => {
             to={pack.to}
             className="group flex flex-col h-full rounded-2xl p-7 transition-all duration-300"
             style={{
-              background: "rgba(15,15,26,0.7)",
-              border: `1px solid rgba(255,255,255,0.07)`,
-              boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+              background: "rgba(255,255,255,0.65)",
+              border: `1px solid rgba(255,255,255,0.5)`,
+              boxShadow: "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget;
               el.style.borderColor = `${pack.color}45`;
-              el.style.boxShadow = `0 0 32px ${pack.color}22, 0 8px 32px rgba(0,0,0,0.4)`;
+              el.style.boxShadow = `0 0 32px ${pack.color}22, 10px 10px 28px rgba(166,166,180,0.32), -8px -8px 24px rgba(255,255,255,0.95)`;
               el.style.transform = "translateY(-3px)";
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget;
-              el.style.borderColor = "rgba(255,255,255,0.07)";
-              el.style.boxShadow = "0 4px 24px rgba(0,0,0,0.3)";
+              el.style.borderColor = "rgba(255,255,255,0.5)";
+              el.style.boxShadow = "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)";
               el.style.transform = "translateY(0)";
             }}
           >
@@ -107,7 +107,7 @@ const KetePackSelector = () => {
               <div>
                 <h3
                   className="text-lg font-semibold leading-tight"
-                  style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}
+                  style={{ fontFamily: "'Lato', sans-serif", color: "#1A1D29" }}
                 >
                   {pack.name}
                 </h3>
@@ -134,7 +134,7 @@ const KetePackSelector = () => {
               style={{
                 fontFamily: "'JetBrains Mono', monospace",
                 color: `${pack.color}AA`,
-                borderBottom: `1px solid rgba(255,255,255,0.06)`,
+                borderBottom: `1px solid rgba(255,255,255,0.5)`,
               }}
             >
               {pack.wananga} — {pack.wanangaEn}

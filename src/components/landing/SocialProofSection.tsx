@@ -16,7 +16,7 @@ const TESTIMONIALS = [
 ];
 
 const SocialProofSection = () => (
-  <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+  <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
     <div className="max-w-5xl mx-auto px-4 sm:px-6">
       <motion.div
         className="text-center mb-12"
@@ -42,7 +42,7 @@ const SocialProofSection = () => (
             fontFamily: "'Lato', sans-serif",
             fontWeight: 300,
             fontSize: "2rem",
-            color: "#FFFFFF",
+            color: "#1A1D29",
           }}
         >
           What NZ businesses are saying
@@ -55,9 +55,9 @@ const SocialProofSection = () => (
             key={i}
             className="relative rounded-xl p-6"
             style={{
-              background: "rgba(15,15,26,0.7)",
+              background: "rgba(255,255,255,0.65)",
               backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.5)",
               transition: "all 300ms cubic-bezier(0.16, 1, 0.3, 1)",
             }}
             initial={{ opacity: 0, y: 30 }}
@@ -69,7 +69,7 @@ const SocialProofSection = () => (
               e.currentTarget.style.boxShadow = "0 12px 48px rgba(212,168,67,0.1)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
               e.currentTarget.style.boxShadow = "none";
             }}
           >
@@ -93,7 +93,7 @@ const SocialProofSection = () => (
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                 fontWeight: 400,
                 fontSize: "16px",
-                color: "#FFFFFF",
+                color: "#1A1D29",
                 lineHeight: 1.6,
               }}
             >

@@ -48,7 +48,7 @@ const VitaeCareJourneys = ({ onSendToChat }: VitaeCareJourneysProps) => {
       </div>
 
       {journeys.length === 0 ? (
-        <div className="p-6 rounded-2xl text-center" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)" }}>
+        <div className="p-6 rounded-2xl text-center" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(212,168,67,0.12)" }}>
           <FileText size={24} style={{ color: NAVY, margin: "0 auto 12px" }} />
           <p className="text-sm font-medium" style={{ color: "#3D4250" }}>No care journeys tracked</p>
           <p className="text-xs mt-1 mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>Ask VITAE to help you track a referral or specialist appointment.</p>
@@ -65,7 +65,7 @@ const VitaeCareJourneys = ({ onSendToChat }: VitaeCareJourneysProps) => {
             const daysSinceReferral = j.referral_date ? Math.floor((Date.now() - new Date(j.referral_date).getTime()) / 86400000) : null;
 
             return (
-              <div key={j.id} className="p-4 rounded-2xl" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(26,58,92,0.2)" }}>
+              <div key={j.id} className="p-4 rounded-2xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(26,58,92,0.2)" }}>
                 <div className="flex items-center justify-between mb-2">
                   <div>
                     <p className="text-xs font-medium" style={{ color: "#3D4250" }}>{j.speciality || j.referral_type}</p>
@@ -79,7 +79,7 @@ const VitaeCareJourneys = ({ onSendToChat }: VitaeCareJourneysProps) => {
                 {/* Progress bar */}
                 <div className="flex gap-0.5 my-3">
                   {STAGES.map((s, i) => (
-                    <div key={s.key} className="h-1.5 flex-1 rounded-full transition-all" style={{ background: i <= currentIdx ? NAVY : "rgba(255,255,255,0.06)" }} />
+                    <div key={s.key} className="h-1.5 flex-1 rounded-full transition-all" style={{ background: i <= currentIdx ? NAVY : "rgba(255,255,255,0.5)" }} />
                   ))}
                 </div>
 
@@ -109,7 +109,7 @@ const VitaeCareJourneys = ({ onSendToChat }: VitaeCareJourneysProps) => {
           { label: "Patient rights", prompt: "Explain my rights under the Code of Health and Disability Services Consumers' Rights." },
           { label: "Prepare for appointment", prompt: "Help me prepare questions for my upcoming specialist appointment." },
         ].map(q => (
-          <button key={q.label} onClick={() => onSendToChat(q.prompt)} className="p-3 rounded-xl text-left text-xs" style={{ background: "rgba(15,15,26,0.4)", border: "1px solid rgba(212,168,67,0.08)", color: "rgba(255,255,255,0.6)" }}>
+          <button key={q.label} onClick={() => onSendToChat(q.prompt)} className="p-3 rounded-xl text-left text-xs" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(212,168,67,0.08)", color: "rgba(255,255,255,0.6)" }}>
             {q.label}
           </button>
         ))}

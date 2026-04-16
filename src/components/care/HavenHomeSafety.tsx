@@ -45,7 +45,7 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
       </div>
 
       {/* Start assessment */}
-      <div className="p-5 rounded-2xl" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)" }}>
+      <div className="p-5 rounded-2xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(212,168,67,0.12)" }}>
         <Camera size={20} style={{ color: KOWHAI, marginBottom: 12 }} />
         <p className="text-sm font-medium" style={{ color: "#3D4250" }}>Room-by-room safety check</p>
         <p className="text-xs mt-1 mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>
@@ -71,7 +71,7 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
           <p className="text-[10px] uppercase font-bold mb-2" style={{ color: POUNAMU, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Recent assessments</p>
           <div className="space-y-2">
             {assessments.map(a => (
-              <div key={a.id} className="flex items-center justify-between p-3 rounded-xl" style={{ background: "rgba(15,15,26,0.4)", border: "1px solid rgba(255,255,255,0.04)" }}>
+              <div key={a.id} className="flex items-center justify-between p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
                 <div className="flex items-center gap-2">
                   <Home size={13} style={{ color: KOWHAI }} />
                   <div>

@@ -289,9 +289,9 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
         style={{
           background: open
             ? `radial-gradient(circle, ${accentColor}, ${hexRgba(accentColor, 0.8)})`
-            : "linear-gradient(135deg, rgba(15,15,26,0.95), rgba(15,15,26,0.8))",
+            : "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
           border: `2px solid ${open ? accentColor : hexRgba(accentColor, 0.3)}`,
-          boxShadow: `0 0 ${open ? 30 : 12}px ${hexRgba(accentColor, open ? 0.4 : 0.15)}, 0 4px 24px rgba(0,0,0,0.5)`,
+          boxShadow: `0 0 ${open ? 30 : 12}px ${hexRgba(accentColor, open ? 0.4 : 0.15)}, 8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)`,
         }}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}

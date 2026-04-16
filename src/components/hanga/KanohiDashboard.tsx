@@ -41,10 +41,10 @@ const Glass = ({ children, className = "", glow = false, navy = false }: {
 }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
     background: navy
-      ? "linear-gradient(135deg, rgba(26,58,92,0.25), rgba(15,15,26,0.75))"
-      : "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))",
-    borderColor: glow ? "rgba(212,168,67,0.3)" : navy ? "rgba(26,58,92,0.35)" : "rgba(255,255,255,0.06)",
-    boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : navy ? "0 0 20px rgba(26,58,92,0.15)" : "0 4px 24px rgba(0,0,0,0.3)",
+      ? "linear-gradient(135deg, rgba(26,58,92,0.25), rgba(255,255,255,0.65))"
+      : "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
+    borderColor: glow ? "rgba(212,168,67,0.3)" : navy ? "rgba(26,58,92,0.35)" : "rgba(255,255,255,0.5)",
+    boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : navy ? "0 0 20px rgba(26,58,92,0.15)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
   }}>{children}</div>
 );
 
@@ -123,7 +123,7 @@ function AraiSafetyDashboard() {
                   <span style={{ color: s.accent }}>{s.icon}</span>
                 </div>
               </div>
-              <p className="text-xl md:text-2xl font-light" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>{s.value}</p>
+              <p className="text-xl md:text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{s.value}</p>
               <p className="text-[10px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
             </div>
           </Glass>
@@ -134,12 +134,12 @@ function AraiSafetyDashboard() {
       <Glass navy>
         <div className="p-4">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
+            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
               <Shield size={16} style={{ color: KOWHAI }} /> Risk Matrix (5×5)
             </h3>
             <div className="flex gap-2">
               <button onClick={() => setMatrixView(!matrixView)} className="px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all"
-                style={{ background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                style={{ background: "rgba(255,255,255,0.5)", color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
                 {matrixView ? "List View" : "Matrix View"}
               </button>
               <button onClick={() => setShowAddHazard(!showAddHazard)} className="px-3 py-1.5 rounded-lg text-[10px] font-medium flex items-center gap-1 transition-all hover:scale-[1.02]"
@@ -176,7 +176,7 @@ function AraiSafetyDashboard() {
                           const score = l * c;
                           return (
                             <div key={c} className="relative aspect-square rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all hover:scale-[1.05]"
-                              style={{ background: matrixBg(l, c), border: cellRisks.length > 0 ? `2px solid ${riskColor(score)}50` : "1px solid rgba(255,255,255,0.03)" }}>
+                              style={{ background: matrixBg(l, c), border: cellRisks.length > 0 ? `2px solid ${riskColor(score)}50` : "1px solid rgba(255,255,255,0.5)" }}>
                               <span className="text-[10px] font-bold" style={{ fontFamily: "JetBrains Mono", color: riskColor(score) }}>{score}</span>
                               {cellRisks.length > 0 && (
                                 <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold"
@@ -206,7 +206,7 @@ function AraiSafetyDashboard() {
                   </div>
                 </div>
                 {/* Legend strip */}
-                <div className="flex items-center gap-4 mt-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+                <div className="flex items-center gap-4 mt-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
                   {[
                     { label: "Extreme (15–25)", color: "#EF4444" },
                     { label: "High (10–14)", color: "#EF444480" },
@@ -228,7 +228,7 @@ function AraiSafetyDashboard() {
       {/* Risk Register List */}
       <Glass navy>
         <div className="p-4">
-          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
+          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
             <Shield size={16} style={{ color: KOWHAI }} /> Risk Register
           </h3>
           <div className="space-y-2">
@@ -236,7 +236,7 @@ function AraiSafetyDashboard() {
               const score = riskScore(r.likelihood, r.consequence);
               const isOpen = expandedRisk === r.id;
               return (
-                <div key={r.id} className="rounded-xl transition-all" style={{ background: "rgba(255,255,255,0.02)", border: `1px solid ${isOpen ? riskColor(score) + "30" : "rgba(255,255,255,0.04)"}` }}>
+                <div key={r.id} className="rounded-xl transition-all" style={{ background: "rgba(255,255,255,0.5)", border: `1px solid ${isOpen ? riskColor(score) + "30" : "rgba(255,255,255,0.5)"}` }}>
                   <button onClick={() => setExpandedRisk(isOpen ? null : r.id)} className="w-full text-left p-3">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-lg flex flex-col items-center justify-center text-[10px] font-bold flex-shrink-0" style={{ background: `${riskColor(score)}15`, color: riskColor(score), fontFamily: "JetBrains Mono" }}>
@@ -244,7 +244,7 @@ function AraiSafetyDashboard() {
                         <span className="text-[7px] opacity-60">{riskLabel(score)}</span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs truncate" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{r.hazard}</p>
+                        <p className="text-xs truncate" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{r.hazard}</p>
                         <div className="flex gap-2 mt-1 flex-wrap">
                           <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: `${riskColor(score)}12`, color: riskColor(score), fontFamily: "JetBrains Mono" }}>{r.category}</span>
                           <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{r.hierarchy}</span>
@@ -255,14 +255,14 @@ function AraiSafetyDashboard() {
                     </div>
                   </button>
                   {isOpen && (
-                    <div className="px-3 pb-3 space-y-2" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+                    <div className="px-3 pb-3 space-y-2" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
                       <div className="pt-3 grid grid-cols-2 gap-x-4 gap-y-1.5 text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.45)" }}>
-                        <div className="flex justify-between"><span>Likelihood</span><span style={{ color: "#FFFFFF" }}>{r.likelihood}/5</span></div>
-                        <div className="flex justify-between"><span>Consequence</span><span style={{ color: "#FFFFFF" }}>{r.consequence}/5</span></div>
-                        <div className="flex justify-between"><span>Responsible</span><span style={{ color: "#FFFFFF" }}>{r.responsible}</span></div>
-                        <div className="flex justify-between"><span>Review Date</span><span style={{ color: "#FFFFFF" }}>{r.reviewDate}</span></div>
+                        <div className="flex justify-between"><span>Likelihood</span><span style={{ color: "#1A1D29" }}>{r.likelihood}/5</span></div>
+                        <div className="flex justify-between"><span>Consequence</span><span style={{ color: "#1A1D29" }}>{r.consequence}/5</span></div>
+                        <div className="flex justify-between"><span>Responsible</span><span style={{ color: "#1A1D29" }}>{r.responsible}</span></div>
+                        <div className="flex justify-between"><span>Review Date</span><span style={{ color: "#1A1D29" }}>{r.reviewDate}</span></div>
                       </div>
-                      <div className="mt-2 p-2.5 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
+                      <div className="mt-2 p-2.5 rounded-lg" style={{ background: "rgba(255,255,255,0.5)" }}>
                         <p className="text-[10px] font-medium mb-1" style={{ fontFamily: "JetBrains Mono", color: KOWHAI }}>Controls</p>
                         <p className="text-xs leading-relaxed" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{r.controls}</p>
                       </div>
@@ -279,7 +279,7 @@ function AraiSafetyDashboard() {
       <Glass>
         <div className="p-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
+            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
               <AlertTriangle size={16} style={{ color: "#EF4444" }} /> Incident Log
             </h3>
             <button className="px-3 py-1.5 rounded-lg text-[10px] font-medium flex items-center gap-1 transition-all hover:scale-[1.02]"
@@ -289,7 +289,7 @@ function AraiSafetyDashboard() {
           </div>
           <div className="space-y-2">
             {incidents.map(inc => (
-              <div key={inc.id} className="p-3 rounded-xl flex items-start gap-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+              <div key={inc.id} className="p-3 rounded-xl flex items-start gap-3" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
                 <div className="w-1 h-full min-h-[40px] rounded-full flex-shrink-0" style={{
                   background: inc.type === "Notifiable Event" ? "#EF4444" : inc.type === "Near Miss" ? KOWHAI : POUNAMU,
                 }} />
@@ -307,7 +307,7 @@ function AraiSafetyDashboard() {
                     )}
                     <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>{inc.date}</span>
                   </div>
-                  <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{inc.description}</p>
+                  <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{inc.description}</p>
                   <span className="text-[9px] mt-1 block" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>{inc.location} · {inc.status}</span>
                 </div>
               </div>
@@ -319,7 +319,7 @@ function AraiSafetyDashboard() {
       {/* Worker Competency */}
       <Glass navy>
         <div className="p-4">
-          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
+          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
             <HardHat size={16} style={{ color: POUNAMU }} /> Worker Competency Tracker
           </h3>
           <div className="overflow-x-auto">
@@ -336,14 +336,14 @@ function AraiSafetyDashboard() {
               </thead>
               <tbody>
                 {workers.map(w => (
-                  <tr key={w.name} style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-                    <td className="py-2 pr-3" style={{ color: "#FFFFFF" }}>{w.name}</td>
+                  <tr key={w.name} style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
+                    <td className="py-2 pr-3" style={{ color: "#1A1D29" }}>{w.name}</td>
                     <td className="py-2 pr-3" style={{ color: "rgba(255,255,255,0.5)" }}>{w.role}</td>
                     <td className="py-2 pr-3 text-center" style={{ color: w.lbp !== "—" ? POUNAMU : "rgba(255,255,255,0.2)" }}>{w.lbp !== "—" ? "✓ " + w.lbp : "—"}</td>
                     <td className="py-2 pr-3 text-center" style={{ color: w.siteSafe ? POUNAMU : "rgba(255,255,255,0.2)" }}>{w.siteSafe ? "✓" : "—"}</td>
                     <td className="py-2 pr-3 text-center" style={{ color: w.firstAid ? POUNAMU : "rgba(255,255,255,0.2)" }}>{w.firstAid ? "✓" : "—"}</td>
                     <td className="py-2 text-center">
-                      <span className="px-1.5 py-0.5 rounded text-[8px]" style={{ background: w.passport === "Gold" ? `${KOWHAI}15` : "rgba(255,255,255,0.04)", color: w.passport === "Gold" ? KOWHAI : "rgba(255,255,255,0.4)" }}>{w.passport}</span>
+                      <span className="px-1.5 py-0.5 rounded text-[8px]" style={{ background: w.passport === "Gold" ? `${KOWHAI}15` : "rgba(255,255,255,0.5)", color: w.passport === "Gold" ? KOWHAI : "rgba(255,255,255,0.4)" }}>{w.passport}</span>
                     </td>
                   </tr>
                 ))}
@@ -386,16 +386,16 @@ function OverviewDashboard() {
       <Glass glow>
         <div className="p-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
+            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
               <Zap size={16} style={{ color: KOWHAI }} /> Project Health
             </h3>
             <span className="text-[10px] px-2 py-1 rounded-full" style={{ background: "rgba(58,125,110,0.15)", color: POUNAMU, fontFamily: "JetBrains Mono" }}>68% On Track</span>
           </div>
-          <div className="grid grid-cols-6 gap-1 h-3 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.04)" }}>
+          <div className="grid grid-cols-6 gap-1 h-3 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.5)" }}>
             <div className="h-full rounded-l-full" style={{ background: POUNAMU, gridColumn: "span 2" }} />
             <div className="h-full" style={{ background: KOWHAI, gridColumn: "span 2" }} />
             <div className="h-full" style={{ background: "#EF4444", gridColumn: "span 1" }} />
-            <div className="h-full rounded-r-full" style={{ background: "rgba(255,255,255,0.06)", gridColumn: "span 1" }} />
+            <div className="h-full rounded-r-full" style={{ background: "rgba(255,255,255,0.5)", gridColumn: "span 1" }} />
           </div>
           <div className="flex items-center gap-4 mt-2">
             {[
@@ -424,13 +424,13 @@ function OverviewDashboard() {
                 </div>
                 <span className="text-[8px] px-1.5 py-0.5 rounded" style={{ background: `${s.accent}12`, color: s.accent, fontFamily: "JetBrains Mono" }}>{s.agent}</span>
               </div>
-              <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>{s.value}</p>
+              <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{s.value}</p>
               <div className="flex items-center justify-between mt-1">
                 <p className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
                 <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: s.trendUp ? (s.accent === "#EF4444" ? "#EF4444" : POUNAMU) : "rgba(255,255,255,0.3)" }}>{s.trend}</span>
               </div>
               {/* Mini progress bar */}
-              <div className="mt-2 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.04)" }}>
+              <div className="mt-2 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                 <div className="h-full rounded-full transition-all" style={{ width: `${s.progress}%`, background: `linear-gradient(90deg, ${s.accent}, ${s.accent}60)` }} />
               </div>
             </div>
@@ -441,7 +441,7 @@ function OverviewDashboard() {
       {/* Priority Alerts */}
       <Glass>
         <div className="p-4">
-          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
+          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
             <AlertTriangle size={16} style={{ color: "#EF4444" }} /> Priority Alerts
           </h3>
           <div className="space-y-2">
@@ -477,11 +477,11 @@ function OverviewDashboard() {
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <span style={{ color: t.accent }}>{t.icon}</span>
-                  <span className="text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{t.shortLabel}</span>
+                  <span className="text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{t.shortLabel}</span>
                 </div>
                 <p className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.4)" }}>{t.label.split(" — ")[1]}</p>
                 <div className="mt-3 flex items-center gap-2">
-                  <div className="flex-1 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
+                  <div className="flex-1 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                     <div className="h-full rounded-full transition-all" style={{ width: `${pv}%`, background: `linear-gradient(90deg, ${t.accent}, ${t.accent}60)` }} />
                   </div>
                   <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: t.accent }}>{pv}%</span>
@@ -565,13 +565,13 @@ function HangaChat({ projectName }: { projectName: string }) {
       flexDirection: "column",
     }}>
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${KOWHAI}30, ${POUNAMU}30)` }}>
             <Building2 size={16} style={{ color: KOWHAI }} />
           </div>
           <div>
-            <p className="text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>Ask Hanga</p>
+            <p className="text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Ask Hanga</p>
             <p className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>Construction Intelligence</p>
           </div>
         </div>
@@ -594,7 +594,7 @@ function HangaChat({ projectName }: { projectName: string }) {
                 <button key={q} onClick={() => sendMessage(q)} className="w-full text-left px-3 py-2 rounded-lg text-xs transition-all hover:bg-white/5" style={{
                   fontFamily: "Plus Jakarta Sans",
                   color: KOWHAI,
-                  background: "rgba(255,255,255,0.02)",
+                  background: "rgba(255,255,255,0.5)",
                   border: "1px solid rgba(212,168,67,0.12)",
                 }}>
                   <ArrowRight size={10} className="inline mr-1.5" style={{ color: KOWHAI }} />{q}
@@ -608,8 +608,8 @@ function HangaChat({ projectName }: { projectName: string }) {
           <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
             <div className="max-w-[85%] px-3 py-2 rounded-xl text-xs" style={{
               fontFamily: "Plus Jakarta Sans",
-              background: m.role === "user" ? `${KOWHAI}15` : "rgba(255,255,255,0.04)",
-              border: `1px solid ${m.role === "user" ? `${KOWHAI}25` : "rgba(255,255,255,0.06)"}`,
+              background: m.role === "user" ? `${KOWHAI}15` : "rgba(255,255,255,0.5)",
+              border: `1px solid ${m.role === "user" ? `${KOWHAI}25` : "rgba(255,255,255,0.5)"}`,
               color: "rgba(255,255,255,0.8)",
             }}>
               {m.content}
@@ -619,7 +619,7 @@ function HangaChat({ projectName }: { projectName: string }) {
 
         {loading && (
           <div className="flex justify-start">
-            <div className="px-3 py-2 rounded-xl" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
+            <div className="px-3 py-2 rounded-xl" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
               <div className="flex gap-1">
                 {[0, 1, 2].map(i => (
                   <div key={i} className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: KOWHAI, animationDelay: `${i * 0.2}s` }} />
@@ -631,7 +631,7 @@ function HangaChat({ projectName }: { projectName: string }) {
       </div>
 
       {/* Input */}
-      <div className="p-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <div className="p-3" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
         <form onSubmit={(e) => { e.preventDefault(); sendMessage(input); }} className="flex gap-2">
           <input
             value={input}
@@ -640,9 +640,9 @@ function HangaChat({ projectName }: { projectName: string }) {
             className="flex-1 px-3 py-2 rounded-lg text-xs outline-none"
             style={{
               fontFamily: "Plus Jakarta Sans",
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              color: "#FFFFFF",
+              background: "rgba(255,255,255,0.5)",
+              border: "1px solid rgba(255,255,255,0.5)",
+              color: "#1A1D29",
             }}
           />
           <button type="submit" disabled={!input.trim() || loading} className="p-2 rounded-lg transition-all disabled:opacity-30" style={{ background: `${KOWHAI}20`, color: KOWHAI }}>
@@ -713,7 +713,7 @@ export default function KanohiDashboard() {
               <Eye size={20} style={{ color: KOWHAI }} />
               <span className="text-xs tracking-widest uppercase" style={{ color: `${KOWHAI}90`, fontFamily: "JetBrains Mono" }}>Construction Intelligence Platform</span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>
+            <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#1A1D29" }}>
               WAIHANGA — Kanohi Dashboard
             </h1>
           </div>
@@ -725,9 +725,9 @@ export default function KanohiDashboard() {
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-all min-w-[280px]"
               style={{
                 fontFamily: "Plus Jakarta Sans",
-                background: "rgba(15,15,26,0.8)",
+                background: "rgba(255,255,255,0.65)",
                 border: "1px solid rgba(212,168,67,0.2)",
-                color: "#FFFFFF",
+                color: "#1A1D29",
               }}
             >
               <Building2 size={14} style={{ color: KOWHAI }} />
@@ -746,7 +746,7 @@ export default function KanohiDashboard() {
                     key={p.id}
                     onClick={() => { setSelectedProject(p.id); setProjectDropdown(false); }}
                     className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors"
-                    style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}
+                    style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
                   >
                     <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: selectedProject === p.id ? KOWHAI : "#FFFFFF" }}>{p.name}</p>
                     <p className="text-[9px] mt-0.5" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
@@ -760,7 +760,7 @@ export default function KanohiDashboard() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex gap-1 p-1 rounded-xl overflow-x-auto scrollbar-hide" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="flex gap-1 p-1 rounded-xl overflow-x-auto scrollbar-hide" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
           {TABS.map(t => (
             <button
               key={t.id}

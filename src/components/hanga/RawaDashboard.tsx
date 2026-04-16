@@ -112,9 +112,9 @@ const workerStatusColor: Record<string, { bg: string; text: string }> = {
 
 const Glass = ({ children, className = "", glow = false }: { children: React.ReactNode; className?: string; glow?: boolean }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
-    background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))",
-    borderColor: glow ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.06)",
-    boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : "0 4px 24px rgba(0,0,0,0.3)",
+    background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
+    borderColor: glow ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.5)",
+    boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
   }}>{children}</div>
 );
 
@@ -155,7 +155,7 @@ export default function RawaDashboard() {
             <Package size={20} style={{ color: "#3A7D6E" }} />
             <span className="text-xs tracking-widest uppercase" style={{ color: "#3A7D6E", fontFamily: "JetBrains Mono" }}>Waihanga Construction Suite</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>
+          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#1A1D29" }}>
             RAWA — Resources &amp; Procurement
           </h1>
           <p className="text-sm mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
@@ -178,7 +178,7 @@ export default function RawaDashboard() {
                     <span style={{ color: s.accent }}>{s.icon}</span>
                   </div>
                 </div>
-                <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>{s.value}</p>
+                <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{s.value}</p>
                 <p className="text-[11px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
               </div>
             </Glass>
@@ -186,7 +186,7 @@ export default function RawaDashboard() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 p-1 rounded-xl overflow-x-auto scrollbar-hide" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="flex gap-1 p-1 rounded-xl overflow-x-auto scrollbar-hide" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
           {tabs.map(t => (
             <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Plus Jakarta Sans", background: tab === t.id ? "rgba(58,125,110,0.12)" : "transparent", color: tab === t.id ? "#3A7D6E" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(58,125,110,0.25)" : "1px solid transparent" }}>
               {t.icon} {t.label}
@@ -212,7 +212,7 @@ export default function RawaDashboard() {
                             <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{t.platform}</span>
                           )}
                         </div>
-                        <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{t.title}</p>
+                        <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{t.title}</p>
                         <div className="flex gap-4 mt-1 text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
                           <span>Value: <strong style={{ color: "#D4A843" }}>{fmtNZD(t.value)}</strong></span>
                           <span>{t.status === "awarded" ? `Awarded: ${t.supplier}` : `Due: ${t.dueDate}`}</span>
@@ -232,7 +232,7 @@ export default function RawaDashboard() {
                               <div className="w-full h-1.5 rounded-full" style={{
                                 background: isComplete
                                   ? "linear-gradient(90deg, #3A7D6E, #5AADA0)"
-                                  : "rgba(255,255,255,0.06)",
+                                  : "rgba(255,255,255,0.5)",
                                 boxShadow: isCurrent ? "0 0 8px rgba(58,125,110,0.4)" : "none",
                               }} />
                               <span className="text-[8px]" style={{
@@ -248,7 +248,7 @@ export default function RawaDashboard() {
                     </div>
                   </button>
                   {isOpen && (
-                    <div className="px-4 pb-4 pt-2 text-[10px] grid grid-cols-2 gap-2" style={{ borderTop: "1px solid rgba(255,255,255,0.04)", fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
+                    <div className="px-4 pb-4 pt-2 text-[10px] grid grid-cols-2 gap-2" style={{ borderTop: "1px solid rgba(255,255,255,0.5)", fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
                       <span>Supplier: {t.supplier}</span>
                       <span>Platform: {t.platform}</span>
                       <span>Category: {t.category}</span>
@@ -271,7 +271,7 @@ export default function RawaDashboard() {
                   <div className="p-4">
                     <div className="flex items-start justify-between gap-3 mb-3">
                       <div>
-                        <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{s.material}</p>
+                        <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{s.material}</p>
                         <p className="text-[10px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{s.supplier}</p>
                       </div>
                       <span className="px-2 py-0.5 rounded-full text-[9px] whitespace-nowrap" style={{ background: `${statusCol}15`, color: statusCol, fontFamily: "JetBrains Mono" }}>
@@ -287,7 +287,7 @@ export default function RawaDashboard() {
                         <span style={{ color: "rgba(255,255,255,0.25)" }}>{s.orderDate}</span>
                       </div>
                       <div className="flex-1 mx-2">
-                        <div className="h-0.5 rounded-full relative" style={{ background: "rgba(255,255,255,0.06)" }}>
+                        <div className="h-0.5 rounded-full relative" style={{ background: "rgba(255,255,255,0.5)" }}>
                           <div className="absolute h-full rounded-full" style={{
                             width: s.status === "Delivered" ? "100%" : s.status === "Customs clearance" ? "80%" : s.status === "In transit" ? "50%" : s.status === "At port of origin" ? "25%" : "10%",
                             background: "linear-gradient(90deg, #3A7D6E, #5AADA0)",
@@ -329,7 +329,7 @@ export default function RawaDashboard() {
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                  <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                     {["Name", "Role", "Company", "Trade", "Day Rate", "On Site", "Until", "Status"].map(h => (
                       <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>{h}</th>
                     ))}
@@ -337,12 +337,12 @@ export default function RawaDashboard() {
                 </thead>
                 <tbody>
                   {WORKERS.map(w => {
-                    const ws = workerStatusColor[w.status] || { bg: "rgba(255,255,255,0.06)", text: "rgba(255,255,255,0.4)" };
+                    const ws = workerStatusColor[w.status] || { bg: "rgba(255,255,255,0.5)", text: "rgba(255,255,255,0.4)" };
                     return (
-                      <tr key={w.id} className="transition-colors" style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}
+                      <tr key={w.id} className="transition-colors" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
                         onMouseEnter={e => e.currentTarget.style.background = "rgba(58,125,110,0.04)"}
                         onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
-                        <td className="px-4 py-3 text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{w.name}</td>
+                        <td className="px-4 py-3 text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{w.name}</td>
                         <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.7)" }}>{w.role}</td>
                         <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{w.company}</td>
                         <td className="px-4 py-3">
@@ -360,7 +360,7 @@ export default function RawaDashboard() {
                 </tbody>
               </table>
             </div>
-            <div className="px-4 py-3 flex items-center gap-4 text-[10px]" style={{ borderTop: "1px solid rgba(255,255,255,0.04)", fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+            <div className="px-4 py-3 flex items-center gap-4 text-[10px]" style={{ borderTop: "1px solid rgba(255,255,255,0.5)", fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
               <span>Total workers: {WORKERS.length}</span>
               <span>On site: {onSiteWorkers}</span>
               <span>Avg day rate: {fmtNZD(Math.round(WORKERS.reduce((s, w) => s + w.dayRate, 0) / WORKERS.length))}</span>
@@ -383,7 +383,7 @@ export default function RawaDashboard() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
-                    <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                    <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                       {["Category", "Item", "Unit", "Auckland", "Wellington", "Christchurch", "Regional NZ"].map(h => (
                         <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>{h}</th>
                       ))}
@@ -395,11 +395,11 @@ export default function RawaDashboard() {
                       const min = Math.min(...vals);
                       const max = Math.max(...vals);
                       return (
-                        <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                        <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                           <td className="px-4 py-3">
                             <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(58,125,110,0.1)", color: "#5AADA0", fontFamily: "JetBrains Mono" }}>{b.category}</span>
                           </td>
-                          <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{b.item}</td>
+                          <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{b.item}</td>
                           <td className="px-4 py-3 text-[10px] font-mono" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>/{b.unit}</td>
                           {vals.map((v, j) => (
                             <td key={j} className="px-4 py-3 text-xs font-mono" style={{
@@ -415,7 +415,7 @@ export default function RawaDashboard() {
                   </tbody>
                 </table>
               </div>
-              <div className="px-4 py-3 flex items-center gap-4 text-[9px]" style={{ borderTop: "1px solid rgba(255,255,255,0.04)", fontFamily: "JetBrains Mono" }}>
+              <div className="px-4 py-3 flex items-center gap-4 text-[9px]" style={{ borderTop: "1px solid rgba(255,255,255,0.5)", fontFamily: "JetBrains Mono" }}>
                 <span style={{ color: "#3A7D6E" }}>● Lowest</span>
                 <span style={{ color: "#EF4444" }}>● Highest</span>
                 <span style={{ color: "rgba(255,255,255,0.3)" }}>Prices excl. GST · Indicative only</span>
@@ -431,10 +431,10 @@ export default function RawaDashboard() {
             <Glass glow>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>Overall Waste Diversion from Landfill</h3>
+                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Overall Waste Diversion from Landfill</h3>
                   <span className="text-lg font-light" style={{ fontFamily: "Lato", color: "#3A7D6E" }}>{diversionPct}%</span>
                 </div>
-                <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
+                <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                   <div className="h-full rounded-full transition-all" style={{ width: `${diversionPct}%`, background: "linear-gradient(90deg, #3A7D6E, #5AADA0)" }} />
                 </div>
                 <div className="flex justify-between mt-1.5 text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
@@ -454,7 +454,7 @@ export default function RawaDashboard() {
                     <div className="p-4">
                       <div className="flex items-center justify-between mb-2">
                         <div>
-                          <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{w.stream}</p>
+                          <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{w.stream}</p>
                           <p className="text-[10px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.4)" }}>{w.method}</p>
                         </div>
                         <div className="text-right">
@@ -466,7 +466,7 @@ export default function RawaDashboard() {
                           </p>
                         </div>
                       </div>
-                      <div className="h-1.5 rounded-full relative" style={{ background: "rgba(255,255,255,0.06)" }}>
+                      <div className="h-1.5 rounded-full relative" style={{ background: "rgba(255,255,255,0.5)" }}>
                         {/* Target marker */}
                         {w.target > 0 && (
                           <div className="absolute top-0 h-full w-px" style={{ left: `${w.target}%`, background: "rgba(255,255,255,0.3)" }} />

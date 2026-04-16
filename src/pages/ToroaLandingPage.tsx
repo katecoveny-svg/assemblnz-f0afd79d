@@ -81,10 +81,10 @@ function TryToroSmsDemo() {
   return (
     <section className="max-w-md mx-auto px-6 py-20 text-center">
       <p className="text-xs uppercase tracking-[0.3em] mb-3 font-light" style={{ color: SKY, fontFamily: "Lato, sans-serif" }}>Try it now</p>
-      <h2 className="text-2xl sm:text-3xl font-light uppercase tracking-[0.12em] mb-2" style={{ color: BONE, fontFamily: "Lato, sans-serif" }}>
+      <h2 className="text-2xl sm:text-3xl font-light uppercase tracking-[0.12em] mb-2" style={{ color: "#1A1D29", fontFamily: "Lato, sans-serif" }}>
         Send yourself a demo text
       </h2>
-      <p className="text-sm opacity-50 mb-6" style={{ color: BONE }}>Enter your NZ mobile number. One intro text — no spam, no sign-up.</p>
+      <p className="text-sm opacity-50 mb-6" style={{ color: "#1A1D29" }}>Enter your NZ mobile number. One intro text — no spam, no sign-up.</p>
       <div className="flex gap-2 max-w-xs mx-auto">
         {sent ? (
           <p className="text-sm w-full text-center py-3" style={{ color: ACCENT }}>✓ Sent! Check your phone.</p>
@@ -99,7 +99,7 @@ function TryToroSmsDemo() {
             />
             <button onClick={send} disabled={sending}
               className="px-5 py-3 rounded-full text-sm font-medium transition-all"
-              style={{ background: POUNAMU, color: BONE, opacity: sending ? 0.5 : 1 }}>
+              style={{ background: POUNAMU, color: "#1A1D29", opacity: sending ? 0.5 : 1 }}>
               {sending ? "…" : "Send"}
             </button>
           </>
@@ -146,7 +146,7 @@ export default function ToroaLandingPage() {
 
             <motion.h1 variants={fadeUp} custom={1}
               className="text-4xl sm:text-5xl md:text-6xl font-light uppercase tracking-[0.08em] leading-tight mb-6"
-              style={{ color: BONE, fontFamily: "Lato, sans-serif" }}>
+              style={{ color: "#1A1D29", fontFamily: "Lato, sans-serif" }}>
               Your whānau's
               <br />
               <span style={{ color: ACCENT }}>command centre</span>
@@ -154,25 +154,25 @@ export default function ToroaLandingPage() {
 
             <motion.p variants={fadeUp} custom={2}
               className="text-base sm:text-lg max-w-lg mx-auto leading-relaxed opacity-70 mb-8"
-              style={{ color: BONE }}>
+              style={{ color: "#1A1D29" }}>
               No app. No login. Just text your whānau's next move. School admin, meal plans, appointments, budgets — all by SMS.
             </motion.p>
 
             <motion.div variants={fadeUp} custom={3} className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/toro/app"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm uppercase tracking-[0.15em] font-light transition-all"
-                style={{ background: `linear-gradient(135deg, ${ACCENT}30, ${ACCENT}15)`, border: `1px solid ${ACCENT}50`, color: BONE }}>
+                style={{ background: `linear-gradient(135deg, ${ACCENT}30, ${ACCENT}15)`, border: `1px solid ${ACCENT}50`, color: "#1A1D29" }}>
                 Start a Tōro record <ArrowRight size={14} />
               </Link>
               <a href="sms:+64223194572?body=Hi%20Toro"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm uppercase tracking-[0.15em] font-light transition-all"
-                style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)", color: BONE }}>
+                style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)", color: "#1A1D29" }}>
                 Text us now <Phone size={14} />
               </a>
             </motion.div>
 
             <motion.p variants={fadeUp} custom={4}
-              className="mt-5 text-xs tracking-[0.25em] uppercase opacity-40" style={{ color: BONE }}>
+              className="mt-5 text-xs tracking-[0.25em] uppercase opacity-40" style={{ color: "#1A1D29" }}>
               $29/mo · whole whānau · cancel anytime
             </motion.p>
           </motion.div>
@@ -182,10 +182,10 @@ export default function ToroaLandingPage() {
         <section className="max-w-4xl mx-auto px-6 py-20">
           <motion.div className="text-center mb-14" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
             <p className="text-xs uppercase tracking-[0.3em] mb-3 font-light" style={{ color: SKY }}>How it works</p>
-            <h2 className="text-3xl sm:text-4xl font-light uppercase tracking-[0.12em]" style={{ color: BONE, fontFamily: "Lato, sans-serif" }}>
+            <h2 className="text-3xl sm:text-4xl font-light uppercase tracking-[0.12em]" style={{ color: "#1A1D29", fontFamily: "Lato, sans-serif" }}>
               Text it. <span style={{ color: ACCENT }}>Done.</span>
             </h2>
-            <p className="mt-4 text-base max-w-sm mx-auto opacity-60" style={{ color: BONE }}>
+            <p className="mt-4 text-base max-w-sm mx-auto opacity-60" style={{ color: "#1A1D29" }}>
               Toro lives in your messages app. No download, no account — just send a text.
             </p>
           </motion.div>
@@ -198,12 +198,12 @@ export default function ToroaLandingPage() {
             ].map((convo, i) => (
               <motion.div key={i} className="flex flex-col gap-2" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} custom={i}>
                 <div className="flex justify-end">
-                  <div className="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-tr-sm text-sm" style={{ background: POUNAMU, color: BONE }}>
+                  <div className="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-tr-sm text-sm" style={{ background: POUNAMU, color: "#1A1D29" }}>
                     {convo.user}
                   </div>
                 </div>
                 <div className="flex justify-start">
-                  <div className="max-w-[85%] px-4 py-2.5 rounded-2xl rounded-tl-sm text-sm" style={{ background: "rgba(135,206,235,0.08)", border: `1px solid ${SKY}25`, color: BONE }}>
+                  <div className="max-w-[85%] px-4 py-2.5 rounded-2xl rounded-tl-sm text-sm" style={{ background: "rgba(135,206,235,0.08)", border: `1px solid ${SKY}25`, color: "#1A1D29" }}>
                     <span style={{ color: ACCENT, fontWeight: 600, fontSize: "0.65rem", letterSpacing: "0.1em", display: "block", marginBottom: 2 }}>TORO</span>
                     {convo.agent}
                   </div>
@@ -217,7 +217,7 @@ export default function ToroaLandingPage() {
         <section className="max-w-5xl mx-auto px-6 py-20">
           <motion.div className="text-center mb-14" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
             <p className="text-xs uppercase tracking-[0.3em] mb-3 font-light" style={{ color: ACCENT }}>What it handles</p>
-            <h2 className="text-3xl sm:text-4xl font-light uppercase tracking-[0.12em]" style={{ color: BONE, fontFamily: "Lato, sans-serif" }}>
+            <h2 className="text-3xl sm:text-4xl font-light uppercase tracking-[0.12em]" style={{ color: "#1A1D29", fontFamily: "Lato, sans-serif" }}>
               One text away from <span style={{ color: ACCENT }}>sorted</span>
             </h2>
           </motion.div>
@@ -226,12 +226,12 @@ export default function ToroaLandingPage() {
             {CAPABILITIES.map((cap, i) => (
               <motion.div key={cap.title} variants={fadeUp} custom={i}
                 className="rounded-2xl p-6 flex flex-col gap-3 transition-all duration-300 hover:-translate-y-1"
-                style={{ background: "rgba(15,15,26,0.65)", border: `1px solid ${ACCENT}15`, backdropFilter: "blur(16px)" }}>
+                style={{ background: "rgba(255,255,255,0.65)", border: `1px solid ${ACCENT}15`, backdropFilter: "blur(16px)" }}>
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${ACCENT}12`, border: `1px solid ${ACCENT}25` }}>
                   <cap.icon size={18} style={{ color: ACCENT }} strokeWidth={1.5} />
                 </div>
                 <h3 className="text-sm uppercase tracking-[0.15em] font-light" style={{ color: ACCENT, fontFamily: "Lato, sans-serif" }}>{cap.title}</h3>
-                <p className="text-sm leading-relaxed opacity-65" style={{ color: BONE }}>{cap.body}</p>
+                <p className="text-sm leading-relaxed opacity-65" style={{ color: "#1A1D29" }}>{cap.body}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -247,8 +247,8 @@ export default function ToroaLandingPage() {
               <motion.div key={agent.name} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
                 className="rounded-2xl p-5 transition-all duration-300 cursor-default"
                 style={{
-                  background: hoveredAgent === i ? "rgba(212,168,67,0.08)" : "rgba(15,15,26,0.65)",
-                  border: `1px solid ${hoveredAgent === i ? ACCENT + "40" : "rgba(255,255,255,0.06)"}`,
+                  background: hoveredAgent === i ? "rgba(212,168,67,0.08)" : "rgba(255,255,255,0.65)",
+                  border: `1px solid ${hoveredAgent === i ? ACCENT + "40" : "rgba(255,255,255,0.5)"}`,
                   backdropFilter: "blur(16px)",
                 }}
                 onMouseEnter={() => setHoveredAgent(i)}
@@ -259,7 +259,7 @@ export default function ToroaLandingPage() {
                     {agent.status}
                   </span>
                 </div>
-                <p className="text-sm opacity-65" style={{ color: BONE }}>{agent.desc}</p>
+                <p className="text-sm opacity-65" style={{ color: "#1A1D29" }}>{agent.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -270,9 +270,9 @@ export default function ToroaLandingPage() {
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             <motion.p variants={fadeUp} className="text-xs uppercase tracking-[0.3em] mb-3 font-light" style={{ color: POUNAMU }}>Pricing</motion.p>
             <motion.h2 variants={fadeUp} custom={1} className="text-5xl sm:text-6xl font-light uppercase tracking-[0.08em] mb-1" style={{ color: ACCENT, fontFamily: "Lato, sans-serif" }}>$29</motion.h2>
-            <motion.p variants={fadeUp} custom={2} className="text-lg uppercase tracking-[0.2em] font-light mb-10 opacity-60" style={{ color: BONE }}>a month. that's it.</motion.p>
+            <motion.p variants={fadeUp} custom={2} className="text-lg uppercase tracking-[0.2em] font-light mb-10 opacity-60" style={{ color: "#1A1D29" }}>a month. that's it.</motion.p>
 
-            <motion.div variants={fadeUp} custom={3} className="rounded-2xl p-8" style={{ background: "rgba(15,15,26,0.7)", border: `1px solid ${ACCENT}20`, backdropFilter: "blur(16px)" }}>
+            <motion.div variants={fadeUp} custom={3} className="rounded-2xl p-8" style={{ background: "rgba(255,255,255,0.65)", border: `1px solid ${ACCENT}20`, backdropFilter: "blur(16px)" }}>
               <ul className="flex flex-col gap-4 text-left mb-8">
                 {PRICING_FEATURES.map((item) => (
                   <li key={item} className="flex items-start gap-3">
@@ -280,13 +280,13 @@ export default function ToroaLandingPage() {
                       style={{ background: `${POUNAMU}25`, color: POUNAMU, border: `1px solid ${POUNAMU}35` }}>
                       <Check size={12} />
                     </span>
-                    <span className="text-sm leading-relaxed opacity-70" style={{ color: BONE }}>{item}</span>
+                    <span className="text-sm leading-relaxed opacity-70" style={{ color: "#1A1D29" }}>{item}</span>
                   </li>
                 ))}
               </ul>
               <a href="https://buy.stripe.com/7sYdRbc9KeoE0KNdx43oA0c" target="_blank" rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-2 py-4 rounded-full text-sm uppercase tracking-[0.15em] font-light transition-all"
-                style={{ background: `linear-gradient(135deg, ${ACCENT}30, ${ACCENT}15)`, border: `1px solid ${ACCENT}50`, color: BONE }}>
+                style={{ background: `linear-gradient(135deg, ${ACCENT}30, ${ACCENT}15)`, border: `1px solid ${ACCENT}50`, color: "#1A1D29" }}>
                 Start free — first month on us
               </a>
             </motion.div>

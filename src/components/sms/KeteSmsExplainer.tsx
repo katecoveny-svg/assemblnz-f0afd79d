@@ -47,7 +47,7 @@ export default function KeteSmsExplainer({
     <motion.div
       className="rounded-2xl border backdrop-blur-md overflow-hidden"
       style={{
-        background: "linear-gradient(135deg, rgba(15,15,26,0.7), rgba(15,15,26,0.5))",
+        background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
         borderColor: `${accentColor}30`,
       }}
     >
@@ -84,8 +84,8 @@ export default function KeteSmsExplainer({
           >
             <div className="px-5 pb-5 space-y-4">
               {/* Flow diagram */}
-              <div className="flex items-center gap-2 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
-                <div className="flex items-center gap-1.5 text-[9px] text-white/40">
+              <div className="flex items-center gap-2 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
+                <div className="flex items-center gap-1.5 text-[9px] text-[#9CA3AF]">
                   <span className="px-2 py-0.5 rounded bg-white/5">You text</span>
                   <ArrowRight size={10} />
                   <span className="px-2 py-0.5 rounded" style={{ background: `${accentColor}10`, color: accentColor }}>IHO reads</span>
@@ -100,10 +100,10 @@ export default function KeteSmsExplainer({
               <div className="space-y-3">
                 <h4 className="text-[9px] font-bold tracking-wider text-white/25 uppercase">Example conversations</h4>
                 {conversations.map((c, i) => (
-                  <div key={i} className="rounded-xl p-3 space-y-2" style={{ background: "rgba(255,255,255,0.02)" }}>
+                  <div key={i} className="rounded-xl p-3 space-y-2" style={{ background: "rgba(255,255,255,0.5)" }}>
                     {/* User message */}
                     <div className="flex justify-end">
-                      <div className="max-w-[80%] px-3 py-2 rounded-2xl rounded-br-sm text-[11px] text-white/70" style={{ background: "rgba(255,255,255,0.06)" }}>
+                      <div className="max-w-[80%] px-3 py-2 rounded-2xl rounded-br-sm text-[11px] text-[#3D4250]" style={{ background: "rgba(255,255,255,0.5)" }}>
                         {c.user}
                       </div>
                     </div>
@@ -111,7 +111,7 @@ export default function KeteSmsExplainer({
                     <div className="flex justify-start gap-2">
                       <div className="max-w-[85%]">
                         <span className="text-[9px] font-bold mb-0.5 block" style={{ color: accentColor }}>{c.agentName}</span>
-                        <div className="px-3 py-2 rounded-2xl rounded-bl-sm text-[11px] text-white/60" style={{ background: `${accentColor}08`, border: `1px solid ${accentColor}15` }}>
+                        <div className="px-3 py-2 rounded-2xl rounded-bl-sm text-[11px] text-[#6B7280]" style={{ background: `${accentColor}08`, border: `1px solid ${accentColor}15` }}>
                           {c.agent}
                         </div>
                       </div>
@@ -125,7 +125,7 @@ export default function KeteSmsExplainer({
                 <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-all" style={{ background: smsConnected ? `${accentColor}15` : accentColor, color: smsConnected ? accentColor : "#09090F" }}>
                   <Phone size={14} /> {smsConnected ? "SMS Connected" : "Set up SMS"}
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-all" style={{ background: whatsappConnected ? `${accentColor}15` : "rgba(255,255,255,0.04)", color: whatsappConnected ? accentColor : "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-all" style={{ background: whatsappConnected ? `${accentColor}15` : "rgba(255,255,255,0.5)", color: whatsappConnected ? accentColor : "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
                   <MessageSquare size={14} /> {whatsappConnected ? "WhatsApp Connected" : "Set up WhatsApp"}
                 </button>
               </div>

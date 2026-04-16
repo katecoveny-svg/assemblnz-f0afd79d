@@ -11,9 +11,9 @@ const POUNAMU = "#3A7D6E";
 
 const Glass = ({ children, className = "", glow = false }: { children: React.ReactNode; className?: string; glow?: boolean }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
-    background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))",
-    borderColor: glow ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.06)",
-    boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : "0 4px 24px rgba(0,0,0,0.3)",
+    background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
+    borderColor: glow ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.5)",
+    boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
   }}>{children}</div>
 );
 
@@ -67,7 +67,7 @@ const HavenDashboard = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {[1,2,3,4,5,6].map(i => (
           <Glass key={i}>
-            <div className="h-24 animate-pulse" style={{ background: "rgba(255,255,255,0.02)" }} />
+            <div className="h-24 animate-pulse" style={{ background: "rgba(255,255,255,0.5)" }} />
           </Glass>
         ))}
       </div>
@@ -83,7 +83,7 @@ const HavenDashboard = () => {
             <Home size={16} style={{ color: KOWHAI }} />
             <span className="text-[10px] tracking-widest uppercase" style={{ color: KOWHAI, fontFamily: "JetBrains Mono" }}>HAVEN</span>
           </div>
-          <h2 className="text-lg font-light" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>Portfolio Overview</h2>
+          <h2 className="text-lg font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>Portfolio Overview</h2>
         </div>
         {stats.emergencyJobs > 0 && (
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full animate-pulse" style={{ background: "rgba(239,68,68,0.15)", border: "1px solid rgba(239,68,68,0.3)" }}>
@@ -104,8 +104,8 @@ const HavenDashboard = () => {
                 </div>
                 <span className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{c.label}</span>
               </div>
-              <p className="text-xl font-light" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>{c.value}</p>
-              <div className="mt-2 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.04)" }}>
+              <p className="text-xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{c.value}</p>
+              <div className="mt-2 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                 <div className="h-full rounded-full transition-all" style={{ width: `${c.progress}%`, background: `linear-gradient(90deg, ${c.accent}, ${c.accent}60)` }} />
               </div>
             </div>
@@ -116,7 +116,7 @@ const HavenDashboard = () => {
       {/* Job Pipeline */}
       <Glass>
         <div className="p-4">
-          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
+          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
             <TrendingUp size={16} style={{ color: KOWHAI }} /> Job Pipeline
           </h3>
           <AgentWorkflow
@@ -156,7 +156,7 @@ const HavenDashboard = () => {
       {/* Recent Jobs */}
       <Glass>
         <div className="p-4">
-          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>
+          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
             <Wrench size={16} style={{ color: POUNAMU }} /> Recent Jobs
           </h3>
           {recentJobs.length === 0 ? (
@@ -168,17 +168,17 @@ const HavenDashboard = () => {
             <div className="space-y-2">
               {recentJobs.map(j => (
                 <div key={j.id} className="flex items-center justify-between px-3 py-2.5 rounded-xl transition-all hover:translate-x-0.5"
-                  style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                  style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
                   <div className="flex items-center gap-3">
                     <div className="w-1.5 h-8 rounded-full" style={{ background: urgencyColor(j.urgency) }} />
                     <div>
-                      <span className="text-xs block" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{j.title}</span>
+                      <span className="text-xs block" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{j.title}</span>
                       {j.property_name && <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>{j.property_name}</span>}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-[9px] px-2 py-0.5 rounded-full capitalize" style={{
-                      background: j.status === "completed" ? `${POUNAMU}15` : "rgba(255,255,255,0.04)",
+                      background: j.status === "completed" ? `${POUNAMU}15` : "rgba(255,255,255,0.5)",
                       color: j.status === "completed" ? POUNAMU : "rgba(255,255,255,0.4)",
                       fontFamily: "JetBrains Mono",
                     }}>{j.status.replace("_", " ")}</span>

@@ -20,8 +20,8 @@ interface Props {
 }
 
 const glass = {
-  background: "rgba(15,15,26,0.7)",
-  border: `1px solid rgba(255,255,255,0.06)`,
+  background: "rgba(255,255,255,0.65)",
+  border: `1px solid rgba(255,255,255,0.5)`,
   backdropFilter: "blur(14px)",
 };
 
@@ -107,15 +107,15 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
             style={{ background: "rgba(9,9,15,0.97)", borderLeft: `1px solid ${accentColor}20`, backdropFilter: "blur(24px)" }}
           >
             {/* Header */}
-            <div className="sticky top-0 z-10 p-4 flex items-center justify-between" style={{ background: "rgba(9,9,15,0.95)", borderBottom: `1px solid rgba(255,255,255,0.06)` }}>
+            <div className="sticky top-0 z-10 p-4 flex items-center justify-between" style={{ background: "rgba(9,9,15,0.95)", borderBottom: `1px solid rgba(255,255,255,0.5)` }}>
               <div className="flex items-center gap-2">
                 <Brain size={18} style={{ color: accentColor }} />
-                <span className="text-sm font-light uppercase tracking-[2px]" style={{ color: `${BONE}DD`, fontFamily: "Lato, sans-serif" }}>
+                <span className="text-sm font-light uppercase tracking-[2px]" style={{ color: "#1A1D29"}DD`, fontFamily: "Lato, sans-serif" }}>
                   What I remember
                 </span>
               </div>
-              <button onClick={onClose} className="w-7 h-7 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.05)" }}>
-                <X size={14} style={{ color: `${BONE}60` }} />
+              <button onClick={onClose} className="w-7 h-7 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.5)" }}>
+                <X size={14} style={{ color: "#1A1D29"}60` }} />
               </button>
             </div>
 
@@ -126,37 +126,37 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
                   <Database size={10} /> Business Profile
                 </h3>
                 {sharedCtx.length === 0 ? (
-                  <p className="text-[11px]" style={{ color: `${BONE}30` }}>No context stored yet. Chat with agents to build your profile.</p>
+                  <p className="text-[11px]" style={{ color: "#1A1D29"}30` }}>No context stored yet. Chat with agents to build your profile.</p>
                 ) : (
                   <div className="space-y-1.5">
                     {sharedCtx.map((item) => (
                       <div key={item.id} className="rounded-lg p-2.5 group" style={glass}>
                         <div className="flex items-start justify-between">
                           <div className="flex-1 min-w-0">
-                            <p className="text-[10px] font-mono" style={{ color: `${BONE}50` }}>{item.context_key}</p>
+                            <p className="text-[10px] font-mono" style={{ color: "#1A1D29"}50` }}>{item.context_key}</p>
                             {editingKey === item.id ? (
                               <div className="flex gap-1 mt-1">
                                 <input
                                   value={editValue}
                                   onChange={e => setEditValue(e.target.value)}
                                   className="flex-1 bg-white/5 rounded px-2 py-1 text-xs outline-none"
-                                  style={{ color: BONE, border: `1px solid ${accentColor}30` }}
+                                  style={{ color: "#1A1D29", border: `1px solid ${accentColor}30` }}
                                   autoFocus
                                 />
                                 <button onClick={() => saveEdit(item)} className="px-1.5"><Check size={12} style={{ color: POUNAMU }} /></button>
                               </div>
                             ) : (
-                              <p className="text-xs mt-0.5" style={{ color: `${BONE}AA` }}>
+                              <p className="text-xs mt-0.5" style={{ color: "#1A1D29"}AA` }}>
                                 {typeof item.context_value === "object" ? JSON.stringify(item.context_value?.value || item.context_value) : String(item.context_value)}
                               </p>
                             )}
-                            <p className="text-[9px] mt-0.5" style={{ color: `${BONE}25` }}>
+                            <p className="text-[9px] mt-0.5" style={{ color: "#1A1D29"}25` }}>
                               Learned from {item.source_agent}, {timeSince(item.updated_at)}
                             </p>
                           </div>
                           <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button onClick={() => { setEditingKey(item.id); setEditValue(typeof item.context_value === "object" ? JSON.stringify(item.context_value?.value || item.context_value) : String(item.context_value)); }} className="p-1">
-                              <Edit2 size={10} style={{ color: `${BONE}40` }} />
+                              <Edit2 size={10} style={{ color: "#1A1D29"}40` }} />
                             </button>
                             <button onClick={() => deleteContext(item.id)} className="p-1">
                               <Trash2 size={10} style={{ color: "#ef444480" }} />
@@ -175,13 +175,13 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
                   <Brain size={10} /> Agent Memory
                 </h3>
                 {agentMem.length === 0 ? (
-                  <p className="text-[11px]" style={{ color: `${BONE}30` }}>No agent-specific memory yet.</p>
+                  <p className="text-[11px]" style={{ color: "#1A1D29"}30` }}>No agent-specific memory yet.</p>
                 ) : (
                   <div className="space-y-1.5">
                     {agentMem.map((m, i) => (
                       <div key={i} className="rounded-lg p-2.5" style={glass}>
-                        <p className="text-[10px] font-mono" style={{ color: `${BONE}50` }}>{m.memory_key}</p>
-                        <p className="text-xs mt-0.5" style={{ color: `${BONE}AA` }}>
+                        <p className="text-[10px] font-mono" style={{ color: "#1A1D29"}50` }}>{m.memory_key}</p>
+                        <p className="text-xs mt-0.5" style={{ color: "#1A1D29"}AA` }}>
                           {typeof m.memory_value === "object" ? JSON.stringify(m.memory_value) : String(m.memory_value)}
                         </p>
                       </div>
@@ -192,11 +192,11 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
 
               {/* Section 3: Recent Activity */}
               <div>
-                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: `${BONE}60`, fontFamily: "Lato, sans-serif" }}>
+                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: "#1A1D29"}60`, fontFamily: "Lato, sans-serif" }}>
                   <Clock size={10} /> Recent Activity
                 </h3>
                 {summaries.length === 0 ? (
-                  <p className="text-[11px]" style={{ color: `${BONE}30` }}>No cross-agent activity yet.</p>
+                  <p className="text-[11px]" style={{ color: "#1A1D29"}30` }}>No cross-agent activity yet.</p>
                 ) : (
                   <div className="space-y-1.5">
                     {summaries.map((s, i) => (
@@ -205,9 +205,9 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
                           <span className="text-[9px] font-mono px-1.5 py-0.5 rounded" style={{ background: `${accentColor}15`, color: accentColor }}>
                             {s.agent_id}
                           </span>
-                          <span className="text-[9px]" style={{ color: `${BONE}30` }}>{timeSince(s.created_at)}</span>
+                          <span className="text-[9px]" style={{ color: "#1A1D29"}30` }}>{timeSince(s.created_at)}</span>
                         </div>
-                        <p className="text-xs" style={{ color: `${BONE}80` }}>{s.summary}</p>
+                        <p className="text-xs" style={{ color: "#1A1D29"}80` }}>{s.summary}</p>
                       </div>
                     ))}
                   </div>
@@ -216,11 +216,11 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
 
               {/* Section 4: Compliance Updates */}
               <div>
-                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: `${BONE}60`, fontFamily: "Lato, sans-serif" }}>
+                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: "#1A1D29"}60`, fontFamily: "Lato, sans-serif" }}>
                   <Shield size={10} /> Compliance Updates
                 </h3>
                 {compliance.length === 0 ? (
-                  <p className="text-[11px]" style={{ color: `${BONE}30` }}>No recent compliance updates.</p>
+                  <p className="text-[11px]" style={{ color: "#1A1D29"}30` }}>No recent compliance updates.</p>
                 ) : (
                   <div className="space-y-1.5">
                     {compliance.map((u, i) => (
@@ -230,10 +230,10 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
                             style={{ background: `${impactColors[u.impact_level] || KOWHAI}18`, color: impactColors[u.impact_level] || KOWHAI }}>
                             {u.impact_level}
                           </span>
-                          {u.effective_date && <span className="text-[9px]" style={{ color: `${BONE}35` }}>Effective {u.effective_date}</span>}
+                          {u.effective_date && <span className="text-[9px]" style={{ color: "#1A1D29"}35` }}>Effective {u.effective_date}</span>}
                         </div>
-                        <p className="text-xs font-medium" style={{ color: `${BONE}CC` }}>{u.title}</p>
-                        <p className="text-[11px] mt-0.5" style={{ color: `${BONE}60` }}>{u.change_summary}</p>
+                        <p className="text-xs font-medium" style={{ color: "#1A1D29"}CC` }}>{u.title}</p>
+                        <p className="text-[11px] mt-0.5" style={{ color: "#1A1D29"}60` }}>{u.change_summary}</p>
                       </div>
                     ))}
                   </div>

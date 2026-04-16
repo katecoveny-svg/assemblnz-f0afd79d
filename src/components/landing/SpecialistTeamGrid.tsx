@@ -96,7 +96,7 @@ const PACK_AGENTS = [
 ];
 
 const SpecialistTeamGrid = () => (
-  <section className="relative z-10 pt-[80px] pb-[80px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+  <section className="relative z-10 pt-[80px] pb-[80px]" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
     <div className="max-w-5xl mx-auto px-4 sm:px-6">
       <motion.div
         className="text-center mb-12"
@@ -122,7 +122,7 @@ const SpecialistTeamGrid = () => (
             fontFamily: "'Lato', sans-serif",
             fontWeight: 300,
             fontSize: "2rem",
-            color: "#FFFFFF",
+            color: "#1A1D29",
           }}
         >
           Meet your specialist team
@@ -135,9 +135,9 @@ const SpecialistTeamGrid = () => (
             key={a.agentId}
             className="rounded-xl p-5 text-center group"
             style={{
-              background: "rgba(15,15,26,0.7)",
+              background: "rgba(255,255,255,0.65)",
               backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.5)",
               transition: "all 300ms cubic-bezier(0.16, 1, 0.3, 1)",
             }}
             initial={{ opacity: 0, y: 30 }}
@@ -149,7 +149,7 @@ const SpecialistTeamGrid = () => (
               e.currentTarget.style.boxShadow = `0 12px 48px rgba(212,168,67,0.1)`;
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
               e.currentTarget.style.boxShadow = "none";
             }}
           >
@@ -176,7 +176,7 @@ const SpecialistTeamGrid = () => (
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 400,
                 fontSize: "14px",
-                color: "#FFFFFF",
+                color: "#1A1D29",
               }}
             >
               {a.name}

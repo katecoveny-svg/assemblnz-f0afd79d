@@ -24,7 +24,7 @@ const ArohaCaregiverWellbeing = ({ onSendToChat }: ArohaCaregiverWellbeingProps)
       </div>
 
       {/* Wellbeing check */}
-      <div className="p-5 rounded-2xl" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,111,145,0.15)" }}>
+      <div className="p-5 rounded-2xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,111,145,0.15)" }}>
         <Heart size={20} style={{ color: AROHA_PINK, marginBottom: 12 }} />
         <p className="text-sm font-medium" style={{ color: "#3D4250" }}>How are you holding up?</p>
         <p className="text-xs mt-1 mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>Caregiving is hard mahi. AROHA can check in on your stress levels, respite hours, and connect you with support.</p>
@@ -49,7 +49,7 @@ const ArohaCaregiverWellbeing = ({ onSendToChat }: ArohaCaregiverWellbeingProps)
             key={q.label}
             onClick={() => onSendToChat(q.prompt)}
             className="p-4 rounded-2xl text-left transition-all hover:scale-[0.98]"
-            style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.08)" }}
+            style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(212,168,67,0.08)" }}
           >
             <q.icon size={16} style={{ color: AROHA_PINK, marginBottom: 8 }} />
             <p className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.7)" }}>{q.label}</p>
@@ -62,7 +62,7 @@ const ArohaCaregiverWellbeing = ({ onSendToChat }: ArohaCaregiverWellbeingProps)
         <p className="text-[10px] uppercase font-bold mb-2" style={{ color: POUNAMU, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Support Services</p>
         <div className="space-y-2">
           {SUPPORT_SERVICES.map(s => (
-            <div key={s.name} className="flex items-center justify-between p-3 rounded-xl" style={{ background: "rgba(15,15,26,0.4)", border: "1px solid rgba(255,255,255,0.04)" }}>
+            <div key={s.name} className="flex items-center justify-between p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
               <div>
                 <p className="text-xs font-medium" style={{ color: "#3D4250" }}>{s.name}</p>
                 <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.4)" }}>{s.desc}</p>

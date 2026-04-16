@@ -15,8 +15,8 @@ const C = {
   pounamuLight: "#5AADA0",
   white: "#FFFFFF",
   muted: "rgba(255,255,255,0.55)",
-  glass: "rgba(15,15,26,0.75)",
-  glassBorder: "rgba(255,255,255,0.06)",
+  glass: "rgba(255,255,255,0.65)",
+  glassBorder: "rgba(255,255,255,0.5)",
 };
 
 const fadeUp = {
@@ -30,7 +30,7 @@ const fadeUp = {
 const Glass = ({ children, className = "", style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
     background: C.glass, borderColor: C.glassBorder,
-    boxShadow: "0 4px 24px rgba(0,0,0,0.3)", ...style,
+    boxShadow: "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)", ...style,
   }}>{children}</div>
 );
 

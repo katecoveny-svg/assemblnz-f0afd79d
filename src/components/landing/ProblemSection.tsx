@@ -25,7 +25,7 @@ const PAIN_POINTS = [
 ];
 
 const ProblemSection = () => (
-  <section className="relative z-10 py-20 sm:py-28" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+  <section className="relative z-10 py-20 sm:py-28" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
     <div className="max-w-5xl mx-auto px-4 sm:px-6">
       <motion.div
         className="text-center mb-14"
@@ -62,9 +62,9 @@ const ProblemSection = () => (
             key={point.label}
             className="relative rounded-xl p-6 group"
             style={{
-              background: "rgba(15,15,26,0.7)",
+              background: "rgba(255,255,255,0.65)",
               backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.5)",
               transition: "all 300ms",
             }}
             initial={{ opacity: 0, y: 20 }}
@@ -76,7 +76,7 @@ const ProblemSection = () => (
               e.currentTarget.style.boxShadow = `0 12px 48px rgba(212,168,67,0.08)`;
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
               e.currentTarget.style.boxShadow = "none";
             }}
           >
@@ -95,7 +95,7 @@ const ProblemSection = () => (
             </p>
             <p
               className="text-sm font-display tracking-wide uppercase mb-2"
-              style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#FFFFFF" }}
+              style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}
             >
               {point.label}
             </p>

@@ -146,7 +146,7 @@ const NZExportPresets = ({ content, title, agentName, agentColor = "#D4A843" }: 
         <div
           className="mt-2 rounded-xl overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300"
           style={{
-            background: "rgba(15, 15, 26, 0.9)",
+            background: "rgba(255,255,255,0.65)",
             backdropFilter: "blur(16px)",
             border: `1px solid ${agentColor}15`,
           }}
@@ -185,7 +185,7 @@ const NZExportPresets = ({ content, title, agentName, agentColor = "#D4A843" }: 
                         )}
                       </div>
                       <div className="min-w-0">
-                        <span className="text-[11px] font-body font-medium text-white/80 block">{preset.label}</span>
+                        <span className="text-[11px] font-body font-medium text-[#1A1D29] block">{preset.label}</span>
                         <span className="text-[9px] font-body text-gray-400 block">{preset.description}</span>
                       </div>
                     </button>

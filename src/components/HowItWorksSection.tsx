@@ -26,7 +26,7 @@ const STEPS = [
 
 const HowItWorksSection = () => {
   return (
-    <section className="relative z-10 pt-[100px] pb-[100px] overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+    <section className="relative z-10 pt-[100px] pb-[100px] overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
         <motion.div
           className="text-center mb-14"
@@ -52,7 +52,7 @@ const HowItWorksSection = () => {
               fontFamily: "'Lato', sans-serif",
               fontWeight: 300,
               fontSize: "2rem",
-              color: "#FFFFFF",
+              color: "#1A1D29",
               letterSpacing: "0.02em",
             }}
           >
@@ -68,9 +68,9 @@ const HowItWorksSection = () => {
                 key={step.title}
                 className="relative rounded-xl p-6 group"
                 style={{
-                  background: "rgba(15,15,26,0.7)",
+                  background: "rgba(255,255,255,0.65)",
                   backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.5)",
                   transition: "all 300ms cubic-bezier(0.16, 1, 0.3, 1)",
                 }}
                 initial={{ opacity: 0, y: 30 }}
@@ -82,7 +82,7 @@ const HowItWorksSection = () => {
                   e.currentTarget.style.boxShadow = "0 12px 48px rgba(212,168,67,0.1)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               >
@@ -93,7 +93,7 @@ const HowItWorksSection = () => {
                     fontWeight: 700,
                     fontSize: "3rem",
                     color: "transparent",
-                    WebkitTextStroke: "1px rgba(255,255,255,0.06)",
+                    WebkitTextStroke: "1px rgba(255,255,255,0.5)",
                     lineHeight: 1,
                   }}
                 >
@@ -103,8 +103,8 @@ const HowItWorksSection = () => {
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
                   style={{
-                    background: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.08)",
+                    background: "rgba(255,255,255,0.5)",
+                    border: "1px solid rgba(255,255,255,0.5)",
                   }}
                 >
                   <Icon size={18} style={{ color: "rgba(255,255,255,0.7)" }} />
@@ -115,7 +115,7 @@ const HowItWorksSection = () => {
                     fontFamily: "'Lato', sans-serif",
                     fontWeight: 300,
                     fontSize: "14px",
-                    color: "#FFFFFF",
+                    color: "#1A1D29",
                     marginBottom: "0.5rem",
                   }}
                 >

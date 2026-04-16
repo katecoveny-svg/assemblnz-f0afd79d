@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Bot, User } from "lucide-react";
 
 const EmbedDemoSection = () => (
-  <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+  <section className="relative z-10 pt-[100px] pb-[100px]" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
     <div className="max-w-3xl mx-auto px-4 sm:px-6">
       <motion.div
         className="text-center mb-10"
@@ -29,7 +29,7 @@ const EmbedDemoSection = () => (
             fontFamily: "'Lato', sans-serif",
             fontWeight: 300,
             fontSize: "2rem",
-            color: "#FFFFFF",
+            color: "#1A1D29",
             marginBottom: "0.75rem",
           }}
         >
@@ -51,9 +51,9 @@ const EmbedDemoSection = () => (
       <motion.div
         className="rounded-xl overflow-hidden mx-auto max-w-[700px]"
         style={{
-          background: "rgba(15,15,26,0.7)",
+          background: "rgba(255,255,255,0.65)",
           backdropFilter: "blur(10px)",
-          border: "1px solid rgba(255,255,255,0.08)",
+          border: "1px solid rgba(255,255,255,0.5)",
         }}
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -63,7 +63,7 @@ const EmbedDemoSection = () => (
         {/* Chat header */}
         <div
           className="flex items-center gap-3 px-5 py-3"
-          style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
+          style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
         >
           <div
             className="w-8 h-8 rounded-full flex items-center justify-center"
@@ -72,7 +72,7 @@ const EmbedDemoSection = () => (
             <Bot size={14} style={{ color: "#D4A843" }} />
           </div>
           <div>
-            <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, fontSize: "12px", color: "#FFFFFF", letterSpacing: "2px" }}>
+            <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, fontSize: "12px", color: "#1A1D29", letterSpacing: "2px" }}>
               AURA
             </p>
             <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>
@@ -103,13 +103,13 @@ const EmbedDemoSection = () => (
                 border: "1px solid rgba(212,168,67,0.15)",
               }}
             >
-              <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "#FFFFFF" }}>
+              <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "#1A1D29" }}>
                 Do I need a food control plan for my cafe?
               </p>
             </div>
             <div
               className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
-              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
+              style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}
             >
               <User size={12} style={{ color: "rgba(255,255,255,0.5)" }} />
             </div>
@@ -126,8 +126,8 @@ const EmbedDemoSection = () => (
             <div
               className="rounded-xl px-4 py-3 max-w-[85%]"
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
+                background: "rgba(255,255,255,0.5)",
+                border: "1px solid rgba(255,255,255,0.5)",
               }}
             >
               <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "rgba(255,255,255,0.85)", lineHeight: 1.6 }}>

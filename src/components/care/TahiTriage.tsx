@@ -52,7 +52,7 @@ const TahiTriage = ({ onSendToChat }: TahiTriageProps) => {
               key={s.label}
               onClick={() => onSendToChat(s.prompt)}
               className="p-3 rounded-xl text-left transition-all hover:scale-[0.99] flex items-center gap-3"
-              style={{ background: "rgba(15,15,26,0.6)", border: `1px solid ${s.urgent ? "rgba(165,42,42,0.15)" : "rgba(212,168,67,0.08)"}` }}
+              style={{ background: "rgba(255,255,255,0.65)", border: `1px solid ${s.urgent ? "rgba(165,42,42,0.15)" : "rgba(212,168,67,0.08)"}` }}
             >
               {s.urgent && <AlertTriangle size={13} style={{ color: KOKKOWAI, flexShrink: 0 }} />}
               <span className="text-xs" style={{ color: s.urgent ? "#fff" : "rgba(255,255,255,0.7)" }}>{s.label}</span>
@@ -66,7 +66,7 @@ const TahiTriage = ({ onSendToChat }: TahiTriageProps) => {
         <p className="text-[10px] uppercase font-bold mb-2" style={{ color: POUNAMU, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>NZ Health Services</p>
         <div className="space-y-2">
           {SERVICES.map(s => (
-            <div key={s.label} className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "rgba(15,15,26,0.4)", border: "1px solid rgba(255,255,255,0.04)" }}>
+            <div key={s.label} className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
               <s.icon size={14} style={{ color: s.color }} />
               <div>
                 <p className="text-xs font-medium" style={{ color: s.color }}>{s.label}</p>

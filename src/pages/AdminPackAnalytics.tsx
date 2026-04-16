@@ -208,7 +208,7 @@ const AdminPackAnalytics = () => {
   const PACKS = ["pakihi", "waihanga", "manaaki", "toroa", "auaha", "hangarau"];
 
   const cardStyle = {
-    background: "rgba(15,15,26,0.8)",
+    background: "rgba(255,255,255,0.65)",
     backdropFilter: "blur(20px)",
     WebkitBackdropFilter: "blur(20px)",
     border: "1px solid rgba(74,165,168,0.15)",
@@ -251,7 +251,7 @@ const AdminPackAnalytics = () => {
     >
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-8 rounded-xl p-1" style={{ background: "rgba(15,15,26,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
+        <div className="flex gap-1 mb-8 rounded-xl p-1" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
           {TABS.map(t => (
             <button
               key={t.key}
@@ -334,8 +334,8 @@ const AdminPackAnalytics = () => {
                         Top Agents — {pack}
                       </h4>
                       {agents.map((a: any, i: number) => (
-                        <div key={a.name} className="flex items-center justify-between py-1.5" style={{ borderBottom: i < agents.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
-                          <span className="text-xs" style={{ color: "#FFFFFF" }}>{i + 1}. {a.name}</span>
+                        <div key={a.name} className="flex items-center justify-between py-1.5" style={{ borderBottom: i < agents.length - 1 ? "1px solid rgba(255,255,255,0.5)" : "none" }}>
+                          <span className="text-xs" style={{ color: "#1A1D29" }}>{i + 1}. {a.name}</span>
                           <span className="text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>{a.clicks} clicks</span>
                         </div>
                       ))}
@@ -356,7 +356,7 @@ const AdminPackAnalytics = () => {
                       onClick={() => setSelectedPack(p)}
                       className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all capitalize"
                       style={{
-                        background: selectedPack === p ? "rgba(212,168,67,0.15)" : "rgba(255,255,255,0.04)",
+                        background: selectedPack === p ? "rgba(212,168,67,0.15)" : "rgba(255,255,255,0.5)",
                         color: selectedPack === p ? "#D4A843" : "rgba(255,255,255,0.4)",
                         border: selectedPack === p ? "1px solid rgba(212,168,67,0.2)" : "1px solid transparent",
                       }}
@@ -401,8 +401,8 @@ const AdminPackAnalytics = () => {
                       {agentPerf.length === 0 ? (
                         <tr><td colSpan={5} className="px-4 py-6 text-center" style={{ color: "#9CA3AF" }}>No agent data yet</td></tr>
                       ) : agentPerf.map(a => (
-                        <tr key={a.name} style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
-                          <td className="px-4 py-2.5 font-bold" style={{ color: "#FFFFFF" }}>{a.name}</td>
+                        <tr key={a.name} style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
+                          <td className="px-4 py-2.5 font-bold" style={{ color: "#1A1D29" }}>{a.name}</td>
                           <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843" }}>{a.clicks}</td>
                           <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>{a.sessions}</td>
                           <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>{a.avgDuration}s</td>
@@ -462,16 +462,16 @@ const AdminPackAnalytics = () => {
                         {cohortData.length === 0 ? (
                           <tr><td colSpan={5} className="px-4 py-6 text-center" style={{ color: "#9CA3AF" }}>No cohort data yet</td></tr>
                         ) : cohortData.slice(0, 50).map(u => (
-                          <tr key={u.user_id} style={{ borderBottom: "1px solid rgba(255,255,255,0.03)" }}>
+                          <tr key={u.user_id} style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                             <td className="px-4 py-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>{u.user_id}…</td>
                             <td className="px-4 py-2" style={{ color: "#6B7280" }}>{u.signup_date}</td>
                             <td className="px-4 py-2">
-                              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: u.trial_started ? "rgba(58,125,110,0.2)" : "rgba(255,255,255,0.05)", color: u.trial_started ? "#3A7D6E" : "rgba(255,255,255,0.3)" }}>
+                              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: u.trial_started ? "rgba(58,125,110,0.2)" : "rgba(255,255,255,0.5)", color: u.trial_started ? "#3A7D6E" : "rgba(255,255,255,0.3)" }}>
                                 {u.trial_started ? "Yes" : "No"}
                               </span>
                             </td>
                             <td className="px-4 py-2">
-                              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: u.converted ? "rgba(212,168,67,0.2)" : "rgba(255,255,255,0.05)", color: u.converted ? "#D4A843" : "rgba(255,255,255,0.3)" }}>
+                              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: u.converted ? "rgba(212,168,67,0.2)" : "rgba(255,255,255,0.5)", color: u.converted ? "#D4A843" : "rgba(255,255,255,0.3)" }}>
                                 {u.converted ? "Paid" : "Free"}
                               </span>
                             </td>

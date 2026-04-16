@@ -37,10 +37,10 @@ const PackShowcase = () => (
               key={pack.id}
               className="relative rounded-2xl p-5 group overflow-hidden"
               style={{
-                background: "rgba(15,15,26,0.82)",
+                background: "rgba(255,255,255,0.65)",
                 backdropFilter: "blur(16px)",
                 WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.5)",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
                 transition: "border-color 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.4s cubic-bezier(0.16,1,0.3,1)",
               }}

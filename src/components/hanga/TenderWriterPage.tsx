@@ -10,8 +10,8 @@ const POUNAMU = "#3A7D6E";
 
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
-    background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))",
-    borderColor: "rgba(255,255,255,0.06)", boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+    background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
+    borderColor: "rgba(255,255,255,0.5)", boxShadow: "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
   }}>{children}</div>
 );
 
@@ -64,7 +64,7 @@ export default function TenderWriterPage() {
       >
         <div>
           <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><FileText size={22} style={{ color: KOWHAI }} /> Tender Writer — Tono</h1>
-          <p className="text-xs text-white/40">GETS-ready tender response generator</p>
+          <p className="text-xs text-[#9CA3AF]">GETS-ready tender response generator</p>
         </div>
         <AaaipGuardBadge
           domain="waihanga"
@@ -75,21 +75,21 @@ export default function TenderWriterPage() {
 
       <Glass className="p-6 space-y-4">
         <div>
-          <label className="text-[11px] text-white/40 mb-1 block">Tender Title</label>
+          <label className="text-[11px] text-[#9CA3AF] mb-1 block">Tender Title</label>
           <input value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Christchurch Metro Sports Facility — Main Works"
             className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none focus:border-gray-300" />
         </div>
         <div>
-          <label className="text-[11px] text-white/40 mb-1 block">Template Type</label>
+          <label className="text-[11px] text-[#9CA3AF] mb-1 block">Template Type</label>
           <select value={template} onChange={e => setTemplate(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl text-sm text-white/70 bg-white/[0.04] border border-white/[0.06] focus:outline-none">
+            className="w-full px-4 py-2.5 rounded-xl text-sm text-[#3D4250] bg-white/[0.04] border border-white/[0.06] focus:outline-none">
             <option value="construction">Construction Works</option>
             <option value="consultancy">Consultancy Services</option>
             <option value="goods">Goods & Services</option>
           </select>
         </div>
         <div>
-          <label className="text-[11px] text-white/40 mb-1 block">Requirements & Scope</label>
+          <label className="text-[11px] text-[#9CA3AF] mb-1 block">Requirements & Scope</label>
           <textarea value={requirements} onChange={e => setRequirements(e.target.value)} rows={5} placeholder="Paste tender requirements here..."
             className="w-full px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none focus:border-gray-300 resize-none" />
         </div>
@@ -107,17 +107,17 @@ export default function TenderWriterPage() {
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-semibold text-foreground">Generated Response</h3>
               <div className="flex gap-2">
-                <button className="p-2 rounded-lg text-gray-400 hover:text-white/60 hover:bg-white/5"><Copy size={14} /></button>
-                <button className="p-2 rounded-lg text-gray-400 hover:text-white/60 hover:bg-white/5"><Save size={14} /></button>
-                <button className="p-2 rounded-lg text-gray-400 hover:text-white/60 hover:bg-white/5"><Download size={14} /></button>
+                <button className="p-2 rounded-lg text-gray-400 hover:text-[#6B7280] hover:bg-white/5"><Copy size={14} /></button>
+                <button className="p-2 rounded-lg text-gray-400 hover:text-[#6B7280] hover:bg-white/5"><Save size={14} /></button>
+                <button className="p-2 rounded-lg text-gray-400 hover:text-[#6B7280] hover:bg-white/5"><Download size={14} /></button>
               </div>
             </div>
             <textarea value={response} onChange={e => setResponse(e.target.value)} rows={20}
-              className="w-full px-4 py-3 rounded-xl text-xs text-white/70 bg-white/[0.03] border border-white/[0.06] focus:outline-none leading-relaxed font-mono resize-none" />
+              className="w-full px-4 py-3 rounded-xl text-xs text-[#3D4250] bg-white/[0.03] border border-white/[0.06] focus:outline-none leading-relaxed font-mono resize-none" />
           </Glass>
           <Glass className="p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <label className="flex items-center gap-2 text-xs text-white/70">
+              <label className="flex items-center gap-2 text-xs text-[#3D4250]">
                 <input
                   type="checkbox"
                   checked={humanSignoff}

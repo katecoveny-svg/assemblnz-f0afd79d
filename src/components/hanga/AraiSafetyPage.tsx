@@ -33,8 +33,8 @@ const trendData = [
 
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
-    background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))",
-    borderColor: "rgba(255,255,255,0.06)", boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+    background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
+    borderColor: "rgba(255,255,255,0.5)", boxShadow: "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
   }}>{children}</div>
 );
 
@@ -59,7 +59,7 @@ export default function AraiSafetyPage() {
           </div>
           <div>
             <h1 className="text-xl font-bold text-foreground">ĀRAI — Site Safety & H&S</h1>
-            <p className="text-xs text-white/40">Haumarutanga · Hazard Register</p>
+            <p className="text-xs text-[#9CA3AF]">Haumarutanga · Hazard Register</p>
           </div>
         </div>
       </motion.div>
@@ -74,7 +74,7 @@ export default function AraiSafetyPage() {
           <Glass key={s.label} className="p-4 text-center">
             <s.icon size={18} style={{ color: s.color }} className="mx-auto mb-2" />
             <div className="text-2xl font-bold text-foreground">{s.value}</div>
-            <div className="text-[11px] text-white/40">{s.label}</div>
+            <div className="text-[11px] text-[#9CA3AF]">{s.label}</div>
           </Glass>
         ))}
       </div>
@@ -89,8 +89,8 @@ export default function AraiSafetyPage() {
         <div className="flex gap-1">
           {(["all", "critical", "high", "medium", "low"] as const).map(s => (
             <button key={s} onClick={() => setFilterSev(s)}
-              className={`px-3 py-2 rounded-lg text-[11px] font-medium transition-all ${filterSev === s ? "text-foreground" : "text-white/40 hover:text-white/60"}`}
-              style={filterSev === s ? { background: s === "all" ? "rgba(255,255,255,0.08)" : `${SEV_COLORS[s as Severity]}20`, border: `1px solid ${s === "all" ? "rgba(255,255,255,0.15)" : SEV_COLORS[s as Severity]}40` } : {}}>
+              className={`px-3 py-2 rounded-lg text-[11px] font-medium transition-all ${filterSev === s ? "text-foreground" : "text-[#9CA3AF] hover:text-[#6B7280]"}`}
+              style={filterSev === s ? { background: s === "all" ? "rgba(255,255,255,0.5)" : `${SEV_COLORS[s as Severity]}20`, border: `1px solid ${s === "all" ? "rgba(255,255,255,0.15)" : SEV_COLORS[s as Severity]}40` } : {}}>
               {s === "all" ? "All" : s.charAt(0).toUpperCase() + s.slice(1)}
             </button>
           ))}
@@ -113,7 +113,7 @@ export default function AraiSafetyPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input placeholder="Description" className="px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
                 <input placeholder="Location" className="px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
-                <select className="px-4 py-2.5 rounded-xl text-sm text-white/70 bg-white/[0.04] border border-white/[0.06] focus:outline-none">
+                <select className="px-4 py-2.5 rounded-xl text-sm text-[#3D4250] bg-white/[0.04] border border-white/[0.06] focus:outline-none">
                   <option value="">Severity</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option>
                 </select>
                 <input placeholder="Assigned To" className="px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
@@ -129,7 +129,7 @@ export default function AraiSafetyPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
-              <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+              <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
                 {["ID", "Description", "Location", "Severity", "Status", "Assigned", "Date"].map(h => (
                   <th key={h} className="px-4 py-3 text-[11px] font-medium text-gray-400 uppercase tracking-wider">{h}</th>
                 ))}
@@ -138,9 +138,9 @@ export default function AraiSafetyPage() {
             <tbody>
               {filtered.map((h, i) => (
                 <motion.tr key={h.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.03 }}
-                  className="border-b hover:bg-white/[0.02] transition-colors" style={{ borderColor: "rgba(255,255,255,0.03)" }}>
+                  className="border-b hover:bg-white/[0.02] transition-colors" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
                   <td className="px-4 py-3 text-xs text-gray-500 font-mono">{h.id}</td>
-                  <td className="px-4 py-3 text-xs text-white/70 max-w-[300px] truncate">{h.description}</td>
+                  <td className="px-4 py-3 text-xs text-[#3D4250] max-w-[300px] truncate">{h.description}</td>
                   <td className="px-4 py-3 text-xs text-gray-500">{h.location}</td>
                   <td className="px-4 py-3">
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-medium" style={{ background: `${SEV_COLORS[h.severity]}20`, color: SEV_COLORS[h.severity] }}>
@@ -167,7 +167,7 @@ export default function AraiSafetyPage() {
         <div className="h-48">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={trendData} barGap={4}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.5)" />
               <XAxis dataKey="week" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 11 }} axisLine={false} />
               <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 11 }} axisLine={false} />
               <Tooltip contentStyle={{ background: "#FAFBFC", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#3D4250", fontSize: 12 }} />

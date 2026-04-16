@@ -215,9 +215,9 @@ const WorkflowCards = ({ packId }: WorkflowCardsProps) => {
               style={{
                 background: isActive
                   ? "linear-gradient(135deg, rgba(212,168,67,0.08), rgba(58,125,110,0.06))"
-                  : "rgba(15,15,26,0.6)",
-                borderColor: isActive ? "rgba(212,168,67,0.25)" : "rgba(255,255,255,0.06)",
-                boxShadow: isActive ? "0 0 30px rgba(212,168,67,0.08)" : "0 4px 24px rgba(0,0,0,0.3)",
+                  : "rgba(255,255,255,0.65)",
+                borderColor: isActive ? "rgba(212,168,67,0.25)" : "rgba(255,255,255,0.5)",
+                boxShadow: isActive ? "0 0 30px rgba(212,168,67,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
               }}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -231,7 +231,7 @@ const WorkflowCards = ({ packId }: WorkflowCardsProps) => {
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center"
                     style={{
-                      background: isActive ? "rgba(212,168,67,0.15)" : "rgba(255,255,255,0.04)",
+                      background: isActive ? "rgba(212,168,67,0.15)" : "rgba(255,255,255,0.5)",
                       color: isActive ? KOWHAI : "rgba(255,255,255,0.4)",
                     }}
                   >
@@ -259,7 +259,7 @@ const WorkflowCards = ({ packId }: WorkflowCardsProps) => {
               </p>
 
               {state && (
-                <div className="mt-3 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
+                <div className="mt-3 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.5)" }}>
                   <motion.div
                     className="h-full rounded-full"
                     style={{ background: `linear-gradient(90deg, ${POUNAMU}, ${KOWHAI})` }}

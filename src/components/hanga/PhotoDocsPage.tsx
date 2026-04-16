@@ -21,8 +21,8 @@ const DEMO_PHOTOS: Photo[] = [
 
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
-    background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))",
-    borderColor: "rgba(255,255,255,0.06)", boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+    background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
+    borderColor: "rgba(255,255,255,0.5)", boxShadow: "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
   }}>{children}</div>
 );
 
@@ -92,10 +92,10 @@ export default function PhotoDocsPage() {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><Camera size={22} style={{ color: KOWHAI }} /> Photo Documentation</h1>
-          <p className="text-xs text-white/40">AI-Powered Hazard Detection — Whakaahua</p>
+          <p className="text-xs text-[#9CA3AF]">AI-Powered Hazard Detection — Whakaahua</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <label className="flex items-center gap-2 text-[11px] text-white/60">
+          <label className="flex items-center gap-2 text-[11px] text-[#6B7280]">
             <input
               type="checkbox"
               checked={workerConsent}
@@ -122,7 +122,7 @@ export default function PhotoDocsPage() {
               <Layers size={40} style={{ color: KOWHAI }} className="mx-auto mb-3" />
             </motion.div>
           ) : (
-            <Upload size={40} className="text-white/20 mx-auto mb-3" />
+            <Upload size={40} className="text-[#9CA3AF] mx-auto mb-3" />
           )}
           <p className="text-sm text-gray-500">{uploading ? "AI analyzing photo..." : "Drag & drop photos here or click to upload"}</p>
           <p className="text-[11px] text-white/25 mt-1">ĀRAI will automatically scan for hazards</p>
@@ -134,11 +134,11 @@ export default function PhotoDocsPage() {
         {photos.map((photo, i) => (
           <motion.div key={photo.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.05 }}>
             <div onClick={() => setSelectedPhoto(photo)}><Glass className="overflow-hidden cursor-pointer hover:border-white/15 transition-all">
-              <div className="h-40 flex items-center justify-center text-5xl" style={{ background: "linear-gradient(135deg, rgba(26,58,92,0.3), rgba(15,15,26,0.8))" }}>
+              <div className="h-40 flex items-center justify-center text-5xl" style={{ background: "linear-gradient(135deg, rgba(26,58,92,0.3), rgba(255,255,255,0.65))" }}>
                 {photo.thumbnail}
               </div>
               <div className="p-4">
-                <div className="text-xs text-white/70 font-medium truncate">{photo.name}</div>
+                <div className="text-xs text-[#3D4250] font-medium truncate">{photo.name}</div>
                 <div className="flex items-center gap-3 mt-2 text-[10px] text-gray-400">
                   <span className="flex items-center gap-1"><Clock size={10} />{photo.timestamp}</span>
                   <span className="flex items-center gap-1"><MapPin size={10} />{photo.location}</span>
@@ -183,7 +183,7 @@ export default function PhotoDocsPage() {
                       <Sparkles size={14} style={{ color: POUNAMU }} />
                       <span className="text-xs font-medium" style={{ color: POUNAMU }}>AI Analysis</span>
                     </div>
-                    <p className="text-xs text-white/60 leading-relaxed">{selectedPhoto.aiAnalysis}</p>
+                    <p className="text-xs text-[#6B7280] leading-relaxed">{selectedPhoto.aiAnalysis}</p>
                   </div>
                 )}
               </Glass>

@@ -28,7 +28,7 @@ interface Props {
 }
 
 const glass = (accent = POUNAMU) => ({
-  background: "rgba(15,15,26,0.55)",
+  background: "rgba(255,255,255,0.65)",
   border: `1px solid ${accent}15`,
   backdropFilter: "blur(14px)",
 });
@@ -38,7 +38,7 @@ export default function SchoolModule({ children, termDates }: Props) {
 
   return (
     <div className="space-y-4">
-      <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: `${BONE}90` }}>
+      <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#1A1D29"}90` }}>
         <GraduationCap size={14} style={{ color: POUNAMU }} /> School
       </h2>
 
@@ -47,9 +47,9 @@ export default function SchoolModule({ children, termDates }: Props) {
         <div className="rounded-xl p-3 flex items-center justify-between" style={glass(TANGAROA)}>
           <div className="flex items-center gap-2">
             <Calendar size={12} style={{ color: POUNAMU }} />
-            <span className="font-body text-xs" style={{ color: `${BONE}90` }}>{currentTerm.term}</span>
+            <span className="font-body text-xs" style={{ color: "#1A1D29"}90` }}>{currentTerm.term}</span>
           </div>
-          <span className="font-mono text-[10px]" style={{ color: `${BONE}50` }}>
+          <span className="font-mono text-[10px]" style={{ color: "#1A1D29"}50` }}>
             {currentTerm.start} — {currentTerm.end}
           </span>
         </div>
@@ -67,8 +67,8 @@ export default function SchoolModule({ children, termDates }: Props) {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-body text-sm" style={{ color: `${BONE}CC` }}>{child.name}</p>
-              <p className="font-body text-[10px]" style={{ color: `${BONE}50` }}>
+              <p className="font-body text-sm" style={{ color: "#1A1D29"}CC` }}>{child.name}</p>
+              <p className="font-body text-[10px]" style={{ color: "#1A1D29"}50` }}>
                 {child.school} · Year {child.year_level}
                 {child.teacher ? ` · ${child.teacher}` : ""}
               </p>
@@ -88,7 +88,7 @@ export default function SchoolModule({ children, termDates }: Props) {
                 {child.upcoming.map((u, j) => (
                   <div key={j} className="flex items-center gap-2 py-1">
                     <span className="w-1 h-1 rounded-full" style={{ background: KOWHAI }} />
-                    <span className="font-body text-xs" style={{ color: `${BONE}80` }}>{u}</span>
+                    <span className="font-body text-xs" style={{ color: "#1A1D29"}80` }}>{u}</span>
                   </div>
                 ))}
               </div>
@@ -104,8 +104,8 @@ export default function SchoolModule({ children, termDates }: Props) {
               <div className="space-y-1">
                 {child.newsletters.map((n, j) => (
                   <div key={j} className="flex items-center justify-between py-1">
-                    <span className="font-body text-xs" style={{ color: `${BONE}70` }}>{n.title}</span>
-                    <span className="font-mono text-[9px]" style={{ color: `${BONE}35` }}>{n.date}</span>
+                    <span className="font-body text-xs" style={{ color: "#1A1D29"}70` }}>{n.title}</span>
+                    <span className="font-mono text-[9px]" style={{ color: "#1A1D29"}35` }}>{n.date}</span>
                   </div>
                 ))}
               </div>

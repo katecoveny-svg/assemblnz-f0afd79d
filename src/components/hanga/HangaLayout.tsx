@@ -39,7 +39,7 @@ export default function HangaLayout() {
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="p-4 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+      <div className="p-4 border-b" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${POUNAMU}, ${KOWHAI})` }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -58,7 +58,7 @@ export default function HangaLayout() {
           {!collapsed && (
             <div>
               <h2 className="text-sm font-bold text-foreground tracking-wider">WAIHANGA</h2>
-              <p className="text-[10px] text-white/40">Construction Intelligence</p>
+              <p className="text-[10px] text-[#9CA3AF]">Construction Intelligence</p>
             </div>
           )}
         </div>
@@ -75,7 +75,7 @@ export default function HangaLayout() {
 
       {/* Lang toggle */}
       {!collapsed && (
-        <button onClick={() => setLang(l => l === "en" ? "mi" : "en")} className="mx-3 mt-2 px-3 py-1.5 rounded-lg flex items-center gap-2 text-[10px] text-white/40 hover:text-white/60 transition-colors" style={{ background: "rgba(255,255,255,0.03)" }}>
+        <button onClick={() => setLang(l => l === "en" ? "mi" : "en")} className="mx-3 mt-2 px-3 py-1.5 rounded-lg flex items-center gap-2 text-[10px] text-[#9CA3AF] hover:text-[#6B7280] transition-colors" style={{ background: "rgba(255,255,255,0.5)" }}>
           <Globe size={12} />
           {lang === "en" ? "Te Reo Māori" : "English"}
         </button>
@@ -91,7 +91,7 @@ export default function HangaLayout() {
               to={item.to}
               onClick={() => setMobileOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200 group ${
-                active ? "text-foreground" : "text-gray-500 hover:text-white/80 hover:bg-white/[0.03]"
+                active ? "text-foreground" : "text-gray-500 hover:text-[#1A1D29] hover:bg-white/[0.03]"
               }`}
               style={active ? {
                 background: "linear-gradient(135deg, rgba(212,168,67,0.12), rgba(58,125,110,0.08))",
@@ -114,8 +114,8 @@ export default function HangaLayout() {
       </nav>
 
       {/* Collapse toggle (desktop only) */}
-      <div className="hidden lg:block p-3 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-        <button onClick={() => setCollapsed(!collapsed)} className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white/60 transition-colors text-[11px]">
+      <div className="hidden lg:block p-3 border-t" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
+        <button onClick={() => setCollapsed(!collapsed)} className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-[#6B7280] transition-colors text-[11px]">
           {collapsed ? <ChevronRight size={14} /> : <><ChevronLeft size={14} /> Collapse</>}
         </button>
       </div>
@@ -130,7 +130,7 @@ export default function HangaLayout() {
         style={{
           width: collapsed ? 64 : 240,
           background: "linear-gradient(180deg, #0D0D18 0%, #09090F 100%)",
-          borderColor: "rgba(255,255,255,0.06)",
+          borderColor: "rgba(255,255,255,0.5)",
         }}
       >
         <SidebarContent />
@@ -140,9 +140,9 @@ export default function HangaLayout() {
       <button
         onClick={() => setMobileOpen(true)}
         className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-xl backdrop-blur-md"
-        style={{ background: "rgba(15,15,26,0.8)", border: "1px solid rgba(255,255,255,0.08)" }}
+        style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}
       >
-        <Menu size={20} className="text-white/70" />
+        <Menu size={20} className="text-[#3D4250]" />
       </button>
 
       {/* Mobile drawer */}
@@ -152,11 +152,11 @@ export default function HangaLayout() {
             <motion.div className="fixed inset-0 z-[60]" style={{ background: "rgba(0,0,0,0.6)" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileOpen(false)} />
             <motion.aside
               className="fixed top-0 left-0 bottom-0 z-[70] w-[260px] flex flex-col overflow-y-auto"
-              style={{ background: "#0D0D18", borderRight: "1px solid rgba(255,255,255,0.08)" }}
+              style={{ background: "#0D0D18", borderRight: "1px solid rgba(255,255,255,0.5)" }}
               initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}
             >
-              <button onClick={() => setMobileOpen(false)} className="absolute top-4 right-4 p-1.5 text-white/40">
+              <button onClick={() => setMobileOpen(false)} className="absolute top-4 right-4 p-1.5 text-[#9CA3AF]">
                 <X size={18} />
               </button>
               <SidebarContent />

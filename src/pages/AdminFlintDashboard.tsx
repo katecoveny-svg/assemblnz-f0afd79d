@@ -22,7 +22,7 @@ const REGIONS = ["hero-subheadline", "feature-list", "feature-cards", "use-cases
 
 function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`rounded-xl border backdrop-blur-xl ${className}`} style={{ background: "rgba(15,15,26,0.7)", borderColor: "rgba(255,255,255,0.1)" }}>
+    <div className={`rounded-xl border backdrop-blur-xl ${className}`} style={{ background: "rgba(255,255,255,0.65)", borderColor: "rgba(255,255,255,0.1)" }}>
       {children}
     </div>
   );
@@ -122,13 +122,13 @@ export default function AdminFlintDashboard() {
 
       <Tabs defaultValue="generate" className="space-y-4">
         <TabsList className="bg-white/5 border border-gray-200">
-          <TabsTrigger value="generate" className="data-[state=active]:bg-white/10 text-white/60 data-[state=active]:text-foreground">
+          <TabsTrigger value="generate" className="data-[state=active]:bg-white/10 text-[#6B7280] data-[state=active]:text-foreground">
             <Sparkles className="w-4 h-4 mr-2" /> Generate Copy
           </TabsTrigger>
-          <TabsTrigger value="seo" className="data-[state=active]:bg-white/10 text-white/60 data-[state=active]:text-foreground">
+          <TabsTrigger value="seo" className="data-[state=active]:bg-white/10 text-[#6B7280] data-[state=active]:text-foreground">
             <Search className="w-4 h-4 mr-2" /> SEO Audit
           </TabsTrigger>
-          <TabsTrigger value="proposals" className="data-[state=active]:bg-white/10 text-white/60 data-[state=active]:text-foreground">
+          <TabsTrigger value="proposals" className="data-[state=active]:bg-white/10 text-[#6B7280] data-[state=active]:text-foreground">
             <FileText className="w-4 h-4 mr-2" /> Proposals ({proposals?.length || 0})
           </TabsTrigger>
         </TabsList>
@@ -143,7 +143,7 @@ export default function AdminFlintDashboard() {
                   <button
                     key={p.id}
                     onClick={() => { setSelectedPage(p.id); setSelectedRegion(p.id === "homepage" ? "hero-subheadline" : "hero-subheadline"); }}
-                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${selectedPage === p.id ? "text-black" : "text-white/60 bg-white/5 hover:bg-white/10"}`}
+                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${selectedPage === p.id ? "text-black" : "text-[#6B7280] bg-white/5 hover:bg-white/10"}`}
                     style={selectedPage === p.id ? { background: p.color } : {}}
                   >
                     {p.label}
@@ -216,7 +216,7 @@ export default function AdminFlintDashboard() {
                     </span>
                     <span className="text-gray-400 text-xs ml-auto">{generateMutation.data.guard?.auditId}</span>
                   </div>
-                  <div className="bg-white/5 rounded-lg p-4 text-white/80 text-sm whitespace-pre-wrap max-h-[400px] overflow-y-auto">
+                  <div className="bg-white/5 rounded-lg p-4 text-[#1A1D29] text-sm whitespace-pre-wrap max-h-[400px] overflow-y-auto">
                     {typeof generateMutation.data.proposal?.result?.content === "string"
                       ? generateMutation.data.proposal.result.content
                       : JSON.stringify(generateMutation.data.proposal, null, 2)}
@@ -242,7 +242,7 @@ export default function AdminFlintDashboard() {
                   <button
                     key={p.id}
                     onClick={() => setSelectedPage(p.id)}
-                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${selectedPage === p.id ? "text-black" : "text-white/60 bg-white/5 hover:bg-white/10"}`}
+                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${selectedPage === p.id ? "text-black" : "text-[#6B7280] bg-white/5 hover:bg-white/10"}`}
                     style={selectedPage === p.id ? { background: p.color } : {}}
                   >
                     {p.label}
@@ -272,7 +272,7 @@ export default function AdminFlintDashboard() {
             <GlassCard className="p-6">
               <h3 className="text-foreground text-sm font-medium mb-3">Audit Results</h3>
               {seoAuditMutation.data ? (
-                <div className="bg-white/5 rounded-lg p-4 text-white/80 text-sm whitespace-pre-wrap max-h-[500px] overflow-y-auto">
+                <div className="bg-white/5 rounded-lg p-4 text-[#1A1D29] text-sm whitespace-pre-wrap max-h-[500px] overflow-y-auto">
                   {(() => {
                     const audit = seoAuditMutation.data.seoAudit;
                     if (audit?.overallScore !== undefined) {
@@ -287,7 +287,7 @@ export default function AdminFlintDashboard() {
                           {audit.recommendations?.map((r: string, i: number) => (
                             <div key={i} className="flex items-start gap-2">
                               <span className="text-gray-400 text-xs mt-0.5">{i + 1}.</span>
-                              <span className="text-white/70 text-xs">{r}</span>
+                              <span className="text-[#3D4250] text-xs">{r}</span>
                             </div>
                           ))}
                         </div>
@@ -327,7 +327,7 @@ export default function AdminFlintDashboard() {
                         {p.status}
                       </span>
                     </div>
-                    <p className="text-white/60 text-xs line-clamp-3">{p.proposed_content}</p>
+                    <p className="text-[#6B7280] text-xs line-clamp-3">{p.proposed_content}</p>
                     <div className="flex items-center gap-2 text-gray-400 text-xs">
                       <span>{new Date(p.created_at).toLocaleDateString("en-NZ")}</span>
                       {p.audit_id && <span>· {p.audit_id}</span>}

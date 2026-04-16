@@ -48,7 +48,7 @@ const OraCheckIn = ({ onSendToChat }: OraCheckInProps) => {
       </div>
 
       {seniors.length === 0 ? (
-        <div className="p-6 rounded-2xl text-center" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)" }}>
+        <div className="p-6 rounded-2xl text-center" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(212,168,67,0.12)" }}>
           <Heart size={24} style={{ color: POUNAMU, margin: "0 auto 12px" }} />
           <p className="text-sm font-medium" style={{ color: "#3D4250" }}>No whānau profiles yet</p>
           <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>Ask ORA to set up a senior profile to get started with daily check-ins.</p>
@@ -70,7 +70,7 @@ const OraCheckIn = ({ onSendToChat }: OraCheckInProps) => {
                 onClick={() => setSelectedSenior(s.id)}
                 className="px-3 py-2 rounded-xl text-xs font-medium transition-all"
                 style={{
-                  background: selectedSenior === s.id ? `${POUNAMU}20` : "rgba(15,15,26,0.6)",
+                  background: selectedSenior === s.id ? `${POUNAMU}20` : "rgba(255,255,255,0.65)",
                   border: `1px solid ${selectedSenior === s.id ? POUNAMU + "40" : "rgba(212,168,67,0.08)"}`,
                   color: selectedSenior === s.id ? POUNAMU : "rgba(255,255,255,0.6)",
                 }}
@@ -91,7 +91,7 @@ const OraCheckIn = ({ onSendToChat }: OraCheckInProps) => {
                     key={q.label}
                     onClick={() => onSendToChat(q.prompt(name))}
                     className="p-4 rounded-2xl text-left transition-all hover:scale-[0.98]"
-                    style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(212,168,67,0.12)" }}
+                    style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(212,168,67,0.12)" }}
                   >
                     <q.icon size={18} style={{ color: POUNAMU, marginBottom: 8 }} />
                     <p className="text-xs font-medium" style={{ color: "#3D4250" }}>{q.label}</p>

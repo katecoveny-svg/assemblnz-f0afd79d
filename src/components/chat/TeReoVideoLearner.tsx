@@ -102,7 +102,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
   return (
     <div className="flex-1 flex flex-col overflow-hidden" style={{ background: "#FAFBFC" }}>
       {/* Header */}
-      <div className="px-4 pt-4 pb-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <div className="px-4 pt-4 pb-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
         <div className="flex items-center gap-2 mb-3">
           <BookOpen size={16} style={{ color: agentColor }} />
           <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "11px", letterSpacing: "3px", color: agentColor }}>
@@ -122,9 +122,9 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
             className="flex-1 px-3 py-2 rounded-lg text-xs"
             style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              color: "#FFFFFF",
+              background: "rgba(255,255,255,0.5)",
+              border: "1px solid rgba(255,255,255,0.5)",
+              color: "#1A1D29",
               outline: "none",
             }}
             onKeyDown={e => e.key === "Enter" && handleGenerate()}
@@ -136,7 +136,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
             style={{
               fontFamily: "'Lato', sans-serif",
               fontWeight: 400,
-              background: loading ? "rgba(255,255,255,0.05)" : agentColor,
+              background: loading ? "rgba(255,255,255,0.5)" : agentColor,
               color: loading ? "rgba(255,255,255,0.35)" : "#09090F",
               border: `1px solid ${agentColor}`,
               opacity: !url ? 0.5 : 1,
@@ -207,7 +207,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
           <>
             {/* Video embed */}
             {videoId && (
-              <div className="rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+              <div className="rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.5)" }}>
                 <div className="relative" style={{ paddingBottom: "56.25%" }}>
                   <iframe
                     src={`https://www.youtube.com/embed/${videoId}`}
@@ -220,22 +220,22 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
             )}
 
             {/* Summary */}
-            <div className="rounded-xl p-4" style={{ background: "rgba(15,15,26,0.7)", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "16px", color: "#FFFFFF", marginBottom: "6px" }}>
+            <div className="rounded-xl p-4" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
+              <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "16px", color: "#1A1D29", marginBottom: "6px" }}>
                 {data.videoTitle}
               </h3>
               <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "12px", color: "rgba(255,255,255,0.65)", lineHeight: 1.6 }}>
                 {data.summary}
               </p>
               {data.culturalContext && (
-                <p className="mt-2 pt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: agentColor, lineHeight: 1.5, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                <p className="mt-2 pt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: agentColor, lineHeight: 1.5, borderTop: "1px solid rgba(255,255,255,0.5)" }}>
                   {data.culturalContext}
                 </p>
               )}
             </div>
 
             {/* Section tabs */}
-            <div className="flex gap-1 p-1 rounded-lg" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+            <div className="flex gap-1 p-1 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
               {([
                 { id: "vocab" as const, label: "Kupu (Vocab)", icon: Languages, count: data.vocabulary?.length },
                 { id: "sentences" as const, label: "Rerenga (Sentences)", icon: BookOpen, count: data.sentences?.length },
@@ -271,7 +271,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.03 }}
                     className="rounded-xl overflow-hidden cursor-pointer"
-                    style={{ background: "rgba(15,15,26,0.7)", border: "1px solid rgba(255,255,255,0.08)" }}
+                    style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}
                     onClick={() => toggleVocab(i)}
                   >
                     <div className="flex items-center justify-between px-4 py-3">
@@ -293,7 +293,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                           exit={{ height: 0, opacity: 0 }}
                           className="overflow-hidden"
                         >
-                          <div className="px-4 pb-3 space-y-1" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+                          <div className="px-4 pb-3 space-y-1" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
                             <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "rgba(255,255,255,0.35)", marginTop: "8px" }}>
                               /{v.pronunciation}/
                             </p>
@@ -319,9 +319,9 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05 }}
                     className="rounded-xl p-4"
-                    style={{ background: "rgba(15,15,26,0.7)", border: "1px solid rgba(255,255,255,0.08)" }}
+                    style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}
                   >
-                    <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "#FFFFFF", marginBottom: "6px" }}>
+                    <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "#1A1D29", marginBottom: "6px" }}>
                       {s.english}
                     </p>
                     <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "13px", color: agentColor, marginBottom: "4px" }}>
@@ -350,9 +350,9 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: qi * 0.05 }}
                       className="rounded-xl p-4"
-                      style={{ background: "rgba(15,15,26,0.7)", border: `1px solid ${answered ? (correct ? "rgba(58,125,110,0.3)" : "rgba(220,50,50,0.2)") : "rgba(255,255,255,0.08)"}` }}
+                      style={{ background: "rgba(255,255,255,0.65)", border: `1px solid ${answered ? (correct ? "rgba(58,125,110,0.3)" : "rgba(220,50,50,0.2)") : "rgba(255,255,255,0.5)"}` }}
                     >
-                      <p className="mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "#FFFFFF" }}>
+                      <p className="mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "#1A1D29" }}>
                         {qi + 1}. {q.question}
                       </p>
                       <div className="space-y-1.5">
@@ -370,10 +370,10 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                                 background: showResult && isCorrectOption ? "rgba(58,125,110,0.15)"
                                   : showResult && isSelected && !isCorrectOption ? "rgba(220,50,50,0.1)"
-                                  : "rgba(255,255,255,0.03)",
+                                  : "rgba(255,255,255,0.5)",
                                 border: `1px solid ${showResult && isCorrectOption ? "rgba(58,125,110,0.3)"
                                   : showResult && isSelected && !isCorrectOption ? "rgba(220,50,50,0.2)"
-                                  : isSelected ? agentColor + "40" : "rgba(255,255,255,0.06)"}`,
+                                  : isSelected ? agentColor + "40" : "rgba(255,255,255,0.5)"}`,
                                 color: showResult && isCorrectOption ? "#3A7D6E"
                                   : showResult && isSelected && !isCorrectOption ? "#E05050"
                                   : "rgba(255,255,255,0.65)",
@@ -388,7 +388,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                         })}
                       </div>
                       {answered && (
-                        <p className="mt-2 pt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.45)", lineHeight: 1.5, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                        <p className="mt-2 pt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.45)", lineHeight: 1.5, borderTop: "1px solid rgba(255,255,255,0.5)" }}>
                           {q.explanation}
                         </p>
                       )}

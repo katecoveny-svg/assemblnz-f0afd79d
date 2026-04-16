@@ -78,7 +78,7 @@ const CareDashboard = () => {
 
   const Card = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
     <div className={className} style={{
-      background: "rgba(15, 15, 26, 0.6)",
+      background: "rgba(255,255,255,0.65)",
       backdropFilter: "blur(20px)",
       border: "1px solid rgba(212, 168, 67, 0.12)",
       borderRadius: "16px",
@@ -232,7 +232,7 @@ const CareDashboard = () => {
                     {/* Mini progress bar */}
                     <div className="flex gap-0.5 mt-2">
                       {stages.slice(0, 7).map((s, i) => (
-                        <div key={s} className="h-1 flex-1 rounded-full" style={{ background: i <= currentIdx ? "#1A3A5C" : "rgba(255,255,255,0.06)" }} />
+                        <div key={s} className="h-1 flex-1 rounded-full" style={{ background: i <= currentIdx ? "#1A3A5C" : "rgba(255,255,255,0.5)" }} />
                       ))}
                     </div>
                     {j.facility && <p className="text-[10px] mt-2" style={{ color: "#6B7280" }}>{j.facility} · {j.region}</p>}

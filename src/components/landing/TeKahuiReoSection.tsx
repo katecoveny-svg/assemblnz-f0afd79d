@@ -23,7 +23,7 @@ const TeKahuiReoSection = () => (
     className="relative z-10 pt-[100px] pb-[100px] overflow-hidden"
     style={{
       background: "#FAFBFC",
-      borderTop: "1px solid rgba(255,255,255,0.06)",
+      borderTop: "1px solid rgba(255,255,255,0.5)",
     }}
   >
     {/* Subtle pounamu nebula orb */}
@@ -67,7 +67,7 @@ const TeKahuiReoSection = () => (
             fontFamily: "'Lato', sans-serif",
             fontWeight: 300,
             fontSize: "2.25rem",
-            color: "#FFFFFF",
+            color: "#1A1D29",
             marginBottom: "1rem",
           }}
         >
@@ -106,9 +106,9 @@ const TeKahuiReoSection = () => (
             key={agent.name}
             className="rounded-xl p-5"
             style={{
-              background: "rgba(15,15,26,0.7)",
+              background: "rgba(255,255,255,0.65)",
               backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.5)",
               borderLeft: "3px solid rgba(58,125,110,0.4)",
               transition: "all 300ms cubic-bezier(0.16, 1, 0.3, 1)",
             }}
@@ -121,7 +121,7 @@ const TeKahuiReoSection = () => (
               e.currentTarget.style.boxShadow = "0 12px 48px rgba(212,168,67,0.1)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
               e.currentTarget.style.boxShadow = "none";
             }}
           >
@@ -133,7 +133,7 @@ const TeKahuiReoSection = () => (
                     fontFamily: "'Lato', sans-serif",
                     fontWeight: 400,
                     fontSize: "13px",
-                    color: "#FFFFFF",
+                    color: "#1A1D29",
                     letterSpacing: "2px",
                   }}
                 >
@@ -171,7 +171,7 @@ const TeKahuiReoSection = () => (
       <motion.div
         className="rounded-xl overflow-hidden mb-8"
         style={{
-          background: "rgba(15,15,26,0.7)",
+          background: "rgba(255,255,255,0.65)",
           backdropFilter: "blur(10px)",
           border: "1px solid rgba(212,168,67,0.2)",
         }}

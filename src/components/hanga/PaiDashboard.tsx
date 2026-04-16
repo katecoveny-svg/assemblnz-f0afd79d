@@ -111,10 +111,10 @@ const handoverStatusColor = (s: string) => s === "Complete" ? "#3A7D6E" : s === 
 const Glass = ({ children, className = "", glow = false, navy = false }: { children: React.ReactNode; className?: string; glow?: boolean; navy?: boolean }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
     background: navy
-      ? "linear-gradient(135deg, rgba(26,58,92,0.25), rgba(15,15,26,0.75))"
-      : "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))",
-    borderColor: glow ? "rgba(212,168,67,0.3)" : navy ? "rgba(26,58,92,0.35)" : "rgba(255,255,255,0.06)",
-    boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : navy ? "0 0 20px rgba(26,58,92,0.15)" : "0 4px 24px rgba(0,0,0,0.3)",
+      ? "linear-gradient(135deg, rgba(26,58,92,0.25), rgba(255,255,255,0.65))"
+      : "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
+    borderColor: glow ? "rgba(212,168,67,0.3)" : navy ? "rgba(26,58,92,0.35)" : "rgba(255,255,255,0.5)",
+    boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : navy ? "0 0 20px rgba(26,58,92,0.15)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
   }}>{children}</div>
 );
 
@@ -160,7 +160,7 @@ export default function PaiDashboard() {
             <CheckCircle2 size={20} style={{ color: "#3A7D6E" }} />
             <span className="text-xs tracking-widest uppercase" style={{ color: "#5AADA0", fontFamily: "JetBrains Mono" }}>Waihanga Construction Suite</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>
+          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#1A1D29" }}>
             PAI — Quality Assurance
           </h1>
           <p className="text-sm mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
@@ -183,7 +183,7 @@ export default function PaiDashboard() {
                     <span style={{ color: s.accent }}>{s.icon}</span>
                   </div>
                 </div>
-                <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#FFFFFF" }}>{s.value}</p>
+                <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{s.value}</p>
                 <p className="text-[11px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
               </div>
             </Glass>
@@ -191,7 +191,7 @@ export default function PaiDashboard() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 p-1 rounded-xl overflow-x-auto scrollbar-hide" style={{ background: "rgba(15,15,26,0.6)", border: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="flex gap-1 p-1 rounded-xl overflow-x-auto scrollbar-hide" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
           {tabs.map(t => (
             <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Plus Jakarta Sans", background: tab === t.id ? "rgba(58,125,110,0.2)" : "transparent", color: tab === t.id ? "#5AADA0" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(58,125,110,0.35)" : "1px solid transparent" }}>
               {t.icon} {t.label}
@@ -214,7 +214,7 @@ export default function PaiDashboard() {
                           <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: `${sevColor(n.severity)}18`, color: sevColor(n.severity), fontFamily: "JetBrains Mono" }}>
                             {sevLabel(n.severity)}
                           </span>
-                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: n.status === "closed" ? "rgba(58,125,110,0.15)" : "rgba(255,255,255,0.06)", color: n.status === "closed" ? "#3A7D6E" : "rgba(255,255,255,0.4)", fontFamily: "JetBrains Mono" }}>
+                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: n.status === "closed" ? "rgba(58,125,110,0.15)" : "rgba(255,255,255,0.5)", color: n.status === "closed" ? "#3A7D6E" : "rgba(255,255,255,0.4)", fontFamily: "JetBrains Mono" }}>
                             {n.status === "under_review" ? "Under Review" : n.status === "closed" ? "Closed" : "Open"}
                           </span>
                           <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{n.discipline}</span>
@@ -230,7 +230,7 @@ export default function PaiDashboard() {
                     </div>
                   </button>
                   {isOpen && (
-                    <div className="px-4 pb-4 space-y-2" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+                    <div className="px-4 pb-4 space-y-2" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
                       <p className="pt-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{n.description}</p>
                       <div className="p-3 rounded-lg" style={{ background: `${sevColor(n.severity)}08`, border: `1px solid ${sevColor(n.severity)}20` }}>
                         <p className="text-[10px] uppercase mb-1" style={{ fontFamily: "JetBrains Mono", color: sevColor(n.severity) }}>Corrective Action</p>
@@ -254,7 +254,7 @@ export default function PaiDashboard() {
               {(["all", "P1", "P2", "P3"] as const).map(f => (
                 <button key={f} onClick={() => setPunchFilter(f)} className="px-2.5 py-1 rounded-lg text-[10px] transition-all" style={{
                   fontFamily: "JetBrains Mono",
-                  background: punchFilter === f ? (f === "all" ? "rgba(255,255,255,0.08)" : `${prioColor(f as Priority)}15`) : "transparent",
+                  background: punchFilter === f ? (f === "all" ? "rgba(255,255,255,0.5)" : `${prioColor(f as Priority)}15`) : "transparent",
                   color: punchFilter === f ? (f === "all" ? "#FFFFFF" : prioColor(f as Priority)) : "rgba(255,255,255,0.35)",
                   border: `1px solid ${punchFilter === f ? (f === "all" ? "rgba(255,255,255,0.12)" : `${prioColor(f as Priority)}30`) : "transparent"}`,
                 }}>
@@ -273,7 +273,7 @@ export default function PaiDashboard() {
                         <span className="text-xs font-mono" style={{ color: prioColor(p.priority), fontFamily: "JetBrains Mono" }}>{p.number}</span>
                         <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: `${prioColor(p.priority)}18`, color: prioColor(p.priority), fontFamily: "JetBrains Mono" }}>{p.priority}</span>
                         <span className="px-2 py-0.5 rounded-full text-[9px]" style={{
-                          background: p.status === "closed" ? "rgba(58,125,110,0.15)" : p.status === "verified" ? "rgba(90,173,160,0.15)" : "rgba(255,255,255,0.06)",
+                          background: p.status === "closed" ? "rgba(58,125,110,0.15)" : p.status === "verified" ? "rgba(90,173,160,0.15)" : "rgba(255,255,255,0.5)",
                           color: p.status === "closed" ? "#3A7D6E" : p.status === "verified" ? "#5AADA0" : "rgba(255,255,255,0.4)",
                           fontFamily: "JetBrains Mono",
                         }}>{p.status.replace("_", " ")}</span>
@@ -300,10 +300,10 @@ export default function PaiDashboard() {
             <Glass navy>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>Inspection Test Plan Progress</h3>
+                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Inspection Test Plan Progress</h3>
                   <span className="text-lg font-light" style={{ fontFamily: "Lato", color: "#5AADA0" }}>{itpPct}%</span>
                 </div>
-                <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
+                <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                   <div className="h-full rounded-full" style={{ width: `${itpPct}%`, background: "linear-gradient(90deg, #3A7D6E, #5AADA0)" }} />
                 </div>
                 <div className="flex gap-4 mt-2 text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
@@ -340,7 +340,7 @@ export default function PaiDashboard() {
                           <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: `${statusColor}15`, color: statusColor, fontFamily: "JetBrains Mono" }}>{p.status}</span>
                           <span className="px-1.5 py-0.5 rounded text-[8px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{p.discipline}</span>
                         </div>
-                        <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{p.activity}</p>
+                        <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{p.activity}</p>
                         <div className="flex gap-3 mt-1 text-[9px] flex-wrap" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
                           <span>Std: {p.standard}</span>
                           {p.inspectedBy && <span style={{ color: "#3A7D6E" }}>✓ {p.inspectedBy}</span>}
@@ -361,7 +361,7 @@ export default function PaiDashboard() {
           <div className="space-y-3">
             <Glass navy>
               <div className="p-4">
-                <h3 className="text-sm mb-3" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>Producer Statement Types — Building Act 2004</h3>
+                <h3 className="text-sm mb-3" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Producer Statement Types — Building Act 2004</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                   {([
                     { type: "PS1", desc: "Design", detail: "Design complies with Building Code" },
@@ -372,7 +372,7 @@ export default function PaiDashboard() {
                     const count = PS.filter(p => p.type === ps.type).length;
                     const issued = PS.filter(p => p.type === ps.type && p.status === "Issued").length;
                     return (
-                      <div key={ps.type} className="p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                      <div key={ps.type} className="p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
                         <p className="text-xs font-bold" style={{ fontFamily: "JetBrains Mono", color: "#D4A843" }}>{ps.type}</p>
                         <p className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{ps.desc}</p>
                         <p className="text-[8px] mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.35)" }}>{ps.detail}</p>
@@ -393,7 +393,7 @@ export default function PaiDashboard() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <span className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{p.discipline}</span>
+                        <span className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{p.discipline}</span>
                         <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: `${psColor(p.status)}15`, color: psColor(p.status), fontFamily: "JetBrains Mono" }}>{p.status}</span>
                       </div>
                       <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{p.description}</p>
@@ -418,10 +418,10 @@ export default function PaiDashboard() {
             <Glass navy>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>Handover Readiness</h3>
+                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Handover Readiness</h3>
                   <span className="text-lg font-light" style={{ fontFamily: "Lato", color: "#5A8AB5" }}>{handoverPct}%</span>
                 </div>
-                <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
+                <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                   <div className="h-full rounded-full" style={{ width: `${handoverPct}%`, background: "linear-gradient(90deg, #1A3A5C, #5A8AB5)" }} />
                 </div>
                 <p className="text-[10px] mt-1.5" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
@@ -447,15 +447,15 @@ export default function PaiDashboard() {
               return (
                 <Glass key={cat}>
                   <div className="p-4">
-                    <h4 className="text-xs font-medium mb-3" style={{ fontFamily: "Plus Jakarta Sans", color: "#FFFFFF" }}>{cat}</h4>
-                    <div className="divide-y" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
+                    <h4 className="text-xs font-medium mb-3" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{cat}</h4>
+                    <div className="divide-y" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
                       {items.map(h => (
                         <div key={h.id} className="flex items-start gap-3 py-2.5 first:pt-0 last:pb-0">
                           <div className="flex-shrink-0 mt-0.5">
                             {h.status === "Complete" ? (
                               <CheckCircle2 size={14} style={{ color: "#3A7D6E" }} />
                             ) : h.status === "N/A" ? (
-                              <div className="w-3.5 h-3.5 rounded-full" style={{ background: "rgba(255,255,255,0.08)" }} />
+                              <div className="w-3.5 h-3.5 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }} />
                             ) : (
                               <div className="w-3.5 h-3.5 rounded-full border-2" style={{ borderColor: handoverStatusColor(h.status) }} />
                             )}

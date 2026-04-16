@@ -25,7 +25,7 @@ const icons = {
 };
 
 const glass = {
-  background: "rgba(15,15,26,0.55)",
+  background: "rgba(255,255,255,0.65)",
   border: `1px solid ${KOWHAI}15`,
   backdropFilter: "blur(14px)",
   boxShadow: `0 0 24px ${KOWHAI}06, 0 4px 24px rgba(0,0,0,0.25)`,
@@ -37,8 +37,8 @@ export default function TodayDigest({ items, greeting }: Props) {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="font-display text-lg" style={{ fontWeight: 300, color: `${BONE}DD` }}>{greeting}</h2>
-        <p className="font-body text-xs mt-0.5" style={{ color: `${BONE}50` }}>{today}</p>
+        <h2 className="font-display text-lg" style={{ fontWeight: 300, color: "#1A1D29"}DD` }}>{greeting}</h2>
+        <p className="font-body text-xs mt-0.5" style={{ color: "#1A1D29"}50` }}>{today}</p>
       </div>
 
       <div className="space-y-2">
@@ -58,8 +58,8 @@ export default function TodayDigest({ items, greeting }: Props) {
                 <Icon size={14} style={{ color: accent }} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-body text-xs" style={{ color: item.urgent ? "#fca5a5" : `${BONE}BB` }}>{item.text}</p>
-                {item.time && <p className="font-mono text-[10px] mt-0.5" style={{ color: `${BONE}40` }}>{item.time}</p>}
+                <p className="font-body text-xs" style={{ color: item.urgent ? "#fca5a5" : "#3D4250" }}>{item.text}</p>
+                {item.time && <p className="font-mono text-[10px] mt-0.5" style={{ color: "#1A1D29"}40` }}>{item.time}</p>}
               </div>
               {item.urgent && <span className="w-2 h-2 rounded-full shrink-0 mt-1" style={{ background: "#ef4444" }} />}
             </motion.div>
@@ -69,7 +69,7 @@ export default function TodayDigest({ items, greeting }: Props) {
 
       {items.length === 0 && (
         <div className="rounded-xl p-8 text-center" style={glass}>
-          <p className="font-body text-xs" style={{ color: `${BONE}40` }}>Nothing urgent today. Enjoy the calm.</p>
+          <p className="font-body text-xs" style={{ color: "#1A1D29"}40` }}>Nothing urgent today. Enjoy the calm.</p>
         </div>
       )}
     </div>

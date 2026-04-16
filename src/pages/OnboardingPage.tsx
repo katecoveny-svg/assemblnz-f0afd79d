@@ -67,7 +67,7 @@ const PACK_DATA: Record<PackKey, {
 const SESSION_KEY = "assembl_onboarding_session";
 
 const cardStyle: React.CSSProperties = {
-  background: "rgba(15,15,26,0.8)",
+  background: "rgba(255,255,255,0.65)",
   backdropFilter: "blur(20px)",
   WebkitBackdropFilter: "blur(20px)",
   border: "1px solid rgba(74,165,168,0.15)",
@@ -172,7 +172,7 @@ const OnboardingPage = () => {
         {/* Progress bar */}
         <div className="flex items-center gap-2 mb-8 px-2">
           {[1, 2, 3].map(s => (
-            <div key={s} className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
+            <div key={s} className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.5)" }}>
               <motion.div
                 className="h-full rounded-full"
                 style={{ background: s <= step ? "#D4A843" : "transparent" }}
@@ -199,7 +199,7 @@ const OnboardingPage = () => {
               className="space-y-6"
             >
               <div className="text-center">
-                <h1 className="text-xl sm:text-2xl font-bold" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "-0.025em", color: "#FFFFFF" }}>
+                <h1 className="text-xl sm:text-2xl font-bold" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "-0.025em", color: "#1A1D29" }}>
                   What industry are you in?
                 </h1>
                 <p className="text-sm mt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
@@ -215,7 +215,7 @@ const OnboardingPage = () => {
                     className="w-full rounded-2xl p-5 text-left transition-all"
                     style={{
                       ...cardStyle,
-                      border: selected === key ? `2px solid #D4A843` : "1px solid rgba(255,255,255,0.06)",
+                      border: selected === key ? `2px solid #D4A843` : "1px solid rgba(255,255,255,0.5)",
                       boxShadow: selected === key ? "0 0 30px rgba(212,168,67,0.12)" : "none",
                     }}
                     whileHover={{ scale: 1.01 }}
@@ -226,7 +226,7 @@ const OnboardingPage = () => {
                         <Icon size={22} style={{ color }} />
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-bold" style={{ fontFamily: "'Lato', sans-serif", color: "#FFFFFF" }}>{label}</p>
+                        <p className="text-sm font-bold" style={{ fontFamily: "'Lato', sans-serif", color: "#1A1D29" }}>{label}</p>
                         <p className="text-xs mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
                           {reo} Pack — {PACK_DATA[key].agents.length} specialist agents
                         </p>
@@ -272,7 +272,7 @@ const OnboardingPage = () => {
               className="space-y-6"
             >
               <div className="text-center">
-                <h1 className="text-xl sm:text-2xl font-bold" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#FFFFFF" }}>
+                <h1 className="text-xl sm:text-2xl font-bold" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
                   {ind.reo} — {ind.label}
                 </h1>
                 <p className="text-sm mt-2" style={{ color: "#6B7280" }}>
@@ -292,7 +292,7 @@ const OnboardingPage = () => {
                         {i + 1}
                       </div>
                       <div>
-                        <p className="text-sm font-bold" style={{ color: "#FFFFFF" }}>{agent.name}</p>
+                        <p className="text-sm font-bold" style={{ color: "#1A1D29" }}>{agent.name}</p>
                         <p className="text-xs mt-0.5" style={{ color: "#6B7280" }}>{agent.desc}</p>
                       </div>
                     </div>
@@ -331,7 +331,7 @@ const OnboardingPage = () => {
                 <button
                   onClick={() => setStep(1)}
                   className="flex-1 py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-all"
-                  style={{ background: "rgba(255,255,255,0.06)", color: "#6B7280" }}
+                  style={{ background: "rgba(255,255,255,0.5)", color: "#6B7280" }}
                 >
                   <ArrowLeft size={16} /> Back
                 </button>
@@ -364,12 +364,12 @@ const OnboardingPage = () => {
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.5, type: "spring" }}
                 >
-                  <Check size={28} style={{ color: "#FFFFFF" }} strokeWidth={3} />
+                  <Check size={28} style={{ color: "#1A1D29" }} strokeWidth={3} />
                 </motion.div>
               </div>
 
               <div className="text-center">
-                <h1 className="text-xl sm:text-2xl font-bold" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#FFFFFF" }}>
+                <h1 className="text-xl sm:text-2xl font-bold" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
                   Welcome to {ind.reo}!
                 </h1>
                 <p className="text-sm mt-2" style={{ color: "#6B7280" }}>
@@ -406,7 +406,7 @@ const OnboardingPage = () => {
                       <MessageSquare size={18} style={{ color: "#D4A843" }} />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-bold" style={{ color: "#FFFFFF" }}>
+                      <p className="text-sm font-bold" style={{ color: "#1A1D29" }}>
                         Click to explore: {packData.agents[0].name}
                       </p>
                       <p className="text-xs mt-0.5" style={{ color: "#6B7280" }}>
@@ -427,7 +427,7 @@ const OnboardingPage = () => {
                       <Sparkles size={18} style={{ color: "#3A7D6E" }} />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-bold" style={{ color: "#FFFFFF" }}>
+                      <p className="text-sm font-bold" style={{ color: "#1A1D29" }}>
                         Browse all {ind.reo} agents
                       </p>
                       <p className="text-xs mt-0.5" style={{ color: "#6B7280" }}>

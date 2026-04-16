@@ -16,8 +16,8 @@ interface Message { id: string; text: string; sender: "user" | "contact"; time: 
 
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
-    background: "linear-gradient(135deg, rgba(15,15,26,0.85), rgba(15,15,26,0.65))",
-    borderColor: "rgba(255,255,255,0.06)", boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+    background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
+    borderColor: "rgba(255,255,255,0.5)", boxShadow: "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
   }}>{children}</div>
 );
 
@@ -48,7 +48,7 @@ export default function CommsHubPage() {
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-6xl mx-auto">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><MessageSquare size={22} style={{ color: KOWHAI }} /> Communication Hub — Kōrero</h1>
-        <p className="text-xs text-white/40">SMS & WhatsApp messaging for site teams</p>
+        <p className="text-xs text-[#9CA3AF]">SMS & WhatsApp messaging for site teams</p>
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -57,7 +57,7 @@ export default function CommsHubPage() {
           <div className="flex gap-2">
             {(["sms", "whatsapp"] as const).map(c => (
               <button key={c} onClick={() => setChannel(c)}
-                className={`flex-1 px-4 py-2.5 rounded-xl text-xs font-medium transition-all ${channel === c ? "text-foreground" : "text-white/40"}`}
+                className={`flex-1 px-4 py-2.5 rounded-xl text-xs font-medium transition-all ${channel === c ? "text-foreground" : "text-[#9CA3AF]"}`}
                 style={channel === c ? { background: c === "sms" ? "rgba(26,58,92,0.3)" : "rgba(58,125,110,0.2)", border: `1px solid ${c === "sms" ? "rgba(26,58,92,0.4)" : "rgba(58,125,110,0.3)"}` } : {}}>
                 {c === "sms" ? "📱 SMS" : "💬 WhatsApp"}
               </button>
@@ -65,7 +65,7 @@ export default function CommsHubPage() {
           </div>
 
           <div>
-            <label className="text-[11px] text-white/40 mb-1 block">Recipient Phone (+64)</label>
+            <label className="text-[11px] text-[#9CA3AF] mb-1 block">Recipient Phone (+64)</label>
             <div className="flex gap-2">
               <span className="px-3 py-2.5 rounded-xl text-sm text-gray-500 bg-white/[0.04] border border-white/[0.06]">+64</span>
               <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="21 123 4567"
@@ -74,11 +74,11 @@ export default function CommsHubPage() {
           </div>
 
           <div>
-            <label className="text-[11px] text-white/40 mb-1 block">Template</label>
+            <label className="text-[11px] text-[#9CA3AF] mb-1 block">Template</label>
             <div className="flex flex-wrap gap-2">
               {TEMPLATES.map(t => (
                 <button key={t.id} onClick={() => selectTemplate(t.id)}
-                  className={`px-3 py-1.5 rounded-lg text-[11px] transition-all ${selectedTemplate === t.id ? "text-foreground bg-white/10" : "text-white/40 bg-white/[0.03] hover:bg-white/[0.06]"}`}>
+                  className={`px-3 py-1.5 rounded-lg text-[11px] transition-all ${selectedTemplate === t.id ? "text-foreground bg-white/10" : "text-[#9CA3AF] bg-white/[0.03] hover:bg-white/[0.06]"}`}>
                   {t.label}
                 </button>
               ))}
@@ -86,7 +86,7 @@ export default function CommsHubPage() {
           </div>
 
           <div>
-            <label className="text-[11px] text-white/40 mb-1 block">Message</label>
+            <label className="text-[11px] text-[#9CA3AF] mb-1 block">Message</label>
             <textarea value={message} onChange={e => setMessage(e.target.value)} rows={4} placeholder="Type your message..."
               className="w-full px-4 py-3 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none resize-none" />
           </div>
@@ -102,7 +102,7 @@ export default function CommsHubPage() {
           <div className="w-[280px] rounded-[2rem] p-3" style={{ background: "#1a1a2e", border: "3px solid rgba(255,255,255,0.1)" }}>
             <div className="rounded-[1.5rem] overflow-hidden h-[500px] flex flex-col" style={{ background: "#0D0D18" }}>
               {/* Phone header */}
-              <div className="px-4 py-3 flex items-center gap-3 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+              <div className="px-4 py-3 flex items-center gap-3 border-b" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
                 <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: `${POUNAMU}30` }}>
                   <Phone size={14} style={{ color: POUNAMU }} />
                 </div>
@@ -117,9 +117,9 @@ export default function CommsHubPage() {
                 {messages.map(m => (
                   <div key={m.id} className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}>
                     <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-[11px] leading-relaxed ${
-                      m.sender === "user" ? "text-foreground" : "text-white/70"
+                      m.sender === "user" ? "text-foreground" : "text-[#3D4250]"
                     }`} style={{
-                      background: m.sender === "user" ? `linear-gradient(135deg, ${POUNAMU}, ${POUNAMU}CC)` : "rgba(255,255,255,0.05)",
+                      background: m.sender === "user" ? `linear-gradient(135deg, ${POUNAMU}, ${POUNAMU}CC)` : "rgba(255,255,255,0.5)",
                       borderRadius: m.sender === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
                     }}>
                       {m.text}
