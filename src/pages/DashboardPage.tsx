@@ -52,12 +52,20 @@ interface HealthFault {
 }
 interface LeadItem { id: string; name: string; email: string; lead_status: string | null; lead_score: number | null; created_at: string; }
 
-const glassCard = "rounded-xl relative overflow-hidden";
+const glassCard = "rounded-2xl relative overflow-hidden";
+// Light neumorphic glass — white surface with soft dual shadows for raised effect.
 const glassCardStyle: React.CSSProperties = {
-  background: "rgba(14,14,26,0.7)",
-  backdropFilter: "blur(16px)",
-  WebkitBackdropFilter: "blur(16px)",
-  border: "1px solid rgba(74,165,168,0.15)",
+  background: "#FAFBFC",
+  boxShadow:
+    "6px 6px 16px rgba(166,166,180,0.30), -6px -6px 16px rgba(255,255,255,0.85), inset 0 1px 0 rgba(255,255,255,0.6)",
+  border: "1px solid rgba(58,125,110,0.08)",
+  color: "#3D4250",
+};
+// Inner pill / row surface used inside cards (subtly inset on the white card).
+const innerSurface: React.CSSProperties = {
+  background: "#FFFFFF",
+  border: "1px solid rgba(26,29,41,0.06)",
+  boxShadow: "inset 1px 1px 3px rgba(166,166,180,0.12), inset -1px -1px 3px rgba(255,255,255,0.9)",
 };
 
 const PRIORITY_COLORS: Record<string, string> = { urgent: "#C85A54", high: "#1A3A5C", medium: "#3A7D6E", low: "#5AADA0" };
@@ -171,9 +179,9 @@ const SectionHeader = ({ icon: Icon, title, color, count, trailing }: { icon: an
   <div className="flex items-center justify-between mb-3">
     <div className="flex items-center gap-2">
       <Icon size={16} style={{ color }} />
-      <h2 className="font-display font-bold text-sm text-foreground">{title}</h2>
+      <h2 className="font-display font-bold text-sm" style={{ color: "#1A1D29" }}>{title}</h2>
       {count !== undefined && count > 0 && (
-        <span className="text-[9px] px-1.5 py-0.5 rounded-full font-bold" style={{ backgroundColor: color + "15", color }}>{count}</span>
+        <span className="text-[9px] px-1.5 py-0.5 rounded-full font-bold" style={{ backgroundColor: color + "18", color }}>{count}</span>
       )}
     </div>
     {trailing}
@@ -182,12 +190,12 @@ const SectionHeader = ({ icon: Icon, title, color, count, trailing }: { icon: an
 
 const EmptyState = ({ message, cta, to }: { message: string; cta?: string; to?: string }) => (
   <div className="flex flex-col items-center justify-center py-8 gap-3">
-    <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
-      <Sparkles size={18} className="text-muted-foreground/30" />
+    <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#FFFFFF", boxShadow: "inset 2px 2px 4px rgba(166,166,180,0.18), inset -2px -2px 4px rgba(255,255,255,0.9)" }}>
+      <Sparkles size={18} style={{ color: "#5AADA0" }} />
     </div>
-    <p className="text-xs text-muted-foreground text-center max-w-[200px]">{message}</p>
+    <p className="text-xs text-center max-w-[220px]" style={{ color: "#6B7280" }}>{message}</p>
     {cta && to && (
-      <Link to={to} className="text-[10px] font-medium px-4 py-1.5 rounded-lg transition-colors" style={{ background: "rgba(212,168,67,0.08)", color: "#3A6A9C", border: "1px solid rgba(212,168,67,0.15)" }}>
+      <Link to={to} className="text-[10px] font-medium px-4 py-1.5 rounded-lg transition-colors" style={{ background: "rgba(58,125,110,0.08)", color: "#3A7D6E", border: "1px solid rgba(58,125,110,0.20)" }}>
         {cta} →
       </Link>
     )}
@@ -437,21 +445,31 @@ const DashboardPage = () => {
   ].slice(0, 6);
 
   return (
-    <div className="min-h-screen star-field flex flex-col relative">
-      <ParticleField />
+    <div className="dashboard-light min-h-screen flex flex-col relative" style={{ background: "#FAFBFC", color: "#3D4250" }}>
+      {/* Soft ambient glow */}
+      <div className="fixed inset-0 pointer-events-none -z-10" style={{
+        background:
+          "radial-gradient(ellipse 700px 400px at 15% 5%, rgba(58,125,110,0.08), transparent 60%), radial-gradient(ellipse 600px 360px at 85% 95%, rgba(212,168,83,0.06), transparent 60%)",
+      }} />
+      {/* Top accent line */}
+      <div className="fixed top-0 left-0 right-0 h-[2px] z-50" style={{
+        background: "linear-gradient(90deg, transparent 5%, rgba(58,125,110,0.3) 30%, #3A7D6E 50%, rgba(58,125,110,0.3) 70%, transparent 95%)",
+        boxShadow: "0 0 12px rgba(58,125,110,0.15)",
+      }} />
       <BrandNav />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-5 flex-1 w-full">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="font-display font-light text-xl sm:text-2xl text-foreground">{greeting}</h1>
-            <p className="text-[11px] text-muted-foreground mt-0.5">Operations overview · Your workflows at a glance</p>
+            <h1 className="font-display font-light text-xl sm:text-2xl" style={{ color: "#1A1D29" }}>{greeting}</h1>
+            <p className="text-[11px] mt-0.5" style={{ color: "#6B7280" }}>Operations overview · Your workflows at a glance</p>
           </div>
           <div className="flex items-center gap-3">
             <LivePulse lastUpdated={lastUpdated} isConnected={isConnected} />
             <button onClick={handleManualRefresh} disabled={isRefreshing}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-medium border border-border text-muted-foreground hover:text-foreground transition-colors disabled:opacity-30">
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-medium transition-colors disabled:opacity-30"
+              style={{ background: "#FFFFFF", border: "1px solid rgba(26,29,41,0.08)", color: "#3D4250", boxShadow: "2px 2px 6px rgba(166,166,180,0.18), -2px -2px 6px rgba(255,255,255,0.85)" }}>
               <RefreshCw size={11} className={isRefreshing ? "animate-spin" : ""} /> Refresh
             </button>
           </div>
@@ -978,6 +996,35 @@ const DashboardPage = () => {
       </main>
 
       <BrandFooter />
+
+      {/* Light-mode readability overrides scoped to the dashboard */}
+      <style>{`
+        .dashboard-light .text-foreground { color: #1A1D29 !important; }
+        .dashboard-light .text-foreground\\/70 { color: #2A2F3D !important; }
+        .dashboard-light .text-foreground\\/60 { color: #3D4250 !important; }
+        .dashboard-light .text-foreground\\/50 { color: #4A5160 !important; }
+        .dashboard-light .text-muted-foreground { color: #6B7280 !important; }
+        .dashboard-light .text-muted-foreground\\/50 { color: #8B92A0 !important; }
+        .dashboard-light .text-muted-foreground\\/40 { color: #9AA1AE !important; }
+        .dashboard-light .text-muted-foreground\\/30 { color: #B0B6C0 !important; }
+        .dashboard-light .text-muted-foreground\\/20 { color: #C8CDD4 !important; }
+        /* Replace dark-on-dark hover overlays with subtle ink-on-white */
+        .dashboard-light .hover\\:bg-white\\/\\[0\\.04\\]:hover,
+        .dashboard-light .hover\\:bg-white\\/\\[0\\.03\\]:hover,
+        .dashboard-light .hover\\:bg-white\\/\\[0\\.02\\]:hover,
+        .dashboard-light .hover\\:bg-white\\/\\[0\\.01\\]:hover,
+        .dashboard-light .hover\\:bg-white\\/10:hover { background-color: rgba(58,125,110,0.06) !important; }
+        /* Inline dark surface overrides → light inset */
+        .dashboard-light [style*="rgba(255,255,255,0.65)"] {
+          background: #FFFFFF !important;
+          box-shadow: inset 1px 1px 3px rgba(166,166,180,0.12), inset -1px -1px 3px rgba(255,255,255,0.9) !important;
+        }
+        /* Borders between rows */
+        .dashboard-light .border-white\\/\\[0\\.04\\] { border-color: rgba(26,29,41,0.06) !important; }
+        .dashboard-light .border-border { border-color: rgba(26,29,41,0.10) !important; }
+        /* Sparkline empty bars + progress track */
+        .dashboard-light .bg-white\\/\\[0\\.06\\] { background-color: rgba(26,29,41,0.06) !important; }
+      `}</style>
     </div>
   );
 };
