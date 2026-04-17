@@ -64,7 +64,13 @@ serve(async (req: Request) => {
   if (req.method !== "POST") return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
   try {
-    const body: AuahaRequest = await req.json();
+    const raw = await req.json().catch(() => ({}));
+    const body: AuahaRequest = {
+      userId: raw.userId ?? "anonymous",
+      action: raw.action ?? "check_compliance",
+      payload: raw.payload ?? {},
+      timestamp: raw.timestamp ?? new Date().toISOString(),
+    };
     const requestId = `auaha_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const contentStr = JSON.stringify(body.payload);
     const brandAssets = (body.payload.brand_assets as string[]) || [];
