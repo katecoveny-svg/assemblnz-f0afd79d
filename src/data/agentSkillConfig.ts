@@ -131,7 +131,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'manaaki', name: 'MANAAKI', accent: '#E8A87C',
     purpose: 'Hospitality and customer-focused services',
-    agents: ['aura', 'saffron', 'cellar', 'luxe', 'moana', 'coast', 'kura', 'pau', 'summit'],
+    agents: ['aura', 'saffron', 'cellar', 'luxe', 'moana', 'coast', 'kura', 'pau', 'summit', 'menu', 'aroha-core'],
     keteSkills: [
       { id: 'nz-hospitality-compliance', name: 'NZ Hospitality Compliance', category: 'compliance', description: 'Food safety, health codes, licensing', status: 'wired' },
       { id: 'kaupapa-project-mgmt', name: 'Kaupapa Project Mgmt', category: 'operations', description: 'Māori-centred project management', status: 'wired' },
@@ -139,6 +139,8 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
       { id: 'manaaki-marketing', name: 'Marketing', category: 'marketing', description: 'Content drafting, email sequences', status: 'wired' },
       { id: 'manaaki-data', name: 'Data Analytics', category: 'data', description: 'Data analysis and visualization', status: 'wired' },
       { id: 'manaaki-support', name: 'Customer Support', category: 'support', description: 'Response drafting, customer research', status: 'wired' },
+      { id: 'manaaki-allergen', name: 'Allergen & Dietary Matrix', category: 'compliance', description: '14-allergen NZ matrix, dietary planning, cross-contamination SOPs', status: 'wired' },
+      { id: 'manaaki-hr', name: 'HR & People (AROHA)', category: 'hr', description: 'Hospitality rosters, employment, holidays act', status: 'wired' },
       { id: 'social-media-manager', name: 'Social Media Manager', category: 'marketing', description: 'Content and community management', status: 'wired' },
       { id: 'theme-factory', name: 'Theme Factory', category: 'design', description: 'Custom theme generation', status: 'gap' },
     ],
@@ -149,13 +151,15 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'waihanga', name: 'WAIHANGA', accent: '#3A7D6E',
     purpose: 'Construction, building, and infrastructure',
-    agents: ['ata', 'ārai', 'kaupapa', 'rawa', 'whakaaē', 'pai', 'arc', 'terra', 'pinnacle'],
+    agents: ['ata', 'ārai', 'kaupapa', 'rawa', 'whakaaē', 'pai', 'arc', 'terra', 'pinnacle', 'aroha-core'],
     keteSkills: [
       { id: 'arai-site-safety', name: 'Ārai Site Safety', category: 'safety', description: 'Site safety, hazard management, compliance', status: 'wired' },
       { id: 'waihanga-kaupapa', name: 'Kaupapa Project Mgmt', category: 'operations', description: 'Māori-centred project management', status: 'wired' },
       { id: 'waihanga-operations', name: 'Operations', category: 'operations', description: 'Process docs, runbooks, change requests, risk assessment, vendor review', status: 'wired' },
+      { id: 'waihanga-arc', name: 'Architecture & Building Code (ARC)', category: 'compliance', description: 'NZ Building Code, design review, specification writing', status: 'wired' },
       { id: 'waihanga-data', name: 'Data Analytics', category: 'data', description: 'Data analysis and visualization', status: 'wired' },
       { id: 'waihanga-legal', name: 'Legal', category: 'legal', description: 'Contract review, vendor checks', status: 'wired' },
+      { id: 'waihanga-hr', name: 'HR & People (AROHA)', category: 'hr', description: 'Site crew employment, subbie agreements, fatigue policy', status: 'wired' },
       { id: 'waihanga-pdf-viewer', name: 'PDF Viewer Pro', category: 'documents', description: 'PDF annotation and digital signatures', status: 'gap' },
     ],
     keteMCPs: [
@@ -165,7 +169,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'auaha', name: 'AUAHA', accent: '#B794F4',
     purpose: 'Creative design, content, and artistic services',
-    agents: ['prism', 'muse', 'pixel', 'verse', 'echo', 'flux', 'chromatic', 'rhythm', 'market'],
+    agents: ['prism', 'muse', 'pixel', 'verse', 'echo', 'flux', 'chromatic', 'rhythm', 'market', 'aroha-core'],
     keteSkills: [
       { id: 'canvas-design', name: 'Canvas Design', category: 'design', description: 'Advanced Canva design operations', status: 'wired' },
       { id: 'auaha-design', name: 'Design', category: 'design', description: 'UX research, design systems, critique, handoff, accessibility', status: 'wired' },
@@ -173,6 +177,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
       { id: 'algorithmic-art', name: 'Algorithmic Art', category: 'design', description: 'Generative and algorithmic art creation', status: 'gap' },
       { id: 'auaha-social-media', name: 'Social Media Manager', category: 'marketing', description: 'Content creation and community engagement', status: 'wired' },
       { id: 'auaha-marketing', name: 'Marketing', category: 'marketing', description: 'Content drafting, SEO audit, brand review', status: 'wired' },
+      { id: 'auaha-hr', name: 'HR & People (AROHA)', category: 'hr', description: 'Studio team rosters, freelance contracts, retainer agreements', status: 'wired' },
       { id: 'skill-creator', name: 'Skill Creator', category: 'system', description: 'Create and design new agent skills', status: 'gap' },
     ],
     keteMCPs: [
@@ -182,7 +187,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'pakihi', name: 'PAKIHI', accent: '#D4A843',
     purpose: 'Business, sales, finance, and commercial operations',
-    agents: ['ledger', 'vault', 'catalyst', 'compass', 'haven', 'counter', 'gateway', 'harvest', 'grove', 'sage', 'ascend'],
+    agents: ['ledger', 'vault', 'catalyst', 'compass', 'haven', 'counter', 'gateway', 'harvest', 'grove', 'sage', 'ascend', 'aroha-core'],
     keteSkills: [
       { id: 'pakihi-finance', name: 'Finance', category: 'finance', description: 'Budgeting, forecasting, analysis, reporting, tax planning', status: 'wired' },
       { id: 'pakihi-sales', name: 'Sales', category: 'sales', description: 'Pipeline review, call summary, forecasting, competitive intelligence', status: 'wired' },
@@ -201,7 +206,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'waka', name: 'WAKA', accent: '#6B8FA3',
     purpose: 'Transport, logistics, and fleet management',
-    agents: ['motor', 'transit', 'mariner'],
+    agents: ['motor', 'transit', 'mariner', 'aroha-core'],
     keteSkills: [
       { id: 'waka-kaupapa', name: 'Kaupapa Project Mgmt', category: 'operations', description: 'Māori-centred project management', status: 'wired' },
       { id: 'waka-operations', name: 'Operations', category: 'operations', description: 'Process docs, runbooks, compliance, capacity planning', status: 'wired' },
@@ -211,9 +216,40 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
     keteMCPs: [],
   },
   {
+    id: 'arataki', name: 'ARATAKI', accent: '#E8E8E8',
+    purpose: 'Automotive, fleet, drivers, and route intelligence',
+    agents: ['axis', 'drive', 'flux-arataki', 'axis-fleet', 'motor', 'aroha-core'],
+    keteSkills: [
+      { id: 'arataki-fuel-oracle', name: 'FuelOracle', category: 'operations', description: 'Live NZ fuel pricing across Z, BP, Mobil, Gull, Waitomo', status: 'wired' },
+      { id: 'arataki-tco', name: 'Vehicle Economy / TCO', category: 'finance', description: 'Real per-km cost incl. RUC, depreciation, maintenance, insurance', status: 'wired' },
+      { id: 'arataki-route', name: 'Route Intelligence', category: 'operations', description: 'Live NZ weather, roadworks, closures integrated into trip planning', status: 'wired' },
+      { id: 'arataki-driver-compliance', name: 'Driver Compliance', category: 'compliance', description: 'WoF/CoF expiry, RUC balance, licence class, logbook prompts', status: 'wired' },
+      { id: 'arataki-evidence', name: 'Evidence & Insurance Packs', category: 'compliance', description: 'Contemporaneous trip logs as insurance and claim-defence artefacts', status: 'wired' },
+      { id: 'arataki-sales-pipeline', name: 'Sales & Lead Pipeline (FLUX)', category: 'sales', description: 'Test drive → sale → service → loyalty pipeline with no handoff dropped', status: 'wired' },
+      { id: 'arataki-driver-wellbeing', name: 'Driver Wellbeing (DRIVE)', category: 'hr', description: 'Fatigue rules, rest breaks, wellbeing check-ins, H&S evidence', status: 'wired' },
+      { id: 'arataki-fleet-finance', name: 'Fleet Finance (AXIS)', category: 'finance', description: 'Lease vs buy, replacement cycles, fleet P&L', status: 'wired' },
+      { id: 'arataki-hr', name: 'HR & People (AROHA)', category: 'hr', description: 'Driver employment agreements, restructuring, holidays act', status: 'wired' },
+    ],
+    keteMCPs: [],
+  },
+  {
+    id: 'pikau', name: 'PIKAU', accent: '#5AADA0',
+    purpose: 'Freight, customs, biosecurity, and border compliance',
+    agents: ['gateway', 'transit', 'mariner', 'aroha-core'],
+    keteSkills: [
+      { id: 'pikau-customs-entries', name: 'Customs Entries', category: 'compliance', description: 'NZ Customs declarations, HS code lookup, duties calculation', status: 'wired' },
+      { id: 'pikau-freight-quotes', name: 'Freight Quotes', category: 'operations', description: 'Multi-modal freight quote comparisons (sea, air, road)', status: 'wired' },
+      { id: 'pikau-dangerous-goods', name: 'Dangerous Goods Checks', category: 'compliance', description: 'IMDG, IATA, NZS 5433 dangerous goods classification', status: 'wired' },
+      { id: 'pikau-biosecurity', name: 'Biosecurity (MPI)', category: 'compliance', description: 'MPI standards, biosecurity clearances, IHS lookups', status: 'wired' },
+      { id: 'pikau-evidence', name: 'Border Evidence Pack', category: 'compliance', description: 'Contemporaneous customs evidence packs for audit', status: 'wired' },
+      { id: 'pikau-hr', name: 'HR & People (AROHA)', category: 'hr', description: 'Yard crew, drivers, freight forwarder employment', status: 'wired' },
+    ],
+    keteMCPs: [],
+  },
+  {
     id: 'hangarau', name: 'HANGARAU', accent: '#3A7D6E',
     purpose: 'Technology, engineering, and digital innovation',
-    agents: ['spark', 'sentinel', 'nexus-t', 'cipher', 'relay', 'matrix', 'forge', 'oracle', 'ember', 'reef', 'patent', 'foundry'],
+    agents: ['spark', 'sentinel', 'nexus-t', 'cipher', 'relay', 'matrix', 'forge', 'oracle', 'ember', 'reef', 'patent', 'foundry', 'aroha-core'],
     keteSkills: [
       { id: 'sentinel', name: 'Sentinel', category: 'security', description: 'Security monitoring and threat detection', status: 'wired' },
       { id: 'signal-security-specialist', name: 'Signal Security', category: 'security', description: 'Advanced security and encryption', status: 'wired' },
@@ -231,7 +267,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'te-kahui-reo', name: 'TE KĀHUI REO', accent: '#D4A843',
     purpose: 'Māori business intelligence and community engagement',
-    agents: ['whānau', 'rohe', 'kaupapa-m', 'mana', 'kaitiaki', 'tāura', 'whakaaro', 'hiringa'],
+    agents: ['whānau', 'rohe', 'kaupapa-m', 'mana', 'kaitiaki', 'tāura', 'whakaaro', 'hiringa', 'aroha-core'],
     keteSkills: [
       { id: 'nz-media-scanner-reo', name: 'NZ Media Scanner', category: 'monitoring', description: 'NZ news and media monitoring', status: 'wired' },
       { id: 'te-kahui-kaupapa', name: 'Kaupapa Project Mgmt', category: 'operations', description: 'Māori-centred project management', status: 'wired' },
@@ -247,7 +283,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'toroa', name: 'TORO', accent: '#E8D5B7',
     purpose: 'Family and personal agent (SMS-first, $29/month)',
-    agents: ['toroa'],
+    agents: ['toroa', 'aroha-core'],
     keteSkills: [
       { id: 'toroa-kaupapa', name: 'Kaupapa Project Mgmt', category: 'operations', description: 'Family project management', status: 'wired' },
       { id: 'toroa-schedule', name: 'Schedule', category: 'operations', description: 'Family calendar and event scheduling', status: 'wired' },
@@ -266,7 +302,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'hauora', name: 'HAUORA', accent: '#7BC8A4',
     purpose: 'Health, wellness, fitness, and lifestyle',
-    agents: ['turf', 'league', 'vitals', 'remedy', 'vitae', 'radiance', 'palette', 'odyssey'],
+    agents: ['turf', 'league', 'vitals', 'remedy', 'vitae', 'radiance', 'palette', 'odyssey', 'aroha-core'],
     keteSkills: [
       { id: 'hauora-operations', name: 'Operations', category: 'operations', description: 'Process documentation, runbooks', status: 'wired' },
       { id: 'hauora-data', name: 'Data Analytics', category: 'data', description: 'Health metrics analysis and visualization', status: 'wired' },
@@ -352,10 +388,13 @@ export interface RoutingResult {
 }
 
 const INTENT_KEYWORDS: Record<string, RegExp> = {
-  manaaki:       /hospitality|hotel|restaurant|bar|cafe|venue|guest|menu|booking/i,
+  manaaki:       /hospitality|hotel|restaurant|bar|cafe|venue|guest|menu|booking|allergen|dietary/i,
+  waihanga:      /construction|building|site|contractor|scaffold|concrete|consent|safety|bim|architect|building code/i,
   hanga:         /construction|building|site|contractor|scaffold|concrete|consent|safety|bim/i,
   auaha:         /design|creative|art|content|campaign|brand|logo|video|podcast/i,
   pakihi:        /business|finance|sales|pipeline|budget|invoice|tax|accounting|lead/i,
+  arataki:       /automotive|fleet|vehicle|car|ute|truck|driver|wof|cof|ruc|fuel|test drive|dealership/i,
+  pikau:         /customs|freight|biosecurity|hs code|tariff|shipment|import|export|mpi|border/i,
   waka:          /transport|logistics|fleet|vehicle|driver|freight|shipping|maritime/i,
   hangarau:      /technology|engineering|code|software|system|security|api|server|deploy/i,
   'te-kahui-reo':/māori|reo|whānau|kaupapa|rohe|iwi|hapū|tikanga|kaitiaki/i,
