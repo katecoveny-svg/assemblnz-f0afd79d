@@ -8,6 +8,7 @@ import WaterGlassBackground from "@/components/hero/WaterGlassBackground";
 import { AuthProvider } from "@/hooks/useAuth";
 import MobileTabBar from "@/components/MobileTabBar";
 import EchoChatWidget from "@/components/EchoChatWidget";
+import AdminCommandPalette from "@/components/AdminCommandPalette";
 import { HighContrastProvider } from "@/components/chat/HighContrastProvider";
 import { TeReoProvider } from "@/components/chat/TeReoProvider";
 import { PersonalizationProvider } from "@/contexts/PersonalizationContext";
@@ -352,6 +353,7 @@ const App = () => (
                     </div>
                     <EchoChatWidget />
                     <MobileTabBar />
+                    <AdminCommandPalette />
                   </BusinessProvider>
                 </PersonalizationProvider>
               </BrandDnaProvider>
