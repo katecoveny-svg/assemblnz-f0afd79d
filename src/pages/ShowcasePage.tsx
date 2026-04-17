@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
@@ -247,14 +246,7 @@ function VideoCard({
 /* ─── Page ─── */
 export default function ShowcasePage() {
   const [popupOpen, setPopupOpen] = useState(false);
-  const { user, isAdmin, loading } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!loading && (!user || !isAdmin)) navigate("/admin");
-  }, [loading, user, isAdmin, navigate]);
-
-  if (loading || !user || !isAdmin) return null;
+  const { isAdmin } = useAuth();
 
   return (
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.text }}>
@@ -330,96 +322,98 @@ export default function ShowcasePage() {
         </div>
       </section>
 
-      {/* ── 2. PLATFORM OVERVIEW ── */}
-      <section className="px-6 py-20" style={{ background: "#FAFBFC" }}>
-        <div className="max-w-[1100px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <Eyebrow color={C.ochre}>Section 02</Eyebrow>
-            <H2>Platform Overview</H2>
-            <Sub>Longer-form clips showing the Assembl story — five industries, one compliance pipeline.</Sub>
-          </motion.div>
+      {/* ── 2-4. ADMIN-ONLY: Sizzle reels, NZ voiceovers, brand concept clips ── */}
+      {isAdmin && (
+        <>
+          <section className="px-6 py-20" style={{ background: "#FAFBFC" }}>
+            <div className="max-w-[1100px] mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="text-center mb-14"
+              >
+                <Eyebrow color={C.ochre}>Section 02 · Admin</Eyebrow>
+                <H2>Platform Overview</H2>
+                <Sub>Longer-form clips showing the Assembl story — five industries, one compliance pipeline.</Sub>
+              </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
-            {SIZZLE_REELS.map((r, i) => (
-              <VideoCard
-                key={r.title}
-                videoUrl={r.videoUrl}
-                title={r.title}
-                description={r.description}
-                accent={C.teal}
-                index={i}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+                {SIZZLE_REELS.map((r, i) => (
+                  <VideoCard
+                    key={r.title}
+                    videoUrl={r.videoUrl}
+                    title={r.title}
+                    description={r.description}
+                    accent={C.teal}
+                    index={i}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
 
-      {/* ── 3. NZ VOICEOVERS ── */}
-      <section className="px-6 py-20" style={{ background: "linear-gradient(180deg, #F4F5F7 0%, #FAFBFC 100%)" }}>
-        <div className="max-w-[1100px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <Eyebrow color="#9B8EC4">Section 03</Eyebrow>
-            <H2>NZ Voiceovers</H2>
-            <Sub>New Zealand accent narration for outreach and presentation.</Sub>
-          </motion.div>
+          <section className="px-6 py-20" style={{ background: "linear-gradient(180deg, #F4F5F7 0%, #FAFBFC 100%)" }}>
+            <div className="max-w-[1100px] mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="text-center mb-14"
+              >
+                <Eyebrow color="#9B8EC4">Section 03 · Admin</Eyebrow>
+                <H2>NZ Voiceovers</H2>
+                <Sub>New Zealand accent narration for outreach and presentation.</Sub>
+              </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {VOICEOVERS.map((v, i) => (
-              <VideoCard
-                key={v.title}
-                videoUrl={v.videoUrl}
-                title={v.title}
-                description={v.type === "audio" ? "ElevenLabs Sam — NZ accent reference voice." : "Generated NZ accent narration over platform visuals."}
-                accent="#9B8EC4"
-                index={i}
-                audio={v.type === "audio"}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {VOICEOVERS.map((v, i) => (
+                  <VideoCard
+                    key={v.title}
+                    videoUrl={v.videoUrl}
+                    title={v.title}
+                    description={v.type === "audio" ? "ElevenLabs Sam — NZ accent reference voice." : "Generated NZ accent narration over platform visuals."}
+                    accent="#9B8EC4"
+                    index={i}
+                    audio={v.type === "audio"}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
 
-      {/* ── 4. BRAND CONCEPT ── */}
-      <section className="px-6 py-20" style={{ background: "#FAFBFC" }}>
-        <div className="max-w-[1200px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <Eyebrow color="#7BA88C">Section 04</Eyebrow>
-            <H2>Brand Concept</H2>
-            <Sub>The kete as the container for intelligence — connecting Assembl's digital platform to its cultural metaphor.</Sub>
-          </motion.div>
+          <section className="px-6 py-20" style={{ background: "#FAFBFC" }}>
+            <div className="max-w-[1200px] mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="text-center mb-14"
+              >
+                <Eyebrow color="#7BA88C">Section 04 · Admin</Eyebrow>
+                <H2>Brand Concept</H2>
+                <Sub>The kete as the container for intelligence — connecting Assembl's digital platform to its cultural metaphor.</Sub>
+              </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {BRAND_CLIPS.map((b, i) => (
-              <VideoCard
-                key={b.title}
-                videoUrl={b.videoUrl}
-                title={b.title}
-                description={b.description}
-                accent="#7BA88C"
-                index={i}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {BRAND_CLIPS.map((b, i) => (
+                  <VideoCard
+                    key={b.title}
+                    videoUrl={b.videoUrl}
+                    title={b.title}
+                    description={b.description}
+                    accent="#7BA88C"
+                    index={i}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
+        </>
+      )}
 
       {/* ── CTA ── */}
       <section className="px-6 py-28 text-center">
