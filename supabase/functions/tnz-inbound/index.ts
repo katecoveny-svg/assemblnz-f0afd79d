@@ -285,38 +285,51 @@ function isAfterHours(): boolean {
   return parseInt(nzHour, 10) < 8 || parseInt(nzHour, 10) >= 18;
 }
 
-/** Send message via TNZ API (supports both SMS and WhatsApp). */
+/** Send message via TNZ API (supports both SMS and WhatsApp).
+ *  Uses TNZ v2.04 REST endpoint with HTTP Basic auth — same as sms-send (proven working). */
 async function sendViaTnz(
   channel: string, to: string, message: string, reference: string
 ): Promise<{ messageId?: string; error?: string }> {
-  const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v3.00";
   const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
   if (!tnzToken) return { error: "TNZ_AUTH_TOKEN not configured" };
 
   const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
-  const endpoint = channel === "whatsapp" ? "whatsapp" : "sms";
+  // SMS uses v2.04/send/sms; WhatsApp uses v2.04/send/whatsapp
+  const endpoint = channel === "whatsapp"
+    ? "https://api.tnz.co.nz/api/v2.04/send/whatsapp"
+    : "https://api.tnz.co.nz/api/v2.04/send/sms";
 
-  const resp = await fetch(`${tnzBase}/${endpoint}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${tnzToken}`,
-    },
-    body: JSON.stringify({
-      MessageData: {
-        Message: message,
-        Destinations: [{ Recipient: to }],
-        WebhookCallbackURL: webhookUrl,
-        WebhookCallbackFormat: "JSON",
-        Reference: reference,
-        ...(endpoint === "sms" ? { SendMode: "Normal" } : {}),
+  try {
+    const resp = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; encoding='utf-8'",
+        "Accept": "application/json; encoding='utf-8'",
+        Authorization: `Basic ${tnzToken}`,
       },
-    }),
-  });
+      body: JSON.stringify({
+        MessageData: {
+          Message: message.substring(0, channel === "whatsapp" ? 4000 : 1600),
+          Destinations: [{ Recipient: to }],
+          WebhookCallbackURL: webhookUrl,
+          WebhookCallbackFormat: "JSON",
+          Reference: reference,
+          ...(channel === "sms" ? { SendMode: "Normal" } : {}),
+        },
+      }),
+    });
 
-  const data = await resp.json();
-  if (data.Result === "Success") return { messageId: data.MessageID };
-  return { error: data.Result || "TNZ send failed" };
+    const text = await resp.text();
+    console.log(`[TNZ ${channel}] status=${resp.status} body=${text.substring(0, 300)}`);
+    let data: any;
+    try { data = JSON.parse(text); } catch { data = { Result: resp.ok ? "Success" : "Failed", raw: text }; }
+
+    if (data.Result === "Success" || resp.ok) return { messageId: data.MessageID };
+    return { error: data.Result || data.ErrorMessage || `HTTP ${resp.status}` };
+  } catch (err) {
+    console.error(`[TNZ ${channel}] fetch error:`, err);
+    return { error: String(err) };
+  }
 }
 
 // ─── Main handler ───────────────────────────────────────────────────────────
