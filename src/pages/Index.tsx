@@ -242,9 +242,6 @@ const Index = () => {
         {/* ═══ HOMEPAGE VIDEO TEASER ═══ */}
         <HomepageVideoTeaser />
 
-        {/* ═══ INDUSTRY KETE SHOWCASE ═══ */}
-        <IndustryKeteShowcase />
-
         {/* ═══ LIVE DEMO ═══ */}
         <Sect>
           <motion.div {...fade} className="text-center mb-14">
