@@ -107,3 +107,5 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.helm-whatsapp]
     verify_jwt = false
+  [functions.twilio-inbound]
+    verify_jwt = false

@@ -353,6 +353,8 @@ Deno.serve(async (req) => {
     const messageBody = payload.Message || payload.message || payload.Body || payload.body || "";
     const channel = (payload.Channel || payload.channel || payload.Type || payload.type || "sms").toLowerCase();
     const tnzMessageId = payload.MessageID || payload.messageId || "";
+    // ReplyMode "return" → skip TNZ send, return AI reply in JSON (used by twilio-inbound)
+    const replyMode = (payload.ReplyMode || payload.replyMode || "send").toLowerCase();
 
     // Normalise channel to sms|whatsapp
     const validChannel = channel.includes("whatsapp") ? "whatsapp" : "sms";
@@ -499,9 +501,11 @@ Deno.serve(async (req) => {
       aiReply = aiReply.substring(0, maxLen - 3) + "...";
     }
 
-    // ── Send response via TNZ ──
+    // ── Send response via TNZ (or skip if caller will reply themselves) ──
     const ref = `assembl-${agent.kete}-${validChannel}-${crypto.randomUUID()}`;
-    const sendResult = await sendViaTnz(validChannel, fromNumber, aiReply, ref);
+    const sendResult = replyMode === "return"
+      ? { messageId: null as string | null }
+      : await sendViaTnz(validChannel, fromNumber, aiReply, ref);
     const responseTimeMs = Date.now() - startTime;
 
     // ── Store outbound message ──
@@ -539,7 +543,14 @@ Deno.serve(async (req) => {
 
     console.log(`[Iho] ${validChannel} from ${fromNumber} → ${agent.agentName} (${agent.kete}) in ${responseTimeMs}ms`);
 
-    return new Response(JSON.stringify({ ok: true, agent: agent.agentId, kete: agent.kete, channel: validChannel, responseTimeMs }), {
+    return new Response(JSON.stringify({
+      ok: true,
+      agent: agent.agentId,
+      kete: agent.kete,
+      channel: validChannel,
+      responseTimeMs,
+      reply: aiReply,
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
