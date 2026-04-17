@@ -146,14 +146,24 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const authHeader = req.headers.get("Authorization");
-    if (!authHeader) return respond({ error: "Unauthorized" }, 401);
-
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseKey, { global: { headers: { Authorization: authHeader } } });
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) return respond({ error: "Unauthorized" }, 401);
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+
+    // Service-role client so generation works for admins (full access — no JWT gate).
+    const supabase = createClient(supabaseUrl, serviceKey);
+
+    // Best-effort user attribution; fall back to system user when unauthenticated.
+    let userId = "00000000-0000-0000-0000-000000000000";
+    const authHeader = req.headers.get("Authorization");
+    if (authHeader && !authHeader.endsWith(anonKey)) {
+      try {
+        const userClient = createClient(supabaseUrl, anonKey, { global: { headers: { Authorization: authHeader } } });
+        const { data: { user: authedUser } } = await userClient.auth.getUser();
+        if (authedUser?.id) userId = authedUser.id;
+      } catch (_) { /* ignore — fall through */ }
+    }
+    const user = { id: userId };
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     const FAL_API_KEY = Deno.env.get("FAL_API_KEY");
