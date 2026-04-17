@@ -247,6 +247,14 @@ function VideoCard({
 /* ─── Page ─── */
 export default function ShowcasePage() {
   const [popupOpen, setPopupOpen] = useState(false);
+  const { user, isAdmin, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && (!user || !isAdmin)) navigate("/admin");
+  }, [loading, user, isAdmin, navigate]);
+
+  if (loading || !user || !isAdmin) return null;
 
   return (
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.text }}>
