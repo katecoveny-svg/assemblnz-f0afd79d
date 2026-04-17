@@ -246,6 +246,8 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
     ],
     keteMCPs: [],
   },
+  {
+    id: 'hangarau', name: 'HANGARAU', accent: '#3A7D6E',
     purpose: 'Technology, engineering, and digital innovation',
     agents: ['spark', 'sentinel', 'nexus-t', 'cipher', 'relay', 'matrix', 'forge', 'oracle', 'ember', 'reef', 'patent', 'foundry', 'aroha-core'],
     keteSkills: [
