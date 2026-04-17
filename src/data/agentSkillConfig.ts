@@ -131,7 +131,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'manaaki', name: 'MANAAKI', accent: '#E8A87C',
     purpose: 'Hospitality and customer-focused services',
-    agents: ['aura', 'saffron', 'cellar', 'luxe', 'moana', 'coast', 'kura', 'pau', 'summit'],
+    agents: ['aura', 'saffron', 'cellar', 'luxe', 'moana', 'coast', 'kura', 'pau', 'summit', 'menu', 'aroha-core'],
     keteSkills: [
       { id: 'nz-hospitality-compliance', name: 'NZ Hospitality Compliance', category: 'compliance', description: 'Food safety, health codes, licensing', status: 'wired' },
       { id: 'kaupapa-project-mgmt', name: 'Kaupapa Project Mgmt', category: 'operations', description: 'Māori-centred project management', status: 'wired' },
@@ -139,6 +139,8 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
       { id: 'manaaki-marketing', name: 'Marketing', category: 'marketing', description: 'Content drafting, email sequences', status: 'wired' },
       { id: 'manaaki-data', name: 'Data Analytics', category: 'data', description: 'Data analysis and visualization', status: 'wired' },
       { id: 'manaaki-support', name: 'Customer Support', category: 'support', description: 'Response drafting, customer research', status: 'wired' },
+      { id: 'manaaki-allergen', name: 'Allergen & Dietary Matrix', category: 'compliance', description: '14-allergen NZ matrix, dietary planning, cross-contamination SOPs', status: 'wired' },
+      { id: 'manaaki-hr', name: 'HR & People (AROHA)', category: 'hr', description: 'Hospitality rosters, employment, holidays act', status: 'wired' },
       { id: 'social-media-manager', name: 'Social Media Manager', category: 'marketing', description: 'Content and community management', status: 'wired' },
       { id: 'theme-factory', name: 'Theme Factory', category: 'design', description: 'Custom theme generation', status: 'gap' },
     ],
@@ -149,13 +151,15 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'waihanga', name: 'WAIHANGA', accent: '#3A7D6E',
     purpose: 'Construction, building, and infrastructure',
-    agents: ['ata', 'ārai', 'kaupapa', 'rawa', 'whakaaē', 'pai', 'arc', 'terra', 'pinnacle'],
+    agents: ['ata', 'ārai', 'kaupapa', 'rawa', 'whakaaē', 'pai', 'arc', 'terra', 'pinnacle', 'aroha-core'],
     keteSkills: [
       { id: 'arai-site-safety', name: 'Ārai Site Safety', category: 'safety', description: 'Site safety, hazard management, compliance', status: 'wired' },
       { id: 'waihanga-kaupapa', name: 'Kaupapa Project Mgmt', category: 'operations', description: 'Māori-centred project management', status: 'wired' },
       { id: 'waihanga-operations', name: 'Operations', category: 'operations', description: 'Process docs, runbooks, change requests, risk assessment, vendor review', status: 'wired' },
+      { id: 'waihanga-arc', name: 'Architecture & Building Code (ARC)', category: 'compliance', description: 'NZ Building Code, design review, specification writing', status: 'wired' },
       { id: 'waihanga-data', name: 'Data Analytics', category: 'data', description: 'Data analysis and visualization', status: 'wired' },
       { id: 'waihanga-legal', name: 'Legal', category: 'legal', description: 'Contract review, vendor checks', status: 'wired' },
+      { id: 'waihanga-hr', name: 'HR & People (AROHA)', category: 'hr', description: 'Site crew employment, subbie agreements, fatigue policy', status: 'wired' },
       { id: 'waihanga-pdf-viewer', name: 'PDF Viewer Pro', category: 'documents', description: 'PDF annotation and digital signatures', status: 'gap' },
     ],
     keteMCPs: [
