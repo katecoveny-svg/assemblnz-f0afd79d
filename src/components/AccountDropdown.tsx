@@ -69,7 +69,7 @@ const AccountDropdown = () => {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-1 w-56 rounded-xl border border-border bg-card shadow-xl z-[10000] overflow-hidden opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
+        <div className="absolute right-0 bottom-full mb-1 sm:bottom-auto sm:top-full sm:mt-1 sm:mb-0 w-56 max-h-[70vh] overflow-y-auto rounded-xl border border-border bg-card shadow-xl z-[10000] opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
           <div className="px-3 py-3 border-b border-border">
             <p className="text-xs font-semibold text-foreground truncate">{displayName}</p>
             <p className="text-[10px] text-muted-foreground truncate">{user.email}</p>

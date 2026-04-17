@@ -250,14 +250,28 @@ const BrandNav = () => {
                 ))}
               </nav>
 
-              <div className="px-5 py-5 border-t" style={{ borderColor: "rgba(74,165,168,0.1)" }}>
+              <div className="px-5 py-5 border-t space-y-3" style={{ borderColor: "rgba(74,165,168,0.1)" }}>
                 <button
-                  className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium mb-3"
+                  className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium"
                   style={{ background: "#4AA5A8", color: "#FFFFFF" }}
                   onClick={() => { setMobileOpen(false); handleNavClick("/contact"); }}>
                   Kia ora — get started
                 </button>
                 <AccountDropdown />
+                <button
+                  onClick={() => { setMobileOpen(false); handleNavClick("/admin"); }}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs font-medium transition-all"
+                  style={{
+                    background: "rgba(255,255,255,0.65)",
+                    backdropFilter: "blur(20px)",
+                    border: "1px solid rgba(74,165,168,0.2)",
+                    color: "#4AA5A8",
+                  }}
+                  aria-label="Admin sign in"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Admin sign in
+                </button>
               </div>
             </motion.div>
           </>
