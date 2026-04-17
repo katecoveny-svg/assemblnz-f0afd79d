@@ -97,20 +97,20 @@ export default function AdminCommandSidebar({
     <aside
       className="hidden lg:flex w-64 flex-col flex-shrink-0 relative overflow-hidden"
       style={{
-        background: "linear-gradient(180deg, rgba(8,12,24,0.97) 0%, rgba(6,10,20,0.99) 100%)",
-        borderRight: "1px solid rgba(255,255,255,0.04)",
+        background: "linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 100%)",
+        borderRight: "1px solid rgba(58,125,110,0.08)",
       }}
     >
       {/* Top glow */}
       <div
         className="absolute top-0 left-0 right-0 h-48 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse 100% 100% at 50% -30%, ${GOLD}08 0%, transparent 100%)`,
+          background: `radial-gradient(ellipse 100% 100% at 50% -30%, ${GOLD}10 0%, transparent 100%)`,
         }}
       />
       <div
         className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: `linear-gradient(90deg, transparent, ${GOLD}30, transparent)` }}
+        style={{ background: `linear-gradient(90deg, transparent, ${GOLD}40, transparent)` }}
       />
 
       {/* Logo */}
@@ -119,17 +119,17 @@ export default function AdminCommandSidebar({
           <div
             className="w-10 h-10 rounded-2xl flex items-center justify-center"
             style={{
-              background: `linear-gradient(135deg, ${GOLD}15, ${GOLD}05)`,
-              border: `1px solid ${GOLD}20`,
-              boxShadow: `0 4px 20px ${GOLD}08, inset 0 1px 0 rgba(255,255,255,0.05)`,
+              background: `linear-gradient(135deg, ${GOLD}20, ${GOLD}08)`,
+              border: `1px solid ${GOLD}30`,
+              boxShadow: `0 4px 20px ${GOLD}12, inset 0 1px 0 rgba(255,255,255,0.6)`,
             }}
           >
             <img src={assemblMark} alt="" className="w-5 h-5 object-contain" />
           </div>
           <div>
             <h2
-              className="text-white/90 font-light uppercase tracking-[4px] text-[13px]"
-              style={{ fontFamily: "'Lato', sans-serif" }}
+              className="font-light uppercase tracking-[4px] text-[13px]"
+              style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}
             >
               ASSEMBL
             </h2>
@@ -137,7 +137,7 @@ export default function AdminCommandSidebar({
               className="text-[9px] tracking-[2px] uppercase"
               style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
-                color: "rgba(200,90,84,0.8)",
+                color: POUNAMU,
               }}
             >
               Command Centre
@@ -148,7 +148,7 @@ export default function AdminCommandSidebar({
 
       <div
         className="mx-5 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)" }}
+        style={{ background: "linear-gradient(90deg, transparent, rgba(58,125,110,0.12), transparent)" }}
       />
 
       {/* Nav sections */}
@@ -159,7 +159,7 @@ export default function AdminCommandSidebar({
               className="px-3 mb-2 text-[9px] font-bold uppercase tracking-[3px]"
               style={{
                 fontFamily: "'JetBrains Mono', monospace",
-                color: "rgba(255,255,255,0.2)",
+                color: "rgba(61,66,80,0.4)",
               }}
             >
               {section.title}
@@ -181,18 +181,19 @@ export default function AdminCommandSidebar({
                     }}
                     className={cn(
                       "group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-[12px] transition-all duration-200 cursor-pointer",
-                      active
-                        ? "text-foreground"
-                        : "text-white/35 hover:text-white/60 hover:bg-white/[0.02]"
+                      active ? "" : "hover:bg-[rgba(58,125,110,0.04)]"
                     )}
+                    style={{
+                      color: active ? "#3D4250" : "rgba(61,66,80,0.6)",
+                    }}
                   >
                     {active && (
                       <div
                         className="absolute inset-0 rounded-xl"
                         style={{
-                          background: `linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))`,
-                          border: "1px solid rgba(255,255,255,0.06)",
-                          boxShadow: `0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.04)`,
+                          background: `linear-gradient(135deg, rgba(255,255,255,0.95), rgba(250,251,252,0.85))`,
+                          border: "1px solid rgba(58,125,110,0.12)",
+                          boxShadow: `0 4px 16px rgba(58,125,110,0.08), inset 0 1px 0 rgba(255,255,255,0.8)`,
                         }}
                       />
                     )}
@@ -215,7 +216,7 @@ export default function AdminCommandSidebar({
                     {active && (
                       <ChevronRight
                         className="w-3 h-3 relative z-10"
-                        style={{ color: `${GOLD}50` }}
+                        style={{ color: `${GOLD}80` }}
                       />
                     )}
                   </a>
@@ -228,18 +229,21 @@ export default function AdminCommandSidebar({
 
       <div
         className="mx-5 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)" }}
+        style={{ background: "linear-gradient(90deg, transparent, rgba(58,125,110,0.12), transparent)" }}
       />
 
       {/* Footer */}
       <div className="px-5 py-4 space-y-3">
-        <div className="flex items-center gap-2 text-[10px] text-white/20">
-          <div className="w-1.5 h-1.5 rounded-full bg-[#5AADA0]/80 animate-pulse" />
+        <div className="flex items-center gap-2 text-[10px]" style={{ color: "rgba(61,66,80,0.5)" }}>
+          <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: POUNAMU }} />
           <span>46 agents · 6 kete</span>
         </div>
         <button
           onClick={() => { signOut(); navigate("/"); }}
-          className="flex items-center gap-2 text-[11px] text-white/25 hover:text-gray-500 transition-colors"
+          className="flex items-center gap-2 text-[11px] transition-colors"
+          style={{ color: "rgba(61,66,80,0.55)" }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = POUNAMU)}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(61,66,80,0.55)")}
         >
           <LogOut className="w-3.5 h-3.5" />
           <span>Sign out</span>
