@@ -169,7 +169,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'auaha', name: 'AUAHA', accent: '#B794F4',
     purpose: 'Creative design, content, and artistic services',
-    agents: ['prism', 'muse', 'pixel', 'verse', 'echo', 'flux', 'chromatic', 'rhythm', 'market'],
+    agents: ['prism', 'muse', 'pixel', 'verse', 'echo', 'flux', 'chromatic', 'rhythm', 'market', 'aroha-core'],
     keteSkills: [
       { id: 'canvas-design', name: 'Canvas Design', category: 'design', description: 'Advanced Canva design operations', status: 'wired' },
       { id: 'auaha-design', name: 'Design', category: 'design', description: 'UX research, design systems, critique, handoff, accessibility', status: 'wired' },
@@ -177,6 +177,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
       { id: 'algorithmic-art', name: 'Algorithmic Art', category: 'design', description: 'Generative and algorithmic art creation', status: 'gap' },
       { id: 'auaha-social-media', name: 'Social Media Manager', category: 'marketing', description: 'Content creation and community engagement', status: 'wired' },
       { id: 'auaha-marketing', name: 'Marketing', category: 'marketing', description: 'Content drafting, SEO audit, brand review', status: 'wired' },
+      { id: 'auaha-hr', name: 'HR & People (AROHA)', category: 'hr', description: 'Studio team rosters, freelance contracts, retainer agreements', status: 'wired' },
       { id: 'skill-creator', name: 'Skill Creator', category: 'system', description: 'Create and design new agent skills', status: 'gap' },
     ],
     keteMCPs: [
@@ -186,7 +187,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'pakihi', name: 'PAKIHI', accent: '#D4A843',
     purpose: 'Business, sales, finance, and commercial operations',
-    agents: ['ledger', 'vault', 'catalyst', 'compass', 'haven', 'counter', 'gateway', 'harvest', 'grove', 'sage', 'ascend'],
+    agents: ['ledger', 'vault', 'catalyst', 'compass', 'haven', 'counter', 'gateway', 'harvest', 'grove', 'sage', 'ascend', 'aroha-core'],
     keteSkills: [
       { id: 'pakihi-finance', name: 'Finance', category: 'finance', description: 'Budgeting, forecasting, analysis, reporting, tax planning', status: 'wired' },
       { id: 'pakihi-sales', name: 'Sales', category: 'sales', description: 'Pipeline review, call summary, forecasting, competitive intelligence', status: 'wired' },
@@ -205,7 +206,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'waka', name: 'WAKA', accent: '#6B8FA3',
     purpose: 'Transport, logistics, and fleet management',
-    agents: ['motor', 'transit', 'mariner'],
+    agents: ['motor', 'transit', 'mariner', 'aroha-core'],
     keteSkills: [
       { id: 'waka-kaupapa', name: 'Kaupapa Project Mgmt', category: 'operations', description: 'Māori-centred project management', status: 'wired' },
       { id: 'waka-operations', name: 'Operations', category: 'operations', description: 'Process docs, runbooks, compliance, capacity planning', status: 'wired' },
@@ -217,7 +218,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'hangarau', name: 'HANGARAU', accent: '#3A7D6E',
     purpose: 'Technology, engineering, and digital innovation',
-    agents: ['spark', 'sentinel', 'nexus-t', 'cipher', 'relay', 'matrix', 'forge', 'oracle', 'ember', 'reef', 'patent', 'foundry'],
+    agents: ['spark', 'sentinel', 'nexus-t', 'cipher', 'relay', 'matrix', 'forge', 'oracle', 'ember', 'reef', 'patent', 'foundry', 'aroha-core'],
     keteSkills: [
       { id: 'sentinel', name: 'Sentinel', category: 'security', description: 'Security monitoring and threat detection', status: 'wired' },
       { id: 'signal-security-specialist', name: 'Signal Security', category: 'security', description: 'Advanced security and encryption', status: 'wired' },
@@ -235,7 +236,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'te-kahui-reo', name: 'TE KĀHUI REO', accent: '#D4A843',
     purpose: 'Māori business intelligence and community engagement',
-    agents: ['whānau', 'rohe', 'kaupapa-m', 'mana', 'kaitiaki', 'tāura', 'whakaaro', 'hiringa'],
+    agents: ['whānau', 'rohe', 'kaupapa-m', 'mana', 'kaitiaki', 'tāura', 'whakaaro', 'hiringa', 'aroha-core'],
     keteSkills: [
       { id: 'nz-media-scanner-reo', name: 'NZ Media Scanner', category: 'monitoring', description: 'NZ news and media monitoring', status: 'wired' },
       { id: 'te-kahui-kaupapa', name: 'Kaupapa Project Mgmt', category: 'operations', description: 'Māori-centred project management', status: 'wired' },
@@ -251,7 +252,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'toroa', name: 'TORO', accent: '#E8D5B7',
     purpose: 'Family and personal agent (SMS-first, $29/month)',
-    agents: ['toroa'],
+    agents: ['toroa', 'aroha-core'],
     keteSkills: [
       { id: 'toroa-kaupapa', name: 'Kaupapa Project Mgmt', category: 'operations', description: 'Family project management', status: 'wired' },
       { id: 'toroa-schedule', name: 'Schedule', category: 'operations', description: 'Family calendar and event scheduling', status: 'wired' },
@@ -270,7 +271,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
   {
     id: 'hauora', name: 'HAUORA', accent: '#7BC8A4',
     purpose: 'Health, wellness, fitness, and lifestyle',
-    agents: ['turf', 'league', 'vitals', 'remedy', 'vitae', 'radiance', 'palette', 'odyssey'],
+    agents: ['turf', 'league', 'vitals', 'remedy', 'vitae', 'radiance', 'palette', 'odyssey', 'aroha-core'],
     keteSkills: [
       { id: 'hauora-operations', name: 'Operations', category: 'operations', description: 'Process documentation, runbooks', status: 'wired' },
       { id: 'hauora-data', name: 'Data Analytics', category: 'data', description: 'Health metrics analysis and visualization', status: 'wired' },
