@@ -317,12 +317,12 @@ export default function AuahaGenerate() {
             </div>
           </div>
 
-          {/* Demo mode notice */}
-          <div className="flex items-start gap-2 p-3 rounded-lg bg-[rgba(74,165,168,0.04)]">
-            <Info className="w-4 h-4 text-[#6B7280] mt-0.5 flex-shrink-0" />
+          {/* Live mode notice */}
+          <div className="flex items-start gap-2 p-3 rounded-lg" style={{ background: "rgba(90,173,160,0.08)", border: "1px solid rgba(90,173,160,0.2)" }}>
+            <ShieldCheck className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#34D399" }} />
             <div>
-              <p className="text-[#6B7280] text-xs">Demo mode active</p>
-              <p className="text-[#8B92A0] text-[10px]">Set REPLICATE_API_TOKEN or FAL_KEY to go live. The full UI, audit trail, and evidence packs work without credentials.</p>
+              <p className="text-[#1A1D29] text-xs font-medium">Live — full access</p>
+              <p className="text-[#6B7280] text-[10px]">Lovable AI, Fal.ai & Runway providers connected. Kahu compliance, Iho routing, Tā audit and Evidence Packs all active.</p>
             </div>
           </div>
 
