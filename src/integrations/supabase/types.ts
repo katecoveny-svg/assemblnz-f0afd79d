@@ -2375,6 +2375,124 @@ export type Database = {
         }
         Relationships: []
       }
+      esign_audit_events: {
+        Row: {
+          created_at: string
+          envelope_id: string
+          event_type: string
+          id: string
+          ip_address: string | null
+          metadata: Json | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          envelope_id: string
+          event_type: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          envelope_id?: string
+          event_type?: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "esign_audit_events_envelope_id_fkey"
+            columns: ["envelope_id"]
+            isOneToOne: false
+            referencedRelation: "esign_envelopes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      esign_envelopes: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          document_name: string
+          document_sha256: string | null
+          document_url: string
+          expires_at: string
+          id: string
+          message: string | null
+          sent_at: string
+          signed_at: string | null
+          signed_ip: string | null
+          signed_pdf_url: string | null
+          signed_typed_name: string | null
+          signed_user_agent: string | null
+          signer_email: string
+          signer_name: string
+          status: string
+          tenant_id: string
+          token: string
+          updated_at: string
+          viewed_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          document_name: string
+          document_sha256?: string | null
+          document_url: string
+          expires_at?: string
+          id?: string
+          message?: string | null
+          sent_at?: string
+          signed_at?: string | null
+          signed_ip?: string | null
+          signed_pdf_url?: string | null
+          signed_typed_name?: string | null
+          signed_user_agent?: string | null
+          signer_email: string
+          signer_name: string
+          status?: string
+          tenant_id: string
+          token: string
+          updated_at?: string
+          viewed_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          document_name?: string
+          document_sha256?: string | null
+          document_url?: string
+          expires_at?: string
+          id?: string
+          message?: string | null
+          sent_at?: string
+          signed_at?: string | null
+          signed_ip?: string | null
+          signed_pdf_url?: string | null
+          signed_typed_name?: string | null
+          signed_user_agent?: string | null
+          signer_email?: string
+          signer_name?: string
+          status?: string
+          tenant_id?: string
+          token?: string
+          updated_at?: string
+          viewed_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "esign_envelopes_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       events: {
         Row: {
           child_id: string | null
@@ -8983,6 +9101,91 @@ export type Database = {
           vehicle_id?: string
         }
         Relationships: []
+      }
+      xero_oauth_state: {
+        Row: {
+          created_at: string
+          expires_at: string
+          return_url: string | null
+          state: string
+          tenant_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          return_url?: string | null
+          state: string
+          tenant_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          return_url?: string | null
+          state?: string
+          tenant_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "xero_oauth_state_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      xero_tokens: {
+        Row: {
+          access_token: string
+          connected_by: string | null
+          created_at: string
+          expires_at: string
+          id: string
+          refresh_token: string
+          scopes: string[] | null
+          tenant_id: string
+          updated_at: string
+          xero_org_name: string | null
+          xero_tenant_id: string
+        }
+        Insert: {
+          access_token: string
+          connected_by?: string | null
+          created_at?: string
+          expires_at: string
+          id?: string
+          refresh_token: string
+          scopes?: string[] | null
+          tenant_id: string
+          updated_at?: string
+          xero_org_name?: string | null
+          xero_tenant_id: string
+        }
+        Update: {
+          access_token?: string
+          connected_by?: string | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          refresh_token?: string
+          scopes?: string[] | null
+          tenant_id?: string
+          updated_at?: string
+          xero_org_name?: string | null
+          xero_tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "xero_tokens_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
