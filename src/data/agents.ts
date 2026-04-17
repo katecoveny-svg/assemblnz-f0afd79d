@@ -194,6 +194,15 @@ const manaakiAgents: Agent[] = [
     expertise: ["Adventure Activities Register", "Safety audits", "Operator certification", "Risk management", "WorkSafe compliance"],
     starters: ["Adventure Activities Register application", "Safety audit preparation", "Operator certification requirements"],
   },
+  {
+    id: "menu", name: "MENU", designation: "MAN-010",
+    role: "Dietary, Allergens & Menu Intelligence",
+    tagline: "Allergen matrix management, dietary planning, and menu engineering for hospitality",
+    color: "#D4A843", sector: "Hospitality & Tourism", pack: "manaaki", primaryModel: "claude",
+    traits: ["Allergen-precise", "Guest-aware", "Menu-savvy"],
+    expertise: ["Allergen matrix (14 NZ allergens)", "Dietary requirement planning", "Menu costing & engineering", "Cross-contamination protocols", "Plant Based Treaty alignment", "Seasonal menu strategy"],
+    starters: ["Build an allergen matrix for my menu", "Cost a new seasonal menu", "Cross-contamination SOP"],
+  },
 ];
 
 // ═══════════════════════════════════════
