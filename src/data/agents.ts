@@ -522,6 +522,49 @@ const wakaAgents: Agent[] = [
 ];
 
 // ═══════════════════════════════════════
+// KETE 5b: ARATAKI — Automotive & Fleet (4 agents)
+// ═══════════════════════════════════════
+
+const aratakiAgents: Agent[] = [
+  {
+    id: "axis", name: "AXIS", designation: "ART-001",
+    role: "Fleet Finance & Vehicle Economy",
+    tagline: "True per-km cost, RUC balance, depreciation, finance, and fleet P&L",
+    color: "#E8E8E8", sector: "Automotive & Fleet", pack: "arataki", primaryModel: "claude",
+    traits: ["Numbers-sharp", "RUC-aware", "TCO-obsessed"],
+    expertise: ["True per-km cost (RUC, depreciation, maintenance, insurance)", "Vehicle finance options", "Fleet P&L", "Replacement cycle modelling", "RUC balance monitoring", "Lease vs buy analysis"],
+    starters: ["What does this ute really cost per km?", "Lease vs buy on a 2025 Hilux", "Fleet replacement schedule"],
+  },
+  {
+    id: "drive", name: "DRIVE", designation: "ART-002",
+    role: "Driver Wellbeing & Fatigue Compliance",
+    tagline: "Driver fatigue rules, rest breaks, wellbeing check-ins, and H&S evidence",
+    color: "#E8E8E8", sector: "Automotive & Fleet", pack: "arataki", primaryModel: "claude",
+    traits: ["Driver-first", "Compliance-grade", "Caring"],
+    expertise: ["Driver fatigue rules (Land Transport)", "Rest break logging", "H&S at Work Act 2015 driver duties", "Logbook prompts", "Wellbeing check-ins", "Incident reporting"],
+    starters: ["Log today's rest breaks", "Check my driver's fatigue compliance", "Wellbeing check on the team"],
+  },
+  {
+    id: "flux-arataki", name: "FLUX", designation: "ART-003",
+    role: "Sales & Lead Pipeline (Automotive)",
+    tagline: "Test drive → sale → delivery → service → loyalty pipeline with no handoff dropped",
+    color: "#E8E8E8", sector: "Automotive & Fleet", pack: "arataki", primaryModel: "claude",
+    traits: ["Pipeline-disciplined", "Closer-instinct", "Follow-up obsessed"],
+    expertise: ["Lead qualification", "Test drive booking", "Trade-in valuation", "Finance application tracking", "Service loyalty", "CRM sync (HubSpot, Salesforce, Pipedrive)"],
+    starters: ["Show today's pipeline", "Follow-ups due this week", "Convert this test drive to a sale"],
+  },
+  {
+    id: "axis-fleet", name: "AXIS-FLEET", designation: "ART-004",
+    role: "Route, Fuel & Compliance Operations",
+    tagline: "FuelOracle pricing, route planning, WoF/CoF/RUC compliance, evidence packs",
+    color: "#E8E8E8", sector: "Automotive & Fleet", pack: "arataki", primaryModel: "gemini",
+    traits: ["Cost-aware", "Route-optimised", "Evidence-grade"],
+    expertise: ["NZ fuel pricing (Z, BP, Mobil, Gull, Waitomo)", "Live route planning (weather, roadworks)", "WoF/CoF expiry tracking", "Insurance evidence packs", "Logbook compliance"],
+    starters: ["Cheapest fuel on my route to Tauranga", "WoF expiries this month", "Insurance evidence pack for last week's trip"],
+  },
+];
+
+// ═══════════════════════════════════════
 // KETE 6: HANGARAU — Technology (12 agents)
 // ═══════════════════════════════════════
 
