@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 import KiaOraPopup from "@/components/KiaOraPopup";
+import { useAuth } from "@/hooks/useAuth";
 
 const VIDEO_BASE_URL = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/video-assets/`;
 
