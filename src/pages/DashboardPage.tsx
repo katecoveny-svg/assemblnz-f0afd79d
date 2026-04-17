@@ -996,6 +996,35 @@ const DashboardPage = () => {
       </main>
 
       <BrandFooter />
+
+      {/* Light-mode readability overrides scoped to the dashboard */}
+      <style>{`
+        .dashboard-light .text-foreground { color: #1A1D29 !important; }
+        .dashboard-light .text-foreground\\/70 { color: #2A2F3D !important; }
+        .dashboard-light .text-foreground\\/60 { color: #3D4250 !important; }
+        .dashboard-light .text-foreground\\/50 { color: #4A5160 !important; }
+        .dashboard-light .text-muted-foreground { color: #6B7280 !important; }
+        .dashboard-light .text-muted-foreground\\/50 { color: #8B92A0 !important; }
+        .dashboard-light .text-muted-foreground\\/40 { color: #9AA1AE !important; }
+        .dashboard-light .text-muted-foreground\\/30 { color: #B0B6C0 !important; }
+        .dashboard-light .text-muted-foreground\\/20 { color: #C8CDD4 !important; }
+        /* Replace dark-on-dark hover overlays with subtle ink-on-white */
+        .dashboard-light .hover\\:bg-white\\/\\[0\\.04\\]:hover,
+        .dashboard-light .hover\\:bg-white\\/\\[0\\.03\\]:hover,
+        .dashboard-light .hover\\:bg-white\\/\\[0\\.02\\]:hover,
+        .dashboard-light .hover\\:bg-white\\/\\[0\\.01\\]:hover,
+        .dashboard-light .hover\\:bg-white\\/10:hover { background-color: rgba(58,125,110,0.06) !important; }
+        /* Inline dark surface overrides → light inset */
+        .dashboard-light [style*="rgba(255,255,255,0.65)"] {
+          background: #FFFFFF !important;
+          box-shadow: inset 1px 1px 3px rgba(166,166,180,0.12), inset -1px -1px 3px rgba(255,255,255,0.9) !important;
+        }
+        /* Borders between rows */
+        .dashboard-light .border-white\\/\\[0\\.04\\] { border-color: rgba(26,29,41,0.06) !important; }
+        .dashboard-light .border-border { border-color: rgba(26,29,41,0.10) !important; }
+        /* Sparkline empty bars + progress track */
+        .dashboard-light .bg-white\\/\\[0\\.06\\] { background-color: rgba(26,29,41,0.06) !important; }
+      `}</style>
     </div>
   );
 };
