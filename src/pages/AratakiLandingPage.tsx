@@ -7,9 +7,11 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
+import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import { ARATAKI_USE_CASE } from "@/data/useCases";
 
 const ACCENT = "#4AA5A8";
+const ACCENT_LIGHT = "#7BC9CB";
 const GLASS = {
   background: "rgba(255,255,255,0.65)",
   backdropFilter: "blur(20px) saturate(140%)",
@@ -62,10 +64,7 @@ export default function AratakiLandingPage() {
             background: `radial-gradient(ellipse 80% 50% at 50% 30%, ${ACCENT}08 0%, transparent 70%)`,
           }} />
 
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
-            className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6" style={{ ...GLASS }}>
-            <Car size={28} style={{ color: ACCENT }} />
-          </motion.div>
+          <LandingKeteHero accentColor={ACCENT} accentLight={ACCENT_LIGHT} model="car" size={200} />
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.05 }}
             className="text-[11px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: ACCENT }}>
