@@ -45,14 +45,14 @@ const InnerSwirls = ({
     }[] = [];
     for (let i = 0; i < count; i++) {
       out.push({
-        radius: 0.45 + (i / count) * 0.25, // 0.45 → 0.7
-        tube: 0.025 + Math.random() * 0.02,
+        radius: 0.35 + (i / count) * 0.4, // 0.35 → 0.75
+        tube: 0.05 + Math.random() * 0.04,
         rotation: [
           (i / count) * Math.PI,
           (i * 1.7) % Math.PI,
           (i * 0.9) % Math.PI,
         ],
-        opacity: 0.5 + Math.random() * 0.3,
+        opacity: 0.85 + Math.random() * 0.15,
       });
     }
     return out;
@@ -60,13 +60,13 @@ const InnerSwirls = ({
 
   return (
     <group ref={groupRef}>
-      {/* Soft inner glow core */}
+      {/* Bright glow core */}
       <mesh>
-        <sphereGeometry args={[0.18, 24, 24]} />
-        <meshBasicMaterial color={accentLight} transparent opacity={0.18} />
+        <sphereGeometry args={[0.22, 24, 24]} />
+        <meshBasicMaterial color={accentLight} transparent opacity={0.6} />
       </mesh>
 
-      {/* Volumetric ribbon swirls */}
+      {/* Volumetric ribbon swirls — thicker so they read clearly through the glass */}
       {swirls.map((s, i) => (
         <mesh key={`swirl-${i}`} rotation={s.rotation}>
           <torusGeometry args={[s.radius, s.tube, 16, 96]} />
@@ -101,18 +101,18 @@ const GlassShell = ({ accentColor }: { accentColor: string }) => {
       <MeshTransmissionMaterial
         backside
         samples={8}
-        thickness={1.4}
-        chromaticAberration={0.06}
-        anisotropy={0.2}
-        distortion={0.25}
+        thickness={2.2}
+        chromaticAberration={0.05}
+        anisotropy={0.3}
+        distortion={0.2}
         distortionScale={0.4}
-        temporalDistortion={0.08}
-        transmission={1}
+        temporalDistortion={0.06}
+        transmission={0.92}
         roughness={0.02}
         ior={1.5}
-        color="#ffffff"
+        color={accentColor}
         attenuationColor={accentColor}
-        attenuationDistance={1.4}
+        attenuationDistance={0.6}
       />
     </mesh>
   );
