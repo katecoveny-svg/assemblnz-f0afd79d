@@ -445,7 +445,7 @@ const DashboardPage = () => {
   ].slice(0, 6);
 
   return (
-    <div className="min-h-screen flex flex-col relative" style={{ background: "#FAFBFC", color: "#3D4250" }}>
+    <div className="dashboard-light min-h-screen flex flex-col relative" style={{ background: "#FAFBFC", color: "#3D4250" }}>
       {/* Soft ambient glow */}
       <div className="fixed inset-0 pointer-events-none -z-10" style={{
         background:
