@@ -32,8 +32,9 @@ const InnerSwirls = ({
   useFrame(({ clock }) => {
     if (!groupRef.current) return;
     const t = clock.getElapsedTime();
-    groupRef.current.rotation.y = t * 0.18;
-    groupRef.current.rotation.x = Math.sin(t * 0.25) * 0.4;
+    groupRef.current.rotation.y = t * 0.5;
+    groupRef.current.rotation.x = Math.sin(t * 0.6) * 0.6;
+    groupRef.current.rotation.z = Math.cos(t * 0.4) * 0.3;
   });
 
   const swirls = useMemo(() => {
@@ -91,7 +92,9 @@ const GlassShell = ({ accentColor }: { accentColor: string }) => {
 
   useFrame(({ clock }) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y = clock.getElapsedTime() * 0.06;
+      const t = clock.getElapsedTime();
+      meshRef.current.rotation.y = t * 0.25;
+      meshRef.current.rotation.x = Math.sin(t * 0.3) * 0.15;
     }
   });
 
@@ -159,7 +162,7 @@ const GlassKeteSphere: React.FC<GlassKeteSphereProps> = ({
         <spotLight position={[0, 4, 2]} angle={0.5} penumbra={0.6} intensity={2.5} color="#ffffff" />
         <Environment preset="studio" />
 
-        <Float speed={1.0} rotationIntensity={0.2} floatIntensity={0.4}>
+        <Float speed={2.2} rotationIntensity={0.6} floatIntensity={0.8}>
           <group>
             <GlassShell accentColor={accentColor} />
             {/* Swirls sit slightly behind centre so refraction magnifies them */}
