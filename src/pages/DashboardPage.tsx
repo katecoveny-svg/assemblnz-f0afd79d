@@ -179,9 +179,9 @@ const SectionHeader = ({ icon: Icon, title, color, count, trailing }: { icon: an
   <div className="flex items-center justify-between mb-3">
     <div className="flex items-center gap-2">
       <Icon size={16} style={{ color }} />
-      <h2 className="font-display font-bold text-sm text-foreground">{title}</h2>
+      <h2 className="font-display font-bold text-sm" style={{ color: "#1A1D29" }}>{title}</h2>
       {count !== undefined && count > 0 && (
-        <span className="text-[9px] px-1.5 py-0.5 rounded-full font-bold" style={{ backgroundColor: color + "15", color }}>{count}</span>
+        <span className="text-[9px] px-1.5 py-0.5 rounded-full font-bold" style={{ backgroundColor: color + "18", color }}>{count}</span>
       )}
     </div>
     {trailing}
@@ -190,12 +190,12 @@ const SectionHeader = ({ icon: Icon, title, color, count, trailing }: { icon: an
 
 const EmptyState = ({ message, cta, to }: { message: string; cta?: string; to?: string }) => (
   <div className="flex flex-col items-center justify-center py-8 gap-3">
-    <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
-      <Sparkles size={18} className="text-muted-foreground/30" />
+    <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "#FFFFFF", boxShadow: "inset 2px 2px 4px rgba(166,166,180,0.18), inset -2px -2px 4px rgba(255,255,255,0.9)" }}>
+      <Sparkles size={18} style={{ color: "#5AADA0" }} />
     </div>
-    <p className="text-xs text-muted-foreground text-center max-w-[200px]">{message}</p>
+    <p className="text-xs text-center max-w-[220px]" style={{ color: "#6B7280" }}>{message}</p>
     {cta && to && (
-      <Link to={to} className="text-[10px] font-medium px-4 py-1.5 rounded-lg transition-colors" style={{ background: "rgba(212,168,67,0.08)", color: "#3A6A9C", border: "1px solid rgba(212,168,67,0.15)" }}>
+      <Link to={to} className="text-[10px] font-medium px-4 py-1.5 rounded-lg transition-colors" style={{ background: "rgba(58,125,110,0.08)", color: "#3A7D6E", border: "1px solid rgba(58,125,110,0.20)" }}>
         {cta} →
       </Link>
     )}
