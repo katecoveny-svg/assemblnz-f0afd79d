@@ -58,6 +58,33 @@ Deno.serve(async (req) => {
     const fromNumber = from || TWILIO_FROM;
     const trimmed = String(message).substring(0, 1600);
 
+    // ── Consent gate: block sending to opted-out numbers (UEMA 2007 compliance) ──
+    const sb = createClient(supabaseUrl, serviceKey);
+    const { data: priorConsent } = await sb
+      .from("messaging_conversations")
+      .select("id, consent_status, identification_sent")
+      .eq("phone_number", to)
+      .eq("channel", "sms")
+      .eq("status", "active")
+      .maybeSingle();
+
+    if (priorConsent?.consent_status === "opted_out") {
+      console.log(`[twilio-send] BLOCKED: ${to} has opted out`);
+      return new Response(JSON.stringify({ error: "Recipient has opted out", consent_status: "opted_out" }), {
+        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Append mandatory disclosure on first contact (UEMA s.10 sender-ID + opt-out)
+    let finalBody = trimmed;
+    const needsDisclosure = !priorConsent?.identification_sent;
+    if (needsDisclosure) {
+      const disclosure = "\n\nAssembl AI (NZ). Reply STOP to opt out, HELP for info. assembl.co.nz/privacy";
+      const reserved = 1600 - disclosure.length - 3;
+      if (finalBody.length > reserved) finalBody = finalBody.substring(0, reserved) + "...";
+      finalBody = finalBody + disclosure;
+    }
+
     // Send via Twilio REST (gateway prepends /2010-04-01/Accounts/{AccountSid})
     const tw = await fetch(`${GATEWAY_URL}/Messages.json`, {
       method: "POST",
@@ -66,7 +93,7 @@ Deno.serve(async (req) => {
         "X-Connection-Api-Key": TWILIO_API_KEY,
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: new URLSearchParams({ To: to, From: fromNumber, Body: trimmed }),
+      body: new URLSearchParams({ To: to, From: fromNumber, Body: finalBody }),
     });
 
     const data = await tw.json();
@@ -78,26 +105,16 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Persist outbound to messaging_conversations / messaging_messages
-    const sb = createClient(supabaseUrl, serviceKey);
-    const { data: existing } = await sb
-      .from("messaging_conversations")
-      .select("id")
-      .eq("phone_number", to)
-      .eq("channel", "sms")
-      .eq("status", "active")
-      .maybeSingle();
-
     let conversationId: string;
-    if (existing) {
-      conversationId = existing.id;
+    if (priorConsent) {
+      conversationId = priorConsent.id;
       await sb.from("messaging_conversations")
-        .update({ updated_at: new Date().toISOString() })
-        .eq("id", existing.id);
+        .update({ updated_at: new Date().toISOString(), ...(needsDisclosure ? { identification_sent: true } : {}) })
+        .eq("id", priorConsent.id);
     } else {
       const { data: created } = await sb
         .from("messaging_conversations")
-        .insert({ phone_number: to, channel: "sms", status: "active", assigned_agent: agent_id })
+        .insert({ phone_number: to, channel: "sms", status: "active", assigned_agent: agent_id, consent_status: "opted_in", identification_sent: needsDisclosure, first_contact_at: new Date().toISOString() })
         .select("id")
         .single();
       conversationId = created!.id;
@@ -109,7 +126,7 @@ Deno.serve(async (req) => {
       direction: "outbound",
       to_number: to,
       from_number: fromNumber,
-      body: trimmed,
+      body: finalBody,
       channel: "sms",
       status: "sent",
       agent_used: agent_id,
