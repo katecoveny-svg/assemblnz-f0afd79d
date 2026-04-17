@@ -2,7 +2,30 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Play } from "lucide-react";
 
-const SUPABASE_URL = "https://ssaxxdkxzrvkdjsanhei.supabase.co";
+const VIDEO_BASE_URL = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/video-assets/`;
+
+const KETE_HERO_VIDEO: Record<string, { videoUrl: string; caption: string }> = {
+  manaaki: {
+    videoUrl: "kete-clips/MANAAKI-Tablet-Check.mp4",
+    caption: "Assembl helps a cafe owner check Easter Sunday trading compliance in real time",
+  },
+  waihanga: {
+    videoUrl: "kete-clips/WAIHANGA-Hamilton-Build.mp4",
+    caption: "Auto-generated site induction from the SWMS, sent via SMS to the new subcontractor",
+  },
+  auaha: {
+    videoUrl: "kete-clips/AUAHA-Creative-Studio.mp4",
+    caption: "Pre-publish FTA 1986 compliance scan on Instagram campaign copy",
+  },
+  arataki: {
+    videoUrl: "kete-clips/ARATAKI-Dealership.mp4",
+    caption: "Real-world NZ fuel cost comparison with CCCFA-compliant finance disclosure",
+  },
+  pikau: {
+    videoUrl: "sizzle-reels/Assembl-Sizzle-Reel-A.mp4",
+    caption: "Assembl's compliance pipeline processing a customs entry — 35 minutes to 5",
+  },
+};
 
 interface Props {
   slug: string;
@@ -12,11 +35,11 @@ interface Props {
 
 export default function KeteVideoBlock({ slug, accentColor, keteName }: Props) {
   const [hasError, setHasError] = useState(false);
-  const url = `${SUPABASE_URL}/storage/v1/object/public/video-assets/${slug}.mp4`;
+  const config = KETE_HERO_VIDEO[slug];
 
-  if (hasError) {
-    return null; // Silently hide if no video uploaded yet
-  }
+  if (!config || hasError) return null;
+
+  const url = VIDEO_BASE_URL + config.videoUrl;
 
   return (
     <motion.section
@@ -38,25 +61,33 @@ export default function KeteVideoBlock({ slug, accentColor, keteName }: Props) {
       >
         {keteName} on Assembl
       </h2>
-      <div
-        className="rounded-2xl overflow-hidden"
-        style={{
-          background: "rgba(255,255,255,0.65)",
-          backdropFilter: "blur(20px)",
-          border: `1px solid ${accentColor}25`,
-          boxShadow: `0 4px 32px ${accentColor}10`,
-        }}
-      >
-        <video
-          src={url}
-          className="w-full aspect-video object-cover"
-          controls
-          playsInline
-          preload="metadata"
-          onError={() => setHasError(true)}
+      <div className="max-w-[800px] mx-auto">
+        <div
+          className="rounded-2xl overflow-hidden"
+          style={{
+            background: "rgba(255,255,255,0.65)",
+            backdropFilter: "blur(20px)",
+            border: `1px solid ${accentColor}25`,
+            boxShadow: `0 4px 32px ${accentColor}10`,
+          }}
         >
-          Your browser does not support video playback.
-        </video>
+          <video
+            src={url}
+            className="w-full aspect-video object-cover"
+            controls
+            playsInline
+            preload="metadata"
+            onError={() => setHasError(true)}
+          >
+            Your browser does not support video playback.
+          </video>
+        </div>
+        <p
+          className="text-center mt-4 text-[13px] italic"
+          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 400, color: "#6B7280" }}
+        >
+          {config.caption}
+        </p>
       </div>
     </motion.section>
   );
