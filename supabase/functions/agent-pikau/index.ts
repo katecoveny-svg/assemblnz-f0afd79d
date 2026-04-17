@@ -231,7 +231,15 @@ serve(async (req: Request) => {
   }
 
   try {
-    const input: PerceptionInput = await req.json();
+    const raw = await req.json().catch(() => ({}));
+    const input: PerceptionInput = {
+      requestType: raw.requestType ?? "customs_declaration",
+      shipmentId: raw.shipmentId ?? "",
+      importerId: raw.importerId ?? "",
+      userId: raw.userId ?? "anonymous",
+      payload: raw.payload ?? {},
+      timestamp: raw.timestamp ?? new Date().toISOString(),
+    };
     const requestId = `pikau_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     // Layer 1: Perception
