@@ -71,21 +71,6 @@ export default function HomepageVideoTeaser() {
           Five industries. One governed intelligence layer. Built for the laws and language of Aotearoa.
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-5"
-        >
-          <Link
-            to="/showcase"
-            className="inline-flex items-center gap-2 text-[12px] tracking-[2px] uppercase transition-all hover:gap-3"
-            style={{ fontFamily: "'Lato', sans-serif", color: "#4AA5A8" }}
-          >
-            See more videos <ArrowRight size={12} />
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

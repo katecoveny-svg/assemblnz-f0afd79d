@@ -7,7 +7,6 @@ import { supabase } from "@/integrations/supabase/client";
 const FOOTER_LINKS = {
   Platform: [
     { to: "/#industry-packs", label: "Your industry" },
-    { to: "/showcase", label: "Showcase" },
     { to: "/pricing", label: "Pricing" },
     { to: "/how-it-works", label: "How it works" },
     { to: "/migration", label: "Migration" },
