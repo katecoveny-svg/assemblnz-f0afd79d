@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 const VIDEO_BASE_URL = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/video-assets/`;
-const VIDEO_PATH = "brand-concept/Intelligence-Layer-Weaves.mp4";
+const VIDEO_PATH = "brand-concept/Home-Brand-Flow.mp4";
 
 export default function HomepageVideoTeaser() {
   const [hasError, setHasError] = useState(false);
