@@ -162,7 +162,7 @@ const GlassKeteSphere: React.FC<GlassKeteSphereProps> = ({
         <spotLight position={[0, 4, 2]} angle={0.5} penumbra={0.6} intensity={2.5} color="#ffffff" />
         <Environment preset="studio" />
 
-        <Float speed={1.0} rotationIntensity={0.2} floatIntensity={0.4}>
+        <Float speed={2.2} rotationIntensity={0.6} floatIntensity={0.8}>
           <group>
             <GlassShell accentColor={accentColor} />
             {/* Swirls sit slightly behind centre so refraction magnifies them */}
