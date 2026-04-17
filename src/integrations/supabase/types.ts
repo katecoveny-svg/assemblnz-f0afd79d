@@ -4422,10 +4422,15 @@ export type Database = {
           assigned_agent: string | null
           assigned_pack: string | null
           channel: string
+          consent_status: string
           contact_name: string | null
           created_at: string | null
+          first_contact_at: string | null
           id: string
+          identification_sent: boolean
           metadata: Json | null
+          opt_out_at: string | null
+          opted_out_keyword: string | null
           phone_number: string
           status: string | null
           updated_at: string | null
@@ -4434,10 +4439,15 @@ export type Database = {
           assigned_agent?: string | null
           assigned_pack?: string | null
           channel: string
+          consent_status?: string
           contact_name?: string | null
           created_at?: string | null
+          first_contact_at?: string | null
           id?: string
+          identification_sent?: boolean
           metadata?: Json | null
+          opt_out_at?: string | null
+          opted_out_keyword?: string | null
           phone_number: string
           status?: string | null
           updated_at?: string | null
@@ -4446,10 +4456,15 @@ export type Database = {
           assigned_agent?: string | null
           assigned_pack?: string | null
           channel?: string
+          consent_status?: string
           contact_name?: string | null
           created_at?: string | null
+          first_contact_at?: string | null
           id?: string
+          identification_sent?: boolean
           metadata?: Json | null
+          opt_out_at?: string | null
+          opted_out_keyword?: string | null
           phone_number?: string
           status?: string | null
           updated_at?: string | null
