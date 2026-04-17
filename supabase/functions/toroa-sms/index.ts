@@ -105,19 +105,48 @@ async function fetchMediaAsBase64(url: string): Promise<{ base64: string; mimeTy
 }
 
 /* ── Send SMS ── */
-async function sendSms(to: string, message: string): Promise<void> {
+async function sendSms(to: string, message: string): Promise<{ ok: boolean; messageId?: string; error?: string }> {
   const token = Deno.env.get("TNZ_AUTH_TOKEN");
-  // Always use v2.04 REST endpoint (confirmed working; v3.00 has different auth/payload)
   const tnzSmsUrl = "https://api.tnz.co.nz/api/v2.04/send/sms";
-  const from = Deno.env.get("TNZ_FROM_NUMBER") || "TOROA";
-  if (!token) { console.warn("TNZ_AUTH_TOKEN not set"); return; }
+  const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
+  if (!token) {
+    console.warn("TNZ_AUTH_TOKEN not set");
+    return { ok: false, error: "TNZ_AUTH_TOKEN not set" };
+  }
   try {
-    await fetch(tnzSmsUrl, {
+    const resp = await fetch(tnzSmsUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json; encoding='utf-8'", "Accept": "application/json; encoding='utf-8'", Authorization: `Basic ${token}` },
-      body: JSON.stringify({ MessageData: { Message: message, Destinations: [{ Recipient: to }], Reference: `toroa-${Date.now()}`, FromNumber: from } }),
+      headers: {
+        "Content-Type": "application/json; encoding='utf-8'",
+        "Accept": "application/json; encoding='utf-8'",
+        Authorization: `Basic ${token}`,
+      },
+      body: JSON.stringify({
+        MessageData: {
+          Message: message.substring(0, 1600),
+          Destinations: [{ Recipient: to }],
+          WebhookCallbackURL: webhookUrl,
+          WebhookCallbackFormat: "JSON",
+          Reference: `toroa-${crypto.randomUUID()}`,
+          SendMode: "Normal",
+        },
+      }),
     });
-  } catch (err) { console.error("SMS send error:", err); }
+
+    const text = await resp.text();
+    console.log(`[toroa-sms] TNZ status=${resp.status} body=${text.substring(0, 300)}`);
+    let data: any;
+    try { data = JSON.parse(text); } catch { data = { Result: resp.ok ? "Success" : "Failed", raw: text }; }
+
+    if (data.Result === "Success" || resp.ok) {
+      return { ok: true, messageId: data.MessageID };
+    }
+
+    return { ok: false, error: data.Result || data.ErrorMessage || `HTTP ${resp.status}` };
+  } catch (err) {
+    console.error("SMS send error:", err);
+    return { ok: false, error: String(err) };
+  }
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -543,7 +572,10 @@ Deno.serve(async (req) => {
     const finalReply = replyText.length > 1500 ? replyText.substring(0, 1497) + "..." : replyText;
 
     // 7. Send reply
-    await sendSms(sms.from, finalReply);
+    const delivery = await sendSms(sms.from, finalReply);
+    if (!delivery.ok) {
+      throw new Error(`SMS delivery failed: ${delivery.error || "Unknown TNZ error"}`);
+    }
 
     // 8. Log conversation
     await sb.from("toroa_conversations").insert({
