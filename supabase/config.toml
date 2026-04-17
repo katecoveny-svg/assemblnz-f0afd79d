@@ -109,3 +109,5 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.twilio-inbound]
     verify_jwt = false
+  [functions.twilio-send]
+    verify_jwt = true
