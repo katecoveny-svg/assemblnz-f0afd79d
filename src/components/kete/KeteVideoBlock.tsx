@@ -22,7 +22,7 @@ const KETE_HERO_VIDEO: Record<string, { videoUrl: string; caption: string }> = {
     caption: "Real-world NZ fuel cost comparison with CCCFA-compliant finance disclosure",
   },
   pikau: {
-    videoUrl: "sizzle-reels/Assembl-Sizzle-Reel-A.mp4",
+    videoUrl: "kete-clips/PIKAU-Customs.mp4",
     caption: "Assembl's compliance pipeline processing a customs entry — 35 minutes to 5",
   },
 };
