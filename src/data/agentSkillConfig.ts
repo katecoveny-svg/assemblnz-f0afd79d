@@ -388,10 +388,13 @@ export interface RoutingResult {
 }
 
 const INTENT_KEYWORDS: Record<string, RegExp> = {
-  manaaki:       /hospitality|hotel|restaurant|bar|cafe|venue|guest|menu|booking/i,
+  manaaki:       /hospitality|hotel|restaurant|bar|cafe|venue|guest|menu|booking|allergen|dietary/i,
+  waihanga:      /construction|building|site|contractor|scaffold|concrete|consent|safety|bim|architect|building code/i,
   hanga:         /construction|building|site|contractor|scaffold|concrete|consent|safety|bim/i,
   auaha:         /design|creative|art|content|campaign|brand|logo|video|podcast/i,
   pakihi:        /business|finance|sales|pipeline|budget|invoice|tax|accounting|lead/i,
+  arataki:       /automotive|fleet|vehicle|car|ute|truck|driver|wof|cof|ruc|fuel|test drive|dealership/i,
+  pikau:         /customs|freight|biosecurity|hs code|tariff|shipment|import|export|mpi|border/i,
   waka:          /transport|logistics|fleet|vehicle|driver|freight|shipping|maritime/i,
   hangarau:      /technology|engineering|code|software|system|security|api|server|deploy/i,
   'te-kahui-reo':/māori|reo|whānau|kaupapa|rohe|iwi|hapū|tikanga|kaitiaki/i,
