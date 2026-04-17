@@ -147,6 +147,7 @@ const ConfidenceScoringDemo = lazy(() => import("./pages/demos/ConfidenceScoring
 const KaitiakiGateDemo = lazy(() => import("./pages/demos/KaitiakiGateDemo"));
 const PrivacyVault = lazy(() => import("./pages/PrivacyVault"));
 const MigrationPage = lazy(() => import("./pages/MigrationPage"));
+const ShowcasePage = lazy(() => import("./pages/ShowcasePage"));
 
 const queryClient = new QueryClient();
 
@@ -216,6 +217,7 @@ const App = () => (
                         <Route path="/data-privacy" element={<Suspense fallback={null}><DataPrivacyLegal /></Suspense>} />
                         <Route path="/privacy-vault" element={<Suspense fallback={null}><PrivacyVault /></Suspense>} />
                         <Route path="/migration" element={<Suspense fallback={null}><MigrationPage /></Suspense>} />
+                        <Route path="/showcase" element={<Suspense fallback={null}><ShowcasePage /></Suspense>} />
 
                         <Route path="/my-apps" element={<Suspense fallback={null}><MyAppsPage /></Suspense>} />
                         <Route path="/apps/:appName" element={<Suspense fallback={null}><SparkAppViewer /></Suspense>} />

@@ -16,6 +16,7 @@ import NoiseOverlay from "@/components/NoiseOverlay";
 import CursorFollower from "@/components/CursorFollower";
 import GlassKoruHero from "@/components/hero/GlassKoruHero";
 import IndustryKeteShowcase from "@/components/showcase/IndustryKeteShowcase";
+import HomepageVideoTeaser from "@/components/landing/HomepageVideoTeaser";
 import CompliancePipeline from "@/components/landing/CompliancePipeline";
 import MigrationFeatureSection from "@/components/MigrationFeatureSection";
 import ScrollDepthLayers from "@/components/hero/ScrollDepthLayers";
@@ -237,6 +238,9 @@ const Index = () => {
 
         {/* ═══ HERO ═══ */}
         <GlassKoruHero />
+
+        {/* ═══ HOMEPAGE VIDEO TEASER ═══ */}
+        <HomepageVideoTeaser />
 
         {/* ═══ INDUSTRY KETE SHOWCASE ═══ */}
         <IndustryKeteShowcase />
