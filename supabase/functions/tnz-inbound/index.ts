@@ -547,9 +547,18 @@ Deno.serve(async (req) => {
       console.error("AI generation error:", aiErr);
     }
 
-    // Truncate for channel limits
+    // ── Mandatory NZ legal disclosure on first contact (UEMA 2007 s.10 + Privacy Act IPP 3) ──
+    // Sender identification + functional unsubscribe must accompany commercial messages.
+    const needsDisclosure = !conversation.identification_sent;
     const maxLen = validChannel === "whatsapp" ? 4000 : 1500;
-    if (aiReply.length > maxLen) {
+    if (needsDisclosure) {
+      const disclosure = validChannel === "whatsapp"
+        ? "\n\n— *Assembl AI* (NZ business assistant). Reply *STOP* to opt out · *HELP* for info · assembl.co.nz/privacy"
+        : "\n\nAssembl AI (NZ). Reply STOP to opt out, HELP for info. assembl.co.nz/privacy";
+      const reserved = maxLen - disclosure.length - 3;
+      if (aiReply.length > reserved) aiReply = aiReply.substring(0, reserved) + "...";
+      aiReply = aiReply + disclosure;
+    } else if (aiReply.length > maxLen) {
       aiReply = aiReply.substring(0, maxLen - 3) + "...";
     }
 
@@ -558,6 +567,13 @@ Deno.serve(async (req) => {
     const sendResult = replyMode === "return"
       ? { messageId: null as string | null }
       : await sendViaTnz(validChannel, fromNumber, aiReply, ref);
+
+    // Mark identification disclosure as delivered (only after successful send)
+    if (needsDisclosure && (sendResult.messageId || replyMode === "return")) {
+      await sb.from("messaging_conversations")
+        .update({ identification_sent: true })
+        .eq("id", conversation.id);
+    }
     const responseTimeMs = Date.now() - startTime;
 
     // ── Store outbound message ──
