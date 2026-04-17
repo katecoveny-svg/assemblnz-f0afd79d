@@ -113,6 +113,7 @@ const ToroaDashboard = lazy(() => import("./components/toroa/ToroaDashboard"));
 const WorkspaceDashboard = lazy(() => import("./pages/WorkspaceDashboard"));
 const WorkspaceConnections = lazy(() => import("./pages/WorkspaceConnections"));
 const SkillWiringDashboard = lazy(() => import("./components/admin/SkillWiringDashboard"));
+const AdminShowcaseVideos = lazy(() => import("./pages/AdminShowcaseVideos"));
 const AaaipDashboard = lazy(() => import("./pages/AaaipDashboard"));
 const AaaipResearcher = lazy(() => import("./pages/AaaipResearcher"));
 const AaaipPitchPrep = lazy(() => import("./pages/AaaipPitchPrep"));
@@ -202,6 +203,7 @@ const App = () => (
                         <Route path="/admin/packs" element={<Suspense fallback={null}><AdminPacksPage /></Suspense>} />
                         <Route path="/admin/pack-analytics" element={<Suspense fallback={null}><AdminPackAnalytics /></Suspense>} />
                         <Route path="/admin/skill-wiring" element={<Suspense fallback={null}><SkillWiringDashboard /></Suspense>} />
+                        <Route path="/admin/showcase-videos" element={<Suspense fallback={null}><AdminShowcaseVideos /></Suspense>} />
 
                         <Route path="/roi" element={<Suspense fallback={null}><RoiCalculatorPage /></Suspense>} />
                         <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
