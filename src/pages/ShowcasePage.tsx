@@ -58,7 +58,7 @@ const KETE_CLIPS = [
     accent: "#7BA88C",
     title: "Customs Entry Processing — 35 Minutes to 5",
     description: "Small brokerage in Auckland. Assembl extracts invoice data, maps to NZ Working Tariff codes, populates CusMod fields, calculates duty + GST — all checked by a licensed broker before submission.",
-    videoUrl: "sizzle-reels/Assembl-Sizzle-Reel-A.mp4",
+    videoUrl: "kete-clips/PIKAU-Customs.mp4",
   },
   {
     slug: "auaha-rws",
