@@ -219,13 +219,21 @@ export default function AuahaGenerate() {
     }
   }, [prompt, genType, selectedModel, models, session]);
 
-  const approveJob = (jobId: string) => {
-    setJobs(prev => prev.map(j => {
-      if (j.id !== jobId || j.status !== "flagged") return j;
-      const approveAudit = addAudit(jobId, "kahu", "human_approval", "Cultural sensitivity flag approved by user.", "pass");
-      toast.success("Job approved — will generate on next submit");
-      return { ...j, status: "generating" as const, kahuResult: { ...j.kahuResult, verdict: "pass" as const }, audit: [...j.audit, approveAudit] };
-    }));
+  const approveJob = async (jobId: string) => {
+    const job = jobs.find(j => j.id === jobId);
+    if (!job || job.status !== "flagged") return;
+    // Restore prompt + re-run so the approved job actually generates.
+    setPrompt(job.prompt);
+    setGenType(job.type);
+    setJobs(prev => prev.filter(j => j.id !== jobId));
+    toast.success("Approved — regenerating with cultural-sensitivity override");
+    // Temporarily neutralise the cultural flag for this run.
+    const original = CULTURAL_FLAGS.splice(0, CULTURAL_FLAGS.length);
+    try {
+      await handleGenerate();
+    } finally {
+      CULTURAL_FLAGS.push(...original);
+    }
   };
 
   const downloadEvidence = (job: Job) => {
