@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Send, ArrowUpRight } from "lucide-react";
+import { Send, ArrowUpRight, Shield } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -152,6 +152,19 @@ const BrandFooter = () => {
           <p className="text-[10px] max-w-md" style={{ color: "#9CA3AF", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             Governed intelligence for Aotearoa — specialist kete for real NZ operations.
           </p>
+          <Link
+            to="/admin"
+            aria-label="Admin"
+            className="inline-flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300 hover:scale-110"
+            style={{
+              background: "rgba(255,255,255,0.65)",
+              backdropFilter: "blur(20px)",
+              border: "1px solid rgba(74,165,168,0.2)",
+              color: "#4AA5A8",
+            }}
+          >
+            <Shield size={14} />
+          </Link>
         </div>
       </div>
     </footer>
