@@ -864,6 +864,7 @@ export const allAgents: Agent[] = [
   ...auahaAgents,
   ...pakihiAgents,
   ...wakaAgents,
+  ...aratakiAgents,
   ...hangarauAgents,
   ...hauoraAgents,
   ...teKahuiReoAgents,
@@ -874,16 +875,19 @@ export const agentsByPack: Record<string, Agent[]> = {
   core: sharedCoreAgents,
   manaaki: manaakiAgents,
   hanga: hangaAgents,
+  waihanga: hangaAgents, // canonical alias
   auaha: auahaAgents,
   pakihi: pakihiAgents,
   waka: wakaAgents,
+  arataki: aratakiAgents,
+  pikau: wakaAgents, // freight/customs draws from transport pool until fully split
   hangarau: hangarauAgents,
   hauora: hauoraAgents,
   "te-kahui-reo": teKahuiReoAgents,
   toroa: toroaAgents,
 };
 
-export const TOTAL_AGENTS = allAgents.length; // 78
+export const TOTAL_AGENTS = allAgents.length;
 
 /** Lookup agent by id */
 export function findAgent(id: string): Agent | undefined {
