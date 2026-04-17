@@ -383,36 +383,71 @@ Deno.serve(async (req) => {
       });
     }
 
-    // ── Opt-out / Opt-in ──
-    const upper = messageBody.trim().toUpperCase();
-    if (upper === "STOP" || upper === "UNSUBSCRIBE") {
-      await sendViaTnz(validChannel, fromNumber, "You've been unsubscribed from Assembl messages. Text START to re-subscribe anytime.", `assembl-optout-${crypto.randomUUID()}`);
-      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-    if (upper === "START" || upper === "SUBSCRIBE") {
-      await sendViaTnz(validChannel, fromNumber, "Kia ora! Welcome back to Assembl. Text anything to get started.", `assembl-optin-${crypto.randomUUID()}`);
-      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-
-    // ── Find or create conversation ──
-    let conversation: { id: string };
-
+    // ── Look up existing conversation (for consent + history) ──
     const { data: existing } = await sb
       .from("messaging_conversations")
-      .select("id")
+      .select("id, consent_status, identification_sent")
       .eq("phone_number", fromNumber)
       .eq("channel", validChannel)
       .eq("status", "active")
-      .single();
+      .maybeSingle();
 
+    // ── Opt-out / Opt-in / HELP keywords (UEMA + Telecom Code) ──
+    const upper = messageBody.trim().toUpperCase();
+    const isOptOut = ["STOP", "STOPALL", "UNSUBSCRIBE", "QUIT", "CANCEL", "END", "OPTOUT", "OPT-OUT"].includes(upper);
+    const isOptIn = ["START", "SUBSCRIBE", "UNSTOP", "OPTIN", "OPT-IN"].includes(upper);
+    const isHelp = ["HELP", "INFO"].includes(upper);
+
+    if (isOptOut) {
+      if (existing) {
+        await sb.from("messaging_conversations").update({
+          consent_status: "opted_out",
+          opt_out_at: new Date().toISOString(),
+          opted_out_keyword: upper,
+        }).eq("id", existing.id);
+      } else {
+        await sb.from("messaging_conversations").insert({
+          phone_number: fromNumber, channel: validChannel, status: "active",
+          consent_status: "opted_out", opt_out_at: new Date().toISOString(), opted_out_keyword: upper,
+        });
+      }
+      await sendViaTnz(validChannel, fromNumber, "You've been unsubscribed from Assembl. No more messages will be sent. Reply START to re-subscribe. Privacy: assembl.co.nz/privacy", `assembl-optout-${crypto.randomUUID()}`);
+      return new Response(JSON.stringify({ ok: true, opted_out: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    if (isOptIn) {
+      if (existing) {
+        await sb.from("messaging_conversations").update({
+          consent_status: "opted_in", opt_out_at: null, opted_out_keyword: null,
+        }).eq("id", existing.id);
+      } else {
+        await sb.from("messaging_conversations").insert({
+          phone_number: fromNumber, channel: validChannel, status: "active", consent_status: "opted_in",
+        });
+      }
+      await sendViaTnz(validChannel, fromNumber, "Kia ora! You're re-subscribed to Assembl. Reply STOP anytime to opt out. Text anything to get started.", `assembl-optin-${crypto.randomUUID()}`);
+      return new Response(JSON.stringify({ ok: true, opted_in: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    if (isHelp) {
+      await sendViaTnz(validChannel, fromNumber, "Assembl AI — NZ business assistant. Reply STOP to opt out. Privacy: assembl.co.nz/privacy. Support: kia.ora@assembl.co.nz", `assembl-help-${crypto.randomUUID()}`);
+      return new Response(JSON.stringify({ ok: true, help: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    // ── Block all responses if previously opted out ──
+    if (existing?.consent_status === "opted_out") {
+      console.log(`[Iho] Blocked: ${fromNumber} is opted out`);
+      return new Response(JSON.stringify({ ok: true, blocked: "opted_out" }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    // ── Find or create conversation ──
+    let conversation: { id: string; identification_sent?: boolean };
     if (existing) {
       conversation = existing;
       await sb.from("messaging_conversations").update({ updated_at: new Date().toISOString() }).eq("id", existing.id);
     } else {
       const { data: created, error: createErr } = await sb
         .from("messaging_conversations")
-        .insert({ phone_number: fromNumber, channel: validChannel, status: "active" })
-        .select("id")
+        .insert({ phone_number: fromNumber, channel: validChannel, status: "active", consent_status: "opted_in", first_contact_at: new Date().toISOString() })
+        .select("id, identification_sent")
         .single();
       if (createErr || !created) {
         console.error("Failed to create conversation:", createErr);
@@ -512,9 +547,18 @@ Deno.serve(async (req) => {
       console.error("AI generation error:", aiErr);
     }
 
-    // Truncate for channel limits
+    // ── Mandatory NZ legal disclosure on first contact (UEMA 2007 s.10 + Privacy Act IPP 3) ──
+    // Sender identification + functional unsubscribe must accompany commercial messages.
+    const needsDisclosure = !conversation.identification_sent;
     const maxLen = validChannel === "whatsapp" ? 4000 : 1500;
-    if (aiReply.length > maxLen) {
+    if (needsDisclosure) {
+      const disclosure = validChannel === "whatsapp"
+        ? "\n\n— *Assembl AI* (NZ business assistant). Reply *STOP* to opt out · *HELP* for info · assembl.co.nz/privacy"
+        : "\n\nAssembl AI (NZ). Reply STOP to opt out, HELP for info. assembl.co.nz/privacy";
+      const reserved = maxLen - disclosure.length - 3;
+      if (aiReply.length > reserved) aiReply = aiReply.substring(0, reserved) + "...";
+      aiReply = aiReply + disclosure;
+    } else if (aiReply.length > maxLen) {
       aiReply = aiReply.substring(0, maxLen - 3) + "...";
     }
 
@@ -523,6 +567,13 @@ Deno.serve(async (req) => {
     const sendResult = replyMode === "return"
       ? { messageId: null as string | null }
       : await sendViaTnz(validChannel, fromNumber, aiReply, ref);
+
+    // Mark identification disclosure as delivered (only after successful send)
+    if (needsDisclosure && (sendResult.messageId || replyMode === "return")) {
+      await sb.from("messaging_conversations")
+        .update({ identification_sent: true })
+        .eq("id", conversation.id);
+    }
     const responseTimeMs = Date.now() - startTime;
 
     // ── Store outbound message ──
