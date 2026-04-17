@@ -348,11 +348,28 @@ Deno.serve(async (req) => {
     const payload = await req.json();
     console.log("TNZ inbound payload:", JSON.stringify(payload));
 
-    const fromNumber = payload.From || payload.from || payload.Sender || payload.sender || "";
-    const toNumber = payload.To || payload.to || payload.Destination || payload.destination || "";
+    // TNZ v2.04 SMSReply: customer mobile is in `Destination`, TNZ-received number is in `Detail`.
+    // Other inbound shapes (Twilio-proxied, generic): use `From` / `Sender`.
+    const payloadType = String(payload.Type || payload.type || "").toLowerCase();
+    const isTnzReply = payloadType === "smsreply" || payloadType === "whatsappreply";
+
+    const fromNumber = isTnzReply
+      ? (payload.Destination || payload.destination || "")
+      : (payload.From || payload.from || payload.Sender || payload.sender || payload.Destination || payload.destination || "");
+
+    // For TNZ replies, `Detail` looks like "InputToNumber:021-000 001" — that's our TNZ number.
+    let toNumber = payload.To || payload.to || "";
+    if (!toNumber && isTnzReply && typeof payload.Detail === "string") {
+      const m = payload.Detail.match(/InputToNumber:\s*([0-9+\-\s]+)/i);
+      if (m) toNumber = m[1].replace(/[\s\-]/g, "");
+    }
+    if (!toNumber) toNumber = Deno.env.get("TNZ_FROM_NUMBER") || "";
+
     const messageBody = payload.Message || payload.message || payload.Body || payload.body || "";
-    const channel = (payload.Channel || payload.channel || payload.Type || payload.type || "sms").toLowerCase();
-    const tnzMessageId = payload.MessageID || payload.messageId || "";
+    const channel = payloadType.includes("whatsapp")
+      ? "whatsapp"
+      : (payload.Channel || payload.channel || "sms").toLowerCase();
+    const tnzMessageId = payload.MessageID || payload.messageId || payload.ReceivedID || "";
     // ReplyMode "return" → skip TNZ send, return AI reply in JSON (used by twilio-inbound)
     const replyMode = (payload.ReplyMode || payload.replyMode || "send").toLowerCase();
 
