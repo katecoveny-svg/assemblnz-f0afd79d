@@ -1,6 +1,6 @@
 import React, { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { MeshTransmissionMaterial, Float, Environment } from "@react-three/drei";
+import { MeshTransmissionMaterial, Float, Environment, ContactShadows } from "@react-three/drei";
 import * as THREE from "three";
 
 interface GlassKeteSphereProps {
@@ -60,10 +60,10 @@ const InnerSwirls = ({
 
   return (
     <group ref={groupRef}>
-      {/* Bright glow core */}
+      {/* Bright glow core — magnified by glass refraction */}
       <mesh>
-        <sphereGeometry args={[0.22, 24, 24]} />
-        <meshBasicMaterial color={accentLight} transparent opacity={0.6} />
+        <sphereGeometry args={[0.18, 32, 32]} />
+        <meshBasicMaterial color={accentLight} transparent opacity={0.75} />
       </mesh>
 
       {/* Volumetric ribbon swirls — thicker so they read clearly through the glass */}
@@ -97,22 +97,25 @@ const GlassShell = ({ accentColor }: { accentColor: string }) => {
 
   return (
     <mesh ref={meshRef}>
-      <sphereGeometry args={[1, 96, 96]} />
+      <sphereGeometry args={[1, 128, 128]} />
       <MeshTransmissionMaterial
         backside
-        samples={8}
-        thickness={2.2}
-        chromaticAberration={0.05}
-        anisotropy={0.3}
-        distortion={0.2}
-        distortionScale={0.4}
-        temporalDistortion={0.06}
-        transmission={0.92}
-        roughness={0.02}
-        ior={1.5}
-        color={accentColor}
+        backsideThickness={1.2}
+        samples={16}
+        resolution={1024}
+        thickness={3.2}
+        chromaticAberration={0.12}
+        anisotropy={0.4}
+        distortion={0.15}
+        distortionScale={0.5}
+        temporalDistortion={0.04}
+        transmission={1}
+        roughness={0}
+        ior={1.55}
+        clearcoat={1}
+        clearcoatRoughness={0}
         attenuationColor={accentColor}
-        attenuationDistance={0.6}
+        attenuationDistance={0.85}
       />
     </mesh>
   );
@@ -130,41 +133,33 @@ const GlassKeteSphere: React.FC<GlassKeteSphereProps> = ({
       className={`relative ${className}`}
       style={{ width: size, height: size }}
     >
-      {/* Soft halo behind the marble */}
+      {/* Outer ambient halo — coloured glow leaking from glass */}
       <div
         className="absolute inset-0 rounded-full pointer-events-none"
         style={{
-          background: `radial-gradient(circle, ${accentColor}30 0%, ${accentColor}10 45%, transparent 70%)`,
-          filter: "blur(20px)",
-          transform: "scale(1.3)",
-        }}
-      />
-      {/* Soft contact shadow under the marble */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          left: "10%",
-          right: "10%",
-          bottom: "2%",
-          height: "8%",
-          background: `radial-gradient(ellipse at center, rgba(0,0,0,0.18) 0%, transparent 70%)`,
-          filter: "blur(8px)",
+          background: `radial-gradient(circle, ${accentColor}40 0%, ${accentColor}15 40%, transparent 72%)`,
+          filter: "blur(28px)",
+          transform: "scale(1.35)",
         }}
       />
 
       <Canvas
-        camera={{ position: [0, 0, 2.6], fov: 42 }}
+        camera={{ position: [0, 0, 2.8], fov: 38 }}
         dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
+        gl={{ antialias: true, alpha: true, preserveDrawingBuffer: false }}
         style={{ background: "transparent" }}
       >
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[3, 4, 3]} intensity={1.2} />
-        <directionalLight position={[-3, -2, 2]} intensity={0.5} color={accentColor} />
-        <pointLight position={[0, 0, 1.5]} intensity={0.7} color={accentLight} />
+        {/* Studio lighting — bright key, cool fill, warm rim */}
+        <ambientLight intensity={0.35} />
+        <directionalLight position={[4, 5, 3]} intensity={2.2} color="#ffffff" />
+        <directionalLight position={[-4, -1, 2]} intensity={0.9} color={accentColor} />
+        <directionalLight position={[0, -3, -2]} intensity={0.6} color={accentLight} />
+        <pointLight position={[0, 0, 1.8]} intensity={0.8} color={accentLight} />
+        {/* Top spotlight for that crisp specular hotspot */}
+        <spotLight position={[0, 4, 2]} angle={0.5} penumbra={0.6} intensity={2.5} color="#ffffff" />
         <Environment preset="studio" />
 
-        <Float speed={1.2} rotationIntensity={0.15} floatIntensity={0.35}>
+        <Float speed={1.0} rotationIntensity={0.2} floatIntensity={0.4}>
           <group>
             <GlassShell accentColor={accentColor} />
             {/* Swirls sit slightly behind centre so refraction magnifies them */}
@@ -173,6 +168,16 @@ const GlassKeteSphere: React.FC<GlassKeteSphereProps> = ({
             </group>
           </group>
         </Float>
+
+        {/* Tactile contact shadow on a virtual surface */}
+        <ContactShadows
+          position={[0, -1.05, 0]}
+          opacity={0.55}
+          scale={3}
+          blur={2.4}
+          far={2}
+          color="#1a1d29"
+        />
       </Canvas>
     </div>
   );
