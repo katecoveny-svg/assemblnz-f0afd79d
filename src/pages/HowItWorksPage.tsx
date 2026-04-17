@@ -8,6 +8,7 @@ import IhoRoutingVisualizer from "@/components/demo/IhoRoutingVisualizer";
 import MatarikiStarfield from "@/components/MatarikiStarfield";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
 import KeteWeaveVisual from "@/components/KeteWeaveVisual";
+import GlassKeteSphere from "@/components/kete/GlassKeteSphere";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 
@@ -133,12 +134,12 @@ const HowItWorksPage = () => (
       <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 25%, rgba(212,168,67,0.07) 0%, transparent 65%)" }} />
 
       <motion.div
-        className="relative mb-8"
+        className="relative mb-8 flex justify-center"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.2, ease }}
       >
-        <KeteWeaveVisual size={140} accentColor={C.gold} accentLight={C.goldLight} />
+        <GlassKeteSphere accentColor={C.gold} accentLight={C.goldLight} size={200} />
       </motion.div>
 
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
