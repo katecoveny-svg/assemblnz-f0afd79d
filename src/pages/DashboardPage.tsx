@@ -52,12 +52,20 @@ interface HealthFault {
 }
 interface LeadItem { id: string; name: string; email: string; lead_status: string | null; lead_score: number | null; created_at: string; }
 
-const glassCard = "rounded-xl relative overflow-hidden";
+const glassCard = "rounded-2xl relative overflow-hidden";
+// Light neumorphic glass — white surface with soft dual shadows for raised effect.
 const glassCardStyle: React.CSSProperties = {
-  background: "rgba(14,14,26,0.7)",
-  backdropFilter: "blur(16px)",
-  WebkitBackdropFilter: "blur(16px)",
-  border: "1px solid rgba(74,165,168,0.15)",
+  background: "#FAFBFC",
+  boxShadow:
+    "6px 6px 16px rgba(166,166,180,0.30), -6px -6px 16px rgba(255,255,255,0.85), inset 0 1px 0 rgba(255,255,255,0.6)",
+  border: "1px solid rgba(58,125,110,0.08)",
+  color: "#3D4250",
+};
+// Inner pill / row surface used inside cards (subtly inset on the white card).
+const innerSurface: React.CSSProperties = {
+  background: "#FFFFFF",
+  border: "1px solid rgba(26,29,41,0.06)",
+  boxShadow: "inset 1px 1px 3px rgba(166,166,180,0.12), inset -1px -1px 3px rgba(255,255,255,0.9)",
 };
 
 const PRIORITY_COLORS: Record<string, string> = { urgent: "#C85A54", high: "#1A3A5C", medium: "#3A7D6E", low: "#5AADA0" };
