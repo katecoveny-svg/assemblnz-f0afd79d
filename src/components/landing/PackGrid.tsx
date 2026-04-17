@@ -125,7 +125,7 @@ const PackGrid = () => {
                       accentColor={pack.accent}
                       accentLight={pack.accentLight}
                       size={110}
-                      patternDensity={5}
+                      swirlCount={4}
                     />
                   </Suspense>
                 </div>
