@@ -445,21 +445,31 @@ const DashboardPage = () => {
   ].slice(0, 6);
 
   return (
-    <div className="min-h-screen star-field flex flex-col relative">
-      <ParticleField />
+    <div className="min-h-screen flex flex-col relative" style={{ background: "#FAFBFC", color: "#3D4250" }}>
+      {/* Soft ambient glow */}
+      <div className="fixed inset-0 pointer-events-none -z-10" style={{
+        background:
+          "radial-gradient(ellipse 700px 400px at 15% 5%, rgba(58,125,110,0.08), transparent 60%), radial-gradient(ellipse 600px 360px at 85% 95%, rgba(212,168,83,0.06), transparent 60%)",
+      }} />
+      {/* Top accent line */}
+      <div className="fixed top-0 left-0 right-0 h-[2px] z-50" style={{
+        background: "linear-gradient(90deg, transparent 5%, rgba(58,125,110,0.3) 30%, #3A7D6E 50%, rgba(58,125,110,0.3) 70%, transparent 95%)",
+        boxShadow: "0 0 12px rgba(58,125,110,0.15)",
+      }} />
       <BrandNav />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-5 flex-1 w-full">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="font-display font-light text-xl sm:text-2xl text-foreground">{greeting}</h1>
-            <p className="text-[11px] text-muted-foreground mt-0.5">Operations overview · Your workflows at a glance</p>
+            <h1 className="font-display font-light text-xl sm:text-2xl" style={{ color: "#1A1D29" }}>{greeting}</h1>
+            <p className="text-[11px] mt-0.5" style={{ color: "#6B7280" }}>Operations overview · Your workflows at a glance</p>
           </div>
           <div className="flex items-center gap-3">
             <LivePulse lastUpdated={lastUpdated} isConnected={isConnected} />
             <button onClick={handleManualRefresh} disabled={isRefreshing}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-medium border border-border text-muted-foreground hover:text-foreground transition-colors disabled:opacity-30">
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-medium transition-colors disabled:opacity-30"
+              style={{ background: "#FFFFFF", border: "1px solid rgba(26,29,41,0.08)", color: "#3D4250", boxShadow: "2px 2px 6px rgba(166,166,180,0.18), -2px -2px 6px rgba(255,255,255,0.85)" }}>
               <RefreshCw size={11} className={isRefreshing ? "animate-spin" : ""} /> Refresh
             </button>
           </div>
