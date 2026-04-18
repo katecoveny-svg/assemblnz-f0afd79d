@@ -4034,6 +4034,63 @@ export type Database = {
           },
         ]
       }
+      industry_knowledge_base: {
+        Row: {
+          applicable_agents: Json
+          content: string | null
+          created_at: string
+          doc_source_publisher: string | null
+          doc_source_url: string | null
+          doc_title: string
+          id: string
+          kete: string
+          last_reviewed: string | null
+          next_review_due: string | null
+          notes: string | null
+          summary: string | null
+          tags: Json | null
+          tier: number
+          update_cadence: string | null
+          updated_at: string
+        }
+        Insert: {
+          applicable_agents?: Json
+          content?: string | null
+          created_at?: string
+          doc_source_publisher?: string | null
+          doc_source_url?: string | null
+          doc_title: string
+          id?: string
+          kete: string
+          last_reviewed?: string | null
+          next_review_due?: string | null
+          notes?: string | null
+          summary?: string | null
+          tags?: Json | null
+          tier: number
+          update_cadence?: string | null
+          updated_at?: string
+        }
+        Update: {
+          applicable_agents?: Json
+          content?: string | null
+          created_at?: string
+          doc_source_publisher?: string | null
+          doc_source_url?: string | null
+          doc_title?: string
+          id?: string
+          kete?: string
+          last_reviewed?: string | null
+          next_review_due?: string | null
+          notes?: string | null
+          summary?: string | null
+          tags?: Json | null
+          tier?: number
+          update_cadence?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       industry_pain_points: {
         Row: {
           agent_name: string
