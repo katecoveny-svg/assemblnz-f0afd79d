@@ -246,12 +246,14 @@ Deno.serve(async (req) => {
     // Cheap JWT role-claim peek (no signature verification — service-role keys
     // are scoped server-side and never reach the browser).
     try {
-      const payload = JSON.parse(
-        atob(token.split(".")[1]?.replace(/-/g, "+").replace(/_/g, "/") ?? "")
-      );
+      const part = token.split(".")[1] ?? "";
+      const b64 = part.replace(/-/g, "+").replace(/_/g, "/");
+      const padded = b64 + "===".slice((b64.length + 3) % 4);
+      const payload = JSON.parse(atob(padded));
+      console.log("[ikb-ingest] jwt role claim:", payload?.role);
       if (payload?.role === "service_role") allowed = true;
-    } catch {
-      // not a JWT — fall through to user check
+    } catch (e) {
+      console.warn("[ikb-ingest] jwt decode failed:", e);
     }
 
     if (!allowed && token === serviceKey) allowed = true;
