@@ -136,6 +136,7 @@ const SimulatorHub = lazy(() => import("./pages/SimulatorHub"));
 const PikauLandingPage = lazy(() => import("./pages/PikauLandingPage"));
 const ManaakiLandingPage = lazy(() => import("./pages/ManaakiLandingPage"));
 const HokoLandingPage = lazy(() => import("./pages/HokoLandingPage"));
+const AkoLandingPage = lazy(() => import("./pages/AkoLandingPage"));
 const AuahaLandingPage = lazy(() => import("./pages/AuahaLandingPage"));
 const WaihangaLandingPage = lazy(() => import("./pages/WaihangaLandingPage"));
 const ToroaTravelPage = lazy(() => import("./pages/ToroaTravelPage"));
@@ -284,6 +285,9 @@ const App = () => (
 
                         <Route path="/pikau" element={<Suspense fallback={null}><PikauLandingPage /></Suspense>} />
                         <Route path="/pikau/dashboard" element={<Suspense fallback={null}><PikauDashboard /></Suspense>} />
+
+                        <Route path="/hoko" element={<Suspense fallback={null}><HokoLandingPage /></Suspense>} />
+                        <Route path="/ako" element={<Suspense fallback={null}><AkoLandingPage /></Suspense>} />
 
                         <Route path="/toro" element={<Suspense fallback={null}><ToroaLandingPage /></Suspense>} />
                         <Route path="/toro/dashboard" element={<Suspense fallback={null}><ToroaDashboard /></Suspense>} />

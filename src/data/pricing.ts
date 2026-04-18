@@ -195,6 +195,12 @@ export const KETE = [
     eng: 'Retail',
     desc: 'Pricing intelligence, POS-driven re-orders, FTA/CGA compliance lint, unified customer view',
   },
+  {
+    key: 'ako',
+    name: 'Ako',
+    eng: 'Early Childhood Education',
+    desc: 'Licensing criteria matcher, transparency pack generator, graduated enforcement readiness — built for the 20 April 2026 wedge',
+  },
 ] as const;
 
 /** Feature comparison table data */

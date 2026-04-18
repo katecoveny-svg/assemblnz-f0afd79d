@@ -79,6 +79,16 @@ const PACKS: PackCard[] = [
     accentLight: "#E89484",
     route: "/hoko",
   },
+  {
+    id: "ako",
+    name: "Ako",
+    label: "EARLY CHILDHOOD EDUCATION",
+    description:
+      "Licensing criteria matcher, transparency pack generator, readiness scorecard. Built for the 20 April 2026 wedge.",
+    accent: "#7BA7C7",
+    accentLight: "#A8C8DD",
+    route: "/ako",
+  },
 ];
 
 const PackGrid = () => {
