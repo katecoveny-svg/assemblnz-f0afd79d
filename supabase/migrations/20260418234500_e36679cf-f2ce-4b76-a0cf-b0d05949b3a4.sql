@@ -1,0 +1,1 @@
+UPDATE public.kete_definitions SET handler_fn = 'kete-toroa-handler' WHERE slug = 'toroa';
