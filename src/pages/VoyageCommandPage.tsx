@@ -71,7 +71,7 @@ const VoyageCommandPage = () => {
       }
     };
     load();
-  }, []);
+  }, [tripId]);
 
   // Timeline auto-play
   useEffect(() => {
