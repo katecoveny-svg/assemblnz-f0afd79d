@@ -47,6 +47,8 @@ const WorkflowsRunner = lazy(() => import("./pages/WorkflowsRunner"));
 const WaihangaWorkflows = lazy(() => import("./pages/WaihangaWorkflows"));
 const SectorWorkflows = lazy(() => import("./pages/SectorWorkflows"));
 const AdminKbPriorities = lazy(() => import("./pages/AdminKbPriorities"));
+const PikauCbaffLanding = lazy(() => import("./pages/PikauCbaffLanding"));
+const ArtakiMtaLanding = lazy(() => import("./pages/ArtakiMtaLanding"));
 const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const OnboardingPage = lazy(() => import("./pages/OnboardingPage"));
@@ -234,6 +236,8 @@ const App = () => (
                         <Route path="/waihanga/workflows" element={<Suspense fallback={null}><WaihangaWorkflows /></Suspense>} />
                         <Route path="/sector/workflows" element={<Suspense fallback={null}><SectorWorkflows /></Suspense>} />
                         <Route path="/admin/kb-priorities" element={<Suspense fallback={null}><AdminKbPriorities /></Suspense>} />
+                        <Route path="/pikau/cbaff" element={<Suspense fallback={null}><PikauCbaffLanding /></Suspense>} />
+                        <Route path="/arataki/mta" element={<Suspense fallback={null}><ArtakiMtaLanding /></Suspense>} />
                         <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
                         <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
                         <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
