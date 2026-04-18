@@ -236,7 +236,7 @@ export default function AdminCommandSidebar({
       <div className="px-5 py-4 space-y-3">
         <div className="flex items-center gap-2 text-[10px]" style={{ color: "rgba(61,66,80,0.5)" }}>
           <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: POUNAMU }} />
-          <span>46 agents · 6 kete</span>
+          <span>56 agents · 7 kete</span>
         </div>
         <button
           onClick={() => { signOut(); navigate("/"); }}
