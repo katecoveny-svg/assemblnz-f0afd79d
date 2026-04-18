@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Compass, Loader2 } from "lucide-react";
 import VoyageCommandHeader from "@/components/voyage/VoyageCommandHeader";
@@ -19,6 +19,8 @@ import type {
 const SAMPLE_TRIP_ID = "11111111-1111-1111-1111-111111111111";
 
 const VoyageCommandPage = () => {
+  const [searchParams] = useSearchParams();
+  const tripId = searchParams.get("trip") || SAMPLE_TRIP_ID;
   const [bundle, setBundle] = useState<TripBundle | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,12 +45,12 @@ const VoyageCommandPage = () => {
       try {
         setLoading(true);
         const [tripRes, famsRes, destsRes, daysRes, actsRes, convoysRes] = await Promise.all([
-          supabase.from("trips").select("*").eq("id", SAMPLE_TRIP_ID).single(),
-          supabase.from("trip_families").select("*").eq("trip_id", SAMPLE_TRIP_ID),
-          supabase.from("trip_destinations").select("*").eq("trip_id", SAMPLE_TRIP_ID).order("sort_order"),
-          supabase.from("trip_days").select("*").eq("trip_id", SAMPLE_TRIP_ID).order("date"),
-          supabase.from("trip_activities").select("*").eq("trip_id", SAMPLE_TRIP_ID).order("sort_order"),
-          supabase.from("trip_convoys").select("*").eq("trip_id", SAMPLE_TRIP_ID),
+          supabase.from("trips").select("*").eq("id", tripId).single(),
+          supabase.from("trip_families").select("*").eq("trip_id", tripId),
+          supabase.from("trip_destinations").select("*").eq("trip_id", tripId).order("sort_order"),
+          supabase.from("trip_days").select("*").eq("trip_id", tripId).order("date"),
+          supabase.from("trip_activities").select("*").eq("trip_id", tripId).order("sort_order"),
+          supabase.from("trip_convoys").select("*").eq("trip_id", tripId),
         ]);
 
         if (tripRes.error) throw tripRes.error;
@@ -69,7 +71,7 @@ const VoyageCommandPage = () => {
       }
     };
     load();
-  }, []);
+  }, [tripId]);
 
   // Timeline auto-play
   useEffect(() => {
