@@ -233,7 +233,7 @@ const TeKahuiReoSection = () => (
               SMS-first whānau intelligence. Meal plans, budgets, school admin, and NZ benefit eligibility — all from a text message. $29/mo.
             </p>
             <Link
-              to="/chat/toroa"
+              to="/toro"
               className="inline-flex items-center gap-2 text-sm transition-colors"
               style={{
                 fontFamily: "'Lato', sans-serif",
