@@ -4180,6 +4180,63 @@ export type Database = {
           },
         ]
       }
+      kb_priority_documents: {
+        Row: {
+          cadence: string | null
+          content_excerpt: string | null
+          content_hash: string | null
+          created_at: string
+          id: string
+          last_refresh_status: string | null
+          last_refreshed_at: string | null
+          last_verified_at: string | null
+          notes: string | null
+          sectors: string[]
+          source_name: string
+          source_url: string | null
+          tier: number
+          title: string
+          unblocks: string[]
+          updated_at: string
+        }
+        Insert: {
+          cadence?: string | null
+          content_excerpt?: string | null
+          content_hash?: string | null
+          created_at?: string
+          id?: string
+          last_refresh_status?: string | null
+          last_refreshed_at?: string | null
+          last_verified_at?: string | null
+          notes?: string | null
+          sectors?: string[]
+          source_name: string
+          source_url?: string | null
+          tier: number
+          title: string
+          unblocks?: string[]
+          updated_at?: string
+        }
+        Update: {
+          cadence?: string | null
+          content_excerpt?: string | null
+          content_hash?: string | null
+          created_at?: string
+          id?: string
+          last_refresh_status?: string | null
+          last_refreshed_at?: string | null
+          last_verified_at?: string | null
+          notes?: string | null
+          sectors?: string[]
+          source_name?: string
+          source_url?: string | null
+          tier?: number
+          title?: string
+          unblocks?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       kete_channel_config: {
         Row: {
           created_at: string
