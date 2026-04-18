@@ -188,6 +188,21 @@ async function persistDomainRecord(supabase: ReturnType<typeof getSupabase>, wor
       vehicle_ref: payload.vehicle_ref || null, driver_ref: payload.driver_ref || null,
       payload, result_summary: summary, risk_rating: risk, exposure_nzd: payload.exposure_nzd ?? null,
     });
+  } else if (sector === "manaaki") {
+    await supabase.from("manaaki_workflow_records").insert({
+      user_id: userId, run_id: runId, workflow_type: workflow,
+      venue_ref: payload.venue_ref || null, payload,
+      result_summary: summary, risk_rating: risk,
+      metric_value: payload.metric_value ?? null, metric_label: payload.metric_label ?? null,
+    });
+  } else if (sector === "arataki") {
+    await supabase.from("arataki_workflow_records").insert({
+      user_id: userId, run_id: runId, workflow_type: workflow,
+      vehicle_ref: payload.vehicle_ref || payload.rego || null,
+      vin: payload.vin || null, payload,
+      result_summary: summary, risk_rating: risk,
+      exposure_nzd: payload.exposure_nzd ?? null,
+    });
   }
 }
 
