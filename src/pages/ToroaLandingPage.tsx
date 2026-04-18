@@ -165,11 +165,13 @@ export default function ToroaLandingPage() {
                 style={{ background: `linear-gradient(135deg, ${ACCENT}30, ${ACCENT}15)`, border: `1px solid ${ACCENT}50`, color: "#1A1D29" }}>
                 Start a Tōro record <ArrowRight size={14} />
               </Link>
-              <TextUsButton
-                keteName="Tōro"
-                accentColor="#1A1D29"
-                phoneNumber="+6421538962"
-              />
+              <a
+                href="#try-toro-sms"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm uppercase tracking-[0.15em] font-light transition-all"
+                style={{ background: `linear-gradient(135deg, ${POUNAMU}24, ${SKY}18)`, border: `1px solid ${POUNAMU}45`, color: "#1A1D29" }}
+              >
+                Get a text from Tōro <ArrowRight size={14} />
+              </a>
             </motion.div>
 
             <motion.p variants={fadeUp} custom={4}
@@ -299,7 +301,9 @@ export default function ToroaLandingPage() {
 
 
         {/* ── SMS Demo ── */}
-        <TryToroSmsDemo />
+        <div id="try-toro-sms">
+          <TryToroSmsDemo />
+        </div>
 
         <BrandFooter />
         <KeteAgentChat

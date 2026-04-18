@@ -67,6 +67,7 @@ Deno.serve(async (req) => {
           WebhookCallbackURL: webhookUrl,
           WebhookCallbackFormat: "JSON",
           Reference: ref,
+          ...(tnzFrom ? { FromNumber: tnzFrom } : {}),
           SendMode: "Normal",
         },
       }),

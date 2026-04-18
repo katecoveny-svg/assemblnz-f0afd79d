@@ -418,6 +418,7 @@ async function sendViaTnz(
   channel: string, to: string, message: string, reference: string
 ): Promise<{ messageId?: string; error?: string }> {
   const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
+  const tnzFrom = Deno.env.get("TNZ_FROM_NUMBER") || "";
   if (!tnzToken) return { error: "TNZ_AUTH_TOKEN not configured" };
 
   const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
@@ -441,6 +442,7 @@ async function sendViaTnz(
           WebhookCallbackURL: webhookUrl,
           WebhookCallbackFormat: "JSON",
           Reference: reference,
+          ...(tnzFrom ? { FromNumber: tnzFrom } : {}),
           ...(channel === "sms" ? { SendMode: "Normal" } : {}),
         },
       }),
