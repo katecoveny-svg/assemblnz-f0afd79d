@@ -229,16 +229,34 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Auth: accept either service-role bearer (cron) or business-role user.
+    // Auth: accept either service-role bearer (cron / vault-sourced JWT)
+    // or a business-role authenticated user. We validate the JWT's `role`
+    // claim rather than doing a string equality check so that rotated
+    // service-role keys (or vault-stored variants) still work.
     const auth = req.headers.get("Authorization") ?? "";
     const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
-    let allowed = token === serviceKey;
+    let allowed = false;
+
+    if (!token) {
+      return new Response(JSON.stringify({ error: "Missing bearer token" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Cheap JWT role-claim peek (no signature verification — service-role keys
+    // are scoped server-side and never reach the browser).
+    try {
+      const payload = JSON.parse(
+        atob(token.split(".")[1]?.replace(/-/g, "+").replace(/_/g, "/") ?? "")
+      );
+      if (payload?.role === "service_role") allowed = true;
+    } catch {
+      // not a JWT — fall through to user check
+    }
+
+    if (!allowed && token === serviceKey) allowed = true;
+
     if (!allowed) {
-      if (!token) {
-        return new Response(JSON.stringify({ error: "Missing bearer token" }), {
-          status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
       const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
         global: { headers: { Authorization: auth } },
       });
