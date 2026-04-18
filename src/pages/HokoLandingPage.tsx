@@ -105,14 +105,7 @@ export default function HokoLandingPage() {
             background: `radial-gradient(ellipse 80% 50% at 50% 30%, ${ACCENT}10 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 30% 60%, ${POUNAMU}06 0%, transparent 60%)`,
           }} />
 
-          <LandingKeteHero
-            keteName="HOKO"
-            keteEnglish="Retail"
-            wananga="Te Kete Tuatea — the basket of trade & exchange"
-            tagline="The $92.3bn frontline. Squeezed by Temu and Amazon. Saved by evidence."
-            accentColor={ACCENT}
-            icon={ShoppingBag}
-          />
+          <LandingKeteHero accentColor={ACCENT} accentLight={`${ACCENT}40`} />
 
           {/* Sector context strip */}
           <motion.div
@@ -150,7 +143,7 @@ export default function HokoLandingPage() {
           </motion.div>
 
           <div className="mt-8 flex gap-3 flex-wrap justify-center relative z-10">
-            <TextUsButton kete="hoko" accentColor={ACCENT} />
+            <TextUsButton keteName="HOKO" accentColor={ACCENT} />
             <Link
               to="/contact"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-light transition-all hover:gap-3"
@@ -307,11 +300,16 @@ export default function HokoLandingPage() {
         <section className="px-6 pb-24">
           <div className="max-w-3xl mx-auto">
             <KeteAgentChat
-              agentName="prism-hoko"
-              agentDisplayName="PRISM · Retail Price Intelligence"
-              accent={ACCENT}
               keteName="HOKO"
-              greeting="Kia ora. I'm PRISM in the HOKO kete. Tell me a SKU you want priced against Temu, Amazon AU, or PriceSpy — and I'll show you the gap with freight and GST honestly factored in."
+              keteLabel="Retail"
+              accentColor={ACCENT}
+              defaultAgentId="prism-hoko"
+              packId="hoko"
+              starterPrompts={[
+                "Scan my top 20 SKUs against Temu and Amazon AU",
+                "Draft a defensive bundle for items I'm 30% more expensive on",
+                "Show me which SKUs need a price correction this week",
+              ]}
             />
           </div>
         </section>
