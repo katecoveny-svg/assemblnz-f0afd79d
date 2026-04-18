@@ -830,6 +830,42 @@ export type Database = {
         }
         Relationships: []
       }
+      architecture_workflow_records: {
+        Row: {
+          created_at: string
+          id: string
+          payload: Json
+          project_ref: string | null
+          result_summary: string | null
+          risk_rating: string | null
+          run_id: string | null
+          user_id: string
+          workflow_type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          payload?: Json
+          project_ref?: string | null
+          result_summary?: string | null
+          risk_rating?: string | null
+          run_id?: string | null
+          user_id: string
+          workflow_type: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          payload?: Json
+          project_ref?: string | null
+          result_summary?: string | null
+          risk_rating?: string | null
+          run_id?: string | null
+          user_id?: string
+          workflow_type?: string
+        }
+        Relationships: []
+      }
       audit_log: {
         Row: {
           agent_code: string
@@ -2165,6 +2201,51 @@ export type Database = {
         }
         Relationships: []
       }
+      customs_workflow_records: {
+        Row: {
+          created_at: string
+          duty_savings_nzd: number | null
+          hs_code: string | null
+          id: string
+          landed_cost_nzd: number | null
+          origin_country: string | null
+          payload: Json
+          result_summary: string | null
+          run_id: string | null
+          shipment_ref: string | null
+          user_id: string
+          workflow_type: string
+        }
+        Insert: {
+          created_at?: string
+          duty_savings_nzd?: number | null
+          hs_code?: string | null
+          id?: string
+          landed_cost_nzd?: number | null
+          origin_country?: string | null
+          payload?: Json
+          result_summary?: string | null
+          run_id?: string | null
+          shipment_ref?: string | null
+          user_id: string
+          workflow_type: string
+        }
+        Update: {
+          created_at?: string
+          duty_savings_nzd?: number | null
+          hs_code?: string | null
+          id?: string
+          landed_cost_nzd?: number | null
+          origin_country?: string | null
+          payload?: Json
+          result_summary?: string | null
+          run_id?: string | null
+          shipment_ref?: string | null
+          user_id?: string
+          workflow_type?: string
+        }
+        Relationships: []
+      }
       daily_messages: {
         Row: {
           id: string
@@ -2333,6 +2414,45 @@ export type Database = {
           id?: string
           token?: string
           used_at?: string | null
+        }
+        Relationships: []
+      }
+      engineering_workflow_records: {
+        Row: {
+          created_at: string
+          id: string
+          metric_label: string | null
+          metric_value: number | null
+          payload: Json
+          project_ref: string | null
+          result_summary: string | null
+          run_id: string | null
+          user_id: string
+          workflow_type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metric_label?: string | null
+          metric_value?: number | null
+          payload?: Json
+          project_ref?: string | null
+          result_summary?: string | null
+          run_id?: string | null
+          user_id: string
+          workflow_type: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metric_label?: string | null
+          metric_value?: number | null
+          payload?: Json
+          project_ref?: string | null
+          result_summary?: string | null
+          run_id?: string | null
+          user_id?: string
+          workflow_type?: string
         }
         Relationships: []
       }
@@ -4176,6 +4296,48 @@ export type Database = {
           source_url?: string | null
           summary?: string
           title?: string
+        }
+        Relationships: []
+      }
+      logistics_workflow_records: {
+        Row: {
+          created_at: string
+          driver_ref: string | null
+          exposure_nzd: number | null
+          id: string
+          payload: Json
+          result_summary: string | null
+          risk_rating: string | null
+          run_id: string | null
+          user_id: string
+          vehicle_ref: string | null
+          workflow_type: string
+        }
+        Insert: {
+          created_at?: string
+          driver_ref?: string | null
+          exposure_nzd?: number | null
+          id?: string
+          payload?: Json
+          result_summary?: string | null
+          risk_rating?: string | null
+          run_id?: string | null
+          user_id: string
+          vehicle_ref?: string | null
+          workflow_type: string
+        }
+        Update: {
+          created_at?: string
+          driver_ref?: string | null
+          exposure_nzd?: number | null
+          id?: string
+          payload?: Json
+          result_summary?: string | null
+          risk_rating?: string | null
+          run_id?: string | null
+          user_id?: string
+          vehicle_ref?: string | null
+          workflow_type?: string
         }
         Relationships: []
       }
