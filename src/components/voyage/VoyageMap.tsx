@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { MapContainer, TileLayer, CircleMarker, Polyline, Tooltip, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -58,7 +58,7 @@ const VoyageMap = ({ center, zoom, families, destinations, convoys, activeDayInd
         {/* Destination route between stops in order */}
         {destinations.length > 1 && (
           <Polyline
-            positions={destinations.map((d) => [Number(d.lat), Number(d.lng)])}
+            positions={destinations.map((d) => [Number(d.lat), Number(d.lng)] as [number, number])}
             pathOptions={{ color: "hsl(var(--primary))", weight: 3, opacity: 0.5, dashArray: "6 8" }}
           />
         )}
@@ -91,14 +91,12 @@ const VoyageMap = ({ center, zoom, families, destinations, convoys, activeDayInd
             [Number(c.destination_lat), Number(c.destination_lng)],
           ];
           return (
-            <g key={c.id}>
+            <Fragment key={c.id}>
               <Polyline
-                key={`line-${c.id}-${activeDayIndex}`}
                 positions={route}
                 pathOptions={{ color: fam.accent_color, weight: 3, opacity: 0.85 }}
               />
               <CircleMarker
-                key={`origin-${c.id}`}
                 center={route[0]}
                 radius={6}
                 pathOptions={{ color: fam.accent_color, fillColor: "#fff", fillOpacity: 1, weight: 2 }}
@@ -107,7 +105,7 @@ const VoyageMap = ({ center, zoom, families, destinations, convoys, activeDayInd
                   {fam.name} — depart {c.origin_label}
                 </Tooltip>
               </CircleMarker>
-            </g>
+            </Fragment>
           );
         })}
 

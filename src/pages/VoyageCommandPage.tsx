@@ -59,7 +59,7 @@ const VoyageCommandPage = () => {
           destinations: (destsRes.data || []) as TripDestination[],
           days: (daysRes.data || []) as TripDay[],
           activities: (actsRes.data || []) as TripActivity[],
-          convoys: (convoysRes.data || []) as TripConvoy[],
+          convoys: (convoysRes.data || []) as unknown as TripConvoy[],
         });
       } catch (e) {
         console.error("[VOYAGE Command] load failed", e);
