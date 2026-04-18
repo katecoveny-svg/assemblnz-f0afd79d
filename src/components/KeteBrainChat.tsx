@@ -189,6 +189,29 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
     setMessages(prev => [...prev, userMsg]);
     setIsStreaming(true);
 
+    // ── Council intercept: "council: <q>" / "panel: <q>" / "ask all: <q>" ──
+    const councilMatch = text.match(/^\s*(council|panel|ask\s+all)\s*[:\-]\s*(.+)/is);
+    if (councilMatch) {
+      try {
+        const { data, error } = await supabase.functions.invoke("council", {
+          body: { question: councilMatch[2].trim(), userId: user?.id, maxAgents: 3, synthesise: true },
+        });
+        if (error) throw error;
+        if (!data?.success) throw new Error("Council returned no result");
+        const parts: string[] = ["**🪶 Assembl Council**\n"];
+        for (const a of data.answers as { agentName: string; kete: string; answer: string }[]) {
+          parts.push(`### ${a.agentName} _(${a.kete})_\n${a.answer}\n`);
+        }
+        if (data.summary) parts.push(`---\n### IHO — Action Plan\n${data.summary}`);
+        setMessages(prev => [...prev, { role: "assistant", content: parts.join("\n") }]);
+      } catch (e: any) {
+        toast.error(e.message || "Council failed");
+      } finally {
+        setIsStreaming(false);
+      }
+      return;
+    }
+
     // Load context with first message for FTS relevance
     let ctxPrompt = contextInjection;
     if (!contextLoaded && user) {
