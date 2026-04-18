@@ -8477,6 +8477,278 @@ export type Database = {
         }
         Relationships: []
       }
+      waihanga_consent_checks: {
+        Row: {
+          ambers: Json
+          consent_type: string
+          council: string
+          created_at: string
+          drawings_provided: boolean
+          greens: Json
+          id: string
+          project_ref: string
+          ps1_drafted: boolean
+          readiness_verdict: string
+          reds: Json
+          run_id: string | null
+          user_id: string
+        }
+        Insert: {
+          ambers?: Json
+          consent_type: string
+          council: string
+          created_at?: string
+          drawings_provided?: boolean
+          greens?: Json
+          id?: string
+          project_ref: string
+          ps1_drafted?: boolean
+          readiness_verdict?: string
+          reds?: Json
+          run_id?: string | null
+          user_id: string
+        }
+        Update: {
+          ambers?: Json
+          consent_type?: string
+          council?: string
+          created_at?: string
+          drawings_provided?: boolean
+          greens?: Json
+          id?: string
+          project_ref?: string
+          ps1_drafted?: boolean
+          readiness_verdict?: string
+          reds?: Json
+          run_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "waihanga_consent_checks_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "waihanga_workflow_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      waihanga_payment_claims_v2: {
+        Row: {
+          cca_section_20_compliant: boolean
+          claim_document_md: string | null
+          claim_period: string
+          contract_ref: string
+          created_at: string
+          due_date: string
+          gst_nzd: number
+          id: string
+          principal_email: string
+          principal_name: string
+          retention_deduction_nzd: number
+          run_id: string | null
+          schedule_deadline: string | null
+          schedule_received: boolean
+          status: string
+          sum_claimed_nzd: number
+          total_due_nzd: number
+          user_id: string
+        }
+        Insert: {
+          cca_section_20_compliant?: boolean
+          claim_document_md?: string | null
+          claim_period: string
+          contract_ref: string
+          created_at?: string
+          due_date: string
+          gst_nzd: number
+          id?: string
+          principal_email: string
+          principal_name: string
+          retention_deduction_nzd?: number
+          run_id?: string | null
+          schedule_deadline?: string | null
+          schedule_received?: boolean
+          status?: string
+          sum_claimed_nzd: number
+          total_due_nzd: number
+          user_id: string
+        }
+        Update: {
+          cca_section_20_compliant?: boolean
+          claim_document_md?: string | null
+          claim_period?: string
+          contract_ref?: string
+          created_at?: string
+          due_date?: string
+          gst_nzd?: number
+          id?: string
+          principal_email?: string
+          principal_name?: string
+          retention_deduction_nzd?: number
+          run_id?: string | null
+          schedule_deadline?: string | null
+          schedule_received?: boolean
+          status?: string
+          sum_claimed_nzd?: number
+          total_due_nzd?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "waihanga_payment_claims_v2_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "waihanga_workflow_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      waihanga_retention_ledger: {
+        Row: {
+          amount_nzd: number
+          contract_ref: string
+          created_at: string
+          id: string
+          last_movement_date: string
+          retention_held_nzd: number
+          retention_pct: number
+          run_id: string | null
+          status: string
+          subcontractor_name: string
+          trigger_event: string
+          trust_account_ref: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_nzd: number
+          contract_ref: string
+          created_at?: string
+          id?: string
+          last_movement_date?: string
+          retention_held_nzd: number
+          retention_pct: number
+          run_id?: string | null
+          status?: string
+          subcontractor_name: string
+          trigger_event: string
+          trust_account_ref?: string | null
+          user_id: string
+        }
+        Update: {
+          amount_nzd?: number
+          contract_ref?: string
+          created_at?: string
+          id?: string
+          last_movement_date?: string
+          retention_held_nzd?: number
+          retention_pct?: number
+          run_id?: string | null
+          status?: string
+          subcontractor_name?: string
+          trigger_event?: string
+          trust_account_ref?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "waihanga_retention_ledger_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "waihanga_workflow_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      waihanga_safety_log: {
+        Row: {
+          attendees: Json
+          created_at: string
+          hazards: Json
+          id: string
+          incidents: Json
+          log_date: string
+          notifiable_event: boolean
+          run_id: string | null
+          toolbox_topic: string
+          user_id: string
+          worksafe_draft: string | null
+        }
+        Insert: {
+          attendees?: Json
+          created_at?: string
+          hazards?: Json
+          id?: string
+          incidents?: Json
+          log_date?: string
+          notifiable_event?: boolean
+          run_id?: string | null
+          toolbox_topic: string
+          user_id: string
+          worksafe_draft?: string | null
+        }
+        Update: {
+          attendees?: Json
+          created_at?: string
+          hazards?: Json
+          id?: string
+          incidents?: Json
+          log_date?: string
+          notifiable_event?: boolean
+          run_id?: string | null
+          toolbox_topic?: string
+          user_id?: string
+          worksafe_draft?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "waihanga_safety_log_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "waihanga_workflow_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      waihanga_workflow_runs: {
+        Row: {
+          agent_chain: Json
+          completed_at: string | null
+          evidence_pack_id: string | null
+          id: string
+          result: Json | null
+          started_at: string
+          status: string
+          trigger_payload: Json
+          user_id: string
+          workflow_type: string
+        }
+        Insert: {
+          agent_chain?: Json
+          completed_at?: string | null
+          evidence_pack_id?: string | null
+          id?: string
+          result?: Json | null
+          started_at?: string
+          status?: string
+          trigger_payload?: Json
+          user_id: string
+          workflow_type: string
+        }
+        Update: {
+          agent_chain?: Json
+          completed_at?: string | null
+          evidence_pack_id?: string | null
+          id?: string
+          result?: Json | null
+          started_at?: string
+          status?: string
+          trigger_payload?: Json
+          user_id?: string
+          workflow_type?: string
+        }
+        Relationships: []
+      }
       waka_customer_vehicles: {
         Row: {
           churn_risk_pct: number | null
