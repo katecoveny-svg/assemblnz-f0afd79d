@@ -36,14 +36,14 @@ const COMPLIANCE = [
   "Privacy Act 2020 · IPP 3A — importer data governed",
 ];
 
-// Live roster — MARINER (pikau pack) + GATEWAY/HARVEST (pakihi pack, served via
-// industryToolLoader) + TRANSIT/MOTOR (waka pack). 5 verified active agents.
+// Live roster — 4 verified active agents under pikau + cross-pack pakihi.
+// MARINER, FLUX (fleet), HAVEN (cold-chain) live in pikau pack;
+// GATEWAY served from pakihi pack via industryToolLoader.
 const AGENTS = [
   { code: "MARINER", role: "Vessel tracking, AIS feeds & port logistics", icon: Anchor },
   { code: "GATEWAY", role: "Customs declarations & HS code validation", icon: FileText },
-  { code: "HARVEST", role: "Biosecurity, MPI clearance & IHS lookups", icon: Shield },
-  { code: "TRANSIT", role: "Road freight & delivery scheduling", icon: Ship },
-  { code: "MOTOR", role: "Fleet management, RUC & vehicle compliance", icon: Package },
+  { code: "FLUX", role: "Fleet & telematics — RUC, eRUC, route economy", icon: Package },
+  { code: "HAVEN", role: "Cold-chain integrity & temperature audit trails", icon: Shield },
 ];
 
 const DEMO_FLOW = [

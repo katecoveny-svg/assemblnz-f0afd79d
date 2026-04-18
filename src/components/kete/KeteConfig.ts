@@ -56,14 +56,14 @@ export const KETE_CONFIG: KeteDefinition[] = [
   },
   {
     id: "arataki", name: "Arataki", nameEn: "Automotive",
-    color: "#E8E8E8", icon: Car, agentCount: 3, group: "business",
+    color: "#E8E8E8", icon: Car, agentCount: 2, group: "business",
     description: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped.",
     wananga: "Te Kete Tuauri — the basket of guidance and protection",
     route: "/arataki", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
     id: "pikau", name: "Pikau", nameEn: "Freight & Customs",
-    color: "#5AADA0", icon: Package, agentCount: 5, group: "business",
+    color: "#5AADA0", icon: Package, agentCount: 4, group: "business",
     description: "Customs entries, freight quotes, dangerous goods checks — border compliance without the scramble.",
     wananga: "Te Kete Tuauri — the basket of movement and trade",
     route: "/pikau", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
