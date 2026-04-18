@@ -15,7 +15,7 @@
  *
  * Setup fees can be split across the first 3 invoices on request.
  *
- * The 6 industry kete (V2 expansion 2026-04):
+ * The 7 industry kete + Tōro whānau (V2 expansion 2026-04):
  *   MANAAKI (Hospitality) · WAIHANGA (Construction) · AUAHA (Creative) · ARATAKI (Automotive) · PIKAU (Freight & Customs) · HOKO (Retail)
  *
  * Existing customers on the legacy $199 / $399 / $799 + $749 setup model are
@@ -104,7 +104,7 @@ export const PRICING = {
     setupNote: 'Splittable across first 3 invoices on request',
     descriptor: 'Multi-site, regulated, high-stakes operations — every kete, the SLA, and a named human to call',
     features: [
-      'All 5 industry kete',
+      'All 7 industry kete + Tōro whānau',
       'Unlimited seats',
       'NZ data residency (attested)',
       '99.9% uptime SLA',
@@ -129,7 +129,7 @@ export const PRICING = {
     setupNote: 'Per-engagement scope',
     descriptor: 'Bespoke workflows where Assembl takes on the outcome — freight route optimisation, building maintenance scheduling, fleet uptime',
     features: [
-      'All 5 kete + custom agent build',
+      'All 7 kete + Tōro + custom agent build',
       'Unlimited seats',
       'Named engagement team',
       'Outcome uplift: 10–20% of measured savings',
@@ -157,7 +157,7 @@ export const CORE_PLATFORM = {
   ],
 } as const;
 
-/** The 6 industry kete — MANAAKI · WAIHANGA · AUAHA · ARATAKI · PIKAU · HOKO (V2 expansion) */
+/** The 7 industry kete — MANAAKI · WAIHANGA · AUAHA · ARATAKI · PIKAU · HOKO · AKO (V2 expansion) plus Tōro whānau */
 export const KETE = [
   {
     key: 'manaaki',
@@ -205,7 +205,7 @@ export const KETE = [
 
 /** Feature comparison table data */
 export const COMPARISON_FEATURES = [
-  { feature: 'Industry Kete', operator: '1', leader: '2', enterprise: 'All 5', outcome: 'All 5 + custom' },
+  { feature: 'Industry Kete', operator: '1', leader: '2', enterprise: 'All 7 + Tōro', outcome: 'All 7 + Tōro + custom' },
   { feature: 'Seats', operator: 'Up to 5', leader: 'Up to 15', enterprise: 'Unlimited', outcome: 'Unlimited' },
   { feature: 'Tikanga — Cultural governance', operator: true, leader: true, enterprise: true, outcome: true },
   { feature: 'Privacy Act 2020 + AAAIP', operator: true, leader: true, enterprise: true, outcome: true },
