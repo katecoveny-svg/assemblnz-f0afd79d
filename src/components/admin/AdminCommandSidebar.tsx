@@ -5,7 +5,7 @@ import {
   LayoutDashboard, Users, Bot, FlaskConical, FileCheck2,
   Sparkles, Megaphone, PenTool, FolderOpen, FileText,
   Activity, Heart, Mail, MessageSquare, Shield, BookOpen,
-  Gauge, ChevronRight, LogOut, Image, Film,
+  Gauge, ChevronRight, LogOut, Image, Film, Layers,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -29,8 +29,9 @@ const SECTIONS: { title: string; items: NavItem[] }[] = [
     ],
   },
   {
-    title: "Agents",
+    title: "Kete & Agents",
     items: [
+      { to: "/admin/dashboard#kete", label: "Kete Overview", icon: Layers },
       { to: "/admin/dashboard#agents", label: "Agent Directory", icon: Bot },
       { to: "/admin/test-lab", label: "Testing Lab", icon: FlaskConical },
       { to: "/admin/test-reports", label: "Test Results", icon: FileCheck2 },
@@ -236,7 +237,7 @@ export default function AdminCommandSidebar({
       <div className="px-5 py-4 space-y-3">
         <div className="flex items-center gap-2 text-[10px]" style={{ color: "rgba(61,66,80,0.5)" }}>
           <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: POUNAMU }} />
-          <span>56 agents · 7 kete</span>
+          <span>7 industry kete + Tōro</span>
         </div>
         <button
           onClick={() => { signOut(); navigate("/"); }}

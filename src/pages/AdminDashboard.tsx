@@ -6,6 +6,7 @@ import { agents } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import AdminCommandSidebar from "@/components/admin/AdminCommandSidebar";
 import AdminAgentDirectory from "@/components/admin/AdminAgentDirectory";
+import AdminKeteOverview from "@/components/admin/AdminKeteOverview";
 import AdminOutputLibrary from "@/components/admin/AdminOutputLibrary";
 import AgentTestResultsTab from "@/components/admin/AgentTestResultsTab";
 import AdminPipelineTab from "@/components/admin/AdminPipelineTab";
@@ -457,6 +458,9 @@ const AdminDashboard = () => {
               </GlassCard>
             </div>
           )}
+
+          {/* ═══ KETE ═══ */}
+          {section === "kete" && <AdminKeteOverview />}
 
           {/* ═══ AGENTS ═══ */}
           {section === "agents" && <AdminAgentDirectory />}
