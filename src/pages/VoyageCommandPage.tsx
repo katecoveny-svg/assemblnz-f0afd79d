@@ -45,12 +45,12 @@ const VoyageCommandPage = () => {
       try {
         setLoading(true);
         const [tripRes, famsRes, destsRes, daysRes, actsRes, convoysRes] = await Promise.all([
-          supabase.from("trips").select("*").eq("id", SAMPLE_TRIP_ID).single(),
-          supabase.from("trip_families").select("*").eq("trip_id", SAMPLE_TRIP_ID),
-          supabase.from("trip_destinations").select("*").eq("trip_id", SAMPLE_TRIP_ID).order("sort_order"),
-          supabase.from("trip_days").select("*").eq("trip_id", SAMPLE_TRIP_ID).order("date"),
-          supabase.from("trip_activities").select("*").eq("trip_id", SAMPLE_TRIP_ID).order("sort_order"),
-          supabase.from("trip_convoys").select("*").eq("trip_id", SAMPLE_TRIP_ID),
+          supabase.from("trips").select("*").eq("id", tripId).single(),
+          supabase.from("trip_families").select("*").eq("trip_id", tripId),
+          supabase.from("trip_destinations").select("*").eq("trip_id", tripId).order("sort_order"),
+          supabase.from("trip_days").select("*").eq("trip_id", tripId).order("date"),
+          supabase.from("trip_activities").select("*").eq("trip_id", tripId).order("sort_order"),
+          supabase.from("trip_convoys").select("*").eq("trip_id", tripId),
         ]);
 
         if (tripRes.error) throw tripRes.error;
