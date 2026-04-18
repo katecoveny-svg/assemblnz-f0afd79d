@@ -9,7 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Loader2, Workflow } from "lucide-react";
 import { toast } from "sonner";
 
-type Sector = "waihanga" | "architecture" | "engineering" | "customs" | "logistics";
+type Sector = "waihanga" | "architecture" | "engineering" | "customs" | "logistics" | "manaaki" | "arataki";
 
 interface WorkflowDef {
   id: string;
@@ -63,6 +63,38 @@ const WORKFLOWS: WorkflowDef[] = [
     example: { driver_ref: "DR-09", on_duty_hours_24h: 12.2, last_break_min: 45, last_break_at_hours_ago: 5.8, location: "Bombay Hills" } },
   { id: "contractor_gateway_audit", sector: "logistics", title: "Contractor Gateway Test + Reclassification", chain: "AROHA → ANCHOR → LEDGER",
     example: { contractor_name: "Pete Owner-Driver Ltd", arrangement_years: 4, control_score: "high (route, hours, livery dictated)", integration: "high (uniform, exclusive)", economic_reality: "sole client", gross_paid_3y_nzd: 420000 } },
+
+  // Manaaki (hospitality)
+  { id: "daily_food_safety_diary", sector: "manaaki", title: "Daily Food Safety Diary", chain: "AURA → APEX → MANA",
+    example: { venue_ref: "Kingi Cafe Ponsonby", shift: "open", fridge_temp_c: 3.8, hot_hold_c: 64, cleaning_done: true, allergen_signage: true, staff_health_declaration: true } },
+  { id: "labour_cost_optimiser", sector: "manaaki", title: "Labour Cost Optimiser (rolling 7-day)", chain: "AURA → AROHA → LEDGER",
+    example: { venue_ref: "Kingi Cafe Ponsonby", week_start: "2026-04-21", forecast_revenue_nzd: 38500, weather: "Fine, 19°C", local_events: ["Eden Park - rugby Sat 19:00"], target_labour_pct: 30 } },
+  { id: "menu_gp_monitor", sector: "manaaki", title: "Menu GP Monitor", chain: "AURA → LEDGER → PRISM",
+    example: { venue_ref: "Kingi Cafe Ponsonby", dish: "Eggs Benedict", current_price_nzd: 24, current_food_cost_nzd: 8.20, target_gp_pct: 70, supplier_movement_pct: 6.5 } },
+  { id: "review_response_engine", sector: "manaaki", title: "Review Response Engine", chain: "AURA → PRISM → NOVA",
+    example: { venue_ref: "Kingi Cafe Ponsonby", platform: "Google", rating: 1, review_text: "Server forgot my gluten allergy and brought sourdough. Sick all night.", venue_voice: "warm, accountable, no excuses" } },
+  { id: "alcohol_licence_renewal", sector: "manaaki", title: "Alcohol Licence Renewal", chain: "ANCHOR → AURA → KAHU",
+    example: { venue_ref: "Kingi Cafe Ponsonby", licence_type: "On-licence", current_expiry: "2026-08-15", manager_certificates: ["Ana M. (exp 2027-03)"], lap_district: "Auckland" } },
+  { id: "staff_induction_pipeline", sector: "manaaki", title: "Staff Induction Pipeline", chain: "AROHA → AURA",
+    example: { venue_ref: "Kingi Cafe Ponsonby", new_hire_name: "Mere T.", role: "Front of house", start_date: "2026-04-22", phone: "+642100000000" } },
+  { id: "experiential_story_builder", sector: "manaaki", title: "Experiential / Provenance Story Builder", chain: "PRISM → AURA",
+    example: { venue_ref: "Kingi Cafe Ponsonby", focus_dish: "Cloudy Bay clams, kawakawa butter", producer: "Marlborough Wild Catch", channel: "Instagram + menu insert" } },
+
+  // Arataki (automotive)
+  { id: "wof_fleet_scheduler", sector: "arataki", title: "WoF Fleet Scheduler (Nov 2026 ready)", chain: "APEX → FLUX → AROHA → ANCHOR",
+    example: { fleet_name: "South Auckland Couriers", vehicles: [{ rego: "ABC123", year: 2016, model: "Hilux", first_reg_date: "2016-04-12" }, { rego: "XYZ789", year: 2021, model: "Ranger", first_reg_date: "2021-01-22" }] } },
+  { id: "cin_generator_validator", sector: "arataki", title: "CIN Generator & Validator", chain: "APEX → ANCHOR → PRISM → MANA",
+    example: { dealer_name: "Manukau Motors Ltd", mvtr_number: "M123456", vin: "JTHBJ46G102123456", rego: "DEF456", year_first_reg_nz: 2018, odometer_km: 84200, cash_price_nzd: 18990, security_interest: true } },
+  { id: "mvdt_defence_pack", sector: "arataki", title: "MVDT Defence Pack Auto-Build", chain: "APEX → ANCHOR → MANA → NOVA",
+    example: { dealer_name: "Manukau Motors Ltd", customer: "S. Patel", vin: "JTHBJ46G102123456", sale_date: "2026-02-10", complaint: "Engine misfire 6 weeks after purchase", pre_sale_disclosures: ["Test drive offered", "CIN signed"] } },
+  { id: "vehicle_entry_precheck", sector: "arataki", title: "Vehicle Entry Pre-Check (import)", chain: "APEX → ANCHOR → SIGNAL",
+    example: { vin: "ZAR94000007012345", origin_country: "Japan", year: 2018, make: "Toyota", model: "Aqua", esc_factory_fitted: "unknown", emissions_grade: "Japan 05" } },
+  { id: "workshop_utilisation_no_show", sector: "arataki", title: "Workshop Utilisation + No-Show Triage", chain: "AXIS → FLUX → AROHA → LEDGER",
+    example: { workshop: "Hudson Auto", week: "2026-04-21", hoists: 4, bookings: 36, average_job_hours: 1.8, last_week_no_show_pct: 18 } },
+  { id: "ev_hv_safe_work_decision_tree", sector: "arataki", title: "EV / HV Safe Work Decision Tree", chain: "PULSE → APEX → AURA → MANA",
+    example: { workshop: "Hudson Auto", vin: "JN1FE0NE5GP123456", make: "Nissan", model: "Leaf", year: 2017, planned_work: "Brake pad replacement (no HV touch)", mechanic_certified_hv: false } },
+  { id: "automotive_review_engine", sector: "arataki", title: "Automotive Review Response Engine", chain: "AURA → PRISM → NOVA",
+    example: { workshop: "Hudson Auto", platform: "Google", rating: 1, review_text: "Charged me $1200 for a clutch and it slipped 3 weeks later.", workshop_voice: "professional, fair, action-oriented" } },
 ];
 
 const SECTORS: Array<{ id: Sector; label: string }> = [
@@ -71,6 +103,8 @@ const SECTORS: Array<{ id: Sector; label: string }> = [
   { id: "engineering", label: "Engineering Consultancy" },
   { id: "customs", label: "Pikau (Customs/Freight)" },
   { id: "logistics", label: "Logistics & Transport" },
+  { id: "manaaki", label: "Manaaki (Hospitality)" },
+  { id: "arataki", label: "Arataki (Automotive)" },
 ];
 
 export default function SectorWorkflows() {
@@ -133,7 +167,7 @@ export default function SectorWorkflows() {
           <Workflow className="h-7 w-7 text-primary" />
           <h1 className="text-3xl font-light text-foreground">Sector End-to-End Workflows</h1>
         </div>
-        <p className="text-muted-foreground">17 multi-agent orchestrations grounded in NZ statute — CCA 2002, NZIA AAS, NZS3917, Customs Act 2018, RUC Act 2012, HSWA 2015, Land Transport Rules, EU CBAM.</p>
+        <p className="text-muted-foreground">31 multi-agent orchestrations across 7 sectors — grounded in NZ statute (CCA 2002, NZIA AAS, NZS3917, Customs Act 2018, RUC Act 2012, HSWA 2015, Land Transport Rules + Nov 2026 WoF amendments, Food Act 2014, Sale &amp; Supply of Alcohol Act 2012, MVSA 2003, EU CBAM).</p>
       </header>
 
       <Tabs value={sector} onValueChange={(v) => setSector(v as Sector)} className="mb-6">

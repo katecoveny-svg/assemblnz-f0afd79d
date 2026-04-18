@@ -19,9 +19,14 @@ type WorkflowType =
   | "producer_statement_gate" | "scope_creep_variation_letter" | "pi_renewal_brief_builder"
   | "live_utilisation_forecast" | "historical_hours_proposal_challenger" | "tender_response_auto_draft"
   | "landed_cost_calculator" | "biosecurity_pre_clearance" | "fta_preference_claim" | "cbam_emissions_reporting"
-  | "ruc_auto_reconcile" | "driver_work_time_compliance" | "contractor_gateway_audit";
+  | "ruc_auto_reconcile" | "driver_work_time_compliance" | "contractor_gateway_audit"
+  | "daily_food_safety_diary" | "labour_cost_optimiser" | "menu_gp_monitor" | "review_response_engine"
+  | "alcohol_licence_renewal" | "staff_induction_pipeline" | "experiential_story_builder"
+  | "wof_fleet_scheduler" | "cin_generator_validator" | "mvdt_defence_pack"
+  | "vehicle_entry_precheck" | "workshop_utilisation_no_show" | "ev_hv_safe_work_decision_tree"
+  | "automotive_review_engine";
 
-type Sector = "waihanga" | "architecture" | "engineering" | "customs" | "logistics";
+type Sector = "waihanga" | "architecture" | "engineering" | "customs" | "logistics" | "manaaki" | "arataki";
 
 const CHAINS: Record<WorkflowType, { sector: Sector; agents: string[]; description: string; kbTopics: string[] }> = {
   retention_compliance_loop: { sector: "waihanga", agents: ["LEDGER","APEX","ANCHOR","AROHA","MANA"], description: "Detect retention-applicable invoice → confirm clause → ring-fence → quarterly subcontractor reports → email → audit", kbTopics: ["CCA 2002 s.18 retention trust","MBIE retention regulations 2023"] },
@@ -41,6 +46,24 @@ const CHAINS: Record<WorkflowType, { sector: Sector; agents: string[]; descripti
   ruc_auto_reconcile: { sector: "logistics", agents: ["FLUX","LEDGER","APEX"], description: "Hubodometer → reconcile vs RUC → run-out projection → auto-purchase 7 days out", kbTopics: ["Road User Charges Act 2012"] },
   driver_work_time_compliance: { sector: "logistics", agents: ["PULSE","APEX","AROHA"], description: "Driver status → cumulative on-duty → 30-min-out warning → suggest legal rest stop", kbTopics: ["Land Transport Work Time Logbooks 2007"] },
   contractor_gateway_audit: { sector: "logistics", agents: ["AROHA","ANCHOR","LEDGER"], description: "Gateway test → low/med/high/critical → remediation path → back-pay exposure", kbTopics: ["Employment Relations Amendment 2026 gateway test"] },
+
+  // Manaaki (hospitality)
+  daily_food_safety_diary: { sector: "manaaki", agents: ["AURA","APEX","MANA"], description: "Open/close shift prompts: temps, cleaning, allergen, staff health → corrective actions → MPI-ready monthly summary", kbTopics: ["Food Act 2014 Food Control Plan","Allergen management NZ Food Safety"] },
+  labour_cost_optimiser: { sector: "manaaki", agents: ["AURA","AROHA","LEDGER"], description: "POS history + weather + events → 30-min cover forecast → 3 roster variants → publish → variance learning", kbTopics: ["Hospitality NZ employment agreements","Restaurant Association Hospitality Report"] },
+  menu_gp_monitor: { sector: "manaaki", agents: ["AURA","LEDGER","PRISM"], description: "Supplier invoices → match to dish recipes → weekly GP recalc → flag >3% movement → reprice/portion/swap suggestions", kbTopics: ["Restaurant Association Hospitality Report"] },
+  review_response_engine: { sector: "manaaki", agents: ["AURA","PRISM","NOVA"], description: "Monitor Google/TripAdvisor → draft in venue voice → flag allergen/staff/defamation → daily digest → posted on approval", kbTopics: ["Allergen management NZ Food Safety"] },
+  alcohol_licence_renewal: { sector: "manaaki", agents: ["ANCHOR","AURA","KAHU"], description: "Track on-licence expiry → 60-day renewal draft → manager certificate check → public-notice + host-responsibility pack", kbTopics: ["Sale and Supply of Alcohol Act 2012"] },
+  staff_induction_pipeline: { sector: "manaaki", agents: ["AROHA","AURA"], description: "Structured induction by phone → comprehension check → training record kept for HR/MPI", kbTopics: ["Hospitality NZ employment agreements","Food Act 2014 Food Control Plan"] },
+  experiential_story_builder: { sector: "manaaki", agents: ["PRISM","AURA"], description: "Provenance/kaimoana sourcing + producer partnerships → menu/social/staff briefing copy in venue voice", kbTopics: [] },
+
+  // Arataki (automotive)
+  wof_fleet_scheduler: { sector: "arataki", agents: ["APEX","FLUX","AROHA","ANCHOR"], description: "Rego → Nov-2026/2027 WoF rule classification → per-vehicle calendar → 14-day reminder → insurance attestation", kbTopics: ["Land Transport WoF Rule 2026","Waka Kotahi VIRM Light Vehicles"] },
+  cin_generator_validator: { sector: "arataki", agents: ["APEX","ANCHOR","PRISM","MANA"], description: "VIN+rego → MVSA-compliant CIN → printable + online listing → immutable versioned audit", kbTopics: ["Motor Vehicle Sales Act 2003 CIN"] },
+  mvdt_defence_pack: { sector: "arataki", agents: ["APEX","ANCHOR","MANA","NOVA"], description: "MVDT claim → match sale + CIN version → CGA response pack → timestamped evidence chain → tribunal submission", kbTopics: ["Motor Vehicle Sales Act 2003 CIN","CGA MVDT case law"] },
+  vehicle_entry_precheck: { sector: "arataki", agents: ["APEX","ANCHOR","SIGNAL"], description: "Pre-import VIN check vs current Waka Kotahi acceptance: ESC, emissions, frontal impact → pass/refer", kbTopics: ["Waka Kotahi vehicle entry certification"] },
+  workshop_utilisation_no_show: { sector: "arataki", agents: ["AXIS","FLUX","AROHA","LEDGER"], description: "Booking diary → hoist utilisation → 24-hr confirm/reschedule → weekly recovered no-show revenue", kbTopics: [] },
+  ev_hv_safe_work_decision_tree: { sector: "arataki", agents: ["PULSE","APEX","AURA","MANA"], description: "VIN → EV/PHEV/HEV/ICE → manufacturer HV-isolation procedure → photo-evidenced checklist → audit log; refer if out of scope", kbTopics: ["High-Voltage EV Safe Work standards","HSWA 2015 notifiable events"] },
+  automotive_review_engine: { sector: "arataki", agents: ["AURA","PRISM","NOVA"], description: "Workshop/dealer reviews across Google/Autotrader/Carsales → draft in voice → defamation/allergen flags → goodwill scripts", kbTopics: [] },
 };
 
 const AGENT_ROLES: Record<string,string> = {
@@ -64,6 +87,7 @@ const AGENT_ROLES: Record<string,string> = {
   TERRA:"You are TERRA, emissions accounting. Per-shipment emissions; format for CBAM/UK CBAM/ESG.",
   HAVEN:"You are HAVEN, cold-chain integrity. IoT temperature; alert on excursions; compliant records.",
   NOVA:"You are NOVA, AR specialist. Monitor debtor ageing; surface cashflow risks the day they appear.",
+  AURA:"You are AURA, NZ hospitality + automotive operations specialist. Run daily food-safety prompts under Food Act 2014; predict covers and propose roster variants; map invoices to dish recipes for GP; monitor reviews and draft in venue voice; for automotive, walk mechanics through HV-isolation checklists and induction.",
 };
 
 function getSupabase(authHeader?: string) {
@@ -163,6 +187,21 @@ async function persistDomainRecord(supabase: ReturnType<typeof getSupabase>, wor
       user_id: userId, run_id: runId, workflow_type: workflow,
       vehicle_ref: payload.vehicle_ref || null, driver_ref: payload.driver_ref || null,
       payload, result_summary: summary, risk_rating: risk, exposure_nzd: payload.exposure_nzd ?? null,
+    });
+  } else if (sector === "manaaki") {
+    await supabase.from("manaaki_workflow_records").insert({
+      user_id: userId, run_id: runId, workflow_type: workflow,
+      venue_ref: payload.venue_ref || null, payload,
+      result_summary: summary, risk_rating: risk,
+      metric_value: payload.metric_value ?? null, metric_label: payload.metric_label ?? null,
+    });
+  } else if (sector === "arataki") {
+    await supabase.from("arataki_workflow_records").insert({
+      user_id: userId, run_id: runId, workflow_type: workflow,
+      vehicle_ref: payload.vehicle_ref || payload.rego || null,
+      vin: payload.vin || null, payload,
+      result_summary: summary, risk_rating: risk,
+      exposure_nzd: payload.exposure_nzd ?? null,
     });
   }
 }

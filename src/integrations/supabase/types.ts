@@ -830,6 +830,48 @@ export type Database = {
         }
         Relationships: []
       }
+      arataki_workflow_records: {
+        Row: {
+          created_at: string
+          exposure_nzd: number | null
+          id: string
+          payload: Json
+          result_summary: string | null
+          risk_rating: string | null
+          run_id: string | null
+          user_id: string
+          vehicle_ref: string | null
+          vin: string | null
+          workflow_type: string
+        }
+        Insert: {
+          created_at?: string
+          exposure_nzd?: number | null
+          id?: string
+          payload?: Json
+          result_summary?: string | null
+          risk_rating?: string | null
+          run_id?: string | null
+          user_id: string
+          vehicle_ref?: string | null
+          vin?: string | null
+          workflow_type: string
+        }
+        Update: {
+          created_at?: string
+          exposure_nzd?: number | null
+          id?: string
+          payload?: Json
+          result_summary?: string | null
+          risk_rating?: string | null
+          run_id?: string | null
+          user_id?: string
+          vehicle_ref?: string | null
+          vin?: string | null
+          workflow_type?: string
+        }
+        Relationships: []
+      }
       architecture_workflow_records: {
         Row: {
           created_at: string
@@ -4560,6 +4602,48 @@ export type Database = {
           sentiment?: string | null
           themes?: string[] | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      manaaki_workflow_records: {
+        Row: {
+          created_at: string
+          id: string
+          metric_label: string | null
+          metric_value: number | null
+          payload: Json
+          result_summary: string | null
+          risk_rating: string | null
+          run_id: string | null
+          user_id: string
+          venue_ref: string | null
+          workflow_type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metric_label?: string | null
+          metric_value?: number | null
+          payload?: Json
+          result_summary?: string | null
+          risk_rating?: string | null
+          run_id?: string | null
+          user_id: string
+          venue_ref?: string | null
+          workflow_type: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metric_label?: string | null
+          metric_value?: number | null
+          payload?: Json
+          result_summary?: string | null
+          risk_rating?: string | null
+          run_id?: string | null
+          user_id?: string
+          venue_ref?: string | null
+          workflow_type?: string
         }
         Relationships: []
       }
