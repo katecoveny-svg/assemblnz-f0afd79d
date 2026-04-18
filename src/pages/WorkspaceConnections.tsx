@@ -238,11 +238,16 @@ export default function WorkspaceConnections() {
                   <span className="text-[11px] text-gray-400 shrink-0">Pending…</span>
                 ) : (
                   <button
-                    onClick={() => handleConnect(tool.provider)}
-                    className="px-3 py-1.5 rounded-lg text-xs font-medium shrink-0 flex items-center gap-1"
+                    onClick={() => handleConnect(tool.provider, tool.oauth, (tool as any).builtin)}
+                    disabled={connectingProvider === tool.provider}
+                    className="px-3 py-1.5 rounded-lg text-xs font-medium shrink-0 flex items-center gap-1 disabled:opacity-50"
                     style={{ background: `${tool.color}20`, color: tool.color, border: `1px solid ${tool.color}30` }}
                   >
-                    <Plug size={12} /> Connect
+                    {connectingProvider === tool.provider ? (
+                      <><Loader2 size={12} className="animate-spin" /> Connecting…</>
+                    ) : (
+                      <><Plug size={12} /> Connect</>
+                    )}
                   </button>
                 )}
               </motion.div>
