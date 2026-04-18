@@ -106,7 +106,7 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
   whakaaro: ["strategic māori", "māori perspective", "whakaaro", "planning"],
   hiringa: ["resilience", "innovation", "growth", "hiringa", "strength"],
 
-  // ── TŌROA — Family Navigator (1) ──
+  // ── TŌRO — Family Navigator (1) ──
   toroa: ["family", "school", "kids", "children", "meal", "bus", "homework", "budget", "grocery", "reminder", "whānau navigator"],
 
   // ── PILOT — Founder EA (1) ──
@@ -147,7 +147,7 @@ const AGENT_PACK: Record<string, string> = {
   whanau: "te-kahui-reo", rohe: "te-kahui-reo", "kaupapa-m": "te-kahui-reo",
   mana: "te-kahui-reo", kaitiaki: "te-kahui-reo", taura: "te-kahui-reo",
   whakaaro: "te-kahui-reo", hiringa: "te-kahui-reo",
-  // Tōroa
+  // Tōro
   toroa: "toroa",
   // Pilot
   pilot: "shared",

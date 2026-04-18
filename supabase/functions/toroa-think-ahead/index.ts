@@ -2,7 +2,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
 /**
- * TŌROA THINK-AHEAD ENGINE
+ * TŌRO THINK-AHEAD ENGINE
  * 
  * Scheduled proactive intelligence that runs every morning at 6:30am NZST.
  * Checks each active family's context and sends helpful SMS alerts:
@@ -214,7 +214,7 @@ Deno.serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: `You are Tōroa, writing a brief morning SMS briefing for a NZ family. Be warm, concise, and useful. Use te reo naturally. Max 400 chars. Start with "Mōrena! 🌅" ${childContext ? `Reference children by name: ${childContext}` : ""}. End with something encouraging.`
+                content: `You are Tōro, writing a brief morning SMS briefing for a NZ family. Be warm, concise, and useful. Use te reo naturally. Max 400 chars. Start with "Mōrena! 🌅" ${childContext ? `Reference children by name: ${childContext}` : ""}. End with something encouraging.`
               },
               { role: "user", content: `Compile these alerts into one friendly morning briefing SMS:\n\n${alerts.join("\n")}` }
             ],

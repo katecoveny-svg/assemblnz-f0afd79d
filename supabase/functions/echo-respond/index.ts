@@ -37,7 +37,7 @@ Assembl is the operating system for NZ business: 46 specialist AI agents organis
 - TŌRO (Agriculture/Primary) — dairy, NAIT, FEP, livestock
 - WHENUA (Property) — Healthy Homes, RTA, tenancy
 - PAKIHI (Professional Services) — tax, AML, legal, billing
-- TŌROA (Family) — household admin
+- TŌRO (Family) — household admin
 Plus shared agents: AROHA (HR), Privacy, Te Reo Specialist, SHIELD (security).
 
 Pricing (NZD, GST excl):
