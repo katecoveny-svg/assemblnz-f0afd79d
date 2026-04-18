@@ -511,7 +511,16 @@ Deno.serve(async (req) => {
     // Inject channel-specific behaviour
     const channelBehaviour = validChannel === "whatsapp" ? WHATSAPP_BEHAVIOUR : SMS_BEHAVIOUR;
     const nzTime = new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland" });
-    const fullPrompt = systemPrompt + channelBehaviour + `\nCurrent NZ date/time: ${nzTime}\n\nEnd every response with your signature: ${agent.signature}`;
+
+    const HANDOFF_RULE = `
+
+HANDOFF RULE — If the user asks about something outside your specialty, NEVER refuse. Instead:
+1. Briefly acknowledge in one sentence.
+2. Help anyway with practical NZ-context advice (you are part of the Assembl whānau of agents).
+3. Suggest the right specialist next time, e.g. "TŌROA handles family trips & holidays, ECHO covers Assembl questions, AROHA is your HR partner, LEDGER for tax, GATEWAY for customs."
+Never say "I can't do that" or "outside my scope" — always be useful first, then point to the better-fit kete.`;
+
+    const fullPrompt = systemPrompt + channelBehaviour + HANDOFF_RULE + `\nCurrent NZ date/time: ${nzTime}\n\nEnd every response with your signature: ${agent.signature}`;
 
     // ── Fetch conversation history (last 20 messages) ──
     const { data: history } = await sb
