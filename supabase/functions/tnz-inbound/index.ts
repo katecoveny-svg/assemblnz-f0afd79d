@@ -609,7 +609,7 @@ Deno.serve(async (req) => {
     // when the user replies with a single digit (1-7) after seeing the menu.
     const trimmed = messageBody.trim();
     const isBareGreeting = /^(hi|hey|hello|kia\s?ora|yo|sup|hola|morena|good\s?(morning|afternoon|evening))[\s!.?]*$/i.test(trimmed);
-    const askedForMenu = /^\s*(menu|help|options?|choose|pick|kete|which|not\s?sure|don.?t\s?know|start|begin)\s*[?!.]*$/i.test(trimmed);
+    const askedForMenu = /^\s*(menu|help|options?|choose|pick|kete|which|not\s?sure|don.?t\s?know|start|begin|switch|reset|back|other|change|wrong\s?(one|kete|agent)?|different)\s*[?!.]*$/i.test(trimmed);
     const numericPick = trimmed.match(/^\s*([1-7])\s*$/);
 
     const KETE_MENU: Record<string, { agentId: string; agentName: string; kete: string; signature: string; intro: string }> = {
@@ -634,7 +634,7 @@ Deno.serve(async (req) => {
         "6 · Tōroa (Family life, school, trips)",
         "7 · About Assembl (pricing, pilots, demo)",
         "",
-        "Or just describe what you need (e.g. \"WoF reminder\", \"food safety diary\").",
+        "Or just describe what you need (e.g. \"WoF reminder\", \"food safety diary\"), or name an agent (e.g. \"Tōroa\", \"AURA\").",
       ].join("\n");
 
       const refMenu = `assembl-menu-${crypto.randomUUID()}`;
@@ -691,8 +691,9 @@ Deno.serve(async (req) => {
       }
     }
 
-    // 2) Bare greeting OR explicit menu request → show picker
-    if ((isBareGreeting || askedForMenu) && !awaitingPick) {
+    // 2) Bare greeting OR explicit menu/switch/reset request → ALWAYS show picker
+    //    (escape hatch when a user is stuck on the wrong agent)
+    if (isBareGreeting || askedForMenu) {
       await showMenu();
       return new Response(JSON.stringify({ ok: true, mode: "kete_picker" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
