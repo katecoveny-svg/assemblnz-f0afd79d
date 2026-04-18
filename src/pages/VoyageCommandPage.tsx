@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Compass, Loader2 } from "lucide-react";
 import VoyageCommandHeader from "@/components/voyage/VoyageCommandHeader";
@@ -19,6 +19,8 @@ import type {
 const SAMPLE_TRIP_ID = "11111111-1111-1111-1111-111111111111";
 
 const VoyageCommandPage = () => {
+  const [searchParams] = useSearchParams();
+  const tripId = searchParams.get("trip") || SAMPLE_TRIP_ID;
   const [bundle, setBundle] = useState<TripBundle | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
