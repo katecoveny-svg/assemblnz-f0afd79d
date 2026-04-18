@@ -135,6 +135,7 @@ const AratakiDriverCompliance = lazy(() => import("./pages/arataki/DriverComplia
 const SimulatorHub = lazy(() => import("./pages/SimulatorHub"));
 const PikauLandingPage = lazy(() => import("./pages/PikauLandingPage"));
 const ManaakiLandingPage = lazy(() => import("./pages/ManaakiLandingPage"));
+const HokoLandingPage = lazy(() => import("./pages/HokoLandingPage"));
 const AuahaLandingPage = lazy(() => import("./pages/AuahaLandingPage"));
 const WaihangaLandingPage = lazy(() => import("./pages/WaihangaLandingPage"));
 const ToroaTravelPage = lazy(() => import("./pages/ToroaTravelPage"));
