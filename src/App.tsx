@@ -188,6 +188,8 @@ const App = () => (
                         <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
                         <Route path="/command" element={<Suspense fallback={null}><CommandDashboard /></Suspense>} />
                         <Route path="/voyage/command" element={<Suspense fallback={null}><VoyageCommandPage /></Suspense>} />
+                        <Route path="/voyage/italy" element={<Navigate to="/voyage/command?trip=22222222-2222-2222-2222-222222222222" replace />} />
+                        <Route path="/voyage/wanaka" element={<Navigate to="/voyage/command?trip=11111111-1111-1111-1111-111111111111" replace />} />
                         <Route path="/voyage" element={<Navigate to="/voyage/command" replace />} />
                         <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                         <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
