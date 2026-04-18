@@ -258,20 +258,23 @@ Deno.serve(async (req) => {
 
     if (!allowed && token === serviceKey) allowed = true;
 
+    // Final fallback: ask Supabase to validate the JWT for us.
     if (!allowed) {
-      const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
-        global: { headers: { Authorization: auth } },
-      });
-      const { data: userResp } = await userClient.auth.getUser();
-      if (!userResp?.user) {
-        return new Response(JSON.stringify({ error: "Unauthenticated" }), {
-          status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      try {
+        const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
+          global: { headers: { Authorization: auth } },
         });
+        const { data: userResp, error: userErr } = await userClient.auth.getUser();
+        console.log("[ikb-ingest] getUser result:", { hasUser: !!userResp?.user, err: userErr?.message });
+        if (userResp?.user) {
+          const admin = createClient(supabaseUrl, serviceKey);
+          const { data: roleRow } = await admin.from("user_roles")
+            .select("role").eq("user_id", userResp.user.id).eq("role", "business").maybeSingle();
+          allowed = !!roleRow;
+        }
+      } catch (e) {
+        console.warn("[ikb-ingest] getUser threw:", e);
       }
-      const admin = createClient(supabaseUrl, serviceKey);
-      const { data: roleRow } = await admin.from("user_roles")
-        .select("role").eq("user_id", userResp.user.id).eq("role", "business").maybeSingle();
-      allowed = !!roleRow;
     }
     if (!allowed) {
       return new Response(JSON.stringify({ error: "Forbidden" }), {
