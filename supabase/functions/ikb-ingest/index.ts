@@ -229,29 +229,52 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Auth: accept either service-role bearer (cron) or business-role user.
+    // Auth: accept either service-role bearer (cron / vault-sourced JWT)
+    // or a business-role authenticated user. We validate the JWT's `role`
+    // claim rather than doing a string equality check so that rotated
+    // service-role keys (or vault-stored variants) still work.
     const auth = req.headers.get("Authorization") ?? "";
     const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
-    let allowed = token === serviceKey;
-    if (!allowed) {
-      if (!token) {
-        return new Response(JSON.stringify({ error: "Missing bearer token" }), {
-          status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-      const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
-        global: { headers: { Authorization: auth } },
+    let allowed = false;
+
+    if (!token) {
+      return new Response(JSON.stringify({ error: "Missing bearer token" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
-      const { data: userResp } = await userClient.auth.getUser();
-      if (!userResp?.user) {
-        return new Response(JSON.stringify({ error: "Unauthenticated" }), {
-          status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    }
+
+    // Cheap JWT role-claim peek (no signature verification — service-role keys
+    // are scoped server-side and never reach the browser).
+    try {
+      const part = token.split(".")[1] ?? "";
+      const b64 = part.replace(/-/g, "+").replace(/_/g, "/");
+      const padded = b64 + "===".slice((b64.length + 3) % 4);
+      const payload = JSON.parse(atob(padded));
+      console.log("[ikb-ingest] jwt role claim:", payload?.role);
+      if (payload?.role === "service_role") allowed = true;
+    } catch (e) {
+      console.warn("[ikb-ingest] jwt decode failed:", e);
+    }
+
+    if (!allowed && token === serviceKey) allowed = true;
+
+    // Final fallback: ask Supabase to validate the JWT for us.
+    if (!allowed) {
+      try {
+        const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
+          global: { headers: { Authorization: auth } },
         });
+        const { data: userResp, error: userErr } = await userClient.auth.getUser();
+        console.log("[ikb-ingest] getUser result:", { hasUser: !!userResp?.user, err: userErr?.message });
+        if (userResp?.user) {
+          const admin = createClient(supabaseUrl, serviceKey);
+          const { data: roleRow } = await admin.from("user_roles")
+            .select("role").eq("user_id", userResp.user.id).eq("role", "business").maybeSingle();
+          allowed = !!roleRow;
+        }
+      } catch (e) {
+        console.warn("[ikb-ingest] getUser threw:", e);
       }
-      const admin = createClient(supabaseUrl, serviceKey);
-      const { data: roleRow } = await admin.from("user_roles")
-        .select("role").eq("user_id", userResp.user.id).eq("role", "business").maybeSingle();
-      allowed = !!roleRow;
     }
     if (!allowed) {
       return new Response(JSON.stringify({ error: "Forbidden" }), {

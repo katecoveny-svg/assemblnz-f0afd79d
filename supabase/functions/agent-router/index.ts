@@ -410,7 +410,11 @@ MANA (Approve):
       "apex-ako": "AKO", "nova-ako": "AKO", "mana-ako": "AKO",
       harvest: "WHENUA", grove: "WHENUA",
       gateway: "HOKO", compass: "HOKO",
-      haven: "KAINGA",
+      haven: "KĀINGA",
+      // V2 expansion: WHENUA-specific specialists
+      "harvest-whenua": "WHENUA", "grove-whenua": "WHENUA", "pulse-whenua": "WHENUA",
+      // V2 expansion: ORA wellbeing (read-only knowledge)
+      "ora-wellbeing": "ORA", "ora-rongoā": "ORA",
     };
     const keteFilter = KETE_FILTER[selectedAgent];
     if (keteFilter) {
