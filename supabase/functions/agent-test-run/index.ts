@@ -11,7 +11,10 @@ const corsHeaders = {
  * (Kahu → Iho → Tā → Mahara → Mana) and records the result.
  */
 
-const VALID_KETE = ["MANAAKI", "WAIHANGA", "AUAHA", "ARATAKI", "PIKAU"];
+const VALID_KETE = [
+  "MANAAKI", "WAIHANGA", "AUAHA", "ARATAKI", "PIKAU",
+  "HOKO", "WHENUA", "AKO",
+];
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {

@@ -37,6 +37,14 @@ const NZ_COMPLIANCE_SOURCES = [
   { name: "MetService", url: "https://www.metservice.com/warnings/" },
   { name: "SunSmart NZ", url: "https://www.sunsmart.org.nz/" },
   { name: "GETS Tenders", url: "https://www.gets.govt.nz/ExternalIndex.htm" },
+  // ── New kete sources (HOKO / WHENUA / AKO) ──
+  { name: "NZ Customs Service", url: "https://www.customs.govt.nz/about-us/news/" },
+  { name: "MFAT Trade", url: "https://www.mfat.govt.nz/en/trade/" },
+  { name: "Federated Farmers", url: "https://www.fedfarm.org.nz/news/" },
+  { name: "Beef + Lamb NZ", url: "https://beeflambnz.com/news-views" },
+  { name: "DairyNZ", url: "https://www.dairynz.co.nz/news/" },
+  { name: "Ministry of Education ECE", url: "https://www.education.govt.nz/early-childhood/" },
+  { name: "ERO Early Learning", url: "https://ero.govt.nz/our-research" },
 ];
 
 // Map source → likely affected agents
@@ -58,6 +66,16 @@ const SOURCE_AGENT_MAP: Record<string, string[]> = {
   "MetService": ["helm", "voyage", "atlas"],
   "SunSmart NZ": ["glow", "atlas"],
   "GETS Tenders": ["flux"],
+  // HOKO (import/export)
+  "NZ Customs Service": ["gateway", "anchor-hoko", "flux-hoko", "nova-hoko", "prism-hoko"],
+  "MFAT Trade": ["gateway", "flux-hoko", "nova-hoko"],
+  // WHENUA (agriculture)
+  "Federated Farmers": ["harvest", "grove"],
+  "Beef + Lamb NZ": ["harvest"],
+  "DairyNZ": ["harvest"],
+  // AKO (early childhood education)
+  "Ministry of Education ECE": ["apex-ako", "nova-ako", "mana-ako", "scholar"],
+  "ERO Early Learning": ["apex-ako", "nova-ako", "mana-ako"],
 };
 
 Deno.serve(async (req) => {

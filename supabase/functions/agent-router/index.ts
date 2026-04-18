@@ -114,6 +114,20 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
 
   // ── TE REO (legacy, kept for backward compat) ──
   tereo: ["te reo", "māori language", "macron", "pronunciation", "kupu", "translate", "mihi", "karakia"],
+
+  // ── HOKO — Import / Export (4) ──
+  "anchor-hoko": ["incoterm", "fob", "cif", "ddp", "exw", "letter of credit", "lc", "bill of lading", "bol", "export contract", "trade contract", "international contract"],
+  "flux-hoko":   ["export market", "trade promotion", "nzte", "market entry", "buyer outreach", "trade show", "export marketing", "international launch"],
+  "nova-hoko":   ["export readiness", "tariff lookup", "hs classification", "fta", "cptpp", "rcep", "uk fta", "eu fta", "china fta", "trade compliance", "anti-dumping", "rules of origin", "certificate of origin"],
+  "prism-hoko":  ["export brand", "international brand", "label translation", "packaging compliance", "global brand", "export packaging"],
+
+  // ── WHENUA — Agriculture (canonical = harvest, kept for keyword strength) ──
+  // (harvest already mapped above under PAKIHI; reinforced via SOURCE_AGENT_MAP)
+
+  // ── AKO — Early Childhood Education (3) ──
+  "apex-ako": ["ece", "early childhood", "kindergarten", "kōhanga reo", "kohanga reo", "education review office", "ero visit", "licensing criteria", "20 hours ece", "te whāriki", "te whariki", "regulation 47", "graduated enforcement", "centre licence", "centre license"],
+  "nova-ako": ["enrolment form", "20 hours agreement", "transparency pack", "complaints procedure", "operational document", "parent handbook", "centre policy"],
+  "mana-ako": ["ece funding", "rs7", "attendance record", "ministry funding claim", "child wellbeing", "incident register", "notifiable incident ece", "child protection ece"],
 };
 
 // Pack membership for context loading
@@ -153,6 +167,10 @@ const AGENT_PACK: Record<string, string> = {
   pilot: "shared",
   // Legacy
   tereo: "shared",
+  // HOKO — Import/Export
+  "anchor-hoko": "hoko", "flux-hoko": "hoko", "nova-hoko": "hoko", "prism-hoko": "hoko",
+  // AKO — Early Childhood Education
+  "apex-ako": "ako", "nova-ako": "ako", "mana-ako": "ako",
 };
 
 function classifyAgent(message: string, explicitAgent?: string): string {
@@ -385,6 +403,48 @@ MANA (Approve):
     }
     expertBlock += knowledgeBlock;
 
+    // ═══ INDUSTRY KB GROUNDING — Vector search across HOKO/WHENUA/AKO + others ═══
+    // Map agent → kete bucket so we filter the industry_knowledge_base correctly.
+    const KETE_FILTER: Record<string, string> = {
+      "anchor-hoko": "HOKO", "flux-hoko": "HOKO", "nova-hoko": "HOKO", "prism-hoko": "HOKO",
+      "apex-ako": "AKO", "nova-ako": "AKO", "mana-ako": "AKO",
+      harvest: "WHENUA", grove: "WHENUA",
+      gateway: "HOKO", compass: "HOKO",
+      haven: "KAINGA",
+    };
+    const keteFilter = KETE_FILTER[selectedAgent];
+    if (keteFilter) {
+      try {
+        const embResp = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ model: "google/text-embedding-004", input: message.slice(0, 1500) }),
+        });
+        if (embResp.ok) {
+          const ej = await embResp.json();
+          const embedding = ej.data?.[0]?.embedding;
+          if (embedding) {
+            const { data: chunks } = await supabase.rpc("search_industry_kb", {
+              query_embedding: embedding,
+              filter_kete: keteFilter,
+              filter_agent: selectedAgent,
+              match_count: 4,
+              min_similarity: 0.25,
+            });
+            if (chunks?.length) {
+              const block = chunks.map((c: any) =>
+                `• [${c.doc_title}] ${c.chunk_text.slice(0, 600)}${c.source_url ? ` — ${c.source_url}` : ""}`
+              ).join("\n\n");
+              industryContextBlock = `\n\n--- INDUSTRY KNOWLEDGE BASE (${keteFilter}) — verified Tier-1 sources ---\nUse these excerpts as your primary citation source. Quote directly with the source URL.\n${block}`;
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("[agent-router] industry KB lookup failed:", err);
+      }
+    }
+    expertBlock += industryContextBlock;
+
     // Load recent compliance updates for proactive intelligence
     let complianceAlertBlock = "";
     if (resolvedUserId) {
@@ -490,12 +550,16 @@ Key facts you should know and reference when relevant:
 - assembl operates through a 10-step Iho routing pipeline: Parse → Access → Intent → Agent Selection → PII Masking → Business Context → Model Selection → AI Call → Final Gate → Audit Log.
 - Every output runs through a tikanga compliance pipeline (Kahu → Tā → Mahara → Mana) with an audit trail.
 
-Five industry kete:
+Seven industry kete + Tōro:
   • Manaaki — Hospitality: food safety, liquor licensing, guest experience, tourism operations
   • Waihanga — Construction: site safety, consenting, project management, quality and sign-off
   • Auaha — Creative: brief to publish — copy, image, video, podcast, ads, analytics
   • Arataki — Automotive: workshops, fleet, vehicle compliance, service scheduling
-  • Pikau — Freight & Customs: route optimisation, declarations, broker hand-off, customs compliance
+  • Pikau — Freight & Customs (domestic): route optimisation, declarations, broker hand-off, customs compliance
+  • Hoko — Import / Export: tariffs, FTA preference, Incoterms, market entry, export brand
+  • Whenua — Agriculture & Primary: dairy, beef + lamb, horticulture, FEP, NAIT, emissions readiness
+  • Ako — Early Childhood Education: 20 April 2026 licensing criteria, transparency pack, graduated enforcement readiness (administrative-only, HIGH-RISK)
+  • Tōro — Family life navigator (consumer SMS-first companion)
 
 Pricing (NZD ex GST):
   • Family: $29/mo — SMS-first whānau agent (consumer)
