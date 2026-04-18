@@ -1,8 +1,29 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { agents, packs } from "@/data/agents";
+import { agents } from "@/data/agents";
+import { KETE_CONFIG } from "@/components/kete/KeteConfig";
 import AgentAvatar from "@/components/AgentAvatar";
 import { MessageSquare, FlaskConical, Search, Filter } from "lucide-react";
+
+// Map legacy/transitional pack ids in src/data/agents.ts to canonical KETE_CONFIG ids.
+// Keeps the directory aligned to the 7 industry kete + Tōro source of truth.
+const PACK_TO_KETE: Record<string, string> = {
+  manaaki: "manaaki",
+  waihanga: "waihanga",
+  auaha: "auaha",
+  arataki: "arataki",
+  waka: "arataki",
+  pikau: "pikau",
+  hoko: "hoko",
+  pakihi: "hoko",
+  ako: "ako",
+  hauora: "ako",
+  toroa: "toro",
+  toro: "toro",
+  hangarau: "core",
+  "te-kahui-reo": "core",
+  core: "core",
+};
 
 const GOLD = "#D4A843";
 
