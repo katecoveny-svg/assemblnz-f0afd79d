@@ -63,7 +63,7 @@ export const KETE_CONFIG: KeteDefinition[] = [
   },
   {
     id: "pikau", name: "Pikau", nameEn: "Freight & Customs",
-    color: "#5AADA0", icon: Package, agentCount: 5, group: "business",
+    color: "#5AADA0", icon: Package, agentCount: 4, group: "business",
     description: "Customs entries, freight quotes, dangerous goods checks — border compliance without the scramble.",
     wananga: "Te Kete Tuauri — the basket of movement and trade",
     route: "/pikau", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
