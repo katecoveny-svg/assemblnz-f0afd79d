@@ -455,6 +455,7 @@ export type Database = {
           model_preference: string | null
           pack: string
           system_prompt: string
+          tenant_id: string | null
           updated_at: string | null
           version: number | null
         }
@@ -468,6 +469,7 @@ export type Database = {
           model_preference?: string | null
           pack: string
           system_prompt: string
+          tenant_id?: string | null
           updated_at?: string | null
           version?: number | null
         }
@@ -481,10 +483,19 @@ export type Database = {
           model_preference?: string | null
           pack?: string
           system_prompt?: string
+          tenant_id?: string | null
           updated_at?: string | null
           version?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "agent_prompts_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       agent_sms_config: {
         Row: {
@@ -4389,6 +4400,45 @@ export type Database = {
         }
         Relationships: []
       }
+      kete_definitions: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          display_name: string
+          handler_fn: string | null
+          id: string
+          is_active: boolean
+          keywords: string[]
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          display_name: string
+          handler_fn?: string | null
+          id?: string
+          is_active?: boolean
+          keywords?: string[]
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          display_name?: string
+          handler_fn?: string | null
+          id?: string
+          is_active?: boolean
+          keywords?: string[]
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       lead_activity: {
         Row: {
           activity_type: string
@@ -4977,6 +5027,7 @@ export type Database = {
           opted_out_keyword: string | null
           phone_number: string
           status: string | null
+          tenant_id: string | null
           updated_at: string | null
         }
         Insert: {
@@ -4995,6 +5046,7 @@ export type Database = {
           opted_out_keyword?: string | null
           phone_number: string
           status?: string | null
+          tenant_id?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -5013,9 +5065,18 @@ export type Database = {
           opted_out_keyword?: string | null
           phone_number?: string
           status?: string | null
+          tenant_id?: string | null
           updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "messaging_conversations_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       messaging_messages: {
         Row: {
@@ -5033,6 +5094,7 @@ export type Database = {
           model_used: string | null
           response_time_ms: number | null
           status: string | null
+          tenant_id: string | null
           tnz_message_id: string | null
           tnz_reference: string | null
           to_number: string | null
@@ -5052,6 +5114,7 @@ export type Database = {
           model_used?: string | null
           response_time_ms?: number | null
           status?: string | null
+          tenant_id?: string | null
           tnz_message_id?: string | null
           tnz_reference?: string | null
           to_number?: string | null
@@ -5071,6 +5134,7 @@ export type Database = {
           model_used?: string | null
           response_time_ms?: number | null
           status?: string | null
+          tenant_id?: string | null
           tnz_message_id?: string | null
           tnz_reference?: string | null
           to_number?: string | null
@@ -5081,6 +5145,13 @@ export type Database = {
             columns: ["conversation_id"]
             isOneToOne: false
             referencedRelation: "messaging_conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messaging_messages_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
         ]
@@ -6981,6 +7052,51 @@ export type Database = {
           },
         ]
       }
+      tenant_ketes: {
+        Row: {
+          config: Json
+          created_at: string
+          display_name: string | null
+          enabled: boolean
+          id: string
+          kete_id: string
+          tenant_id: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          display_name?: string | null
+          enabled?: boolean
+          id?: string
+          kete_id: string
+          tenant_id: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          display_name?: string | null
+          enabled?: boolean
+          id?: string
+          kete_id?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_ketes_kete_id_fkey"
+            columns: ["kete_id"]
+            isOneToOne: false
+            referencedRelation: "kete_definitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tenant_ketes_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenant_members: {
         Row: {
           created_at: string | null
@@ -7006,6 +7122,41 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "tenant_members_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tenant_phone_numbers: {
+        Row: {
+          channel: string
+          created_at: string
+          id: string
+          is_default: boolean
+          phone_number: string
+          tenant_id: string
+        }
+        Insert: {
+          channel?: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          phone_number: string
+          tenant_id: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          phone_number?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_phone_numbers_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
@@ -7115,6 +7266,8 @@ export type Database = {
           name: string
           onboarding_complete: boolean | null
           plan: string
+          slug: string | null
+          status: string
           updated_at: string | null
           website_url: string | null
         }
@@ -7131,6 +7284,8 @@ export type Database = {
           name: string
           onboarding_complete?: boolean | null
           plan?: string
+          slug?: string | null
+          status?: string
           updated_at?: string | null
           website_url?: string | null
         }
@@ -7147,6 +7302,8 @@ export type Database = {
           name?: string
           onboarding_complete?: boolean | null
           plan?: string
+          slug?: string | null
+          status?: string
           updated_at?: string | null
           website_url?: string | null
         }
@@ -7589,6 +7746,7 @@ export type Database = {
           stripe_customer_id: string | null
           stripe_subscription_id: string | null
           subscription_id: string | null
+          tenant_id: string | null
           updated_at: string | null
         }
         Insert: {
@@ -7611,6 +7769,7 @@ export type Database = {
           stripe_customer_id?: string | null
           stripe_subscription_id?: string | null
           subscription_id?: string | null
+          tenant_id?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -7633,9 +7792,18 @@ export type Database = {
           stripe_customer_id?: string | null
           stripe_subscription_id?: string | null
           subscription_id?: string | null
+          tenant_id?: string | null
           updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "toroa_families_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       toroa_family_locations: {
         Row: {
@@ -10271,6 +10439,10 @@ export type Database = {
           msg_id: number
           read_ct: number
         }[]
+      }
+      resolve_tenant_from_phone: {
+        Args: { p_channel: string; p_phone: string }
+        Returns: string
       }
       search_industry_kb: {
         Args: {
