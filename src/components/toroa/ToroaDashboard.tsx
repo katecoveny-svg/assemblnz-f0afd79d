@@ -297,6 +297,32 @@ export default function ToroaDashboard() {
         <div className="h-px" style={{ background: `linear-gradient(90deg, transparent, ${KOWHAI}40, transparent)` }} />
 
         <div className="max-w-2xl mx-auto p-4 md:p-6 space-y-6">
+          {/* ── Voyage launcher tile ── */}
+          <Link
+            to="/voyage/plan"
+            className="block rounded-2xl p-4 transition-all hover:scale-[1.01] group"
+            style={{
+              background: `linear-gradient(135deg, ${KOWHAI}12, ${POUNAMU}10)`,
+              border: `1px solid ${KOWHAI}25`,
+              backdropFilter: "blur(14px)",
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${KOWHAI}20`, border: `1px solid ${KOWHAI}30` }}>
+                <Compass size={18} style={{ color: KOWHAI }} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <Sparkles size={10} style={{ color: KOWHAI }} />
+                  <p className="text-[9px] uppercase tracking-[0.2em]" style={{ color: KOWHAI }}>Voyage Agent</p>
+                </div>
+                <p className="text-xs mt-0.5" style={{ color: "#1A1D29", fontWeight: 500 }}>Plan a multi-family trip</p>
+                <p className="text-[10px] mt-0.5" style={{ color: "#6B7280" }}>Describe it in plain English — get destinations, days, convoys & a live map.</p>
+              </div>
+              <ChevronLeft size={14} className="rotate-180 group-hover:translate-x-0.5 transition-transform" style={{ color: KOWHAI }} />
+            </div>
+          </Link>
+
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
