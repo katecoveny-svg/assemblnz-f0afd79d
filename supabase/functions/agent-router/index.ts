@@ -403,6 +403,48 @@ MANA (Approve):
     }
     expertBlock += knowledgeBlock;
 
+    // ═══ INDUSTRY KB GROUNDING — Vector search across HOKO/WHENUA/AKO + others ═══
+    // Map agent → kete bucket so we filter the industry_knowledge_base correctly.
+    const KETE_FILTER: Record<string, string> = {
+      "anchor-hoko": "HOKO", "flux-hoko": "HOKO", "nova-hoko": "HOKO", "prism-hoko": "HOKO",
+      "apex-ako": "AKO", "nova-ako": "AKO", "mana-ako": "AKO",
+      harvest: "WHENUA", grove: "WHENUA",
+      gateway: "HOKO", compass: "HOKO",
+      haven: "KAINGA",
+    };
+    const keteFilter = KETE_FILTER[selectedAgent];
+    if (keteFilter) {
+      try {
+        const embResp = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ model: "google/text-embedding-004", input: message.slice(0, 1500) }),
+        });
+        if (embResp.ok) {
+          const ej = await embResp.json();
+          const embedding = ej.data?.[0]?.embedding;
+          if (embedding) {
+            const { data: chunks } = await supabase.rpc("search_industry_kb", {
+              query_embedding: embedding,
+              filter_kete: keteFilter,
+              filter_agent: selectedAgent,
+              match_count: 4,
+              min_similarity: 0.25,
+            });
+            if (chunks?.length) {
+              const block = chunks.map((c: any) =>
+                `• [${c.doc_title}] ${c.chunk_text.slice(0, 600)}${c.source_url ? ` — ${c.source_url}` : ""}`
+              ).join("\n\n");
+              industryContextBlock = `\n\n--- INDUSTRY KNOWLEDGE BASE (${keteFilter}) — verified Tier-1 sources ---\nUse these excerpts as your primary citation source. Quote directly with the source URL.\n${block}`;
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("[agent-router] industry KB lookup failed:", err);
+      }
+    }
+    expertBlock += industryContextBlock;
+
     // Load recent compliance updates for proactive intelligence
     let complianceAlertBlock = "";
     if (resolvedUserId) {

@@ -281,6 +281,37 @@ function routeToAgent(message: string): RouteResult {
     return { agentId: "haven", agentName: "HAVEN", kete: "whenua", signature: "— HAVEN, your property management partner" };
   }
 
+  // ── Hoko (Import / Export) — distinct from domestic Pikau ──
+  if (/\b(export|import|incoterm|fob|cif|ddp|exw|letter\s?of\s?credit|\blc\b|fta|cptpp|rcep|trade\s?agreement|tariff|hs\s?code|certificate\s?of\s?origin|nzte|mfat|anti.?dumping|trade\s?show|export\s?market|export\s?brand|international\s?market)\b/.test(lower)) {
+    if (/\b(contract|incoterm|fob|cif|ddp|exw|letter\s?of\s?credit|\blc\b|bill\s?of\s?lading|bol)\b/.test(lower)) {
+      return { agentId: "anchor-hoko", agentName: "ANCHOR-HOKO", kete: "hoko", signature: "— ANCHOR-HOKO, your export contracts partner" };
+    }
+    if (/\b(market|nzte|trade\s?show|buyer|outreach|launch|promotion)\b/.test(lower)) {
+      return { agentId: "flux-hoko", agentName: "FLUX-HOKO", kete: "hoko", signature: "— FLUX-HOKO, your export market partner" };
+    }
+    if (/\b(brand|label|packaging|translation|international\s?brand)\b/.test(lower)) {
+      return { agentId: "prism-hoko", agentName: "PRISM-HOKO", kete: "hoko", signature: "— PRISM-HOKO, your export brand partner" };
+    }
+    return { agentId: "nova-hoko", agentName: "NOVA-HOKO", kete: "hoko", signature: "— NOVA-HOKO, your trade compliance partner" };
+  }
+
+  // ── Whenua (Agriculture & Primary) ──
+  if (/\b(farm|dairy|sheep|cattle|beef|lamb|wool|crop|harvest|irrigat|fertiliser|fertilizer|soil|pasture|fep|nait|fonterra|milk|payout|livestock|drench|m\.?bovis|rural|agri|horti|orchard|vineyard|kiwifruit|apple|avocado|forestry|timber|log|plantation|apiculture|honey|manuka|beekeep)\b/.test(lower)) {
+    return { agentId: "harvest", agentName: "HARVEST", kete: "whenua", signature: "— HARVEST, your agriculture & primary sector partner" };
+  }
+
+  // ── Ako (Early Childhood Education) — HIGH-RISK administrative-only ──
+  if (/\b(ece|early\s?childhood|kindergarten|kōhanga\s?reo|kohanga\s?reo|childcare\s?centre|childcare\s?center|ero\s?(visit|review)|licensing\s?criteria|20\s?hours\s?ece|te\s?wh[āa]riki|graduated\s?enforcement|centre\s?licen[cs]e|operational\s?document)\b/.test(lower)) {
+    if (/\b(transparency|complaint|policy|parent\s?handbook|operational\s?document|enrolment\s?form)\b/.test(lower)) {
+      return { agentId: "nova-ako", agentName: "NOVA-AKO", kete: "ako", signature: "— NOVA-AKO, your transparency pack partner (administrative support only)" };
+    }
+    if (/\b(funding|rs7|attendance|claim|incident|child\s?protection)\b/.test(lower)) {
+      return { agentId: "mana-ako", agentName: "MANA-AKO", kete: "ako", signature: "— MANA-AKO, your ECE evidence partner (administrative support only)" };
+    }
+    return { agentId: "apex-ako", agentName: "APEX-AKO", kete: "ako", signature: "— APEX-AKO, your ECE licensing partner (administrative support only)" };
+  }
+
+
   // ── Professional Services (Pakihi) ──
   if (/\b(accounting|accountant|tax|gst|ir[d3]|income\s?tax|payroll|paye|invoice|billing|timesheet|wip|trust\s?account|law|lawyer|solicitor|barrister|conveyancing|litigation|contract|agreement|deed|will|estate|power\s?of\s?attorney|compliance|audit|due\s?diligence|aml|anti.?money|kyc|financial\s?advis|chartered|ca|cpa)\b/.test(lower)) {
     if (/\b(tax|gst|ird|paye|income\s?tax|provisional|terminal)\b/.test(lower)) {
