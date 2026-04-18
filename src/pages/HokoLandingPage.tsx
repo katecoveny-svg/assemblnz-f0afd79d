@@ -253,7 +253,7 @@ export default function HokoLandingPage() {
                 YOUR HOKO TEAM
               </p>
               <h2 className="text-3xl md:text-4xl font-light tracking-tight" style={{ color: "#3D4250", fontFamily: "'Lato', sans-serif" }}>
-                10 specialist agents
+                4 retail specialists · live
               </h2>
             </div>
 
