@@ -19,9 +19,14 @@ type WorkflowType =
   | "producer_statement_gate" | "scope_creep_variation_letter" | "pi_renewal_brief_builder"
   | "live_utilisation_forecast" | "historical_hours_proposal_challenger" | "tender_response_auto_draft"
   | "landed_cost_calculator" | "biosecurity_pre_clearance" | "fta_preference_claim" | "cbam_emissions_reporting"
-  | "ruc_auto_reconcile" | "driver_work_time_compliance" | "contractor_gateway_audit";
+  | "ruc_auto_reconcile" | "driver_work_time_compliance" | "contractor_gateway_audit"
+  | "daily_food_safety_diary" | "labour_cost_optimiser" | "menu_gp_monitor" | "review_response_engine"
+  | "alcohol_licence_renewal" | "staff_induction_pipeline" | "experiential_story_builder"
+  | "wof_fleet_scheduler" | "cin_generator_validator" | "mvdt_defence_pack"
+  | "vehicle_entry_precheck" | "workshop_utilisation_no_show" | "ev_hv_safe_work_decision_tree"
+  | "automotive_review_engine";
 
-type Sector = "waihanga" | "architecture" | "engineering" | "customs" | "logistics";
+type Sector = "waihanga" | "architecture" | "engineering" | "customs" | "logistics" | "manaaki" | "arataki";
 
 const CHAINS: Record<WorkflowType, { sector: Sector; agents: string[]; description: string; kbTopics: string[] }> = {
   retention_compliance_loop: { sector: "waihanga", agents: ["LEDGER","APEX","ANCHOR","AROHA","MANA"], description: "Detect retention-applicable invoice → confirm clause → ring-fence → quarterly subcontractor reports → email → audit", kbTopics: ["CCA 2002 s.18 retention trust","MBIE retention regulations 2023"] },
