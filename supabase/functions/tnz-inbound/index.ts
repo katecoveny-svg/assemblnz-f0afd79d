@@ -482,6 +482,55 @@ Deno.serve(async (req) => {
       status: "received",
     });
 
+    // ── Council intercept: "council: <question>" / "panel: <question>" / "ask all: <question>" ──
+    const councilMatch = messageBody.match(/^\s*(council|panel|ask\s+all)\s*[:\-]\s*(.+)/is);
+    if (councilMatch) {
+      const councilQuestion = councilMatch[2].trim();
+      console.log(`[Council] Multi-agent fan-out for: ${councilQuestion.slice(0, 80)}`);
+      try {
+        const councilResp = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/council`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+          },
+          body: JSON.stringify({ question: councilQuestion, maxAgents: 3, synthesise: true }),
+        });
+        const councilData = await councilResp.json();
+        if (councilData?.success) {
+          const lines: string[] = ["🪶 Assembl Council:"];
+          for (const a of councilData.answers as { agentName: string; answer: string }[]) {
+            const trimmed = a.answer.replace(/\s+/g, " ").trim().slice(0, 280);
+            lines.push(`\n${a.agentName}: ${trimmed}`);
+          }
+          if (councilData.summary) {
+            lines.push(`\n\nIHO summary: ${String(councilData.summary).replace(/\s+/g, " ").trim().slice(0, 350)}`);
+          }
+          const reply = lines.join("");
+          const tnzResult = await sendViaTnz(validChannel, fromNumber, reply, conversation.id);
+          await sb.from("messaging_messages").insert({
+            conversation_id: conversation.id,
+            tnz_message_id: tnzResult.messageId || null,
+            direction: "outbound",
+            from_number: toNumber,
+            to_number: fromNumber,
+            body: reply,
+            channel: validChannel,
+            status: tnzResult.error ? "failed" : "sent",
+            assigned_agent: "council",
+            assigned_pack: "shared",
+          });
+          return new Response(JSON.stringify({ ok: true, mode: "council", agents: councilData.agents }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        console.error("[Council] Bad response:", councilData);
+        // fall through to normal routing if council fails
+      } catch (e) {
+        console.error("[Council] Error, falling back to single agent:", e);
+      }
+    }
+
     // ── Iho routing ──
     const agent = routeToAgent(messageBody);
 
