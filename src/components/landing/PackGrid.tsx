@@ -69,6 +69,16 @@ const PACKS: PackCard[] = [
     accentLight: "#7ECFC2",
     route: "/packs/pikau",
   },
+  {
+    id: "hoko",
+    name: "Hoko",
+    label: "RETAIL",
+    description:
+      "Pricing intelligence vs Temu/Amazon, POS re-orders, FTA/CGA compliance lint. For NZ retail's $92.3bn frontline.",
+    accent: "#C66B5C",
+    accentLight: "#E89484",
+    route: "/hoko",
+  },
 ];
 
 const PackGrid = () => {
@@ -82,7 +92,7 @@ const PackGrid = () => {
         {/* Hero orb */}
         <KeteOrbHero />
 
-        {/* The 5 industry kete */}
+        {/* The 6 industry kete */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           {PACKS.map((pack, idx) => (
             <motion.div
@@ -176,7 +186,7 @@ const PackGrid = () => {
               backdropFilter: "blur(12px)",
             }}
           >
-            See all five kete <ArrowRight size={14} />
+            See all six kete <ArrowRight size={14} />
           </Link>
         </div>
       </div>

@@ -15,8 +15,8 @@
  *
  * Setup fees can be split across the first 3 invoices on request.
  *
- * The 5 locked kete:
- *   MANAAKI (Hospitality) · WAIHANGA (Construction) · AUAHA (Creative) · ARATAKI (Automotive) · PIKAU (Freight & Customs)
+ * The 6 industry kete (V2 expansion 2026-04):
+ *   MANAAKI (Hospitality) · WAIHANGA (Construction) · AUAHA (Creative) · ARATAKI (Automotive) · PIKAU (Freight & Customs) · HOKO (Retail)
  *
  * Existing customers on the legacy $199 / $399 / $799 + $749 setup model are
  * grandfathered for 12 months from 2026-04-08 (until 2027-04-08). After that,
@@ -157,7 +157,7 @@ export const CORE_PLATFORM = {
   ],
 } as const;
 
-/** The 5 locked kete — MANAAKI · WAIHANGA · AUAHA · ARATAKI · PIKAU */
+/** The 6 industry kete — MANAAKI · WAIHANGA · AUAHA · ARATAKI · PIKAU · HOKO (V2 expansion) */
 export const KETE = [
   {
     key: 'manaaki',
@@ -188,6 +188,12 @@ export const KETE = [
     name: 'Pikau',
     eng: 'Freight & Customs',
     desc: 'Route optimisation, declarations, broker hand-off, customs compliance',
+  },
+  {
+    key: 'hoko',
+    name: 'Hoko',
+    eng: 'Retail',
+    desc: 'Pricing intelligence, POS-driven re-orders, FTA/CGA compliance lint, unified customer view',
   },
 ] as const;
 
