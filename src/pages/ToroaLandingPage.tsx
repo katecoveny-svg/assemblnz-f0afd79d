@@ -159,17 +159,17 @@ export default function ToroaLandingPage() {
               No app. No login. Just text your whānau's next move. School admin, meal plans, appointments, budgets — all by SMS.
             </motion.p>
 
-            <motion.div variants={fadeUp} custom={3} className="flex flex-col sm:flex-row gap-3 justify-center">
+            <motion.div variants={fadeUp} custom={3} className="flex flex-col sm:flex-row gap-3 justify-center items-center">
               <Link to="/toro/app"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm uppercase tracking-[0.15em] font-light transition-all"
                 style={{ background: `linear-gradient(135deg, ${ACCENT}30, ${ACCENT}15)`, border: `1px solid ${ACCENT}50`, color: "#1A1D29" }}>
                 Start a Tōro record <ArrowRight size={14} />
               </Link>
-              <a href="sms:+64223194572?body=Hi%20Toro"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm uppercase tracking-[0.15em] font-light transition-all"
-                style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)", color: "#1A1D29" }}>
-                Text us now <Phone size={14} />
-              </a>
+              <TextUsButton
+                keteName="Tōro"
+                accentColor="#1A1D29"
+                phoneNumber="+6421538962"
+              />
             </motion.div>
 
             <motion.p variants={fadeUp} custom={4}
