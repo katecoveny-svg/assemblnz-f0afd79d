@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import {
-  UtensilsCrossed, HardHat, Palette, Car, Package, Bird, ShoppingBag,
+  UtensilsCrossed, HardHat, Palette, Car, Package, Bird, ShoppingBag, Baby,
 } from "lucide-react";
 
 /**
@@ -74,6 +74,13 @@ export const KETE_CONFIG: KeteDefinition[] = [
     description: "Pricing intelligence vs Temu/Amazon, POS-driven re-orders, FTA/CGA compliance lint, unified customer view — for the $92.3bn NZ retail sector.",
     wananga: "Te Kete Tuatea — the basket of trade and exchange",
     route: "/hoko", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
+  },
+  {
+    id: "ako", name: "Ako", nameEn: "Early Childhood Education",
+    color: "#7BA7C7", icon: Baby, agentCount: 3, group: "business",
+    description: "Licensing criteria matcher, transparency pack generator, graduated enforcement readiness — built for the 20 April 2026 ECE wedge moment.",
+    wananga: "Te Kete Aronui — the basket of human knowledge and learning",
+    route: "/ako", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
     id: "toro", name: "Toro", nameEn: "Whānau Family Navigator",
