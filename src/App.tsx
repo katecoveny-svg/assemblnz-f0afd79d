@@ -43,6 +43,7 @@ const SecurityPage = lazy(() => import("./pages/SecurityPage"));
 const MyAppsPage = lazy(() => import("./pages/MyAppsPage"));
 const SparkAppViewer = lazy(() => import("./pages/SparkAppViewer"));
 const WorkflowSettings = lazy(() => import("./pages/WorkflowSettings"));
+const WorkflowsRunner = lazy(() => import("./pages/WorkflowsRunner"));
 const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const OnboardingPage = lazy(() => import("./pages/OnboardingPage"));
@@ -226,6 +227,7 @@ const App = () => (
                         <Route path="/my-apps" element={<Suspense fallback={null}><MyAppsPage /></Suspense>} />
                         <Route path="/apps/:appName" element={<Suspense fallback={null}><SparkAppViewer /></Suspense>} />
                         <Route path="/settings/workflows" element={<Suspense fallback={null}><WorkflowSettings /></Suspense>} />
+                        <Route path="/workflows" element={<Suspense fallback={null}><WorkflowsRunner /></Suspense>} />
                         <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
                         <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
                         <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
