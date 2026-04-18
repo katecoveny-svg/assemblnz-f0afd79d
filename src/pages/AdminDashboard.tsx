@@ -280,8 +280,9 @@ const AdminDashboard = () => {
               {/* Quick action buttons */}
               <div className="flex gap-3 flex-wrap">
                 {[
+                  { label: "Kete Overview", section: "kete", color: POUNAMU, icon: Bot },
+                  { label: "Agent Directory", section: "agents", color: "#3A6A9C", icon: Bot },
                   { label: "Open Creative Studio", section: "creative", color: "#F0D078", icon: Sparkles },
-                  { label: "Agent Directory", section: "agents", color: POUNAMU, icon: Bot },
                   { label: "Output Library", section: "outputs", color: TEAL, icon: FolderOpen },
                 ].map((btn) => (
                   <button
