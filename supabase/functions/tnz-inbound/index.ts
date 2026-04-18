@@ -531,13 +531,109 @@ Deno.serve(async (req) => {
       }
     }
 
-    // ── Iho routing ──
+    // ── Kete Picker: bare greeting / "menu" / numeric reply ─────────────
+    // Triggers when a user clearly doesn't know which kete to choose, OR
+    // when the user replies with a single digit (1-7) after seeing the menu.
+    const trimmed = messageBody.trim();
+    const isBareGreeting = /^(hi|hey|hello|kia\s?ora|yo|sup|hola|morena|good\s?(morning|afternoon|evening))[\s!.?]*$/i.test(trimmed);
+    const askedForMenu = /^\s*(menu|help|options?|choose|pick|kete|which|not\s?sure|don.?t\s?know|start|begin)\s*[?!.]*$/i.test(trimmed);
+    const numericPick = trimmed.match(/^\s*([1-7])\s*$/);
+
+    const KETE_MENU: Record<string, { agentId: string; agentName: string; kete: string; signature: string; intro: string }> = {
+      "1": { agentId: "aura",     agentName: "AURA",     kete: "manaaki",  signature: "— AURA, your hospitality partner",       intro: "Kia ora! AURA here — hospitality, food safety, bookings & guests. What's on your plate today?" },
+      "2": { agentId: "arc",      agentName: "ARC",      kete: "waihanga", signature: "— ARC, your construction partner",       intro: "Kia ora! ARC here — construction, site safety, consents & contracts. What's the job?" },
+      "3": { agentId: "echo",     agentName: "ECHO",     kete: "auaha",    signature: "— ECHO, your creative partner",          intro: "Kia ora! ECHO here — brand, content, campaigns & creative. What are we making?" },
+      "4": { agentId: "ember",    agentName: "EMBER",    kete: "arataki",  signature: "— EMBER, your automotive partner",       intro: "Kia ora! EMBER here — vehicles, fleet, WoF, RUC & service. What can I sort?" },
+      "5": { agentId: "compass",  agentName: "COMPASS",  kete: "pikau",    signature: "— COMPASS, your freight & logistics partner", intro: "Kia ora! COMPASS here — freight, customs, biosecurity & landed cost. What's shipping?" },
+      "6": { agentId: "helm",     agentName: "TŌROA",    kete: "toroa",    signature: "— TŌROA, your family life partner",      intro: "Kia ora! TŌROA here — family life, school, meals, trips & budgets. What's up?" },
+      "7": { agentId: "echo",     agentName: "ECHO",     kete: "assembl",  signature: "— ECHO, your Assembl concierge",         intro: "Kia ora! ECHO here — questions about Assembl, pricing, pilots or how it all works. Fire away!" },
+    };
+
+    const showMenu = async () => {
+      const menuText = [
+        "Kia ora! I'm Iho — Assembl's router. Reply with a number to chat with the right specialist:",
+        "",
+        "1 · Manaaki (Hospitality, food, hotels)",
+        "2 · Waihanga (Construction, sites, consents)",
+        "3 · Auaha (Brand, content, marketing)",
+        "4 · Arataki (Cars, fleet, WoF)",
+        "5 · Pikau (Freight, customs, shipping)",
+        "6 · Tōroa (Family life, school, trips)",
+        "7 · About Assembl (pricing, pilots, demo)",
+        "",
+        "Or just describe what you need (e.g. \"WoF reminder\", \"food safety diary\").",
+      ].join("\n");
+
+      const refMenu = `assembl-menu-${crypto.randomUUID()}`;
+      const sendOut = await sendViaTnz(validChannel, fromNumber, menuText, refMenu);
+      await sb.from("messaging_messages").insert({
+        conversation_id: conversation.id,
+        tnz_message_id: sendOut.messageId || null,
+        direction: "outbound",
+        from_number: toNumber, to_number: fromNumber,
+        body: menuText,
+        channel: validChannel,
+        status: sendOut.messageId ? "sent" : "failed",
+        agent_used: "iho",
+        tnz_reference: refMenu,
+      });
+      await sb.from("messaging_conversations").update({
+        assigned_agent: "iho", assigned_pack: "shared", awaiting_kete_pick: true,
+      }).eq("id", conversation.id);
+    };
+
+    // Check if conversation is awaiting a numeric pick
+    const { data: convState } = await sb
+      .from("messaging_conversations")
+      .select("awaiting_kete_pick")
+      .eq("id", conversation.id)
+      .maybeSingle();
+    const awaitingPick = !!convState?.awaiting_kete_pick;
+
+    // 1) Numeric reply right after a menu → land on chosen kete with intro
+    if (numericPick && (awaitingPick || isBareGreeting)) {
+      const choice = KETE_MENU[numericPick[1]];
+      if (choice) {
+        const refIntro = `assembl-pick-${crypto.randomUUID()}`;
+        const sendIntro = await sendViaTnz(validChannel, fromNumber, choice.intro, refIntro);
+        await sb.from("messaging_messages").insert({
+          conversation_id: conversation.id,
+          tnz_message_id: sendIntro.messageId || null,
+          direction: "outbound",
+          from_number: toNumber, to_number: fromNumber,
+          body: choice.intro,
+          channel: validChannel,
+          status: sendIntro.messageId ? "sent" : "failed",
+          agent_used: choice.agentId, assigned_pack: choice.kete,
+          tnz_reference: refIntro,
+        });
+        await sb.from("messaging_conversations").update({
+          assigned_agent: choice.agentId,
+          assigned_pack: choice.kete,
+          awaiting_kete_pick: false,
+        }).eq("id", conversation.id);
+        return new Response(JSON.stringify({ ok: true, picked: choice.agentId, kete: choice.kete }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    }
+
+    // 2) Bare greeting OR explicit menu request → show picker
+    if ((isBareGreeting || askedForMenu) && !awaitingPick) {
+      await showMenu();
+      return new Response(JSON.stringify({ ok: true, mode: "kete_picker" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // ── Iho routing (keyword-based) ──
     const agent = routeToAgent(messageBody);
 
     // Update conversation with agent assignment
     await sb.from("messaging_conversations").update({
       assigned_agent: agent.agentId,
       assigned_pack: agent.kete,
+      awaiting_kete_pick: false,
     }).eq("id", conversation.id);
 
     // After-hours gate removed — AI agents respond 24/7
