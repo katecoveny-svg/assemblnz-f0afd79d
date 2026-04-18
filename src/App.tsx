@@ -62,6 +62,7 @@ const DataSovereigntyPage = lazy(() => import("./pages/DataSovereigntyPage"));
 const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
 const CommandDashboard = lazy(() => import("./pages/CommandDashboard"));
 const BrandGuidelinesPage = lazy(() => import("./pages/BrandGuidelinesPage"));
+const VoyageCommandPage = lazy(() => import("./pages/VoyageCommandPage"));
 
 const ToroaLandingPage = lazy(() => import("./pages/ToroaLandingPage"));
 const ToroaApp = lazy(() => import("./pages/ToroaApp"));
@@ -184,6 +185,8 @@ const App = () => (
                         <Route path="/embed/:agentId" element={<Suspense fallback={null}><EmbedChatWidget /></Suspense>} />
                         <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
                         <Route path="/command" element={<Suspense fallback={null}><CommandDashboard /></Suspense>} />
+                        <Route path="/voyage/command" element={<Suspense fallback={null}><VoyageCommandPage /></Suspense>} />
+                        <Route path="/voyage" element={<Navigate to="/voyage/command" replace />} />
                         <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                         <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
                         <Route path="/contact" element={<Suspense fallback={null}><ContactPage /></Suspense>} />
