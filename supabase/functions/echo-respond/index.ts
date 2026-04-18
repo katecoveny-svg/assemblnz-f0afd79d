@@ -106,7 +106,7 @@ Deno.serve(async (req) => {
     }
 
     // 2. Generate Echo reply
-    let echoReply = `Kia ora ${name},\n\nThanks for reaching out — your enquiry's landed and I'll be in touch shortly.\n\nIn the meantime, have a look around assembl.co.nz or text us on +64 22 319 4572.\n\nNgā mihi,\nECHO — your Assembl concierge`;
+    let echoReply = `Kia ora ${name},\n\nThanks for reaching out — your enquiry's landed and I'll be in touch shortly.\n\nIn the meantime, have a look around assembl.co.nz or text us on +64 21 538 962.\n\nNgā mihi,\nECHO — your Assembl concierge`;
 
     if (LOVABLE_API_KEY) {
       try {
@@ -119,7 +119,7 @@ Deno.serve(async (req) => {
 - Source: ${source}
 - Message: ${message}
 
-Write a warm, personalised email reply (plain text). Acknowledge their business by name. Suggest the most relevant Assembl kete + 1-2 specific agents. Invite them to either book a discovery call (assembl.co.nz/contact) or text +64 22 319 4572. Sign off with "Ngā mihi, ECHO — your Assembl concierge".`;
+Write a warm, personalised email reply (plain text). Acknowledge their business by name. Suggest the most relevant Assembl kete + 1-2 specific agents. Invite them to either book a discovery call (assembl.co.nz/contact) or text +64 21 538 962. Sign off with "Ngā mihi, ECHO — your Assembl concierge".`;
 
         const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
           method: "POST",
