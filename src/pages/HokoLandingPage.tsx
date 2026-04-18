@@ -28,17 +28,14 @@ const fadeUp = {
   }),
 };
 
+// Live roster — verified against agent_prompts (pack='HOKO', is_active=true).
+// 4 retail-specific specialists. Cross-cutting agents (MANA evidence pack, NOVA
+// debtor watch) are shared across the platform and orchestrate with these four.
 const AGENTS = [
-  { code: "PRISM", role: "Competitor pricing intelligence (Temu, Amazon AU, PriceSpy)", icon: TrendingDown },
-  { code: "FLUX", role: "POS-driven inventory & re-order recommendations", icon: Package },
-  { code: "LEDGER", role: "True contribution margin per SKU (POS + Xero)", icon: BarChart3 },
-  { code: "NOVA", role: "Multi-channel product copy & launch publisher", icon: Megaphone },
-  { code: "ANCHOR", role: "FTA/CGA pre-publish compliance lint", icon: ShieldCheck },
-  { code: "AURA", role: "Unified customer view, birthday & restock triggers", icon: Users },
-  { code: "MANA", role: "Immutable evidence pack for every approved claim", icon: Shield },
-  { code: "AXIS", role: "Overhead allocation (shelf-space, staff, shrinkage)", icon: BarChart3 },
-  { code: "SOCIAL", role: "Platform-adapted publishing (IG / TikTok / GBP)", icon: Megaphone },
-  { code: "APEX", role: "Re-order PO drafting & supplier hand-off", icon: Zap },
+  { code: "PRISM · Retail", role: "Competitor pricing intelligence (Temu, Amazon AU, PriceSpy)", icon: TrendingDown },
+  { code: "FLUX · Retail", role: "POS-driven inventory & re-order recommendations", icon: Package },
+  { code: "NOVA · Retail", role: "Multi-channel product copy & launch publisher", icon: Megaphone },
+  { code: "ANCHOR · Retail", role: "FTA/CGA pre-publish compliance lint", icon: ShieldCheck },
 ];
 
 const COMPLIANCE = [

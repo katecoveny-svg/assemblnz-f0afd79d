@@ -40,16 +40,18 @@ const glass = {
   boxShadow: "0 10px 40px -10px rgba(58,125,110,0.12), 0 4px 12px rgba(0,0,0,0.03)",
 };
 
+// Live roster — ARC (waihanga pack) + 8 specialists from the legacy hanga pack
+// that serve waihanga via industryToolLoader. 9 active agents total.
 const AGENTS = [
-  { code: "SENTINEL", role: "Site safety, HSWA compliance & hazard registers", icon: Shield },
-  { code: "KAUPAPA", role: "CCA 2002, payment claims & variations", icon: FileText },
-  { code: "FORGE", role: "Tender responses & contract drafting", icon: Wrench },
-  { code: "TITAN", role: "Building Code B1–H1 checklists", icon: Building },
-  { code: "PILOT", role: "Project scheduling & milestone tracking", icon: ClipboardCheck },
-  { code: "APEX", role: "BIM coordination & clash detection", icon: Ruler },
-  { code: "AROHA", role: "Staff rostering & employment compliance", icon: Users },
-  { code: "ECHO", role: "Client communications & progress updates", icon: HardHat },
-  { code: "SIGNAL", role: "Risk register & early warning system", icon: AlertTriangle },
+  { code: "ARC", role: "Council consents, RC/BC pathways & PIM checks", icon: Building },
+  { code: "ĀRAI", role: "HSWA site safety, hazard registers & toolbox talks", icon: Shield },
+  { code: "KAUPAPA", role: "CCA 2002, payment claims & variation governance", icon: FileText },
+  { code: "ATA", role: "Tender writing, scope clarification & bid review", icon: Wrench },
+  { code: "RAWA", role: "Materials, takeoffs & supplier quote comparison", icon: Ruler },
+  { code: "WHAKAAĒ", role: "Approvals workflow & stakeholder sign-off", icon: ClipboardCheck },
+  { code: "PAI", role: "Quality records, NCRs & defect close-out", icon: HardHat },
+  { code: "TERRA", role: "Ground conditions, geotech & site investigation", icon: AlertTriangle },
+  { code: "PINNACLE", role: "Project scheduling, milestones & critical path", icon: Users },
 ];
 
 const COMPLIANCE = [

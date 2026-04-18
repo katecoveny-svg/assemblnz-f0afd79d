@@ -28,16 +28,19 @@ const fadeUp = {
   }),
 };
 
+// Live roster — verified against agent_prompts (pack='manaaki', is_active=true).
+// 10 active specialists. Order = guest journey from arrival → service → review.
 const AGENTS = [
-  { code: "AURA", role: "Front-of-house & guest intelligence", icon: Star },
+  { code: "AURA", role: "Front-of-house, guest intelligence & workshop ops", icon: Star },
+  { code: "SAFFRON", role: "Kitchen costing, allergens & seasonal menu planning", icon: UtensilsCrossed },
   { code: "CELLAR", role: "Alcohol licensing & duty manager compliance", icon: Wine },
-  { code: "HACCP", role: "Food safety plans & temperature monitoring", icon: Thermometer },
-  { code: "MENU", role: "Kitchen costing, allergens & seasonal planning", icon: UtensilsCrossed },
-  { code: "EVENTS", role: "Function coordination & BEO generation", icon: Calendar },
-  { code: "ECO", role: "Sustainability reporting & Qualmark prep", icon: Leaf },
-  { code: "AROHA", role: "Staff rostering & employment compliance", icon: Users },
-  { code: "ECHO", role: "Review sentiment & guest feedback analysis", icon: Coffee },
-  { code: "SENTINEL", role: "Health & safety site compliance", icon: Shield },
+  { code: "LUXE", role: "Premium guest experience & VIP coordination", icon: Sparkles },
+  { code: "MOANA", role: "Coastal & marine-side hospitality operations", icon: Leaf },
+  { code: "COAST", role: "Beachfront / outdoor service & weather routing", icon: Coffee },
+  { code: "KURA", role: "Staff training, te reo greetings & cultural fluency", icon: Users },
+  { code: "PAU", role: "Function coordination & banquet event orders", icon: Calendar },
+  { code: "SUMMIT", role: "Multi-property reporting & general manager view", icon: ClipboardList },
+  { code: "AROHA", role: "Staff rostering & employment compliance", icon: Shield },
 ];
 
 const COMPLIANCE = [
