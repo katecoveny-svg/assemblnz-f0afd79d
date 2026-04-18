@@ -225,13 +225,20 @@ function routeToAgent(message: string): RouteResult {
     return { agentId: "sage", agentName: "SAGE", kete: "pakihi", signature: "— SAGE, your professional services partner" };
   }
 
+  // ── Travel / Trip planning (HIGH PRIORITY — before HR which catches "leave/holiday") ──
+  // Personal & family travel routes to TŌROA (family life navigator covers trips, itineraries, school holidays).
+  if (/\b(trip|travel|holiday|vacation|itinerar|flight|airfare|airline|airport|accommodation|hotel\s?book|airbnb|bach|road\s?trip|getaway|weekend\s?away|school\s?holiday|term\s?break|family\s?holiday|plan(ning)?\s?(a|our|my)?\s?(trip|holiday|getaway|weekend))\b/.test(lower)) {
+    return { agentId: "helm", agentName: "TŌROA", kete: "toroa", signature: "— TŌROA, your family life & trip partner" };
+  }
+
   // ── Tōroa (Family / Consumer) ──
   if (/\b(family|kids|children|school|term\s?date|pick.?up|drop.?off|lunch|dinner|meal|grocery|shopping|appointment|doctor|dentist|vet|sports|activity|homework|budget|bills|chore|remind|birthday|parent|mum|dad|whānau|whanau)\b/.test(lower)) {
     return { agentId: "helm", agentName: "TŌROA", kete: "toroa", signature: "— TŌROA, your family life partner" };
   }
 
   // ── Shared / Cross-Kete agents ──
-  if (/\b(job|employ|wage|leave|hr|staff|hiring|recruit|redundan|holiday|sick\s?leave|kiwisaver|employment|era|personal\s?grievance|dismissal|trial\s?period)\b/.test(lower)) {
+  // (Note: "holiday" intentionally removed — handled by travel route above to avoid hijacking family trip requests.)
+  if (/\b(job|employ|wage|annual\s?leave|parental\s?leave|hr\b|staff|hiring|recruit|redundan|sick\s?leave|kiwisaver|employment|era|personal\s?grievance|dismissal|trial\s?period|payroll)\b/.test(lower)) {
     return { agentId: "aroha-core", agentName: "AROHA", kete: "shared", signature: "— AROHA, your HR & employment partner" };
   }
   if (/\b(privacy|data|breach|information|pii|gdpr|nz\s?privacy\s?act|ipp)\b/.test(lower)) {
@@ -504,7 +511,16 @@ Deno.serve(async (req) => {
     // Inject channel-specific behaviour
     const channelBehaviour = validChannel === "whatsapp" ? WHATSAPP_BEHAVIOUR : SMS_BEHAVIOUR;
     const nzTime = new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland" });
-    const fullPrompt = systemPrompt + channelBehaviour + `\nCurrent NZ date/time: ${nzTime}\n\nEnd every response with your signature: ${agent.signature}`;
+
+    const HANDOFF_RULE = `
+
+HANDOFF RULE — If the user asks about something outside your specialty, NEVER refuse. Instead:
+1. Briefly acknowledge in one sentence.
+2. Help anyway with practical NZ-context advice (you are part of the Assembl whānau of agents).
+3. Suggest the right specialist next time, e.g. "TŌROA handles family trips & holidays, ECHO covers Assembl questions, AROHA is your HR partner, LEDGER for tax, GATEWAY for customs."
+Never say "I can't do that" or "outside my scope" — always be useful first, then point to the better-fit kete.`;
+
+    const fullPrompt = systemPrompt + channelBehaviour + HANDOFF_RULE + `\nCurrent NZ date/time: ${nzTime}\n\nEnd every response with your signature: ${agent.signature}`;
 
     // ── Fetch conversation history (last 20 messages) ──
     const { data: history } = await sb
