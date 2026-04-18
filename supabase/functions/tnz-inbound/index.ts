@@ -82,6 +82,15 @@ const AGENT_NAME_LOOKUP: Record<string, RouteResult> = {
   prism:   { agentId: "prism",   agentName: "PRISM",   kete: "auaha",    signature: "— PRISM, your brand identity partner" },
   forge:   { agentId: "forge",   agentName: "FORGE",   kete: "arataki",  signature: "— FORGE, your RUC & compliance partner" },
   gateway: { agentId: "gateway", agentName: "GATEWAY", kete: "pikau",    signature: "— GATEWAY, your customs clearance partner" },
+  // HOKO — Import / Export
+  "anchor-hoko": { agentId: "anchor-hoko", agentName: "ANCHOR-HOKO", kete: "hoko", signature: "— ANCHOR-HOKO, your export contracts partner" },
+  "flux-hoko":   { agentId: "flux-hoko",   agentName: "FLUX-HOKO",   kete: "hoko", signature: "— FLUX-HOKO, your export market partner" },
+  "nova-hoko":   { agentId: "nova-hoko",   agentName: "NOVA-HOKO",   kete: "hoko", signature: "— NOVA-HOKO, your trade compliance partner" },
+  "prism-hoko":  { agentId: "prism-hoko",  agentName: "PRISM-HOKO",  kete: "hoko", signature: "— PRISM-HOKO, your export brand partner" },
+  // AKO — Early Childhood Education (HIGH-RISK, administrative-only)
+  "apex-ako":    { agentId: "apex-ako",    agentName: "APEX-AKO",    kete: "ako",  signature: "— APEX-AKO, your ECE licensing partner (administrative support only)" },
+  "nova-ako":    { agentId: "nova-ako",    agentName: "NOVA-AKO",    kete: "ako",  signature: "— NOVA-AKO, your transparency pack partner (administrative support only)" },
+  "mana-ako":    { agentId: "mana-ako",    agentName: "MANA-AKO",    kete: "ako",  signature: "— MANA-AKO, your ECE evidence partner (administrative support only)" },
 };
 
 function routeByExplicitName(message: string): RouteResult | null {
