@@ -8430,6 +8430,344 @@ export type Database = {
           },
         ]
       }
+      trip_activities: {
+        Row: {
+          activity_type: string
+          booked: boolean
+          cost: number | null
+          created_at: string
+          day_id: string
+          duration_minutes: number | null
+          id: string
+          link: string | null
+          name: string
+          note: string | null
+          sort_order: number
+          start_time: string | null
+          trip_id: string
+          urgent: boolean
+        }
+        Insert: {
+          activity_type?: string
+          booked?: boolean
+          cost?: number | null
+          created_at?: string
+          day_id: string
+          duration_minutes?: number | null
+          id?: string
+          link?: string | null
+          name: string
+          note?: string | null
+          sort_order?: number
+          start_time?: string | null
+          trip_id: string
+          urgent?: boolean
+        }
+        Update: {
+          activity_type?: string
+          booked?: boolean
+          cost?: number | null
+          created_at?: string
+          day_id?: string
+          duration_minutes?: number | null
+          id?: string
+          link?: string | null
+          name?: string
+          note?: string | null
+          sort_order?: number
+          start_time?: string | null
+          trip_id?: string
+          urgent?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trip_activities_day_id_fkey"
+            columns: ["day_id"]
+            isOneToOne: false
+            referencedRelation: "trip_days"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trip_activities_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trip_convoys: {
+        Row: {
+          arrive_at: string | null
+          created_at: string
+          day_id: string
+          depart_at: string | null
+          destination_label: string | null
+          destination_lat: number | null
+          destination_lng: number | null
+          distance_km: number | null
+          family_id: string
+          id: string
+          origin_label: string | null
+          origin_lat: number | null
+          origin_lng: number | null
+          route_polyline: Json | null
+          status: string
+          trip_id: string
+        }
+        Insert: {
+          arrive_at?: string | null
+          created_at?: string
+          day_id: string
+          depart_at?: string | null
+          destination_label?: string | null
+          destination_lat?: number | null
+          destination_lng?: number | null
+          distance_km?: number | null
+          family_id: string
+          id?: string
+          origin_label?: string | null
+          origin_lat?: number | null
+          origin_lng?: number | null
+          route_polyline?: Json | null
+          status?: string
+          trip_id: string
+        }
+        Update: {
+          arrive_at?: string | null
+          created_at?: string
+          day_id?: string
+          depart_at?: string | null
+          destination_label?: string | null
+          destination_lat?: number | null
+          destination_lng?: number | null
+          distance_km?: number | null
+          family_id?: string
+          id?: string
+          origin_label?: string | null
+          origin_lat?: number | null
+          origin_lng?: number | null
+          route_polyline?: Json | null
+          status?: string
+          trip_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trip_convoys_day_id_fkey"
+            columns: ["day_id"]
+            isOneToOne: false
+            referencedRelation: "trip_days"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trip_convoys_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "trip_families"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trip_convoys_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trip_days: {
+        Row: {
+          created_at: string
+          date: string
+          destination_id: string | null
+          id: string
+          summary: string | null
+          title: string | null
+          trip_id: string
+          weather_note: string | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          destination_id?: string | null
+          id?: string
+          summary?: string | null
+          title?: string | null
+          trip_id: string
+          weather_note?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          destination_id?: string | null
+          id?: string
+          summary?: string | null
+          title?: string | null
+          trip_id?: string
+          weather_note?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trip_days_destination_id_fkey"
+            columns: ["destination_id"]
+            isOneToOne: false
+            referencedRelation: "trip_destinations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trip_days_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trip_destinations: {
+        Row: {
+          arrival_date: string
+          color: string
+          created_at: string
+          departure_date: string
+          id: string
+          lat: number
+          lng: number
+          name: string
+          region: string | null
+          sort_order: number
+          trip_id: string
+        }
+        Insert: {
+          arrival_date: string
+          color?: string
+          created_at?: string
+          departure_date: string
+          id?: string
+          lat: number
+          lng: number
+          name: string
+          region?: string | null
+          sort_order?: number
+          trip_id: string
+        }
+        Update: {
+          arrival_date?: string
+          color?: string
+          created_at?: string
+          departure_date?: string
+          id?: string
+          lat?: number
+          lng?: number
+          name?: string
+          region?: string | null
+          sort_order?: number
+          trip_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trip_destinations_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trip_families: {
+        Row: {
+          accent_color: string
+          created_at: string
+          home_city: string | null
+          home_lat: number | null
+          home_lng: number | null
+          id: string
+          member_count: number
+          members: Json | null
+          name: string
+          trip_id: string
+        }
+        Insert: {
+          accent_color?: string
+          created_at?: string
+          home_city?: string | null
+          home_lat?: number | null
+          home_lng?: number | null
+          id?: string
+          member_count?: number
+          members?: Json | null
+          name: string
+          trip_id: string
+        }
+        Update: {
+          accent_color?: string
+          created_at?: string
+          home_city?: string | null
+          home_lat?: number | null
+          home_lng?: number | null
+          id?: string
+          member_count?: number
+          members?: Json | null
+          name?: string
+          trip_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trip_families_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trips: {
+        Row: {
+          base_lat: number | null
+          base_lng: number | null
+          base_zoom: number | null
+          created_at: string
+          currency: string
+          end_date: string
+          id: string
+          is_sample: boolean
+          name: string
+          owner_id: string | null
+          start_date: string
+          tagline: string | null
+          updated_at: string
+        }
+        Insert: {
+          base_lat?: number | null
+          base_lng?: number | null
+          base_zoom?: number | null
+          created_at?: string
+          currency?: string
+          end_date: string
+          id?: string
+          is_sample?: boolean
+          name: string
+          owner_id?: string | null
+          start_date: string
+          tagline?: string | null
+          updated_at?: string
+        }
+        Update: {
+          base_lat?: number | null
+          base_lng?: number | null
+          base_zoom?: number | null
+          created_at?: string
+          currency?: string
+          end_date?: string
+          id?: string
+          is_sample?: boolean
+          name?: string
+          owner_id?: string | null
+          start_date?: string
+          tagline?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       usage_tracking: {
         Row: {
           cost_nzd: number | null
@@ -9770,6 +10108,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_access_trip: { Args: { _trip_id: string }; Returns: boolean }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
@@ -9802,6 +10141,7 @@ export type Database = {
         }
         Returns: number
       }
+      owns_trip: { Args: { _trip_id: string }; Returns: boolean }
       read_email_batch: {
         Args: { batch_size: number; queue_name: string; vt: number }
         Returns: {
