@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, X, MessageSquare, UtensilsCrossed, HardHat, Palette, Briefcase, Cpu, Globe, Heart, HeartPulse, Compass } from "lucide-react";
+import { ChevronRight, X, MessageSquare, UtensilsCrossed, HardHat, Palette, Car, Package, ShoppingBag, Baby, Bird } from "lucide-react";
 import { KETE_DATA } from "@/components/kete/keteData";
 import KeteIcon from "@/components/kete/KeteIcon";
 import MatarikiCluster from "@/components/MatarikiCluster";
@@ -8,29 +8,28 @@ import { Link } from "react-router-dom";
 import { TanikoDivider, KoruAccent } from "./AnimatedTaniko";
 import type { LucideIcon } from "lucide-react";
 
-/** Industry-specific icons for each kete */
+/** Industry-specific icons for each canonical kete (7 industry + Tōro whānau) */
 const KETE_ICONS: Record<string, LucideIcon> = {
   manaaki: UtensilsCrossed,
-  hanga: HardHat,
+  waihanga: HardHat,
   auaha: Palette,
-  pakihi: Briefcase,
-  waka: Compass,
-  hangarau: Cpu,
-  hauora: HeartPulse,
-  "te-kahui-reo": Globe,
-  
+  arataki: Car,
+  pikau: Package,
+  hoko: ShoppingBag,
+  ako: Baby,
+  toro: Bird,
 };
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-/** Sample questions per kete slug */
+/** Sample questions per kete slug (canonical 7 + Tōro) */
 const SAMPLE_QUESTIONS: Record<string, string[]> = {
   manaaki: [
     "Do I need a food control plan for my cafe?",
     "How do I apply for an on-licence?",
     "What safety requirements apply to my jet boat tours?",
   ],
-  hanga: [
+  waihanga: [
     "Generate a site safety plan for a 3-storey residential build",
     "What do I need for a resource consent application?",
     "Check my NZS 3910 payment claim for compliance",
@@ -40,30 +39,30 @@ const SAMPLE_QUESTIONS: Record<string, string[]> = {
     "Create a brand colour palette for a surf school",
     "Is this Facebook ad compliant with the Fair Trading Act?",
   ],
-  pakihi: [
-    "How do I calculate provisional tax for my second year?",
-    "What visa pathway suits a skilled chef from India?",
-    "Check if my tenancy agreement meets Healthy Homes standards",
-  ],
-  waka: [
+  arataki: [
     "What disclosure do I need for a used car sale?",
     "Generate a driver logbook template for heavy vehicles",
-    "What maritime safety requirements apply to a charter vessel?",
+    "Build me a service-reminder workflow for our DMS",
   ],
-  hangarau: [
-    "Audit my cloud infrastructure for NZISM compliance",
-    "Design a CI/CD pipeline for our Node.js application",
-    "How do I register a patent with IPONZ?",
+  pikau: [
+    "Classify this shipment under the right HS code",
+    "What MPI biosecurity standards apply to this import?",
+    "Build me a customs entry for a 20ft container from China",
   ],
-  hauora: [
-    "Write a constitution for our rugby club under the new Act",
-    "What APC renewal requirements apply to my practice?",
-    "Plan a tournament draw for 12 teams in a round-robin format",
+  hoko: [
+    "Benchmark my product pricing against Temu",
+    "Lint this promotion for Fair Trading Act risk",
+    "Draft a Consumer Guarantees Act remedy for a faulty product",
   ],
-  "te-kahui-reo": [
-    "How should our iwi structure its data sovereignty policy?",
-    "Draft a Te Tiriti compliance framework for a Crown entity",
-    "Help us design a whānau-centred governance model",
+  ako: [
+    "Check my centre against the licensing criteria for under-2s",
+    "Generate a parent-facing transparency pack for term 2",
+    "Score my graduated enforcement readiness",
+  ],
+  toro: [
+    "Plan kid-friendly meals for the week from our fridge photo",
+    "Summarise this school newsletter into actions",
+    "Track our grocery budget for the month",
   ],
 };
 

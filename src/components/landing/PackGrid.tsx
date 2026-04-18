@@ -67,7 +67,7 @@ const PACKS: PackCard[] = [
       "Route optimisation, declarations, broker hand-off, customs compliance.",
     accent: "#5AADA0",
     accentLight: "#7ECFC2",
-    route: "/packs/pikau",
+    route: "/pikau",
   },
   {
     id: "hoko",
@@ -196,7 +196,7 @@ const PackGrid = () => {
               backdropFilter: "blur(12px)",
             }}
           >
-            See all six kete <ArrowRight size={14} />
+            See all 7 kete + Tōro <ArrowRight size={14} />
           </Link>
         </div>
       </div>

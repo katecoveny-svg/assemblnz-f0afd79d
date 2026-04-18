@@ -44,6 +44,8 @@ const KETE_BLEED: Record<string, string> = {
   auaha: "rgba(155,142,196,0.08)",
   arataki: "rgba(74,165,168,0.08)",
   pikau: "rgba(108,191,193,0.08)",
+  hoko: "rgba(198,107,92,0.08)",
+  ako: "rgba(123,167,199,0.08)",
   toro: "rgba(232,169,72,0.06)",
 };
 
@@ -68,6 +70,8 @@ const KETE_COLORS: Record<string, { color: string; accentLight: string; to: stri
   auaha: { color: "#9B8EC4", accentLight: "#B8ADDB", to: "/auaha/about" },
   arataki: { color: C.teal, accentLight: C.tealLight, to: "/arataki" },
   pikau: { color: C.tealLight, accentLight: "#A8E6DA", to: "/pikau" },
+  hoko: { color: "#C66B5C", accentLight: "#E89484", to: "/hoko" },
+  ako: { color: "#7BA7C7", accentLight: "#A8C8DD", to: "/ako" },
 };
 
 const PACKS = [
@@ -209,7 +213,7 @@ const Index = () => {
     const keteOrder = profile.preferences.keteOrder;
     const SLUG_MAP: Record<string, string> = {
       manaaki: "Manaaki", waihanga: "Waihanga", auaha: "Auaha",
-      arataki: "Arataki", pikau: "Pikau", toro: "Toro",
+      arataki: "Arataki", pikau: "Pikau", hoko: "Hoko", ako: "Ako", toro: "Toro",
     };
     return [...PACKS].sort((a, b) => {
       const aIdx = keteOrder.indexOf(Object.entries(SLUG_MAP).find(([_, v]) => v === a.reo)?.[0] as any ?? "");

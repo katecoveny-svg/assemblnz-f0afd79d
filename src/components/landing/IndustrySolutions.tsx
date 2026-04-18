@@ -57,6 +57,26 @@ const HERO_INDUSTRIES = [
     capabilities: ["Customs entry builder", "Freight rate comparison", "DG check automation", "Border compliance"],
     agentId: "pikau",
   },
+  {
+    industry: "Retail",
+    agent: "HOKO",
+    color: "#C66B5C",
+    accentLight: "#E89484",
+    variant: "warm" as const,
+    description: "Pricing intelligence vs Temu/Amazon, POS-driven re-orders, FTA/CGA compliance lint, unified customer view — for NZ retail's $92.3bn frontline.",
+    capabilities: ["Price benchmarking", "POS re-order signals", "FTA/CGA compliance lint", "Unified customer view"],
+    agentId: "hoko",
+  },
+  {
+    industry: "Early Childhood Education",
+    agent: "AKO",
+    color: "#7BA7C7",
+    accentLight: "#A8C8DD",
+    variant: "standard" as const,
+    description: "Licensing criteria matcher, transparency pack generator, graduated enforcement readiness — built for the 20 April 2026 ECE wedge moment.",
+    capabilities: ["Licensing criteria matcher", "Transparency pack generator", "Readiness scorecard", "Parent-facing comms"],
+    agentId: "ako",
+  },
 ];
 
 function hexToRgb(hex: string): string {
@@ -184,7 +204,7 @@ const IndustrySolutions = () => {
 
                   {/* 3D pop-out CTA button */}
                   <Link
-                    to={`/chat/${ind.agentId}`}
+                    to={`/${ind.agentId}`}
                     className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-display font-bold transition-all duration-300 hover:-translate-y-[2px] active:translate-y-[1px] group-hover:gap-3"
                     style={{
                       color: '#3D4250',
@@ -222,7 +242,7 @@ const IndustrySolutions = () => {
               border: '1px solid rgba(255,255,255,0.4)',
             }}
           >
-            {expanded ? "Collapse" : "See all five kete"}
+            {expanded ? "Collapse" : "See all 7 kete + Tōro"}
             <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.3 }}>
               <ChevronDown size={16} />
             </motion.span>
