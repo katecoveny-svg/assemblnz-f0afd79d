@@ -4406,11 +4406,14 @@ export type Database = {
           created_at: string
           description: string | null
           display_name: string
+          display_order: number | null
           handler_fn: string | null
+          icon: string | null
           id: string
           is_active: boolean
           keywords: string[]
           slug: string
+          te_reo_name: string | null
           updated_at: string
         }
         Insert: {
@@ -4418,11 +4421,14 @@ export type Database = {
           created_at?: string
           description?: string | null
           display_name: string
+          display_order?: number | null
           handler_fn?: string | null
+          icon?: string | null
           id?: string
           is_active?: boolean
           keywords?: string[]
           slug: string
+          te_reo_name?: string | null
           updated_at?: string
         }
         Update: {
@@ -4430,11 +4436,14 @@ export type Database = {
           created_at?: string
           description?: string | null
           display_name?: string
+          display_order?: number | null
           handler_fn?: string | null
+          icon?: string | null
           id?: string
           is_active?: boolean
           keywords?: string[]
           slug?: string
+          te_reo_name?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -7135,6 +7144,7 @@ export type Database = {
           created_at: string
           id: string
           is_default: boolean
+          label: string | null
           phone_number: string
           tenant_id: string
         }
@@ -7143,6 +7153,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_default?: boolean
+          label?: string | null
           phone_number: string
           tenant_id: string
         }
@@ -7151,6 +7162,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_default?: boolean
+          label?: string | null
           phone_number?: string
           tenant_id?: string
         }
