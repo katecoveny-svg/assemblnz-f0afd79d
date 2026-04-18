@@ -47,7 +47,7 @@ const AboutPage = () => {
             </span>
           </h1>
           <p className="text-sm sm:text-base font-body text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-8">
-            A New Zealand company. Five industry kete, one compliance pipeline, every output signed and sourced.
+            A New Zealand company. Six industry kete plus Tōro for whānau, one compliance pipeline, every output signed and sourced.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link to="/contact" className="group relative px-8 py-3.5 rounded-full text-sm font-body font-medium overflow-hidden">

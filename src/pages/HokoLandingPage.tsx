@@ -13,6 +13,7 @@ import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import TextUsButton from "@/components/kete/TextUsButton";
 import HokoPriceScannerDemo from "@/components/hoko/HokoPriceScannerDemo";
+import HokoWorkflowExplorer from "@/components/hoko/HokoWorkflowExplorer";
 
 const ACCENT = "#C66B5C";
 const ACCENT_LIGHT = "#E89484";
@@ -180,7 +181,7 @@ export default function HokoLandingPage() {
           </div>
         </section>
 
-        {/* ── All 6 workflows ── */}
+        {/* ── All 6 workflows (overview cards) ── */}
         <section className="px-6 py-20">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-10">
@@ -192,7 +193,7 @@ export default function HokoLandingPage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
               {WORKFLOWS.map((w, i) => {
                 const Icon = w.icon;
                 return (
@@ -227,6 +228,23 @@ export default function HokoLandingPage() {
                 );
               })}
             </div>
+
+            {/* Interactive explorer for the other 5 workflows */}
+            <motion.div
+              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+              className="mb-6"
+            >
+              <p className="text-[11px] tracking-[4px] uppercase mb-2" style={{ color: ACCENT, fontFamily: "'JetBrains Mono', monospace" }}>
+                EXPLORE THE PIPELINE · CLICK A WORKFLOW
+              </p>
+              <h3 className="text-2xl md:text-3xl font-light tracking-tight" style={{ color: "#3D4250", fontFamily: "'Lato', sans-serif" }}>
+                What an evidence-pack output looks like
+              </h3>
+              <p className="mt-2 text-sm max-w-2xl" style={{ color: "#6B7280" }}>
+                Each workflow ends in a signed receipt — the trigger, the source data, the agents that touched it, and the output you can ship. Same governance posture across all five.
+              </p>
+            </motion.div>
+            <HokoWorkflowExplorer accent={ACCENT} />
           </div>
         </section>
 

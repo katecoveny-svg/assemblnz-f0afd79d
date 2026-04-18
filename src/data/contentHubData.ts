@@ -64,8 +64,8 @@ export const OUTPUT_CARDS: OutputCard[] = [
     agentColor: "#E4A0FF",
     outputType: "Instagram Carousel — 5 Slides",
     formatBadge: "Social Post",
-    preview: `**Slide 1 (Hook):**\nYour business runs on six different platforms.\nAssembl runs on five industry kete.\n\n**Slide 2:**\nKete handle the workflows that drain your team…`,
-    fullContent: `**Slide 1 (Hook):**\nYour business runs on six different platforms.\nAssembl runs on five industry kete.\n\n**Slide 2:**\nKete handle the workflows that drain your team — payroll, compliance, scheduling, contracts, customer comms.\n\n**Slide 3:**\nGrounded in NZ legislation and policy workflows. Updated when the law changes.\n\n**Slide 4:**\nManaaki, Waihanga, Auaha, Arataki, Pikau. Five industry kete, one platform.\n\n**Slide 5 (CTA):**\nFive industry kete. Built in Aotearoa.\n→ assembl.co.nz\n\n**Caption:** Specialist operational workflows for NZ business. Five industry kete grounded in NZ legislation. From NZ$590/mo. Link in bio.\n\n#NZBusiness #Assembl #SmallBusinessNZ #BusinessAutomation #BuiltInAotearoa`,
+    preview: `**Slide 1 (Hook):**\nYour business runs on six different platforms.\nAssembl runs on six industry kete.\n\n**Slide 2:**\nKete handle the workflows that drain your team…`,
+    fullContent: `**Slide 1 (Hook):**\nYour business runs on six different platforms.\nAssembl runs on six industry kete.\n\n**Slide 2:**\nKete handle the workflows that drain your team — payroll, compliance, scheduling, contracts, customer comms.\n\n**Slide 3:**\nGrounded in NZ legislation and policy workflows. Updated when the law changes.\n\n**Slide 4:**\nManaaki, Waihanga, Auaha, Arataki, Pikau, Hoko. Six industry kete, one platform.\n\n**Slide 5 (CTA):**\nSix industry kete. Built in Aotearoa.\n→ assembl.co.nz\n\n**Caption:** Specialist operational workflows for NZ business. Six industry kete grounded in NZ legislation. From NZ$590/mo. Link in bio.\n\n#NZBusiness #Assembl #SmallBusinessNZ #BusinessAutomation #BuiltInAotearoa`,
   },
   {
     id: "echo-linkedin",
