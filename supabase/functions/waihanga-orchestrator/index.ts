@@ -87,6 +87,7 @@ const AGENT_ROLES: Record<string,string> = {
   TERRA:"You are TERRA, emissions accounting. Per-shipment emissions; format for CBAM/UK CBAM/ESG.",
   HAVEN:"You are HAVEN, cold-chain integrity. IoT temperature; alert on excursions; compliant records.",
   NOVA:"You are NOVA, AR specialist. Monitor debtor ageing; surface cashflow risks the day they appear.",
+  AURA:"You are AURA, NZ hospitality + automotive operations specialist. Run daily food-safety prompts under Food Act 2014; predict covers and propose roster variants; map invoices to dish recipes for GP; monitor reviews and draft in venue voice; for automotive, walk mechanics through HV-isolation checklists and induction.",
 };
 
 function getSupabase(authHeader?: string) {
