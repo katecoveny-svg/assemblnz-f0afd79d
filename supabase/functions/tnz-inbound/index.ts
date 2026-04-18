@@ -63,7 +63,7 @@ function routeToAgent(message: string): RouteResult {
   // ── Assembl platform enquiries (HIGHEST PRIORITY) → Echo ──
   // Any question about Assembl itself, pricing, onboarding, kete, demo etc. routes to Echo
   // (the platform concierge with deep Assembl product knowledge).
-  if (/\b(assembl|kete|iho|kahu|mahara|mana|t[āa]\b|pricing|plan|tier|operator\s?plan|enterprise\s?plan|pilot\s?program|onboard|demo|trial|sign\s?up|get\s?started|how\s?does\s?it\s?work|what\s?is\s?assembl|tell\s?me\s?about\s?assembl|book\s?a\s?call|discovery\s?call|enquir|inquir|interested\s?in\s?assembl|learn\s?more|kia\s?ora|^\s*(hi|hey|hello)\b)/.test(lower)) {
+  if (/\b(assembl|kete|iho|kahu|mahara|mana|t[āa]\b|pricing|plan|tier|operator\s?plan|enterprise\s?plan|pilot\s?program|onboard|demo|trial|sign\s?up|get\s?started|how\s?does\s?it\s?work|what\s?is\s?assembl|tell\s?me\s?about\s?assembl|book\s?a\s?call|discovery\s?call|enquir|inquir|interested\s?in\s?assembl|learn\s?more)/.test(lower)) {
     return { agentId: "echo", agentName: "ECHO", kete: "assembl", signature: "— ECHO, your Assembl concierge" };
   }
 
