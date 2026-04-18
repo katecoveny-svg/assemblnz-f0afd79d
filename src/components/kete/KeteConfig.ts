@@ -35,7 +35,7 @@ export interface KeteDefinition {
 export const KETE_CONFIG: KeteDefinition[] = [
   {
     id: "manaaki", name: "Manaaki", nameEn: "Hospitality & Tourism",
-    color: "#D4A843", icon: UtensilsCrossed, agentCount: 9, group: "business",
+    color: "#D4A843", icon: UtensilsCrossed, agentCount: 10, group: "business",
     description: "Fewer missed checks. Cleaner compliance. Guests looked after without the paperwork pile-up.",
     wananga: "Te Kete Aronui — the basket of love and care for people",
     route: "/manaaki", smsStatus: "active", whatsappStatus: "coming-soon",
@@ -56,21 +56,21 @@ export const KETE_CONFIG: KeteDefinition[] = [
   },
   {
     id: "arataki", name: "Arataki", nameEn: "Automotive",
-    color: "#E8E8E8", icon: Car, agentCount: 11, group: "business",
+    color: "#E8E8E8", icon: Car, agentCount: 3, group: "business",
     description: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped.",
     wananga: "Te Kete Tuauri — the basket of guidance and protection",
     route: "/arataki", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
     id: "pikau", name: "Pikau", nameEn: "Freight & Customs",
-    color: "#5AADA0", icon: Package, agentCount: 7, group: "business",
+    color: "#5AADA0", icon: Package, agentCount: 5, group: "business",
     description: "Customs entries, freight quotes, dangerous goods checks — border compliance without the scramble.",
     wananga: "Te Kete Tuauri — the basket of movement and trade",
     route: "/pikau", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
     id: "hoko", name: "Hoko", nameEn: "Retail",
-    color: "#C66B5C", icon: ShoppingBag, agentCount: 10, group: "business",
+    color: "#C66B5C", icon: ShoppingBag, agentCount: 4, group: "business",
     description: "Pricing intelligence vs Temu/Amazon, POS-driven re-orders, FTA/CGA compliance lint, unified customer view — for the $92.3bn NZ retail sector.",
     wananga: "Te Kete Tuatea — the basket of trade and exchange",
     route: "/hoko", smsStatus: "coming-soon", whatsappStatus: "coming-soon",

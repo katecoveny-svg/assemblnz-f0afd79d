@@ -36,14 +36,14 @@ const COMPLIANCE = [
   "Privacy Act 2020 · IPP 3A — importer data governed",
 ];
 
+// Live roster — MARINER (pikau pack) + GATEWAY/HARVEST (pakihi pack, served via
+// industryToolLoader) + TRANSIT/MOTOR (waka pack). 5 verified active agents.
 const AGENTS = [
-  { code: "GATEWAY", role: "Customs declarations & HS validation", icon: FileText },
-  { code: "MARINER", role: "Vessel tracking & port logistics", icon: Anchor },
+  { code: "MARINER", role: "Vessel tracking, AIS feeds & port logistics", icon: Anchor },
+  { code: "GATEWAY", role: "Customs declarations & HS code validation", icon: FileText },
+  { code: "HARVEST", role: "Biosecurity, MPI clearance & IHS lookups", icon: Shield },
   { code: "TRANSIT", role: "Road freight & delivery scheduling", icon: Ship },
-  { code: "HARVEST", role: "Biosecurity & MPI clearance", icon: Shield },
-  { code: "COUNTER", role: "Landed cost & duty calculation", icon: Globe },
-  { code: "MOTOR", role: "Fleet management & compliance", icon: Package },
-  { code: "ASCEND", role: "Air freight & express cargo", icon: AlertTriangle },
+  { code: "MOTOR", role: "Fleet management, RUC & vehicle compliance", icon: Package },
 ];
 
 const DEMO_FLOW = [
@@ -149,7 +149,7 @@ export default function PikauLandingPage() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${ACCENT}06 0%, transparent 70%)` }} />
           <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace" }}>specialist network</p>
-            <h2 className="text-2xl sm:text-3xl font-display font-light" style={{ color: BONE }}>7 agents working together</h2>
+            <h2 className="text-2xl sm:text-3xl font-display font-light" style={{ color: BONE }}>5 agents working together</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {AGENTS.map((a, i) => (
