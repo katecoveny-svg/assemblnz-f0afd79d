@@ -225,13 +225,20 @@ function routeToAgent(message: string): RouteResult {
     return { agentId: "sage", agentName: "SAGE", kete: "pakihi", signature: "— SAGE, your professional services partner" };
   }
 
+  // ── Travel / Trip planning (HIGH PRIORITY — before HR which catches "leave/holiday") ──
+  // Personal & family travel routes to TŌROA (family life navigator covers trips, itineraries, school holidays).
+  if (/\b(trip|travel|holiday|vacation|itinerar|flight|airfare|airline|airport|accommodation|hotel\s?book|airbnb|bach|road\s?trip|getaway|weekend\s?away|school\s?holiday|term\s?break|family\s?holiday|plan(ning)?\s?(a|our|my)?\s?(trip|holiday|getaway|weekend))\b/.test(lower)) {
+    return { agentId: "helm", agentName: "TŌROA", kete: "toroa", signature: "— TŌROA, your family life & trip partner" };
+  }
+
   // ── Tōroa (Family / Consumer) ──
   if (/\b(family|kids|children|school|term\s?date|pick.?up|drop.?off|lunch|dinner|meal|grocery|shopping|appointment|doctor|dentist|vet|sports|activity|homework|budget|bills|chore|remind|birthday|parent|mum|dad|whānau|whanau)\b/.test(lower)) {
     return { agentId: "helm", agentName: "TŌROA", kete: "toroa", signature: "— TŌROA, your family life partner" };
   }
 
   // ── Shared / Cross-Kete agents ──
-  if (/\b(job|employ|wage|leave|hr|staff|hiring|recruit|redundan|holiday|sick\s?leave|kiwisaver|employment|era|personal\s?grievance|dismissal|trial\s?period)\b/.test(lower)) {
+  // (Note: "holiday" intentionally removed — handled by travel route above to avoid hijacking family trip requests.)
+  if (/\b(job|employ|wage|annual\s?leave|parental\s?leave|hr\b|staff|hiring|recruit|redundan|sick\s?leave|kiwisaver|employment|era|personal\s?grievance|dismissal|trial\s?period|payroll)\b/.test(lower)) {
     return { agentId: "aroha-core", agentName: "AROHA", kete: "shared", signature: "— AROHA, your HR & employment partner" };
   }
   if (/\b(privacy|data|breach|information|pii|gdpr|nz\s?privacy\s?act|ipp)\b/.test(lower)) {
