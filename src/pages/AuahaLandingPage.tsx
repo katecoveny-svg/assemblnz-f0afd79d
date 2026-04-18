@@ -29,15 +29,17 @@ const fadeUp = {
   }),
 };
 
+// Live agent roster — verified against agent_prompts table (pack='auaha', is_active=true)
+// 9 active specialists. Order matches the brand → create → distribute → measure flow.
 const AGENTS = [
-  { code: "RAUTAKI", role: "Brand strategy & positioning", icon: Sparkles },
-  { code: "PRISM", role: "Content ideation & brief generation", icon: PenTool },
-  { code: "MUSE", role: "Copywriting & brand voice enforcement", icon: Palette },
+  { code: "PRISM", role: "Brand DNA, visual identity & campaign engine", icon: Sparkles },
+  { code: "MUSE", role: "Copywriting & brand voice enforcement", icon: PenTool },
   { code: "PIXEL", role: "Visual design & image generation", icon: Camera },
+  { code: "CHROMATIC", role: "Colour systems & style guide", icon: Palette },
   { code: "VERSE", role: "Video scripting & storyboarding", icon: Mic },
-  { code: "ECHO", role: "Review & feedback analysis", icon: Eye },
-  { code: "FLUX", role: "Social media management & scheduling", icon: Globe },
-  { code: "CHROMATIC", role: "Brand identity & style guide", icon: Palette },
+  { code: "RHYTHM", role: "Content calendar & scheduling cadence", icon: Globe },
+  { code: "FLUX", role: "Social distribution & multi-channel publishing", icon: Globe },
+  { code: "ECHO", role: "Review, sentiment & feedback analysis", icon: Eye },
   { code: "MARKET", role: "Campaign analytics & performance", icon: BarChart3 },
 ];
 

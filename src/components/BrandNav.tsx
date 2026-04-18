@@ -24,6 +24,8 @@ const KETE = [
   { label: "Auaha", sublabel: "Creative", to: "/auaha/about", glowIcon: "Palette", color: "#9B8EC4" },
   { label: "Arataki", sublabel: "Automotive", to: "/arataki", glowIcon: "Cpu", color: "#4AA5A8" },
   { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", glowIcon: "Globe", color: "#6CBFC1" },
+  { label: "Hoko", sublabel: "Retail", to: "/hoko", glowIcon: "ShoppingBag", color: "#C66B5C" },
+  { label: "Ako", sublabel: "Early Childhood", to: "/ako", glowIcon: "Baby", color: "#7BA7C7" },
   { label: "Toro", sublabel: "Family", to: "/toro", glowIcon: "Bird", color: "#E8A948" },
 ];
 
@@ -46,7 +48,7 @@ const BrandNav = () => {
 
   const KETE_SLUG_MAP: Record<string, string> = {
     manaaki: 'Manaaki', waihanga: 'Waihanga', auaha: 'Auaha',
-    arataki: 'Arataki', pikau: 'Pikau', toro: 'Toro',
+    arataki: 'Arataki', pikau: 'Pikau', hoko: 'Hoko', ako: 'Ako', toro: 'Toro',
   };
 
   const orderedKete = useMemo(() => {
