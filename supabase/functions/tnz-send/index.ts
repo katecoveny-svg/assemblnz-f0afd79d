@@ -7,10 +7,10 @@ const corsHeaders = {
 };
 
 /**
- * TNZ Send — send SMS or WhatsApp via TNZ API.
- * Used by dashboards, agent workflows, and manual takeover.
+ * TNZ Send — send SMS via TNZ Group API (v2.04, Basic auth — the working endpoint).
+ * Used by dashboards, agent workflows, manual takeover, and pilot test sends.
  *
- * Body: { channel, to, message, conversationId?, agentId?, kete? }
+ * Body: { channel?, to, message, conversationId?, agentId?, kete? }
  */
 
 Deno.serve(async (req) => {
@@ -21,17 +21,68 @@ Deno.serve(async (req) => {
   try {
     const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
     const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
+    const tnzFrom = Deno.env.get("TNZ_FROM_NUMBER") || "";
 
     if (!tnzToken) {
+      return new Response(JSON.stringify({ error: "TNZ_AUTH_TOKEN not configured" }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
-    // Log outbound message
+    const { channel, to, message, conversationId, agentId, kete } = await req.json();
+
+    if (!to || !message) {
+      return new Response(JSON.stringify({ error: "Missing 'to' or 'message'" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const agentLabel = agentId || "manual";
+    const keteLabel = kete || "unknown";
+    const ref = `assembl-${keteLabel}-${agentLabel}-${crypto.randomUUID()}`;
+    const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
+
+    // Use the v2.04 SMS endpoint (Basic auth) — the same one sms-send uses successfully
+    const tnzUrl = "https://api.tnz.co.nz/api/v2.04/send/sms";
+
+    console.log(`[tnz-send] → ${to} (${keteLabel}/${agentLabel}) ref=${ref}`);
+
+    const tnzResp = await fetch(tnzUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; encoding='utf-8'",
+        Accept: "application/json; encoding='utf-8'",
+        Authorization: `Basic ${tnzToken}`,
+      },
+      body: JSON.stringify({
+        MessageData: {
+          Message: message.substring(0, 1600),
+          Destinations: [{ Recipient: to }],
+          WebhookCallbackURL: webhookUrl,
+          WebhookCallbackFormat: "JSON",
+          Reference: ref,
+          SendMode: "Normal",
+        },
+      }),
+    });
+
+    const tnzText = await tnzResp.text();
+    console.log(`[tnz-send] TNZ response ${tnzResp.status}: ${tnzText}`);
+
+    let tnzData: any;
+    try { tnzData = JSON.parse(tnzText); }
+    catch { tnzData = { Result: tnzResp.ok ? "Success" : "Failed", raw: tnzText }; }
+
+    const success = tnzData.Result === "Success";
+
     if (conversationId) {
       await sb.from("messaging_messages").insert({
         conversation_id: conversationId,
         tnz_message_id: tnzData.MessageID || null,
         direction: "outbound",
         to_number: to,
-        body: message,
+        from_number: tnzFrom,
+        body: message.substring(0, 1600),
         channel: channel || "sms",
         status: success ? "sent" : "failed",
         agent_used: agentLabel,
@@ -39,7 +90,6 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Audit trail
     if (agentId) {
       try {
         await sb.from("audit_log").insert({
@@ -57,12 +107,20 @@ Deno.serve(async (req) => {
       }
     }
 
-    return new Response(JSON.stringify({ ok: success, messageId: tnzData.MessageID, kete: keteLabel, agent: agentLabel }), {
+    return new Response(JSON.stringify({
+      ok: success,
+      messageId: tnzData.MessageID,
+      result: tnzData.Result,
+      details: success ? undefined : tnzData,
+      kete: keteLabel,
+      agent: agentLabel,
+    }), {
+      status: success ? 200 : 502,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
-    console.error("TNZ send error:", err);
-    return new Response(JSON.stringify({ error: "Send failed" }), {
+    console.error("[tnz-send] Error:", err);
+    return new Response(JSON.stringify({ error: "Send failed", message: String(err) }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
