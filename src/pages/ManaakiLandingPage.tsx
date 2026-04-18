@@ -242,7 +242,7 @@ export default function ManaakiLandingPage() {
               specialist network
             </p>
             <h2 className="text-2xl sm:text-3xl font-display font-light" style={{ color: BONE }}>
-              9 agents working together
+              10 agents working together
             </h2>
           </motion.div>
 
