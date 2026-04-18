@@ -42,13 +42,17 @@ const ContactPage = () => {
     setSending(true);
     try {
       await supabase.from("enquiries" as any).insert(form as any);
-      await supabase.from("contact_submissions").insert({
-        name: form.name,
-        email: form.email,
-        message: `[${form.industry}] [${form.interest}] ${form.business_name} — ${form.message}`,
-      });
-      supabase.functions.invoke("send-contact-email", {
-        body: { name: form.name, email: form.email, message: `Discovery call enquiry from ${form.business_name} (${form.industry}). Interest: ${form.interest}. ${form.message}` },
+      // ECHO auto-reply (handles contact_submissions insert + visitor email + admin notification)
+      supabase.functions.invoke("echo-respond", {
+        body: {
+          name: form.name,
+          email: form.email,
+          business_name: form.business_name,
+          industry: form.industry,
+          interest: form.interest,
+          message: form.message,
+          source: "contact-form",
+        },
       }).catch(console.error);
       setSent(true);
     } catch {

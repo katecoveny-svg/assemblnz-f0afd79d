@@ -68,12 +68,16 @@ const BrandFooter = () => {
     e.preventDefault();
     if (!email.trim()) return;
     try {
-      await supabase.from("contact_submissions").insert({
-        name: "Newsletter Subscriber",
-        email: email.trim(),
-        message: "Newsletter signup from footer",
-      });
-      toast.success("Subscribed! Welcome to the assembl whānau.");
+      // ECHO sends a personalised welcome reply
+      supabase.functions.invoke("echo-respond", {
+        body: {
+          name: "there",
+          email: email.trim(),
+          message: "Newsletter signup from footer — please send a brief welcome and overview of what to expect.",
+          source: "newsletter-footer",
+        },
+      }).catch(console.error);
+      toast.success("Subscribed! Echo will send you a welcome shortly.");
       setEmail("");
     } catch {
       toast.error("Subscription failed. Please try again.");

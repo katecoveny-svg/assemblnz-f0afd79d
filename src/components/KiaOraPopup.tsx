@@ -60,22 +60,17 @@ export default function KiaOraPopup({ open, onClose }: Props) {
     if (!name.trim() || !email.trim()) return;
     setSending(true);
     try {
-      const message = `[Pain: ${painArea}] [Interest: ${interest}] ${explanation}`.trim();
-      await supabase.from("contact_submissions").insert({
-        name: name.trim(),
-        email: email.trim(),
-        message,
-        phone: phone.trim() || null,
-        website: website.trim() || null,
-        pain_area: painArea || null,
-        interest: interest || null,
-      } as any);
-      // Also send email notification
-      supabase.functions.invoke("send-contact-email", {
+      const message = `Pain area: ${painArea}\nInterest: ${interest}\nExplanation: ${explanation}\nPhone: ${phone}\nWebsite: ${website}`.trim();
+      // ECHO auto-reply (persists lead + emails visitor + notifies admin)
+      supabase.functions.invoke("echo-respond", {
         body: {
           name: name.trim(),
           email: email.trim(),
-          message: `Kia ora popup enquiry.\n\nPain area: ${painArea}\nInterest: ${interest}\nExplanation: ${explanation}\nPhone: ${phone}\nWebsite: ${website}`,
+          business_name: website.trim() || "",
+          industry: painArea || "",
+          interest: interest || "",
+          message,
+          source: "kia-ora-popup",
         },
       }).catch(console.error);
       setDone(true);
