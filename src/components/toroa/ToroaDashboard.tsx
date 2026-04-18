@@ -12,11 +12,11 @@ import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 
 // Modules
 import FamilyOverview from "./modules/FamilyOverview";
-import TodayDigest from "./modules/TodayDigest";
+import TodayDigest, { type DigestItem } from "./modules/TodayDigest";
 import PetModule from "./modules/PetModule";
 import SchoolModule from "./modules/SchoolModule";
 import UniformTracker from "./modules/UniformTracker";
-import AppointmentsModule from "./modules/AppointmentsModule";
+import AppointmentsModule, { type Appointment } from "./modules/AppointmentsModule";
 import ShoppingModule from "./modules/ShoppingModule";
 import HomeworkHelp from "./modules/HomeworkHelp";
 
@@ -55,12 +55,12 @@ const DEMO_FAMILY = {
   ],
 };
 
-const DEMO_DIGEST = [
-  { type: "alert" as const, text: "Permission slip — camp (due Friday)", urgent: true },
-  { type: "event" as const, text: "Mia — netball Saturday 9am (Western Springs)", time: "09:00" },
-  { type: "reminder" as const, text: "WoF due 15 April" },
-  { type: "event" as const, text: "Piano lesson — Wednesday 3:30pm", time: "15:30" },
-  { type: "task" as const, text: "Buddy — vet checkup next Tuesday" },
+const DEMO_DIGEST: DigestItem[] = [
+  { type: "alert", text: "Permission slip — camp (due Friday)", urgent: true },
+  { type: "event", text: "Mia — netball Saturday 9am (Western Springs)", time: "09:00" },
+  { type: "reminder", text: "WoF due 15 April" },
+  { type: "event", text: "Piano lesson — Wednesday 3:30pm", time: "15:30" },
+  { type: "task", text: "Buddy — vet checkup next Tuesday" },
 ];
 
 const DEMO_PETS = [
@@ -105,7 +105,7 @@ const DEMO_UNIFORMS = [
   { item_type: "Hat", size: "S", quantity: 1, condition: "fair" as const, child_name: "Ethan" },
 ];
 
-const DEMO_APPOINTMENTS = [
+const DEMO_APPOINTMENTS: Appointment[] = [
   { id: "1", title: "Buddy — vet checkup", appointment_at: "2026-04-15T10:00:00", location: "Grey Lynn Vet", category: "vet", status: "upcoming", member_name: "Buddy" },
   { id: "2", title: "Mia — dentist", appointment_at: "2026-04-18T14:30:00", location: "Ponsonby Dental", category: "dental", status: "upcoming", member_name: "Mia" },
   { id: "3", title: "WoF inspection", appointment_at: "2026-04-10T09:00:00", location: "AA Ponsonby", category: "general", status: "overdue", is_overdue: true },
