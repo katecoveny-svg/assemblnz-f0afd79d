@@ -111,3 +111,15 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.twilio-send]
     verify_jwt = true
+  [functions.xero-oauth-start]
+    verify_jwt = false
+  [functions.xero-oauth-callback]
+    verify_jwt = false
+  [functions.xero-sync]
+    verify_jwt = false
+  [functions.esign-send]
+    verify_jwt = false
+  [functions.esign-view]
+    verify_jwt = false
+  [functions.esign-sign]
+    verify_jwt = false

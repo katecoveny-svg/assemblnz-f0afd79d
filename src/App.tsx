@@ -113,6 +113,7 @@ const PikauDashboard = lazy(() => import("./components/pikau/PikauDashboard"));
 const ToroaDashboard = lazy(() => import("./components/toroa/ToroaDashboard"));
 const WorkspaceDashboard = lazy(() => import("./pages/WorkspaceDashboard"));
 const WorkspaceConnections = lazy(() => import("./pages/WorkspaceConnections"));
+const SignEnvelopePage = lazy(() => import("./pages/SignEnvelopePage"));
 const SkillWiringDashboard = lazy(() => import("./components/admin/SkillWiringDashboard"));
 const AdminShowcaseVideos = lazy(() => import("./pages/AdminShowcaseVideos"));
 const AaaipDashboard = lazy(() => import("./pages/AaaipDashboard"));
@@ -237,6 +238,7 @@ const App = () => (
                         <Route path="/start/pending/:id" element={<Suspense fallback={null}><StartPendingPage /></Suspense>} />
                         <Route path="/workspace" element={<Suspense fallback={null}><WorkspaceDashboard /></Suspense>} />
                         <Route path="/workspace/connections" element={<Suspense fallback={null}><WorkspaceConnections /></Suspense>} />
+                        <Route path="/sign/:token" element={<Suspense fallback={null}><SignEnvelopePage /></Suspense>} />
 
                         <Route path="/kete" element={<Suspense fallback={null}><KeteCollectionPage /></Suspense>} />
                         <Route path="/kete/:slug" element={<Suspense fallback={null}><KeteDetailPageNew /></Suspense>} />
