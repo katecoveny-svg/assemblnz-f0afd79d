@@ -434,7 +434,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       className="flex-1 rounded-full px-4 py-2 text-sm focus:outline-none"
-                      placeholder={`Ask ${keteName}...`}
+                      placeholder={`Ask ${keteName}... (or "council: <question>" for multi-agent)`}
                       disabled={isStreaming}
                       style={{
                         fontFamily: "Plus Jakarta Sans, sans-serif",
@@ -443,6 +443,26 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                         color: "#1A1D29",
                       }}
                     />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!input.trim() || isStreaming) return;
+                        if (!/^\s*(council|panel|ask\s+all)\s*[:\-]/i.test(input)) {
+                          setInput(`council: ${input.trim()}`);
+                        }
+                        setTimeout(() => sendMessage(), 0);
+                      }}
+                      disabled={isStreaming || !input.trim()}
+                      className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
+                      style={{
+                        background: input.trim() ? "rgba(74,165,168,0.15)" : "rgba(0,0,0,0.05)",
+                        border: "1px solid rgba(74,165,168,0.3)",
+                        opacity: input.trim() ? 1 : 0.4,
+                      }}
+                      title="Ask the Council — multi-agent answer"
+                    >
+                      <GlowIcon name="Users" size={14} color="#4AA5A8" glow={false} />
+                    </button>
                     <button
                       type="submit"
                       disabled={isStreaming || !input.trim()}
