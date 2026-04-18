@@ -46,6 +46,24 @@ const CHAINS: Record<WorkflowType, { sector: Sector; agents: string[]; descripti
   ruc_auto_reconcile: { sector: "logistics", agents: ["FLUX","LEDGER","APEX"], description: "Hubodometer → reconcile vs RUC → run-out projection → auto-purchase 7 days out", kbTopics: ["Road User Charges Act 2012"] },
   driver_work_time_compliance: { sector: "logistics", agents: ["PULSE","APEX","AROHA"], description: "Driver status → cumulative on-duty → 30-min-out warning → suggest legal rest stop", kbTopics: ["Land Transport Work Time Logbooks 2007"] },
   contractor_gateway_audit: { sector: "logistics", agents: ["AROHA","ANCHOR","LEDGER"], description: "Gateway test → low/med/high/critical → remediation path → back-pay exposure", kbTopics: ["Employment Relations Amendment 2026 gateway test"] },
+
+  // Manaaki (hospitality)
+  daily_food_safety_diary: { sector: "manaaki", agents: ["AURA","APEX","MANA"], description: "Open/close shift prompts: temps, cleaning, allergen, staff health → corrective actions → MPI-ready monthly summary", kbTopics: ["Food Act 2014 Food Control Plan","Allergen management NZ Food Safety"] },
+  labour_cost_optimiser: { sector: "manaaki", agents: ["AURA","AROHA","LEDGER"], description: "POS history + weather + events → 30-min cover forecast → 3 roster variants → publish → variance learning", kbTopics: ["Hospitality NZ employment agreements","Restaurant Association Hospitality Report"] },
+  menu_gp_monitor: { sector: "manaaki", agents: ["AURA","LEDGER","PRISM"], description: "Supplier invoices → match to dish recipes → weekly GP recalc → flag >3% movement → reprice/portion/swap suggestions", kbTopics: ["Restaurant Association Hospitality Report"] },
+  review_response_engine: { sector: "manaaki", agents: ["AURA","PRISM","NOVA"], description: "Monitor Google/TripAdvisor → draft in venue voice → flag allergen/staff/defamation → daily digest → posted on approval", kbTopics: ["Allergen management NZ Food Safety"] },
+  alcohol_licence_renewal: { sector: "manaaki", agents: ["ANCHOR","AURA","KAHU"], description: "Track on-licence expiry → 60-day renewal draft → manager certificate check → public-notice + host-responsibility pack", kbTopics: ["Sale and Supply of Alcohol Act 2012"] },
+  staff_induction_pipeline: { sector: "manaaki", agents: ["AROHA","AURA"], description: "Structured induction by phone → comprehension check → training record kept for HR/MPI", kbTopics: ["Hospitality NZ employment agreements","Food Act 2014 Food Control Plan"] },
+  experiential_story_builder: { sector: "manaaki", agents: ["PRISM","AURA"], description: "Provenance/kaimoana sourcing + producer partnerships → menu/social/staff briefing copy in venue voice", kbTopics: [] },
+
+  // Arataki (automotive)
+  wof_fleet_scheduler: { sector: "arataki", agents: ["APEX","FLUX","AROHA","ANCHOR"], description: "Rego → Nov-2026/2027 WoF rule classification → per-vehicle calendar → 14-day reminder → insurance attestation", kbTopics: ["Land Transport WoF Rule 2026","Waka Kotahi VIRM Light Vehicles"] },
+  cin_generator_validator: { sector: "arataki", agents: ["APEX","ANCHOR","PRISM","MANA"], description: "VIN+rego → MVSA-compliant CIN → printable + online listing → immutable versioned audit", kbTopics: ["Motor Vehicle Sales Act 2003 CIN"] },
+  mvdt_defence_pack: { sector: "arataki", agents: ["APEX","ANCHOR","MANA","NOVA"], description: "MVDT claim → match sale + CIN version → CGA response pack → timestamped evidence chain → tribunal submission", kbTopics: ["Motor Vehicle Sales Act 2003 CIN","CGA MVDT case law"] },
+  vehicle_entry_precheck: { sector: "arataki", agents: ["APEX","ANCHOR","SIGNAL"], description: "Pre-import VIN check vs current Waka Kotahi acceptance: ESC, emissions, frontal impact → pass/refer", kbTopics: ["Waka Kotahi vehicle entry certification"] },
+  workshop_utilisation_no_show: { sector: "arataki", agents: ["AXIS","FLUX","AROHA","LEDGER"], description: "Booking diary → hoist utilisation → 24-hr confirm/reschedule → weekly recovered no-show revenue", kbTopics: [] },
+  ev_hv_safe_work_decision_tree: { sector: "arataki", agents: ["PULSE","APEX","AURA","MANA"], description: "VIN → EV/PHEV/HEV/ICE → manufacturer HV-isolation procedure → photo-evidenced checklist → audit log; refer if out of scope", kbTopics: ["High-Voltage EV Safe Work standards","HSWA 2015 notifiable events"] },
+  automotive_review_engine: { sector: "arataki", agents: ["AURA","PRISM","NOVA"], description: "Workshop/dealer reviews across Google/Autotrader/Carsales → draft in voice → defamation/allergen flags → goodwill scripts", kbTopics: [] },
 };
 
 const AGENT_ROLES: Record<string,string> = {
