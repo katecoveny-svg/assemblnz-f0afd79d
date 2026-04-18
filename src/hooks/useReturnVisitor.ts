@@ -9,7 +9,7 @@ const KETE_LABELS: Record<string, { name: string; path: string }> = {
   auaha: { name: 'Auaha (Creative)', path: '/auaha/about' },
   arataki: { name: 'Arataki (Automotive)', path: '/arataki' },
   pikau: { name: 'Pikau (Freight)', path: '/pikau' },
-  toro: { name: 'Tōroa (Family)', path: '/toroa' },
+  toro: { name: 'Tōro (Family)', path: '/toroa' },
 };
 
 export function useReturnVisitor() {

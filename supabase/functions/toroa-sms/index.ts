@@ -7,7 +7,7 @@ const corsHeaders = {
 };
 
 /* ══════════════════════════════════════════════════════════
-   TŌROA — Super-Thinking SMS Family Navigator
+   TŌRO — Super-Thinking SMS Family Navigator
    Features: Vision AI, Memory System, Traffic Intelligence,
              Proactive Alerts, Forward Planning
    ══════════════════════════════════════════════════════════ */
@@ -426,7 +426,7 @@ async function getForwardThinkingContext(sb: any, familyId: string, memories: Fa
 
 /* ── System prompt by intent ── */
 function systemPromptForIntent(intent: string, memoryContext: string, trafficContext: string, forwardContext: string): string {
-  const base = `You are Tōroa, a SUPER-THINKING SMS-first AI family navigator for New Zealand whānau. You don't just answer — you ANTICIPATE. You remember everything about this family and proactively surface relevant information.
+  const base = `You are Tōro, a SUPER-THINKING SMS-first AI family navigator for New Zealand whānau. You don't just answer — you ANTICIPATE. You remember everything about this family and proactively surface relevant information.
 
 PERSONALITY: Warm, clever, anticipatory. Like having a brilliant PA who also happens to be a trusted Kiwi friend. Use te reo Māori naturally. Use NZ English.
 
@@ -452,7 +452,7 @@ Current NZ time: ${new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckl
     homework: `\n\nHomework tracking. If you know the child's subjects and year level, personalise. Be encouraging.`,
     traffic: `\n\nTraffic and route intelligence. Provide real-time conditions. If you know their usual routes, proactively advise on timing. Suggest departure times for on-time arrival.`,
     location: `\n\nThe user wants to save or update a location. Confirm the address and label. Supported types: home, school, work, other. Format: "✅ Saved! I'll use this for traffic alerts and smart timing."`,
-    smarthome: `\n\nSmart home control via SMS. The family can control Alexa, Google Home, or Home Assistant devices by texting Tōroa. Parse their request into device + action. Supported: lights (on/off/dim), thermostat (set temp), locks (lock/unlock), garage (open/close), alarms (arm/disarm). Confirm the action clearly: "✅ Done! Living room lights set to 50%." If you don't recognise the device, ask them to clarify. Remind them they can link their smart home account at assembl.co.nz/toroa/smarthome.`,
+    smarthome: `\n\nSmart home control via SMS. The family can control Alexa, Google Home, or Home Assistant devices by texting Tōro. Parse their request into device + action. Supported: lights (on/off/dim), thermostat (set temp), locks (lock/unlock), garage (open/close), alarms (arm/disarm). Confirm the action clearly: "✅ Done! Living room lights set to 50%." If you don't recognise the device, ask them to clarify. Remind them they can link their smart home account at assembl.co.nz/toroa/smarthome.`,
     help: `\n\nList capabilities: 📧 Newsletter parsing (text + photo!), 🎒 Packing lists, 🚌 Bus times, 🍽️ Meal planning (send a fridge photo!), 💰 Budget, 📅 Calendar, 📚 Homework, 🚗 Live traffic + smart route alerts, 🏠 Smart home control (Alexa/Google Home), 🧠 I remember everything about your whānau! Be warm and mention you can learn their routines.`,
     general: `\n\nGeneral NZ family questions. Reference FamilyBoost, WINZ, Plunket. Always think: what else might this family need right now?`,
   };
@@ -509,7 +509,7 @@ Deno.serve(async (req) => {
 
     // 2. Check SMS allowance
     if (family.status === "trial" && (family.messages_remaining ?? 0) <= 0) {
-      await sendSms(sms.from, "Kia ora! You've used your free trial messages. Subscribe to keep using Tōroa → https://assembl.co.nz/toroa");
+      await sendSms(sms.from, "Kia ora! You've used your free trial messages. Subscribe to keep using Tōro → https://assembl.co.nz/toroa");
       return new Response(JSON.stringify({ status: "trial_expired" }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
     if (family.status === "active" && family.plan !== "plus") {
@@ -560,7 +560,7 @@ Deno.serve(async (req) => {
 
     if (!aiResp.ok) {
       if (aiResp.status === 429) {
-        await sendSms(sms.from, "Kia ora! Tōroa's a bit busy right now. Try again in a minute 🌊");
+        await sendSms(sms.from, "Kia ora! Tōro's a bit busy right now. Try again in a minute 🌊");
         return new Response(JSON.stringify({ error: "Rate limited" }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
       throw new Error(`AI error: ${aiResp.status}`);

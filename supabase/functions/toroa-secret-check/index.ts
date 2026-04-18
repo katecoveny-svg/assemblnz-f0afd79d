@@ -6,8 +6,8 @@ const corsHeaders = {
 };
 
 /**
- * Tōroa Secret Check — reports which runtime secrets are configured.
- * Returns { name: string, set: boolean } for each key the Tōroa
+ * Tōro Secret Check — reports which runtime secrets are configured.
+ * Returns { name: string, set: boolean } for each key the Tōro
  * workflow depends on. No secret values are ever exposed.
  */
 

@@ -44,7 +44,7 @@ export default function HomeworkHelp({ children }: Props) {
 
       <div className="rounded-xl p-4" style={{ ...glass, borderColor: `${POUNAMU}15` }}>
         <p className="font-body text-xs" style={{ color: "#6B7280" }}>
-          NZC-aligned, age-appropriate help. Ask Tōroa about any subject and it will tailor explanations to your child's year level.
+          NZC-aligned, age-appropriate help. Ask Tōro about any subject and it will tailor explanations to your child's year level.
         </p>
       </div>
 

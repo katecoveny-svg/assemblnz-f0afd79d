@@ -45,7 +45,7 @@ function pickAgents(question: string, max = 3): { id: string; name: string; kete
   score(/\b(ev|electric|battery|charging)\b/g, "spark", "SPARK", "arataki");
   score(/\b(freight|customs|import|export|shipping|hs\s?code|tariff)\b/g, "gateway", "GATEWAY", "pikau");
   score(/\b(biosecurity|mpi|fumigat|quarantine)\b/g, "sentinel", "SENTINEL", "pikau");
-  score(/\b(family|kids|school|trip|holiday|meal|grocery|whānau|whanau)\b/g, "helm", "TŌROA", "toroa");
+  score(/\b(family|kids|school|trip|holiday|meal|grocery|whānau|whanau)\b/g, "helm", "TŌRO", "toroa");
   score(/\b(farm|dairy|crop|livestock|harvest|fonterra|orchard)\b/g, "harvest", "TŌRO", "toro");
   score(/\b(property|landlord|tenant|rent|lease|tenancy|healthy\s?homes)\b/g, "haven", "HAVEN", "whenua");
 

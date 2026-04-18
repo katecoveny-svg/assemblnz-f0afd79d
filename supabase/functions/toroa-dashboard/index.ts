@@ -69,7 +69,7 @@ Deno.serve(async (req) => {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tōroa — Family Dashboard</title>
+  <title>Tōro — Family Dashboard</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a1a;color:#e0e0e0;padding:16px;max-width:600px;margin:0 auto}
@@ -90,7 +90,7 @@ Deno.serve(async (req) => {
   </style>
 </head>
 <body>
-  <h1>🪶 Tōroa</h1>
+  <h1>🪶 Tōro</h1>
   <p class="subtle">${escapeHtml(family.name || "Whānau")} · ${escapeHtml(phone)}</p>
 
   <div class="card" style="margin-top:12px">
@@ -132,7 +132,7 @@ Deno.serve(async (req) => {
 
   <h2>💬 Recent Conversations</h2>
   <div class="card">
-    ${conversations.length === 0 ? '<p class="subtle">No conversations yet. Text Tōroa to get started!</p>' :
+    ${conversations.length === 0 ? '<p class="subtle">No conversations yet. Text Tōro to get started!</p>' :
       conversations.slice(0, 10).map((c: any) => `
         <div class="msg">
           <span class="intent">${escapeHtml(c.intent || "general")}</span>
@@ -141,7 +141,7 @@ Deno.serve(async (req) => {
         </div>`).join("")}
   </div>
 
-  <p class="subtle" style="text-align:center;margin-top:20px">Tōroa by Assembl · <a href="https://assembl.co.nz/toroa">assembl.co.nz/toroa</a></p>
+  <p class="subtle" style="text-align:center;margin-top:20px">Tōro by Assembl · <a href="https://assembl.co.nz/toroa">assembl.co.nz/toroa</a></p>
 </body>
 </html>`;
 
@@ -158,8 +158,8 @@ Deno.serve(async (req) => {
 });
 
 function errorPage(msg: string): string {
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tōroa</title>
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tōro</title>
 <style>body{font-family:sans-serif;background:#0a0a1a;color:#e0e0e0;display:flex;align-items:center;justify-content:center;height:100vh}
 .error{text-align:center}.error h1{color:#f5c842;font-size:1.3rem}</style></head>
-<body><div class="error"><h1>🪶 Tōroa</h1><p>⚠️ ${msg}</p></div></body></html>`;
+<body><div class="error"><h1>🪶 Tōro</h1><p>⚠️ ${msg}</p></div></body></html>`;
 }

@@ -54,7 +54,7 @@ const KETE_LIST = [
   { code: "pikau", label: "Pikau", subtitle: "Freight", color: "#8B5CF6" },
   { code: "toro", label: "Tōro", subtitle: "Agriculture", color: "#22C55E" },
   { code: "whenua", label: "Whenua", subtitle: "Property", color: "#06B6D4" },
-  { code: "toroa", label: "Tōroa", subtitle: "Family", color: "#10B981" },
+  { code: "toroa", label: "Tōro", subtitle: "Family", color: "#10B981" },
 ];
 
 const AGENT_COLOURS: Record<string, string> = {

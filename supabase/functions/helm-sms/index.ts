@@ -6,7 +6,7 @@ const corsHeaders = {
 };
 
 /**
- * HELM SMS — Tōroa family agent inbound handler.
+ * HELM SMS — Tōro family agent inbound handler.
  * Now forwards all inbound messages to the unified tnz-inbound gateway
  * which handles Iho routing (will route family keywords → toroa agents).
  */

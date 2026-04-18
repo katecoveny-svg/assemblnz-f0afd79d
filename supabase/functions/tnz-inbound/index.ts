@@ -53,7 +53,7 @@ interface RouteResult {
 
 /**
  * Explicit agent-name lookup. If the user names an agent (e.g. "Odyssey help",
- * "talk to Tōroa", "switch to AURA"), we honour it directly — no keyword guessing.
+ * "talk to Tōro", "switch to AURA"), we honour it directly — no keyword guessing.
  * Returns null when no agent name is detected.
  */
 const AGENT_NAME_LOOKUP: Record<string, RouteResult> = {
@@ -63,14 +63,14 @@ const AGENT_NAME_LOOKUP: Record<string, RouteResult> = {
   echo:    { agentId: "echo",    agentName: "ECHO",    kete: "auaha",    signature: "— ECHO, your creative & Assembl concierge" },
   ember:   { agentId: "ember",   agentName: "EMBER",   kete: "arataki",  signature: "— EMBER, your automotive partner" },
   compass: { agentId: "compass", agentName: "COMPASS", kete: "pikau",    signature: "— COMPASS, your freight & logistics partner" },
-  toroa:   { agentId: "helm",    agentName: "TŌROA",   kete: "toroa",    signature: "— TŌROA, your family life partner" },
-  toro:    { agentId: "helm",    agentName: "TŌROA",   kete: "toroa",    signature: "— TŌROA, your family life partner" },
-  helm:    { agentId: "helm",    agentName: "TŌROA",   kete: "toroa",    signature: "— TŌROA, your family life partner" },
+  toroa:   { agentId: "helm",    agentName: "TŌRO",   kete: "toroa",    signature: "— TŌRO, your family life partner" },
+  toro:    { agentId: "helm",    agentName: "TŌRO",   kete: "toroa",    signature: "— TŌRO, your family life partner" },
+  helm:    { agentId: "helm",    agentName: "TŌRO",   kete: "toroa",    signature: "— TŌRO, your family life partner" },
   haven:   { agentId: "haven",   agentName: "HAVEN",   kete: "whenua",   signature: "— HAVEN, your property partner" },
   harvest: { agentId: "harvest", agentName: "TŌRO",    kete: "toro",     signature: "— TŌRO, your agriculture partner" },
   // Shared / business
   ascend:  { agentId: "ascend",  agentName: "ASCEND",  kete: "pakihi",   signature: "— ASCEND, your business growth partner" },
-  odyssey: { agentId: "helm",    agentName: "TŌROA",   kete: "toroa",    signature: "— TŌROA, your family life & trip partner" }, // Odyssey = trips/journeys → TŌROA
+  odyssey: { agentId: "helm",    agentName: "TŌRO",   kete: "toroa",    signature: "— TŌRO, your family life & trip partner" }, // Odyssey = trips/journeys → TŌRO
   nova:    { agentId: "nova",    agentName: "NOVA",    kete: "shared",   signature: "— NOVA, your innovation partner" },
   pulse:   { agentId: "pulse",   agentName: "PULSE",   kete: "shared",   signature: "— PULSE, your business intelligence feed" },
   scholar: { agentId: "scholar", agentName: "SCHOLAR", kete: "shared",   signature: "— SCHOLAR, your research partner" },
@@ -101,7 +101,7 @@ function routeByExplicitName(message: string): RouteResult | null {
   }
 
   // Pattern 2: agent name as the first word, optionally followed by "help"/"please"/punctuation
-  // e.g. "Odyssey help", "TŌROA", "ASCEND please"
+  // e.g. "Odyssey help", "TŌRO", "ASCEND please"
   const firstWord = norm.match(/^\s*(\w+)\b/);
   if (firstWord) {
     const name = firstWord[1].toLowerCase();
@@ -299,14 +299,14 @@ function routeToAgent(message: string): RouteResult {
   }
 
   // ── Travel / Trip planning (HIGH PRIORITY — before HR which catches "leave/holiday") ──
-  // Personal & family travel routes to TŌROA (family life navigator covers trips, itineraries, school holidays).
+  // Personal & family travel routes to TŌRO (family life navigator covers trips, itineraries, school holidays).
   if (/\b(trip|travel|holiday|vacation|itinerar|flight|airfare|airline|airport|accommodation|hotel\s?book|airbnb|bach|road\s?trip|getaway|weekend\s?away|school\s?holiday|term\s?break|family\s?holiday|plan(ning)?\s?(a|our|my)?\s?(trip|holiday|getaway|weekend))\b/.test(lower)) {
-    return { agentId: "helm", agentName: "TŌROA", kete: "toroa", signature: "— TŌROA, your family life & trip partner" };
+    return { agentId: "helm", agentName: "TŌRO", kete: "toroa", signature: "— TŌRO, your family life & trip partner" };
   }
 
-  // ── Tōroa (Family / Consumer) ──
+  // ── Tōro (Family / Consumer) ──
   if (/\b(family|kids|children|school|term\s?date|pick.?up|drop.?off|lunch|dinner|meal|grocery|shopping|appointment|doctor|dentist|vet|sports|activity|homework|budget|bills|chore|remind|birthday|parent|mum|dad|whānau|whanau)\b/.test(lower)) {
-    return { agentId: "helm", agentName: "TŌROA", kete: "toroa", signature: "— TŌROA, your family life partner" };
+    return { agentId: "helm", agentName: "TŌRO", kete: "toroa", signature: "— TŌRO, your family life partner" };
   }
 
   // ── Shared / Cross-Kete agents ──
@@ -618,7 +618,7 @@ Deno.serve(async (req) => {
       "3": { agentId: "echo",     agentName: "ECHO",     kete: "auaha",    signature: "— ECHO, your creative partner",          intro: "Kia ora! ECHO here — brand, content, campaigns & creative. What are we making?" },
       "4": { agentId: "ember",    agentName: "EMBER",    kete: "arataki",  signature: "— EMBER, your automotive partner",       intro: "Kia ora! EMBER here — vehicles, fleet, WoF, RUC & service. What can I sort?" },
       "5": { agentId: "compass",  agentName: "COMPASS",  kete: "pikau",    signature: "— COMPASS, your freight & logistics partner", intro: "Kia ora! COMPASS here — freight, customs, biosecurity & landed cost. What's shipping?" },
-      "6": { agentId: "helm",     agentName: "TŌROA",    kete: "toroa",    signature: "— TŌROA, your family life partner",      intro: "Kia ora! TŌROA here — family life, school, meals, trips & budgets. What's up?" },
+      "6": { agentId: "helm",     agentName: "TŌRO",    kete: "toroa",    signature: "— TŌRO, your family life partner",      intro: "Kia ora! TŌRO here — family life, school, meals, trips & budgets. What's up?" },
       "7": { agentId: "echo",     agentName: "ECHO",     kete: "assembl",  signature: "— ECHO, your Assembl concierge",         intro: "Kia ora! ECHO here — questions about Assembl, pricing, pilots or how it all works. Fire away!" },
     };
 
@@ -631,10 +631,10 @@ Deno.serve(async (req) => {
         "3 · Auaha (Brand, content, marketing)",
         "4 · Arataki (Cars, fleet, WoF)",
         "5 · Pikau (Freight, customs, shipping)",
-        "6 · Tōroa (Family life, school, trips)",
+        "6 · Tōro (Family life, school, trips)",
         "7 · About Assembl (pricing, pilots, demo)",
         "",
-        "Or just describe what you need (e.g. \"WoF reminder\", \"food safety diary\"), or name an agent (e.g. \"Tōroa\", \"AURA\").",
+        "Or just describe what you need (e.g. \"WoF reminder\", \"food safety diary\"), or name an agent (e.g. \"Tōro\", \"AURA\").",
       ].join("\n");
 
       const refMenu = `assembl-menu-${crypto.randomUUID()}`;
@@ -736,7 +736,7 @@ Deno.serve(async (req) => {
 HANDOFF RULE — If the user asks about something outside your specialty, NEVER refuse. Instead:
 1. Briefly acknowledge in one sentence.
 2. Help anyway with practical NZ-context advice (you are part of the Assembl whānau of agents).
-3. Suggest the right specialist next time, e.g. "TŌROA handles family trips & holidays, ECHO covers Assembl questions, AROHA is your HR partner, LEDGER for tax, GATEWAY for customs."
+3. Suggest the right specialist next time, e.g. "TŌRO handles family trips & holidays, ECHO covers Assembl questions, AROHA is your HR partner, LEDGER for tax, GATEWAY for customs."
 Never say "I can't do that" or "outside my scope" — always be useful first, then point to the better-fit kete.`;
 
     const fullPrompt = systemPrompt + channelBehaviour + HANDOFF_RULE + `\nCurrent NZ date/time: ${nzTime}\n\nEnd every response with your signature: ${agent.signature}`;

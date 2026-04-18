@@ -7,7 +7,7 @@ const corsHeaders = {
 };
 
 /* ══════════════════════════════════════════════════════════
-   TŌROA ALEXA SKILL — Smart Home Bridge
+   TŌRO ALEXA SKILL — Smart Home Bridge
    Handles Alexa Smart Home Skill API v3 directives
    and custom skill intents for family queries via voice.
    ══════════════════════════════════════════════════════════ */
@@ -56,8 +56,8 @@ Deno.serve(async (req) => {
                 {
                   endpointId: "toroa-family-assistant",
                   manufacturerName: "Assembl",
-                  friendlyName: "Tōroa",
-                  description: "Tōroa Family AI Navigator",
+                  friendlyName: "Tōro",
+                  description: "Tōro Family AI Navigator",
                   displayCategories: ["OTHER"],
                   capabilities: [
                     { type: "AlexaInterface", interface: "Alexa", version: "3" },
@@ -70,7 +70,7 @@ Deno.serve(async (req) => {
         }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
 
-      // Scene activation — trigger Tōroa routines via Alexa
+      // Scene activation — trigger Tōro routines via Alexa
       if (namespace === "Alexa.SceneController" && name === "Activate") {
         const endpointId = body.directive.endpoint?.endpointId || "";
         const routine = endpointId.replace("toroa-routine-", "");
@@ -107,13 +107,13 @@ Deno.serve(async (req) => {
       }
     }
 
-    // ── Custom Skill Intents (voice queries through Tōroa) ──
+    // ── Custom Skill Intents (voice queries through Tōro) ──
     if (body.request) {
       const { type } = body.request;
 
       if (type === "LaunchRequest") {
         return new Response(JSON.stringify(
-          makeAlexaResponse("Kia ora! I'm Tōroa, your family navigator. Ask me about your schedule, traffic to school, what's for dinner, or anything your whānau needs.", false)
+          makeAlexaResponse("Kia ora! I'm Tōro, your family navigator. Ask me about your schedule, traffic to school, what's for dinner, or anything your whānau needs.", false)
         ), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
 
@@ -121,7 +121,7 @@ Deno.serve(async (req) => {
         const intentName = body.request.intent.name;
         const slots = body.request.intent.slots || {};
 
-        // Map Alexa intents to Tōroa queries
+        // Map Alexa intents to Tōro queries
         let query = "";
         switch (intentName) {
           case "FamilyScheduleIntent":
@@ -188,7 +188,7 @@ Deno.serve(async (req) => {
             body: JSON.stringify({
               model: "google/gemini-2.5-flash",
               messages: [
-                { role: "system", content: `You are Tōroa on Alexa — a warm Kiwi family AI. Keep responses under 200 chars for voice. Use NZ English. Family context: ${memorySnippet}. Upcoming: ${calSnippet}.` },
+                { role: "system", content: `You are Tōro on Alexa — a warm Kiwi family AI. Keep responses under 200 chars for voice. Use NZ English. Family context: ${memorySnippet}. Upcoming: ${calSnippet}.` },
                 { role: "user", content: query },
               ],
               max_tokens: 150,
@@ -206,7 +206,7 @@ Deno.serve(async (req) => {
 
         // Fallback without family context
         return new Response(JSON.stringify(
-          makeAlexaResponse("Kia ora! Link your Tōroa account at assembl.co.nz/toroa/alexa to get personalised family updates.")
+          makeAlexaResponse("Kia ora! Link your Tōro account at assembl.co.nz/toroa/alexa to get personalised family updates.")
         ), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
 

@@ -179,9 +179,9 @@ export default function ToroaDashboard() {
       }}>
         {/* Logo */}
         <div className="p-5 flex items-center gap-3" style={{ borderBottom: `1px solid ${KOWHAI}08` }}>
-          <img src={toroaLogo} alt="Tōroa" className="w-8 h-8" style={{ filter: `drop-shadow(0 0 8px ${KOWHAI}30)` }} />
+          <img src={toroaLogo} alt="Tōro" className="w-8 h-8" style={{ filter: `drop-shadow(0 0 8px ${KOWHAI}30)` }} />
           <div>
-            <h1 className="font-display text-sm uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: "#1A1D29" }}>Tōroa</h1>
+            <h1 className="font-display text-sm uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: "#1A1D29" }}>Tōro</h1>
             <p className="font-body text-[9px]" style={{ color: "#9CA3AF" }}>Whānau Navigator</p>
           </div>
         </div>
@@ -245,8 +245,8 @@ export default function ToroaDashboard() {
         backdropFilter: "blur(20px)",
       }}>
         <div className="flex items-center gap-2">
-          <img src={toroaLogo} alt="Tōroa" className="w-6 h-6" />
-          <span className="font-display text-xs uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: "#1A1D29" }}>Tōroa</span>
+          <img src={toroaLogo} alt="Tōro" className="w-6 h-6" />
+          <span className="font-display text-xs uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: "#1A1D29" }}>Tōro</span>
         </div>
         <button onClick={() => setSidebarOpen(!sidebarOpen)}>
           {sidebarOpen ? <X size={20} style={{ color: "#9CA3AF" }} /> : <Menu size={20} style={{ color: "#9CA3AF" }} />}
@@ -306,10 +306,10 @@ export default function ToroaDashboard() {
           <div className="space-y-4 pt-4" style={{ borderTop: `1px solid ${KOWHAI}08` }}>
             <KeteEvidencePackPanel
               keteSlug="toroa"
-              keteName="Tōroa — Family Navigator"
+              keteName="Tōro — Family Navigator"
               accentColor={KOWHAI}
               agentId="toroa"
-              agentName="TŌROA"
+              agentName="TŌRO"
               packTemplates={[
                 { label: "Family Safety Pack", description: "Emergency contacts, medical & allergy records", packType: "family-safety-pack", complianceChecks: [
                   { check: "Privacy Act 2020 — family data governed", status: "pass" },
@@ -326,10 +326,10 @@ export default function ToroaDashboard() {
             <KeteDocUpload
               keteSlug="toroa"
               keteColor={KOWHAI}
-              keteName="Tōroa — Family Navigator"
+              keteName="Tōro — Family Navigator"
               docContext="Expect school newsletters, permission slips, medical forms, invoices, bills, and family schedules. Extract events, deadlines, costs, and required actions."
             />
-            <KeteBrainChat keteId="toroa" keteName="Tōroa" keteNameEn="Family Navigator" accentColor={KOWHAI} />
+            <KeteBrainChat keteId="toroa" keteName="Tōro" keteNameEn="Family Navigator" accentColor={KOWHAI} />
           </div>
         </div>
       </main>
