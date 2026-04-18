@@ -8,7 +8,7 @@ interface TextUsButtonProps {
   showWhatsApp?: boolean;
 }
 
-const DEFAULT_PHONE = "+64223194572"; // Assembl platform number
+const DEFAULT_PHONE = "+6421538962"; // Live Assembl SMS number
 
 /**
  * "Text us" CTA that opens the visitor's native SMS or WhatsApp app
