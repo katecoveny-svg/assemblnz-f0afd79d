@@ -52,12 +52,85 @@ interface RouteResult {
 }
 
 /**
+ * Explicit agent-name lookup. If the user names an agent (e.g. "Odyssey help",
+ * "talk to Tōroa", "switch to AURA"), we honour it directly — no keyword guessing.
+ * Returns null when no agent name is detected.
+ */
+const AGENT_NAME_LOOKUP: Record<string, RouteResult> = {
+  // Industry primaries
+  aura:    { agentId: "aura",    agentName: "AURA",    kete: "manaaki",  signature: "— AURA, your hospitality partner" },
+  arc:     { agentId: "arc",     agentName: "ARC",     kete: "waihanga", signature: "— ARC, your construction partner" },
+  echo:    { agentId: "echo",    agentName: "ECHO",    kete: "auaha",    signature: "— ECHO, your creative & Assembl concierge" },
+  ember:   { agentId: "ember",   agentName: "EMBER",   kete: "arataki",  signature: "— EMBER, your automotive partner" },
+  compass: { agentId: "compass", agentName: "COMPASS", kete: "pikau",    signature: "— COMPASS, your freight & logistics partner" },
+  toroa:   { agentId: "helm",    agentName: "TŌROA",   kete: "toroa",    signature: "— TŌROA, your family life partner" },
+  toro:    { agentId: "helm",    agentName: "TŌROA",   kete: "toroa",    signature: "— TŌROA, your family life partner" },
+  helm:    { agentId: "helm",    agentName: "TŌROA",   kete: "toroa",    signature: "— TŌROA, your family life partner" },
+  haven:   { agentId: "haven",   agentName: "HAVEN",   kete: "whenua",   signature: "— HAVEN, your property partner" },
+  harvest: { agentId: "harvest", agentName: "TŌRO",    kete: "toro",     signature: "— TŌRO, your agriculture partner" },
+  // Shared / business
+  ascend:  { agentId: "ascend",  agentName: "ASCEND",  kete: "pakihi",   signature: "— ASCEND, your business growth partner" },
+  odyssey: { agentId: "helm",    agentName: "TŌROA",   kete: "toroa",    signature: "— TŌROA, your family life & trip partner" }, // Odyssey = trips/journeys → TŌROA
+  nova:    { agentId: "nova",    agentName: "NOVA",    kete: "shared",   signature: "— NOVA, your innovation partner" },
+  pulse:   { agentId: "pulse",   agentName: "PULSE",   kete: "shared",   signature: "— PULSE, your business intelligence feed" },
+  scholar: { agentId: "scholar", agentName: "SCHOLAR", kete: "shared",   signature: "— SCHOLAR, your research partner" },
+  pilot:   { agentId: "pilot",   agentName: "PILOT",   kete: "shared",   signature: "— PILOT, your onboarding partner" },
+  aroha:   { agentId: "aroha-core", agentName: "AROHA", kete: "shared",  signature: "— AROHA, your HR & employment partner" },
+  ledger:  { agentId: "ledger",  agentName: "LEDGER",  kete: "pakihi",   signature: "— LEDGER, your tax & accounting partner" },
+  sage:    { agentId: "sage",    agentName: "SAGE",    kete: "pakihi",   signature: "— SAGE, your professional services partner" },
+  flux:    { agentId: "flux",    agentName: "FLUX",    kete: "auaha",    signature: "— FLUX, your campaign partner" },
+  prism:   { agentId: "prism",   agentName: "PRISM",   kete: "auaha",    signature: "— PRISM, your brand identity partner" },
+  forge:   { agentId: "forge",   agentName: "FORGE",   kete: "arataki",  signature: "— FORGE, your RUC & compliance partner" },
+  gateway: { agentId: "gateway", agentName: "GATEWAY", kete: "pikau",    signature: "— GATEWAY, your customs clearance partner" },
+};
+
+function routeByExplicitName(message: string): RouteResult | null {
+  // Strip diacritics so "tōroa" matches "toroa"
+  const norm = message
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  // Pattern 1: handoff phrases — "talk to X", "pass me to X", "switch to X", "can I have X", "X help", "X please"
+  const handoff = norm.match(
+    /\b(?:talk\s+to|pass\s+(?:me\s+)?(?:to|along\s+to|over\s+to)|switch\s+to|connect\s+(?:me\s+)?to|hand\s?off\s+to|transfer\s+to|put\s+me\s+(?:through\s+)?to|can\s+i\s+(?:have|get|speak\s+to)|i\s+(?:want|need)\s+(?:to\s+talk\s+to\s+)?|use)\s+(\w+)/i
+  );
+  if (handoff) {
+    const name = handoff[1].toLowerCase();
+    if (AGENT_NAME_LOOKUP[name]) return AGENT_NAME_LOOKUP[name];
+  }
+
+  // Pattern 2: agent name as the first word, optionally followed by "help"/"please"/punctuation
+  // e.g. "Odyssey help", "TŌROA", "ASCEND please"
+  const firstWord = norm.match(/^\s*(\w+)\b/);
+  if (firstWord) {
+    const name = firstWord[1].toLowerCase();
+    if (AGENT_NAME_LOOKUP[name]) return AGENT_NAME_LOOKUP[name];
+  }
+
+  // Pattern 3: any standalone agent name appearing in a short message (≤ 6 words)
+  if (norm.split(/\s+/).length <= 6) {
+    for (const name of Object.keys(AGENT_NAME_LOOKUP)) {
+      if (new RegExp(`\\b${name}\\b`, "i").test(norm)) {
+        return AGENT_NAME_LOOKUP[name];
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
  * Full Iho intent router — maps inbound message keywords to the correct
  * kete and primary agent across all 8 industry verticals + shared agents.
  *
- * Priority order: specific industry → shared/general → default (pakihi)
+ * Priority order: explicit agent name → specific industry → shared/general → default (pakihi)
  */
 function routeToAgent(message: string): RouteResult {
+  // Explicit agent name beats every keyword rule
+  const explicit = routeByExplicitName(message);
+  if (explicit) return explicit;
+
   const lower = message.toLowerCase();
 
   // ── Assembl platform enquiries (HIGHEST PRIORITY) → Echo ──
@@ -536,7 +609,7 @@ Deno.serve(async (req) => {
     // when the user replies with a single digit (1-7) after seeing the menu.
     const trimmed = messageBody.trim();
     const isBareGreeting = /^(hi|hey|hello|kia\s?ora|yo|sup|hola|morena|good\s?(morning|afternoon|evening))[\s!.?]*$/i.test(trimmed);
-    const askedForMenu = /^\s*(menu|help|options?|choose|pick|kete|which|not\s?sure|don.?t\s?know|start|begin)\s*[?!.]*$/i.test(trimmed);
+    const askedForMenu = /^\s*(menu|help|options?|choose|pick|kete|which|not\s?sure|don.?t\s?know|start|begin|switch|reset|back|other|change|wrong\s?(one|kete|agent)?|different)\s*[?!.]*$/i.test(trimmed);
     const numericPick = trimmed.match(/^\s*([1-7])\s*$/);
 
     const KETE_MENU: Record<string, { agentId: string; agentName: string; kete: string; signature: string; intro: string }> = {
@@ -561,7 +634,7 @@ Deno.serve(async (req) => {
         "6 · Tōroa (Family life, school, trips)",
         "7 · About Assembl (pricing, pilots, demo)",
         "",
-        "Or just describe what you need (e.g. \"WoF reminder\", \"food safety diary\").",
+        "Or just describe what you need (e.g. \"WoF reminder\", \"food safety diary\"), or name an agent (e.g. \"Tōroa\", \"AURA\").",
       ].join("\n");
 
       const refMenu = `assembl-menu-${crypto.randomUUID()}`;
@@ -618,8 +691,9 @@ Deno.serve(async (req) => {
       }
     }
 
-    // 2) Bare greeting OR explicit menu request → show picker
-    if ((isBareGreeting || askedForMenu) && !awaitingPick) {
+    // 2) Bare greeting OR explicit menu/switch/reset request → ALWAYS show picker
+    //    (escape hatch when a user is stuck on the wrong agent)
+    if (isBareGreeting || askedForMenu) {
       await showMenu();
       return new Response(JSON.stringify({ ok: true, mode: "kete_picker" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
