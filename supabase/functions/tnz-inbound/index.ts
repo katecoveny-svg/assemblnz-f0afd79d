@@ -60,6 +60,13 @@ interface RouteResult {
 function routeToAgent(message: string): RouteResult {
   const lower = message.toLowerCase();
 
+  // ── Assembl platform enquiries (HIGHEST PRIORITY) → Echo ──
+  // Any question about Assembl itself, pricing, onboarding, kete, demo etc. routes to Echo
+  // (the platform concierge with deep Assembl product knowledge).
+  if (/\b(assembl|kete|iho|kahu|mahara|mana|t[āa]\b|pricing|plan|tier|operator\s?plan|enterprise\s?plan|pilot\s?program|onboard|demo|trial|sign\s?up|get\s?started|how\s?does\s?it\s?work|what\s?is\s?assembl|tell\s?me\s?about\s?assembl|book\s?a\s?call|discovery\s?call|enquir|inquir|interested\s?in\s?assembl|learn\s?more|kia\s?ora|^\s*(hi|hey|hello)\b)/.test(lower)) {
+    return { agentId: "echo", agentName: "ECHO", kete: "assembl", signature: "— ECHO, your Assembl concierge" };
+  }
+
   // ── Manaaki (Hospitality) ──
   if (/\b(food|restaurant|alcohol|hospitality|menu|cafe|bar|kitchen|chef|liquor|hygiene|fcp|food\s?control|food\s?act|food\s?safety|cellar|wine|cocktail|sommelier|dining|hotel|lodge|bed\s?and\s?breakfast|b&b|accommodation|guest|booking|check.?in|concierge|housekeeping|event\s?catering)\b/.test(lower)) {
     // Sub-route within Manaaki
