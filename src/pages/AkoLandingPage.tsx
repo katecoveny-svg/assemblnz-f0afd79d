@@ -20,6 +20,7 @@ import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import TextUsButton from "@/components/kete/TextUsButton";
 import AkoCriteriaMatcherDemo from "@/components/ako/AkoCriteriaMatcherDemo";
 import AkoWorkflowExplorer from "@/components/ako/AkoWorkflowExplorer";
+import AkoTransparencyPackGenerator from "@/components/ako/AkoTransparencyPackGenerator";
 
 const ACCENT = "#7BA7C7";       // soft sky — calm, professional, education-coded
 const ACCENT_LIGHT = "#A8C8DD";
@@ -268,6 +269,10 @@ export default function AkoLandingPage() {
               </h3>
             </motion.div>
             <AkoWorkflowExplorer accent={ACCENT} />
+
+            <div className="mt-10">
+              <AkoTransparencyPackGenerator />
+            </div>
           </div>
         </section>
 
