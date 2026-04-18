@@ -75,8 +75,6 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
     "kitchen", "supplier records", "traceability", "food recall"],
   cellar: ["alcohol", "liquor", "licence", "duty manager", "bar", "wine", "host responsibility",
     "intoxication", "ssaa", "manager certificate", "on licence", "off licence"],
-  nova: ["tourism", "visitor", "activity", "experience", "adventure", "qualmark",
-    "booking engine", "travel", "accommodation"],
   // Waihanga (Construction)
   apex: ["site", "site ops", "construction", "foreman", "builder"],
   arai: ["hazard", "safety", "h&s", "worksafe", "ppe", "incident", "scaffold", "hswa", "notifiable"],
@@ -97,8 +95,8 @@ const AGENT_KEYWORDS: Record<string, string[]> = {
   // Pikau
   customs: ["customs", "import", "export", "tariff", "hs code", "biosecurity"],
   freight: ["freight", "shipping", "cargo", "container", "logistics"],
-  // Toro
-  operations: ["family", "groceries", "school", "pickup", "kids", "dinner"],
+  // Tōro / family + trips
+  operations: ["family", "groceries", "school", "pickup", "kids", "dinner", "trip", "travel", "holiday", "vacation", "itinerary", "italy", "italia", "rome", "florence", "venice", "milan", "amalfi", "sicily", "flights", "airbnb"],
   // Ahuwhenua (Agriculture)
   terra: ["farm", "dairy", "cattle", "sheep", "lambing", "calving", "milking", "nait", "fep",
     "effluent", "ets", "emissions", "milk price", "schedule price", "kgms", "stock units",
