@@ -3,8 +3,9 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 /**
  * Twilio Inbound — receives SMS webhooks from Twilio (application/x-www-form-urlencoded),
  * normalises the payload, forwards to the unified `tnz-inbound` gateway for Iho routing
- * and AI generation, then replies to Twilio with TwiML <Message> so the agent's reply
- * is delivered back to the customer in the same HTTP response.
+ * and AI generation. tnz-inbound will send the AI reply via TNZ (NZ sender ID) to avoid
+ * international SMS deliverability issues with the US Twilio number. This function then
+ * returns an empty TwiML <Response/> to Twilio so it doesn't attempt to reply itself.
  *
  * Twilio webhook fields used:
  *   From      — sender's phone (E.164)
@@ -18,19 +19,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-function escapeXml(s: string) {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
-}
-
-function twiml(message?: string) {
-  const body = message
-    ? `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(message)}</Message></Response>`
-    : `<?xml version="1.0" encoding="UTF-8"?><Response/>`;
+function emptyTwiml() {
+  const body = `<?xml version="1.0" encoding="UTF-8"?><Response/>`;
   return new Response(body, {
     headers: { ...corsHeaders, "Content-Type": "application/xml" },
   });
@@ -64,10 +54,14 @@ Deno.serve(async (req) => {
     console.log("[twilio-inbound] from=%s to=%s body=%s", from, to, body.slice(0, 120));
 
     if (!from || !body) {
-      return twiml("Sorry — we couldn't read your message. Please try again.");
+      console.log("[twilio-inbound] Missing From or Body — returning empty TwiML");
+      return emptyTwiml();
     }
 
-    // Forward to unified tnz-inbound for routing + AI generation
+    // Forward to unified tnz-inbound for routing + AI generation + DELIVERY via TNZ.
+    // ReplyMode "send" (the default) tells tnz-inbound to send the reply itself via TNZ,
+    // which uses our registered NZ sender ID — avoids carrier filtering of international
+    // SMS from the US Twilio long code.
     const resp = await fetch(`${supabaseUrl}/functions/v1/tnz-inbound`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${anon}` },
@@ -77,23 +71,18 @@ Deno.serve(async (req) => {
         Message: body,
         MessageID: sid,
         Channel: "sms",
-        // Tell tnz-inbound NOT to send via TNZ — we'll reply via TwiML instead
-        ReplyMode: "return",
+        ReplyMode: "send",
       }),
     });
 
     const result = await resp.json().catch(() => ({}));
     console.log("[twilio-inbound] tnz-inbound result:", JSON.stringify(result).slice(0, 300));
 
-    const reply =
-      result.reply ||
-      result.message ||
-      result.response ||
-      "Kia ora! Thanks for your message — we'll be in touch shortly.";
-
-    return twiml(reply);
+    // Return empty TwiML so Twilio doesn't send its own reply from the US number.
+    // The customer reply is delivered separately via TNZ.
+    return emptyTwiml();
   } catch (err) {
     console.error("[twilio-inbound] error:", err);
-    return twiml("Sorry — we hit a technical hiccup. Please try again in a moment.");
+    return emptyTwiml();
   }
 });
