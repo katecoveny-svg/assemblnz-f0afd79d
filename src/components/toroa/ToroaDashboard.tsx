@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   Home, Users, PawPrint, GraduationCap, Shirt, Clock, ShoppingCart,
-  BookOpen, MessageSquare, Settings, ChevronLeft, Menu, X, Wifi,
+  BookOpen, MessageSquare, Settings, ChevronLeft, Menu, X, Wifi, Compass, Sparkles,
 } from "lucide-react";
 import toroaLogo from "@/assets/brand/toroa-logo.svg";
 import KeteBrainChat from "@/components/KeteBrainChat";
@@ -139,6 +139,10 @@ export default function ToroaDashboard() {
   const [active, setActive] = useState<ModuleKey>("today");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [whatsappConnected, setWhatsappConnected] = useState(false);
+
+  // Editable state — every list is now CRUD'able from the UI
+  const [digest, setDigest] = useState(DEMO_DIGEST);
+  const [appointments, setAppointments] = useState(DEMO_APPOINTMENTS);
   const [shoppingItems, setShoppingItems] = useState(DEMO_SHOPPING);
 
   const toggleShopping = (id: string) => {
@@ -147,11 +151,14 @@ export default function ToroaDashboard() {
   const addShopping = (item: string) => {
     setShoppingItems(prev => [...prev, { id: Date.now().toString(), item, quantity: 1, category: "groceries", estimated_cost_cents: 0, purchased: false }]);
   };
+  const deleteShopping = (id: string) => {
+    setShoppingItems(prev => prev.filter(i => i.id !== id));
+  };
 
   const renderModule = () => {
     switch (active) {
       case "today":
-        return <TodayDigest items={DEMO_DIGEST} greeting="Kia ora, Sarah" />;
+        return <TodayDigest items={digest} greeting="Kia ora, Sarah" onChange={setDigest} />;
       case "family":
         return <FamilyOverview members={DEMO_FAMILY.members} pets={DEMO_FAMILY.pets} children={DEMO_FAMILY.children} />;
       case "pets":
@@ -161,9 +168,9 @@ export default function ToroaDashboard() {
       case "uniforms":
         return <UniformTracker items={DEMO_UNIFORMS} children={["Mia", "Ethan"]} />;
       case "appointments":
-        return <AppointmentsModule appointments={DEMO_APPOINTMENTS} />;
+        return <AppointmentsModule appointments={appointments} onChange={setAppointments} />;
       case "shopping":
-        return <ShoppingModule items={shoppingItems} weeklyBudget={25000} spent={16300} onToggle={toggleShopping} onAdd={addShopping} />;
+        return <ShoppingModule items={shoppingItems} weeklyBudget={25000} spent={16300} onToggle={toggleShopping} onAdd={addShopping} onDelete={deleteShopping} />;
       case "homework":
         return <HomeworkHelp children={DEMO_HW_CHILDREN} />;
     }
