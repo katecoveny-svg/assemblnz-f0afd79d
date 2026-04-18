@@ -56,7 +56,7 @@ export const KETE_CONFIG: KeteDefinition[] = [
   },
   {
     id: "arataki", name: "Arataki", nameEn: "Automotive",
-    color: "#E8E8E8", icon: Car, agentCount: 3, group: "business",
+    color: "#E8E8E8", icon: Car, agentCount: 2, group: "business",
     description: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped.",
     wananga: "Te Kete Tuauri — the basket of guidance and protection",
     route: "/arataki", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
