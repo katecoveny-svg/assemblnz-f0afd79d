@@ -167,7 +167,7 @@ export default function SectorWorkflows() {
           <Workflow className="h-7 w-7 text-primary" />
           <h1 className="text-3xl font-light text-foreground">Sector End-to-End Workflows</h1>
         </div>
-        <p className="text-muted-foreground">17 multi-agent orchestrations grounded in NZ statute — CCA 2002, NZIA AAS, NZS3917, Customs Act 2018, RUC Act 2012, HSWA 2015, Land Transport Rules, EU CBAM.</p>
+        <p className="text-muted-foreground">31 multi-agent orchestrations across 7 sectors — grounded in NZ statute (CCA 2002, NZIA AAS, NZS3917, Customs Act 2018, RUC Act 2012, HSWA 2015, Land Transport Rules + Nov 2026 WoF amendments, Food Act 2014, Sale &amp; Supply of Alcohol Act 2012, MVSA 2003, EU CBAM).</p>
       </header>
 
       <Tabs value={sector} onValueChange={(v) => setSector(v as Sector)} className="mb-6">
