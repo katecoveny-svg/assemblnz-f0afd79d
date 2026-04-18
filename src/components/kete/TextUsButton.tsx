@@ -3,12 +3,12 @@ import { MessageSquare, Phone } from "lucide-react";
 interface TextUsButtonProps {
   keteName: string;
   accentColor: string;
-  /** The TNZ / platform number in E.164 format, e.g. "+6421234567" */
+  /** The public SMS entry point, e.g. a shortcode like "3688" or an E.164 mobile. */
   phoneNumber?: string;
   showWhatsApp?: boolean;
 }
 
-const DEFAULT_PHONE = "+6421538962"; // Live Assembl SMS number
+const DEFAULT_PHONE = "3688"; // Public Assembl SMS shortcode
 
 /**
  * "Text us" CTA that opens the visitor's native SMS or WhatsApp app
@@ -22,6 +22,7 @@ const TextUsButton = ({
 }: TextUsButtonProps) => {
   const smsBody = encodeURIComponent(`Hi Assembl — I'm interested in ${keteName}`);
   const cleanNumber = phoneNumber.replace(/\+/g, "");
+  const canUseWhatsApp = showWhatsApp && /^\d{10,15}$/.test(cleanNumber);
 
   const smsHref = `sms:${phoneNumber}?body=${smsBody}`;
   const waHref = `https://wa.me/${cleanNumber}?text=${smsBody}`;
@@ -52,7 +53,7 @@ const TextUsButton = ({
         Text us
       </a>
 
-      {showWhatsApp && (
+      {canUseWhatsApp && (
         <a
           href={waHref}
           target="_blank"
