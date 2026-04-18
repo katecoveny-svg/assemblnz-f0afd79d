@@ -4842,6 +4842,7 @@ export type Database = {
         Row: {
           assigned_agent: string | null
           assigned_pack: string | null
+          awaiting_kete_pick: boolean
           channel: string
           consent_status: string
           contact_name: string | null
@@ -4859,6 +4860,7 @@ export type Database = {
         Insert: {
           assigned_agent?: string | null
           assigned_pack?: string | null
+          awaiting_kete_pick?: boolean
           channel: string
           consent_status?: string
           contact_name?: string | null
@@ -4876,6 +4878,7 @@ export type Database = {
         Update: {
           assigned_agent?: string | null
           assigned_pack?: string | null
+          awaiting_kete_pick?: boolean
           channel?: string
           consent_status?: string
           contact_name?: string | null
