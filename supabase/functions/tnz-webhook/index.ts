@@ -7,9 +7,11 @@ const corsHeaders = {
 };
 
 /**
- * TNZ Webhook — handles delivery status updates from TNZ API.
- * TNZ posts delivery reports (Sent, Delivered, Failed, etc.) here
- * via the WebhookCallbackURL we set on outbound messages.
+ * TNZ Webhook — single endpoint TNZ posts to for BOTH:
+ *   1. Delivery status updates (Type: SMS / WhatsApp, Status: SUCCESS/FAILED/etc.)
+ *   2. Inbound replies from customers (Type: SMSReply / WhatsAppReply)
+ *
+ * Inbound replies are forwarded to `tnz-inbound` for AI agent routing.
  */
 
 Deno.serve(async (req) => {
@@ -26,11 +28,44 @@ Deno.serve(async (req) => {
     const payload = await req.json();
     console.log("TNZ webhook payload:", JSON.stringify(payload));
 
-    // TNZ delivery report fields
+    const type = (payload.Type || payload.type || "").toString();
     const messageId = payload.MessageID || payload.messageId || payload.message_id;
     const status = payload.Status || payload.status;
-    const destination = payload.Destination || payload.destination;
 
+    // ── INBOUND REPLY → forward to unified inbound gateway for AI routing ──
+    if (type.toLowerCase().includes("reply") || type.toLowerCase() === "inbound") {
+      const inboundPayload = {
+        From: payload.Destination || payload.destination || "", // customer number
+        To: payload.Sender || payload.sender || "",              // our sender id
+        Message: payload.Message || payload.message || "",
+        MessageID: payload.ReceivedID || payload.MessageID || "",
+        Channel: type.toLowerCase().includes("whatsapp") ? "whatsapp" : "sms",
+        ReplyTo: payload.MessageID || null,
+      };
+
+      console.log("[tnz-webhook] Forwarding inbound reply →", JSON.stringify(inboundPayload));
+
+      try {
+        const resp = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-inbound`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Deno.env.get("SUPABASE_ANON_KEY")}`,
+          },
+          body: JSON.stringify(inboundPayload),
+        });
+        const result = await resp.text();
+        console.log("[tnz-webhook] tnz-inbound response:", resp.status, result);
+      } catch (e) {
+        console.error("[tnz-webhook] Forward error:", e);
+      }
+
+      return new Response(JSON.stringify({ ok: true, forwarded: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // ── DELIVERY STATUS UPDATE ──
     if (!messageId) {
       console.log("No MessageID in payload — ignoring");
       return new Response(JSON.stringify({ ok: true }), {
@@ -38,12 +73,13 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Map TNZ status to our status enum
     const statusMap: Record<string, string> = {
       Sent: "sent",
+      SUCCESS: "delivered",
       Delivered: "delivered",
       Read: "read",
       Failed: "failed",
+      FAILED: "failed",
       Expired: "failed",
       Rejected: "failed",
       Pending: "processing",
@@ -51,7 +87,6 @@ Deno.serve(async (req) => {
 
     const mappedStatus = statusMap[status] || "sent";
 
-    // Update message status by TNZ message ID
     const { error } = await sb
       .from("messaging_messages")
       .update({ status: mappedStatus })
