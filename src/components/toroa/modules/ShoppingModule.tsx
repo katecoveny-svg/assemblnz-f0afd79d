@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ShoppingCart, Plus, Check, DollarSign } from "lucide-react";
+import { ShoppingCart, Plus, Check, DollarSign, X } from "lucide-react";
 
 const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
@@ -21,6 +21,7 @@ interface Props {
   spent: number;
   onToggle: (id: string) => void;
   onAdd: (item: string) => void;
+  onDelete?: (id: string) => void;
 }
 
 const glass = {
@@ -31,7 +32,7 @@ const glass = {
 
 const categories = ["groceries", "household", "school", "personal", "other"];
 
-export default function ShoppingModule({ items, weeklyBudget, spent, onToggle, onAdd }: Props) {
+export default function ShoppingModule({ items, weeklyBudget, spent, onToggle, onAdd, onDelete }: Props) {
   const [newItem, setNewItem] = useState("");
   const pct = Math.min(100, Math.round((spent / weeklyBudget) * 100));
   const over = spent > weeklyBudget;
@@ -69,28 +70,34 @@ export default function ShoppingModule({ items, weeklyBudget, spent, onToggle, o
         <div key={cat} className="rounded-xl p-4 space-y-2" style={glass}>
           <h3 className="font-display text-[10px] uppercase tracking-wider" style={{ color: `${POUNAMU}AA` }}>{cat}</h3>
           {catItems.map((item) => (
-            <motion.button
-              key={item.id}
-              onClick={() => onToggle(item.id)}
-              className="w-full flex items-center gap-2 p-2 rounded-lg text-left transition-all"
-              style={{ background: item.purchased ? `${POUNAMU}06` : "transparent" }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <div className="w-5 h-5 rounded flex items-center justify-center shrink-0" style={{
-                border: `1px solid ${item.purchased ? POUNAMU : "#9CA3AF"}`,
-                background: item.purchased ? `${POUNAMU}20` : "transparent"
-              }}>
-                {item.purchased && <Check size={12} style={{ color: POUNAMU }} />}
-              </div>
-              <span className={`font-body text-xs flex-1 ${item.purchased ? "line-through" : ""}`} style={{ color: item.purchased ? "#9CA3AF" : "#9CA3AF" }}>
-                {item.item}{item.quantity > 1 ? ` ×${item.quantity}` : ""}
-              </span>
-              {item.estimated_cost_cents && (
-                <span className="font-mono text-[9px]" style={{ color: "#9CA3AF" }}>
-                  ${(item.estimated_cost_cents / 100).toFixed(2)}
+            <div key={item.id} className="group flex items-center gap-2">
+              <motion.button
+                onClick={() => onToggle(item.id)}
+                className="flex-1 flex items-center gap-2 p-2 rounded-lg text-left transition-all"
+                style={{ background: item.purchased ? `${POUNAMU}06` : "transparent" }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <div className="w-5 h-5 rounded flex items-center justify-center shrink-0" style={{
+                  border: `1px solid ${item.purchased ? POUNAMU : "#9CA3AF"}`,
+                  background: item.purchased ? `${POUNAMU}20` : "transparent"
+                }}>
+                  {item.purchased && <Check size={12} style={{ color: POUNAMU }} />}
+                </div>
+                <span className={`font-body text-xs flex-1 ${item.purchased ? "line-through" : ""}`} style={{ color: item.purchased ? "#9CA3AF" : "#9CA3AF" }}>
+                  {item.item}{item.quantity > 1 ? ` ×${item.quantity}` : ""}
                 </span>
+                {item.estimated_cost_cents && (
+                  <span className="font-mono text-[9px]" style={{ color: "#9CA3AF" }}>
+                    ${(item.estimated_cost_cents / 100).toFixed(2)}
+                  </span>
+                )}
+              </motion.button>
+              {onDelete && (
+                <button onClick={() => onDelete(item.id)} className="p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50">
+                  <X size={12} style={{ color: "#ef4444" }} />
+                </button>
               )}
-            </motion.button>
+            </div>
           ))}
         </div>
       ))}
