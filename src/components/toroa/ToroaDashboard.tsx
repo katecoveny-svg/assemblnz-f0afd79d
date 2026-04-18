@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   Home, Users, PawPrint, GraduationCap, Shirt, Clock, ShoppingCart,
-  BookOpen, MessageSquare, Settings, ChevronLeft, Menu, X, Wifi,
+  BookOpen, MessageSquare, Settings, ChevronLeft, Menu, X, Wifi, Compass, Sparkles,
 } from "lucide-react";
 import toroaLogo from "@/assets/brand/toroa-logo.svg";
 import KeteBrainChat from "@/components/KeteBrainChat";
@@ -12,11 +12,11 @@ import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 
 // Modules
 import FamilyOverview from "./modules/FamilyOverview";
-import TodayDigest from "./modules/TodayDigest";
+import TodayDigest, { type DigestItem } from "./modules/TodayDigest";
 import PetModule from "./modules/PetModule";
 import SchoolModule from "./modules/SchoolModule";
 import UniformTracker from "./modules/UniformTracker";
-import AppointmentsModule from "./modules/AppointmentsModule";
+import AppointmentsModule, { type Appointment } from "./modules/AppointmentsModule";
 import ShoppingModule from "./modules/ShoppingModule";
 import HomeworkHelp from "./modules/HomeworkHelp";
 
@@ -55,12 +55,12 @@ const DEMO_FAMILY = {
   ],
 };
 
-const DEMO_DIGEST = [
-  { type: "alert" as const, text: "Permission slip — camp (due Friday)", urgent: true },
-  { type: "event" as const, text: "Mia — netball Saturday 9am (Western Springs)", time: "09:00" },
-  { type: "reminder" as const, text: "WoF due 15 April" },
-  { type: "event" as const, text: "Piano lesson — Wednesday 3:30pm", time: "15:30" },
-  { type: "task" as const, text: "Buddy — vet checkup next Tuesday" },
+const DEMO_DIGEST: DigestItem[] = [
+  { type: "alert", text: "Permission slip — camp (due Friday)", urgent: true },
+  { type: "event", text: "Mia — netball Saturday 9am (Western Springs)", time: "09:00" },
+  { type: "reminder", text: "WoF due 15 April" },
+  { type: "event", text: "Piano lesson — Wednesday 3:30pm", time: "15:30" },
+  { type: "task", text: "Buddy — vet checkup next Tuesday" },
 ];
 
 const DEMO_PETS = [
@@ -105,7 +105,7 @@ const DEMO_UNIFORMS = [
   { item_type: "Hat", size: "S", quantity: 1, condition: "fair" as const, child_name: "Ethan" },
 ];
 
-const DEMO_APPOINTMENTS = [
+const DEMO_APPOINTMENTS: Appointment[] = [
   { id: "1", title: "Buddy — vet checkup", appointment_at: "2026-04-15T10:00:00", location: "Grey Lynn Vet", category: "vet", status: "upcoming", member_name: "Buddy" },
   { id: "2", title: "Mia — dentist", appointment_at: "2026-04-18T14:30:00", location: "Ponsonby Dental", category: "dental", status: "upcoming", member_name: "Mia" },
   { id: "3", title: "WoF inspection", appointment_at: "2026-04-10T09:00:00", location: "AA Ponsonby", category: "general", status: "overdue", is_overdue: true },
@@ -139,6 +139,10 @@ export default function ToroaDashboard() {
   const [active, setActive] = useState<ModuleKey>("today");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [whatsappConnected, setWhatsappConnected] = useState(false);
+
+  // Editable state — every list is now CRUD'able from the UI
+  const [digest, setDigest] = useState(DEMO_DIGEST);
+  const [appointments, setAppointments] = useState(DEMO_APPOINTMENTS);
   const [shoppingItems, setShoppingItems] = useState(DEMO_SHOPPING);
 
   const toggleShopping = (id: string) => {
@@ -147,11 +151,14 @@ export default function ToroaDashboard() {
   const addShopping = (item: string) => {
     setShoppingItems(prev => [...prev, { id: Date.now().toString(), item, quantity: 1, category: "groceries", estimated_cost_cents: 0, purchased: false }]);
   };
+  const deleteShopping = (id: string) => {
+    setShoppingItems(prev => prev.filter(i => i.id !== id));
+  };
 
   const renderModule = () => {
     switch (active) {
       case "today":
-        return <TodayDigest items={DEMO_DIGEST} greeting="Kia ora, Sarah" />;
+        return <TodayDigest items={digest} greeting="Kia ora, Sarah" onChange={setDigest} />;
       case "family":
         return <FamilyOverview members={DEMO_FAMILY.members} pets={DEMO_FAMILY.pets} children={DEMO_FAMILY.children} />;
       case "pets":
@@ -161,9 +168,9 @@ export default function ToroaDashboard() {
       case "uniforms":
         return <UniformTracker items={DEMO_UNIFORMS} children={["Mia", "Ethan"]} />;
       case "appointments":
-        return <AppointmentsModule appointments={DEMO_APPOINTMENTS} />;
+        return <AppointmentsModule appointments={appointments} onChange={setAppointments} />;
       case "shopping":
-        return <ShoppingModule items={shoppingItems} weeklyBudget={25000} spent={16300} onToggle={toggleShopping} onAdd={addShopping} />;
+        return <ShoppingModule items={shoppingItems} weeklyBudget={25000} spent={16300} onToggle={toggleShopping} onAdd={addShopping} onDelete={deleteShopping} />;
       case "homework":
         return <HomeworkHelp children={DEMO_HW_CHILDREN} />;
     }
@@ -290,6 +297,32 @@ export default function ToroaDashboard() {
         <div className="h-px" style={{ background: `linear-gradient(90deg, transparent, ${KOWHAI}40, transparent)` }} />
 
         <div className="max-w-2xl mx-auto p-4 md:p-6 space-y-6">
+          {/* ── Voyage launcher tile ── */}
+          <Link
+            to="/voyage/plan"
+            className="block rounded-2xl p-4 transition-all hover:scale-[1.01] group"
+            style={{
+              background: `linear-gradient(135deg, ${KOWHAI}12, ${POUNAMU}10)`,
+              border: `1px solid ${KOWHAI}25`,
+              backdropFilter: "blur(14px)",
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${KOWHAI}20`, border: `1px solid ${KOWHAI}30` }}>
+                <Compass size={18} style={{ color: KOWHAI }} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <Sparkles size={10} style={{ color: KOWHAI }} />
+                  <p className="text-[9px] uppercase tracking-[0.2em]" style={{ color: KOWHAI }}>Voyage Agent</p>
+                </div>
+                <p className="text-xs mt-0.5" style={{ color: "#1A1D29", fontWeight: 500 }}>Plan a multi-family trip</p>
+                <p className="text-[10px] mt-0.5" style={{ color: "#6B7280" }}>Describe it in plain English — get destinations, days, convoys & a live map.</p>
+              </div>
+              <ChevronLeft size={14} className="rotate-180 group-hover:translate-x-0.5 transition-transform" style={{ color: KOWHAI }} />
+            </div>
+          </Link>
+
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
