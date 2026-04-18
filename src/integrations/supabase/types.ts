@@ -4034,16 +4034,73 @@ export type Database = {
           },
         ]
       }
+      industry_kb_chunks: {
+        Row: {
+          applicable_agents: Json
+          chunk_index: number
+          chunk_text: string
+          created_at: string
+          doc_title: string | null
+          document_id: string
+          embedding: string | null
+          id: string
+          kete: string
+          source_url: string | null
+          tier: number
+          token_estimate: number | null
+        }
+        Insert: {
+          applicable_agents?: Json
+          chunk_index: number
+          chunk_text: string
+          created_at?: string
+          doc_title?: string | null
+          document_id: string
+          embedding?: string | null
+          id?: string
+          kete: string
+          source_url?: string | null
+          tier: number
+          token_estimate?: number | null
+        }
+        Update: {
+          applicable_agents?: Json
+          chunk_index?: number
+          chunk_text?: string
+          created_at?: string
+          doc_title?: string | null
+          document_id?: string
+          embedding?: string | null
+          id?: string
+          kete?: string
+          source_url?: string | null
+          tier?: number
+          token_estimate?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "industry_kb_chunks_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "industry_knowledge_base"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       industry_knowledge_base: {
         Row: {
           applicable_agents: Json
+          chunk_count: number
           content: string | null
+          content_hash: string | null
           created_at: string
           doc_source_publisher: string | null
           doc_source_url: string | null
           doc_title: string
           id: string
           kete: string
+          last_fetch_status: string | null
+          last_fetched_at: string | null
           last_reviewed: string | null
           next_review_due: string | null
           notes: string | null
@@ -4055,13 +4112,17 @@ export type Database = {
         }
         Insert: {
           applicable_agents?: Json
+          chunk_count?: number
           content?: string | null
+          content_hash?: string | null
           created_at?: string
           doc_source_publisher?: string | null
           doc_source_url?: string | null
           doc_title: string
           id?: string
           kete: string
+          last_fetch_status?: string | null
+          last_fetched_at?: string | null
           last_reviewed?: string | null
           next_review_due?: string | null
           notes?: string | null
@@ -4073,13 +4134,17 @@ export type Database = {
         }
         Update: {
           applicable_agents?: Json
+          chunk_count?: number
           content?: string | null
+          content_hash?: string | null
           created_at?: string
           doc_source_publisher?: string | null
           doc_source_url?: string | null
           doc_title?: string
           id?: string
           kete?: string
+          last_fetch_status?: string | null
+          last_fetched_at?: string | null
           last_reviewed?: string | null
           next_review_due?: string | null
           notes?: string | null
@@ -10205,6 +10270,25 @@ export type Database = {
           message: Json
           msg_id: number
           read_ct: number
+        }[]
+      }
+      search_industry_kb: {
+        Args: {
+          filter_agent?: string
+          filter_kete?: string
+          match_count?: number
+          min_similarity?: number
+          query_embedding: string
+        }
+        Returns: {
+          chunk_id: string
+          chunk_text: string
+          doc_title: string
+          document_id: string
+          kete: string
+          similarity: number
+          source_url: string
+          tier: number
         }[]
       }
       search_memory: {

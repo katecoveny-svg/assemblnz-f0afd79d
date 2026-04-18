@@ -123,3 +123,7 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.esign-sign]
     verify_jwt = false
+  [functions.ikb-ingest]
+    verify_jwt = false
+  [functions.ikb-search]
+    verify_jwt = false
