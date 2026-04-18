@@ -8,6 +8,7 @@ import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
+import TextUsButton from "@/components/kete/TextUsButton";
 import { ARATAKI_USE_CASE } from "@/data/useCases";
 
 const ACCENT = "#4AA5A8";
@@ -192,6 +193,9 @@ export default function AratakiLandingPage() {
             }}>
               Run Arataki scenario <ArrowRight size={14} />
             </Link>
+            <div className="mt-6">
+              <TextUsButton keteName="Arataki" accentColor={ACCENT} showWhatsApp={false} />
+            </div>
           </div>
         </section>
 

@@ -8,6 +8,7 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import TextUsButton from "@/components/kete/TextUsButton";
 
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -289,6 +290,9 @@ export default function ToroaLandingPage() {
                 style={{ background: `linear-gradient(135deg, ${ACCENT}30, ${ACCENT}15)`, border: `1px solid ${ACCENT}50`, color: "#1A1D29" }}>
                 Start free — first month on us
               </a>
+              <div className="mt-6">
+                <TextUsButton keteName="Tōro" accentColor={ACCENT} showWhatsApp={true} />
+              </div>
             </motion.div>
           </motion.div>
         </section>
