@@ -6,8 +6,8 @@ import {
 /**
  * Canonical Assembl Kete registry.
  *
- * 6 industry Kete (Manaaki, Waihanga, Auaha, Arataki, Pikau, Hoko)
- * + Tōro whānau Kete. HOKO was added 2026-04 as the first V2
+ * 7 industry Kete (Manaaki, Waihanga, Auaha, Arataki, Pikau, Hoko, Ako)
+ * + Tōro whānau Kete. HOKO and AKO were added 2026-04 as the V2
  * expansion kete (see /docs/v2-expansion.md and
  * mem://features/v2-kete-expansion.md). Retired Kete — Hanga,
  * Pakihi, Waka, Hangarau, Hauora, Te Kāhui Reo — are intentionally

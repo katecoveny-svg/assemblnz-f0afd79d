@@ -82,7 +82,7 @@ const CompetitorComparison = () => (
         transition={{ delay: 0.2 }}
       >
         <p className="text-[10px] font-mono-jb text-muted-foreground uppercase tracking-wider mb-3">
-          All five industry kete available
+          All 7 industry kete + Tōro whānau available
         </p>
         <span className="text-2xl font-display font-light text-primary">From $590/mo NZD</span>
         <p className="text-[10px] font-body text-muted-foreground mt-2">

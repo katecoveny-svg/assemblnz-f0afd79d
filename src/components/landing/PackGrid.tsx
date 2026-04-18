@@ -102,7 +102,7 @@ const PackGrid = () => {
         {/* Hero orb */}
         <KeteOrbHero />
 
-        {/* The 6 industry kete */}
+        {/* The 7 industry kete + Tōro whānau */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           {PACKS.map((pack, idx) => (
             <motion.div

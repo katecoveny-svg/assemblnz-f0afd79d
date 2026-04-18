@@ -41,7 +41,7 @@ const PLANS = [
     price: "$2,890",
     period: "/mo",
     setup: "$2,990 setup",
-    desc: "All 6 industry kete · unlimited seats · 99.9% SLA",
+    desc: "All 7 industry kete + Tōro · unlimited seats · 99.9% SLA",
     priceId: STRIPE_TIERS.enterprise.price_id,
     recommended: false,
   },
