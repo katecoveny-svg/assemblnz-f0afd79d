@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   HardHat, UtensilsCrossed, Palette, Car, Package,
-  Bird, ArrowRight
+  Bird, ArrowRight, ShoppingBag
 } from "lucide-react";
 import { KETE } from "@/data/pricing";
 
@@ -12,6 +12,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
   auaha: Palette,
   arataki: Car,
   pikau: Package,
+  hoko: ShoppingBag,
 };
 
 const COLOR_MAP: Record<string, string> = {
@@ -20,6 +21,7 @@ const COLOR_MAP: Record<string, string> = {
   auaha: "#E8702A",
   arataki: "#E8E8E8",
   pikau: "#7ECFC2",
+  hoko: "#C66B5C",
 };
 
 const LINK_MAP: Record<string, string> = {
@@ -28,6 +30,7 @@ const LINK_MAP: Record<string, string> = {
   auaha: "/auaha",
   arataki: "/arataki",
   pikau: "/pikau",
+  hoko: "/hoko",
 };
 
 const WANANGA_MAP: Record<string, { wananga: string; wanangaEn: string }> = {
@@ -36,6 +39,7 @@ const WANANGA_MAP: Record<string, { wananga: string; wanangaEn: string }> = {
   auaha: { wananga: "Te Kete Aronui", wanangaEn: "Human expression" },
   arataki: { wananga: "Te Kete Tuauri", wanangaEn: "Dealership operations" },
   pikau: { wananga: "Te Kete Tuauri", wanangaEn: "Trade & compliance" },
+  hoko: { wananga: "Te Kete Tuatea", wanangaEn: "Trade & exchange" },
 };
 
 const TORO = {

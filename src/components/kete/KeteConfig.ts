@@ -1,19 +1,20 @@
 import type { LucideIcon } from "lucide-react";
 import {
-  UtensilsCrossed, HardHat, Palette, Car, Package, Bird,
+  UtensilsCrossed, HardHat, Palette, Car, Package, Bird, ShoppingBag,
 } from "lucide-react";
 
 /**
  * Canonical Assembl Kete registry.
  *
- * Locked to the 5 industry Kete + Tōro whānau Kete per the
- * PackGrid homepage contract (see src/components/landing/PackGrid.tsx
- * and PRICING-LOCKED.md). Retired Kete — Hanga, Pakihi, Waka,
- * Hangarau, Hauora, Te Kāhui Reo — are intentionally absent so
- * legacy references cannot leak back into the UI.
+ * 6 industry Kete (Manaaki, Waihanga, Auaha, Arataki, Pikau, Hoko)
+ * + Tōro whānau Kete. HOKO was added 2026-04 as the first V2
+ * expansion kete (see /docs/v2-expansion.md and
+ * mem://features/v2-kete-expansion.md). Retired Kete — Hanga,
+ * Pakihi, Waka, Hangarau, Hauora, Te Kāhui Reo — are intentionally
+ * absent so legacy references cannot leak back into the UI.
  *
- * The canonical Māori rebrand names (Waihanga, Manaaki, Pikau,
- * Auaha, Arataki, Tōro) are the source of truth for every
+ * The canonical Māori names (Waihanga, Manaaki, Pikau, Auaha,
+ * Arataki, Hoko, Tōro) are the source of truth for every
  * downstream component that renders or links to a Kete.
  */
 export interface KeteDefinition {
@@ -66,6 +67,13 @@ export const KETE_CONFIG: KeteDefinition[] = [
     description: "Customs entries, freight quotes, dangerous goods checks — border compliance without the scramble.",
     wananga: "Te Kete Tuauri — the basket of movement and trade",
     route: "/pikau", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
+  },
+  {
+    id: "hoko", name: "Hoko", nameEn: "Retail",
+    color: "#C66B5C", icon: ShoppingBag, agentCount: 10, group: "business",
+    description: "Pricing intelligence vs Temu/Amazon, POS-driven re-orders, FTA/CGA compliance lint, unified customer view — for the $92.3bn NZ retail sector.",
+    wananga: "Te Kete Tuatea — the basket of trade and exchange",
+    route: "/hoko", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
     id: "toro", name: "Toro", nameEn: "Whānau Family Navigator",
