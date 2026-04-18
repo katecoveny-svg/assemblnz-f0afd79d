@@ -6,6 +6,7 @@ import { agents } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import AdminCommandSidebar from "@/components/admin/AdminCommandSidebar";
 import AdminAgentDirectory from "@/components/admin/AdminAgentDirectory";
+import AdminKeteOverview from "@/components/admin/AdminKeteOverview";
 import AdminOutputLibrary from "@/components/admin/AdminOutputLibrary";
 import AgentTestResultsTab from "@/components/admin/AgentTestResultsTab";
 import AdminPipelineTab from "@/components/admin/AdminPipelineTab";
@@ -279,8 +280,9 @@ const AdminDashboard = () => {
               {/* Quick action buttons */}
               <div className="flex gap-3 flex-wrap">
                 {[
+                  { label: "Kete Overview", section: "kete", color: POUNAMU, icon: Bot },
+                  { label: "Agent Directory", section: "agents", color: "#3A6A9C", icon: Bot },
                   { label: "Open Creative Studio", section: "creative", color: "#F0D078", icon: Sparkles },
-                  { label: "Agent Directory", section: "agents", color: POUNAMU, icon: Bot },
                   { label: "Output Library", section: "outputs", color: TEAL, icon: FolderOpen },
                 ].map((btn) => (
                   <button
@@ -457,6 +459,9 @@ const AdminDashboard = () => {
               </GlassCard>
             </div>
           )}
+
+          {/* ═══ KETE ═══ */}
+          {section === "kete" && <AdminKeteOverview />}
 
           {/* ═══ AGENTS ═══ */}
           {section === "agents" && <AdminAgentDirectory />}

@@ -1,8 +1,29 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { agents, packs } from "@/data/agents";
+import { agents } from "@/data/agents";
+import { KETE_CONFIG } from "@/components/kete/KeteConfig";
 import AgentAvatar from "@/components/AgentAvatar";
 import { MessageSquare, FlaskConical, Search, Filter } from "lucide-react";
+
+// Map legacy/transitional pack ids in src/data/agents.ts to canonical KETE_CONFIG ids.
+// Keeps the directory aligned to the 7 industry kete + Tōro source of truth.
+const PACK_TO_KETE: Record<string, string> = {
+  manaaki: "manaaki",
+  waihanga: "waihanga",
+  auaha: "auaha",
+  arataki: "arataki",
+  waka: "arataki",
+  pikau: "pikau",
+  hoko: "hoko",
+  pakihi: "hoko",
+  ako: "ako",
+  hauora: "ako",
+  toroa: "toro",
+  toro: "toro",
+  hangarau: "core",
+  "te-kahui-reo": "core",
+  core: "core",
+};
 
 const GOLD = "#D4A843";
 
@@ -18,20 +39,30 @@ export default function AdminAgentDirectory() {
   const [search, setSearch] = useState("");
   const [filterPack, setFilterPack] = useState("all");
 
+  // Resolve every agent to a canonical kete id
+  const agentKete = (a: typeof agents[number]) =>
+    PACK_TO_KETE[a.pack ?? "core"] ?? "core";
+
   const filtered = agents.filter((a) => {
     const matchSearch =
       !search ||
       a.name.toLowerCase().includes(search.toLowerCase()) ||
       a.role.toLowerCase().includes(search.toLowerCase());
-    const matchPack = filterPack === "all" || a.pack === filterPack;
+    const matchPack = filterPack === "all" || agentKete(a) === filterPack;
     return matchSearch && matchPack;
   });
 
-  const packCounts = agents.reduce<Record<string, number>>((acc, a) => {
-    const p = a.pack || "other";
-    acc[p] = (acc[p] || 0) + 1;
+  const keteCounts = agents.reduce<Record<string, number>>((acc, a) => {
+    const k = agentKete(a);
+    acc[k] = (acc[k] || 0) + 1;
     return acc;
   }, {});
+
+  // Filter buttons: all canonical kete + a "Core" bucket for shared agents
+  const filterButtons = [
+    ...KETE_CONFIG.map((k) => ({ id: k.id, name: k.name, color: k.color })),
+    { id: "core", name: "Shared Core", color: "#3D4250" },
+  ];
 
   return (
     <div className="space-y-6">
@@ -44,7 +75,7 @@ export default function AdminAgentDirectory() {
           Agent Directory
         </h2>
         <p className="text-sm mt-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
-          {agents.length} specialist agents across {packs.length} kete
+          {agents.length} specialist agents across {KETE_CONFIG.length} kete + shared core
         </p>
       </div>
 
@@ -81,7 +112,7 @@ export default function AdminAgentDirectory() {
           >
             All ({agents.length})
           </button>
-          {packs.map((p) => (
+          {filterButtons.map((p) => (
             <button
               key={p.id}
               onClick={() => setFilterPack(p.id)}
@@ -102,7 +133,7 @@ export default function AdminAgentDirectory() {
                   className="w-2 h-2 rounded-full"
                   style={{ background: p.color }}
                 />
-                {p.name} ({packCounts[p.id] || 0})
+                {p.name} ({keteCounts[p.id] || 0})
               </span>
             </button>
           ))}
@@ -112,7 +143,8 @@ export default function AdminAgentDirectory() {
       {/* Agent Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {filtered.map((agent) => {
-          const pack = packs.find((p) => p.id === agent.pack);
+          const keteId = agentKete(agent);
+          const pack = filterButtons.find((p) => p.id === keteId);
           return (
             <div
               key={agent.id}
