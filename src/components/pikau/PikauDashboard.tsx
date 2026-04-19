@@ -11,14 +11,7 @@ import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator"
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 import { LiquidPanel, LiquidButton, GlowBadge } from "@/components/marama";
-
-// Compat shim: map legacy DashboardGlassCard usages to the new LiquidPanel
-// while we incrementally rewrite the rest of this file.
-const DashboardGlassCard = ({ accentColor, glow: _glow, className, children }: any) => (
-  <LiquidPanel accent={accentColor} className={className} animate={false}>
-    {children}
-  </LiquidPanel>
-);
+import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 
 const ACCENT = "#7ECFC2";
 const ACCENT_LIGHT = "#A8E6DA";
