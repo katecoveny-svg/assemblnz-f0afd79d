@@ -186,7 +186,7 @@ export default function ToroaDashboard() {
       }}>
         {/* Logo */}
         <div className="p-5 flex items-center gap-3" style={{ borderBottom: `1px solid ${KOWHAI}08` }}>
-          <img src={toroaLogo} alt="Tōro" className="w-8 h-8" style={{ filter: `drop-shadow(0 0 8px ${KOWHAI}30)` }} />
+          <img loading="lazy" decoding="async" src={toroaLogo} alt="Tōro" className="w-8 h-8" style={{ filter: `drop-shadow(0 0 8px ${KOWHAI}30)` }} >
           <div>
             <h1 className="font-display text-sm uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: "#1A1D29" }}>Tōro</h1>
             <p className="font-body text-[9px]" style={{ color: "#9CA3AF" }}>Whānau Navigator</p>
@@ -252,7 +252,7 @@ export default function ToroaDashboard() {
         backdropFilter: "blur(20px)",
       }}>
         <div className="flex items-center gap-2">
-          <img src={toroaLogo} alt="Tōro" className="w-6 h-6" />
+          <img loading="lazy" decoding="async" src={toroaLogo} alt="Tōro" className="w-6 h-6" >
           <span className="font-display text-xs uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: "#1A1D29" }}>Tōro</span>
         </div>
         <button onClick={() => setSidebarOpen(!sidebarOpen)}>

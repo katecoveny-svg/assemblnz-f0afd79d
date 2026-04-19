@@ -211,11 +211,11 @@ export default function AdminOutputLibrary() {
                 {/* Image preview */}
                 {item.imageUrl ? (
                   <div className="relative aspect-video overflow-hidden">
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={item.imageUrl}
                       alt={item.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                    >
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                     <span
                       className="absolute top-3 right-3 text-[9px] font-bold px-2 py-1 rounded-lg uppercase"
