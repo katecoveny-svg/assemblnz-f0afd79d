@@ -11,6 +11,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
 import TextUsButton from "@/components/kete/TextUsButton";
 import HokoPriceScannerDemo from "@/components/hoko/HokoPriceScannerDemo";
 import HokoWorkflowExplorer from "@/components/hoko/HokoWorkflowExplorer";
@@ -329,6 +330,7 @@ export default function HokoLandingPage() {
           </div>
         </section>
 
+        <KnowledgeSourcesStrip keteCode="HOKO" />
         <BrandFooter />
       </div>
     </LightPageShell>

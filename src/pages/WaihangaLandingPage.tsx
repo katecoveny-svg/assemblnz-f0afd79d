@@ -8,6 +8,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
 
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
@@ -296,6 +297,7 @@ export default function WaihangaLandingPage() {
           </motion.div>
         </section>
 
+        <KnowledgeSourcesStrip keteCode="WAIHANGA" />
         <BrandFooter />
         <KeteAgentChat
           keteName="Waihanga" keteLabel="Construction" accentColor="#3A7D6E"

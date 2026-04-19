@@ -166,6 +166,7 @@ const ShowcasePage = lazy(() => import("./pages/ShowcasePage"));
 const CouncilPage = lazy(() => import("./pages/CouncilPage"));
 const SubbiesPage = lazy(() => import("./pages/waihanga/SubbiesPage"));
 const ReelsPage = lazy(() => import("./pages/auaha/ReelsPage"));
+const KnowledgeCataloguePage = lazy(() => import("./pages/KnowledgeCataloguePage"));
 
 const queryClient = new QueryClient();
 
@@ -253,6 +254,7 @@ const App = () => (
                         <Route path="/waihanga/workflows" element={<Suspense fallback={null}><WaihangaWorkflows /></Suspense>} />
                         <Route path="/sector/workflows" element={<Suspense fallback={null}><SectorWorkflows /></Suspense>} />
                         <Route path="/admin/kb-priorities" element={<Suspense fallback={null}><AdminKbPriorities /></Suspense>} />
+                        <Route path="/knowledge" element={<Suspense fallback={null}><KnowledgeCataloguePage /></Suspense>} />
                         <Route path="/pikau/cbaff" element={<Suspense fallback={null}><PikauCbaffLanding /></Suspense>} />
                         <Route path="/arataki/mta" element={<Suspense fallback={null}><ArtakiMtaLanding /></Suspense>} />
                         <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />

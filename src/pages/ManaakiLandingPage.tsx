@@ -9,6 +9,7 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
 
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
@@ -517,6 +518,7 @@ export default function ManaakiLandingPage() {
           </motion.div>
         </section>
 
+        <KnowledgeSourcesStrip keteCode="MANAAKI" />
         <BrandFooter />
         <KeteAgentChat
           keteName="Manaaki" keteLabel="Hospitality & Tourism" accentColor="#D4A843"

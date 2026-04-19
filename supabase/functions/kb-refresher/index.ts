@@ -1,8 +1,8 @@
 // ═══════════════════════════════════════════════════════════════
-// kb-refresher — pulls a KB priority document's source via Firecrawl,
-// stores an excerpt + content hash on kb_priority_documents, marks
-// last_refreshed_at + last_refresh_status. Auth: requires JWT, only
-// users with the `business` role may invoke.
+// kb-refresher — pulls a knowledge document's source via Firecrawl,
+// stores content + content hash + chunk count placeholder on
+// industry_knowledge_base, marks last_fetched_at + last_fetch_status.
+// Auth: requires JWT, only users with the `business` role may invoke.
 // ═══════════════════════════════════════════════════════════════
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
@@ -54,13 +54,17 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: "documentId is required" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const { data: doc, error: fetchErr } = await admin.from("kb_priority_documents").select("id, title, source_url").eq("id", documentId).maybeSingle();
+    const { data: doc, error: fetchErr } = await admin
+      .from("industry_knowledge_base")
+      .select("id, doc_title, doc_source_url, content_hash")
+      .eq("id", documentId)
+      .maybeSingle();
     if (fetchErr || !doc) {
       return new Response(JSON.stringify({ error: "Document not found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
-    if (!doc.source_url) {
-      await admin.from("kb_priority_documents").update({
-        last_refreshed_at: new Date().toISOString(), last_refresh_status: "skipped: no source_url",
+    if (!doc.doc_source_url) {
+      await admin.from("industry_knowledge_base").update({
+        last_fetched_at: new Date().toISOString(), last_fetch_status: "skipped: no source_url",
       }).eq("id", doc.id);
       return new Response(JSON.stringify({ ok: false, reason: "no source_url" }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
@@ -68,31 +72,32 @@ Deno.serve(async (req) => {
     const fcRes = await fetch(`${FIRECRAWL_V2}/scrape`, {
       method: "POST",
       headers: { Authorization: `Bearer ${firecrawlKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ url: doc.source_url, formats: ["markdown"], onlyMainContent: true }),
+      body: JSON.stringify({ url: doc.doc_source_url, formats: ["markdown"], onlyMainContent: true }),
     });
     const fcJson = await fcRes.json().catch(() => null) as { markdown?: string; data?: { markdown?: string }; error?: string } | null;
     if (!fcRes.ok) {
-      await admin.from("kb_priority_documents").update({
-        last_refreshed_at: new Date().toISOString(),
-        last_refresh_status: `error ${fcRes.status}: ${(fcJson?.error || "scrape failed").slice(0, 200)}`,
+      await admin.from("industry_knowledge_base").update({
+        last_fetched_at: new Date().toISOString(),
+        last_fetch_status: `error ${fcRes.status}: ${(fcJson?.error || "scrape failed").slice(0, 200)}`,
       }).eq("id", doc.id);
       return new Response(JSON.stringify({ ok: false, error: fcJson?.error || "Firecrawl failed", status: fcRes.status }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     const markdown = fcJson?.markdown ?? fcJson?.data?.markdown ?? "";
     const hash = markdown ? await sha256(markdown) : null;
-    const excerpt = markdown.slice(0, 1500);
     const now = new Date().toISOString();
+    const unchanged = hash && doc.content_hash === hash;
 
-    await admin.from("kb_priority_documents").update({
-      last_verified_at: now,
-      last_refreshed_at: now,
-      last_refresh_status: markdown ? "ok" : "empty",
+    await admin.from("industry_knowledge_base").update({
+      last_fetched_at: now,
+      last_reviewed: now.slice(0, 10),
+      last_fetch_status: markdown ? (unchanged ? "ok: unchanged" : "ok: updated") : "empty",
       content_hash: hash,
-      content_excerpt: excerpt,
+      content: markdown.slice(0, 50000),
+      summary: markdown.slice(0, 600),
     }).eq("id", doc.id);
 
-    return new Response(JSON.stringify({ ok: true, bytes: markdown.length, hash }), {
+    return new Response(JSON.stringify({ ok: true, bytes: markdown.length, hash, unchanged }), {
       status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
