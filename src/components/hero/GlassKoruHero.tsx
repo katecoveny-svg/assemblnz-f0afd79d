@@ -106,22 +106,28 @@ const GlassKoruHero = () => {
         </div>
 
         {/* Right: photographic koru orb */}
-        <div className="relative w-full flex items-center justify-center">
-          {/* Halo glow behind orb */}
+        <div className="relative w-full flex items-center justify-center koru-orb-stage">
+          {/* Halo glow behind orb — pulses gently */}
           <div
-            className="absolute inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none koru-orb-halo"
             style={{
               background:
-                "radial-gradient(circle at 50% 50%, rgba(168,221,219,0.55) 0%, rgba(200,235,233,0.25) 35%, transparent 65%)",
-              filter: "blur(20px)",
+                "radial-gradient(circle at 50% 50%, rgba(168,221,219,0.6) 0%, rgba(200,235,233,0.28) 35%, transparent 65%)",
+              filter: "blur(22px)",
             }}
           />
+          {/* Sparkle motes drifting around the orb */}
+          <span className="koru-mote koru-mote--a" />
+          <span className="koru-mote koru-mote--b" />
+          <span className="koru-mote koru-mote--c" />
+          <span className="koru-mote koru-mote--d" />
+
           <img
             src={heroOrb}
             alt="Glass koru orb — engraved spiral inside a luminous sphere representing Aotearoa intelligence"
-            className="relative w-full max-w-[560px] lg:max-w-[640px] h-auto object-contain"
+            className="relative w-full max-w-[560px] lg:max-w-[640px] h-auto object-contain koru-orb-img"
             style={{
-              filter: "drop-shadow(0 30px 60px rgba(74,138,140,0.18))",
+              filter: "drop-shadow(0 30px 60px rgba(74,138,140,0.22))",
             }}
             loading="eager"
             fetchPriority="high"
