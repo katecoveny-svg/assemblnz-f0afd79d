@@ -579,6 +579,24 @@ html {
 .light-glass-shell .text-white\/30     { color: rgba(31,35,48,0.38) !important; }
 .kete-light-shell .text-white\/20,
 .light-glass-shell .text-white\/20     { color: rgba(31,35,48,0.30) !important; }
+.kete-light-shell .text-white\/15,
+.light-glass-shell .text-white\/15     { color: rgba(31,35,48,0.40) !important; }
+.kete-light-shell .text-white\/10,
+.light-glass-shell .text-white\/10     { color: rgba(31,35,48,0.38) !important; }
+.kete-light-shell .text-white\/25,
+.light-glass-shell .text-white\/25     { color: rgba(31,35,48,0.45) !important; }
+.kete-light-shell .text-white\/5,
+.light-glass-shell .text-white\/5      { color: rgba(31,35,48,0.36) !important; }
+.kete-light-shell .text-white\/85,
+.light-glass-shell .text-white\/85     { color: rgba(31,35,48,0.88) !important; }
+.kete-light-shell .text-white\/75,
+.light-glass-shell .text-white\/75     { color: rgba(31,35,48,0.80) !important; }
+.kete-light-shell .text-white\/65,
+.light-glass-shell .text-white\/65     { color: rgba(31,35,48,0.72) !important; }
+.kete-light-shell .text-white\/55,
+.light-glass-shell .text-white\/55     { color: rgba(31,35,48,0.60) !important; }
+.kete-light-shell .text-white\/45,
+.light-glass-shell .text-white\/45     { color: rgba(31,35,48,0.50) !important; }
 
 /* Plain Tailwind grays that were chosen for dark bg */
 .kete-light-shell .text-gray-200,
