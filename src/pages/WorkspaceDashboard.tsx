@@ -10,6 +10,7 @@ import {
 import { toast } from "sonner";
 import SEO from "@/components/SEO";
 import FirstWorkflowTour from "@/components/onboarding/FirstWorkflowTour";
+import EmptyWorkspaceState from "@/components/workspace/EmptyWorkspaceState";
 
 interface Tenant {
   id: string;
@@ -300,18 +301,18 @@ export default function WorkspaceDashboard() {
             </motion.div>
           )}
 
-          {/* Workflows */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="rounded-xl p-5"
-            style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
-          >
-            <h2 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-              <Play size={16} style={{ color: accent }} /> Your workflows
-            </h2>
-            {workflows.length > 0 ? (
+          {/* Workflows — populated state OR inspiring empty state */}
+          {workflows.length > 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="rounded-xl p-5"
+              style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}
+            >
+              <h2 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                <Play size={16} style={{ color: accent }} /> Your workflows
+              </h2>
               <div className="space-y-2">
                 {workflows.map((w, i) => (
                   <div key={i} className="p-3 rounded-lg" style={{ background: `${accent}06` }}>
@@ -327,10 +328,14 @@ export default function WorkspaceDashboard() {
                   </div>
                 ))}
               </div>
-            ) : (
-              <p className="text-xs text-gray-400">Your workflows will appear here once the plan is loaded.</p>
-            )}
-          </motion.div>
+            </motion.div>
+          ) : (
+            <EmptyWorkspaceState
+              accent={accent}
+              keteKey={tenant.kete_primary || "MANAAKI"}
+              keteLabel={keteLabel}
+            />
+          )}
 
           {/* Proof-of-life evidence brief */}
           {evidenceBrief && (

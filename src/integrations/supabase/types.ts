@@ -2818,8 +2818,12 @@ export type Database = {
           created_at: string | null
           evidence_json: Json
           id: string
+          is_publicly_shared: boolean
           kete: string
           request_id: string
+          share_token: string | null
+          share_view_count: number
+          shared_at: string | null
           signed_at: string | null
           signed_by: string | null
           user_id: string
@@ -2830,8 +2834,12 @@ export type Database = {
           created_at?: string | null
           evidence_json?: Json
           id?: string
+          is_publicly_shared?: boolean
           kete: string
           request_id: string
+          share_token?: string | null
+          share_view_count?: number
+          shared_at?: string | null
           signed_at?: string | null
           signed_by?: string | null
           user_id: string
@@ -2842,8 +2850,12 @@ export type Database = {
           created_at?: string | null
           evidence_json?: Json
           id?: string
+          is_publicly_shared?: boolean
           kete?: string
           request_id?: string
+          share_token?: string | null
+          share_view_count?: number
+          shared_at?: string | null
           signed_at?: string | null
           signed_by?: string | null
           user_id?: string
@@ -11090,6 +11102,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      increment_evidence_share_view: {
+        Args: { _token: string }
+        Returns: undefined
       }
       is_family_member: {
         Args: { _family_id: string; _user_id: string }
