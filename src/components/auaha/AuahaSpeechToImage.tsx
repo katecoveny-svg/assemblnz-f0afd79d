@@ -252,7 +252,7 @@ export default function AuahaSpeechToImage() {
             style={{ borderColor: "rgba(255,255,255,0.08)" }}
           >
             <div className="relative">
-              <img loading="lazy" decoding="async" src={imageUrl} alt="Generated from speech" className="w-full h-auto" >
+              <img loading="lazy" decoding="async" src={imageUrl} alt="Generated from speech" className="w-full h-auto" />
               <div className="absolute bottom-4 right-4 flex gap-2">
                 <a href={imageUrl} download className="p-2 rounded-lg backdrop-blur-xl" style={{
                   background: "rgba(0,0,0,0.6)",

@@ -278,7 +278,7 @@ export default function AdminMessagesPage() {
                     }`}>
                       {msg.media_url && msg.media_type === "image" && (
                         <div className="mb-2">
-                          <img loading="lazy" decoding="async" src={msg.media_url} alt="Shared" className="rounded-lg max-w-full max-h-48 object-cover" >
+                          <img loading="lazy" decoding="async" src={msg.media_url} alt="Shared" className="rounded-lg max-w-full max-h-48 object-cover" />
                           {msg.image_description && (
                             <p className="text-[10px] text-muted-foreground mt-1 italic">
                               AI: {msg.image_description}

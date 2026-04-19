@@ -117,8 +117,7 @@ const EchoChatWidget = () => {
             src={assemblMark}
             alt="Assembl"
             className="w-8 h-8 object-contain logo-glow"
-            draggable={false}
-          >
+            draggable={false} />
           <span className="absolute inset-0 rounded-full animate-ping opacity-15" style={{ border: "1px solid rgba(212,168,67,0.6)" }} />
         </button>
       )}
@@ -130,7 +129,7 @@ const EchoChatWidget = () => {
           style={{ background: "hsl(var(--background))", border: `1px solid ${ECHO_BORDER}`, boxShadow: `0 4px 20px rgba(212,168,67,0.15)` }}
           onClick={() => setMinimized(false)}
         >
-          <img loading="lazy" decoding="async" src={assemblMark} alt="Echo" className="w-6 h-6 object-contain logo-glow" >
+          <img loading="lazy" decoding="async" src={assemblMark} alt="Echo" className="w-6 h-6 object-contain logo-glow" />
           <span className="text-xs font-display font-bold" style={{ color: ECHO_COLOR }}>Echo</span>
           {messages.length > 0 && (
             <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: ECHO_BG_ACCENT, color: ECHO_COLOR }}>
@@ -160,7 +159,7 @@ const EchoChatWidget = () => {
         >
           {/* Header */}
           <header className="flex items-center gap-2.5 px-4 py-3 shrink-0" style={{ borderBottom: `1px solid ${ECHO_BORDER}` }}>
-            <img loading="lazy" decoding="async" src={assemblMark} alt="Echo" className="w-7 h-7 object-contain logo-glow" >
+            <img loading="lazy" decoding="async" src={assemblMark} alt="Echo" className="w-7 h-7 object-contain logo-glow" />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-display font-light text-sm tracking-wide" style={{ color: ECHO_COLOR }}>Echo</span>
@@ -199,7 +198,7 @@ const EchoChatWidget = () => {
           <div className="flex-1 overflow-y-auto px-4 py-4">
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full text-center gap-3">
-                <img loading="lazy" decoding="async" src={assemblMark} alt="Echo" className="w-14 h-14 object-contain logo-glow" >
+                <img loading="lazy" decoding="async" src={assemblMark} alt="Echo" className="w-14 h-14 object-contain logo-glow" />
                 <p className="text-sm font-body text-foreground/70 max-w-[280px] leading-relaxed">
                   Kia ora — I'm Echo. Tell me about your business and I'll show you which kete fits, what your team would actually use, and what it costs.
                 </p>
@@ -229,7 +228,7 @@ const EchoChatWidget = () => {
 
             {messages.map((msg, i) => (
               <div key={i} className={`flex gap-2 mb-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                {msg.role === "assistant" && <img loading="lazy" decoding="async" src={assemblMark} alt="" className="w-5 h-5 object-contain shrink-0 mt-1" >}
+                {msg.role === "assistant" && <img loading="lazy" decoding="async" src={assemblMark} alt="" className="w-5 h-5 object-contain shrink-0 mt-1" />}
                 <div
                   className="max-w-[85%] px-3 py-2 rounded-xl text-[13px] leading-relaxed"
                   style={
@@ -249,7 +248,7 @@ const EchoChatWidget = () => {
 
             {isLoading && (
               <div className="flex gap-2 items-center">
-                <img loading="lazy" decoding="async" src={assemblMark} alt="" className="w-5 h-5 object-contain" >
+                <img loading="lazy" decoding="async" src={assemblMark} alt="" className="w-5 h-5 object-contain" />
                 <div className="flex gap-1 px-3 py-2 text-[11px] font-body text-muted-foreground">
                   <span>Echo is thinking</span>
                   <span className="flex gap-0.5">

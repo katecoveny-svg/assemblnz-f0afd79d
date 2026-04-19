@@ -410,8 +410,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
                     <img loading="lazy" decoding="async"
                       src={generatedImage}
                       alt="Generated social media image"
-                      className="w-full h-auto"
-                    >
+                      className="w-full h-auto" />
                   </div>
                   <button
                     onClick={handleDownloadImage}

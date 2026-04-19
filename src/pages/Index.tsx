@@ -18,6 +18,8 @@ import GlassKoruHero from "@/components/hero/GlassKoruHero";
 import CompliancePipeline from "@/components/landing/CompliancePipeline";
 import MigrationFeatureSection from "@/components/MigrationFeatureSection";
 import ScrollDepthLayers from "@/components/hero/ScrollDepthLayers";
+import HomepageProofStrip from "@/components/kete/HomepageProofStrip";
+import WeeklyChangesDigest from "@/components/landing/WeeklyChangesDigest";
 import { DotDivider } from "@/components/MicroDetails";
 import { KeteHoverEffect } from "@/components/KeteHoverEffects";
 import { ALL_USE_CASES } from "@/data/useCases";
@@ -240,6 +242,11 @@ const Index = () => {
 
         {/* ═══ HERO ═══ */}
         <GlassKoruHero />
+
+        {/* ═══ LIVE PROOF STRIP ═══ */}
+        <div className="px-4 -mt-2 mb-4 text-center">
+          <HomepageProofStrip />
+        </div>
 
         {/* Video teaser is admin-only — see /admin/showcase-videos */}
 
@@ -544,6 +551,10 @@ const Index = () => {
 
         {/* ═══ COMPLIANCE PIPELINE ═══ */}
         <CompliancePipeline />
+
+        {/* ═══ WHAT CHANGED THIS WEEK ═══ */}
+        <WeeklyChangesDigest />
+
         {/* ═══ FINAL CTA ═══ */}
         <section className="relative px-6 py-32 text-center">
           <div className="max-w-xl mx-auto relative z-10">

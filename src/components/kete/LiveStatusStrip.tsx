@@ -57,6 +57,7 @@ export default function LiveStatusStrip({ pack, agentCodes, accent = "#3A7D6E" }
     };
   }, [pack, agentCodes.join(",")]);
 
+  const isLoading = sources === null || online === null;
   const freshness = lastSync ? formatAgo(new Date(lastSync)) : "—";
 
   return (
@@ -74,8 +75,17 @@ export default function LiveStatusStrip({ pack, agentCodes, accent = "#3A7D6E" }
     >
       <span className="flex items-center gap-1.5">
         <Database size={12} style={{ color: accent }} />
-        <span>{sources ?? "·"} live sources</span>
-        <span style={{ opacity: 0.5 }}>· synced {freshness}</span>
+        {isLoading ? (
+          <>
+            <span className="inline-block h-3 w-16 rounded-full animate-pulse" style={{ background: `${accent}20` }} />
+            <span style={{ opacity: 0.5 }}>· syncing…</span>
+          </>
+        ) : (
+          <>
+            <span>{sources} live sources</span>
+            <span style={{ opacity: 0.5 }}>· synced {freshness}</span>
+          </>
+        )}
       </span>
       <span style={{ width: 1, height: 12, background: `${accent}30` }} />
       <span className="flex items-center gap-1.5">
@@ -84,14 +94,19 @@ export default function LiveStatusStrip({ pack, agentCodes, accent = "#3A7D6E" }
           style={{
             width: 6,
             height: 6,
-            background: (online ?? 0) > 0 ? "#3A7D6E" : "#C66B5C",
-            boxShadow: (online ?? 0) > 0 ? `0 0 8px ${accent}80` : "none",
+            background: isLoading ? `${accent}40` : (online ?? 0) > 0 ? "#3A7D6E" : "#C66B5C",
+            boxShadow: !isLoading && (online ?? 0) > 0 ? `0 0 8px ${accent}80` : "none",
+            animation: isLoading ? "pulse 1.6s ease-in-out infinite" : undefined,
           }}
         />
         <Activity size={12} style={{ color: accent }} />
-        <span>
-          {online ?? "·"} / {agentCodes.length} agents online
-        </span>
+        {isLoading ? (
+          <span className="inline-block h-3 w-20 rounded-full animate-pulse" style={{ background: `${accent}20` }} />
+        ) : (
+          <span>
+            {online} / {agentCodes.length} agents online
+          </span>
+        )}
       </span>
     </div>
   );

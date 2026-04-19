@@ -138,7 +138,7 @@ export default function SignEnvelopePage() {
         <header className="border-b border-black/5 bg-white">
           <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              {tenant?.logo_url && <img loading="lazy" decoding="async" src={tenant.logo_url} alt="" className="h-7" >}
+              {tenant?.logo_url && <img loading="lazy" decoding="async" src={tenant.logo_url} alt="" className="h-7" />}
               <span className="text-sm font-medium" style={{ color: brandColor }}>{tenant?.name || "Document signing"}</span>
             </div>
             <div className="flex items-center gap-1.5 text-[11px] text-gray-500">
