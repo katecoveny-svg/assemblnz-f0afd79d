@@ -298,28 +298,82 @@ export default function ReelsPage() {
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-              {renders.map(r => (
-                <div key={r.id} className="rounded-xl overflow-hidden"
-                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", aspectRatio: "9/16" }}>
-                  {r.status === "completed" && r.video_url ? (
-                    <video src={r.video_url} controls playsInline className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center">
-                      {r.status === "failed" ? (
-                        <span className="text-xs" style={{ color: "#E88D67" }}>Failed</span>
+              {renders.map(r => {
+                const isEditing = editingId === r.id;
+                const isRegen = regeneratingId === r.id;
+                const tileBusy = isRegen || r.status === "processing" || r.status === "queued";
+                return (
+                  <div key={r.id} className="rounded-xl overflow-hidden flex flex-col"
+                    style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                    <div style={{ aspectRatio: "9/16", position: "relative" }}>
+                      {r.status === "completed" && r.video_url && !isRegen ? (
+                        <video src={r.video_url} controls playsInline className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center">
+                          {r.status === "failed" && !isRegen ? (
+                            <span className="text-xs" style={{ color: "#E88D67" }}>Failed</span>
+                          ) : (
+                            <>
+                              <Loader2 className="w-5 h-5 animate-spin mb-2" style={{ color: "#D4A853" }} />
+                              <span className="text-xs" style={{ color: "#9CA3AF" }}>
+                                {isRegen ? "Regenerating…" : `Rendering #${r.batch_index + 1}`}
+                              </span>
+                            </>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-2 space-y-2">
+                      {isEditing ? (
+                        <>
+                          <textarea
+                            value={editPrompt}
+                            onChange={e => setEditPrompt(e.target.value)}
+                            rows={3}
+                            className="w-full text-[11px] rounded p-2 bg-white/5 border border-white/10 outline-none resize-none"
+                            style={{ color: "#F5F0E8" }}
+                          />
+                          <div className="flex gap-1">
+                            <button
+                              onClick={() => regenerateOne(r.id, editPrompt)}
+                              disabled={!editPrompt.trim() || isRegen}
+                              className="flex-1 px-2 py-1 rounded text-[10px] flex items-center justify-center gap-1 disabled:opacity-40"
+                              style={{ background: "#3A7D6E", color: "#F5F0E8" }}>
+                              <Check className="w-3 h-3" /> Regen
+                            </button>
+                            <button
+                              onClick={cancelEdit}
+                              className="px-2 py-1 rounded text-[10px] flex items-center justify-center"
+                              style={{ background: "rgba(255,255,255,0.06)", color: "#9CA3AF" }}>
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        </>
                       ) : (
                         <>
-                          <Loader2 className="w-5 h-5 animate-spin mb-2" style={{ color: "#D4A853" }} />
-                          <span className="text-xs" style={{ color: "#9CA3AF" }}>Rendering #{r.batch_index + 1}</span>
+                          <div className="text-[11px] line-clamp-2" style={{ color: "#9CA3AF" }}>{r.prompt}</div>
+                          <div className="flex gap-1">
+                            <button
+                              onClick={() => regenerateOne(r.id)}
+                              disabled={tileBusy}
+                              className="flex-1 px-2 py-1 rounded text-[10px] flex items-center justify-center gap-1 disabled:opacity-40"
+                              style={{ background: "rgba(212,168,83,0.15)", color: "#D4A853" }}>
+                              <RefreshCw className={`w-3 h-3 ${isRegen ? "animate-spin" : ""}`} /> Redo
+                            </button>
+                            <button
+                              onClick={() => startEdit(r)}
+                              disabled={tileBusy}
+                              className="px-2 py-1 rounded text-[10px] flex items-center justify-center disabled:opacity-40"
+                              style={{ background: "rgba(255,255,255,0.06)", color: "#9CA3AF" }}>
+                              <Pencil className="w-3 h-3" />
+                            </button>
+                          </div>
                         </>
                       )}
                     </div>
-                  )}
-                  <div className="p-2 text-[11px] line-clamp-2" style={{ color: "#9CA3AF" }}>
-                    {r.prompt}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </motion.div>
         )}
