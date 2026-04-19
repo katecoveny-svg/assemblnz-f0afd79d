@@ -201,6 +201,101 @@ function DataPulse({
   );
 }
 
+/* ─── Outer Containment Sphere — the big glass orb ─── */
+function ContainmentSphere() {
+  const ref = useRef<THREE.Mesh>(null);
+  const haloRef = useRef<THREE.Mesh>(null);
+
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
+    if (ref.current) {
+      ref.current.rotation.y = t * 0.05;
+      ref.current.rotation.x = Math.sin(t * 0.2) * 0.05;
+    }
+    if (haloRef.current) {
+      const pulse = 0.5 + 0.5 * Math.sin(t * 1.2);
+      (haloRef.current.material as THREE.MeshBasicMaterial).opacity = 0.08 + pulse * 0.1;
+      haloRef.current.scale.setScalar(1 + pulse * 0.04);
+    }
+  });
+
+  return (
+    <group>
+      {/* Big outer glass shell */}
+      <mesh ref={ref}>
+        <sphereGeometry args={[4.4, 96, 96]} />
+        <MeshTransmissionMaterial
+          color="#E8FBFC"
+          transmission={0.98}
+          roughness={0.02}
+          clearcoat={1}
+          clearcoatRoughness={0.01}
+          ior={1.45}
+          samples={10}
+          distortion={0.2}
+          temporalDistortion={0.1}
+          envMapIntensity={3.5}
+          chromaticAberration={0.08}
+          thickness={1.2}
+          attenuationColor="#B8EAEC"
+          attenuationDistance={6}
+          backside
+        />
+      </mesh>
+      {/* Outer glow halo */}
+      <mesh ref={haloRef}>
+        <sphereGeometry args={[4.7, 48, 48]} />
+        <meshBasicMaterial color="#7DD4D6" transparent opacity={0.15} depthWrite={false} side={THREE.BackSide} />
+      </mesh>
+      {/* Soft inner luminance */}
+      <mesh>
+        <sphereGeometry args={[4.35, 48, 48]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.04} depthWrite={false} side={THREE.BackSide} />
+      </mesh>
+      {/* Specular highlight on top-left */}
+      <mesh position={[-1.6, 2.2, 2.5]}>
+        <sphereGeometry args={[0.6, 24, 24]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.5} />
+      </mesh>
+      {/* Bottom catch-light */}
+      <mesh position={[1.4, -2.4, 2.0]}>
+        <sphereGeometry args={[0.3, 16, 16]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.3} />
+      </mesh>
+    </group>
+  );
+}
+
+/* ─── Orbiting Data Nodes around the sphere ─── */
+function OrbitingNode({ radius, speed, phase, tilt, color, size = 0.08 }: {
+  radius: number; speed: number; phase: number; tilt: number; color: string; size?: number;
+}) {
+  const ref = useRef<THREE.Group>(null);
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    const t = clock.elapsedTime * speed + phase;
+    ref.current.position.set(
+      Math.cos(t) * radius,
+      Math.sin(t * 0.7) * radius * 0.3 + Math.sin(tilt) * radius * 0.2,
+      Math.sin(t) * radius,
+    );
+    const pulse = 0.7 + 0.3 * Math.sin(clock.elapsedTime * 3 + phase);
+    ref.current.scale.setScalar(pulse);
+  });
+  return (
+    <group ref={ref}>
+      <mesh>
+        <sphereGeometry args={[size, 12, 12]} />
+        <meshBasicMaterial color="#FFFFFF" />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[size * 2.5, 12, 12]} />
+        <meshBasicMaterial color={color} transparent opacity={0.4} depthWrite={false} />
+      </mesh>
+    </group>
+  );
+}
+
 /* ─── Main spiral scene ─── */
 function KoruScene() {
   const groupRef = useRef<THREE.Group>(null);
