@@ -15,7 +15,7 @@ export default function AdminShowcaseVideos() {
   if (loading || !isAdmin) return null;
 
   return (
-    <div style={{ background: "#FAFBFC", minHeight: "100vh" }}>
+    <div style={{ background: "transparent", minHeight: "100vh" }}>
       <div className="max-w-[1200px] mx-auto px-6 pt-8">
         <Link
           to="/admin/dashboard"

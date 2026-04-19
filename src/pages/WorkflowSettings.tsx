@@ -50,7 +50,7 @@ const WORKFLOW_ICONS: Record<string, any> = {
 };
 
 const glassCard: React.CSSProperties = {
-  background: "#FAFBFC",
+  background: "transparent",
   boxShadow: `
     6px 6px 16px rgba(166,166,180,0.35),
     -6px -6px 16px rgba(255,255,255,0.85),

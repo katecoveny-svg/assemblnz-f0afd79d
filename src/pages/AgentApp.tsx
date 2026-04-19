@@ -102,7 +102,7 @@ export default function AgentApp() {
 
   if (!agent) {
     return (
-      <div className="h-screen flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+      <div className="h-screen flex items-center justify-center" style={{ background: "transparent" }}>
         <div className="text-center">
           <p className="text-white/60">Agent not found</p>
           <Link to="/" className="text-sm mt-2 block" style={{ color: "#3A6A9C" }}>Back to Assembl</Link>
@@ -121,7 +121,7 @@ export default function AgentApp() {
   ];
 
   return (
-    <div className="h-screen flex flex-col" style={{ background: "#FAFBFC", color: "white" }}>
+    <div className="h-screen flex flex-col" style={{ background: "transparent", color: "white" }}>
       <PWAInstallBanner agentName={agent.name} agentColor={color} />
       {/* Top Bar */}
       <header className="flex items-center gap-3 px-4 py-3 border-b border-gray-100 shrink-0">

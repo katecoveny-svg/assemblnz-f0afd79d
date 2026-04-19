@@ -234,7 +234,7 @@ const AdminDashboard = () => {
   );
 
   return (
-    <div className="min-h-screen flex" style={{ background: "#FAFBFC", color: "#3D4250" }}>
+    <div className="min-h-screen flex" style={{ background: "transparent", color: "#3D4250" }}>
       {/* Atmospheric glows */}
       <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div className="absolute top-[5%] left-[10%] w-[600px] h-[600px] rounded-full"

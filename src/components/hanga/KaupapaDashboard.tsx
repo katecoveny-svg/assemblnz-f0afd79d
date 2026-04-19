@@ -131,7 +131,7 @@ export default function KaupapaDashboard() {
   ];
 
   return (
-    <div className="min-h-screen p-4 md:p-6 space-y-5" style={{ background: "#FAFBFC" }}>
+    <div className="min-h-screen p-4 md:p-6 space-y-5" style={{ background: "transparent" }}>
       {/* Starfield */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
         {Array.from({ length: 50 }).map((_, i) => (

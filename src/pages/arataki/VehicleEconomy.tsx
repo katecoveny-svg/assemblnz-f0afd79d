@@ -20,7 +20,7 @@ export default function VehicleEconomy() {
   const perKm = total / km;
 
   return (
-    <div style={{ background: "#FAFBFC", minHeight: "100vh", color: "#3D4250" }}>
+    <div style={{ background: "transparent", minHeight: "100vh", color: "#3D4250" }}>
       <SEO title="Vehicle Economy Calculator | Arataki | assembl" description="Real-world per-km cost including RUC, depreciation, maintenance, insurance for NZ fleets." />
       <BrandNav />
       <main className="max-w-4xl mx-auto px-6 pt-16 pb-32">

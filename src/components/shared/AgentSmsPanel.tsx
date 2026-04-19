@@ -179,7 +179,7 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
 
   if (!user) {
     return (
-      <div className="flex-1 flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+      <div className="flex-1 flex items-center justify-center" style={{ background: "transparent" }}>
         <p className="text-sm text-white/40">Sign in to use SMS</p>
       </div>
     );
@@ -187,14 +187,14 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
 
   if (loading) {
     return (
-      <div className="flex-1 flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+      <div className="flex-1 flex items-center justify-center" style={{ background: "transparent" }}>
         <p className="text-sm text-gray-400">Loading SMS...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "#FAFBFC" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "transparent" }}>
       {/* Header */}
       <div className="flex items-center gap-2">
         <MessageSquare size={16} style={{ color: agentColor }} />

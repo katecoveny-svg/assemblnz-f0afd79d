@@ -115,7 +115,7 @@ export default function HelmTimetable({ onSendToChat }: { onSendToChat?: (msg: s
   const child = children.find(c => c.id === selectedChild);
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "#FAFBFC" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "transparent" }}>
       {/* Child Selector */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">

@@ -325,7 +325,7 @@ export default function ShowcasePage() {
       {/* ── 2-4. ADMIN-ONLY: Sizzle reels, NZ voiceovers, brand concept clips ── */}
       {isAdmin && (
         <>
-          <section className="px-6 py-20" style={{ background: "#FAFBFC" }}>
+          <section className="px-6 py-20" style={{ background: "transparent" }}>
             <div className="max-w-[1100px] mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
@@ -384,7 +384,7 @@ export default function ShowcasePage() {
             </div>
           </section>
 
-          <section className="px-6 py-20" style={{ background: "#FAFBFC" }}>
+          <section className="px-6 py-20" style={{ background: "transparent" }}>
             <div className="max-w-[1200px] mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 16 }}

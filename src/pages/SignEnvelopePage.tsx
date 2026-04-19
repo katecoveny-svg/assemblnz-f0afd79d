@@ -100,7 +100,7 @@ export default function SignEnvelopePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "transparent" }}>
         <Loader2 className="w-6 h-6 animate-spin text-primary" />
       </div>
     );
@@ -134,7 +134,7 @@ export default function SignEnvelopePage() {
     <>
       <SEO title={`Sign: ${envelope.document_name}`} description="Securely sign your document" />
 
-      <div className="min-h-screen pb-12" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen pb-12" style={{ background: "transparent" }}>
         <header className="border-b border-black/5 bg-white">
           <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -233,7 +233,7 @@ export default function SignEnvelopePage() {
 
 function Centered({ icon, title, subtitle }: { icon: React.ReactNode; title: string; subtitle: string }) {
   return (
-    <div className="min-h-screen flex items-center justify-center px-6" style={{ background: "#FAFBFC" }}>
+    <div className="min-h-screen flex items-center justify-center px-6" style={{ background: "transparent" }}>
       <div className="max-w-md text-center space-y-4">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white border border-black/5">
           {icon}

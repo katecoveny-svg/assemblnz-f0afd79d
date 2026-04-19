@@ -84,7 +84,7 @@ function DownloadCard({ label, img, desc }: { label: string; img: string; desc: 
       className="block rounded-3xl overflow-hidden group cursor-pointer"
       style={GLASS_CARD}
     >
-      <div className="p-4 flex items-center justify-center" style={{ background: "#FAFBFC", minHeight: 180 }}>
+      <div className="p-4 flex items-center justify-center" style={{ background: "transparent", minHeight: 180 }}>
         <img src={img} alt={label} loading="lazy" className="max-h-[140px] max-w-full object-contain" />
       </div>
       <div className="p-5 flex items-center justify-between">
@@ -102,7 +102,7 @@ function DownloadCard({ label, img, desc }: { label: string; img: string; desc: 
 
 export default function BrandGuidelinesPage() {
   return (
-    <div style={{ background: "#FAFBFC", minHeight: "100vh" }}>
+    <div style={{ background: "transparent", minHeight: "100vh" }}>
       <BrandNav />
 
       {/* Hero */}

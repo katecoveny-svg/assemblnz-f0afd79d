@@ -53,7 +53,7 @@ export default function VoyagePlannerPage() {
   };
 
   return (
-    <main className="min-h-screen" style={{ background: "#FAFBFC" }}>
+    <main className="min-h-screen" style={{ background: "transparent" }}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 pb-24">
         <Link to="/toro/dashboard" className="inline-flex items-center gap-2 text-sm hover:opacity-70 transition-opacity mb-8" style={{ color: "#9CA3AF" }}>
           <ArrowLeft className="w-4 h-4" /> Back to Tōro

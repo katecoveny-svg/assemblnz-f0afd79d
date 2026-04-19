@@ -55,7 +55,7 @@ interface LeadItem { id: string; name: string; email: string; lead_status: strin
 const glassCard = "rounded-2xl relative overflow-hidden";
 // Light neumorphic glass — white surface with soft dual shadows for raised effect.
 const glassCardStyle: React.CSSProperties = {
-  background: "#FAFBFC",
+  background: "transparent",
   boxShadow:
     "6px 6px 16px rgba(166,166,180,0.30), -6px -6px 16px rgba(255,255,255,0.85), inset 0 1px 0 rgba(255,255,255,0.6)",
   border: "1px solid rgba(58,125,110,0.08)",
@@ -445,7 +445,7 @@ const DashboardPage = () => {
   ].slice(0, 6);
 
   return (
-    <div className="dashboard-light min-h-screen flex flex-col relative" style={{ background: "#FAFBFC", color: "#3D4250" }}>
+    <div className="dashboard-light min-h-screen flex flex-col relative" style={{ background: "transparent", color: "#3D4250" }}>
       {/* Soft ambient glow */}
       <div className="fixed inset-0 pointer-events-none -z-10" style={{
         background:

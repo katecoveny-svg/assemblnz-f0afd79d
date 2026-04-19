@@ -170,7 +170,7 @@ export default function AraiSafetyPage() {
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.5)" />
               <XAxis dataKey="week" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 11 }} axisLine={false} />
               <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 11 }} axisLine={false} />
-              <Tooltip contentStyle={{ background: "#FAFBFC", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#3D4250", fontSize: 12 }} />
+              <Tooltip contentStyle={{ background: "transparent", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, color: "#3D4250", fontSize: 12 }} />
               <Bar dataKey="reported" fill="#E44D4D" radius={[6, 6, 0, 0]} name="Reported" />
               <Bar dataKey="resolved" fill={POUNAMU} radius={[6, 6, 0, 0]} name="Resolved" />
             </BarChart>

@@ -51,7 +51,7 @@ export default function SparkAppViewer() {
 
   if (notFound) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "transparent" }}>
         <div className="text-center space-y-2">
           <p className="text-lg font-display font-bold" style={{ color: "#E4E4EC" }}>App not found</p>
           <p className="text-xs" style={{ color: "#6B7280" }}>This app may have been removed or paused.</p>
@@ -62,7 +62,7 @@ export default function SparkAppViewer() {
 
   if (passwordRequired) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "transparent" }}>
         <div className="w-full max-w-xs space-y-4 p-6 rounded-2xl" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
           <h2 className="text-sm font-display font-bold text-center" style={{ color: "#E4E4EC" }}>This app is password protected</h2>
           <input type="password" value={passwordInput} onChange={e => { setPasswordInput(e.target.value); setWrongPassword(false); }}
@@ -82,14 +82,14 @@ export default function SparkAppViewer() {
 
   if (!htmlContent) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "transparent" }}>
         <p className="text-xs" style={{ color: "#9CA3AF" }}>Loading...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen relative" style={{ background: "#FAFBFC" }}>
+    <div className="min-h-screen relative" style={{ background: "transparent" }}>
       <iframe
         srcDoc={htmlContent}
         className="w-full h-screen border-0"

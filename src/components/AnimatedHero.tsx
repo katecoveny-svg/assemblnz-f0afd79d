@@ -516,7 +516,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
   return (
     <section className="relative flex flex-col items-center justify-center overflow-hidden" style={{ minHeight: "100vh" }}>
       {/* Dark base */}
-      <div className="absolute inset-0 z-0" style={{ background: "#FAFBFC" }} />
+      <div className="absolute inset-0 z-0" style={{ background: "transparent" }} />
 
       {/* Mārama lunar glow background */}
       <MaramaGlow />

@@ -64,13 +64,13 @@ const CareDashboard = () => {
   const moodEmoji = (score: number) => score >= 8 ? "😊" : score >= 6 ? "🙂" : score >= 4 ? "😐" : score >= 2 ? "😟" : "😢";
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+    <div className="min-h-screen flex items-center justify-center" style={{ background: "transparent" }}>
       <div className="animate-pulse text-sm" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Loading care dashboard…</div>
     </div>
   );
 
   if (!senior) return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "#FAFBFC" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "transparent" }}>
       <p className="text-sm" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Senior profile not found</p>
       <Link to="/" className="text-xs underline" style={{ color: TEAL_ACCENT }}>Back to home</Link>
     </div>
@@ -87,7 +87,7 @@ const CareDashboard = () => {
   );
 
   return (
-    <div className="min-h-screen" style={{ background: "#FAFBFC", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen" style={{ background: "transparent", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <SEO title={`${senior.preferred_name || senior.first_name} — Care Dashboard`} description="Whānau care dashboard" />
       
       {/* Header */}
@@ -160,7 +160,7 @@ const CareDashboard = () => {
                 <LineChart data={moodData}>
                   <XAxis dataKey="date" tick={{ fontSize: 10, fill: "rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false} />
                   <YAxis domain={[0, 10]} tick={{ fontSize: 10, fill: "rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false} width={20} />
-                  <Tooltip contentStyle={{ background: "#FAFBFC", border: "1px solid rgba(74,165,168,0.2)", borderRadius: 8, fontSize: 11 }} />
+                  <Tooltip contentStyle={{ background: "transparent", border: "1px solid rgba(74,165,168,0.2)", borderRadius: 8, fontSize: 11 }} />
                   <Line type="monotone" dataKey="mood" stroke={POUNAMU} strokeWidth={2} dot={{ r: 3, fill: POUNAMU }} />
                 </LineChart>
               </ResponsiveContainer>

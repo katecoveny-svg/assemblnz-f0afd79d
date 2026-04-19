@@ -119,7 +119,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
   const displayTasks = showDemo ? demoTasks : tasks.slice(0, 8);
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "#FAFBFC" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "transparent" }}>
       {/* Week Header */}
       <div className="flex items-center justify-between">
         <button onClick={() => setWeekStart(addDays(weekStart, -7))} className="p-1.5 rounded-lg hover:bg-white/5 transition"><ChevronLeft size={16} className="text-gray-500" /></button>

@@ -22,7 +22,7 @@ const TeKahuiReoSection = () => (
   <section
     className="relative z-10 pt-[100px] pb-[100px] overflow-hidden"
     style={{
-      background: "#FAFBFC",
+      background: "transparent",
       borderTop: "1px solid rgba(255,255,255,0.5)",
     }}
   >

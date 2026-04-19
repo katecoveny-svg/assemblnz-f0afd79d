@@ -185,7 +185,7 @@ export default function AgentMessagingPanel({ agentId, agentName, agentColor, ch
 
   if (!user) {
     return (
-      <div className="flex-1 flex items-center justify-center p-6" style={{ background: "#FAFBFC" }}>
+      <div className="flex-1 flex items-center justify-center p-6" style={{ background: "transparent" }}>
         <p className="text-sm" style={{ color: "#6B7280" }}>Sign in to use {channelLabel}</p>
       </div>
     );
@@ -193,14 +193,14 @@ export default function AgentMessagingPanel({ agentId, agentName, agentColor, ch
 
   if (loading) {
     return (
-      <div className="flex-1 flex items-center justify-center p-6" style={{ background: "#FAFBFC" }}>
+      <div className="flex-1 flex items-center justify-center p-6" style={{ background: "transparent" }}>
         <p className="text-sm" style={{ color: "#6B7280" }}>Loading {channelLabel}...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-3" style={{ background: "#FAFBFC", maxHeight: "50vh" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-3" style={{ background: "transparent", maxHeight: "50vh" }}>
       <div className="flex items-center gap-2">
         <MessageSquare size={14} style={{ color: accent }} />
         <h2 className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#1A1D29" }}>

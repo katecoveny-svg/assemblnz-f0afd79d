@@ -73,7 +73,7 @@ const MigrationPage = () => {
     <>
       <SEO title="Nuku Mai — Seamless Database Migration | Assembl" description="Assembl migrates your records, compliance history, and operational data from any existing system into your new kete. Validated. Compliant. Ready to work." />
       <BrandNav />
-      <div className="min-h-screen" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen" style={{ background: "transparent" }}>
 
         {/* ═══ HERO ═══ */}
         <section className="relative px-4 sm:px-6 py-24 sm:py-36 overflow-hidden">

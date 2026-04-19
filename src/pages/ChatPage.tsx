@@ -1857,7 +1857,7 @@ const ChatPage = () => {
       {/* First-time onboarding tooltip */}
       {showOnboardingTooltip && agent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/40 backdrop-blur-sm p-4" onClick={dismissOnboarding}>
-          <div className="w-full max-w-sm rounded-2xl p-5 space-y-4 animate-scale-in" style={{ background: "#FAFBFC", border: `1px solid ${accentColor}30`, boxShadow: `0 0 40px ${accentColor}15` }} onClick={e => e.stopPropagation()}>
+          <div className="w-full max-w-sm rounded-2xl p-5 space-y-4 animate-scale-in" style={{ background: "transparent", border: `1px solid ${accentColor}30`, boxShadow: `0 0 40px ${accentColor}15` }} onClick={e => e.stopPropagation()}>
             <div className="flex items-center gap-2">
               {[0,1,2].map(i => (
                 <div key={i} className="h-1 flex-1 rounded-full transition-all" style={{ background: i <= onboardingStep ? accentColor : "rgba(255,255,255,0.06)" }} />
@@ -2707,7 +2707,7 @@ const ChatPage = () => {
       {/* PRISM Image Generation Modal */}
       {prismImageModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={() => setPrismImageModalOpen(false)}>
-          <div className="w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "#FAFBFC", border: "1px solid rgba(74,165,168,0.15)" }} onClick={e => e.stopPropagation()}>
+          <div className="w-full max-w-md rounded-2xl p-6 space-y-4" style={{ background: "transparent", border: "1px solid rgba(74,165,168,0.15)" }} onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold" style={{ color: "#3D4250" }}>Generate Image</h3>
               <button onClick={() => setPrismImageModalOpen(false)}><X size={16} style={{ color: "#6B7280" }} /></button>

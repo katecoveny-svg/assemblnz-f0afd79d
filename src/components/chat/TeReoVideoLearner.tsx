@@ -100,7 +100,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
     : 0;
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden" style={{ background: "#FAFBFC" }}>
+    <div className="flex-1 flex flex-col overflow-hidden" style={{ background: "transparent" }}>
       {/* Header */}
       <div className="px-4 pt-4 pb-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
         <div className="flex items-center gap-2 mb-3">

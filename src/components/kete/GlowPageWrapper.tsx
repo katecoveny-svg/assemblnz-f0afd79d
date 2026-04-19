@@ -13,7 +13,7 @@ const GlowPageWrapper: React.FC<{
   const rgb = hexToRgb(accentColor);
 
   return (
-    <div className={`min-h-screen relative ${className}`} style={{ background: "#FAFBFC" }}>
+    <div className={`min-h-screen relative ${className}`} style={{ background: "transparent" }}>
       {/* Noise texture */}
       <div
         className="fixed inset-0 pointer-events-none"

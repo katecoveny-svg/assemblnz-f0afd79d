@@ -68,7 +68,7 @@ export default function HelmInbox({ onSendToChat }: { onSendToChat?: (msg: strin
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "#FAFBFC" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "transparent" }}>
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-semibold text-white/90">School Notice Inbox</h2>
         <button onClick={() => fileRef.current?.click()} disabled={uploading || !familyId}

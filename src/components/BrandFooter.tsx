@@ -87,7 +87,7 @@ const BrandFooter = () => {
   };
 
   return (
-    <footer className="relative py-24 px-4 sm:px-6" style={{ background: "#FAFBFC" }}>
+    <footer className="relative py-24 px-4 sm:px-6" style={{ background: "transparent" }}>
       {/* Top divider */}
       <div className="absolute top-0 left-[10%] right-[10%] h-px" style={{
         background: "linear-gradient(90deg, transparent, rgba(74,165,168,0.15), transparent)",

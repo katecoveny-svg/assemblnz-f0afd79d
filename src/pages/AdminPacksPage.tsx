@@ -93,7 +93,7 @@ const AdminPacksPage = () => {
                         className="bg-transparent border rounded px-2 py-1 text-xs"
                         style={{ borderColor: "rgba(255,255,255,0.1)", color: "#1A1D29" }}
                       >
-                        {ROLE_OPTIONS.map(r => <option key={r} value={r} style={{ background: "#FAFBFC" }}>{r}</option>)}
+                        {ROLE_OPTIONS.map(r => <option key={r} value={r} style={{ background: "transparent" }}>{r}</option>)}
                       </select>
                     </td>
                     <td className="px-4 py-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>{pack.agent_count}</td>

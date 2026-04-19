@@ -68,7 +68,7 @@ export default function EvidencePackSharePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "transparent" }}>
         <div className="animate-pulse text-sm" style={{ color: "#9CA3AF" }}>
           Loading evidence pack…
         </div>
@@ -78,7 +78,7 @@ export default function EvidencePackSharePage() {
 
   if (error || !pack) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "transparent" }}>
         <SEO title="Evidence pack unavailable | Assembl" description="This shared evidence pack is no longer available." />
         <div className="text-center max-w-sm">
           <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-4" style={{ background: "rgba(74,165,168,0.12)" }}>
@@ -114,7 +114,7 @@ export default function EvidencePackSharePage() {
     : [];
 
   return (
-    <div className="min-h-screen" style={{ background: "#FAFBFC" }}>
+    <div className="min-h-screen" style={{ background: "transparent" }}>
       <SEO
         title={`${pack.action_type} — evidence pack | Assembl`}
         description={`Signed evidence pack from a ${keteLabel} workflow on Assembl. Watermark ${pack.watermark.slice(0, 8)}.`}
