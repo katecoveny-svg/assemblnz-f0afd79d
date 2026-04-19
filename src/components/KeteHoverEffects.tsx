@@ -74,6 +74,81 @@ export function AratakiHoverEffect() {
   );
 }
 
+/** HOKO — retail price tag swing + barcode pulse */
+export function HokoHoverEffect() {
+  if (reducedMotion) return null;
+  return (
+    <div className="absolute inset-0 pointer-events-none rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] overflow-hidden">
+      {/* Barcode strip across bottom */}
+      <motion.div
+        className="absolute bottom-4 left-6 right-6 h-6 flex items-end gap-[2px]"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}
+      >
+        {[3, 5, 2, 6, 3, 4, 2, 5, 3, 6, 2, 4, 5, 3, 6, 2, 4, 3, 5, 2].map((h, i) => (
+          <motion.div
+            key={i}
+            className="w-[2px] rounded-sm"
+            style={{ height: `${h * 4}px`, background: "rgba(212,168,67,0.3)" }}
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ duration: 0.4, delay: i * 0.02, ease: "easeOut" }}
+          />
+        ))}
+      </motion.div>
+      {/* Swinging price tag */}
+      <motion.div
+        className="absolute top-4 right-6"
+        animate={{ rotate: [-4, 4, -2, 2, 0] }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+      >
+        <div className="w-px h-3 bg-[rgba(212,168,67,0.3)] mx-auto" />
+        <div className="px-2 py-1 rounded-sm" style={{ background: "rgba(212,168,67,0.12)", border: "1px solid rgba(212,168,67,0.25)" }}>
+          <div className="w-4 h-1 rounded-full" style={{ background: "rgba(212,168,67,0.4)" }} />
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+/** AKO — chalkboard ABC letters fading in */
+export function AkoHoverEffect() {
+  if (reducedMotion) return null;
+  return (
+    <div className="absolute inset-0 pointer-events-none rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] overflow-hidden">
+      {/* Faint dotted writing-line guides */}
+      {[0, 1, 2].map(i => (
+        <div
+          key={`line-${i}`}
+          className="absolute left-6 right-6 h-px"
+          style={{
+            top: `${35 + i * 18}%`,
+            background: "repeating-linear-gradient(90deg, rgba(155,142,196,0.2) 0, rgba(155,142,196,0.2) 4px, transparent 4px, transparent 9px)",
+          }}
+        />
+      ))}
+      {/* ABC letters that handwrite in */}
+      {["A", "B", "C"].map((ch, i) => (
+        <motion.span
+          key={ch}
+          className="absolute font-display"
+          style={{
+            top: "30%",
+            left: `${28 + i * 18}%`,
+            fontSize: 28,
+            color: "rgba(155,142,196,0.4)",
+            fontWeight: 600,
+          }}
+          initial={{ opacity: 0, y: 8, rotate: -6 }}
+          animate={{ opacity: 1, y: 0, rotate: 0 }}
+          transition={{ duration: 0.4, delay: 0.15 + i * 0.18, ease: "easeOut" }}
+        >
+          {ch}
+        </motion.span>
+      ))}
+    </div>
+  );
+}
+
 /** PIKAU — shipping route dotted curve */
 export function PikauHoverEffect() {
   if (reducedMotion) return null;
