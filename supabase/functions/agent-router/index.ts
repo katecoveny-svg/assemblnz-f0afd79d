@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { embedText } from "../_shared/embed.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -419,28 +420,21 @@ MANA (Approve):
     const keteFilter = KETE_FILTER[selectedAgent];
     if (keteFilter) {
       try {
-        const embResp = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
-          method: "POST",
-          headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
-          body: JSON.stringify({ model: "google/text-embedding-004", input: message.slice(0, 1500) }),
-        });
-        if (embResp.ok) {
-          const ej = await embResp.json();
-          const embedding = ej.data?.[0]?.embedding;
-          if (embedding) {
-            const { data: chunks } = await supabase.rpc("search_industry_kb", {
-              query_embedding: embedding,
-              filter_kete: keteFilter,
-              filter_agent: selectedAgent,
-              match_count: 4,
-              min_similarity: 0.25,
-            });
-            if (chunks?.length) {
-              const block = chunks.map((c: any) =>
-                `• [${c.doc_title}] ${c.chunk_text.slice(0, 600)}${c.source_url ? ` — ${c.source_url}` : ""}`
-              ).join("\n\n");
-              industryContextBlock = `\n\n--- INDUSTRY KNOWLEDGE BASE (${keteFilter}) — verified Tier-1 sources ---\nUse these excerpts as your primary citation source. Quote directly with the source URL.\n${block}`;
-            }
+        const GEMINI_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
+        const embedding = await embedText(message.slice(0, 1500), GEMINI_KEY);
+        if (embedding) {
+          const { data: chunks } = await supabase.rpc("search_industry_kb", {
+            query_embedding: embedding,
+            filter_kete: keteFilter,
+            filter_agent: selectedAgent,
+            match_count: 4,
+            min_similarity: 0.25,
+          });
+          if (chunks?.length) {
+            const block = chunks.map((c: any) =>
+              `• [${c.doc_title}] ${c.chunk_text.slice(0, 600)}${c.source_url ? ` — ${c.source_url}` : ""}`
+            ).join("\n\n");
+            industryContextBlock = `\n\n--- INDUSTRY KNOWLEDGE BASE (${keteFilter}) — verified Tier-1 sources ---\nUse these excerpts as your primary citation source. Quote directly with the source URL.\n${block}`;
           }
         }
       } catch (err) {
