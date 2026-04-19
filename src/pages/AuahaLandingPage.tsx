@@ -102,22 +102,22 @@ export default function AuahaLandingPage() {
           </motion.p>
 
           <motion.div className="relative rounded-2xl px-7 py-6 max-w-md mb-12 text-left overflow-hidden" style={{
-            background: `linear-gradient(135deg, rgba(58,125,110,0.08) 0%, rgba(255,255,255,0.02) 100%)`,
-            border: `1px solid ${POUNAMU}30`, backdropFilter: "blur(20px)",
-            boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 60px ${POUNAMU}08, inset 0 1px 0 rgba(255,255,255,0.05)`,
+            background: "rgba(255,255,255,0.7)",
+            border: `1px solid ${POUNAMU}40`, backdropFilter: "blur(20px)",
+            boxShadow: `0 8px 32px rgba(58,125,110,0.08), 0 0 60px ${POUNAMU}10`,
           }} variants={fadeUp} initial="hidden" animate="visible" custom={3}
-            whileHover={{ scale: 1.02, boxShadow: `0 12px 40px rgba(0,0,0,0.4), 0 0 80px ${POUNAMU}12` }}
+            whileHover={{ scale: 1.02, boxShadow: `0 12px 40px rgba(58,125,110,0.12), 0 0 80px ${POUNAMU}15` }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}>
-            <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent 0%, ${POUNAMU}60 50%, transparent 100%)` }} />
+            <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent 0%, ${POUNAMU}80 50%, transparent 100%)` }} />
             <p className="text-[10px] uppercase tracking-[3px] mb-4" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
               te kete aronui — human expression
             </p>
             <ul className="space-y-3">
               {["No autonomous publishing — every piece reviewed before it goes live", "Brand voice enforced across every format and channel", "Every workflow run ends in a signed evidence pack", "Privacy Act 2020 and IPP 3A alignment built in"].map((item, idx) => (
-                <motion.li key={item} className="flex items-start gap-3 text-xs font-body" style={{ color: "#9CA3AF" }}
+                <motion.li key={item} className="flex items-start gap-3 text-xs font-body" style={{ color: "#5B6374" }}
                   initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + idx * 0.08 }}>
-                  <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${POUNAMU}20`, boxShadow: `0 0 8px ${POUNAMU}20` }}>
-                    <Check size={10} style={{ color: POUNAMU_LIGHT }} />
+                  <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${POUNAMU}25`, boxShadow: `0 0 8px ${POUNAMU}25` }}>
+                    <Check size={10} style={{ color: POUNAMU }} />
                   </div>
                   <span>{item}</span>
                 </motion.li>
