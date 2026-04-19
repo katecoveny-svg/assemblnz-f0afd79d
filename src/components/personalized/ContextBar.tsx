@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { usePersonalization } from '@/contexts/PersonalizationContext';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown, Radio } from 'lucide-react';
 import { KETE_CONFIG } from '@/components/kete/KeteConfig';
 import KeteIcon from '@/components/kete/KeteIcon';
+import { supabase } from '@/integrations/supabase/client';
 import type { KeteType } from '@/lib/personalization/types';
 
 const KETE_VARIANTS: Record<string, "standard" | "dense" | "organic" | "tricolor" | "warm"> = {
