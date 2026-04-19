@@ -522,20 +522,20 @@ const GlassKoruHero = () => {
         >
           {canvasReady && (
             <Canvas
-              camera={{ position: [0, 0, 9], fov: 50 }}
+              camera={{ position: [0, 0, 11], fov: 48 }}
               gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
               style={{ background: "transparent" }}
               dpr={[1, 2]}
             >
-              {/* Environment map is essential for transmission/glass to work */}
-              <Environment preset="studio" environmentIntensity={0.8} />
-              
-              {/* Lighting — brighter for more sparkle/reflections */}
-              <ambientLight intensity={1.2} color="#F8F6F0" />
-              <directionalLight position={[8, 8, 5]} intensity={2.0} color="#FFFFFF" />
-              <directionalLight position={[-5, 3, 8]} intensity={1.0} color="#D4F0F0" />
-              <directionalLight position={[3, -3, 6]} intensity={0.6} color="#FFFBE8" />
-              <pointLight position={[0, 0, 6]} intensity={1.2} color="#FFFFFF" />
+              <Environment preset="studio" environmentIntensity={1.0} />
+
+              <ambientLight intensity={1.4} color="#F8F6F0" />
+              <directionalLight position={[8, 8, 5]} intensity={2.4} color="#FFFFFF" />
+              <directionalLight position={[-5, 3, 8]} intensity={1.2} color="#D4F0F0" />
+              <directionalLight position={[3, -3, 6]} intensity={0.8} color="#FFFBE8" />
+              <pointLight position={[0, 0, 6]} intensity={1.6} color="#FFFFFF" />
+              <pointLight position={[-3, 2, 4]} intensity={1.2} color="#7DD4D6" distance={14} />
+              <pointLight position={[3, -2, 4]} intensity={1.0} color="#E8A948" distance={14} />
 
               <Suspense fallback={null}>
                 <KoruScene />
@@ -543,12 +543,20 @@ const GlassKoruHero = () => {
             </Canvas>
           )}
 
-          {/* Subtle radial glow behind the koru */}
+          {/* Vibrant radial aura behind the orb */}
           <div
             className="absolute inset-0 pointer-events-none -z-10"
             style={{
               background:
-                "radial-gradient(ellipse 70% 70% at 50% 45%, rgba(74,165,168,0.08) 0%, rgba(232,169,72,0.04) 40%, transparent 70%)",
+                "radial-gradient(ellipse 75% 75% at 50% 45%, rgba(74,165,168,0.22) 0%, rgba(125,212,214,0.14) 25%, rgba(232,169,72,0.08) 50%, transparent 75%)",
+              filter: "blur(8px)",
+            }}
+          />
+          <div
+            className="absolute inset-0 pointer-events-none -z-10 animate-pulse"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 45%, rgba(125,212,214,0.18) 0%, transparent 55%)",
             }}
           />
         </div>
