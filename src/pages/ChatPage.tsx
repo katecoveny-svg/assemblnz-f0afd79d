@@ -23,6 +23,7 @@ import NexusJobSheet, { type JobSheetData, type DocumentStatus } from "@/compone
 import HandoffCard, { detectHandoff } from "@/components/HandoffCard";
 import ProactiveAlertCards from "@/components/chat/ProactiveAlertCards";
 import { agentTemplates } from "@/data/templates";
+import { AGENT_LIVE_DATA_MAP } from "@/data/agentLiveDataMap";
 import { useAuth } from "@/hooks/useAuth";
 import AccountDropdown from "@/components/AccountDropdown";
 import PaywallModal from "@/components/PaywallModal";
