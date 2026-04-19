@@ -12,255 +12,219 @@ import { useIsMobile } from "@/hooks/use-mobile";
    orbiting data nodes and energy rings.
    ───────────────────────────────────────────────────────── */
 
-/* ─── Engraved Koru silhouette (extruded 2D shape) ─── */
-function EngravedKoru({ color = "#4AA5A8" }: { color?: string }) {
-  const geometry = useMemo(() => {
-    const s = new THREE.Shape();
-    // Outer spiral arc
-    s.moveTo(0.92, 0);
-    s.absarc(0, 0, 0.92, 0, Math.PI * 1.72, false);
-    s.lineTo(-0.55, 0.55);
-    s.absarc(-0.18, 0.18, 0.55, Math.PI * 1.72, Math.PI * 0.4, true);
-    s.lineTo(0.92, 0);
+/* ─── Engraved Spiral Koru Disc (frosted glass relief) ─── */
+function EngravedSpiralDisc() {
+  // Build an Archimedean spiral as a thin ribbon extruded into a frosted disc
+  const spiralGeometry = useMemo(() => {
+    const shape = new THREE.Shape();
+    const turns = 4.2;
+    const steps = 360;
+    const a = 0.05;
+    const b = 0.16;
+    const ribbon = 0.06;
 
-    // Inner hole (the koru's open eye)
-    const hole = new THREE.Path();
-    hole.absarc(0.05, 0.05, 0.35, 0, Math.PI * 2, true);
-    s.holes.push(hole);
+    // Outer edge of spiral ribbon
+    const outer: THREE.Vector2[] = [];
+    const inner: THREE.Vector2[] = [];
+    for (let i = 0; i <= steps; i++) {
+      const t = (i / steps) * turns * Math.PI * 2;
+      const r = a + b * t * 0.12;
+      outer.push(new THREE.Vector2(Math.cos(t) * (r + ribbon), Math.sin(t) * (r + ribbon)));
+      inner.push(new THREE.Vector2(Math.cos(t) * (r - ribbon * 0.4), Math.sin(t) * (r - ribbon * 0.4)));
+    }
+    shape.moveTo(outer[0].x, outer[0].y);
+    outer.forEach((p) => shape.lineTo(p.x, p.y));
+    for (let i = inner.length - 1; i >= 0; i--) shape.lineTo(inner[i].x, inner[i].y);
+    shape.closePath();
 
-    const geo = new THREE.ExtrudeGeometry(s, {
-      depth: 0.12,
+    const geo = new THREE.ExtrudeGeometry(shape, {
+      depth: 0.04,
       bevelEnabled: true,
-      bevelSegments: 12,
-      steps: 2,
-      bevelSize: 0.04,
-      bevelThickness: 0.04,
-      curveSegments: 32,
+      bevelSegments: 6,
+      steps: 1,
+      bevelSize: 0.012,
+      bevelThickness: 0.012,
+      curveSegments: 24,
     });
     geo.center();
-    geo.rotateZ(-0.6);
-    geo.scale(1.35, 1.35, 1.35);
+    geo.scale(1.05, 1.05, 1);
     return geo;
   }, []);
 
+  // Backing frosted disc
+  const discGeometry = useMemo(() => {
+    const g = new THREE.CylinderGeometry(1.55, 1.55, 0.04, 96, 1);
+    g.rotateX(Math.PI / 2);
+    return g;
+  }, []);
+
   return (
-    <mesh geometry={geometry}>
-      <meshPhysicalMaterial
-        color={color}
-        metalness={0.85}
-        roughness={0.18}
-        clearcoat={1}
-        clearcoatRoughness={0.05}
-        emissive={color}
-        emissiveIntensity={0.45}
-        envMapIntensity={1.6}
-      />
-    </mesh>
+    <group>
+      {/* Frosted backing disc */}
+      <mesh geometry={discGeometry} position={[0, 0, -0.05]}>
+        <meshPhysicalMaterial
+          color="#EAF6F5"
+          roughness={0.55}
+          metalness={0.05}
+          transmission={0.4}
+          thickness={0.5}
+          ior={1.4}
+          clearcoat={0.4}
+          clearcoatRoughness={0.3}
+          transparent
+          opacity={0.85}
+        />
+      </mesh>
+      {/* Spiral relief in frosted glass */}
+      <mesh geometry={spiralGeometry}>
+        <meshPhysicalMaterial
+          color="#F4FBFA"
+          roughness={0.4}
+          metalness={0.1}
+          clearcoat={0.6}
+          clearcoatRoughness={0.25}
+          emissive="#C8E8E6"
+          emissiveIntensity={0.15}
+        />
+      </mesh>
+    </group>
   );
 }
 
-/* ─── Inner glow shell behind the koru ─── */
-function InnerGlow() {
-  const ref = useRef<THREE.Mesh>(null);
-  useFrame((state) => {
-    if (ref.current) {
-      const t = state.clock.getElapsedTime();
-      const pulse = 0.6 + Math.sin(t * 1.3) * 0.25;
-      const mat = ref.current.material as THREE.MeshBasicMaterial;
-      mat.opacity = 0.18 + pulse * 0.12;
-    }
-  });
-  return (
-    <mesh ref={ref}>
-      <sphereGeometry args={[1.8, 48, 48]} />
-      <meshBasicMaterial color="#7DD4D6" transparent opacity={0.22} toneMapped={false} />
-    </mesh>
-  );
-}
-
-/* ─── The big glass orb encasing the koru ─── */
-function GlassOrb({ children }: { children: React.ReactNode }) {
+/* ─── Hero Glass Orb (single, large, refractive) ─── */
+function HeroGlassOrb() {
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
     if (!groupRef.current) return;
     const t = state.clock.getElapsedTime();
-    groupRef.current.rotation.y = t * 0.18;
-    groupRef.current.rotation.x = Math.sin(t * 0.4) * 0.08;
+    groupRef.current.rotation.y = Math.sin(t * 0.25) * 0.18;
+    groupRef.current.position.y = Math.sin(t * 0.6) * 0.08;
   });
 
   return (
-    <group>
-      {/* Outer transmissive glass shell */}
+    <group ref={groupRef}>
+      {/* Glass shell */}
       <mesh>
-        <sphereGeometry args={[2.6, 96, 96]} />
+        <sphereGeometry args={[2.5, 128, 128]} />
         <MeshTransmissionMaterial
           backside
-          samples={6}
-          thickness={0.6}
-          chromaticAberration={0.08}
-          anisotropy={0.3}
-          distortion={0.15}
-          distortionScale={0.4}
-          temporalDistortion={0.05}
-          roughness={0.02}
-          ior={1.45}
-          color="#E8F8F7"
-          attenuationColor="#A8E0DE"
-          attenuationDistance={3}
+          samples={10}
+          thickness={1.2}
+          chromaticAberration={0.12}
+          anisotropy={0.4}
+          distortion={0.25}
+          distortionScale={0.5}
+          temporalDistortion={0.08}
+          roughness={0.0}
+          ior={1.5}
+          color="#F0FAF9"
+          attenuationColor="#A8DDDB"
+          attenuationDistance={4}
           transmission={1}
-          envMapIntensity={1.4}
+          envMapIntensity={1.8}
+          clearcoat={1}
+          clearcoatRoughness={0}
         />
       </mesh>
 
-      {/* Specular highlight cap */}
-      <mesh position={[-0.7, 1.1, 1.4]}>
-        <sphereGeometry args={[0.45, 32, 32]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.35} toneMapped={false} />
+      {/* Specular crescent highlight (top-left bright spot) */}
+      <mesh position={[-0.95, 1.25, 1.7]}>
+        <sphereGeometry args={[0.55, 32, 32]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.45} toneMapped={false} />
+      </mesh>
+      <mesh position={[-1.4, 0.4, 1.85]}>
+        <sphereGeometry args={[0.18, 24, 24]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.6} toneMapped={false} />
       </mesh>
 
-      {/* Suspended koru inside */}
-      <group ref={groupRef}>
-        <InnerGlow />
-        <EngravedKoru color="#4AA5A8" />
+      {/* Engraved spiral disc inside, slightly behind centre */}
+      <group rotation={[0, 0, 0]}>
+        <EngravedSpiralDisc />
       </group>
     </group>
   );
 }
 
-/* ─── Orbital energy ring ─── */
-function OrbitalRing({
-  radius,
-  color,
-  speed,
-  rotation,
-  opacity = 0.5,
-  thickness = 0.012,
-}: {
-  radius: number;
-  color: string;
-  speed: number;
-  rotation: [number, number, number];
-  opacity?: number;
-  thickness?: number;
-}) {
-  const ref = useRef<THREE.Mesh>(null);
-  useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.z = state.clock.getElapsedTime() * speed;
-    }
-  });
+/* ─── Reflective floor with subtle sheen ─── */
+function ReflectiveFloor() {
   return (
-    <mesh ref={ref} rotation={rotation}>
-      <torusGeometry args={[radius, thickness, 16, 128]} />
-      <meshStandardMaterial
-        color={color}
-        emissive={color}
-        emissiveIntensity={2.5}
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.7, 0]} receiveShadow>
+      <circleGeometry args={[8, 64]} />
+      <meshPhysicalMaterial
+        color="#EAF4F3"
+        roughness={0.35}
+        metalness={0.2}
+        clearcoat={0.8}
+        clearcoatRoughness={0.4}
         transparent
-        opacity={opacity}
-        toneMapped={false}
+        opacity={0.7}
       />
     </mesh>
   );
 }
 
-/* ─── Orbiting data node (small glowing sphere) ─── */
-function OrbitingNode({
-  radius,
-  speed,
-  phase,
-  color,
-  size,
-  axis,
-}: {
-  radius: number;
-  speed: number;
-  phase: number;
-  color: string;
-  size: number;
-  axis: "x" | "y" | "z";
-}) {
-  const ref = useRef<THREE.Mesh>(null);
-  const haloRef = useRef<THREE.Mesh>(null);
+/* ─── Sparkle Bokeh (soft floating light particles) ─── */
+function SparkleBokeh() {
+  const ref = useRef<THREE.Points>(null);
+  const count = 180;
+
+  const { positions, sizes } = useMemo(() => {
+    const positions = new Float32Array(count * 3);
+    const sizes = new Float32Array(count);
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 14;
+      positions[i * 3 + 1] = (Math.random() - 0.2) * 8;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 6 - 2;
+      sizes[i] = Math.random() * 0.12 + 0.03;
+    }
+    return { positions, sizes };
+  }, []);
 
   useFrame((state) => {
-    const t = state.clock.getElapsedTime() * speed + phase;
-    let x = 0, y = 0, z = 0;
-    if (axis === "y") {
-      x = Math.cos(t) * radius;
-      z = Math.sin(t) * radius;
-      y = Math.sin(t * 0.7) * 0.4;
-    } else if (axis === "x") {
-      y = Math.cos(t) * radius;
-      z = Math.sin(t) * radius;
-      x = Math.cos(t * 0.6) * 0.5;
-    } else {
-      x = Math.cos(t) * radius;
-      y = Math.sin(t) * radius;
-      z = Math.sin(t * 0.8) * 0.5;
-    }
-    if (ref.current) ref.current.position.set(x, y, z);
-    if (haloRef.current) haloRef.current.position.set(x, y, z);
-    const pulse = 0.5 + Math.sin(t * 3) * 0.5;
-    if (haloRef.current) {
-      const mat = haloRef.current.material as THREE.MeshBasicMaterial;
-      mat.opacity = 0.15 + pulse * 0.25;
+    if (ref.current) {
+      ref.current.rotation.y = state.clock.getElapsedTime() * 0.02;
     }
   });
 
   return (
-    <group>
-      <mesh ref={haloRef}>
-        <sphereGeometry args={[size * 2.8, 16, 16]} />
-        <meshBasicMaterial color={color} transparent opacity={0.2} toneMapped={false} />
-      </mesh>
-      <mesh ref={ref}>
-        <sphereGeometry args={[size, 24, 24]} />
-        <meshStandardMaterial
-          color={color}
-          emissive={color}
-          emissiveIntensity={4}
-          toneMapped={false}
+    <points ref={ref}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={count}
+          array={positions}
+          itemSize={3}
         />
-      </mesh>
-    </group>
+        <bufferAttribute
+          attach="attributes-size"
+          count={count}
+          array={sizes}
+          itemSize={1}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        color="#FFFFFF"
+        size={0.08}
+        transparent
+        opacity={0.85}
+        sizeAttenuation
+        depthWrite={false}
+      />
+    </points>
   );
 }
 
 /* ─── Main scene ─── */
 function KoruScene() {
-  const orbitNodes = useMemo(
-    () => [
-      { radius: 3.4, speed: 0.6, phase: 0, color: "#7DD4D6", size: 0.09, axis: "y" as const },
-      { radius: 3.6, speed: -0.5, phase: 1.2, color: "#E8A948", size: 0.08, axis: "y" as const },
-      { radius: 3.8, speed: 0.4, phase: 2.5, color: "#B8A5D0", size: 0.07, axis: "x" as const },
-      { radius: 3.5, speed: -0.7, phase: 0.8, color: "#4AA5A8", size: 0.085, axis: "z" as const },
-      { radius: 3.7, speed: 0.55, phase: 3.4, color: "#E8A090", size: 0.075, axis: "y" as const },
-      { radius: 3.9, speed: -0.45, phase: 4.1, color: "#7BA88C", size: 0.08, axis: "x" as const },
-      { radius: 3.45, speed: 0.65, phase: 5.0, color: "#7DD4D6", size: 0.07, axis: "z" as const },
-      { radius: 3.75, speed: -0.35, phase: 1.7, color: "#E8A948", size: 0.08, axis: "y" as const },
-      { radius: 3.55, speed: 0.5, phase: 2.8, color: "#B8A5D0", size: 0.075, axis: "x" as const },
-    ],
-    []
-  );
-
   return (
-    <Float speed={0.9} rotationIntensity={0.12} floatIntensity={0.25}>
-      {/* Energy rings around the orb */}
-      <OrbitalRing radius={3.2} color="#7DD4D6" speed={0.12} rotation={[Math.PI / 2.2, 0, 0]} opacity={0.55} />
-      <OrbitalRing radius={3.35} color="#E8A948" speed={-0.08} rotation={[Math.PI / 1.6, 0.4, 0]} opacity={0.4} />
-      <OrbitalRing radius={3.55} color="#B8A5D0" speed={0.06} rotation={[Math.PI / 3, -0.5, 0]} opacity={0.32} />
-      <OrbitalRing radius={3.8} color="#4AA5A8" speed={-0.04} rotation={[Math.PI / 2, Math.PI / 4, 0]} opacity={0.26} />
-
-      {/* Orbiting data nodes */}
-      {orbitNodes.map((n, i) => (
-        <OrbitingNode key={`orb-${i}`} {...n} />
-      ))}
-
-      {/* The hero — engraved koru in glass orb */}
-      <GlassOrb>{null}</GlassOrb>
-    </Float>
+    <>
+      <SparkleBokeh />
+      <ReflectiveFloor />
+      <Float speed={0.8} rotationIntensity={0.08} floatIntensity={0.18}>
+        <HeroGlassOrb />
+      </Float>
+    </>
   );
 }
 
@@ -399,28 +363,33 @@ const GlassKoruHero = () => {
             </Canvas>
           )}
 
-          {/* Vibrant radial aura behind the orb */}
+          {/* Icy sparkle aura behind the orb */}
           <div
             className="absolute inset-0 pointer-events-none -z-10"
             style={{
               background:
-                "radial-gradient(ellipse 80% 80% at 50% 45%, rgba(74,165,168,0.32) 0%, rgba(125,212,214,0.2) 22%, rgba(232,169,72,0.12) 48%, rgba(184,165,208,0.08) 65%, transparent 78%)",
-              filter: "blur(10px)",
-            }}
-          />
-          <div
-            className="absolute inset-0 pointer-events-none -z-10 animate-pulse"
-            style={{
-              background:
-                "radial-gradient(circle at 50% 45%, rgba(125,212,214,0.28) 0%, transparent 55%)",
+                "radial-gradient(ellipse 70% 70% at 50% 45%, rgba(200,232,230,0.55) 0%, rgba(220,240,238,0.3) 30%, rgba(240,248,247,0.15) 55%, transparent 75%)",
+              filter: "blur(8px)",
             }}
           />
           <div
             className="absolute inset-0 pointer-events-none -z-10"
             style={{
               background:
-                "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.18) 0%, transparent 18%)",
+                "radial-gradient(circle at 50% 38%, rgba(255,255,255,0.5) 0%, transparent 28%)",
               mixBlendMode: "screen",
+            }}
+          />
+          {/* Reflected pool below */}
+          <div
+            className="absolute left-1/2 -translate-x-1/2 pointer-events-none -z-10"
+            style={{
+              bottom: "8%",
+              width: "70%",
+              height: "120px",
+              background:
+                "radial-gradient(ellipse 100% 50% at 50% 0%, rgba(168,221,219,0.35) 0%, transparent 70%)",
+              filter: "blur(12px)",
             }}
           />
         </div>
