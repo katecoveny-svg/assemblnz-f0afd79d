@@ -321,7 +321,7 @@ Deno.serve(async (req) => {
       selectedKete = availableKete[numChoice - 1];
     }
 
-    // --- STEP 6: KEYWORD ROUTING (IHO) ---
+    // --- STEP 6: PREFIX OVERRIDE → AI INTENT (IHO) → KEYWORD FALLBACK ---
     if (!selectedKete) {
       const prefixMatch = lower.match(/^(\w+):\s*(.+)/);
       if (prefixMatch) {
@@ -330,6 +330,40 @@ Deno.serve(async (req) => {
       }
     }
 
+    // AI intent routing — Iho classifier (only if no prefix override)
+    if (!selectedKete && availableKete.length > 1) {
+      try {
+        const intentResp = await fetch(
+          `${Deno.env.get("SUPABASE_URL")}/functions/v1/iho-intent-router`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+            },
+            body: JSON.stringify({
+              message: messageBody,
+              kete: availableKete.map(k => ({
+                slug: k.slug,
+                display_name: k.display_name || k.name,
+                keywords: k.keywords,
+              })),
+            }),
+          }
+        );
+        if (intentResp.ok) {
+          const intent = await intentResp.json();
+          if (intent.kete && intent.confidence >= 0.4) {
+            selectedKete = availableKete.find(k => k.slug === intent.kete) || null;
+            console.log(`Iho AI routed to ${intent.kete} (confidence ${intent.confidence}): ${intent.reasoning}`);
+          }
+        }
+      } catch (e) {
+        console.error("Iho intent router error:", e);
+      }
+    }
+
+    // Keyword fallback
     if (!selectedKete) {
       let bestScore = 0;
       for (const kete of availableKete) {

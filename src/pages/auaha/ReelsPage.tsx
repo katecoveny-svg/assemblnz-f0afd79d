@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, Sparkles, Copy, ChevronDown, Film, Camera, Hash, Clock, Palette } from "lucide-react";
+import { Loader2, Sparkles, Copy, ChevronDown, Film, Camera, Hash, Clock, Palette, Download, Layers, RefreshCw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -21,6 +21,15 @@ interface Plan {
   aesthetic_notes?: string;
 }
 
+interface RenderRow {
+  id: string;
+  batch_index: number;
+  prompt: string;
+  status: string;
+  video_url: string | null;
+  error?: string | null;
+}
+
 const ACTS = [
   { key: "act1_hook", label: "Act 1 · Hook", color: "#D4A853" },
   { key: "act2_conflict", label: "Act 2 · Conflict & Stakes", color: "#E88D67" },
@@ -29,16 +38,25 @@ const ACTS = [
   { key: "act5_cta", label: "Act 5 · Tease & CTA", color: "#9B7ED8" },
 ] as const;
 
+type Mode = "plan" | "batch";
+
 export default function ReelsPage() {
+  const [mode, setMode] = useState<Mode>("batch");
   const [topic, setTopic] = useState("");
   const [audience, setAudience] = useState(AUDIENCES[0]);
   const [contentType, setContentType] = useState(TYPES[0]);
   const [brand, setBrand] = useState(BRANDS[0]);
+  const [count, setCount] = useState(10);
+
   const [loading, setLoading] = useState(false);
   const [plan, setPlan] = useState<Plan | null>(null);
   const [openAct, setOpenAct] = useState<string | null>("act1_hook");
 
-  const generate = async () => {
+  const [batchId, setBatchId] = useState<string | null>(null);
+  const [renders, setRenders] = useState<RenderRow[]>([]);
+  const [polling, setPolling] = useState(false);
+
+  const generatePlan = async () => {
     if (!topic.trim()) { toast.error("Topic required"); return; }
     setLoading(true); setPlan(null);
     try {
@@ -55,9 +73,61 @@ export default function ReelsPage() {
     }
   };
 
+  const generateBatch = async () => {
+    if (!topic.trim()) { toast.error("Topic required"); return; }
+    setLoading(true); setRenders([]); setBatchId(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("reel-batch-render", {
+        body: { action: "submit", topic, count, audience, brand, aspect_ratio: "9:16" },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setBatchId(data.batch_id);
+      setRenders(data.renders || []);
+      toast.success(`Submitted ${data.count} reel jobs to Kling. Polling for results…`);
+    } catch (e: any) {
+      toast.error(e.message || "Batch submit failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const pollBatch = useCallback(async () => {
+    if (!batchId) return;
+    setPolling(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("reel-batch-render", {
+        body: { action: "poll", batch_id: batchId },
+      });
+      if (error) throw error;
+      if (data?.renders) setRenders(data.renders);
+    } catch (e: any) {
+      console.error("poll", e);
+    } finally {
+      setPolling(false);
+    }
+  }, [batchId]);
+
+  useEffect(() => {
+    if (!batchId) return;
+    const allDone = renders.length > 0 && renders.every(r => r.status === "completed" || r.status === "failed");
+    if (allDone) return;
+    const t = setTimeout(pollBatch, 8000);
+    return () => clearTimeout(t);
+  }, [batchId, renders, pollBatch]);
+
   const copyText = (text: string) => {
     navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard");
+  };
+
+  const downloadAll = async () => {
+    const completed = renders.filter(r => r.status === "completed" && r.video_url);
+    if (completed.length === 0) { toast.error("No completed videos yet"); return; }
+    for (const r of completed) {
+      window.open(r.video_url!, "_blank");
+      await new Promise(res => setTimeout(res, 250));
+    }
   };
 
   const renderActBody = (key: string, body: any) => {
@@ -88,9 +158,13 @@ export default function ReelsPage() {
     );
   };
 
+  const completed = renders.filter(r => r.status === "completed").length;
+  const failed = renders.filter(r => r.status === "failed").length;
+  const inFlight = renders.length - completed - failed;
+
   return (
     <div className="min-h-screen" style={{ background: "#0A1628" }}>
-      <div className="max-w-4xl mx-auto px-4 sm:px-8 py-12 sm:py-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-8 py-12 sm:py-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="flex items-center gap-3 mb-3">
             <Film className="w-6 h-6" style={{ color: "#D4A853" }} />
@@ -98,14 +172,40 @@ export default function ReelsPage() {
               Reel Creator
             </h1>
           </div>
-          <p className="text-sm" style={{ color: "#9CA3AF" }}>Data-backed viral content in 5 acts.</p>
+          <p className="text-sm" style={{ color: "#9CA3AF" }}>
+            Generate viral 5-act plans, or render a stack of MP4 reels via Fal.ai Kling.
+          </p>
         </motion.div>
 
+        {/* Mode toggle */}
+        <div className="mt-6 flex gap-2">
+          <button onClick={() => setMode("batch")}
+            className="px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2"
+            style={{
+              background: mode === "batch" ? "#3A7D6E" : "rgba(255,255,255,0.04)",
+              color: mode === "batch" ? "#F5F0E8" : "#9CA3AF",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}>
+            <Layers className="w-4 h-4" /> Batch Render (10 MP4s)
+          </button>
+          <button onClick={() => setMode("plan")}
+            className="px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2"
+            style={{
+              background: mode === "plan" ? "#3A7D6E" : "rgba(255,255,255,0.04)",
+              color: mode === "plan" ? "#F5F0E8" : "#9CA3AF",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}>
+            <Sparkles className="w-4 h-4" /> 5-Act Plan
+          </button>
+        </div>
+
         {/* Input */}
-        <div className="mt-8 rounded-2xl p-6 space-y-4"
+        <div className="mt-6 rounded-2xl p-6 space-y-4"
           style={{ background: "rgba(255,255,255,0.04)", backdropFilter: "blur(24px)", border: "1px solid rgba(255,255,255,0.08)" }}>
           <textarea value={topic} onChange={e => setTopic(e.target.value)} rows={3}
-            placeholder="Topic or concept (e.g. 'How NZ tradies survive the off-season')"
+            placeholder={mode === "batch"
+              ? "Topic — we'll render this as 10 distinct vertical reels (e.g. 'Summer hospitality hacks for NZ cafés')"
+              : "Topic or concept (e.g. 'How NZ tradies survive the off-season')"}
             className="w-full bg-transparent outline-none resize-none text-base" style={{ color: "#F5F0E8" }} />
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
@@ -123,15 +223,79 @@ export default function ReelsPage() {
             </select>
           </div>
 
-          <button onClick={generate} disabled={loading || !topic.trim()}
+          {mode === "batch" && (
+            <div className="flex items-center gap-3 text-sm">
+              <span style={{ color: "#9CA3AF" }}>How many reels?</span>
+              <input type="number" min={1} max={12} value={count}
+                onChange={e => setCount(Math.min(12, Math.max(1, parseInt(e.target.value) || 1)))}
+                className="w-20 px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none"
+                style={{ color: "#F5F0E8" }} />
+              <span className="text-xs" style={{ color: "#9CA3AF" }}>(max 12 · ~$0.20 each via Kling)</span>
+            </div>
+          )}
+
+          <button onClick={mode === "batch" ? generateBatch : generatePlan} disabled={loading || !topic.trim()}
             className="w-full sm:w-auto px-8 py-3 rounded-full font-medium flex items-center justify-center gap-2 disabled:opacity-50"
             style={{ background: "#3A7D6E", color: "#F5F0E8" }}>
-            {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Generating...</> : <><Sparkles className="w-4 h-4" /> Generate Reel Plan</>}
+            {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> {mode === "batch" ? "Submitting…" : "Generating…"}</>
+              : mode === "batch"
+                ? <><Layers className="w-4 h-4" /> Render {count} Reels</>
+                : <><Sparkles className="w-4 h-4" /> Generate Reel Plan</>}
           </button>
         </div>
 
-        {/* Output */}
-        {plan && (
+        {/* Batch results */}
+        {mode === "batch" && batchId && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-8">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-sm" style={{ color: "#F5F0E8" }}>
+                <span style={{ color: "#3A7D6E" }}>{completed}</span>/{renders.length} completed
+                {inFlight > 0 && <span className="ml-2" style={{ color: "#D4A853" }}>· {inFlight} processing</span>}
+                {failed > 0 && <span className="ml-2" style={{ color: "#E88D67" }}>· {failed} failed</span>}
+              </div>
+              <div className="flex gap-2">
+                <button onClick={pollBatch} disabled={polling}
+                  className="px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5"
+                  style={{ background: "rgba(255,255,255,0.06)", color: "#9CA3AF", border: "1px solid rgba(255,255,255,0.08)" }}>
+                  <RefreshCw className={`w-3 h-3 ${polling ? "animate-spin" : ""}`} /> Refresh
+                </button>
+                <button onClick={downloadAll} disabled={completed === 0}
+                  className="px-3 py-1.5 rounded-full text-xs flex items-center gap-1.5 disabled:opacity-40"
+                  style={{ background: "#3A7D6E", color: "#F5F0E8" }}>
+                  <Download className="w-3 h-3" /> Download all
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {renders.map(r => (
+                <div key={r.id} className="rounded-xl overflow-hidden"
+                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", aspectRatio: "9/16" }}>
+                  {r.status === "completed" && r.video_url ? (
+                    <video src={r.video_url} controls playsInline className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center">
+                      {r.status === "failed" ? (
+                        <span className="text-xs" style={{ color: "#E88D67" }}>Failed</span>
+                      ) : (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin mb-2" style={{ color: "#D4A853" }} />
+                          <span className="text-xs" style={{ color: "#9CA3AF" }}>Rendering #{r.batch_index + 1}</span>
+                        </>
+                      )}
+                    </div>
+                  )}
+                  <div className="p-2 text-[11px] line-clamp-2" style={{ color: "#9CA3AF" }}>
+                    {r.prompt}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Plan output */}
+        {mode === "plan" && plan && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-8 space-y-3">
             {ACTS.map(({ key, label, color }) => {
               const body = (plan as any)[key];
@@ -156,7 +320,6 @@ export default function ReelsPage() {
               );
             })}
 
-            {/* Shot list */}
             {plan.shot_list && plan.shot_list.length > 0 && (
               <div className="rounded-xl p-5" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
                 <div className="flex items-center gap-2 mb-3" style={{ color: "#D4A853" }}>
@@ -168,7 +331,6 @@ export default function ReelsPage() {
               </div>
             )}
 
-            {/* Caption */}
             {plan.caption && (
               <div className="rounded-xl p-5" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
                 <div className="flex items-center justify-between mb-3">
@@ -181,7 +343,6 @@ export default function ReelsPage() {
               </div>
             )}
 
-            {/* Hashtags + posting time + aesthetic */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {plan.hashtags && (
                 <div className="rounded-xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
