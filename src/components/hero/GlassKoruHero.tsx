@@ -14,10 +14,6 @@ const GlassKoruHero = () => {
   return (
     <section
       className="relative min-h-[100vh] flex items-center overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(180deg, #EAF4F4 0%, #DEEFEF 45%, #D4E9E8 100%)",
-      }}
     >
       {/* Sparkle bokeh atmosphere */}
       <div
