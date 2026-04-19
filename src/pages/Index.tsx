@@ -22,6 +22,7 @@ import HomepageProofStrip from "@/components/kete/HomepageProofStrip";
 import WeeklyChangesDigest from "@/components/landing/WeeklyChangesDigest";
 import { DotDivider } from "@/components/MicroDetails";
 import { KeteHoverEffect } from "@/components/KeteHoverEffects";
+import InteractiveTryItDemo from "@/components/landing/InteractiveTryItDemo";
 import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 
@@ -250,12 +251,23 @@ const Index = () => {
 
         {/* Video teaser is admin-only — see /admin/showcase-videos */}
 
-        {/* ═══ LIVE DEMO ═══ */}
+        {/* ═══ TRY IT LIVE — 3-step interactive demo ═══ */}
         <Sect>
-          <motion.div {...fade} className="text-center mb-14">
-            <SectionEyebrow>Try it now</SectionEyebrow>
-            <SectionH2>See it work. Right now.</SectionH2>
-            <SectionP>This is a real agent answering a real compliance question. No signup required.</SectionP>
+          <motion.div {...fade} className="text-center mb-10">
+            <SectionEyebrow>Try it live · 60 seconds</SectionEyebrow>
+            <SectionH2>Pick a kete. Run an agent. Get an evidence pack.</SectionH2>
+            <SectionP>No signup. Pick your industry below and watch a real workflow run end-to-end.</SectionP>
+          </motion.div>
+          <motion.div {...fade}>
+            <InteractiveTryItDemo />
+          </motion.div>
+        </Sect>
+
+        {/* ═══ FALLBACK: single-agent live demo (kept for variety) ═══ */}
+        <Sect>
+          <motion.div {...fade} className="text-center mb-10">
+            <SectionEyebrow>And a closer look</SectionEyebrow>
+            <SectionH2>One agent, one citation, in real time.</SectionH2>
           </motion.div>
           <motion.div {...fade}>
             <LiveDemoChatSection />

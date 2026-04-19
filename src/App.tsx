@@ -75,6 +75,7 @@ const AdminSmsPage = lazy(() => import("./pages/AdminSmsPage"));
 const HowItWorksPage = lazy(() => import("./pages/HowItWorksPage"));
 const StatusPage = lazy(() => import("./pages/StatusPage"));
 const EvidenceGalleryPage = lazy(() => import("./pages/EvidenceGalleryPage"));
+const EvidencePackSharePage = lazy(() => import("./pages/EvidencePackSharePage"));
 const KeteCollectionPage = lazy(() => import("./pages/KeteCollectionPage"));
 const KeteDetailPageNew = lazy(() => import("./pages/KeteDetailPage"));
 const CareDashboard = lazy(() => import("./pages/CareDashboard"));
@@ -209,6 +210,7 @@ const App = () => (
                         <Route path="/how-it-works" element={<Suspense fallback={null}><HowItWorksPage /></Suspense>} />
                         <Route path="/status" element={<Suspense fallback={null}><StatusPage /></Suspense>} />
                         <Route path="/evidence" element={<Suspense fallback={null}><EvidenceGalleryPage /></Suspense>} />
+                        <Route path="/evidence/share/:token" element={<Suspense fallback={null}><EvidencePackSharePage /></Suspense>} />
                         <Route path="/content-hub" element={<Navigate to="/how-it-works" replace />} />
                         <Route path="/agents" element={<Navigate to="/how-it-works" replace />} />
                         <Route path="/tools" element={<Navigate to="/how-it-works" replace />} />
