@@ -21,7 +21,7 @@ type Suggestion = {
   desc: string;
   saving: string;
   href: string;
-  icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
+  icon: React.ComponentType<any>;
 };
 
 const SUGGESTIONS: Record<string, Suggestion[]> = {
