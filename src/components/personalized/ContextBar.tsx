@@ -40,6 +40,7 @@ export default function ContextBar() {
   const { profile, isPersonalized } = usePersonalization();
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [liveUpdate, setLiveUpdate] = useState<{ title: string; url: string | null; published_at: string | null } | null>(null);
 
   useEffect(() => {
     if (!isPersonalized || dismissed) return;
