@@ -52,10 +52,9 @@ export interface GovernanceGate {
   created_at: string;
 }
 
-// Use type assertion to work with tables not yet in generated types
-const db = supabase as unknown as {
-  from: (table: string) => ReturnType<typeof supabase.from>;
-};
+// Tables not yet in generated types — use loose typing to skip deep inference
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db: any = supabase;
 
 export function useSovereigntyRegistry(kete?: string) {
   return useQuery({
