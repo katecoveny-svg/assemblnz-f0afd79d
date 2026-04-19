@@ -74,6 +74,26 @@ export default function ContextBar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isPersonalized, profile.detectedIndustry, profile.signals.pagesViewed, dismissed]);
 
+  // Pull the latest live compliance update for the detected kete
+  useEffect(() => {
+    const kete = profile.detectedIndustry;
+    if (!kete || !visible) return;
+    let cancelled = false;
+    (async () => {
+      const { data, error } = await supabase
+        .from('kb_documents')
+        .select('title, url, published_at, kb_sources!inner(agent_packs)')
+        .is('superseded_by', null)
+        .contains('kb_sources.agent_packs', [kete])
+        .order('published_at', { ascending: false, nullsFirst: false })
+        .limit(1)
+        .maybeSingle();
+      if (cancelled || error || !data) return;
+      setLiveUpdate({ title: data.title, url: data.url, published_at: data.published_at });
+    })();
+    return () => { cancelled = true; };
+  }, [profile.detectedIndustry, visible]);
+
   if (!isPersonalized || !profile.detectedIndustry || dismissed) return null;
 
   const info = KETE_INFO[profile.detectedIndustry];
