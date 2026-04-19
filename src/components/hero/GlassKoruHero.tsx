@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
-import { Suspense, lazy } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
-
-const GlassKoruOrb3D = lazy(() => import("./GlassKoruOrb3D"));
+import heroOrb from "@/assets/hero-glass-koru-orb.png";
 
 /* ─────────────────────────────────────────────────────────
    GLASS KORU HERO — photographic koru orb on icy bokeh
@@ -103,7 +101,7 @@ const GlassKoruHero = () => {
           </div>
         </div>
 
-        {/* Right: animated 3D glass koru orb */}
+        {/* Right: photographic koru orb (animated) */}
         <div className="relative w-full flex items-center justify-center koru-orb-stage">
           {/* Halo glow behind orb — pulses gently */}
           <div
@@ -120,18 +118,16 @@ const GlassKoruHero = () => {
           <span className="koru-mote koru-mote--c" />
           <span className="koru-mote koru-mote--d" />
 
-          <div
-            className="relative w-full mx-auto"
+          <img
+            src={heroOrb}
+            alt="Glass koru orb — engraved spiral inside a luminous sphere representing Aotearoa intelligence"
+            className="relative w-full max-w-[560px] lg:max-w-[640px] h-auto object-contain koru-orb-img"
             style={{
-              height: isMobile ? 360 : 580,
-              maxWidth: isMobile ? 420 : 640,
               filter: "drop-shadow(0 30px 60px rgba(74,138,140,0.22))",
             }}
-          >
-            <Suspense fallback={null}>
-              <GlassKoruOrb3D />
-            </Suspense>
-          </div>
+            loading="eager"
+            fetchPriority="high"
+          />
         </div>
       </div>
     </section>
