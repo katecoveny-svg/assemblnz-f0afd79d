@@ -23,6 +23,7 @@ import NexusJobSheet, { type JobSheetData, type DocumentStatus } from "@/compone
 import HandoffCard, { detectHandoff } from "@/components/HandoffCard";
 import ProactiveAlertCards from "@/components/chat/ProactiveAlertCards";
 import { agentTemplates } from "@/data/templates";
+import { AGENT_LIVE_DATA_MAP } from "@/data/agentLiveDataMap";
 import { useAuth } from "@/hooks/useAuth";
 import AccountDropdown from "@/components/AccountDropdown";
 import PaywallModal from "@/components/PaywallModal";
@@ -500,7 +501,8 @@ const ChatPage = () => {
   const isOra = agentId === "vitals";
   const isTahi = agentId === "remedy";
   const isVitae = agentId === "vitae";
-  const hasLiveDataTab = ["mariner", "harvest", "turf", "aura", "kaupapa", "motor", "arai"].includes(agentId || "");
+  // Live Data tab visible for any agent registered in the live-data map
+  const hasLiveDataTab = !!(agentId && AGENT_LIVE_DATA_MAP[agentId]?.length);
 
   const hasTemplates = !!(agentId && agentTemplates[agentId]?.length);
   const hasTemplateTab = !!(agentId && TEMPLATE_TAB_AGENTS.includes(agentId));

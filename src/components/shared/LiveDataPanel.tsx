@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Radio, RefreshCw, Loader2, AlertTriangle } from "lucide-react";
 import AISLiveTracker from "./AISLiveTracker";
+import { AGENT_LIVE_DATA_MAP, AIS_AGENTS } from "@/data/agentLiveDataMap";
 
 interface Props {
   agentId: string;
@@ -10,42 +11,12 @@ interface Props {
   onSendToChat?: (msg: string) => void;
 }
 
-// Agents that get the AIS WebSocket tracker
-const AIS_AGENTS = ["maritime", "pm"];
-
-const AGENT_IOT_MAP: Record<string, { fn: string; defaultBody: any; label: string }[]> = {
-  maritime: [
-    { fn: "iot-weather", defaultBody: { city: "Auckland", mode: "current" }, label: "Marine Weather" },
-  ],
-  agriculture: [
-    { fn: "iot-agri-satellite", defaultBody: { action: "ndvi" }, label: "Crop Health (NDVI)" },
-    { fn: "iot-weather", defaultBody: { city: "Hamilton", mode: "current" }, label: "Farm Weather" },
-  ],
-  sports: [
-    { fn: "iot-weather", defaultBody: { city: "Auckland", mode: "both" }, label: "Match Day Weather" },
-  ],
-  hospitality: [
-    { fn: "iot-weather", defaultBody: { city: "Queenstown", mode: "both" }, label: "Guest Activity Weather" },
-  ],
-  pm: [
-    { fn: "iot-freight-tracking", defaultBody: { action: "track", tracking_code: "DEMO" }, label: "Freight Tracker" },
-  ],
-  automotive: [
-    { fn: "iot-vehicle-tracking", defaultBody: { action: "fleet_status" }, label: "Fleet Status" },
-    { fn: "iot-vehicle-tracking", defaultBody: { action: "driver_scores" }, label: "Driver Scores" },
-  ],
-  construction: [
-    { fn: "iot-construction", defaultBody: { action: "site_conditions", lat: -36.85, lon: 174.76 }, label: "Site Conditions" },
-    { fn: "iot-construction", defaultBody: { action: "material_prices" }, label: "Material Prices" },
-  ],
-};
-
 export default function LiveDataPanel({ agentId, agentName, agentColor, onSendToChat }: Props) {
   const [feeds, setFeeds] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState<Record<string, boolean>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const sources = AGENT_IOT_MAP[agentId] || [];
+  const sources = AGENT_LIVE_DATA_MAP[agentId] || [];
   const showAIS = AIS_AGENTS.includes(agentId);
 
   const fetchFeed = async (idx: number) => {
