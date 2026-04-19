@@ -7,7 +7,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
+import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
 import TextUsButton from "@/components/kete/TextUsButton";
 import heroWhanau from "@/assets/toro-hero-whanau.jpg";
 

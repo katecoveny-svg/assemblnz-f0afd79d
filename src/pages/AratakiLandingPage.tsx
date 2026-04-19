@@ -6,7 +6,8 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
+import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import UseCaseToggle from "@/components/kete/UseCaseToggle";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import TextUsButton from "@/components/kete/TextUsButton";
@@ -119,8 +120,15 @@ export default function AratakiLandingPage() {
           </div>
         </section>
 
-        {/* ── Real Use Case ── */}
-        <KeteUseCaseSection data={ARATAKI_USE_CASE} />
+        {/* ── Real Use Case (collapsed by default) ── */}
+        <UseCaseToggle accent={ACCENT}>
+          <KeteUseCaseSection data={ARATAKI_USE_CASE} />
+        </UseCaseToggle>
+
+        {/* Live status strip */}
+        <section className="max-w-3xl mx-auto px-6 pb-12 text-center">
+          <LiveStatusStrip pack="arataki" agentCodes={["catalyst", "flux", "guardian", "logistics"]} accent={ACCENT} />
+        </section>
 
         {/* ── Four Verticals ── */}
         <section className="max-w-5xl mx-auto px-6 pb-24">
@@ -166,19 +174,11 @@ export default function AratakiLandingPage() {
           </div>
         </section>
 
-        {/* ── Compliance ── */}
-        <section className="max-w-4xl mx-auto px-6 pb-24">
-          <h2 className="text-[28px] font-light text-center mb-8" style={{ fontFamily: "'Lato', sans-serif", color: "#1A1D29" }}>
-            NZ automotive compliance, built in
-          </h2>
-          <div className="grid md:grid-cols-2 gap-3">
-            {COMPLIANCE.map(c => (
-              <div key={c} className="flex items-start gap-3 p-4 rounded-2xl" style={GLASS}>
-                <Shield size={14} className="mt-0.5 shrink-0" style={{ color: ACCENT }} />
-                <span className="text-[13px]" style={{ color: "#6B7280" }}>{c}</span>
-              </div>
-            ))}
-          </div>
+        {/* ── Compliance — single line ── */}
+        <section className="max-w-3xl mx-auto px-6 pb-24 text-center">
+          <p className="text-xs" style={{ color: "#5B6374", letterSpacing: "0.02em" }}>
+            <span style={{ color: ACCENT, fontWeight: 500 }}>Governed by</span> Land Transport Act, Consumer Guarantees Act, HSWA 2015, Fair Trading Act 1986, Motor Vehicle Sales Act 2003, Privacy Act 2020.
+          </p>
         </section>
 
         {/* ── CTA ── */}
