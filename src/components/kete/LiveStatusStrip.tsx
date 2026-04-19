@@ -23,11 +23,16 @@ export default function LiveStatusStrip({ pack, agentCodes, accent = "#3A7D6E" }
   useEffect(() => {
     let cancelled = false;
     (async () => {
+      // Every kete inherits platform-wide ("cross") governance feeds —
+      // Privacy Commissioner, NZ Gazette, Beehive, Parliament Bills etc.
+      // We count pack-specific + cross sources together so the strip reflects
+      // the full live brain available to that kete.
+      const packsToInclude = pack === "cross" ? ["cross"] : [pack, "cross"];
       const [{ data: srcRows }, { data: agentRows }] = await Promise.all([
         supabase
           .from("kb_sources")
-          .select("last_checked_at, active")
-          .contains("agent_packs", [pack])
+          .select("last_checked_at, active, agent_packs")
+          .overlaps("agent_packs", packsToInclude)
           .eq("active", true),
         agentCodes.length
           ? supabase
