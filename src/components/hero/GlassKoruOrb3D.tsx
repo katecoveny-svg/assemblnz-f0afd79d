@@ -1,168 +1,155 @@
-import { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, MeshTransmissionMaterial, Float } from "@react-three/drei";
+import * as React from "react";
 import * as THREE from "three";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Environment, Float, MeshTransmissionMaterial } from "@react-three/drei";
 
-/* Engraved Archimedean koru spiral disc */
-function EngravedSpiralDisc() {
-  const geometry = useMemo(() => {
-    const shape = new THREE.Shape();
-    const a = 0.05;
-    const b = 0.11;
-    const ribbon = 0.055;
-    const turns = 3.4;
-    const steps = 260;
+/* Engraved koru spiral suspended inside the orb */
+function KoruSpiral() {
+  const groupRef = React.useRef<THREE.Group>(null);
 
-    const outer: THREE.Vector2[] = [];
-    const inner: THREE.Vector2[] = [];
+  const spiralPoints = React.useMemo(() => {
+    const points: THREE.Vector3[] = [];
+    const turns = 3.1;
+    const maxR = 0.62;
 
-    for (let i = 0; i <= steps; i++) {
-      const t = (i / steps) * Math.PI * 2 * turns;
-      const r = a + b * t * 0.12;
-      outer.push(new THREE.Vector2(Math.cos(t) * (r + ribbon), Math.sin(t) * (r + ribbon)));
-      inner.push(new THREE.Vector2(Math.cos(t) * Math.max(r - ribbon, 0.01), Math.sin(t) * Math.max(r - ribbon, 0.01)));
+    for (let i = 0; i < 240; i++) {
+      const t = i / 239;
+      const angle = turns * Math.PI * 2 * t;
+      const radius = maxR * (1 - t) * 0.95 + 0.06;
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+      points.push(new THREE.Vector3(x, y, 0));
     }
 
-    shape.moveTo(outer[0].x, outer[0].y);
-    outer.forEach((p) => shape.lineTo(p.x, p.y));
-    for (let i = inner.length - 1; i >= 0; i--) shape.lineTo(inner[i].x, inner[i].y);
-    shape.lineTo(outer[0].x, outer[0].y);
-
-    const bulb = new THREE.Path();
-    bulb.absarc(0, 0, 0.085, 0, Math.PI * 2, false);
-    shape.holes.push(bulb);
-
-    const geo = new THREE.ExtrudeGeometry(shape, {
-      depth: 0.08,
-      bevelEnabled: true,
-      bevelThickness: 0.012,
-      bevelSize: 0.012,
-      bevelSegments: 4,
-      curveSegments: 64,
-    });
-    geo.center();
-    return geo;
+    return points.reverse();
   }, []);
 
-  return (
-    <mesh geometry={geometry} rotation={[0, 0, -Math.PI / 6]} scale={1.4}>
-      <MeshTransmissionMaterial
-        backside
-        samples={6}
-        thickness={0.5}
-        transmission={0.95}
-        roughness={0.18}
-        ior={1.42}
-        chromaticAberration={0.05}
-        distortion={0.06}
-        distortionScale={0.2}
-        temporalDistortion={0.05}
-        color="#e8f6f5"
-        attenuationColor="#a8ddd9"
-        attenuationDistance={2.2}
-      />
-    </mesh>
+  const curve = React.useMemo(
+    () => new THREE.CatmullRomCurve3(spiralPoints),
+    [spiralPoints]
   );
-}
+  const tube = React.useMemo(
+    () => new THREE.TubeGeometry(curve, 240, 0.045, 32, false),
+    [curve]
+  );
 
-/* Refractive glass orb wrapping the engraved disc */
-function GlassOrb() {
-  const group = useRef<THREE.Group>(null);
-
-  useFrame((_, delta) => {
-    if (group.current) group.current.rotation.y += delta * 0.18;
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    if (groupRef.current) {
+      groupRef.current.rotation.z = t * 0.08;
+      groupRef.current.position.y = Math.sin(t * 0.9) * 0.015;
+    }
   });
 
   return (
-    <Float speed={1.1} rotationIntensity={0.18} floatIntensity={0.5} floatingRange={[-0.12, 0.12]}>
-      <group ref={group}>
-        <EngravedSpiralDisc />
+    <group ref={groupRef}>
+      <mesh geometry={tube} position={[0, 0, 0.01]}>
+        <meshPhysicalMaterial
+          color="#F3FFFD"
+          roughness={0.18}
+          transmission={0.2}
+          thickness={0.3}
+          transparent
+          opacity={0.95}
+          clearcoat={0.6}
+          clearcoatRoughness={0.2}
+          ior={1.35}
+        />
+      </mesh>
+      {/* Soft inner bulb at the spiral centre */}
+      <mesh position={[0, 0, 0.02]}>
+        <sphereGeometry args={[0.07, 32, 32]} />
+        <meshPhysicalMaterial
+          color="#FFFFFF"
+          roughness={0.25}
+          transmission={0.3}
+          thickness={0.2}
+          transparent
+          opacity={0.85}
+        />
+      </mesh>
+    </group>
+  );
+}
+
+/* Pale translucent sea-glass orb */
+function GlassOrb() {
+  const orbRef = React.useRef<THREE.Group>(null);
+
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    if (orbRef.current) {
+      orbRef.current.rotation.y = Math.sin(t * 0.25) * 0.12;
+      orbRef.current.rotation.x = Math.cos(t * 0.2) * 0.05;
+    }
+  });
+
+  return (
+    <Float
+      speed={0.9}
+      rotationIntensity={0.05}
+      floatIntensity={0.25}
+      floatingRange={[-0.04, 0.04]}
+    >
+      <group ref={orbRef}>
+        {/* Engraved koru inside */}
+        <KoruSpiral />
+
+        {/* Outer glass shell */}
         <mesh>
-          <sphereGeometry args={[1.55, 96, 96]} />
+          <sphereGeometry args={[1.35, 128, 128]} />
           <MeshTransmissionMaterial
             backside
-            samples={10}
-            thickness={1.2}
+            samples={8}
+            thickness={0.55}
             transmission={1}
-            roughness={0.04}
-            ior={1.5}
-            chromaticAberration={0.12}
-            distortion={0.08}
-            distortionScale={0.25}
-            temporalDistortion={0.05}
-            color="#f3fbfa"
-            attenuationColor="#cdeae8"
-            attenuationDistance={3.6}
+            roughness={0.08}
+            ior={1.32}
+            chromaticAberration={0.025}
+            anisotropy={0.1}
+            distortion={0.02}
+            distortionScale={0.15}
+            temporalDistortion={0.02}
+            color="#E8F7F4"
+            attenuationColor="#BFE4DD"
+            attenuationDistance={4.5}
           />
         </mesh>
-        <mesh>
-          <sphereGeometry args={[0.32, 32, 32]} />
-          <meshBasicMaterial color="#ffffff" transparent opacity={0.35} />
+
+        {/* Soft iridescent highlight */}
+        <mesh position={[-0.45, 0.55, 0.9]}>
+          <sphereGeometry args={[0.28, 32, 32]} />
+          <meshBasicMaterial color="#FFFFFF" transparent opacity={0.18} />
+        </mesh>
+        <mesh position={[0.55, -0.4, 0.85]}>
+          <sphereGeometry args={[0.18, 32, 32]} />
+          <meshBasicMaterial color="#D8F2EC" transparent opacity={0.22} />
         </mesh>
       </group>
     </Float>
   );
 }
 
-/* Sparkle bokeh particles */
-function SparkleBokeh({ count = 110 }: { count?: number }) {
-  const pointsRef = useRef<THREE.Points>(null);
-
-  const positions = useMemo(() => {
-    const positions = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const r = 2.2 + Math.random() * 3.5;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      positions[i * 3 + 0] = r * Math.sin(phi) * Math.cos(theta);
-      positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta) * 0.7;
-      positions[i * 3 + 2] = r * Math.cos(phi) - 1.2;
-    }
-    return positions;
-  }, [count]);
-
-  useFrame((state) => {
-    if (!pointsRef.current) return;
-    const t = state.clock.elapsedTime;
-    pointsRef.current.rotation.y = t * 0.04;
-    const mat = pointsRef.current.material as THREE.PointsMaterial;
-    mat.opacity = 0.55 + Math.sin(t * 1.4) * 0.15;
-  });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.07}
-        sizeAttenuation
-        color="#ffffff"
-        transparent
-        opacity={0.7}
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
-  );
-}
-
-export default function GlassKoruOrb3D({ className = "" }: { className?: string }) {
+export default function GlassKoruOrb3D({
+  className = "",
+}: {
+  className?: string;
+}) {
   return (
     <div className={`w-full h-full ${className}`}>
       <Canvas
-        camera={{ position: [0, 0, 5.2], fov: 38 }}
+        camera={{ position: [0, 0, 4.6], fov: 38 }}
         dpr={[1, 1.8]}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >
-        <ambientLight intensity={0.55} />
-        <directionalLight position={[5, 5, 5]} intensity={1.1} />
-        <directionalLight position={[-4, -2, 3]} intensity={0.45} color="#cdeae8" />
-        <directionalLight position={[0, 6, -3]} intensity={0.35} color="#ffffff" />
-        <pointLight position={[0, 0, 3]} intensity={0.6} color="#ffffff" />
-        <Environment preset="studio" />
-        <SparkleBokeh count={110} />
+        {/* Soft, even lighting — no harsh reflections */}
+        <ambientLight intensity={0.85} />
+        <directionalLight position={[3, 4, 5]} intensity={0.55} color="#FFFFFF" />
+        <directionalLight position={[-4, -2, 3]} intensity={0.3} color="#E0F2EE" />
+        <directionalLight position={[0, 5, -3]} intensity={0.2} color="#F4FBF9" />
+        <pointLight position={[0, 0, 3]} intensity={0.35} color="#FFFFFF" />
+        <Environment preset="apartment" />
         <GlassOrb />
       </Canvas>
     </div>

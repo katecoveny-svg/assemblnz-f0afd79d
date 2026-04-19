@@ -5,9 +5,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const GlassKoruOrb3D = lazy(() => import("./GlassKoruOrb3D"));
 
 /* ─────────────────────────────────────────────────────────
-   GLASS KORU HERO — photographic koru orb on icy bokeh
-   matching the brand reference. Single hero image with
-   sparkle aura, soft reflective floor, headline & CTAs.
+   SEA-GLASS KORU HERO — pale translucent teal orb on a
+   mist-white to pale-teal gradient. Calm, premium, luminous.
    ───────────────────────────────────────────────────────── */
 
 const GlassKoruHero = () => {
@@ -15,115 +14,115 @@ const GlassKoruHero = () => {
 
   return (
     <section
-      className="relative min-h-[100vh] flex items-center overflow-hidden"
+      className="relative overflow-hidden"
+      style={{
+        background:
+          "radial-gradient(circle at top, #fbfffe 0%, #f3fbfa 28%, #e8f6f3 55%, #deefeb 100%)",
+      }}
     >
-      {/* Sparkle bokeh atmosphere */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 78% 45%, rgba(255,255,255,0.85) 0%, rgba(220,240,238,0.4) 30%, transparent 65%), radial-gradient(ellipse 50% 60% at 15% 30%, rgba(255,255,255,0.5) 0%, transparent 60%)",
-        }}
-      />
-      {/* Floor sheen */}
-      <div
-        className="absolute bottom-0 left-0 right-0 pointer-events-none"
-        style={{
-          height: "30%",
-          background:
-            "linear-gradient(180deg, transparent 0%, rgba(168,221,219,0.18) 50%, rgba(200,235,233,0.35) 100%)",
-        }}
-      />
+      {/* Soft atmospheric blooms */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute left-1/2 top-0 h-[420px] w-[420px] -translate-x-1/2 rounded-full blur-3xl"
+          style={{ background: "rgba(168,221,219,0.18)" }}
+        />
+        <div
+          className="absolute bottom-0 left-1/2 h-[260px] w-[760px] -translate-x-1/2 rounded-full blur-3xl"
+          style={{ background: "rgba(207,234,231,0.28)" }}
+        />
+      </div>
 
-      <div className="relative z-10 max-w-[1280px] mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center px-5 sm:px-8 lg:px-12 py-16 lg:py-20">
+      <div className="relative mx-auto grid min-h-[92vh] max-w-7xl grid-cols-1 items-center gap-10 px-6 pb-16 pt-28 md:px-10 lg:grid-cols-2 lg:gap-16 lg:px-16">
         {/* Left: text */}
-        <div className="text-left">
+        <div className="max-w-xl">
+          <div
+            className="mb-5 inline-flex items-center rounded-full px-4 py-2 text-sm backdrop-blur-md"
+            style={{
+              border: "1px solid rgba(73,128,126,0.15)",
+              background: "rgba(255,255,255,0.45)",
+              color: "#4A6E6E",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+            }}
+          >
+            Intelligence, shaped for Aotearoa
+          </div>
+
           <h1
             style={{
               fontFamily: "'Lato', sans-serif",
-              fontWeight: 400,
+              fontWeight: 500,
               fontSize: isMobile ? "2.25rem" : "3.75rem",
-              lineHeight: 1.12,
-              letterSpacing: "-0.02em",
-              color: "#1F4E54",
+              lineHeight: 1.04,
+              letterSpacing: "-0.03em",
+              color: "#214F55",
             }}
           >
-            Empowering
-            <br />
-            New&nbsp;Zealand business
-            <br />
-            with the intelligence
-            <br />
-            of Aotearoa.
+            Simulation-tested intelligence for real operational work.
           </h1>
 
           <p
-            className="mt-7 max-w-[460px]"
+            className="mt-6 max-w-lg"
             style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontWeight: 400,
-              fontSize: isMobile ? "0.95rem" : "1.05rem",
+              fontSize: isMobile ? "1rem" : "1.125rem",
               lineHeight: 1.7,
-              color: "#5C7B7E",
+              color: "#5F7D7E",
             }}
           >
-            The leading AI platform designed to unlock knowledge and insights
-            from all your company's content.
+            Assembl delivers policy-governed AI systems designed for Aotearoa —
+            specialist agents, trusted workflows, and premium operational tools
+            for New Zealand business.
           </p>
 
-          <div className="flex flex-wrap gap-3 mt-9">
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <Link
               to="/start"
-              className="inline-flex items-center justify-center px-9 py-4 rounded-full transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
+              className="inline-flex items-center justify-center rounded-full px-7 py-4 transition-all duration-300 hover:-translate-y-[1px]"
               style={{
-                background: "linear-gradient(180deg, #6FBDBE, #4FA3A6)",
-                color: "#FFFFFF",
+                background: "#7FD4CC",
+                color: "#133E43",
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 500,
-                fontSize: "1rem",
-                boxShadow: "0 8px 22px rgba(79,163,166,0.32)",
+                fontSize: "1.0625rem",
+                boxShadow: "0 10px 30px rgba(96,188,180,0.22)",
               }}
             >
-              Get started
+              Explore the platform
             </Link>
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center px-9 py-4 rounded-full transition-all duration-300 hover:scale-[1.02]"
+              className="inline-flex items-center justify-center rounded-full px-7 py-4 backdrop-blur-md transition-all duration-300 hover:bg-white/70"
               style={{
-                background: "transparent",
-                border: "1.5px solid rgba(79,163,166,0.55)",
-                color: "#3D6B6E",
+                background: "rgba(255,255,255,0.5)",
+                border: "1px solid rgba(73,128,126,0.20)",
+                color: "#2A5A5F",
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 500,
-                fontSize: "1rem",
+                fontSize: "1.0625rem",
               }}
             >
-              Speak to a specialist
+              Speak to us
             </Link>
           </div>
         </div>
 
-        {/* Right: animated 3D glass koru orb */}
-        <div className="relative w-full flex items-center justify-center koru-orb-stage">
+        {/* Right: animated 3D sea-glass koru orb */}
+        <div className="relative w-full flex items-center justify-center">
           <div
-            className="absolute inset-0 pointer-events-none koru-orb-halo"
+            className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "radial-gradient(circle at 50% 50%, rgba(168,221,219,0.6) 0%, rgba(200,235,233,0.28) 35%, transparent 65%)",
-              filter: "blur(22px)",
+                "radial-gradient(circle at 50% 50%, rgba(191,228,221,0.35) 0%, rgba(207,234,231,0.18) 40%, transparent 70%)",
+              filter: "blur(20px)",
             }}
           />
-          <span className="koru-mote koru-mote--a" />
-          <span className="koru-mote koru-mote--b" />
-          <span className="koru-mote koru-mote--c" />
-          <span className="koru-mote koru-mote--d" />
-
           <div
             className="relative w-full mx-auto"
             style={{
               height: isMobile ? 380 : 600,
               maxWidth: isMobile ? 420 : 640,
-              filter: "drop-shadow(0 30px 60px rgba(74,138,140,0.22))",
+              filter: "drop-shadow(0 24px 48px rgba(120,170,168,0.18))",
             }}
           >
             <Suspense fallback={null}>
