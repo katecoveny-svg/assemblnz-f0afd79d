@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import KeteIcon from "./KeteIcon";
+import KeteSigil from "@/components/marama/KeteSigil";
+import LiveDataRibbon from "@/components/marama/LiveDataRibbon";
 
 interface KeteDashboardShellProps {
   name: string;
@@ -10,6 +12,10 @@ interface KeteDashboardShellProps {
   variant?: "standard" | "dense" | "organic" | "tricolor" | "warm";
   children: React.ReactNode;
   headerExtra?: React.ReactNode;
+  /** Optional kete key for custom sigil — falls back to woven KeteIcon. */
+  keteKey?: "manaaki" | "waihanga" | "auaha" | "arataki" | "toro" | "pikau" | "te-kahui-reo" | "auraki";
+  /** Hide the live data ribbon if a dashboard wants its own. */
+  hideRibbon?: boolean;
 }
 
 /**
@@ -24,8 +30,12 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
   variant = "standard",
   children,
   headerExtra,
+  keteKey,
+  hideRibbon = false,
 }) => {
   const rgb = hexToRgb(accentColor);
+  // Auto-derive sigil key from name if not given
+  const autoKey = (keteKey ?? guessSigilKey(name)) as any;
 
   return (
     <div
@@ -109,22 +119,26 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
             `,
           }}
         >
-          {/* Mini kete icon */}
+          {/* Custom 3D sigil — never lucide / emoji */}
           <div className="relative w-14 h-14 flex-shrink-0">
             <div
               className="absolute inset-0 rounded-full"
               style={{
-                background: `radial-gradient(circle, rgba(${rgb},0.15) 0%, transparent 70%)`,
+                background: `radial-gradient(circle, rgba(${rgb},0.18) 0%, transparent 70%)`,
               }}
             />
-            <KeteIcon
-              name={name}
-              accentColor={accentColor}
-              accentLight={accentLight}
-              variant={variant}
-              size="small"
-              animated={false}
-            />
+            {autoKey ? (
+              <KeteSigil kete={autoKey} accent={accentColor} accentLight={accentLight} size={56} />
+            ) : (
+              <KeteIcon
+                name={name}
+                accentColor={accentColor}
+                accentLight={accentLight}
+                variant={variant}
+                size="small"
+                animated={false}
+              />
+            )}
           </div>
 
           <div className="flex-1 min-w-0">
