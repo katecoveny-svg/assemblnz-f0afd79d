@@ -229,10 +229,7 @@ export default function AratakiDashboard() {
         </div>
       </DashboardGlassCard>
 
-      <div className="grid md:grid-cols-2 gap-4">
-        <SovereigntyPanel kete="arataki" accentColor={ACCENT} />
-        <SovereigntySimulator kete="arataki" accentColor={ACCENT} />
-      </div>
+      <SovereigntySimulator kete="arataki" accentColor={ACCENT} />
 
       <KeteEvidencePackPanel
         keteSlug="arataki"

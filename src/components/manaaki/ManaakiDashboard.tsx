@@ -272,11 +272,8 @@ export default function ManaakiDashboard() {
         </div>
       </DashboardGlassCard>
 
-      {/* Māori Data Sovereignty */}
-      <div className="grid md:grid-cols-2 gap-4">
-        <SovereigntyPanel kete="manaaki" accentColor={ACCENT} />
-        <SovereigntySimulator kete="manaaki" accentColor={ACCENT} />
-      </div>
+      {/* Māori Data Sovereignty — live red-team simulator */}
+      <SovereigntySimulator kete="manaaki" accentColor={ACCENT} />
 
       <KeteEvidencePackPanel
         keteSlug="manaaki"
