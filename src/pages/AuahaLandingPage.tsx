@@ -277,15 +277,16 @@ export default function AuahaLandingPage() {
         
 
         <section className="relative text-center px-6 pb-24">
-          <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse 50% 60% at 50% 50%, ${ACCENT}06 0%, transparent 60%)` }} />
+          <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse 50% 60% at 50% 50%, ${ACCENT}10 0%, transparent 60%)` }} />
           <motion.div className="relative inline-flex flex-col items-center gap-4 p-10 rounded-2xl overflow-hidden" style={{
-            background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
-            border: `1px solid ${POUNAMU}25`,
-            boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 60px ${ACCENT}05`,
+            background: "rgba(255,255,255,0.7)",
+            border: `1px solid ${POUNAMU}40`,
+            backdropFilter: "blur(10px)",
+            boxShadow: `0 8px 32px rgba(58,125,110,0.08), 0 0 60px ${ACCENT}10`,
           }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}40, transparent)` }} />
-            <p className="text-sm text-white/60">Ready to coordinate your creative pipeline?</p>
-            <Link to="/auaha" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold transition-all overflow-hidden" style={{ color: "#3D4250" }}>
+            <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}60, transparent)` }} />
+            <p className="text-sm" style={{ color: "#5B6374" }}>Ready to coordinate your creative pipeline?</p>
+            <Link to="/auaha" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold transition-all overflow-hidden" style={{ color: "#FFFFFF" }}>
               <div className="absolute inset-0 rounded-full" style={{ background: POUNAMU }} />
               <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
               <span className="relative z-10">Open Auaha Studio</span>
