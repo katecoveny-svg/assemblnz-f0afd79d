@@ -49,16 +49,6 @@ const AboutPage = () => {
           <p className="text-sm sm:text-base font-body text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-8">
             A New Zealand company. Six industry kete plus Tōro for whānau, one compliance pipeline, every output signed and sourced.
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link to="/contact" className="group relative px-8 py-3.5 rounded-full text-sm font-body font-medium overflow-hidden">
-              <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(135deg, ${POUNAMU}, #2D6A5E)` }} />
-              <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
-              <span className="relative z-10 text-foreground">Meet the team</span>
-            </Link>
-            <Link to="/about#founder" className="group px-8 py-3.5 rounded-full text-sm font-body font-medium transition-all duration-300" style={{ border: "1px solid rgba(74,165,168,0.15)", color: "#6B7280", background: "rgba(255,255,255,0.5)" }}>
-              <span className="group-hover:text-white/80 transition-colors">Read the founder note</span>
-            </Link>
-          </div>
         </motion.div>
       </section>
 
