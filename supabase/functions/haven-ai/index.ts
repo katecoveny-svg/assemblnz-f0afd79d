@@ -316,6 +316,11 @@ Deno.serve(async (req) => {
 
     const { messages } = await req.json();
 
+    // Inject Knowledge Brain grounding from latest user message
+    const lastUserMsg = [...messages].reverse().find((m: { role: string; content: string }) => m.role === "user")?.content ?? "";
+    const grounding = await gatherLiveGrounding(lastUserMsg, "haven", serviceClient);
+    const groundedSystem = HAVEN_SYSTEM_PROMPT + grounding;
+
     // Call AI with tools
     const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -326,7 +331,7 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          { role: "system", content: HAVEN_SYSTEM_PROMPT },
+          { role: "system", content: groundedSystem },
           ...messages,
         ],
         tools: TOOLS,
@@ -366,7 +371,7 @@ Deno.serve(async (req) => {
         body: JSON.stringify({
           model: "google/gemini-3-flash-preview",
           messages: [
-            { role: "system", content: HAVEN_SYSTEM_PROMPT },
+            { role: "system", content: groundedSystem },
             ...messages,
             choice.message,
             ...toolResults,
