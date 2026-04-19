@@ -177,6 +177,8 @@ export function KeteHoverEffect({ kete }: { kete: string }) {
     case "auaha": return <AuahaHoverEffect />;
     case "arataki": return <AratakiHoverEffect />;
     case "pikau": return <PikauHoverEffect />;
+    case "hoko": return <HokoHoverEffect />;
+    case "ako": return <AkoHoverEffect />;
     default: return null;
   }
 }
