@@ -330,6 +330,7 @@ const GlassKoruHero = () => {
           </div>
 
           <h1
+            className="font-sans text-6xl text-left text-secondary-foreground"
             style={{
               fontFamily: "'Lato', sans-serif",
               fontWeight: 400,
@@ -339,7 +340,7 @@ const GlassKoruHero = () => {
               color: "#0F172A",
             }}
           >
-            The operating
+            The intelligent operating
             <br />
             system for
             <br />
