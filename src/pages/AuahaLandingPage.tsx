@@ -8,7 +8,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
-import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
+import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 
 import TextUsButton from "@/components/kete/TextUsButton";
@@ -335,7 +335,9 @@ export default function AuahaLandingPage() {
           </motion.div>
         </section>
 
-        <KnowledgeSourcesStrip keteCode="AUAHA" />
+        <section className="px-6 pb-12 text-center">
+          <LiveStatusStrip pack="auaha" agentCodes={["prism", "creative", "nova", "aura", "pulse"]} accent="#3A7D6E" />
+        </section>
         <BrandFooter />
         <KeteAgentChat
           keteName="Auaha" keteLabel="Creative & Media" accentColor="#F0D078"
