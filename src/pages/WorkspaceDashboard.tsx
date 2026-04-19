@@ -172,7 +172,7 @@ export default function WorkspaceDashboard() {
           <div className="max-w-3xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-3">
               {tenant.logo_url ? (
-                <img loading="lazy" decoding="async" src={tenant.logo_url} alt="" className="w-8 h-8 rounded-lg object-contain" >
+                <img src={tenant.logo_url} alt="" className="w-8 h-8 rounded-lg object-contain" >
               ) : (
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${accent}20`, color: accent }}>
                   {tenant.name.charAt(0)}

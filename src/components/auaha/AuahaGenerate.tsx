@@ -392,7 +392,7 @@ export default function AuahaGenerate() {
                     {job.resultUrl && (
                       <div className="rounded-lg overflow-hidden border border-gray-200">
                         {job.type === "image" ? (
-                          <img loading="lazy" decoding="async" src={job.resultUrl} alt="Generated" className="w-full max-h-[400px] object-contain bg-[rgba(26,29,41,0.02)]0" >
+                          <img src={job.resultUrl} alt="Generated" className="w-full max-h-[400px] object-contain bg-[rgba(26,29,41,0.02)]0" >
                         ) : (
                           <video src={job.resultUrl} controls className="w-full" />
                         )}

@@ -874,7 +874,7 @@ const DashboardPage = () => {
                             <div key={exp.id} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-white/[0.04] transition-colors">
                               <Link to={`/chat/${agent?.id || exp.agent_id}`} className="flex items-center gap-2 flex-1 min-w-0">
                                 {exp.output_type === "generated_image" && exp.image_url ? (
-                                  <img loading="lazy" decoding="async" src={exp.image_url} alt={exp.title} className="w-8 h-8 rounded object-cover shrink-0 border border-gray-200" >
+                                  <img src={exp.image_url} alt={exp.title} className="w-8 h-8 rounded object-cover shrink-0 border border-gray-200" >
                                 ) : (
                                   <FileText size={10} style={{ color }} className="shrink-0" />
                                 )}

@@ -77,7 +77,7 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
           )}
 
           <Link to="/admin/dashboard" className="flex items-center gap-2 shrink-0">
-            <img loading="lazy" decoding="async" src={assemblMark} alt="Assembl" className="w-6 h-6 object-contain" >
+            <img src={assemblMark} alt="Assembl" className="w-6 h-6 object-contain" >
             <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
               className="text-xs tracking-[3px] uppercase text-[#3D4250] hidden sm:inline">
               ASSEMBL

@@ -82,7 +82,7 @@ export default function AdminBrandAssetsTab() {
         {/* Video preview with logo overlay */}
         <div className="relative rounded-2xl overflow-hidden mb-4 bg-black"
              style={{ aspectRatio: "1/1", maxWidth: 600, margin: "0 auto", boxShadow: "0 20px 60px rgba(0,0,0,0.25)" }}>
-          <img loading="lazy" decoding="async" src={BRAND_VIDEO_URL} alt="Assembl brand video" className="w-full h-full object-cover" >
+          <img src={BRAND_VIDEO_URL} alt="Assembl brand video" className="w-full h-full object-cover" >
 
           {/* Glass logo overlay */}
           <div className="absolute bottom-4 left-4 flex items-center gap-2 px-3 py-2 rounded-xl"
@@ -92,7 +92,7 @@ export default function AdminBrandAssetsTab() {
                  WebkitBackdropFilter: "blur(20px)",
                  border: "1px solid rgba(255,255,255,0.25)",
                }}>
-            <img loading="lazy" decoding="async" src={assemblMark} alt="Assembl" className="w-6 h-6" >
+            <img src={assemblMark} alt="Assembl" className="w-6 h-6" >
             <span className="text-white text-xs font-light tracking-[3px]" style={{ fontFamily: "'Lato', sans-serif" }}>
               ASSEMBL
             </span>
@@ -173,7 +173,7 @@ export default function AdminBrandAssetsTab() {
               style={{ background: "rgba(255,255,255,0.5)", border: `1px solid ${TEAL}20` }}
             >
               <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-[#FAFBFC]">
-                <img loading="lazy" decoding="async" src={asset.file} alt={asset.name} className="max-w-full max-h-full object-contain" >
+                <img src={asset.file} alt={asset.name} className="max-w-full max-h-full object-contain" >
               </div>
               <span className="text-[10px] font-medium text-center" style={{ color: CHARCOAL }}>
                 {asset.name}

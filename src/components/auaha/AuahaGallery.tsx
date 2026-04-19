@@ -80,7 +80,7 @@ export default function AuahaGallery() {
                     <Video className="w-8 h-8 text-[#8B92A0]" />
                   </div>
                 ) : (
-                  <img loading="lazy" decoding="async" src={asset.file_url} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" >
+                  <img src={asset.file_url} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" >
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">

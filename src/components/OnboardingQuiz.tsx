@@ -115,7 +115,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
             {/* 3D Robot */}
             <Suspense fallback={
               <div className="w-full h-[280px] sm:h-[340px] flex items-center justify-center">
-                <img loading="lazy" decoding="async" src={assemblMark} alt="Assembl" className="w-32 h-32 object-contain drop-shadow-[0_0_30px_rgba(212,168,67,0.3)]" >
+                <img src={assemblMark} alt="Assembl" className="w-32 h-32 object-contain drop-shadow-[0_0_30px_rgba(212,168,67,0.3)]" >
               </div>
             }>
               <NexusHero3D />

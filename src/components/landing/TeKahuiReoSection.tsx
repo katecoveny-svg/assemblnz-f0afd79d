@@ -43,7 +43,7 @@ const TeKahuiReoSection = () => (
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="flex items-center justify-center gap-3 mb-3">
-          <img loading="lazy" decoding="async"
+          <img
             src={teKahuiReoMark}
             alt="Te Kāhui Reo"
             className="w-8 h-8"
@@ -195,7 +195,7 @@ const TeKahuiReoSection = () => (
           </div>
           <div className="sm:w-1/2 p-6 flex flex-col justify-center">
             <div className="flex items-center gap-3 mb-4">
-              <img loading="lazy" decoding="async" src={toroaIcon} alt="Toro" className="w-12 h-12 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 12px rgba(212,168,67,0.3))" }} >
+              <img src={toroaIcon} alt="Toro" className="w-12 h-12 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 12px rgba(212,168,67,0.3))" }} >
               <div>
                 <span
                   style={{

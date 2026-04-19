@@ -371,7 +371,7 @@ export default function AuahaVideoStudio() {
                 <div className="space-y-2">
                   {frames.map((f, i) => (
                     <div key={i} className="relative rounded-lg overflow-hidden">
-                      <img loading="lazy" decoding="async" src={f} alt={`Scene ${i + 1}`} className="w-full rounded-lg" >
+                      <img src={f} alt={`Scene ${i + 1}`} className="w-full rounded-lg" >
                       <div className="absolute bottom-2 left-2 bg-[#FAFBFC]/60 px-2 py-0.5 rounded text-foreground text-[10px]">Scene {i + 1}</div>
                     </div>
                   ))}

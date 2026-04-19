@@ -166,7 +166,7 @@ export default function BimAnalysisPanel({ agentId, agentName }: BimPanelProps) 
               </div>
               {previewExpanded && (
                 <div className="w-full max-h-48 overflow-hidden rounded-lg border border-border/20">
-                  <img loading="lazy" decoding="async" src={imageBase64} alt="Uploaded plan" className="w-full h-full object-contain" >
+                  <img src={imageBase64} alt="Uploaded plan" className="w-full h-full object-contain" >
                 </div>
               )}
             </div>

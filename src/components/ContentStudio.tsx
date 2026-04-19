@@ -407,7 +407,7 @@ Keep it NZ-focused. Use NZ spelling and tone. Be creative and punchy.`;
               {generatedImage && (
                 <div className="space-y-3">
                   <div className="rounded-lg overflow-hidden border" style={{ borderColor: `${PRISM_COLOR}25` }}>
-                    <img loading="lazy" decoding="async"
+                    <img
                       src={generatedImage}
                       alt="Generated social media image"
                       className="w-full h-auto"
