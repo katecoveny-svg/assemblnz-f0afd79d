@@ -452,24 +452,17 @@ MANA (Approve):
     };
     const brainPack = PACK_FOR_BRAIN[selectedAgent] ?? agentPack ?? "cross";
     try {
-      const er = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ model: "google/text-embedding-004", input: message.slice(0, 1500) }),
-      });
-      if (er.ok) {
-        const ej = await er.json();
-        const vec = ej?.data?.[0]?.embedding;
-        if (vec) {
-          const { data: brainHits } = await supabase.rpc("match_kb_knowledge", {
-            query_embedding: vec, agent_pack: brainPack, top_k: 4,
-          });
-          if (brainHits?.length) {
-            const facts = (brainHits as Array<Record<string, unknown>>).map((h, i) =>
-              `[${i + 1}] ${h.title} — ${h.source_name} (${h.published_at ? String(h.published_at).slice(0, 10) : "n/d"})\n${String(h.snippet ?? "").slice(0, 400)}${h.url ? `\n→ ${h.url}` : ""}`
-            ).join("\n\n");
-            expertBlock += `\n\n--- LIVE KNOWLEDGE BRAIN (verified, fresh) ---\nGround your answer in these recent sources. Cite them with 🟢 HIGH confidence + the URL.\n${facts}`;
-          }
+      const GEMINI_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
+      const vec = await embedText(message.slice(0, 1500), GEMINI_KEY);
+      if (vec) {
+        const { data: brainHits } = await supabase.rpc("match_kb_knowledge", {
+          query_embedding: vec, agent_pack: brainPack, top_k: 4,
+        });
+        if (brainHits?.length) {
+          const facts = (brainHits as Array<Record<string, unknown>>).map((h, i) =>
+            `[${i + 1}] ${h.title} — ${h.source_name} (${h.published_at ? String(h.published_at).slice(0, 10) : "n/d"})\n${String(h.snippet ?? "").slice(0, 400)}${h.url ? `\n→ ${h.url}` : ""}`
+          ).join("\n\n");
+          expertBlock += `\n\n--- LIVE KNOWLEDGE BRAIN (verified, fresh) ---\nGround your answer in these recent sources. Cite them with 🟢 HIGH confidence + the URL.\n${facts}`;
         }
       }
     } catch (err) {

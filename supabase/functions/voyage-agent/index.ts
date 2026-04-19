@@ -8,6 +8,7 @@
 
 import { serve } from "https://deno.land/std@0.208.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { embedText } from "../_shared/embed.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -100,22 +101,15 @@ async function gatherLiveGrounding(prompt: string): Promise<string> {
   // 2. Brain RAG on travel-safety + destination feeds (kb_doc_chunks via match_kb_knowledge)
   try {
     const sb = createClient(SUPABASE_URL, SERVICE_KEY);
-    const er = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ model: "google/text-embedding-004", input: prompt.slice(0, 2000) }),
-    });
-    if (er.ok) {
-      const ej = await er.json();
-      const vec = ej?.data?.[0]?.embedding;
-      if (vec) {
-        const { data } = await sb.rpc("match_kb_knowledge", { query_embedding: vec, agent_pack: "voyage", top_k: 6 });
-        if (data?.length) {
-          const facts = (data as Array<Record<string, unknown>>).map((d, i) =>
-            `[${i + 1}] ${d.title} — ${d.source_name} (${d.published_at ? String(d.published_at).slice(0, 10) : "n/d"})\n${String(d.snippet ?? "").slice(0, 400)}\n${d.url ? `→ ${d.url}` : ""}`
-          ).join("\n\n");
-          blocks.push(`[VERIFIED LIVE SOURCES — Knowledge Brain]\n${facts}`);
-        }
+    const GEMINI_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
+    const vec = await embedText(prompt.slice(0, 2000), GEMINI_KEY);
+    if (vec) {
+      const { data } = await sb.rpc("match_kb_knowledge", { query_embedding: vec, agent_pack: "voyage", top_k: 6 });
+      if (data?.length) {
+        const facts = (data as Array<Record<string, unknown>>).map((d, i) =>
+          `[${i + 1}] ${d.title} — ${d.source_name} (${d.published_at ? String(d.published_at).slice(0, 10) : "n/d"})\n${String(d.snippet ?? "").slice(0, 400)}\n${d.url ? `→ ${d.url}` : ""}`
+        ).join("\n\n");
+        blocks.push(`[VERIFIED LIVE SOURCES — Knowledge Brain]\n${facts}`);
       }
     }
   } catch (e) { console.warn("voyage rag failed", e); }
