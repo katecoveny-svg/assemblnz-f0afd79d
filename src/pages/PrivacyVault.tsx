@@ -1,13 +1,13 @@
 /**
  * Privacy & Governance Vault — NZ Privacy Act 2020 compliance
- * Export/Delete data, AI data transparency, consent management.
+ * Light-glass theme.
  */
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Shield, Download, Trash2, Eye, Database, Lock,
   FileText, AlertTriangle, CheckCircle2, Loader2,
-  ChevronRight, Brain, Key, Globe,
+  Brain, Key, Globe,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,13 +15,17 @@ import { toast } from "sonner";
 import SEO from "@/components/SEO";
 
 const GLASS: React.CSSProperties = {
-  background: "rgba(255,255,255,0.65)",
-  backdropFilter: "blur(24px)",
-  border: "1px solid rgba(74,165,168,0.15)",
+  background: "rgba(255,255,255,0.72)",
+  backdropFilter: "blur(24px) saturate(160%)",
+  border: "1px solid rgba(74,165,168,0.18)",
+  boxShadow: "0 4px 20px rgba(26,29,41,0.05), inset 0 1px 0 rgba(255,255,255,0.8)",
 };
 
-const GOLD = "#4AA5A8";
-const POUNAMU = "#00A86B";
+const TEAL = "#4AA5A8";
+const POUNAMU = "#3A8A8D";
+const TEXT = "#1A1D29";
+const MUTED = "#6B7280";
+const SUBTLE = "#4A5160";
 
 interface DataCategory {
   id: string;
@@ -33,7 +37,7 @@ interface DataCategory {
 }
 
 export default function PrivacyVault() {
-  const { user, profile } = useAuth();
+  const { user } = useAuth();
   const [exporting, setExporting] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -109,30 +113,31 @@ export default function PrivacyVault() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-foreground">
+    <div className="min-h-screen" style={{ color: TEXT }}>
       <SEO title="Privacy & Governance | Assembl" description="Manage your data, AI transparency, and NZ Privacy Act 2020 compliance." />
       <div className="max-w-4xl mx-auto px-4 py-12 sm:py-16 space-y-8">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00A86B]/20 to-[#4AA5A8]/20 flex items-center justify-center">
-              <Shield className="w-6 h-6 text-[#00A86B]" />
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center"
+              style={{ background: "linear-gradient(135deg, rgba(74,165,168,0.18), rgba(168,221,219,0.25))" }}>
+              <Shield className="w-6 h-6" style={{ color: POUNAMU }} />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Privacy & Governance</h1>
-              <p className="text-sm text-gray-500">NZ Privacy Act 2020 · Your data, your control</p>
+              <h1 className="text-2xl font-light tracking-tight" style={{ color: TEXT, fontFamily: "'Lato', sans-serif" }}>Privacy & Governance</h1>
+              <p className="text-sm" style={{ color: MUTED }}>NZ Privacy Act 2020 · Your data, your control</p>
             </div>
           </div>
         </motion.div>
 
         {/* Privacy Act Banner */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
-          className="rounded-2xl p-5" style={{ ...GLASS, borderColor: "rgba(0,168,107,0.2)" }}>
+          className="rounded-2xl p-5" style={{ ...GLASS, borderColor: "rgba(74,165,168,0.25)" }}>
           <div className="flex items-start gap-3">
-            <Lock className="w-5 h-5 text-[#00A86B] mt-0.5 shrink-0" />
+            <Lock className="w-5 h-5 mt-0.5 shrink-0" style={{ color: POUNAMU }} />
             <div className="space-y-1">
-              <p className="text-sm font-medium text-[#00A86B]">NZ Privacy Act 2020 Compliance</p>
-              <p className="text-xs text-gray-500">
+              <p className="text-sm font-medium" style={{ color: POUNAMU }}>NZ Privacy Act 2020 Compliance</p>
+              <p className="text-xs" style={{ color: SUBTLE }}>
                 Under Information Privacy Principles (IPPs), you have the right to access all personal information
                 we hold about you and request its correction or deletion. All data is processed within
                 NZ-aligned infrastructure.
@@ -143,8 +148,8 @@ export default function PrivacyVault() {
 
         {/* Data Categories */}
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold flex items-center gap-2">
-            <Eye className="w-5 h-5 text-[#4AA5A8]" />
+          <h2 className="text-lg font-semibold flex items-center gap-2" style={{ color: TEXT }}>
+            <Eye className="w-5 h-5" style={{ color: TEAL }} />
             What Data We Hold
           </h2>
           <div className="grid gap-3">
@@ -157,18 +162,19 @@ export default function PrivacyVault() {
                 className="rounded-xl p-4 flex items-center gap-4"
                 style={GLASS}
               >
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                  <cat.icon className="w-5 h-5 text-white/60" />
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                  style={{ background: "rgba(74,165,168,0.10)" }}>
+                  <cat.icon className="w-5 h-5" style={{ color: POUNAMU }} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium">{cat.label}</p>
-                  <p className="text-xs text-white/40 truncate">{cat.description}</p>
+                  <p className="text-sm font-medium" style={{ color: TEXT }}>{cat.label}</p>
+                  <p className="text-xs truncate" style={{ color: MUTED }}>{cat.description}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-lg font-bold" style={{ color: GOLD }}>
+                  <p className="text-lg font-semibold" style={{ color: TEAL }}>
                     {cat.count !== null ? cat.count : "—"}
                   </p>
-                  <p className="text-[10px] text-gray-400 uppercase">records</p>
+                  <p className="text-[10px] uppercase tracking-wider" style={{ color: MUTED }}>records</p>
                 </div>
               </motion.div>
             ))}
@@ -183,14 +189,15 @@ export default function PrivacyVault() {
             onClick={handleExportAll}
             disabled={exporting || !user}
             className="rounded-2xl p-6 text-left space-y-3 transition-all disabled:opacity-50"
-            style={{ ...GLASS, borderColor: "rgba(0,168,107,0.2)" }}
+            style={{ ...GLASS, borderColor: "rgba(74,165,168,0.30)" }}
           >
-            <div className="w-12 h-12 rounded-xl bg-[#00A86B]/20 flex items-center justify-center">
-              {exporting ? <Loader2 className="w-6 h-6 text-[#00A86B] animate-spin" /> : <Download className="w-6 h-6 text-[#00A86B]" />}
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center"
+              style={{ background: "rgba(74,165,168,0.15)" }}>
+              {exporting ? <Loader2 className="w-6 h-6 animate-spin" style={{ color: POUNAMU }} /> : <Download className="w-6 h-6" style={{ color: POUNAMU }} />}
             </div>
             <div>
-              <p className="font-semibold text-[#00A86B]">Export All My Data</p>
-              <p className="text-xs text-white/40 mt-1">
+              <p className="font-semibold" style={{ color: POUNAMU }}>Export All My Data</p>
+              <p className="text-xs mt-1" style={{ color: SUBTLE }}>
                 Download a complete JSON export of all personal data we hold. IPP 6 compliant.
               </p>
             </div>
@@ -202,14 +209,15 @@ export default function PrivacyVault() {
             onClick={() => setDeleteConfirm(true)}
             disabled={!user}
             className="rounded-2xl p-6 text-left space-y-3 transition-all disabled:opacity-50"
-            style={{ ...GLASS, borderColor: "rgba(200,90,84,0.2)" }}
+            style={{ ...GLASS, borderColor: "rgba(200,90,84,0.25)" }}
           >
-            <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center">
-              <Trash2 className="w-6 h-6 text-red-400" />
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center"
+              style={{ background: "rgba(200,90,84,0.10)" }}>
+              <Trash2 className="w-6 h-6" style={{ color: "#C85A54" }} />
             </div>
             <div>
-              <p className="font-semibold text-red-400">Delete All AI Training Data</p>
-              <p className="text-xs text-white/40 mt-1">
+              <p className="font-semibold" style={{ color: "#C85A54" }}>Delete All AI Training Data</p>
+              <p className="text-xs mt-1" style={{ color: SUBTLE }}>
                 Permanently remove all AI memory and conversation summaries. Chat history is retained.
               </p>
             </div>
@@ -219,12 +227,12 @@ export default function PrivacyVault() {
         {/* Delete Confirmation */}
         {deleteConfirm && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            className="rounded-2xl p-6 space-y-4" style={{ ...GLASS, borderColor: "rgba(200,90,84,0.3)" }}>
+            className="rounded-2xl p-6 space-y-4" style={{ ...GLASS, borderColor: "rgba(200,90,84,0.35)" }}>
             <div className="flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 text-red-400 mt-0.5 shrink-0" />
+              <AlertTriangle className="w-5 h-5 mt-0.5 shrink-0" style={{ color: "#C85A54" }} />
               <div>
-                <p className="font-semibold text-red-400">Confirm Deletion</p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="font-semibold" style={{ color: "#C85A54" }}>Confirm Deletion</p>
+                <p className="text-xs mt-1" style={{ color: SUBTLE }}>
                   This will permanently delete all AI memory and learned context. This action cannot be undone.
                   Your chat history and account will remain intact.
                 </p>
@@ -232,11 +240,12 @@ export default function PrivacyVault() {
             </div>
             <div className="flex gap-3">
               <button onClick={handleDeleteAIData} disabled={!!deleting}
-                className="px-6 py-2.5 rounded-xl bg-red-500 text-foreground text-sm font-semibold hover:bg-red-600 disabled:opacity-50 transition-all">
+                className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-50"
+                style={{ background: "#C85A54", color: "#FFFFFF" }}>
                 {deleting ? "Deleting…" : "Yes, Delete Everything"}
               </button>
               <button onClick={() => setDeleteConfirm(false)}
-                className="px-6 py-2.5 rounded-xl text-sm text-gray-500 hover:text-foreground transition-colors" style={GLASS}>
+                className="px-6 py-2.5 rounded-xl text-sm transition-colors" style={{ ...GLASS, color: SUBTLE }}>
                 Cancel
               </button>
             </div>
@@ -246,27 +255,22 @@ export default function PrivacyVault() {
         {/* Compliance Footer */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
           className="rounded-2xl p-5 space-y-3" style={GLASS}>
-          <h3 className="text-sm font-semibold flex items-center gap-2">
-            <Key className="w-4 h-4 text-[#4AA5A8]" />
+          <h3 className="text-sm font-semibold flex items-center gap-2" style={{ color: TEXT }}>
+            <Key className="w-4 h-4" style={{ color: TEAL }} />
             Your Rights Under NZ Privacy Act 2020
           </h3>
-          <div className="grid sm:grid-cols-2 gap-3 text-xs text-gray-500">
-            <div className="flex items-start gap-2">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#00A86B] mt-0.5 shrink-0" />
-              <span><strong className="text-white/70">IPP 6:</strong> Right to access your personal information</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#00A86B] mt-0.5 shrink-0" />
-              <span><strong className="text-white/70">IPP 7:</strong> Right to request correction of your data</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#00A86B] mt-0.5 shrink-0" />
-              <span><strong className="text-white/70">IPP 5:</strong> Your data is stored securely</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#00A86B] mt-0.5 shrink-0" />
-              <span><strong className="text-white/70">IPP 11:</strong> Data not disclosed without your consent</span>
-            </div>
+          <div className="grid sm:grid-cols-2 gap-3 text-xs" style={{ color: SUBTLE }}>
+            {[
+              { ipp: "IPP 6", txt: "Right to access your personal information" },
+              { ipp: "IPP 7", txt: "Right to request correction of your data" },
+              { ipp: "IPP 5", txt: "Your data is stored securely" },
+              { ipp: "IPP 11", txt: "Data not disclosed without your consent" },
+            ].map((r) => (
+              <div key={r.ipp} className="flex items-start gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: POUNAMU }} />
+                <span><strong style={{ color: TEXT }}>{r.ipp}:</strong> {r.txt}</span>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>
