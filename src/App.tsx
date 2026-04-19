@@ -161,6 +161,9 @@ const KaitiakiGateDemo = lazy(() => import("./pages/demos/KaitiakiGateDemo"));
 const PrivacyVault = lazy(() => import("./pages/PrivacyVault"));
 const MigrationPage = lazy(() => import("./pages/MigrationPage"));
 const ShowcasePage = lazy(() => import("./pages/ShowcasePage"));
+const CouncilPage = lazy(() => import("./pages/CouncilPage"));
+const SubbiesPage = lazy(() => import("./pages/waihanga/SubbiesPage"));
+const ReelsPage = lazy(() => import("./pages/auaha/ReelsPage"));
 
 const queryClient = new QueryClient();
 
