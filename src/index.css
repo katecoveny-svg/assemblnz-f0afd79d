@@ -84,13 +84,26 @@ html {
 
 @layer base {
   :root {
-    --background: 216 20% 98%;
-    --foreground: 224 13% 28%;
+    --background: 180 30% 94%;
+    --foreground: 187 47% 22%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 224 13% 28%;
+    --card: 180 35% 99%;
+    --card-foreground: 187 47% 22%;
 
-    --popover: 0 0% 100%;
+    --popover: 180 35% 99%;
+    --popover-foreground: 187 47% 22%;
+
+    --primary: 182 35% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 180 28% 88%;
+    --secondary-foreground: 187 47% 22%;
+
+    --muted: 180 25% 92%;
+    --muted-foreground: 187 18% 42%;
+
+    --accent: 180 28% 88%;
+    --accent-foreground: 187 47% 22%;
     --popover-foreground: 224 13% 28%;
 
     --primary: 179 28% 47%;
