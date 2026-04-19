@@ -127,13 +127,39 @@ export default function AuahaLandingPage() {
           </motion.div>
 
           <motion.div className="flex flex-col sm:flex-row items-center gap-4" variants={fadeUp} initial="hidden" animate="visible" custom={4}>
-            <Link to="/auaha" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold font-body overflow-hidden" style={{ color: "#FFFFFF" }}>
-              <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(135deg, ${POUNAMU} 0%, #2D6A5E 100%)` }} />
-              <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
+            <Link
+              to="/auaha"
+              className="group relative flex items-center gap-2 px-9 py-3.5 rounded-full text-sm font-body overflow-hidden transition-all duration-300"
+              style={{
+                color: "#FFFFFF",
+                fontWeight: 400,
+                letterSpacing: "0.02em",
+                background: `linear-gradient(135deg, ${POUNAMU} 0%, #2D6A5E 100%)`,
+                border: `1px solid ${POUNAMU}80`,
+                backdropFilter: "blur(20px)",
+                boxShadow: `0 8px 24px rgba(58,125,110,0.25), 0 0 0 1px rgba(255,255,255,0.1) inset`,
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.boxShadow = `0 12px 36px rgba(58,125,110,0.35), 0 0 40px ${POUNAMU}40, 0 0 0 1px rgba(255,255,255,0.15) inset`; }}
+              onMouseLeave={(e) => { e.currentTarget.style.boxShadow = `0 8px 24px rgba(58,125,110,0.25), 0 0 0 1px rgba(255,255,255,0.1) inset`; }}
+            >
               <span className="relative z-10">Open Auaha Studio</span>
               <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link to="/contact" className="group px-10 py-4 rounded-full text-sm font-medium font-body transition-all duration-300" style={{ color: "#3D4250", border: `1px solid ${POUNAMU}30`, background: "rgba(255,255,255,0.6)" }}>
+            <Link
+              to="/contact"
+              className="group flex items-center gap-2 px-9 py-3.5 rounded-full text-sm font-body transition-all duration-300"
+              style={{
+                color: "#3D4250",
+                fontWeight: 400,
+                letterSpacing: "0.02em",
+                background: "rgba(255,255,255,0.6)",
+                border: `1px solid ${POUNAMU}30`,
+                backdropFilter: "blur(20px)",
+                boxShadow: "0 4px 16px rgba(58,125,110,0.06), 0 0 0 1px rgba(255,255,255,0.4) inset",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.8)"; e.currentTarget.style.boxShadow = `0 8px 24px rgba(58,125,110,0.1), 0 0 0 1px rgba(255,255,255,0.5) inset`; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.6)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(58,125,110,0.06), 0 0 0 1px rgba(255,255,255,0.4) inset"; }}
+            >
               <span>Book a creative walk-through</span>
             </Link>
           </motion.div>
