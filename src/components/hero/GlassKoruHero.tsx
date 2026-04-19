@@ -267,32 +267,74 @@ function ContainmentSphere() {
 }
 
 /* ─── Orbiting Data Nodes around the sphere ─── */
-function OrbitingNode({ radius, speed, phase, tilt, color, size = 0.08 }: {
-  radius: number; speed: number; phase: number; tilt: number; color: string; size?: number;
+function OrbitingNode({ radius, speed, phase, tilt, color, size = 0.08, axis = "y" }: {
+  radius: number; speed: number; phase: number; tilt: number; color: string; size?: number; axis?: "x" | "y" | "z";
 }) {
   const ref = useRef<THREE.Group>(null);
+  const trailRef = useRef<THREE.Group>(null);
   useFrame(({ clock }) => {
     if (!ref.current) return;
     const t = clock.elapsedTime * speed + phase;
-    ref.current.position.set(
-      Math.cos(t) * radius,
-      Math.sin(t * 0.7) * radius * 0.3 + Math.sin(tilt) * radius * 0.2,
-      Math.sin(t) * radius,
-    );
+    let x = Math.cos(t) * radius;
+    let y = Math.sin(t * 0.7) * radius * 0.3 + Math.sin(tilt) * radius * 0.2;
+    let z = Math.sin(t) * radius;
+    if (axis === "x") { [x, y, z] = [y, x, z]; }
+    if (axis === "z") { [x, y, z] = [z, y, x]; }
+    ref.current.position.set(x, y, z);
     const pulse = 0.7 + 0.3 * Math.sin(clock.elapsedTime * 3 + phase);
     ref.current.scale.setScalar(pulse);
+    if (trailRef.current) {
+      const tt = t - 0.25;
+      let tx = Math.cos(tt) * radius;
+      let ty = Math.sin(tt * 0.7) * radius * 0.3 + Math.sin(tilt) * radius * 0.2;
+      let tz = Math.sin(tt) * radius;
+      if (axis === "x") { [tx, ty, tz] = [ty, tx, tz]; }
+      if (axis === "z") { [tx, ty, tz] = [tz, ty, tx]; }
+      trailRef.current.position.set(tx, ty, tz);
+    }
   });
   return (
-    <group ref={ref}>
-      <mesh>
-        <sphereGeometry args={[size, 12, 12]} />
-        <meshBasicMaterial color="#FFFFFF" />
-      </mesh>
-      <mesh>
-        <sphereGeometry args={[size * 2.5, 12, 12]} />
-        <meshBasicMaterial color={color} transparent opacity={0.4} depthWrite={false} />
-      </mesh>
-    </group>
+    <>
+      <group ref={ref}>
+        <mesh>
+          <sphereGeometry args={[size, 16, 16]} />
+          <meshBasicMaterial color="#FFFFFF" />
+        </mesh>
+        <mesh>
+          <sphereGeometry args={[size * 2.2, 12, 12]} />
+          <meshBasicMaterial color={color} transparent opacity={0.55} depthWrite={false} />
+        </mesh>
+        <mesh>
+          <sphereGeometry args={[size * 4.5, 12, 12]} />
+          <meshBasicMaterial color={color} transparent opacity={0.15} depthWrite={false} />
+        </mesh>
+      </group>
+      <group ref={trailRef}>
+        <mesh>
+          <sphereGeometry args={[size * 0.55, 8, 8]} />
+          <meshBasicMaterial color={color} transparent opacity={0.35} depthWrite={false} />
+        </mesh>
+      </group>
+    </>
+  );
+}
+
+/* ─── Orbital Ring — thin glowing torus around the orb ─── */
+function OrbitalRing({ radius, color, speed, rotation, opacity = 0.45 }: {
+  radius: number; color: string; speed: number; rotation: [number, number, number]; opacity?: number;
+}) {
+  const ref = useRef<THREE.Mesh>(null);
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    ref.current.rotation.z = rotation[2] + clock.elapsedTime * speed;
+    const mat = ref.current.material as THREE.MeshBasicMaterial;
+    mat.opacity = opacity * (0.7 + 0.3 * Math.sin(clock.elapsedTime * 1.3));
+  });
+  return (
+    <mesh ref={ref} rotation={rotation}>
+      <torusGeometry args={[radius, 0.012, 12, 160]} />
+      <meshBasicMaterial color={color} transparent opacity={opacity} depthWrite={false} />
+    </mesh>
   );
 }
 
@@ -303,14 +345,16 @@ function KoruScene() {
   const positions = useMemo(() => koruSpiral(2.5, 44, 2.6), []);
   const orbitNodes = useMemo(
     () => [
-      { radius: 4.4, speed: 0.35, phase: 0, tilt: 0.3, color: "#4AA5A8" },
-      { radius: 4.4, speed: 0.28, phase: 1.2, tilt: -0.4, color: "#E8A948" },
-      { radius: 4.4, speed: 0.42, phase: 2.4, tilt: 0.6, color: "#B8A5D0" },
-      { radius: 4.4, speed: 0.31, phase: 3.6, tilt: -0.2, color: "#E8A090" },
-      { radius: 4.4, speed: 0.38, phase: 4.8, tilt: 0.5, color: "#7BA88C" },
-      { radius: 4.4, speed: 0.45, phase: 0.7, tilt: -0.6, color: "#7DD4D6" },
-      { radius: 4.4, speed: 0.26, phase: 2.0, tilt: 0.1, color: "#FFFFFF" },
-      { radius: 4.4, speed: 0.33, phase: 4.0, tilt: -0.3, color: "#7DD4D6" },
+      { radius: 4.4, speed: 0.35, phase: 0, tilt: 0.3, color: "#4AA5A8", axis: "y" as const, size: 0.09 },
+      { radius: 4.4, speed: 0.28, phase: 1.2, tilt: -0.4, color: "#E8A948", axis: "y" as const, size: 0.1 },
+      { radius: 4.4, speed: 0.42, phase: 2.4, tilt: 0.6, color: "#B8A5D0", axis: "y" as const, size: 0.08 },
+      { radius: 4.4, speed: 0.31, phase: 3.6, tilt: -0.2, color: "#E8A090", axis: "y" as const, size: 0.09 },
+      { radius: 4.4, speed: 0.38, phase: 4.8, tilt: 0.5, color: "#7BA88C", axis: "y" as const, size: 0.08 },
+      { radius: 4.6, speed: 0.22, phase: 0.7, tilt: -0.6, color: "#7DD4D6", axis: "x" as const, size: 0.07 },
+      { radius: 4.6, speed: 0.26, phase: 2.0, tilt: 0.1, color: "#FFFFFF", axis: "x" as const, size: 0.06 },
+      { radius: 4.6, speed: 0.33, phase: 4.0, tilt: -0.3, color: "#7DD4D6", axis: "x" as const, size: 0.07 },
+      { radius: 4.85, speed: 0.18, phase: 1.5, tilt: 0.2, color: "#E8A948", axis: "z" as const, size: 0.06 },
+      { radius: 4.85, speed: 0.24, phase: 3.2, tilt: -0.5, color: "#B8A5D0", axis: "z" as const, size: 0.07 },
     ],
     [],
   );
@@ -336,6 +380,12 @@ function KoruScene() {
     <Float speed={1.2} rotationIntensity={0.15} floatIntensity={0.2}>
       {/* Outer glass containment sphere */}
       <ContainmentSphere />
+
+      {/* Glowing orbital rings — Saturn-like energy bands */}
+      <OrbitalRing radius={4.55} color="#7DD4D6" speed={0.12} rotation={[Math.PI / 2.2, 0, 0]} opacity={0.55} />
+      <OrbitalRing radius={4.7} color="#E8A948" speed={-0.08} rotation={[Math.PI / 1.6, 0.4, 0]} opacity={0.4} />
+      <OrbitalRing radius={4.9} color="#B8A5D0" speed={0.06} rotation={[Math.PI / 3, -0.5, 0]} opacity={0.35} />
+      <OrbitalRing radius={5.15} color="#4AA5A8" speed={-0.04} rotation={[Math.PI / 2, Math.PI / 4, 0]} opacity={0.28} />
 
       {/* Orbiting data nodes (outside the inner spiral, drifting around the sphere edge) */}
       {orbitNodes.map((n, i) => (
@@ -548,15 +598,24 @@ const GlassKoruHero = () => {
             className="absolute inset-0 pointer-events-none -z-10"
             style={{
               background:
-                "radial-gradient(ellipse 75% 75% at 50% 45%, rgba(74,165,168,0.22) 0%, rgba(125,212,214,0.14) 25%, rgba(232,169,72,0.08) 50%, transparent 75%)",
-              filter: "blur(8px)",
+                "radial-gradient(ellipse 80% 80% at 50% 45%, rgba(74,165,168,0.32) 0%, rgba(125,212,214,0.2) 22%, rgba(232,169,72,0.12) 48%, rgba(184,165,208,0.08) 65%, transparent 78%)",
+              filter: "blur(10px)",
             }}
           />
           <div
             className="absolute inset-0 pointer-events-none -z-10 animate-pulse"
             style={{
               background:
-                "radial-gradient(circle at 50% 45%, rgba(125,212,214,0.18) 0%, transparent 55%)",
+                "radial-gradient(circle at 50% 45%, rgba(125,212,214,0.28) 0%, transparent 55%)",
+            }}
+          />
+          {/* Sun-flare bloom */}
+          <div
+            className="absolute inset-0 pointer-events-none -z-10"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.18) 0%, transparent 18%)",
+              mixBlendMode: "screen",
             }}
           />
         </div>
