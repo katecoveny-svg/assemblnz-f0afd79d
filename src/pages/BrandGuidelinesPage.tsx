@@ -193,7 +193,7 @@ export default function BrandGuidelinesPage() {
             one for each agent. Five larger spheres represent the five industry kete.
           </p>
           <div className="rounded-3xl p-12 mb-12" style={GLASS_CARD}>
-            <img src={koruMarkImg} alt="Glass Koru Mark" className="mx-auto max-h-[400px]" >
+            <img loading="lazy" decoding="async" src={koruMarkImg} alt="Glass Koru Mark" className="mx-auto max-h-[400px]" >
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-[800px] mx-auto">
             {[
@@ -492,7 +492,7 @@ color: #4AA5A8;`}
             style={GLASS_CARD}
           >
             <div className="relative" style={{ background: "#0A0A0F" }}>
-              <img
+              <img loading="lazy" decoding="async"
                 src="/brand/assembl-brand-video.gif"
                 alt="Assembl brand video — five industries, one intelligence layer"
                 className="w-full h-auto block"
@@ -504,7 +504,7 @@ color: #4AA5A8;`}
                 backdropFilter: "blur(20px) saturate(140%)",
                 border: "1px solid rgba(255,255,255,0.2)",
               }}>
-                <img src="/brand/assembl-mark.svg" alt="" className="w-5 h-5" >
+                <img loading="lazy" decoding="async" src="/brand/assembl-mark.svg" alt="" className="w-5 h-5" >
                 <span className="text-[11px] tracking-[3px] uppercase text-white" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                   Assembl
                 </span>

@@ -91,7 +91,7 @@ const BrandCard = ({ dna, onClose }: { dna: BrandDna; onClose: () => void }) => 
         {/* Name + Industry */}
         <div className="flex items-start gap-3">
           {editDna.logo_url && (
-            <img src={editDna.logo_url} alt="Logo" className="w-10 h-10 rounded-lg object-contain bg-white/10" >
+            <img loading="lazy" decoding="async" src={editDna.logo_url} alt="Logo" className="w-10 h-10 rounded-lg object-contain bg-white/10" >
           )}
           <div>
             <h4 className="font-display font-bold text-sm text-foreground">{editDna.business_name}</h4>

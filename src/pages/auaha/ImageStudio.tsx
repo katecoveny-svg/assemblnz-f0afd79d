@@ -164,7 +164,7 @@ export default function ImageStudio() {
             {referencePreview ? (
               <div className="flex items-start gap-4">
                 <div className="relative flex-shrink-0">
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={referencePreview}
                     alt="Reference"
                     className="w-24 h-24 object-cover rounded-lg border border-gray-200"
@@ -288,7 +288,7 @@ export default function ImageStudio() {
             <div className="space-y-4">
               {results.map((url, i) => (
                 <div key={i} className="relative group rounded-lg overflow-hidden">
-                  <img src={url} alt={`Result ${i + 1}`} className="w-full rounded-lg" >
+                  <img loading="lazy" decoding="async" src={url} alt={`Result ${i + 1}`} className="w-full rounded-lg" >
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-white/40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
                     <a href={url} download={`pixel-${Date.now()}.png`} target="_blank" rel="noreferrer">
                       <Button size="sm" className="text-xs" style={{ background: ACCENT, color: "#3D4250" }}>

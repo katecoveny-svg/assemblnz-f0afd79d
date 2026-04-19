@@ -211,7 +211,7 @@ export default function AdminOutputLibrary() {
                 {/* Image preview */}
                 {item.imageUrl ? (
                   <div className="relative aspect-video overflow-hidden">
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={item.imageUrl}
                       alt={item.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"

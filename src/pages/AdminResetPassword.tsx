@@ -61,7 +61,7 @@ const AdminResetPassword = () => {
         <div className="relative z-10 flex-1 flex items-center justify-center px-4 py-10">
           <div className="w-full max-w-sm text-center">
             <div className="inline-flex items-center gap-2 mb-6">
-              <img src={assemblMark} alt="Assembl" className="w-9 h-9 object-contain drop-shadow-[0_0_12px_rgba(212,168,67,0.25)]" >
+              <img loading="lazy" decoding="async" src={assemblMark} alt="Assembl" className="w-9 h-9 object-contain drop-shadow-[0_0_12px_rgba(212,168,67,0.25)]" >
               <span className="font-display font-light tracking-[3px] uppercase text-foreground">ASSEMBL</span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
@@ -85,7 +85,7 @@ const AdminResetPassword = () => {
         <div className="w-full max-w-sm">
           <div className="text-center mb-8 opacity-0 animate-fade-up" style={{ animationFillMode: "forwards" }}>
             <div className="inline-flex items-center gap-2 mb-6">
-              <img src={assemblMark} alt="Assembl" className="w-9 h-9 object-contain drop-shadow-[0_0_12px_rgba(212,168,67,0.25)]" >
+              <img loading="lazy" decoding="async" src={assemblMark} alt="Assembl" className="w-9 h-9 object-contain drop-shadow-[0_0_12px_rgba(212,168,67,0.25)]" >
               <span className="font-display font-light tracking-[3px] uppercase text-foreground">ASSEMBL</span>
             </div>
             <div className="flex items-center justify-center gap-2 mb-2">

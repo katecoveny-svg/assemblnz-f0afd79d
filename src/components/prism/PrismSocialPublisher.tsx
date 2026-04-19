@@ -49,7 +49,7 @@ function PlatformMockup({ platform, caption, image }: {
       <div className="rounded-lg overflow-hidden flex items-center justify-center"
         style={{ ...frameStyle, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.04)", margin: isStory ? "0 auto" : undefined }}>
         {image ? (
-          <img src={image} alt="Preview" className="w-full h-full object-cover" >
+          <img loading="lazy" decoding="async" src={image} alt="Preview" className="w-full h-full object-cover" >
         ) : (
           <div className="text-center p-4">
             <div className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.2)" }}>

@@ -128,7 +128,7 @@ export default function AdminCommandSidebar({
               boxShadow: `0 4px 20px ${GOLD}12, inset 0 1px 0 rgba(255,255,255,0.6)`,
             }}
           >
-            <img src={assemblMark} alt="" className="w-5 h-5 object-contain" >
+            <img loading="lazy" decoding="async" src={assemblMark} alt="" className="w-5 h-5 object-contain" >
           </div>
           <div>
             <h2
