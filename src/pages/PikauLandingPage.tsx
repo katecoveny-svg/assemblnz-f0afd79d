@@ -287,7 +287,6 @@ export default function PikauLandingPage() {
           </motion.div>
         </section>
 
-        <KnowledgeSourcesStrip keteCode="WHENUA" />
         <BrandFooter />
         <KeteAgentChat
           keteName="Pikau" keteLabel="Freight & Customs" accentColor="#7ECFC2"
