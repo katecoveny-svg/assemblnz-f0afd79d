@@ -44,10 +44,21 @@ const MigrationFeatureSection = () => (
 
     <div className="max-w-[1200px] mx-auto relative z-10">
       <motion.div {...fade} className="text-center mb-12">
-        <p className="text-[10px] font-medium tracking-[5px] uppercase mb-5"
-          style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>
-          — Nuku Mai —
-        </p>
+        <MaungaDivider color="#4AA5A8" width={180} className="mb-4" />
+        <div className="inline-flex items-center gap-3 mb-5">
+          {/* Left peak */}
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+            <path d="M0 10 L7 0 L14 10 Z" fill="#4AA5A8" fillOpacity="0.18" stroke="#4AA5A8" strokeOpacity="0.7" strokeWidth="0.8" strokeLinejoin="round" />
+          </svg>
+          <p className="text-[10px] font-medium tracking-[5px] uppercase"
+            style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>
+            Nuku Mai
+          </p>
+          {/* Right peak */}
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+            <path d="M0 10 L7 0 L14 10 Z" fill="#D4A843" fillOpacity="0.18" stroke="#D4A843" strokeOpacity="0.7" strokeWidth="0.8" strokeLinejoin="round" />
+          </svg>
+        </div>
         <h2 className="text-lg sm:text-[36px] lg:text-[42px] mb-4 uppercase tracking-[3px]"
           style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
           Nuku Mai · Seamless Migration
