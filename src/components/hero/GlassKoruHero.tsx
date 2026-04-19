@@ -334,6 +334,14 @@ function KoruScene() {
 
   return (
     <Float speed={1.2} rotationIntensity={0.15} floatIntensity={0.2}>
+      {/* Outer glass containment sphere */}
+      <ContainmentSphere />
+
+      {/* Orbiting data nodes (outside the inner spiral, drifting around the sphere edge) */}
+      {orbitNodes.map((n, i) => (
+        <OrbitingNode key={`orb-${i}`} {...n} />
+      ))}
+
       <group ref={groupRef}>
         {/* Spheres */}
         {positions.map((pos, i) => {
