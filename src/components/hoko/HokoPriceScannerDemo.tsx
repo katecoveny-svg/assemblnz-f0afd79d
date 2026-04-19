@@ -76,14 +76,14 @@ export default function HokoPriceScannerDemo({
 
   const sevColor = {
     critical: "#C66B5C",
-    warning: "#D4A843",
+    warning: "#4AA5A8",
     ok: "#3A7D6E",
   }[row.severity];
 
   const sevLabel = {
-    critical: "🔴 Defensive action needed",
-    warning: "🟡 Monitor — within parity",
-    ok: "🟢 Competitive",
+    critical: "Defensive action needed",
+    warning: "Monitor — within parity",
+    ok: "Competitive",
   }[row.severity];
 
   return (
@@ -94,7 +94,7 @@ export default function HokoPriceScannerDemo({
           Top monitored SKUs
         </p>
         {SAMPLE_DATA.map((r, i) => {
-          const sev = { critical: "#C66B5C", warning: "#D4A843", ok: "#3A7D6E" }[r.severity];
+          const sev = { critical: "#C66B5C", warning: "#4AA5A8", ok: "#3A7D6E" }[r.severity];
           return (
             <button
               key={r.sku}
@@ -226,7 +226,7 @@ export default function HokoPriceScannerDemo({
                     </div>
                     <div className="w-16 text-right shrink-0">
                       <span className="text-[11px] font-medium" style={{
-                        color: gap > 15 ? "#C66B5C" : gap > 0 ? "#D4A843" : "#3A7D6E",
+                        color: gap > 15 ? "#C66B5C" : gap > 0 ? "#4AA5A8" : "#3A7D6E",
                         fontFamily: "'JetBrains Mono', monospace",
                       }}>
                         {gap > 0 ? "+" : ""}{gap.toFixed(0)}%

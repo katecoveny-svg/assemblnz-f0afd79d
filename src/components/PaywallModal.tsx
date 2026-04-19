@@ -41,7 +41,7 @@ const PaywallModal = ({ type, agentName, open, onClose }: Props) => {
         </button>
 
         <div className="text-center space-y-4">
-          <img loading="lazy" decoding="async" src={assemblMark} alt="Assembl" className="w-10 h-10 object-contain drop-shadow-[0_0_12px_rgba(212,168,67,0.25)] mx-auto" />
+          <img loading="lazy" decoding="async" src={assemblMark} alt="Assembl" className="w-10 h-10 object-contain drop-shadow-[0_0_12px_rgba(74,165,168,0.25)] mx-auto" />
 
           {type === "preview" ? (
             <>

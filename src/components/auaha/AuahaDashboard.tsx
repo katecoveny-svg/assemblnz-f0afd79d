@@ -14,8 +14,8 @@ import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 import { formatDistanceToNow } from "date-fns";
 
 // Auaha palette — light theme
-const ACCENT = "#E8A948";       // ochre (deeper for contrast on white)
-const ACCENT_SOFT = "#F0D078";  // soft ochre tint
+const ACCENT = "#4AA5A8";       // ochre (deeper for contrast on white)
+const ACCENT_SOFT = "#A8DDDB";  // soft ochre tint
 const TEAL = "#4AA5A8";         // pounamu teal
 const TEXT_PRIMARY = "#1A1D29";
 const TEXT_SECONDARY = "#3D4250";
@@ -28,13 +28,13 @@ const sparkData = [
 ];
 
 const PIPELINE_STAGES = [
-  { key: "brief", label: "Brief", color: "#E8A948", agent: "Rautaki" },
-  { key: "copy", label: "Copy", color: "#D4A843", agent: "Kōrero" },
+  { key: "brief", label: "Brief", color: "#4AA5A8", agent: "Rautaki" },
+  { key: "copy", label: "Copy", color: "#4AA5A8", agent: "Kōrero" },
   { key: "compliance", label: "Compliance", color: "#4AA5A8", agent: "Mana Kupu" },
   { key: "design", label: "Design", color: "#3A7D6E", agent: "Toi" },
   { key: "schedule", label: "Schedule", color: "#5A7A9C", agent: "Whakahaere" },
   { key: "approve", label: "Approve", color: "#1A3A5C", agent: "Studio Director" },
-  { key: "analyse", label: "Analyse", color: "#E8A948", agent: "Aro" },
+  { key: "analyse", label: "Analyse", color: "#4AA5A8", agent: "Aro" },
 ];
 
 const QUICK_LAUNCH = [
@@ -62,7 +62,7 @@ const AGENTS = [
 
 const usageData = [
   { name: "Lovable AI", value: 42, color: "#4AA5A8" },
-  { name: "Fal.ai", value: 28, color: "#E8A948" },
+  { name: "Fal.ai", value: 28, color: "#4AA5A8" },
   { name: "Runway", value: 15, color: "#C85A54" },
   { name: "TNZ SMS", value: 10, color: "#5A7A9C" },
   { name: "Other", value: 5, color: "#9CA3AF" },
@@ -132,7 +132,7 @@ export default function AuahaDashboard() {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
         className="relative overflow-hidden rounded-2xl p-8 lg:p-10"
         style={{
-          background: `linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(232,169,72,0.06) 50%, rgba(74,165,168,0.05) 100%)`,
+          background: `linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(74,165,168,0.06) 50%, rgba(74,165,168,0.05) 100%)`,
           border: `1px solid ${ACCENT}30`,
           boxShadow: "0 4px 24px rgba(0,0,0,0.05)",
         }}>
@@ -359,11 +359,11 @@ export default function AuahaDashboard() {
                 <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full"
                   style={{
                     border: "2px solid #FAFBFC",
-                    background: a.status === 'active' ? TEAL : a.status === 'monitoring' ? "#E8A948" : "#9CA3AF",
+                    background: a.status === 'active' ? TEAL : a.status === 'monitoring' ? "#4AA5A8" : "#9CA3AF",
                     boxShadow: a.status === 'active'
                       ? `0 0 6px ${TEAL}60`
                       : a.status === 'monitoring'
-                        ? "0 0 6px rgba(232,169,72,0.5)"
+                        ? "0 0 6px rgba(74,165,168,0.5)"
                         : "none",
                   }}
                 />

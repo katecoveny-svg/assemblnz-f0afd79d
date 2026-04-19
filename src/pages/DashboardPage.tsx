@@ -70,7 +70,7 @@ const innerSurface: React.CSSProperties = {
 
 const PRIORITY_COLORS: Record<string, string> = { urgent: "#C85A54", high: "#1A3A5C", medium: "#3A7D6E", low: "#5AADA0" };
 const SEVERITY_COLORS: Record<string, string> = { critical: "#C85A54", high: "#1A3A5C", standard: "#5AADA0", informational: "#3A7D6E" };
-const HEALTH_STATUS_COLORS: Record<HealthStatus, string> = { ok: "#5AADA0", degraded: "#D4A843", down: "#C85A54" };
+const HEALTH_STATUS_COLORS: Record<HealthStatus, string> = { ok: "#5AADA0", degraded: "#4AA5A8", down: "#C85A54" };
 const HEALTH_SERVICE_META: Record<string, { key: string; label: string; icon: any; to: string; actionLabel: string }> = {
   website: { key: "website", label: "Website", icon: Globe, to: "/", actionLabel: "Open site" },
   assembl_website: { key: "website", label: "Website", icon: Globe, to: "/", actionLabel: "Open site" },
@@ -373,7 +373,7 @@ const DashboardPage = () => {
 
   // Compliance
   const complianceScore = complianceDeadlines.length > 0 ? Math.min(100, Math.round((exports.length / Math.max(1, complianceDeadlines.length)) * 100)) : 0;
-  const scoreColor = complianceScore >= 70 ? "#5AADA0" : complianceScore >= 40 ? "#D4A843" : "#C85A54";
+  const scoreColor = complianceScore >= 70 ? "#5AADA0" : complianceScore >= 40 ? "#4AA5A8" : "#C85A54";
 
   const latestWorkflow = executions.find(e => e.status === "running") || executions[0];
   const workflowSteps = latestWorkflow && Array.isArray(latestWorkflow.steps_log)
@@ -581,7 +581,7 @@ const DashboardPage = () => {
               <div className="space-y-2 max-h-[220px] overflow-y-auto scrollbar-hide">
                 {leads.map((lead) => {
                   const status = lead.lead_status || "new";
-                  const LEAD_COLORS: Record<string, string> = { new: "#1A3A5C", contacted: "#3A7D6E", qualified: "#D4A843", converted: "#5AADA0" };
+                  const LEAD_COLORS: Record<string, string> = { new: "#1A3A5C", contacted: "#3A7D6E", qualified: "#4AA5A8", converted: "#5AADA0" };
                   const lColor = LEAD_COLORS[status] || "#888";
                   return (
                     <Link key={lead.id} to="/chat/sales" className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors" style={{ background: "rgba(255,255,255,0.65)" }}>
@@ -642,8 +642,8 @@ const DashboardPage = () => {
 
         {/* Pending Actions — always visible */}
         <div className={glassCard + " p-5"} style={glassCardStyle}>
-          <TopGlow color="#D4A843" />
-          <SectionHeader icon={ListChecks} title="Pending Actions" color="#D4A843" count={actions.length} />
+          <TopGlow color="#4AA5A8" />
+          <SectionHeader icon={ListChecks} title="Pending Actions" color="#4AA5A8" count={actions.length} />
           {actions.length === 0 ? (
             <EmptyState message="No pending actions yet. As you work with agents, tasks and follow-ups will appear here." cta="Start a conversation" to="/agents" />
           ) : (
@@ -653,7 +653,7 @@ const DashboardPage = () => {
                 const color = agent?.color || "#888";
                 return (
                   <div key={action.id} className="flex items-center gap-3 p-2.5 rounded-lg transition-colors hover:bg-white/[0.02]" style={{ background: "rgba(255,255,255,0.65)" }}>
-                    <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: PRIORITY_COLORS[action.priority] || "#D4A843" }} />
+                    <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: PRIORITY_COLORS[action.priority] || "#4AA5A8" }} />
                     <span className="text-[9px] font-bold px-1.5 py-0.5 rounded shrink-0" style={{ backgroundColor: color + "15", color }}>{agent?.name || action.agent_id}</span>
                     <span className="text-xs text-foreground flex-1 truncate">{action.description}</span>
                     {action.due_date && <span className="text-[9px] text-muted-foreground shrink-0">{new Date(action.due_date).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}</span>}
@@ -722,12 +722,12 @@ const DashboardPage = () => {
                   const steps = Array.isArray(exec.steps_log) ? exec.steps_log : [];
                   const completed = steps.filter((s: any) => s.status === "completed").length;
                   return (
-                    <div key={exec.id} className="p-3 rounded-lg" style={{ background: exec.status === "completed" ? "rgba(58,125,110,0.05)" : "rgba(212,168,67,0.04)", border: `1px solid ${exec.status === "completed" ? "rgba(58,125,110,0.12)" : "rgba(212,168,67,0.1)"}` }}>
+                    <div key={exec.id} className="p-3 rounded-lg" style={{ background: exec.status === "completed" ? "rgba(58,125,110,0.05)" : "rgba(74,165,168,0.04)", border: `1px solid ${exec.status === "completed" ? "rgba(58,125,110,0.12)" : "rgba(74,165,168,0.1)"}` }}>
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-bold text-foreground">Workflow</span>
                         <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium" style={{
-                          background: exec.status === "completed" ? "#5AADA015" : "#D4A84315",
-                          color: exec.status === "completed" ? "#5AADA0" : "#D4A843",
+                          background: exec.status === "completed" ? "#5AADA015" : "#4AA5A815",
+                          color: exec.status === "completed" ? "#5AADA0" : "#4AA5A8",
                         }}>
                           {exec.status === "completed" ? "COMPLETE" : exec.status === "running" ? "RUNNING" : "PENDING"}
                         </span>

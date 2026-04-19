@@ -118,30 +118,30 @@ ${form.brand ? "**BRAND:** Apply saved Brand DNA colours, fonts, and voice." : "
 
 Generate a COMPLETE PRODUCTION BRIEF with:
 
-## 🎬 Video Title
+## Video Title
 [Compelling title]
 
-## 🎯 Hook (First 3 seconds)
+## Hook (First 3 seconds)
 [The scroll-stopping opening — this is CRITICAL]
 
 ## 📋 Scene-by-Scene Storyboard
 For each scene provide:
 - **Scene [N]** (duration: Xs)
 - 🎥 Visual: [Exact shot description — camera angle, movement, subject, background]
-- 🎤 Voiceover: [Exact script for this scene]
+- Voiceover: [Exact script for this scene]
 - ✏️ Text Overlay: [On-screen text/captions]
 - 🔄 Transition: [How this scene flows to the next]
 
 ## 🎵 Music & Sound Direction
 [Genre, tempo, mood, specific track suggestions]
 
-## 📝 Full Narration Script
+## Full Narration Script
 [Complete voiceover script assembled from all scenes]
 
-## 🎨 Visual Style Guide
+## Visual Style Guide
 [Colour palette, typography, graphic elements]
 
-## ✅ Production Checklist
+## Production Checklist
 [What to prepare before filming]
 
 ## 🖼 AI Key Frames

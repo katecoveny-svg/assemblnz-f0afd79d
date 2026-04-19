@@ -32,7 +32,7 @@ const SkillWiringDashboard = () => {
     <AdminShell
       title="Skill Wiring"
       subtitle="Agent capability coverage across the Assembl network"
-      icon={<Layers size={18} style={{ color: "#D4A843" }} />}
+      icon={<Layers size={18} style={{ color: "#4AA5A8" }} />}
       backTo="/admin/dashboard"
       actions={
         <Button variant="outline" size="sm" onClick={handleExport} className="gap-2">

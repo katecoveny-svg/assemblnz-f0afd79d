@@ -8,7 +8,7 @@ import { Brain, X, Database, Clock, Shield, Trash2, Edit2, Check } from "lucide-
 import { supabase } from "@/integrations/supabase/client";
 
 const BONE = "#F5F0E8";
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 interface Props {

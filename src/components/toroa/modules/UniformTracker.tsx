@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Shirt, AlertTriangle } from "lucide-react";
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const BONE = "#F5F0E8";
 

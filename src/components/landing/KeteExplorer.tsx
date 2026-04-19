@@ -82,7 +82,7 @@ const KeteExplorer = () => {
       <div className="absolute top-0 left-0 right-0 h-px overflow-hidden">
         <motion.div
           className="h-full w-[200%]"
-          style={{ background: "linear-gradient(90deg, transparent, #E8B4B8, #D4A843, #3A7D6E, transparent)" }}
+          style={{ background: "linear-gradient(90deg, transparent, #E8B4B8, #4AA5A8, #3A7D6E, transparent)" }}
           animate={{ x: ["-50%", "0%"] }}
           transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
         />
@@ -96,7 +96,7 @@ const KeteExplorer = () => {
 
       {/* Background koru */}
       <div className="absolute top-10 left-5 opacity-[0.02]">
-        <KoruAccent color="#D4A843" size={400} delay={0} />
+        <KoruAccent color="#4AA5A8" size={400} delay={0} />
       </div>
 
       <div className="max-w-6xl mx-auto px-5">

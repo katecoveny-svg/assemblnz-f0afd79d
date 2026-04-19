@@ -518,7 +518,7 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
                             <span key={h} className="text-[9px]" style={{ color: ACCENT }}>{h}</span>
                           ))}
                         </div>
-                        <p className="text-[9px]" style={{ color: "hsl(var(--muted-foreground))" }}>🎯 {ad.target_audience}</p>
+                        <p className="text-[9px]" style={{ color: "hsl(var(--muted-foreground))" }}>{ad.target_audience}</p>
                       </div>
                     )}
 

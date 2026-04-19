@@ -3,7 +3,7 @@ import { Heart, Phone, Shield, Sun, AlertTriangle } from "lucide-react";
 
 const AROHA_PINK = "#FF6F91";
 const POUNAMU = "#3A7D6E";
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 
 interface ArohaCaregiverWellbeingProps {
   onSendToChat: (msg: string) => void;
@@ -49,7 +49,7 @@ const ArohaCaregiverWellbeing = ({ onSendToChat }: ArohaCaregiverWellbeingProps)
             key={q.label}
             onClick={() => onSendToChat(q.prompt)}
             className="p-4 rounded-2xl text-left transition-all hover:scale-[0.98]"
-            style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(212,168,67,0.08)" }}
+            style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.08)" }}
           >
             <q.icon size={16} style={{ color: AROHA_PINK, marginBottom: 8 }} />
             <p className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.7)" }}>{q.label}</p>

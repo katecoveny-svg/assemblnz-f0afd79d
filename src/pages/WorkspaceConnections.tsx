@@ -57,7 +57,7 @@ const TOOLS = [
     label: "Email forwarding",
     description: "Forward receipts, invoices, notices",
     icon: Mail,
-    color: "#D4A843",
+    color: "#4AA5A8",
     oauth: false,
   },
 ];

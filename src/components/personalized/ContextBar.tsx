@@ -18,12 +18,12 @@ const KETE_VARIANTS: Record<string, "standard" | "dense" | "organic" | "tricolor
 };
 
 const KETE_ACCENT_LIGHT: Record<string, string> = {
-  manaaki: "#F0D078",
+  manaaki: "#A8DDDB",
   waihanga: "#5AADA0",
-  auaha: "#F7E6A0",
+  auaha: "#D6F0EE",
   arataki: "#C8C8D0",
   pikau: "#8ECFC6",
-  toro: "#F0D078",
+  toro: "#A8DDDB",
 };
 
 const KETE_INFO: Record<string, { name: string; nameEn: string; color: string; path: string; samplePath: string }> = Object.fromEntries(

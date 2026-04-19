@@ -56,7 +56,7 @@ const KeteCard: React.FC<KeteCardProps> = ({
       <div
         className="absolute inset-0 rounded-[16px] pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-500"
         style={{
-          background: "radial-gradient(ellipse at 50% -10%, rgba(240,208,120,0.18) 0%, rgba(212,168,67,0.06) 45%, transparent 70%)",
+          background: "radial-gradient(ellipse at 50% -10%, rgba(168,221,219,0.18) 0%, rgba(74,165,168,0.06) 45%, transparent 70%)",
         }}
       />
 
@@ -64,8 +64,8 @@ const KeteCard: React.FC<KeteCardProps> = ({
       <div
         className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[16px]"
         style={{
-          background: `linear-gradient(90deg, transparent, rgba(240,208,120,0.7), ${accentColor}, rgba(240,208,120,0.7), transparent)`,
-          boxShadow: `0 0 18px rgba(240,208,120,0.5), 0 0 8px rgba(${rgb}, 0.3)`,
+          background: `linear-gradient(90deg, transparent, rgba(168,221,219,0.7), ${accentColor}, rgba(168,221,219,0.7), transparent)`,
+          boxShadow: `0 0 18px rgba(168,221,219,0.5), 0 0 8px rgba(${rgb}, 0.3)`,
         }}
       />
 
@@ -87,7 +87,7 @@ const KeteCard: React.FC<KeteCardProps> = ({
           <div
             className="absolute inset-0 rounded-full opacity-30 group-hover:opacity-70 transition-opacity duration-500"
             style={{
-              background: "radial-gradient(circle, rgba(240,208,120,0.28) 0%, rgba(212,168,67,0.10) 45%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(168,221,219,0.28) 0%, rgba(74,165,168,0.10) 45%, transparent 70%)",
             }}
           />
           <KeteIcon

@@ -220,7 +220,7 @@ export default function AISLiveTracker({ agentColor, onSendToChat }: Props) {
 
       {error && (
         <p className="text-[10px] text-destructive mb-2 flex items-center gap-1">
-          ⚠ {error}
+          {error}
         </p>
       )}
 

@@ -10,7 +10,7 @@ import { useAuth } from "@/hooks/useAuth";
 const BRAND_PREFIX =
   "Warm editorial photography, dawn-gold palette, natural NZ light, warm earth tones, grounded and real. NOT neon. NOT cyan. NOT purple. NOT circuits. NOT holograms. NOT sci-fi. NOT AI-goddess. NOT cyberpunk. NOT glowing UI overlays. ";
 
-const ACCENT = "#F0D078";
+const ACCENT = "#A8DDDB";
 
 const ASPECTS = [
   { label: "1:1 — Social Feed", ratio: "1:1" },
@@ -207,7 +207,7 @@ export default function ImageStudio() {
                 onClick={() => fileInputRef.current?.click()}
                 className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all ${
                   isDragging
-                    ? "border-[#F0D078]/60 bg-[#F0D078]/5"
+                    ? "border-[#A8DDDB]/60 bg-[#A8DDDB]/5"
                     : "border-gray-200 hover:border-gray-300 hover:bg-white/[0.02]"
                 }`}
               >

@@ -3,7 +3,7 @@ import { Save, Trash2, Plus, Copy, Tag, Sparkles, BookOpen } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-const ACCENT = "#F0D078";
+const ACCENT = "#A8DDDB";
 
 interface SavedPrompt {
   id: string;

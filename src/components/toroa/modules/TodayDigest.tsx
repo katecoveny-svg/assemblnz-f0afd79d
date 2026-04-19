@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, Calendar, AlertTriangle, CheckCircle, Plus, X, Pencil } from "lucide-react";
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 export interface DigestItem {

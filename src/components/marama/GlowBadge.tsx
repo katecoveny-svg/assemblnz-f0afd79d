@@ -18,7 +18,7 @@ interface Props {
 
 const TONES: Record<Tone, { bg: string; fg: string; rgb: string }> = {
   teal:     { bg: "rgba(74,165,168,0.14)",  fg: "#1F6F71", rgb: "74,165,168"  },
-  ochre:    { bg: "rgba(232,169,72,0.18)",  fg: "#7E5612", rgb: "232,169,72"  },
+  ochre:    { bg: "rgba(74,165,168,0.18)",  fg: "#7E5612", rgb: "232,169,72"  },
   lavender: { bg: "rgba(155,143,191,0.18)", fg: "#5A4E84", rgb: "155,143,191" },
   success:  { bg: "rgba(74,165,168,0.14)",  fg: "#1F6F71", rgb: "74,165,168"  },
   error:    { bg: "rgba(200,90,84,0.16)",   fg: "#8C2A26", rgb: "200,90,84"   },

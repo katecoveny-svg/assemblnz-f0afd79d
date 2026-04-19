@@ -159,7 +159,7 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
             onClick={() => !complianceBlocking && setConfirming(true)}
             disabled={complianceBlocking}
             className="mt-3 flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
-            style={{ ...GLASS, color: "#D4A843" }}
+            style={{ ...GLASS, color: "#4AA5A8" }}
           >
             <ShieldCheck className="h-4 w-4" />
             Verify & Sign-Off
@@ -171,10 +171,10 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             className="mt-3 space-y-3 rounded-xl p-4"
-            style={{ ...GLASS, borderColor: "rgba(212,168,67,0.3)" }}
+            style={{ ...GLASS, borderColor: "rgba(74,165,168,0.3)" }}
           >
             <div className="flex items-start gap-2">
-              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#D4A843]" />
+              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#4AA5A8]" />
               <p className="text-xs text-white/70">
                 By signing off, you certify this AI-generated output has been reviewed and is accurate.
                 Your name and timestamp will be recorded for compliance auditing.

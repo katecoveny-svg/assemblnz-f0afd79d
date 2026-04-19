@@ -429,7 +429,7 @@ const ICONS: Record<string, (s: number, c: string, c2: string, gid: string, fid:
   ),
 };
 
-const GlowIcon = ({ name, size = 24, color = "#D4A843", className = "", glow = true }: GlowIconProps) => {
+const GlowIcon = ({ name, size = 24, color = "#4AA5A8", className = "", glow = true }: GlowIconProps) => {
   const c2 = lighten(color);
   const gid = uid(name);
   const fid = `f-${gid}`;

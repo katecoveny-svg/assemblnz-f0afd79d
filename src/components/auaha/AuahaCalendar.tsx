@@ -1,10 +1,10 @@
 import { Calendar as CalIcon, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { useState } from "react";
 
-const ACCENT = "#F0D078";
+const ACCENT = "#A8DDDB";
 const PLATFORM_COLORS: Record<string, string> = {
   Instagram: "#E1306C", Facebook: "#1877F2", LinkedIn: "#0A66C2", TikTok: "#000000",
-  YouTube: "#FF0000", X: "#666666", Email: "#5AADA0", Blog: "#D4A843",
+  YouTube: "#FF0000", X: "#666666", Email: "#5AADA0", Blog: "#4AA5A8",
 };
 
 const DEMO_POSTS = [

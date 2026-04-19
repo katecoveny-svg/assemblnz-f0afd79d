@@ -25,7 +25,7 @@ const PACK_TO_KETE: Record<string, string> = {
   core: "core",
 };
 
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 
 const GLASS: React.CSSProperties = {
   background: "rgba(255,255,255,0.65)",

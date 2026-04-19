@@ -42,7 +42,7 @@ interface EvidenceBrief {
 const KETE_COLORS: Record<string, string> = {
   MANAAKI: "#3A7D6E",
   WAIHANGA: "#1A3A5C",
-  AUAHA: "#D4A843",
+  AUAHA: "#4AA5A8",
   ARATAKI: "#E8E8E8",
   PIKAU: "#7ECFC2",
 };

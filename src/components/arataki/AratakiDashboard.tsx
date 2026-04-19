@@ -113,7 +113,7 @@ export default function AratakiDashboard() {
           { label: "Pipeline", value: leads.length, icon: Users, color: ACCENT },
           { label: "This Week", value: leads.filter(l => new Date(l.created_at) > new Date(Date.now() - 7 * 86400000)).length, icon: Clock, color: POUNAMU },
           { label: "With Vehicle", value: leads.filter(l => l.business_name).length, icon: Car, color: "#5B8FA8" },
-          { label: "Packs Generated", value: "—", icon: FileText, color: "#D4A843" },
+          { label: "Packs Generated", value: "—", icon: FileText, color: "#4AA5A8" },
         ].map(m => (
           <DashboardGlassCard key={m.label} accentColor={m.color} className="p-4">
             <div className="flex items-center gap-2 mb-2">

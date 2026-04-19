@@ -56,7 +56,7 @@ const MigrationFeatureSection = () => (
           </p>
           {/* Right peak */}
           <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
-            <path d="M0 10 L7 0 L14 10 Z" fill="#D4A843" fillOpacity="0.18" stroke="#D4A843" strokeOpacity="0.7" strokeWidth="0.8" strokeLinejoin="round" />
+            <path d="M0 10 L7 0 L14 10 Z" fill="#4AA5A8" fillOpacity="0.18" stroke="#4AA5A8" strokeOpacity="0.7" strokeWidth="0.8" strokeLinejoin="round" />
           </svg>
         </div>
         <h2 className="text-lg sm:text-[36px] lg:text-[42px] mb-4 uppercase tracking-[3px]"

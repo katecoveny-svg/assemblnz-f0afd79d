@@ -17,7 +17,7 @@ const CHECKS = [
   { label: "Subcontractor pre-qualification check", ref: "SUB-PQ7", confidence: "high", pass: true },
 ];
 
-const CONFIDENCE = { high: { dot: "🟢", color: "#4FE4A7" }, medium: { dot: "🟡", color: "#F0D078" }, low: { dot: "🔴", color: "#E87461" } };
+const CONFIDENCE = { high: { dot: "", color: "#4FE4A7" }, medium: { dot: "", color: "#A8DDDB" }, low: { dot: "", color: "#E87461" } };
 
 const EvidencePackDemo = () => {
   const [generated, setGenerated] = useState(false);
@@ -34,7 +34,7 @@ const EvidencePackDemo = () => {
         <DemoProvesCard slug="evidence-pack" />
 
         <div className="liquid-glass liquid-glass-gold rounded-xl px-4 py-2 text-center mb-10">
-          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#F0D078" }}>
+          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#A8DDDB" }}>
             Demo mode — no real data leaves this page
           </p>
         </div>
@@ -57,7 +57,7 @@ const EvidencePackDemo = () => {
               <button onClick={() => setGenerated(true)} disabled={generated}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all liquid-glass liquid-glass-gold"
                 style={{
-                  color: generated ? "rgba(245,240,232,0.4)" : "#F0D078",
+                  color: generated ? "rgba(245,240,232,0.4)" : "#A8DDDB",
                   borderColor: generated ? "rgba(255,255,255,0.06)" : "rgba(212,168,83,0.3)",
                 }}>
                 <Play size={14} /> {generated ? "Generated" : "Generate pack"}

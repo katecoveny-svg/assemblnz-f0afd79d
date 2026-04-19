@@ -35,7 +35,7 @@ export interface KeteDefinition {
 export const KETE_CONFIG: KeteDefinition[] = [
   {
     id: "manaaki", name: "Manaaki", nameEn: "Hospitality & Tourism",
-    color: "#D4A843", icon: UtensilsCrossed, agentCount: 10, group: "business",
+    color: "#4AA5A8", icon: UtensilsCrossed, agentCount: 10, group: "business",
     description: "Fewer missed checks. Cleaner compliance. Guests looked after without the paperwork pile-up.",
     wananga: "Te Kete Aronui — the basket of love and care for people",
     route: "/manaaki", smsStatus: "active", whatsappStatus: "coming-soon",
@@ -49,7 +49,7 @@ export const KETE_CONFIG: KeteDefinition[] = [
   },
   {
     id: "auaha", name: "Auaha", nameEn: "Creative & Media",
-    color: "#F0D078", icon: Palette, agentCount: 9, group: "business",
+    color: "#A8DDDB", icon: Palette, agentCount: 9, group: "business",
     description: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio, not six tools and a freelancer.",
     wananga: "Te Kete Aronui — the basket of human expression",
     route: "/auaha", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
@@ -84,7 +84,7 @@ export const KETE_CONFIG: KeteDefinition[] = [
   },
   {
     id: "toro", name: "Toro", nameEn: "Whānau Family Navigator",
-    color: "#D4A843", icon: Bird, agentCount: 1, group: "whanau",
+    color: "#4AA5A8", icon: Bird, agentCount: 1, group: "whanau",
     description: "SMS-first. No app, no login. Just text. School notices, meals, budgets, reminders, learning.",
     wananga: "Te Kete Aronui — caring for whānau",
     route: "/toro/dashboard", smsStatus: "active", whatsappStatus: "active",

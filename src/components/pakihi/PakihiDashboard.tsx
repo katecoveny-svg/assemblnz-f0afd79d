@@ -8,7 +8,7 @@ import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 
 const ACCENT = "#5AADA0";
 const ACCENT_LIGHT = "#7ECFC2";
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
 const COLORS = [ACCENT, KOWHAI, POUNAMU, TANGAROA];
@@ -202,7 +202,7 @@ function OverviewTab() {
                   <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-medium ${
                     inv.status === "paid" ? "bg-[#3A7D6E]/15 text-[#5AADA0]" :
                     inv.status === "overdue" ? "bg-[#C85A54]/15 text-[#C85A54]" :
-                    "bg-amber-500/15 text-[#D4A843]"
+                    "bg-amber-500/15 text-[#4AA5A8]"
                   }`}>{inv.status === "overdue" ? `${inv.daysOut}d overdue` : inv.status}</span>
                 </div>
               </div>
@@ -244,7 +244,7 @@ function OverviewTab() {
                 <div className="text-xs font-bold text-white/80">{a.name}</div>
                 <div className="text-[9px] text-white/35">{a.desc}</div>
               </div>
-              <div className={`ml-auto w-2 h-2 rounded-full ${a.status === "online" ? "bg-[#5AADA0]" : "bg-[#D4A843]"}`} />
+              <div className={`ml-auto w-2 h-2 rounded-full ${a.status === "online" ? "bg-[#5AADA0]" : "bg-[#4AA5A8]"}`} />
             </div>
           ))}
         </div>
@@ -275,7 +275,7 @@ function ReconciliationTab() {
           <p className="text-[10px] text-white/40 mt-1">Matched This Week</p>
         </Glass>
         <Glass className="p-4 text-center">
-          <div className="text-2xl font-bold text-[#D4A843]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{recentTransactions.length - matchedCount}</div>
+          <div className="text-2xl font-bold text-[#4AA5A8]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{recentTransactions.length - matchedCount}</div>
           <p className="text-[10px] text-white/40 mt-1">Need Review</p>
         </Glass>
       </div>
@@ -301,14 +301,14 @@ function ReconciliationTab() {
         <div className="space-y-1">
           {filtered.map(txn => (
             <div key={txn.id} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.02] transition-colors">
-              <div className={`w-2 h-2 rounded-full shrink-0 ${txn.matched ? "bg-[#5AADA0]" : "bg-[#D4A843] animate-pulse"}`} />
+              <div className={`w-2 h-2 rounded-full shrink-0 ${txn.matched ? "bg-[#5AADA0]" : "bg-[#4AA5A8] animate-pulse"}`} />
               <span className="text-[10px] text-gray-400 w-12 shrink-0 font-mono">{txn.date}</span>
               <div className="flex-1 min-w-0">
                 <p className="text-[11px] text-white/80 truncate">{txn.description}</p>
                 {txn.category ? (
                   <p className="text-[9px] text-gray-400">{txn.category} · {txn.confidence}% confidence</p>
                 ) : (
-                  <p className="text-[9px] text-[#D4A843]/70">Uncategorised — click to assign</p>
+                  <p className="text-[9px] text-[#4AA5A8]/70">Uncategorised — click to assign</p>
                 )}
               </div>
               <span className={`text-[11px] font-medium shrink-0 ${txn.amount >= 0 ? "text-[#5AADA0]" : "text-white/70"}`}>

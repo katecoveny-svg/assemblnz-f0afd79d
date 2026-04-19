@@ -30,7 +30,7 @@ interface ChatMsg {
 }
 
 /* ── Brand ── */
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
 const SURFACE = "#0F0F1A";
@@ -43,8 +43,8 @@ const Glass = ({ children, className = "", glow = false, navy = false }: {
     background: navy
       ? "linear-gradient(135deg, rgba(26,58,92,0.25), rgba(255,255,255,0.65))"
       : "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
-    borderColor: glow ? "rgba(212,168,67,0.3)" : navy ? "rgba(26,58,92,0.35)" : "rgba(255,255,255,0.5)",
-    boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : navy ? "0 0 20px rgba(26,58,92,0.15)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
+    borderColor: glow ? "rgba(74,165,168,0.3)" : navy ? "rgba(26,58,92,0.35)" : "rgba(255,255,255,0.5)",
+    boxShadow: glow ? "0 0 30px rgba(74,165,168,0.08)" : navy ? "0 0 20px rgba(26,58,92,0.15)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
   }}>{children}</div>
 );
 
@@ -80,7 +80,7 @@ function AraiSafetyDashboard() {
   ];
 
   const riskScore = (l: number, c: number) => l * c;
-  const riskColor = (s: number) => s >= 15 ? "#EF4444" : s >= 8 ? "#D4A843" : "#3A7D6E";
+  const riskColor = (s: number) => s >= 15 ? "#EF4444" : s >= 8 ? "#4AA5A8" : "#3A7D6E";
   const riskLabel = (s: number) => s >= 15 ? "Extreme" : s >= 10 ? "High" : s >= 5 ? "Medium" : "Low";
 
   const totalHazards = risks.length;
@@ -101,7 +101,7 @@ function AraiSafetyDashboard() {
     const s = l * c;
     if (s >= 15) return "rgba(239,68,68,0.25)";
     if (s >= 10) return "rgba(239,68,68,0.12)";
-    if (s >= 5) return "rgba(212,168,67,0.15)";
+    if (s >= 5) return "rgba(74,165,168,0.15)";
     return "rgba(58,125,110,0.10)";
   };
 
@@ -210,7 +210,7 @@ function AraiSafetyDashboard() {
                   {[
                     { label: "Extreme (15–25)", color: "#EF4444" },
                     { label: "High (10–14)", color: "#EF444480" },
-                    { label: "Medium (5–9)", color: "#D4A843" },
+                    { label: "Medium (5–9)", color: "#4AA5A8" },
                     { label: "Low (1–4)", color: "#3A7D6E" },
                   ].map(l => (
                     <div key={l.label} className="flex items-center gap-1.5">
@@ -248,7 +248,7 @@ function AraiSafetyDashboard() {
                         <div className="flex gap-2 mt-1 flex-wrap">
                           <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: `${riskColor(score)}12`, color: riskColor(score), fontFamily: "JetBrains Mono" }}>{r.category}</span>
                           <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{r.hierarchy}</span>
-                          <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: r.status === "Under Review" ? "rgba(212,168,67,0.12)" : "rgba(58,125,110,0.12)", color: r.status === "Under Review" ? KOWHAI : POUNAMU, fontFamily: "JetBrains Mono" }}>{r.status}</span>
+                          <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: r.status === "Under Review" ? "rgba(74,165,168,0.12)" : "rgba(58,125,110,0.12)", color: r.status === "Under Review" ? KOWHAI : POUNAMU, fontFamily: "JetBrains Mono" }}>{r.status}</span>
                         </div>
                       </div>
                       <ArrowRight size={14} className="flex-shrink-0 transition-transform" style={{ color: "rgba(255,255,255,0.2)", transform: isOpen ? "rotate(90deg)" : "none" }} />
@@ -296,7 +296,7 @@ function AraiSafetyDashboard() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
                     <span className="px-2 py-0.5 rounded-full text-[9px]" style={{
-                      background: inc.type === "Notifiable Event" ? "rgba(239,68,68,0.15)" : inc.type === "Near Miss" ? "rgba(212,168,67,0.15)" : "rgba(58,125,110,0.15)",
+                      background: inc.type === "Notifiable Event" ? "rgba(239,68,68,0.15)" : inc.type === "Near Miss" ? "rgba(74,165,168,0.15)" : "rgba(58,125,110,0.15)",
                       color: inc.type === "Notifiable Event" ? "#EF4444" : inc.type === "Near Miss" ? KOWHAI : POUNAMU,
                       fontFamily: "JetBrains Mono",
                     }}>{inc.type}</span>
@@ -547,7 +547,7 @@ function HangaChat({ projectName }: { projectName: string }) {
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-105"
         style={{
           background: `linear-gradient(135deg, ${KOWHAI}, ${POUNAMU})`,
-          boxShadow: `0 4px 20px rgba(212,168,67,0.3), 0 0 40px rgba(212,168,67,0.1)`,
+          boxShadow: `0 4px 20px rgba(74,165,168,0.3), 0 0 40px rgba(74,165,168,0.1)`,
         }}
       >
         <MessageCircle size={22} color="#FFFFFF" />
@@ -558,8 +558,8 @@ function HangaChat({ projectName }: { projectName: string }) {
   return (
     <div className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] rounded-2xl overflow-hidden" style={{
       background: SURFACE,
-      border: "1px solid rgba(212,168,67,0.2)",
-      boxShadow: "0 8px 40px rgba(0,0,0,0.5), 0 0 60px rgba(212,168,67,0.05)",
+      border: "1px solid rgba(74,165,168,0.2)",
+      boxShadow: "0 8px 40px rgba(0,0,0,0.5), 0 0 60px rgba(74,165,168,0.05)",
       height: "520px",
       display: "flex",
       flexDirection: "column",
@@ -595,7 +595,7 @@ function HangaChat({ projectName }: { projectName: string }) {
                   fontFamily: "Plus Jakarta Sans",
                   color: KOWHAI,
                   background: "rgba(255,255,255,0.5)",
-                  border: "1px solid rgba(212,168,67,0.12)",
+                  border: "1px solid rgba(74,165,168,0.12)",
                 }}>
                   <ArrowRight size={10} className="inline mr-1.5" style={{ color: KOWHAI }} />{q}
                 </button>
@@ -726,7 +726,7 @@ export default function KanohiDashboard() {
               style={{
                 fontFamily: "Plus Jakarta Sans",
                 background: "rgba(255,255,255,0.65)",
-                border: "1px solid rgba(212,168,67,0.2)",
+                border: "1px solid rgba(74,165,168,0.2)",
                 color: "#1A1D29",
               }}
             >
@@ -738,7 +738,7 @@ export default function KanohiDashboard() {
             {projectDropdown && (
               <div className="absolute top-full mt-1 right-0 w-full rounded-xl overflow-hidden z-20" style={{
                 background: SURFACE,
-                border: "1px solid rgba(212,168,67,0.15)",
+                border: "1px solid rgba(74,165,168,0.15)",
                 boxShadow: "0 8px 30px rgba(0,0,0,0.5)",
               }}>
                 {projects.map(p => (

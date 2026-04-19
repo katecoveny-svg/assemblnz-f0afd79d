@@ -9,10 +9,10 @@ import { motion } from "framer-motion";
  * particle trails, bloom effects, and flowing light streams.
  */
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const TEAL_LIGHT = "#5AADA0";
-const GOLD_LIGHT = "#F0D078";
+const GOLD_LIGHT = "#A8DDDB";
 
 function useIsMobile() {
   return typeof window !== "undefined" && window.innerWidth < 640;
@@ -680,7 +680,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
       <div
         className="absolute w-[520px] h-[520px] sm:w-[750px] sm:h-[750px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(58,125,110,0.12) 0%, rgba(212,168,67,0.06) 35%, transparent 65%)",
+          background: "radial-gradient(circle, rgba(58,125,110,0.12) 0%, rgba(74,165,168,0.06) 35%, transparent 65%)",
           filter: "blur(100px)",
         }}
       />
@@ -695,7 +695,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
       <motion.div
         className="absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(212,168,67,0.08) 0%, rgba(240,208,120,0.04) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(74,165,168,0.08) 0%, rgba(168,221,219,0.04) 40%, transparent 70%)",
           filter: "blur(40px)",
         }}
         animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
@@ -742,13 +742,13 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
         <div className="text-center mt-8 px-4">
           <p
             className="text-[10px] tracking-[4px] uppercase mb-3"
-            style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(212,168,67,0.6)" }}
+            style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(74,165,168,0.6)" }}
           >
             Ngā Kete · 5 Industries · Tangible Outcomes
           </p>
           <h2
             className="text-2xl sm:text-4xl tracking-[0.02em] text-foreground mb-3"
-            style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif", textShadow: "0 0 40px rgba(212,168,67,0.15)" }}
+            style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif", textShadow: "0 0 40px rgba(74,165,168,0.15)" }}
           >
             More efficiency. Less admin. Real evidence.
           </h2>

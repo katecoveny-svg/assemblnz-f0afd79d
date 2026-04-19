@@ -5,26 +5,26 @@ import { ArrowRight } from "lucide-react";
 
 // Per-pack accent colours for icon containers and hover states
 const PACK_ACCENT: Record<string, string> = {
-  manaaki: "#D4A843",
+  manaaki: "#4AA5A8",
   hanga: "#3A7D6E",
-  auaha: "#F0D078",
+  auaha: "#A8DDDB",
   pakihi: "#5AADA0",
   waka: "#3A7D6E",
   hangarau: "#4A7AB5",
-  hauora: "#D4A843",
-  "te-kahui-reo": "#D4A843",
+  hauora: "#4AA5A8",
+  "te-kahui-reo": "#4AA5A8",
   
 };
 
 const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
   pakihi: (
     <svg viewBox="0 0 30 30" className="w-full h-full">
-      <circle cx="20" cy="8" r="2.5" fill="#D4A843" />
-      <circle cx="20" cy="22" r="2.5" fill="#D4A843" />
-      <circle cx="7" cy="15" r="2.5" fill="#D4A843" />
-      <line x1="20" y1="8" x2="20" y2="22" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
-      <line x1="20" y1="22" x2="7" y2="15" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
-      <line x1="7" y1="15" x2="20" y2="8" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
+      <circle cx="20" cy="8" r="2.5" fill="#4AA5A8" />
+      <circle cx="20" cy="22" r="2.5" fill="#4AA5A8" />
+      <circle cx="7" cy="15" r="2.5" fill="#4AA5A8" />
+      <line x1="20" y1="8" x2="20" y2="22" stroke="#4AA5A8" strokeWidth="1" opacity="0.5" />
+      <line x1="20" y1="22" x2="7" y2="15" stroke="#4AA5A8" strokeWidth="1" opacity="0.5" />
+      <line x1="7" y1="15" x2="20" y2="8" stroke="#4AA5A8" strokeWidth="1" opacity="0.5" />
     </svg>
   ),
   hanga: (
@@ -39,12 +39,12 @@ const CONSTELLATION_MARKS: Record<string, React.ReactNode> = {
   ),
   manaaki: (
     <svg viewBox="0 0 30 30" className="w-full h-full">
-      <circle cx="15" cy="5" r="2.5" fill="#D4A843" />
-      <circle cx="7" cy="22" r="2.5" fill="#D4A843" />
-      <circle cx="23" cy="22" r="2.5" fill="#D4A843" />
-      <line x1="15" y1="5" x2="7" y2="22" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
-      <line x1="7" y1="22" x2="23" y2="22" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
-      <line x1="23" y1="22" x2="15" y2="5" stroke="#D4A843" strokeWidth="1" opacity="0.5" />
+      <circle cx="15" cy="5" r="2.5" fill="#4AA5A8" />
+      <circle cx="7" cy="22" r="2.5" fill="#4AA5A8" />
+      <circle cx="23" cy="22" r="2.5" fill="#4AA5A8" />
+      <line x1="15" y1="5" x2="7" y2="22" stroke="#4AA5A8" strokeWidth="1" opacity="0.5" />
+      <line x1="7" y1="22" x2="23" y2="22" stroke="#4AA5A8" strokeWidth="1" opacity="0.5" />
+      <line x1="23" y1="22" x2="15" y2="5" stroke="#4AA5A8" strokeWidth="1" opacity="0.5" />
     </svg>
   ),
   toroa: null, // uses PNG
@@ -64,7 +64,7 @@ const LivePacksHero = () => (
       <motion.div className="text-center mb-14" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
         <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">5 Kete · Tangible Outcomes · Built in Aotearoa</p>
         <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "2.25rem", letterSpacing: "-0.01em", color: "#1A1D29" }}>
-          Your industry. <span style={{ color: "#D4A843" }}>Your evidence packs.</span>
+          Your industry. <span style={{ color: "#4AA5A8" }}>Your evidence packs.</span>
         </h2>
         <p className="mt-3 text-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.55)", maxWidth: "480px", margin: "12px auto 0" }}>
           Five industry kete that increase efficiency, reduce admin, and produce signed packs for audits, legal, and governance.
@@ -73,7 +73,7 @@ const LivePacksHero = () => (
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {LIVE_PACKS.map((pack, i) => {
-          const accent = PACK_ACCENT[pack.slug] || "#D4A843";
+          const accent = PACK_ACCENT[pack.slug] || "#4AA5A8";
           return (
           <motion.div
             key={pack.slug}

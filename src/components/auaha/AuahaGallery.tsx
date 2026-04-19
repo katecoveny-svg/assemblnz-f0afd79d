@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
 
-const ACCENT = "#F0D078";
+const ACCENT = "#A8DDDB";
 
 function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (

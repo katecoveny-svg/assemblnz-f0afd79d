@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Compass, Loader2, Send, Sparkles } from "lucide-react";
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const CHARCOAL = "#3D4250";
 
@@ -88,7 +88,7 @@ export default function VoyagePlannerPage() {
             className="w-full p-5 text-sm resize-none outline-none bg-transparent"
             style={{ color: CHARCOAL, fontFamily: "Lato, sans-serif" }}
           />
-          <div className="flex items-center justify-between px-5 py-3 border-t" style={{ borderColor: `${KOWHAI}15`, background: "rgba(212,168,67,0.04)" }}>
+          <div className="flex items-center justify-between px-5 py-3 border-t" style={{ borderColor: `${KOWHAI}15`, background: "rgba(74,165,168,0.04)" }}>
             <p className="text-[10px]" style={{ color: "#9CA3AF" }}>⌘/Ctrl + Enter to send</p>
             <button
               onClick={submit}

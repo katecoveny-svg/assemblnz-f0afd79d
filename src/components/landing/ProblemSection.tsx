@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Scale, CalendarClock, AlertTriangle } from "lucide-react";
 
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 
 const PAIN_POINTS = [
   {
@@ -73,7 +73,7 @@ const ProblemSection = () => (
             transition={{ duration: 0.4, delay: i * 0.1 }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = `${GOLD}40`;
-              e.currentTarget.style.boxShadow = `0 12px 48px rgba(212,168,67,0.08)`;
+              e.currentTarget.style.boxShadow = `0 12px 48px rgba(74,165,168,0.08)`;
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
@@ -82,9 +82,9 @@ const ProblemSection = () => (
           >
             <div
               className="w-10 h-10 rounded-lg flex items-center justify-center mb-4"
-              style={{ background: `${GOLD}10`, boxShadow: `0 0 12px rgba(212,168,67,0.3)` }}
+              style={{ background: `${GOLD}10`, boxShadow: `0 0 12px rgba(74,165,168,0.3)` }}
             >
-              <point.icon size={24} style={{ color: GOLD, filter: "drop-shadow(0 0 6px rgba(212,168,67,0.5))" }} />
+              <point.icon size={24} style={{ color: GOLD, filter: "drop-shadow(0 0 6px rgba(74,165,168,0.5))" }} />
             </div>
 
             <p

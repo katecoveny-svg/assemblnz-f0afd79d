@@ -4,7 +4,7 @@ import { MonitorPlay, Link2, ExternalLink, Play, Copy, Check, Plus, Trash2, Vide
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import { toast } from "sonner";
 
-const ACCENT = "#F0D078";
+const ACCENT = "#A8DDDB";
 
 interface LoomEmbed {
   id: string;
@@ -102,7 +102,7 @@ export default function AuahaLoomStudio() {
           />
           <button onClick={addLoom}
             className="px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 transition-all hover:scale-[1.02]"
-            style={{ background: `linear-gradient(135deg, ${ACCENT}, #D4A843)`, color: "#09090F" }}>
+            style={{ background: `linear-gradient(135deg, ${ACCENT}, #4AA5A8)`, color: "#09090F" }}>
             <Plus className="w-4 h-4" />
             Add
           </button>

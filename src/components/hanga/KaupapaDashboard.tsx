@@ -82,7 +82,7 @@ const fmt = (n: number) => `$${(n / 1000).toFixed(0)}k`;
 const fmtFull = (n: number) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD", maximumFractionDigits: 0 }).format(n);
 
 const varStatusColor: Record<VariationStatus, string> = {
-  proposed: "#D4A843",
+  proposed: "#4AA5A8",
   approved: "#3A7D6E",
   rejected: "#EF4444",
   implemented: "#5AADA0",
@@ -90,7 +90,7 @@ const varStatusColor: Record<VariationStatus, string> = {
 
 const claimStatusColor: Record<ClaimStatus, { bg: string; text: string }> = {
   draft: { bg: "rgba(255,255,255,0.5)", text: "rgba(255,255,255,0.4)" },
-  submitted: { bg: "rgba(212,168,67,0.15)", text: "#D4A843" },
+  submitted: { bg: "rgba(74,165,168,0.15)", text: "#4AA5A8" },
   approved: { bg: "rgba(58,125,110,0.15)", text: "#3A7D6E" },
   disputed: { bg: "rgba(239,68,68,0.15)", text: "#EF4444" },
   paid: { bg: "rgba(90,173,160,0.12)", text: "#5AADA0" },
@@ -101,8 +101,8 @@ const Glass = ({ children, className = "", glow = false }: { children: React.Rea
     className={`rounded-2xl border backdrop-blur-md ${className}`}
     style={{
       background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
-      borderColor: glow ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.5)",
-      boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
+      borderColor: glow ? "rgba(74,165,168,0.3)" : "rgba(255,255,255,0.5)",
+      boxShadow: glow ? "0 0 30px rgba(74,165,168,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
     }}
   >
     {children}
@@ -144,8 +144,8 @@ export default function KaupapaDashboard() {
         {/* Header */}
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <FileCheck size={20} style={{ color: "#D4A843" }} />
-            <span className="text-xs tracking-widest uppercase" style={{ color: "#D4A843", fontFamily: "JetBrains Mono" }}>Waihanga Construction Suite</span>
+            <FileCheck size={20} style={{ color: "#4AA5A8" }} />
+            <span className="text-xs tracking-widest uppercase" style={{ color: "#4AA5A8", fontFamily: "JetBrains Mono" }}>Waihanga Construction Suite</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#1A1D29" }}>
             KAUPAPA — Project Management
@@ -158,12 +158,12 @@ export default function KaupapaDashboard() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { label: "Total Claims Value", value: fmtFull(totalClaimsValue), icon: <DollarSign size={18} />, accent: "#D4A843" },
+            { label: "Total Claims Value", value: fmtFull(totalClaimsValue), icon: <DollarSign size={18} />, accent: "#4AA5A8" },
             { label: "Retention Held", value: fmtFull(totalRetention), icon: <Wallet size={18} />, accent: "#1A3A5C" },
             { label: "Variations Pending", value: pendingVariations, icon: <GitBranch size={18} />, accent: "#EF4444" },
             { label: "Budget Remaining", value: fmtFull(budgetRemaining), icon: <TrendingUp size={18} />, accent: "#3A7D6E" },
           ].map((s) => (
-            <Glass key={s.label} glow={s.accent === "#D4A843"}>
+            <Glass key={s.label} glow={s.accent === "#4AA5A8"}>
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="p-1.5 rounded-lg" style={{ background: `${s.accent}20` }}>
@@ -180,7 +180,7 @@ export default function KaupapaDashboard() {
         {/* Tabs */}
         <div className="flex gap-1 p-1 rounded-xl overflow-x-auto scrollbar-hide" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
           {tabs.map((t) => (
-            <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Plus Jakarta Sans", background: tab === t.id ? "rgba(212,168,67,0.12)" : "transparent", color: tab === t.id ? "#D4A843" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(212,168,67,0.25)" : "1px solid transparent" }}>
+            <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Plus Jakarta Sans", background: tab === t.id ? "rgba(74,165,168,0.12)" : "transparent", color: tab === t.id ? "#4AA5A8" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(74,165,168,0.25)" : "1px solid transparent" }}>
               {t.icon} {t.label}
             </button>
           ))}
@@ -203,9 +203,9 @@ export default function KaupapaDashboard() {
                     const cs = claimStatusColor[c.status];
                     return (
                       <tr key={c.id} className="transition-colors" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
-                        onMouseEnter={e => e.currentTarget.style.background = "rgba(212,168,67,0.04)"}
+                        onMouseEnter={e => e.currentTarget.style.background = "rgba(74,165,168,0.04)"}
                         onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
-                        <td className="px-4 py-3 text-sm font-mono" style={{ color: "#D4A843", fontFamily: "JetBrains Mono" }}>{c.claimNumber}</td>
+                        <td className="px-4 py-3 text-sm font-mono" style={{ color: "#4AA5A8", fontFamily: "JetBrains Mono" }}>{c.claimNumber}</td>
                         <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.7)" }}>{c.contractor}</td>
                         <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{c.claimDate}</td>
                         <td className="px-4 py-3 text-sm font-mono" style={{ fontFamily: "JetBrains Mono", color: "#1A1D29" }}>{fmtFull(c.amount)}</td>
@@ -247,15 +247,15 @@ export default function KaupapaDashboard() {
             {/* Trust account alert */}
             <Glass glow>
               <div className="p-4 flex items-start gap-3">
-                <div className="p-2 rounded-xl flex-shrink-0" style={{ background: "rgba(212,168,67,0.1)" }}>
-                  <Shield size={20} style={{ color: "#D4A843" }} />
+                <div className="p-2 rounded-xl flex-shrink-0" style={{ background: "rgba(74,165,168,0.1)" }}>
+                  <Shield size={20} style={{ color: "#4AA5A8" }} />
                 </div>
                 <div>
                   <h3 className="text-sm font-medium mb-1" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
                     Retention Money Trust Account Requirements
                   </h3>
                   <p className="text-xs leading-relaxed" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.55)" }}>
-                    Under the <strong style={{ color: "#D4A843" }}>Construction Contracts (Retention Money) Amendment Act 2023</strong> (effective 5 October 2023), 
+                    Under the <strong style={{ color: "#4AA5A8" }}>Construction Contracts (Retention Money) Amendment Act 2023</strong> (effective 5 October 2023), 
                     all retention money must be held on trust in a compliant trust account. The party holding retention must:
                   </p>
                   <ul className="mt-2 space-y-1 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
@@ -285,7 +285,7 @@ export default function KaupapaDashboard() {
               <Glass>
                 <div className="p-4">
                   <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>Total Retention Held</p>
-                  <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#D4A843" }}>{fmtFull(totalRetention)}</p>
+                  <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#4AA5A8" }}>{fmtFull(totalRetention)}</p>
                 </div>
               </Glass>
               <Glass>
@@ -317,7 +317,7 @@ export default function KaupapaDashboard() {
                         <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>{s.trade}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-mono" style={{ fontFamily: "JetBrains Mono", color: "#D4A843" }}>{fmtFull(s.retentionHeld)}</p>
+                        <p className="text-sm font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtFull(s.retentionHeld)}</p>
                         <p className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
                           of {fmtFull(s.contractValue)} contract
                         </p>
@@ -373,13 +373,13 @@ export default function KaupapaDashboard() {
                     <div className="w-1 h-12 rounded-full flex-shrink-0" style={{ background: varStatusColor[v.status] }} />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-xs font-mono" style={{ color: "#D4A843", fontFamily: "JetBrains Mono" }}>{v.variationNumber}</span>
+                        <span className="text-xs font-mono" style={{ color: "#4AA5A8", fontFamily: "JetBrains Mono" }}>{v.variationNumber}</span>
                         <span className="px-2 py-0.5 rounded-full text-[9px] capitalize" style={{ background: `${varStatusColor[v.status]}20`, color: varStatusColor[v.status], fontFamily: "JetBrains Mono" }}>{v.status}</span>
                       </div>
                       <p className="text-sm mt-1 truncate" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{v.description}</p>
                       <div className="flex gap-4 mt-1 text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
                         <span>Cost: <strong style={{ color: v.costImpact >= 0 ? "#EF4444" : "#3A7D6E" }}>{v.costImpact >= 0 ? "+" : ""}{fmtFull(v.costImpact)}</strong></span>
-                        <span>Time: <strong style={{ color: v.timeImpactDays > 0 ? "#D4A843" : v.timeImpactDays < 0 ? "#3A7D6E" : "rgba(255,255,255,0.5)" }}>{v.timeImpactDays > 0 ? "+" : ""}{v.timeImpactDays} days</strong></span>
+                        <span>Time: <strong style={{ color: v.timeImpactDays > 0 ? "#4AA5A8" : v.timeImpactDays < 0 ? "#3A7D6E" : "rgba(255,255,255,0.5)" }}>{v.timeImpactDays > 0 ? "+" : ""}{v.timeImpactDays} days</strong></span>
                       </div>
                     </div>
                     <ChevronRight size={14} className="flex-shrink-0 transition-transform" style={{ color: "rgba(255,255,255,0.3)", transform: isOpen ? "rotate(90deg)" : "rotate(0)" }} />
@@ -407,7 +407,7 @@ export default function KaupapaDashboard() {
               <Glass glow>
                 <div className="p-4">
                   <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>Total Budget</p>
-                  <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#D4A843" }}>{fmtFull(totalBudget)}</p>
+                  <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#4AA5A8" }}>{fmtFull(totalBudget)}</p>
                 </div>
               </Glass>
               <Glass>
@@ -446,7 +446,7 @@ export default function KaupapaDashboard() {
                         </div>
                         {/* Actual bar */}
                         {actualH > 0 && (
-                          <div className="w-full rounded-t-sm" style={{ height: `${actualH}%`, background: "linear-gradient(180deg, #D4A843, rgba(212,168,67,0.3))" }} />
+                          <div className="w-full rounded-t-sm" style={{ height: `${actualH}%`, background: "linear-gradient(180deg, #4AA5A8, rgba(74,165,168,0.3))" }} />
                         )}
                       </div>
                     );
@@ -459,7 +459,7 @@ export default function KaupapaDashboard() {
                 </div>
                 <div className="flex items-center gap-4 mt-3">
                   <div className="flex items-center gap-1.5">
-                    <div className="w-3 h-3 rounded-sm" style={{ background: "#D4A843" }} />
+                    <div className="w-3 h-3 rounded-sm" style={{ background: "#4AA5A8" }} />
                     <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>Actual spend</span>
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -496,7 +496,7 @@ export default function KaupapaDashboard() {
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-2">
                               <div className="flex-1 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
-                                <div className="h-full rounded-full" style={{ width: `${Math.min(pctUsed, 100)}%`, background: pctUsed > 90 ? "#EF4444" : pctUsed > 70 ? "#D4A843" : "#3A7D6E" }} />
+                                <div className="h-full rounded-full" style={{ width: `${Math.min(pctUsed, 100)}%`, background: pctUsed > 90 ? "#EF4444" : pctUsed > 70 ? "#4AA5A8" : "#3A7D6E" }} />
                               </div>
                               <span className="text-[9px] font-mono w-8 text-right" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>{pctUsed}%</span>
                             </div>
@@ -505,13 +505,13 @@ export default function KaupapaDashboard() {
                       );
                     })}
                     {/* Totals row */}
-                    <tr style={{ borderTop: "2px solid rgba(212,168,67,0.2)" }}>
-                      <td className="px-4 py-3 text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#D4A843" }}>Total</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#D4A843" }}>{fmtFull(totalBudget)}</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#D4A843" }}>{fmtFull(totalActual)}</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#D4A843" }}>{fmtFull(BUDGET.reduce((s, b) => s + b.committed, 0))}</td>
+                    <tr style={{ borderTop: "2px solid rgba(74,165,168,0.2)" }}>
+                      <td className="px-4 py-3 text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#4AA5A8" }}>Total</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtFull(totalBudget)}</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtFull(totalActual)}</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtFull(BUDGET.reduce((s, b) => s + b.committed, 0))}</td>
                       <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#3A7D6E" }}>{fmtFull(budgetRemaining - BUDGET.reduce((s, b) => s + b.committed, 0))}</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#D4A843" }}>{Math.round((totalActual / totalBudget) * 100)}%</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{Math.round((totalActual / totalBudget) * 100)}%</td>
                     </tr>
                   </tbody>
                 </table>
@@ -535,12 +535,12 @@ export default function KaupapaDashboard() {
                 <tbody>
                   {SUBCONTRACTORS.map(s => (
                     <tr key={s.id} className="transition-colors" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
-                      onMouseEnter={e => e.currentTarget.style.background = "rgba(212,168,67,0.04)"}
+                      onMouseEnter={e => e.currentTarget.style.background = "rgba(74,165,168,0.04)"}
                       onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
                       <td className="px-4 py-3 text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{s.company}</td>
                       <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{s.trade}</td>
                       <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#1A1D29" }}>{fmtFull(s.contractValue)}</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#D4A843" }}>{fmtFull(s.retentionHeld)}</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtFull(s.retentionHeld)}</td>
                       <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.5)" }}>{fmtFull(s.claimsPaid)}</td>
                       <td className="px-4 py-3">
                         {s.trustAccount ? (
@@ -552,8 +552,8 @@ export default function KaupapaDashboard() {
                       <td className="px-4 py-3">
                         <span className="px-2 py-0.5 rounded-full text-[9px]" style={{
                           fontFamily: "JetBrains Mono",
-                          background: s.status === "Active" ? "rgba(58,125,110,0.15)" : "rgba(212,168,67,0.15)",
-                          color: s.status === "Active" ? "#3A7D6E" : "#D4A843",
+                          background: s.status === "Active" ? "rgba(58,125,110,0.15)" : "rgba(74,165,168,0.15)",
+                          color: s.status === "Active" ? "#3A7D6E" : "#4AA5A8",
                         }}>{s.status}</span>
                       </td>
                       <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{s.lastClaim}</td>

@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-const KINDLE_COLOR = "#D4A843";
+const KINDLE_COLOR = "#4AA5A8";
 
 interface CampaignContent {
   narrative: string;

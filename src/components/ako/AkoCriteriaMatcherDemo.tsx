@@ -80,7 +80,7 @@ const ACCENT_LIGHT = "#A8C8DD";
 
 const STATUS_META: Record<GapStatus, { label: string; color: string; icon: typeof Check }> = {
   compliant: { label: "compliant", color: "#3A7D6E", icon: Check },
-  partial: { label: "partial", color: "#D4A843", icon: AlertTriangle },
+  partial: { label: "partial", color: "#4AA5A8", icon: AlertTriangle },
   gap: { label: "gap", color: "#C0594F", icon: AlertCircle },
 };
 

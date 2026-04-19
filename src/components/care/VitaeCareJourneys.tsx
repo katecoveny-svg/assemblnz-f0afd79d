@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Clock, MapPin, FileText, TrendingUp } from "lucide-react";
 
 const NAVY = "#1A3A5C";
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 interface VitaeCareJourneysProps {
@@ -48,7 +48,7 @@ const VitaeCareJourneys = ({ onSendToChat }: VitaeCareJourneysProps) => {
       </div>
 
       {journeys.length === 0 ? (
-        <div className="p-6 rounded-2xl text-center" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(212,168,67,0.12)" }}>
+        <div className="p-6 rounded-2xl text-center" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.12)" }}>
           <FileText size={24} style={{ color: NAVY, margin: "0 auto 12px" }} />
           <p className="text-sm font-medium" style={{ color: "#3D4250" }}>No care journeys tracked</p>
           <p className="text-xs mt-1 mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>Ask VITAE to help you track a referral or specialist appointment.</p>
@@ -109,7 +109,7 @@ const VitaeCareJourneys = ({ onSendToChat }: VitaeCareJourneysProps) => {
           { label: "Patient rights", prompt: "Explain my rights under the Code of Health and Disability Services Consumers' Rights." },
           { label: "Prepare for appointment", prompt: "Help me prepare questions for my upcoming specialist appointment." },
         ].map(q => (
-          <button key={q.label} onClick={() => onSendToChat(q.prompt)} className="p-3 rounded-xl text-left text-xs" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(212,168,67,0.08)", color: "rgba(255,255,255,0.6)" }}>
+          <button key={q.label} onClick={() => onSendToChat(q.prompt)} className="p-3 rounded-xl text-left text-xs" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.08)", color: "rgba(255,255,255,0.6)" }}>
             {q.label}
           </button>
         ))}

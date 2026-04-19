@@ -74,13 +74,13 @@ For EACH industry listed above:
 
 ## OUTPUT FORMAT (per industry)
 
-### 🏢 [Industry Name] — via [Agent Name]
+### [Industry Name] — via [Agent Name]
 **Pain Point:** [Specific, urgent pain point]
 **Target Audience:** [Detailed demographic and psychographic description]
 
 #### Variant 1: Pain-Agitate-Solve
 ${platform !== "instagram" ? `**LinkedIn Version** (max 3,000 chars):\n[Full ad copy ready to paste]\n` : ""}${platform !== "linkedin" ? `**Instagram Version** (max 2,200 chars):\n[Full caption with emojis and line breaks]\n` : ""}
-- 🎨 **Image Direction:** [Exact visual description for creative team]
+- **Image Direction:** [Exact visual description for creative team]
 - #️⃣ **Hashtags:** [10-15 relevant hashtags]
 
 [Repeat for all 5 variants]
