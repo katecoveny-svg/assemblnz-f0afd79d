@@ -6,298 +6,217 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-/* ─── Golden spiral generator ─── */
-function koruSpiral(turns = 2.5, points = 44, maxRadius = 3.5): [number, number, number][] {
-  const positions: [number, number, number][] = [];
-  for (let i = 0; i < points; i++) {
-    const t = i / (points - 1);
-    const angle = t * turns * Math.PI * 2;
-    const r = t * maxRadius;
-    positions.push([
-      Math.cos(angle) * r,
-      Math.sin(angle) * r,
-      Math.sin(t * Math.PI) * 0.6,
-    ]);
+/* ─────────────────────────────────────────────────────────
+   FLUID KORU — a single 3D glass tube that spirals inward
+   like a ponga frond unfurling. No floating blob spheres.
+   ───────────────────────────────────────────────────────── */
+
+/* Build a logarithmic koru curve in 3D */
+function buildKoruCurve(): THREE.CatmullRomCurve3 {
+  const points: THREE.Vector3[] = [];
+  const turns = 2.4;
+  const samples = 240;
+  const a = 0.16; // initial radius
+  const b = 0.21; // growth
+  for (let i = 0; i <= samples; i++) {
+    const t = i / samples;
+    // Logarithmic spiral: r = a * e^(b*θ)
+    const theta = t * turns * Math.PI * 2;
+    const r = a * Math.exp(b * theta);
+    // unfurl axis — gentle out-of-plane lift so the tip rises
+    const lift = Math.pow(t, 1.4) * 0.9 - 0.1;
+    points.push(
+      new THREE.Vector3(
+        Math.cos(theta) * r,
+        Math.sin(theta) * r,
+        lift,
+      ),
+    );
   }
-  return positions;
+  // Reverse so the tube starts at the small bulb at the centre
+  points.reverse();
+  const curve = new THREE.CatmullRomCurve3(points, false, "catmullrom", 0.5);
+  return curve;
 }
 
-/* ─── 5 Kete colours ─── */
-const KETE = [
-  { index: 8, color: "#E8A090", name: "Manaaki" },
-  { index: 16, color: "#E8A948", name: "Waihanga" },
-  { index: 24, color: "#B8A5D0", name: "Auaha" },
-  { index: 32, color: "#4AA5A8", name: "Arataki" },
-  { index: 40, color: "#7BA88C", name: "Pikau" },
-];
+/* The glass koru tube itself */
+function KoruTube({ curve }: { curve: THREE.CatmullRomCurve3 }) {
+  const tubeRef = useRef<THREE.Mesh>(null);
+  const innerRef = useRef<THREE.Mesh>(null);
+  const coreRef = useRef<THREE.Mesh>(null);
 
-/* ─── Glass Sphere ─── */
-function GlassSphere({
-  position,
-  radius,
-  color,
-  index,
-  isKete,
-}: {
-  position: [number, number, number];
-  radius: number;
-  color: string;
-  index: number;
-  isKete: boolean;
-}) {
-  const ref = useRef<THREE.Mesh>(null);
-  const glowRef = useRef<THREE.Mesh>(null);
-  const speed = 0.4 + (index * 0.037) % 0.6;
-  const phase = index * 0.7;
+  // Vary tube thickness along its length (thick base → thin tip)
+  const geometry = useMemo(() => {
+    const segments = 320;
+    const radial = 24;
+    // Custom variable-radius tube: bake thickness into geometry
+    const positions: number[] = [];
+    const normals: number[] = [];
+    const uvs: number[] = [];
+    const indices: number[] = [];
+    const frame = new THREE.Vector3();
+    const tangent = new THREE.Vector3();
+    const normal = new THREE.Vector3();
+    const binormal = new THREE.Vector3();
+    const up = new THREE.Vector3(0, 0, 1);
+
+    for (let i = 0; i <= segments; i++) {
+      const t = i / segments;
+      curve.getPointAt(t, frame);
+      curve.getTangentAt(t, tangent).normalize();
+      // Build an orthonormal frame
+      normal.copy(up).cross(tangent);
+      if (normal.lengthSq() < 0.001) normal.set(1, 0, 0);
+      normal.normalize();
+      binormal.copy(tangent).cross(normal).normalize();
+
+      // Thickness: bulb at base (start, t=0), taper to fine tip
+      const bulb = Math.pow(1 - t, 2.2) * 0.18;
+      const taper = 0.13 + Math.pow(1 - t, 0.7) * 0.18;
+      const radius = Math.max(0.02, taper - t * 0.08 + bulb);
+
+      for (let j = 0; j <= radial; j++) {
+        const v = (j / radial) * Math.PI * 2;
+        const sin = Math.sin(v);
+        const cos = Math.cos(v);
+        const nx = cos * normal.x + sin * binormal.x;
+        const ny = cos * normal.y + sin * binormal.y;
+        const nz = cos * normal.z + sin * binormal.z;
+        positions.push(
+          frame.x + radius * nx,
+          frame.y + radius * ny,
+          frame.z + radius * nz,
+        );
+        normals.push(nx, ny, nz);
+        uvs.push(t, j / radial);
+      }
+    }
+    for (let i = 0; i < segments; i++) {
+      for (let j = 0; j < radial; j++) {
+        const a = i * (radial + 1) + j;
+        const b = (i + 1) * (radial + 1) + j;
+        const c = (i + 1) * (radial + 1) + (j + 1);
+        const d = i * (radial + 1) + (j + 1);
+        indices.push(a, b, d, b, c, d);
+      }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    geo.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
+    geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+    geo.setIndex(indices);
+    return geo;
+  }, [curve]);
 
   useFrame(({ clock }) => {
-    if (!ref.current) return;
     const t = clock.elapsedTime;
-    ref.current.position.y = position[1] + Math.sin(t * speed + phase) * 0.06;
-    ref.current.position.x = position[0] + Math.cos(t * speed * 0.7 + phase) * 0.02;
-    // Sparkle pulse on the glow shell
-    if (glowRef.current) {
-      glowRef.current.position.copy(ref.current.position);
-      const sparkle = 0.6 + 0.4 * Math.sin(t * 4 + index * 1.3);
-      (glowRef.current.material as THREE.MeshBasicMaterial).opacity = isKete ? sparkle * 0.35 : sparkle * 0.15;
+    if (innerRef.current) {
+      const m = innerRef.current.material as THREE.MeshBasicMaterial;
+      m.opacity = 0.18 + 0.12 * Math.sin(t * 1.2);
+    }
+    if (coreRef.current) {
+      const m = coreRef.current.material as THREE.MeshBasicMaterial;
+      m.opacity = 0.55 + 0.25 * Math.sin(t * 2.5);
+      coreRef.current.scale.setScalar(1 + 0.08 * Math.sin(t * 1.8));
     }
   });
 
-  const brightColor = useMemo(() => new THREE.Color(color).multiplyScalar(1.5), [color]);
+  // Find the centre bulb (start of curve)
+  const bulbCentre = useMemo(() => curve.getPointAt(0), [curve]);
 
   return (
     <group>
-      {/* Outer glass shell — shinier, more reflective */}
-      <mesh ref={ref} position={position}>
-        <sphereGeometry args={[radius, 48, 48]} />
+      {/* The glass tube */}
+      <mesh ref={tubeRef} geometry={geometry}>
         <MeshTransmissionMaterial
-          color={brightColor}
-          transmission={isKete ? 0.8 : 0.88}
-          roughness={0.005}
+          color="#D4F5F6"
+          transmission={0.92}
+          roughness={0.05}
           clearcoat={1}
-          clearcoatRoughness={0.005}
-          ior={1.65}
-          samples={16}
-          distortion={0.5}
-          temporalDistortion={0.25}
-          envMapIntensity={5}
-          chromaticAberration={0.06}
-          thickness={0.6}
+          clearcoatRoughness={0.02}
+          ior={1.55}
+          samples={12}
+          distortion={0.35}
+          temporalDistortion={0.15}
+          envMapIntensity={4}
+          chromaticAberration={0.07}
+          thickness={0.4}
+          attenuationColor="#7DD4D6"
+          attenuationDistance={2.5}
         />
       </mesh>
-      {/* Sparkle glow halo — pulsing outer ring */}
-      <mesh ref={glowRef} position={position}>
-        <sphereGeometry args={[radius * 1.5, 24, 24]} />
-        <meshBasicMaterial color={color} transparent opacity={0.2} depthWrite={false} />
+      {/* Inner luminous lining — visible through the glass */}
+      <mesh geometry={geometry} ref={innerRef} scale={0.92}>
+        <meshBasicMaterial color="#7DD4D6" transparent opacity={0.25} depthWrite={false} />
       </mesh>
-      {/* Inner bright core — specular highlight */}
-      <mesh position={[position[0] - radius * 0.2, position[1] + radius * 0.35, position[2] + radius * 0.35]}>
-        <sphereGeometry args={[radius * 0.35, 16, 16]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={isKete ? 0.7 : 0.45} />
+      {/* Hot core ribbon — thinnest inner glow */}
+      <mesh geometry={geometry} scale={0.78}>
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.08} depthWrite={false} />
       </mesh>
-      {/* Secondary specular — bottom edge catch light */}
-      <mesh position={[position[0] + radius * 0.15, position[1] - radius * 0.25, position[2] + radius * 0.2]}>
-        <sphereGeometry args={[radius * 0.15, 12, 12]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={isKete ? 0.4 : 0.2} />
-      </mesh>
-    </group>
-  );
-}
-
-/* ─── Is kete helper ─── */
-const isKeteIndex = (i: number) => KETE.some(k => k.index === i);
-
-function Thread({
-  start,
-  end,
-  index,
-}: {
-  start: [number, number, number];
-  end: [number, number, number];
-  index: number;
-}) {
-  const lineRef = useRef<THREE.Line>(null);
-
-  const lineObj = useMemo(() => {
-    const curve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(...start),
-      new THREE.Vector3(
-        (start[0] + end[0]) / 2 + Math.sin(index) * 0.15,
-        (start[1] + end[1]) / 2 + Math.cos(index) * 0.15,
-        (start[2] + end[2]) / 2 + 0.1,
-      ),
-      new THREE.Vector3(...end),
-    ]);
-    const pts = curve.getPoints(20);
-    const geo = new THREE.BufferGeometry().setFromPoints(pts);
-    const mat = new THREE.LineBasicMaterial({
-      color: "#7DD4D6",
-      transparent: true,
-      opacity: 0.3,
-    });
-    return new THREE.Line(geo, mat);
-  }, [start, end, index]);
-
-  useFrame(({ clock }) => {
-    if (lineObj) {
-      (lineObj.material as THREE.LineBasicMaterial).opacity =
-        0.25 + 0.15 * Math.sin(clock.elapsedTime * 1.5 + index * 0.4);
-    }
-  });
-
-  return <primitive ref={lineRef} object={lineObj} />;
-}
-
-/* ─── Data pulse traveling along a thread ─── */
-function DataPulse({
-  start,
-  end,
-  index,
-}: {
-  start: [number, number, number];
-  end: [number, number, number];
-  index: number;
-}) {
-  const ref = useRef<THREE.Mesh>(null);
-  const trailRef = useRef<THREE.Mesh>(null);
-  const speed = 0.25 + (index * 0.05) % 0.3;
-  const offset = index * 1.3;
-
-  useFrame(({ clock }) => {
-    if (!ref.current) return;
-    const t = (Math.sin(clock.elapsedTime * speed + offset) + 1) / 2;
-    const x = start[0] + (end[0] - start[0]) * t;
-    const y = start[1] + (end[1] - start[1]) * t;
-    const z = start[2] + (end[2] - start[2]) * t;
-    ref.current.position.set(x, y, z);
-    // Pulse glow
-    const scale = 1.0 + 0.5 * Math.sin(clock.elapsedTime * 4 + index);
-    ref.current.scale.setScalar(scale);
-    // Trail follows slightly behind
-    if (trailRef.current) {
-      const tt = Math.max(0, t - 0.08);
-      trailRef.current.position.set(
-        start[0] + (end[0] - start[0]) * tt,
-        start[1] + (end[1] - start[1]) * tt,
-        start[2] + (end[2] - start[2]) * tt,
-      );
-      trailRef.current.scale.setScalar(scale * 0.6);
-    }
-  });
-
-  return (
-    <group>
-      {/* Main pulse — brighter, larger */}
-      <mesh ref={ref}>
-        <sphereGeometry args={[0.055, 12, 12]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={1} />
-      </mesh>
-      {/* Glow halo around pulse */}
-      <mesh ref={trailRef}>
-        <sphereGeometry args={[0.09, 8, 8]} />
-        <meshBasicMaterial color="#7DD4D6" transparent opacity={0.5} depthWrite={false} />
-      </mesh>
-    </group>
-  );
-}
-
-/* ─── Outer Containment Sphere — the big glass orb ─── */
-function ContainmentSphere() {
-  const ref = useRef<THREE.Mesh>(null);
-  const haloRef = useRef<THREE.Mesh>(null);
-
-  useFrame(({ clock }) => {
-    const t = clock.elapsedTime;
-    if (ref.current) {
-      ref.current.rotation.y = t * 0.05;
-      ref.current.rotation.x = Math.sin(t * 0.2) * 0.05;
-    }
-    if (haloRef.current) {
-      const pulse = 0.5 + 0.5 * Math.sin(t * 1.2);
-      (haloRef.current.material as THREE.MeshBasicMaterial).opacity = 0.08 + pulse * 0.1;
-      haloRef.current.scale.setScalar(1 + pulse * 0.04);
-    }
-  });
-
-  return (
-    <group>
-      {/* Big outer glass shell */}
-      <mesh ref={ref}>
-        <sphereGeometry args={[4.4, 96, 96]} />
+      {/* Pulsing centre bulb — heart of the koru */}
+      <mesh position={bulbCentre}>
+        <sphereGeometry args={[0.32, 32, 32]} />
         <MeshTransmissionMaterial
-          color="#E8FBFC"
-          transmission={0.98}
+          color="#FFFFFF"
+          transmission={0.7}
+          ior={1.6}
+          thickness={0.3}
           roughness={0.02}
           clearcoat={1}
-          clearcoatRoughness={0.01}
-          ior={1.45}
+          envMapIntensity={6}
           samples={10}
-          distortion={0.2}
-          temporalDistortion={0.1}
-          envMapIntensity={3.5}
-          chromaticAberration={0.08}
-          thickness={1.2}
-          attenuationColor="#B8EAEC"
-          attenuationDistance={6}
-          backside
         />
       </mesh>
-      {/* Outer glow halo */}
-      <mesh ref={haloRef}>
-        <sphereGeometry args={[4.7, 48, 48]} />
-        <meshBasicMaterial color="#7DD4D6" transparent opacity={0.15} depthWrite={false} side={THREE.BackSide} />
-      </mesh>
-      {/* Soft inner luminance */}
-      <mesh>
-        <sphereGeometry args={[4.35, 48, 48]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.04} depthWrite={false} side={THREE.BackSide} />
-      </mesh>
-      {/* Specular highlight on top-left */}
-      <mesh position={[-1.6, 2.2, 2.5]}>
-        <sphereGeometry args={[0.6, 24, 24]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.5} />
-      </mesh>
-      {/* Bottom catch-light */}
-      <mesh position={[1.4, -2.4, 2.0]}>
-        <sphereGeometry args={[0.3, 16, 16]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.3} />
+      <mesh position={bulbCentre} ref={coreRef}>
+        <sphereGeometry args={[0.36, 24, 24]} />
+        <meshBasicMaterial color="#7DD4D6" transparent opacity={0.6} depthWrite={false} />
       </mesh>
     </group>
   );
 }
 
-/* ─── Orbiting Data Nodes around the sphere ─── */
-function OrbitingNode({ radius, speed, phase, tilt, color, size = 0.08, axis = "y" }: {
-  radius: number; speed: number; phase: number; tilt: number; color: string; size?: number; axis?: "x" | "y" | "z";
+/* Flowing data ribbons that travel along the koru curve */
+function FlowingPulse({
+  curve,
+  color,
+  speed,
+  offset,
+  size = 0.06,
+}: {
+  curve: THREE.CatmullRomCurve3;
+  color: string;
+  speed: number;
+  offset: number;
+  size?: number;
 }) {
   const ref = useRef<THREE.Group>(null);
-  const trailRef = useRef<THREE.Group>(null);
+  const trailRefs = useRef<THREE.Mesh[]>([]);
+
   useFrame(({ clock }) => {
-    if (!ref.current) return;
-    const t = clock.elapsedTime * speed + phase;
-    let x = Math.cos(t) * radius;
-    let y = Math.sin(t * 0.7) * radius * 0.3 + Math.sin(tilt) * radius * 0.2;
-    let z = Math.sin(t) * radius;
-    if (axis === "x") { [x, y, z] = [y, x, z]; }
-    if (axis === "z") { [x, y, z] = [z, y, x]; }
-    ref.current.position.set(x, y, z);
-    const pulse = 0.7 + 0.3 * Math.sin(clock.elapsedTime * 3 + phase);
-    ref.current.scale.setScalar(pulse);
-    if (trailRef.current) {
-      const tt = t - 0.25;
-      let tx = Math.cos(tt) * radius;
-      let ty = Math.sin(tt * 0.7) * radius * 0.3 + Math.sin(tilt) * radius * 0.2;
-      let tz = Math.sin(tt) * radius;
-      if (axis === "x") { [tx, ty, tz] = [ty, tx, tz]; }
-      if (axis === "z") { [tx, ty, tz] = [tz, ty, tx]; }
-      trailRef.current.position.set(tx, ty, tz);
+    const t = ((clock.elapsedTime * speed + offset) % 1 + 1) % 1;
+    const point = curve.getPointAt(t);
+    if (ref.current) {
+      ref.current.position.copy(point);
+      const pulse = 0.85 + 0.15 * Math.sin(clock.elapsedTime * 6 + offset);
+      ref.current.scale.setScalar(pulse);
     }
+    // Trail follows behind
+    trailRefs.current.forEach((m, i) => {
+      if (!m) return;
+      const tt = ((t - (i + 1) * 0.018) + 1) % 1;
+      const p = curve.getPointAt(tt);
+      m.position.copy(p);
+      const fade = 1 - (i + 1) / (trailRefs.current.length + 1);
+      (m.material as THREE.MeshBasicMaterial).opacity = 0.5 * fade;
+      m.scale.setScalar(fade * 0.9);
+    });
   });
+
   return (
     <>
       <group ref={ref}>
         <mesh>
-          <sphereGeometry args={[size, 16, 16]} />
+          <sphereGeometry args={[size, 14, 14]} />
           <meshBasicMaterial color="#FFFFFF" />
         </mesh>
         <mesh>
@@ -305,23 +224,92 @@ function OrbitingNode({ radius, speed, phase, tilt, color, size = 0.08, axis = "
           <meshBasicMaterial color={color} transparent opacity={0.55} depthWrite={false} />
         </mesh>
         <mesh>
-          <sphereGeometry args={[size * 4.5, 12, 12]} />
-          <meshBasicMaterial color={color} transparent opacity={0.15} depthWrite={false} />
+          <sphereGeometry args={[size * 4.5, 10, 10]} />
+          <meshBasicMaterial color={color} transparent opacity={0.18} depthWrite={false} />
         </mesh>
       </group>
-      <group ref={trailRef}>
-        <mesh>
-          <sphereGeometry args={[size * 0.55, 8, 8]} />
-          <meshBasicMaterial color={color} transparent opacity={0.35} depthWrite={false} />
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <mesh
+          key={`trail-${i}`}
+          ref={(m) => { if (m) trailRefs.current[i] = m; }}
+        >
+          <sphereGeometry args={[size * 0.7, 8, 8]} />
+          <meshBasicMaterial color={color} transparent opacity={0.4} depthWrite={false} />
         </mesh>
-      </group>
+      ))}
     </>
   );
 }
 
-/* ─── Orbital Ring — thin glowing torus around the orb ─── */
-function OrbitalRing({ radius, color, speed, rotation, opacity = 0.45 }: {
-  radius: number; color: string; speed: number; rotation: [number, number, number]; opacity?: number;
+/* Containment glass orb — the world the koru lives inside */
+function ContainmentSphere() {
+  const ref = useRef<THREE.Mesh>(null);
+  const haloRef = useRef<THREE.Mesh>(null);
+
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
+    if (ref.current) {
+      ref.current.rotation.y = t * 0.04;
+    }
+    if (haloRef.current) {
+      const pulse = 0.5 + 0.5 * Math.sin(t * 1.1);
+      (haloRef.current.material as THREE.MeshBasicMaterial).opacity = 0.1 + pulse * 0.1;
+      haloRef.current.scale.setScalar(1 + pulse * 0.04);
+    }
+  });
+
+  return (
+    <group>
+      <mesh ref={ref}>
+        <sphereGeometry args={[4.4, 96, 96]} />
+        <MeshTransmissionMaterial
+          color="#EAFCFD"
+          transmission={0.99}
+          roughness={0.02}
+          clearcoat={1}
+          clearcoatRoughness={0.01}
+          ior={1.45}
+          samples={10}
+          distortion={0.18}
+          temporalDistortion={0.1}
+          envMapIntensity={3.5}
+          chromaticAberration={0.1}
+          thickness={1.2}
+          attenuationColor="#B8EAEC"
+          attenuationDistance={6}
+          backside
+        />
+      </mesh>
+      <mesh ref={haloRef}>
+        <sphereGeometry args={[4.7, 48, 48]} />
+        <meshBasicMaterial color="#7DD4D6" transparent opacity={0.16} depthWrite={false} side={THREE.BackSide} />
+      </mesh>
+      {/* Specular highlights — make the orb feel like real glass */}
+      <mesh position={[-1.6, 2.2, 2.5]}>
+        <sphereGeometry args={[0.6, 24, 24]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.55} />
+      </mesh>
+      <mesh position={[1.4, -2.4, 2.0]}>
+        <sphereGeometry args={[0.3, 16, 16]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.35} />
+      </mesh>
+    </group>
+  );
+}
+
+/* Saturn-style energy ring */
+function OrbitalRing({
+  radius,
+  color,
+  speed,
+  rotation,
+  opacity = 0.45,
+}: {
+  radius: number;
+  color: string;
+  speed: number;
+  rotation: [number, number, number];
+  opacity?: number;
 }) {
   const ref = useRef<THREE.Mesh>(null);
   useFrame(({ clock }) => {
@@ -338,11 +326,65 @@ function OrbitalRing({ radius, color, speed, rotation, opacity = 0.45 }: {
   );
 }
 
-/* ─── Main spiral scene ─── */
+/* Orbiting kete-coloured nodes (each one represents a kete) */
+function OrbitingNode({
+  radius,
+  speed,
+  phase,
+  tilt,
+  color,
+  size = 0.08,
+  axis = "y",
+}: {
+  radius: number;
+  speed: number;
+  phase: number;
+  tilt: number;
+  color: string;
+  size?: number;
+  axis?: "x" | "y" | "z";
+}) {
+  const ref = useRef<THREE.Group>(null);
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    const t = clock.elapsedTime * speed + phase;
+    let x = Math.cos(t) * radius;
+    let y = Math.sin(t * 0.7) * radius * 0.3 + Math.sin(tilt) * radius * 0.2;
+    let z = Math.sin(t) * radius;
+    if (axis === "x") {
+      [x, y, z] = [y, x, z];
+    }
+    if (axis === "z") {
+      [x, y, z] = [z, y, x];
+    }
+    ref.current.position.set(x, y, z);
+    const pulse = 0.7 + 0.3 * Math.sin(clock.elapsedTime * 3 + phase);
+    ref.current.scale.setScalar(pulse);
+  });
+  return (
+    <group ref={ref}>
+      <mesh>
+        <sphereGeometry args={[size, 14, 14]} />
+        <meshBasicMaterial color="#FFFFFF" />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[size * 2.2, 12, 12]} />
+        <meshBasicMaterial color={color} transparent opacity={0.55} depthWrite={false} />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[size * 4.5, 10, 10]} />
+        <meshBasicMaterial color={color} transparent opacity={0.15} depthWrite={false} />
+      </mesh>
+    </group>
+  );
+}
+
+/* ─── Main scene ─── */
 function KoruScene() {
   const groupRef = useRef<THREE.Group>(null);
   const { pointer } = useThree();
-  const positions = useMemo(() => koruSpiral(2.5, 44, 2.6), []);
+  const curve = useMemo(() => buildKoruCurve(), []);
+
   const orbitNodes = useMemo(
     () => [
       { radius: 4.4, speed: 0.35, phase: 0, tilt: 0.3, color: "#4AA5A8", axis: "y" as const, size: 0.09 },
@@ -351,7 +393,6 @@ function KoruScene() {
       { radius: 4.4, speed: 0.31, phase: 3.6, tilt: -0.2, color: "#E8A090", axis: "y" as const, size: 0.09 },
       { radius: 4.4, speed: 0.38, phase: 4.8, tilt: 0.5, color: "#7BA88C", axis: "y" as const, size: 0.08 },
       { radius: 4.6, speed: 0.22, phase: 0.7, tilt: -0.6, color: "#7DD4D6", axis: "x" as const, size: 0.07 },
-      { radius: 4.6, speed: 0.26, phase: 2.0, tilt: 0.1, color: "#FFFFFF", axis: "x" as const, size: 0.06 },
       { radius: 4.6, speed: 0.33, phase: 4.0, tilt: -0.3, color: "#7DD4D6", axis: "x" as const, size: 0.07 },
       { radius: 4.85, speed: 0.18, phase: 1.5, tilt: 0.2, color: "#E8A948", axis: "z" as const, size: 0.06 },
       { radius: 4.85, speed: 0.24, phase: 3.2, tilt: -0.5, color: "#B8A5D0", axis: "z" as const, size: 0.07 },
@@ -359,11 +400,21 @@ function KoruScene() {
     [],
   );
 
+  // Pulses flow along the koru — different colours, different speeds
+  const pulses = useMemo(
+    () => [
+      { color: "#4AA5A8", speed: 0.12, offset: 0.0, size: 0.07 },
+      { color: "#E8A948", speed: 0.09, offset: 0.25, size: 0.06 },
+      { color: "#B8A5D0", speed: 0.14, offset: 0.5, size: 0.06 },
+      { color: "#FFFFFF", speed: 0.18, offset: 0.75, size: 0.05 },
+      { color: "#7DD4D6", speed: 0.1, offset: 0.4, size: 0.07 },
+    ],
+    [],
+  );
+
   useFrame(() => {
     if (!groupRef.current) return;
-    // Slow auto-rotation
     groupRef.current.rotation.z += 0.0008;
-    // Mouse-follow tilt
     groupRef.current.rotation.x = THREE.MathUtils.lerp(
       groupRef.current.rotation.x,
       pointer.y * 0.12,
@@ -377,93 +428,37 @@ function KoruScene() {
   });
 
   return (
-    <Float speed={1.2} rotationIntensity={0.15} floatIntensity={0.2}>
-      {/* Outer glass containment sphere */}
+    <Float speed={1.1} rotationIntensity={0.15} floatIntensity={0.18}>
       <ContainmentSphere />
 
-      {/* Glowing orbital rings — Saturn-like energy bands */}
-      <OrbitalRing radius={4.55} color="#7DD4D6" speed={0.12} rotation={[Math.PI / 2.2, 0, 0]} opacity={0.55} />
-      <OrbitalRing radius={4.7} color="#E8A948" speed={-0.08} rotation={[Math.PI / 1.6, 0.4, 0]} opacity={0.4} />
-      <OrbitalRing radius={4.9} color="#B8A5D0" speed={0.06} rotation={[Math.PI / 3, -0.5, 0]} opacity={0.35} />
-      <OrbitalRing radius={5.15} color="#4AA5A8" speed={-0.04} rotation={[Math.PI / 2, Math.PI / 4, 0]} opacity={0.28} />
+      {/* Energy rings around the orb */}
+      <OrbitalRing radius={4.55} color="#7DD4D6" speed={0.12} rotation={[Math.PI / 2.2, 0, 0]} opacity={0.5} />
+      <OrbitalRing radius={4.7} color="#E8A948" speed={-0.08} rotation={[Math.PI / 1.6, 0.4, 0]} opacity={0.38} />
+      <OrbitalRing radius={4.9} color="#B8A5D0" speed={0.06} rotation={[Math.PI / 3, -0.5, 0]} opacity={0.32} />
+      <OrbitalRing radius={5.15} color="#4AA5A8" speed={-0.04} rotation={[Math.PI / 2, Math.PI / 4, 0]} opacity={0.26} />
 
-      {/* Orbiting data nodes (outside the inner spiral, drifting around the sphere edge) */}
+      {/* Kete data nodes orbiting the orb */}
       {orbitNodes.map((n, i) => (
         <OrbitingNode key={`orb-${i}`} {...n} />
       ))}
 
-      <group ref={groupRef}>
-        {/* Spheres */}
-        {positions.map((pos, i) => {
-          const kete = KETE.find((k) => k.index === i);
-          return (
-            <GlassSphere
-              key={`s-${i}`}
-              position={pos}
-              radius={kete ? 0.28 : 0.1}
-              color={kete ? kete.color : "#8DD8DA"}
-              index={i}
-              isKete={!!kete}
-            />
-          );
-        })}
-
-        {/* Threads */}
-        {positions.slice(0, -1).map((pos, i) => (
-          <Thread key={`t-${i}`} start={pos} end={positions[i + 1]} index={i} />
+      {/* The koru itself + flowing data — both rotate together */}
+      <group ref={groupRef} scale={1.4}>
+        <KoruTube curve={curve} />
+        {pulses.map((p, i) => (
+          <FlowingPulse key={`p-${i}`} curve={curve} {...p} />
         ))}
-
-        {/* Cross-connections from kete nodes to nearby nodes */}
-        {KETE.map((k) => {
-          const connections: JSX.Element[] = [];
-          for (let d = -3; d <= 3; d++) {
-            const target = k.index + d;
-            if (target >= 0 && target < positions.length && d !== 0) {
-              connections.push(
-                <Thread
-                  key={`cross-${k.index}-${target}`}
-                  start={positions[k.index]}
-                  end={positions[target]}
-                  index={k.index + target}
-                />,
-              );
-            }
-          }
-          return connections;
-        })}
-
-        {/* Data pulses on every 3rd connection */}
-        {positions.slice(0, -1).map(
-          (pos, i) =>
-            i % 3 === 0 && (
-              <DataPulse key={`p-${i}`} start={pos} end={positions[i + 1]} index={i} />
-            ),
-        )}
-
-        {/* Extra pulses along cross-connections */}
-        {KETE.map((k, ki) => {
-          const target = Math.min(k.index + 2, positions.length - 1);
-          return (
-            <DataPulse
-              key={`kp-${ki}`}
-              start={positions[k.index]}
-              end={positions[target]}
-              index={k.index * 7}
-            />
-          );
-        })}
       </group>
     </Float>
   );
 }
 
-/* ─── Hero component ─── */
+/* ─── Hero ─── */
 const GlassKoruHero = () => {
   const isMobile = useIsMobile();
   const [canvasReady, setCanvasReady] = useState(false);
 
   useEffect(() => {
-    // Small delay to let Canvas initialize
     const timer = setTimeout(() => setCanvasReady(true), 100);
     return () => clearTimeout(timer);
   }, []);
@@ -471,7 +466,7 @@ const GlassKoruHero = () => {
   return (
     <section className="relative min-h-[100vh] flex items-center justify-center px-4 sm:px-6 overflow-hidden">
       <div className="max-w-[1200px] mx-auto w-full grid grid-cols-1 lg:grid-cols-5 gap-4 items-center">
-        {/* Left 2/5: text */}
+        {/* Left: text */}
         <div className="relative z-10 lg:col-span-2 text-left">
           <div
             className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full mb-7"
@@ -565,7 +560,7 @@ const GlassKoruHero = () => {
           </div>
         </div>
 
-        {/* Right 3/5: 3D Koru */}
+        {/* Right: 3D Koru */}
         <div
           className="relative lg:col-span-3 w-full"
           style={{ height: isMobile ? "380px" : "680px" }}
@@ -609,7 +604,6 @@ const GlassKoruHero = () => {
                 "radial-gradient(circle at 50% 45%, rgba(125,212,214,0.28) 0%, transparent 55%)",
             }}
           />
-          {/* Sun-flare bloom */}
           <div
             className="absolute inset-0 pointer-events-none -z-10"
             style={{
