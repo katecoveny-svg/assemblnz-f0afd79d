@@ -267,32 +267,74 @@ function ContainmentSphere() {
 }
 
 /* ─── Orbiting Data Nodes around the sphere ─── */
-function OrbitingNode({ radius, speed, phase, tilt, color, size = 0.08 }: {
-  radius: number; speed: number; phase: number; tilt: number; color: string; size?: number;
+function OrbitingNode({ radius, speed, phase, tilt, color, size = 0.08, axis = "y" }: {
+  radius: number; speed: number; phase: number; tilt: number; color: string; size?: number; axis?: "x" | "y" | "z";
 }) {
   const ref = useRef<THREE.Group>(null);
+  const trailRef = useRef<THREE.Group>(null);
   useFrame(({ clock }) => {
     if (!ref.current) return;
     const t = clock.elapsedTime * speed + phase;
-    ref.current.position.set(
-      Math.cos(t) * radius,
-      Math.sin(t * 0.7) * radius * 0.3 + Math.sin(tilt) * radius * 0.2,
-      Math.sin(t) * radius,
-    );
+    let x = Math.cos(t) * radius;
+    let y = Math.sin(t * 0.7) * radius * 0.3 + Math.sin(tilt) * radius * 0.2;
+    let z = Math.sin(t) * radius;
+    if (axis === "x") { [x, y, z] = [y, x, z]; }
+    if (axis === "z") { [x, y, z] = [z, y, x]; }
+    ref.current.position.set(x, y, z);
     const pulse = 0.7 + 0.3 * Math.sin(clock.elapsedTime * 3 + phase);
     ref.current.scale.setScalar(pulse);
+    if (trailRef.current) {
+      const tt = t - 0.25;
+      let tx = Math.cos(tt) * radius;
+      let ty = Math.sin(tt * 0.7) * radius * 0.3 + Math.sin(tilt) * radius * 0.2;
+      let tz = Math.sin(tt) * radius;
+      if (axis === "x") { [tx, ty, tz] = [ty, tx, tz]; }
+      if (axis === "z") { [tx, ty, tz] = [tz, ty, tx]; }
+      trailRef.current.position.set(tx, ty, tz);
+    }
   });
   return (
-    <group ref={ref}>
-      <mesh>
-        <sphereGeometry args={[size, 12, 12]} />
-        <meshBasicMaterial color="#FFFFFF" />
-      </mesh>
-      <mesh>
-        <sphereGeometry args={[size * 2.5, 12, 12]} />
-        <meshBasicMaterial color={color} transparent opacity={0.4} depthWrite={false} />
-      </mesh>
-    </group>
+    <>
+      <group ref={ref}>
+        <mesh>
+          <sphereGeometry args={[size, 16, 16]} />
+          <meshBasicMaterial color="#FFFFFF" />
+        </mesh>
+        <mesh>
+          <sphereGeometry args={[size * 2.2, 12, 12]} />
+          <meshBasicMaterial color={color} transparent opacity={0.55} depthWrite={false} />
+        </mesh>
+        <mesh>
+          <sphereGeometry args={[size * 4.5, 12, 12]} />
+          <meshBasicMaterial color={color} transparent opacity={0.15} depthWrite={false} />
+        </mesh>
+      </group>
+      <group ref={trailRef}>
+        <mesh>
+          <sphereGeometry args={[size * 0.55, 8, 8]} />
+          <meshBasicMaterial color={color} transparent opacity={0.35} depthWrite={false} />
+        </mesh>
+      </group>
+    </>
+  );
+}
+
+/* ─── Orbital Ring — thin glowing torus around the orb ─── */
+function OrbitalRing({ radius, color, speed, rotation, opacity = 0.45 }: {
+  radius: number; color: string; speed: number; rotation: [number, number, number]; opacity?: number;
+}) {
+  const ref = useRef<THREE.Mesh>(null);
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    ref.current.rotation.z = rotation[2] + clock.elapsedTime * speed;
+    const mat = ref.current.material as THREE.MeshBasicMaterial;
+    mat.opacity = opacity * (0.7 + 0.3 * Math.sin(clock.elapsedTime * 1.3));
+  });
+  return (
+    <mesh ref={ref} rotation={rotation}>
+      <torusGeometry args={[radius, 0.012, 12, 160]} />
+      <meshBasicMaterial color={color} transparent opacity={opacity} depthWrite={false} />
+    </mesh>
   );
 }
 
