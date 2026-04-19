@@ -25,6 +25,7 @@ import { KeteHoverEffect } from "@/components/KeteHoverEffects";
 import InteractiveTryItDemo from "@/components/landing/InteractiveTryItDemo";
 import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
+import { manaakiMark } from "@/assets/brand";
 
 /* ─── Light Palette Tokens ─── */
 const C = {
