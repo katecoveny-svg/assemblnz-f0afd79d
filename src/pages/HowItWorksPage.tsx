@@ -131,7 +131,7 @@ const HowItWorksPage = () => (
     {/* ═══ HERO ═══ */}
     <section className="relative pt-28 sm:pt-36 pb-16 px-6 sm:px-8 text-center z-10">
       {/* Ambient glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 25%, rgba(212,168,67,0.07) 0%, transparent 65%)" }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 25%, rgba(74,165,168,0.07) 0%, transparent 65%)" }} />
 
       <motion.div
         className="relative mb-8 flex justify-center"

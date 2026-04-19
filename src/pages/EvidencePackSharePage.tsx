@@ -81,7 +81,7 @@ export default function EvidencePackSharePage() {
       <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#FAFBFC" }}>
         <SEO title="Evidence pack unavailable | Assembl" description="This shared evidence pack is no longer available." />
         <div className="text-center max-w-sm">
-          <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-4" style={{ background: "rgba(232,169,72,0.12)" }}>
+          <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-4" style={{ background: "rgba(74,165,168,0.12)" }}>
             <AlertTriangle size={20} style={{ color: "#4AA5A8" }} />
           </div>
           <h1 className="text-lg font-medium mb-2" style={{ color: CHARCOAL }}>

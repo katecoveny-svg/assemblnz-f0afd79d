@@ -106,15 +106,15 @@ const shipmentStatusColor: Record<string, string> = {
 
 const workerStatusColor: Record<string, { bg: string; text: string }> = {
   "On site": { bg: "rgba(58,125,110,0.15)", text: "#3A7D6E" },
-  "Mobilising": { bg: "rgba(212,168,67,0.15)", text: "#4AA5A8" },
+  "Mobilising": { bg: "rgba(74,165,168,0.15)", text: "#4AA5A8" },
   "Confirmed": { bg: "rgba(26,58,92,0.25)", text: "#5A8AB5" },
 };
 
 const Glass = ({ children, className = "", glow = false }: { children: React.ReactNode; className?: string; glow?: boolean }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
     background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
-    borderColor: glow ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.5)",
-    boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
+    borderColor: glow ? "rgba(74,165,168,0.3)" : "rgba(255,255,255,0.5)",
+    boxShadow: glow ? "0 0 30px rgba(74,165,168,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
   }}>{children}</div>
 );
 

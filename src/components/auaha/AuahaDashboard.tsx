@@ -132,7 +132,7 @@ export default function AuahaDashboard() {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
         className="relative overflow-hidden rounded-2xl p-8 lg:p-10"
         style={{
-          background: `linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(232,169,72,0.06) 50%, rgba(74,165,168,0.05) 100%)`,
+          background: `linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(74,165,168,0.06) 50%, rgba(74,165,168,0.05) 100%)`,
           border: `1px solid ${ACCENT}30`,
           boxShadow: "0 4px 24px rgba(0,0,0,0.05)",
         }}>
@@ -363,7 +363,7 @@ export default function AuahaDashboard() {
                     boxShadow: a.status === 'active'
                       ? `0 0 6px ${TEAL}60`
                       : a.status === 'monitoring'
-                        ? "0 0 6px rgba(232,169,72,0.5)"
+                        ? "0 0 6px rgba(74,165,168,0.5)"
                         : "none",
                   }}
                 />

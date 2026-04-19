@@ -67,7 +67,7 @@ const EmbedDemoSection = () => (
         >
           <div
             className="w-8 h-8 rounded-full flex items-center justify-center"
-            style={{ background: "rgba(212,168,67,0.15)" }}
+            style={{ background: "rgba(74,165,168,0.15)" }}
           >
             <Bot size={14} style={{ color: "#4AA5A8" }} />
           </div>
@@ -99,8 +99,8 @@ const EmbedDemoSection = () => (
             <div
               className="rounded-xl px-4 py-3 max-w-[80%]"
               style={{
-                background: "rgba(212,168,67,0.1)",
-                border: "1px solid rgba(212,168,67,0.15)",
+                background: "rgba(74,165,168,0.1)",
+                border: "1px solid rgba(74,165,168,0.15)",
               }}
             >
               <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "#1A1D29" }}>
@@ -119,7 +119,7 @@ const EmbedDemoSection = () => (
           <div className="flex items-start gap-3">
             <div
               className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
-              style={{ background: "rgba(212,168,67,0.15)" }}
+              style={{ background: "rgba(74,165,168,0.15)" }}
             >
               <Bot size={12} style={{ color: "#4AA5A8" }} />
             </div>
@@ -158,13 +158,13 @@ const EmbedDemoSection = () => (
               background: "#4AA5A8",
               color: "#09090F",
               border: "1px solid #4AA5A8",
-              boxShadow: "0 0 20px rgba(212,168,67,0.2)",
+              boxShadow: "0 0 20px rgba(74,165,168,0.2)",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = "0 0 35px rgba(212,168,67,0.3)";
+              e.currentTarget.style.boxShadow = "0 0 35px rgba(74,165,168,0.3)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = "0 0 20px rgba(212,168,67,0.2)";
+              e.currentTarget.style.boxShadow = "0 0 20px rgba(74,165,168,0.2)";
             }}
           >
             Try it live <ArrowRight size={14} />

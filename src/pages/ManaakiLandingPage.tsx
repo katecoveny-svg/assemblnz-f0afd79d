@@ -234,7 +234,7 @@ export default function ManaakiLandingPage() {
                 className="group relative p-5 rounded-xl overflow-hidden cursor-default"
                 style={{
                   background: hoveredAgent === i
-                    ? `linear-gradient(135deg, rgba(58,125,110,0.1) 0%, rgba(212,168,67,0.05) 100%)`
+                    ? `linear-gradient(135deg, rgba(58,125,110,0.1) 0%, rgba(74,165,168,0.05) 100%)`
                     : `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
                   border: `1px solid ${hoveredAgent === i ? POUNAMU + "40" : "rgba(255,255,255,0.06)"}`,
                   transition: "all 0.4s ease",

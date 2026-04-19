@@ -90,7 +90,7 @@ const varStatusColor: Record<VariationStatus, string> = {
 
 const claimStatusColor: Record<ClaimStatus, { bg: string; text: string }> = {
   draft: { bg: "rgba(255,255,255,0.5)", text: "rgba(255,255,255,0.4)" },
-  submitted: { bg: "rgba(212,168,67,0.15)", text: "#4AA5A8" },
+  submitted: { bg: "rgba(74,165,168,0.15)", text: "#4AA5A8" },
   approved: { bg: "rgba(58,125,110,0.15)", text: "#3A7D6E" },
   disputed: { bg: "rgba(239,68,68,0.15)", text: "#EF4444" },
   paid: { bg: "rgba(90,173,160,0.12)", text: "#5AADA0" },
@@ -101,8 +101,8 @@ const Glass = ({ children, className = "", glow = false }: { children: React.Rea
     className={`rounded-2xl border backdrop-blur-md ${className}`}
     style={{
       background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
-      borderColor: glow ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.5)",
-      boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
+      borderColor: glow ? "rgba(74,165,168,0.3)" : "rgba(255,255,255,0.5)",
+      boxShadow: glow ? "0 0 30px rgba(74,165,168,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
     }}
   >
     {children}
@@ -180,7 +180,7 @@ export default function KaupapaDashboard() {
         {/* Tabs */}
         <div className="flex gap-1 p-1 rounded-xl overflow-x-auto scrollbar-hide" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
           {tabs.map((t) => (
-            <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Plus Jakarta Sans", background: tab === t.id ? "rgba(212,168,67,0.12)" : "transparent", color: tab === t.id ? "#4AA5A8" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(212,168,67,0.25)" : "1px solid transparent" }}>
+            <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Plus Jakarta Sans", background: tab === t.id ? "rgba(74,165,168,0.12)" : "transparent", color: tab === t.id ? "#4AA5A8" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(74,165,168,0.25)" : "1px solid transparent" }}>
               {t.icon} {t.label}
             </button>
           ))}
@@ -203,7 +203,7 @@ export default function KaupapaDashboard() {
                     const cs = claimStatusColor[c.status];
                     return (
                       <tr key={c.id} className="transition-colors" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
-                        onMouseEnter={e => e.currentTarget.style.background = "rgba(212,168,67,0.04)"}
+                        onMouseEnter={e => e.currentTarget.style.background = "rgba(74,165,168,0.04)"}
                         onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
                         <td className="px-4 py-3 text-sm font-mono" style={{ color: "#4AA5A8", fontFamily: "JetBrains Mono" }}>{c.claimNumber}</td>
                         <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.7)" }}>{c.contractor}</td>
@@ -247,7 +247,7 @@ export default function KaupapaDashboard() {
             {/* Trust account alert */}
             <Glass glow>
               <div className="p-4 flex items-start gap-3">
-                <div className="p-2 rounded-xl flex-shrink-0" style={{ background: "rgba(212,168,67,0.1)" }}>
+                <div className="p-2 rounded-xl flex-shrink-0" style={{ background: "rgba(74,165,168,0.1)" }}>
                   <Shield size={20} style={{ color: "#4AA5A8" }} />
                 </div>
                 <div>
@@ -446,7 +446,7 @@ export default function KaupapaDashboard() {
                         </div>
                         {/* Actual bar */}
                         {actualH > 0 && (
-                          <div className="w-full rounded-t-sm" style={{ height: `${actualH}%`, background: "linear-gradient(180deg, #4AA5A8, rgba(212,168,67,0.3))" }} />
+                          <div className="w-full rounded-t-sm" style={{ height: `${actualH}%`, background: "linear-gradient(180deg, #4AA5A8, rgba(74,165,168,0.3))" }} />
                         )}
                       </div>
                     );
@@ -505,7 +505,7 @@ export default function KaupapaDashboard() {
                       );
                     })}
                     {/* Totals row */}
-                    <tr style={{ borderTop: "2px solid rgba(212,168,67,0.2)" }}>
+                    <tr style={{ borderTop: "2px solid rgba(74,165,168,0.2)" }}>
                       <td className="px-4 py-3 text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#4AA5A8" }}>Total</td>
                       <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtFull(totalBudget)}</td>
                       <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtFull(totalActual)}</td>
@@ -535,7 +535,7 @@ export default function KaupapaDashboard() {
                 <tbody>
                   {SUBCONTRACTORS.map(s => (
                     <tr key={s.id} className="transition-colors" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
-                      onMouseEnter={e => e.currentTarget.style.background = "rgba(212,168,67,0.04)"}
+                      onMouseEnter={e => e.currentTarget.style.background = "rgba(74,165,168,0.04)"}
                       onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
                       <td className="px-4 py-3 text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{s.company}</td>
                       <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{s.trade}</td>
@@ -552,7 +552,7 @@ export default function KaupapaDashboard() {
                       <td className="px-4 py-3">
                         <span className="px-2 py-0.5 rounded-full text-[9px]" style={{
                           fontFamily: "JetBrains Mono",
-                          background: s.status === "Active" ? "rgba(58,125,110,0.15)" : "rgba(212,168,67,0.15)",
+                          background: s.status === "Active" ? "rgba(58,125,110,0.15)" : "rgba(74,165,168,0.15)",
                           color: s.status === "Active" ? "#3A7D6E" : "#4AA5A8",
                         }}>{s.status}</span>
                       </td>

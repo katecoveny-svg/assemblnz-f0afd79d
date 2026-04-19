@@ -224,7 +224,7 @@ const FloatingLabel = ({ text, side, index, visible }: { text: string; side: "le
     style={{
       fontFamily: "'JetBrains Mono', monospace",
       fontWeight: 500,
-      color: side === "left" ? "rgba(212,168,67,0.6)" : "rgba(58,125,110,0.6)",
+      color: side === "left" ? "rgba(74,165,168,0.6)" : "rgba(58,125,110,0.6)",
       top: `${30 + index * 18}%`,
       ...(side === "left" ? { left: "8%" } : { right: "8%" }),
     }}
@@ -366,7 +366,7 @@ const BrandFilm = ({ onComplete }: { onComplete: () => void }) => {
           style={{
             top: "15%", right: "15%",
             width: "150px", height: "150px",
-            background: "radial-gradient(circle, rgba(212,168,67,0.08) 0%, transparent 60%)",
+            background: "radial-gradient(circle, rgba(74,165,168,0.08) 0%, transparent 60%)",
             borderRadius: "50%",
           }}
           initial={{ scale: 0.5, opacity: 0 }}

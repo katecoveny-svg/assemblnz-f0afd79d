@@ -147,7 +147,7 @@ const ConstellationHero = ({ size = 420, fullBleed = false }: { size?: number; f
           width: size * 0.55,
           height: size * 0.55,
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(212,168,67,0.18) 0%, rgba(58,125,110,0.08) 50%, transparent 75%)",
+          background: "radial-gradient(circle, rgba(74,165,168,0.18) 0%, rgba(58,125,110,0.08) 50%, transparent 75%)",
           filter: "blur(24px)",
         }}
         animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
@@ -161,7 +161,7 @@ const ConstellationHero = ({ size = 420, fullBleed = false }: { size?: number; f
           width: markSize * 2.4,
           height: markSize * 2.4,
           borderRadius: "50%",
-          border: "1px solid rgba(212,168,67,0.22)",
+          border: "1px solid rgba(74,165,168,0.22)",
         }}
         animate={{ rotate: 360 }}
         transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
@@ -188,9 +188,9 @@ const ConstellationHero = ({ size = 420, fullBleed = false }: { size?: number; f
         animate={{
           scale: [1, 1.06, 1],
           filter: [
-            "drop-shadow(0 0 10px rgba(212,168,67,.9)) drop-shadow(0 0 30px rgba(212,168,67,.55)) drop-shadow(0 0 60px rgba(212,168,67,.2))",
-            "drop-shadow(0 0 22px rgba(255,220,80,1)) drop-shadow(0 0 60px rgba(212,168,67,.85)) drop-shadow(0 0 120px rgba(212,168,67,.45)) drop-shadow(0 0 180px rgba(240,208,120,.2))",
-            "drop-shadow(0 0 10px rgba(212,168,67,.9)) drop-shadow(0 0 30px rgba(212,168,67,.55)) drop-shadow(0 0 60px rgba(212,168,67,.2))",
+            "drop-shadow(0 0 10px rgba(74,165,168,.9)) drop-shadow(0 0 30px rgba(74,165,168,.55)) drop-shadow(0 0 60px rgba(74,165,168,.2))",
+            "drop-shadow(0 0 22px rgba(255,220,80,1)) drop-shadow(0 0 60px rgba(74,165,168,.85)) drop-shadow(0 0 120px rgba(74,165,168,.45)) drop-shadow(0 0 180px rgba(168,221,219,.2))",
+            "drop-shadow(0 0 10px rgba(74,165,168,.9)) drop-shadow(0 0 30px rgba(74,165,168,.55)) drop-shadow(0 0 60px rgba(74,165,168,.2))",
           ],
         }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}

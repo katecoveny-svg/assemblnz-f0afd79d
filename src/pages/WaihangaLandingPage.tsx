@@ -95,7 +95,7 @@ export default function WaihangaLandingPage() {
           }} animate={{ x: [0, 30, 0], y: [0, -20, 0] }} transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }} />
           <motion.div className="absolute pointer-events-none" style={{
             width: 400, height: 400, top: "20%", right: "-3%",
-            background: `radial-gradient(circle, rgba(212,168,67,0.06) 0%, transparent 60%)`,
+            background: `radial-gradient(circle, rgba(74,165,168,0.06) 0%, transparent 60%)`,
             filter: "blur(80px)",
           }} animate={{ x: [0, -25, 0], y: [0, 20, 0] }} transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }} />
 

@@ -80,7 +80,7 @@ const CareDashboard = () => {
     <div className={className} style={{
       background: "rgba(255,255,255,0.65)",
       backdropFilter: "blur(20px)",
-      border: "1px solid rgba(212, 168, 67, 0.12)",
+      border: "1px solid rgba(74,165,168, 0.12)",
       borderRadius: "16px",
       padding: "24px",
     }}>{children}</div>
@@ -91,7 +91,7 @@ const CareDashboard = () => {
       <SEO title={`${senior.preferred_name || senior.first_name} — Care Dashboard`} description="Whānau care dashboard" />
       
       {/* Header */}
-      <div style={{ padding: "20px 16px", borderBottom: "1px solid rgba(212,168,67,0.08)" }}>
+      <div style={{ padding: "20px 16px", borderBottom: "1px solid rgba(74,165,168,0.08)" }}>
         <Link to="/" className="flex items-center gap-2 text-xs mb-4" style={{ color: KOWHAI }}>
           <ArrowLeft size={14} /> Back
         </Link>
@@ -139,7 +139,7 @@ const CareDashboard = () => {
             <Link to="/chat/healthcompanion" className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold" style={{ background: POUNAMU, color: "#3D4250" }}>
               <Phone size={12} /> Call ORA now
             </Link>
-            <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium" style={{ background: "transparent", border: `1px solid rgba(212,168,67,0.3)`, color: KOWHAI }}>
+            <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium" style={{ background: "transparent", border: `1px solid rgba(74,165,168,0.3)`, color: KOWHAI }}>
               <Pill size={12} /> Medications
             </button>
           </div>
@@ -160,7 +160,7 @@ const CareDashboard = () => {
                 <LineChart data={moodData}>
                   <XAxis dataKey="date" tick={{ fontSize: 10, fill: "rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false} />
                   <YAxis domain={[0, 10]} tick={{ fontSize: 10, fill: "rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false} width={20} />
-                  <Tooltip contentStyle={{ background: "#FAFBFC", border: "1px solid rgba(212,168,67,0.2)", borderRadius: 8, fontSize: 11 }} />
+                  <Tooltip contentStyle={{ background: "#FAFBFC", border: "1px solid rgba(74,165,168,0.2)", borderRadius: 8, fontSize: 11 }} />
                   <Line type="monotone" dataKey="mood" stroke={POUNAMU} strokeWidth={2} dot={{ r: 3, fill: POUNAMU }} />
                 </LineChart>
               </ResponsiveContainer>
@@ -182,7 +182,7 @@ const CareDashboard = () => {
                     {a.recommended_action && <p className="text-[10px] mt-1 italic" style={{ color: POUNAMU }}>{a.recommended_action}</p>}
                   </div>
                   <span className="text-[9px] uppercase px-2 py-0.5 rounded-full font-bold" style={{
-                    background: a.priority === "critical" ? "rgba(165,42,42,0.2)" : a.priority === "high" ? "rgba(255,109,0,0.15)" : "rgba(212,168,67,0.15)",
+                    background: a.priority === "critical" ? "rgba(165,42,42,0.2)" : a.priority === "high" ? "rgba(255,109,0,0.15)" : "rgba(74,165,168,0.15)",
                     color: a.priority === "critical" ? KOKKOWAI : a.priority === "high" ? "#FF6D00" : KOWHAI,
                   }}>{a.priority}</span>
                 </div>
@@ -254,7 +254,7 @@ const CareDashboard = () => {
           {safetyAssessments.length === 0 ? (
             <div>
               <p className="text-xs mb-3" style={{ color: "#6B7280" }}>No safety assessment completed yet</p>
-              <Link to="/chat/property" className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium w-fit" style={{ background: "transparent", border: `1px solid rgba(212,168,67,0.3)`, color: KOWHAI }}>
+              <Link to="/chat/property" className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium w-fit" style={{ background: "transparent", border: `1px solid rgba(74,165,168,0.3)`, color: KOWHAI }}>
                 <Home size={12} /> Request assessment
               </Link>
             </div>

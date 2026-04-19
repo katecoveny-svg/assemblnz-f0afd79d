@@ -19,7 +19,7 @@ const WharikiFoundation = () => {
         className="absolute"
         style={{
           width: 500, height: 500, top: "5%", right: "-5%",
-          background: "radial-gradient(circle, rgba(232,169,72,0.08) 0%, transparent 60%)",
+          background: "radial-gradient(circle, rgba(74,165,168,0.08) 0%, transparent 60%)",
           filter: "blur(120px)",
         }}
       />

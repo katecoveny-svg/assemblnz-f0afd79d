@@ -247,7 +247,7 @@ const LiveDemoSection = () => {
             <motion.div
               className="glass-card rounded-2xl overflow-hidden flex flex-col"
               style={{ minHeight: "420px" }}
-              whileHover={{ boxShadow: "0 0 40px rgba(212,168,67,0.05)" }}
+              whileHover={{ boxShadow: "0 0 40px rgba(74,165,168,0.05)" }}
             >
               {/* Chat header */}
               <div className="px-5 py-3 flex items-center justify-between" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
@@ -287,7 +287,7 @@ const LiveDemoSection = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <div className="px-4 py-2.5 rounded-2xl rounded-br-md max-w-[85%] text-xs" style={{ background: "rgba(212,168,67,0.12)", border: "1px solid rgba(212,168,67,0.15)", color: "rgba(255,255,255,0.85)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                        <div className="px-4 py-2.5 rounded-2xl rounded-br-md max-w-[85%] text-xs" style={{ background: "rgba(74,165,168,0.12)", border: "1px solid rgba(74,165,168,0.15)", color: "rgba(255,255,255,0.85)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                           {customQuestion || conv.question}
                         </div>
                       </motion.div>
@@ -402,8 +402,8 @@ const LiveDemoSection = () => {
                       fontFamily: "'Plus Jakarta Sans', sans-serif",
                     }}
                     onFocus={(e) => {
-                      (e.target as HTMLElement).style.borderColor = "rgba(212,168,67,0.3)";
-                      (e.target as HTMLElement).style.boxShadow = "0 0 20px rgba(212,168,67,0.08)";
+                      (e.target as HTMLElement).style.borderColor = "rgba(74,165,168,0.3)";
+                      (e.target as HTMLElement).style.boxShadow = "0 0 20px rgba(74,165,168,0.08)";
                     }}
                     onBlur={(e) => {
                       (e.target as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)";
@@ -413,8 +413,8 @@ const LiveDemoSection = () => {
                   <motion.button
                     type="submit"
                     className="w-9 h-9 rounded-xl flex items-center justify-center"
-                    style={{ background: "rgba(212,168,67,0.15)", border: "1px solid rgba(212,168,67,0.2)" }}
-                    whileHover={{ scale: 1.1, boxShadow: "0 0 15px rgba(212,168,67,0.2)" }}
+                    style={{ background: "rgba(74,165,168,0.15)", border: "1px solid rgba(74,165,168,0.2)" }}
+                    whileHover={{ scale: 1.1, boxShadow: "0 0 15px rgba(74,165,168,0.2)" }}
                     whileTap={{ scale: 0.95 }}
                   >
                     <Send size={14} style={{ color: "#4AA5A8" }} />

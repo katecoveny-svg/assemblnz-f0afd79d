@@ -21,7 +21,7 @@ interface MarketplaceSkill {
 
 const CERT_STYLES: Record<Certification, { label: string; color: string; bg: string; border: string }> = {
   official:  { label: 'Official',  color: '#3A7D6E', bg: 'rgba(58,125,110,0.1)',  border: 'rgba(58,125,110,0.25)' },
-  certified: { label: 'Certified', color: '#4AA5A8', bg: 'rgba(212,168,67,0.1)',  border: 'rgba(212,168,67,0.25)' },
+  certified: { label: 'Certified', color: '#4AA5A8', bg: 'rgba(74,165,168,0.1)',  border: 'rgba(74,165,168,0.25)' },
   verified:  { label: 'Verified',  color: '#3A6A9C', bg: 'rgba(26,58,92,0.15)',   border: 'rgba(26,58,92,0.3)' },
   community: { label: 'Community', color: 'rgba(255,255,255,0.4)', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.1)' },
 };

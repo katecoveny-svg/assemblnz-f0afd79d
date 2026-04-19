@@ -83,7 +83,7 @@ export default function AuahaAnalytics() {
               </defs>
               <XAxis dataKey="d" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} axisLine={false} tickLine={false} />
               <YAxis hide />
-              <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(232,169,72,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 11 }} />
+              <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(74,165,168,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 11 }} />
               <Area type="monotone" dataKey="ig" stroke="#E1306C" fill="url(#igGrad)" strokeWidth={2} name="Instagram" />
               <Area type="monotone" dataKey="tt" stroke="#A8DDDB" fill="url(#ttGrad)" strokeWidth={2} name="TikTok" />
               <Area type="monotone" dataKey="li" stroke="#0A66C2" fill="none" strokeWidth={1.5} name="LinkedIn" />
@@ -99,7 +99,7 @@ export default function AuahaAnalytics() {
             <BarChart data={contentTypeData}>
               <XAxis dataKey="type" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 10 }} axisLine={false} />
               <YAxis hide />
-              <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(232,169,72,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 11 }} />
+              <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(74,165,168,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 11 }} />
               <Bar dataKey="engagement" radius={[4, 4, 0, 0]}>
                 {contentTypeData.map((_, i) => <Cell key={i} fill={i === 4 ? ACCENT : `${ACCENT}55`} />)}
               </Bar>

@@ -105,8 +105,8 @@ const Glass = ({ children, className = "", glow = false, navy = false }: { child
     background: navy
       ? "linear-gradient(135deg, rgba(26,58,92,0.25), rgba(255,255,255,0.65))"
       : "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
-    borderColor: glow ? "rgba(212,168,67,0.3)" : navy ? "rgba(26,58,92,0.35)" : "rgba(255,255,255,0.5)",
-    boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : navy ? "0 0 20px rgba(26,58,92,0.15)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
+    borderColor: glow ? "rgba(74,165,168,0.3)" : navy ? "rgba(26,58,92,0.35)" : "rgba(255,255,255,0.5)",
+    boxShadow: glow ? "0 0 30px rgba(74,165,168,0.08)" : navy ? "0 0 20px rgba(26,58,92,0.15)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
   }}>{children}</div>
 );
 
@@ -233,7 +233,7 @@ export default function WhakaaeDashboard() {
                                 background: isComplete
                                   ? isRFI ? "linear-gradient(90deg, #4AA5A8, #B8892A)" : "linear-gradient(90deg, #1A3A5C, #5A8AB5)"
                                   : "rgba(255,255,255,0.5)",
-                                boxShadow: isCurrent ? `0 0 8px ${isRFI ? "rgba(212,168,67,0.4)" : "rgba(26,58,92,0.5)"}` : "none",
+                                boxShadow: isCurrent ? `0 0 8px ${isRFI ? "rgba(74,165,168,0.4)" : "rgba(26,58,92,0.5)"}` : "none",
                               }} />
                               <span className="block text-center text-[8px] mt-1" style={{
                                 fontFamily: "JetBrains Mono",
@@ -410,7 +410,7 @@ export default function WhakaaeDashboard() {
                           <Umbrella size={14} style={{ color: "#5A8AB5" }} />
                           <span className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{p.policyType}</span>
                           <span className="px-2 py-0.5 rounded-full text-[9px]" style={{
-                            background: isRenewal ? "rgba(212,168,67,0.15)" : "rgba(58,125,110,0.15)",
+                            background: isRenewal ? "rgba(74,165,168,0.15)" : "rgba(58,125,110,0.15)",
                             color: isRenewal ? "#4AA5A8" : "#3A7D6E",
                             fontFamily: "JetBrains Mono",
                           }}>{p.status}</span>

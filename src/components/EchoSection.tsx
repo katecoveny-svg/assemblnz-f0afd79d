@@ -35,7 +35,7 @@ const EchoSection = () => {
             background: "rgba(14, 14, 26, 0.75)",
             backdropFilter: "blur(16px)",
             WebkitBackdropFilter: "blur(16px)",
-            boxShadow: "0 0 60px rgba(212,168,67,0.06), inset 0 1px 0 rgba(212,168,67,0.08)",
+            boxShadow: "0 0 60px rgba(74,165,168,0.06), inset 0 1px 0 rgba(74,165,168,0.08)",
           }}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -72,19 +72,19 @@ const EchoSection = () => {
                 className="font-display font-light text-3xl sm:text-4xl mb-1"
                 style={{
                   color: ECHO_COLOR,
-                  textShadow: `0 0 20px rgba(212,168,67,0.4), 0 0 60px rgba(212,168,67,0.15)`,
+                  textShadow: `0 0 20px rgba(74,165,168,0.4), 0 0 60px rgba(74,165,168,0.15)`,
                 }}
               >
                 Meet ECHO
               </h2>
-              <p className="font-mono-jb text-[10px] mb-4" style={{ color: "rgba(212,168,67,0.3)" }}>
+              <p className="font-mono-jb text-[10px] mb-4" style={{ color: "rgba(74,165,168,0.3)" }}>
                 ASM-000 · Assembl Hero Agent
               </p>
               <h3
                 className="font-display font-bold text-base sm:text-lg mb-4"
                 style={{
                   color: ECHO_COLOR,
-                  textShadow: "0 0 12px rgba(212,168,67,0.25)",
+                  textShadow: "0 0 12px rgba(74,165,168,0.25)",
                 }}
               >
                 Your front desk that never sleeps.
@@ -99,7 +99,7 @@ const EchoSection = () => {
                   style={{
                     background: ECHO_COLOR,
                     color: "#0A0A14",
-                    boxShadow: "0 0 20px rgba(212,168,67,0.2)",
+                    boxShadow: "0 0 20px rgba(74,165,168,0.2)",
                   }}
                 >
                   Chat with ECHO <ArrowRight size={14} />

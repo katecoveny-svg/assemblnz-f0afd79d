@@ -216,7 +216,7 @@ const OnboardingPage = () => {
                     style={{
                       ...cardStyle,
                       border: selected === key ? `2px solid #4AA5A8` : "1px solid rgba(255,255,255,0.5)",
-                      boxShadow: selected === key ? "0 0 30px rgba(212,168,67,0.12)" : "none",
+                      boxShadow: selected === key ? "0 0 30px rgba(74,165,168,0.12)" : "none",
                     }}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
@@ -252,7 +252,7 @@ const OnboardingPage = () => {
                 className="w-full py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                 style={{
                   fontFamily: "'Lato', sans-serif",
-                  background: selected ? "#4AA5A8" : "rgba(212,168,67,0.3)",
+                  background: selected ? "#4AA5A8" : "rgba(74,165,168,0.3)",
                   color: "#09090F",
                 }}
               >
@@ -288,7 +288,7 @@ const OnboardingPage = () => {
                 <div className="space-y-3">
                   {packData.agents.map((agent, i) => (
                     <div key={agent.name} className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5" style={{ background: "rgba(212,168,67,0.12)", color: "#4AA5A8" }}>
+                      <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5" style={{ background: "rgba(74,165,168,0.12)", color: "#4AA5A8" }}>
                         {i + 1}
                       </div>
                       <div>
@@ -316,7 +316,7 @@ const OnboardingPage = () => {
               </div>
 
               {/* Get started highlight */}
-              <div className="rounded-2xl p-4 text-center" style={{ background: "rgba(212,168,67,0.06)", border: "1px solid rgba(212,168,67,0.15)" }}>
+              <div className="rounded-2xl p-4 text-center" style={{ background: "rgba(74,165,168,0.06)", border: "1px solid rgba(74,165,168,0.15)" }}>
                 <div className="flex items-center justify-center gap-2 mb-1">
                   <Clock size={14} style={{ color: "#4AA5A8" }} />
                   <span className="text-xs font-bold" style={{ color: "#4AA5A8" }}>GET STARTED</span>
@@ -399,10 +399,10 @@ const OnboardingPage = () => {
                     navigate(`/packs/${selected}`);
                   }}
                   className="w-full rounded-xl p-4 mb-3 text-left transition-all hover:scale-[1.01] group"
-                  style={{ background: "rgba(212,168,67,0.08)", border: "1px solid rgba(212,168,67,0.15)" }}
+                  style={{ background: "rgba(74,165,168,0.08)", border: "1px solid rgba(74,165,168,0.15)" }}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(212,168,67,0.15)" }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(74,165,168,0.15)" }}>
                       <MessageSquare size={18} style={{ color: "#4AA5A8" }} />
                     </div>
                     <div className="flex-1">

@@ -240,8 +240,8 @@ export default function CommandDashboard() {
               className="rounded-2xl p-5 relative overflow-hidden"
               style={{
                 ...GLASS,
-                borderColor: "rgba(212, 168, 67, 0.15)",
-                background: "linear-gradient(135deg, rgba(212,168,67,0.03), rgba(90,173,160,0.03))",
+                borderColor: "rgba(74,165,168, 0.15)",
+                background: "linear-gradient(135deg, rgba(74,165,168,0.03), rgba(90,173,160,0.03))",
               }}
             >
               <div className="absolute top-0 left-0 w-full h-full">
@@ -249,7 +249,7 @@ export default function CommandDashboard() {
               </div>
               <div className="relative z-10">
                 <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(212,168,67,0.1)", border: "1px solid rgba(212,168,67,0.2)" }}>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(74,165,168,0.1)", border: "1px solid rgba(74,165,168,0.2)" }}>
                     <Zap size={18} style={{ color: GOLD }} />
                   </div>
                   <div>

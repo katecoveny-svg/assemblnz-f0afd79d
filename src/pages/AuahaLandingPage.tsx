@@ -180,7 +180,7 @@ export default function AuahaLandingPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {AGENTS.map((a, i) => (
               <motion.div key={a.code} className="group relative p-5 rounded-xl overflow-hidden cursor-default" style={{
-                background: hoveredAgent === i ? `linear-gradient(135deg, rgba(240,208,120,0.18) 0%, rgba(58,125,110,0.08) 100%)` : "rgba(255,255,255,0.7)",
+                background: hoveredAgent === i ? `linear-gradient(135deg, rgba(168,221,219,0.18) 0%, rgba(58,125,110,0.08) 100%)` : "rgba(255,255,255,0.7)",
                 border: `1px solid ${hoveredAgent === i ? ACCENT + "70" : "rgba(58,125,110,0.15)"}`,
                 transition: "all 0.4s ease",
                 backdropFilter: "blur(10px)",

@@ -67,7 +67,7 @@ export default function HangaLayout() {
 
       {/* IHO Brain indicator */}
       {!collapsed && (
-        <div className="mx-3 mt-3 px-3 py-2 rounded-lg flex items-center gap-2" style={{ background: "rgba(212,168,67,0.08)", border: "1px solid rgba(212,168,67,0.15)" }}>
+        <div className="mx-3 mt-3 px-3 py-2 rounded-lg flex items-center gap-2" style={{ background: "rgba(74,165,168,0.08)", border: "1px solid rgba(74,165,168,0.15)" }}>
           <Brain size={14} style={{ color: KOWHAI }} />
           <span className="text-[10px] text-gray-500">Orchestrated by IHO</span>
           <div className="ml-auto w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: POUNAMU }} />
@@ -95,9 +95,9 @@ export default function HangaLayout() {
                 active ? "text-foreground" : "text-gray-500 hover:text-[#1A1D29] hover:bg-white/[0.03]"
               }`}
               style={active ? {
-                background: "linear-gradient(135deg, rgba(212,168,67,0.12), rgba(58,125,110,0.08))",
-                border: "1px solid rgba(212,168,67,0.2)",
-                boxShadow: "0 0 20px rgba(212,168,67,0.06)",
+                background: "linear-gradient(135deg, rgba(74,165,168,0.12), rgba(58,125,110,0.08))",
+                border: "1px solid rgba(74,165,168,0.2)",
+                boxShadow: "0 0 20px rgba(74,165,168,0.06)",
               } : {}}
             >
               <item.icon size={collapsed ? 20 : 16} style={{ color: active ? KOWHAI : undefined }} />

@@ -282,7 +282,7 @@ const NexusHero3D = () => {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse at center, rgba(179,136,255,0.2) 0%, rgba(224,64,251,0.1) 25%, rgba(212,168,67,0.08) 45%, transparent 70%)",
+          background: "radial-gradient(ellipse at center, rgba(179,136,255,0.2) 0%, rgba(224,64,251,0.1) 25%, rgba(74,165,168,0.08) 45%, transparent 70%)",
         }}
       />
       <div

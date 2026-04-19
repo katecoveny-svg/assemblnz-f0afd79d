@@ -146,7 +146,7 @@ const SpecialistTeamGrid = () => (
             transition={{ duration: 0.5, delay: i * 0.1 }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
-              e.currentTarget.style.boxShadow = `0 12px 48px rgba(212,168,67,0.1)`;
+              e.currentTarget.style.boxShadow = `0 12px 48px rgba(74,165,168,0.1)`;
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
@@ -216,15 +216,15 @@ const SpecialistTeamGrid = () => (
             fontFamily: "'Lato', sans-serif",
             fontWeight: 400,
             color: "#4AA5A8",
-            border: "1px solid rgba(212,168,67,0.25)",
-            background: "rgba(212,168,67,0.05)",
+            border: "1px solid rgba(74,165,168,0.25)",
+            background: "rgba(74,165,168,0.05)",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "rgba(212,168,67,0.5)";
-            e.currentTarget.style.boxShadow = "0 0 20px rgba(212,168,67,0.1)";
+            e.currentTarget.style.borderColor = "rgba(74,165,168,0.5)";
+            e.currentTarget.style.boxShadow = "0 0 20px rgba(74,165,168,0.1)";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "rgba(212,168,67,0.25)";
+            e.currentTarget.style.borderColor = "rgba(74,165,168,0.25)";
             e.currentTarget.style.boxShadow = "none";
           }}
         >

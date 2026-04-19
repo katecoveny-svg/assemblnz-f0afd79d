@@ -12,10 +12,10 @@ interface Message {
 }
 
 const ECHO_COLOR = "#4AA5A8";
-const ECHO_BORDER = "rgba(212,168,67,0.15)";
-const ECHO_BORDER_HOVER = "rgba(212,168,67,0.25)";
-const ECHO_BG_ACCENT = "rgba(212,168,67,0.1)";
-const ECHO_BG_ACCENT_SUBTLE = "rgba(212,168,67,0.08)";
+const ECHO_BORDER = "rgba(74,165,168,0.15)";
+const ECHO_BORDER_HOVER = "rgba(74,165,168,0.25)";
+const ECHO_BG_ACCENT = "rgba(74,165,168,0.1)";
+const ECHO_BG_ACCENT_SUBTLE = "rgba(74,165,168,0.08)";
 
 // Map first URL segment → kete display label so the chat dock stays context-aware
 const KETE_LABELS: Record<string, string> = {
@@ -126,9 +126,9 @@ const EchoChatWidget = () => {
           onClick={() => { setOpen(true); setMinimized(false); }}
           className="fixed bottom-6 left-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center transition-transform hover:scale-110 group"
           style={{
-            background: "radial-gradient(circle at 40% 35%, rgba(212,168,67,0.22), rgba(58,125,110,0.1) 60%, transparent)",
-            border: `1px solid rgba(212,168,67,0.35)`,
-            boxShadow: `0 0 18px rgba(212,168,67,0.55), 0 0 40px rgba(212,168,67,0.2), 0 4px 16px rgba(0,0,0,0.5)`,
+            background: "radial-gradient(circle at 40% 35%, rgba(74,165,168,0.22), rgba(58,125,110,0.1) 60%, transparent)",
+            border: `1px solid rgba(74,165,168,0.35)`,
+            boxShadow: `0 0 18px rgba(74,165,168,0.55), 0 0 40px rgba(74,165,168,0.2), 0 4px 16px rgba(0,0,0,0.5)`,
           }}
           title="Chat with Echo — assembl's hero agent"
         >
@@ -137,7 +137,7 @@ const EchoChatWidget = () => {
             alt="Assembl"
             className="w-8 h-8 object-contain logo-glow"
             draggable={false} />
-          <span className="absolute inset-0 rounded-full animate-ping opacity-15" style={{ border: "1px solid rgba(212,168,67,0.6)" }} />
+          <span className="absolute inset-0 rounded-full animate-ping opacity-15" style={{ border: "1px solid rgba(74,165,168,0.6)" }} />
         </button>
       )}
 
@@ -145,7 +145,7 @@ const EchoChatWidget = () => {
       {open && minimized && (
         <div
           className="fixed bottom-6 left-6 z-[9999] flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer"
-          style={{ background: "hsl(var(--background))", border: `1px solid ${ECHO_BORDER}`, boxShadow: `0 4px 20px rgba(212,168,67,0.15)` }}
+          style={{ background: "hsl(var(--background))", border: `1px solid ${ECHO_BORDER}`, boxShadow: `0 4px 20px rgba(74,165,168,0.15)` }}
           onClick={() => setMinimized(false)}
         >
           <img loading="lazy" decoding="async" src={assemblMark} alt="Echo" className="w-6 h-6 object-contain logo-glow" />
@@ -173,7 +173,7 @@ const EchoChatWidget = () => {
             maxHeight: "calc(100vh - 100px)",
             background: "hsl(var(--background))",
             border: `1px solid ${ECHO_BORDER}`,
-            boxShadow: `0 8px 40px rgba(212,168,67,0.15), 0 0 60px rgba(212,168,67,0.05)`,
+            boxShadow: `0 8px 40px rgba(74,165,168,0.15), 0 0 60px rgba(74,165,168,0.05)`,
           }}
         >
           {/* Header */}

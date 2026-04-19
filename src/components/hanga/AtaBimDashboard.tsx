@@ -88,7 +88,7 @@ const clashTypeColor = (t: ClashType) =>
 const clashStatusBadge = (s: ClashStatus) => {
   const map: Record<ClashStatus, { bg: string; text: string }> = {
     open: { bg: "rgba(239,68,68,0.15)", text: "#EF4444" },
-    investigating: { bg: "rgba(212,168,67,0.15)", text: "#4AA5A8" },
+    investigating: { bg: "rgba(74,165,168,0.15)", text: "#4AA5A8" },
     resolved: { bg: "rgba(58,125,110,0.15)", text: "#3A7D6E" },
     accepted: { bg: "rgba(58,125,110,0.10)", text: "#5AADA0" },
   };
@@ -104,8 +104,8 @@ const Glass = ({ children, className = "", glow = false }: { children: React.Rea
     className={`rounded-2xl border backdrop-blur-md ${className}`}
     style={{
       background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
-      borderColor: glow ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.5)",
-      boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
+      borderColor: glow ? "rgba(74,165,168,0.3)" : "rgba(255,255,255,0.5)",
+      boxShadow: glow ? "0 0 30px rgba(74,165,168,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
     }}
   >
     {children}
@@ -211,9 +211,9 @@ export default function AtaBimDashboard() {
               className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all flex-1 justify-center"
               style={{
                 fontFamily: "Plus Jakarta Sans",
-                background: tab === t.id ? "rgba(212,168,67,0.12)" : "transparent",
+                background: tab === t.id ? "rgba(74,165,168,0.12)" : "transparent",
                 color: tab === t.id ? "#4AA5A8" : "rgba(255,255,255,0.4)",
-                border: tab === t.id ? "1px solid rgba(212,168,67,0.25)" : "1px solid transparent",
+                border: tab === t.id ? "1px solid rgba(74,165,168,0.25)" : "1px solid transparent",
               }}
             >
               {t.icon} <span className="hidden sm:inline">{t.label}</span>
@@ -258,7 +258,7 @@ export default function AtaBimDashboard() {
                       key={m.id}
                       className="transition-colors cursor-pointer"
                       style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(212,168,67,0.04)")}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(74,165,168,0.04)")}
                       onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                     >
                       <td className="px-4 py-3">
@@ -413,7 +413,7 @@ export default function AtaBimDashboard() {
                                 background: p.status === "complete"
                                   ? "linear-gradient(90deg, rgba(58,125,110,0.5), rgba(58,125,110,0.3))"
                                   : p.status === "active"
-                                    ? "linear-gradient(90deg, rgba(212,168,67,0.5), rgba(212,168,67,0.3))"
+                                    ? "linear-gradient(90deg, rgba(74,165,168,0.5), rgba(74,165,168,0.3))"
                                     : "rgba(255,255,255,0.5)",
                                 border: `1px solid ${phaseColor(p.status)}40`,
                               }}
@@ -536,9 +536,9 @@ export default function AtaBimDashboard() {
                         className="px-3 py-1 rounded-lg text-[10px] font-medium transition-colors"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
-                          background: "rgba(212,168,67,0.1)",
+                          background: "rgba(74,165,168,0.1)",
                           color: "#4AA5A8",
-                          border: "1px solid rgba(212,168,67,0.2)",
+                          border: "1px solid rgba(74,165,168,0.2)",
                         }}
                       >
                         Upload
@@ -585,9 +585,9 @@ export default function AtaBimDashboard() {
                 {/* Drop zone */}
                 <div
                   className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer"
-                  style={{ borderColor: "rgba(212,168,67,0.2)", background: "rgba(212,168,67,0.03)" }}
+                  style={{ borderColor: "rgba(74,165,168,0.2)", background: "rgba(74,165,168,0.03)" }}
                 >
-                  <Box size={24} className="mx-auto mb-2" style={{ color: "rgba(212,168,67,0.4)" }} />
+                  <Box size={24} className="mx-auto mb-2" style={{ color: "rgba(74,165,168,0.4)" }} />
                   <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.4)" }}>
                     Drop IFC, RVT, DWG, or GLB file here
                   </p>

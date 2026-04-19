@@ -281,7 +281,7 @@ function MobileCanvasKoru() {
       const bgGrad = ctx!.createRadialGradient(200, 200, 0, 200, 200, 190);
       const glowPulse = 0.1 + Math.sin(t * 0.8) * 0.05;
       bgGrad.addColorStop(0, `rgba(74, 165, 168, ${glowPulse})`);
-      bgGrad.addColorStop(0.5, `rgba(232, 169, 72, ${glowPulse * 0.4})`);
+      bgGrad.addColorStop(0.5, `rgba(74,165,168, ${glowPulse * 0.4})`);
       bgGrad.addColorStop(1, "transparent");
       ctx!.fillStyle = bgGrad;
       ctx!.fillRect(0, 0, 400, 400);

@@ -172,8 +172,8 @@ export default function AdminOutputLibrary() {
               filter === t.key
                 ? {
                     ...GLASS,
-                    background: "linear-gradient(135deg, rgba(212,168,67,0.1), rgba(212,168,67,0.03))",
-                    border: "1px solid rgba(212,168,67,0.2)",
+                    background: "linear-gradient(135deg, rgba(74,165,168,0.1), rgba(74,165,168,0.03))",
+                    border: "1px solid rgba(74,165,168,0.2)",
                   }
                 : GLASS
             }

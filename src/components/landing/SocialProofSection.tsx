@@ -66,7 +66,7 @@ const SocialProofSection = () => (
             transition={{ duration: 0.5, delay: i * 0.1 }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
-              e.currentTarget.style.boxShadow = "0 12px 48px rgba(212,168,67,0.1)";
+              e.currentTarget.style.boxShadow = "0 12px 48px rgba(74,165,168,0.1)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";

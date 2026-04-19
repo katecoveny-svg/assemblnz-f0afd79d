@@ -171,7 +171,7 @@ export default function HITLSignOff({ outputId, outputType, agentName, content, 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             className="mt-3 space-y-3 rounded-xl p-4"
-            style={{ ...GLASS, borderColor: "rgba(212,168,67,0.3)" }}
+            style={{ ...GLASS, borderColor: "rgba(74,165,168,0.3)" }}
           >
             <div className="flex items-start gap-2">
               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#4AA5A8]" />

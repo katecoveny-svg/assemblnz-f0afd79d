@@ -71,7 +71,7 @@ const ChatVisual = ({ active }: { active: boolean }) => (
       animate={active ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.5, delay: 0.2, ease }}
     >
-      <div className="px-4 py-2.5 rounded-2xl rounded-br-md max-w-[280px] text-xs" style={{ background: "rgba(212,168,67,0.15)", border: "1px solid rgba(212,168,67,0.2)", color: "rgba(255,255,255,0.85)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div className="px-4 py-2.5 rounded-2xl rounded-br-md max-w-[280px] text-xs" style={{ background: "rgba(74,165,168,0.15)", border: "1px solid rgba(74,165,168,0.2)", color: "rgba(255,255,255,0.85)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         Can I terminate an employee during their 90-day trial if they keep showing up late?
       </div>
     </motion.div>
@@ -112,7 +112,7 @@ const RoutingVisual = ({ active }: { active: boolean }) => (
         <div
           className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-1"
           style={{
-            background: i === 1 ? "rgba(212,168,67,0.2)" : "rgba(255,255,255,0.03)",
+            background: i === 1 ? "rgba(74,165,168,0.2)" : "rgba(255,255,255,0.03)",
             border: i === 1 ? "2px solid #4AA5A8" : "1px solid rgba(255,255,255,0.08)",
           }}
         >
@@ -181,7 +181,7 @@ const ResultVisual = ({ active }: { active: boolean }) => (
     transition={{ duration: 0.5, delay: 0.2, ease }}
   >
     <div className="flex items-center gap-2 mb-2">
-      <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "rgba(212,168,67,0.15)" }}>
+      <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "rgba(74,165,168,0.15)" }}>
         <span className="text-[8px] font-bold" style={{ color: "#4AA5A8" }}>A</span>
       </div>
       <span className="text-[10px]" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>AROHA · Employment Relations</span>

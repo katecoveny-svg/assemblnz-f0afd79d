@@ -230,7 +230,7 @@ const AdminPackAnalytics = () => {
                 className="px-3 py-1.5 text-[10px] font-bold uppercase transition-colors"
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
-                  background: dateRange === r ? "rgba(212,168,67,0.15)" : "transparent",
+                  background: dateRange === r ? "rgba(74,165,168,0.15)" : "transparent",
                   color: dateRange === r ? "#4AA5A8" : "rgba(255,255,255,0.4)",
                   letterSpacing: "0.08em",
                 }}
@@ -259,7 +259,7 @@ const AdminPackAnalytics = () => {
               className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-all"
               style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
-                background: tab === t.key ? "rgba(212,168,67,0.12)" : "transparent",
+                background: tab === t.key ? "rgba(74,165,168,0.12)" : "transparent",
                 color: tab === t.key ? "#4AA5A8" : "rgba(255,255,255,0.4)",
               }}
             >
@@ -318,7 +318,7 @@ const AdminPackAnalytics = () => {
                       return (
                         <div key={step.step} className="flex-1 flex flex-col items-center justify-end">
                           <span className="text-xs font-bold mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>{step.count}</span>
-                          <div className="w-full rounded-t-lg" style={{ height, background: `rgba(212,168,67,${0.3 + (i * 0.15)})` }} />
+                          <div className="w-full rounded-t-lg" style={{ height, background: `rgba(74,165,168,${0.3 + (i * 0.15)})` }} />
                           <span className="text-[9px] mt-2 text-center" style={{ color: "#6B7280", lineHeight: 1.2 }}>{step.step}</span>
                         </div>
                       );
@@ -356,9 +356,9 @@ const AdminPackAnalytics = () => {
                       onClick={() => setSelectedPack(p)}
                       className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all capitalize"
                       style={{
-                        background: selectedPack === p ? "rgba(212,168,67,0.15)" : "rgba(255,255,255,0.5)",
+                        background: selectedPack === p ? "rgba(74,165,168,0.15)" : "rgba(255,255,255,0.5)",
                         color: selectedPack === p ? "#4AA5A8" : "rgba(255,255,255,0.4)",
-                        border: selectedPack === p ? "1px solid rgba(212,168,67,0.2)" : "1px solid transparent",
+                        border: selectedPack === p ? "1px solid rgba(74,165,168,0.2)" : "1px solid transparent",
                       }}
                     >
                       {p}
@@ -408,7 +408,7 @@ const AdminPackAnalytics = () => {
                           <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>{a.avgDuration}s</td>
                           <td className="px-4 py-2.5">
                             <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{
-                              background: a.completionRate > 70 ? "rgba(58,125,110,0.2)" : a.completionRate > 40 ? "rgba(212,168,67,0.2)" : "rgba(200,90,84,0.2)",
+                              background: a.completionRate > 70 ? "rgba(58,125,110,0.2)" : a.completionRate > 40 ? "rgba(74,165,168,0.2)" : "rgba(200,90,84,0.2)",
                               color: a.completionRate > 70 ? "#3A7D6E" : a.completionRate > 40 ? "#4AA5A8" : "#C85A54",
                             }}>
                               {a.completionRate}%
@@ -471,7 +471,7 @@ const AdminPackAnalytics = () => {
                               </span>
                             </td>
                             <td className="px-4 py-2">
-                              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: u.converted ? "rgba(212,168,67,0.2)" : "rgba(255,255,255,0.5)", color: u.converted ? "#4AA5A8" : "rgba(255,255,255,0.3)" }}>
+                              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: u.converted ? "rgba(74,165,168,0.2)" : "rgba(255,255,255,0.5)", color: u.converted ? "#4AA5A8" : "rgba(255,255,255,0.3)" }}>
                                 {u.converted ? "Paid" : "Free"}
                               </span>
                             </td>

@@ -17,7 +17,7 @@ const POUNAMU = "#3A7D6E";
 const impactBadge = (level: string) => {
   const colors: Record<string, { bg: string; text: string }> = {
     high: { bg: "rgba(239,68,68,0.15)", text: "#ef4444" },
-    medium: { bg: "rgba(212,168,67,0.15)", text: KOWHAI },
+    medium: { bg: "rgba(74,165,168,0.15)", text: KOWHAI },
     low: { bg: "rgba(58,125,110,0.15)", text: POUNAMU },
   };
   const c = colors[level] || colors.low;

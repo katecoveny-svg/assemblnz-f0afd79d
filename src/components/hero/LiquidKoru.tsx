@@ -101,7 +101,7 @@ export const LiquidKoru = ({ className }: { className?: string }) => {
                   left: x,
                   top: y,
                   background: i % 5 === 0 ? "#4AA5A8" : i % 3 === 0 ? "#B8A5D0" : "#4AA5A8",
-                  boxShadow: `0 0 8px ${i % 5 === 0 ? "rgba(232,169,72,0.6)" : i % 3 === 0 ? "rgba(184,165,208,0.6)" : "rgba(74,165,168,0.6)"}`,
+                  boxShadow: `0 0 8px ${i % 5 === 0 ? "rgba(74,165,168,0.6)" : i % 3 === 0 ? "rgba(184,165,208,0.6)" : "rgba(74,165,168,0.6)"}`,
                 }}
               />
             );

@@ -195,8 +195,8 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
             className="fixed bottom-6 right-6 z-50 w-[380px] h-[600px] max-h-[80vh] rounded-2xl flex flex-col overflow-hidden"
             style={{
               background: "rgba(255,255,255,0.92)",
-              border: "1px solid rgba(212,168,67,0.15)",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.12), 0 0 40px rgba(212,168,67,0.05)",
+              border: "1px solid rgba(74,165,168,0.15)",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.12), 0 0 40px rgba(74,165,168,0.05)",
               backdropFilter: "blur(20px) saturate(140%)",
             }}
           >

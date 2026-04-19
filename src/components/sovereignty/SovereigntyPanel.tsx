@@ -47,7 +47,7 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
           <p className="text-[10px] text-white/40">Te Mana Raraunga Control Plane</p>
         </div>
         {stats.pendingGates > 0 && (
-          <span className="ml-auto px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: "rgba(212,168,67,0.2)", color: PENDING_COLOR }}>
+          <span className="ml-auto px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: "rgba(74,165,168,0.2)", color: PENDING_COLOR }}>
             {stats.pendingGates} pending
           </span>
         )}

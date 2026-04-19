@@ -722,7 +722,7 @@ const DashboardPage = () => {
                   const steps = Array.isArray(exec.steps_log) ? exec.steps_log : [];
                   const completed = steps.filter((s: any) => s.status === "completed").length;
                   return (
-                    <div key={exec.id} className="p-3 rounded-lg" style={{ background: exec.status === "completed" ? "rgba(58,125,110,0.05)" : "rgba(212,168,67,0.04)", border: `1px solid ${exec.status === "completed" ? "rgba(58,125,110,0.12)" : "rgba(212,168,67,0.1)"}` }}>
+                    <div key={exec.id} className="p-3 rounded-lg" style={{ background: exec.status === "completed" ? "rgba(58,125,110,0.05)" : "rgba(74,165,168,0.04)", border: `1px solid ${exec.status === "completed" ? "rgba(58,125,110,0.12)" : "rgba(74,165,168,0.1)"}` }}>
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-bold text-foreground">Workflow</span>
                         <span className="text-[9px] px-1.5 py-0.5 rounded-full font-medium" style={{

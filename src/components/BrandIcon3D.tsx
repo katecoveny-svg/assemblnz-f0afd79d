@@ -15,7 +15,7 @@ type PaletteKey = "kowhai" | "pounamu" | "tangaroa" | "celestial" | "rust";
 const SIZE_MAP: Record<IconSize, number> = { sm: 32, md: 44, lg: 56, xl: 72 };
 
 const PALETTE: Record<PaletteKey, { h: string; base: string; glow: string }> = {
-  kowhai:    { h: "42, 63%, 55%",  base: "#4AA5A8", glow: "rgba(212,168,67,0.55)" },
+  kowhai:    { h: "42, 63%, 55%",  base: "#4AA5A8", glow: "rgba(74,165,168,0.55)" },
   pounamu:   { h: "164, 37%, 35%", base: "#3A7D6E", glow: "rgba(58,125,110,0.5)" },
   tangaroa:  { h: "213, 53%, 23%", base: "#1A3A5C", glow: "rgba(26,58,92,0.5)" },
   celestial: { h: "0, 0%, 100%",   base: "#FFFFFF", glow: "rgba(255,255,255,0.35)" },

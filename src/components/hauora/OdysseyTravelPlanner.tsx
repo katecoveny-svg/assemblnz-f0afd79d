@@ -269,7 +269,7 @@ export default function OdysseyTravelPlanner() {
               {result.itinerary?.map((day, idx) => (
                 <div key={idx} className="rounded-xl border overflow-hidden" style={{
                   background: "rgba(255,255,255,0.65)",
-                  borderColor: expandedDay === idx ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.5)",
+                  borderColor: expandedDay === idx ? "rgba(74,165,168,0.3)" : "rgba(255,255,255,0.5)",
                 }}>
                   <button
                     onClick={() => setExpandedDay(expandedDay === idx ? null : idx)}
@@ -277,7 +277,7 @@ export default function OdysseyTravelPlanner() {
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold"
-                        style={{ background: "rgba(212,168,67,0.15)", color: "#4AA5A8" }}>
+                        style={{ background: "rgba(74,165,168,0.15)", color: "#4AA5A8" }}>
                         {day.day}
                       </div>
                       <div>
@@ -310,7 +310,7 @@ export default function OdysseyTravelPlanner() {
                                   <span className="text-[10px] text-gray-400 font-mono">{act.time}</span>
                                   <span className="text-xs text-foreground font-medium">{act.name}</span>
                                   {act.bookingRequired && (
-                                    <span className="text-[8px] px-1.5 py-0.5 rounded-full font-bold" style={{ background: "rgba(212,168,67,0.2)", color: "#4AA5A8" }}>BOOK</span>
+                                    <span className="text-[8px] px-1.5 py-0.5 rounded-full font-bold" style={{ background: "rgba(74,165,168,0.2)", color: "#4AA5A8" }}>BOOK</span>
                                   )}
                                 </div>
                                 <p className="text-[11px] text-[#9CA3AF] mt-0.5">{act.description}</p>

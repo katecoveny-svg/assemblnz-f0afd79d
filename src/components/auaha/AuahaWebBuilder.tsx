@@ -93,8 +93,8 @@ export default function AuahaWebBuilder() {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
         className="relative overflow-hidden rounded-2xl p-8 lg:p-10"
         style={{
-          background: "linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(232,169,72,0.06) 50%, rgba(74,165,168,0.05) 100%)",
-          border: "1px solid rgba(232,169,72,0.30)",
+          background: "linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(74,165,168,0.06) 50%, rgba(74,165,168,0.05) 100%)",
+          border: "1px solid rgba(74,165,168,0.30)",
           boxShadow: "0 12px 40px rgba(26,29,41,0.08), inset 0 1px 0 rgba(255,255,255,0.95)",
         }}>
         <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-20 blur-[80px]" style={{ background: ACCENT }} />

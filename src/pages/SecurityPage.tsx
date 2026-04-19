@@ -184,7 +184,7 @@ const SecurityPage = () => (
         </h2>
         <div className="flex flex-wrap items-center justify-center gap-2 text-[10px] font-mono text-muted-foreground">
           {["User", "→ TLS 1.3 →", "Assembl Edge", "→ Encrypted →", "Intelligence Layer", "→ Response →", "Edge Function", "→ TLS 1.3 →", "User"].map((step, i) => (
-            <span key={i} className={i % 2 === 0 ? "px-3 py-1.5 rounded-lg font-sans font-semibold text-foreground" : "text-[#3A6A9C]"} style={i % 2 === 0 ? { ...glassStyle, borderColor: "rgba(212,168,67,0.1)" } : undefined}>
+            <span key={i} className={i % 2 === 0 ? "px-3 py-1.5 rounded-lg font-sans font-semibold text-foreground" : "text-[#3A6A9C]"} style={i % 2 === 0 ? { ...glassStyle, borderColor: "rgba(74,165,168,0.1)" } : undefined}>
               {step}
             </span>
           ))}

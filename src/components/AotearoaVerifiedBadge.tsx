@@ -73,8 +73,8 @@ export default function AotearoaVerifiedBadge({ compact = false }: { compact?: b
         whileHover={{ scale: 1.05 }}
         className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold"
         style={{
-          background: allComplete ? "rgba(0,168,107,0.15)" : "rgba(212,168,67,0.1)",
-          border: `1px solid ${allComplete ? "rgba(0,168,107,0.3)" : "rgba(212,168,67,0.2)"}`,
+          background: allComplete ? "rgba(0,168,107,0.15)" : "rgba(74,165,168,0.1)",
+          border: `1px solid ${allComplete ? "rgba(0,168,107,0.3)" : "rgba(74,165,168,0.2)"}`,
           color: allComplete ? POUNAMU : GOLD,
         }}
       >

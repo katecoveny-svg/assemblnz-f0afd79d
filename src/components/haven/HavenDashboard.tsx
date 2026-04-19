@@ -12,8 +12,8 @@ const POUNAMU = "#3A7D6E";
 const Glass = ({ children, className = "", glow = false }: { children: React.ReactNode; className?: string; glow?: boolean }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
     background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
-    borderColor: glow ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.5)",
-    boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
+    borderColor: glow ? "rgba(74,165,168,0.3)" : "rgba(255,255,255,0.5)",
+    boxShadow: glow ? "0 0 30px rgba(74,165,168,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
   }}>{children}</div>
 );
 

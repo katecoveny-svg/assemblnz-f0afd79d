@@ -44,13 +44,13 @@ const C = {
 /* Kete pastel bleed colors */
 const KETE_BLEED: Record<string, string> = {
   manaaki: "rgba(232,140,120,0.08)",
-  waihanga: "rgba(232,169,72,0.08)",
+  waihanga: "rgba(74,165,168,0.08)",
   auaha: "rgba(155,142,196,0.08)",
   arataki: "rgba(74,165,168,0.08)",
   pikau: "rgba(108,191,193,0.08)",
   hoko: "rgba(198,107,92,0.08)",
   ako: "rgba(123,167,199,0.08)",
-  toro: "rgba(232,169,72,0.06)",
+  toro: "rgba(74,165,168,0.06)",
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;

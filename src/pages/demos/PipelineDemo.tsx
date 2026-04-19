@@ -54,7 +54,7 @@ const STAGES = [
 
 const VERDICT_STYLES = {
   pass: { icon: Check, color: "#4FE4A7", bg: "rgba(79,228,167,0.08)", label: "PASS" },
-  flag: { icon: AlertTriangle, color: "#A8DDDB", bg: "rgba(240,208,120,0.08)", label: "FLAG" },
+  flag: { icon: AlertTriangle, color: "#A8DDDB", bg: "rgba(168,221,219,0.08)", label: "FLAG" },
   block: { icon: X, color: "#E87461", bg: "rgba(232,116,97,0.08)", label: "BLOCK" },
   skip: { icon: ChevronDown, color: "rgba(255,255,255,0.2)", bg: "rgba(255,255,255,0.02)", label: "SKIPPED" },
 };

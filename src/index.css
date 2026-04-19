@@ -453,8 +453,8 @@ html {
     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .glow-hover-gold:hover {
-    box-shadow: 0 14px 48px -10px rgba(232,169,72,0.2), 0 6px 16px rgba(0,0,0,0.04);
-    border-color: rgba(232,169,72,0.2) !important;
+    box-shadow: 0 14px 48px -10px rgba(74,165,168,0.2), 0 6px 16px rgba(0,0,0,0.04);
+    border-color: rgba(74,165,168,0.2) !important;
     transform: translateY(-4px);
   }
 
@@ -810,7 +810,7 @@ html {
 
   /* Ambient color glows */
   --glow-teal:            0 0 38px rgba(74,165,168,0.32);
-  --glow-ochre:           0 0 38px rgba(232,169,72,0.32);
+  --glow-ochre:           0 0 38px rgba(74,165,168,0.32);
   --glow-lavender:        0 0 38px rgba(155,143,191,0.32);
   --glow-success:         0 0 32px rgba(74,165,168,0.30);
   --glow-error:           0 0 32px rgba(200,90,84,0.34);

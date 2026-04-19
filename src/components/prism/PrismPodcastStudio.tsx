@@ -29,9 +29,9 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
   return (
     <button onClick={onClick} className="px-2.5 py-1.5 rounded-lg text-[10px] font-medium transition-all"
       style={{
-        background: active ? `rgba(212,168,67,0.12)` : "rgba(255,255,255,0.03)",
+        background: active ? `rgba(74,165,168,0.12)` : "rgba(255,255,255,0.03)",
         color: active ? GOLD : "rgba(255,255,255,0.4)",
-        border: `1px solid ${active ? "rgba(212,168,67,0.25)" : "rgba(255,255,255,0.05)"}`
+        border: `1px solid ${active ? "rgba(74,165,168,0.25)" : "rgba(255,255,255,0.05)"}`
       }}>
       {label}
     </button>
@@ -211,7 +211,7 @@ Make it sound authentic and grounded. No corporate jargon. Write like you're tal
     <div className="flex-1 overflow-y-auto p-4 space-y-3">
       {/* Header */}
       <div className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(212,168,67,0.12)", border: "1px solid rgba(212,168,67,0.25)" }}>
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(74,165,168,0.12)", border: "1px solid rgba(74,165,168,0.25)" }}>
           <Mic size={15} style={{ color: GOLD }} />
         </div>
         <div>
@@ -235,9 +235,9 @@ Make it sound authentic and grounded. No corporate jargon. Write like you're tal
             <button key={q.id} onClick={() => setQuality(q.id)}
               className="flex-1 flex items-center gap-2 px-3 py-2 rounded-xl text-[11px] font-medium transition-all"
               style={{
-                background: active ? "rgba(212,168,67,0.12)" : "rgba(255,255,255,0.02)",
+                background: active ? "rgba(74,165,168,0.12)" : "rgba(255,255,255,0.02)",
                 color: active ? GOLD : "rgba(255,255,255,0.35)",
-                border: `1px solid ${active ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.05)"}`
+                border: `1px solid ${active ? "rgba(74,165,168,0.3)" : "rgba(255,255,255,0.05)"}`
               }}>
               <Icon size={13} />
               <div className="text-left"><div className="font-semibold">{q.label}</div><div className="text-[8px] opacity-60">{q.desc}</div></div>
@@ -283,9 +283,9 @@ Make it sound authentic and grounded. No corporate jargon. Write like you're tal
               <button key={f.id} onClick={() => setFormat(f.id)}
                 className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-[10px] font-medium transition-all text-left"
                 style={{
-                  background: active ? "rgba(212,168,67,0.12)" : "rgba(255,255,255,0.02)",
+                  background: active ? "rgba(74,165,168,0.12)" : "rgba(255,255,255,0.02)",
                   color: active ? GOLD : "rgba(255,255,255,0.35)",
-                  border: `1px solid ${active ? "rgba(212,168,67,0.25)" : "rgba(255,255,255,0.05)"}`
+                  border: `1px solid ${active ? "rgba(74,165,168,0.25)" : "rgba(255,255,255,0.05)"}`
                 }}>
                 <Icon size={14} />
                 <div>
@@ -339,9 +339,9 @@ Make it sound authentic and grounded. No corporate jargon. Write like you're tal
             {[4, 6, 8, 10, 12].map(n => (
               <button key={n} onClick={() => setSeriesEpisodes(n)} className="w-9 h-9 rounded-lg text-[11px] font-semibold"
                 style={{
-                  background: seriesEpisodes === n ? "rgba(212,168,67,0.15)" : "rgba(255,255,255,0.03)",
+                  background: seriesEpisodes === n ? "rgba(74,165,168,0.15)" : "rgba(255,255,255,0.03)",
                   color: seriesEpisodes === n ? GOLD : "rgba(255,255,255,0.4)",
-                  border: `1px solid ${seriesEpisodes === n ? "rgba(212,168,67,0.25)" : "rgba(255,255,255,0.05)"}`
+                  border: `1px solid ${seriesEpisodes === n ? "rgba(74,165,168,0.25)" : "rgba(255,255,255,0.05)"}`
                 }}>
                 {n}
               </button>
@@ -403,9 +403,9 @@ Make it sound authentic and grounded. No corporate jargon. Write like you're tal
           {[2, 3, 4, 5, 6].map(n => (
             <button key={n} onClick={() => setNumSegments(n)} className="w-9 h-9 rounded-lg text-[11px] font-semibold"
               style={{
-                background: numSegments === n ? "rgba(212,168,67,0.15)" : "rgba(255,255,255,0.03)",
+                background: numSegments === n ? "rgba(74,165,168,0.15)" : "rgba(255,255,255,0.03)",
                 color: numSegments === n ? GOLD : "rgba(255,255,255,0.4)",
-                border: `1px solid ${numSegments === n ? "rgba(212,168,67,0.25)" : "rgba(255,255,255,0.05)"}`
+                border: `1px solid ${numSegments === n ? "rgba(74,165,168,0.25)" : "rgba(255,255,255,0.05)"}`
               }}>
               {n}
             </button>
@@ -444,7 +444,7 @@ Make it sound authentic and grounded. No corporate jargon. Write like you're tal
       </button>
 
       {/* Tips */}
-      <div className="rounded-xl p-3" style={{ background: "rgba(212,168,67,0.04)", border: "1px solid rgba(212,168,67,0.1)" }}>
+      <div className="rounded-xl p-3" style={{ background: "rgba(74,165,168,0.04)", border: "1px solid rgba(74,165,168,0.1)" }}>
         <p className="text-[9px] font-body" style={{ color: "rgba(255,255,255,0.35)" }}>
           <strong>Tip:</strong> Use "Guest Prep Sheet" mode before interviews to arrive prepared. After generating a script, use PRISM's Image Studio for episode artwork and Ad Studio for promotional creatives.
         </p>
