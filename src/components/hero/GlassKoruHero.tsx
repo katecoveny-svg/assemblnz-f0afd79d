@@ -7,36 +7,48 @@ import { ArrowRight } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 /* ─────────────────────────────────────────────────────────
-   FLUID KORU — a single 3D glass tube that spirals inward
-   like a ponga frond unfurling. No floating blob spheres.
+   GLASS MARBLE KORU — glossy glass marbles arranged along
+   a logarithmic koru spiral, connected by glowing data
+   lines with flashing data packets travelling between them.
    ───────────────────────────────────────────────────────── */
 
-/* Build a logarithmic koru curve in 3D */
-function buildKoruCurve(): THREE.CatmullRomCurve3 {
-  const points: THREE.Vector3[] = [];
-  const turns = 2.4;
-  const samples = 240;
-  const a = 0.16; // initial radius
-  const b = 0.21; // growth
-  for (let i = 0; i <= samples; i++) {
-    const t = i / samples;
-    // Logarithmic spiral: r = a * e^(b*θ)
+interface MarbleNode {
+  position: THREE.Vector3;
+  radius: number;
+  color: string;
+  index: number;
+}
+
+/* Build the marble positions along a logarithmic koru spiral */
+function buildKoruMarbles(): MarbleNode[] {
+  const nodes: MarbleNode[] = [];
+  const count = 14;
+  const turns = 2.2;
+  const a = 0.32;
+  const b = 0.26;
+  const palette = ["#4AA5A8", "#7DD4D6", "#E8A948", "#B8A5D0", "#E8A090", "#7BA88C"];
+
+  for (let i = 0; i < count; i++) {
+    const t = i / (count - 1);
     const theta = t * turns * Math.PI * 2;
     const r = a * Math.exp(b * theta);
-    // unfurl axis — gentle out-of-plane lift so the tip rises
-    const lift = Math.pow(t, 1.4) * 0.9 - 0.1;
-    points.push(
-      new THREE.Vector3(
-        Math.cos(theta) * r,
-        Math.sin(theta) * r,
-        lift,
-      ),
-    );
+    const lift = Math.pow(t, 1.4) * 0.6 - 0.1;
+    // Marble size: large bulb at base, taper down to fine tip
+    const radius = Math.max(0.18, 0.85 - t * 0.7 + Math.pow(1 - t, 2) * 0.3);
+    nodes.push({
+      position: new THREE.Vector3(Math.cos(theta) * r, Math.sin(theta) * r, lift),
+      radius,
+      color: palette[i % palette.length],
+      index: i,
+    });
   }
-  // Reverse so the tube starts at the small bulb at the centre
-  points.reverse();
-  const curve = new THREE.CatmullRomCurve3(points, false, "catmullrom", 0.5);
-  return curve;
+  // Reverse so the big bulb is at the centre / base
+  return nodes.reverse();
+}
+
+/* Build a smooth curve through marble centres for data packets to travel along */
+function buildConnectorCurve(nodes: MarbleNode[]): THREE.CatmullRomCurve3 {
+  return new THREE.CatmullRomCurve3(nodes.map((n) => n.position.clone()), false, "catmullrom", 0.5);
 }
 
 /* The glass koru tube itself */
