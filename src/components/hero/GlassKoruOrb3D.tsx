@@ -122,7 +122,7 @@ function GlassOrb() {
       floatingRange={[-0.04, 0.04]}
     >
       <group ref={orbRef}>
-        <LuminousFilament />
+        <EtchedKoru />
 
         {/* Outer crystal shell — saturated teal so it's clearly visible on white bg */}
         <mesh>
@@ -159,11 +159,11 @@ function GlassOrb() {
         {/* Soft white specular highlights */}
         <mesh position={[-0.5, 0.6, 0.85]}>
           <sphereGeometry args={[0.32, 32, 32]} />
-          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.7} toneMapped={false} />
+          <meshBasicMaterial color={orbPalette.etch} transparent opacity={0.55} toneMapped={false} />
         </mesh>
         <mesh position={[0.55, -0.45, 0.85]}>
           <sphereGeometry args={[0.2, 32, 32]} />
-          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.5} toneMapped={false} />
+          <meshBasicMaterial color={orbPalette.etch} transparent opacity={0.4} toneMapped={false} />
         </mesh>
       </group>
     </Float>
