@@ -12,7 +12,7 @@ const ATMOSPHERE_MAP: Record<TimeOfDay, AtmosphereConfig> = {
     glowWarmth: 0.15,
     particleBrightness: 0.9,
     animationSpeed: 0.85,
-    bgOverlay: 'rgba(74,165,168,0.02)',
+    bgOverlay: 'rgba(212,168,67,0.02)',
   },
   day: {
     glowWarmth: 0,
@@ -24,7 +24,7 @@ const ATMOSPHERE_MAP: Record<TimeOfDay, AtmosphereConfig> = {
     glowWarmth: 0.1,
     particleBrightness: 0.9,
     animationSpeed: 0.9,
-    bgOverlay: 'rgba(74,165,168,0.015)',
+    bgOverlay: 'rgba(212,168,67,0.015)',
   },
   night: {
     glowWarmth: 0,

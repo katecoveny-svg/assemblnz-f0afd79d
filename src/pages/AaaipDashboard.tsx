@@ -134,7 +134,7 @@ const VERDICT_LABEL: Record<string, string> = {
 
 const VERDICT_COLOUR: Record<string, string> = {
   allow: "#3A7D6E",
-  needs_human: "#4AA5A8",
+  needs_human: "#D4A843",
   block: "#B83A3A",
 };
 
@@ -190,8 +190,8 @@ const DOMAIN_META: Record<DomainKey, DomainMeta> = {
       "An autonomous moderation agent for an AAAIP community portal. Posts are gated by harm, te reo respect, Māori data sovereignty, PII leak and misinformation review policies before publishing.",
     policyPrefix: "community.",
     group: "foundation",
-    accentColor: "#4AA5A8",
-    accentLight: "#A8DDDB",
+    accentColor: "#D4A843",
+    accentLight: "#F0D078",
     keteVariant: "standard",
   },
   waihanga: {
@@ -223,8 +223,8 @@ const DOMAIN_META: Record<DomainKey, DomainMeta> = {
       "A reservations and guest-experience agent. Allergen safety, guest consent, accessibility, overbooking and data residency policies keep the property safe and compliant.",
     policyPrefix: "manaaki.",
     group: "industry",
-    accentColor: "#4AA5A8",
-    accentLight: "#A8DDDB",
+    accentColor: "#D4A843",
+    accentLight: "#F0D078",
     keteVariant: "organic",
   },
   auaha: {
@@ -234,8 +234,8 @@ const DOMAIN_META: Record<DomainKey, DomainMeta> = {
       "A coordinated studio of nine specialist agents — Rautaki (strategy), Kōrero (content), Mana Kupu (compliance), Toi (creative), Whakahaere (campaigns), Whaikōrero-Ā-Hoko (lead gen), Aro (analytics), Reo Whare (internal comms) and Studio Director (orchestrator). Every output is gated by the claim register, Fair Trading Act, Privacy Act + IPP 3A, UEMA, and tikanga-compliance before a human signs it off. No autonomous publishing — ever.",
     policyPrefix: "auaha.",
     group: "industry",
-    accentColor: "#A8DDDB",
-    accentLight: "#4AA5A8",
+    accentColor: "#F0D078",
+    accentLight: "#D4A843",
     keteVariant: "tricolor",
   },
   arataki: {
@@ -256,8 +256,8 @@ const DOMAIN_META: Record<DomainKey, DomainMeta> = {
       "An SMS-first whānau family navigator sending school notices, meal ideas, budget alerts, learning prompts and reminders. Parental-consent, age-appropriate, financial-harm, wellbeing-crisis and te reo integrity policies gate every outbound message.",
     policyPrefix: "toro.",
     group: "industry",
-    accentColor: "#4AA5A8",
-    accentLight: "#A8DDDB",
+    accentColor: "#D4A843",
+    accentLight: "#F0D078",
     keteVariant: "warm",
   },
 };

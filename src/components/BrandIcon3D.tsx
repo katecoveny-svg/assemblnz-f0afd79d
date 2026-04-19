@@ -15,7 +15,7 @@ type PaletteKey = "kowhai" | "pounamu" | "tangaroa" | "celestial" | "rust";
 const SIZE_MAP: Record<IconSize, number> = { sm: 32, md: 44, lg: 56, xl: 72 };
 
 const PALETTE: Record<PaletteKey, { h: string; base: string; glow: string }> = {
-  kowhai:    { h: "42, 63%, 55%",  base: "#4AA5A8", glow: "rgba(74,165,168,0.55)" },
+  kowhai:    { h: "42, 63%, 55%",  base: "#D4A843", glow: "rgba(212,168,67,0.55)" },
   pounamu:   { h: "164, 37%, 35%", base: "#3A7D6E", glow: "rgba(58,125,110,0.5)" },
   tangaroa:  { h: "213, 53%, 23%", base: "#1A3A5C", glow: "rgba(26,58,92,0.5)" },
   celestial: { h: "0, 0%, 100%",   base: "#FFFFFF", glow: "rgba(255,255,255,0.35)" },
@@ -147,8 +147,8 @@ export const ManaakiIcon3D = ({ size = "md", variant = "glass" }: Pack3DIconProp
       <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
         <defs>
           <linearGradient id="m3d-g" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#A8DDDB" />
-            <stop offset="100%" stopColor="#4AA5A8" />
+            <stop offset="0%" stopColor="#F0D078" />
+            <stop offset="100%" stopColor="#D4A843" />
           </linearGradient>
           <filter id="m3d-glow">
             <feGaussianBlur stdDeviation="1.5" result="blur" />
@@ -156,7 +156,7 @@ export const ManaakiIcon3D = ({ size = "md", variant = "glass" }: Pack3DIconProp
           </filter>
         </defs>
         <path d="M12 3L2 12h3v8h5v-5h4v5h5v-8h3L12 3z" fill="url(#m3d-g)" fillOpacity="0.85" filter="url(#m3d-glow)" />
-        <path d="M12 3L2 12h3v8h5v-5h4v5h5v-8h3L12 3z" stroke="#4AA5A8" strokeWidth="0.8" strokeOpacity="0.4" fill="none" />
+        <path d="M12 3L2 12h3v8h5v-5h4v5h5v-8h3L12 3z" stroke="#D4A843" strokeWidth="0.8" strokeOpacity="0.4" fill="none" />
       </svg>
     </BrandIcon3D>
   );
@@ -217,8 +217,8 @@ export const PakihiIcon3D = ({ size = "md", variant = "glass" }: Pack3DIconProps
       <svg width={s} height={s} viewBox="0 0 24 24" fill="none">
         <defs>
           <linearGradient id="p3d-g" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#A8DDDB" />
-            <stop offset="100%" stopColor="#4AA5A8" />
+            <stop offset="0%" stopColor="#F0D078" />
+            <stop offset="100%" stopColor="#D4A843" />
           </linearGradient>
           <filter id="p3d-glow">
             <feGaussianBlur stdDeviation="1.5" result="blur" />
@@ -226,8 +226,8 @@ export const PakihiIcon3D = ({ size = "md", variant = "glass" }: Pack3DIconProps
           </filter>
         </defs>
         <rect x="3" y="7" width="18" height="13" rx="2" fill="url(#p3d-g)" fillOpacity="0.75" filter="url(#p3d-glow)" />
-        <rect x="3" y="7" width="18" height="13" rx="2" stroke="#4AA5A8" strokeWidth="0.8" strokeOpacity="0.4" fill="none" />
-        <path d="M8 7V5a4 4 0 018 0v2" stroke="#4AA5A8" strokeWidth="1.2" strokeOpacity="0.6" fill="none" />
+        <rect x="3" y="7" width="18" height="13" rx="2" stroke="#D4A843" strokeWidth="0.8" strokeOpacity="0.4" fill="none" />
+        <path d="M8 7V5a4 4 0 018 0v2" stroke="#D4A843" strokeWidth="1.2" strokeOpacity="0.6" fill="none" />
       </svg>
     </BrandIcon3D>
   );

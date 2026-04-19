@@ -31,7 +31,7 @@ ${tagline ? `**TAGLINE:** ${tagline}` : "Generate a compelling tagline"}
 ${useBrandDna ? "**BRAND DNA:** Apply my saved brand colours and fonts." : ""}
 
 Generate:
-## Hero Product Visual
+## 🎨 Hero Product Visual
 [GENERATE_IMAGE: Professional product photo of ${productName}, ${selectedScene?.label} style — ${selectedScene?.desc}. Commercial photography quality, clean composition, premium lighting]
 
 ## 📱 Social Media Versions

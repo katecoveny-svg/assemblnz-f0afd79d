@@ -4,7 +4,7 @@ import { Mic, MicOff, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-const KOWHAI = "#4AA5A8";
+const KOWHAI = "#D4A843";
 
 type VoiceState = "idle" | "listening" | "thinking" | "speaking" | "error";
 
@@ -105,19 +105,19 @@ const VoiceFAB = ({ packId = "waihanga", agentId }: Props) => {
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
         style={{
           background: state === "listening"
-            ? `radial-gradient(circle, ${KOWHAI}, rgba(74,165,168,0.8))`
+            ? `radial-gradient(circle, ${KOWHAI}, rgba(212,168,67,0.8))`
             : "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
-          border: `2px solid ${state === "listening" ? KOWHAI : "rgba(74,165,168,0.3)"}`,
+          border: `2px solid ${state === "listening" ? KOWHAI : "rgba(212,168,67,0.3)"}`,
           boxShadow: state === "listening"
-            ? `0 0 30px rgba(74,165,168,0.4), 0 0 60px rgba(74,165,168,0.15)`
+            ? `0 0 30px rgba(212,168,67,0.4), 0 0 60px rgba(212,168,67,0.15)`
             : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
         }}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
         animate={state === "listening" ? { boxShadow: [
-          "0 0 20px rgba(74,165,168,0.3)",
-          "0 0 40px rgba(74,165,168,0.5)",
-          "0 0 20px rgba(74,165,168,0.3)",
+          "0 0 20px rgba(212,168,67,0.3)",
+          "0 0 40px rgba(212,168,67,0.5)",
+          "0 0 20px rgba(212,168,67,0.3)",
         ] } : {}}
         transition={state === "listening" ? { duration: 1.5, repeat: Infinity } : {}}
       >
@@ -138,7 +138,7 @@ const VoiceFAB = ({ packId = "waihanga", agentId }: Props) => {
             className="fixed bottom-24 right-6 z-50 rounded-2xl p-4 min-w-[220px] border backdrop-blur-md"
             style={{
               background: "rgba(255,255,255,0.65)",
-              borderColor: "rgba(74,165,168,0.2)",
+              borderColor: "rgba(212,168,67,0.2)",
               boxShadow: "0 0 40px rgba(0,0,0,0.5)",
             }}
           >

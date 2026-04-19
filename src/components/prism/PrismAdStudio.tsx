@@ -62,12 +62,12 @@ ${useBrandDna ? "**BRAND DNA:** Apply my saved brand colours, fonts, and voice."
 
 For each variant, provide:
 ## Variant [N]: [Creative Concept Name]
-- **Headline** (within ${platform === "google" ? "30" : "40"} char limit)
-- **Description** copy
+- 🎯 **Headline** (within ${platform === "google" ? "30" : "40"} char limit)
+- 📝 **Description** copy
 - 📣 **CTA Button** text  
-- **Visual Direction** (exact image description for generation)
-- **Why it works** (performance marketing reasoning)
-- **Expected CTR range** based on industry benchmarks
+- 🎨 **Visual Direction** (exact image description for generation)
+- 💡 **Why it works** (performance marketing reasoning)
+- 📊 **Expected CTR range** based on industry benchmarks
 
 Make each variant genuinely different in creative approach. NZ-focused copy.`;
     onSendToChat(prompt);

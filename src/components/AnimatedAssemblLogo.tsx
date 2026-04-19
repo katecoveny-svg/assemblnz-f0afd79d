@@ -25,7 +25,7 @@ const AnimatedAssemblLogo = ({ size = 64, showWordmark = true }: { size?: number
             {/* Gold orb gradient */}
             <radialGradient id="cel-gold" cx="40%" cy="32%" r="50%">
               <stop offset="0%" stopColor="#F5D98A" />
-              <stop offset="45%" stopColor="#4AA5A8" />
+              <stop offset="45%" stopColor="#D4A843" />
               <stop offset="100%" stopColor="#8B6020" />
             </radialGradient>
             {/* Pounamu dark */}
@@ -47,9 +47,9 @@ const AnimatedAssemblLogo = ({ size = 64, showWordmark = true }: { size?: number
             </radialGradient>
             {/* Gold halo glow */}
             <radialGradient id="halo-gold" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#4AA5A8" stopOpacity="0.6" />
-              <stop offset="40%" stopColor="#4AA5A8" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#4AA5A8" stopOpacity="0" />
+              <stop offset="0%" stopColor="#D4A843" stopOpacity="0.6" />
+              <stop offset="40%" stopColor="#D4A843" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#D4A843" stopOpacity="0" />
             </radialGradient>
             {/* Teal halo glow */}
             <radialGradient id="halo-teal" cx="50%" cy="50%" r="50%">

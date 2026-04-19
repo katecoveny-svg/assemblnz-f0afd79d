@@ -17,7 +17,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
 };
 
 const COLOR_MAP: Record<string, string> = {
-  manaaki: "#4AA5A8",
+  manaaki: "#D4A843",
   waihanga: "#3A7D6E",
   auaha: "#E8702A",
   arataki: "#E8E8E8",

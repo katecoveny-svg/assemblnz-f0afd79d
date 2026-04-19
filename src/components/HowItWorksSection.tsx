@@ -42,7 +42,7 @@ const HowItWorksSection = () => {
               fontWeight: 700,
               fontSize: "11px",
               letterSpacing: "4px",
-              color: "#4AA5A8",
+              color: "#D4A843",
             }}
           >
             How it works
@@ -79,7 +79,7 @@ const HowItWorksSection = () => {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
-                  e.currentTarget.style.boxShadow = "0 12px 48px rgba(74,165,168,0.1)";
+                  e.currentTarget.style.boxShadow = "0 12px 48px rgba(212,168,67,0.1)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";

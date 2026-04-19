@@ -10,8 +10,8 @@ const HERO_INDUSTRIES = [
   {
     industry: "Hospitality & Tourism",
     agent: "MANAAKI",
-    color: "#4AA5A8",
-    accentLight: "#A8DDDB",
+    color: "#D4A843",
+    accentLight: "#F0D078",
     variant: "warm" as const,
     description: "Your 18-page Food Control Plan diary replaced with a 90-second voice check. Verifier visits stop being stressful.",
     capabilities: ["Season calendar builder", "Gaming trust grant writer", "Coaching session planner", "Incorporated Societies compliance"],
@@ -30,8 +30,8 @@ const HERO_INDUSTRIES = [
   {
     industry: "Creative & Media",
     agent: "AUAHA",
-    color: "#A8DDDB",
-    accentLight: "#D6F0EE",
+    color: "#F0D078",
+    accentLight: "#F7E6A0",
     variant: "tricolor" as const,
     description: "Brand strategy, campaign creation, image generation, and social deployment — your entire marketing department in one place.",
     capabilities: ["Brand strategy builder", "AI image generation", "Social media deployment", "Campaign auto-creator"],

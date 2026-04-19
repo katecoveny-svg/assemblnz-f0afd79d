@@ -15,7 +15,7 @@ import SovereigntyBadge from "@/components/sovereignty/SovereigntyBadge";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 
-const ACCENT = "#4AA5A8";
+const ACCENT = "#D4A843";
 const ACCENT_LIGHT = "#E8C76A";
 const POUNAMU = "#3A7D6E";
 
@@ -53,7 +53,7 @@ function useBookingMetrics(bookings: Booking[]) {
 
 const STATUS_COLORS: Record<string, string> = {
   confirmed: "#3A7D6E",
-  pending: "#4AA5A8",
+  pending: "#D4A843",
   checked_in: "#5AADA0",
   checked_out: "#666",
   cancelled: "#E55",

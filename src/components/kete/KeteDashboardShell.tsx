@@ -69,7 +69,7 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
               left: `${(i * 37) % 100}%`,
               top: `${(i * 53) % 100}%`,
               background: i % 5 === 0
-                ? `rgba(74,165,168,0.25)`
+                ? `rgba(232,169,72,0.25)`
                 : i % 3 === 0
                   ? `rgba(200,195,220,0.3)`
                   : `rgba(${rgb},0.2)`,

@@ -9,8 +9,8 @@ import HeroParticlesLight from "@/components/HeroParticlesLight";
 
 const C = {
   bg: "#09090F",
-  gold: "#A8DDDB",
-  goldDim: "#4AA5A8",
+  gold: "#F0D078",
+  goldDim: "#D4A843",
   pounamu: "#3A7D6E",
   pounamuLight: "#5AADA0",
   white: "#FFFFFF",

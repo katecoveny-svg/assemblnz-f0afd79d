@@ -218,7 +218,7 @@ const AdminPackAnalytics = () => {
     <AdminShell
       title="Pack Analytics"
       subtitle="Track engagement, conversions, and agent performance"
-      icon={<BarChart3 size={18} style={{ color: "#4AA5A8" }} />}
+      icon={<BarChart3 size={18} style={{ color: "#D4A843" }} />}
       backTo="/admin/dashboard"
       actions={
         <div className="flex items-center gap-3">
@@ -230,8 +230,8 @@ const AdminPackAnalytics = () => {
                 className="px-3 py-1.5 text-[10px] font-bold uppercase transition-colors"
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
-                  background: dateRange === r ? "rgba(74,165,168,0.15)" : "transparent",
-                  color: dateRange === r ? "#4AA5A8" : "rgba(255,255,255,0.4)",
+                  background: dateRange === r ? "rgba(212,168,67,0.15)" : "transparent",
+                  color: dateRange === r ? "#D4A843" : "rgba(255,255,255,0.4)",
                   letterSpacing: "0.08em",
                 }}
               >
@@ -242,7 +242,7 @@ const AdminPackAnalytics = () => {
           <button
             onClick={exportCSV}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase transition-all hover:scale-105"
-            style={{ fontFamily: "'Lato', sans-serif", background: "#4AA5A8", color: "#3D4250", letterSpacing: "0.08em" }}
+            style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#3D4250", letterSpacing: "0.08em" }}
           >
             <Download size={12} /> CSV Export
           </button>
@@ -259,8 +259,8 @@ const AdminPackAnalytics = () => {
               className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-all"
               style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
-                background: tab === t.key ? "rgba(74,165,168,0.12)" : "transparent",
-                color: tab === t.key ? "#4AA5A8" : "rgba(255,255,255,0.4)",
+                background: tab === t.key ? "rgba(212,168,67,0.12)" : "transparent",
+                color: tab === t.key ? "#D4A843" : "rgba(255,255,255,0.4)",
               }}
             >
               <t.icon size={14} /> {t.label}
@@ -278,9 +278,9 @@ const AdminPackAnalytics = () => {
                 {/* KPI cards */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {[
-                    { label: "Total Views", value: totalViews, color: "#4AA5A8" },
+                    { label: "Total Views", value: totalViews, color: "#D4A843" },
                     { label: "Trial Starts", value: totalTrials, color: "#3A7D6E" },
-                    { label: "Upgrades", value: totalUpgrades, color: "#4AA5A8" },
+                    { label: "Upgrades", value: totalUpgrades, color: "#D4A843" },
                     { label: "Conversion Rate", value: `${convRate}%`, color: "#3A7D6E" },
                   ].map(kpi => (
                     <motion.div key={kpi.label} className="rounded-2xl p-5 text-center" style={cardStyle} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
@@ -300,7 +300,7 @@ const AdminPackAnalytics = () => {
                       <XAxis dataKey="slug" tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10 }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickLine={false} />
                       <Tooltip contentStyle={{ background: "#FAFBFC", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 11 }} />
-                      <Bar dataKey="views" fill="#4AA5A8" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="views" fill="#D4A843" radius={[4, 4, 0, 0]} />
                       <Bar dataKey="trials" fill="#3A7D6E" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
@@ -317,8 +317,8 @@ const AdminPackAnalytics = () => {
                       const height = Math.max((step.count / maxCount) * 160, 20);
                       return (
                         <div key={step.step} className="flex-1 flex flex-col items-center justify-end">
-                          <span className="text-xs font-bold mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>{step.count}</span>
-                          <div className="w-full rounded-t-lg" style={{ height, background: `rgba(74,165,168,${0.3 + (i * 0.15)})` }} />
+                          <span className="text-xs font-bold mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843" }}>{step.count}</span>
+                          <div className="w-full rounded-t-lg" style={{ height, background: `rgba(212,168,67,${0.3 + (i * 0.15)})` }} />
                           <span className="text-[9px] mt-2 text-center" style={{ color: "#6B7280", lineHeight: 1.2 }}>{step.step}</span>
                         </div>
                       );
@@ -330,7 +330,7 @@ const AdminPackAnalytics = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {Object.entries(topAgents).map(([pack, agents]) => (
                     <div key={pack} className="rounded-2xl p-5" style={cardStyle}>
-                      <h4 className="text-[10px] uppercase tracking-wider mb-3" style={{ fontFamily: "'Lato', sans-serif", color: "#4AA5A8" }}>
+                      <h4 className="text-[10px] uppercase tracking-wider mb-3" style={{ fontFamily: "'Lato', sans-serif", color: "#D4A843" }}>
                         Top Agents — {pack}
                       </h4>
                       {agents.map((a: any, i: number) => (
@@ -356,9 +356,9 @@ const AdminPackAnalytics = () => {
                       onClick={() => setSelectedPack(p)}
                       className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all capitalize"
                       style={{
-                        background: selectedPack === p ? "rgba(74,165,168,0.15)" : "rgba(255,255,255,0.5)",
-                        color: selectedPack === p ? "#4AA5A8" : "rgba(255,255,255,0.4)",
-                        border: selectedPack === p ? "1px solid rgba(74,165,168,0.2)" : "1px solid transparent",
+                        background: selectedPack === p ? "rgba(212,168,67,0.15)" : "rgba(255,255,255,0.5)",
+                        color: selectedPack === p ? "#D4A843" : "rgba(255,255,255,0.4)",
+                        border: selectedPack === p ? "1px solid rgba(212,168,67,0.2)" : "1px solid transparent",
                       }}
                     >
                       {p}
@@ -376,7 +376,7 @@ const AdminPackAnalytics = () => {
                       <XAxis dataKey="date" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickLine={false} />
                       <Tooltip contentStyle={{ background: "#FAFBFC", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 11 }} />
-                      <Line type="monotone" dataKey="count" stroke="#4AA5A8" strokeWidth={2} dot={false} />
+                      <Line type="monotone" dataKey="count" stroke="#D4A843" strokeWidth={2} dot={false} />
                     </LineChart>
                   </ResponsiveContainer>
                   {dailyViews.length === 0 && <p className="text-center text-[10px] mt-4" style={{ color: "#9CA3AF" }}>No view data yet for {selectedPack}</p>}
@@ -403,13 +403,13 @@ const AdminPackAnalytics = () => {
                       ) : agentPerf.map(a => (
                         <tr key={a.name} style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                           <td className="px-4 py-2.5 font-bold" style={{ color: "#1A1D29" }}>{a.name}</td>
-                          <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>{a.clicks}</td>
+                          <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843" }}>{a.clicks}</td>
                           <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>{a.sessions}</td>
                           <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>{a.avgDuration}s</td>
                           <td className="px-4 py-2.5">
                             <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{
-                              background: a.completionRate > 70 ? "rgba(58,125,110,0.2)" : a.completionRate > 40 ? "rgba(74,165,168,0.2)" : "rgba(200,90,84,0.2)",
-                              color: a.completionRate > 70 ? "#3A7D6E" : a.completionRate > 40 ? "#4AA5A8" : "#C85A54",
+                              background: a.completionRate > 70 ? "rgba(58,125,110,0.2)" : a.completionRate > 40 ? "rgba(212,168,67,0.2)" : "rgba(200,90,84,0.2)",
+                              color: a.completionRate > 70 ? "#3A7D6E" : a.completionRate > 40 ? "#D4A843" : "#C85A54",
                             }}>
                               {a.completionRate}%
                             </span>
@@ -428,9 +428,9 @@ const AdminPackAnalytics = () => {
                 {/* Summary stats */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {[
-                    { label: "Total Users Tracked", value: cohortData.length, color: "#4AA5A8" },
+                    { label: "Total Users Tracked", value: cohortData.length, color: "#D4A843" },
                     { label: "Trial Users", value: cohortData.filter(u => u.trial_started).length, color: "#3A7D6E" },
-                    { label: "Converted", value: cohortData.filter(u => u.converted).length, color: "#4AA5A8" },
+                    { label: "Converted", value: cohortData.filter(u => u.converted).length, color: "#D4A843" },
                     { label: "Avg Days to Upgrade", value: (() => {
                       const upgraded = cohortData.filter(u => u.days_to_upgrade !== null);
                       return upgraded.length ? Math.round(upgraded.reduce((s, u) => s + u.days_to_upgrade, 0) / upgraded.length) : "–";
@@ -471,7 +471,7 @@ const AdminPackAnalytics = () => {
                               </span>
                             </td>
                             <td className="px-4 py-2">
-                              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: u.converted ? "rgba(74,165,168,0.2)" : "rgba(255,255,255,0.5)", color: u.converted ? "#4AA5A8" : "rgba(255,255,255,0.3)" }}>
+                              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: u.converted ? "rgba(212,168,67,0.2)" : "rgba(255,255,255,0.5)", color: u.converted ? "#D4A843" : "rgba(255,255,255,0.3)" }}>
                                 {u.converted ? "Paid" : "Free"}
                               </span>
                             </td>

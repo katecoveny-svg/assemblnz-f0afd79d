@@ -162,7 +162,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
           <Calendar size={12} style={{ color: HELM_COLOR }} />
           {format(selectedDay, "EEEE d MMMM")}
           {!isSchoolDay(selectedDay) && selectedDay.getDay() !== 0 && selectedDay.getDay() !== 6 && (
-            <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-amber-500/15 text-[#4AA5A8]">Holiday</span>
+            <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-amber-500/15 text-[#D4A843]">Holiday</span>
           )}
         </h3>
         {displayEvents.length === 0 ? (

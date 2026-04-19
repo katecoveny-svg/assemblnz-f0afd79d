@@ -34,7 +34,7 @@ const SOURCES = [
   "Te Taura Whiri", "Tenancy Services", "Commerce Commission",
 ];
 
-const DOT = { high: { emoji: "", color: "#4FE4A7" }, medium: { emoji: "", color: "#A8DDDB" }, low: { emoji: "", color: "#E87461" } };
+const DOT = { high: { emoji: "🟢", color: "#4FE4A7" }, medium: { emoji: "🟡", color: "#F0D078" }, low: { emoji: "🔴", color: "#E87461" } };
 
 const ConfidenceScoringDemo = () => {
   const [hoveredClaim, setHoveredClaim] = useState<number | null>(null);
@@ -52,7 +52,7 @@ const ConfidenceScoringDemo = () => {
         <DemoProvesCard slug="confidence-scoring" />
 
         <div className="liquid-glass liquid-glass-gold rounded-xl px-4 py-2 text-center mb-10">
-          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#A8DDDB" }}>
+          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#F0D078" }}>
             Demo mode — no real data leaves this page
           </p>
         </div>
@@ -68,9 +68,9 @@ const ConfidenceScoringDemo = () => {
         <div className="liquid-glass liquid-glass-pounamu rounded-2xl p-5 mb-8" style={{ borderColor: "rgba(58,125,110,0.2)" }}>
           <div className="flex flex-wrap items-center gap-4 text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
             <span style={{ color: "rgba(245,240,232,0.6)" }}>{CLAIMS.length} claims</span>
-            <span style={{ color: "#4FE4A7" }}>{high} high</span>
-            <span style={{ color: "#A8DDDB" }}>{medium} medium</span>
-            <span style={{ color: "#E87461" }}>{low} low</span>
+            <span style={{ color: "#4FE4A7" }}>🟢 {high} high</span>
+            <span style={{ color: "#F0D078" }}>🟡 {medium} medium</span>
+            <span style={{ color: "#E87461" }}>🔴 {low} low</span>
             <span className="ml-auto" style={{ color: "rgba(245,240,232,0.4)" }}>Last scanner sync: today 05:00 NZST from 26 sources</span>
           </div>
         </div>

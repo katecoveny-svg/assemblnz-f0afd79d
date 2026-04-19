@@ -44,7 +44,7 @@ const PRESETS: ExportPreset[] = [
 
 const CATEGORIES = [...new Set(PRESETS.map(p => p.category))];
 
-const NZExportPresets = ({ content, title, agentName, agentColor = "#4AA5A8" }: Props) => {
+const NZExportPresets = ({ content, title, agentName, agentColor = "#D4A843" }: Props) => {
   const [expanded, setExpanded] = useState(false);
   const [exporting, setExporting] = useState<string | null>(null);
   const [exported, setExported] = useState<Set<string>>(new Set());

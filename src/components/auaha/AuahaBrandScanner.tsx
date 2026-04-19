@@ -160,10 +160,10 @@ export default function AuahaBrandScanner() {
             {/* Symbiotic Suggestions */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { module: "video" as const, label: "Video Ideas", icon: "" },
+                { module: "video" as const, label: "Video Ideas", icon: "🎬" },
                 { module: "podcast" as const, label: "Podcast Topics", icon: "🎙️" },
                 { module: "copy" as const, label: "Copy Angles", icon: "✍️" },
-                { module: "app" as const, label: "App Ideas", icon: "" },
+                { module: "app" as const, label: "App Ideas", icon: "⚡" },
               ].map(({ module, label, icon }) => (
                 <div key={module} className="rounded-xl border p-4" style={{
                   background: "rgba(255,255,255,0.02)",

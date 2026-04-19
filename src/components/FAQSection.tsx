@@ -62,7 +62,7 @@ const FAQSection = () => {
               fontWeight: 700,
               fontSize: "11px",
               letterSpacing: "4px",
-              color: "#4AA5A8",
+              color: "#D4A843",
             }}
           >
             FAQ

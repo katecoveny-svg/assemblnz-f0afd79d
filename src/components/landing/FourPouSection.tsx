@@ -6,7 +6,7 @@ const POU = [
     te_reo: "Rangatiratanga",
     english: "Autonomy & Self-Determination",
     icon: Crown,
-    color: "#4AA5A8",
+    color: "#D4A843",
     desc: "Your data, your rules. Full control over AI decisions, human-in-the-loop oversight, and the right to withdraw consent at any time. Te Tiriti Article Two — tino rangatiratanga over data taonga.",
   },
   {
@@ -33,10 +33,10 @@ const POU = [
 ];
 
 const PILLARS = [
-  { icon: ScrollText, label: "Te Tiriti Aligned", sub: "Articles 2 & 3 embedded in every policy", color: "#4AA5A8" },
+  { icon: ScrollText, label: "Te Tiriti Aligned", sub: "Articles 2 & 3 embedded in every policy", color: "#D4A843" },
   { icon: Shield, label: "13 IPPs Embedded", sub: "All Information Privacy Principles built in", color: "#3A7D6E" },
   { icon: Globe, label: "Māori Data Sovereignty", sub: "Te Mana Raraunga principles throughout", color: "#3A7D6E" },
-  { icon: Languages, label: "Bilingual at Every Level", sub: "Dashboard, agents, training, support", color: "#4AA5A8" },
+  { icon: Languages, label: "Bilingual at Every Level", sub: "Dashboard, agents, training, support", color: "#D4A843" },
 ];
 
 const FourPouSection = () => (

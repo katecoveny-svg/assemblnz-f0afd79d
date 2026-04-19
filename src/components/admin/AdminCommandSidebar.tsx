@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
-const GOLD = "#4AA5A8";
+const GOLD = "#D4A843";
 const POUNAMU = "#3A7D6E";
 
 interface NavItem {

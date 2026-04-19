@@ -20,7 +20,7 @@ const GLASS: React.CSSProperties = {
   border: "1px solid rgba(74,165,168,0.15)",
 };
 
-const GOLD = "#4AA5A8";
+const GOLD = "#D4A843";
 const POUNAMU = "#00A86B";
 
 interface DataCategory {
@@ -115,7 +115,7 @@ export default function PrivacyVault() {
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00A86B]/20 to-[#4AA5A8]/20 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00A86B]/20 to-[#D4A843]/20 flex items-center justify-center">
               <Shield className="w-6 h-6 text-[#00A86B]" />
             </div>
             <div>
@@ -144,7 +144,7 @@ export default function PrivacyVault() {
         {/* Data Categories */}
         <div className="space-y-3">
           <h2 className="text-lg font-semibold flex items-center gap-2">
-            <Eye className="w-5 h-5 text-[#4AA5A8]" />
+            <Eye className="w-5 h-5 text-[#D4A843]" />
             What Data We Hold
           </h2>
           <div className="grid gap-3">
@@ -247,7 +247,7 @@ export default function PrivacyVault() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
           className="rounded-2xl p-5 space-y-3" style={GLASS}>
           <h3 className="text-sm font-semibold flex items-center gap-2">
-            <Key className="w-4 h-4 text-[#4AA5A8]" />
+            <Key className="w-4 h-4 text-[#D4A843]" />
             Your Rights Under NZ Privacy Act 2020
           </h3>
           <div className="grid sm:grid-cols-2 gap-3 text-xs text-gray-500">

@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { setDynamicManifest } from "@/utils/pwaManifest";
 
 const TOROA_COLOR = "#3A7D6E";
-const GOLD = "#4AA5A8";
+const GOLD = "#D4A843";
 
 export default function ToroaInstallPage() {
   const [platform, setPlatform] = useState<"ios" | "android" | "desktop">("desktop");

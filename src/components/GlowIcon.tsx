@@ -388,37 +388,6 @@ const ICONS: Record<string, (s: number, c: string, c2: string, gid: string, fid:
       <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" fill={`url(#${gid})`} filter={`url(#${fid})`} opacity="0.8" />
     </>
   ),
-  Bot: (s, c, c2, gid, fid) => (
-    <>
-      {/* head */}
-      <rect x="4" y="7" width="16" height="13" rx="3.5" fill={`url(#${gid})`} filter={`url(#${fid})`} opacity="0.85" />
-      {/* antenna */}
-      <line x1="12" y1="2" x2="12" y2="6" stroke={c} strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
-      <circle cx="12" cy="2.2" r="1.1" fill={c2} opacity="0.95" />
-      {/* eyes */}
-      <circle cx="9" cy="13" r="1.4" fill="#FFFFFF" opacity="0.95" />
-      <circle cx="15" cy="13" r="1.4" fill="#FFFFFF" opacity="0.95" />
-      <circle cx="9" cy="13" r="0.6" fill={c} opacity="0.9" />
-      <circle cx="15" cy="13" r="0.6" fill={c} opacity="0.9" />
-      {/* mouth slot */}
-      <rect x="9.5" y="16.2" width="5" height="0.9" rx="0.45" fill={c2} opacity="0.6" />
-      {/* side lights */}
-      <circle cx="3.5" cy="13.5" r="0.8" fill={c} opacity="0.6" />
-      <circle cx="20.5" cy="13.5" r="0.8" fill={c} opacity="0.6" />
-    </>
-  ),
-  User: (s, c, c2, gid, fid) => (
-    <>
-      {/* halo glow */}
-      <circle cx="12" cy="8" r="5" fill={`url(#${gid})`} filter={`url(#${fid})`} opacity="0.3" />
-      {/* head */}
-      <circle cx="12" cy="8" r="3.5" fill={`url(#${gid})`} filter={`url(#${fid})`} opacity="0.9" />
-      {/* shoulders */}
-      <path d="M3.5 21c0-4.5 3.8-7.5 8.5-7.5s8.5 3 8.5 7.5" fill={`url(#${gid})`} filter={`url(#${fid})`} opacity="0.75" />
-      {/* sparkle accent */}
-      <circle cx="16.5" cy="5.5" r="0.8" fill={c2} opacity="0.7" />
-    </>
-  ),
   Plug: (s, c, c2, gid, fid) => (
     <>
       <path d="M12 22v-5" stroke={c} strokeWidth="1.5" opacity="0.5" />
@@ -429,7 +398,7 @@ const ICONS: Record<string, (s: number, c: string, c2: string, gid: string, fid:
   ),
 };
 
-const GlowIcon = ({ name, size = 24, color = "#4AA5A8", className = "", glow = true }: GlowIconProps) => {
+const GlowIcon = ({ name, size = 24, color = "#D4A843", className = "", glow = true }: GlowIconProps) => {
   const c2 = lighten(color);
   const gid = uid(name);
   const fid = `f-${gid}`;

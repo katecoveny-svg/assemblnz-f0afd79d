@@ -95,7 +95,7 @@ export default function HangarauDashboard() {
                 <div className="text-xs font-bold text-white/80">{a.name}</div>
                 <div className="text-[9px] text-white/35">{a.desc}</div>
               </div>
-              <div className={`ml-auto w-2 h-2 rounded-full ${a.status === "online" ? "bg-[#5AADA0]" : "bg-[#4AA5A8]"}`} />
+              <div className={`ml-auto w-2 h-2 rounded-full ${a.status === "online" ? "bg-[#5AADA0]" : "bg-[#D4A843]"}`} />
             </div>
           ))}
         </div>

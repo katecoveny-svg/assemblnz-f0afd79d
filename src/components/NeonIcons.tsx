@@ -2,7 +2,7 @@
 // Kōwhai Gold, Pounamu Teal, Tāngaroa Navy, White
 
 const C = {
-  gold: "#4AA5A8",
+  gold: "#D4A843",
   pounamu: "#3A7D6E",
   tangaroa: "#1A3A5C",
   white: "#FFFFFF",

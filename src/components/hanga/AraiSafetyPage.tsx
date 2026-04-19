@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ShieldAlert, Plus, Filter, Search, X, AlertTriangle, CheckCircle2, Clock, TrendingUp } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-const KOWHAI = "#4AA5A8";
+const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
 
 type Severity = "critical" | "high" | "medium" | "low";

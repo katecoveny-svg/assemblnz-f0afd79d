@@ -7,7 +7,7 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 const TRUST_SIGNALS = [
   { icon: Globe, label: "Built in Aotearoa", detail: "NZ-owned, NZ-hosted", color: "#3A7D6E" },
-  { icon: Shield, label: "Privacy Act 2020", detail: "Full compliance", color: "#4AA5A8" },
+  { icon: Shield, label: "Privacy Act 2020", detail: "Full compliance", color: "#D4A843" },
   { icon: Heart, label: "Tikanga partnership", detail: "Aligning with tikanga governance", color: "#E8B4B8" },
   { icon: Lock, label: "Data sovereignty", detail: "Your data stays in NZ", color: "#5B8FA8" },
   { icon: Scale, label: "NZ-law aware", detail: "Legislation knowledge", color: "#4A7AB5" },

@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { Shield, Layers, Search, Database, FileText } from "lucide-react";
 
-const GOLD = "#4AA5A8";
-const GOLD_GLOW = "0 0 12px rgba(74,165,168,0.4)";
+const GOLD = "#D4A843";
+const GOLD_GLOW = "0 0 12px rgba(212,168,67,0.4)";
 
 const PIPELINE_STEPS = [
   { step: "01", label: "KAHU", question: "What's allowed here?", subtitle: "Policy detection", icon: Shield },
@@ -55,7 +55,7 @@ const PipelineSection = () => (
                   boxShadow: GOLD_GLOW,
                 }}
               >
-                <step.icon size={20} style={{ color: GOLD, filter: `drop-shadow(0 0 6px rgba(74,165,168,0.5))` }} />
+                <step.icon size={20} style={{ color: GOLD, filter: `drop-shadow(0 0 6px rgba(212,168,67,0.5))` }} />
               </div>
               <div>
                 <span className="font-mono text-[9px] tracking-widest text-muted-foreground block">Stage {step.step}</span>

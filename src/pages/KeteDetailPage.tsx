@@ -107,7 +107,7 @@ const KeteDetailPage = () => {
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAFBFC" }}>
         <div className="text-center">
           <h1 className="text-2xl mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}>Kete not found</h1>
-          <button onClick={() => navigate("/kete")} className="text-sm px-4 py-2 rounded-lg" style={{ color: "#4AA5A8", border: "1px solid #4AA5A830", background: "#4AA5A810" }}>
+          <button onClick={() => navigate("/kete")} className="text-sm px-4 py-2 rounded-lg" style={{ color: "#D4A843", border: "1px solid #D4A84330", background: "#D4A84310" }}>
             Back to collection
           </button>
         </div>

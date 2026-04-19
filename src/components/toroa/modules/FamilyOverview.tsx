@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Users, Plus, PawPrint } from "lucide-react";
 
-const KOWHAI = "#4AA5A8";
+const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
 const BONE = "#F5F0E8";
 

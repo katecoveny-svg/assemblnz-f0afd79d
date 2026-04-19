@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Home, Camera, AlertTriangle, Shield, Thermometer, Sun } from "lucide-react";
 
-const KOWHAI = "#4AA5A8";
+const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
 const KOKKOWAI = "#A52A2A";
 
@@ -45,7 +45,7 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
       </div>
 
       {/* Start assessment */}
-      <div className="p-5 rounded-2xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.12)" }}>
+      <div className="p-5 rounded-2xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(212,168,67,0.12)" }}>
         <Camera size={20} style={{ color: KOWHAI, marginBottom: 12 }} />
         <p className="text-sm font-medium" style={{ color: "#3D4250" }}>Room-by-room safety check</p>
         <p className="text-xs mt-1 mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>
@@ -57,7 +57,7 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
               key={room}
               onClick={() => onSendToChat(`I'd like to do a home safety assessment for the ${room.toLowerCase()}. I'll upload a photo — analyse it for trip hazards, poor lighting, missing grab rails, and fall risks. Provide a risk score and prioritised recommendations.`)}
               className="px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all hover:scale-[0.98]"
-              style={{ background: "rgba(74,165,168,0.08)", border: "1px solid rgba(74,165,168,0.15)", color: KOWHAI }}
+              style={{ background: "rgba(212,168,67,0.08)", border: "1px solid rgba(212,168,67,0.15)", color: KOWHAI }}
             >
               {room}
             </button>

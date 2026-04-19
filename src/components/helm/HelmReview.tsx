@@ -68,7 +68,7 @@ export default function HelmReview() {
     for (const item of highConf) await approve(item);
   };
 
-  const confidenceColor = (c: number) => c >= 0.7 ? "text-[#5AADA0]" : c >= 0.4 ? "text-[#4AA5A8]" : "text-[#C85A54]";
+  const confidenceColor = (c: number) => c >= 0.7 ? "text-[#5AADA0]" : c >= 0.4 ? "text-[#D4A843]" : "text-[#C85A54]";
   const confidenceBg = (c: number) => c >= 0.7 ? "bg-[#5AADA0]/10" : c >= 0.4 ? "bg-amber-500/10" : "bg-[#C85A54]/10";
 
   return (

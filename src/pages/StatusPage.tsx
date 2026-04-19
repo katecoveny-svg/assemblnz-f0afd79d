@@ -8,7 +8,7 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 
 const TEAL = "#4AA5A8";
-const GOLD = "#4AA5A8";
+const GOLD = "#D4A843";
 const POUNAMU = "#3A7D6E";
 const RED = "#C66B5C";
 

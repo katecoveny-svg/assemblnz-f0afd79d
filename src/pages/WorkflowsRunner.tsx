@@ -26,9 +26,9 @@ interface CouncilResponse {
 }
 
 const KETE_COLOURS: Record<string, string> = {
-  manaaki: "#4AA5A8",
+  manaaki: "#D4A843",
   waihanga: "#3A7D6E",
-  auaha: "#A8DDDB",
+  auaha: "#F0D078",
   arataki: "#5A7D9C",
   pikau: "#5AADA0",
   toro: "#7B9C5A",

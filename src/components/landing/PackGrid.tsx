@@ -25,8 +25,8 @@ const PACKS: PackCard[] = [
     label: "HOSPITALITY & TOURISM",
     description:
       "Fewer missed checks. Cleaner compliance. Guests looked after without the paperwork pile-up.",
-    accent: "#4AA5A8",
-    accentLight: "#A8DDDB",
+    accent: "#D4A843",
+    accentLight: "#F0D078",
     route: "/manaaki",
   },
   {
@@ -45,7 +45,7 @@ const PACKS: PackCard[] = [
     label: "CREATIVE & MEDIA",
     description:
       "Brief to published with fewer handoffs. Content that stays on-brand and on-deadline.",
-    accent: "#A8DDDB",
+    accent: "#F0D078",
     accentLight: "#FFE866",
     route: "/auaha",
   },

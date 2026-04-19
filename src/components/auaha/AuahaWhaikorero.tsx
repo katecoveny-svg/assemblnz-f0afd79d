@@ -27,7 +27,7 @@ import {
   TrendingDown,
 } from "lucide-react";
 
-const ACCENT = "#A8DDDB";
+const ACCENT = "#F0D078";
 
 // ── Types ─────────────────────────────────────────────────────
 
@@ -77,7 +77,7 @@ function ProspectingPanel() {
         `• Channel: LinkedIn first, then warm email, then call\n\n` +
         (brief ? `CONTEXT NOTES\n${brief}\n\n` : "") +
         `─────────────────────────────────────────\n` +
-        ` This ICP is a starting point — validate against your win/loss data\n` +
+        `⚠  This ICP is a starting point — validate against your win/loss data\n` +
         `   and refine with your first 10 closed deals.`,
     );
   };
@@ -167,13 +167,13 @@ function generateOutreach(type: OutreachType, prospect: string, pain: string, pr
 
   switch (type) {
     case "cold_email":
-      return `Subject: Quick question about ${pl} at ${p}'s company\n\nHi [First Name],\n\nI noticed [personalised observation — e.g. you recently expanded to a second location / your team is scaling fast].\n\nWe work with NZ businesses like yours to [solve: ${pl}] — typically saving teams 6–10 hours a week on [specific task].\n\n${pr} does [one-line value prop]. Happy to share a 3-minute overview if that's useful?\n\nNo pitch, just a quick look to see if there's a fit.\n\n[Your Name]\n[Title] · ${pr}\n[Phone] · [Calendar link]\n\n---\nPersonalise the first line before sending. Generic openers cut response rates by ~40%.`;
+      return `Subject: Quick question about ${pl} at ${p}'s company\n\nHi [First Name],\n\nI noticed [personalised observation — e.g. you recently expanded to a second location / your team is scaling fast].\n\nWe work with NZ businesses like yours to [solve: ${pl}] — typically saving teams 6–10 hours a week on [specific task].\n\n${pr} does [one-line value prop]. Happy to share a 3-minute overview if that's useful?\n\nNo pitch, just a quick look to see if there's a fit.\n\n[Your Name]\n[Title] · ${pr}\n[Phone] · [Calendar link]\n\n---\n💡 Personalise the first line before sending. Generic openers cut response rates by ~40%.`;
 
     case "linkedin":
-      return `Hi [First Name],\n\nSaw your post on [topic] — resonated with how we think about [theme].\n\nI help NZ [industry] businesses [outcome — e.g. cut admin time by automating their operations]. Thought it might be worth a connection.\n\n— [Your Name]\n\n---\nKeep LinkedIn notes under 300 characters. No pitch in the first message.`;
+      return `Hi [First Name],\n\nSaw your post on [topic] — resonated with how we think about [theme].\n\nI help NZ [industry] businesses [outcome — e.g. cut admin time by automating their operations]. Thought it might be worth a connection.\n\n— [Your Name]\n\n---\n💡 Keep LinkedIn notes under 300 characters. No pitch in the first message.`;
 
     case "followup":
-      return `Subject: Re: ${p} × ${pr}\n\nHi [First Name],\n\nFollowing up on my message last week — I know inboxes get busy.\n\nOne thing I didn't mention: [new insight or case study relevant to their situation].\n\nWorth 15 minutes? [Calendar link]\n\nIf the timing isn't right, happy to reconnect in a month — just say the word.\n\n[Your Name]\n\n---\nFollow up 3–5 business days after the first touch. Three follow-ups is the average before a response.`;
+      return `Subject: Re: ${p} × ${pr}\n\nHi [First Name],\n\nFollowing up on my message last week — I know inboxes get busy.\n\nOne thing I didn't mention: [new insight or case study relevant to their situation].\n\nWorth 15 minutes? [Calendar link]\n\nIf the timing isn't right, happy to reconnect in a month — just say the word.\n\n[Your Name]\n\n---\n💡 Follow up 3–5 business days after the first touch. Three follow-ups is the average before a response.`;
 
     case "referral_ask":
       return `Subject: Quick favour?\n\nHi [First Name],\n\nThings have been going well since we [worked together / you started using ${pr}] — glad it's been useful.\n\nI'm looking to help more [industry] businesses in NZ with [pain point]. If you know anyone who might benefit, I'd really appreciate an intro — even just a "Hey, you should talk to [Name]" message.\n\nHappy to return the favour if I can ever be useful in your network.\n\nThanks,\n[Your Name]`;
@@ -293,7 +293,7 @@ function riskLevel(deal: Deal): "healthy" | "at_risk" | "stalled" {
 
 const RISK_COLORS = {
   healthy: "#4E8B5A",
-  at_risk: "#4AA5A8",
+  at_risk: "#D4A843",
   stalled: "#C65D4E",
 };
 const RISK_LABELS = { healthy: "Healthy", at_risk: "At risk", stalled: "Stalled" };
@@ -406,7 +406,7 @@ function CallPrepPanel() {
         `• One relevant case study or stat\n` +
         `• Clear next step with a date\n\n` +
         `─────────────────────────────────────────\n` +
-        ` Review this against your CRM notes before the call. Never wing discovery.`,
+        `⚠  Review this against your CRM notes before the call. Never wing discovery.`,
     );
   };
 

@@ -50,7 +50,7 @@ export default function HomepageVideoTeaser() {
           ) : (
             <div
               className="w-full aspect-video flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg, rgba(74,165,168,0.1), rgba(74,165,168,0.05))" }}
+              style={{ background: "linear-gradient(135deg, rgba(74,165,168,0.1), rgba(232,169,72,0.05))" }}
             >
               <p className="text-[11px] uppercase tracking-[2px]"
                 style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>

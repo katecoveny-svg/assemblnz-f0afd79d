@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Check, SkipForward, AlertTriangle } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 
-const KOWHAI = "#4AA5A8";
+const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
 
 export interface WorkflowStep {
@@ -47,12 +47,12 @@ const WorkflowStepper = ({ steps, title, onStepClick, onSkip }: Props) => {
                 className="flex items-center gap-2 px-3 py-2 rounded-xl text-[11px] transition-all relative group"
                 style={{
                   background:
-                    step.status === "active" ? "rgba(74,165,168,0.15)" :
+                    step.status === "active" ? "rgba(212,168,67,0.15)" :
                     step.status === "completed" ? "rgba(58,125,110,0.12)" :
                     step.status === "skipped" ? "rgba(255,255,255,0.5)" :
                     "rgba(255,255,255,0.5)",
                   border: `1px solid ${
-                    step.status === "active" ? "rgba(74,165,168,0.3)" :
+                    step.status === "active" ? "rgba(212,168,67,0.3)" :
                     step.status === "completed" ? "rgba(58,125,110,0.2)" :
                     "rgba(255,255,255,0.5)"
                   }`,

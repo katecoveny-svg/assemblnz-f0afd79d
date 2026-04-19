@@ -22,7 +22,7 @@ function generateKoruPath(turns = 2.5, points = 200): THREE.Vector3[] {
 /* ── Kete colours — 5 large accent spheres ── */
 const KETE_COLORS = [
   { name: "MANAAKI", color: "#E8A090", index: 8 },
-  { name: "WAIHANGA", color: "#4AA5A8", index: 18 },
+  { name: "WAIHANGA", color: "#E8A948", index: 18 },
   { name: "AUAHA", color: "#B8A5D0", index: 28 },
   { name: "ARATAKI", color: "#4AA5A8", index: 36 },
   { name: "PIKAU", color: "#7BA88C", index: 42 },
@@ -214,7 +214,7 @@ function KoruScene() {
       <ambientLight intensity={0.5} />
       <directionalLight position={[-5, 8, 5]} intensity={1.5} color="#FFF8F0" />
       <pointLight position={[4, -3, 5]} intensity={0.6} color="#4AA5A8" />
-      <pointLight position={[-3, 4, -3]} intensity={0.3} color="#4AA5A8" />
+      <pointLight position={[-3, 4, -3]} intensity={0.3} color="#E8A948" />
 
       <group ref={groupRef} scale={1}>
         {spheres.map((s, i) => (
@@ -281,7 +281,7 @@ function MobileCanvasKoru() {
       const bgGrad = ctx!.createRadialGradient(200, 200, 0, 200, 200, 190);
       const glowPulse = 0.1 + Math.sin(t * 0.8) * 0.05;
       bgGrad.addColorStop(0, `rgba(74, 165, 168, ${glowPulse})`);
-      bgGrad.addColorStop(0.5, `rgba(74,165,168, ${glowPulse * 0.4})`);
+      bgGrad.addColorStop(0.5, `rgba(232, 169, 72, ${glowPulse * 0.4})`);
       bgGrad.addColorStop(1, "transparent");
       ctx!.fillStyle = bgGrad;
       ctx!.fillRect(0, 0, 400, 400);

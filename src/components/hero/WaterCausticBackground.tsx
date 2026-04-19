@@ -9,18 +9,18 @@ import { useLocation } from "react-router-dom";
 
 const KETE_TINTS: Record<string, { color1: string; color2: string }> = {
   "/manaaki": { color1: "rgba(232,160,144,0.06)", color2: "rgba(232,160,144,0.03)" },
-  "/waihanga": { color1: "rgba(74,165,168,0.06)", color2: "rgba(74,165,168,0.03)" },
+  "/waihanga": { color1: "rgba(232,169,72,0.06)", color2: "rgba(232,169,72,0.03)" },
   "/auaha": { color1: "rgba(184,165,208,0.06)", color2: "rgba(184,165,208,0.03)" },
   "/arataki": { color1: "rgba(74,165,168,0.06)", color2: "rgba(74,165,168,0.03)" },
   "/pikau": { color1: "rgba(123,168,140,0.06)", color2: "rgba(123,168,140,0.03)" },
-  "/toro": { color1: "rgba(74,165,168,0.05)", color2: "rgba(74,165,168,0.03)" },
+  "/toro": { color1: "rgba(232,169,72,0.05)", color2: "rgba(212,168,67,0.03)" },
 };
 
 function getKeteTint(pathname: string) {
   for (const [prefix, tint] of Object.entries(KETE_TINTS)) {
     if (pathname.startsWith(prefix)) return tint;
   }
-  return { color1: "rgba(74,165,168,0.04)", color2: "rgba(74,165,168,0.03)" };
+  return { color1: "rgba(74,165,168,0.04)", color2: "rgba(232,169,72,0.03)" };
 }
 
 export default function WaterCausticBackground() {

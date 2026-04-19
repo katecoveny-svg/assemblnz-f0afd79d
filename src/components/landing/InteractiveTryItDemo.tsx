@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 const C = {
   teal: "#4AA5A8",
-  ochre: "#4AA5A8",
+  ochre: "#E8A948",
   lavender: "#9B8EC4",
   text: "#3D4250",
   textSecondary: "#6B7280",

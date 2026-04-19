@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Plus, Search, Star, Wrench, Phone, Mail, X, Award, TrendingUp, Trophy } from "lucide-react";
 import { toast } from "sonner";
 
-const HAVEN_PINK = "#4AA5A8";
+const HAVEN_PINK = "#D4A843";
 
 const TRADE_KEYWORDS: Record<string, string[]> = {
   Plumber: ["plumb", "pipe", "leak", "tap", "drain", "toilet", "water", "hot water", "cylinder", "sewage"],

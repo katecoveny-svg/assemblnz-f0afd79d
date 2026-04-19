@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
 export default function HeroParticlesLight({
   className = "",
   accentColor = "#4AA5A8",
-  secondaryColor = "#4AA5A8",
+  secondaryColor = "#E8A948",
 }: {
   className?: string;
   accentColor?: string;

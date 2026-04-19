@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { motion, LayoutGroup } from "framer-motion";
-import { ArrowRight, Send } from "lucide-react";
+import { ArrowRight, Check, Send, Bot, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import GlowIcon from "@/components/GlowIcon";
@@ -33,7 +33,7 @@ const C = {
   surface: "#FFFFFF",
   teal: "#4AA5A8",
   tealLight: "#6CBFC1",
-  ochre: "#4AA5A8",
+  ochre: "#E8A948",
   ochreLight: "#F0C670",
   lavender: "#E8E6F0",
   text: "#3D4250",
@@ -44,13 +44,13 @@ const C = {
 /* Kete pastel bleed colors */
 const KETE_BLEED: Record<string, string> = {
   manaaki: "rgba(232,140,120,0.08)",
-  waihanga: "rgba(74,165,168,0.08)",
+  waihanga: "rgba(232,169,72,0.08)",
   auaha: "rgba(155,142,196,0.08)",
   arataki: "rgba(74,165,168,0.08)",
   pikau: "rgba(108,191,193,0.08)",
   hoko: "rgba(198,107,92,0.08)",
   ako: "rgba(123,167,199,0.08)",
-  toro: "rgba(74,165,168,0.06)",
+  toro: "rgba(232,169,72,0.06)",
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -88,9 +88,9 @@ const PACKS = [
 
 const LAYERS_DATA = [
   { name: "Kahu — Intake", desc: "Receives the request, classifies data sensitivity, checks PII, and routes to the right specialist agent.", icon: "Eye", color: "#4AA5A8" },
-  { name: "Iho — Reasoning", desc: "The specialist agent processes the task — grounded in NZ legislation with section references, never guessing.", icon: "Brain", color: "#4AA5A8" },
+  { name: "Iho — Reasoning", desc: "The specialist agent processes the task — grounded in NZ legislation with section references, never guessing.", icon: "Brain", color: "#E8A948" },
   { name: "Tā — Action", desc: "Generates the output: draft, calculation, document, or creative. Every action classified: allowed, needs approval, or forbidden.", icon: "Zap", color: "#4AA5A8" },
-  { name: "Mahara — Memory", desc: "Logs the decision, updates shared business memory, and creates the audit trail in plain language.", icon: "Shield", color: "#4AA5A8" },
+  { name: "Mahara — Memory", desc: "Logs the decision, updates shared business memory, and creates the audit trail in plain language.", icon: "Shield", color: "#E8A948" },
   { name: "Mana — Evidence", desc: "Packages the output into a structured evidence pack your auditor, bank, or regulator can trust.", icon: "Activity", color: "#4AA5A8" },
 ];
 
@@ -148,15 +148,15 @@ function LiveDemoChatSection() {
                     <div className="rounded-2xl rounded-tr-md px-5 py-3.5" style={{ background: `${C.teal}08`, border: `1px solid ${C.teal}12` }}>
                       <p className="text-[14px] leading-[1.7]" style={{ color: C.text }}>{msg.text}</p>
                     </div>
-                    <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 mt-1" style={{ background: `${C.lavender}` }}>
-                      <GlowIcon name="User" size={16} color={C.textSecondary} glow />
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-1" style={{ background: `${C.lavender}` }}>
+                      <User size={13} style={{ color: C.textSecondary }} />
                     </div>
                   </div>
                 </div>
               ) : (
                 <div className="flex items-start gap-3 max-w-[85%]">
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 mt-1" style={{ background: `${C.teal}10` }}>
-                    <GlowIcon name="Bot" size={16} color={C.teal} glow />
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-1" style={{ background: `${C.teal}10` }}>
+                    <Bot size={13} style={{ color: C.teal }} />
                   </div>
                   <div>
                     <div className="rounded-2xl rounded-tl-md px-5 py-3.5" style={{ background: C.lavender + "60" }}>
@@ -511,8 +511,8 @@ const Index = () => {
                   <div className="space-y-2.5">
                     {pack.checks.map((c) => (
                       <div key={c.ref} className="flex items-center gap-3 p-3 rounded-2xl" style={{ background: C.lavender + "40" }}>
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.teal}15` }}>
-                          <GlowIcon name="Check" size={12} color={C.teal} glow />
+                        <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.teal}15` }}>
+                          <Check size={11} style={{ color: C.teal }} />
                         </div>
                         <span className="text-[12px] flex-1" style={{ color: C.text }}>{c.label}</span>
                         <span className="text-[9px] tracking-wider" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{c.ref}</span>

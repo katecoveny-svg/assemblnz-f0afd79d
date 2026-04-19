@@ -12,7 +12,7 @@ import AdminShell from "@/components/admin/AdminShell";
 import AdminGlassCard from "@/components/admin/AdminGlassCard";
 import { motion } from "framer-motion";
 
-const GOLD = "#4AA5A8";
+const GOLD = "#D4A843";
 const BG = "#FAFBFC";
 const CARD_BG = "#0F0F1A";
 
@@ -220,13 +220,13 @@ export default function AdminMessagingDashboard() {
         {/* Main Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-[#FAFBFC] border border-gray-200">
-            <TabsTrigger value="conversations" className="data-[state=active]:bg-[#4AA5A8]/20 data-[state=active]:text-[#4AA5A8]">
+            <TabsTrigger value="conversations" className="data-[state=active]:bg-[#D4A843]/20 data-[state=active]:text-[#D4A843]">
               <MessageSquare className="w-4 h-4 mr-1" /> Conversations
             </TabsTrigger>
-            <TabsTrigger value="channels" className="data-[state=active]:bg-[#4AA5A8]/20 data-[state=active]:text-[#4AA5A8]">
+            <TabsTrigger value="channels" className="data-[state=active]:bg-[#D4A843]/20 data-[state=active]:text-[#D4A843]">
               <Settings2 className="w-4 h-4 mr-1" /> Channel Config
             </TabsTrigger>
-            <TabsTrigger value="logs" className="data-[state=active]:bg-[#4AA5A8]/20 data-[state=active]:text-[#4AA5A8]">
+            <TabsTrigger value="logs" className="data-[state=active]:bg-[#D4A843]/20 data-[state=active]:text-[#D4A843]">
               <BarChart3 className="w-4 h-4 mr-1" /> Message Logs
             </TabsTrigger>
           </TabsList>
@@ -278,7 +278,7 @@ export default function AdminMessagingDashboard() {
                         <button
                           key={c.id}
                           onClick={() => setSelectedConvo(c.id)}
-                          className={`w-full text-left px-4 py-3 border-b border-gray-100 hover:bg-white/5 transition ${selectedConvo === c.id ? "bg-white/10 border-l-2 border-l-[#4AA5A8]" : ""}`}
+                          className={`w-full text-left px-4 py-3 border-b border-gray-100 hover:bg-white/5 transition ${selectedConvo === c.id ? "bg-white/10 border-l-2 border-l-[#D4A843]" : ""}`}
                         >
                           <div className="flex items-center gap-2 mb-1">
                             <ChannelIcon className="w-4 h-4 text-white/40" />
@@ -372,13 +372,13 @@ export default function AdminMessagingDashboard() {
                         onChange={(e) => setReplyText(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && sendManualReply()}
                         placeholder="Type a manual reply..."
-                        className="flex-1 bg-[#F5F5F7] border border-gray-200 rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-gray-400 focus:outline-none focus:border-[#4AA5A8]/50"
+                        className="flex-1 bg-[#F5F5F7] border border-gray-200 rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-gray-400 focus:outline-none focus:border-[#D4A843]/50"
                       />
                       <Button
                         onClick={sendManualReply}
                         disabled={sending || !replyText.trim()}
                         size="sm"
-                        className="bg-[#4AA5A8] hover:bg-[#4AA5A8]/80 text-black"
+                        className="bg-[#D4A843] hover:bg-[#D4A843]/80 text-black"
                       >
                         <Send className="w-4 h-4" />
                       </Button>

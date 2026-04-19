@@ -47,7 +47,7 @@ const AdminPacksPage = () => {
     <AdminShell
       title="Pack Management"
       subtitle="Industry pack visibility & ordering"
-      icon={<Layers size={18} style={{ color: "#4AA5A8" }} />}
+      icon={<Layers size={18} style={{ color: "#D4A843" }} />}
       backTo="/admin/dashboard"
     >
 
@@ -96,7 +96,7 @@ const AdminPacksPage = () => {
                         {ROLE_OPTIONS.map(r => <option key={r} value={r} style={{ background: "#FAFBFC" }}>{r}</option>)}
                       </select>
                     </td>
-                    <td className="px-4 py-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>{pack.agent_count}</td>
+                    <td className="px-4 py-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843" }}>{pack.agent_count}</td>
                     <td className="px-4 py-3" style={{ color: "#9CA3AF" }}>Coming Soon</td>
                     <td className="px-4 py-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF", fontSize: "10px" }}>
                       {new Date(pack.updated_at).toLocaleDateString("en-NZ")}

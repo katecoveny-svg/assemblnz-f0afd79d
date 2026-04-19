@@ -198,7 +198,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
         });
         if (error) throw error;
         if (!data?.success) throw new Error("Council returned no result");
-        const parts: string[] = ["**Assembl Council**\n"];
+        const parts: string[] = ["**🪶 Assembl Council**\n"];
         for (const a of data.answers as { agentName: string; kete: string; answer: string }[]) {
           parts.push(`### ${a.agentName} _(${a.kete})_\n${a.answer}\n`);
         }

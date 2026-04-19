@@ -13,7 +13,7 @@ const C = {
   pounamu: "#3A7D6E",
   pounamuLight: "#5AADA0",
   pounamuGlow: "#7ECFC2",
-  gold: "#4AA5A8",
+  gold: "#D4A843",
   navy: "#1A3A5C",
   white: "#FFFFFF",
   t1: "rgba(255,255,255,0.92)",

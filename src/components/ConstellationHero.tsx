@@ -147,7 +147,7 @@ const ConstellationHero = ({ size = 420, fullBleed = false }: { size?: number; f
           width: size * 0.55,
           height: size * 0.55,
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(74,165,168,0.18) 0%, rgba(58,125,110,0.08) 50%, transparent 75%)",
+          background: "radial-gradient(circle, rgba(212,168,67,0.18) 0%, rgba(58,125,110,0.08) 50%, transparent 75%)",
           filter: "blur(24px)",
         }}
         animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
@@ -161,7 +161,7 @@ const ConstellationHero = ({ size = 420, fullBleed = false }: { size?: number; f
           width: markSize * 2.4,
           height: markSize * 2.4,
           borderRadius: "50%",
-          border: "1px solid rgba(74,165,168,0.22)",
+          border: "1px solid rgba(212,168,67,0.22)",
         }}
         animate={{ rotate: 360 }}
         transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
@@ -188,17 +188,17 @@ const ConstellationHero = ({ size = 420, fullBleed = false }: { size?: number; f
         animate={{
           scale: [1, 1.06, 1],
           filter: [
-            "drop-shadow(0 0 10px rgba(74,165,168,.9)) drop-shadow(0 0 30px rgba(74,165,168,.55)) drop-shadow(0 0 60px rgba(74,165,168,.2))",
-            "drop-shadow(0 0 22px rgba(255,220,80,1)) drop-shadow(0 0 60px rgba(74,165,168,.85)) drop-shadow(0 0 120px rgba(74,165,168,.45)) drop-shadow(0 0 180px rgba(168,221,219,.2))",
-            "drop-shadow(0 0 10px rgba(74,165,168,.9)) drop-shadow(0 0 30px rgba(74,165,168,.55)) drop-shadow(0 0 60px rgba(74,165,168,.2))",
+            "drop-shadow(0 0 10px rgba(212,168,67,.9)) drop-shadow(0 0 30px rgba(212,168,67,.55)) drop-shadow(0 0 60px rgba(212,168,67,.2))",
+            "drop-shadow(0 0 22px rgba(255,220,80,1)) drop-shadow(0 0 60px rgba(212,168,67,.85)) drop-shadow(0 0 120px rgba(212,168,67,.45)) drop-shadow(0 0 180px rgba(240,208,120,.2))",
+            "drop-shadow(0 0 10px rgba(212,168,67,.9)) drop-shadow(0 0 30px rgba(212,168,67,.55)) drop-shadow(0 0 60px rgba(212,168,67,.2))",
           ],
         }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
         <defs>
           <radialGradient id="ch-g" cx="40%" cy="35%" r="50%">
-            <stop offset="0%" stopColor="#A8DDDB" />
-            <stop offset="50%" stopColor="#4AA5A8" />
+            <stop offset="0%" stopColor="#F0D078" />
+            <stop offset="50%" stopColor="#D4A843" />
             <stop offset="100%" stopColor="#8B6020" />
           </radialGradient>
           <radialGradient id="ch-p" cx="40%" cy="35%" r="50%">
@@ -216,7 +216,7 @@ const ConstellationHero = ({ size = 420, fullBleed = false }: { size?: number; f
             <stop offset="100%" stopColor="white" stopOpacity="0" />
           </radialGradient>
           <linearGradient id="ch-l" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#4AA5A8" stopOpacity="0.7" />
+            <stop offset="0%" stopColor="#D4A843" stopOpacity="0.7" />
             <stop offset="100%" stopColor="#3A7D6E" stopOpacity="0.65" />
           </linearGradient>
           <filter id="ch-glow">

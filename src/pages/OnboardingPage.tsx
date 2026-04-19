@@ -9,7 +9,7 @@ import { useAnalytics } from "@/hooks/useAnalytics";
 
 /* ── industry data ── */
 const INDUSTRIES = [
-  { key: "pakihi", label: "Business Operations", reo: "Pakihi", Icon: Briefcase, color: "#4AA5A8" },
+  { key: "pakihi", label: "Business Operations", reo: "Pakihi", Icon: Briefcase, color: "#D4A843" },
   { key: "waihanga", label: "Construction & Building", reo: "Waihanga", Icon: Hammer, color: "#3A7D6E" },
   { key: "manaaki", label: "Hospitality & Food Service", reo: "Manaaki", Icon: UtensilsCrossed, color: "#1A3A5C" },
 ] as const;
@@ -175,7 +175,7 @@ const OnboardingPage = () => {
             <div key={s} className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.5)" }}>
               <motion.div
                 className="h-full rounded-full"
-                style={{ background: s <= step ? "#4AA5A8" : "transparent" }}
+                style={{ background: s <= step ? "#D4A843" : "transparent" }}
                 initial={{ width: 0 }}
                 animate={{ width: s <= step ? "100%" : "0%" }}
                 transition={{ duration: 0.4 }}
@@ -215,8 +215,8 @@ const OnboardingPage = () => {
                     className="w-full rounded-2xl p-5 text-left transition-all"
                     style={{
                       ...cardStyle,
-                      border: selected === key ? `2px solid #4AA5A8` : "1px solid rgba(255,255,255,0.5)",
-                      boxShadow: selected === key ? "0 0 30px rgba(74,165,168,0.12)" : "none",
+                      border: selected === key ? `2px solid #D4A843` : "1px solid rgba(255,255,255,0.5)",
+                      boxShadow: selected === key ? "0 0 30px rgba(212,168,67,0.12)" : "none",
                     }}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
@@ -236,7 +236,7 @@ const OnboardingPage = () => {
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           className="w-6 h-6 rounded-full flex items-center justify-center shrink-0"
-                          style={{ background: "#4AA5A8" }}
+                          style={{ background: "#D4A843" }}
                         >
                           <Check size={14} style={{ color: "#09090F" }} strokeWidth={3} />
                         </motion.div>
@@ -252,7 +252,7 @@ const OnboardingPage = () => {
                 className="w-full py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                 style={{
                   fontFamily: "'Lato', sans-serif",
-                  background: selected ? "#4AA5A8" : "rgba(74,165,168,0.3)",
+                  background: selected ? "#D4A843" : "rgba(212,168,67,0.3)",
                   color: "#09090F",
                 }}
               >
@@ -282,13 +282,13 @@ const OnboardingPage = () => {
 
               {/* Agents list */}
               <div className="rounded-2xl p-5" style={cardStyle}>
-                <h3 className="text-[10px] uppercase tracking-wider font-bold mb-3" style={{ fontFamily: "'Lato', sans-serif", color: "#4AA5A8", letterSpacing: "0.1em" }}>
+                <h3 className="text-[10px] uppercase tracking-wider font-bold mb-3" style={{ fontFamily: "'Lato', sans-serif", color: "#D4A843", letterSpacing: "0.1em" }}>
                   5 Key Agents You'll Use
                 </h3>
                 <div className="space-y-3">
                   {packData.agents.map((agent, i) => (
                     <div key={agent.name} className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5" style={{ background: "rgba(74,165,168,0.12)", color: "#4AA5A8" }}>
+                      <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5" style={{ background: "rgba(212,168,67,0.12)", color: "#D4A843" }}>
                         {i + 1}
                       </div>
                       <div>
@@ -316,10 +316,10 @@ const OnboardingPage = () => {
               </div>
 
               {/* Get started highlight */}
-              <div className="rounded-2xl p-4 text-center" style={{ background: "rgba(74,165,168,0.06)", border: "1px solid rgba(74,165,168,0.15)" }}>
+              <div className="rounded-2xl p-4 text-center" style={{ background: "rgba(212,168,67,0.06)", border: "1px solid rgba(212,168,67,0.15)" }}>
                 <div className="flex items-center justify-center gap-2 mb-1">
-                  <Clock size={14} style={{ color: "#4AA5A8" }} />
-                  <span className="text-xs font-bold" style={{ color: "#4AA5A8" }}>GET STARTED</span>
+                  <Clock size={14} style={{ color: "#D4A843" }} />
+                  <span className="text-xs font-bold" style={{ color: "#D4A843" }}>GET STARTED</span>
                 </div>
                 <p className="text-[11px]" style={{ color: "#6B7280" }}>
                   Full access to all {ind.reo} agents. Custom setup for your business.
@@ -338,7 +338,7 @@ const OnboardingPage = () => {
                 <button
                   onClick={goToStep3}
                   className="flex-[2] py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
-                  style={{ fontFamily: "'Lato', sans-serif", background: "#4AA5A8", color: "#09090F" }}
+                  style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#09090F" }}
                 >
                   Get Started <ArrowRight size={16} />
                 </button>
@@ -381,7 +381,7 @@ const OnboardingPage = () => {
               <div className="rounded-2xl p-5 text-center" style={cardStyle}>
                 <div className="flex items-center justify-center gap-3">
                   <div className="text-center">
-                    <p className="text-3xl font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>{trialDaysLeft}</p>
+                    <p className="text-3xl font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843" }}>{trialDaysLeft}</p>
                     <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "#6B7280" }}>Days Remaining</p>
                   </div>
                 </div>
@@ -389,7 +389,7 @@ const OnboardingPage = () => {
 
               {/* Quick start */}
               <div className="rounded-2xl p-5" style={cardStyle}>
-                <h3 className="text-[10px] uppercase tracking-wider font-bold mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#4AA5A8", letterSpacing: "0.1em" }}>
+                <h3 className="text-[10px] uppercase tracking-wider font-bold mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#D4A843", letterSpacing: "0.1em" }}>
                   Quick Start
                 </h3>
 
@@ -399,11 +399,11 @@ const OnboardingPage = () => {
                     navigate(`/packs/${selected}`);
                   }}
                   className="w-full rounded-xl p-4 mb-3 text-left transition-all hover:scale-[1.01] group"
-                  style={{ background: "rgba(74,165,168,0.08)", border: "1px solid rgba(74,165,168,0.15)" }}
+                  style={{ background: "rgba(212,168,67,0.08)", border: "1px solid rgba(212,168,67,0.15)" }}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(74,165,168,0.15)" }}>
-                      <MessageSquare size={18} style={{ color: "#4AA5A8" }} />
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "rgba(212,168,67,0.15)" }}>
+                      <MessageSquare size={18} style={{ color: "#D4A843" }} />
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-bold" style={{ color: "#1A1D29" }}>
@@ -413,7 +413,7 @@ const OnboardingPage = () => {
                         {packData.agents[0].desc.split("—")[0].trim()}
                       </p>
                     </div>
-                    <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#4AA5A8" }} />
+                    <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#D4A843" }} />
                   </div>
                 </button>
 
@@ -453,7 +453,7 @@ const OnboardingPage = () => {
                   navigate("/");
                 }}
                 className="w-full py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
-                style={{ fontFamily: "'Lato', sans-serif", background: "#4AA5A8", color: "#09090F" }}
+                style={{ fontFamily: "'Lato', sans-serif", background: "#D4A843", color: "#09090F" }}
               >
                 Go to Dashboard <ArrowRight size={16} />
               </button>

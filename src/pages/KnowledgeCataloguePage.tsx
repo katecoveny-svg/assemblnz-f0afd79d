@@ -95,8 +95,8 @@ export default function KnowledgeCataloguePage() {
       <main className="pt-32 pb-24 px-4 md:px-8 max-w-7xl mx-auto">
         <header className="mb-12 max-w-3xl">
           <div className="flex items-center gap-2 mb-4">
-            <ShieldCheck size={16} style={{ color: "#4AA5A8" }} />
-            <span className="text-xs uppercase tracking-[0.2em]" style={{ color: "#4AA5A8" }}>
+            <ShieldCheck size={16} style={{ color: "#D4A843" }} />
+            <span className="text-xs uppercase tracking-[0.2em]" style={{ color: "#D4A843" }}>
               Mōhiotanga · Knowledge
             </span>
           </div>
@@ -128,7 +128,7 @@ export default function KnowledgeCataloguePage() {
                 boxShadow: "10px 10px 28px rgba(166,166,180,0.18), -8px -8px 24px rgba(255,255,255,0.95)",
               }}
             >
-              <kpi.icon size={16} style={{ color: "#4AA5A8" }} className="mb-3" />
+              <kpi.icon size={16} style={{ color: "#D4A843" }} className="mb-3" />
               <div className="text-3xl font-light" style={{ color: "#1A1D29" }}>{kpi.value}</div>
               <div className="text-xs uppercase tracking-wider mt-1" style={{ color: "#6B7280" }}>{kpi.label}</div>
             </div>

@@ -44,72 +44,35 @@ html {
   100% { transform: translate(-10%, -10%) rotate(360deg); }
 }
 
-/* ── Hero koru orb — gentle float, halo pulse, drifting motes ── */
-@keyframes koruOrbFloat {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%      { transform: translateY(-14px) rotate(0.6deg); }
-}
-@keyframes koruHaloPulse {
-  0%, 100% { opacity: 0.85; transform: scale(1); }
-  50%      { opacity: 1;    transform: scale(1.08); }
-}
-@keyframes koruMoteDrift {
-  0%   { transform: translate(0,0) scale(0.8); opacity: 0; }
-  20%  { opacity: 0.9; }
-  80%  { opacity: 0.6; }
-  100% { transform: translate(var(--mx,40px), var(--my,-60px)) scale(1.1); opacity: 0; }
-}
-
-.koru-orb-img {
-  animation: koruOrbFloat 7s ease-in-out infinite;
-  will-change: transform;
-}
-.koru-orb-halo {
-  animation: koruHaloPulse 6s ease-in-out infinite;
-  will-change: opacity, transform;
-}
-.koru-mote {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 9999px;
-  background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(168,221,219,0.5) 60%, transparent 100%);
-  box-shadow: 0 0 12px rgba(168,221,219,0.7);
-  pointer-events: none;
-}
-.koru-mote--a { top: 22%; left: 18%; --mx: 60px;  --my: -80px; animation: koruMoteDrift 5.5s ease-in-out infinite; }
-.koru-mote--b { top: 70%; left: 72%; --mx: -50px; --my: -90px; animation: koruMoteDrift 7s ease-in-out 1.4s infinite; }
-.koru-mote--c { top: 38%; left: 82%; --mx: -70px; --my: -50px; animation: koruMoteDrift 6.2s ease-in-out 0.8s infinite; }
-.koru-mote--d { top: 80%; left: 28%; --mx: 50px;  --my: -110px; animation: koruMoteDrift 8s ease-in-out 2.1s infinite; }
-
 @layer base {
   :root {
-    --background: 180 30% 94%;
-    --foreground: 187 47% 22%;
+    --background: 216 20% 98%;
+    --foreground: 224 13% 28%;
 
-    --card: 180 35% 99%;
-    --card-foreground: 187 47% 22%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 13% 28%;
 
-    --popover: 180 35% 99%;
-    --popover-foreground: 187 47% 22%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 13% 28%;
 
-    --primary: 182 35% 45%;
+    --primary: 179 28% 47%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 180 28% 88%;
-    --secondary-foreground: 187 47% 22%;
+    --secondary: 250 14% 93%;
+    --secondary-foreground: 224 13% 28%;
 
-    --muted: 180 25% 92%;
-    --muted-foreground: 187 18% 42%;
+    --muted: 216 14% 95%;
+    --muted-foreground: 220 9% 46%;
 
-    --accent: 180 28% 88%;
-    --accent-foreground: 187 47% 22%;
+    --accent: 250 14% 93%;
+    --accent-foreground: 224 13% 28%;
+
     --destructive: 3 45% 56%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 187 25% 60% / 0.18;
-    --input: 187 25% 60% / 0.18;
-    --ring: 182 35% 45%;
+    --border: 220 9% 46% / 0.12;
+    --input: 220 9% 46% / 0.12;
+    --ring: 179 28% 47%;
 
     --radius: 1.5rem;
 
@@ -164,26 +127,20 @@ html {
   }
 
   body {
-    @apply text-foreground;
+    @apply bg-background text-foreground;
     font-family: 'Plus Jakarta Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.7;
-    color: #1F4E54;
-    background-color: #FAFDFE;
-    background-image:
-      radial-gradient(ellipse 60% 45% at 80% 12%, rgba(255,255,255,0.95) 0%, transparent 60%),
-      radial-gradient(ellipse 55% 50% at 12% 28%, rgba(255,255,255,0.85) 0%, transparent 65%),
-      radial-gradient(ellipse 70% 50% at 50% 92%, rgba(210,235,238,0.45) 0%, transparent 70%),
-      linear-gradient(180deg, #FFFFFF 0%, #F4FAFC 50%, #E8F4F6 100%);
-    background-attachment: fixed;
+    background-color: #FAFBFC;
+    color: #1A1D29;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     letter-spacing: -0.02em;
-    color: #1F4E54;
+    color: #1A1D29;
   }
 }
 
@@ -453,8 +410,8 @@ html {
     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .glow-hover-gold:hover {
-    box-shadow: 0 14px 48px -10px rgba(74,165,168,0.2), 0 6px 16px rgba(0,0,0,0.04);
-    border-color: rgba(74,165,168,0.2) !important;
+    box-shadow: 0 14px 48px -10px rgba(232,169,72,0.2), 0 6px 16px rgba(0,0,0,0.04);
+    border-color: rgba(232,169,72,0.2) !important;
     transform: translateY(-4px);
   }
 
@@ -810,7 +767,7 @@ html {
 
   /* Ambient color glows */
   --glow-teal:            0 0 38px rgba(74,165,168,0.32);
-  --glow-ochre:           0 0 38px rgba(74,165,168,0.32);
+  --glow-ochre:           0 0 38px rgba(232,169,72,0.32);
   --glow-lavender:        0 0 38px rgba(155,143,191,0.32);
   --glow-success:         0 0 32px rgba(74,165,168,0.30);
   --glow-error:           0 0 32px rgba(200,90,84,0.34);

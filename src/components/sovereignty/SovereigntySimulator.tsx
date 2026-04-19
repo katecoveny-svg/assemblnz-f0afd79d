@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════════════
 // Sovereignty Simulator — Red-team scenarios for Māori data
-// Brand palette: Gold #4AA5A8, Pounamu #5AADA0, Navy #1A3A5C, Earth Red #C85A54
+// Brand palette: Gold #D4A843, Pounamu #5AADA0, Navy #1A3A5C, Earth Red #C85A54
 // ═══════════════════════════════════════════════════════════════
 
 import React, { useState, useCallback } from "react";
@@ -88,7 +88,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   happy_path: "#5AADA0",    // Pounamu teal
   purpose_creep: "#C85A54",  // Earth red
   locality_breach: "#1A3A5C", // Tāngaroa navy
-  tapu_violation: "#4AA5A8",  // Kōwhai gold
+  tapu_violation: "#D4A843",  // Kōwhai gold
   genai_leak: "#3A7D6E",     // Deep pounamu
   consent_expired: "#7ECFC2", // Light pounamu
 };
@@ -158,7 +158,7 @@ const SovereigntySimulator: React.FC<SimulatorProps> = ({ kete, accentColor }) =
       {results.size > 0 && (
         <div className="mb-3 px-3 py-2 rounded-lg" style={{ background: "rgba(255,255,255,0.03)" }}>
           <div className="flex items-center gap-2">
-            <Shield size={14} style={{ color: passCount === SCENARIOS.length ? "#5AADA0" : "#4AA5A8" }} />
+            <Shield size={14} style={{ color: passCount === SCENARIOS.length ? "#5AADA0" : "#D4A843" }} />
             <span className="text-xs text-white/70">
               {passCount}/{SCENARIOS.length} scenarios passed
             </span>
@@ -167,7 +167,7 @@ const SovereigntySimulator: React.FC<SimulatorProps> = ({ kete, accentColor }) =
                 className="h-full rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${(passCount / SCENARIOS.length) * 100}%` }}
-                style={{ background: passCount === SCENARIOS.length ? "#5AADA0" : "#4AA5A8" }}
+                style={{ background: passCount === SCENARIOS.length ? "#5AADA0" : "#D4A843" }}
               />
             </div>
           </div>

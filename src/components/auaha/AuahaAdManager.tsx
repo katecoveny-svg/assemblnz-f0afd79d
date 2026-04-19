@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { agentChat } from "@/lib/agentChat";
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell } from "recharts";
 
-const ACCENT = "#A8DDDB";
+const ACCENT = "#F0D078";
 
 const DEMO_ADS = [
   { name: "Hero Brand", impressions: 24500, clicks: 890, spend: 340, ctr: 3.6 },
@@ -113,7 +113,7 @@ export default function AuahaAdManager() {
               <BarChart data={DEMO_ADS}>
                 <XAxis dataKey="name" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 10 }} axisLine={false} />
                 <YAxis tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} axisLine={false} />
-                <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(74,165,168,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 12 }} />
+                <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(232,169,72,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 12 }} />
                 <Bar dataKey="clicks" radius={[4, 4, 0, 0]}>
                   {DEMO_ADS.map((_, i) => <Cell key={i} fill={i === 2 ? ACCENT : `${ACCENT}66`} />)}
                 </Bar>

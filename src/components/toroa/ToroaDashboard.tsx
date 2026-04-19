@@ -20,7 +20,7 @@ import AppointmentsModule, { type Appointment } from "./modules/AppointmentsModu
 import ShoppingModule from "./modules/ShoppingModule";
 import HomeworkHelp from "./modules/HomeworkHelp";
 
-const KOWHAI = "#4AA5A8";
+const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
 const BONE = "#F5F0E8";

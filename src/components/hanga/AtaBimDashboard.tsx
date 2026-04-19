@@ -88,7 +88,7 @@ const clashTypeColor = (t: ClashType) =>
 const clashStatusBadge = (s: ClashStatus) => {
   const map: Record<ClashStatus, { bg: string; text: string }> = {
     open: { bg: "rgba(239,68,68,0.15)", text: "#EF4444" },
-    investigating: { bg: "rgba(74,165,168,0.15)", text: "#4AA5A8" },
+    investigating: { bg: "rgba(212,168,67,0.15)", text: "#D4A843" },
     resolved: { bg: "rgba(58,125,110,0.15)", text: "#3A7D6E" },
     accepted: { bg: "rgba(58,125,110,0.10)", text: "#5AADA0" },
   };
@@ -104,8 +104,8 @@ const Glass = ({ children, className = "", glow = false }: { children: React.Rea
     className={`rounded-2xl border backdrop-blur-md ${className}`}
     style={{
       background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
-      borderColor: glow ? "rgba(74,165,168,0.3)" : "rgba(255,255,255,0.5)",
-      boxShadow: glow ? "0 0 30px rgba(74,165,168,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
+      borderColor: glow ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.5)",
+      boxShadow: glow ? "0 0 30px rgba(212,168,67,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
     }}
   >
     {children}
@@ -159,8 +159,8 @@ export default function AtaBimDashboard() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <Box size={20} style={{ color: "#4AA5A8" }} />
-              <span className="text-xs font-mono tracking-widest uppercase" style={{ color: "#4AA5A8", fontFamily: "JetBrains Mono" }}>
+              <Box size={20} style={{ color: "#D4A843" }} />
+              <span className="text-xs font-mono tracking-widest uppercase" style={{ color: "#D4A843", fontFamily: "JetBrains Mono" }}>
                 Waihanga Construction Suite
               </span>
             </div>
@@ -174,7 +174,7 @@ export default function AtaBimDashboard() {
           <button
             onClick={() => setShowAddModel(true)}
             className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all hover:scale-[1.02]"
-            style={{ background: "linear-gradient(135deg, #4AA5A8, #B8892A)", color: "#09090F", fontFamily: "Plus Jakarta Sans" }}
+            style={{ background: "linear-gradient(135deg, #D4A843, #B8892A)", color: "#09090F", fontFamily: "Plus Jakarta Sans" }}
           >
             <Plus size={14} /> Upload Model
           </button>
@@ -183,12 +183,12 @@ export default function AtaBimDashboard() {
         {/* Stats cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { label: "Total Models", value: MODELS.length, icon: <Layers size={18} />, accent: "#4AA5A8" },
+            { label: "Total Models", value: MODELS.length, icon: <Layers size={18} />, accent: "#D4A843" },
             { label: "Open Clashes", value: openClashes, icon: <AlertTriangle size={18} />, accent: "#EF4444" },
             { label: "Resolved Clashes", value: resolvedClashes, icon: <CheckCircle2 size={18} />, accent: "#3A7D6E" },
             { label: "Handover Progress", value: `${handoverPct}%`, icon: <FileText size={18} />, accent: "#1A3A5C" },
           ].map((s) => (
-            <Glass key={s.label} glow={s.accent === "#4AA5A8"}>
+            <Glass key={s.label} glow={s.accent === "#D4A843"}>
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="p-1.5 rounded-lg" style={{ background: `${s.accent}20` }}>
@@ -211,9 +211,9 @@ export default function AtaBimDashboard() {
               className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all flex-1 justify-center"
               style={{
                 fontFamily: "Plus Jakarta Sans",
-                background: tab === t.id ? "rgba(74,165,168,0.12)" : "transparent",
-                color: tab === t.id ? "#4AA5A8" : "rgba(255,255,255,0.4)",
-                border: tab === t.id ? "1px solid rgba(74,165,168,0.25)" : "1px solid transparent",
+                background: tab === t.id ? "rgba(212,168,67,0.12)" : "transparent",
+                color: tab === t.id ? "#D4A843" : "rgba(255,255,255,0.4)",
+                border: tab === t.id ? "1px solid rgba(212,168,67,0.25)" : "1px solid transparent",
               }}
             >
               {t.icon} <span className="hidden sm:inline">{t.label}</span>
@@ -258,7 +258,7 @@ export default function AtaBimDashboard() {
                       key={m.id}
                       className="transition-colors cursor-pointer"
                       style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(74,165,168,0.04)")}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(212,168,67,0.04)")}
                       onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                     >
                       <td className="px-4 py-3">
@@ -337,7 +337,7 @@ export default function AtaBimDashboard() {
                       <div className="w-1 h-10 rounded-full flex-shrink-0" style={{ background: clashTypeColor(c.type) }} />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-xs font-mono" style={{ color: "#4AA5A8", fontFamily: "JetBrains Mono" }}>{c.id}</span>
+                          <span className="text-xs font-mono" style={{ color: "#D4A843", fontFamily: "JetBrains Mono" }}>{c.id}</span>
                           <span className="px-2 py-0.5 rounded-full text-[9px] capitalize" style={{ background: badge.bg, color: badge.text, fontFamily: "JetBrains Mono" }}>{c.status}</span>
                           <span className="px-2 py-0.5 rounded-full text-[9px] capitalize" style={{ background: `${clashTypeColor(c.type)}20`, color: clashTypeColor(c.type), fontFamily: "JetBrains Mono" }}>{c.type}</span>
                         </div>
@@ -352,7 +352,7 @@ export default function AtaBimDashboard() {
                       <div className="px-4 pb-4 space-y-2" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
                         <p className="text-xs pt-3" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.65)" }}>{c.description}</p>
                         <div className="flex gap-4 flex-wrap text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
-                          <span>Severity: <strong style={{ color: c.severity === "Critical" ? "#EF4444" : c.severity === "Major" ? "#4AA5A8" : "#3A7D6E" }}>{c.severity}</strong></span>
+                          <span>Severity: <strong style={{ color: c.severity === "Critical" ? "#EF4444" : c.severity === "Major" ? "#D4A843" : "#3A7D6E" }}>{c.severity}</strong></span>
                           <span>Assigned: {c.assignedTo}</span>
                           <span>Found: {c.dateFound}</span>
                         </div>
@@ -413,7 +413,7 @@ export default function AtaBimDashboard() {
                                 background: p.status === "complete"
                                   ? "linear-gradient(90deg, rgba(58,125,110,0.5), rgba(58,125,110,0.3))"
                                   : p.status === "active"
-                                    ? "linear-gradient(90deg, rgba(74,165,168,0.5), rgba(74,165,168,0.3))"
+                                    ? "linear-gradient(90deg, rgba(212,168,67,0.5), rgba(212,168,67,0.3))"
                                     : "rgba(255,255,255,0.5)",
                                 border: `1px solid ${phaseColor(p.status)}40`,
                               }}
@@ -435,8 +435,8 @@ export default function AtaBimDashboard() {
                   </div>
 
                   {/* Today marker */}
-                  <div className="absolute top-0 h-full w-px" style={{ left: `${(3 / 16) * 100}%`, background: "#4AA5A8", opacity: 0.5 }}>
-                    <div className="absolute -top-4 -translate-x-1/2 px-1.5 py-0.5 rounded text-[8px] font-mono" style={{ background: "#4AA5A8", color: "#09090F", fontFamily: "JetBrains Mono" }}>
+                  <div className="absolute top-0 h-full w-px" style={{ left: `${(3 / 16) * 100}%`, background: "#D4A843", opacity: 0.5 }}>
+                    <div className="absolute -top-4 -translate-x-1/2 px-1.5 py-0.5 rounded text-[8px] font-mono" style={{ background: "#D4A843", color: "#09090F", fontFamily: "JetBrains Mono" }}>
                       Today
                     </div>
                   </div>
@@ -496,12 +496,12 @@ export default function AtaBimDashboard() {
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Handover Completion</h3>
-                  <span className="text-lg font-light" style={{ fontFamily: "Lato", color: "#4AA5A8" }}>{handoverPct}%</span>
+                  <span className="text-lg font-light" style={{ fontFamily: "Lato", color: "#D4A843" }}>{handoverPct}%</span>
                 </div>
                 <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                   <div
                     className="h-full rounded-full transition-all"
-                    style={{ width: `${handoverPct}%`, background: "linear-gradient(90deg, #4AA5A8, #3A7D6E)" }}
+                    style={{ width: `${handoverPct}%`, background: "linear-gradient(90deg, #D4A843, #3A7D6E)" }}
                   />
                 </div>
                 <p className="text-[10px] mt-1.5" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
@@ -536,9 +536,9 @@ export default function AtaBimDashboard() {
                         className="px-3 py-1 rounded-lg text-[10px] font-medium transition-colors"
                         style={{
                           fontFamily: "Plus Jakarta Sans",
-                          background: "rgba(74,165,168,0.1)",
-                          color: "#4AA5A8",
-                          border: "1px solid rgba(74,165,168,0.2)",
+                          background: "rgba(212,168,67,0.1)",
+                          color: "#D4A843",
+                          border: "1px solid rgba(212,168,67,0.2)",
                         }}
                       >
                         Upload
@@ -585,9 +585,9 @@ export default function AtaBimDashboard() {
                 {/* Drop zone */}
                 <div
                   className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer"
-                  style={{ borderColor: "rgba(74,165,168,0.2)", background: "rgba(74,165,168,0.03)" }}
+                  style={{ borderColor: "rgba(212,168,67,0.2)", background: "rgba(212,168,67,0.03)" }}
                 >
-                  <Box size={24} className="mx-auto mb-2" style={{ color: "rgba(74,165,168,0.4)" }} />
+                  <Box size={24} className="mx-auto mb-2" style={{ color: "rgba(212,168,67,0.4)" }} />
                   <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.4)" }}>
                     Drop IFC, RVT, DWG, or GLB file here
                   </p>
@@ -599,7 +599,7 @@ export default function AtaBimDashboard() {
                   <button onClick={() => setShowAddModel(false)} className="flex-1 py-2 rounded-xl text-sm" style={{ fontFamily: "Plus Jakarta Sans", background: "rgba(255,255,255,0.5)", color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
                     Cancel
                   </button>
-                  <button onClick={() => setShowAddModel(false)} className="flex-1 py-2 rounded-xl text-sm font-medium" style={{ fontFamily: "Plus Jakarta Sans", background: "linear-gradient(135deg, #4AA5A8, #B8892A)", color: "#09090F" }}>
+                  <button onClick={() => setShowAddModel(false)} className="flex-1 py-2 rounded-xl text-sm font-medium" style={{ fontFamily: "Plus Jakarta Sans", background: "linear-gradient(135deg, #D4A843, #B8892A)", color: "#09090F" }}>
                     Upload Model
                   </button>
                 </div>

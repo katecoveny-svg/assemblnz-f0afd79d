@@ -34,7 +34,7 @@ const LAYOUTS: [number, number][][] = [
 ];
 
 const MatarikiCluster = ({
-  color = "#A8DDDB",
+  color = "#FFD700",
   size = 120,
   starCount = 7,
   showLines = true,

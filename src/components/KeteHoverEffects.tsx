@@ -30,8 +30,8 @@ export function WaihangaHoverEffect() {
     <div className="absolute inset-0 pointer-events-none rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms]"
       style={{
         backgroundImage: `
-          linear-gradient(rgba(74,165,168,0.06) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(74,165,168,0.06) 1px, transparent 1px)
+          linear-gradient(rgba(232,169,72,0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(232,169,72,0.06) 1px, transparent 1px)
         `,
         backgroundSize: "20px 20px",
       }}
@@ -88,7 +88,7 @@ export function HokoHoverEffect() {
           <motion.div
             key={i}
             className="w-[2px] rounded-sm"
-            style={{ height: `${h * 4}px`, background: "rgba(74,165,168,0.3)" }}
+            style={{ height: `${h * 4}px`, background: "rgba(212,168,67,0.3)" }}
             initial={{ scaleY: 0 }}
             animate={{ scaleY: 1 }}
             transition={{ duration: 0.4, delay: i * 0.02, ease: "easeOut" }}
@@ -101,9 +101,9 @@ export function HokoHoverEffect() {
         animate={{ rotate: [-4, 4, -2, 2, 0] }}
         transition={{ duration: 1.2, ease: "easeOut" }}
       >
-        <div className="w-px h-3 bg-[rgba(74,165,168,0.3)] mx-auto" />
-        <div className="px-2 py-1 rounded-sm" style={{ background: "rgba(74,165,168,0.12)", border: "1px solid rgba(74,165,168,0.25)" }}>
-          <div className="w-4 h-1 rounded-full" style={{ background: "rgba(74,165,168,0.4)" }} />
+        <div className="w-px h-3 bg-[rgba(212,168,67,0.3)] mx-auto" />
+        <div className="px-2 py-1 rounded-sm" style={{ background: "rgba(212,168,67,0.12)", border: "1px solid rgba(212,168,67,0.25)" }}>
+          <div className="w-4 h-1 rounded-full" style={{ background: "rgba(212,168,67,0.4)" }} />
         </div>
       </motion.div>
     </div>

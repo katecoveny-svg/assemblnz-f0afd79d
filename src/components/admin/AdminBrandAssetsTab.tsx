@@ -4,7 +4,7 @@ import { assemblMark } from "@/assets/brand";
 
 const POUNAMU = "#3A7D6E";
 const TEAL = "#5AADA0";
-const GOLD = "#4AA5A8";
+const GOLD = "#D4A843";
 const CHARCOAL = "#3D4250";
 
 const GLASS: React.CSSProperties = {

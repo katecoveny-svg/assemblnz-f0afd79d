@@ -4,7 +4,7 @@ import { Play, CheckCircle2, Clock, ChevronRight } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import WorkflowStepper, { type WorkflowStep } from "./WorkflowStepper";
 
-const KOWHAI = "#4AA5A8";
+const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
 
 export interface WorkflowDef {
@@ -214,24 +214,24 @@ const WorkflowCards = ({ packId }: WorkflowCardsProps) => {
               className="rounded-2xl border p-5 cursor-pointer transition-all group"
               style={{
                 background: isActive
-                  ? "linear-gradient(135deg, rgba(74,165,168,0.08), rgba(58,125,110,0.06))"
+                  ? "linear-gradient(135deg, rgba(212,168,67,0.08), rgba(58,125,110,0.06))"
                   : "rgba(255,255,255,0.65)",
-                borderColor: isActive ? "rgba(74,165,168,0.25)" : "rgba(255,255,255,0.5)",
-                boxShadow: isActive ? "0 0 30px rgba(74,165,168,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
+                borderColor: isActive ? "rgba(212,168,67,0.25)" : "rgba(255,255,255,0.5)",
+                boxShadow: isActive ? "0 0 30px rgba(212,168,67,0.08)" : "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
               }}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
               onClick={() => !state ? startWorkflow(wf.id) : setActiveWorkflow(wf.id)}
-              whileHover={{ boxShadow: "0 0 40px rgba(74,165,168,0.12)" }}
+              whileHover={{ boxShadow: "0 0 40px rgba(212,168,67,0.12)" }}
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center"
                     style={{
-                      background: isActive ? "rgba(74,165,168,0.15)" : "rgba(255,255,255,0.5)",
+                      background: isActive ? "rgba(212,168,67,0.15)" : "rgba(255,255,255,0.5)",
                       color: isActive ? KOWHAI : "rgba(255,255,255,0.4)",
                     }}
                   >
@@ -240,7 +240,7 @@ const WorkflowCards = ({ packId }: WorkflowCardsProps) => {
                   <div>
                     <h4 className="text-sm font-bold text-foreground">{wf.title}</h4>
                     {wf.titleMi && (
-                      <p className="text-[10px]" style={{ color: "rgba(74,165,168,0.5)" }}>{wf.titleMi}</p>
+                      <p className="text-[10px]" style={{ color: "rgba(212,168,67,0.5)" }}>{wf.titleMi}</p>
                     )}
                   </div>
                 </div>

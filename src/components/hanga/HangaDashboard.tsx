@@ -27,7 +27,7 @@ const C = {
   textSecondary: "#6B7280",
   textTertiary: "#9CA3AF",
   pounamu: "#3A7D6E",
-  kowhai: "#4AA5A8",
+  kowhai: "#D4A843",
   tangaroa: "#1A3A5C",
   pounamuLight: "#7ECFC2",
   lavender: "#E8E6F0",

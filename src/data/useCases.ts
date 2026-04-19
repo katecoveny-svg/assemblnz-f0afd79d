@@ -13,7 +13,7 @@ export const MANAAKI_USE_CASE: UseCaseData = {
     { icon: "people", label: "Staff retention", detail: "Clear briefs reduce shift-change mistakes — one of the top reasons hospo staff quit." },
   ],
   economyBenefit: "Hospitality contributes ~$11.5B and 140,000+ jobs. Even a 5% reduction in food-safety incidents + a 2-hour-per-week admin reduction per owner-operator across 23,000 outlets is worth hundreds of millions in sector productivity.",
-  accentColor: "#4AA5A8",
+  accentColor: "#D4A843",
 };
 
 export const WAIHANGA_USE_CASE: UseCaseData = {
@@ -45,7 +45,7 @@ export const AUAHA_USE_CASE: UseCaseData = {
     { icon: "insurance", label: "Evidence trail", detail: "Every decision is logged, giving the CEO, the board and any future auditor a clean paper trail." },
   ],
   economyBenefit: "NZ's creative economy is ~$17.5B. The cultural-risk cost — brands pulling campaigns, reputational fallout, relationship damage with iwi.",
-  accentColor: "#A8DDDB",
+  accentColor: "#F0D078",
 };
 
 export const ARATAKI_USE_CASE: UseCaseData = {

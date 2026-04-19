@@ -75,7 +75,7 @@ const MorningBriefing = () => {
       }
       if (echoConvs.length > 0) echoInsights.push(`${echoConvs.length} conversations today.`);
       if (echoInsights.length === 0) echoInsights.push("Ready to assist — start your day with a task.");
-      briefingInsights.push({ agentId: "echo", agentName: "ECHO", color: "#4AA5A8", insights: echoInsights });
+      briefingInsights.push({ agentId: "echo", agentName: "ECHO", color: "#D4A843", insights: echoInsights });
 
       // LEDGER (finance) insight
       const financeDeadlines = deadlines.filter((d: any) => d.agents?.includes("ledger") || d.category === "tax");
@@ -97,7 +97,7 @@ const MorningBriefing = () => {
       const fluxActions = actions.filter((a: any) => a.agent_id === "sales");
       if (fluxActions.length > 0) fluxInsights.push(`${fluxActions.length} follow-ups pending.`);
       if (fluxInsights.length > 0) {
-        briefingInsights.push({ agentId: "sales", agentName: "FLUX", color: "#4AA5A8", insights: fluxInsights });
+        briefingInsights.push({ agentId: "sales", agentName: "FLUX", color: "#D4A843", insights: fluxInsights });
       }
 
       // Cross-agent alerts

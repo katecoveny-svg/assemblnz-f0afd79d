@@ -48,11 +48,11 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
   const [revealedVocab, setRevealedVocab] = useState<Set<number>>(new Set());
 
   const EXAMPLES = [
-    { id: "JfD0nHrJDC0", title: "How chords work", icon: Music, accent: "#4AA5A8" },
+    { id: "JfD0nHrJDC0", title: "How chords work", icon: Music, accent: "#D4A843" },
     { id: "WFtTdf3I6Ug", title: "Understanding fractals", icon: Shapes, accent: "#3A7D6E" },
-    { id: "U0EySK4T2aY", title: "Logic behind Chinese characters", icon: Type, accent: "#4AA5A8" },
+    { id: "U0EySK4T2aY", title: "Logic behind Chinese characters", icon: Type, accent: "#D4A843" },
     { id: "f-ldPgEfAHI", title: "Magical mitosis", icon: Microscope, accent: "#3A7D6E" },
-    { id: "hfCwwG8Ats0", title: "The craft of the casserole", icon: CookingPot, accent: "#4AA5A8" },
+    { id: "hfCwwG8Ats0", title: "The craft of the casserole", icon: CookingPot, accent: "#D4A843" },
   ];
 
   const handleGenerate = async (inputUrl?: string) => {

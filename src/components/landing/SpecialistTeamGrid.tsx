@@ -8,7 +8,7 @@ const PACK_AGENTS = [
   {
     pack: "Manaaki",
     packLabel: "Hospitality & Tourism",
-    packColor: "#4AA5A8",
+    packColor: "#D4A843",
     paletteKey: "kowhai" as const,
     agentId: "hospitality",
     name: "AURA",
@@ -16,7 +16,7 @@ const PACK_AGENTS = [
     icon: (
       <svg width={22} height={22} viewBox="0 0 24 24" fill="none">
         <defs>
-          <linearGradient id="st-m" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#A8DDDB" /><stop offset="100%" stopColor="#4AA5A8" /></linearGradient>
+          <linearGradient id="st-m" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#F0D078" /><stop offset="100%" stopColor="#D4A843" /></linearGradient>
         </defs>
         <path d="M12 3L2 12h3v8h5v-5h4v5h5v-8h3L12 3z" fill="url(#st-m)" fillOpacity="0.85" />
       </svg>
@@ -59,7 +59,7 @@ const PACK_AGENTS = [
   {
     pack: "Pakihi",
     packLabel: "Business Operations",
-    packColor: "#A8DDDB",
+    packColor: "#F0D078",
     paletteKey: "kowhai" as const,
     agentId: "accounting",
     name: "LEDGER",
@@ -67,10 +67,10 @@ const PACK_AGENTS = [
     icon: (
       <svg width={22} height={22} viewBox="0 0 24 24" fill="none">
         <defs>
-          <linearGradient id="st-p" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#A8DDDB" /><stop offset="100%" stopColor="#4AA5A8" /></linearGradient>
+          <linearGradient id="st-p" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#F0D078" /><stop offset="100%" stopColor="#D4A843" /></linearGradient>
         </defs>
         <rect x="3" y="7" width="18" height="13" rx="2" fill="url(#st-p)" fillOpacity="0.75" />
-        <path d="M8 7V5a4 4 0 018 0v2" stroke="#4AA5A8" strokeWidth="1.2" strokeOpacity="0.6" fill="none" />
+        <path d="M8 7V5a4 4 0 018 0v2" stroke="#D4A843" strokeWidth="1.2" strokeOpacity="0.6" fill="none" />
       </svg>
     ),
   },
@@ -112,7 +112,7 @@ const SpecialistTeamGrid = () => (
             fontWeight: 400,
             fontSize: "11px",
             letterSpacing: "4px",
-            color: "#4AA5A8",
+            color: "#D4A843",
           }}
         >
           Meet the team
@@ -146,7 +146,7 @@ const SpecialistTeamGrid = () => (
             transition={{ duration: 0.5, delay: i * 0.1 }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
-              e.currentTarget.style.boxShadow = `0 12px 48px rgba(74,165,168,0.1)`;
+              e.currentTarget.style.boxShadow = `0 12px 48px rgba(212,168,67,0.1)`;
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
@@ -215,16 +215,16 @@ const SpecialistTeamGrid = () => (
           style={{
             fontFamily: "'Lato', sans-serif",
             fontWeight: 400,
-            color: "#4AA5A8",
-            border: "1px solid rgba(74,165,168,0.25)",
-            background: "rgba(74,165,168,0.05)",
+            color: "#D4A843",
+            border: "1px solid rgba(212,168,67,0.25)",
+            background: "rgba(212,168,67,0.05)",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "rgba(74,165,168,0.5)";
-            e.currentTarget.style.boxShadow = "0 0 20px rgba(74,165,168,0.1)";
+            e.currentTarget.style.borderColor = "rgba(212,168,67,0.5)";
+            e.currentTarget.style.boxShadow = "0 0 20px rgba(212,168,67,0.1)";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "rgba(74,165,168,0.25)";
+            e.currentTarget.style.borderColor = "rgba(212,168,67,0.25)";
             e.currentTarget.style.boxShadow = "none";
           }}
         >

@@ -37,11 +37,11 @@ function TriangleConstellation() {
       <group position={top}>
         <mesh>
           <sphereGeometry args={[0.2, 16, 16]} />
-          <meshBasicMaterial color="#4AA5A8" transparent opacity={0.12} />
+          <meshBasicMaterial color="#D4A843" transparent opacity={0.12} />
         </mesh>
         <mesh>
           <sphereGeometry args={[0.12, 16, 16]} />
-          <meshStandardMaterial color="#4AA5A8" emissive="#4AA5A8" emissiveIntensity={0.4} roughness={0.3} metalness={0.6} />
+          <meshStandardMaterial color="#D4A843" emissive="#D4A843" emissiveIntensity={0.4} roughness={0.3} metalness={0.6} />
         </mesh>
         <mesh>
           <ringGeometry args={[0.14, 0.155, 32]} />
@@ -108,7 +108,7 @@ export default function Nav3DKeteLogo({ size = 38 }: { size?: number }) {
           dpr={[1, 2]}
         >
           <ambientLight intensity={0.6} />
-          <pointLight position={[2, 2, 2]} intensity={0.5} color="#4AA5A8" />
+          <pointLight position={[2, 2, 2]} intensity={0.5} color="#D4A843" />
           <pointLight position={[-2, -1, 2]} intensity={0.3} color="#3A7D6E" />
           <TriangleConstellation />
         </Canvas>

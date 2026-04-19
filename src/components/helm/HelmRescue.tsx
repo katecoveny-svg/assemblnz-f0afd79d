@@ -57,7 +57,7 @@ export default function HelmRescue() {
 
   const statusBadge = (status: string) => {
     const map: Record<string, { icon: any; color: string; bg: string }> = {
-      requested: { icon: Clock, color: "text-[#4AA5A8]", bg: "bg-amber-500/10" },
+      requested: { icon: Clock, color: "text-[#D4A843]", bg: "bg-amber-500/10" },
       picked_up: { icon: Truck, color: "text-blue-400", bg: "bg-[#1A3A5C]/10" },
       delivered: { icon: CheckCircle, color: "text-[#5AADA0]", bg: "bg-[#5AADA0]/10" },
     };

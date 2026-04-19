@@ -2,13 +2,13 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MessageSquare, Send, Phone, Smartphone } from "lucide-react";
 
-const KOWHAI = "#4AA5A8";
+const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
 
 const TEMPLATES = [
   { id: "followup", label: "Follow-up", text: "Hi {name}, following up on our conversation about {topic}. Please let me know if you have any questions." },
   { id: "appointment", label: "Appointment Reminder", text: "Reminder: You have a site meeting scheduled for {date} at {time}. Location: Christchurch Metro Sports Facility." },
-  { id: "safety", label: "Safety Alert", text: "️ Safety Alert: {message}. All workers must acknowledge before entering site." },
+  { id: "safety", label: "Safety Alert", text: "⚠️ Safety Alert: {message}. All workers must acknowledge before entering site." },
   { id: "welcome", label: "Welcome", text: "Kia ora {name}, welcome to the Christchurch Metro Sports Facility project. Please check in via the QR code at the site entrance." },
 ];
 
@@ -59,7 +59,7 @@ export default function CommsHubPage() {
               <button key={c} onClick={() => setChannel(c)}
                 className={`flex-1 px-4 py-2.5 rounded-xl text-xs font-medium transition-all ${channel === c ? "text-foreground" : "text-[#9CA3AF]"}`}
                 style={channel === c ? { background: c === "sms" ? "rgba(26,58,92,0.3)" : "rgba(58,125,110,0.2)", border: `1px solid ${c === "sms" ? "rgba(26,58,92,0.4)" : "rgba(58,125,110,0.3)"}` } : {}}>
-                {c === "sms" ? "📱 SMS" : "WhatsApp"}
+                {c === "sms" ? "📱 SMS" : "💬 WhatsApp"}
               </button>
             ))}
           </div>

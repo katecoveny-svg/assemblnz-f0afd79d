@@ -62,7 +62,7 @@ export default function VehicleEconomy() {
               <span className="text-white/90">Total annual</span>
               <span className="text-emerald-400 font-mono">${total.toFixed(0)}</span>
             </div>
-            <div className="mt-4 p-3 rounded-xl text-center" style={{ background: "rgba(74,165,168,0.08)", border: "1px solid rgba(74,165,168,0.2)" }}>
+            <div className="mt-4 p-3 rounded-xl text-center" style={{ background: "rgba(212,168,67,0.08)", border: "1px solid rgba(212,168,67,0.2)" }}>
               <DollarSign className="inline text-amber-400 mr-1" size={16} />
               <span className="text-amber-300 font-semibold">${perKm.toFixed(2)}/km</span>
               <span className="text-white/40 text-xs ml-2">all-in cost</span>

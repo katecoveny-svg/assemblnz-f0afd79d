@@ -18,7 +18,7 @@ interface Property {
   created_at: string;
 }
 
-const HAVEN_PINK = "#4AA5A8";
+const HAVEN_PINK = "#D4A843";
 
 const HavenProperties = ({ onSendToChat }: { onSendToChat: (msg: string) => void }) => {
   const { user } = useAuth();

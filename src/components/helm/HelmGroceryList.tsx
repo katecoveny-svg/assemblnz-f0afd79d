@@ -26,7 +26,7 @@ const NZ_STORES = [
     color: "#00A651",
     searchUrl: "https://www.countdown.co.nz/shop/searchproducts?search=",
     cartUrl: "https://www.countdown.co.nz/shop/cart",
-    logo: "",
+    logo: "🟢",
   },
   {
     id: "paknsave",
@@ -34,7 +34,7 @@ const NZ_STORES = [
     color: "#FFD100",
     searchUrl: "https://www.paknsave.co.nz/shop/search?q=",
     cartUrl: "https://www.paknsave.co.nz/shop/cart",
-    logo: "",
+    logo: "🟡",
   },
   {
     id: "newworld",
@@ -42,7 +42,7 @@ const NZ_STORES = [
     color: "#E31837",
     searchUrl: "https://www.newworld.co.nz/shop/search?q=",
     cartUrl: "https://www.newworld.co.nz/shop/cart",
-    logo: "",
+    logo: "🔴",
   },
 ] as const;
 

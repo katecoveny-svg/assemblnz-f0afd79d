@@ -18,7 +18,7 @@ import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { MANAAKI_USE_CASE } from "@/data/useCases";
 
 const BG = "#FAFBFC";
-const ACCENT = "#4AA5A8";
+const ACCENT = "#D4A843";
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
 const BONE = "#F5F0E8";
@@ -234,7 +234,7 @@ export default function ManaakiLandingPage() {
                 className="group relative p-5 rounded-xl overflow-hidden cursor-default"
                 style={{
                   background: hoveredAgent === i
-                    ? `linear-gradient(135deg, rgba(58,125,110,0.1) 0%, rgba(74,165,168,0.05) 100%)`
+                    ? `linear-gradient(135deg, rgba(58,125,110,0.1) 0%, rgba(212,168,67,0.05) 100%)`
                     : `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
                   border: `1px solid ${hoveredAgent === i ? POUNAMU + "40" : "rgba(255,255,255,0.06)"}`,
                   transition: "all 0.4s ease",
@@ -323,7 +323,7 @@ export default function ManaakiLandingPage() {
         
         <BrandFooter />
         <KeteAgentChat
-          keteName="Manaaki" keteLabel="Hospitality & Tourism" accentColor="#4AA5A8"
+          keteName="Manaaki" keteLabel="Hospitality & Tourism" accentColor="#D4A843"
           defaultAgentId="aura" packId="manaaki"
           starterPrompts={["What does Manaaki cover for hospitality?", "How does food safety compliance work?", "Tell me about alcohol licensing support", "What evidence packs do I get?"]}
         />

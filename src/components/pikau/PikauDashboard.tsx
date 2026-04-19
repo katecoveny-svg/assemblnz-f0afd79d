@@ -18,7 +18,7 @@ const ACCENT_LIGHT = "#A8E6DA";
 const POUNAMU = "#3A7D6E";
 
 const STATUS_COLORS: Record<string, string> = {
-  draft: "#4AA5A8",
+  draft: "#D4A843",
   declared: "#5B8FA8",
   cleared: "#3A7D6E",
   held: "#E55",

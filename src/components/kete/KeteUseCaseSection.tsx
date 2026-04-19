@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Clock, ShieldAlert, TrendingUp, Users, DollarSign, Globe } from "lucide-react";
 
 const POUNAMU = "#4AA5A8";
-const GOLD = "#4AA5A8";
+const GOLD = "#E8A948";
 
 export interface UseCaseData {
   audience: string;

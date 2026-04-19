@@ -1,7 +1,7 @@
 import { BarChart3, TrendingUp, Eye, Heart, MousePointer, Users, Sparkles } from "lucide-react";
 import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip, BarChart, Bar, Cell } from "recharts";
 
-const ACCENT = "#A8DDDB";
+const ACCENT = "#F0D078";
 
 const reachData = [
   { d: "W1", ig: 8200, fb: 4100, li: 3200, tt: 6500 },
@@ -77,15 +77,15 @@ export default function AuahaAnalytics() {
                   <stop offset="100%" stopColor="#E1306C" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="ttGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#A8DDDB" stopOpacity={0.3} />
-                  <stop offset="100%" stopColor="#A8DDDB" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#F0D078" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#F0D078" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis dataKey="d" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} axisLine={false} tickLine={false} />
               <YAxis hide />
-              <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(74,165,168,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 11 }} />
+              <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(232,169,72,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 11 }} />
               <Area type="monotone" dataKey="ig" stroke="#E1306C" fill="url(#igGrad)" strokeWidth={2} name="Instagram" />
-              <Area type="monotone" dataKey="tt" stroke="#A8DDDB" fill="url(#ttGrad)" strokeWidth={2} name="TikTok" />
+              <Area type="monotone" dataKey="tt" stroke="#F0D078" fill="url(#ttGrad)" strokeWidth={2} name="TikTok" />
               <Area type="monotone" dataKey="li" stroke="#0A66C2" fill="none" strokeWidth={1.5} name="LinkedIn" />
               <Area type="monotone" dataKey="fb" stroke="#1877F2" fill="none" strokeWidth={1.5} name="Facebook" />
             </AreaChart>
@@ -99,7 +99,7 @@ export default function AuahaAnalytics() {
             <BarChart data={contentTypeData}>
               <XAxis dataKey="type" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 10 }} axisLine={false} />
               <YAxis hide />
-              <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(74,165,168,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 11 }} />
+              <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.98)', border: '1px solid rgba(232,169,72,0.30)', color: '#1A1D29', boxShadow: '0 8px 32px rgba(26,29,41,0.12)', borderRadius: 8, fontSize: 11 }} />
               <Bar dataKey="engagement" radius={[4, 4, 0, 0]}>
                 {contentTypeData.map((_, i) => <Cell key={i} fill={i === 4 ? ACCENT : `${ACCENT}55`} />)}
               </Bar>

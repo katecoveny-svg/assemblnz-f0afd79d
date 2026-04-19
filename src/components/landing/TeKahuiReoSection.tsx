@@ -4,8 +4,8 @@ import { ArrowRight, Layers, LayoutDashboard, ShieldCheck, Database, Shield, Fil
 import toroaIcon from "@/assets/brand/toroa-logo.svg";
 import { teKahuiReoMark } from "@/assets/brand";
 
-const GOLD = "#4AA5A8";
-const GOLD_STYLE = { color: GOLD, filter: "drop-shadow(0 0 6px rgba(74,165,168,0.5))" };
+const GOLD = "#D4A843";
+const GOLD_STYLE = { color: GOLD, filter: "drop-shadow(0 0 6px rgba(212,168,67,0.5))" };
 
 const TE_KAHUI_REO_AGENTS = [
   { name: "IHO", subtitle: "Intelligence", desc: "Intelligent router & orchestrator", Icon: Layers },
@@ -47,7 +47,7 @@ const TeKahuiReoSection = () => (
             src={teKahuiReoMark}
             alt="Te Kāhui Reo"
             className="w-8 h-8"
-            style={{ filter: "drop-shadow(0 0 12px rgba(74,165,168,0.5))" }} />
+            style={{ filter: "drop-shadow(0 0 12px rgba(212,168,67,0.5))" }} />
           <p
             className="uppercase"
             style={{
@@ -55,7 +55,7 @@ const TeKahuiReoSection = () => (
               fontWeight: 500,
               fontSize: "13px",
               letterSpacing: "6px",
-              color: "#4AA5A8",
+              color: "#D4A843",
             }}
           >
             Te Kāhui Reo
@@ -90,7 +90,7 @@ const TeKahuiReoSection = () => (
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontWeight: 500,
             fontSize: "14px",
-            color: "#4AA5A8",
+            color: "#D4A843",
             fontStyle: "italic",
           }}
         >
@@ -117,7 +117,7 @@ const TeKahuiReoSection = () => (
             transition={{ duration: 0.4, delay: i * 0.05 }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
-              e.currentTarget.style.boxShadow = "0 12px 48px rgba(74,165,168,0.1)";
+              e.currentTarget.style.boxShadow = "0 12px 48px rgba(212,168,67,0.1)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
@@ -143,7 +143,7 @@ const TeKahuiReoSection = () => (
                     fontFamily: "'JetBrains Mono', monospace",
                     fontWeight: 400,
                     fontSize: "9px",
-                    color: "rgba(74,165,168,0.7)",
+                    color: "rgba(212,168,67,0.7)",
                     letterSpacing: "2px",
                     textTransform: "uppercase",
                   }}
@@ -172,7 +172,7 @@ const TeKahuiReoSection = () => (
         style={{
           background: "rgba(255,255,255,0.65)",
           backdropFilter: "blur(10px)",
-          border: "1px solid rgba(74,165,168,0.2)",
+          border: "1px solid rgba(212,168,67,0.2)",
         }}
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -194,14 +194,14 @@ const TeKahuiReoSection = () => (
           </div>
           <div className="sm:w-1/2 p-6 flex flex-col justify-center">
             <div className="flex items-center gap-3 mb-4">
-              <img loading="lazy" decoding="async" src={toroaIcon} alt="Toro" className="w-12 h-12 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 12px rgba(74,165,168,0.3))" }} />
+              <img loading="lazy" decoding="async" src={toroaIcon} alt="Toro" className="w-12 h-12 rounded-lg object-contain" style={{ filter: "drop-shadow(0 0 12px rgba(212,168,67,0.3))" }} />
               <div>
                 <span
                   style={{
                     fontFamily: "'Lato', sans-serif",
                     fontWeight: 400,
                     fontSize: "15px",
-                    color: "#4AA5A8",
+                    color: "#D4A843",
                     letterSpacing: "3px",
                   }}
                 >
@@ -237,7 +237,7 @@ const TeKahuiReoSection = () => (
               style={{
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 400,
-                color: "#4AA5A8",
+                color: "#D4A843",
               }}
             >
               Try Toro <ArrowRight size={14} />

@@ -14,10 +14,7 @@ const LightPageShell: React.FC<{
 }> = ({ children, className = "" }) => (
   <div
     className={`light-glass-shell kete-light-shell min-h-screen relative overflow-hidden ${className}`}
-    style={{
-      background: "linear-gradient(180deg, #FFFFFF 0%, #F4FAFC 45%, #E8F4F6 100%)",
-      color: "#1F4E54",
-    }}
+    style={{ background: "#FAFBFC", color: "#3D4250" }}
   >
     <WharikiFoundation />
     <WaterCausticBackground />
@@ -45,7 +42,7 @@ const LightPageShell: React.FC<{
             left: `${(i * 43) % 100}%`,
             top: `${(i * 61) % 100}%`,
             background: i % 5 === 0
-              ? `rgba(74,165,168,0.3)`
+              ? `rgba(232,169,72,0.3)`
               : i % 3 === 0
                 ? `rgba(200,195,220,0.35)`
                 : `rgba(58,125,110,0.25)`,
@@ -56,13 +53,13 @@ const LightPageShell: React.FC<{
       ))}
     </div>
 
-    {/* Liquid glass glow orbs — soft teal on white-ice */}
+    {/* Liquid glass glow orbs */}
     <div className="fixed inset-0 pointer-events-none z-[1]">
       <div
         className="absolute"
         style={{
           width: 500, height: 500, top: "-8%", left: "-6%",
-          background: "radial-gradient(circle, rgba(74,165,168,0.10) 0%, rgba(74,165,168,0.03) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(58,125,110,0.12) 0%, rgba(58,125,110,0.04) 40%, transparent 70%)",
           filter: "blur(80px)",
           animation: "shellOrb1 12s ease-in-out infinite",
         }}
@@ -71,7 +68,7 @@ const LightPageShell: React.FC<{
         className="absolute"
         style={{
           width: 400, height: 400, top: "25%", right: "-4%",
-          background: "radial-gradient(circle, rgba(168,221,219,0.18) 0%, rgba(168,221,219,0.05) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(232,169,72,0.10) 0%, rgba(232,169,72,0.03) 40%, transparent 70%)",
           filter: "blur(100px)",
           animation: "shellOrb2 16s ease-in-out infinite",
         }}
@@ -80,7 +77,7 @@ const LightPageShell: React.FC<{
         className="absolute"
         style={{
           width: 600, height: 600, bottom: "-10%", left: "20%",
-          background: "radial-gradient(circle, rgba(210,235,238,0.30) 0%, transparent 60%)",
+          background: "radial-gradient(circle, rgba(58,125,110,0.08) 0%, transparent 60%)",
           filter: "blur(120px)",
           animation: "shellOrb3 20s ease-in-out infinite",
         }}
@@ -89,19 +86,19 @@ const LightPageShell: React.FC<{
         className="absolute"
         style={{
           width: 500, height: 500, top: "45%", left: "45%",
-          background: "radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 60%)",
+          background: "radial-gradient(circle, rgba(200,195,220,0.15) 0%, transparent 60%)",
           filter: "blur(140px)",
           animation: "shellOrb4 18s ease-in-out infinite",
         }}
       />
     </div>
 
-    {/* Top accent bar — soft teal */}
+    {/* Top accent bar */}
     <div
       className="fixed top-0 left-0 right-0 h-[2px] z-50"
       style={{
-        background: "linear-gradient(90deg, transparent 5%, rgba(74,165,168,0.25) 30%, #4AA5A8 50%, rgba(74,165,168,0.25) 70%, transparent 95%)",
-        boxShadow: "0 0 20px rgba(74,165,168,0.18), 0 2px 30px rgba(74,165,168,0.06)",
+        background: "linear-gradient(90deg, transparent 5%, rgba(58,125,110,0.3) 30%, #3A7D6E 50%, rgba(58,125,110,0.3) 70%, transparent 95%)",
+        boxShadow: "0 0 20px rgba(58,125,110,0.2), 0 2px 30px rgba(58,125,110,0.08)",
       }}
     />
 

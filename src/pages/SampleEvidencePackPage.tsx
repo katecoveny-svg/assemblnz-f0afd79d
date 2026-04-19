@@ -98,7 +98,7 @@ const PACKS: Record<string, PackData> = {
           { label: "Menu allergen matrix on file", value: "Yes — updated 1 Apr 2026", status: "ok" },
           { label: "Gluten-free claim verified", value: "Kitchen separation protocol documented", status: "ok" },
           { label: "Staff allergen briefing (last session)", value: "7 Mar 2026 — 12 staff signed", status: "ok" },
-          { label: "Online menu sync", value: "Website not yet updated", status: "warn" },
+          { label: "Online menu sync", value: "⚠ Website not yet updated", status: "warn" },
         ],
       },
     ],
@@ -238,7 +238,7 @@ const PACKS: Record<string, PackData> = {
           { label: "IPP 1 — Purpose of collection", value: "Documented — consent form updated Feb 2026", status: "ok" },
           { label: "IPP 3 — Collection from individual", value: "Compliant — direct collection confirmed", status: "ok" },
           { label: "IPP 5 — Storage & security", value: "Encrypted at rest & in transit — Azure NZ", status: "ok" },
-          { label: "IPP 11 — Disclosure overseas", value: "Practice management software — US-hosted", status: "warn" },
+          { label: "IPP 11 — Disclosure overseas", value: "⚠ Practice management software — US-hosted", status: "warn" },
         ],
       },
       {

@@ -29,7 +29,7 @@ const TRIGGERS: TriggerDef[] = [
     label: "Send to Creative",
     description: "Generate a 15-second TikTok-style video from this milestone",
     fromKete: "waihanga", toKete: "auaha",
-    fromColor: "#3A7D6E", toColor: "#A8DDDB",
+    fromColor: "#3A7D6E", toColor: "#F0D078",
     icon: Video,
     toAgentId: "rhythm",
     prompt: (ctx) => `Create a 15-second TikTok-style video concept for this construction milestone. Use the brand voice from Brand DNA if available. NZ market context.\n\nMilestone:\n${ctx}`,
@@ -39,7 +39,7 @@ const TRIGGERS: TriggerDef[] = [
     label: "Scan for Inventory",
     description: "Identify hospitality items in this shipment",
     fromKete: "pikau", toKete: "manaaki",
-    fromColor: "#5AADA0", toColor: "#4AA5A8",
+    fromColor: "#5AADA0", toColor: "#D4A843",
     icon: Package,
     toAgentId: "aura",
     prompt: (ctx) => `Scan this customs/freight document and identify any items relevant to a hospitality business (food, beverages, equipment, linen, amenities). List what was found with quantities and suggest where they should be allocated.\n\nDocument:\n${ctx}`,
@@ -49,7 +49,7 @@ const TRIGGERS: TriggerDef[] = [
     label: "Generate Site Report",
     description: "Turn creative assets into a formatted site progress report",
     fromKete: "auaha", toKete: "waihanga",
-    fromColor: "#A8DDDB", toColor: "#3A7D6E",
+    fromColor: "#F0D078", toColor: "#3A7D6E",
     icon: FileText,
     toAgentId: "kanohi",
     prompt: (ctx) => `Generate a professional NZ construction site progress report from the following creative/photo assets. Include safety observations, progress percentage estimates, and next steps. Building Act 2004 compliant format.\n\nAssets:\n${ctx}`,
@@ -59,7 +59,7 @@ const TRIGGERS: TriggerDef[] = [
     label: "Create Social Post",
     description: "Generate social media content from this event/booking",
     fromKete: "manaaki", toKete: "auaha",
-    fromColor: "#4AA5A8", toColor: "#A8DDDB",
+    fromColor: "#D4A843", toColor: "#F0D078",
     icon: Video,
     toAgentId: "prism",
     prompt: (ctx) => `Create an engaging social media post (Instagram + Facebook) for this hospitality event/booking. Use NZ English, include relevant hashtags, and suggest an image prompt. Brand DNA tone if available.\n\nEvent:\n${ctx}`,
@@ -75,7 +75,7 @@ interface Props {
   agentColor?: string;
 }
 
-export default function SymbioticTriggerButtons({ sourceKete, context, agentColor = "#4AA5A8" }: Props) {
+export default function SymbioticTriggerButtons({ sourceKete, context, agentColor = "#D4A843" }: Props) {
   const { user } = useAuth();
   const [loading, setLoading] = useState<string | null>(null);
   const [results, setResults] = useState<Record<string, string>>({});

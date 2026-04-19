@@ -235,7 +235,7 @@ export default function MatarikiStarfield({
           const ax = sa.x * w, ay = sa.y * h;
           const bx = sb.x * w, by = sb.y * h;
           const pulse = Math.sin(t * 0.5 + a) * 0.3 + 0.7;
-          ctx.strokeStyle = `rgba(74,165,168,${0.12 * pulse})`;
+          ctx.strokeStyle = `rgba(212,168,67,${0.12 * pulse})`;
           ctx.beginPath();
           ctx.moveTo(ax, ay);
           ctx.lineTo(bx, by);
@@ -251,9 +251,9 @@ export default function MatarikiStarfield({
 
           // Outer glow
           const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 8);
-          glow.addColorStop(0, `rgba(74,165,168,${0.15 * pulse})`);
-          glow.addColorStop(0.5, `rgba(74,165,168,${0.04 * pulse})`);
-          glow.addColorStop(1, "rgba(74,165,168,0)");
+          glow.addColorStop(0, `rgba(212,168,67,${0.15 * pulse})`);
+          glow.addColorStop(0.5, `rgba(212,168,67,${0.04 * pulse})`);
+          glow.addColorStop(1, "rgba(212,168,67,0)");
           ctx.beginPath();
           ctx.arc(sx, sy, r * 8, 0, Math.PI * 2);
           ctx.fillStyle = glow;

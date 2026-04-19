@@ -45,7 +45,7 @@ interface ContactSubmission { id: string; name: string; email: string; message: 
 interface HealthService { name: string; status: "ok" | "degraded" | "down"; responseTime: number | null; lastChecked: string; }
 
 const ROLES = ["free", "starter", "pro", "business", "admin"];
-const GOLD = "#4AA5A8";
+const GOLD = "#D4A843";
 const POUNAMU = "#3A7D6E";
 const TEAL = "#5AADA0";
 
@@ -282,7 +282,7 @@ const AdminDashboard = () => {
                 {[
                   { label: "Kete Overview", section: "kete", color: POUNAMU, icon: Bot },
                   { label: "Agent Directory", section: "agents", color: "#3A6A9C", icon: Bot },
-                  { label: "Open Creative Studio", section: "creative", color: "#A8DDDB", icon: Sparkles },
+                  { label: "Open Creative Studio", section: "creative", color: "#F0D078", icon: Sparkles },
                   { label: "Output Library", section: "outputs", color: TEAL, icon: FolderOpen },
                 ].map((btn) => (
                   <button
@@ -469,7 +469,7 @@ const AdminDashboard = () => {
           {/* ═══ CREATIVE STUDIO (inline) ═══ */}
           {section === "creative" && (
             <div className="space-y-6">
-              <SectionTitle title="Creative Studio" subtitle="Generate images, video & creative assets" icon={Sparkles} color="#A8DDDB" />
+              <SectionTitle title="Creative Studio" subtitle="Generate images, video & creative assets" icon={Sparkles} color="#F0D078" />
               <GlassCard className="p-0 overflow-visible" style={{ background: "transparent", border: "none", boxShadow: "none", backdropFilter: "none" }}>
                 <Suspense fallback={<div className="h-96 flex items-center justify-center text-[#D1D5DB]">Loading studio…</div>}>
                   <AuahaGenerate />
@@ -505,7 +505,7 @@ const AdminDashboard = () => {
           {/* ═══ IMAGE STUDIO (inline) ═══ */}
           {section === "images" && (
             <div className="space-y-6">
-              <SectionTitle title="Image Studio" subtitle="Generate and edit images with AI" icon={Globe} color="#A8DDDB" />
+              <SectionTitle title="Image Studio" subtitle="Generate and edit images with AI" icon={Globe} color="#F0D078" />
               <GlassCard className="p-0 overflow-visible" style={{ background: "transparent", border: "none", boxShadow: "none", backdropFilter: "none" }}>
                 <Suspense fallback={<div className="h-96 flex items-center justify-center text-[#D1D5DB]">Loading…</div>}>
                   <PixelImageStudio />

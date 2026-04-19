@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 
-const ACCENT = "#A8DDDB";
+const ACCENT = "#F0D078";
 
 interface BrandDna {
   business_name?: string;

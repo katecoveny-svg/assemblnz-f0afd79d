@@ -153,7 +153,7 @@ export default function SiteCheckinPage() {
               <div className="space-y-1.5">
                 {siteConditions.construction_alerts.map((alert, i) => (
                   <div key={i} className="text-[11px] px-3 py-2 rounded-xl bg-destructive/10 text-destructive border border-destructive/20 font-medium">
-                    ️ {alert}
+                    ⚠️ {alert}
                   </div>
                 ))}
               </div>

@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { ulid } from "ulid";
 
-const ACCENT = "#A8DDDB";
+const ACCENT = "#F0D078";
 const TEAL = "#5AADA0";
 
 // ── Kahu tiers ──────────────────────────────────────────────
@@ -297,7 +297,7 @@ export default function AuahaGenerate() {
           <div>
             <label className="text-[#6B7280] text-xs block mb-1.5">Prompt</label>
             <textarea value={prompt} onChange={e => setPrompt(e.target.value)}
-              className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm min-h-[120px] placeholder:text-[#8B92A0] focus:outline-none focus:border-[#A8DDDB66]"
+              className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-4 py-3 text-foreground text-sm min-h-[120px] placeholder:text-[#8B92A0] focus:outline-none focus:border-[#F0D07866]"
               placeholder="Describe what you want to create... Kahu will scan for compliance before dispatch." />
           </div>
 
@@ -368,7 +368,7 @@ export default function AuahaGenerate() {
                     )}
                     {job.status === "flagged" && (
                       <button onClick={e => { e.stopPropagation(); approveJob(job.id); }}
-                        className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-medium bg-amber-500/20 text-[#4AA5A8] hover:bg-amber-500/30">
+                        className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-medium bg-amber-500/20 text-[#D4A843] hover:bg-amber-500/30">
                         <CheckCircle2 className="w-3 h-3" /> Approve
                       </button>
                     )}

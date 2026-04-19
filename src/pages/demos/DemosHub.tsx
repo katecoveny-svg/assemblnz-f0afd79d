@@ -13,7 +13,7 @@ const C = {
   pounamuLight: "#7ECFC2",
   pounamuGlow: "#5AADA0",
   gold: "#D4A853",
-  goldLight: "#A8DDDB",
+  goldLight: "#F0D078",
   bone: "#F5F0E8",
 };
 

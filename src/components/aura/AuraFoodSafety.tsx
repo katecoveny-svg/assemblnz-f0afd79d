@@ -69,7 +69,7 @@ const AuraFoodSafety = ({ onGenerate }: Props) => {
 
   const handleExportPDF = () => {
     const summary = DAILY_CHECKS.map(c =>
-      `${checks[c.id] ? "" : ""} ${c.label}${c.tempField && temps[c.id] ? ` (${temps[c.id]}°C)` : ""}`
+      `${checks[c.id] ? "✅" : "❌"} ${c.label}${c.tempField && temps[c.id] ? ` (${temps[c.id]}°C)` : ""}`
     ).join("\n");
     gen(`Generate a printable Daily Food Safety Record for ${today}. Completed by: ${completedBy || "Not specified"}. Results:\n${summary}\nNotes: ${notes || "None"}\n\nFormat as a professional compliance document suitable for filing as part of our Food Control Plan under the Food Act 2014. Include a sign-off section.`);
   };

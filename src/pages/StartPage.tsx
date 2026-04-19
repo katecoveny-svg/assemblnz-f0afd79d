@@ -64,30 +64,30 @@ const CURRENT_TOOLS = [
 
 // ── Agent recommendations by pain point ──
 const AGENT_MAP: Record<string, { name: string; icon: string; desc: string }> = {
-  "Quotes & estimates": { name: "KAUPAPA", icon: "", desc: "Generate professional quotes in minutes" },
-  "Safety plans & SSSP": { name: "APEX", icon: "", desc: "Safety plans generated in 2 minutes, not 5 hours" },
+  "Quotes & estimates": { name: "KAUPAPA", icon: "📝", desc: "Generate professional quotes in minutes" },
+  "Safety plans & SSSP": { name: "APEX", icon: "🔧", desc: "Safety plans generated in 2 minutes, not 5 hours" },
   "Building consents": { name: "WHAKAAĒ", icon: "📋", desc: "Consent applications with NZ Building Code checks" },
-  "Invoicing & claims": { name: "LEDGER", icon: "", desc: "Handles GST, invoicing, and cashflow" },
+  "Invoicing & claims": { name: "LEDGER", icon: "📊", desc: "Handles GST, invoicing, and cashflow" },
   "Subcontractor management": { name: "AROHA", icon: "👷", desc: "Contracts, compliance, and scheduling" },
-  "Food safety diary": { name: "AURA", icon: "️", desc: "Daily food safety checks via WhatsApp" },
+  "Food safety diary": { name: "AURA", icon: "🛡️", desc: "Daily food safety checks via WhatsApp" },
   "Staff rosters": { name: "AROHA", icon: "👷", desc: "Rosters, leave, and Holidays Act compliance" },
-  "Liquor compliance": { name: "AURA", icon: "️", desc: "Licence renewals and duty manager tracking" },
+  "Liquor compliance": { name: "AURA", icon: "🛡️", desc: "Licence renewals and duty manager tracking" },
   "Marketing & socials": { name: "PRISM", icon: "📱", desc: "Brand-locked content across all platforms" },
-  "GST & tax compliance": { name: "LEDGER", icon: "", desc: "GST returns, tax prep, and cashflow" },
+  "GST & tax compliance": { name: "LEDGER", icon: "📊", desc: "GST returns, tax prep, and cashflow" },
   "Employment compliance": { name: "AROHA", icon: "👷", desc: "Employment agreements and Holidays Act AI" },
   "Content & marketing": { name: "PRISM", icon: "📱", desc: "Creates marketing content automatically" },
-  "Sales pipeline": { name: "FLUX", icon: "", desc: "Elite sales intelligence for NZ businesses" },
+  "Sales pipeline": { name: "FLUX", icon: "🎯", desc: "Elite sales intelligence for NZ businesses" },
   "Admin & paperwork": { name: "ANCHOR", icon: "⚓", desc: "Contracts, policies, and legal documents" },
-  "Reporting & analytics": { name: "PILOT", icon: "", desc: "Business intelligence and insights" },
-  "WoF/CoF tracking": { name: "FORGE", icon: "", desc: "Vehicle lifecycle and compliance tracking" },
-  "Finance compliance (CCCFA)": { name: "FORGE", icon: "", desc: "F&I calculations with CCCFA compliance" },
-  "Service reminders": { name: "FORGE", icon: "", desc: "Automated service reminders via WhatsApp" },
-  "Healthy Homes compliance": { name: "KĀINGA", icon: "", desc: "Healthy Homes compliance management" },
+  "Reporting & analytics": { name: "PILOT", icon: "📈", desc: "Business intelligence and insights" },
+  "WoF/CoF tracking": { name: "FORGE", icon: "🔧", desc: "Vehicle lifecycle and compliance tracking" },
+  "Finance compliance (CCCFA)": { name: "FORGE", icon: "🔧", desc: "F&I calculations with CCCFA compliance" },
+  "Service reminders": { name: "FORGE", icon: "🔧", desc: "Automated service reminders via WhatsApp" },
+  "Healthy Homes compliance": { name: "KĀINGA", icon: "🏠", desc: "Healthy Homes compliance management" },
   "Tenant communications": { name: "ECHO", icon: "📨", desc: "Automated tenant comms and notifications" },
-  "Rent tracking": { name: "LEDGER", icon: "", desc: "Rent receipts, arrears, and cashflow" },
-  "FEP / farm plans": { name: "TŌRO", icon: "", desc: "Farm environment plan builder" },
-  "NAIT compliance": { name: "TŌRO", icon: "", desc: "NAIT tracking and MPI compliance" },
-  "Seasonal planning": { name: "TŌRO", icon: "", desc: "Seasonal task calendar and alerts" },
+  "Rent tracking": { name: "LEDGER", icon: "📊", desc: "Rent receipts, arrears, and cashflow" },
+  "FEP / farm plans": { name: "TŌRO", icon: "🌿", desc: "Farm environment plan builder" },
+  "NAIT compliance": { name: "TŌRO", icon: "🌿", desc: "NAIT tracking and MPI compliance" },
+  "Seasonal planning": { name: "TŌRO", icon: "🌿", desc: "Seasonal task calendar and alerts" },
 };
 
 const STEP_TITLES = [
@@ -338,7 +338,7 @@ const StartPage = () => {
                     className="rounded-lg bg-primary/5 border border-primary/20 p-3"
                   >
                     <p className="text-xs text-primary">
-                      With {teamSize} staff, AROHA (employment compliance) will be automatically included — it's mandatory under the Employment Relations Act 2000.
+                      💡 With {teamSize} staff, AROHA (employment compliance) will be automatically included — it's mandatory under the Employment Relations Act 2000.
                     </p>
                   </motion.div>
                 )}

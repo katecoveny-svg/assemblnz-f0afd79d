@@ -11,7 +11,7 @@ import { toast } from "@/components/ui/use-toast";
 import { Trash2, Edit2, Plus, Loader2, Search, Filter, X } from "lucide-react";
 import { AaaipGuardBadge, useAaaipGuard } from "@/aaaip";
 
-const MANAAKI_COLOR = "#4AA5A8";
+const MANAAKI_COLOR = "#D4A843";
 const PROPERTY_CAPACITY = 12;
 
 const ROOMS = ["Lodge Suite 1", "Lodge Suite 2", "Valley View 1", "Valley View 2", "Premium Suite"];

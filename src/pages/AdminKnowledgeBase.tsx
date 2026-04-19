@@ -129,10 +129,10 @@ export default function AdminKnowledgeBase() {
     <AdminShell
       title="Knowledge Base"
       subtitle={`${entries.length} entries across all agents`}
-      icon={<Database size={18} style={{ color: "#4AA5A8" }} />}
+      icon={<Database size={18} style={{ color: "#D4A843" }} />}
       backTo="/admin/compliance"
       actions={
-        <Button onClick={openNew} className="bg-[#4AA5A8] text-black hover:bg-[#4AA5A8]/80">
+        <Button onClick={openNew} className="bg-[#D4A843] text-black hover:bg-[#D4A843]/80">
           <Plus className="h-4 w-4 mr-2" /> Add Entry
         </Button>
       }
@@ -196,7 +196,7 @@ export default function AdminKnowledgeBase() {
                 {filtered.map((entry) => (
                   <TableRow key={entry.id} className="border-gray-200 hover:bg-white/5">
                     <TableCell>
-                      <Badge className="bg-[#1A3A5C]/60 text-[#4AA5A8] border-[#4AA5A8]/30 uppercase text-xs">
+                      <Badge className="bg-[#1A3A5C]/60 text-[#D4A843] border-[#D4A843]/30 uppercase text-xs">
                         {entry.agent_id}
                       </Badge>
                     </TableCell>
@@ -237,7 +237,7 @@ export default function AdminKnowledgeBase() {
                         </Button>
                         {entry.source_url && (
                           <a href={entry.source_url} target="_blank" rel="noopener noreferrer">
-                            <Button variant="ghost" size="icon" className="h-7 w-7 text-white/40 hover:text-[#4AA5A8]">
+                            <Button variant="ghost" size="icon" className="h-7 w-7 text-white/40 hover:text-[#D4A843]">
                               <ExternalLink className="h-3.5 w-3.5" />
                             </Button>
                           </a>
@@ -255,7 +255,7 @@ export default function AdminKnowledgeBase() {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="bg-[#FAFBFC] border-gray-200 text-foreground max-w-lg">
             <DialogHeader>
-              <DialogTitle className="text-[#4AA5A8]">{editEntry?.id ? "Edit" : "Add"} Knowledge Entry</DialogTitle>
+              <DialogTitle className="text-[#D4A843]">{editEntry?.id ? "Edit" : "Add"} Knowledge Entry</DialogTitle>
             </DialogHeader>
             {editEntry && (
               <div className="space-y-4">
@@ -338,7 +338,7 @@ export default function AdminKnowledgeBase() {
                   <Button
                     onClick={() => upsertMutation.mutate(editEntry)}
                     disabled={!editEntry.agent_id || !editEntry.topic || !editEntry.content}
-                    className="bg-[#4AA5A8] text-black hover:bg-[#4AA5A8]/80"
+                    className="bg-[#D4A843] text-black hover:bg-[#D4A843]/80"
                   >
                     {editEntry.id ? "Update" : "Create"}
                   </Button>

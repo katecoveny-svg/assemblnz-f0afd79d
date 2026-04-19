@@ -19,7 +19,7 @@ const manaaki: LivePack = {
   name: "Manaaki",
   subtitle: "Hospitality — 30-seat Wellington restaurant",
   scenario: "Tonight's duty manager shift-change",
-  color: "#4AA5A8",
+  color: "#D4A843",
   inputs: [
     "8 staff roster",
     "3 allergen flags (dairy, shellfish, gluten)",
@@ -162,7 +162,7 @@ const waihanga: LivePack = {
         const high = (wind ?? 0) > 40;
         return {
           status: high ? "warn" : "pass",
-          detail: `Hamilton site forecast: wind ${fmtNum(wind, 0)}km/h, rain ${fmtNum(rain, 1)}mm. ${high ? "Roof truss installation may need to defer — exceeds 40km/h crane threshold." : "Conditions safe for height work; standard PPE applies."}`,
+          detail: `Hamilton site forecast: wind ${fmtNum(wind, 0)}km/h, rain ${fmtNum(rain, 1)}mm. ${high ? "⚠ Roof truss installation may need to defer — exceeds 40km/h crane threshold." : "Conditions safe for height work; standard PPE applies."}`,
         };
       },
       fallback: {

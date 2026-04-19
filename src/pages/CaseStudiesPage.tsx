@@ -9,7 +9,7 @@ import HeroParticlesLight from "@/components/HeroParticlesLight";
 
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
-const GOLD = "#4AA5A8";
+const GOLD = "#D4A843";
 const BONE = "#F5F0E8";
 
 const CASES = [
@@ -42,7 +42,7 @@ const CASES = [
     business: "Creative agency, Auckland",
     meeting: "Funder acquittal",
     packTitle: "Rights, releases & commercial pack",
-    color: "#4AA5A8",
+    color: "#D4A843",
     quote: "The funder said it was the cleanest acquittal pack they'd received all year.",
   },
 ];

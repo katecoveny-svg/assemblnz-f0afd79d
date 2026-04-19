@@ -116,8 +116,8 @@ export default function AdminKbPriorities() {
         <header className="flex items-start justify-between gap-4 flex-wrap">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <ShieldCheck size={14} style={{ color: "#4AA5A8" }} />
-              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: "#4AA5A8" }}>
+              <ShieldCheck size={14} style={{ color: "#D4A843" }} />
+              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: "#D4A843" }}>
                 Mōhiotanga · Knowledge ops
               </span>
             </div>

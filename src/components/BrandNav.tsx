@@ -20,21 +20,21 @@ const NAV_ITEMS: NavItem[] = [
 
 const KETE = [
   { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", glowIcon: "UtensilsCrossed", color: "#4AA5A8" },
-  { label: "Waihanga", sublabel: "Construction", to: "/waihanga/about", glowIcon: "HardHat", color: "#4AA5A8" },
+  { label: "Waihanga", sublabel: "Construction", to: "/waihanga/about", glowIcon: "HardHat", color: "#E8A948" },
   { label: "Auaha", sublabel: "Creative", to: "/auaha/about", glowIcon: "Palette", color: "#9B8EC4" },
   { label: "Arataki", sublabel: "Automotive", to: "/arataki", glowIcon: "Cpu", color: "#4AA5A8" },
   { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", glowIcon: "Globe", color: "#6CBFC1" },
   { label: "Hoko", sublabel: "Retail", to: "/hoko", glowIcon: "ShoppingBag", color: "#C66B5C" },
   { label: "Ako", sublabel: "Early Childhood", to: "/ako", glowIcon: "Baby", color: "#7BA7C7" },
-  { label: "Toro", sublabel: "Family", to: "/toro", glowIcon: "Bird", color: "#4AA5A8" },
+  { label: "Toro", sublabel: "Family", to: "/toro", glowIcon: "Bird", color: "#E8A948" },
 ];
 
 const MORE_LINKS = [
   { label: "ROI Calculator", sublabel: "Sales tool", to: "/roi", glowIcon: "BarChart3", color: "#4AA5A8" },
-  { label: "Scenario Simulator", sublabel: "Try a live demo", to: "/simulator", glowIcon: "Brain", color: "#4AA5A8" },
+  { label: "Scenario Simulator", sublabel: "Try a live demo", to: "/simulator", glowIcon: "Brain", color: "#E8A948" },
   { label: "Data Sovereignty", sublabel: "Enterprise trust", to: "/data-sovereignty", glowIcon: "Shield", color: "#4AA5A8" },
   { label: "Developers", sublabel: "API & docs", to: "/developers", glowIcon: "Cpu", color: "#6CBFC1" },
-  { label: "AAAIP", sublabel: "R&D showcase", to: "/aaaip", glowIcon: "Sparkles", color: "#4AA5A8" },
+  { label: "AAAIP", sublabel: "R&D showcase", to: "/aaaip", glowIcon: "Sparkles", color: "#E8A948" },
   { label: "Agent Marketplace", sublabel: "Browse 46 specialists", to: "/agents", glowIcon: "Users", color: "#9B8EC4" },
 ];
 

@@ -19,7 +19,7 @@ const EmbedDemoSection = () => (
             fontWeight: 400,
             fontSize: "11px",
             letterSpacing: "4px",
-            color: "#4AA5A8",
+            color: "#D4A843",
           }}
         >
           Try it now
@@ -67,9 +67,9 @@ const EmbedDemoSection = () => (
         >
           <div
             className="w-8 h-8 rounded-full flex items-center justify-center"
-            style={{ background: "rgba(74,165,168,0.15)" }}
+            style={{ background: "rgba(212,168,67,0.15)" }}
           >
-            <Bot size={14} style={{ color: "#4AA5A8" }} />
+            <Bot size={14} style={{ color: "#D4A843" }} />
           </div>
           <div>
             <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, fontSize: "12px", color: "#1A1D29", letterSpacing: "2px" }}>
@@ -99,8 +99,8 @@ const EmbedDemoSection = () => (
             <div
               className="rounded-xl px-4 py-3 max-w-[80%]"
               style={{
-                background: "rgba(74,165,168,0.1)",
-                border: "1px solid rgba(74,165,168,0.15)",
+                background: "rgba(212,168,67,0.1)",
+                border: "1px solid rgba(212,168,67,0.15)",
               }}
             >
               <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "#1A1D29" }}>
@@ -119,9 +119,9 @@ const EmbedDemoSection = () => (
           <div className="flex items-start gap-3">
             <div
               className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
-              style={{ background: "rgba(74,165,168,0.15)" }}
+              style={{ background: "rgba(212,168,67,0.15)" }}
             >
-              <Bot size={12} style={{ color: "#4AA5A8" }} />
+              <Bot size={12} style={{ color: "#D4A843" }} />
             </div>
             <div
               className="rounded-xl px-4 py-3 max-w-[85%]"
@@ -131,7 +131,7 @@ const EmbedDemoSection = () => (
               }}
             >
               <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "rgba(255,255,255,0.85)", lineHeight: 1.6 }}>
-                Yes — under the <span style={{ color: "#4AA5A8" }}>Food Act 2014</span>, all food businesses in NZ must operate under either a Food Control Plan (FCP) or a National Programme. A cafe that prepares and serves food on-site would typically require a <span style={{ color: "#4AA5A8" }}>template Food Control Plan</span>, registered with your local council...
+                Yes — under the <span style={{ color: "#D4A843" }}>Food Act 2014</span>, all food businesses in NZ must operate under either a Food Control Plan (FCP) or a National Programme. A cafe that prepares and serves food on-site would typically require a <span style={{ color: "#D4A843" }}>template Food Control Plan</span>, registered with your local council...
               </p>
               <p
                 className="mt-2"
@@ -155,16 +155,16 @@ const EmbedDemoSection = () => (
             style={{
               fontFamily: "'Lato', sans-serif",
               fontWeight: 400,
-              background: "#4AA5A8",
+              background: "#D4A843",
               color: "#09090F",
-              border: "1px solid #4AA5A8",
-              boxShadow: "0 0 20px rgba(74,165,168,0.2)",
+              border: "1px solid #D4A843",
+              boxShadow: "0 0 20px rgba(212,168,67,0.2)",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = "0 0 35px rgba(74,165,168,0.3)";
+              e.currentTarget.style.boxShadow = "0 0 35px rgba(212,168,67,0.3)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = "0 0 20px rgba(74,165,168,0.2)";
+              e.currentTarget.style.boxShadow = "0 0 20px rgba(212,168,67,0.2)";
             }}
           >
             Try it live <ArrowRight size={14} />

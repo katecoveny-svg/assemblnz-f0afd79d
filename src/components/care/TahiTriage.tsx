@@ -3,7 +3,7 @@ import { AlertTriangle, Phone, MapPin, Heart, Shield } from "lucide-react";
 
 const KOKKOWAI = "#A52A2A";
 const POUNAMU = "#3A7D6E";
-const KOWHAI = "#4AA5A8";
+const KOWHAI = "#D4A843";
 
 interface TahiTriageProps {
   onSendToChat: (msg: string) => void;
@@ -52,7 +52,7 @@ const TahiTriage = ({ onSendToChat }: TahiTriageProps) => {
               key={s.label}
               onClick={() => onSendToChat(s.prompt)}
               className="p-3 rounded-xl text-left transition-all hover:scale-[0.99] flex items-center gap-3"
-              style={{ background: "rgba(255,255,255,0.65)", border: `1px solid ${s.urgent ? "rgba(165,42,42,0.15)" : "rgba(74,165,168,0.08)"}` }}
+              style={{ background: "rgba(255,255,255,0.65)", border: `1px solid ${s.urgent ? "rgba(165,42,42,0.15)" : "rgba(212,168,67,0.08)"}` }}
             >
               {s.urgent && <AlertTriangle size={13} style={{ color: KOKKOWAI, flexShrink: 0 }} />}
               <span className="text-xs" style={{ color: s.urgent ? "#fff" : "rgba(255,255,255,0.7)" }}>{s.label}</span>

@@ -5,10 +5,10 @@ const KETE = [
   { slug: "pikau", name: "Pikau", tagline: "Freight & Customs", accent: "#00B4D8", icon: "📦" },
   { slug: "manaaki", name: "Manaaki", tagline: "Hospitality", accent: "#E07A5F", icon: "🍷" },
   { slug: "arataki", name: "Arataki", tagline: "Automotive", accent: "#E63946", icon: "🚗" },
-  { slug: "auaha", name: "Auaha", tagline: "Creative Studio", accent: "#7B2FF7", icon: "" },
-  { slug: "waihanga", name: "Waihanga", tagline: "Construction", accent: "#F59E0B", icon: "️" },
-  { slug: "haven", name: "Haven", tagline: "Property Management", accent: "#4AA5A8", icon: "" },
-  { slug: "toroa", name: "Toroa", tagline: "Family Navigator", accent: "#06B6D4", icon: "" },
+  { slug: "auaha", name: "Auaha", tagline: "Creative Studio", accent: "#7B2FF7", icon: "🎨" },
+  { slug: "waihanga", name: "Waihanga", tagline: "Construction", accent: "#F59E0B", icon: "🏗️" },
+  { slug: "haven", name: "Haven", tagline: "Property Management", accent: "#D4A843", icon: "🏠" },
+  { slug: "toroa", name: "Toroa", tagline: "Family Navigator", accent: "#06B6D4", icon: "🦅" },
   { slug: "helm", name: "Helm", tagline: "Business Operations", accent: "#3A7D6E", icon: "⚙️" },
 ];
 

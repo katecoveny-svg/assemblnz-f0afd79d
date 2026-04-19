@@ -60,7 +60,7 @@ export default function AdminOutputLibrary() {
           title: c.prompt || `${c.asset_type} asset`,
           type: c.asset_type === "video" ? "video" : "image",
           agent: c.style || "Creative Studio",
-          agentColor: "#A8DDDB",
+          agentColor: "#F0D078",
           imageUrl: c.thumbnail_url || c.file_url,
           preview: c.prompt?.substring(0, 100),
           createdAt: c.created_at || "",
@@ -103,7 +103,7 @@ export default function AdminOutputLibrary() {
           title: a.headline,
           type: "ad",
           agent: a.agent_name || "Ad Manager",
-          agentColor: "#4AA5A8",
+          agentColor: "#D4A843",
           imageUrl: a.image_url || undefined,
           preview: a.primary_text?.substring(0, 120),
           createdAt: a.created_at || "",
@@ -172,8 +172,8 @@ export default function AdminOutputLibrary() {
               filter === t.key
                 ? {
                     ...GLASS,
-                    background: "linear-gradient(135deg, rgba(74,165,168,0.1), rgba(74,165,168,0.03))",
-                    border: "1px solid rgba(74,165,168,0.2)",
+                    background: "linear-gradient(135deg, rgba(212,168,67,0.1), rgba(212,168,67,0.03))",
+                    border: "1px solid rgba(212,168,67,0.2)",
                   }
                 : GLASS
             }

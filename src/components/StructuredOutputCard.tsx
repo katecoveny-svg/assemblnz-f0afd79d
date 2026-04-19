@@ -201,7 +201,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
       {/* Header */}
       <div
         className="px-4 py-2.5 flex items-center justify-between"
-        style={{ borderBottom: "1px solid rgba(74,165,168, 0.08)" }}
+        style={{ borderBottom: "1px solid rgba(212, 168, 67, 0.08)" }}
       >
         <span className="text-xs font-display uppercase tracking-widest" style={{ color: agentColor, letterSpacing: "3px" }}>
           {title}
@@ -229,7 +229,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
       {/* Action bar */}
       <div
         className="px-4 py-2.5 flex gap-2 flex-wrap"
-        style={{ borderTop: "1px solid rgba(74,165,168, 0.08)" }}
+        style={{ borderTop: "1px solid rgba(212, 168, 67, 0.08)" }}
       >
         <ActionBtn onClick={handleCopy}>
           {copied ? <Check size={11} /> : <Copy size={11} />}
@@ -252,7 +252,7 @@ const StructuredOutputCard = ({ title, content, agentName, agentColor, hasCheckl
       {/* Tikanga Check & NZ Export Presets */}
       <div
         className="px-4 py-2 flex flex-wrap gap-2"
-        style={{ borderTop: "1px solid rgba(74,165,168, 0.06)" }}
+        style={{ borderTop: "1px solid rgba(212, 168, 67, 0.06)" }}
       >
         <TikangaCheckButton content={content} agentName={agentName} agentColor={agentColor} />
         <NZExportPresets content={content} title={title} agentName={agentName} agentColor={agentColor} />

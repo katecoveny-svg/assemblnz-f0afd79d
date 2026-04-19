@@ -55,9 +55,9 @@ interface ItineraryResult {
 
 const activityTypeColors: Record<string, string> = {
   adventure: "#3A7D6E",
-  culture: "#4AA5A8",
+  culture: "#D4A843",
   nature: "#5AADA0",
-  food: "#A8DDDB",
+  food: "#F0D078",
   relaxation: "#6B8FA3",
 };
 
@@ -120,7 +120,7 @@ export default function OdysseyTravelPlanner() {
         borderColor: "rgba(255,255,255,0.5)",
       }}>
         <div className="flex items-center gap-2 mb-5">
-          <Compass className="w-5 h-5" style={{ color: "#4AA5A8" }} />
+          <Compass className="w-5 h-5" style={{ color: "#D4A843" }} />
           <h2 className="text-lg font-light text-foreground tracking-wide" style={{ fontFamily: "'Lato', sans-serif" }}>
             Plan Your Trip
           </h2>
@@ -212,9 +212,9 @@ export default function OdysseyTravelPlanner() {
                 onClick={() => toggleInterest(i)}
                 className="px-3 py-1 rounded-full text-xs font-medium transition-all"
                 style={{
-                  background: interests.includes(i) ? "#4AA5A8" : "rgba(255,255,255,0.5)",
+                  background: interests.includes(i) ? "#D4A843" : "rgba(255,255,255,0.5)",
                   color: interests.includes(i) ? "#09090F" : "rgba(255,255,255,0.5)",
-                  borderColor: interests.includes(i) ? "#4AA5A8" : "rgba(255,255,255,0.1)",
+                  borderColor: interests.includes(i) ? "#D4A843" : "rgba(255,255,255,0.1)",
                   border: "1px solid",
                 }}
               >
@@ -228,7 +228,7 @@ export default function OdysseyTravelPlanner() {
           onClick={generateItinerary}
           disabled={loading || !destination}
           className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all disabled:opacity-40"
-          style={{ background: "#4AA5A8", color: "#09090F" }}
+          style={{ background: "#D4A843", color: "#09090F" }}
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
           {loading ? "Planning your adventure..." : "Generate Itinerary"}
@@ -248,7 +248,7 @@ export default function OdysseyTravelPlanner() {
               <div className="flex flex-wrap gap-4 text-xs">
                 <span className="text-gray-500">💰 Est. Total: <strong className="text-foreground">NZ${result.totalEstimatedCostNzd?.toLocaleString()}</strong></span>
                 {result.bestTimeToBook && <span className="text-gray-500">📅 Book: <strong className="text-foreground">{result.bestTimeToBook}</strong></span>}
-                <span className="text-gray-500">{result.itinerary?.length} days</span>
+                <span className="text-gray-500">📍 {result.itinerary?.length} days</span>
               </div>
               {result.packingTips && result.packingTips.length > 0 && (
                 <div className="mt-3 pt-3 border-t" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
@@ -269,7 +269,7 @@ export default function OdysseyTravelPlanner() {
               {result.itinerary?.map((day, idx) => (
                 <div key={idx} className="rounded-xl border overflow-hidden" style={{
                   background: "rgba(255,255,255,0.65)",
-                  borderColor: expandedDay === idx ? "rgba(74,165,168,0.3)" : "rgba(255,255,255,0.5)",
+                  borderColor: expandedDay === idx ? "rgba(212,168,67,0.3)" : "rgba(255,255,255,0.5)",
                 }}>
                   <button
                     onClick={() => setExpandedDay(expandedDay === idx ? null : idx)}
@@ -277,7 +277,7 @@ export default function OdysseyTravelPlanner() {
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold"
-                        style={{ background: "rgba(74,165,168,0.15)", color: "#4AA5A8" }}>
+                        style={{ background: "rgba(212,168,67,0.15)", color: "#D4A843" }}>
                         {day.day}
                       </div>
                       <div>
@@ -310,12 +310,12 @@ export default function OdysseyTravelPlanner() {
                                   <span className="text-[10px] text-gray-400 font-mono">{act.time}</span>
                                   <span className="text-xs text-foreground font-medium">{act.name}</span>
                                   {act.bookingRequired && (
-                                    <span className="text-[8px] px-1.5 py-0.5 rounded-full font-bold" style={{ background: "rgba(74,165,168,0.2)", color: "#4AA5A8" }}>BOOK</span>
+                                    <span className="text-[8px] px-1.5 py-0.5 rounded-full font-bold" style={{ background: "rgba(212,168,67,0.2)", color: "#D4A843" }}>BOOK</span>
                                   )}
                                 </div>
                                 <p className="text-[11px] text-[#9CA3AF] mt-0.5">{act.description}</p>
                                 <div className="flex gap-3 mt-1 text-[10px] text-white/25">
-                                  {act.duration && <span>{act.duration}</span>}
+                                  {act.duration && <span>⏱ {act.duration}</span>}
                                   {act.costNzd !== undefined && <span>💰 NZ${act.costNzd}</span>}
                                 </div>
                               </div>
@@ -327,7 +327,7 @@ export default function OdysseyTravelPlanner() {
                             <div className="flex gap-4 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
                               <UtensilsCrossed className="w-3.5 h-3.5 text-white/20 mt-0.5 shrink-0" />
                               <div className="text-[10px] text-white/35 space-y-0.5">
-                                {day.meals.breakfast && <p>{day.meals.breakfast}</p>}
+                                {day.meals.breakfast && <p>🌅 {day.meals.breakfast}</p>}
                                 {day.meals.lunch && <p>☀️ {day.meals.lunch}</p>}
                                 {day.meals.dinner && <p>🌙 {day.meals.dinner}</p>}
                               </div>
@@ -351,7 +351,7 @@ export default function OdysseyTravelPlanner() {
                             <div className="flex gap-4 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
                               <Lightbulb className="w-3.5 h-3.5 text-white/20 mt-0.5 shrink-0" />
                               <div className="text-[10px] text-white/35 space-y-0.5">
-                                {day.tips.map((tip, ti) => <p key={ti}>{tip}</p>)}
+                                {day.tips.map((tip, ti) => <p key={ti}>💡 {tip}</p>)}
                               </div>
                             </div>
                           )}

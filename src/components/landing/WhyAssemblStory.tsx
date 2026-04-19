@@ -8,14 +8,14 @@ const ease = [0.16, 1, 0.3, 1] as const;
 /* ── Before/After scenarios ── */
 const BEFORE_SCENES = [
   { icon: Clock, text: "11pm. Still doing GST returns.", color: "#E8B4B8" },
-  { icon: FileWarning, text: "Employment law changed. Nobody told you.", color: "#4AA5A8" },
+  { icon: FileWarning, text: "Employment law changed. Nobody told you.", color: "#D4A843" },
   { icon: AlertTriangle, text: "Health & safety audit in 48 hours. Panic.", color: "#C17A3A" },
   { icon: Frown, text: "Quoting takes 3 days. You lose the job.", color: "#4A7AB5" },
 ];
 
 const AFTER_SCENES = [
   { icon: Sparkles, text: "GST filed automatically. You're at the beach.", color: "#3A7D6E" },
-  { icon: Shield, text: "Assembl flagged the change before it happened.", color: "#4AA5A8" },
+  { icon: Shield, text: "Assembl flagged the change before it happened.", color: "#D4A843" },
   { icon: CheckCircle2, text: "Safety plan generated in 12 minutes. Audit passed.", color: "#5B8FA8" },
   { icon: Heart, text: "Quote out in 20 mins. You won the contract.", color: "#89CFF0" },
 ];
@@ -26,7 +26,7 @@ const VALUES = [
     te_reo: "Manaakitanga",
     english: "Care for people",
     description: "Every decision we make asks: does this help the person on the other side? Technology should serve people, not replace them.",
-    color: "#4AA5A8",
+    color: "#D4A843",
   },
   {
     te_reo: "Kaitiakitanga",
@@ -58,7 +58,7 @@ const WhyAssemblStory = () => {
       <div className="absolute top-0 left-0 right-0 h-px overflow-hidden">
         <motion.div
           className="h-full w-[200%]"
-          style={{ background: "linear-gradient(90deg, transparent, #4AA5A8, #3A7D6E, #5B8FA8, transparent)" }}
+          style={{ background: "linear-gradient(90deg, transparent, #D4A843, #3A7D6E, #5B8FA8, transparent)" }}
           animate={{ x: ["-50%", "0%"] }}
           transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
         />
@@ -66,7 +66,7 @@ const WhyAssemblStory = () => {
 
       {/* Background koru texture */}
       <div className="absolute top-20 right-0 opacity-[0.04]">
-        <KoruAccent color="#4AA5A8" size={300} delay={0} />
+        <KoruAccent color="#D4A843" size={300} delay={0} />
       </div>
       <div className="absolute bottom-20 left-0 opacity-[0.03] rotate-180">
         <KoruAccent color="#3A7D6E" size={250} delay={0.5} />
@@ -90,7 +90,7 @@ const WhyAssemblStory = () => {
             <br />
             <motion.span
               className="inline-block"
-              style={{ color: "#4AA5A8" }}
+              style={{ color: "#D4A843" }}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -323,12 +323,12 @@ const WhyAssemblStory = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease }}
         >
-          <TanikoDivider color="#4AA5A8" width={120} className="mb-6" />
+          <TanikoDivider color="#D4A843" width={120} className="mb-6" />
           <p className="text-lg sm:text-xl leading-relaxed mb-6" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.75)" }}>
             "I built Assembl because NZ business owners deserve
             <motion.span
               className="inline"
-              style={{ color: "#4AA5A8" }}
+              style={{ color: "#D4A843" }}
             >
               {" "}the same tools{" "}
             </motion.span>

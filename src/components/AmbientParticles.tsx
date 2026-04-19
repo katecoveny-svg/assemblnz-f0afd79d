@@ -67,7 +67,7 @@ export default function AmbientParticles() {
       const streamCount = isMobile ? 3 : 6;
       streams = [];
       for (let i = 0; i < streamCount; i++) {
-        const colors = ["#4AA5A8", "#3A7D6E", "#5AADA0", "#A8DDDB"];
+        const colors = ["#D4A843", "#3A7D6E", "#5AADA0", "#F0D078"];
         streams.push({
           x: Math.random() * w,
           y: Math.random() * h,

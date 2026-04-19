@@ -11,7 +11,7 @@ interface AnimatedHeroProps {
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const PROOF_STRIP = [
-  { value: "44+", label: "specialist tools", color: "#4AA5A8" },
+  { value: "44+", label: "specialist tools", color: "#D4A843" },
   { value: "9", label: "industry kete", color: "#3A7D6E" },
   { value: "NZ", label: "built & hosted", color: "#5B8FA8" },
   { value: "50+", label: "NZ Acts", color: "#89CFF0" },
@@ -173,7 +173,7 @@ const WeavingFilm = ({ phase }: { phase: number }) => {
         <motion.path
           key={`l${i}`}
           d={d}
-          stroke="#4AA5A8"
+          stroke="#D4A843"
           strokeWidth={2 - i * 0.4}
           fill="none"
           strokeLinecap="round"
@@ -208,7 +208,7 @@ const WeavingFilm = ({ phase }: { phase: number }) => {
       )}
       <defs>
         <radialGradient id="weave-glow">
-          <stop offset="0%" stopColor="#4AA5A8" stopOpacity="0.4" />
+          <stop offset="0%" stopColor="#D4A843" stopOpacity="0.4" />
           <stop offset="60%" stopColor="#3A7D6E" stopOpacity="0.1" />
           <stop offset="100%" stopColor="transparent" stopOpacity="0" />
         </radialGradient>
@@ -224,7 +224,7 @@ const FloatingLabel = ({ text, side, index, visible }: { text: string; side: "le
     style={{
       fontFamily: "'JetBrains Mono', monospace",
       fontWeight: 500,
-      color: side === "left" ? "rgba(74,165,168,0.6)" : "rgba(58,125,110,0.6)",
+      color: side === "left" ? "rgba(212,168,67,0.6)" : "rgba(58,125,110,0.6)",
       top: `${30 + index * 18}%`,
       ...(side === "left" ? { left: "8%" } : { right: "8%" }),
     }}
@@ -326,7 +326,7 @@ const BrandFilm = ({ onComplete }: { onComplete: () => void }) => {
             >
               <motion.p
                 className="text-xl sm:text-3xl"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#4AA5A8" }}
+                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#D4A843" }}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3, duration: 1 }}
@@ -366,7 +366,7 @@ const BrandFilm = ({ onComplete }: { onComplete: () => void }) => {
           style={{
             top: "15%", right: "15%",
             width: "150px", height: "150px",
-            background: "radial-gradient(circle, rgba(74,165,168,0.08) 0%, transparent 60%)",
+            background: "radial-gradient(circle, rgba(212,168,67,0.08) 0%, transparent 60%)",
             borderRadius: "50%",
           }}
           initial={{ scale: 0.5, opacity: 0 }}
@@ -384,9 +384,9 @@ const BrandFilm = ({ onComplete }: { onComplete: () => void }) => {
 /** Subtle weaving threads — very low opacity so they don't compete with headline */
 const WeavingThreads = () => (
   <svg className="absolute inset-0 w-full h-full pointer-events-none z-[3]" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" style={{ opacity: 0.04 }}>
-    <motion.path d="M0 270 C300 240, 500 360, 720 315 S1100 260, 1440 300" stroke="#4AA5A8" strokeWidth="1" fill="none"
+    <motion.path d="M0 270 C300 240, 500 360, 720 315 S1100 260, 1440 300" stroke="#D4A843" strokeWidth="1" fill="none"
       initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 3, delay: 8.5 }} />
-    <motion.path d="M0 450 C250 420, 550 500, 720 450 S1050 400, 1440 440" stroke="#4AA5A8" strokeWidth="0.8" fill="none"
+    <motion.path d="M0 450 C250 420, 550 500, 720 450 S1050 400, 1440 440" stroke="#D4A843" strokeWidth="0.8" fill="none"
       initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 3, delay: 9 }} />
     <motion.path d="M1440 200 C1100 230, 900 180, 720 225 S350 270, 0 230" stroke="#3A7D6E" strokeWidth="0.8" fill="none"
       initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 3, delay: 8.8 }} />
@@ -435,7 +435,7 @@ const KoruFlourish = () => (
   <svg width="120" height="40" viewBox="0 0 120 40" className="mx-auto mt-3 opacity-40">
     <motion.path
       d="M10 20 C10 10, 20 5, 30 10 C40 15, 35 25, 25 25 C20 25, 18 22, 18 18 C18 15, 22 13, 25 15"
-      stroke="#4AA5A8"
+      stroke="#D4A843"
       strokeWidth="1.5"
       fill="none"
       strokeLinecap="round"
@@ -556,7 +556,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.1, ease }}
             >
-              <span className="text-[10px] tracking-[4px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8", fontWeight: 500 }}>
+              <span className="text-[10px] tracking-[4px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A843", fontWeight: 500 }}>
                 BUILT FOR NEW ZEALAND BUSINESS
               </span>
             </motion.div>

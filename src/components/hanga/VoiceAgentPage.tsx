@@ -4,7 +4,7 @@ import { Mic, MicOff, Volume2, Layers, Radio, ChevronRight } from "lucide-react"
 import GeminiLiveVoice from "@/components/GeminiLiveVoice";
 import type { GeminiLiveVoiceHandle } from "@/components/GeminiLiveVoice";
 
-const KOWHAI = "#4AA5A8";
+const KOWHAI = "#D4A843";
 const POUNAMU = "#3A7D6E";
 
 type VoiceStatus = "ready" | "listening" | "processing" | "speaking";

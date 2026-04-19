@@ -21,7 +21,7 @@ interface Recommendation {
 }
 
 const SCORE_GRADIENT = (score: number) =>
-  score >= 71 ? "#5AADA0" : score >= 41 ? "#4AA5A8" : "#C85A54";
+  score >= 71 ? "#5AADA0" : score >= 41 ? "#D4A843" : "#C85A54";
 
 const CircularGauge = ({ score, size = 180 }: { score: number; size?: number }) => {
   const [animatedScore, setAnimatedScore] = useState(0);
@@ -147,9 +147,9 @@ const BusinessScore = () => {
     return [
       { key: "compliance", label: "Compliance", icon: ShieldCheck, weight: 20, score: compScore, color: "#3A7D6E" },
       { key: "financial", label: "Financial Health", icon: DollarSign, weight: 20, score: finScore, color: "#5AADA0" },
-      { key: "team", label: "Team", icon: Users, weight: 15, score: teamScore, color: "#4AA5A8" },
+      { key: "team", label: "Team", icon: Users, weight: 15, score: teamScore, color: "#D4A843" },
       { key: "marketing", label: "Marketing", icon: Megaphone, weight: 15, score: mktScore, color: "#7ECFC2" },
-      { key: "operations", label: "Operations", icon: Settings, weight: 15, score: opsScore, color: "#4AA5A8" },
+      { key: "operations", label: "Operations", icon: Settings, weight: 15, score: opsScore, color: "#D4A843" },
       { key: "growth", label: "Growth", icon: TrendingUp, weight: 15, score: growthScore, color: "#1A3A5C" },
     ];
   }, [data]);

@@ -7,11 +7,11 @@ const CATEGORIES = [
   { value: "medical", label: "Medical", emoji: "🏥", color: "text-[#C85A54]" },
   { value: "school", label: "School", emoji: "🏫", color: "text-yellow-400" },
   { value: "sport", label: "Sport", emoji: "⚽", color: "text-[#5AADA0]" },
-  { value: "social", label: "Social", emoji: "", color: "text-pink-400" },
-  { value: "home", label: "Home", emoji: "", color: "text-blue-400" },
-  { value: "work", label: "Work", emoji: "", color: "text-pounamu" },
+  { value: "social", label: "Social", emoji: "🎉", color: "text-pink-400" },
+  { value: "home", label: "Home", emoji: "🏠", color: "text-blue-400" },
+  { value: "work", label: "Work", emoji: "💼", color: "text-pounamu" },
   { value: "pet", label: "Pet", emoji: "🐾", color: "text-orange-400" },
-  { value: "general", label: "General", emoji: "", color: "text-white/60" },
+  { value: "general", label: "General", emoji: "📌", color: "text-white/60" },
 ] as const;
 
 interface Appointment {
@@ -238,7 +238,7 @@ export default function HelmAppointments({ familyId }: { familyId: string | null
               return (
                 <div key={appt.id} className="bg-white/5 rounded-xl border border-gray-100 p-3.5 flex items-start gap-3">
                   <div className="shrink-0 w-10 h-10 rounded-xl bg-white/5 flex flex-col items-center justify-center">
-                    <span className="text-sm">{cat?.emoji || ""}</span>
+                    <span className="text-sm">{cat?.emoji || "📌"}</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium text-white/90">{appt.title}</div>

@@ -185,7 +185,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
     ],
   },
   {
-    id: 'pakihi', name: 'PAKIHI', accent: '#4AA5A8',
+    id: 'pakihi', name: 'PAKIHI', accent: '#D4A843',
     purpose: 'Business, sales, finance, and commercial operations',
     agents: ['ledger', 'vault', 'catalyst', 'compass', 'haven', 'counter', 'gateway', 'harvest', 'grove', 'sage', 'ascend', 'aroha-core'],
     keteSkills: [
@@ -265,7 +265,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
     keteMCPs: [],
   },
   {
-    id: 'te-kahui-reo', name: 'TE KĀHUI REO', accent: '#4AA5A8',
+    id: 'te-kahui-reo', name: 'TE KĀHUI REO', accent: '#D4A843',
     purpose: 'Māori business intelligence and community engagement',
     agents: ['whānau', 'rohe', 'kaupapa-m', 'mana', 'kaitiaki', 'tāura', 'whakaaro', 'hiringa', 'aroha-core'],
     keteSkills: [
@@ -278,7 +278,7 @@ export const KETE_SKILL_DATA: KeteSkillConfig[] = [
       { id: 'te-kahui-legal', name: 'Legal', category: 'legal', description: 'Compliance checks, NDA triage', status: 'wired' },
     ],
     keteMCPs: [],
-    gradientAccent: { from: '#4AA5A8', via: '#3A7D6E', to: '#1A3A5C' },
+    gradientAccent: { from: '#D4A843', via: '#3A7D6E', to: '#1A3A5C' },
   },
   {
     id: 'toroa', name: 'TORO', accent: '#E8D5B7',
