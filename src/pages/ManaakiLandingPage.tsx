@@ -9,7 +9,8 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
+import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import UseCaseToggle from "@/components/kete/UseCaseToggle";
 
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
@@ -151,44 +152,19 @@ export default function ManaakiLandingPage() {
             Food safety plans, alcohol licensing, guest profiles, sustainability reporting, and event coordination — handled, checked, and evidence-packed.
           </motion.p>
 
-          {/* Compliance badge — elevated glass card */}
-          <motion.div
-            className="relative rounded-2xl px-7 py-6 max-w-md mb-12 text-left overflow-hidden"
-            style={{
-              background: `linear-gradient(135deg, rgba(58,125,110,0.08) 0%, rgba(255,255,255,0.02) 100%)`,
-              border: `1px solid ${POUNAMU}30`,
-              backdropFilter: "blur(20px)",
-              boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 60px ${POUNAMU}08, inset 0 1px 0 rgba(255,255,255,0.05)`,
-            }}
-            variants={fadeUp} initial="hidden" animate="visible" custom={3}
-            whileHover={{ scale: 1.02, boxShadow: `0 12px 40px rgba(0,0,0,0.4), 0 0 80px ${POUNAMU}12, inset 0 1px 0 rgba(255,255,255,0.08)` }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          >
-            {/* Top accent line */}
-            <div className="absolute top-0 left-0 right-0 h-[1px]" style={{
-              background: `linear-gradient(90deg, transparent 0%, ${POUNAMU}60 50%, transparent 100%)`,
-            }} />
-            <p className="text-[10px] tracking-[3px] mb-4" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, textTransform: "uppercase" }}>
-              governed · human-in-the-loop
-            </p>
-            <ul className="space-y-3">
-              {COMPLIANCE.map((item, idx) => (
-                <motion.li
-                  key={item}
-                  className="flex items-start gap-3 text-xs font-body"
-                  style={{ color: "#9CA3AF" }}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + idx * 0.08 }}
-                >
-                  <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${POUNAMU}20`, boxShadow: `0 0 8px ${POUNAMU}20` }}>
-                    <Check size={10} style={{ color: POUNAMU_LIGHT }} />
-                  </div>
-                  <span>{item}</span>
-                </motion.li>
-              ))}
-            </ul>
+          {/* Live status strip */}
+          <motion.div className="mb-6" variants={fadeUp} initial="hidden" animate="visible" custom={2.5}>
+            <LiveStatusStrip pack="manaaki" agentCodes={["aura", "wellness", "creative", "operations", "guardian"]} accent={POUNAMU} />
           </motion.div>
+
+          {/* Compliance — single line */}
+          <motion.p
+            className="text-xs font-body mb-10 max-w-xl"
+            style={{ color: "#5B6374", letterSpacing: "0.02em" }}
+            variants={fadeUp} initial="hidden" animate="visible" custom={3}
+          >
+            <span style={{ color: POUNAMU, fontWeight: 500 }}>Governed by</span> Food Act 2014, Sale &amp; Supply of Alcohol Act 2012, Privacy Act 2020. Every workflow produces a signed evidence pack.
+          </motion.p>
 
           {/* CTAs — elevated with glow */}
           <motion.div className="flex flex-col sm:flex-row items-center gap-4" variants={fadeUp} initial="hidden" animate="visible" custom={4}>
@@ -228,8 +204,10 @@ export default function ManaakiLandingPage() {
           </motion.div>
         </main>
 
-        {/* ── Real Use Case ── */}
-        <KeteUseCaseSection data={MANAAKI_USE_CASE} />
+        {/* ── Real Use Case (collapsed by default) ── */}
+        <UseCaseToggle accent={POUNAMU}>
+          <KeteUseCaseSection data={MANAAKI_USE_CASE} />
+        </UseCaseToggle>
 
         {/* ── Agent Network ── */}
         <section className="relative px-6 pb-24 max-w-5xl mx-auto">
