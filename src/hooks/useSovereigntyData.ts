@@ -84,7 +84,7 @@ export function useSovereigntyAudit(kete?: string) {
       if (kete) q = q.eq("kete", kete);
       const { data, error } = await q;
       if (error) throw error;
-      return (data ?? []) as AuditEntry[];
+      return ((data ?? []) as unknown) as AuditEntry[];
     },
   });
 }
@@ -100,7 +100,7 @@ export function useGovernanceGates(kete?: string) {
       if (kete) q = q.eq("kete", kete);
       const { data, error } = await q;
       if (error) throw error;
-      return (data ?? []) as GovernanceGate[];
+      return ((data ?? []) as unknown) as GovernanceGate[];
     },
   });
 }
