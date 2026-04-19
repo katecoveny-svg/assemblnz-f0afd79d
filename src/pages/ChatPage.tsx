@@ -1715,7 +1715,7 @@ const ChatPage = () => {
 
         <div className="flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3">
           <Link to="/" className="flex items-center gap-2 shrink-0 group">
-            <img loading="lazy" decoding="async" src={assemblMark} alt="Assembl" className="w-7 h-7 object-contain opacity-80 group-hover:opacity-100 transition-opacity" >
+            <img loading="lazy" decoding="async" src={assemblMark} alt="Assembl" className="w-7 h-7 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
             <span className="font-display font-bold tracking-[3px] uppercase text-[11px] text-foreground/70 group-hover:text-foreground transition-colors hidden sm:inline">ASSEMBL</span>
           </Link>
           <div className="w-px h-5 bg-border/30 hidden sm:block" />
@@ -1789,7 +1789,7 @@ const ChatPage = () => {
             {brandLogoUrl ? (
               <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium"
                 style={{ backgroundColor: accentColor + "12", color: accentColor, border: `1px solid ${accentColor}20` }}>
-                <img loading="lazy" decoding="async" src={brandLogoUrl} alt="Logo" className="w-4 h-4 rounded-sm object-contain" >
+                <img loading="lazy" decoding="async" src={brandLogoUrl} alt="Logo" className="w-4 h-4 rounded-sm object-contain" />
                 <button onClick={() => { setBrandLogoUrl(null); sessionStorage.removeItem("assembl_brand_logo"); }} className="hover:opacity-70"><X size={10} /></button>
               </div>
             ) : (
@@ -2184,7 +2184,7 @@ const ChatPage = () => {
                   <div className="w-full max-w-sm mt-2 space-y-3">
                     {brandLogoUrl && (
                       <div className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl" style={{ background: `${agent.color}08`, border: `1px solid ${agent.color}15` }}>
-                        <img loading="lazy" decoding="async" src={brandLogoUrl} alt="Your brand logo" className="w-8 h-8 rounded-lg object-contain" >
+                        <img loading="lazy" decoding="async" src={brandLogoUrl} alt="Your brand logo" className="w-8 h-8 rounded-lg object-contain" />
                         <span className="text-xs text-muted-foreground">Brand logo active</span>
                       </div>
                     )}
@@ -2332,7 +2332,7 @@ const ChatPage = () => {
                           }
                         >
                           {msg.imageUrl && (
-                            <img loading="lazy" decoding="async" src={msg.imageUrl} alt="Uploaded" className="rounded-xl mb-2 max-h-48 w-auto object-cover" >
+                            <img loading="lazy" decoding="async" src={msg.imageUrl} alt="Uploaded" className="rounded-xl mb-2 max-h-48 w-auto object-cover" />
                           )}
                           {msg.fileName && (
                             <div className="flex items-center gap-1.5 mb-2 text-xs text-foreground/60">
@@ -2391,7 +2391,7 @@ const ChatPage = () => {
                             <div className="grid gap-2" style={{ gridTemplateColumns: inlineImages[i].urls.length > 1 ? "1fr 1fr" : "1fr" }}>
                               {inlineImages[i].urls.map((url, imgIdx) => (
                                 <div key={imgIdx} className="relative group rounded-xl overflow-hidden border border-border">
-                                  <img loading="lazy" decoding="async" src={url} alt={`Generated visual ${imgIdx + 1}`} className="w-full h-auto rounded-xl" >
+                                  <img loading="lazy" decoding="async" src={url} alt={`Generated visual ${imgIdx + 1}`} className="w-full h-auto rounded-xl" />
                                    <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                      <button onClick={async () => {
                                        try {
@@ -2468,7 +2468,7 @@ const ChatPage = () => {
               <div className="max-w-2xl mx-auto flex gap-2">
                 {pendingImagePreview && (
                   <div className="relative inline-block">
-                    <img loading="lazy" decoding="async" src={pendingImagePreview} alt="Upload preview" className="h-20 rounded-lg border border-border object-cover" >
+                    <img loading="lazy" decoding="async" src={pendingImagePreview} alt="Upload preview" className="h-20 rounded-lg border border-border object-cover" />
                     <button onClick={clearPendingImage} className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center">
                       <X size={12} />
                     </button>
@@ -2686,7 +2686,7 @@ const ChatPage = () => {
                 className="flex items-center gap-1 text-[9px] font-mono-jb px-2 py-1 rounded-lg transition-all opacity-40 hover:opacity-80"
                 style={{ color: "#FF6B00" }}
               >
-                <img loading="lazy" decoding="async" src={sparkCtaImg} alt="" className="w-3 h-3 object-contain rounded-sm" >
+                <img loading="lazy" decoding="async" src={sparkCtaImg} alt="" className="w-3 h-3 object-contain rounded-sm" />
                 Build with SPARK →
               </Link>
             </div>

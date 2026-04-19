@@ -371,7 +371,7 @@ export default function AuahaBrandIdentity() {
                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden space-y-3">
                       <div className="flex items-center gap-3">
                         {brandDna.logo_url && (
-                          <img loading="lazy" decoding="async" src={brandDna.logo_url} alt="Logo" className="w-10 h-10 rounded-lg object-contain bg-[rgba(74,165,168,0.04)] p-1" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                          <img loading="lazy" decoding="async" src={brandDna.logo_url} alt="Logo" className="w-10 h-10 rounded-lg object-contain bg-[rgba(74,165,168,0.04)] p-1" onError={(e) = /> { (e.target as HTMLImageElement).style.display = "none"; }} />
                         )}
                         <div>
                           <h2 className="text-foreground text-lg font-medium">{brandDna.business_name}</h2>
