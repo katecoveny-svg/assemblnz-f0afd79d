@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { motion, LayoutGroup } from "framer-motion";
-import { ArrowRight, Check, Send, Bot, User } from "lucide-react";
+import { ArrowRight, Send } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import GlowIcon from "@/components/GlowIcon";
@@ -148,15 +148,15 @@ function LiveDemoChatSection() {
                     <div className="rounded-2xl rounded-tr-md px-5 py-3.5" style={{ background: `${C.teal}08`, border: `1px solid ${C.teal}12` }}>
                       <p className="text-[14px] leading-[1.7]" style={{ color: C.text }}>{msg.text}</p>
                     </div>
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-1" style={{ background: `${C.lavender}` }}>
-                      <User size={13} style={{ color: C.textSecondary }} />
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 mt-1" style={{ background: `${C.lavender}` }}>
+                      <GlowIcon name="User" size={16} color={C.textSecondary} glow />
                     </div>
                   </div>
                 </div>
               ) : (
                 <div className="flex items-start gap-3 max-w-[85%]">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-1" style={{ background: `${C.teal}10` }}>
-                    <Bot size={13} style={{ color: C.teal }} />
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 mt-1" style={{ background: `${C.teal}10` }}>
+                    <GlowIcon name="Bot" size={16} color={C.teal} glow />
                   </div>
                   <div>
                     <div className="rounded-2xl rounded-tl-md px-5 py-3.5" style={{ background: C.lavender + "60" }}>
@@ -511,8 +511,8 @@ const Index = () => {
                   <div className="space-y-2.5">
                     {pack.checks.map((c) => (
                       <div key={c.ref} className="flex items-center gap-3 p-3 rounded-2xl" style={{ background: C.lavender + "40" }}>
-                        <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.teal}15` }}>
-                          <Check size={11} style={{ color: C.teal }} />
+                        <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.teal}15` }}>
+                          <GlowIcon name="Check" size={12} color={C.teal} glow />
                         </div>
                         <span className="text-[12px] flex-1" style={{ color: C.text }}>{c.label}</span>
                         <span className="text-[9px] tracking-wider" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{c.ref}</span>
