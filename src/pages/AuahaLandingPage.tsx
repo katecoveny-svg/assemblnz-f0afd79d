@@ -313,11 +313,23 @@ export default function AuahaLandingPage() {
           }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}60, transparent)` }} />
             <p className="text-sm" style={{ color: "#5B6374" }}>Ready to coordinate your creative pipeline?</p>
-            <Link to="/auaha" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold transition-all overflow-hidden" style={{ color: "#FFFFFF" }}>
-              <div className="absolute inset-0 rounded-full" style={{ background: POUNAMU }} />
-              <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
-              <span className="relative z-10">Open Auaha Studio</span>
-              <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+            <Link
+              to="/auaha"
+              className="group flex items-center gap-2 px-9 py-3.5 rounded-full text-sm font-body transition-all duration-300"
+              style={{
+                color: "#FFFFFF",
+                fontWeight: 400,
+                letterSpacing: "0.02em",
+                background: `linear-gradient(135deg, ${POUNAMU} 0%, #2D6A5E 100%)`,
+                border: `1px solid ${POUNAMU}80`,
+                backdropFilter: "blur(20px)",
+                boxShadow: `0 8px 24px rgba(58,125,110,0.25), 0 0 0 1px rgba(255,255,255,0.1) inset`,
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.boxShadow = `0 12px 36px rgba(58,125,110,0.35), 0 0 40px ${POUNAMU}40, 0 0 0 1px rgba(255,255,255,0.15) inset`; }}
+              onMouseLeave={(e) => { e.currentTarget.style.boxShadow = `0 8px 24px rgba(58,125,110,0.25), 0 0 0 1px rgba(255,255,255,0.1) inset`; }}
+            >
+              <span>Open Auaha Studio</span>
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <TextUsButton keteName="Auaha" accentColor={ACCENT} showWhatsApp={false} />
           </motion.div>
