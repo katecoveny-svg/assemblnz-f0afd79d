@@ -52,6 +52,19 @@ const sigil = {
   ),
 };
 
+function wmoShort(code?: number): string {
+  if (code == null) return "—";
+  if (code === 0) return "Clear";
+  if (code <= 3) return "Cloud";
+  if (code <= 48) return "Fog";
+  if (code <= 67) return "Rain";
+  if (code <= 77) return "Snow";
+  if (code <= 82) return "Showers";
+  if (code <= 86) return "Snow";
+  if (code <= 99) return "Storm";
+  return "—";
+}
+
 export default function LiveDataRibbon({ accent = "#4AA5A8" }: { accent?: string }) {
   const [ticks, setTicks] = React.useState<Tick[]>([
     { id: "boot", label: "Live signals", value: "syncing…", tone: "neutral", sigil: sigil.pulse },
@@ -61,25 +74,26 @@ export default function LiveDataRibbon({ accent = "#4AA5A8" }: { accent?: string
     let cancelled = false;
     const load = async () => {
       const next: Tick[] = [];
-      // 1. Weather (Auckland)
+
+      // 1. Weather (Auckland) — keyless Open-Meteo via nz-weather edge fn
       try {
-        const { data } = await supabase.functions.invoke("iot-weather", {
-          body: { city: "Auckland", mode: "current" },
+        const { data } = await supabase.functions.invoke("nz-weather", {
+          body: { latitude: -36.85, longitude: 174.76, days: 1 },
         });
-        const t = data?.current?.temp ?? data?.temp ?? data?.main?.temp;
-        const desc = data?.current?.description ?? data?.weather?.[0]?.description ?? "—";
+        const t = data?.current?.temperature_2m;
+        const code = data?.current?.weather_code;
         if (typeof t === "number") {
           next.push({
             id: "wx",
             label: "Auckland",
-            value: `${Math.round(t)}°C · ${desc}`,
+            value: `${Math.round(t)}°C · ${wmoShort(code)}`,
             tone: "info",
             sigil: sigil.weather,
           });
         }
       } catch { /* swallow */ }
 
-      // 2. Compliance pulse — from audit log via shell
+      // 2. Compliance pulse — real Supabase query
       try {
         const { count } = await supabase
           .from("exported_outputs")
@@ -94,12 +108,31 @@ export default function LiveDataRibbon({ accent = "#4AA5A8" }: { accent?: string
         });
       } catch { /* swallow */ }
 
-      // 3. NZD time + FX placeholder (stable client-side)
+      // 3. NZ local time
       const now = new Date().toLocaleTimeString("en-NZ", {
         hour: "2-digit", minute: "2-digit", timeZone: "Pacific/Auckland",
       });
       next.push({ id: "tz", label: "Pacific/Auckland", value: now, tone: "neutral", sigil: sigil.time });
-      next.push({ id: "fx", label: "NZD/USD", value: "0.59 ↑", tone: "ochre", sigil: sigil.fx });
+
+      // 4. NZD/USD — live keyless FX (Frankfurter, ECB-sourced)
+      try {
+        const res = await fetch("https://api.frankfurter.dev/v1/latest?base=NZD&symbols=USD", {
+          signal: AbortSignal.timeout(5000),
+        });
+        if (res.ok) {
+          const j = await res.json();
+          const rate = j?.rates?.USD;
+          if (typeof rate === "number") {
+            next.push({
+              id: "fx",
+              label: "NZD/USD",
+              value: rate.toFixed(4),
+              tone: "ochre",
+              sigil: sigil.fx,
+            });
+          }
+        }
+      } catch { /* swallow */ }
 
       if (!cancelled && next.length) setTicks(next);
     };
