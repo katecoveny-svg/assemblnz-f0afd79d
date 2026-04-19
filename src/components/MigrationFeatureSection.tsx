@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Database, Shield, Rocket, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { MaungaDivider } from "@/components/landing/AnimatedTaniko";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const fade = {
