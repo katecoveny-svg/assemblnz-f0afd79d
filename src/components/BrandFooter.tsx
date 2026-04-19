@@ -29,6 +29,8 @@ const FOOTER_LINKS = {
     { to: "/toro", label: "Toro — Family" },
   ],
   "Trust & Compliance": [
+    { to: "/status", label: "Live status" },
+    { to: "/evidence", label: "Evidence packs" },
     { to: "/data-sovereignty", label: "Data Sovereignty" },
     { to: "/security", label: "Security" },
     { to: "/privacy", label: "Privacy Policy" },

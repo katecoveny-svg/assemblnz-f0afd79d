@@ -11,6 +11,8 @@
   <url><loc>https://www.assembl.co.nz/simulator</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/roi</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/brand</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/status</loc><priority>0.7</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/evidence</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
 
   <!-- Industry kete (top-priority — primary product surface) -->
   <url><loc>https://www.assembl.co.nz/manaaki</loc><priority>0.95</priority><changefreq>weekly</changefreq></url>
