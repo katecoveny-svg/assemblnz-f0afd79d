@@ -29,7 +29,7 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
 
   return (
     <div
-      className="min-h-screen relative"
+      className="kete-light-shell min-h-screen relative"
       style={{
         background: "#FAFBFC",
         // Buttons inside this shell pick up the kete's accent for their glow
