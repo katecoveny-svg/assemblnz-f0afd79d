@@ -5,7 +5,7 @@ import {
   LayoutDashboard, Users, Bot, FlaskConical, FileCheck2,
   Sparkles, Megaphone, PenTool, FolderOpen, FileText,
   Activity, Heart, Mail, MessageSquare, Shield, BookOpen,
-  Gauge, ChevronRight, LogOut, Image, Film, Layers,
+  Gauge, ChevronRight, LogOut, Image, Film, Layers, Brain,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -60,6 +60,7 @@ const SECTIONS: { title: string; items: NavItem[] }[] = [
       { to: "/admin/dashboard#users", label: "Users & Roles", icon: Users },
       { to: "/admin/leads", label: "Leads", icon: Mail },
       { to: "/admin/compliance", label: "Compliance", icon: Shield },
+      { to: "/admin/knowledge-brain", label: "Knowledge Brain", icon: Brain },
       { to: "/admin/knowledge", label: "Agent Knowledge", icon: BookOpen },
       { to: "/admin/kb-priorities", label: "Knowledge Library (256)", icon: BookOpen },
       { to: "/admin/messaging", label: "Messaging", icon: MessageSquare },

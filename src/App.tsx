@@ -48,6 +48,7 @@ const WorkflowsRunner = lazy(() => import("./pages/WorkflowsRunner"));
 const WaihangaWorkflows = lazy(() => import("./pages/WaihangaWorkflows"));
 const SectorWorkflows = lazy(() => import("./pages/SectorWorkflows"));
 const AdminKbPriorities = lazy(() => import("./pages/AdminKbPriorities"));
+const AdminKnowledgeBrainPage = lazy(() => import("./pages/AdminKnowledgeBrainPage"));
 const PikauCbaffLanding = lazy(() => import("./pages/PikauCbaffLanding"));
 const ArtakiMtaLanding = lazy(() => import("./pages/ArtakiMtaLanding"));
 const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
@@ -254,6 +255,7 @@ const App = () => (
                         <Route path="/waihanga/workflows" element={<Suspense fallback={null}><WaihangaWorkflows /></Suspense>} />
                         <Route path="/sector/workflows" element={<Suspense fallback={null}><SectorWorkflows /></Suspense>} />
                         <Route path="/admin/kb-priorities" element={<Suspense fallback={null}><AdminKbPriorities /></Suspense>} />
+                        <Route path="/admin/knowledge-brain" element={<Suspense fallback={null}><AdminKnowledgeBrainPage /></Suspense>} />
                         <Route path="/knowledge" element={<Suspense fallback={null}><KnowledgeCataloguePage /></Suspense>} />
                         <Route path="/pikau/cbaff" element={<Suspense fallback={null}><PikauCbaffLanding /></Suspense>} />
                         <Route path="/arataki/mta" element={<Suspense fallback={null}><ArtakiMtaLanding /></Suspense>} />
