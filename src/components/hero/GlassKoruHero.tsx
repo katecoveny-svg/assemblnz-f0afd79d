@@ -1,5 +1,5 @@
 import { useRef, useMemo, Suspense, useState, useEffect } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Environment, MeshTransmissionMaterial } from "@react-three/drei";
 import * as THREE from "three";
 import { Link } from "react-router-dom";
@@ -7,9 +7,9 @@ import { ArrowRight } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 /* ─────────────────────────────────────────────────────────
-   GLASS MARBLE KORU — glossy glass marbles arranged along
-   a logarithmic koru spiral, connected by glowing data
-   lines with flashing data packets travelling between them.
+   ENGRAVED KORU ORB — A pounamu-inspired koru silhouette
+   suspended inside a luminous glass orb, surrounded by
+   orbiting data nodes and energy rings.
    ───────────────────────────────────────────────────────── */
 
 interface MarbleNode {
