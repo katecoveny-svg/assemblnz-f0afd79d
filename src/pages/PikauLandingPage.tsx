@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Ship, FileText, Shield, AlertTriangle, Package, Globe, Anchor } from "lucide-react";
+import { ArrowRight, Check, FileText, Shield, Package, Anchor, ChevronDown } from "lucide-react";
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
-import HeroParticlesLight from "@/components/HeroParticlesLight";
-import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-
+import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { PIKAU_USE_CASE } from "@/data/useCases";
