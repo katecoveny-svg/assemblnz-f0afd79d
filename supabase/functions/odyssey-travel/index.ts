@@ -6,6 +6,28 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// ─── Knowledge Brain grounding (768-dim Gemini → match_kb_knowledge) ───
+const GEMINI_EMBED_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent";
+async function gatherLiveGrounding(question: string, agentPack: string, sb: ReturnType<typeof createClient>): Promise<string> {
+  try {
+    const geminiKey = Deno.env.get("GEMINI_API_KEY");
+    if (!geminiKey || !question) return "";
+    const r = await fetch(`${GEMINI_EMBED_URL}?key=${geminiKey}`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: { parts: [{ text: question.slice(0, 8000) }] }, outputDimensionality: 768 }),
+    });
+    if (!r.ok) return "";
+    const j = await r.json();
+    const vec = j?.embedding?.values;
+    if (!Array.isArray(vec)) return "";
+    const { data } = await sb.rpc("match_kb_knowledge", { query_embedding: vec, agent_pack: agentPack, top_k: 5 });
+    if (!data?.length) return "";
+    return "\n\n=== LIVE KNOWLEDGE BRAIN (verified NZ travel sources) ===\n" +
+      (data as Array<Record<string, unknown>>).map((s, i) => `[${i+1}] ${s.title} — ${s.source_name}\n${s.snippet}`).join("\n---\n") +
+      "\n=== END KNOWLEDGE BRAIN ===\n";
+  } catch (e) { console.warn("[odyssey] grounding failed:", (e as Error).message); return ""; }
+}
+
 /* ══════════════════════════════════════════════════════════
    ODYSSEY — AI Travel Planner for Aotearoa
    Generates structured NZ itineraries with local knowledge,
@@ -61,13 +83,16 @@ RULES:
 
 OUTPUT: Return ONLY valid JSON: { "itinerary": [...days], "summary": "2-sentence overview", "totalEstimatedCostNzd": number, "bestTimeToBook": "string", "packingTips": ["..."] }`;
 
+      const grounding = await gatherLiveGrounding(`Travel to ${destination} ${(interests || []).join(" ")}`, "voyage", sb);
+      const groundedSystem = systemPrompt + grounding;
+
       const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
         headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "google/gemini-2.5-flash",
           messages: [
-            { role: "system", content: systemPrompt },
+            { role: "system", content: groundedSystem },
             { role: "user", content: `Plan a ${dayCount}-day trip to ${destination || "South Island"} for ${travellers || 2} travellers. Budget: NZ$${budgetNzd || 2000}. Interests: ${(interests || []).join(", ") || "adventure, nature, food"}.` },
           ],
           max_tokens: 4000,
