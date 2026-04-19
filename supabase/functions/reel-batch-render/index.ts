@@ -234,6 +234,32 @@ Deno.serve(async (req) => {
       });
     }
 
+    if (action === "regenerate") {
+      const { render_id, new_prompt, aspect_ratio = "9:16" } = body;
+      if (!render_id) return respond({ error: "render_id required" }, 400);
+
+      // Fetch existing row, ensure ownership
+      const { data: row } = await sb.from("reel_renders")
+        .select("id, user_id, prompt, batch_id, batch_index, aspect_ratio")
+        .eq("id", render_id).maybeSingle();
+      if (!row || row.user_id !== userId) return respond({ error: "Not found" }, 404);
+
+      const promptToUse = (new_prompt && new_prompt.trim()) ? new_prompt.trim() : row.prompt;
+      const sub = await falSubmit(FAL_API_KEY, promptToUse, row.aspect_ratio || aspect_ratio);
+      const status = sub.error ? "failed" : (sub.requestId?.startsWith("done:") ? "completed" : "processing");
+      const videoUrl = sub.requestId?.startsWith("done:") ? sub.requestId.slice(5) : null;
+
+      const { data: updated } = await sb.from("reel_renders").update({
+        prompt: promptToUse,
+        status,
+        request_id: sub.requestId || null,
+        video_url: videoUrl,
+        error: sub.error || null,
+      }).eq("id", render_id).select("id, batch_index, prompt, status, video_url, error").single();
+
+      return respond({ render: updated, batch_id: row.batch_id });
+    }
+
     if (action === "list") {
       const { data: batches } = await sb
         .from("reel_renders")

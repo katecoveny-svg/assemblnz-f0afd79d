@@ -115,6 +115,7 @@ const AuahaBrandScanner = lazy(() => import("./components/auaha/AuahaBrandScanne
 const AdminPacksPage = lazy(() => import("./pages/AdminPacksPage"));
 const AdminPackAnalytics = lazy(() => import("./pages/AdminPackAnalytics"));
 const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboard"));
+const AdminMessagingLive = lazy(() => import("./pages/AdminMessagingLive"));
 const ManaakiDashboard = lazy(() => import("./components/manaaki/ManaakiDashboard"));
 const AratakiDashboard = lazy(() => import("./components/arataki/AratakiDashboard"));
 const PikauDashboard = lazy(() => import("./components/pikau/PikauDashboard"));
@@ -220,6 +221,7 @@ const App = () => (
                         <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />
                         <Route path="/admin/sms" element={<Suspense fallback={null}><AdminSmsPage /></Suspense>} />
                         <Route path="/admin/messaging" element={<Suspense fallback={null}><AdminMessagingDashboard /></Suspense>} />
+                        <Route path="/admin/messaging-live" element={<Suspense fallback={null}><AdminMessagingLive /></Suspense>} />
                         <Route path="/admin/packs" element={<Suspense fallback={null}><AdminPacksPage /></Suspense>} />
                         <Route path="/admin/pack-analytics" element={<Suspense fallback={null}><AdminPackAnalytics /></Suspense>} />
                         <Route path="/admin/skill-wiring" element={<Suspense fallback={null}><SkillWiringDashboard /></Suspense>} />

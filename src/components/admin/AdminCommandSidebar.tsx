@@ -62,6 +62,7 @@ const SECTIONS: { title: string; items: NavItem[] }[] = [
       { to: "/admin/compliance", label: "Compliance", icon: Shield },
       { to: "/admin/knowledge", label: "Knowledge Base", icon: BookOpen },
       { to: "/admin/messaging", label: "Messaging", icon: MessageSquare },
+      { to: "/admin/messaging-live", label: "Live Stream", icon: Activity },
       { to: "/admin/analytics", label: "Analytics", icon: Gauge },
     ],
   },
