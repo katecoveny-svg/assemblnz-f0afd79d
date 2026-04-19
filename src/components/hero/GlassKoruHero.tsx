@@ -598,15 +598,24 @@ const GlassKoruHero = () => {
             className="absolute inset-0 pointer-events-none -z-10"
             style={{
               background:
-                "radial-gradient(ellipse 75% 75% at 50% 45%, rgba(74,165,168,0.22) 0%, rgba(125,212,214,0.14) 25%, rgba(232,169,72,0.08) 50%, transparent 75%)",
-              filter: "blur(8px)",
+                "radial-gradient(ellipse 80% 80% at 50% 45%, rgba(74,165,168,0.32) 0%, rgba(125,212,214,0.2) 22%, rgba(232,169,72,0.12) 48%, rgba(184,165,208,0.08) 65%, transparent 78%)",
+              filter: "blur(10px)",
             }}
           />
           <div
             className="absolute inset-0 pointer-events-none -z-10 animate-pulse"
             style={{
               background:
-                "radial-gradient(circle at 50% 45%, rgba(125,212,214,0.18) 0%, transparent 55%)",
+                "radial-gradient(circle at 50% 45%, rgba(125,212,214,0.28) 0%, transparent 55%)",
+            }}
+          />
+          {/* Sun-flare bloom */}
+          <div
+            className="absolute inset-0 pointer-events-none -z-10"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.18) 0%, transparent 18%)",
+              mixBlendMode: "screen",
             }}
           />
         </div>
