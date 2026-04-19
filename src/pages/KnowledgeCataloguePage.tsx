@@ -88,7 +88,7 @@ export default function KnowledgeCataloguePage() {
       <SEO
         title="Knowledge Library — every NZ source powering Assembl agents"
         description={`Public catalogue of ${docs.length} authoritative New Zealand sources — legislation, regulators, datasets, councils — that ground every Assembl agent answer.`}
-        canonical="https://www.assembl.co.nz/knowledge"
+        path="/knowledge"
       />
       <BrandNav />
 
