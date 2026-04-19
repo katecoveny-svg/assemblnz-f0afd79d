@@ -179,6 +179,37 @@ export default function ContextBar() {
             </span>
             <span style={{ color: 'rgba(26,29,41,0.15)' }}>·</span>
 
+            {/* Live compliance ticker — pulled from kb_documents */}
+            {liveUpdate && (
+              <a
+                href={liveUpdate.url ?? '#'}
+                target={liveUpdate.url ? '_blank' : undefined}
+                rel="noreferrer"
+                className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full max-w-[360px] transition-all duration-200 hover:max-w-[420px]"
+                style={{
+                  background: `linear-gradient(145deg, rgba(${rgb},0.08), rgba(${rgb},0.04))`,
+                  border: `1px solid rgba(${rgb},0.18)`,
+                  boxShadow: `inset 0 1px 0 rgba(255,255,255,0.6), 0 0 12px rgba(${rgb},0.1)`,
+                }}
+                title={liveUpdate.title}
+              >
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: info.color }} />
+                  <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: info.color }} />
+                </span>
+                <Radio size={10} style={{ color: info.color }} />
+                <span className="text-[10px] uppercase tracking-[2px] font-semibold shrink-0" style={{ color: info.color }}>Live</span>
+                <span className="text-[11px] truncate" style={{ color: '#3D4250', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  {liveUpdate.title}
+                </span>
+                {liveUpdate.published_at && (
+                  <span className="text-[10px] shrink-0" style={{ color: 'rgba(26,29,41,0.4)' }}>
+                    · {timeAgo(liveUpdate.published_at)}
+                  </span>
+                )}
+              </a>
+            )}
+
             {/* 3D pop-out button */}
             <Link
               to={info.samplePath}
