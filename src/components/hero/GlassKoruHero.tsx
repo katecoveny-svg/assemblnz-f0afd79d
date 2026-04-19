@@ -12,329 +12,217 @@ import { useIsMobile } from "@/hooks/use-mobile";
    orbiting data nodes and energy rings.
    ───────────────────────────────────────────────────────── */
 
-interface MarbleNode {
-  position: THREE.Vector3;
-  radius: number;
-  color: string;
-  index: number;
-}
+/* ─── Engraved Koru silhouette (extruded 2D shape) ─── */
+function EngravedKoru({ color = "#4AA5A8" }: { color?: string }) {
+  const geometry = useMemo(() => {
+    const s = new THREE.Shape();
+    // Outer spiral arc
+    s.moveTo(0.92, 0);
+    s.absarc(0, 0, 0.92, 0, Math.PI * 1.72, false);
+    s.lineTo(-0.55, 0.55);
+    s.absarc(-0.18, 0.18, 0.55, Math.PI * 1.72, Math.PI * 0.4, true);
+    s.lineTo(0.92, 0);
 
-/* Build the marble positions along a logarithmic koru spiral */
-function buildKoruMarbles(): MarbleNode[] {
-  const nodes: MarbleNode[] = [];
-  const count = 14;
-  const turns = 2.2;
-  const a = 0.32;
-  const b = 0.26;
-  const palette = ["#4AA5A8", "#7DD4D6", "#E8A948", "#B8A5D0", "#E8A090", "#7BA88C"];
+    // Inner hole (the koru's open eye)
+    const hole = new THREE.Path();
+    hole.absarc(0.05, 0.05, 0.35, 0, Math.PI * 2, true);
+    s.holes.push(hole);
 
-  for (let i = 0; i < count; i++) {
-    const t = i / (count - 1);
-    const theta = t * turns * Math.PI * 2;
-    const r = a * Math.exp(b * theta);
-    const lift = Math.pow(t, 1.4) * 0.6 - 0.1;
-    // Marble size: large bulb at base, taper down to fine tip
-    const radius = Math.max(0.18, 0.85 - t * 0.7 + Math.pow(1 - t, 2) * 0.3);
-    nodes.push({
-      position: new THREE.Vector3(Math.cos(theta) * r, Math.sin(theta) * r, lift),
-      radius,
-      color: palette[i % palette.length],
-      index: i,
+    const geo = new THREE.ExtrudeGeometry(s, {
+      depth: 0.12,
+      bevelEnabled: true,
+      bevelSegments: 12,
+      steps: 2,
+      bevelSize: 0.04,
+      bevelThickness: 0.04,
+      curveSegments: 32,
     });
-  }
-  // Reverse so the big bulb is at the centre / base
-  return nodes.reverse();
-}
-
-/* Build a smooth curve through marble centres for data packets to travel along */
-function buildConnectorCurve(nodes: MarbleNode[]): THREE.CatmullRomCurve3 {
-  return new THREE.CatmullRomCurve3(nodes.map((n) => n.position.clone()), false, "catmullrom", 0.5);
-}
-
-/* A single glossy glass marble */
-function GlassMarble({ node }: { node: MarbleNode }) {
-  const innerRef = useRef<THREE.Mesh>(null);
-  const haloRef = useRef<THREE.Mesh>(null);
-
-  useFrame(({ clock }) => {
-    const t = clock.elapsedTime + node.index * 0.4;
-    if (innerRef.current) {
-      const m = innerRef.current.material as THREE.MeshBasicMaterial;
-      m.opacity = 0.35 + 0.25 * Math.sin(t * 1.6);
-      innerRef.current.scale.setScalar(0.55 + 0.04 * Math.sin(t * 2.2));
-    }
-    if (haloRef.current) {
-      const m = haloRef.current.material as THREE.MeshBasicMaterial;
-      m.opacity = 0.18 + 0.12 * Math.sin(t * 1.2);
-    }
-  });
+    geo.center();
+    geo.rotateZ(-0.6);
+    geo.scale(1.35, 1.35, 1.35);
+    return geo;
+  }, []);
 
   return (
-    <group position={node.position}>
-      {/* Outer glass shell */}
-      <mesh>
-        <sphereGeometry args={[node.radius, 48, 48]} />
-        <MeshTransmissionMaterial
-          color="#F0FBFC"
-          transmission={0.95}
-          roughness={0.02}
-          clearcoat={1}
-          clearcoatRoughness={0.01}
-          ior={1.55}
-          samples={10}
-          distortion={0.25}
-          temporalDistortion={0.08}
-          envMapIntensity={4.5}
-          chromaticAberration={0.08}
-          thickness={node.radius * 1.4}
-          attenuationColor={node.color}
-          attenuationDistance={node.radius * 4}
-        />
-      </mesh>
-      {/* Coloured luminous core */}
-      <mesh ref={innerRef}>
-        <sphereGeometry args={[node.radius * 0.6, 24, 24]} />
-        <meshBasicMaterial color={node.color} transparent opacity={0.5} depthWrite={false} />
-      </mesh>
-      {/* Hot white centre */}
-      <mesh scale={0.25}>
-        <sphereGeometry args={[node.radius, 16, 16]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.9} depthWrite={false} />
-      </mesh>
-      {/* Outer glow halo */}
-      <mesh ref={haloRef} scale={1.45}>
-        <sphereGeometry args={[node.radius, 20, 20]} />
-        <meshBasicMaterial color={node.color} transparent opacity={0.2} depthWrite={false} />
-      </mesh>
-      {/* Specular highlight (fake sun-glint) */}
-      <mesh position={[-node.radius * 0.4, node.radius * 0.5, node.radius * 0.7]}>
-        <sphereGeometry args={[node.radius * 0.18, 12, 12]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.85} />
-      </mesh>
-    </group>
-  );
-}
-
-/* Glowing connection line between two marbles */
-function ConnectionLine({ from, to, color }: { from: THREE.Vector3; to: THREE.Vector3; color: string }) {
-  const ref = useRef<THREE.Mesh>(null);
-  const { geometry, position, quaternion, length } = useMemo(() => {
-    const dir = new THREE.Vector3().subVectors(to, from);
-    const len = dir.length();
-    const mid = new THREE.Vector3().addVectors(from, to).multiplyScalar(0.5);
-    const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
-    const geo = new THREE.CylinderGeometry(0.025, 0.025, len, 8, 1, true);
-    return { geometry: geo, position: mid, quaternion: q, length: len };
-  }, [from, to]);
-
-  useFrame(({ clock }) => {
-    if (!ref.current) return;
-    const m = ref.current.material as THREE.MeshBasicMaterial;
-    m.opacity = 0.35 + 0.25 * Math.sin(clock.elapsedTime * 2 + length);
-  });
-
-  return (
-    <mesh ref={ref} geometry={geometry} position={position} quaternion={quaternion}>
-      <meshBasicMaterial color={color} transparent opacity={0.5} depthWrite={false} />
+    <mesh geometry={geometry}>
+      <meshPhysicalMaterial
+        color={color}
+        metalness={0.85}
+        roughness={0.18}
+        clearcoat={1}
+        clearcoatRoughness={0.05}
+        emissive={color}
+        emissiveIntensity={0.45}
+        envMapIntensity={1.6}
+      />
     </mesh>
   );
 }
 
-/* Flashing data packet that travels along the koru curve */
-function DataPacket({
-  curve,
-  color,
-  speed,
-  offset,
-  size = 0.08,
-}: {
-  curve: THREE.CatmullRomCurve3;
-  color: string;
-  speed: number;
-  offset: number;
-  size?: number;
-}) {
-  const ref = useRef<THREE.Group>(null);
-  const trailRefs = useRef<THREE.Mesh[]>([]);
-
-  useFrame(({ clock }) => {
-    const t = ((clock.elapsedTime * speed + offset) % 1 + 1) % 1;
-    const point = curve.getPointAt(t);
+/* ─── Inner glow shell behind the koru ─── */
+function InnerGlow() {
+  const ref = useRef<THREE.Mesh>(null);
+  useFrame((state) => {
     if (ref.current) {
-      ref.current.position.copy(point);
-      const flash = 0.7 + 0.3 * Math.sin(clock.elapsedTime * 8 + offset * 10);
-      ref.current.scale.setScalar(flash);
+      const t = state.clock.getElapsedTime();
+      const pulse = 0.6 + Math.sin(t * 1.3) * 0.25;
+      const mat = ref.current.material as THREE.MeshBasicMaterial;
+      mat.opacity = 0.18 + pulse * 0.12;
     }
-    trailRefs.current.forEach((m, i) => {
-      if (!m) return;
-      const tt = ((t - (i + 1) * 0.012) + 1) % 1;
-      const p = curve.getPointAt(tt);
-      m.position.copy(p);
-      const fade = 1 - (i + 1) / (trailRefs.current.length + 1);
-      (m.material as THREE.MeshBasicMaterial).opacity = 0.6 * fade;
-      m.scale.setScalar(fade * 0.85);
-    });
   });
-
   return (
-    <>
-      <group ref={ref}>
-        <mesh>
-          <sphereGeometry args={[size, 14, 14]} />
-          <meshBasicMaterial color="#FFFFFF" />
-        </mesh>
-        <mesh>
-          <sphereGeometry args={[size * 2.4, 12, 12]} />
-          <meshBasicMaterial color={color} transparent opacity={0.65} depthWrite={false} />
-        </mesh>
-        <mesh>
-          <sphereGeometry args={[size * 5, 10, 10]} />
-          <meshBasicMaterial color={color} transparent opacity={0.22} depthWrite={false} />
-        </mesh>
-      </group>
-      {[0, 1, 2, 3, 4, 5, 6].map((i) => (
-        <mesh key={`trail-${i}`} ref={(m) => { if (m) trailRefs.current[i] = m; }}>
-          <sphereGeometry args={[size * 0.65, 8, 8]} />
-          <meshBasicMaterial color={color} transparent opacity={0.5} depthWrite={false} />
-        </mesh>
-      ))}
-    </>
+    <mesh ref={ref}>
+      <sphereGeometry args={[1.8, 48, 48]} />
+      <meshBasicMaterial color="#7DD4D6" transparent opacity={0.22} toneMapped={false} />
+    </mesh>
   );
 }
 
-/* Containment glass orb — the world the koru lives inside */
-function ContainmentSphere() {
-  const ref = useRef<THREE.Mesh>(null);
-  const haloRef = useRef<THREE.Mesh>(null);
+/* ─── The big glass orb encasing the koru ─── */
+function GlassOrb({ children }: { children: React.ReactNode }) {
+  const groupRef = useRef<THREE.Group>(null);
 
-  useFrame(({ clock }) => {
-    const t = clock.elapsedTime;
-    if (ref.current) {
-      ref.current.rotation.y = t * 0.04;
-    }
-    if (haloRef.current) {
-      const pulse = 0.5 + 0.5 * Math.sin(t * 1.1);
-      (haloRef.current.material as THREE.MeshBasicMaterial).opacity = 0.1 + pulse * 0.1;
-      haloRef.current.scale.setScalar(1 + pulse * 0.04);
-    }
+  useFrame((state) => {
+    if (!groupRef.current) return;
+    const t = state.clock.getElapsedTime();
+    groupRef.current.rotation.y = t * 0.18;
+    groupRef.current.rotation.x = Math.sin(t * 0.4) * 0.08;
   });
 
   return (
     <group>
-      <mesh ref={ref}>
-        <sphereGeometry args={[4.4, 96, 96]} />
+      {/* Outer transmissive glass shell */}
+      <mesh>
+        <sphereGeometry args={[2.6, 96, 96]} />
         <MeshTransmissionMaterial
-          color="#EAFCFD"
-          transmission={0.99}
-          roughness={0.02}
-          clearcoat={1}
-          clearcoatRoughness={0.01}
-          ior={1.45}
-          samples={10}
-          distortion={0.18}
-          temporalDistortion={0.1}
-          envMapIntensity={3.5}
-          chromaticAberration={0.1}
-          thickness={1.2}
-          attenuationColor="#B8EAEC"
-          attenuationDistance={6}
           backside
+          samples={6}
+          thickness={0.6}
+          chromaticAberration={0.08}
+          anisotropy={0.3}
+          distortion={0.15}
+          distortionScale={0.4}
+          temporalDistortion={0.05}
+          roughness={0.02}
+          ior={1.45}
+          color="#E8F8F7"
+          attenuationColor="#A8E0DE"
+          attenuationDistance={3}
+          transmission={1}
+          envMapIntensity={1.4}
         />
       </mesh>
-      <mesh ref={haloRef}>
-        <sphereGeometry args={[4.7, 48, 48]} />
-        <meshBasicMaterial color="#7DD4D6" transparent opacity={0.16} depthWrite={false} side={THREE.BackSide} />
+
+      {/* Specular highlight cap */}
+      <mesh position={[-0.7, 1.1, 1.4]}>
+        <sphereGeometry args={[0.45, 32, 32]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.35} toneMapped={false} />
       </mesh>
-      {/* Specular highlights — make the orb feel like real glass */}
-      <mesh position={[-1.6, 2.2, 2.5]}>
-        <sphereGeometry args={[0.6, 24, 24]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.55} />
-      </mesh>
-      <mesh position={[1.4, -2.4, 2.0]}>
-        <sphereGeometry args={[0.3, 16, 16]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.35} />
-      </mesh>
+
+      {/* Suspended koru inside */}
+      <group ref={groupRef}>
+        <InnerGlow />
+        <EngravedKoru color="#4AA5A8" />
+      </group>
     </group>
   );
 }
 
-/* Saturn-style energy ring */
+/* ─── Orbital energy ring ─── */
 function OrbitalRing({
   radius,
   color,
   speed,
   rotation,
-  opacity = 0.45,
+  opacity = 0.5,
+  thickness = 0.012,
 }: {
   radius: number;
   color: string;
   speed: number;
   rotation: [number, number, number];
   opacity?: number;
+  thickness?: number;
 }) {
   const ref = useRef<THREE.Mesh>(null);
-  useFrame(({ clock }) => {
-    if (!ref.current) return;
-    ref.current.rotation.z = rotation[2] + clock.elapsedTime * speed;
-    const mat = ref.current.material as THREE.MeshBasicMaterial;
-    mat.opacity = opacity * (0.7 + 0.3 * Math.sin(clock.elapsedTime * 1.3));
+  useFrame((state) => {
+    if (ref.current) {
+      ref.current.rotation.z = state.clock.getElapsedTime() * speed;
+    }
   });
   return (
     <mesh ref={ref} rotation={rotation}>
-      <torusGeometry args={[radius, 0.012, 12, 160]} />
-      <meshBasicMaterial color={color} transparent opacity={opacity} depthWrite={false} />
+      <torusGeometry args={[radius, thickness, 16, 128]} />
+      <meshStandardMaterial
+        color={color}
+        emissive={color}
+        emissiveIntensity={2.5}
+        transparent
+        opacity={opacity}
+        toneMapped={false}
+      />
     </mesh>
   );
 }
 
-/* Orbiting kete-coloured nodes (each one represents a kete) */
+/* ─── Orbiting data node (small glowing sphere) ─── */
 function OrbitingNode({
   radius,
   speed,
   phase,
-  tilt,
   color,
-  size = 0.08,
-  axis = "y",
+  size,
+  axis,
 }: {
   radius: number;
   speed: number;
   phase: number;
-  tilt: number;
   color: string;
-  size?: number;
-  axis?: "x" | "y" | "z";
+  size: number;
+  axis: "x" | "y" | "z";
 }) {
-  const ref = useRef<THREE.Group>(null);
-  useFrame(({ clock }) => {
-    if (!ref.current) return;
-    const t = clock.elapsedTime * speed + phase;
-    let x = Math.cos(t) * radius;
-    let y = Math.sin(t * 0.7) * radius * 0.3 + Math.sin(tilt) * radius * 0.2;
-    let z = Math.sin(t) * radius;
-    if (axis === "x") {
-      [x, y, z] = [y, x, z];
+  const ref = useRef<THREE.Mesh>(null);
+  const haloRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime() * speed + phase;
+    let x = 0, y = 0, z = 0;
+    if (axis === "y") {
+      x = Math.cos(t) * radius;
+      z = Math.sin(t) * radius;
+      y = Math.sin(t * 0.7) * 0.4;
+    } else if (axis === "x") {
+      y = Math.cos(t) * radius;
+      z = Math.sin(t) * radius;
+      x = Math.cos(t * 0.6) * 0.5;
+    } else {
+      x = Math.cos(t) * radius;
+      y = Math.sin(t) * radius;
+      z = Math.sin(t * 0.8) * 0.5;
     }
-    if (axis === "z") {
-      [x, y, z] = [z, y, x];
+    if (ref.current) ref.current.position.set(x, y, z);
+    if (haloRef.current) haloRef.current.position.set(x, y, z);
+    const pulse = 0.5 + Math.sin(t * 3) * 0.5;
+    if (haloRef.current) {
+      const mat = haloRef.current.material as THREE.MeshBasicMaterial;
+      mat.opacity = 0.15 + pulse * 0.25;
     }
-    ref.current.position.set(x, y, z);
-    const pulse = 0.7 + 0.3 * Math.sin(clock.elapsedTime * 3 + phase);
-    ref.current.scale.setScalar(pulse);
   });
+
   return (
-    <group ref={ref}>
-      <mesh>
-        <sphereGeometry args={[size, 14, 14]} />
-        <meshBasicMaterial color="#FFFFFF" />
+    <group>
+      <mesh ref={haloRef}>
+        <sphereGeometry args={[size * 2.8, 16, 16]} />
+        <meshBasicMaterial color={color} transparent opacity={0.2} toneMapped={false} />
       </mesh>
-      <mesh>
-        <sphereGeometry args={[size * 2.2, 12, 12]} />
-        <meshBasicMaterial color={color} transparent opacity={0.55} depthWrite={false} />
-      </mesh>
-      <mesh>
-        <sphereGeometry args={[size * 4.5, 10, 10]} />
-        <meshBasicMaterial color={color} transparent opacity={0.15} depthWrite={false} />
+      <mesh ref={ref}>
+        <sphereGeometry args={[size, 24, 24]} />
+        <meshStandardMaterial
+          color={color}
+          emissive={color}
+          emissiveIntensity={4}
+          toneMapped={false}
+        />
       </mesh>
     </group>
   );
@@ -342,69 +230,36 @@ function OrbitingNode({
 
 /* ─── Main scene ─── */
 function KoruScene() {
-  const groupRef = useRef<THREE.Group>(null);
-  const { pointer } = useThree();
-  const marbles = useMemo(() => buildKoruMarbles(), []);
-  const curve = useMemo(() => buildConnectorCurve(marbles), [marbles]);
-
   const orbitNodes = useMemo(
     () => [
-      { radius: 4.4, speed: 0.35, phase: 0, tilt: 0.3, color: "#4AA5A8", axis: "y" as const, size: 0.09 },
-      { radius: 4.4, speed: 0.28, phase: 1.2, tilt: -0.4, color: "#E8A948", axis: "y" as const, size: 0.1 },
-      { radius: 4.4, speed: 0.42, phase: 2.4, tilt: 0.6, color: "#B8A5D0", axis: "y" as const, size: 0.08 },
-      { radius: 4.4, speed: 0.31, phase: 3.6, tilt: -0.2, color: "#E8A090", axis: "y" as const, size: 0.09 },
-      { radius: 4.4, speed: 0.38, phase: 4.8, tilt: 0.5, color: "#7BA88C", axis: "y" as const, size: 0.08 },
-      { radius: 4.6, speed: 0.22, phase: 0.7, tilt: -0.6, color: "#7DD4D6", axis: "x" as const, size: 0.07 },
-      { radius: 4.6, speed: 0.33, phase: 4.0, tilt: -0.3, color: "#7DD4D6", axis: "x" as const, size: 0.07 },
-      { radius: 4.85, speed: 0.18, phase: 1.5, tilt: 0.2, color: "#E8A948", axis: "z" as const, size: 0.06 },
-      { radius: 4.85, speed: 0.24, phase: 3.2, tilt: -0.5, color: "#B8A5D0", axis: "z" as const, size: 0.07 },
+      { radius: 3.4, speed: 0.6, phase: 0, color: "#7DD4D6", size: 0.09, axis: "y" as const },
+      { radius: 3.6, speed: -0.5, phase: 1.2, color: "#E8A948", size: 0.08, axis: "y" as const },
+      { radius: 3.8, speed: 0.4, phase: 2.5, color: "#B8A5D0", size: 0.07, axis: "x" as const },
+      { radius: 3.5, speed: -0.7, phase: 0.8, color: "#4AA5A8", size: 0.085, axis: "z" as const },
+      { radius: 3.7, speed: 0.55, phase: 3.4, color: "#E8A090", size: 0.075, axis: "y" as const },
+      { radius: 3.9, speed: -0.45, phase: 4.1, color: "#7BA88C", size: 0.08, axis: "x" as const },
+      { radius: 3.45, speed: 0.65, phase: 5.0, color: "#7DD4D6", size: 0.07, axis: "z" as const },
+      { radius: 3.75, speed: -0.35, phase: 1.7, color: "#E8A948", size: 0.08, axis: "y" as const },
+      { radius: 3.55, speed: 0.5, phase: 2.8, color: "#B8A5D0", size: 0.075, axis: "x" as const },
     ],
-    [],
+    []
   );
-
-  const packets = useMemo(
-    () => [
-      { color: "#4AA5A8", speed: 0.18, offset: 0.0, size: 0.09 },
-      { color: "#E8A948", speed: 0.14, offset: 0.25, size: 0.08 },
-      { color: "#B8A5D0", speed: 0.22, offset: 0.5, size: 0.08 },
-      { color: "#FFFFFF", speed: 0.26, offset: 0.75, size: 0.07 },
-      { color: "#7DD4D6", speed: 0.16, offset: 0.4, size: 0.09 },
-      { color: "#E8A090", speed: 0.2, offset: 0.6, size: 0.08 },
-    ],
-    [],
-  );
-
-  useFrame(() => {
-    if (!groupRef.current) return;
-    groupRef.current.rotation.z += 0.0008;
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, pointer.y * 0.15, 0.03);
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, pointer.x * 0.15, 0.03);
-  });
 
   return (
-    <Float speed={1.1} rotationIntensity={0.15} floatIntensity={0.22}>
-      <ContainmentSphere />
+    <Float speed={0.9} rotationIntensity={0.12} floatIntensity={0.25}>
+      {/* Energy rings around the orb */}
+      <OrbitalRing radius={3.2} color="#7DD4D6" speed={0.12} rotation={[Math.PI / 2.2, 0, 0]} opacity={0.55} />
+      <OrbitalRing radius={3.35} color="#E8A948" speed={-0.08} rotation={[Math.PI / 1.6, 0.4, 0]} opacity={0.4} />
+      <OrbitalRing radius={3.55} color="#B8A5D0" speed={0.06} rotation={[Math.PI / 3, -0.5, 0]} opacity={0.32} />
+      <OrbitalRing radius={3.8} color="#4AA5A8" speed={-0.04} rotation={[Math.PI / 2, Math.PI / 4, 0]} opacity={0.26} />
 
-      <OrbitalRing radius={4.55} color="#7DD4D6" speed={0.12} rotation={[Math.PI / 2.2, 0, 0]} opacity={0.5} />
-      <OrbitalRing radius={4.7} color="#E8A948" speed={-0.08} rotation={[Math.PI / 1.6, 0.4, 0]} opacity={0.38} />
-      <OrbitalRing radius={4.9} color="#B8A5D0" speed={0.06} rotation={[Math.PI / 3, -0.5, 0]} opacity={0.32} />
-      <OrbitalRing radius={5.15} color="#4AA5A8" speed={-0.04} rotation={[Math.PI / 2, Math.PI / 4, 0]} opacity={0.26} />
-
+      {/* Orbiting data nodes */}
       {orbitNodes.map((n, i) => (
         <OrbitingNode key={`orb-${i}`} {...n} />
       ))}
 
-      <group ref={groupRef} scale={1.5}>
-        {marbles.slice(0, -1).map((m, i) => (
-          <ConnectionLine key={`line-${i}`} from={m.position} to={marbles[i + 1].position} color={m.color} />
-        ))}
-        {marbles.map((m) => (
-          <GlassMarble key={`marble-${m.index}`} node={m} />
-        ))}
-        {packets.map((p, i) => (
-          <DataPacket key={`packet-${i}`} curve={curve} {...p} />
-        ))}
-      </group>
+      {/* The hero — engraved koru in glass orb */}
+      <GlassOrb>{null}</GlassOrb>
     </Float>
   );
 }
