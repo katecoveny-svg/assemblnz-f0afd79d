@@ -16,7 +16,7 @@ import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentAvatar from "@/components/AgentAvatar";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
-import Footer from "@/components/Footer";
+import BrandFooter from "@/components/BrandFooter";
 
 const PACK_TO_KETE: Record<string, string> = {
   manaaki: "manaaki",
