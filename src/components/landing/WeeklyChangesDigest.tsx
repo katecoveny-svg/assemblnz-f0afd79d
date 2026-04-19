@@ -5,7 +5,7 @@ import { Sparkles, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface ChangeItem {
-  source_name: string;
+  name: string;
   agent_packs: string[] | null;
   last_checked_at: string | null;
 }
@@ -23,12 +23,12 @@ export default function WeeklyChangesDigest() {
       const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
       const { data } = await supabase
         .from("kb_sources")
-        .select("source_name, agent_packs, last_checked_at")
+        .select("name, agent_packs, last_checked_at")
         .eq("active", true)
         .gte("last_checked_at", sevenDaysAgo)
         .order("last_checked_at", { ascending: false })
         .limit(5);
-      if (!cancelled) setChanges(data ?? []);
+      if (!cancelled) setChanges((data ?? []) as ChangeItem[]);
     })();
     return () => {
       cancelled = true;
@@ -107,7 +107,7 @@ export default function WeeklyChangesDigest() {
                     {(c.agent_packs?.[0] ?? "cross").slice(0, 8)}
                   </span>
                   <span className="flex-1 text-[13px] truncate" style={{ color: "#3D4250" }}>
-                    {c.source_name}
+                    {c.name}
                   </span>
                   <span
                     className="text-[10px] shrink-0"
