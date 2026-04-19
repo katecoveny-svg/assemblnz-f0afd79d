@@ -449,7 +449,7 @@ const DashboardPage = () => {
       {/* Soft ambient glow */}
       <div className="fixed inset-0 pointer-events-none -z-10" style={{
         background:
-          "radial-gradient(ellipse 700px 400px at 15% 5%, rgba(58,125,110,0.08), transparent 60%), radial-gradient(ellipse 600px 360px at 85% 95%, rgba(212,168,83,0.06), transparent 60%)",
+          "radial-gradient(ellipse 700px 400px at 15% 5%, rgba(58,125,110,0.08), transparent 60%), radial-gradient(ellipse 600px 360px at 85% 95%, rgba(74,165,168,0.06), transparent 60%)",
       }} />
       {/* Top accent line */}
       <div className="fixed top-0 left-0 right-0 h-[2px] z-50" style={{

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ShieldAlert, Plus, Filter, Search, X, AlertTriangle, CheckCircle2, Clock, TrendingUp } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 type Severity = "critical" | "high" | "medium" | "low";
@@ -67,7 +67,7 @@ export default function AraiSafetyPage() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3">
         {[
-          { label: "Total Hazards", value: stats.total, icon: AlertTriangle, color: KOWHAI },
+          { label: "Total Hazards", value: stats.total, icon: AlertTriangle, color: TEAL_ACCENT },
           { label: "Open", value: stats.open, icon: Clock, color: "#F97316" },
           { label: "Critical", value: stats.critical, icon: ShieldAlert, color: "#E44D4D" },
         ].map(s => (
@@ -118,7 +118,7 @@ export default function AraiSafetyPage() {
                 </select>
                 <input placeholder="Assigned To" className="px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
               </div>
-              <button className="mt-4 px-6 py-2.5 rounded-xl text-xs font-medium" style={{ background: KOWHAI, color: "#09090F" }}>Submit Hazard Report</button>
+              <button className="mt-4 px-6 py-2.5 rounded-xl text-xs font-medium" style={{ background: TEAL_ACCENT, color: "#09090F" }}>Submit Hazard Report</button>
             </Glass>
           </motion.div>
         )}

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { BookOpen, GraduationCap, Calculator, Globe, Pencil } from "lucide-react";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const BONE = "#F5F0E8";
 const TANGAROA = "#1A3A5C";

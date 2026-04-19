@@ -3,7 +3,7 @@ import { AlertTriangle, Phone, MapPin, Heart, Shield } from "lucide-react";
 
 const KOKKOWAI = "#A52A2A";
 const POUNAMU = "#3A7D6E";
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 
 interface TahiTriageProps {
   onSendToChat: (msg: string) => void;
@@ -13,7 +13,7 @@ const SERVICES = [
   { label: "Emergency — 111", desc: "Life-threatening. Call now.", color: KOKKOWAI, icon: Phone },
   { label: "Need to Talk — 1737", desc: "Mental health crisis. Free, 24/7.", color: "#9C27B0", icon: Heart },
   { label: "Healthline — 0800 611 116", desc: "Free health advice from registered nurses, 24/7.", color: POUNAMU, icon: Phone },
-  { label: "GP / Urgent Care", desc: "Non-emergency but needs a doctor today.", color: KOWHAI, icon: MapPin },
+  { label: "GP / Urgent Care", desc: "Non-emergency but needs a doctor today.", color: TEAL_ACCENT, icon: MapPin },
   { label: "Pharmacy", desc: "Minor symptoms a pharmacist can help with.", color: "#5AADA0", icon: Shield },
 ];
 
@@ -45,7 +45,7 @@ const TahiTriage = ({ onSendToChat }: TahiTriageProps) => {
 
       {/* Quick scenarios */}
       <div>
-        <p className="text-[10px] uppercase font-bold mb-2" style={{ color: KOWHAI, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>What's happening?</p>
+        <p className="text-[10px] uppercase font-bold mb-2" style={{ color: TEAL_ACCENT, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>What's happening?</p>
         <div className="grid grid-cols-1 gap-2">
           {QUICK_SCENARIOS.map(s => (
             <button

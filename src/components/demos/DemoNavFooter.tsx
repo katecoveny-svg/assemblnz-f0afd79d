@@ -53,11 +53,11 @@ export const DemoBottomNav = () => {
         style={{ background: "rgba(245,240,232,0.03)", border: "1px solid rgba(245,240,232,0.06)" }}>
         <div className="flex items-center gap-4">
           {next ? (
-            <Link to={next.path} className="inline-flex items-center gap-2 text-[13px] font-medium hover:gap-3 transition-all" style={{ color: "#D4A853" }}>
+            <Link to={next.path} className="inline-flex items-center gap-2 text-[13px] font-medium hover:gap-3 transition-all" style={{ color: "#4AA5A8" }}>
               Next demo: {next.title} <ArrowRight size={14} />
             </Link>
           ) : (
-            <Link to="/demos" className="inline-flex items-center gap-2 text-[13px] font-medium hover:gap-3 transition-all" style={{ color: "#D4A853" }}>
+            <Link to="/demos" className="inline-flex items-center gap-2 text-[13px] font-medium hover:gap-3 transition-all" style={{ color: "#4AA5A8" }}>
               Back to demo hub <ArrowRight size={14} />
             </Link>
           )}

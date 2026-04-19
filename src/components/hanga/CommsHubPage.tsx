@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MessageSquare, Send, Phone, Smartphone } from "lucide-react";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 const TEMPLATES = [
@@ -47,7 +47,7 @@ export default function CommsHubPage() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-6xl mx-auto">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><MessageSquare size={22} style={{ color: KOWHAI }} /> Communication Hub — Kōrero</h1>
+        <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><MessageSquare size={22} style={{ color: TEAL_ACCENT }} /> Communication Hub — Kōrero</h1>
         <p className="text-xs text-[#9CA3AF]">SMS & WhatsApp messaging for site teams</p>
       </motion.div>
 
@@ -92,7 +92,7 @@ export default function CommsHubPage() {
           </div>
 
           <motion.button onClick={send} whileHover={{ scale: 1.02 }} className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-medium"
-            style={{ background: KOWHAI, color: "#09090F" }}>
+            style={{ background: TEAL_ACCENT, color: "#09090F" }}>
             <Send size={16} /> Send Message
           </motion.button>
         </Glass>

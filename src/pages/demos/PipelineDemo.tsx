@@ -134,7 +134,7 @@ const PipelineDemo = () => {
             className="inline-flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-medium transition-all liquid-glass liquid-glass-gold"
             style={{
               color: running ? "rgba(245,240,232,0.4)" : "#A8DDDB",
-              borderColor: running ? "rgba(255,255,255,0.06)" : "rgba(212,168,83,0.3)",
+              borderColor: running ? "rgba(255,255,255,0.06)" : "rgba(74,165,168,0.3)",
             }}>
             <Play size={14} /> {running ? "Running..." : "Run query"}
           </button>

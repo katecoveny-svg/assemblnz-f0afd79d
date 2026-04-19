@@ -27,8 +27,8 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
         backgroundImage: `
           linear-gradient(45deg, rgba(58,125,110,0.04) 1px, transparent 1px),
           linear-gradient(-45deg, rgba(58,125,110,0.04) 1px, transparent 1px),
-          linear-gradient(45deg, rgba(212,168,83,0.02) 1px, transparent 1px),
-          linear-gradient(-45deg, rgba(212,168,83,0.02) 1px, transparent 1px)`,
+          linear-gradient(45deg, rgba(74,165,168,0.02) 1px, transparent 1px),
+          linear-gradient(-45deg, rgba(74,165,168,0.02) 1px, transparent 1px)`,
         backgroundSize: "24px 24px, 24px 24px, 48px 48px, 48px 48px",
       }} />
 
@@ -42,7 +42,7 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
 
       {/* Ambient glow */}
       <div className="fixed inset-0 pointer-events-none -z-10" style={{
-        background: "radial-gradient(ellipse 600px 400px at 20% 10%, rgba(58,125,110,0.06), transparent), radial-gradient(ellipse 500px 300px at 80% 90%, rgba(212,168,83,0.04), transparent)",
+        background: "radial-gradient(ellipse 600px 400px at 20% 10%, rgba(58,125,110,0.06), transparent), radial-gradient(ellipse 500px 300px at 80% 90%, rgba(74,165,168,0.04), transparent)",
       }} />
 
       {/* Floating particles */}
@@ -56,7 +56,7 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
               height: 2 + (i % 3),
               left: `${(i * 37) % 100}%`,
               top: `${(i * 53) % 100}%`,
-              background: i % 4 === 0 ? `rgba(212,168,83,0.3)` : `rgba(58,125,110,0.25)`,
+              background: i % 4 === 0 ? `rgba(74,165,168,0.3)` : `rgba(58,125,110,0.25)`,
               animation: `adminParticle ${14 + (i % 6) * 3}s ease-in-out infinite`,
               animationDelay: `${-(i * 1.3)}s`,
             }}

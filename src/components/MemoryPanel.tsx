@@ -8,7 +8,7 @@ import { Brain, X, Database, Clock, Shield, Trash2, Edit2, Check } from "lucide-
 import { supabase } from "@/integrations/supabase/client";
 
 const BONE = "#F5F0E8";
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 interface Props {
@@ -27,7 +27,7 @@ const glass = {
 
 const impactColors: Record<string, string> = {
   high: "#ef4444",
-  medium: KOWHAI,
+  medium: TEAL_ACCENT,
   low: POUNAMU,
 };
 
@@ -122,7 +122,7 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
             <div className="p-4 space-y-5">
               {/* Section 1: Business Profile */}
               <div>
-                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: `${KOWHAI}CC`, fontFamily: "Lato, sans-serif" }}>
+                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: `${TEAL_ACCENT}CC`, fontFamily: "Lato, sans-serif" }}>
                   <Database size={10} /> Business Profile
                 </h3>
                 {sharedCtx.length === 0 ? (
@@ -227,7 +227,7 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
                       <div key={i} className="rounded-lg p-2.5" style={glass}>
                         <div className="flex items-center gap-1.5 mb-1">
                           <span className="text-[8px] uppercase px-1.5 py-0.5 rounded-full font-bold"
-                            style={{ background: `${impactColors[u.impact_level] || KOWHAI}18`, color: impactColors[u.impact_level] || KOWHAI }}>
+                            style={{ background: `${impactColors[u.impact_level] || TEAL_ACCENT}18`, color: impactColors[u.impact_level] || TEAL_ACCENT }}>
                             {u.impact_level}
                           </span>
                           {u.effective_date && <span className="text-[9px]" style={{ color: "#9CA3AF" }}>Effective {u.effective_date}</span>}

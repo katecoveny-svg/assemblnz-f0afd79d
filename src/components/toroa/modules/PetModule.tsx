@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { PawPrint, Syringe, Pill, Calendar, Plus, ChevronDown, ChevronUp } from "lucide-react";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const BONE = "#F5F0E8";
 
@@ -24,7 +24,7 @@ interface Pet {
 
 interface Props { pets: Pet[]; }
 
-const glass = (accent = KOWHAI) => ({
+const glass = (accent = TEAL_ACCENT) => ({
   background: "rgba(255,255,255,0.65)",
   border: `1px solid ${accent}15`,
   backdropFilter: "blur(14px)",
@@ -36,7 +36,7 @@ export default function PetModule({ pets }: Props) {
   return (
     <div className="space-y-4">
       <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#6B7280" }}>
-        <PawPrint size={14} style={{ color: KOWHAI }} /> Pet Health
+        <PawPrint size={14} style={{ color: TEAL_ACCENT }} /> Pet Health
       </h2>
 
       {pets.map((pet) => {
@@ -49,8 +49,8 @@ export default function PetModule({ pets }: Props) {
               className="w-full p-4 flex items-center justify-between text-left"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: `${KOWHAI}18` }}>
-                  <PawPrint size={16} style={{ color: KOWHAI }} />
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: `${TEAL_ACCENT}18` }}>
+                  <PawPrint size={16} style={{ color: TEAL_ACCENT }} />
                 </div>
                 <div>
                   <p className="font-body text-sm" style={{ color: "#1A1D29" }}>{pet.name}</p>
@@ -100,12 +100,12 @@ export default function PetModule({ pets }: Props) {
                 {/* Medications */}
                 {pet.medications.length > 0 && (
                   <div>
-                    <h4 className="font-display text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: `${KOWHAI}CC` }}>
+                    <h4 className="font-display text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: `${TEAL_ACCENT}CC` }}>
                       <Pill size={10} /> Medications
                     </h4>
                     <div className="space-y-1.5">
                       {pet.medications.map((m, i) => (
-                        <div key={i} className="p-2 rounded-lg" style={{ background: `${KOWHAI}06` }}>
+                        <div key={i} className="p-2 rounded-lg" style={{ background: `${TEAL_ACCENT}06` }}>
                           <p className="font-body text-xs" style={{ color: "#3D4250" }}>{m.name} — {m.dosage}</p>
                           <p className="font-mono text-[9px]" style={{ color: "#9CA3AF" }}>{m.frequency}{m.until ? ` until ${m.until}` : ""}</p>
                         </div>

@@ -31,7 +31,7 @@ interface RenderRow {
 }
 
 const ACTS = [
-  { key: "act1_hook", label: "Act 1 · Hook", color: "#D4A853" },
+  { key: "act1_hook", label: "Act 1 · Hook", color: "#4AA5A8" },
   { key: "act2_conflict", label: "Act 2 · Conflict & Stakes", color: "#E88D67" },
   { key: "act3_build", label: "Act 3 · The Build", color: "#3A7D6E" },
   { key: "act4_resolution", label: "Act 4 · Resolution", color: "#5B9BD5" },
@@ -178,7 +178,7 @@ export default function ReelsPage() {
         )}
         {body.voiceover && (
           <div className="p-3 rounded-lg" style={{ background: "rgba(0,0,0,0.25)" }}>
-            <div className="text-xs uppercase tracking-wider mb-1" style={{ color: "#D4A853" }}>Voiceover</div>
+            <div className="text-xs uppercase tracking-wider mb-1" style={{ color: "#4AA5A8" }}>Voiceover</div>
             <p className="italic" style={{ color: "#E5E7EB" }}>"{body.voiceover}"</p>
           </div>
         )}
@@ -197,7 +197,7 @@ export default function ReelsPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-8 py-12 sm:py-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="flex items-center gap-3 mb-3">
-            <Film className="w-6 h-6" style={{ color: "#D4A853" }} />
+            <Film className="w-6 h-6" style={{ color: "#4AA5A8" }} />
             <h1 className="text-3xl sm:text-4xl font-light tracking-tight" style={{ color: "#F5F0E8", fontFamily: "'Lato', sans-serif" }}>
               Reel Creator
             </h1>
@@ -280,7 +280,7 @@ export default function ReelsPage() {
             <div className="flex items-center justify-between mb-4">
               <div className="text-sm" style={{ color: "#F5F0E8" }}>
                 <span style={{ color: "#3A7D6E" }}>{completed}</span>/{renders.length} completed
-                {inFlight > 0 && <span className="ml-2" style={{ color: "#D4A853" }}>· {inFlight} processing</span>}
+                {inFlight > 0 && <span className="ml-2" style={{ color: "#4AA5A8" }}>· {inFlight} processing</span>}
                 {failed > 0 && <span className="ml-2" style={{ color: "#E88D67" }}>· {failed} failed</span>}
               </div>
               <div className="flex gap-2">
@@ -314,7 +314,7 @@ export default function ReelsPage() {
                             <span className="text-xs" style={{ color: "#E88D67" }}>Failed</span>
                           ) : (
                             <>
-                              <Loader2 className="w-5 h-5 animate-spin mb-2" style={{ color: "#D4A853" }} />
+                              <Loader2 className="w-5 h-5 animate-spin mb-2" style={{ color: "#4AA5A8" }} />
                               <span className="text-xs" style={{ color: "#9CA3AF" }}>
                                 {isRegen ? "Regenerating…" : `Rendering #${r.batch_index + 1}`}
                               </span>
@@ -357,7 +357,7 @@ export default function ReelsPage() {
                               onClick={() => regenerateOne(r.id)}
                               disabled={tileBusy}
                               className="flex-1 px-2 py-1 rounded text-[10px] flex items-center justify-center gap-1 disabled:opacity-40"
-                              style={{ background: "rgba(212,168,83,0.15)", color: "#D4A853" }}>
+                              style={{ background: "rgba(74,165,168,0.15)", color: "#4AA5A8" }}>
                               <RefreshCw className={`w-3 h-3 ${isRegen ? "animate-spin" : ""}`} /> Redo
                             </button>
                             <button
@@ -406,7 +406,7 @@ export default function ReelsPage() {
 
             {plan.shot_list && plan.shot_list.length > 0 && (
               <div className="rounded-xl p-5" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                <div className="flex items-center gap-2 mb-3" style={{ color: "#D4A853" }}>
+                <div className="flex items-center gap-2 mb-3" style={{ color: "#4AA5A8" }}>
                   <Camera className="w-4 h-4" /><span className="text-sm font-medium">Shot list</span>
                 </div>
                 <ul className="space-y-1 text-sm" style={{ color: "#E5E7EB" }}>
@@ -418,7 +418,7 @@ export default function ReelsPage() {
             {plan.caption && (
               <div className="rounded-xl p-5" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium" style={{ color: "#D4A853" }}>Caption</span>
+                  <span className="text-sm font-medium" style={{ color: "#4AA5A8" }}>Caption</span>
                   <button onClick={() => copyText(plan.caption!)} className="text-xs flex items-center gap-1" style={{ color: "#9CA3AF" }}>
                     <Copy className="w-3 h-3" /> Copy
                   </button>
@@ -430,7 +430,7 @@ export default function ReelsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {plan.hashtags && (
                 <div className="rounded-xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                  <div className="flex items-center gap-2 mb-2" style={{ color: "#D4A853" }}>
+                  <div className="flex items-center gap-2 mb-2" style={{ color: "#4AA5A8" }}>
                     <Hash className="w-3 h-3" /><span className="text-xs">Hashtags</span>
                   </div>
                   <div className="flex flex-wrap gap-1 text-xs" style={{ color: "#5B9BD5" }}>
@@ -440,7 +440,7 @@ export default function ReelsPage() {
               )}
               {plan.best_posting_time_nz && (
                 <div className="rounded-xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                  <div className="flex items-center gap-2 mb-2" style={{ color: "#D4A853" }}>
+                  <div className="flex items-center gap-2 mb-2" style={{ color: "#4AA5A8" }}>
                     <Clock className="w-3 h-3" /><span className="text-xs">Best post time NZ</span>
                   </div>
                   <p className="text-sm" style={{ color: "#F5F0E8" }}>{plan.best_posting_time_nz}</p>
@@ -448,7 +448,7 @@ export default function ReelsPage() {
               )}
               {plan.aesthetic_notes && (
                 <div className="rounded-xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                  <div className="flex items-center gap-2 mb-2" style={{ color: "#D4A853" }}>
+                  <div className="flex items-center gap-2 mb-2" style={{ color: "#4AA5A8" }}>
                     <Palette className="w-3 h-3" /><span className="text-xs">Aesthetic</span>
                   </div>
                   <p className="text-xs" style={{ color: "#E5E7EB" }}>{plan.aesthetic_notes}</p>

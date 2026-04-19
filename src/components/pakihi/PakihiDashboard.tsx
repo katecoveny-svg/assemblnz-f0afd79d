@@ -8,10 +8,10 @@ import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 
 const ACCENT = "#5AADA0";
 const ACCENT_LIGHT = "#7ECFC2";
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
-const COLORS = [ACCENT, KOWHAI, POUNAMU, TANGAROA];
+const COLORS = [ACCENT, TEAL_ACCENT, POUNAMU, TANGAROA];
 
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <DashboardGlassCard accentColor={ACCENT} className={className}>
@@ -159,7 +159,7 @@ function OverviewTab() {
               <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} />
               <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", border: `1px solid ${ACCENT}40`, color: "#1A1D29", boxShadow: "0 8px 24px rgba(26,29,41,0.10)", borderRadius: 8, fontSize: 11 }} />
               <Bar dataKey="income" fill={ACCENT} radius={[4, 4, 0, 0]} />
-              <Bar dataKey="expenses" fill={KOWHAI} radius={[4, 4, 0, 0]} />
+              <Bar dataKey="expenses" fill={TEAL_ACCENT} radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </Glass>
@@ -212,7 +212,7 @@ function OverviewTab() {
 
         <Glass className="p-4">
           <div className="flex items-center gap-2 mb-3">
-            <GlowIcon name="CalendarClock" size={14} color={KOWHAI} />
+            <GlowIcon name="CalendarClock" size={14} color={TEAL_ACCENT} />
             <h3 className="text-xs font-semibold text-white/60">Upcoming Bills</h3>
           </div>
           <div className="space-y-2">
@@ -322,7 +322,7 @@ function ReconciliationTab() {
       {/* Smart Categorisation — Learning */}
       <Glass className="p-4">
         <div className="flex items-center gap-2 mb-3">
-          <GlowIcon name="Brain" size={14} color={KOWHAI} />
+          <GlowIcon name="Brain" size={14} color={TEAL_ACCENT} />
           <h3 className="text-xs font-semibold text-white/60">Smart Categorisation — Learning from Your Accountant</h3>
         </div>
         <p className="text-[10px] text-gray-400 mb-3">LEDGER learns when your accountant corrects a category. After 3 corrections, it auto-applies the new rule.</p>
@@ -369,11 +369,11 @@ function CashFlowTab() {
             <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickFormatter={v => `$${(v/1000).toFixed(0)}k`} />
             <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", border: `1px solid ${ACCENT}40`, color: "#1A1D29", boxShadow: "0 8px 24px rgba(26,29,41,0.10)", borderRadius: 8, fontSize: 11 }} formatter={(v: number) => formatNZD(v)} />
             <Area type="monotone" dataKey="predicted" stroke={ACCENT} fill="url(#cfGrad)" strokeWidth={2} strokeDasharray="6 3" />
-            <Area type="monotone" dataKey="actual" stroke={KOWHAI} fill="none" strokeWidth={2} dot={{ r: 4, fill: KOWHAI }} />
+            <Area type="monotone" dataKey="actual" stroke={TEAL_ACCENT} fill="none" strokeWidth={2} dot={{ r: 4, fill: TEAL_ACCENT }} />
           </AreaChart>
         </ResponsiveContainer>
         <div className="flex gap-4 mt-2 justify-center">
-          <span className="text-[9px] text-white/40 flex items-center gap-1"><span className="w-3 h-0.5 rounded" style={{ background: KOWHAI }} />Actual</span>
+          <span className="text-[9px] text-white/40 flex items-center gap-1"><span className="w-3 h-0.5 rounded" style={{ background: TEAL_ACCENT }} />Actual</span>
           <span className="text-[9px] text-white/40 flex items-center gap-1"><span className="w-3 h-0.5 rounded border-dashed border-b" style={{ borderColor: ACCENT }} />Predicted</span>
         </div>
       </Glass>
@@ -432,7 +432,7 @@ function CashFlowTab() {
       {/* Analytics Plus */}
       <Glass className="p-4">
         <div className="flex items-center gap-2 mb-3">
-          <GlowIcon name="Sparkles" size={14} color={KOWHAI} />
+          <GlowIcon name="Sparkles" size={14} color={TEAL_ACCENT} />
           <h3 className="text-xs font-semibold text-white/60">Analytics Plus — AI Insights</h3>
         </div>
         <div className="grid sm:grid-cols-3 gap-3">
@@ -441,9 +441,9 @@ function CashFlowTab() {
             { title: "Payroll is 42% of expenses", body: "Above the 35% benchmark for your industry. AROHA can model scenarios if you're considering restructuring.", icon: "Users" },
             { title: "GST buffer is tight", body: "At current rates, you'll have $1,200 spare when the next GST payment hits. LEDGER recommends setting aside an additional $2,000.", icon: "AlertTriangle" },
           ].map((insight, i) => (
-            <div key={i} className="p-3 rounded-xl" style={{ background: `${KOWHAI}08`, border: `1px solid ${KOWHAI}15` }}>
+            <div key={i} className="p-3 rounded-xl" style={{ background: `${TEAL_ACCENT}08`, border: `1px solid ${TEAL_ACCENT}15` }}>
               <div className="flex items-center gap-1.5 mb-2">
-                <GlowIcon name={insight.icon} size={12} color={KOWHAI} />
+                <GlowIcon name={insight.icon} size={12} color={TEAL_ACCENT} />
                 <span className="text-[10px] font-bold text-white/80">{insight.title}</span>
               </div>
               <p className="text-[10px] text-white/40 leading-relaxed">{insight.body}</p>

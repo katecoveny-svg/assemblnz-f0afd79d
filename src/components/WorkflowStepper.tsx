@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Check, SkipForward, AlertTriangle } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 export interface WorkflowStep {
@@ -57,7 +57,7 @@ const WorkflowStepper = ({ steps, title, onStepClick, onSkip }: Props) => {
                     "rgba(255,255,255,0.5)"
                   }`,
                   color:
-                    step.status === "active" ? KOWHAI :
+                    step.status === "active" ? TEAL_ACCENT :
                     step.status === "completed" ? POUNAMU :
                     "rgba(255,255,255,0.35)",
                 }}
@@ -66,7 +66,7 @@ const WorkflowStepper = ({ steps, title, onStepClick, onSkip }: Props) => {
                 {step.status === "completed" && <Check size={12} />}
                 {step.status === "skipped" && <SkipForward size={10} />}
                 {step.status === "active" && (
-                  <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: KOWHAI }} />
+                  <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: TEAL_ACCENT }} />
                 )}
                 {step.agentIcon && getIcon(step.agentIcon)}
                 <span className="font-medium whitespace-nowrap">{step.label}</span>

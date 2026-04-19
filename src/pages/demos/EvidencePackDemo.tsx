@@ -58,7 +58,7 @@ const EvidencePackDemo = () => {
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all liquid-glass liquid-glass-gold"
                 style={{
                   color: generated ? "rgba(245,240,232,0.4)" : "#A8DDDB",
-                  borderColor: generated ? "rgba(255,255,255,0.06)" : "rgba(212,168,83,0.3)",
+                  borderColor: generated ? "rgba(255,255,255,0.06)" : "rgba(74,165,168,0.3)",
                 }}>
                 <Play size={14} /> {generated ? "Generated" : "Generate pack"}
               </button>
@@ -84,7 +84,7 @@ const EvidencePackDemo = () => {
 
             {/* Top accent line */}
             <div className="absolute top-0 left-0 right-0 h-[3px]" style={{
-              background: "linear-gradient(90deg, #3A7D6E, #D4A853, #3A7D6E)",
+              background: "linear-gradient(90deg, #3A7D6E, #4AA5A8, #3A7D6E)",
             }} />
 
             <div className="relative z-10 p-8">

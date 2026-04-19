@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import { AaaipGuardBadge, useAaaipGuard } from "@/aaaip";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
@@ -63,12 +63,12 @@ export default function TenderWriterPage() {
         className="flex flex-wrap items-start justify-between gap-3"
       >
         <div>
-          <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><FileText size={22} style={{ color: KOWHAI }} /> Tender Writer — Tono</h1>
+          <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><FileText size={22} style={{ color: TEAL_ACCENT }} /> Tender Writer — Tono</h1>
           <p className="text-xs text-[#9CA3AF]">GETS-ready tender response generator</p>
         </div>
         <AaaipGuardBadge
           domain="waihanga"
-          accentColor={KOWHAI}
+          accentColor={TEAL_ACCENT}
           subtitle="Submissions require sign-off"
         />
       </motion.div>
@@ -95,7 +95,7 @@ export default function TenderWriterPage() {
         </div>
         <motion.button onClick={generate} disabled={generating} whileHover={{ scale: 1.02 }}
           className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium disabled:opacity-50"
-          style={{ background: KOWHAI, color: "#09090F" }}>
+          style={{ background: TEAL_ACCENT, color: "#09090F" }}>
           <Sparkles size={16} />
           {generating ? "Generating..." : "Generate Response"}
         </motion.button>

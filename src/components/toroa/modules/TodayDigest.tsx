@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, Calendar, AlertTriangle, CheckCircle, Plus, X, Pencil } from "lucide-react";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 export interface DigestItem {
@@ -22,9 +22,9 @@ const icons = { reminder: Bell, event: Calendar, alert: AlertTriangle, task: Che
 
 const glass = {
   background: "rgba(255,255,255,0.65)",
-  border: `1px solid ${KOWHAI}15`,
+  border: `1px solid ${TEAL_ACCENT}15`,
   backdropFilter: "blur(14px)",
-  boxShadow: `0 0 24px ${KOWHAI}06, 0 4px 24px rgba(0,0,0,0.25)`,
+  boxShadow: `0 0 24px ${TEAL_ACCENT}06, 0 4px 24px rgba(0,0,0,0.25)`,
 };
 
 export default function TodayDigest({ items, greeting, onChange }: Props) {
@@ -61,7 +61,7 @@ export default function TodayDigest({ items, greeting, onChange }: Props) {
       <div className="space-y-2">
         {items.map((item, i) => {
           const Icon = icons[item.type];
-          const accent = item.urgent ? "#ef4444" : item.type === "event" ? POUNAMU : KOWHAI;
+          const accent = item.urgent ? "#ef4444" : item.type === "event" ? POUNAMU : TEAL_ACCENT;
           const isEditing = editingIdx === i;
           return (
             <motion.div
@@ -90,7 +90,7 @@ export default function TodayDigest({ items, greeting, onChange }: Props) {
                     onBlur={saveEdit}
                     onKeyDown={(e) => { if (e.key === "Enter") saveEdit(); if (e.key === "Escape") setEditingIdx(null); }}
                     className="w-full bg-transparent text-xs outline-none border-b"
-                    style={{ color: "#1A1D29", borderColor: `${KOWHAI}40` }}
+                    style={{ color: "#1A1D29", borderColor: `${TEAL_ACCENT}40` }}
                   />
                 ) : (
                   <p
@@ -120,13 +120,13 @@ export default function TodayDigest({ items, greeting, onChange }: Props) {
           {adding ? (
             <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl p-3 space-y-2" style={glass}>
               <div className="flex gap-2">
-                <select value={newType} onChange={(e) => setNewType(e.target.value as DigestItem["type"])} className="text-[10px] rounded-md px-2 py-1 outline-none" style={{ background: `${KOWHAI}10`, color: KOWHAI, border: `1px solid ${KOWHAI}25` }}>
+                <select value={newType} onChange={(e) => setNewType(e.target.value as DigestItem["type"])} className="text-[10px] rounded-md px-2 py-1 outline-none" style={{ background: `${TEAL_ACCENT}10`, color: TEAL_ACCENT, border: `1px solid ${TEAL_ACCENT}25` }}>
                   <option value="event">Event</option>
                   <option value="reminder">Reminder</option>
                   <option value="alert">Alert</option>
                   <option value="task">Task</option>
                 </select>
-                <input value={newTime} onChange={(e) => setNewTime(e.target.value)} placeholder="Time (optional)" className="text-[10px] rounded-md px-2 py-1 outline-none flex-1" style={{ background: "rgba(255,255,255,0.5)", color: "#1A1D29", border: `1px solid ${KOWHAI}15` }} />
+                <input value={newTime} onChange={(e) => setNewTime(e.target.value)} placeholder="Time (optional)" className="text-[10px] rounded-md px-2 py-1 outline-none flex-1" style={{ background: "rgba(255,255,255,0.5)", color: "#1A1D29", border: `1px solid ${TEAL_ACCENT}15` }} />
               </div>
               <input
                 autoFocus
@@ -135,15 +135,15 @@ export default function TodayDigest({ items, greeting, onChange }: Props) {
                 onKeyDown={(e) => { if (e.key === "Enter") addItem(); if (e.key === "Escape") setAdding(false); }}
                 placeholder="What's happening?"
                 className="w-full text-xs rounded-md px-2 py-1.5 outline-none"
-                style={{ background: "rgba(255,255,255,0.6)", color: "#1A1D29", border: `1px solid ${KOWHAI}15` }}
+                style={{ background: "rgba(255,255,255,0.6)", color: "#1A1D29", border: `1px solid ${TEAL_ACCENT}15` }}
               />
               <div className="flex justify-end gap-2">
                 <button onClick={() => setAdding(false)} className="text-[10px] px-2 py-1 rounded" style={{ color: "#9CA3AF" }}>Cancel</button>
-                <button onClick={addItem} className="text-[10px] px-3 py-1 rounded font-medium" style={{ background: KOWHAI, color: "white" }}>Add</button>
+                <button onClick={addItem} className="text-[10px] px-3 py-1 rounded font-medium" style={{ background: TEAL_ACCENT, color: "white" }}>Add</button>
               </div>
             </motion.div>
           ) : (
-            <button onClick={() => setAdding(true)} className="w-full rounded-xl p-3 flex items-center justify-center gap-2 text-[11px] transition-all hover:bg-white/30" style={{ border: `1px dashed ${KOWHAI}30`, color: KOWHAI }}>
+            <button onClick={() => setAdding(true)} className="w-full rounded-xl p-3 flex items-center justify-center gap-2 text-[11px] transition-all hover:bg-white/30" style={{ border: `1px dashed ${TEAL_ACCENT}30`, color: TEAL_ACCENT }}>
               <Plus size={12} /> Add to today
             </button>
           )}

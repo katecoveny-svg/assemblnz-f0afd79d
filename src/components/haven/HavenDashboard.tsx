@@ -6,7 +6,7 @@ import { AgentPieChart, AgentBarChart, AgentWorkflow } from "@/components/shared
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 const Glass = ({ children, className = "", glow = false }: { children: React.ReactNode; className?: string; glow?: boolean }) => (
@@ -52,7 +52,7 @@ const HavenDashboard = () => {
   }, [user]);
 
   const cards = [
-    { label: "Properties", value: stats.properties, icon: Home, accent: KOWHAI, progress: Math.min(stats.properties * 20, 100) },
+    { label: "Properties", value: stats.properties, icon: Home, accent: TEAL_ACCENT, progress: Math.min(stats.properties * 20, 100) },
     { label: "Open Jobs", value: stats.openJobs, icon: Wrench, accent: "#FFB300", progress: stats.openJobs > 0 ? Math.min(stats.openJobs * 15, 100) : 0 },
     { label: "Emergency", value: stats.emergencyJobs, icon: AlertTriangle, accent: "#EF4444", progress: stats.emergencyJobs > 0 ? 100 : 0 },
     { label: "Overdue Compliance", value: stats.overdueCompliance, icon: Shield, accent: "#EF4444", progress: stats.overdueCompliance > 0 ? Math.min(stats.overdueCompliance * 25, 100) : 0 },
@@ -80,8 +80,8 @@ const HavenDashboard = () => {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 mb-0.5">
-            <Home size={16} style={{ color: KOWHAI }} />
-            <span className="text-[10px] tracking-widest uppercase" style={{ color: KOWHAI, fontFamily: "JetBrains Mono" }}>HAVEN</span>
+            <Home size={16} style={{ color: TEAL_ACCENT }} />
+            <span className="text-[10px] tracking-widest uppercase" style={{ color: TEAL_ACCENT, fontFamily: "JetBrains Mono" }}>HAVEN</span>
           </div>
           <h2 className="text-lg font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>Portfolio Overview</h2>
         </div>
@@ -96,7 +96,7 @@ const HavenDashboard = () => {
       {/* Stat Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {cards.map(c => (
-          <Glass key={c.label} glow={c.accent === KOWHAI}>
+          <Glass key={c.label} glow={c.accent === TEAL_ACCENT}>
             <div className="p-3 sm:p-4">
               <div className="flex items-center gap-2 mb-2">
                 <div className="p-1.5 rounded-lg" style={{ background: `${c.accent}20` }}>
@@ -117,11 +117,11 @@ const HavenDashboard = () => {
       <Glass>
         <div className="p-4">
           <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
-            <TrendingUp size={16} style={{ color: KOWHAI }} /> Job Pipeline
+            <TrendingUp size={16} style={{ color: TEAL_ACCENT }} /> Job Pipeline
           </h3>
           <AgentWorkflow
             title=""
-            color={KOWHAI}
+            color={TEAL_ACCENT}
             activeIndex={-1}
             steps={[
               { label: "Reported", count: recentJobs.filter(j => j.status === "reported").length },
@@ -194,7 +194,7 @@ const HavenDashboard = () => {
       <KeteEvidencePackPanel
         keteSlug="whenua"
         keteName="Whenua — Property Management"
-        accentColor={KOWHAI}
+        accentColor={TEAL_ACCENT}
         agentId="haven"
         agentName="HAVEN"
         packTemplates={[
@@ -218,7 +218,7 @@ const HavenDashboard = () => {
         ]}
       />
 
-      <KeteDocUpload keteSlug="haven" keteColor={KOWHAI} keteName="Haven — Property Management"
+      <KeteDocUpload keteSlug="haven" keteColor={TEAL_ACCENT} keteName="Haven — Property Management"
         docContext="Expect tenancy agreements, inspection reports, Section 51 notices, rent increase notices, bond forms, Healthy Homes compliance statements, and maintenance invoices. Flag Residential Tenancies Act 1986 and Healthy Homes Guarantee Act 2017 compliance." />
     </div>
   );

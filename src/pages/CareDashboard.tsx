@@ -6,7 +6,7 @@ import { ArrowLeft, Phone, Pill, AlertTriangle, Heart, Activity, Home, Shield, T
 import SEO from "@/components/SEO";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const KOKKOWAI = "#A52A2A";
 
@@ -59,7 +59,7 @@ const CareDashboard = () => {
   })() : "stable";
 
   const overallStatus = alerts.some(a => a.priority === "critical") ? "red" : alerts.some(a => a.priority === "high") ? "amber" : "green";
-  const statusColor = overallStatus === "red" ? KOKKOWAI : overallStatus === "amber" ? KOWHAI : POUNAMU;
+  const statusColor = overallStatus === "red" ? KOKKOWAI : overallStatus === "amber" ? TEAL_ACCENT : POUNAMU;
 
   const moodEmoji = (score: number) => score >= 8 ? "😊" : score >= 6 ? "🙂" : score >= 4 ? "😐" : score >= 2 ? "😟" : "😢";
 
@@ -72,7 +72,7 @@ const CareDashboard = () => {
   if (!senior) return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "#FAFBFC" }}>
       <p className="text-sm" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Senior profile not found</p>
-      <Link to="/" className="text-xs underline" style={{ color: KOWHAI }}>Back to home</Link>
+      <Link to="/" className="text-xs underline" style={{ color: TEAL_ACCENT }}>Back to home</Link>
     </div>
   );
 
@@ -92,7 +92,7 @@ const CareDashboard = () => {
       
       {/* Header */}
       <div style={{ padding: "20px 16px", borderBottom: "1px solid rgba(74,165,168,0.08)" }}>
-        <Link to="/" className="flex items-center gap-2 text-xs mb-4" style={{ color: KOWHAI }}>
+        <Link to="/" className="flex items-center gap-2 text-xs mb-4" style={{ color: TEAL_ACCENT }}>
           <ArrowLeft size={14} /> Back
         </Link>
         <div className="flex items-center justify-between">
@@ -117,7 +117,7 @@ const CareDashboard = () => {
         {/* Last Check-in Summary */}
         <Card>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] uppercase font-bold" style={{ color: KOWHAI, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Last check-in</span>
+            <span className="text-[10px] uppercase font-bold" style={{ color: TEAL_ACCENT, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Last check-in</span>
             {latestCheckIn && <span className="text-[10px]" style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
               {new Date(latestCheckIn.completed_at || latestCheckIn.scheduled_at).toLocaleString("en-NZ", { dateStyle: "medium", timeStyle: "short" })}
             </span>}
@@ -139,7 +139,7 @@ const CareDashboard = () => {
             <Link to="/chat/healthcompanion" className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold" style={{ background: POUNAMU, color: "#3D4250" }}>
               <Phone size={12} /> Call ORA now
             </Link>
-            <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium" style={{ background: "transparent", border: `1px solid rgba(74,165,168,0.3)`, color: KOWHAI }}>
+            <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium" style={{ background: "transparent", border: `1px solid rgba(74,165,168,0.3)`, color: TEAL_ACCENT }}>
               <Pill size={12} /> Medications
             </button>
           </div>
@@ -149,7 +149,7 @@ const CareDashboard = () => {
         {moodData.length > 1 && (
           <Card>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[10px] uppercase font-bold" style={{ color: KOWHAI, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Mood timeline</span>
+              <span className="text-[10px] uppercase font-bold" style={{ color: TEAL_ACCENT, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Mood timeline</span>
               <div className="flex items-center gap-1">
                 {moodTrend === "improving" ? <TrendingUp size={12} style={{ color: POUNAMU }} /> : moodTrend === "declining" ? <TrendingDown size={12} style={{ color: KOKKOWAI }} /> : <Minus size={12} style={{ color: "#6B7280" }} />}
                 <span className="text-[10px] capitalize" style={{ color: moodTrend === "improving" ? POUNAMU : moodTrend === "declining" ? KOKKOWAI : "rgba(255,255,255,0.4)" }}>{moodTrend}</span>
@@ -175,7 +175,7 @@ const CareDashboard = () => {
             <div className="space-y-2">
               {alerts.map(a => (
                 <div key={a.id} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: "rgba(165,42,42,0.08)", border: "1px solid rgba(165,42,42,0.15)" }}>
-                  <AlertTriangle size={14} style={{ color: a.priority === "critical" ? KOKKOWAI : a.priority === "high" ? "#FF6D00" : KOWHAI, marginTop: 2 }} />
+                  <AlertTriangle size={14} style={{ color: a.priority === "critical" ? KOKKOWAI : a.priority === "high" ? "#FF6D00" : TEAL_ACCENT, marginTop: 2 }} />
                   <div className="flex-1">
                     <p className="text-xs font-medium" style={{ color: "#3D4250" }}>{a.title}</p>
                     <p className="text-[11px] mt-0.5" style={{ color: "#6B7280" }}>{a.description}</p>
@@ -183,7 +183,7 @@ const CareDashboard = () => {
                   </div>
                   <span className="text-[9px] uppercase px-2 py-0.5 rounded-full font-bold" style={{
                     background: a.priority === "critical" ? "rgba(165,42,42,0.2)" : a.priority === "high" ? "rgba(255,109,0,0.15)" : "rgba(74,165,168,0.15)",
-                    color: a.priority === "critical" ? KOKKOWAI : a.priority === "high" ? "#FF6D00" : KOWHAI,
+                    color: a.priority === "critical" ? KOKKOWAI : a.priority === "high" ? "#FF6D00" : TEAL_ACCENT,
                   }}>{a.priority}</span>
                 </div>
               ))}
@@ -246,7 +246,7 @@ const CareDashboard = () => {
         {/* Home Safety */}
         <Card>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] uppercase font-bold" style={{ color: KOWHAI, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Home safety</span>
+            <span className="text-[10px] uppercase font-bold" style={{ color: TEAL_ACCENT, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Home safety</span>
             {safetyAssessments[0] && <span className="text-[10px]" style={{ color: "#9CA3AF", fontFamily: "'JetBrains Mono', monospace" }}>
               Score: {safetyAssessments[0].risk_score}/10
             </span>}
@@ -254,7 +254,7 @@ const CareDashboard = () => {
           {safetyAssessments.length === 0 ? (
             <div>
               <p className="text-xs mb-3" style={{ color: "#6B7280" }}>No safety assessment completed yet</p>
-              <Link to="/chat/property" className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium w-fit" style={{ background: "transparent", border: `1px solid rgba(74,165,168,0.3)`, color: KOWHAI }}>
+              <Link to="/chat/property" className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium w-fit" style={{ background: "transparent", border: `1px solid rgba(74,165,168,0.3)`, color: TEAL_ACCENT }}>
                 <Home size={12} /> Request assessment
               </Link>
             </div>

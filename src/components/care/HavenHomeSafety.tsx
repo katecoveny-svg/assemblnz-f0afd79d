@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Home, Camera, AlertTriangle, Shield, Thermometer, Sun } from "lucide-react";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const KOKKOWAI = "#A52A2A";
 
@@ -40,13 +40,13 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div>
-        <p className="text-[10px] uppercase font-bold" style={{ color: KOWHAI, fontFamily: "'Lato', sans-serif", letterSpacing: "4px" }}>HAVEN — HOME SAFETY</p>
+        <p className="text-[10px] uppercase font-bold" style={{ color: TEAL_ACCENT, fontFamily: "'Lato', sans-serif", letterSpacing: "4px" }}>HAVEN — HOME SAFETY</p>
         <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>Photo-based home safety assessment with AI spatial reasoning</p>
       </div>
 
       {/* Start assessment */}
       <div className="p-5 rounded-2xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.12)" }}>
-        <Camera size={20} style={{ color: KOWHAI, marginBottom: 12 }} />
+        <Camera size={20} style={{ color: TEAL_ACCENT, marginBottom: 12 }} />
         <p className="text-sm font-medium" style={{ color: "#3D4250" }}>Room-by-room safety check</p>
         <p className="text-xs mt-1 mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>
           Take photos of each room. HAVEN analyses for trip hazards, poor lighting, missing grab rails, and fall risks using AI spatial reasoning.
@@ -57,7 +57,7 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
               key={room}
               onClick={() => onSendToChat(`I'd like to do a home safety assessment for the ${room.toLowerCase()}. I'll upload a photo — analyse it for trip hazards, poor lighting, missing grab rails, and fall risks. Provide a risk score and prioritised recommendations.`)}
               className="px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all hover:scale-[0.98]"
-              style={{ background: "rgba(74,165,168,0.08)", border: "1px solid rgba(74,165,168,0.15)", color: KOWHAI }}
+              style={{ background: "rgba(74,165,168,0.08)", border: "1px solid rgba(74,165,168,0.15)", color: TEAL_ACCENT }}
             >
               {room}
             </button>
@@ -73,7 +73,7 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
             {assessments.map(a => (
               <div key={a.id} className="flex items-center justify-between p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
                 <div className="flex items-center gap-2">
-                  <Home size={13} style={{ color: KOWHAI }} />
+                  <Home size={13} style={{ color: TEAL_ACCENT }} />
                   <div>
                     <p className="text-xs font-medium" style={{ color: "#3D4250" }}>{a.room || "Full assessment"}</p>
                     <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.4)" }}>{new Date(a.created_at).toLocaleDateString("en-NZ")}</p>
@@ -81,7 +81,7 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
                 </div>
                 {a.risk_score && (
                   <span className="text-xs font-mono font-bold" style={{
-                    color: a.risk_score >= 7 ? KOKKOWAI : a.risk_score >= 4 ? KOWHAI : POUNAMU,
+                    color: a.risk_score >= 7 ? KOKKOWAI : a.risk_score >= 4 ? TEAL_ACCENT : POUNAMU,
                     fontFamily: "'JetBrains Mono', monospace",
                   }}>{a.risk_score}/10</span>
                 )}

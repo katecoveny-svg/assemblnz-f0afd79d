@@ -3,7 +3,7 @@ import { Heart, Phone, Shield, Sun, AlertTriangle } from "lucide-react";
 
 const AROHA_PINK = "#FF6F91";
 const POUNAMU = "#3A7D6E";
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 
 interface ArohaCaregiverWellbeingProps {
   onSendToChat: (msg: string) => void;

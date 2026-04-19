@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Heart, Activity, Pill, Sun, Moon, Coffee, Smile, Frown, Meh, AlertTriangle } from "lucide-react";
 
 const POUNAMU = "#3A7D6E";
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const KOKKOWAI = "#A52A2A";
 
 interface OraCheckInProps {

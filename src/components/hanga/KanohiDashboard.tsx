@@ -30,7 +30,7 @@ interface ChatMsg {
 }
 
 /* ── Brand ── */
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
 const SURFACE = "#0F0F1A";
@@ -110,7 +110,7 @@ function AraiSafetyDashboard() {
       {/* Stats Row */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {[
-          { label: "Total Hazards", value: totalHazards, icon: <AlertTriangle size={18} />, accent: KOWHAI },
+          { label: "Total Hazards", value: totalHazards, icon: <AlertTriangle size={18} />, accent: TEAL_ACCENT },
           { label: "Extreme Risks", value: extremeRisks, icon: <XCircle size={18} />, accent: "#EF4444" },
           { label: "Open Incidents", value: openIncidents, icon: <AlertTriangle size={18} />, accent: "#EF4444" },
           { label: "Days Without Incident", value: daysWithoutIncident, icon: <CheckCircle2 size={18} />, accent: POUNAMU },
@@ -135,7 +135,7 @@ function AraiSafetyDashboard() {
         <div className="p-4">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
-              <Shield size={16} style={{ color: KOWHAI }} /> Risk Matrix (5×5)
+              <Shield size={16} style={{ color: TEAL_ACCENT }} /> Risk Matrix (5×5)
             </h3>
             <div className="flex gap-2">
               <button onClick={() => setMatrixView(!matrixView)} className="px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all"
@@ -143,7 +143,7 @@ function AraiSafetyDashboard() {
                 {matrixView ? "List View" : "Matrix View"}
               </button>
               <button onClick={() => setShowAddHazard(!showAddHazard)} className="px-3 py-1.5 rounded-lg text-[10px] font-medium flex items-center gap-1 transition-all hover:scale-[1.02]"
-                style={{ background: `${KOWHAI}15`, color: KOWHAI, border: `1px solid ${KOWHAI}30` }}>
+                style={{ background: `${TEAL_ACCENT}15`, color: TEAL_ACCENT, border: `1px solid ${TEAL_ACCENT}30` }}>
                 <Building2 size={12} /> Add Hazard
               </button>
             </div>
@@ -229,7 +229,7 @@ function AraiSafetyDashboard() {
       <Glass navy>
         <div className="p-4">
           <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
-            <Shield size={16} style={{ color: KOWHAI }} /> Risk Register
+            <Shield size={16} style={{ color: TEAL_ACCENT }} /> Risk Register
           </h3>
           <div className="space-y-2">
             {risks.map(r => {
@@ -248,7 +248,7 @@ function AraiSafetyDashboard() {
                         <div className="flex gap-2 mt-1 flex-wrap">
                           <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: `${riskColor(score)}12`, color: riskColor(score), fontFamily: "JetBrains Mono" }}>{r.category}</span>
                           <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{r.hierarchy}</span>
-                          <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: r.status === "Under Review" ? "rgba(74,165,168,0.12)" : "rgba(58,125,110,0.12)", color: r.status === "Under Review" ? KOWHAI : POUNAMU, fontFamily: "JetBrains Mono" }}>{r.status}</span>
+                          <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: r.status === "Under Review" ? "rgba(74,165,168,0.12)" : "rgba(58,125,110,0.12)", color: r.status === "Under Review" ? TEAL_ACCENT : POUNAMU, fontFamily: "JetBrains Mono" }}>{r.status}</span>
                         </div>
                       </div>
                       <ArrowRight size={14} className="flex-shrink-0 transition-transform" style={{ color: "rgba(255,255,255,0.2)", transform: isOpen ? "rotate(90deg)" : "none" }} />
@@ -263,7 +263,7 @@ function AraiSafetyDashboard() {
                         <div className="flex justify-between"><span>Review Date</span><span style={{ color: "#1A1D29" }}>{r.reviewDate}</span></div>
                       </div>
                       <div className="mt-2 p-2.5 rounded-lg" style={{ background: "rgba(255,255,255,0.5)" }}>
-                        <p className="text-[10px] font-medium mb-1" style={{ fontFamily: "JetBrains Mono", color: KOWHAI }}>Controls</p>
+                        <p className="text-[10px] font-medium mb-1" style={{ fontFamily: "JetBrains Mono", color: TEAL_ACCENT }}>Controls</p>
                         <p className="text-xs leading-relaxed" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{r.controls}</p>
                       </div>
                     </div>
@@ -291,13 +291,13 @@ function AraiSafetyDashboard() {
             {incidents.map(inc => (
               <div key={inc.id} className="p-3 rounded-xl flex items-start gap-3" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
                 <div className="w-1 h-full min-h-[40px] rounded-full flex-shrink-0" style={{
-                  background: inc.type === "Notifiable Event" ? "#EF4444" : inc.type === "Near Miss" ? KOWHAI : POUNAMU,
+                  background: inc.type === "Notifiable Event" ? "#EF4444" : inc.type === "Near Miss" ? TEAL_ACCENT : POUNAMU,
                 }} />
                 <div className="flex-1">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
                     <span className="px-2 py-0.5 rounded-full text-[9px]" style={{
                       background: inc.type === "Notifiable Event" ? "rgba(239,68,68,0.15)" : inc.type === "Near Miss" ? "rgba(74,165,168,0.15)" : "rgba(58,125,110,0.15)",
-                      color: inc.type === "Notifiable Event" ? "#EF4444" : inc.type === "Near Miss" ? KOWHAI : POUNAMU,
+                      color: inc.type === "Notifiable Event" ? "#EF4444" : inc.type === "Near Miss" ? TEAL_ACCENT : POUNAMU,
                       fontFamily: "JetBrains Mono",
                     }}>{inc.type}</span>
                     {inc.worksafe && (
@@ -343,7 +343,7 @@ function AraiSafetyDashboard() {
                     <td className="py-2 pr-3 text-center" style={{ color: w.siteSafe ? POUNAMU : "rgba(255,255,255,0.2)" }}>{w.siteSafe ? "✓" : "—"}</td>
                     <td className="py-2 pr-3 text-center" style={{ color: w.firstAid ? POUNAMU : "rgba(255,255,255,0.2)" }}>{w.firstAid ? "✓" : "—"}</td>
                     <td className="py-2 text-center">
-                      <span className="px-1.5 py-0.5 rounded text-[8px]" style={{ background: w.passport === "Gold" ? `${KOWHAI}15` : "rgba(255,255,255,0.5)", color: w.passport === "Gold" ? KOWHAI : "rgba(255,255,255,0.4)" }}>{w.passport}</span>
+                      <span className="px-1.5 py-0.5 rounded text-[8px]" style={{ background: w.passport === "Gold" ? `${TEAL_ACCENT}15` : "rgba(255,255,255,0.5)", color: w.passport === "Gold" ? TEAL_ACCENT : "rgba(255,255,255,0.4)" }}>{w.passport}</span>
                     </td>
                   </tr>
                 ))}
@@ -358,10 +358,10 @@ function AraiSafetyDashboard() {
 
 /* ── TABS CONFIG ── */
 const TABS: { id: TabId; label: string; shortLabel: string; icon: React.ReactNode; accent: string }[] = [
-  { id: "overview", label: "Overview", shortLabel: "Overview", icon: <Eye size={14} />, accent: KOWHAI },
+  { id: "overview", label: "Overview", shortLabel: "Overview", icon: <Eye size={14} />, accent: TEAL_ACCENT },
   { id: "arai", label: "ĀRAI — Site Safety", shortLabel: "ĀRAI", icon: <Shield size={14} />, accent: "#EF4444" },
   { id: "ata", label: "ATA — BIM", shortLabel: "ATA", icon: <Layers size={14} />, accent: "#5A8AB5" },
-  { id: "kaupapa", label: "KAUPAPA — Projects", shortLabel: "KAUPAPA", icon: <FolderKanban size={14} />, accent: KOWHAI },
+  { id: "kaupapa", label: "KAUPAPA — Projects", shortLabel: "KAUPAPA", icon: <FolderKanban size={14} />, accent: TEAL_ACCENT },
   { id: "rawa", label: "RAWA — Resources", shortLabel: "RAWA", icon: <Package size={14} />, accent: POUNAMU },
   { id: "whakaae", label: "WHAKAAĒ — Consenting", shortLabel: "WHAKAAĒ", icon: <FileCheck size={14} />, accent: TANGAROA },
   { id: "pai", label: "PAI — Quality", shortLabel: "PAI", icon: <CheckCircle2 size={14} />, accent: POUNAMU },
@@ -372,11 +372,11 @@ function OverviewDashboard() {
   const globalStats = [
     { label: "Active Hazards", value: "6", icon: <AlertTriangle size={20} />, accent: "#EF4444", agent: "ĀRAI", trend: "+1", trendUp: true, progress: 60 },
     { label: "BIM Clashes Open", value: "4", icon: <Layers size={20} />, accent: "#5A8AB5", agent: "ATA", trend: "-2", trendUp: false, progress: 40 },
-    { label: "Payment Claims", value: "$1.2M", icon: <FolderKanban size={20} />, accent: KOWHAI, agent: "KAUPAPA", trend: "+$245k", trendUp: true, progress: 72 },
+    { label: "Payment Claims", value: "$1.2M", icon: <FolderKanban size={20} />, accent: TEAL_ACCENT, agent: "KAUPAPA", trend: "+$245k", trendUp: true, progress: 72 },
     { label: "Active Tenders", value: "3", icon: <Package size={20} />, accent: POUNAMU, agent: "RAWA", trend: "2 due", trendUp: false, progress: 55 },
     { label: "Consents Active", value: "5", icon: <FileCheck size={20} />, accent: TANGAROA, agent: "WHAKAAĒ", trend: "1 RFI", trendUp: false, progress: 78 },
     { label: "Open NCRs", value: "3", icon: <XCircle size={20} />, accent: "#EF4444", agent: "PAI", trend: "-1", trendUp: false, progress: 30 },
-    { label: "Punch List", value: "6", icon: <ClipboardCheck size={20} />, accent: KOWHAI, agent: "PAI", trend: "2 done", trendUp: false, progress: 45 },
+    { label: "Punch List", value: "6", icon: <ClipboardCheck size={20} />, accent: TEAL_ACCENT, agent: "PAI", trend: "2 done", trendUp: false, progress: 45 },
     { label: "ITP Completion", value: "60%", icon: <CheckCircle2 size={20} />, accent: POUNAMU, agent: "PAI", trend: "+8%", trendUp: true, progress: 60 },
   ];
 
@@ -387,20 +387,20 @@ function OverviewDashboard() {
         <div className="p-4">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
-              <Zap size={16} style={{ color: KOWHAI }} /> Project Health
+              <Zap size={16} style={{ color: TEAL_ACCENT }} /> Project Health
             </h3>
             <span className="text-[10px] px-2 py-1 rounded-full" style={{ background: "rgba(58,125,110,0.15)", color: POUNAMU, fontFamily: "JetBrains Mono" }}>68% On Track</span>
           </div>
           <div className="grid grid-cols-6 gap-1 h-3 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.5)" }}>
             <div className="h-full rounded-l-full" style={{ background: POUNAMU, gridColumn: "span 2" }} />
-            <div className="h-full" style={{ background: KOWHAI, gridColumn: "span 2" }} />
+            <div className="h-full" style={{ background: TEAL_ACCENT, gridColumn: "span 2" }} />
             <div className="h-full" style={{ background: "#EF4444", gridColumn: "span 1" }} />
             <div className="h-full rounded-r-full" style={{ background: "rgba(255,255,255,0.5)", gridColumn: "span 1" }} />
           </div>
           <div className="flex items-center gap-4 mt-2">
             {[
               { label: "On Track", color: POUNAMU },
-              { label: "At Risk", color: KOWHAI },
+              { label: "At Risk", color: TEAL_ACCENT },
               { label: "Critical", color: "#EF4444" },
               { label: "Pending", color: "rgba(255,255,255,0.15)" },
             ].map(l => (
@@ -448,7 +448,7 @@ function OverviewDashboard() {
             {[
               { agent: "PAI", severity: "critical", text: "NCR-041: Concrete cover insufficient — Level 3 slab SE corner. Structural assessment required.", accent: "#EF4444" },
               { agent: "WHAKAAĒ", severity: "urgent", text: "RFI-023 & RFI-024 response deadline: 31 Mar 2026 (today). Seismic assessment & PS1 required.", accent: "#EF4444" },
-              { agent: "PAI", severity: "major", text: "NCR-040: Fire stopping omitted at 12 penetrations — Level 2 riser shaft. Due 5 Apr.", accent: KOWHAI },
+              { agent: "PAI", severity: "major", text: "NCR-040: Fire stopping omitted at 12 penetrations — Level 2 riser shaft. Due 5 Apr.", accent: TEAL_ACCENT },
               { agent: "ĀRAI", severity: "info", text: "Scaffold plank incident (5 Mar) reported to WorkSafe. Investigation file complete.", accent: "#5A8AB5" },
               { agent: "RAWA", severity: "info", text: "Structural steel delivery ETA: 8 Apr. Container MSKU-4472891 cleared Tauranga customs.", accent: POUNAMU },
             ].map((a, i) => (
@@ -546,7 +546,7 @@ function HangaChat({ projectName }: { projectName: string }) {
         onClick={() => setOpen(true)}
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-105"
         style={{
-          background: `linear-gradient(135deg, ${KOWHAI}, ${POUNAMU})`,
+          background: `linear-gradient(135deg, ${TEAL_ACCENT}, ${POUNAMU})`,
           boxShadow: `0 4px 20px rgba(74,165,168,0.3), 0 0 40px rgba(74,165,168,0.1)`,
         }}
       >
@@ -567,8 +567,8 @@ function HangaChat({ projectName }: { projectName: string }) {
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${KOWHAI}30, ${POUNAMU}30)` }}>
-            <Building2 size={16} style={{ color: KOWHAI }} />
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${TEAL_ACCENT}30, ${POUNAMU}30)` }}>
+            <Building2 size={16} style={{ color: TEAL_ACCENT }} />
           </div>
           <div>
             <p className="text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Ask Hanga</p>
@@ -584,7 +584,7 @@ function HangaChat({ projectName }: { projectName: string }) {
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3" style={{ scrollbarWidth: "thin" }}>
         {messages.length === 0 && (
           <div className="space-y-3">
-            <div className="p-3 rounded-xl" style={{ background: `${KOWHAI}08`, border: `1px solid ${KOWHAI}15` }}>
+            <div className="p-3 rounded-xl" style={{ background: `${TEAL_ACCENT}08`, border: `1px solid ${TEAL_ACCENT}15` }}>
               <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>
                 Kia ora! I'm your Hanga construction assistant. Ask me anything about your project — safety, consents, quality, resources, or BIM.
               </p>
@@ -593,11 +593,11 @@ function HangaChat({ projectName }: { projectName: string }) {
               {quickActions.map(q => (
                 <button key={q} onClick={() => sendMessage(q)} className="w-full text-left px-3 py-2 rounded-lg text-xs transition-all hover:bg-white/5" style={{
                   fontFamily: "Plus Jakarta Sans",
-                  color: KOWHAI,
+                  color: TEAL_ACCENT,
                   background: "rgba(255,255,255,0.5)",
                   border: "1px solid rgba(74,165,168,0.12)",
                 }}>
-                  <ArrowRight size={10} className="inline mr-1.5" style={{ color: KOWHAI }} />{q}
+                  <ArrowRight size={10} className="inline mr-1.5" style={{ color: TEAL_ACCENT }} />{q}
                 </button>
               ))}
             </div>
@@ -608,8 +608,8 @@ function HangaChat({ projectName }: { projectName: string }) {
           <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
             <div className="max-w-[85%] px-3 py-2 rounded-xl text-xs" style={{
               fontFamily: "Plus Jakarta Sans",
-              background: m.role === "user" ? `${KOWHAI}15` : "rgba(255,255,255,0.5)",
-              border: `1px solid ${m.role === "user" ? `${KOWHAI}25` : "rgba(255,255,255,0.5)"}`,
+              background: m.role === "user" ? `${TEAL_ACCENT}15` : "rgba(255,255,255,0.5)",
+              border: `1px solid ${m.role === "user" ? `${TEAL_ACCENT}25` : "rgba(255,255,255,0.5)"}`,
               color: "rgba(255,255,255,0.8)",
             }}>
               {m.content}
@@ -622,7 +622,7 @@ function HangaChat({ projectName }: { projectName: string }) {
             <div className="px-3 py-2 rounded-xl" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
               <div className="flex gap-1">
                 {[0, 1, 2].map(i => (
-                  <div key={i} className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: KOWHAI, animationDelay: `${i * 0.2}s` }} />
+                  <div key={i} className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: TEAL_ACCENT, animationDelay: `${i * 0.2}s` }} />
                 ))}
               </div>
             </div>
@@ -645,7 +645,7 @@ function HangaChat({ projectName }: { projectName: string }) {
               color: "#1A1D29",
             }}
           />
-          <button type="submit" disabled={!input.trim() || loading} className="p-2 rounded-lg transition-all disabled:opacity-30" style={{ background: `${KOWHAI}20`, color: KOWHAI }}>
+          <button type="submit" disabled={!input.trim() || loading} className="p-2 rounded-lg transition-all disabled:opacity-30" style={{ background: `${TEAL_ACCENT}20`, color: TEAL_ACCENT }}>
             <Send size={14} />
           </button>
         </form>
@@ -710,8 +710,8 @@ export default function KanohiDashboard() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <Eye size={20} style={{ color: KOWHAI }} />
-              <span className="text-xs tracking-widest uppercase" style={{ color: `${KOWHAI}90`, fontFamily: "JetBrains Mono" }}>Construction Intelligence Platform</span>
+              <Eye size={20} style={{ color: TEAL_ACCENT }} />
+              <span className="text-xs tracking-widest uppercase" style={{ color: `${TEAL_ACCENT}90`, fontFamily: "JetBrains Mono" }}>Construction Intelligence Platform</span>
             </div>
             <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#1A1D29" }}>
               WAIHANGA — Kanohi Dashboard
@@ -730,7 +730,7 @@ export default function KanohiDashboard() {
                 color: "#1A1D29",
               }}
             >
-              <Building2 size={14} style={{ color: KOWHAI }} />
+              <Building2 size={14} style={{ color: TEAL_ACCENT }} />
               <span className="flex-1 text-left truncate text-xs">{projectName}</span>
               <ChevronDown size={14} style={{ color: "rgba(255,255,255,0.4)", transform: projectDropdown ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
             </button>
@@ -748,7 +748,7 @@ export default function KanohiDashboard() {
                     className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors"
                     style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
                   >
-                    <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: selectedProject === p.id ? KOWHAI : "#FFFFFF" }}>{p.name}</p>
+                    <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: selectedProject === p.id ? TEAL_ACCENT : "#FFFFFF" }}>{p.name}</p>
                     <p className="text-[9px] mt-0.5" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
                       {p.address} · {p.status}
                     </p>
@@ -846,7 +846,7 @@ function TabLoader() {
     <div className="flex items-center justify-center py-20">
       <div className="flex gap-1.5">
         {[0, 1, 2].map(i => (
-          <div key={i} className="w-2 h-2 rounded-full animate-pulse" style={{ background: KOWHAI, animationDelay: `${i * 0.15}s` }} />
+          <div key={i} className="w-2 h-2 rounded-full animate-pulse" style={{ background: TEAL_ACCENT, animationDelay: `${i * 0.15}s` }} />
         ))}
       </div>
     </div>

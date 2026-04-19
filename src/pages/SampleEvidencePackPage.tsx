@@ -13,7 +13,7 @@ import SEO from "@/components/SEO";
 /* ─── Brand tokens ─── */
 const BG = "#0A1628";
 const TEAL = "#3A7D6E";
-const GOLD = "#D4A853";
+const GOLD = "#4AA5A8";
 const WHITE = "#FFFFFF";
 const SURFACE = "rgba(255,255,255,0.04)";
 const BORDER = "rgba(255,255,255,0.08)";
@@ -382,7 +382,7 @@ const PACKS: Record<string, PackData> = {
 
 /* ─── Status indicator ─── */
 const StatusDot = ({ status }: { status: "ok" | "warn" | "info" }) => {
-  const color = status === "ok" ? "#3A7D6E" : status === "warn" ? "#D4A853" : "#5A8FBF";
+  const color = status === "ok" ? "#3A7D6E" : status === "warn" ? "#4AA5A8" : "#5A8FBF";
   return (
     <span
       className="inline-block w-2 h-2 rounded-full shrink-0 mt-1"
@@ -436,7 +436,7 @@ const DocSection = ({ section, accent, index }: { section: Section; accent: stri
                 className="text-xs font-medium"
                 style={{
                   fontFamily: FONT_MONO,
-                  color: item.status === "ok" ? "rgba(255,255,255,0.8)" : item.status === "warn" ? "#D4A853" : "#5A8FBF",
+                  color: item.status === "ok" ? "rgba(255,255,255,0.8)" : item.status === "warn" ? "#4AA5A8" : "#5A8FBF",
                 }}
               >
                 {item.value}

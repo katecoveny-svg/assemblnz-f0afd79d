@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import { AaaipGuardBadge, useAaaipGuard } from "@/aaaip";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 interface Photo {
@@ -91,7 +91,7 @@ export default function PhotoDocsPage() {
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><Camera size={22} style={{ color: KOWHAI }} /> Photo Documentation</h1>
+          <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><Camera size={22} style={{ color: TEAL_ACCENT }} /> Photo Documentation</h1>
           <p className="text-xs text-[#9CA3AF]">AI-Powered Hazard Detection — Whakaahua</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
@@ -119,7 +119,7 @@ export default function PhotoDocsPage() {
           style={{ borderColor: "rgba(255,255,255,0.1)" }}>
           {uploading ? (
             <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }}>
-              <Layers size={40} style={{ color: KOWHAI }} className="mx-auto mb-3" />
+              <Layers size={40} style={{ color: TEAL_ACCENT }} className="mx-auto mb-3" />
             </motion.div>
           ) : (
             <Upload size={40} className="text-[#9CA3AF] mx-auto mb-3" />
@@ -152,9 +152,9 @@ export default function PhotoDocsPage() {
                 {!photo.analyzed && (
                   <div className="mt-2 flex items-center gap-1">
                     <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2 }}>
-                      <Layers size={10} style={{ color: KOWHAI }} />
+                      <Layers size={10} style={{ color: TEAL_ACCENT }} />
                     </motion.div>
-                    <span className="text-[10px]" style={{ color: KOWHAI }}>Analyzing...</span>
+                    <span className="text-[10px]" style={{ color: TEAL_ACCENT }}>Analyzing...</span>
                   </div>
                 )}
               </div>

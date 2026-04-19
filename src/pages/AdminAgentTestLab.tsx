@@ -364,7 +364,7 @@ export default function AdminAgentTestLab() {
                 { stage: "Mahara", label: "Memory", desc: "Cross-checks against source legislation" },
                 { stage: "Mana", label: "Assurance", desc: "Final governance and sovereignty check" },
               ].map(s => (
-                <div key={s.stage} className="rounded-xl p-3" style={{ background: "rgba(212,168,83,0.06)", border: "1px solid rgba(212,168,83,0.12)" }}>
+                <div key={s.stage} className="rounded-xl p-3" style={{ background: "rgba(74,165,168,0.06)", border: "1px solid rgba(74,165,168,0.12)" }}>
                   <div className="text-[10px] tracking-wider uppercase" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>
                     {s.stage}
                   </div>

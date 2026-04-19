@@ -4,7 +4,7 @@ import { Play, CheckCircle2, Clock, ChevronRight } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import WorkflowStepper, { type WorkflowStep } from "./WorkflowStepper";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 export interface WorkflowDef {
@@ -232,7 +232,7 @@ const WorkflowCards = ({ packId }: WorkflowCardsProps) => {
                     className="w-10 h-10 rounded-xl flex items-center justify-center"
                     style={{
                       background: isActive ? "rgba(74,165,168,0.15)" : "rgba(255,255,255,0.5)",
-                      color: isActive ? KOWHAI : "rgba(255,255,255,0.4)",
+                      color: isActive ? TEAL_ACCENT : "rgba(255,255,255,0.4)",
                     }}
                   >
                     {getIcon(wf.icon)}
@@ -262,7 +262,7 @@ const WorkflowCards = ({ packId }: WorkflowCardsProps) => {
                 <div className="mt-3 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.5)" }}>
                   <motion.div
                     className="h-full rounded-full"
-                    style={{ background: `linear-gradient(90deg, ${POUNAMU}, ${KOWHAI})` }}
+                    style={{ background: `linear-gradient(90deg, ${POUNAMU}, ${TEAL_ACCENT})` }}
                     initial={{ width: 0 }}
                     animate={{ width: `${(completedCount / totalSteps) * 100}%` }}
                     transition={{ duration: 0.3 }}

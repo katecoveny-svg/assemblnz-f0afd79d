@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { GraduationCap, FileText, Calendar, Bell } from "lucide-react";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const BONE = "#F5F0E8";
 const TANGAROA = "#1A3A5C";
@@ -81,13 +81,13 @@ export default function SchoolModule({ children, termDates }: Props) {
           {/* Upcoming */}
           {child.upcoming.length > 0 && (
             <div>
-              <h4 className="font-display text-[9px] uppercase tracking-wider mb-1.5 flex items-center gap-1" style={{ color: `${KOWHAI}AA` }}>
+              <h4 className="font-display text-[9px] uppercase tracking-wider mb-1.5 flex items-center gap-1" style={{ color: `${TEAL_ACCENT}AA` }}>
                 <Bell size={9} /> Upcoming
               </h4>
               <div className="space-y-1">
                 {child.upcoming.map((u, j) => (
                   <div key={j} className="flex items-center gap-2 py-1">
-                    <span className="w-1 h-1 rounded-full" style={{ background: KOWHAI }} />
+                    <span className="w-1 h-1 rounded-full" style={{ background: TEAL_ACCENT }} />
                     <span className="font-body text-xs" style={{ color: "#6B7280" }}>{u}</span>
                   </div>
                 ))}

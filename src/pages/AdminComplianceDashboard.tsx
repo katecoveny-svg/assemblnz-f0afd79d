@@ -11,13 +11,13 @@ import { Shield, RefreshCw, CheckCircle, XCircle, Clock, AlertTriangle, Activity
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 
 const BONE = "#F5F0E8";
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 const impactBadge = (level: string) => {
   const colors: Record<string, { bg: string; text: string }> = {
     high: { bg: "rgba(239,68,68,0.15)", text: "#ef4444" },
-    medium: { bg: "rgba(74,165,168,0.15)", text: KOWHAI },
+    medium: { bg: "rgba(74,165,168,0.15)", text: TEAL_ACCENT },
     low: { bg: "rgba(58,125,110,0.15)", text: POUNAMU },
   };
   const c = colors[level] || colors.low;
@@ -99,14 +99,14 @@ export default function AdminComplianceDashboard() {
     <AdminShell
       title="Compliance Scanner"
       subtitle="Regulatory monitoring & knowledge base health"
-      icon={<Shield size={18} style={{ color: KOWHAI }} />}
+      icon={<Shield size={18} style={{ color: TEAL_ACCENT }} />}
       backTo="/admin/dashboard"
       actions={
         <button
           onClick={runScanNow}
           disabled={scanning}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-all"
-          style={{ background: `${KOWHAI}20`, color: KOWHAI, border: `1px solid ${KOWHAI}30` }}
+          style={{ background: `${TEAL_ACCENT}20`, color: TEAL_ACCENT, border: `1px solid ${TEAL_ACCENT}30` }}
         >
           <RefreshCw size={14} className={scanning ? "animate-spin" : ""} />
           {scanning ? "Scanning..." : "Run Scan Now"}
@@ -160,13 +160,13 @@ export default function AdminComplianceDashboard() {
           </div>
         </AdminGlassCard>
 
-        <AdminGlassCard accent={KOWHAI}>
+        <AdminGlassCard accent={TEAL_ACCENT}>
           <div className="p-4">
             <div className="flex items-center gap-2 mb-2">
-              <Activity size={14} style={{ color: staleCount > 0 ? KOWHAI : `${BONE}50` }} />
+              <Activity size={14} style={{ color: staleCount > 0 ? TEAL_ACCENT : `${BONE}50` }} />
               <span className="text-[10px] uppercase tracking-wider" style={{ color: `${BONE}50` }}>Stale Entries</span>
             </div>
-            <p className="text-2xl font-light" style={{ color: staleCount > 0 ? KOWHAI : `${BONE}CC` }}>{staleCount}</p>
+            <p className="text-2xl font-light" style={{ color: staleCount > 0 ? TEAL_ACCENT : `${BONE}CC` }}>{staleCount}</p>
             <p className="text-[11px]" style={{ color: `${BONE}40` }}>not verified in 90+ days</p>
           </div>
         </AdminGlassCard>
@@ -180,8 +180,8 @@ export default function AdminComplianceDashboard() {
             onClick={() => setTab(t)}
             className="px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition-all"
             style={{
-              background: tab === t ? `${KOWHAI}15` : "transparent",
-              color: tab === t ? KOWHAI : `${BONE}50`,
+              background: tab === t ? `${TEAL_ACCENT}15` : "transparent",
+              color: tab === t ? TEAL_ACCENT : `${BONE}50`,
               fontFamily: "Lato, sans-serif",
             }}
           >
@@ -202,9 +202,9 @@ export default function AdminComplianceDashboard() {
                   onClick={() => setFilter((f) => ({ ...f, impact: level === "all" ? undefined : level }))}
                   className="px-3 py-1 rounded-full text-[10px] uppercase tracking-wider transition-all"
                   style={{
-                    background: (filter.impact === level || (!filter.impact && level === "all")) ? `${KOWHAI}20` : "rgba(255,255,255,0.03)",
-                    color: (filter.impact === level || (!filter.impact && level === "all")) ? KOWHAI : `${BONE}40`,
-                    border: `1px solid ${(filter.impact === level || (!filter.impact && level === "all")) ? `${KOWHAI}30` : "rgba(255,255,255,0.06)"}`,
+                    background: (filter.impact === level || (!filter.impact && level === "all")) ? `${TEAL_ACCENT}20` : "rgba(255,255,255,0.03)",
+                    color: (filter.impact === level || (!filter.impact && level === "all")) ? TEAL_ACCENT : `${BONE}40`,
+                    border: `1px solid ${(filter.impact === level || (!filter.impact && level === "all")) ? `${TEAL_ACCENT}30` : "rgba(255,255,255,0.06)"}`,
                   }}
                 >
                   {level}
@@ -333,7 +333,7 @@ export default function AdminComplianceDashboard() {
                     <TableCell style={{ color: `${BONE}60`, fontSize: "11px" }}>{log.scan_duration_seconds}s</TableCell>
                     <TableCell>
                       {log.errors?.length > 0 ? (
-                        <span className="text-[10px]" style={{ color: KOWHAI }}>{log.errors.length} errors</span>
+                        <span className="text-[10px]" style={{ color: TEAL_ACCENT }}>{log.errors.length} errors</span>
                       ) : (
                         <span className="text-[10px]" style={{ color: POUNAMU }}>Clean</span>
                       )}
@@ -363,7 +363,7 @@ export default function AdminComplianceDashboard() {
                 {staleEntries.map((entry, i) => (
                   <TableRow key={i} style={{ borderColor: "rgba(255,255,255,0.04)" }}>
                     <TableCell>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: `${KOWHAI}15`, color: KOWHAI }}>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: `${TEAL_ACCENT}15`, color: TEAL_ACCENT }}>
                         {entry.agent_id}
                       </span>
                     </TableCell>

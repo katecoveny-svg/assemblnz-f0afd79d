@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Users, Plus, PawPrint } from "lucide-react";
 
-const KOWHAI = "#4AA5A8";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const BONE = "#F5F0E8";
 
@@ -23,7 +23,7 @@ interface Props {
   children: { name: string; school?: string; year?: string }[];
 }
 
-const glass = (accent = KOWHAI) => ({
+const glass = (accent = TEAL_ACCENT) => ({
   background: "rgba(255,255,255,0.65)",
   border: `1px solid ${accent}15`,
   backdropFilter: "blur(14px)",
@@ -50,7 +50,7 @@ export default function FamilyOverview({ members, pets, children }: Props) {
           >
             <div
               className="w-10 h-10 rounded-full flex items-center justify-center font-display text-sm"
-              style={{ background: `${KOWHAI}18`, color: KOWHAI, fontWeight: 300 }}
+              style={{ background: `${TEAL_ACCENT}18`, color: TEAL_ACCENT, fontWeight: 300 }}
             >
               {m.name.charAt(0)}
             </div>
@@ -101,10 +101,10 @@ export default function FamilyOverview({ members, pets, children }: Props) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.05 }}
                 className="rounded-xl p-4 flex items-center gap-3"
-                style={glass(KOWHAI)}
+                style={glass(TEAL_ACCENT)}
               >
-                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: `${KOWHAI}18` }}>
-                  <PawPrint size={14} style={{ color: KOWHAI }} />
+                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: `${TEAL_ACCENT}18` }}>
+                  <PawPrint size={14} style={{ color: TEAL_ACCENT }} />
                 </div>
                 <div>
                   <p className="font-body text-xs" style={{ color: "#1A1D29" }}>{p.name}</p>

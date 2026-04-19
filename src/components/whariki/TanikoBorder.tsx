@@ -24,7 +24,7 @@ const TanikoBorder = ({
       <defs>
         <pattern id="taniko" x="0" y="0" width="16" height="4" patternUnits="userSpaceOnUse">
           <path d="M0 4 L4 0 L8 4 L12 0 L16 4" fill="none" stroke="#3A7D6E" strokeWidth="1" opacity="0.5" />
-          <path d="M2 4 L6 0 L10 4 L14 0" fill="none" stroke="#D4A853" strokeWidth="0.8" opacity="0.4" />
+          <path d="M2 4 L6 0 L10 4 L14 0" fill="none" stroke="#4AA5A8" strokeWidth="0.8" opacity="0.4" />
         </pattern>
       </defs>
       <rect width="200" height="4" fill="url(#taniko)" />
