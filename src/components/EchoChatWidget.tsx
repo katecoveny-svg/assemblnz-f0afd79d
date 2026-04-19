@@ -17,9 +17,28 @@ const ECHO_BORDER_HOVER = "rgba(212,168,67,0.25)";
 const ECHO_BG_ACCENT = "rgba(212,168,67,0.1)";
 const ECHO_BG_ACCENT_SUBTLE = "rgba(212,168,67,0.08)";
 
+// Map first URL segment → kete display label so the chat dock stays context-aware
+const KETE_LABELS: Record<string, string> = {
+  manaaki: "Manaaki · Hospitality",
+  waihanga: "Waihanga · Construction",
+  auaha: "Auaha · Creative",
+  arataki: "Arataki · Automotive",
+  pikau: "Pikau · Technology",
+  hoko: "Hoko · Retail",
+  ako: "Ako · Education",
+  toro: "Tōro · Family",
+  toroa: "Tōro · Family",
+  voyage: "Voyage · Travel",
+  workspace: "Your workspace",
+  evidence: "Evidence gallery",
+  status: "Platform status",
+};
+
 const EchoChatWidget = () => {
   const location = useLocation();
   const isChatPage = location.pathname.startsWith("/chat/") || location.pathname.startsWith("/embed/");
+  const firstSeg = location.pathname.split("/").filter(Boolean)[0]?.toLowerCase() || "";
+  const keteContext = KETE_LABELS[firstSeg] || null;
   const [open, setOpen] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -163,9 +182,13 @@ const EchoChatWidget = () => {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-display font-light text-sm tracking-wide" style={{ color: ECHO_COLOR }}>Echo</span>
-                <span className="text-[10px] font-body text-muted-foreground">· assembl · Auckland</span>
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#5AADA0", boxShadow: "0 0 6px #5AADA0" }} />
               </div>
+              {keteContext && (
+                <p className="text-[10px] font-body text-muted-foreground truncate mt-0.5">
+                  in <span style={{ color: ECHO_COLOR }}>{keteContext}</span>
+                </p>
+              )}
             </div>
             {messages.length > 0 && (
               <button

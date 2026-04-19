@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import SEO from "@/components/SEO";
+import FirstWorkflowTour from "@/components/onboarding/FirstWorkflowTour";
 
 interface Tenant {
   id: string;
@@ -67,6 +68,7 @@ export default function WorkspaceDashboard() {
   const [workflows, setWorkflows] = useState<WorkflowItem[]>([]);
   const [evidenceBrief, setEvidenceBrief] = useState<EvidenceBrief | null>(null);
   const [loading, setLoading] = useState(true);
+  const [tourOpen, setTourOpen] = useState(false);
 
   useEffect(() => {
     if (authLoading) return;
@@ -165,6 +167,7 @@ export default function WorkspaceDashboard() {
   return (
     <>
       <SEO title={`${tenant.name} — Workspace`} description="Your Assembl workspace dashboard" />
+      <FirstWorkflowTour accent={accent} forceOpen={tourOpen} onClose={() => setTourOpen(false)} />
 
       <div className="min-h-screen" style={{ background: "#FAFBFC" }}>
         {/* Header */}
@@ -187,6 +190,14 @@ export default function WorkspaceDashboard() {
               </div>
             </div>
             <div className="flex gap-2">
+              <button
+                onClick={() => setTourOpen(true)}
+                className="px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 transition-colors"
+                style={{ background: "rgba(255,255,255,0.6)", color: "#3D4250", border: "1px solid rgba(0,0,0,0.08)" }}
+                title="3-step tour: connect → run → approve"
+              >
+                <Play size={12} /> Show me how
+              </button>
               <Link
                 to="/workspace/connections"
                 className="px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5"
