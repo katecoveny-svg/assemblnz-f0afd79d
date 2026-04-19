@@ -76,6 +76,7 @@ const HowItWorksPage = lazy(() => import("./pages/HowItWorksPage"));
 const StatusPage = lazy(() => import("./pages/StatusPage"));
 const EvidenceGalleryPage = lazy(() => import("./pages/EvidenceGalleryPage"));
 const EvidencePackSharePage = lazy(() => import("./pages/EvidencePackSharePage"));
+const AgentMarketplacePage = lazy(() => import("./pages/AgentMarketplacePage"));
 const KeteCollectionPage = lazy(() => import("./pages/KeteCollectionPage"));
 const KeteDetailPageNew = lazy(() => import("./pages/KeteDetailPage"));
 const CareDashboard = lazy(() => import("./pages/CareDashboard"));
@@ -212,7 +213,7 @@ const App = () => (
                         <Route path="/evidence" element={<Suspense fallback={null}><EvidenceGalleryPage /></Suspense>} />
                         <Route path="/evidence/share/:token" element={<Suspense fallback={null}><EvidencePackSharePage /></Suspense>} />
                         <Route path="/content-hub" element={<Navigate to="/how-it-works" replace />} />
-                        <Route path="/agents" element={<Navigate to="/how-it-works" replace />} />
+                        <Route path="/agents" element={<Suspense fallback={null}><AgentMarketplacePage /></Suspense>} />
                         <Route path="/tools" element={<Navigate to="/how-it-works" replace />} />
                         <Route path="/founding-pilots" element={<Navigate to="/contact" replace />} />
 

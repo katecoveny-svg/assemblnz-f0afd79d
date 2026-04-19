@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import SEO from "@/components/SEO";
 import FirstWorkflowTour from "@/components/onboarding/FirstWorkflowTour";
 import EmptyWorkspaceState from "@/components/workspace/EmptyWorkspaceState";
+import WorkspaceQuickActions from "@/components/workspace/WorkspaceQuickActions";
 
 interface Tenant {
   id: string;
@@ -262,6 +263,9 @@ export default function WorkspaceDashboard() {
               )}
             </div>
           </motion.div>
+
+          {/* Quick actions launchpad */}
+          <WorkspaceQuickActions accent={accent} />
 
           {/* Onboarding checklist */}
           {!tenant.onboarding_complete && (
