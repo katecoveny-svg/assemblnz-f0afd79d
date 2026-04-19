@@ -153,44 +153,46 @@ function GlassOrb() {
       <group ref={orbRef}>
         <LuminousFilament />
 
-        {/* Outer crystal shell */}
+        {/* Outer crystal shell — tinted teal so it's visible on white bg */}
         <mesh>
           <sphereGeometry args={[1.35, 128, 128]} />
           <meshPhysicalMaterial
             color={orbPalette.shell}
             transparent
-            opacity={0.3}
-            transmission={0.88}
-            thickness={0.22}
+            opacity={0.55}
+            transmission={0.7}
+            thickness={0.4}
             roughness={0.05}
             metalness={0}
-            ior={1.12}
+            ior={1.18}
             clearcoat={1}
-            clearcoatRoughness={0.03}
-            reflectivity={0.08}
-            sheen={0.18}
+            clearcoatRoughness={0.02}
+            reflectivity={0.18}
+            sheen={0.5}
             sheenColor={orbPalette.shellTint}
           />
         </mesh>
 
+        {/* Inner teal glow layer */}
         <mesh>
           <sphereGeometry args={[1.16, 64, 64]} />
-          <meshBasicMaterial color={orbPalette.shellTint} transparent opacity={0.09} toneMapped={false} />
+          <meshBasicMaterial color={orbPalette.shellTint} transparent opacity={0.22} toneMapped={false} />
         </mesh>
 
-        <mesh scale={[1.02, 1.02, 1.02]}>
+        {/* Outer rim glow — defines the sphere edge */}
+        <mesh scale={[1.04, 1.04, 1.04]}>
           <sphereGeometry args={[1.35, 64, 64]} />
-          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.06} toneMapped={false} blending={THREE.AdditiveBlending} />
+          <meshBasicMaterial color={orbPalette.rim} transparent opacity={0.15} toneMapped={false} blending={THREE.AdditiveBlending} />
         </mesh>
 
-        {/* Soft white highlights */}
+        {/* Soft white specular highlights */}
         <mesh position={[-0.5, 0.6, 0.85]}>
-          <sphereGeometry args={[0.3, 32, 32]} />
-          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.36} toneMapped={false} />
+          <sphereGeometry args={[0.32, 32, 32]} />
+          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.6} toneMapped={false} />
         </mesh>
         <mesh position={[0.55, -0.45, 0.85]}>
-          <sphereGeometry args={[0.18, 32, 32]} />
-          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.26} toneMapped={false} />
+          <sphereGeometry args={[0.2, 32, 32]} />
+          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.4} toneMapped={false} />
         </mesh>
       </group>
     </Float>
