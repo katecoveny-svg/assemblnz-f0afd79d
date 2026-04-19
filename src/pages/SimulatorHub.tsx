@@ -45,7 +45,7 @@ export default function SimulatorHub() {
   const pack = LIVE_PACKS.find((p) => p.id === activePackId);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#FAFBFC" }}>
+    <div style={{ minHeight: "100vh", background: "transparent" }}>
       <SEO
         title="Scenario Simulator | assembl"
         description="Run live NZ business scenarios using real weather, fuel prices, routes, and compliance feeds."

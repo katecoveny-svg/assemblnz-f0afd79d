@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Shield, Plus, X, Bell, BellOff } from "lucide-react";
 import { toast } from "sonner";
 
-const HAVEN_PINK = "#D4A843";
+const HAVEN_PINK = "#4AA5A8";
 const STATUS_COLORS: Record<string, string> = { compliant: "#66BB6A", due_soon: "#FFB300", overdue: "#EF5350", not_checked: "rgba(255,255,255,0.2)" };
 
 const HEALTHY_HOMES_TEMPLATES = [

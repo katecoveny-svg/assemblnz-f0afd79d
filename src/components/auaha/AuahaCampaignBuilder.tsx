@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { agentChat } from "@/lib/agentChat";
 import { useQueryClient } from "@tanstack/react-query";
 
-const ACCENT = "#F0D078";
+const ACCENT = "#A8DDDB";
 const OBJECTIVES = ["Brand Awareness", "Lead Generation", "Sales", "Event Promotion", "Thought Leadership", "Product Launch"];
 const PLATFORMS = ["Instagram", "Facebook", "TikTok", "LinkedIn", "X", "YouTube", "Email", "Blog"];
 const TONES = ["Professional", "Casual", "Bold", "Playful", "Authoritative", "Inspiring"];
@@ -169,7 +169,7 @@ export default function AuahaCampaignBuilder() {
               <input
                 value={brief.name}
                 onChange={(e) => setBrief({ ...brief, name: e.target.value })}
-                className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:border-[#F0D07866]"
+                className="w-full bg-[rgba(74,165,168,0.04)] border border-gray-200 rounded-lg px-4 py-2.5 text-foreground text-sm focus:outline-none focus:border-[#A8DDDB66]"
                 placeholder="e.g. Q2 Product Launch"
               />
             </div>

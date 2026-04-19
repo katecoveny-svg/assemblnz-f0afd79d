@@ -54,9 +54,9 @@ const KeteOnboardingCard = ({ packId }: Props) => {
         exit={{ opacity: 0, y: -10 }}
         className="relative rounded-2xl p-6 mb-6 border overflow-hidden"
         style={{
-          background: "linear-gradient(135deg, rgba(212,168,67,0.08), rgba(58,125,110,0.06))",
-          borderColor: "rgba(212,168,67,0.2)",
-          boxShadow: "0 0 40px rgba(212,168,67,0.06)",
+          background: "linear-gradient(135deg, rgba(74,165,168,0.08), rgba(58,125,110,0.06))",
+          borderColor: "rgba(74,165,168,0.2)",
+          boxShadow: "0 0 40px rgba(74,165,168,0.06)",
         }}
       >
         {/* Harakeke weave pattern overlay */}
@@ -67,14 +67,14 @@ const KeteOnboardingCard = ({ packId }: Props) => {
               45deg,
               transparent,
               transparent 12px,
-              rgba(212,168,67,0.04) 12px,
-              rgba(212,168,67,0.04) 13px
+              rgba(74,165,168,0.04) 12px,
+              rgba(74,165,168,0.04) 13px
             ), repeating-linear-gradient(
               -45deg,
               transparent,
               transparent 12px,
-              rgba(212,168,67,0.04) 12px,
-              rgba(212,168,67,0.04) 13px
+              rgba(74,165,168,0.04) 12px,
+              rgba(74,165,168,0.04) 13px
             )`,
           }}
         />
@@ -88,7 +88,7 @@ const KeteOnboardingCard = ({ packId }: Props) => {
 
         <p
           className="text-lg font-light mb-2 relative z-10"
-          style={{ fontFamily: "'Lato', sans-serif", color: "#D4A843" }}
+          style={{ fontFamily: "'Lato', sans-serif", color: "#4AA5A8" }}
         >
           {msg.mi}
         </p>
@@ -100,7 +100,7 @@ const KeteOnboardingCard = ({ packId }: Props) => {
         </p>
         <p
           className="text-[11px] font-mono tracking-wider relative z-10"
-          style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(212,168,67,0.45)" }}
+          style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(74,165,168,0.45)" }}
         >
           {msg.wananga}
         </p>

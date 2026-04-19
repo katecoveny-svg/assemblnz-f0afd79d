@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Shirt, AlertTriangle } from "lucide-react";
 
-const KOWHAI = "#D4A843";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const BONE = "#F5F0E8";
 
@@ -20,13 +20,13 @@ interface Props {
 
 const conditionColor = {
   good: POUNAMU,
-  fair: KOWHAI,
+  fair: TEAL_ACCENT,
   replace: "#ef4444",
 };
 
 const glass = {
   background: "rgba(255,255,255,0.65)",
-  border: `1px solid ${KOWHAI}15`,
+  border: `1px solid ${TEAL_ACCENT}15`,
   backdropFilter: "blur(14px)",
 };
 
@@ -37,7 +37,7 @@ export default function UniformTracker({ items, children }: Props) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="font-display text-xs uppercase tracking-[0.2em] flex items-center gap-2" style={{ color: "#6B7280" }}>
-          <Shirt size={14} style={{ color: KOWHAI }} /> Uniforms
+          <Shirt size={14} style={{ color: TEAL_ACCENT }} /> Uniforms
         </h2>
         {needsReplacement.length > 0 && (
           <span className="text-[9px] font-body px-2 py-0.5 rounded-full flex items-center gap-1" style={{ background: "rgba(239,68,68,0.12)", color: "#fca5a5" }}>

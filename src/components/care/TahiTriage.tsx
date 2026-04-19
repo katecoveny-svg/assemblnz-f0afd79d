@@ -3,7 +3,7 @@ import { AlertTriangle, Phone, MapPin, Heart, Shield } from "lucide-react";
 
 const KOKKOWAI = "#A52A2A";
 const POUNAMU = "#3A7D6E";
-const KOWHAI = "#D4A843";
+const TEAL_ACCENT = "#4AA5A8";
 
 interface TahiTriageProps {
   onSendToChat: (msg: string) => void;
@@ -13,7 +13,7 @@ const SERVICES = [
   { label: "Emergency — 111", desc: "Life-threatening. Call now.", color: KOKKOWAI, icon: Phone },
   { label: "Need to Talk — 1737", desc: "Mental health crisis. Free, 24/7.", color: "#9C27B0", icon: Heart },
   { label: "Healthline — 0800 611 116", desc: "Free health advice from registered nurses, 24/7.", color: POUNAMU, icon: Phone },
-  { label: "GP / Urgent Care", desc: "Non-emergency but needs a doctor today.", color: KOWHAI, icon: MapPin },
+  { label: "GP / Urgent Care", desc: "Non-emergency but needs a doctor today.", color: TEAL_ACCENT, icon: MapPin },
   { label: "Pharmacy", desc: "Minor symptoms a pharmacist can help with.", color: "#5AADA0", icon: Shield },
 ];
 
@@ -45,14 +45,14 @@ const TahiTriage = ({ onSendToChat }: TahiTriageProps) => {
 
       {/* Quick scenarios */}
       <div>
-        <p className="text-[10px] uppercase font-bold mb-2" style={{ color: KOWHAI, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>What's happening?</p>
+        <p className="text-[10px] uppercase font-bold mb-2" style={{ color: TEAL_ACCENT, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>What's happening?</p>
         <div className="grid grid-cols-1 gap-2">
           {QUICK_SCENARIOS.map(s => (
             <button
               key={s.label}
               onClick={() => onSendToChat(s.prompt)}
               className="p-3 rounded-xl text-left transition-all hover:scale-[0.99] flex items-center gap-3"
-              style={{ background: "rgba(255,255,255,0.65)", border: `1px solid ${s.urgent ? "rgba(165,42,42,0.15)" : "rgba(212,168,67,0.08)"}` }}
+              style={{ background: "rgba(255,255,255,0.65)", border: `1px solid ${s.urgent ? "rgba(165,42,42,0.15)" : "rgba(74,165,168,0.08)"}` }}
             >
               {s.urgent && <AlertTriangle size={13} style={{ color: KOKKOWAI, flexShrink: 0 }} />}
               <span className="text-xs" style={{ color: s.urgent ? "#fff" : "rgba(255,255,255,0.7)" }}>{s.label}</span>

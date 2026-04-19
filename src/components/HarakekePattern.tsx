@@ -7,14 +7,14 @@ const HarakekePattern = ({ className = "" }: { className?: string }) => (
         45deg,
         transparent,
         transparent 8px,
-        rgba(212,168,67,0.12) 8px,
-        rgba(212,168,67,0.12) 9px
+        rgba(74,165,168,0.12) 8px,
+        rgba(74,165,168,0.12) 9px
       ), repeating-linear-gradient(
         -45deg,
         transparent,
         transparent 8px,
-        rgba(212,168,67,0.12) 8px,
-        rgba(212,168,67,0.12) 9px
+        rgba(74,165,168,0.12) 8px,
+        rgba(74,165,168,0.12) 9px
       )`,
     }}
   />

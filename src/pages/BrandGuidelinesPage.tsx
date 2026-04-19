@@ -33,12 +33,12 @@ const COLOURS = {
   accent: [
     { name: "Teal", hex: "#4AA5A8", usage: "CTAs, links" },
     { name: "Teal Hover", hex: "#3D8F92", usage: "Hover states" },
-    { name: "Ochre", hex: "#E8A948", usage: "Warm highlights" },
+    { name: "Ochre", hex: "#4AA5A8", usage: "Warm highlights" },
     { name: "Lavender", hex: "#B8A5D0", usage: "Tertiary" },
   ],
   kete: [
     { name: "MANAAKI", hex: "#E8A090", industry: "Hospitality" },
-    { name: "WAIHANGA", hex: "#E8A948", industry: "Construction" },
+    { name: "WAIHANGA", hex: "#4AA5A8", industry: "Construction" },
     { name: "AUAHA", hex: "#B8A5D0", industry: "Creative" },
     { name: "ARATAKI", hex: "#4AA5A8", industry: "Automotive" },
     { name: "PIKAU", hex: "#7BA88C", industry: "Freight" },
@@ -84,7 +84,7 @@ function DownloadCard({ label, img, desc }: { label: string; img: string; desc: 
       className="block rounded-3xl overflow-hidden group cursor-pointer"
       style={GLASS_CARD}
     >
-      <div className="p-4 flex items-center justify-center" style={{ background: "#FAFBFC", minHeight: 180 }}>
+      <div className="p-4 flex items-center justify-center" style={{ background: "transparent", minHeight: 180 }}>
         <img src={img} alt={label} loading="lazy" className="max-h-[140px] max-w-full object-contain" />
       </div>
       <div className="p-5 flex items-center justify-between">
@@ -102,7 +102,7 @@ function DownloadCard({ label, img, desc }: { label: string; img: string; desc: 
 
 export default function BrandGuidelinesPage() {
   return (
-    <div style={{ background: "#FAFBFC", minHeight: "100vh" }}>
+    <div style={{ background: "transparent", minHeight: "100vh" }}>
       <BrandNav />
 
       {/* Hero */}
@@ -136,7 +136,7 @@ export default function BrandGuidelinesPage() {
                 <p className="text-[20px] font-light" style={{ color: "#1A1D29" }}>"44 agents. Five kete. One intelligence layer."</p>
               </div>
               <div className="rounded-3xl p-8" style={GLASS_CARD}>
-                <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#E8A948", fontFamily: "'JetBrains Mono', monospace" }}>Elevator pitch</p>
+                <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Elevator pitch</p>
                 <p className="text-[15px] leading-[1.75]" style={{ color: "#6B7280" }}>
                   "Assembl is 44 AI agents that operate your NZ business — organised into five industry kete:
                   hospitality, construction, creative, automotive, and freight. They calculate your PAYE, write your
@@ -197,9 +197,9 @@ export default function BrandGuidelinesPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-[800px] mx-auto">
             {[
-              { icon: "🌿", title: "Koru", desc: "New growth, potential, Aotearoa identity" },
+              { icon: "", title: "Koru", desc: "New growth, potential, Aotearoa identity" },
               { icon: "🔗", title: "Network", desc: "Intelligence flowing between agents" },
-              { icon: "✨", title: "Glass", desc: "Transparency, trust, clean technology" },
+              { icon: "", title: "Glass", desc: "Transparency, trust, clean technology" },
             ].map(s => (
               <div key={s.title} className="rounded-2xl p-6 text-center" style={GLASS_CARD}>
                 <span className="text-2xl mb-3 block">{s.icon}</span>
@@ -352,7 +352,7 @@ box-shadow:
               </pre>
             </div>
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
-              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#E8A948", fontFamily: "'JetBrains Mono', monospace" }}>Interaction</p>
+              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Interaction</p>
               <div className="space-y-3 text-[14px]" style={{ color: "#6B7280" }}>
                 <p>• Cards tilt 4–6° on mouse-follow (perspective: 1200px)</p>
                 <p>• Cards lift 4px on hover with shadow growth</p>
@@ -414,7 +414,7 @@ color: #4AA5A8;`}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
             {[
               { name: "MANAAKI", industry: "Hospitality", hex: "#E8A090", persona: "Sarah, bistro owner", setting: "Wellington" },
-              { name: "WAIHANGA", industry: "Construction", hex: "#E8A948", persona: "Dave, builder", setting: "Hamilton" },
+              { name: "WAIHANGA", industry: "Construction", hex: "#4AA5A8", persona: "Dave, builder", setting: "Hamilton" },
               { name: "AUAHA", industry: "Creative", hex: "#B8A5D0", persona: "Maya, marketer", setting: "Auckland" },
               { name: "ARATAKI", industry: "Automotive", hex: "#4AA5A8", persona: "James, service mgr", setting: "Hamilton" },
               { name: "PIKAU", industry: "Freight", hex: "#7BA88C", persona: "Ben, freight-forwarder", setting: "Tauranga" },

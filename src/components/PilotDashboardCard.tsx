@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import AgentAvatar from "@/components/AgentAvatar";
 
-const PILOT_COLOR = "#D4A843";
+const PILOT_COLOR = "#4AA5A8";
 
 const glassCard = "rounded-xl relative overflow-hidden";
 const glassCardStyle: React.CSSProperties = {

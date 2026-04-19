@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { usePersonalization } from '@/contexts/PersonalizationContext';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown, Radio } from 'lucide-react';
 import { KETE_CONFIG } from '@/components/kete/KeteConfig';
 import KeteIcon from '@/components/kete/KeteIcon';
+import { supabase } from '@/integrations/supabase/client';
 import type { KeteType } from '@/lib/personalization/types';
 
 const KETE_VARIANTS: Record<string, "standard" | "dense" | "organic" | "tricolor" | "warm"> = {
@@ -17,12 +18,12 @@ const KETE_VARIANTS: Record<string, "standard" | "dense" | "organic" | "tricolor
 };
 
 const KETE_ACCENT_LIGHT: Record<string, string> = {
-  manaaki: "#F0D078",
+  manaaki: "#A8DDDB",
   waihanga: "#5AADA0",
-  auaha: "#F7E6A0",
+  auaha: "#D6F0EE",
   arataki: "#C8C8D0",
   pikau: "#8ECFC6",
-  toro: "#F0D078",
+  toro: "#A8DDDB",
 };
 
 const KETE_INFO: Record<string, { name: string; nameEn: string; color: string; path: string; samplePath: string }> = Object.fromEntries(
@@ -39,6 +40,7 @@ export default function ContextBar() {
   const { profile, isPersonalized } = usePersonalization();
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [liveUpdate, setLiveUpdate] = useState<{ title: string; url: string | null; published_at: string | null } | null>(null);
 
   useEffect(() => {
     if (!isPersonalized || dismissed) return;
@@ -71,6 +73,26 @@ export default function ContextBar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isPersonalized, profile.detectedIndustry, profile.signals.pagesViewed, dismissed]);
+
+  // Pull the latest live compliance update for the detected kete
+  useEffect(() => {
+    const kete = profile.detectedIndustry;
+    if (!kete || !visible) return;
+    let cancelled = false;
+    (async () => {
+      const { data, error } = await supabase
+        .from('kb_documents')
+        .select('title, url, published_at, kb_sources!inner(agent_packs)')
+        .is('superseded_by', null)
+        .contains('kb_sources.agent_packs', [kete])
+        .order('published_at', { ascending: false, nullsFirst: false })
+        .limit(1)
+        .maybeSingle();
+      if (cancelled || error || !data) return;
+      setLiveUpdate({ title: data.title, url: data.url, published_at: data.published_at });
+    })();
+    return () => { cancelled = true; };
+  }, [profile.detectedIndustry, visible]);
 
   if (!isPersonalized || !profile.detectedIndustry || dismissed) return null;
 
@@ -157,6 +179,37 @@ export default function ContextBar() {
             </span>
             <span style={{ color: 'rgba(26,29,41,0.15)' }}>·</span>
 
+            {/* Live compliance ticker — pulled from kb_documents */}
+            {liveUpdate && (
+              <a
+                href={liveUpdate.url ?? '#'}
+                target={liveUpdate.url ? '_blank' : undefined}
+                rel="noreferrer"
+                className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full max-w-[360px] transition-all duration-200 hover:max-w-[420px]"
+                style={{
+                  background: `linear-gradient(145deg, rgba(${rgb},0.08), rgba(${rgb},0.04))`,
+                  border: `1px solid rgba(${rgb},0.18)`,
+                  boxShadow: `inset 0 1px 0 rgba(255,255,255,0.6), 0 0 12px rgba(${rgb},0.1)`,
+                }}
+                title={liveUpdate.title}
+              >
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: info.color }} />
+                  <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: info.color }} />
+                </span>
+                <Radio size={10} style={{ color: info.color }} />
+                <span className="text-[10px] uppercase tracking-[2px] font-semibold shrink-0" style={{ color: info.color }}>Live</span>
+                <span className="text-[11px] truncate" style={{ color: '#3D4250', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  {liveUpdate.title}
+                </span>
+                {liveUpdate.published_at && (
+                  <span className="text-[10px] shrink-0" style={{ color: 'rgba(26,29,41,0.4)' }}>
+                    · {timeAgo(liveUpdate.published_at)}
+                  </span>
+                )}
+              </a>
+            )}
+
             {/* 3D pop-out button */}
             <Link
               to={info.samplePath}
@@ -235,4 +288,17 @@ function hexToRgb(hex: string): string {
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
   return `${r},${g},${b}`;
+}
+
+function timeAgo(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  if (days < 7) return `${days}d ago`;
+  const wks = Math.floor(days / 7);
+  return `${wks}w ago`;
 }

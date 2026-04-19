@@ -29,7 +29,7 @@ const TemplateLibrary = ({ agentId, agentName, agentColor, open, onClose, onSele
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div
         className="relative w-full max-w-2xl max-h-[80vh] overflow-hidden rounded-2xl flex flex-col"
-        style={{ background: "#FAFBFC", border: `1px solid ${agentColor}20` }}
+        style={{ background: "transparent", border: `1px solid ${agentColor}20` }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

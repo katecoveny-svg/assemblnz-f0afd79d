@@ -38,7 +38,7 @@ const AUAHA_NAV = [
 ];
 
 const BG = "#FAFBFC";
-const ACCENT = "#F0D078"; // Auaha ochre
+const ACCENT = "#A8DDDB"; // Auaha ochre
 const TEAL = "#4AA5A8";
 const TEXT_PRIMARY = "#1A1D29";
 const TEXT_SECONDARY = "#6B7280";

@@ -39,7 +39,7 @@ export default function MyAppsPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "transparent" }}>
         <div className="text-center space-y-3">
           <p className="text-sm font-body" style={{ color: "#6B7280" }}>Sign in to view your deployed apps</p>
           <Link to="/login" className="text-xs font-semibold px-4 py-2 rounded-lg" style={{ background: `${ACCENT}20`, color: ACCENT }}>Sign In</Link>
@@ -49,7 +49,7 @@ export default function MyAppsPage() {
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8" style={{ background: "#FAFBFC" }}>
+    <div className="min-h-screen p-4 md:p-8" style={{ background: "transparent" }}>
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">

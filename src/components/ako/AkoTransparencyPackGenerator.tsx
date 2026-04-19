@@ -239,7 +239,7 @@ export default function AkoTransparencyPackGenerator() {
             {/* Doc body */}
             <div
               className="rounded-2xl p-4 sm:p-5 max-h-[420px] overflow-y-auto"
-              style={{ background: "#FAFBFC", border: "1px solid rgba(123,167,199,0.15)" }}
+              style={{ background: "transparent", border: "1px solid rgba(123,167,199,0.15)" }}
             >
               <pre className="text-[12.5px] leading-[1.7] whitespace-pre-wrap font-sans"
                    style={{ color: "#3D4250" }}>

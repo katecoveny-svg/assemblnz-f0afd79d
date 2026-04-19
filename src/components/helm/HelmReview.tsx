@@ -68,11 +68,11 @@ export default function HelmReview() {
     for (const item of highConf) await approve(item);
   };
 
-  const confidenceColor = (c: number) => c >= 0.7 ? "text-[#5AADA0]" : c >= 0.4 ? "text-[#D4A843]" : "text-[#C85A54]";
+  const confidenceColor = (c: number) => c >= 0.7 ? "text-[#5AADA0]" : c >= 0.4 ? "text-[#4AA5A8]" : "text-[#C85A54]";
   const confidenceBg = (c: number) => c >= 0.7 ? "bg-[#5AADA0]/10" : c >= 0.4 ? "bg-amber-500/10" : "bg-[#C85A54]/10";
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "#FAFBFC" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "transparent" }}>
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-semibold text-white/90">Review Queue</h2>
         {items.filter(i => i.confidence >= 0.7).length > 0 && (

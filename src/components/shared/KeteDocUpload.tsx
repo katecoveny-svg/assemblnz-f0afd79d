@@ -281,9 +281,9 @@ ${truncated}`;
                 {/* Compliance flags */}
                 {result.complianceFlags.length > 0 && (
                   <div className="space-y-1">
-                    <p className="text-[10px] font-semibold text-[#D4A843]/80">⚠ Compliance Flags</p>
+                    <p className="text-[10px] font-semibold text-[#4AA5A8]/80">Compliance Flags</p>
                     {result.complianceFlags.map((flag, i) => (
-                      <p key={i} className="text-[10px] text-[#D4A843]/60 flex gap-1.5">
+                      <p key={i} className="text-[10px] text-[#4AA5A8]/60 flex gap-1.5">
                         <span>•</span><span>{flag}</span>
                       </p>
                     ))}

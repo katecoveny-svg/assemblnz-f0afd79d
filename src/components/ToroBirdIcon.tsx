@@ -1,5 +1,5 @@
 /** Toro bird icon — albatross silhouette with guiding star, not a kete */
-export default function ToroBirdIcon({ size = 36, color = "#D4A843" }: { size?: number; color?: string }) {
+export default function ToroBirdIcon({ size = 36, color = "#4AA5A8" }: { size?: number; color?: string }) {
   return (
     <svg width={size} height={size * 0.5} viewBox="0 0 40 20" fill="none">
       <defs>

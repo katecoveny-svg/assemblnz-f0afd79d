@@ -54,7 +54,7 @@ const STAGES = [
 
 const VERDICT_STYLES = {
   pass: { icon: Check, color: "#4FE4A7", bg: "rgba(79,228,167,0.08)", label: "PASS" },
-  flag: { icon: AlertTriangle, color: "#F0D078", bg: "rgba(240,208,120,0.08)", label: "FLAG" },
+  flag: { icon: AlertTriangle, color: "#A8DDDB", bg: "rgba(168,221,219,0.08)", label: "FLAG" },
   block: { icon: X, color: "#E87461", bg: "rgba(232,116,97,0.08)", label: "BLOCK" },
   skip: { icon: ChevronDown, color: "rgba(255,255,255,0.2)", bg: "rgba(255,255,255,0.02)", label: "SKIPPED" },
 };
@@ -99,7 +99,7 @@ const PipelineDemo = () => {
 
         {/* Demo mode banner */}
         <div className="liquid-glass liquid-glass-gold rounded-xl px-4 py-2 text-center mb-10">
-          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#F0D078" }}>
+          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#A8DDDB" }}>
             Demo mode — no real data leaves this page
           </p>
         </div>
@@ -133,8 +133,8 @@ const PipelineDemo = () => {
           <button onClick={handleRun} disabled={running}
             className="inline-flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-medium transition-all liquid-glass liquid-glass-gold"
             style={{
-              color: running ? "rgba(245,240,232,0.4)" : "#F0D078",
-              borderColor: running ? "rgba(255,255,255,0.06)" : "rgba(212,168,83,0.3)",
+              color: running ? "rgba(245,240,232,0.4)" : "#A8DDDB",
+              borderColor: running ? "rgba(255,255,255,0.06)" : "rgba(74,165,168,0.3)",
             }}>
             <Play size={14} /> {running ? "Running..." : "Run query"}
           </button>

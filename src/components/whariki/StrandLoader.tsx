@@ -13,7 +13,7 @@ const StrandLoader = ({ size = 32, color = "#3A7D6E" }: { size?: number; color?:
     <path
       d="M20 4 Q14 12 20 20 Q26 28 20 36"
       fill="none"
-      stroke="#D4A853"
+      stroke="#4AA5A8"
       strokeWidth="1.5"
       opacity="0.4"
     />

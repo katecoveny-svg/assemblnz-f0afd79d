@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { setDynamicManifest } from "@/utils/pwaManifest";
 
 const TOROA_COLOR = "#3A7D6E";
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 
 export default function ToroaInstallPage() {
   const [platform, setPlatform] = useState<"ios" | "android" | "desktop">("desktop");
@@ -45,7 +45,7 @@ export default function ToroaInstallPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12" style={{ background: "#FAFBFC", color: "white" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12" style={{ background: "transparent", color: "white" }}>
       <SEO
         title="Get Toro — Your Family's Intelligent Navigator | Assembl"
         description="Install Toro on your phone. SMS-first AI whānau navigator built for NZ families. No app store needed."

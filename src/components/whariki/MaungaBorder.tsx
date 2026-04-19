@@ -16,7 +16,7 @@ const MaungaBorder = ({
 }) => {
   const flip = variant === "bottom";
   const primary = accentColor || "#3A7D6E";
-  const gold = "#D4A853";
+  const gold = "#4AA5A8";
 
   // Each "cluster" is a group of peaks: mix of filled (▲) and outlined (△) triangles
   // Pattern from sketch: baseline with clusters of 2-3 peaks, some filled some outline

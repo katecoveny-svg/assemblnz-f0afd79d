@@ -57,7 +57,7 @@ const TOOLS = [
     label: "Email forwarding",
     description: "Forward receipts, invoices, notices",
     icon: Mail,
-    color: "#D4A843",
+    color: "#4AA5A8",
     oauth: false,
   },
 ];
@@ -183,7 +183,7 @@ export default function WorkspaceConnections() {
     <>
       <SEO title="Connect your tools" description="Connect your business tools to Assembl" />
 
-      <div className="min-h-screen" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen" style={{ background: "transparent" }}>
         <header className="border-b border-white/[0.06] px-4 py-4">
           <div className="max-w-lg mx-auto flex items-center gap-3">
             <Link to="/workspace" className="text-white/40 hover:text-white/60">

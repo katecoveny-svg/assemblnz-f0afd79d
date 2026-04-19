@@ -9,7 +9,7 @@ import HeroParticlesLight from "@/components/HeroParticlesLight";
 
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 const BONE = "#F5F0E8";
 
 const CASES = [
@@ -42,7 +42,7 @@ const CASES = [
     business: "Creative agency, Auckland",
     meeting: "Funder acquittal",
     packTitle: "Rights, releases & commercial pack",
-    color: "#D4A843",
+    color: "#4AA5A8",
     quote: "The funder said it was the cleanest acquittal pack they'd received all year.",
   },
 ];
@@ -59,7 +59,7 @@ const fadeUp = {
 export default function CaseStudiesPage() {
   return (
     <LightPageShell>
-      <div className="min-h-screen" style={{ background: "#FAFBFC", color: "#3D4250" }}>
+      <div className="min-h-screen" style={{ background: "transparent", color: "#3D4250" }}>
         <SEO
           title="Case Studies — The packs our customers took to their boards | Assembl"
           description="Real evidence packs from real NZ businesses. See what assembl produces for hospitality, construction, privacy, and creative teams."

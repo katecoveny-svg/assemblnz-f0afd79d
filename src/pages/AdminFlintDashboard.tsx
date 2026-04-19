@@ -11,9 +11,9 @@ const ACCENT = "#3A7D6E";
 
 const PAGES = [
   { id: "homepage", label: "Homepage", route: "/", color: "#3A7D6E" },
-  { id: "manaaki-landing", label: "Manaaki", route: "/manaaki", color: "#D4A843" },
+  { id: "manaaki-landing", label: "Manaaki", route: "/manaaki", color: "#4AA5A8" },
   { id: "waihanga-landing", label: "Waihanga", route: "/waihanga", color: "#3A7D6E" },
-  { id: "auaha-landing", label: "Auaha", route: "/auaha", color: "#F0D078" },
+  { id: "auaha-landing", label: "Auaha", route: "/auaha", color: "#A8DDDB" },
   { id: "arataki-landing", label: "Arataki", route: "/arataki", color: "#C65D4E" },
   { id: "pikau-landing", label: "Pikau", route: "/pikau", color: "#5AADA0" },
 ];
@@ -222,7 +222,7 @@ export default function AdminFlintDashboard() {
                       : JSON.stringify(generateMutation.data.proposal, null, 2)}
                   </div>
                   {generateMutation.data.proposal?.result?.source === "lovable-ai-fallback" && (
-                    <p className="text-amber-400/60 text-xs">⚠ Generated via AI fallback (Flint MCP unavailable)</p>
+                    <p className="text-amber-400/60 text-xs">Generated via AI fallback (Flint MCP unavailable)</p>
                   )}
                 </div>
               ) : (

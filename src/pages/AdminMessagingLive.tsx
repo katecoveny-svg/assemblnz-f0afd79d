@@ -1,10 +1,6 @@
 /**
  * AdminMessagingLive — realtime stream of every inbound + outbound message
- * across ALL channels and ALL tenants. Shows agent attribution, kete, channel,
- * and lets admins pause/resume the stream + filter by channel/kete.
- *
- * Source: messaging_messages table with Supabase Realtime.
- * Access: any signed-in user (per product spec).
+ * Light-glass theme.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -28,10 +24,23 @@ interface LiveMessage {
   tenant_id: string | null;
 }
 
+const TEAL = "#4AA5A8";
+const POUNAMU = "#3A8A8D";
+const TEXT = "#1A1D29";
+const MUTED = "#6B7280";
+const SUBTLE = "#4A5160";
+
 const CHANNEL_TINT: Record<string, string> = {
-  sms: "#3A7D6E",
+  sms: "#3A8A8D",
   whatsapp: "#25D366",
   rcs: "#5B9BD5",
+};
+
+const GLASS_CARD: React.CSSProperties = {
+  background: "rgba(255,255,255,0.72)",
+  backdropFilter: "blur(24px) saturate(160%)",
+  border: "1px solid rgba(74,165,168,0.18)",
+  boxShadow: "0 4px 20px rgba(26,29,41,0.05), inset 0 1px 0 rgba(255,255,255,0.8)",
 };
 
 export default function AdminMessagingLive() {
@@ -43,7 +52,6 @@ export default function AdminMessagingLive() {
   const pausedRef = useRef(paused);
   pausedRef.current = paused;
 
-  // Initial load
   useEffect(() => {
     (async () => {
       const { data } = await supabase
@@ -55,7 +63,6 @@ export default function AdminMessagingLive() {
     })();
   }, []);
 
-  // Realtime subscription
   useEffect(() => {
     const ch = supabase
       .channel("admin-messaging-live")
@@ -89,21 +96,21 @@ export default function AdminMessagingLive() {
   }, [filtered]);
 
   return (
-    <div className="min-h-screen" style={{ background: "#0A1628" }}>
+    <div className="min-h-screen" style={{ color: TEXT }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-10">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <Link to="/admin/messaging" className="inline-flex items-center gap-1 text-xs mb-2" style={{ color: "#9CA3AF" }}>
+            <Link to="/admin/messaging" className="inline-flex items-center gap-1 text-xs mb-2" style={{ color: MUTED }}>
               <ArrowLeft className="w-3 h-3" /> Back to Messaging Hub
             </Link>
             <div className="flex items-center gap-3">
-              <Radio className={`w-5 h-5 ${paused ? "" : "animate-pulse"}`} style={{ color: paused ? "#9CA3AF" : "#3A7D6E" }} />
-              <h1 className="text-2xl sm:text-3xl font-light tracking-tight" style={{ color: "#F5F0E8", fontFamily: "'Lato', sans-serif" }}>
+              <Radio className={`w-5 h-5 ${paused ? "" : "animate-pulse"}`} style={{ color: paused ? MUTED : POUNAMU }} />
+              <h1 className="text-2xl sm:text-3xl font-light tracking-tight" style={{ color: TEXT, fontFamily: "'Lato', sans-serif" }}>
                 Live Messaging Stream
               </h1>
             </div>
-            <p className="text-xs mt-1" style={{ color: "#9CA3AF" }}>
+            <p className="text-xs mt-1" style={{ color: MUTED }}>
               All inbound + outbound across SMS, WhatsApp, RCS — real-time.
             </p>
           </div>
@@ -111,9 +118,10 @@ export default function AdminMessagingLive() {
             onClick={() => setPaused((p) => !p)}
             className="px-3 py-2 rounded-full text-xs font-medium flex items-center gap-2"
             style={{
-              background: paused ? "#D4A853" : "rgba(255,255,255,0.06)",
-              color: paused ? "#0A1628" : "#F5F0E8",
-              border: "1px solid rgba(255,255,255,0.08)",
+              background: paused ? TEAL : "rgba(255,255,255,0.7)",
+              color: paused ? "#FFFFFF" : SUBTLE,
+              border: "1px solid rgba(74,165,168,0.20)",
+              boxShadow: "0 2px 8px rgba(26,29,41,0.04)",
             }}
           >
             {paused ? <><Play className="w-3 h-3" /> Resume</> : <><Pause className="w-3 h-3" /> Pause</>}
@@ -123,13 +131,12 @@ export default function AdminMessagingLive() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3 mb-5">
           {[
-            { label: "Visible", value: counts.total, color: "#F5F0E8" },
+            { label: "Visible", value: counts.total, color: TEXT },
             { label: "Inbound", value: counts.in, color: "#5B9BD5" },
-            { label: "Outbound", value: counts.out, color: "#3A7D6E" },
+            { label: "Outbound", value: counts.out, color: POUNAMU },
           ].map((s) => (
-            <div key={s.label} className="rounded-xl p-4"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <div className="text-[10px] uppercase tracking-wider" style={{ color: "#9CA3AF" }}>{s.label}</div>
+            <div key={s.label} className="rounded-xl p-4" style={GLASS_CARD}>
+              <div className="text-[10px] uppercase tracking-wider" style={{ color: MUTED }}>{s.label}</div>
               <div className="text-2xl font-light mt-1" style={{ color: s.color }}>{s.value}</div>
             </div>
           ))}
@@ -137,26 +144,26 @@ export default function AdminMessagingLive() {
 
         {/* Filters */}
         <div className="flex flex-wrap gap-2 mb-4 items-center">
-          <Filter className="w-3.5 h-3.5" style={{ color: "#9CA3AF" }} />
+          <Filter className="w-3.5 h-3.5" style={{ color: MUTED }} />
           {(["all", "sms", "whatsapp", "rcs"] as const).map((c) => (
             <button key={c} onClick={() => setChannelFilter(c)}
               className="px-3 py-1 rounded-full text-xs"
               style={{
-                background: channelFilter === c ? CHANNEL_TINT[c] || "#3A7D6E" : "rgba(255,255,255,0.04)",
-                color: channelFilter === c ? "#F5F0E8" : "#9CA3AF",
-                border: "1px solid rgba(255,255,255,0.08)",
+                background: channelFilter === c ? CHANNEL_TINT[c] || POUNAMU : "rgba(255,255,255,0.7)",
+                color: channelFilter === c ? "#FFFFFF" : SUBTLE,
+                border: "1px solid rgba(74,165,168,0.18)",
               }}>
               {c.toUpperCase()}
             </button>
           ))}
-          <span className="mx-2 text-xs" style={{ color: "#374151" }}>|</span>
+          <span className="mx-2 text-xs" style={{ color: "#D0D5DD" }}>|</span>
           {(["all", "inbound", "outbound"] as const).map((d) => (
             <button key={d} onClick={() => setDirectionFilter(d)}
               className="px-3 py-1 rounded-full text-xs"
               style={{
-                background: directionFilter === d ? "#D4A853" : "rgba(255,255,255,0.04)",
-                color: directionFilter === d ? "#0A1628" : "#9CA3AF",
-                border: "1px solid rgba(255,255,255,0.08)",
+                background: directionFilter === d ? TEAL : "rgba(255,255,255,0.7)",
+                color: directionFilter === d ? "#FFFFFF" : SUBTLE,
+                border: "1px solid rgba(74,165,168,0.18)",
               }}>
               {d}
             </button>
@@ -168,7 +175,7 @@ export default function AdminMessagingLive() {
           <AnimatePresence initial={false}>
             {filtered.map((m) => {
               const isIn = m.direction === "inbound";
-              const tint = CHANNEL_TINT[m.channel] || "#9CA3AF";
+              const tint = CHANNEL_TINT[m.channel] || MUTED;
               return (
                 <motion.div
                   key={m.id}
@@ -179,31 +186,30 @@ export default function AdminMessagingLive() {
                   transition={{ duration: 0.18 }}
                   className="rounded-xl p-4 flex gap-3"
                   style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: `1px solid ${isIn ? "rgba(91,155,213,0.25)" : "rgba(58,125,110,0.25)"}`,
+                    ...GLASS_CARD,
                     borderLeftWidth: 3,
-                    borderLeftColor: isIn ? "#5B9BD5" : "#3A7D6E",
+                    borderLeftColor: isIn ? "#5B9BD5" : POUNAMU,
                   }}
                 >
                   <div className="flex-shrink-0 mt-0.5">
-                    {isIn ? <ArrowDownLeft className="w-4 h-4" style={{ color: "#5B9BD5" }} /> : <ArrowUpRight className="w-4 h-4" style={{ color: "#3A7D6E" }} />}
+                    {isIn ? <ArrowDownLeft className="w-4 h-4" style={{ color: "#5B9BD5" }} /> : <ArrowUpRight className="w-4 h-4" style={{ color: POUNAMU }} />}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap text-[11px] mb-1" style={{ color: "#9CA3AF" }}>
-                      <span className="px-1.5 py-0.5 rounded" style={{ background: `${tint}22`, color: tint }}>{m.channel.toUpperCase()}</span>
+                    <div className="flex items-center gap-2 flex-wrap text-[11px] mb-1" style={{ color: MUTED }}>
+                      <span className="px-1.5 py-0.5 rounded" style={{ background: `${tint}1A`, color: tint }}>{m.channel.toUpperCase()}</span>
                       {m.agent_used && (
-                        <span className="px-1.5 py-0.5 rounded" style={{ background: "rgba(212,168,83,0.15)", color: "#D4A853" }}>
+                        <span className="px-1.5 py-0.5 rounded" style={{ background: "rgba(74,165,168,0.12)", color: POUNAMU }}>
                           {m.agent_used}
                         </span>
                       )}
                       <span>{isIn ? "from" : "to"} {isIn ? m.from_number : m.to_number}</span>
                       <span className="ml-auto">{new Date(m.created_at).toLocaleTimeString("en-NZ")}</span>
                     </div>
-                    <div className="text-sm whitespace-pre-wrap break-words" style={{ color: "#F5F0E8" }}>
-                      {m.body || <span className="italic" style={{ color: "#6B7280" }}>(no text)</span>}
+                    <div className="text-sm whitespace-pre-wrap break-words" style={{ color: TEXT }}>
+                      {m.body || <span className="italic" style={{ color: MUTED }}>(no text)</span>}
                     </div>
                     {m.media_url && (
-                      <div className="mt-2 flex items-center gap-2 text-[11px]" style={{ color: "#D4A853" }}>
+                      <div className="mt-2 flex items-center gap-2 text-[11px]" style={{ color: TEAL }}>
                         <ImageIcon className="w-3 h-3" />
                         <a href={m.media_url} target="_blank" rel="noreferrer" className="underline truncate max-w-md">
                           {m.media_type || "media"} attachment
@@ -217,10 +223,9 @@ export default function AdminMessagingLive() {
           </AnimatePresence>
 
           {filtered.length === 0 && (
-            <div className="rounded-xl p-12 text-center"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-              <Activity className="w-6 h-6 mx-auto mb-3" style={{ color: "#374151" }} />
-              <p className="text-sm" style={{ color: "#9CA3AF" }}>
+            <div className="rounded-xl p-12 text-center" style={GLASS_CARD}>
+              <Activity className="w-6 h-6 mx-auto mb-3" style={{ color: MUTED }} />
+              <p className="text-sm" style={{ color: SUBTLE }}>
                 Waiting for messages… new traffic will appear here in real time.
               </p>
             </div>

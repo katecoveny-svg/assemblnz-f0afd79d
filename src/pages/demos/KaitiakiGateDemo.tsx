@@ -72,7 +72,7 @@ const KaitiakiGateDemo = () => {
         <DemoProvesCard slug="kaitiaki-gate" />
 
         <div className="liquid-glass liquid-glass-gold rounded-xl px-4 py-2 text-center mb-10">
-          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#F0D078" }}>
+          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#A8DDDB" }}>
             Demo mode — no real data leaves this page
           </p>
         </div>
@@ -106,8 +106,8 @@ const KaitiakiGateDemo = () => {
           <button onClick={handleRun} disabled={running}
             className="inline-flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-medium transition-all liquid-glass liquid-glass-gold"
             style={{
-              color: running ? "rgba(245,240,232,0.4)" : "#F0D078",
-              borderColor: running ? "rgba(255,255,255,0.06)" : "rgba(212,168,83,0.3)",
+              color: running ? "rgba(245,240,232,0.4)" : "#A8DDDB",
+              borderColor: running ? "rgba(255,255,255,0.06)" : "rgba(74,165,168,0.3)",
             }}>
             <Play size={14} /> {running ? "Processing..." : "Submit"}
           </button>
@@ -191,7 +191,7 @@ const KaitiakiGateDemo = () => {
                 </div>
 
                 <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium liquid-glass liquid-glass-gold"
-                  style={{ color: "#F0D078", borderColor: "rgba(212,168,83,0.3)" }}>
+                  style={{ color: "#A8DDDB", borderColor: "rgba(74,165,168,0.3)" }}>
                   Contact kaitiaki team
                 </button>
                 <PoweredByAssembl />
@@ -202,13 +202,13 @@ const KaitiakiGateDemo = () => {
 
         {/* Ngā Pou e Whā — glass surface */}
         <div className="liquid-glass liquid-glass-gold rounded-2xl p-6 mt-8">
-          <p className="text-[10px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#D4A853" }}>
+          <p className="text-[10px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>
             Ngā Pou e Whā
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {NGA_POU.map(p => (
-              <div key={p.name} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: "rgba(212,168,83,0.04)", border: "1px solid rgba(212,168,83,0.1)" }}>
-                <div className="w-2.5 h-2.5 rounded-full mt-1.5 shrink-0" style={{ background: "#D4A853", boxShadow: "0 0 8px rgba(212,168,83,0.3)" }} />
+              <div key={p.name} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: "rgba(74,165,168,0.04)", border: "1px solid rgba(74,165,168,0.1)" }}>
+                <div className="w-2.5 h-2.5 rounded-full mt-1.5 shrink-0" style={{ background: "#4AA5A8", boxShadow: "0 0 8px rgba(74,165,168,0.3)" }} />
                 <div>
                   <p className="text-xs font-semibold" style={{ color: "rgba(245,240,232,0.8)" }}>{p.name}</p>
                   <p className="text-[11px]" style={{ color: "rgba(245,240,232,0.45)" }}>{p.desc}</p>

@@ -21,14 +21,14 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen relative" style={{ background: "#FAFBFC", color: "#3D4250", ["--btn-glow" as string]: "58,125,110" } as React.CSSProperties}>
+    <div className="min-h-screen relative" style={{ background: "transparent", color: "#3D4250", ["--btn-glow" as string]: "58,125,110" } as React.CSSProperties}>
       {/* Whāriki weave background */}
       <div className="fixed inset-0 pointer-events-none -z-10" style={{
         backgroundImage: `
           linear-gradient(45deg, rgba(58,125,110,0.04) 1px, transparent 1px),
           linear-gradient(-45deg, rgba(58,125,110,0.04) 1px, transparent 1px),
-          linear-gradient(45deg, rgba(212,168,83,0.02) 1px, transparent 1px),
-          linear-gradient(-45deg, rgba(212,168,83,0.02) 1px, transparent 1px)`,
+          linear-gradient(45deg, rgba(74,165,168,0.02) 1px, transparent 1px),
+          linear-gradient(-45deg, rgba(74,165,168,0.02) 1px, transparent 1px)`,
         backgroundSize: "24px 24px, 24px 24px, 48px 48px, 48px 48px",
       }} />
 
@@ -42,7 +42,7 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
 
       {/* Ambient glow */}
       <div className="fixed inset-0 pointer-events-none -z-10" style={{
-        background: "radial-gradient(ellipse 600px 400px at 20% 10%, rgba(58,125,110,0.06), transparent), radial-gradient(ellipse 500px 300px at 80% 90%, rgba(212,168,83,0.04), transparent)",
+        background: "radial-gradient(ellipse 600px 400px at 20% 10%, rgba(58,125,110,0.06), transparent), radial-gradient(ellipse 500px 300px at 80% 90%, rgba(74,165,168,0.04), transparent)",
       }} />
 
       {/* Floating particles */}
@@ -56,7 +56,7 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
               height: 2 + (i % 3),
               left: `${(i * 37) % 100}%`,
               top: `${(i * 53) % 100}%`,
-              background: i % 4 === 0 ? `rgba(212,168,83,0.3)` : `rgba(58,125,110,0.25)`,
+              background: i % 4 === 0 ? `rgba(74,165,168,0.3)` : `rgba(58,125,110,0.25)`,
               animation: `adminParticle ${14 + (i % 6) * 3}s ease-in-out infinite`,
               animationDelay: `${-(i * 1.3)}s`,
             }}
@@ -66,7 +66,7 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
 
       {/* Header — neumorphic raised */}
       <header className="sticky top-0 z-50 px-4 sm:px-6 py-3" style={{
-        background: "#FAFBFC",
+        background: "transparent",
         boxShadow: "0 4px 16px rgba(166,166,180,0.25), 0 1px 0 rgba(255,255,255,0.7)",
       }}>
         <div className="max-w-7xl mx-auto flex items-center gap-3">

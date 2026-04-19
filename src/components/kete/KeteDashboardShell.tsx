@@ -41,7 +41,7 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
     <div
       className="kete-light-shell min-h-screen relative"
       style={{
-        background: "#FAFBFC",
+        background: "transparent",
         // Buttons inside this shell pick up the kete's accent for their glow
         ["--btn-glow" as string]: rgb,
       } as React.CSSProperties}
@@ -69,7 +69,7 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
               left: `${(i * 37) % 100}%`,
               top: `${(i * 53) % 100}%`,
               background: i % 5 === 0
-                ? `rgba(232,169,72,0.25)`
+                ? `rgba(74,165,168,0.25)`
                 : i % 3 === 0
                   ? `rgba(200,195,220,0.3)`
                   : `rgba(${rgb},0.2)`,
@@ -111,7 +111,7 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
           transition={{ duration: 0.5 }}
           className="flex flex-wrap items-center gap-4 rounded-2xl p-5"
           style={{
-            background: "#FAFBFC",
+            background: "transparent",
             boxShadow: `
               8px 8px 20px rgba(166,166,180,0.35),
               -8px -8px 20px rgba(255,255,255,0.85),

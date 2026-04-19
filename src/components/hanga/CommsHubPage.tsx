@@ -2,13 +2,13 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MessageSquare, Send, Phone, Smartphone } from "lucide-react";
 
-const KOWHAI = "#D4A843";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 const TEMPLATES = [
   { id: "followup", label: "Follow-up", text: "Hi {name}, following up on our conversation about {topic}. Please let me know if you have any questions." },
   { id: "appointment", label: "Appointment Reminder", text: "Reminder: You have a site meeting scheduled for {date} at {time}. Location: Christchurch Metro Sports Facility." },
-  { id: "safety", label: "Safety Alert", text: "⚠️ Safety Alert: {message}. All workers must acknowledge before entering site." },
+  { id: "safety", label: "Safety Alert", text: "️ Safety Alert: {message}. All workers must acknowledge before entering site." },
   { id: "welcome", label: "Welcome", text: "Kia ora {name}, welcome to the Christchurch Metro Sports Facility project. Please check in via the QR code at the site entrance." },
 ];
 
@@ -47,7 +47,7 @@ export default function CommsHubPage() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-6xl mx-auto">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><MessageSquare size={22} style={{ color: KOWHAI }} /> Communication Hub — Kōrero</h1>
+        <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><MessageSquare size={22} style={{ color: TEAL_ACCENT }} /> Communication Hub — Kōrero</h1>
         <p className="text-xs text-[#9CA3AF]">SMS & WhatsApp messaging for site teams</p>
       </motion.div>
 
@@ -59,7 +59,7 @@ export default function CommsHubPage() {
               <button key={c} onClick={() => setChannel(c)}
                 className={`flex-1 px-4 py-2.5 rounded-xl text-xs font-medium transition-all ${channel === c ? "text-foreground" : "text-[#9CA3AF]"}`}
                 style={channel === c ? { background: c === "sms" ? "rgba(26,58,92,0.3)" : "rgba(58,125,110,0.2)", border: `1px solid ${c === "sms" ? "rgba(26,58,92,0.4)" : "rgba(58,125,110,0.3)"}` } : {}}>
-                {c === "sms" ? "📱 SMS" : "💬 WhatsApp"}
+                {c === "sms" ? "📱 SMS" : "WhatsApp"}
               </button>
             ))}
           </div>
@@ -92,7 +92,7 @@ export default function CommsHubPage() {
           </div>
 
           <motion.button onClick={send} whileHover={{ scale: 1.02 }} className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-medium"
-            style={{ background: KOWHAI, color: "#09090F" }}>
+            style={{ background: TEAL_ACCENT, color: "#09090F" }}>
             <Send size={16} /> Send Message
           </motion.button>
         </Glass>

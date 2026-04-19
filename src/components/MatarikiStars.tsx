@@ -43,9 +43,9 @@ const MatarikiStars = ({ className = "", showLabels = false, size = 400 }: Props
       >
         <defs>
           <linearGradient id="matariki-line" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#D4A843" stopOpacity="0.5" />
+            <stop offset="0%" stopColor="#4AA5A8" stopOpacity="0.5" />
             <stop offset="50%" stopColor="#3A7D6E" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#D4A843" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#4AA5A8" stopOpacity="0.5" />
           </linearGradient>
         </defs>
         {CONNECTIONS.map(([from, to], i) => (
@@ -87,7 +87,7 @@ const MatarikiStars = ({ className = "", showLabels = false, size = 400 }: Props
               left: "50%",
               top: "50%",
               transform: "translate(-50%, -50%)",
-              background: `radial-gradient(circle, rgba(212,168,67,${0.15 * star.glow}) 0%, rgba(58,125,110,${0.05 * star.glow}) 50%, transparent 100%)`,
+              background: `radial-gradient(circle, rgba(74,165,168,${0.15 * star.glow}) 0%, rgba(58,125,110,${0.05 * star.glow}) 50%, transparent 100%)`,
               filter: `blur(${star.r * 1.5}px)`,
             }}
             animate={{
@@ -108,14 +108,14 @@ const MatarikiStars = ({ className = "", showLabels = false, size = 400 }: Props
             style={{
               width: star.r * scale * 0.8,
               height: star.r * scale * 0.8,
-              background: `radial-gradient(circle, #FFFFFF 0%, #F0D078 40%, #D4A843 80%, rgba(212,168,67,0) 100%)`,
-              boxShadow: `0 0 ${star.r * 2}px rgba(212,168,67,${0.6 * star.glow}), 0 0 ${star.r * 6}px rgba(212,168,67,${0.3 * star.glow})`,
+              background: `radial-gradient(circle, #FFFFFF 0%, #A8DDDB 40%, #4AA5A8 80%, rgba(74,165,168,0) 100%)`,
+              boxShadow: `0 0 ${star.r * 2}px rgba(74,165,168,${0.6 * star.glow}), 0 0 ${star.r * 6}px rgba(74,165,168,${0.3 * star.glow})`,
             }}
             animate={{
               boxShadow: [
-                `0 0 ${star.r * 2}px rgba(212,168,67,${0.6 * star.glow}), 0 0 ${star.r * 6}px rgba(212,168,67,${0.3 * star.glow})`,
-                `0 0 ${star.r * 4}px rgba(255,220,80,${0.9 * star.glow}), 0 0 ${star.r * 10}px rgba(212,168,67,${0.5 * star.glow})`,
-                `0 0 ${star.r * 2}px rgba(212,168,67,${0.6 * star.glow}), 0 0 ${star.r * 6}px rgba(212,168,67,${0.3 * star.glow})`,
+                `0 0 ${star.r * 2}px rgba(74,165,168,${0.6 * star.glow}), 0 0 ${star.r * 6}px rgba(74,165,168,${0.3 * star.glow})`,
+                `0 0 ${star.r * 4}px rgba(255,220,80,${0.9 * star.glow}), 0 0 ${star.r * 10}px rgba(74,165,168,${0.5 * star.glow})`,
+                `0 0 ${star.r * 2}px rgba(74,165,168,${0.6 * star.glow}), 0 0 ${star.r * 6}px rgba(74,165,168,${0.3 * star.glow})`,
               ],
             }}
             transition={{
@@ -135,7 +135,7 @@ const MatarikiStars = ({ className = "", showLabels = false, size = 400 }: Props
                 left: "50%",
                 transform: "translateX(-50%)",
                 marginTop: 6,
-                color: "rgba(212,168,67,0.4)",
+                color: "rgba(74,165,168,0.4)",
               }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

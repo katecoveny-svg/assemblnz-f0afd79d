@@ -10,7 +10,7 @@ import HeroParticlesLight from "@/components/HeroParticlesLight";
 const BONE = "#F5F0E8";
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 
 
 const MARKET_STATS = [

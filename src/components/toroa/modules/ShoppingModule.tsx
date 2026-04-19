@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ShoppingCart, Plus, Check, DollarSign, X } from "lucide-react";
 
-const KOWHAI = "#D4A843";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const BONE = "#F5F0E8";
 
@@ -53,7 +53,7 @@ export default function ShoppingModule({ items, weeklyBudget, spent, onToggle, o
       <div className="rounded-xl p-4" style={glass}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1.5">
-            <DollarSign size={12} style={{ color: KOWHAI }} />
+            <DollarSign size={12} style={{ color: TEAL_ACCENT }} />
             <span className="font-body text-xs" style={{ color: "#6B7280" }}>Weekly budget</span>
           </div>
           <span className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: over ? "rgba(239,68,68,0.12)" : `${POUNAMU}15`, color: over ? "#fca5a5" : POUNAMU }}>
@@ -61,7 +61,7 @@ export default function ShoppingModule({ items, weeklyBudget, spent, onToggle, o
           </span>
         </div>
         <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "#9CA3AF" }}>
-          <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: over ? "#ef4444" : `linear-gradient(90deg, ${POUNAMU}, ${KOWHAI})` }} />
+          <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: over ? "#ef4444" : `linear-gradient(90deg, ${POUNAMU}, ${TEAL_ACCENT})` }} />
         </div>
       </div>
 

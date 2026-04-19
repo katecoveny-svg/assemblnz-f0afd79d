@@ -41,8 +41,8 @@ const GlassPanel = ({
         <div
           className="absolute top-0 left-0 right-0 h-[2px]"
           style={{
-            background: "linear-gradient(90deg, transparent, rgba(212,168,83,0.5), rgba(212,168,83,0.3), transparent)",
-            boxShadow: "0 0 12px rgba(212,168,83,0.3)",
+            background: "linear-gradient(90deg, transparent, rgba(74,165,168,0.5), rgba(74,165,168,0.3), transparent)",
+            boxShadow: "0 0 12px rgba(74,165,168,0.3)",
           }}
         />
       )}

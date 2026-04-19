@@ -22,7 +22,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const ACCENT: Record<Variant, { base: string; hover: string; rgb: string; text: string }> = {
   teal:     { base: "#4AA5A8", hover: "#3F8E91", rgb: "74,165,168",  text: "#FFFFFF" },
-  ochre:    { base: "#D4A843", hover: "#B89238", rgb: "212,168,67",  text: "#FFFFFF" },
+  ochre:    { base: "#4AA5A8", hover: "#B89238", rgb: "212,168,67",  text: "#FFFFFF" },
   lavender: { base: "#9B8FBF", hover: "#867AAE", rgb: "155,143,191", text: "#FFFFFF" },
   success:  { base: "#4AA5A8", hover: "#3F8E91", rgb: "74,165,168",  text: "#FFFFFF" },
   error:    { base: "#C85A54", hover: "#B14A45", rgb: "200,90,84",   text: "#FFFFFF" },

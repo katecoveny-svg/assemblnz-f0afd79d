@@ -157,7 +157,7 @@ const KeteParticleCanvas = ({ className = "" }: { className?: string }) => {
 
     const TEAL_BRIGHT = [79, 228, 167];
     const CYAN = [0, 220, 200];
-    const GOLD = [212, 168, 83];
+    const GOLD = [74, 165, 168];
     const GOLD_GLOW = [240, 208, 120];
 
     const draw = () => {

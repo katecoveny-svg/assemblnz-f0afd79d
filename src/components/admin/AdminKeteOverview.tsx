@@ -79,7 +79,7 @@ export default function AdminKeteOverview() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: "Industry kete", value: KETE_CONFIG.filter((k) => k.group === "business").length, color: "#3A7D6E", icon: Bot },
-          { label: "Whānau kete", value: KETE_CONFIG.filter((k) => k.group === "whanau").length, color: "#D4A843", icon: Bot },
+          { label: "Whānau kete", value: KETE_CONFIG.filter((k) => k.group === "whanau").length, color: "#4AA5A8", icon: Bot },
           { label: "SMS channels live", value: liveSms, color: "#5AADA0", icon: Smartphone },
           { label: "WhatsApp channels live", value: liveWa, color: "#3A6A9C", icon: MessageSquare },
         ].map((s) => (

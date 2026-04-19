@@ -180,7 +180,7 @@ export default function SubbiesPage() {
           </div>
           <button onClick={() => setShowAdd(true)}
             className="px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2"
-            style={{ background: "#D4A853", color: "#0A1628" }}>
+            style={{ background: "#4AA5A8", color: "#0A1628" }}>
             <Plus className="w-4 h-4" /> Add subbie
           </button>
         </div>
@@ -308,7 +308,7 @@ export default function SubbiesPage() {
               </label>
             </div>
             <button type="submit" className="mt-6 w-full py-3 rounded-full font-medium"
-              style={{ background: "#D4A853", color: "#0A1628" }}>
+              style={{ background: "#4AA5A8", color: "#0A1628" }}>
               Add subbie
             </button>
           </form>

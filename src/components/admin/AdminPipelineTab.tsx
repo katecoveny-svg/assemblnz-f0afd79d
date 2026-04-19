@@ -27,7 +27,7 @@ interface PipelineSummary {
 type SubTab = "overview" | "audit-logs" | "approvals" | "evidence" | "exports";
 
 const STATUS_COLORS: Record<string, string> = {
-  pending: "#D4A843",
+  pending: "#4AA5A8",
   approved: "#5AADA0",
   rejected: "#C85A54",
   expired: "#888",
@@ -35,7 +35,7 @@ const STATUS_COLORS: Record<string, string> = {
   completed: "#5AADA0",
   forbidden: "#C85A54",
   allowed: "#5AADA0",
-  approval_required: "#D4A843",
+  approval_required: "#4AA5A8",
 };
 
 export default function AdminPipelineTab() {
@@ -90,7 +90,7 @@ export default function AdminPipelineTab() {
   const subTabs: { id: SubTab; label: string; icon: any; color: string }[] = [
     { id: "overview", label: "Overview", icon: Scale, color: "#5AADA0" },
     { id: "audit-logs", label: "Audit Trail", icon: ShieldCheck, color: "#3A7D6E" },
-    { id: "approvals", label: "Approvals", icon: Clock, color: "#D4A843" },
+    { id: "approvals", label: "Approvals", icon: Clock, color: "#4AA5A8" },
     { id: "evidence", label: "Evidence Packs", icon: FileText, color: "#7ECFC2" },
     { id: "exports", label: "Exports", icon: Download, color: "#1A3A5C" },
   ];
@@ -121,7 +121,7 @@ export default function AdminPipelineTab() {
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
             {[
               { label: "Audit Logs", value: summary.totalAuditLogs, icon: ShieldCheck, color: "#3A7D6E" },
-              { label: "Pending Approvals", value: summary.approvals.pending, icon: Clock, color: "#D4A843" },
+              { label: "Pending Approvals", value: summary.approvals.pending, icon: Clock, color: "#4AA5A8" },
               { label: "Approved", value: summary.approvals.approved, icon: CheckCircle2, color: "#5AADA0" },
               { label: "Evidence Packs", value: summary.evidencePacks.total, icon: FileText, color: "#7ECFC2" },
               { label: "Signed Off", value: summary.evidencePacks.signed, icon: Scale, color: "#1A3A5C" },
@@ -143,7 +143,7 @@ export default function AdminPipelineTab() {
               {[
                 { label: "Kahu", sub: "Compliance", icon: ShieldCheck, color: "#C85A54" },
                 { label: "Iho", sub: "Router", icon: Route, color: "#3A7D6E" },
-                { label: "Tā", sub: "Execution", icon: Zap, color: "#D4A843" },
+                { label: "Tā", sub: "Execution", icon: Zap, color: "#4AA5A8" },
                 { label: "Mahara", sub: "Memory", icon: Brain, color: "#7ECFC2" },
                 { label: "Mana", sub: "Assurance", icon: Scale, color: "#5AADA0" },
               ].map((stage, i) => (

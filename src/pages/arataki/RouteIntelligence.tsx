@@ -38,7 +38,7 @@ const ROUTES = [
 
 export default function RouteIntelligence() {
   return (
-    <div style={{ background: "#FAFBFC", minHeight: "100vh", color: "#3D4250" }}>
+    <div style={{ background: "transparent", minHeight: "100vh", color: "#3D4250" }}>
       <SEO title="Route Intelligence | Arataki | assembl" description="Live NZ weather, roadworks, closures integrated into fleet trip planning." />
       <BrandNav />
       <main className="max-w-5xl mx-auto px-6 pt-16 pb-32">

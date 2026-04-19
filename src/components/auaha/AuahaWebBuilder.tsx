@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 
-const ACCENT = "#F0D078";
+const ACCENT = "#A8DDDB";
 const TEAL = "#5AADA0";
 const POUNAMU = "#00A86B";
 
@@ -41,11 +41,11 @@ function GlassCard({ children, className = "", onClick, glow = false }: { childr
 
 const PIPELINE_STEPS = [
   { key: "brief", label: "Brief", desc: "Describe your website concept", icon: FileText, agent: "PIXEL", color: ACCENT },
-  { key: "structure", label: "Structure", desc: "AI generates sitemap & pages", icon: Layers, agent: "PIXEL", color: "#D4A843" },
+  { key: "structure", label: "Structure", desc: "AI generates sitemap & pages", icon: Layers, agent: "PIXEL", color: "#4AA5A8" },
   { key: "design", label: "Design", desc: "Brand-aligned design system", icon: Palette, agent: "CHROMATIC", color: TEAL },
   { key: "build", label: "Build", desc: "Component generation & layout", icon: Code, agent: "MUSE", color: POUNAMU },
   { key: "preview", label: "Preview", desc: "Live preview across devices", icon: Eye, agent: "TOI", color: "#3A6A9C" },
-  { key: "export", label: "Export", desc: "Download or push to GitHub", icon: Download, agent: "STUDIO DIR.", color: "#F0D078" },
+  { key: "export", label: "Export", desc: "Download or push to GitHub", icon: Download, agent: "STUDIO DIR.", color: "#A8DDDB" },
 ];
 
 const TEMPLATES = [
@@ -82,7 +82,7 @@ export default function AuahaWebBuilder() {
       if (step >= 5) {
         clearInterval(interval);
         setIsGenerating(false);
-        toast.success("Website structure generated! Preview ready.", { icon: "🎉" });
+        toast.success("Website structure generated! Preview ready.", { icon: "" });
       }
     }, 1800);
   };
@@ -93,8 +93,8 @@ export default function AuahaWebBuilder() {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
         className="relative overflow-hidden rounded-2xl p-8 lg:p-10"
         style={{
-          background: "linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(232,169,72,0.06) 50%, rgba(74,165,168,0.05) 100%)",
-          border: "1px solid rgba(232,169,72,0.30)",
+          background: "linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(74,165,168,0.06) 50%, rgba(74,165,168,0.05) 100%)",
+          border: "1px solid rgba(74,165,168,0.30)",
           boxShadow: "0 12px 40px rgba(26,29,41,0.08), inset 0 1px 0 rgba(255,255,255,0.95)",
         }}>
         <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-20 blur-[80px]" style={{ background: ACCENT }} />
@@ -180,7 +180,7 @@ export default function AuahaWebBuilder() {
               <textarea
                 value={brief}
                 onChange={(e) => setBrief(e.target.value)}
-                className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-foreground text-sm focus:outline-none focus:border-[#F0D078]/30 min-h-[140px] resize-none transition-colors placeholder:text-[#8B92A0]"
+                className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-foreground text-sm focus:outline-none focus:border-[#A8DDDB]/30 min-h-[140px] resize-none transition-colors placeholder:text-[#8B92A0]"
                 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
                 placeholder="Describe your website…&#10;&#10;e.g. A modern landing page for a Wellington coffee roastery. Hero section with video background, menu section, about page, and contact form. Earthy colour palette."
               />
@@ -189,7 +189,7 @@ export default function AuahaWebBuilder() {
                   onClick={handleGenerate}
                   disabled={isGenerating}
                   className="flex-1 h-11 rounded-xl font-medium text-sm transition-all hover:scale-[1.02]"
-                  style={{ background: `linear-gradient(135deg, ${ACCENT}, #D4A843)`, color: "#0A0A0A" }}>
+                  style={{ background: `linear-gradient(135deg, ${ACCENT}, #4AA5A8)`, color: "#0A0A0A" }}>
                   {isGenerating ? (
                     <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Generating…</>
                   ) : (
@@ -216,7 +216,7 @@ export default function AuahaWebBuilder() {
                       setBrief(`Build a ${t.name.toLowerCase()} website. ${t.desc}.`);
                     }}
                     className={`group flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all duration-200 hover:bg-white/[0.04] hover:-translate-y-0.5 ${
-                      selectedTemplate === t.name ? 'border-[#F0D078]/30 bg-[#F0D078]/[0.04]' : 'border-white/[0.05] bg-transparent'
+                      selectedTemplate === t.name ? 'border-[#A8DDDB]/30 bg-[#A8DDDB]/[0.04]' : 'border-white/[0.05] bg-transparent'
                     }`}>
                     <div className="flex-1 min-w-0">
                       <p className="text-[#1A1D29] text-sm font-medium truncate">{t.name}</p>

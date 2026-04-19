@@ -92,7 +92,7 @@ export default function HelmSettings() {
 
   const addChild = async () => {
     if (!family || !childName.trim()) return;
-    const colors = ["#3A6A9C", "#D4A843", "#80D8FF", "#A5D6A7", "#FFD54F", "#FF8A65"];
+    const colors = ["#3A6A9C", "#4AA5A8", "#80D8FF", "#A5D6A7", "#FFD54F", "#FF8A65"];
     const color = colors[children.length % colors.length];
     const { error } = await supabase.from("children").insert({
       family_id: family.id, name: childName, year_level: yearLevel || null,
@@ -119,7 +119,7 @@ export default function HelmSettings() {
 
   if (!user) {
     return (
-      <div className="flex-1 flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+      <div className="flex-1 flex items-center justify-center" style={{ background: "transparent" }}>
         <p className="text-sm text-white/40">Sign in to set up your family</p>
       </div>
     );
@@ -127,7 +127,7 @@ export default function HelmSettings() {
 
   if (showSetup) {
     return (
-      <div className="flex-1 overflow-y-auto p-4 flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+      <div className="flex-1 overflow-y-auto p-4 flex items-center justify-center" style={{ background: "transparent" }}>
         <div className="max-w-sm w-full space-y-4">
           <div className="text-center mb-6">
             <Users size={32} style={{ color: HELM_COLOR }} className="mx-auto mb-3" />
@@ -139,7 +139,7 @@ export default function HelmSettings() {
           <select value={region} onChange={e => setRegion(e.target.value)}
             className="w-full bg-white/5 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-white/80"
             style={{ colorScheme: "dark" }}>
-            {NZ_REGIONS.map(r => <option key={r} value={r} style={{ background: "#FAFBFC" }}>{r}</option>)}
+            {NZ_REGIONS.map(r => <option key={r} value={r} style={{ background: "transparent" }}>{r}</option>)}
           </select>
           <button onClick={createFamily} disabled={!familyName.trim()}
             className="w-full py-2.5 rounded-lg text-sm font-medium transition disabled:opacity-30"
@@ -152,7 +152,7 @@ export default function HelmSettings() {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "#FAFBFC" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "transparent" }}>
       <div className="flex items-center gap-2">
         <Settings2 size={16} style={{ color: HELM_COLOR }} />
         <h2 className="text-sm font-semibold text-white/90">Family Settings</h2>

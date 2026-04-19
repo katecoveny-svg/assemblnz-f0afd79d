@@ -73,12 +73,12 @@ const MigrationPage = () => {
     <>
       <SEO title="Nuku Mai — Seamless Database Migration | Assembl" description="Assembl migrates your records, compliance history, and operational data from any existing system into your new kete. Validated. Compliant. Ready to work." />
       <BrandNav />
-      <div className="min-h-screen" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen" style={{ background: "transparent" }}>
 
         {/* ═══ HERO ═══ */}
         <section className="relative px-4 sm:px-6 py-24 sm:py-36 overflow-hidden">
           <div className="absolute inset-0 pointer-events-none" style={{
-            background: "radial-gradient(ellipse 50% 50% at 30% 40%, rgba(74,165,168,0.06), transparent 60%), radial-gradient(ellipse 40% 40% at 70% 60%, rgba(232,169,72,0.04), transparent 60%)",
+            background: "radial-gradient(ellipse 50% 50% at 30% 40%, rgba(74,165,168,0.06), transparent 60%), radial-gradient(ellipse 40% 40% at 70% 60%, rgba(74,165,168,0.04), transparent 60%)",
           }} />
           <div className="max-w-[900px] mx-auto text-center relative z-10">
             <motion.div {...fade}>

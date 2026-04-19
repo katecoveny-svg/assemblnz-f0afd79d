@@ -15,7 +15,7 @@ const C = {
   textSecondary: "#6B7280",
   textTertiary: "#9CA3AF",
   teal: "#4AA5A8",
-  ochre: "#E8A948",
+  ochre: "#4AA5A8",
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -32,7 +32,7 @@ const KETE_CLIPS = [
   {
     slug: "waihanga",
     label: "WAIHANGA · CONSTRUCTION",
-    accent: "#E8A948",
+    accent: "#4AA5A8",
     title: "Site Induction for New Subcontractor",
     description: "Builder on a Hamilton site. Assembl auto-generates the HSWA 2015 s.36 site induction from the SWMS, sends via SMS, captures the acknowledgement.",
     videoUrl: "kete-clips/WAIHANGA-Hamilton-Build.mp4",
@@ -325,7 +325,7 @@ export default function ShowcasePage() {
       {/* ── 2-4. ADMIN-ONLY: Sizzle reels, NZ voiceovers, brand concept clips ── */}
       {isAdmin && (
         <>
-          <section className="px-6 py-20" style={{ background: "#FAFBFC" }}>
+          <section className="px-6 py-20" style={{ background: "transparent" }}>
             <div className="max-w-[1100px] mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
@@ -384,7 +384,7 @@ export default function ShowcasePage() {
             </div>
           </section>
 
-          <section className="px-6 py-20" style={{ background: "#FAFBFC" }}>
+          <section className="px-6 py-20" style={{ background: "transparent" }}>
             <div className="max-w-[1200px] mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 16 }}

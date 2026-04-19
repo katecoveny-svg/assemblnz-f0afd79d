@@ -28,7 +28,7 @@ const ease = [0.16, 1, 0.3, 1] as [number, number, number, number];
 const LiquidGlassCard: React.FC<Props> = ({
   children,
   className = "",
-  accentColor = "#D4A843",
+  accentColor = "#4AA5A8",
   glassIntensity = "medium",
   animate = true,
   delay = 0,

@@ -22,7 +22,7 @@ const AdminGlassCard: React.FC<AdminGlassCardProps> = ({
     <div
       className={`rounded-2xl relative overflow-hidden group ${className}`}
       style={{
-        background: "#FAFBFC",
+        background: "transparent",
         boxShadow: `
           6px 6px 16px rgba(166,166,180,0.35),
           -6px -6px 16px rgba(255,255,255,0.85),

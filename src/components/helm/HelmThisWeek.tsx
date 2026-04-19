@@ -119,7 +119,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
   const displayTasks = showDemo ? demoTasks : tasks.slice(0, 8);
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "#FAFBFC" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "transparent" }}>
       {/* Week Header */}
       <div className="flex items-center justify-between">
         <button onClick={() => setWeekStart(addDays(weekStart, -7))} className="p-1.5 rounded-lg hover:bg-white/5 transition"><ChevronLeft size={16} className="text-gray-500" /></button>
@@ -162,7 +162,7 @@ export default function HelmThisWeek({ onSendToChat }: { onSendToChat?: (msg: st
           <Calendar size={12} style={{ color: HELM_COLOR }} />
           {format(selectedDay, "EEEE d MMMM")}
           {!isSchoolDay(selectedDay) && selectedDay.getDay() !== 0 && selectedDay.getDay() !== 6 && (
-            <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-amber-500/15 text-[#D4A843]">Holiday</span>
+            <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-amber-500/15 text-[#4AA5A8]">Holiday</span>
           )}
         </h3>
         {displayEvents.length === 0 ? (

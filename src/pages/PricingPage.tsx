@@ -15,7 +15,7 @@ const C = {
   pounamu: "#4AA5A8",
   pounamuGlow: "#5AADA0",
   pounamuLight: "#6CBFC1",
-  gold: "#E8A948",
+  gold: "#4AA5A8",
   goldLight: "#F0C670",
   white: "#3D4250",
   textSecondary: "#6B7280",
@@ -63,7 +63,7 @@ const PricingPage = () => (
     {/* ═══ HERO ═══ */}
     <section className="pt-32 pb-20 px-6 text-center relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: `radial-gradient(ellipse 50% 40% at 50% 30%, rgba(212,168,83,0.08) 0%, transparent 60%)`,
+        background: `radial-gradient(ellipse 50% 40% at 50% 30%, rgba(74,165,168,0.08) 0%, transparent 60%)`,
       }} />
       <div className="relative z-10 max-w-2xl mx-auto">
         <p className="text-[10px] tracking-[5px] uppercase mb-5" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold, fontWeight: 700 }}>
@@ -98,7 +98,7 @@ const PricingPage = () => (
                 background: "rgba(255,255,255,0.65)",
                 border: tier.highlight ? `2px solid ${C.gold}50` : "1px solid rgba(255,255,255,0.10)",
                 boxShadow: tier.highlight
-                  ? `0 0 60px rgba(212,168,83,0.10), 0 20px 60px rgba(0,0,0,0.4)`
+                  ? `0 0 60px rgba(74,165,168,0.10), 0 20px 60px rgba(0,0,0,0.4)`
                   : "0 12px 48px rgba(0,0,0,0.3)",
               }}
             >
@@ -186,7 +186,7 @@ const PricingPage = () => (
                     background: tier.highlight ? `linear-gradient(135deg, ${C.gold}, ${C.goldLight})` : "rgba(255,255,255,0.06)",
                     color: tier.highlight ? C.bg : "rgba(255,255,255,0.7)",
                     border: tier.highlight ? "none" : "1px solid rgba(255,255,255,0.10)",
-                    boxShadow: tier.highlight ? `0 4px 30px rgba(212,168,83,0.3)` : "none",
+                    boxShadow: tier.highlight ? `0 4px 30px rgba(74,165,168,0.3)` : "none",
                   }}>
                   {data.cta}
                 </Link>
@@ -428,7 +428,7 @@ const PricingPage = () => (
     {/* ═══ FINAL CTA ═══ */}
     <section className="px-6 py-24 text-center relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: `radial-gradient(ellipse 50% 40% at 50% 50%, rgba(212,168,83,0.06) 0%, transparent 60%)`,
+        background: `radial-gradient(ellipse 50% 40% at 50% 50%, rgba(74,165,168,0.06) 0%, transparent 60%)`,
       }} />
       <div className="relative z-10 max-w-xl mx-auto">
         <h2 className="text-xl sm:text-[32px] mb-4" style={{
@@ -445,7 +445,7 @@ const PricingPage = () => (
             style={{
               background: `linear-gradient(135deg, ${C.gold}, ${C.goldLight})`,
               color: C.bg, fontFamily: "'Lato', sans-serif",
-              boxShadow: `0 4px 30px rgba(212,168,83,0.35)`,
+              boxShadow: `0 4px 30px rgba(74,165,168,0.35)`,
             }}>
             Get started <ArrowRight size={13} className="group-hover:translate-x-1.5 transition-transform" />
           </Link>

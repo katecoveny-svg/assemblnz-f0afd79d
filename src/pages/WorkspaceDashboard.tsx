@@ -42,7 +42,7 @@ interface EvidenceBrief {
 const KETE_COLORS: Record<string, string> = {
   MANAAKI: "#3A7D6E",
   WAIHANGA: "#1A3A5C",
-  AUAHA: "#D4A843",
+  AUAHA: "#4AA5A8",
   ARATAKI: "#E8E8E8",
   PIKAU: "#7ECFC2",
 };
@@ -171,7 +171,7 @@ export default function WorkspaceDashboard() {
       <SEO title={`${tenant.name} — Workspace`} description="Your Assembl workspace dashboard" />
       <FirstWorkflowTour accent={accent} forceOpen={tourOpen} onClose={() => setTourOpen(false)} />
 
-      <div className="min-h-screen" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen" style={{ background: "transparent" }}>
         {/* Header */}
         <header className="border-b border-white/[0.06] px-4 py-4">
           <div className="max-w-3xl mx-auto flex items-center justify-between">

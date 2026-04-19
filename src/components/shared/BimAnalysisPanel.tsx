@@ -67,7 +67,7 @@ export default function BimAnalysisPanel({ agentId, agentName }: BimPanelProps) 
       const data = res.data;
       if (action === "generate" && data.taskId) {
         setMeshyTaskId(data.taskId);
-        setResult(`🏗️ 3D model generation started.\n\n**Prompt:** *${data.analysisPrompt}*\n\nPolling for completion...`);
+        setResult(`️ 3D model generation started.\n\n**Prompt:** *${data.analysisPrompt}*\n\nPolling for completion...`);
         pollMeshy(data.taskId);
       } else {
         setResult(data.analysis || data.report || data.schedule || JSON.stringify(data, null, 2));
@@ -89,11 +89,11 @@ export default function BimAnalysisPanel({ agentId, agentName }: BimPanelProps) 
         setMeshyProgress(d.progress || 0);
         if (d.status === "SUCCEEDED") {
           const glbUrl = d.modelUrls?.glb || d.modelUrls?.obj;
-          setResult(prev => (prev || "") + `\n\n✅ **3D Model Complete!**\n\n[Download GLB](${glbUrl})\n\n![Thumbnail](${d.thumbnailUrl})`);
+          setResult(prev => (prev || "") + `\n\n**3D Model Complete!**\n\n[Download GLB](${glbUrl})\n\n![Thumbnail](${d.thumbnailUrl})`);
           setMeshyTaskId(null); return;
         }
         if (d.status === "FAILED") {
-          setResult(prev => (prev || "") + "\n\n❌ 3D generation failed. Try simplifying your plan.");
+          setResult(prev => (prev || "") + "\n\n3D generation failed. Try simplifying your plan.");
           setMeshyTaskId(null); return;
         }
         setTimeout(poll, 5000);

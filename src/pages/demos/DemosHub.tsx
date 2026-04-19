@@ -12,8 +12,8 @@ const C = {
   pounamu: "#3A7D6E",
   pounamuLight: "#7ECFC2",
   pounamuGlow: "#5AADA0",
-  gold: "#D4A853",
-  goldLight: "#F0D078",
+  gold: "#4AA5A8",
+  goldLight: "#A8DDDB",
   bone: "#F5F0E8",
 };
 
@@ -235,7 +235,7 @@ const DemosHub = () => {
 
         {/* Disclaimer */}
         <motion.div className="rounded-xl px-5 py-3 max-w-xl mx-auto mb-12 flex items-start gap-3"
-          style={{ background: "rgba(212,168,83,0.06)", border: "1px solid rgba(212,168,83,0.12)" }}
+          style={{ background: "rgba(74,165,168,0.06)", border: "1px solid rgba(74,165,168,0.12)" }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.4 }}>
           <Shield size={14} className="shrink-0 mt-0.5" style={{ color: C.goldLight }} />
           <p className="text-[11px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#9CA3AF" }}>

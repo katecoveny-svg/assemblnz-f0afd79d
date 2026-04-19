@@ -31,7 +31,7 @@ const EmbedChatWidget = () => {
 
   if (!agent) {
     return (
-      <div className="h-screen flex items-center justify-center" style={{ background: "#FAFBFC", color: "#3D4250" }}>
+      <div className="h-screen flex items-center justify-center" style={{ background: "transparent", color: "#3D4250" }}>
         <p className="text-sm">Agent not found.</p>
       </div>
     );
@@ -74,7 +74,7 @@ const EmbedChatWidget = () => {
   const remaining = PREVIEW_LIMIT - parseInt(sessionStorage.getItem(PREVIEW_MSG_KEY) || "0", 10);
 
   return (
-    <div className="h-screen flex flex-col" style={{ background: "#FAFBFC", color: "#3D4250", fontFamily: "'Outfit', sans-serif" }}>
+    <div className="h-screen flex flex-col" style={{ background: "transparent", color: "#3D4250", fontFamily: "'Outfit', sans-serif" }}>
       {/* Compact header */}
       <header
         className="flex items-center gap-2.5 px-4 py-3 shrink-0"

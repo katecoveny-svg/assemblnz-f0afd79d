@@ -8,10 +8,10 @@ import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 
 const ACCENT = "#5AADA0";
 const ACCENT_LIGHT = "#7ECFC2";
-const KOWHAI = "#D4A843";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
-const COLORS = [ACCENT, KOWHAI, POUNAMU, TANGAROA];
+const COLORS = [ACCENT, TEAL_ACCENT, POUNAMU, TANGAROA];
 
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <DashboardGlassCard accentColor={ACCENT} className={className}>
@@ -159,7 +159,7 @@ function OverviewTab() {
               <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} />
               <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", border: `1px solid ${ACCENT}40`, color: "#1A1D29", boxShadow: "0 8px 24px rgba(26,29,41,0.10)", borderRadius: 8, fontSize: 11 }} />
               <Bar dataKey="income" fill={ACCENT} radius={[4, 4, 0, 0]} />
-              <Bar dataKey="expenses" fill={KOWHAI} radius={[4, 4, 0, 0]} />
+              <Bar dataKey="expenses" fill={TEAL_ACCENT} radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </Glass>
@@ -202,7 +202,7 @@ function OverviewTab() {
                   <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-medium ${
                     inv.status === "paid" ? "bg-[#3A7D6E]/15 text-[#5AADA0]" :
                     inv.status === "overdue" ? "bg-[#C85A54]/15 text-[#C85A54]" :
-                    "bg-amber-500/15 text-[#D4A843]"
+                    "bg-amber-500/15 text-[#4AA5A8]"
                   }`}>{inv.status === "overdue" ? `${inv.daysOut}d overdue` : inv.status}</span>
                 </div>
               </div>
@@ -212,7 +212,7 @@ function OverviewTab() {
 
         <Glass className="p-4">
           <div className="flex items-center gap-2 mb-3">
-            <GlowIcon name="CalendarClock" size={14} color={KOWHAI} />
+            <GlowIcon name="CalendarClock" size={14} color={TEAL_ACCENT} />
             <h3 className="text-xs font-semibold text-white/60">Upcoming Bills</h3>
           </div>
           <div className="space-y-2">
@@ -244,7 +244,7 @@ function OverviewTab() {
                 <div className="text-xs font-bold text-white/80">{a.name}</div>
                 <div className="text-[9px] text-white/35">{a.desc}</div>
               </div>
-              <div className={`ml-auto w-2 h-2 rounded-full ${a.status === "online" ? "bg-[#5AADA0]" : "bg-[#D4A843]"}`} />
+              <div className={`ml-auto w-2 h-2 rounded-full ${a.status === "online" ? "bg-[#5AADA0]" : "bg-[#4AA5A8]"}`} />
             </div>
           ))}
         </div>
@@ -275,7 +275,7 @@ function ReconciliationTab() {
           <p className="text-[10px] text-white/40 mt-1">Matched This Week</p>
         </Glass>
         <Glass className="p-4 text-center">
-          <div className="text-2xl font-bold text-[#D4A843]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{recentTransactions.length - matchedCount}</div>
+          <div className="text-2xl font-bold text-[#4AA5A8]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{recentTransactions.length - matchedCount}</div>
           <p className="text-[10px] text-white/40 mt-1">Need Review</p>
         </Glass>
       </div>
@@ -301,14 +301,14 @@ function ReconciliationTab() {
         <div className="space-y-1">
           {filtered.map(txn => (
             <div key={txn.id} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.02] transition-colors">
-              <div className={`w-2 h-2 rounded-full shrink-0 ${txn.matched ? "bg-[#5AADA0]" : "bg-[#D4A843] animate-pulse"}`} />
+              <div className={`w-2 h-2 rounded-full shrink-0 ${txn.matched ? "bg-[#5AADA0]" : "bg-[#4AA5A8] animate-pulse"}`} />
               <span className="text-[10px] text-gray-400 w-12 shrink-0 font-mono">{txn.date}</span>
               <div className="flex-1 min-w-0">
                 <p className="text-[11px] text-white/80 truncate">{txn.description}</p>
                 {txn.category ? (
                   <p className="text-[9px] text-gray-400">{txn.category} · {txn.confidence}% confidence</p>
                 ) : (
-                  <p className="text-[9px] text-[#D4A843]/70">Uncategorised — click to assign</p>
+                  <p className="text-[9px] text-[#4AA5A8]/70">Uncategorised — click to assign</p>
                 )}
               </div>
               <span className={`text-[11px] font-medium shrink-0 ${txn.amount >= 0 ? "text-[#5AADA0]" : "text-white/70"}`}>
@@ -322,7 +322,7 @@ function ReconciliationTab() {
       {/* Smart Categorisation — Learning */}
       <Glass className="p-4">
         <div className="flex items-center gap-2 mb-3">
-          <GlowIcon name="Brain" size={14} color={KOWHAI} />
+          <GlowIcon name="Brain" size={14} color={TEAL_ACCENT} />
           <h3 className="text-xs font-semibold text-white/60">Smart Categorisation — Learning from Your Accountant</h3>
         </div>
         <p className="text-[10px] text-gray-400 mb-3">LEDGER learns when your accountant corrects a category. After 3 corrections, it auto-applies the new rule.</p>
@@ -369,11 +369,11 @@ function CashFlowTab() {
             <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickFormatter={v => `$${(v/1000).toFixed(0)}k`} />
             <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", border: `1px solid ${ACCENT}40`, color: "#1A1D29", boxShadow: "0 8px 24px rgba(26,29,41,0.10)", borderRadius: 8, fontSize: 11 }} formatter={(v: number) => formatNZD(v)} />
             <Area type="monotone" dataKey="predicted" stroke={ACCENT} fill="url(#cfGrad)" strokeWidth={2} strokeDasharray="6 3" />
-            <Area type="monotone" dataKey="actual" stroke={KOWHAI} fill="none" strokeWidth={2} dot={{ r: 4, fill: KOWHAI }} />
+            <Area type="monotone" dataKey="actual" stroke={TEAL_ACCENT} fill="none" strokeWidth={2} dot={{ r: 4, fill: TEAL_ACCENT }} />
           </AreaChart>
         </ResponsiveContainer>
         <div className="flex gap-4 mt-2 justify-center">
-          <span className="text-[9px] text-white/40 flex items-center gap-1"><span className="w-3 h-0.5 rounded" style={{ background: KOWHAI }} />Actual</span>
+          <span className="text-[9px] text-white/40 flex items-center gap-1"><span className="w-3 h-0.5 rounded" style={{ background: TEAL_ACCENT }} />Actual</span>
           <span className="text-[9px] text-white/40 flex items-center gap-1"><span className="w-3 h-0.5 rounded border-dashed border-b" style={{ borderColor: ACCENT }} />Predicted</span>
         </div>
       </Glass>
@@ -432,7 +432,7 @@ function CashFlowTab() {
       {/* Analytics Plus */}
       <Glass className="p-4">
         <div className="flex items-center gap-2 mb-3">
-          <GlowIcon name="Sparkles" size={14} color={KOWHAI} />
+          <GlowIcon name="Sparkles" size={14} color={TEAL_ACCENT} />
           <h3 className="text-xs font-semibold text-white/60">Analytics Plus — AI Insights</h3>
         </div>
         <div className="grid sm:grid-cols-3 gap-3">
@@ -441,9 +441,9 @@ function CashFlowTab() {
             { title: "Payroll is 42% of expenses", body: "Above the 35% benchmark for your industry. AROHA can model scenarios if you're considering restructuring.", icon: "Users" },
             { title: "GST buffer is tight", body: "At current rates, you'll have $1,200 spare when the next GST payment hits. LEDGER recommends setting aside an additional $2,000.", icon: "AlertTriangle" },
           ].map((insight, i) => (
-            <div key={i} className="p-3 rounded-xl" style={{ background: `${KOWHAI}08`, border: `1px solid ${KOWHAI}15` }}>
+            <div key={i} className="p-3 rounded-xl" style={{ background: `${TEAL_ACCENT}08`, border: `1px solid ${TEAL_ACCENT}15` }}>
               <div className="flex items-center gap-1.5 mb-2">
-                <GlowIcon name={insight.icon} size={12} color={KOWHAI} />
+                <GlowIcon name={insight.icon} size={12} color={TEAL_ACCENT} />
                 <span className="text-[10px] font-bold text-white/80">{insight.title}</span>
               </div>
               <p className="text-[10px] text-white/40 leading-relaxed">{insight.body}</p>

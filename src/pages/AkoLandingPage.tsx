@@ -39,7 +39,7 @@ const fadeUp = {
 const AGENTS = [
   { code: "APEX-AKO", role: "20 April 2026 licensing criteria specialist (~78 criteria)", icon: FileSearch },
   { code: "NOVA-AKO", role: "Whānau-facing transparency pack writer (reading age 12)", icon: FileText },
-  { code: "MANA-AKO", role: "Graduated enforcement readiness scorer (🟢🟡🔴)", icon: Gauge },
+  { code: "MANA-AKO", role: "Graduated enforcement readiness scorer ()", icon: Gauge },
 ];
 
 const COMPLIANCE = [
@@ -66,7 +66,7 @@ const WORKFLOWS = [
   {
     title: "Graduated Enforcement Readiness",
     sub: "MANA-AKO → APEX → AROHA",
-    desc: "Single dashboard per centre: 🟢🟡🔴 against each of the ~78 criteria, with the top 3 remediation priorities ranked by Director of Regulation focus areas.",
+    desc: "Single dashboard per centre: against each of the ~78 criteria, with the top 3 remediation priorities ranked by Director of Regulation focus areas.",
     icon: Gauge,
   },
 ];
@@ -339,7 +339,7 @@ export default function AkoLandingPage() {
               starterPrompts={[
                 "Match my Health & Safety policy against the 20 April 2026 criteria",
                 "Generate our four parent-facing transparency documents",
-                "Where am I 🔴 RED for the Director of Regulation regime?",
+                "Where am I RED for the Director of Regulation regime?",
               ]}
             />
           </div>

@@ -4,7 +4,7 @@ import { Mic, MicOff, Volume2, Layers, Radio, ChevronRight } from "lucide-react"
 import GeminiLiveVoice from "@/components/GeminiLiveVoice";
 import type { GeminiLiveVoiceHandle } from "@/components/GeminiLiveVoice";
 
-const KOWHAI = "#D4A843";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 type VoiceStatus = "ready" | "listening" | "processing" | "speaking";
@@ -19,7 +19,7 @@ const Glass = ({ children, className = "" }: { children: React.ReactNode; classN
 const STATUS_CONFIG: Record<VoiceStatus, { label: string; color: string; labelMi: string }> = {
   ready: { label: "Ready", color: POUNAMU, labelMi: "Kua rite" },
   listening: { label: "Listening...", color: "#E44D4D", labelMi: "E whakarongo ana..." },
-  processing: { label: "Processing...", color: KOWHAI, labelMi: "E mahi ana..." },
+  processing: { label: "Processing...", color: TEAL_ACCENT, labelMi: "E mahi ana..." },
   speaking: { label: "Speaking...", color: "#1A3A5C", labelMi: "E kōrero ana..." },
 };
 
@@ -97,7 +97,7 @@ export default function VoiceAgentPage() {
         <button
           onClick={() => setUseLive(!useLive)}
           className="text-[9px] px-2 py-1 rounded-full border transition-all"
-          style={{ borderColor: `${useLive ? POUNAMU : KOWHAI}50`, color: useLive ? POUNAMU : KOWHAI }}
+          style={{ borderColor: `${useLive ? POUNAMU : TEAL_ACCENT}50`, color: useLive ? POUNAMU : TEAL_ACCENT }}
         >
           {useLive ? "Gemini Live" : "Demo Mode"}
         </button>
@@ -145,8 +145,8 @@ export default function VoiceAgentPage() {
                 <motion.div key={i} initial={{ opacity: 0, x: t.role === "user" ? 10 : -10 }} animate={{ opacity: 1, x: 0 }}
                   className={`flex ${t.role === "user" ? "justify-end" : "justify-start"}`}>
                   <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-xs leading-relaxed ${t.role === "user" ? "text-foreground" : "text-foreground/70"}`} style={{
-                    background: t.role === "user" ? `${KOWHAI}20` : "rgba(255,255,255,0.04)",
-                    border: `1px solid ${t.role === "user" ? `${KOWHAI}30` : "rgba(255,255,255,0.06)"}`,
+                    background: t.role === "user" ? `${TEAL_ACCENT}20` : "rgba(255,255,255,0.04)",
+                    border: `1px solid ${t.role === "user" ? `${TEAL_ACCENT}30` : "rgba(255,255,255,0.06)"}`,
                     borderRadius: t.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
                   }}>
                     {t.text}

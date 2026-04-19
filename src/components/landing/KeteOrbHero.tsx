@@ -9,10 +9,10 @@ import { motion } from "framer-motion";
  * particle trails, bloom effects, and flowing light streams.
  */
 
-const KOWHAI = "#D4A843";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const TEAL_LIGHT = "#5AADA0";
-const GOLD_LIGHT = "#F0D078";
+const GOLD_LIGHT = "#A8DDDB";
 
 function useIsMobile() {
   return typeof window !== "undefined" && window.innerWidth < 640;
@@ -36,7 +36,7 @@ function MatarikiStars({ mobile }: { mobile: boolean }) {
     const sz = new Float32Array(count);
     const phases = new Float32Array(count);
     const c = new THREE.Color();
-    const palette = [KOWHAI, POUNAMU, TEAL_LIGHT, GOLD_LIGHT, "#FFFFFF"];
+    const palette = [TEAL_ACCENT, POUNAMU, TEAL_LIGHT, GOLD_LIGHT, "#FFFFFF"];
 
     for (let i = 0; i < count; i++) {
       const t = Math.random();
@@ -71,7 +71,7 @@ function MatarikiStars({ mobile }: { mobile: boolean }) {
       pos[idx * 3] = Math.sin(a) * 0.5 + (Math.random() - 0.5) * 0.03;
       pos[idx * 3 + 1] = 0.7 + Math.cos(a) * 0.4;
       pos[idx * 3 + 2] = (Math.random() - 0.5) * 0.03;
-      c.set(KOWHAI);
+      c.set(TEAL_ACCENT);
       col[idx * 3] = c.r;
       col[idx * 3 + 1] = c.g;
       col[idx * 3 + 2] = c.b;
@@ -177,7 +177,7 @@ function KeteWireframe() {
         const wobble = Math.sin(angle * 8 + i * 1.5) * 0.018;
         pts.push([Math.cos(angle) * (r + wobble), y, Math.sin(angle) * (r + wobble)]);
       }
-      result.push({ points: pts, color: i % 2 === 0 ? KOWHAI : POUNAMU, opacity: 0.45, width: 1.8 });
+      result.push({ points: pts, color: i % 2 === 0 ? TEAL_ACCENT : POUNAMU, opacity: 0.45, width: 1.8 });
     }
 
     for (let i = 0; i < 24; i++) {
@@ -191,7 +191,7 @@ function KeteWireframe() {
         const wobble = Math.sin(t * Math.PI * 5 + i) * 0.02;
         pts.push([Math.cos(angle) * (r + wobble), y, Math.sin(angle) * (r + wobble)]);
       }
-      result.push({ points: pts, color: i % 3 === 0 ? TEAL_LIGHT : KOWHAI, opacity: 0.3, width: 1.0 });
+      result.push({ points: pts, color: i % 3 === 0 ? TEAL_LIGHT : TEAL_ACCENT, opacity: 0.3, width: 1.0 });
     }
 
     const h1: [number, number, number][] = [];
@@ -200,7 +200,7 @@ function KeteWireframe() {
       const a = -Math.PI * 0.38 + t * Math.PI * 0.76;
       h1.push([Math.sin(a) * 0.5, 0.7 + Math.cos(a) * 0.42, 0]);
     }
-    result.push({ points: h1, color: KOWHAI, opacity: 0.6, width: 2.5 });
+    result.push({ points: h1, color: TEAL_ACCENT, opacity: 0.6, width: 2.5 });
 
     const h2: [number, number, number][] = [];
     for (let i = 0; i <= 36; i++) {
@@ -281,7 +281,7 @@ function EnergyField() {
       </mesh>
       <mesh ref={ring2}>
         <torusGeometry args={[1.65, 0.006, 8, 128]} />
-        <meshBasicMaterial color={KOWHAI} transparent opacity={0.18} />
+        <meshBasicMaterial color={TEAL_ACCENT} transparent opacity={0.18} />
       </mesh>
       <mesh ref={ring3}>
         <torusGeometry args={[1.75, 0.004, 8, 128]} />
@@ -301,7 +301,7 @@ function EnergyStreams({ mobile }: { mobile: boolean }) {
     const col = new Float32Array(streamCount * 3);
     const vel = new Float32Array(streamCount * 3);
     const c = new THREE.Color();
-    const palette = [KOWHAI, POUNAMU, TEAL_LIGHT, GOLD_LIGHT];
+    const palette = [TEAL_ACCENT, POUNAMU, TEAL_LIGHT, GOLD_LIGHT];
 
     for (let i = 0; i < streamCount; i++) {
       const angle = Math.random() * Math.PI * 2;
@@ -384,7 +384,7 @@ function DataNodes({ mobile }: { mobile: boolean }) {
 
   const nodes = useMemo(() => {
     const result: { pos: [number, number, number]; color: string }[] = [];
-    const palette = [KOWHAI, POUNAMU, TEAL_LIGHT, GOLD_LIGHT];
+    const palette = [TEAL_ACCENT, POUNAMU, TEAL_LIGHT, GOLD_LIGHT];
     for (let i = 0; i < nodeCount; i++) {
       const t = (i + 0.5) / nodeCount;
       const angle = t * Math.PI * 2 + (i % 2) * 0.3;
@@ -433,7 +433,7 @@ function DataPulse({ mobile }: { mobile: boolean }) {
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
     const c = new THREE.Color();
-    const palette = [KOWHAI, POUNAMU, TEAL_LIGHT];
+    const palette = [TEAL_ACCENT, POUNAMU, TEAL_LIGHT];
     for (let i = 0; i < count; i++) {
       pos[i * 3] = 0; pos[i * 3 + 1] = 0; pos[i * 3 + 2] = 0;
       c.set(palette[i % palette.length]);
@@ -492,7 +492,7 @@ function AmbientDust({ count = 60 }: { count?: number }) {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
       </bufferGeometry>
-      <pointsMaterial color={KOWHAI} size={0.02} transparent opacity={0.22} sizeAttenuation blending={THREE.AdditiveBlending} />
+      <pointsMaterial color={TEAL_ACCENT} size={0.02} transparent opacity={0.22} sizeAttenuation blending={THREE.AdditiveBlending} />
     </points>
   );
 }
@@ -503,7 +503,7 @@ const LAYERS = [
   { name: "Memory", icon: "◈", color: TEAL_LIGHT, angle: 30, radius: 50, yOff: -12 },
   { name: "Reason", icon: "◇", color: "#FFFFFF", angle: 90, radius: 46, yOff: 0 },
   { name: "Action", icon: "▸", color: GOLD_LIGHT, angle: 150, radius: 50, yOff: 12 },
-  { name: "Explain", icon: "◌", color: KOWHAI, angle: 210, radius: 48, yOff: 6 },
+  { name: "Explain", icon: "◌", color: TEAL_ACCENT, angle: 210, radius: 48, yOff: 6 },
   { name: "Simulate", icon: "⬡", color: "#7BA8C4", angle: 270, radius: 46, yOff: -4 },
 ];
 
@@ -680,7 +680,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
       <div
         className="absolute w-[520px] h-[520px] sm:w-[750px] sm:h-[750px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(58,125,110,0.12) 0%, rgba(212,168,67,0.06) 35%, transparent 65%)",
+          background: "radial-gradient(circle, rgba(58,125,110,0.12) 0%, rgba(74,165,168,0.06) 35%, transparent 65%)",
           filter: "blur(100px)",
         }}
       />
@@ -695,7 +695,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
       <motion.div
         className="absolute w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(212,168,67,0.08) 0%, rgba(240,208,120,0.04) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(74,165,168,0.08) 0%, rgba(168,221,219,0.04) 40%, transparent 70%)",
           filter: "blur(40px)",
         }}
         animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
@@ -718,7 +718,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
             dpr={[1, mobile ? 1.5 : 2]}
           >
             <ambientLight intensity={0.15} />
-            <pointLight position={[3, 3, 3]} intensity={0.6} color={KOWHAI} />
+            <pointLight position={[3, 3, 3]} intensity={0.6} color={TEAL_ACCENT} />
             <pointLight position={[-3, -2, 2]} intensity={0.35} color={POUNAMU} />
             <pointLight position={[0, -3, 0]} intensity={0.2} color={TEAL_LIGHT} />
 
@@ -732,7 +732,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
             <AmbientDust count={mobile ? 30 : 60} />
 
             <OrbRimRing radius={1.35} color={POUNAMU} speed={0.025} tilt={0.15} />
-            <OrbRimRing radius={1.35} color={KOWHAI} speed={-0.018} tilt={-1.2} />
+            <OrbRimRing radius={1.35} color={TEAL_ACCENT} speed={-0.018} tilt={-1.2} />
             <OrbRimRing radius={1.35} color={TEAL_LIGHT} speed={0.012} tilt={0.8} />
           </Canvas>
         </Suspense>
@@ -742,13 +742,13 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
         <div className="text-center mt-8 px-4">
           <p
             className="text-[10px] tracking-[4px] uppercase mb-3"
-            style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(212,168,67,0.6)" }}
+            style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(74,165,168,0.6)" }}
           >
             Ngā Kete · 5 Industries · Tangible Outcomes
           </p>
           <h2
             className="text-2xl sm:text-4xl tracking-[0.02em] text-foreground mb-3"
-            style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif", textShadow: "0 0 40px rgba(212,168,67,0.15)" }}
+            style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif", textShadow: "0 0 40px rgba(74,165,168,0.15)" }}
           >
             More efficiency. Less admin. Real evidence.
           </h2>

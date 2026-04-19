@@ -12,7 +12,7 @@ import {
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { toast } from "sonner";
 
-const BRAND = { gold: "#D4A843", teal: "#3A7D6E", accent: "#5AADA0" };
+const BRAND = { gold: "#4AA5A8", teal: "#3A7D6E", accent: "#5AADA0" };
 
 /* ── Severity Badge ─────────────────────────────────── */
 const SeverityBadge = ({ severity }: { severity: Severity }) => (
@@ -298,7 +298,7 @@ const IncidentDetail = ({ incident, onBack }: { incident: Incident; onBack: () =
           <div className="absolute left-[7px] top-2 bottom-2 w-px" style={{ background: "rgba(255,255,255,0.08)" }} />
           {incident.timeline.map((evt, i) => (
             <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }} className="relative">
-              <div className="absolute -left-6 top-1.5 h-3 w-3 rounded-full border-2" style={{ borderColor: BRAND.teal, background: "#FAFBFC" }} />
+              <div className="absolute -left-6 top-1.5 h-3 w-3 rounded-full border-2" style={{ borderColor: BRAND.teal, background: "transparent" }} />
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-[10px]" style={{ color: BRAND.teal }}>{evt.time}</span>

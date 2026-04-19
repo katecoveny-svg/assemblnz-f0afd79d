@@ -8,7 +8,7 @@ import {
   Layers, Brain, Globe, Menu, X, Users
 } from "lucide-react";
 
-const KOWHAI = "#D4A843";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 const NAV_ITEMS = [
@@ -42,7 +42,7 @@ export default function HangaLayout() {
       {/* Header */}
       <div className="p-4 border-b" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${POUNAMU}, ${KOWHAI})` }}>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${POUNAMU}, ${TEAL_ACCENT})` }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               {/* Kete (woven basket) */}
               <path d="M4 8 C4 8 5 4 12 4 C19 4 20 8 20 8" />
@@ -67,8 +67,8 @@ export default function HangaLayout() {
 
       {/* IHO Brain indicator */}
       {!collapsed && (
-        <div className="mx-3 mt-3 px-3 py-2 rounded-lg flex items-center gap-2" style={{ background: "rgba(212,168,67,0.08)", border: "1px solid rgba(212,168,67,0.15)" }}>
-          <Brain size={14} style={{ color: KOWHAI }} />
+        <div className="mx-3 mt-3 px-3 py-2 rounded-lg flex items-center gap-2" style={{ background: "rgba(74,165,168,0.08)", border: "1px solid rgba(74,165,168,0.15)" }}>
+          <Brain size={14} style={{ color: TEAL_ACCENT }} />
           <span className="text-[10px] text-gray-500">Orchestrated by IHO</span>
           <div className="ml-auto w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: POUNAMU }} />
         </div>
@@ -95,19 +95,19 @@ export default function HangaLayout() {
                 active ? "text-foreground" : "text-gray-500 hover:text-[#1A1D29] hover:bg-white/[0.03]"
               }`}
               style={active ? {
-                background: "linear-gradient(135deg, rgba(212,168,67,0.12), rgba(58,125,110,0.08))",
-                border: "1px solid rgba(212,168,67,0.2)",
-                boxShadow: "0 0 20px rgba(212,168,67,0.06)",
+                background: "linear-gradient(135deg, rgba(74,165,168,0.12), rgba(58,125,110,0.08))",
+                border: "1px solid rgba(74,165,168,0.2)",
+                boxShadow: "0 0 20px rgba(74,165,168,0.06)",
               } : {}}
             >
-              <item.icon size={collapsed ? 20 : 16} style={{ color: active ? KOWHAI : undefined }} />
+              <item.icon size={collapsed ? 20 : 16} style={{ color: active ? TEAL_ACCENT : undefined }} />
               {!collapsed && (
                 <span className="truncate text-xs font-medium">
                   {lang === "mi" ? item.labelMi : item.label}
                 </span>
               )}
               {active && !collapsed && (
-                <div className="ml-auto w-1.5 h-1.5 rounded-full" style={{ background: KOWHAI }} />
+                <div className="ml-auto w-1.5 h-1.5 rounded-full" style={{ background: TEAL_ACCENT }} />
               )}
             </Link>
           );
@@ -124,7 +124,7 @@ export default function HangaLayout() {
   );
 
   return (
-    <div className="min-h-screen flex" style={{ background: "#FAFBFC" }}>
+    <div className="min-h-screen flex" style={{ background: "transparent" }}>
       {/* Desktop sidebar */}
       <aside
         className={`hidden lg:flex flex-col shrink-0 sticky top-0 h-screen transition-all duration-300 border-r`}

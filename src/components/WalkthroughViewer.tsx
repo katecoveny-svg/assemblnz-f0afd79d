@@ -122,7 +122,7 @@ const WalkthroughViewer = ({ glbUrl, color = "#5AADA0" }: WalkthroughViewerProps
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full rounded-lg overflow-hidden" style={{ background: "#FAFBFC" }}>
+    <div ref={containerRef} className="relative w-full rounded-lg overflow-hidden" style={{ background: "transparent" }}>
       {/* Controls overlay */}
       <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
         <div className="px-3 py-1.5 rounded-full text-[10px] font-mono"

@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Compass, Loader2, Send, Sparkles } from "lucide-react";
 
-const KOWHAI = "#D4A843";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const CHARCOAL = "#3D4250";
 
@@ -53,7 +53,7 @@ export default function VoyagePlannerPage() {
   };
 
   return (
-    <main className="min-h-screen" style={{ background: "#FAFBFC" }}>
+    <main className="min-h-screen" style={{ background: "transparent" }}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 pb-24">
         <Link to="/toro/dashboard" className="inline-flex items-center gap-2 text-sm hover:opacity-70 transition-opacity mb-8" style={{ color: "#9CA3AF" }}>
           <ArrowLeft className="w-4 h-4" /> Back to Tōro
@@ -61,11 +61,11 @@ export default function VoyagePlannerPage() {
 
         <header className="mb-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: `${KOWHAI}15`, border: `1px solid ${KOWHAI}30` }}>
-              <Compass className="w-5 h-5" style={{ color: KOWHAI }} />
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: `${TEAL_ACCENT}15`, border: `1px solid ${TEAL_ACCENT}30` }}>
+              <Compass className="w-5 h-5" style={{ color: TEAL_ACCENT }} />
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-[0.2em]" style={{ color: KOWHAI }}>Voyage Agent</p>
+              <p className="text-[10px] uppercase tracking-[0.2em]" style={{ color: TEAL_ACCENT }}>Voyage Agent</p>
               <h1 className="font-display text-3xl sm:text-4xl" style={{ fontWeight: 300, color: CHARCOAL }}>Plan a trip</h1>
             </div>
           </div>
@@ -76,7 +76,7 @@ export default function VoyagePlannerPage() {
         </header>
 
         {/* Composer */}
-        <div className="rounded-3xl overflow-hidden shadow-sm" style={{ background: "white", border: `1px solid ${KOWHAI}20` }}>
+        <div className="rounded-3xl overflow-hidden shadow-sm" style={{ background: "white", border: `1px solid ${TEAL_ACCENT}20` }}>
           <textarea
             ref={inputRef}
             value={prompt}
@@ -88,13 +88,13 @@ export default function VoyagePlannerPage() {
             className="w-full p-5 text-sm resize-none outline-none bg-transparent"
             style={{ color: CHARCOAL, fontFamily: "Lato, sans-serif" }}
           />
-          <div className="flex items-center justify-between px-5 py-3 border-t" style={{ borderColor: `${KOWHAI}15`, background: "rgba(212,168,67,0.04)" }}>
+          <div className="flex items-center justify-between px-5 py-3 border-t" style={{ borderColor: `${TEAL_ACCENT}15`, background: "rgba(74,165,168,0.04)" }}>
             <p className="text-[10px]" style={{ color: "#9CA3AF" }}>⌘/Ctrl + Enter to send</p>
             <button
               onClick={submit}
               disabled={loading || !prompt.trim()}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-all disabled:opacity-40"
-              style={{ background: KOWHAI, color: "white" }}
+              style={{ background: TEAL_ACCENT, color: "white" }}
             >
               {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
               {loading ? "Planning…" : "Plan trip"}
@@ -127,7 +127,7 @@ export default function VoyagePlannerPage() {
                   key={i}
                   onClick={() => { setPrompt(ex); inputRef.current?.focus(); }}
                   className="text-left rounded-2xl p-4 hover:shadow-sm transition-all"
-                  style={{ background: "white", border: `1px solid ${KOWHAI}15`, color: CHARCOAL }}
+                  style={{ background: "white", border: `1px solid ${TEAL_ACCENT}15`, color: CHARCOAL }}
                 >
                   <p className="text-xs leading-relaxed">{ex}</p>
                 </button>
@@ -137,13 +137,13 @@ export default function VoyagePlannerPage() {
         )}
 
         {/* How it works */}
-        <section className="mt-12 rounded-3xl p-6" style={{ background: "white", border: `1px solid ${KOWHAI}10` }}>
-          <p className="text-[10px] uppercase tracking-[0.2em] mb-4" style={{ color: KOWHAI }}>How Voyage works</p>
+        <section className="mt-12 rounded-3xl p-6" style={{ background: "white", border: `1px solid ${TEAL_ACCENT}10` }}>
+          <p className="text-[10px] uppercase tracking-[0.2em] mb-4" style={{ color: TEAL_ACCENT }}>How Voyage works</p>
           <ol className="space-y-3 text-xs" style={{ color: CHARCOAL }}>
-            <li className="flex gap-3"><span className="font-mono" style={{ color: KOWHAI }}>01</span><span>You describe the trip — families, dates, vibe, budget.</span></li>
-            <li className="flex gap-3"><span className="font-mono" style={{ color: KOWHAI }}>02</span><span>Voyage drafts destinations, days, activities and family convoys with real coordinates.</span></li>
-            <li className="flex gap-3"><span className="font-mono" style={{ color: KOWHAI }}>03</span><span>You're dropped into <strong>Command Mode</strong> with a live map, timeline and day-by-day brief.</span></li>
-            <li className="flex gap-3"><span className="font-mono" style={{ color: KOWHAI }}>04</span><span>Edit, share with the other whānau, and lock in bookings.</span></li>
+            <li className="flex gap-3"><span className="font-mono" style={{ color: TEAL_ACCENT }}>01</span><span>You describe the trip — families, dates, vibe, budget.</span></li>
+            <li className="flex gap-3"><span className="font-mono" style={{ color: TEAL_ACCENT }}>02</span><span>Voyage drafts destinations, days, activities and family convoys with real coordinates.</span></li>
+            <li className="flex gap-3"><span className="font-mono" style={{ color: TEAL_ACCENT }}>03</span><span>You're dropped into <strong>Command Mode</strong> with a live map, timeline and day-by-day brief.</span></li>
+            <li className="flex gap-3"><span className="font-mono" style={{ color: TEAL_ACCENT }}>04</span><span>Edit, share with the other whānau, and lock in bookings.</span></li>
           </ol>
         </section>
       </div>

@@ -16,8 +16,8 @@ const PoweredByAssembl = ({ variant = "dark" }: { variant?: "dark" | "light" }) 
           stroke={isDark ? "rgba(58,125,110,0.3)" : "rgba(58,125,110,0.25)"} 
           strokeWidth="0.5" />
         <path d="M4 16L14 6L18 10L22 2L28 16H4Z" 
-          fill={isDark ? "rgba(212,168,83,0.08)" : "rgba(212,168,83,0.06)"} 
-          stroke={isDark ? "rgba(212,168,83,0.2)" : "rgba(212,168,83,0.15)"} 
+          fill={isDark ? "rgba(74,165,168,0.08)" : "rgba(74,165,168,0.06)"} 
+          stroke={isDark ? "rgba(74,165,168,0.2)" : "rgba(74,165,168,0.15)"} 
           strokeWidth="0.5" />
       </svg>
       <div className="text-center">
@@ -44,8 +44,8 @@ const PoweredByAssembl = ({ variant = "dark" }: { variant?: "dark" | "light" }) 
           stroke={isDark ? "rgba(58,125,110,0.3)" : "rgba(58,125,110,0.25)"} 
           strokeWidth="0.5" />
         <path d="M4 16L14 6L18 10L22 2L28 16H4Z" 
-          fill={isDark ? "rgba(212,168,83,0.08)" : "rgba(212,168,83,0.06)"} 
-          stroke={isDark ? "rgba(212,168,83,0.2)" : "rgba(212,168,83,0.15)"} 
+          fill={isDark ? "rgba(74,165,168,0.08)" : "rgba(74,165,168,0.06)"} 
+          stroke={isDark ? "rgba(74,165,168,0.2)" : "rgba(74,165,168,0.15)"} 
           strokeWidth="0.5" />
       </svg>
     </div>

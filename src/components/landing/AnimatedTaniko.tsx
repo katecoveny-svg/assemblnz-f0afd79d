@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 /** Animated tāniko zigzag pattern — use as section divider or card decoration */
-export const TanikoDivider = ({ color = "#D4A843", width = 300, className = "" }: { color?: string; width?: number; className?: string }) => (
+export const TanikoDivider = ({ color = "#4AA5A8", width = 300, className = "" }: { color?: string; width?: number; className?: string }) => (
   <motion.svg
     width={width}
     height="12"
@@ -46,7 +46,7 @@ export const TanikoDivider = ({ color = "#D4A843", width = 300, className = "" }
 );
 
 /** Animated koru spiral — decorative corner/accent element */
-export const KoruAccent = ({ color = "#D4A843", size = 60, className = "", delay = 0 }: { color?: string; size?: number; className?: string; delay?: number }) => (
+export const KoruAccent = ({ color = "#4AA5A8", size = 60, className = "", delay = 0 }: { color?: string; size?: number; className?: string; delay?: number }) => (
   <motion.svg
     width={size}
     height={size}
@@ -73,7 +73,7 @@ export const KoruAccent = ({ color = "#D4A843", size = 60, className = "", delay
 );
 
 /** Background koru pattern — subtle repeated koru shapes as section texture */
-export const KoruBackground = ({ color = "#D4A843", opacity = 0.03 }: { color?: string; opacity?: number }) => (
+export const KoruBackground = ({ color = "#4AA5A8", opacity = 0.03 }: { color?: string; opacity?: number }) => (
   <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ opacity }}>
     <svg width="100%" height="100%" className="absolute inset-0">
       <defs>
@@ -89,7 +89,7 @@ export const KoruBackground = ({ color = "#D4A843", opacity = 0.03 }: { color?: 
 );
 
 /** Maunga ridge divider — mountain silhouette as section break */
-export const MaungaDivider = ({ color = "#D4A843", width = 300, className = "" }: { color?: string; width?: number; className?: string }) => (
+export const MaungaDivider = ({ color = "#4AA5A8", width = 300, className = "" }: { color?: string; width?: number; className?: string }) => (
   <motion.svg
     width={width}
     height="16"
@@ -122,7 +122,7 @@ export const MaungaDivider = ({ color = "#D4A843", width = 300, className = "" }
 );
 
 /** Animated section gradient border — replaces plain `borderTop: 1px solid` */
-export const GradientBorder = ({ colors = ["#D4A843", "#3A7D6E", "#5B8FA8"] }: { colors?: string[] }) => (
+export const GradientBorder = ({ colors = ["#4AA5A8", "#3A7D6E", "#5B8FA8"] }: { colors?: string[] }) => (
   <motion.div
     className="absolute top-0 left-0 right-0 h-px overflow-hidden"
     initial={{ opacity: 0 }}
@@ -141,7 +141,7 @@ export const GradientBorder = ({ colors = ["#D4A843", "#3A7D6E", "#5B8FA8"] }: {
 );
 
 /** Full-width maunga ridge section divider — jagged mountain peaks as a visual break */
-export const MaungaRidgeDivider = ({ color = "#D4A843", flip = false, className = "" }: { color?: string; flip?: boolean; className?: string }) => (
+export const MaungaRidgeDivider = ({ color = "#4AA5A8", flip = false, className = "" }: { color?: string; flip?: boolean; className?: string }) => (
   <motion.div
     className={`absolute ${flip ? "bottom-0" : "top-0"} left-0 right-0 pointer-events-none ${className}`}
     style={{ height: "40px", transform: flip ? "scaleY(-1)" : undefined }}
@@ -169,7 +169,7 @@ export const MaungaRidgeDivider = ({ color = "#D4A843", flip = false, className 
 );
 
 /** Subtle maunga watermark for card backgrounds */
-export const MaungaWatermark = ({ color = "#D4A843" }: { color?: string }) => (
+export const MaungaWatermark = ({ color = "#4AA5A8" }: { color?: string }) => (
   <div className="absolute bottom-0 left-0 right-0 pointer-events-none overflow-hidden rounded-b-[20px]" style={{ height: "40%" }}>
     <svg viewBox="0 0 400 80" preserveAspectRatio="none" className="w-full h-full">
       <path

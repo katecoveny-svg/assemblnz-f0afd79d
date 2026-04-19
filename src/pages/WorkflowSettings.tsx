@@ -50,7 +50,7 @@ const WORKFLOW_ICONS: Record<string, any> = {
 };
 
 const glassCard: React.CSSProperties = {
-  background: "#FAFBFC",
+  background: "transparent",
   boxShadow: `
     6px 6px 16px rgba(166,166,180,0.35),
     -6px -6px 16px rgba(255,255,255,0.85),
@@ -194,7 +194,7 @@ const WorkflowSettings = () => {
                             { icon: Forward, label: "Forward-able" },
                             { icon: FileDigit, label: "Footnote-able" },
                           ].map(({ icon: Ico, label }) => (
-                            <span key={label} className="inline-flex items-center gap-1 text-[9px] px-2 py-0.5 rounded-full bg-[#E8A948]/[0.08] border border-[#E8A948]/[0.15] text-[#B8860B] font-medium">
+                            <span key={label} className="inline-flex items-center gap-1 text-[9px] px-2 py-0.5 rounded-full bg-[#4AA5A8]/[0.08] border border-[#4AA5A8]/[0.15] text-[#B8860B] font-medium">
                               <Ico size={10} /> {label}
                             </span>
                           ))}

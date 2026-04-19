@@ -183,7 +183,7 @@ const InvestPage = () => {
   const stat4 = useCountUp(2.6, 1600, "M", "$");
 
   return (
-    <div className="min-h-screen" style={{ background: "#FAFBFC", color: "#3D4250" }}>
+    <div className="min-h-screen" style={{ background: "transparent", color: "#3D4250" }}>
       <BrandNav />
       <SectionNav />
 
@@ -194,7 +194,7 @@ const InvestPage = () => {
           <motion.div variants={fadeUp}>
             <span
               className="inline-block rounded-full px-4 py-1.5 text-[12px] font-mono font-medium mb-8"
-              style={{ background: "rgba(212,168,67,0.1)", color: "#3A6A9C", border: "1px solid rgba(212,168,67,0.2)" }}
+              style={{ background: "rgba(74,165,168,0.1)", color: "#3A6A9C", border: "1px solid rgba(74,165,168,0.2)" }}
             >
               First to market in New Zealand
             </span>
@@ -291,7 +291,7 @@ const InvestPage = () => {
                 <Glass className="p-6 flex gap-4">
                   <div
                     className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ background: "rgba(212,168,67,0.08)" }}
+                    style={{ background: "rgba(74,165,168,0.08)" }}
                   >
                     <f.icon size={18} style={{ color: "#3A6A9C" }} />
                   </div>
@@ -533,7 +533,7 @@ const InvestPage = () => {
               {/* dot */}
               <div
                 className="absolute -left-[37px] top-1 w-3 h-3 rounded-full border-2"
-                style={{ borderColor: p.color, background: "#FAFBFC", boxShadow: `0 0 12px ${p.color}40` }}
+                style={{ borderColor: p.color, background: "transparent", boxShadow: `0 0 12px ${p.color}40` }}
               />
               <span className="text-[11px] font-mono text-white/35 block mb-1">{p.time}</span>
               <h3 className="font-display font-bold text-lg mb-1">

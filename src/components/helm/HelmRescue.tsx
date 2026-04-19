@@ -57,7 +57,7 @@ export default function HelmRescue() {
 
   const statusBadge = (status: string) => {
     const map: Record<string, { icon: any; color: string; bg: string }> = {
-      requested: { icon: Clock, color: "text-[#D4A843]", bg: "bg-amber-500/10" },
+      requested: { icon: Clock, color: "text-[#4AA5A8]", bg: "bg-amber-500/10" },
       picked_up: { icon: Truck, color: "text-blue-400", bg: "bg-[#1A3A5C]/10" },
       delivered: { icon: CheckCircle, color: "text-[#5AADA0]", bg: "bg-[#5AADA0]/10" },
     };
@@ -67,7 +67,7 @@ export default function HelmRescue() {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "#FAFBFC" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: "transparent" }}>
       <div className="flex items-center gap-2">
         <Truck size={16} style={{ color: HELM_COLOR }} />
         <h2 className="text-sm font-semibold text-white/90">Rescue Delivery</h2>

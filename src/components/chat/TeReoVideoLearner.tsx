@@ -48,11 +48,11 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
   const [revealedVocab, setRevealedVocab] = useState<Set<number>>(new Set());
 
   const EXAMPLES = [
-    { id: "JfD0nHrJDC0", title: "How chords work", icon: Music, accent: "#D4A843" },
+    { id: "JfD0nHrJDC0", title: "How chords work", icon: Music, accent: "#4AA5A8" },
     { id: "WFtTdf3I6Ug", title: "Understanding fractals", icon: Shapes, accent: "#3A7D6E" },
-    { id: "U0EySK4T2aY", title: "Logic behind Chinese characters", icon: Type, accent: "#D4A843" },
+    { id: "U0EySK4T2aY", title: "Logic behind Chinese characters", icon: Type, accent: "#4AA5A8" },
     { id: "f-ldPgEfAHI", title: "Magical mitosis", icon: Microscope, accent: "#3A7D6E" },
-    { id: "hfCwwG8Ats0", title: "The craft of the casserole", icon: CookingPot, accent: "#D4A843" },
+    { id: "hfCwwG8Ats0", title: "The craft of the casserole", icon: CookingPot, accent: "#4AA5A8" },
   ];
 
   const handleGenerate = async (inputUrl?: string) => {
@@ -100,7 +100,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
     : 0;
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden" style={{ background: "#FAFBFC" }}>
+    <div className="flex-1 flex flex-col overflow-hidden" style={{ background: "transparent" }}>
       {/* Header */}
       <div className="px-4 pt-4 pb-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
         <div className="flex items-center gap-2 mb-3">

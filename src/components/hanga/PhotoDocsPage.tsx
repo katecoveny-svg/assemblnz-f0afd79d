@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import { AaaipGuardBadge, useAaaipGuard } from "@/aaaip";
 
-const KOWHAI = "#D4A843";
+const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 interface Photo {
@@ -13,10 +13,10 @@ interface Photo {
 }
 
 const DEMO_PHOTOS: Photo[] = [
-  { id: "1", name: "scaffold-level4-north.jpg", timestamp: "2 Apr 2026 09:15", location: "Level 4 North", aiAnalysis: "⚠️ Missing edge protection detected on north face. Scaffold tag expired (30 Mar). Recommend immediate inspection.", thumbnail: "📸", analyzed: true },
-  { id: "2", name: "trench-services-B.jpg", timestamp: "2 Apr 2026 08:42", location: "Ground East", aiAnalysis: "⚠️ Trench depth exceeds 1.5m without visible shoring. NZS 4431 compliance concern. Workers observed without hard hats.", thumbnail: "📸", analyzed: true },
-  { id: "3", name: "crane-exclusion-zone.jpg", timestamp: "1 Apr 2026 14:30", location: "Site Perimeter", aiAnalysis: "✅ Exclusion barriers in place. Signage visible. Spotter positioned correctly.", thumbnail: "📸", analyzed: true },
-  { id: "4", name: "level2-slab-pour.jpg", timestamp: "1 Apr 2026 11:00", location: "Level 2 Central", aiAnalysis: "✅ Concrete pour proceeding as per methodology. PPE compliance observed. Vibrator in use.", thumbnail: "📸", analyzed: true },
+  { id: "1", name: "scaffold-level4-north.jpg", timestamp: "2 Apr 2026 09:15", location: "Level 4 North", aiAnalysis: "️ Missing edge protection detected on north face. Scaffold tag expired (30 Mar). Recommend immediate inspection.", thumbnail: "📸", analyzed: true },
+  { id: "2", name: "trench-services-B.jpg", timestamp: "2 Apr 2026 08:42", location: "Ground East", aiAnalysis: "️ Trench depth exceeds 1.5m without visible shoring. NZS 4431 compliance concern. Workers observed without hard hats.", thumbnail: "📸", analyzed: true },
+  { id: "3", name: "crane-exclusion-zone.jpg", timestamp: "1 Apr 2026 14:30", location: "Site Perimeter", aiAnalysis: "Exclusion barriers in place. Signage visible. Spotter positioned correctly.", thumbnail: "📸", analyzed: true },
+  { id: "4", name: "level2-slab-pour.jpg", timestamp: "1 Apr 2026 11:00", location: "Level 2 Central", aiAnalysis: "Concrete pour proceeding as per methodology. PPE compliance observed. Vibrator in use.", thumbnail: "📸", analyzed: true },
 ];
 
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
@@ -91,7 +91,7 @@ export default function PhotoDocsPage() {
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><Camera size={22} style={{ color: KOWHAI }} /> Photo Documentation</h1>
+          <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><Camera size={22} style={{ color: TEAL_ACCENT }} /> Photo Documentation</h1>
           <p className="text-xs text-[#9CA3AF]">AI-Powered Hazard Detection — Whakaahua</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
@@ -119,7 +119,7 @@ export default function PhotoDocsPage() {
           style={{ borderColor: "rgba(255,255,255,0.1)" }}>
           {uploading ? (
             <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }}>
-              <Layers size={40} style={{ color: KOWHAI }} className="mx-auto mb-3" />
+              <Layers size={40} style={{ color: TEAL_ACCENT }} className="mx-auto mb-3" />
             </motion.div>
           ) : (
             <Upload size={40} className="text-[#9CA3AF] mx-auto mb-3" />
@@ -152,9 +152,9 @@ export default function PhotoDocsPage() {
                 {!photo.analyzed && (
                   <div className="mt-2 flex items-center gap-1">
                     <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2 }}>
-                      <Layers size={10} style={{ color: KOWHAI }} />
+                      <Layers size={10} style={{ color: TEAL_ACCENT }} />
                     </motion.div>
-                    <span className="text-[10px]" style={{ color: KOWHAI }}>Analyzing...</span>
+                    <span className="text-[10px]" style={{ color: TEAL_ACCENT }}>Analyzing...</span>
                   </div>
                 )}
               </div>

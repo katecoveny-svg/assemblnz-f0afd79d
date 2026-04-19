@@ -68,7 +68,7 @@ export default function EvidencePackSharePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "transparent" }}>
         <div className="animate-pulse text-sm" style={{ color: "#9CA3AF" }}>
           Loading evidence pack…
         </div>
@@ -78,11 +78,11 @@ export default function EvidencePackSharePage() {
 
   if (error || !pack) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#FAFBFC" }}>
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "transparent" }}>
         <SEO title="Evidence pack unavailable | Assembl" description="This shared evidence pack is no longer available." />
         <div className="text-center max-w-sm">
-          <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-4" style={{ background: "rgba(232,169,72,0.12)" }}>
-            <AlertTriangle size={20} style={{ color: "#E8A948" }} />
+          <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-4" style={{ background: "rgba(74,165,168,0.12)" }}>
+            <AlertTriangle size={20} style={{ color: "#4AA5A8" }} />
           </div>
           <h1 className="text-lg font-medium mb-2" style={{ color: CHARCOAL }}>
             This pack isn't available
@@ -114,7 +114,7 @@ export default function EvidencePackSharePage() {
     : [];
 
   return (
-    <div className="min-h-screen" style={{ background: "#FAFBFC" }}>
+    <div className="min-h-screen" style={{ background: "transparent" }}>
       <SEO
         title={`${pack.action_type} — evidence pack | Assembl`}
         description={`Signed evidence pack from a ${keteLabel} workflow on Assembl. Watermark ${pack.watermark.slice(0, 8)}.`}
@@ -189,7 +189,7 @@ export default function EvidencePackSharePage() {
                 const status = (f.status ?? f.risk_level ?? "info").toLowerCase();
                 const isOk = status === "ok" || status === "low" || status === "pass";
                 const isWarn = status === "warn" || status === "medium" || status === "review";
-                const colour = isOk ? TEAL : isWarn ? "#E8A948" : "#C85A54";
+                const colour = isOk ? TEAL : isWarn ? "#4AA5A8" : "#C85A54";
                 return (
                   <div
                     key={i}

@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════
 // Sovereignty Panel — Integrated into kete dashboards
 // Shows Māori data registry, governance gates, and audit trail
-// Brand palette: Gold #D4A843, Pounamu #3A7D6E/#5AADA0, Navy #1A3A5C, Bone #F5F0E8
+// Brand palette: Gold #4AA5A8, Pounamu #3A7D6E/#5AADA0, Navy #1A3A5C, Bone #F5F0E8
 // ═══════════════════════════════════════════════════════════════
 
 import React, { useState } from "react";
@@ -18,7 +18,7 @@ interface SovereigntyPanelProps {
 // Mārama brand-compliant status colors
 const TAPU_COLOR = "#C85A54";   // Warm red — Mārama earth tone
 const NOA_COLOR = "#5AADA0";    // Pounamu teal
-const PENDING_COLOR = "#D4A843"; // Kōwhai gold
+const PENDING_COLOR = "#4AA5A8"; // Kōwhai gold
 
 const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }) => {
   const stats = useSovereigntyStats(kete);
@@ -47,7 +47,7 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
           <p className="text-[10px] text-white/40">Te Mana Raraunga Control Plane</p>
         </div>
         {stats.pendingGates > 0 && (
-          <span className="ml-auto px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: "rgba(212,168,67,0.2)", color: PENDING_COLOR }}>
+          <span className="ml-auto px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: "rgba(74,165,168,0.2)", color: PENDING_COLOR }}>
             {stats.pendingGates} pending
           </span>
         )}

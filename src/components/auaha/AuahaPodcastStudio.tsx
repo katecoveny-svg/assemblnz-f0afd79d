@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { agentChat } from "@/lib/agentChat";
 import { useNavigate } from "react-router-dom";
 
-const ACCENT = "#F0D078";
+const ACCENT = "#A8DDDB";
 
 function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
@@ -195,7 +195,7 @@ export default function AuahaPodcastStudio() {
                   </div>
                   <span className={`text-[10px] px-2 py-0.5 rounded-full ${
                     ep.status === "published" ? "bg-[#5AADA0]/20 text-[#5AADA0]" :
-                    ep.status === "editing" ? "bg-[#D4A843]/20 text-[#D4A843]" :
+                    ep.status === "editing" ? "bg-[#4AA5A8]/20 text-[#4AA5A8]" :
                     "bg-[rgba(74,165,168,0.06)] text-[#6B7280]"
                   }`}>{ep.status}</span>
                 </div>

@@ -11,7 +11,7 @@ const KeteHero = () => (
       className="text-sm sm:text-base italic"
       style={{
         fontFamily: "'Plus Jakarta Sans', sans-serif",
-        color: "rgba(212,168,67,0.6)",
+        color: "rgba(74,165,168,0.6)",
         letterSpacing: "0.02em",
       }}
     >

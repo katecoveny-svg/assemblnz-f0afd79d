@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Bell, BellOff, Check, Wrench, Home, Shield, User } from "lucide-react";
 
-const HAVEN_PINK = "#D4A843";
+const HAVEN_PINK = "#4AA5A8";
 const TYPE_ICONS: Record<string, typeof Bell> = { job: Wrench, property: Home, compliance: Shield, tradie: User };
 
 const HavenNotifications = () => {

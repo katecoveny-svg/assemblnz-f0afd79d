@@ -59,21 +59,21 @@ export default function SectorSwitcher({ collapsed = false, onToggle }: Props) {
         className="mx-2 mb-2 px-3 py-2.5 rounded-xl flex items-center gap-2.5 transition-all relative overflow-hidden"
         style={{
           background: location.pathname === "/command"
-            ? "rgba(212, 168, 67, 0.1)"
+            ? "rgba(74,165,168, 0.1)"
             : hoveredId === "command" ? "rgba(255,255,255,0.03)" : "transparent",
           border: location.pathname === "/command"
-            ? "1px solid rgba(212, 168, 67, 0.2)"
+            ? "1px solid rgba(74,165,168, 0.2)"
             : "1px solid transparent",
         }}
       >
         <div
           className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
           style={{
-            background: "rgba(212, 168, 67, 0.1)",
-            border: "1px solid rgba(212, 168, 67, 0.15)",
+            background: "rgba(74,165,168, 0.1)",
+            border: "1px solid rgba(74,165,168, 0.15)",
           }}
         >
-          <LayoutDashboard size={14} style={{ color: "#D4A843" }} />
+          <LayoutDashboard size={14} style={{ color: "#4AA5A8" }} />
         </div>
         {!collapsed && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-w-0">
