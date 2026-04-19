@@ -363,28 +363,33 @@ const GlassKoruHero = () => {
             </Canvas>
           )}
 
-          {/* Vibrant radial aura behind the orb */}
+          {/* Icy sparkle aura behind the orb */}
           <div
             className="absolute inset-0 pointer-events-none -z-10"
             style={{
               background:
-                "radial-gradient(ellipse 80% 80% at 50% 45%, rgba(74,165,168,0.32) 0%, rgba(125,212,214,0.2) 22%, rgba(232,169,72,0.12) 48%, rgba(184,165,208,0.08) 65%, transparent 78%)",
-              filter: "blur(10px)",
-            }}
-          />
-          <div
-            className="absolute inset-0 pointer-events-none -z-10 animate-pulse"
-            style={{
-              background:
-                "radial-gradient(circle at 50% 45%, rgba(125,212,214,0.28) 0%, transparent 55%)",
+                "radial-gradient(ellipse 70% 70% at 50% 45%, rgba(200,232,230,0.55) 0%, rgba(220,240,238,0.3) 30%, rgba(240,248,247,0.15) 55%, transparent 75%)",
+              filter: "blur(8px)",
             }}
           />
           <div
             className="absolute inset-0 pointer-events-none -z-10"
             style={{
               background:
-                "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.18) 0%, transparent 18%)",
+                "radial-gradient(circle at 50% 38%, rgba(255,255,255,0.5) 0%, transparent 28%)",
               mixBlendMode: "screen",
+            }}
+          />
+          {/* Reflected pool below */}
+          <div
+            className="absolute left-1/2 -translate-x-1/2 pointer-events-none -z-10"
+            style={{
+              bottom: "8%",
+              width: "70%",
+              height: "120px",
+              background:
+                "radial-gradient(ellipse 100% 50% at 50% 0%, rgba(168,221,219,0.35) 0%, transparent 70%)",
+              filter: "blur(12px)",
             }}
           />
         </div>
