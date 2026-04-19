@@ -68,7 +68,7 @@ export function useSovereigntyRegistry(kete?: string) {
       if (kete) q = q.eq("source_kete", kete);
       const { data, error } = await q;
       if (error) throw error;
-      return (data ?? []) as RegistryEntry[];
+      return ((data ?? []) as unknown) as RegistryEntry[];
     },
   });
 }
