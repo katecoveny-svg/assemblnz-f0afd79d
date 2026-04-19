@@ -344,7 +344,8 @@ function OrbitingNode({
 function KoruScene() {
   const groupRef = useRef<THREE.Group>(null);
   const { pointer } = useThree();
-  const curve = useMemo(() => buildKoruCurve(), []);
+  const marbles = useMemo(() => buildKoruMarbles(), []);
+  const curve = useMemo(() => buildConnectorCurve(marbles), [marbles]);
 
   const orbitNodes = useMemo(
     () => [
@@ -361,14 +362,14 @@ function KoruScene() {
     [],
   );
 
-  // Pulses flow along the koru — different colours, different speeds
-  const pulses = useMemo(
+  const packets = useMemo(
     () => [
-      { color: "#4AA5A8", speed: 0.12, offset: 0.0, size: 0.07 },
-      { color: "#E8A948", speed: 0.09, offset: 0.25, size: 0.06 },
-      { color: "#B8A5D0", speed: 0.14, offset: 0.5, size: 0.06 },
-      { color: "#FFFFFF", speed: 0.18, offset: 0.75, size: 0.05 },
-      { color: "#7DD4D6", speed: 0.1, offset: 0.4, size: 0.07 },
+      { color: "#4AA5A8", speed: 0.18, offset: 0.0, size: 0.09 },
+      { color: "#E8A948", speed: 0.14, offset: 0.25, size: 0.08 },
+      { color: "#B8A5D0", speed: 0.22, offset: 0.5, size: 0.08 },
+      { color: "#FFFFFF", speed: 0.26, offset: 0.75, size: 0.07 },
+      { color: "#7DD4D6", speed: 0.16, offset: 0.4, size: 0.09 },
+      { color: "#E8A090", speed: 0.2, offset: 0.6, size: 0.08 },
     ],
     [],
   );
@@ -376,38 +377,32 @@ function KoruScene() {
   useFrame(() => {
     if (!groupRef.current) return;
     groupRef.current.rotation.z += 0.0008;
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(
-      groupRef.current.rotation.x,
-      pointer.y * 0.12,
-      0.03,
-    );
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(
-      groupRef.current.rotation.y,
-      pointer.x * 0.12,
-      0.03,
-    );
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, pointer.y * 0.15, 0.03);
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, pointer.x * 0.15, 0.03);
   });
 
   return (
-    <Float speed={1.1} rotationIntensity={0.15} floatIntensity={0.18}>
+    <Float speed={1.1} rotationIntensity={0.15} floatIntensity={0.22}>
       <ContainmentSphere />
 
-      {/* Energy rings around the orb */}
       <OrbitalRing radius={4.55} color="#7DD4D6" speed={0.12} rotation={[Math.PI / 2.2, 0, 0]} opacity={0.5} />
       <OrbitalRing radius={4.7} color="#E8A948" speed={-0.08} rotation={[Math.PI / 1.6, 0.4, 0]} opacity={0.38} />
       <OrbitalRing radius={4.9} color="#B8A5D0" speed={0.06} rotation={[Math.PI / 3, -0.5, 0]} opacity={0.32} />
       <OrbitalRing radius={5.15} color="#4AA5A8" speed={-0.04} rotation={[Math.PI / 2, Math.PI / 4, 0]} opacity={0.26} />
 
-      {/* Kete data nodes orbiting the orb */}
       {orbitNodes.map((n, i) => (
         <OrbitingNode key={`orb-${i}`} {...n} />
       ))}
 
-      {/* The koru itself + flowing data — both rotate together */}
-      <group ref={groupRef} scale={1.4}>
-        <KoruTube curve={curve} />
-        {pulses.map((p, i) => (
-          <FlowingPulse key={`p-${i}`} curve={curve} {...p} />
+      <group ref={groupRef} scale={1.5}>
+        {marbles.slice(0, -1).map((m, i) => (
+          <ConnectionLine key={`line-${i}`} from={m.position} to={marbles[i + 1].position} color={m.color} />
+        ))}
+        {marbles.map((m) => (
+          <GlassMarble key={`marble-${m.index}`} node={m} />
+        ))}
+        {packets.map((p, i) => (
+          <DataPacket key={`packet-${i}`} curve={curve} {...p} />
         ))}
       </group>
     </Float>
