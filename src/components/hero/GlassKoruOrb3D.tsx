@@ -4,12 +4,11 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Lightformer, Environment } from "@react-three/drei";
 
 const orbPalette = {
-  filament: "hsl(172 42% 86%)",
-  filamentSoft: "hsl(175 30% 92%)",
-  core: "hsl(180 42% 98%)",
-  shell: "hsl(180 24% 99%)",
-  shellTint: "hsl(171 34% 92%)",
-  sceneMist: "hsl(180 38% 98%)",
+  filament: "#CDEDE7",
+  filamentSoft: "#E2F2EE",
+  core: "#F8FDFC",
+  shell: "#FBFEFD",
+  shellTint: "#E4F1ED",
 };
 
 /* ──────────────────────────────────────────────────────────
@@ -175,7 +174,7 @@ function GlassOrb() {
 
         <mesh>
           <sphereGeometry args={[1.16, 64, 64]} />
-          <meshBasicMaterial color={orbPalette.sceneMist} transparent opacity={0.09} toneMapped={false} />
+          <meshBasicMaterial color={orbPalette.shellTint} transparent opacity={0.09} toneMapped={false} />
         </mesh>
 
         <mesh scale={[1.02, 1.02, 1.02]}>
@@ -210,20 +209,19 @@ export default function GlassKoruOrb3D({
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >
-        <color attach="background" args={[orbPalette.sceneMist]} />
         <ambientLight intensity={2.4} />
-        <hemisphereLight args={["hsl(180 50% 99%)", "hsl(172 24% 92%)", 1.15]} />
-        <directionalLight position={[3, 4, 5]} intensity={1.1} color="hsl(180 50% 99%)" />
-        <directionalLight position={[-4, -2, 3]} intensity={0.8} color="hsl(171 42% 95%)" />
-        <pointLight position={[0, 0, 3]} intensity={1} color="hsl(180 50% 99%)" />
+        <hemisphereLight args={["#FCFFFE", "#E8F1EE", 1.15]} />
+        <directionalLight position={[3, 4, 5]} intensity={1.1} color="#FCFFFE" />
+        <directionalLight position={[-4, -2, 3]} intensity={0.8} color="#F0F8F5" />
+        <pointLight position={[0, 0, 3]} intensity={1} color="#FCFFFE" />
 
         {/* Bright white studio environment — keeps glass crystal-clear */}
         <Environment resolution={256}>
-          <Lightformer intensity={4.4} color="hsl(180 50% 99%)" position={[0, 5, -2]} scale={[14, 14, 1]} />
-          <Lightformer intensity={3.2} color="hsl(180 50% 99%)" position={[5, 0, 2]} scale={[12, 12, 1]} />
-          <Lightformer intensity={3.2} color="hsl(180 50% 99%)" position={[-5, 0, 2]} scale={[12, 12, 1]} />
-          <Lightformer intensity={2.8} color="hsl(171 42% 95%)" position={[0, -5, 2]} scale={[14, 14, 1]} />
-          <Lightformer intensity={2.6} color="hsl(180 50% 99%)" position={[0, 0, 6]} scale={[10, 10, 1]} />
+          <Lightformer intensity={4.4} color="#FCFFFE" position={[0, 5, -2]} scale={[14, 14, 1]} />
+          <Lightformer intensity={3.2} color="#FCFFFE" position={[5, 0, 2]} scale={[12, 12, 1]} />
+          <Lightformer intensity={3.2} color="#FCFFFE" position={[-5, 0, 2]} scale={[12, 12, 1]} />
+          <Lightformer intensity={2.8} color="#F0F8F5" position={[0, -5, 2]} scale={[14, 14, 1]} />
+          <Lightformer intensity={2.6} color="#FCFFFE" position={[0, 0, 6]} scale={[10, 10, 1]} />
         </Environment>
 
         <GlassOrb />
