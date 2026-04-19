@@ -240,6 +240,7 @@ const App = () => (
                         <Route path="/privacy-vault" element={<Suspense fallback={null}><PrivacyVault /></Suspense>} />
                         <Route path="/migration" element={<Suspense fallback={null}><MigrationPage /></Suspense>} />
                         <Route path="/showcase" element={<Suspense fallback={null}><ShowcasePage /></Suspense>} />
+                        <Route path="/council" element={<Suspense fallback={null}><CouncilPage /></Suspense>} />
 
                         <Route path="/my-apps" element={<Suspense fallback={null}><MyAppsPage /></Suspense>} />
                         <Route path="/apps/:appName" element={<Suspense fallback={null}><SparkAppViewer /></Suspense>} />
@@ -321,6 +322,7 @@ const App = () => (
                           <Route path="pai" element={<PaiDashboard />} />
                           <Route path="overview" element={<KanohiDashboard />} />
                           <Route path="architecture" element={<Suspense fallback={null}><WaihangaArchitecturePage /></Suspense>} />
+                          <Route path="subbies" element={<SubbiesPage />} />
                         </Route>
 
                         <Route path="/auaha/about" element={<Suspense fallback={null}><AuahaLandingPage /></Suspense>} />
@@ -346,6 +348,7 @@ const App = () => (
                           <Route path="speech-image" element={<AuahaSpeechToImage />} />
                           <Route path="app-spark" element={<AppSparkForge />} />
                           <Route path="brand-scan" element={<AuahaBrandScanner />} />
+                          <Route path="reels" element={<ReelsPage />} />
                         </Route>
 
                         <Route path="/hanga" element={<Navigate to="/waihanga" replace />} />

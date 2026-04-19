@@ -1,5 +1,5 @@
 import { Outlet, NavLink, useLocation } from "react-router-dom";
-import { Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Globe, LayoutDashboard, Target, ChevronRight, Sparkles, Shield, BookOpen, Grid3X3, MonitorPlay, Eye, Zap, AudioLines, Fingerprint } from "lucide-react";
+import { Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Globe, LayoutDashboard, Target, ChevronRight, Sparkles, Shield, BookOpen, Grid3X3, MonitorPlay, Eye, Zap, AudioLines, Fingerprint, Film } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BrandDnaProvider, useBrandDna } from "@/contexts/BrandDnaContext";
 
@@ -14,6 +14,7 @@ const AUAHA_NAV = [
     { to: "/auaha/speech-image", label: "Speech → Image", icon: AudioLines },
     { to: "/auaha/image-studio", label: "Image Studio", icon: Image },
     { to: "/auaha/video", label: "Video Producer", icon: Video },
+    { to: "/auaha/reels", label: "Reel Creator", icon: Film },
     { to: "/auaha/loom", label: "Loom Studio", icon: MonitorPlay },
     { to: "/auaha/podcast", label: "Podcast Studio", icon: Mic },
     { to: "/auaha/copy", label: "Kia Ora Copywriter", icon: PenTool },

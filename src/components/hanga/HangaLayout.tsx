@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   HardHat, LayoutDashboard, ShieldAlert, FolderKanban, MapPin,
   Camera, FileText, MessageSquare, Mic, ChevronLeft, ChevronRight,
-  Layers, Brain, Globe, Menu, X
+  Layers, Brain, Globe, Menu, X, Users
 } from "lucide-react";
 
 const KOWHAI = "#D4A843";
@@ -25,6 +25,7 @@ const NAV_ITEMS = [
   { label: "RAWA Resources", labelMi: "Rawa", to: "/waihanga/rawa", icon: HardHat },
   { label: "WHAKAAĒ Consent", labelMi: "Whakaaē", to: "/waihanga/whakaae", icon: FileText },
   { label: "PAI Quality", labelMi: "Pai", to: "/waihanga/pai", icon: ShieldAlert },
+  { label: "Subbie Watchdog", labelMi: "Kaitiaki Subbie", to: "/waihanga/subbies", icon: Users },
 ];
 
 export default function HangaLayout() {
