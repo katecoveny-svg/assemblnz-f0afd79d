@@ -328,10 +328,7 @@ export default function PikauDashboard() {
         </div>
       </DashboardGlassCard>
 
-      <div className="grid md:grid-cols-2 gap-4">
-        <SovereigntyPanel kete="pikau" accentColor={ACCENT} />
-        <SovereigntySimulator kete="pikau" accentColor={ACCENT} />
-      </div>
+      <SovereigntySimulator kete="pikau" accentColor={ACCENT} />
 
       <KeteEvidencePackPanel
         keteSlug="pikau"

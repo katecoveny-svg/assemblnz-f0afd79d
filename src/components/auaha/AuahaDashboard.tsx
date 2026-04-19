@@ -375,10 +375,7 @@ export default function AuahaDashboard() {
         </div>
       </GlassCard>
 
-      <div className="grid md:grid-cols-2 gap-4">
-        <SovereigntyPanel kete="auaha" accentColor={ACCENT} />
-        <SovereigntySimulator kete="auaha" accentColor={ACCENT} />
-      </div>
+      <SovereigntySimulator kete="auaha" accentColor={ACCENT} />
 
       <KeteEvidencePackPanel
         keteSlug="auaha"
