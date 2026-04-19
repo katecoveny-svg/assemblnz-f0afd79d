@@ -611,6 +611,12 @@ html {
   100% { background-position: 0% 0%; }
 }
 
+/* Live data ribbon marquee */
+@keyframes ribbon {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 /* Press feedback for any element with .liquid-press */
 .liquid-press {
   transition: transform 140ms cubic-bezier(.2,.8,.2,1),
