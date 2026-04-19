@@ -5,12 +5,20 @@ import { toast } from "sonner";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
 import { Ship, FileText, Shield, Package, Globe, AlertTriangle, Check, Plus, X, Loader2 } from "lucide-react";
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
-import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
 import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
+import { LiquidPanel, LiquidButton, GlowBadge } from "@/components/marama";
+
+// Compat shim: map legacy DashboardGlassCard usages to the new LiquidPanel
+// while we incrementally rewrite the rest of this file.
+const DashboardGlassCard = ({ accentColor, glow: _glow, className, children }: any) => (
+  <LiquidPanel accent={accentColor} className={className} animate={false}>
+    {children}
+  </LiquidPanel>
+);
 
 const ACCENT = "#7ECFC2";
 const ACCENT_LIGHT = "#A8E6DA";
@@ -150,30 +158,47 @@ export default function PikauDashboard() {
 
   return (
     <KeteDashboardShell name="Pikau" subtitle="Freight & Customs Operations" accentColor={ACCENT} accentLight={ACCENT_LIGHT} variant="standard">
-      {/* Metrics */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      {/* Metrics — Mārama Liquid 3D */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: "Shipments", value: shipments.length, icon: Ship, color: ACCENT },
-          { label: "Cleared", value: shipments.filter(s => s.status === "cleared").length, icon: Check, color: POUNAMU },
-          { label: "Held", value: shipments.filter(s => s.status === "held").length, icon: AlertTriangle, color: "#E55" },
-          { label: "Total Value", value: `$${Math.round(shipments.reduce((s, x) => s + Number(x.value_nzd || 0), 0) / 1000)}k`, icon: Globe, color: "#5B8FA8" },
-        ].map(m => (
-          <DashboardGlassCard key={m.label} accentColor={m.color} className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <m.icon size={16} style={{ color: m.color }} />
-              <span className="text-[10px] text-white/40 uppercase tracking-wider">{m.label}</span>
+          { label: "Shipments", value: shipments.length, icon: Ship, accent: ACCENT, tone: "teal" as const },
+          { label: "Cleared", value: shipments.filter(s => s.status === "cleared").length, icon: Check, accent: POUNAMU, tone: "success" as const },
+          { label: "Held", value: shipments.filter(s => s.status === "held").length, icon: AlertTriangle, accent: "#C85A54", tone: "error" as const },
+          { label: "Total Value", value: `$${Math.round(shipments.reduce((s, x) => s + Number(x.value_nzd || 0), 0) / 1000)}k`, icon: Globe, accent: "#5A7A9C", tone: "info" as const },
+        ].map((m, i) => (
+          <LiquidPanel key={m.label} accent={m.accent} delay={i * 0.06} className="p-5">
+            <div className="flex items-center justify-between mb-3">
+              <div
+                className="w-9 h-9 rounded-[12px] flex items-center justify-center"
+                style={{
+                  background: `linear-gradient(145deg, ${m.accent}22, ${m.accent}0d)`,
+                  boxShadow: `inset 0 1px 0 rgba(255,255,255,0.9), 0 4px 14px ${m.accent}33`,
+                }}
+              >
+                <m.icon size={16} style={{ color: m.accent }} />
+              </div>
+              <GlowBadge tone={m.tone} size="sm">{m.label}</GlowBadge>
             </div>
-            <div className="text-2xl font-bold text-white/90" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{m.value}</div>
-          </DashboardGlassCard>
+            <div
+              className="text-3xl font-light tracking-tight"
+              style={{ color: "#1A1D29", fontFamily: "'JetBrains Mono', monospace" }}
+            >
+              {m.value}
+            </div>
+          </LiquidPanel>
         ))}
       </div>
 
       {/* Add Shipment */}
       <div className="flex justify-end">
-        <button onClick={() => setShowForm(!showForm)} className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium text-foreground transition-colors" style={{ background: POUNAMU }}>
-          {showForm ? <X size={14} /> : <Plus size={14} />}
+        <LiquidButton
+          variant={showForm ? "ghost" : "teal"}
+          size="md"
+          icon={showForm ? <X size={14} /> : <Plus size={14} />}
+          onClick={() => setShowForm(!showForm)}
+        >
           {showForm ? "Cancel" : "New Shipment"}
-        </button>
+        </LiquidButton>
       </div>
 
       {showForm && (

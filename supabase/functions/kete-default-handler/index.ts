@@ -81,9 +81,19 @@ Deno.serve(async (req) => {
     const teReo = kete?.te_reo_name || displayName;
     const description = kete?.description || "";
 
-    // Resolve user_id from phone (best effort, for memory)
+    // Resolve user_id — first from authenticated JWT (web chat path),
+    // then from phone (SMS/WhatsApp path). Required so agent_memory
+    // gets persisted on every channel, not just SMS.
     let userId: string | null = null;
-    if (phone) {
+    try {
+      const authHeader = req.headers.get("Authorization");
+      if (authHeader?.startsWith("Bearer ")) {
+        const { data: { user } } = await sb.auth.getUser(authHeader.replace("Bearer ", ""));
+        if (user?.id) userId = user.id;
+      }
+    } catch (_) { /* ignore — fall through to phone lookup */ }
+
+    if (!userId && phone) {
       const { data: tcfg } = await sb
         .from("agent_sms_config")
         .select("user_id")
@@ -168,15 +178,41 @@ Sign off with: — ${teReo}, your ${displayName.toLowerCase()} navigator`;
     const reply = aiData.choices?.[0]?.message?.content?.trim() ||
       `Kia ora! ${teReo} here — could you re-send that?`;
 
-    // Memory write-back: extract any obvious facts (best-effort, non-blocking)
+    // Memory write-back — AWAIT so production sees actual writes.
+    // Persists last_exchange + a rolling exchange counter under turn_count.
     if (userId) {
-      // Lightweight fact extraction — store the latest exchange under "last_exchange"
-      sb.from("agent_memory").upsert({
-        user_id: userId,
-        agent_id: keteSlug,
-        memory_key: "last_exchange",
-        memory_value: { question: body.slice(0, 200), answer: reply.slice(0, 200), at: new Date().toISOString() },
-      }, { onConflict: "user_id,agent_id,memory_key" }).then(() => {}).catch(() => {});
+      try {
+        const nowIso = new Date().toISOString();
+        await sb.from("agent_memory").upsert({
+          user_id: userId,
+          agent_id: keteSlug,
+          memory_key: "last_exchange",
+          memory_value: {
+            question: body.slice(0, 240),
+            answer:   reply.slice(0, 480),
+            channel,
+            at: nowIso,
+          },
+        }, { onConflict: "user_id,agent_id,memory_key" });
+
+        // Increment turn counter (separate row so it survives upserts above)
+        const { data: existing } = await sb
+          .from("agent_memory")
+          .select("memory_value")
+          .eq("user_id", userId)
+          .eq("agent_id", keteSlug)
+          .eq("memory_key", "turn_count")
+          .maybeSingle();
+        const prevCount = (existing?.memory_value as any)?.count ?? 0;
+        await sb.from("agent_memory").upsert({
+          user_id: userId,
+          agent_id: keteSlug,
+          memory_key: "turn_count",
+          memory_value: { count: prevCount + 1, last_at: nowIso },
+        }, { onConflict: "user_id,agent_id,memory_key" });
+      } catch (memErr) {
+        console.error(`[${keteSlug}-handler] memory write failed:`, memErr);
+      }
     }
 
     return new Response(
