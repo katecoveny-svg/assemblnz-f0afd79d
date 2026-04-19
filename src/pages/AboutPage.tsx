@@ -142,8 +142,8 @@ const AboutPage = () => {
                   Founder · est. 2025
                 </p>
                 <h2 className="text-3xl sm:text-4xl font-display mb-2" style={{ fontWeight: 300, color: "#3D4250", letterSpacing: "-0.01em" }}>
-                  Built by{" "}
-                  <span style={{ background: `linear-gradient(135deg, ${POUNAMU}, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Kate Hudson</span>
+                  Built in{" "}
+                  <span style={{ background: `linear-gradient(135deg, ${POUNAMU}, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Aotearoa&nbsp;</span>
                 </h2>
                 <p className="text-[11px] font-mono-jb tracking-[2px] uppercase mb-6" style={{ color: "#9CA3AF" }}>
                   Founder & CEO · Tāmaki Makaurau, Aotearoa
