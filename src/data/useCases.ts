@@ -44,7 +44,7 @@ export const AUAHA_USE_CASE: UseCaseData = {
     { icon: "money", label: "Cost", detail: "$180/hour agency rates for basic content work are eliminated for 80% of output." },
     { icon: "insurance", label: "Evidence trail", detail: "Every decision is logged, giving the CEO, the board and any future auditor a clean paper trail." },
   ],
-  economyBenefit: "NZ's creative economy is ~$17.5B. The cultural-risk cost — brands pulling campaigns, reputational fallout, relationship damage with iwi — is unmeasured but significant. AUAHA's pattern (generate-but-refuse-when-unsafe) is exactly the research artefact AAAIP has talked about wanting to study.",
+  economyBenefit: "NZ's creative economy is ~$17.5B. The cultural-risk cost — brands pulling campaigns, reputational fallout, relationship damage with iwi.",
   accentColor: "#F0D078",
 };
 
