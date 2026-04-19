@@ -315,7 +315,7 @@ export default function AgentMarketplacePage() {
         </section>
       </main>
 
-      <Footer />
+      <BrandFooter />
     </>
   );
 }
