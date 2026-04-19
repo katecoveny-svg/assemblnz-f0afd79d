@@ -25,6 +25,7 @@ import { KeteHoverEffect } from "@/components/KeteHoverEffects";
 import InteractiveTryItDemo from "@/components/landing/InteractiveTryItDemo";
 import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
+import { manaakiMark } from "@/assets/brand";
 
 /* ─── Light Palette Tokens ─── */
 const C = {
@@ -126,8 +127,8 @@ function LiveDemoChatSection() {
     <div className="max-w-[680px] mx-auto">
       <GlowCard className="overflow-hidden">
         <div className="flex items-center gap-3 px-6 py-4" style={{ borderBottom: `1px solid rgba(74,165,168,0.08)` }}>
-          <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: `${C.teal}10` }}>
-            <Bot size={18} style={{ color: C.teal }} />
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center overflow-hidden" style={{ background: `${C.teal}10` }}>
+            <img src={manaakiMark} alt="AURA" className="w-7 h-7 object-contain" />
           </div>
           <div className="flex-1">
             <p className="text-[12px] tracking-[3px] uppercase font-medium" style={{ color: C.text }}>AURA</p>
