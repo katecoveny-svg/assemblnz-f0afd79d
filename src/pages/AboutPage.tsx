@@ -127,70 +127,100 @@ const AboutPage = () => {
 
 
       {/* Founder */}
-      <section id="founder" className="relative z-10 py-20 border-t border-border">
-        <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${GOLD}08 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 30% 40%, ${POUNAMU}05 0%, transparent 50%)` }} />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+      <section id="founder" className="relative z-10 py-24 border-t border-border">
+        <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${GOLD}10 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 30% 40%, ${POUNAMU}08 0%, transparent 50%)` }} />
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
-            className="relative rounded-2xl overflow-hidden p-8 sm:p-10"
+            className="relative rounded-3xl overflow-hidden p-10 sm:p-14"
             style={{
-              background: "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)",
-              border: "1px solid rgba(74,165,168,0.15)",
-              boxShadow: `0 16px 48px rgba(0,0,0,0.4), 0 0 80px ${GOLD}05, inset 0 1px 0 rgba(255,255,255,0.04)`,
+              background: "linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.78) 100%)",
+              backdropFilter: "blur(24px) saturate(1.4)",
+              WebkitBackdropFilter: "blur(24px) saturate(1.4)",
+              border: "1px solid rgba(58,125,110,0.14)",
+              boxShadow: `0 24px 60px rgba(58,125,110,0.10), 0 8px 24px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.6)`,
             }}
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           >
-            <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}40, ${POUNAMU}30, transparent)` }} />
+            {/* Decorative top hairline */}
+            <div className="absolute top-0 left-[10%] right-[10%] h-px" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}60, ${POUNAMU}40, transparent)` }} />
+            {/* Subtle corner glyphs */}
+            <span aria-hidden className="absolute top-5 left-5 text-[10px] font-mono-jb tracking-[3px]" style={{ color: `${GOLD}80` }}>◆</span>
+            <span aria-hidden className="absolute top-5 right-5 text-[10px] font-mono-jb tracking-[3px]" style={{ color: `${POUNAMU}80` }}>◆</span>
 
-            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-              {/* Photo */}
-              <motion.div className="shrink-0"
-                initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
+            <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+              {/* Photo — premium framed portrait */}
+              <motion.div className="shrink-0 relative"
+                initial={{ opacity: 0, scale: 0.85 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}>
+                {/* Outer halo ring */}
+                <div className="absolute -inset-3 rounded-full opacity-60" style={{
+                  background: `conic-gradient(from 180deg at 50% 50%, ${GOLD}30, ${POUNAMU}25, ${GOLD}10, ${POUNAMU}30, ${GOLD}30)`,
+                  filter: "blur(14px)",
+                }} />
                 <div className="relative">
-                  <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-2xl overflow-hidden relative"
+                  {/* Portrait container — circular, gallery-grade */}
+                  <div className="w-44 h-44 sm:w-56 sm:h-56 rounded-full overflow-hidden relative"
                     style={{
-                      border: `2px solid ${GOLD}30`,
-                      boxShadow: `0 0 40px ${GOLD}15, 0 0 80px ${POUNAMU}08`,
-                      background: `linear-gradient(135deg, ${GOLD}10, ${POUNAMU}10)`,
+                      border: `1px solid rgba(255,255,255,0.9)`,
+                      boxShadow: `
+                        0 0 0 1px ${GOLD}25,
+                        0 0 0 6px rgba(255,255,255,0.85),
+                        0 0 0 7px ${POUNAMU}20,
+                        0 24px 48px rgba(58,125,110,0.18),
+                        0 8px 24px rgba(0,0,0,0.08)
+                      `,
+                      background: `radial-gradient(circle at 30% 25%, ${BONE}, ${GOLD}15 60%, ${POUNAMU}10)`,
                     }}>
-                    <img src="/img/kate-neon.png" alt="Kate, Founder of Assembl" className="w-full h-full object-contain" loading="lazy" />
+                    <img src="/img/kate-neon.png" alt="Kate Hudson, Founder of Assembl" className="w-full h-full object-cover" loading="lazy" />
                   </div>
-                  {/* Status dot */}
-                  <div className="absolute -bottom-1 -right-1 flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{
-                    background: "rgba(14,14,26,0.9)",
-                    border: `1px solid ${POUNAMU}30`,
-                    boxShadow: `0 4px 12px rgba(0,0,0,0.3)`,
+                  {/* Small wordmark medallion */}
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full flex items-center gap-1.5" style={{
+                    background: "rgba(255,255,255,0.95)",
+                    border: `1px solid ${GOLD}30`,
+                    boxShadow: `0 6px 16px rgba(58,125,110,0.15)`,
                   }}>
-                    <motion.div className="w-2 h-2 rounded-full" style={{ background: POUNAMU }}
-                      animate={{ opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} />
-                    <span className="text-[9px] font-mono" style={{ color: POUNAMU }}>Building</span>
+                    <motion.div className="w-1.5 h-1.5 rounded-full" style={{ background: POUNAMU }}
+                      animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2.4, repeat: Infinity }} />
+                    <span className="text-[9px] font-mono-jb tracking-[2px] uppercase" style={{ color: POUNAMU }}>Building</span>
                   </div>
                 </div>
               </motion.div>
 
               {/* Content */}
               <div className="flex-1 text-center lg:text-left">
-                <p className="text-[10px] font-bold tracking-[4px] uppercase mb-3" style={{ color: GOLD, fontFamily: "'JetBrains Mono', monospace" }}>
-                  FOUNDER
+                <p className="text-[10px] font-mono-jb font-semibold tracking-[5px] uppercase mb-3" style={{ color: GOLD }}>
+                  Founder · est. 2025
                 </p>
-                <h2 className="text-2xl sm:text-3xl font-display text-foreground mb-4" style={{ fontWeight: 300 }}>
+                <h2 className="text-3xl sm:text-4xl font-display mb-2" style={{ fontWeight: 300, color: "#3D4250", letterSpacing: "-0.01em" }}>
                   Built by{" "}
-                  <span style={{ background: `linear-gradient(135deg, #3D4250, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Kate</span>
+                  <span style={{ background: `linear-gradient(135deg, ${POUNAMU}, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Kate Hudson</span>
                 </h2>
-                <blockquote className="text-sm font-body text-muted-foreground leading-relaxed mb-6 relative">
-                  <span className="absolute -left-3 top-0 text-2xl" style={{ color: `${GOLD}30`, fontFamily: "Georgia, serif" }}>"</span>
+                <p className="text-[11px] font-mono-jb tracking-[2px] uppercase mb-6" style={{ color: "#9CA3AF" }}>
+                  Founder & CEO · Tāmaki Makaurau, Aotearoa
+                </p>
+
+                {/* Hairline divider */}
+                <div className="h-px w-16 mx-auto lg:mx-0 mb-6" style={{ background: `linear-gradient(90deg, ${GOLD}, transparent)` }} />
+
+                <blockquote className="text-base font-body leading-relaxed mb-8 relative italic" style={{ color: "#3D4250", fontFamily: "'Lora', Georgia, serif" }}>
+                  <span aria-hidden className="absolute -left-4 -top-3 text-5xl leading-none select-none" style={{ color: `${GOLD}40`, fontFamily: "Georgia, serif" }}>“</span>
                   I built Assembl because NZ businesses deserve specialist tools that understand our laws, our culture, and the way we work. Every kete is grounded in real NZ legislation — not generic overseas advice. My goal is to give every Kiwi business access to specialist operational support at a price they can afford.
                 </blockquote>
+
                 <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4">
-                  <div>
-                    <p className="text-sm font-display text-foreground" style={{ fontWeight: 400 }}>Kate</p>
-                    <p className="text-[11px] font-body text-muted-foreground">Founder & CEO · Auckland, New Zealand</p>
-                  </div>
-                  <Link to="/contact" className="group relative inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-body font-medium overflow-hidden sm:ml-auto">
-                    <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(135deg, ${GOLD}, ${GOLD}DD)` }} />
-                    <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 20px ${GOLD}40` }} />
-                    <span className="relative z-10" style={{ color: "#09090F" }}>Get in touch</span>
-                    <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" style={{ color: "#09090F" }} />
+                  <Link to="/contact" className="group relative inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-body font-medium overflow-hidden transition-transform duration-300 hover:-translate-y-0.5">
+                    <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(135deg, ${POUNAMU}, #2D6A5E)` }} />
+                    <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 8px 24px ${POUNAMU}40` }} />
+                    <span className="relative z-10 text-white">Get in touch</span>
+                    <ArrowRight size={14} className="relative z-10 text-white group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <Link to="/manifesto" className="group inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-body font-medium transition-all duration-300" style={{
+                    border: `1px solid ${GOLD}40`,
+                    color: "#3D4250",
+                    background: "rgba(255,255,255,0.6)",
+                  }}>
+                    <span>Read the manifesto</span>
+                    <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </div>
