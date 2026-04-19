@@ -143,31 +143,32 @@ export default function AuahaLandingPage() {
 
         {/* ── Agent Network ── */}
         <section className="relative px-6 pb-24 max-w-5xl mx-auto">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${ACCENT}06 0%, transparent 70%)` }} />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${ACCENT}10 0%, transparent 70%)` }} />
           <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace" }}>specialist network</p>
-            <h2 className="text-2xl sm:text-3xl font-display font-light" style={{ color: BONE }}>9 agents working together</h2>
+            <h2 className="text-2xl sm:text-3xl font-display font-light" style={{ color: "#3D4250" }}>9 agents working together</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {AGENTS.map((a, i) => (
               <motion.div key={a.code} className="group relative p-5 rounded-xl overflow-hidden cursor-default" style={{
-                background: hoveredAgent === i ? `linear-gradient(135deg, rgba(240,208,120,0.08) 0%, rgba(58,125,110,0.04) 100%)` : `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
-                border: `1px solid ${hoveredAgent === i ? ACCENT + "40" : "rgba(255,255,255,0.06)"}`,
+                background: hoveredAgent === i ? `linear-gradient(135deg, rgba(240,208,120,0.18) 0%, rgba(58,125,110,0.08) 100%)` : "rgba(255,255,255,0.7)",
+                border: `1px solid ${hoveredAgent === i ? ACCENT + "70" : "rgba(58,125,110,0.15)"}`,
                 transition: "all 0.4s ease",
-                boxShadow: hoveredAgent === i ? `0 8px 32px rgba(0,0,0,0.3), 0 0 40px ${ACCENT}08` : "none",
+                backdropFilter: "blur(10px)",
+                boxShadow: hoveredAgent === i ? `0 8px 32px rgba(58,125,110,0.12), 0 0 40px ${ACCENT}20` : "0 2px 8px rgba(0,0,0,0.04)",
               }} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
                 onMouseEnter={() => setHoveredAgent(i)} onMouseLeave={() => setHoveredAgent(null)}>
-                <div className="absolute top-0 left-0 right-0 h-[1px] transition-opacity duration-500" style={{ opacity: hoveredAgent === i ? 1 : 0, background: `linear-gradient(90deg, transparent 0%, ${ACCENT}50 50%, transparent 100%)` }} />
+                <div className="absolute top-0 left-0 right-0 h-[1px] transition-opacity duration-500" style={{ opacity: hoveredAgent === i ? 1 : 0, background: `linear-gradient(90deg, transparent 0%, ${ACCENT} 50%, transparent 100%)` }} />
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-400" style={{
-                    background: hoveredAgent === i ? `linear-gradient(135deg, ${ACCENT}25 0%, ${ACCENT}10 100%)` : `${ACCENT}10`,
-                    boxShadow: hoveredAgent === i ? `0 0 16px ${ACCENT}15` : "none",
+                    background: hoveredAgent === i ? `linear-gradient(135deg, ${ACCENT}40 0%, ${ACCENT}20 100%)` : `${ACCENT}20`,
+                    boxShadow: hoveredAgent === i ? `0 0 16px ${ACCENT}30` : "none",
                   }}>
-                    <a.icon size={18} style={{ color: ACCENT }} />
+                    <a.icon size={18} style={{ color: GOLD }} />
                   </div>
-                  <span className="text-xs font-mono font-bold" style={{ color: hoveredAgent === i ? BONE : "rgba(255,255,255,0.7)", transition: "color 0.3s" }}>{a.code}</span>
+                  <span className="text-xs font-mono font-bold" style={{ color: "#3D4250", transition: "color 0.3s" }}>{a.code}</span>
                 </div>
-                <p className="text-[12px] leading-relaxed transition-colors duration-300" style={{ color: hoveredAgent === i ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.35)" }}>{a.role}</p>
+                <p className="text-[12px] leading-relaxed" style={{ color: "#5B6374" }}>{a.role}</p>
               </motion.div>
             ))}
           </div>
