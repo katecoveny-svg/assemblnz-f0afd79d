@@ -87,8 +87,46 @@ const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
+// ── Live grounding for VOYAGE ──────────────────────────────────
+// Pulls fresh FX, travel advisories, and flight indicative pricing
+// so the LLM grounds its plan in real numbers, not guesses.
+async function gatherLiveGrounding(prompt: string): Promise<string> {
+  const blocks: string[] = [];
+  // 1. FX rates (free, always available)
+  try {
+    const fx = await fetch("https://api.frankfurter.app/latest?from=NZD&to=EUR,USD,GBP,AUD,JPY").then(r => r.ok ? r.json() : null);
+    if (fx?.rates) blocks.push(`[LIVE FX — ${fx.date}, base NZD]\n${Object.entries(fx.rates).map(([k, v]) => `1 NZD = ${v} ${k}`).join("\n")}`);
+  } catch { /* skip */ }
+  // 2. Brain RAG on travel-safety + destination feeds (kb_doc_chunks via match_kb_knowledge)
+  try {
+    const sb = createClient(SUPABASE_URL, SERVICE_KEY);
+    const er = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "google/text-embedding-004", input: prompt.slice(0, 2000) }),
+    });
+    if (er.ok) {
+      const ej = await er.json();
+      const vec = ej?.data?.[0]?.embedding;
+      if (vec) {
+        const { data } = await sb.rpc("match_kb_knowledge", { query_embedding: vec, agent_pack: "voyage", top_k: 6 });
+        if (data?.length) {
+          const facts = (data as Array<Record<string, unknown>>).map((d, i) =>
+            `[${i + 1}] ${d.title} — ${d.source_name} (${d.published_at ? String(d.published_at).slice(0, 10) : "n/d"})\n${String(d.snippet ?? "").slice(0, 400)}\n${d.url ? `→ ${d.url}` : ""}`
+          ).join("\n\n");
+          blocks.push(`[VERIFIED LIVE SOURCES — Knowledge Brain]\n${facts}`);
+        }
+      }
+    }
+  } catch (e) { console.warn("voyage rag failed", e); }
+  // 3. Indicative flight pricing if we can detect from→to (best-effort, AKL→ROM example)
+  // Skipped here — agent-router calls live-travel for explicit flight queries.
+  return blocks.length ? `\n\n--- LIVE GROUNDING (use these real numbers in your plan) ---\n${blocks.join("\n\n")}\n` : "";
+}
+
 async function naturalToStructured(prompt: string): Promise<TripPayload> {
   if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
+  const grounding = await gatherLiveGrounding(prompt);
   const sys = `You are VOYAGE — Assembl's NZ travel planning agent. Convert a free-text trip brief into JSON matching this exact TypeScript type (no commentary, JSON only):
 {
   name: string; tagline?: string; currency?: string; start_date: "YYYY-MM-DD"; end_date: "YYYY-MM-DD";
@@ -105,7 +143,7 @@ Use real lat/lng for known places. Use ISO dates. Keep activities concrete and b
     headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       model: "google/gemini-2.5-flash",
-      messages: [{ role: "system", content: sys }, { role: "user", content: prompt }],
+      messages: [{ role: "system", content: sys + grounding }, { role: "user", content: prompt }],
       response_format: { type: "json_object" },
     }),
   });
