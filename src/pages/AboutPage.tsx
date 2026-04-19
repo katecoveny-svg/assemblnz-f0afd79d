@@ -121,7 +121,7 @@ const AboutPage = () => {
                       `,
                       background: `radial-gradient(circle at 30% 25%, ${BONE}, ${GOLD}15 60%, ${POUNAMU}10)`,
                     }}>
-                    <img src="/img/kate-neon.png" alt="Kate Hudson, Founder of Assembl" className="w-full h-full object-cover" loading="lazy" />
+                    <img src="/img/kate-neon.png" alt="Aotearoa, Founder of Assembl" className="w-full h-full object-cover" loading="lazy" />
                   </div>
                   {/* Small wordmark medallion */}
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full flex items-center gap-1.5" style={{
@@ -142,7 +142,7 @@ const AboutPage = () => {
                   Founder · est. 2025
                 </p>
                 <h2 className="text-3xl sm:text-4xl font-display mb-2" style={{ fontWeight: 300, color: "#3D4250", letterSpacing: "-0.01em" }}>
-                  Built in{" "}
+                  Built i{" "}
                   <span style={{ background: `linear-gradient(135deg, ${POUNAMU}, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Aotearoa&nbsp;</span>
                 </h2>
                 <p className="text-[11px] font-mono-jb tracking-[2px] uppercase mb-6" style={{ color: "#9CA3AF" }}>
