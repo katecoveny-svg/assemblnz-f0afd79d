@@ -62,46 +62,6 @@ const AboutPage = () => {
         </motion.div>
       </section>
 
-      {/* Vision */}
-      <section className="relative z-10 py-16 border-t border-border">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="text-[10px] font-mono-jb uppercase tracking-[3px]" style={{ color: POUNAMU }}>Our Vision</span>
-              <h2 className="text-2xl sm:text-3xl font-display mt-2 mb-4" style={{ fontWeight: 300, color: "#3D4250" }}>
-                Built for{" "}
-                <span style={{ background: `linear-gradient(135deg, #3D4250, ${POUNAMU})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Aotearoa</span>
-              </h2>
-              <p className="text-sm font-body leading-relaxed mb-4" style={{ color: "#4B5563" }}>
-                Most business tools are trained on US data, US laws, and US business practices. They don't know what PAYE is. They've never heard of the Building Act. They can't calculate KiwiSaver contributions.
-              </p>
-              <p className="text-sm font-body leading-relaxed" style={{ color: "#4B5563" }}>
-                Assembl changes that. Every kete is grounded in NZ legislation and policy workflows — the specific regulations, standards, and cultural context that NZ businesses operate within.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { mark: "I", title: "Purpose-built", desc: "Not adapted — built from the ground up for Aotearoa" },
-                { mark: "II", title: "Legislation-first", desc: "Grounded in NZ legislation and policy workflows" },
-                { mark: "III", title: "SME-focused", desc: "Priced for the 620K businesses that need it most" },
-                { mark: "IV", title: "Always on", desc: "Twenty-four-hour specialist support that never takes leave" },
-              ].map((item) => (
-                <motion.div key={item.title} className="group relative rounded-xl p-5 overflow-hidden transition-all duration-400 hover:-translate-y-0.5" style={{
-                  background: "rgba(255,255,255,0.7)",
-                  border: "1px solid rgba(58,125,110,0.15)",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
-                }} whileHover={{ boxShadow: `0 10px 32px rgba(58,125,110,0.12)` }}>
-                  <div className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${POUNAMU}50, transparent)` }} />
-                  <p className="text-[11px] font-mono-jb mb-3 tracking-[2px]" style={{ color: GOLD }}>{item.mark}</p>
-                  <p className="text-sm font-display mb-1" style={{ fontWeight: 400, color: "#3D4250" }}>{item.title}</p>
-                  <p className="text-[11px] font-body leading-relaxed" style={{ color: "#6B7280" }}>{item.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Market */}
       <section className="relative z-10 py-16 border-t border-border">
         <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${POUNAMU}06 0%, transparent 60%)` }} />
