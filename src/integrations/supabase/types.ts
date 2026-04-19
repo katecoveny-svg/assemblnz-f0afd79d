@@ -6147,6 +6147,63 @@ export type Database = {
         }
         Relationships: []
       }
+      reel_renders: {
+        Row: {
+          aspect_ratio: string
+          batch_id: string
+          batch_index: number
+          created_at: string
+          error: string | null
+          id: string
+          prompt: string
+          provider: string
+          request_id: string | null
+          status: string
+          tenant_id: string | null
+          thumbnail_url: string | null
+          topic: string
+          updated_at: string
+          user_id: string
+          video_url: string | null
+        }
+        Insert: {
+          aspect_ratio?: string
+          batch_id: string
+          batch_index?: number
+          created_at?: string
+          error?: string | null
+          id?: string
+          prompt: string
+          provider?: string
+          request_id?: string | null
+          status?: string
+          tenant_id?: string | null
+          thumbnail_url?: string | null
+          topic: string
+          updated_at?: string
+          user_id: string
+          video_url?: string | null
+        }
+        Update: {
+          aspect_ratio?: string
+          batch_id?: string
+          batch_index?: number
+          created_at?: string
+          error?: string | null
+          id?: string
+          prompt?: string
+          provider?: string
+          request_id?: string | null
+          status?: string
+          tenant_id?: string | null
+          thumbnail_url?: string | null
+          topic?: string
+          updated_at?: string
+          user_id?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
       response_cache: {
         Row: {
           cache_key: string
