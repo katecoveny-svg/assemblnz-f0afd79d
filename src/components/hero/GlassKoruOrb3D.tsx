@@ -4,12 +4,12 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Lightformer, Environment } from "@react-three/drei";
 
 const orbPalette = {
-  filament: "#4AA5A8",      // soft teal — visible filaments
-  filamentSoft: "#A8DDDB",  // ice mist halo
+  filament: "#1F7A7D",      // deep teal — strong visible filaments
+  filamentSoft: "#5FB8B5",  // teal halo
   core: "#FFFFFF",          // bright white core
-  shell: "#D4ECEA",         // tinted glass shell — visible against white bg
-  shellTint: "#7FC8C2",     // deeper teal for sheen
-  rim: "#5FB8B5",           // rim accent
+  shell: "#7FC8C2",         // saturated teal glass shell
+  shellTint: "#2E8A8C",     // deep teal sheen
+  rim: "#1F7A7D",           // strong rim accent
 };
 
 /* ──────────────────────────────────────────────────────────
