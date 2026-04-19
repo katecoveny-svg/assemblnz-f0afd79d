@@ -182,9 +182,13 @@ const EchoChatWidget = () => {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-display font-light text-sm tracking-wide" style={{ color: ECHO_COLOR }}>Echo</span>
-                <span className="text-[10px] font-body text-muted-foreground">· assembl · Auckland</span>
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#5AADA0", boxShadow: "0 0 6px #5AADA0" }} />
               </div>
+              {keteContext && (
+                <p className="text-[10px] font-body text-muted-foreground truncate mt-0.5">
+                  in <span style={{ color: ECHO_COLOR }}>{keteContext}</span>
+                </p>
+              )}
             </div>
             {messages.length > 0 && (
               <button

@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import SEO from "@/components/SEO";
+import FirstWorkflowTour from "@/components/onboarding/FirstWorkflowTour";
 
 interface Tenant {
   id: string;
