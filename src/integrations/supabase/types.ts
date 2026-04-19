@@ -11095,6 +11095,16 @@ export type Database = {
         Args: { _family_id: string; _user_id: string }
         Returns: boolean
       }
+      kb_cron_status: {
+        Args: never
+        Returns: {
+          active: boolean
+          jobname: string
+          last_run_at: string
+          last_run_status: string
+          schedule: string
+        }[]
+      }
       match_kb_knowledge: {
         Args: { agent_pack?: string; query_embedding: string; top_k?: number }
         Returns: {
