@@ -439,7 +439,7 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
                   <div className="grid gap-2" style={{ gridTemplateColumns: generatedFrames[s.id].urls.length > 2 ? "1fr 1fr" : "1fr" }}>
                     {generatedFrames[s.id].urls.map((url, fi) => (
                       <div key={fi} className="relative group rounded-lg overflow-hidden" style={{ border: `1px solid ${ACCENT}20` }}>
-                        <img src={url} alt={`Scene ${fi + 1}`} className="w-full h-auto rounded-lg" />
+                        <img loading="lazy" decoding="async" src={url} alt={`Scene ${fi + 1}`} className="w-full h-auto rounded-lg" >
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-white/40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
                           <button
                             onClick={() => downloadFrame(url, fi)}

@@ -56,7 +56,7 @@ export default function MyAppsPage() {
             <Link to="/chat/spark" className="p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.65)" }}>
               <ArrowLeft size={16} style={{ color: "#6B7280" }} />
             </Link>
-            <img src={sparkImg} alt="SPARK" className="w-8 h-8 object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 6px rgba(255,107,0,0.4))" }} />
+            <img loading="lazy" decoding="async" src={sparkImg} alt="SPARK" className="w-8 h-8 object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 6px rgba(255,107,0,0.4))" }} >
             <h1 className="text-lg font-display font-bold" style={{ color: "#E4E4EC" }}>My Apps</h1>
           </div>
           <span className="text-[11px] font-mono-jb px-3 py-1 rounded-full" style={{ background: `${ACCENT}15`, color: ACCENT }}>

@@ -1,28 +1,15 @@
 {
-  "name": "Assembl — Business Intelligence Platform",
+  "name": "Assembl — AI agents for NZ business",
   "short_name": "Assembl",
-  "description": "Specialist operational workflows for NZ business. Five industry kete grounded in NZ legislation and policy workflows. Built in Aotearoa.",
+  "description": "Specialist operational workflows for NZ business. Industry kete grounded in NZ legislation and tikanga. Built in Aotearoa.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#09090F",
-  "theme_color": "#09090F",
+  "background_color": "#FAFBFC",
+  "theme_color": "#FAFBFC",
   "icons": [
-    {
-      "src": "/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "categories": ["business", "productivity"],
   "lang": "en-NZ",

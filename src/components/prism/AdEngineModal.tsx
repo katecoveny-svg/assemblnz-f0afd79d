@@ -486,7 +486,7 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
                   {/* Image preview */}
                   {ad.image_url ? (
                     <div className="h-32 overflow-hidden">
-                      <img src={ad.image_url} alt={ad.headline} className="w-full h-full object-cover" />
+                      <img loading="lazy" decoding="async" src={ad.image_url} alt={ad.headline} className="w-full h-full object-cover" >
                     </div>
                   ) : (
                     <div className="h-32 flex items-center justify-center" style={{ background: "hsl(var(--muted))" }}>

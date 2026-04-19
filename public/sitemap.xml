@@ -5,9 +5,32 @@
   <url><loc>https://www.assembl.co.nz/pricing</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/about</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/content-hub</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/start</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/welcome</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/demos</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/simulator</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/roi</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/brand</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
 
-  <!-- Business agents — priority 0.7 -->
+  <!-- Industry kete (top-priority — primary product surface) -->
+  <url><loc>https://www.assembl.co.nz/manaaki</loc><priority>0.95</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/waihanga</loc><priority>0.95</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/auaha</loc><priority>0.95</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/arataki</loc><priority>0.95</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/pikau</loc><priority>0.95</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/toro</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/ako</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/hoko</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/whenua</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/ora</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/kainga</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+
+  <!-- AAAIP research lab -->
+  <url><loc>https://www.assembl.co.nz/aaaip/landing</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/aaaip/research</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/aaaip/audit</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+
+  <!-- Business agents -->
   <url><loc>https://www.assembl.co.nz/agents/echo</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/agents/hospitality</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/agents/construction</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
@@ -40,7 +63,7 @@
   <url><loc>https://www.assembl.co.nz/agents/pristine</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/agents/network</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
 
-  <!-- Lifestyle agents — priority 0.5 -->
+  <!-- Lifestyle agents -->
   <url><loc>https://www.assembl.co.nz/agents/style</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/agents/travel</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/agents/wellbeing</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
@@ -49,7 +72,7 @@
   <url><loc>https://www.assembl.co.nz/agents/beauty</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/agents/social</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
 
-  <!-- Government agents — priority 0.5 -->
+  <!-- Government agents -->
   <url><loc>https://www.assembl.co.nz/agents/tiriti</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/agents/govtsector</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/agents/environment</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>

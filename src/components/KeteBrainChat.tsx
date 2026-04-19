@@ -322,7 +322,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
         {open ? (
           <GlowIcon name="X" size={20} color={open ? "#09090F" : accentColor} glow={false} />
         ) : keteId === "toroa" ? (
-          <img src={toroaMark} alt="Tōro" className="w-8 h-8 rounded-full" />
+          <img loading="lazy" decoding="async" src={toroaMark} alt="Tōro" className="w-8 h-8 rounded-full" >
         ) : (
           <GlowIcon name="Brain" size={22} color={accentColor} />
         )}
@@ -348,7 +348,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
             {/* Header */}
             <div className="p-4 border-b flex items-center gap-3" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
               {keteId === "toroa" ? (
-                <img src={toroaMark} alt="Tōro" className="w-10 h-10 rounded-full" />
+                <img loading="lazy" decoding="async" src={toroaMark} alt="Tōro" className="w-10 h-10 rounded-full" >
               ) : (
                 <BrainAvatar color={accentColor} size={40} />
               )}
