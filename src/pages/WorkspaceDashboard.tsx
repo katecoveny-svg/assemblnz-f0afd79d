@@ -68,6 +68,7 @@ export default function WorkspaceDashboard() {
   const [workflows, setWorkflows] = useState<WorkflowItem[]>([]);
   const [evidenceBrief, setEvidenceBrief] = useState<EvidenceBrief | null>(null);
   const [loading, setLoading] = useState(true);
+  const [tourOpen, setTourOpen] = useState(false);
 
   useEffect(() => {
     if (authLoading) return;
@@ -166,6 +167,7 @@ export default function WorkspaceDashboard() {
   return (
     <>
       <SEO title={`${tenant.name} — Workspace`} description="Your Assembl workspace dashboard" />
+      <FirstWorkflowTour accent={accent} forceOpen={tourOpen} onClose={() => setTourOpen(false)} />
 
       <div className="min-h-screen" style={{ background: "#FAFBFC" }}>
         {/* Header */}
