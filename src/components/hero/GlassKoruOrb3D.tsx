@@ -86,13 +86,13 @@ function LuminousFilament() {
             <meshPhysicalMaterial
               color={orbPalette.filament}
             transparent
-              opacity={0.72}
+              opacity={0.95}
               roughness={0.14}
               metalness={0}
               clearcoat={1}
               clearcoatRoughness={0.08}
-              emissive={orbPalette.filamentSoft}
-              emissiveIntensity={0.1}
+              emissive={orbPalette.filament}
+              emissiveIntensity={0.45}
               toneMapped={false}
           />
         </mesh>
