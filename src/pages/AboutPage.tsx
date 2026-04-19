@@ -67,34 +67,34 @@ const AboutPage = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="text-[10px] font-mono-jb text-muted-foreground uppercase tracking-widest">Our Vision</span>
-              <h2 className="text-2xl sm:text-3xl font-display text-foreground mt-2 mb-4" style={{ fontWeight: 300 }}>
+              <span className="text-[10px] font-mono-jb uppercase tracking-[3px]" style={{ color: POUNAMU }}>Our Vision</span>
+              <h2 className="text-2xl sm:text-3xl font-display mt-2 mb-4" style={{ fontWeight: 300, color: "#3D4250" }}>
                 Built for{" "}
-                <span style={{ background: `linear-gradient(135deg, #3D4250, ${POUNAMU_LIGHT})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Aotearoa</span>
+                <span style={{ background: `linear-gradient(135deg, #3D4250, ${POUNAMU})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Aotearoa</span>
               </h2>
-              <p className="text-sm font-body text-muted-foreground leading-relaxed mb-4">
+              <p className="text-sm font-body leading-relaxed mb-4" style={{ color: "#4B5563" }}>
                 Most business tools are trained on US data, US laws, and US business practices. They don't know what PAYE is. They've never heard of the Building Act. They can't calculate KiwiSaver contributions.
               </p>
-              <p className="text-sm font-body text-muted-foreground leading-relaxed">
+              <p className="text-sm font-body leading-relaxed" style={{ color: "#4B5563" }}>
                 Assembl changes that. Every kete is grounded in NZ legislation and policy workflows — the specific regulations, standards, and cultural context that NZ businesses operate within.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { icon: <Target size={20} />, title: "Purpose-built", desc: "Not adapted — built from the ground up for NZ" },
-                { icon: <Shield size={20} />, title: "Legislation-first", desc: "Grounded in NZ legislation and policy workflows" },
-                { icon: <Users size={20} />, title: "SME-focused", desc: "Priced for the 620K businesses that need it most" },
-                { icon: <Globe size={20} />, title: "Always on", desc: "24/7 specialist tools that never take leave" },
+                { mark: "I", title: "Purpose-built", desc: "Not adapted — built from the ground up for Aotearoa" },
+                { mark: "II", title: "Legislation-first", desc: "Grounded in NZ legislation and policy workflows" },
+                { mark: "III", title: "SME-focused", desc: "Priced for the 620K businesses that need it most" },
+                { mark: "IV", title: "Always on", desc: "Twenty-four-hour specialist support that never takes leave" },
               ].map((item) => (
-                <motion.div key={item.title} className="group relative rounded-xl p-4 overflow-hidden transition-all duration-400 hover:translate-y-[-2px]" style={{
-                  background: "linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))",
-                  border: "1px solid rgba(74,165,168,0.15)",
-                  boxShadow: "0 10px 40px -10px rgba(74,165,168,0.15), 0 4px 12px rgba(0,0,0,0.04)",
-                }} whileHover={{ boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 30px ${POUNAMU}06` }}>
-                  <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${POUNAMU}40, transparent)` }} />
-                  <div className="text-primary mb-2">{item.icon}</div>
-                  <p className="text-xs font-display text-foreground mb-1" style={{ fontWeight: 300 }}>{item.title}</p>
-                  <p className="text-[10px] font-body text-muted-foreground">{item.desc}</p>
+                <motion.div key={item.title} className="group relative rounded-xl p-5 overflow-hidden transition-all duration-400 hover:-translate-y-0.5" style={{
+                  background: "rgba(255,255,255,0.7)",
+                  border: "1px solid rgba(58,125,110,0.15)",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
+                }} whileHover={{ boxShadow: `0 10px 32px rgba(58,125,110,0.12)` }}>
+                  <div className="absolute top-0 left-[15%] right-[15%] h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${POUNAMU}50, transparent)` }} />
+                  <p className="text-[11px] font-mono-jb mb-3 tracking-[2px]" style={{ color: GOLD }}>{item.mark}</p>
+                  <p className="text-sm font-display mb-1" style={{ fontWeight: 400, color: "#3D4250" }}>{item.title}</p>
+                  <p className="text-[11px] font-body leading-relaxed" style={{ color: "#6B7280" }}>{item.desc}</p>
                 </motion.div>
               ))}
             </div>
