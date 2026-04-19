@@ -170,12 +170,12 @@ html {
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.7;
     color: #1F4E54;
-    background-color: #EAF4F4;
+    background-color: #FAFDFE;
     background-image:
-      radial-gradient(ellipse 60% 45% at 80% 12%, rgba(255,255,255,0.85) 0%, transparent 60%),
-      radial-gradient(ellipse 55% 50% at 12% 28%, rgba(255,255,255,0.55) 0%, transparent 65%),
-      radial-gradient(ellipse 70% 50% at 50% 92%, rgba(168,221,219,0.32) 0%, transparent 70%),
-      linear-gradient(180deg, #EAF4F4 0%, #DEEFEF 50%, #D4E9E8 100%);
+      radial-gradient(ellipse 60% 45% at 80% 12%, rgba(255,255,255,0.95) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 50% at 12% 28%, rgba(255,255,255,0.85) 0%, transparent 65%),
+      radial-gradient(ellipse 70% 50% at 50% 92%, rgba(210,235,238,0.45) 0%, transparent 70%),
+      linear-gradient(180deg, #FFFFFF 0%, #F4FAFC 50%, #E8F4F6 100%);
     background-attachment: fixed;
   }
 
