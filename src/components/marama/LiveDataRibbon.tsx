@@ -52,6 +52,19 @@ const sigil = {
   ),
 };
 
+function wmoShort(code?: number): string {
+  if (code == null) return "—";
+  if (code === 0) return "Clear";
+  if (code <= 3) return "Cloud";
+  if (code <= 48) return "Fog";
+  if (code <= 67) return "Rain";
+  if (code <= 77) return "Snow";
+  if (code <= 82) return "Showers";
+  if (code <= 86) return "Snow";
+  if (code <= 99) return "Storm";
+  return "—";
+}
+
 export default function LiveDataRibbon({ accent = "#4AA5A8" }: { accent?: string }) {
   const [ticks, setTicks] = React.useState<Tick[]>([
     { id: "boot", label: "Live signals", value: "syncing…", tone: "neutral", sigil: sigil.pulse },
