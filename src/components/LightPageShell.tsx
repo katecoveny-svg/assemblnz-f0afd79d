@@ -13,7 +13,7 @@ const LightPageShell: React.FC<{
   className?: string;
 }> = ({ children, className = "" }) => (
   <div
-    className={`min-h-screen relative overflow-hidden ${className}`}
+    className={`light-glass-shell kete-light-shell min-h-screen relative overflow-hidden ${className}`}
     style={{ background: "#FAFBFC", color: "#3D4250" }}
   >
     <WharikiFoundation />

@@ -6,6 +6,12 @@ import { registerServiceWorker } from "./utils/pwaManifest";
 
 registerServiceWorker();
 
+// Site-wide light-glass upgrade — every page picks up the
+// charcoal-on-light remap defined in index.css. Pages with
+// their own kete-light-shell wrapper still work; they just
+// inherit the same rules from body.
+document.body.classList.add("light-glass-shell");
+
 createRoot(document.getElementById("root")!).render(
   <HelmetProvider>
     <App />

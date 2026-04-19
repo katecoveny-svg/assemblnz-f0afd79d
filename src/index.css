@@ -541,39 +541,133 @@ html {
 }
 
 /* ─────────────────────────────────────────────
-   Kete light dashboard shell — readability remap
-   Several dashboards were authored on a dark canvas
-   (text-white/40 etc). The shell now uses #FAFBFC,
-   so we remap white-on-dark utility colors to
-   charcoal-on-light inside the shell scope.
-   ───────────────────────────────────────────── */
-.kete-light-shell .text-white         { color: #1F2330 !important; }
-.kete-light-shell .text-white\/90     { color: rgba(31,35,48,0.92) !important; }
-.kete-light-shell .text-white\/80     { color: rgba(31,35,48,0.85) !important; }
-.kete-light-shell .text-white\/70     { color: rgba(31,35,48,0.78) !important; }
-.kete-light-shell .text-white\/60     { color: rgba(31,35,48,0.66) !important; }
-.kete-light-shell .text-white\/50     { color: rgba(31,35,48,0.55) !important; }
-.kete-light-shell .text-white\/40     { color: rgba(31,35,48,0.48) !important; }
-.kete-light-shell .text-white\/35     { color: rgba(31,35,48,0.42) !important; }
-.kete-light-shell .text-white\/30     { color: rgba(31,35,48,0.38) !important; }
+   LIGHT GLASS SHELL — site-wide upgrade remap
+   Every authenticated page is wrapped by either
+   .kete-light-shell (dashboards) or .light-glass-shell
+   (LightPageShell). Both classes co-exist so any
+   leftover dark-theme utility classes inside
+   (text-white/X, bg-white/X, dark form inputs, etc.)
+   are auto-remapped to charcoal-on-light glass.
+   This upgrades ~90 legacy components without
+   touching their source files.
 
-.kete-light-shell .placeholder\:text-white\/40::placeholder,
-.kete-light-shell .placeholder\:text-white\/30::placeholder {
-  color: rgba(31,35,48,0.40) !important;
+   The body element also receives .light-glass-shell
+   by default (App.tsx) so pages without an explicit
+   wrapper still get the upgrade.
+   ───────────────────────────────────────────── */
+
+/* === TEXT — white-on-dark → charcoal-on-light === */
+.kete-light-shell .text-white,
+.light-glass-shell .text-white         { color: #1F2330 !important; }
+.kete-light-shell .text-white\/95,
+.light-glass-shell .text-white\/95     { color: rgba(31,35,48,0.95) !important; }
+.kete-light-shell .text-white\/90,
+.light-glass-shell .text-white\/90     { color: rgba(31,35,48,0.92) !important; }
+.kete-light-shell .text-white\/80,
+.light-glass-shell .text-white\/80     { color: rgba(31,35,48,0.85) !important; }
+.kete-light-shell .text-white\/70,
+.light-glass-shell .text-white\/70     { color: rgba(31,35,48,0.78) !important; }
+.kete-light-shell .text-white\/60,
+.light-glass-shell .text-white\/60     { color: rgba(31,35,48,0.66) !important; }
+.kete-light-shell .text-white\/50,
+.light-glass-shell .text-white\/50     { color: rgba(31,35,48,0.55) !important; }
+.kete-light-shell .text-white\/40,
+.light-glass-shell .text-white\/40     { color: rgba(31,35,48,0.48) !important; }
+.kete-light-shell .text-white\/35,
+.light-glass-shell .text-white\/35     { color: rgba(31,35,48,0.42) !important; }
+.kete-light-shell .text-white\/30,
+.light-glass-shell .text-white\/30     { color: rgba(31,35,48,0.38) !important; }
+.kete-light-shell .text-white\/20,
+.light-glass-shell .text-white\/20     { color: rgba(31,35,48,0.30) !important; }
+
+/* Plain Tailwind grays that were chosen for dark bg */
+.kete-light-shell .text-gray-200,
+.light-glass-shell .text-gray-200      { color: rgba(31,35,48,0.85) !important; }
+.kete-light-shell .text-gray-300,
+.light-glass-shell .text-gray-300      { color: rgba(31,35,48,0.70) !important; }
+.kete-light-shell .text-gray-400,
+.light-glass-shell .text-gray-400      { color: rgba(31,35,48,0.55) !important; }
+
+/* === PLACEHOLDERS === */
+.kete-light-shell [class*="placeholder:text-white"]::placeholder,
+.kete-light-shell [class*="placeholder:text-gray-4"]::placeholder,
+.kete-light-shell [class*="placeholder:text-gray-3"]::placeholder,
+.light-glass-shell [class*="placeholder:text-white"]::placeholder,
+.light-glass-shell [class*="placeholder:text-gray-4"]::placeholder,
+.light-glass-shell [class*="placeholder:text-gray-3"]::placeholder {
+  color: rgba(31,35,48,0.42) !important;
 }
 
-/* Soft surface backgrounds authored as white tints
-   read as transparent on light bg — give them a faint
-   charcoal tint so cards / list rows are visible. */
-.kete-light-shell .bg-white\/5        { background-color: rgba(31,35,48,0.04) !important; }
-.kete-light-shell .bg-white\/10       { background-color: rgba(31,35,48,0.06) !important; }
-.kete-light-shell .hover\:bg-white\/5:hover { background-color: rgba(31,35,48,0.06) !important; }
+/* === SURFACES — white tints become charcoal tints === */
+.kete-light-shell .bg-white\/5,
+.light-glass-shell .bg-white\/5         { background-color: rgba(255,255,255,0.65) !important; backdrop-filter: blur(8px); }
+.kete-light-shell .bg-white\/10,
+.light-glass-shell .bg-white\/10        { background-color: rgba(255,255,255,0.72) !important; backdrop-filter: blur(10px); }
+.kete-light-shell .bg-white\/20,
+.light-glass-shell .bg-white\/20        { background-color: rgba(255,255,255,0.80) !important; backdrop-filter: blur(12px); }
+.kete-light-shell .hover\:bg-white\/5:hover,
+.light-glass-shell .hover\:bg-white\/5:hover  { background-color: rgba(255,255,255,0.85) !important; }
+.kete-light-shell .hover\:bg-white\/10:hover,
+.light-glass-shell .hover\:bg-white\/10:hover { background-color: rgba(255,255,255,0.92) !important; }
 
-/* Borders authored as white tints — switch to charcoal tints */
+/* Heavy darks (bg-black, bg-slate-900 etc.) shouldn't appear, but if they do, surface them */
+.kete-light-shell .bg-black,
+.light-glass-shell .bg-black,
+.kete-light-shell .bg-slate-900,
+.light-glass-shell .bg-slate-900,
+.kete-light-shell .bg-slate-800,
+.light-glass-shell .bg-slate-800        {
+  background-color: rgba(255,255,255,0.78) !important;
+  color: #1F2330 !important;
+  backdrop-filter: blur(12px);
+}
+
+/* === BORDERS === */
 .kete-light-shell .border-white\/5,
 .kete-light-shell .border-white\/10,
-.kete-light-shell .border-white\/20 {
-  border-color: rgba(31,35,48,0.10) !important;
+.kete-light-shell .border-white\/20,
+.kete-light-shell .border-white\/30,
+.light-glass-shell .border-white\/5,
+.light-glass-shell .border-white\/10,
+.light-glass-shell .border-white\/20,
+.light-glass-shell .border-white\/30 {
+  border-color: rgba(74,165,168,0.20) !important;
+}
+
+/* === FORM INPUTS — auto-promote bare inputs to light glass === */
+.kete-light-shell input[class*="bg-white/"],
+.kete-light-shell select[class*="bg-white/"],
+.kete-light-shell textarea[class*="bg-white/"],
+.light-glass-shell input[class*="bg-white/"],
+.light-glass-shell select[class*="bg-white/"],
+.light-glass-shell textarea[class*="bg-white/"] {
+  background-color: rgba(255,255,255,0.85) !important;
+  color: #1F2330 !important;
+  border-color: rgba(74,165,168,0.22) !important;
+  box-shadow: inset 2px 2px 6px rgba(166,166,180,0.18),
+              inset -2px -2px 6px rgba(255,255,255,0.95) !important;
+}
+.kete-light-shell input[class*="bg-white/"]:focus,
+.kete-light-shell select[class*="bg-white/"]:focus,
+.kete-light-shell textarea[class*="bg-white/"]:focus,
+.light-glass-shell input[class*="bg-white/"]:focus,
+.light-glass-shell select[class*="bg-white/"]:focus,
+.light-glass-shell textarea[class*="bg-white/"]:focus {
+  outline: none !important;
+  border-color: rgba(74,165,168,0.55) !important;
+  box-shadow: 0 0 0 3px rgba(74,165,168,0.12),
+              inset 2px 2px 6px rgba(166,166,180,0.18),
+              inset -2px -2px 6px rgba(255,255,255,0.95) !important;
+}
+
+/* === LEGACY DARK CARDS — common pattern in old dashboards === */
+.kete-light-shell [style*="rgba(255,255,255,0.03)"],
+.kete-light-shell [style*="rgba(255,255,255,0.05)"],
+.light-glass-shell [style*="rgba(255,255,255,0.03)"],
+.light-glass-shell [style*="rgba(255,255,255,0.05)"] {
+  background: rgba(255,255,255,0.75) !important;
+  backdrop-filter: blur(10px) saturate(150%);
+  border: 1px solid rgba(74,165,168,0.18) !important;
 }
 
 /* ─────────────────────────────────────────────
