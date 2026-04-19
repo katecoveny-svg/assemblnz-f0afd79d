@@ -1,15 +1,14 @@
 // ═══════════════════════════════════════════════════════════════
-// live-travel — single endpoint that returns live travel data
-// for any agent (VOYAGE, AURA, etc). Combines free + paid sources:
+// live-travel — single endpoint that returns live travel data.
+// Powered by Duffel (flights + stays) + Frankfurter (FX, free).
 //
-//   action: "fx"            → Frankfurter (ECB) NZD→target rate (free)
-//   action: "flights"       → Amadeus self-service /shopping/flight-offers (needs AMADEUS_API_KEY + AMADEUS_API_SECRET)
-//   action: "hotels"        → Amadeus /shopping/hotel-offers
-//   action: "airport"       → Amadeus /reference-data/locations (IATA lookup)
-//   action: "advisory"      → MFAT SafeTravel scrape for a destination
-//   action: "kb"            → matches kb_doc_chunks (existing RAG)
+//   action: "fx"            → Frankfurter (ECB) currency conversion
+//   action: "flights"       → Duffel /air/offer_requests
+//   action: "hotels"        → Duffel /stays/search
+//   action: "airport"       → Duffel /air/airports keyword search
 //
 // Browser-safe: requires JWT. Returns JSON.
+// Set DUFFEL_API_TOKEN to enable flights/hotels/airport actions.
 // ═══════════════════════════════════════════════════════════════
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
@@ -18,34 +17,37 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// ── Amadeus token cache ────────────────────────────────────────
-let amadeusToken: { token: string; expiresAt: number } | null = null;
-async function getAmadeusToken(): Promise<string | null> {
-  const key = Deno.env.get("AMADEUS_API_KEY");
-  const secret = Deno.env.get("AMADEUS_API_SECRET");
-  if (!key || !secret) return null;
-  if (amadeusToken && amadeusToken.expiresAt > Date.now() + 60_000) return amadeusToken.token;
-  const r = await fetch("https://test.api.amadeus.com/v1/security/oauth2/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `grant_type=client_credentials&client_id=${encodeURIComponent(key)}&client_secret=${encodeURIComponent(secret)}`,
-  });
-  if (!r.ok) { console.error("amadeus token failed", r.status); return null; }
-  const j = await r.json();
-  amadeusToken = { token: j.access_token, expiresAt: Date.now() + (j.expires_in ?? 1800) * 1000 };
-  return amadeusToken.token;
+const DUFFEL_BASE = "https://api.duffel.com";
+const DUFFEL_VERSION = "v2";
+
+function duffelHeaders(token: string) {
+  return {
+    Authorization: `Bearer ${token}`,
+    "Duffel-Version": DUFFEL_VERSION,
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  };
 }
 
-async function amadeusGet(path: string, params: Record<string, string>): Promise<unknown> {
-  const tok = await getAmadeusToken();
-  if (!tok) throw new Error("AMADEUS_API_KEY / AMADEUS_API_SECRET not configured");
+async function duffelGet(path: string, params: Record<string, string>, token: string) {
   const qs = new URLSearchParams(params).toString();
-  const r = await fetch(`https://test.api.amadeus.com${path}?${qs}`, {
-    headers: { Authorization: `Bearer ${tok}` },
-  });
+  const r = await fetch(`${DUFFEL_BASE}${path}${qs ? `?${qs}` : ""}`, { headers: duffelHeaders(token) });
   if (!r.ok) {
     const body = await r.text().catch(() => "");
-    throw new Error(`Amadeus ${path} ${r.status}: ${body.slice(0, 300)}`);
+    throw new Error(`Duffel GET ${path} ${r.status}: ${body.slice(0, 300)}`);
+  }
+  return r.json();
+}
+
+async function duffelPost(path: string, body: unknown, token: string) {
+  const r = await fetch(`${DUFFEL_BASE}${path}`, {
+    method: "POST",
+    headers: duffelHeaders(token),
+    body: JSON.stringify({ data: body }),
+  });
+  if (!r.ok) {
+    const txt = await r.text().catch(() => "");
+    throw new Error(`Duffel POST ${path} ${r.status}: ${txt.slice(0, 400)}`);
   }
   return r.json();
 }
@@ -59,88 +61,97 @@ async function fxRate(from: string, to: string, amount?: number) {
   return { from, to, rate, date: j.date, converted: amount && rate ? +(amount * rate).toFixed(2) : null };
 }
 
-async function flightOffers(args: Record<string, unknown>) {
-  const params: Record<string, string> = {
-    originLocationCode: String(args.from ?? "AKL"),
-    destinationLocationCode: String(args.to ?? "ROM"),
-    departureDate: String(args.depart),
-    adults: String(args.adults ?? 2),
-    currencyCode: String(args.currency ?? "NZD"),
-    max: String(args.max ?? 5),
-  };
-  if (args.return_date) params.returnDate = String(args.return_date);
-  if (args.children) params.children = String(args.children);
-  if (args.travelClass) params.travelClass = String(args.travelClass);
-  const j = await amadeusGet("/v2/shopping/flight-offers", params) as { data?: unknown[] };
-  // Compact each offer to essentials
-  const offers = (j.data ?? []).slice(0, 10).map((o) => {
+async function flightOffers(args: Record<string, unknown>, token: string) {
+  const slices: Array<Record<string, string>> = [
+    { origin: String(args.from ?? "AKL"), destination: String(args.to ?? "ROM"), departure_date: String(args.depart) },
+  ];
+  if (args.return_date) {
+    slices.push({ origin: String(args.to ?? "ROM"), destination: String(args.from ?? "AKL"), departure_date: String(args.return_date) });
+  }
+  const passengers: Array<{ type: string }> = [];
+  for (let i = 0; i < Number(args.adults ?? 2); i++) passengers.push({ type: "adult" });
+  for (let i = 0; i < Number(args.children ?? 0); i++) passengers.push({ type: "child" });
+
+  const created = await duffelPost("/air/offer_requests?return_offers=true", {
+    slices, passengers, cabin_class: String(args.travelClass ?? "economy").toLowerCase(),
+  }, token) as { data?: { offers?: unknown[] } };
+
+  const raw = created.data?.offers ?? [];
+  const offers = raw.slice(0, Number(args.max ?? 8)).map((o) => {
     const offer = o as Record<string, unknown>;
-    const itineraries = offer.itineraries as Array<Record<string, unknown>> | undefined;
-    const price = offer.price as Record<string, string> | undefined;
+    const sl = offer.slices as Array<Record<string, unknown>> | undefined;
     return {
       id: offer.id,
-      total: price?.grandTotal ?? price?.total,
-      currency: price?.currency,
-      airlines: offer.validatingAirlineCodes,
-      legs: itineraries?.map((it) => {
-        const segs = it.segments as Array<Record<string, unknown>> | undefined;
+      total: offer.total_amount,
+      currency: offer.total_currency,
+      airlines: [(offer.owner as Record<string, string>)?.iata_code].filter(Boolean),
+      legs: sl?.map((s) => {
+        const segs = s.segments as Array<Record<string, unknown>> | undefined;
         return {
-          duration: it.duration,
+          duration: s.duration,
           stops: (segs?.length ?? 1) - 1,
-          segments: segs?.map((s) => ({
-            from: (s.departure as Record<string, string>)?.iataCode,
-            to: (s.arrival as Record<string, string>)?.iataCode,
-            depart: (s.departure as Record<string, string>)?.at,
-            arrive: (s.arrival as Record<string, string>)?.at,
-            carrier: s.carrierCode,
-            number: s.number,
+          segments: segs?.map((seg) => ({
+            from: (seg.origin as Record<string, string>)?.iata_code,
+            to: (seg.destination as Record<string, string>)?.iata_code,
+            depart: seg.departing_at,
+            arrive: seg.arriving_at,
+            carrier: (seg.marketing_carrier as Record<string, string>)?.iata_code,
+            number: (seg.marketing_carrier_flight_number as string | undefined),
           })),
         };
       }),
     };
   });
-  return { offers, count: offers.length };
+  return { offers, count: offers.length, provider: "duffel" };
 }
 
-async function hotelOffers(args: Record<string, unknown>) {
-  // Step 1: hotels in city
-  const list = await amadeusGet("/v1/reference-data/locations/hotels/by-city", {
-    cityCode: String(args.city ?? "ROM"),
-  }) as { data?: Array<{ hotelId: string }> };
-  const ids = (list.data ?? []).slice(0, 10).map((h) => h.hotelId).join(",");
-  if (!ids) return { offers: [], count: 0 };
-  // Step 2: offers
-  const j = await amadeusGet("/v3/shopping/hotel-offers", {
-    hotelIds: ids,
-    adults: String(args.adults ?? 2),
-    checkInDate: String(args.checkin),
-    checkOutDate: String(args.checkout),
-    currency: String(args.currency ?? "NZD"),
-  }) as { data?: unknown[] };
-  const offers = (j.data ?? []).slice(0, 10).map((o) => {
-    const x = o as Record<string, unknown>;
-    const hotel = x.hotel as Record<string, string> | undefined;
-    const offer = (x.offers as Array<Record<string, unknown>> | undefined)?.[0];
-    const price = offer?.price as Record<string, string> | undefined;
+async function hotelOffers(args: Record<string, unknown>, token: string) {
+  // Duffel Stays uses /stays/search with location + dates
+  const body: Record<string, unknown> = {
+    check_in_date: String(args.checkin),
+    check_out_date: String(args.checkout),
+    rooms: Number(args.rooms ?? 1),
+    guests: [...Array(Number(args.adults ?? 2))].map(() => ({ type: "adult" })),
+  };
+  // Location: prefer explicit lat/lng/radius; fall back to IATA city code via accommodation
+  if (args.lat && args.lng) {
+    body.location = { radius: Number(args.radius_km ?? 10), geographic_coordinates: { latitude: Number(args.lat), longitude: Number(args.lng) } };
+  } else {
+    // city as IATA → use Duffel place suggestion to coords
+    const city = String(args.city ?? "ROM");
+    const suggest = await duffelGet("/stays/suggestions", { query: city }, token).catch(() => null);
+    const first = (suggest as { data?: Array<Record<string, unknown>> } | null)?.data?.[0];
+    const coords = first?.geographic_coordinates as Record<string, number> | undefined;
+    if (coords) {
+      body.location = { radius: 15, geographic_coordinates: { latitude: coords.latitude, longitude: coords.longitude } };
+    } else {
+      return { offers: [], count: 0, provider: "duffel", note: `no coords for ${city}` };
+    }
+  }
+  const j = await duffelPost("/stays/search", body, token) as { data?: { results?: unknown[] } };
+  const results = j.data?.results ?? [];
+  const offers = results.slice(0, 10).map((r) => {
+    const x = r as Record<string, unknown>;
+    const acc = x.accommodation as Record<string, unknown> | undefined;
+    const cheapest = x.cheapest_rate_total_amount as string | undefined;
     return {
-      hotel: hotel?.name,
-      hotelId: hotel?.hotelId,
-      total: price?.total,
-      currency: price?.currency,
-      checkIn: offer?.checkInDate,
-      checkOut: offer?.checkOutDate,
+      hotel: acc?.name,
+      hotelId: acc?.id,
+      total: cheapest,
+      currency: x.cheapest_rate_currency,
+      rating: acc?.rating,
+      checkIn: body.check_in_date,
+      checkOut: body.check_out_date,
     };
   });
-  return { offers, count: offers.length };
+  return { offers, count: offers.length, provider: "duffel" };
 }
 
-async function airportSearch(query: string) {
-  const j = await amadeusGet("/v1/reference-data/locations", {
-    keyword: query, subType: "AIRPORT,CITY",
-  }) as { data?: Array<Record<string, unknown>> };
+async function airportSearch(query: string, token: string) {
+  const j = await duffelGet("/air/airports", { name: query, limit: "8" }, token) as { data?: Array<Record<string, unknown>> };
   return (j.data ?? []).slice(0, 8).map((d) => ({
-    iata: d.iataCode, name: d.name, city: (d.address as Record<string, string>)?.cityName,
-    country: (d.address as Record<string, string>)?.countryName, type: d.subType,
+    iata: d.iata_code, name: d.name, city: (d.city as Record<string, string>)?.name,
+    country: d.iata_country_code, type: "AIRPORT",
   }));
 }
 
@@ -161,13 +172,23 @@ Deno.serve(async (req) => {
 
     const body = await req.json();
     const { action } = body;
+    const duffelToken = Deno.env.get("DUFFEL_API_TOKEN");
+
+    const requiresDuffel = ["flights", "hotels", "airport"].includes(action);
+    if (requiresDuffel && !duffelToken) {
+      return new Response(JSON.stringify({
+        ok: false,
+        error: "Duffel not configured",
+        hint: "Set DUFFEL_API_TOKEN secret to enable live flights/hotels/airport lookup. FX still works.",
+      }), { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
 
     let result: unknown;
     switch (action) {
       case "fx":       result = await fxRate(body.from ?? "NZD", body.to ?? "EUR", body.amount); break;
-      case "flights":  result = await flightOffers(body); break;
-      case "hotels":   result = await hotelOffers(body); break;
-      case "airport":  result = await airportSearch(String(body.query ?? "")); break;
+      case "flights":  result = await flightOffers(body, duffelToken!); break;
+      case "hotels":   result = await hotelOffers(body, duffelToken!); break;
+      case "airport":  result = await airportSearch(String(body.query ?? ""), duffelToken!); break;
       default: return new Response(JSON.stringify({ error: `unknown action: ${action}` }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
     return new Response(JSON.stringify({ ok: true, action, result }), {
