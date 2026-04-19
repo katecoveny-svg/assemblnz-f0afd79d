@@ -190,6 +190,14 @@ export default function WorkspaceDashboard() {
               </div>
             </div>
             <div className="flex gap-2">
+              <button
+                onClick={() => setTourOpen(true)}
+                className="px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 transition-colors"
+                style={{ background: "rgba(255,255,255,0.6)", color: "#3D4250", border: "1px solid rgba(0,0,0,0.08)" }}
+                title="3-step tour: connect → run → approve"
+              >
+                <Play size={12} /> Show me how
+              </button>
               <Link
                 to="/workspace/connections"
                 className="px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5"
