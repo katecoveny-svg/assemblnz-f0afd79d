@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Target, Users, Globe, Shield } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
