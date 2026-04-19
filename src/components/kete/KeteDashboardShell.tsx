@@ -165,18 +165,19 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
 
           {headerExtra}
 
-          {/* Constellation dots */}
-          <svg className="hidden md:block w-16 h-16 opacity-40" viewBox="0 0 64 64">
-            <circle cx="8" cy="12" r="2.5" fill={accentColor} />
-            <circle cx="36" cy="8" r="2" fill={accentLight} />
-            <circle cx="56" cy="28" r="3" fill={accentColor} />
-            <circle cx="20" cy="48" r="2" fill={accentLight} />
-            <circle cx="50" cy="54" r="2.5" fill={accentColor} />
-            <line x1="8" y1="12" x2="36" y2="8" stroke={accentColor} strokeWidth="0.8" opacity="0.3" />
-            <line x1="36" y1="8" x2="56" y2="28" stroke={accentColor} strokeWidth="0.8" opacity="0.3" />
-            <line x1="20" y1="48" x2="50" y2="54" stroke={accentColor} strokeWidth="0.8" opacity="0.25" />
+          {/* Mini constellation accent — woven hex grid */}
+          <svg className="hidden md:block w-16 h-16 opacity-50" viewBox="0 0 64 64" aria-hidden>
+            <g fill="none" stroke={accentColor} strokeWidth="0.8" strokeLinecap="round">
+              <path d="M12 16 L32 8 L52 16 L52 40 L32 56 L12 40 Z" opacity="0.3" />
+              <path d="M22 22 L32 18 L42 22 L42 38 L32 46 L22 38 Z" opacity="0.55" />
+            </g>
+            <circle cx="32" cy="32" r="3" fill={accentLight} opacity="0.85" />
+            <circle cx="32" cy="32" r="6" fill="none" stroke={accentColor} strokeWidth="0.6" opacity="0.4" />
           </svg>
         </motion.div>
+
+        {/* Live data ribbon — real signals, custom sigils, no emojis */}
+        {!hideRibbon && <LiveDataRibbon accent={accentColor} />}
 
         {children}
       </div>
@@ -198,6 +199,20 @@ function hexToRgb(hex: string): string {
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
   return `${r},${g},${b}`;
+}
+
+function guessSigilKey(name: string):
+  | "manaaki" | "waihanga" | "auaha" | "arataki" | "toro"
+  | "pikau" | "te-kahui-reo" | "auraki" | undefined {
+  const n = name.toLowerCase();
+  if (n.includes("manaaki")) return "manaaki";
+  if (n.includes("waihanga") || n.includes("hanga")) return "waihanga";
+  if (n.includes("auaha")) return "auaha";
+  if (n.includes("arataki")) return "arataki";
+  if (n.includes("tōro") || n.includes("toro")) return "toro";
+  if (n.includes("pikau")) return "pikau";
+  if (n.includes("kāhui") || n.includes("kahui")) return "te-kahui-reo";
+  return undefined;
 }
 
 export default KeteDashboardShell;
