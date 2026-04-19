@@ -160,6 +160,7 @@ export default function ReelsPage() {
     }
   };
 
+  const renderActBody = (key: string, body: any) => {
     if (!body) return null;
     return (
       <div className="space-y-3 text-sm">
