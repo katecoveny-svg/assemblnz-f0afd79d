@@ -162,7 +162,7 @@ function GlassOrb() {
             distortionScale={0}
             temporalDistortion={0}
             color={orbPalette.shell}
-            background={orbPalette.sceneMist}
+            background={new THREE.Color(orbPalette.sceneMist)}
             attenuationColor={orbPalette.shellTint}
             attenuationDistance={28}
           />
