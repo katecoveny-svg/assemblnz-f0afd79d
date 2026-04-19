@@ -1626,6 +1626,53 @@ export type Database = {
           },
         ]
       }
+      chase_log: {
+        Row: {
+          channel: string
+          created_at: string
+          id: string
+          message_body: string
+          provider_ref: string | null
+          reason: string | null
+          status: string
+          subbie_id: string
+          tenant_id: string
+          user_id: string
+        }
+        Insert: {
+          channel?: string
+          created_at?: string
+          id?: string
+          message_body: string
+          provider_ref?: string | null
+          reason?: string | null
+          status?: string
+          subbie_id: string
+          tenant_id: string
+          user_id: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          id?: string
+          message_body?: string
+          provider_ref?: string | null
+          reason?: string | null
+          status?: string
+          subbie_id?: string
+          tenant_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chase_log_subbie_id_fkey"
+            columns: ["subbie_id"]
+            isOneToOne: false
+            referencedRelation: "subcontractor_compliance"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       check_ins: {
         Row: {
           agent: string
@@ -2169,6 +2216,45 @@ export type Database = {
           id?: string
           messages?: Json
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      council_sessions: {
+        Row: {
+          advisors_json: Json
+          context: Json | null
+          created_at: string
+          duration_ms: number | null
+          id: string
+          mode: string
+          question: string
+          synthesis_json: Json | null
+          tenant_id: string
+          user_id: string
+        }
+        Insert: {
+          advisors_json?: Json
+          context?: Json | null
+          created_at?: string
+          duration_ms?: number | null
+          id?: string
+          mode?: string
+          question: string
+          synthesis_json?: Json | null
+          tenant_id: string
+          user_id: string
+        }
+        Update: {
+          advisors_json?: Json
+          context?: Json | null
+          created_at?: string
+          duration_ms?: number | null
+          id?: string
+          mode?: string
+          question?: string
+          synthesis_json?: Json | null
+          tenant_id?: string
           user_id?: string
         }
         Relationships: []
@@ -6025,6 +6111,42 @@ export type Database = {
         }
         Relationships: []
       }
+      reel_plans: {
+        Row: {
+          audience: string | null
+          brand: string | null
+          content_type: string | null
+          created_at: string
+          id: string
+          plan_json: Json
+          tenant_id: string
+          topic: string
+          user_id: string
+        }
+        Insert: {
+          audience?: string | null
+          brand?: string | null
+          content_type?: string | null
+          created_at?: string
+          id?: string
+          plan_json?: Json
+          tenant_id: string
+          topic: string
+          user_id: string
+        }
+        Update: {
+          audience?: string | null
+          brand?: string | null
+          content_type?: string | null
+          created_at?: string
+          id?: string
+          plan_json?: Json
+          tenant_id?: string
+          topic?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       response_cache: {
         Row: {
           cache_key: string
@@ -6823,6 +6945,93 @@ export type Database = {
           updated_at?: string
           user_id?: string
           view_count?: number
+        }
+        Relationships: []
+      }
+      subcontractor_compliance: {
+        Row: {
+          company_name: string
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string
+          hs_plan_date: string | null
+          hs_plan_uploaded: boolean | null
+          id: string
+          insurance_amount: number | null
+          insurance_expiry: string | null
+          insurance_policy: string | null
+          lbp_expiry: string | null
+          lbp_number: string | null
+          notes: string | null
+          nzbn: string | null
+          project_name: string | null
+          site_induction_date: string | null
+          site_induction_signed: boolean | null
+          site_safe_expiry: string | null
+          site_safe_number: string | null
+          status: string
+          tenant_id: string
+          trade: string | null
+          trading_name: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_name: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          hs_plan_date?: string | null
+          hs_plan_uploaded?: boolean | null
+          id?: string
+          insurance_amount?: number | null
+          insurance_expiry?: string | null
+          insurance_policy?: string | null
+          lbp_expiry?: string | null
+          lbp_number?: string | null
+          notes?: string | null
+          nzbn?: string | null
+          project_name?: string | null
+          site_induction_date?: string | null
+          site_induction_signed?: boolean | null
+          site_safe_expiry?: string | null
+          site_safe_number?: string | null
+          status?: string
+          tenant_id: string
+          trade?: string | null
+          trading_name?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_name?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          hs_plan_date?: string | null
+          hs_plan_uploaded?: boolean | null
+          id?: string
+          insurance_amount?: number | null
+          insurance_expiry?: string | null
+          insurance_policy?: string | null
+          lbp_expiry?: string | null
+          lbp_number?: string | null
+          notes?: string | null
+          nzbn?: string | null
+          project_name?: string | null
+          site_induction_date?: string | null
+          site_induction_signed?: boolean | null
+          site_safe_expiry?: string | null
+          site_safe_number?: string | null
+          status?: string
+          tenant_id?: string
+          trade?: string | null
+          trading_name?: string | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
