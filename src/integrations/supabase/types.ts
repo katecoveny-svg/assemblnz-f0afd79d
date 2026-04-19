@@ -4399,6 +4399,207 @@ export type Database = {
           },
         ]
       }
+      kb_changes: {
+        Row: {
+          change_type: string
+          detected_at: string
+          diff_summary: string | null
+          document_id: string | null
+          id: number
+          source_id: string | null
+        }
+        Insert: {
+          change_type: string
+          detected_at?: string
+          diff_summary?: string | null
+          document_id?: string | null
+          id?: number
+          source_id?: string | null
+        }
+        Update: {
+          change_type?: string
+          detected_at?: string
+          diff_summary?: string | null
+          document_id?: string | null
+          id?: number
+          source_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kb_changes_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "kb_documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kb_changes_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "kb_source_health"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kb_changes_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "kb_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kb_doc_chunks: {
+        Row: {
+          chunk_index: number
+          content: string
+          document_id: string
+          embedding: string | null
+          id: string
+          inserted_at: string
+          tokens: number | null
+        }
+        Insert: {
+          chunk_index: number
+          content: string
+          document_id: string
+          embedding?: string | null
+          id?: string
+          inserted_at?: string
+          tokens?: number | null
+        }
+        Update: {
+          chunk_index?: number
+          content?: string
+          document_id?: string
+          embedding?: string | null
+          id?: string
+          inserted_at?: string
+          tokens?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kb_doc_chunks_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "kb_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kb_documents: {
+        Row: {
+          content: string
+          content_hash: string
+          effective_from: string | null
+          effective_to: string | null
+          external_id: string | null
+          id: string
+          inserted_at: string
+          jurisdiction: string | null
+          metadata: Json
+          published_at: string | null
+          source_id: string | null
+          superseded_by: string | null
+          title: string
+          topic_tags: string[]
+          url: string | null
+        }
+        Insert: {
+          content: string
+          content_hash: string
+          effective_from?: string | null
+          effective_to?: string | null
+          external_id?: string | null
+          id?: string
+          inserted_at?: string
+          jurisdiction?: string | null
+          metadata?: Json
+          published_at?: string | null
+          source_id?: string | null
+          superseded_by?: string | null
+          title: string
+          topic_tags?: string[]
+          url?: string | null
+        }
+        Update: {
+          content?: string
+          content_hash?: string
+          effective_from?: string | null
+          effective_to?: string | null
+          external_id?: string | null
+          id?: string
+          inserted_at?: string
+          jurisdiction?: string | null
+          metadata?: Json
+          published_at?: string | null
+          source_id?: string | null
+          superseded_by?: string | null
+          title?: string
+          topic_tags?: string[]
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kb_documents_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "kb_source_health"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kb_documents_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "kb_sources"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kb_documents_superseded_by_fkey"
+            columns: ["superseded_by"]
+            isOneToOne: false
+            referencedRelation: "kb_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kb_embed_queue: {
+        Row: {
+          document_id: string
+          enqueued_at: string
+          error: string | null
+          finished_at: string | null
+          id: number
+          picked_at: string | null
+          status: string
+        }
+        Insert: {
+          document_id: string
+          enqueued_at?: string
+          error?: string | null
+          finished_at?: string | null
+          id?: number
+          picked_at?: string | null
+          status?: string
+        }
+        Update: {
+          document_id?: string
+          enqueued_at?: string
+          error?: string | null
+          finished_at?: string | null
+          id?: number
+          picked_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kb_embed_queue_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "kb_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       kb_priority_documents: {
         Row: {
           cadence: string | null
@@ -4453,6 +4654,156 @@ export type Database = {
           title?: string
           unblocks?: string[]
           updated_at?: string
+        }
+        Relationships: []
+      }
+      kb_sentinel_alerts: {
+        Row: {
+          detail: Json | null
+          id: number
+          level: string
+          raised_at: string
+          reason: string
+          resolved_at: string | null
+          source_id: string | null
+        }
+        Insert: {
+          detail?: Json | null
+          id?: number
+          level: string
+          raised_at?: string
+          reason: string
+          resolved_at?: string | null
+          source_id?: string | null
+        }
+        Update: {
+          detail?: Json | null
+          id?: number
+          level?: string
+          raised_at?: string
+          reason?: string
+          resolved_at?: string | null
+          source_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kb_sentinel_alerts_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "kb_source_health"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kb_sentinel_alerts_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "kb_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kb_source_runs: {
+        Row: {
+          duration_ms: number | null
+          error: Json | null
+          finished_at: string | null
+          id: number
+          new_docs: number
+          source_id: string | null
+          started_at: string
+          status: string | null
+          updated_docs: number
+        }
+        Insert: {
+          duration_ms?: number | null
+          error?: Json | null
+          finished_at?: string | null
+          id?: number
+          new_docs?: number
+          source_id?: string | null
+          started_at?: string
+          status?: string | null
+          updated_docs?: number
+        }
+        Update: {
+          duration_ms?: number | null
+          error?: Json | null
+          finished_at?: string | null
+          id?: number
+          new_docs?: number
+          source_id?: string | null
+          started_at?: string
+          status?: string | null
+          updated_docs?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kb_source_runs_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "kb_source_health"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kb_source_runs_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "kb_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kb_sources: {
+        Row: {
+          active: boolean
+          agent_packs: string[]
+          cadence_minutes: number
+          category: string
+          config: Json
+          consecutive_failures: number
+          created_at: string
+          id: string
+          last_checked_at: string | null
+          last_updated_at: string | null
+          name: string
+          status: string | null
+          type: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          active?: boolean
+          agent_packs?: string[]
+          cadence_minutes?: number
+          category: string
+          config?: Json
+          consecutive_failures?: number
+          created_at?: string
+          id?: string
+          last_checked_at?: string | null
+          last_updated_at?: string | null
+          name: string
+          status?: string | null
+          type: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          active?: boolean
+          agent_packs?: string[]
+          cadence_minutes?: number
+          category?: string
+          config?: Json
+          consecutive_failures?: number
+          created_at?: string
+          id?: string
+          last_checked_at?: string | null
+          last_updated_at?: string | null
+          name?: string
+          status?: string | null
+          type?: string
+          updated_at?: string
+          url?: string
         }
         Relationships: []
       }
@@ -10673,7 +11024,51 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      kb_source_health: {
+        Row: {
+          active: boolean | null
+          cadence_minutes: number | null
+          category: string | null
+          consecutive_failures: number | null
+          health: string | null
+          id: string | null
+          lag_minutes: number | null
+          last_checked_at: string | null
+          last_updated_at: string | null
+          name: string | null
+          status: string | null
+          type: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          cadence_minutes?: number | null
+          category?: string | null
+          consecutive_failures?: number | null
+          health?: never
+          id?: string | null
+          lag_minutes?: never
+          last_checked_at?: string | null
+          last_updated_at?: string | null
+          name?: string | null
+          status?: string | null
+          type?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          cadence_minutes?: number | null
+          category?: string | null
+          consecutive_failures?: number | null
+          health?: never
+          id?: string | null
+          lag_minutes?: never
+          last_checked_at?: string | null
+          last_updated_at?: string | null
+          name?: string | null
+          status?: string | null
+          type?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       can_access_trip: { Args: { _trip_id: string }; Returns: boolean }
@@ -10699,6 +11094,18 @@ export type Database = {
       is_family_member: {
         Args: { _family_id: string; _user_id: string }
         Returns: boolean
+      }
+      match_kb_knowledge: {
+        Args: { agent_pack?: string; query_embedding: string; top_k?: number }
+        Returns: {
+          document_id: string
+          published_at: string
+          similarity: number
+          snippet: string
+          source_name: string
+          title: string
+          url: string
+        }[]
       }
       move_to_dlq: {
         Args: {
