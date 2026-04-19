@@ -4,12 +4,12 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Lightformer, Environment } from "@react-three/drei";
 
 const orbPalette = {
-  filament: "#4AA5A8",      // soft teal — visible filaments
-  filamentSoft: "#A8DDDB",  // ice mist halo
+  filament: "#1F7A7D",      // deep teal — strong visible filaments
+  filamentSoft: "#5FB8B5",  // teal halo
   core: "#FFFFFF",          // bright white core
-  shell: "#D4ECEA",         // tinted glass shell — visible against white bg
-  shellTint: "#7FC8C2",     // deeper teal for sheen
-  rim: "#5FB8B5",           // rim accent
+  shell: "#7FC8C2",         // saturated teal glass shell
+  shellTint: "#2E8A8C",     // deep teal sheen
+  rim: "#1F7A7D",           // strong rim accent
 };
 
 /* ──────────────────────────────────────────────────────────
@@ -153,46 +153,46 @@ function GlassOrb() {
       <group ref={orbRef}>
         <LuminousFilament />
 
-        {/* Outer crystal shell — tinted teal so it's visible on white bg */}
+        {/* Outer crystal shell — saturated teal so it's clearly visible on white bg */}
         <mesh>
           <sphereGeometry args={[1.35, 128, 128]} />
           <meshPhysicalMaterial
             color={orbPalette.shell}
             transparent
-            opacity={0.55}
-            transmission={0.7}
-            thickness={0.4}
-            roughness={0.05}
+            opacity={0.85}
+            transmission={0.35}
+            thickness={0.6}
+            roughness={0.08}
             metalness={0}
-            ior={1.18}
+            ior={1.25}
             clearcoat={1}
             clearcoatRoughness={0.02}
-            reflectivity={0.18}
-            sheen={0.5}
+            reflectivity={0.4}
+            sheen={1}
             sheenColor={orbPalette.shellTint}
           />
         </mesh>
 
-        {/* Inner teal glow layer */}
+        {/* Inner deep teal glow layer */}
         <mesh>
           <sphereGeometry args={[1.16, 64, 64]} />
-          <meshBasicMaterial color={orbPalette.shellTint} transparent opacity={0.22} toneMapped={false} />
+          <meshBasicMaterial color={orbPalette.shellTint} transparent opacity={0.4} toneMapped={false} />
         </mesh>
 
-        {/* Outer rim glow — defines the sphere edge */}
-        <mesh scale={[1.04, 1.04, 1.04]}>
+        {/* Outer rim glow — defines the sphere edge clearly */}
+        <mesh scale={[1.06, 1.06, 1.06]}>
           <sphereGeometry args={[1.35, 64, 64]} />
-          <meshBasicMaterial color={orbPalette.rim} transparent opacity={0.15} toneMapped={false} blending={THREE.AdditiveBlending} />
+          <meshBasicMaterial color={orbPalette.rim} transparent opacity={0.35} toneMapped={false} blending={THREE.AdditiveBlending} />
         </mesh>
 
         {/* Soft white specular highlights */}
         <mesh position={[-0.5, 0.6, 0.85]}>
           <sphereGeometry args={[0.32, 32, 32]} />
-          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.6} toneMapped={false} />
+          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.7} toneMapped={false} />
         </mesh>
         <mesh position={[0.55, -0.45, 0.85]}>
           <sphereGeometry args={[0.2, 32, 32]} />
-          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.4} toneMapped={false} />
+          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.5} toneMapped={false} />
         </mesh>
       </group>
     </Float>
