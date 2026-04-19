@@ -14,6 +14,7 @@ import { TeReoProvider } from "@/components/chat/TeReoProvider";
 import { PersonalizationProvider } from "@/contexts/PersonalizationContext";
 import { BrandDnaProvider } from "@/contexts/BrandDnaContext";
 import { BusinessProvider } from "@/contexts/BusinessContext";
+import PageTransition from "@/components/marama/PageTransition";
 
 import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
@@ -182,6 +183,7 @@ const App = () => (
                   <BusinessProvider>
                     <WaterGlassBackground />
                     <div className="pb-14 sm:pb-0 relative z-10">
+                      <PageTransition>
                       <Routes>
                         <Route path="/" element={<Index />} />
                         <Route path="/app" element={<Navigate to="/kete" replace />} />
@@ -384,6 +386,7 @@ const App = () => (
                         <Route path="/te-reo" element={<Navigate to="/about" replace />} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
+                      </PageTransition>
                     </div>
                     <EchoChatWidget />
                     <MobileTabBar />
