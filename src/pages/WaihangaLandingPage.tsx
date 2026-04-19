@@ -8,7 +8,8 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
+import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import UseCaseToggle from "@/components/kete/UseCaseToggle";
 
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
@@ -122,23 +123,19 @@ export default function WaihangaLandingPage() {
             Building Code checklists, CCA compliance, BIM coordination, site check-ins, and tender management — documented, checked, and evidence-packed.
           </motion.p>
 
-          {/* Compliance badge — light glass */}
-          <motion.div className="relative rounded-3xl px-7 py-6 max-w-md mb-12 text-left" style={glass} variants={fadeUp} initial="hidden" animate="visible" custom={3}>
-            <p className="text-[10px] uppercase tracking-[3px] mb-4" style={{ color: C.pounamu, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
-              governed · human-in-the-loop
-            </p>
-            <ul className="space-y-3">
-              {COMPLIANCE.map((item, idx) => (
-                <motion.li key={item} className="flex items-start gap-3 text-[13px]" style={{ color: C.textSecondary }}
-                  initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + idx * 0.08 }}>
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${C.pounamu}15` }}>
-                    <Check size={11} style={{ color: C.pounamu }} />
-                  </div>
-                  <span>{item}</span>
-                </motion.li>
-              ))}
-            </ul>
+          {/* Live status strip */}
+          <motion.div className="mb-6" variants={fadeUp} initial="hidden" animate="visible" custom={2.5}>
+            <LiveStatusStrip pack="waihanga" agentCodes={["forge", "guardian", "operations", "vertex", "axis"]} accent={C.pounamu} />
           </motion.div>
+
+          {/* Compliance — single line */}
+          <motion.p
+            className="text-xs mb-10 max-w-xl"
+            style={{ color: C.textSecondary, fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: "0.02em" }}
+            variants={fadeUp} initial="hidden" animate="visible" custom={3}
+          >
+            <span style={{ color: C.pounamu, fontWeight: 500 }}>Governed by</span> Construction Contracts Act 2002, NZ Building Code B1–H1, HSWA, Privacy Act 2020.
+          </motion.p>
 
           {/* CTAs */}
           <motion.div className="flex flex-col sm:flex-row items-center gap-4" variants={fadeUp} initial="hidden" animate="visible" custom={4}>
@@ -153,8 +150,10 @@ export default function WaihangaLandingPage() {
           </motion.div>
         </main>
 
-        {/* ── Real Use Case ── */}
-        <KeteUseCaseSection data={WAIHANGA_USE_CASE} />
+        {/* ── Real Use Case (collapsed by default) ── */}
+        <UseCaseToggle accent={C.pounamu}>
+          <KeteUseCaseSection data={WAIHANGA_USE_CASE} />
+        </UseCaseToggle>
 
         {/* ── Agent Network ── */}
         <section className="relative px-6 py-32 max-w-5xl mx-auto">
