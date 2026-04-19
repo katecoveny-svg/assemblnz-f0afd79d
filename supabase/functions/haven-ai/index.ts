@@ -6,6 +6,30 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+// ─── Knowledge Brain grounding helper (Gemini 768-dim → match_kb_knowledge) ───
+const GEMINI_EMBED_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent";
+async function gatherLiveGrounding(question: string, agentPack: string, sb: ReturnType<typeof createClient>): Promise<string> {
+  try {
+    const geminiKey = Deno.env.get("GEMINI_API_KEY");
+    if (!geminiKey || !question) return "";
+    const r = await fetch(`${GEMINI_EMBED_URL}?key=${geminiKey}`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: { parts: [{ text: question.slice(0, 8000) }] }, outputDimensionality: 768 }),
+    });
+    if (!r.ok) return "";
+    const j = await r.json();
+    const vec = j?.embedding?.values;
+    if (!Array.isArray(vec)) return "";
+    const { data } = await sb.rpc("match_kb_knowledge", { query_embedding: vec, agent_pack: agentPack, top_k: 5 });
+    if (!data?.length) return "";
+    return "\n\n=== LIVE KNOWLEDGE BRAIN (verified NZ sources) ===\n" +
+      (data as Array<Record<string, unknown>>).map((s, i) => {
+        const date = s.published_at ? new Date(s.published_at as string).toISOString().slice(0,10) : "n/d";
+        return `[${i+1}] ${s.title} — ${s.source_name} (${date})\n${s.snippet}\n${s.url ? `→ ${s.url}` : ""}`;
+      }).join("\n---\n") + "\n=== END KNOWLEDGE BRAIN ===\n";
+  } catch (e) { console.warn("[haven-ai] grounding failed:", (e as Error).message); return ""; }
+}
+
 const HAVEN_SYSTEM_PROMPT = `You are HAVEN, an NZ property management AI assistant by Assembl. You help property managers, landlords, and investors manage their rental portfolios. You can create properties, log maintenance jobs, schedule inspections, track compliance, find and match tradies, and answer questions about NZ tenancy law (Residential Tenancies Act 1986, Healthy Homes Guarantee Act 2017, Building Act 2004). You always reference specific NZ legislation when relevant. When a user describes a maintenance issue, automatically suggest the right trade category and offer to find matching tradies. When a user adds a property, automatically suggest setting up Healthy Homes compliance items. Be proactive, efficient, and NZ-focused. Use NZ English.
 
 You have the following tools available. When the user's request clearly maps to one of these, call the tool. Otherwise answer conversationally.`;
