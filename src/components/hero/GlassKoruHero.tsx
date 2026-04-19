@@ -51,149 +51,102 @@ function buildConnectorCurve(nodes: MarbleNode[]): THREE.CatmullRomCurve3 {
   return new THREE.CatmullRomCurve3(nodes.map((n) => n.position.clone()), false, "catmullrom", 0.5);
 }
 
-/* The glass koru tube itself */
-function KoruTube({ curve }: { curve: THREE.CatmullRomCurve3 }) {
-  const tubeRef = useRef<THREE.Mesh>(null);
+/* A single glossy glass marble */
+function GlassMarble({ node }: { node: MarbleNode }) {
   const innerRef = useRef<THREE.Mesh>(null);
-  const coreRef = useRef<THREE.Mesh>(null);
-
-  // Vary tube thickness along its length (thick base → thin tip)
-  const geometry = useMemo(() => {
-    const segments = 320;
-    const radial = 24;
-    // Custom variable-radius tube: bake thickness into geometry
-    const positions: number[] = [];
-    const normals: number[] = [];
-    const uvs: number[] = [];
-    const indices: number[] = [];
-    const frame = new THREE.Vector3();
-    const tangent = new THREE.Vector3();
-    const normal = new THREE.Vector3();
-    const binormal = new THREE.Vector3();
-    const up = new THREE.Vector3(0, 0, 1);
-
-    for (let i = 0; i <= segments; i++) {
-      const t = i / segments;
-      curve.getPointAt(t, frame);
-      curve.getTangentAt(t, tangent).normalize();
-      // Build an orthonormal frame
-      normal.copy(up).cross(tangent);
-      if (normal.lengthSq() < 0.001) normal.set(1, 0, 0);
-      normal.normalize();
-      binormal.copy(tangent).cross(normal).normalize();
-
-      // Thickness: bulb at base (start, t=0), taper to fine tip
-      const bulb = Math.pow(1 - t, 2.2) * 0.18;
-      const taper = 0.13 + Math.pow(1 - t, 0.7) * 0.18;
-      const radius = Math.max(0.02, taper - t * 0.08 + bulb);
-
-      for (let j = 0; j <= radial; j++) {
-        const v = (j / radial) * Math.PI * 2;
-        const sin = Math.sin(v);
-        const cos = Math.cos(v);
-        const nx = cos * normal.x + sin * binormal.x;
-        const ny = cos * normal.y + sin * binormal.y;
-        const nz = cos * normal.z + sin * binormal.z;
-        positions.push(
-          frame.x + radius * nx,
-          frame.y + radius * ny,
-          frame.z + radius * nz,
-        );
-        normals.push(nx, ny, nz);
-        uvs.push(t, j / radial);
-      }
-    }
-    for (let i = 0; i < segments; i++) {
-      for (let j = 0; j < radial; j++) {
-        const a = i * (radial + 1) + j;
-        const b = (i + 1) * (radial + 1) + j;
-        const c = (i + 1) * (radial + 1) + (j + 1);
-        const d = i * (radial + 1) + (j + 1);
-        indices.push(a, b, d, b, c, d);
-      }
-    }
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-    geo.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));
-    geo.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
-    geo.setIndex(indices);
-    return geo;
-  }, [curve]);
+  const haloRef = useRef<THREE.Mesh>(null);
 
   useFrame(({ clock }) => {
-    const t = clock.elapsedTime;
+    const t = clock.elapsedTime + node.index * 0.4;
     if (innerRef.current) {
       const m = innerRef.current.material as THREE.MeshBasicMaterial;
-      m.opacity = 0.18 + 0.12 * Math.sin(t * 1.2);
+      m.opacity = 0.35 + 0.25 * Math.sin(t * 1.6);
+      innerRef.current.scale.setScalar(0.55 + 0.04 * Math.sin(t * 2.2));
     }
-    if (coreRef.current) {
-      const m = coreRef.current.material as THREE.MeshBasicMaterial;
-      m.opacity = 0.55 + 0.25 * Math.sin(t * 2.5);
-      coreRef.current.scale.setScalar(1 + 0.08 * Math.sin(t * 1.8));
+    if (haloRef.current) {
+      const m = haloRef.current.material as THREE.MeshBasicMaterial;
+      m.opacity = 0.18 + 0.12 * Math.sin(t * 1.2);
     }
   });
 
-  // Find the centre bulb (start of curve)
-  const bulbCentre = useMemo(() => curve.getPointAt(0), [curve]);
-
   return (
-    <group>
-      {/* The glass tube */}
-      <mesh ref={tubeRef} geometry={geometry}>
+    <group position={node.position}>
+      {/* Outer glass shell */}
+      <mesh>
+        <sphereGeometry args={[node.radius, 48, 48]} />
         <MeshTransmissionMaterial
-          color="#D4F5F6"
-          transmission={0.92}
-          roughness={0.05}
-          clearcoat={1}
-          clearcoatRoughness={0.02}
-          ior={1.55}
-          samples={12}
-          distortion={0.35}
-          temporalDistortion={0.15}
-          envMapIntensity={4}
-          chromaticAberration={0.07}
-          thickness={0.4}
-          attenuationColor="#7DD4D6"
-          attenuationDistance={2.5}
-        />
-      </mesh>
-      {/* Inner luminous lining — visible through the glass */}
-      <mesh geometry={geometry} ref={innerRef} scale={0.92}>
-        <meshBasicMaterial color="#7DD4D6" transparent opacity={0.25} depthWrite={false} />
-      </mesh>
-      {/* Hot core ribbon — thinnest inner glow */}
-      <mesh geometry={geometry} scale={0.78}>
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.08} depthWrite={false} />
-      </mesh>
-      {/* Pulsing centre bulb — heart of the koru */}
-      <mesh position={bulbCentre}>
-        <sphereGeometry args={[0.32, 32, 32]} />
-        <MeshTransmissionMaterial
-          color="#FFFFFF"
-          transmission={0.7}
-          ior={1.6}
-          thickness={0.3}
+          color="#F0FBFC"
+          transmission={0.95}
           roughness={0.02}
           clearcoat={1}
-          envMapIntensity={6}
+          clearcoatRoughness={0.01}
+          ior={1.55}
           samples={10}
+          distortion={0.25}
+          temporalDistortion={0.08}
+          envMapIntensity={4.5}
+          chromaticAberration={0.08}
+          thickness={node.radius * 1.4}
+          attenuationColor={node.color}
+          attenuationDistance={node.radius * 4}
         />
       </mesh>
-      <mesh position={bulbCentre} ref={coreRef}>
-        <sphereGeometry args={[0.36, 24, 24]} />
-        <meshBasicMaterial color="#7DD4D6" transparent opacity={0.6} depthWrite={false} />
+      {/* Coloured luminous core */}
+      <mesh ref={innerRef}>
+        <sphereGeometry args={[node.radius * 0.6, 24, 24]} />
+        <meshBasicMaterial color={node.color} transparent opacity={0.5} depthWrite={false} />
+      </mesh>
+      {/* Hot white centre */}
+      <mesh scale={0.25}>
+        <sphereGeometry args={[node.radius, 16, 16]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.9} depthWrite={false} />
+      </mesh>
+      {/* Outer glow halo */}
+      <mesh ref={haloRef} scale={1.45}>
+        <sphereGeometry args={[node.radius, 20, 20]} />
+        <meshBasicMaterial color={node.color} transparent opacity={0.2} depthWrite={false} />
+      </mesh>
+      {/* Specular highlight (fake sun-glint) */}
+      <mesh position={[-node.radius * 0.4, node.radius * 0.5, node.radius * 0.7]}>
+        <sphereGeometry args={[node.radius * 0.18, 12, 12]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.85} />
       </mesh>
     </group>
   );
 }
 
-/* Flowing data ribbons that travel along the koru curve */
-function FlowingPulse({
+/* Glowing connection line between two marbles */
+function ConnectionLine({ from, to, color }: { from: THREE.Vector3; to: THREE.Vector3; color: string }) {
+  const ref = useRef<THREE.Mesh>(null);
+  const { geometry, position, quaternion, length } = useMemo(() => {
+    const dir = new THREE.Vector3().subVectors(to, from);
+    const len = dir.length();
+    const mid = new THREE.Vector3().addVectors(from, to).multiplyScalar(0.5);
+    const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+    const geo = new THREE.CylinderGeometry(0.025, 0.025, len, 8, 1, true);
+    return { geometry: geo, position: mid, quaternion: q, length: len };
+  }, [from, to]);
+
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    const m = ref.current.material as THREE.MeshBasicMaterial;
+    m.opacity = 0.35 + 0.25 * Math.sin(clock.elapsedTime * 2 + length);
+  });
+
+  return (
+    <mesh ref={ref} geometry={geometry} position={position} quaternion={quaternion}>
+      <meshBasicMaterial color={color} transparent opacity={0.5} depthWrite={false} />
+    </mesh>
+  );
+}
+
+/* Flashing data packet that travels along the koru curve */
+function DataPacket({
   curve,
   color,
   speed,
   offset,
-  size = 0.06,
+  size = 0.08,
 }: {
   curve: THREE.CatmullRomCurve3;
   color: string;
@@ -209,18 +162,17 @@ function FlowingPulse({
     const point = curve.getPointAt(t);
     if (ref.current) {
       ref.current.position.copy(point);
-      const pulse = 0.85 + 0.15 * Math.sin(clock.elapsedTime * 6 + offset);
-      ref.current.scale.setScalar(pulse);
+      const flash = 0.7 + 0.3 * Math.sin(clock.elapsedTime * 8 + offset * 10);
+      ref.current.scale.setScalar(flash);
     }
-    // Trail follows behind
     trailRefs.current.forEach((m, i) => {
       if (!m) return;
-      const tt = ((t - (i + 1) * 0.018) + 1) % 1;
+      const tt = ((t - (i + 1) * 0.012) + 1) % 1;
       const p = curve.getPointAt(tt);
       m.position.copy(p);
       const fade = 1 - (i + 1) / (trailRefs.current.length + 1);
-      (m.material as THREE.MeshBasicMaterial).opacity = 0.5 * fade;
-      m.scale.setScalar(fade * 0.9);
+      (m.material as THREE.MeshBasicMaterial).opacity = 0.6 * fade;
+      m.scale.setScalar(fade * 0.85);
     });
   });
 
@@ -232,21 +184,18 @@ function FlowingPulse({
           <meshBasicMaterial color="#FFFFFF" />
         </mesh>
         <mesh>
-          <sphereGeometry args={[size * 2.2, 12, 12]} />
-          <meshBasicMaterial color={color} transparent opacity={0.55} depthWrite={false} />
+          <sphereGeometry args={[size * 2.4, 12, 12]} />
+          <meshBasicMaterial color={color} transparent opacity={0.65} depthWrite={false} />
         </mesh>
         <mesh>
-          <sphereGeometry args={[size * 4.5, 10, 10]} />
-          <meshBasicMaterial color={color} transparent opacity={0.18} depthWrite={false} />
+          <sphereGeometry args={[size * 5, 10, 10]} />
+          <meshBasicMaterial color={color} transparent opacity={0.22} depthWrite={false} />
         </mesh>
       </group>
-      {[0, 1, 2, 3, 4, 5].map((i) => (
-        <mesh
-          key={`trail-${i}`}
-          ref={(m) => { if (m) trailRefs.current[i] = m; }}
-        >
-          <sphereGeometry args={[size * 0.7, 8, 8]} />
-          <meshBasicMaterial color={color} transparent opacity={0.4} depthWrite={false} />
+      {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+        <mesh key={`trail-${i}`} ref={(m) => { if (m) trailRefs.current[i] = m; }}>
+          <sphereGeometry args={[size * 0.65, 8, 8]} />
+          <meshBasicMaterial color={color} transparent opacity={0.5} depthWrite={false} />
         </mesh>
       ))}
     </>
