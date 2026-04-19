@@ -52,10 +52,9 @@ export interface GovernanceGate {
   created_at: string;
 }
 
-// Use type assertion to work with tables not yet in generated types
-const db = supabase as unknown as {
-  from: (table: string) => ReturnType<typeof supabase.from>;
-};
+// Tables not yet in generated types — use loose typing to skip deep inference
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db: any = supabase;
 
 export function useSovereigntyRegistry(kete?: string) {
   return useQuery({
@@ -68,7 +67,7 @@ export function useSovereigntyRegistry(kete?: string) {
       if (kete) q = q.eq("source_kete", kete);
       const { data, error } = await q;
       if (error) throw error;
-      return (data ?? []) as RegistryEntry[];
+      return ((data ?? []) as unknown) as RegistryEntry[];
     },
   });
 }
@@ -84,7 +83,7 @@ export function useSovereigntyAudit(kete?: string) {
       if (kete) q = q.eq("kete", kete);
       const { data, error } = await q;
       if (error) throw error;
-      return (data ?? []) as AuditEntry[];
+      return ((data ?? []) as unknown) as AuditEntry[];
     },
   });
 }
@@ -100,7 +99,7 @@ export function useGovernanceGates(kete?: string) {
       if (kete) q = q.eq("kete", kete);
       const { data, error } = await q;
       if (error) throw error;
-      return (data ?? []) as GovernanceGate[];
+      return ((data ?? []) as unknown) as GovernanceGate[];
     },
   });
 }
