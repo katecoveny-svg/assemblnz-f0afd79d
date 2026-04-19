@@ -4,7 +4,7 @@ import { ArrowRight, Layers, LayoutDashboard, ShieldCheck, Database, Shield, Fil
 import toroaIcon from "@/assets/brand/toroa-logo.svg";
 import { teKahuiReoMark } from "@/assets/brand";
 
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 const GOLD_STYLE = { color: GOLD, filter: "drop-shadow(0 0 6px rgba(212,168,67,0.5))" };
 
 const TE_KAHUI_REO_AGENTS = [
@@ -55,7 +55,7 @@ const TeKahuiReoSection = () => (
               fontWeight: 500,
               fontSize: "13px",
               letterSpacing: "6px",
-              color: "#D4A843",
+              color: "#4AA5A8",
             }}
           >
             Te Kāhui Reo
@@ -90,7 +90,7 @@ const TeKahuiReoSection = () => (
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontWeight: 500,
             fontSize: "14px",
-            color: "#D4A843",
+            color: "#4AA5A8",
             fontStyle: "italic",
           }}
         >
@@ -201,7 +201,7 @@ const TeKahuiReoSection = () => (
                     fontFamily: "'Lato', sans-serif",
                     fontWeight: 400,
                     fontSize: "15px",
-                    color: "#D4A843",
+                    color: "#4AA5A8",
                     letterSpacing: "3px",
                   }}
                 >
@@ -237,7 +237,7 @@ const TeKahuiReoSection = () => (
               style={{
                 fontFamily: "'Lato', sans-serif",
                 fontWeight: 400,
-                color: "#D4A843",
+                color: "#4AA5A8",
               }}
             >
               Try Toro <ArrowRight size={14} />

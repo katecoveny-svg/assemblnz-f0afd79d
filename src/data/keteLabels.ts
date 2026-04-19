@@ -14,7 +14,7 @@ export interface KeteLabel {
 }
 
 export const KETE_LABELS: KeteLabel[] = [
-  { code: "MANAAKI",      slug: "manaaki",  short: "Manaaki",      english: "Hospitality",        href: "/manaaki",  accent: "#D4A843" },
+  { code: "MANAAKI",      slug: "manaaki",  short: "Manaaki",      english: "Hospitality",        href: "/manaaki",  accent: "#4AA5A8" },
   { code: "WAIHANGA",     slug: "waihanga", short: "Waihanga",     english: "Construction",       href: "/waihanga", accent: "#3A7D6E" },
   { code: "AUAHA",        slug: "auaha",    short: "Auaha",        english: "Creative",           href: "/auaha",    accent: "#C97B5C" },
   { code: "ARATAKI",      slug: "arataki",  short: "Arataki",      english: "Automotive",         href: "/arataki",  accent: "#4A6FA5" },

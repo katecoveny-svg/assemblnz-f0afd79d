@@ -147,14 +147,14 @@ const AGENT_REGISTRY: AgentEntry[] = [
 ];
 
 const KETE_META: Record<string, { name: string; accent: string }> = {
-  'manaaki': { name: 'MANAAKI', accent: '#D4A843' },
+  'manaaki': { name: 'MANAAKI', accent: '#4AA5A8' },
   'waihanga': { name: 'WAIHANGA', accent: '#3A7D6E' },
-  'auaha': { name: 'AUAHA', accent: '#F0D078' },
+  'auaha': { name: 'AUAHA', accent: '#A8DDDB' },
   'arataki': { name: 'ARATAKI', accent: '#C65D4E' },
   'pikau': { name: 'PIKAU', accent: '#5AADA0' },
-  'toro': { name: 'TŌRO', accent: '#D4A843' },
-  'toroa': { name: 'TŌRO', accent: '#D4A843' },
-  'shared': { name: 'SHARED CORE', accent: '#D4A843' },
+  'toro': { name: 'TŌRO', accent: '#4AA5A8' },
+  'toroa': { name: 'TŌRO', accent: '#4AA5A8' },
+  'shared': { name: 'SHARED CORE', accent: '#4AA5A8' },
 };
 
 export interface AlternativeMatch {
@@ -317,14 +317,14 @@ export const DEMO_QUERIES: { query: string; result: IntentMatch }[] = [
     query: "Set up payroll for 12 staff",
     result: {
       query: "Set up payroll for 12 staff",
-      keteId: 'pakihi', keteName: 'PAKIHI', keteAccent: '#D4A843',
+      keteId: 'pakihi', keteName: 'PAKIHI', keteAccent: '#4AA5A8',
       agentId: 'vault', agentName: 'VAULT', specialisation: 'Payroll & Compliance',
       confidence: 91,
       reasoning: ['Intent: finance', 'Match: payroll specialisation', 'Performance: 94%'],
       matchedIntents: ['finance', 'hr'],
       alternatives: [
-        { agentId: 'aroha', agentName: 'AROHA', keteId: 'shared', keteName: 'SHARED CORE', keteAccent: '#D4A843', confidence: 85, reason: 'People & Culture' },
-        { agentId: 'grove', agentName: 'GROVE', keteId: 'pakihi', keteName: 'PAKIHI', keteAccent: '#D4A843', confidence: 68, reason: 'HR & Recruitment' },
+        { agentId: 'aroha', agentName: 'AROHA', keteId: 'shared', keteName: 'SHARED CORE', keteAccent: '#4AA5A8', confidence: 85, reason: 'People & Culture' },
+        { agentId: 'grove', agentName: 'GROVE', keteId: 'pakihi', keteName: 'PAKIHI', keteAccent: '#4AA5A8', confidence: 68, reason: 'HR & Recruitment' },
       ],
     },
   },
@@ -368,7 +368,7 @@ export const DEMO_QUERIES: { query: string; result: IntentMatch }[] = [
       reasoning: ['Intent: family', 'Match: whānau specialisation', 'Performance: 95%'],
       matchedIntents: ['family'],
       alternatives: [
-        { agentId: 'whanau-reo', agentName: 'WHĀNAU', keteId: 'te-kahui-reo', keteName: 'TE KĀHUI REO', keteAccent: '#D4A843', confidence: 78, reason: 'Whānau & Iwi' },
+        { agentId: 'whanau-reo', agentName: 'WHĀNAU', keteId: 'te-kahui-reo', keteName: 'TE KĀHUI REO', keteAccent: '#4AA5A8', confidence: 78, reason: 'Whānau & Iwi' },
         { agentId: 'kura', agentName: 'KURA', keteId: 'manaaki', keteName: 'MANAAKI', keteAccent: '#E8A87C', confidence: 65, reason: 'Events & Functions' },
       ],
     },

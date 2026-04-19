@@ -88,7 +88,7 @@ const KeteOnboardingCard = ({ packId }: Props) => {
 
         <p
           className="text-lg font-light mb-2 relative z-10"
-          style={{ fontFamily: "'Lato', sans-serif", color: "#D4A843" }}
+          style={{ fontFamily: "'Lato', sans-serif", color: "#4AA5A8" }}
         >
           {msg.mi}
         </p>

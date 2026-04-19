@@ -12,7 +12,7 @@ import {
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { toast } from "sonner";
 
-const BRAND = { gold: "#D4A843", teal: "#3A7D6E", accent: "#5AADA0" };
+const BRAND = { gold: "#4AA5A8", teal: "#3A7D6E", accent: "#5AADA0" };
 
 /* ── Severity Badge ─────────────────────────────────── */
 const SeverityBadge = ({ severity }: { severity: Severity }) => (

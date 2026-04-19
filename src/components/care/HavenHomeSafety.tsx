@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Home, Camera, AlertTriangle, Shield, Thermometer, Sun } from "lucide-react";
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const KOKKOWAI = "#A52A2A";
 

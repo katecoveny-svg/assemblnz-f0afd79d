@@ -4,7 +4,7 @@ import {
   Lock, Fingerprint, Download, Activity
 } from "lucide-react";
 
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 
 const FEATURES = [
   { icon: Brain, title: "Intent Classification", desc: "Automatically detects which industry pack and agent is needed. Keyword matching, pattern recognition, and confidence scoring." },

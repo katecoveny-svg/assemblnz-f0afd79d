@@ -17,11 +17,11 @@ import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { AUAHA_USE_CASE } from "@/data/useCases";
 
 const BG = "#FAFBFC";
-const ACCENT = "#F0D078";
+const ACCENT = "#A8DDDB";
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
 const BONE = "#F5F0E8";
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
@@ -81,7 +81,7 @@ export default function AuahaLandingPage() {
               transition={{ duration: 5 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.8 }} />
           ))}
 
-          <LandingKeteHero accentColor="#D4A843" accentLight="#E8C76A" model="palette" size={200} />
+          <LandingKeteHero accentColor="#4AA5A8" accentLight="#E8C76A" model="palette" size={200} />
 
           <motion.p className="text-[10px] uppercase tracking-[5px] mb-6" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}
             variants={fadeUp} initial="hidden" animate="visible" custom={0}>
@@ -250,7 +250,7 @@ export default function AuahaLandingPage() {
                 {[
                   { label: "Brand", value: "Kōwhai Café" },
                   { label: "Voice", value: "Warm, down-to-earth, local" },
-                  { label: "Palette", value: "#D4A843, #3A7D6E, #1a1a2e" },
+                  { label: "Palette", value: "#4AA5A8, #3A7D6E, #1a1a2e" },
                   { label: "Fonts", value: "Canela Display + Inter" },
                   { label: "Audience", value: "Local families, 25–45" },
                   { label: "Channels", value: "Instagram, Facebook, EDM" },
@@ -267,7 +267,7 @@ export default function AuahaLandingPage() {
               <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="ad-1">
                 <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(58,125,110,0.15)" }}>
                   <p className="text-[10px] mb-1" style={{ color: "#7B8294" }}>Instagram caption — drafted by MUSE</p>
-                  <p className="text-xs italic" style={{ color: "#3D4250" }}>"Sunday mornings at Kōwhai. Fresh baking, strong flat whites, and the sun hitting the deck just right. Come find your spot 🌿☕"</p>
+                  <p className="text-xs italic" style={{ color: "#3D4250" }}>"Sunday mornings at Kōwhai. Fresh baking, strong flat whites, and the sun hitting the deck just right. Come find your spot ☕"</p>
                 </div>
                 <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(58,125,110,0.15)" }}>
                   <p className="text-[10px] mb-1" style={{ color: "#7B8294" }}>EDM subject line — drafted by PRISM</p>
@@ -286,7 +286,7 @@ export default function AuahaLandingPage() {
                   <motion.div key={c.check} className="flex items-center justify-between text-xs p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(58,125,110,0.15)" }}
                     initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.08 }}>
                     <span style={{ color: "#5B6374" }}>{c.check}</span>
-                    <span className="text-[10px] uppercase font-semibold" style={{ color: c.st === "pass" ? "#3A7D6E" : "#D4A843" }}>{c.st}</span>
+                    <span className="text-[10px] uppercase font-semibold" style={{ color: c.st === "pass" ? "#3A7D6E" : "#4AA5A8" }}>{c.st}</span>
                   </motion.div>
                 ))}
               </motion.div>
@@ -342,7 +342,7 @@ export default function AuahaLandingPage() {
         </section>
         <BrandFooter />
         <KeteAgentChat
-          keteName="Auaha" keteLabel="Creative & Media" accentColor="#F0D078"
+          keteName="Auaha" keteLabel="Creative & Media" accentColor="#A8DDDB"
           defaultAgentId="prism" packId="auaha"
           starterPrompts={["What does Auaha help with?", "How does the 9-agent creative studio work?", "Tell me about content calendar workflows", "What compliance checks run on my content?"]}
         />

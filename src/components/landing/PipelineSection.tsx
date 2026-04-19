@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Shield, Layers, Search, Database, FileText } from "lucide-react";
 
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 const GOLD_GLOW = "0 0 12px rgba(212,168,67,0.4)";
 
 const PIPELINE_STEPS = [

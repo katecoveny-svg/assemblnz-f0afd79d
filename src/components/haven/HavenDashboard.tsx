@@ -6,7 +6,7 @@ import { AgentPieChart, AgentBarChart, AgentWorkflow } from "@/components/shared
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 const Glass = ({ children, className = "", glow = false }: { children: React.ReactNode; className?: string; glow?: boolean }) => (

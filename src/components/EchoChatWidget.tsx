@@ -11,7 +11,7 @@ interface Message {
   content: string;
 }
 
-const ECHO_COLOR = "#D4A843";
+const ECHO_COLOR = "#4AA5A8";
 const ECHO_BORDER = "rgba(212,168,67,0.15)";
 const ECHO_BORDER_HOVER = "rgba(212,168,67,0.25)";
 const ECHO_BG_ACCENT = "rgba(212,168,67,0.1)";

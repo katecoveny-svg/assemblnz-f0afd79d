@@ -52,7 +52,7 @@ const WORKFLOWS: WorkflowTab[] = [
       lines: [
         "Sarah K · LTV $3,840 · birthday in 12 days · favourite: Allpress",
         "→ Draft: \"Kia ora Sarah — your beans are in. We've held a 1kg for you.\"",
-        "Mike R · 94 days since last visit · was monthly · churn risk 🟡",
+        "Mike R · 94 days since last visit · was monthly · churn risk ",
         "Dan T · first purchase 6 days ago · welcome flow stage 2 ready",
       ],
     },
@@ -88,11 +88,11 @@ const WORKFLOWS: WorkflowTab[] = [
     output: {
       label: "Lint findings on draft sale banner",
       lines: [
-        "🔴 \"Was $129 / Now $79\" — no 28-day prior price evidence found",
+        "\"Was $129 / Now $79\" — no 28-day prior price evidence found",
         "   → Suggested: \"Save $50 vs RRP\" (verifiable)",
-        "🟡 \"Only 2 left!\" — true at scan, but unverifiable on landing",
+        "\"Only 2 left!\" — true at scan, but unverifiable on landing",
         "   → Suggested: \"2 in stock at Ponsonby\" (specific, defensible)",
-        "🟢 \"NZ-stocked, ships today\" — verified against POS inventory",
+        "\"NZ-stocked, ships today\" — verified against POS inventory",
       ],
     },
     receipt: "MANA · Fair Trading Act 1986 + Commerce Commission decisions corpus · audit-ready",

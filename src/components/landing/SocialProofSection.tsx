@@ -32,7 +32,7 @@ const SocialProofSection = () => (
             fontWeight: 400,
             fontSize: "11px",
             letterSpacing: "4px",
-            color: "#D4A843",
+            color: "#4AA5A8",
           }}
         >
           Trusted by NZ businesses
@@ -80,7 +80,7 @@ const SocialProofSection = () => (
                 fontFamily: "Georgia, serif",
                 fontSize: "48px",
                 lineHeight: 1,
-                color: "#D4A843",
+                color: "#4AA5A8",
                 opacity: 0.4,
               }}
             >

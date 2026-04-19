@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Clock, MapPin, FileText, TrendingUp } from "lucide-react";
 
 const NAVY = "#1A3A5C";
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 interface VitaeCareJourneysProps {

@@ -36,7 +36,7 @@ export default function WeeklyChangesDigest() {
   }, []);
 
   const TEAL = "#4AA5A8";
-  const OCHRE = "#E8A948";
+  const OCHRE = "#4AA5A8";
 
   // Show component only when there's something to say — but keep skeleton during load
   const hasChanges = changes && changes.length > 0;

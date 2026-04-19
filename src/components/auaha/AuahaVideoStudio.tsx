@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import PaywallModal from "@/components/PaywallModal";
 
-const ACCENT = "#F0D078";
+const ACCENT = "#A8DDDB";
 const VOICES = ["Kore (Balanced NZ)", "Puck (Youthful)", "Charon (Authoritative)", "Fenrir (Bold)", "Zephyr (Calm)"];
 const ASPECTS = [
   { label: "16:9 — YouTube / LinkedIn", ratio: "16:9" },

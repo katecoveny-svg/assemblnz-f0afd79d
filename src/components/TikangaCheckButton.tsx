@@ -29,7 +29,7 @@ Content to review:
 
 const VERDICT_CONFIG = {
   pass: { icon: CheckCircle2, label: "Tikanga Approved", color: "#00A86B", bg: "rgba(0,168,107,0.08)" },
-  flag: { icon: AlertTriangle, label: "Review Recommended", color: "#D4A843", bg: "rgba(212,168,67,0.08)" },
+  flag: { icon: AlertTriangle, label: "Review Recommended", color: "#4AA5A8", bg: "rgba(212,168,67,0.08)" },
   fail: { icon: XCircle, label: "Corrections Needed", color: "#C85A54", bg: "rgba(200,90,84,0.08)" },
 };
 

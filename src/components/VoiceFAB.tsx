@@ -4,7 +4,7 @@ import { Mic, MicOff, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 
 type VoiceState = "idle" | "listening" | "thinking" | "speaking" | "error";
 

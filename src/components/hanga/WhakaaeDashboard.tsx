@@ -96,9 +96,9 @@ const consentStepLabel: Record<ConsentStatus, string> = { preparing: "Preparing"
 const consentStepIdx = (s: ConsentStatus) => s === "expired" ? 4 : consentSteps.indexOf(s);
 
 const consentTypeLabel: Record<ConsentType, string> = { building: "Building Consent", resource: "Resource Consent", subdivision: "Subdivision", land_use: "Land Use" };
-const consentTypeColor: Record<ConsentType, string> = { building: "#1A3A5C", resource: "#3A7D6E", subdivision: "#D4A843", land_use: "#5A8AB5" };
+const consentTypeColor: Record<ConsentType, string> = { building: "#1A3A5C", resource: "#3A7D6E", subdivision: "#4AA5A8", land_use: "#5A8AB5" };
 
-const riskLevelColor = (l: "low" | "medium" | "high") => l === "low" ? "#3A7D6E" : l === "medium" ? "#D4A843" : "#EF4444";
+const riskLevelColor = (l: "low" | "medium" | "high") => l === "low" ? "#3A7D6E" : l === "medium" ? "#4AA5A8" : "#EF4444";
 
 const Glass = ({ children, className = "", glow = false, navy = false }: { children: React.ReactNode; className?: string; glow?: boolean; navy?: boolean }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
@@ -127,7 +127,7 @@ export default function WhakaaeDashboard() {
   const e2MaxScore = e2Risks.reduce((s, r) => s + 3 * r.weight, 0);
   const e2Pct = Math.round((e2Score / e2MaxScore) * 100);
   const e2Category = e2Pct <= 33 ? "Low Risk" : e2Pct <= 66 ? "Medium Risk" : "High Risk";
-  const e2Color = e2Pct <= 33 ? "#3A7D6E" : e2Pct <= 66 ? "#D4A843" : "#EF4444";
+  const e2Color = e2Pct <= 33 ? "#3A7D6E" : e2Pct <= 66 ? "#4AA5A8" : "#EF4444";
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: "consents", label: "Consent Tracker", icon: <FileCheck size={14} /> },
@@ -167,7 +167,7 @@ export default function WhakaaeDashboard() {
           {[
             { label: "Consents Active", value: activeConsents, icon: <FileCheck size={18} />, accent: "#1A3A5C" },
             { label: "RFIs Outstanding", value: outstandingRFIs, icon: <MessageSquare size={18} />, accent: "#EF4444" },
-            { label: "Conditions to Meet", value: conditionsToMeet, icon: <ClipboardCheck size={18} />, accent: "#D4A843" },
+            { label: "Conditions to Meet", value: conditionsToMeet, icon: <ClipboardCheck size={18} />, accent: "#4AA5A8" },
             { label: "Avg Days to Decision", value: "58", icon: <Clock size={18} />, accent: "#3A7D6E" },
           ].map(s => (
             <Glass key={s.label} navy={s.accent === "#1A3A5C"}>
@@ -231,13 +231,13 @@ export default function WhakaaeDashboard() {
                             <div key={step} className="flex-1">
                               <div className="h-1.5 rounded-full" style={{
                                 background: isComplete
-                                  ? isRFI ? "linear-gradient(90deg, #D4A843, #B8892A)" : "linear-gradient(90deg, #1A3A5C, #5A8AB5)"
+                                  ? isRFI ? "linear-gradient(90deg, #4AA5A8, #B8892A)" : "linear-gradient(90deg, #1A3A5C, #5A8AB5)"
                                   : "rgba(255,255,255,0.5)",
                                 boxShadow: isCurrent ? `0 0 8px ${isRFI ? "rgba(212,168,67,0.4)" : "rgba(26,58,92,0.5)"}` : "none",
                               }} />
                               <span className="block text-center text-[8px] mt-1" style={{
                                 fontFamily: "JetBrains Mono",
-                                color: isComplete ? (isRFI ? "#D4A843" : "#5A8AB5") : "rgba(255,255,255,0.25)",
+                                color: isComplete ? (isRFI ? "#4AA5A8" : "#5A8AB5") : "rgba(255,255,255,0.25)",
                               }}>
                                 {consentStepLabel[step]}
                               </span>
@@ -411,7 +411,7 @@ export default function WhakaaeDashboard() {
                           <span className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{p.policyType}</span>
                           <span className="px-2 py-0.5 rounded-full text-[9px]" style={{
                             background: isRenewal ? "rgba(212,168,67,0.15)" : "rgba(58,125,110,0.15)",
-                            color: isRenewal ? "#D4A843" : "#3A7D6E",
+                            color: isRenewal ? "#4AA5A8" : "#3A7D6E",
                             fontFamily: "JetBrains Mono",
                           }}>{p.status}</span>
                         </div>
@@ -426,11 +426,11 @@ export default function WhakaaeDashboard() {
                           </div>
                           <div>
                             <span className="block text-[8px] uppercase" style={{ color: "rgba(255,255,255,0.25)" }}>Cover</span>
-                            <span style={{ color: "#D4A843" }}>{fmtNZD(p.coverAmount)}</span>
+                            <span style={{ color: "#4AA5A8" }}>{fmtNZD(p.coverAmount)}</span>
                           </div>
                           <div>
                             <span className="block text-[8px] uppercase" style={{ color: "rgba(255,255,255,0.25)" }}>Expires</span>
-                            <span style={{ color: isRenewal ? "#D4A843" : "rgba(255,255,255,0.45)" }}>{p.expiryDate}</span>
+                            <span style={{ color: isRenewal ? "#4AA5A8" : "rgba(255,255,255,0.45)" }}>{p.expiryDate}</span>
                           </div>
                         </div>
                         <p className="text-[10px] mt-2" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.35)" }}>

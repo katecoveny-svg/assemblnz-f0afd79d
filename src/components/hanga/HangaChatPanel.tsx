@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/agent-router`;
@@ -154,7 +154,7 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
     } catch (e) {
       const errMsg = e instanceof Error ? e.message : "Something went wrong";
       setMessages(prev => [...prev, {
-        id: crypto.randomUUID(), role: "assistant", content: `⚠️ ${errMsg}`, agentName: "System", agentIcon: "Brain",
+        id: crypto.randomUUID(), role: "assistant", content: `️ ${errMsg}`, agentName: "System", agentIcon: "Brain",
       }]);
     } finally {
       setIsLoading(false);

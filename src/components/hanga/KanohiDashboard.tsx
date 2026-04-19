@@ -30,7 +30,7 @@ interface ChatMsg {
 }
 
 /* ── Brand ── */
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
 const SURFACE = "#0F0F1A";
@@ -80,7 +80,7 @@ function AraiSafetyDashboard() {
   ];
 
   const riskScore = (l: number, c: number) => l * c;
-  const riskColor = (s: number) => s >= 15 ? "#EF4444" : s >= 8 ? "#D4A843" : "#3A7D6E";
+  const riskColor = (s: number) => s >= 15 ? "#EF4444" : s >= 8 ? "#4AA5A8" : "#3A7D6E";
   const riskLabel = (s: number) => s >= 15 ? "Extreme" : s >= 10 ? "High" : s >= 5 ? "Medium" : "Low";
 
   const totalHazards = risks.length;
@@ -210,7 +210,7 @@ function AraiSafetyDashboard() {
                   {[
                     { label: "Extreme (15–25)", color: "#EF4444" },
                     { label: "High (10–14)", color: "#EF444480" },
-                    { label: "Medium (5–9)", color: "#D4A843" },
+                    { label: "Medium (5–9)", color: "#4AA5A8" },
                     { label: "Low (1–4)", color: "#3A7D6E" },
                   ].map(l => (
                     <div key={l.label} className="flex items-center gap-1.5">

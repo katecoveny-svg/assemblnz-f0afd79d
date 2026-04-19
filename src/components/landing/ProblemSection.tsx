@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Scale, CalendarClock, AlertTriangle } from "lucide-react";
 
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 
 const PAIN_POINTS = [
   {

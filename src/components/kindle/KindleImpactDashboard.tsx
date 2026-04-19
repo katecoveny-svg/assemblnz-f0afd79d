@@ -3,7 +3,7 @@ import { TrendingUp, Users, Building2, Heart, Globe, DollarSign, BarChart3 } fro
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { nzCauses } from "@/data/nzCauses";
 
-const KINDLE_COLOR = "#D4A843";
+const KINDLE_COLOR = "#4AA5A8";
 const GLASS = { background: "rgba(15,15,18,0.8)", border: "1px solid rgba(255,255,255,0.06)" };
 const TIP_STYLE = { contentStyle: { background: "rgba(255,255,255,0.98)", border: "1px solid rgba(74,165,168,0.20)", color: "#1A1D29", boxShadow: "0 8px 24px rgba(26,29,41,0.10)", borderRadius: 8, fontSize: 11 }, labelStyle: { color: "#4A5160" } };
 

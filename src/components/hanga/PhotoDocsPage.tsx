@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import { AaaipGuardBadge, useAaaipGuard } from "@/aaaip";
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 interface Photo {
@@ -13,10 +13,10 @@ interface Photo {
 }
 
 const DEMO_PHOTOS: Photo[] = [
-  { id: "1", name: "scaffold-level4-north.jpg", timestamp: "2 Apr 2026 09:15", location: "Level 4 North", aiAnalysis: "⚠️ Missing edge protection detected on north face. Scaffold tag expired (30 Mar). Recommend immediate inspection.", thumbnail: "📸", analyzed: true },
-  { id: "2", name: "trench-services-B.jpg", timestamp: "2 Apr 2026 08:42", location: "Ground East", aiAnalysis: "⚠️ Trench depth exceeds 1.5m without visible shoring. NZS 4431 compliance concern. Workers observed without hard hats.", thumbnail: "📸", analyzed: true },
-  { id: "3", name: "crane-exclusion-zone.jpg", timestamp: "1 Apr 2026 14:30", location: "Site Perimeter", aiAnalysis: "✅ Exclusion barriers in place. Signage visible. Spotter positioned correctly.", thumbnail: "📸", analyzed: true },
-  { id: "4", name: "level2-slab-pour.jpg", timestamp: "1 Apr 2026 11:00", location: "Level 2 Central", aiAnalysis: "✅ Concrete pour proceeding as per methodology. PPE compliance observed. Vibrator in use.", thumbnail: "📸", analyzed: true },
+  { id: "1", name: "scaffold-level4-north.jpg", timestamp: "2 Apr 2026 09:15", location: "Level 4 North", aiAnalysis: "️ Missing edge protection detected on north face. Scaffold tag expired (30 Mar). Recommend immediate inspection.", thumbnail: "📸", analyzed: true },
+  { id: "2", name: "trench-services-B.jpg", timestamp: "2 Apr 2026 08:42", location: "Ground East", aiAnalysis: "️ Trench depth exceeds 1.5m without visible shoring. NZS 4431 compliance concern. Workers observed without hard hats.", thumbnail: "📸", analyzed: true },
+  { id: "3", name: "crane-exclusion-zone.jpg", timestamp: "1 Apr 2026 14:30", location: "Site Perimeter", aiAnalysis: "Exclusion barriers in place. Signage visible. Spotter positioned correctly.", thumbnail: "📸", analyzed: true },
+  { id: "4", name: "level2-slab-pour.jpg", timestamp: "1 Apr 2026 11:00", location: "Level 2 Central", aiAnalysis: "Concrete pour proceeding as per methodology. PPE compliance observed. Vibrator in use.", thumbnail: "📸", analyzed: true },
 ];
 
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (

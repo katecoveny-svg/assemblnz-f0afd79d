@@ -4,7 +4,7 @@ import { Play, CheckCircle2, Clock, ChevronRight } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import WorkflowStepper, { type WorkflowStep } from "./WorkflowStepper";
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 export interface WorkflowDef {

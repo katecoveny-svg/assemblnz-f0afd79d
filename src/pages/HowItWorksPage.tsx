@@ -15,8 +15,8 @@ import HeroParticlesLight from "@/components/HeroParticlesLight";
 /* ─── Design tokens ─── */
 const C = {
   bg: "#FAFBFC",
-  gold: "#D4A843",
-  goldLight: "#F0D078",
+  gold: "#4AA5A8",
+  goldLight: "#A8DDDB",
   teal: "#3A7D6E",
   tealLight: "#5AADA0",
   navy: "#1A3A5C",
@@ -67,7 +67,7 @@ const KETE = [
   { name: "Waihanga", sub: "Construction", color: C.teal, accentLight: C.tealLight, to: "/waihanga",
     desc: "Site to sign-off. H&S, consenting, project programmes, quality records. WorkSafe-aligned.",
     agents: ["ĀRAI", "KAUPAPA", "ATA", "RAWA"] },
-  { name: "Auaha", sub: "Creative & Media", color: "#F0D078", accentLight: "#FFE866", to: "/packs/auaha",
+  { name: "Auaha", sub: "Creative & Media", color: "#A8DDDB", accentLight: "#FFE866", to: "/packs/auaha",
     desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio, not six tools and a freelancer.",
     agents: ["Rautaki", "Kōrero", "Mana Kupu", "Toi"] },
   { name: "Arataki", sub: "Automotive", color: C.navy, accentLight: "#4A7AB5", to: "/arataki",

@@ -19,9 +19,9 @@ export const AUAHA_BORDER_SOFT = "rgba(26,29,41,0.06)";
 export const AUAHA_BORDER_ACCENT = "rgba(232,169,72,0.30)";
 
 // Brand
-export const AUAHA_ACCENT = "#E8A948";          // ochre
+export const AUAHA_ACCENT = "#4AA5A8";          // ochre
 export const AUAHA_ACCENT_DEEP = "#B8860B";     // gold for icon strokes
-export const AUAHA_ACCENT_SOFT = "#F0D078";
+export const AUAHA_ACCENT_SOFT = "#A8DDDB";
 export const AUAHA_TEAL = "#4AA5A8";            // pounamu
 
 // Text — darker for stronger legibility

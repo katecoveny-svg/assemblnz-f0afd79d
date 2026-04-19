@@ -6,7 +6,7 @@ import { ArrowLeft, Phone, Pill, AlertTriangle, Heart, Activity, Home, Shield, T
 import SEO from "@/components/SEO";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const KOKKOWAI = "#A52A2A";
 

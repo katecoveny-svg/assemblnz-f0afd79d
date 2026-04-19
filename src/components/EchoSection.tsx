@@ -7,7 +7,7 @@ import VoiceAgentModal from "./VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 
 
-const ECHO_COLOR = "#D4A843";
+const ECHO_COLOR = "#4AA5A8";
 
 type VoiceTranscriptTurn = {
   role: "user" | "agent";
@@ -30,7 +30,7 @@ const EchoSection = () => {
     <section className="relative z-10 py-16 sm:py-24">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <motion.div
-          className="relative rounded-2xl overflow-hidden border border-[#D4A843]/15"
+          className="relative rounded-2xl overflow-hidden border border-[#4AA5A8]/15"
           style={{
             background: "rgba(14, 14, 26, 0.75)",
             backdropFilter: "blur(16px)",
@@ -42,7 +42,7 @@ const EchoSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <span className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-[#D4A843]/40 to-transparent" />
+          <span className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-[#4AA5A8]/40 to-transparent" />
 
           <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 p-6 sm:p-10 items-center">
             {/* Avatar */}

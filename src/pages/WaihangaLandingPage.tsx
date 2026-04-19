@@ -24,7 +24,7 @@ const C = {
   teal: "#4AA5A8",
   pounamu: "#3A7D6E",
   pounamuLight: "#7ECFC2",
-  gold: "#D4A843",
+  gold: "#4AA5A8",
   lavender: "#E8E6F0",
 };
 

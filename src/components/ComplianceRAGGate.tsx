@@ -191,7 +191,7 @@ Rules:
 
   const statusColor = {
     clear: "#00A86B",
-    caution: "#D4A843",
+    caution: "#4AA5A8",
     breach: "#E53935",
   };
 

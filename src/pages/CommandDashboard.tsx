@@ -18,7 +18,7 @@ import SEO from "@/components/SEO";
 import BusinessPulse from "@/components/BusinessPulse";
 import AotearoaVerifiedBadge from "@/components/AotearoaVerifiedBadge";
 
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 
 interface SectorStat {
   id: string;
@@ -78,7 +78,7 @@ export default function CommandDashboard() {
   const sectors: SectorStat[] = [
     {
       id: "auaha", name: "Auaha", nameEn: "Creative & Media",
-      icon: Palette, color: "#F0D078", route: "/auaha",
+      icon: Palette, color: "#A8DDDB", route: "/auaha",
       status: "operational", statusLabel: `${liveData.creativeAssets || 0} assets generated`,
       stats: [
         { label: "Assets", value: String(liveData.creativeAssets || 0), icon: Video },
@@ -109,7 +109,7 @@ export default function CommandDashboard() {
     },
     {
       id: "manaaki", name: "Manaaki", nameEn: "Hospitality & Tourism",
-      icon: UtensilsCrossed, color: "#D4A843", route: "/manaaki",
+      icon: UtensilsCrossed, color: "#4AA5A8", route: "/manaaki",
       status: "operational", statusLabel: `${liveData.bookings || 0} bookings tracked`,
       stats: [
         { label: "Bookings", value: String(liveData.bookings || 0), icon: ChefHat },
@@ -130,7 +130,7 @@ export default function CommandDashboard() {
   ];
 
   const statusColor = (s: string) =>
-    s === "operational" ? "#00A86B" : s === "attention" ? "#D4A843" : "#C85A54";
+    s === "operational" ? "#00A86B" : s === "attention" ? "#4AA5A8" : "#C85A54";
 
   return (
     <>
@@ -262,9 +262,9 @@ export default function CommandDashboard() {
                 </p>
                 <div className="space-y-1.5">
                   {[
-                    { from: "Waihanga", to: "Auaha", label: "Milestone → TikTok video", fromColor: "#3A7D6E", toColor: "#F0D078" },
-                    { from: "Pikau", to: "Manaaki", label: "Customs clear → Inventory update", fromColor: "#5AADA0", toColor: "#D4A843" },
-                    { from: "Auaha", to: "All", label: "Brand DNA → Tone adaptation", fromColor: "#F0D078", toColor: "#00A86B" },
+                    { from: "Waihanga", to: "Auaha", label: "Milestone → TikTok video", fromColor: "#3A7D6E", toColor: "#A8DDDB" },
+                    { from: "Pikau", to: "Manaaki", label: "Customs clear → Inventory update", fromColor: "#5AADA0", toColor: "#4AA5A8" },
+                    { from: "Auaha", to: "All", label: "Brand DNA → Tone adaptation", fromColor: "#A8DDDB", toColor: "#00A86B" },
                   ].map((bridge, i) => (
                     <div key={i} className="flex items-center gap-2 text-[10px] font-body">
                       <span className="px-1.5 py-0.5 rounded" style={{ background: `${bridge.fromColor}15`, color: bridge.fromColor }}>{bridge.from}</span>

@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useBrandDna } from "@/contexts/BrandDnaContext";
 
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 const POUNAMU = "#00A86B";
 
 const GLASS: React.CSSProperties = {

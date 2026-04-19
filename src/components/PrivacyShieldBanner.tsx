@@ -11,7 +11,7 @@ interface Props {
 
 const RISK_CONFIG = {
   none: { icon: ShieldCheck, label: "No PII detected", bg: "rgba(0, 168, 107, 0.08)", border: "rgba(0, 168, 107, 0.2)", color: "#00A86B" },
-  low: { icon: Shield, label: "Minor PII found", bg: "rgba(212, 168, 67, 0.08)", border: "rgba(212, 168, 67, 0.2)", color: "#D4A843" },
+  low: { icon: Shield, label: "Minor PII found", bg: "rgba(212, 168, 67, 0.08)", border: "rgba(212, 168, 67, 0.2)", color: "#4AA5A8" },
   medium: { icon: ShieldAlert, label: "PII detected", bg: "rgba(212, 120, 67, 0.08)", border: "rgba(212, 120, 67, 0.2)", color: "#D47843" },
   high: { icon: ShieldAlert, label: "Sensitive data found", bg: "rgba(200, 90, 84, 0.08)", border: "rgba(200, 90, 84, 0.2)", color: "#C85A54" },
 };

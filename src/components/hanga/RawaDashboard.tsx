@@ -98,15 +98,15 @@ const tenderStepIdx = (s: TenderStatus) => tenderStatusSteps.indexOf(s);
 
 const shipmentStatusColor: Record<string, string> = {
   "Manufacturing": "rgba(255,255,255,0.4)",
-  "At port of origin": "#D4A843",
+  "At port of origin": "#4AA5A8",
   "In transit": "#1A3A5C",
-  "Customs clearance": "#D4A843",
+  "Customs clearance": "#4AA5A8",
   "Delivered": "#3A7D6E",
 };
 
 const workerStatusColor: Record<string, { bg: string; text: string }> = {
   "On site": { bg: "rgba(58,125,110,0.15)", text: "#3A7D6E" },
-  "Mobilising": { bg: "rgba(212,168,67,0.15)", text: "#D4A843" },
+  "Mobilising": { bg: "rgba(212,168,67,0.15)", text: "#4AA5A8" },
   "Confirmed": { bg: "rgba(26,58,92,0.25)", text: "#5A8AB5" },
 };
 
@@ -167,11 +167,11 @@ export default function RawaDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             { label: "Active Tenders", value: activeTenders, icon: <FileText size={18} />, accent: "#3A7D6E" },
-            { label: "Workforce on Site", value: onSiteWorkers, icon: <Users size={18} />, accent: "#D4A843" },
+            { label: "Workforce on Site", value: onSiteWorkers, icon: <Users size={18} />, accent: "#4AA5A8" },
             { label: "Materials on Order", value: materialsOnOrder, icon: <Truck size={18} />, accent: "#1A3A5C" },
             { label: "Waste Diversion", value: `${diversionPct}%`, icon: <Recycle size={18} />, accent: "#3A7D6E" },
           ].map(s => (
-            <Glass key={s.label} glow={s.accent === "#D4A843"}>
+            <Glass key={s.label} glow={s.accent === "#4AA5A8"}>
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="p-1.5 rounded-lg" style={{ background: `${s.accent}20` }}>
@@ -214,7 +214,7 @@ export default function RawaDashboard() {
                         </div>
                         <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{t.title}</p>
                         <div className="flex gap-4 mt-1 text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
-                          <span>Value: <strong style={{ color: "#D4A843" }}>{fmtNZD(t.value)}</strong></span>
+                          <span>Value: <strong style={{ color: "#4AA5A8" }}>{fmtNZD(t.value)}</strong></span>
                           <span>{t.status === "awarded" ? `Awarded: ${t.supplier}` : `Due: ${t.dueDate}`}</span>
                         </div>
                       </div>
@@ -306,9 +306,9 @@ export default function RawaDashboard() {
                       </div>
                       <ArrowRight size={10} className="mx-1" style={{ color: "rgba(255,255,255,0.2)" }} />
                       <div className="flex flex-col items-center gap-0.5">
-                        <MapPin size={10} style={{ color: "#D4A843" }} />
+                        <MapPin size={10} style={{ color: "#4AA5A8" }} />
                         <span style={{ color: "rgba(255,255,255,0.35)" }}>Site</span>
-                        <span style={{ color: "#D4A843" }}>{s.etaSite}</span>
+                        <span style={{ color: "#4AA5A8" }}>{s.etaSite}</span>
                       </div>
                     </div>
 
@@ -348,7 +348,7 @@ export default function RawaDashboard() {
                         <td className="px-4 py-3">
                           <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(58,125,110,0.1)", color: "#5AADA0", fontFamily: "JetBrains Mono" }}>{w.trade}</span>
                         </td>
-                        <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#D4A843" }}>{fmtNZD(w.dayRate)}</td>
+                        <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtNZD(w.dayRate)}</td>
                         <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{w.onSiteFrom}</td>
                         <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{w.onSiteTo}</td>
                         <td className="px-4 py-3">
@@ -373,7 +373,7 @@ export default function RawaDashboard() {
           <div className="space-y-3">
             <Glass>
               <div className="p-4 flex items-center gap-2">
-                <BarChart3 size={14} style={{ color: "#D4A843" }} />
+                <BarChart3 size={14} style={{ color: "#4AA5A8" }} />
                 <span className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
                   Regional construction cost benchmarks — NZD excl. GST · Source: QV CostBuilder & industry data · {BENCHMARKS[0].lastUpdated}
                 </span>
@@ -458,7 +458,7 @@ export default function RawaDashboard() {
                           <p className="text-[10px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.4)" }}>{w.method}</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm font-light" style={{ fontFamily: "Lato", color: meetsTarget ? "#3A7D6E" : "#D4A843" }}>
+                          <p className="text-sm font-light" style={{ fontFamily: "Lato", color: meetsTarget ? "#3A7D6E" : "#4AA5A8" }}>
                             {actualPct}%
                           </p>
                           <p className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
@@ -473,7 +473,7 @@ export default function RawaDashboard() {
                         )}
                         <div className="h-full rounded-full" style={{
                           width: `${actualPct}%`,
-                          background: meetsTarget ? "linear-gradient(90deg, #3A7D6E, #5AADA0)" : "linear-gradient(90deg, #D4A843, #B8892A)",
+                          background: meetsTarget ? "linear-gradient(90deg, #3A7D6E, #5AADA0)" : "linear-gradient(90deg, #4AA5A8, #B8892A)",
                         }} />
                       </div>
                       <div className="flex gap-4 mt-1.5 text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>

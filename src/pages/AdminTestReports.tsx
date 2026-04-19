@@ -214,7 +214,7 @@ export default function AdminTestReports() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Card className="bg-white/5 border-gray-200">
             <CardContent className="pt-4 text-center">
-              <BarChart3 className="w-6 h-6 mx-auto mb-1 text-[#D4A843]" />
+              <BarChart3 className="w-6 h-6 mx-auto mb-1 text-[#4AA5A8]" />
               <div className="text-2xl font-bold">{stats.total}</div>
               <div className="text-xs text-gray-500">Total Tests</div>
             </CardContent>
@@ -288,7 +288,7 @@ export default function AdminTestReports() {
                   <div key={r.id} className="p-4 rounded-lg bg-white/[0.03] border border-white/[0.06] space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <Badge variant="outline" className="text-[#D4A843] border-[#D4A843]/30">{r.kete}</Badge>
+                        <Badge variant="outline" className="text-[#4AA5A8] border-[#4AA5A8]/30">{r.kete}</Badge>
                         <span className="text-sm font-medium">{r.agent_slug}</span>
                         <span className="text-xs text-gray-400">{new Date(r.created_at).toLocaleString("en-NZ")}</span>
                       </div>

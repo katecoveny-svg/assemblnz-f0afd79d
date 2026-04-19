@@ -32,10 +32,10 @@ const WORKFLOWS: WorkflowTab[] = [
     output: {
       label: "Four whānau-facing documents · centre voice · reading age 12",
       lines: [
-        "📄 Complaints procedure — plain English · includes Director of Regulation pathway",
-        "📄 ERO report access — where to find the latest review · how to request earlier",
-        "📄 Licensing status statement — current licence + conditions + last review date",
-        "📄 Operational document summary — every policy held + how to request to read",
+        "Complaints procedure — plain English · includes Director of Regulation pathway",
+        "ERO report access — where to find the latest review · how to request earlier",
+        "Licensing status statement — current licence + conditions + last review date",
+        "Operational document summary — every policy held + how to request to read",
         "→ All four diff-marked when criteria change. Nothing rewritten silently.",
       ],
     },
@@ -51,9 +51,9 @@ const WORKFLOWS: WorkflowTab[] = [
     output: {
       label: "Today's readiness snapshot · Tūi & Pīwakawaka ECC",
       lines: [
-        "🟢 64 GREEN · compliant with evidence",
-        "🟡 11 AMBER · compliant but evidence weak",
-        "🔴 3 RED · gap or no evidence",
+        "64 GREEN · compliant with evidence",
+        "11 AMBER · compliant but evidence weak",
+        "3 RED · gap or no evidence",
         "",
         "TOP 3 PRIORITIES (Director of Regulation focus areas)",
         "1. HS17 sleep-check log — only 84% of checks evidenced this week (target 100%)",

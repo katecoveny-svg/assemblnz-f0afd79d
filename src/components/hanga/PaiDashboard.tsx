@@ -100,13 +100,13 @@ const HANDOVER: HandoverItem[] = [
 ];
 
 /* ── Helpers ── */
-const sevColor = (s: Severity) => s === "critical" ? "#EF4444" : s === "major" ? "#D4A843" : "#3A7D6E";
+const sevColor = (s: Severity) => s === "critical" ? "#EF4444" : s === "major" ? "#4AA5A8" : "#3A7D6E";
 const sevLabel = (s: Severity) => s === "critical" ? "Critical" : s === "major" ? "Major" : "Minor";
-const prioColor = (p: Priority) => p === "P1" ? "#EF4444" : p === "P2" ? "#D4A843" : "#3A7D6E";
-const pointColor = (t: ITPPointType) => t === "hold" ? "#EF4444" : t === "witness" ? "#D4A843" : "#5A8AB5";
+const prioColor = (p: Priority) => p === "P1" ? "#EF4444" : p === "P2" ? "#4AA5A8" : "#3A7D6E";
+const pointColor = (t: ITPPointType) => t === "hold" ? "#EF4444" : t === "witness" ? "#4AA5A8" : "#5A8AB5";
 const pointIcon = (t: ITPPointType) => t === "hold" ? <Hand size={12} /> : t === "witness" ? <Eye size={12} /> : <BookOpen size={12} />;
-const psColor = (s: string) => s === "Issued" ? "#3A7D6E" : s === "Pending" ? "rgba(255,255,255,0.3)" : "#D4A843";
-const handoverStatusColor = (s: string) => s === "Complete" ? "#3A7D6E" : s === "N/A" ? "rgba(255,255,255,0.2)" : s === "Not started" || s === "Pending" ? "rgba(255,255,255,0.3)" : "#D4A843";
+const psColor = (s: string) => s === "Issued" ? "#3A7D6E" : s === "Pending" ? "rgba(255,255,255,0.3)" : "#4AA5A8";
+const handoverStatusColor = (s: string) => s === "Complete" ? "#3A7D6E" : s === "N/A" ? "rgba(255,255,255,0.2)" : s === "Not started" || s === "Pending" ? "rgba(255,255,255,0.3)" : "#4AA5A8";
 
 const Glass = ({ children, className = "", glow = false, navy = false }: { children: React.ReactNode; className?: string; glow?: boolean; navy?: boolean }) => (
   <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
@@ -172,11 +172,11 @@ export default function PaiDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             { label: "Open NCRs", value: openNCRs, icon: <XCircle size={18} />, accent: "#EF4444" },
-            { label: "Punch List Items", value: openPunch, icon: <ClipboardCheck size={18} />, accent: "#D4A843" },
+            { label: "Punch List Items", value: openPunch, icon: <ClipboardCheck size={18} />, accent: "#4AA5A8" },
             { label: "ITP Completion", value: `${itpPct}%`, icon: <FileCheck size={18} />, accent: "#3A7D6E" },
             { label: "Handover Readiness", value: `${handoverPct}%`, icon: <CheckCircle2 size={18} />, accent: "#5A8AB5" },
           ].map(s => (
-            <Glass key={s.label} glow={s.accent === "#D4A843"}>
+            <Glass key={s.label} glow={s.accent === "#4AA5A8"}>
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="p-1.5 rounded-lg" style={{ background: `${s.accent}20` }}>
@@ -317,7 +317,7 @@ export default function PaiDashboard() {
 
             {/* Legend */}
             <div className="flex gap-4 text-[9px]" style={{ fontFamily: "JetBrains Mono" }}>
-              {([["hold", "Hold Point", "#EF4444"], ["witness", "Witness Point", "#D4A843"], ["review", "Review Point", "#5A8AB5"]] as const).map(([type, label, color]) => (
+              {([["hold", "Hold Point", "#EF4444"], ["witness", "Witness Point", "#4AA5A8"], ["review", "Review Point", "#5A8AB5"]] as const).map(([type, label, color]) => (
                 <div key={type} className="flex items-center gap-1.5">
                   <div className="w-2 h-2 rounded-full" style={{ background: color }} />
                   <span style={{ color }}>{label}</span>
@@ -326,7 +326,7 @@ export default function PaiDashboard() {
             </div>
 
             {ITP_POINTS.map(p => {
-              const statusColor = p.status === "Passed" ? "#3A7D6E" : p.status === "Failed" ? "#EF4444" : p.status === "In progress" ? "#D4A843" : "rgba(255,255,255,0.3)";
+              const statusColor = p.status === "Passed" ? "#3A7D6E" : p.status === "Failed" ? "#EF4444" : p.status === "In progress" ? "#4AA5A8" : "rgba(255,255,255,0.3)";
               return (
                 <Glass key={p.id}>
                   <div className="p-4">
@@ -373,7 +373,7 @@ export default function PaiDashboard() {
                     const issued = PS.filter(p => p.type === ps.type && p.status === "Issued").length;
                     return (
                       <div key={ps.type} className="p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
-                        <p className="text-xs font-bold" style={{ fontFamily: "JetBrains Mono", color: "#D4A843" }}>{ps.type}</p>
+                        <p className="text-xs font-bold" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{ps.type}</p>
                         <p className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{ps.desc}</p>
                         <p className="text-[8px] mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.35)" }}>{ps.detail}</p>
                         <p className="text-[9px] mt-1" style={{ fontFamily: "JetBrains Mono", color: "#5A8AB5" }}>{issued}/{count} issued</p>

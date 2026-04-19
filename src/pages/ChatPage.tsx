@@ -2032,7 +2032,7 @@ const ChatPage = () => {
                 color: voiceProvider === "gemini" ? agent.color : "rgba(255,255,255,0.5)",
               }}
             >
-              ⚡ Gemini Live
+              Gemini Live
             </button>
           </div>
           {voiceProvider === "gemini" ? (

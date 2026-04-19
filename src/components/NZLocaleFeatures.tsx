@@ -16,7 +16,7 @@ const GLASS: React.CSSProperties = {
   border: "1px solid rgba(255,255,255,0.08)",
 };
 
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 const POUNAMU = "#00A86B";
 
 // ── Seismic Zone Selector ──────────────────────────────────────────────────
@@ -123,7 +123,7 @@ export function HolidaySurchargeToggle({ onToggle }: { onToggle?: (enabled: bool
             <span className="text-xs text-gray-500">Surcharge:</span>
             <input type="range" min="5" max="25" value={percent}
               onChange={(e) => { setPercent(Number(e.target.value)); onToggle?.(true, Number(e.target.value)); }}
-              className="flex-1 accent-[#D4A843]" />
+              className="flex-1 accent-[#4AA5A8]" />
             <span className="text-sm font-bold" style={{ color: GOLD }}>{percent}%</span>
           </div>
         </motion.div>
@@ -132,7 +132,7 @@ export function HolidaySurchargeToggle({ onToggle }: { onToggle?: (enabled: bool
         <div className="flex items-center gap-2 text-xs text-white/40">
           <Info className="w-3 h-3" />
           {isHolidayToday
-            ? <span className="text-[#D4A843]">Today is {nextHoliday.name} — surcharge active</span>
+            ? <span className="text-[#4AA5A8]">Today is {nextHoliday.name} — surcharge active</span>
             : <span>Next: {nextHoliday.name} ({new Date(nextHoliday.date).toLocaleDateString("en-NZ")})</span>}
         </div>
       )}

@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { agentChat } from "@/lib/agentChat";
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell } from "recharts";
 
-const ACCENT = "#F0D078";
+const ACCENT = "#A8DDDB";
 
 const DEMO_ADS = [
   { name: "Hero Brand", impressions: 24500, clicks: 890, spend: 340, ctr: 3.6 },

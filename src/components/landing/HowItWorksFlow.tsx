@@ -13,7 +13,7 @@ const STEPS = [
     description: "Type a question in the dashboard, send an SMS, or talk to your agent. Assembl understands natural language — no jargon, no commands.",
     example: '"Can I terminate an employee during their 90-day trial if they keep showing up late?"',
     icon: MessageSquare,
-    color: "#D4A843",
+    color: "#4AA5A8",
     visual: "chat",
   },
   {
@@ -57,7 +57,7 @@ const STEPS = [
     description: "A structured response with the law, your options, recommended next steps, and any risks. Ready to act on immediately. Saved to your business memory for next time.",
     example: "Yes — if the trial clause meets s67A requirements. Here are 3 steps to follow...",
     icon: CheckCircle2,
-    color: "#D4A843",
+    color: "#4AA5A8",
     visual: "result",
   },
 ];
@@ -81,7 +81,7 @@ const ChatVisual = ({ active }: { active: boolean }) => (
       animate={active ? { opacity: 1 } : {}}
       transition={{ delay: 0.7, duration: 0.3 }}
     >
-      <div className="w-1.5 h-1.5 rounded-full bg-[#D4A843] animate-pulse" />
+      <div className="w-1.5 h-1.5 rounded-full bg-[#4AA5A8] animate-pulse" />
       <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.35)", fontFamily: "'JetBrains Mono', monospace" }}>Assembl is thinking...</span>
     </motion.div>
   </div>
@@ -113,14 +113,14 @@ const RoutingVisual = ({ active }: { active: boolean }) => (
           className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-1"
           style={{
             background: i === 1 ? "rgba(212,168,67,0.2)" : "rgba(255,255,255,0.03)",
-            border: i === 1 ? "2px solid #D4A843" : "1px solid rgba(255,255,255,0.08)",
+            border: i === 1 ? "2px solid #4AA5A8" : "1px solid rgba(255,255,255,0.08)",
           }}
         >
-          <span className="text-[8px] font-bold" style={{ color: i === 1 ? "#D4A843" : "rgba(255,255,255,0.3)" }}>
+          <span className="text-[8px] font-bold" style={{ color: i === 1 ? "#4AA5A8" : "rgba(255,255,255,0.3)" }}>
             {name === "AROHA" ? "A" : name[0]}
           </span>
         </div>
-        <span className="text-[9px]" style={{ color: i === 1 ? "#D4A843" : "rgba(255,255,255,0.25)", fontFamily: "'JetBrains Mono', monospace" }}>{name}</span>
+        <span className="text-[9px]" style={{ color: i === 1 ? "#4AA5A8" : "rgba(255,255,255,0.25)", fontFamily: "'JetBrains Mono', monospace" }}>{name}</span>
       </motion.div>
     ))}
   </div>
@@ -156,7 +156,7 @@ const ComplianceVisual = ({ active }: { active: boolean }) => (
     {[
       { label: "Privacy Act 2020", color: "#3A7D6E" },
       { label: "Aligning with tikanga", color: "#E8B4B8" },
-      { label: "Audit logged", color: "#D4A843" },
+      { label: "Audit logged", color: "#4AA5A8" },
     ].map((badge, i) => (
       <motion.div
         key={badge.label}
@@ -182,9 +182,9 @@ const ResultVisual = ({ active }: { active: boolean }) => (
   >
     <div className="flex items-center gap-2 mb-2">
       <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "rgba(212,168,67,0.15)" }}>
-        <span className="text-[8px] font-bold" style={{ color: "#D4A843" }}>A</span>
+        <span className="text-[8px] font-bold" style={{ color: "#4AA5A8" }}>A</span>
       </div>
-      <span className="text-[10px]" style={{ color: "#D4A843", fontFamily: "'JetBrains Mono', monospace" }}>AROHA · Employment Relations</span>
+      <span className="text-[10px]" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>AROHA · Employment Relations</span>
     </div>
     <p className="text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.7)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <strong style={{ color: "rgba(255,255,255,0.9)" }}>Yes, you can</strong> — provided the trial period clause meets the requirements of s67A of the Employment Relations Act 2000.

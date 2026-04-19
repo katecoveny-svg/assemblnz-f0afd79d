@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const C = {
   teal: "#4AA5A8",
-  ochre: "#E8A948",
+  ochre: "#4AA5A8",
   lavender: "#E8E6F0",
 };
 

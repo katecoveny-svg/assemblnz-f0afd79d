@@ -163,7 +163,7 @@ function manaApprove(text: string, agentId: string, flags: KahuFlags): string {
   if (flags.isHighRisk && !output.includes("not professional")) {
     const domain =
       AGENT_DOMAIN[agentId.toUpperCase()] || "professional";
-    output += `\n\n> ⚠️ *This is general information, not professional ${domain} advice. Consult a qualified specialist for your specific situation.*`;
+    output += `\n\n> ️ *This is general information, not professional ${domain} advice. Consult a qualified specialist for your specific situation.*`;
   }
 
   // Māori data guardrail
@@ -175,7 +175,7 @@ function manaApprove(text: string, agentId: string, flags: KahuFlags): string {
       !output.includes("rights-holders") &&
       !output.includes("cultural patterns")
     ) {
-      output += `\n\n> 🛡️ *If this relates to iwi/hapū taonga or restricted cultural knowledge, please work with the appropriate rights-holders.*`;
+      output += `\n\n> ️ *If this relates to iwi/hapū taonga or restricted cultural knowledge, please work with the appropriate rights-holders.*`;
     }
   }
 

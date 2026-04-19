@@ -9,10 +9,10 @@ import { motion } from "framer-motion";
  * particle trails, bloom effects, and flowing light streams.
  */
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const TEAL_LIGHT = "#5AADA0";
-const GOLD_LIGHT = "#F0D078";
+const GOLD_LIGHT = "#A8DDDB";
 
 function useIsMobile() {
   return typeof window !== "undefined" && window.innerWidth < 640;

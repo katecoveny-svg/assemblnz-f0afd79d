@@ -73,7 +73,7 @@ export default function SectorSwitcher({ collapsed = false, onToggle }: Props) {
             border: "1px solid rgba(212, 168, 67, 0.15)",
           }}
         >
-          <LayoutDashboard size={14} style={{ color: "#D4A843" }} />
+          <LayoutDashboard size={14} style={{ color: "#4AA5A8" }} />
         </div>
         {!collapsed && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="min-w-0">

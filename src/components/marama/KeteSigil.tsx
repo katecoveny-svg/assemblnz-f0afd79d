@@ -33,7 +33,7 @@ interface Props {
 }
 
 const ACCENTS: Record<Kete, { base: string; light: string; dark: string }> = {
-  manaaki:        { base: "#E8A948", light: "#F4C880", dark: "#A06B1F" },
+  manaaki:        { base: "#4AA5A8", light: "#F4C880", dark: "#A06B1F" },
   waihanga:       { base: "#C8B27A", light: "#E2D4A8", dark: "#8A7541" },
   auaha:          { base: "#9B8FBF", light: "#C8BFE0", dark: "#6A5E91" },
   arataki:        { base: "#5A7A9C", light: "#8FA9C5", dark: "#314D6E" },

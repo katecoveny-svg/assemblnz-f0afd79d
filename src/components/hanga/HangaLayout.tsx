@@ -8,7 +8,7 @@ import {
   Layers, Brain, Globe, Menu, X, Users
 } from "lucide-react";
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 const NAV_ITEMS = [

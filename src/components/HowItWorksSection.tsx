@@ -42,7 +42,7 @@ const HowItWorksSection = () => {
               fontWeight: 700,
               fontSize: "11px",
               letterSpacing: "4px",
-              color: "#D4A843",
+              color: "#4AA5A8",
             }}
           >
             How it works

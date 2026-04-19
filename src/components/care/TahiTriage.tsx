@@ -3,7 +3,7 @@ import { AlertTriangle, Phone, MapPin, Heart, Shield } from "lucide-react";
 
 const KOKKOWAI = "#A52A2A";
 const POUNAMU = "#3A7D6E";
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 
 interface TahiTriageProps {
   onSendToChat: (msg: string) => void;

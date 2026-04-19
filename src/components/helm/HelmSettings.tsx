@@ -92,7 +92,7 @@ export default function HelmSettings() {
 
   const addChild = async () => {
     if (!family || !childName.trim()) return;
-    const colors = ["#3A6A9C", "#D4A843", "#80D8FF", "#A5D6A7", "#FFD54F", "#FF8A65"];
+    const colors = ["#3A6A9C", "#4AA5A8", "#80D8FF", "#A5D6A7", "#FFD54F", "#FF8A65"];
     const color = colors[children.length % colors.length];
     const { error } = await supabase.from("children").insert({
       family_id: family.id, name: childName, year_level: yearLevel || null,

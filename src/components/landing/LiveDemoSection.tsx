@@ -22,7 +22,7 @@ const DEMO_CONVERSATIONS: DemoConversation[] = [
     keywords: ["food", "cafe", "restaurant", "control plan", "mpi", "hospitality"],
     agent: "SAFFRON",
     kete: "Manaaki",
-    keteColor: "#D4A843",
+    keteColor: "#4AA5A8",
     response: "Yes — under the Food Act 2014, any business that trades in food needs a food control plan registered with MPI. For a cafe, you'll likely need a template plan from the MPI website. I can help you fill it out and prepare for your verification visit.",
     compliance: ["Food Act 2014", "MPI registered"],
     timeMs: 1200,
@@ -181,7 +181,7 @@ const LiveDemoSection = () => {
       <div className="absolute top-0 left-0 right-0 h-px overflow-hidden">
         <motion.div
           className="h-full w-[200%]"
-          style={{ background: "linear-gradient(90deg, transparent, #D4A843, #3A7D6E, transparent)" }}
+          style={{ background: "linear-gradient(90deg, transparent, #4AA5A8, #3A7D6E, transparent)" }}
           animate={{ x: ["-50%", "0%"] }}
           transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
         />
@@ -196,10 +196,10 @@ const LiveDemoSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease }}
         >
-          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "#D4A843" }}>
+          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "#4AA5A8" }}>
             WHAKAMĀTAU · TRY IT
           </p>
-          <TanikoDivider color="#D4A843" width={200} />
+          <TanikoDivider color="#4AA5A8" width={200} />
           <h2 className="text-2xl sm:text-4xl mb-3 mt-4 text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
             Type anything. Watch it work.
           </h2>
@@ -417,7 +417,7 @@ const LiveDemoSection = () => {
                     whileHover={{ scale: 1.1, boxShadow: "0 0 15px rgba(212,168,67,0.2)" }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Send size={14} style={{ color: "#D4A843" }} />
+                    <Send size={14} style={{ color: "#4AA5A8" }} />
                   </motion.button>
                 </div>
               </form>
@@ -434,7 +434,7 @@ const LiveDemoSection = () => {
           transition={{ delay: 0.2, duration: 0.6, ease }}
         >
           {[
-            { icon: Zap, label: "Avg response time", value: 1.2, suffix: "s", color: "#D4A843" },
+            { icon: Zap, label: "Avg response time", value: 1.2, suffix: "s", color: "#4AA5A8" },
             { icon: Users, label: "Agents available", value: 44, suffix: "+", color: "#3A7D6E" },
             { icon: BarChart3, label: "NZ Acts covered", value: 50, suffix: "+", color: "#5B8FA8" },
             { icon: Clock, label: "Hours saved / week", value: 12, suffix: "h", color: "#89CFF0" },

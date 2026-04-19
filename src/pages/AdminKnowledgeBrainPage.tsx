@@ -40,7 +40,7 @@ type KbAlert = {
   resolved_at: string | null;
 };
 
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 export default function AdminKnowledgeBrainPage() {

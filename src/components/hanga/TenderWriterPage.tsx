@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import { AaaipGuardBadge, useAaaipGuard } from "@/aaaip";
 
-const KOWHAI = "#D4A843";
+const KOWHAI = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 
 const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (

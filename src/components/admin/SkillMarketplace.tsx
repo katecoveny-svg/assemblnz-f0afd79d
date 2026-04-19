@@ -21,21 +21,21 @@ interface MarketplaceSkill {
 
 const CERT_STYLES: Record<Certification, { label: string; color: string; bg: string; border: string }> = {
   official:  { label: 'Official',  color: '#3A7D6E', bg: 'rgba(58,125,110,0.1)',  border: 'rgba(58,125,110,0.25)' },
-  certified: { label: 'Certified', color: '#D4A843', bg: 'rgba(212,168,67,0.1)',  border: 'rgba(212,168,67,0.25)' },
+  certified: { label: 'Certified', color: '#4AA5A8', bg: 'rgba(212,168,67,0.1)',  border: 'rgba(212,168,67,0.25)' },
   verified:  { label: 'Verified',  color: '#3A6A9C', bg: 'rgba(26,58,92,0.15)',   border: 'rgba(26,58,92,0.3)' },
   community: { label: 'Community', color: 'rgba(255,255,255,0.4)', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.1)' },
 };
 
 const KETE_COLORS: Record<string, string> = {
-  'All': '#D4A843',
-  'Pakihi': '#D4A843',
+  'All': '#4AA5A8',
+  'Pakihi': '#4AA5A8',
   'Auaha': '#B794F4',
   'Hanga': '#C9B458',
   'Hauora': '#7BC8A4',
   'Manaaki': '#E8A87C',
   'Waka': '#6B8FA3',
   'Hangarau': '#3A7D6E',
-  'Te Kāhui Reo': '#D4A843',
+  'Te Kāhui Reo': '#4AA5A8',
   'Toro': '#E8D5B7',
 };
 

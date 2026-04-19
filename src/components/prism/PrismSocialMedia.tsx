@@ -46,12 +46,12 @@ export default function PrismSocialMedia({ onSendToChat }: { onSendToChat?: (msg
     onSendToChat(`Generate social media posts for: ${platformNames}. Topic: "${genForm.topic}". Tone: ${genForm.tone}. 
 
 For EACH platform, provide:
-1. 🎯 **Scroll-stopping hook** (first line that grabs attention)
-2. 📝 **Full caption** (platform-optimised length, engaging, NZ-focused)
+1. **Scroll-stopping hook** (first line that grabs attention)
+2. **Full caption** (platform-optimised length, engaging, NZ-focused)
 3. 📣 **Call to Action** (specific and compelling)
 4. # **Hashtags** (8-12 relevant, mix of broad + niche NZ-specific)
-5. ⏰ **Best posting time** for NZ audience
-6. 💡 **Engagement tip** for this platform
+5. **Best posting time** for NZ audience
+6. **Engagement tip** for this platform
 
 Make them punchy, on-brand, and ready to copy-paste.`);
     setShowGen(false);

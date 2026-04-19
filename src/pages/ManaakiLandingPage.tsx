@@ -18,7 +18,7 @@ import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { MANAAKI_USE_CASE } from "@/data/useCases";
 
 const BG = "#FAFBFC";
-const ACCENT = "#D4A843";
+const ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
 const BONE = "#F5F0E8";
@@ -323,7 +323,7 @@ export default function ManaakiLandingPage() {
         
         <BrandFooter />
         <KeteAgentChat
-          keteName="Manaaki" keteLabel="Hospitality & Tourism" accentColor="#D4A843"
+          keteName="Manaaki" keteLabel="Hospitality & Tourism" accentColor="#4AA5A8"
           defaultAgentId="aura" packId="manaaki"
           starterPrompts={["What does Manaaki cover for hospitality?", "How does food safety compliance work?", "Tell me about alcohol licensing support", "What evidence packs do I get?"]}
         />

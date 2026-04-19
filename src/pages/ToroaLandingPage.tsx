@@ -15,7 +15,7 @@ import heroWhanau from "@/assets/toro-hero-whanau.jpg";
 /* ─── Bold Aotearoa Modernist palette ─────────────────────────── */
 const INK = "#1A1D29";       // charcoal
 const PAPER = "#F5F0E6";     // warm bone
-const OCHRE = "#D4A843";     // primary accent
+const OCHRE = "#4AA5A8";     // primary accent
 const POUNAMU = "#2E5D52";   // deep green for trust
 const MUTED = "#6B6F7A";
 

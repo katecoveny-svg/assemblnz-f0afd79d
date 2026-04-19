@@ -3,15 +3,15 @@ import { useRef } from "react";
 
 const stages = [
   { name: "KAHU", question: "What's allowed here?", subtitle: "Policy detection", color: "#4AA5A8", glow: "rgba(74,165,168,0.3)" },
-  { name: "IHO", question: "Which specialist handles this?", subtitle: "Routing", color: "#E8A948", glow: "rgba(232,169,72,0.3)" },
+  { name: "IHO", question: "Which specialist handles this?", subtitle: "Routing", color: "#4AA5A8", glow: "rgba(232,169,72,0.3)" },
   { name: "TĀ", question: "Does the work, properly", subtitle: "Execution + NZ English / te reo correctness", color: "#B8A5D0", glow: "rgba(184,165,208,0.35)" },
   { name: "MAHARA", question: "Checks against what we've learned", subtitle: "Memory + cross-verification", color: "#7BA88C", glow: "rgba(123,168,140,0.25)" },
   { name: "MANA", question: "Proves it was done right", subtitle: "Assurance, disclaimers, human-in-the-loop", color: "#4AA5A8", glow: "rgba(74,165,168,0.25)" },
 ];
 
 const lineColors = [
-  "linear-gradient(90deg, #4AA5A8, #E8A948)",
-  "linear-gradient(90deg, #E8A948, #B8A5D0)",
+  "linear-gradient(90deg, #4AA5A8, #4AA5A8)",
+  "linear-gradient(90deg, #4AA5A8, #B8A5D0)",
   "linear-gradient(90deg, #B8A5D0, #7BA88C)",
   "linear-gradient(90deg, #7BA88C, #4AA5A8)",
 ];

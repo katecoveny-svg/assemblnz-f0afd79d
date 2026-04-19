@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
 
-const ACCENT = "#F0D078";
+const ACCENT = "#A8DDDB";
 
 function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
@@ -16,7 +16,7 @@ function GlassCard({ children, className = "" }: { children: React.ReactNode; cl
 }
 
 const stageColor = (stage: string) => ({
-  kahu: "#FBBF24", iho: "#60A5FA", ta: "#34D399", generate: "#A78BFA", evidence: "#F0D078",
+  kahu: "#FBBF24", iho: "#60A5FA", ta: "#34D399", generate: "#A78BFA", evidence: "#A8DDDB",
 }[stage] || "#666");
 
 export default function AuahaTaAudit() {

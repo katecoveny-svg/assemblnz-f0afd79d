@@ -33,7 +33,7 @@ const C = {
   surface: "#FFFFFF",
   teal: "#4AA5A8",
   tealLight: "#6CBFC1",
-  ochre: "#E8A948",
+  ochre: "#4AA5A8",
   ochreLight: "#F0C670",
   lavender: "#E8E6F0",
   text: "#3D4250",
@@ -88,9 +88,9 @@ const PACKS = [
 
 const LAYERS_DATA = [
   { name: "Kahu — Intake", desc: "Receives the request, classifies data sensitivity, checks PII, and routes to the right specialist agent.", icon: "Eye", color: "#4AA5A8" },
-  { name: "Iho — Reasoning", desc: "The specialist agent processes the task — grounded in NZ legislation with section references, never guessing.", icon: "Brain", color: "#E8A948" },
+  { name: "Iho — Reasoning", desc: "The specialist agent processes the task — grounded in NZ legislation with section references, never guessing.", icon: "Brain", color: "#4AA5A8" },
   { name: "Tā — Action", desc: "Generates the output: draft, calculation, document, or creative. Every action classified: allowed, needs approval, or forbidden.", icon: "Zap", color: "#4AA5A8" },
-  { name: "Mahara — Memory", desc: "Logs the decision, updates shared business memory, and creates the audit trail in plain language.", icon: "Shield", color: "#E8A948" },
+  { name: "Mahara — Memory", desc: "Logs the decision, updates shared business memory, and creates the audit trail in plain language.", icon: "Shield", color: "#4AA5A8" },
   { name: "Mana — Evidence", desc: "Packages the output into a structured evidence pack your auditor, bank, or regulator can trust.", icon: "Activity", color: "#4AA5A8" },
 ];
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Mic, Sparkles, Zap, Crown, Users, Radio, Music, FileText, Upload, BookOpen, Headphones, Volume2 } from "lucide-react";
 
-const GOLD = "#D4A843";
+const GOLD = "#4AA5A8";
 const TEAL = "#3A7D6E";
 
 const PODCAST_FORMATS = [
@@ -91,7 +91,7 @@ Break into ${numSegments} distinct segments with:
 ${format === "interview" ? "- **Suggested interview questions** for each segment" : ""}
 ${format === "panel" ? "- **Discussion prompts** and **counterpoint suggestions** for panelists" : ""}
 
-## 📝 FULL SCRIPT
+## FULL SCRIPT
 Write the complete script in a natural, ${tone.toLowerCase()} voice:
 ${format === "solo" ? "- Written as direct-to-listener narration" : ""}
 ${format === "interview" ? "- Include HOST: and GUEST: dialogue markers" : ""}
@@ -107,7 +107,7 @@ ${includeOutro ? `## 🔚 OUTRO (30-60 seconds)
 - Tease for next episode
 ` : ""}
 
-${includeShowNotes ? `## 📊 EPISODE METADATA
+${includeShowNotes ? `## EPISODE METADATA
 - **Suggested title** (compelling, SEO-friendly, under 60 chars)
 - **Episode description** (150 words for podcast directories)
 - **Tags/Categories** for Apple Podcasts, Spotify
@@ -135,7 +135,7 @@ Create a detailed outline (NOT a full script) with:
 - **Closing summary** — 3 key takeaways
 - **CTA suggestion** for listeners
 
-${includeShowNotes ? `## 📊 METADATA
+${includeShowNotes ? `## METADATA
 - Suggested title, description, and tags` : ""}`;
     } else if (outputMode === "guest-prep") {
       modeInstructions = `
@@ -154,7 +154,7 @@ Create a comprehensive guest preparation package:
 - **Topics to avoid** — any known sensitivities based on guest's public positions
 - **Quotable moment setup** — 2 questions designed to elicit a sound-bite worthy answer
 
-${includeShowNotes ? `## 📊 METADATA
+${includeShowNotes ? `## METADATA
 - Suggested episode title featuring guest name
 - Episode description highlighting guest's expertise
 - Tags and categories` : ""}`;
@@ -446,7 +446,7 @@ Make it sound authentic and grounded. No corporate jargon. Write like you're tal
       {/* Tips */}
       <div className="rounded-xl p-3" style={{ background: "rgba(212,168,67,0.04)", border: "1px solid rgba(212,168,67,0.1)" }}>
         <p className="text-[9px] font-body" style={{ color: "rgba(255,255,255,0.35)" }}>
-          💡 <strong>Tip:</strong> Use "Guest Prep Sheet" mode before interviews to arrive prepared. After generating a script, use PRISM's Image Studio for episode artwork and Ad Studio for promotional creatives.
+          <strong>Tip:</strong> Use "Guest Prep Sheet" mode before interviews to arrive prepared. After generating a script, use PRISM's Image Studio for episode artwork and Ad Studio for promotional creatives.
         </p>
       </div>
     </div>

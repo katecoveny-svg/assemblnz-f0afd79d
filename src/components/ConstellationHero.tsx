@@ -197,8 +197,8 @@ const ConstellationHero = ({ size = 420, fullBleed = false }: { size?: number; f
       >
         <defs>
           <radialGradient id="ch-g" cx="40%" cy="35%" r="50%">
-            <stop offset="0%" stopColor="#F0D078" />
-            <stop offset="50%" stopColor="#D4A843" />
+            <stop offset="0%" stopColor="#A8DDDB" />
+            <stop offset="50%" stopColor="#4AA5A8" />
             <stop offset="100%" stopColor="#8B6020" />
           </radialGradient>
           <radialGradient id="ch-p" cx="40%" cy="35%" r="50%">
@@ -216,7 +216,7 @@ const ConstellationHero = ({ size = 420, fullBleed = false }: { size?: number; f
             <stop offset="100%" stopColor="white" stopOpacity="0" />
           </radialGradient>
           <linearGradient id="ch-l" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#D4A843" stopOpacity="0.7" />
+            <stop offset="0%" stopColor="#4AA5A8" stopOpacity="0.7" />
             <stop offset="100%" stopColor="#3A7D6E" stopOpacity="0.65" />
           </linearGradient>
           <filter id="ch-glow">
