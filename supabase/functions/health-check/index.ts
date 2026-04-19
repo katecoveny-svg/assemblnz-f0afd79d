@@ -116,6 +116,66 @@ Deno.serve(async (req) => {
     }));
     await supabase.from("health_checks").insert(rows);
 
+    // ═══ SENTINEL — Knowledge Brain stale-source detection ═══
+    // Scan kb_sources where last_checked_at is older than 3× cadence.
+    // Open one alert per stale source (idempotent on resolved_at IS NULL).
+    const sentinelAlerts: { source_id: string; name: string; reason: string }[] = [];
+    try {
+      const { data: sources } = await supabase
+        .from("kb_sources")
+        .select("id, name, cadence_minutes, last_checked_at, active")
+        .eq("active", true);
+
+      const nowMs = Date.now();
+      for (const s of sources ?? []) {
+        const lastMs = s.last_checked_at ? new Date(s.last_checked_at).getTime() : 0;
+        const staleThreshold = (s.cadence_minutes ?? 60) * 60_000 * 3;
+        const ageMs = lastMs ? nowMs - lastMs : Infinity;
+        const isStale = !lastMs || ageMs > staleThreshold;
+        if (!isStale) continue;
+
+        // Check existing open alert
+        const { data: existing } = await supabase
+          .from("kb_sentinel_alerts")
+          .select("id")
+          .eq("source_id", s.id)
+          .is("resolved_at", null)
+          .limit(1);
+        if (existing && existing.length > 0) continue;
+
+        const reason = lastMs
+          ? `No fetch in ${Math.round(ageMs / 60000)} min (cadence ${s.cadence_minutes}m)`
+          : "Never fetched";
+
+        await supabase.from("kb_sentinel_alerts").insert({
+          source_id: s.id,
+          severity: "warning",
+          reason,
+        });
+        sentinelAlerts.push({ source_id: s.id, name: s.name, reason });
+      }
+
+      // Auto-resolve alerts whose source has been fetched recently
+      if (sources?.length) {
+        const freshIds = sources
+          .filter((s) => {
+            const lastMs = s.last_checked_at ? new Date(s.last_checked_at).getTime() : 0;
+            const staleThreshold = (s.cadence_minutes ?? 60) * 60_000 * 3;
+            return lastMs && nowMs - lastMs <= staleThreshold;
+          })
+          .map((s) => s.id);
+        if (freshIds.length) {
+          await supabase
+            .from("kb_sentinel_alerts")
+            .update({ resolved_at: new Date().toISOString() })
+            .in("source_id", freshIds)
+            .is("resolved_at", null);
+        }
+      }
+    } catch (err) {
+      console.error("SENTINEL scan failed:", err);
+    }
+
     // Identify failures
     const failures = checks.filter((c) => c.status === "error");
 
@@ -173,7 +233,12 @@ Deno.serve(async (req) => {
       }
     }
 
-    return new Response(JSON.stringify({ checks, failures: failures.length, timestamp: new Date().toISOString() }), {
+    return new Response(JSON.stringify({
+      checks,
+      failures: failures.length,
+      sentinel_alerts: sentinelAlerts,
+      timestamp: new Date().toISOString(),
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
