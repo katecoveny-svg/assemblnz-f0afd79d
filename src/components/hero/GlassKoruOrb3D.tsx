@@ -3,6 +3,15 @@ import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, MeshTransmissionMaterial, Lightformer, Environment } from "@react-three/drei";
 
+const orbPalette = {
+  filament: "hsl(176 68% 76%)",
+  filamentSoft: "hsl(173 53% 88%)",
+  core: "hsl(180 42% 98%)",
+  shell: "hsl(180 34% 99%)",
+  shellTint: "hsl(171 39% 91%)",
+  sceneMist: "hsl(180 38% 98%)",
+};
+
 /* ──────────────────────────────────────────────────────────
    Luminous filament koru — delicate glowing energy spiral
    suspended inside the orb, like the reference image.
@@ -75,9 +84,9 @@ function LuminousFilament() {
       {filaments.map((geo, i) => (
         <mesh key={i} geometry={geo}>
           <meshBasicMaterial
-            color="#7DE8E0"
+              color={orbPalette.filament}
             transparent
-            opacity={0.85}
+              opacity={0.5}
             toneMapped={false}
           />
         </mesh>
@@ -86,11 +95,11 @@ function LuminousFilament() {
       {/* Particle haze */}
       <points geometry={particles}>
         <pointsMaterial
-          color="#A8F0E8"
+          color={orbPalette.filamentSoft}
           size={0.012}
           sizeAttenuation
           transparent
-          opacity={0.7}
+          opacity={0.4}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
           toneMapped={false}
@@ -100,14 +109,14 @@ function LuminousFilament() {
       {/* Bright pulsing core */}
       <mesh ref={coreRef}>
         <sphereGeometry args={[0.04, 32, 32]} />
-        <meshBasicMaterial color="#E8FFFC" toneMapped={false} />
+        <meshBasicMaterial color={orbPalette.core} toneMapped={false} />
       </mesh>
       <mesh>
         <sphereGeometry args={[0.09, 32, 32]} />
         <meshBasicMaterial
-          color="#7DE8E0"
+          color={orbPalette.filament}
           transparent
-          opacity={0.45}
+          opacity={0.18}
           toneMapped={false}
           blending={THREE.AdditiveBlending}
         />
@@ -142,31 +151,36 @@ function GlassOrb() {
         <mesh>
           <sphereGeometry args={[1.35, 128, 128]} />
           <MeshTransmissionMaterial
-            backside
-            samples={8}
-            thickness={0.6}
+            samples={10}
+            thickness={0.28}
             transmission={1}
-            roughness={0.02}
-            ior={1.42}
-            chromaticAberration={0.03}
-            anisotropy={0.1}
-            distortion={0.02}
-            distortionScale={0.15}
-            temporalDistortion={0.01}
-            color="#FFFFFF"
-            attenuationColor="#EAF8F5"
-            attenuationDistance={8}
+            roughness={0.01}
+            ior={1.16}
+            chromaticAberration={0.008}
+            anisotropy={0.02}
+            distortion={0}
+            distortionScale={0}
+            temporalDistortion={0}
+            color={orbPalette.shell}
+            background={new THREE.Color(orbPalette.sceneMist)}
+            attenuationColor={orbPalette.shellTint}
+            attenuationDistance={28}
           />
+        </mesh>
+
+        <mesh>
+          <sphereGeometry args={[1.16, 64, 64]} />
+          <meshBasicMaterial color={orbPalette.sceneMist} transparent opacity={0.06} toneMapped={false} />
         </mesh>
 
         {/* Soft white highlights */}
         <mesh position={[-0.5, 0.6, 0.85]}>
           <sphereGeometry args={[0.3, 32, 32]} />
-          <meshBasicMaterial color="#FFFFFF" transparent opacity={0.28} />
+          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.36} toneMapped={false} />
         </mesh>
         <mesh position={[0.55, -0.45, 0.85]}>
           <sphereGeometry args={[0.18, 32, 32]} />
-          <meshBasicMaterial color="#FFFFFF" transparent opacity={0.22} />
+          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.26} toneMapped={false} />
         </mesh>
       </group>
     </Float>
@@ -186,18 +200,19 @@ export default function GlassKoruOrb3D({
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >
-        <ambientLight intensity={1.2} />
-        <directionalLight position={[3, 4, 5]} intensity={0.6} color="#FFFFFF" />
-        <directionalLight position={[-4, -2, 3]} intensity={0.4} color="#F4FBF9" />
-        <pointLight position={[0, 0, 3]} intensity={0.4} color="#FFFFFF" />
+        <ambientLight intensity={1.8} />
+        <hemisphereLight args={["hsl(180 50% 99%)", "hsl(172 24% 92%)", 1.15]} />
+        <directionalLight position={[3, 4, 5]} intensity={0.9} color="hsl(180 50% 99%)" />
+        <directionalLight position={[-4, -2, 3]} intensity={0.65} color="hsl(171 42% 95%)" />
+        <pointLight position={[0, 0, 3]} intensity={0.7} color="hsl(180 50% 99%)" />
 
         {/* Bright white studio environment — keeps glass crystal-clear */}
         <Environment resolution={256}>
-          <Lightformer intensity={2.2} color="#FFFFFF" position={[0, 5, -2]} scale={[10, 10, 1]} />
-          <Lightformer intensity={1.6} color="#FFFFFF" position={[5, 0, 2]} scale={[8, 8, 1]} />
-          <Lightformer intensity={1.6} color="#FFFFFF" position={[-5, 0, 2]} scale={[8, 8, 1]} />
-          <Lightformer intensity={1.4} color="#F0FAF8" position={[0, -5, 2]} scale={[10, 10, 1]} />
-          <Lightformer intensity={1.2} color="#FFFFFF" position={[0, 0, 6]} scale={[6, 6, 1]} />
+          <Lightformer intensity={3.2} color="hsl(180 50% 99%)" position={[0, 5, -2]} scale={[12, 12, 1]} />
+          <Lightformer intensity={2.6} color="hsl(180 50% 99%)" position={[5, 0, 2]} scale={[10, 10, 1]} />
+          <Lightformer intensity={2.6} color="hsl(180 50% 99%)" position={[-5, 0, 2]} scale={[10, 10, 1]} />
+          <Lightformer intensity={2.2} color="hsl(171 42% 95%)" position={[0, -5, 2]} scale={[12, 12, 1]} />
+          <Lightformer intensity={2.1} color="hsl(180 50% 99%)" position={[0, 0, 6]} scale={[8, 8, 1]} />
         </Environment>
 
         <GlassOrb />
