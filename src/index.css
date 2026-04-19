@@ -539,3 +539,39 @@ html {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ─────────────────────────────────────────────
+   Kete light dashboard shell — readability remap
+   Several dashboards were authored on a dark canvas
+   (text-white/40 etc). The shell now uses #FAFBFC,
+   so we remap white-on-dark utility colors to
+   charcoal-on-light inside the shell scope.
+   ───────────────────────────────────────────── */
+.kete-light-shell .text-white         { color: #1F2330 !important; }
+.kete-light-shell .text-white\/90     { color: rgba(31,35,48,0.92) !important; }
+.kete-light-shell .text-white\/80     { color: rgba(31,35,48,0.85) !important; }
+.kete-light-shell .text-white\/70     { color: rgba(31,35,48,0.78) !important; }
+.kete-light-shell .text-white\/60     { color: rgba(31,35,48,0.66) !important; }
+.kete-light-shell .text-white\/50     { color: rgba(31,35,48,0.55) !important; }
+.kete-light-shell .text-white\/40     { color: rgba(31,35,48,0.48) !important; }
+.kete-light-shell .text-white\/35     { color: rgba(31,35,48,0.42) !important; }
+.kete-light-shell .text-white\/30     { color: rgba(31,35,48,0.38) !important; }
+
+.kete-light-shell .placeholder\:text-white\/40::placeholder,
+.kete-light-shell .placeholder\:text-white\/30::placeholder {
+  color: rgba(31,35,48,0.40) !important;
+}
+
+/* Soft surface backgrounds authored as white tints
+   read as transparent on light bg — give them a faint
+   charcoal tint so cards / list rows are visible. */
+.kete-light-shell .bg-white\/5        { background-color: rgba(31,35,48,0.04) !important; }
+.kete-light-shell .bg-white\/10       { background-color: rgba(31,35,48,0.06) !important; }
+.kete-light-shell .hover\:bg-white\/5:hover { background-color: rgba(31,35,48,0.06) !important; }
+
+/* Borders authored as white tints — switch to charcoal tints */
+.kete-light-shell .border-white\/5,
+.kete-light-shell .border-white\/10,
+.kete-light-shell .border-white\/20 {
+  border-color: rgba(31,35,48,0.10) !important;
+}
