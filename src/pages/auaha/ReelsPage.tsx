@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, Sparkles, Copy, ChevronDown, Film, Camera, Hash, Clock, Palette, Download, Layers, RefreshCw } from "lucide-react";
+import { Loader2, Sparkles, Copy, ChevronDown, Film, Camera, Hash, Clock, Palette, Download, Layers, RefreshCw, Pencil, Check, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -130,7 +130,36 @@ export default function ReelsPage() {
     }
   };
 
-  const renderActBody = (key: string, body: any) => {
+  // Per-render edit + regenerate
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editPrompt, setEditPrompt] = useState("");
+  const [regeneratingId, setRegeneratingId] = useState<string | null>(null);
+
+  const startEdit = (r: RenderRow) => {
+    setEditingId(r.id);
+    setEditPrompt(r.prompt);
+  };
+  const cancelEdit = () => { setEditingId(null); setEditPrompt(""); };
+
+  const regenerateOne = async (renderId: string, newPrompt?: string) => {
+    setRegeneratingId(renderId);
+    try {
+      const { data, error } = await supabase.functions.invoke("reel-batch-render", {
+        body: { action: "regenerate", render_id: renderId, new_prompt: newPrompt },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      // Replace the row in-place
+      setRenders(prev => prev.map(r => r.id === renderId ? { ...r, ...data.render, video_url: data.render.video_url ?? null } : r));
+      toast.success("Regenerating — will appear shortly");
+      cancelEdit();
+    } catch (e: any) {
+      toast.error(e.message || "Regenerate failed");
+    } finally {
+      setRegeneratingId(null);
+    }
+  };
+
     if (!body) return null;
     return (
       <div className="space-y-3 text-sm">
