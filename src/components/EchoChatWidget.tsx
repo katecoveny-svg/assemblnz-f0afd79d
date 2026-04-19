@@ -17,9 +17,28 @@ const ECHO_BORDER_HOVER = "rgba(212,168,67,0.25)";
 const ECHO_BG_ACCENT = "rgba(212,168,67,0.1)";
 const ECHO_BG_ACCENT_SUBTLE = "rgba(212,168,67,0.08)";
 
+// Map first URL segment → kete display label so the chat dock stays context-aware
+const KETE_LABELS: Record<string, string> = {
+  manaaki: "Manaaki · Hospitality",
+  waihanga: "Waihanga · Construction",
+  auaha: "Auaha · Creative",
+  arataki: "Arataki · Automotive",
+  pikau: "Pikau · Technology",
+  hoko: "Hoko · Retail",
+  ako: "Ako · Education",
+  toro: "Tōro · Family",
+  toroa: "Tōro · Family",
+  voyage: "Voyage · Travel",
+  workspace: "Your workspace",
+  evidence: "Evidence gallery",
+  status: "Platform status",
+};
+
 const EchoChatWidget = () => {
   const location = useLocation();
   const isChatPage = location.pathname.startsWith("/chat/") || location.pathname.startsWith("/embed/");
+  const firstSeg = location.pathname.split("/").filter(Boolean)[0]?.toLowerCase() || "";
+  const keteContext = KETE_LABELS[firstSeg] || null;
   const [open, setOpen] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
