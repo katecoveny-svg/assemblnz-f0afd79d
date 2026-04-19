@@ -130,30 +130,24 @@ function GlassOrb() {
           <meshPhysicalMaterial
             color={orbPalette.shell}
             transparent
-            opacity={0.85}
-            transmission={0.35}
-            thickness={0.6}
+            opacity={0.45}
+            transmission={0.78}
+            thickness={0.45}
             roughness={0.08}
             metalness={0}
-            ior={1.25}
+            ior={1.35}
             clearcoat={1}
             clearcoatRoughness={0.02}
-            reflectivity={0.4}
+            reflectivity={0.5}
             sheen={1}
             sheenColor={orbPalette.shellTint}
           />
         </mesh>
 
-        {/* Inner deep teal glow layer */}
-        <mesh>
-          <sphereGeometry args={[1.16, 64, 64]} />
-          <meshBasicMaterial color={orbPalette.shellTint} transparent opacity={0.4} toneMapped={false} />
-        </mesh>
-
         {/* Outer rim glow — defines the sphere edge clearly */}
         <mesh scale={[1.06, 1.06, 1.06]}>
           <sphereGeometry args={[1.35, 64, 64]} />
-          <meshBasicMaterial color={orbPalette.rim} transparent opacity={0.35} toneMapped={false} blending={THREE.AdditiveBlending} />
+          <meshBasicMaterial color={orbPalette.rim} transparent opacity={0.22} toneMapped={false} blending={THREE.AdditiveBlending} />
         </mesh>
 
         {/* Soft white specular highlights */}
