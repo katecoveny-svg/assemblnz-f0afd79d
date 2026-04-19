@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Car, Wrench, ShoppingBag, Package, Key, Shield, FileText, ChevronRight } from "lucide-react";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
+import KeteSwitcherPill from "@/components/kete/KeteSwitcherPill";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
@@ -60,6 +61,7 @@ export default function AratakiLandingPage() {
       <div style={{ minHeight: "100vh" }}>
         <SEO title="Arataki — Automotive Intelligence for NZ Dealerships | assembl" description="Service, sales, parts, loan fleet — four verticals, one governed agent. Built for NZ dealerships like Hamilton Toyota." />
         <BrandNav />
+        <KeteSwitcherPill activeKete="arataki" />
 
         {/* Hero */}
         <main className="relative flex flex-col items-center px-6 pt-24 pb-32 text-center overflow-hidden">

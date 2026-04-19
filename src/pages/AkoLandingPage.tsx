@@ -14,6 +14,7 @@ import {
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
+import KeteSwitcherPill from "@/components/kete/KeteSwitcherPill";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
@@ -79,6 +80,7 @@ export default function AkoLandingPage() {
           description="Built for the 20 April 2026 ECE licensing wedge. Licensing criteria matcher, transparency pack generator, graduated enforcement readiness — for 4,500+ NZ services."
         />
         <BrandNav />
+        <KeteSwitcherPill activeKete="ako" />
 
         {/* ── Hero ── */}
         <main className="relative flex flex-col items-center px-6 pt-16 pb-28 text-center overflow-hidden">

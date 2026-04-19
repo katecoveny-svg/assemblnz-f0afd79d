@@ -5,6 +5,7 @@ import { ArrowRight, Check, Shield, FileText, Wrench, Building, Users, HardHat, 
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
+import KeteSwitcherPill from "@/components/kete/KeteSwitcherPill";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
@@ -82,6 +83,7 @@ export default function WaihangaLandingPage() {
           description="Site safety, building code compliance, tender writing, BIM coordination — construction operations without the paper trail chaos. Built for NZ builders."
         />
         <BrandNav />
+        <KeteSwitcherPill activeKete="waihanga" />
 
         {/* ── Hero ── */}
         <main className="relative flex flex-col items-center px-6 pt-16 pb-28 text-center overflow-hidden">

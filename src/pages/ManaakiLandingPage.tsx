@@ -5,6 +5,7 @@ import { ArrowRight, Check, Shield, Wine, Star, Leaf, Calendar, UtensilsCrossed,
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
+import KeteSwitcherPill from "@/components/kete/KeteSwitcherPill";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
@@ -71,6 +72,7 @@ export default function ManaakiLandingPage() {
           description="Food safety, alcohol licensing, guest experience, sustainability — hospitality compliance without the paperwork pile-up. Built for NZ operators."
         />
         <BrandNav />
+        <KeteSwitcherPill activeKete="manaaki" />
 
         {/* ── Hero ── */}
         <main className="relative flex flex-col items-center px-6 pt-16 pb-28 text-center overflow-hidden">

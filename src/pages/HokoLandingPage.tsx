@@ -8,6 +8,7 @@ import {
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
+import KeteSwitcherPill from "@/components/kete/KeteSwitcherPill";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
@@ -97,6 +98,7 @@ export default function HokoLandingPage() {
           description="Pricing intelligence vs Temu/Amazon, POS-driven re-orders, FTA/CGA compliance lint, unified customer view. Built for NZ retail's $92.3bn frontline."
         />
         <BrandNav />
+        <KeteSwitcherPill activeKete="hoko" />
 
         {/* ── Hero ── */}
         <main className="relative flex flex-col items-center px-6 pt-16 pb-28 text-center overflow-hidden">
