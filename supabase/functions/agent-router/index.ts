@@ -449,6 +449,39 @@ MANA (Approve):
     }
     expertBlock += industryContextBlock;
 
+    // ═══ KNOWLEDGE BRAIN — Live RSS/JSON sources via match_kb_knowledge ═══
+    // Maps each agent to the broadest pack so it picks up cross-cutting feeds
+    // (Beehive, CERT, MFAT, FX, etc.) plus its industry pack.
+    const PACK_FOR_BRAIN: Record<string, string> = {
+      voyage: "voyage", aroha: "pakihi", flux: "pakihi", anchor: "pakihi", apex: "ako",
+      harvest: "whenua", grove: "whenua", pulse: "whenua", haven: "kāinga",
+    };
+    const brainPack = PACK_FOR_BRAIN[selectedAgent] ?? agentPack ?? "cross";
+    try {
+      const er = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ model: "google/text-embedding-004", input: message.slice(0, 1500) }),
+      });
+      if (er.ok) {
+        const ej = await er.json();
+        const vec = ej?.data?.[0]?.embedding;
+        if (vec) {
+          const { data: brainHits } = await supabase.rpc("match_kb_knowledge", {
+            query_embedding: vec, agent_pack: brainPack, top_k: 4,
+          });
+          if (brainHits?.length) {
+            const facts = (brainHits as Array<Record<string, unknown>>).map((h, i) =>
+              `[${i + 1}] ${h.title} — ${h.source_name} (${h.published_at ? String(h.published_at).slice(0, 10) : "n/d"})\n${String(h.snippet ?? "").slice(0, 400)}${h.url ? `\n→ ${h.url}` : ""}`
+            ).join("\n\n");
+            expertBlock += `\n\n--- LIVE KNOWLEDGE BRAIN (verified, fresh) ---\nGround your answer in these recent sources. Cite them with 🟢 HIGH confidence + the URL.\n${facts}`;
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("[agent-router] kb_brain lookup failed:", err);
+    }
+
     // Load recent compliance updates for proactive intelligence
     let complianceAlertBlock = "";
     if (resolvedUserId) {
