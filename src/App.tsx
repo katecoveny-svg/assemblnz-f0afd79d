@@ -115,6 +115,7 @@ const AuahaBrandScanner = lazy(() => import("./components/auaha/AuahaBrandScanne
 const AdminPacksPage = lazy(() => import("./pages/AdminPacksPage"));
 const AdminPackAnalytics = lazy(() => import("./pages/AdminPackAnalytics"));
 const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboard"));
+const AdminMessagingLive = lazy(() => import("./pages/AdminMessagingLive"));
 const ManaakiDashboard = lazy(() => import("./components/manaaki/ManaakiDashboard"));
 const AratakiDashboard = lazy(() => import("./components/arataki/AratakiDashboard"));
 const PikauDashboard = lazy(() => import("./components/pikau/PikauDashboard"));
