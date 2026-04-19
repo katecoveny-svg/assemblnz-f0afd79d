@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
+import KeteSwitcherPill from "@/components/kete/KeteSwitcherPill";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
@@ -157,6 +158,7 @@ export default function ToroaLandingPage() {
           path="/toro"
         />
         <BrandNav />
+        <KeteSwitcherPill activeKete="toro" />
 
         {/* ════ HERO ════ */}
         <section

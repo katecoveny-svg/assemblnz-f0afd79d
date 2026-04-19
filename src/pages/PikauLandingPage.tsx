@@ -5,6 +5,7 @@ import { ArrowRight, Check, FileText, Shield, Package, Anchor, ChevronDown } fro
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
+import KeteSwitcherPill from "@/components/kete/KeteSwitcherPill";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
@@ -65,6 +66,7 @@ export default function PikauLandingPage() {
           description="Customs entries, freight quotes, dangerous goods checks — border compliance without the scramble. Built for NZ importers and logistics teams."
         />
         <BrandNav />
+        <KeteSwitcherPill activeKete="pikau" />
 
         {/* ── Hero ── */}
         <main className="relative flex flex-col items-center justify-center px-6 pt-16 pb-28 text-center overflow-hidden">

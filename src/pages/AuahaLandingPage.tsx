@@ -5,6 +5,7 @@ import { ArrowRight, Check, Palette, PenTool, Camera, Mic, BarChart3, Calendar, 
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
+import KeteSwitcherPill from "@/components/kete/KeteSwitcherPill";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
@@ -63,6 +64,7 @@ export default function AuahaLandingPage() {
           description="Strategy, content, brand voice, design, campaigns, analytics — one coordinated studio, not six tools and a freelancer. Built for NZ creative teams."
         />
         <BrandNav />
+        <KeteSwitcherPill activeKete="auaha" />
 
         {/* ── Hero ── */}
         <main className="relative flex flex-col items-center px-6 pt-16 pb-28 text-center overflow-hidden">
