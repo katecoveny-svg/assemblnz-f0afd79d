@@ -381,6 +381,12 @@ function KoruScene() {
       {/* Outer glass containment sphere */}
       <ContainmentSphere />
 
+      {/* Glowing orbital rings — Saturn-like energy bands */}
+      <OrbitalRing radius={4.55} color="#7DD4D6" speed={0.12} rotation={[Math.PI / 2.2, 0, 0]} opacity={0.55} />
+      <OrbitalRing radius={4.7} color="#E8A948" speed={-0.08} rotation={[Math.PI / 1.6, 0.4, 0]} opacity={0.4} />
+      <OrbitalRing radius={4.9} color="#B8A5D0" speed={0.06} rotation={[Math.PI / 3, -0.5, 0]} opacity={0.35} />
+      <OrbitalRing radius={5.15} color="#4AA5A8" speed={-0.04} rotation={[Math.PI / 2, Math.PI / 4, 0]} opacity={0.28} />
+
       {/* Orbiting data nodes (outside the inner spiral, drifting around the sphere edge) */}
       {orbitNodes.map((n, i) => (
         <OrbitingNode key={`orb-${i}`} {...n} />
