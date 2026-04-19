@@ -300,7 +300,20 @@ function OrbitingNode({ radius, speed, phase, tilt, color, size = 0.08 }: {
 function KoruScene() {
   const groupRef = useRef<THREE.Group>(null);
   const { pointer } = useThree();
-  const positions = useMemo(() => koruSpiral(2.5, 44, 3.5), []);
+  const positions = useMemo(() => koruSpiral(2.5, 44, 2.6), []);
+  const orbitNodes = useMemo(
+    () => [
+      { radius: 4.4, speed: 0.35, phase: 0, tilt: 0.3, color: "#4AA5A8" },
+      { radius: 4.4, speed: 0.28, phase: 1.2, tilt: -0.4, color: "#E8A948" },
+      { radius: 4.4, speed: 0.42, phase: 2.4, tilt: 0.6, color: "#B8A5D0" },
+      { radius: 4.4, speed: 0.31, phase: 3.6, tilt: -0.2, color: "#E8A090" },
+      { radius: 4.4, speed: 0.38, phase: 4.8, tilt: 0.5, color: "#7BA88C" },
+      { radius: 4.4, speed: 0.45, phase: 0.7, tilt: -0.6, color: "#7DD4D6" },
+      { radius: 4.4, speed: 0.26, phase: 2.0, tilt: 0.1, color: "#FFFFFF" },
+      { radius: 4.4, speed: 0.33, phase: 4.0, tilt: -0.3, color: "#7DD4D6" },
+    ],
+    [],
+  );
 
   useFrame(() => {
     if (!groupRef.current) return;
