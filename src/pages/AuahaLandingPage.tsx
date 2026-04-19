@@ -86,7 +86,8 @@ export default function AuahaLandingPage() {
             AUAHA · CREATIVE & MEDIA
           </motion.p>
 
-          <motion.h1 className="text-4xl sm:text-6xl font-display font-light tracking-[0.02em] mb-4 max-w-3xl leading-[1.1]"
+          <motion.h1 className="text-4xl sm:text-6xl font-display tracking-[0.01em] mb-4 max-w-3xl leading-[1.05]"
+            style={{ fontWeight: 200 }}
             variants={fadeUp} initial="hidden" animate="visible" custom={1}>
             <span style={{ background: `linear-gradient(135deg, #3D4250 0%, ${GOLD} 60%, ${POUNAMU} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
               One coordinated studio.
@@ -126,13 +127,39 @@ export default function AuahaLandingPage() {
           </motion.div>
 
           <motion.div className="flex flex-col sm:flex-row items-center gap-4" variants={fadeUp} initial="hidden" animate="visible" custom={4}>
-            <Link to="/auaha" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold font-body overflow-hidden" style={{ color: "#FFFFFF" }}>
-              <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(135deg, ${POUNAMU} 0%, #2D6A5E 100%)` }} />
-              <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
+            <Link
+              to="/auaha"
+              className="group relative flex items-center gap-2 px-9 py-3.5 rounded-full text-sm font-body overflow-hidden transition-all duration-300"
+              style={{
+                color: "#FFFFFF",
+                fontWeight: 400,
+                letterSpacing: "0.02em",
+                background: `linear-gradient(135deg, ${POUNAMU} 0%, #2D6A5E 100%)`,
+                border: `1px solid ${POUNAMU}80`,
+                backdropFilter: "blur(20px)",
+                boxShadow: `0 8px 24px rgba(58,125,110,0.25), 0 0 0 1px rgba(255,255,255,0.1) inset`,
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.boxShadow = `0 12px 36px rgba(58,125,110,0.35), 0 0 40px ${POUNAMU}40, 0 0 0 1px rgba(255,255,255,0.15) inset`; }}
+              onMouseLeave={(e) => { e.currentTarget.style.boxShadow = `0 8px 24px rgba(58,125,110,0.25), 0 0 0 1px rgba(255,255,255,0.1) inset`; }}
+            >
               <span className="relative z-10">Open Auaha Studio</span>
               <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link to="/contact" className="group px-10 py-4 rounded-full text-sm font-medium font-body transition-all duration-300" style={{ color: "#3D4250", border: `1px solid ${POUNAMU}30`, background: "rgba(255,255,255,0.6)" }}>
+            <Link
+              to="/contact"
+              className="group flex items-center gap-2 px-9 py-3.5 rounded-full text-sm font-body transition-all duration-300"
+              style={{
+                color: "#3D4250",
+                fontWeight: 400,
+                letterSpacing: "0.02em",
+                background: "rgba(255,255,255,0.6)",
+                border: `1px solid ${POUNAMU}30`,
+                backdropFilter: "blur(20px)",
+                boxShadow: "0 4px 16px rgba(58,125,110,0.06), 0 0 0 1px rgba(255,255,255,0.4) inset",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.8)"; e.currentTarget.style.boxShadow = `0 8px 24px rgba(58,125,110,0.1), 0 0 0 1px rgba(255,255,255,0.5) inset`; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.6)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(58,125,110,0.06), 0 0 0 1px rgba(255,255,255,0.4) inset"; }}
+            >
               <span>Book a creative walk-through</span>
             </Link>
           </motion.div>
@@ -146,7 +173,7 @@ export default function AuahaLandingPage() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${ACCENT}10 0%, transparent 70%)` }} />
           <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace" }}>specialist network</p>
-            <h2 className="text-2xl sm:text-3xl font-display font-light" style={{ color: "#3D4250" }}>9 agents working together</h2>
+            <h2 className="text-2xl sm:text-3xl font-display tracking-[0.01em]" style={{ color: "#3D4250", fontWeight: 200 }}>9 agents working together</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {AGENTS.map((a, i) => (
@@ -179,7 +206,7 @@ export default function AuahaLandingPage() {
           <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[500px] h-[300px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${ACCENT}10 0%, transparent 60%)` }} />
           <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace" }}>workflow</p>
-            <h2 className="text-2xl sm:text-3xl font-display font-light" style={{ color: "#3D4250" }}>How it works</h2>
+            <h2 className="text-2xl sm:text-3xl font-display tracking-[0.01em]" style={{ color: "#3D4250", fontWeight: 200 }}>How it works</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
             {DEMO_FLOW.map((d, i) => (
@@ -286,11 +313,23 @@ export default function AuahaLandingPage() {
           }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}60, transparent)` }} />
             <p className="text-sm" style={{ color: "#5B6374" }}>Ready to coordinate your creative pipeline?</p>
-            <Link to="/auaha" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold transition-all overflow-hidden" style={{ color: "#FFFFFF" }}>
-              <div className="absolute inset-0 rounded-full" style={{ background: POUNAMU }} />
-              <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
-              <span className="relative z-10">Open Auaha Studio</span>
-              <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+            <Link
+              to="/auaha"
+              className="group flex items-center gap-2 px-9 py-3.5 rounded-full text-sm font-body transition-all duration-300"
+              style={{
+                color: "#FFFFFF",
+                fontWeight: 400,
+                letterSpacing: "0.02em",
+                background: `linear-gradient(135deg, ${POUNAMU} 0%, #2D6A5E 100%)`,
+                border: `1px solid ${POUNAMU}80`,
+                backdropFilter: "blur(20px)",
+                boxShadow: `0 8px 24px rgba(58,125,110,0.25), 0 0 0 1px rgba(255,255,255,0.1) inset`,
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.boxShadow = `0 12px 36px rgba(58,125,110,0.35), 0 0 40px ${POUNAMU}40, 0 0 0 1px rgba(255,255,255,0.15) inset`; }}
+              onMouseLeave={(e) => { e.currentTarget.style.boxShadow = `0 8px 24px rgba(58,125,110,0.25), 0 0 0 1px rgba(255,255,255,0.1) inset`; }}
+            >
+              <span>Open Auaha Studio</span>
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <TextUsButton keteName="Auaha" accentColor={ACCENT} showWhatsApp={false} />
           </motion.div>
