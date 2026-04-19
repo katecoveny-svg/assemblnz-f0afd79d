@@ -4,81 +4,127 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, MeshTransmissionMaterial, Lightformer, Environment } from "@react-three/drei";
 
 /* ──────────────────────────────────────────────────────────
-   Engraved koru — proper unfurling fern frond.
-   Logarithmic spiral that tightens to a centre bulb (pītau).
+   Luminous filament koru — delicate glowing energy spiral
+   suspended inside the orb, like the reference image.
    ────────────────────────────────────────────────────────── */
-function KoruSpiral() {
+function LuminousFilament() {
   const groupRef = React.useRef<THREE.Group>(null);
+  const coreRef = React.useRef<THREE.Mesh>(null);
 
-  const tube = React.useMemo(() => {
-    const points: THREE.Vector3[] = [];
-    // Logarithmic koru spiral: r = a * e^(b*θ)
-    const a = 0.045;
-    const b = 0.18;
-    const turns = 2.6;
-    const steps = 260;
-    for (let i = 0; i <= steps; i++) {
-      const t = i / steps;
-      const theta = turns * Math.PI * 2 * t;
-      const r = a * Math.exp(b * theta);
-      const x = Math.cos(theta) * r;
-      const y = Math.sin(theta) * r;
-      points.push(new THREE.Vector3(x, y, 0));
+  // Build several thin glowing spiral filaments
+  const filaments = React.useMemo(() => {
+    const tubes: THREE.BufferGeometry[] = [];
+    const filamentCount = 5;
+
+    for (let f = 0; f < filamentCount; f++) {
+      const points: THREE.Vector3[] = [];
+      const turns = 2.4 + f * 0.15;
+      const phaseOffset = (f / filamentCount) * Math.PI * 2;
+      const a = 0.04;
+      const b = 0.19;
+      const steps = 220;
+
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        const theta = turns * Math.PI * 2 * t + phaseOffset;
+        const r = a * Math.exp(b * theta);
+        // gentle 3D wobble out of plane
+        const z = Math.sin(theta * 1.2 + f) * 0.04 * t;
+        const x = Math.cos(theta) * r;
+        const y = Math.sin(theta) * r;
+        points.push(new THREE.Vector3(x, y, z));
+      }
+      const curve = new THREE.CatmullRomCurve3(points);
+      tubes.push(new THREE.TubeGeometry(curve, 240, 0.006, 10, false));
     }
-    const curve = new THREE.CatmullRomCurve3(points);
-    // Tapered radius: thicker at outer end, fine at the centre
-    const segs = 280;
-    return new THREE.TubeGeometry(curve, segs, 0.038, 24, false);
+    return tubes;
+  }, []);
+
+  // Particle cloud surrounding the filament — gives the misty glow
+  const particles = React.useMemo(() => {
+    const count = 800;
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      // distribute in a flattened disc inside the orb
+      const r = Math.pow(Math.random(), 0.6) * 0.7;
+      const theta = Math.random() * Math.PI * 2;
+      const z = (Math.random() - 0.5) * 0.18;
+      positions[i * 3] = Math.cos(theta) * r;
+      positions[i * 3 + 1] = Math.sin(theta) * r;
+      positions[i * 3 + 2] = z;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    return geo;
   }, []);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (groupRef.current) {
-      groupRef.current.rotation.z = t * 0.06;
-      groupRef.current.position.y = Math.sin(t * 0.8) * 0.012;
+      groupRef.current.rotation.z = t * 0.08;
+    }
+    if (coreRef.current) {
+      const s = 1 + Math.sin(t * 1.6) * 0.08;
+      coreRef.current.scale.setScalar(s);
     }
   });
 
   return (
-    <group ref={groupRef} position={[0, 0, 0]}>
-      <mesh geometry={tube}>
-        <meshPhysicalMaterial
-          color="#FFFFFF"
-          emissive="#E8F7F4"
-          emissiveIntensity={0.35}
-          roughness={0.35}
-          metalness={0}
-          clearcoat={0.4}
-          clearcoatRoughness={0.4}
+    <group ref={groupRef}>
+      {/* Spiral filaments */}
+      {filaments.map((geo, i) => (
+        <mesh key={i} geometry={geo}>
+          <meshBasicMaterial
+            color="#7DE8E0"
+            transparent
+            opacity={0.85}
+            toneMapped={false}
+          />
+        </mesh>
+      ))}
+
+      {/* Particle haze */}
+      <points geometry={particles}>
+        <pointsMaterial
+          color="#A8F0E8"
+          size={0.012}
+          sizeAttenuation
           transparent
-          opacity={0.96}
+          opacity={0.7}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+          toneMapped={false}
         />
+      </points>
+
+      {/* Bright pulsing core */}
+      <mesh ref={coreRef}>
+        <sphereGeometry args={[0.04, 32, 32]} />
+        <meshBasicMaterial color="#E8FFFC" toneMapped={false} />
       </mesh>
-      {/* Pītau — soft bulb at the centre of the koru */}
-      <mesh position={[0, 0, 0.005]}>
-        <sphereGeometry args={[0.055, 32, 32]} />
-        <meshPhysicalMaterial
-          color="#FFFFFF"
-          emissive="#D9F1EC"
-          emissiveIntensity={0.5}
-          roughness={0.3}
+      <mesh>
+        <sphereGeometry args={[0.09, 32, 32]} />
+        <meshBasicMaterial
+          color="#7DE8E0"
           transparent
-          opacity={0.95}
+          opacity={0.45}
+          toneMapped={false}
+          blending={THREE.AdditiveBlending}
         />
       </mesh>
     </group>
   );
 }
 
-/* Pale translucent sea-glass orb */
+/* Crystal-clear glass orb (not tinted — like the reference) */
 function GlassOrb() {
   const orbRef = React.useRef<THREE.Group>(null);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (orbRef.current) {
-      orbRef.current.rotation.y = Math.sin(t * 0.25) * 0.1;
-      orbRef.current.rotation.x = Math.cos(t * 0.2) * 0.04;
+      orbRef.current.rotation.y = Math.sin(t * 0.25) * 0.08;
+      orbRef.current.rotation.x = Math.cos(t * 0.2) * 0.03;
     }
   });
 
@@ -90,38 +136,37 @@ function GlassOrb() {
       floatingRange={[-0.04, 0.04]}
     >
       <group ref={orbRef}>
-        {/* Engraved koru inside */}
-        <KoruSpiral />
+        <LuminousFilament />
 
-        {/* Outer glass shell — pale translucent teal */}
+        {/* Outer crystal shell */}
         <mesh>
           <sphereGeometry args={[1.35, 128, 128]} />
           <MeshTransmissionMaterial
             backside
-            samples={6}
-            thickness={0.35}
+            samples={8}
+            thickness={0.6}
             transmission={1}
-            roughness={0.05}
-            ior={1.28}
-            chromaticAberration={0.015}
-            anisotropy={0.05}
-            distortion={0.01}
-            distortionScale={0.1}
+            roughness={0.02}
+            ior={1.42}
+            chromaticAberration={0.03}
+            anisotropy={0.1}
+            distortion={0.02}
+            distortionScale={0.15}
             temporalDistortion={0.01}
-            color="#F0FAF8"
-            attenuationColor="#E4F4F0"
-            attenuationDistance={6}
+            color="#FFFFFF"
+            attenuationColor="#EAF8F5"
+            attenuationDistance={8}
           />
         </mesh>
 
-        {/* Soft iridescent highlights */}
-        <mesh position={[-0.45, 0.55, 0.9]}>
-          <sphereGeometry args={[0.28, 32, 32]} />
-          <meshBasicMaterial color="#FFFFFF" transparent opacity={0.22} />
+        {/* Soft white highlights */}
+        <mesh position={[-0.5, 0.6, 0.85]}>
+          <sphereGeometry args={[0.3, 32, 32]} />
+          <meshBasicMaterial color="#FFFFFF" transparent opacity={0.28} />
         </mesh>
-        <mesh position={[0.55, -0.4, 0.85]}>
+        <mesh position={[0.55, -0.45, 0.85]}>
           <sphereGeometry args={[0.18, 32, 32]} />
-          <meshBasicMaterial color="#E4F4F0" transparent opacity={0.25} />
+          <meshBasicMaterial color="#FFFFFF" transparent opacity={0.22} />
         </mesh>
       </group>
     </Float>
@@ -141,39 +186,18 @@ export default function GlassKoruOrb3D({
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >
-        {/* Bright, even lighting — keeps the orb pale, never dark */}
-        <ambientLight intensity={1.3} />
-        <directionalLight position={[3, 4, 5]} intensity={0.7} color="#FFFFFF" />
-        <directionalLight position={[-4, -2, 3]} intensity={0.45} color="#F0FAF8" />
-        <directionalLight position={[0, 5, -3]} intensity={0.35} color="#FFFFFF" />
-        <pointLight position={[0, 0, 3]} intensity={0.5} color="#FFFFFF" />
+        <ambientLight intensity={1.2} />
+        <directionalLight position={[3, 4, 5]} intensity={0.6} color="#FFFFFF" />
+        <directionalLight position={[-4, -2, 3]} intensity={0.4} color="#F4FBF9" />
+        <pointLight position={[0, 0, 3]} intensity={0.4} color="#FFFFFF" />
 
-        {/* Custom bright environment — no dark reflections */}
+        {/* Bright white studio environment — keeps glass crystal-clear */}
         <Environment resolution={256}>
-          <Lightformer
-            intensity={2}
-            color="#FFFFFF"
-            position={[0, 5, -2]}
-            scale={[10, 10, 1]}
-          />
-          <Lightformer
-            intensity={1.5}
-            color="#F0FAF8"
-            position={[5, 0, 2]}
-            scale={[8, 8, 1]}
-          />
-          <Lightformer
-            intensity={1.5}
-            color="#FFFFFF"
-            position={[-5, 0, 2]}
-            scale={[8, 8, 1]}
-          />
-          <Lightformer
-            intensity={1.2}
-            color="#E4F4F0"
-            position={[0, -5, 2]}
-            scale={[10, 10, 1]}
-          />
+          <Lightformer intensity={2.2} color="#FFFFFF" position={[0, 5, -2]} scale={[10, 10, 1]} />
+          <Lightformer intensity={1.6} color="#FFFFFF" position={[5, 0, 2]} scale={[8, 8, 1]} />
+          <Lightformer intensity={1.6} color="#FFFFFF" position={[-5, 0, 2]} scale={[8, 8, 1]} />
+          <Lightformer intensity={1.4} color="#F0FAF8" position={[0, -5, 2]} scale={[10, 10, 1]} />
+          <Lightformer intensity={1.2} color="#FFFFFF" position={[0, 0, 6]} scale={[6, 6, 1]} />
         </Environment>
 
         <GlassOrb />
