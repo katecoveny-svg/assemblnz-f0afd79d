@@ -264,6 +264,9 @@ export default function WorkspaceDashboard() {
             </div>
           </motion.div>
 
+          {/* Quick actions launchpad */}
+          <WorkspaceQuickActions accent={accent} />
+
           {/* Onboarding checklist */}
           {!tenant.onboarding_complete && (
             <motion.div
