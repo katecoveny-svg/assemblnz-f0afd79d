@@ -287,28 +287,13 @@ export default function HokoLandingPage() {
           </div>
         </section>
 
-        {/* ── Compliance strip ── */}
-        <section className="px-6 py-16">
-          <div className="max-w-4xl mx-auto rounded-3xl p-10"
-            style={{
-              background: "rgba(255,255,255,0.7)",
-              backdropFilter: "blur(20px)",
-              border: `1px solid ${POUNAMU}20`,
-            }}>
-            <div className="text-center mb-6">
-              <Sparkles size={20} style={{ color: POUNAMU, margin: "0 auto 8px" }} />
-              <h3 className="text-xl font-light" style={{ color: "#3D4250" }}>
-                Every output evidence-pack ready
-              </h3>
-            </div>
-            <div className="grid md:grid-cols-2 gap-3">
-              {COMPLIANCE.map((c, i) => (
-                <div key={i} className="flex items-start gap-2 text-[13px]" style={{ color: "#3D4250" }}>
-                  <Check size={14} style={{ color: POUNAMU, marginTop: 3, flexShrink: 0 }} />
-                  <span>{c}</span>
-                </div>
-              ))}
-            </div>
+        {/* ── Compliance — single line + live status ── */}
+        <section className="px-6 py-12">
+          <div className="max-w-3xl mx-auto text-center space-y-4">
+            <LiveStatusStrip pack="hoko" agentCodes={["prism", "flux", "nova", "guardian"]} accent={POUNAMU} />
+            <p className="text-xs" style={{ color: "#5B6374", letterSpacing: "0.02em" }}>
+              <span style={{ color: POUNAMU, fontWeight: 500 }}>Governed by</span> Fair Trading Act 1986, Consumer Guarantees Act 1993, Privacy Act 2020, Commerce Commission Grocery Code.
+            </p>
           </div>
         </section>
 
@@ -330,7 +315,7 @@ export default function HokoLandingPage() {
           </div>
         </section>
 
-        <KnowledgeSourcesStrip keteCode="HOKO" />
+        
         <BrandFooter />
       </div>
     </LightPageShell>

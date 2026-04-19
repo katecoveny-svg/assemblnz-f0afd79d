@@ -570,7 +570,9 @@ export default function ToroaLandingPage() {
           </div>
         </section>
 
-        <KnowledgeSourcesStrip keteCode="KĀINGA" />
+        <section className="px-6 pb-12 text-center">
+          <LiveStatusStrip pack="toroa" agentCodes={["nexus", "creative", "wellness"]} accent={POUNAMU} />
+        </section>
         <BrandFooter />
         <KeteAgentChat
           keteName="Tōro"

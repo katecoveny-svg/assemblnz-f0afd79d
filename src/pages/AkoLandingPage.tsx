@@ -360,7 +360,7 @@ export default function AkoLandingPage() {
           </div>
         </section>
 
-        <KnowledgeSourcesStrip keteCode="AKO" />
+        
         <BrandFooter />
       </div>
     </LightPageShell>

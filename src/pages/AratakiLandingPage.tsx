@@ -200,7 +200,7 @@ export default function AratakiLandingPage() {
           </div>
         </section>
 
-        <KnowledgeSourcesStrip keteCode="ARATAKI" />
+        
         <BrandFooter />
         <KeteAgentChat keteName="Arataki" keteLabel="Automotive" accentColor="#4AA5A8"
           defaultAgentId="motor" packId="arataki"
