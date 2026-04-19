@@ -4,127 +4,98 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Lightformer, Environment } from "@react-three/drei";
 
 const orbPalette = {
-  filament: "#1F7A7D",      // deep teal — strong visible filaments
-  filamentSoft: "#5FB8B5",  // teal halo
-  core: "#FFFFFF",          // bright white core
-  shell: "#7FC8C2",         // saturated teal glass shell
-  shellTint: "#2E8A8C",     // deep teal sheen
-  rim: "#1F7A7D",           // strong rim accent
+  etch: "#FFFFFF",          // frosted etched koru line
+  etchSoft: "#E8F6F3",      // soft halo around etch
+  shell: "#A8DDDB",         // ice-teal glass shell
+  shellTint: "#7FC8C2",     // teal sheen
+  rim: "#4AA5A8",           // teal rim accent
 };
 
 /* ──────────────────────────────────────────────────────────
-   Luminous filament koru — delicate glowing energy spiral
-   suspended inside the orb, like the reference image.
+   Etched koru — a single frosted spiral engraved on the
+   inner surface of the glass sphere (like sandblasted glass).
    ────────────────────────────────────────────────────────── */
-function LuminousFilament() {
+function EtchedKoru() {
   const groupRef = React.useRef<THREE.Group>(null);
-  const coreRef = React.useRef<THREE.Mesh>(null);
 
-  // Build several thin glowing spiral filaments
-  const filaments = React.useMemo(() => {
-    const tubes: THREE.BufferGeometry[] = [];
-    const filamentCount = 5;
+  // Build a single graceful koru spiral (logarithmic) that ends with
+  // a small unfurling bulb tip — projected onto the inner sphere surface.
+  const { mainCurve, bulbPosition } = React.useMemo(() => {
+    const points: THREE.Vector3[] = [];
+    const turns = 2.2;
+    const a = 0.05;
+    const b = 0.24;
+    const steps = 320;
+    const sphereR = 1.18; // sit just inside the glass shell
 
-    for (let f = 0; f < filamentCount; f++) {
-      const points: THREE.Vector3[] = [];
-      const turns = 2.4 + f * 0.15;
-      const phaseOffset = (f / filamentCount) * Math.PI * 2;
-      const a = 0.04;
-      const b = 0.19;
-      const steps = 220;
-
-      for (let i = 0; i <= steps; i++) {
-        const t = i / steps;
-        const theta = turns * Math.PI * 2 * t + phaseOffset;
-        const r = a * Math.exp(b * theta);
-        // gentle 3D wobble out of plane
-        const z = Math.sin(theta * 1.2 + f) * 0.04 * t;
-        const x = Math.cos(theta) * r;
-        const y = Math.sin(theta) * r;
-        points.push(new THREE.Vector3(x, y, z));
-      }
-      const curve = new THREE.CatmullRomCurve3(points);
-      tubes.push(new THREE.TubeGeometry(curve, 240, 0.006, 10, false));
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps;
+      const theta = turns * Math.PI * 2 * t;
+      const r = a * Math.exp(b * theta);
+      const x = Math.cos(theta) * r;
+      const y = Math.sin(theta) * r;
+      // project onto front hemisphere of sphere
+      const z2 = Math.max(0, sphereR * sphereR - x * x - y * y);
+      const z = Math.sqrt(z2);
+      points.push(new THREE.Vector3(x, y, z));
     }
-    return tubes;
+    const curve = new THREE.CatmullRomCurve3(points);
+    return { mainCurve: curve, bulbPosition: points[points.length - 1] };
   }, []);
 
-  // Particle cloud surrounding the filament — gives the misty glow
-  const particles = React.useMemo(() => {
-    const count = 800;
-    const positions = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      // distribute in a flattened disc inside the orb
-      const r = Math.pow(Math.random(), 0.6) * 0.7;
-      const theta = Math.random() * Math.PI * 2;
-      const z = (Math.random() - 0.5) * 0.18;
-      positions[i * 3] = Math.cos(theta) * r;
-      positions[i * 3 + 1] = Math.sin(theta) * r;
-      positions[i * 3 + 2] = z;
-    }
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    return geo;
-  }, []);
+  const tubeGeo = React.useMemo(
+    () => new THREE.TubeGeometry(mainCurve, 320, 0.012, 12, false),
+    [mainCurve]
+  );
+  const tubeGlowGeo = React.useMemo(
+    () => new THREE.TubeGeometry(mainCurve, 320, 0.022, 12, false),
+    [mainCurve]
+  );
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (groupRef.current) {
-      groupRef.current.rotation.z = t * 0.08;
-    }
-    if (coreRef.current) {
-      const s = 1 + Math.sin(t * 1.6) * 0.08;
-      coreRef.current.scale.setScalar(s);
+      // very subtle drift, like floating engraved glass
+      groupRef.current.rotation.y = Math.sin(t * 0.25) * 0.06;
+      groupRef.current.rotation.z = Math.sin(t * 0.18) * 0.02;
     }
   });
 
   return (
     <group ref={groupRef}>
-      {/* Spiral filaments */}
-      {filaments.map((geo, i) => (
-        <mesh key={i} geometry={geo}>
-            <meshPhysicalMaterial
-              color={orbPalette.filament}
-            transparent
-              opacity={0.95}
-              roughness={0.14}
-              metalness={0}
-              clearcoat={1}
-              clearcoatRoughness={0.08}
-              emissive={orbPalette.filament}
-              emissiveIntensity={0.45}
-              toneMapped={false}
-          />
-        </mesh>
-      ))}
-
-      {/* Particle haze */}
-      <points geometry={particles}>
-        <pointsMaterial
-          color={orbPalette.filamentSoft}
-          size={0.012}
-          sizeAttenuation
+      {/* Soft frosted halo around the etched line — gives the sandblasted look */}
+      <mesh geometry={tubeGlowGeo}>
+        <meshBasicMaterial
+          color={orbPalette.etchSoft}
           transparent
-          opacity={0.4}
+          opacity={0.35}
+          toneMapped={false}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+
+      {/* The crisp etched koru line — frosted white */}
+      <mesh geometry={tubeGeo}>
+        <meshStandardMaterial
+          color={orbPalette.etch}
+          roughness={0.85}
+          metalness={0}
+          emissive={orbPalette.etch}
+          emissiveIntensity={0.25}
           toneMapped={false}
         />
-      </points>
-
-      {/* Bright pulsing core */}
-      <mesh ref={coreRef}>
-        <sphereGeometry args={[0.04, 32, 32]} />
-        <meshBasicMaterial color={orbPalette.core} toneMapped={false} />
       </mesh>
-      <mesh>
-        <sphereGeometry args={[0.09, 32, 32]} />
-        <meshBasicMaterial
-          color={orbPalette.filament}
-          transparent
-          opacity={0.18}
+
+      {/* Koru tip bulb — the unfurling pith */}
+      <mesh position={bulbPosition}>
+        <sphereGeometry args={[0.05, 24, 24]} />
+        <meshStandardMaterial
+          color={orbPalette.etch}
+          roughness={0.7}
+          emissive={orbPalette.etch}
+          emissiveIntensity={0.3}
           toneMapped={false}
-          blending={THREE.AdditiveBlending}
         />
       </mesh>
     </group>
@@ -151,7 +122,7 @@ function GlassOrb() {
       floatingRange={[-0.04, 0.04]}
     >
       <group ref={orbRef}>
-        <LuminousFilament />
+        <EtchedKoru />
 
         {/* Outer crystal shell — saturated teal so it's clearly visible on white bg */}
         <mesh>
@@ -159,40 +130,34 @@ function GlassOrb() {
           <meshPhysicalMaterial
             color={orbPalette.shell}
             transparent
-            opacity={0.85}
-            transmission={0.35}
-            thickness={0.6}
+            opacity={0.45}
+            transmission={0.78}
+            thickness={0.45}
             roughness={0.08}
             metalness={0}
-            ior={1.25}
+            ior={1.35}
             clearcoat={1}
             clearcoatRoughness={0.02}
-            reflectivity={0.4}
+            reflectivity={0.5}
             sheen={1}
             sheenColor={orbPalette.shellTint}
           />
         </mesh>
 
-        {/* Inner deep teal glow layer */}
-        <mesh>
-          <sphereGeometry args={[1.16, 64, 64]} />
-          <meshBasicMaterial color={orbPalette.shellTint} transparent opacity={0.4} toneMapped={false} />
-        </mesh>
-
         {/* Outer rim glow — defines the sphere edge clearly */}
         <mesh scale={[1.06, 1.06, 1.06]}>
           <sphereGeometry args={[1.35, 64, 64]} />
-          <meshBasicMaterial color={orbPalette.rim} transparent opacity={0.35} toneMapped={false} blending={THREE.AdditiveBlending} />
+          <meshBasicMaterial color={orbPalette.rim} transparent opacity={0.22} toneMapped={false} blending={THREE.AdditiveBlending} />
         </mesh>
 
         {/* Soft white specular highlights */}
         <mesh position={[-0.5, 0.6, 0.85]}>
           <sphereGeometry args={[0.32, 32, 32]} />
-          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.7} toneMapped={false} />
+          <meshBasicMaterial color={orbPalette.etch} transparent opacity={0.55} toneMapped={false} />
         </mesh>
         <mesh position={[0.55, -0.45, 0.85]}>
           <sphereGeometry args={[0.2, 32, 32]} />
-          <meshBasicMaterial color={orbPalette.core} transparent opacity={0.5} toneMapped={false} />
+          <meshBasicMaterial color={orbPalette.etch} transparent opacity={0.4} toneMapped={false} />
         </mesh>
       </group>
     </Float>
