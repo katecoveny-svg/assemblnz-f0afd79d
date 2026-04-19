@@ -9,6 +9,7 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import UseCaseToggle from "@/components/kete/UseCaseToggle";
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { PIKAU_USE_CASE } from "@/data/useCases";
