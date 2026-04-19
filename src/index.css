@@ -165,20 +165,26 @@ html {
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
     font-family: 'Plus Jakarta Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.7;
-    background-color: #FAFBFC;
-    color: #1A1D29;
+    color: #1F4E54;
+    background-color: #EAF4F4;
+    background-image:
+      radial-gradient(ellipse 60% 45% at 80% 12%, rgba(255,255,255,0.85) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 50% at 12% 28%, rgba(255,255,255,0.55) 0%, transparent 65%),
+      radial-gradient(ellipse 70% 50% at 50% 92%, rgba(168,221,219,0.32) 0%, transparent 70%),
+      linear-gradient(180deg, #EAF4F4 0%, #DEEFEF 50%, #D4E9E8 100%);
+    background-attachment: fixed;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     letter-spacing: -0.02em;
-    color: #1A1D29;
+    color: #1F4E54;
   }
 }
 
