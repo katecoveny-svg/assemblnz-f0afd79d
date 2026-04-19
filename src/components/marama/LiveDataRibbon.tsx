@@ -2,18 +2,27 @@ import React from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 /**
- * LiveDataRibbon — thin, always-on cinematic strip across the top of every
- * kete dashboard. Pulls real signals: NZ marine/city weather, NZD/USD FX,
- * platform compliance pulse. Falls back gracefully when offline.
- *
- * No emojis. No lucide. Each pulse has a hand-built SVG sigil.
+ * LiveDataRibbon — kete-aware live signal strip.
+ * Each kete gets domain-relevant live data:
+ *   • manaaki  → weather, bookings 7d, NZ time
+ *   • waihanga → weather, subbie compliance reds, fuel diesel, NZ time
+ *   • auaha    → content drafts 7d, NZD/USD, NZ time
+ *   • arataki  → fuel petrol91+diesel, NZD/USD, NZ time
+ *   • toro     → weather, NZ time, NZD/USD
+ *   • pikau    → action queue today, NZ time, NZD/USD
+ *   • default  → weather, evidence packs 24h, NZ time, NZD/USD
+ * All sources keyless or already wired (Open-Meteo, Frankfurter, MBIE, Supabase).
  */
+
+type KeteKey =
+  | "manaaki" | "waihanga" | "auaha" | "arataki"
+  | "toro" | "pikau" | "te-kahui-reo" | "auraki" | "default";
 
 interface Tick {
   id: string;
   label: string;
   value: string;
-  tone: "teal" | "ochre" | "lavender" | "info" | "neutral";
+  tone: "teal" | "ochre" | "lavender" | "info" | "neutral" | "warning";
   sigil: React.ReactNode;
 }
 
@@ -23,9 +32,9 @@ const TONE: Record<Tick["tone"], { fg: string; rgb: string }> = {
   lavender: { fg: "#5A4E84", rgb: "155,143,191" },
   info:     { fg: "#2E4A6B", rgb: "90,122,156" },
   neutral:  { fg: "#3D4250", rgb: "31,35,48" },
+  warning:  { fg: "#8C2A2A", rgb: "200,80,80" },
 };
 
-// Custom SVG sigils — never lucide
 const sigil = {
   weather: (
     <svg viewBox="0 0 16 16" width="14" height="14" fill="none">
@@ -50,6 +59,36 @@ const sigil = {
       <path d="M8 5 L8 8 L10.5 9.5" strokeLinecap="round" />
     </svg>
   ),
+  fuel: (
+    <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <rect x="3" y="3" width="6" height="11" rx="0.8" />
+      <path d="M9 6 L11.5 6 L11.5 11 Q11.5 12.5 13 12.5" strokeLinecap="round" />
+      <path d="M5 6 L7 6" strokeLinecap="round" />
+    </svg>
+  ),
+  shield: (
+    <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <path d="M8 2 L13 4 L13 9 Q13 12.5 8 14 Q3 12.5 3 9 L3 4 Z" />
+      <path d="M6 8 L7.5 9.5 L10 6.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  bed: (
+    <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <path d="M2 12 L2 6 L8 6 Q11 6 11 9 L14 9 L14 12" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="5" cy="8.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  ),
+  spark: (
+    <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <path d="M8 2 L8 6 M8 10 L8 14 M2 8 L6 8 M10 8 L14 8 M4 4 L6 6 M10 10 L12 12 M12 4 L10 6 M6 10 L4 12" strokeLinecap="round" />
+    </svg>
+  ),
+  task: (
+    <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.4">
+      <rect x="3" y="3" width="10" height="10" rx="1.5" />
+      <path d="M5.5 8.5 L7.5 10.5 L11 6.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
 };
 
 function wmoShort(code?: number): string {
@@ -65,7 +104,179 @@ function wmoShort(code?: number): string {
   return "—";
 }
 
-export default function LiveDataRibbon({ accent = "#4AA5A8" }: { accent?: string }) {
+// ─── Live data fetchers (cached per page load) ───────────────────────────
+const _cache = new Map<string, { value: any; t: number }>();
+const TTL = 5 * 60 * 1000;
+
+async function cached<T>(key: string, fn: () => Promise<T>): Promise<T | null> {
+  const hit = _cache.get(key);
+  if (hit && Date.now() - hit.t < TTL) return hit.value as T;
+  try {
+    const v = await fn();
+    _cache.set(key, { value: v, t: Date.now() });
+    return v;
+  } catch { return null; }
+}
+
+async function fetchWeather() {
+  return cached("wx", async () => {
+    const { data } = await supabase.functions.invoke("nz-weather", {
+      body: { latitude: -36.85, longitude: 174.76, days: 1 },
+    });
+    return {
+      temp: data?.current?.temperature_2m as number | undefined,
+      code: data?.current?.weather_code as number | undefined,
+    };
+  });
+}
+
+async function fetchFx() {
+  return cached("fx", async () => {
+    const r = await fetch("https://api.frankfurter.dev/v1/latest?base=NZD&symbols=USD", {
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!r.ok) return null;
+    const j = await r.json();
+    return j?.rates?.USD as number | undefined;
+  });
+}
+
+async function fetchFuel() {
+  return cached("fuel", async () => {
+    const { data } = await supabase.functions.invoke("nz-fuel-prices", { body: {} });
+    return data as { petrol91?: number; diesel?: number } | null;
+  });
+}
+
+async function countSince(table: string, hours: number) {
+  return cached(`${table}:${hours}`, async () => {
+    const { count } = await supabase
+      .from(table as any)
+      .select("id", { count: "exact", head: true })
+      .gte("created_at", new Date(Date.now() - hours * 3600 * 1000).toISOString());
+    return count ?? 0;
+  });
+}
+
+async function countSubbieReds() {
+  return cached("subbie_reds", async () => {
+    const { count } = await supabase
+      .from("subcontractor_compliance" as any)
+      .select("id", { count: "exact", head: true })
+      .in("status", ["red", "black"]);
+    return count ?? 0;
+  });
+}
+
+async function countTodayTasks() {
+  return cached("tasks_today", async () => {
+    const { count } = await supabase
+      .from("action_queue" as any)
+      .select("id", { count: "exact", head: true })
+      .eq("status", "pending");
+    return count ?? 0;
+  });
+}
+
+// ─── Per-kete tick builders ──────────────────────────────────────────────
+function nzTimeTick(): Tick {
+  const now = new Date().toLocaleTimeString("en-NZ", {
+    hour: "2-digit", minute: "2-digit", timeZone: "Pacific/Auckland",
+  });
+  return { id: "tz", label: "Pacific/Auckland", value: now, tone: "neutral", sigil: sigil.time };
+}
+
+async function buildTicks(kete: KeteKey): Promise<Tick[]> {
+  const ticks: Tick[] = [];
+
+  // Weather (most kete care)
+  if (["manaaki", "waihanga", "toro", "default"].includes(kete)) {
+    const wx = await fetchWeather();
+    if (wx?.temp != null) {
+      ticks.push({
+        id: "wx", label: "Auckland",
+        value: `${Math.round(wx.temp)}°C · ${wmoShort(wx.code)}`,
+        tone: "info", sigil: sigil.weather,
+      });
+    }
+  }
+
+  // Kete-specific business pulse
+  if (kete === "manaaki") {
+    const n = await countSince("bookings", 24 * 7);
+    if (n != null) ticks.push({
+      id: "bk", label: "Bookings · 7d", value: `${n}`,
+      tone: "teal", sigil: sigil.bed,
+    });
+  }
+  if (kete === "waihanga") {
+    const reds = await countSubbieReds();
+    if (reds != null) ticks.push({
+      id: "subbie", label: "Subbies · red/black", value: `${reds}`,
+      tone: reds > 0 ? "warning" : "teal", sigil: sigil.shield,
+    });
+    const fuel = await fetchFuel();
+    if (fuel?.diesel) ticks.push({
+      id: "diesel", label: "Diesel · NZ avg", value: `$${fuel.diesel.toFixed(2)}/L`,
+      tone: "ochre", sigil: sigil.fuel,
+    });
+  }
+  if (kete === "auaha") {
+    const n = await countSince("content_items", 24 * 7);
+    if (n != null) ticks.push({
+      id: "ct", label: "Content drafts · 7d", value: `${n}`,
+      tone: "lavender", sigil: sigil.spark,
+    });
+  }
+  if (kete === "arataki") {
+    const fuel = await fetchFuel();
+    if (fuel?.petrol91) ticks.push({
+      id: "p91", label: "Petrol 91", value: `$${fuel.petrol91.toFixed(2)}/L`,
+      tone: "ochre", sigil: sigil.fuel,
+    });
+    if (fuel?.diesel) ticks.push({
+      id: "diesel", label: "Diesel", value: `$${fuel.diesel.toFixed(2)}/L`,
+      tone: "ochre", sigil: sigil.fuel,
+    });
+  }
+  if (kete === "pikau") {
+    const n = await countTodayTasks();
+    if (n != null) ticks.push({
+      id: "tasks", label: "Open actions", value: `${n}`,
+      tone: n > 0 ? "ochre" : "teal", sigil: sigil.task,
+    });
+  }
+  if (kete === "default") {
+    const n = await countSince("aaaip_audit_exports", 24);
+    if (n != null) ticks.push({
+      id: "ev", label: "Evidence packs · 24h", value: `${n}`,
+      tone: "teal", sigil: sigil.pulse,
+    });
+  }
+
+  // NZ time always
+  ticks.push(nzTimeTick());
+
+  // FX (most kete care, except waihanga which prefers diesel)
+  if (kete !== "waihanga") {
+    const usd = await fetchFx();
+    if (usd != null) ticks.push({
+      id: "fx", label: "NZD/USD", value: usd.toFixed(4),
+      tone: "ochre", sigil: sigil.fx,
+    });
+  }
+
+  return ticks;
+}
+
+// ─── Component ───────────────────────────────────────────────────────────
+export default function LiveDataRibbon({
+  accent = "#4AA5A8",
+  kete = "default",
+}: {
+  accent?: string;
+  kete?: KeteKey;
+}) {
   const [ticks, setTicks] = React.useState<Tick[]>([
     { id: "boot", label: "Live signals", value: "syncing…", tone: "neutral", sigil: sigil.pulse },
   ]);
@@ -73,73 +284,13 @@ export default function LiveDataRibbon({ accent = "#4AA5A8" }: { accent?: string
   React.useEffect(() => {
     let cancelled = false;
     const load = async () => {
-      const next: Tick[] = [];
-
-      // 1. Weather (Auckland) — keyless Open-Meteo via nz-weather edge fn
-      try {
-        const { data } = await supabase.functions.invoke("nz-weather", {
-          body: { latitude: -36.85, longitude: 174.76, days: 1 },
-        });
-        const t = data?.current?.temperature_2m;
-        const code = data?.current?.weather_code;
-        if (typeof t === "number") {
-          next.push({
-            id: "wx",
-            label: "Auckland",
-            value: `${Math.round(t)}°C · ${wmoShort(code)}`,
-            tone: "info",
-            sigil: sigil.weather,
-          });
-        }
-      } catch { /* swallow */ }
-
-      // 2. Compliance pulse — real Supabase query
-      try {
-        const { count } = await supabase
-          .from("exported_outputs")
-          .select("id", { count: "exact", head: true })
-          .gte("created_at", new Date(Date.now() - 24 * 3600 * 1000).toISOString());
-        next.push({
-          id: "pulse",
-          label: "Evidence packs · 24h",
-          value: `${count ?? 0}`,
-          tone: "teal",
-          sigil: sigil.pulse,
-        });
-      } catch { /* swallow */ }
-
-      // 3. NZ local time
-      const now = new Date().toLocaleTimeString("en-NZ", {
-        hour: "2-digit", minute: "2-digit", timeZone: "Pacific/Auckland",
-      });
-      next.push({ id: "tz", label: "Pacific/Auckland", value: now, tone: "neutral", sigil: sigil.time });
-
-      // 4. NZD/USD — live keyless FX (Frankfurter, ECB-sourced)
-      try {
-        const res = await fetch("https://api.frankfurter.dev/v1/latest?base=NZD&symbols=USD", {
-          signal: AbortSignal.timeout(5000),
-        });
-        if (res.ok) {
-          const j = await res.json();
-          const rate = j?.rates?.USD;
-          if (typeof rate === "number") {
-            next.push({
-              id: "fx",
-              label: "NZD/USD",
-              value: rate.toFixed(4),
-              tone: "ochre",
-              sigil: sigil.fx,
-            });
-          }
-        }
-      } catch { /* swallow */ }
-
+      const next = await buildTicks(kete);
       if (!cancelled && next.length) setTicks(next);
     };
     load();
     const t = setInterval(load, 60_000);
     return () => { cancelled = true; clearInterval(t); };
-  }, []);
+  }, [kete]);
 
   const rgb = hexRgb(accent);
   return (
@@ -153,7 +304,6 @@ export default function LiveDataRibbon({ accent = "#4AA5A8" }: { accent?: string
         boxShadow: `inset 0 1px 0 rgba(255,255,255,0.95), 0 6px 18px rgba(31,35,48,0.06), 0 0 28px rgba(${rgb},0.12)`,
       }}
     >
-      {/* Marquee track */}
       <div className="flex items-center gap-5 whitespace-nowrap animate-[ribbon_42s_linear_infinite]">
         {[...ticks, ...ticks].map((t, i) => {
           const tone = TONE[t.tone];

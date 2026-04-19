@@ -177,7 +177,7 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
         </motion.div>
 
         {/* Live data ribbon — real signals, custom sigils, no emojis */}
-        {!hideRibbon && <LiveDataRibbon accent={accentColor} />}
+        {!hideRibbon && <LiveDataRibbon accent={accentColor} kete={(autoKey ?? "default") as any} />}
 
         {children}
       </div>
