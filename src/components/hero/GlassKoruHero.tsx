@@ -201,11 +201,119 @@ function DataPulse({
   );
 }
 
+/* ─── Outer Containment Sphere — the big glass orb ─── */
+function ContainmentSphere() {
+  const ref = useRef<THREE.Mesh>(null);
+  const haloRef = useRef<THREE.Mesh>(null);
+
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
+    if (ref.current) {
+      ref.current.rotation.y = t * 0.05;
+      ref.current.rotation.x = Math.sin(t * 0.2) * 0.05;
+    }
+    if (haloRef.current) {
+      const pulse = 0.5 + 0.5 * Math.sin(t * 1.2);
+      (haloRef.current.material as THREE.MeshBasicMaterial).opacity = 0.08 + pulse * 0.1;
+      haloRef.current.scale.setScalar(1 + pulse * 0.04);
+    }
+  });
+
+  return (
+    <group>
+      {/* Big outer glass shell */}
+      <mesh ref={ref}>
+        <sphereGeometry args={[4.4, 96, 96]} />
+        <MeshTransmissionMaterial
+          color="#E8FBFC"
+          transmission={0.98}
+          roughness={0.02}
+          clearcoat={1}
+          clearcoatRoughness={0.01}
+          ior={1.45}
+          samples={10}
+          distortion={0.2}
+          temporalDistortion={0.1}
+          envMapIntensity={3.5}
+          chromaticAberration={0.08}
+          thickness={1.2}
+          attenuationColor="#B8EAEC"
+          attenuationDistance={6}
+          backside
+        />
+      </mesh>
+      {/* Outer glow halo */}
+      <mesh ref={haloRef}>
+        <sphereGeometry args={[4.7, 48, 48]} />
+        <meshBasicMaterial color="#7DD4D6" transparent opacity={0.15} depthWrite={false} side={THREE.BackSide} />
+      </mesh>
+      {/* Soft inner luminance */}
+      <mesh>
+        <sphereGeometry args={[4.35, 48, 48]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.04} depthWrite={false} side={THREE.BackSide} />
+      </mesh>
+      {/* Specular highlight on top-left */}
+      <mesh position={[-1.6, 2.2, 2.5]}>
+        <sphereGeometry args={[0.6, 24, 24]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.5} />
+      </mesh>
+      {/* Bottom catch-light */}
+      <mesh position={[1.4, -2.4, 2.0]}>
+        <sphereGeometry args={[0.3, 16, 16]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.3} />
+      </mesh>
+    </group>
+  );
+}
+
+/* ─── Orbiting Data Nodes around the sphere ─── */
+function OrbitingNode({ radius, speed, phase, tilt, color, size = 0.08 }: {
+  radius: number; speed: number; phase: number; tilt: number; color: string; size?: number;
+}) {
+  const ref = useRef<THREE.Group>(null);
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    const t = clock.elapsedTime * speed + phase;
+    ref.current.position.set(
+      Math.cos(t) * radius,
+      Math.sin(t * 0.7) * radius * 0.3 + Math.sin(tilt) * radius * 0.2,
+      Math.sin(t) * radius,
+    );
+    const pulse = 0.7 + 0.3 * Math.sin(clock.elapsedTime * 3 + phase);
+    ref.current.scale.setScalar(pulse);
+  });
+  return (
+    <group ref={ref}>
+      <mesh>
+        <sphereGeometry args={[size, 12, 12]} />
+        <meshBasicMaterial color="#FFFFFF" />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[size * 2.5, 12, 12]} />
+        <meshBasicMaterial color={color} transparent opacity={0.4} depthWrite={false} />
+      </mesh>
+    </group>
+  );
+}
+
 /* ─── Main spiral scene ─── */
 function KoruScene() {
   const groupRef = useRef<THREE.Group>(null);
   const { pointer } = useThree();
-  const positions = useMemo(() => koruSpiral(2.5, 44, 3.5), []);
+  const positions = useMemo(() => koruSpiral(2.5, 44, 2.6), []);
+  const orbitNodes = useMemo(
+    () => [
+      { radius: 4.4, speed: 0.35, phase: 0, tilt: 0.3, color: "#4AA5A8" },
+      { radius: 4.4, speed: 0.28, phase: 1.2, tilt: -0.4, color: "#E8A948" },
+      { radius: 4.4, speed: 0.42, phase: 2.4, tilt: 0.6, color: "#B8A5D0" },
+      { radius: 4.4, speed: 0.31, phase: 3.6, tilt: -0.2, color: "#E8A090" },
+      { radius: 4.4, speed: 0.38, phase: 4.8, tilt: 0.5, color: "#7BA88C" },
+      { radius: 4.4, speed: 0.45, phase: 0.7, tilt: -0.6, color: "#7DD4D6" },
+      { radius: 4.4, speed: 0.26, phase: 2.0, tilt: 0.1, color: "#FFFFFF" },
+      { radius: 4.4, speed: 0.33, phase: 4.0, tilt: -0.3, color: "#7DD4D6" },
+    ],
+    [],
+  );
 
   useFrame(() => {
     if (!groupRef.current) return;
@@ -226,6 +334,14 @@ function KoruScene() {
 
   return (
     <Float speed={1.2} rotationIntensity={0.15} floatIntensity={0.2}>
+      {/* Outer glass containment sphere */}
+      <ContainmentSphere />
+
+      {/* Orbiting data nodes (outside the inner spiral, drifting around the sphere edge) */}
+      {orbitNodes.map((n, i) => (
+        <OrbitingNode key={`orb-${i}`} {...n} />
+      ))}
+
       <group ref={groupRef}>
         {/* Spheres */}
         {positions.map((pos, i) => {
@@ -406,20 +522,20 @@ const GlassKoruHero = () => {
         >
           {canvasReady && (
             <Canvas
-              camera={{ position: [0, 0, 9], fov: 50 }}
+              camera={{ position: [0, 0, 11], fov: 48 }}
               gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
               style={{ background: "transparent" }}
               dpr={[1, 2]}
             >
-              {/* Environment map is essential for transmission/glass to work */}
-              <Environment preset="studio" environmentIntensity={0.8} />
-              
-              {/* Lighting — brighter for more sparkle/reflections */}
-              <ambientLight intensity={1.2} color="#F8F6F0" />
-              <directionalLight position={[8, 8, 5]} intensity={2.0} color="#FFFFFF" />
-              <directionalLight position={[-5, 3, 8]} intensity={1.0} color="#D4F0F0" />
-              <directionalLight position={[3, -3, 6]} intensity={0.6} color="#FFFBE8" />
-              <pointLight position={[0, 0, 6]} intensity={1.2} color="#FFFFFF" />
+              <Environment preset="studio" environmentIntensity={1.0} />
+
+              <ambientLight intensity={1.4} color="#F8F6F0" />
+              <directionalLight position={[8, 8, 5]} intensity={2.4} color="#FFFFFF" />
+              <directionalLight position={[-5, 3, 8]} intensity={1.2} color="#D4F0F0" />
+              <directionalLight position={[3, -3, 6]} intensity={0.8} color="#FFFBE8" />
+              <pointLight position={[0, 0, 6]} intensity={1.6} color="#FFFFFF" />
+              <pointLight position={[-3, 2, 4]} intensity={1.2} color="#7DD4D6" distance={14} />
+              <pointLight position={[3, -2, 4]} intensity={1.0} color="#E8A948" distance={14} />
 
               <Suspense fallback={null}>
                 <KoruScene />
@@ -427,12 +543,20 @@ const GlassKoruHero = () => {
             </Canvas>
           )}
 
-          {/* Subtle radial glow behind the koru */}
+          {/* Vibrant radial aura behind the orb */}
           <div
             className="absolute inset-0 pointer-events-none -z-10"
             style={{
               background:
-                "radial-gradient(ellipse 70% 70% at 50% 45%, rgba(74,165,168,0.08) 0%, rgba(232,169,72,0.04) 40%, transparent 70%)",
+                "radial-gradient(ellipse 75% 75% at 50% 45%, rgba(74,165,168,0.22) 0%, rgba(125,212,214,0.14) 25%, rgba(232,169,72,0.08) 50%, transparent 75%)",
+              filter: "blur(8px)",
+            }}
+          />
+          <div
+            className="absolute inset-0 pointer-events-none -z-10 animate-pulse"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 45%, rgba(125,212,214,0.18) 0%, transparent 55%)",
             }}
           />
         </div>
