@@ -17,6 +17,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
 import TextUsButton from "@/components/kete/TextUsButton";
 import AkoCriteriaMatcherDemo from "@/components/ako/AkoCriteriaMatcherDemo";
 import AkoWorkflowExplorer from "@/components/ako/AkoWorkflowExplorer";
@@ -359,6 +360,7 @@ export default function AkoLandingPage() {
           </div>
         </section>
 
+        <KnowledgeSourcesStrip keteCode="AKO" />
         <BrandFooter />
       </div>
     </LightPageShell>

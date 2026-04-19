@@ -8,6 +8,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
+import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 
 import TextUsButton from "@/components/kete/TextUsButton";
@@ -295,6 +296,7 @@ export default function PikauLandingPage() {
           </motion.div>
         </section>
 
+        <KnowledgeSourcesStrip keteCode="WHENUA" />
         <BrandFooter />
         <KeteAgentChat
           keteName="Pikau" keteLabel="Freight & Customs" accentColor="#7ECFC2"

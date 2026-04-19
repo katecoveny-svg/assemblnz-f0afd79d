@@ -6,6 +6,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import TextUsButton from "@/components/kete/TextUsButton";
@@ -199,6 +200,7 @@ export default function AratakiLandingPage() {
           </div>
         </section>
 
+        <KnowledgeSourcesStrip keteCode="ARATAKI" />
         <BrandFooter />
         <KeteAgentChat keteName="Arataki" keteLabel="Automotive" accentColor="#4AA5A8"
           defaultAgentId="motor" packId="arataki"
