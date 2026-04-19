@@ -173,7 +173,7 @@ export default function AuahaLandingPage() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${ACCENT}10 0%, transparent 70%)` }} />
           <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace" }}>specialist network</p>
-            <h2 className="text-2xl sm:text-3xl font-display font-light" style={{ color: "#3D4250" }}>9 agents working together</h2>
+            <h2 className="text-2xl sm:text-3xl font-display tracking-[0.01em]" style={{ color: "#3D4250", fontWeight: 200 }}>9 agents working together</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {AGENTS.map((a, i) => (
@@ -206,7 +206,7 @@ export default function AuahaLandingPage() {
           <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[500px] h-[300px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${ACCENT}10 0%, transparent 60%)` }} />
           <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace" }}>workflow</p>
-            <h2 className="text-2xl sm:text-3xl font-display font-light" style={{ color: "#3D4250" }}>How it works</h2>
+            <h2 className="text-2xl sm:text-3xl font-display tracking-[0.01em]" style={{ color: "#3D4250", fontWeight: 200 }}>How it works</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
             {DEMO_FLOW.map((d, i) => (
