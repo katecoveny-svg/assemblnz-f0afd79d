@@ -8,7 +8,8 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
+import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import UseCaseToggle from "@/components/kete/UseCaseToggle";
 
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
@@ -122,23 +123,19 @@ export default function WaihangaLandingPage() {
             Building Code checklists, CCA compliance, BIM coordination, site check-ins, and tender management — documented, checked, and evidence-packed.
           </motion.p>
 
-          {/* Compliance badge — light glass */}
-          <motion.div className="relative rounded-3xl px-7 py-6 max-w-md mb-12 text-left" style={glass} variants={fadeUp} initial="hidden" animate="visible" custom={3}>
-            <p className="text-[10px] uppercase tracking-[3px] mb-4" style={{ color: C.pounamu, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
-              governed · human-in-the-loop
-            </p>
-            <ul className="space-y-3">
-              {COMPLIANCE.map((item, idx) => (
-                <motion.li key={item} className="flex items-start gap-3 text-[13px]" style={{ color: C.textSecondary }}
-                  initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + idx * 0.08 }}>
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${C.pounamu}15` }}>
-                    <Check size={11} style={{ color: C.pounamu }} />
-                  </div>
-                  <span>{item}</span>
-                </motion.li>
-              ))}
-            </ul>
+          {/* Live status strip */}
+          <motion.div className="mb-6" variants={fadeUp} initial="hidden" animate="visible" custom={2.5}>
+            <LiveStatusStrip pack="waihanga" agentCodes={["forge", "guardian", "operations", "vertex", "axis"]} accent={C.pounamu} />
           </motion.div>
+
+          {/* Compliance — single line */}
+          <motion.p
+            className="text-xs mb-10 max-w-xl"
+            style={{ color: C.textSecondary, fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: "0.02em" }}
+            variants={fadeUp} initial="hidden" animate="visible" custom={3}
+          >
+            <span style={{ color: C.pounamu, fontWeight: 500 }}>Governed by</span> Construction Contracts Act 2002, NZ Building Code B1–H1, HSWA, Privacy Act 2020.
+          </motion.p>
 
           {/* CTAs */}
           <motion.div className="flex flex-col sm:flex-row items-center gap-4" variants={fadeUp} initial="hidden" animate="visible" custom={4}>
@@ -153,8 +150,10 @@ export default function WaihangaLandingPage() {
           </motion.div>
         </main>
 
-        {/* ── Real Use Case ── */}
-        <KeteUseCaseSection data={WAIHANGA_USE_CASE} />
+        {/* ── Real Use Case (collapsed by default) ── */}
+        <UseCaseToggle accent={C.pounamu}>
+          <KeteUseCaseSection data={WAIHANGA_USE_CASE} />
+        </UseCaseToggle>
 
         {/* ── Agent Network ── */}
         <section className="relative px-6 py-32 max-w-5xl mx-auto">
@@ -185,102 +184,7 @@ export default function WaihangaLandingPage() {
           </div>
         </section>
 
-        {/* ── Live Demo Flow ── */}
-        <section className="relative px-6 py-32 max-w-4xl mx-auto">
-          <motion.div className="text-center mb-14" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-            <p className="text-[10px] tracking-[5px] mb-4 uppercase" style={{ color: C.pounamu, fontFamily: "'JetBrains Mono', monospace" }}>— workflow —</p>
-            <h2 className="text-2xl sm:text-[36px] font-light" style={{ fontFamily: "'Lato', sans-serif", letterSpacing: "-0.02em", color: C.text }}>How it works</h2>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-5 mb-10">
-            {DEMO_FLOW.map((d, i) => (
-              <motion.button key={d.step} onClick={() => setActiveDemo(i)} className="group relative rounded-3xl p-5 text-left overflow-hidden transition-all duration-300"
-                style={{
-                  ...glass,
-                  borderColor: activeDemo === i ? C.pounamu : "rgba(255,255,255,0.9)",
-                  boxShadow: activeDemo === i
-                    ? `0 10px 40px -10px ${C.pounamu}20, 0 4px 12px rgba(0,0,0,0.04)`
-                    : glass.boxShadow,
-                }}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-                {activeDemo === i && <motion.div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${C.pounamu}, transparent)` }} layoutId="waihanga-demo-accent" />}
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: activeDemo === i ? `${C.pounamu}15` : `${C.pounamu}08` }}>
-                    <d.icon size={15} style={{ color: C.pounamu }} />
-                  </div>
-                  <span className="text-[13px] font-medium" style={{ color: activeDemo === i ? C.text : C.textSecondary }}>{d.step}</span>
-                </div>
-                <p className="text-[12px] leading-[1.7]" style={{ color: C.textTertiary }}>{d.detail}</p>
-              </motion.button>
-            ))}
-          </div>
-
-          {/* Demo preview — light glass card */}
-          <motion.div className="relative rounded-3xl p-8 overflow-hidden" style={glass} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-            <div className="flex items-center gap-2.5 mb-6">
-              <motion.div className="w-2.5 h-2.5 rounded-full" style={{ background: C.pounamu }} animate={{ opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} />
-              <span className="text-[10px] uppercase tracking-[3px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.pounamu }}>Live preview</span>
-            </div>
-            {activeDemo === 0 && (
-              <motion.div className="grid grid-cols-2 gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="wd-0">
-                {[
-                  { label: "Project", value: "Riverstone Apartments — Stage 2" },
-                  { label: "Consent", value: "BCA-2026-04182" },
-                  { label: "Site", value: "42 Hobson St, Auckland CBD" },
-                  { label: "Scope", value: "12-unit residential, 4 storeys" },
-                  { label: "Start", value: "22 Apr 2026" },
-                  { label: "PC target", value: "18 Dec 2026" },
-                ].map((f, idx) => (
-                  <motion.div key={f.label} className="p-3 rounded-2xl text-xs" style={{ background: `${C.lavender}40`, border: `1px solid ${C.pounamu}10` }}
-                    initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
-                    <span className="text-[10px]" style={{ color: C.textTertiary }}>{f.label}</span>
-                    <p className="mt-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.text, fontSize: "12px" }}>{f.value}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
-            {activeDemo === 1 && (
-              <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="wd-1">
-                {["PPE check — hard hat, hi-vis, steel caps ✓", "Hazard register reviewed — 3 active hazards ✓", "Site briefing completed ✓", "Emergency contacts confirmed ✓"].map((line, idx) => (
-                  <motion.div key={line} className="flex items-center gap-3 text-[13px] p-3 rounded-2xl" style={{ background: `${C.pounamu}06`, border: `1px solid ${C.pounamu}10` }}
-                    initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.1 }}>
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: `${C.pounamu}15` }}>
-                      <Check size={11} style={{ color: C.pounamu }} />
-                    </div>
-                    <span style={{ color: C.textSecondary }}>{line}</span>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
-            {activeDemo === 2 && (
-              <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="wd-2">
-                {[
-                  { check: "CCA 2002 s20 — payment claim format valid", st: "pass", ref: "CCA-20" },
-                  { check: "Schedule of values — $142,000 claimed", st: "pass", ref: "SOV-14" },
-                  { check: "Retention — 5% held per contract", st: "pass", ref: "RET-05" },
-                  { check: "Working day count — within 20 WD window", st: "pass", ref: "WD-20" },
-                ].map((c, idx) => (
-                  <motion.div key={c.check} className="flex items-center justify-between text-[13px] p-3 rounded-2xl" style={{ background: `${C.lavender}40`, border: `1px solid ${C.pounamu}10` }}
-                    initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.08 }}>
-                    <span style={{ color: C.textSecondary }}>{c.check}</span>
-                    <div className="flex items-center gap-3">
-                      <span className="text-[9px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}>{c.ref}</span>
-                      <span className="text-[10px] uppercase font-semibold" style={{ color: C.pounamu }}>{c.st}</span>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
-            {activeDemo === 3 && (
-              <motion.div className="text-center py-6" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} key="wd-3">
-                <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: `${C.pounamu}10` }}>
-                  <Shield size={28} style={{ color: C.pounamu }} />
-                </div>
-                <p className="text-[15px] mb-1" style={{ color: C.text }}>Evidence pack signed</p>
-                <p className="text-[12px]" style={{ color: C.textTertiary }}>Site induction · Payment claim · Building code compliance — audit-ready trail</p>
-              </motion.div>
-            )}
-          </motion.div>
-        </section>
+        {/* Demo flow removed — replaced by the live KeteAgentChat (bottom-right) */}
 
         
 
@@ -297,7 +201,7 @@ export default function WaihangaLandingPage() {
           </motion.div>
         </section>
 
-        <KnowledgeSourcesStrip keteCode="WAIHANGA" />
+        
         <BrandFooter />
         <KeteAgentChat
           keteName="Waihanga" keteLabel="Construction" accentColor="#3A7D6E"

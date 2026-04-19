@@ -9,7 +9,8 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import KnowledgeSourcesStrip from "@/components/knowledge/KnowledgeSourcesStrip";
+import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import UseCaseToggle from "@/components/kete/UseCaseToggle";
 
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
@@ -151,44 +152,19 @@ export default function ManaakiLandingPage() {
             Food safety plans, alcohol licensing, guest profiles, sustainability reporting, and event coordination — handled, checked, and evidence-packed.
           </motion.p>
 
-          {/* Compliance badge — elevated glass card */}
-          <motion.div
-            className="relative rounded-2xl px-7 py-6 max-w-md mb-12 text-left overflow-hidden"
-            style={{
-              background: `linear-gradient(135deg, rgba(58,125,110,0.08) 0%, rgba(255,255,255,0.02) 100%)`,
-              border: `1px solid ${POUNAMU}30`,
-              backdropFilter: "blur(20px)",
-              boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 60px ${POUNAMU}08, inset 0 1px 0 rgba(255,255,255,0.05)`,
-            }}
-            variants={fadeUp} initial="hidden" animate="visible" custom={3}
-            whileHover={{ scale: 1.02, boxShadow: `0 12px 40px rgba(0,0,0,0.4), 0 0 80px ${POUNAMU}12, inset 0 1px 0 rgba(255,255,255,0.08)` }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          >
-            {/* Top accent line */}
-            <div className="absolute top-0 left-0 right-0 h-[1px]" style={{
-              background: `linear-gradient(90deg, transparent 0%, ${POUNAMU}60 50%, transparent 100%)`,
-            }} />
-            <p className="text-[10px] tracking-[3px] mb-4" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, textTransform: "uppercase" }}>
-              governed · human-in-the-loop
-            </p>
-            <ul className="space-y-3">
-              {COMPLIANCE.map((item, idx) => (
-                <motion.li
-                  key={item}
-                  className="flex items-start gap-3 text-xs font-body"
-                  style={{ color: "#9CA3AF" }}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + idx * 0.08 }}
-                >
-                  <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${POUNAMU}20`, boxShadow: `0 0 8px ${POUNAMU}20` }}>
-                    <Check size={10} style={{ color: POUNAMU_LIGHT }} />
-                  </div>
-                  <span>{item}</span>
-                </motion.li>
-              ))}
-            </ul>
+          {/* Live status strip */}
+          <motion.div className="mb-6" variants={fadeUp} initial="hidden" animate="visible" custom={2.5}>
+            <LiveStatusStrip pack="manaaki" agentCodes={["aura", "wellness", "creative", "operations", "guardian"]} accent={POUNAMU} />
           </motion.div>
+
+          {/* Compliance — single line */}
+          <motion.p
+            className="text-xs font-body mb-10 max-w-xl"
+            style={{ color: "#5B6374", letterSpacing: "0.02em" }}
+            variants={fadeUp} initial="hidden" animate="visible" custom={3}
+          >
+            <span style={{ color: POUNAMU, fontWeight: 500 }}>Governed by</span> Food Act 2014, Sale &amp; Supply of Alcohol Act 2012, Privacy Act 2020. Every workflow produces a signed evidence pack.
+          </motion.p>
 
           {/* CTAs — elevated with glow */}
           <motion.div className="flex flex-col sm:flex-row items-center gap-4" variants={fadeUp} initial="hidden" animate="visible" custom={4}>
@@ -228,8 +204,10 @@ export default function ManaakiLandingPage() {
           </motion.div>
         </main>
 
-        {/* ── Real Use Case ── */}
-        <KeteUseCaseSection data={MANAAKI_USE_CASE} />
+        {/* ── Real Use Case (collapsed by default) ── */}
+        <UseCaseToggle accent={POUNAMU}>
+          <KeteUseCaseSection data={MANAAKI_USE_CASE} />
+        </UseCaseToggle>
 
         {/* ── Agent Network ── */}
         <section className="relative px-6 pb-24 max-w-5xl mx-auto">
@@ -294,185 +272,7 @@ export default function ManaakiLandingPage() {
           </div>
         </section>
 
-        {/* ── Live Demo Flow ── */}
-        <section className="relative px-6 pb-28 max-w-4xl mx-auto">
-          <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[500px] h-[300px] pointer-events-none" style={{
-            background: `radial-gradient(ellipse, ${POUNAMU}06 0%, transparent 60%)`,
-          }} />
-
-          <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-            <p className="text-[10px] tracking-[4px] mb-3" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", textTransform: "uppercase" }}>
-              workflow
-            </p>
-            <h2 className="text-2xl sm:text-3xl font-display font-light" style={{ color: BONE }}>
-              How it works
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
-            {DEMO_FLOW.map((d, i) => (
-              <motion.button
-                key={d.step}
-                onClick={() => setActiveDemo(i)}
-                className="group relative p-5 rounded-xl text-left overflow-hidden"
-                style={{
-                  background: activeDemo === i
-                    ? `linear-gradient(135deg, ${ACCENT}12 0%, rgba(255,255,255,0.03) 100%)`
-                    : "rgba(255,255,255,0.02)",
-                  border: `1px solid ${activeDemo === i ? ACCENT + "40" : "rgba(255,255,255,0.06)"}`,
-                  boxShadow: activeDemo === i ? `0 4px 24px rgba(0,0,0,0.3), 0 0 40px ${ACCENT}06` : "none",
-                  transition: "all 0.4s ease",
-                }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-              >
-                {/* Active top accent */}
-                {activeDemo === i && (
-                  <motion.div
-                    className="absolute top-0 left-0 right-0 h-[2px]"
-                    style={{ background: `linear-gradient(90deg, transparent 0%, ${ACCENT} 50%, transparent 100%)` }}
-                    layoutId="demo-accent"
-                  />
-                )}
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300" style={{
-                    background: activeDemo === i ? `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT}CC 100%)` : "rgba(255,255,255,0.06)",
-                    boxShadow: activeDemo === i ? `0 0 16px ${ACCENT}30` : "none",
-                  }}>
-                    <d.icon size={14} style={{ color: activeDemo === i ? BG : "rgba(255,255,255,0.35)" }} />
-                  </div>
-                  <span className="text-xs font-medium transition-colors duration-300" style={{
-                    color: activeDemo === i ? BONE : "rgba(255,255,255,0.5)",
-                  }}>{d.step}</span>
-                </div>
-                <p className="text-[11px] leading-relaxed transition-colors duration-300" style={{
-                  color: activeDemo === i ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.25)",
-                }}>{d.detail}</p>
-              </motion.button>
-            ))}
-          </div>
-
-          {/* Demo preview — glass card */}
-          <motion.div
-            className="relative p-8 rounded-2xl overflow-hidden"
-            style={{
-              background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
-              border: `1px solid ${ACCENT}18`,
-              boxShadow: `0 16px 48px rgba(0,0,0,0.4), 0 0 80px ${ACCENT}04, inset 0 1px 0 rgba(255,255,255,0.04)`,
-            }}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            {/* Top accent line */}
-            <div className="absolute top-0 left-0 right-0 h-[1px]" style={{
-              background: `linear-gradient(90deg, transparent 10%, ${ACCENT}30 50%, transparent 90%)`,
-            }} />
-
-            <div className="flex items-center gap-2.5 mb-6">
-              <motion.div
-                className="w-2.5 h-2.5 rounded-full"
-                style={{ background: ACCENT, boxShadow: `0 0 10px ${ACCENT}40` }}
-                animate={{ opacity: [0.6, 1, 0.6] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-              <span className="text-[10px] tracking-[3px] font-mono" style={{ color: ACCENT, textTransform: "uppercase" }}>Live preview</span>
-            </div>
-
-            {activeDemo === 0 && (
-              <motion.div className="grid grid-cols-2 gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="demo-0">
-                {[
-                  { label: "Guest", value: "Sarah Mitchell" },
-                  { label: "Room", value: "Suite 4 — Lake View" },
-                  { label: "Arrival", value: "18 Apr 2026" },
-                  { label: "Dietary", value: "Gluten-free, dairy-free" },
-                  { label: "Occasion", value: "Anniversary" },
-                  { label: "VIP", value: "Yes — returning guest" },
-                ].map((f, idx) => (
-                  <motion.div
-                    key={f.label}
-                    className="p-3 rounded-lg text-xs"
-                    style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                  >
-                    <span className="text-white/25 text-[10px]">{f.label}</span>
-                    <p className="text-assembl-text/70 font-mono mt-1">{f.value}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
-            {activeDemo === 1 && (
-              <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="demo-1">
-                {["Food Act 2014 — allergen matrix updated", "Alcohol licensing — duty manager confirmed", "Privacy Act — guest consent recorded", "Temperature logs — kitchen compliant"].map((line, idx) => (
-                  <motion.div
-                    key={line}
-                    className="flex items-center gap-3 text-xs p-3 rounded-lg"
-                    style={{ background: "rgba(58,125,110,0.06)", border: `1px solid ${POUNAMU}15` }}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                  >
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: `${POUNAMU}20` }}>
-                      <Check size={11} style={{ color: POUNAMU_LIGHT }} />
-                    </div>
-                    <span className="text-white/60">{line}</span>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
-            {activeDemo === 2 && (
-              <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="demo-2">
-                {[
-                  { check: "Food control plan — current", st: "pass", ref: "FCP-2024" },
-                  { check: "Allergen matrix — gluten-free confirmed", st: "pass", ref: "ALG-019" },
-                  { check: "DLC licence — valid until 2027", st: "pass", ref: "DLC-847" },
-                  { check: "Duty manager — rostered for arrival", st: "pass", ref: "DM-12" },
-                ].map((c, idx) => (
-                  <motion.div
-                    key={c.check}
-                    className="flex items-center justify-between text-xs p-3 rounded-lg"
-                    style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.08 }}
-                  >
-                    <span className="text-gray-500">{c.check}</span>
-                    <div className="flex items-center gap-3">
-                      <span className="text-[9px] font-mono text-white/25">{c.ref}</span>
-                      <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full" style={{
-                        background: `${POUNAMU}15`,
-                        color: POUNAMU_LIGHT,
-                        textTransform: "uppercase",
-                      }}>{c.st}</span>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
-            {activeDemo === 3 && (
-              <motion.div className="text-center py-6" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} key="demo-3">
-                <motion.div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
-                  style={{
-                    background: `linear-gradient(135deg, ${ACCENT}20 0%, ${ACCENT}08 100%)`,
-                    border: `1px solid ${ACCENT}30`,
-                    boxShadow: `0 0 40px ${ACCENT}15`,
-                  }}
-                  animate={{ boxShadow: [`0 0 40px ${ACCENT}15`, `0 0 60px ${ACCENT}25`, `0 0 40px ${ACCENT}15`] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
-                  <Sparkles size={28} style={{ color: ACCENT }} />
-                </motion.div>
-                <p className="text-base font-display font-light mb-2" style={{ color: BONE }}>Guest briefing ready</p>
-                <p className="text-[11px] text-white/40 max-w-sm mx-auto">Anniversary stay · GF/DF menu prepared · Lake View suite confirmed · Welcome amenity scheduled</p>
-              </motion.div>
-            )}
-          </motion.div>
-        </section>
+        {/* Demo flow removed — replaced by the live KeteAgentChat (bottom-right) */}
 
 
         {/* ── CTA ── */}
@@ -518,7 +318,7 @@ export default function ManaakiLandingPage() {
           </motion.div>
         </section>
 
-        <KnowledgeSourcesStrip keteCode="MANAAKI" />
+        
         <BrandFooter />
         <KeteAgentChat
           keteName="Manaaki" keteLabel="Hospitality & Tourism" accentColor="#D4A843"
