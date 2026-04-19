@@ -54,7 +54,6 @@ export default function EvidenceGalleryPage() {
       <SEO
         title="Evidence Pack gallery | Assembl"
         description="Browse recent (anonymised) evidence packs — the signed Proof-of-Life artefact every Assembl workflow produces."
-        keywords="evidence pack, NZ compliance evidence, Assembl proof of life, governance audit"
       />
       <BrandNav />
       <main className="max-w-6xl mx-auto px-4 py-12 sm:py-16">

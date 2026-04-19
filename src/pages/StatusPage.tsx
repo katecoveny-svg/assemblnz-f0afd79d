@@ -57,7 +57,6 @@ export default function StatusPage() {
       <SEO
         title="Live system status | Assembl"
         description="Real-time platform status — governance source sync, agent uptime, last NZ regulatory compliance scan."
-        keywords="Assembl status, NZ compliance scan, AI agents uptime"
       />
       <BrandNav />
       <main className="max-w-5xl mx-auto px-4 py-12 sm:py-16">
