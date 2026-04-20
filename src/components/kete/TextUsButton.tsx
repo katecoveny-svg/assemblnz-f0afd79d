@@ -8,7 +8,9 @@ interface TextUsButtonProps {
   showWhatsApp?: boolean;
 }
 
-const DEFAULT_PHONE = "3688"; // Public Assembl SMS shortcode
+// Inbound Assembl messaging number — routes through Twilio → tnz-inbound gateway.
+// Both SMS and WhatsApp deep-links use this E.164 number.
+const DEFAULT_PHONE = "+14785516606";
 
 /**
  * "Text us" CTA that opens the visitor's native SMS or WhatsApp app
