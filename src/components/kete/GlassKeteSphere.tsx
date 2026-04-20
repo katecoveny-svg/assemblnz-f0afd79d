@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, Suspense } from "react";
+import React, { useRef, useMemo, Suspense, forwardRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { MeshTransmissionMaterial, Float, Environment } from "@react-three/drei";
 import * as THREE from "three";
@@ -103,14 +103,15 @@ const GlassOrb = ({
   );
 };
 
-const GlassKeteSphere: React.FC<GlassKeteSphereProps> = ({
+const GlassKeteSphere = forwardRef<HTMLDivElement, GlassKeteSphereProps>(({
   accentColor,
   accentLight,
   size = 200,
   className = "",
-}) => {
+}, ref) => {
   return (
     <div
+      ref={ref}
       className={`relative ${className}`}
       style={{ width: size, height: size }}
     >
@@ -144,6 +145,8 @@ const GlassKeteSphere: React.FC<GlassKeteSphereProps> = ({
       </Canvas>
     </div>
   );
-};
+});
+
+GlassKeteSphere.displayName = "GlassKeteSphere";
 
 export default GlassKeteSphere;
