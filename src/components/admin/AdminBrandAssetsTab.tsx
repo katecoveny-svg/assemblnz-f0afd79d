@@ -19,7 +19,7 @@ const BRAND_VIDEO_URL = "/brand/assembl-brand-video.gif";
 
 const SOCIAL_CAPTIONS = {
   linkedin: `Five industries. One intelligence.\n\nAssembl is the operating system for New Zealand business — governed AI built on tikanga principles.\n\nManaaki · Waihanga · Auaha · Arataki · Hauora\n\nLearn more → assembl.co.nz`,
-  instagram: `From hospitality to construction, creative to automotive — five kete, one intelligent platform 🇳🇿\n\n#AssemblNZ #NZBusiness #AI #Tikanga #MadeInNZ`,
+  instagram: `Hospitality, construction, creative, automotive, freight, retail, ECE — seven industry kete plus Tōro for whānau. One governed platform.\n\n#AssemblNZ #NZBusiness #AI #Tikanga #MadeInNZ`,
   twitter: `Five industries. One intelligence.\n\nAssembl — governed AI for NZ business.\n\nassembl.co.nz`,
 };
 

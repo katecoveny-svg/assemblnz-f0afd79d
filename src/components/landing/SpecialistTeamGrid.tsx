@@ -228,7 +228,7 @@ const SpecialistTeamGrid = () => (
             e.currentTarget.style.boxShadow = "none";
           }}
         >
-          See all five kete <ArrowRight size={14} />
+          See all the kete <ArrowRight size={14} />
         </Link>
       </div>
     </div>

@@ -34,8 +34,10 @@
  *   enterprise-2990-monthly · enterprise-2890-setup
  *   (Outcome = Stripe Invoices, not Products)
  *
- * Multi-kete discount stays — Leader bundles 2 ketes; customers buying
- * a 3rd or 4th à la carte add-on get the standard ANNUAL12 stacking.
+ * Multi-kete % discount: NONE. There is no per-kete percentage discount.
+ * Bundling is expressed at the tier level (Leader = 2 ketes, Enterprise = 7+Tōro).
+ * Extra ketes beyond a tier's bundle are sold à la carte at $290/mo flat (see ADD_ONS).
+ * The only stacking discount is ANNUAL12 (12% off annual prepay) on the monthly subscription.
  *
  * Setup fees can be split across the first 3 invoices on request.
  *

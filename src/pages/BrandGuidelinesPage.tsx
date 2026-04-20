@@ -286,7 +286,7 @@ export default function BrandGuidelinesPage() {
             {[
               { role: "Headings", font: "Inter", weight: "300, 400", sample: "The operating system for NZ business" },
               { role: "Body", font: "Inter", weight: "400, 500", sample: "Specialist workflows that reduce admin, surface risk earlier, and keep your people in control." },
-              { role: "Mono", font: "JetBrains Mono", weight: "400", sample: "44 agents · 5 kete · 1 brain" },
+              { role: "Mono", font: "JetBrains Mono", weight: "400", sample: "46 agents · 8 kete · 1 brain" },
             ].map(t => (
               <div key={t.role} className="rounded-3xl p-8" style={GLASS_CARD}>
                 <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>{t.role}</p>

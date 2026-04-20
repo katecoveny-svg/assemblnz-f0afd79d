@@ -162,11 +162,12 @@ Every output passes through the tikanga compliance pipeline (Kahu → Tā → Ma
 IHO (central routing), SIGNAL (cybersecurity/NZISM), SHIELD (Privacy Act 2020/PII), TIKANGA (cultural governance), AROHA (HR/ERA 2000), CHARTER (company governance), ARBITER (dispute resolution), ANCHOR (non-profits/charities).
 
 ## Pricing (NZD, ex GST)
-- **Family** — $29/mo · SMS-first whānau agent for households and community groups
-- **Operator** — $590/mo + $1,490 setup · 1 kete, up to 5 seats, sole traders and micro-SMEs
-- **Leader** — $1,290/mo + $1,990 setup · 2 kete, up to 15 seats, quarterly compliance review — most popular
-- **Enterprise** — $2,890/mo + $2,990 setup · all 5 kete, unlimited seats, 99.9% SLA, attested NZ data residency, named success manager
+- **Family (Tōro)** — $29/mo · SMS-first whānau agent for households
+- **Operator** — $1,490/mo + $590 setup · 1 industry kete + cross-cutting agents (AROHA, SIGNAL, SENTINEL), up to 5 seats
+- **Leader** — $1,990/mo + $1,290 setup · 2 industry ketes + cross-cutting agents, up to 15 seats, quarterly compliance review — most popular
+- **Enterprise** — $2,990/mo + $2,890 setup · all 7 industry ketes + Tōro + cross-cutting agents, unlimited seats, 99.9% SLA, attested NZ data residency, named success manager
 - **Outcome** — from $5,000/mo · bespoke, base + 10–20% of measured savings
+- For Business / Professional Services / Technology customers: Operator-as-platform — same $1,490/mo + $590 setup, no industry kete bundle, build on top of Iho. See /platform.
 - Setup fees can be split across the first 3 invoices on request.
 Always note prices are ex GST. Invite them to talk to the team for custom requirements.
 
