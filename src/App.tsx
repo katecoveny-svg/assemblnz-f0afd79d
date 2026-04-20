@@ -175,6 +175,11 @@ const KnowledgeCataloguePage = lazy(() => import("./pages/KnowledgeCataloguePage
 
 const queryClient = new QueryClient();
 
+const PackSlugRedirect = () => {
+  const { packSlug } = useParams();
+  return <Navigate to={`/kete/${packSlug ?? ""}`} replace />;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
