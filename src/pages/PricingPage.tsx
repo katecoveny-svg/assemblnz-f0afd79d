@@ -131,10 +131,14 @@ const PricingPage = () => (
                   <span className="text-[14px] ml-1" style={{ color: "#6B7280" }}>/mo</span>
                 </div>
 
-                {/* Setup */}
-                {data.setup !== null && data.setup > 0 && (
-                  <p className="text-[12px] mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>
-                    + ${data.setup.toLocaleString()} setup
+                {/* Setup — separate line, always visible */}
+                {data.setup !== null && data.setup > 0 ? (
+                  <p className="text-[13px] mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold, fontWeight: 600 }}>
+                    + ${data.setup.toLocaleString()} one-off setup
+                  </p>
+                ) : (
+                  <p className="text-[13px] mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF" }}>
+                    No setup fee
                   </p>
                 )}
                 <p className="text-[11px] mb-6" style={{ color: "#9CA3AF" }}>
@@ -179,13 +183,22 @@ const PricingPage = () => (
                   </div>
                 )}
 
+                {/* Operator-as-platform note (Operator tier only) */}
+                {tier.key === "operator" && "platformNote" in data && (data as any).platformNote && (
+                  <div className="rounded-xl p-3 mb-4" style={{ background: "rgba(74,165,168,0.05)", border: "1px dashed rgba(74,165,168,0.25)" }}>
+                    <p className="text-[10.5px] leading-[1.6]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                      <strong style={{ color: C.gold }}>Business / Pro Services / Tech?</strong> Same price, no kete bundle. <Link to="/platform" className="underline" style={{ color: C.gold }}>Operator-as-platform →</Link>
+                    </p>
+                  </div>
+                )}
+
                 {/* CTA */}
                 <Link to={data.link} className="block w-full text-center py-4 rounded-xl text-[12px] tracking-[2px] uppercase transition-all duration-300 hover:scale-[1.02]"
                   style={{
                     fontFamily: "'Lato', sans-serif", fontWeight: 600,
                     background: tier.highlight ? `linear-gradient(135deg, ${C.gold}, ${C.goldLight})` : "rgba(255,255,255,0.06)",
-                    color: tier.highlight ? C.bg : "rgba(255,255,255,0.7)",
-                    border: tier.highlight ? "none" : "1px solid rgba(255,255,255,0.10)",
+                    color: tier.highlight ? "#FFFFFF" : "#3D4250",
+                    border: tier.highlight ? "none" : "1px solid rgba(74,165,168,0.2)",
                     boxShadow: tier.highlight ? `0 4px 30px rgba(74,165,168,0.3)` : "none",
                   }}>
                   {data.cta}
@@ -198,7 +211,7 @@ const PricingPage = () => (
 
       {/* Annual discount note */}
       <p className="text-center mt-8 text-[13px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
-        Annual prepay saves 12% on any business tier. <Link to="/contact" className="underline" style={{ color: C.gold }}>Talk to us</Link>.
+        Annual prepay (ANNUAL12) saves 12% on any business tier. <Link to="/contact" className="underline" style={{ color: C.gold }}>Talk to us</Link>.
       </p>
     </section>
 
@@ -395,24 +408,37 @@ const PricingPage = () => (
           </p>
           <h2 className="text-xl sm:text-[28px] mb-3" style={{
             fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px",
-            textTransform: "uppercase", color: "rgba(255,255,255,0.9)",
-          }}>Five locked industries</h2>
+            textTransform: "uppercase", color: "#3D4250",
+          }}>Seven industry kete + Tōro</h2>
           <p className="text-[14px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
-            Pick 1, 2, or all 5 depending on your plan
+            Operator picks 1. Leader picks 2. Enterprise gets all 7 plus Tōro.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {KETE.map((k) => (
-            <div key={k.key} className="rounded-xl p-5 text-center" style={{
-              background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)",
-            }}>
-              <p className="text-[14px] mb-1" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "3px", textTransform: "uppercase", color: "rgba(255,255,255,0.85)" }}>
+            <Link
+              to={`/${k.key}`}
+              key={k.key}
+              className="rounded-xl p-5 text-center transition-all duration-300 hover:-translate-y-0.5"
+              style={{
+                background: "rgba(255,255,255,0.65)",
+                border: "1px solid rgba(74,165,168,0.15)",
+              }}
+            >
+              <p className="text-[14px] mb-1" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "3px", textTransform: "uppercase", color: "#3D4250" }}>
                 {k.name}
               </p>
               <p className="text-[11px]" style={{ color: "#6B7280" }}>{k.eng}</p>
-            </div>
+            </Link>
           ))}
+        </div>
+
+        {/* Operator-as-platform note */}
+        <div className="mt-8 max-w-2xl mx-auto rounded-xl p-5 text-center" style={{ background: "rgba(255,255,255,0.5)", border: "1px dashed rgba(74,165,168,0.25)" }}>
+          <p className="text-[12px] leading-[1.7]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+            <strong style={{ color: C.gold }}>Business · Professional Services · Technology?</strong> Ask about <Link to="/platform" className="underline" style={{ color: C.gold }}>Operator-as-platform</Link> — same $1,490/mo + $590 setup, no industry kete bundle, full platform plus the cross-cutting agents. Build your own workflows on top of Iho.
+          </p>
         </div>
       </div>
     </section>
