@@ -122,7 +122,7 @@ const HowItWorksPage = () => (
   <div className="min-h-screen flex flex-col relative" style={{ background: C.bg, color: C.text }}>
     <SEO
       title="How Assembl Works — Specialist operational workflows for NZ business"
-      description="44 specialist agents across five industry kete, governed by a single compliance pipeline that checks every output against current NZ law. Onboarding industry pilots now."
+      description="A library of specialist agents across five industry kete, governed by a single compliance pipeline that checks every output against current NZ law. Onboarding industry pilots now."
       path="/how-it-works"
     />
     <BrandNav />
