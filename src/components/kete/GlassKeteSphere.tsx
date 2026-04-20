@@ -4,209 +4,217 @@ import { MeshTransmissionMaterial, Float, Environment, ContactShadows } from "@r
 import * as THREE from "three";
 
 interface GlassKeteSphereProps {
-  /** Tint colour for the glass (kete brand colour) */
+  /** Tint colour for the glass (kete brand colour) — typically soft teal */
   accentColor: string;
-  /** Lighter highlight colour — used for the woven warp threads */
+  /** Lighter highlight colour — used for the koru filaments */
   accentLight: string;
   /** Render size in CSS pixels */
   size?: number;
   className?: string;
-  /** Number of horizontal weave bands (default 9) */
+  /** kept for API compat */
   swirlCount?: number;
 }
 
 /**
- * Glass Kete — a woven basket sculpted from glass.
- *  • Tapered body (wider at the rim, narrower at the base) like a real kete
- *  • Flat oval rim with a thicker glass lip
- *  • Two arched handles (kawe)
- *  • Horizontal weave bands wrap the body (whatu — the cross-weave)
- *  • Vertical warp threads in accentLight (whenu)
- *  • Subtle base shadow + pulsing colour halo
+ * Glass Koru Sphere
+ *  • Outer luminescent teal glass orb (transmission material, soft inner glow)
+ *  • A 3D koru (unfurling fern frond) spiral suspended inside, glowing from within
+ *  • Slow rotation, gentle pulse, secondary smaller koru orbiting for depth
  */
 
-// Kete profile — radius at each height level, from base (-1) to rim (+1).
-// Slightly tapered: narrow base, widening to a rim, with a small rim flare.
-const buildKeteGeometry = () => {
-  const points: THREE.Vector2[] = [];
-  // (radius, y) — bottom to top
-  points.push(new THREE.Vector2(0.0, -1.05));   // closed base centre
-  points.push(new THREE.Vector2(0.55, -1.0));   // base edge
-  points.push(new THREE.Vector2(0.72, -0.7));
-  points.push(new THREE.Vector2(0.85, -0.3));
-  points.push(new THREE.Vector2(0.93, 0.1));
-  points.push(new THREE.Vector2(0.98, 0.5));
-  points.push(new THREE.Vector2(1.0, 0.85));    // rim
-  points.push(new THREE.Vector2(1.04, 0.92));   // rim flare out
-  points.push(new THREE.Vector2(1.02, 0.96));   // rim lip top
-  points.push(new THREE.Vector2(0.96, 0.96));   // back inside
-  points.push(new THREE.Vector2(0.92, 0.85));   // inside wall
-  points.push(new THREE.Vector2(0.86, 0.5));
-  points.push(new THREE.Vector2(0.82, 0.0));
-  points.push(new THREE.Vector2(0.7, -0.5));
-  points.push(new THREE.Vector2(0.0, -0.85));   // closed inside base
-  return new THREE.LatheGeometry(points, 96);
+/** Build a 3D koru curve — logarithmic spiral that unfurls outward and lifts in Z. */
+const buildKoruCurve = (turns = 2.4, startRadius = 0.06, growth = 1.42, samples = 220) => {
+  const points: THREE.Vector3[] = [];
+  for (let i = 0; i <= samples; i++) {
+    const t = i / samples;
+    const angle = t * Math.PI * 2 * turns;
+    // logarithmic / equiangular spiral — natural koru proportions
+    const r = startRadius * Math.pow(growth, angle / (Math.PI / 2));
+    const x = Math.cos(angle) * r;
+    const y = Math.sin(angle) * r;
+    // gentle lift out of the plane so it reads as 3D inside the sphere
+    const z = Math.sin(t * Math.PI) * 0.18 - t * 0.08;
+    points.push(new THREE.Vector3(x, y, z));
+  }
+  return new THREE.CatmullRomCurve3(points, false, "catmullrom", 0.5);
 };
 
-const KeteBody = ({ accentColor, accentLight, swirlCount = 9 }: { accentColor: string; accentLight: string; swirlCount?: number }) => {
+const Koru = ({
+  accentColor,
+  accentLight,
+  scale = 1,
+  rotation = [0, 0, 0] as [number, number, number],
+  thicknessStart = 0.055,
+  thicknessEnd = 0.012,
+}: {
+  accentColor: string;
+  accentLight: string;
+  scale?: number;
+  rotation?: [number, number, number];
+  thicknessStart?: number;
+  thicknessEnd?: number;
+}) => {
+  // We build TWO tubes with slightly different radii so the frond tapers naturally.
+  // Three.js TubeGeometry uses a constant radius, so we approximate by stacking two passes.
+  const curve = useMemo(() => buildKoruCurve(), []);
+  const segments = 180;
+
+  // Build a custom tapered tube manually using ParametricBuffer-like approach via TubeGeometry
+  // with multiple segments at different radii is overkill; use one tube + a small bulb at the start (the unfurled tip).
+  const radius = (thicknessStart + thicknessEnd) / 2;
+
+  return (
+    <group scale={scale} rotation={rotation}>
+      {/* Main koru filament — the frond */}
+      <mesh>
+        <tubeGeometry args={[curve, segments, radius, 16, false]} />
+        <meshStandardMaterial
+          color={accentLight}
+          emissive={accentLight}
+          emissiveIntensity={1.4}
+          metalness={0.2}
+          roughness={0.25}
+          toneMapped={false}
+        />
+      </mesh>
+
+      {/* Inner brighter core for luminescence */}
+      <mesh>
+        <tubeGeometry args={[curve, segments, radius * 0.45, 12, false]} />
+        <meshBasicMaterial color="#F4FFFE" toneMapped={false} />
+      </mesh>
+
+      {/* The pītau — the unfurled bulb at the spiral's centre */}
+      <mesh position={curve.getPoint(0).toArray()}>
+        <sphereGeometry args={[thicknessStart * 1.55, 24, 24]} />
+        <meshStandardMaterial
+          color={accentLight}
+          emissive={accentLight}
+          emissiveIntensity={1.6}
+          roughness={0.2}
+          metalness={0.1}
+          toneMapped={false}
+        />
+      </mesh>
+
+      {/* Outer-tip taper cap */}
+      <mesh position={curve.getPoint(1).toArray()}>
+        <sphereGeometry args={[thicknessEnd * 1.4, 16, 16]} />
+        <meshBasicMaterial color={accentLight} transparent opacity={0.85} toneMapped={false} />
+      </mesh>
+    </group>
+  );
+};
+
+const KoruSphere = ({
+  accentColor,
+  accentLight,
+}: {
+  accentColor: string;
+  accentLight: string;
+}) => {
   const groupRef = useRef<THREE.Group>(null);
+  const innerKoruRef = useRef<THREE.Group>(null);
+  const secondaryKoruRef = useRef<THREE.Group>(null);
   const haloRef = useRef<THREE.Mesh>(null);
+  const innerGlowRef = useRef<THREE.Mesh>(null);
 
-  const brightColor = useMemo(() => new THREE.Color(accentColor).multiplyScalar(1.4), [accentColor]);
-  const warpColor = useMemo(() => new THREE.Color(accentLight).multiplyScalar(1.2), [accentLight]);
-  const keteGeo = useMemo(() => buildKeteGeometry(), []);
-
-  // Horizontal weave band positions along the body height
-  const bandHeights = useMemo(() => {
-    const arr: number[] = [];
-    for (let i = 0; i < swirlCount; i++) {
-      // distribute from y=-0.85 (just above base) to y=0.78 (just below rim)
-      const t = i / (swirlCount - 1);
-      arr.push(-0.85 + t * 1.63);
-    }
-    return arr;
-  }, [swirlCount]);
-
-  // Approximate radius at a given y (matches buildKeteGeometry profile)
-  const radiusAt = (y: number) => {
-    if (y >= 0.85) return 1.0;
-    if (y >= 0.5)  return 0.98 + (y - 0.5) * 0.057;
-    if (y >= 0.1)  return 0.93 + (y - 0.1) * 0.125;
-    if (y >= -0.3) return 0.85 + (y + 0.3) * 0.2;
-    if (y >= -0.7) return 0.72 + (y + 0.7) * 0.325;
-    return 0.55 + (y + 1.0) * 0.566;
-  };
-
-  // Vertical warp positions around the body (whenu)
-  const warpAngles = useMemo(() => {
-    const n = 16;
-    return Array.from({ length: n }, (_, i) => (i / n) * Math.PI * 2);
-  }, []);
+  const tintedGlass = useMemo(() => new THREE.Color(accentColor).lerp(new THREE.Color("#FFFFFF"), 0.35), [accentColor]);
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
     if (groupRef.current) {
-      groupRef.current.rotation.y = t * 0.25;
-      groupRef.current.rotation.x = Math.sin(t * 0.4) * 0.08;
+      groupRef.current.rotation.y = t * 0.18;
+      groupRef.current.rotation.x = Math.sin(t * 0.35) * 0.08;
+    }
+    if (innerKoruRef.current) {
+      innerKoruRef.current.rotation.z = t * 0.45;
+      const breathe = 1 + Math.sin(t * 1.2) * 0.04;
+      innerKoruRef.current.scale.setScalar(breathe);
+    }
+    if (secondaryKoruRef.current) {
+      secondaryKoruRef.current.rotation.z = -t * 0.3;
+      secondaryKoruRef.current.rotation.y = t * 0.6;
     }
     if (haloRef.current) {
-      const sparkle = 0.6 + 0.4 * Math.sin(t * 2.5);
-      (haloRef.current.material as THREE.MeshBasicMaterial).opacity = sparkle * 0.22;
+      const pulse = 0.18 + 0.12 * Math.sin(t * 1.5);
+      (haloRef.current.material as THREE.MeshBasicMaterial).opacity = pulse;
+    }
+    if (innerGlowRef.current) {
+      const pulse = 0.55 + 0.25 * Math.sin(t * 1.8);
+      (innerGlowRef.current.material as THREE.MeshBasicMaterial).opacity = pulse;
     }
   });
 
   return (
     <group>
-      {/* Pulsing colour halo behind the kete */}
+      {/* Outer luminescent halo */}
       <mesh ref={haloRef}>
-        <sphereGeometry args={[1.55, 32, 32]} />
-        <meshBasicMaterial color={accentColor} transparent opacity={0.22} depthWrite={false} />
+        <sphereGeometry args={[1.65, 32, 32]} />
+        <meshBasicMaterial color={accentLight} transparent opacity={0.22} depthWrite={false} toneMapped={false} />
       </mesh>
 
       <group ref={groupRef}>
-        {/* Glass kete body (lathed profile) */}
-        <mesh geometry={keteGeo} castShadow>
+        {/* The koru living inside the sphere */}
+        <group ref={innerKoruRef}>
+          <Koru
+            accentColor={accentColor}
+            accentLight={accentLight}
+            scale={1.05}
+            rotation={[0, 0, 0]}
+          />
+        </group>
+
+        {/* Secondary smaller koru, orbiting for depth & life */}
+        <group ref={secondaryKoruRef}>
+          <Koru
+            accentColor={accentColor}
+            accentLight={accentLight}
+            scale={0.55}
+            rotation={[Math.PI * 0.25, Math.PI * 0.5, Math.PI * 0.4]}
+            thicknessStart={0.038}
+            thicknessEnd={0.008}
+          />
+        </group>
+
+        {/* Soft inner glow ball at the heart of the koru */}
+        <mesh ref={innerGlowRef}>
+          <sphereGeometry args={[0.18, 24, 24]} />
+          <meshBasicMaterial color="#EAFFFD" transparent opacity={0.7} toneMapped={false} />
+        </mesh>
+
+        {/* Outer glass sphere — soft teal luminescent shell */}
+        <mesh>
+          <sphereGeometry args={[1.25, 96, 96]} />
           <MeshTransmissionMaterial
-            color={brightColor}
-            transmission={0.78}
-            roughness={0.02}
+            color={tintedGlass}
+            transmission={0.96}
+            roughness={0.04}
             clearcoat={1}
-            clearcoatRoughness={0.01}
-            ior={1.55}
-            samples={12}
-            distortion={0.35}
-            temporalDistortion={0.15}
-            envMapIntensity={4.5}
-            chromaticAberration={0.05}
-            thickness={0.55}
-            side={THREE.DoubleSide}
+            clearcoatRoughness={0.02}
+            ior={1.42}
+            samples={10}
+            distortion={0.18}
+            temporalDistortion={0.08}
+            envMapIntensity={2.4}
+            chromaticAberration={0.04}
+            thickness={0.85}
+            attenuationColor={new THREE.Color(accentColor)}
+            attenuationDistance={2.1}
+            anisotropy={0.15}
           />
         </mesh>
 
-        {/* Rim lip — a brighter ring on top */}
-        <mesh position={[0, 0.96, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[1.0, 0.045, 16, 96]} />
-          <meshStandardMaterial
-            color={warpColor}
-            metalness={0.4}
-            roughness={0.25}
-            emissive={accentLight}
-            emissiveIntensity={0.35}
-          />
-        </mesh>
-
-        {/* Horizontal weave bands (whatu) — slim torus rings hugging the body */}
-        {bandHeights.map((y, i) => {
-          const r = radiusAt(y) + 0.012; // sit just outside the surface
-          return (
-            <mesh key={`band-${i}`} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}>
-              <torusGeometry args={[r, 0.022, 10, 80]} />
-              <meshStandardMaterial
-                color={brightColor}
-                metalness={0.55}
-                roughness={0.35}
-                emissive={accentColor}
-                emissiveIntensity={0.18}
-                transparent
-                opacity={0.92}
-              />
-            </mesh>
-          );
-        })}
-
-        {/* Vertical warp threads (whenu) — thin curved strips */}
-        {warpAngles.map((angle, i) => {
-          // Build a curved strip along the body profile
-          const points: THREE.Vector3[] = [];
-          for (let s = 0; s <= 12; s++) {
-            const ty = -0.85 + (s / 12) * 1.63;
-            const r = radiusAt(ty) + 0.005;
-            points.push(new THREE.Vector3(Math.cos(angle) * r, ty, Math.sin(angle) * r));
-          }
-          const curve = new THREE.CatmullRomCurve3(points);
-          return (
-            <mesh key={`warp-${i}`}>
-              <tubeGeometry args={[curve, 24, 0.012, 6, false]} />
-              <meshStandardMaterial
-                color={warpColor}
-                metalness={0.5}
-                roughness={0.4}
-                emissive={accentLight}
-                emissiveIntensity={0.22}
-                transparent
-                opacity={0.75}
-              />
-            </mesh>
-          );
-        })}
-
-        {/* Two arched handles (kawe) — front & back */}
-        {[0, Math.PI].map((rot, i) => (
-          <group key={`handle-${i}`} rotation={[0, rot, 0]}>
-            <mesh position={[0, 1.18, 0]} rotation={[Math.PI / 2, 0, 0]}>
-              {/* half-torus arched above the rim */}
-              <torusGeometry args={[0.32, 0.038, 12, 48, Math.PI]} />
-              <meshStandardMaterial
-                color={warpColor}
-                metalness={0.45}
-                roughness={0.3}
-                emissive={accentLight}
-                emissiveIntensity={0.3}
-              />
-            </mesh>
-          </group>
-        ))}
-
-        {/* Specular catch-light on the upper-left of the body */}
-        <mesh position={[-0.42, 0.5, 0.65]}>
-          <sphereGeometry args={[0.22, 20, 20]} />
-          <meshBasicMaterial color="#FFFFFF" transparent opacity={0.55} />
+        {/* Bright specular catch-light */}
+        <mesh position={[-0.45, 0.55, 0.78]}>
+          <sphereGeometry args={[0.14, 16, 16]} />
+          <meshBasicMaterial color="#FFFFFF" transparent opacity={0.65} toneMapped={false} />
         </mesh>
 
         {/* Smaller secondary highlight */}
-        <mesh position={[0.35, -0.15, 0.7]}>
-          <sphereGeometry args={[0.1, 16, 16]} />
-          <meshBasicMaterial color="#FFFFFF" transparent opacity={0.35} />
+        <mesh position={[0.4, -0.2, 0.85]}>
+          <sphereGeometry args={[0.07, 12, 12]} />
+          <meshBasicMaterial color="#FFFFFF" transparent opacity={0.4} toneMapped={false} />
         </mesh>
       </group>
     </group>
@@ -218,53 +226,48 @@ const GlassKeteSphere: React.FC<GlassKeteSphereProps> = ({
   accentLight,
   size = 200,
   className = "",
-  swirlCount = 9,
 }) => {
   return (
     <div
       className={`relative ${className}`}
       style={{ width: size, height: size }}
     >
-      {/* CSS ambient halo behind the kete */}
+      {/* CSS ambient teal halo behind the sphere */}
       <div
         className="absolute inset-0 rounded-full pointer-events-none"
         style={{
-          background: `radial-gradient(circle, ${accentColor}40 0%, ${accentColor}15 40%, transparent 72%)`,
-          filter: "blur(28px)",
-          transform: "scale(1.4)",
+          background: `radial-gradient(circle, ${accentLight}55 0%, ${accentColor}25 38%, transparent 72%)`,
+          filter: "blur(32px)",
+          transform: "scale(1.5)",
         }}
       />
 
       <Canvas
-        camera={{ position: [0, 0.15, 3.4], fov: 38 }}
+        camera={{ position: [0, 0.1, 3.6], fov: 36 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         style={{ background: "transparent" }}
       >
-        {/* Studio lighting matched to GlassKoruHero */}
-        <Environment preset="studio" environmentIntensity={0.85} />
-        <ambientLight intensity={1.1} color="#F8F6F0" />
-        <directionalLight position={[8, 8, 5]} intensity={2.0} color="#FFFFFF" />
-        <directionalLight position={[-5, 3, 8]} intensity={1.0} color="#D4F0F0" />
-        <directionalLight position={[3, -3, 6]} intensity={0.6} color="#FFFBE8" />
-        <pointLight position={[0, 0, 6]} intensity={1.0} color="#FFFFFF" />
+        <Environment preset="studio" environmentIntensity={0.9} />
+        <ambientLight intensity={0.9} color="#F4FBFB" />
+        <directionalLight position={[6, 8, 5]} intensity={1.6} color="#FFFFFF" />
+        <directionalLight position={[-6, 2, 6]} intensity={1.1} color="#CFEFEE" />
+        <directionalLight position={[2, -4, 4]} intensity={0.45} color="#E6FBFA" />
+        <pointLight position={[0, 0, 5]} intensity={0.9} color={accentLight} />
+        <pointLight position={[0, 0, -2]} intensity={0.6} color={accentColor} />
 
         <Suspense fallback={null}>
-          <Float speed={1.2} rotationIntensity={0.2} floatIntensity={0.4}>
-            <KeteBody
-              accentColor={accentColor}
-              accentLight={accentLight}
-              swirlCount={swirlCount}
-            />
+          <Float speed={1.1} rotationIntensity={0.18} floatIntensity={0.45}>
+            <KoruSphere accentColor={accentColor} accentLight={accentLight} />
           </Float>
 
           <ContactShadows
-            position={[0, -1.2, 0]}
-            opacity={0.45}
-            scale={3.2}
-            blur={2.6}
-            far={2.2}
-            color="#1a1d29"
+            position={[0, -1.35, 0]}
+            opacity={0.32}
+            scale={3.0}
+            blur={2.8}
+            far={2.4}
+            color="#0e3a3a"
           />
         </Suspense>
       </Canvas>
