@@ -163,7 +163,7 @@ export default function AdminMessagesPage() {
     setSending(true);
 
     try {
-      const fnName = selectedChannel === "whatsapp" ? "send-whatsapp" : "agent-sms";
+      const fnName = selectedChannel === "whatsapp" ? "send-whatsapp" : "tnz-send";
       const { error } = await supabase.functions.invoke(fnName, {
         body: {
           phoneNumber: selectedPhone,
