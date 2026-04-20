@@ -744,7 +744,7 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
             className="text-[10px] tracking-[4px] uppercase mb-3"
             style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(74,165,168,0.6)" }}
           >
-            Ngā Kete · 5 Industries · Tangible Outcomes
+            Ngā Kete · 7 Industries + Tōro · Tangible Outcomes
           </p>
           <h2
             className="text-2xl sm:text-4xl tracking-[0.02em] text-foreground mb-3"

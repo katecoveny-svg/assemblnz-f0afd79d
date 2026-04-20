@@ -115,7 +115,7 @@ export default function BrandGuidelinesPage() {
             The Assembl Visual Identity
           </h1>
           <p className={`${SUB} mx-auto`} style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-            A library of specialist agents. Five kete. One intelligence layer. This guide defines how Assembl looks,
+            A library of specialist agents. Eight kete (seven industry + Tōro). One intelligence layer. This guide defines how Assembl looks,
             speaks, and feels across every touchpoint.
           </p>
         </div>

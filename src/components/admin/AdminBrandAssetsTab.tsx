@@ -18,9 +18,9 @@ const GLASS: React.CSSProperties = {
 const BRAND_VIDEO_URL = "/brand/assembl-brand-video.gif";
 
 const SOCIAL_CAPTIONS = {
-  linkedin: `Five industries. One intelligence.\n\nAssembl is the operating system for New Zealand business — governed AI built on tikanga principles.\n\nManaaki · Waihanga · Auaha · Arataki · Hauora\n\nLearn more → assembl.co.nz`,
+  linkedin: `Seven industries. One governed intelligence.\n\nAssembl is the operating system for New Zealand business — governed AI built on tikanga principles.\n\nManaaki · Waihanga · Auaha · Arataki · Pikau · Hoko · Ako — plus Tōro for whānau.\n\nLearn more → assembl.co.nz`,
   instagram: `Hospitality, construction, creative, automotive, freight, retail, ECE — seven industry kete plus Tōro for whānau. One governed platform.\n\n#AssemblNZ #NZBusiness #AI #Tikanga #MadeInNZ`,
-  twitter: `Five industries. One intelligence.\n\nAssembl — governed AI for NZ business.\n\nassembl.co.nz`,
+  twitter: `Seven industry kete + Tōro for whānau. One governed intelligence.\n\nAssembl — governed AI for NZ business.\n\nassembl.co.nz`,
 };
 
 export default function AdminBrandAssetsTab() {
@@ -49,7 +49,7 @@ export default function AdminBrandAssetsTab() {
         const file = new File([blob], "assembl-brand-video.gif", { type: "image/gif" });
         await navigator.share({
           files: [file],
-          title: "Assembl — Five industries, one intelligence",
+          title: "Assembl — Seven industries, one governed intelligence",
           text: SOCIAL_CAPTIONS.linkedin,
         });
       } catch {
@@ -74,7 +74,7 @@ export default function AdminBrandAssetsTab() {
               ASSEMBL BRAND VIDEO
             </h3>
             <p className="text-xs" style={{ color: `${CHARCOAL}80` }}>
-              Five industries. One intelligence. — share-ready for socials
+              Seven industries. One governed intelligence. — share-ready for socials
             </p>
           </div>
         </div>

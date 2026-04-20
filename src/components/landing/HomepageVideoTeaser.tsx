@@ -68,7 +68,7 @@ export default function HomepageVideoTeaser() {
           className="mt-6 text-[15px] leading-relaxed max-w-xl mx-auto"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}
         >
-          Five industries. One governed intelligence layer. Built for the laws and language of Aotearoa.
+          Seven industries plus Tōro for whānau. One governed intelligence layer. Built for the laws and language of Aotearoa.
         </motion.p>
 
       </div>
