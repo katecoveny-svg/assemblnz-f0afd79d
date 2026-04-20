@@ -56,7 +56,7 @@ export const KETE_CONFIG: KeteDefinition[] = [
   },
   {
     id: "arataki", name: "Arataki", nameEn: "Automotive",
-    color: "#E8E8E8", icon: Car, agentCount: 2, group: "business",
+    color: "#7A9ABC", icon: Car, agentCount: 2, group: "business",
     description: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped.",
     wananga: "Te Kete Tuauri — the basket of guidance and protection",
     route: "/arataki", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
@@ -70,14 +70,14 @@ export const KETE_CONFIG: KeteDefinition[] = [
   },
   {
     id: "hoko", name: "Hoko", nameEn: "Retail",
-    color: "#C66B5C", icon: ShoppingBag, agentCount: 4, group: "business",
+    color: "#6CBFC1", icon: ShoppingBag, agentCount: 4, group: "business",
     description: "Pricing intelligence vs Temu/Amazon, POS-driven re-orders, FTA/CGA compliance lint, unified customer view — for the $92.3bn NZ retail sector.",
     wananga: "Te Kete Tuatea — the basket of trade and exchange",
     route: "/hoko", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
   },
   {
     id: "ako", name: "Ako", nameEn: "Early Childhood Education",
-    color: "#7BA7C7", icon: Baby, agentCount: 3, group: "business",
+    color: "#5A7A9C", icon: Baby, agentCount: 3, group: "business",
     description: "Licensing criteria matcher, transparency pack generator, graduated enforcement readiness — built for the 20 April 2026 ECE wedge moment.",
     wananga: "Te Kete Aronui — the basket of human knowledge and learning",
     route: "/ako", smsStatus: "coming-soon", whatsappStatus: "coming-soon",
