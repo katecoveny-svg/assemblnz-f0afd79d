@@ -48,6 +48,8 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
             opacity: 0.32,
             filter: "blur(0.5px) saturate(0.6) brightness(1.18)",
             mixBlendMode: "screen",
+            borderRadius: "50%",
+            overflow: "hidden",
           }}
         >
           <Suspense fallback={null}>
