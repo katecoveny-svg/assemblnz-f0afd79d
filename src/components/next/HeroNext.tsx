@@ -45,9 +45,9 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
             transform: "translateY(-50%)",
             width: "min(48vw,560px)",
             height: "min(48vw,560px)",
-            opacity: 0.55,
-            filter: "blur(0.4px) saturate(0.95)",
-            mixBlendMode: "luminosity",
+            opacity: 0.32,
+            filter: "blur(0.5px) saturate(0.6) brightness(1.18)",
+            mixBlendMode: "screen",
           }}
         >
           <Suspense fallback={null}>
