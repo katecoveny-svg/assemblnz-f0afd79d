@@ -43,34 +43,39 @@ const KeteCard: React.FC<KeteCardProps> = ({
     <div
       ref={ref}
       onClick={onClick}
-      className={`kete-card group relative rounded-[16px] cursor-pointer overflow-hidden ${
+      className={`kete-card group relative rounded-[16px] cursor-pointer overflow-hidden transition-transform duration-300 hover:-translate-y-1 ${
         visible ? "kete-card-visible" : "opacity-0 translate-y-6"
       }`}
       style={{
         "--kete-accent": accentColor,
         "--kete-accent-rgb": rgb,
         animationDelay: visible ? `${index * 150}ms` : undefined,
+        background: "rgba(255,255,255,0.65)",
+        backdropFilter: "blur(20px) saturate(1.4)",
+        WebkitBackdropFilter: "blur(20px) saturate(1.4)",
+        border: `1px solid rgba(${rgb}, 0.18)`,
+        boxShadow: `0 8px 32px rgba(31, 78, 84, 0.06), inset 0 0 0 1px rgba(255,255,255,0.4)`,
       } as React.CSSProperties}
     >
-      {/* Ambient dawn-gold halo — always present, blooms on hover */}
+      {/* Soft accent halo */}
       <div
-        className="absolute inset-0 rounded-[16px] pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity duration-500"
+        className="absolute inset-0 rounded-[16px] pointer-events-none opacity-30 group-hover:opacity-70 transition-opacity duration-500"
         style={{
-          background: "radial-gradient(ellipse at 50% -10%, rgba(168,221,219,0.18) 0%, rgba(74,165,168,0.06) 45%, transparent 70%)",
+          background: `radial-gradient(ellipse at 50% -10%, rgba(${rgb}, 0.14) 0%, rgba(${rgb}, 0.04) 45%, transparent 70%)`,
         }}
       />
 
-      {/* Top accent bar — thicker, glowing with dawn-gold bloom */}
+      {/* Top accent bar */}
       <div
         className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[16px]"
         style={{
-          background: `linear-gradient(90deg, transparent, rgba(168,221,219,0.7), ${accentColor}, rgba(168,221,219,0.7), transparent)`,
-          boxShadow: `0 0 18px rgba(168,221,219,0.5), 0 0 8px rgba(${rgb}, 0.3)`,
+          background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`,
+          boxShadow: `0 0 12px rgba(${rgb}, 0.3)`,
         }}
       />
 
       {/* Constellation dots decorating top-right */}
-      <svg className="absolute top-3 right-3 w-12 h-12 pointer-events-none opacity-30 group-hover:opacity-60 transition-opacity duration-500" viewBox="0 0 48 48">
+      <svg className="absolute top-3 right-3 w-12 h-12 pointer-events-none opacity-25 group-hover:opacity-50 transition-opacity duration-500" viewBox="0 0 48 48">
         <circle cx="8" cy="8" r="2" fill={accentColor} />
         <circle cx="28" cy="6" r="1.5" fill={accentLight} />
         <circle cx="40" cy="20" r="2.5" fill={accentColor} />
@@ -82,12 +87,12 @@ const KeteCard: React.FC<KeteCardProps> = ({
       </svg>
 
       <div className="relative z-10 flex flex-col items-center text-center gap-4 p-8">
-        {/* Kete Icon — with dawn-gold glow ring */}
+        {/* Kete Icon */}
         <div className="relative w-[140px] h-[140px]">
           <div
             className="absolute inset-0 rounded-full opacity-30 group-hover:opacity-70 transition-opacity duration-500"
             style={{
-              background: "radial-gradient(circle, rgba(168,221,219,0.28) 0%, rgba(74,165,168,0.10) 45%, transparent 70%)",
+              background: `radial-gradient(circle, rgba(${rgb}, 0.18) 0%, rgba(${rgb}, 0.06) 45%, transparent 70%)`,
             }}
           />
           <KeteIcon
@@ -99,14 +104,13 @@ const KeteCard: React.FC<KeteCardProps> = ({
           />
         </div>
 
-        {/* Name — accent colour, not white */}
+        {/* Name — accent colour */}
         <h3
           className="text-xl tracking-[5px] uppercase"
           style={{
             fontFamily: "'Lato', sans-serif",
-            fontWeight: 300,
+            fontWeight: 400,
             color: accentColor,
-            textShadow: `0 0 20px rgba(${rgb}, 0.3)`,
           }}
         >
           {name}
@@ -118,7 +122,7 @@ const KeteCard: React.FC<KeteCardProps> = ({
           style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontWeight: 500,
-            color: "rgba(255,255,255,0.7)",
+            color: "#3D4250",
           }}
         >
           {englishName}
@@ -129,20 +133,20 @@ const KeteCard: React.FC<KeteCardProps> = ({
           className="text-sm leading-relaxed min-h-[72px] flex items-center"
           style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
-            color: "rgba(255,255,255,0.65)",
+            color: "#5A6270",
           }}
         >
           {description}
         </p>
 
         {/* Footer */}
-        <div className="flex flex-col items-center gap-3 w-full mt-3 pt-4 border-t" style={{ borderColor: `rgba(${rgb}, 0.15)` }}>
+        <div className="flex flex-col items-center gap-3 w-full mt-3 pt-4 border-t" style={{ borderColor: `rgba(${rgb}, 0.18)` }}>
           <span
             className="text-xs tracking-[2px] uppercase px-3 py-1 rounded-full"
             style={{
               fontFamily: "'JetBrains Mono', monospace",
               color: accentColor,
-              background: `rgba(${rgb}, 0.1)`,
+              background: `rgba(${rgb}, 0.08)`,
               border: `1px solid rgba(${rgb}, 0.2)`,
             }}
           >
@@ -154,7 +158,7 @@ const KeteCard: React.FC<KeteCardProps> = ({
               style={{
                 fontFamily: "'JetBrains Mono', monospace",
                 color: accentColor,
-                background: `rgba(${rgb}, 0.08)`,
+                background: `rgba(${rgb}, 0.06)`,
                 border: `1px solid rgba(${rgb}, 0.15)`,
               }}
             >
