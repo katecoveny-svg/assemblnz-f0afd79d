@@ -238,7 +238,7 @@ export const TORO_KETE = {
 export const COMPARISON_FEATURES = [
   { feature: 'Industry kete', operator: '1', leader: '2', enterprise: 'All 7 + Tōro', outcome: 'All 7 + Tōro + custom' },
   { feature: 'Cross-cutting agents (AROHA · SIGNAL · SENTINEL)', operator: true, leader: true, enterprise: true, outcome: true },
-  { feature: 'Seats', operator: 'Up to 5', leader: 'Up to 15', enterprise: 'Unlimited', outcome: 'Unlimited' },
+  
   { feature: 'Tikanga posture — partner, not label', operator: true, leader: true, enterprise: true, outcome: true },
   { feature: 'Privacy Act 2020 + AAAIP alignment', operator: true, leader: true, enterprise: true, outcome: true },
   { feature: 'SMS & WhatsApp', operator: true, leader: true, enterprise: true, outcome: true },
