@@ -87,32 +87,34 @@ export default function PearlGlobe({
       }}
       aria-hidden="true"
     >
-      {/* Outer feathery bloom — fades into the icy pearl canvas */}
+      {/* Outer feathery bloom — pure white fading into the canvas */}
       <div
         className="absolute inset-0 rounded-full"
         style={{
           background: `radial-gradient(circle at 50% 50%,
-            ${bloom} 0%,
-            ${bloom}99 18%,
-            ${bloom}33 42%,
-            transparent 72%)`,
-          filter: "blur(28px)",
-          transform: "scale(1.55)",
+            #FFFFFF 0%,
+            rgba(255,255,255,0.85) 22%,
+            ${bloom}66 48%,
+            ${tint}1A 70%,
+            transparent 88%)`,
+          filter: "blur(36px)",
+          transform: "scale(1.75)",
         }}
       />
-      {/* Inner pounamu glow — soft, never neon */}
+      {/* Inner pearl sheen — soft sea-glass whisper, never neon */}
       <div
         className="absolute inset-0 rounded-full"
         style={{
-          background: `radial-gradient(circle at 38% 38%,
-            rgba(255,255,255,0.9) 0%,
-            rgba(255,255,255,0) 35%),
-            radial-gradient(circle at 62% 65%,
-            ${tint}40 0%,
-            ${tint}10 40%,
-            transparent 70%)`,
-          filter: "blur(8px)",
-          transform: "scale(1.05)",
+          background: `radial-gradient(circle at 38% 36%,
+            rgba(255,255,255,0.95) 0%,
+            rgba(255,255,255,0.2) 38%,
+            transparent 62%),
+            radial-gradient(circle at 64% 68%,
+            ${tint}33 0%,
+            ${tint}10 38%,
+            transparent 72%)`,
+          filter: "blur(10px)",
+          transform: "scale(1.08)",
         }}
       />
       {/* The actual transmission sphere */}
