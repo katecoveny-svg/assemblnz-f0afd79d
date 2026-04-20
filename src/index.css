@@ -84,32 +84,34 @@ html {
 
 @layer base {
   :root {
-    --background: 180 30% 94%;
-    --foreground: 187 47% 22%;
+    /* Locked Mārama+Next palette — primary teal #3A7D6E, ice bg #FAFBFC */
+    --background: 216 20% 98%;            /* #FAFBFC */
+    --foreground: 226 12% 27%;            /* charcoal #3D4250 */
 
-    --card: 180 35% 99%;
-    --card-foreground: 187 47% 22%;
+    --card: 0 0% 100%;
+    --card-foreground: 226 12% 27%;
 
-    --popover: 180 35% 99%;
-    --popover-foreground: 187 47% 22%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 226 12% 27%;
 
-    --primary: 182 35% 45%;
+    --primary: 167 36% 36%;               /* #3A7D6E new teal */
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 167 36% 50%;
 
-    --secondary: 180 28% 88%;
-    --secondary-foreground: 187 47% 22%;
+    --secondary: 195 30% 95%;
+    --secondary-foreground: 226 12% 27%;
 
-    --muted: 180 25% 92%;
-    --muted-foreground: 187 18% 42%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 226 8% 50%;
 
-    --accent: 180 28% 88%;
-    --accent-foreground: 187 47% 22%;
+    --accent: 167 36% 92%;
+    --accent-foreground: 167 36% 28%;
     --destructive: 3 45% 56%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 187 25% 60% / 0.18;
-    --input: 187 25% 60% / 0.18;
-    --ring: 182 35% 45%;
+    --border: 167 25% 60% / 0.18;
+    --input: 167 25% 60% / 0.18;
+    --ring: 167 36% 36%;
 
     --radius: 1.5rem;
 
