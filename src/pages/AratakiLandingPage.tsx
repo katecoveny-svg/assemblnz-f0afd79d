@@ -197,7 +197,7 @@ export default function AratakiLandingPage() {
               Run Arataki scenario <ArrowRight size={14} />
             </Link>
             <div className="mt-6">
-              <TextUsButton keteName="Arataki" accentColor={ACCENT} showWhatsApp={false} />
+              <TextUsButton keteName="Arataki" accentColor={ACCENT} showWhatsApp={true} />
             </div>
           </div>
         </section>

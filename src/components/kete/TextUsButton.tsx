@@ -20,7 +20,7 @@ const TextUsButton = ({
   keteName,
   accentColor,
   phoneNumber = DEFAULT_PHONE,
-  showWhatsApp = false,
+  showWhatsApp = true,
 }: TextUsButtonProps) => {
   const smsBody = encodeURIComponent(`Hi Assembl — I'm interested in ${keteName}`);
   const cleanNumber = phoneNumber.replace(/\+/g, "");

@@ -536,7 +536,7 @@ export default function ToroaLandingPage() {
                     Start free — first month on us
                     <ArrowRight size={16} />
                   </a>
-                  <TextUsButton keteName="Tōro" accentColor={OCHRE} showWhatsApp={false} />
+                  <TextUsButton keteName="Tōro" accentColor={OCHRE} showWhatsApp={true} />
                 </div>
               </div>
             </div>

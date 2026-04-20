@@ -199,7 +199,7 @@ export default function WaihangaLandingPage() {
               style={{ background: C.pounamu, color: "#FFFFFF", boxShadow: `0 4px 20px ${C.pounamu}30`, fontFamily: "'Lato', sans-serif" }}>
               Open Waihanga Dashboard <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </Link>
-            <TextUsButton keteName="Waihanga" accentColor={C.pounamu} showWhatsApp={false} />
+            <TextUsButton keteName="Waihanga" accentColor={C.pounamu} showWhatsApp={true} />
           </motion.div>
         </section>
 

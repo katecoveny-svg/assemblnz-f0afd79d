@@ -316,7 +316,7 @@ export default function ManaakiLandingPage() {
               <span className="relative z-10">Open Manaaki Dashboard</span>
               <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <TextUsButton keteName="Manaaki" accentColor={ACCENT} showWhatsApp={false} />
+            <TextUsButton keteName="Manaaki" accentColor={ACCENT} showWhatsApp={true} />
           </motion.div>
         </section>
 
