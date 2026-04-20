@@ -201,8 +201,7 @@ const App = () => (
                     <div className="pb-14 sm:pb-0 relative z-10">
                       <PageTransition>
                       <Routes>
-                        <Route path="/" element={<Suspense fallback={null}><NextPreview /></Suspense>} />
-                        <Route path="/home-classic" element={<Index />} />
+                        <Route path="/" element={<Index />} />
                         <Route path="/next" element={<Suspense fallback={null}><NextPreview /></Suspense>} />
                         <Route path="/app" element={<Navigate to="/kete" replace />} />
                         <Route path="/chat/:agentId" element={<ChatPageKeyed />} />
