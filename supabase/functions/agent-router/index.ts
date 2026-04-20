@@ -940,6 +940,31 @@ Trust & compliance:
           if (error) console.warn("conversation_summaries insert failed:", error.message);
         });
       }
+
+      // ═══ MEMORY EXTRACTION QUEUE — debounced enqueue (only if conversationId provided) ═══
+      if (conversationId && resolvedTenantId) {
+        try {
+          const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+          const { data: recent } = await supabase
+            .from("memory_extraction_queue")
+            .select("id")
+            .eq("conversation_id", conversationId)
+            .gte("created_at", tenMinAgo)
+            .limit(1);
+          if (!recent || recent.length === 0) {
+            supabase.from("memory_extraction_queue").insert({
+              tenant_id: resolvedTenantId,
+              user_id: resolvedUserId,
+              conversation_id: conversationId,
+              status: "pending",
+            }).then(({ error }) => {
+              if (error) console.warn("memory_extraction_queue insert failed:", error.message);
+            });
+          }
+        } catch (e) {
+          console.warn("queue check failed:", (e as Error).message);
+        }
+      }
     }
 
     const headers = new Headers(corsHeaders);
