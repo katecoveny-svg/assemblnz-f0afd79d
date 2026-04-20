@@ -14,7 +14,7 @@ import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import CursorFollower from "@/components/CursorFollower";
-import GlassKoruHero from "@/components/hero/GlassKoruHero";
+import HeroNext from "@/components/next/HeroNext";
 import CompliancePipeline from "@/components/landing/CompliancePipeline";
 import MigrationFeatureSection from "@/components/MigrationFeatureSection";
 import ScrollDepthLayers from "@/components/hero/ScrollDepthLayers";
@@ -256,7 +256,7 @@ const Index = () => {
         <ContextBar />
 
         {/* ═══ HERO ═══ */}
-        <GlassKoruHero />
+        <HeroNext variant="layered" />
 
         {/* ═══ LIVE PROOF STRIP ═══ */}
         <div className="px-4 -mt-2 mb-4 text-center">
