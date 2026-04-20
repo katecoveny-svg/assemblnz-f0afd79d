@@ -217,10 +217,10 @@ const App = () => (
                         <Route path="/status" element={<Suspense fallback={null}><StatusPage /></Suspense>} />
                         <Route path="/evidence" element={<Suspense fallback={null}><EvidenceGalleryPage /></Suspense>} />
                         <Route path="/evidence/share/:token" element={<Suspense fallback={null}><EvidencePackSharePage /></Suspense>} />
-                        <Route path="/content-hub" element={<Navigate to="/how-it-works" replace />} />
+                        
                         <Route path="/agents" element={<Suspense fallback={null}><AgentMarketplacePage /></Suspense>} />
                         <Route path="/tools" element={<Navigate to="/how-it-works" replace />} />
-                        <Route path="/founding-pilots" element={<Navigate to="/contact" replace />} />
+                        
 
                         <Route path="/admin" element={<Suspense fallback={null}><AdminLogin /></Suspense>} />
                         <Route path="/admin/forgot-password" element={<Suspense fallback={null}><AdminForgotPassword /></Suspense>} />
