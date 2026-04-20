@@ -785,7 +785,6 @@ export default function PearlIndex() {
       <SEO
         title="Assembl — Premium intelligence with a human heart"
         description="Practical AI agents for New Zealand families, teams and communities. Every workflow ends in a pack you can file, forward or footnote — and stays current as the law changes."
-        canonical="https://assembl.co.nz/"
       />
       <div style={{ background: PEARL.bg, minHeight: "100vh" }}>
         <BrandNav />
