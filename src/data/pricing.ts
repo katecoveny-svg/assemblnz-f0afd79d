@@ -1,31 +1,47 @@
 /**
  * Single source of truth for all pricing across the site.
  *
- * LOCKED MODEL — 2026-04-08
+ * LOCKED MODEL — 2026-04-20 (Kate × Lovable platform-wide lock)
  * Plain-English tier names. NZD ex GST. Add 15% GST at invoice.
  *
  * Tier ladder (business):
- *   Operator   $1,490/mo + $590 setup   · 1 kete  · up to 5 seats · 20 evidence packs/mo
- *   Leader     $1,990/mo + $1,290 setup  · 2 kete  · up to 15 seats · 60 evidence packs/mo · quarterly compliance review
- *   Enterprise $2,990/mo + $2,890 setup  · all 5 kete · unlimited seats · 200 evidence packs/mo · 99.9% SLA · NZ data residency · named success manager
- *   Outcome    from $5,000/mo · per-engagement scope · 10–20% of measured savings
+ *   Operator   $1,490/mo + $590  setup · 1 industry kete + cross-cutting agents · up to 5  seats
+ *   Leader     $1,990/mo + $1,290 setup · 2 industry ketes + cross-cutting agents · up to 15 seats · multi-kete discount eligible
+ *   Enterprise $2,990/mo + $2,890 setup · all 7 industry ketes + Tōro + cross-cutting agents · unlimited seats · 99.9% SLA · NZ data residency
+ *   Outcome    from $5,000/mo · per-engagement scope · 10–20% of measured savings · Stripe Invoices only
  *
  * Consumer:
- *   Family     $29/mo · SMS-first whānau agent · household coordination
+ *   Family     $29/mo · SMS-first whānau agent (Tōro) · household coordination
+ *
+ * Cross-cutting agents included at every paid tier:
+ *   AROHA   — HR & Employment Hero
+ *   SIGNAL  — Security (NZISM aligned)
+ *   SENTINEL — Monitoring & uptime
+ *
+ * The 8 ketes (7 industry + Tōro):
+ *   MANAAKI (Hospitality) · WAIHANGA (Construction) · AUAHA (Creative) ·
+ *   ARATAKI (Automotive & Fleet) · PIKAU (Freight & Customs) · HOKO (Retail) ·
+ *   AKO (Early Childhood Education) · TŌRO (Family — consumer tier)
+ *
+ * Operator-as-platform: Business, professional services, and technology
+ * customers buy Operator ($1,490/mo + $590 setup, same Stripe SKU) and
+ * build on top of Iho + cross-cutting agents. Marketed at /platform.
+ *
+ * Stripe lookup keys (LOCKED — do not change):
+ *   family-29-monthly
+ *   operator-1490-monthly · operator-590-setup
+ *   leader-1990-monthly   · leader-1290-setup
+ *   enterprise-2990-monthly · enterprise-2890-setup
+ *   (Outcome = Stripe Invoices, not Products)
+ *
+ * Multi-kete discount stays — Leader bundles 2 ketes; customers buying
+ * a 3rd or 4th à la carte add-on get the standard ANNUAL12 stacking.
  *
  * Setup fees can be split across the first 3 invoices on request.
  *
- * The 7 industry kete + Tōro whānau (V2 expansion 2026-04):
- *   MANAAKI (Hospitality) · WAIHANGA (Construction) · AUAHA (Creative) · ARATAKI (Automotive) · PIKAU (Freight & Customs) · HOKO (Retail)
- *
- * Existing customers on the legacy $199 / $399 / $799 + $749 setup model are
- * grandfathered for 12 months from 2026-04-08 (until 2027-04-08). After that,
- * they roll to the closest new tier with 60 days' written notice.
- *
- * DO NOT introduce te reo on the pricing tier names. Te reo stays on the kete
- * names and the trust layer (Kahu / Iho / Mana / Tā / Mahara). The consumer
- * agent's internal branding (Toro) is unchanged — only the *pricing tier* is
- * called "Family".
+ * Retired kete names that MUST NOT appear in user-facing copy:
+ *   Hanga · Pakihi · Waka · Hangarau · Hauora · Te Kāhui Reo · Whenua · Ora · Kāinga
+ *   (See /docs/legacy-kete-codes.md for the full archive.)
  */
 
 export const PRICING = {
@@ -58,6 +74,7 @@ export const PRICING = {
     descriptor: 'Sole traders and micro-SMEs — one industry, one team, one source of truth',
     features: [
       '1 industry kete (your pick)',
+      'Cross-cutting agents: AROHA (HR), SIGNAL (security), SENTINEL (monitoring)',
       'Up to 5 seats',
       'Tikanga posture — partner, not label. Mead\'s Five Tests applied to Māori-origin content. Sacred content hard-blocked.',
       'Privacy Act 2020 + AAAIP alignment',
@@ -70,6 +87,7 @@ export const PRICING = {
     link: '/contact',
     popular: false,
     valueAnchor: '5 hours a week back at $60–$120/hr = $1,300–$2,600/mo recovered. ROI before a single risk event.',
+    platformNote: 'For Business, Professional Services, or Technology customers: ask about Operator-as-platform — same $1,490/mo + $590 setup, no industry kete bundle, full platform + cross-cutting agents. You build your own workflows on top of Iho (our governed router).',
   },
   leader: {
     name: 'Leader',
@@ -78,9 +96,10 @@ export const PRICING = {
     currency: 'NZD',
     setup: 1290,
     setupNote: 'Splittable across first 3 invoices on request',
-    descriptor: 'Multi-discipline SMEs and growing teams — covers two parts of the business with quarterly compliance review',
+    descriptor: 'Multi-discipline SMEs and growing teams — two industry ketes plus quarterly compliance review',
     features: [
-      '2 industry kete (your pick)',
+      '2 industry ketes (your pick)',
+      'Cross-cutting agents: AROHA (HR), SIGNAL (security), SENTINEL (monitoring)',
       'Up to 15 seats',
       'Tikanga posture — partner, not label. Mead\'s Five Tests applied to Māori-origin content. Sacred content hard-blocked.',
       'Privacy Act 2020 + AAAIP alignment',
@@ -104,9 +123,10 @@ export const PRICING = {
     setupNote: 'Splittable across first 3 invoices on request',
     descriptor: 'Multi-site, regulated, high-stakes operations — every kete, the SLA, and a named human to call',
     features: [
-      'All 7 industry kete + Tōro whānau',
+      'All 7 industry ketes + Tōro',
+      'Cross-cutting agents: AROHA (HR), SIGNAL (security), SENTINEL (monitoring)',
       'Unlimited seats',
-      'NZ data residency (attested)',
+      'NZ data residency (attested, where available)',
       '99.9% uptime SLA',
       'Named success manager',
       'Quarterly compliance review (signed)',
@@ -157,63 +177,73 @@ export const CORE_PLATFORM = {
   ],
 } as const;
 
-/** The 7 industry kete — MANAAKI · WAIHANGA · AUAHA · ARATAKI · PIKAU · HOKO · AKO (V2 expansion) plus Tōro whānau */
+/** The 7 industry kete (Tōro is the consumer tier — see PRICING.family) */
 export const KETE = [
   {
     key: 'manaaki',
     name: 'Manaaki',
     eng: 'Hospitality',
-    desc: 'Food safety, liquor licensing, guest experience, tourism operations',
+    desc: 'Food Act plans, alcohol licences, toolbox talks, rosters, Holidays Act pay. Built for cafés, restaurants, and hotels.',
   },
   {
     key: 'waihanga',
     name: 'Waihanga',
     eng: 'Construction',
-    desc: 'Site safety, consenting, project management, quality and sign-off',
+    desc: 'Site safety, Building Act consents, subcontractor payments, retention compliance, H&S at Work Act. Built for builders and trades.',
   },
   {
     key: 'auaha',
     name: 'Auaha',
     eng: 'Creative',
-    desc: 'Brief to publish — copy, image, video, podcast, ads, analytics',
+    desc: 'Contracts, invoicing, rights management, project briefs, agency ops. Built for design, media, and arts.',
   },
   {
     key: 'arataki',
     name: 'Arataki',
-    eng: 'Automotive',
-    desc: 'Workshops, fleet, vehicle compliance, service scheduling',
+    eng: 'Automotive & Fleet',
+    desc: 'MVSA compliance, warrant of fitness workflows, RUC, fleet ops, Land Transport Act. Built for workshops, dealers, and fleet operators.',
   },
   {
     key: 'pikau',
     name: 'Pikau',
     eng: 'Freight & Customs',
-    desc: 'Route optimisation, declarations, broker hand-off, customs compliance',
+    desc: 'Customs and Excise Act, MPI Import Health Standards, Biosecurity Act, freight docs, import/export ops. Built for logistics and customs brokers.',
   },
   {
     key: 'hoko',
     name: 'Hoko',
     eng: 'Retail',
-    desc: 'Pricing intelligence, POS-driven re-orders, FTA/CGA compliance lint, unified customer view',
+    desc: 'CGA compliance, stock, supplier contracts, POS reconciliations, ecommerce. Built for retailers and online shops.',
   },
   {
     key: 'ako',
     name: 'Ako',
     eng: 'Early Childhood Education',
-    desc: 'Licensing criteria matcher, transparency pack generator, graduated enforcement readiness — built for the 20 April 2026 wedge',
+    desc: 'Licensing criteria, ratio monitoring, parent communications, staff registration. Built for ECE centres and kindergartens.',
   },
 ] as const;
 
+/** The consumer kete — separate ladder, $29/mo, no setup. */
+export const TORO_KETE = {
+  key: 'toro',
+  name: 'Tōro',
+  eng: 'Family',
+  desc: 'Admin, contracts, school notices, household documents. Built for families running life.',
+  href: '/toro',
+} as const;
+
 /** Feature comparison table data */
 export const COMPARISON_FEATURES = [
-  { feature: 'Industry Kete', operator: '1', leader: '2', enterprise: 'All 7 + Tōro', outcome: 'All 7 + Tōro + custom' },
+  { feature: 'Industry kete', operator: '1', leader: '2', enterprise: 'All 7 + Tōro', outcome: 'All 7 + Tōro + custom' },
+  { feature: 'Cross-cutting agents (AROHA · SIGNAL · SENTINEL)', operator: true, leader: true, enterprise: true, outcome: true },
   { feature: 'Seats', operator: 'Up to 5', leader: 'Up to 15', enterprise: 'Unlimited', outcome: 'Unlimited' },
-  { feature: 'Tikanga — Cultural governance', operator: true, leader: true, enterprise: true, outcome: true },
-  { feature: 'Privacy Act 2020 + AAAIP', operator: true, leader: true, enterprise: true, outcome: true },
+  { feature: 'Tikanga posture — partner, not label', operator: true, leader: true, enterprise: true, outcome: true },
+  { feature: 'Privacy Act 2020 + AAAIP alignment', operator: true, leader: true, enterprise: true, outcome: true },
   { feature: 'SMS & WhatsApp', operator: true, leader: true, enterprise: true, outcome: true },
   { feature: 'Quarterly compliance review', operator: false, leader: true, enterprise: true, outcome: true },
   { feature: 'Monthly audit report', operator: false, leader: true, enterprise: true, outcome: true },
   { feature: 'Named success manager', operator: false, leader: false, enterprise: true, outcome: true },
-  { feature: 'NZ data residency (attested)', operator: false, leader: 'Optional', enterprise: true, outcome: true },
+  { feature: 'NZ data residency (attested, where available)', operator: false, leader: 'Optional', enterprise: true, outcome: true },
   { feature: 'Uptime SLA', operator: '99.0%', leader: '99.5%', enterprise: '99.9%', outcome: '99.9%' },
   { feature: 'Support', operator: 'Email, 1 day', leader: 'Email + chat, 4hrs', enterprise: 'Phone + chat, 1hr', outcome: 'Named team' },
   { feature: 'Training hours / year', operator: '3', leader: '8', enterprise: '16', outcome: 'Scoped' },
