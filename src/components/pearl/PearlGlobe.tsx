@@ -1,6 +1,6 @@
 import { useRef, useState, Suspense, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { MeshTransmissionMaterial, Float, Environment } from "@react-three/drei";
+import { Float, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
 /**
@@ -49,23 +49,25 @@ function Sphere({ tint }: { tint: string }) {
   });
   return (
     <Float speed={0.6} rotationIntensity={0.08} floatIntensity={0.3} floatingRange={[-0.06, 0.06]}>
+      {/* Soft inner glow shell — gives the pearl its luminous core */}
+      <mesh scale={1.04}>
+        <sphereGeometry args={[1, 48, 48]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={0.35} />
+      </mesh>
+      {/* Pearl body — opaque physical material so it ALWAYS reads white */}
       <mesh ref={ref}>
-        <sphereGeometry args={[1, 80, 80]} />
-        <MeshTransmissionMaterial
-          backside
-          samples={6}
-          thickness={0.7}
-          chromaticAberration={0.012}
-          anisotropy={0.06}
-          distortion={0.16}
-          distortionScale={0.28}
-          temporalDistortion={0.04}
-          transmission={1}
-          roughness={0.36}
-          ior={1.22}
+        <sphereGeometry args={[1, 96, 96]} />
+        <meshPhysicalMaterial
           color="#FFFFFF"
-          attenuationColor={tint}
-          attenuationDistance={5.2}
+          roughness={0.28}
+          metalness={0}
+          clearcoat={0.6}
+          clearcoatRoughness={0.35}
+          sheen={1}
+          sheenColor={tint}
+          sheenRoughness={0.45}
+          emissive={tint}
+          emissiveIntensity={0.08}
         />
       </mesh>
     </Float>
@@ -215,8 +217,8 @@ export default function PearlGlobe({
         >
           <defs>
             <linearGradient id="featherGradient" x1="0%" y1="100%" x2="0%" y2="0%">
-              <stop offset="0%" stopColor="rgba(255,255,255,0.7)" />
-              <stop offset="55%" stopColor="rgba(232,238,236,0.35)" />
+              <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
+              <stop offset="55%" stopColor="rgba(232,238,236,0.55)" />
               <stop offset="100%" stopColor="rgba(255,255,255,0)" />
             </linearGradient>
           </defs>
@@ -236,11 +238,13 @@ export default function PearlGlobe({
             onCreated={() => setTimeout(() => setReady(true), 250)}
             style={{ background: "transparent" }}
           >
-            <ambientLight intensity={0.9} />
-            <directionalLight position={[3, 4, 5]} intensity={1.0} color="#FFFFFF" />
-            <directionalLight position={[-3, -2, 3]} intensity={0.22} color={tint} />
-            <directionalLight position={[0, 5, -3]} intensity={0.28} color="#F8FAF9" />
-            <Environment preset="studio" />
+            <ambientLight intensity={1.4} color="#FFFFFF" />
+            <hemisphereLight args={["#FFFFFF", "#E8EEEC", 0.9]} />
+            <directionalLight position={[3, 4, 5]} intensity={1.6} color="#FFFFFF" />
+            <directionalLight position={[-3, -2, 3]} intensity={0.6} color="#FFFFFF" />
+            <directionalLight position={[0, 5, -3]} intensity={0.5} color="#F8FAF9" />
+            <pointLight position={[2, 2, 3]} intensity={0.8} color={tint} />
+            <Environment preset="studio" environmentIntensity={1.2} />
             <Sphere tint={tint} />
           </Canvas>
         </Suspense>
