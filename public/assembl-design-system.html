@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assembl — Kōrurangi Studio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"
+            onerror="this.onerror=null; var s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.min.js'; s.onerror=function(){ var t=document.createElement('script'); t.src='https://unpkg.com/p5@1.7.0/lib/p5.min.js'; document.head.appendChild(t); }; document.head.appendChild(s);"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+Garamond:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --assembl-deep: #2c4a4d;
+            --assembl-teal: #7fb8ae;
+            --assembl-mint: #a8d4cc;
+            --assembl-aqua: #c5e4dd;
+            --assembl-mist: #e8f2ef;
+            --assembl-light: #f4f9f7;
+            --assembl-pounamu: #5a9a8f;
+            --assembl-dark: #1f3336;
+            --assembl-gray: #8fa5a2;
+            --assembl-border: #d6e4e0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lora', Georgia, serif;
+            background: linear-gradient(135deg, var(--assembl-light) 0%, var(--assembl-mist) 100%);
+            min-height: 100vh;
+            color: var(--assembl-dark);
+        }
+
+        .container { display: flex; min-height: 100vh; padding: 20px; gap: 20px; }
+
+        .sidebar {
+            width: 380px;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(12px);
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(44, 74, 77, 0.08);
+            overflow-y: auto;
+            overflow-x: hidden;
+            border: 1px solid rgba(214, 228, 224, 0.6);
+            max-height: calc(100vh - 40px);
+        }
+
+        .sidebar h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--assembl-deep);
+            margin-bottom: 4px;
+            letter-spacing: -0.01em;
+        }
+
+        .sidebar .subtitle {
+            color: var(--assembl-gray);
+            font-size: 14px;
+            margin-bottom: 22px;
+            line-height: 1.5;
+            font-style: italic;
+            font-family: 'EB Garamond', 'Lora', serif;
+        }
+
+        details.control-section {
+            margin-bottom: 14px;
+            border-bottom: 1px solid rgba(214, 228, 224, 0.6);
+            padding-bottom: 14px;
+        }
+        details.control-section[open] summary::after { content: '−'; }
+        details.control-section summary::after { content: '+'; float: right; color: var(--assembl-pounamu); font-weight: 400; font-size: 18px; }
+        details.control-section summary {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--assembl-deep);
+            cursor: pointer;
+            list-style: none;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            padding: 6px 0 10px;
+            user-select: none;
+        }
+        details.control-section summary::-webkit-details-marker { display: none; }
+        details.control-section summary::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--assembl-teal);
+            box-shadow: 0 0 8px rgba(127, 184, 174, 0.6);
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .concept-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+
+        .concept-btn {
+            padding: 10px 8px;
+            background: rgba(232, 242, 239, 0.5);
+            border: 1px solid var(--assembl-border);
+            border-radius: 10px;
+            color: var(--assembl-deep);
+            font-family: 'Lora', serif;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .concept-btn:hover { background: rgba(168, 212, 204, 0.3); border-color: var(--assembl-teal); transform: translateY(-1px); }
+        .concept-btn.active {
+            background: linear-gradient(135deg, var(--assembl-teal), var(--assembl-pounamu));
+            color: white; border-color: var(--assembl-pounamu); font-weight: 500;
+            box-shadow: 0 4px 12px rgba(127, 184, 174, 0.3);
+        }
+        .concept-btn .maori-name { display: block; font-style: italic; font-size: 11px; opacity: 0.8; margin-top: 2px; }
+
+        .seed-row { display: flex; gap: 8px; align-items: center; }
+        .seed-input, .text-input {
+            flex: 1;
+            padding: 10px 12px;
+            background: var(--assembl-light);
+            border: 1px solid var(--assembl-border);
+            border-radius: 8px;
+            color: var(--assembl-deep);
+            font-family: 'Lora', serif;
+            font-size: 14px;
+            width: 100%;
+        }
+        .text-input { margin-bottom: 10px; }
+
+        .btn {
+            padding: 10px 16px;
+            background: linear-gradient(135deg, var(--assembl-teal), var(--assembl-pounamu));
+            border: none; border-radius: 8px;
+            color: white; font-family: 'Lora', serif; font-size: 13px; font-weight: 500;
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(127, 184, 174, 0.35); }
+        .btn-secondary { background: rgba(232, 242, 239, 0.6); color: var(--assembl-deep); border: 1px solid var(--assembl-border); }
+        .btn-secondary:hover { background: rgba(168, 212, 204, 0.3); }
+
+        .slider-row { margin-bottom: 12px; }
+        .slider-label { display: flex; justify-content: space-between; font-size: 12px; font-family: 'Lora', serif; color: var(--assembl-deep); margin-bottom: 6px; }
+        .slider-label .value { color: var(--assembl-pounamu); font-style: italic; }
+        input[type=range] { width: 100%; accent-color: var(--assembl-pounamu); }
+
+        .checkbox-row {
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 8px; font-size: 13px; color: var(--assembl-deep); cursor: pointer;
+        }
+        .checkbox-row input[type=checkbox] { accent-color: var(--assembl-pounamu); }
+
+        .color-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; margin-bottom: 10px; }
+        .color-row label { font-size: 12px; color: var(--assembl-deep); }
+        .color-row input[type=color] {
+            width: 40px; height: 32px; padding: 2px; border: 1px solid var(--assembl-border);
+            border-radius: 6px; background: white; cursor: pointer;
+        }
+
+        .preset-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 6px; margin-bottom: 10px; }
+        .preset-chip {
+            height: 34px; border-radius: 8px; cursor: pointer;
+            border: 1px solid var(--assembl-border);
+            transition: all 0.2s ease; position: relative; overflow: hidden;
+        }
+        .preset-chip:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .preset-chip.active { border: 2px solid var(--assembl-pounamu); }
+
+        .select-input {
+            width: 100%; padding: 10px 12px;
+            background: var(--assembl-light); border: 1px solid var(--assembl-border);
+            border-radius: 8px; color: var(--assembl-deep);
+            font-family: 'Lora', serif; font-size: 13px;
+            cursor: pointer;
+        }
+
+        .button-row { display: flex; gap: 8px; margin-top: 8px; }
+        .button-row .btn { flex: 1; }
+
+        .canvas-wrapper {
+            flex: 1;
+            background: rgba(255,255,255,0.4);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; position: relative;
+            border: 1px solid rgba(214, 228, 224, 0.6);
+            box-shadow: 0 10px 40px rgba(44, 74, 77, 0.06);
+        }
+
+        .concept-info {
+            padding: 10px 12px;
+            background: rgba(232, 242, 239, 0.5);
+            border-radius: 8px;
+            font-size: 12px; font-style: italic;
+            color: var(--assembl-deep);
+            line-height: 1.5; margin-top: 10px;
+            border-left: 3px solid var(--assembl-teal);
+            font-family: 'EB Garamond', serif;
+        }
+
+        .record-status {
+            padding: 8px 12px;
+            background: rgba(255, 107, 107, 0.12);
+            border-radius: 8px;
+            color: #d04040;
+            font-size: 12px;
+            font-family: 'Lora', serif;
+            margin-top: 8px;
+            text-align: center;
+            display: none;
+        }
+        .record-status.active { display: block; }
+
+        .tiny-note {
+            font-size: 11px; color: var(--assembl-gray); font-style: italic;
+            margin-top: 4px; line-height: 1.4;
+        }
+
+        @media (max-width: 900px) {
+            .container { flex-direction: column; padding: 12px; }
+            .sidebar { width: 100%; max-height: none; }
+            .canvas-wrapper { min-height: 60vh; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <aside class="sidebar">
+        <h1>Kōrurangi Studio</h1>
+        <p class="subtitle">Design, light, and export — Assembl's generative visual system.</p>
+
+        <details class="control-section" open>
+            <summary>Etching Concept</summary>
+            <div class="concept-grid" id="conceptGrid"></div>
+            <div class="concept-info" id="conceptInfo"></div>
+        </details>
+
+        <details class="control-section" open>
+            <summary>Seed</summary>
+            <div class="seed-row">
+                <input type="number" id="seedInput" class="seed-input" value="7281" />
+                <button class="btn btn-secondary" id="prevSeedBtn">◀</button>
+                <button class="btn btn-secondary" id="nextSeedBtn">▶</button>
+            </div>
+            <div class="button-row">
+                <button class="btn" id="randomBtn">Random</button>
+                <button class="btn btn-secondary" id="resetBtn">Reset</button>
+            </div>
+        </details>
+
+        <details class="control-section">
+            <summary>Palette Preset</summary>
+            <div class="preset-row" id="palettePresets"></div>
+            <div class="tiny-note">Pick a palette, then fine-tune individual colours below.</div>
+        </details>
+
+        <details class="control-section">
+            <summary>Colour</summary>
+            <div class="color-row"><label>Etching line</label><input type="color" id="cEtch" value="#f5fcf8"/></div>
+            <div class="color-row"><label>Orb core (light)</label><input type="color" id="cOrbLight" value="#e8f2ef"/></div>
+            <div class="color-row"><label>Orb mid</label><input type="color" id="cOrbMid" value="#a8d4cc"/></div>
+            <div class="color-row"><label>Orb deep</label><input type="color" id="cOrbDeep" value="#2c4a4d"/></div>
+            <div class="color-row"><label>Accent</label><input type="color" id="cAccent" value="#5a9a8f"/></div>
+            <div class="color-row"><label>Background top</label><input type="color" id="cBgTop" value="#f4f9f7"/></div>
+            <div class="color-row"><label>Background bottom</label><input type="color" id="cBgBottom" value="#d6e4e0"/></div>
+        </details>
+
+        <details class="control-section">
+            <summary>Light</summary>
+            <div class="slider-row"><div class="slider-label"><span>Outer glow</span><span class="value" id="glowVal">1.00</span></div>
+                <input type="range" id="glowSlider" min="0" max="2" step="0.02" value="1"/></div>
+            <div class="slider-row"><div class="slider-label"><span>Rim highlight</span><span class="value" id="rimVal">1.00</span></div>
+                <input type="range" id="rimSlider" min="0" max="2" step="0.02" value="1"/></div>
+            <div class="slider-row"><div class="slider-label"><span>Specular</span><span class="value" id="specVal">1.00</span></div>
+                <input type="range" id="specSlider" min="0" max="2" step="0.02" value="1"/></div>
+            <div class="slider-row"><div class="slider-label"><span>Ambient</span><span class="value" id="ambVal">0.50</span></div>
+                <input type="range" id="ambSlider" min="0" max="1" step="0.02" value="0.5"/></div>
+            <div class="slider-row"><div class="slider-label"><span>Shimmer</span><span class="value" id="shimmerVal">0.55</span></div>
+                <input type="range" id="shimmerSlider" min="0" max="1" step="0.02" value="0.55"/></div>
+        </details>
+
+        <details class="control-section">
+            <summary>Background &amp; Texture</summary>
+            <label class="slider-label" style="margin-bottom:6px;"><span>Texture</span></label>
+            <select class="select-input" id="textureSelect">
+                <option value="none">None (smooth)</option>
+                <option value="grain">Film grain</option>
+                <option value="paper">Paper fibre</option>
+                <option value="halftone">Halftone dots</option>
+                <option value="weave">Tāniko weave</option>
+                <option value="whenua">Whenua (earth)</option>
+            </select>
+            <div class="slider-row" style="margin-top:12px;"><div class="slider-label"><span>Texture strength</span><span class="value" id="texVal">0.30</span></div>
+                <input type="range" id="texSlider" min="0" max="1" step="0.02" value="0.3"/></div>
+            <div class="slider-row"><div class="slider-label"><span>Vignette</span><span class="value" id="vigVal">0.18</span></div>
+                <input type="range" id="vigSlider" min="0" max="0.6" step="0.02" value="0.18"/></div>
+            <div class="slider-row"><div class="slider-label"><span>Ground plane</span><span class="value" id="groundVal">0.70</span></div>
+                <input type="range" id="groundSlider" min="0" max="1" step="0.02" value="0.70"/></div>
+        </details>
+
+        <details class="control-section">
+            <summary>Motion</summary>
+            <div class="slider-row"><div class="slider-label"><span>Speed</span><span class="value" id="speedVal">1.00</span></div>
+                <input type="range" id="speedSlider" min="0" max="3" step="0.05" value="1"/></div>
+            <div class="slider-row"><div class="slider-label"><span>Etch rotation</span><span class="value" id="rotVal">0.50</span></div>
+                <input type="range" id="rotSlider" min="-2" max="2" step="0.05" value="0.5"/></div>
+            <label class="checkbox-row"><input type="checkbox" id="pauseCheck"/> Pause animation</label>
+            <label class="checkbox-row"><input type="checkbox" id="parallaxCheck" checked/> Cursor parallax</label>
+        </details>
+
+        <details class="control-section">
+            <summary>Orb &amp; Field</summary>
+            <div class="slider-row"><div class="slider-label"><span>Orb radius</span><span class="value" id="radiusVal">280</span></div>
+                <input type="range" id="radiusSlider" min="160" max="420" step="2" value="280"/></div>
+            <div class="slider-row"><div class="slider-label"><span>Etching depth</span><span class="value" id="depthVal">0.60</span></div>
+                <input type="range" id="depthSlider" min="0.1" max="1" step="0.02" value="0.6"/></div>
+            <div class="slider-row"><div class="slider-label"><span>Bokeh density</span><span class="value" id="bokehVal">140</span></div>
+                <input type="range" id="bokehSlider" min="40" max="360" step="4" value="140"/></div>
+            <div class="slider-row"><div class="slider-label"><span>Inner sparkles</span><span class="value" id="sparklesVal">32</span></div>
+                <input type="range" id="sparklesSlider" min="0" max="120" step="1" value="32"/></div>
+        </details>
+
+        <details class="control-section">
+            <summary>Text Overlay</summary>
+            <label class="checkbox-row"><input type="checkbox" id="showTextCheck" checked/> Show text on canvas</label>
+            <label class="slider-label"><span>Title</span></label>
+            <input type="text" class="text-input" id="titleInput" value="Empowering Aotearoa"/>
+            <label class="slider-label"><span>Subtitle</span></label>
+            <input type="text" class="text-input" id="subtitleInput" value="Intelligence, shaped for New Zealand."/>
+            <label class="slider-label"><span>Position</span></label>
+            <select class="select-input" id="textPosSelect">
+                <option value="bottom-center">Bottom centre</option>
+                <option value="top-center">Top centre</option>
+                <option value="center">Centre</option>
+                <option value="bottom-left">Bottom left</option>
+                <option value="top-left">Top left</option>
+            </select>
+            <div class="slider-row" style="margin-top:12px;"><div class="slider-label"><span>Title size</span><span class="value" id="titleSizeVal">64</span></div>
+                <input type="range" id="titleSizeSlider" min="20" max="160" step="1" value="64"/></div>
+            <div class="color-row"><label>Text colour</label><input type="color" id="cText" value="#2c4a4d"/></div>
+            <label class="checkbox-row"><input type="checkbox" id="brandmarkCheck"/> Add "Assembl" brandmark</label>
+        </details>
+
+        <details class="control-section" open>
+            <summary>Export</summary>
+            <label class="slider-label"><span>Format</span></label>
+            <select class="select-input" id="formatSelect">
+                <option value="png">PNG — still image</option>
+                <option value="webm">WebM — animated clip</option>
+            </select>
+            <label class="slider-label" style="margin-top:10px;"><span>Social preset</span></label>
+            <select class="select-input" id="aspectSelect">
+                <option value="current">Current viewport</option>
+                <option value="square">Instagram post · 1080 × 1080</option>
+                <option value="portrait">Instagram portrait · 1080 × 1350</option>
+                <option value="story">Story / TikTok · 1080 × 1920</option>
+                <option value="landscape">YouTube / X · 1600 × 900</option>
+                <option value="linkedin">LinkedIn · 1200 × 627</option>
+                <option value="facebook">Facebook · 1200 × 630</option>
+                <option value="wallpaper">Desktop wallpaper · 2560 × 1440</option>
+            </select>
+            <div class="slider-row" style="margin-top:12px;" id="durationRow">
+                <div class="slider-label"><span>Clip length</span><span class="value" id="durVal">5</span>s</div>
+                <input type="range" id="durSlider" min="2" max="15" step="1" value="5"/>
+            </div>
+            <div class="button-row">
+                <button class="btn" id="exportBtn">Export</button>
+            </div>
+            <div class="record-status" id="recordStatus">● Recording…</div>
+            <div class="tiny-note">WebM plays everywhere modern. For Instagram, drop it into any video post — it converts to MP4 on upload.</div>
+        </details>
+    </aside>
+
+    <main class="canvas-wrapper" id="canvasWrap"></main>
+</div>
+
+<script>
+/* =========================================================================
+   KŌRURANGI STUDIO — Assembl generative design system
+   ========================================================================= */
+
+const CONCEPTS = [
+    { id: 'koru',       name: 'Koru',         maori: 'unfurling frond',   note: 'Logarithmic spiral — the unfurling silver fern. New growth, beginning, potential.' },
+    { id: 'doubleKoru', name: 'Double Koru',  maori: 'rere rua',          note: 'Two intertwined spirals — partnership, dialogue, Te Tiriti. Balance of two in motion.' },
+    { id: 'tripleKoru', name: 'Triple Koru',  maori: 'pōhutukawa',        note: 'Three radial spirals — the living, the past, the yet-to-come. Whakapapa in geometry.' },
+    { id: 'poutama',    name: 'Poutama',      maori: 'stairway',          note: 'Stepped pattern — the ascending stairs of knowledge. Learning, climbing, reaching.' },
+    { id: 'nihoTaniwha',name: 'Niho Taniwha', maori: 'taniwha teeth',     note: 'Triangular weave — strength, protection, guardianship. The watchful pattern.' },
+    { id: 'taniko',     name: 'Tāniko',       maori: 'woven border',      note: 'Diamond weave — fine border weaving of cloaks. Tradition, precision, craft.' },
+    { id: 'frond',      name: 'Fern Frond',   maori: 'pikopiko',          note: 'Unfurling frond with sub-spirals — fractal growth, recursion, emergence.' },
+    { id: 'matariki',   name: 'Matariki',     maori: 'star cluster',      note: 'Star field — the Māori new year. Navigation, memory, the rising constellation.' },
+    { id: 'kowhaiwhai', name: 'Kōwhaiwhai',   maori: 'rafter scroll',     note: 'Scrollwork pattern — the painted rafters of the whare. Narrative flow across time.' },
+    { id: 'rangi',      name: 'Rangi',        maori: 'sky / sun burst',   note: 'Radiating rays — Ranginui, the sky father. Light, broadcast, illumination.' },
+    { id: 'awaAwa',     name: 'Awa Awa',      maori: 'flowing rivers',    note: 'Braided river lines — awa, flow, meeting of waters. Movement across the whenua.' },
+    { id: 'punawai',    name: 'Pūnāwai',      maori: 'spring / source',   note: 'Concentric ripples — a spring welling up. Source of knowledge, the still point.' },
+];
+
+const PALETTE_PRESETS = [
+    { id: 'pounamu',   name: 'Pounamu',    colors: { etch: '#f5fcf8', orbLight: '#e8f2ef', orbMid: '#a8d4cc', orbDeep: '#2c4a4d', accent: '#5a9a8f', bgTop: '#f4f9f7', bgBottom: '#d6e4e0', text: '#2c4a4d' }},
+    { id: 'ao',        name: 'Ao (dawn)',  colors: { etch: '#fff5e6', orbLight: '#ffe6cc', orbMid: '#ffb280', orbDeep: '#5a2d1a', accent: '#d97642', bgTop: '#fff1e0', bgBottom: '#f5cfa8', text: '#5a2d1a' }},
+    { id: 'pō',        name: 'Pō (night)', colors: { etch: '#d9e6ff', orbLight: '#4a6fa5', orbMid: '#2a3d6b', orbDeep: '#0a0f1f', accent: '#8fa5d6', bgTop: '#1a2440', bgBottom: '#0a0f1f', text: '#e8f0ff' }},
+    { id: 'whenua',    name: 'Whenua',     colors: { etch: '#f0e6d2', orbLight: '#d2b48c', orbMid: '#8b6f47', orbDeep: '#3d2817', accent: '#a67c52', bgTop: '#f5ead4', bgBottom: '#c9a87a', text: '#3d2817' }},
+    { id: 'moana',     name: 'Moana',      colors: { etch: '#e6f4ff', orbLight: '#c2e0f2', orbMid: '#5a9fc4', orbDeep: '#1a3d5a', accent: '#3a7a9f', bgTop: '#e8f2fa', bgBottom: '#b8d8e8', text: '#1a3d5a' }},
+    { id: 'harakeke',  name: 'Harakeke',   colors: { etch: '#f5f8e8', orbLight: '#d6e0a8', orbMid: '#8ba05a', orbDeep: '#2a3818', accent: '#5a7030', bgTop: '#eff2de', bgBottom: '#c5d29a', text: '#2a3818' }},
+    { id: 'kōkōwai',   name: 'Kōkōwai',    colors: { etch: '#fff0e0', orbLight: '#f5c9a8', orbMid: '#c96d3e', orbDeep: '#4a1808', accent: '#8a3a1a', bgTop: '#fce8d8', bgBottom: '#e8b088', text: '#4a1808' }},
+    { id: 'mono',      name: 'Monochrome', colors: { etch: '#ffffff', orbLight: '#e8e8e8', orbMid: '#808080', orbDeep: '#1a1a1a', accent: '#606060', bgTop: '#f5f5f5', bgBottom: '#cccccc', text: '#1a1a1a' }},
+];
+
+let params = {
+    seed: 7281,
+    concept: 'koru',
+    orbRadius: 280,
+    etchingDepth: 0.6,
+    bokehCount: 140,
+    innerSparkles: 32,
+    shimmer: 0.55,
+    speed: 1.0,
+    etchRotation: 0.5,
+    paused: false,
+    parallax: true,
+
+    // colour (hex strings, converted on use)
+    etchColor: '#f5fcf8',
+    orbLightColor: '#e8f2ef',
+    orbMidColor: '#a8d4cc',
+    orbDeepColor: '#2c4a4d',
+    accentColor: '#5a9a8f',
+    bgTop: '#f4f9f7',
+    bgBottom: '#d6e4e0',
+
+    // light
+    glowIntensity: 1.0,
+    rimIntensity: 1.0,
+    specularIntensity: 1.0,
+    ambient: 0.5,
+
+    // background & texture
+    texture: 'none',
+    textureStrength: 0.3,
+    vignette: 0.18,
+    groundStrength: 0.70,
+
+    // text
+    showText: true,
+    title: 'Empowering Aotearoa',
+    subtitle: 'Intelligence, shaped for New Zealand.',
+    textPosition: 'bottom-center',
+    titleSize: 64,
+    textColor: '#2c4a4d',
+    showBrandmark: false,
+
+    // export
+    format: 'png',
+    aspect: 'current',
+    duration: 5,
+
+    paletteId: 'pounamu',
+};
+
+let rng;
+let bokeh = [], sparkles = [], fgSparkles = [];
+let matarikiStars = [];
+let canvasSize = { w: 1200, h: 820 };
+let parX = 0, parY = 0;
+let textureCanvas = null;
+let textureKey = '';
+
+/* --- helpers --- */
+function mulberry32(seed) {
+    let t = seed >>> 0;
+    return function() {
+        t = (t + 0x6D2B79F5) >>> 0;
+        let r = Math.imul(t ^ (t >>> 15), 1 | t);
+        r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+        return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+    };
+}
+function hex(h) {
+    h = h.replace('#','');
+    return [parseInt(h.substr(0,2),16), parseInt(h.substr(2,2),16), parseInt(h.substr(4,2),16)];
+}
+function mix(a, b, f) { return [a[0]+(b[0]-a[0])*f, a[1]+(b[1]-a[1])*f, a[2]+(b[2]-a[2])*f]; }
+function rgba(c, a) { return `rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`; }
+
+/* Build particle fields deterministically from the seed. */
+function buildField() {
+    rng = mulberry32(params.seed);
+
+    bokeh = [];
+    for (let i = 0; i < params.bokehCount; i++) {
+        bokeh.push({
+            x: rng() * canvasSize.w, y: rng() * canvasSize.h,
+            r: 1.5 + rng() * 5,
+            alpha: 0.08 + rng() * 0.28,
+            hue: rng(),
+            drift: { x: (rng() - 0.5) * 0.25, y: -0.05 - rng() * 0.15 },
+            phase: rng() * Math.PI * 2,
+            freq: 0.4 + rng() * 0.9,
+        });
+    }
+
+    sparkles = [];
+    for (let i = 0; i < params.innerSparkles; i++) {
+        const a = rng() * Math.PI * 2;
+        const r = rng() * params.orbRadius * 0.85;
+        sparkles.push({
+            angle: a, dist: r,
+            size: 0.6 + rng() * 1.6,
+            alpha: 0.4 + rng() * 0.5,
+            phase: rng() * Math.PI * 2,
+            freq: 0.6 + rng() * 1.4,
+            drift: (rng() - 0.5) * 0.004,
+        });
+    }
+
+    fgSparkles = [];
+    for (let i = 0; i < 10; i++) {
+        fgSparkles.push({
+            x: rng() * canvasSize.w, y: rng() * canvasSize.h,
+            r: 1 + rng() * 2,
+            phase: rng() * Math.PI * 2,
+            freq: 0.5 + rng() * 1.5,
+        });
+    }
+
+    const matarikiBase = [
+        { x: 0.0, y: 0.0, mag: 1.0 }, { x: -0.22, y: -0.18, mag: 0.85 },
+        { x: 0.18, y: -0.22, mag: 0.9 }, { x: -0.30, y: 0.10, mag: 0.75 },
+        { x: 0.30, y: 0.12, mag: 0.8 }, { x: -0.10, y: 0.28, mag: 0.7 },
+        { x: 0.10, y: 0.34, mag: 0.72 }, { x: -0.42, y: -0.04, mag: 0.65 },
+        { x: 0.42, y: -0.02, mag: 0.68 },
+    ];
+    matarikiStars = matarikiBase.map(s => ({
+        x: s.x + (rng()-0.5)*0.04, y: s.y + (rng()-0.5)*0.04, mag: s.mag,
+        phase: rng()*Math.PI*2, freq: 0.5 + rng()*1.4,
+    }));
+    for (let i = 0; i < 20; i++) {
+        matarikiStars.push({ x: (rng()-0.5)*1.4, y: (rng()-0.5)*1.4, mag: 0.25+rng()*0.25, phase: rng()*Math.PI*2, freq: 0.6+rng()*1.6 });
+    }
+}
+
+function buildTexture() {
+    const key = `${params.texture}|${canvasSize.w}x${canvasSize.h}|${params.seed}`;
+    if (textureKey === key) return;
+    textureKey = key;
+    const c = document.createElement('canvas');
+    c.width = canvasSize.w; c.height = canvasSize.h;
+    const ctx = c.getContext('2d');
+    const r = mulberry32(params.seed ^ 0x9e3779b9);
+
+    if (params.texture === 'grain') {
+        const img = ctx.createImageData(c.width, c.height);
+        for (let i = 0; i < img.data.length; i += 4) {
+            const v = (r() - 0.5) * 40;
+            img.data[i] = 128 + v; img.data[i+1] = 128 + v;
+            img.data[i+2] = 128 + v; img.data[i+3] = 60 + r() * 40;
+        }
+        ctx.putImageData(img, 0, 0);
+    } else if (params.texture === 'paper') {
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0,0,c.width,c.height);
+        for (let i = 0; i < 6000; i++) {
+            const x = r()*c.width, y = r()*c.height, l = 2+r()*40, a = r()*Math.PI;
+            ctx.strokeStyle = `rgba(120,120,100,${0.02+r()*0.04})`;
+            ctx.lineWidth = 0.4;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + Math.cos(a)*l, y + Math.sin(a)*l);
+            ctx.stroke();
+        }
+    } else if (params.texture === 'halftone') {
+        const step = 14;
+        for (let y = 0; y < c.height; y += step) {
+            for (let x = 0; x < c.width; x += step) {
+                const d = 1 + r() * 2.2;
+                ctx.fillStyle = `rgba(0,0,0,0.16)`;
+                ctx.beginPath();
+                ctx.arc(x + step/2, y + step/2, d, 0, Math.PI*2);
+                ctx.fill();
+            }
+        }
+    } else if (params.texture === 'weave') {
+        const step = 10;
+        ctx.strokeStyle = 'rgba(44,74,77,0.18)';
+        ctx.lineWidth = 0.8;
+        for (let y = 0; y < c.height; y += step) {
+            for (let x = 0; x < c.width; x += step) {
+                ctx.beginPath();
+                ctx.moveTo(x, y); ctx.lineTo(x + step, y + step);
+                ctx.moveTo(x + step, y); ctx.lineTo(x, y + step);
+                ctx.stroke();
+            }
+        }
+    } else if (params.texture === 'whenua') {
+        // earth — blotchy, clay-like
+        for (let i = 0; i < 800; i++) {
+            const x = r()*c.width, y = r()*c.height, rad = 20+r()*120;
+            const g = ctx.createRadialGradient(x,y,0,x,y,rad);
+            const alpha = 0.04 + r()*0.08;
+            g.addColorStop(0, `rgba(80,55,30,${alpha})`);
+            g.addColorStop(1, 'rgba(80,55,30,0)');
+            ctx.fillStyle = g;
+            ctx.fillRect(x-rad, y-rad, rad*2, rad*2);
+        }
+    }
+    textureCanvas = c;
+}
+
+/* --- setup / resize / loop --- */
+function setup() {
+    const wrap = document.getElementById('canvasWrap');
+    canvasSize.w = wrap.clientWidth;
+    canvasSize.h = wrap.clientHeight;
+    const c = createCanvas(canvasSize.w, canvasSize.h);
+    c.parent('canvasWrap');
+    pixelDensity(Math.min(2, window.devicePixelRatio || 1));
+    buildField();
+    buildTexture();
+}
+
+function windowResized() {
+    const wrap = document.getElementById('canvasWrap');
+    canvasSize.w = wrap.clientWidth;
+    canvasSize.h = wrap.clientHeight;
+    resizeCanvas(canvasSize.w, canvasSize.h);
+    buildField();
+    textureKey = '';
+    buildTexture();
+}
+
+let tNow = 0;
+function draw() {
+    if (!params.paused) tNow += 0.016 * params.speed;
+    const t = tNow;
+
+    if (params.parallax) {
+        const tx = (mouseX - canvasSize.w / 2) * 0.04;
+        const ty = (mouseY - canvasSize.h / 2) * 0.03;
+        parX += (tx - parX) * 0.08;
+        parY += (ty - parY) * 0.08;
+    } else { parX *= 0.9; parY *= 0.9; }
+
+    renderScene(t);
+}
+
+function renderScene(t) {
+    drawBackgroundGradient();
+    drawTextureLayer();
+    drawBokeh(t);
+    drawGroundPlane();
+
+    const cx = canvasSize.w * 0.5 + parX * 0.4;
+    const cy = canvasSize.h * 0.5 + parY * 0.3;
+
+    drawOrbShadow(cx, cy);
+    drawOrb(cx, cy, t);
+    drawConceptEtching(cx, cy, t);
+    drawInnerSparkles(cx, cy, t);
+    drawRimHighlights(cx, cy, t);
+    drawForegroundSparkle(t);
+    drawVignette();
+    drawTextOverlay();
+}
+
+/* --- background --- */
+function drawBackgroundGradient() {
+    const top = hex(params.bgTop), bot = hex(params.bgBottom);
+    for (let y = 0; y < canvasSize.h; y += 2) {
+        const f = y / canvasSize.h;
+        const c = mix(top, bot, f);
+        stroke(c[0], c[1], c[2]);
+        line(0, y, canvasSize.w, y);
+    }
+    noStroke();
+}
+
+function drawTextureLayer() {
+    if (params.texture === 'none' || !textureCanvas) return;
+    drawingContext.save();
+    drawingContext.globalAlpha = params.textureStrength;
+    drawingContext.globalCompositeOperation = 'multiply';
+    drawingContext.drawImage(textureCanvas, 0, 0);
+    drawingContext.restore();
+}
+
+function drawBokeh(t) {
+    const mid = hex(params.orbMidColor), aq = hex(params.orbLightColor);
+    for (const p of bokeh) {
+        const pulse = 0.6 + 0.4 * Math.sin(t * p.freq + p.phase);
+        const alpha = p.alpha * pulse;
+        const col = mix(mid, aq, p.hue);
+        const x = (p.x + t * p.drift.x * 60) % canvasSize.w;
+        const y = (p.y + t * p.drift.y * 60 + canvasSize.h * 2) % canvasSize.h;
+        noStroke();
+        for (let i = 3; i >= 1; i--) {
+            fill(col[0], col[1], col[2], alpha * 255 / (i * i));
+            circle(x, y, p.r * i * 2.4);
+        }
+        fill(255, 255, 255, alpha * 160);
+        circle(x, y, p.r);
+    }
+}
+
+function drawGroundPlane() {
+    if (params.groundStrength <= 0) return;
+    const y0 = canvasSize.h * 0.74;
+    const bot = hex(params.bgBottom);
+    const deep = hex(params.orbDeepColor);
+    for (let y = y0; y < canvasSize.h; y += 1) {
+        const f = (y - y0) / (canvasSize.h - y0);
+        const c = mix(bot, deep, f * 0.4 * params.groundStrength);
+        stroke(c[0], c[1], c[2], 220);
+        line(0, y, canvasSize.w, y);
+    }
+    noStroke();
+}
+
+function drawOrbShadow(cx, cy) {
+    const sr = params.orbRadius * 1.15;
+    const sy = cy + params.orbRadius * 0.85;
+    const deep = hex(params.orbDeepColor);
+    noStroke();
+    for (let i = 12; i > 0; i--) {
+        fill(deep[0], deep[1], deep[2], 80 / i);
+        ellipse(cx, sy, sr * (1.05 + i * 0.03), sr * 0.22);
+    }
+}
+
+/* --- orb --- */
+function drawOrb(cx, cy, t) {
+    const r = params.orbRadius;
+    const lt = hex(params.orbLightColor);
+    const md = hex(params.orbMidColor);
+    const dp = hex(params.orbDeepColor);
+
+    // Outer glow breathing
+    const glow = (0.85 + 0.15 * Math.sin(t * 0.6)) * params.glowIntensity;
+    for (let i = 30; i > 0; i--) {
+        const k = i / 30;
+        const a = (1 - k) * 22 * glow;
+        fill(md[0], md[1], md[2], a);
+        circle(cx, cy, r * 2 * (1 + k * 0.4));
+    }
+
+    // Glass sphere body
+    const amb = params.ambient;
+    const bg = drawingContext.createRadialGradient(
+        cx - r * 0.3, cy - r * 0.4, r * 0.2, cx, cy, r * 1.1
+    );
+    bg.addColorStop(0.0, rgba(lt, 0.85 + amb * 0.15));
+    bg.addColorStop(0.35, rgba(md, 0.75));
+    bg.addColorStop(0.75, rgba(mix(md, dp, 0.5), 0.68));
+    bg.addColorStop(1.0, rgba(dp, 0.75));
+    drawingContext.fillStyle = bg;
+    circle(cx, cy, r * 2);
+
+    const core = drawingContext.createRadialGradient(cx, cy, r * 0.1, cx, cy, r * 0.98);
+    core.addColorStop(0.0, rgba(mix(lt, md, 0.5), 0.22));
+    core.addColorStop(0.6, rgba(dp, 0.05));
+    core.addColorStop(1.0, rgba(dp, 0.55));
+    drawingContext.fillStyle = core;
+    circle(cx, cy, r * 2);
+
+    // Specular highlight
+    const si = params.specularIntensity;
+    const hx = cx - r * (0.35 + 0.02 * Math.sin(t * 0.5));
+    const hy = cy - r * (0.42 + 0.02 * Math.cos(t * 0.37));
+    const spec = drawingContext.createRadialGradient(hx, hy, 2, hx, hy, r * 0.55);
+    spec.addColorStop(0, `rgba(255,255,255,${0.85 * si})`);
+    spec.addColorStop(0.4, `rgba(255,255,255,${0.2 * si})`);
+    spec.addColorStop(1, 'rgba(255,255,255,0)');
+    drawingContext.fillStyle = spec;
+    circle(hx, hy, r * 1.0);
+}
+
+/* --- etching dispatcher --- */
+function drawConceptEtching(cx, cy, t) {
+    push();
+    translate(cx, cy);
+    rotate(t * 0.05 * params.etchRotation);
+    const alpha = 155 * params.etchingDepth;
+    const col = hex(params.etchColor);
+    const accent = hex(params.accentColor);
+    switch (params.concept) {
+        case 'koru':        drawKoru(t, col, accent, alpha); break;
+        case 'doubleKoru':  drawDoubleKoru(t, col, accent, alpha); break;
+        case 'tripleKoru':  drawTripleKoru(t, col, accent, alpha); break;
+        case 'poutama':     drawPoutama(t, col, accent, alpha); break;
+        case 'nihoTaniwha': drawNihoTaniwha(t, col, accent, alpha); break;
+        case 'taniko':      drawTaniko(t, col, accent, alpha); break;
+        case 'frond':       drawFrond(t, col, accent, alpha); break;
+        case 'matariki':    drawMatariki(t, col, accent, alpha); break;
+        case 'kowhaiwhai':  drawKowhaiwhai(t, col, accent, alpha); break;
+        case 'rangi':       drawRangi(t, col, accent, alpha); break;
+        case 'awaAwa':      drawAwaAwa(t, col, accent, alpha); break;
+        case 'punawai':     drawPunawai(t, col, accent, alpha); break;
+    }
+    pop();
+}
+
+function drawKoru(t, c, ac, alpha) {
+    const R = params.orbRadius * 0.7;
+    const unfurl = 0.85 + 0.15 * Math.sin(t * 0.3);
+    const turns = 4.25, growth = 1.18, steps = 480;
+    noFill();
+    for (let pass = 0; pass < 3; pass++) {
+        stroke(c[0], c[1], c[2], alpha / (pass + 1));
+        strokeWeight(2.2 - pass * 0.5);
+        beginShape();
+        for (let i = 0; i <= steps; i++) {
+            const theta = (i / steps) * turns * Math.PI * 2;
+            const rad = 0.02 * Math.pow(growth, theta) * R * unfurl;
+            if (rad > R) break;
+            vertex(Math.cos(theta) * rad, Math.sin(theta) * rad);
+        }
+        endShape();
+    }
+    const endT = turns * Math.PI * 2;
+    const endR = Math.min(R, 0.02 * Math.pow(growth, endT) * R * unfurl);
+    const bx = Math.cos(endT) * endR, by = Math.sin(endT) * endR;
+    noStroke();
+    fill(c[0], c[1], c[2], alpha * 0.9); circle(bx, by, 14);
+    fill(ac[0], ac[1], ac[2], alpha * 0.6); circle(bx, by, 6);
+    stroke(c[0], c[1], c[2], alpha * 0.6);
+    strokeWeight(1);
+    for (let i = 30; i < steps; i += 24) {
+        const theta = (i / steps) * turns * Math.PI * 2;
+        const rad = 0.02 * Math.pow(growth, theta) * R * unfurl;
+        if (rad > R) break;
+        const nx = Math.cos(theta + Math.PI / 2), ny = Math.sin(theta + Math.PI / 2);
+        const x = Math.cos(theta) * rad, y = Math.sin(theta) * rad;
+        line(x, y, x + nx * 4, y + ny * 4);
+    }
+}
+
+function drawDoubleKoru(t, c, ac, alpha) {
+    const R = params.orbRadius * 0.68, turns = 3.4, growth = 1.22, steps = 360;
+    noFill();
+    for (let k = 0; k < 2; k++) {
+        const sign = k === 0 ? 1 : -1, phase = k * Math.PI;
+        stroke(c[0], c[1], c[2], alpha);
+        strokeWeight(1.8);
+        beginShape();
+        for (let i = 0; i <= steps; i++) {
+            const theta = (i / steps) * turns * Math.PI * 2;
+            const rad = 0.025 * Math.pow(growth, theta) * R;
+            if (rad > R) break;
+            const a = theta * sign + phase + t * 0.04 * sign;
+            vertex(Math.cos(a) * rad, Math.sin(a) * rad);
+        }
+        endShape();
+    }
+    noStroke();
+    fill(ac[0], ac[1], ac[2], alpha * 0.8); circle(0, 0, 10);
+    fill(c[0], c[1], c[2], alpha); circle(0, 0, 5);
+}
+
+function drawTripleKoru(t, c, ac, alpha) {
+    const R = params.orbRadius * 0.68, turns = 2.6, growth = 1.25, steps = 260;
+    for (let k = 0; k < 3; k++) {
+        push();
+        rotate((k / 3) * Math.PI * 2 + t * 0.03);
+        noFill();
+        stroke(c[0], c[1], c[2], alpha); strokeWeight(1.6);
+        beginShape();
+        for (let i = 0; i <= steps; i++) {
+            const theta = (i / steps) * turns * Math.PI * 2;
+            const rad = 0.03 * Math.pow(growth, theta) * R;
+            if (rad > R) break;
+            vertex(Math.cos(theta) * rad, Math.sin(theta) * rad);
+        }
+        endShape();
+        pop();
+    }
+    noStroke();
+    fill(ac[0], ac[1], ac[2], alpha * 0.9); circle(0, 0, 10);
+}
+
+function drawPoutama(t, c, ac, alpha) {
+    const R = params.orbRadius * 0.72;
+    const steps = 7, step = R / (steps + 1);
+    const wobble = Math.sin(t * 0.4) * 2;
+    stroke(c[0], c[1], c[2], alpha); strokeWeight(2); noFill();
+    for (let q = 0; q < 4; q++) {
+        push(); rotate(q * Math.PI / 2 + t * 0.02);
+        beginShape();
+        for (let i = 0; i <= steps; i++) {
+            const x = i * step + wobble, y = -i * step;
+            vertex(x, y); vertex(x + step, y); vertex(x + step, y - step);
+        }
+        endShape(); pop();
+    }
+    noStroke();
+    for (let q = 0; q < 4; q++) {
+        push(); rotate(q * Math.PI / 2 + t * 0.02);
+        for (let i = 1; i <= steps; i++) {
+            const pulse = 0.5 + 0.5 * Math.sin(t * 1.2 + i * 0.6 + q);
+            fill(ac[0], ac[1], ac[2], alpha * pulse);
+            rect(i * step - 3, -i * step - 3, 6, 6);
+        }
+        pop();
+    }
+}
+
+function drawNihoTaniwha(t, c, ac, alpha) {
+    const R = params.orbRadius * 0.72, rings = 4;
+    stroke(c[0], c[1], c[2], alpha); strokeWeight(1.6); noFill();
+    for (let ring = 1; ring <= rings; ring++) {
+        const rad = (ring / rings) * R;
+        const teeth = 8 + ring * 4;
+        const breathe = Math.sin(t * 0.5 + ring) * 3;
+        beginShape();
+        for (let i = 0; i <= teeth * 2; i++) {
+            const a = (i / (teeth * 2)) * Math.PI * 2 + t * 0.02 * (ring % 2 ? 1 : -1);
+            const r = rad + (i % 2 === 0 ? -6 : 6) + breathe * (i % 2 === 0 ? -0.5 : 0.5);
+            vertex(Math.cos(a) * r, Math.sin(a) * r);
+        }
+        endShape(CLOSE);
+    }
+    noStroke();
+    fill(ac[0], ac[1], ac[2], alpha * 0.8); circle(0, 0, 8);
+}
+
+function drawTaniko(t, c, ac, alpha) {
+    const R = params.orbRadius * 0.72, gridN = 10, cell = (R * 2) / gridN;
+    push(); rotate(Math.PI / 4);
+    for (let i = -gridN; i <= gridN; i++) {
+        for (let j = -gridN; j <= gridN; j++) {
+            const x = i * cell * 0.7, y = j * cell * 0.7;
+            const d = Math.sqrt(x*x + y*y);
+            if (d > R * 0.95) continue;
+            const phase = (i + j) * 0.5 + t * 0.6;
+            const pulse = 0.45 + 0.55 * Math.sin(phase);
+            const s = cell * 0.35 * (0.6 + pulse * 0.4);
+            noStroke();
+            const col = mix(c, ac, (i+j+gridN*2) / (gridN*4));
+            fill(col[0], col[1], col[2], alpha * pulse * 0.9);
+            push(); translate(x, y); rotate(Math.PI / 4);
+            rect(-s/2, -s/2, s, s);
+            pop();
+        }
+    }
+    pop();
+}
+
+function drawFrond(t, c, ac, alpha) {
+    const R = params.orbRadius * 0.72, main = 160;
+    stroke(c[0], c[1], c[2], alpha); strokeWeight(1.8); noFill();
+    beginShape();
+    for (let i = 0; i <= main; i++) {
+        const theta = (i / main) * Math.PI * 3.2;
+        const rad = 0.03 * Math.pow(1.18, theta) * R;
+        if (rad > R) break;
+        vertex(Math.cos(theta) * rad, Math.sin(theta) * rad);
+    }
+    endShape();
+    for (let i = 12; i < main; i += 10) {
+        const theta = (i / main) * Math.PI * 3.2;
+        const rad = 0.03 * Math.pow(1.18, theta) * R;
+        if (rad > R) continue;
+        const x = Math.cos(theta) * rad, y = Math.sin(theta) * rad;
+        const sLen = 2 + i * 0.06;
+        const unfurl = 0.6 + 0.4 * Math.sin(t * 0.6 + i * 0.15);
+        push(); translate(x, y); rotate(theta + Math.PI / 2);
+        noFill();
+        stroke(c[0], c[1], c[2], alpha * 0.85); strokeWeight(1);
+        beginShape();
+        for (let k = 0; k <= 24; k++) {
+            const tt = (k / 24) * Math.PI * 1.8 * unfurl;
+            const rr = 0.08 * Math.pow(1.2, tt) * sLen;
+            vertex(Math.cos(tt) * rr, Math.sin(tt) * rr);
+        }
+        endShape(); pop();
+    }
+}
+
+function drawMatariki(t, c, ac, alpha) {
+    const R = params.orbRadius * 0.75;
+    for (const s of matarikiStars) {
+        const twinkle = 0.3 + 0.7 * Math.abs(Math.sin(t * s.freq + s.phase));
+        const x = s.x * R, y = s.y * R;
+        const size = s.mag * 6 * (0.7 + twinkle * 0.3);
+        noStroke();
+        for (let i = 4; i >= 1; i--) {
+            fill(c[0], c[1], c[2], alpha * twinkle * 0.15 / i);
+            circle(x, y, size * i * 2.2);
+        }
+        stroke(c[0], c[1], c[2], alpha * twinkle); strokeWeight(0.8);
+        const flare = size * 2.2;
+        line(x - flare, y, x + flare, y);
+        line(x, y - flare, x, y + flare);
+        noStroke();
+        fill(255, 255, 255, alpha * twinkle); circle(x, y, size * 0.9);
+    }
+    stroke(ac[0], ac[1], ac[2], alpha * 0.16); strokeWeight(0.6);
+    const main = matarikiStars.slice(0, 9);
+    for (let i = 0; i < main.length - 1; i++) line(main[i].x * R, main[i].y * R, main[i+1].x * R, main[i+1].y * R);
+}
+
+function drawKowhaiwhai(t, c, ac, alpha) {
+    const R = params.orbRadius * 0.74, scrolls = 5;
+    noFill();
+    for (let s = 0; s < scrolls; s++) {
+        push(); rotate((s / scrolls) * Math.PI * 2 + t * 0.04);
+        stroke(c[0], c[1], c[2], alpha); strokeWeight(1.6);
+        beginShape();
+        for (let i = 0; i <= 60; i++) {
+            const tt = (i / 60) * Math.PI * 1.5;
+            const r = R * 0.85;
+            vertex(Math.cos(tt) * r, Math.sin(tt) * r);
+        }
+        endShape();
+        beginShape();
+        for (let i = 0; i <= 80; i++) {
+            const theta = (i / 80) * Math.PI * 2.4;
+            const rad = 0.04 * Math.pow(1.17, theta) * R * 0.7;
+            vertex(R * 0.5 + Math.cos(theta) * rad, Math.sin(theta) * rad);
+        }
+        endShape();
+        noStroke();
+        fill(ac[0], ac[1], ac[2], alpha * 0.85); circle(R * 0.5, 0, 8);
+        pop();
+    }
+}
+
+function drawRangi(t, c, ac, alpha) {
+    const R = params.orbRadius * 0.78, rays = 24;
+    const pulse = 0.85 + 0.15 * Math.sin(t * 0.8);
+    stroke(c[0], c[1], c[2], alpha); strokeWeight(1.2);
+    for (let i = 0; i < rays; i++) {
+        const a = (i / rays) * Math.PI * 2 + t * 0.03;
+        const inner = R * 0.15;
+        const outer = R * (0.75 + 0.08 * Math.sin(t * 1.1 + i * 0.3));
+        line(Math.cos(a) * inner, Math.sin(a) * inner, Math.cos(a) * outer, Math.sin(a) * outer);
+    }
+    noFill();
+    for (let r = 1; r <= 4; r++) {
+        stroke(c[0], c[1], c[2], alpha * (0.9 - r * 0.15));
+        strokeWeight(1);
+        circle(0, 0, (R * 0.2 * r) * 2);
+    }
+    noStroke();
+    for (let i = 6; i >= 1; i--) {
+        fill(ac[0], ac[1], ac[2], alpha * pulse * 0.2 / i);
+        circle(0, 0, 30 * i);
+    }
+    fill(c[0], c[1], c[2], alpha);
+    circle(0, 0, 14);
+}
+
+function drawAwaAwa(t, c, ac, alpha) {
+    const R = params.orbRadius * 0.75, streams = 7, steps = 140;
+    noFill();
+    for (let s = 0; s < streams; s++) {
+        const offset = (s - (streams - 1) / 2) * 14;
+        const amp = 16 + s * 2;
+        const phase = s * 0.7 + t * 0.6;
+        stroke(c[0], c[1], c[2], alpha * (0.4 + 0.6 * (1 - Math.abs(offset) / 50)));
+        strokeWeight(1.3);
+        beginShape();
+        for (let i = 0; i <= steps; i++) {
+            const f = i / steps;
+            const x = (f - 0.5) * R * 1.6;
+            const y = offset + Math.sin(f * Math.PI * 3.2 + phase) * amp * (1 - Math.abs(f - 0.5) * 1.2);
+            if (Math.sqrt(x*x + y*y) > R * 0.95) continue;
+            vertex(x, y);
+        }
+        endShape();
+    }
+    noStroke();
+    for (let i = 0; i < 20; i++) {
+        const f = ((i / 20) + t * 0.1) % 1;
+        const s = (i % streams);
+        const offset = (s - (streams - 1) / 2) * 14;
+        const amp = 16 + s * 2;
+        const phase = s * 0.7 + t * 0.6;
+        const x = (f - 0.5) * R * 1.6;
+        const y = offset + Math.sin(f * Math.PI * 3.2 + phase) * amp * (1 - Math.abs(f - 0.5) * 1.2);
+        if (Math.sqrt(x*x + y*y) > R * 0.95) continue;
+        fill(ac[0], ac[1], ac[2], alpha);
+        circle(x, y, 2.2);
+    }
+}
+
+function drawPunawai(t, c, ac, alpha) {
+    const R = params.orbRadius * 0.78, rings = 14;
+    noFill();
+    for (let i = 0; i < rings; i++) {
+        const phase = t * 0.8 - i * 0.45;
+        const expand = (phase % 6 + 6) % 6 / 6;
+        const rad = expand * R;
+        const a = Math.max(0, (1 - expand)) * alpha;
+        stroke(c[0], c[1], c[2], a); strokeWeight(1.4);
+        circle(0, 0, rad * 2);
+    }
+    noStroke();
+    for (let i = 5; i >= 1; i--) {
+        fill(ac[0], ac[1], ac[2], alpha * 0.3 / i);
+        circle(0, 0, 24 * i);
+    }
+    fill(c[0], c[1], c[2], alpha); circle(0, 0, 10);
+}
+
+function drawInnerSparkles(cx, cy, t) {
+    noStroke();
+    for (const s of sparkles) {
+        const angle = s.angle + s.drift * t * 60;
+        const x = cx + Math.cos(angle) * s.dist;
+        const y = cy + Math.sin(angle) * s.dist;
+        const twinkle = 0.4 + 0.6 * Math.abs(Math.sin(t * s.freq + s.phase));
+        const alpha = s.alpha * twinkle * 255 * params.shimmer * 1.2;
+        for (let i = 3; i >= 1; i--) { fill(255, 255, 255, alpha / (i * i)); circle(x, y, s.size * i * 2); }
+        fill(255, 255, 255, alpha); circle(x, y, s.size);
+    }
+}
+
+function drawRimHighlights(cx, cy, t) {
+    const r = params.orbRadius;
+    const s = params.shimmer * params.rimIntensity;
+    push(); translate(cx, cy);
+    rotate(Math.sin(t * 0.25) * 0.12);
+    noFill();
+    stroke(255, 255, 255, 230 * s); strokeWeight(2.4);
+    arc(0, 0, r * 2 - 8, r * 2 - 8, -Math.PI * 0.85, -Math.PI * 0.45);
+    stroke(255, 255, 255, 140 * s); strokeWeight(1.2);
+    arc(0, 0, r * 2 - 18, r * 2 - 18, -Math.PI * 0.95, -Math.PI * 0.38);
+    stroke(255, 255, 255, 90 * s); strokeWeight(1);
+    arc(0, 0, r * 2 - 10, r * 2 - 10, Math.PI * 0.25, Math.PI * 0.55);
+    pop();
+}
+
+function drawForegroundSparkle(t) {
+    for (const s of fgSparkles) {
+        const twinkle = Math.max(0, Math.sin(t * s.freq + s.phase));
+        if (twinkle < 0.2) continue;
+        const a = twinkle * 255;
+        noStroke(); fill(255, 255, 255, a); circle(s.x, s.y, s.r);
+        stroke(255, 255, 255, a * 0.6); strokeWeight(0.6);
+        line(s.x - s.r * 3, s.y, s.x + s.r * 3, s.y);
+        line(s.x, s.y - s.r * 3, s.x, s.y + s.r * 3);
+    }
+}
+
+function drawVignette() {
+    if (params.vignette <= 0) return;
+    const dp = hex(params.orbDeepColor);
+    const g = drawingContext.createRadialGradient(
+        canvasSize.w / 2, canvasSize.h / 2, canvasSize.w * 0.4,
+        canvasSize.w / 2, canvasSize.h / 2, canvasSize.w * 0.9
+    );
+    g.addColorStop(0, `rgba(${dp[0]},${dp[1]},${dp[2]},0)`);
+    g.addColorStop(1, `rgba(${dp[0]},${dp[1]},${dp[2]},${params.vignette})`);
+    drawingContext.fillStyle = g;
+    rect(0, 0, canvasSize.w, canvasSize.h);
+}
+
+/* --- text overlay --- */
+function drawTextOverlay() {
+    if (!params.showText) return;
+    const c = hex(params.textColor);
+    drawingContext.fillStyle = rgba(c, 0.95);
+    drawingContext.textBaseline = 'alphabetic';
+
+    // scale title size relative to canvas width (reference 1200px)
+    const scale = canvasSize.w / 1200;
+    const titleSize = params.titleSize * scale;
+    const subtitleSize = Math.max(14, titleSize * 0.32);
+
+    let x = canvasSize.w / 2, y = canvasSize.h * 0.85;
+    let align = 'center';
+
+    switch (params.textPosition) {
+        case 'top-center':    x = canvasSize.w/2; y = canvasSize.h*0.15; align='center'; break;
+        case 'bottom-center': x = canvasSize.w/2; y = canvasSize.h*0.88; align='center'; break;
+        case 'center':        x = canvasSize.w/2; y = canvasSize.h*0.5;  align='center'; break;
+        case 'bottom-left':   x = 60 * scale;     y = canvasSize.h*0.85; align='left';   break;
+        case 'top-left':      x = 60 * scale;     y = canvasSize.h*0.15; align='left';   break;
+    }
+    drawingContext.textAlign = align;
+
+    if (params.title) {
+        drawingContext.font = `500 ${titleSize}px "Cormorant Garamond", "EB Garamond", serif`;
+        drawingContext.fillText(params.title, x, y);
+    }
+    if (params.subtitle) {
+        drawingContext.fillStyle = rgba(c, 0.72);
+        drawingContext.font = `italic 400 ${subtitleSize}px "EB Garamond", "Lora", serif`;
+        drawingContext.fillText(params.subtitle, x, y + titleSize * 0.55);
+    }
+    if (params.showBrandmark) {
+        drawingContext.fillStyle = rgba(hex(params.orbDeepColor), 0.7);
+        drawingContext.textAlign = 'left';
+        drawingContext.font = `500 ${18 * scale}px "Cormorant Garamond", serif`;
+        drawingContext.fillText('Assembl', 32 * scale, 40 * scale);
+    }
+}
+
+/* =========================================================================
+   EXPORT
+   ========================================================================= */
+const ASPECT_SIZES = {
+    current:   null,
+    square:    [1080, 1080],
+    portrait:  [1080, 1350],
+    story:     [1080, 1920],
+    landscape: [1600, 900],
+    linkedin:  [1200, 627],
+    facebook:  [1200, 630],
+    wallpaper: [2560, 1440],
+};
+
+async function doExport() {
+    const size = ASPECT_SIZES[params.aspect];
+    const w = size ? size[0] : canvasSize.w;
+    const h = size ? size[1] : canvasSize.h;
+    const filenameBase = `assembl-${params.concept}-${params.paletteId}-${params.seed}-${w}x${h}`;
+
+    if (params.format === 'png') {
+        await exportPNG(w, h, filenameBase);
+    } else if (params.format === 'webm') {
+        await exportVideo(w, h, filenameBase);
+    }
+}
+
+async function exportPNG(w, h, filename) {
+    // save current state
+    const prev = { w: canvasSize.w, h: canvasSize.h };
+    const wasPaused = params.paused;
+    params.paused = true;
+
+    canvasSize.w = w; canvasSize.h = h;
+    resizeCanvas(w, h, true);
+    buildField();
+    textureKey = ''; buildTexture();
+
+    // render twice to settle parallax and ensure text is on top
+    renderScene(tNow);
+    renderScene(tNow);
+
+    // download
+    const a = document.createElement('a');
+    a.download = filename + '.png';
+    a.href = document.querySelector('#canvasWrap canvas').toDataURL('image/png');
+    a.click();
+
+    // restore
+    canvasSize.w = prev.w; canvasSize.h = prev.h;
+    resizeCanvas(prev.w, prev.h, true);
+    buildField();
+    textureKey = ''; buildTexture();
+    params.paused = wasPaused;
+}
+
+async function exportVideo(w, h, filename) {
+    const prev = { w: canvasSize.w, h: canvasSize.h };
+
+    canvasSize.w = w; canvasSize.h = h;
+    resizeCanvas(w, h, true);
+    buildField();
+    textureKey = ''; buildTexture();
+
+    // animate for N seconds
+    const canvasEl = document.querySelector('#canvasWrap canvas');
+    const stream = canvasEl.captureStream(30);
+
+    const mimeCandidates = [
+        'video/webm;codecs=vp9',
+        'video/webm;codecs=vp8',
+        'video/webm',
+    ];
+    let mime = '';
+    for (const m of mimeCandidates) if (MediaRecorder.isTypeSupported(m)) { mime = m; break; }
+
+    const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8_000_000 });
+    const chunks = [];
+    rec.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
+
+    const status = document.getElementById('recordStatus');
+    status.classList.add('active');
+
+    await new Promise(resolve => {
+        rec.onstop = () => {
+            const blob = new Blob(chunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = filename + '.webm'; a.click();
+            setTimeout(() => URL.revokeObjectURL(url), 2000);
+            resolve();
+        };
+        rec.start();
+        setTimeout(() => rec.stop(), params.duration * 1000);
+    });
+
+    status.classList.remove('active');
+
+    canvasSize.w = prev.w; canvasSize.h = prev.h;
+    resizeCanvas(prev.w, prev.h, true);
+    buildField();
+    textureKey = ''; buildTexture();
+}
+
+/* =========================================================================
+   UI wiring
+   ========================================================================= */
+function buildConceptGrid() {
+    const grid = document.getElementById('conceptGrid');
+    grid.innerHTML = '';
+    for (const c of CONCEPTS) {
+        const btn = document.createElement('button');
+        btn.className = 'concept-btn' + (c.id === params.concept ? ' active' : '');
+        btn.dataset.id = c.id;
+        btn.innerHTML = `${c.name}<span class="maori-name">${c.maori}</span>`;
+        btn.addEventListener('click', () => {
+            params.concept = c.id;
+            document.querySelectorAll('.concept-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateConceptInfo();
+        });
+        grid.appendChild(btn);
+    }
+    updateConceptInfo();
+}
+function updateConceptInfo() {
+    const c = CONCEPTS.find(x => x.id === params.concept);
+    document.getElementById('conceptInfo').textContent = c ? c.note : '';
+}
+
+function buildPalettePresets() {
+    const row = document.getElementById('palettePresets');
+    row.innerHTML = '';
+    for (const p of PALETTE_PRESETS) {
+        const chip = document.createElement('div');
+        chip.className = 'preset-chip' + (p.id === params.paletteId ? ' active' : '');
+        chip.title = p.name;
+        chip.style.background = `linear-gradient(135deg, ${p.colors.bgTop}, ${p.colors.orbMid}, ${p.colors.orbDeep})`;
+        chip.addEventListener('click', () => {
+            applyPalette(p);
+            document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+        });
+        row.appendChild(chip);
+    }
+}
+function applyPalette(p) {
+    params.paletteId = p.id;
+    params.etchColor     = p.colors.etch;
+    params.orbLightColor = p.colors.orbLight;
+    params.orbMidColor   = p.colors.orbMid;
+    params.orbDeepColor  = p.colors.orbDeep;
+    params.accentColor   = p.colors.accent;
+    params.bgTop         = p.colors.bgTop;
+    params.bgBottom      = p.colors.bgBottom;
+    params.textColor     = p.colors.text;
+    // sync inputs
+    document.getElementById('cEtch').value     = p.colors.etch;
+    document.getElementById('cOrbLight').value = p.colors.orbLight;
+    document.getElementById('cOrbMid').value   = p.colors.orbMid;
+    document.getElementById('cOrbDeep').value  = p.colors.orbDeep;
+    document.getElementById('cAccent').value   = p.colors.accent;
+    document.getElementById('cBgTop').value    = p.colors.bgTop;
+    document.getElementById('cBgBottom').value = p.colors.bgBottom;
+    document.getElementById('cText').value     = p.colors.text;
+}
+
+function bindControls() {
+    const $ = id => document.getElementById(id);
+
+    // seed
+    $('seedInput').addEventListener('change', e => { params.seed = parseInt(e.target.value) || 0; buildField(); });
+    $('prevSeedBtn').addEventListener('click', () => { params.seed--; $('seedInput').value = params.seed; buildField(); });
+    $('nextSeedBtn').addEventListener('click', () => { params.seed++; $('seedInput').value = params.seed; buildField(); });
+    $('randomBtn').addEventListener('click', () => { params.seed = Math.floor(Math.random()*99999); $('seedInput').value = params.seed; buildField(); });
+    $('resetBtn').addEventListener('click', () => {
+        params.seed = 7281; params.orbRadius = 280; params.etchingDepth = 0.6;
+        params.bokehCount = 140; params.innerSparkles = 32; params.shimmer = 0.55;
+        params.speed = 1.0; params.etchRotation = 0.5;
+        params.glowIntensity = 1; params.rimIntensity = 1; params.specularIntensity = 1; params.ambient = 0.5;
+        params.texture = 'none'; params.textureStrength = 0.3; params.vignette = 0.18; params.groundStrength = 0.7;
+        applyPalette(PALETTE_PRESETS[0]);
+        syncUI();
+        buildField();
+    });
+
+    // colour pickers
+    $('cEtch').addEventListener('input',     e => params.etchColor = e.target.value);
+    $('cOrbLight').addEventListener('input', e => params.orbLightColor = e.target.value);
+    $('cOrbMid').addEventListener('input',   e => params.orbMidColor = e.target.value);
+    $('cOrbDeep').addEventListener('input',  e => params.orbDeepColor = e.target.value);
+    $('cAccent').addEventListener('input',   e => params.accentColor = e.target.value);
+    $('cBgTop').addEventListener('input',    e => params.bgTop = e.target.value);
+    $('cBgBottom').addEventListener('input', e => params.bgBottom = e.target.value);
+    $('cText').addEventListener('input',     e => params.textColor = e.target.value);
+
+    // light
+    $('glowSlider').addEventListener('input', e => { params.glowIntensity = +e.target.value; $('glowVal').textContent = params.glowIntensity.toFixed(2); });
+    $('rimSlider').addEventListener('input',  e => { params.rimIntensity = +e.target.value;  $('rimVal').textContent = params.rimIntensity.toFixed(2); });
+    $('specSlider').addEventListener('input', e => { params.specularIntensity = +e.target.value; $('specVal').textContent = params.specularIntensity.toFixed(2); });
+    $('ambSlider').addEventListener('input',  e => { params.ambient = +e.target.value; $('ambVal').textContent = params.ambient.toFixed(2); });
+    $('shimmerSlider').addEventListener('input', e => { params.shimmer = +e.target.value; $('shimmerVal').textContent = params.shimmer.toFixed(2); });
+
+    // background
+    $('textureSelect').addEventListener('change', e => { params.texture = e.target.value; textureKey=''; buildTexture(); });
+    $('texSlider').addEventListener('input', e => { params.textureStrength = +e.target.value; $('texVal').textContent = params.textureStrength.toFixed(2); });
+    $('vigSlider').addEventListener('input', e => { params.vignette = +e.target.value; $('vigVal').textContent = params.vignette.toFixed(2); });
+    $('groundSlider').addEventListener('input', e => { params.groundStrength = +e.target.value; $('groundVal').textContent = params.groundStrength.toFixed(2); });
+
+    // motion
+    $('speedSlider').addEventListener('input', e => { params.speed = +e.target.value; $('speedVal').textContent = params.speed.toFixed(2); });
+    $('rotSlider').addEventListener('input', e => { params.etchRotation = +e.target.value; $('rotVal').textContent = params.etchRotation.toFixed(2); });
+    $('pauseCheck').addEventListener('change', e => { params.paused = e.target.checked; });
+    $('parallaxCheck').addEventListener('change', e => { params.parallax = e.target.checked; });
+
+    // orb & field
+    $('radiusSlider').addEventListener('input', e => { params.orbRadius = +e.target.value; $('radiusVal').textContent = params.orbRadius; });
+    $('depthSlider').addEventListener('input', e => { params.etchingDepth = +e.target.value; $('depthVal').textContent = params.etchingDepth.toFixed(2); });
+    $('bokehSlider').addEventListener('input', e => { params.bokehCount = +e.target.value; $('bokehVal').textContent = params.bokehCount; buildField(); });
+    $('sparklesSlider').addEventListener('input', e => { params.innerSparkles = +e.target.value; $('sparklesVal').textContent = params.innerSparkles; buildField(); });
+
+    // text
+    $('showTextCheck').addEventListener('change', e => params.showText = e.target.checked);
+    $('titleInput').addEventListener('input', e => params.title = e.target.value);
+    $('subtitleInput').addEventListener('input', e => params.subtitle = e.target.value);
+    $('textPosSelect').addEventListener('change', e => params.textPosition = e.target.value);
+    $('titleSizeSlider').addEventListener('input', e => { params.titleSize = +e.target.value; $('titleSizeVal').textContent = params.titleSize; });
+    $('brandmarkCheck').addEventListener('change', e => params.showBrandmark = e.target.checked);
+
+    // export
+    $('formatSelect').addEventListener('change', e => {
+        params.format = e.target.value;
+        document.getElementById('durationRow').style.display = e.target.value === 'webm' ? 'block' : 'none';
+    });
+    $('aspectSelect').addEventListener('change', e => params.aspect = e.target.value);
+    $('durSlider').addEventListener('input', e => { params.duration = +e.target.value; $('durVal').textContent = params.duration; });
+    $('exportBtn').addEventListener('click', async () => {
+        $('exportBtn').disabled = true;
+        $('exportBtn').textContent = params.format === 'webm' ? 'Recording…' : 'Rendering…';
+        try { await doExport(); } catch (err) { console.error(err); alert('Export failed: ' + err.message); }
+        $('exportBtn').disabled = false;
+        $('exportBtn').textContent = 'Export';
+    });
+
+    // initial visibility for duration row
+    document.getElementById('durationRow').style.display = 'none';
+}
+
+function syncUI() {
+    const $ = id => document.getElementById(id);
+    $('seedInput').value = params.seed;
+    $('speedSlider').value = params.speed; $('speedVal').textContent = params.speed.toFixed(2);
+    $('rotSlider').value = params.etchRotation; $('rotVal').textContent = params.etchRotation.toFixed(2);
+    $('shimmerSlider').value = params.shimmer; $('shimmerVal').textContent = params.shimmer.toFixed(2);
+    $('radiusSlider').value = params.orbRadius; $('radiusVal').textContent = params.orbRadius;
+    $('depthSlider').value = params.etchingDepth; $('depthVal').textContent = params.etchingDepth.toFixed(2);
+    $('bokehSlider').value = params.bokehCount; $('bokehVal').textContent = params.bokehCount;
+    $('sparklesSlider').value = params.innerSparkles; $('sparklesVal').textContent = params.innerSparkles;
+    $('glowSlider').value = params.glowIntensity; $('glowVal').textContent = params.glowIntensity.toFixed(2);
+    $('rimSlider').value = params.rimIntensity; $('rimVal').textContent = params.rimIntensity.toFixed(2);
+    $('specSlider').value = params.specularIntensity; $('specVal').textContent = params.specularIntensity.toFixed(2);
+    $('ambSlider').value = params.ambient; $('ambVal').textContent = params.ambient.toFixed(2);
+    $('texSlider').value = params.textureStrength; $('texVal').textContent = params.textureStrength.toFixed(2);
+    $('vigSlider').value = params.vignette; $('vigVal').textContent = params.vignette.toFixed(2);
+    $('groundSlider').value = params.groundStrength; $('groundVal').textContent = params.groundStrength.toFixed(2);
+    $('textureSelect').value = params.texture;
+}
+
+window.addEventListener('load', () => {
+    buildConceptGrid();
+    buildPalettePresets();
+    bindControls();
+
+    // p5.js fallback + diagnostic
+    setTimeout(() => {
+        if (typeof window.p5 === 'undefined') {
+            const wrap = document.getElementById('canvasWrap');
+            if (wrap) {
+                wrap.innerHTML = `
+                  <div style="padding:40px;max-width:480px;text-align:center;font-family:'Cormorant Garamond',serif;color:#2c4a4d">
+                    <h2 style="font-size:28px;margin-bottom:14px">Canvas couldn't start</h2>
+                    <p style="font-family:'EB Garamond',serif;font-size:16px;line-height:1.6;margin-bottom:12px">
+                      The p5.js library failed to load from all three CDNs (Cloudflare, jsdelivr, unpkg).
+                      This usually means a network restriction or an ad-blocker is interfering.
+                    </p>
+                    <p style="font-family:'EB Garamond',serif;font-size:14px;font-style:italic;color:#5a9a8f">
+                      Try: disabling extensions, checking your connection, or opening in an incognito window.
+                    </p>
+                  </div>`;
+                wrap.style.display = 'flex';
+                wrap.style.alignItems = 'center';
+                wrap.style.justifyContent = 'center';
+            }
+            return;
+        }
+        // p5 is loaded — if it didn't auto-init (rare), kick it manually
+        if (!document.querySelector('#canvasWrap canvas')) {
+            try { new p5(); } catch (err) { console.error('Manual p5 init failed:', err); }
+        }
+    }, 1500);
+});
+</script>
+</body>
+</html>
