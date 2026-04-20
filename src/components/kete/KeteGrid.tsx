@@ -17,7 +17,7 @@ const KeteGrid: React.FC = () => {
         style={{
           fontFamily: "'Lato', sans-serif",
           fontWeight: 300,
-          color: "rgba(255,255,255,0.8)",
+          color: "#3D4250",
         }}
       >
         {title}
@@ -49,29 +49,14 @@ const KeteGrid: React.FC = () => {
         description="Five industry-specific kete plus a shared core platform — built in Aotearoa, grounded in NZ legislation."
       />
       <div className="kete-grid-wrapper relative w-full max-w-[1400px] mx-auto px-6 md:px-8 py-16 md:py-20">
-        {/* Starfield */}
-        <div
-          className="fixed inset-0 pointer-events-none -z-10"
-          style={{
-            backgroundImage:
-              "radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.2), transparent)," +
-              "radial-gradient(2px 2px at 60px 70px, rgba(255,255,255,0.15), transparent)," +
-              "radial-gradient(1px 1px at 50px 50px, rgba(255,255,255,0.25), transparent)," +
-              "radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.2), transparent)," +
-              "radial-gradient(2px 2px at 90px 10px, rgba(255,255,255,0.1), transparent)",
-            backgroundRepeat: "repeat",
-            backgroundSize: "200px 200px",
-          }}
-        />
-
         {/* Header */}
         <header className="text-center mb-20">
           <p
             className="text-xs tracking-[6px] uppercase mb-3"
             style={{
               fontFamily: "'Lato', sans-serif",
-              fontWeight: 300,
-              color: "rgba(255,255,255,0.5)",
+              fontWeight: 400,
+              color: "#4AA5A8",
             }}
           >
             He Kete Mātauranga
@@ -81,7 +66,7 @@ const KeteGrid: React.FC = () => {
             style={{
               fontFamily: "'Lato', sans-serif",
               fontWeight: 300,
-              background: "linear-gradient(135deg, #3A7D6E 0%, #7ECFC2 100%)",
+              background: "linear-gradient(135deg, #3A7D6E 0%, #4AA5A8 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}
@@ -92,7 +77,7 @@ const KeteGrid: React.FC = () => {
             className="text-base max-w-[600px] mx-auto leading-relaxed"
             style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
-              color: "rgba(255,255,255,0.65)",
+              color: "#5A6270",
             }}
           >
             Five industry kete plus a shared core platform, built for Aotearoa. Each kete brings together specialist workflows, templates, and policy guidance for its domain.
@@ -105,10 +90,11 @@ const KeteGrid: React.FC = () => {
 
         {/* Footer stat line */}
         <div
-          className="flex justify-center items-center gap-3 mt-24 pt-10 border-t border-white/[0.05] text-sm tracking-[3px] uppercase"
+          className="flex justify-center items-center gap-3 mt-24 pt-10 text-sm tracking-[3px] uppercase"
           style={{
             fontFamily: "'JetBrains Mono', monospace",
-            color: "rgba(255,255,255,0.5)",
+            color: "#7A8290",
+            borderTop: "1px solid rgba(74,165,168,0.18)",
           }}
         >
           <span>8 KETE</span>
