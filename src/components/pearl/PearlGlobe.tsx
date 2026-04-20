@@ -127,10 +127,10 @@ export default function PearlGlobe({
             onCreated={() => setTimeout(() => setReady(true), 250)}
             style={{ background: "transparent" }}
           >
-            <ambientLight intensity={0.7} />
-            <directionalLight position={[3, 4, 5]} intensity={0.9} color="#FFFFFF" />
-            <directionalLight position={[-3, -2, 3]} intensity={0.35} color={tint} />
-            <directionalLight position={[0, 5, -3]} intensity={0.25} color="#F3F4F2" />
+            <ambientLight intensity={0.85} />
+            <directionalLight position={[3, 4, 5]} intensity={1.0} color="#FFFFFF" />
+            <directionalLight position={[-3, -2, 3]} intensity={0.25} color={tint} />
+            <directionalLight position={[0, 5, -3]} intensity={0.3} color="#F8FAF9" />
             <Environment preset="studio" />
             <Sphere tint={tint} />
           </Canvas>
