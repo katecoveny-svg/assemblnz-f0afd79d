@@ -243,10 +243,10 @@ export default function AaaipLanding() {
         <Section className="pb-20">
           <motion.div variants={fade} className="mb-10">
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight" style={{ color: C.t1 }}>
-              10 digital twin pilots — live now
+              Digital twin pilot studies
             </h2>
             <p className="text-base mt-3 max-w-2xl" style={{ color: C.t2 }}>
-              Every pilot runs a deterministic simulator under live policy governance. Click "Launch Demo" to run any of them.
+              Each pilot is a deterministic simulator under live policy governance. Some run live in production tenants today; others are demonstrator scenarios for research benchmarking. Click "Launch Demo" to run any of them.
             </p>
           </motion.div>
 

@@ -270,7 +270,7 @@ export default function AaaipPitchPrep() {
         <CompRow need="Real-world proof that agentic AI works in NZ — the proposal is theoretical, she needs production examples" offer="A live multi-agent platform running across 13+ NZ industries with real legislation" />
         <CompRow need="Industry partners to strengthen the bid — current partners are big corporates (Beca, Spark, Fonterra)" offer="The SME perspective — 97% of NZ businesses are small; Assembl serves them directly" />
         <CompRow need="Evidence of NZ values alignment — her research is about eliminating AI bias and ensuring fairness" offer="Tikanga compliance pipeline and cultural governance layer built into the agent architecture" />
-        <CompRow need="Multi-agent orchestration research data — AAAIP is researching how agents coordinate" offer="48 specialist agents coordinated by Iho (central intelligence) with real orchestration data" />
+        <CompRow need="Multi-agent orchestration research data — AAAIP is researching how agents coordinate" offer="A library of specialist agents coordinated by Iho (central intelligence) with real orchestration data" />
         <CompRow need="NZ-specific testbed scenarios — they want to simulate agentic AI in NZ contexts" offer="Production system with NZ legislation, NZ business workflows, NZ compliance rules" />
         <CompRow need="Hallucination and accuracy research — Gill's personal research focus" offer="Five-stage compliance pipeline specifically designed to catch AI errors in high-stakes legal contexts" />
 
@@ -298,7 +298,7 @@ export default function AaaipPitchPrep() {
 
         <ScriptBlock title="Opening" time="2 min">
           <p>Thanks for meeting with me, Gill. I'm Kate Hudson, founder of Assembl. I reached out because what you're building with the AAAIP is exactly aligned with what I'm building commercially — and I think there's a really natural partnership here.</p>
-          <p>Assembl is a multi-agent AI platform built specifically for New Zealand small businesses. I have 48 specialist AI agents, each trained on a specific area of NZ legislation or business operations — employment law, food safety, health and safety, privacy, tax, construction, hospitality — and they work together through a central intelligence layer to give coordinated, accurate answers.</p>
+          <p>Assembl is a multi-agent AI platform built specifically for New Zealand small businesses. I have a library of specialist AI agents across five industry kete, each trained on a specific area of NZ legislation or business operations — employment law, food safety, health and safety, privacy, tax, construction, hospitality — and they work together through a central intelligence layer to give coordinated, accurate answers.</p>
           <p>Your vision is 100 million AI assistants for 5 million New Zealanders. I'm building the version of that for the 500,000+ NZ small businesses that can't afford Beca or Datacom.</p>
         </ScriptBlock>
 
