@@ -196,6 +196,10 @@ function classifyAgent(message: string, explicitAgent?: string): string {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  // Track routing decision for audit/observability
+  const routingStart = Date.now();
+  const requestId = crypto.randomUUID();
+
   try {
     const { message, packId, agentId, messages = [], userId, systemPromptOverride } = await req.json();
     if (!message) {
@@ -860,6 +864,25 @@ Trust & compliance:
         for (const ctx of contextWrites) {
           supabase.from("shared_context").upsert(ctx, { onConflict: "user_id,context_key" }).then(() => {});
         }
+      }
+
+      // ═══ MEMORY PERSISTENCE — write a conversation summary so future sessions can recall (fire-and-forget) ═══
+      // Only summarise messages with substance (>= 40 chars) to avoid junk rows
+      if (message.length >= 40) {
+        const keyFacts: Record<string, any> = {};
+        for (const w of contextWrites) keyFacts[w.context_key] = w.context_value;
+
+        const summary = `User asked ${selectedAgent}: "${message.slice(0, 240)}${message.length > 240 ? "…" : ""}"`;
+        supabase.from("conversation_summaries").insert({
+          user_id: resolvedUserId,
+          agent_id: selectedAgent,
+          summary,
+          key_facts_extracted: keyFacts,
+          original_message_count: (messages?.length || 0) + 1,
+          compression_level: 0,
+        }).then(({ error }) => {
+          if (error) console.warn("conversation_summaries insert failed:", error.message);
+        });
       }
     }
 
