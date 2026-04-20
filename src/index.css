@@ -211,6 +211,27 @@ html {
   .pearl-drift-slow { animation: pearlDrift 22s ease-in-out infinite; will-change: transform; }
   .pearl-drift-med  { animation: pearlDrift 16s ease-in-out infinite; will-change: transform; }
 
+  /* Feather plumes sway gently — like breath through a cloud */
+  @keyframes pearl-feather-sway {
+    0%   { transform: rotate(-1.5deg) scale(1);    opacity: 0.55; }
+    50%  { transform: rotate(1.5deg)  scale(1.04); opacity: 0.78; }
+    100% { transform: rotate(-1deg)   scale(0.98); opacity: 0.6;  }
+  }
+
+  /* Data nodes twinkle — uneven, never disco */
+  @keyframes pearl-node-twinkle {
+    0%, 100% { opacity: 0.25; transform: scale(0.85); }
+    45%      { opacity: 1;    transform: scale(1.25); }
+    70%      { opacity: 0.55; transform: scale(1);    }
+  }
+
+  /* Caustic wash slowly rotates behind the orb */
+  @keyframes pearl-caustic-rotate {
+    from { transform: scale(1.9) rotate(0deg);   }
+    to   { transform: scale(1.9) rotate(360deg); }
+  }
+  .pearl-caustic-wash { animation: pearl-caustic-rotate 38s linear infinite; will-change: transform; }
+
   /* Pearl section fade-in */
   @keyframes pearlFadeUp {
     from { opacity: 0; transform: translateY(18px); }
