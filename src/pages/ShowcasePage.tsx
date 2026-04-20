@@ -74,7 +74,7 @@ const KETE_CLIPS = [
 const SIZZLE_REELS = [
   {
     title: "Platform Sizzle Reel",
-    description: "Five industries, one governed intelligence layer. Generated with NZ voiceover.",
+    description: "Seven industries plus Tōro, one governed intelligence layer. Generated with NZ voiceover.",
     videoUrl: "sizzle-reels/Assembl-Sizzle-Reel-A.mp4",
   },
   {
@@ -336,7 +336,7 @@ export default function ShowcasePage() {
               >
                 <Eyebrow color={C.ochre}>Section 02 · Admin</Eyebrow>
                 <H2>Platform Overview</H2>
-                <Sub>Longer-form clips showing the Assembl story — five industries, one compliance pipeline.</Sub>
+                <Sub>Longer-form clips showing the Assembl story — every industry, one compliance pipeline.</Sub>
               </motion.div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">

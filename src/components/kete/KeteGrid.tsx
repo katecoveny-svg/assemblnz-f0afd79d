@@ -111,7 +111,7 @@ const KeteGrid: React.FC = () => {
             color: "rgba(255,255,255,0.5)",
           }}
         >
-          <span>5 KETE</span>
+          <span>8 KETE</span>
           <span>·</span>
           <span>{SHARED_CORE_AGENTS.length} CORE</span>
           <span>·</span>
