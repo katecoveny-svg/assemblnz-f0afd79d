@@ -133,7 +133,7 @@ export default function BrandGuidelinesPage() {
             <div className="space-y-6">
               <div className="rounded-3xl p-8" style={GLASS_CARD}>
                 <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>One-line pitch</p>
-                <p className="text-[20px] font-light" style={{ color: "#1A1D29" }}>"A specialist agent library. Five kete. One intelligence layer."</p>
+                <p className="text-[20px] font-light" style={{ color: "#1A1D29" }}>"A specialist agent library. Eight kete. One governed intelligence layer."</p>
               </div>
               <div className="rounded-3xl p-8" style={GLASS_CARD}>
                 <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Elevator pitch</p>
@@ -401,11 +401,11 @@ color: #4AA5A8;`}
 
       <SectionDivider />
 
-      {/* Five Kete Visual Identity */}
+      {/* Kete Visual Identity */}
       <section className={`${SECTION_PAD} px-6`}>
         <div className="max-w-[1200px] mx-auto">
           <h2 className="text-[28px] sm:text-[36px] font-light tracking-[-0.02em] mb-4" style={{ color: "#1A1D29" }}>
-            The Five Kete
+            The Kete
           </h2>
           <p className={`${SUB} mb-12`} style={{ color: "#6B7280" }}>
             Each kete has a signature colour used on its glass sphere, card accent, and page water-tint.
@@ -513,7 +513,7 @@ color: #4AA5A8;`}
             <div className="p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
                 <p className="text-[15px] font-medium mb-1" style={{ color: "#1A1D29" }}>
-                  Assembl — Five Industries, One Intelligence
+                  Assembl — Seven Industries + Tōro, One Governed Intelligence
                 </p>
                 <p className="text-[13px]" style={{ color: "#6B7280" }}>
                   Animated GIF · 16:9 · Loops seamlessly · Optimised for LinkedIn, Instagram, X

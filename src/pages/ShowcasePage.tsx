@@ -74,7 +74,7 @@ const KETE_CLIPS = [
 const SIZZLE_REELS = [
   {
     title: "Platform Sizzle Reel",
-    description: "Five industries, one governed intelligence layer. Generated with NZ voiceover.",
+    description: "Seven industries plus Tōro, one governed intelligence layer. Generated with NZ voiceover.",
     videoUrl: "sizzle-reels/Assembl-Sizzle-Reel-A.mp4",
   },
   {
