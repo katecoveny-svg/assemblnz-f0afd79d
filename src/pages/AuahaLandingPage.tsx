@@ -333,7 +333,7 @@ export default function AuahaLandingPage() {
               <span>Open Auaha Studio</span>
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
-            <TextUsButton keteName="Auaha" accentColor={ACCENT} showWhatsApp={false} />
+            <TextUsButton keteName="Auaha" accentColor={ACCENT} showWhatsApp={true} />
           </motion.div>
         </section>
 

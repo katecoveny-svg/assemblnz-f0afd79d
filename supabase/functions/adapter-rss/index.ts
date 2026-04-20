@@ -105,9 +105,11 @@ Deno.serve(async (req) => {
         last_checked_at: new Date().toISOString(),
         status: "error",
       }).eq("id", sourceId);
-      await admin.rpc("kb_inc_failures" as never, { p_source: sourceId } as never).catch(() => {
-        admin.from("kb_sources").update({ consecutive_failures: 1 } as never).eq("id", sourceId);
-      });
+      try {
+        await admin.rpc("kb_inc_failures" as never, { p_source: sourceId } as never);
+      } catch {
+        await admin.from("kb_sources").update({ consecutive_failures: 1 } as never).eq("id", sourceId);
+      }
     }
     if (runId) {
       await admin.from("kb_source_runs").update({
