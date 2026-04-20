@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&family=Lato:wght@100;300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -84,34 +84,35 @@ html {
 
 @layer base {
   :root {
-    /* Locked Mārama+Next palette — primary teal #3A7D6E, ice bg #FAFBFC */
-    --background: 216 20% 98%;            /* #FAFBFC */
-    --foreground: 226 12% 27%;            /* charcoal #3D4250 */
+    /* PEARL SYSTEM — locked 2026-04-20 (replaces old ice/teal) */
+    /* Icy Pearl canvas #FBFAF7, Deep Calm ink #0E1513, Pounamu accent #1F4D47 */
+    --background: 44 30% 98%;             /* #FBFAF7 Icy Pearl */
+    --foreground: 168 30% 7%;             /* #0E1513 Deep Calm */
 
     --card: 0 0% 100%;
-    --card-foreground: 226 12% 27%;
+    --card-foreground: 168 30% 7%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 226 12% 27%;
+    --popover-foreground: 168 30% 7%;
 
-    --primary: 167 36% 36%;               /* #3A7D6E new teal */
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 167 36% 50%;
+    --primary: 173 42% 21%;               /* #1F4D47 Pounamu */
+    --primary-foreground: 44 30% 98%;
+    --primary-glow: 173 30% 35%;
 
-    --secondary: 195 30% 95%;
-    --secondary-foreground: 226 12% 27%;
+    --secondary: 80 8% 95%;               /* #F3F4F2 Moonstone */
+    --secondary-foreground: 168 30% 7%;
 
-    --muted: 210 20% 96%;
-    --muted-foreground: 226 8% 50%;
+    --muted: 80 8% 95%;
+    --muted-foreground: 200 10% 40%;
 
-    --accent: 167 36% 92%;
-    --accent-foreground: 167 36% 28%;
+    --accent: 168 17% 80%;                /* #C4D6D2 Sea Glass */
+    --accent-foreground: 173 42% 21%;
     --destructive: 3 45% 56%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 167 25% 60% / 0.18;
-    --input: 167 25% 60% / 0.18;
-    --ring: 167 36% 36%;
+    --border: 168 17% 80% / 0.35;
+    --input: 168 17% 80% / 0.35;
+    --ring: 173 42% 21%;
 
     --radius: 1.5rem;
 
@@ -167,26 +168,55 @@ html {
 
   body {
     @apply text-foreground;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    line-height: 1.7;
-    color: #1F4E54;
-    background-color: #FAFDFE;
+    line-height: 1.55;
+    color: #0E1513;
+    background-color: #FBFAF7;
     background-image:
-      radial-gradient(ellipse 60% 45% at 80% 12%, rgba(255,255,255,0.95) 0%, transparent 60%),
-      radial-gradient(ellipse 55% 50% at 12% 28%, rgba(255,255,255,0.85) 0%, transparent 65%),
-      radial-gradient(ellipse 70% 50% at 50% 92%, rgba(210,235,238,0.45) 0%, transparent 70%),
-      linear-gradient(180deg, #FFFFFF 0%, #F4FAFC 50%, #E8F4F6 100%);
+      radial-gradient(ellipse 70% 50% at 78% 10%, rgba(196,214,210,0.18) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 55% at 18% 35%, rgba(232,238,236,0.55) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 55% at 50% 95%, rgba(196,214,210,0.20) 0%, transparent 70%);
     background-attachment: fixed;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Cormorant Garamond', serif;
     font-weight: 300;
-    letter-spacing: -0.02em;
-    color: #1F4E54;
+    letter-spacing: -0.015em;
+    color: #0E1513;
   }
+}
+
+/* ── Pearl utility classes ── */
+@layer utilities {
+  .font-serif-display { font-family: 'Cormorant Garamond', serif; }
+  .font-sans-pearl { font-family: 'Inter', sans-serif; }
+  .text-pounamu { color: #1F4D47; }
+  .text-deep-calm { color: #0E1513; }
+  .text-ink-soft { color: rgba(14,21,19,0.65); }
+  .bg-icy-pearl { background-color: #FBFAF7; }
+  .bg-moonstone { background-color: #F3F4F2; }
+  .bg-harbour-ink { background-color: #1B2A2E; }
+  .bg-opal-shimmer { background-color: #E8EEEC; }
+  .border-sea-glass { border-color: #C4D6D2; }
+
+  /* Pearl globe drift — slow, organic, never bouncy */
+  @keyframes pearlDrift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(12px, -18px) scale(1.015); }
+    66%      { transform: translate(-10px, 14px) scale(0.99); }
+  }
+  .pearl-drift-slow { animation: pearlDrift 22s ease-in-out infinite; will-change: transform; }
+  .pearl-drift-med  { animation: pearlDrift 16s ease-in-out infinite; will-change: transform; }
+
+  /* Pearl section fade-in */
+  @keyframes pearlFadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .pearl-fade-up { animation: pearlFadeUp 800ms cubic-bezier(0.22,1,0.36,1) both; }
 }
 
 /* ── Typography rhythm — locked 4-size scale (display/h1/h2/body) ── */

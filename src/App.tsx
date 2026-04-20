@@ -20,7 +20,7 @@ import GlobalMotionShell from "@/components/next/GlobalMotionShell";
 import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
-import Index from "./pages/Index";
+import Index from "./pages/PearlIndex";
 
 // Wrapper to force full remount when agentId changes (prevents removeChild crash)
 const ChatPageKeyed = () => {
@@ -197,7 +197,7 @@ const App = () => (
               <BrandDnaProvider>
                 <PersonalizationProvider>
                   <BusinessProvider>
-                    <WaterGlassBackground />
+                    {/* WaterGlassBackground removed — Pearl canvas via index.css body */}
                     <GlobalMotionShell />
                     <div className="pb-14 sm:pb-0 relative z-10">
                       <PageTransition>
