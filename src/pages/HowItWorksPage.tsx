@@ -11,6 +11,7 @@ import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import GlassKeteSphere from "@/components/kete/GlassKeteSphere";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
+import NextHero from "@/components/next/NextHero";
 
 /* ─── Design tokens ─── */
 const C = {
@@ -128,44 +129,21 @@ const HowItWorksPage = () => (
     <BrandNav />
     {/* MatarikiStarfield removed — light glass background only */}
 
-    {/* ═══ HERO ═══ */}
-    <section className="relative pt-28 sm:pt-36 pb-16 px-6 sm:px-8 text-center z-10">
-      {/* Ambient glow */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 25%, rgba(74,165,168,0.07) 0%, transparent 65%)" }} />
-
-      <motion.div
-        className="relative mb-8 flex justify-center"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, ease }}
-      >
-        <GlassKeteSphere accentColor={C.gold} accentLight={C.goldLight} size={200} />
-      </motion.div>
-
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
-        <Eyebrow>HOW IT WORKS</Eyebrow>
-        <h1
-          className="text-3xl sm:text-5xl max-w-3xl mx-auto mb-6"
-          style={{ fontFamily: FONT.heading, fontWeight: 300, lineHeight: 1.15, letterSpacing: "1px" }}
-        >
+    {/* ═══ HERO — cinematic NextHero shell ═══ */}
+    <NextHero
+      variant="layered"
+      eyebrow="How it works"
+      title={
+        <>
           Shared intelligence for{" "}
-          <span style={{
-            background: `linear-gradient(135deg, ${C.gold} 0%, ${C.goldLight} 50%, ${C.gold} 100%)`,
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}>
+          <em style={{ fontStyle: "italic", fontWeight: 300, color: "#3A7D6E" }}>
             Aotearoa business.
-          </span>
-        </h1>
-        <p
-          className="text-sm sm:text-[15px] max-w-2xl mx-auto leading-relaxed"
-          style={{ fontFamily: FONT.body, color: C.textSec }}
-        >
-          Assembl packages specialist operational workflows into five industry kete — each one wrapped in a five-stage compliance pipeline that runs before anything ships, not after. Built around NZ law, not adapted from a US product.
-        </p>
-      </motion.div>
-    </section>
+          </em>
+        </>
+      }
+      subtitle="Specialist operational workflows packaged into industry kete — each one wrapped in a five-stage compliance pipeline that runs before anything ships, not after. Built around NZ law, not adapted from a US product."
+      minHeight="78vh"
+    />
 
     <WeaveDivider />
 

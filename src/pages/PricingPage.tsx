@@ -8,6 +8,7 @@ import FAQSectionShared from "@/components/FAQSection";
 import { PRICING, COMPARISON_FEATURES, ADD_ONS, KETE } from "@/data/pricing";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
+import NextHero from "@/components/next/NextHero";
 
 const C = {
   bg: "#FAFBFC",
@@ -60,32 +61,18 @@ const PricingPage = () => (
     />
     <BrandNav />
 
-    {/* ═══ HERO ═══ */}
-    <section className="pt-32 pb-20 px-6 text-center relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: `radial-gradient(ellipse 50% 40% at 50% 30%, rgba(74,165,168,0.08) 0%, transparent 60%)`,
-      }} />
-      <div className="relative z-10 max-w-2xl mx-auto">
-        <p className="text-[10px] tracking-[5px] uppercase mb-5" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold, fontWeight: 700 }}>
-          — Pricing —
-        </p>
-        <h1 className="text-3xl sm:text-[44px] mb-6" style={{
-          fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px",
-          textTransform: "uppercase", lineHeight: 1.1, color: C.white,
-        }}>
-          Simple, honest pricing
-        </h1>
-        <p className="text-[16px] leading-[1.9] max-w-lg mx-auto mb-4" style={{
-          fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 300, color: "#6B7280",
-        }}>
-          Pick the kete that matches your industry. Every plan includes the full governance pipeline, SMS & WhatsApp, and your dashboard.
-        </p>
-        <p className="text-[12px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF" }}>
-          All prices NZD · Exclude GST (add 15%)
-        </p>
-      </div>
-    </section>
-
+    {/* ═══ HERO — cinematic NextHero shell ═══ */}
+    <NextHero
+      variant="layered"
+      eyebrow="Pricing — NZD ex GST"
+      title={
+        <>
+          Simple, <em style={{ fontStyle: "italic", fontWeight: 300, color: "#3A7D6E" }}>honest</em> pricing.
+        </>
+      }
+      subtitle="Pick the kete that matches your industry. Every plan includes the full governance pipeline, SMS & WhatsApp, and your dashboard. All prices NZD · Exclude GST (add 15%)."
+      minHeight="68vh"
+    />
     {/* ═══ THREE BUSINESS TIERS ═══ */}
     <section className="px-6 pb-20">
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
