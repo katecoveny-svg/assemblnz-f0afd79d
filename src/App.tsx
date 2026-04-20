@@ -270,7 +270,7 @@ const App = () => (
                         <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
                         <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                         <Route path="/try" element={<Navigate to="/contact" replace />} />
-                        <Route path="/packs/:packSlug" element={<Navigate to="/kete/:packSlug" replace />} />
+                        <Route path="/packs/:packSlug" element={<PackSlugRedirect />} />
                         <Route path="/sample/:kete" element={<Suspense fallback={null}><SampleEvidencePackPage /></Suspense>} />
                         <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
                         <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
