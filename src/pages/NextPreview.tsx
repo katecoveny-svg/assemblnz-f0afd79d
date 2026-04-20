@@ -67,7 +67,7 @@ export default function NextPreview() {
               color: "#3A7D6E",
             }}
           >
-            Governed workflows
+            Evidence packs, not chat
           </p>
           <h2
             style={{
@@ -79,19 +79,31 @@ export default function NextPreview() {
               color: "#3D4250",
             }}
           >
-            Eight specialist kete for the work that keeps New Zealand businesses moving —
-            <em style={{ fontStyle: "italic", color: "#3A7D6E", fontWeight: 300 }}> guided, governed, and ready to use.</em>
+            Eight kete. From the dairy owner in Timaru to the customs broker on the Auckland waterfront —
+            <em style={{ fontStyle: "italic", color: "#3A7D6E", fontWeight: 300 }}> AI that knows our laws, our context, and our way of working.</em>
           </h2>
           <p
-            className="mt-6 max-w-[52ch] mx-auto"
+            className="mt-6 max-w-[58ch] mx-auto"
             style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: 16,
-              lineHeight: 1.6,
+              lineHeight: 1.65,
               color: "#3D4250B3",
             }}
           >
-            Each kete combines live agents, structured workflows, and evidence packs so teams can reduce admin, surface risk earlier, and keep people in control.
+            Hospitality, construction, creative, automotive &amp; fleet, freight &amp; customs, health, professional services — and Tōro for whānau. Every output runs through our NZ compliance pipeline (Kahu → Iho → Tā → Mahara → Mana) and is grounded in live-updated NZ legislation, standards, and regulator guidance.
+          </p>
+          <p
+            className="mt-6 max-w-[58ch] mx-auto"
+            style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: 14,
+              lineHeight: 1.6,
+              color: "#3D425099",
+              fontStyle: "italic",
+            }}
+          >
+            From $29/month for solo operators on Tōro, to $1,490 for small business on Operator, up to custom Outcome engagements. Nobody priced out of NZ-grounded AI.
           </p>
         </div>
       </section>

@@ -79,26 +79,26 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
             color: "#3A7D6E",
           }}
         >
-          The operating system for NZ business
+          Built in Aotearoa, for Aotearoa
         </motion.p>
 
         <motion.h1
           initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-          className="max-w-[14ch]"
+          className="max-w-[16ch]"
           style={{
             fontFamily: "'Lato', sans-serif",
             fontWeight: 200,
-            fontSize: "clamp(48px, 9vw, 128px)",
-            lineHeight: 0.95,
+            fontSize: "clamp(44px, 8.5vw, 120px)",
+            lineHeight: 0.98,
             letterSpacing: "-0.02em",
             color: "#3D4250",
           }}
         >
-          Govern the work.<br />
+          Intelligent tools for every<br />
           <em style={{ fontStyle: "italic", fontWeight: 300, color: "#3A7D6E" }}>
-            Not the worker.
+            New Zealand business.
           </em>
         </motion.h1>
 
@@ -106,16 +106,15 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.45 }}
-          className="max-w-[52ch] mt-8"
+          className="max-w-[58ch] mt-8"
           style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontSize: 17,
-            lineHeight: 1.55,
+            lineHeight: 1.6,
             color: "#3D4250B3",
           }}
         >
-          Eight kete of NZ-built AI agents — one for each industry, one for whānau —
-          with evidence packs, audit trails, and te ao Māori at the core.
+          From the solo trade operator to the enterprise boardroom — eight industry kete that ship compliance-ready evidence packs grounded in NZ legislation, standards, and tikanga. Not chat. Deliverables you can hand to WorkSafe, MBIE, IRD, a client, or a board.
         </motion.p>
 
         <motion.div
