@@ -174,6 +174,7 @@ const CouncilPage = lazy(() => import("./pages/CouncilPage"));
 const SubbiesPage = lazy(() => import("./pages/waihanga/SubbiesPage"));
 const ReelsPage = lazy(() => import("./pages/auaha/ReelsPage"));
 const KnowledgeCataloguePage = lazy(() => import("./pages/KnowledgeCataloguePage"));
+const NextPreview = lazy(() => import("./pages/NextPreview"));
 
 const queryClient = new QueryClient();
 
@@ -199,6 +200,7 @@ const App = () => (
                       <PageTransition>
                       <Routes>
                         <Route path="/" element={<Index />} />
+                        <Route path="/next" element={<Suspense fallback={null}><NextPreview /></Suspense>} />
                         <Route path="/app" element={<Navigate to="/kete" replace />} />
                         <Route path="/chat/:agentId" element={<ChatPageKeyed />} />
                         <Route path="/login" element={<AuthPage mode="login" />} />
