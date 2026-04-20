@@ -217,8 +217,8 @@ export default function PearlGlobe({
         >
           <defs>
             <linearGradient id="featherGradient" x1="0%" y1="100%" x2="0%" y2="0%">
-              <stop offset="0%" stopColor="rgba(255,255,255,0.7)" />
-              <stop offset="55%" stopColor="rgba(232,238,236,0.35)" />
+              <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
+              <stop offset="55%" stopColor="rgba(232,238,236,0.55)" />
               <stop offset="100%" stopColor="rgba(255,255,255,0)" />
             </linearGradient>
           </defs>
