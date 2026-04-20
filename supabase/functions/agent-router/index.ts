@@ -633,6 +633,20 @@ Trust & compliance:
     const rawPref = agentPrompt?.model_preference || "gemini-3-flash-preview";
     const model = MODEL_MAP[rawPref] || `google/${rawPref}`;
 
+    // ═══ ROUTING OBSERVABILITY — log the selection decision (fire-and-forget) ═══
+    supabase.from("routing_log").insert({
+      request_id: requestId,
+      user_input: message.slice(0, 1000),
+      detected_intent: agentPack,
+      selected_kete: agentPack,
+      selected_agent: selectedAgent,
+      selected_model: model,
+      confidence_score: agentId ? 1.0 : 0.7, // explicit selection = 1.0, classifier = 0.7
+      routing_time_ms: Date.now() - routingStart,
+    }).then(({ error }) => {
+      if (error) console.warn("routing_log insert failed:", error.message);
+    });
+
 
     // ═══ DYNAMIC TOOL REGISTRY + INDUSTRY-AWARE LOADING ═══
     let agentTools: any[] = [];
