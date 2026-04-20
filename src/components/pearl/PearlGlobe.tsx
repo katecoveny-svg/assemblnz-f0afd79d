@@ -24,18 +24,18 @@ function Sphere({ tint }: { tint: string }) {
         <MeshTransmissionMaterial
           backside
           samples={6}
-          thickness={1.2}
-          chromaticAberration={0.04}
-          anisotropy={0.15}
-          distortion={0.25}
-          distortionScale={0.4}
-          temporalDistortion={0.08}
+          thickness={0.8}
+          chromaticAberration={0.015}
+          anisotropy={0.08}
+          distortion={0.18}
+          distortionScale={0.3}
+          temporalDistortion={0.05}
           transmission={1}
-          roughness={0.18}
-          ior={1.35}
+          roughness={0.32}
+          ior={1.25}
           color="#FFFFFF"
           attenuationColor={tint}
-          attenuationDistance={2.4}
+          attenuationDistance={4.8}
         />
       </mesh>
     </Float>
