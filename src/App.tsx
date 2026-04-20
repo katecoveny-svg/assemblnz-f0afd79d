@@ -176,6 +176,7 @@ const SubbiesPage = lazy(() => import("./pages/waihanga/SubbiesPage"));
 const ReelsPage = lazy(() => import("./pages/auaha/ReelsPage"));
 const KnowledgeCataloguePage = lazy(() => import("./pages/KnowledgeCataloguePage"));
 const NextPreview = lazy(() => import("./pages/NextPreview"));
+const InvestPage = lazy(() => import("./pages/InvestPage"));
 
 const queryClient = new QueryClient();
 
@@ -402,7 +403,8 @@ const App = () => (
                         <Route path="/turf-5-april-2026" element={<Navigate to="/" replace />} />
                         <Route path="/tikanga" element={<Navigate to="/about" replace />} />
                         <Route path="/skill-hub" element={<Navigate to="/" replace />} />
-                        <Route path="/proposal" element={<Navigate to="/contact" replace />} />
+                        <Route path="/proposal" element={<Suspense fallback={null}><InvestPage /></Suspense>} />
+                        <Route path="/invest" element={<Suspense fallback={null}><InvestPage /></Suspense>} />
                         <Route path="/brand-guidelines" element={<Suspense fallback={null}><BrandGuidelinesPage /></Suspense>} />
                         <Route path="/brand-assets" element={<Navigate to="/brand-guidelines" replace />} />
                         <Route path="/logo-stack" element={<Navigate to="/brand-guidelines" replace />} />
