@@ -1274,6 +1274,8 @@ const ChatPage = () => {
           agentId: agent.id,
           messages: apiMessages.slice(0, -1).map((m: any) => ({ role: m.role, content: typeof m.content === "string" ? m.content : "(attachment)" })),
           packId: agent.pack || undefined,
+          ...(conversationId ? { conversationId } : {}),
+          ...(user?.id ? { userId: user.id } : {}),
         };
 
         const resp = await fetch(CHAT_URL, {
