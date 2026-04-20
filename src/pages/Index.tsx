@@ -78,13 +78,24 @@ const KETE_COLORS: Record<string, { color: string; accentLight: string; to: stri
   ako: { color: "#7BA7C7", accentLight: "#A8C8DD", to: "/ako" },
 };
 
-const PACKS = [
-  ...KETE.map((k) => ({
-    reo: k.name, en: k.eng, desc: k.desc,
-    ...KETE_COLORS[k.key],
-  })),
-  { reo: "Toro", en: "Family", desc: "School runs, meal planning, family admin — one less thing to worry about.", color: C.ochre, accentLight: C.ochreLight, to: "/toro" },
-];
+/** 7 industry kete — the locked marketing set. Tōro renders separately as the consumer tier. */
+const INDUSTRY_PACKS = KETE.map((k) => ({
+  reo: k.name, en: k.eng, desc: k.desc,
+  ...KETE_COLORS[k.key],
+}));
+
+/** Tōro — consumer/whānau kete, visually distinguished below the 7 industry tiles. */
+const TORO_PACK = {
+  reo: "Tōro",
+  en: "Family",
+  desc: "Admin, contracts, school notices, household documents. Built for families running life.",
+  color: C.ochre,
+  accentLight: C.ochreLight,
+  to: "/toro",
+};
+
+/** Combined for personalization re-ordering only (Tōro pinned last). */
+const PACKS = [...INDUSTRY_PACKS, TORO_PACK];
 
 const LAYERS_DATA = [
   { name: "Kahu — Intake", desc: "Receives the request, classifies data sensitivity, checks PII, and routes to the right specialist agent.", icon: "Eye", color: "#4AA5A8" },
@@ -212,19 +223,21 @@ const Index = () => {
 
 
 
-  const orderedPacks = useMemo(() => {
-    if (!isPersonalized) return PACKS;
+  // Personalize order of the 7 industry packs only — Tōro stays pinned at the end.
+  const orderedIndustryPacks = useMemo(() => {
+    if (!isPersonalized) return INDUSTRY_PACKS;
     const keteOrder = profile.preferences.keteOrder;
     const SLUG_MAP: Record<string, string> = {
       manaaki: "Manaaki", waihanga: "Waihanga", auaha: "Auaha",
-      arataki: "Arataki", pikau: "Pikau", hoko: "Hoko", ako: "Ako", toro: "Toro",
+      arataki: "Arataki", pikau: "Pikau", hoko: "Hoko", ako: "Ako",
     };
-    return [...PACKS].sort((a, b) => {
+    return [...INDUSTRY_PACKS].sort((a, b) => {
       const aIdx = keteOrder.indexOf(Object.entries(SLUG_MAP).find(([_, v]) => v === a.reo)?.[0] as any ?? "");
       const bIdx = keteOrder.indexOf(Object.entries(SLUG_MAP).find(([_, v]) => v === b.reo)?.[0] as any ?? "");
       return (aIdx === -1 ? 99 : aIdx) - (bIdx === -1 ? 99 : bIdx);
     });
   }, [isPersonalized, profile.preferences.keteOrder]);
+  const orderedPacks = orderedIndustryPacks; // back-compat alias for any leftover ref
 
   return (
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.text }}>
@@ -342,15 +355,16 @@ const Index = () => {
           </div>
         </Sect>
 
-        {/* ═══ INDUSTRY KETE ═══ */}
+        {/* ═══ INDUSTRY KETE — 7 industry tiles ═══ */}
         <Sect id="industry-packs">
           <motion.div {...fade} className="text-center mb-16">
             <SectionEyebrow>Your industry</SectionEyebrow>
-            <SectionH2>Sector-specific workflow packs</SectionH2>
+            <SectionH2>Seven industry kete</SectionH2>
+            <SectionP>Pick the one that fits your business. Operator gets one, Leader two, Enterprise all seven plus Tōro.</SectionP>
           </motion.div>
           <LayoutGroup>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1200px] mx-auto">
-              {orderedPacks.map((p, i) => {
+              {orderedIndustryPacks.map((p, i) => {
                 const isDetected = isPersonalized && i === 0;
                 const bleedColor = KETE_BLEED[p.reo.toLowerCase()] || "transparent";
                 return (
@@ -361,9 +375,7 @@ const Index = () => {
                     }} />
                     <Link to={p.to} className="group block h-full relative">
                       <GlowCard className="h-full hover:translate-y-[-4px] transition-all duration-300" accentColor={p.color}>
-                        {/* Kete-specific hover effect */}
                         <KeteHoverEffect kete={p.reo} />
-
                         {isDetected && (
                           <span className="text-[9px] px-3 py-1 rounded-full tracking-[2px] uppercase inline-block mb-4"
                             style={{ background: `${C.teal}08`, color: C.teal, border: `1px solid ${C.teal}15`, fontFamily: "'JetBrains Mono', monospace" }}>
@@ -388,6 +400,41 @@ const Index = () => {
               })}
             </div>
           </LayoutGroup>
+
+          {/* ─── Tōro — consumer tier, distinguished row ─── */}
+          <div className="mt-12 max-w-[1200px] mx-auto">
+            <div className="text-center mb-6">
+              <p className="text-[10px] tracking-[5px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}>
+                — For whānau, not businesses —
+              </p>
+            </div>
+            <motion.div {...stagger(0)} className="relative">
+              <Link to={TORO_PACK.to} className="group block">
+                <GlowCard className="hover:translate-y-[-4px] transition-all duration-300" accentColor={TORO_PACK.color}>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                    <KeteWeaveVisual size={64} accentColor={TORO_PACK.color} accentLight={TORO_PACK.accentLight} showNodes={false} showGlow />
+                    <div className="flex-1">
+                      <div className="flex items-baseline gap-3 mb-2">
+                        <h3 className="text-[22px] font-medium" style={{ color: C.text }}>{TORO_PACK.reo}</h3>
+                        <span className="text-[12px] font-medium" style={{ color: C.textTertiary }}>— {TORO_PACK.en} · $29/mo</span>
+                      </div>
+                      <p className="text-[14px] leading-[1.7]" style={{ color: C.textSecondary }}>{TORO_PACK.desc}</p>
+                    </div>
+                    <span className="inline-flex items-center gap-2 text-[13px] font-medium group-hover:gap-3 transition-all" style={{ color: TORO_PACK.color }}>
+                      Explore Tōro <ArrowRight size={12} />
+                    </span>
+                  </div>
+                </GlowCard>
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* ─── Operator-as-platform shortcut for Business / Tech / Pro Services ─── */}
+          <div className="mt-8 max-w-[1200px] mx-auto text-center">
+            <p className="text-[13px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textSecondary }}>
+              Don't fit a pre-built industry kete? <Link to="/platform" className="underline" style={{ color: C.teal }}>Operator-as-platform</Link> — same price, no kete bundle, you build on top of Iho.
+            </p>
+          </div>
         </Sect>
 
         {/* ═══ REAL USE CASES ═══ */}
@@ -567,6 +614,23 @@ const Index = () => {
 
         {/* ═══ WHAT CHANGED THIS WEEK ═══ */}
         <WeeklyChangesDigest />
+
+        {/* ═══ KERERŪ NON-CONFLICT POSITIONING ═══ */}
+        <Sect>
+          <motion.div {...fade} className="max-w-3xl mx-auto text-center">
+            <SectionEyebrow>How we fit with the NZ AI ecosystem</SectionEyebrow>
+            <h3 className="text-[22px] sm:text-[28px] mb-6" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, lineHeight: 1.3, color: C.text }}>
+              Kererū.ai answers <em style={{ color: C.teal, fontStyle: "normal" }}>where</em> your data lives.<br />
+              Assembl answers <em style={{ color: C.teal, fontStyle: "normal" }}>what</em> your data does.
+            </h3>
+            <p className="text-[15px] leading-[1.8] mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textSecondary }}>
+              Kererū is NZ-sovereign AI infrastructure. Assembl is the product layer built on top — pre-trained on NZ law, tikanga-governed, with industry kete that turn compliance into evidence packs. We think NZ businesses need both.
+            </p>
+            <p className="text-[13px] leading-[1.8]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textTertiary }}>
+              We're actively working with NZ-owned infrastructure partners so your data can stay on NZ soil. Sovereign hosting is in flight — not yet live for every customer. Ask us where your specific kete runs.
+            </p>
+          </motion.div>
+        </Sect>
 
         {/* ═══ FINAL CTA ═══ */}
         <section className="relative px-6 py-32 text-center">

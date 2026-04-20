@@ -67,6 +67,7 @@ const CommandDashboard = lazy(() => import("./pages/CommandDashboard"));
 const BrandGuidelinesPage = lazy(() => import("./pages/BrandGuidelinesPage"));
 const VoyageCommandPage = lazy(() => import("./pages/VoyageCommandPage"));
 const VoyagePlannerPage = lazy(() => import("./pages/VoyagePlannerPage"));
+const PlatformPage = lazy(() => import("./pages/PlatformPage"));
 
 const ToroaLandingPage = lazy(() => import("./pages/ToroaLandingPage"));
 const ToroaApp = lazy(() => import("./pages/ToroaApp"));
@@ -213,6 +214,7 @@ const App = () => (
                         <Route path="/voyage" element={<Navigate to="/voyage/plan" replace />} />
                         <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
                         <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
+                        <Route path="/platform" element={<Suspense fallback={null}><PlatformPage /></Suspense>} />
                         <Route path="/contact" element={<Suspense fallback={null}><ContactPage /></Suspense>} />
                         <Route path="/how-it-works" element={<Suspense fallback={null}><HowItWorksPage /></Suspense>} />
                         <Route path="/status" element={<Suspense fallback={null}><StatusPage /></Suspense>} />
