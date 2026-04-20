@@ -358,9 +358,9 @@ const Index = () => {
         {/* ═══ INDUSTRY KETE — 7 industry tiles ═══ */}
         <Sect id="industry-packs">
           <motion.div {...fade} className="text-center mb-16">
-            <SectionEyebrow>Your industry</SectionEyebrow>
-            <SectionH2>Seven industry kete</SectionH2>
-            <SectionP>Pick the one that fits your business. Operator gets one, Leader two, Enterprise all seven plus Tōro.</SectionP>
+            <SectionEyebrow>Eight kete · accessible to every NZ business</SectionEyebrow>
+            <SectionH2>From the dairy in Timaru to the customs broker on the waterfront.</SectionH2>
+            <SectionP>Hospitality, construction, creative, automotive &amp; fleet, freight &amp; customs, retail, early childhood — and Tōro for whānau. Pick the one that fits. Operator gets one, Leader two, Enterprise all seven plus Tōro.</SectionP>
           </motion.div>
           <LayoutGroup>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1200px] mx-auto">
@@ -432,7 +432,7 @@ const Index = () => {
           {/* ─── Operator-as-platform shortcut for Business / Tech / Pro Services ─── */}
           <div className="mt-8 max-w-[1200px] mx-auto text-center">
             <p className="text-[13px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textSecondary }}>
-              Don't fit a pre-built industry kete? <Link to="/platform" className="underline" style={{ color: C.teal }}>Operator-as-platform</Link> — same price, no kete bundle, you build on top of Iho.
+              Don't fit a pre-built kete? <Link to="/platform" className="underline" style={{ color: "#3A7D6E" }}>Operator-as-platform</Link> — same price, no kete bundle, you build on top of Iho. Used by professional services, tech, and consulting teams.
             </p>
           </div>
         </Sect>
