@@ -78,13 +78,24 @@ const KETE_COLORS: Record<string, { color: string; accentLight: string; to: stri
   ako: { color: "#7BA7C7", accentLight: "#A8C8DD", to: "/ako" },
 };
 
-const PACKS = [
-  ...KETE.map((k) => ({
-    reo: k.name, en: k.eng, desc: k.desc,
-    ...KETE_COLORS[k.key],
-  })),
-  { reo: "Toro", en: "Family", desc: "School runs, meal planning, family admin — one less thing to worry about.", color: C.ochre, accentLight: C.ochreLight, to: "/toro" },
-];
+/** 7 industry kete — the locked marketing set. Tōro renders separately as the consumer tier. */
+const INDUSTRY_PACKS = KETE.map((k) => ({
+  reo: k.name, en: k.eng, desc: k.desc,
+  ...KETE_COLORS[k.key],
+}));
+
+/** Tōro — consumer/whānau kete, visually distinguished below the 7 industry tiles. */
+const TORO_PACK = {
+  reo: "Tōro",
+  en: "Family",
+  desc: "Admin, contracts, school notices, household documents. Built for families running life.",
+  color: C.ochre,
+  accentLight: C.ochreLight,
+  to: "/toro",
+};
+
+/** Combined for personalization re-ordering only (Tōro pinned last). */
+const PACKS = [...INDUSTRY_PACKS, TORO_PACK];
 
 const LAYERS_DATA = [
   { name: "Kahu — Intake", desc: "Receives the request, classifies data sensitivity, checks PII, and routes to the right specialist agent.", icon: "Eye", color: "#4AA5A8" },
