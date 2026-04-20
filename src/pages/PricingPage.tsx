@@ -207,39 +207,9 @@ const PricingPage = () => (
       <div className="h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)" }} />
     </div>
 
-    {/* ═══ FAMILY + OUTCOME — Side by side ═══ */}
+    {/* ═══ OUTCOME ═══ */}
     <section className="px-6 py-20">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Family */}
-        <motion.div {...fade} className="rounded-2xl p-8" style={{
-          background: "rgba(255,255,255,0.6)",
-          border: "1px solid rgba(74,165,168,0.15)",
-        }}>
-          <span className="text-[9px] tracking-[3px] uppercase px-3 py-1 rounded-full mb-5 inline-block" style={{
-            fontFamily: "'JetBrains Mono', monospace", fontWeight: 700,
-            background: `${C.pounamuGlow}12`, color: C.pounamuGlow, border: `1px solid ${C.pounamuGlow}20`,
-          }}>Whānau</span>
-          <h3 className="text-[20px] mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "3px", textTransform: "uppercase", color: C.white }}>
-            Family
-          </h3>
-          <div className="mb-4">
-            <span className="text-[28px]" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, color: C.white }}>$29</span>
-            <span className="text-[14px] ml-1" style={{ color: "#6B7280" }}>/mo</span>
-          </div>
-          <p className="text-[13px] leading-[1.8] mb-5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
-            SMS-first AI for NZ whānau. No app, no login — just text. School runs, meal planning, family admin.
-          </p>
-          <ul className="space-y-2 mb-6">
-            {PRICING.family.features.slice(0, 4).map(f => (
-              <li key={f} className="flex items-center gap-2 text-[12px]" style={{ color: "#6B7280" }}>
-                <Check size={12} style={{ color: C.pounamuGlow }} />{f}
-              </li>
-            ))}
-          </ul>
-          <Link to="/toroa" className="inline-flex items-center gap-2 text-[12px] tracking-[2px] uppercase" style={{ fontFamily: "'Lato', sans-serif", color: C.pounamuGlow }}>
-            Join the waitlist <ArrowRight size={12} />
-          </Link>
-        </motion.div>
+      <div className="max-w-2xl mx-auto">
 
         {/* Outcome */}
         <motion.div {...fade} className="rounded-2xl p-8" style={{
