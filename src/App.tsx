@@ -48,6 +48,7 @@ const WorkflowsRunner = lazy(() => import("./pages/WorkflowsRunner"));
 const WaihangaWorkflows = lazy(() => import("./pages/WaihangaWorkflows"));
 const SectorWorkflows = lazy(() => import("./pages/SectorWorkflows"));
 const AdminKbPriorities = lazy(() => import("./pages/AdminKbPriorities"));
+const AdminDesignSystem = lazy(() => import("./pages/admin/DesignSystem"));
 const AdminKnowledgeBrainPage = lazy(() => import("./pages/AdminKnowledgeBrainPage"));
 const PikauCbaffLanding = lazy(() => import("./pages/PikauCbaffLanding"));
 const ArtakiMtaLanding = lazy(() => import("./pages/ArtakiMtaLanding"));
@@ -233,6 +234,7 @@ const App = () => (
                         <Route path="/admin/knowledge" element={<Suspense fallback={null}><AdminKnowledgeBase /></Suspense>} />
                         <Route path="/admin/flint" element={<Suspense fallback={null}><AdminFlintDashboard /></Suspense>} />
                         <Route path="/admin/test-lab" element={<Suspense fallback={null}><AdminAgentTestLab /></Suspense>} />
+                        <Route path="/admin/design-system" element={<Suspense fallback={null}><AdminDesignSystem /></Suspense>} />
                         <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
                         <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />
                         <Route path="/admin/sms" element={<Suspense fallback={null}><AdminSmsPage /></Suspense>} />
