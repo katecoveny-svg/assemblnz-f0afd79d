@@ -67,7 +67,7 @@ export default function NextPreview() {
               color: "#3A7D6E",
             }}
           >
-            Phase 3 lands here
+            Governed workflows
           </p>
           <h2
             style={{
@@ -79,8 +79,8 @@ export default function NextPreview() {
               color: "#3D4250",
             }}
           >
-            Kete tiles will assemble here on scroll —
-            <em style={{ fontStyle: "italic", color: "#3A7D6E", fontWeight: 300 }}> staggered, tilted, parallaxed.</em>
+            Eight specialist kete for the work that keeps New Zealand businesses moving —
+            <em style={{ fontStyle: "italic", color: "#3A7D6E", fontWeight: 300 }}> guided, governed, and ready to use.</em>
           </h2>
           <p
             className="mt-6 max-w-[52ch] mx-auto"
@@ -91,8 +91,7 @@ export default function NextPreview() {
               color: "#3D4250B3",
             }}
           >
-            This is the preview surface. Once you approve the hero direction, the rest of the
-            choreographed homepage gets built into this page.
+            Each kete combines live agents, structured workflows, and evidence packs so teams can reduce admin, surface risk earlier, and keep people in control.
           </p>
         </div>
       </section>
