@@ -110,7 +110,7 @@ const IndustrySolutions = () => {
             Industry <span className="text-gradient-hero">solutions</span>
           </h2>
           <p className="text-sm sm:text-[15px] font-body text-muted-foreground max-w-md mx-auto">
-            Specialist tools for every sector — trained on the legislation that matters to you.
+            Specialist agents grounded in the NZ Acts, regulator guidance, and standards that matter to your sector.
           </p>
         </motion.div>
 
