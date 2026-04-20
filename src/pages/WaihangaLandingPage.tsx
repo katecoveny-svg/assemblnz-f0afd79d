@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Shield, FileText, Wrench, Building, Users, HardHat, ClipboardCheck, AlertTriangle, Ruler } from "lucide-react";
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
+import HeroBackdropNext from "@/components/next/HeroBackdropNext";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import KeteSwitcherPill from "@/components/kete/KeteSwitcherPill";
@@ -86,6 +87,7 @@ export default function WaihangaLandingPage() {
         <KeteSwitcherPill activeKete="waihanga" />
 
         {/* ── Hero ── */}
+        <HeroBackdropNext variant="layered" accentTint={`${C.pounamu}10`}>
         <main className="relative flex flex-col items-center px-6 pt-16 pb-28 text-center overflow-hidden">
           {/* Ambient pastel blobs */}
           <motion.div className="absolute pointer-events-none" style={{
