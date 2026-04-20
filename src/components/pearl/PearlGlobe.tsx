@@ -65,12 +65,12 @@ interface PearlGlobeProps {
  */
 export default function PearlGlobe({
   size = 320,
-  tint = "#1F4D47",
-  bloom = "#E8EEEC",
+  tint = "#C4D6D2",
+  bloom = "#FFFFFF",
   drift = "slow",
   className = "",
   style,
-  opacity = 0.85,
+  opacity = 0.78,
 }: PearlGlobeProps) {
   const [ready, setReady] = useState(false);
   const driftClass = drift === "none" ? "" : drift === "med" ? "pearl-drift-med" : "pearl-drift-slow";
