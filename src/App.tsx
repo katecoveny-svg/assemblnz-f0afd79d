@@ -15,6 +15,7 @@ import { PersonalizationProvider } from "@/contexts/PersonalizationContext";
 import { BrandDnaProvider } from "@/contexts/BrandDnaContext";
 import { BusinessProvider } from "@/contexts/BusinessContext";
 import PageTransition from "@/components/marama/PageTransition";
+import GlobalMotionShell from "@/components/next/GlobalMotionShell";
 
 import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
