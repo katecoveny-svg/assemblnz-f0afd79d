@@ -201,7 +201,7 @@ Deno.serve(async (req) => {
   const requestId = crypto.randomUUID();
 
   try {
-    const { message, packId, agentId, messages = [], userId, systemPromptOverride } = await req.json();
+    const { message, packId, agentId, messages = [], userId, systemPromptOverride, conversationId } = await req.json();
     if (!message) {
       return new Response(JSON.stringify({ error: "message is required" }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -270,10 +270,10 @@ Deno.serve(async (req) => {
     if (resolvedUserId) {
       // ═══ UNIFIED MEMORY RECALL — semantic lookup against agent_memory ═══
       try {
-        const memResp = await fetch(`${supabaseUrl}/functions/v1/memory-recall`, {
+        const memResp = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/memory-recall`, {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${supabaseServiceKey}`,
+            Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
