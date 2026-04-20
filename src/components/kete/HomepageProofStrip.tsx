@@ -39,7 +39,7 @@ export default function HomepageProofStrip() {
 
   const isLoading = sources === null;
   const freshness = lastSync ? formatAgo(new Date(lastSync)) : "—";
-  const TEAL = "#4AA5A8";
+  const TEAL = "#3A7D6E";
 
   return (
     <motion.div

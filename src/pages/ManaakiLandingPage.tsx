@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Shield, Wine, Star, Leaf, Calendar, UtensilsCrossed, Coffee, Users, Thermometer, ClipboardList, Sparkles } from "lucide-react";
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
+import HeroBackdropNext from "@/components/next/HeroBackdropNext";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import KeteSwitcherPill from "@/components/kete/KeteSwitcherPill";
@@ -75,6 +76,7 @@ export default function ManaakiLandingPage() {
         <KeteSwitcherPill activeKete="manaaki" />
 
         {/* ── Hero ── */}
+        <HeroBackdropNext variant="layered" accentTint={`${POUNAMU}10`}>
         <main className="relative flex flex-col items-center px-6 pt-16 pb-28 text-center overflow-hidden">
           {/* Ambient background glow */}
           <div className="absolute inset-0 pointer-events-none" style={{
@@ -205,6 +207,7 @@ export default function ManaakiLandingPage() {
             </Link>
           </motion.div>
         </main>
+        </HeroBackdropNext>
 
         {/* ── Real Use Case (collapsed by default) ── */}
         <UseCaseToggle accent={POUNAMU}>

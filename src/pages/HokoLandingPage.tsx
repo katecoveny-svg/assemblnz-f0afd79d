@@ -6,6 +6,7 @@ import {
   Users, Megaphone, ShieldCheck, BarChart3, Sparkles, Zap,
 } from "lucide-react";
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
+import HeroBackdropNext from "@/components/next/HeroBackdropNext";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import KeteSwitcherPill from "@/components/kete/KeteSwitcherPill";
@@ -101,6 +102,7 @@ export default function HokoLandingPage() {
         <KeteSwitcherPill activeKete="hoko" />
 
         {/* ── Hero ── */}
+        <HeroBackdropNext variant="layered" accentTint={`${POUNAMU}10`}>
         <main className="relative flex flex-col items-center px-6 pt-16 pb-28 text-center overflow-hidden">
           <div className="absolute inset-0 pointer-events-none" style={{
             background: `radial-gradient(ellipse 80% 50% at 50% 30%, ${ACCENT}10 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 30% 60%, ${POUNAMU}06 0%, transparent 60%)`,
@@ -158,6 +160,7 @@ export default function HokoLandingPage() {
             </Link>
           </div>
         </main>
+        </HeroBackdropNext>
 
         {/* ── Flagship demo: Price Scanner ── */}
         <section className="px-6 py-20" style={{ background: "rgba(198,107,92,0.03)" }}>

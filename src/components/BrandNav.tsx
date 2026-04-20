@@ -126,9 +126,9 @@ const BrandNav = () => {
       <header
         className="sticky top-0 z-[9999] flex items-center gap-3 px-5 sm:px-8 h-16 overflow-visible"
         style={{
-          background: "rgba(250,251,252,0.75)",
+          background: "rgba(250,251,252,0.78)",
           backdropFilter: "blur(20px) saturate(140%)",
-          borderBottom: "1px solid rgba(74,165,168,0.08)",
+          borderBottom: "1px solid rgba(58,125,110,0.10)",
         }}
       >
         <Link to="/" className="flex items-center gap-3 group shrink-0">
@@ -179,14 +179,13 @@ const BrandNav = () => {
           </div>
 
           <button onClick={() => handleNavClick("/contact")}
-            className="ml-2 px-8 py-2.5 rounded-full text-xs font-body font-semibold transition-all duration-300 hover:scale-[1.03]"
+            className="ml-2 px-7 py-2.5 rounded-full text-[11px] font-body font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:scale-[1.03]"
             style={{
-              background: "linear-gradient(145deg, #55BFC1, #4AA5A8)",
+              background: "#3A7D6E",
               color: "#FFFFFF",
-              boxShadow: "0 4px 16px rgba(74,165,168,0.3), inset 0 1px 0 rgba(255,255,255,0.25)",
-              textShadow: "0 1px 2px rgba(0,0,0,0.12)",
+              boxShadow: "0 8px 24px -8px rgba(58,125,110,0.55), inset 0 1px 0 rgba(255,255,255,0.18)",
             }}>
-            Kia ora — get started
+            Start a pilot
           </button>
 
           <AccountDropdown />
@@ -253,12 +252,12 @@ const BrandNav = () => {
                 ))}
               </nav>
 
-              <div className="px-5 py-5 border-t space-y-3" style={{ borderColor: "rgba(74,165,168,0.1)" }}>
+              <div className="px-5 py-5 border-t space-y-3" style={{ borderColor: "rgba(58,125,110,0.12)" }}>
                 <button
-                  className="block w-full text-center px-5 py-3 rounded-full text-sm font-body font-medium"
-                  style={{ background: "#4AA5A8", color: "#FFFFFF" }}
+                  className="block w-full text-center px-5 py-3 rounded-full text-[11px] font-body font-semibold uppercase tracking-[0.18em]"
+                  style={{ background: "#3A7D6E", color: "#FFFFFF", boxShadow: "0 8px 24px -8px rgba(58,125,110,0.55)" }}
                   onClick={() => { setMobileOpen(false); handleNavClick("/contact"); }}>
-                  Kia ora — get started
+                  Start a pilot
                 </button>
                 <AccountDropdown />
                 <button

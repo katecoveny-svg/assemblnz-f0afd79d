@@ -93,7 +93,7 @@ const BrandFooter = () => {
     <footer className="relative py-24 px-4 sm:px-6" style={{ background: "transparent" }}>
       {/* Top divider */}
       <div className="absolute top-0 left-[10%] right-[10%] h-px" style={{
-        background: "linear-gradient(90deg, transparent, rgba(74,165,168,0.15), transparent)",
+        background: "linear-gradient(90deg, transparent, rgba(58,125,110,0.22), transparent)",
       }} />
 
       <div className="max-w-[1200px] mx-auto relative z-10">
@@ -103,9 +103,13 @@ const BrandFooter = () => {
             style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250" }}>
             ASSEMBL
           </h2>
-          <p className="text-lg max-w-2xl mx-auto leading-relaxed"
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#6B7280" }}>
-            One governed intelligence layer for every NZ business — from the café to the construction site to the customs house.
+          <p className="text-[17px] max-w-2xl mx-auto leading-relaxed"
+            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250B3" }}>
+            Intelligent tools for every New Zealand business — from the dairy owner in Timaru to the customs broker on the Auckland waterfront.
+          </p>
+          <p className="mt-3 text-[12px] tracking-[3px] uppercase"
+            style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>
+            From $29 / month · grounded in NZ legislation · evidence packs, not chat
           </p>
         </div>
 
@@ -144,14 +148,14 @@ const BrandFooter = () => {
                 color: "#3D4250",
               }} />
             <button type="submit" className="px-5 py-3 rounded-full transition-all duration-300 hover:scale-105"
-              style={{ background: "#4AA5A8", color: "#FFFFFF" }}>
+              style={{ background: "#3A7D6E", color: "#FFFFFF", boxShadow: "0 6px 18px -8px rgba(58,125,110,0.5)" }}>
               <Send size={14} />
             </button>
           </form>
         </div>
 
         {/* Divider */}
-        <div className="h-px mb-8" style={{ background: "linear-gradient(90deg, transparent, rgba(74,165,168,0.12), transparent)" }} />
+        <div className="h-px mb-8" style={{ background: "linear-gradient(90deg, transparent, rgba(58,125,110,0.18), transparent)" }} />
 
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
@@ -159,17 +163,17 @@ const BrandFooter = () => {
             © 2026 Assembl · assembl.co.nz
           </p>
           <p className="text-[10px] max-w-md" style={{ color: "#9CA3AF", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-            Governed intelligence for Aotearoa — specialist kete for real NZ operations.
+            Built in Aotearoa, for Aotearoa — accessible to every NZ business.
           </p>
           <Link
             to="/admin"
             aria-label="Admin"
             className="inline-flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300 hover:scale-110"
             style={{
-              background: "rgba(255,255,255,0.65)",
+              background: "rgba(255,255,255,0.7)",
               backdropFilter: "blur(20px)",
-              border: "1px solid rgba(74,165,168,0.2)",
-              color: "#4AA5A8",
+              border: "1px solid rgba(58,125,110,0.22)",
+              color: "#3A7D6E",
             }}
           >
             <Shield size={14} />

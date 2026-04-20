@@ -11,6 +11,7 @@ import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
 import UseCaseToggle from "@/components/kete/UseCaseToggle";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
+import HeroBackdropNext from "@/components/next/HeroBackdropNext";
 import TextUsButton from "@/components/kete/TextUsButton";
 import { ARATAKI_USE_CASE } from "@/data/useCases";
 
@@ -64,6 +65,7 @@ export default function AratakiLandingPage() {
         <KeteSwitcherPill activeKete="arataki" />
 
         {/* Hero */}
+        <HeroBackdropNext variant="layered" accentTint={`${ACCENT}10`}>
         <main className="relative flex flex-col items-center px-6 pt-24 pb-32 text-center overflow-hidden">
           <div className="absolute inset-0 pointer-events-none" style={{
             background: `radial-gradient(ellipse 80% 50% at 50% 30%, ${ACCENT}08 0%, transparent 70%)`,
@@ -106,6 +108,7 @@ export default function AratakiLandingPage() {
             </Link>
           </motion.div>
         </main>
+        </HeroBackdropNext>
 
         {/* ── Persona Context ── */}
         <section className="max-w-3xl mx-auto px-6 pb-20">
