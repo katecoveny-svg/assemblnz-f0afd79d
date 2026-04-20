@@ -196,6 +196,10 @@ function classifyAgent(message: string, explicitAgent?: string): string {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  // Track routing decision for audit/observability
+  const routingStart = Date.now();
+  const requestId = crypto.randomUUID();
+
   try {
     const { message, packId, agentId, messages = [], userId, systemPromptOverride } = await req.json();
     if (!message) {
@@ -629,6 +633,20 @@ Trust & compliance:
     const rawPref = agentPrompt?.model_preference || "gemini-3-flash-preview";
     const model = MODEL_MAP[rawPref] || `google/${rawPref}`;
 
+    // ═══ ROUTING OBSERVABILITY — log the selection decision (fire-and-forget) ═══
+    supabase.from("routing_log").insert({
+      request_id: requestId,
+      user_input: message.slice(0, 1000),
+      detected_intent: agentPack,
+      selected_kete: agentPack,
+      selected_agent: selectedAgent,
+      selected_model: model,
+      confidence_score: agentId ? 1.0 : 0.7, // explicit selection = 1.0, classifier = 0.7
+      routing_time_ms: Date.now() - routingStart,
+    }).then(({ error }) => {
+      if (error) console.warn("routing_log insert failed:", error.message);
+    });
+
 
     // ═══ DYNAMIC TOOL REGISTRY + INDUSTRY-AWARE LOADING ═══
     let agentTools: any[] = [];
@@ -860,6 +878,25 @@ Trust & compliance:
         for (const ctx of contextWrites) {
           supabase.from("shared_context").upsert(ctx, { onConflict: "user_id,context_key" }).then(() => {});
         }
+      }
+
+      // ═══ MEMORY PERSISTENCE — write a conversation summary so future sessions can recall (fire-and-forget) ═══
+      // Only summarise messages with substance (>= 40 chars) to avoid junk rows
+      if (message.length >= 40) {
+        const keyFacts: Record<string, any> = {};
+        for (const w of contextWrites) keyFacts[w.context_key] = w.context_value;
+
+        const summary = `User asked ${selectedAgent}: "${message.slice(0, 240)}${message.length > 240 ? "…" : ""}"`;
+        supabase.from("conversation_summaries").insert({
+          user_id: resolvedUserId,
+          agent_id: selectedAgent,
+          summary,
+          key_facts_extracted: keyFacts,
+          original_message_count: (messages?.length || 0) + 1,
+          compression_level: 0,
+        }).then(({ error }) => {
+          if (error) console.warn("conversation_summaries insert failed:", error.message);
+        });
       }
     }
 

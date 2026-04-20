@@ -23,7 +23,7 @@ export const INTEGRATIONS: Integration[] = [
   // ─── CONNECTED (Live) ───
   { name: "PDF Export", description: "Download any agent output as a branded PDF.", agents: ["All Agents"], tier: "connected", icon: FileText, color: "hsl(var(--primary))", connected: true },
   { name: "Weather (Open-Meteo)", description: "Real-time NZ weather alerts for APEX (site safety), TERRA (farming), TURF (match day), HAVEN (property).", agents: ["APEX", "TERRA", "TURF", "HAVEN"], tier: "connected", icon: Sun, color: "hsl(45 100% 55%)", connected: true },
-  { name: "Lovable AI Gateway", description: "Powers all 45 agents via multi-model AI orchestration — Claude, Gemini, GPT-5.", agents: ["All Agents"], tier: "connected", icon: Sparkles, color: "hsl(var(--primary))", connected: true },
+  { name: "Lovable AI Gateway", description: "Powers the specialist agent library via multi-model AI orchestration — Claude, Gemini, GPT-5.", agents: ["All Agents"], tier: "connected", icon: Sparkles, color: "hsl(var(--primary))", connected: true },
   { name: "Image Generation", description: "AI image generation for PRISM creative studio and ECHO content.", agents: ["PRISM", "ECHO"], tier: "connected", icon: Camera, color: "hsl(300 80% 60%)", connected: true },
 
   // ─── AVAILABLE — Google Workspace ───

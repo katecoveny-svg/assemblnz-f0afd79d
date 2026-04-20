@@ -132,8 +132,8 @@ export default function AaaipLanding() {
         <Section className="pb-16">
           <motion.div variants={fade} className="rounded-2xl py-8 px-6" style={{ background: `linear-gradient(135deg, ${C.pounamu}10, ${C.navy}10)`, border: `1px solid ${C.border}` }}>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
-              <StatBlock value="48" label="Specialist AI Agents" />
-              <StatBlock value="10" label="Digital Twin Pilots" color={C.goldLight} />
+              <StatBlock value="Library" label="Specialist AI Agents" />
+              <StatBlock value="Pilots" label="Digital Twin Studies" color={C.goldLight} />
               <StatBlock value="5" label="NZ Industry Kete" />
               <StatBlock value="5-stage" label="Compliance Pipeline" color={C.goldLight} />
             </div>
@@ -220,7 +220,7 @@ export default function AaaipLanding() {
                 <div>
                   <h4 className="text-base font-bold mb-2" style={{ color: C.t1 }}>Multi-agent orchestration</h4>
                   <p className="text-[14px] leading-relaxed" style={{ color: C.t2 }}>
-                    48 specialist agents coordinate through Iho — a central intelligence layer that classifies intent, routes to the right specialists, and ensures responses don't contradict each other.
+                    A library of specialist agents coordinates through Iho — a central intelligence layer that classifies intent, routes to the right specialists, and ensures responses don't contradict each other.
                   </p>
                 </div>
               </div>
@@ -243,10 +243,10 @@ export default function AaaipLanding() {
         <Section className="pb-20">
           <motion.div variants={fade} className="mb-10">
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight" style={{ color: C.t1 }}>
-              10 digital twin pilots — live now
+              Digital twin pilot studies
             </h2>
             <p className="text-base mt-3 max-w-2xl" style={{ color: C.t2 }}>
-              Every pilot runs a deterministic simulator under live policy governance. Click "Launch Demo" to run any of them.
+              Each pilot is a deterministic simulator under live policy governance. Some run live in production tenants today; others are demonstrator scenarios for research benchmarking. Click "Launch Demo" to run any of them.
             </p>
           </motion.div>
 
@@ -304,7 +304,7 @@ export default function AaaipLanding() {
             {[
               {
                 aaaip: "How do AI agents maintain reliability in real-world deployment?",
-                assembl: "Production compliance pipeline with five-stage verification, audit logging, and measurable error rates across 48 agents operating on NZ legislation.",
+                assembl: "Production compliance pipeline with five-stage verification, audit logging, and measurable error rates across the specialist agent library operating on NZ legislation.",
                 icon: Shield,
               },
               {

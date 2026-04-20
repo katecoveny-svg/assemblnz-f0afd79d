@@ -1,6 +1,6 @@
 /**
  * AgentMarketplacePage — /agents
- * Beautiful, browseable directory of all 46 specialist agents.
+ * Beautiful, browseable directory of the specialist agent library.
  * - Search by name / role / expertise
  * - Filter by kete (canonical) and Shared Core
  * - Beautiful glass cards with hover lift and accent gradient

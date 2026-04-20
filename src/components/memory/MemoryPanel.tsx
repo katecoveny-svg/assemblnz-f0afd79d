@@ -37,7 +37,7 @@ export default function MemoryPanel() {
         <h2 className="text-lg font-semibold text-foreground">Agent Memory</h2>
       </div>
       <p className="text-xs text-muted-foreground">
-        Search across all past conversations. Agents automatically recall relevant context.
+        Search past conversations indexed for this workspace. Memory coverage is being expanded across kete — Tōro and Manaaki carry context today.
       </p>
 
       {/* Search */}

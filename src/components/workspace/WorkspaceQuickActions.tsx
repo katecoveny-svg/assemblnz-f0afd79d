@@ -17,7 +17,7 @@ interface QuickAction {
 
 const ACTIONS: QuickAction[] = [
   { label: "Run a workflow", desc: "Pick a kete & start", to: "/workspace/workflows", icon: Play },
-  { label: "Browse agents", desc: "46 specialists", to: "/agents", icon: Users },
+  { label: "Browse agents", desc: "Specialist library", to: "/agents", icon: Users },
   { label: "Evidence packs", desc: "Past results", to: "/workspace/evidence", icon: FileText },
   { label: "Connect tools", desc: "Stripe, Xero, more", to: "/workspace/connections", icon: Plug },
   { label: "Memory & training", desc: "Tune your agents", to: "/workspace/memory", icon: Brain },

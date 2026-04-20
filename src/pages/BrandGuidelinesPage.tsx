@@ -115,7 +115,7 @@ export default function BrandGuidelinesPage() {
             The Assembl Visual Identity
           </h1>
           <p className={`${SUB} mx-auto`} style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-            44 agents. Five kete. One intelligence layer. This guide defines how Assembl looks,
+            A library of specialist agents. Five kete. One intelligence layer. This guide defines how Assembl looks,
             speaks, and feels across every touchpoint.
           </p>
         </div>
@@ -133,7 +133,7 @@ export default function BrandGuidelinesPage() {
             <div className="space-y-6">
               <div className="rounded-3xl p-8" style={GLASS_CARD}>
                 <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>One-line pitch</p>
-                <p className="text-[20px] font-light" style={{ color: "#1A1D29" }}>"44 agents. Five kete. One intelligence layer."</p>
+                <p className="text-[20px] font-light" style={{ color: "#1A1D29" }}>"A specialist agent library. Five kete. One intelligence layer."</p>
               </div>
               <div className="rounded-3xl p-8" style={GLASS_CARD}>
                 <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Elevator pitch</p>

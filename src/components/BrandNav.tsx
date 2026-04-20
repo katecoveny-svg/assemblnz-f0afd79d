@@ -35,7 +35,7 @@ const MORE_LINKS = [
   { label: "Data Sovereignty", sublabel: "Enterprise trust", to: "/data-sovereignty", glowIcon: "Shield", color: "#4AA5A8" },
   { label: "Developers", sublabel: "API & docs", to: "/developers", glowIcon: "Cpu", color: "#6CBFC1" },
   { label: "AAAIP", sublabel: "R&D showcase", to: "/aaaip", glowIcon: "Sparkles", color: "#4AA5A8" },
-  { label: "Agent Marketplace", sublabel: "Browse 46 specialists", to: "/agents", glowIcon: "Users", color: "#9B8EC4" },
+  { label: "Agent Marketplace", sublabel: "Browse the specialist library", to: "/agents", glowIcon: "Users", color: "#9B8EC4" },
 ];
 
 const BrandNav = () => {
