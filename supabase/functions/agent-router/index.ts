@@ -201,7 +201,7 @@ Deno.serve(async (req) => {
   const requestId = crypto.randomUUID();
 
   try {
-    const { message, packId, agentId, messages = [], userId, systemPromptOverride } = await req.json();
+    const { message, packId, agentId, messages = [], userId, systemPromptOverride, conversationId } = await req.json();
     if (!message) {
       return new Response(JSON.stringify({ error: "message is required" }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -253,7 +253,49 @@ Deno.serve(async (req) => {
       } catch { /* anonymous user */ }
     }
 
+    // Resolve tenant for this user (best-effort) — used for unified memory recall + extraction queue
+    let resolvedTenantId: string | null = null;
     if (resolvedUserId) {
+      try {
+        const { data: tm } = await supabase
+          .from("tenant_members")
+          .select("tenant_id")
+          .eq("user_id", resolvedUserId)
+          .limit(1)
+          .maybeSingle();
+        resolvedTenantId = tm?.tenant_id ?? null;
+      } catch { /* no tenant membership */ }
+    }
+
+    if (resolvedUserId) {
+      // ═══ UNIFIED MEMORY RECALL — semantic lookup against agent_memory ═══
+      try {
+        const memResp = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/memory-recall`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tenant_id: resolvedTenantId,
+            user_id: resolvedUserId,
+            query: message,
+            limit: 10,
+          }),
+        });
+        if (memResp.ok) {
+          const { memories } = await memResp.json();
+          if (Array.isArray(memories) && memories.length > 0) {
+            const lines = memories
+              .map((m: any) => `- [${m.memory_type}] ${m.subject}: ${m.content}`)
+              .join("\n");
+            memoryBlock += `\n\n--- WHAT YOU REMEMBER ABOUT THIS USER (semantic recall) ---\n${lines}\nUse these durable facts naturally; do not re-ask things the user has already told you.`;
+          }
+        }
+      } catch (e) {
+        console.warn("memory-recall failed:", (e as Error).message);
+      }
+
       // Load shared business context
       const { data: contextRows } = await supabase
         .from("shared_context")
@@ -897,6 +939,31 @@ Trust & compliance:
         }).then(({ error }) => {
           if (error) console.warn("conversation_summaries insert failed:", error.message);
         });
+      }
+
+      // ═══ MEMORY EXTRACTION QUEUE — debounced enqueue (only if conversationId provided) ═══
+      if (conversationId && resolvedTenantId) {
+        try {
+          const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+          const { data: recent } = await supabase
+            .from("memory_extraction_queue")
+            .select("id")
+            .eq("conversation_id", conversationId)
+            .gte("created_at", tenMinAgo)
+            .limit(1);
+          if (!recent || recent.length === 0) {
+            supabase.from("memory_extraction_queue").insert({
+              tenant_id: resolvedTenantId,
+              user_id: resolvedUserId,
+              conversation_id: conversationId,
+              status: "pending",
+            }).then(({ error }) => {
+              if (error) console.warn("memory_extraction_queue insert failed:", error.message);
+            });
+          }
+        } catch (e) {
+          console.warn("queue check failed:", (e as Error).message);
+        }
       }
     }
 
