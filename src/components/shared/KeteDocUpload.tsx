@@ -1,4 +1,9 @@
 import { useState, useRef, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Upload, FileText, Loader2, CheckCircle2, X, Sparkles } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 function arrayBufferToBase64(bytes: Uint8Array): string {
   let binary = "";
@@ -8,11 +13,6 @@ function arrayBufferToBase64(bytes: Uint8Array): string {
   }
   return btoa(binary);
 }
-import { motion, AnimatePresence } from "framer-motion";
-import { Upload, FileText, Loader2, CheckCircle2, X, Sparkles } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
-import { toast } from "sonner";
 
 interface ParsedResult {
   summary: string;
