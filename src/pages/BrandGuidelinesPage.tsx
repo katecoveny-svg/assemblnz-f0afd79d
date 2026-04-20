@@ -479,7 +479,7 @@ color: #4AA5A8;`}
               Brand Video
             </h2>
             <p className={`${SUB} mx-auto`} style={{ color: "#6B7280" }}>
-              The hero motion piece — five industries, one intelligence layer. Use across socials,
+              The hero motion piece — every industry, one intelligence layer. Use across socials,
               decks, and pitch material.
             </p>
           </div>
@@ -494,7 +494,7 @@ color: #4AA5A8;`}
             <div className="relative" style={{ background: "#0A0A0F" }}>
               <img loading="lazy" decoding="async"
                 src="/brand/assembl-brand-video.gif"
-                alt="Assembl brand video — five industries, one intelligence layer"
+                alt="Assembl brand video — every industry, one intelligence layer"
                 className="w-full h-auto block"
                 style={{ maxHeight: 600, objectFit: "contain", margin: "0 auto" }} />
               {/* Logo overlay (bottom-left) */}
