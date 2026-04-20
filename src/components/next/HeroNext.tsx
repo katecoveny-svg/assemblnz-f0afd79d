@@ -114,7 +114,7 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
             color: "#3D4250B3",
           }}
         >
-          Live-updated NZ law, tikanga-governed workflows, and specialist agents — bundled into evidence packs you can hand to a regulator, a client, or a board. From $29 for solo operators to custom Outcome engagements. Nobody priced out.
+          Live-updated NZ law, tikanga-governed workflows, and specialist agents — bundled into evidence packs you can hand to a regulator, a client, or a board. Custom Outcome engagements. Nobody priced out.
         </motion.p>
 
         <motion.div
