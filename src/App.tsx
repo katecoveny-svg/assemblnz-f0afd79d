@@ -201,7 +201,7 @@ const App = () => (
                         <Route path="/chat/:agentId" element={<ChatPageKeyed />} />
                         <Route path="/login" element={<AuthPage mode="login" />} />
                         <Route path="/signup" element={<AuthPage mode="signup" />} />
-                        <Route path="/mariner" element={<Navigate to="/toro" replace />} />
+                        
                         <Route path="/embed/:agentId" element={<Suspense fallback={null}><EmbedChatWidget /></Suspense>} />
                         <Route path="/embed" element={<Suspense fallback={null}><EmbedPage /></Suspense>} />
                         <Route path="/command" element={<Suspense fallback={null}><CommandDashboard /></Suspense>} />
