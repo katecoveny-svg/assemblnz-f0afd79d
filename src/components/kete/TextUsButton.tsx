@@ -10,7 +10,11 @@ interface TextUsButtonProps {
 
 // Inbound Assembl messaging number — routes through Twilio → tnz-inbound gateway.
 // Both SMS and WhatsApp deep-links use this E.164 number.
+// TODO(messaging): Replace with confirmed NZ E.164 once Twilio NZ number is provisioned.
+// Currently US number — kept so SMS deep-link works for testing, but WhatsApp is hidden
+// (see WHATSAPP_LIVE flag) until we have an active WhatsApp Business number.
 const DEFAULT_PHONE = "+14785516606";
+const WHATSAPP_LIVE = false; // Flip to true once WhatsApp Business is approved on the NZ number.
 
 /**
  * "Text us" CTA that opens the visitor's native SMS or WhatsApp app
@@ -24,7 +28,7 @@ const TextUsButton = ({
 }: TextUsButtonProps) => {
   const smsBody = encodeURIComponent(`Hi Assembl — I'm interested in ${keteName}`);
   const cleanNumber = phoneNumber.replace(/\+/g, "");
-  const canUseWhatsApp = showWhatsApp && /^\d{10,15}$/.test(cleanNumber);
+  const canUseWhatsApp = WHATSAPP_LIVE && showWhatsApp && /^\d{10,15}$/.test(cleanNumber);
 
   const smsHref = `sms:${phoneNumber}?body=${smsBody}`;
   const waHref = `https://wa.me/${cleanNumber}?text=${smsBody}`;
