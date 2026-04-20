@@ -137,6 +137,7 @@ export default function PikauLandingPage() {
             </Link>
           </motion.div>
         </main>
+        </HeroBackdropNext>
 
         {/* ── Real Use Case (collapsed by default) ── */}
         <UseCaseToggle accent={POUNAMU}>

@@ -108,6 +108,7 @@ export default function AratakiLandingPage() {
             </Link>
           </motion.div>
         </main>
+        </HeroBackdropNext>
 
         {/* ── Persona Context ── */}
         <section className="max-w-3xl mx-auto px-6 pb-20">

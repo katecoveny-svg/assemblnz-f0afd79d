@@ -168,6 +168,7 @@ export default function AuahaLandingPage() {
             </Link>
           </motion.div>
         </main>
+        </HeroBackdropNext>
 
         {/* ── Real Use Case ── */}
         <KeteUseCaseSection data={AUAHA_USE_CASE} />

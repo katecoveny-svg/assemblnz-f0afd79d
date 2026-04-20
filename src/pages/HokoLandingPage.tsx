@@ -160,6 +160,7 @@ export default function HokoLandingPage() {
             </Link>
           </div>
         </main>
+        </HeroBackdropNext>
 
         {/* ── Flagship demo: Price Scanner ── */}
         <section className="px-6 py-20" style={{ background: "rgba(198,107,92,0.03)" }}>

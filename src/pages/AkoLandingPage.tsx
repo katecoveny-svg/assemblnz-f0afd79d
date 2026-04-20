@@ -186,6 +186,7 @@ export default function AkoLandingPage() {
             </div>
           </motion.div>
         </main>
+        </HeroBackdropNext>
 
         {/* ── Flagship demo: Criteria Matcher ── */}
         <section className="px-6 py-20" style={{ background: `${ACCENT}06` }}>

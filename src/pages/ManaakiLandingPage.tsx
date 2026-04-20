@@ -207,6 +207,7 @@ export default function ManaakiLandingPage() {
             </Link>
           </motion.div>
         </main>
+        </HeroBackdropNext>
 
         {/* ── Real Use Case (collapsed by default) ── */}
         <UseCaseToggle accent={POUNAMU}>

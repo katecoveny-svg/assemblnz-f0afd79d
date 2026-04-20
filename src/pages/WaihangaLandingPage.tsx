@@ -153,6 +153,7 @@ export default function WaihangaLandingPage() {
             </Link>
           </motion.div>
         </main>
+        </HeroBackdropNext>
 
         {/* ── Real Use Case (collapsed by default) ── */}
         <UseCaseToggle accent={C.pounamu}>
