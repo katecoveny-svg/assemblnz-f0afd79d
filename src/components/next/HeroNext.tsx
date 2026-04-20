@@ -31,15 +31,37 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
         />
       </div>
 
-      {/* Optional glass jack on top */}
+      {/* Optional glass orb — refined: off-axis, smaller, softer, behind type */}
       {variant === "layered" && (
-        <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-          <div className="w-[min(70vw,760px)] h-[min(70vw,760px)] opacity-90">
-            <Suspense fallback={null}>
-              <HeroGlassBlob />
-            </Suspense>
-          </div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          className="absolute pointer-events-none hidden md:block"
+          style={{
+            // anchored to the right, vertically centred-ish, behind the type
+            top: "50%",
+            right: "-8%",
+            transform: "translateY(-50%)",
+            width: "min(48vw,560px)",
+            height: "min(48vw,560px)",
+            opacity: 0.55,
+            filter: "blur(0.4px) saturate(0.95)",
+            mixBlendMode: "luminosity",
+          }}
+        >
+          <Suspense fallback={null}>
+            <HeroGlassBlob />
+          </Suspense>
+          {/* Soft halo to bleed it into the shader */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 50%, rgba(255,255,255,0) 45%, rgba(244,250,252,0.85) 80%)",
+            }}
+          />
+        </motion.div>
       )}
 
       {/* Type */}
