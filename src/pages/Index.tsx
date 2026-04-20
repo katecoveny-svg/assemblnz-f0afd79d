@@ -615,16 +615,16 @@ const Index = () => {
         {/* ═══ WHAT CHANGED THIS WEEK ═══ */}
         <WeeklyChangesDigest />
 
-        {/* ═══ KERERŪ NON-CONFLICT POSITIONING ═══ */}
+        {/* ═══ NZ AI ECOSYSTEM — partner-underclaim posture ═══ */}
         <Sect>
           <motion.div {...fade} className="max-w-3xl mx-auto text-center">
             <SectionEyebrow>How we fit with the NZ AI ecosystem</SectionEyebrow>
             <h3 className="text-[22px] sm:text-[28px] mb-6" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, lineHeight: 1.3, color: C.text }}>
-              Kererū.ai answers <em style={{ color: C.teal, fontStyle: "normal" }}>where</em> your data lives.<br />
+              Sovereign infrastructure answers <em style={{ color: C.teal, fontStyle: "normal" }}>where</em> your data lives.<br />
               Assembl answers <em style={{ color: C.teal, fontStyle: "normal" }}>what</em> your data does.
             </h3>
             <p className="text-[15px] leading-[1.8] mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textSecondary }}>
-              Kererū is NZ-sovereign AI infrastructure. Assembl is the product layer built on top — pre-trained on NZ law, tikanga-governed, with industry kete that turn compliance into evidence packs. We think NZ businesses need both.
+              NZ-owned providers (like Kererū) build the sovereign substrate. Assembl is the product layer on top — grounded in NZ Acts, tikanga-governed, with industry kete that turn compliance into evidence packs. We're exploring relationships with NZ-owned infrastructure partners and will say more when terms are signed. NZ businesses need both layers.
             </p>
             <p className="text-[13px] leading-[1.8]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textTertiary }}>
               We're actively working with NZ-owned infrastructure partners so your data can stay on NZ soil. Sovereign hosting is in flight — not yet live for every customer. Ask us where your specific kete runs.
