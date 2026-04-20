@@ -79,11 +79,11 @@ export default function NextPreview() {
               color: "#3D4250",
             }}
           >
-            Eight kete. From the dairy owner in Timaru to the customs broker on the Auckland waterfront —
-            <em style={{ fontStyle: "italic", color: "#3A7D6E", fontWeight: 300 }}> AI that knows our laws, our context, and our way of working.</em>
+            Eight kete. One compliance pipeline. From the dairy owner in Timaru to the customs broker on the Auckland waterfront —
+            <em style={{ fontStyle: "italic", color: "#3A7D6E", fontWeight: 300 }}> built in Aotearoa, for the way we actually operate.</em>
           </h2>
           <p
-            className="mt-6 max-w-[58ch] mx-auto"
+            className="mt-8 max-w-[60ch] mx-auto"
             style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: 16,
@@ -91,19 +91,35 @@ export default function NextPreview() {
               color: "#3D4250B3",
             }}
           >
-            Hospitality, construction, creative, automotive &amp; fleet, freight &amp; customs, health, professional services — and Tōro for whānau. Every output runs through our NZ compliance pipeline (Kahu → Iho → Tā → Mahara → Mana) and is grounded in live-updated NZ legislation, standards, and regulator guidance.
+            Manaaki (hospitality), Waihanga (construction), Auaha (creative), Arataki (automotive &amp; fleet), Pikau (freight &amp; customs), Hoko (retail), Ako (early childhood) — and Tōro for whānau. Every output runs through Kahu → Iho → Tā → Mahara → Mana, grounded in live-updated NZ Acts and regulator guidance.
           </p>
+
+          {/* Three pillars */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 text-left">
+            {[
+              { eyebrow: "Pillar 1", title: "Made accessible", body: "From $29 Tōro to custom Outcome. Same compliance pipeline at every tier — nobody priced out." },
+              { eyebrow: "Pillar 2", title: "NZ-specific by default", body: "Live-updated NZ Acts, regulator guidance, industry standards. Every output cites an Act, regulator, or record." },
+              { eyebrow: "Pillar 3", title: "Evidence packs, not chat", body: "Auditable deliverables for WorkSafe, MBIE, IRD, a client, or a board. The pack is the product." },
+            ].map((p) => (
+              <div key={p.eyebrow} className="p-6 rounded-2xl"
+                style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(20px)", border: "1px solid rgba(58,125,110,0.15)" }}>
+                <p className="uppercase text-[10px] mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.28em", color: "#3A7D6E" }}>{p.eyebrow}</p>
+                <h3 className="text-[19px] mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "#3D4250" }}>{p.title}</h3>
+                <p className="text-[14px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", lineHeight: 1.6, color: "#3D4250B3" }}>{p.body}</p>
+              </div>
+            ))}
+          </div>
+
           <p
-            className="mt-6 max-w-[58ch] mx-auto"
+            className="mt-12 text-[13px]"
             style={{
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              fontSize: 14,
-              lineHeight: 1.6,
-              color: "#3D425099",
-              fontStyle: "italic",
+              fontFamily: "'JetBrains Mono', monospace",
+              letterSpacing: "0.18em",
+              color: "#3A7D6E",
+              textTransform: "uppercase",
             }}
           >
-            From $29/month for solo operators on Tōro, to $1,490 for small business on Operator, up to custom Outcome engagements. Nobody priced out of NZ-grounded AI.
+            Intelligence, shaped for Aotearoa — at a price every operator can afford
           </p>
         </div>
       </section>

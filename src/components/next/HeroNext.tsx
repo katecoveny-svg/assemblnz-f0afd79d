@@ -98,7 +98,7 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
         >
           Intelligent tools for every<br />
           <em style={{ fontStyle: "italic", fontWeight: 300, color: "#3A7D6E" }}>
-            New Zealand business.
+            New Zealand operator.
           </em>
         </motion.h1>
 
@@ -106,7 +106,7 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.45 }}
-          className="max-w-[58ch] mt-8"
+          className="max-w-[60ch] mt-8"
           style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontSize: 17,
@@ -114,7 +114,7 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
             color: "#3D4250B3",
           }}
         >
-          From the solo trade operator to the enterprise boardroom — eight industry kete that ship compliance-ready evidence packs grounded in NZ legislation, standards, and tikanga. Not chat. Deliverables you can hand to WorkSafe, MBIE, IRD, a client, or a board.
+          Live-updated NZ law, tikanga-governed workflows, and specialist agents — bundled into evidence packs you can hand to a regulator, a client, or a board. From $29 for solo operators to custom Outcome engagements. Nobody priced out.
         </motion.p>
 
         <motion.div
