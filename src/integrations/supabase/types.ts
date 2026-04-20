@@ -416,33 +416,88 @@ export type Database = {
       }
       agent_memory: {
         Row: {
+          access_count: number | null
           agent_id: string
+          content: string | null
+          conversation_id: string | null
           created_at: string
+          embedding: string | null
           id: string
+          importance: number | null
+          last_accessed_at: string | null
           memory_key: string
+          memory_type: string | null
           memory_value: Json
+          source: string | null
+          subject: string | null
+          superseded_by: string | null
+          tenant_id: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          access_count?: number | null
           agent_id: string
+          content?: string | null
+          conversation_id?: string | null
           created_at?: string
+          embedding?: string | null
           id?: string
+          importance?: number | null
+          last_accessed_at?: string | null
           memory_key: string
+          memory_type?: string | null
           memory_value?: Json
+          source?: string | null
+          subject?: string | null
+          superseded_by?: string | null
+          tenant_id?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          access_count?: number | null
           agent_id?: string
+          content?: string | null
+          conversation_id?: string | null
           created_at?: string
+          embedding?: string | null
           id?: string
+          importance?: number | null
+          last_accessed_at?: string | null
           memory_key?: string
+          memory_type?: string | null
           memory_value?: Json
+          source?: string | null
+          subject?: string | null
+          superseded_by?: string | null
+          tenant_id?: string | null
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "agent_memory_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_memory_superseded_by_fkey"
+            columns: ["superseded_by"]
+            isOneToOne: false
+            referencedRelation: "agent_memory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_memory_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       agent_prompts: {
         Row: {
@@ -5437,6 +5492,57 @@ export type Database = {
             columns: ["senior_id"]
             isOneToOne: false
             referencedRelation: "senior_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      memory_extraction_queue: {
+        Row: {
+          attempts: number
+          conversation_id: string
+          created_at: string | null
+          id: string
+          last_error: string | null
+          processed_at: string | null
+          status: string
+          tenant_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          attempts?: number
+          conversation_id: string
+          created_at?: string | null
+          id?: string
+          last_error?: string | null
+          processed_at?: string | null
+          status?: string
+          tenant_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          attempts?: number
+          conversation_id?: string
+          created_at?: string | null
+          id?: string
+          last_error?: string | null
+          processed_at?: string | null
+          status?: string
+          tenant_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memory_extraction_queue_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "memory_extraction_queue_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
         ]
@@ -11119,6 +11225,23 @@ export type Database = {
           last_run_at: string
           last_run_status: string
           schedule: string
+        }[]
+      }
+      match_agent_memory: {
+        Args: {
+          p_match_count?: number
+          p_min_similarity?: number
+          p_query_embedding: string
+          p_tenant_id: string
+          p_user_id: string
+        }
+        Returns: {
+          content: string
+          id: string
+          importance: number
+          memory_type: string
+          similarity: number
+          subject: string
         }[]
       }
       match_kb_knowledge: {
