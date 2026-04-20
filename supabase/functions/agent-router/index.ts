@@ -253,7 +253,49 @@ Deno.serve(async (req) => {
       } catch { /* anonymous user */ }
     }
 
+    // Resolve tenant for this user (best-effort) — used for unified memory recall + extraction queue
+    let resolvedTenantId: string | null = null;
     if (resolvedUserId) {
+      try {
+        const { data: tm } = await supabase
+          .from("tenant_members")
+          .select("tenant_id")
+          .eq("user_id", resolvedUserId)
+          .limit(1)
+          .maybeSingle();
+        resolvedTenantId = tm?.tenant_id ?? null;
+      } catch { /* no tenant membership */ }
+    }
+
+    if (resolvedUserId) {
+      // ═══ UNIFIED MEMORY RECALL — semantic lookup against agent_memory ═══
+      try {
+        const memResp = await fetch(`${supabaseUrl}/functions/v1/memory-recall`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${supabaseServiceKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tenant_id: resolvedTenantId,
+            user_id: resolvedUserId,
+            query: message,
+            limit: 10,
+          }),
+        });
+        if (memResp.ok) {
+          const { memories } = await memResp.json();
+          if (Array.isArray(memories) && memories.length > 0) {
+            const lines = memories
+              .map((m: any) => `- [${m.memory_type}] ${m.subject}: ${m.content}`)
+              .join("\n");
+            memoryBlock += `\n\n--- WHAT YOU REMEMBER ABOUT THIS USER (semantic recall) ---\n${lines}\nUse these durable facts naturally; do not re-ask things the user has already told you.`;
+          }
+        }
+      } catch (e) {
+        console.warn("memory-recall failed:", (e as Error).message);
+      }
+
       // Load shared business context
       const { data: contextRows } = await supabase
         .from("shared_context")
