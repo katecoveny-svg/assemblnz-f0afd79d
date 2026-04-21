@@ -1,11 +1,8 @@
 import { useEffect, useRef } from "react";
-import keteBase from "@/assets/kete-feather-base.png";
-import keteManaaki from "@/assets/kete-feather-manaaki.png";
-import keteWaihanga from "@/assets/kete-feather-waihanga.png";
-import keteAuaha from "@/assets/kete-feather-auaha.png";
-import keteArataki from "@/assets/kete-feather-arataki.png";
-import ketePikau from "@/assets/kete-feather-pikau.png";
-import keteToro from "@/assets/kete-feather-toro.png";
+// Single source of truth — every kete across the site is the same white feathered kete.
+// Per-industry variants are accepted for backwards compatibility but always resolve
+// to the master image, so branding stays cohesive everywhere.
+import keteMaster from "@/assets/kete-white-master.png";
 
 /**
  * FeatherKete — photoreal woven feather kete used as a decorative
@@ -22,27 +19,20 @@ export type KeteVariant =
   | "pikau"
   | "toro";
 
+// All variants resolve to the master white kete — this keeps the API stable
+// for every existing caller while collapsing the visual to a single template.
 const VARIANT_SRC: Record<KeteVariant, string> = {
-  base: keteBase,
-  manaaki: keteManaaki,
-  waihanga: keteWaihanga,
-  auaha: keteAuaha,
-  arataki: keteArataki,
-  pikau: ketePikau,
-  toro: keteToro,
+  base: keteMaster,
+  manaaki: keteMaster,
+  waihanga: keteMaster,
+  auaha: keteMaster,
+  arataki: keteMaster,
+  pikau: keteMaster,
+  toro: keteMaster,
 };
 
-// Soft drop-shadow tint per variant — translucent pounamu by default,
-// warmer / cooler accents per kete to harmonise with the feather palette.
-const VARIANT_SHADOW: Record<KeteVariant, string> = {
-  base: "drop-shadow(0 14px 28px rgba(31,77,71,0.10))",
-  manaaki: "drop-shadow(0 14px 28px rgba(214,121,99,0.12))",
-  waihanga: "drop-shadow(0 14px 28px rgba(140,82,40,0.14))",
-  auaha: "drop-shadow(0 14px 28px rgba(80,120,160,0.14))",
-  arataki: "drop-shadow(0 14px 28px rgba(70,80,95,0.14))",
-  pikau: "drop-shadow(0 14px 28px rgba(40,70,110,0.16))",
-  toro: "drop-shadow(0 14px 28px rgba(214,170,120,0.12))",
-};
+// Single soft pounamu drop-shadow for every kete, regardless of variant.
+const MASTER_SHADOW = "drop-shadow(0 14px 30px rgba(74,165,168,0.18)) drop-shadow(0 4px 10px rgba(31,77,71,0.10))";
 
 interface FeatherKeteProps {
   variant?: KeteVariant;
@@ -82,8 +72,8 @@ export default function FeatherKete({
     return () => cancelAnimationFrame(raf);
   }, [drift]);
 
-  const src = VARIANT_SRC[variant];
-  const shadow = VARIANT_SHADOW[variant];
+  const src = VARIANT_SRC[variant] ?? keteMaster;
+  const shadow = MASTER_SHADOW;
 
   return (
     <div
