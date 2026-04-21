@@ -353,6 +353,13 @@ function WhyAssembl() {
           ))}
         </div>
       </motion.div>
+
+      {/* Quiet cloud breaks the page beneath the text */}
+      <div className="relative mx-auto hidden md:flex items-center justify-center pointer-events-none" style={{ width: 360, height: 360, marginTop: 96 }}>
+        <Suspense fallback={null}>
+          <MiniCloud size={360} drift="slow" opacity={0.5} />
+        </Suspense>
+      </div>
     </section>
   );
 }
