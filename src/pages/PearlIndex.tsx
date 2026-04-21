@@ -305,7 +305,7 @@ function Hero() {
         }}
       />
 
-      <div className="max-w-[1120px] mx-auto px-6 md:px-10 relative z-10" style={{ paddingTop: "16vh" }}>
+      <div className="w-full px-6 md:px-16 lg:px-24 relative z-10" style={{ paddingTop: "16vh" }}>
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease }}>
           <Eyebrow>Assembl · Built in Aotearoa</Eyebrow>
         </motion.div>
