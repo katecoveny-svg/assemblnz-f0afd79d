@@ -110,8 +110,10 @@ function FairyLights({
     return Array.from({ length: count }, (_, i) => ({
       base: i / count,
       phase: Math.random() * Math.PI * 2,
-      twinkleHz: 1.6 + Math.random() * 2.4, // 1.6–4 Hz
-      sizeJitter: 0.6 + Math.random() * 0.9,
+      twinkleHz: 3.5 + Math.random() * 4.5, // 3.5–8 Hz — crisp fairy-light blink
+      sizeJitter: 0.5 + Math.random() * 1.1,
+      // Some stars stay dark longer between twinkles (rare bright pulses)
+      sparkBias: Math.random() < 0.35 ? 4.0 : 1.4,
     }));
   }, [count]);
 
