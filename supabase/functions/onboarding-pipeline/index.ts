@@ -38,6 +38,19 @@ Deno.serve(async (req) => {
       );
     }
 
+    // ─── URL Normalization ────────────────────────────────────────
+    // Defensive: handle malformed inputs like "https://://example.com" or
+    // "://example.com" that come from front-end double-prefixing.
+    let rawUrl = String(intake.website_url || "").trim();
+    // Strip any combination of leading protocol/colon/slash artifacts.
+    rawUrl = rawUrl.replace(/^(https?:)?\/*:?\/*/i, "");
+    rawUrl = rawUrl.replace(/^\/+/, "");
+    const normalizedUrl = rawUrl ? `https://${rawUrl}` : "";
+    if (normalizedUrl !== intake.website_url) {
+      intake.website_url = normalizedUrl;
+      await supabase.from("tenant_intake").update({ website_url: normalizedUrl }).eq("id", intake_id);
+    }
+
     // Update status to processing
     await supabase
       .from("tenant_intake")
@@ -247,6 +260,13 @@ Write in plain English. No jargon. No buzzwords. Respond in JSON:
       } catch (e) {
         console.error("[TĀ] Plan generation error:", e);
       }
+    }
+
+    // Fallback: if AI gateway failed, build a deterministic plan so the
+    // pipeline always completes with something useful for the user.
+    if (!plan) {
+      console.log("[TĀ] Using deterministic fallback plan");
+      plan = buildFallbackPlan(intake, classification);
     }
 
     await supabase
@@ -490,7 +510,102 @@ Write in plain English. No jargon. No buzzwords. Respond in JSON:
   }
 });
 
-// ─── Agent mapping per kete ──────────────────────────────────
+// ─── Deterministic fallback plan ─────────────────────────────
+// Used when the AI gateway is unreachable so the pipeline always
+// produces a usable plan instead of leaving the user stuck.
+function buildFallbackPlan(
+  intake: Record<string, any>,
+  classification: Record<string, any>,
+): Record<string, any> {
+  const businessName = intake.business_name || "your business";
+  const kete = String(classification.kete_primary || "ARATAKI").toUpperCase();
+  const painPoints: string[] = Array.isArray(intake.pain_points) ? intake.pain_points : [];
+
+  const KETE_DEFAULTS: Record<string, any> = {
+    MANAAKI: {
+      summary: `${businessName} runs a hospitality operation — guests, bookings, reviews, supplier admin.`,
+      workflows: [
+        { name: "Guest reply drafts", what_it_does: "Draft warm replies to enquiries and reviews in your tone.", time_saved_per_week: "3h" },
+        { name: "Supplier check-ins", what_it_does: "Auto-chase supplier confirmations and log responses.", time_saved_per_week: "2h" },
+        { name: "Daily ops digest", what_it_does: "One-page daily summary of bookings, dietary needs, VIPs.", time_saved_per_week: "2h" },
+      ],
+    },
+    WAIHANGA: {
+      summary: `${businessName} runs construction work — sites, subbies, compliance, invoicing.`,
+      workflows: [
+        { name: "Subbie compliance chase", what_it_does: "Check LBP/insurance/Site Safe expiries and chase before they lapse.", time_saved_per_week: "4h" },
+        { name: "Site diary drafts", what_it_does: "Turn voice notes from site into draft daily diaries.", time_saved_per_week: "3h" },
+        { name: "Variation letters", what_it_does: "Draft NZS 3910/CCA-aware variation notices for review.", time_saved_per_week: "2h" },
+      ],
+    },
+    AUAHA: {
+      summary: `${businessName} produces creative work — content, brand, campaigns, social.`,
+      workflows: [
+        { name: "Brand-DNA scan", what_it_does: "Capture your visual + voice tone from your site, reuse in every draft.", time_saved_per_week: "2h" },
+        { name: "Weekly content drafts", what_it_does: "Draft posts and captions across channels in your voice.", time_saved_per_week: "5h" },
+        { name: "Pitch decks & proposals", what_it_does: "Draft proposals from a brief, ready for your review.", time_saved_per_week: "3h" },
+      ],
+    },
+    ARATAKI: {
+      summary: `${businessName} runs general business operations — admin, compliance, customer ops.`,
+      workflows: [
+        { name: "Inbox triage", what_it_does: "Categorise inbound email and draft replies for your sign-off.", time_saved_per_week: "4h" },
+        { name: "Compliance reminders", what_it_does: "NZ-specific reminders (GST, ACC, IRD) wired to your calendar.", time_saved_per_week: "1h" },
+        { name: "Weekly business pulse", what_it_does: "Plain-English summary of what changed this week.", time_saved_per_week: "2h" },
+      ],
+    },
+    PIKAU: {
+      summary: `${businessName} moves freight or runs logistics — shipments, customs, MPI, carriers.`,
+      workflows: [
+        { name: "Customs entry checks", what_it_does: "Pre-check declarations against MPI/Customs rules before lodging.", time_saved_per_week: "5h" },
+        { name: "Shipment tracking digest", what_it_does: "One-screen view of all live shipments, ETAs, and exceptions.", time_saved_per_week: "3h" },
+        { name: "Carrier rate compare", what_it_does: "Compare quotes across carriers for each lane.", time_saved_per_week: "2h" },
+      ],
+    },
+  };
+
+  const cfg = KETE_DEFAULTS[kete] || KETE_DEFAULTS.ARATAKI;
+  const painLine = painPoints.length
+    ? `Top priorities you flagged: ${painPoints.slice(0, 3).join(", ")}.`
+    : "";
+
+  return {
+    business_summary: `${cfg.summary} ${painLine}`.trim(),
+    kete_recommendation: {
+      primary: kete,
+      why: classification.reasoning || `${kete} is the best fit based on what you told us and the work you do.`,
+    },
+    workflows_week_1: cfg.workflows,
+    plan_30_60_90: {
+      week_1: [
+        "Stand up your workspace with your brand tone captured",
+        `Switch on the first ${cfg.workflows[0].name.toLowerCase()} workflow`,
+        "Review and approve your first draft outputs",
+      ],
+      month_1: [
+        "Add the remaining week-1 workflows",
+        "Wire in your real data sources (email, calendar, key tools)",
+        "Review your first evidence pack with your team",
+      ],
+      month_3: [
+        "Tune workflows based on what you've approved vs edited",
+        "Add a second kete if it makes sense",
+        "Roll out to the wider team",
+      ],
+    },
+    evidence_pack_samples: [
+      { title: "Weekly Operations Pack", description: "Plain-English summary of what your agents drafted, what you approved, and what changed." },
+      { title: "Compliance Snapshot", description: "Status of NZ-specific obligations relevant to your kete." },
+    ],
+    price: {
+      monthly_nzd: 890,
+      setup_nzd: 0,
+      includes: ["Your kete + agents", "Brand DNA capture", "Weekly evidence pack", "Email + chat support"],
+    },
+    _generated_by: "fallback",
+  };
+}
+
 function getKeteAgents(kete: string): { code: string; name: string }[] {
   const base = [
     { code: "iho", name: "Iho" },
