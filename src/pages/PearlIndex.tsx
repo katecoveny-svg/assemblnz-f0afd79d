@@ -808,7 +808,7 @@ function PearlFooter() {
             marginBottom: 8,
           }}
         >
-          Premium intelligence with a human heart.
+          Premium intelligence that understands what matters.
         </p>
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(14,21,19,0.6)", marginBottom: 24 }}>
           Time is the thing. We give it back.
@@ -826,8 +826,8 @@ export default function PearlIndex() {
   return (
     <>
       <SEO
-        title="Assembl — Premium intelligence with a human heart"
-        description="Practical AI agents for New Zealand families, teams and communities. Every workflow ends in a pack you can file, forward or footnote — and stays current as the law changes."
+        title="Assembl — Premium intelligence that understands what matters"
+        description="NZ specialist AI agents and workflows designed to help business, teams and communities move through complexity with more control and clarity. Every workflow produces a pack that can be filed or audited — and stays current as the law changes."
       />
       <div style={{ background: PEARL.bg, minHeight: "100vh" }}>
         <BrandNav />
