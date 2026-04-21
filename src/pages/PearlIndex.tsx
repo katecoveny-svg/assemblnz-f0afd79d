@@ -360,7 +360,7 @@ function WhatAssemblIs() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-16 md:gap-24 relative">
-          <div>
+          <div className="relative" style={{ zIndex: 2 }}>
             <p
               style={{
                 fontFamily: "'Inter', sans-serif",
@@ -378,7 +378,7 @@ function WhatAssemblIs() {
               Efficient, end-to-end, in your industry. A food diary. A site induction. A customs clearance. A contract review. A WoF reminder. A privacy check. The agent runs the whole loop in the background — and hands you a finished pack, not another dashboard to manage.
             </Body>
           </div>
-          <div>
+          <div className="relative" style={{ zIndex: 2 }}>
             <p
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
@@ -398,10 +398,37 @@ function WhatAssemblIs() {
             </Body>
           </div>
 
-          {/* Small feathery cloud between columns */}
-          <div className="hidden md:block absolute" style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 200, height: 200 }}>
+          {/* Background feathery cloud — large, soft, sits behind the columns */}
+          <div
+            className="hidden md:block absolute pointer-events-none"
+            style={{
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 880,
+              height: 880,
+              zIndex: 0,
+            }}
+          >
             <Suspense fallback={null}>
-              <MiniCloud size={200} drift="med" opacity={0.55} />
+              <MiniCloud size={880} drift="slow" opacity={0.32} />
+            </Suspense>
+          </div>
+          {/* Data-light strand woven across the cloud — obvious network of connected lights */}
+          <div
+            className="hidden md:block absolute pointer-events-none"
+            style={{
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 720,
+              height: 220,
+              zIndex: 1,
+              opacity: 0.95,
+            }}
+          >
+            <Suspense fallback={null}>
+              <FairyLightStrand width={720} height={220} bulbs={14} direction="drape" />
             </Suspense>
           </div>
         </div>
