@@ -1,9 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Check, Clock, AlertCircle, FileText, Sparkles } from "lucide-react";
+import { Check, Clock, AlertCircle, FileText, Sparkles, Loader2 } from "lucide-react";
 import { showWorkflowToast } from "./WorkflowToast";
+import { generateAndDownloadEvidencePack } from "@/lib/evidencePackPdf";
+import { toast } from "sonner";
+
+const POUNAMU = "#3A7D6E";
+const POUNAMU_LIGHT = "#7ECFC2";
 
 const STATS = [
   { label: "Total Documents", value: "47" },
@@ -31,65 +35,49 @@ const RC_DOCS = [
 ];
 
 function StatusIcon({ status }: { status: string }) {
-  if (status === "complete") return <Check size={14} className="text-primary" />;
-  if (status === "review") return <Clock size={14} className="text-[hsl(42,78%,60%)]" />;
-  if (status === "progress") return <Clock size={14} className="text-[hsl(42,78%,60%)]" />;
-  if (status === "addendum") return <AlertCircle size={14} className="text-[hsl(30,80%,55%)]" />;
+  if (status === "complete") return <Check size={14} style={{ color: POUNAMU }} />;
+  if (status === "review") return <Clock size={14} style={{ color: POUNAMU_LIGHT }} />;
+  if (status === "progress") return <Clock size={14} style={{ color: POUNAMU_LIGHT }} />;
+  if (status === "addendum") return <AlertCircle size={14} style={{ color: POUNAMU }} />;
   return <div className="w-3.5 h-3.5 rounded-full border border-muted-foreground" />;
 }
 
-const COMPILE_STEPS = [
-  "Scanning documents...",
-  "Verifying Building Code references...",
-  "Cross-referencing compliance matrix...",
-  "Generating table of contents...",
-  "Compiling PDF...",
-  "Running gap analysis...",
-];
-
-function CompileModal({ onClose }: { onClose: () => void }) {
-  const [step, setStep] = useState(0);
-  const [pct, setPct] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPct(p => {
-        if (p >= 100) { clearInterval(interval); return 100; }
-        return p + 2;
-      });
-      setStep(s => Math.min(Math.floor((pct / 100) * COMPILE_STEPS.length), COMPILE_STEPS.length - 1));
-    }, 80);
-    const timeout = setTimeout(() => {
-      onClose();
-      showWorkflowToast("Evidence pack compiled successfully!", "47 documents, 3 gaps identified");
-    }, 5000);
-    return () => { clearInterval(interval); clearTimeout(timeout); };
-  }, []);
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" onClick={onClose}>
-      <div className="bg-card border border-border rounded-xl p-8 max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
-        <div className="flex items-center gap-2 mb-4">
-          <Sparkles size={20} className="text-[hsl(42,78%,60%)]" />
-          <h3 className="text-lg font-medium text-foreground">Compiling Evidence Pack</h3>
-        </div>
-        <p className="text-sm text-primary mb-4">{COMPILE_STEPS[Math.min(step, COMPILE_STEPS.length - 1)]}</p>
-        <Progress value={pct} className="h-2 mb-2" />
-        <p className="text-xs text-muted-foreground text-right">{pct}%</p>
-      </div>
-    </div>
-  );
-}
-
 export default function EvidencePacks() {
-  const [compiling, setCompiling] = useState(false);
+  const [generating, setGenerating] = useState<"bc" | "rc" | null>(null);
+
+  const handleGenerate = async (kind: "bc" | "rc") => {
+    setGenerating(kind);
+    try {
+      const isBC = kind === "bc";
+      const result = await generateAndDownloadEvidencePack({
+        kete: "waihanga",
+        title: isBC ? "Building Consent Evidence Pack" : "Resource Consent Evidence Pack",
+        client: "Sample Project — Auckland CBD",
+        summary: isBC
+          ? "Consolidated Building Consent evidence including architectural, structural, fire, geotechnical, and producer statement records. Cross-referenced against the New Zealand Building Code."
+          : "Resource Consent evidence pack covering AEE, urban design, transport, cultural impact, and stormwater management for s88 RMA submission.",
+        sections: (isBC ? BC_DOCS : RC_DOCS).map((d) => ({
+          agent: "APEX",
+          designation: "Building Compliance",
+          title: d.name,
+          body: `Status: ${d.status.toUpperCase()}${"detail" in d && d.detail ? ` — ${d.detail}` : ""}. Reviewed against NZBC clauses; verification trail recorded in audit log.`,
+          status: d.status === "complete" ? ("pass" as const) : d.status === "addendum" ? ("flag" as const) : ("flag" as const),
+          legislationRef: isBC ? "Building Act 2004, NZBC" : "Resource Management Act 1991, s88",
+        })),
+        simulated: true,
+      });
+      showWorkflowToast("Evidence pack compiled successfully", `${result.filename} downloaded`);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to generate pack");
+    } finally {
+      setGenerating(null);
+    }
+  };
 
   return (
     <div className="space-y-6">
-      {compiling && <CompileModal onClose={() => setCompiling(false)} />}
-
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {STATS.map(s => (
+        {STATS.map((s) => (
           <Card key={s.label} className="bg-card border-border">
             <CardContent className="p-5 text-center">
               <p className="text-xs text-muted-foreground uppercase tracking-wider">{s.label}</p>
@@ -106,7 +94,7 @@ export default function EvidencePacks() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-2">
-              {BC_DOCS.map(d => (
+              {BC_DOCS.map((d) => (
                 <li key={d.name} className="flex items-center gap-2 text-sm">
                   <FileText size={14} className="text-muted-foreground shrink-0" />
                   <StatusIcon status={d.status} />
@@ -125,7 +113,7 @@ export default function EvidencePacks() {
             </CardHeader>
             <CardContent>
               <ul className="space-y-2">
-                {RC_DOCS.map(d => (
+                {RC_DOCS.map((d) => (
                   <li key={d.name} className="flex items-center gap-2 text-sm">
                     <FileText size={14} className="text-muted-foreground shrink-0" />
                     <StatusIcon status={d.status} />
@@ -136,19 +124,43 @@ export default function EvidencePacks() {
             </CardContent>
           </Card>
 
-          <Card className="bg-card border-border relative overflow-hidden" style={{ boxShadow: "0 0 40px hsl(42 78% 50% / 0.08)" }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-[hsl(42,78%,60%)]/5 to-transparent pointer-events-none" />
-            <CardHeader className="pb-3">
+          <Card
+            className="bg-card border-border relative overflow-hidden"
+            style={{ boxShadow: `0 0 40px ${POUNAMU}14` }}
+          >
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: `linear-gradient(135deg, ${POUNAMU}0D, transparent 60%)` }}
+            />
+            <CardHeader className="pb-3 relative z-10">
               <CardTitle className="text-base font-medium flex items-center gap-2">
-                <Sparkles size={16} className="text-[hsl(42,78%,60%)]" />
+                <Sparkles size={16} style={{ color: POUNAMU }} />
                 AI Evidence Pack Generator
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <p className="text-xs text-muted-foreground">Auto-compiles all project documentation into structured evidence packs, cross-referenced against Building Code and consent requirements.</p>
+            <CardContent className="space-y-3 relative z-10">
+              <p className="text-xs text-muted-foreground">
+                Auto-compiles all project documentation into a branded PDF evidence pack, cross-referenced against the Building Code and consent requirements. Downloads to your device and saves a watermarked record.
+              </p>
               <div className="flex flex-wrap gap-2">
-                <Button className="bg-[hsl(42,78%,50%)] hover:bg-[hsl(42,78%,45%)] text-black text-xs" onClick={() => setCompiling(true)}>Generate Building Consent Pack</Button>
-                <Button className="text-xs" onClick={() => setCompiling(true)}>Generate Resource Consent Pack</Button>
+                <Button
+                  className="text-xs text-white"
+                  style={{ background: POUNAMU }}
+                  disabled={generating !== null}
+                  onClick={() => handleGenerate("bc")}
+                >
+                  {generating === "bc" ? <Loader2 size={12} className="animate-spin mr-1.5" /> : null}
+                  Generate Building Consent Pack
+                </Button>
+                <Button
+                  variant="outline"
+                  className="text-xs"
+                  disabled={generating !== null}
+                  onClick={() => handleGenerate("rc")}
+                >
+                  {generating === "rc" ? <Loader2 size={12} className="animate-spin mr-1.5" /> : null}
+                  Generate Resource Consent Pack
+                </Button>
               </div>
             </CardContent>
           </Card>

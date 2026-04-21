@@ -6,6 +6,7 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 import portraitImg from "@/assets/founder-kate-portrait.jpg";
 import workingImg from "@/assets/founder-kate-working.jpg";
+import founderExtra1 from "@/assets/founder/founder-1.png";
 
 const PearlGlobe = lazy(() => import("@/components/pearl/PearlGlobe"));
 const DataRibbons = lazy(() => import("@/components/pearl/FluffyCloud"));
@@ -543,6 +544,27 @@ export default function FounderPage() {
         <Hero />
         <FounderVoice />
         <WorkingPortrait />
+        <section style={{ background: PEARL.bg, paddingTop: 80, paddingBottom: 80 }}>
+          <div className="max-w-[1120px] mx-auto px-6 md:px-10">
+            <div className="grid md:grid-cols-3 gap-6">
+              <div
+                className="relative overflow-hidden md:col-span-2"
+                style={{ borderRadius: 4, boxShadow: "0 30px 80px -40px rgba(14,21,19,0.18)" }}
+              >
+                <img src={founderExtra1} alt="Kate Hudson — moments from building Assembl" className="w-full h-auto block" loading="lazy" />
+              </div>
+              <div className="flex flex-col justify-center">
+                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 22, lineHeight: 1.5, color: PEARL.pounamu }}>
+                  More frames will join this gallery as the build continues — the work, quietly documented.
+                </p>
+              </div>
+              {/* Slots ready for additional uploads */}
+              <div aria-hidden style={{ background: PEARL.opal, borderRadius: 4, minHeight: 220 }} />
+              <div aria-hidden style={{ background: PEARL.opal, borderRadius: 4, minHeight: 220 }} />
+              <div aria-hidden style={{ background: PEARL.opal, borderRadius: 4, minHeight: 220 }} />
+            </div>
+          </div>
+        </section>
         <Belief />
         <ThreePillars />
         <Closing />
