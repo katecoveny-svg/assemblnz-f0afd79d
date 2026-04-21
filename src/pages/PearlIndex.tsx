@@ -262,10 +262,10 @@ function Hero() {
           {/* Stewart Island — tiny dot */}
           <ellipse cx="92" cy="312" rx="6" ry="3.5" fill="rgba(31,77,71,0.05)" />
         </svg>
-        {/* Layer 1 — the kete, nested in the mist */}
+        {/* Layer 1 — the kete, nested in the mist (scales up on wider viewports for true full-bleed feel) */}
         <div className="absolute inset-0 flex items-center justify-center">
           <Suspense fallback={null}>
-            <KeteFocus size={680} sparkles={56} rimSparkles={40} priority warmGlow />
+            <KeteFocus size={860} sparkles={64} rimSparkles={48} priority warmGlow />
           </Suspense>
         </div>
       </div>
