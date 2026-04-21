@@ -194,23 +194,45 @@ function Hero() {
       className="relative overflow-hidden"
       style={{ minHeight: "92vh", background: PEARL.bg }}
     >
-      {/* Soft icy backdrop wash */}
+      {/* Soft icy backdrop wash — full-bleed, anchored on right where the kete lives */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 70% 55% at 70% 40%, rgba(255,236,210,0.35) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 30% 70%, rgba(228,238,236,0.45) 0%, transparent 65%)",
+            "radial-gradient(ellipse 90% 70% at 72% 42%, rgba(255,236,210,0.55) 0%, rgba(255,236,210,0.18) 38%, transparent 68%), radial-gradient(ellipse 70% 60% at 28% 72%, rgba(228,238,236,0.5) 0%, transparent 70%), linear-gradient(180deg, rgba(255,248,236,0.35) 0%, transparent 55%)",
         }}
       />
-      {/* Desktop: kete nested INSIDE a warm pearl cloud, with fairy lights */}
+      {/* Horizontal pearl band — unifies hero across full width so the kete reads as one continuous atmosphere */}
       <div
         className="absolute hidden md:block pointer-events-none"
-        style={{ top: "2%", right: "-8%", width: 880, height: 880 }}
+        style={{
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "100%",
+          background:
+            "radial-gradient(ellipse 65% 55% at 75% 45%, rgba(255,242,222,0.42) 0%, rgba(255,242,222,0.12) 45%, transparent 70%)",
+        }}
+      />
+      {/* Desktop: kete nested INSIDE a warm pearl cloud — full-bleed, mask-blended */}
+      <div
+        className="absolute hidden md:block pointer-events-none"
+        style={{
+          top: "0%",
+          right: 0,
+          width: "min(72vw, 1100px)",
+          height: "100%",
+          // Soft radial mask so the kete container has NO visible edge — it dissolves into the page
+          maskImage:
+            "radial-gradient(ellipse 70% 60% at 65% 50%, black 30%, rgba(0,0,0,0.6) 55%, transparent 80%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 70% 60% at 65% 50%, black 30%, rgba(0,0,0,0.6) 55%, transparent 80%)",
+        }}
       >
         {/* Layer 0 — warm pearl cumulus that wraps the kete */}
         <div className="absolute inset-0 flex items-center justify-center">
           <Suspense fallback={null}>
-            <HeroCloud height={760} opacity={0.95} />
+            <HeroCloud height={820} opacity={0.95} />
           </Suspense>
         </div>
         {/* Layer 0.5 — Aotearoa silhouette watermark, hand-traced inside the mist */}
@@ -220,10 +242,10 @@ function Hero() {
           height={448}
           className="absolute"
           style={{
-            top: "32%",
-            left: "38%",
+            top: "30%",
+            left: "42%",
             filter: "blur(1.4px)",
-            opacity: 0.85,
+            opacity: 0.7,
             mixBlendMode: "multiply",
           }}
           aria-hidden="true"
@@ -244,26 +266,45 @@ function Hero() {
         {/* Layer 1 — the kete, nested in the mist */}
         <div className="absolute inset-0 flex items-center justify-center">
           <Suspense fallback={null}>
-            <KeteFocus size={620} sparkles={48} rimSparkles={36} priority warmGlow />
+            <KeteFocus size={680} sparkles={56} rimSparkles={40} priority warmGlow />
           </Suspense>
         </div>
       </div>
-      {/* Mobile: smaller kete in cloud, behind copy */}
+      {/* Mobile: kete in cloud, behind copy — also mask-blended so no boxed edge */}
       <div
         className="absolute md:hidden pointer-events-none"
-        style={{ top: 40, left: "50%", transform: "translateX(-50%)", width: 380, height: 400, opacity: 0.85 }}
+        style={{
+          top: 24,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "min(96vw, 420px)",
+          height: 420,
+          opacity: 0.92,
+          maskImage:
+            "radial-gradient(ellipse 75% 70% at 50% 50%, black 35%, rgba(0,0,0,0.6) 60%, transparent 85%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 75% 70% at 50% 50%, black 35%, rgba(0,0,0,0.6) 60%, transparent 85%)",
+        }}
       >
         <div className="absolute inset-0 flex items-center justify-center">
           <Suspense fallback={null}>
-            <HeroCloud height={360} opacity={0.85} />
+            <HeroCloud height={380} opacity={0.85} />
           </Suspense>
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
           <Suspense fallback={null}>
-            <KeteFocus size={300} sparkles={28} priority warmGlow />
+            <KeteFocus size={320} sparkles={28} priority warmGlow />
           </Suspense>
         </div>
       </div>
+      {/* Bottom fade — bleeds the hero atmosphere into the next section seamlessly */}
+      <div
+        className="absolute inset-x-0 bottom-0 pointer-events-none"
+        style={{
+          height: "18%",
+          background: `linear-gradient(180deg, transparent 0%, ${PEARL.bg} 100%)`,
+        }}
+      />
 
       <div className="max-w-[1120px] mx-auto px-6 md:px-10 relative z-10" style={{ paddingTop: "16vh" }}>
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease }}>
