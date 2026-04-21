@@ -38,6 +38,16 @@ Deno.serve(async (req) => {
       );
     }
 
+    // ─── URL Normalization ────────────────────────────────────────
+    // Defensive: strip stray protocol prefixes and re-add a clean one.
+    let rawUrl = String(intake.website_url || "").trim();
+    rawUrl = rawUrl.replace(/^(https?:\/\/)+/i, "").replace(/^\/+/, "");
+    const normalizedUrl = rawUrl ? `https://${rawUrl}` : "";
+    if (normalizedUrl !== intake.website_url) {
+      intake.website_url = normalizedUrl;
+      await supabase.from("tenant_intake").update({ website_url: normalizedUrl }).eq("id", intake_id);
+    }
+
     // Update status to processing
     await supabase
       .from("tenant_intake")
