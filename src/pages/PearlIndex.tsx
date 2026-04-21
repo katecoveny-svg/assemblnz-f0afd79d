@@ -346,12 +346,7 @@ function WhyAssembl() {
 function WhatAssemblIs() {
   return (
     <section className="relative overflow-hidden" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}>
-      {/* Soft ribbon system flowing horizontally behind the section */}
-      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 pointer-events-none" style={{ height: 360 }}>
-        <Suspense fallback={null}>
-          <DataRibbons intensity="soft" tone="mixed" height={360} opacity={0.45} />
-        </Suspense>
-      </div>
+      {/* (atmospheric ribbon removed — hero room cloud carries the section) */}
 
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10 relative z-10">
         <Eyebrow>What Assembl is</Eyebrow>
@@ -730,11 +725,7 @@ function Closing() {
       style={{ paddingTop: 200, paddingBottom: 200, background: PEARL.bg }}
     >
       {/* Soft closing ribbon */}
-      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 pointer-events-none" style={{ height: 420 }}>
-        <Suspense fallback={null}>
-          <DataRibbons intensity="soft" tone="mixed" height={420} opacity={0.4} />
-        </Suspense>
-      </div>
+      {/* (closing ribbon removed) */}
 
       {/* Largest globe of the page, drifting behind the text */}
       <div
