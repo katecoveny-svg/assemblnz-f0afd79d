@@ -627,10 +627,10 @@ function LiveCompliance() {
           background: "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(232,238,236,0.55) 0%, transparent 70%)",
         }}
       />
-      {/* Centrepiece cloud */}
-      <div className="absolute hidden md:block" style={{ top: "50%", left: "50%", transform: "translate(-50%, -55%)", width: 460, height: 460, opacity: 0.7 }}>
+      {/* Centrepiece kete — sparkly fairy lights radiating around the woven basket */}
+      <div className="absolute hidden md:block" style={{ top: "50%", left: "50%", transform: "translate(-50%, -55%)", width: 520, height: 540, opacity: 0.85 }}>
         <Suspense fallback={null}>
-          <MiniCloud size={460} drift="slow" opacity={0.7} />
+          <KeteFocus size={500} sparkles={28} />
         </Suspense>
       </div>
 
@@ -780,20 +780,20 @@ function Closing() {
       {/* Soft closing ribbon */}
       {/* (closing ribbon removed) */}
 
-      {/* Largest cloud of the page, drifting behind the text */}
+      {/* Largest kete of the page, drifting behind the closing text */}
       <div
         className="absolute hidden md:block"
         style={{
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 720,
-          height: 720,
-          opacity: 0.6,
+          width: 760,
+          height: 780,
+          opacity: 0.7,
         }}
       >
         <Suspense fallback={null}>
-          <MiniCloud size={720} drift="slow" opacity={0.6} />
+          <KeteFocus size={720} sparkles={42} />
         </Suspense>
       </div>
 
