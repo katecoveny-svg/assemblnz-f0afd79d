@@ -363,16 +363,6 @@ export function HeroCloud({
             ))}
           </g>
 
-          {/* Subtle cool underbelly wash on the base */}
-          <ellipse
-            cx="510"
-            cy="345"
-            rx="380"
-            ry="55"
-            fill="url(#underbelly)"
-            filter="url(#cloudBlur)"
-          />
-
           {/* Layer 2 — sun-warmed highlight cap */}
           <g filter="url(#cloudBlur)" style={{ mixBlendMode: "screen" }}>
             {HERO_PUFFS.filter((p) => p.layer === 2).map((p, i) => (
