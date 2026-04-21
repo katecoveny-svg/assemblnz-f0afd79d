@@ -299,56 +299,32 @@ export default function ToroaLandingPage() {
           </div>
         </section>
 
-        {/* ════ EDITORIAL PHOTO + STATEMENT ════ */}
+        {/* ════ EDITORIAL STATEMENT (photo removed — clean editorial panel) ════ */}
         <section style={{ background: INK }}>
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 py-24 sm:py-32 grid grid-cols-12 gap-8 items-center">
-            <div className="col-span-12 lg:col-span-7 relative">
-              <img
-                src={heroWhanau}
-                alt="A whānau gathered around a single phone on a sunlit deck"
-                className="w-full h-auto rounded-sm"
-                style={{ filter: "saturate(0.85) contrast(1.05)" }}
-                loading="lazy"
-                width={1600}
-                height={1280}
-              />
-              <div
-                className="absolute -bottom-4 -left-4 px-3 py-1.5 text-[10px] uppercase tracking-[0.3em]"
-                style={{
-                  background: OCHRE,
-                  color: INK,
-                  fontFamily: "'JetBrains Mono', monospace",
-                }}
-              >
-                One phone. One number. One whānau.
-              </div>
-            </div>
-
-            <div className="col-span-12 lg:col-span-5">
-              <p
-                className="text-[10px] uppercase tracking-[0.4em] mb-6"
-                style={{ color: OCHRE, fontFamily: "'JetBrains Mono', monospace" }}
-              >
-                The promise
-              </p>
-              <h2
-                className="font-light leading-[1.05] tracking-[-0.02em]"
-                style={{
-                  color: PAPER,
-                  fontFamily: "Lato, sans-serif",
-                  fontSize: "clamp(2rem, 3.6vw, 3.25rem)",
-                }}
-              >
-                Built for the parent who is{" "}
-                <em style={{ color: OCHRE, fontStyle: "italic" }}>holding everything</em> and quietly
-                drowning.
-              </h2>
-              <p className="mt-6 text-[16px] leading-relaxed" style={{ color: PAPER, opacity: 0.7 }}>
-                Tōro doesn't ask you to learn another app, log in again, or download anything. It just
-                takes a text. School notices. Meal plans. Appointments. Birthday gifts. Term dates.
-                Mum's prescription. Done — and quietly remembered for next time.
-              </p>
-            </div>
+          <div className="max-w-5xl mx-auto px-6 sm:px-10 py-24 sm:py-32 text-center">
+            <p
+              className="text-[10px] uppercase tracking-[0.4em] mb-6"
+              style={{ color: OCHRE, fontFamily: "'JetBrains Mono', monospace" }}
+            >
+              The promise
+            </p>
+            <h2
+              className="font-light leading-[1.05] tracking-[-0.02em] max-w-3xl mx-auto"
+              style={{
+                color: PAPER,
+                fontFamily: "Lato, sans-serif",
+                fontSize: "clamp(2rem, 3.6vw, 3.25rem)",
+              }}
+            >
+              Built for the parent who is{" "}
+              <em style={{ color: OCHRE, fontStyle: "italic" }}>holding everything</em> and quietly
+              drowning.
+            </h2>
+            <p className="mt-6 text-[16px] leading-relaxed max-w-2xl mx-auto" style={{ color: PAPER, opacity: 0.7 }}>
+              Tōro doesn't ask you to learn another app, log in again, or download anything. It just
+              takes a text. School notices. Meal plans. Appointments. Birthday gifts. Term dates.
+              Mum's prescription. Done — and quietly remembered for next time.
+            </p>
           </div>
         </section>
 
