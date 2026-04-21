@@ -1,490 +1,413 @@
-import { useRef, useMemo, Suspense, useEffect, useState } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import * as THREE from "three";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 /**
- * FluffyCloud — interactive sparkly cumulus, lit from inside.
+ * FluffyCloud — interactive sparkly cumulus, drawn in SVG.
  *
- * The brief: a cumulus cloud at golden hour, spun-sugar volume, no hard edges.
- * Warm pearl with a subtle pounamu glow filtering through, candle-warm fairy
- * lights (#F8E9C4) twinkling INSIDE the mass. Cursor follow with 300–500ms
- * lag. Scroll parallax drifts the cloud upward. Ambient breathing on a
- * 12–18s cycle. Calm and present, never bouncy.
+ * After several attempts with point-sprite WebGL clouds that read as
+ * scattered dots, this version uses the right tool: overlapping soft
+ * white ellipses with heavy Gaussian blur to form a REAL cumulus
+ * silhouette. SVG composites predictably on the warm pearl canvas,
+ * looks like a cloud at any zoom, and is cheap to animate.
  *
- * Public API:
+ * Public exports:
  *   <HeroCloud />          giant interactive hero cloud
- *   <FluffyCloudScene />   small atmospheric wisp (no interactivity by default)
- *   <FairyLightStrand />   hairline fairy-light strand (CSS/SVG, no canvas)
+ *   <FluffyCloudScene />   small atmospheric wisp
+ *   <FairyLightStrand />   hairline fairy-light strand
  */
 
-/* ───────────────── Palette ───────────────── */
-const CANDLE_WARM = "#F8E9C4";   // candle-warm sparkles
-const POUNAMU = "#1F4D47";        // deep pounamu glow inside cloud
-const POUNAMU_GLOW = "#3A8077";   // softer pounamu, secondary accent
-const CLOUD_WARM = "#FFFBF2";     // warm pearl cloud body
-const CLOUD_COOL = "#EFF1EC";     // very subtle cool underbelly wash
-const SUNLIT_CORE = "#FFE6B8";    // golden-hour heart of the cloud
+/* ───────────────── Palette (warm pearl, golden hour) ───────────────── */
+const CANDLE_WARM = "#F8E9C4";  // candle-warm sparkle core
+const POUNAMU = "#1F4D47";       // deep pounamu (thread, hint of green)
+const POUNAMU_GLOW = "#3A8077";  // softer pounamu glow
 
-/* ───────────────── Sprite textures ───────────────── */
+/* ───────────────── Cloud puff geometry ───────────────── */
 
-/** Soft cumulus puff — warm white body with a sun-warmed core highlight and
- *  a faint cool underbelly. Reads as VOLUME against the warm pearl canvas. */
-function makePuffTexture() {
-  const c = document.createElement("canvas");
-  c.width = c.height = 256;
-  const ctx = c.getContext("2d")!;
-
-  // 1) Faint cool underbelly (down-right) — gives volume against pearl
-  const shadow = ctx.createRadialGradient(140, 158, 0, 140, 158, 100);
-  shadow.addColorStop(0, "rgba(196,210,205,0.35)");
-  shadow.addColorStop(0.6, "rgba(210,220,215,0.15)");
-  shadow.addColorStop(1, "rgba(210,220,215,0)");
-  ctx.fillStyle = shadow;
-  ctx.fillRect(0, 0, 256, 256);
-
-  // 2) Warm pearl cloud body, soft falloff
-  const body = ctx.createRadialGradient(122, 116, 0, 122, 116, 110);
-  body.addColorStop(0, "rgba(255,251,242,1.00)");
-  body.addColorStop(0.32, "rgba(255,251,242,0.92)");
-  body.addColorStop(0.62, "rgba(255,250,238,0.5)");
-  body.addColorStop(0.88, "rgba(255,248,232,0.1)");
-  body.addColorStop(1, "rgba(255,248,232,0)");
-  ctx.fillStyle = body;
-  ctx.fillRect(0, 0, 256, 256);
-
-  // 3) Sun-warmed specular highlight — golden hour catching the puff top
-  const hi = ctx.createRadialGradient(102, 92, 0, 102, 92, 38);
-  hi.addColorStop(0, "rgba(255,228,170,0.55)");
-  hi.addColorStop(0.6, "rgba(255,228,170,0.18)");
-  hi.addColorStop(1, "rgba(255,228,170,0)");
-  ctx.fillStyle = hi;
-  ctx.fillRect(0, 0, 256, 256);
-
-  const tex = new THREE.CanvasTexture(c);
-  tex.minFilter = THREE.LinearMipmapLinearFilter;
-  tex.magFilter = THREE.LinearFilter;
-  tex.needsUpdate = true;
-  return tex;
+interface Puff {
+  /** centre x in viewBox units */
+  cx: number;
+  /** centre y in viewBox units */
+  cy: number;
+  /** horizontal radius */
+  rx: number;
+  /** vertical radius */
+  ry: number;
+  /** opacity 0..1 */
+  op: number;
+  /** breathing weight (0..1) — how much this puff swells with the cycle */
+  breath: number;
+  /** breathing phase offset */
+  phase: number;
+  /** layer: 0 = back rim, 1 = body, 2 = highlight cap */
+  layer: 0 | 1 | 2;
 }
 
-/** Candle-warm fairy light — soft halo + tight core, no diffraction spikes
- *  (those read cool/electric — we want warm wax-candle glow). */
-function makeStarTexture() {
-  const c = document.createElement("canvas");
-  c.width = c.height = 64;
-  const ctx = c.getContext("2d")!;
-  // soft warm halo
-  const halo = ctx.createRadialGradient(32, 32, 0, 32, 32, 30);
-  halo.addColorStop(0, "rgba(255,240,200,0.95)");
-  halo.addColorStop(0.2, "rgba(255,235,190,0.45)");
-  halo.addColorStop(0.55, "rgba(255,230,170,0.1)");
-  halo.addColorStop(1, "rgba(255,230,170,0)");
-  ctx.fillStyle = halo;
-  ctx.fillRect(0, 0, 64, 64);
-  // tight bright core
-  const core = ctx.createRadialGradient(32, 32, 0, 32, 32, 6);
-  core.addColorStop(0, "rgba(255,255,250,1)");
-  core.addColorStop(0.6, "rgba(255,250,225,0.6)");
-  core.addColorStop(1, "rgba(255,250,225,0)");
-  ctx.fillStyle = core;
-  ctx.fillRect(0, 0, 64, 64);
-  const tex = new THREE.CanvasTexture(c);
-  tex.needsUpdate = true;
-  return tex;
+/** Hand-tuned cumulus silhouette inside a 1000×460 viewBox.
+ *  Built like real cumulus: flatter base, billowy cauliflower top,
+ *  stacked overlapping ellipses for volume. */
+const HERO_PUFFS: Puff[] = [
+  // ── back rim (cooler, larger, drifts behind) ──
+  { cx: 220, cy: 260, rx: 170, ry: 130, op: 0.55, breath: 0.9, phase: 0.0, layer: 0 },
+  { cx: 380, cy: 220, rx: 200, ry: 155, op: 0.6,  breath: 0.7, phase: 0.6, layer: 0 },
+  { cx: 560, cy: 200, rx: 230, ry: 175, op: 0.6,  breath: 1.0, phase: 1.2, layer: 0 },
+  { cx: 740, cy: 230, rx: 200, ry: 150, op: 0.55, breath: 0.8, phase: 1.8, layer: 0 },
+  { cx: 870, cy: 270, rx: 150, ry: 115, op: 0.5,  breath: 0.6, phase: 2.4, layer: 0 },
+
+  // ── main warm pearl body (densest, brightest) ──
+  { cx: 280, cy: 280, rx: 130, ry: 105, op: 0.95, breath: 0.5, phase: 0.3, layer: 1 },
+  { cx: 360, cy: 240, rx: 125, ry: 110, op: 1.0,  breath: 0.8, phase: 0.9, layer: 1 },
+  { cx: 460, cy: 215, rx: 145, ry: 130, op: 1.0,  breath: 1.0, phase: 1.5, layer: 1 },
+  { cx: 560, cy: 205, rx: 155, ry: 140, op: 1.0,  breath: 0.9, phase: 2.1, layer: 1 },
+  { cx: 660, cy: 220, rx: 145, ry: 125, op: 1.0,  breath: 0.8, phase: 2.7, layer: 1 },
+  { cx: 750, cy: 250, rx: 130, ry: 110, op: 0.95, breath: 0.6, phase: 3.3, layer: 1 },
+  { cx: 820, cy: 290, rx: 105, ry: 90,  op: 0.9,  breath: 0.5, phase: 3.9, layer: 1 },
+  // flatter base
+  { cx: 350, cy: 320, rx: 130, ry: 70,  op: 0.85, breath: 0.4, phase: 4.2, layer: 1 },
+  { cx: 500, cy: 335, rx: 180, ry: 75,  op: 0.9,  breath: 0.4, phase: 4.5, layer: 1 },
+  { cx: 660, cy: 325, rx: 150, ry: 70,  op: 0.85, breath: 0.4, phase: 4.8, layer: 1 },
+
+  // ── sun-warmed highlight cap (golden-hour catching the top) ──
+  { cx: 430, cy: 195, rx: 80,  ry: 65,  op: 0.7,  breath: 0.9, phase: 1.0, layer: 2 },
+  { cx: 540, cy: 178, rx: 95,  ry: 75,  op: 0.78, breath: 1.0, phase: 1.7, layer: 2 },
+  { cx: 640, cy: 195, rx: 80,  ry: 65,  op: 0.7,  breath: 0.8, phase: 2.4, layer: 2 },
+];
+
+/** Smaller wisp silhouette — a single billow with a flat base. */
+const WISP_PUFFS: Puff[] = [
+  { cx: 200, cy: 130, rx: 100, ry: 75, op: 0.55, breath: 0.8, phase: 0.0, layer: 0 },
+  { cx: 320, cy: 115, rx: 110, ry: 80, op: 0.6,  breath: 1.0, phase: 0.7, layer: 0 },
+  { cx: 440, cy: 130, rx: 95,  ry: 70, op: 0.55, breath: 0.7, phase: 1.4, layer: 0 },
+  { cx: 280, cy: 130, rx: 80,  ry: 65, op: 0.95, breath: 0.6, phase: 0.3, layer: 1 },
+  { cx: 360, cy: 115, rx: 90,  ry: 70, op: 1.0,  breath: 0.9, phase: 0.9, layer: 1 },
+  { cx: 250, cy: 165, rx: 110, ry: 35, op: 0.8,  breath: 0.3, phase: 1.8, layer: 1 },
+  { cx: 380, cy: 168, rx: 110, ry: 35, op: 0.8,  breath: 0.3, phase: 2.1, layer: 1 },
+  { cx: 340, cy: 95,  rx: 55,  ry: 42, op: 0.7,  breath: 1.0, phase: 1.2, layer: 2 },
+];
+
+/* ───────────────── Sparkles ───────────────── */
+
+interface Sparkle {
+  x: number;
+  y: number;
+  r: number;
+  delay: number;
+  dur: number;
+  /** 0 = deep inside (dim, foggy), 1 = surface (bright, sharp) */
+  surface: number;
 }
 
-/* ───────────────── Cloud body (puffs) ───────────────── */
-
-interface CloudBodyProps {
-  count: number;
-  width: number;
-  height: number;
-  depth: number;
-  puffSize: number;
-  drift: number;
-  reactivity: number;
-  /** Cursor target in world units (lagged), shared with sparkles. */
-  cursorRef: React.MutableRefObject<THREE.Vector2>;
-  /** Scroll parallax y offset (world units), shared. */
-  parallaxRef: React.MutableRefObject<number>;
-  /** Group-level breathing scale & morph offset. */
-  breatheRef: React.MutableRefObject<{ scale: number; morph: number }>;
-  tint: string;
-  /** 0..1 — how oval/cumulus the body is (1 = full ellipsoid clustering) */
-  clustering?: number;
-}
-
-function CloudBody({
-  count,
-  width,
-  height,
-  depth,
-  puffSize,
-  drift,
-  reactivity,
-  cursorRef,
-  parallaxRef,
-  breatheRef,
-  tint,
-  clustering = 1,
-}: CloudBodyProps) {
-  const tRef = useRef(0);
-
-  const puffs = useMemo(() => {
-    return Array.from({ length: count }, () => {
-      // Cluster toward centre with a cumulus-shaped distribution:
-      // top is rounded/dense, bottom flattens slightly.
-      const r1 = Math.random() + Math.random() - 1; // -1..1, centre-weighted
-      const r2 = Math.random() + Math.random() - 1;
-      const r3 = Math.random() + Math.random() - 1;
-      // Cumulus cap: pull the top up, flatten the bottom
-      const yShape = clustering * (r2 * 0.75 + Math.abs(r2) * 0.25);
-      return {
-        bx: r1 * width,
-        by: yShape * height,
-        bz: r3 * depth,
-        size: puffSize * (0.5 + Math.random() * 1.05),
-        bobPhase: Math.random() * Math.PI * 2,
-        bobAmp: 0.05 + Math.random() * 0.14,
-        bobHz: 0.18 + Math.random() * 0.4,
-        // Per-puff breathing morph weight (some puffs swell more than others)
-        morphWeight: 0.4 + Math.random() * 0.9,
-        op: 0.55 + Math.random() * 0.45,
-      };
-    });
-  }, [count, width, height, depth, puffSize, clustering]);
-
-  const positions = useMemo(() => new Float32Array(count * 3), [count]);
-  const sizes = useMemo(() => new Float32Array(count), [count]);
-  const opacities = useMemo(() => new Float32Array(count), [count]);
-
-  const geometry = useMemo(() => {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    g.setAttribute("aSize", new THREE.BufferAttribute(sizes, 1));
-    g.setAttribute("aOpacity", new THREE.BufferAttribute(opacities, 1));
-    return g;
-  }, [positions, sizes, opacities]);
-
-  const sprite = useMemo(() => makePuffTexture(), []);
-
-  const material = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.NormalBlending,
-      uniforms: {
-        uColor: { value: new THREE.Color(tint) },
-        uTexture: { value: sprite },
-        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
-      },
-      vertexShader: `
-        attribute float aSize;
-        attribute float aOpacity;
-        varying float vOpacity;
-        uniform float uPixelRatio;
-        void main() {
-          vOpacity = aOpacity;
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = aSize * 540.0 * uPixelRatio / -mvPosition.z;
-          gl_Position = projectionMatrix * mvPosition;
-        }
-      `,
-      fragmentShader: `
-        uniform vec3 uColor;
-        uniform sampler2D uTexture;
-        varying float vOpacity;
-        void main() {
-          vec4 tex = texture2D(uTexture, gl_PointCoord);
-          gl_FragColor = vec4(tex.rgb * uColor, tex.a * vOpacity);
-        }
-      `,
-    });
-  }, [tint, sprite]);
-
-  useFrame((_, dt) => {
-    tRef.current += dt;
-    const t = tRef.current;
-    const cursor = cursorRef.current;
-    const parallaxY = parallaxRef.current;
-    const breathe = breatheRef.current;
-
-    for (let i = 0; i < count; i++) {
-      const p = puffs[i];
-      // Slow horizontal drift, wrapped — like real cloud motion
-      let x = p.bx + t * drift;
-      const span = width * 2.4;
-      x = ((x + span / 2) % span + span) % span - span / 2;
-
-      // Apply group breathing (12–18s morph) + per-puff bob
-      const morph = breathe.morph * p.morphWeight;
-      const y =
-        p.by +
-        morph * 0.35 +
-        Math.sin(t * p.bobHz + p.bobPhase) * p.bobAmp +
-        parallaxY;
-      const z =
-        p.bz +
-        Math.cos(t * p.bobHz * 0.6 + p.bobPhase) * p.bobAmp * 0.4;
-
-      // Cursor lagged push — gentle, never snappy
-      const dx = x - cursor.x;
-      const dy = y - cursor.y;
-      const d2 = dx * dx + dy * dy;
-      const influence = Math.exp(-d2 / 2.0) * reactivity;
-      const push = influence * 0.35;
-      const nrm = Math.sqrt(d2) + 0.0001;
-
-      positions[i * 3] = x + (dx / nrm) * push;
-      positions[i * 3 + 1] = y + (dy / nrm) * push;
-      positions[i * 3 + 2] = z;
-
-      sizes[i] =
-        p.size * breathe.scale * (1 + influence * 0.3 + morph * 0.08);
-      opacities[i] = p.op * (1 + influence * 0.15);
-    }
-
-    const posAttr = geometry.getAttribute("position") as THREE.BufferAttribute;
-    const sAttr = geometry.getAttribute("aSize") as THREE.BufferAttribute;
-    const oAttr = geometry.getAttribute("aOpacity") as THREE.BufferAttribute;
-    posAttr.needsUpdate = true;
-    sAttr.needsUpdate = true;
-    oAttr.needsUpdate = true;
+function makeSparkles(count: number, w: number, h: number, seed = 1): Sparkle[] {
+  // tiny seeded RNG so the sparkles are stable per-mount
+  let s = seed;
+  const rnd = () => {
+    s = (s * 1664525 + 1013904223) % 4294967296;
+    return s / 4294967296;
+  };
+  return Array.from({ length: count }, () => {
+    const surface = rnd();
+    return {
+      // bias sparkles toward cloud body shape (centre-weighted)
+      x: w * (0.15 + (rnd() + rnd()) * 0.35),
+      y: h * (0.2 + (rnd() + rnd()) * 0.3),
+      r: surface > 0.55 ? 1.6 + rnd() * 1.4 : 1.0 + rnd() * 0.8,
+      delay: rnd() * 6,
+      // 2–6s twinkle, no pattern
+      dur: 2 + rnd() * 4,
+      surface,
+    };
   });
-
-  return <points geometry={geometry} material={material} />;
 }
 
-/* ───────────────── Sparkles (fairy lights) ───────────────── */
+/* ───────────────── Hero cloud ───────────────── */
 
-interface SparklesProps {
-  count: number;
-  width: number;
-  height: number;
-  depth: number;
-  color: string;
-  size: number;
-  reactivity: number;
-  cursorRef: React.MutableRefObject<THREE.Vector2>;
-  parallaxRef: React.MutableRefObject<number>;
-  /** Multiplier on twinkle period — sparkles twinkle every 2–6s, no pattern */
-  slow?: boolean;
+interface HeroCloudProps {
+  height?: number;
+  opacity?: number;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
-function Sparkles({
-  count,
-  width,
-  height,
-  depth,
-  color,
-  size,
-  reactivity,
-  cursorRef,
-  parallaxRef,
-  slow = true,
-}: SparklesProps) {
-  const tRef = useRef(0);
+export function HeroCloud({
+  height = 760,
+  opacity = 0.97,
+  className = "",
+  style,
+}: HeroCloudProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cloudGroupRef = useRef<SVGGElement>(null);
+  const [reduced, setReduced] = useState(false);
 
-  const params = useMemo(() => {
-    return Array.from({ length: count }, () => {
-      // Mix of "deep inside" (dimmer, foggier) and "near surface" (brighter)
-      const depthClass = Math.random();
-      const deepInside = depthClass < 0.55;
-      return {
-        bx: (Math.random() * 2 - 1) * width * 0.95,
-        by: (Math.random() * 2 - 1) * height * 0.85,
-        bz: (Math.random() * 2 - 1) * depth,
-        phase: Math.random() * Math.PI * 2,
-        // Twinkle period 2–6s ⇒ Hz 1/6..1/2 = 0.166..0.5
-        // For a sharp-attack pulse we use Math.pow(sin, bias)
-        hz: slow
-          ? 0.16 + Math.random() * 0.34   // 2–6s twinkle
-          : 1.5 + Math.random() * 2.5,     // hover-burst sparkles
-        // Surface lights are brighter & sharper, deep ones are dim & foggy
-        baseOp: deepInside ? 0.18 : 0.55,
-        peakOp: deepInside ? 0.45 : 1.0,
-        sizeMul: deepInside ? 0.7 : 1.1,
-        sparkBias: 3.5 + Math.random() * 3.5,
-        // Each sparkle gets its own phase offset (no pattern)
-        startDelay: Math.random() * 6,
-      };
-    });
-  }, [count, width, height, depth, slow]);
+  // cursor follow with 350ms lag
+  const target = useRef({ x: 0, y: 0 });
+  const lagged = useRef({ x: 0, y: 0 });
+  const scrollY = useRef(0);
+  const breathe = useRef(0);
+  const t0 = useRef(performance.now());
 
-  const positions = useMemo(() => new Float32Array(count * 3), [count]);
-  const sizes = useMemo(() => new Float32Array(count), [count]);
-  const opacities = useMemo(() => new Float32Array(count), [count]);
-
-  const geometry = useMemo(() => {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    g.setAttribute("aSize", new THREE.BufferAttribute(sizes, 1));
-    g.setAttribute("aOpacity", new THREE.BufferAttribute(opacities, 1));
-    return g;
-  }, [positions, sizes, opacities]);
-
-  const sprite = useMemo(() => makeStarTexture(), []);
-
-  const material = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      uniforms: {
-        uColor: { value: new THREE.Color(color) },
-        uTexture: { value: sprite },
-        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
-      },
-      vertexShader: `
-        attribute float aSize;
-        attribute float aOpacity;
-        varying float vOpacity;
-        uniform float uPixelRatio;
-        void main() {
-          vOpacity = aOpacity;
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = aSize * 420.0 * uPixelRatio / -mvPosition.z;
-          gl_Position = projectionMatrix * mvPosition;
-        }
-      `,
-      fragmentShader: `
-        uniform vec3 uColor;
-        uniform sampler2D uTexture;
-        varying float vOpacity;
-        void main() {
-          vec4 tex = texture2D(uTexture, gl_PointCoord);
-          gl_FragColor = vec4(uColor, tex.a * vOpacity);
-        }
-      `,
-    });
-  }, [color, sprite]);
-
-  useFrame((_, dt) => {
-    tRef.current += dt;
-    const t = tRef.current;
-    const cursor = cursorRef.current;
-    const parallaxY = parallaxRef.current;
-
-    for (let i = 0; i < count; i++) {
-      const p = params[i];
-      // Sparkles barely drift — they feel stationary, like real fairy lights
-      const x = p.bx + Math.sin(t * 0.12 + p.phase) * 0.025;
-      const y = p.by + Math.cos(t * 0.16 + p.phase) * 0.025 + parallaxY;
-      const z = p.bz;
-
-      positions[i * 3] = x;
-      positions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = z;
-
-      // Sharp-attack twinkle (sin shaped by power) — slow, no rhythm
-      const raw = 0.5 + 0.5 * Math.sin((t + p.startDelay) * Math.PI * 2 * p.hz + p.phase);
-      const tw = Math.pow(raw, p.sparkBias);
-
-      // Cursor halo — lights near the (lagged) cursor get a brief warmth boost
-      const dx = x - cursor.x;
-      const dy = y - cursor.y;
-      const halo = Math.exp(-(dx * dx + dy * dy) / 1.0) * reactivity;
-
-      const op =
-        p.baseOp + (p.peakOp - p.baseOp) * tw + halo * 0.6;
-      opacities[i] = Math.min(1, op);
-      sizes[i] = size * p.sizeMul * (0.55 + tw * 0.6 + halo * 0.5);
-    }
-
-    const posAttr = geometry.getAttribute("position") as THREE.BufferAttribute;
-    const sAttr = geometry.getAttribute("aSize") as THREE.BufferAttribute;
-    const oAttr = geometry.getAttribute("aOpacity") as THREE.BufferAttribute;
-    posAttr.needsUpdate = true;
-    sAttr.needsUpdate = true;
-    oAttr.needsUpdate = true;
-  });
-
-  return <points geometry={geometry} material={material} />;
-}
-
-/* ───────────────── Cursor + scroll + breathe driver ───────────────── */
-
-interface DriverProps {
-  cursorTargetRef: React.MutableRefObject<THREE.Vector2>;
-  cursorLaggedRef: React.MutableRefObject<THREE.Vector2>;
-  parallaxRef: React.MutableRefObject<number>;
-  breatheRef: React.MutableRefObject<{ scale: number; morph: number }>;
-  /** 0..1 — disables interactivity when 0 */
-  interactive: number;
-  /** parallax intensity in world units per pixel */
-  parallaxStrength: number;
-}
-
-/** Inside-Canvas component that lerps the cursor toward its raw target with
- *  a 300–500ms feel, drives scroll parallax, and breathes the cloud on a
- *  12–18s cycle. Lives inside <Canvas> so it can use useFrame. */
-function CloudDriver({
-  cursorTargetRef,
-  cursorLaggedRef,
-  parallaxRef,
-  breatheRef,
-  interactive,
-  parallaxStrength,
-}: DriverProps) {
-  const tRef = useRef(0);
-  // ~350ms feel: lerp factor ≈ 1 - exp(-dt/τ) with τ ≈ 0.35s
-  useFrame((_, dt) => {
-    tRef.current += dt;
-    const t = tRef.current;
-
-    // Cursor lag — only when interactive
-    if (interactive > 0) {
-      const k = 1 - Math.exp(-dt / 0.38);
-      cursorLaggedRef.current.lerp(cursorTargetRef.current, k);
-    } else {
-      cursorLaggedRef.current.set(9999, 9999);
-    }
-
-    // Scroll parallax — read from window once per frame
-    parallaxRef.current = -window.scrollY * parallaxStrength;
-
-    // Cloud breathing: ~14s morph cycle + tiny scale wobble
-    const morph =
-      Math.sin(t * (Math.PI * 2 / 14)) * 0.5 +
-      Math.sin(t * (Math.PI * 2 / 19) + 1.3) * 0.4;
-    const scale = 1 + Math.sin(t * (Math.PI * 2 / 16)) * 0.025;
-    breatheRef.current.morph = morph;
-    breatheRef.current.scale = scale;
-  });
-  return null;
-}
-
-/** Captures pointer in world units on the parent div, writes into ref. */
-function usePointerWorld(
-  containerRef: React.RefObject<HTMLDivElement>,
-  cursorTargetRef: React.MutableRefObject<THREE.Vector2>,
-  worldHalfWidth: number,
-  worldHalfHeight: number,
-  enabled: boolean
-) {
   useEffect(() => {
-    if (!enabled) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const h = () => setReduced(mq.matches);
+    mq.addEventListener?.("change", h);
+    return () => mq.removeEventListener?.("change", h);
+  }, []);
+
+  useEffect(() => {
     const el = containerRef.current;
-    if (!el) return;
-    const handleMove = (e: PointerEvent) => {
+    if (!el || reduced) return;
+
+    const handlePointer = (e: PointerEvent) => {
       const rect = el.getBoundingClientRect();
       const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const ny = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      cursorTargetRef.current.set(nx * worldHalfWidth, ny * worldHalfHeight);
+      const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+      target.current.x = Math.max(-1, Math.min(1, nx));
+      target.current.y = Math.max(-1, Math.min(1, ny));
     };
     const handleLeave = () => {
-      cursorTargetRef.current.set(9999, 9999);
+      target.current.x = 0;
+      target.current.y = 0;
     };
-    window.addEventListener("pointermove", handleMove, { passive: true });
+    const handleScroll = () => {
+      scrollY.current = window.scrollY;
+    };
+    window.addEventListener("pointermove", handlePointer, { passive: true });
     el.addEventListener("pointerleave", handleLeave);
-    return () => {
-      window.removeEventListener("pointermove", handleMove);
-      el.removeEventListener("pointerleave", handleLeave);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    let raf = 0;
+    let lastT = performance.now();
+    const tick = (now: number) => {
+      const dt = Math.min(0.05, (now - lastT) / 1000);
+      lastT = now;
+
+      // 350ms ease toward target
+      const k = 1 - Math.exp(-dt / 0.38);
+      lagged.current.x += (target.current.x - lagged.current.x) * k;
+      lagged.current.y += (target.current.y - lagged.current.y) * k;
+
+      // ambient breath (14s cycle)
+      const elapsed = (now - t0.current) / 1000;
+      breathe.current = Math.sin(elapsed * (Math.PI * 2) / 14);
+
+      const g = cloudGroupRef.current;
+      if (g) {
+        // cursor offset (subtle), scroll parallax (gentle upward drift),
+        // breathing (tiny scale pulse)
+        const tx = lagged.current.x * 28;
+        const ty = lagged.current.y * 14 - scrollY.current * 0.18;
+        const sc = 1 + breathe.current * 0.018;
+        g.setAttribute(
+          "transform",
+          `translate(${tx} ${ty}) scale(${sc})`
+        );
+        g.style.transformOrigin = "500px 250px";
+      }
+      raf = requestAnimationFrame(tick);
     };
-  }, [containerRef, cursorTargetRef, worldHalfWidth, worldHalfHeight, enabled]);
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("pointermove", handlePointer);
+      el.removeEventListener("pointerleave", handleLeave);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [reduced]);
+
+  const sparkles = useMemo(() => makeSparkles(70, 1000, 460, 7), []);
+
+  return (
+    <div
+      ref={containerRef}
+      className={className}
+      style={{
+        width: "100%",
+        height,
+        opacity,
+        position: "relative",
+        pointerEvents: "auto",
+        ...style,
+      }}
+      aria-hidden="true"
+    >
+      <svg
+        viewBox="0 0 1000 460"
+        preserveAspectRatio="xMidYMid meet"
+        width="100%"
+        height="100%"
+        style={{ display: "block", overflow: "visible" }}
+      >
+        <defs>
+          {/* Heavy soft blur — gives the cloud its no-hard-edges feel */}
+          <filter id="cloudBlur" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="14" />
+          </filter>
+          <filter id="cloudBlurSoft" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="22" />
+          </filter>
+          <filter id="sparkleGlow" x="-200%" y="-200%" width="500%" height="500%">
+            <feGaussianBlur stdDeviation="2" />
+          </filter>
+
+          {/* Golden-hour core glow — sits behind the cloud, makes it lit from inside */}
+          <radialGradient id="goldenCore" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#FFE6B8" stopOpacity="0.85" />
+            <stop offset="40%" stopColor="#FFE6B8" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#FFE6B8" stopOpacity="0" />
+          </radialGradient>
+          {/* Subtle pounamu mist — green light filtering through moisture */}
+          <radialGradient id="pounamuMist" cx="50%" cy="55%" r="60%">
+            <stop offset="0%" stopColor={POUNAMU} stopOpacity="0.12" />
+            <stop offset="100%" stopColor={POUNAMU} stopOpacity="0" />
+          </radialGradient>
+          {/* Cool underbelly wash */}
+          <linearGradient id="underbelly" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
+            <stop offset="100%" stopColor="#C4D6D2" stopOpacity="0.25" />
+          </linearGradient>
+          {/* Per-puff body fill */}
+          <radialGradient id="puffBody" cx="42%" cy="38%" r="65%">
+            <stop offset="0%" stopColor="#FFFEF8" stopOpacity="1" />
+            <stop offset="55%" stopColor="#FFFBF2" stopOpacity="0.95" />
+            <stop offset="100%" stopColor="#FFFBF2" stopOpacity="0.5" />
+          </radialGradient>
+          <radialGradient id="puffRim" cx="50%" cy="50%" r="55%">
+            <stop offset="0%" stopColor="#FFFBF2" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#EFF1EC" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="puffCap" cx="42%" cy="35%" r="55%">
+            <stop offset="0%" stopColor="#FFE9C2" stopOpacity="0.85" />
+            <stop offset="100%" stopColor="#FFE9C2" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+
+        {/* Golden-hour glow + pounamu mist — fixed behind, doesn't move with cursor */}
+        <ellipse cx="500" cy="240" rx="300" ry="180" fill="url(#goldenCore)" />
+        <ellipse cx="500" cy="270" rx="380" ry="200" fill="url(#pounamuMist)" />
+
+        <g ref={cloudGroupRef}>
+          {/* Layer 0 — cool back rim, heavily blurred */}
+          <g filter="url(#cloudBlurSoft)">
+            {HERO_PUFFS.filter((p) => p.layer === 0).map((p, i) => (
+              <ellipse
+                key={`r${i}`}
+                cx={p.cx}
+                cy={p.cy}
+                rx={p.rx}
+                ry={p.ry}
+                fill="url(#puffRim)"
+                opacity={p.op}
+              >
+                {!reduced && (
+                  <animate
+                    attributeName="rx"
+                    values={`${p.rx};${p.rx * (1 + p.breath * 0.04)};${p.rx}`}
+                    dur={`${14 + p.phase}s`}
+                    repeatCount="indefinite"
+                  />
+                )}
+              </ellipse>
+            ))}
+          </g>
+
+          {/* Layer 1 — main warm pearl body */}
+          <g filter="url(#cloudBlur)">
+            {HERO_PUFFS.filter((p) => p.layer === 1).map((p, i) => (
+              <ellipse
+                key={`b${i}`}
+                cx={p.cx}
+                cy={p.cy}
+                rx={p.rx}
+                ry={p.ry}
+                fill="url(#puffBody)"
+                opacity={p.op}
+              >
+                {!reduced && (
+                  <>
+                    <animate
+                      attributeName="rx"
+                      values={`${p.rx};${p.rx * (1 + p.breath * 0.05)};${p.rx}`}
+                      dur={`${13 + p.phase}s`}
+                      repeatCount="indefinite"
+                    />
+                    <animate
+                      attributeName="ry"
+                      values={`${p.ry};${p.ry * (1 + p.breath * 0.06)};${p.ry}`}
+                      dur={`${15 + p.phase}s`}
+                      repeatCount="indefinite"
+                    />
+                  </>
+                )}
+              </ellipse>
+            ))}
+          </g>
+
+          {/* Subtle cool underbelly wash on the base */}
+          <ellipse
+            cx="510"
+            cy="345"
+            rx="380"
+            ry="55"
+            fill="url(#underbelly)"
+            filter="url(#cloudBlur)"
+          />
+
+          {/* Layer 2 — sun-warmed highlight cap */}
+          <g filter="url(#cloudBlur)" style={{ mixBlendMode: "screen" }}>
+            {HERO_PUFFS.filter((p) => p.layer === 2).map((p, i) => (
+              <ellipse
+                key={`c${i}`}
+                cx={p.cx}
+                cy={p.cy}
+                rx={p.rx}
+                ry={p.ry}
+                fill="url(#puffCap)"
+                opacity={p.op}
+              />
+            ))}
+          </g>
+
+          {/* Candle-warm fairy lights INSIDE the cloud */}
+          <g filter="url(#sparkleGlow)">
+            {sparkles.map((s, i) => (
+              <g key={`s${i}`} transform={`translate(${s.x} ${s.y})`}>
+                {/* soft halo */}
+                <circle
+                  r={s.r * 4.5}
+                  fill={CANDLE_WARM}
+                  opacity={0.18 * (0.4 + s.surface * 0.6)}
+                >
+                  {!reduced && (
+                    <animate
+                      attributeName="opacity"
+                      values={`${0.05};${0.45 * (0.4 + s.surface * 0.6)};${0.08}`}
+                      dur={`${s.dur}s`}
+                      begin={`${s.delay}s`}
+                      repeatCount="indefinite"
+                    />
+                  )}
+                </circle>
+                {/* tight bright core */}
+                <circle r={s.r} fill="#FFFBE8" opacity={0.6 + s.surface * 0.4}>
+                  {!reduced && (
+                    <animate
+                      attributeName="opacity"
+                      values={`${0.3};${0.95 * (0.5 + s.surface * 0.5)};${0.35}`}
+                      dur={`${s.dur}s`}
+                      begin={`${s.delay}s`}
+                      repeatCount="indefinite"
+                    />
+                  )}
+                </circle>
+              </g>
+            ))}
+          </g>
+        </g>
+      </svg>
+    </div>
+  );
 }
 
-/* ───────────────── Public Scene wrappers ───────────────── */
+/* ───────────────── Smaller wisp ───────────────── */
 
 interface FluffyCloudSceneProps {
   intensity?: "subtle" | "soft" | "rich";
@@ -493,270 +416,150 @@ interface FluffyCloudSceneProps {
   style?: React.CSSProperties;
   height?: number;
   opacity?: number;
-  /** 0 = no cursor / parallax. Default 0 (small wisps are non-interactive). */
-  reactivity?: number;
-  /** Enable subtle scroll parallax (small wisps usually drift without it). */
-  parallax?: boolean;
 }
 
-/** Smaller atmospheric wisp — non-interactive by default per brief. */
 export default function FluffyCloudScene({
   intensity = "soft",
-  tone = "mixed",
   className = "",
   style,
-  height = 320,
+  height = 200,
   opacity = 0.85,
-  reactivity = 0,
-  parallax = false,
 }: FluffyCloudSceneProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const cursorTargetRef = useRef(new THREE.Vector2(9999, 9999));
-  const cursorLaggedRef = useRef(new THREE.Vector2(9999, 9999));
-  const parallaxRef = useRef(0);
-  const breatheRef = useRef({ scale: 1, morph: 0 });
-
-  const cfg = useMemo(() => {
-    if (intensity === "subtle")
-      return { puffs: 90, sparkles: 35, w: 4.2, h: 1.3, d: 0.6, puffSize: 0.85, sparkSize: 0.05 };
-    if (intensity === "rich")
-      return { puffs: 260, sparkles: 130, w: 6.0, h: 1.9, d: 0.95, puffSize: 1.08, sparkSize: 0.06 };
-    return { puffs: 170, sparkles: 75, w: 5.0, h: 1.55, d: 0.78, puffSize: 0.95, sparkSize: 0.055 };
+  const sparkles = useMemo(() => {
+    const n = intensity === "subtle" ? 8 : intensity === "rich" ? 24 : 14;
+    return makeSparkles(n, 600, 220, 13);
   }, [intensity]);
 
-  usePointerWorld(containerRef, cursorTargetRef, cfg.w, cfg.h, reactivity > 0);
-
-  const sparkColor =
-    tone === "pounamu" ? POUNAMU_GLOW : tone === "warm" ? CANDLE_WARM : CANDLE_WARM;
-
   return (
     <div
-      ref={containerRef}
       className={className}
       style={{
         width: "100%",
         height,
         opacity,
         position: "relative",
-        pointerEvents: reactivity > 0 ? "auto" : "none",
+        pointerEvents: "none",
         ...style,
       }}
       aria-hidden="true"
     >
-      <Suspense fallback={null}>
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 45 }}
-          dpr={[1, 1.5]}
-          gl={{ antialias: true, alpha: true, premultipliedAlpha: false }}
-          style={{ background: "transparent" }}
-        >
-          <CloudDriver
-            cursorTargetRef={cursorTargetRef}
-            cursorLaggedRef={cursorLaggedRef}
-            parallaxRef={parallaxRef}
-            breatheRef={breatheRef}
-            interactive={reactivity}
-            parallaxStrength={parallax ? 0.0015 : 0}
-          />
-          <CloudBody
-            count={cfg.puffs}
-            width={cfg.w}
-            height={cfg.h}
-            depth={cfg.d}
-            puffSize={cfg.puffSize}
-            drift={0.04}
-            reactivity={reactivity}
-            cursorRef={cursorLaggedRef}
-            parallaxRef={parallaxRef}
-            breatheRef={breatheRef}
-            tint={CLOUD_WARM}
-            clustering={1}
-          />
-          <Sparkles
-            count={cfg.sparkles}
-            width={cfg.w * 0.95}
-            height={cfg.h * 0.85}
-            depth={cfg.d * 0.9}
-            color={sparkColor}
-            size={cfg.sparkSize}
-            reactivity={reactivity}
-            cursorRef={cursorLaggedRef}
-            parallaxRef={parallaxRef}
-          />
-        </Canvas>
-      </Suspense>
+      <svg
+        viewBox="0 0 600 220"
+        preserveAspectRatio="xMidYMid meet"
+        width="100%"
+        height="100%"
+        style={{ display: "block", overflow: "visible" }}
+      >
+        <defs>
+          <filter id="wispBlur" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="10" />
+          </filter>
+          <filter id="wispBlurSoft" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="18" />
+          </filter>
+          <radialGradient id="wispBody" cx="42%" cy="38%" r="65%">
+            <stop offset="0%" stopColor="#FFFEF8" stopOpacity="1" />
+            <stop offset="55%" stopColor="#FFFBF2" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#FFFBF2" stopOpacity="0.4" />
+          </radialGradient>
+          <radialGradient id="wispRim" cx="50%" cy="50%" r="55%">
+            <stop offset="0%" stopColor="#FFFBF2" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#EFF1EC" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="wispCap" cx="42%" cy="35%" r="55%">
+            <stop offset="0%" stopColor="#FFE9C2" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#FFE9C2" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+
+        <g>
+          <g filter="url(#wispBlurSoft)">
+            {WISP_PUFFS.filter((p) => p.layer === 0).map((p, i) => (
+              <ellipse
+                key={`wr${i}`}
+                cx={p.cx}
+                cy={p.cy}
+                rx={p.rx}
+                ry={p.ry}
+                fill="url(#wispRim)"
+                opacity={p.op}
+              />
+            ))}
+          </g>
+          <g filter="url(#wispBlur)">
+            {WISP_PUFFS.filter((p) => p.layer === 1).map((p, i) => (
+              <ellipse
+                key={`wb${i}`}
+                cx={p.cx}
+                cy={p.cy}
+                rx={p.rx}
+                ry={p.ry}
+                fill="url(#wispBody)"
+                opacity={p.op}
+              >
+                <animate
+                  attributeName="rx"
+                  values={`${p.rx};${p.rx * (1 + p.breath * 0.04)};${p.rx}`}
+                  dur={`${18 + p.phase * 2}s`}
+                  repeatCount="indefinite"
+                />
+              </ellipse>
+            ))}
+          </g>
+          <g filter="url(#wispBlur)" style={{ mixBlendMode: "screen" }}>
+            {WISP_PUFFS.filter((p) => p.layer === 2).map((p, i) => (
+              <ellipse
+                key={`wc${i}`}
+                cx={p.cx}
+                cy={p.cy}
+                rx={p.rx}
+                ry={p.ry}
+                fill="url(#wispCap)"
+                opacity={p.op}
+              />
+            ))}
+          </g>
+          <g>
+            {sparkles.map((s, i) => (
+              <g key={`ws${i}`} transform={`translate(${s.x * 0.9 + 30} ${s.y * 0.85 + 10})`}>
+                <circle
+                  r={s.r * 3.5}
+                  fill={CANDLE_WARM}
+                  opacity={0.15}
+                >
+                  <animate
+                    attributeName="opacity"
+                    values="0.05;0.35;0.08"
+                    dur={`${s.dur}s`}
+                    begin={`${s.delay}s`}
+                    repeatCount="indefinite"
+                  />
+                </circle>
+                <circle r={s.r * 0.8} fill="#FFFBE8" opacity={0.7}>
+                  <animate
+                    attributeName="opacity"
+                    values="0.3;0.95;0.35"
+                    dur={`${s.dur}s`}
+                    begin={`${s.delay}s`}
+                    repeatCount="indefinite"
+                  />
+                </circle>
+              </g>
+            ))}
+          </g>
+        </g>
+      </svg>
     </div>
   );
 }
 
-/**
- * HeroCloud — the signature visual. Giant interactive cumulus cloud, lit
- * from inside with a golden-hour pounamu core, candle-warm fairy lights
- * twinkling through the mass, cursor follow with a 350ms lag, and gentle
- * scroll parallax that drifts it upward as the visitor scrolls.
- */
-export function HeroCloud({
-  height = 760,
-  opacity = 0.97,
-  className = "",
-  style,
-}: {
-  height?: number;
-  opacity?: number;
-  className?: string;
-  style?: React.CSSProperties;
-}) {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-    const handler = () => setReduced(mq.matches);
-    mq.addEventListener?.("change", handler);
-    return () => mq.removeEventListener?.("change", handler);
-  }, []);
+/* ───────────────── Fairy light strand ───────────────── */
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const cursorTargetRef = useRef(new THREE.Vector2(9999, 9999));
-  const cursorLaggedRef = useRef(new THREE.Vector2(9999, 9999));
-  const parallaxRef = useRef(0);
-  const breatheRef = useRef({ scale: 1, morph: 0 });
-
-  const W_HALF = 7.5;
-  const H_HALF = 2.4;
-
-  usePointerWorld(containerRef, cursorTargetRef, W_HALF, H_HALF, !reduced);
-
-  return (
-    <div
-      ref={containerRef}
-      className={className}
-      style={{
-        width: "100%",
-        height,
-        opacity,
-        position: "relative",
-        pointerEvents: reduced ? "none" : "auto",
-        ...style,
-      }}
-      aria-hidden="true"
-    >
-      {/* CSS golden-hour glow behind the cloud — the "lit from inside" feel.
-          A warm sun-core radial + a faint pounamu mist. Sits behind the canvas. */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `
-            radial-gradient(ellipse 35% 30% at 50% 52%, rgba(255,230,184,0.55) 0%, rgba(255,230,184,0) 70%),
-            radial-gradient(ellipse 60% 45% at 50% 50%, rgba(31,77,71,0.10) 0%, rgba(31,77,71,0) 70%)
-          `,
-          filter: "blur(4px)",
-        }}
-      />
-      <Suspense fallback={null}>
-        <Canvas
-          camera={{ position: [0, 0, 6], fov: 42 }}
-          dpr={[1, 2]}
-          gl={{ antialias: true, alpha: true, premultipliedAlpha: false }}
-          style={{ background: "transparent" }}
-        >
-          <CloudDriver
-            cursorTargetRef={cursorTargetRef}
-            cursorLaggedRef={cursorLaggedRef}
-            parallaxRef={parallaxRef}
-            breatheRef={breatheRef}
-            interactive={reduced ? 0 : 1}
-            parallaxStrength={reduced ? 0 : 0.003}
-          />
-          {/* Layer 1 — main warm pearl body (densest, slow drift right) */}
-          <CloudBody
-            count={reduced ? 280 : 480}
-            width={W_HALF}
-            height={H_HALF}
-            depth={1.2}
-            puffSize={1.35}
-            drift={reduced ? 0 : 0.022}
-            reactivity={reduced ? 0 : 1.0}
-            cursorRef={cursorLaggedRef}
-            parallaxRef={parallaxRef}
-            breatheRef={breatheRef}
-            tint={CLOUD_WARM}
-            clustering={1}
-          />
-          {/* Layer 2 — sun-warmed inner core (smaller, brighter) */}
-          <CloudBody
-            count={reduced ? 100 : 180}
-            width={W_HALF * 0.55}
-            height={H_HALF * 0.6}
-            depth={0.9}
-            puffSize={1.1}
-            drift={reduced ? 0 : 0.018}
-            reactivity={reduced ? 0 : 0.8}
-            cursorRef={cursorLaggedRef}
-            parallaxRef={parallaxRef}
-            breatheRef={breatheRef}
-            tint={SUNLIT_CORE}
-            clustering={0.8}
-          />
-          {/* Layer 3 — cool dissolving outer rim (drifts the other way) */}
-          <CloudBody
-            count={reduced ? 90 : 160}
-            width={W_HALF * 1.1}
-            height={H_HALF * 1.05}
-            depth={1.0}
-            puffSize={1.2}
-            drift={reduced ? 0 : -0.014}
-            reactivity={reduced ? 0 : 0.7}
-            cursorRef={cursorLaggedRef}
-            parallaxRef={parallaxRef}
-            breatheRef={breatheRef}
-            tint={CLOUD_COOL}
-            clustering={1.05}
-          />
-          {/* Candle-warm fairy lights INSIDE the cloud — slow twinkle */}
-          <Sparkles
-            count={reduced ? 180 : 360}
-            width={W_HALF * 0.95}
-            height={H_HALF * 0.9}
-            depth={1.2}
-            color={CANDLE_WARM}
-            size={0.075}
-            reactivity={reduced ? 0 : 1.4}
-            cursorRef={cursorLaggedRef}
-            parallaxRef={parallaxRef}
-            slow
-          />
-          {/* A few pounamu pinpricks for depth — very rare */}
-          <Sparkles
-            count={reduced ? 16 : 36}
-            width={W_HALF * 0.7}
-            height={H_HALF * 0.75}
-            depth={1.0}
-            color={POUNAMU_GLOW}
-            size={0.05}
-            reactivity={reduced ? 0 : 0.8}
-            cursorRef={cursorLaggedRef}
-            parallaxRef={parallaxRef}
-            slow
-          />
-        </Canvas>
-      </Suspense>
-    </div>
-  );
-}
-
-/* ───────────────── Fairy light strand (CSS/SVG) ───────────────── */
-
-/**
- * FairyLightStrand — hairline strand of warm-white sparkles connected by a
- * barely-visible pounamu thread. Pure CSS/SVG (no canvas) so it composites
- * cheaply over sections. Underdone by design — a few per page is plenty.
- */
 export function FairyLightStrand({
   className = "",
   width = 320,
   height = 90,
   bulbs = 7,
-  /** "drape" curves down (between sections), "rise" curves up */
   direction = "drape",
   style,
 }: {
@@ -768,7 +571,6 @@ export function FairyLightStrand({
   style?: React.CSSProperties;
 }) {
   const id = useMemo(() => `fl-${Math.random().toString(36).slice(2, 8)}`, []);
-  // Build a smooth quadratic curve and sample bulb positions along it
   const sag = direction === "drape" ? height * 0.55 : -height * 0.35;
   const startX = 4;
   const endX = width - 4;
@@ -777,12 +579,9 @@ export function FairyLightStrand({
   const endY = 8;
   const midY = startY + sag;
 
-  // Quadratic Bezier point at t
   const ptAt = (t: number) => {
-    const x =
-      (1 - t) * (1 - t) * startX + 2 * (1 - t) * t * midX + t * t * endX;
-    const y =
-      (1 - t) * (1 - t) * startY + 2 * (1 - t) * t * midY + t * t * endY;
+    const x = (1 - t) * (1 - t) * startX + 2 * (1 - t) * t * midX + t * t * endX;
+    const y = (1 - t) * (1 - t) * startY + 2 * (1 - t) * t * midY + t * t * endY;
     return { x, y };
   };
 
@@ -819,7 +618,6 @@ export function FairyLightStrand({
           <stop offset="100%" stopColor={CANDLE_WARM} stopOpacity="0" />
         </radialGradient>
       </defs>
-      {/* Pounamu thread — barely visible */}
       <path
         d={`M ${startX} ${startY} Q ${midX} ${midY} ${endX} ${endY}`}
         stroke={POUNAMU}
@@ -828,7 +626,6 @@ export function FairyLightStrand({
         fill="none"
         strokeLinecap="round"
       />
-      {/* Bulbs — soft warm halos */}
       {dots.map((d, i) => (
         <g key={i} transform={`translate(${d.x} ${d.y})`}>
           <circle r={d.r * 5} fill={`url(#${id}-bulb)`} opacity={0.55}>
@@ -854,3 +651,6 @@ export function FairyLightStrand({
     </svg>
   );
 }
+
+// Suppress unused-warning for POUNAMU_GLOW (kept for future colour use)
+void POUNAMU_GLOW;
