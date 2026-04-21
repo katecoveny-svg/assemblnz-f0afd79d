@@ -106,6 +106,7 @@ function buildRimSparks(count: number, seed = 11): Spark[] {
 const KeteFocus = forwardRef<HTMLDivElement, KeteFocusProps>(function KeteFocus({
   size = 520,
   sparkles = 26,
+  rimSparkles = 0,
   className = "",
   priority = false,
   warmGlow = true,
@@ -114,6 +115,7 @@ const KeteFocus = forwardRef<HTMLDivElement, KeteFocusProps>(function KeteFocus(
   const outerRef = useRef<HTMLDivElement>(null);
   useImperativeHandle(forwardedRef, () => outerRef.current as HTMLDivElement);
   const sparks = useMemo(() => buildSparks(sparkles, 7), [sparkles]);
+  const rimSparks = useMemo(() => buildRimSparks(rimSparkles, 11), [rimSparkles]);
 
   // Gentle bob/sway for the kete itself
   useEffect(() => {
