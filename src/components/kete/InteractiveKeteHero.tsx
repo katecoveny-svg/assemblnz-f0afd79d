@@ -1,6 +1,6 @@
 import { useRef, useState, useMemo, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import keteMaster from "@/assets/kete-white-master.png";
+import ResponsiveKeteImage from "./ResponsiveKeteImage";
 
 /**
  * InteractiveKeteHero — the master Assembl kete rendered as a true
