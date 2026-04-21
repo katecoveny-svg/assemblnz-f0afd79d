@@ -10,14 +10,13 @@ import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
 import TextUsButton from "@/components/kete/TextUsButton";
-import heroWhanau from "@/assets/toro-hero-whanau.jpg";
 
-/* ─── Bold Aotearoa Modernist palette ─────────────────────────── */
-const INK = "#1A1D29";       // charcoal
-const PAPER = "#F5F0E6";     // warm bone
-const OCHRE = "#4AA5A8";     // primary accent
-const POUNAMU = "#2E5D52";   // deep green for trust
-const MUTED = "#6B6F7A";
+/* ─── Mārama palette — white-ice-blue + soft teal ─────────────── */
+const INK = "#3D4250";       // charcoal text
+const PAPER = "#F4F7FA";     // near-white icy blue
+const OCHRE = "#4AA5A8";     // soft teal accent (replaces banned ochre/yellow)
+const POUNAMU = "#6CBFC1";   // lighter teal (replaces banned green)
+const MUTED = "#7A8294";
 
 /* ─── Animated SMS thread (the hero) ──────────────────────────── */
 const THREAD: { side: "you" | "toro"; text: string }[] = [
