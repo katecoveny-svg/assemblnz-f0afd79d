@@ -97,9 +97,9 @@ export default function PikauLandingPage() {
             }}
             variants={fadeUp} initial="hidden" animate="visible" custom={1}
           >
-            Compliance and intelligence{" "}
+            Border clearance,{" "}
             <em style={{ color: POUNAMU, fontStyle: "italic", fontWeight: 400 }}>
-              that keeps freight moving.
+              confidently handled.
             </em>
           </motion.h1>
 
@@ -123,7 +123,7 @@ export default function PikauLandingPage() {
             style={{
               fontFamily: "'Inter', sans-serif",
               fontWeight: 400,
-              lineHeight: 1.55,
+              lineHeight: 1.6,
               color: INK_SOFT,
             }}
             variants={fadeUp} initial="hidden" animate="visible" custom={2}
