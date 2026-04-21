@@ -91,7 +91,7 @@ export default function FeatherKete({
   return (
     <div
       className={`relative pointer-events-none ${className}`}
-      style={{ width: size, height: size, opacity: opacity * 0.82 }}
+      style={{ width: size, height: size, opacity: opacity * 0.42 }}
     >
       <div
         ref={ref}
