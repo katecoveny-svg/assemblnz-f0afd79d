@@ -95,6 +95,7 @@ const KeteFocus = forwardRef<HTMLDivElement, KeteFocusProps>(function KeteFocus(
 
   return (
     <div
+      ref={outerRef}
       className={`relative pointer-events-none ${className}`}
       style={{ width: size, height: size * 1.05 }}
       aria-hidden="true"
@@ -233,4 +234,6 @@ const KeteFocus = forwardRef<HTMLDivElement, KeteFocusProps>(function KeteFocus(
       `}</style>
     </div>
   );
-}
+});
+
+export default KeteFocus;
