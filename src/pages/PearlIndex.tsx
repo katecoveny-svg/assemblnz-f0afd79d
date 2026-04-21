@@ -214,19 +214,18 @@ function Hero() {
             "radial-gradient(ellipse 65% 55% at 75% 45%, rgba(255,242,222,0.42) 0%, rgba(255,242,222,0.12) 45%, transparent 70%)",
         }}
       />
-      {/* Desktop: kete nested INSIDE a warm pearl cloud — full-bleed, mask-blended */}
+      {/* Desktop: kete nested INSIDE a warm pearl cloud — TRUE full-bleed across the whole hero */}
       <div
         className="absolute hidden md:block pointer-events-none"
         style={{
-          top: "0%",
-          right: 0,
-          width: "min(72vw, 1100px)",
+          inset: 0,
+          width: "100%",
           height: "100%",
           // Soft radial mask so the kete container has NO visible edge — it dissolves into the page
           maskImage:
-            "radial-gradient(ellipse 70% 60% at 65% 50%, black 30%, rgba(0,0,0,0.6) 55%, transparent 80%)",
+            "radial-gradient(ellipse 60% 70% at 70% 50%, black 28%, rgba(0,0,0,0.55) 55%, transparent 82%)",
           WebkitMaskImage:
-            "radial-gradient(ellipse 70% 60% at 65% 50%, black 30%, rgba(0,0,0,0.6) 55%, transparent 80%)",
+            "radial-gradient(ellipse 60% 70% at 70% 50%, black 28%, rgba(0,0,0,0.55) 55%, transparent 82%)",
         }}
       >
         {/* Layer 0 — warm pearl cumulus that wraps the kete */}
@@ -263,37 +262,37 @@ function Hero() {
           {/* Stewart Island — tiny dot */}
           <ellipse cx="92" cy="312" rx="6" ry="3.5" fill="rgba(31,77,71,0.05)" />
         </svg>
-        {/* Layer 1 — the kete, nested in the mist */}
+        {/* Layer 1 — the kete, nested in the mist (scales up on wider viewports for true full-bleed feel) */}
         <div className="absolute inset-0 flex items-center justify-center">
           <Suspense fallback={null}>
-            <KeteFocus size={680} sparkles={56} rimSparkles={40} priority warmGlow />
+            <KeteFocus size={860} sparkles={64} rimSparkles={48} priority warmGlow />
           </Suspense>
         </div>
       </div>
-      {/* Mobile: kete in cloud, behind copy — also mask-blended so no boxed edge */}
+      {/* Mobile: kete in cloud, behind copy — TRUE full-bleed (100vw) so it spans the whole device width */}
       <div
         className="absolute md:hidden pointer-events-none"
         style={{
-          top: 24,
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "min(96vw, 420px)",
-          height: 420,
-          opacity: 0.92,
+          top: 0,
+          left: 0,
+          right: 0,
+          width: "100vw",
+          height: "min(78vh, 560px)",
+          opacity: 0.95,
           maskImage:
-            "radial-gradient(ellipse 75% 70% at 50% 50%, black 35%, rgba(0,0,0,0.6) 60%, transparent 85%)",
+            "radial-gradient(ellipse 80% 65% at 50% 50%, black 32%, rgba(0,0,0,0.55) 60%, transparent 88%)",
           WebkitMaskImage:
-            "radial-gradient(ellipse 75% 70% at 50% 50%, black 35%, rgba(0,0,0,0.6) 60%, transparent 85%)",
+            "radial-gradient(ellipse 80% 65% at 50% 50%, black 32%, rgba(0,0,0,0.55) 60%, transparent 88%)",
         }}
       >
         <div className="absolute inset-0 flex items-center justify-center">
           <Suspense fallback={null}>
-            <HeroCloud height={380} opacity={0.85} />
+            <HeroCloud height={520} opacity={0.85} />
           </Suspense>
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
           <Suspense fallback={null}>
-            <KeteFocus size={320} sparkles={28} priority warmGlow />
+            <KeteFocus size={Math.min(420, typeof window !== "undefined" ? window.innerWidth * 0.92 : 380)} sparkles={32} priority warmGlow />
           </Suspense>
         </div>
       </div>

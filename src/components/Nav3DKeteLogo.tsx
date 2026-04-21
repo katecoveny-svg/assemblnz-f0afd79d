@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
-import { Suspense, lazy } from "react";
-
-const InteractiveKeteHero = lazy(() => import("@/components/kete/InteractiveKeteHero"));
+import ResponsiveKeteImage from "@/components/kete/ResponsiveKeteImage";
 
 /**
- * Nav3DKeteLogo — small interactive master kete shown in the header on every page.
- * Uses the same master image as the cinematic hero, just at nav scale, so the
- * brand mark and the hero are visually unified.
+ * Nav3DKeteLogo — clean transparent master kete shown in the header on every page.
+ * Uses the same master image as the cinematic hero, just at nav scale, with NO
+ * halo / reflection / sparkle layers (those would render as a visible blob at 38px).
+ * The PNG is already alpha-transparent, so this sits cleanly on any nav background.
  */
 export default function Nav3DKeteLogo({ size = 38 }: { size?: number }) {
   return (
@@ -17,22 +16,19 @@ export default function Nav3DKeteLogo({ size = 38 }: { size?: number }) {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6 }}
     >
-      <Suspense
-        fallback={
-          <div
-            className="rounded-full animate-pulse"
-            style={{ width: size, height: size, background: "rgba(31,77,71,0.08)" }}
-          />
-        }
-      >
-        <InteractiveKeteHero
-          size={size}
-          variant="centerpiece"
-          accent="#1F4D47"
-          sparkles={false}
-          alt="Assembl"
-        />
-      </Suspense>
+      <ResponsiveKeteImage
+        displayWidth={size}
+        alt="Assembl"
+        loading="eager"
+        fetchPriority="high"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          // subtle drop shadow only — no background, no halo
+          filter: "drop-shadow(0 2px 4px rgba(31,77,71,0.18))",
+        }}
+      />
     </motion.div>
   );
 }
