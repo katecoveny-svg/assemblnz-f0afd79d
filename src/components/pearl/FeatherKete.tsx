@@ -21,19 +21,8 @@ export type KeteVariant =
   | "ako"
   | "toro";
 
-// All variants resolve to the master white kete — this keeps the API stable
-// for every existing caller while collapsing the visual to a single template.
-const VARIANT_SRC: Record<KeteVariant, string> = {
-  base: keteMaster,
-  manaaki: keteMaster,
-  waihanga: keteMaster,
-  auaha: keteMaster,
-  arataki: keteMaster,
-  pikau: keteMaster,
-  hoko: keteMaster,
-  ako: keteMaster,
-  toro: keteMaster,
-};
+// All variants resolve to the same responsive master kete — the API stays
+// stable for every existing caller while collapsing the visual to a single template.
 
 // Per-variant subtle hue tint (CSS hue-rotate + tinted drop-shadow). Same kete
 // image, slightly different "wash" so each industry feels its own without
