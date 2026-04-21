@@ -587,7 +587,7 @@ function KetesGrid() {
                   background: "rgba(255,255,255,0.55)",
                   backdropFilter: "blur(10px)",
                   padding: 32,
-                  boxShadow: "0 1px 2px rgba(14,21,19,0.04), 0 8px 28px -12px rgba(31,77,71,0.10)",
+                  boxShadow: "0 1px 2px rgba(15,42,38,0.04), 0 8px 28px -12px rgba(31,77,71,0.10)",
                   transition: "all 400ms cubic-bezier(0.16, 1, 0.3, 1)",
                   display: "flex",
                   flexDirection: "column",
@@ -595,12 +595,12 @@ function KetesGrid() {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = PEARL.pounamu;
-                  e.currentTarget.style.boxShadow = "0 2px 4px rgba(14,21,19,0.05), 0 18px 48px -16px rgba(31,77,71,0.22)";
+                  e.currentTarget.style.boxShadow = "0 2px 4px rgba(15,42,38,0.05), 0 18px 48px -16px rgba(31,77,71,0.22)";
                   e.currentTarget.style.transform = "translateY(-4px)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = PEARL.seaGlass;
-                  e.currentTarget.style.boxShadow = "0 1px 2px rgba(14,21,19,0.04), 0 8px 28px -12px rgba(31,77,71,0.10)";
+                  e.currentTarget.style.boxShadow = "0 1px 2px rgba(15,42,38,0.04), 0 8px 28px -12px rgba(31,77,71,0.10)";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
@@ -628,7 +628,7 @@ function KetesGrid() {
                     fontFamily: "'Inter', sans-serif",
                     fontSize: 14,
                     lineHeight: 1.6,
-                    color: "rgba(14,21,19,0.7)",
+                    color: "rgba(15,42,38,0.7)",
                   }}
                 >
                   {k.line}
@@ -643,7 +643,7 @@ function KetesGrid() {
             style={{
               fontFamily: "'Inter', sans-serif",
               fontSize: 13,
-              color: "rgba(14,21,19,0.55)",
+              color: "rgba(15,42,38,0.55)",
               lineHeight: 1.6,
             }}
           >
@@ -774,7 +774,7 @@ function Pricing() {
                   fontSize: 10,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: "rgba(14,21,19,0.5)",
+                  color: "rgba(15,42,38,0.5)",
                   marginBottom: 24,
                 }}
               >
@@ -793,15 +793,15 @@ function Pricing() {
                   {t.price}
                 </span>
                 {t.per && (
-                  <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: "rgba(14,21,19,0.55)" }}>
+                  <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: "rgba(15,42,38,0.55)" }}>
                     {t.per}
                   </span>
                 )}
               </div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(14,21,19,0.55)", marginBottom: 16 }}>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(15,42,38,0.55)", marginBottom: 16 }}>
                 {t.setup}
               </p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(14,21,19,0.75)", lineHeight: 1.55 }}>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(15,42,38,0.75)", lineHeight: 1.55 }}>
                 {t.desc}
               </p>
             </motion.div>
@@ -812,7 +812,7 @@ function Pricing() {
           style={{
             fontFamily: "'Inter', sans-serif",
             fontSize: 12,
-            color: "rgba(14,21,19,0.55)",
+            color: "rgba(15,42,38,0.55)",
             marginTop: 64,
             maxWidth: 720,
             lineHeight: 1.6,
@@ -910,10 +910,10 @@ function PearlFooter() {
         >
           Premium intelligence that understands what matters.
         </p>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(14,21,19,0.6)", marginBottom: 24 }}>
+        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(15,42,38,0.6)", marginBottom: 24 }}>
           Time is the thing. We give it back.
         </p>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(14,21,19,0.45)", letterSpacing: "0.04em" }}>
+        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(15,42,38,0.45)", letterSpacing: "0.04em" }}>
           Assembl · Built in Aotearoa · assembl.co.nz
         </p>
       </div>
