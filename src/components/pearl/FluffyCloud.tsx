@@ -237,15 +237,16 @@ export function HeroCloud({
         style={{ display: "block", overflow: "visible" }}
       >
         <defs>
-          {/* Heavy soft blur — gives the cloud its no-hard-edges feel */}
+          {/* Soft blur — light enough to keep puffs visible as billows, heavy
+              enough to dissolve hard edges. */}
           <filter id="cloudBlur" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="12" />
+            <feGaussianBlur stdDeviation="6" />
           </filter>
           <filter id="cloudBlurSoft" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="20" />
+            <feGaussianBlur stdDeviation="14" />
           </filter>
           <filter id="cloudShadowBlur" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="28" />
+            <feGaussianBlur stdDeviation="22" />
           </filter>
           <filter id="sparkleGlow" x="-200%" y="-200%" width="500%" height="500%">
             <feGaussianBlur stdDeviation="2" />
@@ -264,23 +265,26 @@ export function HeroCloud({
           </radialGradient>
           {/* Cool shadow — sits BENEATH the cloud body to give it volume against pearl */}
           <radialGradient id="cloudShadow" cx="50%" cy="50%" r="55%">
-            <stop offset="0%" stopColor="#A8B8B5" stopOpacity="0.55" />
-            <stop offset="60%" stopColor="#B8C5C2" stopOpacity="0.25" />
+            <stop offset="0%" stopColor="#8FA39F" stopOpacity="0.7" />
+            <stop offset="60%" stopColor="#A8B8B5" stopOpacity="0.32" />
             <stop offset="100%" stopColor="#C4D6D2" stopOpacity="0" />
           </radialGradient>
-          {/* Per-puff body fill — pure bright white core, slight cool falloff for definition */}
-          <radialGradient id="puffBody" cx="40%" cy="35%" r="65%">
+          {/* Per-puff body fill — bright white core with cool falloff so each
+              puff reads as a 3D billow against its neighbours. */}
+          <radialGradient id="puffBody" cx="38%" cy="32%" r="68%">
             <stop offset="0%" stopColor="#FFFFFF" stopOpacity="1" />
-            <stop offset="40%" stopColor="#FDFCF7" stopOpacity="1" />
-            <stop offset="75%" stopColor="#E8E5DC" stopOpacity="0.85" />
-            <stop offset="100%" stopColor="#C8CDC8" stopOpacity="0.4" />
+            <stop offset="35%" stopColor="#FBFAF4" stopOpacity="1" />
+            <stop offset="68%" stopColor="#D8DCD6" stopOpacity="0.92" />
+            <stop offset="92%" stopColor="#A8B5B1" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="#A8B5B1" stopOpacity="0" />
           </radialGradient>
           <radialGradient id="puffRim" cx="50%" cy="50%" r="55%">
-            <stop offset="0%" stopColor="#E0E5E0" stopOpacity="0.65" />
-            <stop offset="100%" stopColor="#C8CDC8" stopOpacity="0" />
+            <stop offset="0%" stopColor="#C8D0CC" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#A8B5B1" stopOpacity="0" />
           </radialGradient>
-          <radialGradient id="puffCap" cx="42%" cy="35%" r="55%">
-            <stop offset="0%" stopColor="#FFE0A8" stopOpacity="0.95" />
+          <radialGradient id="puffCap" cx="40%" cy="32%" r="55%">
+            <stop offset="0%" stopColor="#FFD89A" stopOpacity="1" />
+            <stop offset="60%" stopColor="#FFE9C2" stopOpacity="0.5" />
             <stop offset="100%" stopColor="#FFE9C2" stopOpacity="0" />
           </radialGradient>
         </defs>
