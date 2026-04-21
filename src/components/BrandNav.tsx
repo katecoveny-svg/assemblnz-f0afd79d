@@ -47,6 +47,15 @@ const BrandNav = () => {
   const [kiaOraOpen, setKiaOraOpen] = useState(false);
   const { profile, isPersonalized } = usePersonalization();
 
+  // Pearl brand tokens (single source of truth — matches PearlIndex)
+  const PEARL = {
+    bg: "#FBFAF7",
+    ink: "#0E1513",
+    pounamu: "#1F4D47",
+    muted: "#8B8479",
+    opal: "#E8EEEC",
+  };
+
   const KETE_SLUG_MAP: Record<string, string> = {
     manaaki: 'Manaaki', waihanga: 'Waihanga', auaha: 'Auaha',
     arataki: 'Arataki', pikau: 'Pikau', hoko: 'Hoko', ako: 'Ako', toro: 'Toro',
