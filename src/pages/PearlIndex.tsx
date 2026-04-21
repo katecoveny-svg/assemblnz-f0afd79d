@@ -299,9 +299,9 @@ function WhyAssembl() {
         <div style={{ marginTop: 56, display: "flex", flexDirection: "column", gap: 28 }}>
           {[
             "We know what overwork feels like. we know what constant motion costs.",
-            "I know what it’s like to be stretched between ambition, responsibility, and family.",
+            "We know what it’s like to be stretched between ambition, responsibility, and family.",
             "Assembl exists because time matters.",
-            "I built this for New Zealand families, teams, and communities — for the people carrying too much at once, for the businesses trying to stay compliant as the law keeps changing, for the evenings that never start on time.",
+            "assembl is for New Zealand families, teams, and communities — for the people carrying too much at once, for the businesses trying to stay compliant as the law keeps changing, for the evenings that never start on time.",
           ].map((line, i) => (
             <p
               key={i}
@@ -330,7 +330,7 @@ function WhyAssembl() {
               margin: 0,
             }}
           >
-            I believe AI should do more than make businesses efficient.
+            We believe AI should do more than make businesses efficient.
           </p>
           {[
             "It should give people time back.",
@@ -372,7 +372,7 @@ function WhatAssemblIs() {
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10 relative z-10">
         <Eyebrow>What Assembl is</Eyebrow>
         <Serif size="lg" className="mb-10">
-          A platform of practical AI agents that finish the work — and give the time back.
+          A platform of practical AI agents that finish the work — and give you time back.
         </Serif>
         <div style={{ maxWidth: 680, marginBottom: 96 }}>
           <Body large>
@@ -396,7 +396,7 @@ function WhatAssemblIs() {
               The work itself
             </p>
             <Body large>
-              Efficient, end-to-end, in your industry. A food diary. A site induction. A customs clearance. A contract review. A WoF reminder. A privacy check. The agent runs the whole loop in the background — and hands you a finished pack, not another dashboard to manage.
+              Efficient, end-to-end, specific to your industry. A food diary. A site induction. A customs clearance. A contract review. A WoF reminder. A privacy check. The agent runs the whole loop in the background — and hands you a finished pack, not another dashboard to manage.
             </Body>
           </div>
           <div className="relative" style={{ zIndex: 2 }}>
