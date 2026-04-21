@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
+import ResponsiveKeteImage from "@/components/kete/ResponsiveKeteImage";
 // Single source of truth — every kete across the site is the same white feathered kete.
 // Per-industry variants are accepted for backwards compatibility but always resolve
-// to the master image, so branding stays cohesive everywhere.
-import keteMaster from "@/assets/kete-white-master.png";
+// to the master image (delivered responsively via WebP/PNG srcset).
 
 /**
  * FeatherKete — photoreal woven feather kete used as a decorative
@@ -21,19 +21,8 @@ export type KeteVariant =
   | "ako"
   | "toro";
 
-// All variants resolve to the master white kete — this keeps the API stable
-// for every existing caller while collapsing the visual to a single template.
-const VARIANT_SRC: Record<KeteVariant, string> = {
-  base: keteMaster,
-  manaaki: keteMaster,
-  waihanga: keteMaster,
-  auaha: keteMaster,
-  arataki: keteMaster,
-  pikau: keteMaster,
-  hoko: keteMaster,
-  ako: keteMaster,
-  toro: keteMaster,
-};
+// All variants resolve to the same responsive master kete — the API stays
+// stable for every existing caller while collapsing the visual to a single template.
 
 // Per-variant subtle hue tint (CSS hue-rotate + tinted drop-shadow). Same kete
 // image, slightly different "wash" so each industry feels its own without
@@ -89,7 +78,6 @@ export default function FeatherKete({
     return () => cancelAnimationFrame(raf);
   }, [drift]);
 
-  const src = VARIANT_SRC[variant] ?? keteMaster;
   const tint = VARIANT_TINT[variant] ?? VARIANT_TINT.base;
   // More transparency overall, hue-rotate for industry tint, no green.
   const filter = `hue-rotate(${tint.hueDeg}deg) saturate(${tint.saturate}) ${tint.shadow}`;
@@ -107,14 +95,10 @@ export default function FeatherKete({
           willChange: "transform",
         }}
       >
-        <img
-          src={src}
+        <ResponsiveKeteImage
+          displayWidth={size}
           alt={alt}
-          aria-hidden={alt ? undefined : true}
-          draggable={false}
           loading="lazy"
-          width={1024}
-          height={1024}
           style={{
             width: "100%",
             height: "100%",

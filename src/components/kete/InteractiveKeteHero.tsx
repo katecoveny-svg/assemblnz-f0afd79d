@@ -1,6 +1,6 @@
 import { useRef, useState, useMemo, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import keteMaster from "@/assets/kete-white-master.png";
+import ResponsiveKeteImage from "./ResponsiveKeteImage";
 
 /**
  * InteractiveKeteHero — the master Assembl kete rendered as a true
@@ -233,11 +233,10 @@ export default function InteractiveKeteHero({
             WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.5), transparent)",
           }}
         >
-          <img
-            src={keteMaster}
+          <ResponsiveKeteImage
+            displayWidth={Math.round(size * 0.85)}
             alt=""
-            aria-hidden
-            draggable={false}
+            loading="lazy"
             style={{
               width: "100%",
               height: "100%",
@@ -248,26 +247,28 @@ export default function InteractiveKeteHero({
         </div>
 
         {/* The kete itself */}
-        <motion.img
-          src={keteMaster}
-          alt={alt}
-          draggable={false}
-          loading="eager"
+        <motion.div
           style={{
             width: isCinematic ? `min(${size}px, 70vmin)` : size,
             height: "auto",
-            objectFit: "contain",
             filter: `${filter} drop-shadow(0 24px 48px ${accent}33) drop-shadow(0 8px 16px rgba(120,140,160,0.18))`,
             userSelect: "none",
-            WebkitUserDrag: "none",
-          } as React.CSSProperties}
+          }}
           animate={
             hovered && !reduced
               ? { scale: 1.04 }
               : { scale: 1 }
           }
           transition={{ type: "spring", stiffness: 180, damping: 18 }}
-        />
+        >
+          <ResponsiveKeteImage
+            displayWidth={isCinematic ? Math.min(size, 900) : size}
+            alt={alt}
+            loading="eager"
+            fetchPriority={isCinematic ? "high" : "auto"}
+            style={{ width: "100%", height: "auto", display: "block" }}
+          />
+        </motion.div>
 
         {/* Subtle highlight rim that follows cursor (depth illusion) */}
         <motion.div
