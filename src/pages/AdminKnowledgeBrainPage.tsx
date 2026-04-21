@@ -15,6 +15,7 @@ type KbSource = {
   name: string;
   type: string;
   category: string | null;
+  subcategory: string | null;
   url: string;
   cadence_minutes: number;
   active: boolean;
@@ -22,8 +23,19 @@ type KbSource = {
   consecutive_failures: number | null;
   last_checked_at: string | null;
   last_updated_at: string | null;
+  last_successful_fetch: string | null;
+  reliability_score: number | null;
+  provenance: string | null;
   agent_packs: string[] | null;
 };
+
+function reliabilityColor(score: number | null): string {
+  if (score == null) return "#9CA3AF";
+  if (score >= 90) return "#10B981";
+  if (score >= 70) return "#4AA5A8";
+  if (score >= 40) return "#F59E0B";
+  return "#EF4444";
+}
 type KbRun = {
   id: number;
   source_id: string;
