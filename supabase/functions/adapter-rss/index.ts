@@ -40,8 +40,19 @@ Deno.serve(async (req) => {
       .insert({ source_id: sourceId, status: "running" }).select("id").single();
     runId = run?.id ?? null;
 
-    const parser = new Parser({ timeout: 20_000 });
-    const feed = await parser.parseURL(source.url);
+    const UA = "Mozilla/5.0 (compatible; AssemblBot/1.0; +https://assembl.co.nz)";
+    const parser = new Parser({
+      timeout: 20_000,
+      headers: { "User-Agent": UA, "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*" },
+    });
+    // Fetch ourselves so we can follow redirects + control headers, then parse the body.
+    const resp = await fetch(source.url, {
+      headers: { "User-Agent": UA, "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*" },
+      redirect: "follow",
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status} fetching feed`);
+    const xml = await resp.text();
+    const feed = await parser.parseString(xml);
     let added = 0, updated = 0;
 
     for (const item of feed.items.slice(0, 50)) {
