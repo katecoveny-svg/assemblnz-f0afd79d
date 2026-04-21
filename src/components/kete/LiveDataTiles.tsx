@@ -148,7 +148,7 @@ export default function LiveDataTiles({ tiles, accent = "#3A7D6E", refreshMs = 6
               </span>
             </div>
             <div
-              className="text-[15px] leading-snug"
+              className="relative text-[15px] leading-snug"
               style={{ color: "#0F2A26", fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
             >
               {s.loading ? (
@@ -163,7 +163,7 @@ export default function LiveDataTiles({ tiles, accent = "#3A7D6E", refreshMs = 6
               )}
             </div>
             <div
-              className="mt-1 text-[10px] flex items-center justify-between gap-2"
+              className="relative mt-1 text-[10px] flex items-center justify-between gap-2"
               style={{ color: "rgba(15,42,38,0.45)", fontFamily: "'Inter', sans-serif" }}
             >
               <span className="truncate">{t.source}</span>
