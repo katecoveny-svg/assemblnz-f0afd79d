@@ -10,6 +10,9 @@ const DataRibbons = lazy(() => import("@/components/pearl/FluffyCloud"));
 const HeroCloud = lazy(() =>
   import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.HeroCloud }))
 );
+const FairyLightStrand = lazy(() =>
+  import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.FairyLightStrand }))
+);
 
 /* ─── Pearl palette — ICY (cool, luminous, moonlit dawn) ─── */
 const PEARL = {
