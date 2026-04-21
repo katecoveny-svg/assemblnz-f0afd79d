@@ -525,7 +525,7 @@ function KetesGrid() {
           <Body large>Eight packs. One quiet intelligence layer behind all of them.</Body>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {KETES.map((k, i) => (
             <motion.div
               key={k.mi}
@@ -534,17 +534,43 @@ function KetesGrid() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease, delay: i * 0.05 }}
             >
-              <Link to={k.to} className="block group" data-magnetic>
-                <div className="mb-5 flex items-center justify-center" style={{ height: 140 }}>
+              <Link
+                to={k.to}
+                className="block group h-full"
+                data-magnetic
+                style={{
+                  borderRadius: 20,
+                  border: `1px solid ${PEARL.seaGlass}`,
+                  background: "rgba(255,255,255,0.55)",
+                  backdropFilter: "blur(10px)",
+                  padding: 32,
+                  boxShadow: "0 1px 2px rgba(14,21,19,0.04), 0 8px 28px -12px rgba(31,77,71,0.10)",
+                  transition: "all 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = PEARL.pounamu;
+                  e.currentTarget.style.boxShadow = "0 2px 4px rgba(14,21,19,0.05), 0 18px 48px -16px rgba(31,77,71,0.22)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = PEARL.seaGlass;
+                  e.currentTarget.style.boxShadow = "0 1px 2px rgba(14,21,19,0.04), 0 8px 28px -12px rgba(31,77,71,0.10)";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                <div className="mb-6 flex items-center justify-center" style={{ height: 200 }}>
                   <Suspense fallback={null}>
-                    <FeatherKete variant={k.variant} size={140} drift="slow" alt={`${k.mi} kete`} />
+                    <FeatherKete variant={k.variant} size={200} drift="slow" alt={`${k.mi} kete`} />
                   </Suspense>
                 </div>
                 <p
                   style={{
                     fontFamily: "'Cormorant Garamond', serif",
                     fontStyle: "italic",
-                    fontSize: 14,
+                    fontSize: 15,
                     color: PEARL.pounamu,
                     letterSpacing: "0.02em",
                     marginBottom: 8,
@@ -553,27 +579,17 @@ function KetesGrid() {
                 >
                   {k.mi}
                 </p>
-                <Serif size="xs" className="mb-3">{k.en}</Serif>
+                <Serif size="sm" className="mb-3">{k.en}</Serif>
                 <p
                   style={{
                     fontFamily: "'Inter', sans-serif",
                     fontSize: 14,
-                    lineHeight: 1.55,
-                    color: "rgba(14,21,19,0.65)",
+                    lineHeight: 1.6,
+                    color: "rgba(14,21,19,0.7)",
                   }}
                 >
                   {k.line}
                 </p>
-                <div
-                  style={{
-                    height: 1,
-                    background: PEARL.seaGlass,
-                    marginTop: 24,
-                    opacity: 0.5,
-                    transition: "opacity 0.3s",
-                  }}
-                  className="group-hover:opacity-100"
-                />
               </Link>
             </motion.div>
           ))}
