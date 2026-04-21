@@ -127,10 +127,10 @@ const AnimatedAssemblLogo = ({ size = 64, showWordmark = true }: { size?: number
           style={{
             fontFamily: "'Lato', sans-serif",
             fontWeight: 300,
-            fontSize: s * 0.28,
-            letterSpacing: "0.28em",
-            textTransform: "uppercase" as const,
-            color: "rgba(255,255,255,0.85)",
+            fontSize: s * 0.32,
+            letterSpacing: "0.18em",
+            textTransform: "lowercase" as const,
+            color: "rgba(255,255,255,0.9)",
           }}
           animate={{
             textShadow: [
@@ -141,7 +141,7 @@ const AnimatedAssemblLogo = ({ size = 64, showWordmark = true }: { size?: number
           }}
           transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
         >
-          ASSEMBL
+          assembl
         </motion.span>
       )}
     </motion.div>
