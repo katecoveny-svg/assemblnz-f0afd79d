@@ -161,7 +161,7 @@ export default function RoomCloud({ height = 640, className = "" }: RoomCloudPro
         style={{
           top: "72%",
           height: 1,
-          background: "linear-gradient(to right, transparent, rgba(31,77,71,0.10) 30%, rgba(31,77,71,0.10) 70%, transparent)",
+          background: "linear-gradient(to right, transparent, rgba(31,77,71,0.04) 30%, rgba(31,77,71,0.04) 70%, transparent)",
           filter: "blur(0.5px)",
         }}
       />
@@ -198,7 +198,7 @@ export default function RoomCloud({ height = 640, className = "" }: RoomCloudPro
           right: "12%",
           top: "70%",
           height: 70,
-          background: "radial-gradient(ellipse at center, rgba(31,77,71,0.16) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse at center, rgba(31,77,71,0.05) 0%, transparent 70%)",
           filter: "blur(8px)",
         }}
       />
@@ -225,7 +225,7 @@ export default function RoomCloud({ height = 640, className = "" }: RoomCloudPro
             left: "50%",
             width: "min(98%, 1100px)",
             transform: "translateX(-50%)",
-            filter: "drop-shadow(0 30px 60px rgba(31,77,71,0.18))",
+            filter: "drop-shadow(0 30px 60px rgba(31,77,71,0.06))",
             userSelect: "none",
           }}
           draggable={false}
