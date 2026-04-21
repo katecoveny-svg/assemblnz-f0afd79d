@@ -106,7 +106,7 @@ export default function AkoLandingPage() {
             className="relative z-10 text-4xl md:text-5xl font-light tracking-tight max-w-3xl"
             style={{ color: "#3D4250", fontFamily: "'Lato', sans-serif" }}
           >
-            Built for the 20 April 2026 ECE licensing wedge
+            Licensing intelligence that keeps your centre open.
           </motion.h1>
 
           <motion.p
