@@ -622,13 +622,6 @@ function LiveCompliance() {
           background: "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(232,238,236,0.55) 0%, transparent 70%)",
         }}
       />
-      {/* Centrepiece kete — sparkly fairy lights radiating around the woven basket */}
-      <div className="absolute hidden md:block" style={{ top: "50%", left: "50%", transform: "translate(-50%, -55%)", width: 520, height: 540, opacity: 0.85 }}>
-        <Suspense fallback={null}>
-          <KeteFocus size={500} sparkles={28} />
-        </Suspense>
-      </div>
-
       <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6 text-center relative z-10">
         <Eyebrow>Live compliance</Eyebrow>
         <Serif size="lg" className="mb-12">
