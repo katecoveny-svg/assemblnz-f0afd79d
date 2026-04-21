@@ -326,11 +326,39 @@ export default function DataRibbons({
           gl={{ antialias: true, alpha: true, premultipliedAlpha: true }}
           style={{ background: "transparent" }}
         >
-          {ribbons.map((r, i) => (
-            <Ribbon key={i} {...r} />
-          ))}
+          <RibbonScene ribbons={ribbons} />
         </Canvas>
       </Suspense>
     </div>
+  );
+}
+
+/** Scene wrapper — holds refs to each ribbon's curve so FairyLights can ride them. */
+function RibbonScene({ ribbons }: { ribbons: RibbonProps[] }) {
+  const refs = useRef<Array<React.RefObject<CurveHandle>>>(
+    ribbons.map(() => ({ current: null } as React.RefObject<CurveHandle>))
+  );
+  if (refs.current.length !== ribbons.length) {
+    refs.current = ribbons.map(
+      () => ({ current: null } as React.RefObject<CurveHandle>)
+    );
+  }
+
+  return (
+    <>
+      {ribbons.map((r, i) => (
+        <Ribbon key={i} ref={refs.current[i]} {...r} />
+      ))}
+      {ribbons.map((r, i) => (
+        <FairyLights
+          key={`f-${i}`}
+          curveRef={refs.current[i]}
+          color={r.color}
+          count={Math.round(22 + r.amplitude * 18)}
+          driftSpeed={0.04 + r.speed * 0.3}
+          size={Math.max(0.07, r.thickness * 3.2)}
+        />
+      ))}
+    </>
   );
 }
