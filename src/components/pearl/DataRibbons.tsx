@@ -130,17 +130,33 @@ function FairyLights({
     return g;
   }, [positions, sizes, opacities]);
 
-  // Soft round sprite texture (in-memory canvas) — gives the fairy glow
+  // Star sprite: tight bright core + tiny halo + faint cross diffraction spikes
   const sprite = useMemo(() => {
     const canvas = document.createElement("canvas");
     canvas.width = canvas.height = 64;
     const ctx = canvas.getContext("2d")!;
-    const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    grad.addColorStop(0, "rgba(255,255,255,1)");
-    grad.addColorStop(0.35, "rgba(255,255,255,0.55)");
-    grad.addColorStop(1, "rgba(255,255,255,0)");
-    ctx.fillStyle = grad;
+    // Soft halo
+    const halo = ctx.createRadialGradient(32, 32, 0, 32, 32, 30);
+    halo.addColorStop(0, "rgba(255,255,255,0.9)");
+    halo.addColorStop(0.18, "rgba(255,255,255,0.35)");
+    halo.addColorStop(0.5, "rgba(255,255,255,0.06)");
+    halo.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.fillStyle = halo;
     ctx.fillRect(0, 0, 64, 64);
+    // Tight bright core
+    const core = ctx.createRadialGradient(32, 32, 0, 32, 32, 6);
+    core.addColorStop(0, "rgba(255,255,255,1)");
+    core.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.fillStyle = core;
+    ctx.fillRect(0, 0, 64, 64);
+    // Diffraction spikes (subtle)
+    ctx.globalCompositeOperation = "lighter";
+    ctx.strokeStyle = "rgba(255,255,255,0.55)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(32, 6); ctx.lineTo(32, 58);
+    ctx.moveTo(6, 32); ctx.lineTo(58, 32);
+    ctx.stroke();
     const tex = new THREE.CanvasTexture(canvas);
     tex.needsUpdate = true;
     return tex;
