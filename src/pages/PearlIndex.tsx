@@ -374,8 +374,24 @@ function Hero() {
 function WhyAssembl() {
   return (
     <section className="relative overflow-hidden" style={{ paddingTop: 96, paddingBottom: 96, background: PEARL.bg }}>
+      {/* Atmospheric cloud — stretched full-bleed behind the copy as a soft backdrop */}
+      <div
+        className="absolute inset-0 pointer-events-none flex items-center justify-center"
+        style={{
+          opacity: 0.55,
+          maskImage:
+            "radial-gradient(ellipse 80% 75% at 50% 55%, black 30%, rgba(0,0,0,0.5) 60%, transparent 90%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 80% 75% at 50% 55%, black 30%, rgba(0,0,0,0.5) 60%, transparent 90%)",
+        }}
+        aria-hidden="true"
+      >
+        <Suspense fallback={null}>
+          <HeroCloud height={720} opacity={0.7} />
+        </Suspense>
+      </div>
 
-      <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6">
+      <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6 relative z-10">
         <Eyebrow>Why Assembl</Eyebrow>
         <Serif size="lg">Assembl exists because time matters.</Serif>
 
@@ -436,13 +452,6 @@ function WhyAssembl() {
           ))}
         </div>
       </motion.div>
-
-      {/* Quiet cloud breaks the page beneath the text */}
-      <div className="relative mx-auto hidden md:flex items-center justify-center pointer-events-none" style={{ width: 240, height: 240, marginTop: 56 }}>
-        <Suspense fallback={null}>
-          <MiniCloud size={240} drift="slow" opacity={0.4} />
-        </Suspense>
-      </div>
     </section>
   );
 }
@@ -549,15 +558,6 @@ function HowItWorks() {
   ];
   return (
     <section className="relative overflow-hidden" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.linen }}>
-      {/* Fairy-light strand draping across the top of the section */}
-      <div className="absolute pointer-events-none" style={{ top: 24, left: "8%", right: "8%", display: "flex", justifyContent: "space-between" }}>
-        <Suspense fallback={null}>
-          <FairyLightStrand width={360} height={70} bulbs={8} direction="drape" />
-        </Suspense>
-        <Suspense fallback={null}>
-          <FairyLightStrand width={300} height={60} bulbs={6} direction="drape" />
-        </Suspense>
-      </div>
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10">
         <Eyebrow>How it works</Eyebrow>
         <Serif size="lg">Every workflow ends in a pack.</Serif>
