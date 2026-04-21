@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo } from "react";
+import { useEffect, useRef, useMemo, forwardRef, useImperativeHandle } from "react";
 import keteHero from "@/assets/kete-3d-hero.png";
 
 /**
@@ -57,14 +57,16 @@ function buildSparks(count: number, seed = 1): Spark[] {
   return out;
 }
 
-export default function KeteFocus({
+const KeteFocus = forwardRef<HTMLDivElement, KeteFocusProps>(function KeteFocus({
   size = 520,
   sparkles = 26,
   className = "",
   priority = false,
   warmGlow = true,
-}: KeteFocusProps) {
+}, forwardedRef) {
   const ref = useRef<HTMLDivElement>(null);
+  const outerRef = useRef<HTMLDivElement>(null);
+  useImperativeHandle(forwardedRef, () => outerRef.current as HTMLDivElement);
   const sparks = useMemo(() => buildSparks(sparkles, 7), [sparkles]);
 
   // Gentle bob/sway for the kete itself
@@ -93,6 +95,7 @@ export default function KeteFocus({
 
   return (
     <div
+      ref={outerRef}
       className={`relative pointer-events-none ${className}`}
       style={{ width: size, height: size * 1.05 }}
       aria-hidden="true"
@@ -231,4 +234,6 @@ export default function KeteFocus({
       `}</style>
     </div>
   );
-}
+});
+
+export default KeteFocus;
