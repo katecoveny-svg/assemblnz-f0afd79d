@@ -254,6 +254,67 @@ const KeteFocus = forwardRef<HTMLDivElement, KeteFocusProps>(function KeteFocus(
         />
       </div>
 
+      {/* Rim & handle sparkles — sit ON TOP of the woven flax */}
+      {rimSparks.map((sp, i) => (
+        <div
+          key={`rim-${i}`}
+          className="absolute"
+          style={{
+            left: `${sp.x}%`,
+            top: `${sp.y}%`,
+            width: sp.size * 2,
+            height: sp.size * 2,
+            transform: "translate(-50%, -50%)",
+            zIndex: 3,
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              inset: `-${sp.rayLen}px`,
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, rgba(255,250,235,0.85) 0%, rgba(255,235,190,0.3) 35%, transparent 70%)",
+              filter: "blur(1.5px)",
+              animation: `kete-pulse ${sp.duration}s ease-in-out ${sp.delay}s infinite`,
+            }}
+          />
+          <svg
+            width={sp.rayLen * 2 + sp.size * 2}
+            height={sp.rayLen * 2 + sp.size * 2}
+            viewBox={`-${sp.rayLen + sp.size} -${sp.rayLen + sp.size} ${(sp.rayLen + sp.size) * 2} ${(sp.rayLen + sp.size) * 2}`}
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+              animation: `kete-twinkle ${sp.duration}s ease-in-out ${sp.delay + 0.15}s infinite, kete-rotate ${sp.duration * 4}s linear infinite`,
+              transformOrigin: "center",
+            }}
+          >
+            {Array.from({ length: sp.rays }).map((_, r) => {
+              const ang = (r / sp.rays) * Math.PI * 2;
+              const x = Math.cos(ang) * sp.rayLen;
+              const y = Math.sin(ang) * sp.rayLen;
+              return (
+                <line
+                  key={r}
+                  x1={0}
+                  y1={0}
+                  x2={x}
+                  y2={y}
+                  stroke="rgba(255,247,225,0.9)"
+                  strokeWidth={0.7}
+                  strokeLinecap="round"
+                />
+              );
+            })}
+            <circle r={sp.size} fill="#FFFEF5" />
+            <circle r={sp.size * 0.55} fill="#FFFFFF" />
+          </svg>
+        </div>
+      ))}
+
       <style>{`
         @keyframes kete-pulse {
           0%, 100% { opacity: 0.15; transform: scale(0.6); }
