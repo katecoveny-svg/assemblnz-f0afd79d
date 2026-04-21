@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
-import { Ship, FileText, Shield, Package, Globe, AlertTriangle, Check, Plus, X, Loader2 } from "lucide-react";
+import { Ship, FileText, Shield, Globe, AlertTriangle, Check, Plus, X, Loader2 } from "lucide-react";
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
