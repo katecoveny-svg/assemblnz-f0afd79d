@@ -34,6 +34,7 @@ import { TEMPLATE_TAB_AGENTS } from "@/data/templates";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import AITransparencyBadge from "@/components/chat/AITransparencyBadge";
 import ConversationExport from "@/components/chat/ConversationExport";
+import ChatEvidencePackButton from "@/components/chat/ChatEvidencePackButton";
 import ResponseSources from "@/components/chat/ResponseSources";
 import { uploadGeneratedImage } from "@/lib/uploadGeneratedImage";
 import SaveToLibrary from "@/components/chat/SaveToLibrary";
@@ -1770,6 +1771,7 @@ const ChatPage = () => {
             )}
 
             <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
+            <ChatEvidencePackButton messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
 
             {/* Brand badge — hidden on mobile */}
             {brandProfile ? (
