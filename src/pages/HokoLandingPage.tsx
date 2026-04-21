@@ -15,7 +15,7 @@ import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
 import LiveDataTiles, { loadLatestRegChange, loadComplianceScans, loadFuel } from "@/components/kete/LiveDataTiles";
-import { Scale, ShieldCheck, Fuel } from "lucide-react";
+import { Scale, Fuel } from "lucide-react";
 import TextUsButton from "@/components/kete/TextUsButton";
 import HokoPriceScannerDemo from "@/components/hoko/HokoPriceScannerDemo";
 import HokoWorkflowExplorer from "@/components/hoko/HokoWorkflowExplorer";
