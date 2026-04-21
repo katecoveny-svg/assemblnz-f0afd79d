@@ -109,7 +109,7 @@ export default function Nav3DKeteLogo({ size = 38 }: { size?: number }) {
         >
           <ambientLight intensity={0.6} />
           <pointLight position={[2, 2, 2]} intensity={0.5} color="#4AA5A8" />
-          <pointLight position={[-2, -1, 2]} intensity={0.3} color="#3A7D6E" />
+          <pointLight position={[-2, -1, 2]} intensity={0.3} color="#6CBFC1" />
           <TriangleConstellation />
         </Canvas>
       </Suspense>
