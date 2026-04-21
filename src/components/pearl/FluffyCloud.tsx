@@ -212,7 +212,7 @@ export function HeroCloud({
           "transform",
           `translate(${tx} ${ty}) scale(${sc})`
         );
-        g.style.transformOrigin = "500px 250px";
+        g.style.transformOrigin = "500px 230px";
       }
       raf = requestAnimationFrame(tick);
     };
@@ -301,24 +301,25 @@ export function HeroCloud({
           </radialGradient>
         </defs>
 
-        {/* Golden-hour glow + pounamu mist — fixed behind, doesn't move with cursor */}
-        <ellipse cx="500" cy="240" rx="300" ry="180" fill="url(#goldenCore)" />
-        <ellipse cx="500" cy="270" rx="380" ry="200" fill="url(#pounamuMist)" />
+        {/* Golden-hour glow + pounamu mist — VERTICAL ovals so the underlying
+            light reinforces the halo silhouette instead of stretching it wide. */}
+        <ellipse cx="500" cy="230" rx="220" ry="260" fill="url(#goldenCore)" />
+        <ellipse cx="500" cy="240" rx="260" ry="290" fill="url(#pounamuMist)" />
 
         <g ref={cloudGroupRef}>
-          {/* Layer -1 — soft cool SHADOW underneath the cloud body. This is what
-              makes the white puffs read as VOLUME against the warm pearl canvas.
-              Offset down + right to suggest sunlight from upper-left. */}
-          <g filter="url(#cloudShadowBlur)" transform="translate(18 32)">
+          {/* Layer -1 — soft cool SHADOW underneath the cloud body. Offset only
+              slightly down + right so the halo gains depth without forming a
+              puddle/saucer beneath the kete. */}
+          <g filter="url(#cloudShadowBlur)" transform="translate(10 16)">
             {HERO_PUFFS.filter((p) => p.layer === 1).map((p, i) => (
               <ellipse
                 key={`sh${i}`}
                 cx={p.cx}
                 cy={p.cy}
-                rx={p.rx * 1.05}
-                ry={p.ry * 1.05}
+                rx={p.rx * 1.02}
+                ry={p.ry * 1.02}
                 fill="url(#cloudShadow)"
-                opacity={p.op * 0.85}
+                opacity={p.op * 0.55}
               />
             ))}
           </g>
