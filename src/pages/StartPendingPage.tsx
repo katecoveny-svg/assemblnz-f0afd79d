@@ -5,6 +5,8 @@ import { STRIPE_TIERS } from "@/data/stripeTiers";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, Globe, Search, FileText, ShieldCheck, CheckCircle2, ArrowRight, CreditCard } from "lucide-react";
 import { toast } from "sonner";
+import LightPageShell from "@/components/LightPageShell";
+import { assemblWordmark } from "@/assets/brand";
 
 const STAGES = [
   { key: "scraping", icon: Globe, label: "Reading your site…", duration: 8000 },
@@ -115,32 +117,32 @@ const StartPendingPage = () => {
 
   if (status === "exception") {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-4">
-        <div className="max-w-md text-center space-y-4">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
-            <ShieldCheck className="w-8 h-8 text-primary" />
+      <LightPageShell>
+        <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
+          <div className="max-w-md text-center space-y-4">
+            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
+              <ShieldCheck className="w-8 h-8 text-primary" />
+            </div>
+            <h1 className="text-xl font-bold text-foreground">
+              We need a few hours to set this up properly.
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              We'll email you as soon as your plan is ready. It usually takes less than 24 hours.
+            </p>
           </div>
-          <h1 className="text-xl font-bold text-foreground">
-            We need a few hours to set this up properly.
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            We'll email you as soon as your plan is ready. It usually takes less than 24 hours.
-          </p>
         </div>
-      </div>
+      </LightPageShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      <div className="max-w-lg w-full space-y-10">
-        {/* Logo */}
-        <div className="flex items-center gap-3 justify-center">
-          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-            <span className="text-primary font-bold text-sm">a</span>
+    <LightPageShell>
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
+        <div className="max-w-lg w-full space-y-10">
+          {/* Wordmark */}
+          <div className="flex items-center justify-center">
+            <img src={assemblWordmark} alt="assembl" className="h-7 w-auto" />
           </div>
-          <span className="text-foreground font-semibold">assembl</span>
-        </div>
 
         {/* Stages */}
         {!showPlans && (
