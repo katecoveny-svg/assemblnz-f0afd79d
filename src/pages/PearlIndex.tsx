@@ -298,7 +298,7 @@ function WhyAssembl() {
 
         <div style={{ marginTop: 56, display: "flex", flexDirection: "column", gap: 28 }}>
           {[
-            "I know what overwork feels like. I know what constant motion costs.",
+            "We know what overwork feels like. we know what constant motion costs.",
             "I know what it’s like to be stretched between ambition, responsibility, and family.",
             "Assembl exists because time matters.",
             "I built this for New Zealand families, teams, and communities — for the people carrying too much at once, for the businesses trying to stay compliant as the law keeps changing, for the evenings that never start on time.",
