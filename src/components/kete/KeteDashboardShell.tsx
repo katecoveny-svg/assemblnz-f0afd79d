@@ -145,8 +145,8 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
             <h1
               className="text-2xl tracking-[3px] uppercase"
               style={{
-                fontFamily: "'Lato', sans-serif",
-                fontWeight: 300,
+                fontFamily: "'Cormorant Garamond', serif",
+                fontWeight: 400,
                 color: accentColor,
               }}
             >
@@ -155,8 +155,8 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
             <p
               className="text-xs tracking-[1px]"
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                color: "rgba(26,29,41,0.5)",
+                fontFamily: "'Inter', sans-serif",
+                color: "rgba(15,42,38,0.55)",
               }}
             >
               {subtitle}
