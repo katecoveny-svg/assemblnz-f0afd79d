@@ -110,8 +110,10 @@ function FairyLights({
     return Array.from({ length: count }, (_, i) => ({
       base: i / count,
       phase: Math.random() * Math.PI * 2,
-      twinkleHz: 1.6 + Math.random() * 2.4, // 1.6–4 Hz
-      sizeJitter: 0.6 + Math.random() * 0.9,
+      twinkleHz: 3.5 + Math.random() * 4.5, // 3.5–8 Hz — crisp fairy-light blink
+      sizeJitter: 0.5 + Math.random() * 1.1,
+      // Some stars stay dark longer between twinkles (rare bright pulses)
+      sparkBias: Math.random() < 0.35 ? 4.0 : 1.4,
     }));
   }, [count]);
 
@@ -128,17 +130,33 @@ function FairyLights({
     return g;
   }, [positions, sizes, opacities]);
 
-  // Soft round sprite texture (in-memory canvas) — gives the fairy glow
+  // Star sprite: tight bright core + tiny halo + faint cross diffraction spikes
   const sprite = useMemo(() => {
     const canvas = document.createElement("canvas");
     canvas.width = canvas.height = 64;
     const ctx = canvas.getContext("2d")!;
-    const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    grad.addColorStop(0, "rgba(255,255,255,1)");
-    grad.addColorStop(0.35, "rgba(255,255,255,0.55)");
-    grad.addColorStop(1, "rgba(255,255,255,0)");
-    ctx.fillStyle = grad;
+    // Soft halo
+    const halo = ctx.createRadialGradient(32, 32, 0, 32, 32, 30);
+    halo.addColorStop(0, "rgba(255,255,255,0.9)");
+    halo.addColorStop(0.18, "rgba(255,255,255,0.35)");
+    halo.addColorStop(0.5, "rgba(255,255,255,0.06)");
+    halo.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.fillStyle = halo;
     ctx.fillRect(0, 0, 64, 64);
+    // Tight bright core
+    const core = ctx.createRadialGradient(32, 32, 0, 32, 32, 6);
+    core.addColorStop(0, "rgba(255,255,255,1)");
+    core.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.fillStyle = core;
+    ctx.fillRect(0, 0, 64, 64);
+    // Diffraction spikes (subtle)
+    ctx.globalCompositeOperation = "lighter";
+    ctx.strokeStyle = "rgba(255,255,255,0.55)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(32, 6); ctx.lineTo(32, 58);
+    ctx.moveTo(6, 32); ctx.lineTo(58, 32);
+    ctx.stroke();
     const tex = new THREE.CanvasTexture(canvas);
     tex.needsUpdate = true;
     return tex;
@@ -160,10 +178,12 @@ function FairyLights({
       positions[i * 3 + 1] = tmp.y;
       positions[i * 3 + 2] = tmp.z;
 
-      // Twinkle: rectified sine, smoothed
-      const tw = 0.5 + 0.5 * Math.sin(t * p.twinkleHz + p.phase);
-      opacities[i] = 0.25 + tw * 0.75;
-      sizes[i] = size * p.sizeJitter * (0.7 + tw * 0.6);
+      // Twinkle: sharp-attack pulse using pow() on rectified sine — feels like a blink
+      const raw = 0.5 + 0.5 * Math.sin(t * p.twinkleHz + p.phase);
+      const tw = Math.pow(raw, p.sparkBias);
+      // Mostly dim with bright sparks — true fairy-light feel
+      opacities[i] = 0.05 + tw * 0.95;
+      sizes[i] = size * p.sizeJitter * (0.55 + tw * 0.55);
     }
 
     const posAttr = geometry.getAttribute("position") as THREE.BufferAttribute;
@@ -354,9 +374,9 @@ function RibbonScene({ ribbons }: { ribbons: RibbonProps[] }) {
           key={`f-${i}`}
           curveRef={refs.current[i]}
           color={r.color}
-          count={Math.round(22 + r.amplitude * 18)}
-          driftSpeed={0.04 + r.speed * 0.3}
-          size={Math.max(0.07, r.thickness * 3.2)}
+          count={Math.round(60 + r.amplitude * 40)}
+          driftSpeed={0.008 + r.speed * 0.04}
+          size={Math.max(0.025, r.thickness * 1.4)}
         />
       ))}
     </>
