@@ -154,9 +154,49 @@ Deno.serve(async (req) => {
     const severityOrder: Record<string, number> = { critical: 0, high: 1, standard: 2, informational: 3 };
     alerts.sort((a, b) => (severityOrder[a.severity] || 3) - (severityOrder[b.severity] || 3));
 
-    return new Response(JSON.stringify({ alerts, generated_at: now.toISOString() }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    // ═══ PERSIST to proactive_alerts so the UI ribbon can render them ═══
+    let persistedCount = 0;
+    let persistError: string | null = null;
+    if (targetUserId && alerts.length > 0) {
+      const sevMap: Record<string, string> = {
+        critical: "critical",
+        high: "high",
+        standard: "medium",
+        informational: "low",
+      };
+      const rows = alerts.slice(0, 20).map((a) => ({
+        user_id: targetUserId!,
+        source_agent: a.relevant_agent || "system",
+        target_agent: a.relevant_agent || "system",
+        alert_type: a.type || "general",
+        title: a.title,
+        message: a.message,
+        severity: sevMap[a.severity] || "medium",
+        is_read: false,
+        is_dismissed: false,
+        metadata: { action_text: a.action_text, due_date: a.due_date, effective_date: a.effective_date, category: a.category } as any,
+        expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      }));
+      const { error: insErr, count } = await supabase
+        .from("proactive_alerts")
+        .insert(rows, { count: "exact" });
+      if (insErr) {
+        persistError = insErr.message;
+        console.error("[generate-proactive-alerts] insert failed:", insErr.message);
+      } else {
+        persistedCount = count ?? rows.length;
+      }
+    }
+
+    return new Response(
+      JSON.stringify({
+        alerts,
+        persisted: persistedCount,
+        persist_error: persistError,
+        generated_at: now.toISOString(),
+      }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     return new Response(JSON.stringify({ error: errorMessage }), {

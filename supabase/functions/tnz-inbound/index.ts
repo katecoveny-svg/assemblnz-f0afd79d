@@ -567,6 +567,28 @@ Deno.serve(async (req) => {
       console.error("Audit log error:", auditErr);
     }
 
+    // ═══ MEMORY EXTRACTION QUEUE — debounced enqueue (fire-and-forget) ═══
+    try {
+      const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+      const { data: recent } = await sb
+        .from("memory_extraction_queue")
+        .select("id")
+        .eq("conversation_id", conversationId)
+        .gte("created_at", tenMinAgo)
+        .limit(1);
+      if (!recent || recent.length === 0) {
+        sb.from("memory_extraction_queue").insert({
+          tenant_id: tenantId,
+          conversation_id: conversationId,
+          status: "pending",
+        }).then(({ error }) => {
+          if (error) console.warn("[tnz-inbound] memory_extraction_queue insert failed:", error.message);
+        });
+      }
+    } catch (memErr) {
+      console.warn("[tnz-inbound] memory queue check failed:", (memErr as Error).message);
+    }
+
     console.log(
       `Processed ${validChannel} from ${fromNumber} → ${agentUsed} (tenant: ${tenantId}) in ${responseTimeMs}ms`
     );
