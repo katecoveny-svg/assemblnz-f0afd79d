@@ -51,6 +51,7 @@ const SectorWorkflows = lazy(() => import("./pages/SectorWorkflows"));
 const AdminKbPriorities = lazy(() => import("./pages/AdminKbPriorities"));
 const AdminDesignSystem = lazy(() => import("./pages/admin/DesignSystem"));
 const AdminKnowledgeBrainPage = lazy(() => import("./pages/AdminKnowledgeBrainPage"));
+const PublicKnowledgeBrainPage = lazy(() => import("./pages/PublicKnowledgeBrainPage"));
 const PikauCbaffLanding = lazy(() => import("./pages/PikauCbaffLanding"));
 const ArtakiMtaLanding = lazy(() => import("./pages/ArtakiMtaLanding"));
 const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
