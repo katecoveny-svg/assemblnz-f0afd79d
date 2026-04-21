@@ -607,7 +607,7 @@ function buildFallbackPlan(
   };
 }
 
-function _getKeteAgents_marker(kete: string): { code: string; name: string }[] {
+function getKeteAgents(kete: string): { code: string; name: string }[] {
   const base = [
     { code: "iho", name: "Iho" },
     { code: "kahu", name: "Kahu" },
