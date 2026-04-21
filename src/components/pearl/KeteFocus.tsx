@@ -39,18 +39,19 @@ function buildSparks(count: number, seed = 1): Spark[] {
   const out: Spark[] = [];
   for (let i = 0; i < count; i++) {
     // Distribute mostly around the kete in an oval ring, with a few stragglers
+    // that drift closer to the basket itself — feels like data flowing toward it.
     const angle = rand() * Math.PI * 2;
-    const radius = 28 + rand() * 32;          // 28–60% of half-size from center
-    const xOff = Math.cos(angle) * radius * 1.15;
-    const yOff = Math.sin(angle) * radius * 0.85 - 6; // bias upward
+    const radius = 22 + rand() * 38;          // 22–60% — some nearer the kete
+    const xOff = Math.cos(angle) * radius * 1.20;
+    const yOff = Math.sin(angle) * radius * 0.90 - 8; // bias upward
     out.push({
       x: 50 + xOff,
       y: 50 + yOff,
-      size: 2 + rand() * 4,
+      size: 2 + rand() * 5,                   // slightly larger cores
       delay: rand() * 5,
-      duration: 2.2 + rand() * 3.4,           // irregular: 2.2s–5.6s
-      rays: rand() > 0.55 ? 6 : 4,
-      rayLen: 8 + rand() * 14,
+      duration: 1.8 + rand() * 3.2,           // irregular: 1.8s–5.0s — livelier
+      rays: rand() > 0.5 ? 6 : 4,
+      rayLen: 10 + rand() * 18,               // longer rays for more twinkle
     });
   }
   return out;
