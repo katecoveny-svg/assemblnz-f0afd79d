@@ -98,15 +98,47 @@ export default function LiveDataTiles({ tiles, accent = "#3A7D6E", refreshMs = 6
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="relative px-4 py-3.5 rounded-2xl text-left"
+            className="relative px-4 py-3.5 text-left overflow-hidden"
             style={{
-              background: "rgba(255,255,255,0.62)",
+              // Kete silhouette: rounded crown, slightly snugger base — like a woven basket
+              borderRadius: "22px 22px 18px 18px",
+              background: `
+                radial-gradient(110% 70% at 50% 0%, ${accent}10, transparent 60%),
+                linear-gradient(180deg, rgba(255,255,255,0.78), rgba(248,250,251,0.6))
+              `,
               border: `1px solid ${accent}22`,
-              backdropFilter: "blur(20px) saturate(140%)",
-              boxShadow: `0 6px 20px -8px ${accent}1f, inset 0 1px 0 rgba(255,255,255,0.6)`,
+              backdropFilter: "blur(22px) saturate(150%)",
+              boxShadow: `0 8px 22px -10px ${accent}26, inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -8px 18px ${accent}0c`,
             }}
           >
-            <div className="flex items-center gap-2 mb-1.5">
+            {/* Feathered crown — soft feather-rim of the kete */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-[8px]"
+              style={{
+                background: `repeating-linear-gradient(90deg, ${accent}33 0 2px, transparent 2px 5px)`,
+                maskImage: "linear-gradient(180deg, black, transparent)",
+                WebkitMaskImage: "linear-gradient(180deg, black, transparent)",
+                opacity: 0.55,
+              }}
+            />
+            {/* Woven weft — barely-there diagonal hatch evoking raranga */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background: `repeating-linear-gradient(45deg, ${accent}0a 0 1px, transparent 1px 6px)`,
+                opacity: 0.55,
+                borderRadius: "inherit",
+              }}
+            />
+            {/* Rim band */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-3 top-[8px] h-px"
+              style={{ background: `linear-gradient(90deg, transparent, ${accent}55, transparent)` }}
+            />
+            <div className="relative flex items-center gap-2 mb-1.5">
               <Icon size={12} style={{ color: accent }} />
               <span
                 className="text-[10px] uppercase tracking-[0.18em]"
@@ -116,7 +148,7 @@ export default function LiveDataTiles({ tiles, accent = "#3A7D6E", refreshMs = 6
               </span>
             </div>
             <div
-              className="text-[15px] leading-snug"
+              className="relative text-[15px] leading-snug"
               style={{ color: "#0F2A26", fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
             >
               {s.loading ? (
@@ -131,7 +163,7 @@ export default function LiveDataTiles({ tiles, accent = "#3A7D6E", refreshMs = 6
               )}
             </div>
             <div
-              className="mt-1 text-[10px] flex items-center justify-between gap-2"
+              className="relative mt-1 text-[10px] flex items-center justify-between gap-2"
               style={{ color: "rgba(15,42,38,0.45)", fontFamily: "'Inter', sans-serif" }}
             >
               <span className="truncate">{t.source}</span>

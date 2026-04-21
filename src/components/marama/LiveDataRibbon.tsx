@@ -295,16 +295,62 @@ export default function LiveDataRibbon({
   const rgb = hexRgb(accent);
   return (
     <div
-      className="relative overflow-hidden rounded-[18px] px-4 py-2.5 flex items-center gap-1"
+      className="relative overflow-hidden px-5 py-3 flex items-center gap-1"
       style={{
-        background: "linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.65))",
-        backdropFilter: "blur(20px) saturate(160%)",
-        WebkitBackdropFilter: "blur(20px) saturate(160%)",
-        border: "1px solid rgba(255,255,255,0.7)",
-        boxShadow: `inset 0 1px 0 rgba(255,255,255,0.95), 0 6px 18px rgba(31,35,48,0.06), 0 0 28px rgba(${rgb},0.12)`,
+        // Kete silhouette: gently rounded base, softer crown — like a woven basket rim
+        borderRadius: "28px 28px 22px 22px",
+        background: `
+          radial-gradient(120% 80% at 50% 0%, rgba(${rgb},0.08), transparent 65%),
+          linear-gradient(180deg, rgba(255,255,255,0.92), rgba(248,250,251,0.78))
+        `,
+        backdropFilter: "blur(22px) saturate(160%)",
+        WebkitBackdropFilter: "blur(22px) saturate(160%)",
+        border: "1px solid rgba(255,255,255,0.75)",
+        boxShadow: `
+          inset 0 1px 0 rgba(255,255,255,0.95),
+          inset 0 -10px 22px rgba(${rgb},0.05),
+          0 8px 22px rgba(31,35,48,0.07),
+          0 0 30px rgba(${rgb},0.12)
+        `,
       }}
     >
-      <div className="flex items-center gap-5 whitespace-nowrap animate-[ribbon_42s_linear_infinite]">
+      {/* Feathered crown — evokes the soft feather rim of the kete */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[10px]"
+        style={{
+          background: `repeating-linear-gradient(90deg, rgba(${rgb},0.18) 0 2px, transparent 2px 6px)`,
+          maskImage: "linear-gradient(180deg, black, transparent)",
+          WebkitMaskImage: "linear-gradient(180deg, black, transparent)",
+          opacity: 0.55,
+        }}
+      />
+      {/* Rim accent — the woven harakeke band */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-3 top-[10px] h-px"
+        style={{ background: `linear-gradient(90deg, transparent, rgba(${rgb},0.45), transparent)` }}
+      />
+      {/* Woven weft — barely-there diagonal hatch evoking raranga */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: `repeating-linear-gradient(45deg, rgba(${rgb},0.04) 0 1px, transparent 1px 7px)`,
+          opacity: 0.5,
+          borderRadius: "inherit",
+        }}
+      />
+      {/* Soft basket-base shadow */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-6 bottom-0 h-[6px]"
+        style={{
+          background: `radial-gradient(60% 100% at 50% 100%, rgba(${rgb},0.18), transparent 70%)`,
+          filter: "blur(2px)",
+        }}
+      />
+      <div className="relative flex items-center gap-5 whitespace-nowrap animate-[ribbon_42s_linear_infinite]">
         {[...ticks, ...ticks].map((t, i) => {
           const tone = TONE[t.tone];
           return (
