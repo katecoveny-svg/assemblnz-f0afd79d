@@ -36,7 +36,17 @@ const fadeUp = {
 /* ─── Atomic pieces ─── */
 const Eyebrow = ({ children }: { children: React.ReactNode }) => (
   <p
-    className="uppercase mb-8"
+    className="lowercase mb-8"
+    style={{
+      fontFamily: "'Inter', sans-serif",
+      fontSize: 12,
+      letterSpacing: "0.18em",
+      color: "#8B8479",
+    }}
+  >
+    {children}
+  </p>
+);
     style={{
       fontFamily: "'Inter', sans-serif",
       fontSize: 11,
@@ -204,16 +214,16 @@ function Hero() {
           a constellation of fairy-light data nodes sparkling around it. */}
       <div
         className="absolute hidden md:flex items-center justify-center pointer-events-none"
-        style={{ top: "10%", right: "-2%", width: 620, height: 680 }}
+        style={{ top: "8%", right: "4%", width: 640, height: 700 }}
       >
         <Suspense fallback={null}>
-          <KeteFocus size={620} sparkles={48} priority />
+          <KeteFocus size={640} sparkles={52} priority />
         </Suspense>
       </div>
       {/* Mobile: smaller kete tucked behind the copy */}
       <div
         className="absolute md:hidden flex items-center justify-center pointer-events-none"
-        style={{ top: 40, left: "50%", transform: "translateX(-50%)", width: 360, height: 380, opacity: 0.55 }}
+        style={{ top: 40, left: "50%", transform: "translateX(-50%)", width: 360, height: 380, opacity: 0.65 }}
       >
         <Suspense fallback={null}>
           <KeteFocus size={360} sparkles={32} priority />
