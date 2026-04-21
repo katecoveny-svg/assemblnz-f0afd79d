@@ -195,8 +195,9 @@ export default function KeteFocus({
             width: "100%",
             height: "100%",
             objectFit: "contain",
+            opacity: 0.88,
             filter:
-              "drop-shadow(0 26px 36px rgba(80,55,30,0.18)) drop-shadow(0 8px 14px rgba(80,55,30,0.10))",
+              "drop-shadow(0 26px 36px rgba(80,55,30,0.16)) drop-shadow(0 8px 14px rgba(80,55,30,0.08))",
             userSelect: "none",
           }}
         />
@@ -204,13 +205,21 @@ export default function KeteFocus({
 
       <style>{`
         @keyframes kete-pulse {
-          0%, 100% { opacity: 0.35; transform: scale(0.85); }
-          50%      { opacity: 1;    transform: scale(1.15); }
+          0%, 100% { opacity: 0.15; transform: scale(0.6); }
+          40%      { opacity: 0.95; transform: scale(1.25); }
+          50%      { opacity: 0.25; transform: scale(0.9); }
+          60%      { opacity: 1;    transform: scale(1.35); }
+          80%      { opacity: 0.4;  transform: scale(1.0); }
         }
         @keyframes kete-twinkle {
-          0%, 100% { opacity: 0.5; }
-          45%      { opacity: 1; }
-          55%      { opacity: 0.9; }
+          0%, 100% { opacity: 0.15; }
+          18%      { opacity: 1; }
+          22%      { opacity: 0.2; }
+          38%      { opacity: 0.95; }
+          44%      { opacity: 0.3; }
+          62%      { opacity: 1; }
+          70%      { opacity: 0.35; }
+          85%      { opacity: 0.85; }
         }
         @keyframes kete-rotate {
           from { transform: translate(-50%, -50%) rotate(0deg); }
