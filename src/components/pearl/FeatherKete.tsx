@@ -78,7 +78,6 @@ export default function FeatherKete({
     return () => cancelAnimationFrame(raf);
   }, [drift]);
 
-  const src = VARIANT_SRC[variant] ?? keteMaster;
   const tint = VARIANT_TINT[variant] ?? VARIANT_TINT.base;
   // More transparency overall, hue-rotate for industry tint, no green.
   const filter = `hue-rotate(${tint.hueDeg}deg) saturate(${tint.saturate}) ${tint.shadow}`;
@@ -96,14 +95,10 @@ export default function FeatherKete({
           willChange: "transform",
         }}
       >
-        <img
-          src={src}
+        <ResponsiveKeteImage
+          displayWidth={size}
           alt={alt}
-          aria-hidden={alt ? undefined : true}
-          draggable={false}
           loading="lazy"
-          width={1024}
-          height={1024}
           style={{
             width: "100%",
             height: "100%",
