@@ -13,6 +13,7 @@ import AdminPipelineTab from "@/components/admin/AdminPipelineTab";
 import AdminVideoGenTab from "@/components/admin/AdminVideoGenTab";
 import AdminBrandAssetsTab from "@/components/admin/AdminBrandAssetsTab";
 import MemoryPanel from "@/components/memory/MemoryPanel";
+import SymbioticDraftsPanel from "@/components/admin/SymbioticDraftsPanel";
 import {
   Users, MessageSquare, DollarSign, TrendingUp, Shield,
   Trash2, RefreshCw, ChevronDown, ExternalLink, Mail, Eye, EyeOff,
@@ -596,10 +597,11 @@ const AdminDashboard = () => {
           {/* ═══ MEMORY ═══ */}
           {section === "memory" && (
             <div className="space-y-6">
-              <SectionTitle title="Memory" subtitle="Agent memory and conversation context" icon={Globe} color={TEAL} />
+              <SectionTitle title="Memory" subtitle="Agent memory, context, and symbiotic drafts" icon={Globe} color={TEAL} />
               <GlassCard className="p-6" accent={TEAL}>
                 <MemoryPanel />
               </GlassCard>
+              <SymbioticDraftsPanel />
             </div>
           )}
 
