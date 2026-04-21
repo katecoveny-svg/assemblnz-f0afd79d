@@ -364,22 +364,13 @@ const Index = () => {
             </p>
           </motion.div>
         </Sect>
-                <div className="flex flex-col items-center">
-                  <div className="w-px h-10" style={{ background: `linear-gradient(to bottom, rgba(74,165,168,0.1), ${C.teal}60)` }} />
-                  <div className="w-6 h-6 rounded-full mt-2" style={{ background: C.teal, boxShadow: `0 4px 20px ${C.teal}30` }} />
-                  <p className="mt-3 text-[9px] tracking-[4px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>Iho Router</p>
-                </div>
-              </GlowCard>
-            </motion.div>
-          </div>
-        </Sect>
 
         {/* ═══ INDUSTRY KETE — 7 industry tiles ═══ */}
         <Sect id="industry-packs">
           <motion.div {...fade} className="text-center mb-16">
-            <SectionEyebrow>Eight kete · accessible to every NZ business</SectionEyebrow>
-            <SectionH2>From the dairy in Timaru to the customs broker on the waterfront.</SectionH2>
-            <SectionP>Hospitality, construction, creative, automotive &amp; fleet, freight &amp; customs, retail, early childhood — and Tōro for whānau. Pick the one that fits. Operator gets one, Leader two, Enterprise all seven plus Tōro.</SectionP>
+            <SectionEyebrow>Specialist kete</SectionEyebrow>
+            <SectionH2>Choose the kete that fits the work.</SectionH2>
+            <SectionP>Pick the one that matches the work in front of you. Operator gets one, Leader two, Enterprise all seven plus Tōroa.</SectionP>
           </motion.div>
           <LayoutGroup>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1200px] mx-auto">
