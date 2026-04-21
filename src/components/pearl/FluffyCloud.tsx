@@ -21,24 +21,43 @@ import * as THREE from "three";
 
 /* ───────────────── Sprite textures ───────────────── */
 
-/** Soft cotton-puff sprite — feathery, no hard edge. */
+/** Soft cotton-puff sprite — solid white with a subtle cool shadow on the
+ *  underside, so it reads as VOLUME against an icy pearl background. The
+ *  sprite is opaque-centred (alpha 1.0 at core) so accumulating many of these
+ *  with NormalBlending builds a believable cumulus silhouette. */
 function makePuffTexture() {
   const c = document.createElement("canvas");
-  c.width = c.height = 128;
+  c.width = c.height = 256;
   const ctx = c.getContext("2d")!;
-  // Layered soft gradients to give a fluffy, slightly irregular puff
-  for (let i = 0; i < 5; i++) {
-    const cx = 64 + (Math.random() - 0.5) * 14;
-    const cy = 64 + (Math.random() - 0.5) * 14;
-    const r = 50 + Math.random() * 14;
-    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-    g.addColorStop(0, "rgba(255,255,255,0.55)");
-    g.addColorStop(0.4, "rgba(255,255,255,0.18)");
-    g.addColorStop(1, "rgba(255,255,255,0)");
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, 128, 128);
-  }
+
+  // 1) Cool shadow underbelly (offset down-right, subtle blue-grey)
+  const shadow = ctx.createRadialGradient(140, 150, 0, 140, 150, 110);
+  shadow.addColorStop(0, "rgba(180,195,200,0.55)");
+  shadow.addColorStop(0.55, "rgba(200,210,215,0.22)");
+  shadow.addColorStop(1, "rgba(200,210,215,0)");
+  ctx.fillStyle = shadow;
+  ctx.fillRect(0, 0, 256, 256);
+
+  // 2) Bright white puff body, slightly offset up-left (top-lit)
+  const body = ctx.createRadialGradient(120, 110, 0, 120, 110, 105);
+  body.addColorStop(0, "rgba(255,255,255,1.00)");
+  body.addColorStop(0.35, "rgba(255,255,255,0.92)");
+  body.addColorStop(0.7, "rgba(255,255,255,0.45)");
+  body.addColorStop(0.92, "rgba(255,255,255,0.08)");
+  body.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = body;
+  ctx.fillRect(0, 0, 256, 256);
+
+  // 3) Tiny warm specular highlight on top — gives the puff a "lit" feeling
+  const hi = ctx.createRadialGradient(100, 90, 0, 100, 90, 32);
+  hi.addColorStop(0, "rgba(255,250,240,0.7)");
+  hi.addColorStop(1, "rgba(255,250,240,0)");
+  ctx.fillStyle = hi;
+  ctx.fillRect(0, 0, 256, 256);
+
   const tex = new THREE.CanvasTexture(c);
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
+  tex.magFilter = THREE.LinearFilter;
   tex.needsUpdate = true;
   return tex;
 }
@@ -148,8 +167,11 @@ function CloudBody({
     return new THREE.ShaderMaterial({
       transparent: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      // NormalBlending so white puffs render as solid volume on the
+      // light pearl background (additive would be invisible on white).
+      blending: THREE.NormalBlending,
       uniforms: {
+        // Sprite already encodes white body + cool shadow; uColor lightly tints it.
         uColor: { value: new THREE.Color(tint) },
         uTexture: { value: sprite },
         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
@@ -162,7 +184,7 @@ function CloudBody({
         void main() {
           vOpacity = aOpacity;
           vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = aSize * 280.0 * uPixelRatio / -mvPosition.z;
+          gl_PointSize = aSize * 520.0 * uPixelRatio / -mvPosition.z;
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
@@ -172,7 +194,8 @@ function CloudBody({
         varying float vOpacity;
         void main() {
           vec4 tex = texture2D(uTexture, gl_PointCoord);
-          gl_FragColor = vec4(uColor, tex.a * vOpacity);
+          // Multiply sample RGB by tint (preserves shadow detail in sprite)
+          gl_FragColor = vec4(tex.rgb * uColor, tex.a * vOpacity);
         }
       `,
     });
@@ -362,13 +385,14 @@ function Sparkles({
 /* ───────────────── Public Scene wrappers ───────────────── */
 
 const POUNAMU_GLOW = "#3A8077";
-const SEAGLASS = "#E5EFEC";
-const WARM_WHITE = "#FFF8EC";
+const SEAGLASS_TINT = "#EFF4F2"; // very subtle cool wash, almost white
+const PURE_WHITE = "#FFFFFF";
+const WARM_WHITE = "#FFFDF7";
 
 interface FluffyCloudSceneProps {
   /** "subtle" | "soft" | "rich" — controls puff/sparkle density */
   intensity?: "subtle" | "soft" | "rich";
-  /** Tint of sparkles (cloud body always warm white) */
+  /** Tint of sparkles (cloud body always near-white) */
   tone?: "pounamu" | "seaglass" | "mixed";
   className?: string;
   style?: React.CSSProperties;
@@ -384,19 +408,19 @@ export default function FluffyCloudScene({
   className = "",
   style,
   height = 360,
-  opacity = 0.85,
+  opacity = 0.95,
   reactivity = 0.8,
 }: FluffyCloudSceneProps) {
   const cfg = useMemo(() => {
     if (intensity === "subtle")
-      return { puffs: 60, sparkles: 70, w: 5, h: 1.4, d: 0.8, puffSize: 0.55, sparkSize: 0.05 };
+      return { puffs: 140, sparkles: 60, w: 5, h: 1.4, d: 0.7, puffSize: 0.95, sparkSize: 0.05 };
     if (intensity === "rich")
-      return { puffs: 180, sparkles: 200, w: 6.5, h: 2, d: 1.2, puffSize: 0.7, sparkSize: 0.06 };
-    return { puffs: 110, sparkles: 130, w: 5.8, h: 1.7, d: 1, puffSize: 0.6, sparkSize: 0.055 };
+      return { puffs: 360, sparkles: 180, w: 6.5, h: 2, d: 1.0, puffSize: 1.15, sparkSize: 0.06 };
+    return { puffs: 240, sparkles: 110, w: 5.8, h: 1.7, d: 0.85, puffSize: 1.05, sparkSize: 0.055 };
   }, [intensity]);
 
   const sparkColor =
-    tone === "pounamu" ? POUNAMU_GLOW : tone === "seaglass" ? SEAGLASS : WARM_WHITE;
+    tone === "pounamu" ? POUNAMU_GLOW : tone === "seaglass" ? SEAGLASS_TINT : WARM_WHITE;
 
   return (
     <div
@@ -408,29 +432,19 @@ export default function FluffyCloudScene({
         <Canvas
           camera={{ position: [0, 0, 5], fov: 45 }}
           dpr={[1, 1.5]}
-          gl={{ antialias: true, alpha: true, premultipliedAlpha: true }}
+          gl={{ antialias: true, alpha: true, premultipliedAlpha: false }}
           style={{ background: "transparent" }}
         >
+          {/* Main cotton body — pure white, dense puffs */}
           <CloudBody
             count={cfg.puffs}
             width={cfg.w}
             height={cfg.h}
             depth={cfg.d}
             puffSize={cfg.puffSize}
-            drift={0.08}
+            drift={0.05}
             reactivity={reactivity}
-            tint={WARM_WHITE}
-          />
-          {/* Pounamu under-glow on the body, very faint, gives depth */}
-          <CloudBody
-            count={Math.round(cfg.puffs * 0.35)}
-            width={cfg.w * 0.85}
-            height={cfg.h * 0.7}
-            depth={cfg.d}
-            puffSize={cfg.puffSize * 0.85}
-            drift={-0.05}
-            reactivity={reactivity * 0.6}
-            tint={POUNAMU_GLOW}
+            tint={PURE_WHITE}
           />
           <Sparkles
             count={cfg.sparkles}
@@ -481,55 +495,44 @@ export function HeroCloud({
         <Canvas
           camera={{ position: [0, 0, 6], fov: 42 }}
           dpr={[1, 2]}
-          gl={{ antialias: true, alpha: true, premultipliedAlpha: true }}
+          gl={{ antialias: true, alpha: true, premultipliedAlpha: false }}
           style={{ background: "transparent" }}
         >
-          {/* Main warm cotton body */}
+          {/* Main cotton body — pure white, very dense */}
           <CloudBody
-            count={reduced ? 140 : 260}
+            count={reduced ? 280 : 520}
             width={7.5}
             height={2.4}
-            depth={1.6}
-            puffSize={0.85}
-            drift={reduced ? 0 : 0.04}
+            depth={1.2}
+            puffSize={1.35}
+            drift={reduced ? 0 : 0.025}
             reactivity={reduced ? 0 : 1.2}
-            tint={WARM_WHITE}
+            tint={PURE_WHITE}
           />
-          {/* Sea-glass under-shadow — gives the cloud a cool underbelly */}
+          {/* Subtle cool wash on top — gives the cloud a cooler edge */}
           <CloudBody
-            count={reduced ? 60 : 110}
+            count={reduced ? 100 : 180}
             width={7}
             height={1.8}
-            depth={1.4}
-            puffSize={0.78}
-            drift={reduced ? 0 : -0.03}
+            depth={1.0}
+            puffSize={1.15}
+            drift={reduced ? 0 : -0.018}
             reactivity={reduced ? 0 : 0.9}
-            tint={SEAGLASS}
-          />
-          {/* Pounamu glow at the heart — like sun behind the cloud */}
-          <CloudBody
-            count={reduced ? 30 : 60}
-            width={3.6}
-            height={1.2}
-            depth={0.9}
-            puffSize={0.6}
-            drift={0}
-            reactivity={reduced ? 0 : 0.6}
-            tint={POUNAMU_GLOW}
+            tint={SEAGLASS_TINT}
           />
           {/* Sparkles tucked inside */}
           <Sparkles
-            count={reduced ? 120 : 280}
+            count={reduced ? 160 : 320}
             width={6.8}
             height={2.1}
-            depth={1.4}
+            depth={1.2}
             color={WARM_WHITE}
             size={0.07}
             reactivity={reduced ? 0 : 1.4}
           />
           {/* Pounamu accent sparkles, fewer */}
           <Sparkles
-            count={reduced ? 20 : 50}
+            count={reduced ? 24 : 60}
             width={4.5}
             height={1.6}
             depth={1.0}
