@@ -899,3 +899,101 @@ html {
     animation: none !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PEARL BRAND ALIGNMENT SHIM (sitewide retarget — 2026-04-21)
+   The site has 300+ files using legacy fonts (Lato, Plus Jakarta) and
+   teal accents (#3A7D6E, #4AA5A8). Rather than rewrite each file, this
+   shim retargets those tokens to the Pearl system at the CSS layer so
+   every page inherits the homepage branding without code edits.
+
+   Pearl tokens:
+     Display: 'Cormorant Garamond' (was Lato for headings)
+     Body:    'Inter' (was Plus Jakarta Sans)
+     Accent:  #1F4D47 Pounamu (was #3A7D6E / #4AA5A8 teal)
+     Canvas:  #FBFAF7 Icy Pearl (was #FAFBFC)
+     Ink:     #0E1513 Deep Calm (was #3D4250)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* 1 ─ Inline-style font remap                                              */
+[style*="'Lato'"],
+[style*='"Lato"'] {
+  font-family: 'Cormorant Garamond', serif !important;
+  letter-spacing: -0.012em;
+}
+[style*="'Plus Jakarta Sans'"],
+[style*='"Plus Jakarta Sans"'] {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* 2 ─ Tailwind font utilities still in use across pages -> Inter           */
+.font-syne,
+.font-outfit,
+.font-jakarta,
+.font-inter {
+  font-family: 'Inter', sans-serif !important;
+}
+.font-display {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-weight: 300;
+  letter-spacing: -0.015em;
+}
+
+/* 3 ─ Tailwind utility colour classes using legacy teal hexes              */
+.text-\[\#3A7D6E\],
+.text-\[\#3a7d6e\],
+.text-\[\#4AA5A8\],
+.text-\[\#4aa5a8\] {
+  color: #1F4D47 !important;
+}
+.bg-\[\#3A7D6E\],
+.bg-\[\#3a7d6e\],
+.bg-\[\#4AA5A8\],
+.bg-\[\#4aa5a8\] {
+  background-color: #1F4D47 !important;
+}
+.border-\[\#3A7D6E\],
+.border-\[\#4AA5A8\] {
+  border-color: #1F4D47 !important;
+}
+
+/* 4 ─ Whenua / neon legacy palette → Pounamu single accent                 */
+.text-whenua-pounamu,
+.text-whenua-pounamu-light,
+.text-neon-green,
+.text-neon-teal,
+.text-neon-cyan,
+.text-neon-blue {
+  color: #1F4D47 !important;
+}
+.bg-whenua-pounamu,
+.bg-whenua-pounamu-light,
+.bg-neon-green,
+.bg-neon-teal {
+  background-color: #1F4D47 !important;
+}
+
+/* 5 ─ Old canvas / ink retargets                                           */
+.bg-\[\#FAFBFC\],
+.bg-\[\#fafbfc\] {
+  background-color: #FBFAF7 !important;
+}
+.text-\[\#3D4250\],
+.text-\[\#3d4250\] {
+  color: #0E1513 !important;
+}
+
+/* 6 ─ Legacy uppercase wordmarks (Lato 300, 4-6px tracking) read awkward
+       once retargeted to Cormorant. Force them into the Pearl eyebrow
+       treatment instead — Inter, lowercase, 0.18em, muted clay.            */
+[style*="letter-spacing: 4px"][style*="'Lato'"],
+[style*="letter-spacing: 5px"][style*="'Lato'"],
+[style*="letter-spacing: 6px"][style*="'Lato'"],
+[style*="letter-spacing: 8px"][style*="'Lato'"] {
+  font-family: 'Inter', sans-serif !important;
+  letter-spacing: 0.18em !important;
+  text-transform: lowercase;
+  font-weight: 500 !important;
+  color: #8B8479 !important;
+}
+
