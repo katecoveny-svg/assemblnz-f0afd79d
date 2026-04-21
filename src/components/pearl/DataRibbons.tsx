@@ -374,9 +374,9 @@ function RibbonScene({ ribbons }: { ribbons: RibbonProps[] }) {
           key={`f-${i}`}
           curveRef={refs.current[i]}
           color={r.color}
-          count={Math.round(22 + r.amplitude * 18)}
-          driftSpeed={0.04 + r.speed * 0.3}
-          size={Math.max(0.07, r.thickness * 3.2)}
+          count={Math.round(60 + r.amplitude * 40)}
+          driftSpeed={0.008 + r.speed * 0.04}
+          size={Math.max(0.025, r.thickness * 1.4)}
         />
       ))}
     </>
