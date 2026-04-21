@@ -70,10 +70,10 @@ const StartPendingPage = () => {
 
       if (data) {
         setStatus(data.pipeline_status);
-        if (data.pipeline_status === "complete") {
+        if (data.pipeline_status === "complete" || data.pipeline_status === "proof_delivered") {
           clearInterval(interval);
           setPlanUrl(data.plan_html_url);
-        } else if (data.pipeline_status === "exception") {
+        } else if (data.pipeline_status === "exception" || data.pipeline_status === "error") {
           clearInterval(interval);
         }
       }
@@ -93,7 +93,7 @@ const StartPendingPage = () => {
 
   // If pipeline completes before animation, jump to done
   useEffect(() => {
-    if (status === "complete") {
+    if (status === "complete" || status === "proof_delivered") {
       setCurrentStage(STAGES.length - 1);
       // Show plan selection after a beat
       setTimeout(() => setShowPlans(true), 1200);
