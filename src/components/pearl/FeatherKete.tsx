@@ -17,6 +17,8 @@ export type KeteVariant =
   | "auaha"
   | "arataki"
   | "pikau"
+  | "hoko"
+  | "ako"
   | "toro";
 
 // All variants resolve to the master white kete — this keeps the API stable
@@ -28,6 +30,8 @@ const VARIANT_SRC: Record<KeteVariant, string> = {
   auaha: keteMaster,
   arataki: keteMaster,
   pikau: keteMaster,
+  hoko: keteMaster,
+  ako: keteMaster,
   toro: keteMaster,
 };
 
@@ -42,6 +46,8 @@ const VARIANT_TINT: Record<KeteVariant, Tint> = {
   auaha:   { hueDeg:  35, saturate: 1.06, shadow: "drop-shadow(0 14px 30px rgba(155,142,196,0.22))" }, // soft lavender
   arataki: { hueDeg: -50, saturate: 1.04, shadow: "drop-shadow(0 14px 30px rgba(170,128,108,0.22))" }, // burnt clay
   pikau:   { hueDeg:  20, saturate: 1.04, shadow: "drop-shadow(0 14px 30px rgba(122,154,188,0.22))" }, // dusk blue
+  hoko:    { hueDeg: -35, saturate: 1.05, shadow: "drop-shadow(0 14px 30px rgba(206,160,128,0.22))" }, // warm copper
+  ako:     { hueDeg:  50, saturate: 1.05, shadow: "drop-shadow(0 14px 30px rgba(196,176,140,0.22))" }, // soft honey
   toro:    { hueDeg:  10, saturate: 1.03, shadow: "drop-shadow(0 14px 30px rgba(180,196,210,0.22))" }, // pale sky
 };
 
