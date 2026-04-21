@@ -131,10 +131,15 @@ export default function LiveDataTiles({ tiles, accent = "#3A7D6E", refreshMs = 6
               )}
             </div>
             <div
-              className="mt-1 text-[10px]"
+              className="mt-1 text-[10px] flex items-center justify-between gap-2"
               style={{ color: "rgba(15,42,38,0.45)", fontFamily: "'Inter', sans-serif" }}
             >
-              {t.source}
+              <span className="truncate">{t.source}</span>
+              {s.fetchedAt && (
+                <span className="shrink-0" style={{ color: `${accent}` }}>
+                  · {formatAgo(s.fetchedAt)}
+                </span>
+              )}
             </div>
           </motion.div>
         );
