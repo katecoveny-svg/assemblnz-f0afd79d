@@ -207,7 +207,7 @@ function Hero() {
         style={{ top: "10%", right: "-2%", width: 620, height: 680 }}
       >
         <Suspense fallback={null}>
-          <KeteFocus size={580} sparkles={32} priority />
+          <KeteFocus size={620} sparkles={48} priority />
         </Suspense>
       </div>
       {/* Mobile: smaller kete tucked behind the copy */}
@@ -216,7 +216,7 @@ function Hero() {
         style={{ top: 40, left: "50%", transform: "translateX(-50%)", width: 360, height: 380, opacity: 0.55 }}
       >
         <Suspense fallback={null}>
-          <KeteFocus size={340} sparkles={18} priority />
+          <KeteFocus size={360} sparkles={32} priority />
         </Suspense>
       </div>
 
