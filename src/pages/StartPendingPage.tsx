@@ -281,8 +281,9 @@ const StartPendingPage = () => {
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </div>
-    </div>
+    </LightPageShell>
   );
 };
 
