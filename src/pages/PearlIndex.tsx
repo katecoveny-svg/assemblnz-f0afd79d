@@ -290,7 +290,7 @@ function Hero() {
 
 function WhyAssembl() {
   return (
-    <section className="relative overflow-hidden" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}>
+    <section className="relative overflow-hidden" style={{ paddingTop: 96, paddingBottom: 96, background: PEARL.bg }}>
 
       <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6">
         <Eyebrow>Why Assembl</Eyebrow>
