@@ -16,7 +16,7 @@ export default function HomepageProofStrip() {
 
   useEffect(() => {
     let cancelled = false;
-    (async () => {
+    const refresh = async () => {
       const [{ data: srcRows }, { data: agentRows }] = await Promise.all([
         supabase.from("kb_sources").select("last_checked_at, active").eq("active", true),
         supabase.from("agent_status").select("agent_id, is_online"),
@@ -31,9 +31,17 @@ export default function HomepageProofStrip() {
       setLastSync(latest ?? null);
       setAgentsTotal(agentRows?.length ?? 0);
       setAgentsOnline((agentRows ?? []).filter((a) => a.is_online).length);
-    })();
+    };
+
+    refresh();
+    const interval = window.setInterval(refresh, 90_000);
+    const onFocus = () => refresh();
+    window.addEventListener("focus", onFocus);
+
     return () => {
       cancelled = true;
+      window.clearInterval(interval);
+      window.removeEventListener("focus", onFocus);
     };
   }, []);
 

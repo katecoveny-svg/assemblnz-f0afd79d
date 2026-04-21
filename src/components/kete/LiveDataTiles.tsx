@@ -28,6 +28,8 @@ export interface LiveTileSpec {
 interface Props {
   tiles: LiveTileSpec[];
   accent?: string;
+  /** How often to re-fetch each tile, in ms. Default 60s. */
+  refreshMs?: number;
 }
 
 interface TileState {
@@ -36,39 +38,54 @@ interface TileState {
   fetchedAt: number | null;
 }
 
-export default function LiveDataTiles({ tiles, accent = "#3A7D6E" }: Props) {
+export default function LiveDataTiles({ tiles, accent = "#3A7D6E", refreshMs = 60_000 }: Props) {
   const [states, setStates] = useState<TileState[]>(
     () => tiles.map(() => ({ value: null, loading: true, fetchedAt: null })),
   );
+  // Re-render every 30s so the "synced Xs ago" label stays honest between refetches.
+  const [, setTick] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
-    Promise.all(
-      tiles.map(async (t, i) => {
-        try {
-          const v = await t.load();
-          if (!cancelled) {
+
+    const refreshAll = () => {
+      tiles.forEach((t, i) => {
+        t.load()
+          .then((v) => {
+            if (cancelled) return;
             setStates((prev) => {
               const next = [...prev];
               next[i] = { value: v, loading: false, fetchedAt: Date.now() };
               return next;
             });
-          }
-        } catch {
-          if (!cancelled) {
+          })
+          .catch(() => {
+            if (cancelled) return;
             setStates((prev) => {
               const next = [...prev];
               next[i] = { value: null, loading: false, fetchedAt: Date.now() };
               return next;
             });
-          }
-        }
-      }),
-    );
+          });
+      });
+    };
+
+    refreshAll();
+    const interval = window.setInterval(refreshAll, refreshMs);
+    const tickInterval = window.setInterval(() => setTick((n) => n + 1), 30_000);
+    const onFocus = () => refreshAll();
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") refreshAll();
+    });
+
     return () => {
       cancelled = true;
+      window.clearInterval(interval);
+      window.clearInterval(tickInterval);
+      window.removeEventListener("focus", onFocus);
     };
-  }, [tiles]);
+  }, [tiles, refreshMs]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
@@ -114,10 +131,15 @@ export default function LiveDataTiles({ tiles, accent = "#3A7D6E" }: Props) {
               )}
             </div>
             <div
-              className="mt-1 text-[10px]"
+              className="mt-1 text-[10px] flex items-center justify-between gap-2"
               style={{ color: "rgba(15,42,38,0.45)", fontFamily: "'Inter', sans-serif" }}
             >
-              {t.source}
+              <span className="truncate">{t.source}</span>
+              {s.fetchedAt && (
+                <span className="shrink-0" style={{ color: `${accent}` }}>
+                  · {formatAgo(s.fetchedAt)}
+                </span>
+              )}
             </div>
           </motion.div>
         );
@@ -264,4 +286,14 @@ export async function loadLatestRegChange(industries: string[]): Promise<string 
   } catch {
     return null;
   }
+}
+
+function formatAgo(ts: number): string {
+  const s = Math.max(0, Math.round((Date.now() - ts) / 1000));
+  if (s < 5) return "just now";
+  if (s < 60) return `${s}s ago`;
+  const m = Math.floor(s / 60);
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  return `${h}h ago`;
 }
