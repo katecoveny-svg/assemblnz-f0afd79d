@@ -259,6 +259,13 @@ Write in plain English. No jargon. No buzzwords. Respond in JSON:
       }
     }
 
+    // Fallback: if AI gateway failed, build a deterministic plan so the
+    // pipeline always completes with something useful for the user.
+    if (!plan) {
+      console.log("[TĀ] Using deterministic fallback plan");
+      plan = buildFallbackPlan(intake, classification);
+    }
+
     await supabase
       .from("tenant_intake")
       .update({ pipeline_status: "checking" })
