@@ -187,6 +187,13 @@ function Hero() {
       className="relative overflow-hidden"
       style={{ minHeight: "92vh", background: PEARL.bg }}
     >
+      {/* Hero ribbon system — flowing aurora behind the headline */}
+      <div className="absolute inset-x-0 pointer-events-none" style={{ top: "30%", height: 480 }}>
+        <Suspense fallback={null}>
+          <DataRibbons intensity="rich" tone="mixed" height={480} opacity={0.55} />
+        </Suspense>
+      </div>
+
       {/* Hero globe — large, behind-right */}
       <div
         className="absolute hidden md:block"
@@ -425,7 +432,7 @@ function HowItWorks() {
     { n: "03", h: "The law stays current.", p: "When New Zealand legislation moves, your checks move with it. Centrally. Without a meeting." },
   ];
   return (
-    <section className="relative" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.moonstone }}>
+    <section className="relative overflow-hidden" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.linen }}>
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10">
         <Eyebrow>How it works</Eyebrow>
         <Serif size="lg">Every workflow ends in a pack.</Serif>
@@ -635,7 +642,7 @@ const TIERS = [
 
 function Pricing() {
   return (
-    <section style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.moonstone }}>
+    <section style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.linen }}>
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10">
         <Eyebrow>Pricing</Eyebrow>
         <Serif size="lg" className="mb-20">
@@ -717,6 +724,13 @@ function Closing() {
       className="relative overflow-hidden"
       style={{ paddingTop: 200, paddingBottom: 200, background: PEARL.bg }}
     >
+      {/* Soft closing ribbon */}
+      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 pointer-events-none" style={{ height: 420 }}>
+        <Suspense fallback={null}>
+          <DataRibbons intensity="soft" tone="mixed" height={420} opacity={0.4} />
+        </Suspense>
+      </div>
+
       {/* Largest globe of the page, drifting behind the text */}
       <div
         className="absolute hidden md:block"
