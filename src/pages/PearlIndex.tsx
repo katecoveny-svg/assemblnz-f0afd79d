@@ -296,7 +296,7 @@ function WhyAssembl() {
         <Eyebrow>Why Assembl</Eyebrow>
         <Serif size="lg">Assembl exists because time matters.</Serif>
 
-        <div style={{ marginTop: 56, display: "flex", flexDirection: "column", gap: 28 }}>
+        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", gap: 20 }}>
           {[
             "We know what overwork feels like. we know what constant motion costs.",
             "We know what it’s like to be stretched between ambition, responsibility, and family.",
@@ -319,7 +319,7 @@ function WhyAssembl() {
           ))}
         </div>
 
-        <div style={{ marginTop: 64, display: "flex", flexDirection: "column", gap: 14 }}>
+        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", gap: 12 }}>
           <p
             style={{
               fontFamily: "'Cormorant Garamond', serif",
@@ -355,9 +355,9 @@ function WhyAssembl() {
       </motion.div>
 
       {/* Quiet cloud breaks the page beneath the text */}
-      <div className="relative mx-auto hidden md:flex items-center justify-center pointer-events-none" style={{ width: 360, height: 360, marginTop: 96 }}>
+      <div className="relative mx-auto hidden md:flex items-center justify-center pointer-events-none" style={{ width: 240, height: 240, marginTop: 56 }}>
         <Suspense fallback={null}>
-          <MiniCloud size={360} drift="slow" opacity={0.5} />
+          <MiniCloud size={240} drift="slow" opacity={0.4} />
         </Suspense>
       </div>
     </section>
@@ -366,7 +366,7 @@ function WhyAssembl() {
 
 function WhatAssemblIs() {
   return (
-    <section className="relative overflow-hidden" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}>
+    <section className="relative overflow-hidden" style={{ paddingTop: 96, paddingBottom: 96, background: PEARL.bg }}>
       {/* (atmospheric ribbon removed — hero room cloud carries the section) */}
 
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10 relative z-10">
@@ -374,13 +374,13 @@ function WhatAssemblIs() {
         <Serif size="lg" className="mb-10">
           A platform of practical AI agents that finish the work — and give you time back.
         </Serif>
-        <div style={{ maxWidth: 680, marginBottom: 96 }}>
+        <div style={{ maxWidth: 680, marginBottom: 56 }}>
           <Body large>
             Assembl is a New Zealand-built platform of specialist AI agents — one for hospitality, construction, automotive, freight, creative, retail, early childhood, and one for the household. Each agent runs an end-to-end workflow for you and closes it with a single evidence pack: source-cited, audit-ready, dated, current with New Zealand law.
           </Body>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-16 md:gap-24 relative">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-16 relative">
           <div className="relative" style={{ zIndex: 2 }}>
             <p
               style={{
