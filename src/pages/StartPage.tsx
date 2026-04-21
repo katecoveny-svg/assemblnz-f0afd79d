@@ -284,7 +284,7 @@ const StartPage = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="text-sm font-medium mb-2"
-                style={{ color: ACCENT, fontFamily: "'Lato', sans-serif" }}
+                style={{ color: ACCENT, fontFamily: "'Cormorant Garamond', serif" }}
               >
                 Kia ora! Let's get you set up.
               </motion.p>
@@ -293,7 +293,7 @@ const StartPage = () => {
             <h1
               className="text-2xl sm:text-3xl mb-2"
               style={{
-                fontFamily: "'Lato', sans-serif",
+                fontFamily: "'Cormorant Garamond', serif",
                 fontWeight: 300,
                 letterSpacing: "-0.02em",
                 color: TEXT_PRIMARY,
@@ -303,7 +303,7 @@ const StartPage = () => {
             </h1>
             <p
               className="text-sm mb-8"
-              style={{ color: TEXT_MUTED, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              style={{ color: TEXT_MUTED, fontFamily: "'Inter', sans-serif" }}
             >
               {STEP_SUBTITLES[step]}
             </p>
@@ -357,7 +357,7 @@ const StartPage = () => {
                         </div>
                         <div
                           className="text-sm font-medium mb-0.5"
-                          style={{ color: TEXT_PRIMARY, fontFamily: "'Lato', sans-serif" }}
+                          style={{ color: TEXT_PRIMARY, fontFamily: "'Cormorant Garamond', serif" }}
                         >
                           {ind.label}
                         </div>
@@ -409,7 +409,7 @@ const StartPage = () => {
                         <div>
                           <div
                             className="text-sm font-medium"
-                            style={{ color: TEXT_PRIMARY, fontFamily: "'Lato', sans-serif" }}
+                            style={{ color: TEXT_PRIMARY, fontFamily: "'Cormorant Garamond', serif" }}
                           >
                             {s.label}
                           </div>
@@ -472,7 +472,7 @@ const StartPage = () => {
                             color: selected ? ACCENT : TEXT_BODY,
                             opacity: disabled ? 0.35 : 1,
                             cursor: disabled ? "not-allowed" : "pointer",
-                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                            fontFamily: "'Inter', sans-serif",
                           }}
                         >
                           {selected && (
@@ -525,7 +525,7 @@ const StartPage = () => {
                           className="text-sm font-medium"
                           style={{
                             color: selected ? ACCENT : TEXT_PRIMARY,
-                            fontFamily: "'Lato', sans-serif",
+                            fontFamily: "'Cormorant Garamond', serif",
                           }}
                         >
                           {t.label}
@@ -552,7 +552,7 @@ const StartPage = () => {
                     <div className="space-y-3">
                       <p
                         className="text-sm font-medium flex items-center gap-2"
-                        style={{ color: TEXT_PRIMARY, fontFamily: "'Lato', sans-serif" }}
+                        style={{ color: TEXT_PRIMARY, fontFamily: "'Cormorant Garamond', serif" }}
                       >
                         <Zap className="w-4 h-4" style={{ color: ACCENT }} />
                         Your starting team, based on what you told us:
@@ -580,7 +580,7 @@ const StartPage = () => {
                               <div className="flex-1">
                                 <div
                                   className="text-sm font-semibold"
-                                  style={{ color: TEXT_PRIMARY, fontFamily: "'Lato', sans-serif" }}
+                                  style={{ color: TEXT_PRIMARY, fontFamily: "'Cormorant Garamond', serif" }}
                                 >
                                   {agent.name}
                                 </div>
@@ -703,7 +703,7 @@ const StartPage = () => {
                     WebkitBackdropFilter: "blur(16px)",
                     border: `1px solid ${BORDER_SOFT}`,
                     color: TEXT_BODY,
-                    fontFamily: "'Lato', sans-serif",
+                    fontFamily: "'Cormorant Garamond', serif",
                   }}
                 >
                   <ArrowLeft className="w-4 h-4" />
@@ -720,7 +720,7 @@ const StartPage = () => {
                     background: ACCENT,
                     color: "#FFFFFF",
                     boxShadow: "0 8px 24px rgba(74,165,168,0.30)",
-                    fontFamily: "'Lato', sans-serif",
+                    fontFamily: "'Cormorant Garamond', serif",
                     letterSpacing: "0.02em",
                   }}
                 >
@@ -737,7 +737,7 @@ const StartPage = () => {
                     background: ACCENT,
                     color: "#FFFFFF",
                     boxShadow: "0 8px 24px rgba(74,165,168,0.30)",
-                    fontFamily: "'Lato', sans-serif",
+                    fontFamily: "'Cormorant Garamond', serif",
                     letterSpacing: "0.02em",
                   }}
                 >
@@ -762,7 +762,7 @@ const StartPage = () => {
                 type="button"
                 onClick={() => setStep((s) => (s + 1) as any)}
                 className="mt-4 text-xs transition-colors block mx-auto"
-                style={{ color: TEXT_MUTED, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                style={{ color: TEXT_MUTED, fontFamily: "'Inter', sans-serif" }}
               >
                 Skip this step →
               </button>
