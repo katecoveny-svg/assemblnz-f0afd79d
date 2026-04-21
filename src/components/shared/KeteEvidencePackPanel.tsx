@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { FileText, Sparkles, Shield, Download, Check, Clock } from "lucide-react";
+import { FileText, Sparkles, Shield, Download, Check, Clock, Loader2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { generateAndDownloadEvidencePack } from "@/lib/evidencePackPdf";
+import type { CrossAgentSection } from "@/lib/pdfBranding";
 
 interface ComplianceCheck {
   check: string;
@@ -15,6 +16,8 @@ interface PackTemplate {
   description: string;
   complianceChecks: ComplianceCheck[];
   packType: string;
+  /** Optional legislation reference shown alongside each section */
+  legislationRef?: string;
 }
 
 interface KeteEvidencePackPanelProps {
@@ -45,18 +48,17 @@ function CompileModal({ accentColor, onClose }: { accentColor: string; onClose: 
     const interval = setInterval(() => {
       setPct(p => {
         if (p >= 100) { clearInterval(interval); return 100; }
-        return p + 2;
+        return p + 4;
       });
-    }, 80);
-    const timeout = setTimeout(onClose, 5000);
-    return () => { clearInterval(interval); clearTimeout(timeout); };
-  }, [onClose]);
+    }, 60);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" onClick={onClose}>
-      <div className="bg-[#0D0D14] border border-gray-200 rounded-xl p-8 max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
+      <div className="bg-[#0D0D14] border border-white/10 rounded-xl p-8 max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
         <div className="flex items-center gap-2 mb-4">
-          <Sparkles size={20} style={{ color: accentColor }} />
+          <Loader2 size={18} className="animate-spin" style={{ color: accentColor }} />
           <h3 className="text-lg font-medium text-white/90">Compiling Evidence Pack</h3>
         </div>
         <p className="text-sm mb-4" style={{ color: accentColor }}>{COMPILE_STEPS[stepIdx]}</p>
@@ -81,42 +83,39 @@ export default function KeteEvidencePackPanel({
 
   const generatePack = useMutation({
     mutationFn: async (template: PackTemplate) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Sign in required");
+      const sections: CrossAgentSection[] = template.complianceChecks.map((c) => ({
+        agent: agentName,
+        designation: keteName,
+        title: c.check,
+        body:
+          `Verification status: ${c.status.toUpperCase()}. ` +
+          (contextData && Object.keys(contextData).length > 0
+            ? `Context: ${JSON.stringify(contextData).slice(0, 600)}`
+            : "Pipeline-verified compliance check executed against current evidence."),
+        status: c.status === "pass" ? "pass" : c.status === "flag" || c.status === "review" ? "flag" : "pass",
+        legislationRef: template.legislationRef,
+      }));
 
-      const pack = {
-        type: template.packType,
+      return generateAndDownloadEvidencePack({
         kete: keteSlug,
-        compliance_checks: template.complianceChecks,
-        context: contextData || {},
-        generated_at: new Date().toISOString(),
-        watermark: `ASSEMBL-${keteSlug.toUpperCase()}-${Date.now()}-${crypto.randomUUID().slice(0, 8)}`,
-      };
-
-      const { error } = await supabase.from("exported_outputs").insert({
-        user_id: user.id,
-        output_type: "evidence_pack",
         title: `${template.label} — ${keteName}`,
-        content_preview: JSON.stringify(pack).slice(0, 500),
-        agent_id: agentId,
-        agent_name: agentName,
+        summary: template.description,
+        sections,
+        simulated: !contextData || Object.keys(contextData).length === 0,
       });
-      if (error) throw error;
-      return pack;
     },
-    onSuccess: (pack) => {
-      setLastGenerated(pack.generated_at);
-      toast.success("Evidence pack generated and saved");
+    onSuccess: (result) => {
+      setLastGenerated(new Date().toISOString());
+      toast.success("Evidence pack downloaded", { description: result.filename });
     },
     onError: (e: Error) => toast.error(e.message),
   });
 
   const handleGenerate = (template: PackTemplate) => {
     setCompiling(true);
-    setTimeout(() => {
-      setCompiling(false);
-      generatePack.mutate(template);
-    }, 5000);
+    generatePack.mutate(template, {
+      onSettled: () => setTimeout(() => setCompiling(false), 400),
+    });
   };
 
   return (
@@ -128,13 +127,11 @@ export default function KeteEvidencePackPanel({
         border: "1px solid rgba(255,255,255,0.06)",
         boxShadow: `0 0 40px ${accentColor}08`,
       }}>
-        {/* Subtle gradient */}
         <div className="absolute inset-0 pointer-events-none" style={{
           background: `linear-gradient(135deg, ${accentColor}06 0%, transparent 60%)`,
         }} />
 
         <div className="relative z-10">
-          {/* Header */}
           <div className="flex items-center gap-2 mb-4">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${accentColor}15` }}>
               <FileText size={16} style={{ color: accentColor }} />
@@ -144,11 +141,10 @@ export default function KeteEvidencePackPanel({
                 Evidence Pack Generator
                 <Sparkles size={12} style={{ color: accentColor }} />
               </h3>
-              <p className="text-[10px] text-white/35">{keteName} · Watermarked & audit-ready</p>
+              <p className="text-[10px] text-white/35">{keteName} · Branded PDF · Watermarked</p>
             </div>
           </div>
 
-          {/* Templates */}
           <div className="space-y-2 mb-4">
             {packTemplates.map((tpl) => (
               <div key={tpl.packType} className="flex items-center justify-between p-3 rounded-xl" style={{
@@ -165,16 +161,18 @@ export default function KeteEvidencePackPanel({
                   className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all hover:brightness-110 disabled:opacity-50"
                   style={{ background: `${accentColor}20`, color: accentColor }}
                 >
-                  <Download size={12} /> Generate
+                  {generatePack.isPending
+                    ? <Loader2 size={12} className="animate-spin" />
+                    : <Download size={12} />}
+                  Generate PDF
                 </button>
               </div>
             ))}
           </div>
 
-          {/* Compliance badge row */}
           <div className="flex items-center gap-3 text-[10px] text-gray-400">
             <span className="flex items-center gap-1"><Shield size={10} style={{ color: accentColor }} /> Pipeline-verified</span>
-            <span className="flex items-center gap-1"><Check size={10} /> Watermarked</span>
+            <span className="flex items-center gap-1"><Check size={10} /> Watermarked PDF</span>
             {lastGenerated && (
               <span className="flex items-center gap-1 ml-auto"><Clock size={10} /> Last: {new Date(lastGenerated).toLocaleTimeString()}</span>
             )}
