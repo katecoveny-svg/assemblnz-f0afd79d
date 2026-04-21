@@ -16,12 +16,15 @@ import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { PIKAU_USE_CASE } from "@/data/useCases";
 
-const BG = "#FAFBFC";
-const ACCENT = "#7ECFC2";
-const POUNAMU = "#3A7D6E";
-const POUNAMU_LIGHT = "#7ECFC2";
-const BONE = "#F5F0E8";
-const GOLD = "#4AA5A8";
+// Pearl tokens — Warm Pearl + Forest Ink. Never black, never cool blue-white.
+const BG = "#FAF6EF";          // Warm Pearl canvas
+const INK = "#0F2A26";         // Forest Ink (body / headlines)
+const INK_SOFT = "rgba(15,42,38,0.72)";
+const POUNAMU = "#1F4D47";     // Italic emphasis, accents
+const ACCENT = "#1F4D47";      // legacy alias kept for downstream sections
+const POUNAMU_LIGHT = "#C4D6D2"; // Sea Glass support
+const BONE = "#F4EFE6";        // Linen
+const GOLD = "#F8E9C4";        // Warm Halo (fairy-light only — never as text)
 
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
@@ -72,43 +75,60 @@ export default function PikauLandingPage() {
         {/* ── Hero ── */}
         <HeroBackdropNext variant="layered" accentTint={`${POUNAMU}10`}>
         <main className="relative flex flex-col items-center justify-center px-6 pt-16 pb-28 text-center overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none" style={{
-            background: `radial-gradient(ellipse 80% 50% at 50% 30%, ${ACCENT}10 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 30% 60%, ${GOLD}06 0%, transparent 60%)`,
-          }} />
 
-          {[...Array(6)].map((_, i) => (
-            <motion.div key={i} className="absolute rounded-full pointer-events-none" style={{
-              width: 3 + i * 1.5, height: 3 + i * 1.5,
-              background: i % 2 === 0 ? ACCENT : POUNAMU,
-              left: `${15 + i * 14}%`, top: `${20 + (i % 3) * 25}%`, opacity: 0.15,
-            }} animate={{ y: [0, -20 - i * 5, 0], opacity: [0.1, 0.3, 0.1], scale: [1, 1.5, 1] }}
-              transition={{ duration: 5 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.8 }} />
-          ))}
+          <LandingKeteHero accentColor="#1F4D47" accentLight="#C4D6D2" model="container" size={200} />
 
-          <LandingKeteHero accentColor="#7ECFC2" accentLight="#A8E6DA" model="container" size={200} />
-
-          <motion.p className="text-[10px] uppercase tracking-[5px] mb-6" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}
-            variants={fadeUp} initial="hidden" animate="visible" custom={0}>
-            PIKAU · FREIGHT & CUSTOMS
+          <motion.p
+            className="text-[10px] uppercase tracking-[0.32em] mb-6"
+            style={{ color: POUNAMU, fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
+            variants={fadeUp} initial="hidden" animate="visible" custom={0}
+          >
+            Pikau · Freight & Customs
           </motion.p>
 
-          <motion.h1 className="text-4xl sm:text-6xl font-display font-light tracking-[0.02em] mb-4 max-w-3xl leading-[1.1]"
-            variants={fadeUp} initial="hidden" animate="visible" custom={1}>
-            <span style={{ background: `linear-gradient(135deg, #3D4250 0%, ${ACCENT} 50%, ${BONE} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
-              Border compliance.
-            </span>
-            <br />
-            <span style={{ background: `linear-gradient(135deg, #3D4250 0%, ${GOLD} 60%, ${BONE} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
-              Sorted.
-            </span>
+          <motion.h1
+            className="font-display tracking-[-0.018em] mb-5 max-w-3xl"
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontWeight: 300,
+              fontSize: "clamp(44px, 6vw, 80px)",
+              lineHeight: 1.06,
+              color: INK,
+            }}
+            variants={fadeUp} initial="hidden" animate="visible" custom={1}
+          >
+            Border compliance,{" "}
+            <em style={{ color: POUNAMU, fontStyle: "italic", fontWeight: 400 }}>
+              quietly closed.
+            </em>
           </motion.h1>
 
-          <motion.p className="text-lg sm:text-xl font-display font-light tracking-[0.02em] mb-6 max-w-2xl" style={{ color: "#6B7280" }} variants={fadeUp} initial="hidden" animate="visible" custom={1.5}>
-            Operational intelligence for NZ freight and customs
+          <motion.p
+            className="mb-6 max-w-2xl"
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: "italic",
+              fontWeight: 300,
+              fontSize: "clamp(18px, 1.6vw, 22px)",
+              lineHeight: 1.45,
+              color: POUNAMU,
+            }}
+            variants={fadeUp} initial="hidden" animate="visible" custom={1.5}
+          >
+            Operational intelligence for NZ freight and customs.
           </motion.p>
 
-          <motion.p className="text-sm sm:text-base max-w-xl mb-8 font-body leading-relaxed" style={{ color: "#6B7280" }} variants={fadeUp} initial="hidden" animate="visible" custom={2}>
-            HS code validation, incoterm handling, landed cost analysis, and broker hand-off — packed, checked, and ready to clear.
+          <motion.p
+            className="text-base sm:text-lg max-w-xl mb-8"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 400,
+              lineHeight: 1.55,
+              color: INK_SOFT,
+            }}
+            variants={fadeUp} initial="hidden" animate="visible" custom={2}
+          >
+            HS code validation, incoterm handling, landed cost analysis, and broker hand-off — every shipment closes with a single evidence pack.
           </motion.p>
 
           {/* Live status strip */}
@@ -119,21 +139,29 @@ export default function PikauLandingPage() {
           {/* Compliance — single line */}
           <motion.p
             className="text-xs font-body mb-10 max-w-xl"
-            style={{ color: "#5B6374", letterSpacing: "0.02em" }}
+            style={{ color: INK_SOFT, letterSpacing: "0.02em", fontFamily: "'Inter', sans-serif" }}
             variants={fadeUp} initial="hidden" animate="visible" custom={3}
           >
             <span style={{ color: POUNAMU, fontWeight: 500 }}>Governed by</span> Customs &amp; Excise Act 2018, MPI biosecurity standards, Dangerous Goods Act, Privacy Act 2020.
           </motion.p>
 
           <motion.div className="flex flex-col sm:flex-row items-center gap-4" variants={fadeUp} initial="hidden" animate="visible" custom={4}>
-            <Link to="/pikau/dashboard" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold font-body overflow-hidden" style={{ color: "#3D4250" }}>
-              <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(135deg, ${POUNAMU} 0%, #2D6A5E 100%)` }} />
-              <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
+            <Link
+              to="/pikau/dashboard"
+              data-magnetic
+              className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-medium font-body overflow-hidden transition-transform duration-300 hover:-translate-y-px"
+              style={{ color: BG, background: POUNAMU, boxShadow: "0 12px 32px -12px rgba(31,77,71,0.45)" }}
+            >
               <span className="relative z-10">Launch Pikau Dashboard</span>
               <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link to="/contact" className="group px-10 py-4 rounded-full text-sm font-medium font-body transition-all duration-300" style={{ color: "#6B7280", border: "1px solid rgba(74,165,168,0.15)", background: "rgba(255,255,255,0.5)" }}>
-              <span className="group-hover:text-white/80 transition-colors">Book a freight walk-through</span>
+            <Link
+              to="/contact"
+              data-magnetic
+              className="group px-10 py-4 rounded-full text-sm font-medium font-body transition-all duration-300 hover:-translate-y-px"
+              style={{ color: POUNAMU, border: `1px solid ${POUNAMU}33`, background: "rgba(255,255,255,0.55)" }}
+            >
+              Book a freight walk-through
             </Link>
           </motion.div>
         </main>
