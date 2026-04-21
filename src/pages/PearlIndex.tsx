@@ -6,10 +6,7 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 
 const PearlGlobe = lazy(() => import("@/components/pearl/PearlGlobe"));
-const DataRibbons = lazy(() => import("@/components/pearl/FluffyCloud"));
-const HeroCloud = lazy(() =>
-  import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.HeroCloud }))
-);
+const RoomCloud = lazy(() => import("@/components/pearl/RoomCloud"));
 const FairyLightStrand = lazy(() =>
   import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.FairyLightStrand }))
 );
@@ -194,31 +191,11 @@ function Hero() {
       className="relative overflow-hidden"
       style={{ minHeight: "92vh", background: PEARL.bg }}
     >
-      {/* Hero fluffy cloud — giant, centred, sparkly, cursor-reactive.
-          Container is pointer-events-auto so cursor reaches the canvas;
-          the headline above uses z-10 + relative to stay clickable. */}
-      <div
-        className="absolute inset-x-0"
-        style={{ top: "8%", height: "min(78vh, 760px)" }}
-      >
+      {/* Hero is a calm "room" with a photoreal cumulus cloud floating inside.
+          The cloud reacts to cursor with parallax, ambient bob, and sparkles. */}
+      <div className="absolute inset-0">
         <Suspense fallback={null}>
-          <HeroCloud height={760} opacity={0.95} />
-        </Suspense>
-      </div>
-
-      {/* Faint pearl globe behind, far right — keeps a soft anchor */}
-      <div
-        className="absolute hidden md:block pointer-events-none"
-        style={{
-          top: "6%",
-          right: "-12%",
-          width: "min(46vw, 560px)",
-          height: "min(46vw, 560px)",
-          opacity: 0.35,
-        }}
-      >
-        <Suspense fallback={null}>
-          <PearlGlobe size={560} drift="slow" opacity={0.5} />
+          <RoomCloud height={820} />
         </Suspense>
       </div>
 
