@@ -507,10 +507,6 @@ Write in plain English. No jargon. No buzzwords. Respond in JSON:
   }
 });
 
-// ─── Agent mapping per kete ──────────────────────────────────
-function getKeteAgents(kete: string): { code: string; name: string }[] {
-  const base = [
-
 // ─── Deterministic fallback plan ─────────────────────────────
 // Used when the AI gateway is unreachable so the pipeline always
 // produces a usable plan instead of leaving the user stuck.
