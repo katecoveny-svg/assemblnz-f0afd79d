@@ -173,11 +173,12 @@ const InkButton = ({
         fontFamily: "'Inter', sans-serif",
         fontSize: 15,
         color: "#FBFAF7",
-        background: PEARL.ink,
+        background: PEARL.pounamu,
         padding: "18px 32px",
-        borderRadius: 8,
+        borderRadius: 999,
         fontWeight: 500,
         letterSpacing: "0.01em",
+        boxShadow: "0 10px 30px -12px rgba(31, 77, 71, 0.35)",
       }}
     >
       {children}
