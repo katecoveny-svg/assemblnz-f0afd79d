@@ -503,14 +503,14 @@ function HowItWorks() {
 }
 
 const KETES = [
-  { mi: "Manaaki", en: "Hospitality", line: "Food diary, licensing, rostering — closed daily.", to: "/manaaki" },
-  { mi: "Waihanga", en: "Construction", line: "Site inductions, consenting, H&S evidence — packed per project.", to: "/waihanga/about" },
-  { mi: "Auaha", en: "Creative", line: "Contracts, IP clearance, invoicing — ready to send.", to: "/auaha/about" },
-  { mi: "Arataki", en: "Automotive & Fleet", line: "MVSA, RUC, WoF, Land Transport — current as the law updates.", to: "/arataki" },
-  { mi: "Pikau", en: "Freight & Customs", line: "Customs & Excise, biosecurity, import health — evidence every shipment.", to: "/pikau" },
-  { mi: "Hoko", en: "Retail", line: "Compliance, stock, trading standards — end of day, closed.", to: "/hoko" },
-  { mi: "Ako", en: "Early Childhood", line: "Ratios, safety, registrations — pack filed, not chased.", to: "/ako" },
-  { mi: "Tōro", en: "Family", line: "The household load, quietly organised. $29 a month.", to: "/toroa" },
+  { mi: "Manaaki", en: "Hospitality", line: "Food diary, licensing, rostering — closed daily.", to: "/manaaki", variant: "manaaki" as const },
+  { mi: "Waihanga", en: "Construction", line: "Site inductions, consenting, H&S evidence — packed per project.", to: "/waihanga/about", variant: "waihanga" as const },
+  { mi: "Auaha", en: "Creative", line: "Contracts, IP clearance, invoicing — ready to send.", to: "/auaha/about", variant: "auaha" as const },
+  { mi: "Arataki", en: "Automotive & Fleet", line: "MVSA, RUC, WoF, Land Transport — current as the law updates.", to: "/arataki", variant: "arataki" as const },
+  { mi: "Pikau", en: "Freight & Customs", line: "Customs & Excise, biosecurity, import health — evidence every shipment.", to: "/pikau", variant: "pikau" as const },
+  { mi: "Hoko", en: "Retail", line: "Compliance, stock, trading standards — end of day, closed.", to: "/hoko", variant: "base" as const },
+  { mi: "Ako", en: "Early Childhood", line: "Ratios, safety, registrations — pack filed, not chased.", to: "/ako", variant: "base" as const },
+  { mi: "Tōro", en: "Family", line: "The household load, quietly organised. $29 a month.", to: "/toroa", variant: "toro" as const },
 ];
 
 function KetesGrid() {
