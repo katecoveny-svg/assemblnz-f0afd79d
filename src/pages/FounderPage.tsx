@@ -8,7 +8,7 @@ import portraitImg from "@/assets/founder-kate-portrait.jpg";
 import workingImg from "@/assets/founder-kate-working.jpg";
 
 const PearlGlobe = lazy(() => import("@/components/pearl/PearlGlobe"));
-const DataRibbons = lazy(() => import("@/components/pearl/DataRibbons"));
+const DataRibbons = lazy(() => import("@/components/pearl/FluffyCloud"));
 
 /* Warm Pearl palette — same tokens as PearlIndex */
 const PEARL = {

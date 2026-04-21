@@ -6,7 +6,10 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 
 const PearlGlobe = lazy(() => import("@/components/pearl/PearlGlobe"));
-const DataRibbons = lazy(() => import("@/components/pearl/DataRibbons"));
+const DataRibbons = lazy(() => import("@/components/pearl/FluffyCloud"));
+const HeroCloud = lazy(() =>
+  import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.HeroCloud }))
+);
 
 /* ─── Pearl palette — WARM (sunlit) ─── */
 const PEARL = {
@@ -187,25 +190,29 @@ function Hero() {
       className="relative overflow-hidden"
       style={{ minHeight: "92vh", background: PEARL.bg }}
     >
-      {/* Hero ribbon system — flowing aurora behind the headline */}
-      <div className="absolute inset-x-0 pointer-events-none" style={{ top: "30%", height: 480 }}>
+      {/* Hero fluffy cloud — giant, centred, sparkly, cursor-reactive */}
+      <div
+        className="absolute inset-x-0 pointer-events-none"
+        style={{ top: "8%", height: "min(78vh, 760px)" }}
+      >
         <Suspense fallback={null}>
-          <DataRibbons intensity="rich" tone="mixed" height={480} opacity={0.55} />
+          <HeroCloud height={760} opacity={0.95} />
         </Suspense>
       </div>
 
-      {/* Hero globe — large, behind-right */}
+      {/* Faint pearl globe behind, far right — keeps a soft anchor */}
       <div
-        className="absolute hidden md:block"
+        className="absolute hidden md:block pointer-events-none"
         style={{
-          top: "8%",
-          right: "-8%",
-          width: "min(58vw, 720px)",
-          height: "min(58vw, 720px)",
+          top: "6%",
+          right: "-12%",
+          width: "min(46vw, 560px)",
+          height: "min(46vw, 560px)",
+          opacity: 0.35,
         }}
       >
         <Suspense fallback={null}>
-          <PearlGlobe size={720} drift="slow" opacity={0.85} />
+          <PearlGlobe size={560} drift="slow" opacity={0.5} />
         </Suspense>
       </div>
 
