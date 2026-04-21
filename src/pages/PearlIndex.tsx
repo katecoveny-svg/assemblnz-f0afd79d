@@ -6,11 +6,13 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 
 const PearlGlobe = lazy(() => import("@/components/pearl/PearlGlobe"));
+const DataRibbons = lazy(() => import("@/components/pearl/DataRibbons"));
 
-/* ─── Pearl palette ─── */
+/* ─── Pearl palette — WARM (sunlit) ─── */
 const PEARL = {
-  bg: "#FBFAF7",
-  moonstone: "#F3F4F2",
+  bg: "#FAF6EF",         // Warm Pearl
+  linen: "#F4EFE6",      // Linen alt
+  moonstone: "#F4EFE6",  // alias for back-compat
   ink: "#0E1513",
   pounamu: "#1F4D47",
   seaGlass: "#C4D6D2",
@@ -344,19 +346,44 @@ function WhyAssembl() {
   );
 }
 
-function TheShift() {
+function WhatAssemblIs() {
   return (
-    <section className="relative" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}>
-      <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10">
-        <Eyebrow>The shift</Eyebrow>
-        <Serif size="lg" className="mb-20">
-          Speed is noise. Efficiency is quiet.
+    <section className="relative overflow-hidden" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}>
+      {/* Soft ribbon system flowing horizontally behind the section */}
+      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 pointer-events-none" style={{ height: 360 }}>
+        <Suspense fallback={null}>
+          <DataRibbons intensity="soft" tone="mixed" height={360} opacity={0.45} />
+        </Suspense>
+      </div>
+
+      <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10 relative z-10">
+        <Eyebrow>What Assembl is</Eyebrow>
+        <Serif size="lg" className="mb-10">
+          A platform of practical AI agents that finish the work — and give the time back.
         </Serif>
+        <div style={{ maxWidth: 680, marginBottom: 96 }}>
+          <Body large>
+            Assembl is a New Zealand-built platform of specialist AI agents — one for hospitality, construction, automotive, freight, creative, retail, early childhood, and one for the household. Each agent runs an end-to-end workflow for you and closes it with a single evidence pack: source-cited, audit-ready, dated, current with New Zealand law.
+          </Body>
+        </div>
 
         <div className="grid md:grid-cols-2 gap-16 md:gap-24 relative">
           <div>
+            <p
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 11,
+                letterSpacing: "0.32em",
+                textTransform: "uppercase",
+                color: PEARL.pounamu,
+                fontWeight: 500,
+                marginBottom: 20,
+              }}
+            >
+              The work itself
+            </p>
             <Body large>
-              Speed moves faster through the same day. Most tools promise more. More automations. More notifications. More dashboards to check. You end the day with the same weight, moved faster.
+              Efficient, end-to-end, in your industry. A food diary. A site induction. A customs clearance. A contract review. A WoF reminder. A privacy check. The agent runs the whole loop in the background — and hands you a finished pack, not another dashboard to manage.
             </Body>
           </div>
           <div>
@@ -365,22 +392,24 @@ function TheShift() {
                 fontFamily: "'Cormorant Garamond', serif",
                 fontStyle: "italic",
                 fontWeight: 400,
-                fontSize: 22,
+                fontSize: 14,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
                 color: PEARL.pounamu,
-                marginBottom: 16,
+                marginBottom: 20,
               }}
             >
-              Efficiency returns the day to you.
+              What it is for
             </p>
             <Body large>
-              Assembl does not make work faster. It makes work end. Every loop closed. Every pack filed. Every check current. The time that comes back is yours.
+              Efficient for value. Efficient for time. Efficiency is not the prize — it is the path. Every loop Assembl closes is a minute, an hour, an evening returned to you. We do not measure ourselves in speed. We measure ourselves in the time we give back, and the value you spend it on.
             </Body>
           </div>
 
-          {/* Small globe between */}
-          <div className="hidden md:block absolute" style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 180, height: 180 }}>
+          {/* Small feathery globe between columns */}
+          <div className="hidden md:block absolute" style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 200, height: 200 }}>
             <Suspense fallback={null}>
-              <PearlGlobe size={180} drift="med" opacity={0.5} />
+              <PearlGlobe size={200} drift="med" opacity={0.55} />
             </Suspense>
           </div>
         </div>
@@ -790,7 +819,7 @@ export default function PearlIndex() {
         <BrandNav />
         <Hero />
         <WhyAssembl />
-        <TheShift />
+        <WhatAssemblIs />
         <HowItWorks />
         <KetesGrid />
         <LiveCompliance />
