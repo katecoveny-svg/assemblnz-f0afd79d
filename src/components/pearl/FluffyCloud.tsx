@@ -21,24 +21,43 @@ import * as THREE from "three";
 
 /* ───────────────── Sprite textures ───────────────── */
 
-/** Soft cotton-puff sprite — feathery, no hard edge. */
+/** Soft cotton-puff sprite — solid white with a subtle cool shadow on the
+ *  underside, so it reads as VOLUME against an icy pearl background. The
+ *  sprite is opaque-centred (alpha 1.0 at core) so accumulating many of these
+ *  with NormalBlending builds a believable cumulus silhouette. */
 function makePuffTexture() {
   const c = document.createElement("canvas");
-  c.width = c.height = 128;
+  c.width = c.height = 256;
   const ctx = c.getContext("2d")!;
-  // Layered soft gradients to give a fluffy, slightly irregular puff
-  for (let i = 0; i < 5; i++) {
-    const cx = 64 + (Math.random() - 0.5) * 14;
-    const cy = 64 + (Math.random() - 0.5) * 14;
-    const r = 50 + Math.random() * 14;
-    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-    g.addColorStop(0, "rgba(255,255,255,0.55)");
-    g.addColorStop(0.4, "rgba(255,255,255,0.18)");
-    g.addColorStop(1, "rgba(255,255,255,0)");
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, 128, 128);
-  }
+
+  // 1) Cool shadow underbelly (offset down-right, subtle blue-grey)
+  const shadow = ctx.createRadialGradient(140, 150, 0, 140, 150, 110);
+  shadow.addColorStop(0, "rgba(180,195,200,0.55)");
+  shadow.addColorStop(0.55, "rgba(200,210,215,0.22)");
+  shadow.addColorStop(1, "rgba(200,210,215,0)");
+  ctx.fillStyle = shadow;
+  ctx.fillRect(0, 0, 256, 256);
+
+  // 2) Bright white puff body, slightly offset up-left (top-lit)
+  const body = ctx.createRadialGradient(120, 110, 0, 120, 110, 105);
+  body.addColorStop(0, "rgba(255,255,255,1.00)");
+  body.addColorStop(0.35, "rgba(255,255,255,0.92)");
+  body.addColorStop(0.7, "rgba(255,255,255,0.45)");
+  body.addColorStop(0.92, "rgba(255,255,255,0.08)");
+  body.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = body;
+  ctx.fillRect(0, 0, 256, 256);
+
+  // 3) Tiny warm specular highlight on top — gives the puff a "lit" feeling
+  const hi = ctx.createRadialGradient(100, 90, 0, 100, 90, 32);
+  hi.addColorStop(0, "rgba(255,250,240,0.7)");
+  hi.addColorStop(1, "rgba(255,250,240,0)");
+  ctx.fillStyle = hi;
+  ctx.fillRect(0, 0, 256, 256);
+
   const tex = new THREE.CanvasTexture(c);
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
+  tex.magFilter = THREE.LinearFilter;
   tex.needsUpdate = true;
   return tex;
 }
