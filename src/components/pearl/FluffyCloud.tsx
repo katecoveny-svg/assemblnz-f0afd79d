@@ -495,55 +495,44 @@ export function HeroCloud({
         <Canvas
           camera={{ position: [0, 0, 6], fov: 42 }}
           dpr={[1, 2]}
-          gl={{ antialias: true, alpha: true, premultipliedAlpha: true }}
+          gl={{ antialias: true, alpha: true, premultipliedAlpha: false }}
           style={{ background: "transparent" }}
         >
-          {/* Main warm cotton body */}
+          {/* Main cotton body — pure white, very dense */}
           <CloudBody
-            count={reduced ? 140 : 260}
+            count={reduced ? 280 : 520}
             width={7.5}
             height={2.4}
-            depth={1.6}
-            puffSize={0.85}
-            drift={reduced ? 0 : 0.04}
+            depth={1.2}
+            puffSize={1.35}
+            drift={reduced ? 0 : 0.025}
             reactivity={reduced ? 0 : 1.2}
-            tint={WARM_WHITE}
+            tint={PURE_WHITE}
           />
-          {/* Sea-glass under-shadow — gives the cloud a cool underbelly */}
+          {/* Subtle cool wash on top — gives the cloud a cooler edge */}
           <CloudBody
-            count={reduced ? 60 : 110}
+            count={reduced ? 100 : 180}
             width={7}
             height={1.8}
-            depth={1.4}
-            puffSize={0.78}
-            drift={reduced ? 0 : -0.03}
+            depth={1.0}
+            puffSize={1.15}
+            drift={reduced ? 0 : -0.018}
             reactivity={reduced ? 0 : 0.9}
-            tint={SEAGLASS}
-          />
-          {/* Pounamu glow at the heart — like sun behind the cloud */}
-          <CloudBody
-            count={reduced ? 30 : 60}
-            width={3.6}
-            height={1.2}
-            depth={0.9}
-            puffSize={0.6}
-            drift={0}
-            reactivity={reduced ? 0 : 0.6}
-            tint={POUNAMU_GLOW}
+            tint={SEAGLASS_TINT}
           />
           {/* Sparkles tucked inside */}
           <Sparkles
-            count={reduced ? 120 : 280}
+            count={reduced ? 160 : 320}
             width={6.8}
             height={2.1}
-            depth={1.4}
+            depth={1.2}
             color={WARM_WHITE}
             size={0.07}
             reactivity={reduced ? 0 : 1.4}
           />
           {/* Pounamu accent sparkles, fewer */}
           <Sparkles
-            count={reduced ? 20 : 50}
+            count={reduced ? 24 : 60}
             width={4.5}
             height={1.6}
             depth={1.0}
