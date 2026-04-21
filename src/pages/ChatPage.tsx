@@ -1718,7 +1718,7 @@ const ChatPage = () => {
         <div className="flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3">
           <Link to="/" className="flex items-center gap-2 shrink-0 group">
             <img loading="lazy" decoding="async" src={assemblMark} alt="Assembl" className="w-7 h-7 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-            <span className="font-display font-bold tracking-[3px] uppercase text-[11px] text-foreground/70 group-hover:text-foreground transition-colors hidden sm:inline">ASSEMBL</span>
+            <span className="font-display font-light tracking-[2px] lowercase text-[13px] text-foreground/70 group-hover:text-foreground transition-colors hidden sm:inline">assembl</span>
           </Link>
           <div className="w-px h-5 bg-border/30 hidden sm:block" />
 

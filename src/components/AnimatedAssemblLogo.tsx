@@ -45,16 +45,18 @@ const AnimatedAssemblLogo = ({ size = 64, showWordmark = true }: { size?: number
               <stop offset="0%" stopColor="white" stopOpacity="0.75" />
               <stop offset="100%" stopColor="white" stopOpacity="0" />
             </radialGradient>
-            {/* Gold halo glow */}
+            {/* Gold halo glow — bright */}
             <radialGradient id="halo-gold" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#4AA5A8" stopOpacity="0.6" />
-              <stop offset="40%" stopColor="#4AA5A8" stopOpacity="0.15" />
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.85" />
+              <stop offset="20%" stopColor="#7ED4C5" stopOpacity="0.55" />
+              <stop offset="55%" stopColor="#4AA5A8" stopOpacity="0.18" />
               <stop offset="100%" stopColor="#4AA5A8" stopOpacity="0" />
             </radialGradient>
-            {/* Teal halo glow */}
+            {/* Teal halo glow — bright */}
             <radialGradient id="halo-teal" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#5AADA0" stopOpacity="0.5" />
-              <stop offset="40%" stopColor="#3A7D6E" stopOpacity="0.12" />
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.7" />
+              <stop offset="22%" stopColor="#7ED4C5" stopOpacity="0.5" />
+              <stop offset="60%" stopColor="#3A7D6E" stopOpacity="0.15" />
               <stop offset="100%" stopColor="#3A7D6E" stopOpacity="0" />
             </radialGradient>
             {/* White marama glow for connection lines */}
@@ -127,10 +129,10 @@ const AnimatedAssemblLogo = ({ size = 64, showWordmark = true }: { size?: number
           style={{
             fontFamily: "'Lato', sans-serif",
             fontWeight: 300,
-            fontSize: s * 0.28,
-            letterSpacing: "0.28em",
-            textTransform: "uppercase" as const,
-            color: "rgba(255,255,255,0.85)",
+            fontSize: s * 0.32,
+            letterSpacing: "0.18em",
+            textTransform: "lowercase" as const,
+            color: "rgba(255,255,255,0.9)",
           }}
           animate={{
             textShadow: [
@@ -141,7 +143,7 @@ const AnimatedAssemblLogo = ({ size = 64, showWordmark = true }: { size?: number
           }}
           transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
         >
-          ASSEMBL
+          assembl
         </motion.span>
       )}
     </motion.div>

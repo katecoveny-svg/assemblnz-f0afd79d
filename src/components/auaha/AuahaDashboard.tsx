@@ -145,7 +145,7 @@ export default function AuahaDashboard() {
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${ACCENT}20`, border: `1px solid ${ACCENT}40` }}>
                 <Sparkles className="w-5 h-5" style={{ color: "#B8860B" }} />
               </div>
-              <p className="text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif', color: TEXT_MUTED }}>assembl &gt; auaha</p>
+              <p className="text-xs lowercase tracking-[2px]" style={{ fontFamily: 'Lato, sans-serif', color: TEXT_MUTED }}>assembl &gt; auaha</p>
             </div>
             <h1 className="text-3xl lg:text-4xl font-light uppercase tracking-[5px] mb-2" style={{ fontFamily: 'Lato, sans-serif', color: TEXT_PRIMARY }}>
               Creative Command Centre

@@ -39,5 +39,5 @@
 <circle cx="260" cy="95" r="14" fill="url(#pounamu-light-grad)" filter="url(#glow)"/>
 <circle cx="260" cy="95" r="10.5" fill="none" stroke="white" stroke-width="1.5" opacity="0.4"/>
 </g>
-<text x="200" y="210" font-family="Lato, sans-serif" font-size="48" font-weight="400" text-anchor="middle" fill="url(#wordmark-grad)" letter-spacing="6">ASSEMBL</text>
+<text x="200" y="210" font-family="Lato, sans-serif" font-size="44" font-weight="300" text-anchor="middle" fill="url(#wordmark-grad)" letter-spacing="5">assembl</text>
 </svg>
