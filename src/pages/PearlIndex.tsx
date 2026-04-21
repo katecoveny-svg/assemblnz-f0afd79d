@@ -47,17 +47,6 @@ const Eyebrow = ({ children }: { children: React.ReactNode }) => (
     {children}
   </p>
 );
-    style={{
-      fontFamily: "'Inter', sans-serif",
-      fontSize: 11,
-      letterSpacing: "0.32em",
-      color: PEARL.pounamu,
-      fontWeight: 500,
-    }}
-  >
-    {children}
-  </p>
-);
 
 const Serif = ({
   children,
