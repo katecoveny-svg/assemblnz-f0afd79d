@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import KeteIcon from "./KeteIcon";
 import KeteSigil from "@/components/marama/KeteSigil";
 import LiveDataRibbon from "@/components/marama/LiveDataRibbon";
+import KeteGuidedTour from "./KeteGuidedTour";
 
 interface KeteDashboardShellProps {
   name: string;
@@ -177,10 +178,17 @@ const KeteDashboardShell: React.FC<KeteDashboardShellProps> = ({
         </motion.div>
 
         {/* Live data ribbon — real signals, custom sigils, no emojis */}
-        {!hideRibbon && <LiveDataRibbon accent={accentColor} kete={(autoKey ?? "default") as any} />}
+        {!hideRibbon && (
+          <div data-tour="live-ribbon">
+            <LiveDataRibbon accent={accentColor} kete={(autoKey ?? "default") as any} />
+          </div>
+        )}
 
         {children}
       </div>
+
+      {/* First-visit guided tour — once per kete per browser */}
+      <KeteGuidedTour keteName={name} accentColor={accentColor} storageKey={autoKey ?? name.toLowerCase()} />
 
       <style>{`
         @keyframes neuParticleFloat {
