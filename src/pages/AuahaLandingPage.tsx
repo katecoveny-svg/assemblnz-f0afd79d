@@ -94,7 +94,7 @@ export default function AuahaLandingPage() {
             style={{ fontWeight: 200 }}
             variants={fadeUp} initial="hidden" animate="visible" custom={1}>
             <span style={{ background: `linear-gradient(135deg, #3D4250 0%, ${GOLD} 60%, ${POUNAMU} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
-              One coordinated studio.
+              Brand intelligence that ships the work.
             </span>
           </motion.h1>
 
