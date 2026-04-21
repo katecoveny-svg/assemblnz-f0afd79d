@@ -228,9 +228,6 @@ export default function AratakiDashboard() {
           ))}
         </div>
       </DashboardGlassCard>
-
-      <SovereigntySimulator kete="arataki" accentColor={ACCENT} />
-
       <KeteEvidencePackPanel
         keteSlug="arataki"
         keteName="Arataki — Automotive"

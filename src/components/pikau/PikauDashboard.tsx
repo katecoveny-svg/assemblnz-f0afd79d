@@ -387,9 +387,6 @@ export default function PikauDashboard() {
           ))}
         </div>
       </DashboardGlassCard>
-
-      <SovereigntySimulator kete="pikau" accentColor={ACCENT} />
-
       <KeteEvidencePackPanel
         keteSlug="pikau"
         keteName="Pikau — Freight & Customs"

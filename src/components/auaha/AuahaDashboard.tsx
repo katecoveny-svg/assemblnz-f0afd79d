@@ -374,9 +374,6 @@ export default function AuahaDashboard() {
           ))}
         </div>
       </GlassCard>
-
-      <SovereigntySimulator kete="auaha" accentColor={ACCENT} />
-
       <KeteEvidencePackPanel
         keteSlug="auaha"
         keteName="Auaha — Creative & Media"

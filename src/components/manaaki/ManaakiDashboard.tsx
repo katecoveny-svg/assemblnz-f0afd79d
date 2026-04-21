@@ -271,10 +271,6 @@ export default function ManaakiDashboard() {
           ))}
         </div>
       </DashboardGlassCard>
-
-      {/* Māori Data Sovereignty — live red-team simulator */}
-      <SovereigntySimulator kete="manaaki" accentColor={ACCENT} />
-
       <KeteEvidencePackPanel
         keteSlug="manaaki"
         keteName="Manaaki — Hospitality"
