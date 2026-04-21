@@ -255,6 +255,14 @@ export default function KeteAgentChat({
     }
   }, [messages]);
 
+  // Listen for the global "open chat" event dispatched by TextUsButton (or anywhere else).
+  // Lets the desktop "Chat now" CTA open this widget without prop-drilling refs.
+  useEffect(() => {
+    const handler = () => setIsOpen(true);
+    window.addEventListener("assembl:open-chat", handler);
+    return () => window.removeEventListener("assembl:open-chat", handler);
+  }, []);
+
   const systemPrompt = KETE_SYSTEM_PROMPTS[keteName.toLowerCase()];
 
   const sendMessage = async (text: string) => {
