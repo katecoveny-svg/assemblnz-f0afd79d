@@ -178,10 +178,12 @@ function FairyLights({
       positions[i * 3 + 1] = tmp.y;
       positions[i * 3 + 2] = tmp.z;
 
-      // Twinkle: rectified sine, smoothed
-      const tw = 0.5 + 0.5 * Math.sin(t * p.twinkleHz + p.phase);
-      opacities[i] = 0.25 + tw * 0.75;
-      sizes[i] = size * p.sizeJitter * (0.7 + tw * 0.6);
+      // Twinkle: sharp-attack pulse using pow() on rectified sine — feels like a blink
+      const raw = 0.5 + 0.5 * Math.sin(t * p.twinkleHz + p.phase);
+      const tw = Math.pow(raw, p.sparkBias);
+      // Mostly dim with bright sparks — true fairy-light feel
+      opacities[i] = 0.05 + tw * 0.95;
+      sizes[i] = size * p.sizeJitter * (0.55 + tw * 0.55);
     }
 
     const posAttr = geometry.getAttribute("position") as THREE.BufferAttribute;
