@@ -385,13 +385,14 @@ function Sparkles({
 /* ───────────────── Public Scene wrappers ───────────────── */
 
 const POUNAMU_GLOW = "#3A8077";
-const SEAGLASS = "#E5EFEC";
-const WARM_WHITE = "#FFF8EC";
+const SEAGLASS_TINT = "#EFF4F2"; // very subtle cool wash, almost white
+const PURE_WHITE = "#FFFFFF";
+const WARM_WHITE = "#FFFDF7";
 
 interface FluffyCloudSceneProps {
   /** "subtle" | "soft" | "rich" — controls puff/sparkle density */
   intensity?: "subtle" | "soft" | "rich";
-  /** Tint of sparkles (cloud body always warm white) */
+  /** Tint of sparkles (cloud body always near-white) */
   tone?: "pounamu" | "seaglass" | "mixed";
   className?: string;
   style?: React.CSSProperties;
@@ -407,19 +408,19 @@ export default function FluffyCloudScene({
   className = "",
   style,
   height = 360,
-  opacity = 0.85,
+  opacity = 0.95,
   reactivity = 0.8,
 }: FluffyCloudSceneProps) {
   const cfg = useMemo(() => {
     if (intensity === "subtle")
-      return { puffs: 60, sparkles: 70, w: 5, h: 1.4, d: 0.8, puffSize: 0.55, sparkSize: 0.05 };
+      return { puffs: 140, sparkles: 60, w: 5, h: 1.4, d: 0.7, puffSize: 0.95, sparkSize: 0.05 };
     if (intensity === "rich")
-      return { puffs: 180, sparkles: 200, w: 6.5, h: 2, d: 1.2, puffSize: 0.7, sparkSize: 0.06 };
-    return { puffs: 110, sparkles: 130, w: 5.8, h: 1.7, d: 1, puffSize: 0.6, sparkSize: 0.055 };
+      return { puffs: 360, sparkles: 180, w: 6.5, h: 2, d: 1.0, puffSize: 1.15, sparkSize: 0.06 };
+    return { puffs: 240, sparkles: 110, w: 5.8, h: 1.7, d: 0.85, puffSize: 1.05, sparkSize: 0.055 };
   }, [intensity]);
 
   const sparkColor =
-    tone === "pounamu" ? POUNAMU_GLOW : tone === "seaglass" ? SEAGLASS : WARM_WHITE;
+    tone === "pounamu" ? POUNAMU_GLOW : tone === "seaglass" ? SEAGLASS_TINT : WARM_WHITE;
 
   return (
     <div
@@ -431,29 +432,19 @@ export default function FluffyCloudScene({
         <Canvas
           camera={{ position: [0, 0, 5], fov: 45 }}
           dpr={[1, 1.5]}
-          gl={{ antialias: true, alpha: true, premultipliedAlpha: true }}
+          gl={{ antialias: true, alpha: true, premultipliedAlpha: false }}
           style={{ background: "transparent" }}
         >
+          {/* Main cotton body — pure white, dense puffs */}
           <CloudBody
             count={cfg.puffs}
             width={cfg.w}
             height={cfg.h}
             depth={cfg.d}
             puffSize={cfg.puffSize}
-            drift={0.08}
+            drift={0.05}
             reactivity={reactivity}
-            tint={WARM_WHITE}
-          />
-          {/* Pounamu under-glow on the body, very faint, gives depth */}
-          <CloudBody
-            count={Math.round(cfg.puffs * 0.35)}
-            width={cfg.w * 0.85}
-            height={cfg.h * 0.7}
-            depth={cfg.d}
-            puffSize={cfg.puffSize * 0.85}
-            drift={-0.05}
-            reactivity={reactivity * 0.6}
-            tint={POUNAMU_GLOW}
+            tint={PURE_WHITE}
           />
           <Sparkles
             count={cfg.sparkles}
