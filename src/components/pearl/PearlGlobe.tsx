@@ -81,10 +81,12 @@ const Feather = ({
   rotation,
   length,
   delay,
+  opacity = 0.55,
 }: {
   rotation: number;
   length: number;
   delay: number;
+  opacity?: number;
 }) => (
   <g
     transform={`rotate(${rotation} 100 100)`}
@@ -93,24 +95,25 @@ const Feather = ({
       animation: `pearl-feather-sway 11s ease-in-out ${delay}s infinite alternate`,
     }}
   >
-    {/* feather shaft */}
-    <path
-      d={`M 100 100 Q 100 ${100 - length * 0.5} 100 ${100 - length}`}
-      stroke="rgba(255,255,255,0.35)"
-      strokeWidth="0.6"
-      fill="none"
-    />
-    {/* barbs — rendered as a soft elongated diamond */}
+    {/* fluffy teardrop barb cluster — wider, softer for down-feather feel */}
     <path
       d={`M 100 100
-          C ${100 - length * 0.18} ${100 - length * 0.35},
-            ${100 - length * 0.06} ${100 - length * 0.85},
+          C ${100 - length * 0.22} ${100 - length * 0.30},
+            ${100 - length * 0.10} ${100 - length * 0.80},
             100 ${100 - length}
-          C ${100 + length * 0.06} ${100 - length * 0.85},
-            ${100 + length * 0.18} ${100 - length * 0.35},
+          C ${100 + length * 0.10} ${100 - length * 0.80},
+            ${100 + length * 0.22} ${100 - length * 0.30},
             100 100 Z`}
       fill="url(#featherGradient)"
-      opacity="0.55"
+      opacity={opacity}
+    />
+    {/* tiny puff at the tip for down softness */}
+    <circle
+      cx={100}
+      cy={100 - length * 0.92}
+      r={length * 0.08}
+      fill="url(#featherGradient)"
+      opacity={opacity * 0.55}
     />
   </g>
 );
@@ -145,18 +148,31 @@ export default function PearlGlobe({
   const [ready, setReady] = useState(false);
   const driftClass = drift === "none" ? "" : drift === "med" ? "pearl-drift-med" : "pearl-drift-slow";
 
-  // Distribute feathers around the orb — varied length for organic, asymmetric plume
+  // DENSE inner ring + LONGER outer wisps for a "ball of fluff / down" feel
   const feathers = useMemo(() => {
-    const count = 28;
-    return Array.from({ length: count }, (_, i) => {
-      const baseRot = (i / count) * 360;
+    const innerCount = 36;
+    const outerCount = 24;
+    const inner = Array.from({ length: innerCount }, (_, i) => {
+      const baseRot = (i / innerCount) * 360;
       const lengthSeed = (Math.sin(i * 1.7) + 1) / 2;
       return {
-        rotation: baseRot + (Math.sin(i * 3.1) * 8),
-        length: 38 + lengthSeed * 32, // 38–70 (orb is 200 viewBox units, sits in centre 80–120)
-        delay: (i % 7) * 0.4,
+        rotation: baseRot + Math.sin(i * 3.1) * 6,
+        length: 28 + lengthSeed * 22, // 28-50 short fluffy inner down
+        delay: (i % 9) * 0.35,
+        opacity: 0.7,
       };
     });
+    const outer = Array.from({ length: outerCount }, (_, i) => {
+      const baseRot = (i / outerCount) * 360 + 7.5;
+      const lengthSeed = (Math.cos(i * 2.3) + 1) / 2;
+      return {
+        rotation: baseRot + Math.cos(i * 1.9) * 10,
+        length: 56 + lengthSeed * 38, // 56-94 longer wisps
+        delay: (i % 6) * 0.5 + 0.25,
+        opacity: 0.45,
+      };
+    });
+    return [...inner, ...outer];
   }, []);
 
   return (
@@ -223,7 +239,7 @@ export default function PearlGlobe({
             </linearGradient>
           </defs>
           {feathers.map((f, i) => (
-            <Feather key={i} rotation={f.rotation} length={f.length} delay={f.delay} />
+            <Feather key={i} rotation={f.rotation} length={f.length} delay={f.delay} opacity={f.opacity} />
           ))}
         </svg>
       )}
