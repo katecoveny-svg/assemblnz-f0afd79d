@@ -168,7 +168,7 @@ function Hero() {
       {/* soft ribbon drifting behind the headline */}
       <div className="absolute inset-x-0 pointer-events-none" style={{ top: "20%", height: 420 }}>
         <Suspense fallback={null}>
-          <DataRibbons intensity="soft" tone="seaglass" height={420} opacity={0.4} />
+          <DataRibbons intensity="soft" tone="warm" height={420} opacity={0.4} />
         </Suspense>
       </div>
 
