@@ -81,42 +81,59 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
             color: "#3A7D6E",
           }}
         >
-          Built in Aotearoa, for Aotearoa
+          assembl · built in aotearoa
         </motion.p>
 
         <motion.h1
           initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-          className="max-w-[16ch]"
+          className="max-w-[18ch]"
           style={{
             fontFamily: "'Lato', sans-serif",
             fontWeight: 200,
             fontSize: "clamp(44px, 8.5vw, 120px)",
             lineHeight: 0.98,
             letterSpacing: "-0.02em",
-            color: "#3D4250",
+            color: "#2A2F3C",
           }}
         >
-          Intelligent tools for every<br />
+          Built for the way{" "}
           <em style={{ fontStyle: "italic", fontWeight: 300, color: "#3A7D6E" }}>
-            New Zealand operator.
+            New Zealand actually works.
           </em>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.45 }}
-          className="max-w-[60ch] mt-8"
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+          className="max-w-[52ch] mt-6"
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontStyle: "italic",
+            fontWeight: 300,
+            fontSize: "clamp(20px, 2.2vw, 26px)",
+            lineHeight: 1.4,
+            color: "#3A7D6E",
+          }}
+        >
+          Premium intelligence for real operational work.
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
+          className="max-w-[60ch] mt-7"
           style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontSize: 17,
-            lineHeight: 1.6,
-            color: "#3D4250B3",
+            lineHeight: 1.65,
+            color: "#3D4250CC",
           }}
         >
-          Live-updated NZ law, tikanga-governed workflows, and specialist agents — bundled into evidence packs you can hand to a regulator, a client, or a board. Custom Outcome engagements. Nobody priced out.
+          NZ specialist AI agents and workflows that finish the work and hand back valuable time. Every workflow produces an evidence pack that can be filed, shared, or audited — and stays current as New Zealand law changes.
         </motion.p>
 
         <motion.div
@@ -139,11 +156,11 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
               boxShadow: "0 12px 40px -12px rgba(58,125,110,0.55)",
             }}
           >
-            Start a pilot
+            See what time back looks like
             <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
           </Link>
           <Link
-            to="/kete"
+            to="/pricing"
             data-magnetic
             className="inline-flex items-center gap-2 px-7 py-4 rounded-full"
             style={{
@@ -157,7 +174,7 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
               textTransform: "uppercase",
             }}
           >
-            See the eight kete
+            View pricing
           </Link>
         </motion.div>
 
