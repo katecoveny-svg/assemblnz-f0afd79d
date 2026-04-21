@@ -84,11 +84,11 @@ const INDUSTRY_PACKS = KETE.map((k) => ({
   ...KETE_COLORS[k.key],
 }));
 
-/** Tōro — consumer/whānau kete, visually distinguished below the 7 industry tiles. */
+/** Tōroa — consumer/whānau kete, visually distinguished below the 7 industry tiles. */
 const TORO_PACK = {
-  reo: "Tōro",
+  reo: "Tōroa",
   en: "Family",
-  desc: "Admin, contracts, school notices, household documents. Built for families running life.",
+  desc: "The household load, properly organised. From $29/month.",
   color: C.ochre,
   accentLight: C.ochreLight,
   to: "/toro",
@@ -319,32 +319,51 @@ const Index = () => {
           </div>
         </Sect>
 
-        {/* ═══ WHAT WE DO ═══ */}
+        {/* ═══ WHAT ASSEMBL IS ═══ */}
         <Sect>
-          <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          <motion.div {...fade} className="text-center mb-14 max-w-[760px] mx-auto">
+            <SectionEyebrow>What assembl is</SectionEyebrow>
+            <SectionH2>Specialist AI agents that finish the work — and give time back.</SectionH2>
+            <SectionP>
+              Assembl is a New Zealand-built platform of specialist AI agents for hospitality, construction, automotive, freight, creative, retail, early childhood, and the household. Each one runs an end-to-end workflow and closes it with a single evidence pack: source-cited, audit-ready, dated, and current with New Zealand law.
+            </SectionP>
+          </motion.div>
+          <div className="max-w-[1080px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             <motion.div {...fade}>
-              <GlowCard>
-                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>— What we do —</p>
-                <p className="text-[18px] leading-[1.7] mb-6" style={{ fontWeight: 400, color: C.text }}>
-                  Assembl creates New Zealand business specialist operational workflows that reduce admin, surface risk earlier, and keep people in control.
-                </p>
-                <div className="my-6"><DotDivider /></div>
-                <p className="text-[15px] leading-[1.7]" style={{ fontWeight: 400, color: C.textSecondary }}>
-                  We help teams act faster with better information — not replace the people who know the work best.
+              <GlowCard className="h-full">
+                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>The work itself</p>
+                <p className="text-[17px] leading-[1.7]" style={{ fontWeight: 400, color: C.text }}>
+                  Specific to the work at hand: a food diary, a site induction, a customs clearance, a contract review, a WoF reminder, a privacy check. Assembl runs the loop in the background and hands you the finished pack — not another dashboard to manage.
                 </p>
               </GlowCard>
             </motion.div>
             <motion.div {...fade}>
-              <GlowCard className="text-center py-12">
-                <p className="text-[10px] tracking-[4px] uppercase mb-8" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}>Industry kete</p>
-                <div className="flex flex-wrap justify-center gap-3 mb-8">
-                  {PACKS.map((p) => (
-                    <Link to={p.to} key={p.reo} className="text-[10px] tracking-[1px] px-4 py-2.5 rounded-full transition-all duration-300 hover:scale-105"
-                      style={{ fontFamily: "'JetBrains Mono', monospace", color: C.text, border: `1px solid rgba(74,165,168,0.12)`, background: "rgba(255,255,255,0.5)" }}>
-                      <span style={{ color: p.color, fontWeight: 500 }}>{p.reo}</span> <span style={{ color: C.textTertiary }}>/ {p.en}</span>
-                    </Link>
-                  ))}
-                </div>
+              <GlowCard className="h-full">
+                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>What it is for</p>
+                <p className="text-[17px] leading-[1.7]" style={{ fontWeight: 400, color: C.text }}>
+                  Assembl is not built to create more motion. It is built to return time. Every loop it closes gives something back: a minute, an hour, an evening, a little more room to think, decide, and be present.
+                </p>
+              </GlowCard>
+            </motion.div>
+          </div>
+        </Sect>
+
+        {/* ═══ WHY ASSEMBL ═══ */}
+        <Sect>
+          <motion.div {...fade} className="max-w-[720px] mx-auto text-center">
+            <SectionEyebrow>Why assembl</SectionEyebrow>
+            <SectionH2>Assembl exists because time matters.</SectionH2>
+            <p className="text-[16px] sm:text-[18px] leading-[1.75] mt-8 mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.text, fontWeight: 400 }}>
+              Assembl is built for New Zealand families, teams, and communities — for the people carrying too much at once, for the businesses trying to stay current as the rules keep changing, and for the evenings that never seem to start on time.
+            </p>
+            <p className="text-[16px] sm:text-[18px] leading-[1.75] mb-10" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.text, fontWeight: 400 }}>
+              It is based on a simple belief: AI should do more than make work faster. It should give people time back.
+            </p>
+            <p className="text-[18px] sm:text-[22px] leading-[1.55]" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, color: C.teal }}>
+              Time to think. Time to be present. Time for what matters most.
+            </p>
+          </motion.div>
+        </Sect>
                 <div className="flex flex-col items-center">
                   <div className="w-px h-10" style={{ background: `linear-gradient(to bottom, rgba(74,165,168,0.1), ${C.teal}60)` }} />
                   <div className="w-6 h-6 rounded-full mt-2" style={{ background: C.teal, boxShadow: `0 4px 20px ${C.teal}30` }} />
