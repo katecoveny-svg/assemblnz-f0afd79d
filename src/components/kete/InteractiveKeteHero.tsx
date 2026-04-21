@@ -1,6 +1,22 @@
 import { useRef, useState, useMemo, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import ResponsiveKeteImage from "./ResponsiveKeteImage";
+// Industry-specific photoreal kete artwork (Kate's uploads).
+import keteManaaki from "@/assets/kete-feather-manaaki.png";
+import keteWaihanga from "@/assets/kete-feather-waihanga.png";
+import keteAuaha from "@/assets/kete-feather-auaha.png";
+import keteArataki from "@/assets/kete-feather-arataki.png";
+import ketePikau from "@/assets/kete-feather-pikau.png";
+import keteToro from "@/assets/kete-feather-toro.png";
+
+const INDUSTRY_KETE: Record<string, string> = {
+  manaaki: keteManaaki,
+  waihanga: keteWaihanga,
+  auaha: keteAuaha,
+  arataki: keteArataki,
+  pikau: ketePikau,
+  toro: keteToro,
+};
 
 /**
  * InteractiveKeteHero — the master Assembl kete rendered as a true
@@ -13,7 +29,9 @@ import ResponsiveKeteImage from "./ResponsiveKeteImage";
  *   - Floating centerpiece on dashboards
  *
  * Per-industry tint via `tintHue` / `accent` so a single master image
- * dresses every kete in its own subtle wash.
+ * dresses every kete in its own subtle wash. When `industry` is provided
+ * (e.g. "manaaki"), the photoreal industry artwork replaces the master
+ * image entirely — blended into the page via radial mask.
  */
 export interface InteractiveKeteHeroProps {
   /** Display size in px (image will scale responsively in cinematic mode). */
@@ -30,6 +48,8 @@ export interface InteractiveKeteHeroProps {
   sparkles?: boolean;
   /** Number of sparkle particles. */
   sparkleCount?: number;
+  /** Optional industry slug — when set, swaps the master kete for the industry artwork. */
+  industry?: "manaaki" | "waihanga" | "auaha" | "arataki" | "pikau" | "toro";
   className?: string;
   alt?: string;
 }
@@ -42,9 +62,11 @@ export default function InteractiveKeteHero({
   variant = "centerpiece",
   sparkles = true,
   sparkleCount = 28,
+  industry,
   className = "",
   alt = "Assembl master kete",
 }: InteractiveKeteHeroProps) {
+  const industryImage = industry ? INDUSTRY_KETE[industry] : null;
   const ref = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
   const [reduced, setReduced] = useState(false);
