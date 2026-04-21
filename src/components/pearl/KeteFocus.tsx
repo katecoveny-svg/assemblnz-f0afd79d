@@ -1,5 +1,5 @@
 import { useEffect, useRef, useMemo, forwardRef, useImperativeHandle } from "react";
-import keteHero from "@/assets/kete-3d-hero.png";
+import keteHero from "@/assets/kete-white-master.png";
 
 /**
  * KeteFocus — the centerpiece of the page.
