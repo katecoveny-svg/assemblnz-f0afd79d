@@ -190,9 +190,11 @@ function Hero() {
       className="relative overflow-hidden"
       style={{ minHeight: "92vh", background: PEARL.bg }}
     >
-      {/* Hero fluffy cloud — giant, centred, sparkly, cursor-reactive */}
+      {/* Hero fluffy cloud — giant, centred, sparkly, cursor-reactive.
+          Container is pointer-events-auto so cursor reaches the canvas;
+          the headline above uses z-10 + relative to stay clickable. */}
       <div
-        className="absolute inset-x-0 pointer-events-none"
+        className="absolute inset-x-0"
         style={{ top: "8%", height: "min(78vh, 760px)" }}
       >
         <Suspense fallback={null}>
