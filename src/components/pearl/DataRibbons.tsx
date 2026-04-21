@@ -1,6 +1,12 @@
-import { useRef, useMemo, Suspense } from "react";
+import { useRef, useMemo, Suspense, forwardRef, useImperativeHandle } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+
+/**
+ * Shared curve handle — Ribbon exposes its live curve so FairyLights
+ * can ride along the same flowing path.
+ */
+type CurveHandle = { curve: THREE.CatmullRomCurve3 };
 
 /**
  * DataRibbons — soft luminous aurora threads of pounamu + sea-glass light
