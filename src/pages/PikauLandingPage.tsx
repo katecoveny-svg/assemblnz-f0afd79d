@@ -139,21 +139,29 @@ export default function PikauLandingPage() {
           {/* Compliance — single line */}
           <motion.p
             className="text-xs font-body mb-10 max-w-xl"
-            style={{ color: "#5B6374", letterSpacing: "0.02em" }}
+            style={{ color: INK_SOFT, letterSpacing: "0.02em", fontFamily: "'Inter', sans-serif" }}
             variants={fadeUp} initial="hidden" animate="visible" custom={3}
           >
             <span style={{ color: POUNAMU, fontWeight: 500 }}>Governed by</span> Customs &amp; Excise Act 2018, MPI biosecurity standards, Dangerous Goods Act, Privacy Act 2020.
           </motion.p>
 
           <motion.div className="flex flex-col sm:flex-row items-center gap-4" variants={fadeUp} initial="hidden" animate="visible" custom={4}>
-            <Link to="/pikau/dashboard" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold font-body overflow-hidden" style={{ color: "#3D4250" }}>
-              <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(135deg, ${POUNAMU} 0%, #2D6A5E 100%)` }} />
-              <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
+            <Link
+              to="/pikau/dashboard"
+              data-magnetic
+              className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-medium font-body overflow-hidden transition-transform duration-300 hover:-translate-y-px"
+              style={{ color: BG, background: POUNAMU, boxShadow: "0 12px 32px -12px rgba(31,77,71,0.45)" }}
+            >
               <span className="relative z-10">Launch Pikau Dashboard</span>
               <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link to="/contact" className="group px-10 py-4 rounded-full text-sm font-medium font-body transition-all duration-300" style={{ color: "#6B7280", border: "1px solid rgba(74,165,168,0.15)", background: "rgba(255,255,255,0.5)" }}>
-              <span className="group-hover:text-white/80 transition-colors">Book a freight walk-through</span>
+            <Link
+              to="/contact"
+              data-magnetic
+              className="group px-10 py-4 rounded-full text-sm font-medium font-body transition-all duration-300 hover:-translate-y-px"
+              style={{ color: POUNAMU, border: `1px solid ${POUNAMU}33`, background: "rgba(255,255,255,0.55)" }}
+            >
+              Book a freight walk-through
             </Link>
           </motion.div>
         </main>
