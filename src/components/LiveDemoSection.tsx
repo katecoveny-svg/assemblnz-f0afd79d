@@ -124,7 +124,7 @@ const LiveDemoSection = () => {
         {/* See all CTA */}
         <div className="text-center">
           <Link
-            to="/content-hub"
+            to="/auaha"
             className="inline-flex items-center gap-2 text-sm font-display text-muted-foreground hover:text-foreground transition-colors" style={{ fontWeight: 300 }}
           >
             See all 45 tools <ArrowRight size={14} />

@@ -164,7 +164,7 @@ const AboutPage = () => {
                     <span className="relative z-10 text-white">Get in touch</span>
                     <ArrowRight size={14} className="relative z-10 text-white group-hover:translate-x-1 transition-transform" />
                   </Link>
-                  <Link to="/manifesto" className="group inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-body font-medium transition-all duration-300" style={{
+                  <Link to="/brand-story" className="group inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-body font-medium transition-all duration-300" style={{
                     border: `1px solid ${GOLD}40`,
                     color: "#3D4250",
                     background: "rgba(255,255,255,0.6)",
