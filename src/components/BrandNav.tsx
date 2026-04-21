@@ -263,18 +263,18 @@ const BrandNav = () => {
       <AnimatePresence>
         {mobileOpen && (
           <>
-            <motion.div className="fixed inset-0 z-[60]" style={{ background: "rgba(0,0,0,0.1)" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileOpen(false)} />
+            <motion.div className="fixed inset-0 z-[60]" style={{ background: "rgba(14,21,19,0.18)" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileOpen(false)} />
             <motion.div className="fixed top-0 right-0 bottom-0 z-[70] w-[300px] flex flex-col overflow-y-auto"
               style={{
-                background: "rgba(255,255,255,0.9)",
+                background: "rgba(251,250,247,0.96)",
                 backdropFilter: "blur(24px)",
-                borderLeft: "1px solid rgba(74,165,168,0.1)",
+                borderLeft: `1px solid ${PEARL.opal}`,
               }}
               initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 300 }}>
               <div className="flex items-center justify-between px-5 py-4">
-                <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 500, fontSize: "12px", letterSpacing: "3px", color: "#4AA5A8" }}>MENU</span>
-                <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-xl" style={{ color: "#6B7280" }} aria-label="Close menu">
+                <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: "11px", letterSpacing: "0.18em", textTransform: "lowercase", color: PEARL.muted }}>menu</span>
+                <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-xl" style={{ color: PEARL.muted }} aria-label="Close menu">
                   <X size={20} />
                 </button>
               </div>
@@ -282,54 +282,68 @@ const BrandNav = () => {
               <nav className="flex-1 px-4 py-2 space-y-1">
                 {NAV_ITEMS.map((item) => (
                   <button key={item.label} onClick={() => handleNavClick(item.to)}
-                    className="w-full text-left px-4 py-3 rounded-xl text-sm font-body transition-all duration-200"
-                    style={{ color: "#3D4250" }}>
+                    className="w-full text-left px-4 py-3 rounded-xl transition-all duration-200"
+                    style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: 18, color: PEARL.ink }}>
                     {item.label}
                   </button>
                 ))}
 
-                <div className="pt-2 pb-1">
-                  <span className="px-4 text-[10px] font-medium tracking-widest" style={{ color: "#4AA5A8" }}>INDUSTRY KETE</span>
+                <div className="pt-3 pb-1">
+                  <span className="px-4" style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: "0.18em", textTransform: "lowercase", color: PEARL.muted }}>industry kete</span>
                 </div>
                 {KETE.map(pack => (
                   <button key={pack.label} onClick={() => handleNavClick(pack.to)}
-                    className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-body transition-all duration-200"
-                    style={{ color: "#3D4250" }}>
-                    <GlowIcon name={pack.glowIcon} size={16} color={pack.color} glow />
-                    <span>{pack.label}</span>
-                    <span className="text-[10px] ml-auto" style={{ color: "#6B7280" }}>{pack.sublabel}</span>
+                    className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200"
+                    style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: PEARL.ink }}>
+                    <GlowIcon name={pack.glowIcon} size={16} color={PEARL.pounamu} glow />
+                    <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 17, fontWeight: 400 }}>{pack.label}</span>
+                    <span className="ml-auto" style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, color: PEARL.muted }}>{pack.sublabel}</span>
                   </button>
                 ))}
 
-                <div className="pt-2 pb-1">
-                  <span className="px-4 text-[10px] font-medium tracking-widest" style={{ color: "#4AA5A8" }}>MORE</span>
+                <div className="pt-3 pb-1">
+                  <span className="px-4" style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: "0.18em", textTransform: "lowercase", color: PEARL.muted }}>more</span>
                 </div>
                 {MORE_LINKS.map(link => (
                   <button key={link.label} onClick={() => handleNavClick(link.to)}
-                    className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-body transition-all duration-200"
-                    style={{ color: "#3D4250" }}>
-                    <GlowIcon name={link.glowIcon} size={16} color={link.color} glow />
-                    <span>{link.label}</span>
+                    className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200"
+                    style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: PEARL.ink }}>
+                    <GlowIcon name={link.glowIcon} size={16} color={PEARL.pounamu} glow />
+                    <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 17, fontWeight: 400 }}>{link.label}</span>
                   </button>
                 ))}
               </nav>
 
-              <div className="px-5 py-5 border-t space-y-3" style={{ borderColor: "rgba(58,125,110,0.12)" }}>
+              <div className="px-5 py-5 border-t space-y-3" style={{ borderColor: PEARL.opal }}>
                 <button
-                  className="block w-full text-center px-5 py-3 rounded-full text-[11px] font-body font-semibold uppercase tracking-[0.18em]"
-                  style={{ background: "#3A7D6E", color: "#FFFFFF", boxShadow: "0 8px 24px -8px rgba(58,125,110,0.55)" }}
+                  className="block w-full text-center transition-all"
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 13,
+                    fontWeight: 500,
+                    padding: "14px 20px",
+                    borderRadius: 999,
+                    background: PEARL.pounamu,
+                    color: PEARL.bg,
+                    boxShadow: "0 10px 30px -12px rgba(31,77,71,0.45)",
+                  }}
                   onClick={() => { setMobileOpen(false); handleNavClick("/contact"); }}>
                   Start a pilot
                 </button>
                 <AccountDropdown />
                 <button
                   onClick={() => { setMobileOpen(false); handleNavClick("/admin"); }}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs font-medium transition-all"
+                  className="w-full flex items-center justify-center gap-2 transition-all"
                   style={{
-                    background: "rgba(255,255,255,0.65)",
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 12,
+                    fontWeight: 500,
+                    padding: "10px 16px",
+                    borderRadius: 999,
+                    background: "rgba(255,255,255,0.6)",
                     backdropFilter: "blur(20px)",
-                    border: "1px solid rgba(74,165,168,0.2)",
-                    color: "#4AA5A8",
+                    border: `1px solid ${PEARL.opal}`,
+                    color: PEARL.pounamu,
                   }}
                   aria-label="Admin sign in"
                 >
