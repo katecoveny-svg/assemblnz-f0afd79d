@@ -8,6 +8,8 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import LiveDataTiles, { loadFleet, loadDriverScore, loadFuel } from "@/components/kete/LiveDataTiles";
+import { Truck, Gauge, Fuel } from "lucide-react";
 import UseCaseToggle from "@/components/kete/UseCaseToggle";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import LandingKeteHero from "@/components/kete/LandingKeteHero";
@@ -130,9 +132,17 @@ export default function AratakiLandingPage() {
           <KeteUseCaseSection data={ARATAKI_USE_CASE} />
         </UseCaseToggle>
 
-        {/* Live status strip */}
-        <section className="max-w-3xl mx-auto px-6 pb-12 text-center">
+        {/* Live status strip + live data tiles */}
+        <section className="max-w-3xl mx-auto px-6 pb-12 text-center space-y-5">
           <LiveStatusStrip pack="arataki" agentCodes={["catalyst", "flux", "guardian", "logistics"]} accent={ACCENT} />
+          <LiveDataTiles
+            accent={ACCENT}
+            tiles={[
+              { label: "Fleet status", source: "Telematics · live", icon: Truck, load: loadFleet },
+              { label: "Driver scores", source: "Telematics · 30d avg", icon: Gauge, load: loadDriverScore },
+              { label: "NZ fuel", source: "MBIE weekly monitor", icon: Fuel, load: loadFuel },
+            ]}
+          />
         </section>
 
         {/* ── Four Verticals ── */}

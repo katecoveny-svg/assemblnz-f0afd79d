@@ -20,6 +20,8 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import LiveDataTiles, { loadLatestRegChange, loadComplianceScans, loadWeather } from "@/components/kete/LiveDataTiles";
+import { Scale, ShieldCheck, CloudSun } from "lucide-react";
 import TextUsButton from "@/components/kete/TextUsButton";
 import AkoCriteriaMatcherDemo from "@/components/ako/AkoCriteriaMatcherDemo";
 import AkoWorkflowExplorer from "@/components/ako/AkoWorkflowExplorer";
@@ -320,10 +322,18 @@ export default function AkoLandingPage() {
           </div>
         </section>
 
-        {/* ── Compliance — single line + live status ── */}
+        {/* ── Compliance — single line + live status + live data tiles ── */}
         <section className="px-6 py-12">
-          <div className="max-w-3xl mx-auto text-center space-y-4">
+          <div className="max-w-3xl mx-auto text-center space-y-5">
             <LiveStatusStrip pack="ako" agentCodes={["edu", "guardian", "operations"]} accent={POUNAMU} />
+            <LiveDataTiles
+              accent={POUNAMU}
+              tiles={[
+                { label: "Latest licensing change", source: "MoE · Director of Reg.", icon: Scale, load: () => loadLatestRegChange(["education", "early-childhood", "ece"]) },
+                { label: "Compliance pulse", source: "Daily NZ scan", icon: ShieldCheck, load: loadComplianceScans },
+                { label: "Wellington today", source: "Open-Meteo · NZ", icon: CloudSun, load: () => loadWeather("Wellington", -41.29, 174.78) },
+              ]}
+            />
             <p className="text-xs" style={{ color: "#5B6374", letterSpacing: "0.02em" }}>
               <span style={{ color: POUNAMU, fontWeight: 500 }}>Governed by</span> Education and Training Act 2020, 20 April 2026 licensing criteria, Te Whāriki, Director of Regulation regime.
             </p>

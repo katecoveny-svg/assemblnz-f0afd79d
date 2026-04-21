@@ -11,6 +11,8 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import LiveDataTiles, { loadVessels, loadFuel, loadMarine } from "@/components/kete/LiveDataTiles";
+import { Anchor as AnchorIcon, Fuel, Wind } from "lucide-react";
 import UseCaseToggle from "@/components/kete/UseCaseToggle";
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
@@ -132,8 +134,20 @@ export default function PikauLandingPage() {
           </motion.p>
 
           {/* Live status strip */}
-          <motion.div className="mb-6" variants={fadeUp} initial="hidden" animate="visible" custom={2.5}>
+          <motion.div className="mb-5" variants={fadeUp} initial="hidden" animate="visible" custom={2.5}>
             <LiveStatusStrip pack="pikau" agentCodes={["maritime", "customs", "flux", "logistics"]} accent={POUNAMU} />
+          </motion.div>
+
+          {/* Live data tiles — vessels, fuel, marine forecast */}
+          <motion.div className="w-full mb-8" variants={fadeUp} initial="hidden" animate="visible" custom={2.7}>
+            <LiveDataTiles
+              accent={POUNAMU}
+              tiles={[
+                { label: "AIS vessels", source: "AISStream · live", icon: AnchorIcon, load: () => loadVessels("Hauraki Gulf") },
+                { label: "NZ fuel", source: "MBIE weekly monitor", icon: Fuel, load: loadFuel },
+                { label: "Cook Strait", source: "MetService marine", icon: Wind, load: () => loadMarine("wellington", "Cook Strait") },
+              ]}
+            />
           </motion.div>
 
           {/* Compliance — single line */}

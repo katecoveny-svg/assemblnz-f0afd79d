@@ -9,6 +9,8 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import LiveDataTiles, { loadWeather, loadFuel, loadLatestRegChange } from "@/components/kete/LiveDataTiles";
+import { CloudSun, Fuel, Scale } from "lucide-react";
 import TextUsButton from "@/components/kete/TextUsButton";
 
 /* ─── Mārama palette — white-ice-blue + soft teal ─────────────── */
@@ -547,8 +549,16 @@ export default function ToroaLandingPage() {
           </div>
         </section>
 
-        <section className="px-6 pb-12 text-center">
+        <section className="px-6 pb-12 text-center space-y-5">
           <LiveStatusStrip pack="toroa" agentCodes={["nexus", "creative", "wellness"]} accent={POUNAMU} />
+          <LiveDataTiles
+            accent={POUNAMU}
+            tiles={[
+              { label: "Auckland today", source: "Open-Meteo · NZ", icon: CloudSun, load: () => loadWeather("Auckland", -36.85, 174.76) },
+              { label: "Family fuel", source: "MBIE weekly monitor", icon: Fuel, load: loadFuel },
+              { label: "Latest family rule", source: "MoE · Health · Privacy", icon: Scale, load: () => loadLatestRegChange(["family", "household", "education", "health"]) },
+            ]}
+          />
         </section>
         <BrandFooter />
         <KeteAgentChat
