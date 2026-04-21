@@ -5,18 +5,19 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
 /* ─── Pearl brand tokens (single source of truth) ─── */
+/* Warm Pearl + Forest Ink — never black, never cool blue-white. */
 const PEARL = {
-  bg: "#FBFAF7",
-  ink: "#0E1513",
+  bg: "#FAF6EF",      // Warm Pearl canvas
+  ink: "#0F2A26",     // Forest Ink
   pounamu: "#1F4D47",
-  muted: "#8B8479",
+  muted: "#7A8B82",
   opal: "#E8EEEC",
-  bodyInk: "rgba(14,21,19,0.72)",
+  bodyInk: "rgba(15,42,38,0.72)",
 };
 
 const FOOTER_LINKS = {
   Platform: [
-    { to: "/#industry-packs", label: "Your industry" },
+    { to: "/#ketes", label: "Your industry" },
     { to: "/showcase", label: "Showcase" },
     { to: "/pricing", label: "Pricing" },
     { to: "/how-it-works", label: "How it works" },
@@ -30,7 +31,7 @@ const FOOTER_LINKS = {
     { to: "/demos/confidence-scoring", label: "Confidence scoring" },
     { to: "/demos/kaitiaki-gate", label: "Kaitiaki gate" },
   ],
-  "Industry Kete": [
+  "Ketes": [
     { to: "/manaaki", label: "Manaaki — Hospitality" },
     { to: "/waihanga/about", label: "Waihanga — Construction" },
     { to: "/auaha/about", label: "Auaha — Creative" },
@@ -156,19 +157,19 @@ const BrandFooter = () => {
               fontWeight: 400,
             }}
           >
-            Intelligent tools for every New Zealand business — from the dairy owner in Timaru to the customs broker on the Auckland waterfront.
+            A platform of practical AI agents that finish the work — and give the time back.
           </p>
           <p
-            className="mt-4 lowercase"
+            className="mt-6 lowercase"
             style={{
               fontFamily: "'Inter', sans-serif",
               fontSize: 11,
-              letterSpacing: "0.18em",
-              color: PEARL.muted,
+              letterSpacing: "0.32em",
+              color: PEARL.pounamu,
               fontWeight: 500,
             }}
           >
-            from $29 / month · grounded in nz legislation · evidence packs, not chat
+            simulation-tested · policy-governed · human-in-the-loop
           </p>
         </div>
 
@@ -263,7 +264,7 @@ const BrandFooter = () => {
               color: PEARL.bodyInk,
             }}
           >
-            Built in Aotearoa, for Aotearoa — accessible to every NZ business.
+            Built in Aotearoa. Time is the thing — we give it back.
           </p>
           <Link
             to="/admin"

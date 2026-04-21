@@ -218,7 +218,7 @@ export default function MiniCloud({
                   cx={n.x}
                   cy={n.y}
                   r={n.r}
-                  fill="#FFFFFF"
+                  fill="#FFFEF5"
                   style={{
                     transformOrigin: `${n.x}px ${n.y}px`,
                     animation: `mcNodeCore ${n.speed * 0.7}s ease-in-out ${n.phase}s infinite`,
