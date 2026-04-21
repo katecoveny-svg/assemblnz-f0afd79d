@@ -167,8 +167,11 @@ function CloudBody({
     return new THREE.ShaderMaterial({
       transparent: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      // NormalBlending so white puffs render as solid volume on the
+      // light pearl background (additive would be invisible on white).
+      blending: THREE.NormalBlending,
       uniforms: {
+        // Sprite already encodes white body + cool shadow; uColor lightly tints it.
         uColor: { value: new THREE.Color(tint) },
         uTexture: { value: sprite },
         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
@@ -181,7 +184,7 @@ function CloudBody({
         void main() {
           vOpacity = aOpacity;
           vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = aSize * 280.0 * uPixelRatio / -mvPosition.z;
+          gl_PointSize = aSize * 520.0 * uPixelRatio / -mvPosition.z;
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
@@ -191,7 +194,8 @@ function CloudBody({
         varying float vOpacity;
         void main() {
           vec4 tex = texture2D(uTexture, gl_PointCoord);
-          gl_FragColor = vec4(uColor, tex.a * vOpacity);
+          // Multiply sample RGB by tint (preserves shadow detail in sprite)
+          gl_FragColor = vec4(tex.rgb * uColor, tex.a * vOpacity);
         }
       `,
     });
