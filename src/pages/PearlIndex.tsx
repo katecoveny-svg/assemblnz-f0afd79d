@@ -11,14 +11,17 @@ const FeatherKete = lazy(() => import("@/components/pearl/FeatherKete"));
 const FairyLightStrand = lazy(() =>
   import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.FairyLightStrand }))
 );
+const HeroCloud = lazy(() =>
+  import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.HeroCloud }))
+);
 
-/* ─── Pearl palette — ICY (cool, luminous, moonlit dawn) ─── */
+/* ─── Pearl palette — WARM (sunlit, candle-warm, golden-hour) ─── */
 const PEARL = {
-  bg: "#FBFAF7",         // Icy Pearl — primary canvas
-  linen: "#F3F4F2",      // Moonstone — section break tint
-  moonstone: "#F3F4F2",  // alias
-  opal: "#E8EEEC",       // Opal Shimmer — radial washes, globe feathering
-  ink: "#0E1513",
+  bg: "#FAF6EF",         // Warm Pearl — primary canvas
+  linen: "#F4EFE6",      // Linen — section break tint
+  moonstone: "#F4EFE6",  // alias (legacy refs)
+  opal: "#E8EEEC",       // Opal Shimmer — radial washes, cloud feathering
+  ink: "#0F2A26",        // Forest Ink — deep pounamu, never black
   pounamu: "#1F4D47",
   seaGlass: "#C4D6D2",
   harbour: "#1B2A2E",
@@ -105,7 +108,7 @@ const Body = ({
       fontFamily: "'Inter', sans-serif",
       fontSize: large ? 18 : 17,
       lineHeight: 1.55,
-      color: "rgba(14,21,19,0.72)",
+      color: "rgba(15,42,38,0.72)",
       fontWeight: 400,
     }}
   >
@@ -199,29 +202,72 @@ function Hero() {
             "radial-gradient(ellipse 70% 55% at 70% 40%, rgba(255,236,210,0.35) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 30% 70%, rgba(228,238,236,0.45) 0%, transparent 65%)",
         }}
       />
-      {/* The kete IS the hero — 3D woven basket with feathery plumes and
-          a constellation of fairy-light data nodes sparkling around it. */}
+      {/* Desktop: kete nested INSIDE a warm pearl cloud, with fairy lights */}
       <div
-        className="absolute hidden md:flex items-center justify-center pointer-events-none"
-        style={{ top: "4%", right: "-6%", width: 820, height: 880 }}
+        className="absolute hidden md:block pointer-events-none"
+        style={{ top: "2%", right: "-8%", width: 880, height: 880 }}
       >
-        <Suspense fallback={null}>
-          <KeteFocus size={820} sparkles={58} rimSparkles={36} priority />
-        </Suspense>
+        {/* Layer 0 — warm pearl cumulus that wraps the kete */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Suspense fallback={null}>
+            <HeroCloud height={760} opacity={0.95} />
+          </Suspense>
+        </div>
+        {/* Layer 0.5 — Aotearoa silhouette watermark, hand-traced inside the mist */}
+        <svg
+          viewBox="0 0 200 320"
+          width={280}
+          height={448}
+          className="absolute"
+          style={{
+            top: "32%",
+            left: "38%",
+            filter: "blur(1.4px)",
+            opacity: 0.85,
+            mixBlendMode: "multiply",
+          }}
+          aria-hidden="true"
+        >
+          {/* North Island — softened hand-traced shape */}
+          <path
+            d="M118 24 C 132 30 138 46 134 60 C 142 70 150 86 146 102 C 158 110 162 128 152 142 C 156 158 148 174 132 178 C 122 188 106 188 96 180 C 82 184 68 174 70 158 C 60 150 60 134 70 124 C 64 110 72 92 88 88 C 92 72 102 58 104 44 C 106 32 110 24 118 24 Z"
+            fill="rgba(31,77,71,0.06)"
+          />
+          {/* South Island */}
+          <path
+            d="M70 196 C 88 198 110 210 124 226 C 138 242 142 264 130 282 C 116 298 92 304 70 296 C 50 288 38 268 42 248 C 46 228 56 210 70 196 Z"
+            fill="rgba(31,77,71,0.06)"
+          />
+          {/* Stewart Island — tiny dot */}
+          <ellipse cx="92" cy="312" rx="6" ry="3.5" fill="rgba(31,77,71,0.05)" />
+        </svg>
+        {/* Layer 1 — the kete, nested in the mist */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Suspense fallback={null}>
+            <KeteFocus size={620} sparkles={48} rimSparkles={36} priority warmGlow />
+          </Suspense>
+        </div>
       </div>
-      {/* Mobile: smaller kete tucked behind the copy */}
+      {/* Mobile: smaller kete in cloud, behind copy */}
       <div
-        className="absolute md:hidden flex items-center justify-center pointer-events-none"
-        style={{ top: 40, left: "50%", transform: "translateX(-50%)", width: 360, height: 380, opacity: 0.65 }}
+        className="absolute md:hidden pointer-events-none"
+        style={{ top: 40, left: "50%", transform: "translateX(-50%)", width: 380, height: 400, opacity: 0.85 }}
       >
-        <Suspense fallback={null}>
-          <KeteFocus size={360} sparkles={32} priority />
-        </Suspense>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Suspense fallback={null}>
+            <HeroCloud height={360} opacity={0.85} />
+          </Suspense>
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Suspense fallback={null}>
+            <KeteFocus size={300} sparkles={28} priority warmGlow />
+          </Suspense>
+        </div>
       </div>
 
       <div className="max-w-[1120px] mx-auto px-6 md:px-10 relative z-10" style={{ paddingTop: "16vh" }}>
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease }}>
-          <Eyebrow>​</Eyebrow>
+          <Eyebrow>Assembl · Built in Aotearoa</Eyebrow>
         </motion.div>
 
         <motion.h1
@@ -239,10 +285,7 @@ function Hero() {
             margin: 0,
           }}
         >
-          Trusted AI solutions for Aotearoa.{" "}
-          <span style={{ fontStyle: "italic", color: PEARL.pounamu, fontWeight: 400 }}>
-            built to give you valuable time back.
-          </span>
+          Built for the way New Zealand actually works.
         </motion.h1>
 
         <motion.p
@@ -269,7 +312,7 @@ function Hero() {
           style={{ maxWidth: 620, marginTop: 36 }}
         >
           <Body large>
-            NZ specialist AI agents and workflows designed to help business, teams and communities move through complexity with more control and clarity. Every workflow produces a pack that can be filed or audited - and stays current as the law changes.
+            NZ specialist AI agents and workflows that finish the work — and give you valuable time back. Every workflow produces a pack that can be filed or audited, and stays current as the law changes.
           </Body>
         </motion.div>
 
@@ -294,14 +337,14 @@ function WhyAssembl() {
 
       <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6">
         <Eyebrow>Why Assembl</Eyebrow>
-        <Serif size="lg">assembl exists because time matters.</Serif>
+        <Serif size="lg">Assembl exists because time matters.</Serif>
 
         <div style={{ marginTop: 40, display: "flex", flexDirection: "column", gap: 20 }}>
           {[
-            "We know what overwork feels like. we know what constant motion costs.",
-            "We know what it’s like to be stretched between ambition, responsibility, and family.",
-            "assembl exists because time matters.",
-            "assembl is for New Zealand families, teams, and communities — for the people carrying too much at once, for the businesses trying to stay compliant as the law keeps changing, for the evenings that never start on time.",
+            "I know what overwork feels like. I know what constant motion costs.",
+            "I know what it's like to be stretched between ambition, responsibility, and family.",
+            "Assembl exists because time matters.",
+            "I built this for New Zealand families, teams, and communities — for the people carrying too much at once, for the businesses trying to stay compliant as the law keeps changing, for the evenings that never start on time.",
           ].map((line, i) => (
             <p
               key={i}
@@ -330,7 +373,7 @@ function WhyAssembl() {
               margin: 0,
             }}
           >
-            We believe AI should do more than make businesses efficient.
+            I believe AI should do more than make businesses efficient.
           </p>
           {[
             "It should give people time back.",
@@ -372,7 +415,7 @@ function WhatAssemblIs() {
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10 relative z-10">
         <Eyebrow>What Assembl is</Eyebrow>
         <Serif size="lg" className="mb-10">
-          A platform of practical AI agents that finish the work — and give you time back.
+          A platform of practical AI agents that finish the work — and give the time back.
         </Serif>
         <div style={{ maxWidth: 680, marginBottom: 56 }}>
           <Body large>
@@ -520,9 +563,9 @@ function KetesGrid() {
     <section className="relative" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}>
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10">
         <Eyebrow>What it covers</Eyebrow>
-        <Serif size="lg">Built for the way New Zealand actually works.</Serif>
+        <Serif size="lg">One kete per industry. One platform underneath.</Serif>
         <div style={{ maxWidth: 680, marginTop: 24, marginBottom: 80 }}>
-          <Body large>Eight packs. One quiet intelligence layer behind all of them.</Body>
+          <Body large>Eight ketes. One quiet intelligence layer behind all of them.</Body>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -544,7 +587,7 @@ function KetesGrid() {
                   background: "rgba(255,255,255,0.55)",
                   backdropFilter: "blur(10px)",
                   padding: 32,
-                  boxShadow: "0 1px 2px rgba(14,21,19,0.04), 0 8px 28px -12px rgba(31,77,71,0.10)",
+                  boxShadow: "0 1px 2px rgba(15,42,38,0.04), 0 8px 28px -12px rgba(31,77,71,0.10)",
                   transition: "all 400ms cubic-bezier(0.16, 1, 0.3, 1)",
                   display: "flex",
                   flexDirection: "column",
@@ -552,12 +595,12 @@ function KetesGrid() {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = PEARL.pounamu;
-                  e.currentTarget.style.boxShadow = "0 2px 4px rgba(14,21,19,0.05), 0 18px 48px -16px rgba(31,77,71,0.22)";
+                  e.currentTarget.style.boxShadow = "0 2px 4px rgba(15,42,38,0.05), 0 18px 48px -16px rgba(31,77,71,0.22)";
                   e.currentTarget.style.transform = "translateY(-4px)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = PEARL.seaGlass;
-                  e.currentTarget.style.boxShadow = "0 1px 2px rgba(14,21,19,0.04), 0 8px 28px -12px rgba(31,77,71,0.10)";
+                  e.currentTarget.style.boxShadow = "0 1px 2px rgba(15,42,38,0.04), 0 8px 28px -12px rgba(31,77,71,0.10)";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
@@ -585,7 +628,7 @@ function KetesGrid() {
                     fontFamily: "'Inter', sans-serif",
                     fontSize: 14,
                     lineHeight: 1.6,
-                    color: "rgba(14,21,19,0.7)",
+                    color: "rgba(15,42,38,0.7)",
                   }}
                 >
                   {k.line}
@@ -600,7 +643,7 @@ function KetesGrid() {
             style={{
               fontFamily: "'Inter', sans-serif",
               fontSize: 13,
-              color: "rgba(14,21,19,0.55)",
+              color: "rgba(15,42,38,0.55)",
               lineHeight: 1.6,
             }}
           >
@@ -618,13 +661,19 @@ function LiveCompliance() {
       className="relative overflow-hidden"
       style={{ paddingTop: 180, paddingBottom: 180, background: PEARL.bg }}
     >
-      {/* Soft opal wash */}
+      {/* Soft opal wash — golden-hour through mist */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(232,238,236,0.55) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(232,238,236,0.55) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 50% 40%, rgba(248,233,196,0.22) 0%, transparent 70%)",
         }}
       />
+      {/* Atmospheric wisp tucked top-right */}
+      <div className="absolute hidden md:block pointer-events-none" style={{ top: 48, right: "8%", width: 180, height: 180 }}>
+        <Suspense fallback={null}>
+          <MiniCloud size={180} drift="slow" opacity={0.35} />
+        </Suspense>
+      </div>
       <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6 text-center relative z-10">
         <Eyebrow>Live compliance</Eyebrow>
         <Serif size="lg" className="mb-12">
@@ -646,6 +695,20 @@ function LiveCompliance() {
           }}
         >
           Live compliance.&nbsp;&nbsp;Written in plain English.&nbsp;&nbsp;Backed by source citation.
+        </p>
+
+        <p
+          style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: 12,
+            letterSpacing: "0.28em",
+            textTransform: "uppercase",
+            color: PEARL.pounamu,
+            marginTop: 36,
+            fontWeight: 500,
+          }}
+        >
+          Simulation-tested · Policy-governed · Human-in-the-loop
         </p>
       </motion.div>
     </section>
@@ -672,10 +735,10 @@ function Tikanga() {
 
 const TIERS = [
   { name: "Tōro", sub: "Family", price: "$29", per: "/ mo", setup: "No setup", desc: "A household that runs itself." },
-  { name: "Operator", sub: "1 industry pack", price: "$1,490", per: "/ mo", setup: "+ $590 setup", desc: "One industry pack plus the full platform." },
-  { name: "Leader", sub: "2 industry packs", price: "$1,990", per: "/ mo", setup: "+ $1,290 setup", desc: "Two industry packs plus the full platform." },
-  { name: "Enterprise", sub: "All 7 packs", price: "$2,990", per: "/ mo", setup: "+ $2,890 setup", desc: "Every industry pack plus the full platform." },
-  { name: "Outcome", sub: "Custom", price: "from $5,000", per: "", setup: "Bespoke engagement", desc: "When the work is bespoke and the pack is the contract." },
+  { name: "Operator", sub: "1 Kete", price: "$1,490", per: "/ mo", setup: "+ $590 setup", desc: "One kete plus the full platform." },
+  { name: "Leader", sub: "2 Ketes", price: "$1,990", per: "/ mo", setup: "+ $1,290 setup", desc: "Two ketes plus the full platform." },
+  { name: "Enterprise", sub: "All 7 Ketes", price: "$2,990", per: "/ mo", setup: "+ $2,890 setup", desc: "Every kete plus the full platform." },
+  { name: "Outcome", sub: "Custom", price: "from $5,000", per: "", setup: "Bespoke engagement", desc: "When the work is bespoke and the evidence pack is the contract." },
 ];
 
 function Pricing() {
@@ -711,7 +774,7 @@ function Pricing() {
                   fontSize: 10,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: "rgba(14,21,19,0.5)",
+                  color: "rgba(15,42,38,0.5)",
                   marginBottom: 24,
                 }}
               >
@@ -730,15 +793,15 @@ function Pricing() {
                   {t.price}
                 </span>
                 {t.per && (
-                  <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: "rgba(14,21,19,0.55)" }}>
+                  <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: "rgba(15,42,38,0.55)" }}>
                     {t.per}
                   </span>
                 )}
               </div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(14,21,19,0.55)", marginBottom: 16 }}>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(15,42,38,0.55)", marginBottom: 16 }}>
                 {t.setup}
               </p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(14,21,19,0.75)", lineHeight: 1.55 }}>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(15,42,38,0.75)", lineHeight: 1.55 }}>
                 {t.desc}
               </p>
             </motion.div>
@@ -749,7 +812,7 @@ function Pricing() {
           style={{
             fontFamily: "'Inter', sans-serif",
             fontSize: 12,
-            color: "rgba(14,21,19,0.55)",
+            color: "rgba(15,42,38,0.55)",
             marginTop: 64,
             maxWidth: 720,
             lineHeight: 1.6,
@@ -768,23 +831,20 @@ function Closing() {
       className="relative overflow-hidden"
       style={{ paddingTop: 200, paddingBottom: 200, background: PEARL.bg }}
     >
-      {/* Soft closing ribbon */}
-      {/* (closing ribbon removed) */}
-
-      {/* Largest kete of the page, drifting behind the closing text */}
+      {/* Closing cloud — softer, lower in the frame than the hero, holding the most generous spread of fairy lights */}
       <div
-        className="absolute hidden md:block"
+        className="absolute hidden md:flex items-center justify-center pointer-events-none"
         style={{
-          top: "50%",
+          top: "55%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 760,
-          height: 780,
-          opacity: 0.7,
+          width: 1100,
+          height: 620,
+          opacity: 0.85,
         }}
       >
         <Suspense fallback={null}>
-          <KeteFocus size={720} sparkles={42} />
+          <HeroCloud height={520} opacity={0.85} />
         </Suspense>
       </div>
 
@@ -818,7 +878,7 @@ function Closing() {
           ))}
         </div>
 
-        <InkButton to="/start">Start with one pack →</InkButton>
+        <InkButton to="/start">Start with one kete →</InkButton>
       </motion.div>
     </section>
   );
@@ -850,10 +910,10 @@ function PearlFooter() {
         >
           Premium intelligence that understands what matters.
         </p>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(14,21,19,0.6)", marginBottom: 24 }}>
+        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(15,42,38,0.6)", marginBottom: 24 }}>
           Time is the thing. We give it back.
         </p>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(14,21,19,0.45)", letterSpacing: "0.04em" }}>
+        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(15,42,38,0.45)", letterSpacing: "0.04em" }}>
           Assembl · Built in Aotearoa · assembl.co.nz
         </p>
       </div>

@@ -20,7 +20,7 @@ The site moved from cool Icy Pearl (#FBFAF7) to **Warm Pearl (#FAF6EF) + Linen (
 |---|---|---|---|
 | Warm Pearl (canvas) | `#FAF6EF` | `39 47% 96%` | `--background`, body, dominant |
 | Linen (alt canvas) | `#F4EFE6` | `38 30% 93%` | `--secondary`, subtle section break |
-| Deep Calm (ink) | `#0E1513` | `168 30% 7%` | `--foreground`, body, headlines |
+| Forest Ink (ink) | `#0F2A26` | `173 47% 11%` | `--foreground`, body, headlines — deep pounamu, never black |
 | Pounamu (accent) | `#1F4D47` | `173 42% 21%` | `--primary`, italic emphasis, ribbon highlight |
 | Sea Glass | `#C4D6D2` | `168 17% 80%` | `--accent`, ribbons, hairline dividers |
 | Opal Shimmer | `#E8EEEC` | — | Globe outer feathering, soft washes |
