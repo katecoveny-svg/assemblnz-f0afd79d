@@ -3,25 +3,29 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
-import { Ship, FileText, Shield, Package, Globe, AlertTriangle, Check, Plus, X, Loader2 } from "lucide-react";
+import { Ship, FileText, Shield, Globe, AlertTriangle, Check, Plus, X, Loader2 } from "lucide-react";
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
 import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 import { LiquidPanel, LiquidButton, GlowBadge } from "@/components/marama";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 
-const ACCENT = "#7ECFC2";
+const ACCENT = "#5AADA0";
 const ACCENT_LIGHT = "#A8E6DA";
-const POUNAMU = "#3A7D6E";
+const POUNAMU = "#1F4D47";
+const INK = "#0F2A26";
+const MUTED = "#7A8B82";
+const PEARL_BG = "rgba(250,246,239,0.55)";
+const PEARL_INPUT = "rgba(255,255,255,0.7)";
+const OPAL_BORDER = "rgba(31,77,71,0.12)";
 
 const STATUS_COLORS: Record<string, string> = {
   draft: "#4AA5A8",
   declared: "#5B8FA8",
-  cleared: "#3A7D6E",
-  held: "#E55",
+  cleared: "#1F4D47",
+  held: "#C85A54",
 };
 
 const INCOTERMS = ["EXW","FCA","CPT","CIP","DAP","DPU","DDP","FAS","FOB","CFR","CIF"];
@@ -42,6 +46,15 @@ function useShipments() {
     },
   });
 }
+
+const inputClass =
+  "rounded-lg px-3 py-2 text-sm transition-colors focus:outline-none";
+const inputStyle: React.CSSProperties = {
+  background: PEARL_INPUT,
+  border: `1px solid ${OPAL_BORDER}`,
+  color: INK,
+  fontFamily: "'Inter', sans-serif",
+};
 
 export default function PikauDashboard() {
   const queryClient = useQueryClient();
@@ -174,7 +187,7 @@ export default function PikauDashboard() {
             </div>
             <div
               className="text-3xl font-light tracking-tight"
-              style={{ color: "#1A1D29", fontFamily: "'JetBrains Mono', monospace" }}
+              style={{ color: INK, fontFamily: "'Cormorant Garamond', serif" }}
             >
               {m.value}
             </div>
@@ -196,27 +209,39 @@ export default function PikauDashboard() {
 
       {showForm && (
         <DashboardGlassCard accentColor={ACCENT} glow className="p-5">
-          <h3 className="text-sm text-white/80 font-medium mb-4">New Shipment</h3>
+          <h3 className="text-sm font-medium mb-4" style={{ color: INK, fontFamily: "'Cormorant Garamond', serif", fontWeight: 500 }}>
+            New Shipment
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <input placeholder="Description *" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
-            <input placeholder="Origin *" value={form.origin} onChange={e => setForm(f => ({ ...f, origin: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
-            <input placeholder="Destination *" value={form.destination} onChange={e => setForm(f => ({ ...f, destination: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
-            <input placeholder="HS Code (e.g. 8708.30)" value={form.hs_code} onChange={e => setForm(f => ({ ...f, hs_code: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
-            <input placeholder="Value (NZD)" type="number" value={form.value_nzd} onChange={e => setForm(f => ({ ...f, value_nzd: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
-            <select value={form.incoterm} onChange={e => setForm(f => ({ ...f, incoterm: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80">
+            <input placeholder="Description *" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} className={inputClass} style={inputStyle} />
+            <input placeholder="Origin *" value={form.origin} onChange={e => setForm(f => ({ ...f, origin: e.target.value }))} className={inputClass} style={inputStyle} />
+            <input placeholder="Destination *" value={form.destination} onChange={e => setForm(f => ({ ...f, destination: e.target.value }))} className={inputClass} style={inputStyle} />
+            <input placeholder="HS Code (e.g. 8708.30)" value={form.hs_code} onChange={e => setForm(f => ({ ...f, hs_code: e.target.value }))} className={inputClass} style={inputStyle} />
+            <input placeholder="Value (NZD)" type="number" value={form.value_nzd} onChange={e => setForm(f => ({ ...f, value_nzd: e.target.value }))} className={inputClass} style={inputStyle} />
+            <select value={form.incoterm} onChange={e => setForm(f => ({ ...f, incoterm: e.target.value }))} className={inputClass} style={inputStyle}>
               {INCOTERMS.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
-            <input placeholder="Carrier" value={form.carrier} onChange={e => setForm(f => ({ ...f, carrier: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
-            <input placeholder="Tracking Code" value={form.tracking_code} onChange={e => setForm(f => ({ ...f, tracking_code: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
-            <input placeholder="Broker Code" value={form.broker_code} onChange={e => setForm(f => ({ ...f, broker_code: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
-            <input placeholder="Country of Origin (ISO2)" value={form.country_of_origin} onChange={e => setForm(f => ({ ...f, country_of_origin: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400" />
-            <label className="flex items-center gap-2 text-sm text-white/60 col-span-full">
-              <input type="checkbox" checked={form.dangerous_goods} onChange={e => setForm(f => ({ ...f, dangerous_goods: e.target.checked }))} className="accent-red-500" />
+            <input placeholder="Carrier" value={form.carrier} onChange={e => setForm(f => ({ ...f, carrier: e.target.value }))} className={inputClass} style={inputStyle} />
+            <input placeholder="Tracking Code" value={form.tracking_code} onChange={e => setForm(f => ({ ...f, tracking_code: e.target.value }))} className={inputClass} style={inputStyle} />
+            <input placeholder="Broker Code" value={form.broker_code} onChange={e => setForm(f => ({ ...f, broker_code: e.target.value }))} className={inputClass} style={inputStyle} />
+            <input placeholder="Country of Origin (ISO2)" value={form.country_of_origin} onChange={e => setForm(f => ({ ...f, country_of_origin: e.target.value }))} className={inputClass} style={inputStyle} />
+            <label className="flex items-center gap-2 text-sm col-span-full" style={{ color: MUTED, fontFamily: "'Inter', sans-serif" }}>
+              <input
+                type="checkbox"
+                checked={form.dangerous_goods}
+                onChange={e => setForm(f => ({ ...f, dangerous_goods: e.target.checked }))}
+                style={{ accentColor: "#C85A54" }}
+              />
               Contains Dangerous Goods
             </label>
-            <textarea placeholder="Notes" value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} className="bg-white/5 border border-gray-200 rounded-lg px-3 py-2 text-sm text-white/80 placeholder:text-gray-400 col-span-full" rows={2} />
+            <textarea placeholder="Notes" value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} className={`${inputClass} col-span-full`} style={inputStyle} rows={2} />
           </div>
-          <button onClick={() => addShipment.mutate()} disabled={!form.description || !form.origin || !form.destination || addShipment.isPending} className="mt-4 flex items-center gap-2 px-5 py-2 rounded-lg text-xs font-medium text-foreground disabled:opacity-50" style={{ background: POUNAMU }}>
+          <button
+            onClick={() => addShipment.mutate()}
+            disabled={!form.description || !form.origin || !form.destination || addShipment.isPending}
+            className="mt-4 flex items-center gap-2 px-5 py-2 rounded-lg text-xs font-medium disabled:opacity-50 transition-shadow hover:shadow-md"
+            style={{ background: POUNAMU, color: "#FAF6EF", fontFamily: "'Inter', sans-serif" }}
+          >
             {addShipment.isPending ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
             Create Shipment
           </button>
@@ -227,23 +252,27 @@ export default function PikauDashboard() {
       {shipments.length > 0 && (
         <div className="grid md:grid-cols-2 gap-4">
           <DashboardGlassCard accentColor={ACCENT} className="p-4">
-            <h3 className="text-xs font-semibold text-white/60 mb-3">Shipment Status</h3>
+            <h3 className="text-xs font-semibold mb-3" style={{ color: MUTED, fontFamily: "'Inter', sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              Shipment Status
+            </h3>
             <ResponsiveContainer width="100%" height={180}>
               <PieChart>
                 <Pie data={statusData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={65} label={({ name }) => name}>
-                  {statusData.map(e => <Cell key={e.name} fill={STATUS_COLORS[e.name] || "#666"} />)}
+                  {statusData.map(e => <Cell key={e.name} fill={STATUS_COLORS[e.name] || "#7A8B82"} />)}
                 </Pie>
-                <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", color: "#1A1D29", border: `1px solid ${ACCENT}33`, borderRadius: 8, fontSize: 11 }} />
+                <Tooltip contentStyle={{ background: "rgba(250,246,239,0.98)", color: INK, border: `1px solid ${OPAL_BORDER}`, borderRadius: 8, fontSize: 11 }} />
               </PieChart>
             </ResponsiveContainer>
           </DashboardGlassCard>
           <DashboardGlassCard accentColor={ACCENT} className="p-4">
-            <h3 className="text-xs font-semibold text-white/60 mb-3">Shipment Values ($k NZD)</h3>
+            <h3 className="text-xs font-semibold mb-3" style={{ color: MUTED, fontFamily: "'Inter', sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              Shipment Values ($k NZD)
+            </h3>
             <ResponsiveContainer width="100%" height={180}>
               <BarChart data={valueData}>
-                <XAxis dataKey="id" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} />
-                <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} />
-                <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", color: "#1A1D29", border: `1px solid ${ACCENT}33`, borderRadius: 8, fontSize: 11 }} />
+                <XAxis dataKey="id" tick={{ fill: MUTED, fontSize: 10 }} axisLine={false} />
+                <YAxis tick={{ fill: MUTED, fontSize: 10 }} axisLine={false} />
+                <Tooltip contentStyle={{ background: "rgba(250,246,239,0.98)", color: INK, border: `1px solid ${OPAL_BORDER}`, borderRadius: 8, fontSize: 11 }} />
                 <Bar dataKey="value" fill={ACCENT} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -255,25 +284,38 @@ export default function PikauDashboard() {
       {selectedShipment && (
         <DashboardGlassCard accentColor={POUNAMU} glow className="p-5">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm text-white/80 font-medium">{selectedShipment.description}</h3>
-            <button onClick={() => setSelectedId(null)} className="text-xs text-white/40 hover:text-white/60">Close</button>
+            <h3 className="text-sm font-medium" style={{ color: INK, fontFamily: "'Cormorant Garamond', serif", fontWeight: 500 }}>
+              {selectedShipment.description}
+            </h3>
+            <button onClick={() => setSelectedId(null)} className="text-xs transition-colors" style={{ color: MUTED }}>
+              Close
+            </button>
           </div>
-          <div className="grid grid-cols-2 gap-3 text-xs">
-            <div><span className="text-white/40">Route:</span> <span className="text-white/70">{selectedShipment.origin} → {selectedShipment.destination}</span></div>
-            <div><span className="text-white/40">HS Code:</span> <span className="text-white/70 font-mono">{selectedShipment.hs_code || "—"}</span></div>
-            <div><span className="text-white/40">Value:</span> <span className="text-white/70">${Number(selectedShipment.value_nzd || 0).toLocaleString()} NZD</span></div>
-            <div><span className="text-white/40">Incoterm:</span> <span className="text-white/70">{selectedShipment.incoterm || "—"}</span></div>
-            <div><span className="text-white/40">Status:</span> <span style={{ color: STATUS_COLORS[selectedShipment.status] }}>{selectedShipment.status}</span></div>
-            <div><span className="text-white/40">DG:</span> <span className={selectedShipment.dangerous_goods ? "text-[#C85A54]" : "text-[#5AADA0]"}>{selectedShipment.dangerous_goods ? "Yes — requires review" : "No"}</span></div>
-            {selectedShipment.carrier && <div><span className="text-white/40">Carrier:</span> <span className="text-white/70">{selectedShipment.carrier}</span></div>}
-            {selectedShipment.tracking_code && <div><span className="text-white/40">Tracking:</span> <span className="text-white/70 font-mono">{selectedShipment.tracking_code}</span></div>}
+          <div className="grid grid-cols-2 gap-3 text-xs" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <div><span style={{ color: MUTED }}>Route:</span> <span style={{ color: INK }}>{selectedShipment.origin} → {selectedShipment.destination}</span></div>
+            <div><span style={{ color: MUTED }}>HS Code:</span> <span className="font-mono" style={{ color: INK }}>{selectedShipment.hs_code || "—"}</span></div>
+            <div><span style={{ color: MUTED }}>Value:</span> <span style={{ color: INK }}>${Number(selectedShipment.value_nzd || 0).toLocaleString()} NZD</span></div>
+            <div><span style={{ color: MUTED }}>Incoterm:</span> <span style={{ color: INK }}>{selectedShipment.incoterm || "—"}</span></div>
+            <div><span style={{ color: MUTED }}>Status:</span> <span style={{ color: STATUS_COLORS[selectedShipment.status] }}>{selectedShipment.status}</span></div>
+            <div><span style={{ color: MUTED }}>DG:</span> <span style={{ color: selectedShipment.dangerous_goods ? "#C85A54" : POUNAMU }}>{selectedShipment.dangerous_goods ? "Yes — requires review" : "No"}</span></div>
+            {selectedShipment.carrier && <div><span style={{ color: MUTED }}>Carrier:</span> <span style={{ color: INK }}>{selectedShipment.carrier}</span></div>}
+            {selectedShipment.tracking_code && <div><span style={{ color: MUTED }}>Tracking:</span> <span className="font-mono" style={{ color: INK }}>{selectedShipment.tracking_code}</span></div>}
           </div>
           <div className="flex gap-2 mt-4">
-            <button onClick={() => generateCustomsPack.mutate(selectedShipment)} disabled={generateCustomsPack.isPending} className="flex items-center gap-1 px-4 py-2 rounded-lg text-xs font-medium text-foreground disabled:opacity-50" style={{ background: POUNAMU }}>
+            <button
+              onClick={() => generateCustomsPack.mutate(selectedShipment)}
+              disabled={generateCustomsPack.isPending}
+              className="flex items-center gap-1 px-4 py-2 rounded-lg text-xs font-medium disabled:opacity-50 transition-shadow hover:shadow-md"
+              style={{ background: POUNAMU, color: "#FAF6EF", fontFamily: "'Inter', sans-serif" }}
+            >
               {generateCustomsPack.isPending ? <Loader2 size={13} className="animate-spin" /> : <FileText size={13} />} Generate Declaration Pack
             </button>
             {selectedShipment.status !== "cleared" && (
-              <button onClick={() => updateStatus.mutate({ id: selectedShipment.id, status: "cleared" })} className="px-4 py-2 rounded-lg text-xs font-medium" style={{ background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.6)", border: "1px solid rgba(255,255,255,0.1)" }}>
+              <button
+                onClick={() => updateStatus.mutate({ id: selectedShipment.id, status: "cleared" })}
+                className="px-4 py-2 rounded-lg text-xs font-medium transition-colors"
+                style={{ background: PEARL_BG, color: INK, border: `1px solid ${OPAL_BORDER}`, fontFamily: "'Inter', sans-serif" }}
+              >
                 Mark Cleared
               </button>
             )}
@@ -283,33 +325,51 @@ export default function PikauDashboard() {
 
       {/* Shipments List */}
       <DashboardGlassCard accentColor={ACCENT} className="p-4">
-        <h3 className="text-xs font-semibold text-white/60 mb-3">
+        <h3 className="text-xs font-semibold mb-3" style={{ color: MUTED, fontFamily: "'Inter', sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>
           {isLoading ? "Loading shipments…" : shipments.length === 0 ? "No shipments yet — create your first one above" : "Active Shipments"}
         </h3>
         <div className="space-y-2">
-          {shipments.map(s => (
-            <button key={s.id} onClick={() => setSelectedId(s.id)} className="w-full flex items-center justify-between p-3 rounded-xl text-left transition-colors hover:bg-white/5" style={{ background: selectedId === s.id ? "rgba(126,207,194,0.08)" : "rgba(255,255,255,0.03)", border: `1px solid ${selectedId === s.id ? ACCENT + "30" : "rgba(255,255,255,0.06)"}` }}>
-              <div className="flex items-center gap-3">
-                {s.dangerous_goods && <AlertTriangle size={14} className="text-[#C85A54]" />}
-                <div>
-                  <p className="text-sm text-white/80 font-medium">{s.description}</p>
-                  <p className="text-[10px] text-white/40">{s.origin} → {s.destination} {s.hs_code ? `· HS ${s.hs_code}` : ""} {s.incoterm ? `· ${s.incoterm}` : ""}</p>
+          {shipments.map(s => {
+            const isSelected = selectedId === s.id;
+            return (
+              <button
+                key={s.id}
+                onClick={() => setSelectedId(s.id)}
+                className="w-full flex items-center justify-between p-3 rounded-xl text-left transition-colors"
+                style={{
+                  background: isSelected ? `${ACCENT}12` : PEARL_BG,
+                  border: `1px solid ${isSelected ? ACCENT + "40" : OPAL_BORDER}`,
+                }}
+              >
+                <div className="flex items-center gap-3">
+                  {s.dangerous_goods && <AlertTriangle size={14} style={{ color: "#C85A54" }} />}
+                  <div>
+                    <p className="text-sm font-medium" style={{ color: INK, fontFamily: "'Inter', sans-serif" }}>{s.description}</p>
+                    <p className="text-[10px]" style={{ color: MUTED, fontFamily: "'Inter', sans-serif" }}>
+                      {s.origin} → {s.destination} {s.hs_code ? `· HS ${s.hs_code}` : ""} {s.incoterm ? `· ${s.incoterm}` : ""}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-500 font-mono">${(Number(s.value_nzd || 0) / 1000).toFixed(1)}k</span>
-                <span className="px-2 py-0.5 rounded-full text-[9px] uppercase tracking-wider" style={{ background: `${STATUS_COLORS[s.status] || "#666"}20`, color: STATUS_COLORS[s.status] || "#666" }}>
-                  {s.status}
-                </span>
-              </div>
-            </button>
-          ))}
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono" style={{ color: MUTED }}>${(Number(s.value_nzd || 0) / 1000).toFixed(1)}k</span>
+                  <span
+                    className="px-2 py-0.5 rounded-full text-[9px] uppercase tracking-wider"
+                    style={{ background: `${STATUS_COLORS[s.status] || "#7A8B82"}22`, color: STATUS_COLORS[s.status] || "#7A8B82" }}
+                  >
+                    {s.status}
+                  </span>
+                </div>
+              </button>
+            );
+          })}
         </div>
       </DashboardGlassCard>
 
       {/* Compliance */}
       <DashboardGlassCard accentColor={POUNAMU} className="p-4">
-        <h3 className="text-xs font-semibold text-white/60 mb-3 flex items-center gap-2"><Shield size={14} style={{ color: POUNAMU }} /> Border Compliance</h3>
+        <h3 className="text-xs font-semibold mb-3 flex items-center gap-2" style={{ color: MUTED, fontFamily: "'Inter', sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+          <Shield size={14} style={{ color: POUNAMU }} /> Border Compliance
+        </h3>
         <div className="grid grid-cols-2 gap-2">
           {[
             { label: "CEA 2018", desc: "Declarations validated" },
@@ -317,12 +377,12 @@ export default function PikauDashboard() {
             { label: "Dangerous Goods Act", desc: "Classification enforced" },
             { label: "Privacy Act 2020", desc: "Importer data governed" },
           ].map(c => (
-            <div key={c.label} className="p-3 rounded-lg" style={{ background: `${POUNAMU}08` }}>
+            <div key={c.label} className="p-3 rounded-lg" style={{ background: `${POUNAMU}0c`, border: `1px solid ${POUNAMU}1f` }}>
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-white/70 font-medium">{c.label}</span>
-                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#3A7D6E]/20 text-[#5AADA0]">Active</span>
+                <span className="text-xs font-medium" style={{ color: INK, fontFamily: "'Inter', sans-serif" }}>{c.label}</span>
+                <span className="text-[9px] px-1.5 py-0.5 rounded-full" style={{ background: `${POUNAMU}22`, color: POUNAMU }}>Active</span>
               </div>
-              <p className="text-[10px] text-white/35">{c.desc}</p>
+              <p className="text-[10px]" style={{ color: MUTED, fontFamily: "'Inter', sans-serif" }}>{c.desc}</p>
             </div>
           ))}
         </div>
