@@ -39,9 +39,12 @@ Deno.serve(async (req) => {
     }
 
     // ─── URL Normalization ────────────────────────────────────────
-    // Defensive: strip stray protocol prefixes and re-add a clean one.
+    // Defensive: handle malformed inputs like "https://://example.com" or
+    // "://example.com" that come from front-end double-prefixing.
     let rawUrl = String(intake.website_url || "").trim();
-    rawUrl = rawUrl.replace(/^(https?:\/\/)+/i, "").replace(/^\/+/, "");
+    // Strip any combination of leading protocol/colon/slash artifacts.
+    rawUrl = rawUrl.replace(/^(https?:)?\/*:?\/*/i, "");
+    rawUrl = rawUrl.replace(/^\/+/, "");
     const normalizedUrl = rawUrl ? `https://${rawUrl}` : "";
     if (normalizedUrl !== intake.website_url) {
       intake.website_url = normalizedUrl;
