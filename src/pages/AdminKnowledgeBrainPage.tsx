@@ -329,10 +329,12 @@ export default function AdminKnowledgeBrainPage() {
                 <thead className="bg-muted/30">
                   <tr className="text-xs text-muted-foreground">
                     <th className="text-left p-3 font-medium">Source</th>
-                    <th className="text-left p-3 font-medium">Type</th>
+                    <th className="text-left p-3 font-medium">Category</th>
                     <th className="text-left p-3 font-medium">Cadence</th>
-                    <th className="text-left p-3 font-medium">Last checked</th>
+                    <th className="text-left p-3 font-medium">Last fetch</th>
+                    <th className="text-left p-3 font-medium">Reliability</th>
                     <th className="text-left p-3 font-medium">Status</th>
+                    <th className="text-left p-3 font-medium">Provenance</th>
                     <th className="text-left p-3 font-medium">Packs</th>
                     <th className="p-3"></th>
                   </tr>
@@ -341,12 +343,13 @@ export default function AdminKnowledgeBrainPage() {
                   {filteredSources.map((s) => {
                     const lastRun = runs.find(r => r.source_id === s.id);
                     const healthy = s.status === "ok";
+                    const relColor = reliabilityColor(s.reliability_score);
                     return (
-                      <tr key={s.id} className="border-t border-border/50 hover:bg-muted/20">
+                      <tr key={s.id} className="border-t border-border/50 hover:bg-muted/20 align-top">
                         <td className="p-3">
                           <div className="flex items-center gap-2">
                             <span
-                              className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                              className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-1.5"
                               style={{
                                 background: !s.active ? "#9CA3AF" : healthy ? "#10B981" : "#F59E0B",
                                 boxShadow: `0 0 6px ${!s.active ? "#9CA3AF" : healthy ? "#10B981" : "#F59E0B"}`,
@@ -355,13 +358,16 @@ export default function AdminKnowledgeBrainPage() {
                             <div className="min-w-0">
                               <div className="font-medium text-foreground truncate">{s.name}</div>
                               <div className="text-[11px] text-muted-foreground truncate max-w-xs">{s.url}</div>
+                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground uppercase mt-1 inline-block">{s.type}</span>
                             </div>
                           </div>
                         </td>
-                        <td className="p-3">
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground uppercase">{s.type}</span>
+                        <td className="p-3 text-xs">
                           {s.category && (
-                            <div className="text-[10px] text-muted-foreground mt-0.5 capitalize">{s.category.replace(/_/g, " ")}</div>
+                            <div className="text-foreground capitalize font-medium">{s.category.replace(/_/g, " ")}</div>
+                          )}
+                          {s.subcategory && (
+                            <div className="text-[10px] text-muted-foreground capitalize">{s.subcategory.replace(/_/g, " ")}</div>
                           )}
                         </td>
                         <td className="p-3 text-xs text-muted-foreground">{s.cadence_minutes}m</td>
@@ -370,11 +376,27 @@ export default function AdminKnowledgeBrainPage() {
                             <Clock size={11} />
                             {formatAgo(s.last_checked_at)}
                           </div>
+                          <div className="text-[10px] mt-0.5" style={{ color: "#10B981" }}>
+                            ok: {formatAgo(s.last_successful_fetch)}
+                          </div>
                           {lastRun && (
                             <div className="text-[10px] mt-0.5" style={{ color: lastRun.status === "ok" ? "#10B981" : "#EF4444" }}>
                               +{lastRun.new_docs ?? 0} / Δ{lastRun.updated_docs ?? 0}
                             </div>
                           )}
+                        </td>
+                        <td className="p-3">
+                          <div className="flex items-center gap-2">
+                            <div className="w-12 h-1.5 rounded-full bg-muted overflow-hidden">
+                              <div
+                                className="h-full rounded-full transition-all"
+                                style={{ width: `${s.reliability_score ?? 0}%`, background: relColor }}
+                              />
+                            </div>
+                            <span className="text-xs font-medium" style={{ color: relColor }}>
+                              {s.reliability_score != null ? `${s.reliability_score}%` : "—"}
+                            </span>
+                          </div>
                         </td>
                         <td className="p-3">
                           <span
@@ -389,6 +411,11 @@ export default function AdminKnowledgeBrainPage() {
                           {(s.consecutive_failures ?? 0) > 0 && (
                             <div className="text-[10px] text-red-600 mt-0.5">{s.consecutive_failures} fails</div>
                           )}
+                        </td>
+                        <td className="p-3 text-[11px] text-muted-foreground max-w-[220px]">
+                          <div className="line-clamp-3" title={s.provenance ?? ""}>
+                            {s.provenance ?? <span className="italic opacity-60">—</span>}
+                          </div>
                         </td>
                         <td className="p-3">
                           <div className="flex flex-wrap gap-1">

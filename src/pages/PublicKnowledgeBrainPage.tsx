@@ -17,12 +17,24 @@ interface Source {
   type: string;
   url: string;
   category: string | null;
+  subcategory: string | null;
   agent_packs: string[] | null;
   cadence_minutes: number;
   active: boolean;
   status: string | null;
   last_checked_at: string | null;
   last_updated_at: string | null;
+  last_successful_fetch: string | null;
+  reliability_score: number | null;
+  provenance: string | null;
+}
+
+function reliabilityLabel(score: number | null): { label: string; color: string } {
+  if (score == null) return { label: "unrated", color: "#9CA3AF" };
+  if (score >= 90) return { label: "excellent", color: "#10B981" };
+  if (score >= 70) return { label: "reliable", color: "#4AA5A8" };
+  if (score >= 40) return { label: "patchy", color: "#F59E0B" };
+  return { label: "unstable", color: "#EF4444" };
 }
 
 const TEAL = "#3A7D6E";
@@ -58,7 +70,7 @@ export default function PublicKnowledgeBrainPage() {
     const load = async () => {
       const { data } = await (supabase as any)
         .from("kb_sources")
-        .select("id, name, type, url, category, agent_packs, cadence_minutes, active, status, last_checked_at, last_updated_at")
+        .select("id, name, type, url, category, subcategory, agent_packs, cadence_minutes, active, status, last_checked_at, last_updated_at, last_successful_fetch, reliability_score, provenance")
         .eq("active", true)
         .order("category", { ascending: true })
         .order("name", { ascending: true });
