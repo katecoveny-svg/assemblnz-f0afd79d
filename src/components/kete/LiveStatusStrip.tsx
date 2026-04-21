@@ -22,7 +22,7 @@ export default function LiveStatusStrip({ pack, agentCodes, accent = "#3A7D6E" }
 
   useEffect(() => {
     let cancelled = false;
-    (async () => {
+    const refresh = async () => {
       // Every kete inherits platform-wide ("cross") governance feeds —
       // Privacy Commissioner, NZ Gazette, Beehive, Parliament Bills etc.
       // We count pack-specific + cross sources together so the strip reflects
@@ -51,9 +51,17 @@ export default function LiveStatusStrip({ pack, agentCodes, accent = "#3A7D6E" }
         .pop();
       setLastSync(latest ?? null);
       setOnline((agentRows ?? []).filter((a) => a.is_online).length);
-    })();
+    };
+
+    refresh();
+    const interval = window.setInterval(refresh, 90_000);
+    const onFocus = () => refresh();
+    window.addEventListener("focus", onFocus);
+
     return () => {
       cancelled = true;
+      window.clearInterval(interval);
+      window.removeEventListener("focus", onFocus);
     };
   }, [pack, agentCodes.join(",")]);
 
