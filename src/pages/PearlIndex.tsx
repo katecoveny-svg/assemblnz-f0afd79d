@@ -493,11 +493,6 @@ function HowItWorks() {
               transition={{ duration: 0.7, ease, delay: i * 0.1 }}
               className="relative"
             >
-              <div className="absolute -top-2 -right-4 hidden md:block" style={{ width: 70, height: 70 }}>
-                <Suspense fallback={null}>
-                  <MiniCloud size={70} drift="slow" opacity={0.45} />
-                </Suspense>
-              </div>
               <span
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
