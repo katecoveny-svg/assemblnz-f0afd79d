@@ -290,6 +290,23 @@ export function HeroCloud({
         <ellipse cx="500" cy="270" rx="380" ry="200" fill="url(#pounamuMist)" />
 
         <g ref={cloudGroupRef}>
+          {/* Layer -1 — soft cool SHADOW underneath the cloud body. This is what
+              makes the white puffs read as VOLUME against the warm pearl canvas.
+              Offset down + right to suggest sunlight from upper-left. */}
+          <g filter="url(#cloudShadowBlur)" transform="translate(18 32)">
+            {HERO_PUFFS.filter((p) => p.layer === 1).map((p, i) => (
+              <ellipse
+                key={`sh${i}`}
+                cx={p.cx}
+                cy={p.cy}
+                rx={p.rx * 1.05}
+                ry={p.ry * 1.05}
+                fill="url(#cloudShadow)"
+                opacity={p.op * 0.85}
+              />
+            ))}
+          </g>
+
           {/* Layer 0 — cool back rim, heavily blurred */}
           <g filter="url(#cloudBlurSoft)">
             {HERO_PUFFS.filter((p) => p.layer === 0).map((p, i) => (
