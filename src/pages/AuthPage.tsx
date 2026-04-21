@@ -54,7 +54,7 @@ const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
                 <circle cx="8" cy="26" r="4.8" fill="url(#auth-p)"/><circle cx="8" cy="26" r="4.8" fill="url(#auth-hi)"/>
                 <circle cx="28" cy="26" r="4.8" fill="url(#auth-pl)"/><circle cx="28" cy="26" r="4.8" fill="url(#auth-hi)"/>
               </svg>
-              <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", fontSize: "13px", background: "linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 48%, #4AA5A8 72%, #3A7D6E 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>ASSEMBL</span>
+              <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "3px", textTransform: "lowercase", fontSize: "15px", background: "linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 48%, #4AA5A8 72%, #3A7D6E 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>assembl</span>
             </Link>
             <h1 className="text-2xl font-bold text-foreground" style={{ textShadow: "0 0 24px rgba(74,165,168,0.5), 0 0 48px rgba(74,165,168,0.2)" }}>
               {mode === "signup" ? "Create your account" : "Welcome back"}

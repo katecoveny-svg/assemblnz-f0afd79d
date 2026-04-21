@@ -79,7 +79,7 @@ const EvidencePackDemo = () => {
             }}>
             {/* Watermark */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <p className="assembl-watermark">ASSEMBL — DEMO</p>
+              <p className="assembl-watermark lowercase">assembl — demo</p>
             </div>
 
             {/* Top accent line */}

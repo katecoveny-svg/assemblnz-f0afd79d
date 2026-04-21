@@ -2,9 +2,16 @@
 <defs>
 <linearGradient id="wordmark-grad" x1="0%" y1="0%" x2="100%" y2="0%">
 <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1"/>
-<stop offset="35%" style="stop-color:#D4A843;stop-opacity:1"/>
+<stop offset="50%" style="stop-color:#7ED4C5;stop-opacity:1"/>
 <stop offset="100%" style="stop-color:#3A7D6E;stop-opacity:1"/>
 </linearGradient>
+<filter id="wm-glow" x="-20%" y="-50%" width="140%" height="200%">
+<feGaussianBlur stdDeviation="2.5" result="blur"/>
+<feMerge>
+<feMergeNode in="blur"/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>
 </defs>
-<text x="200" y="72" font-family="Lato, sans-serif" font-size="64" font-weight="400" text-anchor="middle" fill="url(#wordmark-grad)" letter-spacing="8">ASSEMBL</text>
+<text x="200" y="68" font-family="Lato, sans-serif" font-size="56" font-weight="300" text-anchor="middle" fill="url(#wordmark-grad)" letter-spacing="6" filter="url(#wm-glow)">assembl</text>
 </svg>

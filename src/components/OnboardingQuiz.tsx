@@ -123,7 +123,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
             <div>
               <h1 className="text-3xl font-display font-light text-foreground mb-2">
                 Welcome to{" "}
-                <span className="tracking-[3px] text-gradient-hero">ASSEMBL</span>
+                <span className="tracking-[2px] lowercase text-gradient-hero">assembl</span>
               </h1>
               <p className="text-muted-foreground text-sm font-body">
                 Let's find the right AI agent for you in 30 seconds.
