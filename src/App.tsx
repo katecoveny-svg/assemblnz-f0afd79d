@@ -55,6 +55,7 @@ const PikauCbaffLanding = lazy(() => import("./pages/PikauCbaffLanding"));
 const ArtakiMtaLanding = lazy(() => import("./pages/ArtakiMtaLanding"));
 const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
+const FounderPage = lazy(() => import("./pages/FounderPage"));
 const OnboardingPage = lazy(() => import("./pages/OnboardingPage"));
 const AdminHealthDashboard = lazy(() => import("./pages/AdminHealthDashboard"));
 const AdminLeadsDashboard = lazy(() => import("./pages/AdminLeadsDashboard"));
@@ -253,7 +254,9 @@ const App = () => (
                         <Route path="/admin/showcase-videos" element={<Suspense fallback={null}><AdminShowcaseVideos /></Suspense>} />
 
                         <Route path="/roi" element={<Suspense fallback={null}><RoiCalculatorPage /></Suspense>} />
-                        <Route path="/about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
+                        <Route path="/about" element={<Suspense fallback={null}><FounderPage /></Suspense>} />
+                        <Route path="/founder" element={<Suspense fallback={null}><FounderPage /></Suspense>} />
+                        <Route path="/about-platform" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
                         <Route path="/case-studies" element={<Suspense fallback={null}><CaseStudiesPage /></Suspense>} />
                         <Route path="/data-sovereignty" element={<Suspense fallback={null}><DataSovereigntyPage /></Suspense>} />
                         <Route path="/developers" element={<Suspense fallback={null}><DevelopersPage /></Suspense>} />
