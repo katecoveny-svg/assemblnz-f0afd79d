@@ -494,19 +494,6 @@ function HowItWorks() {
               transition={{ duration: 0.7, ease, delay: i * 0.1 }}
               className="relative"
             >
-              <span
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontWeight: 300,
-                  fontSize: 56,
-                  color: PEARL.pounamu,
-                  display: "block",
-                  marginBottom: 16,
-                  lineHeight: 1,
-                }}
-              >
-                {s.n}
-              </span>
               <Serif size="sm" className="mb-4">{s.h}</Serif>
               <Body>{s.p}</Body>
             </motion.div>
