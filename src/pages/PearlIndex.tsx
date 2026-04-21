@@ -7,6 +7,7 @@ import SEO from "@/components/SEO";
 
 const MiniCloud = lazy(() => import("@/components/pearl/MiniCloud"));
 const RoomCloud = lazy(() => import("@/components/pearl/RoomCloud"));
+const FeatherKete = lazy(() => import("@/components/pearl/FeatherKete"));
 const FairyLightStrand = lazy(() =>
   import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.FairyLightStrand }))
 );
