@@ -1,10 +1,11 @@
 import { Suspense, lazy } from "react";
 import { motion } from "framer-motion";
+import type { KeteVariant } from "@/components/pearl/FeatherKete";
 
-const GlassKeteSphere = lazy(() => import("@/components/kete/GlassKeteSphere"));
+const FeatherKete = lazy(() => import("@/components/pearl/FeatherKete"));
 
-// Kept for backwards compatibility — every kete now uses the same glass-sphere visual,
-// only tinted by accentColor. The `model` prop is accepted but ignored.
+// Kept for backwards compatibility — every kete now uses the photoreal feather-kete visual,
+// tinted per industry. The `model` prop is accepted but ignored.
 export type IndustryModel = "wine-glass" | "hard-hat" | "palette" | "car" | "container";
 
 interface LandingKeteHeroProps {
@@ -12,13 +13,27 @@ interface LandingKeteHeroProps {
   accentLight: string;
   model?: IndustryModel;
   size?: number;
+  variant?: KeteVariant;
+}
+
+// Map accent hex → kete variant when no explicit variant is passed.
+function variantFromAccent(accent: string): KeteVariant {
+  const a = accent.toUpperCase();
+  if (a.startsWith("#3A7D6E") || a.startsWith("#7ECFC2")) return "waihanga";
+  if (a.startsWith("#4AA5A8")) return "manaaki";
+  if (a.startsWith("#A8DDDB") || a.startsWith("#9B8EC4") || a.startsWith("#E8702A")) return "auaha";
+  if (a.startsWith("#7A9ABC") || a.startsWith("#4A6FA5")) return "arataki";
+  if (a.startsWith("#5AADA0")) return "pikau";
+  return "base";
 }
 
 export default function LandingKeteHero({
   accentColor,
-  accentLight,
   size = 220,
+  variant,
 }: LandingKeteHeroProps) {
+  const resolvedVariant = variant ?? variantFromAccent(accentColor);
+
   return (
     <motion.div
       className="relative flex items-center justify-center mb-10"
@@ -45,7 +60,7 @@ export default function LandingKeteHero({
           />
         }
       >
-        <GlassKeteSphere accentColor={accentColor} accentLight={accentLight} size={size} />
+        <FeatherKete variant={resolvedVariant} size={size} drift="slow" />
       </Suspense>
     </motion.div>
   );
