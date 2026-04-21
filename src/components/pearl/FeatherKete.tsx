@@ -31,8 +31,19 @@ const VARIANT_SRC: Record<KeteVariant, string> = {
   toro: keteMaster,
 };
 
-// Single soft pounamu drop-shadow for every kete, regardless of variant.
-const MASTER_SHADOW = "drop-shadow(0 14px 30px rgba(74,165,168,0.18)) drop-shadow(0 4px 10px rgba(31,77,71,0.10))";
+// Per-variant subtle hue tint (CSS hue-rotate + tinted drop-shadow). Same kete
+// image, slightly different "wash" so each industry feels its own without
+// changing the underlying woven feather kete. Greens are explicitly avoided.
+type Tint = { hueDeg: number; saturate: number; shadow: string };
+const VARIANT_TINT: Record<KeteVariant, Tint> = {
+  base:    { hueDeg:   0, saturate: 1.00, shadow: "drop-shadow(0 14px 30px rgba(120,150,180,0.18))" },
+  manaaki: { hueDeg: -10, saturate: 1.05, shadow: "drop-shadow(0 14px 30px rgba(214,142,120,0.22))" }, // warm peach
+  waihanga:{ hueDeg: -25, saturate: 1.05, shadow: "drop-shadow(0 14px 30px rgba(196,150,110,0.22))" }, // warm sand
+  auaha:   { hueDeg:  35, saturate: 1.06, shadow: "drop-shadow(0 14px 30px rgba(155,142,196,0.22))" }, // soft lavender
+  arataki: { hueDeg: -50, saturate: 1.04, shadow: "drop-shadow(0 14px 30px rgba(170,128,108,0.22))" }, // burnt clay
+  pikau:   { hueDeg:  20, saturate: 1.04, shadow: "drop-shadow(0 14px 30px rgba(122,154,188,0.22))" }, // dusk blue
+  toro:    { hueDeg:  10, saturate: 1.03, shadow: "drop-shadow(0 14px 30px rgba(180,196,210,0.22))" }, // pale sky
+};
 
 interface FeatherKeteProps {
   variant?: KeteVariant;
@@ -73,12 +84,14 @@ export default function FeatherKete({
   }, [drift]);
 
   const src = VARIANT_SRC[variant] ?? keteMaster;
-  const shadow = MASTER_SHADOW;
+  const tint = VARIANT_TINT[variant] ?? VARIANT_TINT.base;
+  // More transparency overall, hue-rotate for industry tint, no green.
+  const filter = `hue-rotate(${tint.hueDeg}deg) saturate(${tint.saturate}) ${tint.shadow}`;
 
   return (
     <div
       className={`relative pointer-events-none ${className}`}
-      style={{ width: size, height: size, opacity }}
+      style={{ width: size, height: size, opacity: opacity * 0.82 }}
     >
       <div
         ref={ref}
@@ -100,7 +113,7 @@ export default function FeatherKete({
             width: "100%",
             height: "100%",
             objectFit: "contain",
-            filter: shadow,
+            filter,
             userSelect: "none",
           }}
         />

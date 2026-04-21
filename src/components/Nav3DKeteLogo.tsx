@@ -49,15 +49,15 @@ function TriangleConstellation() {
         </mesh>
       </group>
 
-      {/* Bottom-left node — Pounamu dark */}
+      {/* Bottom-left node — soft teal */}
       <group position={botL}>
         <mesh>
           <sphereGeometry args={[0.2, 16, 16]} />
-          <meshBasicMaterial color="#3A7D6E" transparent opacity={0.1} />
+          <meshBasicMaterial color="#4AA5A8" transparent opacity={0.1} />
         </mesh>
         <mesh>
           <sphereGeometry args={[0.12, 16, 16]} />
-          <meshStandardMaterial color="#3A7D6E" emissive="#3A7D6E" emissiveIntensity={0.4} roughness={0.3} metalness={0.6} />
+          <meshStandardMaterial color="#4AA5A8" emissive="#4AA5A8" emissiveIntensity={0.4} roughness={0.3} metalness={0.6} />
         </mesh>
         <mesh>
           <ringGeometry args={[0.14, 0.155, 32]} />
@@ -65,15 +65,15 @@ function TriangleConstellation() {
         </mesh>
       </group>
 
-      {/* Bottom-right node — Pounamu light */}
+      {/* Bottom-right node — pale teal */}
       <group position={botR}>
         <mesh>
           <sphereGeometry args={[0.2, 16, 16]} />
-          <meshBasicMaterial color="#5AADA0" transparent opacity={0.1} />
+          <meshBasicMaterial color="#A8DDDB" transparent opacity={0.1} />
         </mesh>
         <mesh>
           <sphereGeometry args={[0.12, 16, 16]} />
-          <meshStandardMaterial color="#5AADA0" emissive="#5AADA0" emissiveIntensity={0.4} roughness={0.3} metalness={0.6} />
+          <meshStandardMaterial color="#A8DDDB" emissive="#A8DDDB" emissiveIntensity={0.4} roughness={0.3} metalness={0.6} />
         </mesh>
         <mesh>
           <ringGeometry args={[0.14, 0.155, 32]} />
@@ -109,7 +109,7 @@ export default function Nav3DKeteLogo({ size = 38 }: { size?: number }) {
         >
           <ambientLight intensity={0.6} />
           <pointLight position={[2, 2, 2]} intensity={0.5} color="#4AA5A8" />
-          <pointLight position={[-2, -1, 2]} intensity={0.3} color="#3A7D6E" />
+          <pointLight position={[-2, -1, 2]} intensity={0.3} color="#6CBFC1" />
           <TriangleConstellation />
         </Canvas>
       </Suspense>
