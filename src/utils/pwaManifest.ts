@@ -74,14 +74,54 @@ export function setDynamicManifest(agentId: string): () => void {
 }
 
 /**
- * Register the service worker. Call once on app startup.
+ * Register the service worker and wire up auto-update on new deploys.
+ *
+ * Behaviour:
+ *  - On every page load we call `registration.update()` so a freshly-deployed
+ *    sw.js is detected immediately (the SW file itself is fetched bypassing
+ *    the HTTP cache because Vite + the browser treat it as the SW resource).
+ *  - When a new worker reaches `installed` while there's already an active
+ *    controller, we tell it to `skipWaiting` and reload the page once it
+ *    takes control. End result: a deploy lands → next page load shows the
+ *    new build, no manual hard-refresh required.
  */
 export async function registerServiceWorker(): Promise<void> {
-  if ("serviceWorker" in navigator) {
-    try {
-      await navigator.serviceWorker.register("/sw.js", { scope: "/" });
-    } catch (err) {
-      console.warn("SW registration failed:", err);
-    }
+  if (!("serviceWorker" in navigator)) return;
+
+  try {
+    const registration = await navigator.serviceWorker.register("/sw.js", {
+      scope: "/",
+      updateViaCache: "none",
+    });
+
+    // Trigger an update check on every load.
+    registration.update().catch(() => {});
+
+    const promptUpdate = (worker: ServiceWorker) => {
+      // Only prompt once an existing controller is present — first install
+      // doesn't need a reload.
+      if (navigator.serviceWorker.controller) {
+        worker.postMessage("SKIP_WAITING");
+      }
+    };
+
+    if (registration.waiting) promptUpdate(registration.waiting);
+
+    registration.addEventListener("updatefound", () => {
+      const installing = registration.installing;
+      if (!installing) return;
+      installing.addEventListener("statechange", () => {
+        if (installing.state === "installed") promptUpdate(installing);
+      });
+    });
+
+    let reloading = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (reloading) return;
+      reloading = true;
+      window.location.reload();
+    });
+  } catch (err) {
+    console.warn("SW registration failed:", err);
   }
 }
