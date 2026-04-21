@@ -786,20 +786,20 @@ function Closing() {
       </div>
 
       <motion.div {...fadeUp} className="max-w-[900px] mx-auto px-6 text-center relative z-10">
-        <Eyebrow>​</Eyebrow>
+        <Eyebrow>{"\u200B"}</Eyebrow>
         <Serif size="xl" className="mb-20 text-center font-serif text-5xl font-extralight">
-          ​
+          {"\u200B"}
         </Serif>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 64 }}>
           {[
-            "​",
-            "​",
-            "​",
-            "​",
-          ].map((l) => (
+            "\u200B",
+            "\u200B",
+            "\u200B",
+            "\u200B",
+          ].map((l, i) => (
             <p
-              key={l}
+              key={i}
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
                 fontStyle: "italic",
