@@ -447,6 +447,65 @@ const Index = () => {
           </div>
         </Sect>
 
+        {/* ═══ LIVE COMPLIANCE ═══ */}
+        <Sect>
+          <motion.div {...fade} className="max-w-[760px] mx-auto text-center">
+            <SectionEyebrow>Live compliance</SectionEyebrow>
+            <SectionH2>Your compliance, kept current.</SectionH2>
+            <p className="text-[16px] sm:text-[17px] leading-[1.75] mt-6 mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.text, fontWeight: 400 }}>
+              When New Zealand law changes, Assembl updates centrally. Your workflows inherit the change automatically — without internal scramble, delayed SOP updates, or extra consultant spend.
+            </p>
+            <p className="text-[15px] leading-[1.7] mb-10" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", color: C.teal, fontWeight: 400 }}>
+              Live compliance. Plain English. Source-cited. Audit-ready.
+            </p>
+            <div className="inline-flex flex-wrap items-center justify-center gap-x-4 gap-y-2 px-5 py-3 rounded-full text-[10px] tracking-[3px] uppercase"
+              style={{
+                background: "rgba(255,255,255,0.65)",
+                border: `1px solid ${C.teal}22`,
+                backdropFilter: "blur(20px)",
+                fontFamily: "'JetBrains Mono', monospace",
+                color: C.text,
+              }}
+            >
+              <span>Simulation-tested</span>
+              <span style={{ opacity: 0.4 }}>·</span>
+              <span>Policy-governed</span>
+              <span style={{ opacity: 0.4 }}>·</span>
+              <span>Human-in-the-loop</span>
+            </div>
+          </motion.div>
+        </Sect>
+
+        {/* ═══ WHAT IT GIVES YOU BACK ═══ */}
+        <Sect>
+          <motion.div {...fade} className="max-w-[680px] mx-auto text-center">
+            <SectionEyebrow>What it gives you back</SectionEyebrow>
+            <SectionH2>The day, returned to you.</SectionH2>
+            <div className="mt-10 mb-12 space-y-3" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: "italic", color: C.text }}>
+              <p style={{ fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.5 }}>The kitchen, calmer by 6:45.</p>
+              <p style={{ fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.5 }}>The guest, welcomed properly.</p>
+              <p style={{ fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.5 }}>The team, present to the moment.</p>
+              <p style={{ fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.5, color: C.teal }}>The evening, starting on time.</p>
+            </div>
+            <Link
+              to="/kete"
+              data-magnetic
+              className="inline-flex items-center gap-2 px-7 py-4 rounded-full transition-transform duration-300 hover:-translate-y-px"
+              style={{
+                background: "#3A7D6E",
+                color: "#fff",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 12,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                boxShadow: "0 12px 40px -12px rgba(58,125,110,0.55)",
+              }}
+            >
+              Start with one kete <ArrowRight size={14} />
+            </Link>
+          </motion.div>
+        </Sect>
+
         {/* ═══ REAL USE CASES ═══ */}
         <Sect>
           <motion.div {...fade} className="text-center mb-16">
