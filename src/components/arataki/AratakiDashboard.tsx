@@ -8,7 +8,7 @@ import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
-import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
+
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 

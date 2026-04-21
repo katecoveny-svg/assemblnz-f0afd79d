@@ -6,7 +6,7 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pi
 import { Ship, FileText, Shield, Globe, AlertTriangle, Check, Plus, X, Loader2 } from "lucide-react";
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
-import SovereigntySimulator from "@/components/sovereignty/SovereigntySimulator";
+
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 import { LiquidPanel, LiquidButton, GlowBadge } from "@/components/marama";
