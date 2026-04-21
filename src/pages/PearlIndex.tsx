@@ -259,7 +259,7 @@ function Hero() {
           style={{ maxWidth: 620, marginTop: 36 }}
         >
           <Body large>
-            NZ specialist AI agents and workflows designed to help business, teams and communities move through complexity with more control and clarity. Every workflow produces a pack that can be filed or audited — and stays current as the law changes.
+            NZ specialist AI agents and workflows designed to help business, teams and communities move through complexity with more control and clarity. Every workflow produces a pack that can be filed or audited - and stays current as the law changes.
           </Body>
         </motion.div>
 
@@ -827,7 +827,7 @@ export default function PearlIndex() {
     <>
       <SEO
         title="Assembl — Premium intelligence that understands what matters"
-        description="NZ specialist AI agents and workflows designed to help business, teams and communities move through complexity with more control and clarity. Every workflow produces a pack that can be filed or audited — and stays current as the law changes."
+        description="NZ specialist AI agents and workflows designed to help business, teams and communities move through complexity with more control and clarity. Every workflow produces a pack that can be filed or audited - and stays current as the law changes."
       />
       <div style={{ background: PEARL.bg, minHeight: "100vh" }}>
         <BrandNav />
