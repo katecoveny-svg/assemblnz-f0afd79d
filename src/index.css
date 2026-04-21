@@ -84,28 +84,28 @@ html {
 
 @layer base {
   :root {
-    /* PEARL SYSTEM — WARM PEARL update 2026-04-21 (sunlit, not moonlit) */
-    /* Warm Pearl canvas #FAF6EF, Linen alt #F4EFE6, Deep Calm #0E1513, Pounamu #1F4D47 */
-    --background: 39 47% 96%;             /* #FAF6EF Warm Pearl */
+    /* PEARL SYSTEM — ICY PEARL update 2026-04-21 (cool, luminous, moonlit dawn) */
+    /* Icy Pearl canvas #FBFAF7, Moonstone #F3F4F2, Opal Shimmer #E8EEEC, Deep Calm #0E1513, Pounamu #1F4D47 */
+    --background: 40 27% 98%;             /* #FBFAF7 Icy Pearl */
     --foreground: 168 30% 7%;             /* #0E1513 Deep Calm */
 
-    --card: 39 47% 98%;
+    --card: 40 27% 99%;
     --card-foreground: 168 30% 7%;
 
-    --popover: 39 47% 98%;
+    --popover: 40 27% 99%;
     --popover-foreground: 168 30% 7%;
 
     --primary: 173 42% 21%;               /* #1F4D47 Pounamu */
-    --primary-foreground: 39 47% 96%;
+    --primary-foreground: 40 27% 98%;
     --primary-glow: 173 30% 35%;
 
-    --secondary: 38 30% 93%;              /* #F4EFE6 Linen */
+    --secondary: 120 4% 95%;              /* #F3F4F2 Moonstone */
     --secondary-foreground: 168 30% 7%;
 
-    --muted: 38 30% 93%;
+    --muted: 120 4% 95%;
     --muted-foreground: 200 10% 40%;
 
-    --accent: 168 17% 80%;                /* #C4D6D2 Sea Glass */
+    --accent: 168 17% 92%;                /* #E8EEEC Opal Shimmer */
     --accent-foreground: 173 42% 21%;
     --destructive: 3 45% 56%;
     --destructive-foreground: 0 0% 100%;
@@ -173,11 +173,11 @@ html {
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.55;
     color: #0E1513;
-    background-color: #FAF6EF;
+    background-color: #FBFAF7;
     background-image:
-      radial-gradient(ellipse 70% 50% at 78% 10%, rgba(244,239,230,0.85) 0%, transparent 65%),
-      radial-gradient(ellipse 60% 55% at 18% 35%, rgba(232,238,236,0.45) 0%, transparent 70%),
-      radial-gradient(ellipse 80% 55% at 50% 95%, rgba(244,239,230,0.65) 0%, transparent 70%);
+      radial-gradient(ellipse 70% 50% at 78% 10%, rgba(232,238,236,0.7) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 55% at 18% 35%, rgba(232,238,236,0.55) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 55% at 50% 95%, rgba(243,244,242,0.75) 0%, transparent 70%);
     background-attachment: fixed;
   }
 
@@ -196,10 +196,10 @@ html {
   .text-pounamu { color: #1F4D47; }
   .text-deep-calm { color: #0E1513; }
   .text-ink-soft { color: rgba(14,21,19,0.65); }
-  .bg-icy-pearl { background-color: #FAF6EF; }
-  .bg-warm-pearl { background-color: #FAF6EF; }
-  .bg-linen { background-color: #F4EFE6; }
-  .bg-moonstone { background-color: #F4EFE6; }
+  .bg-icy-pearl { background-color: #FBFAF7; }
+  .bg-warm-pearl { background-color: #FBFAF7; }   /* alias kept for back-compat */
+  .bg-linen { background-color: #F3F4F2; }        /* now Moonstone */
+  .bg-moonstone { background-color: #F3F4F2; }
   .bg-harbour-ink { background-color: #1B2A2E; }
   .bg-opal-shimmer { background-color: #E8EEEC; }
   .border-sea-glass { border-color: #C4D6D2; }

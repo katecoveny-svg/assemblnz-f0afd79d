@@ -11,15 +11,15 @@ const HeroCloud = lazy(() =>
   import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.HeroCloud }))
 );
 
-/* ─── Pearl palette — WARM (sunlit) ─── */
+/* ─── Pearl palette — ICY (cool, luminous, moonlit dawn) ─── */
 const PEARL = {
-  bg: "#FAF6EF",         // Warm Pearl
-  linen: "#F4EFE6",      // Linen alt
-  moonstone: "#F4EFE6",  // alias for back-compat
+  bg: "#FBFAF7",         // Icy Pearl — primary canvas
+  linen: "#F3F4F2",      // Moonstone — section break tint
+  moonstone: "#F3F4F2",  // alias
+  opal: "#E8EEEC",       // Opal Shimmer — radial washes, globe feathering
   ink: "#0E1513",
   pounamu: "#1F4D47",
   seaGlass: "#C4D6D2",
-  opal: "#E8EEEC",
   harbour: "#1B2A2E",
 };
 

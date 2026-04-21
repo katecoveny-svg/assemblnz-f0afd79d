@@ -10,14 +10,14 @@ import workingImg from "@/assets/founder-kate-working.jpg";
 const PearlGlobe = lazy(() => import("@/components/pearl/PearlGlobe"));
 const DataRibbons = lazy(() => import("@/components/pearl/FluffyCloud"));
 
-/* Warm Pearl palette — same tokens as PearlIndex */
+/* Icy Pearl palette — same tokens as PearlIndex */
 const PEARL = {
-  bg: "#FAF6EF",
-  linen: "#F4EFE6",
+  bg: "#FBFAF7",         // Icy Pearl
+  linen: "#F3F4F2",      // Moonstone
   ink: "#0E1513",
   pounamu: "#1F4D47",
   seaGlass: "#C4D6D2",
-  opal: "#E8EEEC",
+  opal: "#E8EEEC",       // Opal Shimmer
   harbour: "#1B2A2E",
 };
 
