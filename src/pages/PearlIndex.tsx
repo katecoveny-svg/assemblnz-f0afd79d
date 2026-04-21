@@ -793,7 +793,7 @@ function PearlFooter() {
             marginBottom: 16,
           }}
         >
-          Assembl<span style={{ color: PEARL.pounamu }}>.</span>
+          assembl<span style={{ color: PEARL.pounamu }}>.</span>
         </p>
         <p
           style={{
