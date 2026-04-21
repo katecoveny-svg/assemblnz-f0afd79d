@@ -203,10 +203,10 @@ function Hero() {
           a constellation of fairy-light data nodes sparkling around it. */}
       <div
         className="absolute hidden md:flex items-center justify-center pointer-events-none"
-        style={{ top: "8%", right: "4%", width: 640, height: 700 }}
+        style={{ top: "4%", right: "-6%", width: 820, height: 880 }}
       >
         <Suspense fallback={null}>
-          <KeteFocus size={640} sparkles={52} priority />
+          <KeteFocus size={820} sparkles={58} rimSparkles={36} priority />
         </Suspense>
       </div>
       {/* Mobile: smaller kete tucked behind the copy */}
