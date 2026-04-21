@@ -570,10 +570,12 @@ export default function FluffyCloudScene({
 }
 
 /* ───────────────── Data network strand ─────────────────
- * Reads as a small constellation of connected data nodes — replaces the
- * old fairy-light strand. Each node connects to its 2 nearest neighbours;
- * lines pulse softly so the network feels alive.
+ * An obvious data network: nodes connected by lines with packets visibly
+ * travelling along each edge. Replaces the old fairy-light strand.
  */
+
+const NET_TEAL = "#5FB3A8";   // bright pounamu-teal — reads as "data"
+const NET_NODE = "#FFFFFF";
 
 export function FairyLightStrand({
   className = "",
@@ -592,11 +594,12 @@ export function FairyLightStrand({
 }) {
   const id = useMemo(() => `fl-${Math.random().toString(36).slice(2, 8)}`, []);
 
-  const nodeCount = Math.max(bulbs, 9);
+  // Always at least 12 nodes so the network reads as a real graph, not a strand.
+  const nodeCount = Math.max(bulbs, 12);
 
   const nodes = useMemo(() => {
     const list: { x: number; y: number; r: number; delay: number; dur: number }[] = [];
-    let s = 17 + bulbs;
+    let s = 17 + nodeCount + width;
     const rand = () => {
       s = (s * 9301 + 49297) % 233280;
       return s / 233280;
@@ -608,19 +611,20 @@ export function FairyLightStrand({
         direction === "drape"
           ? 4 * t * (1 - t) * (height * 0.55)
           : -4 * t * (1 - t) * (height * 0.4);
-      const baseY = height * 0.18 + arc;
+      const baseY = height * 0.22 + arc;
       list.push({
-        x: baseX + (rand() - 0.5) * (width / nodeCount) * 0.9,
-        y: baseY + (rand() - 0.5) * height * 0.35,
-        r: 1.4 + rand() * 0.9,
+        x: baseX + (rand() - 0.5) * (width / nodeCount) * 1.1,
+        y: baseY + (rand() - 0.5) * height * 0.55,
+        r: 1.6 + rand() * 1.0,
         delay: rand() * 4,
         dur: 2.4 + rand() * 3,
       });
     }
     return list;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bulbs, width, height, direction, nodeCount]);
+  }, [nodeCount, width, height, direction]);
 
+  // Each node connects to its 2 nearest neighbours.
   const edges = useMemo(() => {
     const out: { i: number; j: number; d: number }[] = [];
     for (let i = 0; i < nodes.length; i++) {
@@ -646,19 +650,24 @@ export function FairyLightStrand({
       aria-hidden="true"
     >
       <defs>
-        <radialGradient id={`${id}-bulb`}>
-          <stop offset="0%" stopColor="#FFFBE8" stopOpacity="1" />
-          <stop offset="40%" stopColor={CANDLE_WARM} stopOpacity="0.85" />
-          <stop offset="100%" stopColor={CANDLE_WARM} stopOpacity="0" />
+        <radialGradient id={`${id}-node`}>
+          <stop offset="0%" stopColor={NET_NODE} stopOpacity="1" />
+          <stop offset="45%" stopColor={NET_TEAL} stopOpacity="0.85" />
+          <stop offset="100%" stopColor={NET_TEAL} stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id={`${id}-packet`}>
+          <stop offset="0%" stopColor={NET_NODE} stopOpacity="1" />
+          <stop offset="60%" stopColor={NET_TEAL} stopOpacity="0.9" />
+          <stop offset="100%" stopColor={NET_TEAL} stopOpacity="0" />
         </radialGradient>
       </defs>
 
-      {/* Network edges — pulse so they read as live data flowing */}
+      {/* Edges */}
       {edges.map(({ i, j, d }, k) => {
         const a = nodes[i];
         const b = nodes[j];
-        const baseOp = Math.max(0.08, 0.5 - (d / maxD) * 0.32);
-        const dur = 2200 + (k % 5) * 700;
+        const baseOp = Math.max(0.18, 0.6 - (d / maxD) * 0.32);
+        const dur = 1800 + (k % 5) * 600;
         return (
           <line
             key={`e-${i}-${j}`}
@@ -666,13 +675,13 @@ export function FairyLightStrand({
             y1={a.y}
             x2={b.x}
             y2={b.y}
-            stroke={CANDLE_WARM}
-            strokeWidth={0.7}
+            stroke={NET_TEAL}
+            strokeWidth={0.8}
             strokeLinecap="round"
           >
             <animate
               attributeName="stroke-opacity"
-              values={`${baseOp * 0.3};${baseOp};${baseOp * 0.3}`}
+              values={`${baseOp * 0.45};${baseOp};${baseOp * 0.45}`}
               dur={`${dur}ms`}
               begin={`-${(k * 191) % dur}ms`}
               repeatCount="indefinite"
@@ -681,35 +690,59 @@ export function FairyLightStrand({
         );
       })}
 
-      {/* Faint pounamu thread between first/last node — gives the network a spine */}
-      {nodes.length > 1 && (
-        <line
-          x1={nodes[0].x}
-          y1={nodes[0].y}
-          x2={nodes[nodes.length - 1].x}
-          y2={nodes[nodes.length - 1].y}
-          stroke={POUNAMU}
-          strokeWidth={0.4}
-          strokeOpacity={0.1}
-        />
-      )}
+      {/* Data packets travelling along each edge */}
+      {edges.map(({ i, j }, k) => {
+        const a = nodes[i];
+        const b = nodes[j];
+        const dur = 2600 + (k % 7) * 500;
+        const reverse = k % 3 === 0;
+        return (
+          <circle
+            key={`p-${i}-${j}`}
+            r={1.4}
+            fill={`url(#${id}-packet)`}
+          >
+            <animate
+              attributeName="cx"
+              values={reverse ? `${b.x};${a.x}` : `${a.x};${b.x}`}
+              dur={`${dur}ms`}
+              begin={`-${(k * 313) % dur}ms`}
+              repeatCount="indefinite"
+            />
+            <animate
+              attributeName="cy"
+              values={reverse ? `${b.y};${a.y}` : `${a.y};${b.y}`}
+              dur={`${dur}ms`}
+              begin={`-${(k * 313) % dur}ms`}
+              repeatCount="indefinite"
+            />
+            <animate
+              attributeName="opacity"
+              values="0;1;1;0"
+              dur={`${dur}ms`}
+              begin={`-${(k * 313) % dur}ms`}
+              repeatCount="indefinite"
+            />
+          </circle>
+        );
+      })}
 
       {/* Nodes */}
       {nodes.map((d, i) => (
         <g key={i} transform={`translate(${d.x} ${d.y})`}>
-          <circle r={d.r * 5} fill={`url(#${id}-bulb)`} opacity={0.55}>
+          <circle r={d.r * 4.5} fill={`url(#${id}-node)`} opacity={0.6}>
             <animate
               attributeName="opacity"
-              values="0.25;0.85;0.3;0.7;0.25"
+              values="0.3;0.9;0.4;0.8;0.3"
               dur={`${d.dur}s`}
               begin={`${d.delay}s`}
               repeatCount="indefinite"
             />
           </circle>
-          <circle r={d.r} fill="#FFFBE8" opacity={0.95}>
+          <circle r={d.r} fill={NET_NODE} opacity={0.95}>
             <animate
               attributeName="opacity"
-              values="0.45;1;0.55;0.95;0.45"
+              values="0.5;1;0.6;0.95;0.5"
               dur={`${d.dur}s`}
               begin={`${d.delay}s`}
               repeatCount="indefinite"
