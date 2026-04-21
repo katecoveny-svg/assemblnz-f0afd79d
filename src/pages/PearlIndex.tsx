@@ -290,13 +290,7 @@ function Hero() {
 
 function WhyAssembl() {
   return (
-    <section className="relative" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}>
-      {/* Quiet globe top-right */}
-      <div className="absolute hidden lg:block" style={{ top: 80, right: "-4%", width: 280, height: 280 }}>
-        <Suspense fallback={null}>
-          <MiniCloud size={280} drift="slow" opacity={0.55} />
-        </Suspense>
-      </div>
+    <section className="relative overflow-hidden" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}>
 
       <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6">
         <Eyebrow>Why Assembl</Eyebrow>
