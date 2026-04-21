@@ -294,13 +294,13 @@ function WhyAssembl() {
 
       <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6">
         <Eyebrow>Why Assembl</Eyebrow>
-        <Serif size="lg">Assembl exists because time matters.</Serif>
+        <Serif size="lg">assembl exists because time matters.</Serif>
 
         <div style={{ marginTop: 40, display: "flex", flexDirection: "column", gap: 20 }}>
           {[
             "We know what overwork feels like. we know what constant motion costs.",
             "We know what it’s like to be stretched between ambition, responsibility, and family.",
-            "Assembl exists because time matters.",
+            "assembl exists because time matters.",
             "assembl is for New Zealand families, teams, and communities — for the people carrying too much at once, for the businesses trying to stay compliant as the law keeps changing, for the evenings that never start on time.",
           ].map((line, i) => (
             <p
