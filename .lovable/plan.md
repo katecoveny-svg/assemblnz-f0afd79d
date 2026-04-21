@@ -1,81 +1,63 @@
 
 
-# Memory · Symbiotic · Ambient — what's actually working, what isn't
+# End-to-end audit & remediation
 
-You asked a direct question. Here's the direct answer with evidence pulled live from the database and edge logs, then the smallest plan to make all three demonstrable for tomorrow.
+## Audit findings
 
----
+| Area | Status | Evidence |
+|---|---|---|
+| **Page scroll bouncing back** | 🔴 Broken | Lenis smooth-scroll mounted site-wide via `GlobalMotionShell` fights React route transitions and intercepts wheel/touch on long pages — re-anchors to top. |
+| **Live data → dashboards** | 🟢 Healthy (data side) | Knowledge brain: 119 active sources, 98 OK, 119/119 checked in 24h. 6 IoT functions present. |
+| **Memory persistence** | 🟢 Working | `agent_memory` 50 rows (48 in last 7d), `business_memory` 9, `shared_context` 2 (low — agents not writing back enough). `memory_extraction_queue` 10 backlog. |
+| **Inter-agent comms** | 🟡 Plumbing exists, low usage | `workflow_executions` only 11 rows total, `proactive_alerts` 19 in 7 days. Cross-pack `AGENT_KETE_MAP` exists in `pdfBranding.ts` but few real cross-kete handoffs firing. |
+| **Evidence packs** | 🔴 Mostly fake | Only 4 rows in `evidence_packs` table, all from 2026-04-11. Of 8 kete generators: 3 functional (Manaaki/Arataki/Auaha), 1 fully cosmetic (Waihanga `setTimeout`), 4 missing or orphaned. None produce a downloadable PDF. |
+| **Chat → branded PDF** | 🟡 Partial | `MessagePDFButton` exists (per-message), but no "generate evidence pack from this conversation" path. `pdfBranding.ts` is excellent and reusable. |
+| **Brand consistency** | 🟡 Mixed | Waihanga `EvidencePacks.tsx` still uses ochre/yellow `hsl(42,78%,60%)` — violates locked no-yellow rule. |
+| **Founder/About page** | 🟢 Ready for new images | Both pages structured cleanly with framer-motion sections. |
 
-## 1. Status — measured, not assumed
+## What I'll build
 
-| Layer | Wired in code | Has live data | Verdict |
-|---|---|---|---|
-| **Memory recall** (semantic, per user) | ✅ `memory-recall` edge fn + `match_agent_memory` RPC + `MemoryPanel` UI | ❌ `agent_memory` has **2 rows total**, **0 with embeddings** | **Plumbed but cold.** Recall returns nothing because nothing was extracted + embedded. |
-| **Memory persistence** (conversation → summary) | ✅ `compress-context` + `memory-extractor` edge fns; `contextCompression.ts` calls them | ❌ `conversation_summaries` has **0 rows**; `memory_extraction_queue` has **0 pending / 0 failed** | **Never fired.** The compressor is only invoked from a few legacy components, not from the live `chat` / `agent-router` / `tnz-inbound` flows. |
-| **Shared context** (cross-agent facts) | ✅ `shared_context` table + injected by `agent-router` as `sharedContextBlock` | ⚠️ **2 rows**, last update 2026-04-20 | **Working but thin.** The reader works, the writer (memory-extractor) isn't running, so it never grows. |
-| **Business memory** (tenant-level facts) | ✅ Read by every agent via `kete-default-handler` | ✅ **5 rows**, last update 2026-04-11 | **Working.** This is what the agents currently "remember" about a business. |
-| **Symbiotic agent triggers** (Manaaki booking → Pikau invoice etc.) | ✅ `symbioticBlock` injected into `agent-router` system prompt; `workflow_templates` table has **13 templates** | ❌ `workflow_executions` has **0 rows** | **Prompt-level only.** Agents are *told* about symbiotic peers but **no template has ever executed end-to-end.** No automation is firing. |
-| **Ambient / proactive** (daily 7am alerts per kete) | ✅ `generate-proactive-alerts` + `run-scheduled-task` + cron `process-agent-tasks` every 15 min | ⚠️ **19 active scheduled tasks**, last_run **2026-04-20 07:00 UTC**, run_count **2** each | **Cron is firing, but `proactive_alerts` table has 0 rows** — meaning the function runs but writes nothing. Likely failing silently. |
-| **Embedding worker** (turns memory → vectors) | ✅ `embed-worker` + `kb-embed-worker-5min` cron | ✅ Cron active, **0 pending in queue** | **Working** for KB; but `agent_memory` has no embeddings because nothing is enqueued for it. |
+### 1. Fix scroll-jump (highest impact — affects every page)
+- Disable Lenis on long content pages by extending `DISABLED_PREFIXES` in `GlobalMotionShell.tsx` to also skip `/founder`, `/about`, `/pricing`, `/how-it-works`, `/kete`, all `/*/dashboard` routes, `/knowledge-brain`, `/evidence-gallery`, etc. — keep Lenis only on the marketing index where it adds polish.
+- Add a tiny `ScrollToTop` component that runs `window.scrollTo(0,0)` on `pathname` change (fixes the related "new page opens scrolled mid-way" bug).
 
-**Honest one-liner:** the scaffolding is in. The flywheel has never spun. For a pitch tomorrow, this means if a prospect asks "show me memory" or "show me a symbiotic chain," the UI will say *here it is* but the data behind it is empty.
+### 2. Unified branded evidence-pack PDF service
+- Build `src/lib/evidencePackPdf.ts` — a single `generateEvidencePackPDF({kete, title, sections, sources, watermark, conversation?})` that uses existing `pdfBranding.ts` (header/footer/kete colours) and produces a Maunga-style cover, table of contents, body sections, source pointers, and signature block. Removes ochre — uses the locked teal/pounamu palette only.
+- Insert a row into `evidence_packs` and trigger client download.
 
----
+### 3. Wire every dashboard to the real generator
+- Replace the cosmetic `setTimeout` in `src/components/waihanga/EvidencePacks.tsx` with the real generator (Building Consent + Resource Consent packs).
+- Update `KeteEvidencePackPanel` (used by Manaaki, Auaha, Haven, etc.) to call the unified generator and download a PDF instead of just inserting a JSON row.
+- Add the same panel to `Pikau`, `Arataki`, `Ako`, `Hoko`, `Toro` dashboards (currently missing UI triggers).
 
-## 2. Root causes (three small bugs, not three big ones)
+### 4. Generate evidence pack from chat
+- Add a "Generate evidence pack" button to the chat composer toolbar (`ChatPage.tsx`) next to the existing per-message PDF button.
+- Posts the full conversation through a small client function: extracts agent claims + sources from the transcript, calls the unified generator, downloads branded PDF, and saves to `evidence_packs`.
+- The button is contextual — appears once 3+ assistant messages exist.
 
-1. **Memory write path is orphaned.** `compressAndLearn` exists but isn't called from `chat/index.ts`, `agent-router/index.ts`, or `tnz-inbound/index.ts` — the three entry points that actually serve traffic. So conversations finish, nothing gets summarised, nothing gets embedded, recall returns nothing.
+### 5. Lift inter-agent + proactive activity (light touch — surface what's already there)
+- Make sure `workflow_executions` and `proactive_alerts` are visible on each kete dashboard with a small "Cross-agent activity (last 7 days)" panel — drives confidence the symbiotic system is alive.
+- Audit `memory_extraction_queue` (10 stuck) — call `memory-extractor` to drain.
 
-2. **`generate-proactive-alerts` writes to wrong table or errors silently.** Cron is calling it (run_count = 2 yesterday), but `proactive_alerts` is empty. Either it inserts into `toroa_proactive_alerts` only (TŌRO-scoped), or it's throwing and the runner catches the error.
+### 6. Brand-consistency sweep on broken pages
+- `EvidencePacks.tsx` (Waihanga): replace `hsl(42,78%,60%)` ochre with `#3A7D6E` pounamu.
+- Spot-check the 4 dashboards we touch for any other yellow/emoji violations.
 
-3. **Symbiotic triggers are advisory, not executed.** The system prompt tells agents *"if X happens, hand off to Y"* — but there is no listener that watches `manaaki_workflow_records` for new bookings and writes a corresponding row to `pikau` / `auaha`. Nothing inserts into `workflow_executions`.
+### 7. Founder & About images
+- Add a placeholder grid of 3–4 image slots in `FounderPage.tsx` and `AboutPage.tsx`. **Awaiting your uploads.** Once you send them I'll drop them into `src/assets/` and wire the imports.
 
----
+## Technical notes
 
-## 3. Plan — get all three demonstrable in one short pass
+- PDF generation client-side (jspdf already in tree). No edge function needed for the standard packs.
+- Watermark format unchanged: `ASSEMBL-{KETE}-{timestamp}-{shortid}`.
+- All packs SIMULATED-flagged unless the input data is real (per evidence-bundles/generator.ts rules).
+- Scroll fix is route-config only — zero risk to chat/dashboard pages that own their scroll containers.
 
-### Fix A — turn memory persistence on (the biggest unlock)
-- Add a single `compressAndLearn` call at the end of every successful agent response in `agent-router/index.ts` and `tnz-inbound/index.ts` (gated to fire after every 6th message in a conversation, async, fire-and-forget so it never blocks the user reply).
-- Backfill once for the demo: run `memory-extractor` against the last 50 inbound/outbound SMS in `messaging_messages` for the admin tenant. This populates `conversation_summaries` + `agent_memory` so MemoryPanel shows real entries.
-- Trigger `memory-backfill-embeddings` once to vectorise the 2 existing rows + the new ones so `match_agent_memory` actually returns hits.
+## Out of scope for this pass
+- Deep redesign of dashboards (only fixing brand violations on touched files).
+- New IoT integrations (live-data plumbing already healthy).
+- Knowledge-brain new-source seeding (separate task already shipped 119 sources).
 
-### Fix B — make proactive alerts visible
-- Manually invoke `generate-proactive-alerts` once via `supabase--curl_edge_functions` and read the response + edge logs to find why it isn't writing to `proactive_alerts`.
-- Either point it at the right table or add the missing insert. Seed 3 demo alerts (one per Pikau, Manaaki, Waihanga) so the dashboard ambient ribbon has content.
-
-### Fix C — wire one symbiotic chain end-to-end (proof, not the whole grid)
-- Pick the cleanest pair: **Manaaki booking → Auaha thank-you draft.**
-- Add a Postgres trigger on `manaaki_workflow_records` that inserts a row into `workflow_executions` with `workflow_id = <auaha-thank-you-template>` and a `pending_human_approval` status (Draft-Only mode is locked).
-- Surface those pending workflows on `/admin/dashboard` so you can demo: *"a booking just landed, here's the draft Auaha already prepared, one click to approve."*
-- The other 12 templates remain dormant — we ship one working chain, not twelve broken ones.
-
-### Fix D — pitch-day script update
-- Add a 60-second Memory + Symbiotic beat to `/mnt/documents/pikau-demo-script.md`:
-  - Open MemoryPanel on `/pikau`, search "shipment" → see real summaries pulled from yesterday's SMS.
-  - On `/admin/dashboard`, show the Manaaki→Auaha draft sitting in the queue.
-  - Say: *"Memory persists. Agents hand off. Nothing sends without you."*
-
----
-
-## Files I'll touch
-
-| File | Change |
-|---|---|
-| `supabase/functions/agent-router/index.ts` | Add async `compress-context` call after final response |
-| `supabase/functions/tnz-inbound/index.ts` | Same |
-| `supabase/functions/generate-proactive-alerts/index.ts` | Fix the table-write bug, return diagnostics |
-| New migration | Trigger on `manaaki_workflow_records` → `workflow_executions` (draft) |
-| `src/pages/AdminDashboardPage.tsx` (or nearest equivalent) | Show pending symbiotic drafts panel |
-| Manual one-shot | Seed `conversation_summaries` from last 50 SMS + run embedding backfill |
-| `/mnt/documents/pikau-demo-script.md` | Add Memory + Symbiotic demo beat |
-
-## What I will NOT touch
-- No new image assets.
-- No re-skin work — Pricing/About drift stays flagged for post-pitch.
-- No rewriting the 13 workflow templates — only the Manaaki→Auaha pair gets a live trigger.
-- No autonomy escalation — every symbiotic action stays in Draft-Only with human approval, per the platform-wide hard lock.
-
-## Risk
-- The `generate-proactive-alerts` fix is blind until I see the actual edge log on a fresh invoke. If it's a deeper schema mismatch I'll seed `proactive_alerts` directly so the demo isn't blocked, and queue the proper fix post-pitch.
-- The Manaaki→Auaha trigger writes to a draft queue only — zero risk of an actual customer-facing send.
+## Question before I start
+Please send the founder/about images you want included. I'll add image slot placeholders now and swap them in when you upload — or I can wait and do the founder/about update in a single follow-up. Either way I'll proceed with items 1–6 immediately on approval.
 
