@@ -6,7 +6,7 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 
 const MiniCloud = lazy(() => import("@/components/pearl/MiniCloud"));
-const RoomCloud = lazy(() => import("@/components/pearl/RoomCloud"));
+const KeteFocus = lazy(() => import("@/components/pearl/KeteFocus"));
 const FeatherKete = lazy(() => import("@/components/pearl/FeatherKete"));
 const FairyLightStrand = lazy(() =>
   import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.FairyLightStrand }))
@@ -192,11 +192,31 @@ function Hero() {
       className="relative overflow-hidden"
       style={{ minHeight: "92vh", background: PEARL.bg }}
     >
-      {/* Hero is a calm "room" with a photoreal cumulus cloud floating inside.
-          The cloud reacts to cursor with parallax, ambient bob, and sparkles. */}
-      <div className="absolute inset-0">
+      {/* Soft icy backdrop wash */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 55% at 70% 40%, rgba(255,236,210,0.35) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 30% 70%, rgba(228,238,236,0.45) 0%, transparent 65%)",
+        }}
+      />
+      {/* The kete IS the hero — 3D woven basket with feathery plumes and
+          a constellation of fairy-light data nodes sparkling around it. */}
+      <div
+        className="absolute hidden md:flex items-center justify-center pointer-events-none"
+        style={{ top: "10%", right: "-2%", width: 620, height: 680 }}
+      >
         <Suspense fallback={null}>
-          <RoomCloud height={820} />
+          <KeteFocus size={580} sparkles={32} priority />
+        </Suspense>
+      </div>
+      {/* Mobile: smaller kete tucked behind the copy */}
+      <div
+        className="absolute md:hidden flex items-center justify-center pointer-events-none"
+        style={{ top: 40, left: "50%", transform: "translateX(-50%)", width: 360, height: 380, opacity: 0.55 }}
+      >
+        <Suspense fallback={null}>
+          <KeteFocus size={340} sparkles={18} priority />
         </Suspense>
       </div>
 
@@ -607,10 +627,10 @@ function LiveCompliance() {
           background: "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(232,238,236,0.55) 0%, transparent 70%)",
         }}
       />
-      {/* Centrepiece cloud */}
-      <div className="absolute hidden md:block" style={{ top: "50%", left: "50%", transform: "translate(-50%, -55%)", width: 460, height: 460, opacity: 0.7 }}>
+      {/* Centrepiece kete — sparkly fairy lights radiating around the woven basket */}
+      <div className="absolute hidden md:block" style={{ top: "50%", left: "50%", transform: "translate(-50%, -55%)", width: 520, height: 540, opacity: 0.85 }}>
         <Suspense fallback={null}>
-          <MiniCloud size={460} drift="slow" opacity={0.7} />
+          <KeteFocus size={500} sparkles={28} />
         </Suspense>
       </div>
 
@@ -760,20 +780,20 @@ function Closing() {
       {/* Soft closing ribbon */}
       {/* (closing ribbon removed) */}
 
-      {/* Largest cloud of the page, drifting behind the text */}
+      {/* Largest kete of the page, drifting behind the closing text */}
       <div
         className="absolute hidden md:block"
         style={{
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 720,
-          height: 720,
-          opacity: 0.6,
+          width: 760,
+          height: 780,
+          opacity: 0.7,
         }}
       >
         <Suspense fallback={null}>
-          <MiniCloud size={720} drift="slow" opacity={0.6} />
+          <KeteFocus size={720} sparkles={42} />
         </Suspense>
       </div>
 
