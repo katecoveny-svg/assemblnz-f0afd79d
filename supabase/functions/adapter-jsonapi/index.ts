@@ -54,7 +54,11 @@ Deno.serve(async (req) => {
     runId = run?.id ?? null;
 
     const cfg = (source.config ?? {}) as Record<string, string>;
-    const resp = await fetch(source.url, { headers: { Accept: "application/json" } });
+    const UA = "Mozilla/5.0 (compatible; AssemblBot/1.0; +https://assembl.co.nz)";
+    const resp = await fetch(source.url, {
+      headers: { Accept: "application/json, text/csv, */*", "User-Agent": UA },
+      redirect: "follow",
+    });
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const json = await resp.json();
     const items = dig(json, cfg.path);
