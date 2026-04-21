@@ -157,19 +157,19 @@ const BrandFooter = () => {
               fontWeight: 400,
             }}
           >
-            Intelligent tools for every New Zealand business — from the dairy owner in Timaru to the customs broker on the Auckland waterfront.
+            A platform of practical AI agents that finish the work — and give the time back.
           </p>
           <p
-            className="mt-4 lowercase"
+            className="mt-6 lowercase"
             style={{
               fontFamily: "'Inter', sans-serif",
               fontSize: 11,
-              letterSpacing: "0.18em",
-              color: PEARL.muted,
+              letterSpacing: "0.32em",
+              color: PEARL.pounamu,
               fontWeight: 500,
             }}
           >
-            from $29 / month · grounded in nz legislation · evidence packs, not chat
+            simulation-tested · policy-governed · human-in-the-loop
           </p>
         </div>
 
@@ -264,7 +264,7 @@ const BrandFooter = () => {
               color: PEARL.bodyInk,
             }}
           >
-            Built in Aotearoa, for Aotearoa — accessible to every NZ business.
+            Built in Aotearoa. Time is the thing — we give it back.
           </p>
           <Link
             to="/admin"

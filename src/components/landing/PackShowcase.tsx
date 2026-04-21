@@ -18,9 +18,9 @@ const PackShowcase = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <span className="font-mono-jb text-[10px] tracking-[4px] text-primary/60 uppercase mb-3">Industry Packs</span>
+        <span className="font-mono-jb text-[10px] tracking-[4px] text-primary/60 uppercase mb-3">The Ketes</span>
         <h2 className="text-2xl sm:text-4xl font-display tracking-wide text-foreground mt-2 mb-3 heading-glow section-heading" style={{ fontWeight: 400 }}>
-          Six kete. <span className="text-gradient-hero">Built for Aotearoa.</span>
+          One kete per industry. <span className="text-gradient-hero">One platform underneath.</span>
         </h2>
         <p className="text-sm font-body text-muted-foreground max-w-lg mx-auto">
           Every kete is grounded in NZ legislation and built for the way NZ businesses actually run.
