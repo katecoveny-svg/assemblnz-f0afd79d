@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
+import ResponsiveKeteImage from "@/components/kete/ResponsiveKeteImage";
 // Single source of truth — every kete across the site is the same white feathered kete.
 // Per-industry variants are accepted for backwards compatibility but always resolve
-// to the master image, so branding stays cohesive everywhere.
-import keteMaster from "@/assets/kete-white-master.png";
+// to the master image (delivered responsively via WebP/PNG srcset).
 
 /**
  * FeatherKete — photoreal woven feather kete used as a decorative
