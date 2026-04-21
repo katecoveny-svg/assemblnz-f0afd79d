@@ -53,7 +53,7 @@ export const PRICING = {
     period: '/mo',
     currency: 'NZD',
     setup: 0,
-    descriptor: 'SMS-first AI for NZ whānau — household coordination, no app, just text',
+    descriptor: 'A household that runs with less chasing.',
     features: [
       'SMS-first family agent',
       'Household coordination (school, meals, calendar)',
@@ -73,7 +73,7 @@ export const PRICING = {
     currency: 'NZD',
     setup: 590,
     setupNote: 'Splittable across first 3 invoices on request',
-    descriptor: 'Sole traders and micro-SMEs — one industry, one team, one source of truth',
+    descriptor: 'One specialist kete, plus the full platform.',
     features: [
       '1 industry kete (your pick)',
       'Cross-cutting agents: AROHA (HR), SIGNAL (security), SENTINEL (monitoring)',
@@ -98,7 +98,7 @@ export const PRICING = {
     currency: 'NZD',
     setup: 1290,
     setupNote: 'Splittable across first 3 invoices on request',
-    descriptor: 'Multi-discipline SMEs and growing teams — two industry ketes plus quarterly compliance review',
+    descriptor: 'Two specialist ketes, connected across the platform.',
     features: [
       '2 industry ketes (your pick)',
       'Cross-cutting agents: AROHA (HR), SIGNAL (security), SENTINEL (monitoring)',
@@ -123,7 +123,7 @@ export const PRICING = {
     currency: 'NZD',
     setup: 2890,
     setupNote: 'Splittable across first 3 invoices on request',
-    descriptor: 'Multi-site, regulated, high-stakes operations — every kete, the SLA, and a named human to call',
+    descriptor: 'Full platform access across every kete.',
     features: [
       'All 7 industry ketes + Tōro',
       'Cross-cutting agents: AROHA (HR), SIGNAL (security), SENTINEL (monitoring)',
@@ -149,7 +149,7 @@ export const PRICING = {
     currency: 'NZD',
     setup: null,
     setupNote: 'Per-engagement scope',
-    descriptor: 'Bespoke workflows where Assembl takes on the outcome — freight route optimisation, building maintenance scheduling, fleet uptime',
+    descriptor: 'For bespoke work where the evidence pack is part of the deliverable.',
     features: [
       'All 7 kete + Tōro + custom agent build',
       'Unlimited seats',
@@ -185,52 +185,52 @@ export const KETE = [
     key: 'manaaki',
     name: 'Manaaki',
     eng: 'Hospitality',
-    desc: 'Food Act plans, alcohol licences, toolbox talks, rosters, Holidays Act pay. Built for cafés, restaurants, and hotels.',
+    desc: 'Food diary, licensing, rostering — closed daily.',
   },
   {
     key: 'waihanga',
     name: 'Waihanga',
     eng: 'Construction',
-    desc: 'Site safety, Building Act consents, subcontractor payments, retention compliance, H&S at Work Act. Built for builders and trades.',
+    desc: 'Site inductions, consenting, H&S evidence — packed per project.',
   },
   {
     key: 'auaha',
     name: 'Auaha',
     eng: 'Creative',
-    desc: 'Contracts, invoicing, rights management, project briefs, agency ops. Built for design, media, and arts.',
+    desc: 'Contracts, IP clearance, invoicing — ready to send.',
   },
   {
     key: 'arataki',
     name: 'Arataki',
     eng: 'Automotive & Fleet',
-    desc: 'MVSA compliance, warrant of fitness workflows, RUC, fleet ops, Land Transport Act. Built for workshops, dealers, and fleet operators.',
+    desc: 'MVSA, RUC, WoF, Land Transport — current as the rules change.',
   },
   {
     key: 'pikau',
     name: 'Pikau',
     eng: 'Freight & Customs',
-    desc: 'Customs and Excise Act, MPI Import Health Standards, Biosecurity Act, freight docs, import/export ops. Built for logistics and customs brokers.',
+    desc: 'Customs & Excise, biosecurity, import health — evidence with every shipment.',
   },
   {
     key: 'hoko',
     name: 'Hoko',
     eng: 'Retail',
-    desc: 'CGA compliance, stock, supplier contracts, POS reconciliations, ecommerce. Built for retailers and online shops.',
+    desc: 'Compliance, stock, trading standards — closed by day’s end.',
   },
   {
     key: 'ako',
-    name: 'Ako',
-    eng: 'Early Childhood Education',
-    desc: 'Licensing criteria, ratio monitoring, parent communications, staff registration. Built for ECE centres and kindergartens.',
+    name: 'Āko',
+    eng: 'Early Childhood',
+    desc: 'Ratios, safety, registrations — filed, current, ready to show.',
   },
 ] as const;
 
 /** The consumer kete — separate ladder, $29/mo, no setup. */
 export const TORO_KETE = {
   key: 'toro',
-  name: 'Tōro',
+  name: 'Tōroa',
   eng: 'Family',
-  desc: 'Admin, contracts, school notices, household documents. Built for families running life.',
+  desc: 'The household load, properly organised. From $29/month.',
   href: '/toro',
 } as const;
 

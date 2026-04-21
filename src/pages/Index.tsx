@@ -84,11 +84,11 @@ const INDUSTRY_PACKS = KETE.map((k) => ({
   ...KETE_COLORS[k.key],
 }));
 
-/** Tōro — consumer/whānau kete, visually distinguished below the 7 industry tiles. */
+/** Tōroa — consumer/whānau kete, visually distinguished below the 7 industry tiles. */
 const TORO_PACK = {
-  reo: "Tōro",
+  reo: "Tōroa",
   en: "Family",
-  desc: "Admin, contracts, school notices, household documents. Built for families running life.",
+  desc: "The household load, properly organised. From $29/month.",
   color: C.ochre,
   accentLight: C.ochreLight,
   to: "/toro",
@@ -319,48 +319,58 @@ const Index = () => {
           </div>
         </Sect>
 
-        {/* ═══ WHAT WE DO ═══ */}
+        {/* ═══ WHAT ASSEMBL IS ═══ */}
         <Sect>
-          <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          <motion.div {...fade} className="text-center mb-14 max-w-[760px] mx-auto">
+            <SectionEyebrow>What assembl is</SectionEyebrow>
+            <SectionH2>Specialist AI agents that finish the work — and give time back.</SectionH2>
+            <SectionP>
+              Assembl is a New Zealand-built platform of specialist AI agents for hospitality, construction, automotive, freight, creative, retail, early childhood, and the household. Each one runs an end-to-end workflow and closes it with a single evidence pack: source-cited, audit-ready, dated, and current with New Zealand law.
+            </SectionP>
+          </motion.div>
+          <div className="max-w-[1080px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             <motion.div {...fade}>
-              <GlowCard>
-                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>— What we do —</p>
-                <p className="text-[18px] leading-[1.7] mb-6" style={{ fontWeight: 400, color: C.text }}>
-                  Assembl creates New Zealand business specialist operational workflows that reduce admin, surface risk earlier, and keep people in control.
-                </p>
-                <div className="my-6"><DotDivider /></div>
-                <p className="text-[15px] leading-[1.7]" style={{ fontWeight: 400, color: C.textSecondary }}>
-                  We help teams act faster with better information — not replace the people who know the work best.
+              <GlowCard className="h-full">
+                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>The work itself</p>
+                <p className="text-[17px] leading-[1.7]" style={{ fontWeight: 400, color: C.text }}>
+                  Specific to the work at hand: a food diary, a site induction, a customs clearance, a contract review, a WoF reminder, a privacy check. Assembl runs the loop in the background and hands you the finished pack — not another dashboard to manage.
                 </p>
               </GlowCard>
             </motion.div>
             <motion.div {...fade}>
-              <GlowCard className="text-center py-12">
-                <p className="text-[10px] tracking-[4px] uppercase mb-8" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}>Industry kete</p>
-                <div className="flex flex-wrap justify-center gap-3 mb-8">
-                  {PACKS.map((p) => (
-                    <Link to={p.to} key={p.reo} className="text-[10px] tracking-[1px] px-4 py-2.5 rounded-full transition-all duration-300 hover:scale-105"
-                      style={{ fontFamily: "'JetBrains Mono', monospace", color: C.text, border: `1px solid rgba(74,165,168,0.12)`, background: "rgba(255,255,255,0.5)" }}>
-                      <span style={{ color: p.color, fontWeight: 500 }}>{p.reo}</span> <span style={{ color: C.textTertiary }}>/ {p.en}</span>
-                    </Link>
-                  ))}
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="w-px h-10" style={{ background: `linear-gradient(to bottom, rgba(74,165,168,0.1), ${C.teal}60)` }} />
-                  <div className="w-6 h-6 rounded-full mt-2" style={{ background: C.teal, boxShadow: `0 4px 20px ${C.teal}30` }} />
-                  <p className="mt-3 text-[9px] tracking-[4px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>Iho Router</p>
-                </div>
+              <GlowCard className="h-full">
+                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>What it is for</p>
+                <p className="text-[17px] leading-[1.7]" style={{ fontWeight: 400, color: C.text }}>
+                  Assembl is not built to create more motion. It is built to return time. Every loop it closes gives something back: a minute, an hour, an evening, a little more room to think, decide, and be present.
+                </p>
               </GlowCard>
             </motion.div>
           </div>
         </Sect>
 
+        {/* ═══ WHY ASSEMBL ═══ */}
+        <Sect>
+          <motion.div {...fade} className="max-w-[720px] mx-auto text-center">
+            <SectionEyebrow>Why assembl</SectionEyebrow>
+            <SectionH2>Assembl exists because time matters.</SectionH2>
+            <p className="text-[16px] sm:text-[18px] leading-[1.75] mt-8 mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.text, fontWeight: 400 }}>
+              Assembl is built for New Zealand families, teams, and communities — for the people carrying too much at once, for the businesses trying to stay current as the rules keep changing, and for the evenings that never seem to start on time.
+            </p>
+            <p className="text-[16px] sm:text-[18px] leading-[1.75] mb-10" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.text, fontWeight: 400 }}>
+              It is based on a simple belief: AI should do more than make work faster. It should give people time back.
+            </p>
+            <p className="text-[18px] sm:text-[22px] leading-[1.55]" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, color: C.teal }}>
+              Time to think. Time to be present. Time for what matters most.
+            </p>
+          </motion.div>
+        </Sect>
+
         {/* ═══ INDUSTRY KETE — 7 industry tiles ═══ */}
         <Sect id="industry-packs">
           <motion.div {...fade} className="text-center mb-16">
-            <SectionEyebrow>Eight kete · accessible to every NZ business</SectionEyebrow>
-            <SectionH2>From the dairy in Timaru to the customs broker on the waterfront.</SectionH2>
-            <SectionP>Hospitality, construction, creative, automotive &amp; fleet, freight &amp; customs, retail, early childhood — and Tōro for whānau. Pick the one that fits. Operator gets one, Leader two, Enterprise all seven plus Tōro.</SectionP>
+            <SectionEyebrow>Specialist kete</SectionEyebrow>
+            <SectionH2>Choose the kete that fits the work.</SectionH2>
+            <SectionP>Pick the one that matches the work in front of you. Operator gets one, Leader two, Enterprise all seven plus Tōroa.</SectionP>
           </motion.div>
           <LayoutGroup>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1200px] mx-auto">
@@ -435,6 +445,65 @@ const Index = () => {
               Don't fit a pre-built kete? <Link to="/platform" className="underline" style={{ color: "#3A7D6E" }}>Operator-as-platform</Link> — same price, no kete bundle, you build on top of Iho. Used by professional services, tech, and consulting teams.
             </p>
           </div>
+        </Sect>
+
+        {/* ═══ LIVE COMPLIANCE ═══ */}
+        <Sect>
+          <motion.div {...fade} className="max-w-[760px] mx-auto text-center">
+            <SectionEyebrow>Live compliance</SectionEyebrow>
+            <SectionH2>Your compliance, kept current.</SectionH2>
+            <p className="text-[16px] sm:text-[17px] leading-[1.75] mt-6 mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.text, fontWeight: 400 }}>
+              When New Zealand law changes, Assembl updates centrally. Your workflows inherit the change automatically — without internal scramble, delayed SOP updates, or extra consultant spend.
+            </p>
+            <p className="text-[15px] leading-[1.7] mb-10" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", color: C.teal, fontWeight: 400 }}>
+              Live compliance. Plain English. Source-cited. Audit-ready.
+            </p>
+            <div className="inline-flex flex-wrap items-center justify-center gap-x-4 gap-y-2 px-5 py-3 rounded-full text-[10px] tracking-[3px] uppercase"
+              style={{
+                background: "rgba(255,255,255,0.65)",
+                border: `1px solid ${C.teal}22`,
+                backdropFilter: "blur(20px)",
+                fontFamily: "'JetBrains Mono', monospace",
+                color: C.text,
+              }}
+            >
+              <span>Simulation-tested</span>
+              <span style={{ opacity: 0.4 }}>·</span>
+              <span>Policy-governed</span>
+              <span style={{ opacity: 0.4 }}>·</span>
+              <span>Human-in-the-loop</span>
+            </div>
+          </motion.div>
+        </Sect>
+
+        {/* ═══ WHAT IT GIVES YOU BACK ═══ */}
+        <Sect>
+          <motion.div {...fade} className="max-w-[680px] mx-auto text-center">
+            <SectionEyebrow>What it gives you back</SectionEyebrow>
+            <SectionH2>The day, returned to you.</SectionH2>
+            <div className="mt-10 mb-12 space-y-3" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: "italic", color: C.text }}>
+              <p style={{ fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.5 }}>The kitchen, calmer by 6:45.</p>
+              <p style={{ fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.5 }}>The guest, welcomed properly.</p>
+              <p style={{ fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.5 }}>The team, present to the moment.</p>
+              <p style={{ fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.5, color: C.teal }}>The evening, starting on time.</p>
+            </div>
+            <Link
+              to="/kete"
+              data-magnetic
+              className="inline-flex items-center gap-2 px-7 py-4 rounded-full transition-transform duration-300 hover:-translate-y-px"
+              style={{
+                background: "#3A7D6E",
+                color: "#fff",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 12,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                boxShadow: "0 12px 40px -12px rgba(58,125,110,0.55)",
+              }}
+            >
+              Start with one kete <ArrowRight size={14} />
+            </Link>
+          </motion.div>
         </Sect>
 
         {/* ═══ REAL USE CASES ═══ */}
