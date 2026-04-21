@@ -295,14 +295,14 @@ const OnboardingPage = () => {
                       initial={{ opacity: 0, y: -8 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="text-sm font-medium mb-2"
-                      style={{ color: ACCENT, fontFamily: "'Lato', sans-serif" }}
+                      style={{ color: ACCENT, fontFamily: "'Cormorant Garamond', serif" }}
                     >
                       Kia ora! Pick your kete to start.
                     </motion.p>
                     <h1
                       className="text-2xl sm:text-3xl mb-2"
                       style={{
-                        fontFamily: "'Lato', sans-serif",
+                        fontFamily: "'Cormorant Garamond', serif",
                         fontWeight: 300,
                         letterSpacing: "-0.02em",
                         color: TEXT_PRIMARY,
@@ -310,7 +310,7 @@ const OnboardingPage = () => {
                     >
                       What industry are you in?
                     </h1>
-                    <p className="text-sm" style={{ color: TEXT_MUTED, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    <p className="text-sm" style={{ color: TEXT_MUTED, fontFamily: "'Inter', sans-serif" }}>
                       We'll personalise your experience with the right agents and templates.
                     </p>
                   </div>
@@ -343,7 +343,7 @@ const OnboardingPage = () => {
                             <div className="flex-1 min-w-0">
                               <p
                                 className="text-sm font-semibold"
-                                style={{ fontFamily: "'Lato', sans-serif", color: TEXT_PRIMARY }}
+                                style={{ fontFamily: "'Cormorant Garamond', serif", color: TEXT_PRIMARY }}
                               >
                                 {label}
                               </p>
@@ -372,7 +372,7 @@ const OnboardingPage = () => {
                     disabled={!selected}
                     className="w-full py-3.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.01]"
                     style={{
-                      fontFamily: "'Lato', sans-serif",
+                      fontFamily: "'Cormorant Garamond', serif",
                       background: ACCENT,
                       color: "#FFFFFF",
                       boxShadow: selected ? "0 8px 24px rgba(74,165,168,0.30)" : "none",
@@ -397,14 +397,14 @@ const OnboardingPage = () => {
                   <div>
                     <p
                       className="text-xs uppercase tracking-wider mb-2"
-                      style={{ color: ACCENT, fontFamily: "'Lato', sans-serif", letterSpacing: "0.12em" }}
+                      style={{ color: ACCENT, fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.12em" }}
                     >
                       {ind.reo} kete
                     </p>
                     <h1
                       className="text-2xl sm:text-3xl mb-2"
                       style={{
-                        fontFamily: "'Lato', sans-serif",
+                        fontFamily: "'Cormorant Garamond', serif",
                         fontWeight: 300,
                         letterSpacing: "-0.02em",
                         color: TEXT_PRIMARY,
@@ -421,7 +421,7 @@ const OnboardingPage = () => {
                   <div className="rounded-2xl p-5" style={cardStyle}>
                     <h3
                       className="text-[10px] uppercase tracking-wider font-semibold mb-4"
-                      style={{ color: ACCENT, letterSpacing: "0.12em", fontFamily: "'Lato', sans-serif" }}
+                      style={{ color: ACCENT, letterSpacing: "0.12em", fontFamily: "'Cormorant Garamond', serif" }}
                     >
                       Five key agents you'll use
                     </h3>
@@ -437,7 +437,7 @@ const OnboardingPage = () => {
                           <div className="flex-1">
                             <p
                               className="text-sm font-semibold"
-                              style={{ color: TEXT_PRIMARY, fontFamily: "'Lato', sans-serif" }}
+                              style={{ color: TEXT_PRIMARY, fontFamily: "'Cormorant Garamond', serif" }}
                             >
                               {agent.name}
                             </p>
@@ -454,7 +454,7 @@ const OnboardingPage = () => {
                   <div className="rounded-2xl p-5" style={cardStyle}>
                     <h3
                       className="text-[10px] uppercase tracking-wider font-semibold mb-4"
-                      style={{ color: ACCENT_DEEP, letterSpacing: "0.12em", fontFamily: "'Lato', sans-serif" }}
+                      style={{ color: ACCENT_DEEP, letterSpacing: "0.12em", fontFamily: "'Cormorant Garamond', serif" }}
                     >
                       Problems you'll solve
                     </h3>
@@ -511,7 +511,7 @@ const OnboardingPage = () => {
                       onClick={goToStep3}
                       className="flex-1 py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
                       style={{
-                        fontFamily: "'Lato', sans-serif",
+                        fontFamily: "'Cormorant Garamond', serif",
                         background: ACCENT,
                         color: "#FFFFFF",
                         boxShadow: "0 8px 24px rgba(74,165,168,0.30)",
@@ -553,7 +553,7 @@ const OnboardingPage = () => {
                     <h1
                       className="text-2xl sm:text-3xl"
                       style={{
-                        fontFamily: "'Lato', sans-serif",
+                        fontFamily: "'Cormorant Garamond', serif",
                         fontWeight: 300,
                         color: TEXT_PRIMARY,
                         letterSpacing: "-0.02em",
@@ -586,7 +586,7 @@ const OnboardingPage = () => {
                   <div className="rounded-2xl p-5" style={cardStyle}>
                     <h3
                       className="text-[10px] uppercase tracking-wider font-semibold mb-4"
-                      style={{ color: ACCENT, letterSpacing: "0.12em", fontFamily: "'Lato', sans-serif" }}
+                      style={{ color: ACCENT, letterSpacing: "0.12em", fontFamily: "'Cormorant Garamond', serif" }}
                     >
                       Quick start
                     </h3>
@@ -612,7 +612,7 @@ const OnboardingPage = () => {
                         <div className="flex-1">
                           <p
                             className="text-sm font-semibold"
-                            style={{ color: TEXT_PRIMARY, fontFamily: "'Lato', sans-serif" }}
+                            style={{ color: TEXT_PRIMARY, fontFamily: "'Cormorant Garamond', serif" }}
                           >
                             Talk to {packData.agents[0].name}
                           </p>
@@ -646,7 +646,7 @@ const OnboardingPage = () => {
                         <div className="flex-1">
                           <p
                             className="text-sm font-semibold"
-                            style={{ color: TEXT_PRIMARY, fontFamily: "'Lato', sans-serif" }}
+                            style={{ color: TEXT_PRIMARY, fontFamily: "'Cormorant Garamond', serif" }}
                           >
                             Browse every {ind.reo} agent
                           </p>
@@ -684,7 +684,7 @@ const OnboardingPage = () => {
                     }}
                     className="w-full py-3.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
                     style={{
-                      fontFamily: "'Lato', sans-serif",
+                      fontFamily: "'Cormorant Garamond', serif",
                       background: ACCENT,
                       color: "#FFFFFF",
                       boxShadow: "0 8px 24px rgba(74,165,168,0.30)",
