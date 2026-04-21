@@ -21,9 +21,9 @@ const MUTED = "#7A8294";
 /* ─── Animated SMS thread (the hero) ──────────────────────────── */
 const THREAD: { side: "you" | "toro"; text: string }[] = [
   { side: "you",  text: "Pick up Aroha at 3 — and I forgot the dentist form" },
-  { side: "toro", text: "Got you. Reminder set for 2:45 ✓ Dentist form drafted — want me to text it back ready to sign?" },
+  { side: "toro", text: "Got you. Reminder set for 2:45 — confirmed Dentist form drafted — want me to text it back ready to sign?" },
   { side: "you",  text: "Yes please. Also dinner — fridge is fish + spinach + kūmara" },
-  { side: "toro", text: "Done ✓ One-pan miso fish, kūmara, garlicky spinach. 22 min. Shopping list updated for Thursday." },
+  { side: "toro", text: "Done — one-pan miso fish, kūmara, garlicky spinach. 22 min. Shopping list updated for Thursday." },
   { side: "you",  text: "Mum's birthday next month?" },
   { side: "toro", text: "On it — 14 May. Booking suggestion + card + rough budget coming through tonight." },
 ];
