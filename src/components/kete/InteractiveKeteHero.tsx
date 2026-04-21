@@ -255,17 +255,34 @@ export default function InteractiveKeteHero({
             WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.5), transparent)",
           }}
         >
-          <ResponsiveKeteImage
-            displayWidth={Math.round(size * 0.85)}
-            alt=""
-            loading="lazy"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-              filter,
-            }}
-          />
+          {industryImage ? (
+            <img
+              src={industryImage}
+              alt=""
+              draggable={false}
+              loading="lazy"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                filter,
+                maskImage: "radial-gradient(ellipse 65% 70% at 50% 55%, black 50%, transparent 92%)",
+                WebkitMaskImage: "radial-gradient(ellipse 65% 70% at 50% 55%, black 50%, transparent 92%)",
+              }}
+            />
+          ) : (
+            <ResponsiveKeteImage
+              displayWidth={Math.round(size * 0.85)}
+              alt=""
+              loading="lazy"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                filter,
+              }}
+            />
+          )}
         </div>
 
         {/* The kete itself */}
@@ -283,13 +300,35 @@ export default function InteractiveKeteHero({
           }
           transition={{ type: "spring", stiffness: 180, damping: 18 }}
         >
-          <ResponsiveKeteImage
-            displayWidth={isCinematic ? Math.min(size, 900) : size}
-            alt={alt}
-            loading="eager"
-            fetchPriority={isCinematic ? "high" : "auto"}
-            style={{ width: "100%", height: "auto", display: "block" }}
-          />
+          {industryImage ? (
+            <img
+              src={industryImage}
+              alt={alt}
+              draggable={false}
+              loading="eager"
+              // @ts-expect-error fetchpriority is valid HTML
+              fetchpriority={isCinematic ? "high" : "auto"}
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block",
+                // Soft mask so the kete photo's cream background dissolves into the page —
+                // no boxed edge, no copy-paste look.
+                maskImage:
+                  "radial-gradient(ellipse 62% 72% at 50% 55%, black 48%, rgba(0,0,0,0.7) 70%, transparent 92%)",
+                WebkitMaskImage:
+                  "radial-gradient(ellipse 62% 72% at 50% 55%, black 48%, rgba(0,0,0,0.7) 70%, transparent 92%)",
+              }}
+            />
+          ) : (
+            <ResponsiveKeteImage
+              displayWidth={isCinematic ? Math.min(size, 900) : size}
+              alt={alt}
+              loading="eager"
+              fetchPriority={isCinematic ? "high" : "auto"}
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
+          )}
         </motion.div>
 
         {/* Subtle highlight rim that follows cursor (depth illusion) */}
