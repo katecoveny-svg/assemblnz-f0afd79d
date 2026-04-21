@@ -198,9 +198,9 @@ const KeteFocus = forwardRef<HTMLDivElement, KeteFocusProps>(function KeteFocus(
             width: "100%",
             height: "100%",
             objectFit: "contain",
-            opacity: 0.88,
+            opacity: 1,
             filter:
-              "drop-shadow(0 26px 36px rgba(80,55,30,0.16)) drop-shadow(0 8px 14px rgba(80,55,30,0.08))",
+              "drop-shadow(0 30px 44px rgba(80,55,30,0.22)) drop-shadow(0 12px 22px rgba(80,55,30,0.12))",
             userSelect: "none",
           }}
         />
