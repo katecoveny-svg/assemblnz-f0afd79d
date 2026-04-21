@@ -210,7 +210,7 @@ const SpecialistTeamGrid = () => (
 
       <div className="text-center">
         <Link
-          to="/content-hub"
+          to="/auaha"
           className="inline-flex items-center gap-2 text-xs px-6 py-3 rounded-xl transition-all duration-300"
           style={{
             fontFamily: "'Lato', sans-serif",
