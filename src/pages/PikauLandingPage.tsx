@@ -97,9 +97,9 @@ export default function PikauLandingPage() {
             }}
             variants={fadeUp} initial="hidden" animate="visible" custom={1}
           >
-            Border compliance,{" "}
+            Compliance and intelligence{" "}
             <em style={{ color: POUNAMU, fontStyle: "italic", fontWeight: 400 }}>
-              quietly closed.
+              that keeps freight moving.
             </em>
           </motion.h1>
 
