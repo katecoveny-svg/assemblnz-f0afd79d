@@ -42,34 +42,45 @@ interface Puff {
 }
 
 /** Hand-tuned cumulus silhouette inside a 1000×460 viewBox.
- *  Built like a soft floating cumulus halo — no flat base puddle,
- *  rounded underside so the kete sits inside the mist rather than
- *  resting on a saucer. */
+ *  Built as a VERTICAL organic halo around centre (500, 230) — taller
+ *  than wide, with rounded crown AND rounded base (no flat puddle).
+ *  The kete sits centred inside the mist, surrounded on all sides
+ *  rather than resting on a saucer. Puffs are placed roughly along
+ *  an ellipse with breathing radii so the silhouette feels alive. */
 const HERO_PUFFS: Puff[] = [
-  // ── back rim (cooler, larger, drifts behind) ──
-  { cx: 240, cy: 240, rx: 165, ry: 145, op: 0.5,  breath: 0.9, phase: 0.0, layer: 0 },
-  { cx: 400, cy: 210, rx: 200, ry: 170, op: 0.55, breath: 0.7, phase: 0.6, layer: 0 },
-  { cx: 560, cy: 195, rx: 225, ry: 180, op: 0.55, breath: 1.0, phase: 1.2, layer: 0 },
-  { cx: 720, cy: 215, rx: 200, ry: 170, op: 0.5,  breath: 0.8, phase: 1.8, layer: 0 },
-  { cx: 860, cy: 245, rx: 150, ry: 130, op: 0.45, breath: 0.6, phase: 2.4, layer: 0 },
+  // ── back rim (cooler, larger, drifts behind) — vertical oval ──
+  { cx: 360, cy: 130, rx: 150, ry: 145, op: 0.45, breath: 0.9, phase: 0.0, layer: 0 }, // upper-left
+  { cx: 500, cy: 95,  rx: 175, ry: 160, op: 0.55, breath: 1.0, phase: 0.6, layer: 0 }, // crown
+  { cx: 640, cy: 130, rx: 150, ry: 145, op: 0.45, breath: 0.7, phase: 1.2, layer: 0 }, // upper-right
+  { cx: 320, cy: 240, rx: 140, ry: 155, op: 0.5,  breath: 0.8, phase: 1.8, layer: 0 }, // mid-left
+  { cx: 680, cy: 240, rx: 140, ry: 155, op: 0.5,  breath: 0.8, phase: 2.4, layer: 0 }, // mid-right
+  { cx: 380, cy: 340, rx: 140, ry: 130, op: 0.45, breath: 0.6, phase: 3.0, layer: 0 }, // lower-left
+  { cx: 620, cy: 340, rx: 140, ry: 130, op: 0.45, breath: 0.6, phase: 3.4, layer: 0 }, // lower-right
+  { cx: 500, cy: 380, rx: 165, ry: 130, op: 0.5,  breath: 0.7, phase: 3.8, layer: 0 }, // base rim
 
-  // ── main warm pearl body (densest, brightest) — rounded silhouette, no flat base ──
-  { cx: 300, cy: 270, rx: 135, ry: 125, op: 0.92, breath: 0.5, phase: 0.3, layer: 1 },
-  { cx: 380, cy: 235, rx: 130, ry: 125, op: 0.98, breath: 0.8, phase: 0.9, layer: 1 },
-  { cx: 470, cy: 215, rx: 150, ry: 140, op: 1.0,  breath: 1.0, phase: 1.5, layer: 1 },
-  { cx: 560, cy: 210, rx: 160, ry: 150, op: 1.0,  breath: 0.9, phase: 2.1, layer: 1 },
-  { cx: 650, cy: 220, rx: 150, ry: 140, op: 1.0,  breath: 0.8, phase: 2.7, layer: 1 },
-  { cx: 730, cy: 245, rx: 135, ry: 125, op: 0.96, breath: 0.6, phase: 3.3, layer: 1 },
-  { cx: 800, cy: 280, rx: 110, ry: 100, op: 0.88, breath: 0.5, phase: 3.9, layer: 1 },
-  // soft, ROUNDED underbelly — wraps under the kete instead of forming a puddle
-  { cx: 440, cy: 295, rx: 110, ry: 95,  op: 0.85, breath: 0.4, phase: 4.2, layer: 1 },
-  { cx: 540, cy: 305, rx: 125, ry: 100, op: 0.88, breath: 0.4, phase: 4.5, layer: 1 },
-  { cx: 640, cy: 295, rx: 110, ry: 95,  op: 0.85, breath: 0.4, phase: 4.8, layer: 1 },
+  // ── main warm pearl body (densest, brightest) — vertical halo wrapping the kete ──
+  // crown
+  { cx: 410, cy: 130, rx: 110, ry: 110, op: 0.94, breath: 0.7, phase: 0.3, layer: 1 },
+  { cx: 500, cy: 110, rx: 130, ry: 120, op: 1.0,  breath: 0.9, phase: 0.9, layer: 1 },
+  { cx: 590, cy: 130, rx: 110, ry: 110, op: 0.94, breath: 0.7, phase: 1.5, layer: 1 },
+  // upper flanks
+  { cx: 350, cy: 200, rx: 110, ry: 120, op: 0.96, breath: 0.8, phase: 2.1, layer: 1 },
+  { cx: 650, cy: 200, rx: 110, ry: 120, op: 0.96, breath: 0.8, phase: 2.4, layer: 1 },
+  // mid-body flanks (these sit AROUND the kete, not above/below)
+  { cx: 320, cy: 270, rx: 105, ry: 115, op: 0.95, breath: 1.0, phase: 2.7, layer: 1 },
+  { cx: 680, cy: 270, rx: 105, ry: 115, op: 0.95, breath: 1.0, phase: 3.0, layer: 1 },
+  // lower flanks — curving back inward to close the halo
+  { cx: 360, cy: 340, rx: 110, ry: 115, op: 0.94, breath: 0.7, phase: 3.3, layer: 1 },
+  { cx: 640, cy: 340, rx: 110, ry: 115, op: 0.94, breath: 0.7, phase: 3.6, layer: 1 },
+  // ROUNDED base — three puffs that meet without forming a flat line
+  { cx: 430, cy: 395, rx: 100, ry: 95,  op: 0.88, breath: 0.5, phase: 3.9, layer: 1 },
+  { cx: 500, cy: 410, rx: 115, ry: 100, op: 0.92, breath: 0.6, phase: 4.2, layer: 1 },
+  { cx: 570, cy: 395, rx: 100, ry: 95,  op: 0.88, breath: 0.5, phase: 4.5, layer: 1 },
 
-  // ── sun-warmed highlight cap (golden-hour catching the top) ──
-  { cx: 430, cy: 195, rx: 80,  ry: 70,  op: 0.7,  breath: 0.9, phase: 1.0, layer: 2 },
-  { cx: 540, cy: 180, rx: 95,  ry: 80,  op: 0.78, breath: 1.0, phase: 1.7, layer: 2 },
-  { cx: 640, cy: 195, rx: 80,  ry: 70,  op: 0.7,  breath: 0.8, phase: 2.4, layer: 2 },
+  // ── sun-warmed highlight cap (golden-hour catching the top of the halo) ──
+  { cx: 440, cy: 90,  rx: 75,  ry: 65, op: 0.7,  breath: 0.9, phase: 1.0, layer: 2 },
+  { cx: 500, cy: 75,  rx: 95,  ry: 75, op: 0.82, breath: 1.0, phase: 1.7, layer: 2 },
+  { cx: 560, cy: 90,  rx: 75,  ry: 65, op: 0.7,  breath: 0.8, phase: 2.4, layer: 2 },
 ];
 
 /** Smaller wisp silhouette — a single billow with a flat base. */
@@ -201,7 +212,7 @@ export function HeroCloud({
           "transform",
           `translate(${tx} ${ty}) scale(${sc})`
         );
-        g.style.transformOrigin = "500px 250px";
+        g.style.transformOrigin = "500px 230px";
       }
       raf = requestAnimationFrame(tick);
     };
@@ -290,24 +301,25 @@ export function HeroCloud({
           </radialGradient>
         </defs>
 
-        {/* Golden-hour glow + pounamu mist — fixed behind, doesn't move with cursor */}
-        <ellipse cx="500" cy="240" rx="300" ry="180" fill="url(#goldenCore)" />
-        <ellipse cx="500" cy="270" rx="380" ry="200" fill="url(#pounamuMist)" />
+        {/* Golden-hour glow + pounamu mist — VERTICAL ovals so the underlying
+            light reinforces the halo silhouette instead of stretching it wide. */}
+        <ellipse cx="500" cy="230" rx="220" ry="260" fill="url(#goldenCore)" />
+        <ellipse cx="500" cy="240" rx="260" ry="290" fill="url(#pounamuMist)" />
 
         <g ref={cloudGroupRef}>
-          {/* Layer -1 — soft cool SHADOW underneath the cloud body. This is what
-              makes the white puffs read as VOLUME against the warm pearl canvas.
-              Offset down + right to suggest sunlight from upper-left. */}
-          <g filter="url(#cloudShadowBlur)" transform="translate(18 32)">
+          {/* Layer -1 — soft cool SHADOW underneath the cloud body. Offset only
+              slightly down + right so the halo gains depth without forming a
+              puddle/saucer beneath the kete. */}
+          <g filter="url(#cloudShadowBlur)" transform="translate(10 16)">
             {HERO_PUFFS.filter((p) => p.layer === 1).map((p, i) => (
               <ellipse
                 key={`sh${i}`}
                 cx={p.cx}
                 cy={p.cy}
-                rx={p.rx * 1.05}
-                ry={p.ry * 1.05}
+                rx={p.rx * 1.02}
+                ry={p.ry * 1.02}
                 fill="url(#cloudShadow)"
-                opacity={p.op * 0.85}
+                opacity={p.op * 0.55}
               />
             ))}
           </g>
