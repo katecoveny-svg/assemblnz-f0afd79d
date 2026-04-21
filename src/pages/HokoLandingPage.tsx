@@ -14,6 +14,8 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import LiveDataTiles, { loadLatestRegChange, loadComplianceScans, loadFuel } from "@/components/kete/LiveDataTiles";
+import { Scale, Fuel } from "lucide-react";
 import TextUsButton from "@/components/kete/TextUsButton";
 import HokoPriceScannerDemo from "@/components/hoko/HokoPriceScannerDemo";
 import HokoWorkflowExplorer from "@/components/hoko/HokoWorkflowExplorer";
@@ -292,10 +294,18 @@ export default function HokoLandingPage() {
           </div>
         </section>
 
-        {/* ── Compliance — single line + live status ── */}
+        {/* ── Compliance — single line + live status + live data tiles ── */}
         <section className="px-6 py-12">
-          <div className="max-w-3xl mx-auto text-center space-y-4">
+          <div className="max-w-3xl mx-auto text-center space-y-5">
             <LiveStatusStrip pack="hoko" agentCodes={["prism", "flux", "nova", "guardian"]} accent={POUNAMU} />
+            <LiveDataTiles
+              accent={POUNAMU}
+              tiles={[
+                { label: "Latest trading rule", source: "ComCom · Fair Trading", icon: Scale, load: () => loadLatestRegChange(["retail", "consumer", "grocery"]) },
+                { label: "Compliance pulse", source: "Daily NZ scan", icon: ShieldCheck, load: loadComplianceScans },
+                { label: "NZ fuel benchmark", source: "MBIE weekly monitor", icon: Fuel, load: loadFuel },
+              ]}
+            />
             <p className="text-xs" style={{ color: "#5B6374", letterSpacing: "0.02em" }}>
               <span style={{ color: POUNAMU, fontWeight: 500 }}>Governed by</span> Fair Trading Act 1986, Consumer Guarantees Act 1993, Privacy Act 2020, Commerce Commission Grocery Code.
             </p>

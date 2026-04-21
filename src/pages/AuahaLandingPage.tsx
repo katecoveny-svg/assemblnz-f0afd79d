@@ -11,6 +11,8 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import LiveDataTiles, { loadLatestRegChange, loadComplianceScans } from "@/components/kete/LiveDataTiles";
+import { Scale, ShieldCheck, Sparkles as SparklesIcon } from "lucide-react";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 
 import TextUsButton from "@/components/kete/TextUsButton";
@@ -340,8 +342,16 @@ export default function AuahaLandingPage() {
           </motion.div>
         </section>
 
-        <section className="px-6 pb-12 text-center">
+        <section className="px-6 pb-12 text-center space-y-5">
           <LiveStatusStrip pack="auaha" agentCodes={["prism", "creative", "nova", "aura", "pulse"]} accent="#3A7D6E" />
+          <LiveDataTiles
+            accent={POUNAMU}
+            tiles={[
+              { label: "IP & contracts", source: "Fair Trading · CCA 2002", icon: Scale, load: () => loadLatestRegChange(["creative", "advertising", "marketing"]) },
+              { label: "Compliance pulse", source: "Daily NZ scan", icon: ShieldCheck, load: loadComplianceScans },
+              { label: "Studio status", source: "Auaha agents", icon: SparklesIcon, load: async () => "5 / 5 specialist agents online" },
+            ]}
+          />
         </section>
         <BrandFooter />
         <KeteAgentChat

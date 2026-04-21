@@ -11,6 +11,8 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import LiveDataTiles, { loadConsents, loadConstructionMaterial, loadWeather } from "@/components/kete/LiveDataTiles";
+import { Hammer, Building2, CloudSun } from "lucide-react";
 import UseCaseToggle from "@/components/kete/UseCaseToggle";
 
 import TextUsButton from "@/components/kete/TextUsButton";
@@ -128,8 +130,20 @@ export default function WaihangaLandingPage() {
           </motion.p>
 
           {/* Live status strip */}
-          <motion.div className="mb-6" variants={fadeUp} initial="hidden" animate="visible" custom={2.5}>
+          <motion.div className="mb-5" variants={fadeUp} initial="hidden" animate="visible" custom={2.5}>
             <LiveStatusStrip pack="waihanga" agentCodes={["forge", "guardian", "operations", "vertex", "axis"]} accent={C.pounamu} />
+          </motion.div>
+
+          {/* Live data tiles — consents, materials, site weather */}
+          <motion.div className="w-full mb-8" variants={fadeUp} initial="hidden" animate="visible" custom={2.7}>
+            <LiveDataTiles
+              accent={C.pounamu}
+              tiles={[
+                { label: "Consents", source: "MBIE building stats", icon: Building2, load: loadConsents },
+                { label: "Timber price", source: "MBIE materials index", icon: Hammer, load: () => loadConstructionMaterial("timber") },
+                { label: "Auckland site", source: "Open-Meteo · NZ", icon: CloudSun, load: () => loadWeather("Auckland", -36.85, 174.76) },
+              ]}
+            />
           </motion.div>
 
           {/* Compliance — single line */}

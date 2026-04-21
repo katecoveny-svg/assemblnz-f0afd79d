@@ -12,6 +12,8 @@ import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
+import LiveDataTiles, { loadWeather, loadLatestRegChange, loadComplianceScans } from "@/components/kete/LiveDataTiles";
+import { CloudSun, Scale, ShieldCheck } from "lucide-react";
 import UseCaseToggle from "@/components/kete/UseCaseToggle";
 
 import TextUsButton from "@/components/kete/TextUsButton";
@@ -157,8 +159,20 @@ export default function ManaakiLandingPage() {
           </motion.p>
 
           {/* Live status strip */}
-          <motion.div className="mb-6" variants={fadeUp} initial="hidden" animate="visible" custom={2.5}>
+          <motion.div className="mb-5" variants={fadeUp} initial="hidden" animate="visible" custom={2.5}>
             <LiveStatusStrip pack="manaaki" agentCodes={["aura", "wellness", "creative", "operations", "guardian"]} accent={POUNAMU} />
+          </motion.div>
+
+          {/* Live data tiles — local weather, food/alcohol regs, compliance pulse */}
+          <motion.div className="w-full mb-8" variants={fadeUp} initial="hidden" animate="visible" custom={2.7}>
+            <LiveDataTiles
+              accent={POUNAMU}
+              tiles={[
+                { label: "Queenstown", source: "Open-Meteo · NZ", icon: CloudSun, load: () => loadWeather("Queenstown", -45.03, 168.66) },
+                { label: "Latest reg change", source: "MPI · Alcohol Regulator", icon: Scale, load: () => loadLatestRegChange(["hospitality", "food", "alcohol"]) },
+                { label: "Compliance pulse", source: "Daily NZ scan", icon: ShieldCheck, load: loadComplianceScans },
+              ]}
+            />
           </motion.div>
 
           {/* Compliance — single line */}
