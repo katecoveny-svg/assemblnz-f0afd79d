@@ -558,15 +558,6 @@ function HowItWorks() {
   ];
   return (
     <section className="relative overflow-hidden" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.linen }}>
-      {/* Fairy-light strand draping across the top of the section */}
-      <div className="absolute pointer-events-none" style={{ top: 24, left: "8%", right: "8%", display: "flex", justifyContent: "space-between" }}>
-        <Suspense fallback={null}>
-          <FairyLightStrand width={360} height={70} bulbs={8} direction="drape" />
-        </Suspense>
-        <Suspense fallback={null}>
-          <FairyLightStrand width={300} height={60} bulbs={6} direction="drape" />
-        </Suspense>
-      </div>
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10">
         <Eyebrow>How it works</Eyebrow>
         <Serif size="lg">Every workflow ends in a pack.</Serif>
