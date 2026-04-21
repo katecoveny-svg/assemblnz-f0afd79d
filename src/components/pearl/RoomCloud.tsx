@@ -232,16 +232,76 @@ export default function RoomCloud({ height = 640, className = "" }: RoomCloudPro
         />
       </div>
 
-      {/* ── Sparkles — warm fairy lights inside/around the cloud ── */}
+      {/* ── Data network — sparkles are nodes, lines are connections ── */}
       <div
         ref={sparklesRef}
         className="absolute inset-0 pointer-events-none"
         style={{ willChange: "transform" }}
       >
+        {/* SVG layer for the connection lines between nodes */}
+        <svg
+          className="absolute inset-0 w-full h-full"
+          style={{ overflow: "visible" }}
+          aria-hidden
+        >
+          <defs>
+            <linearGradient id="dataLine" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor={CANDLE_WARM} stopOpacity="0" />
+              <stop offset="50%" stopColor={CANDLE_WARM} stopOpacity="0.55" />
+              <stop offset="100%" stopColor={CANDLE_WARM} stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          {(() => {
+            // Build connections: each node links to its 2 nearest neighbours.
+            // Positions in % of wrap (matching the node placement below).
+            const nodes = sparkles.map((s) => ({
+              x: 8 + s.x * 0.84,
+              y: 12 + s.y * 0.6,
+              depth: s.depth,
+            }));
+            const lines: { i: number; j: number; d: number }[] = [];
+            for (let i = 0; i < nodes.length; i++) {
+              const dists = nodes
+                .map((n, j) => ({
+                  j,
+                  d: Math.hypot(n.x - nodes[i].x, n.y - nodes[i].y),
+                }))
+                .filter((x) => x.j !== i)
+                .sort((a, b) => a.d - b.d)
+                .slice(0, 2);
+              for (const { j, d } of dists) {
+                if (i < j) lines.push({ i, j, d });
+              }
+            }
+            return lines.map(({ i, j, d }, k) => {
+              const a = nodes[i];
+              const b = nodes[j];
+              // fade longer lines so the network feels organic
+              const opacity = Math.max(0.05, 0.32 - d * 0.012);
+              const dur = 3000 + (k % 7) * 600;
+              return (
+                <line
+                  key={`l-${i}-${j}`}
+                  x1={`${a.x}%`}
+                  y1={`${a.y}%`}
+                  x2={`${b.x}%`}
+                  y2={`${b.y}%`}
+                  stroke={CANDLE_WARM}
+                  strokeWidth={0.6}
+                  strokeOpacity={opacity}
+                  style={{
+                    animation: `dataLinePulse ${dur}ms ease-in-out infinite`,
+                    animationDelay: `-${(k * 213) % dur}ms`,
+                  }}
+                />
+              );
+            });
+          })()}
+        </svg>
+
         {sparkles.map((s, i) => {
-          // map cloud-local % to wrap %
-          const left = 8 + s.x * 0.84; // cloud spans roughly 8%-92%
-          const top = 12 + s.y * 0.6; // cloud spans roughly 12%-72% of wrap
+          const left = 8 + s.x * 0.84;
+          const top = 12 + s.y * 0.6;
           const ringSize = s.size * 6;
           const baseOpacity = 0.35 + s.depth * 0.55;
           return (
@@ -271,7 +331,7 @@ export default function RoomCloud({ height = 640, className = "" }: RoomCloudPro
                   opacity: baseOpacity,
                 }}
               />
-              {/* bright pinpoint */}
+              {/* bright pinpoint — the "data node" */}
               <div
                 style={{
                   position: "absolute",
@@ -302,6 +362,10 @@ export default function RoomCloud({ height = 640, className = "" }: RoomCloudPro
         @keyframes roomSparklePoint {
           0%, 100% { opacity: 0.4; }
           50%      { opacity: 1; }
+        }
+        @keyframes dataLinePulse {
+          0%, 100% { stroke-opacity: 0.08; }
+          50%      { stroke-opacity: 0.45; }
         }
       `}</style>
     </div>

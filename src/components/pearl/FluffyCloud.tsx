@@ -569,13 +569,17 @@ export default function FluffyCloudScene({
   );
 }
 
-/* ───────────────── Fairy light strand ───────────────── */
+/* ───────────────── Data network strand ─────────────────
+ * Reads as a small constellation of connected data nodes — replaces the
+ * old fairy-light strand. Each node connects to its 2 nearest neighbours;
+ * lines pulse softly so the network feels alive.
+ */
 
 export function FairyLightStrand({
   className = "",
   width = 320,
   height = 90,
-  bulbs = 7,
+  bulbs = 9,
   direction = "drape",
   style,
 }: {
@@ -587,36 +591,50 @@ export function FairyLightStrand({
   style?: React.CSSProperties;
 }) {
   const id = useMemo(() => `fl-${Math.random().toString(36).slice(2, 8)}`, []);
-  const sag = direction === "drape" ? height * 0.55 : -height * 0.35;
-  const startX = 4;
-  const endX = width - 4;
-  const midX = width / 2;
-  const startY = 8;
-  const endY = 8;
-  const midY = startY + sag;
 
-  const ptAt = (t: number) => {
-    const x = (1 - t) * (1 - t) * startX + 2 * (1 - t) * t * midX + t * t * endX;
-    const y = (1 - t) * (1 - t) * startY + 2 * (1 - t) * t * midY + t * t * endY;
-    return { x, y };
-  };
+  const nodeCount = Math.max(bulbs, 9);
 
-  const dots = useMemo(
-    () =>
-      Array.from({ length: bulbs }, (_, i) => {
-        const t = (i + 0.5) / bulbs;
-        const { x, y } = ptAt(t);
-        return {
-          x,
-          y,
-          delay: (Math.random() * 4).toFixed(2),
-          dur: (2.5 + Math.random() * 3).toFixed(2),
-          r: 1.4 + Math.random() * 0.8,
-        };
-      }),
+  const nodes = useMemo(() => {
+    const list: { x: number; y: number; r: number; delay: number; dur: number }[] = [];
+    let s = 17 + bulbs;
+    const rand = () => {
+      s = (s * 9301 + 49297) % 233280;
+      return s / 233280;
+    };
+    for (let i = 0; i < nodeCount; i++) {
+      const t = (i + 0.5) / nodeCount;
+      const baseX = 8 + t * (width - 16);
+      const arc =
+        direction === "drape"
+          ? 4 * t * (1 - t) * (height * 0.55)
+          : -4 * t * (1 - t) * (height * 0.4);
+      const baseY = height * 0.18 + arc;
+      list.push({
+        x: baseX + (rand() - 0.5) * (width / nodeCount) * 0.9,
+        y: baseY + (rand() - 0.5) * height * 0.35,
+        r: 1.4 + rand() * 0.9,
+        delay: rand() * 4,
+        dur: 2.4 + rand() * 3,
+      });
+    }
+    return list;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [bulbs, width, height, direction]
-  );
+  }, [bulbs, width, height, direction, nodeCount]);
+
+  const edges = useMemo(() => {
+    const out: { i: number; j: number; d: number }[] = [];
+    for (let i = 0; i < nodes.length; i++) {
+      const ranked = nodes
+        .map((n, j) => ({ j, d: Math.hypot(n.x - nodes[i].x, n.y - nodes[i].y) }))
+        .filter((x) => x.j !== i)
+        .sort((a, b) => a.d - b.d)
+        .slice(0, 2);
+      for (const { j, d } of ranked) if (i < j) out.push({ i, j, d });
+    }
+    return out;
+  }, [nodes]);
+
+  const maxD = edges.reduce((m, e) => Math.max(m, e.d), 1);
 
   return (
     <svg
@@ -634,15 +652,50 @@ export function FairyLightStrand({
           <stop offset="100%" stopColor={CANDLE_WARM} stopOpacity="0" />
         </radialGradient>
       </defs>
-      <path
-        d={`M ${startX} ${startY} Q ${midX} ${midY} ${endX} ${endY}`}
-        stroke={POUNAMU}
-        strokeWidth={0.6}
-        strokeOpacity={0.22}
-        fill="none"
-        strokeLinecap="round"
-      />
-      {dots.map((d, i) => (
+
+      {/* Network edges — pulse so they read as live data flowing */}
+      {edges.map(({ i, j, d }, k) => {
+        const a = nodes[i];
+        const b = nodes[j];
+        const baseOp = Math.max(0.08, 0.5 - (d / maxD) * 0.32);
+        const dur = 2200 + (k % 5) * 700;
+        return (
+          <line
+            key={`e-${i}-${j}`}
+            x1={a.x}
+            y1={a.y}
+            x2={b.x}
+            y2={b.y}
+            stroke={CANDLE_WARM}
+            strokeWidth={0.7}
+            strokeLinecap="round"
+          >
+            <animate
+              attributeName="stroke-opacity"
+              values={`${baseOp * 0.3};${baseOp};${baseOp * 0.3}`}
+              dur={`${dur}ms`}
+              begin={`-${(k * 191) % dur}ms`}
+              repeatCount="indefinite"
+            />
+          </line>
+        );
+      })}
+
+      {/* Faint pounamu thread between first/last node — gives the network a spine */}
+      {nodes.length > 1 && (
+        <line
+          x1={nodes[0].x}
+          y1={nodes[0].y}
+          x2={nodes[nodes.length - 1].x}
+          y2={nodes[nodes.length - 1].y}
+          stroke={POUNAMU}
+          strokeWidth={0.4}
+          strokeOpacity={0.1}
+        />
+      )}
+
+      {/* Nodes */}
+      {nodes.map((d, i) => (
         <g key={i} transform={`translate(${d.x} ${d.y})`}>
           <circle r={d.r * 5} fill={`url(#${id}-bulb)`} opacity={0.55}>
             <animate
