@@ -48,11 +48,12 @@ const BrandNav = () => {
   const { profile, isPersonalized } = usePersonalization();
 
   // Pearl brand tokens (single source of truth — matches PearlIndex)
+  // Warm Pearl + Forest Ink — never black, never cool blue-white.
   const PEARL = {
-    bg: "#FBFAF7",
-    ink: "#0E1513",
+    bg: "#FAF6EF",      // Warm Pearl canvas
+    ink: "#0F2A26",     // Forest Ink (deep pounamu, never black)
     pounamu: "#1F4D47",
-    muted: "#8B8479",
+    muted: "#7A8B82",   // warm sea-glass muted (was cool #8B8479)
     opal: "#E8EEEC",
   };
 
@@ -95,10 +96,10 @@ const BrandNav = () => {
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
         className="absolute top-full right-0 mt-2 z-20 w-[280px] rounded-2xl p-2 space-y-0.5"
         style={{
-          background: "rgba(251,250,247,0.96)",
+          background: "rgba(250,246,239,0.96)",
           backdropFilter: "blur(24px) saturate(140%)",
           border: `1px solid ${PEARL.opal}`,
-          boxShadow: "0 18px 48px -12px rgba(31,77,71,0.18), 0 4px 12px -4px rgba(14,21,19,0.08)",
+          boxShadow: "0 18px 48px -12px rgba(31,77,71,0.18), 0 4px 12px -4px rgba(15,42,38,0.08)",
         }}>
         {items.map(item => {
           const isDetected = item.label === detectedLabel;
@@ -165,7 +166,7 @@ const BrandNav = () => {
       <header
         className="sticky top-0 z-[9999] flex items-center gap-3 px-5 sm:px-8 h-16 overflow-visible"
         style={{
-          background: "rgba(251,250,247,0.82)",
+          background: "rgba(250,246,239,0.82)",
           backdropFilter: "blur(20px) saturate(140%)",
           borderBottom: `1px solid ${PEARL.opal}`,
         }}
@@ -211,7 +212,7 @@ const BrandNav = () => {
               style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: 13, color: PEARL.muted }}
               onMouseEnter={e => (e.currentTarget.style.color = PEARL.ink)}
               onMouseLeave={e => (e.currentTarget.style.color = PEARL.muted)}>
-              Industry Kete
+              Ketes
               <ChevronDown size={12} className={`transition-transform ${packsOpen ? "rotate-180" : ""}`} />
             </button>
             <AnimatePresence>
@@ -247,7 +248,7 @@ const BrandNav = () => {
               color: PEARL.bg,
               boxShadow: "0 10px 30px -12px rgba(31,77,71,0.45)",
             }}>
-            Start a pilot
+            Start with one kete
           </button>
 
           <AccountDropdown />
@@ -263,10 +264,10 @@ const BrandNav = () => {
       <AnimatePresence>
         {mobileOpen && (
           <>
-            <motion.div className="fixed inset-0 z-[60]" style={{ background: "rgba(14,21,19,0.18)" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileOpen(false)} />
+            <motion.div className="fixed inset-0 z-[60]" style={{ background: "rgba(15,42,38,0.18)" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileOpen(false)} />
             <motion.div className="fixed top-0 right-0 bottom-0 z-[70] w-[300px] flex flex-col overflow-y-auto"
               style={{
-                background: "rgba(251,250,247,0.96)",
+                background: "rgba(250,246,239,0.96)",
                 backdropFilter: "blur(24px)",
                 borderLeft: `1px solid ${PEARL.opal}`,
               }}
@@ -289,7 +290,7 @@ const BrandNav = () => {
                 ))}
 
                 <div className="pt-3 pb-1">
-                  <span className="px-4" style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: "0.18em", textTransform: "lowercase", color: PEARL.muted }}>industry kete</span>
+                  <span className="px-4" style={{ fontFamily: "'Inter', sans-serif", fontSize: 10, letterSpacing: "0.18em", textTransform: "lowercase", color: PEARL.muted }}>ketes</span>
                 </div>
                 {KETE.map(pack => (
                   <button key={pack.label} onClick={() => handleNavClick(pack.to)}
@@ -328,7 +329,7 @@ const BrandNav = () => {
                     boxShadow: "0 10px 30px -12px rgba(31,77,71,0.45)",
                   }}
                   onClick={() => { setMobileOpen(false); handleNavClick("/contact"); }}>
-                  Start a pilot
+                  Start with one kete
                 </button>
                 <AccountDropdown />
                 <button

@@ -5,18 +5,19 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
 /* ─── Pearl brand tokens (single source of truth) ─── */
+/* Warm Pearl + Forest Ink — never black, never cool blue-white. */
 const PEARL = {
-  bg: "#FBFAF7",
-  ink: "#0E1513",
+  bg: "#FAF6EF",      // Warm Pearl canvas
+  ink: "#0F2A26",     // Forest Ink
   pounamu: "#1F4D47",
-  muted: "#8B8479",
+  muted: "#7A8B82",
   opal: "#E8EEEC",
-  bodyInk: "rgba(14,21,19,0.72)",
+  bodyInk: "rgba(15,42,38,0.72)",
 };
 
 const FOOTER_LINKS = {
   Platform: [
-    { to: "/#industry-packs", label: "Your industry" },
+    { to: "/#ketes", label: "Your industry" },
     { to: "/showcase", label: "Showcase" },
     { to: "/pricing", label: "Pricing" },
     { to: "/how-it-works", label: "How it works" },
@@ -30,7 +31,7 @@ const FOOTER_LINKS = {
     { to: "/demos/confidence-scoring", label: "Confidence scoring" },
     { to: "/demos/kaitiaki-gate", label: "Kaitiaki gate" },
   ],
-  "Industry Kete": [
+  "Ketes": [
     { to: "/manaaki", label: "Manaaki — Hospitality" },
     { to: "/waihanga/about", label: "Waihanga — Construction" },
     { to: "/auaha/about", label: "Auaha — Creative" },
