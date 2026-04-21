@@ -7470,6 +7470,43 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
     }
    }
   }
+  // ═══ MEMORY EXTRACTION QUEUE — fire-and-forget enqueue (debounced 10min/conversation) ═══
+  if (userId && content) {
+    try {
+      // Use sessionId as a stable conversation grouping; fall back to userId+agentId
+      const conversationId = (body as any)?.sessionId || (body as any)?.conversationId || `${userId}:${agentId}`;
+      const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+      const { data: recent } = await sb
+        .from("memory_extraction_queue")
+        .select("id")
+        .eq("conversation_id", conversationId)
+        .gte("created_at", tenMinAgo)
+        .limit(1);
+      if (!recent || recent.length === 0) {
+        await sb.from("memory_extraction_queue").insert({
+          tenant_id: null,
+          user_id: userId,
+          conversation_id: conversationId,
+          status: "pending",
+        });
+      }
+
+      // Also write a lightweight conversation_summaries row so MemoryPanel has searchable text now
+      const lastUserText = typeof lastMsgText === "string" ? lastMsgText : "(attachment)";
+      if (lastUserText.length >= 40) {
+        await sb.from("conversation_summaries").insert({
+          user_id: userId,
+          agent_id: agentId,
+          summary: `${agentId}: ${lastUserText.slice(0, 200)}${lastUserText.length > 200 ? "…" : ""} → ${(content || "").slice(0, 160)}${(content || "").length > 160 ? "…" : ""}`,
+          key_facts_extracted: {},
+          original_message_count: 1,
+          compression_level: 0,
+        });
+      }
+    } catch (memErr) {
+      console.warn("memory enqueue failed (non-critical):", memErr);
+    }
+  }
  } catch (logErr) {
   console.error("Post-response logging error (non-critical):", logErr);
  }

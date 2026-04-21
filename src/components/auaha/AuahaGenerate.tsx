@@ -195,7 +195,40 @@ export default function AuahaGenerate() {
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
 
-      const resultUrl = genType === "image" ? data?.imageUrl : data?.videoUrl;
+      let resultUrl: string | undefined = genType === "image" ? data?.imageUrl : data?.videoUrl;
+
+      // ── Video: Fal.ai returns a requestId — poll for completion ──
+      if (genType === "video" && !resultUrl && data?.requestId) {
+        setJobs(prev => prev.map(j => j.id === jobId ? {
+          ...j,
+          audit: [...j.audit, addAudit(jobId, "ta", "polling", `Job submitted to Fal.ai (${data.requestId.slice(0,8)}). Polling for completion...`, "pending")],
+        } : j));
+
+        // Poll up to 90 seconds (Kling typically completes in 30-60s)
+        const maxPolls = 30;
+        for (let i = 0; i < maxPolls; i++) {
+          await new Promise(r => setTimeout(r, 3000));
+          try {
+            const { data: pollData, error: pollErr } = await supabase.functions.invoke("generate-video", {
+              body: { action: "poll", requestId: data.requestId, prompt },
+            });
+            if (pollErr) continue;
+            if (pollData?.status === "completed" && pollData?.videoUrl) {
+              resultUrl = pollData.videoUrl;
+              break;
+            }
+            if (pollData?.status === "failed" || pollData?.status === "error") {
+              throw new Error("Fal.ai generation failed");
+            }
+          } catch (pe) {
+            console.warn("poll iter failed:", pe);
+          }
+        }
+
+        if (!resultUrl) throw new Error("Video generation timed out after 90s — try Runway or a shorter prompt");
+      }
+
+      if (!resultUrl) throw new Error(`No ${genType} returned by ${resolvedModel.label}`);
 
       // ── Stage 4: Tā post-generation audit ───────────────
       const completedAudit = addAudit(jobId, "ta", "generation_complete", `Output received from ${resolvedModel.provider}. URL stored.`, "complete");
