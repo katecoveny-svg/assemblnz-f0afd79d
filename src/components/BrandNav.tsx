@@ -173,7 +173,14 @@ const BrandNav = () => {
         <Link to="/" className="flex items-center gap-3 group shrink-0">
           <Nav3DKeteLogo size={36} />
           <span
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "lowercase", fontSize: "13px", color: "#3D4250" }}
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontWeight: 400,
+              letterSpacing: "0.04em",
+              textTransform: "lowercase",
+              fontSize: "20px",
+              color: PEARL.ink,
+            }}
           >
             assembl
           </span>
@@ -184,10 +191,15 @@ const BrandNav = () => {
         <nav className="hidden lg:flex items-center gap-1 text-[13px]">
           {NAV_ITEMS.map((item) => (
             <button key={item.label} onClick={() => handleNavClick(item.to)}
-              className="px-3 py-2 rounded-xl font-body font-medium transition-colors"
-              style={{ color: "#6B7280" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "#3D4250")}
-              onMouseLeave={e => (e.currentTarget.style.color = "#6B7280")}
+              className="px-3 py-2 rounded-xl transition-colors"
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontWeight: 500,
+                fontSize: 13,
+                color: PEARL.muted,
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = PEARL.ink)}
+              onMouseLeave={e => (e.currentTarget.style.color = PEARL.muted)}
             >
               {item.label}
             </button>
@@ -195,8 +207,10 @@ const BrandNav = () => {
 
           <div className="relative">
             <button onClick={() => { setPacksOpen(!packsOpen); setMoreOpen(false); }}
-              className="px-3 py-2 rounded-xl font-body font-medium transition-colors flex items-center gap-1"
-              style={{ color: "#6B7280" }}>
+              className="px-3 py-2 rounded-xl transition-colors flex items-center gap-1"
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: 13, color: PEARL.muted }}
+              onMouseEnter={e => (e.currentTarget.style.color = PEARL.ink)}
+              onMouseLeave={e => (e.currentTarget.style.color = PEARL.muted)}>
               Industry Kete
               <ChevronDown size={12} className={`transition-transform ${packsOpen ? "rotate-180" : ""}`} />
             </button>
@@ -207,8 +221,10 @@ const BrandNav = () => {
 
           <div className="relative">
             <button onClick={() => { setMoreOpen(!moreOpen); setPacksOpen(false); }}
-              className="px-3 py-2 rounded-xl font-body font-medium transition-colors flex items-center gap-1"
-              style={{ color: "#6B7280" }}>
+              className="px-3 py-2 rounded-xl transition-colors flex items-center gap-1"
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: 13, color: PEARL.muted }}
+              onMouseEnter={e => (e.currentTarget.style.color = PEARL.ink)}
+              onMouseLeave={e => (e.currentTarget.style.color = PEARL.muted)}>
               More
               <ChevronDown size={12} className={`transition-transform ${moreOpen ? "rotate-180" : ""}`} />
             </button>
@@ -218,11 +234,18 @@ const BrandNav = () => {
           </div>
 
           <button onClick={() => handleNavClick("/contact")}
-            className="ml-2 px-7 py-2.5 rounded-full text-[11px] font-body font-semibold uppercase tracking-[0.18em] transition-all duration-300 hover:scale-[1.03]"
+            data-magnetic
+            className="ml-2 transition-all duration-300 hover:-translate-y-px"
             style={{
-              background: "#3A7D6E",
-              color: "#FFFFFF",
-              boxShadow: "0 8px 24px -8px rgba(58,125,110,0.55), inset 0 1px 0 rgba(255,255,255,0.18)",
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 13,
+              fontWeight: 500,
+              letterSpacing: "0.01em",
+              padding: "12px 24px",
+              borderRadius: 999,
+              background: PEARL.pounamu,
+              color: PEARL.bg,
+              boxShadow: "0 10px 30px -12px rgba(31,77,71,0.45)",
             }}>
             Start a pilot
           </button>
@@ -231,7 +254,7 @@ const BrandNav = () => {
         </nav>
 
         <div className="flex lg:hidden items-center gap-2">
-          <button onClick={() => setMobileOpen(true)} className="p-2 rounded-xl" style={{ color: "#3D4250" }} aria-label="Open menu">
+          <button onClick={() => setMobileOpen(true)} className="p-2 rounded-xl" style={{ color: PEARL.ink }} aria-label="Open menu">
             <Menu size={22} />
           </button>
         </div>
