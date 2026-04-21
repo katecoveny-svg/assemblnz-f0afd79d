@@ -42,33 +42,34 @@ interface Puff {
 }
 
 /** Hand-tuned cumulus silhouette inside a 1000×460 viewBox.
- *  Built like real cumulus: flatter base, billowy cauliflower top,
- *  stacked overlapping ellipses for volume. */
+ *  Built like a soft floating cumulus halo — no flat base puddle,
+ *  rounded underside so the kete sits inside the mist rather than
+ *  resting on a saucer. */
 const HERO_PUFFS: Puff[] = [
   // ── back rim (cooler, larger, drifts behind) ──
-  { cx: 220, cy: 260, rx: 170, ry: 130, op: 0.55, breath: 0.9, phase: 0.0, layer: 0 },
-  { cx: 380, cy: 220, rx: 200, ry: 155, op: 0.6,  breath: 0.7, phase: 0.6, layer: 0 },
-  { cx: 560, cy: 200, rx: 230, ry: 175, op: 0.6,  breath: 1.0, phase: 1.2, layer: 0 },
-  { cx: 740, cy: 230, rx: 200, ry: 150, op: 0.55, breath: 0.8, phase: 1.8, layer: 0 },
-  { cx: 870, cy: 270, rx: 150, ry: 115, op: 0.5,  breath: 0.6, phase: 2.4, layer: 0 },
+  { cx: 240, cy: 240, rx: 165, ry: 145, op: 0.5,  breath: 0.9, phase: 0.0, layer: 0 },
+  { cx: 400, cy: 210, rx: 200, ry: 170, op: 0.55, breath: 0.7, phase: 0.6, layer: 0 },
+  { cx: 560, cy: 195, rx: 225, ry: 180, op: 0.55, breath: 1.0, phase: 1.2, layer: 0 },
+  { cx: 720, cy: 215, rx: 200, ry: 170, op: 0.5,  breath: 0.8, phase: 1.8, layer: 0 },
+  { cx: 860, cy: 245, rx: 150, ry: 130, op: 0.45, breath: 0.6, phase: 2.4, layer: 0 },
 
-  // ── main warm pearl body (densest, brightest) ──
-  { cx: 280, cy: 280, rx: 130, ry: 105, op: 0.95, breath: 0.5, phase: 0.3, layer: 1 },
-  { cx: 360, cy: 240, rx: 125, ry: 110, op: 1.0,  breath: 0.8, phase: 0.9, layer: 1 },
-  { cx: 460, cy: 215, rx: 145, ry: 130, op: 1.0,  breath: 1.0, phase: 1.5, layer: 1 },
-  { cx: 560, cy: 205, rx: 155, ry: 140, op: 1.0,  breath: 0.9, phase: 2.1, layer: 1 },
-  { cx: 660, cy: 220, rx: 145, ry: 125, op: 1.0,  breath: 0.8, phase: 2.7, layer: 1 },
-  { cx: 750, cy: 250, rx: 130, ry: 110, op: 0.95, breath: 0.6, phase: 3.3, layer: 1 },
-  { cx: 820, cy: 290, rx: 105, ry: 90,  op: 0.9,  breath: 0.5, phase: 3.9, layer: 1 },
-  // flatter base
-  { cx: 350, cy: 320, rx: 130, ry: 70,  op: 0.85, breath: 0.4, phase: 4.2, layer: 1 },
-  { cx: 500, cy: 335, rx: 180, ry: 75,  op: 0.9,  breath: 0.4, phase: 4.5, layer: 1 },
-  { cx: 660, cy: 325, rx: 150, ry: 70,  op: 0.85, breath: 0.4, phase: 4.8, layer: 1 },
+  // ── main warm pearl body (densest, brightest) — rounded silhouette, no flat base ──
+  { cx: 300, cy: 270, rx: 135, ry: 125, op: 0.92, breath: 0.5, phase: 0.3, layer: 1 },
+  { cx: 380, cy: 235, rx: 130, ry: 125, op: 0.98, breath: 0.8, phase: 0.9, layer: 1 },
+  { cx: 470, cy: 215, rx: 150, ry: 140, op: 1.0,  breath: 1.0, phase: 1.5, layer: 1 },
+  { cx: 560, cy: 210, rx: 160, ry: 150, op: 1.0,  breath: 0.9, phase: 2.1, layer: 1 },
+  { cx: 650, cy: 220, rx: 150, ry: 140, op: 1.0,  breath: 0.8, phase: 2.7, layer: 1 },
+  { cx: 730, cy: 245, rx: 135, ry: 125, op: 0.96, breath: 0.6, phase: 3.3, layer: 1 },
+  { cx: 800, cy: 280, rx: 110, ry: 100, op: 0.88, breath: 0.5, phase: 3.9, layer: 1 },
+  // soft, ROUNDED underbelly — wraps under the kete instead of forming a puddle
+  { cx: 440, cy: 295, rx: 110, ry: 95,  op: 0.85, breath: 0.4, phase: 4.2, layer: 1 },
+  { cx: 540, cy: 305, rx: 125, ry: 100, op: 0.88, breath: 0.4, phase: 4.5, layer: 1 },
+  { cx: 640, cy: 295, rx: 110, ry: 95,  op: 0.85, breath: 0.4, phase: 4.8, layer: 1 },
 
   // ── sun-warmed highlight cap (golden-hour catching the top) ──
-  { cx: 430, cy: 195, rx: 80,  ry: 65,  op: 0.7,  breath: 0.9, phase: 1.0, layer: 2 },
-  { cx: 540, cy: 178, rx: 95,  ry: 75,  op: 0.78, breath: 1.0, phase: 1.7, layer: 2 },
-  { cx: 640, cy: 195, rx: 80,  ry: 65,  op: 0.7,  breath: 0.8, phase: 2.4, layer: 2 },
+  { cx: 430, cy: 195, rx: 80,  ry: 70,  op: 0.7,  breath: 0.9, phase: 1.0, layer: 2 },
+  { cx: 540, cy: 180, rx: 95,  ry: 80,  op: 0.78, breath: 1.0, phase: 1.7, layer: 2 },
+  { cx: 640, cy: 195, rx: 80,  ry: 70,  op: 0.7,  breath: 0.8, phase: 2.4, layer: 2 },
 ];
 
 /** Smaller wisp silhouette — a single billow with a flat base. */
