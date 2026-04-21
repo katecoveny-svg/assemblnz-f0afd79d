@@ -28,6 +28,8 @@ export interface LiveTileSpec {
 interface Props {
   tiles: LiveTileSpec[];
   accent?: string;
+  /** How often to re-fetch each tile, in ms. Default 60s. */
+  refreshMs?: number;
 }
 
 interface TileState {
@@ -36,39 +38,54 @@ interface TileState {
   fetchedAt: number | null;
 }
 
-export default function LiveDataTiles({ tiles, accent = "#3A7D6E" }: Props) {
+export default function LiveDataTiles({ tiles, accent = "#3A7D6E", refreshMs = 60_000 }: Props) {
   const [states, setStates] = useState<TileState[]>(
     () => tiles.map(() => ({ value: null, loading: true, fetchedAt: null })),
   );
+  // Re-render every 30s so the "synced Xs ago" label stays honest between refetches.
+  const [, setTick] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
-    Promise.all(
-      tiles.map(async (t, i) => {
-        try {
-          const v = await t.load();
-          if (!cancelled) {
+
+    const refreshAll = () => {
+      tiles.forEach((t, i) => {
+        t.load()
+          .then((v) => {
+            if (cancelled) return;
             setStates((prev) => {
               const next = [...prev];
               next[i] = { value: v, loading: false, fetchedAt: Date.now() };
               return next;
             });
-          }
-        } catch {
-          if (!cancelled) {
+          })
+          .catch(() => {
+            if (cancelled) return;
             setStates((prev) => {
               const next = [...prev];
               next[i] = { value: null, loading: false, fetchedAt: Date.now() };
               return next;
             });
-          }
-        }
-      }),
-    );
+          });
+      });
+    };
+
+    refreshAll();
+    const interval = window.setInterval(refreshAll, refreshMs);
+    const tickInterval = window.setInterval(() => setTick((n) => n + 1), 30_000);
+    const onFocus = () => refreshAll();
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") refreshAll();
+    });
+
     return () => {
       cancelled = true;
+      window.clearInterval(interval);
+      window.clearInterval(tickInterval);
+      window.removeEventListener("focus", onFocus);
     };
-  }, [tiles]);
+  }, [tiles, refreshMs]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
