@@ -4831,9 +4831,13 @@ export type Database = {
           created_at: string
           id: string
           last_checked_at: string | null
+          last_successful_fetch: string | null
           last_updated_at: string | null
           name: string
+          provenance: string | null
+          reliability_score: number | null
           status: string | null
+          subcategory: string | null
           type: string
           updated_at: string
           url: string
@@ -4848,9 +4852,13 @@ export type Database = {
           created_at?: string
           id?: string
           last_checked_at?: string | null
+          last_successful_fetch?: string | null
           last_updated_at?: string | null
           name: string
+          provenance?: string | null
+          reliability_score?: number | null
           status?: string | null
+          subcategory?: string | null
           type: string
           updated_at?: string
           url: string
@@ -4865,9 +4873,13 @@ export type Database = {
           created_at?: string
           id?: string
           last_checked_at?: string | null
+          last_successful_fetch?: string | null
           last_updated_at?: string | null
           name?: string
+          provenance?: string | null
+          reliability_score?: number | null
           status?: string | null
+          subcategory?: string | null
           type?: string
           updated_at?: string
           url?: string

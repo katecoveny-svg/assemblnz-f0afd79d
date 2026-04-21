@@ -17,12 +17,24 @@ interface Source {
   type: string;
   url: string;
   category: string | null;
+  subcategory: string | null;
   agent_packs: string[] | null;
   cadence_minutes: number;
   active: boolean;
   status: string | null;
   last_checked_at: string | null;
   last_updated_at: string | null;
+  last_successful_fetch: string | null;
+  reliability_score: number | null;
+  provenance: string | null;
+}
+
+function reliabilityLabel(score: number | null): { label: string; color: string } {
+  if (score == null) return { label: "unrated", color: "#9CA3AF" };
+  if (score >= 90) return { label: "excellent", color: "#10B981" };
+  if (score >= 70) return { label: "reliable", color: "#4AA5A8" };
+  if (score >= 40) return { label: "patchy", color: "#F59E0B" };
+  return { label: "unstable", color: "#EF4444" };
 }
 
 const TEAL = "#3A7D6E";
@@ -58,7 +70,7 @@ export default function PublicKnowledgeBrainPage() {
     const load = async () => {
       const { data } = await (supabase as any)
         .from("kb_sources")
-        .select("id, name, type, url, category, agent_packs, cadence_minutes, active, status, last_checked_at, last_updated_at")
+        .select("id, name, type, url, category, subcategory, agent_packs, cadence_minutes, active, status, last_checked_at, last_updated_at, last_successful_fetch, reliability_score, provenance")
         .eq("active", true)
         .order("category", { ascending: true })
         .order("name", { ascending: true });
@@ -233,9 +245,9 @@ export default function PublicKnowledgeBrainPage() {
             {filtered.map(s => {
               const healthy = s.status === "ok";
               return (
-                <li
+              <li
                   key={s.id}
-                  className="p-4 rounded-2xl group transition-all hover:-translate-y-0.5"
+                  className="p-4 rounded-2xl group transition-all hover:-translate-y-0.5 flex flex-col"
                   style={{
                     background: "rgba(255,255,255,0.75)",
                     backdropFilter: "blur(18px) saturate(160%)",
@@ -244,7 +256,7 @@ export default function PublicKnowledgeBrainPage() {
                   }}
                 >
                   <div className="flex items-start justify-between gap-2 mb-2">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span
                         className="w-1.5 h-1.5 rounded-full"
                         style={{ background: healthy ? "#10B981" : "#F59E0B", boxShadow: `0 0 6px ${healthy ? "#10B981" : "#F59E0B"}` }}
@@ -256,6 +268,7 @@ export default function PublicKnowledgeBrainPage() {
                       {s.category && (
                         <span className="text-[10px] uppercase tracking-wider" style={{ color: "#9CA3AF" }}>
                           {s.category.replace(/_/g, " ")}
+                          {s.subcategory && ` · ${s.subcategory.replace(/_/g, " ")}`}
                         </span>
                       )}
                     </div>
@@ -272,29 +285,56 @@ export default function PublicKnowledgeBrainPage() {
                       </a>
                     )}
                   </div>
-                  <p className="text-sm font-medium leading-snug mb-2" style={{ color: "#1A1D29" }}>
+                  <p className="text-sm font-medium leading-snug mb-1" style={{ color: "#1A1D29" }}>
                     {s.name}
                   </p>
-                  <div className="flex items-center justify-between text-[11px]" style={{ color: "#6B7280" }}>
-                    <span className="flex items-center gap-1">
-                      <Clock size={10} /> {formatCadence(s.cadence_minutes)}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      {healthy
-                        ? <CheckCircle2 size={10} style={{ color: "#10B981" }} />
-                        : <AlertTriangle size={10} style={{ color: "#F59E0B" }} />}
-                      synced {formatAgo(s.last_checked_at)}
-                    </span>
-                  </div>
-                  {s.agent_packs && s.agent_packs.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {s.agent_packs.slice(0, 4).map(p => (
-                        <span key={p} className="text-[9px] px-1.5 py-0.5 rounded uppercase tracking-wider" style={{ background: "rgba(58,125,110,0.08)", color: TEAL }}>
-                          {p}
-                        </span>
-                      ))}
-                    </div>
+                  {s.provenance && (
+                    <p className="text-[11px] leading-snug mb-2 line-clamp-2" style={{ color: "#6B7280" }} title={s.provenance}>
+                      {s.provenance}
+                    </p>
                   )}
+                  <div className="mt-auto pt-2 border-t border-border/40 space-y-1.5">
+                    <div className="flex items-center justify-between text-[11px]" style={{ color: "#6B7280" }}>
+                      <span className="flex items-center gap-1">
+                        <Clock size={10} /> {formatCadence(s.cadence_minutes)}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        {healthy
+                          ? <CheckCircle2 size={10} style={{ color: "#10B981" }} />
+                          : <AlertTriangle size={10} style={{ color: "#F59E0B" }} />}
+                        synced {formatAgo(s.last_checked_at)}
+                      </span>
+                    </div>
+                    {(s.reliability_score != null || s.last_successful_fetch) && (() => {
+                      const rl = reliabilityLabel(s.reliability_score);
+                      return (
+                        <div className="flex items-center justify-between text-[10px]">
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-10 h-1 rounded-full bg-muted overflow-hidden">
+                              <div className="h-full rounded-full" style={{ width: `${s.reliability_score ?? 0}%`, background: rl.color }} />
+                            </div>
+                            <span style={{ color: rl.color }}>
+                              {s.reliability_score != null ? `${s.reliability_score}% ${rl.label}` : "unrated"}
+                            </span>
+                          </div>
+                          {s.last_successful_fetch && (
+                            <span style={{ color: "#9CA3AF" }}>
+                              ok {formatAgo(s.last_successful_fetch)}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })()}
+                    {s.agent_packs && s.agent_packs.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {s.agent_packs.slice(0, 4).map(p => (
+                          <span key={p} className="text-[9px] px-1.5 py-0.5 rounded uppercase tracking-wider" style={{ background: "rgba(58,125,110,0.08)", color: TEAL }}>
+                            {p}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </li>
               );
             })}
