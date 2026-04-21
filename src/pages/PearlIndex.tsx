@@ -229,9 +229,9 @@ function Hero() {
             margin: 0,
           }}
         >
-          Time is the most valuable thing you own.{" "}
+          Trusted AI solutions for Aotearoa.{" "}
           <span style={{ fontStyle: "italic", color: PEARL.pounamu, fontWeight: 400 }}>
-            We give it back.
+            built to give you valuable time back.
           </span>
         </motion.h1>
 
@@ -249,7 +249,7 @@ function Hero() {
             letterSpacing: "0.005em",
           }}
         >
-          Premium intelligence with a human heart.
+          Premium intelligence that understands what matters.
         </motion.p>
 
         <motion.div
@@ -259,7 +259,7 @@ function Hero() {
           style={{ maxWidth: 620, marginTop: 36 }}
         >
           <Body large>
-            Practical AI agents for New Zealand families, teams and communities. Every workflow ends in a pack you can file, forward or footnote — and stays current as the law changes.
+            NZ specialist AI agents and workflows designed to help business, teams and communities move through complexity with more control and clarity. Every workflow produces a pack that can be filed or audited - and stays current as the law changes.
           </Body>
         </motion.div>
 
@@ -808,7 +808,7 @@ function PearlFooter() {
             marginBottom: 8,
           }}
         >
-          Premium intelligence with a human heart.
+          Premium intelligence that understands what matters.
         </p>
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(14,21,19,0.6)", marginBottom: 24 }}>
           Time is the thing. We give it back.
@@ -826,8 +826,8 @@ export default function PearlIndex() {
   return (
     <>
       <SEO
-        title="Assembl — Premium intelligence with a human heart"
-        description="Practical AI agents for New Zealand families, teams and communities. Every workflow ends in a pack you can file, forward or footnote — and stays current as the law changes."
+        title="Assembl — Premium intelligence that understands what matters"
+        description="NZ specialist AI agents and workflows designed to help business, teams and communities move through complexity with more control and clarity. Every workflow produces a pack that can be filed or audited - and stays current as the law changes."
       />
       <div style={{ background: PEARL.bg, minHeight: "100vh" }}>
         <BrandNav />
