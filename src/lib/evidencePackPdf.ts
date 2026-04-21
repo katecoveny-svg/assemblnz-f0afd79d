@@ -83,18 +83,25 @@ export async function generateAndDownloadEvidencePack(
         .from("evidence_packs")
         .insert({
           user_id: user.id,
-          kete_slug: kete,
-          pack_type: "evidence_pack",
-          title,
+          kete,
+          action_type: "evidence_pack_generated",
+          request_id: id,
           watermark,
-          status: "generated",
-          metadata: {
+          evidence_json: {
+            title,
             client,
             simulated: !!simulated,
+            summary: finalSummary,
             section_count: sections.length,
             agent_sources: [...new Set(sections.map((s) => s.agent))],
             version: version ?? "v1.0",
-          } as Record<string, unknown>,
+            sections: sections.map((s) => ({
+              agent: s.agent,
+              title: s.title,
+              status: s.status,
+              legislation_ref: s.legislationRef,
+            })),
+          },
         })
         .select("id")
         .single();
