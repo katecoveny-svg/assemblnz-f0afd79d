@@ -95,33 +95,63 @@ const BrandNav = () => {
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
         className="absolute top-full right-0 mt-2 z-20 w-[280px] rounded-2xl p-2 space-y-0.5"
         style={{
-          background: "linear-gradient(145deg, rgba(255,255,255,0.9), rgba(238,238,242,0.7))",
-          backdropFilter: "blur(24px) saturate(150%)",
-          border: "1px solid rgba(255,255,255,0.95)",
-          boxShadow: "6px 6px 20px rgba(166,166,180,0.3), -6px -6px 20px rgba(255,255,255,0.85), 0 14px 48px -10px rgba(74,165,168,0.15)",
+          background: "rgba(251,250,247,0.96)",
+          backdropFilter: "blur(24px) saturate(140%)",
+          border: `1px solid ${PEARL.opal}`,
+          boxShadow: "0 18px 48px -12px rgba(31,77,71,0.18), 0 4px 12px -4px rgba(14,21,19,0.08)",
         }}>
         {items.map(item => {
           const isDetected = item.label === detectedLabel;
           return (
             <button key={item.label} onClick={() => handleNavClick(item.to)}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-black/[0.03] transition-colors group relative"
-              style={isDetected ? { borderLeft: `2px solid ${item.color}`, background: `${item.color}08` } : {}}>
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors group relative"
+              style={isDetected ? { borderLeft: `2px solid ${PEARL.pounamu}`, background: `${PEARL.pounamu}08` } : {}}
+              onMouseEnter={(e) => { e.currentTarget.style.background = `${PEARL.pounamu}06`; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = isDetected ? `${PEARL.pounamu}08` : "transparent"; }}>
               <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{
-                background: `${item.color}12`,
-                boxShadow: `2px 2px 6px rgba(166,166,180,0.25), -2px -2px 6px rgba(255,255,255,0.8)`,
+                background: `${PEARL.pounamu}10`,
+                border: `1px solid ${PEARL.pounamu}18`,
               }}>
-                <GlowIcon name={item.glowIcon} size={16} color={item.color} glow />
+                <GlowIcon name={item.glowIcon} size={16} color={PEARL.pounamu} glow />
               </div>
               <div className="text-left">
-                <div className="text-xs font-medium text-foreground/80 group-hover:text-foreground flex items-center gap-2">
+                <div
+                  className="flex items-center gap-2"
+                  style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontWeight: 400,
+                    fontSize: 16,
+                    color: PEARL.ink,
+                    letterSpacing: "-0.01em",
+                  }}
+                >
                   {item.label}
                   {isDetected && (
-                    <span className="text-[8px] font-normal tracking-[1px] uppercase" style={{ color: '#6B7280' }}>
-                      Recommended
+                    <span
+                      style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: 9,
+                        letterSpacing: "0.18em",
+                        textTransform: "lowercase",
+                        color: PEARL.pounamu,
+                        fontWeight: 500,
+                      }}
+                    >
+                      recommended
                     </span>
                   )}
                 </div>
-                <div className="text-[10px] text-foreground/40">{item.sublabel}</div>
+                <div
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 11,
+                    color: PEARL.muted,
+                    letterSpacing: "0.04em",
+                    marginTop: 2,
+                  }}
+                >
+                  {item.sublabel}
+                </div>
               </div>
             </button>
           );
@@ -135,9 +165,9 @@ const BrandNav = () => {
       <header
         className="sticky top-0 z-[9999] flex items-center gap-3 px-5 sm:px-8 h-16 overflow-visible"
         style={{
-          background: "rgba(250,251,252,0.78)",
+          background: "rgba(251,250,247,0.82)",
           backdropFilter: "blur(20px) saturate(140%)",
-          borderBottom: "1px solid rgba(58,125,110,0.10)",
+          borderBottom: `1px solid ${PEARL.opal}`,
         }}
       >
         <Link to="/" className="flex items-center gap-3 group shrink-0">
