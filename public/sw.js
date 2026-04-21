@@ -1,4 +1,4 @@
-const CACHE_NAME = "assembl-agent-v1";
+const CACHE_NAME = "assembl-agent-mo99dv7p";
 const PRECACHE_URLS = ["/", "/index.html"];
 
 // Install — precache shell
