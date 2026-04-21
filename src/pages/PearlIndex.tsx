@@ -360,7 +360,7 @@ function WhatAssemblIs() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-16 md:gap-24 relative">
-          <div>
+          <div className="relative" style={{ zIndex: 2 }}>
             <p
               style={{
                 fontFamily: "'Inter', sans-serif",
@@ -378,7 +378,7 @@ function WhatAssemblIs() {
               Efficient, end-to-end, in your industry. A food diary. A site induction. A customs clearance. A contract review. A WoF reminder. A privacy check. The agent runs the whole loop in the background — and hands you a finished pack, not another dashboard to manage.
             </Body>
           </div>
-          <div>
+          <div className="relative" style={{ zIndex: 2 }}>
             <p
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
