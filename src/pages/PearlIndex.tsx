@@ -5,7 +5,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 
-const PearlGlobe = lazy(() => import("@/components/pearl/PearlGlobe"));
+const MiniCloud = lazy(() => import("@/components/pearl/MiniCloud"));
 const RoomCloud = lazy(() => import("@/components/pearl/RoomCloud"));
 const FairyLightStrand = lazy(() =>
   import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.FairyLightStrand }))
@@ -274,7 +274,7 @@ function WhyAssembl() {
       {/* Quiet globe top-right */}
       <div className="absolute hidden lg:block" style={{ top: 80, right: "-4%", width: 280, height: 280 }}>
         <Suspense fallback={null}>
-          <PearlGlobe size={280} drift="slow" opacity={0.55} />
+          <MiniCloud size={280} drift="slow" opacity={0.55} />
         </Suspense>
       </div>
 
@@ -398,10 +398,10 @@ function WhatAssemblIs() {
             </Body>
           </div>
 
-          {/* Small feathery globe between columns */}
+          {/* Small feathery cloud between columns */}
           <div className="hidden md:block absolute" style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 200, height: 200 }}>
             <Suspense fallback={null}>
-              <PearlGlobe size={200} drift="med" opacity={0.55} />
+              <MiniCloud size={200} drift="med" opacity={0.55} />
             </Suspense>
           </div>
         </div>
@@ -448,7 +448,7 @@ function HowItWorks() {
             >
               <div className="absolute -top-2 -right-4 hidden md:block" style={{ width: 70, height: 70 }}>
                 <Suspense fallback={null}>
-                  <PearlGlobe size={70} drift="slow" opacity={0.45} />
+                  <MiniCloud size={70} drift="slow" opacity={0.45} />
                 </Suspense>
               </div>
               <span
@@ -574,10 +574,10 @@ function LiveCompliance() {
           background: "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(232,238,236,0.55) 0%, transparent 70%)",
         }}
       />
-      {/* Centrepiece globe */}
+      {/* Centrepiece cloud */}
       <div className="absolute hidden md:block" style={{ top: "50%", left: "50%", transform: "translate(-50%, -55%)", width: 460, height: 460, opacity: 0.7 }}>
         <Suspense fallback={null}>
-          <PearlGlobe size={460} drift="slow" opacity={0.7} />
+          <MiniCloud size={460} drift="slow" opacity={0.7} />
         </Suspense>
       </div>
 
@@ -727,7 +727,7 @@ function Closing() {
       {/* Soft closing ribbon */}
       {/* (closing ribbon removed) */}
 
-      {/* Largest globe of the page, drifting behind the text */}
+      {/* Largest cloud of the page, drifting behind the text */}
       <div
         className="absolute hidden md:block"
         style={{
@@ -740,7 +740,7 @@ function Closing() {
         }}
       >
         <Suspense fallback={null}>
-          <PearlGlobe size={720} drift="slow" opacity={0.6} />
+          <MiniCloud size={720} drift="slow" opacity={0.6} />
         </Suspense>
       </div>
 
