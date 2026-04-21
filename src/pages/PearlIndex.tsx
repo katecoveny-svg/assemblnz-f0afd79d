@@ -533,6 +533,11 @@ function KetesGrid() {
               transition={{ duration: 0.6, ease, delay: i * 0.05 }}
             >
               <Link to={k.to} className="block group" data-magnetic>
+                <div className="mb-5 flex items-center justify-center" style={{ height: 140 }}>
+                  <Suspense fallback={null}>
+                    <FeatherKete variant={k.variant} size={140} drift="slow" alt={`${k.mi} kete`} />
+                  </Suspense>
+                </div>
                 <p
                   style={{
                     fontFamily: "'Cormorant Garamond', serif",
