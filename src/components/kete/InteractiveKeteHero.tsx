@@ -1,6 +1,22 @@
 import { useRef, useState, useMemo, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import ResponsiveKeteImage from "./ResponsiveKeteImage";
+// Industry-specific photoreal kete artwork (Kate's uploads).
+import keteManaaki from "@/assets/kete-feather-manaaki.png";
+import keteWaihanga from "@/assets/kete-feather-waihanga.png";
+import keteAuaha from "@/assets/kete-feather-auaha.png";
+import keteArataki from "@/assets/kete-feather-arataki.png";
+import ketePikau from "@/assets/kete-feather-pikau.png";
+import keteToro from "@/assets/kete-feather-toro.png";
+
+const INDUSTRY_KETE: Record<string, string> = {
+  manaaki: keteManaaki,
+  waihanga: keteWaihanga,
+  auaha: keteAuaha,
+  arataki: keteArataki,
+  pikau: ketePikau,
+  toro: keteToro,
+};
 
 /**
  * InteractiveKeteHero — the master Assembl kete rendered as a true
@@ -13,7 +29,9 @@ import ResponsiveKeteImage from "./ResponsiveKeteImage";
  *   - Floating centerpiece on dashboards
  *
  * Per-industry tint via `tintHue` / `accent` so a single master image
- * dresses every kete in its own subtle wash.
+ * dresses every kete in its own subtle wash. When `industry` is provided
+ * (e.g. "manaaki"), the photoreal industry artwork replaces the master
+ * image entirely — blended into the page via radial mask.
  */
 export interface InteractiveKeteHeroProps {
   /** Display size in px (image will scale responsively in cinematic mode). */
@@ -30,6 +48,8 @@ export interface InteractiveKeteHeroProps {
   sparkles?: boolean;
   /** Number of sparkle particles. */
   sparkleCount?: number;
+  /** Optional industry slug — when set, swaps the master kete for the industry artwork. */
+  industry?: "manaaki" | "waihanga" | "auaha" | "arataki" | "pikau" | "toro";
   className?: string;
   alt?: string;
 }
@@ -42,9 +62,11 @@ export default function InteractiveKeteHero({
   variant = "centerpiece",
   sparkles = true,
   sparkleCount = 28,
+  industry,
   className = "",
   alt = "Assembl master kete",
 }: InteractiveKeteHeroProps) {
+  const industryImage = industry ? INDUSTRY_KETE[industry] : null;
   const ref = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
   const [reduced, setReduced] = useState(false);
@@ -233,17 +255,34 @@ export default function InteractiveKeteHero({
             WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.5), transparent)",
           }}
         >
-          <ResponsiveKeteImage
-            displayWidth={Math.round(size * 0.85)}
-            alt=""
-            loading="lazy"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-              filter,
-            }}
-          />
+          {industryImage ? (
+            <img
+              src={industryImage}
+              alt=""
+              draggable={false}
+              loading="lazy"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                filter,
+                maskImage: "radial-gradient(ellipse 65% 70% at 50% 55%, black 50%, transparent 92%)",
+                WebkitMaskImage: "radial-gradient(ellipse 65% 70% at 50% 55%, black 50%, transparent 92%)",
+              }}
+            />
+          ) : (
+            <ResponsiveKeteImage
+              displayWidth={Math.round(size * 0.85)}
+              alt=""
+              loading="lazy"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                filter,
+              }}
+            />
+          )}
         </div>
 
         {/* The kete itself */}
@@ -261,13 +300,35 @@ export default function InteractiveKeteHero({
           }
           transition={{ type: "spring", stiffness: 180, damping: 18 }}
         >
-          <ResponsiveKeteImage
-            displayWidth={isCinematic ? Math.min(size, 900) : size}
-            alt={alt}
-            loading="eager"
-            fetchPriority={isCinematic ? "high" : "auto"}
-            style={{ width: "100%", height: "auto", display: "block" }}
-          />
+          {industryImage ? (
+            <img
+              src={industryImage}
+              alt={alt}
+              draggable={false}
+              loading="eager"
+              // @ts-expect-error fetchpriority is valid HTML
+              fetchpriority={isCinematic ? "high" : "auto"}
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block",
+                // Soft mask so the kete photo's cream background dissolves into the page —
+                // no boxed edge, no copy-paste look.
+                maskImage:
+                  "radial-gradient(ellipse 62% 72% at 50% 55%, black 48%, rgba(0,0,0,0.7) 70%, transparent 92%)",
+                WebkitMaskImage:
+                  "radial-gradient(ellipse 62% 72% at 50% 55%, black 48%, rgba(0,0,0,0.7) 70%, transparent 92%)",
+              }}
+            />
+          ) : (
+            <ResponsiveKeteImage
+              displayWidth={isCinematic ? Math.min(size, 900) : size}
+              alt={alt}
+              loading="eager"
+              fetchPriority={isCinematic ? "high" : "auto"}
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
+          )}
         </motion.div>
 
         {/* Subtle highlight rim that follows cursor (depth illusion) */}
