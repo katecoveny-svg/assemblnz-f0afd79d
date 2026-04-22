@@ -16,8 +16,8 @@ const MissionCard = ({
   index: number;
   total: number;
   score: number;
-  onCorrect: () => void;
-  onIncorrect: () => void;
+  onCorrect: (given?: string) => void;
+  onIncorrect: (given?: string) => void;
   onNext: () => void;
 }) => {
   const [value, setValue] = useState("");
@@ -65,10 +65,10 @@ const MissionCard = ({
     const num = Number(value);
     if (Number.isFinite(num) && num === equation.answer) {
       setState("correct");
-      onCorrect();
+      onCorrect(value);
     } else {
       setState("incorrect");
-      onIncorrect();
+      onIncorrect(value);
     }
   };
 

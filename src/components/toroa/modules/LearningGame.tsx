@@ -4,11 +4,12 @@
 // by the toro-learning-game edge function.
 // ═══════════════════════════════════════════════════════════════
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, Sparkles, Trophy, RefreshCw, X, Check, ChevronRight, Camera } from "lucide-react";
+import { Loader2, Sparkles, Trophy, RefreshCw, X, Check, ChevronRight, Camera, CloudUpload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { saveGameResult, type QuestionOutcome } from "@/features/learn/lib/gameResults";
 
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
@@ -72,6 +73,12 @@ export default function LearningGame({
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+
+  // Per-question outcomes accumulated across the game
+  const outcomesRef = useRef<QuestionOutcome[]>([]);
+  const startedAtRef = useRef<number>(Date.now());
+  const savedRef = useRef(false);
 
   // ── Fetch game on mount ────────────────────────────────
   useMemo(() => {
@@ -126,13 +133,51 @@ export default function LearningGame({
     if (!userAnswer) return;
     const correct = norm(userAnswer) === norm(q.answer);
     if (correct) setScore((s) => s + 1);
+    outcomesRef.current.push({
+      index: idx,
+      prompt: q.prompt,
+      expected: q.answer,
+      given: userAnswer,
+      correct,
+      kind: q.kind,
+    });
     setRevealed(true);
+  };
+
+  const persistResult = async (finalScore: number) => {
+    if (savedRef.current || !game) return;
+    savedRef.current = true;
+    setSaveState("saving");
+    const res = await saveGameResult({
+      gameSource: "toro_homework",
+      childName: childName ?? null,
+      subject: subject ?? null,
+      yearLevel: yearLevel ?? null,
+      nzcLevel: game.nzc_level ?? nzcLevel ?? null,
+      topic: detectedTopic ?? topicHint ?? null,
+      score: finalScore,
+      totalQuestions: game.questions.length,
+      durationSeconds: Math.round((Date.now() - startedAtRef.current) / 1000),
+      questionOutcomes: outcomesRef.current,
+      metadata: {
+        skill_focus: game.skill_focus,
+        title: game.title,
+        topic_source: topicSource,
+      },
+    });
+    if (res.saved) {
+      setSaveState("saved");
+    } else {
+      setSaveState("error");
+      toast.error("Couldn't save this result. Your score is still shown.");
+    }
   };
 
   const next = () => {
     if (!game) return;
     if (idx + 1 >= game.questions.length) {
       setDone(true);
+      void persistResult(score);
       return;
     }
     setIdx((i) => i + 1);
@@ -148,6 +193,10 @@ export default function LearningGame({
     setRevealed(false);
     setScore(0);
     setDone(false);
+    outcomesRef.current = [];
+    startedAtRef.current = Date.now();
+    savedRef.current = false;
+    setSaveState("idle");
   };
 
   // ── Render ─────────────────────────────────────────────
@@ -353,6 +402,30 @@ export default function LearningGame({
           </p>
           <p className="font-body text-[11px]" style={{ color: "#6B7280" }}>
             Skill practised: {game.skill_focus}
+          </p>
+          <p
+            className="font-body text-[10px] inline-flex items-center gap-1 px-2 py-0.5 rounded-full"
+            style={{
+              background:
+                saveState === "saved"
+                  ? "rgba(58,125,110,0.10)"
+                  : saveState === "error"
+                    ? "rgba(239,68,68,0.08)"
+                    : "rgba(0,0,0,0.04)",
+              color:
+                saveState === "saved"
+                  ? POUNAMU
+                  : saveState === "error"
+                    ? "#9B1C1C"
+                    : "#6B7280",
+            }}
+            aria-live="polite"
+          >
+            <CloudUpload size={10} aria-hidden="true" />
+            {saveState === "saving" && "Saving result…"}
+            {saveState === "saved" && "Saved to your progress"}
+            {saveState === "error" && "Couldn't save — score still shown"}
+            {saveState === "idle" && "Result ready"}
           </p>
           <div className="flex justify-center gap-2 pt-1">
             <button

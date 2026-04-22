@@ -5143,6 +5143,66 @@ export type Database = {
         }
         Relationships: []
       }
+      learning_game_results: {
+        Row: {
+          accuracy: number | null
+          child_name: string | null
+          created_at: string
+          device_id: string | null
+          duration_seconds: number | null
+          game_source: string
+          id: string
+          metadata: Json
+          nzc_level: string | null
+          question_outcomes: Json
+          score: number
+          subject: string | null
+          topic: string | null
+          total_questions: number
+          updated_at: string
+          user_id: string | null
+          year_level: string | null
+        }
+        Insert: {
+          accuracy?: number | null
+          child_name?: string | null
+          created_at?: string
+          device_id?: string | null
+          duration_seconds?: number | null
+          game_source: string
+          id?: string
+          metadata?: Json
+          nzc_level?: string | null
+          question_outcomes?: Json
+          score?: number
+          subject?: string | null
+          topic?: string | null
+          total_questions?: number
+          updated_at?: string
+          user_id?: string | null
+          year_level?: string | null
+        }
+        Update: {
+          accuracy?: number | null
+          child_name?: string | null
+          created_at?: string
+          device_id?: string | null
+          duration_seconds?: number | null
+          game_source?: string
+          id?: string
+          metadata?: Json
+          nzc_level?: string | null
+          question_outcomes?: Json
+          score?: number
+          subject?: string | null
+          topic?: string | null
+          total_questions?: number
+          updated_at?: string
+          user_id?: string | null
+          year_level?: string | null
+        }
+        Relationships: []
+      }
       legislation_changes: {
         Row: {
           act_name: string
