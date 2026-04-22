@@ -4,7 +4,7 @@
 // by the toro-learning-game edge function.
 // ═══════════════════════════════════════════════════════════════
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, Sparkles, Trophy, RefreshCw, X, Check, ChevronRight, Camera, CloudUpload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -88,6 +88,33 @@ export default function LearningGame({
   // Track whether we've already counted this question's outcome for analytics
   const recordedRef = useRef(false);
 
+  // Refs for focus management + screen-reader announcements
+  const fillInputRef = useRef<HTMLInputElement>(null);
+  const optionsContainerRef = useRef<HTMLDivElement>(null);
+  const [announcement, setAnnouncement] = useState("");
+
+  // Helper that nudges focus back to the active answer control
+  const focusAnswerControl = () => {
+    requestAnimationFrame(() => {
+      if (fillInputRef.current && !fillInputRef.current.disabled) {
+        fillInputRef.current.focus();
+        return;
+      }
+      const firstOption = optionsContainerRef.current?.querySelector<HTMLButtonElement>(
+        "button:not(:disabled)"
+      );
+      firstOption?.focus();
+    });
+  };
+
+  // Auto-focus the active answer control when each question loads
+  useEffect(() => {
+    if (!loading && !done && !revealed && !solved) {
+      focusAnswerControl();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx, loading, done]);
+
   // ── Fetch game on mount ────────────────────────────────
   useMemo(() => {
     let cancelled = false;
@@ -157,6 +184,7 @@ export default function LearningGame({
       }
       setSolved(true);
       setRevealed(true);
+      setAnnouncement(`Correct. The answer is ${q.answer}.`);
       return;
     }
 
@@ -172,14 +200,36 @@ export default function LearningGame({
       });
       recordedRef.current = true;
     }
-    setAttempts((a) => a + 1);
+    const nextAttempts = attempts + 1;
+    setAttempts(nextAttempts);
     // After the first miss, surface the hint automatically
+    const hintWasHidden = !showHint;
     setShowHint(true);
+    setAnnouncement(
+      hintWasHidden
+        ? `Try again. Hint: ${q.hint}`
+        : nextAttempts === 1
+          ? "Try again."
+          : "Still off. Take your time and try once more."
+    );
+    // Clear the typed answer so the child can retry without manually erasing
+    if (q.kind === "fill_blank") setTyped("");
+    else setPicked(null);
+    focusAnswerControl();
+  };
+
+  const revealHint = () => {
+    if (!q || revealed || solved) return;
+    const wasHidden = !showHint;
+    setShowHint(true);
+    setAnnouncement(wasHidden ? `Hint revealed: ${q.hint}` : `Hint still showing: ${q.hint}`);
+    focusAnswerControl();
   };
 
   const giveUp = () => {
     if (!q || revealed) return;
     setRevealed(true); // shows the answer + explanation; score not awarded
+    setAnnouncement(`Answer revealed. The answer is ${q.answer}.`);
   };
 
   const persistResult = async (finalScore: number) => {
@@ -225,6 +275,7 @@ export default function LearningGame({
     setSolved(false);
     setAttempts(0);
     setShowHint(false);
+    setAnnouncement("");
     recordedRef.current = false;
   };
 
@@ -238,6 +289,7 @@ export default function LearningGame({
     setShowHint(false);
     setScore(0);
     setDone(false);
+    setAnnouncement("");
     outcomesRef.current = [];
     startedAtRef.current = Date.now();
     savedRef.current = false;
@@ -270,6 +322,14 @@ export default function LearningGame({
           <X size={14} style={{ color: "#6B7280" }} />
         </button>
       </div>
+
+      {/* Screen-reader announcer for try-again, hint reveals, and answer reveals */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {announcement}
+      </div>
+      <p id="toro-game-shortcuts" className="sr-only">
+        Press Enter to check your answer.
+      </p>
 
       {loading && (
         <div className="flex flex-col items-center justify-center py-8 gap-2">
@@ -337,6 +397,7 @@ export default function LearningGame({
 
             {q.kind === "fill_blank" ? (
               <input
+                ref={fillInputRef}
                 value={typed}
                 onChange={(e) => setTyped(e.target.value)}
                 onKeyDown={(e) => {
@@ -345,6 +406,7 @@ export default function LearningGame({
                 placeholder="Type your answer…"
                 disabled={revealed || solved}
                 aria-invalid={attempts > 0 && !solved}
+                aria-describedby="toro-game-shortcuts"
                 className="w-full rounded-lg px-3 py-2 text-sm font-body outline-none transition-colors"
                 style={{
                   background: "rgba(255,255,255,0.95)",
@@ -355,7 +417,7 @@ export default function LearningGame({
                 }}
               />
             ) : (
-              <div className="grid grid-cols-1 gap-2">
+              <div ref={optionsContainerRef} className="grid grid-cols-1 gap-2" role="group" aria-label="Answer options">
                 {(q.options ?? (q.kind === "true_false" ? ["True", "False"] : [])).map((opt, i) => {
                   const isPicked = picked === opt;
                   const isAnswer = matches(opt, q.answer, q.kind);
@@ -399,8 +461,6 @@ export default function LearningGame({
                   exit={{ opacity: 0, height: 0 }}
                   className="rounded-md p-2 space-y-1"
                   style={{ background: "rgba(239,68,68,0.06)" }}
-                  role="status"
-                  aria-live="polite"
                 >
                   <p className="font-body text-[11px]" style={{ color: "#9B1C1C" }}>
                     {attempts === 1
@@ -427,8 +487,6 @@ export default function LearningGame({
                   style={{
                     background: solved ? "rgba(58,125,110,0.08)" : "rgba(217,188,122,0.12)",
                   }}
-                  role="status"
-                  aria-live="polite"
                 >
                   <p className="font-body text-[11px]" style={{ color: TANGAROA }}>
                     <strong>{solved ? "Ka pai!" : "Answer:"}</strong> {q.answer}
@@ -447,8 +505,9 @@ export default function LearningGame({
                 {attempts > 0 && (
                   <>
                     <button
-                      onClick={() => setShowHint(true)}
+                      onClick={revealHint}
                       disabled={showHint}
+                      aria-label={showHint ? "Hint already shown" : "Reveal a hint for this question"}
                       className="px-3 py-2 rounded-lg text-xs font-body flex items-center gap-1 transition-all disabled:opacity-40"
                       style={{ background: `${SOFT_GOLD}25`, color: "#8A6B2E" }}
                       type="button"
