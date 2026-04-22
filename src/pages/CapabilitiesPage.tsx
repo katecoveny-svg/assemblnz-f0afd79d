@@ -13,6 +13,7 @@ import {
   FileCheck,
   Brain,
   Phone,
+  type LucideIcon,
 } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
@@ -40,7 +41,7 @@ const fadeUp = {
 };
 
 type Capability = {
-  icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
+  icon: LucideIcon;
   title: string;
   body: string;
   proof?: string;
@@ -150,7 +151,7 @@ const CapabilitiesPage = () => {
       <SEO
         title="Capabilities — What Assembl does for NZ businesses"
         description="Streaming chat, multi-agent selection, Claude/GPT/Gemini support, evidence packs, NZ compliance scanning, te reo Māori, SMS + WhatsApp, and the Mana Trust Layer."
-        canonicalPath="/capabilities"
+        path="/capabilities"
       />
       <BrandNav />
 
