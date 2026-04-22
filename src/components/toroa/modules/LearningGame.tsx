@@ -295,7 +295,7 @@ export default function LearningGame({
     setRevealed(false);
     setSolved(false);
     setAttempts(0);
-    setShowHint(false);
+    setHintStep(0);
     setAnnouncement("");
     recordedRef.current = false;
   };
