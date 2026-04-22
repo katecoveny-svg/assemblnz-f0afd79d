@@ -1,5 +1,5 @@
 import { useRef, useState, useMemo, useEffect } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
 import ResponsiveKeteImage from "./ResponsiveKeteImage";
 // Industry-specific photoreal kete artwork (Kate's uploads).
 import keteManaaki from "@/assets/kete-feather-manaaki.png";
