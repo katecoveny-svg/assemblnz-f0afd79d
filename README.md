@@ -358,6 +358,39 @@ edge functions.
 | `npm run test`      | Vitest (unit + component tests)            |
 | `npm run test:watch`| Vitest in watch mode                       |
 
+### Chat route map
+
+How a visitor moves from the specialist team grid into a streaming chat
+session and back out again:
+
+```mermaid
+flowchart LR
+    Home["/ (landing)<br/>SpecialistTeamGrid"]
+    Kete["/auaha · /manaaki<br/>· /waihanga · /arataki<br/>· /toro (kete pages)"]
+    Resolve{{"src/lib/agentSlugMap.ts<br/>SLUG_TO_ID"}}
+    Chat["/chat/:agentId<br/>ChatPage"]
+    Router{{"src/lib/mcpChat.ts<br/>model router"}}
+    MCP[["/functions/v1/mcp-chat<br/>Lovable AI Gateway"]]
+    Claude[["/functions/v1/claude-chat<br/>Anthropic"]]
+
+    Home -->|"Chat now →"| Resolve
+    Home -->|"See all the kete"| Kete
+    Kete -->|"agent card click"| Resolve
+    Resolve -->|"canonical id"| Chat
+    Chat --> Router
+    Router -->|"claude-*"| Claude
+    Router -->|"gemini / gpt-*"| MCP
+    Claude -.->|"SSE tokens"| Chat
+    MCP -.->|"SSE tokens"| Chat
+    Chat -->|"Back / breadcrumb"| Kete
+    Chat -->|"Logo"| Home
+```
+
+Legacy marketing slugs (e.g. `/chat/hospitality`, `/chat/construction`)
+are rewritten to canonical agent IDs (`aura`, `arai`, …) by `SLUG_TO_ID`
+before `ChatPage` mounts, so every entry point in the grid resolves to a
+single source of truth.
+
 ### Editing edge functions
 
 Edge functions live under `supabase/functions/<name>/index.ts` and are
