@@ -149,9 +149,9 @@ export default function ToroaDashboard() {
   const [digest, setDigest] = useState(DEMO_DIGEST);
   const [appointments, setAppointments] = useState(DEMO_APPOINTMENTS);
   const [shoppingItems, setShoppingItems] = useState(DEMO_SHOPPING);
-  const [familyMembers, setFamilyMembers] = useState(DEMO_FAMILY.members);
-  const [familyChildren, setFamilyChildren] = useState(DEMO_FAMILY.children);
-  const [familyPets, setFamilyPets] = useState(DEMO_FAMILY.pets);
+  const [familyMembers, setFamilyMembers] = useState<{ name: string; role: string }[]>(DEMO_FAMILY.members);
+  const [familyChildren, setFamilyChildren] = useState<{ name: string; school?: string; year?: string }[]>(DEMO_FAMILY.children);
+  const [familyPets, setFamilyPets] = useState<{ name: string; species: string; breed?: string }[]>(DEMO_FAMILY.pets);
 
   const toggleShopping = (id: string) => {
     setShoppingItems(prev => prev.map(i => i.id === id ? { ...i, purchased: !i.purchased } : i));
