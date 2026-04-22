@@ -499,6 +499,51 @@ export type Database = {
           },
         ]
       }
+      agent_overrides: {
+        Row: {
+          agent_id: string
+          created_at: string
+          expertise: Json
+          is_active: boolean
+          name: string | null
+          pack: string | null
+          role: string | null
+          starters: Json
+          tagline: string | null
+          traits: Json
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          expertise?: Json
+          is_active?: boolean
+          name?: string | null
+          pack?: string | null
+          role?: string | null
+          starters?: Json
+          tagline?: string | null
+          traits?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          expertise?: Json
+          is_active?: boolean
+          name?: string | null
+          pack?: string | null
+          role?: string | null
+          starters?: Json
+          tagline?: string | null
+          traits?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       agent_prompts: {
         Row: {
           agent_name: string
