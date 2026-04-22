@@ -184,6 +184,7 @@ export default function LearningGame({
       }
       setSolved(true);
       setRevealed(true);
+      setAnnouncement(`Correct. The answer is ${q.answer}.`);
       return;
     }
 
@@ -199,14 +200,36 @@ export default function LearningGame({
       });
       recordedRef.current = true;
     }
-    setAttempts((a) => a + 1);
+    const nextAttempts = attempts + 1;
+    setAttempts(nextAttempts);
     // After the first miss, surface the hint automatically
+    const hintWasHidden = !showHint;
     setShowHint(true);
+    setAnnouncement(
+      hintWasHidden
+        ? `Try again. Hint: ${q.hint}`
+        : nextAttempts === 1
+          ? "Try again."
+          : "Still off. Take your time and try once more."
+    );
+    // Clear the typed answer so the child can retry without manually erasing
+    if (q.kind === "fill_blank") setTyped("");
+    else setPicked(null);
+    focusAnswerControl();
+  };
+
+  const revealHint = () => {
+    if (!q || revealed || solved) return;
+    const wasHidden = !showHint;
+    setShowHint(true);
+    setAnnouncement(wasHidden ? `Hint revealed: ${q.hint}` : `Hint still showing: ${q.hint}`);
+    focusAnswerControl();
   };
 
   const giveUp = () => {
     if (!q || revealed) return;
     setRevealed(true); // shows the answer + explanation; score not awarded
+    setAnnouncement(`Answer revealed. The answer is ${q.answer}.`);
   };
 
   const persistResult = async (finalScore: number) => {
