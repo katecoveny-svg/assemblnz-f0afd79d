@@ -307,7 +307,7 @@ export default function LearningGame({
     setRevealed(false);
     setSolved(false);
     setAttempts(0);
-    setShowHint(false);
+    setHintStep(0);
     setScore(0);
     setDone(false);
     setAnnouncement("");
