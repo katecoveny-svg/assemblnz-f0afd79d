@@ -31,6 +31,7 @@ import { NeonLock } from "@/components/NeonIcons";
 import AgentWelcome from "@/components/AgentWelcome";
 import { AgentDebugPanel } from "@/components/dev/AgentDebugPanel";
 import { usePersistAgentContext, getLastAgentContext } from "@/hooks/usePersistAgentContext";
+import { useGuestChatSync } from "@/hooks/useGuestChatSync";
 import TemplateTab from "@/components/TemplateTab";
 import { TEMPLATE_TAB_AGENTS } from "@/data/templates";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
@@ -684,6 +685,14 @@ const ChatPage = () => {
       // localStorage may be full or disabled — silently ignore
     }
   }, [messages, user, agentId, conversationId]);
+
+  // Cross-tab sync for guest sessions: instantly mirror updates from other tabs.
+  useGuestChatSync({
+    agentId,
+    isGuest: !user,
+    messages,
+    setMessages,
+  });
 
   // Process NEXUS assistant responses for workflow data
   const processNexusResponse = useCallback((content: string) => {
