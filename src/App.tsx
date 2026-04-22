@@ -225,9 +225,13 @@ const App = () => (
                         <Route path="/" element={<Index />} />
                         <Route path="/next" element={<Suspense fallback={null}><NextPreview /></Suspense>} />
                         <Route path="/app" element={<Navigate to="/kete" replace />} />
-                        {/* Tōro chat slugs route to the Tōro family dashboard, not the legacy ChatPage. */}
+                        {/* Tōro legacy chat slugs always route to the Tōro family dashboard. */}
                         <Route path="/chat/toroa" element={<Navigate to="/toro/app" replace />} />
+                        <Route path="/chat/toroa/*" element={<Navigate to="/toro/app" replace />} />
                         <Route path="/chat/toro" element={<Navigate to="/toro/app" replace />} />
+                        <Route path="/chat/toro/*" element={<Navigate to="/toro/app" replace />} />
+                        <Route path="/toroa" element={<Navigate to="/toro/app" replace />} />
+                        <Route path="/toroa/*" element={<Navigate to="/toro/app" replace />} />
                         <Route path="/chat/:agentId" element={<ChatPageKeyed />} />
                         <Route path="/login" element={<AuthPage mode="login" />} />
                         <Route path="/signup" element={<AuthPage mode="signup" />} />
