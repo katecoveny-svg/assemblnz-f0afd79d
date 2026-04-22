@@ -73,6 +73,12 @@ export default function LearningGame({
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+
+  // Per-question outcomes accumulated across the game
+  const outcomesRef = useRef<QuestionOutcome[]>([]);
+  const startedAtRef = useRef<number>(Date.now());
+  const savedRef = useRef(false);
 
   // ── Fetch game on mount ────────────────────────────────
   useMemo(() => {
@@ -127,13 +133,51 @@ export default function LearningGame({
     if (!userAnswer) return;
     const correct = norm(userAnswer) === norm(q.answer);
     if (correct) setScore((s) => s + 1);
+    outcomesRef.current.push({
+      index: idx,
+      prompt: q.prompt,
+      expected: q.answer,
+      given: userAnswer,
+      correct,
+      kind: q.kind,
+    });
     setRevealed(true);
+  };
+
+  const persistResult = async (finalScore: number) => {
+    if (savedRef.current || !game) return;
+    savedRef.current = true;
+    setSaveState("saving");
+    const res = await saveGameResult({
+      gameSource: "toro_homework",
+      childName: childName ?? null,
+      subject: subject ?? null,
+      yearLevel: yearLevel ?? null,
+      nzcLevel: game.nzc_level ?? nzcLevel ?? null,
+      topic: detectedTopic ?? topicHint ?? null,
+      score: finalScore,
+      totalQuestions: game.questions.length,
+      durationSeconds: Math.round((Date.now() - startedAtRef.current) / 1000),
+      questionOutcomes: outcomesRef.current,
+      metadata: {
+        skill_focus: game.skill_focus,
+        title: game.title,
+        topic_source: topicSource,
+      },
+    });
+    if (res.saved) {
+      setSaveState("saved");
+    } else {
+      setSaveState("error");
+      toast.error("Couldn't save this result. Your score is still shown.");
+    }
   };
 
   const next = () => {
     if (!game) return;
     if (idx + 1 >= game.questions.length) {
       setDone(true);
+      void persistResult(score);
       return;
     }
     setIdx((i) => i + 1);
@@ -149,6 +193,10 @@ export default function LearningGame({
     setRevealed(false);
     setScore(0);
     setDone(false);
+    outcomesRef.current = [];
+    startedAtRef.current = Date.now();
+    savedRef.current = false;
+    setSaveState("idle");
   };
 
   // ── Render ─────────────────────────────────────────────
