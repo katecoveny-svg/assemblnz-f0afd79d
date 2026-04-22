@@ -2763,6 +2763,7 @@ const ChatPage = () => {
         }}
       />
       {isPrism && <AdEngineModal open={adEngineOpen} onOpenChange={setAdEngineOpen} />}
+      <AgentDebugPanel rawAgentId={rawAgentId} resolvedAgentId={agentId} agent={agent} />
     </div>
   );
 };
