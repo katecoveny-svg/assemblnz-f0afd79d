@@ -33,6 +33,12 @@ export function getGlobalBrandPrompt(): string {
   return _globalBrandPrompt;
 }
 
+/** Optional model parameters surfaced to users via the in-chat settings panel. */
+export interface AgentChatParams {
+  temperature?: number;
+  max_tokens?: number;
+}
+
 interface AgentChatOptions {
   agentId: string;
   message: string;
@@ -45,6 +51,8 @@ interface AgentChatOptions {
   skipMemory?: boolean;
   /** Skip Brand DNA injection for this call */
   skipBrandDna?: boolean;
+  /** Optional per-call model tuning (forwarded to /mcp-chat). */
+  params?: AgentChatParams;
 }
 
 /** True if this agent should be streamed through the new /mcp-chat pipeline. */
@@ -61,7 +69,7 @@ function isMcpAgent(agentId: string, packId?: string): boolean {
  * returns the complete response text.
  */
 export async function agentChat(opts: AgentChatOptions): Promise<string> {
-  const { agentId, message, messages = [], packId } = opts;
+  const { agentId, message, messages = [], packId, params } = opts;
 
   // New path: stream through /mcp-chat and accumulate.
   if (isMcpAgent(agentId, packId)) {
@@ -72,6 +80,7 @@ export async function agentChat(opts: AgentChatOptions): Promise<string> {
     await streamMcpChat({
       agentId: mcpAgent,
       messages: [...messages.map((m) => ({ role: m.role as "user" | "assistant", content: m.content })), { role: "user", content: message }],
+      params,
       onDelta: (chunk) => { buffer += chunk; },
       onDone: (finalContent) => { final = finalContent; },
       onError: (e) => { errMsg = e.message; },
@@ -113,6 +122,7 @@ export async function agentChatStream({
           ...messages.map((m) => ({ role: m.role as "user" | "assistant", content: m.content })),
           { role: "user", content: message },
         ],
+        params: (arguments[0] as AgentChatOptions).params,
         onDelta,
         onDone: () => onDone(),
         onError: (e) => {
