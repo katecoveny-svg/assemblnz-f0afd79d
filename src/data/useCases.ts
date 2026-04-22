@@ -80,10 +80,27 @@ export const PIKAU_USE_CASE: UseCaseData = {
   accentColor: "#7ECFC2",
 };
 
+export const TORO_USE_CASE: UseCaseData = {
+  audience: "Working parents, busy whānau, single-parent households",
+  market: "Hundreds of thousands of NZ households running school + work + life",
+  persona: { name: "Aroha", role: "Mum of three, full-time job, Hamilton" },
+  situation: "It's Sunday night. Aroha is trying to remember which kid has mufti day, whether the dentist form was signed, what to put in the lunchboxes, and when Nan's birthday actually is. The mental load is the second job nobody pays her for — and she's quietly burnt out from carrying it all in her head.",
+  assembl: "Aroha texts 3688: \"pick up Jack at 3, Lily has swimming, fridge has fish + spinach + kūmara, mum's birthday next month?\" Tōro replies in seconds — pickup reminder set, swimming bag checklist, a 22-min one-pan miso fish recipe with the shopping list updated for Thursday, Nan's birthday booked into May with a gift suggestion and rough budget. No app. No login. Just a text thread that quietly remembers everything for next time.",
+  benefits: [
+    { icon: "time", label: "Mental load", detail: "4+ hours per week back — no more 11pm \"did I sign the form?\" panic." },
+    { icon: "people", label: "Whole whānau", detail: "One number for both parents, grandparents, the nanny — everyone on the same page without a group chat." },
+    { icon: "money", label: "$29 / month", detail: "One flat price, whole household, cancel anytime. Cheaper than a single Friday-night takeaway." },
+    { icon: "insurance", label: "Privacy first", detail: "Family data stays sovereign — IPP-compliant, no ad-targeting, never sold." },
+  ],
+  economyBenefit: "Unpaid household labour is worth ~$80B/year to the NZ economy and falls disproportionately on women. Returning four hours a week to working parents at scale lifts workforce participation, reduces parental burnout, and is one of the highest-leverage productivity gains available in the household economy.",
+  accentColor: "#C7D9E8",
+};
+
 export const ALL_USE_CASES = [
   { kete: "Manaaki", en: "Hospitality", data: MANAAKI_USE_CASE, to: "/manaaki" },
   { kete: "Waihanga", en: "Construction", data: WAIHANGA_USE_CASE, to: "/waihanga/about" },
   { kete: "Auaha", en: "Creative", data: AUAHA_USE_CASE, to: "/auaha/about" },
   { kete: "Arataki", en: "Automotive", data: ARATAKI_USE_CASE, to: "/arataki" },
   { kete: "Pikau", en: "Freight", data: PIKAU_USE_CASE, to: "/pikau" },
+  { kete: "Tōro", en: "Family", data: TORO_USE_CASE, to: "/toro" },
 ];
