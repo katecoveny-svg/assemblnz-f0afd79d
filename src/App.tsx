@@ -465,6 +465,7 @@ const App = () => (
                     <EchoChatWidget />
                     <MobileTabBar />
                     <AdminCommandPalette />
+                    </AgentOverridesProvider>
                   </BusinessProvider>
                 </PersonalizationProvider>
               </BrandDnaProvider>
