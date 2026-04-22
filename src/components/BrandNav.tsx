@@ -252,6 +252,24 @@ const BrandNav = () => {
             Start with one kete
           </button>
 
+          <button
+            onClick={() => handleNavClick("/auth")}
+            className="ml-1 flex items-center gap-1.5 transition-colors"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 12,
+              fontWeight: 500,
+              letterSpacing: "0.02em",
+              color: PEARL.muted,
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = PEARL.pounamu)}
+            onMouseLeave={(e) => (e.currentTarget.style.color = PEARL.muted)}
+            aria-label="Admin sign in"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Admin
+          </button>
+
           <AccountDropdown />
         </nav>
 
