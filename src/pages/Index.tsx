@@ -366,6 +366,9 @@ const Index = () => {
           </motion.div>
         </Sect>
 
+        {/* ─── Decorative wisp break — Mist/Cloud/Sand with Soft Gold strand ─── */}
+        <KeteWispBreak variants={["manaaki", "auaha", "pikau"]} />
+
         {/* ═══ INDUSTRY KETE — 7 industry tiles ═══ */}
         <Sect id="industry-packs">
           <motion.div {...fade} className="text-center mb-16">
@@ -448,6 +451,9 @@ const Index = () => {
           </div>
         </Sect>
 
+        {/* ─── Decorative wisp break — two-wisp variant for tighter rhythm ─── */}
+        <KeteWispBreak variants={["waihanga", "ako"]} size={84} />
+
         {/* ═══ LIVE COMPLIANCE ═══ */}
         <Sect>
           <motion.div {...fade} className="max-w-[760px] mx-auto text-center">
@@ -506,6 +512,9 @@ const Index = () => {
             </Link>
           </motion.div>
         </Sect>
+
+        {/* ─── Decorative wisp break — closing trio before use cases ─── */}
+        <KeteWispBreak variants={["arataki", "hoko", "toro"]} />
 
         {/* ═══ REAL USE CASES ═══ */}
         <Sect>
