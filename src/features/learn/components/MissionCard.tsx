@@ -281,7 +281,8 @@ const MissionCard = ({
         <HelperCard label="Then this" body={equation.thenThis} revealed={hintLevel >= 2} />
         <HelperCard label="Hint zone" body={equation.hint} revealed={hintLevel >= 3} accent />
       </ul>
-    </GlassCard>
+      </GlassCard>
+    </section>
   );
 };
 
