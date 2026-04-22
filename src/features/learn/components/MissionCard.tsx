@@ -16,8 +16,8 @@ const MissionCard = ({
   index: number;
   total: number;
   score: number;
-  onCorrect: () => void;
-  onIncorrect: () => void;
+  onCorrect: (given?: string) => void;
+  onIncorrect: (given?: string) => void;
   onNext: () => void;
 }) => {
   const [value, setValue] = useState("");
