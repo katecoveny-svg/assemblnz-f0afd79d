@@ -1,26 +1,53 @@
 import jsPDF from "jspdf";
 
-// ── Whenua Palette (RGB) ──
-const KOWHAI_GOLD: [number, number, number] = [212, 168, 67];
-const POUNAMU_TEAL: [number, number, number] = [58, 125, 110];
-const TANGAROA_NAVY: [number, number, number] = [26, 58, 92];
-const COSMIC_BG: [number, number, number] = [9, 9, 15];
-const SURFACE: [number, number, number] = [15, 15, 26];
-const BONE_WHITE: [number, number, number] = [245, 240, 232];
-const TEXT_PRIMARY: [number, number, number] = [20, 20, 30];
-const TEXT_SECONDARY: [number, number, number] = [90, 90, 100];
-const TEXT_MUTED: [number, number, number] = [140, 140, 150];
-const DIVIDER: [number, number, number] = [220, 215, 205];
+// ──────────────────────────────────────────────────────────────
+// Assembl Brand Guidelines v1.0 (2026-04-22) — canonical tokens
+// Mist / Taupe / Soft Gold sparkle. Retires the Whenua palette.
+// ──────────────────────────────────────────────────────────────
+
+// Hex → RGB tuple helper (kept tiny; jsPDF needs RGB triples).
+const hex = (h: string): [number, number, number] => {
+  const v = h.replace("#", "");
+  return [
+    parseInt(v.slice(0, 2), 16),
+    parseInt(v.slice(2, 4), 16),
+    parseInt(v.slice(4, 6), 16),
+  ];
+};
+
+// Core surfaces & text — locked to assemblTokens.ts
+const ASSEMBL_MIST       = hex("#F7F3EE"); // page background tint
+const ASSEMBL_CLOUD      = hex("#EEE7DE"); // soft section fill
+const ASSEMBL_SAND       = hex("#D8C8B4"); // dividers / chips
+const ASSEMBL_TAUPE      = hex("#9D8C7D"); // secondary text / strokes
+const ASSEMBL_TAUPE_DEEP = hex("#6F6158"); // primary text / display
+const ASSEMBL_SAGE_MIST  = hex("#C9D8D0"); // calm support tone
+const SOFT_GOLD          = hex("#D9BC7A"); // sparkle accent (default)
+
+const TEXT_PRIMARY:   [number, number, number] = ASSEMBL_TAUPE_DEEP;
+const TEXT_SECONDARY: [number, number, number] = hex("#8E8177");
+const TEXT_BODY:      [number, number, number] = hex("#5F554F");
+const TEXT_MUTED:     [number, number, number] = hex("#A89B8F");
+const DIVIDER:        [number, number, number] = ASSEMBL_SAND;
+
+// Back-compat alias — older call sites still import POUNAMU_TEAL by name.
+// Brand book retires teal: route it to deep taupe so output stays on-palette.
+const POUNAMU_TEAL: [number, number, number] = ASSEMBL_TAUPE_DEEP;
+// Default sparkle accent (replaces KOWHAI_GOLD).
+const KOWHAI_GOLD: [number, number, number] = SOFT_GOLD;
 
 // ── Kete Accent Colours (RGB) ──
+// Mirrors ASSEMBL_TOKENS.industries — soft, low-chroma per Brand Guidelines v1.0.
 export const KETE_COLORS: Record<string, { accent: [number, number, number]; label: string }> = {
-  manaaki:  { accent: [58, 125, 110],  label: "Manaaki · Hospitality" },
-  waihanga: { accent: [212, 168, 67],  label: "Waihanga · Construction" },
-  hanga:    { accent: [212, 168, 67],  label: "Hanga · Construction" },
-  auaha:    { accent: [168, 85, 247],  label: "Auaha · Creative" },
-  arataki:  { accent: [239, 68, 68],   label: "Arataki · Automotive" },
-  pikau:    { accent: [59, 130, 246],  label: "Pikau · Freight & Customs" },
-  toro:     { accent: [34, 197, 94],   label: "Toro · Family" },
+  manaaki:  { accent: hex("#E6D8C6"), label: "Manaaki · Hospitality" },        // Warm Linen
+  waihanga: { accent: hex("#CBB8A4"), label: "Waihanga · Construction" },      // Clay Sand
+  hanga:    { accent: hex("#CBB8A4"), label: "Hanga · Construction" },         // legacy alias
+  auaha:    { accent: hex("#C8DDD8"), label: "Auaha · Creative" },             // Pale Seafoam
+  arataki:  { accent: hex("#D5C0C8"), label: "Arataki · Automotive & Fleet" }, // Dusky Rose
+  pikau:    { accent: hex("#B8C7B1"), label: "Pikau · Freight & Customs" },    // Soft Moss
+  toro:     { accent: hex("#C7D9E8"), label: "Tōro · Family" },                // Moonstone Blue
+  hoko:     { accent: hex("#D8C3C2"), label: "Hoko · Retail" },                // Blush Stone
+  ako:      { accent: hex("#C7D6C7"), label: "Ako · Early Childhood" },        // Soft Sage
 };
 
 // ── Agent → Kete mapping for cross-agent awareness ──
@@ -623,19 +650,26 @@ export function renderMarkdownToPDF(
     if (y + needed > 260) { doc.addPage(); y = 20; }
   };
 
-  // Sender label
+  // Sender label — styled as a "transcript chip" using Mist + Soft Gold rule.
   if (options.senderLabel) {
-    checkPage(10);
+    checkPage(12);
+    const chipPadX = 3;
+    const chipH = 7;
     doc.setFontSize(9);
     doc.setFont("helvetica", "bold");
+    const labelW = doc.getTextWidth(options.senderLabel) + chipPadX * 2;
+    // Soft Mist chip background
+    doc.setFillColor(...ASSEMBL_MIST);
+    doc.roundedRect(margin - 1, y - 4.5, labelW + 2, chipH, 1.4, 1.4, "F");
+    // Sender text
     const [r, g, b] = options.senderColor || TEXT_PRIMARY;
     doc.setTextColor(r, g, b);
-    doc.text(options.senderLabel, margin, y);
-    const w = doc.getTextWidth(options.senderLabel);
+    doc.text(options.senderLabel, margin + chipPadX - 1, y);
+    // Soft Gold underline rule (sparkle accent)
     doc.setDrawColor(...accentColor);
     doc.setLineWidth(0.4);
-    doc.line(margin, y + 1, margin + w, y + 1);
-    y += 7;
+    doc.line(margin, y + 2.5, margin + labelW, y + 2.5);
+    y += 8;
   }
 
   const lines = content.split("\n");
