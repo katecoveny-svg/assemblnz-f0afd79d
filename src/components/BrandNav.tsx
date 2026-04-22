@@ -352,7 +352,7 @@ const BrandNav = () => {
                 </button>
                 <AccountDropdown />
                 <button
-                  onClick={() => { setMobileOpen(false); handleNavClick("/admin"); }}
+                  onClick={() => { setMobileOpen(false); handleNavClick("/auth"); }}
                   className="w-full flex items-center justify-center gap-2 transition-all"
                   style={{
                     fontFamily: "'Inter', sans-serif",
