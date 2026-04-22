@@ -124,24 +124,24 @@ const EchoChatWidget = () => {
 
   return (
     <>
-      {/* Floating bubble — Constellation mark with Kōwhai glow */}
+      {/* Floating bubble — kete portrait with soft Echo glow */}
       {!open && (
         <button
           onClick={() => { setOpen(true); setMinimized(false); }}
-          className="fixed bottom-6 left-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center transition-transform hover:scale-110 group"
+          className="fixed bottom-6 left-6 z-[9999] w-14 h-14 rounded-full overflow-hidden flex items-center justify-center transition-transform hover:scale-110 group"
           style={{
-            background: "radial-gradient(circle at 40% 35%, rgba(74,165,168,0.22), rgba(58,125,110,0.1) 60%, transparent)",
+            background: "hsl(var(--background))",
             border: `1px solid rgba(74,165,168,0.35)`,
-            boxShadow: `0 0 18px rgba(74,165,168,0.55), 0 0 40px rgba(74,165,168,0.2), 0 4px 16px rgba(0,0,0,0.5)`,
+            boxShadow: `0 0 18px rgba(74,165,168,0.45), 0 0 40px rgba(74,165,168,0.18), 0 4px 16px rgba(111,97,88,0.18)`,
           }}
-          title="Chat with Echo — assembl's hero agent"
+          title={keteRecord ? `Chat with Echo — ${keteRecord.industry}` : "Chat with Echo — Assembl's hero agent"}
         >
           <img loading="lazy" decoding="async"
-            src={assemblMark}
-            alt="Assembl"
-            className="w-8 h-8 object-contain logo-glow"
+            src={floaterImage}
+            alt={floaterAlt}
+            className="w-full h-full object-cover"
             draggable={false} />
-          <span className="absolute inset-0 rounded-full animate-ping opacity-15" style={{ border: "1px solid rgba(74,165,168,0.6)" }} />
+          <span className="absolute inset-0 rounded-full animate-ping opacity-15 pointer-events-none" style={{ border: "1px solid rgba(74,165,168,0.6)" }} />
         </button>
       )}
 
