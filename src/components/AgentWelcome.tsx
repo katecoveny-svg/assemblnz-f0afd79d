@@ -1,15 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import AgentAvatar from "@/components/AgentAvatar";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import { getGreetingText, getSeasonalAgentHint, getAnniversaryMessage, AGENT_LOADING_MESSAGES, SMART_EMPTY_STATES } from "@/engine/personality";
+import { getStarterQuestions } from "@/engine/starterQuestions";
 import { useAuth } from "@/hooks/useAuth";
 import type { Agent } from "@/data/agents";
 
 interface AgentWelcomeProps {
   agent: Agent;
+  onStarterClick?: (prompt: string) => void;
 }
 
-const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
+const AgentWelcome = ({ agent, onStarterClick }: AgentWelcomeProps) => {
+  const starterQuestions = useMemo(() => getStarterQuestions(agent), [agent]);
   const rawCaps = agentCapabilities[agent.id] || [];
   const capabilities = rawCaps.map(c => typeof c === 'string' ? c : c.bullet);
   const { profile, user } = useAuth();
@@ -116,6 +119,40 @@ const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
               </li>
             ))}
           </ul>
+        </div>
+      )}
+
+      {/* Agent-specific starter questions */}
+      {onStarterClick && starterQuestions.length > 0 && (
+        <div className="w-full max-w-sm mt-1 space-y-1.5">
+          <p
+            className="text-[11px] font-semibold tracking-wide uppercase text-left"
+            style={{ color: `${agent.color}90` }}
+          >
+            Try asking
+          </p>
+          {starterQuestions.map((q) => (
+            <button
+              key={q}
+              onClick={() => onStarterClick(q)}
+              className="w-full text-left text-xs font-body px-3 py-2.5 rounded-lg transition-all hover:scale-[1.01]"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: `1px solid ${agent.color}25`,
+                color: "#ffffffCC",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = `${agent.color}55`;
+                (e.currentTarget as HTMLElement).style.background = `${agent.color}10`;
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = `${agent.color}25`;
+                (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)";
+              }}
+            >
+              {q}
+            </button>
+          ))}
         </div>
       )}
     </div>
