@@ -399,8 +399,7 @@ const App = () => (
                         <Route path="/aroha/*" element={<Navigate to="/" replace />} />
                         <Route path="/tradie-portal" element={<Navigate to="/waihanga" replace />} />
                         <Route path="/landlord" element={<Navigate to="/" replace />} />
-                        <Route path="/agents/echo" element={<Navigate to="/how-it-works" replace />} />
-                        <Route path="/agents/:agentId" element={<Navigate to="/how-it-works" replace />} />
+                        <Route path="/agents/:agentId" element={<Navigate to="/chat/:agentId" replace />} />
                         <Route path="/fuel-savings" element={<Navigate to="/arataki" replace />} />
                         <Route path="/claims-register" element={<Navigate to="/" replace />} />
                         <Route path="/turf" element={<Navigate to="/" replace />} />
