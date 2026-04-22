@@ -336,9 +336,9 @@ async function handleToolsCall(
     return mcpError(-32601, `Tool not found: ${toolName}`, id);
   }
 
-  const toolsetSlug = ((tool as { mcp_toolsets?: { slug?: string } }).mcp_toolsets?.slug ?? null) as
-    | ToolsetSlug
-    | null;
+  const rawToolset = (tool as { mcp_toolsets?: { slug?: string } | { slug?: string }[] }).mcp_toolsets;
+  const toolsetEntry = Array.isArray(rawToolset) ? rawToolset[0] : rawToolset;
+  const toolsetSlug = (toolsetEntry?.slug ?? null) as ToolsetSlug | null;
 
   // CRITICAL-03 (a): tier gate — toolset must be in the tier allowlist.
   if (toolsetSlug && ctx.tier && !ctx.tier.included_toolsets.includes(toolsetSlug)) {
