@@ -14,14 +14,18 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Lato', 'sans-serif'],
-        body: ['"Plus Jakarta Sans"', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace'],
-        inter: ['"Plus Jakarta Sans"', 'sans-serif'],
-        outfit: ['"Plus Jakarta Sans"', 'sans-serif'],
-        syne: ['Lato', 'sans-serif'],
-        jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
-        'mono-jb': ['"JetBrains Mono"', 'monospace'],
+        // Brand Guidelines v1.0 (locked 2026-04-22)
+        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        body: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
+        mono: ['"IBM Plex Mono"', 'monospace'],
+        // Legacy aliases — silently retarget to v1.0 fonts
+        inter: ['Inter', 'sans-serif'],
+        outfit: ['Inter', 'sans-serif'],
+        syne: ['"Cormorant Garamond"', 'serif'],
+        jakarta: ['Inter', 'sans-serif'],
+        'mono-jb': ['"IBM Plex Mono"', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -57,21 +61,18 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Whenua palette — softened for light
+        // Whenua palette — retired teal/ochre, now mapped to Brand v1.0 neutrals
         whenua: {
-          kowhai: '#E8A948',
-          'kowhai-light': '#F0C670',
-          pounamu: '#4AA5A8',
-          'pounamu-light': '#6CBFC1',
-          tangaroa: '#5A7A9C',
-          'tangaroa-light': '#7A9ABC',
+          kowhai: '#D9BC7A',
+          'kowhai-light': '#E6CFA0',
+          pounamu: '#9D8C7D',
+          'pounamu-light': '#B5A89B',
+          tangaroa: '#6F6158',
+          'tangaroa-light': '#8E8177',
           rust: '#C85A54',
         },
         assembl: {
-          bg: '#FAFBFC',
-          surface: '#FFFFFF',
-          'surface-2': '#E8E6F0',
-          // Canonical Assembl tokens (locked 2026-04-22)
+          // Canonical Brand Guidelines v1.0 tokens (locked 2026-04-22)
           mist: 'hsl(var(--assembl-mist))',
           cloud: 'hsl(var(--assembl-cloud))',
           sand: 'hsl(var(--assembl-sand))',
@@ -82,6 +83,20 @@ export default {
           'text-primary': 'hsl(var(--assembl-text-primary))',
           'text-secondary': 'hsl(var(--assembl-text-secondary))',
           'text-body': 'hsl(var(--assembl-text-body))',
+          // Legacy aliases retargeted
+          bg: '#F7F3EE',
+          surface: '#FFFFFF',
+          'surface-2': '#EEE7DE',
+        },
+        kete: {
+          pikau: 'hsl(var(--kete-pikau))',
+          hoko: 'hsl(var(--kete-hoko))',
+          ako: 'hsl(var(--kete-ako))',
+          toro: 'hsl(var(--kete-toro))',
+          manaaki: 'hsl(var(--kete-manaaki))',
+          waihanga: 'hsl(var(--kete-waihanga))',
+          arataki: 'hsl(var(--kete-arataki))',
+          auaha: 'hsl(var(--kete-auaha))',
         },
         industry: {
           pikau: 'hsl(var(--industry-pikau))',
@@ -94,16 +109,17 @@ export default {
           auaha: 'hsl(var(--industry-auaha))',
         },
         neon: {
-          green: "#4AA5A8",
+          // Retired — all aliases now map to Taupe + status palette
+          green: "#9D8C7D",
           pink: "#C85A54",
-          cyan: "#5A7A9C",
-          orange: "#E8A948",
-          lime: "#4AA5A8",
+          cyan: "#6F6158",
+          orange: "#D9BC7A",
+          lime: "#9D8C7D",
           red: "#C85A54",
-          gold: "#E8A948",
-          teal: "#4AA5A8",
-          blue: "#5A7A9C",
-          amber: "#F0C670",
+          gold: "#D9BC7A",
+          teal: "#9D8C7D",
+          blue: "#6F6158",
+          amber: "#D9BC7A",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
