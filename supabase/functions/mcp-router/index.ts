@@ -115,14 +115,15 @@ async function resolveAuthContext(req: Request): Promise<AuthContext> {
     global: { headers: { Authorization: `Bearer ${token}` } },
     auth: { persistSession: false },
   });
-  const { data: claimsData, error: claimsError } = await userClient.auth.getClaims(token);
+  const { data: userData, error: userError } = await userClient.auth.getUser(token);
 
-  if (claimsError || !claimsData?.claims?.sub) {
+  if (userError || !userData?.user?.id) {
     return { userId: null, orgId: null, scopes: [], tier: null, enabledToolsets: ["core"] };
   }
 
-  const userId = claimsData.claims.sub as string;
-  const scopes = (claimsData.claims.app_metadata as { scopes?: string[] } | undefined)?.scopes ?? [];
+  const userId = userData.user.id;
+  const scopes =
+    (userData.user.app_metadata as { scopes?: string[] } | undefined)?.scopes ?? [];
 
   // Resolve the user's tenant (most-recent membership wins).
   const { data: member } = await supabase
@@ -257,12 +258,16 @@ async function handleToolsList(req: Request, ctx: AuthContext, id: unknown) {
     .select("name, description, input_schema_json, mcp_toolsets:toolset_id(slug)")
     .eq("is_ga", true);
 
-  const filtered = ((tools ?? []) as Array<{
+  type ToolListRow = {
     name: string;
     description: string | null;
     input_schema_json: unknown;
-    mcp_toolsets: { slug: string } | null;
-  }>).filter((t) => slugs.includes((t.mcp_toolsets?.slug ?? "") as ToolsetSlug));
+    mcp_toolsets: { slug: string } | { slug: string }[] | null;
+  };
+  const filtered = ((tools ?? []) as unknown as ToolListRow[]).filter((t) => {
+    const ts = Array.isArray(t.mcp_toolsets) ? t.mcp_toolsets[0] : t.mcp_toolsets;
+    return slugs.includes((ts?.slug ?? "") as ToolsetSlug);
+  });
 
   return mcpResult(id, {
     tools: filtered.map((t) => ({
