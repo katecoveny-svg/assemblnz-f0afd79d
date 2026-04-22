@@ -63,6 +63,8 @@ export default function LearningGame({
 }: Props) {
   const [loading, setLoading] = useState(true);
   const [game, setGame] = useState<Game | null>(null);
+  const [detectedTopic, setDetectedTopic] = useState<string | null>(null);
+  const [topicSource, setTopicSource] = useState<"user" | "image" | "none" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
