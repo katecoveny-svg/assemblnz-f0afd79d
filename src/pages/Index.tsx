@@ -23,6 +23,7 @@ import WeeklyChangesDigest from "@/components/landing/WeeklyChangesDigest";
 import { DotDivider } from "@/components/MicroDetails";
 import { KeteHoverEffect } from "@/components/KeteHoverEffects";
 import InteractiveTryItDemo from "@/components/landing/InteractiveTryItDemo";
+import KeteWispBreak from "@/components/kete/KeteWispBreak";
 import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 import { manaakiMark } from "@/assets/brand";
