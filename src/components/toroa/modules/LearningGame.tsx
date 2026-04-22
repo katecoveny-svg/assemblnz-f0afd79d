@@ -488,10 +488,21 @@ export default function LearningGame({
                       ? "Not quite — have another go."
                       : "Still off. Take your time and try once more."}
                   </p>
-                  {showHint && (
-                    <p className="font-body text-[11px] italic" style={{ color: "#6B7280" }}>
-                      Hint: {q.hint}
-                    </p>
+                  {hintStep > 0 && (
+                    <ol className="space-y-0.5 pl-4 list-decimal" aria-label="Progressive hints">
+                      {getHintList(q).slice(0, hintStep).map((h, i) => (
+                        <li
+                          key={i}
+                          className="font-body text-[11px] italic"
+                          style={{ color: "#6B7280" }}
+                        >
+                          <span className="not-italic font-mono text-[10px]" style={{ color: "#8A6B2E" }}>
+                            Hint {i + 1}:
+                          </span>{" "}
+                          {h}
+                        </li>
+                      ))}
+                    </ol>
                   )}
                 </motion.div>
               )}
