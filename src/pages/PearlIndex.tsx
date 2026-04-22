@@ -374,22 +374,7 @@ function Hero() {
 function WhyAssembl() {
   return (
     <section className="relative overflow-hidden" style={{ paddingTop: 96, paddingBottom: 96, background: PEARL.bg }}>
-      {/* Atmospheric cloud — stretched full-bleed behind the copy as a soft backdrop */}
-      <div
-        className="absolute inset-0 pointer-events-none flex items-center justify-center"
-        style={{
-          opacity: 0.55,
-          maskImage:
-            "radial-gradient(ellipse 80% 75% at 50% 55%, black 30%, rgba(0,0,0,0.5) 60%, transparent 90%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 80% 75% at 50% 55%, black 30%, rgba(0,0,0,0.5) 60%, transparent 90%)",
-        }}
-        aria-hidden="true"
-      >
-        <Suspense fallback={null}>
-          <HeroCloud height={720} opacity={0.7} />
-        </Suspense>
-      </div>
+      {/* Atmospheric cloud removed */}
 
       <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6 relative z-10">
         <Eyebrow>Why Assembl</Eyebrow>
