@@ -1,15 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import AgentAvatar from "@/components/AgentAvatar";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import { getGreetingText, getSeasonalAgentHint, getAnniversaryMessage, AGENT_LOADING_MESSAGES, SMART_EMPTY_STATES } from "@/engine/personality";
+import { getStarterQuestions } from "@/engine/starterQuestions";
 import { useAuth } from "@/hooks/useAuth";
 import type { Agent } from "@/data/agents";
 
 interface AgentWelcomeProps {
   agent: Agent;
+  onStarterClick?: (prompt: string) => void;
 }
 
-const AgentWelcome = ({ agent }: AgentWelcomeProps) => {
+const AgentWelcome = ({ agent, onStarterClick }: AgentWelcomeProps) => {
+  const starterQuestions = useMemo(() => getStarterQuestions(agent), [agent]);
   const rawCaps = agentCapabilities[agent.id] || [];
   const capabilities = rawCaps.map(c => typeof c === 'string' ? c : c.bullet);
   const { profile, user } = useAuth();
