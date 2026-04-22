@@ -240,9 +240,9 @@ html {
 @layer utilities {
   .font-serif-display { font-family: 'Cormorant Garamond', serif; }
   .font-sans-pearl { font-family: 'Inter', sans-serif; }
-  .text-pounamu { color: #1F4D47; }
-  .text-deep-calm { color: #0E1513; }
-  .text-ink-soft { color: rgba(14,21,19,0.65); }
+  .text-pounamu { color: #6F6158; }                       /* retargeted to Brand v1.0 Taupe Deep */
+  .text-deep-calm { color: #6F6158; }
+  .text-ink-soft { color: rgba(111,97,88,0.72); }
   .bg-icy-pearl { background-color: #FBFAF7; }
   .bg-warm-pearl { background-color: #FBFAF7; }   /* alias kept for back-compat */
   .bg-linen { background-color: #F3F4F2; }        /* now Moonstone */
