@@ -453,8 +453,6 @@ export default function LearningGame({
                   exit={{ opacity: 0, height: 0 }}
                   className="rounded-md p-2 space-y-1"
                   style={{ background: "rgba(239,68,68,0.06)" }}
-                  role="status"
-                  aria-live="polite"
                 >
                   <p className="font-body text-[11px]" style={{ color: "#9B1C1C" }}>
                     {attempts === 1
@@ -481,8 +479,6 @@ export default function LearningGame({
                   style={{
                     background: solved ? "rgba(58,125,110,0.08)" : "rgba(217,188,122,0.12)",
                   }}
-                  role="status"
-                  aria-live="polite"
                 >
                   <p className="font-body text-[11px]" style={{ color: TANGAROA }}>
                     <strong>{solved ? "Ka pai!" : "Answer:"}</strong> {q.answer}
@@ -501,8 +497,9 @@ export default function LearningGame({
                 {attempts > 0 && (
                   <>
                     <button
-                      onClick={() => setShowHint(true)}
+                      onClick={revealHint}
                       disabled={showHint}
+                      aria-label={showHint ? "Hint already shown" : "Reveal a hint for this question"}
                       className="px-3 py-2 rounded-lg text-xs font-body flex items-center gap-1 transition-all disabled:opacity-40"
                       style={{ background: `${SOFT_GOLD}25`, color: "#8A6B2E" }}
                       type="button"
