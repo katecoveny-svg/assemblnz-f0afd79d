@@ -2524,6 +2524,33 @@ export type Database = {
           },
         ]
       }
+      developer_waitlist: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          industry: string | null
+          source: string | null
+          use_case: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          industry?: string | null
+          source?: string | null
+          use_case?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          industry?: string | null
+          source?: string | null
+          use_case?: string | null
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string
@@ -5461,6 +5488,143 @@ export type Database = {
           source_table?: string | null
           tapu_noa_classification?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      mcp_org_toolsets: {
+        Row: {
+          created_at: string
+          enabled: boolean
+          id: string
+          org_id: string
+          toolset_slug: string
+        }
+        Insert: {
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          org_id: string
+          toolset_slug: string
+        }
+        Update: {
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          org_id?: string
+          toolset_slug?: string
+        }
+        Relationships: []
+      }
+      mcp_tool_calls: {
+        Row: {
+          called_at: string
+          duration_ms: number | null
+          error_message: string | null
+          id: string
+          org_id: string | null
+          status: string
+          tool_name: string
+          toolset_slug: string | null
+          user_id: string | null
+        }
+        Insert: {
+          called_at?: string
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          org_id?: string | null
+          status: string
+          tool_name: string
+          toolset_slug?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          called_at?: string
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          org_id?: string | null
+          status?: string
+          tool_name?: string
+          toolset_slug?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      mcp_tools: {
+        Row: {
+          agent_code: string | null
+          created_at: string
+          description: string | null
+          edge_function_url: string | null
+          id: string
+          input_schema_json: Json | null
+          is_ga: boolean
+          name: string
+          requires_auth_scope: string | null
+          toolset_id: string
+        }
+        Insert: {
+          agent_code?: string | null
+          created_at?: string
+          description?: string | null
+          edge_function_url?: string | null
+          id?: string
+          input_schema_json?: Json | null
+          is_ga?: boolean
+          name: string
+          requires_auth_scope?: string | null
+          toolset_id: string
+        }
+        Update: {
+          agent_code?: string | null
+          created_at?: string
+          description?: string | null
+          edge_function_url?: string | null
+          id?: string
+          input_schema_json?: Json | null
+          is_ga?: boolean
+          name?: string
+          requires_auth_scope?: string | null
+          toolset_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mcp_tools_toolset_id_fkey"
+            columns: ["toolset_id"]
+            isOneToOne: false
+            referencedRelation: "mcp_toolsets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mcp_toolsets: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_name: string
+          id: string
+          industry_pack: string | null
+          is_active: boolean
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_name: string
+          id?: string
+          industry_pack?: string | null
+          is_active?: boolean
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_name?: string
+          id?: string
+          industry_pack?: string | null
+          is_active?: boolean
+          slug?: string
         }
         Relationships: []
       }
