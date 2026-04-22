@@ -23,12 +23,28 @@ const MAX_MESSAGES = 40;
 const MAX_CONTENT_CHARS = 8000;
 const MAX_TOTAL_CHARS = 60000;
 
+// Message content can be a plain string OR an array of multimodal parts
+// (text + image_url) so the chat UI can attach photos (e.g. homework worksheets).
+const TextPartSchema = z.object({
+  type: z.literal("text"),
+  text: z.string().min(1).max(MAX_CONTENT_CHARS),
+});
+const ImagePartSchema = z.object({
+  type: z.literal("image_url"),
+  image_url: z.object({
+    // Accept https URLs or data: URLs (base64) up to ~6MB encoded.
+    url: z.string().min(1).max(8_500_000),
+    detail: z.enum(["auto", "low", "high"]).optional(),
+  }),
+});
+const ContentPartSchema = z.union([TextPartSchema, ImagePartSchema]);
+
 const MessageSchema = z.object({
   role: z.enum(["user", "assistant", "system"]),
-  content: z
-    .string()
-    .min(1, "content cannot be empty")
-    .max(MAX_CONTENT_CHARS, `content exceeds ${MAX_CONTENT_CHARS} chars`),
+  content: z.union([
+    z.string().min(1).max(MAX_CONTENT_CHARS),
+    z.array(ContentPartSchema).min(1).max(8),
+  ]),
 });
 
 const ChatBodySchema = z.object({
