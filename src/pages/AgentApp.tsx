@@ -9,6 +9,7 @@ import {
   Settings2, Mic, Phone, BookOpen, FileText, Sparkles, LayoutGrid, ShieldAlert,
 } from "lucide-react";
 import { agents } from "@/data/agents";
+import { useResolvedAgent } from "@/hooks/useAgentOverrides";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentSmsPanel from "@/components/shared/AgentSmsPanel";
 import AgentTraining from "@/components/shared/AgentTraining";

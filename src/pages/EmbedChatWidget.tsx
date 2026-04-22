@@ -2,6 +2,7 @@ import { agentChat } from "@/lib/agentChat";
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { agents, echoAgent, pilotAgent } from "@/data/agents";
+import { useResolvedAgent } from "@/hooks/useAgentOverrides";
 import { supabase } from "@/integrations/supabase/client";
 import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
