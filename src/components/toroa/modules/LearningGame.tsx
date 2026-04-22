@@ -92,11 +92,14 @@ export default function LearningGame({
         });
         if (cancelled) return;
         if (fnErr) throw new Error(fnErr.message);
-        const g = (data as { game?: Game })?.game;
+        const payload = data as { game?: Game; detected_topic?: string | null; topic_source?: "user" | "image" | "none" };
+        const g = payload?.game;
         if (!g || !Array.isArray(g.questions) || g.questions.length === 0) {
           throw new Error("Tōro couldn't build the game just now — give it another try.");
         }
         setGame(g);
+        setDetectedTopic(payload?.detected_topic ?? null);
+        setTopicSource(payload?.topic_source ?? null);
       } catch (e) {
         if (cancelled) return;
         const msg = (e as Error).message || "Could not load the game.";
