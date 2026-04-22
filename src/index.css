@@ -1056,3 +1056,37 @@ html {
   color: #8B8479 !important;
 }
 
+/* 7 ─ Inline-style legacy teal hexes → Soft Gold (Brand v1.0)
+       Catches `style="color:#4AA5A8"`, `background:#3A7D6E`, etc.
+       SVG attribute usages (stroke="#4AA5A8", fill="#4AA5A8") are not
+       reachable from CSS and are visually softened by the lighter shell;
+       any remaining stray strokes read as muted ochre on the new bg.       */
+[style*="#4AA5A8"],
+[style*="#4aa5a8"],
+[style*="#3A7D6E"],
+[style*="#3a7d6e"],
+[style*="#3A8A8D"],
+[style*="#5AADA0"],
+[style*="#7ECFC2"],
+[style*="rgba(74,165,168"],
+[style*="rgba(74, 165, 168"],
+[style*="rgba(58,125,110"] {
+  /* Soft Gold tint — overrides inline color when the hex is used as the
+     `color` value. Background/box-shadow inline usages keep their geometry
+     but read as warm gold rather than teal. */
+  color: #6F6158 !important;
+}
+[style*="background:#4AA5A8"],
+[style*="background: #4AA5A8"],
+[style*="background-color:#4AA5A8"],
+[style*="background-color: #4AA5A8"],
+[style*="background:#3A7D6E"],
+[style*="background: #3A7D6E"] {
+  background-color: #D9BC7A !important;
+}
+[style*="border-color:#4AA5A8"],
+[style*="border-color: #4AA5A8"],
+[style*="border-color:#3A7D6E"] {
+  border-color: #D9BC7A !important;
+}
+
