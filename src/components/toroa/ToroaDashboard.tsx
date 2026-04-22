@@ -184,16 +184,16 @@ export default function ToroaDashboard() {
     <div className="min-h-screen flex" style={{ background: BG }}>
       {/* ── SIDEBAR (desktop) ── */}
       <aside className="hidden md:flex w-64 flex-col fixed top-0 left-0 bottom-0 z-40" style={{
-        background: "rgba(9,9,15,0.95)",
-        borderRight: `1px solid ${TEAL_ACCENT}10`,
+        background: "rgba(247,243,238,0.95)",
+        borderRight: `1px solid ${ACCENT}10`,
         backdropFilter: "blur(20px)",
       }}>
         {/* Logo */}
-        <div className="p-5 flex items-center gap-3" style={{ borderBottom: `1px solid ${TEAL_ACCENT}08` }}>
-          <img loading="lazy" decoding="async" src={toroaLogo} alt="Tōro" className="w-8 h-8" style={{ filter: `drop-shadow(0 0 8px ${TEAL_ACCENT}30)` }} />
+        <div className="p-5 flex items-center gap-3" style={{ borderBottom: `1px solid ${ACCENT}08` }}>
+          <img loading="lazy" decoding="async" src={toroaLogo} alt="Tōro" className="w-8 h-8" style={{ filter: `drop-shadow(0 0 8px ${ACCENT}30)` }} />
           <div>
-            <h1 className="font-display text-sm uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: "#1A1D29" }}>Tōro</h1>
-            <p className="font-body text-[9px]" style={{ color: "#9CA3AF" }}>Whānau Navigator</p>
+            <h1 className="font-display text-sm uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: INK }}>Tōro</h1>
+            <p className="font-body text-[9px]" style={{ color: MUTED }}>Whānau Navigator</p>
           </div>
         </div>
 
@@ -207,11 +207,11 @@ export default function ToroaDashboard() {
                 onClick={() => setActive(key)}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all relative"
                 style={{
-                  background: isActive ? `${TEAL_ACCENT}12` : "transparent",
-                  color: isActive ? TEAL_ACCENT : "#9CA3AF",
+                  background: isActive ? `${ACCENT}12` : "transparent",
+                  color: isActive ? ACCENT : MUTED,
                 }}
               >
-                {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full" style={{ background: TEAL_ACCENT }} />}
+                {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full" style={{ background: ACCENT }} />}
                 <Icon size={16} strokeWidth={isActive ? 2 : 1.5} />
                 <span className="font-body text-xs">{label}</span>
               </button>
@@ -220,7 +220,7 @@ export default function ToroaDashboard() {
         </nav>
 
         {/* WhatsApp toggle */}
-        <div className="p-4" style={{ borderTop: `1px solid ${TEAL_ACCENT}08` }}>
+        <div className="p-4" style={{ borderTop: `1px solid ${ACCENT}08` }}>
           <button
             onClick={() => setWhatsappConnected(!whatsappConnected)}
             className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all"
@@ -230,8 +230,8 @@ export default function ToroaDashboard() {
             }}
           >
             <div className="flex items-center gap-2">
-              <Wifi size={14} style={{ color: whatsappConnected ? POUNAMU : "#9CA3AF" }} />
-              <span className="font-body text-xs" style={{ color: whatsappConnected ? POUNAMU : "#6B7280" }}>WhatsApp</span>
+              <Wifi size={14} style={{ color: whatsappConnected ? POUNAMU : MUTED }} />
+              <span className="font-body text-xs" style={{ color: whatsappConnected ? POUNAMU : MUTED }}>WhatsApp</span>
             </div>
             <div
               className="w-8 h-4 rounded-full relative transition-all"
@@ -241,7 +241,7 @@ export default function ToroaDashboard() {
                 className="absolute top-0.5 w-3 h-3 rounded-full transition-all"
                 style={{
                   left: whatsappConnected ? "calc(100% - 14px)" : "2px",
-                  background: whatsappConnected ? POUNAMU : "#9CA3AF",
+                  background: whatsappConnected ? POUNAMU : MUTED,
                 }}
               />
             </div>
@@ -251,16 +251,16 @@ export default function ToroaDashboard() {
 
       {/* ── MOBILE HEADER ── */}
       <header className="fixed top-0 left-0 right-0 z-50 md:hidden flex items-center justify-between px-4 h-14" style={{
-        background: "rgba(9,9,15,0.9)",
-        borderBottom: `1px solid ${TEAL_ACCENT}10`,
+        background: "rgba(247,243,238,0.92)",
+        borderBottom: `1px solid ${ACCENT}10`,
         backdropFilter: "blur(20px)",
       }}>
         <div className="flex items-center gap-2">
           <img loading="lazy" decoding="async" src={toroaLogo} alt="Tōro" className="w-6 h-6" />
-          <span className="font-display text-xs uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: "#1A1D29" }}>Tōro</span>
+          <span className="font-display text-xs uppercase tracking-[0.15em]" style={{ fontWeight: 300, color: INK }}>Tōro</span>
         </div>
         <button onClick={() => setSidebarOpen(!sidebarOpen)}>
-          {sidebarOpen ? <X size={20} style={{ color: "#9CA3AF" }} /> : <Menu size={20} style={{ color: "#9CA3AF" }} />}
+          {sidebarOpen ? <X size={20} style={{ color: MUTED }} /> : <Menu size={20} style={{ color: MUTED }} />}
         </button>
       </header>
 
@@ -273,7 +273,7 @@ export default function ToroaDashboard() {
             exit={{ x: "-100%" }}
             transition={{ type: "spring", damping: 25 }}
             className="fixed inset-0 z-40 md:hidden"
-            style={{ background: "rgba(9,9,15,0.97)", backdropFilter: "blur(20px)" }}
+            style={{ background: "rgba(247,243,238,0.97)", backdropFilter: "blur(20px)" }}
           >
             <div className="pt-16 px-4 space-y-1">
               {NAV_ITEMS.map(({ key, label, icon: Icon }) => (
@@ -282,8 +282,8 @@ export default function ToroaDashboard() {
                   onClick={() => { setActive(key); setSidebarOpen(false); }}
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left"
                   style={{
-                    background: active === key ? `${TEAL_ACCENT}12` : "transparent",
-                    color: active === key ? TEAL_ACCENT : "#9CA3AF",
+                    background: active === key ? `${ACCENT}12` : "transparent",
+                    color: active === key ? ACCENT : MUTED,
                   }}
                 >
                   <Icon size={18} />
@@ -298,7 +298,7 @@ export default function ToroaDashboard() {
       {/* ── MAIN CONTENT ── */}
       <main className="flex-1 md:ml-64 pt-14 md:pt-0 pb-20 md:pb-8">
         {/* Gold accent line */}
-        <div className="h-px" style={{ background: `linear-gradient(90deg, transparent, ${TEAL_ACCENT}40, transparent)` }} />
+        <div className="h-px" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}40, transparent)` }} />
 
         <div className="max-w-2xl mx-auto p-4 md:p-6 space-y-6">
           {/* ── Voyage launcher tile ── */}
@@ -306,24 +306,24 @@ export default function ToroaDashboard() {
             to="/voyage/plan"
             className="block rounded-2xl p-4 transition-all hover:scale-[1.01] group"
             style={{
-              background: `linear-gradient(135deg, ${TEAL_ACCENT}12, ${POUNAMU}10)`,
-              border: `1px solid ${TEAL_ACCENT}25`,
+              background: `linear-gradient(135deg, ${ACCENT}12, ${POUNAMU}10)`,
+              border: `1px solid ${ACCENT}25`,
               backdropFilter: "blur(14px)",
             }}
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${TEAL_ACCENT}20`, border: `1px solid ${TEAL_ACCENT}30` }}>
-                <Compass size={18} style={{ color: TEAL_ACCENT }} />
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${ACCENT}20`, border: `1px solid ${ACCENT}30` }}>
+                <Compass size={18} style={{ color: ACCENT }} />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <Sparkles size={10} style={{ color: TEAL_ACCENT }} />
-                  <p className="text-[9px] uppercase tracking-[0.2em]" style={{ color: TEAL_ACCENT }}>Voyage Agent</p>
+                  <Sparkles size={10} style={{ color: ACCENT }} />
+                  <p className="text-[9px] uppercase tracking-[0.2em]" style={{ color: ACCENT }}>Voyage Agent</p>
                 </div>
-                <p className="text-xs mt-0.5" style={{ color: "#1A1D29", fontWeight: 500 }}>Plan a multi-family trip</p>
-                <p className="text-[10px] mt-0.5" style={{ color: "#6B7280" }}>Describe it in plain English — get destinations, days, convoys & a live map.</p>
+                <p className="text-xs mt-0.5" style={{ color: INK, fontWeight: 500 }}>Plan a multi-family trip</p>
+                <p className="text-[10px] mt-0.5" style={{ color: MUTED }}>Describe it in plain English — get destinations, days, convoys & a live map.</p>
               </div>
-              <ChevronLeft size={14} className="rotate-180 group-hover:translate-x-0.5 transition-transform" style={{ color: TEAL_ACCENT }} />
+              <ChevronLeft size={14} className="rotate-180 group-hover:translate-x-0.5 transition-transform" style={{ color: ACCENT }} />
             </div>
           </Link>
 
@@ -340,11 +340,11 @@ export default function ToroaDashboard() {
           </AnimatePresence>
 
           {/* Chat + Doc upload always visible */}
-          <div className="space-y-4 pt-4" style={{ borderTop: `1px solid ${TEAL_ACCENT}08` }}>
+          <div className="space-y-4 pt-4" style={{ borderTop: `1px solid ${ACCENT}08` }}>
             <KeteEvidencePackPanel
               keteSlug="toroa"
               keteName="Tōro — Family Navigator"
-              accentColor={TEAL_ACCENT}
+              accentColor={ACCENT}
               agentId="toroa"
               agentName="TŌRO"
               packTemplates={[
@@ -362,19 +362,19 @@ export default function ToroaDashboard() {
             />
             <KeteDocUpload
               keteSlug="toroa"
-              keteColor={TEAL_ACCENT}
+              keteColor={ACCENT}
               keteName="Tōro — Family Navigator"
               docContext="Expect school newsletters, permission slips, medical forms, invoices, bills, and family schedules. Extract events, deadlines, costs, and required actions."
             />
-            <KeteBrainChat keteId="toroa" keteName="Tōro" keteNameEn="Family Navigator" accentColor={TEAL_ACCENT} />
+            <KeteBrainChat keteId="toroa" keteName="Tōro" keteNameEn="Family Navigator" accentColor={ACCENT} />
           </div>
         </div>
       </main>
 
       {/* ── MOBILE BOTTOM TABS ── */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden" style={{
-        background: "rgba(9,9,15,0.92)",
-        borderTop: `1px solid ${TEAL_ACCENT}10`,
+        background: "rgba(247,243,238,0.92)",
+        borderTop: `1px solid ${ACCENT}10`,
         backdropFilter: "blur(24px) saturate(1.5)",
       }}>
         <div className="flex items-stretch justify-around h-14 max-w-lg mx-auto">
@@ -385,18 +385,18 @@ export default function ToroaDashboard() {
                 key={key}
                 onClick={() => setActive(key)}
                 className="flex flex-col items-center justify-center gap-0.5 flex-1 transition-colors relative"
-                style={{ color: isActive ? TEAL_ACCENT : "#9CA3AF" }}
+                style={{ color: isActive ? ACCENT : MUTED }}
               >
                 <Icon size={18} strokeWidth={isActive ? 2 : 1.5} />
                 <span className="text-[9px] font-body">{label}</span>
                 {isActive && (
-                  <span className="absolute top-0 w-8 h-px" style={{ background: `linear-gradient(90deg, transparent, ${TEAL_ACCENT}80, transparent)` }} />
+                  <span className="absolute top-0 w-8 h-px" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}80, transparent)` }} />
                 )}
               </button>
             );
           })}
         </div>
-        <div className="h-[env(safe-area-inset-bottom)]" style={{ background: "rgba(9,9,15,0.92)" }} />
+        <div className="h-[env(safe-area-inset-bottom)]" style={{ background: "rgba(247,243,238,0.92)" }} />
       </nav>
     </div>
   );
