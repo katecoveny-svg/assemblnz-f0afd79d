@@ -14,6 +14,7 @@ import { TeReoProvider } from "@/components/chat/TeReoProvider";
 import { PersonalizationProvider } from "@/contexts/PersonalizationContext";
 import { BrandDnaProvider } from "@/contexts/BrandDnaContext";
 import { BusinessProvider } from "@/contexts/BusinessContext";
+import { AgentOverridesProvider } from "@/hooks/useAgentOverrides";
 import PageTransition from "@/components/marama/PageTransition";
 import GlobalMotionShell from "@/components/next/GlobalMotionShell";
 
