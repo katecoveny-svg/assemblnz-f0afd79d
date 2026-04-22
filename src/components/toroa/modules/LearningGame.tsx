@@ -28,7 +28,20 @@ interface Question {
   options?: string[];
   answer: string;
   explanation: string;
+  /** Legacy single hint — kept for backward compat with older payloads. */
   hint: string;
+  /** Preferred: 3 progressive hints from gentle → strong scaffold. */
+  hints?: string[];
+}
+
+/**
+ * Normalize whatever the model returned into 1–3 progressive hints.
+ * Always returns a non-empty array (falls back to legacy `hint`).
+ */
+function getHintList(q: Question): string[] {
+  const list = (q.hints ?? []).map((h) => (h ?? "").trim()).filter(Boolean);
+  if (list.length > 0) return list.slice(0, 3);
+  return q.hint ? [q.hint.trim()] : [];
 }
 
 interface Game {
@@ -76,7 +89,7 @@ export default function LearningGame({
   const [revealed, setRevealed] = useState(false); // answer fully revealed (after correct OR after giving up)
   const [solved, setSolved] = useState(false); // child got it right (this attempt)
   const [attempts, setAttempts] = useState(0); // wrong attempts on current question
-  const [showHint, setShowHint] = useState(false);
+  const [hintStep, setHintStep] = useState(0); // 0 = none shown, 1..N = number of progressive hints revealed
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
@@ -202,12 +215,14 @@ export default function LearningGame({
     }
     const nextAttempts = attempts + 1;
     setAttempts(nextAttempts);
-    // After the first miss, surface the hint automatically
-    const hintWasHidden = !showHint;
-    setShowHint(true);
+    // Reveal the next progressive hint (cap at the number of hints we have)
+    const hintList = getHintList(q);
+    const nextHintStep = Math.min(hintStep + 1, hintList.length);
+    setHintStep(nextHintStep);
+    const justRevealedHint = nextHintStep > hintStep ? hintList[nextHintStep - 1] : null;
     setAnnouncement(
-      hintWasHidden
-        ? `Try again. Hint: ${q.hint}`
+      justRevealedHint
+        ? `Try again. Hint ${nextHintStep}: ${justRevealedHint}`
         : nextAttempts === 1
           ? "Try again."
           : "Still off. Take your time and try once more."
@@ -220,9 +235,15 @@ export default function LearningGame({
 
   const revealHint = () => {
     if (!q || revealed || solved) return;
-    const wasHidden = !showHint;
-    setShowHint(true);
-    setAnnouncement(wasHidden ? `Hint revealed: ${q.hint}` : `Hint still showing: ${q.hint}`);
+    const hintList = getHintList(q);
+    if (hintStep >= hintList.length) {
+      setAnnouncement("All hints already shown.");
+      focusAnswerControl();
+      return;
+    }
+    const nextStep = hintStep + 1;
+    setHintStep(nextStep);
+    setAnnouncement(`Hint ${nextStep} of ${hintList.length}: ${hintList[nextStep - 1]}`);
     focusAnswerControl();
   };
 
@@ -274,7 +295,7 @@ export default function LearningGame({
     setRevealed(false);
     setSolved(false);
     setAttempts(0);
-    setShowHint(false);
+    setHintStep(0);
     setAnnouncement("");
     recordedRef.current = false;
   };
@@ -286,7 +307,7 @@ export default function LearningGame({
     setRevealed(false);
     setSolved(false);
     setAttempts(0);
-    setShowHint(false);
+    setHintStep(0);
     setScore(0);
     setDone(false);
     setAnnouncement("");
@@ -467,10 +488,21 @@ export default function LearningGame({
                       ? "Not quite — have another go."
                       : "Still off. Take your time and try once more."}
                   </p>
-                  {showHint && (
-                    <p className="font-body text-[11px] italic" style={{ color: "#6B7280" }}>
-                      Hint: {q.hint}
-                    </p>
+                  {hintStep > 0 && (
+                    <ol className="space-y-0.5 pl-4 list-decimal" aria-label="Progressive hints">
+                      {getHintList(q).slice(0, hintStep).map((h, i) => (
+                        <li
+                          key={i}
+                          className="font-body text-[11px] italic"
+                          style={{ color: "#6B7280" }}
+                        >
+                          <span className="not-italic font-mono text-[10px]" style={{ color: "#8A6B2E" }}>
+                            Hint {i + 1}:
+                          </span>{" "}
+                          {h}
+                        </li>
+                      ))}
+                    </ol>
                   )}
                 </motion.div>
               )}
@@ -504,16 +536,35 @@ export default function LearningGame({
               <>
                 {attempts > 0 && (
                   <>
-                    <button
-                      onClick={revealHint}
-                      disabled={showHint}
-                      aria-label={showHint ? "Hint already shown" : "Reveal a hint for this question"}
-                      className="px-3 py-2 rounded-lg text-xs font-body flex items-center gap-1 transition-all disabled:opacity-40"
-                      style={{ background: `${SOFT_GOLD}25`, color: "#8A6B2E" }}
-                      type="button"
-                    >
-                      Show hint
-                    </button>
+                    {(() => {
+                      const hintList = getHintList(q);
+                      const totalHints = hintList.length;
+                      const allShown = hintStep >= totalHints;
+                      const label =
+                        totalHints === 0
+                          ? "No hints"
+                          : allShown
+                            ? `All ${totalHints} hints shown`
+                            : hintStep === 0
+                              ? `Show hint (1 of ${totalHints})`
+                              : `Next hint (${hintStep + 1} of ${totalHints})`;
+                      return (
+                        <button
+                          onClick={revealHint}
+                          disabled={allShown || totalHints === 0}
+                          aria-label={
+                            allShown
+                              ? "All hints already shown"
+                              : `Reveal hint ${hintStep + 1} of ${totalHints}`
+                          }
+                          className="px-3 py-2 rounded-lg text-xs font-body flex items-center gap-1 transition-all disabled:opacity-40"
+                          style={{ background: `${SOFT_GOLD}25`, color: "#8A6B2E" }}
+                          type="button"
+                        >
+                          {label}
+                        </button>
+                      );
+                    })()}
                     <button
                       onClick={giveUp}
                       className="px-3 py-2 rounded-lg text-xs font-body transition-all"
