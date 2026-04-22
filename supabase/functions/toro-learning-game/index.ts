@@ -272,10 +272,18 @@ Deno.serve(async (req) => {
       });
     }
 
-    return new Response(JSON.stringify({ game }), {
-      status: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        game,
+        detected_topic: extractedLabel,
+        topic_source: topicHint
+          ? "user"
+          : extractedLabel
+            ? "image"
+            : "none",
+      }),
+      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
   } catch (e) {
     console.error("toro-learning-game error", e);
     return new Response(JSON.stringify({ error: (e as Error).message ?? "Unknown error" }), {
