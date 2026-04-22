@@ -141,13 +141,68 @@ Deno.serve(async (req) => {
     }
   }
 
+  // ── Pre-pass: if we have a worksheet photo and no strong topic hint,
+  //    extract a short skill/topic label so the game stays consistent
+  //    even when the parent didn't type anything.
+  let extractedLabel: string | null = null;
+  const hintIsThin = !topicHint || topicHint.trim().length < 8;
+  if (imageDataUrl && hintIsThin) {
+    try {
+      const labelResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [
+            {
+              role: "system",
+              content:
+                "You label NZ school homework worksheets. Reply with a SHORT skill/topic label only " +
+                "(max 8 words, plain English, no punctuation, no quotes). " +
+                "Examples: 'two-digit addition with regrouping', 'fractions of a whole', " +
+                "'simple past tense verbs', 'plant life cycle'. " +
+                "If unsure, reply 'general practice'.",
+            },
+            {
+              role: "user",
+              content: [
+                { type: "text", text: `Subject hint: ${subject}. What skill is this worksheet practising?` },
+                { type: "image_url", image_url: { url: imageDataUrl, detail: "high" } },
+              ],
+            },
+          ],
+          max_tokens: 40,
+        }),
+      });
+      if (labelResp.ok) {
+        const j = await labelResp.json();
+        const raw = (j?.choices?.[0]?.message?.content ?? "").toString().trim();
+        // Clean: strip quotes, trailing periods, collapse whitespace, cap length.
+        const cleaned = raw.replace(/^["'`]+|["'`.]+$/g, "").replace(/\s+/g, " ").slice(0, 80);
+        if (cleaned && cleaned.toLowerCase() !== "general practice") {
+          extractedLabel = cleaned;
+        }
+      } else {
+        console.warn("Label extraction non-OK", labelResp.status);
+      }
+    } catch (e) {
+      // Non-fatal — fall through to topic-less generation.
+      console.warn("Label extraction failed", (e as Error).message);
+    }
+  }
+
+  const effectiveTopic = topicHint || extractedLabel || "";
+
   const userParts: GamePart[] = [];
   const ctx = [
     `Child: ${childName}`,
     yearLevel ? `Year level: ${yearLevel}` : null,
     `Subject: ${subject}`,
     nzcLevel ? `NZC level: ${nzcLevel}` : null,
-    topicHint ? `Topic / what we're practising: ${topicHint}` : null,
+    effectiveTopic ? `Topic / what we're practising: ${effectiveTopic}` : null,
+    extractedLabel && !topicHint
+      ? `(This topic was auto-detected from the attached worksheet photo — keep the game tightly aligned to it.)`
+      : null,
     imageDataUrl ? "A photo of the homework worksheet is attached for context." : null,
     "Please design a fun 5-question mini-game that practises this skill.",
   ]
