@@ -237,20 +237,76 @@ export default function HomeworkHelp({ children }: Props) {
           {messages.map((m, i) => (
             <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
               <div
-                className="max-w-[85%] px-3 py-2 text-xs leading-relaxed whitespace-pre-wrap rounded-2xl"
+                className="max-w-[85%] px-3 py-2 text-xs leading-relaxed whitespace-pre-wrap rounded-2xl space-y-2"
                 style={
                   m.role === "user"
                     ? { background: POUNAMU, color: "#FFFFFF", borderBottomRightRadius: 4 }
                     : { background: "rgba(255,255,255,0.95)", color: "#1A1D29", border: `1px solid ${TANGAROA}15`, borderBottomLeftRadius: 4 }
                 }
               >
-                {m.content || (m.role === "assistant" && streaming ? <Loader2 size={12} className="animate-spin" /> : null)}
+                {m.imageUrl && (
+                  <img
+                    src={m.imageUrl}
+                    alt="Homework worksheet attachment"
+                    className="rounded-lg max-h-48 w-auto object-contain"
+                    style={{ background: "rgba(0,0,0,0.05)" }}
+                  />
+                )}
+                <div>
+                  {m.content || (m.role === "assistant" && streaming ? <Loader2 size={12} className="animate-spin" /> : null)}
+                </div>
               </div>
             </div>
           ))}
         </div>
 
+        {pendingImage && (
+          <div
+            className="flex items-center gap-2 rounded-lg p-2"
+            style={{ background: `${POUNAMU}10`, border: `1px solid ${POUNAMU}30` }}
+          >
+            <img src={pendingImage} alt="Pending homework" className="w-10 h-10 rounded object-cover" />
+            <div className="flex-1 min-w-0">
+              <p className="font-body text-[11px] truncate" style={{ color: POUNAMU }}>
+                {pendingImageName ?? "Homework photo"}
+              </p>
+              <p className="font-mono text-[9px]" style={{ color: "#9CA3AF" }}>Will be sent with your next message</p>
+            </div>
+            <button
+              onClick={clearPendingImage}
+              className="p-1 rounded hover:bg-white/50 transition-all"
+              aria-label="Remove image"
+              type="button"
+            >
+              <X size={12} style={{ color: POUNAMU }} />
+            </button>
+          </div>
+        )}
+
         <div className="flex gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+            onChange={(e) => handleFile(e.target.files?.[0])}
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={streaming}
+            className="px-3 rounded-lg flex items-center justify-center transition-all disabled:opacity-40 hover:scale-[1.02]"
+            style={{
+              background: pendingImage ? `${POUNAMU}25` : "rgba(255,255,255,0.9)",
+              border: `1px solid ${TANGAROA}25`,
+              color: POUNAMU,
+            }}
+            aria-label="Upload homework photo"
+            type="button"
+            title="Upload a photo of the homework"
+          >
+            <ImagePlus size={14} />
+          </button>
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -260,7 +316,13 @@ export default function HomeworkHelp({ children }: Props) {
                 send();
               }
             }}
-            placeholder={activeChild ? `Ask about ${activeChild.name}'s homework…` : "Ask Tōro about any subject…"}
+            placeholder={
+              pendingImage
+                ? "Add a question about the photo (optional)…"
+                : activeChild
+                  ? `Ask about ${activeChild.name}'s homework…`
+                  : "Ask Tōro about any subject…"
+            }
             disabled={streaming}
             className="flex-1 rounded-lg px-3 py-2 text-xs font-body outline-none transition-all"
             style={{
@@ -271,7 +333,7 @@ export default function HomeworkHelp({ children }: Props) {
           />
           <button
             onClick={send}
-            disabled={streaming || !input.trim()}
+            disabled={streaming || (!input.trim() && !pendingImage)}
             className="px-3 rounded-lg flex items-center justify-center transition-all disabled:opacity-40"
             style={{ background: POUNAMU, color: "#FFFFFF" }}
             aria-label="Send"
