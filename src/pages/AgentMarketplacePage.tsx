@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Search, Sparkles, MessageSquare, ChevronRight, X, Filter } from "lucide-react";
 import { allAgents } from "@/data/agents";
+import { useAgentOverrides } from "@/hooks/useAgentOverrides";
 import { KETE_CONFIG } from "@/components/kete/KeteConfig";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentAvatar from "@/components/AgentAvatar";
@@ -53,14 +54,15 @@ export default function AgentMarketplacePage() {
     [],
   );
 
+  const { resolvedAgents } = useAgentOverrides();
   const enriched = useMemo(
     () =>
-      allAgents.map((a) => ({
+      resolvedAgents.map((a) => ({
         ...a,
         keteId: PACK_TO_KETE[a.pack ?? "core"] ?? "core",
         capCount: agentCapabilities[a.id]?.length ?? a.expertise.length,
       })),
-    [],
+    [resolvedAgents],
   );
 
   const counts = useMemo(() => {

@@ -4,6 +4,7 @@ import { agentCapabilities } from "@/data/agentCapabilities";
 import { getGreetingText, getSeasonalAgentHint, getAnniversaryMessage, AGENT_LOADING_MESSAGES, SMART_EMPTY_STATES } from "@/engine/personality";
 import { getStarterQuestions } from "@/engine/starterQuestions";
 import { useAuth } from "@/hooks/useAuth";
+import { useResolvedAgent } from "@/hooks/useAgentOverrides";
 import type { Agent } from "@/data/agents";
 
 interface AgentWelcomeProps {
@@ -11,7 +12,8 @@ interface AgentWelcomeProps {
   onStarterClick?: (prompt: string) => void;
 }
 
-const AgentWelcome = ({ agent, onStarterClick }: AgentWelcomeProps) => {
+const AgentWelcome = ({ agent: rawAgent, onStarterClick }: AgentWelcomeProps) => {
+  const agent = useResolvedAgent(rawAgent);
   const starterQuestions = useMemo(() => getStarterQuestions(agent), [agent]);
   const rawCaps = agentCapabilities[agent.id] || [];
   const capabilities = rawCaps.map(c => typeof c === 'string' ? c : c.bullet);

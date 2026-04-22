@@ -9,6 +9,7 @@ import {
   Settings2, Mic, Phone, BookOpen, FileText, Sparkles, LayoutGrid, ShieldAlert,
 } from "lucide-react";
 import { agents } from "@/data/agents";
+import { useResolvedAgent } from "@/hooks/useAgentOverrides";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentSmsPanel from "@/components/shared/AgentSmsPanel";
 import AgentTraining from "@/components/shared/AgentTraining";
@@ -66,7 +67,8 @@ export default function AgentApp() {
   // icon in the header and forwarded into each agentChat() call below.
   const { params: chatParams } = useAgentChatParams(agentId);
 
-  const agent = useMemo(() => agents.find(a => a.id === agentId), [agentId]);
+  const rawAgent = useMemo(() => agents.find(a => a.id === agentId), [agentId]);
+  const agent = useResolvedAgent(rawAgent ?? agents[0]);
   const capabilities = useMemo(() => agentCapabilities[agentId || ""] || [], [agentId]);
   const color = agent?.color || "#3A6A9C";
 

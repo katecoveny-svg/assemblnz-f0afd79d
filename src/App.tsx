@@ -14,6 +14,7 @@ import { TeReoProvider } from "@/components/chat/TeReoProvider";
 import { PersonalizationProvider } from "@/contexts/PersonalizationContext";
 import { BrandDnaProvider } from "@/contexts/BrandDnaContext";
 import { BusinessProvider } from "@/contexts/BusinessContext";
+import { AgentOverridesProvider } from "@/hooks/useAgentOverrides";
 import PageTransition from "@/components/marama/PageTransition";
 import GlobalMotionShell from "@/components/next/GlobalMotionShell";
 
@@ -183,6 +184,7 @@ const AdminTestReports = lazy(() => import("./pages/AdminTestReports"));
 const AdminKnowledgeBase = lazy(() => import("./pages/AdminKnowledgeBase"));
 const AdminFlintDashboard = lazy(() => import("./pages/AdminFlintDashboard"));
 const AdminAgentTestLab = lazy(() => import("./pages/AdminAgentTestLab"));
+const AdminAgentCatalogPage = lazy(() => import("./pages/AdminAgentCatalogPage"));
 const RoiCalculatorPage = lazy(() => import("./pages/RoiCalculatorPage"));
 const DemosHub = lazy(() => import("./pages/demos/DemosHub"));
 const PipelineDemo = lazy(() => import("./pages/demos/PipelineDemo"));
@@ -219,6 +221,7 @@ const App = () => (
               <BrandDnaProvider>
                 <PersonalizationProvider>
                   <BusinessProvider>
+                    <AgentOverridesProvider>
                     {/* WaterGlassBackground removed — Pearl canvas via index.css body */}
                     <GlobalMotionShell />
                     <div className="pb-14 sm:pb-0 relative z-10">
@@ -271,6 +274,7 @@ const App = () => (
                         <Route path="/admin/knowledge" element={<Suspense fallback={null}><AdminKnowledgeBase /></Suspense>} />
                         <Route path="/admin/flint" element={<Suspense fallback={null}><AdminFlintDashboard /></Suspense>} />
                         <Route path="/admin/test-lab" element={<Suspense fallback={null}><AdminAgentTestLab /></Suspense>} />
+                        <Route path="/admin/agents" element={<Suspense fallback={null}><AdminAgentCatalogPage /></Suspense>} />
                         <Route path="/admin/design-system" element={<Suspense fallback={null}><AdminDesignSystem /></Suspense>} />
                         <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
                         <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />
@@ -463,6 +467,7 @@ const App = () => (
                     <EchoChatWidget />
                     <MobileTabBar />
                     <AdminCommandPalette />
+                    </AgentOverridesProvider>
                   </BusinessProvider>
                 </PersonalizationProvider>
               </BrandDnaProvider>
