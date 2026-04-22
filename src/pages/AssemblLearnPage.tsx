@@ -1,10 +1,12 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import HomeDashboard from "@/features/learn/components/HomeDashboard";
 import MissionCard from "@/features/learn/components/MissionCard";
 import ParentDashboard from "@/features/learn/components/ParentDashboard";
 import CompletionScreen from "@/features/learn/components/CompletionScreen";
 import { EQUATIONS } from "@/features/learn/data/equations";
+import { saveGameResult, type QuestionOutcome } from "@/features/learn/lib/gameResults";
+import { toast } from "sonner";
 
 type View = "home" | "mission" | "complete" | "parent";
 
@@ -23,23 +25,65 @@ const AssemblLearnPage = () => {
   const total = EQUATIONS.length;
   const equation = EQUATIONS[index];
 
+  // Track per-question outcomes for backend save
+  const outcomesRef = useRef<QuestionOutcome[]>([]);
+  const startedAtRef = useRef<number>(Date.now());
+  const savedRef = useRef(false);
+
   const badge = useMemo(() => {
     if (score >= total) return "Pounamu";
     if (score >= Math.ceil(total * 0.7)) return "Kōwhai";
     return "Harakeke";
   }, [score, total]);
 
-  const handleCorrect = () => {
+  const recordOutcome = (correct: boolean, given: string | null) => {
+    outcomesRef.current.push({
+      index,
+      prompt: equation.display,
+      expected: String(equation.answer),
+      given,
+      correct,
+      kind: equation.level,
+    });
+  };
+
+  const handleCorrect = (given: string | null = null) => {
     setScore((s) => s + 1);
     setAttempts((a) => a + 1);
     setCorrect((c) => c + 1);
     setCompletedMissions((m) => m + 1);
     setRewards((r) => r + 1);
+    recordOutcome(true, given);
   };
-  const handleIncorrect = () => setAttempts((a) => a + 1);
+  const handleIncorrect = (given: string | null = null) => {
+    setAttempts((a) => a + 1);
+    recordOutcome(false, given);
+  };
+
+  const persistResult = async (finalScore: number) => {
+    if (savedRef.current) return;
+    savedRef.current = true;
+    const res = await saveGameResult({
+      gameSource: "assembl_learn",
+      childName: CHILD_NAME,
+      subject: "Maths",
+      yearLevel: null,
+      nzcLevel: null,
+      topic: "Free the Letter — one-step equations",
+      score: finalScore,
+      totalQuestions: total,
+      durationSeconds: Math.round((Date.now() - startedAtRef.current) / 1000),
+      questionOutcomes: outcomesRef.current,
+      metadata: { streak, badge },
+    });
+    if (!res.saved) {
+      toast.error("Couldn't save your progress this time.");
+    }
+  };
 
   const handleNext = () => {
     if (index + 1 >= total) {
+      void persistResult(score);
       setView("complete");
     } else {
       setIndex((i) => i + 1);
@@ -49,6 +93,9 @@ const AssemblLearnPage = () => {
   const restart = () => {
     setIndex(0);
     setScore(0);
+    outcomesRef.current = [];
+    startedAtRef.current = Date.now();
+    savedRef.current = false;
     setView("home");
   };
 
