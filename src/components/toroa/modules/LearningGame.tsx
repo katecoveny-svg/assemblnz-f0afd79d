@@ -73,7 +73,10 @@ export default function LearningGame({
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [typed, setTyped] = useState("");
-  const [revealed, setRevealed] = useState(false);
+  const [revealed, setRevealed] = useState(false); // answer fully revealed (after correct OR after giving up)
+  const [solved, setSolved] = useState(false); // child got it right (this attempt)
+  const [attempts, setAttempts] = useState(0); // wrong attempts on current question
+  const [showHint, setShowHint] = useState(false);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
@@ -82,6 +85,8 @@ export default function LearningGame({
   const outcomesRef = useRef<QuestionOutcome[]>([]);
   const startedAtRef = useRef<number>(Date.now());
   const savedRef = useRef(false);
+  // Track whether we've already counted this question's outcome for analytics
+  const recordedRef = useRef(false);
 
   // ── Fetch game on mount ────────────────────────────────
   useMemo(() => {
