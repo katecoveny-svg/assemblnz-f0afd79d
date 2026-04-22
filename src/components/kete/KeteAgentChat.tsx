@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import { agentChatStream } from "@/lib/agentChat";
 import VoiceAgentModal from "@/components/VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
+import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 
 interface KeteAgentChatProps {
   keteName: string;        // e.g. "Manaaki"
@@ -235,6 +236,11 @@ export default function KeteAgentChat({
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Resume the visitor's last conversation with this kete's lead agent.
+  // Signed-in users persist to the conversations table; guests fall back to
+  // localStorage so refreshing the marketing page keeps their thread.
+  useAgentChatHistory(defaultAgentId, messages, setMessages);
 
   const elevenLabsAgentId = getElevenLabsAgentId(defaultAgentId);
 
