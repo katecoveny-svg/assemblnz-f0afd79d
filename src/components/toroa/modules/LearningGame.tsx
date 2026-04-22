@@ -215,12 +215,14 @@ export default function LearningGame({
     }
     const nextAttempts = attempts + 1;
     setAttempts(nextAttempts);
-    // After the first miss, surface the hint automatically
-    const hintWasHidden = !showHint;
-    setShowHint(true);
+    // Reveal the next progressive hint (cap at the number of hints we have)
+    const hintList = getHintList(q);
+    const nextHintStep = Math.min(hintStep + 1, hintList.length);
+    setHintStep(nextHintStep);
+    const justRevealedHint = nextHintStep > hintStep ? hintList[nextHintStep - 1] : null;
     setAnnouncement(
-      hintWasHidden
-        ? `Try again. Hint: ${q.hint}`
+      justRevealedHint
+        ? `Try again. Hint ${nextHintStep}: ${justRevealedHint}`
         : nextAttempts === 1
           ? "Try again."
           : "Still off. Take your time and try once more."
@@ -233,9 +235,15 @@ export default function LearningGame({
 
   const revealHint = () => {
     if (!q || revealed || solved) return;
-    const wasHidden = !showHint;
-    setShowHint(true);
-    setAnnouncement(wasHidden ? `Hint revealed: ${q.hint}` : `Hint still showing: ${q.hint}`);
+    const hintList = getHintList(q);
+    if (hintStep >= hintList.length) {
+      setAnnouncement("All hints already shown.");
+      focusAnswerControl();
+      return;
+    }
+    const nextStep = hintStep + 1;
+    setHintStep(nextStep);
+    setAnnouncement(`Hint ${nextStep} of ${hintList.length}: ${hintList[nextStep - 1]}`);
     focusAnswerControl();
   };
 
