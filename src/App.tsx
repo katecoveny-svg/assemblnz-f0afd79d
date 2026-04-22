@@ -220,6 +220,7 @@ const App = () => (
               <BrandDnaProvider>
                 <PersonalizationProvider>
                   <BusinessProvider>
+                    <AgentOverridesProvider>
                     {/* WaterGlassBackground removed — Pearl canvas via index.css body */}
                     <GlobalMotionShell />
                     <div className="pb-14 sm:pb-0 relative z-10">
