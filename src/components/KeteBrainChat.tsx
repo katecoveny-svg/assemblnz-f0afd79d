@@ -182,8 +182,8 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
     };
   }, []); // intentionally empty — cleanup only
 
-  const sendMessage = useCallback(async () => {
-    const text = input.trim();
+  const sendMessage = useCallback(async (overrideText?: string) => {
+    const text = (overrideText ?? input).trim();
     if (!text || isStreaming) return;
     setInput("");
     const userMsg: Msg = { role: "user", content: text };
