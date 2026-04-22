@@ -626,11 +626,12 @@ Deno.serve(async (req: Request) => {
 
     const durationMs = Date.now() - startTime;
 
-    // STEP 9: TĀ — Audit Log (now includes Mana result)
+    // STEP 9: TĀ — Audit Log (now includes provider path + Mana result)
     await sb.from("audit_log").insert({
       request_id: requestId, user_id: userId, tenant_id: tenantId,
       agent_code: intent.agent.code, agent_name: intent.agent.name, pack_id: intent.agent.pack,
-      model_used: modelConfig.model, input_tokens: inputTokens, output_tokens: outputTokens,
+      model_used: `${modelServed} (via ${providerServed})`,
+      input_tokens: inputTokens, output_tokens: outputTokens,
       total_tokens: totalTokens, cost_nzd: cost.nzd,
       compliance_passed: compliance.passed && manaResult.passed,
       data_classification: compliance.dataClassification,
