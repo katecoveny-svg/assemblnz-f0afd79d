@@ -159,6 +159,7 @@ export default function AgentApp() {
             New chat
           </button>
         )}
+        <ChatSettingsPanel agentId={agentId} accentColor={color} />
         {user ? (
           <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold"
             style={{ background: color + "30", color }}>{(user.email?.[0] || "U").toUpperCase()}</div>
