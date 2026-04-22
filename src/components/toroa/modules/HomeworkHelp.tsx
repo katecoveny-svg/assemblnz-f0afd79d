@@ -51,6 +51,8 @@ export default function HomeworkHelp({ children }: Props) {
   const [streaming, setStreaming] = useState(false);
   const [pendingImage, setPendingImage] = useState<string | null>(null); // data URL
   const [pendingImageName, setPendingImageName] = useState<string | null>(null);
+  const [showGame, setShowGame] = useState(false);
+  const [gameKey, setGameKey] = useState(0); // bump to remount and regenerate
   const fileInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
