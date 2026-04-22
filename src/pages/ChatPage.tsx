@@ -4,7 +4,7 @@ import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom"
 import { agents, echoAgent, pilotAgent } from "@/data/agents";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Layers, ListChecks, Phone, Radio, Camera, RotateCcw, Target } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Layers, ListChecks, Phone, Radio, Camera, RotateCcw, Target, AlertCircle } from "lucide-react";
 import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
@@ -1564,10 +1564,39 @@ const ChatPage = () => {
 
   if (!agent) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-foreground">
-        <div className="text-center">
-          <p className="mb-4">Agent not found.</p>
-          <Link to="/" className="text-primary underline">Back to agents</Link>
+      <div className="min-h-screen flex items-center justify-center bg-background px-6">
+        <div className="max-w-md w-full text-center rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-8 shadow-sm">
+          <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-muted">
+            <AlertCircle className="h-7 w-7 text-muted-foreground" aria-hidden="true" />
+          </div>
+          <h1 className="text-xl font-medium text-foreground mb-2">
+            Agent not found
+          </h1>
+          <p className="text-sm text-muted-foreground mb-1">
+            We couldn't find an agent matching{" "}
+            <code className="px-1.5 py-0.5 rounded bg-muted text-foreground text-xs">
+              {rawAgentId ?? "this URL"}
+            </code>
+            .
+          </p>
+          <p className="text-sm text-muted-foreground mb-6">
+            It may have been renamed or retired.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-2 justify-center">
+            <Link
+              to="/agents"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              Back to agent grid
+            </Link>
+            <Link
+              to="/"
+              className="inline-flex items-center justify-center rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted transition-colors"
+            >
+              Go home
+            </Link>
+          </div>
         </div>
       </div>
     );
