@@ -30,6 +30,7 @@ const KETE = [
 ];
 
 const MORE_LINKS = [
+  { label: "Capabilities", sublabel: "What Assembl can do", to: "/capabilities", glowIcon: "Sparkles", color: "#4AA5A8" },
   { label: "ROI Calculator", sublabel: "Sales tool", to: "/roi", glowIcon: "BarChart3", color: "#4AA5A8" },
   { label: "Scenario Simulator", sublabel: "Try a live demo", to: "/simulator", glowIcon: "Brain", color: "#4AA5A8" },
   { label: "Data Sovereignty", sublabel: "Enterprise trust", to: "/data-sovereignty", glowIcon: "Shield", color: "#4AA5A8" },
