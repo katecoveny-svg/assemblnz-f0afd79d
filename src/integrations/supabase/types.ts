@@ -1099,6 +1099,39 @@ export type Database = {
         }
         Relationships: []
       }
+      billing_snapshots: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          payload: Json
+          snapshot_month: string
+          tenant_count: number
+          total_calls: number
+          total_overage_nzd: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          payload?: Json
+          snapshot_month: string
+          tenant_count?: number
+          total_calls?: number
+          total_overage_nzd?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          payload?: Json
+          snapshot_month?: string
+          tenant_count?: number
+          total_calls?: number
+          total_overage_nzd?: number
+        }
+        Relationships: []
+      }
       biosecurity_clearances: {
         Row: {
           clearance_time: number | null
@@ -4160,6 +4193,39 @@ export type Database = {
           },
         ]
       }
+      housekeeping_decisions: {
+        Row: {
+          category: string
+          created_at: string
+          decided_at: string
+          decided_by: string | null
+          decision: string
+          id: string
+          item_name: string
+          notes: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          decided_at?: string
+          decided_by?: string | null
+          decision: string
+          id?: string
+          item_name: string
+          notes?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          decided_at?: string
+          decided_by?: string | null
+          decision?: string
+          id?: string
+          item_name?: string
+          notes?: string | null
+        }
+        Relationships: []
+      }
       hsno_classification: {
         Row: {
           created_at: string
@@ -5515,6 +5581,90 @@ export type Database = {
         }
         Relationships: []
       }
+      mcp_policy_rules: {
+        Row: {
+          applies_to_tool: string[] | null
+          applies_to_toolset: string[] | null
+          created_at: string
+          description: string | null
+          enforcement_stage: string
+          id: string
+          is_active: boolean
+          reasoning_maori: string | null
+          rule_code: string
+          rule_logic: Json
+          rule_type: string
+          updated_at: string
+        }
+        Insert: {
+          applies_to_tool?: string[] | null
+          applies_to_toolset?: string[] | null
+          created_at?: string
+          description?: string | null
+          enforcement_stage: string
+          id?: string
+          is_active?: boolean
+          reasoning_maori?: string | null
+          rule_code: string
+          rule_logic?: Json
+          rule_type: string
+          updated_at?: string
+        }
+        Update: {
+          applies_to_tool?: string[] | null
+          applies_to_toolset?: string[] | null
+          created_at?: string
+          description?: string | null
+          enforcement_stage?: string
+          id?: string
+          is_active?: boolean
+          reasoning_maori?: string | null
+          rule_code?: string
+          rule_logic?: Json
+          rule_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      mcp_subscription_tiers: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          included_calls_per_month: number | null
+          included_toolsets: string[]
+          monthly_price_nzd: number
+          per_call_overage_nzd: number
+          stripe_price_id: string | null
+          tier_name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          included_calls_per_month?: number | null
+          included_toolsets?: string[]
+          monthly_price_nzd: number
+          per_call_overage_nzd?: number
+          stripe_price_id?: string | null
+          tier_name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          included_calls_per_month?: number | null
+          included_toolsets?: string[]
+          monthly_price_nzd?: number
+          per_call_overage_nzd?: number
+          stripe_price_id?: string | null
+          tier_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       mcp_tool_calls: {
         Row: {
           called_at: string
@@ -5554,7 +5704,10 @@ export type Database = {
       mcp_tools: {
         Row: {
           agent_code: string | null
+          canonical_route: string | null
           created_at: string
+          deprecated: boolean
+          deprecated_reason: string | null
           description: string | null
           edge_function_url: string | null
           id: string
@@ -5562,11 +5715,16 @@ export type Database = {
           is_ga: boolean
           name: string
           requires_auth_scope: string | null
+          tool_registry_id: string | null
           toolset_id: string
+          updated_at: string
         }
         Insert: {
           agent_code?: string | null
+          canonical_route?: string | null
           created_at?: string
+          deprecated?: boolean
+          deprecated_reason?: string | null
           description?: string | null
           edge_function_url?: string | null
           id?: string
@@ -5574,11 +5732,16 @@ export type Database = {
           is_ga?: boolean
           name: string
           requires_auth_scope?: string | null
+          tool_registry_id?: string | null
           toolset_id: string
+          updated_at?: string
         }
         Update: {
           agent_code?: string | null
+          canonical_route?: string | null
           created_at?: string
+          deprecated?: boolean
+          deprecated_reason?: string | null
           description?: string | null
           edge_function_url?: string | null
           id?: string
@@ -5586,9 +5749,18 @@ export type Database = {
           is_ga?: boolean
           name?: string
           requires_auth_scope?: string | null
+          tool_registry_id?: string | null
           toolset_id?: string
+          updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "mcp_tools_tool_registry_id_fkey"
+            columns: ["tool_registry_id"]
+            isOneToOne: false
+            referencedRelation: "tool_registry"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "mcp_tools_toolset_id_fkey"
             columns: ["toolset_id"]
