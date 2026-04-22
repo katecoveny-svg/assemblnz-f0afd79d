@@ -185,6 +185,7 @@ const AdminKnowledgeBase = lazy(() => import("./pages/AdminKnowledgeBase"));
 const AdminFlintDashboard = lazy(() => import("./pages/AdminFlintDashboard"));
 const AdminAgentTestLab = lazy(() => import("./pages/AdminAgentTestLab"));
 const AdminAgentCatalogPage = lazy(() => import("./pages/AdminAgentCatalogPage"));
+const AdminAgentInventoryPage = lazy(() => import("./pages/AdminAgentInventoryPage"));
 const RoiCalculatorPage = lazy(() => import("./pages/RoiCalculatorPage"));
 const DemosHub = lazy(() => import("./pages/demos/DemosHub"));
 const PipelineDemo = lazy(() => import("./pages/demos/PipelineDemo"));
@@ -275,6 +276,7 @@ const App = () => (
                         <Route path="/admin/flint" element={<Suspense fallback={null}><AdminFlintDashboard /></Suspense>} />
                         <Route path="/admin/test-lab" element={<Suspense fallback={null}><AdminAgentTestLab /></Suspense>} />
                         <Route path="/admin/agents" element={<Suspense fallback={null}><AdminAgentCatalogPage /></Suspense>} />
+                        <Route path="/admin/agents/inventory" element={<Suspense fallback={null}><AdminAgentInventoryPage /></Suspense>} />
                         <Route path="/admin/design-system" element={<Suspense fallback={null}><AdminDesignSystem /></Suspense>} />
                         <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
                         <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />

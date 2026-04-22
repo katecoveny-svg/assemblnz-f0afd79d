@@ -26,6 +26,8 @@ const ADMIN_PAGES = [
   { label: "Showcase Videos", to: "/admin/showcase-videos", group: "Admin" },
   { label: "Flint", to: "/admin/flint", group: "Admin" },
   { label: "Packs", to: "/admin/packs", group: "Admin" },
+  { label: "Agent Catalog (edit)", to: "/admin/agents", group: "Admin" },
+  { label: "Agent Inventory (read-only)", to: "/admin/agents/inventory", group: "Admin" },
 ];
 
 const QUICK_LINKS = [
