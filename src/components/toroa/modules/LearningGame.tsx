@@ -10,7 +10,7 @@ import { Loader2, Sparkles, Trophy, RefreshCw, X, Check, ChevronRight, Camera, C
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { saveGameResult, type QuestionOutcome } from "@/features/learn/lib/gameResults";
-import { isAnswerCorrect, normalizeAnswer } from "@/features/learn/lib/answerCheck";
+import { isAnswerCorrect } from "@/features/learn/lib/answerCheck";
 
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
