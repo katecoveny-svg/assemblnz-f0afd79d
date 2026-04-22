@@ -5,6 +5,7 @@ import { agentChatStream } from "@/lib/agentChat";
 import ReactMarkdown from "react-markdown";
 import { Send, X, Minimize2, RotateCcw } from "lucide-react";
 import { assemblMark } from "@/assets/brand";
+import { HERO_KETE_IMAGE, keteFor } from "@/assets/brand/kete";
 
 interface Message {
   role: "user" | "assistant";
@@ -39,6 +40,9 @@ const EchoChatWidget = () => {
   const isChatPage = location.pathname.startsWith("/chat/") || location.pathname.startsWith("/embed/");
   const firstSeg = location.pathname.split("/").filter(Boolean)[0]?.toLowerCase() || "";
   const keteContext = KETE_LABELS[firstSeg] || null;
+  const keteRecord = keteFor(firstSeg);
+  const floaterImage = keteRecord?.image ?? HERO_KETE_IMAGE;
+  const floaterAlt = keteRecord ? `${keteRecord.industry} kete` : "Assembl kete";
   const [open, setOpen] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -120,24 +124,24 @@ const EchoChatWidget = () => {
 
   return (
     <>
-      {/* Floating bubble — Constellation mark with Kōwhai glow */}
+      {/* Floating bubble — kete portrait with soft Echo glow */}
       {!open && (
         <button
           onClick={() => { setOpen(true); setMinimized(false); }}
-          className="fixed bottom-6 left-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center transition-transform hover:scale-110 group"
+          className="fixed bottom-6 left-6 z-[9999] w-14 h-14 rounded-full overflow-hidden flex items-center justify-center transition-transform hover:scale-110 group"
           style={{
-            background: "radial-gradient(circle at 40% 35%, rgba(74,165,168,0.22), rgba(58,125,110,0.1) 60%, transparent)",
+            background: "hsl(var(--background))",
             border: `1px solid rgba(74,165,168,0.35)`,
-            boxShadow: `0 0 18px rgba(74,165,168,0.55), 0 0 40px rgba(74,165,168,0.2), 0 4px 16px rgba(0,0,0,0.5)`,
+            boxShadow: `0 0 18px rgba(74,165,168,0.45), 0 0 40px rgba(74,165,168,0.18), 0 4px 16px rgba(111,97,88,0.18)`,
           }}
-          title="Chat with Echo — assembl's hero agent"
+          title={keteRecord ? `Chat with Echo — ${keteRecord.industry}` : "Chat with Echo — Assembl's hero agent"}
         >
           <img loading="lazy" decoding="async"
-            src={assemblMark}
-            alt="Assembl"
-            className="w-8 h-8 object-contain logo-glow"
+            src={floaterImage}
+            alt={floaterAlt}
+            className="w-full h-full object-cover"
             draggable={false} />
-          <span className="absolute inset-0 rounded-full animate-ping opacity-15" style={{ border: "1px solid rgba(74,165,168,0.6)" }} />
+          <span className="absolute inset-0 rounded-full animate-ping opacity-15 pointer-events-none" style={{ border: "1px solid rgba(74,165,168,0.6)" }} />
         </button>
       )}
 
@@ -148,7 +152,7 @@ const EchoChatWidget = () => {
           style={{ background: "hsl(var(--background))", border: `1px solid ${ECHO_BORDER}`, boxShadow: `0 4px 20px rgba(74,165,168,0.15)` }}
           onClick={() => setMinimized(false)}
         >
-          <img loading="lazy" decoding="async" src={assemblMark} alt="Echo" className="w-6 h-6 object-contain logo-glow" />
+          <img loading="lazy" decoding="async" src={floaterImage} alt={floaterAlt} className="w-6 h-6 object-cover rounded-full" />
           <span className="text-xs font-display font-bold" style={{ color: ECHO_COLOR }}>Echo</span>
           {messages.length > 0 && (
             <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: ECHO_BG_ACCENT, color: ECHO_COLOR }}>
