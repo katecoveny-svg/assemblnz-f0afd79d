@@ -89,7 +89,7 @@ export default function LearningGame({
   const [revealed, setRevealed] = useState(false); // answer fully revealed (after correct OR after giving up)
   const [solved, setSolved] = useState(false); // child got it right (this attempt)
   const [attempts, setAttempts] = useState(0); // wrong attempts on current question
-  const [showHint, setShowHint] = useState(false);
+  const [hintStep, setHintStep] = useState(0); // 0 = none shown, 1..N = number of progressive hints revealed
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
