@@ -65,10 +65,10 @@ const MissionCard = ({
     const num = Number(value);
     if (Number.isFinite(num) && num === equation.answer) {
       setState("correct");
-      onCorrect();
+      onCorrect(value);
     } else {
       setState("incorrect");
-      onIncorrect();
+      onIncorrect(value);
     }
   };
 
