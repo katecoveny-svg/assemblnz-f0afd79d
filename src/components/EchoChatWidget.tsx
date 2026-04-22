@@ -40,6 +40,9 @@ const EchoChatWidget = () => {
   const isChatPage = location.pathname.startsWith("/chat/") || location.pathname.startsWith("/embed/");
   const firstSeg = location.pathname.split("/").filter(Boolean)[0]?.toLowerCase() || "";
   const keteContext = KETE_LABELS[firstSeg] || null;
+  const keteRecord = keteFor(firstSeg);
+  const floaterImage = keteRecord?.image ?? HERO_KETE_IMAGE;
+  const floaterAlt = keteRecord ? `${keteRecord.industry} kete` : "Assembl kete";
   const [open, setOpen] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
