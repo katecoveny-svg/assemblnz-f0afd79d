@@ -16,6 +16,7 @@ import AgentAvatar from "@/components/AgentAvatar";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
 import { setDynamicManifest } from "@/utils/pwaManifest";
 import SignalDashboard from "@/components/signal/SignalDashboard";
+import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 
 interface Message {
   role: "user" | "assistant";
@@ -54,6 +55,11 @@ export default function AgentApp() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Resume the user's previous conversation with this agent (DB for signed-in,
+  // localStorage for guests). Keyed by agentId so switching agents loads that
+  // agent's own thread.
+  const { clearHistory } = useAgentChatHistory(agentId, messages, setMessages);
 
   const agent = useMemo(() => agents.find(a => a.id === agentId), [agentId]);
   const capabilities = useMemo(() => agentCapabilities[agentId || ""] || [], [agentId]);
