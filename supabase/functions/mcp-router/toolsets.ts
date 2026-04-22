@@ -3,14 +3,17 @@
 // ----------------------------------------------------------------------------
 // Mirrors the Salesforce Headless 360 toolset model:
 //   --toolsets=manaaki,core   →  only those toolsets' tools are exposed.
+// Aligned with mcp_toolsets table (migration 20260422062940 renamed
+// `hangarau` → `pikau`).
 // ============================================================================
 
 export type ToolsetSlug =
   | "manaaki"
-  | "waihanga"  // construction (renamed from `hanga` per Assembl naming rules)
+  | "waihanga"
   | "auaha"
   | "pakihi"
-  | "hangarau"
+  | "pikau"
+  | "white_label"
   | "core";
 
 export interface ToolsetConfig {
@@ -45,11 +48,17 @@ export const TOOLSETS: Record<ToolsetSlug, ToolsetConfig> = {
     description: "Pipeline, invoicing, hire workflows.",
     industryPack: "business",
   },
-  hangarau: {
-    slug: "hangarau",
-    displayName: "Hangarau (Technology)",
-    description: "Audit, health, deploy.",
-    industryPack: "technology",
+  pikau: {
+    slug: "pikau",
+    displayName: "Pikau (Logistics & Trade)",
+    description: "Customs declarations, MPI biosecurity, freight tracking, AIS vessel data.",
+    industryPack: "logistics",
+  },
+  white_label: {
+    slug: "white_label",
+    displayName: "White Label (Industry Suite)",
+    description: "Branded tenant deployments and custom workflow packs.",
+    industryPack: "white_label",
   },
   core: {
     slug: "core",
