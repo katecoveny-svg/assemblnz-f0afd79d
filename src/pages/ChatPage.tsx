@@ -1792,7 +1792,7 @@ const ChatPage = () => {
               </button>
             )}
 
-            <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
+            <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} agentId={agent.id} />
             <ChatEvidencePackButton messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
 
             {/* Brand badge — hidden on mobile */}
