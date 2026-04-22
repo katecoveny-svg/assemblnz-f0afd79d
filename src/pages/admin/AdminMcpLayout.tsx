@@ -1,16 +1,35 @@
 import { ReactNode } from "react";
 import { NavLink, Navigate, Outlet, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { Loader2, LayoutDashboard, Boxes, Wrench, ScrollText, Building2 } from "lucide-react";
+import {
+  Loader2,
+  LayoutDashboard,
+  Boxes,
+  Wrench,
+  ScrollText,
+  Building2,
+  ArrowRightLeft,
+  ShieldCheck,
+  Shield,
+  Sparkles,
+  Receipt,
+  Server,
+} from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import { useAuth } from "@/hooks/useAuth";
 
 const NAV = [
   { to: "/admin/mcp/overview", label: "Overview", icon: LayoutDashboard },
+  { to: "/admin/mcp/migrate", label: "Migrate", icon: ArrowRightLeft },
   { to: "/admin/mcp/toolsets", label: "Toolsets", icon: Boxes },
   { to: "/admin/mcp/tools", label: "Tools", icon: Wrench },
+  { to: "/admin/mcp/policy", label: "Policy", icon: ShieldCheck },
   { to: "/admin/mcp/logs", label: "Logs", icon: ScrollText },
   { to: "/admin/mcp/customers", label: "Customers", icon: Building2 },
+  { to: "/admin/mcp/billing", label: "Billing", icon: Receipt },
+  { to: "/admin/mcp/security", label: "Security", icon: Shield },
+  { to: "/admin/mcp/housekeeping", label: "Housekeeping", icon: Sparkles },
+  { to: "/admin/mcp/server", label: "Server", icon: Server },
 ];
 
 export default function AdminMcpLayout({ children }: { children?: ReactNode }) {
