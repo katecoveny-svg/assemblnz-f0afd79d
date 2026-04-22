@@ -17,7 +17,8 @@ const PREVIEW_LIMIT = 3;
 
 const EmbedChatWidget = () => {
   const { agentId } = useParams<{ agentId: string }>();
-  const agent = agentId === "echo" ? echoAgent : agentId === "pilot" ? pilotAgent : agents.find((a) => a.id === agentId);
+  const rawAgent = agentId === "echo" ? echoAgent : agentId === "pilot" ? pilotAgent : agents.find((a) => a.id === agentId);
+  const agent = useResolvedAgent(rawAgent ?? agents[0]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);

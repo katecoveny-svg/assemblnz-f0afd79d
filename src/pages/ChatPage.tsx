@@ -345,7 +345,8 @@ const ChatPage = () => {
   const { agentId: rawAgentId } = useParams<{ agentId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const agentId = rawAgentId ? (SLUG_TO_ID[rawAgentId] ?? rawAgentId) : rawAgentId;
-  const agent = agentId === "echo" ? echoAgent : agentId === "pilot" ? pilotAgent : agents.find((a) => a.id === agentId);
+  const rawAgent = agentId === "echo" ? echoAgent : agentId === "pilot" ? pilotAgent : agents.find((a) => a.id === agentId);
+  const agent = useResolvedAgent(rawAgent ?? agents[0]);
   const safeAgentName = agent?.name ?? "Assistant";
   const [messages, setMessages] = useState<Message[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
