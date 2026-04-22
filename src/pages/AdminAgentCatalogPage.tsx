@@ -216,7 +216,7 @@ export default function AdminAgentCatalogPage() {
                             <Badge variant="secondary" className="text-[10px]">Hidden</Badge>
                           )}
                           {row.dirty && (
-                            <Badge className="text-[10px] bg-amber-500/20 text-amber-700 border-amber-500/30">
+                            <Badge className="text-[10px] bg-warning/20 text-warning-foreground border-warning/30">
                               Unsaved
                             </Badge>
                           )}

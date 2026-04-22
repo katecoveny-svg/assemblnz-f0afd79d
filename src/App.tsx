@@ -184,6 +184,7 @@ const AdminTestReports = lazy(() => import("./pages/AdminTestReports"));
 const AdminKnowledgeBase = lazy(() => import("./pages/AdminKnowledgeBase"));
 const AdminFlintDashboard = lazy(() => import("./pages/AdminFlintDashboard"));
 const AdminAgentTestLab = lazy(() => import("./pages/AdminAgentTestLab"));
+const AdminAgentCatalogPage = lazy(() => import("./pages/AdminAgentCatalogPage"));
 const RoiCalculatorPage = lazy(() => import("./pages/RoiCalculatorPage"));
 const DemosHub = lazy(() => import("./pages/demos/DemosHub"));
 const PipelineDemo = lazy(() => import("./pages/demos/PipelineDemo"));
