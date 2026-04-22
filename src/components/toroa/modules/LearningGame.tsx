@@ -210,13 +210,22 @@ export default function LearningGame({
             <p className="font-body text-[11px]" style={{ color: "#6B7280" }}>
               {game.intro}
             </p>
-            <div className="flex items-center gap-2 pt-1">
+            <div className="flex items-center gap-2 pt-1 flex-wrap">
               <span
                 className="font-mono text-[9px] px-2 py-0.5 rounded"
                 style={{ background: `${POUNAMU}15`, color: POUNAMU }}
               >
                 NZC {game.nzc_level}
               </span>
+              {topicSource === "image" && detectedTopic && (
+                <span
+                  className="font-mono text-[9px] px-2 py-0.5 rounded"
+                  style={{ background: `${SOFT_GOLD}25`, color: "#8A6B2E" }}
+                  title="Topic auto-detected from your worksheet photo"
+                >
+                  📷 {detectedTopic}
+                </span>
+              )}
               <span className="font-mono text-[9px]" style={{ color: "#9CA3AF" }}>
                 Question {idx + 1} of {total}
               </span>
