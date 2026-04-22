@@ -80,16 +80,13 @@ const MissionCard = ({
       : { bg: "rgba(217,188,122,0.18)", text: "#7A5C20" };
 
   return (
-    <GlassCard
-      className="p-6 sm:p-10 w-full max-w-xl mx-auto"
-      role="region"
-      aria-label={`Mission, question ${index + 1} of ${total}`}
-    >
-      {/* screen-reader live region for feedback */}
-      <div ref={liveRef} aria-live="polite" aria-atomic="true" className="sr-only">
-        {state === "correct" && "Correct. The letter is free."}
-        {state === "incorrect" && "Not quite. Try a helper card."}
-      </div>
+    <section role="region" aria-label={`Mission, question ${index + 1} of ${total}`}>
+      <GlassCard className="p-6 sm:p-10 w-full max-w-xl mx-auto">
+        {/* screen-reader live region for feedback */}
+        <div ref={liveRef} aria-live="polite" aria-atomic="true" className="sr-only">
+          {state === "correct" && "Correct. The letter is free."}
+          {state === "incorrect" && "Not quite. Try a helper card."}
+        </div>
 
       {/* progress + level */}
       <div className="flex items-center justify-between mb-4">
