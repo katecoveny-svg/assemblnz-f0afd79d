@@ -1,6 +1,8 @@
-import { Download, Settings, ArrowLeft, Target, Flame, Award, BookOpen } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Download, Settings, ArrowLeft, Target, Flame, Award, BookOpen, History, Loader2 } from "lucide-react";
 import GlassCard from "./GlassCard";
 import { TOPICS } from "../data/equations";
+import { fetchRecentGameResults, type LearningGameResultRow } from "../lib/gameResults";
 
 const Stat = ({ label, value, icon }: { label: string; value: string; icon: React.ReactNode }) => (
   <GlassCard className="p-5">
@@ -36,6 +38,24 @@ const ParentDashboard = ({
 }) => {
   const accuracy = attempts ? Math.round((correct / attempts) * 100) : 0;
   const mastered = TOPICS.filter((t) => completed >= t.count).length;
+
+  const [history, setHistory] = useState<LearningGameResultRow[] | null>(null);
+  const [loadingHistory, setLoadingHistory] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setLoadingHistory(true);
+      const rows = await fetchRecentGameResults(15);
+      if (!cancelled) {
+        setHistory(rows);
+        setLoadingHistory(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const printSheet = () => {
     const win = window.open("", "_blank");
