@@ -7002,11 +7002,29 @@ IMAGERY STYLE: When generating images, use the 'Dark Cosmic Aotearoa' aesthetic 
 
   const systemPrompt = agentPrompts[agentId];
  if (!systemPrompt) {
+  console.warn(`[chat:${requestId}] unknown agent (chat path)`, JSON.stringify({
+    rawAgentId,
+    resolvedAgentId: agentId,
+    wasMapped,
+  }));
   return new Response(
-   JSON.stringify({ error: "Unknown agent" }),
+   JSON.stringify({
+     error: "Unknown agent",
+     detail: `No system prompt found for agentId "${rawAgentId}"${wasMapped ? ` (mapped to "${agentId}")` : ""}. Check that the agentId matches a configured agent.`,
+     rawAgentId,
+     resolvedAgentId: agentId,
+     requestId,
+   }),
    { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
   );
  }
+
+ // Log confirmed prompt selection so logs verify what the model actually receives
+ console.log(`[chat:${requestId}] system prompt confirmed`, JSON.stringify({
+   resolvedAgentId: agentId,
+   systemPromptLength: systemPrompt.length,
+   systemPromptPreview: systemPrompt.slice(0, 120).replace(/\s+/g, " "),
+ }));
 
   // Build full system prompt with shared behaviours, optional brand context, and language preference
   let fullSystemPrompt = systemPrompt + `
