@@ -274,13 +274,13 @@ export default function InteractiveKeteHero({
           y: useTransform([lift, keteParallaxSmooth] as never, ([l, p]: number[]) => l + p),
           transformStyle: "preserve-3d",
         }}
-        animate={
-          reduced
-            ? {}
-            : { y: [0, -4, 0, 3, 0] }
-        }
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       >
+        {/* Inner wrapper: slow ambient float — independent of cursor + scroll y */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          animate={reduced ? {} : { y: [0, -5, 0, 4, 0] }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        >
         {/* Soft ground reflection */}
         <div
           className="absolute pointer-events-none"
