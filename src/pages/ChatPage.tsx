@@ -334,64 +334,8 @@ async function fileToBase64(file: File): Promise<string> {
 
 const BINARY_FILE_TYPES = ["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"];
 
-// SLUG_TO_ID maps legacy URL slugs to the canonical agent IDs in agents.ts
-// New agents use their ID directly (e.g. /chat/aura → agent.id = "aura")
-const SLUG_TO_ID: Record<string, string> = {
-  // Legacy slugs that differ from canonical IDs
-  "sports-recreation": "turf",
-  "hospitality": "aura",
-  "construction": "arai",
-  "marketing": "prism",
-  "accounting": "ledger",
-  "software": "spark",
-  "hotel": "aura",
-  "tourism": "moana",
-  "events": "pau",
-  "coastal": "coast",
-  "bar": "cellar",
-  "concierge": "luxe",
-  "bim": "ata",
-  "safety": "arai",
-  "projectgov": "kaupapa",
-  "resource": "rawa",
-  "consent": "whakaaē",
-  "quality": "pai",
-  "copywriting": "muse",
-  "design": "pixel",
-  "video": "echo",
-  "hr": "aroha",
-  "brandstrategy": "prism",
-  "strategy": "sage",
-  "risk": "vault",
-  "operations": "nova",
-  "sales": "flux",
-  "insurance": "vault",
-  "datasecurity": "cipher",
-  "forecasting": "oracle",
-  "analytics": "sage",
-  "innovation": "ascend",
-  "monitoring": "sentinel",
-  "integration": "nexus-t",
-  "crypto": "cipher",
-  "messaging": "relay",
-  "netsec": "sentinel",
-  "devops": "forge",
-  "family": "toroa",
-  "tiriti": "mana-bi",
-  "healthcompanion": "vitals",
-  "triage": "remedy",
-  "carenavigation": "vitae",
-  "sports": "turf",
-  "nonprofit": "anchor",
-  "property": "haven",
-  "customs": "gateway",
-  "maritime": "mariner",
-  "automotive": "motor",
-  "agriculture": "harvest",
-  "pm": "kaupapa",
-  // Agent names that match their IDs (no mapping needed, but keep for explicit routing)
-  "whakaae": "whakaaē",
-};
+// Re-export from shared module so the routing-integrity test can validate links.
+import { SLUG_TO_ID } from "@/lib/agentSlugMap";
 
 const ChatPage = () => {
   const { agentId: rawAgentId } = useParams<{ agentId: string }>();
