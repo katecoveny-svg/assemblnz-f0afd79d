@@ -47,6 +47,15 @@ const MessageSchema = z.object({
   ]),
 });
 
+// Optional client-tunable model parameters. Bounded server-side so a tampered
+// client can't spike spend or trigger out-of-policy generations.
+const ParamsSchema = z
+  .object({
+    temperature: z.number().min(0).max(2).optional(),
+    max_tokens: z.number().int().min(64).max(4096).optional(),
+  })
+  .optional();
+
 const ChatBodySchema = z.object({
   agentId: z
     .string()
@@ -54,6 +63,7 @@ const ChatBodySchema = z.object({
     .max(64)
     .regex(/^[a-z0-9_-]+$/i, "agentId must be alphanumeric"),
   messages: z.array(MessageSchema).min(1).max(MAX_MESSAGES),
+  params: ParamsSchema,
 });
 
 // ----------------------------------------------------------------------------
