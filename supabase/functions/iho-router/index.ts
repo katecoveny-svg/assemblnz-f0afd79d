@@ -37,6 +37,7 @@ interface IhoResponse {
   response: string;
   agentUsed: { code: string; name: string; pack: string; model: string };
   modelUsed: string;
+  providerUsed: "lovable" | "anthropic" | "gemini";
   tokensUsed: { input: number; output: number; total: number };
   cost: { usd: number; nzdAmount: number };
   complianceStatus: {
@@ -47,7 +48,7 @@ interface IhoResponse {
     policies: string[];
     mana?: ManaGateResult;
   };
-  auditLog: { requestId: string; timestamp: string; agentId: string; modelUsed: string; tokensUsed: number; costNZD: number };
+  auditLog: { requestId: string; timestamp: string; agentId: string; modelUsed: string; providerUsed: string; tokensUsed: number; costNZD: number };
 }
 
 type DataClassification = "PUBLIC" | "INTERNAL" | "CONFIDENTIAL" | "RESTRICTED";
@@ -257,31 +258,183 @@ function classificationLevel(c: DataClassification): number {
 }
 
 // ═══════════════════════════════════════
-// STEP 7: MODEL ROUTER — now routes Claude agents to Claude
+// STEP 7: MODEL ROUTER — Gemini, Lovable Gateway, or DIRECT Anthropic
+// ═══════════════════════════════════════
+//
+// Iho selects WHICH model AND which provider path:
+//   • "gemini"   → Lovable AI Gateway, Gemini family (multimodal / fast)
+//   • "lovable"  → Lovable AI Gateway, anthropic/claude-sonnet-4-5
+//   • "anthropic"→ DIRECT call to api.anthropic.com (uses ANTHROPIC_API_KEY)
+//
+// Routing rules (in order):
+//   1. Attachments / multimodal       → Gemini via Lovable Gateway
+//   2. Compliance / calculation tasks → Claude (direct if key present, else gateway)
+//   3. Agent.primaryModel === claude  → Claude (direct if key present, else gateway)
+//   4. Otherwise                      → Gemini via Lovable Gateway
+//
+// Every agent in the registry now transparently supports direct Anthropic
+// without per-agent configuration changes.
 // ═══════════════════════════════════════
 
+type ModelProvider = "lovable" | "anthropic" | "gemini";
+
 interface ModelConfig {
-  model: string;
-  provider: "lovable" | "anthropic" | "gemini";
+  model: string;          // gateway slug for Lovable/Gemini, e.g. "anthropic/claude-sonnet-4-5"
+  anthropicModel?: string; // native Anthropic model id, e.g. "claude-sonnet-4-5-20250929"
+  provider: ModelProvider;
   maxTokens: number;
 }
 
+// Map gateway slug → native Anthropic model id for direct API calls
+const ANTHROPIC_MODEL_MAP: Record<string, string> = {
+  "anthropic/claude-sonnet-4-5": "claude-sonnet-4-5-20250929",
+  "anthropic/claude-haiku-4-5":  "claude-haiku-4-5",
+};
+
+function preferDirectAnthropic(): boolean {
+  // Default: prefer direct Anthropic when the key is configured.
+  // Set IHO_PREFER_ANTHROPIC_DIRECT=false to force everything through Lovable Gateway.
+  const flag = Deno.env.get("IHO_PREFER_ANTHROPIC_DIRECT");
+  const hasKey = !!Deno.env.get("ANTHROPIC_API_KEY");
+  if (!hasKey) return false;
+  if (flag === undefined || flag === null || flag === "") return true;
+  return flag.toLowerCase() !== "false";
+}
+
+function claudeConfig(): ModelConfig {
+  const gatewaySlug = "anthropic/claude-sonnet-4-5";
+  const provider: ModelProvider = preferDirectAnthropic() ? "anthropic" : "lovable";
+  return {
+    model: gatewaySlug,
+    anthropicModel: ANTHROPIC_MODEL_MAP[gatewaySlug],
+    provider,
+    maxTokens: 4096,
+  };
+}
+
 function selectModel(agent: AgentConfig, taskType: string, hasAttachments: boolean): ModelConfig {
-  // Multimodal / real-time → Gemini
+  // Multimodal / real-time → Gemini (Anthropic vision is supported but Gemini is cheaper here)
   if (hasAttachments) return { model: "google/gemini-2.5-flash", provider: "lovable", maxTokens: 4096 };
 
-  // Compliance / legal / calculation → Claude (for accuracy)
-  if (["compliance", "calculation"].includes(taskType)) {
-    return { model: "anthropic/claude-sonnet-4-5", provider: "lovable", maxTokens: 4096 };
-  }
+  // Compliance / legal / calculation → Claude (best accuracy)
+  if (["compliance", "calculation"].includes(taskType)) return claudeConfig();
 
-  // Use agent's preferred model
-  if (agent.primaryModel === "claude") {
-    return { model: "anthropic/claude-sonnet-4-5", provider: "lovable", maxTokens: 4096 };
-  }
+  // Agent's preferred model is Claude → Claude
+  if (agent.primaryModel === "claude") return claudeConfig();
 
   // Default: Gemini for gemini-flagged agents
   return { model: "google/gemini-2.5-flash", provider: "lovable", maxTokens: 4096 };
+}
+
+// ═══════════════════════════════════════
+// AI CALL DISPATCHER — Lovable Gateway OR direct Anthropic
+// ═══════════════════════════════════════
+
+interface ChatMessage { role: string; content: string }
+interface AICallResult {
+  content: string;
+  inputTokens: number;
+  outputTokens: number;
+  providerUsed: ModelProvider;
+  modelUsed: string;
+}
+
+async function callAnthropicDirect(
+  apiKey: string,
+  modelId: string,
+  messages: ChatMessage[],
+  maxTokens: number,
+): Promise<AICallResult> {
+  // Anthropic Messages API requires `system` separated from `messages`
+  const systemMsg = messages.find(m => m.role === "system")?.content || "";
+  const convo = messages
+    .filter(m => m.role !== "system")
+    .map(m => ({
+      role: m.role === "assistant" ? "assistant" : "user",
+      content: m.content,
+    }));
+
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify({
+      model: modelId,
+      max_tokens: maxTokens,
+      system: systemMsg,
+      messages: convo,
+    }),
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Anthropic direct error (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+  const content = (data.content || [])
+    .filter((b: { type: string }) => b.type === "text")
+    .map((b: { text: string }) => b.text)
+    .join("\n") || "I couldn't generate a response.";
+  const usage = data.usage || {};
+  return {
+    content,
+    inputTokens: usage.input_tokens || 0,
+    outputTokens: usage.output_tokens || 0,
+    providerUsed: "anthropic",
+    modelUsed: modelId,
+  };
+}
+
+async function callLovableGateway(
+  apiKey: string,
+  modelSlug: string,
+  messages: ChatMessage[],
+  maxTokens: number,
+): Promise<AICallResult> {
+  const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+    body: JSON.stringify({ model: modelSlug, messages, max_completion_tokens: maxTokens }),
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Lovable Gateway error (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+  const usage = data.usage || {};
+  return {
+    content: data.choices?.[0]?.message?.content || "I couldn't generate a response.",
+    inputTokens: usage.prompt_tokens || 0,
+    outputTokens: usage.completion_tokens || 0,
+    providerUsed: "lovable",
+    modelUsed: modelSlug,
+  };
+}
+
+async function dispatchAICall(
+  cfg: ModelConfig,
+  messages: ChatMessage[],
+  lovableApiKey: string,
+): Promise<AICallResult> {
+  const anthropicKey = Deno.env.get("ANTHROPIC_API_KEY") || "";
+
+  if (cfg.provider === "anthropic" && cfg.anthropicModel && anthropicKey) {
+    try {
+      return await callAnthropicDirect(anthropicKey, cfg.anthropicModel, messages, cfg.maxTokens);
+    } catch (err) {
+      // Direct Anthropic failed — fall back to Lovable Gateway so we never hard-fail
+      console.warn("Direct Anthropic call failed, falling back to Lovable Gateway:", err);
+      return await callLovableGateway(lovableApiKey, cfg.model, messages, cfg.maxTokens);
+    }
+  }
+
+  return await callLovableGateway(lovableApiKey, cfg.model, messages, cfg.maxTokens);
 }
 
 // ═══════════════════════════════════════
@@ -450,24 +603,16 @@ Deno.serve(async (req: Request) => {
       { role: "user", content: safeMessage },
     ];
 
-    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${LOVABLE_API_KEY}` },
-      body: JSON.stringify({ model: modelConfig.model, messages, max_completion_tokens: modelConfig.maxTokens }),
-    });
-
-    if (!aiResponse.ok) {
-      const errText = await aiResponse.text();
-      throw new Error(`AI model error (${aiResponse.status}): ${errText}`);
-    }
-
-    const aiData = await aiResponse.json();
-    let responseContent = aiData.choices?.[0]?.message?.content || "I couldn't generate a response.";
-    const usage = aiData.usage || {};
-    const inputTokens = usage.prompt_tokens || 0;
-    const outputTokens = usage.completion_tokens || 0;
+    const aiResult = await dispatchAICall(modelConfig, messages, LOVABLE_API_KEY);
+    let responseContent = aiResult.content;
+    const inputTokens = aiResult.inputTokens;
+    const outputTokens = aiResult.outputTokens;
     const totalTokens = inputTokens + outputTokens;
+    // Cost estimation uses the gateway slug (rate table is keyed off canonical slugs)
     const cost = estimateCost(modelConfig.model, inputTokens, outputTokens);
+    // Track which provider actually served the request (may differ from cfg if a fallback happened)
+    const providerServed = aiResult.providerUsed;
+    const modelServed = aiResult.modelUsed;
 
     // STEP 8.5: MANA GATE — Final compliance check on AI RESPONSE
     const isInternalComms = /\b(internal memo|staff notice|team update|all-staff)\b/i.test(message);
@@ -481,11 +626,12 @@ Deno.serve(async (req: Request) => {
 
     const durationMs = Date.now() - startTime;
 
-    // STEP 9: TĀ — Audit Log (now includes Mana result)
+    // STEP 9: TĀ — Audit Log (now includes provider path + Mana result)
     await sb.from("audit_log").insert({
       request_id: requestId, user_id: userId, tenant_id: tenantId,
       agent_code: intent.agent.code, agent_name: intent.agent.name, pack_id: intent.agent.pack,
-      model_used: modelConfig.model, input_tokens: inputTokens, output_tokens: outputTokens,
+      model_used: `${modelServed} (via ${providerServed})`,
+      input_tokens: inputTokens, output_tokens: outputTokens,
       total_tokens: totalTokens, cost_nzd: cost.nzd,
       compliance_passed: compliance.passed && manaResult.passed,
       data_classification: compliance.dataClassification,
@@ -517,8 +663,9 @@ Deno.serve(async (req: Request) => {
     // STEP 11: RESPONSE — Return to Kanohi
     const response: IhoResponse = {
       response: responseContent,
-      agentUsed: { code: intent.agent.code, name: intent.agent.name, pack: intent.agent.pack, model: modelConfig.model },
-      modelUsed: modelConfig.model,
+      agentUsed: { code: intent.agent.code, name: intent.agent.name, pack: intent.agent.pack, model: modelServed },
+      modelUsed: modelServed,
+      providerUsed: providerServed,
       tokensUsed: { input: inputTokens, output: outputTokens, total: totalTokens },
       cost: { usd: cost.usd, nzdAmount: cost.nzd },
       complianceStatus: {
@@ -531,7 +678,7 @@ Deno.serve(async (req: Request) => {
       },
       auditLog: {
         requestId, timestamp: new Date().toISOString(),
-        agentId: intent.agent.code, modelUsed: modelConfig.model,
+        agentId: intent.agent.code, modelUsed: modelServed, providerUsed: providerServed,
         tokensUsed: totalTokens, costNZD: cost.nzd,
       },
     };
