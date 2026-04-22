@@ -16,9 +16,18 @@ export type ContentPart =
 
 export type ChatMsg = { role: "user" | "assistant"; content: string | ContentPart[] };
 
+export type ChatParams = {
+  /** 0..2 — model creativity. Omit to let the gateway/model default apply. */
+  temperature?: number;
+  /** 64..4096 — cap on assistant tokens per turn. Omit for model default. */
+  max_tokens?: number;
+};
+
 export type StreamArgs = {
   agentId: "toro" | "manaaki" | "waihanga" | "auaha" | "pakihi" | "pikau" | string;
   messages: ChatMsg[];
+  /** Optional per-call model tuning (validated server-side in /mcp-chat). */
+  params?: ChatParams;
   onDelta: (chunk: string) => void;
   onDone: (finalContent: string) => void;
   onError?: (err: { status: number; message: string }) => void;
@@ -43,7 +52,11 @@ export async function streamMcpChat(args: StreamArgs): Promise<void> {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ agentId: args.agentId, messages: args.messages }),
+      body: JSON.stringify({
+        agentId: args.agentId,
+        messages: args.messages,
+        ...(args.params ? { params: args.params } : {}),
+      }),
       signal: args.signal,
     });
   } catch (e) {
