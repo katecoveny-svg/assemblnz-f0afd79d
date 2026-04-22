@@ -275,6 +275,7 @@ export default function LearningGame({
     setSolved(false);
     setAttempts(0);
     setShowHint(false);
+    setAnnouncement("");
     recordedRef.current = false;
   };
 
@@ -288,6 +289,7 @@ export default function LearningGame({
     setShowHint(false);
     setScore(0);
     setDone(false);
+    setAnnouncement("");
     outcomesRef.current = [];
     startedAtRef.current = Date.now();
     savedRef.current = false;
