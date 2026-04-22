@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
-import { BookOpen, GraduationCap, Calculator, Globe, Pencil, Send, Loader2, Sparkles, ImagePlus, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { BookOpen, GraduationCap, Calculator, Globe, Pencil, Send, Loader2, Sparkles, ImagePlus, X, Gamepad2 } from "lucide-react";
 import { streamMcpChat, type ContentPart } from "@/lib/mcpChat";
 import { toast } from "sonner";
+import LearningGame from "./LearningGame";
 
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
