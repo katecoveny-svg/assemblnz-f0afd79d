@@ -29,6 +29,7 @@ import AccountDropdown from "@/components/AccountDropdown";
 import PaywallModal from "@/components/PaywallModal";
 import { NeonLock } from "@/components/NeonIcons";
 import AgentWelcome from "@/components/AgentWelcome";
+import { AgentDebugPanel } from "@/components/dev/AgentDebugPanel";
 import TemplateTab from "@/components/TemplateTab";
 import { TEMPLATE_TAB_AGENTS } from "@/data/templates";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
@@ -2762,6 +2763,7 @@ const ChatPage = () => {
         }}
       />
       {isPrism && <AdEngineModal open={adEngineOpen} onOpenChange={setAdEngineOpen} />}
+      <AgentDebugPanel rawAgentId={rawAgentId} resolvedAgentId={agentId} agent={agent} />
     </div>
   );
 };
