@@ -77,7 +77,7 @@ export async function saveGameResult(input: SaveGameResultInput): Promise<SavedG
 
   const { data, error } = await supabase
     .from("learning_game_results")
-    .insert(row)
+    .insert(row as never)
     .select("id")
     .single();
 
