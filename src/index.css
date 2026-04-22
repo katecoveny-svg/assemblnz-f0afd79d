@@ -986,38 +986,50 @@ html {
   letter-spacing: -0.015em;
 }
 
-/* 3 ─ Tailwind utility colour classes using legacy teal hexes              */
+/* 3 ─ Tailwind utility colour classes using legacy teal hexes
+       Brand v1.0 (2026-04-22): teal retired → Soft Gold #D9BC7A accents,
+       Taupe Deep #6F6158 for stronger fills.                                */
 .text-\[\#3A7D6E\],
 .text-\[\#3a7d6e\],
 .text-\[\#4AA5A8\],
-.text-\[\#4aa5a8\] {
-  color: #1F4D47 !important;
+.text-\[\#4aa5a8\],
+.text-\[\#3A8A8D\],
+.text-\[\#5AADA0\],
+.text-\[\#7ECFC2\],
+.text-\[\#A8DDDB\] {
+  color: #6F6158 !important;
 }
 .bg-\[\#3A7D6E\],
 .bg-\[\#3a7d6e\],
 .bg-\[\#4AA5A8\],
-.bg-\[\#4aa5a8\] {
-  background-color: #1F4D47 !important;
+.bg-\[\#4aa5a8\],
+.bg-\[\#3A8A8D\],
+.bg-\[\#5AADA0\],
+.bg-\[\#7ECFC2\],
+.bg-\[\#A8DDDB\] {
+  background-color: #D9BC7A !important;
 }
 .border-\[\#3A7D6E\],
-.border-\[\#4AA5A8\] {
-  border-color: #1F4D47 !important;
+.border-\[\#4AA5A8\],
+.border-\[\#3A8A8D\],
+.border-\[\#A8DDDB\] {
+  border-color: #D9BC7A !important;
 }
 
-/* 4 ─ Whenua / neon legacy palette → Pounamu single accent                 */
+/* 4 ─ Whenua / neon legacy palette → Brand v1.0 Soft Gold + Taupe          */
 .text-whenua-pounamu,
 .text-whenua-pounamu-light,
 .text-neon-green,
 .text-neon-teal,
 .text-neon-cyan,
 .text-neon-blue {
-  color: #1F4D47 !important;
+  color: #6F6158 !important;
 }
 .bg-whenua-pounamu,
 .bg-whenua-pounamu-light,
 .bg-neon-green,
 .bg-neon-teal {
-  background-color: #1F4D47 !important;
+  background-color: #D9BC7A !important;
 }
 
 /* 5 ─ Old canvas / ink retargets                                           */
@@ -1042,5 +1054,39 @@ html {
   text-transform: lowercase;
   font-weight: 500 !important;
   color: #8B8479 !important;
+}
+
+/* 7 ─ Inline-style legacy teal hexes → Soft Gold (Brand v1.0)
+       Catches `style="color:#4AA5A8"`, `background:#3A7D6E`, etc.
+       SVG attribute usages (stroke="#4AA5A8", fill="#4AA5A8") are not
+       reachable from CSS and are visually softened by the lighter shell;
+       any remaining stray strokes read as muted ochre on the new bg.       */
+[style*="#4AA5A8"],
+[style*="#4aa5a8"],
+[style*="#3A7D6E"],
+[style*="#3a7d6e"],
+[style*="#3A8A8D"],
+[style*="#5AADA0"],
+[style*="#7ECFC2"],
+[style*="rgba(74,165,168"],
+[style*="rgba(74, 165, 168"],
+[style*="rgba(58,125,110"] {
+  /* Soft Gold tint — overrides inline color when the hex is used as the
+     `color` value. Background/box-shadow inline usages keep their geometry
+     but read as warm gold rather than teal. */
+  color: #6F6158 !important;
+}
+[style*="background:#4AA5A8"],
+[style*="background: #4AA5A8"],
+[style*="background-color:#4AA5A8"],
+[style*="background-color: #4AA5A8"],
+[style*="background:#3A7D6E"],
+[style*="background: #3A7D6E"] {
+  background-color: #D9BC7A !important;
+}
+[style*="border-color:#4AA5A8"],
+[style*="border-color: #4AA5A8"],
+[style*="border-color:#3A7D6E"] {
+  border-color: #D9BC7A !important;
 }
 
