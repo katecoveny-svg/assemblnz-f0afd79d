@@ -366,6 +366,87 @@ view live logs, use the Lovable Cloud panel or
 `supabase functions logs <name>` if you have the Supabase CLI installed
 locally.
 
+### Checking edge function health locally
+
+Edge functions don't run on your laptop — they always execute in Lovable
+Cloud — but you can verify they're healthy from your dev shell. Three
+signals to combine:
+
+**1. Vite dev-server log (frontend → function calls)**
+
+Watch the local log to see which functions the SPA is invoking and any
+client-side fetch failures:
+
+```bash
+tail -f /tmp/dev-server-logs/dev-server.log
+grep -nE 'error|warn|failed|vite' /tmp/dev-server-logs/dev-server.log | tail -n 50
+```
+
+**2. Per-function logs (boot, runtime errors, console output)**
+
+Every function emits `Boot`, `Listening`, `Log`, and `Shutdown` events.
+Pull them via the Supabase CLI or the Lovable Cloud panel:
+
+```bash
+supabase functions logs mcp-chat        --project-ref ssaxxdkxzrvkdjsanhei
+supabase functions logs claude-chat     --project-ref ssaxxdkxzrvkdjsanhei
+supabase functions logs compress-context --project-ref ssaxxdkxzrvkdjsanhei
+```
+
+A healthy chat call shows `booted (time: …ms)` followed by `Listening on
+http://localhost:9999/`. Errors like `LOVABLE_API_KEY not configured`,
+`401`, `402`, or `429` appear inline as `Log` entries — fix the
+corresponding secret or top up gateway credit.
+
+**3. Direct `curl` health probes**
+
+Hit the function URLs straight from the shell. The publishable key is
+enough to authenticate; pin the env vars from `.env` first:
+
+```bash
+source <(grep -E '^VITE_SUPABASE_(URL|PUBLISHABLE_KEY)=' .env | sed 's/^/export /')
+AUTH=(-H "Authorization: Bearer $VITE_SUPABASE_PUBLISHABLE_KEY")
+
+# Secret presence (no values returned)
+curl -s "$VITE_SUPABASE_URL/functions/v1/toroa-secret-check" "${AUTH[@]}" | jq
+
+# Streaming chat (Lovable AI Gateway → Gemini/GPT-5)
+curl -N "$VITE_SUPABASE_URL/functions/v1/mcp-chat" "${AUTH[@]}" \
+  -H "Content-Type: application/json" \
+  -d '{"agentId":"manaaki","messages":[{"role":"user","content":"ping"}]}'
+
+# Streaming chat (Anthropic)
+curl -N "$VITE_SUPABASE_URL/functions/v1/claude-chat" "${AUTH[@]}" \
+  -H "Content-Type: application/json" \
+  -d '{"agentId":"manaaki","model":"claude-3-5-sonnet-latest","messages":[{"role":"user","content":"ping"}]}'
+
+# Stripe / billing health
+curl -s "$VITE_SUPABASE_URL/functions/v1/check-subscription" "${AUTH[@]}" | jq
+```
+
+| HTTP status | What it means | Fix |
+|---|---|---|
+| `200` + SSE `data:` frames | Healthy — pipeline is streaming | — |
+| `401` | Missing/expired JWT | Sign in at `/auth` first |
+| `402` | Lovable AI Gateway out of credit | Top up at *Settings → Workspace → Usage* |
+| `429` | Rate limit | Back off, retry after a minute |
+| `500` + `…_API_KEY not configured` | Secret missing in Cloud | Add via *Connectors / Secrets* |
+| CORS error in browser | Function doesn't include `corsHeaders` on a response path | Patch the function |
+
+**4. Quick all-up smoke test**
+
+```bash
+for fn in toroa-secret-check mcp-chat claude-chat check-subscription; do
+  printf "%-25s " "$fn"
+  curl -s -o /dev/null -w "%{http_code}\n" \
+    "$VITE_SUPABASE_URL/functions/v1/$fn" "${AUTH[@]}" \
+    -H "Content-Type: application/json" -d '{}'
+done
+```
+
+A row of `200`/`401` (auth-gated) responses with no `5xx` means every
+function in the chat pipeline is at least booting and reachable.
+
 ---
 
 ## Environment & secrets
