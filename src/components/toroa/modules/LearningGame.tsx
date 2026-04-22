@@ -6,7 +6,7 @@
 
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, Sparkles, Trophy, RefreshCw, X, Check, ChevronRight } from "lucide-react";
+import { Loader2, Sparkles, Trophy, RefreshCw, X, Check, ChevronRight, Camera } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -63,6 +63,8 @@ export default function LearningGame({
 }: Props) {
   const [loading, setLoading] = useState(true);
   const [game, setGame] = useState<Game | null>(null);
+  const [detectedTopic, setDetectedTopic] = useState<string | null>(null);
+  const [topicSource, setTopicSource] = useState<"user" | "image" | "none" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
@@ -90,11 +92,14 @@ export default function LearningGame({
         });
         if (cancelled) return;
         if (fnErr) throw new Error(fnErr.message);
-        const g = (data as { game?: Game })?.game;
+        const payload = data as { game?: Game; detected_topic?: string | null; topic_source?: "user" | "image" | "none" };
+        const g = payload?.game;
         if (!g || !Array.isArray(g.questions) || g.questions.length === 0) {
           throw new Error("Tōro couldn't build the game just now — give it another try.");
         }
         setGame(g);
+        setDetectedTopic(payload?.detected_topic ?? null);
+        setTopicSource(payload?.topic_source ?? null);
       } catch (e) {
         if (cancelled) return;
         const msg = (e as Error).message || "Could not load the game.";
@@ -205,13 +210,22 @@ export default function LearningGame({
             <p className="font-body text-[11px]" style={{ color: "#6B7280" }}>
               {game.intro}
             </p>
-            <div className="flex items-center gap-2 pt-1">
+            <div className="flex items-center gap-2 pt-1 flex-wrap">
               <span
                 className="font-mono text-[9px] px-2 py-0.5 rounded"
                 style={{ background: `${POUNAMU}15`, color: POUNAMU }}
               >
                 NZC {game.nzc_level}
               </span>
+              {topicSource === "image" && detectedTopic && (
+                <span
+                  className="font-mono text-[9px] px-2 py-0.5 rounded inline-flex items-center gap-1"
+                  style={{ background: `${SOFT_GOLD}25`, color: "#8A6B2E" }}
+                  title="Topic auto-detected from your worksheet photo"
+                >
+                  <Camera size={9} /> {detectedTopic}
+                </span>
+              )}
               <span className="font-mono text-[9px]" style={{ color: "#9CA3AF" }}>
                 Question {idx + 1} of {total}
               </span>
