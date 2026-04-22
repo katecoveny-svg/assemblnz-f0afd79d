@@ -1,13 +1,11 @@
 import { useEffect, useRef } from "react";
 
-type Message = { role: string; content: string; [k: string]: any };
-
-interface Options {
+interface Options<TMessage> {
   agentId: string | null | undefined;
   /** Whether the current user is a guest (no signed-in session). */
   isGuest: boolean;
-  messages: Message[];
-  setMessages: (msgs: Message[]) => void;
+  messages: TMessage[];
+  setMessages: React.Dispatch<React.SetStateAction<TMessage[]>>;
 }
 
 const keyFor = (agentId: string) => `assembl_chat_${agentId}`;
@@ -21,7 +19,12 @@ const keyFor = (agentId: string) => `assembl_chat_${agentId}`;
  *
  * Only active for guests — signed-in users sync through Supabase.
  */
-export function useGuestChatSync({ agentId, isGuest, messages, setMessages }: Options) {
+export function useGuestChatSync<TMessage>({
+  agentId,
+  isGuest,
+  messages,
+  setMessages,
+}: Options<TMessage>) {
   // Track the last serialized payload we wrote/applied so we can ignore
   // echoes of our own writes and avoid render loops.
   const lastSeenRef = useRef<string | null>(null);
@@ -58,7 +61,7 @@ export function useGuestChatSync({ agentId, isGuest, messages, setMessages }: Op
         const parsed = JSON.parse(e.newValue);
         if (Array.isArray(parsed)) {
           lastSeenRef.current = e.newValue;
-          setMessages(parsed as Message[]);
+          setMessages(parsed as TMessage[]);
         }
       } catch {
         // ignore malformed payloads from other tabs
@@ -69,3 +72,4 @@ export function useGuestChatSync({ agentId, isGuest, messages, setMessages }: Op
     return () => window.removeEventListener("storage", handler);
   }, [agentId, isGuest, setMessages]);
 }
+
