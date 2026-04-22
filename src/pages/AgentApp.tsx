@@ -17,6 +17,8 @@ import PWAInstallBanner from "@/components/PWAInstallBanner";
 import { setDynamicManifest } from "@/utils/pwaManifest";
 import SignalDashboard from "@/components/signal/SignalDashboard";
 import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
+import { useAgentChatParams } from "@/hooks/useAgentChatParams";
+import { ChatSettingsPanel } from "@/components/chat/ChatSettingsPanel";
 
 interface Message {
   role: "user" | "assistant";
@@ -60,6 +62,9 @@ export default function AgentApp() {
   // localStorage for guests). Keyed by agentId so switching agents loads that
   // agent's own thread.
   const { clearHistory } = useAgentChatHistory(agentId, messages, setMessages);
+  // Per-agent model tuning (temperature, max_tokens) — surfaced via the gear
+  // icon in the header and forwarded into each agentChat() call below.
+  const { params: chatParams } = useAgentChatParams(agentId);
 
   const agent = useMemo(() => agents.find(a => a.id === agentId), [agentId]);
   const capabilities = useMemo(() => agentCapabilities[agentId || ""] || [], [agentId]);
@@ -89,6 +94,7 @@ export default function AgentApp() {
         agentId: agentId,
         message: lastMsg.content,
         messages: newMessages.slice(0, -1).map(m => ({ role: m.role, content: m.content })),
+        params: chatParams,
       });
       setMessages([...newMessages, { role: "assistant", content }]);
     } catch (err: any) {
@@ -97,7 +103,7 @@ export default function AgentApp() {
     } finally {
       setLoading(false);
     }
-  }, [messages, agentId]);
+  }, [messages, agentId, chatParams]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
