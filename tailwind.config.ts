@@ -71,6 +71,27 @@ export default {
           bg: '#FAFBFC',
           surface: '#FFFFFF',
           'surface-2': '#E8E6F0',
+          // Canonical Assembl tokens (locked 2026-04-22)
+          mist: 'hsl(var(--assembl-mist))',
+          cloud: 'hsl(var(--assembl-cloud))',
+          sand: 'hsl(var(--assembl-sand))',
+          taupe: 'hsl(var(--assembl-taupe))',
+          'taupe-deep': 'hsl(var(--assembl-taupe-deep))',
+          'sage-mist': 'hsl(var(--assembl-sage-mist))',
+          'soft-gold': 'hsl(var(--assembl-soft-gold))',
+          'text-primary': 'hsl(var(--assembl-text-primary))',
+          'text-secondary': 'hsl(var(--assembl-text-secondary))',
+          'text-body': 'hsl(var(--assembl-text-body))',
+        },
+        industry: {
+          pikau: 'hsl(var(--industry-pikau))',
+          hoko: 'hsl(var(--industry-hoko))',
+          ako: 'hsl(var(--industry-ako))',
+          toro: 'hsl(var(--industry-toro))',
+          manaaki: 'hsl(var(--industry-manaaki))',
+          waihanga: 'hsl(var(--industry-waihanga))',
+          arataki: 'hsl(var(--industry-arataki))',
+          auaha: 'hsl(var(--industry-auaha))',
         },
         neon: {
           green: "#4AA5A8",
@@ -99,6 +120,9 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        card: "var(--assembl-radius-card)",
+        chip: "var(--assembl-radius-chip)",
+        pill: "var(--assembl-radius-pill)",
       },
       keyframes: {
         "accordion-down": {
