@@ -257,31 +257,183 @@ function classificationLevel(c: DataClassification): number {
 }
 
 // ═══════════════════════════════════════
-// STEP 7: MODEL ROUTER — now routes Claude agents to Claude
+// STEP 7: MODEL ROUTER — Gemini, Lovable Gateway, or DIRECT Anthropic
+// ═══════════════════════════════════════
+//
+// Iho selects WHICH model AND which provider path:
+//   • "gemini"   → Lovable AI Gateway, Gemini family (multimodal / fast)
+//   • "lovable"  → Lovable AI Gateway, anthropic/claude-sonnet-4-5
+//   • "anthropic"→ DIRECT call to api.anthropic.com (uses ANTHROPIC_API_KEY)
+//
+// Routing rules (in order):
+//   1. Attachments / multimodal       → Gemini via Lovable Gateway
+//   2. Compliance / calculation tasks → Claude (direct if key present, else gateway)
+//   3. Agent.primaryModel === claude  → Claude (direct if key present, else gateway)
+//   4. Otherwise                      → Gemini via Lovable Gateway
+//
+// Every agent in the registry now transparently supports direct Anthropic
+// without per-agent configuration changes.
 // ═══════════════════════════════════════
 
+type ModelProvider = "lovable" | "anthropic" | "gemini";
+
 interface ModelConfig {
-  model: string;
-  provider: "lovable" | "anthropic" | "gemini";
+  model: string;          // gateway slug for Lovable/Gemini, e.g. "anthropic/claude-sonnet-4-5"
+  anthropicModel?: string; // native Anthropic model id, e.g. "claude-sonnet-4-5-20250929"
+  provider: ModelProvider;
   maxTokens: number;
 }
 
+// Map gateway slug → native Anthropic model id for direct API calls
+const ANTHROPIC_MODEL_MAP: Record<string, string> = {
+  "anthropic/claude-sonnet-4-5": "claude-sonnet-4-5-20250929",
+  "anthropic/claude-haiku-4-5":  "claude-haiku-4-5",
+};
+
+function preferDirectAnthropic(): boolean {
+  // Default: prefer direct Anthropic when the key is configured.
+  // Set IHO_PREFER_ANTHROPIC_DIRECT=false to force everything through Lovable Gateway.
+  const flag = Deno.env.get("IHO_PREFER_ANTHROPIC_DIRECT");
+  const hasKey = !!Deno.env.get("ANTHROPIC_API_KEY");
+  if (!hasKey) return false;
+  if (flag === undefined || flag === null || flag === "") return true;
+  return flag.toLowerCase() !== "false";
+}
+
+function claudeConfig(): ModelConfig {
+  const gatewaySlug = "anthropic/claude-sonnet-4-5";
+  const provider: ModelProvider = preferDirectAnthropic() ? "anthropic" : "lovable";
+  return {
+    model: gatewaySlug,
+    anthropicModel: ANTHROPIC_MODEL_MAP[gatewaySlug],
+    provider,
+    maxTokens: 4096,
+  };
+}
+
 function selectModel(agent: AgentConfig, taskType: string, hasAttachments: boolean): ModelConfig {
-  // Multimodal / real-time → Gemini
+  // Multimodal / real-time → Gemini (Anthropic vision is supported but Gemini is cheaper here)
   if (hasAttachments) return { model: "google/gemini-2.5-flash", provider: "lovable", maxTokens: 4096 };
 
-  // Compliance / legal / calculation → Claude (for accuracy)
-  if (["compliance", "calculation"].includes(taskType)) {
-    return { model: "anthropic/claude-sonnet-4-5", provider: "lovable", maxTokens: 4096 };
-  }
+  // Compliance / legal / calculation → Claude (best accuracy)
+  if (["compliance", "calculation"].includes(taskType)) return claudeConfig();
 
-  // Use agent's preferred model
-  if (agent.primaryModel === "claude") {
-    return { model: "anthropic/claude-sonnet-4-5", provider: "lovable", maxTokens: 4096 };
-  }
+  // Agent's preferred model is Claude → Claude
+  if (agent.primaryModel === "claude") return claudeConfig();
 
   // Default: Gemini for gemini-flagged agents
   return { model: "google/gemini-2.5-flash", provider: "lovable", maxTokens: 4096 };
+}
+
+// ═══════════════════════════════════════
+// AI CALL DISPATCHER — Lovable Gateway OR direct Anthropic
+// ═══════════════════════════════════════
+
+interface ChatMessage { role: string; content: string }
+interface AICallResult {
+  content: string;
+  inputTokens: number;
+  outputTokens: number;
+  providerUsed: ModelProvider;
+  modelUsed: string;
+}
+
+async function callAnthropicDirect(
+  apiKey: string,
+  modelId: string,
+  messages: ChatMessage[],
+  maxTokens: number,
+): Promise<AICallResult> {
+  // Anthropic Messages API requires `system` separated from `messages`
+  const systemMsg = messages.find(m => m.role === "system")?.content || "";
+  const convo = messages
+    .filter(m => m.role !== "system")
+    .map(m => ({
+      role: m.role === "assistant" ? "assistant" : "user",
+      content: m.content,
+    }));
+
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify({
+      model: modelId,
+      max_tokens: maxTokens,
+      system: systemMsg,
+      messages: convo,
+    }),
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Anthropic direct error (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+  const content = (data.content || [])
+    .filter((b: { type: string }) => b.type === "text")
+    .map((b: { text: string }) => b.text)
+    .join("\n") || "I couldn't generate a response.";
+  const usage = data.usage || {};
+  return {
+    content,
+    inputTokens: usage.input_tokens || 0,
+    outputTokens: usage.output_tokens || 0,
+    providerUsed: "anthropic",
+    modelUsed: modelId,
+  };
+}
+
+async function callLovableGateway(
+  apiKey: string,
+  modelSlug: string,
+  messages: ChatMessage[],
+  maxTokens: number,
+): Promise<AICallResult> {
+  const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+    body: JSON.stringify({ model: modelSlug, messages, max_completion_tokens: maxTokens }),
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Lovable Gateway error (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+  const usage = data.usage || {};
+  return {
+    content: data.choices?.[0]?.message?.content || "I couldn't generate a response.",
+    inputTokens: usage.prompt_tokens || 0,
+    outputTokens: usage.completion_tokens || 0,
+    providerUsed: "lovable",
+    modelUsed: modelSlug,
+  };
+}
+
+async function dispatchAICall(
+  cfg: ModelConfig,
+  messages: ChatMessage[],
+  lovableApiKey: string,
+): Promise<AICallResult> {
+  const anthropicKey = Deno.env.get("ANTHROPIC_API_KEY") || "";
+
+  if (cfg.provider === "anthropic" && cfg.anthropicModel && anthropicKey) {
+    try {
+      return await callAnthropicDirect(anthropicKey, cfg.anthropicModel, messages, cfg.maxTokens);
+    } catch (err) {
+      // Direct Anthropic failed — fall back to Lovable Gateway so we never hard-fail
+      console.warn("Direct Anthropic call failed, falling back to Lovable Gateway:", err);
+      return await callLovableGateway(lovableApiKey, cfg.model, messages, cfg.maxTokens);
+    }
+  }
+
+  return await callLovableGateway(lovableApiKey, cfg.model, messages, cfg.maxTokens);
 }
 
 // ═══════════════════════════════════════
