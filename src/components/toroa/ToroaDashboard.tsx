@@ -20,11 +20,15 @@ import AppointmentsModule, { type Appointment } from "./modules/AppointmentsModu
 import ShoppingModule from "./modules/ShoppingModule";
 import HomeworkHelp from "./modules/HomeworkHelp";
 
-const TEAL_ACCENT = "#4AA5A8";
-const POUNAMU = "#3A7D6E";
-const TANGAROA = "#1A3A5C";
-const BONE = "#F5F0E8";
-const BG = "#09090F";
+// Locked Brand Bible v2.0 — light Mārama palette
+const ACCENT = "#9D8C7D";        // Taupe — primary accent (replaces teal)
+const POUNAMU = "#6F6158";       // Twilight Taupe — text/headings (NEVER #000)
+const SPARKLE = "#D9BC7A";       // Soft Gold — sparkle accent only
+const BONE = "#F7F3EE";          // Mist canvas
+const BG = "#F7F3EE";            // Mist — light canvas
+const INK = "#6F6158";           // All text/headlines
+const MUTED = "#9D8C7D";         // Wordmark / secondary text
+const SOFT_BORDER = "rgba(142,129,119,0.14)";
 
 type ModuleKey = "today" | "family" | "pets" | "school" | "uniforms" | "appointments" | "shopping" | "homework";
 
