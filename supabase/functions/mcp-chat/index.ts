@@ -425,10 +425,19 @@ Deno.serve(async (req) => {
     });
   }
 
-  // 3c. KAHU_PRE — PII mask user messages (last user message most relevant)
-  const sanitizedMessages = messages.map((m) =>
-    m.role === "user" ? { ...m, content: applyPiiMasks(m.content, rules) } : m,
-  );
+  // 3c. KAHU_PRE — PII mask user messages (text parts only; images pass through)
+  const sanitizedMessages = messages.map((m) => {
+    if (m.role !== "user") return m;
+    if (typeof m.content === "string") {
+      return { ...m, content: applyPiiMasks(m.content, rules) };
+    }
+    return {
+      ...m,
+      content: m.content.map((part) =>
+        part.type === "text" ? { ...part, text: applyPiiMasks(part.text, rules) } : part,
+      ),
+    };
+  });
 
   // 4. TĀ_INFLIGHT — stamp system prompt
   const systemPrompt = agent.prompt + buildInflightStamp(rules);
