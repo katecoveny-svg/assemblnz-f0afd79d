@@ -37,6 +37,7 @@ interface IhoResponse {
   response: string;
   agentUsed: { code: string; name: string; pack: string; model: string };
   modelUsed: string;
+  providerUsed: "lovable" | "anthropic" | "gemini";
   tokensUsed: { input: number; output: number; total: number };
   cost: { usd: number; nzdAmount: number };
   complianceStatus: {
@@ -47,7 +48,7 @@ interface IhoResponse {
     policies: string[];
     mana?: ManaGateResult;
   };
-  auditLog: { requestId: string; timestamp: string; agentId: string; modelUsed: string; tokensUsed: number; costNZD: number };
+  auditLog: { requestId: string; timestamp: string; agentId: string; modelUsed: string; providerUsed: string; tokensUsed: number; costNZD: number };
 }
 
 type DataClassification = "PUBLIC" | "INTERNAL" | "CONFIDENTIAL" | "RESTRICTED";
