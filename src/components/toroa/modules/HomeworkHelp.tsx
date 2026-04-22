@@ -40,7 +40,7 @@ const glass = {
   backdropFilter: "blur(14px)",
 };
 
-type Msg = { role: "user" | "assistant"; content: string };
+type Msg = { role: "user" | "assistant"; content: string; imageUrl?: string };
 
 export default function HomeworkHelp({ children }: Props) {
   const [activeChild, setActiveChild] = useState<Child | null>(null);
@@ -48,6 +48,9 @@ export default function HomeworkHelp({ children }: Props) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Msg[]>([]);
   const [streaming, setStreaming] = useState(false);
+  const [pendingImage, setPendingImage] = useState<string | null>(null); // data URL
+  const [pendingImageName, setPendingImageName] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
