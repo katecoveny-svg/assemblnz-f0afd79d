@@ -5,6 +5,7 @@ import { agentChatStream } from "@/lib/agentChat";
 import ReactMarkdown from "react-markdown";
 import { Send, X, Minimize2, RotateCcw } from "lucide-react";
 import { assemblMark } from "@/assets/brand";
+import { HERO_KETE_IMAGE, keteFor } from "@/assets/brand/kete";
 
 interface Message {
   role: "user" | "assistant";
