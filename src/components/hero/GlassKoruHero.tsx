@@ -32,7 +32,7 @@ const GlassKoruHero = () => {
         />
       </div>
 
-      <div className="relative mx-auto grid min-h-[92vh] max-w-7xl grid-cols-1 items-center gap-10 px-6 pb-16 pt-28 md:px-10 lg:grid-cols-2 lg:gap-16 lg:px-16">
+      <div className="relative grid min-h-[92vh] w-full grid-cols-1 items-center gap-10 px-4 pb-16 pt-28 sm:px-6 md:px-10 lg:grid-cols-2 lg:gap-16 lg:px-16 xl:px-24">
         {/* Left: text */}
         <div className="max-w-xl">
           <div
