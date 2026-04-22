@@ -7,6 +7,7 @@ const MissionCard = ({
   equation,
   index,
   total,
+  score,
   onCorrect,
   onIncorrect,
   onNext,
@@ -14,6 +15,7 @@ const MissionCard = ({
   equation: Equation;
   index: number;
   total: number;
+  score: number;
   onCorrect: () => void;
   onIncorrect: () => void;
   onNext: () => void;
