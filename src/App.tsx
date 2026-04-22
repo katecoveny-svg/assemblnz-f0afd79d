@@ -197,6 +197,7 @@ const ReelsPage = lazy(() => import("./pages/auaha/ReelsPage"));
 const KnowledgeCataloguePage = lazy(() => import("./pages/KnowledgeCataloguePage"));
 const NextPreview = lazy(() => import("./pages/NextPreview"));
 const InvestPage = lazy(() => import("./pages/InvestPage"));
+const AssemblLearnPage = lazy(() => import("./pages/AssemblLearnPage"));
 
 const queryClient = new QueryClient();
 
