@@ -70,6 +70,12 @@ const ContactPage = lazy(() => import("./pages/ContactPage"));
 const AdminAnalyticsDashboard = lazy(() => import("./pages/AdminAnalyticsDashboard"));
 const AdminMessagesPage = lazy(() => import("./pages/AdminMessagesPage"));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
+const AdminMcpLayout = lazy(() => import("./pages/admin/AdminMcpLayout"));
+const AdminMcpOverview = lazy(() => import("./pages/admin/mcp/Overview"));
+const AdminMcpToolsets = lazy(() => import("./pages/admin/mcp/Toolsets"));
+const AdminMcpTools = lazy(() => import("./pages/admin/mcp/Tools"));
+const AdminMcpLogs = lazy(() => import("./pages/admin/mcp/Logs"));
+const AdminMcpCustomers = lazy(() => import("./pages/admin/mcp/Customers"));
 const DataSovereigntyPage = lazy(() => import("./pages/DataSovereigntyPage"));
 const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
 const CommandDashboard = lazy(() => import("./pages/CommandDashboard"));
@@ -252,6 +258,14 @@ const App = () => (
                         <Route path="/admin/design-system" element={<Suspense fallback={null}><AdminDesignSystem /></Suspense>} />
                         <Route path="/admin/analytics" element={<Suspense fallback={null}><AdminAnalyticsDashboard /></Suspense>} />
                         <Route path="/admin/messages" element={<Suspense fallback={null}><AdminMessagesPage /></Suspense>} />
+                        <Route path="/admin/mcp" element={<Suspense fallback={null}><AdminMcpLayout /></Suspense>}>
+                          <Route index element={<Navigate to="/admin/mcp/overview" replace />} />
+                          <Route path="overview" element={<Suspense fallback={null}><AdminMcpOverview /></Suspense>} />
+                          <Route path="toolsets" element={<Suspense fallback={null}><AdminMcpToolsets /></Suspense>} />
+                          <Route path="tools" element={<Suspense fallback={null}><AdminMcpTools /></Suspense>} />
+                          <Route path="logs" element={<Suspense fallback={null}><AdminMcpLogs /></Suspense>} />
+                          <Route path="customers" element={<Suspense fallback={null}><AdminMcpCustomers /></Suspense>} />
+                        </Route>
                         <Route path="/admin/sms" element={<Suspense fallback={null}><AdminSmsPage /></Suspense>} />
                         <Route path="/admin/messaging" element={<Suspense fallback={null}><AdminMessagingDashboard /></Suspense>} />
                         <Route path="/admin/messaging-live" element={<Suspense fallback={null}><AdminMessagingLive /></Suspense>} />
