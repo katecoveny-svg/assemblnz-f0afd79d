@@ -10,7 +10,11 @@
  */
 import { supabase } from "@/integrations/supabase/client";
 
-export type ChatMsg = { role: "user" | "assistant"; content: string };
+export type ContentPart =
+  | { type: "text"; text: string }
+  | { type: "image_url"; image_url: { url: string; detail?: "auto" | "low" | "high" } };
+
+export type ChatMsg = { role: "user" | "assistant"; content: string | ContentPart[] };
 
 export type StreamArgs = {
   agentId: "toro" | "manaaki" | "waihanga" | "auaha" | "pakihi" | "pikau" | string;
