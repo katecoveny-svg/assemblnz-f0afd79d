@@ -7,8 +7,10 @@
 // ═══════════════════════════════════════════════════════════════
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bot, ArrowRight, FileText, Shield, Check, Sparkles, RotateCcw } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Bot, ArrowRight, FileText, Shield, Check, Sparkles, RotateCcw, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { generateAndDownloadEvidencePack } from "@/lib/evidencePackPdf";
 
 const C = {
   teal: "#4AA5A8",
@@ -116,6 +118,9 @@ export default function InteractiveTryItDemo() {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [scenario, setScenario] = useState<Scenario | null>(null);
   const [reveal, setReveal] = useState(0); // animation tick within step 2
+  const [generating, setGenerating] = useState(false);
+  const [packResult, setPackResult] = useState<{ watermark: string; filename: string } | null>(null);
+  const navigate = useNavigate();
 
   // step 2 animated reveal — question, then answer, then citation
   useEffect(() => {
@@ -138,11 +143,68 @@ export default function InteractiveTryItDemo() {
   function pick(s: Scenario) {
     setScenario(s);
     setStep(2);
+    setPackResult(null);
   }
 
   function reset() {
     setStep(1);
     setScenario(null);
+    setPackResult(null);
+  }
+
+  /**
+   * Generate the audit-ready evidence pack PDF for this scenario via the
+   * canonical pdfBranding pipeline, then route to the on-screen sample
+   * viewer. Both artefacts share the same watermark + ASSEMBL- pack ID
+   * so the download and the web view are provably the same evidence pack.
+   */
+  async function handleGenerateEvidencePack() {
+    if (!scenario || generating) return;
+    setGenerating(true);
+    try {
+      const result = await generateAndDownloadEvidencePack({
+        kete: scenario.kete,
+        title: `${scenario.evidencePack.title} — Evidence Pack`,
+        client: "Assembl Demo",
+        summary:
+          `Audit-ready evidence pack generated from the homepage demo for the ${scenario.english} kete (${scenario.reo}). ` +
+          `Source-cited, watermarked, and signed by ${scenario.agentName}.`,
+        sections: [
+          {
+            agent: scenario.agentName,
+            designation: scenario.agentRole,
+            title: scenario.evidencePack.title,
+            body: `${scenario.question}\n\n${scenario.answer}`,
+            status: scenario.evidencePack.findings.some((f) => f.status === "warn") ? "flag" : "pass",
+            legislationRef: scenario.citation,
+          },
+          ...scenario.evidencePack.findings.map((f) => ({
+            agent: scenario.agentName,
+            designation: scenario.agentRole,
+            title: f.label,
+            body: f.status === "ok"
+              ? "Verified against the cited source. No action required."
+              : "Flagged for human review before filing.",
+            status: (f.status === "ok" ? "pass" : "flag") as "pass" | "flag",
+            legislationRef: scenario.citation,
+          })),
+        ],
+        version: "v1.0",
+        simulated: true,
+      });
+      setPackResult({ watermark: result.watermark, filename: result.filename });
+      toast.success("Evidence pack ready", {
+        description: `Audit-ready · ${result.watermark}`,
+      });
+      // Also open the on-screen sample so the user sees the same artefact
+      navigate(`/sample/${scenario.id}`);
+    } catch (e) {
+      toast.error("Couldn't generate the evidence pack", {
+        description: e instanceof Error ? e.message : "Please try again.",
+      });
+    } finally {
+      setGenerating(false);
+    }
   }
 
   return (
