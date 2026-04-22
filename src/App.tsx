@@ -28,6 +28,12 @@ const ChatPageKeyed = () => {
   return <ChatPage key={agentId} />;
 };
 
+// Redirect /agents/:agentId → /chat/:agentId (preserves the agent param)
+const AgentSlugRedirect = () => {
+  const { agentId } = useParams();
+  return <Navigate to={`/chat/${agentId}`} replace />;
+};
+
 // ─── Lazy imports (aligned pages only) ───────────────────────────────────────
 const EmbedPage = lazy(() => import("./pages/EmbedPage"));
 const EmbedChatWidget = lazy(() => import("./pages/EmbedChatWidget"));
@@ -399,8 +405,7 @@ const App = () => (
                         <Route path="/aroha/*" element={<Navigate to="/" replace />} />
                         <Route path="/tradie-portal" element={<Navigate to="/waihanga" replace />} />
                         <Route path="/landlord" element={<Navigate to="/" replace />} />
-                        <Route path="/agents/echo" element={<Navigate to="/how-it-works" replace />} />
-                        <Route path="/agents/:agentId" element={<Navigate to="/how-it-works" replace />} />
+                        <Route path="/agents/:agentId" element={<AgentSlugRedirect />} />
                         <Route path="/fuel-savings" element={<Navigate to="/arataki" replace />} />
                         <Route path="/claims-register" element={<Navigate to="/" replace />} />
                         <Route path="/turf" element={<Navigate to="/" replace />} />
