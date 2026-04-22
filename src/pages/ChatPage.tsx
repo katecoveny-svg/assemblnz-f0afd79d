@@ -37,6 +37,7 @@ import { TEMPLATE_TAB_AGENTS } from "@/data/templates";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import AITransparencyBadge from "@/components/chat/AITransparencyBadge";
 import ConversationExport from "@/components/chat/ConversationExport";
+import ChatSearchBar from "@/components/chat/ChatSearchBar";
 import ChatEvidencePackButton from "@/components/chat/ChatEvidencePackButton";
 import ResponseSources from "@/components/chat/ResponseSources";
 import { uploadGeneratedImage } from "@/lib/uploadGeneratedImage";
@@ -347,6 +348,12 @@ const ChatPage = () => {
   const agent = agentId === "echo" ? echoAgent : agentId === "pilot" ? pilotAgent : agents.find((a) => a.id === agentId);
   const safeAgentName = agent?.name ?? "Assistant";
   const [messages, setMessages] = useState<Message[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const displayedMessages = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return messages;
+    return messages.filter((m) => (m.content || "").toLowerCase().includes(q));
+  }, [messages, searchQuery]);
   const [input, setInput] = useState(() => {
     const from = searchParams.get("from");
     const context = searchParams.get("context");
@@ -1801,6 +1808,13 @@ const ChatPage = () => {
               </button>
             )}
 
+            <ChatSearchBar
+              query={searchQuery}
+              onQueryChange={setSearchQuery}
+              matchCount={displayedMessages.length}
+              totalCount={messages.length}
+              accentColor={agent.color}
+            />
             <ConversationExport messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} agentId={agent.id} />
             <ChatEvidencePackButton messages={messages} agentName={agent.name} agentDesignation={agent.designation} agentColor={agent.color} />
 
@@ -2344,7 +2358,14 @@ const ChatPage = () => {
                     </div>
                   )}
 
-                  {messages.map((msg, i) => (
+                  {searchQuery.trim() && (
+                    <div className="text-[11px] text-assembl-text-secondary px-1 py-0.5">
+                      {displayedMessages.length === 0
+                        ? `No messages match "${searchQuery}"`
+                        : `Showing ${displayedMessages.length} of ${messages.length} messages matching "${searchQuery}"`}
+                    </div>
+                  )}
+                  {displayedMessages.map((msg, i) => (
                     <div key={i}>
                       <div
                         className={`flex gap-2.5 opacity-0 animate-fade-up ${msg.role === "user" ? "justify-end" : "justify-start"}`}
