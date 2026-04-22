@@ -197,6 +197,7 @@ const ReelsPage = lazy(() => import("./pages/auaha/ReelsPage"));
 const KnowledgeCataloguePage = lazy(() => import("./pages/KnowledgeCataloguePage"));
 const NextPreview = lazy(() => import("./pages/NextPreview"));
 const InvestPage = lazy(() => import("./pages/InvestPage"));
+const AssemblLearnPage = lazy(() => import("./pages/AssemblLearnPage"));
 
 const queryClient = new QueryClient();
 
@@ -294,6 +295,7 @@ const App = () => (
                         <Route path="/admin/showcase-videos" element={<Suspense fallback={null}><AdminShowcaseVideos /></Suspense>} />
 
                         <Route path="/roi" element={<Suspense fallback={null}><RoiCalculatorPage /></Suspense>} />
+                        <Route path="/learn" element={<Suspense fallback={null}><AssemblLearnPage /></Suspense>} />
                         <Route path="/about" element={<Suspense fallback={null}><FounderPage /></Suspense>} />
                         <Route path="/founder" element={<Suspense fallback={null}><FounderPage /></Suspense>} />
                         <Route path="/about-platform" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
