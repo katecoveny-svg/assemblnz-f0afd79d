@@ -721,7 +721,7 @@ export default function ToroaLandingPage() {
           <LiveDataTiles
             accent={ACCENT_DEEP}
             tiles={[
-              { label: "Today's weather", source: "MetService NZ", icon: CloudSun, load: () => loadWeather("Auckland") },
+              { label: "Today's weather", source: "MetService NZ", icon: CloudSun, load: () => loadWeather("Auckland", -36.8485, 174.7633) },
               {
                 label: "Family privacy",
                 source: "Privacy Act 2020 · IPPs",
