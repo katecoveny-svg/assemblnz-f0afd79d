@@ -23,12 +23,28 @@ const MAX_MESSAGES = 40;
 const MAX_CONTENT_CHARS = 8000;
 const MAX_TOTAL_CHARS = 60000;
 
+// Message content can be a plain string OR an array of multimodal parts
+// (text + image_url) so the chat UI can attach photos (e.g. homework worksheets).
+const TextPartSchema = z.object({
+  type: z.literal("text"),
+  text: z.string().min(1).max(MAX_CONTENT_CHARS),
+});
+const ImagePartSchema = z.object({
+  type: z.literal("image_url"),
+  image_url: z.object({
+    // Accept https URLs or data: URLs (base64) up to ~6MB encoded.
+    url: z.string().min(1).max(8_500_000),
+    detail: z.enum(["auto", "low", "high"]).optional(),
+  }),
+});
+const ContentPartSchema = z.union([TextPartSchema, ImagePartSchema]);
+
 const MessageSchema = z.object({
   role: z.enum(["user", "assistant", "system"]),
-  content: z
-    .string()
-    .min(1, "content cannot be empty")
-    .max(MAX_CONTENT_CHARS, `content exceeds ${MAX_CONTENT_CHARS} chars`),
+  content: z.union([
+    z.string().min(1).max(MAX_CONTENT_CHARS),
+    z.array(ContentPartSchema).min(1).max(8),
+  ]),
 });
 
 const ChatBodySchema = z.object({
@@ -60,21 +76,33 @@ const DISALLOWED_PATTERNS: RegExp[] = [
   /\b(instructions for self[- ]harm)\b/i,
 ];
 
-function safetyCheck(messages: Array<{ role: string; content: string }>): { ok: boolean; reason?: string } {
+type ContentPart = { type: "text"; text: string } | { type: "image_url"; image_url: { url: string; detail?: string } };
+type MsgIn = { role: string; content: string | ContentPart[] };
+
+function extractText(content: string | ContentPart[]): string {
+  if (typeof content === "string") return content;
+  return content
+    .filter((p): p is { type: "text"; text: string } => p.type === "text")
+    .map((p) => p.text)
+    .join("\n");
+}
+
+function safetyCheck(messages: MsgIn[]): { ok: boolean; reason?: string } {
   let total = 0;
   for (const m of messages) {
-    total += m.content.length;
+    const text = extractText(m.content);
+    total += text.length;
     if (total > MAX_TOTAL_CHARS) {
       return { ok: false, reason: `Conversation exceeds ${MAX_TOTAL_CHARS} characters total.` };
     }
-    if (m.role !== "user") continue; // only screen user input
+    if (m.role !== "user") continue; // only screen user text
     for (const re of INJECTION_PATTERNS) {
-      if (re.test(m.content)) {
+      if (re.test(text)) {
         return { ok: false, reason: "Message blocked: prompt-injection pattern detected." };
       }
     }
     for (const re of DISALLOWED_PATTERNS) {
-      if (re.test(m.content)) {
+      if (re.test(text)) {
         return { ok: false, reason: "Message blocked: disallowed content per safety policy." };
       }
     }
@@ -397,10 +425,19 @@ Deno.serve(async (req) => {
     });
   }
 
-  // 3c. KAHU_PRE — PII mask user messages (last user message most relevant)
-  const sanitizedMessages = messages.map((m) =>
-    m.role === "user" ? { ...m, content: applyPiiMasks(m.content, rules) } : m,
-  );
+  // 3c. KAHU_PRE — PII mask user messages (text parts only; images pass through)
+  const sanitizedMessages = messages.map((m) => {
+    if (m.role !== "user") return m;
+    if (typeof m.content === "string") {
+      return { ...m, content: applyPiiMasks(m.content, rules) };
+    }
+    return {
+      ...m,
+      content: m.content.map((part) =>
+        part.type === "text" ? { ...part, text: applyPiiMasks(part.text, rules) } : part,
+      ),
+    };
+  });
 
   // 4. TĀ_INFLIGHT — stamp system prompt
   const systemPrompt = agent.prompt + buildInflightStamp(rules);

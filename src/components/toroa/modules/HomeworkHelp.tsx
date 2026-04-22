@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { BookOpen, GraduationCap, Calculator, Globe, Pencil, Send, Loader2, Sparkles } from "lucide-react";
-import { streamMcpChat } from "@/lib/mcpChat";
+import { BookOpen, GraduationCap, Calculator, Globe, Pencil, Send, Loader2, Sparkles, ImagePlus, X } from "lucide-react";
+import { streamMcpChat, type ContentPart } from "@/lib/mcpChat";
 import { toast } from "sonner";
 
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const BONE = "#F5F0E8";
 const TANGAROA = "#1A3A5C";
+
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB raw photo cap
 
 interface Subject {
   name: string;
@@ -38,7 +40,7 @@ const glass = {
   backdropFilter: "blur(14px)",
 };
 
-type Msg = { role: "user" | "assistant"; content: string };
+type Msg = { role: "user" | "assistant"; content: string; imageUrl?: string };
 
 export default function HomeworkHelp({ children }: Props) {
   const [activeChild, setActiveChild] = useState<Child | null>(null);
@@ -46,6 +48,9 @@ export default function HomeworkHelp({ children }: Props) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Msg[]>([]);
   const [streaming, setStreaming] = useState(false);
+  const [pendingImage, setPendingImage] = useState<string | null>(null); // data URL
+  const [pendingImageName, setPendingImageName] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -59,25 +64,67 @@ export default function HomeworkHelp({ children }: Props) {
     setInput(`Help ${child.name} with ${subject.name}`);
   };
 
+  const handleFile = async (file: File | null | undefined) => {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please choose an image file (JPG, PNG, HEIC).");
+      return;
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      toast.error("Image is over 5 MB — try a smaller photo.");
+      return;
+    }
+    const dataUrl = await new Promise<string>((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(r.result as string);
+      r.onerror = () => reject(new Error("Could not read image"));
+      r.readAsDataURL(file);
+    });
+    setPendingImage(dataUrl);
+    setPendingImageName(file.name);
+  };
+
+  const clearPendingImage = () => {
+    setPendingImage(null);
+    setPendingImageName(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   const send = useCallback(async () => {
     const text = input.trim();
-    if (!text || streaming) return;
+    if ((!text && !pendingImage) || streaming) return;
 
     const ctxParts: string[] = [];
     if (activeChild) ctxParts.push(`Child: ${activeChild.name} (Year ${activeChild.year_level})`);
     if (activeSubject) ctxParts.push(`Subject: ${activeSubject.name} — NZC Level ${activeSubject.nzcLevel}`);
     const contextLine = ctxParts.length ? `[Context: ${ctxParts.join(" · ")}]\n\n` : "";
+    const userText = text || "Please help with this homework worksheet.";
 
-    const userMsg: Msg = { role: "user", content: text };
-    const sendable: Msg = { role: "user", content: contextLine + text };
+    const userMsg: Msg = { role: "user", content: userText, imageUrl: pendingImage ?? undefined };
+
+    // Build the multimodal payload sent to the model.
+    const sendable = pendingImage
+      ? {
+          role: "user" as const,
+          content: [
+            { type: "text", text: contextLine + userText },
+            { type: "image_url", image_url: { url: pendingImage, detail: "high" } },
+          ] as ContentPart[],
+        }
+      : { role: "user" as const, content: contextLine + userText };
+
+    // History sent to the model strips imageUrl (it's UI-only metadata).
+    const history = messages.map((m) => ({ role: m.role, content: m.content }));
+
     setMessages((prev) => [...prev, userMsg, { role: "assistant", content: "" }]);
     setInput("");
+    clearPendingImage();
     setStreaming(true);
 
     try {
       await streamMcpChat({
         agentId: "toro",
-        messages: [...messages, sendable],
+        messages: [...history, sendable],
         onDelta: (chunk) => {
           setMessages((prev) => {
             const next = [...prev];
@@ -106,7 +153,7 @@ export default function HomeworkHelp({ children }: Props) {
       toast.error((e as Error).message || "Tōro chat failed");
       setStreaming(false);
     }
-  }, [input, streaming, messages, activeChild, activeSubject]);
+  }, [input, streaming, messages, activeChild, activeSubject, pendingImage]);
 
   return (
     <div className="space-y-4">
@@ -190,20 +237,76 @@ export default function HomeworkHelp({ children }: Props) {
           {messages.map((m, i) => (
             <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
               <div
-                className="max-w-[85%] px-3 py-2 text-xs leading-relaxed whitespace-pre-wrap rounded-2xl"
+                className="max-w-[85%] px-3 py-2 text-xs leading-relaxed whitespace-pre-wrap rounded-2xl space-y-2"
                 style={
                   m.role === "user"
                     ? { background: POUNAMU, color: "#FFFFFF", borderBottomRightRadius: 4 }
                     : { background: "rgba(255,255,255,0.95)", color: "#1A1D29", border: `1px solid ${TANGAROA}15`, borderBottomLeftRadius: 4 }
                 }
               >
-                {m.content || (m.role === "assistant" && streaming ? <Loader2 size={12} className="animate-spin" /> : null)}
+                {m.imageUrl && (
+                  <img
+                    src={m.imageUrl}
+                    alt="Homework worksheet attachment"
+                    className="rounded-lg max-h-48 w-auto object-contain"
+                    style={{ background: "rgba(0,0,0,0.05)" }}
+                  />
+                )}
+                <div>
+                  {m.content || (m.role === "assistant" && streaming ? <Loader2 size={12} className="animate-spin" /> : null)}
+                </div>
               </div>
             </div>
           ))}
         </div>
 
+        {pendingImage && (
+          <div
+            className="flex items-center gap-2 rounded-lg p-2"
+            style={{ background: `${POUNAMU}10`, border: `1px solid ${POUNAMU}30` }}
+          >
+            <img src={pendingImage} alt="Pending homework" className="w-10 h-10 rounded object-cover" />
+            <div className="flex-1 min-w-0">
+              <p className="font-body text-[11px] truncate" style={{ color: POUNAMU }}>
+                {pendingImageName ?? "Homework photo"}
+              </p>
+              <p className="font-mono text-[9px]" style={{ color: "#9CA3AF" }}>Will be sent with your next message</p>
+            </div>
+            <button
+              onClick={clearPendingImage}
+              className="p-1 rounded hover:bg-white/50 transition-all"
+              aria-label="Remove image"
+              type="button"
+            >
+              <X size={12} style={{ color: POUNAMU }} />
+            </button>
+          </div>
+        )}
+
         <div className="flex gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+            onChange={(e) => handleFile(e.target.files?.[0])}
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={streaming}
+            className="px-3 rounded-lg flex items-center justify-center transition-all disabled:opacity-40 hover:scale-[1.02]"
+            style={{
+              background: pendingImage ? `${POUNAMU}25` : "rgba(255,255,255,0.9)",
+              border: `1px solid ${TANGAROA}25`,
+              color: POUNAMU,
+            }}
+            aria-label="Upload homework photo"
+            type="button"
+            title="Upload a photo of the homework"
+          >
+            <ImagePlus size={14} />
+          </button>
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -213,7 +316,13 @@ export default function HomeworkHelp({ children }: Props) {
                 send();
               }
             }}
-            placeholder={activeChild ? `Ask about ${activeChild.name}'s homework…` : "Ask Tōro about any subject…"}
+            placeholder={
+              pendingImage
+                ? "Add a question about the photo (optional)…"
+                : activeChild
+                  ? `Ask about ${activeChild.name}'s homework…`
+                  : "Ask Tōro about any subject…"
+            }
             disabled={streaming}
             className="flex-1 rounded-lg px-3 py-2 text-xs font-body outline-none transition-all"
             style={{
@@ -224,7 +333,7 @@ export default function HomeworkHelp({ children }: Props) {
           />
           <button
             onClick={send}
-            disabled={streaming || !input.trim()}
+            disabled={streaming || (!input.trim() && !pendingImage)}
             className="px-3 rounded-lg flex items-center justify-center transition-all disabled:opacity-40"
             style={{ background: POUNAMU, color: "#FFFFFF" }}
             aria-label="Send"
