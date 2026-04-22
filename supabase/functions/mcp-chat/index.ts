@@ -14,6 +14,73 @@
 // ============================================================================
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { z } from "https://esm.sh/zod@3.23.8";
+
+// ----------------------------------------------------------------------------
+// Request schema (server-side validation)
+// ----------------------------------------------------------------------------
+const MAX_MESSAGES = 40;
+const MAX_CONTENT_CHARS = 8000;
+const MAX_TOTAL_CHARS = 60000;
+
+const MessageSchema = z.object({
+  role: z.enum(["user", "assistant", "system"]),
+  content: z
+    .string()
+    .min(1, "content cannot be empty")
+    .max(MAX_CONTENT_CHARS, `content exceeds ${MAX_CONTENT_CHARS} chars`),
+});
+
+const ChatBodySchema = z.object({
+  agentId: z
+    .string()
+    .min(1)
+    .max(64)
+    .regex(/^[a-z0-9_-]+$/i, "agentId must be alphanumeric"),
+  messages: z.array(MessageSchema).min(1).max(MAX_MESSAGES),
+});
+
+// ----------------------------------------------------------------------------
+// Safety filter — blocks obvious prompt-injection / jailbreak / disallowed
+// content before the model is called. Returns reason string when blocked.
+// ----------------------------------------------------------------------------
+const INJECTION_PATTERNS: RegExp[] = [
+  /ignore (all|any|previous|prior) (instructions|rules|prompts)/i,
+  /disregard (the )?(system|previous) (prompt|instructions)/i,
+  /you are now (?:dan|jailbroken|unrestricted)/i,
+  /pretend (?:you|to be) (?:have no|an unrestricted)/i,
+  /reveal (?:the |your )?(system prompt|hidden instructions)/i,
+  /print (?:the |your )?(system prompt|api key|secret)/i,
+];
+
+const DISALLOWED_PATTERNS: RegExp[] = [
+  // Obvious self-harm / weapons / CSAM markers — minimal first-pass filter.
+  /\b(how to (?:make|build) (?:a )?(?:bomb|explosive|nerve agent))\b/i,
+  /\b(child (?:sexual|porn|abuse) (?:material|imagery))\b/i,
+  /\b(instructions for self[- ]harm)\b/i,
+];
+
+function safetyCheck(messages: Array<{ role: string; content: string }>): { ok: boolean; reason?: string } {
+  let total = 0;
+  for (const m of messages) {
+    total += m.content.length;
+    if (total > MAX_TOTAL_CHARS) {
+      return { ok: false, reason: `Conversation exceeds ${MAX_TOTAL_CHARS} characters total.` };
+    }
+    if (m.role !== "user") continue; // only screen user input
+    for (const re of INJECTION_PATTERNS) {
+      if (re.test(m.content)) {
+        return { ok: false, reason: "Message blocked: prompt-injection pattern detected." };
+      }
+    }
+    for (const re of DISALLOWED_PATTERNS) {
+      if (re.test(m.content)) {
+        return { ok: false, reason: "Message blocked: disallowed content per safety policy." };
+      }
+    }
+  }
+  return { ok: true };
+}
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -247,24 +314,25 @@ Deno.serve(async (req) => {
   }
   const userId = claimsData.claims.sub as string;
 
-  // 2. Body validation
-  let body: { agentId?: string; messages?: Array<{ role: string; content: string }> };
+  // 2. Body validation (Zod)
+  let rawBody: unknown;
   try {
-    body = await req.json();
+    rawBody = await req.json();
   } catch {
     return new Response(JSON.stringify({ error: "Invalid JSON" }), {
       status: 400,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-  const agentId = body.agentId;
-  const messages = body.messages;
-  if (!agentId || !Array.isArray(messages) || messages.length === 0) {
-    return new Response(JSON.stringify({ error: "agentId and messages[] required" }), {
-      status: 400,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+  const parsed = ChatBodySchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return new Response(
+      JSON.stringify({ error: "Invalid request", details: parsed.error.flatten().fieldErrors }),
+      { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
   }
+  const { agentId, messages } = parsed.data;
+
   const agent = AGENTS[agentId];
   if (!agent) {
     return new Response(JSON.stringify({ error: `Unknown agent: ${agentId}` }), {
@@ -272,6 +340,24 @@ Deno.serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
+
+  // 2b. Safety filter — prompt-injection & disallowed content
+  const safety = safetyCheck(messages);
+  if (!safety.ok) {
+    await logCall({
+      tool_name: `chat:${agentId}`,
+      toolset_slug: agent.toolset,
+      user_id: userId,
+      status: "denied",
+      duration_ms: Math.round(performance.now() - start),
+      error_message: safety.reason ?? "safety_blocked",
+    });
+    return new Response(JSON.stringify({ error: safety.reason }), {
+      status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
 
   const toolName = `chat:${agentId}`;
   const tier = await getUserTier(userId);
