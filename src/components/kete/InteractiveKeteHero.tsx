@@ -168,20 +168,27 @@ export default function InteractiveKeteHero({
       aria-label={alt}
       role="img"
     >
-      {/* Cinematic backdrop wash — luminous cream/ivory atmosphere */}
+      {/* Cinematic backdrop wash — luminous cream/ivory atmosphere with cloud breathing 12–18s */}
       {isCinematic && (
-        <div
+        <motion.div
           className="absolute inset-0 pointer-events-none"
           style={{
             background: `
               radial-gradient(ellipse 70% 60% at 50% 45%, ${accent}10 0%, transparent 60%),
               radial-gradient(ellipse 90% 70% at 50% 100%, rgba(255,250,240,0.45) 0%, transparent 70%)
             `,
+            y: cloudParallaxSmooth,
           }}
+          animate={
+            reduced
+              ? {}
+              : { opacity: [0.85, 1, 0.85], scale: [1, 1.015, 1] }
+          }
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
         />
       )}
 
-      {/* Cursor-tracking glow halo (parallaxes against mouse) */}
+      {/* Cursor-tracking glow halo (parallaxes against mouse with long lag) */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{ x: haloX, y: haloY }}
@@ -196,18 +203,36 @@ export default function InteractiveKeteHero({
             background: `radial-gradient(circle, ${accent}28 0%, ${accent}12 35%, transparent 65%)`,
             filter: "blur(36px)",
           }}
+          // Cloud breathing — 12–18s slow inhale/exhale per Brand Bible v2.0
           animate={
             reduced
               ? {}
-              : { scale: [1, 1.06, 1], opacity: [0.7, 1, 0.7] }
+              : { scale: [1, 1.08, 1], opacity: [0.6, 0.95, 0.6] }
           }
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {/* Hover-only sparkle GLOW — only ignites when cursor is in the kete area */}
+        <motion.div
+          className="absolute left-1/2 top-1/2 rounded-full"
+          style={{
+            width: size * 1.1,
+            height: size * 1.1,
+            x: "-50%",
+            y: "-50%",
+            background: `radial-gradient(circle, rgba(217,188,122,0.45) 0%, rgba(217,188,122,0.18) 40%, transparent 70%)`,
+            filter: "blur(28px)",
+            opacity: glow,
+            mixBlendMode: "screen",
+          }}
         />
       </motion.div>
 
-      {/* Sparkle particle field — soft drifting stars */}
+      {/* Sparkle particle field — Soft Gold stars; intensity tied to hover */}
       {sparkles && (
-        <div className="absolute inset-0 pointer-events-none overflow-visible">
+        <motion.div
+          className="absolute inset-0 pointer-events-none overflow-visible"
+          style={{ opacity: useTransform(glow, [0, 1], [0.35, 1]) }}
+        >
           {particles.map((p) => (
             <motion.div
               key={p.id}
@@ -217,8 +242,8 @@ export default function InteractiveKeteHero({
                 top: `${p.y}%`,
                 width: p.size,
                 height: p.size,
-                background: "radial-gradient(circle, rgba(255,250,240,1) 0%, rgba(255,240,210,0.6) 60%, transparent 100%)",
-                boxShadow: `0 0 ${p.size * 4}px rgba(255,245,220,0.6)`,
+                background: "radial-gradient(circle, rgba(255,250,240,1) 0%, rgba(217,188,122,0.7) 55%, transparent 100%)",
+                boxShadow: `0 0 ${p.size * 4}px rgba(217,188,122,0.55)`,
               }}
               animate={
                 reduced
@@ -237,24 +262,24 @@ export default function InteractiveKeteHero({
               }}
             />
           ))}
-        </div>
+        </motion.div>
       )}
 
-      {/* The interactive 3D kete */}
+      {/* The interactive 3D kete (with scroll parallax + slow ambient float) */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center"
         style={{
           rotateX,
           rotateY,
-          y: lift,
+          y: useTransform([lift, keteParallaxSmooth] as never, ([l, p]: number[]) => l + p),
           transformStyle: "preserve-3d",
         }}
         animate={
           reduced
             ? {}
-            : { y: [0, -6, 0, 4, 0] }
+            : { y: [0, -4, 0, 3, 0] }
         }
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       >
         {/* Soft ground reflection */}
         <div
