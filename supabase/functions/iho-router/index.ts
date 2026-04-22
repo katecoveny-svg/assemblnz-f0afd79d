@@ -602,24 +602,16 @@ Deno.serve(async (req: Request) => {
       { role: "user", content: safeMessage },
     ];
 
-    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${LOVABLE_API_KEY}` },
-      body: JSON.stringify({ model: modelConfig.model, messages, max_completion_tokens: modelConfig.maxTokens }),
-    });
-
-    if (!aiResponse.ok) {
-      const errText = await aiResponse.text();
-      throw new Error(`AI model error (${aiResponse.status}): ${errText}`);
-    }
-
-    const aiData = await aiResponse.json();
-    let responseContent = aiData.choices?.[0]?.message?.content || "I couldn't generate a response.";
-    const usage = aiData.usage || {};
-    const inputTokens = usage.prompt_tokens || 0;
-    const outputTokens = usage.completion_tokens || 0;
+    const aiResult = await dispatchAICall(modelConfig, messages, LOVABLE_API_KEY);
+    let responseContent = aiResult.content;
+    const inputTokens = aiResult.inputTokens;
+    const outputTokens = aiResult.outputTokens;
     const totalTokens = inputTokens + outputTokens;
+    // Cost estimation uses the gateway slug (rate table is keyed off canonical slugs)
     const cost = estimateCost(modelConfig.model, inputTokens, outputTokens);
+    // Track which provider actually served the request (may differ from cfg if a fallback happened)
+    const providerServed = aiResult.providerUsed;
+    const modelServed = aiResult.modelUsed;
 
     // STEP 8.5: MANA GATE — Final compliance check on AI RESPONSE
     const isInternalComms = /\b(internal memo|staff notice|team update|all-staff)\b/i.test(message);
