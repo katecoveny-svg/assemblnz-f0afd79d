@@ -2236,7 +2236,7 @@ const ChatPage = () => {
 
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center min-h-full text-center gap-4 py-6 opacity-0 animate-fade-up overflow-y-auto" style={{ animationFillMode: "forwards" }}>
-                <AgentWelcome agent={agent} />
+                <AgentWelcome agent={agent} onStarterClick={(prompt) => sendMessage(prompt)} />
                 {isPrism && (
                   <div className="w-full max-w-sm mt-2 space-y-3">
                     {brandLogoUrl && (
