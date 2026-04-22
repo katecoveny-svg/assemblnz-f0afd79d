@@ -4,11 +4,12 @@
 // by the toro-learning-game edge function.
 // ═══════════════════════════════════════════════════════════════
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, Sparkles, Trophy, RefreshCw, X, Check, ChevronRight, Camera } from "lucide-react";
+import { Loader2, Sparkles, Trophy, RefreshCw, X, Check, ChevronRight, Camera, CloudCheck } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { saveGameResult, type QuestionOutcome } from "@/features/learn/lib/gameResults";
 
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
