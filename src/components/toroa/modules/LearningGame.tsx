@@ -340,14 +340,17 @@ export default function LearningGame({
                 value={typed}
                 onChange={(e) => setTyped(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" && !revealed && typed.trim()) submit();
+                  if (e.key === "Enter" && !revealed && !solved && typed.trim()) submit();
                 }}
                 placeholder="Type your answer…"
-                disabled={revealed}
-                className="w-full rounded-lg px-3 py-2 text-sm font-body outline-none"
+                disabled={revealed || solved}
+                aria-invalid={attempts > 0 && !solved}
+                className="w-full rounded-lg px-3 py-2 text-sm font-body outline-none transition-colors"
                 style={{
                   background: "rgba(255,255,255,0.95)",
-                  border: `1px solid ${TANGAROA}25`,
+                  border: `1px solid ${
+                    solved ? POUNAMU : attempts > 0 && !revealed ? "#EF4444" : `${TANGAROA}25`
+                  }`,
                   color: "#1A1D29",
                 }}
               />
@@ -355,29 +358,31 @@ export default function LearningGame({
               <div className="grid grid-cols-1 gap-2">
                 {(q.options ?? (q.kind === "true_false" ? ["True", "False"] : [])).map((opt, i) => {
                   const isPicked = picked === opt;
-                  const isCorrect = revealed && norm(opt) === norm(q.answer);
-                  const isWrongPick = revealed && isPicked && !isCorrect;
+                  const isAnswer = matches(opt, q.answer, q.kind);
+                  // Show green only when revealed (correct submission or give-up)
+                  const showCorrect = (revealed || solved) && isAnswer;
+                  const showWrongPick = revealed && isPicked && !isAnswer;
                   return (
                     <button
                       key={i}
-                      onClick={() => !revealed && setPicked(opt)}
-                      disabled={revealed}
+                      onClick={() => !revealed && !solved && setPicked(opt)}
+                      disabled={revealed || solved}
                       className="rounded-lg px-3 py-2 text-left text-xs font-body flex items-center gap-2 transition-all disabled:cursor-default"
                       style={{
-                        background: isCorrect
+                        background: showCorrect
                           ? "rgba(58,125,110,0.15)"
-                          : isWrongPick
+                          : showWrongPick
                             ? "rgba(239,68,68,0.1)"
                             : isPicked
                               ? `${POUNAMU}15`
                               : "rgba(255,255,255,0.9)",
-                        border: `1px solid ${isCorrect ? POUNAMU : isWrongPick ? "#EF4444" : isPicked ? POUNAMU : `${TANGAROA}25`}`,
+                        border: `1px solid ${showCorrect ? POUNAMU : showWrongPick ? "#EF4444" : isPicked ? POUNAMU : `${TANGAROA}25`}`,
                         color: "#1A1D29",
                       }}
                       type="button"
                     >
-                      {revealed && isCorrect && <Check size={12} style={{ color: POUNAMU }} />}
-                      {revealed && isWrongPick && <X size={12} style={{ color: "#EF4444" }} />}
+                      {showCorrect && <Check size={12} style={{ color: POUNAMU }} />}
+                      {showWrongPick && <X size={12} style={{ color: "#EF4444" }} />}
                       <span>{opt}</span>
                     </button>
                   );
@@ -385,47 +390,91 @@ export default function LearningGame({
               </div>
             )}
 
+            {/* Try-again feedback (after wrong attempt, before reveal) */}
             <AnimatePresence>
-              {revealed && (
+              {!revealed && !solved && attempts > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="rounded-md p-2 space-y-1"
+                  style={{ background: "rgba(239,68,68,0.06)" }}
+                  role="status"
+                  aria-live="polite"
+                >
+                  <p className="font-body text-[11px]" style={{ color: "#9B1C1C" }}>
+                    {attempts === 1
+                      ? "Not quite — have another go."
+                      : "Still off. Take your time and try once more."}
+                  </p>
+                  {showHint && (
+                    <p className="font-body text-[11px] italic" style={{ color: "#6B7280" }}>
+                      Hint: {q.hint}
+                    </p>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Full reveal (after solved or give up) */}
+            <AnimatePresence>
+              {(revealed || solved) && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   className="rounded-md p-2 space-y-1"
                   style={{
-                    background:
-                      norm(q.kind === "fill_blank" ? typed : picked ?? "") === norm(q.answer)
-                        ? "rgba(58,125,110,0.08)"
-                        : "rgba(217,188,122,0.12)",
+                    background: solved ? "rgba(58,125,110,0.08)" : "rgba(217,188,122,0.12)",
                   }}
+                  role="status"
+                  aria-live="polite"
                 >
                   <p className="font-body text-[11px]" style={{ color: TANGAROA }}>
-                    <strong>Answer:</strong> {q.answer}
+                    <strong>{solved ? "Ka pai!" : "Answer:"}</strong> {q.answer}
                   </p>
                   <p className="font-body text-[11px]" style={{ color: "#6B7280" }}>
                     {q.explanation}
                   </p>
-                  {norm(q.kind === "fill_blank" ? typed : picked ?? "") !== norm(q.answer) && (
-                    <p className="font-body text-[11px] italic" style={{ color: "#9CA3AF" }}>
-                      Hint for next time: {q.hint}
-                    </p>
-                  )}
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
           <div className="flex justify-end gap-2">
-            {!revealed ? (
-              <button
-                onClick={submit}
-                disabled={q.kind === "fill_blank" ? !typed.trim() : !picked}
-                className="px-4 py-2 rounded-lg text-xs font-body flex items-center gap-1 transition-all disabled:opacity-40"
-                style={{ background: POUNAMU, color: "#FFFFFF" }}
-                type="button"
-              >
-                Check <Check size={12} />
-              </button>
+            {!revealed && !solved ? (
+              <>
+                {attempts > 0 && (
+                  <>
+                    <button
+                      onClick={() => setShowHint(true)}
+                      disabled={showHint}
+                      className="px-3 py-2 rounded-lg text-xs font-body flex items-center gap-1 transition-all disabled:opacity-40"
+                      style={{ background: `${SOFT_GOLD}25`, color: "#8A6B2E" }}
+                      type="button"
+                    >
+                      Show hint
+                    </button>
+                    <button
+                      onClick={giveUp}
+                      className="px-3 py-2 rounded-lg text-xs font-body transition-all"
+                      style={{ background: "rgba(255,255,255,0.9)", border: `1px solid ${TANGAROA}25`, color: "#6B7280" }}
+                      type="button"
+                    >
+                      Show answer
+                    </button>
+                  </>
+                )}
+                <button
+                  onClick={submit}
+                  disabled={q.kind === "fill_blank" ? !typed.trim() : !picked}
+                  className="px-4 py-2 rounded-lg text-xs font-body flex items-center gap-1 transition-all disabled:opacity-40"
+                  style={{ background: POUNAMU, color: "#FFFFFF" }}
+                  type="button"
+                >
+                  {attempts > 0 ? "Try again" : "Check"} <Check size={12} />
+                </button>
+              </>
             ) : (
               <button
                 onClick={next}
