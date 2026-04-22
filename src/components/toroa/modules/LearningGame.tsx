@@ -323,6 +323,14 @@ export default function LearningGame({
         </button>
       </div>
 
+      {/* Screen-reader announcer for try-again, hint reveals, and answer reveals */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {announcement}
+      </div>
+      <p id="toro-game-shortcuts" className="sr-only">
+        Press Enter to check your answer.
+      </p>
+
       {loading && (
         <div className="flex flex-col items-center justify-center py-8 gap-2">
           <Loader2 size={18} className="animate-spin" style={{ color: POUNAMU }} />
