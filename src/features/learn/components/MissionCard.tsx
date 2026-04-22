@@ -7,6 +7,7 @@ const MissionCard = ({
   equation,
   index,
   total,
+  score,
   onCorrect,
   onIncorrect,
   onNext,
@@ -14,6 +15,7 @@ const MissionCard = ({
   equation: Equation;
   index: number;
   total: number;
+  score: number;
   onCorrect: () => void;
   onIncorrect: () => void;
   onNext: () => void;
@@ -50,16 +52,40 @@ const MissionCard = ({
   return (
     <GlassCard className="p-6 sm:p-10 w-full max-w-xl mx-auto">
       {/* progress + level */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-4">
         <span
           className="text-[10px] uppercase tracking-[0.22em] px-2.5 py-1 rounded-full font-medium"
           style={{ background: levelTone.bg, color: levelTone.text }}
         >
           {equation.level}
         </span>
-        <span className="text-[11px] font-mono" style={{ color: "#7A8E83" }}>
-          {index + 1} / {total}
-        </span>
+        <div className="flex items-center gap-2">
+          <span
+            className="text-[10px] uppercase tracking-[0.22em] px-2.5 py-1 rounded-full font-medium"
+            style={{ background: "rgba(47,203,137,0.10)", color: "#1F7A52" }}
+          >
+            Score {score}
+          </span>
+          <span className="text-[11px] font-mono" style={{ color: "#7A8E83" }}>
+            Question {index + 1} of {total}
+          </span>
+        </div>
+      </div>
+
+      {/* progress bar */}
+      <div className="mb-7">
+        <div
+          className="h-1.5 w-full rounded-full overflow-hidden"
+          style={{ background: "rgba(47,73,55,0.06)" }}
+        >
+          <div
+            className="h-full rounded-full transition-all duration-500"
+            style={{
+              width: `${((index + (score > index ? 1 : 0)) / total) * 100}%`,
+              background: "linear-gradient(90deg, #2FCB89, #1FA66E)",
+            }}
+          />
+        </div>
       </div>
 
       {/* prompt */}

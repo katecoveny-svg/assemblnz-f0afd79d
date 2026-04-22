@@ -96,6 +96,7 @@ const AssemblLearnPage = () => {
             equation={equation}
             index={index}
             total={total}
+            score={score}
             onCorrect={handleCorrect}
             onIncorrect={handleIncorrect}
             onNext={handleNext}
