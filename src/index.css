@@ -240,9 +240,9 @@ html {
 @layer utilities {
   .font-serif-display { font-family: 'Cormorant Garamond', serif; }
   .font-sans-pearl { font-family: 'Inter', sans-serif; }
-  .text-pounamu { color: #1F4D47; }
-  .text-deep-calm { color: #0E1513; }
-  .text-ink-soft { color: rgba(14,21,19,0.65); }
+  .text-pounamu { color: #6F6158; }                       /* retargeted to Brand v1.0 Taupe Deep */
+  .text-deep-calm { color: #6F6158; }
+  .text-ink-soft { color: rgba(111,97,88,0.72); }
   .bg-icy-pearl { background-color: #FBFAF7; }
   .bg-warm-pearl { background-color: #FBFAF7; }   /* alias kept for back-compat */
   .bg-linen { background-color: #F3F4F2; }        /* now Moonstone */
@@ -292,58 +292,59 @@ html {
 /* ── Typography rhythm — locked 4-size scale (display/h1/h2/body) ── */
 @layer utilities {
   .type-display {
-    font-family: 'Lato', sans-serif;
-    font-weight: 300;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 400;
     font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem);
     line-height: 1.05;
-    letter-spacing: -0.025em;
-    color: #1A1D29;
+    letter-spacing: -0.018em;
+    color: #6F6158;
   }
   .type-h1 {
-    font-family: 'Lato', sans-serif;
-    font-weight: 300;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 400;
     font-size: clamp(1.875rem, 2.5vw + 0.75rem, 2.75rem);
     line-height: 1.15;
-    letter-spacing: -0.02em;
-    color: #1A1D29;
+    letter-spacing: -0.014em;
+    color: #6F6158;
   }
   .type-h2 {
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
     font-size: clamp(1.375rem, 1.5vw + 0.5rem, 1.75rem);
     line-height: 1.25;
-    letter-spacing: -0.015em;
-    color: #1A1D29;
+    letter-spacing: -0.012em;
+    color: #6F6158;
   }
   .type-h3 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 500;
     font-size: 1.125rem;
     line-height: 1.4;
-    letter-spacing: -0.01em;
-    color: #1A1D29;
+    letter-spacing: -0.008em;
+    color: #6F6158;
   }
   .type-body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 1rem;
     line-height: 1.65;
-    color: #3D4250;
+    color: #5F554F;
   }
   .type-body-sm {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 0.875rem;
     line-height: 1.6;
-    color: #3D4250;
+    color: #5F554F;
   }
   .type-caption {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 500;
     font-size: 0.75rem;
     line-height: 1.5;
-    letter-spacing: 0.01em;
-    color: #6B7280;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #8E8177;
   }
 }
 
@@ -352,44 +353,45 @@ html {
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* Hero gradient text — soft teal + ochre */
+  /* Hero gradient text — Brand v1.0 Soft Gold + Taupe Deep
+     (was teal+ochre — retired per Brand Guidelines v1.0, 2026-04-22) */
   .text-gradient-hero {
     background-image: linear-gradient(
       135deg,
-      #4AA5A8 0%,
-      #3A8A8D 50%,
-      #E8A948 100%
+      #D9BC7A 0%,
+      #C9A966 45%,
+      #6F6158 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  /* ── Glass Card — light mode ── */
+  /* ── Glass Card — Brand v1.0 light glass (Taupe shadow, Soft Gold hover) ── */
   .glass-card {
     background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(20px) saturate(140%);
     -webkit-backdrop-filter: blur(20px) saturate(140%);
     border: 1px solid rgba(255, 255, 255, 0.9);
     border-radius: 24px;
-    box-shadow: 0 10px 40px -10px rgba(74,165,168,0.15), 0 4px 12px rgba(0,0,0,0.04);
+    box-shadow: 0 10px 40px -10px rgba(111,97,88,0.14), 0 4px 12px rgba(111,97,88,0.05);
   }
 
-  /* ── Glass Panel — light mode ── */
+  /* ── Glass Panel — interactive (hover lifts to Soft Gold edge) ── */
   .glass-panel {
     background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(20px) saturate(140%);
     -webkit-backdrop-filter: blur(20px) saturate(140%);
     border: 1px solid rgba(255, 255, 255, 0.9);
     border-radius: 24px;
-    box-shadow: 0 10px 40px -10px rgba(74,165,168,0.15), 0 4px 12px rgba(0,0,0,0.04);
+    box-shadow: 0 10px 40px -10px rgba(111,97,88,0.14), 0 4px 12px rgba(111,97,88,0.05);
     transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
     position: relative;
   }
 
   .glass-panel:hover {
-    border-color: rgba(74,165,168,0.3);
-    box-shadow: 0 14px 48px -10px rgba(74,165,168,0.20), 0 6px 16px rgba(0,0,0,0.06);
+    border-color: rgba(217,188,122,0.45);
+    box-shadow: 0 14px 48px -10px rgba(217,188,122,0.22), 0 6px 16px rgba(111,97,88,0.08);
     transform: translateY(-4px);
   }
 
@@ -407,10 +409,10 @@ html {
     -webkit-backdrop-filter: blur(24px) saturate(150%);
     border: 1px solid rgba(255, 255, 255, 0.95);
     border-radius: 24px;
-    box-shadow: 0 14px 48px -10px rgba(74,165,168,0.18), 0 6px 16px rgba(0,0,0,0.05);
+    box-shadow: 0 14px 48px -10px rgba(111,97,88,0.18), 0 6px 16px rgba(111,97,88,0.06);
   }
 
-  /* ── Premium Liquid Glass — Apple-tier light ── */
+  /* ── Premium Liquid Glass — Apple-tier light, Soft Gold hover ── */
   .liquid-glass {
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(40px) saturate(160%);
@@ -418,8 +420,8 @@ html {
     border: 1px solid rgba(255, 255, 255, 0.9);
     border-radius: 24px;
     box-shadow:
-      0 10px 40px -10px rgba(74,165,168,0.15),
-      0 4px 12px rgba(0,0,0,0.04);
+      0 10px 40px -10px rgba(111,97,88,0.14),
+      0 4px 12px rgba(111,97,88,0.05);
     position: relative;
     overflow: hidden;
     transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -437,10 +439,10 @@ html {
   }
 
   .liquid-glass:hover {
-    border-color: rgba(74,165,168,0.25);
+    border-color: rgba(217,188,122,0.40);
     box-shadow:
-      0 14px 48px -10px rgba(74,165,168,0.22),
-      0 6px 16px rgba(0,0,0,0.06);
+      0 14px 48px -10px rgba(217,188,122,0.24),
+      0 6px 16px rgba(111,97,88,0.08);
     transform: translateY(-4px);
   }
 
@@ -843,7 +845,7 @@ html {
   backdrop-filter: blur(12px);
 }
 
-/* === BORDERS === */
+/* === BORDERS — Soft Gold edge (Brand v1.0) === */
 .kete-light-shell .border-white\/5,
 .kete-light-shell .border-white\/10,
 .kete-light-shell .border-white\/20,
@@ -852,10 +854,10 @@ html {
 .light-glass-shell .border-white\/10,
 .light-glass-shell .border-white\/20,
 .light-glass-shell .border-white\/30 {
-  border-color: rgba(74,165,168,0.20) !important;
+  border-color: rgba(217,188,122,0.28) !important;
 }
 
-/* === FORM INPUTS — auto-promote bare inputs to light glass === */
+/* === FORM INPUTS — Soft Gold focus ring === */
 .kete-light-shell input[class*="bg-white/"],
 .kete-light-shell select[class*="bg-white/"],
 .kete-light-shell textarea[class*="bg-white/"],
@@ -864,7 +866,7 @@ html {
 .light-glass-shell textarea[class*="bg-white/"] {
   background-color: rgba(255,255,255,0.85) !important;
   color: #1F2330 !important;
-  border-color: rgba(74,165,168,0.22) !important;
+  border-color: rgba(217,188,122,0.30) !important;
   box-shadow: inset 2px 2px 6px rgba(166,166,180,0.18),
               inset -2px -2px 6px rgba(255,255,255,0.95) !important;
 }
@@ -875,20 +877,20 @@ html {
 .light-glass-shell select[class*="bg-white/"]:focus,
 .light-glass-shell textarea[class*="bg-white/"]:focus {
   outline: none !important;
-  border-color: rgba(74,165,168,0.55) !important;
-  box-shadow: 0 0 0 3px rgba(74,165,168,0.12),
+  border-color: rgba(217,188,122,0.65) !important;
+  box-shadow: 0 0 0 3px rgba(217,188,122,0.18),
               inset 2px 2px 6px rgba(166,166,180,0.18),
               inset -2px -2px 6px rgba(255,255,255,0.95) !important;
 }
 
-/* === LEGACY DARK CARDS — common pattern in old dashboards === */
+/* === LEGACY DARK CARDS — Soft Gold edge === */
 .kete-light-shell [style*="rgba(255,255,255,0.03)"],
 .kete-light-shell [style*="rgba(255,255,255,0.05)"],
 .light-glass-shell [style*="rgba(255,255,255,0.03)"],
 .light-glass-shell [style*="rgba(255,255,255,0.05)"] {
   background: rgba(255,255,255,0.75) !important;
   backdrop-filter: blur(10px) saturate(150%);
-  border: 1px solid rgba(74,165,168,0.18) !important;
+  border: 1px solid rgba(217,188,122,0.22) !important;
 }
 
 /* ─────────────────────────────────────────────
@@ -910,13 +912,13 @@ html {
   --shadow-press:         inset 4px 4px 10px rgba(166,166,180,0.32),
                           inset -4px -4px 8px rgba(255,255,255,0.65);
 
-  /* Ambient color glows */
-  --glow-teal:            0 0 38px rgba(74,165,168,0.32);
-  --glow-ochre:           0 0 38px rgba(74,165,168,0.32);
+  /* Ambient color glows — Brand v1.0 Soft Gold (was teal) */
+  --glow-teal:            0 0 38px rgba(217,188,122,0.32);
+  --glow-ochre:           0 0 38px rgba(217,188,122,0.32);
   --glow-lavender:        0 0 38px rgba(155,143,191,0.32);
-  --glow-success:         0 0 32px rgba(74,165,168,0.30);
+  --glow-success:         0 0 32px rgba(184,199,177,0.36);
   --glow-error:           0 0 32px rgba(200,90,84,0.34);
-  --glow-info:            0 0 32px rgba(90,122,156,0.30);
+  --glow-info:            0 0 32px rgba(199,217,232,0.36);
 }
 
 /* Liquid shimmer band — used by LiquidPanel + LiquidButton */
